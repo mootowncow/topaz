@@ -51,7 +51,7 @@ end
 function attemptTransform(mob, timer)
     local transformTime = mob:getLocalVar("transformTime")
     local currentTime = os.time()
-    if currentTime >= transformTime and not IsMobBusy then
+    if currentTime >= transformTime and not IsMobBusy(mob) then
         local animSub = mob:AnimationSub()
         animSub = (animSub + 1) % 2
         mob:AnimationSub(animSub)

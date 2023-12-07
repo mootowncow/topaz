@@ -19,11 +19,11 @@ g_mixins.families.rampart = function(mob)
         if swapTime > 0 and os.time() > swapTime then
             local animationSub = mob:AnimationSub()
 
-            if animationSub == 0 and not IsMobBusy then
+            if animationSub == 0 and not IsMobBusy(mob) then
                 mob:AnimationSub(1)
                 mob:setLocalVar("swapTime", os.time() + 30)
 
-            elseif animationSub == 1 and not IsMobBusy then
+            elseif animationSub == 1 and not IsMobBusy(mob) then
                 mob:AnimationSub(0)
                 mob:setLocalVar("swapTime", os.time() + 30)
             end

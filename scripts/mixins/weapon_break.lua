@@ -39,7 +39,7 @@ g_mixins.weapon_break = function(mob)
             local animationSub = mob:AnimationSub()
 
             -- break weapon
-            if animationSub == 0 or animationSub > 1 and not IsMobBusy then
+            if animationSub == 0 or animationSub > 1 and not IsMobBusy(mob) then
                 mob:AnimationSub(1)
                 -- Mamool JA deal reduced damage when their weapon is broken(lose weapon damage bonus mod)
                 if (mob:getFamily() == 176) or (mob:getFamily() == 305) or (mob:getFamily() == 591) then
@@ -70,7 +70,7 @@ g_mixins.weapon_break = function(mob)
         or abilityID == 207      -- violent flourish
         or abilityID == 168      -- blade bash
         or abilityID == 170 then -- angon
-			if math.random(100) <= mob:getLocalVar("BreakChance") and not IsMobBusy then
+			if math.random(100) <= mob:getLocalVar("BreakChance") and not IsMobBusy(mob) then
 				local animationSub = mob:AnimationSub()
 
 				-- break weapon

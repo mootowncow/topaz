@@ -84,7 +84,7 @@ g_mixins.families.ghrah = function(mob)
     mob:addListener("COMBAT_TICK", "GHRAH_CTICK", function(mob)
         local changeTime = mob:getLocalVar("changeTime")
 
-        if not IsMobBusy then
+        if not IsMobBusy(mob) then
             if (mob:AnimationSub() == 0 and mob:getBattleTime() >= changeTime) then
                 mob:AnimationSub(mob:getLocalVar("form2"))
                 mob:setAggressive(1)

@@ -62,13 +62,13 @@ g_mixins.families.wamouracampa = function(mob)
 
         if Animation == 0 then
 	        mob:setLocalVar("Animation", math.random(1,2)) --Random roll for animation
-	    elseif Animation == 1 and os.time() > fightTime and not IsMobBusy then
+	    elseif Animation == 1 and os.time() > fightTime and not IsMobBusy(mob) then
             mob:AnimationSub(1)
             mob:setMod(tpz.mod.MOVE, -25)
             mob:setMod(tpz.mod.UDMGMAGIC, -33)
             mob:setLocalVar("formTime", os.time() + math.random(43, 47))
 		    mob:setLocalVar("Animation", math.random(1,2)) --Random roll for animation
-        elseif Animation == 2 and os.time() > fightTime and not IsMobBusy then
+        elseif Animation == 2 and os.time() > fightTime and not IsMobBusy(mob) then
             mob:AnimationSub(0)
             mob:setMod(tpz.mod.MOVE, 0)
             mob:setMod(tpz.mod.UDMGMAGIC, 33)

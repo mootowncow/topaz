@@ -18,7 +18,7 @@ g_mixins.families.imp = function(mob)
         if ReobtainHornTime > 0 and os.time() > ReobtainHornTime then
             local AnimationSub = mob:AnimationSub()
 
-            if AnimationSub == 1 and not IsMobBusy then
+            if AnimationSub == 1 and not IsMobBusy(mob) then
                 mob:AnimationSub(0)
                 mob:setLocalVar("ReobtainHornTime", os.time() + 60)
             end
@@ -27,7 +27,7 @@ g_mixins.families.imp = function(mob)
 
     -- 10% chance to break horn on critical hit
     mob:addListener("CRITICAL_TAKE", "IMP_CRITICAL_TAKE", function(mob)
-        if math.random(100) <= mob:getLocalVar("HornBreakChance") and mob:AnimationSub() == 0 and not IsMobBusy then
+        if math.random(100) <= mob:getLocalVar("HornBreakChance") and mob:AnimationSub() == 0 and not IsMobBusy(mob) then
             mob:AnimationSub(1)
             mob:setLocalVar("ReobtainHornTime", os.time() + 60)
         end
@@ -49,7 +49,7 @@ g_mixins.families.imp = function(mob)
         or abilityID == 207      -- violent flourish
         or abilityID == 168      -- blade bash
         or abilityID == 170 then -- angon
-			if math.random(100) <= mob:getLocalVar("HornBreakChance") and mob:AnimationSub() == 0 and not IsMobBusy then
+			if math.random(100) <= mob:getLocalVar("HornBreakChance") and mob:AnimationSub() == 0 and not IsMobBusy(mob) then
 				mob:AnimationSub(1)
                 mob:setLocalVar("ReobtainHornTime", os.time() + 60)
 			end

@@ -25,10 +25,10 @@ g_mixins.families.marid = function(mob)
 
     -- 20% chance to break horn on critical hit
     mob:addListener("CRITICAL_TAKE", "MARID_CRITICAL_TAKE", function(mob)
-        if math.random(100) <= mob:getLocalVar("HornBreakChance") and mob:AnimationSub() == 0 and not IsMobBusy then
+        if math.random(100) <= mob:getLocalVar("HornBreakChance") and mob:AnimationSub() == 0 and not IsMobBusy(mob) then
             mob:AnimationSub(1)
 			mob:setLocalVar("Weapon", 1)
-		elseif math.random(100) <= mob:getLocalVar("HornBreakChance") and mob:AnimationSub() == 1 and not IsMobBusy then
+		elseif math.random(100) <= mob:getLocalVar("HornBreakChance") and mob:AnimationSub() == 1 and not IsMobBusy(mob) then
 			mob:AnimationSub(2)
 			mob:setLocalVar("Weapon", 2)
         end

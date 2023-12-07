@@ -27,7 +27,7 @@ local function surface(mob)
 end
 
 local function openMouth(mob)
-    if not IsMobBusy then
+    if not IsMobBusy(mob) then
         mob:setDamage(math.floor(mob:getWeaponDmg() * 2)) -- Weapon damage * 2
         mob:addMod(tpz.mod.UDMGPHYS, 100)
         mob:addMod(tpz.mod.UDMGBREATH, 100)
@@ -40,7 +40,7 @@ local function openMouth(mob)
 end
 
 local function closeMouth(mob)
-    if not IsMobBusy then
+    if not IsMobBusy(mob) then
         mob:setDamage(mob:getMainLvl() + 2) -- Normal weapon damage
         mob:delMod(tpz.mod.UDMGPHYS, 100)
         mob:delMod(tpz.mod.UDMGBREATH, 100)

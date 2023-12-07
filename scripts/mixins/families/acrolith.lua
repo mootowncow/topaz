@@ -42,10 +42,10 @@ g_mixins.families.acrolith = function(mob)
         or abilityID == 168      -- blade bash
         or abilityID == 170 then -- angon
             local AnimationSub = mob:AnimationSub()
-			if math.random(100) <= mob:getLocalVar("PartBreakChance") and AnimationSub == 0 and not IsMobBusy then
+			if math.random(100) <= mob:getLocalVar("PartBreakChance") and AnimationSub == 0 and not IsMobBusy(mob) then
                 mob:useMobAbility(2074) -- Detonating Grip
 			end
-        if math.random(100) <= mob:getLocalVar("PartBreakChance") and AnimationSub == 1 and not IsMobBusy then
+        if math.random(100) <= mob:getLocalVar("PartBreakChance") and AnimationSub == 1 and not IsMobBusy(mob) then
                 mob:useMobAbility(2074) -- Detonating Grip
 			end
 		end

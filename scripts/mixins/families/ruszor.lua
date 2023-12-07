@@ -18,16 +18,16 @@ g_mixins.families.ruszor = function(mob)
         local animationSub = mob:AnimationSub()
         local waterAbsorbTimer = mob:getLocalVar("ruszorWaterAbsorbTimer")
         -- Go back to animation sub 0 when buff timer ends for buffs
-        if (mob:getMod(tpz.mod.MAGIC_SS) == 0 and mob:getMod(tpz.mod.PHYSICAL_SS) == 0 and os.time() > waterAbsorbTimer) and not IsMobBusy then
+        if (mob:getMod(tpz.mod.MAGIC_SS) == 0 and mob:getMod(tpz.mod.PHYSICAL_SS) == 0 and os.time() > waterAbsorbTimer) and not IsMobBusy(mob) then
             mob:AnimationSub(0)
         end
 
         -- Change animation sub depending on which type of stoneskin is currently applied
-        if (mob:getMod(tpz.mod.PHYSICAL_SS) > 0) and not IsMobBusy then
+        if (mob:getMod(tpz.mod.PHYSICAL_SS) > 0) and not IsMobBusy(mob) then
             mob:AnimationSub(1)
         end
 
-        if (mob:getMod(tpz.mod.MAGIC_SS) > 0 or os.time() < waterAbsorbTimer) and not IsMobBusy then
+        if (mob:getMod(tpz.mod.MAGIC_SS) > 0 or os.time() < waterAbsorbTimer) and not IsMobBusy(mob) then
             mob:AnimationSub(2)
         end
 

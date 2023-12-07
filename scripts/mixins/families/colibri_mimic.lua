@@ -21,7 +21,7 @@ g_mixins.families.colibri_mimic = function(mob)
 
     mob:addListener("MAGIC_TAKE", "COLIBRI_MIMIC_MAGIC_TAKE", function(target, caster, spell)
         if
-            not IsMobBusy and
+            not IsMobBusy(target) and
             target:AnimationSub() == 0 and
             spell:tookEffect() and
             (caster:isPC() or caster:isPet()) and
@@ -44,7 +44,7 @@ g_mixins.families.colibri_mimic = function(mob)
         local skill = utils.getSkillLvl(1, mob:getMainLvl())
         mob:setMod(tpz.mod.MACC, skill)
 
-        if not IsMobBusy then
+        if not IsMobBusy(mob) then
             if mob:AnimationSub() == 1 then
                 if spellToMimic > 0 and osTime > castTime and castWindow > osTime and not mob:hasStatusEffect(tpz.effect.SILENCE) then
                     mob:castSpell(spellToMimic)

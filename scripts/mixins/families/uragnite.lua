@@ -31,7 +31,7 @@ g_mixins = g_mixins or {}
 g_mixins.families = g_mixins.families or {}
 
 local function enterShell(mob)
-    if not IsMobBusy then
+    if not IsMobBusy(mob) then
         mob:AnimationSub(1)
         mob:SetAutoAttackEnabled(false)
         mob:useMobAbility(1572) -- Always immediately uses Venom Shell 
@@ -48,7 +48,7 @@ local function enterShell(mob)
 end
 
 local function exitShell(mob)
-    if not IsMobBusy then
+    if not IsMobBusy(mob) then
         mob:AnimationSub(0)
         mob:SetAutoAttackEnabled(true)
         mob:delMod(tpz.mod.DEFP, 100)

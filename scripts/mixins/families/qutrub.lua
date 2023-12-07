@@ -26,11 +26,11 @@ g_mixins.families.qutrub = function(mob)
         if swapTime > 0 and os.time() > swapTime then
             local animationSub = mob:AnimationSub()
 
-            if animationSub == 1 and not IsMobBusy then
+            if animationSub == 1 and not IsMobBusy(mob) then
                 mob:AnimationSub(2)
                 mob:setLocalVar("swapTime", os.time() + 60)
 
-            elseif animationSub == 2 and not IsMobBusy then
+            elseif animationSub == 2 and not IsMobBusy(mob) then
                 mob:AnimationSub(1)
                 mob:setLocalVar("swapTime", os.time() + 60)
             end
@@ -44,12 +44,12 @@ g_mixins.families.qutrub = function(mob)
             local animationSub = mob:AnimationSub()
 
             -- break first weapon
-            if animationSub == 0 and not IsMobBusy then
+            if animationSub == 0 and not IsMobBusy(mob) then
                 mob:AnimationSub(1)
                 mob:setLocalVar("swapTime", os.time() + 60)
 
             -- break second weapon
-            elseif animationSub == 2 and not IsMobBusy then
+            elseif animationSub == 2 and not IsMobBusy(mob) then
                 mob:AnimationSub(3)
                 mob:setLocalVar("swapTime", 0)
             end
@@ -77,12 +77,12 @@ g_mixins.families.qutrub = function(mob)
 				local animationSub = mob:AnimationSub()
 
 				-- break first weapon
-				if animationSub == 0 and not IsMobBusy then
+				if animationSub == 0 and not IsMobBusy(mob) then
 					mob:AnimationSub(1)
 					mob:setLocalVar("swapTime", os.time() + 60)
 
 				-- break second weapon
-				elseif animationSub == 2 and not IsMobBusy then
+				elseif animationSub == 2 and not IsMobBusy(mob) then
 					mob:AnimationSub(3)
 					mob:setLocalVar("swapTime", 0)
 				end

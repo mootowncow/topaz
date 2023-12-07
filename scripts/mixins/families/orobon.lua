@@ -14,7 +14,7 @@ g_mixins.families.orobon = function(mob)
 
     -- 1% chance to break horn on critical hit
     mob:addListener("FRONTAL_CRITICAL_TAKE", "OROBON_FRONT_CRITICAL_TAKE", function(mob)
-        if math.random(100) <= mob:getLocalVar("FeelersBreakChance") and mob:AnimationSub() ==  0 and not IsMobBusy then
+        if math.random(100) <= mob:getLocalVar("FeelersBreakChance") and mob:AnimationSub() ==  0 and not IsMobBusy(mob) then
             mob:AnimationSub(1)
         end
     end)

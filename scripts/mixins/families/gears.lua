@@ -17,7 +17,7 @@ g_mixins.gears = function(mob)
         local GearNumber = mob:getLocalVar("GearNumber")
         -- Can lose a gear from crits after restoring a gear only
         if GearNumber > 0 then
-            if math.random(100) <= mob:getLocalVar("BreakChance") and not IsMobBusy then
+            if math.random(100) <= mob:getLocalVar("BreakChance") and not IsMobBusy(mob) then
                 local animationSub = mob:AnimationSub()
 
                 -- Lose a gear

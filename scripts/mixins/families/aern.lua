@@ -92,7 +92,7 @@ g_mixins.families.aern = function(mob)
 
         -- Goes into bracelets mode after 80 seconds of no bracelets or after taking 300 damage while not in bracelet mode
         -- Bracelets last 30 seconds
-        if not IsMobBusy then
+        if not IsMobBusy(mob) then
 		    if BraceletsTime == 0 then
 			    mob:setLocalVar("BraceletsTime", os.time() + 80)
 		    elseif (os.time() >= BraceletsTime and Mode == 0) or (dmgTaken > 300) then

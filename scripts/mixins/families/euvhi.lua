@@ -100,7 +100,7 @@ g_mixins.families.euvhi = function(mob)
         -- Only track damage taken while open(bloomed)
         if (animationSub ~= 4) then
             mob:setLocalVar("damageTaken", mob:getLocalVar("damageTaken") + damage)
-            if (damageTaken >= 350) and not IsMobBusy then  -- Goes into petal form after taking 350 damage
+            if (damageTaken >= 350) and not IsMobBusy(mob) then  -- Goes into petal form after taking 350 damage
                 petal_form(mob)
             end
         end
@@ -113,7 +113,7 @@ g_mixins.families.euvhi = function(mob)
         local changeTime = mob:getLocalVar("changeTime")
         -- Open after 80 seconds
         if os.time() >= changeTime and mob:AnimationSub() == 4 then
-            if mob:AnimationSub() == 4 and not IsMobBusy then
+            if mob:AnimationSub() == 4 and not IsMobBusy(mob) then
                 bloomed_form(mob)
                 mob:setLocalVar("changeTime", 0)
             end
