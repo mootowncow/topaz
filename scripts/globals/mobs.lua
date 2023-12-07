@@ -665,7 +665,7 @@ function MakeMobInactive(mob)
     mob:setUnkillable(true)
 end
 
-function IsMobBusy()
+function IsMobBusy(mob)
     local act = mob:getCurrentAction()
 
     return  act == tpz.act.MOBABILITY_START or
