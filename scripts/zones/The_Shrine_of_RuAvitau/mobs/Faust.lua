@@ -40,8 +40,13 @@ function onMobRoam(mob)
     local Time = os.time()
     local facingDirection = {255, 190}
     if Time > Turn then
-        mob:setPos(mob:getXPos(),mob:getYPos(),mob:getZPos(), facingDirection[math.random(#facingDirection)])
-        mob:setLocalVar("Turn", Time + 30)
+        if (mob:getRotPos() == 255) then
+            mob:setPos(mob:getXPos(),mob:getYPos(),mob:getZPos(), 190)
+            mob:setLocalVar("Turn", Time + 30)
+        else
+            mob:setPos(mob:getXPos(),mob:getYPos(),mob:getZPos(), 255)
+            mob:setLocalVar("Turn", Time + 30)
+        end
     end
 end
 
