@@ -7,8 +7,8 @@ Lava / Kusha ring
 life belt, emp hairpin, leaping boots, precision bandana, 
 Fidelity/Ardent/Affinity earring, Hauby / Hauberk. SH
 Viking shield / Strider Boots / Tarasque Mitts / Jaded Jody / Genie Gages / Energetic Eruca(Hanzo tekko) / Alkys
-Ninja nuke scrolls and new spells(Hojo San Jubaku Ni Utsusemi San etc) / TIphia Sting / Fire Bomblet
-Bomb Core / Ammo off Demon
+Ninja nuke scrolls and new spells(Hojo San Jubaku Ni Utsusemi San etc) / Tiphia Sting / Fire Bomblet
+Bomb Core / Ammo off Demon / Kick Boots
 
 Avatars. ENMS. NMs.  Bcnms.
 
@@ -34,5 +34,4 @@ Quests:
     Maps
 
 Buy: 
-    Raise III
     Curaga III and Curaga IV
