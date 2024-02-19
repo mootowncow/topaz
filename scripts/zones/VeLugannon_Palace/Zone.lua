@@ -10,15 +10,6 @@ require("scripts/globals/treasure")
 
 function onInitialize(zone)
     tpz.treasure.initZone(zone)
-    local monolithTable =
-    {
-        17502624, 17502626, 17502628, 17502630, 17502632,
-        17502634, 17502636, 17502638, 17502640, 17502642
-    }
-    -- Randomize gates
-    for _, monolith in pairs(monolithTable) do
-        GetNPCByID(monolith):setAnimation(math.random(tpz.anim.OPEN_DOOR, tpz.anim.CLOSE_DOOR))
-    end
 end
 
 function onConquestUpdate(zone, updatetype)
