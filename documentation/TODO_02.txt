@@ -150,6 +150,9 @@ WS changing weapons! Like completely change the WS entirely(Lyft weapons? anothe
 Mob casting message !!
 https://github.com/LandSandBoat/server/commit/58f87d16cd22375553890105c9ce93a43806ea6a
 
+AoE dmg DR
+https://github.com/LandSandBoat/server/commit/6a85f7caf3423211840e43387258bb3b4890a8e2
+
 Fix raise and reraise when moving players 
 https://github.com/LandSandBoat/server/commit/22a9cfea4335dc5188b6cbdaf8ed13e0e31f9723
 
