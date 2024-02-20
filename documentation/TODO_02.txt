@@ -173,6 +173,9 @@ https://github.com/LandSandBoat/server/commit/67db4b00448a4df23ceda9743599a92432
  Sha Wujing's lance
 https://github.com/LandSandBoat/server/commit/1c4511caae46d63ea224817dfb3f54024739523b
 
+Light spirit AI:
+https://github.com/LandSandBoat/server/commit/973fb38f661da5d5a9c10c99eaff1d1b3537f8a6
+
 Mythic:
 Qultada custom msgs cant use msgids
 
