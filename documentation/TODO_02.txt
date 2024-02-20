@@ -147,6 +147,10 @@ Finish Escheutons
 WS changing weapons! Like completely change the WS entirely(Lyft weapons? another set of weapons?)
 3/tick refresh body with - move speed
 
+
+Fix raise and reraise when moving players 
+https://github.com/LandSandBoat/server/commit/22a9cfea4335dc5188b6cbdaf8ed13e0e31f9723
+
 Pet crash fix
 https://github.com/LandSandBoat/server/commit/0a534df514c548f93b3a66d6fe93072013c4382f
 
@@ -157,6 +161,8 @@ Add enmity loss to pets when taking damage
 https://github.com/LandSandBoat/server/commit/dceed4d68070c43f39e6100951df47e1c86cdbf6
 
 Has Trait
+https://github.com/LandSandBoat/server/commit/8f0b67c8f74197636721acc7be0ca5f81a8182bb
++
 https://github.com/LandSandBoat/server/commit/67db4b00448a4df23ceda9743599a9243273e605
 
  Sha Wujing's lance
