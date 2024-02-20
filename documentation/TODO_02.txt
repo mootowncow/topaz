@@ -138,6 +138,15 @@ https://github.com/LandSandBoat/server/commit/f053b35dbc40042e3f16a1a4d22f2d3071
 Smite
 https://github.com/LandSandBoat/server/commit/1377c5e38a0ecb1e172880f45dbe556c96a01a84
 
+
+**** NOW ***
+Highest end legendaries 1 in 10000
+Finish JP for BLU BST SCH RDM
+ADd JP camp for BLM + SCH(slime page in horutoto?)
+Finish Escheutons
+WS changing weapons! Like completely change the WS entirely(Lyft weapons? another set of weapons?)
+3/tick refresh body with - move speed
+
 Mythic:
 Qultada custom msgs cant use msgids
 
@@ -180,6 +189,12 @@ if it wasn't, don't
 
 Rune Fencer Merits:
 https://github.com/AirSkyBoat/AirSkyBoat/commit/f1c415bb239c9afdc4247eb1b2444433f8671341
+
+Timer fill stuff
+https://github.com/LandSandBoat/server/commit/0609d8370a21f3b5b4654ebdfd0402276acadeed
+
+Add enmity loss to pets when taking damage
+https://github.com/LandSandBoat/server/commit/dceed4d68070c43f39e6100951df47e1c86cdbf6
 
 DATS:
 Stinking Gas is choke
