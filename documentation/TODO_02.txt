@@ -147,6 +147,21 @@ Finish Escheutons
 WS changing weapons! Like completely change the WS entirely(Lyft weapons? another set of weapons?)
 3/tick refresh body with - move speed
 
+Pet crash fix
+https://github.com/LandSandBoat/server/commit/0a534df514c548f93b3a66d6fe93072013c4382f
+
+Timer fill stuff
+https://github.com/LandSandBoat/server/commit/0609d8370a21f3b5b4654ebdfd0402276acadeed
+
+Add enmity loss to pets when taking damage
+https://github.com/LandSandBoat/server/commit/dceed4d68070c43f39e6100951df47e1c86cdbf6
+
+Has Trait
+https://github.com/LandSandBoat/server/commit/67db4b00448a4df23ceda9743599a9243273e605
+
+ Sha Wujing's lance
+https://github.com/LandSandBoat/server/commit/1c4511caae46d63ea224817dfb3f54024739523b
+
 Mythic:
 Qultada custom msgs cant use msgids
 
@@ -189,12 +204,6 @@ if it wasn't, don't
 
 Rune Fencer Merits:
 https://github.com/AirSkyBoat/AirSkyBoat/commit/f1c415bb239c9afdc4247eb1b2444433f8671341
-
-Timer fill stuff
-https://github.com/LandSandBoat/server/commit/0609d8370a21f3b5b4654ebdfd0402276acadeed
-
-Add enmity loss to pets when taking damage
-https://github.com/LandSandBoat/server/commit/dceed4d68070c43f39e6100951df47e1c86cdbf6
 
 DATS:
 Stinking Gas is choke
