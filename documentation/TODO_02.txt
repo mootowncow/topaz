@@ -147,6 +147,8 @@ Finish Escheutons
 WS changing weapons! Like completely change the WS entirely(Lyft weapons? another set of weapons?)
 3/tick refresh body with - move speed
 
+Mob casting message !!
+https://github.com/LandSandBoat/server/commit/58f87d16cd22375553890105c9ce93a43806ea6a
 
 Fix raise and reraise when moving players 
 https://github.com/LandSandBoat/server/commit/22a9cfea4335dc5188b6cbdaf8ed13e0e31f9723
