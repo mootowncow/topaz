@@ -404,7 +404,7 @@ enum class Mod
     PERFECT_DODGE             = 883, // Increases Perfect Dodge duration in seconds
     TRIPLE_ATTACK             = 302, // Percent chance
     TREASURE_HUNTER           = 303, // Treasure hunter, probably
-    SNEAK_ATK_DEX             = 874, // % DEX boost to Sneak Attack (if gear mod, needs to be equipped on hit)
+    SNEAK_ATK_DEX             = 1368,// % DEX boost to Sneak Attack (if gear mod, needs to be equipped on hit)
     TRICK_ATK_AGI             = 520, // % AGI boost to Trick Attack (if gear mod, needs to be equipped on hit)
     MUG_EFFECT                = 835, // Mug effect as multiplier
     ACC_COLLAB_EFFECT         = 884, // Increases amount of enmity transferred for Accomplice/Collaborator
@@ -856,7 +856,7 @@ enum class Mod
     AUGMENTS_CONVERT          = 525, // Convert HP to MP Ratio Multiplier. Value = MP multiplier rate.
     AUGMENTS_SA               = 526, // Adds Critical Attack Bonus to Sneak Attack, percentage based.
     AUGMENTS_TA               = 527, // Adds Critical Attack Bonus to Trick Attack, percentage based.
-    AUGMENTS_FEINT            = 873, // Feint will give another -10 Evasion per merit level
+    AUGMENTS_FEINT            = 1367,// Feint will give another -10 Evasion per merit level
     AUGMENTS_ASSASSINS_CHARGE = 886, // Gives Assassin's Charge +1% Critical Hit Rate per merit level
     AUGMENTS_AMBUSH           = 887, // Gives +1% Triple Attack per merit level when Ambush conditions are met
     AUGMENTS_AURA_STEAL       = 889, // 20% chance of 2 effects to be dispelled or stolen per merit level
@@ -1049,7 +1049,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1367 NEXT
+    // 1369 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

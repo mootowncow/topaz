@@ -1591,7 +1591,7 @@ tpz.mod =
     SHARPSHOT                       = 314, -- Sharpshot accuracy bonus
     AUGMENTS_ABSORB                 = 1274, -- Direct Absorb spell increase (percentage based)
     ENH_DRAIN_ASPIR                 = 315, -- % damage boost to Drain and Aspir
-    SNEAK_ATK_DEX                   = 874, -- % DEX boost to Sneak Attack (if gear mod, needs to be equipped on hit)
+    SNEAK_ATK_DEX                   = 1368, -- % DEX boost to Sneak Attack (if gear mod, needs to be equipped on hit)
     TRICK_ATK_AGI                   = 520, -- % AGI boost to Trick Attack (if gear mod, needs to be equipped on hit)
     NIN_NUKE_BONUS                  = 522, -- magic attack bonus for NIN nukes
     DAKEN                           = 911, -- Chance to throw shuriken on attack
@@ -1656,7 +1656,7 @@ tpz.mod =
     AUGMENTS_CONVERT                = 525, -- Convert HP to MP Ratio Multiplier. Value = MP multiplier rate.
     AUGMENTS_SA                     = 526, -- Adds Critical Attack Bonus to Sneak Attack, percentage based.
     AUGMENTS_TA                     = 527, -- Adds Critical Attack Bonus to Trick Attack, percentage based.
-    AUGMENTS_FEINT                  = 873, -- Feint will give another -10 Evasion per merit level
+    AUGMENTS_FEINT                  = 1367, -- Feint will give another -10 Evasion per merit level
     AUGMENTS_ASSASSINS_CHARGE       = 886, -- Gives Assassin's Charge +1% Critical Hit Rate per merit level
     AUGMENTS_AMBUSH                 = 887, -- Gives +1% Triple Attack per merit level when Ambush conditions are met
     AUGMENTS_AURA_STEAL             = 889, -- 20% chance of 2 effects to be dispelled or stolen per merit level
@@ -1902,7 +1902,7 @@ tpz.mod =
     TH_PROC_CHANCE          = 1365, -- Bonus proc chance to Treasure Hunter procs. THF job gifts.
     ALERTNESS               = 1366, -- Reduced Sight detection range
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1367 NEXT
+    -- 1369 NEXT
 }
 
 tpz.latent =
