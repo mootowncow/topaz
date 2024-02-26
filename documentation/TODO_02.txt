@@ -140,6 +140,8 @@ https://github.com/LandSandBoat/server/commit/1377c5e38a0ecb1e172880f45dbe556c96
 
 
 **** NOW ***
+Shikigami weapon pathing
+Item/trait that earth spell mp cost -50%, another item/trait wind spell cast time -50%, another item/trait water mp cost -50%
 Highest end legendaries 1 in 10000
 Finish JP for BLU BST SCH RDM
 ADd JP camp for BLM + SCH(slime page in horutoto?)
