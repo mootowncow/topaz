@@ -149,6 +149,7 @@ Finish Escheutons
 WS changing weapons! Like completely change the WS entirely(Lyft weapons? another set of weapons?)
 3/tick refresh body with - move speed
 Gargoyle HNM boss need to nuke when flying to bring back down immune to phys dmg in air and some stoneform mechanic where it gains HP
+Finish Lyft/MMM weapon progression system
 
 Mob casting message !!
 https://github.com/LandSandBoat/server/commit/58f87d16cd22375553890105c9ce93a43806ea6a
