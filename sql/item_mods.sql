@@ -40316,7 +40316,7 @@ INSERT INTO `item_mods` VALUES (27063,29,2);
 INSERT INTO `item_mods` VALUES (27063,31,43);
 INSERT INTO `item_mods` VALUES (27063,68,36);
 INSERT INTO `item_mods` VALUES (27063,384,500);
-INSERT INTO `item_mods` VALUES (27063,874,12.5); -- Increases "Sneak Attack" damage
+INSERT INTO `item_mods` VALUES (27063,874,12); -- Increases "Sneak Attack" damage
 INSERT INTO `item_mods` VALUES (27064,1,77);
 INSERT INTO `item_mods` VALUES (27064,2,16);
 INSERT INTO `item_mods` VALUES (27064,5,12);
