@@ -154,6 +154,9 @@ Finish Lyft/MMM weapon progression system
 Mob casting message !!
 https://github.com/LandSandBoat/server/commit/58f87d16cd22375553890105c9ce93a43806ea6a
 
+Utsusemi enmity
+https://github.com/CatsAndBoats/catseyexi/commit/d9fae0bb9677734ff06732f0e500bc8d21d34933
+
 AoE dmg DR
 https://github.com/LandSandBoat/server/commit/6a85f7caf3423211840e43387258bb3b4890a8e2
 
