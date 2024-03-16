@@ -151,6 +151,10 @@ WS changing weapons! Like completely change the WS entirely(Lyft weapons? anothe
 Gargoyle HNM boss need to nuke when flying to bring back down immune to phys dmg in air and some stoneform mechanic where it gains HP
 Finish Lyft/MMM weapon progression system
 spellAI added to where spell_list is for diff spell casting AI's
+Lyft Sword +1 refresh some acc/attk
+
+Add bonusmacc row to spells.sql and other stuff then make a lua binding and use that in all luas instead of coding each ones values in every lua individually
+Especialy BLU because you can just shove a function in for dmg and not have to put in 50 params for each spell and can just get params for the spell in a single function
 
 Mob casting message !!
 https://github.com/LandSandBoat/server/commit/58f87d16cd22375553890105c9ce93a43806ea6a
