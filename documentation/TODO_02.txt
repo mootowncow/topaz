@@ -156,8 +156,18 @@ Lyft Sword +1 refresh some acc/attk
 Add bonusmacc row to spells.sql and other stuff then make a lua binding and use that in all luas instead of coding each ones values in every lua individually
 Especialy BLU because you can just shove a function in for dmg and not have to put in 50 params for each spell and can just get params for the spell in a single function
 
+
+Spikes status effects from armor procs msg
+https://github.com/AirSkyBoat/AirSkyBoat/commit/4d8e29572cadbf2950a7b560779f1e1a5f364a84
+
 Mob casting message !!
 https://github.com/LandSandBoat/server/commit/58f87d16cd22375553890105c9ce93a43806ea6a
+
+Pet magic burst msg(maybe I fixed this already too?)
+https://github.com/AirSkyBoat/AirSkyBoat/commit/24c2586c5851dfa5ec26b08fa512d097bc6adf67
+
+Cover PDIF fixes
+https://github.com/AirSkyBoat/AirSkyBoat/commit/ab7d0174b565ea53999a0ef366d4b91e5812286a
 
 Utsusemi enmity
 https://github.com/CatsAndBoats/catseyexi/commit/d9fae0bb9677734ff06732f0e500bc8d21d34933
