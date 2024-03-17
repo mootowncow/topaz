@@ -32,7 +32,8 @@ function onSpellCast(caster, target, spell)
 	if power > 15 then
 		power = 15
 	end
-    local duration = 300
+    local duration = 900
+    -- https://wiki.ffo.jp/html/3177.html
 
     if (caster:hasStatusEffect(tpz.effect.DIFFUSION)) then
         local diffMerit = caster:getMerit(tpz.merit.DIFFUSION)
