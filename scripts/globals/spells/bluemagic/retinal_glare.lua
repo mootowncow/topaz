@@ -52,7 +52,7 @@ function onSpellCast(caster, target, spell)
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
     params.effect = tpz.effect.FLASH
-    params.bonus =  200
+    params.bonus =  256
     BlueTryEnfeeble(caster, target, spell, damage, 300, 0, 12, params)
 
 	return damage

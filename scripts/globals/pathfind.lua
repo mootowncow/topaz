@@ -149,22 +149,19 @@ tpz.path =
     loop = function(npc, points, flags)
         if not npc:isFollowingPath() then
             local path = npc:getLocalVar("path")
-            local reverse = npc:getLocalVar("pathreverse");
-            local step = (reverse == true) and -1 or 1;
+            local step = (npc:getLocalVar("pathstep") == 2) and -1 or 1;
             path = path + step;
             if (path > #points) then
                 path = #points - 1;
-                npc:setLocalVar("pathreverse", true);
+                npc:setLocalVar("pathstep", 2);
             elseif (path < 1) then
                 path = 2;
-                npc:setLocalVar("pathreverse", false);
+                npc:setLocalVar("pathstep", 1);
             end
         
             npc:setLocalVar("path", path);
             local currentPath = points[path];
-            -- print(currentPath.x)
-            -- print(currentPath.y)
-            -- print(currentPath.z)
+            -- print(string.format('%.2f,%.2f,%.2f [%u] - %s', currentPath.x, currentPath.y, currentPath.z, path, (step == 1) and 'Forward' or 'Reverse'));
             npc:pathTo(currentPath.x, currentPath.y, currentPath.z, flags);
         end
     end,

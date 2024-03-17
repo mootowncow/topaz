@@ -23,7 +23,7 @@ function onSpellCast(caster, target, spell)
 
     params.skillType = tpz.skill.DIVINE_MAGIC
 
-    params.bonus =  200
+    params.bonus =  256
 
     params.effect = tpz.effect.FLASH
 

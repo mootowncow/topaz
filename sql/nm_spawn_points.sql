@@ -6856,8 +6856,8 @@ INSERT INTO `nm_spawn_points` VALUES (17334356,0,105.307,-20.258,-131.396); -- B
 INSERT INTO `nm_spawn_points` VALUES (17707025,0,-6.387,-11.662,-13.986); -- Blackbeard (Ship Bound for Selbina Pirates)
 INSERT INTO `nm_spawn_points` VALUES (17711121,0,-0.700,-7.160,23.512); -- Silverhook (Ship Bound for Mhaura Pirates )
 
-INSERT INTO `nm_spawn_points` VALUES (17502570,0,-173, 0, 360); -- Zipacna (Behind Blue Gate)
-INSERT INTO `nm_spawn_points` VALUES (17502570,1,-110, 0, 458); -- Zipacna (Behind Yellow Gate)
+INSERT INTO `nm_spawn_points` VALUES (17502570,0, -195, -0.5, 396); -- Zipacna (Behind Blue Gate)
+INSERT INTO `nm_spawn_points` VALUES (17502570,1, 74.864410, 0.000000, 459.690765); -- Zipacna (Behind Yellow Gate)
 
 /*!40000 ALTER TABLE `nm_spawn_points` ENABLE KEYS */;
 UNLOCK TABLES;

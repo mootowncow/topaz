@@ -1447,7 +1447,12 @@ void CMobEntity::DropItems(CCharEntity* PChar)
                     break;
             }
         }
-        else if (GetMLevel() >= 81) // 81+ bracket rare drops
+        loc.zone->PushPacket(this, CHAR_INZONE, new CChatMessagePacket(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_2, "An extremely rare item has dropped!!!"));
+    }
+
+    if (tpzrand::GetRandomNumber(5000) < 1 && getMobMod(MOBMOD_NO_DROPS) == 0 && GetMLevel() >= 81)
+    {
+        if (GetMLevel() >= 81) // 81+ bracket rare drops
         {
             switch (tpzrand::GetRandomNumber(4))
             {
@@ -1494,7 +1499,7 @@ void CMobEntity::DropItems(CCharEntity* PChar)
                     break;
             }
         }
-        loc.zone->PushPacket(this, CHAR_INZONE, new CChatMessagePacket(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_2, "An extremely rare item has dropped!!!"));
+        loc.zone->PushPacket(this, CHAR_INZONE, new CChatMessagePacket(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_2, "An legendary item has dropped!!!!"));
     }
     uint16 Pzone = PChar->getZone();
 

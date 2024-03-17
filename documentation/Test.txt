@@ -27,8 +27,11 @@ Ullikumi / Reaving Wind knockback
 MobTransferEnfeeblesMove()
 Carnal Nightmare on pet and players
 TryProcWS on WS work with SA/TA for high proc chance?
+Ele or Hybrid WS TryProcTH?
 ToAU family stats(import mobdb custom)
 Taza forgotten item storage
+Check all IsMobBusy()'s have proper arg for mob(target etc) and wont crash
+TryProcTH needs level 15+ job check(maybe 75?)
 
 ENMs:
 Tango with a Tracker + Req of Sin questing at Despachiaire and doing bcs !pos 108 -40 -83 26 

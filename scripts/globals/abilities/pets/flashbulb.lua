@@ -16,7 +16,7 @@ function onPetAbility(target, automaton, skill, master, action)
     automaton:addRecast(tpz.recast.ABILITY, skill:getID(), 45)
     local skillType = jobUtil.GetAutoMainSkill(automaton)
 
-    local resist = applyResistanceAbility(automaton, target, 7, skillType, 200)
+    local resist = applyResistanceAbility(automaton, target, 7, skillType, 256)
     local duration = 12 * resist
     -- master:PrintToPlayer(string.format("Resist %i", resist*100))
     -- master:PrintToPlayer(string.format("Targets accuracy %i", target:getACC()))
