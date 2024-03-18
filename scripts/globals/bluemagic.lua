@@ -1335,6 +1335,9 @@ end
 function BlueHandleCorrelationMACC(caster, target, spell, params, bonus, correlation)
     local bonusMACC = bonus
 
+    -- Players don't have correlation against them
+    if target:isPC() then return 0;
+
     -- Figure out correlation if not provided as an arg
     if (correlation == nil) and target:isMob() then
         correlation = GetMonsterCorrelation(params.eco,GetTargetEcosystem(target))
