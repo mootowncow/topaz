@@ -1336,7 +1336,9 @@ function BlueHandleCorrelationMACC(caster, target, spell, params, bonus, correla
     local bonusMACC = bonus
 
     -- Players don't have correlation against them
-    if target:isPC() then return 0;
+    if target:isPC() then
+        return 0
+    end
 
     -- Figure out correlation if not provided as an arg
     if (correlation == nil) and target:isMob() then
