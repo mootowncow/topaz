@@ -2220,7 +2220,7 @@ INSERT INTO `item_basic` VALUES (2330,0,'yoichis_sash','yoichis_sash',99,4,40,0,
 INSERT INTO `item_basic` VALUES (2331,0,'blue_mages_testimony','blue_m._testimony',1,61504,0,1,0);
 INSERT INTO `item_basic` VALUES (2332,0,'corsairs_testimony','cor._testimony',1,61504,0,1,0);
 INSERT INTO `item_basic` VALUES (2333,0,'puppetmasters_testimony','pup._testimony',1,61504,0,1,0);
-INSERT INTO `item_basic` VALUES (2334,0,'poroggo_hat','poroggo_hat',1,4100,50,1,0);
+INSERT INTO `item_basic` VALUES (2334,0,'poroggo_hat','poroggo_hat',99,4100,50,1,0);
 INSERT INTO `item_basic` VALUES (2335,0,'soulflayer_tentacle','soulfl._tentacle',99,4,44,0,933);
 INSERT INTO `item_basic` VALUES (2336,0,'soulflayer_staff','soulflayer_staff',99,4100,50,1,0);
 INSERT INTO `item_basic` VALUES (2337,0,'clump_of_wamoura_hair','wamoura_hair',99,4,40,0,150);
