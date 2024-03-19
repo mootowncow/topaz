@@ -23,15 +23,14 @@ function onMobWeaponSkill(target, mob, skill)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.DARK)
 	
 	local ChaosBladeBoost = mob:getLocalVar("ChaosBladeBoost")
-	   
+	local cursePower = 50
 	 -- curse LAST so you don't die
 	if ChaosBladeBoost == 1 then
-	    local typeEffect = tpz.effect.CURSE_I
-		MobStatusEffectMove(mob, target, typeEffect, 75, 0, 420)
-	else
-		local typeEffect = tpz.effect.CURSE_I
-		MobStatusEffectMove(mob, target, typeEffect, 50, 0, 420)
-	end
+        cursePower = 75
+    end
+
+    local typeEffect = tpz.effect.CURSE_I
+	MobStatusEffectMove(mob, target, typeEffect, cursePower, 0, 420)
 
     return dmg
 end
