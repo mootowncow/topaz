@@ -139,6 +139,10 @@ Smite
 https://github.com/LandSandBoat/server/commit/1377c5e38a0ecb1e172880f45dbe556c96a01a84
 
 
+
+Inventory shouldn't be re-organized on zone, check whats being sent on zone to do it
+In game clock addon next to inventory space
+
 **** NOW ***
 Shikigami weapon pathing
 Item/trait that earth spell mp cost -50%, another item/trait wind spell cast time -50%, another item/trait water mp cost -50%
@@ -155,8 +159,12 @@ Lyft Sword Latent when engaged: +1 refresh  some acc/attk
 Add Prime and Bonanza WS IDs
 60-80 inventory expansions from COP HNMS
 Sinker Drill and prob other BLU spells 76+ recasts are wrong
+Dibilitating Dagger +1 name too long
+Eyes on Me did 0 damage to 3 shadows(error?)
+Sinker Drill attack varies with TP (DAT)
 All offensive AOE Unbridled spells should be around mob not player
-In game clock addon next to inventory space
+Cap all GP turn ins by 1/3
+Add "You gain x Zeni" from mobs that give Zeni.
 
 Add bonusmacc row to spells.sql and other stuff then make a lua binding and use that in all luas instead of coding each ones values in every lua individually
 Especialy BLU because you can just shove a function in for dmg and not have to put in 50 params for each spell and can just get params for the spell in a single function
