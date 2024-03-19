@@ -25,6 +25,10 @@ end
 function onSpellCast(caster, target, spell)
     local params = {}
     -- This data should match information on https://www.bg-wiki.com/bg/Calculating_Blue_Magic_Damage
+    params.diff = caster:getStat(tpz.mod.CHR)-target:getStat(tpz.mod.CHR)
+    params.attribute = tpz.mod.CHR
+    params.skillType = tpz.skill.BLUE_MAGIC
+    params.bonus = 0
     local multi = 3.0
     if (caster:hasStatusEffect(tpz.effect.AZURE_LORE)) then
         multi = multi + 2.0
