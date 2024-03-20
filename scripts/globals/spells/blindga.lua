@@ -28,7 +28,7 @@ function onSpellCast(caster, target, spell)
 
 
     -- Duration, including resistance.  Unconfirmed.
-    local duration = 180
+    local duration = math.random(180, 300)
     local params = {}
     params.diff = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)
     params.attribute = tpz.mod.INT

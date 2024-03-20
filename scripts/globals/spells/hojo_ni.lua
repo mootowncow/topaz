@@ -22,7 +22,7 @@ function onSpellCast(caster, target, spell)
     params.effect = tpz.effect.SLOW
     local power = 2000
     local resist = applyResistanceEffect(caster, target, spell, params)
-    local duration =  180
+    local duration = 180
     local tier = 2
 
     TryApplyEffect(caster, target, spell, params.effect, power, 0, duration, resist, 0.5, tier)

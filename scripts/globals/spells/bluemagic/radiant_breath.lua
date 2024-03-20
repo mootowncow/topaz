@@ -39,8 +39,17 @@ function onSpellCast(caster, target, spell)
     BlueTryEnfeeble(caster, target, spell, damage, 3500, 0, 180, params)
 
     params.diff = caster:getStat(tpz.mod.MND) - target:getStat(tpz.mod.MND)
+
+    local duration = 120
+    local isMaaIllmutheBestower = target:getPool() == 2465
+
+    if isMaaIllmutheBestower then
+        duration = 30
+        target:addTP(3000)
+    end
+
     params.effect = tpz.effect.SILENCE
-    BlueTryEnfeeble(caster, target, spell, damage, 1, 0, 180, params)
+    BlueTryEnfeeble(caster, target, spell, damage, 1, 0, duration, params)
 
     return damage
 end

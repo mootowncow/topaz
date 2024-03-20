@@ -43,8 +43,17 @@ function onSpellCast(caster, target, spell)
     params.diff = dMND
     params.effect = tpz.effect.SILENCE
     local resist = applyResistanceEffect(caster, target, spell, params)
-    local duration = 180
+    local duration = 120
     local potency = 1
+
+    local isMaaIllmutheBestower = target:getPool() == 2465
+
+    if isMaaIllmutheBestower then
+        resist = 1
+        duration = 30
+        target:addTP(3000)
+    end
+
     TryApplyEffect(caster, target, spell, params.effect, potency, 0, duration, resist, 0.5)
 
     return tpz.effect.BLINDNESS

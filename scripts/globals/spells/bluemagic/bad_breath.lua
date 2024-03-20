@@ -45,8 +45,16 @@ function onSpellCast(caster, target, spell)
     params.effect = tpz.effect.SLOW
     BlueTryEnfeeble(caster, target, spell, damage, 2000, 0, 180, params)
 
+    local duration = 120
+    local isMaaIllmutheBestower = target:getPool() == 2465
+
+    if isMaaIllmutheBestower then
+        duration = 30
+        target:addTP(3000)
+    end
+
     params.effect = tpz.effect.SILENCE
-    BlueTryEnfeeble(caster, target, spell, damage, 1, 0, 180, params)
+    BlueTryEnfeeble(caster, target, spell, damage, 1, 0, duration, params)
 
     params.effect = tpz.effect.BIND
     BlueTryEnfeeble(caster, target, spell, damage, 1, 0, 45, params)

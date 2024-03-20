@@ -22,7 +22,7 @@ function onSpellCast(caster, target, spell)
 
     potency = calculatePotency(potency, spell:getSkillType(), caster, target)
 
-    local duration = 120
+    local duration = math.random(60, 120)
     local tier = 2
     local params = {}
     params.diff = dMND

@@ -43,8 +43,17 @@ function onSpellCast(caster, target, spell)
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
         return tpz.effect.SILENCE
     end
+
+    local duration = 120
+    local isMaaIllmutheBestower = target:getPool() == 2465
+
+    if isMaaIllmutheBestower then
+        duration = 30
+        target:addTP(3000)
+    end
+
     params.effect = tpz.effect.SILENCE
-    if BlueTryEnfeeble(caster, target, spell, 0, 1, 0, 180, params) then
+    if BlueTryEnfeeble(caster, target, spell, 0, 1, 0, duration, params) then
         spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
     else
         spell:setMsg(tpz.msg.basic.MAGIC_RESIST)

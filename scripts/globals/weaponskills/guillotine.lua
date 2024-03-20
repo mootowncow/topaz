@@ -36,7 +36,15 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
    
 	local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, 0, tpz.effect.SILENCE)
     if (damage > 0 and target:hasStatusEffect(tpz.effect.SILENCE) == false) and resist >= 0.5 then
-        local duration = (30 + (tp/1000 * 30))  * resist
+        local duration = (30 + (tp/1000 * 30))
+        local isMaaIllmutheBestower = target:getPool() == 2465
+
+        if isMaaIllmutheBestower then
+            resist = 1
+            duration = 30
+            target:addTP(3000)
+        end
+        duration = duration * resist
         target:addStatusEffect(tpz.effect.SILENCE, 1, 0, duration)
     end
     return tpHits, extraHits, criticalHit, damage

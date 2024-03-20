@@ -25,7 +25,7 @@ function onSpellCast(caster, target, spell)
 	--GetPlayerByID(6):PrintToPlayer(string.format("Paralyze chance: %u",potency))
     --printf("Duration : %u", duration)
     --printf("Potency : %u", potency)
-    local duration = 120
+    local duration = math.random(60, 120)
     local params = {}
     params.diff = dMND
     params.skillType = tpz.skill.ENFEEBLING_MAGIC

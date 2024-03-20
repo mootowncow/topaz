@@ -2799,6 +2799,10 @@ function TryApplyAdditionalEffect(player, target, effect, element, power, tick, 
 end
 
 function TryApplyEffect(caster, target, spell, effect, power, tick, duration, resist, resistthreshold, subpower, tier)
+    -- Dura 75 era, numerous status effect enfeebles had random durations
+    -- https://www.bluegartr.com/threads/108196-Random-Facts-Thread-Magic?p=5937222&viewfull=1#post5937222
+    -- https://forum.square-enix.com/ffxi/threads/46531?p=545503#post545503
+
     local immunities =
     {
         { tpz.effect.SLEEP_I, 1 },
