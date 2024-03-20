@@ -138,13 +138,21 @@ https://github.com/LandSandBoat/server/commit/f053b35dbc40042e3f16a1a4d22f2d3071
 Smite
 https://github.com/LandSandBoat/server/commit/1377c5e38a0ecb1e172880f45dbe556c96a01a84
 
+https://www.bg-wiki.com/ffxi/Voidwatch_Purveyor_(Ru%27Lude_Gardens)
+Conquest dump need a million for some weapons or something
+
+https://www.bluegartr.com/threads/108196-Random-Facts-Thread-Magic?p=5937222&viewfull=1#post5937222
+
 
 
 Inventory shouldn't be re-organized on zone, check whats being sent on zone to do it
 In game clock addon next to inventory space
+ Sadly, blocking Searing Serration still doesn't prevent the all stats down... Stupid hybrid ws and their magic hit.  <- Check monstertpmoves logic for magic/hybrid
 
 **** NOW ***
 Shikigami weapon pathing
+Max HP boost trait completely bugged? I lose HP from setting it on BLU. Mobs had issues with it before, too. (Check LSB/ASB where they changed mob HP logic?)
+Super linking doesn't properly work in BCNM's anymore?
 Item/trait that earth spell mp cost -50%, another item/trait wind spell cast time -50%, another item/trait water mp cost -50%
 Highest end legendaries 1 in 10000
 Finish JP for BLU BST SCH RDM
@@ -165,6 +173,7 @@ Sinker Drill attack varies with TP (DAT)
 All offensive AOE Unbridled spells should be around mob not player
 Cap all GP turn ins by 1/3
 Add "You gain x Zeni" from mobs that give Zeni.
+Amplification needs to be changed to something else
 
 Add bonusmacc row to spells.sql and other stuff then make a lua binding and use that in all luas instead of coding each ones values in every lua individually
 Especialy BLU because you can just shove a function in for dmg and not have to put in 50 params for each spell and can just get params for the spell in a single function
