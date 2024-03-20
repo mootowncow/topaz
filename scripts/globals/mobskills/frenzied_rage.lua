@@ -24,7 +24,7 @@ function onMobWeaponSkill(target, mob, skill)
     local duration = 120
 
 
-    skill:setMsg(MobBuffMove(mob, typeEffect, power, tick, duration))
+    skill:setMsg(MobBuffMove(target, typeEffect, power, tick, duration))
     tpz.pet.handleJugBuffs(target, mob, skill, typeEffect, power, tick, duration)
 
     return typeEffect

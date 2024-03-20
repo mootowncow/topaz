@@ -416,7 +416,7 @@ INSERT INTO `mob_skills` VALUES (477,221,'dark_sphere',0,7.0,2000,1500,4,0,0,0,0
 INSERT INTO `mob_skills` VALUES (478,222,'hell_slash',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (479,223,'horror_cloud',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (480,288,'petrifactive_breath',4,40.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (481,289,'frenzied_rage',0,7.0,2000,1500,4,0,0,0,0,0,0); -- Animation was 255
+INSERT INTO `mob_skills` VALUES (481,289,'frenzied_rage',0,7.0,2000,1500,1,0,0,0,0,0,0); -- Animation was 255
 INSERT INTO `mob_skills` VALUES (482,290,'pounce',0,7.0,2000,1500,4,0,0,0,1,0,0);
 INSERT INTO `mob_skills` VALUES (483,291,'charged_whisker',1,12.5,2000,2000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (484,228,'black_cloud',1,15.0,2000,1500,4,0,0,0,0,0,0);
@@ -3917,7 +3917,7 @@ INSERT INTO `mob_skills` VALUES (3950,2565,'disembowel',4,10.0,2000,1500,4,0,0,0
 INSERT INTO `mob_skills` VALUES (3951,2567,'extirpating_salvo',0,7.0,2000,1500,4,0,0,0,11,8,0); -- Jug Pet
 -- INSERT INTO `mob_skills` VALUES (3952,3696,'#2160',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3953,3697,'#2161',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3954,289,'frenzied_rage',0,7.0,2000,1500,4,0,0,0,0,0,0); -- Jug Pet
+INSERT INTO `mob_skills` VALUES (3954,289,'frenzied_rage',0,7.0,2000,1500,1,0,0,0,0,0,0); -- Jug Pet
 INSERT INTO `mob_skills` VALUES (3955,1986,'rhinowrecker',4,15.0,2000,1500,4,0,0,5,11,1,0); -- Jug Pet
 -- INSERT INTO `mob_skills` VALUES (3956,3700,'#2164',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3957,3701,'#2165',0,7.0,2000,1500,4,0,0,0,0,0,0);

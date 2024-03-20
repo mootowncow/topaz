@@ -651,9 +651,9 @@ INSERT INTO `abilities` VALUES (758,'intimidate',9,25,257,2,102,0,1,0,2000,0,6,1
 INSERT INTO `abilities` VALUES (759,'recoil_dive',9,25,257,1,102,0,1,0,2000,0,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (760,'water_wall',9,25,257,3,102,0,0,1,2000,0,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (761,'sensilla_blades',9,25,257,2,102,0,1,0,2000,0,6,18.0,0,1,60,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (762,'tegmina_buffet',9,25,257,2,102,0,0,1,2000,0,6,18.0,0,1,60,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (763,'molting_plumage',9,25,257,1,102,0,0,1,2000,0,6,18.0,0,1,60,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (764,'swooping_frenzy',9,25,257,2,102,0,0,1,2000,0,6,18.0,0,1,60,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (762,'tegmina_buffet',9,25,257,2,102,0,1,0,2000,0,6,18.0,0,1,60,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (763,'molting_plumage',9,25,257,1,102,0,1,0,2000,0,6,18.0,0,1,60,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (764,'swooping_frenzy',9,25,257,2,102,0,1,0,2000,0,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (765,'sweeping_gouge',9,25,257,1,102,0,0,0,2001,0,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (766,'zealous_snort',9,25,257,3,102,0,0,0,2000,1,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (767,'pentapeck',9,25,257,3,102,0,0,0,2000,0,7,18.0,0,1,60,0,0,NULL,0);
@@ -664,7 +664,7 @@ INSERT INTO `abilities` VALUES (771,'nepenthic_plunge',9,25,257,3,102,0,0,0,2000
 INSERT INTO `abilities` VALUES (772,'somersault',9,25,257,1,102,0,0,0,2000,0,6,19.0,0,1,60,0,0,NULL,0);
 -- INSERT INTO `abilities` VALUES (773,'pacifying_ruby',9,25,257,1,102,0,0,0,2000,0,6,19.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (774,'foul_waters',9,25,257,2,102,0,0,0,2000,0,6,19.0,0,1,60,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (775,'pestilent_plume',9,25,2,255,102,0,0,0,2000,0,6,19.0,0,1,60,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (775,'pestilent_plume',9,25,257,255,102,0,0,0,2000,0,6,19.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (776,'pecking_flurry',9,25,257,1,102,0,0,0,2000,0,6,18.1,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (777,'sickle_slash',9,25,257,1,102,0,0,0,2000,0,6,18.0,1,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (778,'acid_spray',9,25,257,1,102,0,0,0,2000,0,6,18.0,0,2,60,0,0,NULL,0);
