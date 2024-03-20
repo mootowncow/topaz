@@ -146,8 +146,11 @@ https://www.bluegartr.com/threads/108196-Random-Facts-Thread-Magic?p=5937222&vie
 
 
 Inventory shouldn't be re-organized on zone, check whats being sent on zone to do it
+Do drain TP moves work and properly remove TP from target? i.e. tp drainkiss
 In game clock addon next to inventory space
  Sadly, blocking Searing Serration still doesn't prevent the all stats down... Stupid hybrid ws and their magic hit.  <- Check monstertpmoves logic for magic/hybrid
+
+BST Jug testing, stopped at Swift Sieghard(Did it)
 
 **** NOW ***
 Shikigami weapon pathing
@@ -169,11 +172,11 @@ Add Prime and Bonanza WS IDs
 Sinker Drill and prob other BLU spells 76+ recasts are wrong
 Dibilitating Dagger +1 name too long
 Eyes on Me did 0 damage to 3 shadows(error?)
-Sinker Drill attack varies with TP (DAT)
 All offensive AOE Unbridled spells should be around mob not player
 Cap all GP turn ins by 1/3
 Add "You gain x Zeni" from mobs that give Zeni.
 Amplification needs to be changed to something else
+
 
 Add bonusmacc row to spells.sql and other stuff then make a lua binding and use that in all luas instead of coding each ones values in every lua individually
 Especialy BLU because you can just shove a function in for dmg and not have to put in 50 params for each spell and can just get params for the spell in a single function
@@ -267,8 +270,6 @@ Rune Fencer Merits:
 https://github.com/AirSkyBoat/AirSkyBoat/commit/f1c415bb239c9afdc4247eb1b2444433f8671341
 
 DATS:
-Stinking Gas is choke
-Afflatus Misery buffing auspice enspell effect
 Mystic Boon / Asylum and Footwork descriptions
 Noble's / Aristocrat's Tunic rare/ex
 Buff Noble's/ Aristocrat's Crown / Mitts / Slacks  / Pumps  
