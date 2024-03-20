@@ -42,7 +42,7 @@ function onSpellCast(caster, target, spell)
     params.int_wsc = 0.0
     params.mnd_wsc = 0.2
     params.chr_wsc = 0.0
-	params.attkbonus = 1.25
+	params.attkbonus = 1.50
     params.CritTPModifier = true
     damage = BluePhysicalSpell(caster, target, spell, params)
 	local amorph = (target:getSystem() == 1)
