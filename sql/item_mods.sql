@@ -22220,8 +22220,8 @@ INSERT INTO `item_mods` VALUES (17754,57,-10);
 INSERT INTO `item_mods` VALUES (17755,5,20); -- Beast Slayer
 INSERT INTO `item_mods` VALUES (17755,9,3);
 INSERT INTO `item_mods` VALUES (17755,10,3);
-INSERT INTO `item_mods` VALUES (17755,230,5); -- Beast Killer
-INSERT INTO `item_mods` VALUES (17755,1230,5); -- Beast Killer Circle +5%
+INSERT INTO `item_mods` VALUES (17755,230,15); -- Beast Killer 
+INSERT INTO `item_mods` VALUES (17755,1230,15); -- Beast Killer Circle +15% (https://www.bg-wiki.com/ffxi/Beast_Slayer)
 INSERT INTO `item_mods` VALUES (17756,109,5);     -- (Sinfender)
 INSERT INTO `item_mods` VALUES (17756,610,25);    -- Vorpal Blade: DMG: +25%
 INSERT INTO `item_mods` VALUES (17757,28,10);    -- Merveilleuse: MAB +10
