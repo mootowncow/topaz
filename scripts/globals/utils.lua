@@ -1103,7 +1103,10 @@ end
 
 function utils.PrintTable(table)
     local point = paths[currentPath]
+    local line = ""
     for key, value in pairs(point) do
-        print(key, value)
+        line = line .. key .. "=" .. value .. ", "
     end
+    print(line:sub(1, -3))  -- Remove the last ", " from the line and print
 end
+
