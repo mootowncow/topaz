@@ -7,14 +7,14 @@ require("scripts/globals/status")
 require("scripts/globals/pathfind")
 require("scripts/globals/mobs")
 -----------------------------------
-    local Mines =
-    {
-        [1] = 17072173,
-        [2] = 17072174,
-        [3] = 17072175,
-        [4] = 17072176,
-        [5] = 17072177,
-    }
+local Mines =
+{
+    [1] = 17072173,
+    [2] = 17072174,
+    [3] = 17072175,
+    [4] = 17072176,
+    [5] = 17072177,
+}
 
 function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 300)
@@ -115,19 +115,21 @@ function onMobFight(mob, target)
 	end
 
 	local Pos = mob:getPos()
-	if Pos.x == -182 and Pos.y == -8 and Pos.z == -20 then
+	if (Pos.x == -182) and (LayingMines == 1) then
         for v = 17072173, 17072177, 1 do
             DespawnMob(v)   
         end
+        mob:disengage()
  		mob:SetAutoAttackEnabled(true)
         mob:SetMagicCastingEnabled(true)
         mob:SetMobAbilityEnabled(true)
         mob:setLocalVar("LayingMines", 0)
 	end
-	if Pos.x == 9 and Pos.y == -4 and Pos.z == -20 then
+	if (Pos.x == 9) and (LayingMinesMultuple == 1) then
         for v = 17072173, 17072177, 1 do
             DespawnMob(v)   
         end
+        mob:disengage()
  		mob:SetAutoAttackEnabled(true)
         mob:SetMagicCastingEnabled(true)
         mob:SetMobAbilityEnabled(true)
