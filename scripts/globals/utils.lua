@@ -1100,3 +1100,10 @@ function utils.CalculateSpellTPGiven(caster, target, totalhits)
 
     return TP
 end
+
+function utils.PrintTable(table)
+    local point = paths[currentPath]
+    for key, value in pairs(point) do
+        print(key, value)
+    end
+end
