@@ -16,6 +16,14 @@ local Mines =
     [5] = 17072177,
 }
 
+local paths =
+{
+    { X=-182, Y=-8, Z=-20 },
+    { X=-111, Y=-8, Z=-59.668365 },
+    { X=-29,  Y=-4, Z=-99.536736 },
+    { X=50,   Y=-4, Z=-60.218395 }
+}
+
 function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 300)
 end
@@ -32,6 +40,7 @@ function onMobSpawn(mob)
     mob:SetAutoAttackEnabled(true)
     mob:SetMagicCastingEnabled(true)
     mob:SetMobAbilityEnabled(true)
+    mob:setLocalVar("path", 1)
     mob:setLocalVar("[rage]timer", 3600) -- 60 minutes
 end
 
@@ -94,8 +103,7 @@ function onMobFight(mob, target)
                 mob:setLocalVar("MineLayingDelay", BattleTime + 3)
                 mob:setLocalVar("LayingMines", 1)
             end
-            local pos = mob:getSpawnPos()
-		    mob:pathTo(-182, -8, -20)
+		    PathToNextPoint(mob)
 		    mob:SetAutoAttackEnabled(false)
             mob:SetMagicCastingEnabled(false)
             mob:SetMobAbilityEnabled(false)
@@ -105,8 +113,7 @@ function onMobFight(mob, target)
                 mob:setLocalVar("MineLayingDelay", BattleTime + 3)
                 mob:setLocalVar("LayingMinesMultuple", 1)
             end
-            local pos = mob:getSpawnPos()
-		    mob:pathTo(9, -4, -20)
+		    PathToNextPoint(mob)
 		    mob:SetAutoAttackEnabled(false)
             mob:SetMagicCastingEnabled(false)
             mob:SetMobAbilityEnabled(false)
@@ -114,27 +121,7 @@ function onMobFight(mob, target)
         end
 	end
 
-	local Pos = mob:getPos()
-	if (Pos.x == -182) and (LayingMines == 1) then
-        for v = 17072173, 17072177, 1 do
-            DespawnMob(v)   
-        end
-        mob:disengage()
- 		mob:SetAutoAttackEnabled(true)
-        mob:SetMagicCastingEnabled(true)
-        mob:SetMobAbilityEnabled(true)
-        mob:setLocalVar("LayingMines", 0)
-	end
-	if (Pos.x == 9) and (LayingMinesMultuple == 1) then
-        for v = 17072173, 17072177, 1 do
-            DespawnMob(v)   
-        end
-        mob:disengage()
- 		mob:SetAutoAttackEnabled(true)
-        mob:SetMagicCastingEnabled(true)
-        mob:SetMobAbilityEnabled(true)
-        mob:setLocalVar("LayingMinesMultuple", 0)
-	end
+    StopPathing(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
@@ -147,5 +134,61 @@ function onMobDeath(mob, player, isKiller, noKiller)
 	end
 	if isKiller and math.random(1,100) <= 15 then 
 		player:addTreasure(5735, mob)--Cotton Coin Purse
+    end
+end
+
+function PathToNextPoint(mob)
+    local currentPath = mob:getLocalVar("path")
+    local Pos = mob:getPos()
+
+    if currentPath == 1 then
+        mob:pathTo(paths[currentPath].X, paths[currentPath].Y, paths[currentPath].Z)
+        mob:setLocalVar("pathingState", 0)
+    elseif currentPath == 2 then
+        mob:pathTo(paths[currentPath].X, paths[currentPath].Y, paths[currentPath].Z)
+    elseif currentPath == 3 then
+        mob:pathTo(paths[currentPath].X, paths[currentPath].Y, paths[currentPath].Z)
+    elseif currentPath == 4 then
+        mob:pathTo(paths[currentPath].X, paths[currentPath].Y, paths[currentPath].Z)
+        mob:setLocalVar("pathingState", 1)
+    end
+end
+
+function StopPathing(mob)
+    local currentPath = mob:getLocalVar("path") 
+    if (currentPath == 0) then
+        return
+    end
+
+	local Pos = mob:getPos()
+    local currentPosx = paths[currentPath].X
+
+	if (Pos.x == currentPosx) then
+        local LayingMines = mob:getLocalVar("LayingMines")
+        local LayingMinesMultuple = mob:getLocalVar("LayingMinesMultuple")
+        local backwards = mob:getLocalVar("pathingState")
+        if (LayingMinesMultuple == 1) or (LayingMines == 1) then
+            for v = 17072173, 17072177, 1 do
+                DespawnMob(v)   
+            end
+            mob:clearPath()
+ 		    mob:SetAutoAttackEnabled(true)
+            mob:SetMagicCastingEnabled(true)
+            mob:SetMobAbilityEnabled(true)
+            mob:setLocalVar("LayingMines", 0)
+            mob:setLocalVar("LayingMinesMultuple", 0)
+            if (backwards == 1) then
+                mob:setLocalVar("path", currentPath -1)
+            else
+                mob:setLocalVar("path", currentPath +1)
+            end
+	    end
+    end
+end
+
+function PrintTable(table)
+    local point = paths[currentPath]
+    for key, value in pairs(point) do
+        print(key, value)
     end
 end
