@@ -150,11 +150,16 @@ Do drain TP moves work and properly remove TP from target? i.e. tp drainkiss
 In game clock addon next to inventory space
  Sadly, blocking Searing Serration still doesn't prevent the all stats down... Stupid hybrid ws and their magic hit.  <- Check monstertpmoves logic for magic/hybrid
 
-BST Jug testing, stopped at Swift Sieghard(Did it)
 
 **** NOW ***
+Cheese Hoarder Gigiroon pathing, needs a set path he always runs and multiple bombs being RNG. Current path he can go same place x2 and 
+never move and gets stuck in wall
+Move Apollyon NE limbus Gigas to correc spots https://www.bg-wiki.com/ffxi/Apollyon_NE
 Shikigami weapon pathing
 Max HP boost trait completely bugged? I lose HP from setting it on BLU. Mobs had issues with it before, too. (Check LSB/ASB where they changed mob HP logic?)
+https://github.com/LandSandBoat/server/issues/5127
+
+Storage NPCs for alex forgotten items etc
 Super linking doesn't properly work in BCNM's anymore?
 Item/trait that earth spell mp cost -50%, another item/trait wind spell cast time -50%, another item/trait water mp cost -50%
 Highest end legendaries 1 in 10000
@@ -176,6 +181,7 @@ All offensive AOE Unbridled spells should be around mob not player
 Cap all GP turn ins by 1/3
 Add "You gain x Zeni" from mobs that give Zeni.
 Amplification needs to be changed to something else
+Limbus Chests AOE animation and like 100 yard range or w/e (Edit the skills SQL to be AOE and 100 yards)
 
 
 Add bonusmacc row to spells.sql and other stuff then make a lua binding and use that in all luas instead of coding each ones values in every lua individually
