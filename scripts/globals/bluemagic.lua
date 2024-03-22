@@ -98,6 +98,12 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
     -- Reset message incase the spell is AOE and misses one of it's targets
     spell:setMsg(tpz.msg.basic.MAGIC_DMG)
 
+    -- Perfect dodge
+    if target:hasStatusEffect(tpz.effect.PERFECT_DODGE)
+        spell:setMsg(tpz.msg.basic.MAGIC_FAIL)
+        return 0
+    end
+
     -- store related values
     local magicskill = caster:getSkillLevel(tpz.skill.BLUE_MAGIC) -- skill + merits + equip bonuses
     local isRanged = params.attackType == tpz.attackType.RANGED
