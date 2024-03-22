@@ -99,7 +99,7 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
     spell:setMsg(tpz.msg.basic.MAGIC_DMG)
 
     -- Perfect dodge
-    if target:hasStatusEffect(tpz.effect.PERFECT_DODGE)
+    if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
         spell:setMsg(tpz.msg.basic.MAGIC_FAIL)
         return 0
     end
