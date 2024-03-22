@@ -229,10 +229,6 @@ end
 -- NPC Assai Nybaem
 -----------------------------------
 tpz.voidwalker.npcOnTrigger = function(player, npc)
-    if tpz.settings.main.ENABLE_VOIDWALKER ~= 1 then
-        return
-    end
-
     local currentKIS = getCurrentKIsBitsFromPlayer(player)
     player:startEvent(10120, currentKIS)
 end
@@ -787,6 +783,7 @@ tpz.voidwalker.onMobSpawn = function(mob)
     mob:setMod(tpz.mod.VIT, 115)
     mob:setMod(tpz.mod.MOVE, 50)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:setStatus(tpz.status.INVISIBLE)
     mob:hideHP(true)
     mob:hideName(true)
@@ -852,11 +849,11 @@ tpz.voidwalker.onMobDespawn = function(mob)
     DespawnPet(mob)
 end
 
-tpz.voidwalker.onMobDeath = function(mob, player, optParams, keyItem)
+tpz.voidwalker.onMobDeath = function(mob, player, isKiller, keyItem)
     if player then
         local popkeyitem = mob:getLocalVar("[VoidWalker]PopedWith")
 
-        if optParams.isKiller then
+        if isKiller then
             local playerpoped = GetPlayerByID(mob:getLocalVar("[VoidWalker]PopedBy"))
             local alliance    = player:getAlliance()
             local outOfParty  = true

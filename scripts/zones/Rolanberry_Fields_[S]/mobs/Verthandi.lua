@@ -27,5 +27,5 @@ end
 
 function onMobDeath(mob, player, isKiller, noKiller)
     player:addTitle(tpz.title.VERTHANDI_ENSNARER)
-    tpz.voidwalker.onMobDeath(mob, player, isKiller, tpz.keyitem.BLACK_ABYSSITE)
+    tpz.voidwalker.onMobDeath(mob, player, isKiller, tpz.keyItem.BLACK_ABYSSITE)
 end
