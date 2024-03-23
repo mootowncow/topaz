@@ -16215,23 +16215,37 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                 PEntity->PAI->MobSkill(PTarget->targid, skillid);
             else if (dynamic_cast<CMobEntity*>(PEntity))
             {
-                if (luautils::OnMobSkillCheck(PTarget, PEntity, PMobSkill) == 0) // A script says that the move in question is valid
+                // TODO: PTarget is wrong and crashes the gameeverything
+                //if (luautils::OnMobSkillCheck(PTarget, PEntity, PMobSkill) == 0) // A script says that the move in question is valid
+                //{
+                //    if (PMobSkill->getValidTargets() & TARGET_ENEMY)
+                //    {
+                //        PEntity->PAI->MobSkill(static_cast<CMobEntity*>(PEntity)->GetBattleTargetID(), skillid);
+
+                //        // Set message for "Player" and Fomor TP moves
+                //        if (PMobSkill->getID() <= 255)
+                //        {
+                //            PMob->loc.zone->PushPacket(PMob, CHAR_INRANGE, new CMessageBasicPacket(PMob, PMob, 0, PMobSkill->getID(), MSGBASIC_READIES_WS));
+                //        }
+                //    }
+                //    else if (PMobSkill->getValidTargets() & TARGET_SELF)
+                //    {
+                //        PEntity->PAI->MobSkill(PEntity->targid, skillid);
+                //    }
+
+                if (PMobSkill->getValidTargets() & TARGET_ENEMY)
                 {
-                    if (PMobSkill->getValidTargets() & TARGET_ENEMY)
-                    {
-                        PEntity->PAI->MobSkill(static_cast<CMobEntity*>(PEntity)->GetBattleTargetID(), skillid);
+                    PEntity->PAI->MobSkill(static_cast<CMobEntity*>(PEntity)->GetBattleTargetID(), skillid);
 
-                        // Set message for "Player" and Fomor TP moves
-                        if (PMobSkill->getID() <= 255)
-                        {
-                            PMob->loc.zone->PushPacket(PMob, CHAR_INRANGE, new CMessageBasicPacket(PMob, PMob, 0, PMobSkill->getID(), MSGBASIC_READIES_WS));
-                        }
-                    }
-                    else if (PMobSkill->getValidTargets() & TARGET_SELF)
+                    // Set message for "Player" and Fomor TP moves
+                    if (PMobSkill->getID() <= 255)
                     {
-                        PEntity->PAI->MobSkill(PEntity->targid, skillid);
+                        PMob->loc.zone->PushPacket(PMob, CHAR_INRANGE, new CMessageBasicPacket(PMob, PMob, 0, PMobSkill->getID(), MSGBASIC_READIES_WS));
                     }
-
+                }
+                else if (PMobSkill->getValidTargets() & TARGET_SELF)
+                {
+                    PEntity->PAI->MobSkill(PEntity->targid, skillid);
                 }
             }
             if (!PMobSkill->isTwoHour())
