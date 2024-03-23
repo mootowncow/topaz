@@ -13,6 +13,7 @@ function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.DRAW_IN, 2) 
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
+    mob:addImmunity(tpz.immunity.SILENCE)  -- Temp until added to SQL
     --mob:AnimationSub(0)
 end
 
