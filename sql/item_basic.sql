@@ -2113,7 +2113,7 @@ INSERT INTO `item_basic` VALUES (2223,0,'halvung_brass_key','halv._brass_key',1,
 INSERT INTO `item_basic` VALUES (2224,0,'mamook_silverscale_key','m._silverscale_key',1,61524,0,1,0);
 INSERT INTO `item_basic` VALUES (2225,0,'mamook_tanscale_key','m._tanscale_key',1,61524,0,1,0);
 INSERT INTO `item_basic` VALUES (2226,0,'mamook_blackscale_key','m._blackscale_key',1,61524,0,1,0);
-INSERT INTO `item_basic` VALUES (2227,0,'mamool_ja_collar','mamool_ja_collar',1,4100,50,1,0);
+INSERT INTO `item_basic` VALUES (2227,0,'mamool_ja_collar','mamool_ja_collar',99,4100,50,1,0);
 INSERT INTO `item_basic` VALUES (2228,0,'chunk_of_luminium_ore','luminium_ore',1,4,39,0,990);	-- stack changed from 12 to 1
 INSERT INTO `item_basic` VALUES (2229,0,'vial_of_chimera_blood','chimera_blood',99,4,44,0,240);
 INSERT INTO `item_basic` VALUES (2230,0,'lambent_fire_cell','lam._fire_cell',99,4100,46,1,0);
