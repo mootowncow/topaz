@@ -535,6 +535,7 @@ INSERT INTO `mob_family_mods` VALUES (621,28,30,0);     -- Lynx Familiar +30 MAB
 INSERT INTO `mob_family_mods` VALUES (559,30,50,0);     -- Flytrap Familiar +50 MACC
 INSERT INTO `mob_family_mods` VALUES (559,29,50,0);     -- Flytrap Familiar +50 MDB
 INSERT INTO `mob_family_mods` VALUES (559,63,25,0);     -- Flytrap Familiar +25% Def
+INSERT INTO `mob_family_mods` VALUES (577,62,20,0);		-- Hippogryph Familiar +20% Attack
 INSERT INTO `mob_family_mods` VALUES (581,62,30,0);		-- Slime Familiar +30% Attack
 INSERT INTO `mob_family_mods` VALUES (581,49,500,0);    -- Slime Familiar -50% Slashing
 INSERT INTO `mob_family_mods` VALUES (579,62,-20,0);    -- Slug Familiar -20% Attack
