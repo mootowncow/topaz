@@ -35,10 +35,10 @@ function onSpellCast(caster, target, spell)
     params.damageType = tpz.damageType.SLASHING
     params.scattr = SC_TRANSFIXION
     params.numhits = 1
-    params.multiplier = 2.0
-    params.tp150 = 2.1
-    params.tp300 = 2.2
-    params.azuretp = 2.0
+    params.multiplier = 3.0
+    params.tp150 = 3.2
+    params.tp300 = 3.5
+    params.azuretp = 3.5
     params.duppercap = 80
     params.str_wsc = 0.0
     params.dex_wsc = 0.5
@@ -47,6 +47,7 @@ function onSpellCast(caster, target, spell)
     params.int_wsc = 0.0
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
+    params.attkbonus = 1.50
     params.eco = ECO_UNDEAD
     damage = BluePhysicalSpell(caster, target, spell, params)
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
