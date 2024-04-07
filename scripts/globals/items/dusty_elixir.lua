@@ -3,24 +3,22 @@
 -- Item: Dusty Elixir
 -- Item Effect: Instantly restores 50% of HP and MP
 -----------------------------------------
+require("scripts/globals/settings")
+require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/items")
 
 function onItemCheck(target)
-    local result = 0
-    local mHP = target:getMaxHP()
-    local cHP = target:getHP()
-    local mMP = target:getMaxMP()
-    local cMP = target:getMP()
-
-    if mHP == cHP and mMP == cMP then
-        result = 56 -- Does not let player use item if their hp and mp are full
+    if target:getMaxHP() == target:getHP() and target:getMaxMP() == target:getMP() then
+        return tpz.msg.basic.ITEM_UNABLE_TO_USE_2
     end
-
-    return result
+    return 0
 end
 
 function onItemUse(target)
-    target:addHP(target:getMaxHP() * .50)
-    target:addMP(target:getMaxMP() * .50)
+    local item = GetItem(tpz.items.DUSTY_ELIXIR)
+    local param = item:getParam() / 100
+    target:addHP(target:getMaxHP() * param)
+    target:addMP(target:getMaxMP() * param)
     target:messageBasic(tpz.msg.basic.RECOVERS_HP_AND_MP)
 end

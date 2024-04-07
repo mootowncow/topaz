@@ -4,8 +4,8 @@
 -- Item Effect: Restores 250 HP
 -----------------------------------------
 require("scripts/globals/settings")
-require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/items")
 
 function onItemCheck(target)
     if (target:getHP() == target:getMaxHP()) then
@@ -17,5 +17,7 @@ function onItemCheck(target)
 end
 
 function onItemUse(target)
-    target:messageBasic(tpz.msg.basic.RECOVERS_HP, 0, target:addHP(250*ITEM_POWER))
-end
+    local item = GetItem(tpz.items.HI_POTION)
+    local param = item:getParam()
+    target:messageBasic(tpz.msg.basic.RECOVERS_HP, 0, target:addHP(param))
+ end

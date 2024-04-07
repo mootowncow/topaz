@@ -4,7 +4,9 @@
 -- Item Effect: Restores 60 MP
 -----------------------------------------
 require("scripts/globals/settings")
+require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/items")
 
 function onItemCheck(target)
     if (target:getMP() == target:getMaxMP()) then
@@ -16,5 +18,7 @@ function onItemCheck(target)
 end
 
 function onItemUse(target)
-    target:messageBasic(tpz.msg.basic.RECOVERS_MP, 0, target:addMP(60*ITEM_POWER))
+    local item = GetItem(tpz.items.ETHER +2)
+    local param = item:getParam()
+    target:messageBasic(tpz.msg.basic.RECOVERS_MP, 0, target:addMP(param))
 end

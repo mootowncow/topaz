@@ -3,21 +3,21 @@
 -- Item: Dusty Potion
 -- Item Effect: Instantly restores 300 HP
 -----------------------------------------
+require("scripts/globals/settings")
 require("scripts/globals/msg")
+require("scripts/globals/items")
 
 function onItemCheck(target)
-    local result = 0
-    local mHP = target:getMaxHP()
-    local cHP = target:getHP()
-
-    if mHP == cHP then
-        result = 56 -- Does not let player use item if their hp is full
+    if (target:getHP() == target:getMaxHP()) then
+        return tpz.msg.basic.ITEM_UNABLE_TO_USE
+    elseif (target:hasStatusEffect(tpz.effect.MEDICINE)) then
+        return tpz.msg.basic.ITEM_NO_USE_MEDICATED
     end
-
-    return result
+    return 0
 end
 
 function onItemUse(target)
-    target:addHP(750)
-    target:messageBasic(tpz.msg.basic.RECOVERS_HP, target, 750)
-end
+    local item = GetItem(tpz.items.DUSTY_POTION)
+    local param = item:getParam()
+    target:messageBasic(tpz.msg.basic.RECOVERS_HP, 0, target:addHP(param))
+ end

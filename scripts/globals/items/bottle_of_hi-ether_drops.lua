@@ -6,6 +6,7 @@
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/items")
 
 function onItemCheck(target)
     if (target:getMP() == target:getMaxMP()) then
@@ -17,6 +18,8 @@ function onItemCheck(target)
 end
 
 function onItemUse(target)
-    target:messageBasic(tpz.msg.basic.RECOVERS_MP, 0, target:addMP(100*ITEM_POWER))
+    local item = GetItem(tpz.items.BOTTLE_OF_HI_ETHER_DROPS)
+    local param = item:getParam()
+    target:messageBasic(tpz.msg.basic.RECOVERS_MP, 0, target:addMP(param))
     target:addStatusEffect(tpz.effect.MEDICINE, 0, 0, 180)
 end

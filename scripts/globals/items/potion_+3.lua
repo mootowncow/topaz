@@ -5,6 +5,7 @@
 -----------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/msg")
+require("scripts/globals/items")
 
 function onItemCheck(target)
     if (target:getHP() == target:getMaxHP()) then
@@ -16,5 +17,7 @@ function onItemCheck(target)
 end
 
 function onItemUse(target)
-    target:messageBasic(tpz.msg.basic.RECOVERS_HP, 0, target:addHP(200*ITEM_POWER))
-end
+    local item = GetItem(tpz.items.POTION +3)
+    local param = item:getParam()
+    target:messageBasic(tpz.msg.basic.RECOVERS_HP, 0, target:addHP(param))
+ end

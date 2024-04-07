@@ -4,7 +4,9 @@
 -- Item Effect: Restores 50% of HP and MP
 -----------------------------------------
 require("scripts/globals/settings")
+require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/items")
 
 function onItemCheck(target)
     if target:getMaxHP() == target:getHP() and target:getMaxMP() == target:getMP() then
@@ -14,7 +16,9 @@ function onItemCheck(target)
 end
 
 function onItemUse(target)
-    target:addHP(target:getMaxHP()*0.5*ITEM_POWER)
-    target:addMP(target:getMaxMP()*0.5*ITEM_POWER)
+    local item = GetItem(tpz.items.LUCID_ELIXIR_I)
+    local param = item:getParam() / 100
+    target:addHP(target:getMaxHP() * param)
+    target:addMP(target:getMaxMP() * param)
     target:messageBasic(tpz.msg.basic.RECOVERS_HP_AND_MP)
 end
