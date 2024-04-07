@@ -2041,7 +2041,7 @@ INSERT INTO `item_basic` VALUES (2151,0,'marid_hide','marid_hide',99,4,41,0,1900
 INSERT INTO `item_basic` VALUES (2152,0,'square_of_marid_leather','marid_leather',99,4,41,0,1900);
 INSERT INTO `item_basic` VALUES (2153,0,'qiqirn_sandbag','qiqirn_sandbag',99,4100,50,1,0);
 INSERT INTO `item_basic` VALUES (2154,0,'orobon_lure','orobon_lure',99,4,44,0,180);
-INSERT INTO `item_basic` VALUES (2155,0,'lesser_chigoe','lesser_chigoe',99,4,44,0,320);
+INSERT INTO `item_basic` VALUES (2155,0,'lesser_chigoe','lesser_chigoe',12,4,44,0,320);
 INSERT INTO `item_basic` VALUES (2156,0,'clump_of_imperial_tea_leaves','im._tea_leaves',99,4,59,0,4);
 INSERT INTO `item_basic` VALUES (2157,0,'imp_horn','imp_horn',99,4,42,0,519);
 INSERT INTO `item_basic` VALUES (2158,0,'hydra_fang','hydra_fang',99,4,42,0,2850);
@@ -2123,7 +2123,7 @@ INSERT INTO `item_basic` VALUES (2233,0,'lambent_wind_cell','lam._wind_cell',99,
 INSERT INTO `item_basic` VALUES (2234,0,'wailing_shell','wailing_shell',99,4,42,0,131);
 INSERT INTO `item_basic` VALUES (2235,0,'bag_of_wildgrass_seeds','wildgrass_seeds',99,4,46,0,80);
 INSERT INTO `item_basic` VALUES (2236,0,'bag_of_simsim','simsim',99,4,59,0,77);
-INSERT INTO `item_basic` VALUES (2237,0,'bag_of_imperial_flour','imperial_flour',1,4,59,0,15);
+INSERT INTO `item_basic` VALUES (2237,0,'bag_of_imperial_flour','imperial_flour',99,4,59,0,15);
 INSERT INTO `item_basic` VALUES (2238,8449,'strobe','strobe',99,4,61,0,723);
 INSERT INTO `item_basic` VALUES (2239,8450,'tension_spring','tension_spring',99,4,61,0,261);
 INSERT INTO `item_basic` VALUES (2240,8451,'inhibitor','inhibitor',99,4,61,0,397);
@@ -2314,7 +2314,7 @@ INSERT INTO `item_basic` VALUES (2424,0,'square_of_incombustible_wool','incomb._
 INSERT INTO `item_basic` VALUES (2425,0,'square_of_humidified_velvet','humid._velvet',99,4,40,0,740);
 INSERT INTO `item_basic` VALUES (2426,0,'wivre_horn','wivre_horn',99,4,42,0,742);		
 INSERT INTO `item_basic` VALUES (2427,0,'wivre_maul','wivre_maul',99,4,42,0,850);		
-INSERT INTO `item_basic` VALUES (2428,0,'wivre_hide','wivre_hide',1,4,41,0,1050);		
+INSERT INTO `item_basic` VALUES (2428,0,'wivre_hide','wivre_hide',99,4,41,0,1050);		
 INSERT INTO `item_basic` VALUES (2429,0,'phantasmal_abjuration_head','p.abjuration_hd.',1,61524,0,1,0);
 INSERT INTO `item_basic` VALUES (2430,0,'phantasmal_abjuration_body','p.abjuration_bd.',1,61524,0,1,0);
 INSERT INTO `item_basic` VALUES (2431,0,'phantasmal_abjuration_hands','p.abjuration_hn.',1,61524,0,1,0);
@@ -2404,12 +2404,12 @@ INSERT INTO `item_basic` VALUES (2514,0,'rafflesia_petal','rafflesia_petal',99,4
 INSERT INTO `item_basic` VALUES (2515,0,'sandworm_fang','sandworm_fang',99,0,42,0,178);
 INSERT INTO `item_basic` VALUES (2516,0,'sandworm_shell','sandworm_shell',99,0,42,0,178);
 INSERT INTO `item_basic` VALUES (2518,0,'smilodon_hide','smilodon_hide',99,4,41,0,480);		-- stack changed from 12 to 1
-INSERT INTO `item_basic` VALUES (2519,0,'yagudo_osode','yagudo_osode',1,4100,50,1,0);
-INSERT INTO `item_basic` VALUES (2520,0,'yagudo_kote','yagudo_kote',1,4100,50,1,0);
-INSERT INTO `item_basic` VALUES (2521,0,'gnole_claw','gnole_claw',1,4,42,0,520);
+INSERT INTO `item_basic` VALUES (2519,0,'yagudo_osode','yagudo_osode',99,4100,50,1,0);
+INSERT INTO `item_basic` VALUES (2520,0,'yagudo_kote','yagudo_kote',99,4100,50,1,0);
+INSERT INTO `item_basic` VALUES (2521,0,'gnole_claw','gnole_claw',99,4,42,0,520);
 INSERT INTO `item_basic` VALUES (2522,0,'gnat_wing','gnat_wing',99,4,40,0,74);
-INSERT INTO `item_basic` VALUES (2523,0,'peiste_skin','peiste_skin',1,4,41,0,512);
-INSERT INTO `item_basic` VALUES (2524,0,'peiste_stinger','peiste_stinger',1,4,44,0,384);
+INSERT INTO `item_basic` VALUES (2523,0,'peiste_skin','peiste_skin',99,4,41,0,512);
+INSERT INTO `item_basic` VALUES (2524,0,'peiste_stinger','peiste_stinger',99,4,44,0,384);
 INSERT INTO `item_basic` VALUES (2525,0,'bottled_pixie','bottled_pixie',1,61524,0,1,0);
 INSERT INTO `item_basic` VALUES (2526,0,'broken_mmm_fishing_rod','bkn._mmm_rod',1,28752,0,1,0);
 INSERT INTO `item_basic` VALUES (2527,0,'red_oven_mitt','red_oven_mitt',1,61524,0,1,0);
@@ -2642,8 +2642,8 @@ INSERT INTO `item_basic` VALUES (2753,0,'amphiptere_claw','amphiptere_claw',99,4
 INSERT INTO `item_basic` VALUES (2754,0,'ruszor_fang','ruszor_fang',99,4,42,0,1101);
 INSERT INTO `item_basic` VALUES (2755,0,'ruszor_hide','ruszor_hide',99,4,41,0,1101);		-- stack changed from 12 to 1
 INSERT INTO `item_basic` VALUES (2756,0,'square_of_ruszor_leather','ruszor_leather',99,4,41,0,1101);
-INSERT INTO `item_basic` VALUES (2757,0,'orcish_armor_plate','orc._armor_plate',1,61520,0,1,0);
-INSERT INTO `item_basic` VALUES (2758,0,'quadav_backscale','quadav_backscale',1,61520,0,1,0);
+INSERT INTO `item_basic` VALUES (2757,0,'orcish_armor_plate','orc._armor_plate',99,61520,0,1,0);
+INSERT INTO `item_basic` VALUES (2758,0,'quadav_backscale','quadav_backscale',99,61520,0,1,0);
 INSERT INTO `item_basic` VALUES (2759,0,'block_of_yagudo_caulk','yagudo_caulk',1,61520,0,1,0);
 INSERT INTO `item_basic` VALUES (2760,0,'ratstail_explosive','ratstail_explosive',1,28736,0,1,0);
 INSERT INTO `item_basic` VALUES (2761,0,'feyweald_log','feyweald_log',99,4,43,0,770);		-- stack changed from 12 to 1
