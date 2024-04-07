@@ -12,6 +12,14 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onPetAbility(target, pet, skill)
+    local params = {}
+    local effect = tpz.effect.RERAISE
+    local power = 4
+    local tick = 0
+    local duration = 3600
+    local bonus = 0
+    params.NO_TP_CONSUMPTION = true
+
     if not target:isPC() then
         skill:setMsg(tpz.msg.basic.SKILL_NO_EFFECT)
         return 0
@@ -20,9 +28,10 @@ function onPetAbility(target, pet, skill)
     skill:setMsg(tpz.msg.basic.SKILL_GAIN_EFFECT)
     
     if target:isDead() then
-        target:sendRaise(4) -- WINGSCUSTOM Arise too strong, raise only
+        target:sendRaise(4)
         skill:setMsg(tpz.msg.basic.NONE)
-    elseif not target:addStatusEffect(tpz.effect.RERAISE, 3, 0, 0) then -- Infinite duration http://wiki.ffo.jp/html/30976.html
+    else
+        AvatarBuffBP(pet, target, skill, effect, power, tick, duration, params, bonus)
         skill:setMsg(tpz.msg.basic.SKILL_NO_EFFECT)
     end
     

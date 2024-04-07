@@ -16,10 +16,11 @@ function onPetAbility(target, pet, skill, summoner)
     local params = {}
     local effect = tpz.effect.RERAISE
     local power = 2
+    local tick = 0
     local duration = 3600
     local bonus = 0
     params.NO_TP_CONSUMPTION = true
 
-    AvatarBuffBP(pet, target, skill, effect2, power2, tick, duration2, params, bonus)
+    AvatarBuffBP(pet, target, skill, effect, power, tick, duration, params, bonus)
     return effect
 end
