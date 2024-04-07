@@ -2051,6 +2051,7 @@ void CCharEntity::OnRaise()
     if (m_hasRaise > 0)
     {
         uint8 weaknessLvl = 1;
+        int weaknessDura = 0;
         if (StatusEffectContainer->HasStatusEffect(EFFECT_WEAKNESS))
         {
             //double weakness!
@@ -2060,18 +2061,30 @@ void CCharEntity::OnRaise()
         // Add weakness effect (75% reduction in HP/MP) if not Mijin or GM command raise
         if (GetLocalVar("MijinGakure") == 0 && GetLocalVar("GMRaise") == 0)
         {
-            // Reraise IV and Arise weakness duration is only 3 minutes
-            if (m_hasRaise == 4 || m_hasRaise == 5)
+            // Duration of Weakness varies with raise effect
+            switch (m_hasRaise)
             {
-                CStatusEffect* PWeaknessEffect = new CStatusEffect(EFFECT_WEAKNESS, EFFECT_WEAKNESS, weaknessLvl, 0, 180);
-                StatusEffectContainer->AddStatusEffect(PWeaknessEffect);
-            }
-            else
-            {
-                CStatusEffect* PWeaknessEffect = new CStatusEffect(EFFECT_WEAKNESS, EFFECT_WEAKNESS, weaknessLvl, 0, 300);
-                StatusEffectContainer->AddStatusEffect(PWeaknessEffect);
+                case 1:
+                    weaknessDura = 180;
+                    break;
+                case 2:
+                    weaknessDura = 120;
+                    break;
+                case 3:
+                    weaknessDura = 60;
+                    break;
+                case 4:
+                case 5:
+                    weaknessDura = 30;
+                    break;
+                default:
+                    weaknessDura = 180;
+                    break;
             }
         }
+
+        CStatusEffect* PWeaknessEffect = new CStatusEffect(EFFECT_WEAKNESS, EFFECT_WEAKNESS, weaknessLvl, 0, weaknessDura);
+        StatusEffectContainer->AddStatusEffect(PWeaknessEffect);
 
         double ratioReturned = 0.0f;
         uint16 hpReturned = 1;
