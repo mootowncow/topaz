@@ -829,6 +829,13 @@ uint8 CStatusEffectContainer::RemoveAllNegativeEffects()
             RemoveStatusEffect(PStatusEffect, true);
             count++;
         }
+        if (PStatusEffect->GetStatusID() == 1 &&
+            PStatusEffect->GetDuration() > 0 &&
+            !PStatusEffect->deleted)
+        {
+            RemoveStatusEffect(PStatusEffect, true);
+            count++;
+        }
         if (PStatusEffect->GetStatusID() >= 2 && PStatusEffect->GetStatusID() <= 31 &&
             PStatusEffect->GetDuration() > 0 &&
             !PStatusEffect->deleted)
