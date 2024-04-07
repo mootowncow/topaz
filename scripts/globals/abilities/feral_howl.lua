@@ -23,8 +23,8 @@ function onUseAbility(player, target, ability)
     if target:isNM() then
         duration = duration * 0.5
     end
-
     if (resist >= 0.5) and not target:hasStatusEffect(tpz.effect.TERROR) and not target:hasStatusEffect(tpz.effect.STUN) then
+        target:addStatusEffect(tpz.effect.TERROR, 1, 0, duration)
         ability:setMsg(tpz.msg.basic.JA_ENFEEB_IS)
     else
         ability:setMsg(tpz.msg.basic.JA_NO_EFFECT_2)
