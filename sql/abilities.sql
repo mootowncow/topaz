@@ -453,7 +453,7 @@ INSERT INTO `abilities` VALUES (523,'eerie_eye',15,55,4,60,174,0,0,134,2000,0,6,
 INSERT INTO `abilities` VALUES (524,'level_X_holy',15,75,4,60,173,0,0,235,2000,0,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (525,'raise_ii',15,15,35,60,174,0,0,160,2000,0,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (526,'reraise_ii',15,30,3,60,174,0,0,80,2000,0,6,18.0,0,1,60,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (527,'altana_s_favor',15,1,1,60,174,0,0,0,2000,0,6,18.0,0,1,60,0,2,NULL,0);
+INSERT INTO `abilities` VALUES (527,'altanas_favor',15,1,1,60,174,0,0,0,2000,0,6,18.0,0,1,60,0,2,NULL,0);
 INSERT INTO `abilities` VALUES (528,'moonlit_charge',15,5,4,60,173,0,0,17,2000,0,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (529,'crescent_fang',15,10,4,60,173,0,0,19,2000,0,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (530,'lunar_cry',15,21,4,60,174,0,0,41,2000,0,6,18.0,0,1,60,0,0,NULL,0);
