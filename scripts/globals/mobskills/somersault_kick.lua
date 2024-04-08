@@ -26,8 +26,9 @@ function onMobWeaponSkill(target, mob, skill)
     local dmgmod = 1.5
 
     if mob:getPool() == 9059 then -- Imperial Agent Rescue(Assault)
-        dmgmod = 5
+        dmgmod = 3
     end
+
     local params_phys = {}
     params_phys.multiplier = dmgmod
     params_phys.tp150 = 1
