@@ -6918,7 +6918,7 @@ int getSDTTier(int SDT)
                     if (PEntity->objtype == TYPE_MOB)
                     {
                         // Append this trait's modifier to the mob's saved mod state so it is included on respawn.
-                        PEntity->m_modStatSave[PTrait->getMod()] += PTrait->getValue();
+                        PEntity->m_modStatSave[PTrait->getMod()] -= PTrait->getValue();
                     }
                 }
             }   
