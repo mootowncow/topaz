@@ -14,6 +14,10 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.ATT, 711) -- 775
     mob:setMod(tpz.mod.DEF, 841) -- 894
     mob:setMod(tpz.mod.EVA, 247)  -- 275
+    mob:setMod(tpz.mod.HTHRES, 95)
+    mob:setMod(tpz.mod.SLASHRES, 95)
+    mob:setMod(tpz.mod.PIERCERES, 95)
+    mob:setMod(tpz.mod.IMPACTRES, 95)
     mob:setMod(tpz.mod.REFRESH, 50)
     mob:setMod(tpz.mod.SUSC_TO_WS_STUN,1)
     tpz.mix.jobSpecial.config(mob, {
