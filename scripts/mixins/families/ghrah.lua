@@ -54,6 +54,7 @@ g_mixins.families.ghrah = function(mob)
             mob:setSpellList(194)
             mob:setLocalVar("element", tpz.magic.ele.DARK)
         end
+        SetJob(mob)
     end)
 
     mob:addListener("ROAM_TICK", "GHRAH_RTICK", function(mob)
@@ -118,25 +119,29 @@ end
 function SetJob(mob)
     if mob:AnimationSub() == 0 then -- Ball form
         mob:setDamage(mob:getMainLvl() + 2) -- Normal weapon damage
-        mob:setMod(tpz.mod.DOUBLE_ATTACK, 0)
+        mob:delJobTraits(tpz.job.WAR, mob:getMainLvl())
+        mob:delJobTraits(tpz.job.PLD, mob:getMainLvl())
         mob:addJobTraits(tpz.job.BLM, mob:getMainLvl())
         mob:delJobTraits(tpz.job.THF, mob:getMainLvl())
         DelDefenseBonus(mob)
     elseif mob:AnimationSub() == 1 then  -- human form gives defense bonus equal to paladin of that level AND 100% defense modifier
         mob:setDamage(mob:getMainLvl() + 2) -- Normal weapon damage
-        mob:setMod(tpz.mod.DOUBLE_ATTACK, 0)
+        mob:addJobTraits(tpz.job.PLD, mob:getMainLvl())
+        mob:delJobTraits(tpz.job.WAR, mob:getMainLvl())
         mob:delJobTraits(tpz.job.THF, mob:getMainLvl())
         mob:delJobTraits(tpz.job.BLM, mob:getMainLvl())
         AddDefenseBonus(mob, 100)
     elseif mob:AnimationSub() == 2 then  -- spider form gives defense bonus equal to warrior of that level
         mob:setDamage(math.floor(mob:getWeaponDmg() * 2)) -- Weapon damage * 2
-        mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
+        mob:addJobTraits(tpz.job.WAR, mob:getMainLvl())
+        mob:delJobTraits(tpz.job.PLD, mob:getMainLvl())
         mob:delJobTraits(tpz.job.THF, mob:getMainLvl())
         mob:delJobTraits(tpz.job.BLM, mob:getMainLvl())
         AddDefenseBonus(mob, 10)
     elseif mob:AnimationSub() == 3 then  -- Bird form grants evasion and triple attack equal to appropriate level thief
         mob:setDamage(mob:getMainLvl() + 2) -- Normal weapon damage
-        mob:setMod(tpz.mod.DOUBLE_ATTACK, 0)
+        mob:delJobTraits(tpz.job.WAR, mob:getMainLvl())
+        mob:delJobTraits(tpz.job.PLD, mob:getMainLvl())
         mob:addJobTraits(tpz.job.THF, mob:getMainLvl())
         mob:delJobTraits(tpz.job.BLM, mob:getMainLvl())
         DelDefenseBonus(mob)

@@ -6881,6 +6881,11 @@ int getSDTTier(int SDT)
                     PEntity->addTrait(PTrait);
                     if (PEntity->objtype == TYPE_MOB)
                     {
+                        if (PTrait->getID() == 15) // Double Attack. Mobs are special and get 25% DA
+                        {
+                            PTrait->setValue(25);
+                        }
+
                         // Append this trait's modifier to the mob's saved mod state so it is included on respawn.
                         PEntity->m_modStatSave[PTrait->getMod()] += PTrait->getValue();
                     }
@@ -6891,7 +6896,6 @@ int getSDTTier(int SDT)
 
     void DelTraits(CBattleEntity* PEntity, TraitList_t* traitList, uint8 level)
     {
-        CCharEntity* PChar = PEntity->objtype == TYPE_PC ? static_cast<CCharEntity*>(PEntity) : nullptr;
 
         for (auto&& PTrait : *traitList)
         {
@@ -6902,9 +6906,14 @@ int getSDTTier(int SDT)
                 for (uint8 j = 0; j < PEntity->TraitList.size(); ++j)
                 {
                     CTrait* PExistingTrait = PEntity->TraitList.at(j);
-                    if (PExistingTrait->getID() == PTrait->getID())
+                    if (PExistingTrait->getID() == PTrait->getID() && PExistingTrait->getJob() == PTrait->getJob())
                     {
-                        if (PExistingTrait->getMod() == PTrait->getMod())
+                        if (PExistingTrait->getRank() == PTrait->getRank())
+                        {
+                            del = true;
+                            break;
+                        }
+                        else if (PExistingTrait->getMod() == PTrait->getMod())
                         {
                             del = true;
                             break;
