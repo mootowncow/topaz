@@ -1276,7 +1276,7 @@ INSERT INTO `mob_groups` VALUES (21,301,35,'Awzdei',960,0,778,0,0,80,83,0);
 -- 22: free
 INSERT INTO `mob_groups` VALUES (23,6179,35,'Awaern_pld',960,0,9053,0,9999,81,84,0);
 INSERT INTO `mob_groups` VALUES (24,6745,35,'Ixzdei',0,128,0,6300,0,75,75,0); -- BLM
-INSERT INTO `mob_groups` VALUES (25,2131,35,'Jailer_of_Fortitude',0,128,1397,17000,0,79,80,0);
+INSERT INTO `mob_groups` VALUES (25,2131,35,'Jailer_of_Fortitude',0,128,1397,25000,0,79,80,0);
 INSERT INTO `mob_groups` VALUES (26,2215,35,'Kfghrah_whm',0,128,0,9000,0,77,78,0);
 INSERT INTO `mob_groups` VALUES (27,4659,35,'Kfghrah_blm',0,128,0,9000,0,77,78,0);
 INSERT INTO `mob_groups` VALUES (28,4660,35,'Ixaern_drk',0,128,2844,10000,0,80,80,0);
