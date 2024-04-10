@@ -848,8 +848,8 @@ INSERT INTO `item_basic` VALUES (935,0,'ahriman_wing','ahriman_wing',99,4,44,0,3
 INSERT INTO `item_basic` VALUES (936,0,'chunk_of_rock_salt','rock_salt',99,4,44,0,4);
 INSERT INTO `item_basic` VALUES (937,0,'block_of_animal_glue','animal_glue',99,4,44,0,30);
 INSERT INTO `item_basic` VALUES (938,0,'sprig_of_papaka_grass','papaka_grass',99,4,44,0,11);
-INSERT INTO `item_basic` VALUES (939,0,'hecteyes_eye','hecteyes_eye',99,4,44,0,150);
-INSERT INTO `item_basic` VALUES (940,0,'revival_tree_root','revival_root',99,4,44,0,52);
+INSERT INTO `item_basic` VALUES (939,0,'hecteyes_eye','hecteyes_eye',12,4,44,0,150);
+INSERT INTO `item_basic` VALUES (940,0,'revival_tree_root','revival_root',12,4,44,0,52);
 INSERT INTO `item_basic` VALUES (941,0,'red_rose','red_rose',99,4,44,0,20);
 INSERT INTO `item_basic` VALUES (942,0,'philosophers_stone','phil._stone',99,4,44,0,3900);
 INSERT INTO `item_basic` VALUES (943,0,'pinch_of_poison_dust','poison_dust',99,4,44,0,81);
