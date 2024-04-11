@@ -152,16 +152,28 @@ In game clock addon next to inventory space
  Need to edit uint16 CMobSkill::getPetAnimationID() const for bps past 75. Prob just delete this all and code animationIDs into the sql
 content that spawns mobs over and over kinda like BDO trees
 Throwing weapons(Boomerangs etc) BLU and DNC can use with stats
+Add / Delete trait bugged with Max HP boost - > Maybe only delete/add grah job trats ON CHANGE and ON SPAWN so it wont spam?
+Convert set bonuses to SQL
+Bonus MACC / blu params/dmg type/etc columns in spells sql
+CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 **** NOW ***
+Goblin dice 0 TP msg?
+Full erase(benediction also) should remove inundation and stuff
+make sure players aren't getting 25% DA now, might have to set the value to 10% if player
+Jailer of Temp Uses Meikyo Shisui multiple times and should not be aggressive(always aggros on spawn but not aggressive flag). Also vulnerable to grav
+Does asylums resist work on spikes?
+Seal of genbu etc stack to 99 and not rare
+Aura pot levels need to scale based on floor, top flor 80 only
 Does mijin gakure work properly when used by NMs and such?
 17535157 Vanguard Grapplers group needs to be low level orc not high
 Steps shouldn't hit mobs with PD
-Lesser Chigoe stack to 12 in DAT
+Lesser Chigoe, Hecteyes Eyes and Revival Tree Root stack to 12 in DAT
 imperial flour stack to 99 in DAT
 Wivre hide stack to 99 in DAT
 Dibilitating Dagger +1 name too long
+Smoky etc chips stack to 1(Limbus chips) because rare
 Valor Gauntlets Shield Bash: Dispel is wrong it says Shield Bash:"Dispel
 Mob TP moves dont remove quickening flag? Maybe doesn't remove flags it should? 
 Thunderbolt 0.5s cast
@@ -169,27 +181,38 @@ Zilart mission after DM(kid zilart) and missions after work
 Make sure Rank6-10 Sandy / Bastok mission work
 Make salvage require tag again
 Make Poroggo Shifu immune to silence
-BST Relic, especially the body(wtf?)
+BST Relic, especially the body(wtf?). Maybe entire set of ready move Attack % bonus / dmg cause pet ready moves suck without attack
 DRG relic? Boots suck
 Move Apollyon NE limbus Gigas to correct spots https://www.bg-wiki.com/ffxi/Apollyon_NE
 Shikigami weapon pathing
 Spell mods missing off 75+ blu spells or at least a bunch
 Sinker Drill and prob other BLU spells 76+ recasts are wrong
 https://github.com/LandSandBoat/server/issues/5127
+Buff Charger / Jaeger / Gunner mantle
+Sky Curtana ??? should be random
+
 
 ****TEST****
 VNM's
 Peiste / Pixie BDO custom exp camps in WOTG
 Cait Sith avatar skills and fight/quests
 
+Extremely rare item dropped !!! msg and no item in pool, was a level 81+ mob. Did I miss out on super rare item or somehow bugged and procced on a < 81 level item
+but nothing is in the list for 81+ in that drop rate
+JP wiki for killer weapon/armor percentages
+Buff: https://www.bg-wiki.com/ffxi/Orange_Kuchen
+Gaze TP moves have insane bonus MACC, terror moves can be resisted normally, just terror gaze is the exception(?)
++Asylum / Misery / Auspice effect gear
 Storage NPCs for alex forgotten items etc
+"Your pet is about to expire" red text messages fopr jugs
 ENM's only take KI on completion like ISNM
 Super linking doesn't properly work in BCNM's anymore?
 Item/trait that earth spell mp cost -50%, another item/trait wind spell cast time -50%, another item/trait water mp cost -50%
 Highest end legendaries 1 in 10000
 Finish JP for BLU BST SCH RDM
-ADd JP camp for BLM + SCH(slime page in horutoto?)
+Add JP camp for BLM + SCH(slime page in horutoto?)
 Finish Escheutons
+Custom pet names for all level 76+ pets
 WS changing weapons! Like completely change the WS entirely(Lyft weapons? another set of weapons?)
 3/tick refresh body with - move speed
 Gargoyle HNM boss need to nuke when flying to bring back down immune to phys dmg in air and some stoneform mechanic where it gains HP
@@ -224,6 +247,15 @@ https://github.com/LandSandBoat/server/commit/58f87d16cd22375553890105c9ce93a438
 
 Pet magic burst msg(maybe I fixed this already too?)
 https://github.com/AirSkyBoat/AirSkyBoat/commit/24c2586c5851dfa5ec26b08fa512d097bc6adf67
+
+SMN mob pet stuff
+https://github.com/CatsAndBoats/catseyexi/commit/01aae33522052d5a04ae7b2773a8988d6ad9bfcf
+
+Velocity shot
+https://github.com/CatsAndBoats/catseyexi/commit/3fcc6a9a29b1271a8048fb75ec0cbb6d46ab55ef
+
+Trait enums
+https://github.com/CatsAndBoats/catseyexi/commit/60ac3bc5a0f031f596034fa79aeadc646706ce82
 
 Cover PDIF fixes
 https://github.com/AirSkyBoat/AirSkyBoat/commit/ab7d0174b565ea53999a0ef366d4b91e5812286a
