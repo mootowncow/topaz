@@ -143,8 +143,16 @@ enum TRAITTYPE
     TRAIT_MAGIC_ACC_BONUS     = 125,
     TRAIT_MAGIC_EVA_BONUS     = 126,
     TRAIT_SMITE               = 127,
+    TRAIT_DAMAGE_LIMIT_PLUS   = 129,
+    TRAIT_ANIMUS_SOLACE       = 130,
+    TRAIT_ANIMUS_MISERY       = 131,
+    TRAIT_CON_ANIMA           = 132,
+    TRAIT_CON_BRIO            = 133,
     TRAIT_WS_DMG_BOOST        = 134,
-    TRAIT_SHIELD_BARRIER      = 136
+    TRAIT_MAX_HP_BOOST_II     = 135,
+    TRAIT_SHIELD_BARRIER      = 136,
+    TRAIT_TANDEM_STRIKE       = 137,
+    TRAIT_TANDEM_BLOW         = 138,
   };
 
 #define MAX_TRAIT_ID    150
