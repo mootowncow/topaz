@@ -18,15 +18,18 @@ local rageStats = {
     "ATT","DEF","EVA","MACC","MATT","MEVA","MDEF",
 }
 
-local baseIncrease = 30
-local statIncrease = 100
-local hasteIncrease = 200
-local dmgIncrease = 15
+local baseIncrease = 10
+local statIncrease = 10
+local hasteIncrease = 50
+local dmgIncrease = 5
 
 g_mixins.rage = function(mob)
 
     mob:addListener("SPAWN", "RAGE_SPAWN", function(mob)
-        mob:setLocalVar("[rage]timer", 1200) -- 20 minutes
+        -- If no rage timer is set, default to 20m
+        if (mob:getLocalVar("[rage]timer") == nil) or (mob:getLocalVar("[rage]timer") == 0)
+            mob:setLocalVar("[rage]timer", 1200) -- 20 minutes
+        end
     end)
 
     mob:addListener("ENGAGE", "RAGE_ENGAGE", function(mob)
