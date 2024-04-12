@@ -27,7 +27,7 @@ g_mixins.rage = function(mob)
 
     mob:addListener("SPAWN", "RAGE_SPAWN", function(mob)
         -- If no rage timer is set, default to 20m
-        if (mob:getLocalVar("[rage]timer") == nil) or (mob:getLocalVar("[rage]timer") == 0)
+        if (mob:getLocalVar("[rage]timer") == nil) or (mob:getLocalVar("[rage]timer") == 0) then
             mob:setLocalVar("[rage]timer", 1200) -- 20 minutes
         end
     end)
