@@ -6825,6 +6825,22 @@ int getSDTTier(int SDT)
             {
                 bool add = true;
 
+                // Player DA is 10%, everything else is 25%
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (PTrait->getID() == TRAIT_DOUBLE_ATTACK)
+                    {
+                        PTrait->setValue(10);
+                    }
+                }
+                else
+                {
+                    if (PTrait->getID() == TRAIT_DOUBLE_ATTACK)
+                    {
+                        PTrait->setValue(25);
+                    }
+                }
+
                 for (uint8 j = 0; j < PEntity->TraitList.size(); ++j)
                 {
                     CTrait* PExistingTrait = PEntity->TraitList.at(j);
@@ -6881,11 +6897,6 @@ int getSDTTier(int SDT)
                     PEntity->addTrait(PTrait);
                     if (PEntity->objtype == TYPE_MOB)
                     {
-                        if (PTrait->getID() == 15) // Double Attack. Mobs are special and get 25% DA
-                        {
-                            PTrait->setValue(25);
-                        }
-
                         // Append this trait's modifier to the mob's saved mod state so it is included on respawn.
                         PEntity->m_modStatSave[PTrait->getMod()] += PTrait->getValue();
                     }
@@ -6902,6 +6913,22 @@ int getSDTTier(int SDT)
             if (level >= PTrait->getLevel() && PTrait->getLevel() > 0)
             {
                 bool del = false;
+
+                // Player DA is 10%, everything else is 25%
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (PTrait->getID() == TRAIT_DOUBLE_ATTACK)
+                    {
+                        PTrait->setValue(10);
+                    }
+                }
+                else
+                {
+                    if (PTrait->getID() == TRAIT_DOUBLE_ATTACK)
+                    {
+                        PTrait->setValue(25);
+                    }
+                }
 
                 for (uint8 j = 0; j < PEntity->TraitList.size(); ++j)
                 {
