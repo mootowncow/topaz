@@ -803,8 +803,8 @@ void CMobEntity::Spawn()
     }
 
     m_DespawnTimer = time_point::min();
-    luautils::OnMobSpawn(this);
     PAI->EventHandler.triggerListener("SPAWN", this);
+    luautils::OnMobSpawn(this);
 }
 
 void CMobEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& action)

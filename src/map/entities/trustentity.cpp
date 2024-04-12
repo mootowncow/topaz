@@ -98,8 +98,8 @@ void CTrustEntity::Spawn()
 {
     //we need to skip CMobEntity's spawn because it calculates stats (and our stats are already calculated)
     CBattleEntity::Spawn();
-    luautils::OnMobSpawn(this);
     PAI->EventHandler.triggerListener("SPAWN", this);
+    luautils::OnMobSpawn(this);
     ((CCharEntity*)PMaster)->pushPacket(new CTrustSyncPacket((CCharEntity*)PMaster, this));
 }
 
