@@ -8,7 +8,7 @@
 -- 100% - > 33% HP uses
 -- Uses: Pandemic Nip, Insipid Nip, Cimicine Discharge, Bombilation
 -- Uses(Below 33%): Emetic Discharge and the above.
--- Uses Perfect Doege sometime below 50% HP
+-- Uses Perfect Dodge sometime below 50% HP
 -----------------------------------
 require("scripts/globals/status")
 require("scripts/globals/mobs")

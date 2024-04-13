@@ -15,7 +15,6 @@
 -- Kamaitachi is heavy AoE damage, knockback, and full dispel. Full dispel can be resisted
 -- Astral Flowed at 79%(Did nothing if no elementals up)
 -- Uses Astral Flow EXACTLY every 3 minutes below 95% HP?
-
 -----------------------------------
 local ID = require("scripts/zones/Castle_Oztroja_[S]/IDs")
 require("scripts/globals/status")
