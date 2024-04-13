@@ -57,7 +57,7 @@ function onSpellCast(caster, target, spell)
         params.effect = tpz.effect.DEFENSE_DOWN
         params.bonus = BlueHandleCorrelationMACC(caster, target, spell, params, 125)
         local resist = applyResistanceEffect(caster, target, spell, params)
-        local power = 33
+        local power = 20
         -- Check for defense down landing
         if (resist >= 0.5) then
             target:addStatusEffect(params.effect, power, 0, 180)

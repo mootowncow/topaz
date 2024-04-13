@@ -52,7 +52,7 @@ function onSpellCast(caster, target, spell)
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
     params.bonus = BlueHandleCorrelationMACC(caster, target, spell, params, 125)
-    local power = 25
+    local power = 15
     -- Spell physically hit, check for additional effect proccing
     if (spell:getMsg() ~= tpz.msg.basic.MAGIC_FAIL) then
         params.effect = tpz.effect.ATTACK_DOWN
