@@ -359,8 +359,8 @@ tpz.shop =
                 5148,    1250,      tpz.ki.RHAPSODY_IN_CRIMSON, -- Squid Sushi
                 5176,    1000,      tpz.ki.RHAPSODY_IN_CRIMSON, -- Bream Sushi
                 5178,    1666,      tpz.ki.RHAPSODY_IN_CRIMSON, -- Dorado Sushi
-                5775,     500,      tpz.ki.RHAPSODY_IN_WHITE,   -- Chocolate Crepe
-                5766,    1000,      tpz.ki.RHAPSODY_IN_WHITE,   -- Butter Crepe
+                -- 5775,     500,      tpz.ki.RHAPSODY_IN_WHITE,   -- Chocolate Crepe
+                -- 5766,    1000,      tpz.ki.RHAPSODY_IN_WHITE,   -- Butter Crepe
                 4413,     120,      tpz.ki.RHAPSODY_IN_WHITE,   -- Apple Pie
                 4421,     416,      tpz.ki.RHAPSODY_IN_AZURE,   -- Melon Pie
                 4446,     250,      tpz.ki.RHAPSODY_IN_UMBER,   -- Pumpkin Pie
