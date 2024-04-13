@@ -630,6 +630,9 @@ function MobHPBasedMove(mob, target, percent, base, element, cap, isSuicide)
     -- Used for mob suicide moves
     -- Needed or else additional targets beyond first will take 0 damage
     if (isSuicide ~= nil) then
+        -- Set HP used for suicide dmg calculation
+        mob:setLocalVar("self-destruct_hp", mob:getHP())
+
         mobHP = mob:getLocalVar("self-destruct_hp") 
     end
 
