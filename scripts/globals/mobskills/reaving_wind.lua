@@ -18,6 +18,7 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local reset = 0
+    local targetTP = target:getTP()
     if (target:getTP() == 0) then
         skill:setMsg(tpz.msg.basic.SKILL_MISS) -- no effect
     else
@@ -28,5 +29,5 @@ function onMobWeaponSkill(target, mob, skill)
 	mob:setLocalVar("ReavingWindAura", os.time() + 60)
 	mob:setLocalVar("KnockBackTick", os.time() + 6)
 	
-    return reset
+    return targetTP
 end

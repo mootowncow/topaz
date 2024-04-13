@@ -15,9 +15,10 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local tpReduced = 0
+    local targetTP = target:getTP()
     target:setTP(tpReduced)
 
     skill:setMsg(tpz.msg.basic.TP_REDUCED)
 
-    return tpReduced
+    return targetTP
 end
