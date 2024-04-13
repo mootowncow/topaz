@@ -12,7 +12,7 @@
 -- 100-77%: 1 Clone
 -- 77%-60%: 2 Clones
 -- 60%-40%: 3 Clones
--- 40- ???: 4 Clones
+-- 0%-39% 4 Clones
 -- Clones have exact same stats/immunities/spellcasting/ra AI etc as main boss except ~200 HP
 -- Clones sit at 1 HP then despawn after a few seconds
 -- Used Mijin Gakure at 1%, died and dropped loot from it.
@@ -41,6 +41,7 @@ function onMobSpawn(mob)
     end
     mob:setMod(tpz.mod.DOUBLE_ATTACK, 100)
     mob:setMod(tpz.mod.NINJUTSU_NEVER_MISS, 1)
+    mob:setLocalVar("utsuTimer", 0)
     mob:setUnkillable(true)
 end
 
@@ -94,6 +95,7 @@ function onMobFight(mob, target)
                     currentClone:updateEnmity(target)
                 end
             end
+            mob:setLocalVar("utsuTimer", os.time() + 45)
         end
     end)
 
@@ -108,19 +110,24 @@ function onMobFight(mob, target)
 end
 
 function onMonsterMagicPrepare(mob,target)
-local spellList =
-{
-    [1] = 345, -- Hojo: Ni
-    [2] = 342, -- Kurayami: Ni
-    [3] = 348,  -- Jubaku: Ni
-    [4] = 351, -- Dokumori: Ni
-}
-    -- Only casts Ususemi when no shadows are active
-
-    if GetShadowCount(mob) > 0 then
-        return spellList[math.random(#spellList)]
-    else
+    local spellList =
+    {
+        [1] = 345, -- Hojo: Ni
+        [2] = 342, -- Kurayami: Ni
+        [3] = 348,  -- Jubaku: Ni
+        [4] = 351, -- Dokumori: Ni
+    }
+    -- Only casts Ususemi when no shadows are active, every 45 seconds
+    local utsuTimer = mob:getLocalVar("utsuTimer")
+    local time = os.time()
+    print(time)
+    print(utsuTimer)
+    if os.time() > utsuTimer then
         return 339 -- Utsusemi: Ni
+    end
+
+    if GetShadowCount(mob) > 0 or os.time() < utsuTimer then
+        return spellList[math.random(#spellList)]
     end
 end
 
