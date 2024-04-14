@@ -2061,7 +2061,7 @@ INSERT INTO `item_basic` VALUES (2171,0,'colibri_beak','colibri_beak',99,4,42,0,
 INSERT INTO `item_basic` VALUES (2172,0,'hydra_scale','hydra_scale',99,4,42,0,1900);
 INSERT INTO `item_basic` VALUES (2173,0,'wamoura_cocoon','wam._cocoon',99,4,40,0,39);
 INSERT INTO `item_basic` VALUES (2174,0,'archaic_mirror','archaic_mirror',1,61524,0,1,0);
-INSERT INTO `item_basic` VALUES (2175,0,'chunk_of_flan_meat','flan_meat',99,4,44,0,35);
+INSERT INTO `item_basic` VALUES (2175,0,'chunk_of_flan_meat','flan_meat',12,4,44,0,35);
 INSERT INTO `item_basic` VALUES (2176,0,'fire_card','fire_card',99,4,36,0,12);
 INSERT INTO `item_basic` VALUES (2177,0,'ice_card','ice_card',99,4,36,0,12);
 INSERT INTO `item_basic` VALUES (2178,0,'wind_card','wind_card',99,4,36,0,12);
@@ -2115,7 +2115,7 @@ INSERT INTO `item_basic` VALUES (2225,0,'mamook_tanscale_key','m._tanscale_key',
 INSERT INTO `item_basic` VALUES (2226,0,'mamook_blackscale_key','m._blackscale_key',1,61524,0,1,0);
 INSERT INTO `item_basic` VALUES (2227,0,'mamool_ja_collar','mamool_ja_collar',99,4100,50,1,0);
 INSERT INTO `item_basic` VALUES (2228,0,'chunk_of_luminium_ore','luminium_ore',1,4,39,0,990);	-- stack changed from 12 to 1
-INSERT INTO `item_basic` VALUES (2229,0,'vial_of_chimera_blood','chimera_blood',99,4,44,0,240);
+INSERT INTO `item_basic` VALUES (2229,0,'vial_of_chimera_blood','chimera_blood',12,4,44,0,240);
 INSERT INTO `item_basic` VALUES (2230,0,'lambent_fire_cell','lam._fire_cell',99,4100,46,1,0);
 INSERT INTO `item_basic` VALUES (2231,0,'lambent_water_cell','lam._water_cell',99,4100,46,1,0);
 INSERT INTO `item_basic` VALUES (2232,0,'lambent_earth_cell','lam._earth_cell',99,4100,46,1,0);
