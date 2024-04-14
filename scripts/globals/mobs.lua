@@ -767,9 +767,11 @@ function AddMobAura(mob, target, radius, effect, power, duration, subpower, aura
     if (auraNumber == nil) then
         auraNumber = 1
     end
+
     if (subpower == nil) then
         subpower = 0
     end
+
     local auraDuration = mob:getLocalVar("auraDuration" .. auraNumber)
     if (os.time() >= auraDuration) then
         mob:setLocalVar("auraDuration" .. auraNumber, os.time() + duration)
@@ -781,6 +783,16 @@ function AddMobAura(mob, target, radius, effect, power, duration, subpower, aura
                 local buffEffect = v:getStatusEffect(effect)
                 buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
                 buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                if (v:getPet()) then
+                    local pet = v:getPet()
+                    if (mob:checkDistance(pet) <= radius) then
+                        pet:delStatusEffectSilent(effect)
+                        pet:addStatusEffectEx(effect, effect, power, 3, duration, 0, subpower, 0)
+                        local buffEffect = pet:getStatusEffect(effect)
+                        buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
+                        buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                    end
+                end
             end
         end
     end
