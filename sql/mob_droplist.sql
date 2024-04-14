@@ -138,7 +138,7 @@ INSERT INTO `mob_droplist` VALUES (21,0,0,1000,646,150); -- Chunk of adaman ore
 INSERT INTO `mob_droplist` VALUES (21,0,0,1000,3344,240); -- Clump of red pondweed
 INSERT INTO `mob_droplist` VALUES (21,0,0,1000,12361,150); -- Sipar
 INSERT INTO `mob_droplist` VALUES (21,0,0,1000,13794,100); -- Heavy cuirass
-INSERT INTO `mob_droplist` VALUES (22,0,0,1000,1869,240);   -- Lamia / Lamie Necromancer (Caedarva Mire
+INSERT INTO `mob_droplist` VALUES (22,0,0,1000,1869,240);   -- Lamia / Lamie Necromancer (Caedarva Mire)
 INSERT INTO `mob_droplist` VALUES (22,0,0,1000,2219,150);   -- Lamian fang key
 INSERT INTO `mob_droplist` VALUES (22,0,0,1000,1869,240);
 INSERT INTO `mob_droplist` VALUES (23,2,0,1000,748,0); -- Adaman Quadav
@@ -10762,7 +10762,7 @@ INSERT INTO `mob_droplist` VALUES (1987,0,0,1000,2523,50);
 INSERT INTO `mob_droplist` VALUES (1987,0,0,1000,2524,100);
 INSERT INTO `mob_droplist` VALUES (1988,0,0,1000,854,150);
 INSERT INTO `mob_droplist` VALUES (1988,0,0,1000,4435,240);
-INSERT INTO `mob_droplist` VALUES (1988,0,0,1000,12382,1000);	-- (Pelican) Astral Aspis
+INSERT INTO `mob_droplist` VALUES (1988,0,0,1000,12382,1000);	-- (Pelican) Necromancer's Aspis
 INSERT INTO `mob_droplist` VALUES (1989,0,0,1000,5735,1000);
 INSERT INTO `mob_droplist` VALUES (1989,0,0,1000,14553,190);
 INSERT INTO `mob_droplist` VALUES (1989,0,0,1000,15640,60);
