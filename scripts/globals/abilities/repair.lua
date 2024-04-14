@@ -104,6 +104,11 @@ function onUseAbility(player, target, ability)
         totalHealing = diff
     end
 
+    -- Handle Zombie
+    if pet:hasStatusEffect(tpz.effect.CURSE_II) then
+        totalHealing = 0
+    end
+
     pet:addHP(totalHealing)
     pet:wakeUp()
 
