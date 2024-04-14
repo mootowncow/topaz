@@ -21,13 +21,12 @@ end
 function onTrigger(player, npc)
     local lostBookQuestStatus = player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.THE_LOST_BOOK)
     local lostBookProgress = player:getCharVar("TheLostBookProgress")
-    local pickupReady = vanaDay() > player:getCharVar("LostBookTrade")
 
     if lostBookProgress == 3 then
         player:startEvent(145) -- Player is told to get Vellum and LYNX_PELT
     elseif lostBookProgress == 4 then
         player:startEvent(149) -- Reminder to get vellum and LYNX_PELT
-    elseif lostBookProgress == 5 and pickupReady then
+    elseif lostBookProgress == 5 then
         player:startEvent(147) -- Quest Complete CS
     end
     -- no CS or dialog found for the 1 day wait
@@ -42,7 +41,6 @@ function onEventFinish(player, csid, option)
     elseif csid == 146 then
         player:setCharVar("TheLostBookProgress", 5)
         player:confirmTrade()
-        player:setCharVar("LostBookTrade", vanaDay())
         player:delKeyItem(tpz.ki.LYNX_PELT)
     elseif csid == 147 then
         npcUtil.completeQuest(player, CRYSTAL_WAR, tpz.quest.id.crystalWar.THE_LOST_BOOK, {item=4873, var={"TheLostBookProgress", "LostBookTrade"}})
