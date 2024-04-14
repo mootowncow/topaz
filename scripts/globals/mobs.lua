@@ -164,6 +164,7 @@ tpz.mob.additionalEffect =
     SLEEP      = 30,
     DOOM       = 31,
     BUFF_DRAIN = 32,
+    PETRIFY_ENMITY_RESET    = 33,
 }
 tpz.mob.ae = tpz.mob.additionalEffect
 
