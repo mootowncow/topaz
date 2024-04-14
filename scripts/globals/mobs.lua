@@ -776,6 +776,8 @@ function AddMobAura(mob, target, radius, effect, power, duration, subpower, aura
     if (os.time() >= auraDuration) then
         mob:setLocalVar("auraDuration" .. auraNumber, os.time() + duration)
         local nearbyPlayers = mob:getPlayersInRange(radius)
+
+        -- Players
         if nearbyPlayers ~= nil then 
             for _,v in ipairs(nearbyPlayers) do
                 v:delStatusEffectSilent(effect)
@@ -783,6 +785,13 @@ function AddMobAura(mob, target, radius, effect, power, duration, subpower, aura
                 local buffEffect = v:getStatusEffect(effect)
                 buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
                 buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+            end
+        end
+
+        -- Pets
+        nearbyPlayers = mob:getPlayersInRange(100)
+        if (nearbyPlayers ~= nil) then 
+            for _,v in ipairs(nearbyPlayers) do
                 if (v:getPet()) then
                     local pet = v:getPet()
                     if (mob:checkDistance(pet) <= radius) then
