@@ -326,6 +326,20 @@ local additionalEffects =
         minDuration = 1,
         maxDuration = 3,
     },
+    [tpz.mob.ae.PETRIFY_ENMITY_RESET] =
+    {
+        chance = 100,
+        ele = tpz.magic.ele.EARTH,
+        sub = tpz.subEffect.PETRIFY,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.PETRIFICATION,
+        power = 1,
+        duration = 3,
+        minDuration = 1,
+        maxDuration = 3,
+        code = function(mob, target, power) mob:resetEnmity(target) end,
+    },
     [tpz.mob.ae.PLAGUE] =
     {
         chance = 100,
