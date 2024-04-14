@@ -13,6 +13,30 @@ require("scripts/globals/status")
 require("scripts/globals/mobs")
 require("scripts/globals/moblinmazemongers")
 -----------------------------------
+local auraParams1 = {
+    radius = 10,
+    power = 25,
+    effect = tpz.effect.GEO_PARALYSIS,
+    duration = 45,
+    auraNumber = 1
+}
+
+local auraParams2 = {
+    radius = 10,
+    power = 1,
+    effect = tpz.effect.AMNESIA,
+    duration = 45,
+    auraNumber = 2
+}
+
+local auraParams3 = {
+    radius = 10,
+    power = 1,
+    effect = tpz.effect.MUTE,
+    duration = 45,
+    auraNumber = 3
+}
+
 function onMobSpawn(mob)
     tpz.moblinmazemongers.MobMods(mob) 
     mob:setLocalVar("[rage]timer", 7200) -- 2 hrs
@@ -36,6 +60,9 @@ function onMobEngaged(mob)
 end
 
 function onMobFight(mob, target)
+    TickMobAura(mob, target, auraParams1)
+    TickMobAura(mob, target, auraParams2)
+    TickMobAura(mob, target, auraParams3)
 end
 
 function onMobWeaponSkillPrepare(mob, target)
@@ -43,11 +70,11 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     if skill:getID() == 685 then -- Sprout Spin
-        AddMobAura(mob, target, 10, tpz.effect.GEO_PARALYSIS, 25, 45, 0, 1)
+        AddMobAura(mob, target, auraParams1)
     elseif skill:getID() == 686 then -- Slumber Powder
-        AddMobAura(mob, target, 10, tpz.effect.AMNESIA, 1, 45, 0, 2)
+        AddMobAura(mob, target, auraParams2)
     elseif skill:getID() == 687 then -- Sprout Smack
-        AddMobAura(mob, target, 10, tpz.effect.MUTE, 1, 45, 0, 3)
+        AddMobAura(mob, target, auraParams3)
     end
 end
 
