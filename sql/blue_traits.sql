@@ -29,11 +29,12 @@ INSERT INTO `blue_traits` VALUES (1, 2, 32, 1230, 8); -- Beast Killer
 INSERT INTO `blue_traits` VALUES (2, 2, 9, 370, 1); -- Auto Regen
 INSERT INTO `blue_traits` VALUES (3, 2, 35, 227, 8); -- Lizard Killer
 INSERT INTO `blue_traits` VALUES (3, 2, 35, 1227, 8); -- Lizard Killer
-INSERT INTO `blue_traits` VALUES (4, 2, 24, 295, 1); -- Clear Mind
-INSERT INTO `blue_traits` VALUES (4, 4, 24, 295, 2); -- Clear Mind II
-INSERT INTO `blue_traits` VALUES (4, 6, 24, 295, 3); -- Clear Mind III
-INSERT INTO `blue_traits` VALUES (4, 8, 24, 295, 4); -- Clear Mind IV
-INSERT INTO `blue_traits` VALUES (5, 2, 48, 240, 2); -- Clear Mind V
+INSERT INTO `blue_traits` VALUES (4, 2, 24, 71, 3); -- Clear Mind
+INSERT INTO `blue_traits` VALUES (4, 4, 24, 71, 6); -- Clear Mind II
+INSERT INTO `blue_traits` VALUES (4, 6, 24, 71, 9); -- Clear Mind III
+INSERT INTO `blue_traits` VALUES (4, 6, 24, 295, 1); -- Clear Mind III
+INSERT INTO `blue_traits` VALUES (4, 8, 24, 71, 12); -- Clear Mind IV
+INSERT INTO `blue_traits` VALUES (5, 2, 48, 1240, 10); -- Resist Sleep
 INSERT INTO `blue_traits` VALUES (6, 2, 5, 28, 20); -- Magic Attack Bonus
 INSERT INTO `blue_traits` VALUES (6, 4, 5, 28, 24); -- Magic Attack Bonus II
 INSERT INTO `blue_traits` VALUES (6, 6, 5, 28, 28); -- Magic Attack Bonus III
