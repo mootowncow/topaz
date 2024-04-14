@@ -1490,86 +1490,86 @@ int getSDTTier(int SDT)
         switch (Action->spikesEffect)
         {
             case SUBEFFECT_CURSE_SPIKES:
+            {
                 element = ELEMENT_DARK;
                 resist = static_cast<float>(applyResistanceEffect(PDefender, PAttacker, EFFECT_CURSE, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
-               // printf("Spikes resist after getMagicResist %f \n", resist);
-            {
-                    if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_CURSE) == false &&
-                        tpzrand::GetRandomNumber(100) > PAttacker->getMod(Mod::CURSERESTRAIT) + PAttacker->getMod(Mod::STATUSRESTRAIT))
+                // printf("Spikes resist after getMagicResist %f \n", resist);
+                if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_CURSE) == false &&
+                    tpzrand::GetRandomNumber(100) > PAttacker->getMod(Mod::CURSERESTRAIT) + PAttacker->getMod(Mod::STATUSRESTRAIT))
                 {
                     PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_CURSE, EFFECT_CURSE, 25, 0, (uint32)(30 * (float)resist)));
                 }
                 break;
             }
             case SUBEFFECT_ICE_SPIKES:
-                element = ELEMENT_ICE;
-            resist = static_cast<float>(applyResistanceEffect(PDefender, PAttacker, EFFECT_PARALYSIS, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
-                //printf("Spikes resist after getMagicResist %f \n", resist);
             {
-                    if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_PARALYSIS) == false &&
+                element = ELEMENT_ICE;
+                resist = static_cast<float>(applyResistanceEffect(PDefender, PAttacker, EFFECT_PARALYSIS, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
+            // printf("Spikes resist after getMagicResist %f \n", resist);
+                if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_PARALYSIS) == false &&
                     tpzrand::GetRandomNumber(100) > PAttacker->getMod(Mod::PARALYZERESTRAIT) + PAttacker->getMod(Mod::STATUSRESTRAIT))
                     //printf("Spikes resist inside ice spikes function %f \n", resist);
                 {
-                        PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_PARALYSIS, EFFECT_PARALYSIS, 20, 0, (uint32)(45 * (float)resist)));
+                    PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_PARALYSIS, EFFECT_PARALYSIS, 20, 0, (uint32)(45 * (float)resist)));
                 }
                 break;
             }
             case SUBEFFECT_SHOCK_SPIKES:
-                element = ELEMENT_THUNDER;
-            resist = static_cast<float>(applyResistanceEffect(PDefender, PAttacker, EFFECT_STUN, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
-                //printf("Spikes resist after getMagicResist %f \n", resist);
             {
-                    if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_STUN) == false &&
+                element = ELEMENT_THUNDER;
+                resist = static_cast<float>(applyResistanceEffect(PDefender, PAttacker, EFFECT_STUN, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
+                //printf("Spikes resist after getMagicResist %f \n", resist);
+                if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_STUN) == false &&
                     tpzrand::GetRandomNumber(100) > PAttacker->getMod(Mod::STUNRESTRAIT) + PAttacker->getMod(Mod::STATUSRESTRAIT))
                 {
-                        PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_STUN, EFFECT_STUN, 1, 0, (uint32)(4 * (float)resist)));
+                    PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_STUN, EFFECT_STUN, 1, 0, (uint32)(4 * (float)resist)));
                 }
                 break;
             }
             case SUBEFFECT_GALE_SPIKES:
-                element = ELEMENT_WIND;
-            resist = static_cast<float>(applyResistanceEffect(PDefender, PAttacker, EFFECT_SILENCE, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
-                // printf("Spikes status effect hit rate %f \n", resist);
             {
-                    if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SILENCE) == false &&
+                element = ELEMENT_WIND;
+                resist = static_cast<float>(applyResistanceEffect(PDefender, PAttacker, EFFECT_SILENCE, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
+                // printf("Spikes status effect hit rate %f \n", resist);
+                if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SILENCE) == false &&
                     tpzrand::GetRandomNumber(100) > PAttacker->getMod(Mod::SILENCERESTRAIT) + PAttacker->getMod(Mod::STATUSRESTRAIT))
                 {
-                        PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SILENCE, EFFECT_SILENCE, 1, 0, (uint32)(30 * (float)resist)));
+                    PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SILENCE, EFFECT_SILENCE, 1, 0, (uint32)(30 * (float)resist)));
                 }
                 break;
             }
             case SUBEFFECT_CLOD_SPIKES:
-                element = ELEMENT_EARTH;
-            resist = static_cast<float>(applyResistanceEffect(PDefender, PAttacker, EFFECT_SLOW, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
-                // printf("Spikes status effect hit rate %f \n", resist);
             {
-                    if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SLOW) == false &&
+                element = ELEMENT_EARTH;
+                resist = static_cast<float>(applyResistanceEffect(PDefender, PAttacker, EFFECT_SLOW, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
+                // printf("Spikes status effect hit rate %f \n", resist);
+                if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SLOW) == false &&
                     tpzrand::GetRandomNumber(100) > PAttacker->getMod(Mod::SLOWRESTRAIT) + PAttacker->getMod(Mod::STATUSRESTRAIT))
                 {
-                        PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SLOW, EFFECT_SLOW, 3500, 0, (uint32)(30 * (float)resist)));
+                     PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SLOW, EFFECT_SLOW, 3500, 0, (uint32)(30 * (float)resist)));
                 }
                 break;
             }
             case SUBEFFECT_DELUGE_SPIKES:
-                element = ELEMENT_WATER;
-            resist = static_cast<float>(applyResistanceEffect(PDefender, PAttacker, EFFECT_POISON, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
-                // printf("Spikes status effect hit rate %f \n", resist);
             {
-                    if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_POISON) == false &&
+                element = ELEMENT_WATER;
+                resist = static_cast<float>(applyResistanceEffect(PDefender, PAttacker, EFFECT_POISON, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
+                // printf("Spikes status effect hit rate %f \n", resist);
+                if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_POISON) == false &&
                     tpzrand::GetRandomNumber(100) > PAttacker->getMod(Mod::POISONRESTRAIT) + PAttacker->getMod(Mod::STATUSRESTRAIT))
                 {
-                        PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_POISON, EFFECT_POISON, 20, 3, (uint32)(30 * (float)resist)));
+                    PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_POISON, EFFECT_POISON, 20, 3, (uint32)(30 * (float)resist)));
                 }
                 break;
             }
             case SUBEFFECT_GLINT_SPIKES:
-                element = ELEMENT_DARK;
-            resist = static_cast<float>(applyResistanceEffect(PDefender, PAttacker, EFFECT_KO, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
-                // printf("Spikes status effect hit rate %f \n", resist);
             {
-                    if (resist >= 0.5f && tpzrand::GetRandomNumber(100) > PAttacker->getMod(Mod::DEATHRESTRAIT))
+                element = ELEMENT_DARK;
+                resist = static_cast<float>(applyResistanceEffect(PDefender, PAttacker, EFFECT_KO, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
+                // printf("Spikes status effect hit rate %f \n", resist);
+                if (resist >= 0.5f && tpzrand::GetRandomNumber(100) > PAttacker->getMod(Mod::DEATHRESTRAIT))
                 {
-                        PAttacker->addHP(-9999);
+                    PAttacker->addHP(-9999);
                 }
                 break;
             }
