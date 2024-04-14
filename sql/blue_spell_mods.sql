@@ -927,21 +927,21 @@ INSERT INTO `blue_spell_mods` VALUES ('707', '12', '3'); -- INT+3
 -- ----------------------------
 -- Subduction
 -- ----------------------------
-INSERT INTO `blue_spell_mods` VALUES ('708', '5', '25'); -- MP=25
-INSERT INTO `blue_spell_mods` VALUES ('708', '10', '6'); -- VIT=6
-INSERT INTO `blue_spell_mods` VALUES ('708', '12', '6'); -- INT=6
+INSERT INTO `blue_spell_mods` VALUES ('708', '5', '25'); -- MP+25
+INSERT INTO `blue_spell_mods` VALUES ('708', '10', '6'); -- VIT+6
+INSERT INTO `blue_spell_mods` VALUES ('708', '12', '6'); -- INT+6
 
 -- ----------------------------
 --  Thrashing Assault
 -- ----------------------------
-INSERT INTO `blue_spell_mods` VALUES ('709', '0', '0'); -- HP+20
-INSERT INTO `blue_spell_mods` VALUES ('709', '0', '0'); -- DEX+8
+INSERT INTO `blue_spell_mods` VALUES ('709', '2', '20'); -- HP+20
+INSERT INTO `blue_spell_mods` VALUES ('709', '9', '8'); -- DEX+8
 
 -- ----------------------------
 -- Erratic Flutter
 -- ----------------------------
-INSERT INTO `blue_spell_mods` VALUES ('710', '2', '15'); -- HP=15
-INSERT INTO `blue_spell_mods` VALUES ('710', '5', '15'); -- MP=15
+INSERT INTO `blue_spell_mods` VALUES ('710', '2', '15'); -- HP+15
+INSERT INTO `blue_spell_mods` VALUES ('710', '5', '15'); -- MP+15
 INSERT INTO `blue_spell_mods` VALUES ('710', '11', '5'); -- AGI+5
 INSERT INTO `blue_spell_mods` VALUES ('710', '14', '5'); -- CHR+5
 
@@ -955,8 +955,8 @@ INSERT INTO `blue_spell_mods` VALUES ('711', '5', '15'); -- MP+15
 -- ----------------------------
  -- Rail Cannon
 -- ----------------------------
-INSERT INTO `blue_spell_mods` VALUES ('712', '12', '6'); -- INT=6
-INSERT INTO `blue_spell_mods` VALUES ('712', '13', '6'); -- MND=6
+INSERT INTO `blue_spell_mods` VALUES ('712', '12', '6'); -- INT+6
+INSERT INTO `blue_spell_mods` VALUES ('712', '13', '6'); -- MND+6
 
 -- ----------------------------
  -- Diffusion Ray
