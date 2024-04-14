@@ -763,43 +763,59 @@ function UseMultipleTPMoves(mob, uses, skillID)
     end
 end
 
-function AddMobAura(mob, target, radius, effect, power, duration, subpower, auraNumber)
-    if (auraNumber == nil) then
-        auraNumber = 1
+function AddMobAura(mob, target, auraParams)
+    if auraParams.auraNumber == nil then
+        auraParams.auraNumber = 1
     end
 
-    if (subpower == nil) then
-        subpower = 0
+    if auraParams.subpower == nil then
+        auraParams.subpower = 0
     end
 
-    local auraDuration = mob:getLocalVar("auraDuration" .. auraNumber)
-    if (os.time() >= auraDuration) then
-        mob:setLocalVar("auraDuration" .. auraNumber, os.time() + duration)
-        local nearbyPlayers = mob:getPlayersInRange(radius)
+    mob:setLocalVar("auraDuration" .. auraParams.auraNumber, os.time() + auraParams.duration)
+end
 
-        -- Players
-        if nearbyPlayers ~= nil then 
-            for _,v in ipairs(nearbyPlayers) do
-                v:delStatusEffectSilent(effect)
-                v:addStatusEffectEx(effect, effect, power, 3, duration, 0, subpower, 0)
-                local buffEffect = v:getStatusEffect(effect)
-                buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
-                buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+function TickMobAura(mob, target, auraParams)
+    if auraParams.auraNumber == nil then
+        auraParams.auraNumber = 1
+    end
+
+    if auraParams.subpower == nil then
+        auraParams.subpower = 0
+    end
+
+    local auraDuration = mob:getLocalVar("auraDuration" .. auraParams.auraNumber)
+    local tick = 3
+    local duration = 6
+    if os.time() <= auraDuration then
+        local auraTick = mob:getLocalVar("auraTick" .. auraParams.auraNumber)
+        if os.time() >= auraTick then
+            mob:setLocalVar("auraTick" .. auraParams.auraNumber, os.time() + 3)
+            local nearbyPlayers = mob:getPlayersInRange(auraParams.radius)
+            -- Players
+            if nearbyPlayers ~= nil then 
+                for _,v in ipairs(nearbyPlayers) do
+                    v:delStatusEffectSilent(auraParams.effect)
+                    v:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
+                    local buffEffect = v:getStatusEffect(auraParams.effect)
+                    buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
+                    buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                end
             end
-        end
 
-        -- Pets
-        nearbyPlayers = mob:getPlayersInRange(100)
-        if (nearbyPlayers ~= nil) then 
-            for _,v in ipairs(nearbyPlayers) do
-                if (v:getPet()) then
-                    local pet = v:getPet()
-                    if (mob:checkDistance(pet) <= radius) then
-                        pet:delStatusEffectSilent(effect)
-                        pet:addStatusEffectEx(effect, effect, power, 3, duration, 0, subpower, 0)
-                        local buffEffect = pet:getStatusEffect(effect)
-                        buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
-                        buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+            -- Pets
+            nearbyPlayers = mob:getPlayersInRange(100)
+            if nearbyPlayers ~= nil then 
+                for _,v in ipairs(nearbyPlayers) do
+                    if v:getPet() then
+                        local pet = v:getPet()
+                        if mob:checkDistance(pet) <= auraParams.radius then
+                            pet:delStatusEffectSilent(auraParams.effect)
+                            pet:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
+                            local buffEffect = pet:getStatusEffect(auraParams.effect)
+                            buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
+                            buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                        end
                     end
                 end
             end
