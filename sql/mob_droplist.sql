@@ -10762,7 +10762,7 @@ INSERT INTO `mob_droplist` VALUES (1987,0,0,1000,2523,50);
 INSERT INTO `mob_droplist` VALUES (1987,0,0,1000,2524,100);
 INSERT INTO `mob_droplist` VALUES (1988,0,0,1000,854,150);
 INSERT INTO `mob_droplist` VALUES (1988,0,0,1000,4435,240);
-INSERT INTO `mob_droplist` VALUES (1988,0,0,1000,12382,1000);	-- (Pelican) Necromancer's Aspis
+INSERT INTO `mob_droplist` VALUES (1988,0,0,1000,12382,1000);	-- (Pelican) Necromancer's Gambit
 INSERT INTO `mob_droplist` VALUES (1989,0,0,1000,5735,1000);
 INSERT INTO `mob_droplist` VALUES (1989,0,0,1000,14553,190);
 INSERT INTO `mob_droplist` VALUES (1989,0,0,1000,15640,60);
