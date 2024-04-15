@@ -15,24 +15,24 @@ require("scripts/globals/moblinmazemongers")
 -----------------------------------
 local auraParams1 = {
     radius = 10,
-    power = 25,
     effect = tpz.effect.GEO_PARALYSIS,
+    power = 25,
     duration = 45,
     auraNumber = 1
 }
 
 local auraParams2 = {
     radius = 10,
-    power = 1,
     effect = tpz.effect.AMNESIA,
+    power = 1,
     duration = 45,
     auraNumber = 2
 }
 
 local auraParams3 = {
     radius = 10,
-    power = 1,
     effect = tpz.effect.MUTE,
+    power = 1,
     duration = 45,
     auraNumber = 3
 }
