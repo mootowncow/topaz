@@ -159,9 +159,17 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 **** NOW ***
-Goblin dice 0 TP msg?
-Full erase(benediction also) should remove inundation and stuff
-make sure players aren't getting 25% DA now, might have to set the value to 10% if player
+Emetic Discharge bugged? says 0 everytime its used
+Fix all AddMobAura and use TickMobAura using Kerwan as a template. Add tick param too
+Most things with getPlayersInRange needs to also get pets in range use logic I coded into AddMobAura for reference
+Tipua needs some type of mechanic, very boring and easy. Maybe summon bees and eat them for HP if you don't kill them fast enough? And 100 fists
+Dark Ixion pathing is broken
+Shikigami weapon pathing
+17182795 Yagudo Prioress missing pet(maybe all SMN in castle oztroja [s] are?)
+Retune the SCNM BCNMs
+Revival tree root drop rate? 10-15%? Check FFXIDB
+Handle for Asterion, Forneus,(probably fleshgnasher and Vee Ladu doesn't work(isnt clickable)? Copy handle behind the 4 handle door where it says "its locked" when behind
+Providence shouldn't be removed by being parad, make add another mixin for where para procs are? Or what "is interruoted" counts as para? or something if msg ~= para idk
 Jailer of Temp Uses Meikyo Shisui multiple times and should not be aggressive(always aggros on spawn but not aggressive flag). Also vulnerable to grav
 Does asylums resist work on spikes?
 Seal of genbu etc stack to 99 and not rare
@@ -169,11 +177,7 @@ Aura pot levels need to scale based on floor, top flor 80 only
 Does mijin gakure work properly when used by NMs and such?
 17535157 Vanguard Grapplers group needs to be low level orc not high
 Steps shouldn't hit mobs with PD
-Lesser Chigoe, Hecteyes Eyes and Revival Tree Root stack to 12 in DAT
-imperial flour stack to 99 in DAT
-Wivre hide stack to 99 in DAT
 Dibilitating Dagger +1 name too long
-Smoky etc chips stack to 1(Limbus chips) because rare
 Valor Gauntlets Shield Bash: Dispel is wrong it says Shield Bash:"Dispel
 Mob TP moves dont remove quickening flag? Maybe doesn't remove flags it should? 
 Thunderbolt 0.5s cast
@@ -181,15 +185,14 @@ Zilart mission after DM(kid zilart) and missions after work
 Make sure Rank6-10 Sandy / Bastok mission work
 Make salvage require tag again
 Make Poroggo Shifu immune to silence
-BST Relic, especially the body(wtf?). Maybe entire set of ready move Attack % bonus / dmg cause pet ready moves suck without attack
+BST Relic, especially the body(make it remove erasable effects). Maybe entire set of ready move Attack % bonus / dmg cause pet ready moves suck without attack.
 DRG relic? Boots suck
 Move Apollyon NE limbus Gigas to correct spots https://www.bg-wiki.com/ffxi/Apollyon_NE
-Shikigami weapon pathing
 Spell mods missing off 75+ blu spells or at least a bunch
-Sinker Drill and prob other BLU spells 76+ recasts are wrong
 https://github.com/LandSandBoat/server/issues/5127
 Buff Charger / Jaeger / Gunner mantle
 Sky Curtana ??? should be random
+Mobs that aggro by sound and sound and are true aggro don't seem to link by both? Imps in WOTG strongholds don't
 
 
 ****TEST****
@@ -197,9 +200,16 @@ VNM's
 Peiste / Pixie BDO custom exp camps in WOTG
 Cait Sith avatar skills and fight/quests
 
+
 Extremely rare item dropped !!! msg and no item in pool, was a level 81+ mob. Did I miss out on super rare item or somehow bugged and procced on a < 81 level item
 but nothing is in the list for 81+ in that drop rate
+COR good with pet jobs, so buff its pet rolls to the moon
+COR shots buffed in some way to be better with enfeebles? or apply super enfeebles itself maybe and not buff them?
+Pet stat mainhands (daggers)
+Only take ZNM items on ZNM kill not pop
+Gotoh Zha the Redolent SDT/EEM in sql (Copy whats in its lua)
 JP wiki for killer weapon/armor percentages
+Terror Fly avoidance down didn't work properly on an automaton with necromancers gambit on the master?
 Buff: https://www.bg-wiki.com/ffxi/Orange_Kuchen
 Gaze TP moves have insane bonus MACC, terror moves can be resisted normally, just terror gaze is the exception(?)
 +Asylum / Misery / Auspice effect gear
@@ -216,7 +226,7 @@ Custom pet names for all level 76+ pets
 WS changing weapons! Like completely change the WS entirely(Lyft weapons? another set of weapons?)
 3/tick refresh body with - move speed
 Gargoyle HNM boss need to nuke when flying to bring back down immune to phys dmg in air and some stoneform mechanic where it gains HP
-Finish Lyft/MMM weapon progression system
+Finish Lyft/MMM weapon progression system, better rewards from all MMM's especially the uber hard ones
 spellAI added to where spell_list is for diff spell casting AI's
 Lyft Sword Latent when engaged: +1 refresh  some acc/attk
 Add Prime and Bonanza WS IDs
@@ -242,11 +252,20 @@ Especialy BLU because you can just shove a function in for dmg and not have to p
 Spikes status effects from armor procs msg
 https://github.com/AirSkyBoat/AirSkyBoat/commit/4d8e29572cadbf2950a7b560779f1e1a5f364a84
 
+Pet pathing? Unsure if needed
+https://github.com/CatsAndBoats/catseyexi/commit/6ef07af23863e82a63cd7e986a0f259686b7fc49
+
 Mob casting message !!
 https://github.com/LandSandBoat/server/commit/58f87d16cd22375553890105c9ce93a43806ea6a
 
+Pet MP checking and bad packets?
+https://github.com/CatsAndBoats/catseyexi/commit/44c224771817019b18a5b5c53c9692c084d24a3a
+
 Pet magic burst msg(maybe I fixed this already too?)
 https://github.com/AirSkyBoat/AirSkyBoat/commit/24c2586c5851dfa5ec26b08fa512d097bc6adf67
+
+Player H2H
+https://github.com/CatsAndBoats/catseyexi/commit/6f993553f042af71e295def246d20e6b209d46ce
 
 SMN mob pet stuff
 https://github.com/CatsAndBoats/catseyexi/commit/01aae33522052d5a04ae7b2773a8988d6ad9bfcf
@@ -288,6 +307,76 @@ https://github.com/LandSandBoat/server/commit/1c4511caae46d63ea224817dfb3f540247
 
 Light spirit AI:
 https://github.com/LandSandBoat/server/commit/973fb38f661da5d5a9c10c99eaff1d1b3537f8a6
+
+Mob AOE skill fix(CPP stuff)
+https://github.com/CatsAndBoats/catseyexi/commit/403e58bf3b59e7f514a8d193c413123040d78422#diff-a1631bc842dfc94f21218a9948dcb54856f82b6f39d3a702720f03a8c873a573
+
+Ranged attack fixes
+https://github.com/CatsAndBoats/catseyexi/commit/fcb335a14e11b2d90512930acccd698e5213b261
+https://github.com/CatsAndBoats/catseyexi/commit/960e098e4bfa06d460df9fe728e284b44b1dfb40
+
+Pet Linking
+https://github.com/CatsAndBoats/catseyexi/commit/57252a1cde96c1e3719035cf17681786e2bba19e
+
+Wyvern Breaths
+https://github.com/CatsAndBoats/catseyexi/commit/a7453dce06f91a65f08e5eeb47db21eefccb0f02
+
+Enum offsets
+https://github.com/CatsAndBoats/catseyexi/commit/46136dded9eba9ce383eda2775c46e4aeb6d7765
+
+Safety checks
+https://github.com/CatsAndBoats/catseyexi/commit/f905d90955d3e260556c8e285ea6518a5a3d465d
+https://github.com/CatsAndBoats/catseyexi/commit/7990f9bf296c5765df69d9dfb6f070f25cbd2af0
+
+Player avatar assist range check
+https://github.com/CatsAndBoats/catseyexi/commit/4533a051451d59367b49f6a3533d4273d35fb44b
+
+Temper II
+https://github.com/CatsAndBoats/catseyexi/commit/97dae748a3f97c6cf610561d8f0835b798ecfb01
+
+H2H fix
+https://github.com/CatsAndBoats/catseyexi/commit/41e0e0ab5d031df21e2dc558a7b2602e3cac3b66
+
+Retal attack bonus
+https://github.com/CatsAndBoats/catseyexi/commit/9f04d5741a4c08ad19434a17962670ada0dc1136
+
+PDMG+(Physical damage limit pdif+)
+https://github.com/CatsAndBoats/catseyexi/commit/e9147a4ed1f38dde2481cc52295542d96eba2528
+
+Hasso removal
+https://github.com/CatsAndBoats/catseyexi/commit/53554dc47ec0cad75a60e3a06c9da285dca90744
+
+Hasso mods?
+https://github.com/CatsAndBoats/catseyexi/commit/59cf95ed6415a837e5a76173b88bb6b13696b90c
+
+
+Fix hide with hearing and weather with scent mobs
+https://github.com/CatsAndBoats/catseyexi/commit/4ab66b7d2e7afca0cfd0334d76f5547053c89808
+
+
+Implement all damage and breath damage nullification modifiers (I might have some of these?)
+https://github.com/CatsAndBoats/catseyexi/commit/18cae6787763af887a84043474ea25bcd0f021c9
+
+Enums
+https://github.com/CatsAndBoats/catseyexi/commit/c4700f03e50435edc57e28ce38e0a06d8bcb1e0a
+
+Attack underflow fix
+https://github.com/CatsAndBoats/catseyexi/commit/a487c3ea951c4e5783a7ce3eedfd1483675f2e1f
+
+Crit fixes?
+https://github.com/CatsAndBoats/catseyexi/commit/1cbf875167200f94329e95790821b9a1948ae668
+
+Prevent special attacks being impacted by slow (BE VERY CAREFUL WITH THIS ITS FROM FALLISA)
+https://github.com/CatsAndBoats/catseyexi/commit/490d246b7d910edc0dd3650940a68e633f4ce618
+
+Dual wield var fixes
+https://github.com/CatsAndBoats/catseyexi/commit/a1d2ecb8ba0fa89e32072537157168aa11f333e4
+
+Prevent adding multiple of same event for player
+https://github.com/CatsAndBoats/catseyexi/commit/6133c684c285d942f0ef3a4a998a5b133e04dc90
+
+Mob OOC regen logic
+https://github.com/CatsAndBoats/catseyexi/commit/baed2e72d1d90c03b6934e2c447cf9129b56760b
 
 Add these weapons or get ideas from them(rank1):
 https://www.bg-wiki.com/ffxi/Category:Mog_Bonanza
@@ -336,17 +425,11 @@ Rune Fencer Merits:
 https://github.com/AirSkyBoat/AirSkyBoat/commit/f1c415bb239c9afdc4247eb1b2444433f8671341
 
 DATS:
-Wise Pigaches "Enhancing Magic duration" has a space before the E in enhancing
 Mystic Boon / Asylum and Footwork descriptions
-Noble's / Aristocrat's Tunic rare/ex
-Buff Noble's/ Aristocrat's Crown / Mitts / Slacks  / Pumps  
+Buff Noble's / Aristocrat's Crown / Mitts / Slacks  / Pumps  
 Birdman cape diff stats
-Divine shield HP
-Divine + Holy shield rare/ex
-Beastly Earring pet stats
 ToAU ring buffs
 Aketon change to damage taken not phalanx check others with same type of text
-Oneiros / Mujin items(neo dynamis) lvls
 
 LAC:
 
