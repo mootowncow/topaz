@@ -35,6 +35,32 @@ local abyssiteMessage =
     [tpz.keyItem.BLACK_ABYSSITE]    = 3
 }
 
+local auraLamprey = {
+    radius = 10,
+    effect = tpz.effect.PARALYSIS,
+    power = 50,
+    duration = 15,
+    auraNumber = 1
+}
+
+10, tpz.effect.PARALYSIS, 50, 15
+
+local auraDawon = {
+    radius = 10,
+    effect = tpz.effect.DEFENSE_DOWN,
+    power = 50,
+    duration = 30,
+    auraNumber = 1
+}
+
+local auraYilbegan = {
+    radius = 10,
+    effect = tpz.effect.GEO_PARALYSIS,
+    power = 25,
+    duration = 45,
+    auraNumber = 1
+}
+
 local function getCurrentKIsBitsFromPlayer(player)
     local results = 0
 
@@ -477,7 +503,7 @@ local mixinByMobName =
         randomly(mob, 10, 60, tpz.effect.BLOOD_WEAPON, tpz.jsa.BLOOD_WEAPON)
         -- Gains a short duration paralysis aura if Acid Mist is interrupted
         mob:addListener("WEAPONSKILL_STATE_INTERRUPTED", "LAMPREY_LORD_WS_INTERRUPTED", function(mob, skill)
-            AddMobAura(mob, target, 10, tpz.effect.PARALYSIS, 50, 15)
+            AddMobAura(mob, target, auraLamprey)
         end)
     end,
 
@@ -669,7 +695,7 @@ local mixinByMobName =
         doMobSkillEveryHPP(mob, 5, 95, tpz.jsa.PERFECT_DODGE, not mob:hasStatusEffect(tpz.effect.PERFECT_DODGE))
         if mob:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
             mob:setMod(tpz.mod.REGAIN, 250)
-            AddMobAura(mob, target, 10, tpz.effect.DEFENSE_DOWN, 50, 3)
+            AddMobAura(mob, target, auraDawon)
         else
             mob:setMod(tpz.mod.REGAIN, 0)
         end
