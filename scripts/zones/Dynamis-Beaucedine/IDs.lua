@@ -33,6 +33,7 @@ zones[tpz.zone.DYNAMIS_BEAUCEDINE] =
         CONF_MIN_REMAINING      = 7338, -- X earth minutes remaining to complete the battle.
         CONF_SEC_REMAINING      = 7339, -- x earth seconds remaining to complete the battle.
         CONF_TIME_UP            = 7340, -- Your time for this Confrontation is up...
+        MONSTER_FADES           = 7341, -- The monster fades before your eyes, a look of disappointment on its face.
     },
     mob =
     {

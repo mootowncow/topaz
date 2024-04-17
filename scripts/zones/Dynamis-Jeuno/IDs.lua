@@ -26,13 +26,14 @@ zones[tpz.zone.DYNAMIS_JEUNO] =
         DYNAMIS_TIME_UPDATE_2   = 7217, -- ou will be expelled from Dynamis in <number> [seconds/minutes] (Earth time).
         DYNAMIS_TIME_EXPIRED    = 7219, -- The sands of the hourglass have emptied...
         OMINOUS_PRESENCE        = 7230, -- You feel an ominous presence, as if something might happen if you possessed <item>.
-        CONF_TOO_FAR            = 7334, -- You have ventured too far from the field of battle. The Confrontation will automatically disengage if you do not return
-        CONF_DISENAGED          = 7335, -- Ventured too far, confrontation has disengaged.
-        CONF_REENGAGED          = 7336, -- You have returned to the field of battle.
-        CONF_BATTLE_BEGIN       = 7337, -- You have x earth time to complete the battle.
-        CONF_MIN_REMAINING      = 7338, -- X earth minutes remaining to complete the battle.
-        CONF_SEC_REMAINING      = 7339, -- x earth seconds remaining to complete the battle.
-        CONF_TIME_UP            = 7340, -- Your time for this Confrontation is up...
+        CONF_TOO_FAR            = 7234, -- You have ventured too far from the field of battle. The Confrontation will automatically disengage if you do not return
+        CONF_DISENAGED          = 7235, -- Ventured too far, confrontation has disengaged.
+        CONF_REENGAGED          = 7236, -- You have returned to the field of battle.
+        CONF_BATTLE_BEGIN       = 7237, -- You have x earth time to complete the battle.
+        CONF_MIN_REMAINING      = 7238, -- X earth minutes remaining to complete the battle.
+        CONF_SEC_REMAINING      = 7239, -- x earth seconds remaining to complete the battle.
+        CONF_TIME_UP            = 7240, -- Your time for this Confrontation is up...
+        MONSTER_FADES           = 7241, -- The monster fades before your eyes, a look of disappointment on its face.
     },
     mob =
     {

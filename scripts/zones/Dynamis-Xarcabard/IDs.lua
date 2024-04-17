@@ -43,13 +43,14 @@ zones[tpz.zone.DYNAMIS_XARCABARD] =
         ANIMATED_HORN_DIALOG         = 7745, -- I am called the Mysterial Horn. Show me your true intentions.
         ANIMATED_SHIELD_DIALOG       = 7777, -- I am Aegis, the impervious shield of everlasting.
         PRISON_OF_SOULS_HAS_SET_FREE = 7809, -- e prison of souls has set free its captive spirits!
-        CONF_TOO_FAR                 = 7334, -- You have ventured too far from the field of battle. The Confrontation will automatically disengage if you do not return
-        CONF_DISENAGED               = 7335, -- Ventured too far, confrontation has disengaged.
-        CONF_REENGAGED               = 7336, -- You have returned to the field of battle.
-        CONF_BATTLE_BEGIN            = 7337, -- You have x earth time to complete the battle.
-        CONF_MIN_REMAINING           = 7338, -- X earth minutes remaining to complete the battle.
-        CONF_SEC_REMAINING           = 7339, -- x earth seconds remaining to complete the battle.
-        CONF_TIME_UP                 = 7340, -- Your time for this Confrontation is up...
+        CONF_TOO_FAR                 = 7234, -- You have ventured too far from the field of battle. The Confrontation will automatically disengage if you do not return
+        CONF_DISENAGED               = 7235, -- Ventured too far, confrontation has disengaged.
+        CONF_REENGAGED               = 7236, -- You have returned to the field of battle.
+        CONF_BATTLE_BEGIN            = 7237, -- You have x earth time to complete the battle.
+        CONF_MIN_REMAINING           = 7238, -- X earth minutes remaining to complete the battle.
+        CONF_SEC_REMAINING           = 7239, -- x earth seconds remaining to complete the battle.
+        CONF_TIME_UP                 = 7240, -- Your time for this Confrontation is up...
+        MONSTER_FADES                = 7241, -- The monster fades before your eyes, a look of disappointment on its face.
     },
     mob =
     {

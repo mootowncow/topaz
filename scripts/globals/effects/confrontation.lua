@@ -20,6 +20,7 @@ function onEffectTick(target, effect)
     if (target:isPC()) then
         if (timeRemaining <= 0) then
             target:messageSpecial(ID.text.CONF_TIME_UP)
+            target:messageSpecial(ID.text.MONSTER_FADES)
             target:delPartyEffect(tpz.effect.CONFRONTATION)
         elseif (timeRemaining <= thirtySeconds) then
             if (timeRemaining % 10 == 0) then
