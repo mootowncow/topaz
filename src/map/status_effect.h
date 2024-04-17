@@ -764,7 +764,7 @@ public:
     uint32  GetSubID();
     uint16  GetIcon();
     uint16  GetPower();
-    uint16  GetSubPower();
+    uint32  GetSubPower();
     uint16  GetTier();
     uint32  GetFlag();
     uint16  GetType();
@@ -782,7 +782,7 @@ public:
     void    SetSlot(uint8 Slot);
     void    SetIcon(uint16 Icon);
     void    SetPower(uint16 Power);
-    void    SetSubPower(uint16 subPower);
+    void    SetSubPower(uint32 subPower);
     void    SetTier(uint16 tier);
     void    SetDuration(uint32 Duration);
     void    SetOwner(CBattleEntity* Owner);
@@ -808,7 +808,7 @@ public:
          uint32 tick,
          uint32 duration,
          uint32 subid = 0,
-         uint16 subPower = 0,
+         uint32 subPower = 0,
          uint16 tier = 0,
          uint32 flags = 0);
 
@@ -822,7 +822,7 @@ private:
     uint32      m_SubID {0};                // дополнительный тип эффекта
     uint16      m_Icon {0};                 // иконка эффекта
     uint16      m_Power {0};                // сила эффекта
-    uint16      m_SubPower {0};             // Secondary power of the effect
+    uint32      m_SubPower {0};             // Secondary power of the effect
     uint16      m_Tier {0};                 // Tier of the effect
     uint32      m_Flag {0};                 // флаг эффекта (условия его исчезновения)
     uint16      m_Type {0};                 // used to enforce only one

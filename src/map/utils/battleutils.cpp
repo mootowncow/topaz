@@ -4369,7 +4369,7 @@ int getSDTTier(int SDT)
                 PSCEffect->SetDuration(PSCEffect->GetDuration() - 1000);
                 PSCEffect->SetTier(GetSkillchainTier((SKILLCHAIN_ELEMENT)skillchain));
                 PSCEffect->SetPower(skillchain);
-                PSCEffect->SetSubPower(std::min(PSCEffect->GetSubPower() + 1, 6)); // Linked, limited to 6
+                PSCEffect->SetSubPower(std::min(static_cast<int>(PSCEffect->GetSubPower() + 1), 6)); // Linked, limited to 6. Unsure if I broke when changing subpower to uint32(was uint16)
 
                 return (SUBEFFECT)GetSkillchainSubeffect((SKILLCHAIN_ELEMENT)skillchain);
             }

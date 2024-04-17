@@ -44,7 +44,7 @@ public:
     }
 
     int32 getType(lua_State*);
-    int32 getSubType(lua_State*);
+    int32 getSubType(lua_State*); // SubId
     int32 getPower(lua_State*);
     int32 getSubPower(lua_State*);
     int32 getTier(lua_State*);

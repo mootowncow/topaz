@@ -10059,10 +10059,10 @@ inline int32 CLuaBaseEntity::addPartyEffect(lua_State* L)
             PMember->StatusEffectContainer->AddStatusEffect(new CStatusEffect((EFFECT)lua_tointeger(L, 1),                  // Effect ID
                                                                               (uint16)lua_tointeger(L, 1),                  // Effect Icon (Associated with ID)
                                                                               (uint16)lua_tointeger(L, 2),                  // Power
-                                                                              (uint16)lua_tointeger(L, 3),                  // Tick
-                                                                              (uint16)lua_tointeger(L, 4),                  // Duration
-                                                                              (n >= 5 ? (uint16)lua_tointeger(L, 5) : 0),   // SubID
-                                                                              (n >= 6 ? (uint16)lua_tointeger(L, 6) : 0),   // Sub Power
+                                                                              (uint32)lua_tointeger(L, 3),                  // Tick
+                                                                              (uint32)lua_tointeger(L, 4),                  // Duration
+                                                                              (n >= 5 ? (uint32)lua_tointeger(L, 5) : 0),   // SubID
+                                                                              (n >= 6 ? (uint32)lua_tointeger(L, 6) : 0),   // Sub Power
                                                                               (n >= 7 ? (uint16)lua_tointeger(L, 7) : 0))); // Tier
         }
     });
@@ -11906,10 +11906,10 @@ inline int32 CLuaBaseEntity::addStatusEffect(lua_State *L)
             (EFFECT)lua_tointeger(L, 1), // Effect ID
             (uint16)lua_tointeger(L, 1), // Effect Icon (Associated with ID)
             (uint16)lua_tointeger(L, 2), // Power
-            (uint16)lua_tointeger(L, 3), // Tick
-            (uint16)lua_tointeger(L, 4), // Duration
-            (n >= 5 ? (uint16)lua_tointeger(L, 5) : 0),  // SubID
-            (n >= 6 ? (uint16)lua_tointeger(L, 6) : 0),  // Sub Power
+            (uint32)lua_tointeger(L, 3), // Tick
+            (uint32)lua_tointeger(L, 4), // Duration
+            (n >= 5 ? (uint32)lua_tointeger(L, 5) : 0),  // SubID
+            (n >= 6 ? (uint32)lua_tointeger(L, 6) : 0),  // Sub Power
             (n >= 7 ? (uint16)lua_tointeger(L, 7) : 0)); // Tier
 
         CBattleEntity* PEntity = ((CBattleEntity*)m_PBaseEntity);
@@ -11956,10 +11956,10 @@ inline int32 CLuaBaseEntity::addStatusEffectEx(lua_State *L)
         (EFFECT)lua_tointeger(L, 1), // Effect ID
         (uint16)lua_tointeger(L, 2), // Effect Icon ID
         (uint16)lua_tointeger(L, 3), // Power
-        (uint16)lua_tointeger(L, 4), // Tick
-        (uint16)lua_tointeger(L, 5), // Duration
-        (n >= 6 ? (uint16)lua_tointeger(L, 6) : 0), // Sub Effect ID
-        (n >= 7 ? (uint16)lua_tointeger(L, 7) : 0), // Sub Power
+        (uint32)lua_tointeger(L, 4), // Tick
+        (uint32)lua_tointeger(L, 5), // Duration
+        (n >= 6 ? (uint32)lua_tointeger(L, 6) : 0), // Sub Effect ID
+        (n >= 7 ? (uint32)lua_tointeger(L, 7) : 0), // Sub Power
         (n >= 8 ? (uint16)lua_tointeger(L, 8) : 0), // Tier
         (n >= 9 ? (uint32)lua_tointeger(L, 9) : 0)); // Effect Flag (i.e in lua tpz.effectFlag.AURA will make this an aura effect)
 
@@ -12561,7 +12561,7 @@ inline int32 CLuaBaseEntity::addCorsairRoll(lua_State *L)
         (uint32)lua_tointeger(L, 5), // Tick
         (uint32)lua_tointeger(L, 6), // Duration
         (n >= 7 ? (uint32)lua_tointeger(L, 7) : 0),  // SubID or 0
-        (n >= 8 ? (uint16)lua_tointeger(L, 8) : 0),  // SubPower or 0
+        (n >= 8 ? (uint32)lua_tointeger(L, 8) : 0),  // SubPower or 0
         (n >= 9 ? (uint16)lua_tointeger(L, 9) : 0)); // Tier or 0
     uint8 maxRolls = 2;
     if (casterJob != JOB_COR)
@@ -12673,10 +12673,10 @@ inline int32 CLuaBaseEntity::addBardSong(lua_State *L)
         (EFFECT)lua_tointeger(L, 2),  // Effect ID
         (uint16)lua_tointeger(L, 2),  // Effect Icon (Associated with ID)
         (uint16)lua_tointeger(L, 3),  // Power
-        (uint16)lua_tointeger(L, 4),  // Tick
-        (uint16)lua_tointeger(L, 5),  // Duration
-        (uint16)lua_tointeger(L, 6),  // SubID
-        (uint16)lua_tointeger(L, 7),  // SubPower
+        (uint32)lua_tointeger(L, 4),  // Tick
+        (uint32)lua_tointeger(L, 5),  // Duration
+        (uint32)lua_tointeger(L, 6),  // SubID
+        (uint32)lua_tointeger(L, 7),  // SubPower
         (uint16)lua_tointeger(L, 8)); // Tier
 
     uint8 maxSongs = 2;
