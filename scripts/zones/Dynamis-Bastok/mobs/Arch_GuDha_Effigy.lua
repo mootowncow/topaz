@@ -18,6 +18,7 @@ function onMobSpawn(mob)
     mob:delImmunity(tpz.immunity.PARALYZE)
     mob:delImmunity(tpz.immunity.BLIND)
     mob:delImmunity(tpz.immunity.POISON)
+    OnBattleStartConfrontation(mob)
 end
 
 function onMobFight(mob, target)
@@ -27,6 +28,7 @@ function onMobFight(mob, target)
             {id = tpz.jsa.BLOOD_WEAPON, cooldown = 60, hpp = 90},
         },
     })
+    TickConfrontation(mob, target)
 end
 
 function onMobWeaponSkill(target, mob, skill)
@@ -44,5 +46,11 @@ function onMobWeaponSkill(target, mob, skill)
     end
 end
 
-function onMobDeath(mob, player, isKiller, noKiller)
+function onMobDespawn(mob)
+    OnBattleEndConfrontation(mob)
 end
+
+function onMobDeath(mob, player, isKiller, noKiller)
+    OnBattleEndConfrontation(mob)
+end
+

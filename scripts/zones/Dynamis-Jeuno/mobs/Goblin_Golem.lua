@@ -14,8 +14,18 @@ function onMobSpawn(mob)
     mob:delImmunity(tpz.immunity.PARALYZE)
     mob:delImmunity(tpz.immunity.BLIND)
     mob:delImmunity(tpz.immunity.POISON)
+    OnBattleStartConfrontation(mob)
+end
+
+function onMobFight(mob, target)
+    TickConfrontation(mob, target)
+end
+
+function onMobDespawn(mob)
+    OnBattleEndConfrontation(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
     dynamis.megaBossOnDeath(mob, player, isKiller)
+    OnBattleEndConfrontation(mob)
 end

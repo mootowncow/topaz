@@ -25,6 +25,7 @@ function onMobSpawn(mob)
     mob:delImmunity(tpz.immunity.PARALYZE)
     mob:delImmunity(tpz.immunity.BLIND)
     mob:delImmunity(tpz.immunity.POISON)
+    OnBattleStartConfrontation(mob)
 end
 
 function onMobFight(mob, target)
@@ -35,7 +36,14 @@ function onMobFight(mob, target)
         mob:setMod(tpz.mod.TRIPLE_ATTACK, 0)
         mob:setMobMod(tpz.mobMod.SKILL_LIST, 92)
     end
+    TickConfrontation(mob, target)
+end
+
+function onMobDespawn(mob)
+    OnBattleEndConfrontation(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
+    OnBattleEndConfrontation(mob)
 end
+

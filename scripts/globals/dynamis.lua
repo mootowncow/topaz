@@ -10,6 +10,7 @@ require("scripts/globals/titles")
 require("scripts/globals/utils")
 require("scripts/globals/zone")
 require("scripts/globals/msg")
+require("scripts/globals/mobs")
 ------------------------------------
 
 dynamis = {}
@@ -693,6 +694,8 @@ dynamis.qmOnTrade = function(player, npc, trade)
                     end
                     if mobId and npcUtil.popFromQM(player, npc, mobId, {hide = 0, radius = 2}) then
                         player:confirmTrade()
+                        player:messageSpecial(ID.text.CONF_BATTLE_BEGIN, 30, 0, 0, 0) 
+                        OnBattleStartConfrontation(player, mobId, 1800)
                     end
                     break
                 end
