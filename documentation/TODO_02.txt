@@ -26,7 +26,6 @@ Empress Band cast time too long doesnt match DAT?
 Full cure scroll from a ENM or KSNM or BCNM
 Tick #(decay) on mob stat down moves match the duration of it or instantly removes all the stat down?
 Can't see players casting spells on mobs "starts casting", magic_State.cpp
-Should it be "no longer muddled?"
 Funguar shrooms supposed to grow back over time (Check JP wiki for how it works). might need a mixin for all funguars
 Mob ranged attacks (like goblin robbers / aerns) shouldn't have +100 acc bonus
 Changing subjob randomly bugs out and makes you unable to change main job afterwards
@@ -159,13 +158,21 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 **** NOW ***
+Aura pot levels need to scale based on floor, top flor 80 only
+"No effect" message should be checked before "resist" on enfebles
+"No longer Muddled."
+Bark Tarantula and Sapplings in Boyahda tree need spawns audited
+Diss poison landed on a statue with -95% poison EEM?
+Should not be able to parry ranged TP moves. Check SMN PUP and WS too
 Emetic Discharge bugged? says 0 everytime its used
 Fix all AddMobAura and use TickMobAura using Kerwan as a template. Add tick param too
+Finish adding Dynamis zone msg IDs, use windurst for reference
 Most things with getPlayersInRange needs to also get pets in range use logic I coded into AddMobAura for reference
 Tipua needs some type of mechanic, very boring and easy. Maybe summon bees and eat them for HP if you don't kill them fast enough? And 100 fists
 Dark Ixion pathing is broken
 Shikigami weapon pathing
 17182795 Yagudo Prioress missing pet(maybe all SMN in castle oztroja [s] are?)
+17543254 Vanguard Prelate should be 70-71 group
 Retune the SCNM BCNMs
 Revival tree root drop rate? 10-15%? Check FFXIDB
 Handle for Asterion, Forneus,(probably fleshgnasher and Vee Ladu doesn't work(isnt clickable)? Copy handle behind the 4 handle door where it says "its locked" when behind
@@ -173,7 +180,6 @@ Providence shouldn't be removed by being parad, make add another mixin for where
 Jailer of Temp Uses Meikyo Shisui multiple times and should not be aggressive(always aggros on spawn but not aggressive flag). Also vulnerable to grav
 Does asylums resist work on spikes?
 Seal of genbu etc stack to 99 and not rare
-Aura pot levels need to scale based on floor, top flor 80 only
 Does mijin gakure work properly when used by NMs and such?
 17535157 Vanguard Grapplers group needs to be low level orc not high
 Steps shouldn't hit mobs with PD
@@ -187,6 +193,7 @@ Make salvage require tag again
 Make Poroggo Shifu immune to silence
 BST Relic, especially the body(make it remove erasable effects). Maybe entire set of ready move Attack % bonus / dmg cause pet ready moves suck without attack.
 DRG relic? Boots suck
+BLU relic? boots suck
 Move Apollyon NE limbus Gigas to correct spots https://www.bg-wiki.com/ffxi/Apollyon_NE
 Spell mods missing off 75+ blu spells or at least a bunch
 https://github.com/LandSandBoat/server/issues/5127
@@ -205,7 +212,9 @@ Extremely rare item dropped !!! msg and no item in pool, was a level 81+ mob. Di
 but nothing is in the list for 81+ in that drop rate
 COR good with pet jobs, so buff its pet rolls to the moon
 COR shots buffed in some way to be better with enfeebles? or apply super enfeebles itself maybe and not buff them?
+Cascade 500 TP bonus+ gear and manawell CDR gear
 Pet stat mainhands (daggers)
+Avatars (mostly dynamis) should use 2 hr if they wake up while master has astral flow active still
 Only take ZNM items on ZNM kill not pop
 Gotoh Zha the Redolent SDT/EEM in sql (Copy whats in its lua)
 JP wiki for killer weapon/armor percentages
