@@ -81,6 +81,11 @@ uint32 CVanaTime::getMinute()
     return m_vMin;
 }
 
+uint32 CVanaTime::getSecond()
+{
+    return m_vSec;
+}
+
 uint32 CVanaTime::getWeekday()
 {
     return m_vDay;
@@ -255,12 +260,13 @@ TIMETYPE CVanaTime::SyncTime()
 {
     m_vanaDate  = (uint32)(this->getVanaTime() / 60.0 * 25) + 886 * VTIME_YEAR; //convert vana time (from SE epoch in earth seconds) to vanadiel minutes and add 886 vana years
 
-    m_vYear = (uint32)( m_vanaDate / VTIME_YEAR);
+    m_vYear = (uint32)(m_vanaDate / VTIME_YEAR);
     m_vMon  = (uint32)((m_vanaDate / VTIME_MONTH) % 12) + 1;
     m_vDate = (uint32)((m_vanaDate / VTIME_DAY) % 30 ) + 1;
     m_vDay  = (uint32)((m_vanaDate % VTIME_WEEK)  / VTIME_DAY);
     m_vHour = (uint32)((m_vanaDate % VTIME_DAY)   / VTIME_HOUR);
     m_vMin  = (uint32)( m_vanaDate % VTIME_HOUR);
+    m_vSec  = (uint32)((m_vanaDate % VTIME_HOUR) % VTIME_HOUR); // Calculate seconds
 
     static uint8 lastTickedHour = m_vHour;
     if (m_vHour == (lastTickedHour + 1) % 24u)

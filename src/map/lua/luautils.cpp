@@ -131,6 +131,7 @@ namespace luautils
         lua_register(LuaHandle, "VanadielTOTD", luautils::VanadielTOTD);
         lua_register(LuaHandle, "VanadielHour", luautils::VanadielHour);
         lua_register(LuaHandle, "VanadielMinute", luautils::VanadielMinute);
+        lua_register(LuaHandle, "VanadielSecond", luautils::VanadielSecond);
         lua_register(LuaHandle, "VanadielDayOfTheWeek", luautils::VanadielDayOfTheWeek);
         lua_register(LuaHandle, "VanadielDayOfTheMonth", luautils::VanadielDayOfTheMonth);
         lua_register(LuaHandle, "VanadielDayOfTheYear", luautils::VanadielDayOfTheYear);
@@ -722,6 +723,18 @@ namespace luautils
     int32 VanadielMinute(lua_State* L)
     {
         lua_pushinteger(L, CVanaTime::getInstance()->getMinute());
+        return 1;
+    }
+
+        /************************************************************************
+     *                                                                       *
+     *   Return Vanadiel Second                                              *
+     *                                                                       *
+     ************************************************************************/
+
+    int32 VanadielSecond(lua_State* L)
+    {
+        lua_pushinteger(L, CVanaTime::getInstance()->getSecond());
         return 1;
     }
 
