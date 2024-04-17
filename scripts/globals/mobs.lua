@@ -1137,3 +1137,57 @@ function CorruptBuffs(mob, target, amount)
         end
     end
 end
+
+function OnBattleStartConfrontation(player, mobId, duration)
+    local mob = GetMobByID(mobId)
+    player:addPartyEffect(tpz.effect.CONFRONTATION, 10, 0, 0)
+    mob:addStatusEffect(tpz.effect.CONFRONTATION, 10, 0, 0)
+    mob:setLocalVar("ConfrontationDuration",  duration)
+end
+
+function TickConfrontation(mob, target)
+    local fightDuration = mob:getLocalVar("ConfrontationDuration")
+    local tick = mob:getLocalVar("ConfrontationTick")
+    local battleTime = mob:getBattleTime()
+    local fiveMinutes = 300
+    local oneMinute = 60
+    local zoneId = target:getZoneID()
+    local ID = zones[zoneId]
+
+    -- Tick fight duration down by 1 second every second of battle time
+    fightDuration = fightDuration - battleTime
+    if (os.time() >= tick) then
+        if (fightDuration <= 0) then
+            target:messageSpecial(ID.text.CONF_TIME_UP)
+            target:delPartyEffect(tpz.effect.CONFRONTATION)
+            DespawnMob(mob:getID())
+        elseif (fightDuration <= oneMinute) then
+            if (fightDuration % 10 == 0) then
+                target:messageSpecial(ID.text.CONF_SEC_REMAINING, fightDuration, 0, 0, 0)
+                mob:setLocalVar("ConfrontationTick", os.time() + 3)
+            end
+        elseif (fightDuration <= fiveMinutes) then
+            if (fightDuration % 60 == 0) then
+                target:messageSpecial(ID.text.CONF_MIN_REMAINING, fightDuration / 60, 0, 0, 0)
+                mob:setLocalVar("ConfrontationTick", os.time() + 3)
+            end
+        end       
+    end
+end
+
+function OnBattleEndConfrontation(mob)
+    if (mob:getTarget() == nil or target == nil) then
+        local NearbyPlayers = mob:getPlayersInRange(50)
+        if NearbyPlayers == nil then return end
+        if NearbyPlayers then
+            for _,v in ipairs(NearbyPlayers) do
+                if v:hasStatusEffect(tpz.effect.CONFRONTATION) then
+                    v:delPartyEffect(tpz.effect.CONFRONTATION)
+                end
+            end
+        end
+    else
+        target:delPartyEffect(tpz.effect.CONFRONTATION)
+    end
+    mob:delStatusEffect(tpz.effect.CONFRONTATION)
+end
