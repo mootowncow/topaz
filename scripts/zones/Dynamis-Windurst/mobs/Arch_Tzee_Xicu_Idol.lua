@@ -30,7 +30,6 @@ function onMobFight(mob, target)
             {id = tpz.jsa.MANA_FONT, cooldown = 60, hpp = 90},
         },
     })
-    TickConfrontation(mob, target)
 end
 
 function onMobDespawn(mob)

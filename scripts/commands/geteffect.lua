@@ -47,9 +47,14 @@ function onTrigger(player, arg1)
         end
 
         local power = effect:getPower()
+        local tick = effect:getTick()
+        local duration = math.ceil((effect:getTimeRemaining()) / 1000)
+        local subId = effect:getSubType()
+        local subPower = effect:getSubPower()
+        local tier = effect:getTier()
 
         if (targ ~= nil) then
-            player:PrintToPlayer(string.format("%s's %u power is %u", targ:getName(), id, power))
+            player:PrintToPlayer(string.format("%s's %u power: %u, tick: %u, duration: %u, subId: %u, subPower: %u, tier: %u", targ:getName(), id, power, tick, duration, subId, subPower, tier))
         else
             player:PrintToPlayer("Must select a target using in game cursor first.")
         end

@@ -15,7 +15,6 @@ function onMobSpawn(mob)
 end
 
 function onMobFight(mob, target)
-    TickConfrontation(mob, target)
 end
 
 function onMobEngaged(mob, target)

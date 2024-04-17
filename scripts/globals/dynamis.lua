@@ -679,6 +679,7 @@ dynamis.qmOnTrade = function(player, npc, trade)
     local zoneId = npc:getZoneID()
     local ID = zones[zoneId]
     local QM = ID.npc.QM
+    local confrontationDuration = 1800
 
     if QM then
         local info = QM[npcId]
@@ -692,10 +693,11 @@ dynamis.qmOnTrade = function(player, npc, trade)
                     else
                         mobId = v.mob
                     end
-                    if mobId and npcUtil.popFromQM(player, npc, mobId, {hide = 0, radius = 2}) then
+                    -- Shouldn't the ??? disappear on pop?
+                    if mobId and npcUtil.popFromQM(player, npc, mobId, {hide = 30, radius = 2}) then
                         player:confirmTrade()
-                        player:messageSpecial(ID.text.CONF_BATTLE_BEGIN, 30, 0, 0, 0) 
-                        OnBattleStartConfrontation(player, mobId, 1800)
+                        player:messageSpecial(ID.text.CONF_BATTLE_BEGIN, confrontationDuration / 60, 0, 0, 0) 
+                        OnBattleStartConfrontation(player, mobId, 310)
                     end
                     break
                 end

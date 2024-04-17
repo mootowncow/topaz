@@ -772,15 +772,29 @@ function AddMobAura(mob, target, auraParams)
         auraParams.subpower = 0
     end
 
-    mob:setLocalVar("auraDuration" .. auraParams.auraNumber, os.time() + auraParams.duration)
+    if (mob:getLocalVar("auraDuration" .. auraParams.auraNumber) == 0) then
+        mob:setLocalVar("auraDuration" .. auraParams.auraNumber, os.time() + auraParams.duration)
+    end
+end
+
+function DelMobAura(mob, target, auraParams)
+    -- TODO: Doesn't delete auras properly
+    if (auraParams ~= nil) then
+        print(string.format("DelMobAura Radius: %d, Effect: %d, Power: %d, Duration: %d, AuraNumber: %d", auraParams.radius, auraParams.effect, auraParams.power, auraParams.duration, auraParams.auraNumber))
+        mob:setLocalVar("auraDuration" .. auraParams.auraNumber, 0)
+    end
 end
 
 function TickMobAura(mob, target, auraParams)
-    if auraParams.auraNumber == nil then
+    if (auraParams == nil) then
+        return
+    end
+
+    if (auraParams.auraNumber == nil) then
         auraParams.auraNumber = 1
     end
 
-    if auraParams.subpower == nil then
+    if (auraParams.subpower == nil) then
         auraParams.subpower = 0
     end
 
@@ -819,6 +833,12 @@ function TickMobAura(mob, target, auraParams)
                     end
                 end
             end
+        end
+        print(string.format("TickMobAura Radius: %d, Effect: %d, Power: %d, Duration: %d, AuraNumber: %d", auraParams.radius, auraParams.effect, auraParams.power, auraParams.duration, auraParams.auraNumber))
+    else
+        -- Reset aura var to 0 once it's duration ends
+        if (auraParams ~= nil) then
+            DelMobAura(mob, target, auraParams)
         end
     end
 end
@@ -1139,40 +1159,15 @@ function CorruptBuffs(mob, target, amount)
 end
 
 function OnBattleStartConfrontation(player, mobId, duration)
+    -- Duration must be divisable by 5 or this will not work properly!
     local mob = GetMobByID(mobId)
-    player:addPartyEffect(tpz.effect.CONFRONTATION, 10, 0, 0)
-    mob:addStatusEffect(tpz.effect.CONFRONTATION, 10, 0, 0)
-    mob:setLocalVar("ConfrontationDuration",  duration)
-end
-
-function TickConfrontation(mob, target)
-    local fightDuration = mob:getLocalVar("ConfrontationDuration")
-    local tick = mob:getLocalVar("ConfrontationTick")
-    local battleTime = mob:getBattleTime()
-    local fiveMinutes = 300
-    local oneMinute = 60
-    local zoneId = target:getZoneID()
-    local ID = zones[zoneId]
-
-    -- Tick fight duration down by 1 second every second of battle time
-    fightDuration = fightDuration - battleTime
-    if (os.time() >= tick) then
-        if (fightDuration <= 0) then
-            target:messageSpecial(ID.text.CONF_TIME_UP)
-            target:delPartyEffect(tpz.effect.CONFRONTATION)
-            DespawnMob(mob:getID())
-        elseif (fightDuration <= oneMinute) then
-            if (fightDuration % 10 == 0) then
-                target:messageSpecial(ID.text.CONF_SEC_REMAINING, fightDuration, 0, 0, 0)
-                mob:setLocalVar("ConfrontationTick", os.time() + 3)
-            end
-        elseif (fightDuration <= fiveMinutes) then
-            if (fightDuration % 60 == 0) then
-                target:messageSpecial(ID.text.CONF_MIN_REMAINING, fightDuration / 60, 0, 0, 0)
-                mob:setLocalVar("ConfrontationTick", os.time() + 3)
-            end
-        end       
-    end
+    local power = 10
+    local tick = 5
+    local subId = 0
+    local subPower = mobId
+    local tier = 0
+    player:addPartyEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
+    mob:addStatusEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
 end
 
 function OnBattleEndConfrontation(mob)

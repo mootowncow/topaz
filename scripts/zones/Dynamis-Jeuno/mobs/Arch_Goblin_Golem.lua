@@ -36,7 +36,6 @@ function onMobFight(mob, target)
         mob:setMod(tpz.mod.TRIPLE_ATTACK, 0)
         mob:setMobMod(tpz.mobMod.SKILL_LIST, 92)
     end
-    TickConfrontation(mob, target)
 end
 
 function onMobDespawn(mob)

@@ -27,7 +27,6 @@ function onMobFight(mob, target)
             {id = tpz.jsa.HUNDRED_FISTS, cooldown = 60, hpp = 90},
         },
     })
-    TickConfrontation(mob, target)
 end
 
 function onMobWeaponSkill(target, mob, skill)

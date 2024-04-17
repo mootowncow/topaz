@@ -9,6 +9,23 @@ require("scripts/globals/titles")
 require("scripts/globals/wotg")
 mixins = {require("scripts/mixins/families/ruszor")}
 ------------------------------
+
+local auraParams1 = {
+    radius = 10,
+    effect = tpz.effect.GEO_PARALYSIS,
+    power = 30,
+    duration = 300,
+    auraNumber = 1
+}
+
+local auraParams2 = {
+    radius = 10,
+    effect = tpz.effect.MUTE,
+    power = 1,
+    duration = 300,
+    auraNumber = 2
+}
+
 function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
 end
@@ -34,8 +51,6 @@ function onMobFight(mob, target)
 	local AquaCannonMax = mob:getLocalVar("AquaCannonMax")
 	local IceGuillotineMax = mob:getLocalVar("IceGuillotineMax")
 	local IceGuillotineTime = mob:getLocalVar("IceGuillotineTime")
-    local MuteAura = mob:getLocalVar("MuteAura")
-    local ParalysisAura = mob:getLocalVar("ParalysisAura")
 
     -- Use Aqua Cannon 4/6/8/10 times in a row after using Hydro Wave
     if (AquaCannonTime == 1) then
@@ -48,19 +63,15 @@ function onMobFight(mob, target)
         mob:setLocalVar("IceGuillotineTime", 0)
     end
     -- Gains an aura after using Hydro Wave and Frozen Mist
-    if (os.time() < MuteAura) then
-        AddMobAura(mob, target, 10, tpz.effect.MUTE, 1, 3)
-    end
-    if (os.time() < ParalysisAura) then
-        AddMobAura(mob, target, 10, tpz.effect.GEO_PARALYSIS, 50, 3)
-    end
+    TickMobAura(mob, target, auraParams1)
+    TickMobAura(mob, target, auraParams2)
 end
 
 function onMobWeaponSkill(target, mob, skill)
 	local Roll = math.random()
     if skill:getID() == 2439 then -- Hydro Wave
-        mob:setLocalVar("MuteAura", os.time() + 300)
-        mob:setLocalVar("ParalysisAura", 0)
+        DelMobAura(mob, target, auraParam1)
+        AddMobAura(mob, target, auraParams2)
         if Roll < 0.2 then
 			AquaCannonMax = 10
 		elseif Roll < 0.5 then
@@ -75,8 +86,8 @@ function onMobWeaponSkill(target, mob, skill)
 	end
 	
     if skill:getID() == 2438 then -- Frozen Mist
-        mob:setLocalVar("ParalysisAura", os.time() + 300)
-        mob:setLocalVar("MuteAura", 0)
+        DelMobAura(mob, target, auraParam2)
+        AddMobAura(mob, target, auraParams1)
         if Roll < 0.2 then
 			IceGuillotineMax = 10
 		elseif Roll < 0.5 then
