@@ -43,8 +43,6 @@ local auraLamprey = {
     auraNumber = 1
 }
 
-10, tpz.effect.PARALYSIS, 50, 15
-
 local auraDawon = {
     radius = 10,
     effect = tpz.effect.DEFENSE_DOWN,
