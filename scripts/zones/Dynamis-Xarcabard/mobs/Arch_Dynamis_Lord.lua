@@ -3,6 +3,7 @@
 --   NM: Dynamis Lord
 -- Note: Mega Boss
 -- Spawned by trading a Shrouded Bijou to the ??? in front of Castle Zvahl.
+-- TODO: Not coded
 -----------------------------------
 local ID = require("scripts/zones/Dynamis-Xarcabard/IDs")
 mixins = {require("scripts/mixins/job_special")}

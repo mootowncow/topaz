@@ -1,47 +1,22 @@
 -----------------------------------
 -- Area: Dynamis - Beaucedine
---  Mob: Angra Mainyu
+--  Mob: Arch Angra Mainyu
 -- Note: Mega Boss
 -- ID: 17326081
+-- TODO: Not coded
 -----------------------------------
 mixins = {require("scripts/mixins/job_special")}
 require("scripts/globals/dynamis")
 require("scripts/globals/status")
 require("scripts/globals/mobs")
 -----------------------------------
-positions =
-{
-    [1] = {15, 15},
-    [2] = {-15, -15},
-    [3] = {15, -15},
-    [4] = {-15, 15},
-    [5] = {20, 20},
-    [6] = {-20, -20},
-    [7] = {20, -20},
-    [8] = {-20, 20},
-    [9] = {15, 20},
-    [10] = {20, 15},
-    [11] = {15, -20},
-    [12] = {-15, 20},
-    [13] = {20, -15},
-    [14] = {-20, 15},
-    [15] = {-15, -20},
-    [16] = {-20, -15},
-}
-
 function onMobSpawn(mob)
      mob:addMod(tpz.mod.DEFP, 25) 
      mob:addMod(tpz.mod.ATTP, 25)
      mob:addMod(tpz.mod.ACC, 50) 
      mob:addMod(tpz.mod.EVA, 15)
      mob:setMod(tpz.mod.REFRESH, 300)
-    tpz.mix.jobSpecial.config(mob, {
-        specials =
-        {
-            {id = tpz.jsa.CHAINSPELL, hpp = 25},
-        },
-    })
-    OnBattleStartConfrontation(mob)
+     OnBattleStartConfrontation(mob)
 end
 
 function onMobEngaged(mob, target)
