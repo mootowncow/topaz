@@ -11,7 +11,7 @@ function onMobSpawn(mob)
     -- adjust drops based on number of HQ Aern Organs traded to QM
     local qm = GetNPCByID(ID.npc.IXAERN_MNK_QM)
     local chance = qm:getLocalVar("[SEA]IxAern_DropRate")
-    SetDropRate(2845, 1851, chance * 9) -- Deed Of Placidity
+    SetDropRate(2845, 1851, chance * 10) -- Deed Of Placidity
     qm:setLocalVar("[SEA]IxAern_DropRate", 0)
 	
 	mob:setDamage(70)
@@ -34,12 +34,10 @@ function onMobFight(mob, target)
             -- Go into bracer mode
             mob:setLocalVar("BracerMode", 1)
             mob:AnimationSub(2)
-			mob:setDelay(7000)
-			mob:setMod(tpz.mod.ATTP, 100)
+			mob:setDelay(4000)
+			mob:addMod(tpz.mod.ATTP, 30)
+            mob:addMod(tpz.mod.ACC, 40)
 			mob:addMod(tpz.mod.MATT, 48)
-			mob:setMod(tpz.mod.UDMGPHYS, -60) 
-			mob:setMod(tpz.mod.UDMGRANGE, -60)
-			mob:setMod(tpz.mod.UDMGMAGIC, -60)
             mob:useMobAbility(690) -- Hundred Fists
 		
 			-- Force minions to 2hour

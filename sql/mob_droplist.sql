@@ -15566,8 +15566,8 @@ INSERT INTO `mob_droplist` VALUES (2843,1,1,1000,1870,900); -- (Ix DRG) Deed Of 
 INSERT INTO `mob_droplist` VALUES (2843,1,1,1000,1903,100); -- Vice Of Aspersion
 INSERT INTO `mob_droplist` VALUES (2844,1,1,1000,1854,900); -- (Ix DRK) Deed Of Moderation
 INSERT INTO `mob_droplist` VALUES (2844,1,1,1000,1902,100); -- Vice Of Avarice
-INSERT INTO `mob_droplist` VALUES (2845,1,1,1000,1851,100); -- (Ixaern MNK) Deed of placidity
-INSERT INTO `mob_droplist` VALUES (2845,1,1,1000,1901,100); -- Vice of antipathy
+INSERT INTO `mob_droplist` VALUES (2845,0,0,1000,1851,100); -- (Ixaern MNK) Deed of placidity
+INSERT INTO `mob_droplist` VALUES (2845,0,0,1000,1901,100); -- Vice of antipathy
 INSERT INTO `mob_droplist` VALUES (2846,0,0,1000,856,100);
 INSERT INTO `mob_droplist` VALUES (2846,0,0,1000,584,70);
 INSERT INTO `mob_droplist` VALUES (2846,2,0,1000,4358,0);
