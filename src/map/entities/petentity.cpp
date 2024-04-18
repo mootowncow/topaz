@@ -36,6 +36,7 @@
 #include "../utils/mobutils.h"
 #include "../../common/utils.h"
 #include "../mob_modifier.h"
+#include "../status_effect_container.h"
 
 CPetEntity::CPetEntity(PETTYPE petType)
 : CMobEntity()
@@ -235,6 +236,18 @@ void CPetEntity::Spawn()
     if (m_PetType == PETTYPE_JUG_PET)
     {
         m_jugSpawnTime = server_clock::now();
+    }
+
+    if (PMaster && PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_CONFRONTATION))
+    {
+        CStatusEffect* confrontation = PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_CONFRONTATION);
+        int16 power = confrontation->GetPower();
+        int32 tick = confrontation->GetTickTime() / 1000;
+        int32 duration = confrontation->GetDuration();
+        int32 subid = confrontation->GetSubID();
+        int32 subPower = confrontation->GetSubPower();
+        int32 tier = confrontation->GetTier();
+        this->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_CONFRONTATION, EFFECT_CONFRONTATION, power, tick, duration, subid, subPower, tier));
     }
 
     CBattleEntity::Spawn();
