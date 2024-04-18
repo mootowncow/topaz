@@ -1595,23 +1595,17 @@ function MobTransferEnfeeblesMove(mob, target, skill, range, isAOE)
     local entityId = nil
     local currentEntity = nil
 
+    -- Transfer effects
     if isAOE then
         for i, effect in ipairs(effects) do
-            for _, enmity in ipairs(enmityList) do
-                if enmityList and #enmityList > 0 then
-                    if mob:hasStatusEffect(effect) then
-                        for v = 1, #enmityList do
-                            entityId = v.entity:getID()
-                            if (entityId > 10000) then -- ID is a mob(pet) then
-                                currentEntity = GetMobByID(entityId)
-                            else
-                                currentEntity = GetPlayerByID(entityId)
-                            end
-                            local currentEffect = mob:getStatusEffect(effect)
-                            if currentEntity:checkDistance(mob) <= range then
-                                MobStatusEffectMove(mob, currentEntity, effect, currentEffect:getPower(), currentEffect:getTick(), currentEffect:getTimeRemaining() / 1000)
-                            end
-                        end
+            if mob:hasStatusEffect(effect) then
+                local currentEffect = mob:getStatusEffect(effect)
+                local skillRange = skill:getDistance()
+                local NearbyPlayers = mob:getPlayersInRange(skillRange)
+                if NearbyPlayers == nil then return end
+                if NearbyPlayers then
+                    for _,v in ipairs(NearbyPlayers) do
+                        MobStatusEffectMove(mob, v, effect, currentEffect:getPower(), currentEffect:getTick() / 1000, currentEffect:getTimeRemaining() / 1000)
                     end
                 end
             end
@@ -1620,11 +1614,12 @@ function MobTransferEnfeeblesMove(mob, target, skill, range, isAOE)
         for i, effect in ipairs(effects) do
             if mob:hasStatusEffect(effect) then
                 local currentEffect = mob:getStatusEffect(effect)
-                MobStatusEffectMove(mob, target, effect, currentEffect:getPower(), currentEffect:getTick(), currentEffect:getTimeRemaining() / 1000)
+                MobStatusEffectMove(mob, target, effect, currentEffect:getPower(), currentEffect:getTick() / 1000, currentEffect:getTimeRemaining() / 1000)
             end
         end
     end
 
+    -- Delete status effects off self
     for i, effect in ipairs(effects) do
         if mob:hasStatusEffect(effect) then
             mob:removeAllNegativeEffects()

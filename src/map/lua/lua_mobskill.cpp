@@ -146,7 +146,7 @@ inline int32 CLuaMobSkill::getParam(lua_State* L)
     return 1;
 }
 
-inline int32 CLuaMobSkill::getDistance(lua_State* L)
+inline int32 CLuaMobSkill::getDistance(lua_State* L) // Range of the skill
 {
     TPZ_DEBUG_BREAK_IF(m_PLuaMobSkill == nullptr);
 

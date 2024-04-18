@@ -46,7 +46,7 @@ public:
     int32 getMobHPP(lua_State*);
     int32 getID(lua_State*);
     int32 getParam(lua_State*);
-    int32 getDistance(lua_State*);
+    int32 getDistance(lua_State*); // Range of the skill
     int32 isAoE(lua_State*);
     int32 isConal(lua_State*);
     int32 isBack(lua_State*);
