@@ -158,6 +158,7 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 **** NOW ***
+manafont sucks buff for players only
 Aura pot levels need to scale based on floor, top flor 80 only
 "No effect" message should be checked before "resist" on enfebles
 "No longer Muddled."
@@ -200,6 +201,10 @@ https://github.com/LandSandBoat/server/issues/5127
 Buff Charger / Jaeger / Gunner mantle
 Sky Curtana ??? should be random
 Mobs that aggro by sound and sound and are true aggro don't seem to link by both? Imps in WOTG strongholds don't
+Quasilumin escort died but didn't despawn on death?
+Quasilumin need attack disabled
+16916780, 16916629, 16916648, and 16916608 pots need to be moved and instructed to spin(if they arent). Maybe need to also fix their file that makes them spin(its positions?)
+Quasilumin shouldn't run past ghrahs that are engaged in ball form just because they aren't aggressive
 
 
 ****TEST****
@@ -245,7 +250,6 @@ All offensive AOE Unbridled spells should be around mob not player
 Cap all GP turn ins by 1/3
 Add "You gain x Zeni" from mobs that give Zeni.
 Amplification needs to be changed to something else
-Limbus Chests AOE animation and like 100 yard range or w/e (Edit the skills SQL to be AOE and 100 yards)
 Add Dynamis mobs back and revert TE movement changes (Sandy, bastok, jeuno)
 More spawns for low level JA mobs in dynamis - sandy(2 ninja 2 BST 1 THF)
 Add confirmation or w/e status when spawning the bosses in dynamis
