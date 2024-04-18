@@ -4,6 +4,20 @@
 -----------------------------------
 require("scripts/globals/voidwalker")
 -----------------------------------
+local auraParams1 = {
+    radius = 10,
+    effect = tpz.effect.WEIGHT,
+    power = 35,
+    duration = 30,
+    auraNumber = 1
+}
+local auraParams2 = {
+    radius = 10,
+    effect = tpz.effect.DEFENSE_DOWN,
+    power = 33,
+    duration = 30,
+    auraNumber = 2
+}
 
 function onMobInitialize(mob)
     tpz.voidwalker.onMobInitialize(mob)
@@ -15,12 +29,14 @@ end
 
 function onMobFight(mob, target)
     tpz.voidwalker.onMobFight(mob, target)
+    TickMobAura(mob, target, auraParams1)
+    TickMobAura(mob, target, auraParams2)
 end
 
 function onMobWeaponSkill(target, mob, skill)
     if skill:getID() == 2516 then -- Gravitic Horn
-        AddMobAura(mob, target, 10, tpz.effect.WEIGHT, 35, 30)
-        AddMobAura(mob, target, 10, tpz.effect.DEFENSE_DOWN, 33, 30, 0, 2)
+        AddMobAura(mob, target, auraParams1)
+        AddMobAura(mob, target, auraParams2)
     end
 end
 

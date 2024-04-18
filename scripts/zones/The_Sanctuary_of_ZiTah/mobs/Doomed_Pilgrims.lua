@@ -6,6 +6,13 @@ local ID = require("scripts/zones/The_Sanctuary_of_ZiTah/IDs")
 require("scripts/globals/status")
 require("scripts/globals/mobs")
 -----------------------------------
+local auraParams = {
+    radius = 10,
+    effect = tpz.effect.GEO_POISON,
+    power = 20,
+    duration = 60,
+    auraNumber = 1
+}
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
@@ -37,15 +44,12 @@ function onMobFight(mob, target)
         mob:setLocalVar("wingsDown", 0)
     end
 
-    -- Tick aura
-    if (battletime >= mob:getLocalVar("auraTimer")) then
-        AddMobAura(mob, target, 10, tpz.effect.POISON, 20, 3)
-    end
+    TickMobAura(mob, target, auraParams)
 end
 
 function onMobWeaponSkill(target, mob, skill)
     if skill:getID() == 489 then -- stinking gas
-        mob:setLocalVar("auraTimer", 30)
+        AddMobAura(mob, target, auraParams)
     end
 end
 

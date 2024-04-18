@@ -21,6 +21,13 @@ require("scripts/globals/mobs")
 require("scripts/globals/wotg")
 mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
+local auraParams = {
+    radius = 10,
+    effect = tpz.effect.FLASH,
+    power = 104,
+    duration = 3,
+    auraNumber = 1
+}
 
 function onMobSpawn(mob)
     tpz.wotg.NMMods(mob)
@@ -56,7 +63,8 @@ function onMobFight(mob, target)
     local msg = mob:getLocalVar("msg")
     -- Glows when his flash aura is active. Aura is -104 ACC
     if mob:AnimationSub() == 1 then
-        AddMobAura(mob, target, 10, tpz.effect.FLASH, 104, 3)
+        TickMobAura(mob, target, auraParams)
+        AddMobAura(mob, target, auraParams)
     end
 
     -- Says “I shall feast on your fear!” when he uses Veil of Chaos

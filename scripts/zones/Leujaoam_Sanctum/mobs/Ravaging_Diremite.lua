@@ -4,6 +4,14 @@
 -----------------------------------
 local ID = require("scripts/zones/Ilrusi_Atoll/IDs")
 -----------------------------------
+local auraParams = {
+    radius = 10,
+    effect = tpz.effect.GEO_SLOW,
+    power = 3000,
+    duration = 3,
+    auraNumber = 1
+}
+
 function onMobSpawn(mob)
     mob:hideName(true)
     mob:setMod(tpz.mod.MDEF, 40)
@@ -38,7 +46,6 @@ function onMobFight(mob, target)
 	local Message = mob:getLocalVar("Message")
 	local MessageWait = mob:getLocalVar("MessageWait")
 	local BattleTime = mob:getBattleTime()
-    AddMobAura(mob, target, 10, tpz.effect.GEO_SLOW, 3000, 3)
 
 	if mob:getHPP() <= 35 then
 		if SpinningTopTime == 0 then
@@ -62,6 +69,8 @@ function onMobFight(mob, target)
         end
         mob:setLocalVar("Message", 1)
     end
+    TickMobAura(mob, target, auraParams)
+    AddMobAura(mob, target, auraParams)
 end
 
 function onMobWeaponSkillPrepare(mob, target)

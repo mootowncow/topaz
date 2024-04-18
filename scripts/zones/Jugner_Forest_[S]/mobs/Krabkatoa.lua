@@ -4,7 +4,13 @@
 -----------------------------------
 require("scripts/globals/voidwalker")
 -----------------------------------
-
+local auraParams = {
+    radius = 10,
+    effect = tpz.effect.PLAGUE,
+    power = 3,
+    duration = 30,
+    auraNumber = 1
+}
 function onMobInitialize(mob)
     tpz.voidwalker.onMobInitialize(mob)
 end
@@ -15,11 +21,12 @@ end
 
 function onMobFight(mob, target)
     tpz.voidwalker.onMobFight(mob, target)
+    TickMobAura(mob, target, auraParams)
 end
 
 function onMobWeaponSkill(target, mob, skill)
     if skill:getID() == 2512 then -- Venom Shower
-        AddMobAura(mob, target, 10, tpz.effect.PLAGUE, 3, 30)
+        AddMobAura(mob, target, auraParams)
     end
 end
 
@@ -35,3 +42,4 @@ function onMobDeath(mob, player, isKiller, noKiller)
     player:addTitle(tpz.title.KRABKATOA_STEAMER)
     tpz.voidwalker.onMobDeath(mob, player, isKiller, tpz.keyItem.BLACK_ABYSSITE)
 end
+

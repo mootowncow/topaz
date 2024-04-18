@@ -23,7 +23,7 @@ mixins = {require("scripts/mixins/job_special")}
 local auraParams = {
     radius = 10,
     effect = tpz.effect.GEO_SLOW,
-    power = -4000,
+    power = 4000,
     duration = 3,
     auraNumber = 1
 }

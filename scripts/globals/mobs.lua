@@ -778,10 +778,17 @@ function AddMobAura(mob, target, auraParams)
 end
 
 function DelMobAura(mob, target, auraParams)
-    -- TODO: Doesn't delete auras properly
+    -- TODO: Doesn't delete auras properly ? Test I think I fixed it...
     if (auraParams ~= nil) then
         -- print(string.format("DelMobAura Radius: %d, Effect: %d, Power: %d, Duration: %d, AuraNumber: %d", auraParams.radius, auraParams.effect, auraParams.power, auraParams.duration, auraParams.auraNumber))
         mob:setLocalVar("auraDuration" .. auraParams.auraNumber, 0)
+    end
+end
+
+function DelAllMobAura(mob, target)
+    -- Deletes up to 100 mob auras, no way is more needed.
+    for i = 1, 100 do
+        mob:setLocalVar("auraDuration" .. i, 0)
     end
 end
 

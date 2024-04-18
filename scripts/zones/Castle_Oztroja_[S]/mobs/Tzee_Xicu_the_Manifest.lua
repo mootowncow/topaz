@@ -22,6 +22,14 @@ require("scripts/globals/mobs")
 require("scripts/globals/wotg")
 mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
+local auraParams = {
+    radius = 10,
+    effect = tpz.effect.GEO_WEIGHT,
+    power = 70,
+    duration = 3,
+    auraNumber = 1
+}
+
 function onMobSpawn(mob)
     tpz.wotg.NMMods(mob)
     mob:addMod(tpz.mod.STORETP, 50)
@@ -56,8 +64,8 @@ function onMobFight(mob, target)
     local msg = mob:getLocalVar("msg")
     -- Glows when his weight aura is active. Aura is -70% move speed
     if mob:AnimationSub() == 1 then
-        target:delStatusEffectSilent(tpz.effect.WEIGHT)
-        AddMobAura(mob, target, 10, tpz.effect.GEO_WEIGHT, 70, 3)
+        TickMobAura(mob, target, auraParams)
+        AddMobAura(mob, target, auraParams)
     end
 
     -- Says “I shall feast on your fear!” when he uses Vorticose Sands

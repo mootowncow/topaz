@@ -4,6 +4,22 @@
 -----------------------------------
 local ID = require("scripts/zones/Periqia/IDs")
 -----------------------------------
+local auraParams1 = {
+    radius = 10,
+    effect = tpz.effect.AMNESIA,
+    power = 1,
+    duration = 3,
+    auraNumber = 1
+}
+
+local auraParams2 = {
+    radius = 10,
+    effect = tpz.effect.MUTE,
+    power = 1,
+    duration = 3,
+    auraNumber = 2
+}
+
 function onMobSpawn(mob)
     mob:setMod(tpz.mod.MDEF, 40)
     mob:setMod(tpz.mod.UDMGMAGIC, -13)
@@ -27,12 +43,8 @@ function onMobEngaged(mob)
 end
 
 function onMobFight(mob, target)
-    local auraMode = mob:getLocalVar("auraMode")
-    if (auraMode == 1) then
-        AddMobAura(mob, target, 10, tpz.effect.AMNESIA, 1, 3)
-    elseif (auraMode == 2) then
-        AddMobAura(mob, target, 10, tpz.effect.MUTE, 1, 3)
-    end
+    TickMobAura(mob, target, auraParams1)
+    TickMobAura(mob, target, auraParams2)
 	if mob:hasStatusEffect(tpz.effect.BLAZE_SPIKES) == false then
 		mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 25, 0, 3600)
 	end
@@ -40,10 +52,12 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     if skill:getID() == 1709 then -- Abrasive Tantra
-	    mob:setLocalVar("auraMode", 1)
+        DelMobAura(mob, target, auraParam2)
+        AddMobAura(mob, target, auraParams1)
     end
     if skill:getID() == 1710 then -- Deafening Tantra
-	    mob:setLocalVar("auraMode", 2)
+        DelMobAura(mob, target, auraParam1)
+        AddMobAura(mob, target, auraParams2)
     end
 end
 

@@ -55,7 +55,7 @@ local auraYilbegan = {
     radius = 10,
     effect = tpz.effect.GEO_PARALYSIS,
     power = 25,
-    duration = 45,
+    duration = 30,
     auraNumber = 1
 }
 
@@ -743,7 +743,7 @@ local mixinByMobName =
         if (auraTimer == 0) then
             mob:setLocalVar("auraTimer", math.random(100, 120))
         elseif (battleTime >= auraTimer) then
-            AddMobAura(mob, target, 10, tpz.effect.BIO, 15, 3, 30)
+            AddMobAura(mob, target, auraYilbegan)
             mob:setLocalVar("auraTimer", math.random(100, 120))
         end
 
@@ -841,6 +841,14 @@ tpz.voidwalker.onMobFight = function(mob, target)
 
         target:messageSpecial(zoneTextTable.VOIDWALKER_DESPAWN)
         DespawnMob(mob:getID())
+    end
+
+    if (mobName == 'Lamprey Lord') then
+        TickMobAura(mob, target, auraLamprey)
+    elseif (mobName == 'Dawon') then
+        TickMobAura(mob, target, auraDawon)
+    elseif (mobName == 'Yilbegan') then
+        TickMobAura(mob, target, auraYilbegan)
     end
 end
 
