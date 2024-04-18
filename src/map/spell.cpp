@@ -767,7 +767,7 @@ namespace spell
         // Horde Lullaby AOE is small
         if (spell->getID() == SpellID::Horde_Lullaby || spell->getID() == SpellID::Horde_Lullaby_II)
         {
-            total = 5.0f;
+            total = 9.0f;
         }
 
         // brd gets bonus radius from string skill
