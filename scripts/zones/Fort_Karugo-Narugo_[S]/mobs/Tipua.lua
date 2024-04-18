@@ -13,6 +13,13 @@ require("scripts/globals/status")
 require("scripts/globals/mobs")
 require("scripts/globals/moblinmazemongers")
 -----------------------------------
+local auraParams = {
+    radius = 10,
+    effect = tpz.effect.ENMITY_DOWN,
+    power = 50,
+    duration = 60,
+    auraNumber = 1
+}
 function onMobSpawn(mob)
     tpz.moblinmazemongers.MobMods(mob) 
     mob:setLocalVar("[rage]timer", 7200) -- 2 hrs
@@ -41,7 +48,8 @@ function onMobFight(mob, target)
     local hp = mob:getHPP()
 
     if (hp < 20) then
-        AddMobAura(mob, target, 10, tpz.effect.ENMITY_DOWN, 50, 3)
+        TickMobAura(mob, target, auraParams)
+        AddMobAura(mob, target, auraParams)
     end
 end
 

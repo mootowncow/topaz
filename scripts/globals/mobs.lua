@@ -780,7 +780,7 @@ end
 function DelMobAura(mob, target, auraParams)
     -- TODO: Doesn't delete auras properly
     if (auraParams ~= nil) then
-        print(string.format("DelMobAura Radius: %d, Effect: %d, Power: %d, Duration: %d, AuraNumber: %d", auraParams.radius, auraParams.effect, auraParams.power, auraParams.duration, auraParams.auraNumber))
+        -- print(string.format("DelMobAura Radius: %d, Effect: %d, Power: %d, Duration: %d, AuraNumber: %d", auraParams.radius, auraParams.effect, auraParams.power, auraParams.duration, auraParams.auraNumber))
         mob:setLocalVar("auraDuration" .. auraParams.auraNumber, 0)
     end
 end
@@ -801,6 +801,7 @@ function TickMobAura(mob, target, auraParams)
     local auraDuration = mob:getLocalVar("auraDuration" .. auraParams.auraNumber)
     local tick = 3
     local duration = 6
+
     if os.time() <= auraDuration then
         local auraTick = mob:getLocalVar("auraTick" .. auraParams.auraNumber)
         if os.time() >= auraTick then
@@ -834,7 +835,7 @@ function TickMobAura(mob, target, auraParams)
                 end
             end
         end
-        print(string.format("TickMobAura Radius: %d, Effect: %d, Power: %d, Duration: %d, AuraNumber: %d", auraParams.radius, auraParams.effect, auraParams.power, auraParams.duration, auraParams.auraNumber))
+        -- print(string.format("TickMobAura Radius: %d, Effect: %d, Power: %d, Duration: %d, AuraNumber: %d", auraParams.radius, auraParams.effect, auraParams.power, auraParams.duration, auraParams.auraNumber))
     else
         -- Reset aura var to 0 once it's duration ends
         if (auraParams ~= nil) then

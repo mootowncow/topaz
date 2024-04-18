@@ -13,6 +13,13 @@ require("scripts/globals/status")
 require("scripts/globals/mobs")
 require("scripts/globals/moblinmazemongers")
 -----------------------------------
+local auraParams = {
+    radius = 10,
+    effect = tpz.effect.GEO_POISON,
+    power = 25,
+    duration = 60,
+    auraNumber = 1
+}
 function onMobSpawn(mob)
     tpz.moblinmazemongers.MobMods(mob)
     mob:SetMagicCastingEnabled(false)
@@ -41,7 +48,8 @@ function onMobFight(mob, target)
     local hp = mob:getHPP()
 
     if (hp < 20) then
-        AddMobAura(mob, target, 10, tpz.effect.GEO_POISON, 25, 3)
+        TickMobAura(mob, target, auraParams)
+        AddMobAura(mob, target, auraParams)
     end
 end
 
