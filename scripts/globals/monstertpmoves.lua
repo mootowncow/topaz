@@ -1596,16 +1596,32 @@ function MobTransferEnfeeblesMove(mob, target, skill, range, isAOE)
     local currentEntity = nil
 
     -- Transfer effects
+    -- TODO: Pets
     if isAOE then
         for i, effect in ipairs(effects) do
             if mob:hasStatusEffect(effect) then
                 local currentEffect = mob:getStatusEffect(effect)
                 local skillRange = skill:getDistance()
+
+                -- Players
                 local NearbyPlayers = mob:getPlayersInRange(skillRange)
                 if NearbyPlayers == nil then return end
                 if NearbyPlayers then
                     for _,v in ipairs(NearbyPlayers) do
                         MobStatusEffectMove(mob, v, effect, currentEffect:getPower(), currentEffect:getTick() / 1000, currentEffect:getTimeRemaining() / 1000)
+                    end
+                end
+
+                -- Pets
+                nearbyPlayers = mob:getPlayersInRange(100)
+                if nearbyPlayers ~= nil then 
+                    for _,v in ipairs(nearbyPlayers) do
+                        if v:getPet() then
+                            local pet = v:getPet()
+                            if (mob:checkDistance(pet) <= skillRange) then
+                                MobStatusEffectMove(mob, pet, effect, currentEffect:getPower(), currentEffect:getTick() / 1000, currentEffect:getTimeRemaining() / 1000)
+                            end
+                        end
                     end
                 end
             end
