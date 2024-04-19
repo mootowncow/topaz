@@ -12114,7 +12114,7 @@ INSERT INTO `mob_groups` VALUES (13741,4717,177,'Trna',0,128,0,0,5000,91,92,0);
 -- ------------------------------------------------------------
 
 INSERT INTO `mob_groups` VALUES (1,290,178,'Aura_Weapon',330,0,0,0,0,80,82,0);
-INSERT INTO `mob_groups` VALUES (2,288,178,'Aura_Pot',330,0,193,0,0,75,80,0);
+INSERT INTO `mob_groups` VALUES (2,288,178,'Aura_Pot',330,0,193,0,0,75,77,0);
 INSERT INTO `mob_groups` VALUES (3,2043,178,'Ice_Elemental',330,0,1347,0,0,73,74,0);
 INSERT INTO `mob_groups` VALUES (4,286,178,'Aura_Butler',330,0,192,0,0,77,82,0);
 INSERT INTO `mob_groups` VALUES (5,1341,178,'Fire_Elemental',330,0,831,0,0,73,74,0);
@@ -12150,6 +12150,7 @@ INSERT INTO `mob_groups` VALUES (34,4715,178,'BaiHu',0,128,0,0,5000,98,99,0);
 INSERT INTO `mob_groups` VALUES (35,4714,178,'QingLong',0,128,0,0,5000,98,99,0);
 INSERT INTO `mob_groups` VALUES (36,4713,178,'ZhuQue',0,128,0,0,5000,98,99,0);
 INSERT INTO `mob_groups` VALUES (37,4712,178,'XuanWu',0,128,0,0,5000,98,99,0);
+INSERT INTO `mob_groups` VALUES (39,288,178,'Aura_Pot',330,0,193,0,0,79,80,0);
 
 -- ------------------------------------------------------------
 -- Stellar_Fulcrum (Zone 179)
