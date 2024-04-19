@@ -589,7 +589,8 @@ void CStatusEffectContainer::RemoveStatusEffect(CStatusEffect* PStatusEffect, bo
         {
             if (!silent && PStatusEffect->GetIcon() != 0 && ((PStatusEffect->GetFlag() & EFFECTFLAG_NO_LOSS_MESSAGE) == 0) && !m_POwner->isDead())
             {
-                if (PStatusEffect->GetStatusID() >= EFFECT_WEAKNESS && PStatusEffect->GetStatusID() <= EFFECT_PLAGUE)
+                if (PStatusEffect->GetStatusID() >= EFFECT_WEAKNESS && PStatusEffect->GetStatusID() <= EFFECT_PLAGUE ||
+                    PStatusEffect->GetStatusID() == EFFECT_MUDDLE)
                 {
                     m_POwner->loc.zone->PushPacket(m_POwner, CHAR_INRANGE_SELF,
                                                    new CMessageBasicPacket(m_POwner, m_POwner, PStatusEffect->GetIcon(), 0, MSGBASIC_STATUS_NO_LONGER));
