@@ -1,6 +1,6 @@
 ---------------------------------------------
 -- Scissor Guard
--- Enhances defense 100%.
+-- Grants -90% physical damage taken
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
@@ -9,13 +9,13 @@ require("scripts/globals/pets")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-	if mob:hasStatusEffect(tpz.effect.DEFENSE_BOOST) then
+	if mob:hasStatusEffect(tpz.effect.PROTECT) then
 		return 1
 	end
     return 0
 end
 function onMobWeaponSkill(target, mob, skill)
-    local typeEffect = tpz.effect.DEFENSE_BOOST
+    local typeEffect = tpz.effect.PROTECT
     local power = 9654
     local tick = 0
     local duration = 10

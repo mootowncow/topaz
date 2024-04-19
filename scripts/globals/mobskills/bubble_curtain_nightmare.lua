@@ -14,7 +14,7 @@ require("scripts/globals/pets")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-	if mob:hasStatusEffect(tpz.effect.SHELL) then
+	if mob:hasStatusEffect(tpz.effect.MAGIC_DEF_BOOST) then
 		return 1
 	end
     return 0
