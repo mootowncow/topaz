@@ -224,7 +224,7 @@ Only take ZNM items on ZNM kill not pop
 Gotoh Zha the Redolent SDT/EEM in sql (Copy whats in its lua)
 JP wiki for killer weapon/armor percentages
 Terror Fly avoidance down didn't work properly on an automaton with necromancers gambit on the master?
-Buff: https://www.bg-wiki.com/ffxi/Orange_Kuchen
+Buff: https://www.bg-wiki.com/ffxi/Orange_Kuchen and https://www.bg-wiki.com/ffxi/Army_Biscuit
 Gaze TP moves have insane bonus MACC, terror moves can be resisted normally, just terror gaze is the exception(?)
 +Asylum / Misery / Auspice effect gear
 Storage NPCs for alex forgotten items etc
