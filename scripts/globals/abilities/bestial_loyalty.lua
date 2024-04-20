@@ -38,7 +38,7 @@ function onUseAbility(player, target, ability)
             end
             if (newPower > currentPower) then
                 numberOfEffects = numberOfEffects + 1
-                pet:addStatusEffect(playerEffect:getType(), playerEffect:getPower(), playerEffect:getTick(), math.ceil((playerEffect:getTimeRemaining())/1000)) -- id, power, tick, duration(convert ms to s)
+                pet:addStatusEffect(playerEffect:getType(), playerEffect:getPower(), playerEffect:getTick() / 1000, math.ceil((playerEffect:getTimeRemaining())/1000)) -- id, power, tick, duration(convert ms to s)
             end
         end
     end

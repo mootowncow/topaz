@@ -1153,7 +1153,7 @@ function CorruptBuffs(mob, target, amount)
         if target:hasStatusEffect(buff[1]) then
             local currentBuff = target:getStatusEffect(buff[1])
             local power = currentBuff:getPower()
-            local tick = currentBuff:getTick()
+            local tick = currentBuff:getTick() / 1000
             local duration = math.ceil((currentBuff:getTimeRemaining())/1000)
 
             target:delStatusEffectSilent(buff[1])
