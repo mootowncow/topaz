@@ -2570,10 +2570,7 @@ INSERT INTO `item_latents` VALUES(17759, 165, 7, 59, 20);   -- Koggelmander - Vs
 -- -------------------------------------------------------
 -- Lyft Scimitar
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(17766, 610, 5, 15, 3);      -- Vorpal Blade Damage +5~20%, party size 3+. Effect strengthens with more members
-INSERT INTO `item_latents` VALUES(17766, 610, 5, 15, 4);      -- Vorpal Blade Damage +5~20%, party size 3+. Effect strengthens with more members
-INSERT INTO `item_latents` VALUES(17766, 610, 5, 15, 5);      -- Vorpal Blade Damage +5~20%, party size 3+. Effect strengthens with more members
-INSERT INTO `item_latents` VALUES(17766, 610, 5, 15, 6);      -- Vorpal Blade Damage +5~20%, party size 3+. Effect strengthens with more members
+INSERT INTO `item_latents` VALUES(17766, 369, 1, 10, 0); -- [17766] Lyft Scimitar: Weapon Drawn(0) - REFRESH 1
 -- Vorpal is 610 mod
 
 
