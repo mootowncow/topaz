@@ -29,11 +29,12 @@ end
 
 function onMobFight(mob, target)
     local summonMines = mob:getLocalVar("summonMines")
+    local firstMineID = mob:getID()+1
     local minesplaced = 0
 
     if (summonMines > 0) then
         while minesplaced < summonMines do
-            local currentMine = GetMobByID(mob:getID() + minesplaced)
+            local currentMine = GetMobByID(firstMineID + minesplaced)
             currentMine:spawn()
             currentMine:setPos(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
             currentMine:addStatusEffect(tpz.effect.STUN, 1, 0, 10)
@@ -53,4 +54,7 @@ end
 
 function onMobDeath(mob, player, isKiller, noKiller)
     tpz.wotg.MagianT4(mob, player, isKiller, noKiller)
+    for v = 17154365, 17154369, 1 do
+        DespawnMob(v)
+    end
 end

@@ -1627,6 +1627,7 @@ function MobTransferEnfeeblesMove(mob, target, skill, range, isAOE)
             end
         end
     else
+        -- Transfer effect
         for i, effect in ipairs(effects) do
             if mob:hasStatusEffect(effect) then
                 local currentEffect = mob:getStatusEffect(effect)
@@ -1638,13 +1639,10 @@ function MobTransferEnfeeblesMove(mob, target, skill, range, isAOE)
     -- Delete status effects off self
     for i, effect in ipairs(effects) do
         if mob:hasStatusEffect(effect) then
-            mob:removeAllNegativeEffects()
-            skill:setMsg(tpz.msg.basic.SKILL_ENFEEB_IS)
-            return  1,  effect
+            mob:delStatusEffect(effect)
         end
+        skill:setMsg(tpz.msg.basic.SKILL_ENFEEB_IS)
     end
-
-    return false, 0
 end
 
 function MobAllStatDownMove(mob, target, power, duration)
