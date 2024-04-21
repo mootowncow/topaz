@@ -1079,7 +1079,7 @@ INSERT INTO `item_weapon` VALUES (17434,'holy_wand_+1',11,0,0,0,0,3,1,210,19,0);
 INSERT INTO `item_weapon` VALUES (17435,'darksteel_rod_+1',11,0,0,0,0,3,1,297,23,0);
 INSERT INTO `item_weapon` VALUES (17436,'platinum_rod_+1',11,0,0,0,0,3,1,280,24,0);
 INSERT INTO `item_weapon` VALUES (17437,'curse_wand',11,0,0,0,0,3,1,288,22,0);
-INSERT INTO `item_weapon` VALUES (17438,'titans_cudgel',11,0,0,0,0,3,1,278,22,0);
+INSERT INTO `item_weapon` VALUES (17438,'titans_cudgel',11,0,0,0,0,3,1,278,32,0);
 INSERT INTO `item_weapon` VALUES (17439,'leviathans_rod',11,0,0,0,0,3,1,288,22,0);
 INSERT INTO `item_weapon` VALUES (17440,'kraken_club',11,0,0,0,0,3,8,264,11,0);
 INSERT INTO `item_weapon` VALUES (17441,'eremites_wand',11,0,0,0,0,3,1,216,9,0);
