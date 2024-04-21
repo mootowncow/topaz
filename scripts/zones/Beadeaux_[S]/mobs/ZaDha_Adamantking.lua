@@ -5,7 +5,7 @@
 -- Za’Dha Adamantking
 -- WAR/WAR
 -- Immune to Gravity / Bind / Paralyze / Sleep / Break / Stun
--- 20% MDT
+-- -20% MDT
 -- +50 Store TP(or more)
 -- Additional effect: Enstone (~30 dmg? 100% proc)
 --Slow aura while his shell is shining. (40% slow)

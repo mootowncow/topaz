@@ -4,8 +4,8 @@
 -- BCNM: A Malicious Manifest
 -- SMN/SMN
 -- Immune to Gravity / Bind / Paralyze / Sleep / Break / Stun
--- 50% PDT
--- 33% MDT
+-- -50% PDT
+-- -33% MDT
 -- +50 Store TP(or more)
 -- 70% weight aura while glowing.
 -- Uses: Double Kick, Vorticose Sands, Dark Invocation, Sweep 
