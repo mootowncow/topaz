@@ -158,6 +158,11 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 **** NOW ***
+War Lynx shouldnt be true sight
+Blifnix's mines don't despawn after he dies
+Does absorbed SC dmg not work? Check on Spongeshell
+Scarcute should only use Skull SMash TP move
+Featherstorm(and other beastmen ranged tp moves, aerial wheel and ore toss/throw?) shouldn't interrupt spells
 manafont sucks buff for players only
 Aura pot levels need to scale based on floor, top flor 80 only
 "No effect" message should be checked before "resist" on enfebles
@@ -165,16 +170,13 @@ Aura pot levels need to scale based on floor, top flor 80 only
 Bark Tarantula and Sapplings in Boyahda tree need spawns audited
 Diss poison landed on a statue with -95% poison EEM?
 Should not be able to parry ranged TP moves. Check SMN PUP and WS too
-Emetic Discharge bugged? says 0 everytime its used
-Fix all AddMobAura and use TickMobAura using Kerwan as a template. Add tick param too
-Finish adding Dynamis zone msg IDs, use windurst for reference
 Most things with getPlayersInRange needs to also get pets in range use logic I coded into AddMobAura for reference
 Tipua needs some type of mechanic, very boring and easy. Maybe summon bees and eat them for HP if you don't kill them fast enough? And 100 fists
 Dark Ixion pathing is broken
 Shikigami weapon pathing
-17182795 Yagudo Prioress missing pet(maybe all SMN in castle oztroja [s] are?)
-17543254 Vanguard Prelate should be 70-71 group
+17182795 Yagudo Prioress missing pet(maybe all SMN in castle oztroja [s] are?). Yagudo Superior by Asterion properly has a pet..wtf?
 Retune the SCNM BCNMs
+Missing ANNM fights(the TODO ones on wiki?)
 Revival tree root drop rate? 10-15%? Check FFXIDB
 Handle for Asterion, Forneus,(probably fleshgnasher and Vee Ladu doesn't work(isnt clickable)? Copy handle behind the 4 handle door where it says "its locked" when behind
 Providence shouldn't be removed by being parad, make add another mixin for where para procs are? Or what "is interruoted" counts as para? or something if msg ~= para idk
@@ -182,7 +184,6 @@ Jailer of Temp Uses Meikyo Shisui multiple times and should not be aggressive(al
 Does asylums resist work on spikes?
 Seal of genbu etc stack to 99 and not rare
 Does mijin gakure work properly when used by NMs and such?
-17535157 Vanguard Grapplers group needs to be low level orc not high
 Steps shouldn't hit mobs with PD
 Dibilitating Dagger +1 name too long
 Valor Gauntlets Shield Bash: Dispel is wrong it says Shield Bash:"Dispel
@@ -211,6 +212,7 @@ Quasilumin shouldn't run past ghrahs that are engaged in ball form just because 
 VNM's
 Peiste / Pixie BDO custom exp camps in WOTG
 Cait Sith avatar skills and fight/quests
+Reward / Repair enmity
 
 
 Extremely rare item dropped !!! msg and no item in pool, was a level 81+ mob. Did I miss out on super rare item or somehow bugged and procced on a < 81 level item
@@ -219,6 +221,7 @@ COR good with pet jobs, so buff its pet rolls to the moon
 COR shots buffed in some way to be better with enfeebles? or apply super enfeebles itself maybe and not buff them?
 Cascade 500 TP bonus+ gear and manawell CDR gear
 Pet stat mainhands (daggers)
+Do COR shots need to be getTick() / 1000 ?
 Avatars (mostly dynamis) should use 2 hr if they wake up while master has astral flow active still
 Only take ZNM items on ZNM kill not pop
 Gotoh Zha the Redolent SDT/EEM in sql (Copy whats in its lua)
@@ -227,6 +230,7 @@ Terror Fly avoidance down didn't work properly on an automaton with necromancers
 Buff: https://www.bg-wiki.com/ffxi/Orange_Kuchen and https://www.bg-wiki.com/ffxi/Army_Biscuit
 Gaze TP moves have insane bonus MACC, terror moves can be resisted normally, just terror gaze is the exception(?)
 +Asylum / Misery / Auspice effect gear
+Ziz animation sub change after using TP moves? (Give some type of stat boost from it too!)
 Storage NPCs for alex forgotten items etc
 "Your pet is about to expire" red text messages fopr jugs
 ENM's only take KI on completion like ISNM
