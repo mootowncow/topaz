@@ -31,6 +31,13 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.UDMGMAGIC, -100)
     --150% move speed
     mob:setMod(tpz.mod.MOVE, 50)
+
+    tpz.mix.jobSpecial.config(mob, {
+        specials =
+        {
+            {id = tpz.jsa.MEIKYO_SHISUI, cooldown = 180, hpp = math.random(90, 95)}, -- "Has access to Meikyo Shisui, which it may use several times."
+        },
+    })
 end
 
 function onMobFight(mob)

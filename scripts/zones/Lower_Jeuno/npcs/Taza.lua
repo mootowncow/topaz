@@ -318,14 +318,15 @@ function onTrade(player, npc, trade)
     -- Trade any amount of Forgotten items to store them
     for v = tpz.items.FORGOTTEN_THOUGHT, tpz.items.FORGOTTEN_STEP do
         if npcUtil.tradeHas(trade, v) then
-            local forgottenNameBase = GetItem(forgottenItemNamesTable[v])
+            local forgottenNameBase = GetItem(v)
             local forgottenName = string.gsub(forgottenNameBase:getName(), '_', ' ');
-            local currentAmount = player:getCharVar("forgottenStorage" .. forgottenName)
+            local currentAmount = player:getCharVar(forgottenName)
             local tradeAmount = trade:getItemQty(v)
             local newAmount = currentAmount + tradeAmount
-            player:setCharVar("forgottenStorage" .. forgottenName, newAmount)
+            player:setCharVar(forgottenName, newAmount)
             player:PrintToPlayer("I was holding " .. currentAmount .. " " .. forgottenName .. " for you." ,0,"Taza")
             player:PrintToPlayer("I am now holding " .. newAmount .. " " .. forgottenName .. " for you." ,0,"Taza")
+            player:tradeComplete()
             return
         end
     end
@@ -333,11 +334,13 @@ function onTrade(player, npc, trade)
     -- Trade Specificed gil amount to get the forgotten items back
     for _, gil in pairs(gilTable) do
         if (gil == trade:getGil()) then
-            local forgottenNameBase = GetItem(forgottenItemNamesTable[gil])
+            local forgottenNameBase = GetItem(gil)
             local forgottenName = string.gsub(forgottenNameBase:getName(), '_', ' ');
-            local amount = player:getCharVar("forgottenStorage" .. forgottenName)
+            local amount = player:getCharVar(forgottenName)
             player:addItem(gil, amount)
-            player:setCharVar("forgottenStorage" .. forgottenName, 0)
+            player:addGil(gil)
+            player:setCharVar(forgottenName, 0)
+            -- TODO: NPC text saying what happened
             player:tradeComplete()
             return
         end
