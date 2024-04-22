@@ -17,6 +17,7 @@ mixins = {require("scripts/mixins/job_special")}
 function onMobSpawn(mob)
     tpz.wotg.NMMods(mob)
     mob:SetMobSkillAttack(1171)
+    mob:setMobMod(tpz.mobMod.SKILL_LIST, 1172)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
