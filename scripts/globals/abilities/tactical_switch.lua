@@ -1,8 +1,8 @@
 -----------------------------------
 -- Ability: Tactical Switch
--- Description: Swaps TP of master and automaton.
--- Obtained: PUP Level 79
--- Recast Time: 00:03:00
+-- Description: Grants your TP to your automaton.
+-- Obtained: PUP Level 40
+-- Recast Time: 00:00:30
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -10,9 +10,19 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
+    if not player:getPet() then
+        return tpz.msg.basic.REQUIRES_A_PET, 0
+    elseif not player:getPetID() or not (player:getPetID() >= 69 and player:getPetID() <= 72) then
+        return tpz.msg.basic.PET_CANNOT_DO_ACTION, 0
+    end
     return 0, 0
 end
 
 function onUseAbility(player, target, ability)
-    target:addStatusEffect(tpz.effect.TACTICAL_SWITCH, 18, 1, 1)
+    local pet = player:getPet()
+    local playerTP = player:getTP()
+    pet:addTP(playerTP)
+    player:setTP(0)
+
+    return playerTP
 end

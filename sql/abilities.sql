@@ -319,7 +319,7 @@ INSERT INTO `abilities` VALUES (262,'divine_waltz_ii',19,55,27,20,225,102,0,34,2
 INSERT INTO `abilities` VALUES (263,'flourishes_iii',19,60,1,0,226,0,0,0,2000,0,14,20.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (264,'climactic_flourish',19,75,1,90,226,100,0,230,2000,0,14,20.0,1,1,80,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (265,'libra',20,76,4,60,237,100,0,231,2000,0,6,11.2,0,0,0,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (266,'tactical_switch',18,79,1,180,213,100,0,232,2000,0,6,11.2,0,0,0,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (266,'tactical_switch',18,40,1,30,213,100,0,232,2000,0,6,11.2,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (267,'blood_rage',1,50,1,30,11,441,421,239,2000,0,6,13.0,0,180,1280,0,0,NULL,0);  
 INSERT INTO `abilities` VALUES (269,'impetus',2,88,1,360,31,100,0,240,2000,0,6,20.0,0,1,80,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (270,'divine_caress',3,83,1,60,32,100,0,254,2000,0,6,20.0,0,0,0,0,0,NULL,0);
@@ -353,7 +353,7 @@ INSERT INTO `abilities` VALUES (302,'allies_roll',17,75,1,60,193,420,0,138,2000,
 INSERT INTO `abilities` VALUES (303,'misers_roll',17,75,1,60,193,420,0,139,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (304,'companions_roll',17,95,1,60,193,420,0,265,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (305,'avengers_roll',17,75,1,60,193,420,0,266,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0);
-INSERT INTO `abilities` VALUES (309,'cooldown',18,95,1,300,114,0,0,232,2000,0,6,11.2,0,0,0,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (309,'cooldown',18,70,1,90,114,0,0,232,2000,0,6,11.2,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (310,'deus_ex_automata',18,5,1,7200,254,0,0,83,2000,0,6,20.0,0,1,80,0,0,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (311,'curing_waltz_v',19,87,27,14,217,102,0,35,2000,0,14,20.0,0,0,0,0,0,'ABYSSEA',800);
 INSERT INTO `abilities` VALUES (312,'feather_step',19,83,4,5,220,591,0,17,2000,0,14,5.4,0,1,0,0,0,NULL,50);
@@ -383,7 +383,7 @@ INSERT INTO `abilities` VALUES (336,'fly_high',14,1,1,7200,254,0,0,284,2000,0,6,
 INSERT INTO `abilities` VALUES (337,'astral_conduit',15,96,1,7200,254,0,0,285,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (338,'unbridled_wisdom',16,96,1,7200,254,100,0,286,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (339,'cutting_cards',17,96,2,7200,254,0,0,287,2000,0,6,8.0,0,0,0,0,0,NULL,0); -- check animation
-INSERT INTO `abilities` VALUES (340,'heady_artifice',18,96,1,7200,254,0,0,288,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
+INSERT INTO `abilities` VALUES (340,'heady_artifice',18,60,1,60,254,0,0,288,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (341,'gran_pas',19,96,1,7200,254,0,0,289,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (342,'caper_emissarius',20,96,2,7200,254,0,0,290,2000,0,6,8.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (343,'bolster',21,1,1,7200,0,0,0,303,2000,0,6,0.0,0,1,300,0,0,'SOA',0); -- check animation

@@ -64,6 +64,32 @@ function onUseAbility(player, target, ability)
         return false
     end
 
+    local function removeStatusPlayer()
+        local removables =
+        {
+            tpz.effect.FLASH, tpz.effect.BLINDNESS, tpz.effect.ELEGY, tpz.effect.REQUIEM, tpz.effect.PARALYSIS, tpz.effect.POISON,
+            tpz.effect.CURSE_I, tpz.effect.DISEASE, tpz.effect.PLAGUE, tpz.effect.WEIGHT, tpz.effect.BIND,
+            tpz.effect.BIO, tpz.effect.DIA, tpz.effect.BURN, tpz.effect.FROST, tpz.effect.CHOKE, tpz.effect.RASP, tpz.effect.SHOCK, tpz.effect.DROWN,
+            tpz.effect.STR_DOWN, tpz.effect.DEX_DOWN, tpz.effect.VIT_DOWN, tpz.effect.AGI_DOWN, tpz.effect.INT_DOWN, tpz.effect.MND_DOWN,
+            tpz.effect.CHR_DOWN, tpz.effect.ADDLE, tpz.effect.SLOW, tpz.effect.HELIX, tpz.effect.ACCURACY_DOWN, tpz.effect.ATTACK_DOWN,
+            tpz.effect.EVASION_DOWN, tpz.effect.DEFENSE_DOWN, tpz.effect.MAGIC_ACC_DOWN, tpz.effect.MAGIC_ATK_DOWN, tpz.effect.MAGIC_EVASION_DOWN,
+            tpz.effect.MAGIC_DEF_DOWN, tpz.effect.CRIT_HIT_EVASION_DOWN, tpz.effect.MAX_TP_DOWN, tpz.effect.MAX_MP_DOWN, tpz.effect.MAX_HP_DOWN,
+            tpz.effect.SLUGGISH_DAZE_1, tpz.effect.SLUGGISH_DAZE_2, tpz.effect.SLUGGISH_DAZE_3, tpz.effect.SLUGGISH_DAZE_4, tpz.effect.SLUGGISH_DAZE_5,
+            tpz.effect.LETHARGIC_DAZE_1, tpz.effect.LETHARGIC_DAZE_2, tpz.effect.LETHARGIC_DAZE_3, tpz.effect.LETHARGIC_DAZE_4, tpz.effect.LETHARGIC_DAZE_5,
+            tpz.effect.WEAKENED_DAZE_1, tpz.effect.WEAKENED_DAZE_2, tpz.effect.WEAKENED_DAZE_3, tpz.effect.WEAKENED_DAZE_4, tpz.effect.WEAKENED_DAZE_5,
+            tpz.effect.HELIX, tpz.effect.KAUSTRA, tpz.effect.SILENCE, tpz.effect.PETRIFICATION
+        }
+
+        for i, effect in ipairs(removables) do
+            if (player:hasStatusEffect(effect)) then
+                player:delStatusEffect(effect)
+                effectID = effect
+                return true
+            end
+        end
+        return false
+    end
+
     local toremove = idStrengths[id] or 1
     local removed = 0
 
@@ -73,6 +99,17 @@ function onUseAbility(player, target, ability)
         removed = removed + 1
     until (toremove <= 0)
 
+    if (player:getLocalVar("[PUP]Cooldown") > 0) then
+        local toremovePlayer = idStrengths[id] or 1
+        local removed = 0
+
+        repeat
+            if not removeStatusPlayer() then break end
+            toremovePlayer = toremovePlayer - 1
+            removed = removed + 1
+        until (toremovePlayer <= 0)
+    end
+
     player:removeAmmo()
 
     if removed > 0 then
@@ -80,6 +117,7 @@ function onUseAbility(player, target, ability)
     else
         target:messagePublic(tpz.msg.basic.NO_EFFECT, pet)
     end
+    player:setLocalVar("[PUP]Cooldown", 0)
 
     return effectID
 end

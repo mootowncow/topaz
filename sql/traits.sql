@@ -61,6 +61,14 @@ INSERT INTO `traits` VALUES (1,'accuracy bonus',14,50,2,25,22,'TOAU',0);
 INSERT INTO `traits` VALUES (1,'accuracy bonus',14,50,2,26,22,'TOAU',0);
 INSERT INTO `traits` VALUES (1,'accuracy bonus',14,78,3,25,35,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (1,'accuracy bonus',14,78,3,26,35,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (1,'accuracy bonus',18,10,1,25,10,NULL,0);
+INSERT INTO `traits` VALUES (1,'accuracy bonus',18,10,1,26,10,NULL,0);
+INSERT INTO `traits` VALUES (1,'accuracy bonus',18,30,2,25,22,NULL,0);
+INSERT INTO `traits` VALUES (1,'accuracy bonus',18,30,2,26,22,NULL,0);
+INSERT INTO `traits` VALUES (1,'accuracy bonus',18,50,3,25,35,NULL,0);
+INSERT INTO `traits` VALUES (1,'accuracy bonus',18,50,3,26,35,NULL,0);
+INSERT INTO `traits` VALUES (1,'accuracy bonus',18,70,4,25,48,NULL,0);
+INSERT INTO `traits` VALUES (1,'accuracy bonus',18,70,4,26,48,NULL,0);
 INSERT INTO `traits` VALUES (1,'accuracy bonus',19,30,1,25,10,'WOTG',0);
 INSERT INTO `traits` VALUES (1,'accuracy bonus',19,30,1,26,10,'WOTG',0);
 INSERT INTO `traits` VALUES (1,'accuracy bonus',19,60,2,25,22,'WOTG',0);
@@ -633,6 +641,9 @@ INSERT INTO `traits` VALUES (107,'fencer',10,85,1,903,200,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (107,'fencer',10,85,1,904,3,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (107,'fencer',10,95,2,903,300,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (107,'fencer',10,95,2,904,5,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (107,'fencer',18,15,1,903,500,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (107,'fencer',18,15,1,904,5,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (107,'fencer',18,15,1,986,10,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (108,'conserve tp',11,80,1,944,15,'ABYSSEA',0); -- Conserve TP I, RNG80, 15%
 INSERT INTO `traits` VALUES (108,'conserve tp',11,91,2,944,18,'ABYSSEA',0); -- Conserve TP II, RNG91, 18%
 INSERT INTO `traits` VALUES (108,'conserve tp',14,80,1,944,15,'ABYSSEA',0); -- Conserve TP I, DRG45, 15%
@@ -729,6 +740,10 @@ INSERT INTO `traits` VALUES (123,'daken',13,95,5,911,17,'SOA',0);
 INSERT INTO `traits` VALUES (126,'magic eva. bonus',14,45,1,31,10,'SOA',0);
 INSERT INTO `traits` VALUES (126,'magic eva. bonus',14,60,1,31,22,'SOA',0);
 INSERT INTO `traits` VALUES (126,'magic eva. bonus',14,75,1,31,35,'SOA',0);
+INSERT INTO `traits` VALUES (126,'magic eva. bonus',18,40,1,31,10,'SOA',0);
+INSERT INTO `traits` VALUES (126,'magic eva. bonus',18,50,1,31,22,'SOA',0);
+INSERT INTO `traits` VALUES (126,'magic eva. bonus',18,60,1,31,35,'SOA',0);
+INSERT INTO `traits` VALUES (126,'magic eva. bonus',18,70,1,31,48,'SOA',0);
 INSERT INTO `traits` VALUES (127,'smite',1,97,1,898,25,'SOA',0);
 INSERT INTO `traits` VALUES (127,'smite',1,98,2,898,38,'SOA',0);
 INSERT INTO `traits` VALUES (127,'smite',1,99,3,898,51,'SOA',0);
