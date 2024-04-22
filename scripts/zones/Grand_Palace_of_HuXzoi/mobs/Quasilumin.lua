@@ -156,7 +156,10 @@ end
 function onMobInitialize(mob)
     mob:addStatusEffect(tpz.effect.NO_REST, 1, 0, 0)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
-    mob:setMobMod(tpz.mobMod.NO_DESPAWN, 1)
+    mob:SetAutoAttackEnabled(false)
+end
+
+function onMobSpawn(mob)
     mob:SetAutoAttackEnabled(false)
 end
 
@@ -196,6 +199,15 @@ function onMobRoam(mob)
                 mob:setLocalVar("progress", EscortProgress.PAUSED)
             end
 		end
+        -- Consider engaged mobs aggressive
+        if entity:isEngaged() and mob:getID() ~= entity:getID() and entity:isSpawned() then
+            mobNearby = true;
+            entity:updateEnmity(mob)
+            if progress ~= EscortProgress.PAUSED then
+                mob:pathThrough(mob:getPos(), tpz.path.flag.NONE)
+                mob:setLocalVar("progress", EscortProgress.PAUSED)
+            end
+        end
 	end
     if not mobNearby and progress == EscortProgress.PAUSED then
 		mob:showText(mob, ID.text.RECOMMENCING_PATROL)
