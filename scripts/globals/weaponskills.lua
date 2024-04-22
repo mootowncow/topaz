@@ -937,6 +937,12 @@ function getMeleeDmg(attacker, weaponType, kick)
 end
 
 function getHitRate(attacker, target, capHitRate, firsthit, bonus)
+
+    -- Handle Perfect Dodge / Too High (Flying Dragons)
+    if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) or target:hasStatusEffect(tpz.effect.TOO_HIGH) then
+        return 0
+    end
+
     local flourisheffect = attacker:getStatusEffect(tpz.effect.BUILDING_FLOURISH)
     if flourisheffect ~= nil and flourisheffect:getPower() >= 1 then -- Building Flourish always gives +25 Acc
         attacker:addMod(tpz.mod.ACC, 25 + flourisheffect:getSubPower())
