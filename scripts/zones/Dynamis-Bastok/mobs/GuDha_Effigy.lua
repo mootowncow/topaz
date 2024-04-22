@@ -11,7 +11,6 @@ function onMobSpawn(mob)
     mob:delImmunity(tpz.immunity.PARALYZE)
     mob:delImmunity(tpz.immunity.BLIND)
     mob:delImmunity(tpz.immunity.POISON)
-    OnBattleStartConfrontation(mob)
 end
 
 function onMobFight(mob, target)
