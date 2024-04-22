@@ -2883,13 +2883,20 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
     finalDuration = finalDuration * dimishingReturnPercent
     -- printf("Final Duration after diminishing returns %d", finalDuration)
 
+    -- Already has effect, check if can overwrite
+    local overwrite = false -- TODO: Use canOverwrite function here? Clean up that function?
+    if target:hasStatusEffect(effect) then
+        if (target:getStatusEffect(effect):getPower() < power) then
+            overwrite = true
+        else
+            return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+        end
+    end
     -- Check if resist is greater than the minimum resisit state(1/2, 1/4, etc)
     if (resist >= resistthreshold) then
         -- Overwrite weaker effects of the same type
-        if target:getStatusEffect(effect) then
-            if (target:getStatusEffect(effect):getPower() < power) then
-                target:delStatusEffectSilent(effect)
-            end
+        if overwrite then
+            target:delStatusEffectSilent(effect)
         end
         if target:addStatusEffect(effect, power, tick, finalDuration, 0, subpower, tier) then
             caster:delStatusEffectSilent(tpz.effect.STYMIE)
