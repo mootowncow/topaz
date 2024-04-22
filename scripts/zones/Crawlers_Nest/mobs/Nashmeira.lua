@@ -33,11 +33,12 @@ function onMobFight(mob, target)
     local pet = GetMobByID(mob:getID() +1)
     local now = os.time()
 
-    if mob:getLocalVar("frame_change") <= now then
+    if mob:getLocalVar("frame_change") <= now and not IsMobBusy(pet) then
         changeFrame(mob, target, pet)
         mob:setLocalVar("frame_change", now + 90)
         mob:setLocalVar("shieldBash", 0)
-    elseif current_frame == tpz.frames.SHARPSHOT and mob:getLocalVar("ranged") <= now then
+    end
+    if current_frame == tpz.frames.SHARPSHOT and mob:getLocalVar("ranged") <= now then
         pet:useMobAbility(272, target) -- Ranged Attack
         mob:setLocalVar("ranged", now + 5)
     elseif current_frame == tpz.frames.VALOREDGE and mob:getLocalVar("shieldBash") <= now then
@@ -50,6 +51,10 @@ function onMobWeaponSkillPrepare(mob, target)
 end
 
 function onMobWeaponSkill(target, mob, skill)
+end
+
+function onSpellPrecast(mob, spell)
+    spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
@@ -81,8 +86,8 @@ function getCurrentFrameStats(mob, target, pet)
         pet:setMod(tpz.mod.ATTP, 10)
         pet:setMod(tpz.mod.DEFP, 60)
         pet:setMod(tpz.mod.RATTP, 0)
-        --pet:setMod(tpz.mod.ACC, 239) -- TODO
-        --pet:setMod(tpz.mod.EVA, 225) -- TODO
+        pet:setMod(tpz.mod.ACC, 298)
+        pet:setMod(tpz.mod.EVA, 290)
         pet:setMod(tpz.mod.MATT, 0)
         pet:setMod(tpz.mod.UDMGPHYS, -75)
         pet:setMod(tpz.mod.UDMGRANGE, 0)
@@ -99,8 +104,8 @@ function getCurrentFrameStats(mob, target, pet)
         pet:setMod(tpz.mod.ATTP, 0)
         pet:setMod(tpz.mod.DEFP, 30)
         pet:setMod(tpz.mod.RATTP, 0)
-        --pet:setMod(tpz.mod.ACC, 300) -- TODO
-        --pet:setMod(tpz.mod.EVA, 275) -- TODO
+        pet:setMod(tpz.mod.ACC, 348)
+        pet:setMod(tpz.mod.EVA, 340)
         pet:setMod(tpz.mod.MATT, 0)
         pet:setMod(tpz.mod.UDMGPHYS, 0)
         pet:setMod(tpz.mod.UDMGRANGE, 0)
@@ -117,8 +122,8 @@ function getCurrentFrameStats(mob, target, pet)
         pet:setMod(tpz.mod.ATTP, 0)
         pet:setMod(tpz.mod.DEFP, 0)
         pet:setMod(tpz.mod.RATTP, 0)
-        --pet:setMod(tpz.mod.ACC, 239) -- TODO
-        --pet:setMod(tpz.mod.EVA, 225) -- TODO
+        pet:setMod(tpz.mod.ACC, 298)
+        pet:setMod(tpz.mod.EVA, 290)
         pet:setMod(tpz.mod.MATT, 0)
         pet:setMod(tpz.mod.UDMGPHYS, 0)
         pet:setMod(tpz.mod.UDMGRANGE, 0)
