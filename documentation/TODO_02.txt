@@ -158,15 +158,16 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 **** NOW ***
-War Lynx shouldnt be true sight
-Blifnix's mines don't despawn after he dies
+All charms dont reset hate? Poroggo ones and 2 hour ones? Check
+Confrontation should be removed on zoning and job change
+Blifnix's mines don't despawn after he dies, also needs to not stun himself (currentMine = GetMobByID(mob:getID() + minesplaced) makes him stun himself
 Does absorbed SC dmg not work? Check on Spongeshell
 Scarcute should only use Skull SMash TP move
 Featherstorm(and other beastmen ranged tp moves, aerial wheel and ore toss/throw?) shouldn't interrupt spells
 manafont sucks buff for players only
-Aura pot levels need to scale based on floor, top flor 80 only
+Make PUP more fun to tank on, maybe some type of JA's(runes?) you can spam to buff the puppets stats and it stacks, so you just keep mashing, like vit rune for +VIT/def%/etc
+Or an item you can spam that stacks to 99 and "cheers" pet on? like a battery?(kilo battery?)
 "No effect" message should be checked before "resist" on enfebles
-"No longer Muddled."
 Bark Tarantula and Sapplings in Boyahda tree need spawns audited
 Diss poison landed on a statue with -95% poison EEM?
 Should not be able to parry ranged TP moves. Check SMN PUP and WS too
@@ -206,6 +207,7 @@ Quasilumin escort died but didn't despawn on death?
 Quasilumin need attack disabled
 16916780, 16916629, 16916648, and 16916608 pots need to be moved and instructed to spin(if they arent). Maybe need to also fix their file that makes them spin(its positions?)
 Quasilumin shouldn't run past ghrahs that are engaged in ball form just because they aren't aggressive
+Impact / Comet / Meteor given to BLM via items from long grinds (RMEA? Especially stronghold one?)
 
 
 ****TEST****
