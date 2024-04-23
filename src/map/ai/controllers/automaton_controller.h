@@ -93,7 +93,9 @@ private:
     duration m_magicCooldown;
     duration m_enfeebleCooldown;
     duration m_elementalCooldown;
+    //duration m_absorbCooldown;
     duration m_healCooldown;
+    //duration m_regenerationCooldown;
     duration m_enhanceCooldown;
     duration m_statusCooldown;
     duration m_shieldbashCooldown;

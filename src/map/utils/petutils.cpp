@@ -1537,6 +1537,13 @@ namespace petutils
                 spawnLevel = static_cast<uint8>(static_cast<CCharEntity*>(PMaster)->petZoningInfo.petLevel);
             }
 
+            // Valoredge can parry
+            if (PPet->getPetType() == PETTYPE_AUTOMATON && PetID == PETID_VALOREDGEFRAME)
+            {
+                PPet->setMobMod(MOBMOD_CAN_PARRY, 1);
+                PPet->addModifier(Mod::PARRY, GetJugBase(PPet, PPet->getMobMod(MOBMOD_CAN_PARRY)));
+            }
+
             // add traits for sub and main if a jug pet
             if (PPet->getPetType() != PETTYPE_AUTOMATON)
             {

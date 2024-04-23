@@ -120,7 +120,7 @@ INSERT INTO `automaton_spells` VALUES (277,256,32,0,0,0);
 INSERT INTO `automaton_spells` VALUES (286,227,61,21,0,0);
 INSERT INTO `automaton_spells` VALUES (477,337,16,0,0,0);
 INSERT INTO `automaton_spells` VALUES (493,203,8,0,0,0);
-INSERT INTO `automaton_spells` VALUES (511,286,8,0,0,0);
+INSERT INTO `automaton_spells` VALUES (511,286,61,0,0,0);
 INSERT INTO `automaton_spells` VALUES (847,368,32,0,0,0);
 INSERT INTO `automaton_spells` VALUES (879,281,8,597,0,0);
 

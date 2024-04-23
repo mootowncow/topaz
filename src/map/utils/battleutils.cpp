@@ -2588,7 +2588,7 @@ int getSDTTier(int SDT)
     uint8 GetMobParryRate(CBattleEntity* PAttacker, CBattleEntity* PDefender)
     {
         CItemWeapon* PWeapon = GetEntityWeapon(PDefender, SLOT_MAIN);
-        if (PDefender->objtype == TYPE_MOB)
+        if (PDefender->objtype == TYPE_MOB || PDefender->objtype == TYPE_PET)
         {
             JOBTYPE job = PDefender->GetMJob();
 

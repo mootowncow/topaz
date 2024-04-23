@@ -93,47 +93,48 @@ void CAutomatonController::setMagicCooldowns()
     case HEAD_HARLEQUIN:
     {
         m_magicCooldown = 10s;
-        m_enfeebleCooldown = 10s;
-        m_healCooldown = 15s;
+        m_enfeebleCooldown = 15s;
+        m_healCooldown = 18s;
     }
     break;
     case HEAD_VALOREDGE:
     {
-        m_magicCooldown = 20s;
-        m_healCooldown = 20s;
+        m_magicCooldown = 12s;
+        m_healCooldown = 12s;
     }
     break;
     case HEAD_SHARPSHOT:
     {
         m_magicCooldown = 12s;
         m_enfeebleCooldown = 12s;
-        m_healCooldown = 18s; // Guess
+        m_healCooldown = 18s;
     }
     break;
     case HEAD_STORMWAKER:
     {
         m_magicCooldown = 10s;
-        m_enfeebleCooldown = 12s;
-        m_healCooldown = 15s; // Guess
-        m_elementalCooldown = 33s; // Guess
-        m_enhanceCooldown = 10s; // Guess
+        m_enfeebleCooldown = 9s;
+        m_healCooldown = 12s;
+        m_elementalCooldown = 30s;
+        m_enhanceCooldown = 30s;
     }
     break;
     case HEAD_SOULSOOTHER:
     {
-        m_magicCooldown = 4s;
-        m_enfeebleCooldown = 4s;
-        m_healCooldown = 15s;
-        m_enhanceCooldown = 15s;
-        m_statusCooldown = 15s;
+        m_magicCooldown = 9s;
+        m_enfeebleCooldown = 9s;
+        m_healCooldown = 12s;
+        // m_regenerationCooldown = 18s;
+        m_enhanceCooldown = 24s;
+        m_statusCooldown = 12s;
     }
     break;
     case HEAD_SPIRITREAVER:
     {
         m_magicCooldown = 10s;
-        m_enfeebleCooldown = 10s;
-        m_elementalCooldown = 33s;
-        m_enhanceCooldown = 135s;
+        m_enfeebleCooldown = 9s;
+        m_elementalCooldown = 30s;
+        // m_absorbCooldown = 30s;
     }
     }
 }
