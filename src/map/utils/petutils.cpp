@@ -383,7 +383,7 @@ namespace petutils
 
         return damage;
     }
-    uint16 GetJugBase(CPetEntity * PMob, uint8 rank)
+    uint16 GetPetBase(CPetEntity * PMob, uint8 rank)
     {
         int8 mlvl = PMob->GetMLevel();
 
@@ -484,10 +484,10 @@ namespace petutils
         PMob->health.hp = PMob->GetMaxHP();
         PMob->health.mp = PMob->GetMaxMP();
 
-        PMob->setModifier(Mod::DEF, GetJugBase(PMob, petStats->defRank));
-        PMob->setModifier(Mod::EVA, GetJugBase(PMob, petStats->evaRank));
-        PMob->setModifier(Mod::ATT, GetJugBase(PMob, petStats->attRank));
-        PMob->setModifier(Mod::ACC, GetJugBase(PMob, petStats->accRank));
+        PMob->setModifier(Mod::DEF, GetPetBase(PMob, petStats->defRank));
+        PMob->setModifier(Mod::EVA, GetPetBase(PMob, petStats->evaRank));
+        PMob->setModifier(Mod::ATT, GetPetBase(PMob, petStats->attRank));
+        PMob->setModifier(Mod::ACC, GetPetBase(PMob, petStats->accRank));
 
         // Job Point bonuses
         if (PMaster != nullptr)
@@ -1541,7 +1541,7 @@ namespace petutils
             if (PPet->getPetType() == PETTYPE_AUTOMATON && PetID == PETID_VALOREDGEFRAME)
             {
                 PPet->setMobMod(MOBMOD_CAN_PARRY, 1);
-                PPet->addModifier(Mod::PARRY, GetJugBase(PPet, PPet->getMobMod(MOBMOD_CAN_PARRY)));
+                PPet->addModifier(Mod::PARRY, GetPetBase(PPet, PPet->getMobMod(MOBMOD_CAN_PARRY)));
             }
 
             // add traits for sub and main if a jug pet
@@ -1550,7 +1550,7 @@ namespace petutils
 
                 if (PPet->getMobMod(MOBMOD_CAN_PARRY) > 0)
                 {
-                    PPet->addModifier(Mod::PARRY, GetJugBase(PPet, PPet->getMobMod(MOBMOD_CAN_PARRY)));
+                    PPet->addModifier(Mod::PARRY, GetPetBase(PPet, PPet->getMobMod(MOBMOD_CAN_PARRY)));
                 }
                 battleutils::AddTraits(PPet, traits::GetTraits(PPetData->mJob), PPet->GetMLevel());
                 if (PPetData->mJob != PPetData->sJob)
