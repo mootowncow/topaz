@@ -1290,10 +1290,10 @@ INSERT INTO `item_basic` VALUES (1400,0,'cursed_subligar','cursed_subligar',1,4,
 INSERT INTO `item_basic` VALUES (1401,0,'cursed_subligar_-1','cursed_subligar_-1',1,0,37,0,10629);
 INSERT INTO `item_basic` VALUES (1402,0,'cursed_leggings','cursed_leggings',1,4,37,0,11388);
 INSERT INTO `item_basic` VALUES (1403,0,'cursed_leggings_-1','c._leggings_-1',1,0,37,0,11388);
-INSERT INTO `item_basic` VALUES (1404,0,'seal_of_genbu','seal_of_genbu',1,45140,0,1,0);
-INSERT INTO `item_basic` VALUES (1405,0,'seal_of_seiryu','seal_of_seiryu',1,45140,0,1,0);
-INSERT INTO `item_basic` VALUES (1406,0,'seal_of_byakko','seal_of_byakko',1,45140,0,1,0);
-INSERT INTO `item_basic` VALUES (1407,0,'seal_of_suzaku','seal_of_suzaku',1,45140,0,1,0);
+INSERT INTO `item_basic` VALUES (1404,0,'seal_of_genbu','seal_of_genbu',12,12372,0,1,0);
+INSERT INTO `item_basic` VALUES (1405,0,'seal_of_seiryu','seal_of_seiryu',12,12372,0,1,0);
+INSERT INTO `item_basic` VALUES (1406,0,'seal_of_byakko','seal_of_byakko',12,12372,0,1,0);
+INSERT INTO `item_basic` VALUES (1407,0,'seal_of_suzaku','seal_of_suzaku',12,12372,0,1,0);
 INSERT INTO `item_basic` VALUES (1408,0,'illuminink','illuminink',1,4164,0,1,0);
 INSERT INTO `item_basic` VALUES (1409,0,'sirens_macrame','sirens_macrame',99,4,40,0,1496);
 INSERT INTO `item_basic` VALUES (1410,0,'sweet_william','sweet_william',99,4,44,0,366);
