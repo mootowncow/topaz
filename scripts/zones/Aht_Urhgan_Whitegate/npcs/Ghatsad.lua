@@ -60,8 +60,8 @@ end
 function play_event902(player, new_attachmentStatus, new_attachmentWait)
     player:tradeComplete()
     player:setCharVar("PUP_AttachmentStatus", new_attachmentStatus)
-    player:setCharVar("PUP_AttachmentReady", getVanaMidnight())
-    player:setCharVar("PUP_AttachmentWait", new_attachmentWait)
+    player:setCharVar("PUP_AttachmentReady", 0)
+    player:setCharVar("PUP_AttachmentWait", 0)
     player:startEvent(902)
 end
 
