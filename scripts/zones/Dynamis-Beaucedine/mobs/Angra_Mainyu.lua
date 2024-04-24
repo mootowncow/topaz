@@ -41,7 +41,7 @@ function onMobSpawn(mob)
             {id = tpz.jsa.CHAINSPELL, hpp = 25},
         },
     })
-    OnBattleStartConfrontation(mob)
+    
 end
 
 function onMobEngaged(mob, target)

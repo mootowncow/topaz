@@ -16,7 +16,7 @@ function onMobSpawn(mob)
      mob:addMod(tpz.mod.ACC, 50) 
      mob:addMod(tpz.mod.EVA, 15)
      mob:setMod(tpz.mod.REFRESH, 300)
-     OnBattleStartConfrontation(mob)
+     
 end
 
 function onMobEngaged(mob, target)

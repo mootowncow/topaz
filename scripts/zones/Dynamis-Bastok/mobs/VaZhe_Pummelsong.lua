@@ -13,7 +13,7 @@ function onMobSpawn(mob)
      mob:addMod(tpz.mod.ATTP, 20)
      mob:addMod(tpz.mod.ACC, 50) 
      mob:addMod(tpz.mod.EVA, 30)
-     OnBattleStartConfrontation(mob)
+     
 end
 
 function onMobFight(mob, target)

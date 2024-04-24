@@ -17,7 +17,7 @@ function onMobSpawn(mob)
      mob:addMod(tpz.mod.EVA, 30)
      Pet:spawn()
      Pet:updateEnmity(target)
-     OnBattleStartConfrontation(mob)
+     
 end
 
 function onMobFight(mob, target)

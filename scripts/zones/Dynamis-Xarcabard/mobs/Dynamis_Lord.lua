@@ -17,7 +17,7 @@ function onMobSpawn(mob)
 	mob:addMod(tpz.mod.EVA, 30)
 	mob:setMod(tpz.mod.REFRESH, 400)
 	mob:setMod(tpz.mod.UDMGBREATH, -25)
-    OnBattleStartConfrontation(mob)
+    
 end
 
 function onMobSpawn(mob)
