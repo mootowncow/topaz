@@ -33,7 +33,7 @@ tpz.voidwalker.pos =
     {
         [1] =  { mobId = nil, pos = { 277, -49, 210 } },
         [2] =  { mobId = nil, pos = { 350, -47, 173 } },
-        [3] =  { mobId = nil, pos = { 450, -45, 137 } },
+        [3] =  { mobId = nil, pos = { 450, -46, 137 } },
         [4] =  { mobId = nil, pos = { 523, -39, 72 } },
         [5] =  { mobId = nil, pos = { 522, -30, -30 } },
         [6] =  { mobId = nil, pos = { 449, -39, 38 } },

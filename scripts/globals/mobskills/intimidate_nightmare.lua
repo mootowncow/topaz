@@ -14,7 +14,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    skill:setMsg(MobHasteOverwriteSlowMove(mob, target, 10000, 0, 90, 0, 0, 2))
+    skill:setMsg(MobHasteOverwriteSlowMove(mob, target, 10000, 0, 5, 0, 0, 2))
     mob:resetEnmity(target)
 
     return typeEffect

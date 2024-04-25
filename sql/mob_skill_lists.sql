@@ -2770,6 +2770,9 @@ INSERT INTO `mob_skill_lists` VALUES ('ShikareeWyvernReqOfSin',1198,903);
 INSERT INTO `mob_skill_lists` VALUES ('ShikareeWyvernReqOfSin',1198,904);
 INSERT INTO `mob_skill_lists` VALUES ('ShikareeWyvernReqOfSin',1198,905);
 
+INSERT INTO `mob_skill_lists` VALUES ('Prickly_Sheep',1199,262); -- Sheep Charge
+INSERT INTO `mob_skill_lists` VALUES ('Prickly_Sheep',1199,264); -- Sheep Charge
+
 -- Qultada (Breaking the Bonds of Fate)
 INSERT INTO `mob_skill_lists` VALUES ('QultadaSword',1195,39); -- Spirits Within
 INSERT INTO `mob_skill_lists` VALUES ('QultadaSword',1195,42); -- Savage Blade
@@ -4812,6 +4815,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,169); -- black_hal
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,250); -- carnal_nightmare
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,252); -- dancing_chains
 
--- Next available ID: 1199
+-- Next available ID: 1200
 -- Next custom ID: 6153
 

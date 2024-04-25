@@ -3,6 +3,7 @@
 --  VNM: Yacumama
 -----------------------------------
 require("scripts/globals/voidwalker")
+mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
 
 function onMobInitialize(mob)

@@ -370,12 +370,31 @@ end
 
 local modByMobName =
 {
+    ['Gjenganger'] = function(mob)
+        mob:SetMagicCastingEnabled(false)
+    end,
+
     ['Raker_Bee'] = function(mob)
         mob:setMod(tpz.mod.UDMGMAGIC, 50)
     end,
 
     ['Yacumama'] = function(mob)
         mob:setMod(tpz.mod.MOVE, 25)
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.HUNDRED_FISTS, cooldown = 120, hpp = math.random(1, 15)},
+            },
+        })
+    end,
+
+    ['Capricornus'] = function(mob)
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 90, hpp = math.random(1, 15)},
+            },
+        })
     end,
 
     ['Lamprey_Lord'] = function(mob)
@@ -793,7 +812,20 @@ local mixinByMobName =
             end
         end)
     end,
-}   
+}
+
+local mobFightByMobName =
+{
+    ['Lamprey Lord'] = function(mob, target)
+        TickMobAura(mob, target, auraLamprey)
+    end,
+    ['Dawon'] = function(mob, target)
+        TickMobAura(mob, target, auraDawon)
+    end,
+    ['Yilbegan'] = function(mob, target)
+        TickMobAura(mob, target, auraYilbegan)
+    end,
+}
 
 -----------------------------------
 -- Mob On Init
@@ -819,12 +851,32 @@ tpz.voidwalker.onMobSpawn = function(mob)
     end
 end
 
-tpz.voidwalker.onMobFight = function(mob, target)
+tpz.voidwalker.onMobEngaged = function(mob, target)
     local mobName = mob:getName()
-    local mixin   = mixinByMobName[mobName]
+
+    -- local engageLogic = engageByMobName[mobName]
+    -- if engageLogic then
+    --    engageLogic(mob)
+    -- end
+
+    if (mobName == 'Gjenganger') then
+        printf("Ice Spikes!")
+        mob:SetMagicCastingEnabled(true)
+        mob:castSpell(tpz.magic.spell.ICE_SPIKES, mob)
+    end
+end
+
+tpz.voidwalker.onMobFight = function(mob, target)
+    local mobName  = mob:getName()
+    local mixin    = mixinByMobName[mobName]
+    local mobFight = mobFightByMobName[mobName]
 
     if mixin then
         mixin(mob, target)
+    end
+
+    if mobFight then
+        mobFight(mob, target)
     end
 
     local poptime = mob:getLocalVar("[VoidWalker]PopedAt")
@@ -841,14 +893,6 @@ tpz.voidwalker.onMobFight = function(mob, target)
 
         target:messageSpecial(zoneTextTable.VOIDWALKER_DESPAWN)
         DespawnMob(mob:getID())
-    end
-
-    if (mobName == 'Lamprey Lord') then
-        TickMobAura(mob, target, auraLamprey)
-    elseif (mobName == 'Dawon') then
-        TickMobAura(mob, target, auraDawon)
-    elseif (mobName == 'Yilbegan') then
-        TickMobAura(mob, target, auraYilbegan)
     end
 end
 
