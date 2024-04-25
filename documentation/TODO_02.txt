@@ -158,6 +158,17 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 **** NOW ***
+Update retail
+Automaton RDM Puppet temper, t2 enfeebles, dia3/bio3
+Automaton need logic for absorb/regen magic(different timer than h)
+Automaton shellra1-4 and protectra 1-4(needs logic in automaton_controller and its spell list sql)
+Test inundation
+Dyna statue wep dmg too low? esp mega bosses?
+Variable for setting to limit points on not always changed when job swapped to 75
+STATUSRESTRAIT should work on all status effects, attack down etc
+Rename files in item_Basic https://github.com/mootowncow/topaz/commit/91a345ea91ff17028c6e4463099e254dbe662948#diff-a4079cf26c83b4fe889b3330b7a248f6cc7b3a74f859dd9bf9a2629cad37ddac
+STORAGE NPCS!!
+Code OB(LSB/ASB/Wings might have stealable form?)
 manafont sucks buff for players only
 Bark Tarantula and Sapplings in Boyahda tree need spawns audited
 Diss poison landed on a statue with -95% poison EEM?
@@ -191,6 +202,8 @@ Sky Curtana ??? should be random
 Mobs that aggro by sound and sound and are true aggro don't seem to link by both? Imps in WOTG strongholds don't
 16916780, 16916629, 16916648, and 16916608 pots need to be moved and instructed to spin(if they arent). Maybe need to also fix their file that makes them spin(its positions?)
 Impact / Comet / Meteor given to BLM via items from long grinds (RMEA? Especially stronghold one?)
+Hunts
+WOE
 
 
 ****TEST****
