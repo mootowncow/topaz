@@ -124,7 +124,7 @@ void CAutomatonController::setMagicCooldowns()
         m_magicCooldown = 9s;
         m_enfeebleCooldown = 9s;
         m_healCooldown = 12s;
-        // m_regenerationCooldown = 18s;
+        m_regenCooldown = 18s;
         m_enhanceCooldown = 24s;
         m_statusCooldown = 12s;
     }
@@ -134,7 +134,7 @@ void CAutomatonController::setMagicCooldowns()
         m_magicCooldown = 10s;
         m_enfeebleCooldown = 9s;
         m_elementalCooldown = 30s;
-        // m_absorbCooldown = 30s;
+         m_absorbCooldown = 30s;
     }
     }
 }
@@ -374,6 +374,11 @@ bool CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers)
             m_LastHealTime = m_Tick;
             return true;
         }
+        else if (TryRegen())
+        {
+            m_LastRegenTime = m_Tick;
+            return true;
+        }
         else if (TryEnhance())
         {
             m_LastEnhanceTime = m_Tick;
@@ -382,6 +387,11 @@ bool CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers)
         else if (TryEnfeeble(maneuvers))
         {
             m_LastEnfeebleTime = m_Tick;
+            return true;
+        }
+        else if (TryAbsorb(maneuvers))
+        {
+            m_LastAbsorbTime = m_Tick;
             return true;
         }
     }
@@ -628,6 +638,47 @@ bool CAutomatonController::TryElemental(const CurrentManeuvers& maneuvers)
     return false;
 }
 
+bool CAutomatonController::TryAbsorb(const CurrentManeuvers& maneuvers)
+{
+    if (!PAutomaton->PMaster || m_absorbCooldown == 0s || m_Tick <= m_LastAbsorbTime + m_absorbCooldown)
+        return false;
+
+    std::vector<SpellID> castPriority;
+    std::vector<SpellID> defaultPriority;
+
+    if (PAutomaton->getHead() == HEAD_SPIRITREAVER)
+    {
+        if (PAutomaton->getHead() == HEAD_SPIRITREAVER)
+            return Cast(PAutomaton->targid, SpellID::Dread_Spikes);
+
+        if (PAutomaton->GetMPP() <= 75 && PTarget->health.mp > 0) // MPP <= 75 -> Aspir
+        {
+            castPriority.push_back(SpellID::Aspir_II);
+            castPriority.push_back(SpellID::Aspir);
+        }
+
+        if (PAutomaton->GetHPP() <= 75 && PTarget->m_EcoSystem != SYSTEM_UNDEAD) // HPP <= 75 -> Drain
+            castPriority.push_back(SpellID::Drain);
+
+        if (!PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_INT_BOOST)) // Use it ASAP
+            defaultPriority.push_back(SpellID::Absorb_INT);
+    }
+
+    for (SpellID& id : castPriority)
+    {
+        if (autoSpell::CanUseEnfeeble(PTarget, id) && Cast(PTarget->targid, id))
+            return true;
+    }
+
+    for (SpellID& id : defaultPriority)
+    {
+        if (autoSpell::CanUseEnfeeble(PTarget, id) && Cast(PTarget->targid, id))
+            return true;
+    }
+
+    return false;
+}
+
 bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
 {
     if (!PAutomaton->PMaster || m_enfeebleCooldown == 0s || m_Tick <= m_LastEnfeebleTime + m_enfeebleCooldown)
@@ -660,10 +711,12 @@ bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
         {
             if (maneuvers.dark && maneuvers.light < 2) // Dark -> Bio
             {
+                castPriority.push_back(SpellID::Bio_III);
                 castPriority.push_back(SpellID::Bio_II);
             }
             else
             {
+                defaultPriority.push_back(SpellID::Bio_III);
                 defaultPriority.push_back(SpellID::Bio_II);
             }
         }
@@ -672,10 +725,12 @@ bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
         {
             if (maneuvers.light)
             {
+                castPriority.push_back(SpellID::Dia_III);
                 castPriority.push_back(SpellID::Dia_II);
             }
             else
             {
+                defaultPriority.push_back(SpellID::Dia_III);
                 defaultPriority.push_back(SpellID::Dia_II);
             }
         }
@@ -704,7 +759,6 @@ bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
             }
         }
 
-
         if (maneuvers.water) // Water -> Poison
         {
             castPriority.push_back(SpellID::Poison_II);
@@ -725,19 +779,37 @@ bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
         }
 
         if (maneuvers.earth) // Earth -> Slow
+        {
+            castPriority.push_back(SpellID::Slow_II);
             castPriority.push_back(SpellID::Slow);
+        }
         else
+        {
+            defaultPriority.push_back(SpellID::Slow_II);
             defaultPriority.push_back(SpellID::Slow);
+        }
 
         if (maneuvers.dark) // Dark -> Blind
+        {
+            castPriority.push_back(SpellID::Blind_II);
             castPriority.push_back(SpellID::Blind);
+        }
         else
+        {
+            defaultPriority.push_back(SpellID::Blind_II);
             defaultPriority.push_back(SpellID::Blind);
+        }
 
         if (maneuvers.ice) // Ice -> Paralyze
+        {
+            castPriority.push_back(SpellID::Paralyze_II);
             castPriority.push_back(SpellID::Paralyze);
+        }
         else
+        {
+            defaultPriority.push_back(SpellID::Paralyze_II);
             defaultPriority.push_back(SpellID::Paralyze);
+        }
 
         if (maneuvers.fire) // Fire -> Addle
             castPriority.push_back(SpellID::Addle);
@@ -747,20 +819,8 @@ bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
     break;
     case HEAD_SPIRITREAVER:
     {
-        if (PAutomaton->GetMPP() <= 75 && PTarget->health.mp > 0) // MPP <= 75 -> Aspir
-        {
-            castPriority.push_back(SpellID::Aspir_II);
-            castPriority.push_back(SpellID::Aspir);
-        }
-
-        if (PAutomaton->GetHPP() <= 75 && PTarget->m_EcoSystem != SYSTEM_UNDEAD) // HPP <= 75 -> Drain
-            castPriority.push_back(SpellID::Drain);
-
         if (maneuvers.dark) // Dark -> Access to Enfeebles
         {
-            if (!PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_INT_BOOST)) // Use it ASAP
-                defaultPriority.push_back(SpellID::Absorb_INT);
-
             // Not prioritizable since it requires 1 Dark to access Enfeebles and requires 2 of another element to prioritize another
             defaultPriority.push_back(SpellID::Blind);
             if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
@@ -1008,13 +1068,99 @@ bool CAutomatonController::TryStatusRemoval(const CurrentManeuvers& maneuvers)
     return false;
 }
 
+bool CAutomatonController::TryRegen()
+{
+    if (!PAutomaton->PMaster || m_regenCooldown == 0s || m_Tick <= m_LastRegenTime + m_regenCooldown)
+        return false;
+
+    EnmityList_t* enmityList;
+    auto PMob = dynamic_cast<CMobEntity*>(PTarget);
+    if (PMob)
+        enmityList = PMob->PEnmityContainer->GetEnmityList();
+
+    uint16 highestEnmity = 0;
+
+    CBattleEntity* PRegenTarget = nullptr;
+
+    bool isEngaged = false;
+
+    if (distance(PAutomaton->loc.p, PAutomaton->PMaster->loc.p) < 20)
+    {
+        if (PMob)
+        {
+            auto enmity_obj = enmityList->find(PAutomaton->PMaster->id);
+            if (enmity_obj != enmityList->end())
+            {
+                isEngaged = true;
+                if (highestEnmity < enmity_obj->second.CE + enmity_obj->second.VE)
+                {
+                    highestEnmity = enmity_obj->second.CE + enmity_obj->second.VE;
+                    PRegenTarget = PAutomaton->PMaster;
+                }
+            }
+        }
+        else
+        {
+            isEngaged = true; // Assume everyone is engaged if the target isn't a mob
+        }
+    }
+    if (PMob)
+    {
+        auto enmity_obj = enmityList->find(PAutomaton->id);
+        if (enmity_obj != enmityList->end() && highestEnmity < enmity_obj->second.CE + enmity_obj->second.VE)
+        {
+            highestEnmity = enmity_obj->second.CE + enmity_obj->second.VE;
+            PRegenTarget = PAutomaton;
+        }
+    }
+
+    size_t members = 0;
+
+    // Unknown whether it only applies buffs to other members if they have hate or if the Soulsoother head is needed
+    if (PAutomaton->PMaster->PParty)
+    {
+        members = PAutomaton->PMaster->PParty->members.size();
+        static_cast<CCharEntity*>(PAutomaton->PMaster)
+            ->ForPartyWithTrusts(
+                [&](CBattleEntity* PMember)
+                {
+                    if (PMember->id != PAutomaton->PMaster->id && distance(PAutomaton->loc.p, PMember->loc.p) < 20)
+                    {
+                        isEngaged = false;
+
+                        if (PMob)
+                        {
+                            auto enmity_obj = enmityList->find(PMember->id);
+                            if (enmity_obj != enmityList->end())
+                            {
+                                isEngaged = true;
+                                if (highestEnmity < enmity_obj->second.CE + enmity_obj->second.VE)
+                                {
+                                    highestEnmity = enmity_obj->second.CE + enmity_obj->second.VE;
+                                    PRegenTarget = PMember;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            isEngaged = true; // Assume everyone is engaged if the target isn't a mob
+                        }
+                    }
+                });
+    }
+
+    if (PRegenTarget &&
+        !(PRegenTarget->StatusEffectContainer->HasStatusEffect(EFFECT_REGEN) || PRegenTarget->StatusEffectContainer->HasStatusEffect(EFFECT_GEO_REGEN)))
+        if (Cast(PRegenTarget->targid, SpellID::Regen_III) || Cast(PRegenTarget->targid, SpellID::Regen_II) || Cast(PRegenTarget->targid, SpellID::Regen))
+            return true;
+
+    return false;
+}
+
 bool CAutomatonController::TryEnhance()
 {
     if (!PAutomaton->PMaster || m_enhanceCooldown == 0s || m_Tick <= m_LastEnhanceTime + m_enhanceCooldown)
         return false;
-
-    if (PAutomaton->getHead() == HEAD_SPIRITREAVER)
-        return Cast(PAutomaton->targid, SpellID::Dread_Spikes);
 
     EnmityList_t* enmityList;
     auto PMob = dynamic_cast<CMobEntity*>(PTarget);
@@ -1029,6 +1175,7 @@ bool CAutomatonController::TryEnhance()
     CBattleEntity* PHasteTarget = nullptr;
     CBattleEntity* PStoneSkinTarget = nullptr;
     CBattleEntity* PPhalanxTarget = nullptr;
+    CBattleEntity* PTemperTarget = nullptr;
 
     bool protect = false;
     uint8 protectcount = 0;
@@ -1037,6 +1184,7 @@ bool CAutomatonController::TryEnhance()
     bool haste = false;
     bool stoneskin = false;
     bool phalanx = false;
+    bool temper = false;
 
     bool isEngaged = false;
 
@@ -1060,7 +1208,7 @@ bool CAutomatonController::TryEnhance()
             isEngaged = true; // Assume everyone is engaged if the target isn't a mob
         }
 
-        PAutomaton->PMaster->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste, &stoneskin, &phalanx](CStatusEffect* PStatus) {
+        PAutomaton->PMaster->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste, &stoneskin, &phalanx, &temper](CStatusEffect* PStatus) {
             if (PStatus->GetDuration() > 0)
             {
                 if (PStatus->GetStatusID() == EFFECT_PROTECT)
@@ -1075,7 +1223,7 @@ bool CAutomatonController::TryEnhance()
                     ++shellcount;
                 }
 
-                if (PStatus->GetStatusID() == EFFECT_HASTE || PStatus->GetStatusID() == EFFECT_GEO_HASTE)
+                if (PStatus->GetStatusID() == EFFECT_HASTE)
                     haste = true;
 
                 if (PStatus->GetStatusID() == EFFECT_STONESKIN)
@@ -1083,6 +1231,9 @@ bool CAutomatonController::TryEnhance()
 
                 if (PStatus->GetStatusID() == EFFECT_PHALANX)
                     phalanx = true;
+
+                if (PStatus->GetStatusID() == EFFECT_MULTI_STRIKES)
+                    temper = true;
             }
         });
 
@@ -1102,6 +1253,9 @@ bool CAutomatonController::TryEnhance()
 
             if (!phalanx)
                 PPhalanxTarget = PAutomaton->PMaster;
+
+            if (!temper)
+                PTemperTarget = PAutomaton->PMaster;
         }
     }
 
@@ -1130,7 +1284,7 @@ bool CAutomatonController::TryEnhance()
             if (PStatus->GetStatusID() == EFFECT_SHELL)
                 shell = true;
 
-            if (PStatus->GetStatusID() == EFFECT_HASTE || PStatus->GetStatusID() == EFFECT_GEO_HASTE)
+            if (PStatus->GetStatusID() == EFFECT_HASTE)
                 haste = true;
         }
     });
@@ -1156,6 +1310,7 @@ bool CAutomatonController::TryEnhance()
                 protect = false;
                 shell = false;
                 haste = false;
+                temper = false;
 
                 isEngaged = false;
 
@@ -1165,11 +1320,6 @@ bool CAutomatonController::TryEnhance()
                     if (enmity_obj != enmityList->end())
                     {
                         isEngaged = true;
-                        if (highestEnmity < enmity_obj->second.CE + enmity_obj->second.VE)
-                        {
-                            highestEnmity = enmity_obj->second.CE + enmity_obj->second.VE;
-                            PRegenTarget = PMember;
-                        }
                     }
                 }
                 else
@@ -1177,7 +1327,7 @@ bool CAutomatonController::TryEnhance()
                     isEngaged = true; // Assume everyone is engaged if the target isn't a mob
                 }
 
-                PMember->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste](CStatusEffect* PStatus) {
+                PMember->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste, &temper](CStatusEffect* PStatus) {
                     if (PStatus->GetDuration() > 0)
                     {
                         if (PStatus->GetStatusID() == EFFECT_PROTECT)
@@ -1192,8 +1342,11 @@ bool CAutomatonController::TryEnhance()
                             ++shellcount;
                         }
 
-                        if (PStatus->GetStatusID() == EFFECT_HASTE || PStatus->GetStatusID() == EFFECT_GEO_HASTE)
+                        if (PStatus->GetStatusID() == EFFECT_HASTE)
                             haste = true;
+
+                        if (PStatus->GetStatusID() == EFFECT_MULTI_STRIKES)
+                            temper = true;
                     }
                 });
 
@@ -1207,25 +1360,38 @@ bool CAutomatonController::TryEnhance()
 
                     if (!PHasteTarget && !haste)
                         PHasteTarget = PMember;
+
+                    if (!PTemperTarget && !temper)
+                        PTemperTarget = PMember;
                 }
             }
         });
     }
 
     // No info on how this spell worked
-    if ((members - protectcount) >= 4)
-        Cast(PAutomaton->targid, SpellID::Protectra_V);
+    if ((members - protectcount) >= 1)
+        if (Cast(PProtectTarget->targid, SpellID::Protectra_V) ||
+            Cast(PProtectTarget->targid, SpellID::Protectra_IV) ||
+            Cast(PProtectTarget->targid, SpellID::Protectra_III) ||
+            Cast(PProtectTarget->targid, SpellID::Protectra_II) ||
+            Cast(PProtectTarget->targid, SpellID::Protectra))
+            return true;
 
     // No info on how this spell worked
-    if ((members - shellcount) >= 4)
-        Cast(PAutomaton->targid, SpellID::Shellra_V);
-
-    if (PRegenTarget && !(PRegenTarget->StatusEffectContainer->HasStatusEffect(EFFECT_REGEN) || PRegenTarget->StatusEffectContainer->HasStatusEffect(EFFECT_GEO_REGEN)))
-        if (Cast(PRegenTarget->targid, SpellID::Regen_III) || Cast(PRegenTarget->targid, SpellID::Regen_II) || Cast(PRegenTarget->targid, SpellID::Regen))
+    if ((members - shellcount) >= 1)
+        if (Cast(PShellTarget->targid, SpellID::Shellra_V) ||
+            Cast(PShellTarget->targid, SpellID::Shellra_IV) ||
+            Cast(PShellTarget->targid, SpellID::Shellra_III) ||
+            Cast(PShellTarget->targid, SpellID::Shellra_II) ||
+            Cast(PShellTarget->targid, SpellID::Shellra))
             return true;
 
     if (PProtectTarget)
-        if (Cast(PProtectTarget->targid, SpellID::Protect_V) || Cast(PProtectTarget->targid, SpellID::Protect_IV) || Cast(PProtectTarget->targid, SpellID::Protect_III) || Cast(PProtectTarget->targid, SpellID::Protect_II) || Cast(PProtectTarget->targid, SpellID::Protect))
+        if (Cast(PProtectTarget->targid, SpellID::Protect_V) ||
+            Cast(PProtectTarget->targid, SpellID::Protect_IV) ||
+            Cast(PProtectTarget->targid, SpellID::Protect_III) ||
+            Cast(PProtectTarget->targid, SpellID::Protect_II) ||
+            Cast(PProtectTarget->targid, SpellID::Protect))
             return true;
 
     if (PShellTarget)
@@ -1246,6 +1412,10 @@ bool CAutomatonController::TryEnhance()
 
     if (PPhalanxTarget)
         if (Cast(PPhalanxTarget->targid, SpellID::Phalanx))
+            return true;
+
+    if (PTemperTarget)
+        if (Cast(PTemperTarget->targid, SpellID::Temper))
             return true;
 
     return false;

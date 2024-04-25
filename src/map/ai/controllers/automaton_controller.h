@@ -76,8 +76,10 @@ private:
     bool TryHeal(const CurrentManeuvers& maneuvers);
     bool TryElemental(const CurrentManeuvers& maneuvers);
     bool TryEnfeeble(const CurrentManeuvers& maneuvers);
+    bool TryAbsorb(const CurrentManeuvers& maneuvers);
     bool TryStatusRemoval(const CurrentManeuvers& maneuvers);
     bool TryEnhance();
+    bool TryRegen();
     bool TryTPMove();
     bool TryRangedAttack();
     bool TryAttachment();
@@ -92,11 +94,11 @@ private:
     static constexpr int m_RangedAbility{ 1949 };
     duration m_magicCooldown;
     duration m_enfeebleCooldown;
+    duration m_absorbCooldown;
     duration m_elementalCooldown;
-    //duration m_absorbCooldown;
     duration m_healCooldown;
-    //duration m_regenerationCooldown;
     duration m_enhanceCooldown;
+    duration m_regenCooldown;
     duration m_statusCooldown;
     duration m_shieldbashCooldown;
     static constexpr int m_ShieldBashAbility{ 1944 };
@@ -104,9 +106,11 @@ private:
     time_point m_LastActionTime;
     time_point m_LastMagicTime;
     time_point m_LastEnfeebleTime;
+    time_point m_LastAbsorbTime;
     time_point m_LastElementalTime;
     time_point m_LastHealTime;
     time_point m_LastEnhanceTime;
+    time_point m_LastRegenTime;
     time_point m_LastStatusTime;
     time_point m_LastRangedTime;
     time_point m_LastShieldBashTime;
