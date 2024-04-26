@@ -595,9 +595,6 @@ tpz.mob.onAddEffect = function(mob, target, damage, effect, params)
 
                 if resist >= 0.5 and not target:hasStatusEffect(ae.eff) then
                     local power = params.power or ae.power or 0
-                    if (ae.eff == tpz.effect.POISON) then
-                        power = (mob:getMainLvl() / 4) + 3
-                    end
                     local tick = ae.tick or 0
                     local duration = params.duration or ae.duration
 

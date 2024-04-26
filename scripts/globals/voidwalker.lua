@@ -379,61 +379,97 @@ local modByMobName =
     end,
 
     ['Yacumama'] = function(mob)
+        mob:setDamage(140)
         mob:setMod(tpz.mod.MOVE, 25)
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.HUNDRED_FISTS, cooldown = 120, hpp = math.random(1, 15)},
+                {id = tpz.jsa.HUNDRED_FISTS, cooldown = 120, hpp = math.random(10, 15)},
             },
         })
     end,
 
     ['Capricornus'] = function(mob)
+        mob:setDamage(140)
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 90, hpp = math.random(1, 15)},
+                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 90, hpp = math.random(10, 15)},
             },
         })
     end,
 
     ['Lamprey_Lord'] = function(mob)
+        mob:setDamage(140)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 50)
         mob:setMod(tpz.mod.TRIPLE_ATTACK, 75)
         mob:setMod(tpz.mod.EVA, 50)
         mob:setMod(tpz.mod.DARKDEF, 256)
+        mob:setMod(tpz.mod.REGAIN, 100)
         mob:setMod(tpz.mod.MOVE, 13)
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.BLOOD_WEAPON, cooldown = 90, hpp = math.random(10, 15)},
+            },
+        })
     end,
 
     ['Shoggoth'] = function(mob)
+        mob:setDamage(140)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 50)
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.CHAINSPELL, cooldown = 90, hpp = math.random(10, 15)},
+            },
+        })
     end,
 
     ['Jyeshtha'] = function(mob)
-        mob:setDamage(120)
+        mob:setDamage(140)
+        mob:setMod(tpz.mod.EARTHDEF, 256)
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 90, hpp = math.random(10, 15)},
+            },
+        })
     end,
 
     ['Farruca_Fly'] = function(mob)
-        mob:setDamage(120)
-        mob:setMod(tpz.mod.WINDRES, 256)
+        mob:setDamage(140)
+        mob:addMod(tpz.mod.EVA, 50)
+        mob:setMod(tpz.mod.WINDDEF, 256)
+        mob:setMod(tpz.mod.UFASTCAST, -50)
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.PERFECT_DODGE, cooldown = 90, hpp = math.random(10, 15)},
+            },
+        })
     end,
 
     ['Skuld'] = function(mob)
+        mob:setDamage(140)
         mob:setMod(tpz.mod.DARKDEF, 256)
     end,
 
     ['Urd'] = function(mob)
+        mob:setDamage(140)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
         mob:setMod(tpz.mod.UDMGPHYS, -25)
     end,
 
     ['Erebus'] = function(mob)
+        mob:setDamage(140)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
         --AllowSelfNuking(mob, true) -- TODO: Breaks nukes for everything
         mob:setLocalVar("element", math.random(1,6))
     end,
 
     ['Feuerunke'] = function(mob)
+        mob:setDamage(140)
         mob:setMod(tpz.mod.RANGEDRES, 1000)
         mob:setMod(tpz.mod.MDEF, 0)
         mob:setMod(tpz.mod.UDMGMAGIC, 0)
@@ -449,11 +485,13 @@ local modByMobName =
     end,
 
     ['Krabkatoa'] = function(mob)
+        mob:setDamage(150)
         mob:setMod(tpz.mod.VIT, 130)
         mob:setMod(tpz.mod.REGAIN, 10)
     end,
 
     ['Blobdingnag'] = function(mob)
+        mob:setDamage(150)
         mob:setMod(tpz.mod.VIT, 130)
         mob:setMod(tpz.mod.DARKDEF, 256)
     end,
@@ -465,6 +503,7 @@ local modByMobName =
     end,
 
     ['Verthandi'] = function(mob)
+        mob:setDamage(150)
         mob:setMod(tpz.mod.VIT, 130)
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.UDMGMAGIC, -25)
@@ -473,6 +512,7 @@ local modByMobName =
     end,
 
     ['Lord_Ruthven'] = function(mob)
+        mob:setDamage(70)
         mob:setMod(tpz.mod.VIT, 130)
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.UDMGMAGIC, -25)
@@ -482,12 +522,14 @@ local modByMobName =
     end,
 
     ['Dawon'] = function(mob)
+        mob:setDamage(150)
         mob:setMod(tpz.mod.ACC, 50)
         mob:setMod(tpz.mod.VIT, 130)
         mob:setMod(tpz.mod.TRIPLE_ATTACK, 75)
     end,
 
     ['Yilbegan'] = function(mob)
+        mob:setDamage(150)
         mob:setMod(tpz.mod.VIT, 150)
         mob:setMod(tpz.mod.UDMGBREATH, -50)
     end,
@@ -517,7 +559,7 @@ local mixinByMobName =
     end,
 
     ['Lamprey_Lord'] = function(mob, target)
-        randomly(mob, 10, 60, tpz.effect.BLOOD_WEAPON, tpz.jsa.BLOOD_WEAPON)
+        doMobSkillEveryHPP(mob, 20, 80, tpz.jsa.BLOOD_WEAPON, not mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON))
         -- Gains a short duration paralysis aura if Acid Mist is interrupted
         mob:addListener("WEAPONSKILL_STATE_INTERRUPTED", "LAMPREY_LORD_WS_INTERRUPTED", function(mob, skill)
             AddMobAura(mob, target, auraLamprey)
@@ -529,7 +571,7 @@ local mixinByMobName =
     end,
 
     ['Jyeshtha'] = function(mob)
-        randomly(mob, 30, 60, tpz.jsa.MIGHTY_STRIKES, tpz.jsa.MIGHTY_STRIKES)
+        doMobSkillEveryHPP(mob, 20, 80, tpz.jsa.MIGHTY_STRIKES, not mob:hasStatusEffect(tpz.effect.MIGHTY_STRIKES))
         if
             mob:getLocalVar("MOBSKILL_USE") == 1 and
             not mob:hasStatusEffect(tpz.effect.MIGHTY_STRIKES)
@@ -560,10 +602,20 @@ local mixinByMobName =
         else
             mob:delJobTraits(tpz.job.RNG, 75)
         end
+
         -- Immediately uses Somersault after Aeroga III
         mob:addListener("MAGIC_STATE_EXIT", "FARRUCA_FLY_MAGIC_STATE_EXIT", function(mob, spell)
            if spell:getID() == 186 then -- Aeroga III
-                mob:useMobAbility(318)
+                if (mob:getLocalVar("forcedSomersault") == 0) then
+                    mob:setLocalVar("forcedSomersault", 1)
+                    mob:useMobAbility(3938) -- Somersault that doesn't consume TP'
+                end
+            end
+        end)
+
+        mob:addListener("WEAPONSKILL_USE", "FARRUCA_FLY_WS_USE", function(mob, target, skill)
+            if (skill == 3938) then -- To ensure it won't Somersault a million times in a row'
+                mob:setLocalVar("forcedSomersault", 0)
             end
         end)
     end,
@@ -816,12 +868,22 @@ local mixinByMobName =
 
 local mobFightByMobName =
 {
-    ['Lamprey Lord'] = function(mob, target)
+    ['Lamprey_Lord'] = function(mob, target)
         TickMobAura(mob, target, auraLamprey)
     end,
+
+    ['Farruca_Fly'] = function(mob, target)
+        if mob:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
+            mob:SetMagicCastingEnabled(false)
+        else
+            mob:SetMagicCastingEnabled(true)
+        end
+    end,
+
     ['Dawon'] = function(mob, target)
         TickMobAura(mob, target, auraDawon)
     end,
+
     ['Yilbegan'] = function(mob, target)
         TickMobAura(mob, target, auraYilbegan)
     end,
@@ -886,7 +948,7 @@ tpz.voidwalker.onMobFight = function(mob, target)
         mob:isSpawned() and
         (
             now > (poptime + 7200) or
-            mob:checkDistance(target) > 25
+            mob:checkDistance(target) > 100
         )
     then
         local zoneTextTable = zones[mob:getZoneID()].text

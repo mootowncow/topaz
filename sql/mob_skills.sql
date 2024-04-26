@@ -3901,7 +3901,7 @@ INSERT INTO `mob_skills` VALUES (3933,2234,'pentapeck',0,7.0,2000,1000,4,0,0,0,1
 -- INSERT INTO `mob_skills` VALUES (3935,3679,'stink_bomb',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3936,3680,'nectarous_deluge',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3937,3681,'nepenthic_plunge',0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (3938,3682,'somersault',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3938,401,'somersault',0,7.0,2000,1500,4,2,0,0,2,0,0);
 INSERT INTO `mob_skills` VALUES (3939,2189,'foul_waters',4,10.0,2000,1000,4,0,0,0,0,0,0); -- Jug Pet
 INSERT INTO `mob_skills` VALUES (3940,2791,'pestilent_plume',0,7.0,2000,1500,4,0,0,0,0,0,0); -- Jug Pet
 -- INSERT INTO `mob_skills` VALUES (3941,3685,'pecking_flurry',0,7.0,2000,1500,4,0,0,0,0,0,0);
