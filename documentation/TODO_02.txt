@@ -201,13 +201,14 @@ Buff Charger / Jaeger / Gunner mantle
 Sky Curtana ??? should be random
 Mobs that aggro by sound and sound and are true aggro don't seem to link by both? Imps in WOTG strongholds don't
 16916780, 16916629, 16916648, and 16916608 pots need to be moved and instructed to spin(if they arent). Maybe need to also fix their file that makes them spin(its positions?)
-Impact / Comet / Meteor given to BLM via items from long grinds (RMEA? Especially stronghold one?)
+Impact / Comet / Meteor given to B
+Impact / Comet / Meteor given to BLM via items from long grinds (RMEA? Especially strongholdLM via items from long grinds (RMEA? Especially stronghold one?)
 Hunts
 WOE
 
 
 ****TEST****
-VNM's. Start on Shoggoth / Lamprey Lord 
+VNM's. Stopped at Farruca Fly, Skuld next. Check JP wiki for Capricornus / Yacumama incase some stats or mechanics missing 
 Peiste / Pixie BDO custom exp camps in WOTG
 Cait Sith avatar skills and fight/quests
 Reward / Repair enmity
