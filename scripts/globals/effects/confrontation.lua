@@ -5,6 +5,11 @@
 -----------------------------------
 
 function onEffectGain(target,effect)
+    local duration = math.ceil((effect:getTimeRemaining()) / 1000)
+    local ID = zones[target:getZoneID()]
+    if (target:isPC()) then
+        target:messageSpecial(ID.text.CONF_BATTLE_BEGIN, duration / 60, 0, 0, 0) 
+    end
     if target:getPet() then
         target:getPet():addStatusEffect(effect)
     end
