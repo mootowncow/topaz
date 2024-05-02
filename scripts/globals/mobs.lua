@@ -120,6 +120,7 @@ tpz.mob.skills =
     WINTER_BREEZE = 2198,
     CYCLONIC_TURMOIL = 2199,
     CYCLONIC_TORRENT = 2200,
+    TRANCE           = 2260,
     CYTOKINESIS = 2514,
     NORN_ARROWS = 2518,
     DISSOLVE = 2550,
@@ -756,6 +757,7 @@ end
 
 function UseMultipleTPMoves(mob, uses, skillID)
     for i = 1,uses do
+       -- TODO: if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
       mob:useMobAbility(skillID) 
     end
 end
@@ -1090,10 +1092,11 @@ function ResetEnmityList(mob)
     end
 end
 
-function AllowSelfNuking(mob, bool) -- TODO: Breaks nukes for everything
-    if bool then
+-- Be very careful using this or it will break the spells
+function AllowSelfNuking(mob, isTrue)
+    if isTrue then
         for v = 144, 173 do
-            getSpell(v):setValidTarget(9)
+            getSpell(v):setValidTarget(tpz.magic.targetType.SELF)
         end
     else
         for v = 144, 173 do

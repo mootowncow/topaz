@@ -452,13 +452,27 @@ local modByMobName =
 
     ['Skuld'] = function(mob)
         mob:setDamage(140)
+        mob:addMod(tpz.mod.EVA, 50)
         mob:setMod(tpz.mod.DARKDEF, 256)
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.CHAINSPELL, cooldown = 120, hpp = math.random(10, 15)},
+            },
+        })
+        mob:setLocalVar("currentElement", math.random(1, 8))
     end,
 
     ['Urd'] = function(mob)
         mob:setDamage(140)
+        mob:addMod(tpz.mod.DEFP, 50)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
-        mob:setMod(tpz.mod.UDMGPHYS, -25)
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.TRANCE, cooldown = 120, hpp = math.random(10, 15)},
+            },
+        })
     end,
 
     ['Erebus'] = function(mob)
@@ -466,6 +480,12 @@ local modByMobName =
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
         --AllowSelfNuking(mob, true) -- TODO: Breaks nukes for everything
         mob:setLocalVar("element", math.random(1,6))
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.BLOOD_WEAPON, cooldown = 120, hpp = math.random(10, 15)},
+            },
+        })
     end,
 
     ['Feuerunke'] = function(mob)
@@ -568,6 +588,13 @@ local mixinByMobName =
 
     ['Shoggoth'] = function(mob)
         doMobSkillEveryHPP(mob, 20, 80, tpz.jsa.CHAINSPELL, not mob:hasStatusEffect(tpz.effect.CHAINSPELL))
+            -- Resets hate when using Chainspell
+            mob:addListener("EFFECT_GAIN", "SHOGGOTH_EFFECT_GAIN", function(mob, effect)
+            local effectType = effect:getType()
+            if (effectType == tpz.effect.CHAINSPELL) then
+                ResetEnmityList(mob)
+            end
+        end)
     end,
 
     ['Jyeshtha'] = function(mob)
@@ -622,95 +649,40 @@ local mixinByMobName =
 
     ['Skuld'] = function(mob)
         doMobSkillEveryHPP(mob, 20, 80, tpz.jsa.CHAINSPELL, not mob:hasStatusEffect(tpz.effect.CHAINSPELL))
-        mob:addListener("WEAPONSKILL_USE", "SKULD_WS_USE", function(mob, target, skill)
-            if (skill == tpz.jsa.CHAINSPELL) then -- Gains fast cast after ever Chainspell use
-                mob:addMod(tpz.mod.UFASTCAST, 10)
-            elseif (skill >= 2195 and skill <= 2198) then -- Changes element after using a Breeze skill
+        mob:addListener("WEAPONSKILL_STATE_EXIT", "SKULD_WEAPONSKILL_STATE_EXIT", function(mob, skill)
+            if (skill >= 2195 and skill <= 2198) then -- Changes element after using a Breeze skill
                 mob:setLocalVar("currentElement", math.random(1, 6))
             end
         end)
-        -- Resets hate after every spell
+
+        -- Set Fastcast var to 0 on magic starting so it can be added again next time it uses Chainspell
         mob:addListener("MAGIC_START", "SKULD_MAGIC_START", function(mob, spell)
-            ResetEnmityList(mob)
+            mob:setLocalVar("fcAdded", 0)
+        end)
+
+        -- Gains Fast Cast after every Chainspell use
+        mob:addListener("EFFECT_GAIN", "SKULD_EFFECT_GAIN", function(mob, effect)
+            local effectType = effect:getType()
+            if (effectType == tpz.effect.CHAINSPELL) and (mob:getLocalVar("fcAdded") == 0) then
+                mob:addMod(tpz.mod.UFASTCAST, 10)
+                mob:setLocalVar("fcAdded", 1)
+            end
+        end)
+
+        -- Resets hate after every spell while chainspell is active
+        mob:addListener("MAGIC_STATE_EXIT", "SKULD_MAGIC_STATE_EXIT", function(mob, spell)
+            if mob:hasStatusEffect(tpz.effect.CHAINSPELL) then
+                ResetEnmityList(mob)
+            end
         end)
     end,
 
     ['Urd'] = function(mob)
         doMobSkillEveryHPP(mob, 20, 80, tpz.jsa.TRANCE, not mob:hasStatusEffect(tpz.effect.TRANCE))
-        -- Trance causes Urd to: Zephyr Arrow > Lethe Arrows > Cyclonic Turmoil > Cyclonic Torrent 
-        mob:addListener("WEAPONSKILL_USE", "URD_WS_USE", function(mob, target, skill)
-            if (skill == tpz.jsa.TRANCE) then
-                mob:useMobAbility(2193)
-                mob:useMobAbility(2194)
-                mob:useMobAbility(2199)
-                mob:useMobAbility(2200)
-            end
-        end)
     end,
 
     ['Erebus'] = function(mob)
-        randomly(mob, 30, 60, tpz.effect.BLOOD_WEAPON, tpz.jsa.BLOOD_WEAPON)
-        if
-            mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON) and
-            not mob:hasStatusEffect(tpz.effect.HUNDRED_FISTS)
-        then
-            mob:addStatusEffect(tpz.effect.HUNDRED_FISTS, 1, 0, 30)
-        end
-        -- Set spell list and enfeeble resists based on current element Erebus is absorbing
-        local currentAbsorb = mob:getLocalVar("element")
-        -- Reset all enfeeble resists before editing additional ones
-        for v = tpz.mod.EEM_AMNESIA, tpz.mod.EEM_BLIND do
-            mob:setMod(v, 100)
-        end
-        if currentAbsorb == 1 then -- fire
-            mob:setSpellList(485)
-            mob:setMod(tpz.mod.EEM_AMNESIA, 5)
-            mob:setMod(tpz.mod.EEM_VIRUS, 5)
-        elseif currentAbsorb == 2 then -- ice
-            mob:setSpellList(486)
-            mob:setMod(tpz.mod.EEM_PARALYZE, 5)
-        elseif currentAbsorb == 3 then -- wind
-            mob:setSpellList(487)
-        elseif currentAbsorb == 4 then -- earth
-            mob:setMod(tpz.mod.EEM_SLOW, 5)
-            mob:setMod(tpz.mod.EEM_TERROR, 5)
-            mob:setSpellList(488)
-        elseif currentAbsorb == 5 then -- lightning
-            mob:setMod(tpz.mod.EEM_STUN, 5)
-            mob:setSpellList(528)
-        elseif currentAbsorb == 6 then -- water
-            mob:setSpellList(490)
-            mob:setMod(tpz.mod.EEM_POISON, 5)
-        end
-        mob:addListener("MAGIC_TAKE", "EREBUS_MAGIC_TAKE", function(target, caster, spell)
-            if
-                spell:tookEffect() and
-                (caster:isPC() or caster:isPet()) and
-                spell:dealsDamage() 
-            then
-                -- Remove previous absorb mod
-                local previousAbsorb = mob:getLocalVar("element")
-                mob:setMod(tpz.mod.FIRE_ABSORB + mob:getLocalVar("element") - 1, 0)
-                -- Apply new absorb mod
-                mob:setMod(tpz.mod.FIRE_ABSORB + spell:getElement() - 1, 100)
-                mob:setLocalVar("element", spell:getElement())
-                -- Nuke self with a T4 nuke immediately afterwards
-                local t4Nukes =
-                {
-                    { 1, 147 }, -- Fire
-                    { 2, 152 }, -- Ice
-                    { 3, 157 }, -- Wind
-                    { 4, 162 }, -- Earth
-                    { 5, 167 }, -- Thunder
-                    { 6, 172 }, -- Water
-                }
-                for _, spellElement in pairs(t4nukes) do
-                    if (spellElement[1] == spell:getElement()) then
-                        mob:castSpell(spellElement[2], mob)
-                    end
-                end
-            end
-        end)
+        doMobSkillEveryHPP(mob, 20, 80, tpz.jsa.BLOOD_WEAPON, not mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON))
     end,
 
     ['Feuerunke'] = function(mob)
@@ -878,6 +850,137 @@ local mobFightByMobName =
         else
             mob:SetMagicCastingEnabled(true)
         end
+    end,
+
+    ['Urd'] = function(mob, target)
+        local combo = {
+            {id = tpz.mob.skills.TRANCE,              comboStep = 1},
+            {id = tpz.mob.skills.ZEPHYR_ARROW,        comboStep = 2},
+            {id = tpz.mob.skills.LETHE_ARROWS,        comboStep = 3},
+            {id = tpz.mob.skills.CYCLONIC_TURMOIL,    comboStep = 4},
+            {id = tpz.mob.skills.CYCLONIC_TORRENT,    comboStep = 5},
+        }
+
+        if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
+            for i, skills in ipairs(combo) do
+                if (mob:getLocalVar("combo") == skills.comboStep) then
+                    local nextSkillIndex = i + 1
+                    if combo[nextSkillIndex] then
+                        if (mob:checkDistance(target) <= 7.0) then
+                            mob:setLocalVar("combo", combo[nextSkillIndex].comboStep)
+                            mob:useMobAbility(combo[nextSkillIndex].id)
+                        end
+                    end
+                    break
+                end
+            end
+        end
+
+        -- Trance causes Urd to: Zephyr Arrow > Lethe Arrows > Cyclonic Turmoil > Cyclonic Torrent 
+        mob:addListener("EFFECT_GAIN", "URD_EFFECT_GAIN", function(mob, effect)
+            local effectType = effect:getType()
+            if (effectType == tpz.effect.TRANCE) then
+                mob:setLocalVar("combo", 1)
+            end
+        end)
+
+        -- Handle any TP move being interrupted while doing it's "combo"
+        mob:addListener("WEAPONSKILL_STATE_INTERRUPTED", "URD_WS_INTERRUPTED", function(mob, skill)
+            for i, skills in ipairs(combo) do
+                if (skill == skills.id) then
+                    mob:setLocalVar("combo", skills.comboStep)
+                    local lastSkillIndex = i - 1
+                    if combo[lastSkillIndex] then
+                        mob:setLocalVar("combo", combo[lastSkillIndex].comboStep)
+                    end
+                end
+            end
+        end)
+    end,
+
+    ['Erebus'] = function(mob, target)
+        if mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON) then
+            mob:setDelay(1000)
+        else
+            mob:setDelay(4000)
+        end
+        -- Set spell list and enfeeble resists based on current element Erebus is absorbing
+        local currentAbsorb = mob:getLocalVar("element")
+        -- Reset all enfeeble resists before editing additional ones
+        for v = tpz.mod.EEM_AMNESIA, tpz.mod.EEM_BLIND do
+            mob:setMod(v, 100)
+        end
+        if currentAbsorb == 1 then -- fire
+            mob:setSpellList(485)
+            mob:setMod(tpz.mod.EEM_AMNESIA, 5)
+            mob:setMod(tpz.mod.EEM_VIRUS, 5)
+        elseif currentAbsorb == 2 then -- ice
+            mob:setSpellList(486)
+            mob:setMod(tpz.mod.EEM_PARALYZE, 5)
+        elseif currentAbsorb == 3 then -- wind
+            mob:setSpellList(487)
+        elseif currentAbsorb == 4 then -- earth
+            mob:setMod(tpz.mod.EEM_SLOW, 5)
+            mob:setMod(tpz.mod.EEM_TERROR, 5)
+            mob:setSpellList(488)
+        elseif currentAbsorb == 5 then -- lightning
+            mob:setMod(tpz.mod.EEM_STUN, 5)
+            mob:setSpellList(528)
+        elseif currentAbsorb == 6 then -- water
+            mob:setSpellList(490)
+            mob:setMod(tpz.mod.EEM_POISON, 5)
+        end
+
+        local counterNukeId = mob:getLocalVar("counterNuke")
+        -- Nukes self with a T4 immediately after being nuked of the same element, absorbing it
+        if
+            (counterNukeId > 0) and
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect()
+        then
+            local spell = getSpell(counterNukeId)
+            spell:setValidTarget(tpz.magic.targetType.SELF)
+            mob:castSpell(counterNukeId, mob)
+        end
+
+        mob:addListener("MAGIC_START", "EREBUS_MAGIC_START", function(mob, spell)
+            local spell = getSpell(counterNukeId)
+            if (counterNukeId > 0) then
+                spell:setValidTarget(tpz.magic.targetType.ENEMY)
+                mob:setLocalVar("counterNuke", 0)
+            end
+        end)
+
+        mob:addListener("MAGIC_TAKE", "EREBUS_MAGIC_TAKE", function(target, caster, spell)
+            if
+                spell:tookEffect() and
+                (caster:isPC() or caster:isPet()) and
+                spell:dealsDamage() 
+            then
+                -- Remove previous absorb mod
+                -- TODO: Edit magic.lua to make it so if a mob has absorb to an element it always lands for full damage?
+                local previousAbsorb = target:getLocalVar("element")
+                target:setMod(tpz.mod.FIRE_ABSORB + target:getLocalVar("element") - 1, 0)
+                -- Apply new absorb mod
+                target:setMod(tpz.mod.FIRE_ABSORB + spell:getElement() - 1, 100)
+                target:setLocalVar("element", spell:getElement())
+                -- Nuke self with a T4 nuke immediately afterwards
+                local spellData =
+                {
+                    { element = tpz.magic.ele.FIRE,     counterNuke = tpz.magic.spell.FIRE_IV },
+                    { element = tpz.magic.ele.ICE,      counterNuke = tpz.magic.spell.BLIZZARD_IV },
+                    { element = tpz.magic.ele.WIND,     counterNuke = tpz.magic.spell.AERO_IV },
+                    { element = tpz.magic.ele.EARTH,    counterNuke = tpz.magic.spell.STONE_IV },
+                    { element = tpz.magic.ele.THUNDER,  counterNuke = tpz.magic.spell.THUNDER_IV },
+                    { element = tpz.magic.ele.WATER,    counterNuke = tpz.magic.spell.WATER_IV },
+                }
+                for _, t4Nukes in pairs(spellData) do
+                    if (t4Nukes.element == spell:getElement()) then
+                        target:setLocalVar("counterNuke", t4Nukes.counterNuke)
+                    end
+                end
+            end
+        end)
     end,
 
     ['Dawon'] = function(mob, target)

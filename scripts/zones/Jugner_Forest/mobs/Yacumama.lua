@@ -19,7 +19,9 @@ function onMobFight(mob, target)
 end
 
 function onAdditionalEffect(mob, target, damage)
-    return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.ENWATER, {chance = 100, power = 15})
+    if mob:hasStatusEffect(tpz.effect.HUNDRED_FISTS) then
+        return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.ENWATER, {chance = 100, power = 20})
+    end
 end
 
 function onMobDisengage(mob)

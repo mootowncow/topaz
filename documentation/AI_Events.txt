@@ -46,6 +46,7 @@ WEATHER_CHANGE - Entity, weather, weather element
 
 EXPERIENCE_POINTS - Entity, exp
 
+EFFECT REQUIRES local effectType = effect:getType() to get its ID!!!
 TICK - Entity
 EFFECTS_TICK - Entity
 EFFECT_GAIN - Entity, Effect
