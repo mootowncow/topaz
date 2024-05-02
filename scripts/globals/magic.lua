@@ -2402,7 +2402,6 @@ function doElementalNuke(caster, spell, target, spellParams)
     local resistBonus = spellParams.resistBonus
     -- https://www.bluegartr.com/threads/134257-Status-resistance-and-other-miscellaneous-JP-insights
     local spellId = spell:getID()
-    print(string.format("Attempt to nuke with spellId %d", spellId))
     -- BLM Job Point: Magic Damage Bonus
     if (caster:getMainJob() == tpz.job.BLM) and caster:isPC() then
         DMGMod = DMGMod + caster:getJobPointLevel(tpz.jp.MAGIC_DMG_BONUS)
