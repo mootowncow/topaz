@@ -619,6 +619,13 @@ function applyResistance(caster, target, spell, params)
             end
         end
     end
+
+    -- Absorbed spells are guaranteed to land on monsters
+    if target:isMob() then
+        if (target:getMod(tpz.magic.absorbMod[element]) >= 100) then
+            res = 1
+        end
+    end
     -- print(string.format("res after was %f",res))
     
     return res
