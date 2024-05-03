@@ -1582,7 +1582,6 @@ function MobTransferEnfeeblesMove(mob, target, skill, range, isAOE)
     local currentEntity = nil
 
     -- Transfer effects
-    -- TODO: Pets
     if isAOE then
         for i, effect in ipairs(effects) do
             if mob:hasStatusEffect(effect) then
