@@ -55,14 +55,14 @@ zones[tpz.zone.BEAUCEDINE_GLACIER_S] =
                 17334554, -- Gjenganger
             },
             [tpz.keyItem.COLORFUL_ABYSSITE] = {
-                17334555, -- Erebus
-                17334556  -- Feuerunke
+                17334553, -- Erebus
+                17334552  -- Feuerunke
             },
             [tpz.keyItem.PURPLE_ABYSSITE] = {
-                17334557  -- Lord Ruthven
+                17334551  -- Lord Ruthven
             },
             [tpz.keyItem.BLACK_ABYSSITE] = {
-                17334558  -- Yilbegan
+                17334550  -- Yilbegan
             }
         }
     },

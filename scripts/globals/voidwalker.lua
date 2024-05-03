@@ -341,6 +341,10 @@ local function doMobSkillEveryHPP(mob, every, start, mobskill, condition)
 end
 
 local function randomly(mob, chance, between, effect, skill)
+    if (mob:getLocalVar("MOBSKILL_TIME") == 0) then
+        mob:setLocalVar("MOBSKILL_TIME", os.time())
+    end
+
     if
         math.random(0, 100) <= chance and
         not mob:hasStatusEffect(effect) and
@@ -480,6 +484,7 @@ local modByMobName =
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
         --AllowSelfNuking(mob, true) -- TODO: Breaks nukes for everything
         mob:setLocalVar("element", math.random(1,6))
+        SetCurrentResistsErebus(mob)
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
@@ -490,11 +495,17 @@ local modByMobName =
 
     ['Feuerunke'] = function(mob)
         mob:setDamage(140)
-        mob:setMod(tpz.mod.RANGEDRES, 1000)
+        mob:setMod(tpz.mod.MATT, 190)
         mob:setMod(tpz.mod.MDEF, 0)
+        mob:setMod(tpz.mod.RANGEDRES, 1000)
         mob:setMod(tpz.mod.UDMGMAGIC, 0)
         mob:setMod(tpz.mod.UDMGBREATH, -50)
         mob:setMod(tpz.mod.DMGSPIRITS, -95)
+    end,
+
+    ['Chesma'] = function(mob)
+        mob:setDamage(140)
+        mob:setMod(tpz.mod.MATT, 50)
     end,
 
     ['Tammuz'] = function(mob)
@@ -649,8 +660,11 @@ local mixinByMobName =
 
     ['Skuld'] = function(mob)
         doMobSkillEveryHPP(mob, 20, 80, tpz.jsa.CHAINSPELL, not mob:hasStatusEffect(tpz.effect.CHAINSPELL))
+        -- Changes element after using a Breeze skill
         mob:addListener("WEAPONSKILL_STATE_EXIT", "SKULD_WEAPONSKILL_STATE_EXIT", function(mob, skill)
-            if (skill >= 2195 and skill <= 2198) then -- Changes element after using a Breeze skill
+            if (skill >= 2195 and skill <= 2198) then
+            -- TODO: For readability
+            --if (skill >= tpz.mob.skills.SPRING_BREEZE and skill <= tpz.mob.skills.WINTER_BREEZE) then
                 mob:setLocalVar("currentElement", math.random(1, 6))
             end
         end)
@@ -900,38 +914,14 @@ local mobFightByMobName =
 
     ['Erebus'] = function(mob, target)
         if mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON) then
-            mob:setDelay(1000)
+            mob:setDelay(700)
         else
             mob:setDelay(4000)
         end
-        -- Set spell list and enfeeble resists based on current element Erebus is absorbing
-        local currentAbsorb = mob:getLocalVar("element")
-        -- Reset all enfeeble resists before editing additional ones
-        for v = tpz.mod.EEM_AMNESIA, tpz.mod.EEM_BLIND do
-            mob:setMod(v, 100)
-        end
-        if currentAbsorb == 1 then -- fire
-            mob:setSpellList(485)
-            mob:setMod(tpz.mod.EEM_AMNESIA, 5)
-            mob:setMod(tpz.mod.EEM_VIRUS, 5)
-        elseif currentAbsorb == 2 then -- ice
-            mob:setSpellList(486)
-            mob:setMod(tpz.mod.EEM_PARALYZE, 5)
-        elseif currentAbsorb == 3 then -- wind
-            mob:setSpellList(487)
-        elseif currentAbsorb == 4 then -- earth
-            mob:setMod(tpz.mod.EEM_SLOW, 5)
-            mob:setMod(tpz.mod.EEM_TERROR, 5)
-            mob:setSpellList(488)
-        elseif currentAbsorb == 5 then -- lightning
-            mob:setMod(tpz.mod.EEM_STUN, 5)
-            mob:setSpellList(528)
-        elseif currentAbsorb == 6 then -- water
-            mob:setSpellList(490)
-            mob:setMod(tpz.mod.EEM_POISON, 5)
-        end
 
+        -- Set spell list and enfeeble resists based on current element Erebus is absorbing
         local counterNukeId = mob:getLocalVar("counterNuke")
+
         -- Nukes self with a T4 immediately after being nuked of the same element, absorbing it
         if
             (counterNukeId > 0) and
@@ -958,13 +948,12 @@ local mobFightByMobName =
                 spell:dealsDamage() 
             then
                 -- Remove previous absorb mod
-                -- TODO: Edit magic.lua to make it so if a mob has absorb to an element it always lands for full damage?
                 local previousAbsorb = target:getLocalVar("element")
                 target:setMod(tpz.mod.FIRE_ABSORB + target:getLocalVar("element") - 1, 0)
                 -- Apply new absorb mod
                 target:setMod(tpz.mod.FIRE_ABSORB + spell:getElement() - 1, 100)
                 target:setLocalVar("element", spell:getElement())
-                -- Nuke self with a T4 nuke immediately afterwards
+                SetCurrentResistsErebus(target)
                 local spellData =
                 {
                     { element = tpz.magic.ele.FIRE,     counterNuke = tpz.magic.spell.FIRE_IV },
@@ -974,9 +963,12 @@ local mobFightByMobName =
                     { element = tpz.magic.ele.THUNDER,  counterNuke = tpz.magic.spell.THUNDER_IV },
                     { element = tpz.magic.ele.WATER,    counterNuke = tpz.magic.spell.WATER_IV },
                 }
-                for _, t4Nukes in pairs(spellData) do
-                    if (t4Nukes.element == spell:getElement()) then
-                        target:setLocalVar("counterNuke", t4Nukes.counterNuke)
+                -- Nuke self with a T4 nuke immediately afterwards if below 90% HP
+                if (target:getHPP() < 90) then
+                    for _, t4Nukes in pairs(spellData) do
+                        if (t4Nukes.element == spell:getElement()) then
+                            target:setLocalVar("counterNuke", t4Nukes.counterNuke)
+                        end
                     end
                 end
             end
@@ -1169,5 +1161,70 @@ tpz.voidwalker.onHealing = function(player)
         local mob       = GetMobByID(mobNearest.mobId)
         local direction = getDirection(player, mob, mobNearest.distance)
         player:messageSpecial(zoneTextTable.VOIDWALKER_MOB_HINT, abyssiteMessage[mobNearest.keyItem], direction, mobNearest.distance, mobNearest.keyItem)
+    end
+end
+
+-- Misc Helpers
+
+function SetCurrentResistsErebus(mob)
+    -- Reset all non-dark/light elemental and enfeeble resists before editing additional ones
+    for v = tpz.mod.SDT_FIRE, tpz.mod.SDT_WATER do
+        mob:setMod(v, 100)
+    end
+
+    for v = tpz.mod.EEM_AMNESIA, tpz.mod.EEM_POISON do
+        mob:setMod(v, 100)
+    end
+
+    local currentAbsorb = mob:getLocalVar("element")
+    if currentAbsorb == 1 then -- Fire
+        mob:setSpellList(485)
+        mob:setMod(tpz.mod.SDT_FIRE, 5)
+        mob:setMod(tpz.mod.EEM_AMNESIA, 5)
+        mob:setMod(tpz.mod.EEM_VIRUS, 5)
+        mob:setMod(tpz.mod.SDT_ICE, 5)
+        mob:setMod(tpz.mod.EEM_PARALYZE, 5)
+        mob:setMod(tpz.mod.EEM_BIND, 5)
+    elseif currentAbsorb == 2 then --Ice
+        mob:setSpellList(486)
+        mob:setMod(tpz.mod.SDT_ICE, 5)
+        mob:setMod(tpz.mod.EEM_PARALYZE, 5)
+        mob:setMod(tpz.mod.EEM_BIND, 5)
+        mob:setMod(tpz.mod.SDT_WIND, 5)
+        mob:setMod(tpz.mod.EEM_SILENCE, 5)
+        mob:setMod(tpz.mod.EEM_GRAVITY, 5)
+        mob:setMod(tpz.mod.SDT_FIRE, 150)
+    elseif currentAbsorb == 3 then -- Wind
+        mob:setSpellList(487)
+        mob:setMod(tpz.mod.SDT_WIND, 5)
+        mob:setMod(tpz.mod.EEM_SILENCE, 5)
+        mob:setMod(tpz.mod.EEM_GRAVITY, 5)
+        mob:setMod(tpz.mod.SDT_EARTH, 5)
+        mob:setMod(tpz.mod.EEM_SLOW, 5)
+        mob:setMod(tpz.mod.EEM_PETRIFY, 5)
+        mob:setMod(tpz.mod.EEM_TERROR, 5)
+        mob:setMod(tpz.mod.SDT_ICE, 150)
+    elseif currentAbsorb == 4 then --Earth
+        mob:setSpellList(488)
+        mob:setMod(tpz.mod.SDT_EARTH, 5)
+        mob:setMod(tpz.mod.EEM_SLOW, 5)
+        mob:setMod(tpz.mod.EEM_PETRIFY, 5)
+        mob:setMod(tpz.mod.EEM_TERROR, 5)
+        mob:setMod(tpz.mod.SDT_THUNDER, 5)
+        mob:setMod(tpz.mod.SDT_THUNDER, 5)
+        mob:setMod(tpz.mod.SDT_WIND, 150)
+    elseif currentAbsorb == 5 then --Lightning
+        mob:setSpellList(528)
+        mob:setMod(tpz.mod.SDT_THUNDER, 5)
+        mob:setMod(tpz.mod.EEM_STUN, 5)
+        mob:setMod(tpz.mod.SDT_WATER, 5)
+        mob:setMod(tpz.mod.EEM_POISON, 5)
+    elseif currentAbsorb == 6 then -- Water
+        mob:setSpellList(490)
+        mob:setMod(tpz.mod.SDT_WATER, 5)
+        mob:setMod(tpz.mod.EEM_POISON, 5)
+        mob:setMod(tpz.mod.SDT_FIRE, 5)
+        mob:setMod(tpz.mod.EEM_AMNESIA, 5)
+        mob:setMod(tpz.mod.EEM_VIRUS, 5)
     end
 end
