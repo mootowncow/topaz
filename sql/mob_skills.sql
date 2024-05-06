@@ -3212,7 +3212,7 @@ INSERT INTO `mob_skills` VALUES (3245,2036,'shield_subverter',0,7.0,2000,1500,4,
 -- INSERT INTO `mob_skills` VALUES (3250,2994,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3251,438,'amatsu_shirahadori',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3252,262,'bisection',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3253,209,'leaden_salute',0,15.5,2000,1500,4,0,0,0,9,1,0); -- Wrong Animation
+INSERT INTO `mob_skills` VALUES (3253,200,'leaden_salute',0,15.5,2000,1500,4,0,0,0,9,1,0); -- Wrong Animation
 INSERT INTO `mob_skills` VALUES (3254,264,'akimbo_shot',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3255,265,'grisly_horizon',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3256,361,'hane_fubuki',1,18.0,2000,1000,4,0,0,0,0,0,0); -- Gessho

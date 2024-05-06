@@ -3,7 +3,6 @@
 --  Mob: Ulbrecht
 -- SCH Mythic weapon fight
 -----------------------------------
-local ID = require("scripts/zones/Ruhotz_Silvermines/IDs")
 require("scripts/globals/mobs")
 require("scripts/globals/status")
 -----------------------------------
@@ -20,6 +19,8 @@ end
 
 function onMobSpawn(mob)
     mob:setDamage(40)
+    mob:addMod(tpz.mod.ATTP, 25)
+    mob:addMod(tpz.mod.DEFP, 25)
     mob:addMod(tpz.mod.ACC, 50)
     mob:SetMagicCastingEnabled(false)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
