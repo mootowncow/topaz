@@ -322,23 +322,33 @@ end
 local function doMobSkillEveryHPP(mob, every, start, mobskill, condition)
     local mobhpp = mob:getHPP()
 
-    if
-        mobhpp <= start and
-        condition
-    then
-        local mobHppModulo   = mobhpp % every
-        local startHppModulo = start % every
-        local isSame         = startHppModulo == mobHppModulo
+    if mobhpp <= start and condition then
+        local currentThreshold = mob:getLocalVar('currentThreshold' .. mobskill)
+        local nextThreshold = mob:getLocalVar('nextThreshold' .. mobskill)
 
-        if
-            isSame and
-            mob:getLocalVar('MOB_SKILL_' .. mobhpp) == 0
-        then
-            mob:useMobAbility(mobskill)
-            mob:setLocalVar('MOB_SKILL_' .. mobhpp, 1)
+        if (currentThreshold == 0) then
+            mob:setLocalVar('currentThreshold' .. mobskill, start)
+        end
+
+        if (nextThreshold == 0) then
+            mob:setLocalVar('nextThreshold' .. mobskill, utils.clamp(start - every, 1, 100))
+        end
+
+
+        if (currentThreshold > 1 and mobhpp <= currentThreshold) then
+            if mob:getLocalVar('MOB_SKILL_' .. mobskill) ~= currentThreshold then
+                mob:useMobAbility(mobskill)
+                mob:setLocalVar('MOB_SKILL_' .. mobskill, currentThreshold)
+            end
+            currentThreshold = nextThreshold
+            nextThreshold = utils.clamp(currentThreshold - every, 1, 100)
+            mob:setLocalVar('currentThreshold' .. mobskill, currentThreshold)
+            mob:setLocalVar('nextThreshold' .. mobskill, nextThreshold)
         end
     end
 end
+
+
 
 local function randomly(mob, chance, between, effect, skill)
     if (mob:getLocalVar("MOBSKILL_TIME") == 0) then
@@ -531,6 +541,7 @@ local modByMobName =
         mob:setDamage(70)
         mob:setMod(tpz.mod.VIT, 130)
         mob:setMod(tpz.mod.TRIPLE_ATTACK, 25)
+        mob:setMod(tpz.mod.EARTHDEF, 256)
     end,
 
     ['Verthandi'] = function(mob)
@@ -1119,6 +1130,7 @@ tpz.voidwalker.onMobDeath = function(mob, player, isKiller, keyItem)
             playerpoped:messageSpecial(zoneTextTable.VOIDWALKER_BREAK_KI, popkeyitem)
         end
     end
+    DespawnPet(mob)
 end
 
 -----------------------------------

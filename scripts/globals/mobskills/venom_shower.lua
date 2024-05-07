@@ -17,7 +17,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.POISON
     local dmgmod = 2
-    local power = 35
+    local power = 40
 
     if mob:isPet() then
         local master = mob:getMaster()

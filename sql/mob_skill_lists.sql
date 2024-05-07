@@ -3985,10 +3985,8 @@ INSERT INTO `mob_skill_lists` VALUES ('Krabkatoa',1180,2513); -- Mega Scissor
 
 INSERT INTO `mob_skill_lists` VALUES ('LampreyLord',1181,3907); -- Acid Mist
 
-INSERT INTO `mob_skill_lists` VALUES ('Blobdingnag',1182,431);  -- Fluid_Spread
-INSERT INTO `mob_skill_lists` VALUES ('Blobdingnag',1182,433);  -- Digest
-INSERT INTO `mob_skill_lists` VALUES ('Blobdingnag',1182,1317); -- Mucus_Spread
-INSERT INTO `mob_skill_lists` VALUES ('Blobdingnag',1182,1319); -- Epoxy_Spread
+INSERT INTO `mob_skill_lists` VALUES ('Blobdingnag',1182,2548);  -- Fluid_Spread
+INSERT INTO `mob_skill_lists` VALUES ('Blobdingnag',1182,2549);  -- Fluid_Toss
 INSERT INTO `mob_skill_lists` VALUES ('Blobdingnag',1182,2550); -- Dissolve
 
 INSERT INTO `mob_skill_lists` VALUES ('FarrucaFly',1183,659);
