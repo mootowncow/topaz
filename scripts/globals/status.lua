@@ -2041,8 +2041,10 @@ tpz.mod =
     TH_MAX                  = 1364, --  Max TH level the entity can play. THF job gift.
     TH_PROC_CHANCE          = 1365, -- Bonus proc chance to Treasure Hunter procs. THF job gifts.
     ALERTNESS               = 1366, -- Reduced Sight detection range
+    TRANQUIL_HEART          = 1369, -- Grants the bonuses based on currently summoned Automaton
+    ELEMENTAL_WSACC         = 1370, -- Elemental Weaponskill Accuracy
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1369 NEXT
+    -- 1371 NEXT
 }
 
 tpz.latent =
@@ -3591,6 +3593,20 @@ tpz.frames =
     VALOREDGE  = 0x21,
     SHARPSHOT  = 0x22,
     STORMWAKER = 0x23,
+}
+
+------------------------------------
+-- Automaton Head IDs
+------------------------------------
+
+tpz.heads =
+{
+    HARLEQUIN    = 0x01,
+    VALOREDGE    = 0x02,
+    SHARPSHOT    = 0x03,
+    STORMWAKER   = 0x04,
+    SOULSOOTHER  = 0x05,
+    SPIRITREAVER = 0x06
 }
 
 ------------------------------------

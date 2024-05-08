@@ -91,6 +91,7 @@ enum class Mod
     DARKACC                   = 47, // Dark Accuracy
 
     WSACC                     = 48, // Weaponskill Accuracy
+    ELEMENTAL_WSACC           = 1370,// Elemental Weaponskill Accuracy
 
     // Resistance to damage type
     // Value is stored as a percentage of damage reduction (to within 1000)
@@ -627,7 +628,7 @@ enum class Mod
     AUTO_PERFORMANCE_BOOST    = 942, // Increases the performance of other attachments by a percentage
     AUTO_ANALYZER             = 943, // Causes the Automaton to mitigate damage from a special attack a number of times
     AUTO_LVL_BONUS            = 1349,// Automaton: Lv.+ (Increases Automatons's base level above 99
-
+    TRANQUIL_HEART            = 1369,// Grants the bonuses based on currently summoned Automaton
     // Dancer
     FINISHING_MOVES           = 333, // Tracks # of finishing moves
     SAMBA_DURATION            = 490, // Samba duration bonus
@@ -1049,7 +1050,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1369 NEXT
+    // 1371 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

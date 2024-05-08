@@ -2785,8 +2785,26 @@ namespace charutils
             }
         }
 
+        // Add Uriel Blade for PUP with a Valoredge head
+        if (PChar->GetMJob() == JOB_PUP)
+        {
+            CBattleEntity* PPet = ((CBattleEntity*)PChar)->PPet;
+            if (PChar->PPet && static_cast<CPetEntity*>(PPet)->getPetType() == PETTYPE_AUTOMATON)
+            {
+                if (static_cast<CAutomatonEntity*>(PPet)->getHead() == HEAD_VALOREDGE)
+                {
+                    PItem = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_MAIN));
+                    if (PItem != nullptr && PItem->isType(ITEM_WEAPON) && PItem->getSkillType() == SKILL_SWORD)
+                    {
+                        addWeaponSkill(PChar, PChar->getMod(Mod::ADDS_WEAPONSKILL));
+                    }
+                }
+            }
+        }
+
         // Add in WS from gear mod
-        addWeaponSkill(PChar, PChar->getMod(Mod::ADDS_WEAPONSKILL));
+        // Unneeded?
+       // addWeaponSkill(PChar, PChar->getMod(Mod::ADDS_WEAPONSKILL));
     }
 
     void BuildingCharPetAbilityTable(CCharEntity* PChar, CPetEntity* PPet, uint32 PetID) {

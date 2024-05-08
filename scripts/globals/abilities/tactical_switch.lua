@@ -19,10 +19,15 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    local buffTable = {
+
+    }
     local pet = player:getPet()
     local playerTP = player:getTP()
+    local maneuver = player:countEffect(tpz.effect.EARTH_MANEUVER)
     pet:addTP(playerTP)
     player:setTP(0)
+    -- Consume manuevers to give a bonus based on # of manuevers and manuever element to pet and self
 
     return playerTP
 end

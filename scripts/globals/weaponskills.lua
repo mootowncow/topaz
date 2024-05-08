@@ -675,7 +675,11 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
 	end
 
     local bonusfTP, bonusacc = handleWSGorgetBelt(attacker)
-    bonusacc = bonusacc + attacker:getMod(tpz.mod.WSACC) + wsParams.bonusmacc
+    bonusacc =
+        bonusacc +
+        attacker:getMod(tpz.mod.WSACC) +
+        attacker:getMod(tpz.mod.ELEMENTAL_WSACC) +
+        wsParams.bonusmacc
 
     local fint = utils.clamp(8 + (attacker:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)), -120, 120) 
     local dmg = 0
