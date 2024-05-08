@@ -4508,11 +4508,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Urd',529,54,1,255);   -- Stoneskin
 INSERT INTO `mob_spell_lists` VALUES ('Urd',529,108,1,255);  -- Regen
 INSERT INTO `mob_spell_lists` VALUES ('Urd',529,4,1,255);    -- Cure IV
 
-INSERT INTO `mob_spell_lists` VALUES ('Verthandi',530,47,1,255);   -- Protect V
-INSERT INTO `mob_spell_lists` VALUES ('Verthandi',530,52,1,255);   -- Shell V
-INSERT INTO `mob_spell_lists` VALUES ('Verthandi',530,54,1,255);   -- Stoneskin
-INSERT INTO `mob_spell_lists` VALUES ('Verthandi',530,108,1,255);  -- Regen
-INSERT INTO `mob_spell_lists` VALUES ('Verthandi',530,22,1,255);   -- Holy II
+-- 530 Free
 
 INSERT INTO `mob_spell_lists` VALUES ('Yilbegan',531,191,1,255);  -- Stonega III
 INSERT INTO `mob_spell_lists` VALUES ('Yilbegan',531,181,1,255);  -- Blizzaga III
@@ -5996,6 +5992,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,232,1,255); -- bio_
 INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,249,1,255); -- blaze_spikes
 INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,367,1,255); -- Death
 
+-- NEXT 530
 -- NEXT 542
 -- NEXT 1022
 -- NEXT 2086(Custom)
