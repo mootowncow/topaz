@@ -393,6 +393,21 @@ https://github.com/CatsAndBoats/catseyexi/commit/6133c684c285d942f0ef3a4a998a5b1
 Mob OOC regen logic
 https://github.com/CatsAndBoats/catseyexi/commit/baed2e72d1d90c03b6934e2c447cf9129b56760b
 
+Boost counter:
+https://github.com/LandSandBoat/server/commit/1cbf850a512ce2cb0d72373f4e4d857454773794
+
+Targetfind alegiance stuff for enemy
+https://github.com/LandSandBoat/server/commit/df8ce3c05f999e1fd17977caf93cfbbc6ef85f22
+
+Better enmity for super tanking? mostly updateEnmity() changes
+https://github.com/LandSandBoat/server/commit/663de5494b7bdf183ad8185e86371a316664b658
+
+Instance stuff
+https://github.com/LandSandBoat/server/commit/2309bb1dc18f90b561c976ee749bf788b593e78e
+
+Wardrobe bits?
+https://github.com/LandSandBoat/server/commit/587156851dd0513f4a73ae8b8883f998c94fcc8b
+
 Add these weapons or get ideas from them(rank1):
 https://www.bg-wiki.com/ffxi/Category:Mog_Bonanza
 
