@@ -339,6 +339,9 @@ https://github.com/CatsAndBoats/catseyexi/commit/a7453dce06f91a65f08e5eeb47db21e
 Enum offsets
 https://github.com/CatsAndBoats/catseyexi/commit/46136dded9eba9ce383eda2775c46e4aeb6d7765
 
+Diabolos pet skill animation ids?
+https://github.com/LandSandBoat/server/commit/6d19fe716f44d7c89cb7626e6c76a8fcbff102b9#diff-90f5c52633212ef5965318c11bd27ab182f071b451126bb872851f24c7943049
+
 Safety checks
 https://github.com/CatsAndBoats/catseyexi/commit/f905d90955d3e260556c8e285ea6518a5a3d465d
 https://github.com/CatsAndBoats/catseyexi/commit/7990f9bf296c5765df69d9dfb6f070f25cbd2af0
