@@ -14,6 +14,6 @@ end
 
 function onUseAbility(player, target, ability)
     local pet = player:getPet()
-    pet:delStatusEffect(tpz.effect.PHALANX)
-    pet:addStatusEffect(tpz.effect.PHALANX, 500, 0, 5)
+    pet:addStatusEffect(tpz.effect.INVINCIBLE, 1, 0, 5)
+    pet:addStatusEffect(tpz.effect.ELEMENTAL_SFORZO, 1, 0, 5)
 end

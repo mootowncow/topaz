@@ -45,17 +45,9 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
             if pet:isAlive() and player:checkDistance(pet) <= 10 then
                 pet:addHP(healAmount)
                 player:updateEnmityFromCure(pet, healAmount)
-                -- Add Regen
-                if not pet:hasStatusEffect(tpz.effect.REGEN) then
-                    pet:addStatusEffect(tpz.effect.REGEN, 33, 3, 30)
-                end
                 -- Add Phalanx
                 if not pet:hasStatusEffect(tpz.effect.PHALANX) then
                     pet:addStatusEffect(tpz.effect.PHALANX, 20, 0, 30)
-                end
-                -- Add MDEF bonus
-                if not pet:hasStatusEffect(tpz.effect.MAGIC_DEF_BOOST) then
-                    pet:addStatusEffect(tpz.effect.MAGIC_DEF_BOOST, 33, 0, 30)
                 end
                 -- Add Defense boost 
                 if not pet:hasStatusEffect(tpz.effect.DEFENSE_BOOST) then

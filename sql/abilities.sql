@@ -319,7 +319,7 @@ INSERT INTO `abilities` VALUES (262,'divine_waltz_ii',19,55,27,20,225,102,0,34,2
 INSERT INTO `abilities` VALUES (263,'flourishes_iii',19,60,1,0,226,0,0,0,2000,0,14,20.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (264,'climactic_flourish',19,75,1,90,226,100,0,230,2000,0,14,20.0,1,1,80,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (265,'libra',20,76,4,60,237,100,0,231,2000,0,6,11.2,0,0,0,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (266,'tactical_switch',18,40,1,30,213,100,0,232,2000,0,6,11.2,0,0,0,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (266,'tactical_switch',18,40,1,90,213,100,0,232,2000,0,6,11.2,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (267,'blood_rage',1,50,1,30,11,441,421,239,2000,0,6,13.0,0,180,1280,0,0,NULL,0);  
 INSERT INTO `abilities` VALUES (269,'impetus',2,88,1,360,31,100,0,240,2000,0,6,20.0,0,1,80,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (270,'divine_caress',3,83,1,60,32,100,0,254,2000,0,6,20.0,0,0,0,0,0,NULL,0);

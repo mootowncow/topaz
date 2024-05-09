@@ -285,14 +285,16 @@ tpz.subEffect =
     SILENCE             = 13,
     PETRIFY             = 14,
     PETRIFICATION       = 14,
-    PLAGUE              = 15,
     BANE                = 15,
     ADDLE               = 15,
     STUN                = 16,
     CURSE               = 17,
     DEFENSE_DOWN        = 18,  -- 1-01001      37
+    SLOW                = 18,
+    ELEGY               = 18,
     EVASION_DOWN        = 18,  -- Same subeffect as DEFENSE_DOWN
     ATTACK_DOWN         = 18,  -- Same subeffect as DEFENSE_DOWN
+    MAGIC_ATK_DOWN      = 18,  -- Same subeffect as DEFENSE_DOWN
     GRAVITY             = 18,  -- Same subeffect as DEFENSE_DOWN
     DEATH               = 19,
     SHIELD              = 20,
@@ -300,7 +302,6 @@ tpz.subEffect =
     MP_DRAIN            = 22,  -- This is correct animation
     TP_DRAIN            = 22,  -- Verified this should look exactly like Aspir Samba.
     HASTE               = 23,
-    SLOW                = 23,
     -- There are no additional attack effect animations beyond 23. Some effects share subeffect/animations.
 
     -- SPIKES

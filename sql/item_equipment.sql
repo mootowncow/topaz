@@ -7042,9 +7042,9 @@ INSERT INTO `item_equipment` VALUES (17309,'pinwheel',24,0,2166961,22,0,0,8,4,0)
 INSERT INTO `item_equipment` VALUES (17310,'hyo',36,0,2166961,16,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (17311,'dart_+1',58,0,2166961,22,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (17312,'iron_bullet',50,0,70688,0,0,0,8,0,0);
-INSERT INTO `item_equipment` VALUES (17313,'grenade',19,0,2101409,29,0,0,8,4,0);
-INSERT INTO `item_equipment` VALUES (17314,'quake_grenade',32,0,2101409,29,0,0,8,4,0);
-INSERT INTO `item_equipment` VALUES (17315,'riot_grenade',40,0,2101409,29,0,0,8,4,0);
+INSERT INTO `item_equipment` VALUES (17313,'grenade',19,0,131072,29,0,0,8,4,0);
+INSERT INTO `item_equipment` VALUES (17314,'quake_grenade',32,0,131072,29,0,0,8,4,0);
+INSERT INTO `item_equipment` VALUES (17315,'riot_grenade',40,0,131072,29,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (17316,'bomb_arm',5,0,2101409,29,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (17317,'gold_arrow',40,0,7665,0,0,0,8,0,0);
 INSERT INTO `item_equipment` VALUES (17318,'wooden_arrow',1,0,4194303,0,0,0,8,0,0);
