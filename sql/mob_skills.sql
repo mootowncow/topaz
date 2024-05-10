@@ -2347,7 +2347,7 @@ INSERT INTO `mob_skills` VALUES (2383,294,'charm_gaze',4,10.0,2000,1500,4,2,0,0,
 -- INSERT INTO `mob_skills` VALUES (2386,2130,'cobra_clamp',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2387,1660,'fatal_scream',1,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2388,2132,'dirty_breath',4,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2389,1662,'lethal_triclip',1,15.0,2000,1500,4,0,0,5,0,0,0); -- Animation ID was 1662
+INSERT INTO `mob_skills` VALUES (2389,1452,'lethal_triclip',1,15.0,2000,1500,4,0,0,5,0,0,0); -- Animation ID was 1662
 INSERT INTO `mob_skills` VALUES (2390,1663,'accursed_armor',0,7.0,2000,1000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2391,1664,'amnesic_blast',4,10.0,2000,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2392,1665,'oppressive_glare',0,7.0,2000,1500,1,0,0,0,0,0,0);

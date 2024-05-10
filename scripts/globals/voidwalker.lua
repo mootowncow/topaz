@@ -322,6 +322,10 @@ end
 local function doMobSkillEveryHPP(mob, every, start, mobskill, condition)
     local mobhpp = mob:getHPP()
 
+    if IsMobBusy(mob) or mob:hasPreventActionEffect() then
+        return
+    end
+
     if mobhpp <= start and condition then
         local currentThreshold = mob:getLocalVar('currentThreshold' .. mobskill)
         local nextThreshold = mob:getLocalVar('nextThreshold' .. mobskill)
@@ -561,8 +565,9 @@ local modByMobName =
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.UDMGMAGIC, -25)
         mob:setMod(tpz.mod.UDMGBREATH, -50)
-        mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 100, 0, 0)
-        SetBuffUndispellable(mob, tpz.effect.BLAZE_SPIKES)
+        mob:setMod(tpz.mod.REGAIN, 50)
+        mob:addStatusEffect(tpz.effect.DAMAGE_SPIKES, 100, 0, 0)
+        SetBuffUndispellable(mob, tpz.effect.DAMAGE_SPIKES)
     end,
 
     ['Dawon'] = function(mob)
@@ -570,12 +575,14 @@ local modByMobName =
         mob:setMod(tpz.mod.ACC, 50)
         mob:setMod(tpz.mod.VIT, 130)
         mob:setMod(tpz.mod.TRIPLE_ATTACK, 75)
+        mob:setMobMod(tpz.mobMod.GA_CHANCE, 75)
     end,
 
     ['Yilbegan'] = function(mob)
         mob:setDamage(150)
         mob:setMod(tpz.mod.VIT, 150)
         mob:setMod(tpz.mod.UDMGBREATH, -50)
+        mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
 }
 
@@ -737,26 +744,22 @@ local mixinByMobName =
     ['Dawon'] = function(mob)
         doMobSkillEveryHPP(mob, 5, 95, tpz.jsa.PERFECT_DODGE, not mob:hasStatusEffect(tpz.effect.PERFECT_DODGE))
         if mob:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
-            mob:setMod(tpz.mod.REGAIN, 250)
+            mob:setMod(tpz.mod.REGAIN, 1000)
             AddMobAura(mob, target, auraDawon)
         else
             mob:setMod(tpz.mod.REGAIN, 0)
         end
         -- Immune to physical damage while readying TP moves and slightly after using them.
         mob:addListener("WEAPONSKILL_STATE_ENTER", "DAWON_WS_STATE_ENTER", function(mob, skillID)
-            mob:addStatusEffect(tpz.effect.PHYSICAL_SHIELD, 0, 0, 0)
-        end)
-        mob:addListener("WEAPONSKILL_STATE_EXIT", "DAWON_MOBSKILL_FINISHED", function(mob)
-            mob:delStatusEffect(tpz.effect.PHYSICAL_SHIELD)
+            mob:addStatusEffectEx(tpz.effect.PHYSICAL_SHIELD, 0, 1, 0, 5)
         end)
         -- Immune to magic while casting. "The Dawon resists the spell."
         mob:addListener("MAGIC_START", "DAWON_MAGIC_START", function(mob, spell)
-            mob:addStatusEffect(tpz.effect.MAGIC_SHIELD, 0, 0, 0)
+            mob:addStatusEffectEx(tpz.effect.MAGIC_SHIELD, 0, 1, 0, 5)
         end)
         -- Gains the effect of a 5-6 shadow Blink effect after casting a spell.
         mob:addListener("MAGIC_STATE_EXIT", "DAWON_MAGIC_STATE_EXIT", function(mob, spell)
             mob:addStatusEffect(tpz.effect.BLINK, math.random(4, 6), 0, 30)
-            mob:delStatusEffect(tpz.effect.MAGIC_SHIELD)
         end)
     end,
 
@@ -765,21 +768,36 @@ local mixinByMobName =
         local battleTime = mob:getBattleTime()
         local wingsTimer = mob:getLocalVar("wingsTimer")
         local wingsUp = mob:getLocalVar("wingsUp")
+        local animationSub = mob:AnimationSub()
+        local wingState = {
+            DOWN    = 0,
+            UP      = 2
+        }
+
 
         if (wingsTimer == 0) then
-            mob:setLocalVar("twohourTime", math.random(30, 45))
+            mob:setLocalVar("wingsTimer", math.random(30, 45))
         elseif (battleTime >= wingsTimer and wingsUp == 0) then
-            mob:addMod(tpz.mod.UDMGMAGIC, -50)
-            mob:delMod(tpz.mod.UDMGPHYS, -50)
             mob:AnimationSub(2) -- TODO
             mob:setLocalVar("wingsTimer", battleTime + math.random(30, 45))
             mob:setLocalVar("wingsUp", 1)
+            -- printf("Wings up")
         elseif (battleTime >= wingsTimer and wingsUp == 1) then
-            mob:addMod(tpz.mod.UDMGPHYS, -50)
-            mob:delMod(tpz.mod.UDMGMAGIC, -50)
             mob:AnimationSub(0) -- TODO
             mob:setLocalVar("wingsTimer", battleTime + math.random(30, 45))
             mob:setLocalVar("wingsUp", 0)
+            -- printf("Wings down")
+        end
+
+        -- Change PDT/MDT based on wings being up or down
+        if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
+            if (animationSub == wingState.UP) then
+                mob:setMod(tpz.mod.UDMGPHYS, 0)
+                mob:setMod(tpz.mod.UDMGMAGIC, -75)
+            elseif (animationSub == wingState.DOWN) then
+                mob:setMod(tpz.mod.UDMGPHYS, -75)
+                mob:setMod(tpz.mod.UDMGMAGIC, 0)
+            end
         end
 
         -- Occasionally gains a Bio aura which also gives him access to Meteor
@@ -802,39 +820,39 @@ local mixinByMobName =
 
         -- -25% PDT and MDT when not casting/tping
         mob:addListener("WEAPONSKILL_STATE_ENTER", "YILBEGAN_WS_STATE_ENTER", function(mob, skillID)
-            for v = tpz.mod.UDMGPHYS, tpz.mod.UDMGMAGIC do
-                if mob:getMod(v) >= 50 then
-                    mob:setMod(v, 50)
-                else
-                    mob:setMod(v, 0)
-                end
+            if (animationSub == wingState.UP) then
+                mob:setMod(tpz.mod.UDMGPHYS, 0)
+                mob:setMod(tpz.mod.UDMGMAGIC, -50)
+            elseif (animationSub == wingState.DOWN) then
+                mob:setMod(tpz.mod.UDMGPHYS, -50)
+                mob:setMod(tpz.mod.UDMGMAGIC, 0)
             end
         end)
         mob:addListener("WEAPONSKILL_STATE_EXIT", "YILBEGAN_MOBSKILL_FINISHED", function(mob)
-            for v = tpz.mod.UDMGPHYS, tpz.mod.UDMGMAGIC do
-                if mob:getMod(v) >= 50 then
-                    mob:setMod(v, 75)
-                else
-                    mob:setMod(v, 25)
-                end
+            if (animationSub == wingState.UP) then
+                mob:setMod(tpz.mod.UDMGPHYS, 0)
+                mob:setMod(tpz.mod.UDMGMAGIC, -75)
+            elseif (animationSub == wingState.DOWN) then
+                mob:setMod(tpz.mod.UDMGPHYS, -75)
+                mob:setMod(tpz.mod.UDMGMAGIC, 0)
             end
         end)
         mob:addListener("MAGIC_START", "YILBEGAN_MAGIC_START", function(mob, spell)
-            for v = tpz.mod.UDMGPHYS, tpz.mod.UDMGMAGIC do
-                if mob:getMod(v) >= 50 then
-                    mob:setMod(v, 50)
-                else
-                    mob:setMod(v, 0)
-                end
+            if (animationSub == wingState.UP) then
+                mob:setMod(tpz.mod.UDMGPHYS, 0)
+                mob:setMod(tpz.mod.UDMGMAGIC, -50)
+            elseif (animationSub == wingState.DOWN) then
+                mob:setMod(tpz.mod.UDMGPHYS, -50)
+                mob:setMod(tpz.mod.UDMGMAGIC, 0)
             end
         end)
         mob:addListener("MAGIC_STATE_EXIT", "YILBEGAN_MAGIC_STATE_EXIT", function(mob, spell)
-            for v = tpz.mod.UDMGPHYS, tpz.mod.UDMGMAGIC do
-                if mob:getMod(v) >= 50 then
-                    mob:setMod(v, 75)
-                else
-                    mob:setMod(v, 25)
-                end
+            if (animationSub == wingState.UP) then
+                mob:setMod(tpz.mod.UDMGPHYS, 0)
+                mob:setMod(tpz.mod.UDMGMAGIC, -75)
+            elseif (animationSub == wingState.DOWN) then
+                mob:setMod(tpz.mod.UDMGPHYS, -75)
+                mob:setMod(tpz.mod.UDMGMAGIC, 0)
             end
         end)
     end,
