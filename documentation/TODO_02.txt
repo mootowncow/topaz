@@ -330,6 +330,15 @@ Ranged attack fixes
 https://github.com/CatsAndBoats/catseyexi/commit/fcb335a14e11b2d90512930acccd698e5213b261
 https://github.com/CatsAndBoats/catseyexi/commit/960e098e4bfa06d460df9fe728e284b44b1dfb40
 
+Shadow ring death resist
+https://github.com/LandSandBoat/server/commit/255cb4148dbab8ba3cb5381968fff03bfeba0b8f
+
+Storage interger overflow fix
+https://github.com/LandSandBoat/server/commit/9e767977bedca5bb4b315deb2ed15b189fc11134
+
+Only check parry rate once per attack swing
+https://github.com/LandSandBoat/server/commit/84ed3e2a84f7464c5c5bbd4f068f2ed40039b9e4
+
 Pet Linking
 https://github.com/CatsAndBoats/catseyexi/commit/57252a1cde96c1e3719035cf17681786e2bba19e
 
