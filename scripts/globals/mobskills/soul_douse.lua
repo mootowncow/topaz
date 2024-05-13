@@ -17,19 +17,13 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local dmgmod = MobHPBasedMove(mob, target, 0.10, 1, tpz.magic.ele.DARK, 1000)
+    local dmgmod = MobHPBasedMove(mob, target, 0.10, 1, tpz.magic.ele.DARK, 2000)
     local typeEffect = tpz.effect.DOOM
     dmgmod = utils.conalDamageAdjustment(mob, target, skill, dmgmod, 0.50)
-
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.DARK, MOBPARAM_IGNORE_SHADOWS)
-
-
-    if target:hasStatusEffect(tpz.effect.FEALTY) then
-        skill:setMsg(tpz.msg.basic.SKILL_MISS)
-    else
-        skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 10, 3, 30))
-    end
     target:takeDamage(dmg, mob, tpz.attackType.BREATH, tpz.damageType.DARK)
-
+    if mob:AnimationSub() == 1 then  -- Additional effects when Wings are up
+        MobStatusEffectMove(mob, target, typeEffect, 1, 3, 15)
+    end
     return dmg
 end
