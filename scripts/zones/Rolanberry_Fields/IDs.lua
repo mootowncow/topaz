@@ -43,7 +43,7 @@ zones[tpz.zone.ROLANBERRY_FIELDS] =
         VOIDWALKER_UPGRADE_KI_1  = 10945, -- The <current abyssite> takes on a slightly deeper hue and becomes <next abyssite>!
         VOIDWALKER_UPGRADE_KI_2  = 10946, -- The <current abyssite> takes on a deeper, richer hue and becomes <next abyssite>!
         VOIDWALKER_BREAK_KI      = 10947, -- The <abyssite> shatters into tiny fragments.
-        VOIDWALKER_OPTAIN_KI     = 10948, -- Obtained key item: ≺abyssite>!   
+        VOIDWALKER_OBTAIN_KI     = 10948, -- Obtained key item: ≺abyssite>!   
     },
     mob =
     {

@@ -57,7 +57,7 @@ zones[tpz.zone.LA_THEINE_PLATEAU] =
         VOIDWALKER_UPGRADE_KI_1  = 11296, -- The <current abyssite> takes on a slightly deeper hue and becomes <next abyssite>!
         VOIDWALKER_UPGRADE_KI_2  = 11297, -- The <current abyssite> takes on a deeper, richer hue and becomes <next abyssite>!
         VOIDWALKER_BREAK_KI      = 11298, -- The <abyssite> shatters into tiny fragments.
-        VOIDWALKER_OPTAIN_KI     = 11299, -- Obtained key item: ≺abyssite>! 
+        VOIDWALKER_OBTAIN_KI     = 11299, -- Obtained key item: ≺abyssite>! 
     },
     mob =
     {

@@ -43,7 +43,7 @@ zones[tpz.zone.PASHHOW_MARSHLANDS] =
         VOIDWALKER_UPGRADE_KI_1  = 11830, -- The <current abyssite> takes on a slightly deeper hue and becomes <next abyssite>!
         VOIDWALKER_UPGRADE_KI_2  = 11831, -- The <current abyssite> takes on a deeper, richer hue and becomes <next abyssite>!
         VOIDWALKER_BREAK_KI      = 11832, -- The <abyssite> shatters into tiny fragments.
-        VOIDWALKER_OPTAIN_KI     = 11833, -- Obtained key item: ≺abyssite>!
+        VOIDWALKER_OBTAIN_KI     = 11833, -- Obtained key item: ≺abyssite>!
     },
     mob =
     {

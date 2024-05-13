@@ -55,7 +55,7 @@ zones[tpz.zone.TAHRONGI_CANYON] =
         VOIDWALKER_UPGRADE_KI_1  = 10996, -- The <current abyssite> takes on a slightly deeper hue and becomes <next abyssite>!
         VOIDWALKER_UPGRADE_KI_2  = 10997, -- The <current abyssite> takes on a deeper, richer hue and becomes <next abyssite>!
         VOIDWALKER_BREAK_KI      = 10998, -- The <abyssite> shatters into tiny fragments.
-        VOIDWALKER_OPTAIN_KI     = 10999, -- Obtained key item: ≺abyssite>! 
+        VOIDWALKER_OBTAIN_KI     = 10999, -- Obtained key item: ≺abyssite>! 
     },
     mob =
     {

@@ -45,7 +45,7 @@ zones[tpz.zone.BEAUCEDINE_GLACIER] =
         VOIDWALKER_UPGRADE_KI_1  = 11868, -- The <current abyssite> takes on a slightly deeper hue and becomes <next abyssite>!
         VOIDWALKER_UPGRADE_KI_2  = 11869, -- The <current abyssite> takes on a deeper, richer hue and becomes <next abyssite>!
         VOIDWALKER_BREAK_KI      = 11870, -- The <abyssite> shatters into tiny fragments.
-        VOIDWALKER_OPTAIN_KI     = 11871, -- Obtained key item: ≺abyssite>!    
+        VOIDWALKER_OBTAIN_KI     = 11871, -- Obtained key item: ≺abyssite>!    
     },
     mob =
     {

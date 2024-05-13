@@ -33,7 +33,7 @@ zones[tpz.zone.JUGNER_FOREST_S] =
         VOIDWALKER_UPGRADE_KI_1  = 8602, -- The <current abyssite> takes on a slightly deeper hue and becomes <next abyssite>!
         VOIDWALKER_UPGRADE_KI_2  = 8603, -- The <current abyssite> takes on a deeper, richer hue and becomes <next abyssite>!
         VOIDWALKER_BREAK_KI      = 8604, -- The <abyssite> shatters into tiny fragments.
-        VOIDWALKER_OPTAIN_KI     = 8605, -- Obtained key item: ≺abyssite>!
+        VOIDWALKER_OBTAIN_KI     = 8605, -- Obtained key item: ≺abyssite>!
     },
     mob =
     {

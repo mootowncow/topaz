@@ -29,7 +29,7 @@ zones[tpz.zone.BATALLIA_DOWNS_S] =
         VOIDWALKER_UPGRADE_KI_1  = 8307, -- The <current abyssite> takes on a slightly deeper hue and becomes <next abyssite>!
         VOIDWALKER_UPGRADE_KI_2  = 8308, -- The <current abyssite> takes on a deeper, richer hue and becomes <next abyssite>!
         VOIDWALKER_BREAK_KI      = 8309, -- The <abyssite> shatters into tiny fragments.
-        VOIDWALKER_OPTAIN_KI     = 8310, -- Obtained key item: ≺abyssite>!
+        VOIDWALKER_OBTAIN_KI     = 8310, -- Obtained key item: ≺abyssite>!
         ANNM_TREASURE_APPEARED   = 8297, -- A treasure box has/Treasure boxes have appeared! The treasure will disappear after three minutes have elapsed or when the time limit for this battlefield expires, whichever comes first.
     },
     mob =

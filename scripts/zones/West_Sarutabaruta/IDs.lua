@@ -60,7 +60,7 @@ zones[tpz.zone.WEST_SARUTABARUTA] =
         VOIDWALKER_UPGRADE_KI_1  = 11348, -- The <current abyssite> takes on a slightly deeper hue and becomes <next abyssite>!
         VOIDWALKER_UPGRADE_KI_2  = 11349, -- The <current abyssite> takes on a deeper, richer hue and becomes <next abyssite>!
         VOIDWALKER_BREAK_KI      = 11350, -- The <abyssite> shatters into tiny fragments.
-        VOIDWALKER_OPTAIN_KI     = 11351, -- Obtained key item: ≺abyssite>!
+        VOIDWALKER_OBTAIN_KI     = 11351, -- Obtained key item: ≺abyssite>!
     },
     mob =
     {

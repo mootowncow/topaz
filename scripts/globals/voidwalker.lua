@@ -229,7 +229,7 @@ local function checkUpgrade(player, mob, nextKeyItem)
         local currentKeyItem = mob:getLocalVar("[VoidWalker]PopedWith")
         local rand           = math.random(1, 10)
 
-        if rand == 5 then
+        if rand == 5 then -- 10% chance of upgrading
             if player:hasKeyItem(currentKeyItem) then
                 player:delKeyItem(currentKeyItem)
             end

@@ -48,7 +48,7 @@ zones[tpz.zone.XARCABARD] =
         VOIDWALKER_UPGRADE_KI_1  = 11470, -- The <current abyssite> takes on a slightly deeper hue and becomes <next abyssite>!
         VOIDWALKER_UPGRADE_KI_2  = 11471, -- The <current abyssite> takes on a deeper, richer hue and becomes <next abyssite>!
         VOIDWALKER_BREAK_KI      = 11472, -- The <abyssite> shatters into tiny frag
-        VOIDWALKER_OPTAIN_KI     = 11473, -- Obtained key item: ≺abyssite>!
+        VOIDWALKER_OBTAIN_KI     = 11473, -- Obtained key item: ≺abyssite>!
     },
     mob =
     {
