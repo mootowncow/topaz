@@ -264,6 +264,12 @@ Add bonusmacc row to spells.sql and other stuff then make a lua binding and use 
 Especialy BLU because you can just shove a function in for dmg and not have to put in 50 params for each spell and can just get params for the spell in a single function
 
 
+Make sneak silent!
+https://github.com/LandSandBoat/server/commit/e7b95675df0f8c77924470dc35d36845d331a3c7
+
+Pet JA miss msg
+https://github.com/LandSandBoat/server/commit/1f2478791c631b75d35ffc3de9cc32b5cc58a537
+
 Spikes status effects from armor procs msg
 https://github.com/AirSkyBoat/AirSkyBoat/commit/4d8e29572cadbf2950a7b560779f1e1a5f364a84
 
@@ -376,10 +382,11 @@ https://github.com/CatsAndBoats/catseyexi/commit/53554dc47ec0cad75a60e3a06c9da28
 Hasso mods?
 https://github.com/CatsAndBoats/catseyexi/commit/59cf95ed6415a837e5a76173b88bb6b13696b90c
 
-
 Fix hide with hearing and weather with scent mobs
 https://github.com/CatsAndBoats/catseyexi/commit/4ab66b7d2e7afca0cfd0334d76f5547053c89808
 
+Is dyna zoning?
+https://github.com/LandSandBoat/server/commit/5c2c4cb0e62833c107145db7774f2a104f8106c7
 
 Implement all damage and breath damage nullification modifiers (I might have some of these?)
 https://github.com/CatsAndBoats/catseyexi/commit/18cae6787763af887a84043474ea25bcd0f021c9
@@ -392,6 +399,9 @@ https://github.com/CatsAndBoats/catseyexi/commit/a487c3ea951c4e5783a7ce3eedfd148
 
 Crit fixes?
 https://github.com/CatsAndBoats/catseyexi/commit/1cbf875167200f94329e95790821b9a1948ae668
+
+What's this do?
+https://github.com/LandSandBoat/server/commit/9c7a72a534a360f8c1c94fe58d13f2f1794a460a
 
 Prevent special attacks being impacted by slow (BE VERY CAREFUL WITH THIS ITS FROM FALLISA)
 https://github.com/CatsAndBoats/catseyexi/commit/490d246b7d910edc0dd3650940a68e633f4ce618
@@ -416,9 +426,19 @@ https://github.com/LandSandBoat/server/commit/663de5494b7bdf183ad8185e86371a3166
 
 Instance stuff
 https://github.com/LandSandBoat/server/commit/2309bb1dc18f90b561c976ee749bf788b593e78e
+https://github.com/LandSandBoat/server/commit/92bc212e8f66b8b21afd1148f2027932cd0fca10
 
 Wardrobe bits?
 https://github.com/LandSandBoat/server/commit/587156851dd0513f4a73ae8b8883f998c94fcc8b
+
+Crate cleanp. unsure if needed
+https://github.com/LandSandBoat/server/commit/98a9b29b2cde8a684714a4c65b2122ff29eba210
+
+Unsure if needed
+https://github.com/LandSandBoat/server/commit/e754f7f0360dd5eb11e926c5cf559268345f4ba9
+
+Enmity handling for event logic(Clears enmity and stuff)
+https://github.com/LandSandBoat/server/commit/baf965dd95118bfeec327332b0aee5216f2a3e79#diff-eb5ae624d09057286670b0eab2b8ef084955d9c85a261ffe4708e768ee3fa82c
 
 Add these weapons or get ideas from them(rank1):
 https://www.bg-wiki.com/ffxi/Category:Mog_Bonanza
