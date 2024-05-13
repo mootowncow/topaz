@@ -53,7 +53,7 @@ local auraDawon = {
 
 local auraYilbegan = {
     radius = 10,
-    effect = tpz.effect.GEO_PARALYSIS,
+    effect = tpz.effect.BIO,
     power = 25,
     duration = 30,
     auraNumber = 1
@@ -582,6 +582,7 @@ local modByMobName =
         mob:setDamage(150)
         mob:setMod(tpz.mod.VIT, 150)
         mob:setMod(tpz.mod.UDMGBREATH, -50)
+        mob:setSpellList(531)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
 }
@@ -770,20 +771,24 @@ local mixinByMobName =
         local wingsUp = mob:getLocalVar("wingsUp")
         local animationSub = mob:AnimationSub()
         local wingState = {
-            DOWN    = 0,
-            UP      = 2
+            UP      = 1,
+            DOWN    = 2
+        }
+        local spellList = {
+            LIGHT = 531,
+            DARK = 532
         }
 
 
         if (wingsTimer == 0) then
             mob:setLocalVar("wingsTimer", math.random(30, 45))
         elseif (battleTime >= wingsTimer and wingsUp == 0) then
-            mob:AnimationSub(2) -- TODO
+            mob:AnimationSub(wingState.UP)
             mob:setLocalVar("wingsTimer", battleTime + math.random(30, 45))
             mob:setLocalVar("wingsUp", 1)
             -- printf("Wings up")
         elseif (battleTime >= wingsTimer and wingsUp == 1) then
-            mob:AnimationSub(0) -- TODO
+            mob:AnimationSub(wingState.DOWN)
             mob:setLocalVar("wingsTimer", battleTime + math.random(30, 45))
             mob:setLocalVar("wingsUp", 0)
             -- printf("Wings down")
@@ -793,10 +798,14 @@ local mixinByMobName =
         if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
             if (animationSub == wingState.UP) then
                 mob:setMod(tpz.mod.UDMGPHYS, 0)
+                mob:setMod(tpz.mod.UDMGRANGE, 0)
                 mob:setMod(tpz.mod.UDMGMAGIC, -75)
+                mob:setMod(tpz.mod.UDMGBREATH, -75)
             elseif (animationSub == wingState.DOWN) then
                 mob:setMod(tpz.mod.UDMGPHYS, -75)
+                mob:setMod(tpz.mod.UDMGRANGE, -75)
                 mob:setMod(tpz.mod.UDMGMAGIC, 0)
+                mob:setMod(tpz.mod.UDMGBREATH, 0)
             end
         end
 
@@ -804,55 +813,74 @@ local mixinByMobName =
         local auraTimer = mob:getLocalVar("auraTimer")
 
         if (auraTimer == 0) then
-            mob:setLocalVar("auraTimer", math.random(100, 120))
+            mob:setLocalVar("auraTimer", math.random(45, 60))
         elseif (battleTime >= auraTimer) then
             AddMobAura(mob, target, auraYilbegan)
-            mob:setLocalVar("auraTimer", math.random(100, 120))
+            mob:setLocalVar("auraTimer", battleTime + math.random(100, 120))
         end
 
         local auraDuration = mob:getLocalVar("auraDuration1")
+        local auraActive = os.time() <= auraDuration
 
-        if (os.time() >= auraDuration) then
-            mob:setSpellList(532)
-        else
-            mob:setSpellList(531)
+        if (auraDuration > 0) then -- Make sure aura is activated
+            if (auraActive) then
+                mob:setSpellList(spellList.DARK) 
+            else 
+                mob:setSpellList(spellList.LIGHT)
+            end
         end
 
         -- -25% PDT and MDT when not casting/tping
         mob:addListener("WEAPONSKILL_STATE_ENTER", "YILBEGAN_WS_STATE_ENTER", function(mob, skillID)
             if (animationSub == wingState.UP) then
                 mob:setMod(tpz.mod.UDMGPHYS, 0)
+                mob:setMod(tpz.mod.UDMGRANGE, 0)
                 mob:setMod(tpz.mod.UDMGMAGIC, -50)
+                mob:setMod(tpz.mod.UDMGBREATH, -50)
             elseif (animationSub == wingState.DOWN) then
                 mob:setMod(tpz.mod.UDMGPHYS, -50)
+                mob:setMod(tpz.mod.UDMGRANGE, -50)
                 mob:setMod(tpz.mod.UDMGMAGIC, 0)
+                mob:setMod(tpz.mod.UDMGBREATH, 0)
             end
         end)
         mob:addListener("WEAPONSKILL_STATE_EXIT", "YILBEGAN_MOBSKILL_FINISHED", function(mob)
             if (animationSub == wingState.UP) then
                 mob:setMod(tpz.mod.UDMGPHYS, 0)
+                mob:setMod(tpz.mod.UDMGRANGE, 0)
                 mob:setMod(tpz.mod.UDMGMAGIC, -75)
+                mob:setMod(tpz.mod.UDMGBREATH, -75)
             elseif (animationSub == wingState.DOWN) then
                 mob:setMod(tpz.mod.UDMGPHYS, -75)
+                mob:setMod(tpz.mod.UDMGRANGE, -75)
                 mob:setMod(tpz.mod.UDMGMAGIC, 0)
+                mob:setMod(tpz.mod.UDMGBREATH, 0)
             end
         end)
         mob:addListener("MAGIC_START", "YILBEGAN_MAGIC_START", function(mob, spell)
             if (animationSub == wingState.UP) then
                 mob:setMod(tpz.mod.UDMGPHYS, 0)
+                mob:setMod(tpz.mod.UDMGRANGE, 0)
                 mob:setMod(tpz.mod.UDMGMAGIC, -50)
+                mob:setMod(tpz.mod.UDMGBREATH, -50)
             elseif (animationSub == wingState.DOWN) then
                 mob:setMod(tpz.mod.UDMGPHYS, -50)
+                mob:setMod(tpz.mod.UDMGRANGE, -50)
                 mob:setMod(tpz.mod.UDMGMAGIC, 0)
+                mob:setMod(tpz.mod.UDMGBREATH, 0)
             end
         end)
         mob:addListener("MAGIC_STATE_EXIT", "YILBEGAN_MAGIC_STATE_EXIT", function(mob, spell)
             if (animationSub == wingState.UP) then
                 mob:setMod(tpz.mod.UDMGPHYS, 0)
+                mob:setMod(tpz.mod.UDMGRANGE, 0)
                 mob:setMod(tpz.mod.UDMGMAGIC, -75)
+                mob:setMod(tpz.mod.UDMGBREATH, -75)
             elseif (animationSub == wingState.DOWN) then
                 mob:setMod(tpz.mod.UDMGPHYS, -75)
+                mob:setMod(tpz.mod.UDMGRANGE, -75)
                 mob:setMod(tpz.mod.UDMGMAGIC, 0)
+                mob:setMod(tpz.mod.UDMGBREATH, 0)
             end
         end)
     end,

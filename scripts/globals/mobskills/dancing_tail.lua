@@ -14,7 +14,7 @@ require("scripts/globals/monstertpmoves")
 function onMobSkillCheck(target, mob, skill)
     if target:isInfront(mob, 90) then
         return 1
-    elseif mob:AnimationSub() == 1 then -- TODO (correct sub #): Only when Wings are up
+    elseif target:isBeside(mob, 45) then
         return 1
     end
     return 0
