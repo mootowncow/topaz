@@ -4521,6 +4521,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Yilbegan-Aura',532,191,1,255);  -- Stoneg
 INSERT INTO `mob_spell_lists` VALUES ('Yilbegan-Aura',532,181,1,255);  -- Blizzaga III
 INSERT INTO `mob_spell_lists` VALUES ('Yilbegan-Aura',532,201,1,255);  -- Waterga III
 INSERT INTO `mob_spell_lists` VALUES ('Yilbegan-Aura',532,356,1,255);  -- Paralyga
+INSERT INTO `mob_spell_lists` VALUES ('Yilbegan-Aura',532,365,1,255);  -- Breakga
 INSERT INTO `mob_spell_lists` VALUES ('Yilbegan-Aura',532,362,1,255);  -- Bindga
 INSERT INTO `mob_spell_lists` VALUES ('Yilbegan-Aura',532,357,1,255);  -- Slowga
 INSERT INTO `mob_spell_lists` VALUES ('Yilbegan-Aura',532,360,1,255);  -- Dispelga
