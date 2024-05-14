@@ -31,6 +31,6 @@ function onMobWeaponSkill(target, mob, skill)
     local duration = 300
 
     MobStatusEffectMove(mob, target, typeEffect, 2550, 0, duration)
-    MobEncumberMove(mob, target, 16, 90)
+    MobEncumberMove(mob, target, 16, 20)
 	return typeEffect
 end

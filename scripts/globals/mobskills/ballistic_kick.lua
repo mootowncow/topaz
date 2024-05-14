@@ -34,7 +34,7 @@ function onMobWeaponSkill(target, mob, skill)
     local dmg = MobFinalAdjustments(info.dmg,mob,skill,target,tpz.attackType.PHYSICAL,tpz.damageType.HTH, MOBPARAM_IGNORE_SHADOWS)
 
     target:takeDamage(dmg, mob, tpz.attackType.PHYSICAL, tpz.damageType.HTH)
-    MobEncumberMove(mob, target, 16, 60)
+    MobEncumberMove(mob, target, 16, 30)
     if (MobPhysicalHit(mob, skill)) then
         mob:resetEnmity(target)
     end

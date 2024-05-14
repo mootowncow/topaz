@@ -29,6 +29,6 @@ function onMobWeaponSkill(target, mob, skill)
     local info = MobRangedMove(mob, target, skill, numhits, accmod, dmgmod, TP_RANGED, params_phys, 2, 3)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, info.hitslanded)
     target:takeDamage(dmg, mob, tpz.attackType.RANGED, tpz.damageType.RANGED)
-    MobEncumberMove(mob, target, 5, 60)
+    MobEncumberMove(mob, target, 5, 30)
     return dmg
 end

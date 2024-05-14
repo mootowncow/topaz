@@ -22,6 +22,6 @@ function onMobWeaponSkill(target, mob, skill)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.WIND, MOBPARAM_IGNORE_SHADOWS)
 
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.WIND)
-    MobEncumberMove(mob, target, 5, 60)
+    MobEncumberMove(mob, target, 5, 20)
     return dmg
 end
