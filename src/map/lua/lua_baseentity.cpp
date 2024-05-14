@@ -11595,9 +11595,9 @@ inline int32 CLuaBaseEntity::lowerEnmity(lua_State *L)
 
 /************************************************************************
 *  Function: updateEnmity()
-*  Purpose : Unlike updateClaim(), this function only generates Enmity toward an Entity
+*  Purpose : Unlike updateClaim(), this function only causes a mob to fight the target
 *  Example : SpawnMob(17330334):updateEnmity(target)
-*  Notes   : Mob will aggro an Entity, but be unclaimed until engaged
+*  Notes   : Mob will engage an entity, but be unclaimed until acted upon
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::updateEnmity(lua_State *L)
@@ -11613,7 +11613,7 @@ inline int32 CLuaBaseEntity::updateEnmity(lua_State *L)
     if (PEntity != nullptr &&
         PEntity->GetBaseEntity()->objtype != TYPE_NPC)
     {
-        ((CMobEntity*)m_PBaseEntity)->PEnmityContainer->AddBaseEnmity((CBattleEntity*)PEntity->GetBaseEntity());
+        m_PBaseEntity->PAI->Engage(PEntity->GetBaseEntity()->targid);
     }
     return 0;
 }

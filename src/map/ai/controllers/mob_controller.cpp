@@ -181,7 +181,7 @@ void CMobController::TryLink()
     // my pet should help as well
     if (PMob->PPet != nullptr && PMob->PPet->PAI->IsRoaming())
     {
-        ((CMobEntity*)PMob->PPet)->PEnmityContainer->AddBaseEnmity(PTarget);
+        PMob->PPet->PAI->Engage(PTarget->id);
     }
 
     // Mobs shouldn't link to pets without master being engaged
@@ -213,14 +213,7 @@ void CMobController::TryLink()
 
             if (PPartyMember->isAlive() && PPartyMember->PAI->IsRoaming() && PPartyMember->CanLink(&PMob->loc.p, PMob->getMobMod(MOBMOD_SUPERLINK)))
             {
-                PPartyMember->PEnmityContainer->AddBaseEnmity(PTarget);
-
-                if (PPartyMember->m_roamFlags & ROAMFLAG_IGNORE)
-                {
-                    // force into attack action
-                    //#TODO
-                    PPartyMember->PAI->Engage(PTarget->targid);
-                }
+                PPartyMember->PAI->Engage(PTarget->targid);
             }
         }
     }
@@ -232,7 +225,7 @@ void CMobController::TryLink()
 
         if (PMaster->PAI->IsRoaming() && PMaster->CanLink(&PMob->loc.p, PMob->getMobMod(MOBMOD_SUPERLINK)))
         {
-            PMaster->PEnmityContainer->AddBaseEnmity(PTarget);
+            PMaster->PAI->Engage(PTarget->targid);
         }
     }
 }
@@ -1109,11 +1102,8 @@ void CMobController::DoRoamTick(time_point tick)
     }
     else if (PMob->m_OwnerID.id != 0 && !(PMob->m_roamFlags & ROAMFLAG_IGNORE))
     {
-        // i'm claimed by someone and need hate towards this person
+        // i'm claimed by someone and want to be fighting them
         PTarget = (CBattleEntity*)PMob->GetEntity(PMob->m_OwnerID.targid, TYPE_PC | TYPE_MOB | TYPE_PET | TYPE_TRUST);
-
-        PMob->PEnmityContainer->AddBaseEnmity(PTarget);
-
         Engage(PTarget->targid);
         return;
     }
@@ -1413,6 +1403,12 @@ bool CMobController::Engage(uint16 targid)
             PMob->animationsub = 0;
             PMob->HideName(false);
             PMob->Untargetable(false);
+        }
+
+        // Pet should also fight the target if they can
+        if (PMob->PPet && !PMob->PPet->PAI->IsEngaged())
+        {
+            PMob->PPet->PAI->Engage(targid);
         }
     }
     return ret;

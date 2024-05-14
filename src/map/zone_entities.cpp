@@ -552,7 +552,7 @@ void CZoneEntities::SpawnMOBs(CCharEntity* PChar)
             bool validAggro = mobCheck > EMobDifficulty::TooWeak || PChar->isSitting() || PCurrentMob->getMobMod(MOBMOD_ALWAYS_AGGRO) > 0;
 
             if (validAggro && PController->CanAggroTarget(PChar))
-                PCurrentMob->PEnmityContainer->AddBaseEnmity(PChar);
+                PCurrentMob->PAI->Engage(PChar->targid);
         }
         else
         {
@@ -1373,7 +1373,7 @@ void CZoneEntities::ZoneServer(time_point tick, bool check_trigger_areas)
                 CMobController* PController = static_cast<CMobController*>(PCurrentMob->PAI->GetController());
                 if (PController != nullptr && PController->CanAggroTarget(PMob))
                 {
-                    PCurrentMob->PEnmityContainer->AddBaseEnmity(PMob);
+                    PCurrentMob->PAI->Engage(PMob->targid);
                 }
             }
         }
