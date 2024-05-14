@@ -421,9 +421,6 @@ https://github.com/LandSandBoat/server/commit/1cbf850a512ce2cb0d72373f4e4d857454
 Targetfind alegiance stuff for enemy
 https://github.com/LandSandBoat/server/commit/df8ce3c05f999e1fd17977caf93cfbbc6ef85f22
 
-Better enmity for super tanking? mostly updateEnmity() changes
-https://github.com/LandSandBoat/server/commit/663de5494b7bdf183ad8185e86371a316664b658
-
 Instance stuff
 https://github.com/LandSandBoat/server/commit/2309bb1dc18f90b561c976ee749bf788b593e78e
 https://github.com/LandSandBoat/server/commit/92bc212e8f66b8b21afd1148f2027932cd0fca10
