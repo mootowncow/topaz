@@ -15,12 +15,12 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local dmgmod = 9.0
-    local info = MobMagicalMove(mob, target, skill, mob:getWeaponDmg()*3, tpz.magic.ele.LIGHT, dmgmod, TP_NO_EFFECT)
-    local dmg = MobFinalAdjustments(info.dmg , mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.LIGHT, MOBPARAM_IGNORE_SHADOWS)
+    local hpp = 0.95
+    local dmg = MobThroatStabMove(mob, target, skill, hpp, tpz.attackType.MAGICAL, tpz.damageType.LIGHT ,MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.LIGHT)
     MobHasteOverwriteSlowMove(mob, target, 5000, 0, 90, 0, 0, 2)
     MobSelfDispelMove(mob, skill)
     mob:resetEnmity(target)
+    skill:setMsg(tpz.msg.basic.DAMAGE)
     return dmg
 end

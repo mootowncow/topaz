@@ -27,6 +27,7 @@ function onMobWeaponSkill(target, mob, skill)
     for v = tpz.effect.STR_DOWN, tpz.effect.CHR_DOWN do
         local effect = target:getStatusEffect(v)
         effect:unsetFlag(tpz.effectFlag.WALTZABLE)
+        effect:unsetFlag(tpz.effectFlag.ERASABLE)
     end
     return dmg
 end

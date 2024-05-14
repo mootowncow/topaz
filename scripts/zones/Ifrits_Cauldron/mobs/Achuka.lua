@@ -47,7 +47,7 @@ function onMobFight(mob, target)
 
     if not mob:hasStatusEffect(tpz.effect.TERROR) then
         mob:setWeather(tpz.weather.HEAT_WAVE)
-        PeriodicMessage(mob, target, "The " .. MobName(mob) .. " seems vulnerable to ice damage...", 0xD, none, 30)
+        PeriodicMessage(mob, target, "The " .. MobName(mob) .. " seems vulnerable to water damage...", 0xD, none, 30)
     else
         mob:setWeather(tpz.weather.NONE)
     end
@@ -60,6 +60,7 @@ function onMobWeaponSkill(target, mob, skill)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
+    mob:setWeather(tpz.weather.NONE)
     player:addTitle(tpz.title.ACHUKA_GLACIATOR)
 end
 

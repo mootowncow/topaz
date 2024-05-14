@@ -36,6 +36,5 @@ function onMobWeaponSkill(target, mob, skill)
     MobPhysicalStatusEffectMove(mob, target, skill, tpz.effect.DEFENSE_DOWN, 25, 0, 90)
     MobPhysicalStatusEffectMove(mob, target, skill, tpz.effect.MAGIC_DEF_DOWN, 25, 0, 90)
     if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then   target:tryInterruptSpell(mob, info.hitslanded) end
-    MobAutoAttackMoveMsg(skill)
     return dmg
 end

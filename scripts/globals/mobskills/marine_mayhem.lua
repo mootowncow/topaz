@@ -28,6 +28,7 @@ function onMobWeaponSkill(target, mob, skill)
     local distance = mob:checkDistance(target)
     if (distance > 8) then
         target:setHP(0)
+        return skill:setMsg(tpz.msg.basic.FALL_TO_GROUND)
     end
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.WATER)
     return dmg

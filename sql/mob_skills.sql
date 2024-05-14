@@ -2972,7 +2972,7 @@ INSERT INTO `mob_skills` VALUES (3009,2194,'rockfin_auto_two',4,10.0,0,0,4,16,0,
 INSERT INTO `mob_skills` VALUES (3010,2195,'rockfin_auto_three',1,10.0,0,0,4,16,0,3,0,0,0); -- tchakka and dakuwaqa melee specials
 INSERT INTO `mob_skills` VALUES (3011,2196,'protolithic_puncture',0,7.0,2000,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3012,2197,'aquatic_lance',4,10.0,2000,3000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3013,2198,'pelagic_cleaver',1,10.0,2000,3000,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3013,2198,'pelagic_cleaver',1,10.0,2000,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3014,2199,'carcharian_verve',0,7.0,2000,3000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3015,2200,'tidal_guillotine',4,10.0,2000,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3016,2201,'marine_mayhem',1,20.0,2000,6000,4,0,0,0,0,0,0);
@@ -3031,7 +3031,7 @@ INSERT INTO `mob_skills` VALUES (3066,2236,'from_the_skies',1,18.0,2000,1000,4,0
 INSERT INTO `mob_skills` VALUES (3069,2214,'waktza_auto_one',0,7.0,0,0,4,16,0,0,0,0,0); -- Waktza auto-attack 1
 INSERT INTO `mob_skills` VALUES (3070,2215,'waktza_auto_two',4,10.0,0,0,4,16,0,1,0,0,0); -- Waktza auto-attack 2
 INSERT INTO `mob_skills` VALUES (3071,2216,'waktza_auto_three',1,10.0,0,0,4,16,0,0,0,0,0); -- Waktza auto-attack 3
-INSERT INTO `mob_skills` VALUES (3072,2217,'crashing_thunder',2,18.0,2000,3000,4,0,0,0,0,0,0); 
+INSERT INTO `mob_skills` VALUES (3072,2217,'crashing_thunder',2,18.0,2000,3000,4,0,0,5,0,0,0); 
 INSERT INTO `mob_skills` VALUES (3073,2218,'reverberating_cry',1,18.0,2000,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3074,2219,'brownout',4,10.0,2000,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3075,2220,'reverse_current',2,18.0,2000,3000,4,0,0,0,0,0,0);

@@ -60,6 +60,7 @@ function onMobWeaponSkill(target, mob, skill)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
+    mob:setWeather(tpz.weather.NONE)
     player:addTitle(tpz.title.COLKHAB_DETHRONER)
 end
 
