@@ -2,6 +2,7 @@
 -- Area: Lower Jeuno
 --  NPC: Taza
 -- Zilart Augmenting NPC
+-- Storage NPC (Forgotten items)
 -- !pos -29 5 -89 245
 -----------------------------------
 local ID = require("scripts/zones/Lower_Jeuno/IDs")
