@@ -1,7 +1,7 @@
 -----------------------------------
 -- Area: Nashmau
 --  NPC: Paparoon
--- Standard Info NPC
+-- Storage NPC (Alexandrite)
 -----------------------------------
 require("scripts/globals/npc_util")
 require("scripts/globals/items")
@@ -48,6 +48,7 @@ function onTrade(player, npc, trade)
             player:setCharVar(name, newAmount)
             player:PrintToPlayer("I was holding " .. currentAmount .. " " .. name .. " for you.", 0, "Paparoon")
             player:PrintToPlayer("I am now holding " .. newAmount .. " " .. name .. " for you.", 0, "Paparoon")
+            player:tradeComplete()
             return
         end
     end
