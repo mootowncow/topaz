@@ -55,14 +55,16 @@ function onTrade(player, npc, trade)
     local isValidTrade = false
     for v, _ in pairs(currency) do
         if npcUtil.tradeHas(trade, v) then
-            isValidTrade = true
-            break
+            if (trade:getSlotCount() == 1) then
+                isValidTrade = true
+                break
+            end
         end
     end
 
     if not isValidTrade then
         -- Handle invalid trade here
-        player:PrintToPlayer("Invalid trade! Please trade only Dynamis or Stronghold currency.", 0, "Romaa Mihgo")
+        player:PrintToPlayer("Invalid trade! Please trade only Dynamis or Stronghold currency (1 stack max).", 0, "Romaa Mihgo")
         return
     end
 
