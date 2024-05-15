@@ -25,10 +25,10 @@ function onTrade(player, npc, trade)
     -----------------------------------
 
     -- Check if the trade only contains alexandrite items
-    local isValidTrade = true
+    local isValidTrade = false
     for v, _ in pairs(alexandriteItemNamesTable) do
-        if not npcUtil.tradeHas(trade, v) then
-            isValidTrade = false
+        if npcUtil.tradeHas(trade, v) then
+            isValidTrade = true
             break
         end
     end
