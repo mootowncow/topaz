@@ -49,7 +49,7 @@ BOMB_TOSS_HPP = 1
 
 function MobRangedMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, params_phys)
     -- All formula changes for being ranged are handled in MobPhysicalMove via the TP_RANGED param
-    -- A MOVE WILL NOT BE CONSIDERED RANGED I YOU DON'T SET THE tpeffect to TP_RANGED!
+    -- A MOVE WILL NOT BE CONSIDERED RANGED IF YOU DON'T SET THE tpeffect to TP_RANGED!
     return MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, TP_RANGED, params_phys)
 end
 
@@ -109,11 +109,15 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         attackBonus = params_phys.attack_boost
     end
 
-    if (tpeffect == TP_IGNORE_DEFENSE) then
-        ignoredDefMod = MobIgnoreDefenseModifier(tp) / 100
-        --printf("Ignore def modifier %u", ignoredDefMod*100)
+    if (tpeffect == TP_IGNORE_DEFENSE or params_phys.ignoreDefMod ~= nil) then
+        if (params_phys.ignoreDefMod > 0) then
+            ignoredDefMod = params_phys.ignoreDefMod / 100
+        else
+            ignoredDefMod = MobIgnoreDefenseModifier(tp) / 100
+        end
+        -- printf("Ignore def modifier %u", ignoredDefMod*100)
         ignoredDef = target:getStat(tpz.mod.DEF) * ignoredDefMod
-        --printf("Amount of defense ignored final %u", ignoredDef)
+        -- printf("Amount of defense ignored final %u", ignoredDef)
     end
     --work out and cap ratio
     if (offcratiomod == nil) then -- default to attack. Pretty much every physical mobskill will use this, Cannonball being the exception.
@@ -622,7 +626,7 @@ end
 -- base is no longer used
 -- Equation: (HP * percent) + (LVL / base)
 -- cap is optional, defines a maximum damage
-function MobHPBasedMove(mob, target, percent, base, element, cap, isSuicide)
+function MobHPBasedMove(mob, target, percent, base, element, cap, isSuicide, oppositeScaling)
     local mobHP = mob:getHP() 
     local resist = 1
     local bonus = 0
@@ -634,6 +638,11 @@ function MobHPBasedMove(mob, target, percent, base, element, cap, isSuicide)
         mob:setLocalVar("self-destruct_hp", mob:getHP())
 
         mobHP = mob:getLocalVar("self-destruct_hp") 
+    end
+
+    if (oppositeScaling ~= nil) then -- Scale based on HP lowering
+        mobHP = mob:getMaxHP() - mob:getHP()
+        -- printf("MobHP %d", mobHP)
     end
 
     local damage = (mobHP * percent)
