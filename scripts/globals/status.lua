@@ -1389,8 +1389,9 @@ tpz.mod =
     AMNESIARES                      = 253,
     LULLABYRES                      = 254,
     DEATHRES                        = 255,
-    SPDEF_DOWN                      = 958, -- Specific Damage Taken (or Special Damage Taken) reduction as a percent
-    MAGIC_SS               = 1181, -- Magic Stoneskin(Only absorbs magic damage)
+    STATUSRES                       = 1000, -- "Resistance to All Status Ailments"
+    SPDEF_DOWN                      = 958,  -- Specific Damage Taken (or Special Damage Taken) reduction as a percent
+    MAGIC_SS                        = 1181, -- Magic Stoneskin(Only absorbs magic damage)
 
     SLEEPRESTRAIT                   = 1240,
     POISONRESTRAIT                  = 1241,

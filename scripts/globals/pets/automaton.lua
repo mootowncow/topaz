@@ -42,7 +42,8 @@ function AddTranquilHeartBonus(mob)
             master:addMod(tpz.mod.SUBTLE_BLOW, 50)
             master:addMod(tpz.mod.SUBTLE_BLOW_II, 50)
             master:addMod(tpz.mod.DMG, -33)
-            master:addMod(tpz.mod.MEVA, 100)
+            master:addMod(tpz.mod.MEVA, 150)
+            master:addMod(tpz.mod.STATUSRESTRAIT, 150)
             if (weaponType == 'SWORD') then 
                 master:recalculateSkillsTable()
             end
@@ -84,7 +85,8 @@ function DeleteTranquilHeartBonus(mob)
             master:delMod(tpz.mod.SUBTLE_BLOW, 50)
             master:delMod(tpz.mod.SUBTLE_BLOW_II, 50)
             master:delMod(tpz.mod.DMG, -33)
-            master:delMod(tpz.mod.MEVA, 100)
+            master:delMod(tpz.mod.MEVA, 150)
+            master:delMod(tpz.mod.STATUSRESTRAIT, 150)
             if (weaponType == 'SWORD') then 
                 master:recalculateSkillsTable()
             end
