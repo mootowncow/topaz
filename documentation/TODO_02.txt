@@ -263,6 +263,13 @@ Ark Pentasphere wasn't taken away on entering Divine Might?
 Add bonusmacc row to spells.sql and other stuff then make a lua binding and use that in all luas instead of coding each ones values in every lua individually
 Especialy BLU because you can just shove a function in for dmg and not have to put in 50 params for each spell and can just get params for the spell in a single function
 
+"World bosses" where story NPC's spawn and heal/tank/dps with you and talk to you. 
+Spawn in random zone, announce in unity chat zone when spawned(Every hr?)
+TP moves hit all targets(VALIDTARGET_FLAG_HIT_ALL on mobskill check) 
+Roc, Serket, Casssie, Promathia, Ouryu, Bahamut, Shadow Lord, Kamalanaut(?), Omega, Ultima, Alexander, Odin
+Lvl90, 200k hp
+Mat that lets you add a random augment to any ring/amulet/earring
+
 
 Make sneak silent!
 https://github.com/LandSandBoat/server/commit/e7b95675df0f8c77924470dc35d36845d331a3c7
