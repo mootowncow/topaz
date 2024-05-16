@@ -1,7 +1,7 @@
 -----------------------------------
 -- Area: Nashmau
 --  NPC: Paparoon
--- Standard Info NPC
+-- Storage NPC (Alexandrite)
 -----------------------------------
 require("scripts/globals/npc_util")
 require("scripts/globals/items")
@@ -25,17 +25,19 @@ function onTrade(player, npc, trade)
     -----------------------------------
 
     -- Check if the trade only contains alexandrite items
-    local isValidTrade = true
+    local isValidTrade = false
     for v, _ in pairs(alexandriteItemNamesTable) do
-        if not npcUtil.tradeHas(trade, v) then
-            isValidTrade = false
-            break
+        if npcUtil.tradeHas(trade, v) then
+            if (trade:getSlotCount() == 1) then
+                isValidTrade = true
+                break
+            end
         end
     end
 
     if not isValidTrade then
         -- Handle invalid trade here
-        player:PrintToPlayer("Invalid trade! Please trade only Alexandrite items.", 0, "Paparoon")
+        player:PrintToPlayer("Invalid trade! Please trade only Alexandrite items (1 stack max).", 0, "Paparoon")
         return
     end
 
@@ -48,6 +50,7 @@ function onTrade(player, npc, trade)
             player:setCharVar(name, newAmount)
             player:PrintToPlayer("I was holding " .. currentAmount .. " " .. name .. " for you.", 0, "Paparoon")
             player:PrintToPlayer("I am now holding " .. newAmount .. " " .. name .. " for you.", 0, "Paparoon")
+            player:tradeComplete()
             return
         end
     end

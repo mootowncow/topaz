@@ -10010,22 +10010,22 @@ INSERT INTO `mob_droplist` VALUES (1831,0,0,1000,15123,10);
 INSERT INTO `mob_droplist` VALUES (1831,0,0,1000,15140,10);
 INSERT INTO `mob_droplist` VALUES (1831,0,0,1000,15142,10);
 INSERT INTO `mob_droplist` VALUES (1831,0,0,50,16360,200);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,2322,40);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,2323,30);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,2324,60);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,2325,70);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,2326,40);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,2327,50);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,2328,50);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,2329,40);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,2413,240);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,2414,150);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,2628,1000);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,3310,100);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,3312,100);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,3313,100);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,3314,100);
-INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,15999,350);
+INSERT INTO `mob_droplist` VALUES (1832,1,1,1000,2322,100); -- attuner (Ob - ZNM)
+INSERT INTO `mob_droplist` VALUES (1832,1,1,1000,2323,100); -- tactical_processor
+INSERT INTO `mob_droplist` VALUES (1832,1,1,1000,2324,100); -- drum_magazine
+INSERT INTO `mob_droplist` VALUES (1832,1,1,1000,2325,100); -- equalizer
+INSERT INTO `mob_droplist` VALUES (1832,1,1,1000,2326,100); -- target_marker
+INSERT INTO `mob_droplist` VALUES (1832,1,1,1000,2327,100); -- mana_channeler
+INSERT INTO `mob_droplist` VALUES (1832,1,1,1000,2328,100); -- eraser
+INSERT INTO `mob_droplist` VALUES (1832,1,1,1000,2329,100); -- smoke_screen
+INSERT INTO `mob_droplist` VALUES (1832,1,1,1000,2413,100); -- coiler
+INSERT INTO `mob_droplist` VALUES (1832,1,1,1000,2414,100); -- steam_jacket
+INSERT INTO `mob_droplist` VALUES (1832,2,1,150,3310,333); -- barrier_module_ii
+INSERT INTO `mob_droplist` VALUES (1832,2,1,150,3312,333); -- percolator
+INSERT INTO `mob_droplist` VALUES (1832,2,1,150,3313,333); -- vivi-valve
+INSERT INTO `mob_droplist` VALUES (1832,2,1,150,3314,334); -- disruptor
+INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,2628,1000); -- obs_arm
+INSERT INTO `mob_droplist` VALUES (1832,0,0,1000,15999,150); -- guignol_earring
 INSERT INTO `mob_droplist` VALUES (1833,0,0,1000,2689,1000); -- (Observant Zekka) Paktong letterbox
 INSERT INTO `mob_droplist` VALUES (1833,0,0,1000,18596,100); -- Kebbie
 INSERT INTO `mob_droplist` VALUES (1833,0,0,1000,16278,100); -- Piper's torque

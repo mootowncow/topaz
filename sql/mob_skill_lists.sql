@@ -1758,9 +1758,9 @@ INSERT INTO `mob_skill_lists` VALUES ('DynamisLord',361,1131);
 INSERT INTO `mob_skill_lists` VALUES ('DynamisLord',361,1133);
 INSERT INTO `mob_skill_lists` VALUES ('DynamisLord',361,1134);
 INSERT INTO `mob_skill_lists` VALUES ('Killer_Jonny',362,408); -- sound_vacuum
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Harlequin',363,1943);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Harlequin',363,2067);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Harlequin',363,2301);
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Harlequin',363,1943); -- slapstick
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Harlequin',363,2067); -- knockout
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Harlequin',363,2301); -- magic_mortar
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Harlequin',363,1945);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Harlequin',363,1947);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Harlequin',363,1948);
@@ -1778,11 +1778,11 @@ INSERT INTO `mob_skill_lists` VALUES ('Automaton_Harlequin',363,2301);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Harlequin',363,2943);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Harlequin',363,2944);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,1944);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,1940);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,1941);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,2065);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,2299);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,2743);
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,1940); -- chimera_ripper
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,1941); -- string_clipper
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,2065); -- cannibal_blade
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,2299); -- bone_crusher
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,2743); -- string_shredder
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,1945);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,1947);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,1948);
@@ -1799,10 +1799,10 @@ INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,2743);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,2942);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,2943);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Valoredge',364,2944);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,1942);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,2066);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,2300);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,2744);
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,1942); -- arcuballista
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,2066); -- daze
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,2300); -- armor_piercer
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,2744); -- armor_shatterer
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,1945);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,1947);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,1948);
@@ -1820,9 +1820,9 @@ INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,2744);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,2942);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,2943);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Sharpshot',365,2944);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Stormwaker',366,1943);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Stormwaker',366,2067);
-INSERT INTO `mob_skill_lists` VALUES ('Automaton_Stormwaker',366,2301);
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Stormwaker',366,1943); -- slapstick
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Stormwaker',366,2067); -- knockout
+INSERT INTO `mob_skill_lists` VALUES ('Automaton_Stormwaker',366,2301); -- magic_mortar
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Stormwaker',366,1945);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Stormwaker',366,1947);
 -- INSERT INTO `mob_skill_lists` VALUES ('Automaton_Stormwaker',366,1948);
@@ -2772,6 +2772,15 @@ INSERT INTO `mob_skill_lists` VALUES ('ShikareeWyvernReqOfSin',1198,905);
 
 INSERT INTO `mob_skill_lists` VALUES ('Prickly_Sheep',1199,262); -- Sheep Charge
 INSERT INTO `mob_skill_lists` VALUES ('Prickly_Sheep',1199,264); -- Sheep Charge
+
+INSERT INTO `mob_skill_lists` VALUES ('Ob_Valoredge',1200,1940); -- chimera_ripper
+INSERT INTO `mob_skill_lists` VALUES ('Ob_Valoredge',1200,1941); -- string_clipper
+INSERT INTO `mob_skill_lists` VALUES ('Ob_Valoredge',1200,2065); -- cannibal_blade
+INSERT INTO `mob_skill_lists` VALUES ('Ob_Valoredge',1200,2299); -- bone_crusher
+
+INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,1942); -- arcuballista
+INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,2066); -- daze
+INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,2300); -- armor_piercer
 
 -- Qultada (Breaking the Bonds of Fate)
 INSERT INTO `mob_skill_lists` VALUES ('QultadaSword',1195,39); -- Spirits Within
@@ -4813,6 +4822,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,169); -- black_hal
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,250); -- carnal_nightmare
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,252); -- dancing_chains
 
--- Next available ID: 1200
+-- Next available ID: 1201
 -- Next custom ID: 6153
 

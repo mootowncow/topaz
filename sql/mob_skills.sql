@@ -1900,7 +1900,7 @@ INSERT INTO `mob_skills` VALUES (1936,1299,'shibaraku',0,7.0,2000,1500,4,0,0,0,0
 -- INSERT INTO `mob_skills` VALUES (1939,1302,'',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1940,1304,'chimera_ripper',0,7.0,2000,1,4,0,0,0,7,6,0);
 INSERT INTO `mob_skills` VALUES (1941,1305,'string_clipper',0,7.0,2000,1,4,0,0,0,4,0,0);
-INSERT INTO `mob_skills` VALUES (1942,1303,'arcuballista',0,15.0,2000,1,4,0,0,0,3,1,0);
+INSERT INTO `mob_skills` VALUES (1942,1303,'arcuballista',0,16.0,2000,1,4,0,0,0,3,1,0);
 INSERT INTO `mob_skills` VALUES (1943,1306,'slapstick',0,7.0,2000,1,4,0,0,0,8,0,0);
 INSERT INTO `mob_skills` VALUES (1944,1307,'shield_bash',0,7.0,2000,0,4,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1945,1218,'provoke',0,7.0,2000,0,4,2,0,0,0,0,0);
@@ -1976,7 +1976,7 @@ INSERT INTO `mob_skills` VALUES (2014,198,'water_shot',0,7.0,2000,0,4,2,0,0,0,0,
 INSERT INTO `mob_skills` VALUES (2015,198,'light_shot',0,7.0,2000,0,4,2,0,0,0,0,0); -- Animation IDs are wrong
 INSERT INTO `mob_skills` VALUES (2016,198,'dark_shot',0,7.0,2000,0,4,2,0,0,0,0,0); -- Animation IDs are wrong
 -- INSERT INTO `mob_skills` VALUES (2017,1761,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (2018,1762,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2018,1762,'change_automaton_frame',0,7.0,2000,0,1,2,0,0,0,0,0); -- TODO: Animation ID
 -- INSERT INTO `mob_skills` VALUES (2019,1763,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2020,436,'hundred_fists',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2021,438,'eraser',0,7.0,2000,0,16,2,0,0,0,0,0);
@@ -2024,7 +2024,7 @@ INSERT INTO `mob_skills` VALUES (2062,1376,'restoral',0,7.0,2000,1500,1,0,0,0,0,
 -- INSERT INTO `mob_skills` VALUES (2063,1807,'heavy_armature',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2064,1808,'heavy_armature',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2065,1404,'cannibal_blade',0,15.0,2000,1,4,0,150,0,2,5,0);
-INSERT INTO `mob_skills` VALUES (2066,1405,'daze',0,15.0,2000,1,4,0,150,0,1,8,0);
+INSERT INTO `mob_skills` VALUES (2066,1405,'daze',0,16.0,2000,1,4,0,150,0,1,8,0);
 INSERT INTO `mob_skills` VALUES (2067,1406,'knockout',0,7.0,2000,1,4,0,145,0,4,6,0);
 INSERT INTO `mob_skills` VALUES (2068,439,'economizer',0,7.0,2000,0,16,2,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2069,1813,'tribulation',0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -2258,8 +2258,8 @@ INSERT INTO `mob_skills` VALUES (2270,1623,'shirahadori',1,10.0,2000,1500,4,0,0,
 -- INSERT INTO `mob_skills` VALUES (2297,2041,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2298,2042,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2299,1486,'bone_crusher',0,7.0,2000,1,4,0,245,0,12,0,0);
-INSERT INTO `mob_skills` VALUES (2300,1487,'armor_piercer',0,15.0,2000,1,4,0,245,0,9,0,0);
-INSERT INTO `mob_skills` VALUES (2301,1488,'magic_mortar',0,10.0,2000,1,4,0,225,0,11,3,0);
+INSERT INTO `mob_skills` VALUES (2300,1487,'armor_piercer',0,16.0,2000,1,4,0,245,0,9,0,0);
+INSERT INTO `mob_skills` VALUES (2301,1488,'magic_mortar',0,25.0,2000,1,4,0,225,0,11,3,0);
 -- INSERT INTO `mob_skills` VALUES (2302,2046,'light_arts',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES(2303, 176, 'dark_arts', 0, 7.0, 2000, 1, 1, 1, 0, 0, 0, 0, 0);
 -- INSERT INTO `mob_skills` VALUES (2304,2048,'curing_waltz',0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -2703,7 +2703,7 @@ INSERT INTO `mob_skills` VALUES (2740,1890,'silent_storm',0,7.0,2000,1500,4,0,0,
 INSERT INTO `mob_skills` VALUES (2741,2485,'entomb',1,10.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2742,2486,'tenebral_crush',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2743,1509,'string_shredder',0,7.0,2000,1,4,0,324,0,10,4,0);
-INSERT INTO `mob_skills` VALUES (2744,1510,'armor_shatterer',0,7.0,2000,1,4,0,324,0,11,8,0);
+INSERT INTO `mob_skills` VALUES (2744,1510,'armor_shatterer',0,16.0,2000,1,4,0,324,0,11,8,0);
 INSERT INTO `mob_skills` VALUES (2745,433,'heat_capacitor',0,7.0,2000,0,16,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2746,434,'barrage_turbine',0,7.0,2000,0,16,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2747,439,'disruptor',0,7.0,2000,0,4,2,0,0,0,0,0);

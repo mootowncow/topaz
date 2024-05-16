@@ -4508,7 +4508,12 @@ INSERT INTO `mob_spell_lists` VALUES ('Urd',529,54,1,255);   -- Stoneskin
 INSERT INTO `mob_spell_lists` VALUES ('Urd',529,108,1,255);  -- Regen
 INSERT INTO `mob_spell_lists` VALUES ('Urd',529,4,1,255);    -- Cure IV
 
--- 530 Free
+-- Harlequin Ob has access to Dia, Blind, Slow, Paralyze, and can Cure IV itself.
+INSERT INTO `mob_spell_lists` VALUES ('Ob',530,4,1,255);    -- Cure IV
+INSERT INTO `mob_spell_lists` VALUES ('Ob',530,23,1,255);   -- Dia
+INSERT INTO `mob_spell_lists` VALUES ('Ob',530,56,1,255);   -- Slow
+INSERT INTO `mob_spell_lists` VALUES ('Ob',530,58,1,255);   -- Paralyze
+INSERT INTO `mob_spell_lists` VALUES ('Ob',530,254,1,255);  -- Blind
 
 INSERT INTO `mob_spell_lists` VALUES ('Yilbegan',531,186,1,255);  -- Aeroga III
 INSERT INTO `mob_spell_lists` VALUES ('Yilbegan',531,176,1,255);  -- Firaga III
@@ -5982,7 +5987,6 @@ INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,232,1,255); -- bio_
 INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,249,1,255); -- blaze_spikes
 INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,367,1,255); -- Death
 
--- NEXT 530
 -- NEXT 542
 -- NEXT 1022
 -- NEXT 2086(Custom)

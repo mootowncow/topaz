@@ -2,6 +2,7 @@
 -- Area: Lower Jeuno
 --  NPC: Taza
 -- Zilart Augmenting NPC
+-- Storage NPC (Forgotten items)
 -- !pos -29 5 -89 245
 -----------------------------------
 local ID = require("scripts/zones/Lower_Jeuno/IDs")
@@ -318,6 +319,10 @@ function onTrade(player, npc, trade)
     -- Trade any amount of Forgotten items to store them
     for v = tpz.items.FORGOTTEN_THOUGHT, tpz.items.FORGOTTEN_STEP do
         if npcUtil.tradeHas(trade, v) then
+            if (trade:getSlotCount() > 1) then
+                player:PrintToPlayer("Invalid trade! Please trade only 1 stack of items.", 0, "Taza")
+                return
+            end
             local forgottenNameBase = GetItem(v)
             local forgottenName = string.gsub(forgottenNameBase:getName(), '_', ' ');
             local currentAmount = player:getCharVar(forgottenName)
