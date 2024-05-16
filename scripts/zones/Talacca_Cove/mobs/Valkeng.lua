@@ -58,7 +58,8 @@ function onMobFight(mob,target)
         changeFrame(mob)
         mob:setLocalVar("frame_change", now + 30)
         mob:setLocalVar("shieldBash", 0)
-    elseif current_frame == tpz.frames.SHARPSHOT and mob:getLocalVar("ranged") <= now then
+    end
+    if current_frame == tpz.frames.SHARPSHOT and mob:getLocalVar("ranged") <= now then
         mob:useMobAbility(272, target) -- Ranged Attack
         mob:setLocalVar("ranged", now + 5)
     elseif current_frame == tpz.frames.VALOREDGE and mob:getLocalVar("shieldBash") <= now then
