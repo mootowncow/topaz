@@ -773,7 +773,7 @@ void SetupJob(CMobEntity* PMob)
                 PMob->setModifier(Mod::PETRIFYRESTRAIT, 0);
             }
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
-            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 15);
+            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
             PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 10);
             PMob->defaultMobMod(MOBMOD_MAGIC_DELAY, 10);
             break;
