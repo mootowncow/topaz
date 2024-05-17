@@ -38,7 +38,7 @@ function onUseAbility(player, target, ability)
             local power = buffs.Power
             local duration = player:countEffect(buffs.Maneuver) * 10
             local tick = 0
-            if (buffs.Power == tpz.effect.GEO_REGEN) then
+            if (buffs.Effect == tpz.effect.GEO_REGEN) then
                 tick = 3
             end
             local subpower = 0
