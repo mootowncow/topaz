@@ -159,17 +159,12 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 **** NOW ***
 Update retail
-RDM mob 40%+ ga chance in mobutils
 Wyvern pets should folllow master on disengage(mobID + 1?)
-Print overload / Burden % to player on maneuver use
 Give PUP some sword WS natively
 Test inundation
 Dyna statue wep dmg too low? esp mega bosses?
 Variable for setting to limit points on not always changed when job swapped to 75
 STATUSRESTRAIT should work on all status effects, attack down etc
-Rename files in item_Basic https://github.com/mootowncow/topaz/commit/91a345ea91ff17028c6e4463099e254dbe662948#diff-a4079cf26c83b4fe889b3330b7a248f6cc7b3a74f859dd9bf9a2629cad37ddac
-STORAGE NPCS!!
-Code OB(LSB/ASB/Wings might have stealable form?)
 manafont sucks buff for players only
 Bark Tarantula and Sapplings in Boyahda tree need spawns audited
 Diss poison landed on a statue with -95% poison EEM?
