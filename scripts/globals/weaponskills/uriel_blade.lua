@@ -38,7 +38,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
 
     local pet = player:getPet()
-    local healAmount = math.floor(damage / 2)
+    local healAmount = math.floor(tp / 4)
 
     if (damage > 0) then
         if (pet ~= nil) then
