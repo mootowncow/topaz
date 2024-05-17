@@ -1758,7 +1758,7 @@ INSERT INTO `item_usable` VALUES (5984,'branch_of_gnatbane',1,1,28,0,0,0,0,0,0,0
 INSERT INTO `item_usable` VALUES (5985,'sprig_of_hemlock',1,1,28,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5986,'coalition_potion',1,7,29,0,0,0,0,0,24,500);
 INSERT INTO `item_usable` VALUES (5987,'coalition_ether',1,7,29,0,0,0,0,0,25,200);
-INSERT INTO `item_usable` VALUES (5988,'scroll_of_instant_protect',1,3,30,0,0,0,0,0,0,0);
+INSERT INTO `item_usable` VALUES (5988,'scroll_of_instant_protect',1,2,30,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5989,'scroll_of_instant_shell',1,3,32,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5990,'scroll_of_instant_stoneskin',1,7,32,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5998,'bowl_of_adoulinian_soup',1,1,26,0,0,0,0,0,0,0);
