@@ -159,9 +159,10 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 **** NOW ***
 Update retail
-Automaton RDM Puppet temper, t2 enfeebles, dia3/bio3
-Automaton need logic for absorb/regen magic(different timer than h)
-Automaton shellra1-4 and protectra 1-4(needs logic in automaton_controller and its spell list sql)
+RDM mob 40%+ ga chance in mobutils
+Wyvern pets should folllow master on disengage(mobID + 1?)
+Print overload / Burden % to player on maneuver use
+Give PUP some sword WS natively
 Test inundation
 Dyna statue wep dmg too low? esp mega bosses?
 Variable for setting to limit points on not always changed when job swapped to 75
@@ -262,6 +263,8 @@ Ark Pentasphere wasn't taken away on entering Divine Might?
 
 Add bonusmacc row to spells.sql and other stuff then make a lua binding and use that in all luas instead of coding each ones values in every lua individually
 Especialy BLU because you can just shove a function in for dmg and not have to put in 50 params for each spell and can just get params for the spell in a single function
+
+Random debuffs/buffs in salvage floor like "+ELE dmg -DARK DMG, +BLU DMG, -WSD, -attack, -50% healing, etc"
 
 "World bosses" where story NPC's spawn and heal/tank/dps with you and talk to you. 
 Spawn in random zone, announce in unity chat zone when spawned(Every hr?)
