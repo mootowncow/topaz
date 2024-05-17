@@ -1454,10 +1454,9 @@ void CMobEntity::DropItems(CCharEntity* PChar)
     {
         if (GetMLevel() >= 81) // 81+ bracket rare drops
         {
-            switch (tpzrand::GetRandomNumber(4))
+            switch (tpzrand::GetRandomNumber(9))
             {
                 case 0:
-
                     if (AddItemToPool(27580, ++dropCount)) // Adoulin Ring
                         return;
                     break;
@@ -1499,7 +1498,7 @@ void CMobEntity::DropItems(CCharEntity* PChar)
                     break;
             }
         }
-        loc.zone->PushPacket(this, CHAR_INZONE, new CChatMessagePacket(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_2, "An legendary item has dropped!!!!"));
+        loc.zone->PushPacket(this, CHAR_INZONE, new CChatMessagePacket(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_2, "A legendary item has dropped!!!!"));
     }
     uint16 Pzone = PChar->getZone();
 
