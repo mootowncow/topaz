@@ -26,7 +26,7 @@ function onUseAbility(player, target, ability)
         { Maneuver = tpz.effect.EARTH_MANEUVER,     Effect = tpz.effect.REPRISAL,        Power = 33  },
         { Maneuver = tpz.effect.THUNDER_MANEUVER,   Effect = tpz.effect.POTENCY,         Power = 100 },
         { Maneuver = tpz.effect.WATER_MANEUVER,     Effect = tpz.effect.MAGIC_DEF_BOOST, Power = 70  },
-        { Maneuver = tpz.effect.LIGHT_MANEUVER,     Effect = tpz.effect.GEO_REGEN,       Power = 100 },
+        { Maneuver = tpz.effect.LIGHT_MANEUVER,     Effect = tpz.effect.GEO_REGEN,       Power = 50  },
         { Maneuver = tpz.effect.DARK_MANEUVER,      Effect = tpz.effect.INTENSION,       Power = 15  },
     }
     local pet = player:getPet()
