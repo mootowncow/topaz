@@ -226,7 +226,7 @@ Avatars (mostly dynamis) should use 2 hr if they wake up while master has astral
 Only take ZNM items on ZNM kill not pop
 Gotoh Zha the Redolent SDT/EEM in sql (Copy whats in its lua)
 JP wiki for killer weapon/armor percentages
-Buff: https://www.bg-wiki.com/ffxi/Orange_Kuchen and https://www.bg-wiki.com/ffxi/Army_Biscuit
+Buff: https://www.bg-wiki.com/ffxi/Orange_Kuchen and https://www.bg-wiki.com/ffxi/Army_Biscuit and https://ffxiclopedia.fandom.com/wiki/Patlican_Salata
 Gaze TP moves have insane bonus MACC, terror moves can be resisted normally, just terror gaze is the exception(?)
 +Asylum / Misery / Auspice effect gear
 Ziz animation sub change after using TP moves? (Give some type of stat boost from it too!)
