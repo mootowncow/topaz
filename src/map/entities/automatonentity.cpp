@@ -34,6 +34,7 @@
 #include "../mob_modifier.h"
 #include "../utils/mobutils.h"
 #include "../recast_container.h"
+#include "../packets/chat_message.h"
 
 CAutomatonEntity::CAutomatonEntity()
     : CPetEntity(PETTYPE_AUTOMATON)
@@ -122,6 +123,23 @@ void CAutomatonEntity::setInitialBurden()
     m_Burden.fill(30);
 }
 
+// Function to get the element name based on the element value
+std::string getElementName(uint8_t element)
+{
+    static const std::unordered_map<uint8_t, std::string> elementNames = { { 1, "FIRE" },      { 2, "ICE" },   { 3, "WIND" },  { 4, "EARTH" },
+                                                                           { 5, "LIGHTNING" }, { 6, "WATER" }, { 7, "LIGHT" }, { 8, "DARK" } };
+
+    auto it = elementNames.find(element);
+    if (it != elementNames.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        return "unknown"; // Return "unknown" if the element is not found
+    }
+}
+
 uint8 CAutomatonEntity::addBurden(uint8 element, int8 burden)
 {
     // Handle Kenkonken Suppress Overload
@@ -132,6 +150,16 @@ uint8 CAutomatonEntity::addBurden(uint8 element, int8 burden)
     }
 
     m_Burden[element] = std::clamp(m_Burden[element] + burden, 0, 255);
+
+    // Convert burden to string
+    std::string currentBurden = std::to_string(m_Burden[element]);
+    // Get the element name
+    std::string elementName = getElementName(element +1);
+    // Create the message
+    std::string message = "Current burden for " + elementName + " is " + currentBurden;
+
+    // Push the message to the chat
+    ((CCharEntity*)PMaster)->pushPacket(new CChatMessagePacket(((CCharEntity*)PMaster), CHAT_MESSAGE_TYPE::MESSAGE_NS_SAY, message));
 
     if (burden > 0)
     {
