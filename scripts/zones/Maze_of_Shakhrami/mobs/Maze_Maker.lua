@@ -6,6 +6,7 @@
 local ID = require("scripts/zones/Maze_of_Shakhrami/IDs")
 require("scripts/globals/regimes")
 require("scripts/globals/mobs")
+mixins = {require("scripts/mixins/families/worm")}
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller, noKiller)
