@@ -15,7 +15,7 @@ end
 
 function onUseAbility(player, target, ability)
 
-    local chance = 40
+    local chance = 45
 
     player:addStatusEffect(tpz.effect.DOUBLE_SHOT, chance, 0, 90)
 end
