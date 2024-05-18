@@ -1213,7 +1213,7 @@ tpz.voidwalker.onHealing = function(player)
 
     if not mobNearest then
         player:messageSpecial(zoneTextTable.VOIDWALKER_NO_MOB, abyssites[1])
-    elseif mobNearest.distance <= 4 then
+    elseif mobNearest.distance <= 4 and player:hasStatusEffect(tpz.effect.HEALING) then
         local mob = GetMobByID(mobNearest.mobId)
         mob:setLocalVar("[VoidWalker]PopedBy", player:getID())
         mob:setLocalVar("[VoidWalker]PopedWith", mobNearest.keyItem)
