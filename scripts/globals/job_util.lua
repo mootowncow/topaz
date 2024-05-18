@@ -89,3 +89,15 @@ function jobUtil.HandleCorsairShoTP(player, target, dmg, tp)
         target:handleAfflatusMiseryDamage(dmg)
     end
 end
+
+function jobUtil.CalculateQd(player, target, ability, element, action, params)
+    local dmg = (4 * (player:getRangedDmg() + player:getAmmoDmg()) + player:getMod(tpz.mod.QUICK_DRAW_DMG)) * (1 + player:getMod(tpz.mod.QUICK_DRAW_DMG_PERCENT) / 100)
+    local bonusAcc = player:getStat(tpz.mod.AGI) / 2 + player:getMerit(tpz.merit.QUICK_DRAW_ACCURACY) + player:getMod(tpz.mod.QUICK_DRAW_MACC)
+
+    dmg = dmg + (2 * player:getJobPointLevel(tpz.jp.QUICK_DRAW_EFFECT))
+    dmg = math.floor(dmg * applyResistanceAbility(player, target, element, tpz.skill.MARKSMANSHIP, bonusAcc))
+    dmg = addBonusesAbility(player, element, target, dmg, params)
+    dmg = adjustForTarget(target, dmg, element)
+
+    return dmg
+end

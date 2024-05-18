@@ -25,55 +25,22 @@ end
 function onUseAbility(player, target, ability, action)
     local params = {}
     params.includemab = true
-    local dmg = (2 * (player:getRangedDmg() + player:getAmmoDmg()) + player:getMod(tpz.mod.QUICK_DRAW_DMG)) * (1 + player:getMod(tpz.mod.QUICK_DRAW_DMG_PERCENT) / 100)
-    local bonusAcc = player:getStat(tpz.mod.AGI) / 2 + player:getMerit(tpz.merit.QUICK_DRAW_ACCURACY) + player:getMod(tpz.mod.QUICK_DRAW_MACC)
-
-    dmg = dmg + (2 * player:getJobPointLevel(tpz.jp.QUICK_DRAW_EFFECT))
-    dmg = math.floor(dmg * applyResistanceAbility(player, target, tpz.magic.ele.EARTH, tpz.skill.MARKSMANSHIP, bonusAcc))
-    dmg = addBonusesAbility(player, tpz.magic.ele.EARTH, target, dmg, params)
-    dmg = adjustForTarget(target, dmg, tpz.magic.ele.EARTH)
-
     params.targetTPMult = 0 -- Quick Draw does not feed TP
+    local dmg = jobUtil.CalculateQd(player, target, ability, tpz.magic.ele.EARTH, action, params)
     dmg = takeAbilityDamage(target, player, params, true, dmg, tpz.attackType.MAGICAL, tpz.damageType.EARTH, tpz.slot.RANGED, 1, 0, 0, 0, action, nil)
 
     if dmg > 0 then
-        local effects = {}
-        local rasp = target:getStatusEffect(tpz.effect.RASP)
-        if rasp ~= nil then
-            table.insert(effects, rasp)
+        local resist = applyResistanceAbility(player, target, tpz.magic.ele.EARTH, tpz.skill.MARKSMANSHIP, bonusAcc)
+        -- TODO: Change to applyResistanceAddEffect(player, target, element, bonus, effect) once it's coded to supply skill
+        local power = 2500
+        local duration = 180
+        local tick = 0
+        local effect = tpz.effect.SLOW
+        if (resist >= 0.5) and not target:hasStatusEffect(effect) then
+            duration = duration * resist
+            target:addStatusEffect(effect, power, tick, duration)
         end
 
-        local threnody = target:getStatusEffect(tpz.effect.THRENODY)
-        if threnody ~= nil and threnody:getSubPower() == tpz.mod.THUNDERRES then
-            table.insert(effects, threnody)
-        end
-
-        local slow = target:getStatusEffect(tpz.effect.SLOW)
-        if slow ~= nil then
-            table.insert(effects, slow)
-        end
-
-        if #effects > 0 then
-            local effect = effects[math.random(#effects)]
-            local duration = effect:getDuration()
-            local startTime = effect:getStartTime()
-            local tick = effect:getTick()
-            local power = effect:getPower()
-            local subpower = effect:getSubPower()
-            local tier = effect:getTier()
-            local effectId = effect:getType()
-            local subId = effect:getSubType()
-            -- https://www.bg-wiki.com/ffxi/Quick_Draw
-            if slow ~= nil then -- +10%
-                power = power + 100
-            else
-                power = power + 4
-            end
-            target:delStatusEffectSilent(effectId)
-            target:addStatusEffect(effectId, power, tick, duration, subId, subpower, tier)
-            local newEffect = target:getStatusEffect(effectId)
-            newEffect:setStartTime(startTime)
-        end
         local tp = utils.CalcualteTPGiven(player, target, true)
         jobUtil.HandleCorsairShoTP(player, target, dmg, tp)
     end

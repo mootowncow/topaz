@@ -1140,7 +1140,14 @@ int getSDTTier(int SDT)
             {
                 gallantsRoll = (uint8)(PEffect->GetPower());
                 Action->spikesEffect = SUBEFFECT_FIRE_DAMAGE; // looks like blaze spikes
-                Action->spikesParam = damage * gallantsRoll / 10;
+                if (PDefender->objtype == TYPE_MOB)
+                {
+                    Action->spikesParam = damage * gallantsRoll / 10;
+                }
+                else
+                {
+                    Action->spikesParam = tpzrand::GetRandomNumber(25);
+                }
                 if  (Action->spikesParam < 1)
                 {
                     Action->spikesParam = 1;
@@ -2460,8 +2467,7 @@ int getSDTTier(int SDT)
         uint16 attackskill = PAttacker->GetSkill((SKILLTYPE)(weapon ? weapon->getSkillType() : 0));
         uint16 blockskill = PDefender->GetSkill(SKILL_SHIELD);
 
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_AVOIDANCE_DOWN) ||
-            PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_SWORDPLAY))
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_AVOIDANCE_DOWN))
         {
             return 0;
         }
@@ -2558,14 +2564,6 @@ int getSDTTier(int SDT)
                     int16 issekiganBonus = static_cast<int16>(PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_ISSEKIGAN)->GetPower());
                     //ShowDebug(CL_CYAN"GetParryRate: Issekigan Active, Parry Rate %d -> %d...\n" CL_RESET, parryRate, (parryRate+issekiganBonus));
                     parryRate = parryRate + issekiganBonus;
-                }
-                // Swordplay grants 5% parry per 60 shield skill that stacks with Inquartata
-                if (PDefender->objtype == TYPE_PC && PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_SWORDPLAY))
-                {
-                    uint16 blockskill = static_cast<uint16>(PDefender->GetSkill(SKILL_SHIELD));
-                    uint16 swordplayBonus = static_cast<uint16>(floor((blockskill / 60.0f) * 50.f));
-                    //ShowDebug(CL_CYAN "GetParryRate: Swordplay Active, Parry Rate %d -> %d...\n" CL_RESET, parryRate, (parryRate + swordplayBonus));
-                    parryRate = parryRate + swordplayBonus;
                 }
 
                 // Inquartata grants a flat parry rate bonus.
