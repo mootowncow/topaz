@@ -498,6 +498,7 @@ local modByMobName =
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
         --AllowSelfNuking(mob, true) -- TODO: Breaks nukes for everything
         mob:setLocalVar("element", math.random(1,6))
+        mob:setMod(tpz.mod.FIRE_ABSORB + mob:getLocalVar("element") - 1, 100)
         SetCurrentResistsErebus(mob)
         tpz.mix.jobSpecial.config(mob, {
             specials =
@@ -954,7 +955,18 @@ local mobFightByMobName =
         end
 
         -- Set spell list and enfeeble resists based on current element Erebus is absorbing
+            local spellData =
+            {
+                { element = tpz.magic.ele.FIRE,     counterNuke = tpz.magic.spell.FIRE_IV },
+                { element = tpz.magic.ele.ICE,      counterNuke = tpz.magic.spell.BLIZZARD_IV },
+                { element = tpz.magic.ele.WIND,     counterNuke = tpz.magic.spell.AERO_IV },
+                { element = tpz.magic.ele.EARTH,    counterNuke = tpz.magic.spell.STONE_IV },
+                { element = tpz.magic.ele.THUNDER,  counterNuke = tpz.magic.spell.THUNDER_IV },
+                { element = tpz.magic.ele.WATER,    counterNuke = tpz.magic.spell.WATER_IV },
+            }
         local counterNukeId = mob:getLocalVar("counterNuke")
+        local nukeTimer = mob:getLocalVar("nukeTimer")
+        local currentElement = mob:getLocalVar("element")
 
         -- Nukes self with a T4 immediately after being nuked of the same element, absorbing it
         if
@@ -965,6 +977,25 @@ local mobFightByMobName =
             local spell = getSpell(counterNukeId)
             spell:setValidTarget(tpz.magic.targetType.SELF)
             mob:castSpell(counterNukeId, mob)
+        end
+
+        if (mob:getHPP() < 90) then
+
+            if (nukeTimer == 0) then
+                mob:setLocalVar("nukeTimer", os.time() + math.random(15, 25))
+            end
+
+            if (os.time() > nukeTimer) and
+                not IsMobBusy(mob) and
+                not mob:hasPreventActionEffect()
+            then
+                for _, t4Nukes in pairs(spellData) do
+                    if (t4Nukes.element == currentElement) then
+                        mob:setLocalVar("counterNuke", t4Nukes.counterNuke)
+                        mob:setLocalVar("nukeTimer", os.time() + math.random(30, 45))
+                    end
+                end
+            end
         end
 
         mob:addListener("MAGIC_START", "EREBUS_MAGIC_START", function(mob, spell)
@@ -988,15 +1019,7 @@ local mobFightByMobName =
                 target:setMod(tpz.mod.FIRE_ABSORB + spell:getElement() - 1, 100)
                 target:setLocalVar("element", spell:getElement())
                 SetCurrentResistsErebus(target)
-                local spellData =
-                {
-                    { element = tpz.magic.ele.FIRE,     counterNuke = tpz.magic.spell.FIRE_IV },
-                    { element = tpz.magic.ele.ICE,      counterNuke = tpz.magic.spell.BLIZZARD_IV },
-                    { element = tpz.magic.ele.WIND,     counterNuke = tpz.magic.spell.AERO_IV },
-                    { element = tpz.magic.ele.EARTH,    counterNuke = tpz.magic.spell.STONE_IV },
-                    { element = tpz.magic.ele.THUNDER,  counterNuke = tpz.magic.spell.THUNDER_IV },
-                    { element = tpz.magic.ele.WATER,    counterNuke = tpz.magic.spell.WATER_IV },
-                }
+
                 -- Nuke self with a T4 nuke immediately afterwards if below 90% HP
                 if (target:getHPP() < 90) then
                     for _, t4Nukes in pairs(spellData) do
