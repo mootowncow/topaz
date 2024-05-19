@@ -30,12 +30,12 @@ function onUseAbility(player, target, ability, action)
     dmg = takeAbilityDamage(target, player, params, true, dmg, tpz.attackType.MAGICAL, tpz.damageType.WATER, tpz.slot.RANGED, 1, 0, 0, 0, action, nil)
 
     if dmg > 0 then
-        local resist = applyResistanceAbility(player, target, tpz.magic.ele.WATER, tpz.skill.MARKSMANSHIP, bonusAcc)
-        -- TODO: Change to applyResistanceAddEffect(player, target, element, bonus, effect) once it's coded to supply skill
+        local effect = tpz.effect.POISON
+        local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WATER, bonusAcc, effect, tpz.skill.MARKSMANSHIP)
         local power = 10
         local duration = 120
         local tick = 3
-        local effect = tpz.effect.POISON
+
         if (resist >= 0.5) and not target:hasStatusEffect(effect) then
             duration = duration * resist
             target:addStatusEffect(effect, power, tick, duration)

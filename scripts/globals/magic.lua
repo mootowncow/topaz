@@ -739,7 +739,7 @@ function applyResistanceAbility(player, target, element, skill, bonus)
 end
 
 -- Applies resistance for additional effects
-function applyResistanceAddEffect(player, target, element, bonus, effect)
+function applyResistanceAddEffect(player, target, element, bonus, effect, skill)
 
     local SDT = getElementalSDT(element, target)
 
@@ -758,7 +758,11 @@ function applyResistanceAddEffect(player, target, element, bonus, effect)
     local params = {}
     params.effect = effect
 
-    local p = getMagicHitRate(player, target, 0, element, SDT, 0, bonus, params)
+    if (skill == nil) then
+        skill = player:getWeaponSkillType(tpz.slot.MAIN)
+    end
+
+    local p = getMagicHitRate(player, target, 0, element, SDT, skill, bonus, params)
 	local res = getMagicResist(p)
 
     if (effect == nil) then

@@ -23,7 +23,7 @@ end
 function onUseAbility(player, target, ability)
     local duration = 60
     local bonusAcc = player:getStat(tpz.mod.AGI) / 2 + player:getMerit(tpz.merit.QUICK_DRAW_ACCURACY) + player:getMod(tpz.mod.QUICK_DRAW_MACC)
-    local resist = applyResistanceAbility(player, target, tpz.magic.ele.LIGHT, tpz.skill.MARKSMANSHIP, bonusAcc)
+    local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.LIGHT, bonusAcc, tpz.effect.LULLABY, tpz.skill.MARKSMANSHIP)
 
     --print(string.format("step1: %u",resist))
 	--GetPlayerByID(6):PrintToPlayer(string.format("Hit chance: %u",resist))
