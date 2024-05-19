@@ -1369,7 +1369,7 @@ bool CAutomatonController::TryEnhance()
     }
 
     // No info on how this spell worked
-    if ((members - protectcount) >= 1)
+    if ((PProtectTarget && members - protectcount) >= 1)
         if (Cast(PProtectTarget->targid, SpellID::Protectra_V) ||
             Cast(PProtectTarget->targid, SpellID::Protectra_IV) ||
             Cast(PProtectTarget->targid, SpellID::Protectra_III) ||
@@ -1378,7 +1378,7 @@ bool CAutomatonController::TryEnhance()
             return true;
 
     // No info on how this spell worked
-    if ((members - shellcount) >= 1)
+    if ((PShellTarget && members - shellcount) >= 1)
         if (Cast(PShellTarget->targid, SpellID::Shellra_V) ||
             Cast(PShellTarget->targid, SpellID::Shellra_IV) ||
             Cast(PShellTarget->targid, SpellID::Shellra_III) ||
