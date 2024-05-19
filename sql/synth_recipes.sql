@@ -4718,6 +4718,7 @@ INSERT INTO `synth_recipes` VALUES (75522,1,0,0,51,0,0,0,0,0,0,4100,4242,2504,0,
 INSERT INTO `synth_recipes` VALUES (75523,1,0,0,51,0,0,0,0,0,0,4100,4242,2505,0,0,0,0,0,0,0,659,652,653,654,2,2,2,2,'Heavy Quadav Backplate(desynth)'); 
 INSERT INTO `synth_recipes` VALUES (75524,1,0,0,51,0,0,0,0,0,0,4100,4242,2510,0,0,0,0,0,0,0,651,652,652,652,2,2,3,4,'Orc Helmet(desynth)'); 
 INSERT INTO `synth_recipes` VALUES (75525,1,0,0,51,0,0,0,0,0,0,4100,4242,2511,0,0,0,0,0,0,0,652,652,652,2275,2,3,4,1,'Orc Pauldron(desynth)'); 
+INSERT INTO `synth_recipes` VALUES (75526,0,0,0,0,0,0,0,0,67,0,4102,4244,5402,5403,5404,5405,5406,5407,5408,5409,5870,5870,5870,5870,1,2,3,4,'Trump Card Case');
 
 -- INSERT INTO `synth_recipes` VALUES (ID,Desynth,KeyItem,WD,SM,GO,CL,LE,BO,AL,CK,Crystal,HQCrystal,itemid,I2,I3,I4,I5,I6,I7,I8,R1,R2,R3,R4,Q1,Q2,Q3,Q4,ResultName); --  template
 
