@@ -64,7 +64,6 @@ function onMobDisengaged(mob)
     if engagedID ~= 0 then
         player = GetPlayerByID(engagedID)
         if player:getHP() == 0 then
-            mob:showText(mob, ID.text.QULTADA_DENT_MY_TRICORNE)
             utils.MessageParty(player, "You could not put a dent in my tricorne with attacks like that. Better luck next time.", 0, "Qultada")
         end
     end
