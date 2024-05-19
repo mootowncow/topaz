@@ -85,7 +85,7 @@ INSERT INTO `item_latents` VALUES(11301, 369, 1, 39, 13);    -- Refresh+1 at nig
 -- -------------------------------------------------------
 -- Rambler's Cloak
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(11312, 8, 5, 7, 100);     -- STR+5 while TP >=100%
+INSERT INTO `item_latents` VALUES(11312, 8, 5, 7, 1000); -- [11312] Rambler's Cloak: TP Over(1000) - STR 5
 
 -- -------------------------------------------------------
 -- Dinner Jacket
