@@ -27,7 +27,7 @@ function onUseAbility(player, target, ability)
         { Maneuver = tpz.effect.THUNDER_MANEUVER,   Effect = tpz.effect.POTENCY,         Power = 100 },
         { Maneuver = tpz.effect.WATER_MANEUVER,     Effect = tpz.effect.MAGIC_DEF_BOOST, Power = 70  },
         { Maneuver = tpz.effect.LIGHT_MANEUVER,     Effect = tpz.effect.GEO_REGEN,       Power = 50  },
-        { Maneuver = tpz.effect.DARK_MANEUVER,      Effect = tpz.effect.INTENSION,       Power = 15  },
+        { Maneuver = tpz.effect.DARK_MANEUVER,      Effect = tpz.effect.GEO_REFRESH,     Power = 50  },
     }
     local pet = player:getPet()
     local returnBuff = tpz.effect.NONE
@@ -37,8 +37,8 @@ function onUseAbility(player, target, ability)
         if player:hasStatusEffect(buffs.Maneuver) then
             local power = buffs.Power
             local duration = player:countEffect(buffs.Maneuver) * 10
-            local tick = 0
-            if (buffs.Effect == tpz.effect.GEO_REGEN) then
+            local tick = GEO_REFRESH
+            if (buffs.Effect == tpz.effect.GEO_REGEN) or (buffs.Effect == tpz.effect.GEO_REFRESH) then
                 tick = 3
             end
             local subpower = 0
