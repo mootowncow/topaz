@@ -850,11 +850,16 @@ function utils.MessageParty(player, msg, textcolor, sender)
     end
 
     local party = player:getParty()
+    if player:isPet() then
+        party = player:getMaster():getParty()
+    end
 
     --Text color: default(name shown) - 0, gold - 0x1F, green - 0x1C, blue - 0xF, white(no sender name) - 0xD
     if (party ~= nil) then
         for _,v in ipairs(party) do
-            v:PrintToPlayer(msg, textcolor, sender)
+            if v:isPC() then
+                v:PrintToPlayer(msg, textcolor, sender)
+            end
         end
     end
 end
@@ -865,11 +870,16 @@ function utils.ShowTextParty(player, textId)
     end
 
     local party = player:getParty()
+    if player:isPet() then
+        party = player:getMaster():getParty()
+    end
 
     --Text color: default(name shown) - 0, gold - 0x1F, green - 0x1C, blue - 0xF, white(no sender name) - 0xD
     if (party ~= nil) then
         for _,v in ipairs(party) do
-            v:showText(npc, textId)
+            if v:isPC() then
+                v:showText(npc, textId)
+            end
         end
     end
 end
