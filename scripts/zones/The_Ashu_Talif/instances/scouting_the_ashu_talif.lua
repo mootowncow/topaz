@@ -165,51 +165,11 @@ function onInstanceFailure(instance)
     end
 end
 
-function onInstanceProgressUpdate(instance, progress)
-    if progress == 1 then -- Wave 1
-        spawnWave(1, instance)
-    elseif progress == 4 then -- Wave 2
-        spawnWave(2, instance)
-    elseif progress == 9 then -- Wave 3
-        spawnWave(3, instance)
-    elseif progress == 18 then -- Wave 4
-        spawnWave(4, instance)
-    elseif progress == 27 then -- Wave 5
-        spawnWave(5, instance)
-    elseif progress == 28 then -- Wave 6
-        spawnWave(6, instance)
-    elseif progress == 29 then -- Wave 7
-        spawnWave(7, instance)
-    elseif progress == 31 then -- Wave 8
-        spawnWave(8, instance)
-    elseif progress == 35 then -- Wave 9
-        giveTempItems(instance)
-        spawnWave(9, instance)
-    elseif progress == 36 then -- Wave 10
-        spawnWave(10, instance)
-    elseif progress == 40 then -- Wave 11
-        spawnWave(11, instance)
-    elseif progress == 44 then -- Wave 12
-        spawnWave(12, instance)
-    elseif progress == 52 then -- Wave 13
-        spawnWave(13, instance)
-    elseif progress == 60 then -- Wave 14
-        spawnWave(14, instance)
-    elseif progress == 69 then -- Wave 15
-        spawnWave(15, instance)
-    elseif progress == 73 then -- Wave 16
-        giveTempItems(instance)
-        spawnWave(16, instance)
-    elseif progress == 74 then -- Wave 17
-        spawnWave(17, instance)
-    elseif progress == 82 then -- Wave 18
-        spawnWave(18, instance)
-    elseif progress == 90 then -- Wave 19
-        spawnWave(19, instance)
-    elseif progress == 94 then -- Wave 20
-        spawnWave(20, instance)
-    elseif progress == 102 then -- Wave 21
-        spawnWave(21, instance)
+function onInstanceProgressUpdate(instance, elapsed)
+    local stage = instance:getStage()
+    local progress = instance:getProgress()
+
+    if (stage == 1 and progress == 0) -- Escort start
     elseif (progress == 110 and instance:completed() == false) then
         instance:complete()
     end

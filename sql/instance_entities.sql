@@ -606,7 +606,23 @@ INSERT INTO `instance_entities` VALUES(55, 17023008); -- Watch Imp
 INSERT INTO `instance_entities` VALUES(55, 17023009); -- Swiftwinged Gekko
 INSERT INTO `instance_entities` VALUES(55, 17023034); -- Ancient Lockbox (Normal)
 INSERT INTO `instance_entities` VALUES(55, 17023010); -- Ancient Lockbox (??? Item)
+INSERT INTO `instance_entities` VALUES(55, 17023057); -- Door: Cargo Hold
 INSERT INTO `instance_entities` VALUES(55, 17023059); -- Gate: Lifeboat
+
+-- Royal Painter Escort
+INSERT INTO `instance_entities` VALUES(56, 17023011); -- Faluuya
+INSERT INTO `instance_entities` VALUES(56, 17023012); -- Ashu Talif Crew
+INSERT INTO `instance_entities` VALUES(56, 17023013); -- Ashu Talif Crew
+INSERT INTO `instance_entities` VALUES(56, 17023014); -- Ashu Talif Crew
+INSERT INTO `instance_entities` VALUES(56, 17023015); -- Ashu Talif Crew
+INSERT INTO `instance_entities` VALUES(56, 17023016); -- Ashu Talif Crew
+INSERT INTO `instance_entities` VALUES(56, 17023017); -- Ashu Talif Crew
+INSERT INTO `instance_entities` VALUES(56, 17023018); -- Ashu Talif Marine
+INSERT INTO `instance_entities` VALUES(56, 17023019); -- Ashu Talif Marine
+INSERT INTO `instance_entities` VALUES(56, 17023020); -- Ashu Talif Marine
+INSERT INTO `instance_entities` VALUES(56, 17023021); -- Ashu Talif Marine
+INSERT INTO `instance_entities` VALUES(56, 17023022); -- Ashu Talif Marine
+
 
 -- Path of Darkness
 -- mobs

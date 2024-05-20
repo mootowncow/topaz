@@ -109,7 +109,17 @@ zones[tpz.zone.THE_ASHU_TALIF] =
                 [4] = 17023008,
             },
             SWIFTWINGED_GEKKO = 17023009,
-        }
+        },
+        -- Royal Painter Escort
+        [56] =
+        {
+            FALUUYA = 17023011,
+        },
+        -- Targetting the captain
+        [57] =
+        {
+            CAPTAIN = 17023011,
+        },
     },
     npc =
     {

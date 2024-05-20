@@ -29,6 +29,8 @@ local instances = {
     [tpz.zone.ARRAPAGO_REEF] =
     {
         { 4,   55,    0},
+        { 4,   56,    0},
+        { 4,   57,    0},
     },
 }
 
@@ -40,6 +42,8 @@ local instances = {
 function instanceCheckReqs(player, instanceId, isInitiator)
     local registerRequirements = {
         [  55] = function() return ( player:getCharVar("Halshaob_Quest") == 2 ) end, -- Scouting the Ashu Talif
+        [  56] = function() return ( player:getCharVar("Halshaob_Quest") == 4 ) end, -- Royal Painter Escort
+        [  57] = function() return ( player:getCharVar("Halshaob_Quest") == 8 ) end, -- Targetting the captain
         [  90] = function() return ( player:hasKeyItem(tpz.ki.MINE_SHAFT_KEY) and (player:getCharVar("LightInTheDarkness") == 5 or player:getCharVar("LightInTheDarkness") == 8) ) end, -- Light in the Darkness (WotG Mission-Quest)
         [  96] = function() return ( player:hasKeyItem(tpz.ki.FORT_KEY) ) end, -- A Manifest Problem (WotG Mission-Quest)
     }

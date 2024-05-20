@@ -41,6 +41,11 @@ function onTrigger(player, npc)
         availableInstances = bit.bxor(availableInstances, SCOUTING_THE_ASHU_TALIF)
     end
 
+    -- For testing
+    if player:getGMLevel() > 0 then
+        availableInstances = bit.bxor(availableInstances, ROYAL_PAINTER)
+    end
+
     if availableInstances < allInstances then
         player:startEvent(221, 54, availableInstances, 0, 99, 6, 0)
     else
@@ -49,9 +54,15 @@ function onTrigger(player, npc)
 end
 
 function onEventUpdate(player, csid, option, target)
+local BLACK_COFFIN = 524288
+local AGAINST_ALL_ODDS = 786432
+local SCOUTING_THE_ASHU_TALIF = 1048576
+local ROYAL_PAINTER = 1310720
+local TARGETING_CAPTAIN = 1572864
+
     if (csid == 221) then
         local party = player:getParty()
-        if (option == 524288) then -- 524288 - BLACK_COFFIN    
+        if (option == BLACK_COFFIN) then 
             if (party ~= nil) then
                 for i, v in ipairs(party) do
                     if not (v:hasKeyItem(tpz.ki.EPHRAMADIAN_GOLD_COIN) or v:hasCompletedMission(TOAU, tpz.mission.id.toau.THE_BLACK_COFFIN)) then 
@@ -66,7 +77,7 @@ function onEventUpdate(player, csid, option, target)
                 end
             end
             player:createInstance(53, 60)
-        elseif (option == 786432) then -- 786432 - AGAINST_ALL_ODDS
+        elseif (option == AGAINST_ALL_ODDS) then
             if (party ~= nil) then
                 for i, v in ipairs(party) do
                     if v:getZoneID() == player:getZoneID() and v:checkDistance(player) > 50 then
@@ -77,7 +88,7 @@ function onEventUpdate(player, csid, option, target)
                 end
             end
             player:createInstance(54, 60)
-        elseif option == 1048576 then -- SCOUTING_THE_ASHU_TALIF
+        elseif (option == SCOUTING_THE_ASHU_TALIF) then
             if (party ~= nil) then
                 for i, v in ipairs(party) do
                     -- if v:getCharVar("Halshaob_Quest") ~= 2 then
@@ -93,10 +104,39 @@ function onEventUpdate(player, csid, option, target)
                 end
             end
             player:createInstance(55, 60)
+        elseif (option == ROYAL_PAINTER) then
+            if (party ~= nil) then
+                for i, v in ipairs(party) do
+                    -- if v:getCharVar("Halshaob_Quest") ~= 2 then
+                    if not VerfyInstanceForPlayer(v, 56, false) then
+                        player:messageText(target, ID.text.MEMBER_NO_REQS, false)
+                        player:instanceEntry(target, 1)
+                        return
+                    elseif v:getZoneID() == player:getZoneID() and v:checkDistance(player) > 50 then
+                        player:messageText(target, ID.text.MEMBER_TOO_FAR, false)
+                        player:instanceEntry(target, 1)
+                        return
+                    end
+                end
+            end
+            player:createInstance(56, 60)
+        elseif (option == TARGETING_CAPTAIN) then
+            if (party ~= nil) then
+                for i, v in ipairs(party) do
+                    -- if v:getCharVar("Halshaob_Quest") ~= 2 then
+                    if not VerfyInstanceForPlayer(v, 57, false) then
+                        player:messageText(target, ID.text.MEMBER_NO_REQS, false)
+                        player:instanceEntry(target, 1)
+                        return
+                    elseif v:getZoneID() == player:getZoneID() and v:checkDistance(player) > 50 then
+                        player:messageText(target, ID.text.MEMBER_TOO_FAR, false)
+                        player:instanceEntry(target, 1)
+                        return
+                    end
+                end
+            end
+            player:createInstance(57, 60)
         end
-        -- Future options
-        -- option 1310720 - ROYAL_PAINTER
-        -- option 1572864 - TARGETING_CAPTAIN
     end
 end
 

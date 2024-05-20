@@ -24,13 +24,14 @@ function onTrade(player, npc, trade)
             player:setCharVar("Halshaob_Timer", os.date("%j"))
             player:setCharVar("Halshaob_Quest", 2)
             player:startEvent(302, 2184, 3, 101)
-        elseif trade:getItemQty(2185) == 1 and trade:getItemCount() == 1 and questSTAT == QUEST_COMPLETED then
---          if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT) == QUEST_AVAILABLE then
---              player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT)
---          end
---          player:setCharVar("Halshaob_Timer", os.date("%j"))
---          player:setCharVar("Halshaob_Quest", 4)
---          player:startEvent(302, 2185, 1, 102)
+        elseif trade:getItemQty(2185) == 1 and trade:getItemCount() == 1 and questSTAT == QUEST_COMPLETED or
+            player:getGMLevel() > 0 then
+          if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT) == QUEST_AVAILABLE then
+              player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT)
+          end
+          player:setCharVar("Halshaob_Timer", os.date("%j"))
+          player:setCharVar("Halshaob_Quest", 4)
+          player:startEvent(302, 2185, 1, 102)
         elseif trade:getItemQty(2186) == 1 and trade:getItemCount() == 1 and questRPE == QUEST_COMPLETED then
 --          if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.TARGETING_THE_CAPTAIN) == QUEST_AVAILABLE then
 --              player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.TARGETING_THE_CAPTAIN)
@@ -38,6 +39,10 @@ function onTrade(player, npc, trade)
 --          player:setCharVar("Halshaob_Timer", os.date("%j"))
 --          player:setCharVar("Halshaob_Quest", 8)
 --          player:startEvent(302, 2186, 1, 103)
+        elseif trade:getItemQty(2185) == 1 and trade:getItemCount() == 1 and player:getGMLevel() > 0 then -- For testing
+          if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT) == QUEST_AVAILABLE then
+              player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT)
+          end
         end
     end
 end
@@ -47,18 +52,18 @@ function onTrigger(player, npc)
     local timer = player:getCharVar("Halshaob_Timer")
     local quest = player:getCharVar("Halshaob_Quest")
 
-    if player:getCurrentMission(TOAU) > tpz.mission.id.toau.GUESTS_OF_THE_EMPIRE then
+    --if player:getCurrentMission(TOAU) > tpz.mission.id.toau.GUESTS_OF_THE_EMPIRE then
         if timer > 0 then
             local arg1 = 4092
             local arg4 = 0
             local arg5 = 0
 
             -- arg1: Which quests are available?
---          if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT) == QUEST_COMPLETED then
---              arg1 = 4080
---          elseif player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.SCOUTING_THE_ASHU_TALIF) == QUEST_COMPLETED then
---              arg1 = 4088
---          end
+         if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT) == QUEST_COMPLETED then
+             arg1 = 4080
+         elseif player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.SCOUTING_THE_ASHU_TALIF) == QUEST_COMPLETED then
+             arg1 = 4088
+         end
 
             -- arg4: Which quest is currently active?
             arg4 = player:getCharVar("Halshaob_Quest")
@@ -68,13 +73,18 @@ function onTrigger(player, npc)
                 arg5 = 1
             end
 
+            -- For testing
+            if player:getGMLevel() > 0 then
+                arg1 = 4088
+            end
+
             player:startEvent(301, arg1, 0, 0, arg4, arg5)
         else
            player:startEvent(300)
         end
-    else
-        player:startEvent(299)
-    end
+    --else
+    --    player:startEvent(299)
+    --end
 end
 
 function onEventUpdate(player, csid, option)
