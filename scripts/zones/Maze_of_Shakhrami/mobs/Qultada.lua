@@ -70,7 +70,11 @@ function onMobDisengaged(mob)
 end
 
 function onMobFight(mob, target)
-    if mob:getLocalVar("quick_draw") <= os.time() and not IsMobBusy(mob) then
+    if
+        mob:getLocalVar("quick_draw") <= os.time() and
+        not IsMobBusy(mob) and
+        not mob:hasPreventActionEffect() -- TODO: More of these
+    then
         -- Randomly use one of the Quick Draw shots
         mob:useMobAbility(2009 + math.random(0, 7), target)
         utils.MessageParty(target, "Think you can get away?", 0, "Qultada")
