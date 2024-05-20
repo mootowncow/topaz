@@ -166,4 +166,21 @@ tpz.path =
         end
     end,
 
+    -- Paths a table of points once then steps
+    followPoints = function(npc, points, flags)
+        if not npc:isFollowingPath() then
+            local path = npc:getLocalVar("path")
+            path = path + 1;
+
+            if (path > #points) then
+                return
+            end
+
+            npc:setLocalVar("path", path);
+            local currentPath = points[path];
+            -- print(string.format('%.2f,%.2f,%.2f [%u]', currentPath.x, currentPath.y, currentPath.z, path, (step == 1)));
+            npc:pathTo(currentPath.x, currentPath.y, currentPath.z, flags);
+        end
+    end,
+
 }
