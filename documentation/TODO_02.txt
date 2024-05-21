@@ -297,6 +297,9 @@ Mat that lets you add a random augment to any ring/amulet/earring
 Make sneak silent!
 https://github.com/LandSandBoat/server/commit/e7b95675df0f8c77924470dc35d36845d331a3c7
 
+Moogle in ToAU fountain fix
+https://github.com/LandSandBoat/server/commit/f087ea2914e239452defa55d6a6517508fb6ac4d
+
 Pet JA miss msg
 https://github.com/LandSandBoat/server/commit/1f2478791c631b75d35ffc3de9cc32b5cc58a537
 
@@ -356,7 +359,10 @@ https://github.com/LandSandBoat/server/commit/67db4b00448a4df23ceda9743599a92432
 This prob needs to be fixed for beastial loyalty and voracious trunk
 https://github.com/LandSandBoat/server/commit/109c821bad83af4283740f3fe510f5d266ab168b
 
- Sha Wujing's lance
+Roam distance:
+https://github.com/LandSandBoat/server/commit/608b9709791dd03bbfc6fd14b8340a70c43d8657
+
+Sha Wujing's lance
 https://github.com/LandSandBoat/server/commit/1c4511caae46d63ea224817dfb3f54024739523b
 
 Light spirit AI:

@@ -123,7 +123,9 @@ zones[tpz.zone.THE_ASHU_TALIF] =
     },
     npc =
     {
-        GATE_LIFEBOAT = 17023059,
+        DOOR_CARGO_HOLD     = 17023057,
+        DOOR_GREAT_CABIN    = 17023058,
+        GATE_LIFEBOAT       = 17023059,
         [55] =
         {
             ANCIENT_LOCKBOX = 17023034,

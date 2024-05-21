@@ -17,12 +17,9 @@ function afterInstanceRegister(player)
 end
 
 function onInstanceCreated(instance)
-    local mob = GetMobByID(ID.mob[55].SWIFTWINGED_GEKKO, instance)
-    mob:spawn()
-    mob:hideName(true)
-    mob:untargetable(true)
-    mob:setStatus(tpz.status.INVISIBLE)
-    instance:setProgress(1)
+    SpawnMob(ID.mob[56].FALUUYA, instance)
+    instance:getEntity(bit.band(ID.npc.DOOR_CARGO_HOLD, 0xFFF), tpz.objType.NPC):untargetable(false)
+    instance:setProgress(0)
 end
 
 function onInstanceTimeUpdate(instance, elapsed)

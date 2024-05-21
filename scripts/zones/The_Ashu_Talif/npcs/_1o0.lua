@@ -1,14 +1,15 @@
 -----------------------------------
 -- Area: The Ashu Talif
--- Door: Cargo Hold
+-- Door: Cargo Hold (_1o0)
 -----------------------------------
 local ID = require("scripts/zones/The_Ashu_Talif/IDs")
+require("scripts/globals/status")
 -----------------------------------
 
 function onTrigger(player, npc)
     local instance = player:getInstance()
-    local faluuya = GetMobByID(ID.mob[56].FALUUYA, instance)
-    faluuya:setLocalVar("escortStart", 1)
+    npc:getEntity(bit.band(ID.npc.DOOR_CARGO_HOLD, 0xFFF), tpz.objType.NPC):setAnimation(tpz.animation.OPEN_DOOR)
+    instance:setStage(1)
 end
 
 function onEventUpdate(player, csid, option)

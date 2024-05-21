@@ -173,12 +173,14 @@ tpz.path =
             path = path + 1;
 
             if (path > #points) then
+                npc:setLocalVar("pathingDone", 1)
                 return
             end
 
             npc:setLocalVar("path", path);
+            npc:setLocalVar("pathingDone", 0)
             local currentPath = points[path];
-            -- print(string.format('%.2f,%.2f,%.2f [%u]', currentPath.x, currentPath.y, currentPath.z, path, (step == 1)));
+            --print(string.format('%.2f,%.2f,%.2f [%u]', currentPath.x, currentPath.y, currentPath.z, path));
             npc:pathTo(currentPath.x, currentPath.y, currentPath.z, flags);
         end
     end,
