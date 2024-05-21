@@ -163,6 +163,9 @@ All regain mods on engage or fight, NOT spawn
 
 **** NOW ***
 Update retail
+Nerf sinker drill it does waaay too much damage with efflux/azure lore/CA and skillchaining. Just too much dmg in general
+Buff limbus mobs wep dmg, def % and eva (especially the floor bosses)
+Make dynamis zone boss NMs immune to silence
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
 Leaden Salute wasn't unlocked when I had enough WS points
 applyResistanceAddEffect() 
@@ -178,7 +181,9 @@ applyResistanceAddEffect(player, target, element, bonus, effect, skill) should b
 
 How does slug shot do 61 instead of 400+ dmg? It's 1 hit
 Check restoral healing its very weak
-AddDimishingReturns should use 1 var for sleep and not different ones(sleep, sleep2, lullavy all should share 1 DR). Also add light shot, and light shot
+AddDimishingReturns should use 1 var for sleep and not different ones(sleep_I and sleep_II all share 1 DR). Also add AddDimishingReturns to light shot, and light shot shares DR with sleep
+Repose should be sleep_II and all BLU sleeps sleep_I / Sleep II. Lullaby separate DR is fine
+
 Wyvern pets should folllow master on disengage(mobID + 1?)
 Give PUP some sword WS natively
 Test inundation
