@@ -165,6 +165,7 @@ T1 Ghost cast sleepga2 OR ice spikes on spawn
 **** NOW ***
 Update retail
 Buff limbus mobs wep dmg, def % and eva (especially the floor bosses)
+Massively buff COR pet rolls
 Make dynamis zone boss NMs immune to silence
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
 Leaden Salute wasn't unlocked when I had enough WS points
@@ -216,6 +217,7 @@ Make salvage require tag again
 BST Relic, especially the body(make it remove erasable effects). Maybe entire set of ready move Attack % bonus / dmg cause pet ready moves suck without attack.
 DRG relic? Boots suck
 BLU relic? boots suck
+UL spell ranges slightly too short
 Move Apollyon NE limbus Gigas to correct spots https://www.bg-wiki.com/ffxi/Apollyon_NE
 https://github.com/LandSandBoat/server/issues/5127
 Buff Charger / Jaeger / Gunner mantle
