@@ -351,7 +351,7 @@ INSERT INTO `abilities` VALUES (298,'unbridled_learning',16,75,1,300,81,100,0,26
 INSERT INTO `abilities` VALUES (301,'triple_shot',17,30,1,300,467,100,0,242,2000,0,6,0.0,0,0,0,0,4,NULL,0);
 INSERT INTO `abilities` VALUES (302,'allies_roll',17,75,1,60,193,420,0,138,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (303,'misers_roll',17,75,1,60,193,420,0,139,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0);
-INSERT INTO `abilities` VALUES (304,'companions_roll',17,95,1,60,193,420,0,265,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0);
+INSERT INTO `abilities` VALUES (304,'companions_roll',17,75,1,60,193,420,0,265,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (305,'avengers_roll',17,75,1,60,193,420,0,266,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (309,'cooldown',18,70,1,90,114,0,0,232,2000,0,6,11.2,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (310,'deus_ex_automata',18,5,1,7200,254,0,0,83,2000,0,6,20.0,0,1,80,0,0,'ABYSSEA',0);
