@@ -164,7 +164,6 @@ T1 Ghost cast sleepga2 OR ice spikes on spawn
 
 **** NOW ***
 Update retail
-Buff limbus mobs wep dmg, def % and eva (especially the floor bosses)
 Massively buff Companion's Roll
 Make dynamis zone boss NMs immune to silence
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
@@ -173,7 +172,6 @@ applyResistanceAddEffect()
 not mob:hasPreventActionEffect() to qultada talking/using stuff
 Bolter's Roll should get removed on same things quickening does
 tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
-Trump Card alchemy craft
 Rambler's Cloak always gives +10 str
 Ampitheatre pathing broken?
 Esuna should work on Curse_II
