@@ -165,7 +165,7 @@ T1 Ghost cast sleepga2 OR ice spikes on spawn
 **** NOW ***
 Update retail
 Buff limbus mobs wep dmg, def % and eva (especially the floor bosses)
-Massively buff COR pet rolls
+Massively buff Companion's Roll
 Make dynamis zone boss NMs immune to silence
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
 Leaden Salute wasn't unlocked when I had enough WS points
