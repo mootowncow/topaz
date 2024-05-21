@@ -160,10 +160,10 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 Voidwalker:
 Upgraded abyssite of player who didn't pop, but acted first on the mob?
 All regain mods on engage or fight, NOT spawn
+T1 Ghost cast sleepga2 OR ice spikes on spawn
 
 **** NOW ***
 Update retail
-Nerf sinker drill it does waaay too much damage with efflux/azure lore/CA and skillchaining. Just too much dmg in general
 Buff limbus mobs wep dmg, def % and eva (especially the floor bosses)
 Make dynamis zone boss NMs immune to silence
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
