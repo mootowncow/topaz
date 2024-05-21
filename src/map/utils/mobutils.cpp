@@ -1166,11 +1166,11 @@ void SetupLimbusMob(CMobEntity* PMob)
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(120);
         }
 
-        PMob->addModifier(Mod::ATTP, 15);
-        PMob->addModifier(Mod::DEFP, 15);
-        PMob->addModifier(Mod::ACC, 10);
-        PMob->addModifier(Mod::EVA, 10);
-        PMob->addModifier(Mod::MDEF, 15);
+        PMob->addModifier(Mod::ATTP, 25);
+        PMob->addModifier(Mod::DEFP, 25);
+        PMob->addModifier(Mod::ACC, 20);
+        PMob->addModifier(Mod::EVA, 20);
+        PMob->addModifier(Mod::MDEF, 20);
     }
 
     // No gil drops or exp
