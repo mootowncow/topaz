@@ -41,7 +41,7 @@ function onUseAbility(player, target, ability, action)
             target:addStatusEffect(effect, power, tick, duration)
         end
 
-        local tp = utils.CalcualteTPGiven(player, target, true)
+        local tp = utils.CalcualteTPGain(player, target, true)
         jobUtil.HandleCorsairShoTP(player, target, dmg, tp)
     end
 
