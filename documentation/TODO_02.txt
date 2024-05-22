@@ -164,6 +164,18 @@ T1 Ghost cast sleepga2 OR ice spikes on spawn
 
 **** NOW ***
 Update retail
+CalcualteTPGiven must be COMPLETELY broken, QD gives me 1k+ TP per use
+ASPIR SHOULDNT BE REDUCED BY STONESKIN / MAGIC STONESKIN
+Why do Quasilumin escorts go through doors?
+Open doors with NPC and use pathThrough not PathTo maybe?
+General — Today at 5:36 PM
+Not sure if this helps but you can look at lower_jeuno zone lua and see how they handled Zauko using xi.path.flag.WALLHACK, if your on LSB
+Aerec — Today at 5:37 PM
+You can always have your npc/mob stop at a door and open the door before they path. Similar to how quasilumins work 
+
+Zdei form changing logic wrong? check spreadsheet
+Quasilumin immediately comnmence patrol if mob hp == 0%(dead but not despawned..dead animation?) (it seems to work on ghrahs if ball form?)
+Earth ghrah isnt immune to stun from blu/spikes (Promy mixin too?)
 Massively buff Companion's Roll
 Make dynamis zone boss NMs immune to silence
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
