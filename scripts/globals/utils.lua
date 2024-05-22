@@ -1044,21 +1044,37 @@ function utils.ApplyStoneskinBonuses(caster, power)
     return power
 end
 
-function utils.CalcualteTPGain(attacker, target)
-    local delay = attacker:getRangedDelay()
-    local tp = utils.CalculateBaseTP(delay)
-    local tpAdded = math.floor((tp * (100 + attacker:getMod(tpz.mod.STORETP))) / 100)
+-- TODO: Still wrong, missing stuff for h2h
+-- battle utils   baseTp = (int16)(CalculateBaseTP((delay * 60) / 1000) / ratio); etc
+function utils.CalcualteTPGain(attacker, target, ranged) 
+    local delay = attacker:getDelay()
+    local baseTp = utils.CalculateBaseTP(delay)
+    local tpGained = 0
 
-    return tpAdded
+    if ranged then
+        delay = attacker:getRangedDelay()
+        baseTp = utils.CalculateBaseTP((delay * 120) / 1000);
+    end
+
+    if attacker:isPC() then
+        tpAdded = math.floor(((baseTp / 3) * (100 + attacker:getMod(tpz.mod.STORETP))) / 100)
+    elseif attacker:isMob() and not attacker:isCharmed() and not attacker:isJugPet() then
+        tpGained = math.floor(((baseTp + 3) * (100 + attacker:getMod(tpz.mod.STORETP))) / 100)
+    end
+
+    return tpGained
 end
 
+-- TODO: Still wrong, missing stuff for h2h
+-- battle utils   baseTp = (int16)(CalculateBaseTP((delay * 60) / 1000) / ratio); etc
 function utils.CalcualteTPGiven(attacker, target, ranged)
-    local delay = attacker:getRangedDelay()
+    local delay = attacker:getDelay()
     local baseTp = utils.CalculateBaseTP(delay)
     local tpAdded = 0
 
     if ranged then
         delay = attacker:getRangedDelay()
+        baseTp = utils.CalculateBaseTP((delay * 120) / 1000);
     end
 
     -- Mobs get basetp+30 whereas pcs and their pets get basetp/3 when hit
@@ -1068,6 +1084,7 @@ function utils.CalcualteTPGiven(attacker, target, ranged)
         tpAdded = math.floor(((baseTp + 3) * (100 + target:getMod(tpz.mod.STORETP))) / 100)
     end
 
+    -- print(string.format("Delay: %d, Base TP: %d, StoreTP Mod: %d,  TP Added: %d", delay, baseTp, target:getMod(tpz.mod.STORETP), tpAdded))
     return tpAdded
 end
 
@@ -1086,6 +1103,7 @@ function utils.CalculateBaseTP(delay)
     else 
         tp = (173 + ((delay - 900) * 28) / 360)
     end
+
     return tp
 end
 
