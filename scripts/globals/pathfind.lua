@@ -163,16 +163,20 @@ tpz.path =
             local currentPath = points[path];
             -- print(string.format('%.2f,%.2f,%.2f [%u] - %s', currentPath.x, currentPath.y, currentPath.z, path, (step == 1) and 'Forward' or 'Reverse'));
             npc:pathTo(currentPath.x, currentPath.y, currentPath.z, flags);
+            -- TODO: Change to capital X Y Z and change files using this function to use X Y Z for tables
+            -- TODO: Use pathThrough ?
         end
     end,
 
     -- Paths a table of points once then steps
     followPoints = function(npc, points, flags)
+        printf("Following path")
         if not npc:isFollowingPath() then
             local path = npc:getLocalVar("path")
             path = path + 1;
-
+            print(#points)
             if (path > #points) then
+                printf("Pathing is done")
                 npc:setLocalVar("pathingDone", 1)
                 return
             end
@@ -180,9 +184,46 @@ tpz.path =
             npc:setLocalVar("path", path);
             npc:setLocalVar("pathingDone", 0)
             local currentPath = points[path];
-            --print(string.format('%.2f,%.2f,%.2f [%u]', currentPath.x, currentPath.y, currentPath.z, path));
-            npc:pathTo(currentPath.x, currentPath.y, currentPath.z, flags);
+            print(string.format('Following path point: %.2f, %.2f, %.2f [%u]', currentPath[1], currentPath[2], currentPath[3], path))
+            npc:pathThrough(currentPath, flags);
         end
     end,
+
+followPointsInstance = function(npc, points, flags)
+    local path = npc:getLocalVar("path")
+    if (path == 0) then
+        npc:pathThrough(points[1], flags)
+        npc:setLocalVar("path", 1)
+    end
+
+    local currentPos = npc:getPos()
+
+    -- Ensure the path index is within the range of the points table
+    if path > 0 and path <= #points then
+        local currentPath = points[path]
+
+        -- Ensure currentPath is not nil before accessing its elements
+        if currentPath ~= nil then
+            -- Check if the absolute difference between currentPos.x and currentPath[1] is <= 1 yard
+            if math.abs(currentPos.x - currentPath[1]) <= 1.0 then
+                path = path + 1
+                npc:setLocalVar("path", path)
+                npc:setLocalVar("pathingDone", 0)
+
+                if path > #points then
+                    printf("Pathing is done")
+                    npc:setLocalVar("pathingDone", 1)
+                    return
+                end
+
+                currentPath = points[path]
+                printf(string.format('Following path point: %.2f, %.2f, %.2f [%u]', currentPath[1], currentPath[2], currentPath[3], path))
+                npc:pathThrough(currentPath, flags)
+            end
+        else
+            printf("Error: currentPath is nil")
+        end
+    end
+end
 
 }
