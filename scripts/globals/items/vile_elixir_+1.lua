@@ -21,4 +21,5 @@ function onItemUse(target)
     target:addHP(target:getMaxHP() * param)
     target:addMP(target:getMaxMP() * param)
     target:messageBasic(tpz.msg.basic.RECOVERS_HP_AND_MP)
+    target:addStatusEffect(tpz.effect.MEDICINE, 0, 0, 180)
 end
