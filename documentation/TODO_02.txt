@@ -164,10 +164,9 @@ T1 Ghost cast sleepga2 OR ice spikes on spawn
 
 **** NOW ***
 Update retail
-CalcualteTPGiven must be COMPLETELY broken, QD gives me 1k+ TP per use
-ASPIR SHOULDNT BE REDUCED BY STONESKIN / MAGIC STONESKIN
-Why do Quasilumin escorts go through doors?
-Open doors with NPC and use pathThrough not PathTo maybe?
+SMN aern don't summon pets? Force them to summon like 10s after engage(mixin?) or lower magic_cool for smn mobs globally
+Do NIN aerns cast? Do I need to enable casting on engage for them?
+Zdei in cubbys can't aggro people in hall? need longer sight aggro range on them?
 General — Today at 5:36 PM
 Not sure if this helps but you can look at lower_jeuno zone lua and see how they handled Zauko using xi.path.flag.WALLHACK, if your on LSB
 Aerec — Today at 5:37 PM

@@ -2,6 +2,7 @@
 -- Area: The Ashu Talif (Royal Painter Escort
 --  Mob: Faluuya
 -- TOAU-15 Mission Battle
+-- TODO: Can't heal her'
 -----------------------------------
 
 local ID = require("scripts/zones/The_Ashu_Talif/IDs")
@@ -34,43 +35,45 @@ local stageOnePts2 = {
 }
 
 local retreatToTopPts1 = {
-    { -6.052155, -14.500002, -11.098473 },
-    { 3.230412, -18.500000, -10.153654 },
-    { 3.134426, -18.500000, -6.958476 },
-    { -7.547063, -22.500000, -6.043747 }, -- Inside door
-};
-
-local retreatToTopPts2 = {
-    { -6.991322, -22.500000, 3.234773 }, -- Seems to go back inside and teleports down?
-    { -6.634718, -22.000000, 23.389055 },
-    { -7.507441, -31.000000, 41.822979 },
-    { -7.531722, -31.000000, 53.427715 },
-    { 0.460836, -31.000000, 53.537926 } -- Once all mobs dead, immediately pathTwo
+    { -6.05, -14.50, -11.10 },
+    { 3.23, -18.50, -10.15 },
+    { 3.13, -18.50, -6.96 },
+    { -7.55, -22.50, -6.04 } -- Inside door
 }
 
-local sketchOne = {
-    { -6.552976, -31.000000, 53.135220 },
-    { -6.953773, -31.062500, 40.949741 },
-    { -7.313815, -22.000000, 24.565838 },
-    { -7.628562, -22.009054, 14.275635 },
-    { -7.742513, -22.500000, 0.696395 },
-    { -7.211101, -22.500000, -7.453206 } -- Waits as mobs spawn all inside and behind
-};
+local retreatToTopPts2 = {
+    { -6.99, -22.50, 3.23 }, -- Seems to go back inside and teleports down?
+    { -6.63, -22.00, 23.39 },
+    { -7.51, -31.00, 41.82 },
+    { -7.53, -31.00, 53.43 },
+    { 0.46, -31.00, 53.54 } -- Once all mobs dead, immediately pathTwo
+}
+
+local sketchOnePt1 = {
+    { -4.81, -31.00, 53.49 },
+    { -7.04, -31.00, 46.30 },
+    { -6.66, -29.50, 36.56 },
+    { -6.54, -24.19, 28.27 },
+    { -6.30, -22.00, 17.00 },
+    { -7.81, -22.50, 2.58 }, -- Waits as mobs spawn all inside and behind
+}
+
+local sketchOnePt2 = {
+    { -7.57, -22.50, -6.75 }
+}
 
 local sketchTwo = { -- Waits as mobs spawn in front and behind again
-    { 3.019294, -18.500000, -7.452654 },
-    { 2.090031, -18.500000, -11.088349 }
-};
+    { -6.82, -22.50, -6.52 },
+    { 0.50, -19.00, -7.26 },
+    { 2.88, -18.50, -7.37 },
+    { 2.09, -18.50, -11.09 } -- NM SPAWNS
+}
 
-local retreatToTopTwo = { -- Retreats back to top mobs spawning on top of deck and below and running at her
-    { 2.336882, -18.500000, -5.786534 },
-    { -8.180116, -22.500000, -5.705924 },
-    { -8.156613, -22.500000, -1.157002 },
-    { -6.507248, -22.059174, 15.529238 },
-    { -7.080959, -31.062500, 39.635307 },
-    { -7.267087, -31.000000, 49.876953 },
-    { -0.116310, -31.000000, 51.085835 }
-};
+local retreatToTopTwoPts1 = { -- Retreats back to top mobs spawning on top of deck and below and running at her
+    { 4.15, -18.50, -6.85 },
+    { -0.13, -19.50, -5.86 },
+    { -7.55, -22.50, -6.04 } -- Inside door
+}
 
 
 function onMobSpawn(mob)
@@ -81,6 +84,8 @@ function onMobRoam(mob)
     local instance = mob:getInstance()
     local stage = instance:getStage()
     local progress = instance:getProgress()
+    local sketchOneWait = mob:getLocalVar("sketchOneWait")
+    local sketchTwoWait = mob:getLocalVar("sketchTwoWait")
 
     local escortProgress = {
         { Stage = 1,    Path = firstPath,           Flags = tpz.path.flag.NONE        },
@@ -90,13 +95,25 @@ function onMobRoam(mob)
         { Stage = 5,    Path = retreatToTopTwo,     Flags = tpz.path.flag.RUN         },
     }
 
-    if IsOutsideDoor(mob) and (progress == 0) then
-        printf("Outside door, increasing progress and teleporting")
-        instance:setProgress(instance:getProgress() +1)
-        mob:clearPath()
-        mob:setLocalVar("path", 0)
-        mob:setLocalVar("pathingDone", 0)
-        mob:setPos(-8.02, -22.50, -4.83)
+    if IsOutsideDoor(mob) then
+        if (stage == 1) then
+            printf("Outside door, increasing progress and teleporting")
+            instance:setProgress(instance:getProgress() +1)
+            mob:clearPath()
+            mob:setLocalVar("path", 0)
+            mob:setLocalVar("pathingDone", 0)
+            mob:setPos(-8.02, -22.50, -4.83)
+            return
+        end
+        if (stage == 4) then
+                printf("Outside door, increasing progress and teleporting")
+                instance:setStage(instance:getStage() +1)
+                mob:clearPath()
+                mob:setLocalVar("path", 0)
+                mob:setLocalVar("pathingDone", 0)
+                mob:setPos(-8.02, -22.50, -4.83)
+            return
+        end
     end
 
     if IsAtFirstSpawns(mob) and (stage == 1) and (progress == 1) then
@@ -106,25 +123,86 @@ function onMobRoam(mob)
         mob:clearPath()
         mob:setLocalVar("path", 0)
         mob:setLocalVar("pathingDone", 0)
+        return
     end
 
-    if IsInsideDoor(mob) and (stage == 2) then
-        printf("Inside door, increasing stage and teleporting")
+    if IsInsideDoor(mob) then
+        if (stage == 2) or (stage == 7) then
+            printf("Inside door, increasing stage and teleporting")
+            instance:setStage(instance:getStage() +1)
+            instance:setProgress(0)
+            mob:clearPath()
+            mob:setLocalVar("path", 0)
+            mob:setLocalVar("pathingDone", 0)
+            mob:setPos(-7.56, -22.50, 3.40)
+            return
+        end
+    end
+
+    if IsAtTop(mob) then
+        if (stage == 3) or (stage == 8) then
+            printf("At top")
+            instance:setStage(instance:getStage() +1)
+            instance:setProgress(0)
+            mob:clearPath()
+            mob:setLocalVar("path", 0)
+            mob:setLocalVar("pathingDone", 0)
+            return
+        end
+    end
+
+    if IsAtBalconyOne(mob) and (stage == 5) then
+    -- Seems to move to door.. Maybe mobtype 16 (Battlefield) fixes.
+    -- or some flag, same one that stops tenzen from moving
+    -- or remove clearPath() everywhere?
+        printf("At balcony one, setting a timer before moving")
         instance:setStage(instance:getStage() +1)
-        instance:setProgress(0)
         mob:clearPath()
         mob:setLocalVar("path", 0)
         mob:setLocalVar("pathingDone", 0)
-        mob:setPos(-7.56, -22.50, 3.40)
+        mob:setLocalVar("sketchOneWait", os.time() + 60)
+        return
+    end
+
+    if IsAtBalconyTwo(mob) and (stage == 6) then
+    -- Seems to move to the wall.. Maybe mobtype 16 (Battlefield) fixes.
+    -- or some flag, same one that stops tenzen from moving
+    -- or remove clearPath() everywhere?
+        printf("At balcony two, setting a timer before moving") 
+        instance:setStage(instance:getStage() +1)
+        mob:clearPath()
+        mob:setLocalVar("path", 0)
+        mob:setLocalVar("pathingDone", 0)
+        mob:setLocalVar("sketchTwoWait", os.time() + 60)
+        return
     end
 
     if (stage == 1 and progress == 0) then
+        printf("stageOnePts1")
         tpz.path.followPointsInstance(mob, stageOnePts1, tpz.path.flag.NONE)
     elseif (stage == 1) and (progress == 1) then
         tpz.path.followPointsInstance(mob, stageOnePts2, tpz.path.flag.NONE)
+        printf("stageOnePts2")
     elseif (stage == 2) then
         tpz.path.followPointsInstance(mob, retreatToTopPts1, tpz.path.flag.RUN)
-    elseif (stage == 3) then -- Seems to go back inside and teleports down?
+        printf("retreatToTopPts1")
+    elseif (stage == 3) then 
+        printf("retreatToTopPts2")
+        tpz.path.followPointsInstance(mob, retreatToTopPts2, tpz.path.flag.RUN)
+    elseif (stage == 4) then
+        printf("sketchOnePt1")
+        tpz.path.followPointsInstance(mob, sketchOnePt1, tpz.path.flag.RUN)
+    elseif (stage == 5) then
+        printf("sketchOnePt2")
+        tpz.path.followPointsInstance(mob, sketchOnePt2, tpz.path.flag.RUN)
+    elseif (stage == 6)  and (os.time() >= sketchOneWait) then
+        printf("sketchTwo")
+        tpz.path.followPointsInstance(mob, sketchTwo, tpz.path.flag.RUN)
+    elseif (stage == 7)  and (os.time() >= sketchTwoWait) then
+        printf("retreatToTopTwoPts1")
+        tpz.path.followPointsInstance(mob, retreatToTopTwoPts1, tpz.path.flag.RUN)
+    elseif (stage == 8) then
+        printf("retreatToTopPts2")
         tpz.path.followPointsInstance(mob, retreatToTopPts2, tpz.path.flag.RUN)
     end
 end
@@ -151,8 +229,8 @@ function IsInsideDoor(mob)
     local currentPos = mob:getPos()
     local pathingDone = mob:getLocalVar("pathingDone") == 1
     if
-        (math.abs(currentPos.x - -7.0) <= 1.0  and
-        math.abs(currentPos.y - (-22.0)) <= 1.0 and
+        (math.abs(currentPos.x - (-8.0)) <= 1.0  and
+        math.abs(currentPos.y - (-23)) <= 1.0 and
         pathingDone)
     then
         return true
@@ -164,6 +242,41 @@ function IsAtFirstSpawns(mob)
     local currentPos = mob:getPos()
     local pathingDone = mob:getLocalVar("pathingDone") == 1
     if (math.abs(currentPos.x - -4) <= 1.0 and pathingDone) then
+        return true
+    end
+    return false
+end
+
+function IsAtTop(mob)
+    local currentPos = mob:getPos()
+    local pathingDone = mob:getLocalVar("pathingDone") == 1
+    if (math.abs(currentPos.x - 0) <= 1.0 and pathingDone) then
+        return true
+    end
+    return false
+end
+
+function IsAtBalconyOne(mob)
+    local currentPos = mob:getPos()
+    local pathingDone = mob:getLocalVar("pathingDone") == 1
+    if
+        (math.abs(currentPos.x - (-7.0)) <= 1.0  and
+        math.abs(currentPos.y - (-23)) <= 1.0 and
+        pathingDone)
+    then
+        return true
+    end
+    return false
+end
+
+function IsAtBalconyTwo(mob)
+    local currentPos = mob:getPos()
+    local pathingDone = mob:getLocalVar("pathingDone") == 1
+    if
+        (math.abs(currentPos.x - (2.0)) <= 1.0  and -- TODO
+        math.abs(currentPos.y - (-18)) <= 1.0 and
+        pathingDone)
+    then
         return true
     end
     return false

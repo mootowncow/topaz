@@ -194,6 +194,7 @@ followPointsInstance = function(npc, points, flags)
     if (path == 0) then
         npc:pathThrough(points[1], flags)
         npc:setLocalVar("path", 1)
+        printf(string.format('Following path point: %.2f, %.2f, %.2f [1]', points[1][1], points[1][2], points[1][3]))
     end
 
     local currentPos = npc:getPos()
@@ -205,7 +206,7 @@ followPointsInstance = function(npc, points, flags)
         -- Ensure currentPath is not nil before accessing its elements
         if currentPath ~= nil then
             -- Check if the absolute difference between currentPos.x and currentPath[1] is <= 1 yard
-            if math.abs(currentPos.x - currentPath[1]) <= 1.0 then
+            if math.abs(currentPos.x - currentPath[1]) <= 1.0 and math.abs(currentPos.y - currentPath[2]) <= 1.0 then
                 path = path + 1
                 npc:setLocalVar("path", path)
                 npc:setLocalVar("pathingDone", 0)
