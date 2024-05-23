@@ -1237,18 +1237,18 @@ function finalMagicAdjustments(caster, target, spell, dmg)
     end
 
     --handling rampart stoneskin
-    dmg = utils.rampartstoneskin(target, dmg)
+    if not (spell:getSpellFamily() == tpz.magic.spellFamily.ASPIR) then
+        dmg = utils.rampartstoneskin(target, dmg)
     
-    --handling stoneskin
-    local attackType = tpz.attackType.MAGICAL
-    dmg = utils.stoneskin(target, dmg, attackType)
-    dmg = utils.clamp(dmg, -99999, 99999)
+        --handling stoneskin
+        local attackType = tpz.attackType.MAGICAL
+        dmg = utils.stoneskin(target, dmg, attackType)
+        dmg = utils.clamp(dmg, -99999, 99999)
 
-    if (dmg < 0) then
-        dmg = target:addHP(-dmg)
-        spell:setMsg(tpz.msg.basic.MAGIC_RECOVERS_HP)
-    else
-        if not (spell:getSpellFamily() == tpz.magic.spellFamily.ASPIR) then
+        if (dmg < 0) then
+            dmg = target:addHP(-dmg)
+            spell:setMsg(tpz.msg.basic.MAGIC_RECOVERS_HP)
+        else
             target:takeSpellDamage(caster, spell, dmg, tpz.attackType.MAGICAL, tpz.damageType.ELEMENTAL + spell:getElement())
             target:handleAfflatusMiseryDamage(dmg)
             target:updateEnmityFromDamage(caster, dmg)
