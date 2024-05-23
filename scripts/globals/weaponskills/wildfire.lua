@@ -22,9 +22,9 @@ require("scripts/globals/weaponskills")
 
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local params = {}
-    params.ftp100 = 5.5 params.ftp200 = 5.5 params.ftp300 = 5.5
+    params.ftp100 = 2.0 params.ftp200 = 2.1 params.ftp300 = 2.3
     params.str_wsc = 0.0 params.dex_wsc = 0.0 params.vit_wsc = 0.0
-    params.agi_wsc = 0.6 params.int_wsc = 0.0 params.mnd_wsc = 0.0
+    params.agi_wsc = 0.75 params.int_wsc = 0.0 params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
     params.ele = tpz.magic.ele.FIRE
     params.skill = tpz.skill.MARKSMANSHIP
