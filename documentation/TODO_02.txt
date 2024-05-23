@@ -163,6 +163,13 @@ All regain mods on engage or fight, NOT spawn
 T1 Ghost cast sleepga2 OR ice spikes on spawn
 
 **** NOW ***
+Do holy waters work?
+Sleepga II landed on -95% sleep EEM evolved qutrub?!
+Heady Artifice shares CD with deus ex machina, change deus ex machina to sentinel
+Manawell should be removed if dmg is taken(flag on status effect)
+Providence / Mixin bugged? Casted slowga then drain then water IV then death?!
+Warm up doesn't give mobs eva AND acc boost, only one? Is that accurate? check spreadsheet/bg wiki / jp wiki
+Set Blazing Angon TP cost to 0 for mamool ja ritter(turn it into flag JA? i forget, copy mighty strikes)
 Update retail
 SMN aern don't summon pets? Force them to summon like 10s after engage(mixin?) or lower magic_cool for smn mobs globally
 Do NIN aerns cast? Do I need to enable casting on engage for them?
@@ -230,6 +237,7 @@ UL spell ranges slightly too short
 Move Apollyon NE limbus Gigas to correct spots https://www.bg-wiki.com/ffxi/Apollyon_NE
 https://github.com/LandSandBoat/server/issues/5127
 Buff Charger / Jaeger / Gunner mantle
+Better logic for behind TP moves like clobber, they get used if in front or side very often. Copy Yilbegan
 Sky Curtana ??? should be random
 Mobs that aggro by sound and sound and are true aggro don't seem to link by both? Imps in WOTG strongholds don't
 16916780, 16916629, 16916648, and 16916608 pots need to be moved and instructed to spin(if they arent). Maybe need to also fix their file that makes them spin(its positions?)
