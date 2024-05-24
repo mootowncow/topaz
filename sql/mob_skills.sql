@@ -2056,7 +2056,7 @@ INSERT INTO `mob_skills` VALUES (2094,1432,'fire_angon',2,15.0,2000,1500,4,0,0,0
 INSERT INTO `mob_skills` VALUES (2095,1437,'batterhorn',4,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2096,1438,'clobber',1,40.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2097,1439,'granite_skin',0,7.0,2000,1500,1,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2098,1433,'blazing_angon',2,15.0,2000,1500,4,0,0,5,0,0,0);
+INSERT INTO `mob_skills` VALUES (2098,1433,'blazing_angon',2,15.0,2000,1500,4,2,0,5,0,0,0); -- Mamool Ja Ritter, no TP cost
 INSERT INTO `mob_skills` VALUES (2099,1437,'batterhorn',4,10.0,2000,1000,4,0,0,4,0,0,0);
 INSERT INTO `mob_skills` VALUES (2100,1436,'clobber',1,40.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2101,1434,'demoralizing_roar',1,10.0,2000,1000,4,0,0,0,0,0,0);
