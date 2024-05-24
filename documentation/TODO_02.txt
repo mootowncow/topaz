@@ -159,55 +159,34 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 Voidwalker:
 Upgraded abyssite of player who didn't pop, but acted first on the mob?
-All regain mods on engage or fight, NOT spawn
-T1 Ghost cast sleepga2 OR ice spikes on spawn
 
 **** NOW ***
-Do holy waters work?
 Sic merits don't work?
 Remove TP bonus off fencer+ items like knightly earring
-Earthshatter needs same logic as dark ixion(or acroliths need it rather) and tp moves should go off even if targets go OOE
-Sleepga II landed on -95% sleep EEM evolved qutrub?!
-Heady Artifice shares CD with deus ex machina, change deus ex machina to sentinel
-Manawell should be removed if dmg is taken(flag on status effect)
-Providence / Mixin bugged? Casted slowga then drain then water IV then death?!
-Warm up doesn't give mobs eva AND acc boost, only one? Is that accurate? check spreadsheet/bg wiki / jp wiki
-Set Blazing Angon TP cost to 0 for mamool ja ritter(turn it into flag JA? i forget, copy mighty strikes)
 Update retail
-SMN aern don't summon pets? Force them to summon like 10s after engage(mixin?) or lower magic_cool for smn mobs globally
-Do NIN aerns cast? Do I need to enable casting on engage for them?
 Zdei in cubbys can't aggro people in hall? need longer sight aggro range on them?
 General — Today at 5:36 PM
 Not sure if this helps but you can look at lower_jeuno zone lua and see how they handled Zauko using xi.path.flag.WALLHACK, if your on LSB
 Aerec — Today at 5:37 PM
 You can always have your npc/mob stop at a door and open the door before they path. Similar to how quasilumins work 
 
-Zdei form changing logic wrong? check spreadsheet
 Quasilumin immediately comnmence patrol if mob hp == 0%(dead but not despawned..dead animation?) (it seems to work on ghrahs if ball form?)
-Earth ghrah isnt immune to stun from blu/spikes (Promy mixin too?)
-Massively buff Companion's Roll
-Make dynamis zone boss NMs immune to silence
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
 Leaden Salute wasn't unlocked when I had enough WS points
 applyResistanceAddEffect() 
 not mob:hasPreventActionEffect() to qultada talking/using stuff
-Bolter's Roll should get removed on same things quickening does
 tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
-Rambler's Cloak always gives +10 str
 Ampitheatre pathing broken?
-Esuna should work on Curse_II
 
 applyResistanceAddEffect(player, target, element, bonus, effect, skill) should be used for stuff like feral howl and aura steal?
 
 How does slug shot do 61 instead of 400+ dmg? It's 1 hit
-Check restoral healing its very weak
 AddDimishingReturns should use 1 var for sleep and not different ones(sleep_I and sleep_II all share 1 DR). Also add AddDimishingReturns to light shot, and light shot shares DR with sleep
 Repose should be sleep_II and all BLU sleeps sleep_I / Sleep II. Lullaby separate DR is fine
 
 Wyvern pets should folllow master on disengage(mobID + 1?)
 Give PUP some sword WS natively
 Test inundation
-Dyna statue wep dmg too low? esp mega bosses?
 Variable for setting to limit points on not always changed when job swapped to 75
 STATUSRESTRAIT should work on all status effects, attack down etc
 manafont sucks buff for players only
@@ -226,10 +205,7 @@ Handle for Asterion, Forneus,(probably fleshgnasher and Vee Ladu doesn't work(is
 Providence shouldn't be removed by being parad, make add another mixin for where para procs are? Or what "is interruoted" counts as para? or something if msg ~= para idk
 Jailer of Temp Uses Meikyo Shisui multiple times and should not be aggressive(always aggros on spawn but not aggressive flag). Also vulnerable to grav
 Does asylums resist work on spikes?
-Seal of genbu etc stack to 99 and not rare
-Does mijin gakure work properly when used by NMs and such?
 Mob TP moves dont remove quickening flag? Maybe doesn't remove flags it should? 
-Thunderbolt 0.5s cast
 Zilart mission after DM(kid zilart) and missions after work
 Make sure Rank6-10 Sandy / Bastok mission work
 Make salvage require tag again
@@ -237,22 +213,18 @@ BST Relic, especially the body(make it remove erasable effects). Maybe entire se
 DRG relic? Boots suck
 BLU relic? boots suck
 UL spell ranges slightly too short
-Move Apollyon NE limbus Gigas to correct spots https://www.bg-wiki.com/ffxi/Apollyon_NE
 https://github.com/LandSandBoat/server/issues/5127
-capacity point chains should work and be super lenient, like 1-3m to get next chain
 Buff Charger / Jaeger / Gunner mantle
 Better logic for behind TP moves like clobber, they get used if in front or side very often. Copy Yilbegan
 Sky Curtana ??? should be random
 Mobs that aggro by sound and sound and are true aggro don't seem to link by both? Imps in WOTG strongholds don't
-16916780, 16916629, 16916648, and 16916608 pots need to be moved and instructed to spin(if they arent). Maybe need to also fix their file that makes them spin(its positions?)
-Impact / Comet / Meteor given to B
+Impact / Comet / Meteor given to BLM
+Logic for mob TP moves going off even if target is out of range (Dark Ixion one doesnt work)
 Impact / Comet / Meteor given to BLM via items from long grinds (RMEA? Especially strongholdLM via items from long grinds (RMEA? Especially stronghold one?)
 Hunts
 WOE
 
-
 ****TEST****
-VNM's. Stopped at Farruca Fly, Skuld next. Check JP wiki for Capricornus / Yacumama incase some stats or mechanics missing 
 Peiste / Pixie BDO custom exp camps in WOTG
 Cait Sith avatar skills and fight/quests
 Reward / Repair enmity
@@ -261,7 +233,6 @@ Reward / Repair enmity
 Extremely rare item dropped !!! msg and no item in pool, was a level 81+ mob. Did I miss out on super rare item or somehow bugged and procced on a < 81 level item
 but nothing is in the list for 81+ in that drop rate
 COR good with pet jobs, so buff its pet rolls to the moon
-COR shots buffed in some way to be better with enfeebles? or apply super enfeebles itself maybe and not buff them?
 Cascade 500 TP bonus+ gear and manawell CDR gear
 Pet stat mainhands (daggers)
 Do COR shots need to be getTick() / 1000 ?
@@ -296,9 +267,6 @@ All offensive AOE Unbridled spells should be around mob not player
 Cap all GP turn ins by 1/3
 Add "You gain x Zeni" from mobs that give Zeni.
 Amplification needs to be changed to something else
-Add Dynamis mobs back and revert TE movement changes (Sandy, bastok, jeuno)
-More spawns for low level JA mobs in dynamis - sandy(2 ninja 2 BST 1 THF)
-Add confirmation or w/e status when spawning the bosses in dynamis
 Retune Salvage for duo
 Ark Pentasphere wasn't taken away on entering Divine Might?
 
