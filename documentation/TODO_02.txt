@@ -166,7 +166,6 @@ T1 Ghost cast sleepga2 OR ice spikes on spawn
 Do holy waters work?
 Sic merits don't work?
 Remove TP bonus off fencer+ items like knightly earring
-Mob AOE moves should auto-wipe blink and not be absorbed
 Earthshatter needs same logic as dark ixion(or acroliths need it rather) and tp moves should go off even if targets go OOE
 Sleepga II landed on -95% sleep EEM evolved qutrub?!
 Heady Artifice shares CD with deus ex machina, change deus ex machina to sentinel
