@@ -30,6 +30,7 @@ MOBPARAM_1_SHADOW = 1
 MOBPARAM_2_SHADOW = 2
 MOBPARAM_3_SHADOW = 3
 MOBPARAM_4_SHADOW = 4
+MOBPARAM_5_SHADOW = 5
 MOBPARAM_WIPE_SHADOWS = 999
 
 TP_ACC_VARIES = 0
@@ -709,8 +710,10 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     --Handle shadows depending on shadow behaviour / attackType
     if (shadowbehav ~= MOBPARAM_WIPE_SHADOWS and shadowbehav ~= MOBPARAM_IGNORE_SHADOWS) then --remove 'shadowbehav' shadows.
 
-        if (skill:isAoE() or skill:isConal()) then
+        if (skill:isConal()) then
             shadowbehav = MobTakeAoEShadow(mob, target, shadowbehav)
+        elseif (skill:isAoE()) then
+            shadowbehav = MobTakeAoEShadow(mob, target, MOBPARAM_WIPE_SHADOWS)
         end
 
         dmg = utils.takeShadows(target, dmg, shadowbehav)
