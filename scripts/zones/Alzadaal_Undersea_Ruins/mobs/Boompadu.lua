@@ -21,18 +21,29 @@ function onMobSpawn(mob)
 end
 
 function onMobFight(mob, target)
-    local hitTrigger = mob:getLocalVar("TriggerHit")
-    if mob:getHPP() <= 74 and hitTrigger == 0 then
-        mob:setMod(tpz.mod.STORETP, 50)
-        mob:setLocalVar("TriggerHit", 1)
+    local hp = mob:getHPP()
+    mob:setMobMod(tpz.mobMod.SKILL_LIST, 6054)
+    -- Uses TP moves every 10 seconds at 50-100% HP, then every 5 seconds below 50.
+    if (hp < 25) then
+        mob:setMod(tpz.mod.REGAIN, 500)
+    elseif (hp < 50) then
+        mob:setMod(tpz.mod.REGAIN, 1500)
+    else
+        mob:setMod(tpz.mod.REGAIN, 1000)
     end
-    if mob:getHPP() <= 49 and hitTrigger == 1 then
-        mob:setMod(tpz.mod.STORETP, 100)
-        mob:setLocalVar("TriggerHit", 2)
-    end
-    if mob:getHPP() <= 19 and hitTrigger == 2 then
-        mob:setMod(tpz.mod.STORETP, 200)
-        mob:setLocalVar("TriggerHit", 3)
+end
+
+function onMobWeaponSkillPrepare(mob, target)
+    local hp = mob:getHPP()
+    -- 100%-66%: Dire Straight
+    -- 66%-33%: Sinker Drill
+    -- 33%-0%: Earth Shutter
+    if (hp < 33) then
+        return 2072 -- earth_shatter
+    elseif (hp < 66) then
+        return 2073 -- sinker_drill
+    else
+        return 2071 -- dire_straight
     end
 end
 

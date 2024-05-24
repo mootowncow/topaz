@@ -26,7 +26,8 @@ function onMobSkillCheck(target, mob, skill)
     local mobhp = mob:getHPP()
 	if(mob:getFamily() == 1) then --Acrolith
 		if mob:getPool() == 504 then --Boompadu
-			if mobhp > 50 and mobhp <= 100 then
+			if mobhp >= 66 then
+                printf("hi")
 				return 0
 			else
 				return 1

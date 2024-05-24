@@ -13,7 +13,7 @@ function onMobSkillCheck(target, mob, skill)
     local mobhp = mob:getHPP()
 	
 	if mob:getPool() == 504 then --Boompadu
-		if mobhp <= 25 then
+		if mobhp > 33 then
 		    return 1
 		end
 	end
