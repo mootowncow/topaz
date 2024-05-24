@@ -710,10 +710,13 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     --Handle shadows depending on shadow behaviour / attackType
     if (shadowbehav ~= MOBPARAM_WIPE_SHADOWS and shadowbehav ~= MOBPARAM_IGNORE_SHADOWS) then --remove 'shadowbehav' shadows.
 
-        if (skill:isConal()) then
-            shadowbehav = MobTakeAoEShadow(mob, target, shadowbehav)
-        elseif (skill:isAoE()) then
-            shadowbehav = MobTakeAoEShadow(mob, target, MOBPARAM_WIPE_SHADOWS)
+        if (skill:isAoE() or skill:isConal()) then
+            -- Blink is fully wiped by AOE and conal moves
+            if target:hasStatusEffect(tpz.effect.BLINK) then
+                shadowbehav = MOBPARAM_WIPE_SHADOWS
+            else
+                shadowbehav = MobTakeAoEShadow(mob, target, shadowbehav)
+            end
         end
 
         dmg = utils.takeShadows(target, dmg, shadowbehav)
