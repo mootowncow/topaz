@@ -423,7 +423,6 @@ local modByMobName =
         mob:setMod(tpz.mod.TRIPLE_ATTACK, 75)
         mob:setMod(tpz.mod.EVA, 50)
         mob:setMod(tpz.mod.DARKDEF, 256)
-        mob:setMod(tpz.mod.REGAIN, 100)
         mob:setMod(tpz.mod.MOVE, 13)
         tpz.mix.jobSpecial.config(mob, {
             specials =
@@ -533,7 +532,6 @@ local modByMobName =
     ['Krabkatoa'] = function(mob)
         mob:setDamage(150)
         mob:setMod(tpz.mod.VIT, 130)
-        mob:setMod(tpz.mod.REGAIN, 10)
     end,
 
     ['Blobdingnag'] = function(mob)
@@ -566,7 +564,6 @@ local modByMobName =
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.UDMGMAGIC, -25)
         mob:setMod(tpz.mod.UDMGBREATH, -50)
-        mob:setMod(tpz.mod.REGAIN, 50)
         mob:addStatusEffect(tpz.effect.DAMAGE_SPIKES, 100, 0, 0)
         SetBuffUndispellable(mob, tpz.effect.DAMAGE_SPIKES)
     end,
@@ -890,6 +887,7 @@ local mixinByMobName =
 local mobFightByMobName =
 {
     ['Lamprey_Lord'] = function(mob, target)
+        mob:setMod(tpz.mod.REGAIN, 100)
         TickMobAura(mob, target, auraLamprey)
     end,
 
@@ -1068,6 +1066,14 @@ local mobFightByMobName =
         end)
     end,
 
+    ['Krabkatoa'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 10)
+    end,
+
+    ['Lord_Ruthven'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 50)
+    end,
+
     ['Dawon'] = function(mob, target)
         TickMobAura(mob, target, auraDawon)
     end,
@@ -1110,7 +1116,6 @@ tpz.voidwalker.onMobEngaged = function(mob, target)
     -- end
 
     if (mobName == 'Gjenganger') then
-        printf("Ice Spikes!")
         mob:SetMagicCastingEnabled(true)
         mob:castSpell(tpz.magic.spell.ICE_SPIKES, mob)
     end
