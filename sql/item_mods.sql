@@ -8111,22 +8111,20 @@ INSERT INTO `item_mods` VALUES (12377,8,1);
 INSERT INTO `item_mods` VALUES (12377,13,2);
 INSERT INTO `item_mods` VALUES (12378,1,10);
 INSERT INTO `item_mods` VALUES (12378,2,5);
-INSERT INTO `item_mods` VALUES (12379,1,13);        -- Holy Shield
-INSERT INTO `item_mods` VALUES (12379,2,10);
-INSERT INTO `item_mods` VALUES (12379,5,10);
-INSERT INTO `item_mods` VALUES (12379,13,1);
-INSERT INTO `item_mods` VALUES (12379,25,15);       -- Accuracy +15
-INSERT INTO `item_mods` VALUES (12379,903,500);     -- Fencer +5
-INSERT INTO `item_mods` VALUES (12379,904,5);       -- Fencer +5
-INSERT INTO `item_mods` VALUES (12379,986,5);       -- Fencer +5
-INSERT INTO `item_mods` VALUES (12380,1,14);        -- Divine Shield
-INSERT INTO `item_mods` VALUES (12380,2,55);
-INSERT INTO `item_mods` VALUES (12380,5,30);
-INSERT INTO `item_mods` VALUES (12380,13,2);
-INSERT INTO `item_mods` VALUES (12380,25,17);       -- Accuracy +17
-INSERT INTO `item_mods` VALUES (12380,903,500);     -- Fencer +5
-INSERT INTO `item_mods` VALUES (12380,904,5);       -- Fencer +5
-INSERT INTO `item_mods` VALUES (12380,986,5);       -- Fencer +5
+INSERT INTO `item_mods` VALUES (12379,1,13); -- DEF 13
+INSERT INTO `item_mods` VALUES (12379,2,10); -- HP 10
+INSERT INTO `item_mods` VALUES (12379,5,10); -- MP 10
+INSERT INTO `item_mods` VALUES (12379,13,1); -- MND 1
+INSERT INTO `item_mods` VALUES (12379,25,15); -- ACC 15
+INSERT INTO `item_mods` VALUES (12379,904,5); -- FENCER_CRITHITRATE 5
+INSERT INTO `item_mods` VALUES (12379,986,5); -- FENCER_JA_HASTE 5
+INSERT INTO `item_mods` VALUES (12380,1,14); -- DEF 14
+INSERT INTO `item_mods` VALUES (12380,2,55); -- HP 55
+INSERT INTO `item_mods` VALUES (12380,5,30); -- MP 30
+INSERT INTO `item_mods` VALUES (12380,13,2); -- MND 2
+INSERT INTO `item_mods` VALUES (12380,25,17); -- ACC 17
+INSERT INTO `item_mods` VALUES (12380,904,5); -- FENCER_CRITHITRATE 5
+INSERT INTO `item_mods` VALUES (12380,986,5); -- FENCER_JA_HASTE 5
 INSERT INTO `item_mods` VALUES (12381,1,27);       -- (Charging Shield)
 INSERT INTO `item_mods` VALUES (12381,8,5);
 INSERT INTO `item_mods` VALUES (12381,12,5);
@@ -11357,14 +11355,13 @@ INSERT INTO `item_mods` VALUES (13705,25,-3);     -- Accuracy -3
 INSERT INTO `item_mods` VALUES (13705,499,2);     -- Ice spikes
 INSERT INTO `item_mods` VALUES (13705,500,20);    -- Spikes damage +20
 INSERT INTO `item_mods` VALUES (13705,501,25);    -- Spikes chance +25%
-INSERT INTO `item_mods` VALUES (13706,1,16);      -- Ogre Gloves
-INSERT INTO `item_mods` VALUES (13706,5,12);
-INSERT INTO `item_mods` VALUES (13706,8,6);
-INSERT INTO `item_mods` VALUES (13706,9,-3);
-INSERT INTO `item_mods` VALUES (13706,364,10);
-INSERT INTO `item_mods` VALUES (13706,903,100);   -- Fencer +1
-INSERT INTO `item_mods` VALUES (13706,904,1);     -- Fencer +1
-INSERT INTO `item_mods` VALUES (13706,986,1);     -- Fencer +1
+INSERT INTO `item_mods` VALUES (13706,1,16); -- DEF 16
+INSERT INTO `item_mods` VALUES (13706,5,12); -- MP 12
+INSERT INTO `item_mods` VALUES (13706,8,6); -- STR 6
+INSERT INTO `item_mods` VALUES (13706,9,-3); -- DEX -3
+INSERT INTO `item_mods` VALUES (13706,364,10); -- REWARD_HP_BONUS 10
+INSERT INTO `item_mods` VALUES (13706,904,1); -- FENCER_CRITHITRATE 1
+INSERT INTO `item_mods` VALUES (13706,986,1); -- FENCER_JA_HASTE 1
 INSERT INTO `item_mods` VALUES (13707,1,23);
 INSERT INTO `item_mods` VALUES (13708,1,13);
 INSERT INTO `item_mods` VALUES (13708,5,13);
@@ -12725,14 +12722,13 @@ INSERT INTO `item_mods` VALUES (14056,1,28);
 INSERT INTO `item_mods` VALUES (14056,2,28);
 INSERT INTO `item_mods` VALUES (14056,23,9);
 INSERT INTO `item_mods` VALUES (14056,24,9);
-INSERT INTO `item_mods` VALUES (14057,1,17);      -- Ogre Gloves +1
-INSERT INTO `item_mods` VALUES (14057,5,14);
-INSERT INTO `item_mods` VALUES (14057,8,7);
-INSERT INTO `item_mods` VALUES (14057,9,-4);
-INSERT INTO `item_mods` VALUES (14057,364,11);
-INSERT INTO `item_mods` VALUES (14057,903,100);   -- Fencer +1
-INSERT INTO `item_mods` VALUES (14057,904,1);     -- Fencer +1
-INSERT INTO `item_mods` VALUES (14057,986,1);     -- Fencer +1
+INSERT INTO `item_mods` VALUES (14057,1,17); -- DEF 17
+INSERT INTO `item_mods` VALUES (14057,5,14); -- MP 14
+INSERT INTO `item_mods` VALUES (14057,8,7); -- STR 7
+INSERT INTO `item_mods` VALUES (14057,9,-4); -- DEX -4
+INSERT INTO `item_mods` VALUES (14057,364,11); -- REWARD_HP_BONUS 11
+INSERT INTO `item_mods` VALUES (14057,904,1); -- FENCER_CRITHITRATE 1
+INSERT INTO `item_mods` VALUES (14057,986,1); -- FENCER_JA_HASTE 1
 INSERT INTO `item_mods` VALUES (14058,1,26);
 INSERT INTO `item_mods` VALUES (14058,2,20);
 INSERT INTO `item_mods` VALUES (14058,5,20);
@@ -14134,11 +14130,10 @@ INSERT INTO `item_mods` VALUES (14408,116,3);
 INSERT INTO `item_mods` VALUES (14409,1,33);      -- Gloom Breastplaste
 INSERT INTO `item_mods` VALUES (14409,96,2);      -- Souleater +10%(+2 is 0.2 which makes it 12%)
 INSERT INTO `item_mods` VALUES (14409,907,10);     -- Stalwart Soul +10%
-INSERT INTO `item_mods` VALUES (14410,1,26);      -- Nimbus Doublet
-INSERT INTO `item_mods` VALUES (14410,370,1);
-INSERT INTO `item_mods` VALUES (14410,903,500);   -- Fencer +5
-INSERT INTO `item_mods` VALUES (14410,904,5);     -- Fencer +5
-INSERT INTO `item_mods` VALUES (14410,986,5);     -- Fencer +5
+INSERT INTO `item_mods` VALUES (14410,1,26); -- DEF 26
+INSERT INTO `item_mods` VALUES (14410,370,1); -- REGEN 1
+INSERT INTO `item_mods` VALUES (14410,904,5); -- FENCER_CRITHITRATE 5
+INSERT INTO `item_mods` VALUES (14410,986,5); -- FENCER_JA_HASTE 5
 INSERT INTO `item_mods` VALUES (14411,1,33);      -- Aikido Gi
 INSERT INTO `item_mods` VALUES (14411,10,4);
 INSERT INTO `item_mods` VALUES (14411,11,2);
@@ -15218,12 +15213,11 @@ INSERT INTO `item_mods` VALUES (14728,12,2);
 INSERT INTO `item_mods` VALUES (14739,11,2);
 INSERT INTO `item_mods` VALUES (14739,82,5);
 INSERT INTO `item_mods` VALUES (14739,259,5);
-INSERT INTO `item_mods` VALUES (14740,10,2);        -- Knight's Earring
-INSERT INTO `item_mods` VALUES (14740,109,5);
-INSERT INTO `item_mods` VALUES (14740,111,5);
-INSERT INTO `item_mods` VALUES (14740,903,300);     -- Fencer +3
-INSERT INTO `item_mods` VALUES (14740,904,3);       -- Fencer +3
-INSERT INTO `item_mods` VALUES (14740,986,3);       -- Fencer +3
+INSERT INTO `item_mods` VALUES (14740,10,2); -- VIT 2
+INSERT INTO `item_mods` VALUES (14740,109,5); -- SHIELD 5
+INSERT INTO `item_mods` VALUES (14740,111,5); -- DIVINE 5
+INSERT INTO `item_mods` VALUES (14740,904,3); -- FENCER_CRITHITRATE 3
+INSERT INTO `item_mods` VALUES (14740,986,3); -- FENCER_JA_HASTE 3
 INSERT INTO `item_mods` VALUES (14741,12,2);        -- Abyssal Earring
 INSERT INTO `item_mods` VALUES (14741,86,5);
 INSERT INTO `item_mods` VALUES (14741,116,5);
@@ -24030,13 +24024,12 @@ INSERT INTO `item_mods` VALUES (18854,2,30);
 INSERT INTO `item_mods` VALUES (18854,5,30);
 INSERT INTO `item_mods` VALUES (18854,28,4);
 INSERT INTO `item_mods` VALUES (18854,296,4);
-INSERT INTO `item_mods` VALUES (18856,5,30);      -- Deae Gratia
-INSERT INTO `item_mods` VALUES (18856,23,9);
-INSERT INTO `item_mods` VALUES (18856,25,9);
-INSERT INTO `item_mods` VALUES (18856,903,100);   -- Fencer +1
-INSERT INTO `item_mods` VALUES (18856,904,1);     -- Fencer +1
-INSERT INTO `item_mods` VALUES (18856,986,1);     -- Fencer +1
-INSERT INTO `item_mods` VALUES (18856,291,1);
+INSERT INTO `item_mods` VALUES (18856,5,30); -- MP 30
+INSERT INTO `item_mods` VALUES (18856,23,9); -- ATT 9
+INSERT INTO `item_mods` VALUES (18856,25,9); -- ACC 9
+INSERT INTO `item_mods` VALUES (18856,904,1); -- FENCER_CRITHITRATE 1
+INSERT INTO `item_mods` VALUES (18856,986,1); -- FENCER_JA_HASTE 1
+INSERT INTO `item_mods` VALUES (18856,291,1); -- COUNTER 1
 INSERT INTO `item_mods` VALUES (18857,2,-20);
 INSERT INTO `item_mods` VALUES (18857,5,20);
 INSERT INTO `item_mods` VALUES (18857,28,10);
