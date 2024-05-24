@@ -162,7 +162,7 @@ Upgraded abyssite of player who didn't pop, but acted first on the mob?
 
 **** NOW ***
 Sic merits don't work?
-Remove TP bonus off fencer+ items like knightly earring
+Ogre Gloves fencer buffed to 2/3%(NO TP BONUS)
 Update retail
 Zdei in cubbys can't aggro people in hall? need longer sight aggro range on them?
 General — Today at 5:36 PM
