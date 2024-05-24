@@ -783,11 +783,8 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::SLOWRESTRAIT, 0);
             }
-		 if (PMob->m_Family != 3)  // Exclude Aerns, should only summon in combat and hide their jobs
-		 {
-            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 5);
             PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 100); // SMN only has "buffs"
-		 }
             break;
         case JOB_NIN:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -889,7 +886,7 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::BINDRESTRAIT, 0);
             }
-            // Exclube Fomors, Animated Weapons and Mamools
+            // Exclude Fomors, Animated Weapons and Mamools
             if (PMob->m_Family != 176 && PMob->m_Family != 115 && PMob->m_Family != 359 && PMob->m_Family != 509 && PMob->m_Family != 17)
             {
                 if (PMob->m_Family == 3)
