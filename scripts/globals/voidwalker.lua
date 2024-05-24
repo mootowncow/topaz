@@ -1305,7 +1305,7 @@ function SetCurrentResistsErebus(mob)
         mob:setMod(tpz.mod.EEM_PETRIFY, 5)
         mob:setMod(tpz.mod.EEM_TERROR, 5)
         mob:setMod(tpz.mod.SDT_THUNDER, 5)
-        mob:setMod(tpz.mod.SDT_THUNDER, 5)
+        mob:setMod(tpz.mod.EEM_STUN, 5)
         mob:setMod(tpz.mod.SDT_WIND, 150)
     elseif currentAbsorb == 5 then --Lightning
         mob:setSpellList(528)
