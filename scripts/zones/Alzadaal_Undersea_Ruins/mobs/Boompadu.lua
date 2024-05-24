@@ -20,9 +20,12 @@ function onMobSpawn(mob)
 	mob:setMod(tpz.mod.GRAVITYRESTRAIT, 100)
 end
 
+function onMobRoam(mob)
+    mob:setMod(tpz.mod.REGAIN, 0)
+end
+
 function onMobFight(mob, target)
     local hp = mob:getHPP()
-    mob:setMobMod(tpz.mobMod.SKILL_LIST, 6054)
     -- Uses TP moves every 10 seconds at 50-100% HP, then every 5 seconds below 50.
     if (hp < 25) then
         mob:setMod(tpz.mod.REGAIN, 500)
