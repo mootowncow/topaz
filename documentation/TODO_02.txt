@@ -164,6 +164,10 @@ T1 Ghost cast sleepga2 OR ice spikes on spawn
 
 **** NOW ***
 Do holy waters work?
+Sic merits don't work?
+Remove TP bonus off fencer+ items like knightly earring
+Mob AOE moves should auto-wipe blink and not be absorbed
+Earthshatter needs same logic as dark ixion(or acroliths need it rather) and tp moves should go off even if targets go OOE
 Sleepga II landed on -95% sleep EEM evolved qutrub?!
 Heady Artifice shares CD with deus ex machina, change deus ex machina to sentinel
 Manawell should be removed if dmg is taken(flag on status effect)
@@ -217,7 +221,7 @@ Dark Ixion pathing is broken
 Shikigami weapon pathing
 17182795 Yagudo Prioress missing pet(maybe all SMN in castle oztroja [s] are?). Yagudo Superior by Asterion properly has a pet..wtf?
 Retune the SCNM BCNMs
-Missing ANNM fights(the TODO ones on wiki?)
+Missing ANNM fights(the TODO ones on wiki?) and retune decimation weapon augment(too high %)
 Revival tree root drop rate? 10-15%? Check FFXIDB
 Handle for Asterion, Forneus,(probably fleshgnasher and Vee Ladu doesn't work(isnt clickable)? Copy handle behind the 4 handle door where it says "its locked" when behind
 Providence shouldn't be removed by being parad, make add another mixin for where para procs are? Or what "is interruoted" counts as para? or something if msg ~= para idk
@@ -236,6 +240,7 @@ BLU relic? boots suck
 UL spell ranges slightly too short
 Move Apollyon NE limbus Gigas to correct spots https://www.bg-wiki.com/ffxi/Apollyon_NE
 https://github.com/LandSandBoat/server/issues/5127
+capacity point chains should work and be super lenient, like 1-3m to get next chain
 Buff Charger / Jaeger / Gunner mantle
 Better logic for behind TP moves like clobber, they get used if in front or side very often. Copy Yilbegan
 Sky Curtana ??? should be random
