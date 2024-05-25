@@ -27,25 +27,6 @@ end
 
 
 function onMobFight(mob, target)
-    if mob:hasStatusEffect(tpz.effect.PHALANX) then
-        mob:setMod(tpz.mod.SDT_FIRE, 50)
-        mob:setMod(tpz.mod.SDT_ICE, 20)
-        mob:setMod(tpz.mod.SDT_WIND, 50)
-        mob:setMod(tpz.mod.SDT_EARTH, 50)
-        mob:setMod(tpz.mod.SDT_THUNDER, 20)
-        mob:setMod(tpz.mod.SDT_WATER, 50)
-        mob:setMod(tpz.mod.SDT_LIGHT, 50)
-        mob:setMod(tpz.mod.SDT_DARK, 50)
-    else
-        mob:setMod(tpz.mod.SDT_FIRE, 70)
-        mob:setMod(tpz.mod.SDT_ICE, 50)
-        mob:setMod(tpz.mod.SDT_WIND, 100)
-        mob:setMod(tpz.mod.SDT_EARTH, 70)
-        mob:setMod(tpz.mod.SDT_THUNDER, 50)
-        mob:setMod(tpz.mod.SDT_WATER, 70)
-        mob:setMod(tpz.mod.SDT_LIGHT, 70)
-        mob:setMod(tpz.mod.SDT_DARK, 70)
-    end
 end
 
 function onMobWeaponSkillPrepare(mob, target)
