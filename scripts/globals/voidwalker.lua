@@ -1141,12 +1141,7 @@ tpz.voidwalker.onMobFight = function(mob, target)
     local poptime = mob:getLocalVar("[VoidWalker]PopedAt")
     local now     = os.time()
 
-    if
-        mob:isSpawned() and
-        (
-            now > (poptime + 7200) or
-            mob:checkDistance(target) > 100
-        )
+    if mob:isSpawned() and (now > (poptime + 7200))
     then
         local zoneTextTable = zones[mob:getZoneID()].text
 
