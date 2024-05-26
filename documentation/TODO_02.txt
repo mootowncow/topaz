@@ -158,10 +158,28 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Voidwalker:
+A north gustaberg spawn is bugged (south by mountains where in the past you can go up the mountain)
+Add the crafted drops items they make(Like Fyja torque or w/e as an NQ/HQ grouped drop rare/ex)
+Full set of gear from original 5...Maybe Cruor Gear?
+Yillbegan drop rare(not ex) weapons as well
+Lamprey lord poison should delete enpoison before applying
+
+/heal needs to show lower rank abyssite if current has none within range (getNearestMob)
+Check all immunities with mobdb
 Upgraded abyssite of player who didn't pop, but acted first on the mob?
+Skuld aggro random person after resetting enmmity on CS spell casts (east ronfaure[s] mandy ANNM logic?) (deaggroPlayer and pulse update enmity on all players in zone?)
 
 **** NOW ***
+Readd summoning adds to mother globe, or is she bugged?
+Make cooldown add a rune with a 30s duration that's consumed instead of using a var
+thunder and light shot needs to DR..maybe need to update TryApplyEffect to work for abilities or also add an ability version
+applyResistanceAddEffect(player, target, element, bonus, effect, skill) should be used for stuff like feral howl and aura steal?
+Does wild card JA reset and random deal even work?
+Add submodules for losnavmeshes and navmeshes(update to new one) https://github.blog/2016-02-01-working-with-submodules/
+Wisecrack two_hour flag(2?)
 Sic merits don't work?
+Ic Pilav bun(new item)
+Tortoise song said 255 effects removed (Resisted  or tpz.effect.NONE I think?)
 Ogre Gloves fencer buffed to 2/3%(NO TP BONUS)
 Update retail
 Zdei in cubbys can't aggro people in hall? need longer sight aggro range on them?
@@ -177,8 +195,8 @@ applyResistanceAddEffect()
 not mob:hasPreventActionEffect() to qultada talking/using stuff
 tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
 Ampitheatre pathing broken?
+Fomor HNM's(Lugh etc)
 
-applyResistanceAddEffect(player, target, element, bonus, effect, skill) should be used for stuff like feral howl and aura steal?
 
 How does slug shot do 61 instead of 400+ dmg? It's 1 hit
 AddDimishingReturns should use 1 var for sleep and not different ones(sleep_I and sleep_II all share 1 DR). Also add AddDimishingReturns to light shot, and light shot shares DR with sleep
@@ -221,6 +239,7 @@ Mobs that aggro by sound and sound and are true aggro don't seem to link by both
 Impact / Comet / Meteor given to BLM
 Logic for mob TP moves going off even if target is out of range (Dark Ixion one doesnt work)
 Impact / Comet / Meteor given to BLM via items from long grinds (RMEA? Especially strongholdLM via items from long grinds (RMEA? Especially stronghold one?)
+NO_EFFECT msg missing from simplelog
 Hunts
 WOE
 
@@ -240,7 +259,7 @@ Avatars (mostly dynamis) should use 2 hr if they wake up while master has astral
 Only take ZNM items on ZNM kill not pop
 Gotoh Zha the Redolent SDT/EEM in sql (Copy whats in its lua)
 JP wiki for killer weapon/armor percentages
-Buff: https://www.bg-wiki.com/ffxi/Orange_Kuchen and https://www.bg-wiki.com/ffxi/Army_Biscuit and https://ffxiclopedia.fandom.com/wiki/Patlican_Salata
+Buff: Meatloaf(Add HP and +5 ACC) https://www.bg-wiki.com/ffxi/Orange_Kuchen and https://www.bg-wiki.com/ffxi/Army_Biscuit and https://ffxiclopedia.fandom.com/wiki/Patlican_Salata and Bataquiche and Nopales Salad
 Gaze TP moves have insane bonus MACC, terror moves can be resisted normally, just terror gaze is the exception(?)
 +Asylum / Misery / Auspice effect gear
 Ziz animation sub change after using TP moves? (Give some type of stat boost from it too!)
@@ -308,6 +327,7 @@ https://github.com/CatsAndBoats/catseyexi/commit/44c224771817019b18a5b5c53c9692c
 
 Pet magic burst msg(maybe I fixed this already too?)
 https://github.com/AirSkyBoat/AirSkyBoat/commit/24c2586c5851dfa5ec26b08fa512d097bc6adf67
+https://github.com/LandSandBoat/server/commit/039f4fd601996488fb1d3cf5ed4664bbe70c5e33
 
 Player H2H
 https://github.com/CatsAndBoats/catseyexi/commit/6f993553f042af71e295def246d20e6b209d46ce
@@ -490,8 +510,6 @@ https://docs.google.com/document/d/1ucbGM1HzEbNaYra-lPvhrK0y66GTvi6pJtuoxfRs-qU/
 
 https://docs.google.com/document/d/109r9-j6k8QcgZNMfCzVFBMdpiFaaaWmxrjcVYGZLU_E/edit
 
-https://ffxiclopedia.fandom.com/wiki/Bataquiche buff
-
 Ixion
 https://github.com/LandSandBoat/server/commit/97f7529461bd66e58beee287b67cd25387832ad0
 
@@ -514,6 +532,7 @@ Rune Fencer Merits:
 https://github.com/AirSkyBoat/AirSkyBoat/commit/f1c415bb239c9afdc4247eb1b2444433f8671341
 
 DATS:
+AM1 cast times
 Mystic Boon / Asylum and Footwork descriptions
 Buff Noble's / Aristocrat's Crown / Mitts / Slacks  / Pumps  
 Birdman cape diff stats
