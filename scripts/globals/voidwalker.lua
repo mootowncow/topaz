@@ -589,7 +589,7 @@ local mixinByMobName =
 {
     ['Capricornus'] = function(mob)
         doMobSkillEveryHPP(mob, 20, 80, tpz.jsa.MIGHTY_STRIKES, not mob:hasStatusEffect(tpz.effect.MIGHTY_STRIKES))
-        if mob:hasStatusEffect(tpz.effect.MIGHTY_STRIKES) and not mobIsBusy(mob) then
+        if mob:hasStatusEffect(tpz.effect.MIGHTY_STRIKES) and not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
             mob:useMobAbility(tpz.mob.skills.RECOIL_DIVE)
         end
         if mob:getHPP() < 50 then
