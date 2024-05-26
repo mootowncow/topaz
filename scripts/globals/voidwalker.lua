@@ -402,7 +402,7 @@ local modByMobName =
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.HUNDRED_FISTS, cooldown = 120, hpp = math.random(10, 15)},
+                {id = tpz.jsa.HUNDRED_FISTS, cooldown = 180, hpp = math.random(10, 15)},
             },
         })
     end,
@@ -412,7 +412,7 @@ local modByMobName =
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 90, hpp = math.random(10, 15)},
+                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 180, hpp = math.random(10, 15)},
             },
         })
     end,
@@ -427,7 +427,7 @@ local modByMobName =
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.BLOOD_WEAPON, cooldown = 90, hpp = math.random(10, 15)},
+                {id = tpz.jsa.BLOOD_WEAPON, cooldown = 180, hpp = math.random(10, 15)},
             },
         })
     end,
@@ -438,7 +438,7 @@ local modByMobName =
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.CHAINSPELL, cooldown = 90, hpp = math.random(10, 15)},
+                {id = tpz.jsa.CHAINSPELL, cooldown = 180, hpp = math.random(10, 15)},
             },
         })
     end,
@@ -449,7 +449,7 @@ local modByMobName =
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 90, hpp = math.random(10, 15)},
+                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 180, hpp = math.random(10, 15)},
             },
         })
     end,
@@ -462,7 +462,7 @@ local modByMobName =
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.PERFECT_DODGE, cooldown = 90, hpp = math.random(10, 15)},
+                {id = tpz.jsa.PERFECT_DODGE, cooldown = 180, hpp = math.random(10, 15)},
             },
         })
     end,
@@ -474,7 +474,7 @@ local modByMobName =
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.CHAINSPELL, cooldown = 120, hpp = math.random(10, 15)},
+                {id = tpz.jsa.CHAINSPELL, cooldown = 180, hpp = math.random(10, 15)},
             },
         })
         mob:setLocalVar("currentElement", math.random(1, 8))
@@ -487,7 +487,7 @@ local modByMobName =
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.TRANCE, cooldown = 120, hpp = math.random(10, 15)},
+                {id = tpz.jsa.TRANCE, cooldown = 180, hpp = math.random(10, 15)},
             },
         })
     end,
@@ -502,7 +502,7 @@ local modByMobName =
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.BLOOD_WEAPON, cooldown = 120, hpp = math.random(10, 15)},
+                {id = tpz.jsa.BLOOD_WEAPON, cooldown = 180, hpp = math.random(10, 15)},
             },
         })
     end,
