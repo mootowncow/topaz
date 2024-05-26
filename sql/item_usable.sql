@@ -1675,7 +1675,7 @@ INSERT INTO `item_usable` VALUES (5866,'toolbag_(mokujin)',1,1,55,0,0,0,0,0,0,0)
 INSERT INTO `item_usable` VALUES (5867,'toolbag_(inoshishinofuda)',1,4,55,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5868,'toolbag_(shikanofuda)',1,4,55,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5869,'toolbag_(chonofuda)',1,4,55,0,0,0,0,0,0,0);
-INSERT INTO `item_usable` VALUES (5870,'trump_card_case',1,4,0,0,0,0,0,0,0,0);
+INSERT INTO `item_usable` VALUES (5870,'trump_card_case',1,1,0,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5871,'ruszor_quiver',1,4,55,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5872,'dark_adaman_bolt_quiver',1,4,55,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5873,'dark_adaman_bullet_pouch',1,4,55,0,0,0,0,0,0,0);
