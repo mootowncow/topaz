@@ -2762,6 +2762,16 @@ INSERT INTO `mob_skill_lists` VALUES ('Jug_Adamantoise', 1197, 753);
 INSERT INTO `mob_skill_lists` VALUES ('Jug_Adamantoise', 1197, 754);
 INSERT INTO `mob_skill_lists` VALUES ('Jug_Adamantoise', 1197, 755);
 
+-- Qultada (Breaking the Bonds of Fate)
+INSERT INTO `mob_skill_lists` VALUES ('QultadaSword',1195,39); -- Spirits Within
+INSERT INTO `mob_skill_lists` VALUES ('QultadaSword',1195,42); -- Savage Blade
+
+-- Qultada (Mythic Weapon)
+INSERT INTO `mob_skill_lists` VALUES ('Qultada-Mythic',1196,39);    -- Spirits Within
+INSERT INTO `mob_skill_lists` VALUES ('Qultada-Mythic',1196,42);    -- Savage Blade
+INSERT INTO `mob_skill_lists` VALUES ('Qultada-Mythic',1196,212);   -- Slugshot
+INSERT INTO `mob_skill_lists` VALUES ('Qultada-Mythic',1196,3253);  -- Leaden Salute
+
 INSERT INTO `mob_skill_lists` VALUES ('ShikareeWyvernReqOfSin',1198,896);
 INSERT INTO `mob_skill_lists` VALUES ('ShikareeWyvernReqOfSin',1198,900);
 INSERT INTO `mob_skill_lists` VALUES ('ShikareeWyvernReqOfSin',1198,901);
@@ -2782,15 +2792,8 @@ INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,1942); -- arcuballista
 INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,2066); -- daze
 INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,2300); -- armor_piercer
 
--- Qultada (Breaking the Bonds of Fate)
-INSERT INTO `mob_skill_lists` VALUES ('QultadaSword',1195,39); -- Spirits Within
-INSERT INTO `mob_skill_lists` VALUES ('QultadaSword',1195,42); -- Savage Blade
 
--- Qultada (Mythic Weapon)
-INSERT INTO `mob_skill_lists` VALUES ('Qultada-Mythic',1196,39);    -- Spirits Within
-INSERT INTO `mob_skill_lists` VALUES ('Qultada-Mythic',1196,42);    -- Savage Blade
-INSERT INTO `mob_skill_lists` VALUES ('Qultada-Mythic',1196,212);   -- Slugshot
-INSERT INTO `mob_skill_lists` VALUES ('Qultada-Mythic',1196,3253);  -- Leaden Salute
+INSERT INTO `mob_skill_lists` VALUES ('Capricornus-MS',1202,641); -- Recoil Dive Only
 
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
@@ -4822,6 +4825,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,169); -- black_hal
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,250); -- carnal_nightmare
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,252); -- dancing_chains
 
--- Next available ID: 1201
+-- Next available ID: 1203
 -- Next custom ID: 6153
 

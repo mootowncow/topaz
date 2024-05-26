@@ -589,8 +589,11 @@ local mixinByMobName =
 {
     ['Capricornus'] = function(mob)
         doMobSkillEveryHPP(mob, 20, 80, tpz.jsa.MIGHTY_STRIKES, not mob:hasStatusEffect(tpz.effect.MIGHTY_STRIKES))
-        if mob:hasStatusEffect(tpz.effect.MIGHTY_STRIKES) and not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
-            mob:useMobAbility(tpz.mob.skills.RECOIL_DIVE)
+        if mob:hasStatusEffect(tpz.effect.MIGHTY_STRIKES) then
+            mob:setTP(3000)
+            mob:setMobMod(tpz.mobMod.SKILL_LIST, 1202)
+        else
+            mob:setMobMod(tpz.mobMod.SKILL_LIST, 1179)
         end
 
         if mob:getHPP() < 50 then
