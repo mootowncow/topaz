@@ -424,7 +424,7 @@ local modByMobName =
     end,
 
     ['Lamprey_Lord'] = function(mob)
-        mob:setDamage(140)
+        mob:setDamage(40)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 50)
         mob:setMod(tpz.mod.TRIPLE_ATTACK, 75)
         mob:setMod(tpz.mod.EVA, 50)
@@ -897,6 +897,7 @@ local mixinByMobName =
 local mobFightByMobName =
 {
     ['Lamprey_Lord'] = function(mob, target)
+        mob:setDamage(40)
         mob:setMod(tpz.mod.REGAIN, 100)
         TickMobAura(mob, target, auraLamprey)
     end,
