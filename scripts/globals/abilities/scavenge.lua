@@ -81,8 +81,6 @@ local items = {
             4114, -- Potion +2
             4115, -- Potion +3
             4116, -- Hi-potion
-            4128, -- Ether
-            4129, -- Ether +1
             4148, -- Antidote
             4150, -- Eye Drops
         },
@@ -92,7 +90,6 @@ local items = {
             4115, -- Potion +3
             4117, -- Hi-potion +1
             4118, -- Hi-potion +2
-            4130, -- Ether +2
             4148, -- Antidote
             4150, -- Eye Drops
             4151, -- Echo Drops
@@ -103,7 +100,6 @@ local items = {
             4117, -- Hi-potion +1
             4118, -- Hi-potion +2
             4119, -- Hi-potion +3
-            4131, -- Ether +3
             4148, -- Antidote
             4150, -- Eye Drops
             4151, -- Echo Drops
@@ -114,7 +110,6 @@ local items = {
             4117, -- Hi-potion +1
             4118, -- Hi-potion +2
             4119, -- Hi-potion +3
-            4131, -- Ether +3
             4148, -- Antidote
             4150, -- Eye Drops
             4151, -- Echo Drops
@@ -125,7 +120,6 @@ local items = {
             4117, -- Hi-potion +1
             4118, -- Hi-potion +2
             4119, -- Hi-potion +3
-            4132, -- Hi-ether
             4148, -- Antidote
             4150, -- Eye Drops
             4151, -- Echo Drops
@@ -137,7 +131,6 @@ local items = {
             4117, -- Hi-potion +1
             4118, -- Hi-potion +2
             4119, -- Hi-potion +3
-            4132, -- Hi-ether
             4150, -- Eye Drops
             4154, -- Holy Water
         }
