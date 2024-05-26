@@ -153,12 +153,18 @@ local getNearestMob = function(player, mobs)
     for _, v in ipairs(mobs) do
         local mob      = GetMobByID(v.mobId)
         local distance = player:checkDistance(mob)
+        local level    = mob:getMainLvl() -- Using getMainLvl to get the mob's level
 
-        table.insert(results, { mobId = v.mobId, keyItem = v.keyItem, distance = distance })
+        table.insert(results, { mobId = v.mobId, keyItem = v.keyItem, distance = distance, level = level })
     end
 
+    -- Sort by level first (higher level first), then by distance (closest first)
     table.sort(results, function(a, b)
-        return a.distance < b.distance
+        if a.level == b.level then
+            return a.distance < b.distance
+        else
+            return a.level > b.level
+        end
     end)
 
     if #results > 0 then
