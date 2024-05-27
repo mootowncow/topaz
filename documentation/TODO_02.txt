@@ -158,34 +158,24 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Voidwalker:
+WILL NOT SPAWN MOBS ON TOP OF YOU. Priotorizes higher level mobs over distance! Check distance first!
 A north gustaberg spawn is bugged (south by mountains where in the past you can go up the mountain)
 Add the crafted drops items they make(Like Fyja torque or w/e as an NQ/HQ grouped drop rare/ex)
 Full set of gear from original 5...Maybe Cruor Gear?
 Yillbegan drop rare(not ex) weapons as well
 Lamprey lord poison should delete enpoison before applying
 
-/heal needs to show lower rank abyssite if current has none within range (getNearestMob)
 Check all immunities with mobdb
-Upgraded abyssite of player who didn't pop, but acted first on the mob?
 Skuld aggro random person after resetting enmmity on CS spell casts (east ronfaure[s] mandy ANNM logic?) (deaggroPlayer and pulse update enmity on all players in zone?)
 
 **** NOW ***
-Does sacrifice work?
 Nakuals set weather to none on disengage
-PUP shield bash shouldn't ignore stun SDT if its -95%(same with pld and weapon bash)
-Readd summoning adds to mother globe, or is she bugged?
-Make cooldown add a rune with a 30s duration that's consumed instead of using a var
-Do BLU spells DR? TryApplyBLUEffect()? stun most important!! ... if they don't just make stuns use TryApplyEffect()
-reduce tp move range of the autos from  all mobs/wkr mobs (should be like 3-50?
 move tchakka to the big room
-thunder and light shot needs to DR..maybe need to update TryApplyEffect to work for abilities or also add an ability version
 applyResistanceAddEffect(player, target, element, bonus, effect, skill) should be used for stuff like feral howl and aura steal?
 Does wild card JA reset and random deal even work?
 Add submodules for losnavmeshes and navmeshes(update to new one) https://github.blog/2016-02-01-working-with-submodules/
-Wisecrack two_hour flag(2?)
 Sic merits don't work?
 Ic Pilav bun(new item)
-Tortoise song said 255 effects removed (Resisted  or tpz.effect.NONE I think?)
 Ogre Gloves fencer buffed to 2/3%(NO TP BONUS)
 Update retail
 Zdei in cubbys can't aggro people in hall? need longer sight aggro range on them?
