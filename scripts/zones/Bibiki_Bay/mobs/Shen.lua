@@ -15,11 +15,11 @@ function onMobFight(mob,target)
             if mob:getBattleTime() >= 45 or mob:getHPP() <= 33 then
                 pet:spawn()
                 pet:updateClaim(target)
-                pet:setMobMod(tpz.mobMod.SHARE_TARGET, mob:getTargID())
+                pet:setMobMod(tpz.mobMod.SHARE_TARGET, mob:getTarget())
             end
         end
         if pet:isSpawned() then
-            pet:setMobMod(tpz.mobMod.SHARE_TARGET, mob:getTargID())
+            pet:setMobMod(tpz.mobMod.SHARE_TARGET, mob:getTarget())
         end
     end
     mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 180)
