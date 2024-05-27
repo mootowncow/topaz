@@ -1,6 +1,6 @@
 ---------------------------------------------
 -- Dissipation
--- Dispels all buffs add terror effect
+-- Dispels all and add terror effect
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
@@ -18,7 +18,7 @@ function onMobWeaponSkill(target, mob, skill)
 
     local count =  MobFullDispelMove(mob, target, skill, tpz.effectFlag.DISPELABLE)
 
-    if (count == 0) then
+    if (count == 0 or count == tpz.effect.NONE) then
         skill:setMsg(tpz.msg.basic.SKILL_MISS)
     else
         skill:setMsg(tpz.msg.basic.DISAPPEAR_NUM)
