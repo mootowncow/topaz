@@ -98,7 +98,7 @@ function onUseAbility(player, target, ability)
     regenAmount = regenAmount * bonus
 
     -- Cooldown logic
-    if (player:getLocalVar("[PUP]Cooldown") > 0) then
+    if player:hasStatusEffect(tpz.effect.LUX) then
         local playerCurrentHP = player:getHP()
         local playerMaxHP = player:getMaxHP()
         local playerdiff = playerMaxHP - playerCurrentHP
@@ -135,7 +135,7 @@ function onUseAbility(player, target, ability)
     pet:addStatusEffect(tpz.effect.REGEN, regenAmount, 3, regenTime) -- 3 = tick, each 3 seconds.
     player:removeAmmo()
     player:updateEnmityFromCure(pet, totalHealing)
-    player:setLocalVar("[PUP]Cooldown", 0)
+    player:delStatusEffect(tpz.effect.LUX)
 
     return totalHealing
 end

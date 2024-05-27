@@ -18,5 +18,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    player:setLocalVar("[PUP]Cooldown", 1)
+    player:addStatusEffect(tpz.effect.LUX, 1, 0, 30)
 end

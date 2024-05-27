@@ -108,7 +108,7 @@ function onUseAbility(player, target, ability)
         removed = removed + 1
     until (toremove <= 0)
 
-    if (player:getLocalVar("[PUP]Cooldown") > 0) then
+    if player:hasStatusEffect(tpz.effect.LUX) then
         local toremovePlayer = idStrengths[id] or 1
         local removed = 0
 
@@ -126,7 +126,7 @@ function onUseAbility(player, target, ability)
     else
         target:messagePublic(tpz.msg.basic.NO_EFFECT, pet)
     end
-    player:setLocalVar("[PUP]Cooldown", 0)
+    player:delStatusEffect(tpz.effect.LUX)
 
     return effectID
 end
