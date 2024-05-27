@@ -21,6 +21,7 @@ function spawnPetInBattle(mob, pet)
         mob:SetMobAbilityEnabled(true)
         pet:spawn()
         pet:updateEnmity(mob:getTarget())
+        pet:setMobMod(tpz.mobMod.SHARE_TARGET, mob:getTarget())
     end)
 end
 
@@ -161,11 +162,6 @@ function onMobFight(mob, target)
 	if not mob:hasStatusEffect(tpz.effect.SHOCK_SPIKES) then
 		mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 65, 0, 3600)
 	end
-
-    -- Slave Globes attack the same target as Mother Globe
-    for v = ID.mob.MOTHER_GLOBE.SLAVE_START, ID.mob.MOTHER_GLOBE.SLAVE_END do
-        v:setMobMod(tpz.mobMod.SHARE_TARGET, mob:getTargID())
-    end
 
     if slaves > 6 then
         mob:setLocalVar("SlavesSpawned", 0)
