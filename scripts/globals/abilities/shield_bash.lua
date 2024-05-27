@@ -30,6 +30,8 @@ function onUseAbility(player, target, ability)
     local jpValue    = player:getJobPointLevel(tpz.jp.SHIELD_BASH_EFFECT)
     local damage = 0
     local chance = 99
+    local stunEEM = target:getMod(tpz.mod.EEM_STUN)
+
     damage = player:getMod(tpz.mod.SHIELD_BASH) + (jpValue * 10)
 
     if shieldSize == 1 or shieldSize == 5 then
@@ -51,7 +53,11 @@ function onUseAbility(player, target, ability)
     end
 
     -- Calculate stun proc chance
-    if (math.random()*100 < 99) and not target:hasStatusEffect(tpz.effect.STUN) then
+    if
+        (math.random()*100 < 99) and
+        not target:hasStatusEffect(tpz.effect.STUN) and
+        (stunEEM > 5)
+    then
         -- Highlander's Targe Hidden Effect
         local shield = player:getEquipID(tpz.slot.SUB)
 	    if shield == 12362 then -- Highlander's Targe

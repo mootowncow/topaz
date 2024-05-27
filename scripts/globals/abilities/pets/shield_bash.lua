@@ -27,12 +27,17 @@ function onPetAbility(target, pet, skill, master, action)
     params.NO_TP_CONSUMPTION = true
 
     local chance = 75
+    local stunEEM = target:getMod(tpz.mod.EEM_STUN)
 
     if (pet:getMod(tpz.mod.SHIELD_BASH) > 0) then -- 100% chance to stun if Hammermill is equipped
         chance = 100
     end
 
-    if (math.random() * 100 <= chance) then
+    if
+        (math.random() * 100 <= chance) and
+        not target:hasStatusEffect(tpz.effect.STUN) and
+        (stunEEM > 5)
+    then
         target:addStatusEffect(tpz.effect.STUN, 1, 0, 6)
     end
 

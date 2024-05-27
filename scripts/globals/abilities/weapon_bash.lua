@@ -27,8 +27,13 @@ function onUseAbility(player, target, ability)
         return ability:setMsg(tpz.msg.basic.JA_MISS)
     end
 
+    local stunEEM = target:getMod(tpz.mod.EEM_STUN)
     -- Applying Weapon Bash stun. Rate is said to be near 100%, so let's say 99%.
-    if (math.random()*100 < 99) and not target:hasStatusEffect(tpz.effect.STUN) then
+    if
+        (math.random()*100 < 99) and
+        not target:hasStatusEffect(tpz.effect.STUN) and
+        (stunEEM > 5)
+    then
         target:addStatusEffect(tpz.effect.STUN, 1, 0, 4)
     end
 
