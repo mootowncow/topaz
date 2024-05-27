@@ -1,3 +1,6 @@
 [submodule "navmeshes"]
 	path = navmeshes
 	url = https://github.com/LandSandBoat/xiNavmeshes/tree/68725a11f24341e00ac798987e35f67b34ea6f0f
+[submodule "losmeshes"]
+	path = losmeshes
+	url = https://github.com/EdenServer/losmeshes
