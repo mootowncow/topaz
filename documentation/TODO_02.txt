@@ -170,8 +170,13 @@ Upgraded abyssite of player who didn't pop, but acted first on the mob?
 Skuld aggro random person after resetting enmmity on CS spell casts (east ronfaure[s] mandy ANNM logic?) (deaggroPlayer and pulse update enmity on all players in zone?)
 
 **** NOW ***
+PUP shield bash shouldn't ignore stun SDT if its -95%(same with pld and weapon bash)
+Maintenance shouldnt dispel things if waltzable flag or w/e
 Readd summoning adds to mother globe, or is she bugged?
 Make cooldown add a rune with a 30s duration that's consumed instead of using a var
+Do BLU spells DR? TryApplyBLUEffect()? stun most important!! ... if they don't just make stuns use TryApplyEffect()
+reduce tp move range of the autos from  all mobs/wkr mobs (should be like 3-50?
+move tchakka to the big room
 thunder and light shot needs to DR..maybe need to update TryApplyEffect to work for abilities or also add an ability version
 applyResistanceAddEffect(player, target, element, bonus, effect, skill) should be used for stuff like feral howl and aura steal?
 Does wild card JA reset and random deal even work?
@@ -217,6 +222,7 @@ Dark Ixion pathing is broken
 Shikigami weapon pathing
 17182795 Yagudo Prioress missing pet(maybe all SMN in castle oztroja [s] are?). Yagudo Superior by Asterion properly has a pet..wtf?
 Retune the SCNM BCNMs
+Dangruf Sprouts don't work
 Missing ANNM fights(the TODO ones on wiki?) and retune decimation weapon augment(too high %)
 Revival tree root drop rate? 10-15%? Check FFXIDB
 Handle for Asterion, Forneus,(probably fleshgnasher and Vee Ladu doesn't work(isnt clickable)? Copy handle behind the 4 handle door where it says "its locked" when behind

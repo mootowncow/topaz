@@ -56,9 +56,14 @@ function onUseAbility(player, target, ability)
 
         for i, effect in ipairs(removables) do
             if (pet:hasStatusEffect(effect)) then
-                pet:delStatusEffect(effect)
-                effectID = effect
-                return true
+                local currentEffect = pet:getStatusEffect(effect)
+                local effectFlags = currentEffect:getFlag()
+                print(effectFlags)
+                if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) ~= 0) or (effect == tpz.effect.PETRIFICATION) then
+                    pet:delStatusEffect(effect)
+                    effectID = effect
+                    return true
+                end
             end
         end
         return false
@@ -82,9 +87,13 @@ function onUseAbility(player, target, ability)
 
         for i, effect in ipairs(removables) do
             if (player:hasStatusEffect(effect)) then
-                player:delStatusEffect(effect)
-                effectID = effect
-                return true
+                local currentEffect = player:getStatusEffect(effect)
+                local effectFlags = currentEffect:getFlag()
+                if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) ~= 0) or (effect == tpz.effect.PETRIFICATION) then
+                    player:delStatusEffect(effect)
+                    effectID = effect
+                    return true
+                end
             end
         end
         return false
