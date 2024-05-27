@@ -1143,7 +1143,7 @@ function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, p
 
     if (spell:getMsg() ~= tpz.msg.basic.MAGIC_FAIL and resist >= 0.5) then
         finalDuration = finalDuration * resist
-        finalDuration = BlueCheckDiminishingReturns(caster, target, params.effect, finalDuration)
+        finalDuration = CheckDiminishingReturns(caster, target, params.effect, finalDuration)
 
         if (finalDuration > 0) then
             if target:addStatusEffect(params.effect, power, tick, params.effect, finalDuration) then
@@ -1167,7 +1167,7 @@ function BlueTryPhysStun(caster, target, spell, resist, params)
     then
         local typeEffect = tpz.effect.STUN
         params.bonus = 25
-        local duration = BlueCheckDiminishingReturns(caster, target, params.effect, 4)
+        local duration = CheckDiminishingReturns(caster, target, params.effect, 4)
         -- printf("Duration %d", duration)
         if (duration > 0) then
             target:addStatusEffect(typeEffect, 1, 0, duration)
@@ -1383,22 +1383,6 @@ function BlueHandleCorrelationMACC(caster, target, spell, params, bonus, correla
     end
 
     return bonusMACC
-end
-
-function BlueCheckDiminishingReturns(caster, target, effect, duration)
-    -- Reduce duration by diminishing returns
-    local dimishingReturnPercent = math.floor((100 - target:getLocalVar("enfeebleDR" .. effect)))
-    --printf("dimishingReturnPercent %f", dimishingReturnPercent)
-    dimishingReturnPercent = (dimishingReturnPercent / 100)
-
-    -- Fully DRed spells never land
-    if (dimishingReturnPercent <= 0) then
-        return 0
-    end
-
-    duration = duration * dimishingReturnPercent
-
-    return duration
 end
 
 -- obtains alpha, used for working out WSC

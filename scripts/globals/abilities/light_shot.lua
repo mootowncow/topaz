@@ -23,7 +23,8 @@ end
 function onUseAbility(player, target, ability)
     local duration = 60
     local bonusAcc = player:getStat(tpz.mod.AGI) / 2 + player:getMerit(tpz.merit.QUICK_DRAW_ACCURACY) + player:getMod(tpz.mod.QUICK_DRAW_MACC)
-    local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.LIGHT, bonusAcc, tpz.effect.LULLABY, tpz.skill.MARKSMANSHIP)
+    local typeEffect = tpz.effect.SLEEP_I
+    local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.LIGHT, bonusAcc, typeEffect, tpz.skill.MARKSMANSHIP)
 
     --print(string.format("step1: %u",resist))
 	--GetPlayerByID(6):PrintToPlayer(string.format("Hit chance: %u",resist))
@@ -31,10 +32,11 @@ function onUseAbility(player, target, ability)
         spell:setMsg(tpz.msg.basic.SKILL_NO_EFFECT)
     elseif resist < 0.5 then
         ability:setMsg(tpz.msg.basic.JA_MISS_2) -- resist message
-        return tpz.effect.SLEEP_I
+        return typeEffect
     end
 
     duration = duration * resist
+    duration = CheckDiminishingReturns(player, target, typeEffect, duration)
 
     local effects = {}
     local dia = target:getStatusEffect(tpz.effect.DIA)
@@ -61,13 +63,16 @@ function onUseAbility(player, target, ability)
         newEffect:setStartTime(startTime)
     end
 
-    if target:addStatusEffect(tpz.effect.SLEEP_I, 1, 0, duration) then
-        ability:setMsg(tpz.msg.basic.JA_ENFEEB_IS)
-    else
-        ability:setMsg(tpz.msg.basic.JA_NO_EFFECT_2)
+    if (duration > 0) and not target:hasStatusEffect(typeEffect) then
+        if target:addStatusEffect(typeEffect, 1, 0, duration) then
+            ability:setMsg(tpz.msg.basic.JA_ENFEEB_IS)
+            AddDimishingReturns(caster, target, nil, typeEffect)
+        else
+            ability:setMsg(tpz.msg.basic.JA_NO_EFFECT_2)
+        end
     end
 
     local del = player:delItem(2182, 1) or player:delItem(2974, 1)
     target:updateClaim(player)
-    return tpz.effect.SLEEP_I
+    return typeEffect
 end

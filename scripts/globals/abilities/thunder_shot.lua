@@ -33,12 +33,17 @@ function onUseAbility(player, target, ability, action)
         local effect = tpz.effect.STUN
         local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.LIGHTNING, bonusAcc, effect, tpz.skill.MARKSMANSHIP)
         local power = 1
-        local duration = math.random(1, 6)
+        local duration = 6
         local tick = 0
 
         if (resist >= 0.5) and not target:hasStatusEffect(effect) then
             duration = duration * resist
-            target:addStatusEffect(effect, power, tick, duration)
+            duration = CheckDiminishingReturns(player, target, effect, duration)
+
+            if (duration > 0) then
+                target:addStatusEffect(effect, power, tick, duration)
+                AddDimishingReturns(caster, target, nil, effect)
+            end
         end
 
         local tp = utils.CalcualteTPGain(player, target, true)

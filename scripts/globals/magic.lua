@@ -2883,8 +2883,14 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
     finalDuration = finalDuration * resist
     -- printf("Final Duration before diminishing returns %d", finalDuration)
 
+    local enfeeblingDR = target:getLocalVar("enfeebleDR" .. effect)
+    -- Both forms of sleep share a DR
+    if (effect == tpz.effect.SLEEP_I or effect == tpz.effect.SLEEP_II) then
+        enfeeblingDR = target:getLocalVar("enfeebleDR" .. tpz.effect.SLEEP_I)
+    end
+
     -- Reduce duration by diminishing returns
-    local dimishingReturnPercent = math.floor((100 - target:getLocalVar("enfeebleDR" .. effect)))
+    local dimishingReturnPercent = math.floor((100 - enfeeblingDR))
     -- printf("dimishingReturnPercent %f", dimishingReturnPercent)
     dimishingReturnPercent = (dimishingReturnPercent / 100)
 
@@ -2968,6 +2974,12 @@ function AddDimishingReturns(caster, target, spell, effect)
         if target:isNM() then
             for _, currentEffect in pairs(effectTable) do
                 if (effect == currentEffect) then
+
+                    -- Both forms of sleep should share a DR
+                    if (currentEffect == tpz.effect.SLEEP_I or currentEffect == tpz.effect.SLEEP_II) then
+                        effect = tpz.effect.SLEEP_I
+                    end
+
                     if target:getLocalVar("enfeebleDR" .. effect) < 100 then
                         target:setLocalVar("enfeebleDR" .. effect, target:getLocalVar("enfeebleDR" .. effect) + 10)
                         break
@@ -2976,6 +2988,28 @@ function AddDimishingReturns(caster, target, spell, effect)
             end
         end
     end
+end
+
+function CheckDiminishingReturns(caster, target, effect, duration)
+    local enfeeblingDR = target:getLocalVar("enfeebleDR" .. effect)
+    -- Both forms of sleep share a DR
+    if (effect == tpz.effect.SLEEP_I or effect == tpz.effect.SLEEP_II) then
+        enfeeblingDR = target:getLocalVar("enfeebleDR" .. tpz.effect.SLEEP_I)
+    end
+
+    -- Reduce duration by diminishing returns
+    local dimishingReturnPercent = math.floor((100 - enfeeblingDR))
+    --printf("dimishingReturnPercent %f", dimishingReturnPercent)
+    dimishingReturnPercent = (dimishingReturnPercent / 100)
+
+    -- Fully DRed spells never land
+    if (dimishingReturnPercent <= 0) then
+        return 0
+    end
+
+    duration = duration * dimishingReturnPercent
+
+    return duration
 end
 
 function TryImmunobreak(caster, target, spell, effect, SDT)

@@ -28,7 +28,7 @@ function onSpellCast(caster, target, spell)
     params.diff = dMND
     params.attribute = tpz.mod.MND
     params.skillType = tpz.skill.BLUE_MAGIC
-    params.effect = tpz.effect.LULLABY
+    params.effect = tpz.effect.SLEEP_I
     params.eco = ECO_BEAST
     params.bonus = BlueHandleCorrelationMACC(caster, target, spell, params, 0)
     local resist = applyResistanceEffect(caster, target, spell, params)
@@ -42,5 +42,5 @@ function onSpellCast(caster, target, spell)
 
     TryApplyEffect(caster, target, spell, params.effect, 1, 0, duration, resist, 0.5)
 
-    return tpz.effect.SLEEP_I
+    return params.effect
 end
