@@ -2918,7 +2918,7 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
                 return spell:setMsg(spell:getMagicBurstMessage()) 
             end
             -- Check for songs enfeebles (Different enfeeble message)
-            if spell:getSkillType() == tpz.skill.SINGING then
+            if (skill == tpz.skill.SINGING) then
                 return spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB)
             end
             AddDimishingReturns(caster, target, spell, effect)
