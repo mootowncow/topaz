@@ -32,8 +32,6 @@ function onTrigger(player, npc)
             player:startEvent(90)
         elseif (illTakeTheBigBoxCS == 2) then
             player:startEvent(91)
-        elseif (illTakeTheBigBoxCS == 3 and VanadielDayOfTheYear() == player:getCharVar("illTakeTheBigBox_Timer")) then
-            player:startEvent(93)
         elseif (illTakeTheBigBoxCS == 3) then
             player:startEvent(94)
         elseif (illTakeTheBigBoxCS == 4) then
@@ -64,7 +62,6 @@ function onEventFinish(player, csid, option)
         player:setCharVar("illTakeTheBigBoxCS", 2)
     elseif (csid == 92) then
         player:tradeComplete()
-        player:setCharVar("illTakeTheBigBox_Timer", VanadielDayOfTheYear())
         player:setCharVar("illTakeTheBigBoxCS", 3)
     elseif (csid == 94) then
         player:setCharVar("illTakeTheBigBox_Timer", 0)
