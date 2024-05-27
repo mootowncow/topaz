@@ -34,15 +34,11 @@ function onSpellCast(caster, target, spell)
     params.bonus = BlueHandleCorrelationMACC(caster, target, spell, params, 200)
     local resist = applyResistanceEffect(caster, target, spell, params)
 
-    -- Stun can't be applied if target is already stunned
-    if target:hasStatusEffect(tpz.effect.STUN) then
-        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-        return 0
-    end
+    params.effect = tpz.effect.STUN
+    local duration = 8
 
-    if (resist >= 0.5) then -- Do it!
-        target:addStatusEffect(typeEffect, power, 0, getBlueEffectDuration(caster, resist, typeEffect, false)) -- https://www.bg-wiki.com/bg/Mind_Blast says 20%
-            spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
+    if BlueTryEnfeeble(caster, target, spell, 1, 1, 0, duration, params) then
+        spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
     else
         spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
     end

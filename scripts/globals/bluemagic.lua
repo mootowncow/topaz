@@ -1143,15 +1143,39 @@ function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, p
 
     if (spell:getMsg() ~= tpz.msg.basic.MAGIC_FAIL and resist >= 0.5) then
         finalDuration = finalDuration * resist
-        if target:addStatusEffect(params.effect, power, tick, finalDuration) then
-            -- Check for magic burst
-            if GetEnfeebleMagicBurstMessage(caster, spell, target) and (damage < 2) then
-                spell:setMsg(spell:getMagicBurstMessage()) 
+        finalDuration = BlueCheckDiminishingReturns(caster, target, params.effect, finalDuration)
+
+        if (finalDuration > 0) then
+            if target:addStatusEffect(params.effect, power, tick, params.effect, finalDuration) then
+                -- Check for magic burst
+                if GetEnfeebleMagicBurstMessage(caster, spell, target) and (damage < 2) then
+                    spell:setMsg(spell:getMagicBurstMessage()) 
+                end
+                AddDimishingReturns(caster, target, spell, params.effect)
+                return true
             end
-            return true
         end
     end
     return false
+end
+
+function BlueTryPhysStun(caster, target, spell, resist, params)
+    if
+        (spell:getMsg() ~= tpz.msg.basic.MAGIC_FAIL) and
+        (resist >= 0.25) and
+        not target:hasStatusEffect(tpz.effect.STUN)
+    then
+        local typeEffect = tpz.effect.STUN
+        params.bonus = 25
+        local duration = BlueCheckDiminishingReturns(caster, target, params.effect, 4)
+        -- printf("Duration %d", duration)
+        if (duration > 0) then
+            target:addStatusEffect(typeEffect, 1, 0, duration)
+            AddDimishingReturns(caster, target, spell, typeEffect)
+        end
+    end
+
+    spell:setMsg(tpz.msg.basic.MAGIC_DMG)
 end
 
 -- Function to stagger duration of effects by using the resistance to change the value
@@ -1361,7 +1385,21 @@ function BlueHandleCorrelationMACC(caster, target, spell, params, bonus, correla
     return bonusMACC
 end
 
+function BlueCheckDiminishingReturns(caster, target, effect, duration)
+    -- Reduce duration by diminishing returns
+    local dimishingReturnPercent = math.floor((100 - target:getLocalVar("enfeebleDR" .. effect)))
+    --printf("dimishingReturnPercent %f", dimishingReturnPercent)
+    dimishingReturnPercent = (dimishingReturnPercent / 100)
 
+    -- Fully DRed spells never land
+    if (dimishingReturnPercent <= 0) then
+        return 0
+    end
+
+    duration = duration * dimishingReturnPercent
+
+    return duration
+end
 
 -- obtains alpha, used for working out WSC
 function BlueGetAlpha(level)
