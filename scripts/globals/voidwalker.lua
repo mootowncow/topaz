@@ -721,10 +721,30 @@ local mixinByMobName =
             end
         end)
 
-        -- Resets hate after every spell while chainspell is active
+        -- Normal aggro behavior after chainspell ends
+        mob:addListener("EFFECT_LOSE", "SKULD_EFFECT_GAIN", function(mob, effect)
+            local effectType = effect:getType()
+            if (effectType == tpz.effect.CHAINSPELL) then
+                mob:setMobMod(tpz.mobMod.FIXATE, 0)
+            end
+        end)
+
+        -- Fixates to a random target after every spell cast when Chainspell is active
         mob:addListener("MAGIC_STATE_EXIT", "SKULD_MAGIC_STATE_EXIT", function(mob, spell)
             if mob:hasStatusEffect(tpz.effect.CHAINSPELL) then
-                ResetEnmityList(mob)
+                local enmityList = mob:getEnmityList()
+                for _, enmity in ipairs(enmityList) do
+                    if enmityList and #enmityList > 0 then
+                        local randomTarget = enmityList[math.random(1,#enmityList)];
+                        mob:setLocalVar("fixateTarget", randomTarget.entity:getShortID())
+                    end
+                end
+                local fixateTarget = mob:getLocalVar("fixateTarget")
+                if (fixateTarget > 0) then
+                    mob:setMobMod(tpz.mobMod.FIXATE, fixateTarget)
+                end
+            else
+                mob:setMobMod(tpz.mobMod.FIXATE, 0)
             end
         end)
     end,
