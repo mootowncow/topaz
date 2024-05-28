@@ -131,42 +131,42 @@ tpz.mob.skills =
 -- mob additional melee effects
 -------------------------------------------------
 
-tpz.mob.additionalEffect =
-{
-    BLIND      = 0,
-    CURSE      = 1,
-    ENAERO     = 2,
-    ENBLIZZARD = 3,
-    ENDARK     = 4,
-    ENFIRE     = 5,
-    ENLIGHT    = 6,
-    ENSTONE    = 7,
-    ENTHUNDER  = 8,
-    ENWATER    = 9,
-    EVA_DOWN   = 10,
-    HP_DRAIN   = 11,
-    MP_DRAIN   = 12,
-    PARALYZE   = 13,
-    PETRIFY    = 14,
-    PLAGUE     = 15,
-    POISON     = 16,
-    SILENCE    = 17,
-    SLOW       = 18,
-    STUN       = 19,
-    TERROR     = 20,
-    TP_DRAIN   = 21,
-    ATTK_DOWN  = 22,
-    DISPEL     = 23,
-    DISEASE    = 24,
-    AMNESIA    = 25,
-    BIND       = 26,
-    WEIGHT     = 27,
-    FLASH      = 28,
-    RECOVER_MP = 29,
-    SLEEP      = 30,
-    DOOM       = 31,
-    BUFF_DRAIN = 32,
-    PETRIFY_ENMITY_RESET    = 33,
+tpz.mob.additionalEffect = {
+    BLIND                 = 0,
+    CURSE                 = 1,
+    ENAERO                = 2,
+    ENBLIZZARD            = 3,
+    ENDARK                = 4,
+    ENFIRE                = 5,
+    ENLIGHT               = 6,
+    ENSTONE               = 7,
+    ENTHUNDER             = 8,
+    ENWATER               = 9,
+    EVA_DOWN              = 10,
+    HP_DRAIN              = 11,
+    MP_DRAIN              = 12,
+    PARALYZE              = 13,
+    PETRIFY               = 14,
+    PLAGUE                = 15,
+    POISON                = 16,
+    SILENCE               = 17,
+    SLOW                  = 18,
+    STUN                  = 19,
+    TERROR                = 20,
+    TP_DRAIN              = 21,
+    ATTK_DOWN             = 22,
+    DISPEL                = 23,
+    DISEASE               = 24,
+    AMNESIA               = 25,
+    BIND                  = 26,
+    WEIGHT                = 27,
+    FLASH                 = 28,
+    RECOVER_MP            = 29,
+    SLEEP                 = 30,
+    DOOM                  = 31,
+    BUFF_DRAIN            = 32,
+    PETRIFY_ENMITY_RESET  = 33,
+    POISON_OVERWRITE      = 34,
 }
 tpz.mob.ae = tpz.mob.additionalEffect
 
@@ -370,6 +370,21 @@ local additionalEffects =
         minDuration = 1,
         maxDuration = 30,
         tick = 3,
+    },
+    [tpz.mob.ae.POISON_OVERWRITE] =
+    {
+        chance = 100,
+        ele = tpz.magic.ele.WATER,
+        sub = tpz.subEffect.POISON,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.POISON,
+        power = 3,
+        duration = 30,
+        minDuration = 1,
+        maxDuration = 30,
+        tick = 3,
+        overwrite = true,
     },
     [tpz.mob.ae.SILENCE] =
     {
@@ -595,7 +610,13 @@ tpz.mob.onAddEffect = function(mob, target, damage, effect, params)
                     resist = applyResistanceAddEffect(mob, target, ae.ele, ae.eff)
                 end
 
-                if resist >= 0.5 and not target:hasStatusEffect(ae.eff) then
+                if (resist >= 0.5) and (ae.overwrite ~= nil) then
+                    if canOverwrite(target, ae.eff, ae.power) then
+                        target:delStatusEffect(ae.eff)
+                    end
+                end
+
+                if (resist >= 0.5) and not target:hasStatusEffect(ae.eff) then
                     local power = params.power or ae.power or 0
                     local tick = ae.tick or 0
                     local duration = params.duration or ae.duration
