@@ -328,6 +328,8 @@ void CItemEquipment::SetAugmentMod(uint16 type, uint8 value)
         setSubType(ITEM_AUGMENTED);
         ref<uint8>(m_extra, 0x00) |= 0x02;
         ref<uint8>(m_extra, 0x01) |= 0x03;
+        // This means augment ID = 912, then value is the value
+        // i.e. !additem pugilists 0 912 11 for attack 2-3 times
         if (type == 0x390)
         {
             if (value == 8)
