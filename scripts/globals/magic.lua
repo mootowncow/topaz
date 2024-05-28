@@ -1804,7 +1804,7 @@ function canOverwrite(target, effect, power, mod)
     end
 
     -- overwrite if its weaker
-    if (statusEffect:getPower()*mod > power) then
+    if (statusEffect:getPower()*mod >= power) then
         return false
     end
 
