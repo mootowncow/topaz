@@ -21,7 +21,32 @@ function onMobEngaged(mob, target)
 end
 
 function onMobFight(mob, target)
+    local prisonUses = mob:getLocalVar("prisonUses")
+    local hpp = mob:getHPP()
+    local tp = mob:getTP()
+    local enmityList = mob:getEnmityList()
+    local fixateTarget = nil
+    local entityId
+    local test = mob:getLocalVar("test")
+    if (test > 0) then
+        for _, enmity in ipairs(enmityList) do
+            if enmityList and #enmityList > 0 then
+                local randomTarget = enmityList[math.random(1,#enmityList)];
+                entityId = randomTarget.entity:getShortID();
+                if (entityId > 10000) then -- ID is a mob(pet) then
+                    fixateTarget = GetMobByID(entityId)
+                else
+                    fixateTarget = GetPlayerByID(entityId)
+                end
+            end
+        end
+        printf("Entity Id %d", entityId)
+        if (entityId) then
+            mob:setMobMod(tpz.mobMod.FIXATE, entityId)
+        end
+    end
 end
+
 
 function onMobWeaponSkillPrepare(mob, target)
 end
