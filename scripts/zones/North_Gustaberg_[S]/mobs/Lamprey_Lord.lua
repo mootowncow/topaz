@@ -20,7 +20,7 @@ end
 
 function onAdditionalEffect(mob, target, damage)
     if not mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON) then
-        return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.POISON, { chance = 100, power = math.random(30, 50) })
+        return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.POISON_OVERWRITE, { chance = 100, power = math.random(30, 50) })
     end
 end
 
