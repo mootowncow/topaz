@@ -158,15 +158,7 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Voidwalker:
-WILL NOT SPAWN MOBS ON TOP OF YOU. Priotorizes higher level mobs over distance! Check distance first!
-A north gustaberg spawn is bugged (south by mountains where in the past you can go up the mountain)
-Add the crafted drops items they make(Like Fyja torque or w/e as an NQ/HQ grouped drop rare/ex)
-Full set of gear from original 5...Maybe Cruor Gear?
-Yillbegan drop rare(not ex) weapons as well
-Lamprey lord poison should delete enpoison before applying
-
 Check all immunities with mobdb
-Skuld aggro random person after resetting enmmity on CS spell casts (east ronfaure[s] mandy ANNM logic?) (deaggroPlayer and pulse update enmity on all players in zone?)
 
 **** NOW ***
 Tainted Flesh/Frogmander no roam on spawn, but roam on engage
