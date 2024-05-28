@@ -17130,9 +17130,13 @@ INSERT INTO `mob_droplist` VALUES (3223,1,4,1000,4172,250);	-- Reraiser
 INSERT INTO `mob_droplist` VALUES (3223,1,4,1000,4173,250);	-- Hi-Reraiser
 INSERT INTO `mob_droplist` VALUES (3223,1,4,1000,4174,250);	-- VIle Elixir
 INSERT INTO `mob_droplist` VALUES (3223,1,4,1000,4175,250);	-- VIle Elixir +1
+INSERT INTO `mob_droplist` VALUES (3223,1,5,150,15951,950); -- toxon_belt
+INSERT INTO `mob_droplist` VALUES (3223,1,5,150,15952,50); -- toxon_belt_+1
+INSERT INTO `mob_droplist` VALUES (3223,1,6,240,11503,1000); -- perle_salade
+INSERT INTO `mob_droplist` VALUES (3223,1,6,240,11504,1000); -- aurore_beret
+INSERT INTO `mob_droplist` VALUES (3223,1,6,240,11505,1000); -- teal_chapeau
 INSERT INTO `mob_droplist` VALUES (3223,0,0,1000,11632,100); -- karka_ring
 INSERT INTO `mob_droplist` VALUES (3223,0,0,1000,11502,150); -- acubens_helm
-INSERT INTO `mob_droplist` VALUES (3223,0,0,1000,2879,240); -- igneous_barnacle
 INSERT INTO `mob_droplist` VALUES (3223,0,0,1000,2884,1000); -- krabkatoa_shell
 INSERT INTO `mob_droplist` VALUES (3223,0,0,1000,2884,240); -- krabkatoa_shell
 INSERT INTO `mob_droplist` VALUES (3223,0,0,1000,2884,150); -- krabkatoa_shell
@@ -17165,9 +17169,13 @@ INSERT INTO `mob_droplist` VALUES (3224,1,4,1000,4172,250);	-- Reraiser
 INSERT INTO `mob_droplist` VALUES (3224,1,4,1000,4173,250);	-- Hi-Reraiser
 INSERT INTO `mob_droplist` VALUES (3224,1,4,1000,4174,250);	-- VIle Elixir
 INSERT INTO `mob_droplist` VALUES (3224,1,4,1000,4175,250);	-- VIle Elixir +1
+INSERT INTO `mob_droplist` VALUES (3224,1,5,150,11581,950); -- ire_torque
+INSERT INTO `mob_droplist` VALUES (3224,1,5,150,11582,50); -- ire_torque_+1
+INSERT INTO `mob_droplist` VALUES (3224,1,6,240,14210,1000); -- perle_brayettes
+INSERT INTO `mob_droplist` VALUES (3224,1,6,240,14258,1000); -- teal_slops
+INSERT INTO `mob_droplist` VALUES (3224,1,6,240,14257,1000); -- aurore_brais
 INSERT INTO `mob_droplist` VALUES (3224,0,0,1000,11631,100); -- blobnag_ring
 INSERT INTO `mob_droplist` VALUES (3224,0,0,1000,11585,150); -- beguiling_collar
-INSERT INTO `mob_droplist` VALUES (3224,0,0,1000,2876,240); -- muculent_ingot
 INSERT INTO `mob_droplist` VALUES (3224,0,0,1000,2882,1000); -- baby_blobdingnag
 INSERT INTO `mob_droplist` VALUES (3224,0,0,1000,2882,240); -- baby_blobdingnag
 INSERT INTO `mob_droplist` VALUES (3224,0,0,1000,2882,150); -- baby_blobdingnag
@@ -17200,9 +17208,13 @@ INSERT INTO `mob_droplist` VALUES (3225,1,4,1000,4172,250);	-- Reraiser
 INSERT INTO `mob_droplist` VALUES (3225,1,4,1000,4173,250);	-- Hi-Reraiser
 INSERT INTO `mob_droplist` VALUES (3225,1,4,1000,4174,250);	-- VIle Elixir
 INSERT INTO `mob_droplist` VALUES (3225,1,4,1000,4175,250);	-- VIle Elixir +1
+INSERT INTO `mob_droplist` VALUES (3225,1,5,150,16052,950); -- incubus_earring
+INSERT INTO `mob_droplist` VALUES (3225,1,5,150,16053,50); -- incubus_earring_+1
+INSERT INTO `mob_droplist` VALUES (3225,1,6,240,12745,1000); -- perle_moufles
+INSERT INTO `mob_droplist` VALUES (3225,1,6,240,12746,1000); -- aurore_gloves
+INSERT INTO `mob_droplist` VALUES (3225,1,6,240,12747,1000); -- teal_cuffs
 INSERT INTO `mob_droplist` VALUES (3225,0,0,1000,11630,100); -- corneus_ring
 INSERT INTO `mob_droplist` VALUES (3225,0,0,1000,15948,150); -- bobcat_belt
-INSERT INTO `mob_droplist` VALUES (3225,0,0,1000,2880,240); -- kidney_stone
 INSERT INTO `mob_droplist` VALUES (3225,0,0,1000,2885,1000); -- orcus_mandible
 INSERT INTO `mob_droplist` VALUES (3225,0,0,1000,2885,240); -- orcus_mandible
 INSERT INTO `mob_droplist` VALUES (3225,0,0,1000,2885,150); -- orcus_mandible
@@ -17235,9 +17247,13 @@ INSERT INTO `mob_droplist` VALUES (3226,1,4,1000,4172,250);	-- Reraiser
 INSERT INTO `mob_droplist` VALUES (3226,1,4,1000,4173,250);	-- Hi-Reraiser
 INSERT INTO `mob_droplist` VALUES (3226,1,4,1000,4174,250);	-- VIle Elixir
 INSERT INTO `mob_droplist` VALUES (3226,1,4,1000,4175,250);	-- VIle Elixir +1
+INSERT INTO `mob_droplist` VALUES (3226,1,5,150,11579,950); -- fylgja_torque
+INSERT INTO `mob_droplist` VALUES (3226,1,5,150,11580,50); -- fylgja_torque_+1
+INSERT INTO `mob_droplist` VALUES (3226,1,6,240,11413,1000); -- perle_sollerets
+INSERT INTO `mob_droplist` VALUES (3226,1,6,240,11414,1000); -- aurore_gaiters
+INSERT INTO `mob_droplist` VALUES (3226,1,6,240,11415,1000); -- teal_pigaches
 INSERT INTO `mob_droplist` VALUES (3226,0,0,1000,11634,100); -- veela_ring
 INSERT INTO `mob_droplist` VALUES (3226,0,0,1000,19244,150); -- verthandis_gem
-INSERT INTO `mob_droplist` VALUES (3226,0,0,1000,2875,240); -- ethereal_squama
 INSERT INTO `mob_droplist` VALUES (3226,0,0,1000,2881,1000); -- eye_of_verthandi
 INSERT INTO `mob_droplist` VALUES (3226,0,0,1000,2881,240); -- eye_of_verthandi
 INSERT INTO `mob_droplist` VALUES (3226,0,0,1000,2881,150); -- eye_of_verthandi
@@ -17270,9 +17286,13 @@ INSERT INTO `mob_droplist` VALUES (3227,1,4,1000,4172,250);	-- Reraiser
 INSERT INTO `mob_droplist` VALUES (3227,1,4,1000,4173,250);	-- Hi-Reraiser
 INSERT INTO `mob_droplist` VALUES (3227,1,4,1000,4174,250);	-- VIle Elixir
 INSERT INTO `mob_droplist` VALUES (3227,1,4,1000,4175,250);	-- VIle Elixir +1
+INSERT INTO `mob_droplist` VALUES (3227,1,5,150,11583,950); -- lemegeton_medallion
+INSERT INTO `mob_droplist` VALUES (3227,1,5,150,11584,50); -- lemegeton_medallion_+1
+INSERT INTO `mob_droplist` VALUES (3227,1,6,240,13759,1000); -- perle_hauberk
+INSERT INTO `mob_droplist` VALUES (3227,1,6,240,13760,1000); -- aurore_doublet
+INSERT INTO `mob_droplist` VALUES (3227,1,6,240,13778,1000); -- teal_saio
 INSERT INTO `mob_droplist` VALUES (3227,0,0,1000,11628,100); -- strigoi_ring
 INSERT INTO `mob_droplist` VALUES (3227,0,0,1000,15953,150); -- marching_belt
-INSERT INTO `mob_droplist` VALUES (3227,0,0,1000,2877,240); -- ingot_of_befouled_silver
 INSERT INTO `mob_droplist` VALUES (3227,0,0,1000,2883,1000); -- ruthvens_nail
 INSERT INTO `mob_droplist` VALUES (3227,0,0,1000,2883,240); -- ruthvens_nail
 INSERT INTO `mob_droplist` VALUES (3227,0,0,1000,2883,150); -- ruthvens_nail
@@ -17305,6 +17325,8 @@ INSERT INTO `mob_droplist` VALUES (3228,1,4,1000,4172,250);	-- Reraiser
 INSERT INTO `mob_droplist` VALUES (3228,1,4,1000,4173,250);	-- Hi-Reraiser
 INSERT INTO `mob_droplist` VALUES (3228,1,4,1000,4174,250);	-- VIle Elixir
 INSERT INTO `mob_droplist` VALUES (3228,1,4,1000,4175,250);	-- VIle Elixir +1
+INSERT INTO `mob_droplist` VALUES (3228,1,5,150,19049,950); -- vivid_strap
+INSERT INTO `mob_droplist` VALUES (3228,1,5,150,19051,50); -- vivid_strap_+1
 INSERT INTO `mob_droplist` VALUES (3228,0,0,1000,15859,100); -- succor_ring
 INSERT INTO `mob_droplist` VALUES (3228,0,0,1000,16151,150); -- leonine_mask
 INSERT INTO `mob_droplist` VALUES (3228,0,0,1000,2570,1000); -- pelt_of_dawon
@@ -17339,7 +17361,10 @@ INSERT INTO `mob_droplist` VALUES (3229,1,4,1000,4172,250);	-- Reraiser
 INSERT INTO `mob_droplist` VALUES (3229,1,4,1000,4173,250);	-- Hi-Reraiser
 INSERT INTO `mob_droplist` VALUES (3229,1,4,1000,4174,250);	-- VIle Elixir
 INSERT INTO `mob_droplist` VALUES (3229,1,4,1000,4175,250);	-- VIle Elixir +1
-INSERT INTO `mob_droplist` VALUES (3229,0,0,1000,2878,240); -- square_of_scarlet_kadife
+INSERT INTO `mob_droplist` VALUES (3229,1,5,150,10836,950); -- phos_belt
+INSERT INTO `mob_droplist` VALUES (3229,1,5,150,10837,50); -- phos_belt_+1
+INSERT INTO `mob_droplist` VALUES (3229,1,6,150,15949,950); -- pythia_sash
+INSERT INTO `mob_droplist` VALUES (3229,1,6,150,15950,50); -- pythia_sash_+1
 INSERT INTO `mob_droplist` VALUES (3229,0,0,1000,19248,240); -- lucky_coin
 INSERT INTO `mob_droplist` VALUES (3229,0,0,1000,14162,240); -- agronas_leggings
 INSERT INTO `mob_droplist` VALUES (3229,0,0,1000,11629,100); -- zilant_ring
