@@ -153,35 +153,20 @@ local getNearestMob = function(player, mobs)
     for _, v in ipairs(mobs) do
         local mob      = GetMobByID(v.mobId)
         local distance = player:checkDistance(mob)
-        local level    = mob:getMainLvl()
 
-        table.insert(results, { mobId = v.mobId, keyItem = v.keyItem, distance = distance, level = level })
+        table.insert(results, { mobId = v.mobId, keyItem = v.keyItem, distance = distance })
     end
 
-    -- Sort by level first (higher level first), then by distance (closest first)
     table.sort(results, function(a, b)
-        if a.level == b.level then
-            return a.distance < b.distance
-        else
-            return a.level > b.level
-        end
+        return a.distance < b.distance
     end)
 
-    -- Iterate through the sorted results to find the first entry with distance < 300
-    for i, result in ipairs(results) do
-        if result.distance < 300 then
-            return result
-        end
-    end
-
-    -- If no entries with distance < 300, return the first entry if it exists
     if #results > 0 then
         return results[1]
     else
         return nil
     end
 end
-
 
 local getDirection = function(player, mob, distance)
     local posPlayer = player:getPos()
