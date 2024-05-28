@@ -6,9 +6,12 @@
 local ID = require("scripts/zones/Yhoator_Jungle/IDs")
 mixins = {require("scripts/mixins/job_special")}
 require("scripts/globals/quests")
+require("scripts/globals/status")
 -----------------------------------
 
 function onMobInitialize(mob)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
+    mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 180)
 end
 

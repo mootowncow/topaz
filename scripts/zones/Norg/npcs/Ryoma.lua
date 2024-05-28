@@ -48,7 +48,7 @@ function onTrigger(player, npc)
         player:startEvent(135) -- Start Quest "I'll Take the Big Box"
     elseif (illTakeTheBigBox == QUEST_COMPLETED and trueWill == QUEST_AVAILABLE) then
         player:startEvent(136) -- Start Quest "True Will"
-    elseif (player:hasKeyItem(tpz.ki.OLD_TRICK_BOX) and player:getCharVar("trueWillCS") == 0) then
+    elseif (player:hasKeyItem(tpz.ki.OLD_TRICK_BOX) and mJob == tpz.job.NIN and player:getCharVar("trueWillCS") == 0) then
         player:startEvent(137)
     elseif (player:getCharVar("trueWillCS") == 1) then
         player:startEvent(138)

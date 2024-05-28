@@ -7,6 +7,7 @@ local ID = require("scripts/zones/Ship_bound_for_Selbina_Pirates/IDs")
 require("scripts/globals/zone")
 require("scripts/globals/pirates")
 require("scripts/globals/sea_creatures")
+require("scripts/globals/keyitems")
 -----------------------------------
 function onInitialize(zone)
 
