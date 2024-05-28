@@ -169,6 +169,9 @@ Check all immunities with mobdb
 Skuld aggro random person after resetting enmmity on CS spell casts (east ronfaure[s] mandy ANNM logic?) (deaggroPlayer and pulse update enmity on all players in zone?)
 
 **** NOW ***
+Tainted Flesh/Frogmander no roam on spawn, but roam on engage
+Magic Sludge casts thunder(?!)
+Enagakure did not spawn at 20:00
 Nakuals set weather to none on disengage
 move tchakka to the big room
 applyResistanceAddEffect(player, target, element, bonus, effect, skill) should be used for stuff like feral howl and aura steal?
