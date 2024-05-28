@@ -3142,6 +3142,7 @@ tpz.mobMod =
     CAN_PARRY           = 106, -- Check if a mob is allowed to have parry rank(Rank Value 1 - 5)
     PIXIE               = 107, -- Pixies: Cure and raise players
     NO_DR               = 108, -- No dimishing returns on any CC
+    FIXATE              = 109, -- Will only target this entity.
 }
 
 ------------------------------------

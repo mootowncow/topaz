@@ -74,15 +74,18 @@ bool CMobController::TryDeaggro()
     }
 
     // Deaggro player pets if they mount up
-    if (PTarget->objtype == TYPE_PET && PTarget->PMaster != nullptr)
+    if (PTarget)
     {
-        if (PTarget->PMaster->isMounted())
+        if (PTarget->objtype == TYPE_PET && PTarget->PMaster != nullptr)
         {
-            if (PTarget)
-                PMob->PEnmityContainer->Clear(PTarget->id);
-            PTarget = PMob->PEnmityContainer->GetHighestEnmity();
-            PMob->SetBattleTargetID(PTarget ? PTarget->targid : 0);
-            return TryDeaggro();
+            if (PTarget->PMaster->isMounted())
+            {
+                if (PTarget)
+                    PMob->PEnmityContainer->Clear(PTarget->id);
+                PTarget = PMob->PEnmityContainer->GetHighestEnmity();
+                PMob->SetBattleTargetID(PTarget ? PTarget->targid : 0);
+                return TryDeaggro();
+            }
         }
     }
 
@@ -1074,7 +1077,17 @@ void CMobController::HandleEnmity()
 {
     TracyZoneScoped;
     PMob->PEnmityContainer->DecayEnmity();
-    if (PMob->getMobMod(MOBMOD_SHARE_TARGET) > 0 && PMob->GetEntity(PMob->getMobMod(MOBMOD_SHARE_TARGET), TYPE_MOB))
+    if (PMob->getMobMod(MOBMOD_FIXATE) > 0)
+    {
+        ChangeTarget(PMob->getMobMod(MOBMOD_FIXATE));
+
+        if (!PMob->GetBattleTargetID())
+        {
+            auto PTarget{ PMob->PEnmityContainer->GetHighestEnmity() };
+            ChangeTarget(PTarget ? PTarget->targid : 0);
+        }
+    }
+    else if (PMob->getMobMod(MOBMOD_SHARE_TARGET) > 0 && PMob->GetEntity(PMob->getMobMod(MOBMOD_SHARE_TARGET), TYPE_MOB))
     {
         ChangeTarget(static_cast<CMobEntity*>(PMob->GetEntity(PMob->getMobMod(MOBMOD_SHARE_TARGET), TYPE_MOB))->GetBattleTargetID());
 
