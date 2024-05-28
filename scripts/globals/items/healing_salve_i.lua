@@ -18,6 +18,7 @@ end
 function onItemUse(target)
     local item = GetItem(tpz.items.TUBE_OF_HEALING_SALVE_I)
     local param = item:getParam() / 100
+    local pet = target:getPet()
     pet:addHP(pet:getMaxHP() * param)
     target:messagePublic(tpz.msg.basic.RECOVERS_HP, pet, param)
 end
