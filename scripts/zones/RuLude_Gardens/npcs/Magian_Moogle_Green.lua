@@ -3,11 +3,12 @@
 --  NPC: Magian Moogle (Green Bobble)
 -- Type: Magian Trials NPC (Job Emotes)
 -- !pos -4.558 2.451 111.305 64
+-- TODO: DOES NOT WORK
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/keyitems")
 local ID = require("scripts/zones/RuLude_Gardens/IDs")
-require("scripts/globals/magiantrials")
+require("scripts/globals/magian")
 -----------------------------------
 
 function onTrade(player, npc, trade)

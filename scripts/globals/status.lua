@@ -1,4 +1,7 @@
 require("scripts/globals/world")
+require("scripts/globals/items")
+require("scripts/globals/keyitems")
+require("scripts/globals/augments")
 
 ------------------------------------
 --
@@ -112,6 +115,20 @@ tpz.status =
     SHUTDOWN        = 20,
 }
 
+tpz.magianElement =
+{
+    FIRE      = 0,
+    ICE       = 1,
+    WIND      = 2,
+    EARTH     = 3,
+    THUNDER   = 4,
+    WATER     = 5,
+    LIGHT     = 6,
+    DARK      = 7,
+    ANY_LIGHT = 8,
+    ANY_DARK  = 9,
+    ANY       = 10,
+}
 
 ------------------------------------
 -- Traits
