@@ -3,6 +3,8 @@
 --  ITEM IDS
 --
 ---------------------------------------------
+require('scripts/globals/augments')
+---------------------------------------------
 tpz = tpz or {}
 
 tpz.items =
@@ -16746,3 +16748,16 @@ tpz.items =
     MANGLED_MESS = 29695,
     GIL = 65535,
 }
+
+function IsRareItem(itemId)
+    local item = GetItem(itemId)
+
+    if (item) then
+        local itemflags = item:getFlag()
+        if (bit.band(itemflags, 0x8000) ~= 0) then
+            return true
+        end
+    end
+
+    return false
+end
