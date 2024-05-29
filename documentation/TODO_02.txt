@@ -161,6 +161,11 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Merits json and edit NIN(and bst) merits
+Does ele WSD gear work on hybrid WS?
+"no longer muddled" ?
+Healing Powder doesn't work?
+Del the bad effects when manawell status is removed(maybe add the statuses to GAINING the effect ?)
 Tainted Flesh/Frogmander no roam on spawn, but roam on engage
 Magic Sludge casts thunder(?!)
 Enagakure did not spawn at 20:00
