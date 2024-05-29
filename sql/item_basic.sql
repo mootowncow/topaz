@@ -2766,11 +2766,11 @@ INSERT INTO `item_basic` VALUES (2877,0,'befouled_silver','befouled_silver',99,4
 INSERT INTO `item_basic` VALUES (2878,0,'scarlet_kadife','scarlet_kadife',99,4,40,0,760);
 INSERT INTO `item_basic` VALUES (2879,0,'igneous_barnacle','igneous_barnacle',99,4,42,0,1623);
 INSERT INTO `item_basic` VALUES (2880,0,'kidney_stone','kidney_stone',99,4,39,0,943);
-INSERT INTO `item_basic` VALUES (2881,0,'eye_of_verthandi','eye_of_verthandi',1,28756,0,1,0);
-INSERT INTO `item_basic` VALUES (2882,0,'baby_blobdingnag','baby_blobdingnag',1,28756,0,1,0);
-INSERT INTO `item_basic` VALUES (2883,0,'ruthvens_nail','ruthvens_nail',1,28756,0,1,0);
-INSERT INTO `item_basic` VALUES (2884,0,'krabkatoa_shell','krabkatoa_shell',1,28756,0,1,0);
-INSERT INTO `item_basic` VALUES (2885,0,'orcus_mandible','orcus_mandible',1,28756,0,1,0);
+INSERT INTO `item_basic` VALUES (2881,0,'eye_of_verthandi','eye_of_verthandi',99,28756,0,1,0);
+INSERT INTO `item_basic` VALUES (2882,0,'baby_blobdingnag','baby_blobdingnag',99,28756,0,1,0);
+INSERT INTO `item_basic` VALUES (2883,0,'ruthvens_nail','ruthvens_nail',99,28756,0,1,0);
+INSERT INTO `item_basic` VALUES (2884,0,'krabkatoa_shell','krabkatoa_shell',99,28756,0,1,0);
+INSERT INTO `item_basic` VALUES (2885,0,'orcus_mandible','orcus_mandible',99,28756,0,1,0);
 INSERT INTO `item_basic` VALUES (2886,0,'mildewy_ingot','mildewy_ingot',99,4,38,0,204);
 INSERT INTO `item_basic` VALUES (2887,0,'decayed_ingot','decayed_ingot',99,4,39,0,204);
 INSERT INTO `item_basic` VALUES (2888,0,'sanguinet','sanguinet',99,4,46,0,461);
