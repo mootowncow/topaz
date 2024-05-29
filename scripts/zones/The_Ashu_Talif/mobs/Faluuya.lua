@@ -2,7 +2,8 @@
 -- Area: The Ashu Talif (Royal Painter Escort
 --  Mob: Faluuya
 -- TOAU-15 Mission Battle
--- TODO: Can't heal her'
+-- TODO: Healing her causes her to stop roaming?
+-- TODO:  Flags to make her an NPC? Copy windurst 9-2?
 -----------------------------------
 
 local ID = require("scripts/zones/The_Ashu_Talif/IDs")
@@ -78,6 +79,7 @@ local retreatToTopTwoPts1 = { -- Retreats back to top mobs spawning on top of de
 
 function onMobSpawn(mob)
     mob:setLocalVar("path", 0)
+    mob:setMobMod(tpz.mobMod.NO_ROAM , 1)
 end
 
 function onMobRoam(mob)
@@ -95,23 +97,22 @@ function onMobRoam(mob)
         { Stage = 5,    Path = retreatToTopTwo,     Flags = tpz.path.flag.RUN         },
     }
 
+    if ShouldWait(mob) then
+        printf("Waiting...")
+        return -- printf("Waiting...") ?
+    end
+
     if IsOutsideDoor(mob) then
         if (stage == 1) then
             printf("Outside door, increasing progress and teleporting")
             instance:setProgress(instance:getProgress() +1)
-            mob:clearPath()
-            mob:setLocalVar("path", 0)
-            mob:setLocalVar("pathingDone", 0)
-            mob:setPos(-8.02, -22.50, -4.83)
+            Teleport(mob, -8.02, -22.50, -4.83)
             return
         end
         if (stage == 4) then
                 printf("Outside door, increasing progress and teleporting")
                 instance:setStage(instance:getStage() +1)
-                mob:clearPath()
-                mob:setLocalVar("path", 0)
-                mob:setLocalVar("pathingDone", 0)
-                mob:setPos(-8.02, -22.50, -4.83)
+                Teleport(mob, -8.02, -22.50, -4.83)
             return
         end
     end
@@ -131,10 +132,7 @@ function onMobRoam(mob)
             printf("Inside door, increasing stage and teleporting")
             instance:setStage(instance:getStage() +1)
             instance:setProgress(0)
-            mob:clearPath()
-            mob:setLocalVar("path", 0)
-            mob:setLocalVar("pathingDone", 0)
-            mob:setPos(-7.56, -22.50, 3.40)
+            Teleport(mob, -7.56, -22.50, 3.40)
             return
         end
     end
@@ -207,13 +205,40 @@ function onMobRoam(mob)
     end
 end
 
+function onMobFight(mob, target)
+    printf("Fighting!")
+end
+
 function onMobDespawn(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
 end
 
-function Teleport(mob, x, y, z) -- TODO
+function Teleport(mob, x, y, z)
+    ClearPathing(mob)
+    mob:setPos(x, y, z)
+end
+
+function ShouldWait(mob)
+    local wait = mob:getLocalVar("waitTimer")
+
+    -- Generic wait
+    if (wait > 0) and (os.time() <= wait) then
+        ClearPathing(mob)
+        return true
+    end
+
+    return false
+end
+
+function IsStuck(mob)
+end
+
+function ClearPathing(mob)
+    mob:clearPath()
+    mob:setLocalVar("path", 0)
+    mob:setLocalVar("pathingDone", 0)
 end
 
 function IsOutsideDoor(mob)
