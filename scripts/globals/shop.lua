@@ -307,7 +307,7 @@ tpz.shop =
                 6298,     600,      tpz.ki.RHAPSODY_IN_WHITE,   -- Manji Shuriken Pouch
                 6302,     700,      tpz.ki.RHAPSODY_IN_AZURE,   -- Fuma Shuriken Pouch
                 6303,    1000,      tpz.ki.RHAPSODY_IN_MAUVE,   -- Iga Shuriken Pouch
-                5870,    4752,      tpz.ki.RHAPSODY_IN_WHITE,   -- Trump Card Case
+                5870,    10000,     tpz.ki.RHAPSODY_IN_WHITE,   -- Trump Card Case
                 1022,    3643,      tpz.ki.RHAPSODY_IN_AZURE,   -- Thief's Tools
                 1023,    5520,      tpz.ki.RHAPSODY_IN_EMERALD, -- Living Key
                 1115,    6574,      tpz.ki.RHAPSODY_IN_MAUVE,   -- Skeleton Key
