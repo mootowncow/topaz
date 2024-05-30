@@ -14,6 +14,6 @@ end
 
 function onItemUse(target)
     local item = GetItem(tpz.items.FLASK_OF_HEALING_POWDER)
-    local param = item:getParam()
-    target:messageBasic(tpz.msg.basic.RECOVERS_HP, 0, target:addHP(param))
+    local param = item:getParam() / 100
+    target:messageBasic(tpz.msg.basic.RECOVERS_HP, 0, target:getMaxHP() * param)
 end
