@@ -1,5 +1,6 @@
 -----------------------------------
--- Area: The Ashu Talif (The Black Coffin & Scouting the Ashu Talif)
+-- Area: The Ashu Talif
+-- (The Black Coffin & Scouting the Ashu Talif & Royal Painter Escort)
 --  Mob: Ashu Talif Crew
 -----------------------------------
 require("scripts/globals/status")
@@ -10,7 +11,6 @@ function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
-    mob:setMod(tpz.mod.REFRESH, 40)
 end
 
 function onMobEngaged(mob, target)

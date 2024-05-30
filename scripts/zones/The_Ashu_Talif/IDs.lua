@@ -46,6 +46,23 @@ zones[tpz.zone.THE_ASHU_TALIF] =
         TROUBLESOME_SQUABS         = 7577, -- Troublesome squabs...
         OBJECTIVE_COMPLETE         = 7579, -- Objective Complete. You may return on the lifeboat.
         BAG_FEELS_HEAVIER          = 7581, -- Your bag feels heavier...
+        SHALL_WE_BE_OFF            = 7586, -- Shall we be off?
+        CAN_YOU_OPEN               = 7587, -- Can you open this?
+        GIVING_ME_CREEPS           = 7590, --This place is giving me the creeps. As soon as I'm finished with my work, we should head back
+        MAKE_IT_STOP               = 7594, --Make it stop!!!
+        UGH                        = 7595, -- Ugh..
+        PLEASE_STAY_CLOSE          = 7596, -- Please, stay close to me! I...I've never fought anyone before!
+        HELP                       = 7597, -- Help!
+        HOW_COULD_HAPPEN           = 7598, -- How...could this happen...?
+        OUCH_PROTECT_ME            = 7601, -- Ouch! You're supposed to be protecting me, you know!
+        MUST_SKETCH                = 7602, -- I must sketch the cabin. Let's go!
+        MUST_DRAW                  = 7604, -- Oh, I must draw this
+        ALMOST_DONE                = 7605, -- I am almost done..
+        FINISHED                   = 7606, -- Finished! A beautiful sketch, if I do say so myself!
+        LETS_HEAD_BACK             = 7608, -- I didn't realize this would be so difficult... Let's head back now.
+        THANK_YOU                  = 7609, -- Thank you for protecting me. I've regained my composure now....
+        YOU_ARE_INCREDIBLE         = 7610, -- It doesn't seem that there are any ghosts left... You defeated them all, didn't you? My, you are incredible!
+        A_TREASURE_CHEST           = 7611, -- Ah, a treasure chest! Be sure to open it before we head back.
     },
     mob =
     {
@@ -113,6 +130,31 @@ zones[tpz.zone.THE_ASHU_TALIF] =
         -- Royal Painter Escort
         [56] =
         {
+            WAVES =
+            {
+                [1] = { 17023012, 17023013, 17023018 },
+                [2] = { 17023023, 17023014, 17023015, 17023019 },
+                [3] = { 17023016, 17023017, 17023020 },
+                [4] = { 17023021, 17023022 },
+            },
+            CREW =
+            {
+                [1] = 17023012,
+                [2] = 17023013,
+                [3] = 17023014,
+                [4] = 17023015,
+                [5] = 17023016,
+                [6] = 17023017,
+            },
+            MARINE =
+            {
+                [1] = 17023018,
+                [2] = 17023019,
+                [3] = 17023020,
+                [4] = 17023021,
+                [5] = 17023022,
+            },
+            BLACK_BARTHOLOMEW = 17023023,
             FALUUYA = 17023011,
         },
         -- Targetting the captain
@@ -128,8 +170,14 @@ zones[tpz.zone.THE_ASHU_TALIF] =
         GATE_LIFEBOAT       = 17023059,
         [55] =
         {
-            ANCIENT_LOCKBOX = 17023034,
-            ANCIENT_LOCKBOX_EXTRA = 17023010,
+            ANCIENT_LOCKBOX         = 17023034,
+            ANCIENT_LOCKBOX_EXTRA   = 17023010,
+        },
+        [56] =
+        {
+            ANCIENT_LOCKBOX                 = 17023024,
+            ANCIENT_LOCKBOX_BOSS_BONUS      = 17023025,
+            ANCIENT_LOCKBOX_NO_DAMAGE_BONUS = 17023030,
         }
     },
 }

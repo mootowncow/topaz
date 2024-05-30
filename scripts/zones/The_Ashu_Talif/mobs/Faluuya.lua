@@ -4,10 +4,10 @@
 -- TOAU-15 Mission Battle
 -- TODO: Healing her causes her to stop roaming?
 -- TODO:  Flags to make her an NPC? Copy windurst 9-2?
+-- TODO: If she takes too much damage she will say OUCH_PROTECT_ME, then a chest is lost
+-- TODO: More text
 -----------------------------------
-
 local ID = require("scripts/zones/The_Ashu_Talif/IDs")
-
 require("scripts/globals/instance")
 require("scripts/globals/status")
 require("scripts/globals/pathfind")
@@ -86,6 +86,7 @@ function onMobRoam(mob)
     local instance = mob:getInstance()
     local stage = instance:getStage()
     local progress = instance:getProgress()
+    local chars = instance:getChars()
     local sketchOneWait = mob:getLocalVar("sketchOneWait")
     local sketchTwoWait = mob:getLocalVar("sketchTwoWait")
 
@@ -103,6 +104,9 @@ function onMobRoam(mob)
     end
 
     if IsOutsideDoor(mob) then
+        if (stage == 0) then
+            printf("Waiting for door to be opened")
+        end
         if (stage == 1) then
             printf("Outside door, increasing progress and teleporting")
             instance:setProgress(instance:getProgress() +1)
@@ -175,8 +179,9 @@ function onMobRoam(mob)
         return
     end
 
-    if (stage == 1 and progress == 0) then
+    if (stage == 0) then
         printf("stageOnePts1")
+        DisplayText(mob, "introText", ID.text.SHALL_WE_BE_OFF)
         tpz.path.followPointsInstance(mob, stageOnePts1, tpz.path.flag.NONE)
     elseif (stage == 1) and (progress == 1) then
         tpz.path.followPointsInstance(mob, stageOnePts2, tpz.path.flag.NONE)
@@ -199,20 +204,35 @@ function onMobRoam(mob)
     elseif (stage == 7)  and (os.time() >= sketchTwoWait) then
         printf("retreatToTopTwoPts1")
         tpz.path.followPointsInstance(mob, retreatToTopTwoPts1, tpz.path.flag.RUN)
-    elseif (stage == 8) then
+    elseif (stage == 8) then -- TODO: Go back to middle, complete instance
         printf("retreatToTopPts2")
+        -- She says "Its finished"
+        instance:complete()
         tpz.path.followPointsInstance(mob, retreatToTopPts2, tpz.path.flag.RUN)
     end
 end
 
 function onMobFight(mob, target)
-    printf("Fighting!")
 end
 
 function onMobDespawn(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
+    local instance = mob:getInstance()
+    instance:fail()
+end
+
+function DisplayText(mob, textVar, msgId)
+    local instance = mob:getInstance()
+    local chars = instance:getChars()
+
+    if (mob:getLocalVar(textVar) == 0) then
+        for _, v in pairs(chars) do
+            v:messageSpecial(msgId)
+            mob:setLocalVar(textVar, 1)
+        end
+    end
 end
 
 function Teleport(mob, x, y, z)

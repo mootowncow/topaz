@@ -39,69 +39,39 @@ function onInstanceProgressUpdate(instance, progress)
     local stage = instance:getStage()
     local progress = instance:getProgress()
     if (stage >= 2) then -- Mobs will now spawn
-        if progress == 2 then -- Wave 1
+        if progress == 0 then -- Wave 1
             spawnWave(1, instance)
-        elseif progress == 4 then -- Wave 2
+        elseif progress == 3 then -- Wave 2
             spawnWave(2, instance)
-        elseif progress == 9 then -- Wave 3
+        elseif progress == 6 then -- Wave 3
             spawnWave(3, instance)
-        elseif progress == 18 then -- Wave 4
+        elseif progress == 9 then -- Wave 4
             spawnWave(4, instance)
-        elseif progress == 27 then -- Wave 5
-            spawnWave(5, instance)
-        elseif progress == 28 then -- Wave 6
-            spawnWave(6, instance)
-        elseif progress == 29 then -- Wave 7
-            spawnWave(7, instance)
-        elseif progress == 31 then -- Wave 8
-            spawnWave(8, instance)
-        elseif progress == 35 then -- Wave 9
-            giveTempItems(instance)
-            spawnWave(9, instance)
-        elseif progress == 36 then -- Wave 10
-            spawnWave(10, instance)
-        elseif progress == 40 then -- Wave 11
-            spawnWave(11, instance)
-        elseif progress == 44 then -- Wave 12
-            spawnWave(12, instance)
-        elseif progress == 52 then -- Wave 13
-            spawnWave(13, instance)
-        elseif progress == 60 then -- Wave 14
-            spawnWave(14, instance)
-        elseif progress == 69 then -- Wave 15
-            spawnWave(15, instance)
-        elseif progress == 73 then -- Wave 16
-            giveTempItems(instance)
-            spawnWave(16, instance)
-        elseif progress == 74 then -- Wave 17
-            spawnWave(17, instance)
-        elseif progress == 82 then -- Wave 18
-            spawnWave(18, instance)
-        elseif progress == 90 then -- Wave 19
-            spawnWave(19, instance)
-        elseif progress == 94 then -- Wave 20
-            spawnWave(20, instance)
-        elseif progress == 102 then -- Wave 21
-            spawnWave(21, instance)
-        elseif (progress == 110 and instance:completed() == false) then
+        elseif progress == 11 then -- All waves killed
             instance:complete()
+            DespawnMob(ID.mob[56].BLACK_BARTHOLOMEW, instance)
         end
     end
 end
 
 function onInstanceComplete(instance)
-    local mob = GetMobByID(ID.mob[55].SWIFTWINGED_GEKKO, instance)
     local chars = instance:getChars()
+    local faluuya = GetMobByID(ID.mob[56].FALUUYA, instance)
     
     for _, v in pairs(chars) do
-        v:completeQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.SCOUTING_THE_ASHU_TALIF)
+        v:completeQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT)
     end
 
     -- Spawn exit and chest(s)
     instance:getEntity(bit.band(ID.npc.GATE_LIFEBOAT, 0xFFF), tpz.objType.NPC):untargetable(false)
-    instance:getEntity(bit.band(ID.npc[55].ANCIENT_LOCKBOX, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
-    if not mob:isSpawned() then
-        instance:getEntity(bit.band(ID.npc[55].ANCIENT_LOCKBOX_EXTRA, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
+    instance:getEntity(bit.band(ID.npc[56].ANCIENT_LOCKBOX, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
+
+    if (instance:getLocalVar("bartholomew_killed") > 0) then
+        instance:getEntity(bit.band(ID.npc[56].ANCIENT_LOCKBOX_EXTRA, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
+    end
+
+    if (instance:getLocalVar("faluuya_damaged") > 0) then
+        instance:getEntity(bit.band(ID.npc[56].ANCIENT_LOCKBOX_NO_DAMAGE_BONUS, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
     end
 end
 
@@ -115,43 +85,38 @@ function onEventFinish(player, csid, option)
 end
 
 function spawnWave(wave, instance)
-    for i, v in pairs(waves[wave]) do
-        local mob = GetMobByID(v, instance)
+    local waveMobs = ID.mob[56].WAVES[wave]
+    
+    if not waveMobs then
+        printf("Invalid wave number:", wave)
+        return
+    end
 
-        if v == ID.mob[55].SWIFTWINGED_GEKKO then
-            if mob:isSpawned() then
-                -- Give a random person if hate
-                local chars = instance:getChars()
-                mob:addEnmity(chars[math.random(#chars)], 0, 1)
+    for _, mobId in pairs(waveMobs) do
+        printf("Spawning mob with ID:", mobId)
+        local mob = GetMobByID(mobId, instance)
+        
+        if not mob then
+            printf("Invalid mob returned for ID:", mobId)
+            return
+        end
 
-                -- Show mob
-                mob:hideName(false)
-                mob:untargetable(false)
-                mob:setStatus(tpz.status.UPDATE)
-                mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
-                
-                -- Delay casting
-                mob:timer(1000, function(mob)
-                    if mob:isSpawned() then
-                        mob:SetMagicCastingEnabled(true)
-                    end
-                end)
+        mob:spawn()
+
+        if mob:isSpawned() then
+            printf("Mob spawned successfully:", mobId)
+            local faluuya = GetMobByID(ID.mob[56].FALUUYA, instance)
+            if faluuya then
+                mob:updateEnmity(faluuya)
             else
-                instance:setProgress(instance:getProgress() + 1)
+                printf("Faluuya mob not found.")
             end
         else
-            mob:timer(2000, function(mob)
-                if not mob:isSpawned() then
-                    mob:spawn()
-                    mob:SetMobSkillAttack(0)
-                    mob:setMobMod(tpz.mobMod.LINK_RADIUS, 30)
-                else
-                    instance:setProgress(instance:getProgress() + 1) -- If the mob can't spawn, then just increase the counter
-                end
-            end)
+            printf("Mob failed to spawn:", mobId)
         end
     end
 end
+
 
 function giveTempItems(instance)
     local chars = instance:getChars()

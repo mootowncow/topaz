@@ -625,10 +625,14 @@ INSERT INTO `instance_entities` VALUES(56, 17023019); -- Ashu Talif Marine
 INSERT INTO `instance_entities` VALUES(56, 17023020); -- Ashu Talif Marine
 INSERT INTO `instance_entities` VALUES(56, 17023021); -- Ashu Talif Marine
 INSERT INTO `instance_entities` VALUES(56, 17023022); -- Ashu Talif Marine
-INSERT INTO `instance_entities` VALUES(56, 17023023); -- Ashu Talif Marine
+INSERT INTO `instance_entities` VALUES(56, 17023023); -- Black Bartholomew
 
 -- NPCs
+INSERT INTO `instance_entities` VALUES(56, 17023024); -- Ancient Lockbox (Winning)
+INSERT INTO `instance_entities` VALUES(56, 17023025); -- Ancient Lockbox (Boss killed)
+INSERT INTO `instance_entities` VALUES(56, 17023030); -- Ancient Lockbox (Faluuya 0 damage taken)
 INSERT INTO `instance_entities` VALUES(56, 17023057); -- Door: Cargo Hold
+INSERT INTO `instance_entities` VALUES(56, 17023059); -- Gate: Lifeboat
 
 
 -- Path of Darkness
