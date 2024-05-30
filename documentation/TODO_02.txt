@@ -161,8 +161,11 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Nerf crit WS crit % by 5% per TP tier
+Nerf spikes dmg on gear(esp nin AF body)
+Does aspir generate enmity?
+Don't port pet if csiD is prot/shell/regen/refresh etc gov buffs
 Merits json and edit NIN(and bst) merits
-Does ele WSD gear work on hybrid WS?
 "no longer muddled" ?
 Healing Powder doesn't work?
 Del the bad effects when manawell status is removed(maybe add the statuses to GAINING the effect ?)
@@ -192,6 +195,7 @@ not mob:hasPreventActionEffect() to qultada talking/using stuff
 tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
 Ampitheatre pathing broken?
 Fomor HNM's(Lugh etc)
+Third Eye retail accurate
 
 
 How does slug shot do 61 instead of 400+ dmg? It's 1 hit
@@ -236,6 +240,8 @@ Mobs that aggro by sound and sound and are true aggro don't seem to link by both
 Impact / Comet / Meteor given to BLM
 Logic for mob TP moves going off even if target is out of range (Dark Ixion one doesnt work)
 Impact / Comet / Meteor given to BLM via items from long grinds (RMEA? Especially strongholdLM via items from long grinds (RMEA? Especially stronghold one?)
+Move/speed changes from LSB
+Don't drop items with a msg if "you do not meet the requiements to obtain <item>" because it's rare and everyone has it. Or just don't display the msg?
 NO_EFFECT msg missing from simplelog
 Hunts
 WOE
