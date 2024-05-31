@@ -161,15 +161,20 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Fix Mijin Gakure
 Nerf crit WS crit % by 5% per TP tier
 Nerf spikes dmg on gear(esp nin AF body)
+NIN merits - >
+    5% SB also give 5% DW
+    Retail sange (1m dura 3m cd)
+
 Does aspir generate enmity?
 Don't port pet if csiD is prot/shell/regen/refresh etc gov buffs
 Merits json and edit NIN(and bst) merits
 "no longer muddled" ?
 Healing Powder doesn't work?
-Del the bad effects when manawell status is removed(maybe add the statuses to GAINING the effect ?)
-Tainted Flesh/Frogmander no roam on spawn, but roam on engage
+Del the bad effects when manawell status is removed(maybe add the statuses to GAINING the effect ?) Can prob addmod of no_move too
+Tainted Flesh(garlaige and onzozo, maybe other zones too like gusgen?)/Frogmander/Helion no roam on spawn, but roam on engage
 Magic Sludge casts thunder(?!)
 Enagakure did not spawn at 20:00
 Nakuals set weather to none on disengage
@@ -243,6 +248,7 @@ Impact / Comet / Meteor given to BLM via items from long grinds (RMEA? Especiall
 Move/speed changes from LSB
 Don't drop items with a msg if "you do not meet the requiements to obtain <item>" because it's rare and everyone has it. Or just don't display the msg?
 NO_EFFECT msg missing from simplelog
+Touch up Nagi fight, tries to spawn mobs if they are dead on floor, spawns adds all on top of eachother, and they do too little dmg and stuff
 Hunts
 WOE
 
