@@ -741,7 +741,7 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     end
 
     --handle Third Eye using shadowbehav as a guide
-    if (attackType == tpz.attackType.PHYSICAL and utils.thirdeye(target)) then
+    if (attackType == tpz.attackType.PHYSICAL and utils.thirdeye(mob, target)) then
 
         skill:setMsg(tpz.msg.basic.MISS)
         return 0

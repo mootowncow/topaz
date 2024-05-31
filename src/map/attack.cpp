@@ -340,61 +340,41 @@ bool CAttack::CheckAnticipated()
         return false;
     }
 
-    // power stores how many times this effect has anticipated
-    auto pastAnticipations = effect->GetPower();
-
-    if (pastAnticipations > 6)
-    {
-        // max 7 anticipates!
-        m_victim->StatusEffectContainer->DelStatusEffect(EFFECT_THIRD_EYE);
-        m_anticipated = true;
-        return true;
-    }
-
+    // Starts at 100% proc rate, decaying by 10% every 3 seconds until 10%.
+    uint16 anticipateChance = effect->GetPower();
     bool hasSeigan = m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN, 0);
-
-    if (!hasSeigan && pastAnticipations == 0)
+    //printf("anticipateChance: %u\n", anticipateChance);
+    if (m_victim->PAI->IsEngaged() &&
+        facing(m_victim->loc.p, m_attacker->loc.p, 45) &&
+        !m_victim->StatusEffectContainer->HasPreventActionEffect(false))
     {
-        m_victim->StatusEffectContainer->DelStatusEffect(EFFECT_THIRD_EYE);
-        m_anticipated = true;
-        return true;
-    }
-    else if (!hasSeigan)
-    {
-        m_victim->StatusEffectContainer->DelStatusEffect(EFFECT_THIRD_EYE);
-        m_anticipated = false;
-        return false;
-    }
-    else
-    { // do have seigan, decay anticipations correctly (guesstimated)
-        // 5-6 anticipates is a 'lucky' streak, going to assume 15% decay per proc, with a 100% base w/ Seigan
-        // Can't countera target with Perfect Dodge
-        if (m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
+        if (!hasSeigan)
         {
-            return false;
-        }
-        if (tpzrand::GetRandomNumber(100) < (100 - (pastAnticipations * 20) + m_victim->getMod(Mod::THIRD_EYE_ANTICIPATE_RATE)))
-        {
-            // increment power and don't remove
-            effect->SetPower(effect->GetPower() + 1);
-            // chance to counter - 25% base
-            if (!m_victim->StatusEffectContainer->HasPreventActionEffect(false) &&
-                tpzrand::GetRandomNumber(100) < 25 + m_victim->getMod(Mod::THIRD_EYE_COUNTER_RATE))
-            {
-                if (m_victim->PAI->IsEngaged() && facing(m_victim->loc.p, m_attacker->loc.p, 40) &&
-                    !m_victim->StatusEffectContainer->HasPreventActionEffect(false))
-                {
-                    m_isCountered = true;
-                   // m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false, false));
-                    m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false));
-                }
-            }
+            m_victim->StatusEffectContainer->DelStatusEffect(EFFECT_THIRD_EYE);
             m_anticipated = true;
             return true;
         }
-        m_victim->StatusEffectContainer->DelStatusEffect(EFFECT_THIRD_EYE);
-        m_anticipated = true;
-        return true;
+        else
+        {
+            if (tpzrand::GetRandomNumber(100) < anticipateChance)
+            {
+                // chance to counter - 25% base
+                if (!m_victim->StatusEffectContainer->HasPreventActionEffect(false) &&
+                    tpzrand::GetRandomNumber(100) < 25 + m_victim->getMod(Mod::THIRD_EYE_COUNTER_RATE))
+                {
+                    if (!m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
+                    {
+                        m_isCountered = true;
+                        m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false));
+                    }
+                }
+                m_anticipated = true;
+                return true;
+            }
+            m_victim->StatusEffectContainer->DelStatusEffect(EFFECT_THIRD_EYE);
+            m_anticipated = true;
+            return true;
+        }
     }
 
     return false;

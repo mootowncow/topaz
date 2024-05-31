@@ -255,54 +255,41 @@ function utils.conalDamageAdjustment(attacker, target, skill, max_damage, minimu
 
     return final_damage
 end
---[[
--- returns true if taken by third eye
-function utils.thirdeye(target)
-    --third eye doesnt care how many shadows, so attempt to anticipate, but reduce
-    --chance of anticipate based on previous successful anticipates.
-    local teye = target:getStatusEffect(tpz.effect.THIRD_EYE)
 
-    if (teye == nil) then
+function utils.thirdeye(attacker, target)
+    -- Starts at 100% proc rate, decaying by 10% every 3 seconds until 10%.
+    local thirdEye = target:getStatusEffect(tpz.effect.THIRD_EYE)
+	local hasSeigan = target:getStatusEffect(tpz.effect.SEIGAN)
+
+    if (thirdEye == nil) then
         return false
     end
 
-    local prevAnt = teye:getPower()
+    local anticipateChance = thirdEye:getPower()
+    -- printf("anticipateChance: %d", anticipateChance)
 
-    if ( prevAnt == 0 or (math.random()*100) < (80-(prevAnt*10)) ) then
-        --anticipated!
-        target:delStatusEffect(tpz.effect.THIRD_EYE)
-        return true
+    if
+        target:isEngaged() and
+        target:isFacing(attacker, 45) and
+        not target:hasPreventActionEffect()
+    then
+        if not hasSeigan then
+            -- printf("Anticipated!")
+            target:delStatusEffect(tpz.effect.THIRD_EYE)
+            return true
+        end
+
+        if (math.random(100) <= anticipateChance) then
+            -- printf("Anticipated!")
+            return true
+        else
+		    target:delStatusEffect(tpz.effect.THIRD_EYE)
+	    end
     end
 
     return false
 end
---]]
-function utils.thirdeye(target)
-    --third eye doesnt care how many shadows, so attempt to anticipate, but reduce
-    --chance of anticipate based on previous successful anticipates.
-    local teye = target:getStatusEffect(tpz.effect.THIRD_EYE)
-	local seigan = target:getStatusEffect(tpz.effect.SEIGAN)
 
-    if teye == nil then
-        return false
-    end
-
-    local prevAnt = teye:getPower()
-
-    if prevAnt < 7 then
-        --anticipated!
-        if seigan == nil or prevAnt == 6 or math.random()*100 > 100-prevAnt*20 then
-			target:delStatusEffect(tpz.effect.THIRD_EYE)
-		else
-			teye:setPower(prevAnt + 1)
-		end
-        return true
-    else
-		target:delStatusEffect(tpz.effect.THIRD_EYE)
-	end
-
-    return false
-end
 -- skillLevelTable contains matched pairs based on rank; First value is multiplier, second is additive value.  Index is the subtracted
 -- baseInRange value (see below)
 -- Original formula: ((level - <baseInRange>) * <multiplier>) + <additive>; where level is a range defined in utils.getSkillLvl

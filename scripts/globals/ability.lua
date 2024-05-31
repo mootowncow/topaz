@@ -810,8 +810,8 @@ function AbilityFinalAdjustments(dmg,mob,skill,target,skilltype,damagetype,shado
     end
 
     --handle Third Eye using shadowbehav as a guide
-    if (skilltype == tpz.attackType.PHYSICAL and utils.thirdeye(target)) then
-        skill:setMsg(tpz.msg.basic.ANTICIPATE)
+    if (skilltype == tpz.attackType.PHYSICAL and utils.thirdeye(mob, target)) then
+        skill:setMsg(tpz.msg.basic.JA_MISS_2)
         return 0
     end
 

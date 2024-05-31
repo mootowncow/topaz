@@ -428,10 +428,14 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
     end
 
     -- Don't check if the spell ignores shadows
-    if target:hasStatusEffect(tpz.effect.BLINK) or target:hasStatusEffect(tpz.effect.COPY_IMAGE) then
+    if
+        target:hasStatusEffect(tpz.effect.BLINK) or
+        target:hasStatusEffect(tpz.effect.COPY_IMAGE) or
+        target:hasStatusEffect(tpz.effect.THIRD_EYE)
+    then
         if (shadowbehav ~= BLUPARAM_IGNORE_SHADOWS) then
             if (params.attackType == tpz.attackType.PHYSICAL or params.attackType == tpz.attackType.RANGED) then
-                if utils.thirdeye(target) then
+                if utils.thirdeye(caster, target) then
                     spell:setMsg(tpz.msg.basic.MAGIC_FAIL)
                     return 0
                 end
