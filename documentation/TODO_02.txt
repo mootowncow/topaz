@@ -161,19 +161,8 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
-Fix Mijin Gakure
-Nerf crit WS crit % by 5% per TP tier
-Nerf spikes dmg on gear(esp nin AF body)
-NIN merits - >
-    5% SB also give 5% DW
-    Retail sange (1m dura 3m cd)
-
-Does aspir generate enmity?
 Don't port pet if csiD is prot/shell/regen/refresh etc gov buffs
 Merits json and edit NIN(and bst) merits
-"no longer muddled" ?
-Healing Powder doesn't work?
-Del the bad effects when manawell status is removed(maybe add the statuses to GAINING the effect ?) Can prob addmod of no_move too
 Tainted Flesh(garlaige and onzozo, maybe other zones too like gusgen?)/Frogmander/Helion no roam on spawn, but roam on engage
 Magic Sludge casts thunder(?!)
 Enagakure did not spawn at 20:00
@@ -200,7 +189,6 @@ not mob:hasPreventActionEffect() to qultada talking/using stuff
 tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
 Ampitheatre pathing broken?
 Fomor HNM's(Lugh etc)
-Third Eye retail accurate
 
 
 How does slug shot do 61 instead of 400+ dmg? It's 1 hit
@@ -221,7 +209,6 @@ Tipua needs some type of mechanic, very boring and easy. Maybe summon bees and e
 Dark Ixion pathing is broken
 Shikigami weapon pathing
 17182795 Yagudo Prioress missing pet(maybe all SMN in castle oztroja [s] are?). Yagudo Superior by Asterion properly has a pet..wtf?
-Retune the SCNM BCNMs
 Dangruf Sprouts don't work
 Missing ANNM fights(the TODO ones on wiki?) and retune decimation weapon augment(too high %)
 Revival tree root drop rate? 10-15%? Check FFXIDB
@@ -269,7 +256,6 @@ Only take ZNM items on ZNM kill not pop
 Gotoh Zha the Redolent SDT/EEM in sql (Copy whats in its lua)
 JP wiki for killer weapon/armor percentages
 Buff: Meatloaf(Add HP and +5 ACC) https://www.bg-wiki.com/ffxi/Orange_Kuchen and https://www.bg-wiki.com/ffxi/Army_Biscuit and https://ffxiclopedia.fandom.com/wiki/Patlican_Salata and Bataquiche and Nopales Salad
-Gaze TP moves have insane bonus MACC, terror moves can be resisted normally, just terror gaze is the exception(?)
 +Asylum / Misery / Auspice effect gear
 Ziz animation sub change after using TP moves? (Give some type of stat boost from it too!)
 Storage NPCs for alex forgotten items etc
@@ -554,6 +540,8 @@ Aketon change to damage taken not phalanx check others with same type of text
 LAC:
 
 Wiki: 
+flame / ice shield to wiki
+Sky god gear to wiki(absorb on genbu/suzaku items)
 Afflatus Misery buffing auspice enspell effect
 Tornado Kick fTP and WSC
 Dragon Kick  and Asectic's Fury fTP
