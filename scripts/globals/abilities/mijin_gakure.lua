@@ -39,7 +39,7 @@ function onUseAbility(player, target, ability)
     else
         target:takeDamage(dmg, player, tpz.attackType.SPECIAL, tpz.damageType.ELEMENTAL)
         if (target:getObjType() ~= tpz.objType.PC) then
-            local tpGiven = utils.CalculateSpellTPGiven(caster, target)
+            local tpGiven = utils.CalculateSpellTPGiven(player, target)
             target:addTP(tpGiven)
         end
     end

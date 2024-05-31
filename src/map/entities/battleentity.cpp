@@ -300,7 +300,14 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
             MinimumDelay += subweapon->getDelay();
             WeaponDelay += subweapon->getDelay();
             //apply dual wield delay reduction
-            WeaponDelay = (uint16)(WeaponDelay * ((100.0f - getMod(Mod::DUAL_WIELD)) / 100.0f));
+            int16 dualWieldMods = getMod(Mod::DUAL_WIELD);
+            auto PChar = dynamic_cast<CCharEntity*>(this);
+            if (PChar)
+            {
+                dualWieldMods += PChar->PMeritPoints->GetMeritValue(MERIT_SUBTLE_BLOW_EFFECT, PChar);
+            }
+
+            WeaponDelay = (uint16)(WeaponDelay * ((100.0f - dualWieldMods) / 100.0f));
         }
         //Add Fencer JA haste 
         CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]);

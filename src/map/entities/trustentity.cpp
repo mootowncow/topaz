@@ -196,7 +196,6 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
     uint8 realHits = 0;			// to store the real number of hit for tp multipler
     auto ammoConsumed = 0;
     bool hitOccured = false;	// track if player hit mob at all
-    bool isSange = false;
     bool isBarrage = StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE, 0);
 
     /*
@@ -204,11 +203,6 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
     if (!ammoThrowing && !rangedThrowing && isBarrage)
     {
         hitCount += battleutils::getBarrageShotCount(this);
-    }
-    else if (ammoThrowing && this->StatusEffectContainer->HasStatusEffect(EFFECT_SANGE))
-    {
-        isSange = true;
-        hitCount += getMod(Mod::UTSUSEMI);
     }
     */
 
@@ -236,12 +230,6 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
                 // at least 1 hit occured
                 hitOccured = true;
                 realHits++;
-
-                if (isSange)
-                {
-                    // change message to sange
-                    actionTarget.messageID = 77;
-                }
 
                 damage = (int32)((this->GetRangedWeaponDmg() + battleutils::GetFSTR(this, PTarget, slot)) * pdif);
                 /*
@@ -308,7 +296,7 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
     if (hitOccured == true)
     {
         // any misses with barrage cause remaing shots to miss, meaning we must check Action.reaction
-        if (actionTarget.reaction == REACTION_EVADE && (this->StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE) || isSange))
+        if (actionTarget.reaction == REACTION_EVADE && (this->StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE)))
         {
             actionTarget.messageID = 352;
             actionTarget.reaction = REACTION_HIT;
@@ -355,15 +343,6 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
     // remove barrage effect if present
     if (this->StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE, 0)) {
         StatusEffectContainer->DelStatusEffect(EFFECT_BARRAGE, 0);
-    }
-    else if (isSange)
-    {
-        uint16 power = StatusEffectContainer->GetStatusEffect(EFFECT_SANGE)->GetPower();
-
-        // remove shadows
-        while (realHits-- && tpzrand::GetRandomNumber(100) <= power && battleutils::IsAbsorbByShadow(this));
-
-        StatusEffectContainer->DelStatusEffect(EFFECT_SANGE);
     }
     battleutils::ClaimMob(PTarget, this);
     //battleutils::RemoveAmmo(this, ammoConsumed);

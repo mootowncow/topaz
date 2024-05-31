@@ -14,7 +14,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local potency = player:getMerit(tpz.merit.SANGE)-1
-
-    player:addStatusEffect(tpz.effect.SANGE, potency * 25, 0, 60)
+    player:addStatusEffect(tpz.effect.SANGE, 1, 0, 60)
 end
