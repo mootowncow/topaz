@@ -1059,7 +1059,7 @@ function MobDrainStatusEffectMove(mob, target)
 end
 
 -- Adds a status effect to a target
-function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration)
+function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isGaze)
 
     target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
     target:addEnmity(mob, 1, 320)
@@ -1085,16 +1085,14 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration)
         local element = mob:getStatusEffectElement(typeEffect)
         local bonus = math.floor(mob:getMainLvl() / 2)
 
+        if (isGaze ~= nil) then
+            bonus = bonus + 255
+        end
+
         local resist = applyPlayerResistance(mob, typeEffect, target, dStat, bonus, element)
+
         -- Negative / Positive element resist on players
         resist = CheckPlayerStatusElementResist(mob, target, element, typeEffect, resist, 0)
-
-        -- Terror cannot be resisted by players outside of the trait
-        if (target:isPC() and typeEffect == tpz.effect.TERROR) then
-            if math.random() > getEffectResistanceTraitChance(mob, target, tpz.effect.TERROR) then
-                resist = 1
-            end
-        end
 
         -- Doom and Gradual Petrification can't have a lower duration from resisting
         if (resist < 1) then
@@ -1102,6 +1100,7 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration)
                 return tpz.msg.basic.SKILL_MISS
             end
         end
+
         if (resist >= 0.50) then
 
             -- Reduce duration by resist percentage
@@ -1129,7 +1128,7 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration)
 end
 
 -- Adds a status effect to a target with customizable duration and subpower
-function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier)
+function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, isGaze)
 
     target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
     target:addEnmity(mob, 1, 320)
@@ -1147,6 +1146,10 @@ function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, 
         local dStat = mob:getStat(statmod)-target:getStat(statmod)
         local element = mob:getStatusEffectElement(typeEffect)
         local bonus = math.floor(mob:getMainLvl() / 2)
+
+        if (isGaze ~= nil) then
+            bonus = bonus + 255
+        end
 
         local resist = applyPlayerResistance(mob, typeEffect, target, dStat, bonus, element)
 
@@ -1254,11 +1257,16 @@ end
 function MobGazeMove(mob, target, typeEffect, power, tick, duration)
     if (target:isFacing(mob)) then
 		if target:hasStatusEffect(tpz.effect.BLINDNESS) then
+            target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+            target:addEnmity(mob, 1, 320)
 			return tpz.msg.basic.SKILL_MISS
 		else
-			return MobStatusEffectMove(mob, target, typeEffect, power, tick, duration)
+			return MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, true)
 		end
     end
+
+    target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+    target:addEnmity(mob, 1, 320)
     return tpz.msg.basic.SKILL_MISS
 end
 
@@ -1266,11 +1274,16 @@ end
 function MobGazeMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier)
     if (target:isFacing(mob)) then
 		if target:hasStatusEffect(tpz.effect.BLINDNESS) then
+            target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+            target:addEnmity(mob, 1, 320)
 			return tpz.msg.basic.SKILL_MISS
 		else
-			return MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier)
+			return MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, true)
 		end
     end
+
+    target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+    target:addEnmity(mob, 1, 320)
     return tpz.msg.basic.SKILL_MISS
 end
 
@@ -1429,15 +1442,16 @@ function MobCharmMove(mob, target, skill, costume, duration)
 
 	--GetPlayerByID(6):PrintToPlayer(string.format("Resist: %u",resist))
 
-    target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
-    target:addEnmity(mob, 1, 320)
-
 	if (not target:isPC()) then
+        target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+        target:addEnmity(mob, 1, 320)
 		return skill:setMsg(tpz.msg.basic.SKILL_MISS)
 	end
 	
 	if (resist >= 0.5) then
 		if target:hasStatusEffect(tpz.effect.FEALTY) then
+            target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+            target:addEnmity(mob, 1, 320)
 		    return skill:setMsg(tpz.msg.basic.SKILL_MISS)
 		else
             mob:resetEnmity(target)
@@ -1447,6 +1461,8 @@ function MobCharmMove(mob, target, skill, costume, duration)
             return skill:setMsg(tpz.msg.basic.SKILL_ENFEEB_IS)
         end
 	else
+        target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+        target:addEnmity(mob, 1, 320)
 	    return skill:setMsg(tpz.msg.basic.SKILL_MISS)
 	end
 end
