@@ -4681,7 +4681,7 @@ INSERT INTO `item_mods` VALUES (11402,1,7);       -- Gothic Sabatons: DEF 7
 INSERT INTO `item_mods` VALUES (11402,9,3);       -- DEX +3
 INSERT INTO `item_mods` VALUES (11402,27,2);      -- Enmity +2
 INSERT INTO `item_mods` VALUES (11402,499,2);     -- Ice spikes
-INSERT INTO `item_mods` VALUES (11402,500,15);    -- Spikes damage +15
+INSERT INTO `item_mods` VALUES (11402,500,7);     -- Spikes damage +7
 INSERT INTO `item_mods` VALUES (11402,501,15);    -- Spikes chance +15%
 INSERT INTO `item_mods` VALUES (11403,1,1);
 INSERT INTO `item_mods` VALUES (11404,1,9);
@@ -4804,7 +4804,7 @@ INSERT INTO `item_mods` VALUES (11433,2,45);      -- HP +45
 INSERT INTO `item_mods` VALUES (11433,5,45);      -- MP +45
 INSERT INTO `item_mods` VALUES (11433,27,6);      -- Enmity +6
 INSERT INTO `item_mods` VALUES (11433,499,5);     -- Shock spikes
-INSERT INTO `item_mods` VALUES (11433,500,20);    -- Spikes damage +20
+INSERT INTO `item_mods` VALUES (11433,500,7);     -- Spikes damage +7
 INSERT INTO `item_mods` VALUES (11433,501,25);    -- Spikes chance +25%
 INSERT INTO `item_mods` VALUES (11434,1,20);      -- sapientia_sabots DEF:+20
 INSERT INTO `item_mods` VALUES (11434,5,24);      -- MP+24
@@ -6457,7 +6457,7 @@ INSERT INTO `item_mods` VALUES (11921,1,34);      -- Magma Gauntlets: DEF 34
 INSERT INTO `item_mods` VALUES (11921,54,30);     -- Fire resistance +30
 INSERT INTO `item_mods` VALUES (11921,161,-4);    -- Physical damage taken -4%
 INSERT INTO `item_mods` VALUES (11921,499,1);     -- Blaze spikes
-INSERT INTO `item_mods` VALUES (11921,500,20);    -- Spikes damage +20
+INSERT INTO `item_mods` VALUES (11921,500,12);    -- Spikes damage +12
 INSERT INTO `item_mods` VALUES (11921,501,15);    -- Spikes chance +15%
 INSERT INTO `item_mods` VALUES (11922,1,33);      -- Pavor Gauntlets: DEF 33
 INSERT INTO `item_mods` VALUES (11922,5,33);      -- MP +33
@@ -6566,7 +6566,7 @@ INSERT INTO `item_mods` VALUES (11948,10,5);      -- VIT +5
 INSERT INTO `item_mods` VALUES (11948,27,3);      -- Enmity +3
 INSERT INTO `item_mods` VALUES (11948,68,-10);    -- Evasion -10
 INSERT INTO `item_mods` VALUES (11948,499,2);     -- Ice spikes
-INSERT INTO `item_mods` VALUES (11948,500,15);    -- Spikes damage +15 ?
+INSERT INTO `item_mods` VALUES (11948,500,7);     -- Spikes damage +7 
 INSERT INTO `item_mods` VALUES (11948,501,15);    -- Spikes chance +15% ?
 INSERT INTO `item_mods` VALUES (11949,1,40);      -- Haven Hose: DEF 40
 INSERT INTO `item_mods` VALUES (11949,5,10);      -- MP +10
@@ -8750,7 +8750,7 @@ INSERT INTO `item_mods` VALUES (12597,1,38);      -- War Aketon: DEF 38
 INSERT INTO `item_mods` VALUES (12597,2,25);      -- HP +25
 INSERT INTO `item_mods` VALUES (12597,9,4);       -- DEX +4
 INSERT INTO `item_mods` VALUES (12597,499,1);     -- Blaze spikes
-INSERT INTO `item_mods` VALUES (12597,500,25);    -- Spikes damage +25
+INSERT INTO `item_mods` VALUES (12597,500,12);    -- Spikes damage +12
 INSERT INTO `item_mods` VALUES (12597,501,25);    -- Spikes chance +25%
 INSERT INTO `item_mods` VALUES (12598,1,20);
 INSERT INTO `item_mods` VALUES (12598,9,1);
@@ -9401,7 +9401,7 @@ INSERT INTO `item_mods` VALUES (12853,1,27);      -- War Brais: DEF 27
 INSERT INTO `item_mods` VALUES (12853,2,25);      -- HP +25
 INSERT INTO `item_mods` VALUES (12853,11,4);      -- AGI +4
 INSERT INTO `item_mods` VALUES (12853,499,1);     -- Blaze spikes
-INSERT INTO `item_mods` VALUES (12853,500,15);    -- Spikes damage +15
+INSERT INTO `item_mods` VALUES (12853,500,12);    -- Spikes damage +12
 INSERT INTO `item_mods` VALUES (12853,501,20);    -- Spikes chance +20%
 INSERT INTO `item_mods` VALUES (12854,1,14);
 INSERT INTO `item_mods` VALUES (12854,68,2);
@@ -9481,7 +9481,7 @@ INSERT INTO `item_mods` VALUES (12880,12,3);      -- INT +3
 INSERT INTO `item_mods` VALUES (12880,25,-3);     -- Accuracy -3
 INSERT INTO `item_mods` VALUES (12880,1272,5);    -- Elemental WSD +5%
 INSERT INTO `item_mods` VALUES (12880,499,2);     -- Ice spikes
-INSERT INTO `item_mods` VALUES (12880,500,15);    -- Spikes damage +15
+INSERT INTO `item_mods` VALUES (12880,500,7);     -- Spikes damage +7
 INSERT INTO `item_mods` VALUES (12880,501,20);    -- Spikes chance +20%
 INSERT INTO `item_mods` VALUES (12881,1,11);
 INSERT INTO `item_mods` VALUES (12881,10,1);
@@ -9616,8 +9616,8 @@ INSERT INTO `item_mods` VALUES (12946,13,15);     -- MND +15
 INSERT INTO `item_mods` VALUES (12946,54,50);     -- Fire resistance +50
 INSERT INTO `item_mods` VALUES (12946,459,10);     -- Fire Absorb +10
 INSERT INTO `item_mods` VALUES (12946,499,1);     -- Blaze spikes
-INSERT INTO `item_mods` VALUES (12946,500,20);    -- Spikes damage +20
-INSERT INTO `item_mods` VALUES (12946,501,20);    -- Spikes chance +20%13771
+INSERT INTO `item_mods` VALUES (12946,500,12);    -- Spikes damage +12
+INSERT INTO `item_mods` VALUES (12946,501,20);    -- Spikes chance +20%
 INSERT INTO `item_mods` VALUES (12947,1,12);
 INSERT INTO `item_mods` VALUES (12947,58,-3);
 INSERT INTO `item_mods` VALUES (12947,59,3);
@@ -11353,7 +11353,7 @@ INSERT INTO `item_mods` VALUES (13705,2,250);      -- HP +250
 INSERT INTO `item_mods` VALUES (13705,10,15);      -- VIT +15
 INSERT INTO `item_mods` VALUES (13705,25,-3);     -- Accuracy -3
 INSERT INTO `item_mods` VALUES (13705,499,2);     -- Ice spikes
-INSERT INTO `item_mods` VALUES (13705,500,20);    -- Spikes damage +20
+INSERT INTO `item_mods` VALUES (13705,500,7);     -- Spikes damage +7
 INSERT INTO `item_mods` VALUES (13705,501,25);    -- Spikes chance +25%
 INSERT INTO `item_mods` VALUES (13706,1,16); -- DEF 16
 INSERT INTO `item_mods` VALUES (13706,5,12); -- MP 12
@@ -11677,7 +11677,7 @@ INSERT INTO `item_mods` VALUES (13771,1,39);      -- War Aketon +1: DEF 39
 INSERT INTO `item_mods` VALUES (13771,2,27);      -- HP +27
 INSERT INTO `item_mods` VALUES (13771,9,5);       -- DEX +5
 INSERT INTO `item_mods` VALUES (13771,499,1);     -- Blaze spikes
-INSERT INTO `item_mods` VALUES (13771,500,30);    -- Spikes damage +30
+INSERT INTO `item_mods` VALUES (13771,500,12);    -- Spikes damage +12
 INSERT INTO `item_mods` VALUES (13771,501,30);    -- Spikes chance +30%
 INSERT INTO `item_mods` VALUES (13771,421,5);    -- Critical hit damage +5%
 INSERT INTO `item_mods` VALUES (13772,1,40);
@@ -11768,7 +11768,7 @@ INSERT INTO `item_mods` VALUES (13782,2,15);      -- HP +15
 INSERT INTO `item_mods` VALUES (13782,10,3);      -- VIT +3
 INSERT INTO `item_mods` VALUES (13782,259,5);     -- Dual Wield +5%
 INSERT INTO `item_mods` VALUES (13782,499,1);     -- Blaze spikes
-INSERT INTO `item_mods` VALUES (13782,500,25);    -- Spikes damage +25
+INSERT INTO `item_mods` VALUES (13782,500,12);    -- Spikes damage +12
 INSERT INTO `item_mods` VALUES (13782,501,25);    -- Spikes chance +25%
 INSERT INTO `item_mods` VALUES (13783,1,28);
 INSERT INTO `item_mods` VALUES (13784,1,29);
@@ -12231,14 +12231,14 @@ INSERT INTO `item_mods` VALUES (13920,2,30);      -- HP +30
 INSERT INTO `item_mods` VALUES (13920,8,5);       -- STR +5
 INSERT INTO `item_mods` VALUES (13920,54,10);     -- Fire resistance +10
 INSERT INTO `item_mods` VALUES (13920,499,1);     -- Blaze spikes
-INSERT INTO `item_mods` VALUES (13920,500,20);    -- Spikes damage +20
+INSERT INTO `item_mods` VALUES (13920,500,12);    -- Spikes damage +12
 INSERT INTO `item_mods` VALUES (13920,501,15);    -- Spikes chance +15%
 INSERT INTO `item_mods` VALUES (13921,1,31);      -- Wyvern Helm +1: DEF 31
 INSERT INTO `item_mods` VALUES (13921,2,31);      -- HP +31
 INSERT INTO `item_mods` VALUES (13921,8,6);       -- STR +6
 INSERT INTO `item_mods` VALUES (13921,54,11);     -- Fire resistance +11
 INSERT INTO `item_mods` VALUES (13921,499,1);     -- Blaze spikes
-INSERT INTO `item_mods` VALUES (13921,500,25);    -- Spikes damage +25
+INSERT INTO `item_mods` VALUES (13921,500,12);    -- Spikes damage +12
 INSERT INTO `item_mods` VALUES (13921,501,20);    -- Spikes chance +20%
 INSERT INTO `item_mods` VALUES (13922,1,25);
 INSERT INTO `item_mods` VALUES (13922,12,5);
@@ -13456,7 +13456,7 @@ INSERT INTO `item_mods` VALUES (14238,1,28);      -- War Brais +1: DEF 28
 INSERT INTO `item_mods` VALUES (14238,2,27);      -- HP +27
 INSERT INTO `item_mods` VALUES (14238,11,5);      -- AGI +5
 INSERT INTO `item_mods` VALUES (14238,499,1);     -- Blaze spikes
-INSERT INTO `item_mods` VALUES (14238,500,25);    -- Spikes damage +25
+INSERT INTO `item_mods` VALUES (14238,500,12);    -- Spikes damage +12
 INSERT INTO `item_mods` VALUES (14238,501,25);    -- Spikes chance +25%
 INSERT INTO `item_mods` VALUES (14238,68,5);      -- Evasion+5
 INSERT INTO `item_mods` VALUES (14239,1,31);
@@ -13575,7 +13575,7 @@ INSERT INTO `item_mods` VALUES (14279,12,4);      -- INT +4
 INSERT INTO `item_mods` VALUES (14279,25,-5);     -- Accuracy -5
 INSERT INTO `item_mods` VALUES (14279,1272,7);    -- Elemental WSD +7%
 INSERT INTO `item_mods` VALUES (14279,499,2);     -- Ice spikes
-INSERT INTO `item_mods` VALUES (14279,500,20);    -- Spikes damage +20
+INSERT INTO `item_mods` VALUES (14279,500,7);     -- Spikes damage +7
 INSERT INTO `item_mods` VALUES (14279,501,25);    -- Spikes chance +25%
 INSERT INTO `item_mods` VALUES (14280,1,43);
 INSERT INTO `item_mods` VALUES (14280,2,25);
@@ -13930,7 +13930,7 @@ INSERT INTO `item_mods` VALUES (14366,2,255);      -- HP +255
 INSERT INTO `item_mods` VALUES (14366,10,16);      -- VIT +16
 INSERT INTO `item_mods` VALUES (14366,25,-5);     -- Accuracy -5
 INSERT INTO `item_mods` VALUES (14366,499,2);     -- Ice spikes
-INSERT INTO `item_mods` VALUES (14366,500,25);    -- Spikes damage +25
+INSERT INTO `item_mods` VALUES (14366,500,7);     -- Spikes damage +7
 INSERT INTO `item_mods` VALUES (14366,501,30);    -- Spikes chance +30%
 INSERT INTO `item_mods` VALUES (14367,1,52);
 INSERT INTO `item_mods` VALUES (14367,2,40);
@@ -14400,7 +14400,7 @@ INSERT INTO `item_mods` VALUES (14485,9,5);       -- DEX +5
 INSERT INTO `item_mods` VALUES (14485,10,5);      -- VIT +5
 INSERT INTO `item_mods` VALUES (14485,259,5);     -- Dual Wield +5%
 INSERT INTO `item_mods` VALUES (14485,499,5);     -- Shock spikes
-INSERT INTO `item_mods` VALUES (14485,500,25);    -- Spikes damage +25
+INSERT INTO `item_mods` VALUES (14485,500,7);     -- Spikes damage +7
 INSERT INTO `item_mods` VALUES (14485,501,25);    -- Spikes chance +25%
 INSERT INTO `item_mods` VALUES (14486,1,49);    -- Drachen Mail +1 Def:49
 INSERT INTO `item_mods` VALUES (14486,2,15);    -- HP +15
@@ -15928,7 +15928,7 @@ INSERT INTO `item_mods` VALUES (14952,10,4);      -- VIT +4
 INSERT INTO `item_mods` VALUES (14952,25,4);      -- Accuracy +4
 INSERT INTO `item_mods` VALUES (14952,71,1);      -- MP recovered while healing +1
 INSERT INTO `item_mods` VALUES (14952,499,2);     -- Ice spikes
-INSERT INTO `item_mods` VALUES (14952,500,15);    -- Spikes damage +15
+INSERT INTO `item_mods` VALUES (14952,500,7);     -- Spikes damage +7
 INSERT INTO `item_mods` VALUES (14952,501,15);    -- Spikes chance +15%
 INSERT INTO `item_mods` VALUES (14953,1,16);      -- Sadhu Bracelets
 INSERT INTO `item_mods` VALUES (14953,288,2);      -- 
@@ -16294,7 +16294,7 @@ INSERT INTO `item_mods` VALUES (15042,1,12);      -- Gothic Gauntlets: DEF 12
 INSERT INTO `item_mods` VALUES (15042,8,3);       -- STR +3
 INSERT INTO `item_mods` VALUES (15042,27,2);      -- Enmity +2
 INSERT INTO `item_mods` VALUES (15042,499,2);     -- Ice spikes
-INSERT INTO `item_mods` VALUES (15042,500,15);    -- Spikes damage +15
+INSERT INTO `item_mods` VALUES (15042,500,7);     -- Spikes damage +7
 INSERT INTO `item_mods` VALUES (15042,501,15);    -- Spikes chance +15%
 INSERT INTO `item_mods` VALUES (15043,1,1);
 INSERT INTO `item_mods` VALUES (15043,56,2);
@@ -19692,7 +19692,7 @@ INSERT INTO `item_mods` VALUES (16125,25,4);      -- Accuracy +4
 INSERT INTO `item_mods` VALUES (16125,27,-3);     -- Enmity -3
 INSERT INTO `item_mods` VALUES (16125,384,100);    -- Haste +1%
 INSERT INTO `item_mods` VALUES (16125,499,1);     -- Blaze spikes
-INSERT INTO `item_mods` VALUES (16125,500,20);    -- Spikes damage +20
+INSERT INTO `item_mods` VALUES (16125,500,12);    -- Spikes damage +12
 INSERT INTO `item_mods` VALUES (16125,501,15);    -- Spikes chance +15%
 INSERT INTO `item_mods` VALUES (16126,1,25);
 INSERT INTO `item_mods` VALUES (16126,9,4);
@@ -44822,7 +44822,7 @@ INSERT INTO `item_mods` VALUES (27722,68,33);     -- Evasion +33
 INSERT INTO `item_mods` VALUES (27722,161,-4);    -- Physical damage taken -4%
 INSERT INTO `item_mods` VALUES (27722,384,700);    -- Haste +7%
 INSERT INTO `item_mods` VALUES (27722,499,2);     -- Ice spikes
-INSERT INTO `item_mods` VALUES (27722,500,20);    -- Spikes damage +20
+INSERT INTO `item_mods` VALUES (27722,500,7);     -- Spikes damage +7
 INSERT INTO `item_mods` VALUES (27722,501,35);    -- Spikes chance +35%
 INSERT INTO `item_mods` VALUES (27723,1,112);
 INSERT INTO `item_mods` VALUES (27723,2,56);
@@ -45829,9 +45829,9 @@ INSERT INTO `item_mods` VALUES (27819,31,36);     -- Magic Evasion +26
 INSERT INTO `item_mods` VALUES (27819,68,24);     -- Evasion +24
 INSERT INTO `item_mods` VALUES (27819,259,7);     -- Dual Wield +7%
 INSERT INTO `item_mods` VALUES (27819,289,7);     -- Subtle Blow +7
-INSERT INTO `item_mods` VALUES (27819,384,400);    -- Haste +4%
+INSERT INTO `item_mods` VALUES (27819,384,400);   -- Haste +4%
 INSERT INTO `item_mods` VALUES (27819,499,5);     -- Shock spikes
-INSERT INTO `item_mods` VALUES (27819,500,20);    -- Spikes damage +20 ?
+INSERT INTO `item_mods` VALUES (27819,500,7);     -- Spikes damage +7 
 INSERT INTO `item_mods` VALUES (27819,501,30);    -- Spikes chance +30% ?
 INSERT INTO `item_mods` VALUES (27820,1,104);       -- vishap_mail: DEF 104
 INSERT INTO `item_mods` VALUES (27820,2,29);        -- HP +29
@@ -46185,7 +46185,7 @@ INSERT INTO `item_mods` VALUES (27840,259,8);     -- Dual Wield +8%
 INSERT INTO `item_mods` VALUES (27840,289,7);     -- Subtle Blow +7%
 INSERT INTO `item_mods` VALUES (27840,384,400);    -- Haste +4%
 INSERT INTO `item_mods` VALUES (27840,499,5);     -- Shock spikes
-INSERT INTO `item_mods` VALUES (27840,500,20);    -- Spikes damage +20
+INSERT INTO `item_mods` VALUES (27840,500,7);     -- Spikes damage +7
 INSERT INTO `item_mods` VALUES (27840,501,35);    -- Spikes chance +35%
 INSERT INTO `item_mods` VALUES (27841,1,139);
 INSERT INTO `item_mods` VALUES (27841,2,61);
