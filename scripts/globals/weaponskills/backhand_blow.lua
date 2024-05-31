@@ -21,7 +21,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     params.numHits = 2
     params.ftp100 = 1.0 params.ftp200 = 1.0 params.ftp300 = 1.0
     params.str_wsc = 0.2 params.dex_wsc = 0.2 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0 params.mnd_wsc = 0.0 params.chr_wsc = 0.0
-    params.crit100 = 0.5 params.crit200 = 0.6 params.crit300 = 0.7
+    params.crit100 = 0.45 params.crit200 = 0.45 params.crit300 = 0.45
     params.canCrit = true
     params.acc100 = 0.0 params.acc200= 0.0 params.acc300= 0.0
     params.atk100 = 1; params.atk200 = 1; params.atk300 = 1
