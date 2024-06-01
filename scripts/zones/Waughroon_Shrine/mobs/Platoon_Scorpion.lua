@@ -42,37 +42,6 @@ function onMobInitialize(mob)
 end
 
 function onMobFight(mob, target)
-    -- Gain resistance to sleep after every cast
-
-    mob:addListener("EFFECT_GAIN", "PLATOON_SCORP_EFFECT_GAIN", function(owner, effect)
-        local effectType = effect:getType()
-
-        -- Gains resistance to Sleep if it successfully lands
-        if (effectType == tpz.effect.SLEEP) then
-            if (mob:getMod(tpz.effect.EEM_DARK_SLEEP) >= 5) then -- Lowest EEM possible
-                if (mob:getMod(tpz.effect.EEM_DARK_SLEEP) == 100) then -- Next tier is -15%
-                    mob:setMod(tpz.effect.EEM_DARK_SLEEP, 85)
-                elseif (mob:getMod(tpz.effect.EEM_DARK_SLEEP) > 30) then -- 30-85 Tiers are -10% per tier
-                    mob:setMod(tpz.effect.EEM_DARK_SLEEP, mob:getMod(tpz.effect.EEM_DARK_SLEEP) -10)
-                else -- Rest are -5% per tier
-                    mob:setMod(tpz.effect.EEM_DARK_SLEEP, mob:getMod(tpz.effect.EEM_DARK_SLEEP) -5)
-                end
-            end
-        end
-
-        -- Gains resistance to Lullaby if it successfully lands
-        if (effectType == tpz.effect.LULLABY) then
-            if  (mob:getMod(tpz.effect.EEM_LIGHT_SLEEP) >= 5) then -- Lowest EEM possible
-                if (mob:getMod(tpz.effect.EEM_LIGHT_SLEEP) == 100) then -- Next tier is -15%
-                    mob:setMod(tpz.effect.EEM_LIGHT_SLEEP, 85)
-                elseif (mob:getMod(tpz.effect.EEM_LIGHT_SLEEP) > 30) then -- 30-85 Tiers are -10% per tier
-                    mob:setMod(tpz.effect.EEM_LIGHT_SLEEP, mob:getMod(tpz.effect.EEM_LIGHT_SLEEP) -10)
-                else -- Rest are -5% per tier
-                    mob:setMod(tpz.effect.EEM_LIGHT_SLEEP, mob:getMod(tpz.effect.EEM_LIGHT_SLEEP) -5)
-                end
-            end
-        end
-    end)
 end
 
 
