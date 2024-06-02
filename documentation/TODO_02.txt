@@ -161,7 +161,15 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Wild Rage said "999 shadows absorbed" with blink up?
+Buff Musanto / Katana from ANNM(Enmity +3 Evasion +7?)
+SC dmg is bugged, check the math behind it. It randomly does more or less dmg than it should
+Don't save : in item names for item_Basic.sql (FFXI item editor)
+Bestial Loyalty utsusemi transfer needs special logic because it's tracked really weird(copy utsu files?)
+Spikes proc chance from items should be based on the mod not w/e im doing
+Spikes res traits should be halved vs NM's and clamped to 95%
 Don't port pet if csiD is prot/shell/regen/refresh etc gov buffs
+Musanto better than Fudo but worse than Perdu
 Merits json and edit NIN(and bst) merits
 Tainted Flesh(garlaige and onzozo, maybe other zones too like gusgen?)/Frogmander/Helion no roam on spawn, but roam on engage
 Magic Sludge casts thunder(?!)
@@ -175,6 +183,7 @@ Sic merits don't work?
 Ic Pilav bun(new item)
 Ogre Gloves fencer buffed to 2/3%(NO TP BONUS)
 Update retail
+Sange animation wrong?
 Zdei in cubbys can't aggro people in hall? need longer sight aggro range on them?
 General — Today at 5:36 PM
 Not sure if this helps but you can look at lower_jeuno zone lua and see how they handled Zauko using xi.path.flag.WALLHACK, if your on LSB
@@ -183,7 +192,7 @@ You can always have your npc/mob stop at a door and open the door before they pa
 
 Quasilumin immediately comnmence patrol if mob hp == 0%(dead but not despawned..dead animation?) (it seems to work on ghrahs if ball form?)
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
-Leaden Salute wasn't unlocked when I had enough WS points
+Leaden Salute and Blade: Kamu weren't unlocked when I had enough WS points
 applyResistanceAddEffect() 
 not mob:hasPreventActionEffect() to qultada talking/using stuff
 tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
