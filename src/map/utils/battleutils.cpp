@@ -6729,6 +6729,106 @@ int getSDTTier(int SDT)
         }
     }
 
+        /************************************************************************
+     *                                                                       *
+     *   Does the random deal effect to a specific character (reset ability) *
+     *                                                                       *
+     ************************************************************************/
+    bool DoRandomDealToEntity(CCharEntity* PChar, CCharEntity* PTarget)
+    {
+        std::vector<uint16> resetCandidateList;
+        std::vector<uint16> activeCooldownList;
+
+        if (PChar == nullptr || PTarget == nullptr)
+        {
+            // Invalid User or Target
+            return false;
+        }
+
+        RecastList_t* recastList = PTarget->PRecastContainer->GetRecastList(RECAST_ABILITY);
+
+        // Get position of abilites and add to the 2 lists
+        for (uint8 i = 0; i < recastList->size(); ++i)
+        {
+            Recast_t* recast = &recastList->at(i);
+
+            // Do not reset 2hrs or Random Deal
+            if (recast->ID != 0 && recast->ID != 196)
+            {
+                resetCandidateList.push_back(i);
+                if (recast->RecastTime > 0)
+                {
+                    activeCooldownList.push_back(i);
+                }
+            }
+        }
+
+        if (resetCandidateList.size() == 0 || activeCooldownList.size() == 0)
+        {
+            // Evade because we have no abilities that can be reset
+            return false;
+        }
+
+        uint8 loadedDeck = PChar->PMeritPoints->GetMeritValue(MERIT_LOADED_DECK, PChar);
+        uint8 loadedDeckChance = 50 + loadedDeck;
+        uint8 resetTwoChance = std::min<int8>(PChar->getMod(Mod::RANDOM_DEAL_BONUS), 50);
+
+        if (loadedDeck > 0) // Loaded Deck Merit Version
+        {
+            if (activeCooldownList.size() > 1)
+            {
+                // Shuffle active cooldowns and take first (loaded deck)
+                customShuffle(std::begin(activeCooldownList), std::end(activeCooldownList));
+                loadedDeckChance = 100;
+            }
+
+            if (loadedDeckChance >= tpzrand::GetRandomNumber(100))
+            {
+                PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, activeCooldownList.at(0));
+
+                // Reset 2 abilities by chance
+                if (activeCooldownList.size() > 1 && resetTwoChance >= tpzrand::GetRandomNumber(100))
+                {
+                    PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, activeCooldownList.at(1));
+                }
+                if (PChar != PTarget)
+                {
+                    // Update target's recast state; caster's will be handled in CCharEntity::OnAbility.
+                    PTarget->pushPacket(new CCharRecastPacket(PTarget));
+                }
+                return true;
+            }
+
+            // Evade because we failed to reset with loaded deck
+            return false;
+        }
+        else // Standard Version
+        {
+            if (resetCandidateList.size() > 1)
+            {
+                // Shuffle if more than 1 ability
+                customShuffle(std::begin(resetCandidateList), std::end(resetCandidateList));
+            }
+
+            // Reset first ability (shuffled or only)
+            PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, resetCandidateList.at(0));
+
+            // Reset 2 abilities by chance (could be 2 abilitie that don't need resets)
+            if (resetCandidateList.size() > 1 && activeCooldownList.size() > 1 && resetTwoChance >= tpzrand::GetRandomNumber(1, 100))
+            {
+                PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, resetCandidateList.at(1));
+            }
+
+            if (PChar != PTarget && PTarget->objtype == TYPE_PC)
+            {
+                // Update target's recast state; caster's will be handled in CCharEntity::OnAbility.
+                PTarget->pushPacket(new CCharRecastPacket(PTarget));
+            }
+
+            return true;
+        }
+    }
+
     /************************************************************************
      *                                                                       *
      *    Sets all abilities to their maximumr recast timer.                 *

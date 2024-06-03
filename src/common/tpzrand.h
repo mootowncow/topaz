@@ -98,3 +98,13 @@ public:
         return GetRandomElement(container);
     }
 };
+
+// Custom shuffle function using tpzrand::GetRandomNumber
+template <typename RandomIt> void customShuffle(RandomIt first, RandomIt last)
+{
+    for (auto i = first; i != last; ++i)
+    {
+        auto j = first + tpzrand::GetRandomNumber<std::ptrdiff_t>(0, std::distance(first, i) + 1);
+        std::iter_swap(i, j);
+    }
+}

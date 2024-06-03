@@ -149,6 +149,7 @@ tpz.msg.basic =
     JA_NO_EFFECT_2         = 323, -- <user> uses <ability>. No effect on <target>. (2 line msg)
     JA_MISS                = 158, -- <user> uses <ability>, but misses. (no name included)
     JA_MISS_2              = 324, -- <user> uses <ability>, but misses <target>. (includes target name)
+    JA_RECEIVES_EFFECT_3   = 441, -- <user> receives the effect of <ability>.
     JA_DAMAGE_AND_STUN     = 522, -- <user> uses <ability>.  <target> takes <damage> and is stunned. (2 line msg)
     CANNOT_PERFORM_ACTION  = 71,  -- <user> cannot perform that action.
     SEEMS_FRIENDLIER       = 138, -- The <player> uses .. <target> seems friendlier.

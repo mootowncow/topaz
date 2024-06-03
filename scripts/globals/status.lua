@@ -1952,9 +1952,10 @@ tpz.mod =
     FRONTAL_PDT = 1188,
     BEHIND_PDT = 1189,
 	
-    PENGUIN_RING_EFFECT = 1190,   
-    ALBATROSS_RING_EFFECT = 1191,   
-    PELICAN_RING_EFFECT = 1192,
+    PENGUIN_RING_EFFECT     = 1190,   
+    ALBATROSS_RING_EFFECT   = 1191,   
+    PELICAN_RING_EFFECT     = 1192,
+    RANDOM_DEAL_BONUS       = 220, -- % chance to reset 2 abilities
 
     VERMIN_CIRCLE           = 1224,
     BIRD_CIRCLE             = 1225,

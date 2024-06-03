@@ -578,6 +578,7 @@ public:
 
     int32 fold(lua_State*);
     int32 doWildCard(lua_State*);
+    int32 doRandomDeal(lua_State*);
     int32 addCorsairRoll(lua_State*);          // Adds corsair roll effect
     int32 hasCorsairEffect(lua_State*);
     int32 hasBustEffect(lua_State*);           // Checks to see if a character has a specified busted corsair roll
