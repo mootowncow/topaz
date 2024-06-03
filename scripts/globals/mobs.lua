@@ -11,6 +11,7 @@ require("scripts/globals/msg")
 require("scripts/globals/npc_util")
 require("scripts/globals/roe")
 require("scripts/globals/world")
+require("scripts/globals/mob_skills")
 -----------------------------------
 
 tpz = tpz or {}
@@ -105,27 +106,6 @@ tpz.mob.phOnDespawn = function(ph, phList, chance, cooldown, immediate)
 
     return false
 end
-
------------------------------------
--- Mob skills
------------------------------------
-tpz.mob.skills =
-{
-    PETRIFACTIVE_BREATH     = 480,
-    RECOIL_DIVE             = 641,
-    ZEPHYR_ARROW            = 2193,
-    LETHE_ARROWS            = 2194,
-    SPRING_BREEZE           = 2195,
-    SUMMER_BREEZE           = 2196,
-    AUTUMN_BREEZE           = 2197,
-    WINTER_BREEZE           = 2198,
-    CYCLONIC_TURMOIL        = 2199,
-    CYCLONIC_TORRENT        = 2200,
-    TRANCE                  = 2260,
-    CYTOKINESIS             = 2514,
-    NORN_ARROWS             = 2518,
-    DISSOLVE                = 2550,
-}
 
 -------------------------------------------------
 -- mob additional melee effects
