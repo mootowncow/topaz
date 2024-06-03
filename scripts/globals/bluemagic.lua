@@ -328,7 +328,7 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
 
     -- Get ecosystem
     local correlation = 0
-    if (params.eco ~= nil) and target:isMob() then
+    if (params.eco ~= nil) and not target:isPC() then
         correlation = GetMonsterCorrelation(params.eco,GetTargetEcosystem(target))
     end
 
@@ -448,7 +448,7 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
     finaldmg = finaldmg * utils.HandleWeaponResist(target, params.damageType)
     
     -- Circle Effects
-    if target:isMob() and finaldmg > 0 then
+    if not target:isPC() and finaldmg > 0 then
         local ecoC = target:getSystem()
         local circlemult = 100
         local mod = 0
@@ -572,7 +572,7 @@ function BlueMagicalSpell(caster, target, spell, params, statMod)
 
     -- Get ecosystem
     local correlation = 0
-    if (params.eco ~= nil) and target:isMob() then
+    if (params.eco ~= nil) and not target:isPC() then
         correlation = GetMonsterCorrelation(params.eco,GetTargetEcosystem(target))
     end
 
@@ -721,7 +721,7 @@ function BlueBreathSpell(caster, target, spell, params, hppercent)
 
     -- Get ecosystem
     local correlation = 0
-    if (params.eco ~= nil) and target:isMob() then
+    if (params.eco ~= nil) and not target:isPC() then
         correlation = GetMonsterCorrelation(params.eco,GetTargetEcosystem(target))
     end
 
@@ -1229,7 +1229,7 @@ function getBlueEffectDuration(caster, resist, effect, varieswithtp)
 end
 
 function GetTargetEcosystem(target)
-    if target:isMob() then
+    if not target:isPC() then
 	    local sys = target:getSystem()
 
         -- honestly just taking the topaz enum standard and converting it an easier enum standard
@@ -1375,7 +1375,7 @@ function BlueHandleCorrelationMACC(caster, target, spell, params, bonus, correla
     end
 
     -- Figure out correlation if not provided as an arg
-    if (correlation == nil) and target:isMob() then
+    if (correlation == nil) and not target:isPC() then
         correlation = GetMonsterCorrelation(params.eco,GetTargetEcosystem(target))
     end
 
