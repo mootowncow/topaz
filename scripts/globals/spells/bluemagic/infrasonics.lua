@@ -32,9 +32,9 @@ function onSpellCast(caster, target, spell)
     local power = 20
 
 
-    if target:hasStatusEffect(perams.effect) then
+    if target:hasStatusEffect(params.effect) then
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-        return perams.effect
+        return params.effect
     end
 
     if BlueTryEnfeeble(caster, target, spell, 1, power, 0, 180, params) then
