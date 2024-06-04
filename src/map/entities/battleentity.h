@@ -722,7 +722,7 @@ public:
 
     TraitList_t     TraitList;                  // список постянно активных способностей в виде указателей
 
-    EntityID_t	    m_OwnerID;				    // ID атакующей сущности (после смерти будет хранить ID сущности, нанесщей последний удар)
+    EntityID_t	    m_OwnerID;				    // ID of the attacking entity(after death it will store the ID of the entity that dealt the final blow)
 
     ActionList_t	m_ActionList;			    // список совершенных действий за одну атаку (нужно будет написать структуру, включающую ActionList в которой будут категории анимации и т.д.)
 
