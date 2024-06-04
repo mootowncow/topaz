@@ -284,6 +284,15 @@ inline int32 CLuaInstance::getStage(lua_State* L)
     return 1;
 }
 
+inline int32 CLuaInstance::getLocalVar(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaInstance == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isstring(L, 1));
+
+    lua_pushinteger(L, (lua_Integer)m_PLuaInstance->GetLocalVar(lua_tostring(L, 1)));
+    return 1;
+}
+
 inline int32 CLuaInstance::setLevelCap(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PLuaInstance == nullptr);
@@ -331,6 +340,16 @@ inline int32 CLuaInstance::setStage(lua_State* L)
 
     m_PLuaInstance->SetStage((uint32)lua_tointeger(L, 1));
 
+    return 0;
+}
+
+inline int32 CLuaInstance::setLocalVar(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaInstance == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isstring(L, 1));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
+
+    m_PLuaInstance->SetLocalVar(lua_tostring(L, 1), (uint64_t)lua_tointeger(L, 2));
     return 0;
 }
 
@@ -420,11 +439,13 @@ Lunar<CLuaInstance>::Register_t CLuaInstance::methods[] =
     LUNAR_DECLARE_METHOD(CLuaInstance, getLevelCap),
     LUNAR_DECLARE_METHOD(CLuaInstance, getProgress),
     LUNAR_DECLARE_METHOD(CLuaInstance, getEntity),
+    LUNAR_DECLARE_METHOD(CLuaInstance, getLocalVar),
     LUNAR_DECLARE_METHOD(CLuaInstance, setProgress),
     LUNAR_DECLARE_METHOD(CLuaInstance, getWipeTime),
     LUNAR_DECLARE_METHOD(CLuaInstance, setWipeTime),
     LUNAR_DECLARE_METHOD(CLuaInstance, getStage),
     LUNAR_DECLARE_METHOD(CLuaInstance, setStage),
+    LUNAR_DECLARE_METHOD(CLuaInstance, setLocalVar),
     LUNAR_DECLARE_METHOD(CLuaInstance, fail),
     LUNAR_DECLARE_METHOD(CLuaInstance, failed),
     LUNAR_DECLARE_METHOD(CLuaInstance, complete),
