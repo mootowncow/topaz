@@ -13,6 +13,13 @@ function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
 end
 
+function onMobRoam(mob)
+    local instance = mob:getInstance()
+    if (instance:completed()) then
+        DespawnMob(mob:getID(), instance)
+    end
+end
+
 function onMobEngaged(mob, target)
     -- Black Coffin
     local allies = mob:getInstance():getAllies()
@@ -27,6 +34,13 @@ function onMobEngaged(mob, target)
         if(v:isAlive()) then
             v:setLocalVar("ready", 1)
         end
+    end
+end
+
+function onMobFight(mob, target)
+    local instance = mob:getInstance()
+    if (instance:completed()) then
+        DespawnMob(mob:getID(), instance)
     end
 end
 

@@ -62,15 +62,20 @@ function onInstanceComplete(instance)
         v:completeQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT)
     end
 
+    -- Despawn mobs
+    for v = ID.mob[56].CREW[1], ID.mob[56].MARINE[5] do
+        DespawnMob(v, instance)
+    end
+
     -- Spawn exit and chest(s)
     instance:getEntity(bit.band(ID.npc.GATE_LIFEBOAT, 0xFFF), tpz.objType.NPC):untargetable(false)
     instance:getEntity(bit.band(ID.npc[56].ANCIENT_LOCKBOX, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
 
     if (instance:getLocalVar("bartholomew_killed") > 0) then
-        instance:getEntity(bit.band(ID.npc[56].ANCIENT_LOCKBOX_EXTRA, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
+        instance:getEntity(bit.band(ID.npc[56].ANCIENT_LOCKBOX_BOSS_BONUS, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
     end
 
-    if (instance:getLocalVar("faluuya_damaged") > 0) then
+    if (instance:getLocalVar("faluuya_damaged") == 0) then
         instance:getEntity(bit.band(ID.npc[56].ANCIENT_LOCKBOX_NO_DAMAGE_BONUS, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
     end
 end
@@ -80,7 +85,7 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 101 or csid == 102 then
-        player:setPos(0, 0, 0, 0, 54)
+        player:setPos(-462, -2, -394, 54) -- TODO: Doesn't work.
     end
 end
 
@@ -88,12 +93,12 @@ function spawnWave(wave, instance)
     local waveMobs = ID.mob[56].WAVES[wave]
     
     if not waveMobs then
-        printf("Invalid wave number:", wave)
+        -- printf("Invalid wave number:", wave)
         return
     end
 
     for _, mobId in pairs(waveMobs) do
-        printf("Spawning mob with ID:", mobId)
+        -- printf("Spawning mob with ID:", mobId)
         local mob = GetMobByID(mobId, instance)
         
         if not mob then
@@ -104,7 +109,7 @@ function spawnWave(wave, instance)
         mob:spawn()
 
         if mob:isSpawned() then
-            printf("Mob spawned successfully:", mobId)
+            -- printf("Mob spawned successfully:", mobId)
             local faluuya = GetMobByID(ID.mob[56].FALUUYA, instance)
             if faluuya then
                 mob:updateEnmity(faluuya)

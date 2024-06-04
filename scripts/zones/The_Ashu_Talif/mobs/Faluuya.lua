@@ -2,10 +2,9 @@
 -- Area: The Ashu Talif (Royal Painter Escort
 --  Mob: Faluuya
 -- TOAU-15 Mission Battle
--- TODO: Healing her causes her to stop roaming?
--- TODO:  Flags to make her an NPC? Copy windurst 9-2?
 -- TODO: If she takes too much damage she will say OUCH_PROTECT_ME, then a chest is lost
 -- TODO: More text
+-- TODO: After fighting mobs doesn't remember her path and gets stuck
 -----------------------------------
 local ID = require("scripts/zones/The_Ashu_Talif/IDs")
 require("scripts/globals/instance")
@@ -76,10 +75,11 @@ local retreatToTopTwoPts1 = { -- Retreats back to top mobs spawning on top of de
     { -7.55, -22.50, -6.04 } -- Inside door
 }
 
-
 function onMobSpawn(mob)
-    mob:setLocalVar("path", 0)
+    mob:setDamage(40)
     mob:setMobMod(tpz.mobMod.NO_ROAM , 1)
+    mob:setLocalVar("waitTimer", os.time() + 30) -- Allow players to load in
+    mob:setLocalVar("path", 0)
 end
 
 function onMobRoam(mob)
@@ -99,13 +99,21 @@ function onMobRoam(mob)
     }
 
     if ShouldWait(mob) then
-        printf("Waiting...")
-        return -- printf("Waiting...") ?
+        return printf("Waiting...") -- Unsure if returning this works
+    end
+
+    if IsCompleted(instance) and not IsAtChest(mob) then
+        Teleport(mob, -0.07, -22.00, 16.13, 193)
+    end
+
+    if (IsCompleted(instance)) then
+        return
     end
 
     if IsOutsideDoor(mob) then
         if (stage == 0) then
             printf("Waiting for door to be opened")
+            DisplayText(mob, "canYouOpen", ID.text.CAN_YOU_OPEN)
         end
         if (stage == 1) then
             printf("Outside door, increasing progress and teleporting")
@@ -154,9 +162,6 @@ function onMobRoam(mob)
     end
 
     if IsAtBalconyOne(mob) and (stage == 5) then
-    -- Seems to move to door.. Maybe mobtype 16 (Battlefield) fixes.
-    -- or some flag, same one that stops tenzen from moving
-    -- or remove clearPath() everywhere?
         printf("At balcony one, setting a timer before moving")
         instance:setStage(instance:getStage() +1)
         mob:clearPath()
@@ -167,9 +172,6 @@ function onMobRoam(mob)
     end
 
     if IsAtBalconyTwo(mob) and (stage == 6) then
-    -- Seems to move to the wall.. Maybe mobtype 16 (Battlefield) fixes.
-    -- or some flag, same one that stops tenzen from moving
-    -- or remove clearPath() everywhere?
         printf("At balcony two, setting a timer before moving") 
         instance:setStage(instance:getStage() +1)
         mob:clearPath()
@@ -179,11 +181,20 @@ function onMobRoam(mob)
         return
     end
 
+    if (sketchOneWait > 0) and (sketchTwoWait - os.time() <= 30) then
+        DisplayText(mob, "almostDone", ID.text.ALMOST_DONE)
+    end
+
+    if IsCompleted(instance) and IsAtChest(mob) then
+        DisplayText(mob, "treasureChest", ID.text.A_TREASURE_CHEST)
+    end
+
     if (stage == 0) then
         printf("stageOnePts1")
         DisplayText(mob, "introText", ID.text.SHALL_WE_BE_OFF)
         tpz.path.followPointsInstance(mob, stageOnePts1, tpz.path.flag.NONE)
     elseif (stage == 1) and (progress == 1) then
+        DisplayText(mob, "givingCreeps", ID.text.GIVING_ME_CREEPS)
         tpz.path.followPointsInstance(mob, stageOnePts2, tpz.path.flag.NONE)
         printf("stageOnePts2")
     elseif (stage == 2) then
@@ -194,25 +205,47 @@ function onMobRoam(mob)
         tpz.path.followPointsInstance(mob, retreatToTopPts2, tpz.path.flag.RUN)
     elseif (stage == 4) then
         printf("sketchOnePt1")
+        DisplayText(mob, "mustSketch", ID.text.MUST_SKETCH)
         tpz.path.followPointsInstance(mob, sketchOnePt1, tpz.path.flag.RUN)
     elseif (stage == 5) then
         printf("sketchOnePt2")
         tpz.path.followPointsInstance(mob, sketchOnePt2, tpz.path.flag.RUN)
     elseif (stage == 6)  and (os.time() >= sketchOneWait) then
         printf("sketchTwo")
+        DisplayText(mob, "mustDraw", ID.text.MUST_DRAW)
         tpz.path.followPointsInstance(mob, sketchTwo, tpz.path.flag.RUN)
     elseif (stage == 7)  and (os.time() >= sketchTwoWait) then
         printf("retreatToTopTwoPts1")
         tpz.path.followPointsInstance(mob, retreatToTopTwoPts1, tpz.path.flag.RUN)
     elseif (stage == 8) then -- TODO: Go back to middle, complete instance
-        printf("retreatToTopPts2")
-        -- She says "Its finished"
+        printf("completed")
+        DisplayText(mob, "finished", ID.text.FINISHED)
         instance:complete()
         tpz.path.followPointsInstance(mob, retreatToTopPts2, tpz.path.flag.RUN)
     end
 end
 
+function onMobEngaged(mob, target)
+end
+
 function onMobFight(mob, target)
+    local dmgTakenMsgTimer = mob:getLocalVar("dmgTakenMsgTimer")
+    local randomhelpMsg = { ID.text.MAKE_IT_STOP, ID.text.UGH, ID.text.PLEASE_STAY_CLOSE, ID.text.HELP}
+
+    mob:addListener("TAKE_DAMAGE", "FALUUYA_TAKE_DAMAGE", function(mob, amount, attacker, attacktype, damagetype)
+        local totalDmgTaken = mob:getLocalVar("totalDmgTaken")
+        totalDmgTaken = amount + totalDmgTaken
+        mob:setLocalVar("totalDmgTaken")
+            -- TODO: Random msg on damage taken + timer
+        if (totalDmgTaken >= 1000) then
+            DisplayText(mob, "ouch", ID.text.OUCH_PROTECT_ME)
+        end
+    end)
+
+end
+
+function onMobDisengage(mob)
+    ClearPathing(mob)
 end
 
 function onMobDespawn(mob)
@@ -220,6 +253,7 @@ end
 
 function onMobDeath(mob, player, isKiller, noKiller)
     local instance = mob:getInstance()
+    DisplayText(mob, "howCouldHappen", ID.text.HOW_COULD_HAPPEN)
     instance:fail()
 end
 
@@ -229,15 +263,19 @@ function DisplayText(mob, textVar, msgId)
 
     if (mob:getLocalVar(textVar) == 0) then
         for _, v in pairs(chars) do
-            v:messageSpecial(msgId)
+            v:showText(mob, msgId)
             mob:setLocalVar(textVar, 1)
         end
     end
 end
 
-function Teleport(mob, x, y, z)
+function Teleport(mob, x, y, z, rot)
     ClearPathing(mob)
-    mob:setPos(x, y, z)
+    if (rot == nil) then
+        mob:setPos(x, y, z)
+    else
+        mob:setPos(x, y, z, rot)
+    end
 end
 
 function ShouldWait(mob)
@@ -322,6 +360,21 @@ function IsAtBalconyTwo(mob)
         math.abs(currentPos.y - (-18)) <= 1.0 and
         pathingDone)
     then
+        return true
+    end
+    return false
+end
+
+function IsAtChest(mob)
+    local currentPos = mob:getPos()
+    if (math.abs(currentPos.x - (0.0)) <= 1.0) then
+        return true
+    end
+    return false
+end
+
+function IsCompleted(instance)
+    if (instance:completed()) then
         return true
     end
     return false

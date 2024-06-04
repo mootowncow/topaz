@@ -4,61 +4,134 @@
 -----------------------------------
 local ID = require("scripts/zones/The_Ashu_Talif/IDs")
 require("scripts/globals/appraisal")
+require("scripts/globals/items")
 -----------------------------------
 
 function onTrigger(player, npc)
-    local loot =
-    {
-        {itemid =  748, droprate = 100}, -- Gold Beastcoin
-        {itemid =  749, droprate = 100}, -- Mythril Beastcoin
-        {itemid =  751, droprate = 100}, -- Platinum Beastcoin
-        {itemid =  784, droprate = 100}, -- Jadeite
-        {itemid =  785, droprate = 100}, -- Emerald
-        {itemid =  786, droprate = 100}, -- Ruby
-        {itemid =  787, droprate = 100}, -- Diamond
-        {itemid =  788, droprate = 100}, -- Peridot
-        {itemid =  789, droprate = 100}, -- Topaz
-        {itemid =  790, droprate = 100}, -- Garnet
-        {itemid =  791, droprate = 100}, -- Aquamarine
-        {itemid =  792, droprate = 100}, -- Pearl
-        {itemid =  793, droprate = 100}, -- Black Pearl
-        {itemid =  794, droprate = 100}, -- Sapphire
-        {itemid =  797, droprate = 100}, -- Painite
-        {itemid =  798, droprate = 100}, -- Turquoise
-        {itemid =  801, droprate = 100}, -- Chrysoberyl
-        {itemid =  802, droprate = 100}, -- Moonstone
-        {itemid =  803, droprate = 100}, -- Sunstone
-        {itemid =  804, droprate = 100}, -- Spinel
-        {itemid =  805, droprate = 100}, -- Zircon
-        {itemid =  808, droprate = 100}, -- Goshenite
-        {itemid =  810, droprate = 100}, -- Fluorite
-        {itemid =  811, droprate = 100}, -- Ametrine
-        {itemid =  813, droprate = 100}, -- Angelstone
-        {itemid =  815, droprate = 100}, -- Sphene
+    local loot = {
+        {itemid = tpz.items.GOLD_BEASTCOIN, droprate = 100},
+        {itemid = tpz.items.MYTHRIL_BEASTCOIN, droprate = 100},
+        {itemid = tpz.items.PLATINUM_BEASTCOIN, droprate = 100},
+        {itemid = tpz.items.JADEITE, droprate = 100},
+        {itemid = tpz.items.EMERALD, droprate = 100},
+        {itemid = tpz.items.RUBY, droprate = 100},
+        {itemid = tpz.items.DIAMOND, droprate = 100},
+        {itemid = tpz.items.PERIDOT, droprate = 100},
+        {itemid = tpz.items.TOPAZ, droprate = 100},
+        {itemid = tpz.items.GARNET, droprate = 100},
+        {itemid = tpz.items.AQUAMARINE, droprate = 100},
+        {itemid = tpz.items.PEARL, droprate = 100},
+        {itemid = tpz.items.BLACK_PEARL, droprate = 100},
+        {itemid = tpz.items.SAPPHIRE, droprate = 100},
+        {itemid = tpz.items.PAINITE, droprate = 100},
+        {itemid = tpz.items.TURQUOISE, droprate = 100},
+        {itemid = tpz.items.CHRYSOBERYL, droprate = 100},
+        {itemid = tpz.items.MOONSTONE, droprate = 100},
+        {itemid = tpz.items.SUNSTONE, droprate = 100},
+        {itemid = tpz.items.SPINEL, droprate = 100},
+        {itemid = tpz.items.ZIRCON, droprate = 100},
+        {itemid = tpz.items.GOSHENITE, droprate = 100},
+        {itemid = tpz.items.FLUORITE, droprate = 100},
+        {itemid = tpz.items.AMETRINE, droprate = 100},
+        {itemid = tpz.items.ANGELSTONE, droprate = 100},
+        {itemid = tpz.items.SPHENE, droprate = 100}
     }
-    local qItem =
-    {
-        [55] =
-        {
+
+    local qItem = {
+        [55] = {
             {itemid = 2286, droprate = 600}, -- ??? box
-            {itemid = 2191, droprate = 400}, -- ??? dagger
-        },
+            {itemid = 2191, droprate = 400}  -- ??? dagger
+        }
     }
-    local regItem =
+
+    local royalPainterItem =
     {
-        [55] = {itemid = 2359, droprate = 100} -- Star Sapphire
-        
+        {itemid = tpz.items.GOLD_BEASTCOIN, droprate = 100},
+        {itemid = tpz.items.MYTHRIL_BEASTCOIN, droprate = 100},
+        {itemid = tpz.items.PLATINUM_BEASTCOIN, droprate = 100},
+        {itemid = tpz.items.JADEITE, droprate = 100},
+        {itemid = tpz.items.EMERALD, droprate = 100},
+        {itemid = tpz.items.RUBY, droprate = 100},
+        {itemid = tpz.items.DIAMOND, droprate = 100},
+        {itemid = tpz.items.PERIDOT, droprate = 100},
+        {itemid = tpz.items.TOPAZ, droprate = 100},
+        {itemid = tpz.items.GARNET, droprate = 100},
+        {itemid = tpz.items.AQUAMARINE, droprate = 100},
+        {itemid = tpz.items.PEARL, droprate = 100},
+        {itemid = tpz.items.BLACK_PEARL, droprate = 100},
+        {itemid = tpz.items.SAPPHIRE, droprate = 100},
+        {itemid = tpz.items.PAINITE, droprate = 100},
+        {itemid = tpz.items.TURQUOISE, droprate = 100},
+        {itemid = tpz.items.CHRYSOBERYL, droprate = 100},
+        {itemid = tpz.items.MOONSTONE, droprate = 100},
+        {itemid = tpz.items.SUNSTONE, droprate = 100},
+        {itemid = tpz.items.SPINEL, droprate = 100},
+        {itemid = tpz.items.ZIRCON, droprate = 100},
+        {itemid = tpz.items.GOSHENITE, droprate = 100},
+        {itemid = tpz.items.FLUORITE, droprate = 100},
+        {itemid = tpz.items.AMETRINE, droprate = 100},
+        {itemid = tpz.items.ANGELSTONE, droprate = 100},
+        {itemid = tpz.items.SPHENE, droprate = 100}
+        {itemid = tpz.items.YOICHIS_SASH, droprate = 100}
+    }
+
+    local royalPainterItemBoss =
+    {
+        {itemid = tpz.items.CERBERUS_HIDE, droprate = 100},
+        {itemid = tpz.items.DIAMOND, droprate = 100},
+        {itemid = tpz.items.SPOOL_OF_RAINBOW_THREAD, droprate = 100},
+        {itemid = tpz.items.SPOOL_OF_GOLD_THREAD, droprate = 100},
+        {itemid = tpz.items.SPOOL_OF_SILVER_THREAD, droprate = 100},
+        {itemid = tpz.items.SPOOL_OF_WOOL_THREAD, droprate = 100},
+        {itemid = tpz.items.ANGELSTONE, droprate = 100},
+        {itemid = tpz.items.EMERALD, droprate = 100},
+        {itemid = tpz.items.CHUNK_OF_KHROMA_ORE, droprate = 100},
+        {itemid = tpz.items.SCHURZEN, droprate = 100},
+        {itemid = tpz.items.DYNAMO, droprate = 100},
+        {itemid = tpz.items.ECONOMIZER, droprate = 100},
+        {itemid = tpz.items.OPTIC_FIBER, droprate = 100},
+        {itemid = tpz.items.TURBO_CHARGER, droprate = 100},
+        {itemid = tpz.items.REACTIVE_SHIELD, droprate = 100},
+        {itemid = tpz.items.TRANQUILIZER, droprate = 100},
+        {itemid = tpz.items.CONDENSER, droprate = 100},
+    }
+
+    local royalPainterItemFaluuya =
+    {
+        {itemid = tpz.items.CERBERUS_HIDE, droprate = 100},
+        {itemid = tpz.items.DIAMOND, droprate = 100},
+        {itemid = tpz.items.SPOOL_OF_RAINBOW_THREAD, droprate = 100},
+        {itemid = tpz.items.SPOOL_OF_GOLD_THREAD, droprate = 100},
+        {itemid = tpz.items.SPOOL_OF_SILVER_THREAD, droprate = 100},
+        {itemid = tpz.items.SPOOL_OF_WOOL_THREAD, droprate = 100},
+        {itemid = tpz.items.ANGELSTONE, droprate = 100},
+        {itemid = tpz.items.EMERALD, droprate = 100},
+        {itemid = tpz.items.CHUNK_OF_KHROMA_ORE, droprate = 100},
+        {itemid = tpz.items.SCHURZEN, droprate = 100},
+        {itemid = tpz.items.DYNAMO, droprate = 100},
+        {itemid = tpz.items.ECONOMIZER, droprate = 100},
+        {itemid = tpz.items.OPTIC_FIBER, droprate = 100},
+        {itemid = tpz.items.TURBO_CHARGER, droprate = 100},
+        {itemid = tpz.items.REACTIVE_SHIELD, droprate = 100},
+        {itemid = tpz.items.TRANQUILIZER, droprate = 100},
+        {itemid = tpz.items.CONDENSER, droprate = 100},
+    }
+
+    local regItem = {
+        [55] = {itemid = tpz.items.STAR_SAPPHIRE, droprate = 100}
     }
 
     local instance = player:getInstance()
     local instanceID = instance:getID()
     local chars = instance:getChars()
     local chestID = npc:getID()
-    local qChest = false
-
-    if chestID == 17023010 then
-        qChest = true
-    end
+    
+    local chests = {
+        {name = "qChest", id = ID.npc[55].ANCIENT_LOCKBOX_EXTRA},
+        {name = "royalPainterChest", id = ID.npc[56].ANCIENT_LOCKBOX},
+        {name = "royalPainterChestBoss", id = ID.npc[56].ANCIENT_LOCKBOX_BOSS_BONUS},
+        {name = "royalPainterChestFaluuya", id = ID.npc[56].ANCIENT_LOCKBOX_NO_DAMAGE_BONUS}
+    }
 
     if instance:completed() and npc:getLocalVar("open") == 0 then
         if player:getFreeSlotsCount() == 0 then
@@ -69,52 +142,63 @@ function onTrigger(player, npc)
             npc:timer(15000, function(npc) npc:entityAnimationPacket("kesu") end)
             npc:timer(16000, function(npc) npc:setStatus(tpz.status.DISAPPEAR) end)
 
-            if qChest then
-                local lootGroup = qItem[instanceID]
-                if lootGroup then
-                    local max = 0
-                    for _, entry in pairs(lootGroup) do
-                        max = max + entry.droprate
-                    end
-                    local roll = math.random(max)
-                    for _, entry in pairs(lootGroup) do
-                        max = max - entry.droprate
-                        if roll > max then
-                            if entry.itemid > 0 then
-                                player:addItem({id = entry.itemid, appraisal = instanceID})
-                                for _, v in pairs(chars) do
-                                    v:messageName(ID.text.PLAYER_OBTAINS_ITEM, player, entry.itemid)
-                                end
-                                break
-                            end
-                        end
-                    end
+            local chestType = nil
+
+            for _, chest in ipairs(chests) do
+                if chestID == chest.id then
+                    chestType = chest.name
+                    break
                 end
+            end
+
+            if chestType == "qChest" then
+                printf("Q Chest")
+                distributeLoot(player, chars, qItem[instanceID], instanceID)
+            elseif chestType == "royalPainterChest" then
+                printf("royalPainterChest Chest")
+                player:addTreasure(2286, npc) -- ??? Box
+                distributeLoot(player, chars, royalPainterItem, instanceID)
+            elseif chestType == "royalPainterChestBoss" then
+                printf("royalPainterChestBoss Chest")
+                player:addTreasure(2276, npc) -- ??? Headpiece
+                distributeLoot(player, chars, royalPainterItemBoss, instanceID)
+            elseif chestType == "royalPainterChestFaluuya" then
+                printf("royalPainterChestFaluuya Chest")
+
+
+                distributeLoot(player, chars, royalPainterItemFaluuya, instanceID)
             else
-                player:addTreasure(18712, npc) -- Koga Shuriken 100%
+                player:addTreasure(tpz.items.KOGA_SHURIKEN, npc)
 
                 table.insert(loot, regItem[instanceID]) -- Add quest specific item
                 for i = 1, 3 do -- 3 more items
-                    local max = 0
-                    for _, entry in pairs(loot) do
-                        max = max + entry.droprate
-                    end
-                    local roll = math.random(max)
-                    for _, entry in pairs(loot) do
-                        max = max - entry.droprate
-                        if roll > max then
-                            if entry.itemid ~= 0 then
-                                player:addTreasure(entry.itemid, npc)
-                            end
-                            break
-                        end
-                    end
+                    distributeLoot(player, chars, loot, instanceID, npc)
                 end
             end
         end
     end
+end
 
-
+function distributeLoot(player, chars, lootGroup, instanceID, npc)
+    if lootGroup then
+        local max = 0
+        for _, entry in pairs(lootGroup) do
+            max = max + entry.droprate
+        end
+        local roll = math.random(max)
+        for _, entry in pairs(lootGroup) do
+            max = max - entry.droprate
+            if roll > max then
+                if entry.itemid > 0 then
+                    player:addItem({id = entry.itemid, appraisal = instanceID})
+                    for _, v in pairs(chars) do
+                        v:messageName(ID.text.PLAYER_OBTAINS_ITEM, player, entry.itemid)
+                    end
+                end
+                break
+            end
+        end
+    end
 end
 
 function onEventUpdate(player, csid, option)

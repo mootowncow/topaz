@@ -13,15 +13,27 @@ function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
 end
 
+function onMobRoam(mob)
+    local instance = mob:getInstance()
+    if (instance:completed()) then
+        DespawnMob(mob:getID(), instance)
+    end
+end
+
+function onMobFight(mob, target)
+    local instance = mob:getInstance()
+    if (instance:completed()) then
+        DespawnMob(mob:getID(), instance)
+    end
+end
+
 function onMobEngaged(mob, target)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
     local instance = mob:getInstance()
-    for v = ID.mob[56].CREW[1], ID.mob[56].MARINE[5] do
-        DespawnMob(v, instance)
-    end
     instance:setLocalVar("bartholomew_killed", 1)
+    instance:complete()
 end
 
 function onMobDespawn(mob)

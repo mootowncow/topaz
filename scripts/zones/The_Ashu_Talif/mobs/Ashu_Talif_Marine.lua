@@ -13,7 +13,18 @@ function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
 end
 
-function onMobEngaged(mob, target)
+function onMobRoam(mob)
+    local instance = mob:getInstance()
+    if (instance:completed()) then
+        DespawnMob(mob:getID(), instance)
+    end
+end
+
+function onMobFight(mob, target)
+    local instance = mob:getInstance()
+    if (instance:completed()) then
+        DespawnMob(mob:getID(), instance)
+    end
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

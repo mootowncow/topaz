@@ -236,7 +236,8 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 101 or csid == 102 then
-        player:setPos(0, 0, 0, 0, 54)
+        -- player:setPos(0, 0, 0, 0, 54) Why was it this? Seems wrong
+        player:setPos(-462, -2, -394, 54)
     end
 end
 
