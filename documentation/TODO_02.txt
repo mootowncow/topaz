@@ -245,6 +245,7 @@ Move/speed changes from LSB
 Don't drop items with a msg if "you do not meet the requiements to obtain <item>" because it's rare and everyone has it. Or just don't display the msg?
 NO_EFFECT msg missing from simplelog
 Touch up Nagi fight, tries to spawn mobs if they are dead on floor, spawns adds all on top of eachother, and they do too little dmg and stuff
+Mob_controller.cpp add losing TP if resting effect(pet /stay only) to // can't rest with a DOT on (plague does not stop mob regen)
 Hunts
 WOE
 
