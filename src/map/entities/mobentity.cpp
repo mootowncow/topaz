@@ -1090,7 +1090,7 @@ void CMobEntity::DistributeRewards()
         // NOTE: this is called for all alliance / party members!
         luautils::OnMobDeath(this, PChar);
 
-        if (!CalledForHelp())
+        if (!CalledForHelp() && PChar->allegiance != this->allegiance)
         {
             blueutils::TryLearningSpells(PChar, this);
             m_UsedSkillIds.clear();
@@ -1125,67 +1125,6 @@ void CMobEntity::DistributeRewards()
         luautils::OnMobDeath(this, nullptr);
     }
 }
-
-//void CMobEntity::DropItems(CCharEntity* PChar)
-//{
-//    //Adds an item to the treasure pool and returns true if the pool has been filled
-//    auto AddItemToPool = [this, PChar](uint16 ItemID, uint8 dropCount)
-//    {
-//        PChar->PTreasurePool->AddItem(ItemID, this);
-//        return dropCount >= TREASUREPOOL_SIZE;
-//    };
-//
-//    //Limit number of items that can drop to the treasure pool size
-//    uint8 dropCount = 0;
-//
-//    DropList_t* DropList = itemutils::GetDropList(m_DropID);
-//    //ShowDebug(CL_CYAN"DropID: %u dropping with TH Level: %u\n" CL_RESET, PMob->m_DropID, PMob->m_THLvl);
-//
-//    if (DropList != nullptr && !getMobMod(MOBMOD_NO_DROPS) && (DropList->Items.size() || DropList->Groups.size()))
-//    {
-//        //THLvl is the number of 'extra chances' at an item. If the item is obtained, then break out.
-//        int16 maxRolls = 1 + (m_THLvl > 2 ? 2 : m_THLvl);
-//        int16 bonus = (m_THLvl > 2 ? (m_THLvl - 2) * 10 : 0);
-//
-//        for (const DropGroup_t& group : DropList->Groups)
-//        {
-//            for (int16 roll = 0; roll < maxRolls; ++roll)
-//            {
-//                //Determine if this group should drop an item
-//                if (group.GroupRate > 0 && tpzrand::GetRandomNumber(1000) < group.GroupRate * map_config.drop_rate_multiplier + bonus)
-//                {
-//                    //Each item in the group is given its own weight range which is the previous value to the previous value + item.DropRate
-//                    //Such as 2 items with drop rates of 200 and 800 would be 0-199 and 200-999 respectively
-//                    uint16 previousRateValue = 0;
-//                    uint16 itemRoll = tpzrand::GetRandomNumber(1000);
-//                    for (const DropItem_t& item : group.Items)
-//                    {
-//                        if (previousRateValue + item.DropRate > itemRoll)
-//                        {
-//                            if (AddItemToPool(item.ItemID, ++dropCount))
-//                                return;
-//                            break;
-//                        }
-//                        previousRateValue += item.DropRate;
-//                    }
-//                    break;
-//                }
-//            }
-//        }
-//
-//        for (const DropItem_t& item : DropList->Items)
-//        {
-//            for (int16 roll = 0; roll < maxRolls; ++roll)
-//            {
-//                if (item.DropRate > 0 && tpzrand::GetRandomNumber(1000) < item.DropRate * map_config.drop_rate_multiplier + bonus)
-//                {
-//                    if (AddItemToPool(item.ItemID, ++dropCount))
-//                        return;
-//                    break;
-//                }
-//            }
-//        }
-//    }
 
 void CMobEntity::DropItems(CCharEntity* PChar)
 {

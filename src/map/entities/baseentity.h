@@ -146,7 +146,7 @@ enum ALLEGIANCETYPE
     ALLEGIANCE_WINDURST  = 4,
     ALLEGIANCE_WYVERNS   = 5,
     ALLEGIANCE_GRIFFONS  = 6,
-    ALLEGIANCE_MOB_TWO   = 7, // Hostile to mobs AND players
+    ALLEGIANCE_MOB_TWO   = 7, // TODO: Hostile to mobs AND players(Mising logic everywhere I think)
 };
 
 enum UPDATETYPE
