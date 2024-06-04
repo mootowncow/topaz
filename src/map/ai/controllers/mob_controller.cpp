@@ -1117,8 +1117,13 @@ void CMobController::DoRoamTick(time_point tick)
     {
         // i'm claimed by someone and want to be fighting them
         PTarget = (CBattleEntity*)PMob->GetEntity(PMob->m_OwnerID.targid, TYPE_PC | TYPE_MOB | TYPE_PET | TYPE_TRUST);
-        Engage(PTarget->targid);
-        return;
+
+        // Don't try to engage someone of the same allegiance
+        if (PMob->allegiance != PTarget->allegiance)
+        {
+            Engage(PTarget->targid);
+            return;
+        }
     }
     //#TODO
     else if (PMob->GetDespawnTime() > time_point::min() && PMob->GetDespawnTime() < m_Tick)
