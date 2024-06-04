@@ -617,7 +617,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     PMob->m_Behaviour |= PMob->getMobMod(MOBMOD_BEHAVIOR);
 
     // Only mobs, not NPCs
-    if (PMob->allegiance == 0)
+    if (PMob->allegiance == ALLEGIANCE_MOB)
     {
         if (zoneType == ZONETYPE_DUNGEON)
         {

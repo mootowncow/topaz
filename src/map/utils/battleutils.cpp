@@ -2982,7 +2982,9 @@ int getSDTTier(int SDT)
 
                 auto PPet = dynamic_cast<CPetEntity*>(PDefender);
                 //mobs get basetp+30 whereas pcs and their pets get basetp/3 when hit
-                if (PDefender->objtype == TYPE_PC || PDefender->objtype == TYPE_PET && PDefender->PMaster && PDefender->PMaster->objtype == TYPE_PC)
+                if (PDefender->objtype == TYPE_PC ||
+                    PDefender->objtype == TYPE_PET && PDefender->PMaster && PDefender->PMaster->objtype == TYPE_PC ||
+                    PDefender->allegiance != ALLEGIANCE_MOB)
                 {
                     PDefender->addTP((int16)(tpMultiplier * ((baseTp / 3) * sBlowMult * (1.0f + 0.01f * (float)((PDefender->getMod(Mod::STORETP) + getStoreTPbonusFromMerit(PAttacker))))))); //yup store tp counts on hits taken too!
                 }
@@ -3108,7 +3110,7 @@ int getSDTTier(int SDT)
 
 
             //mobs get basetp+30 whereas pcs get basetp/3 on attack
-            if (PDefender->objtype == TYPE_PC)
+            if (PDefender->objtype == TYPE_PC || PDefender->allegiance != ALLEGIANCE_MOB)
                 PDefender->addTP((int16)(tpMultiplier * targetTPMultiplier * ((baseTp / 3) * sBlowMult * (1.0f + 0.01f * (float)((PDefender->getMod(Mod::STORETP) + getStoreTPbonusFromMerit(PAttacker))))))); //yup store tp counts on hits taken too!
             else
                 PDefender->addTP((int16)(tpMultiplier * targetTPMultiplier * ((baseTp + 30) * sBlowMult * (1.0f + 0.01f * (float)PDefender->getMod(Mod::STORETP))))); //subtle blow also reduces the "+30" on mob tp gain
