@@ -616,36 +616,40 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
 
     PMob->m_Behaviour |= PMob->getMobMod(MOBMOD_BEHAVIOR);
 
-    if(zoneType == ZONETYPE_DUNGEON)
+    // Only mobs, not NPCs
+    if (PMob->allegiance == 0)
     {
-        SetupDungeonMob(PMob);
-    }
-    else if(zoneType == ZONETYPE_BATTLEFIELD)
-    {
-        SetupBattlefieldMob(PMob);
-    }
-    else if(zoneType == ZONETYPE_DYNAMIS)
-    {
-        SetupDynamisMob(PMob);
-    }
-    else if (zoneType == ZONETYPE_LIMBUS)
-    {
-        SetupLimbusMob(PMob);
-    }
-    else if (zoneType == ZONETYPE_DUNGEON_INSTANCED)
-    {
-        if (zoneID > ZONE_ALZADAAL_UNDERSEA_RUINS && zoneID < ZONE_NYZUL_ISLE)
+        if (zoneType == ZONETYPE_DUNGEON)
         {
-            SetupSalvageMob(PMob);
+            SetupDungeonMob(PMob);
         }
-        else
+        else if (zoneType == ZONETYPE_BATTLEFIELD)
         {
-            SetupDungeonInstancedMob(PMob);
+            SetupBattlefieldMob(PMob);
         }
-    }
-    else if (zoneType == ZONETYPE_STRONGHOLDS)
-    {
-        SetupStrongholdsMob(PMob);
+        else if (zoneType == ZONETYPE_DYNAMIS)
+        {
+            SetupDynamisMob(PMob);
+        }
+        else if (zoneType == ZONETYPE_LIMBUS)
+        {
+            SetupLimbusMob(PMob);
+        }
+        else if (zoneType == ZONETYPE_DUNGEON_INSTANCED)
+        {
+            if (zoneID > ZONE_ALZADAAL_UNDERSEA_RUINS && zoneID < ZONE_NYZUL_ISLE)
+            {
+                SetupSalvageMob(PMob);
+            }
+            else
+            {
+                SetupDungeonInstancedMob(PMob);
+            }
+        }
+        else if (zoneType == ZONETYPE_STRONGHOLDS)
+        {
+            SetupStrongholdsMob(PMob);
+        }
     }
 
     if (PMob->m_Type & MOBTYPE_NOTORIOUS || PMob->m_Type & MOBTYPE_BATTLEFIELD || PMob->m_Type & MOBTYPE_QUEST ||
