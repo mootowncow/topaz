@@ -71,7 +71,7 @@ function onTrigger(player, npc)
         {itemid = tpz.items.FLUORITE, droprate = 100},
         {itemid = tpz.items.AMETRINE, droprate = 100},
         {itemid = tpz.items.ANGELSTONE, droprate = 100},
-        {itemid = tpz.items.SPHENE, droprate = 100}
+        {itemid = tpz.items.SPHENE, droprate = 100},
         {itemid = tpz.items.YOICHIS_SASH, droprate = 100}
     }
 

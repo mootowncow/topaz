@@ -3,8 +3,9 @@
 -- (The Black Coffin & Scouting the Ashu Talif & Royal Painter Escort)
 --  Mob: Ashu Talif Marine
 -----------------------------------
-require("scripts/globals/status")
 local ID = require("scripts/zones/The_Ashu_Talif/IDs")
+require("scripts/globals/status")
+require("scripts/globals/pathfind")
 -----------------------------------
 
 function onMobInitialize(mob)
@@ -13,17 +14,28 @@ function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
 end
 
+function onMobSpawn(mob)
+    mob:setDamage(40)
+end
+
 function onMobRoam(mob)
     local instance = mob:getInstance()
     if (instance:completed()) then
         DespawnMob(mob:getID(), instance)
     end
+    tpz.path.CheckIfStuck(mob)
 end
 
 function onMobFight(mob, target)
     local instance = mob:getInstance()
     if (instance:completed()) then
         DespawnMob(mob:getID(), instance)
+    end
+
+    if tpz.path.CheckIfStuck(mob) then
+        if (mob:checkDistance(target) >= 10) then
+            mob:setPos(target:getXPos(), target:getYPos(), target:getZPos())
+        end
     end
 end
 

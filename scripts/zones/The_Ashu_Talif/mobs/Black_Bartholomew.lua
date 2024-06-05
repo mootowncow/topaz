@@ -2,8 +2,9 @@
 -- Area: The Ashu Talif (The Black Coffin & Scouting the Ashu Talif)
 --  Mob: Black Bartholomew
 -----------------------------------
-require("scripts/globals/status")
 local ID = require("scripts/zones/The_Ashu_Talif/IDs")
+require("scripts/globals/status")
+require("scripts/globals/pathfind")
 -----------------------------------
 
 function onMobInitialize(mob)
@@ -18,12 +19,19 @@ function onMobRoam(mob)
     if (instance:completed()) then
         DespawnMob(mob:getID(), instance)
     end
+    tpz.path.CheckIfStuck(mob)
 end
 
 function onMobFight(mob, target)
     local instance = mob:getInstance()
     if (instance:completed()) then
         DespawnMob(mob:getID(), instance)
+    end
+
+    if tpz.path.CheckIfStuck(mob) then
+        if (mob:checkDistance(target) >= 10) then
+            mob:setPos(target:getXPos(), target:getYPos(), target:getZPos())
+        end
     end
 end
 
@@ -33,7 +41,6 @@ end
 function onMobDeath(mob, player, isKiller, noKiller)
     local instance = mob:getInstance()
     instance:setLocalVar("bartholomew_killed", 1)
-    instance:complete()
 end
 
 function onMobDespawn(mob)

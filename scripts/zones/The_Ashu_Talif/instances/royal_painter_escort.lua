@@ -40,15 +40,19 @@ function onInstanceProgressUpdate(instance, progress)
     local progress = instance:getProgress()
     if (stage >= 2) then -- Mobs will now spawn
         if progress == 0 then -- Wave 1
+        printf("Spawning wave 1")
             spawnWave(1, instance)
         elseif progress == 3 then -- Wave 2
+        printf("Spawning wave 2")
             spawnWave(2, instance)
         elseif progress == 6 then -- Wave 3
+        printf("Spawning wave 3")
             spawnWave(3, instance)
         elseif progress == 9 then -- Wave 4
+        printf("Spawning wave 4")
             spawnWave(4, instance)
         elseif progress == 11 then -- All waves killed
-            instance:complete()
+        printf("All waves cleared")
             DespawnMob(ID.mob[56].BLACK_BARTHOLOMEW, instance)
         end
     end
@@ -85,13 +89,17 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 101 or csid == 102 then
-        player:setPos(-462, -2, -394, 54) -- TODO: Doesn't work.
+        player:setPos(0, 0, 0, 0, 54)
     end
 end
 
 function spawnWave(wave, instance)
     local waveMobs = ID.mob[56].WAVES[wave]
-    
+
+    if (instance:completed()) or (instance:getLocalVar("bartholomew_killed") > 0) then
+        return
+    end
+
     if not waveMobs then
         -- printf("Invalid wave number:", wave)
         return

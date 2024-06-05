@@ -2,9 +2,7 @@
 -- Area: The Ashu Talif (Royal Painter Escort
 --  Mob: Faluuya
 -- TOAU-15 Mission Battle
--- TODO: If she takes too much damage she will say OUCH_PROTECT_ME, then a chest is lost
--- TODO: More text
--- TODO: After fighting mobs doesn't remember her path and gets stuck
+-- TODO: Failure puts you into a black screen
 -----------------------------------
 local ID = require("scripts/zones/The_Ashu_Talif/IDs")
 require("scripts/globals/instance")
@@ -98,8 +96,10 @@ function onMobRoam(mob)
         { Stage = 5,    Path = retreatToTopTwo,     Flags = tpz.path.flag.RUN         },
     }
 
+
     if ShouldWait(mob) then
-        return printf("Waiting...") -- Unsure if returning this works
+        return
+        printf("Waiting...") -- Unsure if returning this works
     end
 
     if IsCompleted(instance) and not IsAtChest(mob) then
@@ -110,10 +110,18 @@ function onMobRoam(mob)
         return
     end
 
+    if IsStuck(mob) then
+        local pathX = npc:getLocalVar("currentPathX")
+        local pathY = npc:getLocalVar("currentPathY")
+        local pathZ = npc:getLocalVar("currentPathZ")
+        mob:setPos(pathX, pathY, pathZ)
+    end
+
     if IsOutsideDoor(mob) then
         if (stage == 0) then
             printf("Waiting for door to be opened")
             DisplayText(mob, "canYouOpen", ID.text.CAN_YOU_OPEN)
+            instance:setProgress(1)
         end
         if (stage == 1) then
             printf("Outside door, increasing progress and teleporting")
@@ -129,7 +137,7 @@ function onMobRoam(mob)
         end
     end
 
-    if IsAtFirstSpawns(mob) and (stage == 1) and (progress == 1) then
+    if IsAtFirstSpawns(mob) and (stage == 1) and (progress == 2) then
         printf("At first spawns, spawning mobs and setting stage to 2")
         instance:setStage(instance:getStage() +1)
         instance:setProgress(0)
@@ -143,7 +151,6 @@ function onMobRoam(mob)
         if (stage == 2) or (stage == 7) then
             printf("Inside door, increasing stage and teleporting")
             instance:setStage(instance:getStage() +1)
-            instance:setProgress(0)
             Teleport(mob, -7.56, -22.50, 3.40)
             return
         end
@@ -153,7 +160,6 @@ function onMobRoam(mob)
         if (stage == 3) or (stage == 8) then
             printf("At top")
             instance:setStage(instance:getStage() +1)
-            instance:setProgress(0)
             mob:clearPath()
             mob:setLocalVar("path", 0)
             mob:setLocalVar("pathingDone", 0)
@@ -193,7 +199,7 @@ function onMobRoam(mob)
         printf("stageOnePts1")
         DisplayText(mob, "introText", ID.text.SHALL_WE_BE_OFF)
         tpz.path.followPointsInstance(mob, stageOnePts1, tpz.path.flag.NONE)
-    elseif (stage == 1) and (progress == 1) then
+    elseif (stage == 1) and (progress == 2) then
         DisplayText(mob, "givingCreeps", ID.text.GIVING_ME_CREEPS)
         tpz.path.followPointsInstance(mob, stageOnePts2, tpz.path.flag.NONE)
         printf("stageOnePts2")
@@ -229,19 +235,33 @@ function onMobEngaged(mob, target)
 end
 
 function onMobFight(mob, target)
-    local dmgTakenMsgTimer = mob:getLocalVar("dmgTakenMsgTimer")
-    local randomhelpMsg = { ID.text.MAKE_IT_STOP, ID.text.UGH, ID.text.PLEASE_STAY_CLOSE, ID.text.HELP}
-
     mob:addListener("TAKE_DAMAGE", "FALUUYA_TAKE_DAMAGE", function(mob, amount, attacker, attacktype, damagetype)
         local totalDmgTaken = mob:getLocalVar("totalDmgTaken")
+        local dmgTakenMsgTimer = mob:getLocalVar("dmgTakenMsgTimer")
+        local dmgTakenMsg = { ID.text.MAKE_IT_STOP, ID.text.UGH, ID.text.PLEASE_STAY_CLOSE, ID.text.HELP}
+        local instance = mob:getInstance()
+        local chars = instance:getChars()
+
         totalDmgTaken = amount + totalDmgTaken
-        mob:setLocalVar("totalDmgTaken")
-            -- TODO: Random msg on damage taken + timer
+        mob:setLocalVar("totalDmgTaken", totalDmgTaken)
         if (totalDmgTaken >= 1000) then
             DisplayText(mob, "ouch", ID.text.OUCH_PROTECT_ME)
+            instance:setLocalVar("faluuya_damaged", 1)
+        else
+            if (os.time() >= dmgTakenMsgTimer) then
+                mob:setLocalVar("dmgTakenMsgTimer", os.time() + 15)
+                for _, v in pairs(chars) do
+                    v:showText(mob, dmgTakenMsg[math.random(#dmgTakenMsg)])
+                end
+            end
         end
     end)
 
+    if tpz.path.CheckIfStuck(mob) then
+        if (mob:checkDistance(target) >= 10) then
+            mob:setPos(target:getXPos(), target:getYPos(), target:getZPos())
+        end
+    end
 end
 
 function onMobDisengage(mob)
@@ -264,8 +284,8 @@ function DisplayText(mob, textVar, msgId)
     if (mob:getLocalVar(textVar) == 0) then
         for _, v in pairs(chars) do
             v:showText(mob, msgId)
-            mob:setLocalVar(textVar, 1)
         end
+        mob:setLocalVar(textVar, 1)
     end
 end
 
@@ -291,6 +311,12 @@ function ShouldWait(mob)
 end
 
 function IsStuck(mob)
+    if not IsAtBalconyOne(mob) and not IsAtBalconyTwo(mob) then
+        if tpz.path.CheckIfStuck(mob) then
+            return true
+        end
+    end
+    return false
 end
 
 function ClearPathing(mob)

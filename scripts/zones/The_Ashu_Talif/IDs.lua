@@ -9,6 +9,7 @@ zones = zones or {}
 zones[tpz.zone.THE_ASHU_TALIF] =
 {
     text = {
+        NOTHING_OUT_OF_ORDINARY    = 6402, -- There is nothing out of the ordinary here
         ITEM_CANNOT_BE_OBTAINED    = 6382, -- You cannot obtain the <item>. Come back after sorting your inventory.
         FULL_INVENTORY_AFTER_TRADE = 6386, -- You cannot obtain the <item>. Try trading again after sorting your inventory.
         ITEM_OBTAINED              = 6388, -- Obtained: <item>.

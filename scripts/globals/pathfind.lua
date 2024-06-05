@@ -3,6 +3,7 @@
 -- NPC PATH WALKING
 --
 ------------------------------------
+local npcPreviousPositions = {}
 tpz = tpz or {}
 
 tpz.path =
@@ -189,42 +190,85 @@ tpz.path =
         end
     end,
 
-followPointsInstance = function(npc, points, flags)
-    local path = npc:getLocalVar("path")
-    if (path == 0) then
-        npc:pathThrough(points[1], flags)
-        npc:setLocalVar("path", 1)
-        printf(string.format('Following path point: %.2f, %.2f, %.2f [1]', points[1][1], points[1][2], points[1][3]))
-    end
+    followPointsInstance = function(npc, points, flags)
+        local path = npc:getLocalVar("path")
+        if (path == 0) then
+            npc:setLocalVar("path", 1)
+            npc:setLocalVar("currentPathX", points[1][1])
+            npc:setLocalVar("currentPathY", points[1][2])
+            npc:setLocalVar("currentPathZ", points[1][3])
+            printf(string.format('Following path point: %.2f, %.2f, %.2f [1]', points[1][1], points[1][2], points[1][3]))
+            npc:pathThrough(points[1], flags)
+        end
 
-    local currentPos = npc:getPos()
+        local currentPos = npc:getPos()
 
-    -- Ensure the path index is within the range of the points table
-    if path > 0 and path <= #points then
-        local currentPath = points[path]
+        -- Ensure the path index is within the range of the points table
+        if path > 0 and path <= #points then
+            local currentPath = points[path]
 
-        -- Ensure currentPath is not nil before accessing its elements
-        if currentPath ~= nil then
-            -- Check if the absolute difference between currentPos.x and currentPath[1] is <= 1 yard
-            if math.abs(currentPos.x - currentPath[1]) <= 1.0 and math.abs(currentPos.y - currentPath[2]) <= 1.0 then
-                path = path + 1
-                npc:setLocalVar("path", path)
-                npc:setLocalVar("pathingDone", 0)
+            -- Ensure currentPath is not nil before accessing its elements
+            if currentPath ~= nil then
+                -- Check if the absolute difference between currentPos.x and currentPath[1] is <= 1 yard
+                if math.abs(currentPos.x - currentPath[1]) <= 1.0 and math.abs(currentPos.y - currentPath[2]) <= 1.0 then
+                    path = path + 1
+                    npc:setLocalVar("path", path)
+                    npc:setLocalVar("pathingDone", 0)
 
-                if path > #points then
-                    printf("Pathing is done")
-                    npc:setLocalVar("pathingDone", 1)
-                    return
+                    if path > #points then
+                        printf("Pathing is done")
+                        npc:setLocalVar("pathingDone", 1)
+                        return
+                    end
+
+                    currentPath = points[path]
+                    printf(string.format('Following path point: %.2f, %.2f, %.2f [%u]', currentPath[1], currentPath[2], currentPath[3], path))
+                    npc:setLocalVar("currentPathX", currentPath[1])
+                    npc:setLocalVar("currentPathY", currentPath[2])
+                    npc:setLocalVar("currentPathZ", currentPath[3])
+                    npc:pathThrough(currentPath, flags)
                 end
+            else
+                printf("Error: currentPath is nil")
+            end
+        end
+    end,
 
-                currentPath = points[path]
-                printf(string.format('Following path point: %.2f, %.2f, %.2f [%u]', currentPath[1], currentPath[2], currentPath[3], path))
-                npc:pathThrough(currentPath, flags)
+    IsStuck = function(npc)
+        local npcId = npc:getID()
+        local currentPosition = {x = npc:getXPos(), y = npc:getYPos(), z = npc:getZPos()}
+
+        -- Check if there is a previous position recorded
+        if npcPreviousPositions[npcId] then
+            local previousPosition = npcPreviousPositions[npcId]
+
+            -- Compare the current position with the previous position
+            if currentPosition.x == previousPosition.x and currentPosition.y == previousPosition.y and currentPosition.z == previousPosition.z then
+                -- Positions are the same, mob might be stuck
+                return true
+            else
+                -- Update the previous position
+                npcPreviousPositions[npcId] = currentPosition
+                return false
             end
         else
-            printf("Error: currentPath is nil")
+            -- No previous position recorded, record the current position
+            npcPreviousPositions[npcId] = currentPosition
+            return false
         end
-    end
-end
+    end,
 
+    CheckIfStuck = function(npc)
+        local stuckTimer = npc:getLocalVar("stuckTimer")
+        if (stuckTimer == 0) then
+            npc:setLocalVar("stuckTimer", os.time() + 5)
+        elseif (os.time() >= stuckTimer) then
+            if tpz.path.IsStuck(npc) then
+                -- print(string.format("Entity is stuck: %s | %s", npc:getName(), npc:getID()))
+                return true
+            end
+            npc:setLocalVar("stuckTimer", os.time() + 5)
+        end
+        return false
+    end,
 }

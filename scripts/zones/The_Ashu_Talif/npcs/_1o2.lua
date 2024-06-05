@@ -1,6 +1,6 @@
 -----------------------------------
 -- Area: The Ashu Talif
--- Gate: Lifeboat
+-- Gate: Gate: Lifeboat (_1o2)
 -----------------------------------
 local ID = require("scripts/zones/The_Ashu_Talif/IDs")
 require("scripts/globals/appraisal")
