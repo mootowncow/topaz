@@ -1159,7 +1159,7 @@ uint32 CZone::GetLocalVar(const char* var)
     return m_localVars[var];
 }
 
-void CZone::SetLocalVar(const char* var, uint32 val)
+void CZone::SetLocalVar(const char* var, int32 val)
 {
     m_localVars[var] = val;
 }

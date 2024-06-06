@@ -197,7 +197,7 @@ private:
 
     bool                   m_Cleanup{ false };
     bool                   m_Attacked{ false };
-    std::unordered_map<std::string, uint64_t> m_LocalVars;
+    std::unordered_map<std::string, int64_t> m_LocalVars;
 };
 
 #endif

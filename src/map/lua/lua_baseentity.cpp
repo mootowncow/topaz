@@ -698,7 +698,7 @@ inline int32 CLuaBaseEntity::setLocalVar(lua_State* L)
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
 
     const char* var = lua_tostring(L, 1);
-    auto val = (uint32)lua_tointeger(L, 2);
+    auto val = (int32)lua_tointeger(L, 2);
 
     m_PBaseEntity->SetLocalVar(var, val);
 

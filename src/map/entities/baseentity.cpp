@@ -166,12 +166,12 @@ void CBaseEntity::ResetLocalVars()
     m_localVars.clear();
 }
 
-uint32 CBaseEntity::GetLocalVar(const char* var)
+int32 CBaseEntity::GetLocalVar(const char* var)
 {
     return m_localVars[var];
 }
 
-void CBaseEntity::SetLocalVar(const char* var, uint32 val)
+void CBaseEntity::SetLocalVar(const char* var, int32 val)
 {
     m_localVars[var] = val;
 }

@@ -624,7 +624,7 @@ public:
 
     void            ResetLocalVars();
     uint32          GetLocalVar(const char* var);
-    void            SetLocalVar(const char* var, uint32 val);
+    void            SetLocalVar(const char* var, int32 val);
 
     virtual void    ForEachChar(std::function<void(CCharEntity*)> func);
     virtual void    ForEachCharInstance(CBaseEntity* PEntity, std::function<void(CCharEntity*)> func);
@@ -689,7 +689,7 @@ protected:
     void CharZoneIn(CCharEntity* PChar);
     void CharZoneOut(CCharEntity* PChar);
 
-     std::unordered_map<std::string, uint32> m_localVars;
+     std::unordered_map<std::string, int32> m_localVars;
 };
 
 #endif

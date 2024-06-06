@@ -96,7 +96,7 @@ private:
     INSTANCE_STATUS m_status {INSTANCE_NORMAL};
     std::vector<uint32> m_registeredChars;
     std::set<uint32> m_enteredChars;
-    std::unordered_map<std::string, uint64_t> m_LocalVars;
+    std::unordered_map<std::string, int64_t> m_LocalVars;
 };
 
 #endif

@@ -234,8 +234,8 @@ public:
     CBaseEntity*    GetEntity(uint16 targid, uint8 filter = -1);
 
     void            ResetLocalVars();
-    uint32          GetLocalVar(const char* var);
-    void            SetLocalVar(const char* var, uint32 val);
+    int32           GetLocalVar(const char* var);
+    void            SetLocalVar(const char* var, int32 val);
 
     //pre-tick update
     virtual void    Tick(time_point) = 0;
@@ -274,7 +274,7 @@ public:
     CBattlefield* PBattlefield;            // pointer to battlefield (if in one)
     CInstance*		PInstance;
 protected:
-    std::map<std::string, uint32> m_localVars;
+    std::map<std::string, int32> m_localVars;
 };
 
 #endif
