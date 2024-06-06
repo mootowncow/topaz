@@ -884,6 +884,16 @@ void SetupJob(CMobEntity* PMob)
                 PMob->defaultMobMod(MOBMOD_HP_STANDBACK, 65);
             }
             break;
+        case JOB_COR:
+            if (!PMob->CMobEntity::IsHumanoid())
+            // Only beastmen get resist job traits
+            {
+                PMob->setModifier(Mod::AMNESIARESTRAIT, 0);
+                PMob->setModifier(Mod::PARALYZERESTRAIT, 0);
+            }
+            PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 272);
+            PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 16);
+            break;
         case JOB_NIN:
             if (!PMob->CMobEntity::IsHumanoid())
                 // Only beastmen get resist job traits
