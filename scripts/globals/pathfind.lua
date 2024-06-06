@@ -261,13 +261,13 @@ tpz.path =
     CheckIfStuck = function(npc)
         local stuckTimer = npc:getLocalVar("stuckTimer")
         if (stuckTimer == 0) then
-            npc:setLocalVar("stuckTimer", os.time() + 5)
+            npc:setLocalVar("stuckTimer", os.time() + 10)
         elseif (os.time() >= stuckTimer) then
             if tpz.path.IsStuck(npc) then
                 -- print(string.format("Entity is stuck: %s | %s", npc:getName(), npc:getID()))
                 return true
             end
-            npc:setLocalVar("stuckTimer", os.time() + 5)
+            npc:setLocalVar("stuckTimer", os.time() + 10)
         end
         return false
     end,

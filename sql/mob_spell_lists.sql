@@ -450,7 +450,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Beastmen_BLU',8,644,73,255); -- MindBlast
 -- INSERT INTO `mob_spell_lists` VALUES ('Beastmen_BLU',8,645,75,255); -- Exuvation
 INSERT INTO `mob_spell_lists` VALUES ('Beastmen_BLU',8,646,74,255); -- Magic Hammer
 -- INSERT INTO `mob_spell_lists` VALUES ('Beastmen_BLU',8,647,65,255); -- Zephyr Mantle
---INSERT INTO `mob_spell_lists` VALUES ('Worm',9,54,28,255); -- stoneskin
+INSERT INTO `mob_spell_lists` VALUES ('Worm',9,54,28,255); -- stoneskin
 INSERT INTO `mob_spell_lists` VALUES ('Worm',9,159,1,25);
 INSERT INTO `mob_spell_lists` VALUES ('Worm',9,160,26,50);
 INSERT INTO `mob_spell_lists` VALUES ('Worm',9,161,51,67);
@@ -5987,7 +5987,16 @@ INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,232,1,255); -- bio_
 INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,249,1,255); -- blaze_spikes
 INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,367,1,255); -- Death
 
--- NEXT 542
+INSERT INTO `mob_spell_lists` VALUES ('Ashu_Talif_Marine',542,35,1,255); -- Diaga III
+INSERT INTO `mob_spell_lists` VALUES ('Ashu_Talif_Marine',542,54,1,255); -- Stoneskin
+INSERT INTO `mob_spell_lists` VALUES ('Ashu_Talif_Marine',542,105,1,70); -- Enwater
+INSERT INTO `mob_spell_lists` VALUES ('Ashu_Talif_Marine',542,106,1,255); -- Phalanx
+INSERT INTO `mob_spell_lists` VALUES ('Ashu_Talif_Marine',542,53,1,255); -- Blink
+INSERT INTO `mob_spell_lists` VALUES ('Ashu_Talif_Marine',542,46,1,255); -- Protect IV
+INSERT INTO `mob_spell_lists` VALUES ('Ashu_Talif_Marine',542,51,1,75); -- Shell IV
+INSERT INTO `mob_spell_lists` VALUES ('Ashu_Talif_Marine',542,108,1,255); -- Regen
+
+-- NEXT 543
 -- NEXT 1022
 -- NEXT 2086(Custom)
 
