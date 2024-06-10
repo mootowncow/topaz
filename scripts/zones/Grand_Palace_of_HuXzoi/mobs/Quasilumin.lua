@@ -191,7 +191,7 @@ function onMobRoam(mob)
     local entities = mob:getNearbyMobs(12)
     local mobNearby = false;
     for i, entity in pairs(entities) do
-        if entity:getAggressive() == 1 and mob:getID() ~= entity:getID() and entity:isSpawned() then
+        if entity:getAggressive() == 1 and mob:getID() ~= entity:getID() and entity:isAlive() then
             mobNearby = true;
             entity:updateEnmity(mob)
             if progress ~= EscortProgress.PAUSED then
@@ -200,7 +200,7 @@ function onMobRoam(mob)
             end
 		end
         -- Consider engaged mobs aggressive
-        if entity:isEngaged() and mob:getID() ~= entity:getID() and entity:isSpawned() then
+        if entity:isEngaged() and mob:getID() ~= entity:getID() and entity:isAlive() then
             mobNearby = true;
             entity:updateEnmity(mob)
             if progress ~= EscortProgress.PAUSED then
