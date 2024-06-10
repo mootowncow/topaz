@@ -645,6 +645,18 @@ tpz.appraisalUtil.appraisalItems =
     },
     [tpz.appraisalUtil.questionMarkItems.HEADPIECE] =
     {
+        [tpz.appraisalUtil.Origin.ROYAL_PAINTER_ESCORT] =
+        {
+            items =
+            {
+                {20, 12463}, -- Bronze Cap +1
+                {20, 16077}, -- Megrim Crown
+                {20, 12472}, -- Circlet
+                {20, 12472}, -- Circlet
+                {20, 12472}, -- Leather Bandana
+                {20, 12465}, -- Cotton Headgear
+            }
+        },
         [tpz.appraisalUtil.Origin.NYZUL_VALKURM_EMPEROR] =
         {
             items =
@@ -1205,7 +1217,32 @@ tpz.appraisalUtil.appraisalItems =
                 {25, 2353}, -- Optic Fiber
             }
         },
-
+        [tpz.appraisalUtil.Origin.ROYAL_PAINTER_ESCORT] =
+        {
+            items =
+            {
+                {5, tpz.items.CERBERUS_HIDE},
+                {5, tpz.items.HYDRA_SCALE},
+                {5, tpz.items.DIAMOND},
+                {5, tpz.items.EMERALD},
+                {5, tpz.items.SPOOL_OF_RAINBOW_THREAD},
+                {5, tpz.items.SPOOL_OF_GOLD_THREAD},
+                {5, tpz.items.SPOOL_OF_SILVER_THREAD},
+                {5, tpz.items.SPOOL_OF_WOOL_THREAD},
+                {5, tpz.items.AMETRINE},
+                {5, tpz.items.DEATHSTONE},
+                {5, tpz.items.ANGELSTONE},
+                {5, tpz.items.CHUNK_OF_KHROMA_ORE},
+                {5, tpz.items.SCHURZEN},
+                {5, tpz.items.DYNAMO},
+                {5, tpz.items.ECONOMIZER},
+                {5, tpz.items.OPTIC_FIBER},
+                {5, tpz.items.TURBO_CHARGER},
+                {5, tpz.items.REACTIVE_SHIELD},
+                {5, tpz.items.TRANQUILIZER},
+                {5, tpz.items.CONDENSER},
+            }
+        },
         [tpz.appraisalUtil.Origin.NYZUL_AIATAR] =
         {
             items =

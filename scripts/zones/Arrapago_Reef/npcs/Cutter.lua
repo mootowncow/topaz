@@ -41,8 +41,8 @@ function onTrigger(player, npc)
         availableInstances = bit.bxor(availableInstances, SCOUTING_THE_ASHU_TALIF)
     end
 
-    -- For testing
-    if player:getGMLevel() > 0 then
+    -- if player:getCharVar("Halshaob_Quest") == 4 then
+    if VerfyInstanceForPlayer(player, 56, true) then
         availableInstances = bit.bxor(availableInstances, ROYAL_PAINTER)
     end
 

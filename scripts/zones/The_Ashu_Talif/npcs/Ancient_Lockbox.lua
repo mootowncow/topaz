@@ -77,44 +77,13 @@ function onTrigger(player, npc)
 
     local royalPainterItemBoss =
     {
-        {itemid = tpz.items.CERBERUS_HIDE, droprate = 100},
-        {itemid = tpz.items.DIAMOND, droprate = 100},
-        {itemid = tpz.items.SPOOL_OF_RAINBOW_THREAD, droprate = 100},
-        {itemid = tpz.items.SPOOL_OF_GOLD_THREAD, droprate = 100},
-        {itemid = tpz.items.SPOOL_OF_SILVER_THREAD, droprate = 100},
-        {itemid = tpz.items.SPOOL_OF_WOOL_THREAD, droprate = 100},
-        {itemid = tpz.items.ANGELSTONE, droprate = 100},
-        {itemid = tpz.items.EMERALD, droprate = 100},
-        {itemid = tpz.items.CHUNK_OF_KHROMA_ORE, droprate = 100},
-        {itemid = tpz.items.SCHURZEN, droprate = 100},
-        {itemid = tpz.items.DYNAMO, droprate = 100},
-        {itemid = tpz.items.ECONOMIZER, droprate = 100},
-        {itemid = tpz.items.OPTIC_FIBER, droprate = 100},
-        {itemid = tpz.items.TURBO_CHARGER, droprate = 100},
-        {itemid = tpz.items.REACTIVE_SHIELD, droprate = 100},
-        {itemid = tpz.items.TRANQUILIZER, droprate = 100},
-        {itemid = tpz.items.CONDENSER, droprate = 100},
+        {itemid = tpz.items.QUESTIONMARK_BOX, droprate = 1000},
     }
 
     local royalPainterItemFaluuya =
     {
-        {itemid = tpz.items.CERBERUS_HIDE, droprate = 100},
-        {itemid = tpz.items.DIAMOND, droprate = 100},
-        {itemid = tpz.items.SPOOL_OF_RAINBOW_THREAD, droprate = 100},
-        {itemid = tpz.items.SPOOL_OF_GOLD_THREAD, droprate = 100},
-        {itemid = tpz.items.SPOOL_OF_SILVER_THREAD, droprate = 100},
-        {itemid = tpz.items.SPOOL_OF_WOOL_THREAD, droprate = 100},
-        {itemid = tpz.items.ANGELSTONE, droprate = 100},
-        {itemid = tpz.items.EMERALD, droprate = 100},
-        {itemid = tpz.items.CHUNK_OF_KHROMA_ORE, droprate = 100},
-        {itemid = tpz.items.SCHURZEN, droprate = 100},
-        {itemid = tpz.items.DYNAMO, droprate = 100},
-        {itemid = tpz.items.ECONOMIZER, droprate = 100},
-        {itemid = tpz.items.OPTIC_FIBER, droprate = 100},
-        {itemid = tpz.items.TURBO_CHARGER, droprate = 100},
-        {itemid = tpz.items.REACTIVE_SHIELD, droprate = 100},
-        {itemid = tpz.items.TRANQUILIZER, droprate = 100},
-        {itemid = tpz.items.CONDENSER, droprate = 100},
+        {itemid = tpz.items.QUESTIONMARK_HEADPIECE, droprate = 500},
+        {itemid = tpz.items.QUESTIONMARK_BOX, droprate = 500},
     }
 
     local regItem = {
@@ -152,20 +121,13 @@ function onTrigger(player, npc)
             end
 
             if chestType == "qChest" then
-                printf("Q Chest")
                 distributeLoot(player, chars, qItem[instanceID], instanceID)
             elseif chestType == "royalPainterChest" then
-                printf("royalPainterChest Chest")
-                player:addTreasure(2286, npc) -- ??? Box
+                player:addTreasure(tpz.items.KOGA_SHURIKEN, npc)
                 distributeLoot(player, chars, royalPainterItem, instanceID)
             elseif chestType == "royalPainterChestBoss" then
-                printf("royalPainterChestBoss Chest")
-                player:addTreasure(2276, npc) -- ??? Headpiece
                 distributeLoot(player, chars, royalPainterItemBoss, instanceID)
             elseif chestType == "royalPainterChestFaluuya" then
-                printf("royalPainterChestFaluuya Chest")
-
-
                 distributeLoot(player, chars, royalPainterItemFaluuya, instanceID)
             else
                 player:addTreasure(tpz.items.KOGA_SHURIKEN, npc)

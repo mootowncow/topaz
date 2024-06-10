@@ -28,6 +28,12 @@ end
 
 function onInstanceFailure(instance)
     local chars = instance:getChars()
+    local mobs = instance:getMobs()
+
+    for _,v in pairs(mobs) do
+        local mobID = v:getID()
+        DespawnMob(mobID, instance)
+    end
 
     for i, v in pairs(chars) do
         v:messageSpecial(ID.text.MISSION_FAILED, 10, 10)
