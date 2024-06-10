@@ -853,7 +853,7 @@ void CMobController::DoCombatTick(time_point tick)
 
     float currentDistance = distance(PMob->loc.p, PTarget->loc.p);
 
-    PMob->PAI->EventHandler.triggerListener("COMBAT_TICK", PMob);
+    PMob->PAI->EventHandler.triggerListener("COMBAT_TICK", PMob, PTarget);
     luautils::OnMobFight(PMob, PTarget);
 
     // If target is not in LOS, move towards them
