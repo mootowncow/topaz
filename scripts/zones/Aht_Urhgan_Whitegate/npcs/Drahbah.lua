@@ -1,7 +1,8 @@
 -----------------------------------
 -- Area: Aht Urhgan Whitegate
 --  NPC: Drahbah
--- Standard Info NPC
+-- Appraiser NPC
+-- !gotoid 16982150
 -----------------------------------
 local ID = require("scripts/zones/Aht_Urhgan_Whitegate/IDs")
 require("scripts/globals/appraisal")
