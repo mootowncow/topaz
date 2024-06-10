@@ -2,6 +2,7 @@ require("scripts/globals/mixins")
 require("scripts/globals/status")
 require("scripts/globals/dynamis")
 require("scripts/globals/utils")
+require("scripts/globals/mobs")
 
 g_mixins = g_mixins or {}
 g_mixins.families = g_mixins.families or {}
@@ -139,6 +140,59 @@ g_mixins.families.elemental_spirit = function(mob)
         setResistances(mob)
         -- Set avatar spell lists to 0
         setSpellList(mob)
+    end)
+
+    mob:addListener("COMBAT_TICK", "ES_COMBAT", function(mob, target)
+        local master = mob:getMaster()
+        local astralFlowEnabled = mob:getLocalVar("astralFlowEnabled")
+
+        if
+            master:hasStatusEffect(tpz.effect.ASTRAL_FLOW) and
+            (astralFlowEnabled == 1) and
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect()
+        then
+            -- Find proper pet skill
+            local petFamily = mob:getFamily()
+            local skillId = 0
+
+            if     petFamily == 34 or petFamily == 379 then skillId = 919 -- carbuncle searing light
+            elseif petFamily == 36 or petFamily == 381 then skillId = 839 -- fenrir    howling moon
+            elseif petFamily == 37 or petFamily == 382 then skillId = 916 -- garuda    aerial blast
+            elseif petFamily == 38 or petFamily == 383 then skillId = 913 -- ifrit     inferno
+            elseif petFamily == 40 or petFamily == 384 then skillId = 915 -- leviathan tidal wave
+            elseif petFamily == 43 or petFamily == 386 then skillId = 918 -- ramuh     judgment bolt
+            elseif petFamily == 44 or petFamily == 387 then skillId = 917 -- shiva     diamond dust
+            elseif petFamily == 45 or petFamily == 388 then skillId = 914 -- titan     earthen fury
+            else
+                printf("[elemental_spirit] received unexpected pet family %i. Defaulted skill to Searing Light.", petFamily)
+                skillId = 919 -- searing light
+            end
+
+            if (skillId > 0) then
+                mob:useMobAbility(skillId)
+            end
+        end
+    end)
+
+    mob:addListener("WEAPONSKILL_STATE_EXIT", "ES_WS_EXIT", function(mob, skillId)
+        local astralFlowIds = {
+            919, -- Carbuncle
+            839, -- Fenrir
+            913, -- Ifrit
+            914, -- Titan
+            915, -- Leviathan
+            916, -- Garuda
+            917, -- Shiva
+            918  -- Ramuh
+        }
+
+        for _, id in ipairs(astralFlowIds) do
+            if skillId == id then
+                mob:setLocalVar("astralFlowEnabled", 0)
+                break
+            end
+        end
     end)
 end
 

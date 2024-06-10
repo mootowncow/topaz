@@ -34,6 +34,7 @@ function onMobWeaponSkill(target, mob, skill)
         GetMobByID(avatar):setSpawn(mob:getXPos() + 1, mob:getYPos(), mob:getZPos() + 1, mob:getRotPos())
         SpawnMob(avatar):updateEnmity(mob:getTarget())
     end
+    mob:addStatusEffect(tpz.effect.ASTRAL_FLOW, 1, 0, 180)
 
     return tpz.effect.ASTRAL_FLOW
 end
