@@ -169,7 +169,6 @@ Spikes proc chance from items should be based on the mod not w/e im doing
 Spikes res traits should be halved vs NM's and clamped to 95%
 Don't port pet if csiD is prot/shell/regen/refresh etc gov buffs
 Merits json and edit NIN(and bst) merits
-Tainted Flesh(garlaige and onzozo, maybe other zones too like gusgen?)/Frogmander/Helion no roam on spawn, but roam on engage
 Enagakure did not spawn at 20:00
 Nakuals set weather to none on disengage
 move tchakka to the big room
@@ -187,36 +186,29 @@ Leaden Salute and Blade: Kamu weren't unlocked when I had enough WS points
 applyResistanceAddEffect() 
 not mob:hasPreventActionEffect() to qultada talking/using stuff
 tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
-Ampitheatre pathing broken?
 Fomor HNM's(Lugh etc)
 
 
 How does slug shot do 61 instead of 400+ dmg? It's 1 hit
 AddDimishingReturns should use 1 var for sleep and not different ones(sleep_I and sleep_II all share 1 DR). Also add AddDimishingReturns to light shot, and light shot shares DR with sleep
-Repose should be sleep_II and all BLU sleeps sleep_I / Sleep II. Lullaby separate DR is fine
 
 Wyvern pets should folllow master on disengage(mobID + 1?)
+Pets shouldn't aggro/link(Dynamis only issue maybe? set flags for all pets on spawn)
 Give PUP some sword WS natively
-Test inundation
 Variable for setting to limit points on not always changed when job swapped to 75
 STATUSRESTRAIT should work on all status effects, attack down etc
-manafont sucks buff for players only
 Bark Tarantula and Sapplings in Boyahda tree need spawns audited
 Diss poison landed on a statue with -95% poison EEM?
 Should not be able to parry ranged TP moves. Check SMN PUP and WS too
 Most things with getPlayersInRange needs to also get pets in range use logic I coded into AddMobAura for reference
 Tipua needs some type of mechanic, very boring and easy. Maybe summon bees and eat them for HP if you don't kill them fast enough? And 100 fists
 Dark Ixion pathing is broken
-Shikigami weapon pathing
 17182795 Yagudo Prioress missing pet(maybe all SMN in castle oztroja [s] are?). Yagudo Superior by Asterion properly has a pet..wtf?
-Dangruf Sprouts don't work
 Missing ANNM fights(the TODO ones on wiki?) and retune decimation weapon augment(too high %)
 Revival tree root drop rate? 10-15%? Check FFXIDB
 Handle for Asterion, Forneus,(probably fleshgnasher and Vee Ladu doesn't work(isnt clickable)? Copy handle behind the 4 handle door where it says "its locked" when behind
 Providence shouldn't be removed by being parad, make add another mixin for where para procs are? Or what "is interruoted" counts as para? or something if msg ~= para idk
 Jailer of Temp Uses Meikyo Shisui multiple times and should not be aggressive(always aggros on spawn but not aggressive flag). Also vulnerable to grav
-Does asylums resist work on spikes?
-Mob TP moves dont remove quickening flag? Maybe doesn't remove flags it should? 
 Zilart mission after DM(kid zilart) and missions after work
 Make sure Rank6-10 Sandy / Bastok mission work
 Make salvage require tag again
