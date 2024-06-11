@@ -19,10 +19,10 @@ function onSpellCast(caster, target, spell)
     params.diff = dMND
     params.skillType = tpz.skill.DIVINE_MAGIC
     params.bonus = 175
-    params.effect = tpz.effect.LULLABY
+    params.effect = tpz.effect.SLEEP_II
     local resist = applyResistanceEffect(caster, target, spell, params)
 
     TryApplyEffect(caster, target, spell, params.effect, 2, 0, duration, resist, 0.5)
 
-    return tpz.effect.SLEEP_II
+    return params.effect
 end
