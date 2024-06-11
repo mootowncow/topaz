@@ -8,59 +8,41 @@ require("scripts/globals/pathfind")
 -----------------------------------
 
 local path1 = {
-    205, -30, -211,
-    154, -30, -187,
-    105, -30, -158,
-    50, -30, -111,
-    12, -30, -110,
-    -22, -30, -130,
-    -40, -30, -80,
-    60, -30, -62,
-    134, -30, -72,
-    181, -30, -157,
-}
+    { x=389.78, y=-0.89, z=-87.98 },
+    { x=48.59, y=-23.43, z=-47.01 },
+    { x=80.42, y=-23.45, z=-186.43 }
+};
+
 
 local path2 = {
-    327, -30, 206,
-    303, -30, -88,
-    360, -30, -63,
-    461, -30, 67,
-    389, -30, -87,
-    424, -30, -186,
-    342, -30, -275,
-    246, -30, -216,
-}
+    { x=322.46, y=8.23, z=-211.09 },
+    { x=417.55, y=-0.80, z=-141.47 },
+    { x=364.22, y=-7.43, z=-12.35 },
+    { x=434.72, y=-5.68, z=64.41 },
+    { x=440.81, y=-7.97, z=115.44 }
+};
+
 
 local path3 = {
-    -299, -35, -18,
-    -292, -35 ,117,
-    -181, -35, 108,
-    -196, -35, -63,
-    -257, -35, -118,
-    -278, -35, -50,
-    -291, -35, 10,
-    -315, -35, -63,
-    -330, -35, -10,
-    -382, -35, 22,
-}
+    { x=-195.62, y=-3.63, z=28.89 },
+    { x=-148.33, y=-17.73, z=-11.33 },
+    { x=-73.51, y=-17.62, z=-10.17 }
+};
 
-function onPath(mob)
-    local mobID = mob:getID()
-    if mobID == 17338587 then
-        tpz.path.patrolsimple(mob, path1, tpz.path.flag.RUN)
-    elseif mobID == 17338586 then
-        tpz.path.patrolsimple(mob, path2, tpz.path.flag.RUN)
-    elseif mobID == 17338588 then
-        tpz.path.patrolsimple(mob, path3, tpz.path.flag.RUN)
-    end
-end
+
 
 function onMobSpawn(mob)
-    onPath(mob)
 end
 
 function onMobRoam(mob)
-    onPath(mob)
+    local mobID = mob:getID()
+    if mobID == 17338586 then
+        tpz.path.loop(mob, path1, tpz.path.flag.RUN)
+    elseif mobID == 17338587 then
+        tpz.path.loop(mob, path2, tpz.path.flag.RUN)
+    elseif mobID == 17338588 then
+        tpz.path.loop(mob, path3, tpz.path.flag.RUN)
+    end
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

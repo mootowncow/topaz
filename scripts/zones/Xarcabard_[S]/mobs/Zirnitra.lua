@@ -11,10 +11,10 @@ require("scripts/globals/wotg")
 mixins = {require("scripts/mixins/families/amphiptere")}
 ------------------------------
 local path1 = {
-    38, -36, 162,
-    308, -27, 195,
-    341, -28, 294,
-    284, -27, 153,
+    {x = 38, y = -36, z = 162},
+    {x = 308, y = -27, z = 195},
+    {x = 341, y = -28, z = 294},
+    {x = 284, y = -27, z = 153},
 }
 
 function onMobInitialize(mob)
@@ -87,8 +87,9 @@ function onMonsterMagicPrepare(mob, target)
     return 359 -- Silencega
 end
 
-function onPath(mob)
-	tpz.path.patrolsimple(mob, path1, tpz.path.flag.RUN)
+
+function onMobRoam(mob)
+    tpz.path.loop(mob, path1, tpz.path.flag.RUN)
 end
 
 function onMobDespawn(mob)
