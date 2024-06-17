@@ -2892,12 +2892,24 @@ int getSDTTier(int SDT)
 
                     //if the mob is charmed by player
                     if (PDefender->PMaster != nullptr && PDefender->PMaster->objtype == TYPE_PC)
+                    {
                         ((CPetEntity*)PDefender)->loc.zone->UpdateEntityPacket(PDefender, ENTITY_UPDATE, UPDATE_COMBAT);
 
+                        if (PAttacker->objtype == TYPE_MOB)
+                        {
+                            // charmed mob should lose enmity from normal attacks
+                            ((CMobEntity*)PAttacker)->PEnmityContainer->UpdateEnmityFromAttack(PDefender, damage);
+                        }
+                    }
                     break;
-
                 case TYPE_PET:
                     ((CPetEntity*)PDefender)->loc.zone->UpdateEntityPacket(PDefender, ENTITY_UPDATE, UPDATE_COMBAT);
+
+                    if (PAttacker->objtype == TYPE_MOB)
+                    {
+                        // pets should lose enmity from normal attacks
+                        ((CMobEntity*)PAttacker)->PEnmityContainer->UpdateEnmityFromAttack(PDefender, damage);
+                    }
                     break;
                 case TYPE_PC:
                     if (PAttacker->objtype == TYPE_MOB)
