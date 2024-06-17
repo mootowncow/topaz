@@ -1167,7 +1167,7 @@ int getSDTTier(int SDT)
             Action->reaction = REACTION_HIT;
             Action->spikesEffect = SUBEFFECT_COUNTER;
 
-            if (battleutils::IsAbsorbByShadow(PAttacker)) // Struck a shadow
+            if (battleutils::IsAbsorbByShadow(PAttacker, PDefender)) // Struck a shadow
             {
                 Action->spikesMessage = 535;
             }
@@ -4023,7 +4023,7 @@ int getSDTTier(int SDT)
     *                                                                       *
     ************************************************************************/
 
-    bool IsAbsorbByShadow(CBattleEntity* PDefender)
+    bool IsAbsorbByShadow(CBattleEntity* PDefender, CBattleEntity* PAttacker)
     {
         //utsus always overwrites blink, so if utsus>0 then we know theres no blink.
         uint16 Shadow = PDefender->getMod(Mod::UTSUSEMI);
@@ -4082,6 +4082,11 @@ int getSDTTier(int SDT)
                         {
                             case 1: icon = EFFECT_COPY_IMAGE_1; break;
                             case 2: icon = EFFECT_COPY_IMAGE_2; break;
+                        }
+                        // player loses 25 CE if attack absorbed by utsusemi shadow
+                        if (auto* PMob = dynamic_cast<CMobEntity*>(PAttacker))
+                        {
+                            PMob->PEnmityContainer->UpdateEnmity(PDefender, -25, 0);
                         }
                         PStatusEffect->SetIcon(icon);
                         PDefender->StatusEffectContainer->UpdateStatusIcons();
@@ -5299,7 +5304,7 @@ int getSDTTier(int SDT)
             {
 
                 // attack hit, try to be absorbed by shadow
-                if (!battleutils::IsAbsorbByShadow(PVictim))
+                if (!battleutils::IsAbsorbByShadow(PVictim, PAttacker))
                 {
                     // successful hit, add damage
                     float AttMultiplerPercent = 0.f;

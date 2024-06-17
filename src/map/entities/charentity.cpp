@@ -1739,7 +1739,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         if (tpzrand::GetRandomNumber(100) < battleutils::GetRangedHitRate(this, PTarget, isBarrage)) // hit!
         {
             // absorbed by shadow
-            if (battleutils::IsAbsorbByShadow(PTarget))
+            if (battleutils::IsAbsorbByShadow(PTarget, this))
             {
                 shadowsTaken++;
             }
