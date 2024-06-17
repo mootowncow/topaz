@@ -6,6 +6,14 @@
 local ID = require("scripts/zones/Labyrinth_of_Onzozo/IDs")
 require("scripts/globals/mobs")
 -----------------------------------
+function onMobSpawn(mob)
+    mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
+end
+
+function onMobDisengage(mob)
+    local spawnPos = mob:getSpawnPos()
+    mob:setPos(spawnPos.x, spawnPos.y, spawnPos.z)
+end
 
 function onMobDeath(mob, player, isKiller, noKiller)
 end

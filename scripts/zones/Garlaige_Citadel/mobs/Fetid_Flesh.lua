@@ -1,9 +1,9 @@
 -----------------------------------
--- Area: Caedarva Mire
---  Mob: Jnun
+-- Area: Garlaige Citadel
+--   Mob: Fetish Flesh
 -----------------------------------
+require("scripts/globals/hunts")
 require("scripts/globals/mobs")
-mixins = {require("scripts/mixins/families/jnun")}
 -----------------------------------
 function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
