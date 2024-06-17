@@ -187,21 +187,47 @@ void CMobController::TryLink()
         PMob->PPet->PAI->Engage(PTarget->id);
     }
 
-    // Mobs shouldn't link to pets without master being engaged
-    if (PTarget->objtype == TYPE_PET && PTarget->PMaster != nullptr && !PTarget->PMaster->PAI->IsEngaged())
+    // Mobs shouldn't link to pets unless the pet's master is on the enmity list
+    if (PTarget->objtype == TYPE_PET || (PTarget->objtype == TYPE_MOB && PTarget->isCharmed))
     {
-        // Make sure the mob isn't supposed to super link
-        if (PMob->getMobMod(MOBMOD_SUPERLINK) == 0)
-        {
-            return;
-        }
-    }
 
-    // Mobs shouldn't link to charmed pets
-    if (PTarget->objtype == TYPE_MOB && PTarget->isCharmed && PTarget->PMaster != nullptr && !PTarget->PMaster->PAI->IsEngaged())
-    {
         // Make sure the mob isn't supposed to super link
-        if (PMob->getMobMod(MOBMOD_SUPERLINK) == 0)
+        // TODO: DOESNT WORK!! All mobs are default 0 mobmod_superlink..
+        //if (PMob->getMobMod(MOBMOD_SUPERLINK) == 0)
+        //{
+        //    printf("Super link mod is 0\n");
+        //    return;
+        //}
+
+        EnmityList_t* enmityList = PMob->PEnmityContainer->GetEnmityList();
+        bool shouldLink = false;
+
+        for (EnmityList_t::iterator it = enmityList->begin(); it != enmityList->end(); ++it)
+        {
+            EnmityObject_t& PEnmityObject = it->second;
+            if (PEnmityObject.PEnmityOwner)
+            {
+                if (PEnmityObject.PEnmityOwner->objtype == TYPE_PET)
+                {
+                    auto PPet = static_cast<CPetEntity*>(PEnmityObject.PEnmityOwner);
+                    if (PPet->PMaster && PPet->PMaster->objtype == TYPE_PC)
+                    {
+                        // Check if the pet's master is on the enmity list
+                        for (EnmityList_t::iterator masterIt = enmityList->begin(); masterIt != enmityList->end(); ++masterIt)
+                        {
+                            if (masterIt->second.PEnmityOwner == PPet->PMaster &&
+                                (masterIt->second.CE > 0 || masterIt->second.VE > 0))
+                            {
+                                shouldLink = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!shouldLink)
         {
             return;
         }
