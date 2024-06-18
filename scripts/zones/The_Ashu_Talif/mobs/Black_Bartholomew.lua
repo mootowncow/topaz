@@ -19,7 +19,9 @@ function onMobRoam(mob)
     if (instance:completed()) then
         DespawnMob(mob:getID(), instance)
     end
-    tpz.path.CheckIfStuck(mob)
+    if tpz.path.CheckIfStuck(mob) then
+        mob:setPos(15.82,-22.74,-1.99)
+    end
 end
 
 function onMobFight(mob, target)
