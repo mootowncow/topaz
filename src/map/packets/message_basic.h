@@ -77,7 +77,15 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_USES_BUT_MISSES		= 324, // The <player> uses .. but misses <target>. 
 	MSGBASIC_CANT_BE_USED_IN_AREA	= 316, // That action cannot be used in this area. 
 	MSGBASIC_REQUIRES_SHIELD		= 199, // That action requires a shield. 
-    MSGBASIC_JA_MISS                = 158, // <user> uses <ability>, but misses. (no name included) 
+    MSGBASIC_JA_MISS                = 158, // <user> uses <ability>, but misses. (no name included)
+
+    // Spikes
+    MSGBASIC_SPIKES_EFFECT_DMG      = 44,  // <target>'s spikes deal <number> damage to <attacker>
+    MSGBASIC_SPIKES_EFFECT_HEAL     = 383, // <target>'s spikes restore <number> HP to <attacker>
+    MSGBASIC_SPIKES_EFFECT_HP_DRAIN = 132, // <target>'s spikes drain <number> HP from the <attacker>.
+    MSGBASIC_SPIKES_ARMOR_SUBEFFECT = 374, // Striking <target>'s armor causes <attacker> to become <status>.
+    MSGBASIC_SPIKES_SHADOW_ABSORB   = 535, // <target> retaliates. .. of <player>'s shadows absorb the damage and disappear.
+    MSGBASIC_SPIKES_RETAL           = 536, // <target> retaliates. The <player> takes 0 points of damage.
 
     // Magic
     MSGBASIC_STARTS_CASTING         = 3,   // <caster> starts casting <spell>.
