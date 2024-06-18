@@ -171,13 +171,13 @@ tpz.path =
 
     -- Paths a table of points once then steps
     followPoints = function(npc, points, flags)
-        printf("Following path")
+        -- printf("Following path")
         if not npc:isFollowingPath() then
             local path = npc:getLocalVar("path")
             path = path + 1;
-            print(#points)
+            -- print(#points)
             if (path > #points) then
-                printf("Pathing is done")
+                -- printf("Pathing is done")
                 npc:setLocalVar("pathingDone", 1)
                 return
             end
@@ -185,7 +185,7 @@ tpz.path =
             npc:setLocalVar("path", path);
             npc:setLocalVar("pathingDone", 0)
             local currentPath = points[path];
-            print(string.format('Following path point: %.2f, %.2f, %.2f [%u]', currentPath[1], currentPath[2], currentPath[3], path))
+            -- print(string.format('Following path point: %.2f, %.2f, %.2f [%u]', currentPath[1], currentPath[2], currentPath[3], path))
             npc:pathThrough(currentPath, flags);
         end
     end,
@@ -197,7 +197,7 @@ tpz.path =
             npc:setLocalVar("currentPathX", points[1][1])
             npc:setLocalVar("currentPathY", points[1][2])
             npc:setLocalVar("currentPathZ", points[1][3])
-            printf(string.format('Following path point: %.2f, %.2f, %.2f [1]', points[1][1], points[1][2], points[1][3]))
+            -- printf(string.format('Following path point: %.2f, %.2f, %.2f [1]', points[1][1], points[1][2], points[1][3]))
             npc:pathThrough(points[1], flags)
         end
 
@@ -216,13 +216,13 @@ tpz.path =
                     npc:setLocalVar("pathingDone", 0)
 
                     if path > #points then
-                        printf("Pathing is done")
+                        -- printf("Pathing is done")
                         npc:setLocalVar("pathingDone", 1)
                         return
                     end
 
                     currentPath = points[path]
-                    printf(string.format('Following path point: %.2f, %.2f, %.2f [%u]', currentPath[1], currentPath[2], currentPath[3], path))
+                    -- printf(string.format('Following path point: %.2f, %.2f, %.2f [%u]', currentPath[1], currentPath[2], currentPath[3], path))
                     npc:setLocalVar("currentPathX", currentPath[1])
                     npc:setLocalVar("currentPathY", currentPath[2])
                     npc:setLocalVar("currentPathZ", currentPath[3])
