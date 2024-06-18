@@ -79,7 +79,9 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_REQUIRES_SHIELD		= 199, // That action requires a shield. 
     MSGBASIC_JA_MISS                = 158, // <user> uses <ability>, but misses. (no name included) 
 
-    // Magic 
+    // Magic
+    MSGBASIC_STARTS_CASTING         = 3,   // <caster> starts casting <spell>.
+    MSGBASIC_STARTS_CASTING_TARGET  = 327, // <caster> starts casting <spell> on <target>.
     MSGBASIC_STATUS_NO_LONGER       = 204, // <target> is no longer${status}. 
     MSGBASIC_GAINS_EFFECT_OF_STATUS = 205, // ${target} gains the effect of ${status}. 
     MSGBASIC_STATUS_WEARS_OFF       = 206, // ${target}'s ${status} effect wears off. 

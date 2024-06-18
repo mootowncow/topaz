@@ -84,7 +84,12 @@ CMagicState::CMagicState(CBattleEntity* PEntity, uint16 targid, SpellID spellid,
     actionTarget.speceffect = SPECEFFECT_NONE;
     actionTarget.animation = 0;
     actionTarget.param = static_cast<uint16>(m_PSpell->getID());
-    actionTarget.messageID = 327;
+    actionTarget.messageID = MSGBASIC_STARTS_CASTING_TARGET;
+
+    if (PEntity->objtype != TYPE_PC)
+    {
+        actionTarget.messageID = MSGBASIC_STARTS_CASTING; // <caster> starts casting <spell>.
+    }
 
     // Mobs shouldn't display casting spells in chat when out of combat unless target is a player
     // Display mobs being casted on by players
