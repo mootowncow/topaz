@@ -161,6 +161,7 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Need to remove MEVA mod from being applied to players and mobs and then fix how meva mod is coded in getMagicHitRate(Lua) getMagicHitRate(CPP)
 Wild Rage said "999 shadows absorbed" with blink up?
 Buff Musanto / Katana from ANNM(Enmity +3 Evasion +7?)
 Don't save : in item names for item_Basic.sql (FFXI item editor)
@@ -193,7 +194,6 @@ How does slug shot do 61 instead of 400+ dmg? It's 1 hit
 AddDimishingReturns should use 1 var for sleep and not different ones(sleep_I and sleep_II all share 1 DR). Also add AddDimishingReturns to light shot, and light shot shares DR with sleep
 
 Wyvern pets should folllow master on disengage(mobID + 1?)
-Pets shouldn't aggro/link(Dynamis only issue maybe? set flags for all pets on spawn)
 Give PUP some sword WS natively
 Variable for setting to limit points on not always changed when job swapped to 75
 STATUSRESTRAIT should work on all status effects, attack down etc
@@ -293,12 +293,6 @@ Lvl90, 200k hp
 Mat that lets you add a random augment to any ring/amulet/earring
 
 
-Make sneak silent!
-https://github.com/LandSandBoat/server/commit/e7b95675df0f8c77924470dc35d36845d331a3c7
-
-Moogle in ToAU fountain fix
-https://github.com/LandSandBoat/server/commit/f087ea2914e239452defa55d6a6517508fb6ac4d
-
 Pet JA miss msg
 https://github.com/LandSandBoat/server/commit/1f2478791c631b75d35ffc3de9cc32b5cc58a537
 
@@ -307,9 +301,6 @@ https://github.com/AirSkyBoat/AirSkyBoat/commit/4d8e29572cadbf2950a7b560779f1e1a
 
 Pet pathing? Unsure if needed
 https://github.com/CatsAndBoats/catseyexi/commit/6ef07af23863e82a63cd7e986a0f259686b7fc49
-
-Mob casting message !!
-https://github.com/LandSandBoat/server/commit/58f87d16cd22375553890105c9ce93a43806ea6a
 
 Pet MP checking and bad packets?
 https://github.com/CatsAndBoats/catseyexi/commit/44c224771817019b18a5b5c53c9692c084d24a3a
@@ -333,9 +324,6 @@ https://github.com/CatsAndBoats/catseyexi/commit/60ac3bc5a0f031f596034fa79aeadc6
 Cover PDIF fixes
 https://github.com/AirSkyBoat/AirSkyBoat/commit/ab7d0174b565ea53999a0ef366d4b91e5812286a
 
-Utsusemi enmity
-https://github.com/CatsAndBoats/catseyexi/commit/d9fae0bb9677734ff06732f0e500bc8d21d34933
-
 PUP? 
 https://github.com/LandSandBoat/server/commit/c12e2e37839e23b0459e088eb05e6d084bea2448
 
@@ -350,9 +338,6 @@ https://github.com/LandSandBoat/server/commit/0a534df514c548f93b3a66d6fe93072013
 
 Timer fill stuff
 https://github.com/LandSandBoat/server/commit/0609d8370a21f3b5b4654ebdfd0402276acadeed
-
-Add enmity loss to pets when taking damage
-https://github.com/LandSandBoat/server/commit/dceed4d68070c43f39e6100951df47e1c86cdbf6
 
 Has Trait
 https://github.com/LandSandBoat/server/commit/8f0b67c8f74197636721acc7be0ca5f81a8182bb
