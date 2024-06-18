@@ -5204,9 +5204,15 @@ void SmallPacket0x0DC(map_session_data_t* session, CCharEntity* PChar, CBasicPac
     case NFLAG_AUTOTARGET:
         // /autotarget [on|off]
         if (data.ref<uint8>(0x10) == 1)
+        {
             PChar->m_hasAutoTarget = false;
+            charutils::SetCharVar(PChar, "AUTOTARGET_ON", 0);
+        }
         if (data.ref<uint8>(0x10) == 2)
+        {
             PChar->m_hasAutoTarget = true;
+            charutils::SetCharVar(PChar, "AUTOTARGET_ON", 1);
+        }
         break;
     case NFLAG_AUTOGROUP:
         // /autogroup [on|off]

@@ -180,7 +180,12 @@ CCharEntity::CCharEntity()
     m_Monstrosity = 0;
     m_hasTractor = 0;
     m_hasRaise = 0;
-    m_hasAutoTarget = 1;
+
+    if (charutils::GetCharVar(this, "AUTOTARGET_ON") == 1)
+        m_hasAutoTarget = 1;
+    else
+        m_hasAutoTarget = 0;
+
     m_InsideRegionID = 0;
     m_LevelRestriction = 0;
     m_lastBcnmTimePrompt = 0;
