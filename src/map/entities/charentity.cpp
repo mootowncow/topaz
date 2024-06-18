@@ -260,8 +260,6 @@ void CCharEntity::SetPixieHate(uint32 pixieHate)
     charutils::SetCharVar(this, "PIXIE_HATE", pixieHate);
 }
 
-
-
 CCharEntity::~CCharEntity()
 {
     clearPacketList();

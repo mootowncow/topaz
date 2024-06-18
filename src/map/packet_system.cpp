@@ -5233,9 +5233,13 @@ void SmallPacket0x0DC(map_session_data_t* session, CCharEntity* PChar, CBasicPac
         auto flags = PChar->menuConfigFlags.byte4;
         auto param = data.ref<uint8>(0x10);
         if (param == 1)
-            PChar->menuConfigFlags.flags |= NFLAG_DISPLAY_HEAD;
+        {
+            charutils::SetCharVar(PChar, "DISPLAY_HELM", 1);
+        }
         else if (param == 2)
-            PChar->menuConfigFlags.flags &= ~NFLAG_DISPLAY_HEAD;
+        {
+            charutils::SetCharVar(PChar, "DISPLAY_HELM", 0);
+        }
 
         // This should only check that the display head bit has changed, since
         // a user gaining mentorship or losing new adventurer status at the
@@ -5243,11 +5247,8 @@ void SmallPacket0x0DC(map_session_data_t* session, CCharEntity* PChar, CBasicPac
         // would occur and the negative impact would be displaying the headgear
         // message twice, it isn't worth checking. If additional bits are found
         // in this flag, that assumption may need to be re-evaluated.
-        if (flags != PChar->menuConfigFlags.byte4)
-        {
-            PChar->pushPacket(new CCharAppearancePacket(PChar));
-            PChar->pushPacket(new CMessageStandardPacket(param == 1 ? MsgStd::HeadgearHide : MsgStd::HeadgearShow));
-        }
+        PChar->pushPacket(new CCharAppearancePacket(PChar));
+        PChar->pushPacket(new CMessageStandardPacket(param == 1 ? MsgStd::HeadgearHide : MsgStd::HeadgearShow));
         break;
     }
     case NFLAG_RECRUIT:

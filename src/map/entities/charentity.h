@@ -224,7 +224,6 @@ public:
     uint64                  chatFilterFlags;                // Chat Filters
     uint32                  lastOnline {0};                 // UTC Unix Timestamp of the last time char zoned or logged out
     bool                    isNewPlayer();                  // Checks if new player bit is unset.
-
     profile_t				profile;						// профиль персонажа (все, что связывает города и персонажа)
     expChain_t				expChain;						// Exp Chains
     capacityChain_t         capacityChain;                                                              // Capacity Point Chains

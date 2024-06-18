@@ -28,6 +28,8 @@
 #include "../vana_time.h"
 #include "../utils/zoneutils.h"
 #include "../instance.h"
+#include "../packets/char_appearance.h"
+#include "../utils/charutils.h"
 
 /************************************************************************
 *                                                                       *
@@ -125,7 +127,8 @@ CZoneInPacket::CZoneInPacket(CCharEntity * PChar, int16 csid)
     look_t *look = (PChar->getStyleLocked() ? &PChar->mainlook : &PChar->look);
     ref<uint8>(0x44) = look->face;
     ref<uint8>(0x45) = look->race;
-    ref<uint16>(0x46) = PChar->menuConfigFlags.flags & NFLAG_DISPLAY_HEAD ? 0 : look->head + 0x1000;
+    ref<uint16>(0x46) = charutils::GetCharVar(PChar, "DISPLAY_HELM") == 1 ? 0 : look->head + 0x1000;
+
     ref<uint16>(0x48) = look->body   + 0x2000;
     ref<uint16>(0x4A) = look->hands  + 0x3000;
     ref<uint16>(0x4C) = look->legs   + 0x4000;
@@ -208,4 +211,5 @@ CZoneInPacket::CZoneInPacket(CCharEntity * PChar, int16 csid)
 
 
     ref<uint8>(0x100) = 0x01;
+    PChar->pushPacket(new CCharAppearancePacket(PChar));
 }
