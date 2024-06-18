@@ -190,15 +190,6 @@ void CMobController::TryLink()
     // Mobs shouldn't link to pets unless the pet's master is on the enmity list
     if (PTarget->objtype == TYPE_PET || (PTarget->objtype == TYPE_MOB && PTarget->isCharmed))
     {
-
-        // Make sure the mob isn't supposed to super link
-        // TODO: DOESNT WORK!! All mobs are default 0 mobmod_superlink..
-        //if (PMob->getMobMod(MOBMOD_SUPERLINK) == 0)
-        //{
-        //    printf("Super link mod is 0\n");
-        //    return;
-        //}
-
         EnmityList_t* enmityList = PMob->PEnmityContainer->GetEnmityList();
         bool shouldLink = false;
 
@@ -225,6 +216,12 @@ void CMobController::TryLink()
                     }
                 }
             }
+        }
+
+        // Make sure the mob isn't supposed to super link
+        if (PMob->getMobMod(MOBMOD_SUPERLINK) == 1)
+        {
+            shouldLink = true;
         }
 
         if (!shouldLink)
