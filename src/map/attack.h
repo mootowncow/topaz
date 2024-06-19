@@ -88,7 +88,8 @@ public:
     bool                        IsEvaded();             // Gets the evaded flag.
     void                        SetEvaded(bool value);  // Sets the evaded flag.
     bool                        IsBlocked();            // Returns the blocked flag.
-    bool                        IsParried();
+    bool                        IsParried() const;
+    bool                        CheckParried();
     bool                        IsAnticipated();
     bool                        CheckAnticipated();
     bool                        IsCountered();
@@ -108,6 +109,7 @@ private:
     uint8                       m_hitRate {0};              // This attack's hitrate.
     bool                        m_isCritical {false};           // Flag: Is this attack a critical attack?
     bool                        m_isGuarded {false};            // Flag: Is this attack guarded by the victim?
+    bool                        m_isParried {false};           // Flag: Is this attack parried by the victim?
     bool                        m_isBlocked {false};            // Flag: Is this attack blocked by the victim?
     bool                        m_isEvaded {false};             // Flag: Is this attack evaded by the victim?
     bool                        m_isCountered {false};

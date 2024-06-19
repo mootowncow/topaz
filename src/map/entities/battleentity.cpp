@@ -1781,7 +1781,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                  !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_ALL_MISS))
         {
             // Check parry.
-            if (attack.IsParried())
+            if (attack.CheckParried())
             {
                 actionTarget.messageID = MSGBASIC_PARRY;
                 actionTarget.reaction = REACTION_PARRY;
