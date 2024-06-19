@@ -290,40 +290,53 @@ function utils.thirdeye(attacker, target)
     return false
 end
 
--- skillLevelTable contains matched pairs based on rank; First value is multiplier, second is additive value.  Index is the subtracted
--- baseInRange value (see below)
+-- skillLevelTable contains matched pairs based on rank; First value is multiplier, second is additive value. Index is the subtracted baseInRange value (see below)
 -- Original formula: ((level - <baseInRange>) * <multiplier>) + <additive>; where level is a range defined in utils.getSkillLvl
 local skillLevelTable =
 {
-    --         A+             A-             B+             B              B-             C+             C              C-             D              E              F                  G
-    [1]  = { { 3.00,   6 }, { 3.00,   6 }, { 2.90,   5 }, { 2.90,   5 }, { 2.90,   5 }, { 2.80,   5 }, { 2.80,   5 }, { 2.80,   5 }, { 2.70,   4 }, { 2.50,   4 }, { 2.30,   4 }, { 2,   3 } }, -- Level <= 50
-    [50] = { { 5.00, 153 }, { 5.00, 153 }, { 4.90, 147 }, { 4.90, 147 }, { 4.90, 147 }, { 4.80, 142 }, { 4.80, 142 }, { 4.80, 142 }, { 4.70, 136 }, { 4.50, 126 }, { 4.30, 116 }, { 4, 101 } }, -- Level > 50 and Level <= 60
-    [60] = { { 4.85, 203 }, { 4.10, 203 }, { 3.70, 196 }, { 3.23, 196 }, { 2.70, 196 }, { 2.50, 190 }, { 2.25, 190 }, { 2.00, 190 }, { 1.85, 183 }, { 1.95, 171 }, { 2.05, 159 }, { 2.00, 141 } }, -- Level > 60 and Level <= 70
-    [70] = { { 5.00, 251 }, { 5.00, 244 }, { 3.70, 233 }, { 3.23, 228 }, { 2.70, 223 }, { 3.00, 215 }, { 2.60, 212 }, { 2.00, 210 }, { 1.85, 201 }, { 1.95, 190 }, { 2.00, 179 }, { 2.00, 161 } }, -- Level > 70
+    --         A+             A-             B+             B              B-             C+             C              C-             D              E              F
+    [  0] = { { 0.00,   0 }, { 0.00,   0 }, { 0.00,   0 }, { 0.00,   0 }, { 0.00,   0 }, { 0.00,   0 }, { 0.00,   0 }, { 0.00,   0 }, { 0.00,   0 }, { 0.00,   0 }, { 0.00,   0 } }, -- No level/Fallback
+    [  1] = { { 3.00,   6 }, { 3.00,   6 }, { 2.90,   5 }, { 2.90,   5 }, { 2.90,   5 }, { 2.80,   5 }, { 2.80,   5 }, { 2.80,   5 }, { 2.70,   4 }, { 2.50,   4 }, { 2.30,   4 } }, -- Level <= 50
+    [ 50] = { { 5.00, 153 }, { 5.00, 153 }, { 4.90, 147 }, { 4.90, 147 }, { 4.90, 147 }, { 4.80, 142 }, { 4.80, 142 }, { 4.80, 142 }, { 4.70, 136 }, { 4.50, 126 }, { 4.30, 116 } }, -- Level > 50 and Level <= 60
+    [ 60] = { { 4.85, 203 }, { 4.10, 203 }, { 3.70, 196 }, { 3.23, 196 }, { 2.70, 196 }, { 2.50, 190 }, { 2.25, 190 }, { 2.00, 190 }, { 1.85, 183 }, { 1.95, 171 }, { 2.05, 159 } }, -- Level > 60 and Level <= 70
+    [ 70] = { { 5.00, 251 }, { 5.00, 244 }, { 4.60, 233 }, { 4.40, 228 }, { 3.40, 223 }, { 3.00, 215 }, { 2.60, 212 }, { 2.00, 210 }, { 1.85, 201 }, { 2.00, 190 }, { 2.00, 179 } }, -- Level > 70 and Level <= 75
+    [ 75] = { { 5.00, 251 }, { 5.00, 244 }, { 5.00, 256 }, { 5.00, 250 }, { 5.00, 240 }, { 5.00, 230 }, { 5.00, 225 }, { 5.00, 220 }, { 4.00, 210 }, { 3.00, 200 }, { 2.00, 189 } }, -- Level > 75 and Level <= 80
+    [ 80] = { { 6.00, 301 }, { 6.00, 294 }, { 6.00, 281 }, { 6.00, 275 }, { 6.00, 265 }, { 6.00, 255 }, { 6.00, 250 }, { 6.00, 245 }, { 5.00, 230 }, { 4.00, 215 }, { 3.00, 199 } }, -- Level > 80 and Level <= 90
+    [ 90] = { { 7.00, 361 }, { 7.00, 354 }, { 7.00, 341 }, { 7.00, 335 }, { 7.00, 325 }, { 7.00, 315 }, { 7.00, 310 }, { 7.00, 305 }, { 6.00, 280 }, { 5.00, 255 }, { 4.00, 229 } }, -- Level > 90 and Level <= 99
+    [100] = { { 1.00, 424 }, { 1.00, 417 }, { 1.00, 404 }, { 1.00, 398 }, { 1.00, 388 }, { 1.00, 378 }, { 1.00, 373 }, { 1.00, 368 }, { 1.00, 334 }, { 1.00, 300 }, { 1.00, 265 } }, -- Level > 99
 }
 
 -- Get the corresponding table entry to use in skillLevelTable based on level range
 -- TODO: Minval for ranges 2 and 3 in the conditional is probably not necessary
 local function getSkillLevelIndex(level)
-    local rangeId = nil
+    local rangeId = 100
 
     if level <= 50 then
         rangeId = 1
-    elseif level > 50 and level <= 60 then
+    elseif level <= 60 then
         rangeId = 50
-    elseif level > 60 and level <= 70 then
+    elseif level <= 70 then
         rangeId = 60
-    else
+    elseif level <= 75 then
         rangeId = 70
+    elseif level <= 80 then
+        rangeId = 75
+    elseif level <= 90 then
+        rangeId = 80
+    elseif level <= 99 then
+        rangeId = 90
     end
 
     return rangeId
 end
 
 function utils.getSkillLvl(rank, level)
-    local levelTableIndex = getSkillLevelIndex(level)
-    return ((level - levelTableIndex) * skillLevelTable[levelTableIndex][rank][1]) + skillLevelTable[levelTableIndex][rank][2]
+    local levelTableIndex = getSkillLevelIndex(level, rank)
+    local skillLevel = (level - levelTableIndex) * skillLevelTable[levelTableIndex][rank][1] + skillLevelTable[levelTableIndex][rank][2]
+
+    return skillLevel
 end
+
 
 function utils.getMobSkillLvl(rank, level)
      if(level > 50) then
