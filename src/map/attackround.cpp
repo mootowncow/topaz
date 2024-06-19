@@ -37,12 +37,6 @@ CAttackRound::CAttackRound(CBattleEntity* attacker, CBattleEntity* defender)
     m_defender = defender;
     m_kickAttackOccured = false;
     m_sataOccured = false;
-    m_subWeaponType = 0;
-
-    if (auto weapon = dynamic_cast<CItemWeapon*>(attacker->m_Weapons[SLOT_SUB]))
-    {
-        m_subWeaponType = weapon->getDmgType();
-    }
 
     // Grab a trick attack assistant.
     m_taEntity = battleutils::getAvailableTrickAttackChar(attacker, attacker->GetBattleTarget());
