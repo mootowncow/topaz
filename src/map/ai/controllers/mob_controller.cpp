@@ -739,8 +739,7 @@ bool CMobController::CanCastSpells()
     // smn can only cast spells if it has no pet
     if (PMob->GetMJob() == JOB_SMN)
     {
-        if (PMob->PPet == nullptr ||
-            !PMob->PPet->isDead())
+        if (PMob->PPet && !PMob->PPet->isDead())
         {
             return false;
         }
