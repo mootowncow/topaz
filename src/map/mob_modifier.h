@@ -124,6 +124,7 @@ enum MOBMODIFIER : int
     MOBMOD_PIXIE               = 107, // Pixies: Cure and raise players
     MOBMOD_NO_DR               = 108, // No dimishing returns on any CC
     MOBMOD_FIXATE              = 109, // Will only target this entity.
+    MOBMOD_ONE_WAY_LINKING     = 110, // Will link with other mobs in its party (typically the same mob family) while roaming, but will not let others link with it once engaged
 };
 
 #endif

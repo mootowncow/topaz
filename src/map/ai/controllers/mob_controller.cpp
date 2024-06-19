@@ -234,14 +234,21 @@ void CMobController::TryLink()
         }
     }
 
-    // Handle monster linking if they are close enough
-    if (PMob->PParty != nullptr)
-    {
-        for (uint16 i = 0; i < PMob->PParty->members.size(); ++i)
-        {
-            CMobEntity* PPartyMember = (CMobEntity*)PMob->PParty->members[i];
 
-            if (PPartyMember->isAlive() && PPartyMember->PAI->IsRoaming() && PPartyMember->CanLink(&PMob->loc.p, PMob->getMobMod(MOBMOD_SUPERLINK)))
+    // Handle monster linking if they are close enough
+    if (PMob->PParty != nullptr && !PMob->getMobMod(MOBMOD_ONE_WAY_LINKING))
+    {
+        for (auto& member : PMob->PParty->members)
+        {
+            CMobEntity* PPartyMember = dynamic_cast<CMobEntity*>(member);
+            // Note if the mob to link with this one is a pet then do not link
+            // Pets only link with their masters
+            if (!PPartyMember || (PPartyMember && PPartyMember->PMaster))
+            {
+                continue;
+            }
+
+            if (PPartyMember->PAI->IsRoaming() && PPartyMember->CanLink(&PMob->loc.p, PMob->getMobMod(MOBMOD_SUPERLINK)))
             {
                 PPartyMember->PAI->Engage(PTarget->targid);
             }
