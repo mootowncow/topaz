@@ -759,7 +759,7 @@ int16 GetSDTTier(int16 SDT)
             }
         }
 
-        printf("res: %f\n", res);
+        //printf("res: %f\n", res);
         return res;
     }
 
