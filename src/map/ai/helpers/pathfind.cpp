@@ -413,7 +413,7 @@ bool CPathFind::FindRandomPath(const position_t& start, float maxRadius, uint8 m
         return false;
     }
 
-    auto m_turnLength = tpzrand::GetRandomNumber((int)maxTurns) + 1;
+    auto m_turnLength = static_cast<uint8_t>(tpzrand::GetRandomNumber<uint32>(maxTurns) + 1);
 
     // Seemingly arbitrary value to pass for maxRadius, all values seem to give similar results, likely due to navmesh polygons being too dense?
     float maxRadiusForPolyQuery = maxRadius / 10.f;
@@ -435,11 +435,11 @@ bool CPathFind::FindRandomPath(const position_t& start, float maxRadius, uint8 m
         // only add the roam point if it's _actually_ within range of the spawn point...
         if (distSq < maxRadius * maxRadius)
         {
-            m_turnPoints.push_back(status.second);
+            m_turnPoints.emplace_back(status.second);
         }
         // else
         // {
-        //     ShowDebug("CPathFind::FindRandomPath (%s - %d) random point too far: sq distance (%f)", m_PTarget->GetName(), m_PTarget->id, distSq);
+        //     ShowDebug("CPathFind::FindRandomPath (%s - %d) random point too far: sq distance (%f)", m_POwner->GetName(), m_POwner->id, distSq);
         // }
         if (m_turnPoints.size() >= m_turnLength)
             break;
@@ -450,12 +450,7 @@ bool CPathFind::FindRandomPath(const position_t& start, float maxRadius, uint8 m
         m_currentPoint = 0;
     }
 
-    if (m_points.empty())
-    {
-        return false;
-    }
-
-    return true;
+    return !m_points.empty();
 }
 
 
