@@ -10805,6 +10805,29 @@ inline int32 CLuaBaseEntity::sendTractor(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: allowSendRaisePrompt()
+ *  Purpose : Allows the raise prompt to be sent again to client
+ *            if for example player was moved while dead (thus removing the prompt)
+ *  Example : player:allowSendRaisePrompt()
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::allowSendRaisePrompt(lua_State* L)
+{
+    if (m_PBaseEntity == nullptr || m_PBaseEntity->objtype != TYPE_PC)
+    {
+        ShowError("m_PBaseEntity is null or not a Player.");
+        return 0;
+    }
+
+    if (m_PBaseEntity->PAI->IsCurrentState<CDeathState>())
+    {
+        auto deathState = static_cast<CDeathState*>(m_PBaseEntity->PAI->GetCurrentState());
+        deathState->allowSendRaise();
+    }
+    return 0;
+}
+
+/************************************************************************
 *  Function: countdown()
 *  Purpose : Starts or clears a visible countdown bar for player
 *  Example : player:countdown(60)
@@ -17139,6 +17162,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,sendRaise),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,sendReraise),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,sendTractor),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,allowSendRaisePrompt),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,messageCombat),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,countdown),
