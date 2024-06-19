@@ -177,7 +177,11 @@ void CMobController::TryLink()
     {
         if (PTarget->PPet->objtype == TYPE_PET && ((CPetEntity*)PTarget->PPet)->getPetType() == PETTYPE_AVATAR)
         {
-            petutils::AttackTarget(PTarget, PMob);
+            auto* PChar = dynamic_cast<CCharEntity*>(PTarget);
+            if (PChar && PChar->IsMobOwner(PMob))
+            {
+                petutils::AttackTarget(PTarget, PMob);
+            }
         }
     }
 
