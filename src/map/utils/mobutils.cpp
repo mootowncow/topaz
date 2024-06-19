@@ -578,9 +578,6 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         PMob->addModifier(Mod::PARRY, GetBase(PMob, PMob->getMobMod(MOBMOD_CAN_PARRY)));
     }
 
-    // natural magic evasion
-    PMob->addModifier(Mod::MEVA, GetMagicEvasion(PMob));
-
     // add traits for sub and main
     battleutils::AddTraits(PMob, traits::GetTraits(mJob), mLvl);
     if (mJob != sJob)

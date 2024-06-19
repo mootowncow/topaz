@@ -695,28 +695,25 @@ int16 GetSDTTier(int16 SDT)
         //printf("MACC after percentBonus %f\n", magicacc);
         magicacc += magicaccbonus;
         //printf("MACC final %f\n", magicacc);
-        float baseMeva = magicacc = static_cast<float>(battleutils::GetMaxSkill(SKILL_EVASION, JOB_PLD, PDefender->GetMLevel()));
+        float baseMeva = static_cast<float>(battleutils::GetMaxSkill(SKILL_EVASION, JOB_PLD, PDefender->GetMLevel()));
         //printf("baseMeva before SDT %f\n", baseMeva);
         Mod resistarray[8] = { Mod::FIRERES, Mod::ICERES, Mod::WINDRES, Mod::EARTHRES, Mod::THUNDERRES, Mod::WATERRES, Mod::LIGHTRES, Mod::DARKRES };
         if (PDefender->objtype == TYPE_PC)
         {
             baseMeva = static_cast<float>(GetPlayerMeva(PDefender));
         }
-        // Add + MEVA mod
-        float mevaMod = std::max(PDefender->getMod(Mod::MEVA) - baseMeva, 0.0f);
-        //printf("mevaMod %f\n", mevaMod);
         baseMeva *= GetSDTMultiplier(static_cast<float>(GetSDTTier(static_cast<int>(SDT))));
         //printf("getSDTMultiplier: %f\n", getSDTMultiplier(getSDTTier(SDT)));
         //printf("baseMeva after SDT %f\n", baseMeva);
-        baseMeva += mevaMod;
+        baseMeva += PDefender->getMod(Mod::MEVA);
         //printf("baseMeva after MEVA mod %f\n", baseMeva);
         // Add resist gear/barspells etc
         baseMeva += PDefender->getMod(resistarray[element - 1]);
         //printf("baseMeva after resist mod %f\n", baseMeva);
-        float magiceva = baseMeva + mevaMod;
-        //printf("Meva final %f\n-----------------------------------------------------------------\n", magiceva);
+        float magicevaFinal = baseMeva;
+        //printf("Meva final %f\n-----------------------------------------------------------------\n", magicevaFinal);
 
-        return CalculateMagicHitRate(magicacc, magiceva, element, percentBonus, casterLvl, targetLvl, SDT);
+        return CalculateMagicHitRate(magicacc, magicevaFinal, element, percentBonus, casterLvl, targetLvl, SDT);
     }
 
     float ApplyResistance(CBattleEntity* PAttacker, CBattleEntity* PDefender, ELEMENT element, uint8 skillType, float diff, float bonus)

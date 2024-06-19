@@ -486,7 +486,7 @@ function AutoMagicalWeaponSkill(auto, target, skill, element, params, statmod, b
     local magicBurstBonus = getAutoMagicBurstBonus(auto, target, skill, element)
 
     -- get resist
-    if params.NO_RESIST ~= nil then -- Only used for Netherblast currently
+    if params.NO_RESIST ~= nil then -- Only used for Cannibal Blade currently
          resist = 1
     else
          resist = getAutoResist(auto, effect, target, auto:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT), bonus, element)
@@ -1491,12 +1491,9 @@ function getAutoMagicHitRate(auto, target, skillType, element, SDT, percentBonus
     if target:isPC() then
         baseMagiceva = math.floor(utils.getSkillLvl(12, target:getMainLvl())) -- 171 for a level 75 player
     else
-        baseMagiceva = math.floor(utils.getMobSkillLvl(3, target:getMainLvl()))
+        baseMagiceva = math.floor(utils.getSkillLvl(7, target:getMainLvl()))
     end
     -- printf("Base MEVA: %s", baseMagiceva)
-    -- get +MEVA mod
-    local mevaMod = target:getMod(tpz.mod.MEVA) - baseMagiceva
-    -- printf("mevaMod: %s", mevaMod)
     -- apply SDT
     local tier = getSDTTier(SDT)
     local multiplier = getSDTMultiplier(tier)
@@ -1504,7 +1501,7 @@ function getAutoMagicHitRate(auto, target, skillType, element, SDT, percentBonus
     baseMagiceva = math.floor(baseMagiceva * multiplier)
     -- printf("Base MEVA after multiplier: %s", baseMagiceva)
     -- add +MEVA mod
-    local magiceva = baseMagiceva + mevaMod
+    local magiceva = baseMagiceva + target:getMod(tpz.mod.MEVA)
     -- printf("MEVA after +MEVA mod: %s", magiceva)
     -- add resist gear/mods(barspells etc)
     magiceva = magiceva + resMod

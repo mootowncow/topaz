@@ -3132,34 +3132,6 @@ namespace charutils
                 }
             }
         }
-
-        PChar->delModifier(Mod::MEVA, PChar->m_magicEvasion);
-
-        uint8 level = PChar->GetMLevel();
-        uint8 meva = 0;
-
-        // G Rank
-        // http://wiki.ffo.jp/html/2570.html
-
-        if (level <= 50)
-        {
-            meva = (level - 1) * 2 + 3;
-        }
-        else if (level > 50 && level <= 60)
-        {
-            meva = (level - 50) * 4 + 101;
-        }
-        else if (level > 60 && level <= 70)
-        {
-            meva = (level - 60) * 2 + 141;
-        }
-        else
-        {
-            meva = (level - 70) * 2 + 161;
-        }
-
-        PChar->m_magicEvasion = meva;
-        PChar->addModifier(Mod::MEVA, PChar->m_magicEvasion);
     }
 
     /************************************************************************

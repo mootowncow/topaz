@@ -2210,8 +2210,6 @@ namespace petutils
 
     void FinalizePetStatistics(CBattleEntity* PMaster, CPetEntity* PPet)
     {
-        //set C magic evasion
-        PPet->setModifier(Mod::MEVA, battleutils::GetMaxSkill(SKILL_SINGING, JOB_BRD, PPet->GetMLevel()));
         PPet->health.tp = 0;
         PMaster->applyPetModifiers(PPet);
         PPet->UpdateHealth();

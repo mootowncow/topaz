@@ -560,9 +560,6 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
     PTrust->addModifier(Mod::RATT, mobutils::GetBase(PTrust, PTrust->attRank));
     PTrust->addModifier(Mod::RACC, mobutils::GetBase(PTrust, PTrust->accRank));
 
-    // Natural magic evasion
-    PTrust->addModifier(Mod::MEVA, mobutils::GetMagicEvasion(PTrust));
-
     // Add traits for sub and main
     battleutils::AddTraits(PTrust, traits::GetTraits(mJob), mLvl);
     battleutils::AddTraits(PTrust, traits::GetTraits(sJob), sLvl);
