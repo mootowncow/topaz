@@ -99,6 +99,7 @@ private:
     time_point m_DeclaimTime;
     time_point m_NeutralTime;
     time_point m_WaitTime;
+    time_point m_mobHealTime;
     time_point m_StuckTick;
 
     bool m_firstSpell{ true };

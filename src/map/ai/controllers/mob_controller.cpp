@@ -1171,6 +1171,26 @@ void CMobController::DoRoamTick(time_point tick)
         PMob->m_OwnerID.clean();
     }
 
+    if (m_Tick >= m_mobHealTime + 10s && PMob->getMobMod(MOBMOD_NO_REST) == 0 && PMob->CanRest())
+    {
+        // recover 10% health and lose tp
+        if (PMob->Rest(0.1f))
+        {
+            // health updated
+            PMob->updatemask |= UPDATE_HP;
+        }
+
+        if (PMob->GetHPP() == 100)
+        {
+            // at max health undirty exp
+            PMob->m_HiPCLvl = 0;
+            PMob->m_HiPartySize = 0;
+            PMob->m_giveExp = true;
+            PMob->m_UsedSkillIds.clear();
+        }
+        m_mobHealTime = m_Tick;
+    }
+
     //skip roaming if waiting or bound / cced
     if (m_Tick >= m_WaitTime && !PMob->StatusEffectContainer->HasPreventActionEffect(false) && !PMob->StatusEffectContainer->HasStatusEffect(EFFECT_BIND))
     {
@@ -1188,25 +1208,6 @@ void CMobController::DoRoamTick(time_point tick)
             if (PMob->CalledForHelp())
             {
                 PMob->CallForHelp(false);
-            }
-
-            // can't rest with a DOT on (plague does not stop mob regen)
-            if (!PMob->getMod(Mod::REGEN_DOWN) && PMob->getMobMod(MOBMOD_NO_REST) == 0)
-            {
-                // recover 10% health
-                if (PMob->Rest(0.1f))
-                {
-                    // health updated
-                    PMob->updatemask |= UPDATE_HP;
-                }
-
-                if (PMob->GetHPP() == 100)
-                {
-                    // at max health undirty exp
-                    PMob->m_HiPCLvl = 0;
-                    PMob->m_HiPartySize = 0;
-                    PMob->m_giveExp = true;
-                }
             }
 
             // if I just disengaged check if I should despawn
@@ -1426,6 +1427,7 @@ bool CMobController::Disengage()
     PMob->animation = ANIMATION_NONE;
     // https://www.bluegartr.com/threads/108198-Random-Facts-Thread-Traits-and-Stats-(Player-and-Monster)?p=5670209&viewfull=1#post5670209
     PMob->m_THLvl = 0;
+    m_mobHealTime = m_Tick;
 
     return CController::Disengage();
 }
