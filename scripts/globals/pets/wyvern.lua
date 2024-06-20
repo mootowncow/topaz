@@ -12,28 +12,29 @@ local WYVERN_MULTI = 3
 
 local wyvernTypes =
 {
-    [tpz.job.WAR] = WYVERN_OFFENSIVE,
-    [tpz.job.MNK] = WYVERN_OFFENSIVE,
-    [tpz.job.WHM] = WYVERN_DEFENSIVE,
-    [tpz.job.BLM] = WYVERN_DEFENSIVE,
-    [tpz.job.RDM] = WYVERN_DEFENSIVE,
-    [tpz.job.THF] = WYVERN_OFFENSIVE,
-    [tpz.job.PLD] = WYVERN_MULTI,
-    [tpz.job.DRK] = WYVERN_MULTI,
-    [tpz.job.BST] = WYVERN_OFFENSIVE,
-    [tpz.job.BRD] = WYVERN_MULTI,
-    [tpz.job.RNG] = WYVERN_OFFENSIVE,
-    [tpz.job.SAM] = WYVERN_OFFENSIVE,
-    [tpz.job.NIN] = WYVERN_MULTI,
-    [tpz.job.DRG] = WYVERN_OFFENSIVE,
-    [tpz.job.SMN] = WYVERN_DEFENSIVE,
-    [tpz.job.BLU] = WYVERN_DEFENSIVE,
-    [tpz.job.COR] = WYVERN_OFFENSIVE,
-    [tpz.job.PUP] = WYVERN_OFFENSIVE,
-    [tpz.job.DNC] = WYVERN_OFFENSIVE,
-    [tpz.job.SCH] = WYVERN_DEFENSIVE,
-    [tpz.job.GEO] = WYVERN_DEFENSIVE,
-    [tpz.job.RUN] = WYVERN_MULTI,
+    [tpz.job.NONE] = WYVERN_OFFENSIVE,
+    [tpz.job.WAR]  = WYVERN_OFFENSIVE,
+    [tpz.job.MNK]  = WYVERN_OFFENSIVE,
+    [tpz.job.WHM]  = WYVERN_DEFENSIVE,
+    [tpz.job.BLM]  = WYVERN_DEFENSIVE,
+    [tpz.job.RDM]  = WYVERN_DEFENSIVE,
+    [tpz.job.THF]  = WYVERN_OFFENSIVE,
+    [tpz.job.PLD]  = WYVERN_MULTI,
+    [tpz.job.DRK]  = WYVERN_MULTI,
+    [tpz.job.BST]  = WYVERN_OFFENSIVE,
+    [tpz.job.BRD]  = WYVERN_MULTI,
+    [tpz.job.RNG]  = WYVERN_OFFENSIVE,
+    [tpz.job.SAM]  = WYVERN_OFFENSIVE,
+    [tpz.job.NIN]  = WYVERN_MULTI,
+    [tpz.job.DRG]  = WYVERN_OFFENSIVE,
+    [tpz.job.SMN]  = WYVERN_DEFENSIVE,
+    [tpz.job.BLU]  = WYVERN_DEFENSIVE,
+    [tpz.job.COR]  = WYVERN_OFFENSIVE,
+    [tpz.job.PUP]  = WYVERN_OFFENSIVE,
+    [tpz.job.DNC]  = WYVERN_OFFENSIVE,
+    [tpz.job.SCH]  = WYVERN_DEFENSIVE,
+    [tpz.job.GEO]  = WYVERN_DEFENSIVE,
+    [tpz.job.RUN]  = WYVERN_MULTI,
 }
 
 function doOffensiveBreath(player, target)
@@ -86,13 +87,14 @@ end
 
 function doHealingBreath(player, threshold, breath)
     local breath_heal_range = 13
+    local wyvernType    = wyvernTypes[player:getSubJob()]
     local function inBreathRange(target)
         return player:getPet():getZoneID() == target:getZoneID() and player:getPet():checkDistance(target) <= breath_heal_range
     end
 
     if player:getHPP() <= threshold and inBreathRange(player) then
         player:getPet():useJobAbility(breath, player)
-    else
+    elseif wyvernType == WYVERN_DEFENSIVE then
         local party = player:getParty()
         for _, member in ipairs(party) do
             if member:getHPP() <= threshold and inBreathRange(member) then
@@ -106,16 +108,20 @@ end
 function doStatusBreath(target, player)
     local usedBreath = true
     local wyvern = player:getPet()
+    local breathRange = 13
+    local function inBreathRange(target)
+        return player:getPet():getZoneID() == target:getZoneID() and player:getPet():checkDistance(target) <= breathRange
+    end
 
-    if target:hasStatusEffect(tpz.effect.POISON) then
+    if target:hasStatusEffect(tpz.effect.POISON) and inBreathRange then
         wyvern:useJobAbility(tpz.jobAbility.REMOVE_POISON, target)
-    elseif target:hasStatusEffect(tpz.effect.BLINDNESS) and wyvern:getMainLvl() > 20 then
+    elseif target:hasStatusEffect(tpz.effect.BLINDNESS) and wyvern:getMainLvl() > 20 and inBreathRange then
         wyvern:useJobAbility(tpz.jobAbility.REMOVE_BLINDNESS, target)
-    elseif target:hasStatusEffect(tpz.effect.PARALYSIS) and wyvern:getMainLvl() > 40 then
+    elseif target:hasStatusEffect(tpz.effect.PARALYSIS) and wyvern:getMainLvl() > 40 and inBreathRange then
         wyvern:useJobAbility(tpz.jobAbility.REMOVE_PARALYSIS, target)
-    elseif (target:hasStatusEffect(tpz.effect.CURSE_I) or target:hasStatusEffect(tpz.effect.DOOM)) and wyvern:getMainLvl() > 60 then
+    elseif (target:hasStatusEffect(tpz.effect.CURSE_I) or target:hasStatusEffect(tpz.effect.DOOM)) and wyvern:getMainLvl() > 60 and inBreathRange then
         wyvern:useJobAbility(tpz.jobAbility.REMOVE_CURSE, target)
-    elseif (target:hasStatusEffect(tpz.effect.DISEASE) or target:hasStatusEffect(tpz.effect.PLAGUE)) and wyvern:getMainLvl() > 80 then
+    elseif (target:hasStatusEffect(tpz.effect.DISEASE) or target:hasStatusEffect(tpz.effect.PLAGUE)) and wyvern:getMainLvl() > 80 and inBreathRange then
         wyvern:useJobAbility(tpz.jobAbility.REMOVE_DISEASE, target)
     else
         usedBreath = false
