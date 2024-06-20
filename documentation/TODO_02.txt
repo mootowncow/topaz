@@ -192,7 +192,6 @@ Fomor HNM's(Lugh etc)
 
 How does slug shot do 61 instead of 400+ dmg? It's 1 hit
 AddDimishingReturns should use 1 var for sleep and not different ones(sleep_I and sleep_II all share 1 DR). Also add AddDimishingReturns to light shot, and light shot shares DR with sleep
-
 Wyvern pets should folllow master on disengage(mobID + 1?)
 Give PUP some sword WS natively
 Variable for setting to limit points on not always changed when job swapped to 75
@@ -319,9 +318,6 @@ https://github.com/LandSandBoat/server/commit/c12e2e37839e23b0459e088eb05e6d084b
 AoE dmg DR
 https://github.com/LandSandBoat/server/commit/6a85f7caf3423211840e43387258bb3b4890a8e2
 
-Pet crash fix
-https://github.com/LandSandBoat/server/commit/0a534df514c548f93b3a66d6fe93072013c4382f
-
 Timer fill stuff
 https://github.com/LandSandBoat/server/commit/0609d8370a21f3b5b4654ebdfd0402276acadeed
 
@@ -339,9 +335,6 @@ https://github.com/LandSandBoat/server/commit/1c4511caae46d63ea224817dfb3f540247
 Light spirit AI:
 https://github.com/LandSandBoat/server/commit/973fb38f661da5d5a9c10c99eaff1d1b3537f8a6
 
-Mob AOE skill fix(CPP stuff)
-https://github.com/CatsAndBoats/catseyexi/commit/403e58bf3b59e7f514a8d193c413123040d78422#diff-a1631bc842dfc94f21218a9948dcb54856f82b6f39d3a702720f03a8c873a573
-
 Ranged attack fixes
 https://github.com/CatsAndBoats/catseyexi/commit/fcb335a14e11b2d90512930acccd698e5213b261
 https://github.com/CatsAndBoats/catseyexi/commit/960e098e4bfa06d460df9fe728e284b44b1dfb40
@@ -351,12 +344,6 @@ https://github.com/LandSandBoat/server/commit/255cb4148dbab8ba3cb5381968fff03bfe
 
 Storage interger overflow fix
 https://github.com/LandSandBoat/server/commit/9e767977bedca5bb4b315deb2ed15b189fc11134
-
-Pet Linking
-https://github.com/CatsAndBoats/catseyexi/commit/57252a1cde96c1e3719035cf17681786e2bba19e
-
-Wyvern Breaths
-https://github.com/CatsAndBoats/catseyexi/commit/a7453dce06f91a65f08e5eeb47db21eefccb0f02
 
 Enum offsets
 https://github.com/CatsAndBoats/catseyexi/commit/46136dded9eba9ce383eda2775c46e4aeb6d7765
@@ -406,9 +393,6 @@ https://github.com/CatsAndBoats/catseyexi/commit/490d246b7d910edc0dd3650940a68e6
 
 Dual wield var fixes
 https://github.com/CatsAndBoats/catseyexi/commit/a1d2ecb8ba0fa89e32072537157168aa11f333e4
-
-Prevent adding multiple of same event for player
-https://github.com/CatsAndBoats/catseyexi/commit/6133c684c285d942f0ef3a4a998a5b133e04dc90
 
 Mob OOC regen logic
 https://github.com/CatsAndBoats/catseyexi/commit/baed2e72d1d90c03b6934e2c447cf9129b56760b
