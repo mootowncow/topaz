@@ -418,6 +418,24 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
             PAI->TargetFind->findSingleTarget(PBattleTarget);
         }
 
+        // Assumed, it's very difficult to produce this due to WS being nearly instant
+        // TODO: attempt to verify.
+        if (PAI->TargetFind->m_targets.size() == 0)
+        {
+            // No targets, perhaps something like Super Jump or otherwise untargetable
+            action.actiontype = ACTION_MAGIC_FINISH;
+            action.actionid = 28787; // Some hardcoded magic for interrupts
+            actionList_t& actionList = action.getNewActionList();
+            actionList.ActionTargetID = id;
+
+            actionTarget_t& actionTarget = actionList.getNewActionTarget();
+            actionTarget.animation = 0x1FC; // assumed
+            actionTarget.messageID = 0;
+            actionTarget.reaction = REACTION_ABILITY_HIT;
+
+            return;
+        }
+
         for (auto&& PTarget : PAI->TargetFind->m_targets)
         {
             bool primary = PTarget == PBattleTarget;
@@ -501,5 +519,18 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
                 }
             }
         }
+    }
+    else
+    {
+        actionList_t& actionList = action.getNewActionList();
+        actionList.ActionTargetID = PBattleTarget->id;
+        action.actiontype = ACTION_MAGIC_FINISH; // all "too far" messages use cat 4
+
+        actionTarget_t& actionTarget = actionList.getNewActionTarget();
+        actionTarget.animation = 0x1FC; // seems hardcoded, 2 bits away from 0x1FF.
+        actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
+
+        actionTarget.speceffect = SPECEFFECT_NONE; // It seems most mobs use NONE, but player-like models use BLOOD for their weaponskills
+                                                   // TODO: figure out a good way to differentiate between the two. There does not seem to be a functional difference.
     }
 }

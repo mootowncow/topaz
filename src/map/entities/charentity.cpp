@@ -1180,6 +1180,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
     PLatentEffectContainer->CheckLatentsTP();
 
     SLOTTYPE damslot = SLOT_MAIN;
+    bool isRangedWS = (PWeaponSkill->getID() >= 192 && PWeaponSkill->getID() <= 218);
     CItemWeapon* PItem = (CItemWeapon*)this->getEquip(SLOT_MAIN);
 
     // Check if target is alive
@@ -1199,7 +1200,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
         }
 
         PAI->TargetFind->reset();
-        //#TODO: revise parameters
+        // #TODO: revise parameters
         if (PWeaponSkill->isAoE())
         {
             PAI->TargetFind->findWithinArea(PBattleTarget, AOERADIUS_TARGET, 10);
@@ -1207,6 +1208,25 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
         else
         {
             PAI->TargetFind->findSingleTarget(PBattleTarget);
+        }
+
+        // Assumed, it's very difficult to produce this due to WS being nearly instant
+        // TODO: attempt to verify.
+        if (PAI->TargetFind->m_targets.size() == 0)
+        {
+            // No targets, perhaps something like Super Jump or otherwise untargetable
+            action.actiontype = ACTION_MAGIC_FINISH;
+            action.actionid = 28787; // Some hardcoded magic for interrupts
+            actionList_t& actionList = action.getNewActionList();
+            actionList.ActionTargetID = id;
+
+            actionTarget_t& actionTarget = actionList.getNewActionTarget();
+
+            actionTarget.animation = 0x1FC; // Assumed, but not verified.
+            actionTarget.messageID = 0;
+            actionTarget.reaction = REACTION_ABILITY_HIT;
+
+            return;
         }
 
         for (auto&& PTarget : PAI->TargetFind->m_targets)
@@ -1237,7 +1257,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
             }
             else
             {
-                actionTarget.messageID = primary ? 224 : 276; //restores mp msg
+                actionTarget.messageID = primary ? 224 : 276; // restores mp msg
                 actionTarget.reaction = REACTION_HIT;
                 damage = std::max(damage, 0);
                 actionTarget.param = PTarget->addMP(damage);
@@ -1247,7 +1267,8 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
             {
                 if (PWeaponSkill->getID() >= 192 && PWeaponSkill->getID() <= 218)
                 {
-                    uint16 recycleChance = getMod(Mod::RECYCLE) + PMeritPoints->GetMeritValue(MERIT_RECYCLE, this) + this->PJobPoints->GetJobPointValue(JP_AMMO_CONSUMPTION);
+                    uint16 recycleChance =
+                        getMod(Mod::RECYCLE) + PMeritPoints->GetMeritValue(MERIT_RECYCLE, this) + this->PJobPoints->GetJobPointValue(JP_AMMO_CONSUMPTION);
 
                     if (StatusEffectContainer->HasStatusEffect(EFFECT_UNLIMITED_SHOT))
                     {
@@ -1266,7 +1287,8 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                         actionTarget_t dummy;
                         luautils::OnAdditionalEffect(this, PTarget, static_cast<CItemWeapon*>(m_Weapons[damslot]), &dummy, damage);
                     }
-                    else if (damslot == SLOT_RANGED && m_Weapons[SLOT_AMMO] && battleutils::GetScaledItemModifier(this, m_Weapons[damslot], Mod::ADDITIONAL_EFFECT))
+                    else if (damslot == SLOT_RANGED && m_Weapons[SLOT_AMMO] &&
+                             battleutils::GetScaledItemModifier(this, m_Weapons[damslot], Mod::ADDITIONAL_EFFECT))
                     {
                         actionTarget_t dummy;
                         luautils::OnAdditionalEffect(this, PTarget, static_cast<CItemWeapon*>(getEquip(SLOT_AMMO)), &dummy, damage);
@@ -1277,7 +1299,8 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                         // NOTE: GetSkillChainEffect is INSIDE this if statement because it
                         //  ALTERS the state of the resonance, which misses and non-elemental(i.e. spirits within) skills should NOT do.
 
-                        SUBEFFECT effect = battleutils::GetSkillChainEffect(PBattleTarget, PWeaponSkill->getPrimarySkillchain(), PWeaponSkill->getSecondarySkillchain(), PWeaponSkill->getTertiarySkillchain());
+                        SUBEFFECT effect = battleutils::GetSkillChainEffect(PBattleTarget, PWeaponSkill->getPrimarySkillchain(),
+                                                                            PWeaponSkill->getSecondarySkillchain(), PWeaponSkill->getTertiarySkillchain());
                         if (effect != SUBEFFECT_NONE)
                         {
                             // Apply Inundation weapon skill type tracking
@@ -1354,11 +1377,21 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
     {
         actionList_t& actionList = action.getNewActionList();
         actionList.ActionTargetID = PBattleTarget->id;
+        action.actiontype = ACTION_MAGIC_FINISH; // all "Too Far" messages use cat 4
 
         actionTarget_t& actionTarget = actionList.getNewActionTarget();
-        actionTarget.animation = 508;
-        actionTarget.messageID = 78;
-        action.actionid = 0;
+        actionTarget.animation = 0x1FC; // Seems hardcoded, two bits away from 0x1FF
+        actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
+
+        // While it doesn't seem that speceffect is actually used at all in this "do nothing" animation, this is here for accuracy.
+        if (isRangedWS) // Ranged WS seem to stay 0 on Reaction
+        {
+            actionTarget.speceffect = SPECEFFECT_NONE;
+        }
+        else // Always 2 observed on various melee weapons
+        {
+            actionTarget.speceffect = SPECEFFECT_BLOOD;
+        }
     }
 }
 
