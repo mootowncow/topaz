@@ -317,13 +317,15 @@ enum DAMAGETYPE
 
 enum REACTION
 {
-    REACTION_NONE = 0x00,		// отсутствие реакции
-    REACTION_MISS = 0x01,		// промах
-    REACTION_PARRY = 0x03,		// блокирование оружием (MISS + PARRY)
-    REACTION_BLOCK = 0x04,		// блокирование щитом
-    REACTION_HIT = 0x08,		// попадание
-    REACTION_EVADE = 0x09,		// уклонение (MISS + HIT)
-    REACTION_GUARD = 0x14,		// mnk guard (20 dec)
+    REACTION_NONE               = 0x00,		// отсутствие реакции
+    REACTION_MISS               = 0x01,		// промах
+    REACTION_PARRY              = 0x03,		// блокирование оружием (MISS + PARRY)
+    REACTION_BLOCK              = 0x04,		// блокирование щитом
+    REACTION_HIT                = 0x08,		// попадание
+    REACTION_EVADE              = 0x09,		// уклонение (MISS + HIT)
+    REACTION_ABILITY            = 0x10,     // Observed on JA and WS
+    REACTION_GUARD              = 0x14,		// mnk guard (20 dec)
+    REACTION_ABILITY_HIT        = REACTION_ABILITY | REACTION_HIT,
 };
 
 enum SPECEFFECT

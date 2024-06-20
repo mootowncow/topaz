@@ -203,7 +203,6 @@ Should not be able to parry ranged TP moves. Check SMN PUP and WS too
 Most things with getPlayersInRange needs to also get pets in range use logic I coded into AddMobAura for reference
 Tipua needs some type of mechanic, very boring and easy. Maybe summon bees and eat them for HP if you don't kill them fast enough? And 100 fists
 Dark Ixion pathing is broken
-17182795 Yagudo Prioress missing pet(maybe all SMN in castle oztroja [s] are?). Yagudo Superior by Asterion properly has a pet..wtf?
 Missing ANNM fights(the TODO ones on wiki?) and retune decimation weapon augment(too high %)
 Revival tree root drop rate? 10-15%? Check FFXIDB
 Handle for Asterion, Forneus,(probably fleshgnasher and Vee Ladu doesn't work(isnt clickable)? Copy handle behind the 4 handle door where it says "its locked" when behind
@@ -293,11 +292,7 @@ Lvl90, 200k hp
 Mat that lets you add a random augment to any ring/amulet/earring
 
 
-Pet JA miss msg
-https://github.com/LandSandBoat/server/commit/1f2478791c631b75d35ffc3de9cc32b5cc58a537
-
-Spikes status effects from armor procs msg
-https://github.com/AirSkyBoat/AirSkyBoat/commit/4d8e29572cadbf2950a7b560779f1e1a5f364a84
+SetActionInterrupted from airskyboat
 
 Pet pathing? Unsure if needed
 https://github.com/CatsAndBoats/catseyexi/commit/6ef07af23863e82a63cd7e986a0f259686b7fc49
@@ -308,12 +303,6 @@ https://github.com/CatsAndBoats/catseyexi/commit/44c224771817019b18a5b5c53c9692c
 Pet magic burst msg(maybe I fixed this already too?)
 https://github.com/AirSkyBoat/AirSkyBoat/commit/24c2586c5851dfa5ec26b08fa512d097bc6adf67
 https://github.com/LandSandBoat/server/commit/039f4fd601996488fb1d3cf5ed4664bbe70c5e33
-
-Player H2H
-https://github.com/CatsAndBoats/catseyexi/commit/6f993553f042af71e295def246d20e6b209d46ce
-
-SMN mob pet stuff
-https://github.com/CatsAndBoats/catseyexi/commit/01aae33522052d5a04ae7b2773a8988d6ad9bfcf
 
 Velocity shot
 https://github.com/CatsAndBoats/catseyexi/commit/3fcc6a9a29b1271a8048fb75ec0cbb6d46ab55ef
@@ -330,9 +319,6 @@ https://github.com/LandSandBoat/server/commit/c12e2e37839e23b0459e088eb05e6d084b
 AoE dmg DR
 https://github.com/LandSandBoat/server/commit/6a85f7caf3423211840e43387258bb3b4890a8e2
 
-Fix raise and reraise when moving players 
-https://github.com/LandSandBoat/server/commit/22a9cfea4335dc5188b6cbdaf8ed13e0e31f9723
-
 Pet crash fix
 https://github.com/LandSandBoat/server/commit/0a534df514c548f93b3a66d6fe93072013c4382f
 
@@ -346,9 +332,6 @@ https://github.com/LandSandBoat/server/commit/67db4b00448a4df23ceda9743599a92432
 
 This prob needs to be fixed for beastial loyalty and voracious trunk
 https://github.com/LandSandBoat/server/commit/109c821bad83af4283740f3fe510f5d266ab168b
-
-Roam distance:
-https://github.com/LandSandBoat/server/commit/608b9709791dd03bbfc6fd14b8340a70c43d8657
 
 Sha Wujing's lance
 https://github.com/LandSandBoat/server/commit/1c4511caae46d63ea224817dfb3f54024739523b
@@ -369,9 +352,6 @@ https://github.com/LandSandBoat/server/commit/255cb4148dbab8ba3cb5381968fff03bfe
 Storage interger overflow fix
 https://github.com/LandSandBoat/server/commit/9e767977bedca5bb4b315deb2ed15b189fc11134
 
-Only check parry rate once per attack swing
-https://github.com/LandSandBoat/server/commit/84ed3e2a84f7464c5c5bbd4f068f2ed40039b9e4
-
 Pet Linking
 https://github.com/CatsAndBoats/catseyexi/commit/57252a1cde96c1e3719035cf17681786e2bba19e
 
@@ -381,21 +361,12 @@ https://github.com/CatsAndBoats/catseyexi/commit/a7453dce06f91a65f08e5eeb47db21e
 Enum offsets
 https://github.com/CatsAndBoats/catseyexi/commit/46136dded9eba9ce383eda2775c46e4aeb6d7765
 
-Diabolos pet skill animation ids?
-https://github.com/LandSandBoat/server/commit/6d19fe716f44d7c89cb7626e6c76a8fcbff102b9#diff-90f5c52633212ef5965318c11bd27ab182f071b451126bb872851f24c7943049
-
 Safety checks
 https://github.com/CatsAndBoats/catseyexi/commit/f905d90955d3e260556c8e285ea6518a5a3d465d
 https://github.com/CatsAndBoats/catseyexi/commit/7990f9bf296c5765df69d9dfb6f070f25cbd2af0
 
-Player avatar assist range check
-https://github.com/CatsAndBoats/catseyexi/commit/4533a051451d59367b49f6a3533d4273d35fb44b
-
 Temper II
 https://github.com/CatsAndBoats/catseyexi/commit/97dae748a3f97c6cf610561d8f0835b798ecfb01
-
-H2H fix
-https://github.com/CatsAndBoats/catseyexi/commit/41e0e0ab5d031df21e2dc558a7b2602e3cac3b66
 
 Retal attack bonus
 https://github.com/CatsAndBoats/catseyexi/commit/9f04d5741a4c08ad19434a17962670ada0dc1136

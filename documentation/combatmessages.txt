@@ -321,7 +321,7 @@
 321 - The <player> uses .. <target> is no longer KO'd.
 322 - The <player> uses .. <target>'s stun effect wears off.
 323 - The <player> uses .. No effect on <target>.
-324 - The <player> uses .. but misses <target>.
+324 - The <player> uses .. but misses <target>. -- JA miss
 325 - You are charmed by an enemy and unable to act.
 326 - The <player> readies ..
 327 - The <player> starts casting <spell> on <target>.
