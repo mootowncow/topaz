@@ -688,10 +688,13 @@ public:
     /* Casting */
     virtual void OnCastStarting(CMagicState& state);
     virtual void OnCastFinished(CMagicState&, action_t&);
-    virtual void OnCastInterrupted(CMagicState&, action_t&, MSGBASIC_ID msg);
+    virtual void OnCastInterrupted(CMagicState&, action_t&, MSGBASIC_ID msg, bool blockedCast);
     /* Weaponskill */
     virtual void OnWeaponSkillFinished(CWeaponSkillState& state, action_t& action);
     virtual void OnChangeTarget(CBattleEntity* PTarget);
+
+    // Used to set an action to an "interrupted" state
+    void setActionInterrupted(action_t& action, CBattleEntity* PTarget, uint16 messageID, uint16 actionID);
 
     virtual void OnAbility(CAbilityState&, action_t&) {}
     virtual void OnRangedAttack(CRangeState&, action_t&) {}

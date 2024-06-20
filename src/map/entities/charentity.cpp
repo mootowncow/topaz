@@ -1147,9 +1147,10 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
     }
 }
 
-void CCharEntity::OnCastInterrupted(CMagicState& state, action_t& action, MSGBASIC_ID msg)
+void CCharEntity::OnCastInterrupted(CMagicState& state, action_t& action, MSGBASIC_ID msg, bool blockedCast)
 {
-    CBattleEntity::OnCastInterrupted(state, action, msg);
+    TracyZoneScoped;
+    CBattleEntity::OnCastInterrupted(state, action, msg, blockedCast);
 
     // Safety check to not get locked in cutscene status
     if (this->status == STATUS_CUTSCENE_ONLY || this->m_Substate == CHAR_SUBSTATE::SUBSTATE_IN_CS)
@@ -1405,8 +1406,8 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
     {
         if (this != PTarget && distance(this->loc.p, PTarget->loc.p) > PAbility->getRange())
         {
-            pushPacket(new CMessageBasicPacket(this, PTarget, 0, 0, MSGBASIC_TOO_FAR_AWAY));
-            success = false;
+            setActionInterrupted(action, PTarget, MSGBASIC_TOO_FAR_AWAY, 0);
+            return;
         }
 
         // get any available merit recast reduction
@@ -1534,6 +1535,12 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                         if (tpzrand::GetRandomNumber(100) < bloodBoonRate)
                         {
                             mpCost *= tpzrand::GetRandomNumber(8.f, 16.f) / 16.f;
+                        }
+
+                        if (this->health.mp < mpCost)
+                        {
+                            setActionInterrupted(action, PTarget, MSGBASIC_UNABLE_TO_USE_JA, 0);
+                            return;
                         }
                     }
 
@@ -1700,7 +1707,8 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
     {
         // setup new action packet to send paralyze message
         action_t paralyze_action = {};
-        this->loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CMessageBasicPacket(this, this, 0, 0, MSGBASIC_IS_PARALYZED));
+        setActionInterrupted(paralyze_action, PTarget, MSGBASIC_IS_PARALYZED, 0);
+        loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CActionPacket(paralyze_action));
 
         // Set up /ra action to be interrupted
         action.actiontype = ACTION_RANGED_INTERRUPT; // This handles some magic numbers in CActionPacket to cancel actions

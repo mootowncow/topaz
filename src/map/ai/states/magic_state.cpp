@@ -108,31 +108,139 @@ bool CMagicState::Update(time_point tick)
 {
     if (tick > GetEntryTime() + m_castTime && !IsCompleted())
     {
-        auto PTarget = m_PEntity->IsValidTarget(m_targid, m_PSpell->getValidTarget(), m_errorMsg);
+        auto* PTarget = m_PEntity->IsValidTarget(m_targid, m_PSpell->getValidTarget(), m_errorMsg);
         MSGBASIC_ID msg = MSGBASIC_IS_INTERRUPTED;
 
         action_t action;
 
-        if (!PTarget || m_errorMsg || (HasMoved()) || !CanCastSpell(PTarget, false))
+        if (!PTarget || m_errorMsg || !CanCastSpell(PTarget, true) ||
+            (HasMoved() && (m_PEntity->objtype != TYPE_PET || static_cast<CPetEntity*>(m_PEntity)->getPetType() != PETTYPE_AUTOMATON)))
         {
-            m_interrupted = true;
+            m_PEntity->OnCastInterrupted(*this, action, msg, false);
+            m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+
+            Complete();
+            return false;
         }
-        else if (battleutils::IsParalyzed(m_PEntity))
+        else if (PTarget->objtype == TYPE_PC)
         {
-            msg = MSGBASIC_IS_PARALYZED;
-            m_interrupted = true;
+            CCharEntity* PChar = dynamic_cast<CCharEntity*>(PTarget);
+            // TODO
+            //if (PChar->m_Locked)
+            //{
+            //    m_PEntity->OnCastInterrupted(*this, action, msg, true);
+            //    m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+
+            //    Complete();
+            //    return false;
+            //}
+
+            // TODO
+            //if (m_PSpell.get()->getSpellGroup() == SPELLGROUP_TRUST)
+            //{
+            //    if (!luautils::OnTrustSpellCastCheckBattlefieldTrusts(PChar))
+            //    {
+            //        m_PEntity->OnCastInterrupted(*this, action, MSGBASIC_TRUST_NO_CAST_TRUST, true);
+            //        action.recast = 2; // seems hardcoded to 2
+            //        m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+
+            //        Complete();
+            //        return false;
+            //    }
+            //}
         }
-        else if (battleutils::IsIntimidated(m_PEntity, static_cast<CBattleEntity*>(PTarget)))
+        else if (PTarget->objtype == TYPE_PET)
         {
-            msg = MSGBASIC_IS_INTIMIDATED;
-            m_interrupted = true;
+            CPetEntity* PPet = dynamic_cast<CPetEntity*>(PTarget);
+            CCharEntity* PChar = dynamic_cast<CCharEntity*>(PPet->PMaster);
+
+            if (PChar == nullptr)
+            {
+                return false;
+            }
+
+            // TODO
+            //if (PChar->m_Locked)
+            //{
+            //    m_PEntity->OnCastInterrupted(*this, action, msg, true);
+            //    m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+
+            //    Complete();
+            //    return false;
+            //}
+        }
+
+        // Super Jump or otherwise untargetable
+        //if (PTarget->PAI->IsUntargetable())
+        //{
+        //    m_PEntity->OnCastInterrupted(*this, action, msg, true);
+        //    m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+
+        //    Complete();
+        //    return false;
+        //}
+
+        if (battleutils::IsParalyzed(m_PEntity))
+        {
+            action_t interruptedAction;
+            m_PEntity->setActionInterrupted(interruptedAction, PTarget, MSGBASIC_IS_PARALYZED_2, static_cast<uint16>(m_PSpell->getID()));
+            interruptedAction.recast = 2; // seems hardcoded to 2
+            interruptedAction.actionid = static_cast<uint16>(m_PSpell->getID());
+            m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(interruptedAction));
+
+            // Yes, you're seeing this correctly.
+            // A paralyze/interrupt proc on *spells* actually sends two actions. One that contains the para/intimidate message
+            // And a second action to send the fourcc "stop casting" command.
+            // Spell interrupts when you're moving send a message + stop casting fourcc command and not two actions.
+            action.id = m_PEntity->id;
+            action.spellgroup = m_PSpell->getSpellGroup();
+            action.recast = 2;
+            action.actiontype = ACTION_MAGIC_INTERRUPT;
+
+            actionList_t& actionList = action.getNewActionList();
+            actionList.ActionTargetID = m_PEntity->id;
+
+            actionTarget_t& actionTarget = actionList.getNewActionTarget();
+            actionTarget.messageID = 0;
+            actionTarget.animation = 0;
+            actionTarget.param = 0; // sometimes 1?
+            m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+
+            Complete();
+            return false;
+        }
+        else if (battleutils::IsIntimidated(m_PEntity, PTarget))
+        {
+            action_t interruptedAction;
+            m_PEntity->setActionInterrupted(interruptedAction, PTarget, MSGBASIC_IS_INTIMIDATED, static_cast<uint16>(m_PSpell->getID()));
+            interruptedAction.recast = 2; // seems hardcoded to 2
+            interruptedAction.actionid = static_cast<uint16>(m_PSpell->getID());
+            m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(interruptedAction));
+
+            // See comment in above block for paralyze
+            action.id = m_PEntity->id;
+            action.spellgroup = m_PSpell->getSpellGroup();
+            action.recast = 2;
+            action.actiontype = ACTION_MAGIC_INTERRUPT;
+
+            actionList_t& actionList = action.getNewActionList();
+            actionList.ActionTargetID = m_PEntity->id;
+
+            actionTarget_t& actionTarget = actionList.getNewActionTarget();
+            actionTarget.messageID = 0;
+            actionTarget.animation = 0;
+            actionTarget.param = 0; // sometimes 1?
+            m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+
+            Complete();
+            return false;
         }
 
         if (PTarget != nullptr)
         {
             if (m_PEntity->objtype == TYPE_MOB && PTarget->objtype == TYPE_PC)
             {
-                // In oterrupt when player is in a CS
+                // Interrupt when player is in a CS
                 if (PTarget->status == STATUS_CUTSCENE_ONLY)
                 {
                     m_interrupted = true;
@@ -151,7 +259,7 @@ bool CMagicState::Update(time_point tick)
 
         if (m_interrupted)
         {
-            m_PEntity->OnCastInterrupted(*this, action, msg);
+            m_PEntity->OnCastInterrupted(*this, action, msg, false);
         }
         else
         {
@@ -204,7 +312,7 @@ void CMagicState::Cleanup(time_point tick)
     {
         action_t action;
         m_PEntity->PAI->EventHandler.triggerListener("MAGIC_INTERRUPTED", m_PEntity, m_PSpell.get());
-        m_PEntity->OnCastInterrupted(*this, action, MSGBASIC_IS_INTERRUPTED);
+        m_PEntity->OnCastInterrupted(*this, action, MSGBASIC_IS_INTERRUPTED, false);
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
     }
 }

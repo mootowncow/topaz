@@ -48,7 +48,8 @@ enum MSGBASIC_ID : uint16
     MSGBASIC_RECOVERS_HP_MP         = 26, // The <target> recovers HP and MP. 
 	MSGBASIC_UNABLE_TO_USE_JA		= 87, // Unable to use job ability. 
 	MSGBASIC_UNABLE_TO_USE_JA2		= 88, // Unable to use job ability. 
-	MSGBASIC_IS_PARALYZED			= 29, // The <player> is paralyzed. 
+	MSGBASIC_IS_PARALYZED			= 29, // The <player> is paralyzed.
+    MSGBASIC_IS_PARALYZED_2         = 84, // <target> is paralyzed.
     MSGBASIC_ANTICIPATE             = 30,
 	MSGBASIC_SHADOW_ABSORB			= 31, // .. of <target>'s shadows absorb the damage and disappear. 
 	MSGBASIC_NOT_ENOUGH_MP			= 34, // The <player> does not have enough MP to cast (nullptr). 

@@ -307,12 +307,12 @@ void CPetEntity::OnAbility(CAbilityState& state, action_t& action)
         {
             return;
         }
+
         // Currently, only the Wyvern uses abilities at all as of writing, but their abilities are not instant and are mob abilities.
         // Abilities are not subject to paralyze if they have non-zero cast time due to this corner case.
         if (state.GetAbility()->getCastTime() == 0s && battleutils::IsParalyzed(this))
         {
-            // display paralyzed
-            loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CMessageBasicPacket(this, PTarget, 0, 0, MSGBASIC_IS_PARALYZED));
+            setActionInterrupted(action, PTarget, MSGBASIC_IS_PARALYZED_2, 0);
             return;
         }
 
