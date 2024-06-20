@@ -17,11 +17,13 @@ function onAbilityCheck(player, target, ability)
         return tpz.msg.basic.CANNOT_PERFORM_ACTION, 0
     end
     -- The wyvern must be present in order to use Spirit Surge
-    if (target:getPet() == nil) then
+   if (player:getPet() == nil) then
         return tpz.msg.basic.REQUIRES_A_PET, 0
-    else
-        return 0, 0
-    end
+   elseif (player:getPetID() ~= tpz.pet.id.WYVERN) then
+      return tpz.msg.basic.NO_EFFECT_ON_PET, 0
+   else
+      return 0, 0
+   end
 end
 
 function onUseAbility(player, target, ability)

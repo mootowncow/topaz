@@ -175,7 +175,7 @@ function OffensiveBreath(pet, target, skill, action, element, damageType, shadow
 
     pet:setTP(0)
 
-    local dmg = MobFinalAdjustments(dmg, pet, skill, target, tpz.attackType.BREATH, damageType, shadowbehav)
+    local dmg = AbilityFinalAdjustments(dmg, pet, skill, target, tpz.attackType.BREATH, damageType, shadowbehav)
     target:takeDamage(dmg, pet, tpz.attackType.BREATH, damageType)
     return dmg
 end
@@ -364,13 +364,13 @@ end
 function onMobDeath(mob, player)
     local master = mob:getMaster()
     local numLevelUps = mob:getLocalVar("level_Ups")
-    local wyvernBonusDA = player:getMod(tpz.mod.WYVERN_ATTRIBUTE_DA)
+    local wyvernBonusDA = master:getMod(tpz.mod.WYVERN_ATTRIBUTE_DA)
     if numLevelUps ~= 0 then
         master:delMod(tpz.mod.ATTP, 4 * numLevelUps)
         master:delMod(tpz.mod.DEFP, 4 * numLevelUps)
         master:delMod(tpz.mod.DOUBLE_ATTACK, wyvernBonusDA * numLevelUps)
         -- Delete JP bonuses
-        local jpValue = player:getJobPointLevel(tpz.jp.WYVERN_ATTR_BONUS) * 2
+        local jpValue = master:getJobPointLevel(tpz.jp.WYVERN_ATTR_BONUS) * 2
         master:delMod(tpz.mod.ATT, jpValue)
         master:delMod(tpz.mod.DEF, jpValue)
     end
