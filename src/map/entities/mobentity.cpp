@@ -896,6 +896,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     }
 
     PSkill->setTotalTargets(targets);
+    PSkill->setPrimaryTargetID(PTarget->id);
     PSkill->setTP(state.GetSpentTP());
     PSkill->setHPP(GetHPP());
 
@@ -992,7 +993,8 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
                 float ratio = 1.0f;
                 int16 baseTp = 0;
                 baseTp = battleutils::CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
-                this->addTP((int16)(1 * (baseTp * (1.0f + 0.01f * (float)((this->getMod(Mod::STORETP)))))));
+                if (PTarget->id == PSkill->getPrimaryTargetID())
+                    this->addTP((int16)(1 * (baseTp * (1.0f + 0.01f * (float)((this->getMod(Mod::STORETP)))))));
             }
         }
 

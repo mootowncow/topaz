@@ -122,6 +122,14 @@ inline int32 CLuaMobSkill::getTotalTargets(lua_State *L)
     return 1;
 }
 
+inline int32 CLuaMobSkill::getPrimaryTargetID(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaMobSkill == nullptr);
+
+    lua_pushinteger(L, m_PLuaMobSkill->getPrimaryTargetID());
+    return 1;
+}
+
 inline int32 CLuaMobSkill::getMsg(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PLuaMobSkill == nullptr);
@@ -283,6 +291,7 @@ Lunar<CLuaMobSkill>::Register_t CLuaMobSkill::methods[] =
     LUNAR_DECLARE_METHOD(CLuaMobSkill,getDistance),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,getID),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,getTotalTargets),
+    LUNAR_DECLARE_METHOD(CLuaMobSkill,getPrimaryTargetID),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,getTP),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,getMobHPP),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setAnimation),

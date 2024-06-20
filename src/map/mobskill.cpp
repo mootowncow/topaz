@@ -30,6 +30,7 @@ CMobSkill::CMobSkill(uint16 id)
     m_Aoe = 0;
     m_Distance = 0;
     m_TotalTargets = 1;
+    m_PrimaryTargetID = 0;
     m_Flag = 0;
     m_ValidTarget = 0;
     m_AnimationTime = 0;
@@ -122,6 +123,11 @@ void CMobSkill::setMsg(uint16 msg)
 void CMobSkill::setTotalTargets(uint16 targets)
 {
     m_TotalTargets = targets;
+}
+
+void CMobSkill::setPrimaryTargetID(uint32 targid)
+{
+    m_PrimaryTargetID = targid;
 }
 
 void CMobSkill::setAnimationID(uint16 animID)
@@ -264,6 +270,11 @@ uint8 CMobSkill::getHPP() const
 uint16 CMobSkill::getTotalTargets() const
 {
     return m_TotalTargets;
+}
+
+uint32 CMobSkill::getPrimaryTargetID() const
+{
+    return m_PrimaryTargetID;
 }
 
 uint16 CMobSkill::getMsg() const

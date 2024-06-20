@@ -72,6 +72,7 @@ public:
     int16       getTP() const;
     uint8       getHPP() const;
     uint16      getTotalTargets() const;
+    uint32      getPrimaryTargetID() const;
     uint16      getMsgForAction() const;
     float       getRadius() const;
     int16       getParam() const;
@@ -94,6 +95,7 @@ public:
     void        setTP(int16 tp);
     void        setHPP(uint8 hpp);
     void        setTotalTargets(uint16 targets);
+    void        setPrimaryTargetID(uint32 targid);
     void        setParam(int16 value);
     void        setKnockback(uint8 knockback);
     void        setPrimarySkillchain(uint8 skillchain);
@@ -107,6 +109,7 @@ private:
 
     uint16      m_ID;
     uint16      m_TotalTargets;
+    uint32      m_PrimaryTargetID; // primary target ID
     int16       m_Param;
     uint16      m_AnimID;           //animation id
     uint8       m_Aoe;              // не используется
