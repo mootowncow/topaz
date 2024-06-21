@@ -683,35 +683,36 @@ uint16 CBattleEntity::CHR()
 
 uint16 CBattleEntity::ATT()
 {
-    //TODO: consider which weapon!
-    int32 ATT = 8 + static_cast<int32>(m_modStat[Mod::ATT]);
-    auto weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]);
+    TracyZoneScoped;
+    // TODO: consider which weapon!
+    int32 ATT = 8 + m_modStat[Mod::ATT];
+    auto ATTP = m_modStat[Mod::ATTP];
+    auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]);
     if (weapon && weapon->isTwoHanded())
     {
         ATT += (STR() * 3) / 4;
     }
     else if (weapon && weapon->isHandToHand())
     {
-        ATT += (STR() * 5) / 8;     
+        ATT += (STR() * 5) / 8;
     }
     else
     {
         ATT += (STR() * 3) / 4;
     }
-
     if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENDARK))
-        ATT += static_cast<int32>(this->getMod(Mod::ENSPELL_DMG));
-
+    {
+        ATT += this->getMod(Mod::ENSPELL_DMG);
+    }
     if (this->objtype & TYPE_PC)
     {
         if (weapon)
         {
             ATT += GetSkill(weapon->getSkillType()) + weapon->getILvlSkill();
-
-            // Smite applies when using 2H or H2H weapons
+            // Smite applies (bonus ATTP) when using 2H or H2H weapons
             if (weapon->isTwoHanded() || weapon->isHandToHand())
             {
-                ATT += static_cast<int32>(ATT * static_cast<int32>(this->getMod(Mod::SMITE)) / 256.f); // Divide smite value by 256
+                ATTP += static_cast<int32>(this->getMod(Mod::SMITE) / 256.f * 100); // Divide Smite value by 256
             }
         }
     }
@@ -719,10 +720,9 @@ uint16 CBattleEntity::ATT()
     {
         ATT += this->GetSkill(SKILL_AUTOMATON_MELEE);
     }
-    auto attack = ATT + (ATT * static_cast<int32>(m_modStat[Mod::ATTP]) / 100) +
-                  std::min<int16>((ATT * static_cast<int32>(m_modStat[Mod::FOOD_ATTP]) / 100), static_cast<int32>(m_modStat[Mod::FOOD_ATT_CAP]));
-    //printf("Pre-Clamp Attack: %d", attack);
-    return std::clamp(attack, 0, 9999);
+
+    // use max to prevent underflow
+    return std::max(1, ATT + (ATT * ATTP / 100) + std::min<int16>((ATT * m_modStat[Mod::FOOD_ATTP] / 100), m_modStat[Mod::FOOD_ATT_CAP]));
 }
 
 uint16 CBattleEntity::RATT(uint8 skill, uint16 bonusSkill)
@@ -732,11 +732,12 @@ uint16 CBattleEntity::RATT(uint8 skill, uint16 bonusSkill)
     {
         return 0;
     }
-    int32 ATT = 8 + GetSkill(skill) + bonusSkill + static_cast<int32>(m_modStat[Mod::RATT]) + battleutils::GetRangedAttackBonuses(this) + (STR() * 3) / 4;
-    auto attack = ATT + (ATT * static_cast<int32>(m_modStat[Mod::RATTP]) / 100) +
-        std::min<int16>((ATT * static_cast<int32>(m_modStat[Mod::FOOD_RATTP]) / 100), static_cast<int32>(m_modStat[Mod::FOOD_RATT_CAP]));
-    //printf("Pre-Clamp Attack: %d", attack);
-    return std::clamp(attack, 0, 9999);
+
+    // make sure to not use fishing skill
+    uint16 baseSkill = skill == SKILL_FISHING ? 0 : GetSkill(skill);
+    int32 RATT = 8 + baseSkill + bonusSkill + m_modStat[Mod::RATT] + battleutils::GetRangedAttackBonuses(this) + (STR() * 3) / 4;
+    // use max to prevent any underflow
+    return std::max(0, RATT + (RATT * m_modStat[Mod::RATTP] / 100) + std::min<int16>((RATT * m_modStat[Mod::FOOD_RATTP] / 100), m_modStat[Mod::FOOD_RATT_CAP]));
 }
 
 uint16 CBattleEntity::RACC(uint8 skill, uint16 bonusSkill)
@@ -746,16 +747,19 @@ uint16 CBattleEntity::RACC(uint8 skill, uint16 bonusSkill)
     {
         return 0;
     }
-    int skill_level = GetSkill(skill) + bonusSkill;
-    uint16 acc = skill_level;
+    // make sure to not use fishing skill
+    uint16 baseSkill = skill == SKILL_FISHING ? 0 : GetSkill(skill);
+    uint16 skill_level = baseSkill + bonusSkill;
+    int16 RACC = skill_level;
     if (skill_level > 200)
     {
-        acc = (uint16)(200 + (skill_level - 200) * 0.9);      
+        RACC = (int16)(200 + (skill_level - 200) * 0.9);   
     }
-    acc += getMod(Mod::RACC);
-    acc += battleutils::GetRangedAccuracyBonuses(this);
-    acc += (AGI() * 3) / 4;
-    return acc + std::min<int16>(((100 + getMod(Mod::FOOD_RACCP) * acc) / 100), getMod(Mod::FOOD_RACC_CAP));
+    RACC += getMod(Mod::RACC);
+    RACC += battleutils::GetRangedAccuracyBonuses(this);
+    RACC += (AGI() * 3) / 4;
+    // use max to prevent underflow
+    return std::max(0, RACC + std::min<int16>(((100 + getMod(Mod::FOOD_RACCP) * RACC) / 100), getMod(Mod::FOOD_RACC_CAP)));
 }
 
 uint16 CBattleEntity::ACC(int8 attackNumber, int8 offsetAccuracy)
