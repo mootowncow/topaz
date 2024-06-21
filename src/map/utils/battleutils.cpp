@@ -1289,7 +1289,7 @@ int16 GetSDTTier(int16 SDT)
                 bool crit = battleutils::GetCritHitRate(PDefender, PAttacker, true) > tpzrand::GetRandomNumber(100);
 
                 // Dmg math.
-                float DamageRatio = GetDamageRatio(PDefender, PAttacker, crit, 0.f);
+                float DamageRatio = GetDamageRatio(PDefender, PAttacker, crit, 1.f);
                 uint16 dmg = (uint32)((PDefender->GetMainWeaponDmg() + battleutils::GetFSTR(PDefender, PAttacker, SLOT_MAIN)) * DamageRatio);
                 dmg = attackutils::CheckForDamageMultiplier(((CCharEntity*)PDefender), dynamic_cast<CItemWeapon*>(PDefender->m_Weapons[SLOT_MAIN]), dmg,
                                                             PHYSICAL_ATTACK_TYPE::NORMAL, SLOT_MAIN);
