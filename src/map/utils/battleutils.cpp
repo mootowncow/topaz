@@ -3113,7 +3113,7 @@ int16 GetSDTTier(int16 SDT)
         else if (PDefender->objtype == TYPE_MOB)
             ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, 0);
 
-        if (PAttacker->objtype == TYPE_PC && !isRanged)
+        if (PAttacker->objtype == TYPE_PC && !isRanged && !isCounter)
             PAttacker->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK, true);
 
         return damage;
