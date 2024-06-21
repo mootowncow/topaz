@@ -6311,21 +6311,6 @@ void SmallPacket0x100(map_session_data_t* session, CCharEntity* PChar, CBasicPac
 
         }
 
-        if (PChar->GetMLevel() == 75 && charutils::hasKeyItem(PChar, 606))
-        {
-            if (Sql_Query(SqlHandle, "UPDATE char_exp SET mode = %u WHERE charid = %u", true, PChar->id) != SQL_ERROR)
-            {
-                PChar->MeritMode = true;
-            }
-        }
-        else
-        {
-            if (Sql_Query(SqlHandle, "UPDATE char_exp SET mode = %u WHERE charid = %u", false, PChar->id) != SQL_ERROR)
-            {
-                PChar->MeritMode = false;
-            }
-        }
-
         charutils::SetStyleLock(PChar, false);
         luautils::CheckForGearSet(PChar); // check for gear set on gear change
 
