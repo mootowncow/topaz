@@ -1965,6 +1965,7 @@ namespace charutils
                                 {
                                     UnequipItem(PChar, SLOT_MAIN, false);
                                 }
+                                break;
                             }
                             case SKILL_DAGGER:
                             case SKILL_SWORD:
@@ -1972,12 +1973,18 @@ namespace charutils
                             case SKILL_KATANA:
                             case SKILL_CLUB:
                             {
-                                if (PItem->isType(ITEM_WEAPON) && (!charutils::hasTrait(PChar, TRAIT_DUAL_WIELD) || ((CItemWeapon*)PItem)->getSkillType() == SKILL_NONE))
+                                bool isWeapon = PItem->isType(ITEM_WEAPON);
+                                if (isWeapon &&
+                                    (!charutils::hasTrait(PChar, TRAIT_DUAL_WIELD) || static_cast<CItemWeapon*>(PItem)->getSkillType() == SKILL_NONE))
                                 {
                                     return false;
                                 }
-                                PChar->m_Weapons[SLOT_SUB] = (CItemWeapon*)PItem;
-                                PChar->m_dualWield = true;
+                                PChar->m_Weapons[SLOT_SUB] = static_cast<CItemWeapon*>(PItem);
+                                // only set m_dualWield if equipping a weapon (not for example a shield)
+                                if (isWeapon)
+                                {
+                                    PChar->m_dualWield = true;
+                                }
                             }
                             break;
                             default:
