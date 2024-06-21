@@ -2063,8 +2063,9 @@ tpz.mod =
     ALERTNESS               = 1366, -- Reduced Sight detection range
     TRANQUIL_HEART          = 1369, -- Grants the bonuses based on currently summoned Automaton
     ELEMENTAL_WSACC         = 1370, -- Elemental Weaponskill Accuracy
+    DMG_AOE                 = 1371, -- Damage Taken % when not main target of an AoE action. (Ex: Locus Mobs) In retail, the main target takes extra damage from high level mob TP TP moves / spells
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1371 NEXT
+    -- 1372 NEXT
 }
 
 tpz.latent =

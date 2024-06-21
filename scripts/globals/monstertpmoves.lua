@@ -792,6 +792,9 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
         dmg = dmg * utils.HandleWeaponResist(target, damageType)
     end
 
+    -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
+    dmg = AreaOfEffectResistance(target, skill, dmg)
+
     local element = damageType - 5
     -- Handle damage type resistances
     if attackType == tpz.attackType.PHYSICAL then

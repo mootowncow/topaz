@@ -488,6 +488,7 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
             return 0
         end
     end
+
     -- handle pd
     if attackType == tpz.attackType.PHYSICAL then
         if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) or target:hasStatusEffect(tpz.effect.TOO_HIGH)then
@@ -495,6 +496,10 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
             return 0
         end
     end
+
+
+    -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
+    dmg = AreaOfEffectResistance(target, skill, dmg)
 
     local element = damageType - 5
     -- Check for MDT/PDT/RDT/BDT/MDB
@@ -566,6 +571,9 @@ function AvatarMagicalFinalAdjustments(dmg, avatar, skill, target, attackType, e
 
     -- Calculate Blood Pact Damage before stoneskin
     dmg = dmg + dmg * avatar:getMod(tpz.mod.BP_DAMAGE) / 100
+
+    -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
+    dmg = AreaOfEffectResistance(target, skill, dmg)
 
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.SPECIAL then
         dmg = target:magicDmgTaken(dmg, element)
