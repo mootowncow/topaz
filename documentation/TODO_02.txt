@@ -292,6 +292,8 @@ Mat that lets you add a random augment to any ring/amulet/earring
 
 
 SetActionInterrupted from airskyboat
+Might be needed
+https://github.com/LandSandBoat/server/blob/b438e28cd0a25664932153f8fe6804f633c16ed0/src/map/entities/battleentity.cpp#L2391C1-L2395C10
 
 Pet pathing? Unsure if needed
 https://github.com/CatsAndBoats/catseyexi/commit/6ef07af23863e82a63cd7e986a0f259686b7fc49
