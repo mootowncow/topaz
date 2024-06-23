@@ -726,6 +726,8 @@ public:
     float       getRange();
     uint8       getAOE();
     uint16      getValidTarget();
+    uint16      getTotalTargets() const;
+    uint32      getPrimaryTargetID() const;
     uint16      getAddType();
     uint16      getMessage();
     uint16      getAoEMsg();
@@ -747,6 +749,8 @@ public:
     void        setRange(float range);
     void        setAOE(uint8 aoe);
     void        setValidTarget(uint16 validTarget);
+    void        setTotalTargets(uint16 targets);
+    void        setPrimaryTargetID(uint32 targid);
     void        setAddType(uint16 addtype);
     void        setMessage(uint16 message);
     void        setRecastTime(uint16 recastTime);
@@ -763,6 +767,8 @@ public:
 private:
 
     uint16      m_ID;
+    uint16      m_TotalTargets;
+    uint32      m_PrimaryTargetID; // primary target ID
     JOBTYPE     m_Job;
     uint8       m_level;
     uint16      m_animationID;

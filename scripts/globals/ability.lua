@@ -774,7 +774,7 @@ function phantombuffMultiple(caster) -- Check for tpz.mod.PHANTOM_ROLL Value and
     return phantombuffMultiplier
 end
 
-function AbilityFinalAdjustments(dmg,mob,skill,target,skilltype,damagetype,shadowbehav)
+function AbilityFinalAdjustments(dmg, mob, skill, target, skilltype, damagetype, shadowbehav)
     -- physical attack missed, skip rest
     local msg = skill:getMsg()
     if (msg == 158 or msg == 188 or msg == 31 or msg == 30) then
@@ -802,7 +802,6 @@ function AbilityFinalAdjustments(dmg,mob,skill,target,skilltype,damagetype,shado
             skill:setMsg(tpz.msg.basic.SHADOW_ABSORB)
             return shadowbehav
         end
-
     elseif (shadowbehav == MOBPARAM_WIPE_SHADOWS) then --take em all!
         target:delStatusEffect(tpz.effect.COPY_IMAGE)
         target:delStatusEffect(tpz.effect.BLINK)
@@ -814,6 +813,9 @@ function AbilityFinalAdjustments(dmg,mob,skill,target,skilltype,damagetype,shado
         skill:setMsg(tpz.msg.basic.JA_MISS_2)
         return 0
     end
+
+    -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
+    dmg = AreaOfEffectResistance(target, skill, dmg)
 
     local element = damagetype - 5
 

@@ -102,6 +102,22 @@ int32 CLuaAbility::getAnimation(lua_State* L)
     return 1;
 }
 
+int32 CLuaAbility::getTotalTargets(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaAbility == nullptr);
+
+    lua_pushinteger(L, m_PLuaAbility->getTotalTargets());
+    return 1;
+}
+
+int32 CLuaAbility::getPrimaryTargetID(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaAbility == nullptr);
+
+    lua_pushinteger(L, m_PLuaAbility->getPrimaryTargetID());
+    return 1;
+}
+
 inline int32 CLuaAbility::setMsg(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PLuaAbility == nullptr);
@@ -171,6 +187,8 @@ Lunar<CLuaAbility>::Register_t CLuaAbility::methods[] =
     LUNAR_DECLARE_METHOD(CLuaAbility,getRange),
     LUNAR_DECLARE_METHOD(CLuaAbility,getName),
     LUNAR_DECLARE_METHOD(CLuaAbility,getAnimation),
+    LUNAR_DECLARE_METHOD(CLuaAbility,getTotalTargets),
+    LUNAR_DECLARE_METHOD(CLuaAbility,getPrimaryTargetID),
     LUNAR_DECLARE_METHOD(CLuaAbility,getMsg),
     LUNAR_DECLARE_METHOD(CLuaAbility,setMsg),
     LUNAR_DECLARE_METHOD(CLuaAbility,setAnimation),

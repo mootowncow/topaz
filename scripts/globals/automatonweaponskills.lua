@@ -586,6 +586,7 @@ function AutoPhysicalFinalAdjustments(dmg, auto, skill, target, attackType, dama
             dmg = 0
         end
     end
+
     -- handle pd
     if attackType == tpz.attackType.PHYSICAL then
         if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) or target:hasStatusEffect(tpz.effect.TOO_HIGH)then
@@ -593,6 +594,9 @@ function AutoPhysicalFinalAdjustments(dmg, auto, skill, target, attackType, dama
             dmg = 0
         end
     end
+
+    -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
+    dmg = AreaOfEffectResistance(target, skill, dmg)
 
     local element = damageType - 5
     -- Check for MDT/PDT/RDT/BDT/MDB
@@ -675,6 +679,9 @@ function AutoMagicalFinalAdjustments(dmg, auto, skill, target, attackType, eleme
     dmg = dmg * HandleCircleEffects(auto, target)
     --printf("dmg after circle %u", dmg)
     dmg = dmg * HandlePositionalMDT(auto, target)
+
+    -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
+    dmg = AreaOfEffectResistance(target, skill, dmg)
 
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.SPECIAL then
         dmg = target:magicDmgTaken(dmg, element)

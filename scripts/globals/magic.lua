@@ -1223,6 +1223,9 @@ function finalMagicAdjustments(caster, target, spell, dmg)
         dmg = math.floor(dmg * iceMakerBonus)
     end
 
+    -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
+    dmg = AreaOfEffectResistance(target, spell, dmg)
+
     local element = spell:getElement()
     dmg = target:magicDmgTaken(dmg, element)
 
@@ -3339,6 +3342,19 @@ function CalculateEmbolden(caster, target, enhPower)
     end
 
     return enhPower
+end
+
+function AreaOfEffectResistance(target, spell, dmg)
+    -- TODO: Weapon skills
+    local areaOfEffectMultiplier = 1
+
+    if (target:getID() ~= spell:getPrimaryTargetID()) then
+        areaOfEffectMultiplier = utils.clamp(areaOfEffectMultiplier + target:getMod(tpz.mod.DMG_AOE) / 100, 0, 2)
+    end
+
+    dmg = dmg * areaOfEffectMultiplier
+
+    return dmg
 end
 
 -- Output magic hit rate for all levels

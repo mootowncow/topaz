@@ -665,6 +665,9 @@ function BlueFinalAdjustments(caster, target, spell, dmg, params)
     local damageType = params.damageType or tpz.damageType.NONE
     local element = damageType - 5
 
+    -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
+    dmg = AreaOfEffectResistance(target, spell, dmg)
+
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.SPECIAL then
         dmg = target:magicDmgTaken(dmg, element)
     elseif attackType == tpz.attackType.BREATH then

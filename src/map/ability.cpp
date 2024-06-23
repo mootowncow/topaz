@@ -180,9 +180,29 @@ void CAbility::setValidTarget(uint16 validTarget)
     m_validTarget = validTarget;
 }
 
+void CAbility::setTotalTargets(uint16 targets)
+{
+    m_TotalTargets = targets;
+}
+
+void CAbility::setPrimaryTargetID(uint32 targid)
+{
+    m_PrimaryTargetID = targid;
+}
+
 uint16 CAbility::getValidTarget()
 {
     return m_validTarget;
+}
+
+uint16 CAbility::getTotalTargets() const
+{
+    return m_TotalTargets;
+}
+
+uint32 CAbility::getPrimaryTargetID() const
+{
+    return m_PrimaryTargetID;
 }
 
 uint16 CAbility::getAddType()

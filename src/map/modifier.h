@@ -211,6 +211,7 @@ enum class Mod
     DMGMB                     = 1277, // Magic Burst Damage Taken %
     DMGSPIRITS                = 1278, // Spirits Damage Taken % (Spirits Within / Atonement / Formless Strikes
     DMGTP                     = 1307, // TP move Damge taken %
+    DMG_AOE                   = 1371, // Damage Taken % when not main target of an AoE action. (Ex: Locus Mobs) In retail, the main target takes extra damage from high level mob TP TP moves / spells
 
     CRITHITRATE               = 165, // Raises chance to crit
     CRIT_DMG_INCREASE         = 421, // Raises the damage of critical hit by percent %
@@ -1051,7 +1052,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1371 NEXT
+    // 1372 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

@@ -1401,6 +1401,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
     auto PAbility = state.GetAbility();
     auto success = true;
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    uint16 targets = static_cast<uint16>(PAI->TargetFind->m_targets.size());
     std::unique_ptr<CBasicPacket> errMsg;
     if (IsValidTarget(PTarget->targid, PAbility->getValidTarget(), errMsg))
     {
@@ -1584,9 +1585,16 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                     }
                 }
             }
+            PAbility->setTotalTargets(targets);
+            PAbility->setPrimaryTargetID(PTarget->id);
         }
         else
         {
+            uint16 totalTargets = static_cast<uint16>(PAI->TargetFind->m_targets.size());
+
+            PAbility->setTotalTargets(totalTargets);
+            PAbility->setPrimaryTargetID(PTarget->id);
+
             std::vector<CBattleEntity*> targets = { PTarget };
             auto& PTargets = targets;
             bool first = true;

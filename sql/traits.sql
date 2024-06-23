@@ -514,27 +514,27 @@ INSERT INTO `traits` VALUES (94,'fine-tuning',18,75,1,0,0,'TOAU',3140);
 INSERT INTO `traits` VALUES (95,'optimization',18,75,1,0,0,'TOAU',3142);
 INSERT INTO `traits` VALUES (96,'closed position',19,75,1,0,0,'WOTG',3206);
 INSERT INTO `traits` VALUES (97,'stormsurge',20,75,1,0,0,'WOTG',0);
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',1,78,1,421,5,'ABYSSEA',0); -- WAR
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',1,86,2,421,8,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,78,1,421,5,'ABYSSEA',0); --  THF
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,84,2,421,8,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,91,3,421,11,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,97,4,421,14,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',8,85,1,421,5,'ABYSSEA',0); -- DRK
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',8,95,2,421,8,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',19,97,1,421,5,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',19,98,2,421,8,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',19,99,3,421,11,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',7,79,1,908,5,'ABYSSEA',0);   -- Paladin
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',7,85,2,908,8,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',7,91,3,908,11,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',7,99,4,908,14,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',10,98,1,908,5,'ABYSSEA',0);   -- Bard
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',10,99,2,908,8,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',14,98,1,908,5,'ABYSSEA',0);   -- Dragoon
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',14,99,2,908,8,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',18,98,1,908,5,'ABYSSEA',0);   -- Puppetmaster
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',18,99,2,908,8,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',1,78,1,421,5,'ABYSSEA',0); -- WAR
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',1,86,2,421,8,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,78,1,421,5,'ABYSSEA',0); --  THF
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,84,2,421,8,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,91,3,421,11,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,97,4,421,14,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',8,85,1,421,5,'ABYSSEA',0); -- DRK
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',8,95,2,421,8,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',19,97,1,421,5,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',19,98,2,421,8,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',19,99,3,421,11,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (99,'crit. def. bonus',7,79,1,908,5,'ABYSSEA',0);   -- Paladin
+-- INSERT INTO `traits` VALUES (99,'crit. def. bonus',7,85,2,908,8,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (99,'crit. def. bonus',7,91,3,908,11,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (99,'crit. def. bonus',7,99,4,908,14,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (99,'crit. def. bonus',10,98,1,908,5,'ABYSSEA',0);   -- Bard
+-- INSERT INTO `traits` VALUES (99,'crit. def. bonus',10,99,2,908,8,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (99,'crit. def. bonus',14,98,1,908,5,'ABYSSEA',0);   -- Dragoon
+-- INSERT INTO `traits` VALUES (99,'crit. def. bonus',14,99,2,908,8,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (99,'crit. def. bonus',18,98,1,908,5,'ABYSSEA',0);   -- Puppetmaster
+-- INSERT INTO `traits` VALUES (99,'crit. def. bonus',18,99,2,908,8,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (100,'tactical parry',1,30,1,486,20,'ABYSSEA',0); -- WAR
 INSERT INTO `traits` VALUES (100,'tactical parry',1,40,2,486,30,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (100,'tactical parry',1,50,3,486,40,'ABYSSEA',0);
