@@ -2093,11 +2093,11 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
             // Add listener
             if (enspell)
-{
+            {
                 {
                     PTarget->PAI->EventHandler.triggerListener("EN_SPIKES_HIT", this, PTarget, enspell);
                 }
-}
+            }
         }
 
         if (actionTarget.speceffect == SPECEFFECT_HIT && actionTarget.param > 0)
