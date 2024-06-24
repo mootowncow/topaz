@@ -28,7 +28,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.UDMGMAGIC, 0)
     mob:setMod(tpz.mod.UDMGBREATH, 0)
     mob:setMod(tpz.mod.PARALYZERESTRAIT, 0)
-    mob:setMod(tpz.mod.MOVE, 25) -- "Moves at Flee Speed in Quadrupedal stance and in the Final Form"
+    mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25) -- "Moves at Flee Speed in Quadrupedal stance and in the Final Form"
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
     mob:setLocalVar("form", 0)
     mob:setLocalVar("Gunpod", 0)
@@ -143,13 +143,13 @@ function onMobFight(mob, target)
             mob:setMod(tpz.mod.UDMGRANGE, -90)
             mob:setMod(tpz.mod.UDMGMAGIC, 0)
             mob:setMod(tpz.mod.UDMGBREATH, 0)
-            mob:setMod(tpz.mod.MOVE, 25) -- "Moves at Flee Speed in Quadrupedal stance and in the Final Form"
+            mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25) -- "Moves at Flee Speed in Quadrupedal stance and in the Final Form"
         elseif AnimationSub == 2 then
             mob:setMod(tpz.mod.UDMGPHYS, 0)
             mob:setMod(tpz.mod.UDMGRANGE, 0)
             mob:setMod(tpz.mod.UDMGMAGIC, -90)
             mob:setMod(tpz.mod.UDMGBREATH, -90)
-            mob:setMod(tpz.mod.MOVE, 0)
+            mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 0)
         end
     end
 
@@ -198,7 +198,7 @@ function onMobFight(mob, target)
             mob:setMod(tpz.mod.UDMGRANGE, -50)
             mob:setMod(tpz.mod.UDMGMAGIC, -50)
             mob:setMod(tpz.mod.UDMGBREATH, -50)
-            mob:setMod(tpz.mod.MOVE, 25)
+            mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
             mob:setMod(tpz.mod.REGAIN, 50)
             currentForm = 2
             mob:setLocalVar("form", currentForm)

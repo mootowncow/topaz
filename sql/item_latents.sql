@@ -69,7 +69,7 @@ INSERT INTO `item_latents` VALUES(10961, 61, -40, 13, 14);  -- CHARMED:DARKRES
 -- -------------------------------------------------------
 INSERT INTO `item_latents` VALUES(10962, 60, -50, 13, 14);  -- CHARMED:LIGHTRES
 INSERT INTO `item_latents` VALUES(10962, 61, -50, 13, 14);  -- CHARMED:DARKRES
-INSERT INTO `item_latents` VALUES(10962, 169, -12, 13, 14); -- CHARMED:DECREASES MOV SPEED
+INSERT INTO `item_latents` VALUES(10962, 77, 12, 13, 14);   -- CHARMED:DECREASES MOV SPEED
 
 -- -------------------------------------------------------
 -- Archon Cape +1
@@ -1116,7 +1116,7 @@ INSERT INTO `item_latents` VALUES(14085, 370, 1, 26, 1);    -- Nighttime: Adds "
 -- -------------------------------------------------------
 -- Ninja Kyahan
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(14101, 169, 25, 26, 1);   -- %25 during nighttime
+INSERT INTO `item_latents` VALUES(14101, 76, 25, 26, 1);   -- %25 during nighttime
 
 INSERT INTO `item_latents` VALUES(14122, 68, 8, 52, 6);     -- Kyahan: Evasion +8 in Water weather
 
@@ -1177,8 +1177,8 @@ INSERT INTO `item_latents` VALUES(14158, 12, 4, 53, 0);     -- INT +4 in areas i
 -- -------------------------------------------------------
 -- Desert Boots
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(14166, 169, 12, 52, 4);  -- movement speed +12% in Earth weather
-INSERT INTO `item_latents` VALUES(14167, 169, 12, 52, 4);  -- Desert Boots +1
+INSERT INTO `item_latents` VALUES(14166, 76, 12, 52, 4);  -- movement speed +12% in Earth weather
+INSERT INTO `item_latents` VALUES(14167, 76, 12, 52, 4);  -- Desert Boots +1
 
 -- -------------------------------------------------------
 -- Rasetsu Sune-Ate
@@ -1339,17 +1339,17 @@ INSERT INTO `item_latents` VALUES(14425, 68, 2, 29, 0);
 -- -------------------------------------------------------
 -- Kingdom Aketon
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(14428, 169, 12, 54, 19);
+INSERT INTO `item_latents` VALUES(14428, 76, 12, 54, 19);
 
 -- -------------------------------------------------------
 -- Republic Aketon
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(14429, 169, 12, 54, 20);
+INSERT INTO `item_latents` VALUES(14429, 76, 12, 54, 20);
 
 -- -------------------------------------------------------
 -- Federation Aketon
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(14430, 169, 12, 54, 21);
+INSERT INTO `item_latents` VALUES(14430, 76, 12, 54, 21);
 
 INSERT INTO `item_latents` VALUES(14432, 68, 2, 29, 0);
 INSERT INTO `item_latents` VALUES(14432, 68, 2, 31, 0);
@@ -1735,7 +1735,7 @@ INSERT INTO `item_latents` VALUES(15346, 384, 400, 1, 75);  -- Haste+4% when HP 
 -- -------------------------------------------------------
 -- Ninja Kyahan +1
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(15364, 169, 25, 26, 2);   -- Dusk - Dawn: Speed + 25%
+INSERT INTO `item_latents` VALUES(15364, 76, 25, 26, 2);   -- Dusk - Dawn: Speed + 25%
 
 -- -------------------------------------------------------
 -- Hachiman Hakama
@@ -1868,7 +1868,7 @@ INSERT INTO `item_latents` VALUES(15672, 63, 10, 13, 64);   -- +1: Enhances "Las
 -- -------------------------------------------------------
 INSERT INTO `item_latents` VALUES(15677, 9, 7, 26, 2);      -- Dusk - Dawn: DEX +7
 
-INSERT INTO `item_latents` VALUES(15692, 169, 12, 58, 0);   -- storm crackows movement +12
+INSERT INTO `item_latents` VALUES(15692, 76, 12, 58, 0);   -- storm crackows movement +12
 
 INSERT INTO `item_latents` VALUES(15774, 25, 10, 58, 0);    -- Storm ring
 
@@ -3749,7 +3749,7 @@ INSERT INTO `item_latents` VALUES(23197, 518, 10, 13, 57);  -- WAR AF2 119 +2 Ha
 -- -------------------------------------------------------
 -- Hachiya Kyahan +2
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(23320, 169, 25, 26, 2);   -- Dusk to dawn: Movement speed +25%
+INSERT INTO `item_latents` VALUES(23320, 76, 25, 26, 2);   -- Dusk to dawn: Movement speed +25%
 
 INSERT INTO `item_latents` VALUES(23350, 399, 17, 52, 1);   -- Pedagogy Loafers+2: Weather: Enhances Celerity and Alacrity Effect +17% (FIRE)
 INSERT INTO `item_latents` VALUES(23350, 399, 17, 52, 2);   -- Pedagogy Loafers+2: Weather: Enhances Celerity and Alacrity Effect +17% (EARTH)
@@ -3764,7 +3764,7 @@ INSERT INTO `item_latents` VALUES(23532, 518, 15, 13, 57); -- WAR AF2 119 +3 Han
 -- -------------------------------------------------------
 -- Hachiya Kyahan +3
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(23655, 169, 25, 26, 2);   -- Dusk to dawn: Movement speed +25%
+INSERT INTO `item_latents` VALUES(23655, 76, 25, 26, 2);   -- Dusk to dawn: Movement speed +25%
 
 INSERT INTO `item_latents` VALUES(23685, 399, 18, 52, 1);   -- Pedagogy Loafers+3: Weather: Enhances Celerity and Alacrity Effect +18% (FIRE)
 INSERT INTO `item_latents` VALUES(23685, 399, 18, 52, 2);   -- Pedagogy Loafers+3: Weather: Enhances Celerity and Alacrity Effect +18% (EARTH)
@@ -3792,8 +3792,8 @@ INSERT INTO `item_latents` VALUES(27367, 399, 16, 52, 5);   -- Pedagogy Loafers+
 INSERT INTO `item_latents` VALUES(27367, 399, 16, 52, 6);   -- Pedagogy Loafers+1: Weather: Enhances Celerity and Alacrity Effect +16% (THUNDER)
 INSERT INTO `item_latents` VALUES(27367, 399, 16, 52, 7);   -- Pedagogy Loafers+1: Weather: Enhances Celerity and Alacrity Effect +16% (LIGHT)
 INSERT INTO `item_latents` VALUES(27367, 399, 16, 52, 8);   -- Pedagogy Loafers+1: Weather: Enhances Celerity and Alacrity Effect +16% (DARK)
-INSERT INTO `item_latents` VALUES(28235, 169, 25, 26, 2);   -- Hachiya Kyahan: Dusk to dawn: Movement speed +25%
-INSERT INTO `item_latents` VALUES(28256, 169, 25, 26, 2);   -- Hachiya Kyahan +1: Dusk to dawn: Movement speed +25%
+INSERT INTO `item_latents` VALUES(28235, 76, 25, 26, 2);   -- Hachiya Kyahan: Dusk to dawn: Movement speed +25%
+INSERT INTO `item_latents` VALUES(28256, 76, 25, 26, 2);   -- Hachiya Kyahan +1: Dusk to dawn: Movement speed +25%
 -- -------------------------------------------------------
 -- Mist Silk Cape
 -- -------------------------------------------------------

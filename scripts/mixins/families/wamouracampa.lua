@@ -13,7 +13,7 @@ g_mixins.families = g_mixins.families or {}
 g_mixins.families.wamouracampa = function(mob)
     mob:addListener("SPAWN", "WAMOURACAMPA_SPAWN", function(mob)
 	    mob:AnimationSub(0)
-        mob:setMod(tpz.mod.MOVE, 0)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 0)
         mob:setMod(tpz.mod.DMGPHYS, 0)
         mob:setMod(tpz.mod.UDMGMAGIC, -33)
         mob:setLocalVar("formTime", os.time() + math.random(43, 47))
@@ -29,13 +29,13 @@ g_mixins.families.wamouracampa = function(mob)
         local roamTime = mob:getLocalVar("formTime")
         if mob:AnimationSub() == 0 and os.time() > roamTime then
             mob:AnimationSub(1)
-            mob:setMod(tpz.mod.MOVE, -25)
+            mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -25)
             mob:setMod(tpz.mod.DMGPHYS, -33)
             mob:setMod(tpz.mod.UDMGMAGIC, 33)
             mob:setLocalVar("formTime", os.time() + math.random(43, 47))
         elseif mob:AnimationSub() == 1 and os.time() > roamTime then
             mob:AnimationSub(0)
-            mob:setMod(tpz.mod.MOVE, 0)
+            mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 0)
             mob:setMod(tpz.mod.DMGPHYS, 0)
             mob:setMod(tpz.mod.UDMGMAGIC, -33)
             mob:setLocalVar("formTime", os.time() + math.random(43, 47))
@@ -64,13 +64,13 @@ g_mixins.families.wamouracampa = function(mob)
 	        mob:setLocalVar("Animation", math.random(1,2)) --Random roll for animation
 	    elseif Animation == 1 and os.time() > fightTime and not IsMobBusy(mob) then
             mob:AnimationSub(1)
-            mob:setMod(tpz.mod.MOVE, -25)
+            mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -25)
             mob:setMod(tpz.mod.UDMGMAGIC, -33)
             mob:setLocalVar("formTime", os.time() + math.random(43, 47))
 		    mob:setLocalVar("Animation", math.random(1,2)) --Random roll for animation
         elseif Animation == 2 and os.time() > fightTime and not IsMobBusy(mob) then
             mob:AnimationSub(0)
-            mob:setMod(tpz.mod.MOVE, 0)
+            mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 0)
             mob:setMod(tpz.mod.UDMGMAGIC, 33)
             mob:setLocalVar("formTime", os.time() + math.random(43, 47))
 		    mob:setLocalVar("Animation", math.random(1,2)) --Random roll for animation

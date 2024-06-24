@@ -231,15 +231,55 @@ int32 CBattleEntity::GetMaxMP()
 
 uint8 CBattleEntity::GetSpeed()
 {
-    int16 startingSpeed = isMounted() ? 40 + map_config.mount_speed_mod : speed;
+    uint8 baseSpeed = speed;
+    uint8 outputSpeed = 0;
 
-    // Mod::MOVE (169)
-    // Mod::MOUNT_MOVE (972)
-    Mod mod = isMounted() ? Mod::MOUNT_MOVE : Mod::MOVE;
+    // Mount speed. Independent from regular speed and unaffected by most things.
+    // Note: retail treats mounted speed as double what it actually is! 40 is in fact retail accurate!
+    if (isMounted())
+    {
+        baseSpeed = 40 + map_config.mount_speed_mod;
+        outputSpeed = baseSpeed * (100 + getMod(Mod::MOUNT_MOVE)) / 100;
 
-    float modAmount = (100.0f + static_cast<float>(getMod(mod))) / 100.0f;
-    float modifiedSpeed = static_cast<float>(startingSpeed) * modAmount;
-    uint8 outputSpeed = static_cast<uint8>(modifiedSpeed);
+        return std::clamp<uint8>(outputSpeed, std::numeric_limits<uint8>::min(), std::numeric_limits<uint8>::max());
+    }
+
+    // Flee, KIs, Gear penalties, Bolters Roll.
+    float additiveMods = static_cast<float>(getMod(Mod::MOVE_SPEED_STACKABLE)) / 100.0f;
+
+    // Quickening and Mazurka. Only highest applies.
+    Mod modToUse = getMod(Mod::MOVE_SPEED_QUICKENING) > getMod(Mod::MOVE_SPEED_MAZURKA) ? Mod::MOVE_SPEED_QUICKENING : Mod::MOVE_SPEED_MAZURKA;
+
+    float effectBonus = static_cast<float>(getMod(modToUse)) / 100.0f;
+
+    // Positive movement speed from gear. Only highest applies.
+    float gearBonus = 0.0f;
+
+    if (objtype == TYPE_PC)
+    {
+        gearBonus = static_cast<float>(getMaxGearMod(Mod::MOVE_SPEED_GEAR_BONUS)) / 100.0f;
+    }
+
+    // Gravity and Curse. They seem additive to each other and the sum seems to be multiplicative.
+    float weightPenalties = static_cast<float>(getMod(Mod::MOVE_SPEED_WEIGHT_PENALTY)) / 100.0f;
+
+    // We have all the modifiers needed. Calculate final speed.
+    float modifiedSpeed = static_cast<float>(baseSpeed) * std::clamp<float>(1.0f + additiveMods + effectBonus, 0.1f, 1.6f) * (1.0f + gearBonus) *
+                          std::clamp<float>(1.0f - weightPenalties, 0.1f, 1.0f);
+
+    outputSpeed = static_cast<uint8>(modifiedSpeed);
+
+    // Set cap.
+    outputSpeed = std::clamp<uint8>(outputSpeed, 0, 80 + map_config.speed_mod);
+
+    // Speed cap can be bypassed. Ex. Feast of swords. GM speed.
+    // TODO: Find exceptions. Add them here.
+
+    // GM speed bypass.
+    if (getMod(Mod::MOVE_SPEED_OVERIDE) > 0)
+    {
+        outputSpeed = getMod(Mod::MOVE_SPEED_OVERIDE);
+    }
 
     return std::clamp<uint8>(outputSpeed, std::numeric_limits<uint8>::min(), std::numeric_limits<uint8>::max());
 }
@@ -1217,14 +1257,49 @@ void CBattleEntity::delEquipModifiers(std::vector<CModifier> *modList, uint8 ite
 }
 
 /************************************************************************
-*																		*
-*  Получаем текущее значение указанного модификатора					*
-*																		*
-************************************************************************/
+ *                                                                      *
+ *  Get the current value of the specified modifier                     *
+ *                                                                      *
+ ************************************************************************/
 
 int16 CBattleEntity::getMod(Mod modID)
 {
     return m_modStat[modID];
+}
+
+/************************************************************************
+ *                                                                      *
+ *  Get the highest value of the specified modifier across all gear     *
+ *                                                                      *
+ ************************************************************************/
+int16 CBattleEntity::getMaxGearMod(Mod modID)
+{
+    TracyZoneScoped;
+    CCharEntity* PChar = dynamic_cast<CCharEntity*>(this);
+    uint16 maxModValue = 0;
+
+    if (!PChar)
+    {
+        ShowWarning("CBattleEntity::getMaxGearMod() - Entity is not a player.");
+
+        return 0;
+    }
+
+    for (uint8 i = 0; i < SLOT_BACK; ++i)
+    {
+        auto* PItem = PChar->getEquip((SLOTTYPE)i);
+        if (PItem && (PItem->isType(ITEM_EQUIPMENT) || PItem->isType(ITEM_WEAPON)))
+        {
+            uint16 modValue = PItem->getModifier(modID);
+
+            if (modValue > maxModValue)
+            {
+                maxModValue = modValue;
+            }
+        }
+    }
+
+    return maxModValue;
 }
 
 void CBattleEntity::addPetModifier(Mod type, PetModType petmod, int16 amount)

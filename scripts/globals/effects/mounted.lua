@@ -21,7 +21,7 @@ function onEffectGain(target, effect)
         end
         target:setAnimation(tpz.anim.MOUNT)
     end
-    target:addPetMod(tpz.mod.MOVE, 110)
+    target:addPetMod(tpz.mod.MOVE_SPEED_STACKABLE, 110)
 end
 
 function onEffectTick(target, effect)
@@ -29,5 +29,5 @@ end
 
 function onEffectLose(target, effect)
     target:setAnimation(tpz.anim.NONE)
-    target:delPetMod(tpz.mod.MOVE, 110)
+    target:delPetMod(tpz.mod.MOVE_SPEED_STACKABLE, 110)
 end

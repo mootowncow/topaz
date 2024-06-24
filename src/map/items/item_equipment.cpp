@@ -356,7 +356,7 @@ void CItemEquipment::SetAugmentMod(uint16 type, uint8 value)
             else if (value == 18)
             {
                 // Add movement speed +8% mod
-                addModifier(CModifier(Mod::MOVE, 8));
+                addModifier(CModifier(Mod::MOVE_SPEED_GEAR_BONUS, 8));
             }
             return;
         }

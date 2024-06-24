@@ -24,10 +24,10 @@ end
 
 function onEffectGain(target, effect)
     target:addMod(tpz.mod.INT, 1)
-    target:addMod(tpz.mod.MOVE, 13)
+    target:addMod(tpz.mod.MOVE_SPEED_QUICKENING, 13)
 end
 
 function onEffectLose(target, effect)
     target:delMod(tpz.mod.INT, 1)
-    target:delMod(tpz.mod.MOVE, 13)
+    target:delMod(tpz.mod.MOVE_SPEED_QUICKENING, 13)
 end

@@ -22,7 +22,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.UDMGMAGIC, 0)
     mob:setMod(tpz.mod.STORETP, 100)
     mob:setMod(tpz.mod.REGEN, 5)
-    mob:setMod(tpz.mod.MOVE, 8)
+    mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 8)
     mob:setMobMod(tpz.mobMod.GIL_MIN, 8000) -- 9k Gil
     mob:setMobMod(tpz.mobMod.GIL_MAX, 9000) 
     mob:setMobMod(tpz.mobMod.GIL_BONUS, 0) 

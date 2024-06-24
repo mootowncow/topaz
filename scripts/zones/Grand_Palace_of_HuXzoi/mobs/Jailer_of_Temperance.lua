@@ -30,7 +30,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.UDMGBREATH, -100)
     mob:setMod(tpz.mod.UDMGMAGIC, -100)
     --150% move speed
-    mob:setMod(tpz.mod.MOVE, 50)
+    mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 50)
 
     tpz.mix.jobSpecial.config(mob, {
         specials =

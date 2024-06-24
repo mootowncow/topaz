@@ -605,7 +605,8 @@ public:
     //Deals damage and updates the last attacker which is used when sending a player death message
     virtual int32   takeDamage(int32 amount, CBattleEntity* attacker = nullptr, ATTACKTYPE attackType = ATTACK_NONE, DAMAGETYPE damageType = DAMAGE_NONE, bool isDOT = false);
 
-    int16		    getMod(Mod modID);		// величина модификатора
+    int16		    getMod(Mod modID);		// Get the current value of the specified modifier 
+    int16           getMaxGearMod(Mod modID);
 
     bool            CanRest(); // checks if able to heal
     bool			Rest(float rate); // heal an amount of hp / mp

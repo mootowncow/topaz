@@ -15,7 +15,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.DEF, 450)
     mob:setMod(tpz.mod.EVA, 350)
     mob:setMod(tpz.mod.COUNTER, 5)
-    mob:setMod(tpz.mod.MOVE, -25)
+    mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -25)
     mob:setMobMod(tpz.mobMod.GIL_MIN, 3000) -- 5k Gil
     mob:setMobMod(tpz.mobMod.GIL_MAX, 5000) 
     mob:setMobMod(tpz.mobMod.GIL_BONUS, 0) 

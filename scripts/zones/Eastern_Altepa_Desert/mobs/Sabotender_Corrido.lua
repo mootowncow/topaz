@@ -10,7 +10,7 @@ require("scripts/globals/mobs")
 function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
     mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
-    mob:setMod(tpz.mod.MOVE, 25)
+    mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
 end
 
 function onMobSpawn(mob)

@@ -14,5 +14,5 @@ end
 
 function onUseAbility(player, target, ability)
     local duration = 30 + player:getMod(tpz.mod.FLEE_DURATION)
-    player:addStatusEffect(tpz.effect.FLEE, 50, 0, duration)
+    player:addStatusEffect(tpz.effect.FLEE, 100, 0, duration)
 end

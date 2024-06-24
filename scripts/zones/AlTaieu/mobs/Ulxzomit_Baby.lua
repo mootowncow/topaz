@@ -9,7 +9,7 @@ require("scripts/globals/mobs")
 require("scripts/globals/pathfind")
 -----------------------------------
 function onMobSpawn(mob)
-    mob:addMod(tpz.mod.MOVE, 45)
+    mob:addMod(tpz.mod.MOVE_SPEED_STACKABLE, 45)
     onPath(mob)
 end
 

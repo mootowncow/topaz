@@ -10,7 +10,7 @@ function onEffectGain(target, effect)
     if pet then
         pet:setLocalVar("overload", 1)
         pet:addMod(tpz.mod.HASTE_MAGIC, -5000)
-        pet:addMod(tpz.mod.MOVE, -50)
+        pet:addMod(tpz.mod.MOVE_SPEED_WEIGHT_PENALTY, 50)
         pet:addMod(tpz.mod.EVA, -10)
     end
 end
@@ -23,7 +23,7 @@ function onEffectLose(target, effect)
     if pet and pet:getLocalVar("overload") ~= 0 then
         pet:setLocalVar("overload", 0)
         pet:delMod(tpz.mod.HASTE_MAGIC, -5000)
-        pet:delMod(tpz.mod.MOVE, -50)
+        pet:delMod(tpz.mod.MOVE_SPEED_WEIGHT_PENALTY, 50)
         pet:delMod(tpz.mod.EVA, -10)
     end
 end

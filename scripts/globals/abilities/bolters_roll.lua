@@ -61,7 +61,7 @@ function applyRoll(caster, target, ability, action, total)
     elseif (caster:getSubJob() == tpz.job.COR and caster:getSubLvl() < target:getMainLvl()) then
         effectpower = effectpower * (caster:getSubLvl() / target:getMainLvl())
     end
-    if (target:addCorsairRoll(caster:getMainJob(), caster:getMerit(tpz.merit.BUST_DURATION), tpz.effect.BOLTERS_ROLL, effectpower, 0, duration, caster:getID(), total, tpz.mod.MOVE) == false) then
+    if (target:addCorsairRoll(caster:getMainJob(), caster:getMerit(tpz.merit.BUST_DURATION), tpz.effect.BOLTERS_ROLL, effectpower, 0, duration, caster:getID(), total, tpz.mod.MOVE_SPEED_STACKABLE) == false) then
         ability:setMsg(tpz.msg.basic.ROLL_MAIN_FAIL)
     elseif total > 11 then
         ability:setMsg(tpz.msg.basic.DOUBLEUP_BUST)

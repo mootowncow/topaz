@@ -1298,7 +1298,7 @@ void SetupSalvageMob(CMobEntity* PMob)
     // add global mods
     PMob->addModifier(Mod::DMGSPIRITS, -75);
     PMob->addModifier(Mod::REFRESH, 400);
-    PMob->setModifier(Mod::MOVE, 15);
+    PMob->setModifier(Mod::MOVE_SPEED_STACKABLE, 15);
     PMob->PAI->PathFind->SetCarefulPathing(true);
 }
 

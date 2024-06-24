@@ -20,9 +20,9 @@ function onItemUse(target)
 end
 
 function onEffectGain(target, effect)
-    target:addMod(tpz.mod.MOVE, 15)
+    target:addMod(tpz.mod.MOVE_SPEED_QUICKENING, 15)
 end
 
 function onEffectLose(target, effect)
-    target:delMod(tpz.mod.MOVE, 15)
+    target:delMod(tpz.mod.MOVE_SPEED_QUICKENING, 15)
 end

@@ -398,7 +398,7 @@ local modByMobName =
 
     ['Yacumama'] = function(mob)
         mob:setDamage(140)
-        mob:setMod(tpz.mod.MOVE, 20)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 20)
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
@@ -423,7 +423,7 @@ local modByMobName =
         mob:setMod(tpz.mod.TRIPLE_ATTACK, 75)
         mob:setMod(tpz.mod.EVA, 50)
         mob:setMod(tpz.mod.DARKDEF, 256)
-        mob:setMod(tpz.mod.MOVE, 20)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 20)
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
@@ -606,9 +606,9 @@ local mixinByMobName =
     ['Yacumama'] = function(mob)
         doMobSkillEveryHPP(mob, 20, 80, tpz.jsa.HUNDRED_FISTS, not mob:hasStatusEffect(tpz.effect.HUNDRED_FISTS))
         if mob:hasStatusEffect(tpz.effect.HUNDRED_FISTS) then
-            mob:setMod(tpz.mod.MOVE, 20)
+            mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 20)
         else
-            mob:setMod(tpz.mod.MOVE, 0)
+            mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 0)
         end
     end,
 
@@ -1118,7 +1118,7 @@ tpz.voidwalker.onMobSpawn = function(mob)
     local mobName = mob:getName()
     SetGenericNMStats(mob)
     mob:setMod(tpz.mod.VIT, 115)
-    mob:setMod(tpz.mod.MOVE, 20)
+    mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 20)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:setStatus(tpz.status.INVISIBLE)
