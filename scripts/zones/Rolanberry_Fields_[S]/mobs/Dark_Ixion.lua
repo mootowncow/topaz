@@ -21,15 +21,15 @@ local DarkIxionID =
     17170649
 }
 
-local pathNodes =
+local pathNodes = 
 {
-    -220, 4, -149,
-    -218, 4, -348,
-    -345, -9, -450,
-    -139, 3, -521,
-    -10, 1, -638,
-    -71, -3, -380,
-    4, -15, -209,
+    { x = -220, y = 4, z = -149 },
+    { x = -218, y = 4, z = -348 },
+    { x = -345, y = -9, z = -450 },
+    { x = -139, y = 3, z = -521 },
+    { x = -10, y = 1, z = -638 },
+    { x = -71, y = -3, z = -380 },
+    { x = 4, y = -15, z = -209 },
 }
 
 function onMobInitialize(mob)
@@ -55,24 +55,16 @@ function onMobSpawn(mob)
     mob:setLocalVar("StartTrampling", 0)
     mob:setLocalVar("TrampleDelay", 0)
     mob:setLocalVar("RNG", math.random(1, 2))
-    onPath(mob)
-end
-
-function onPath(mob)
-    tpz.path.patrol(mob, pathNodes)
 end
 
 function onMobRoam(mob)
-    -- move to start position if not moving
-    if not mob:isFollowingPath() then
-        mob:pathThrough(tpz.path.first(pathNodes))
-    end
     mob:setLocalVar("Ashed", 0)
     mob:setLocalVar("AuraTimeOn", 0)
     mob:setLocalVar("AuraTimeOff", 0)
     mob:setLocalVar("Stance", 0)
     mob:setLocalVar("TrackingTarget", 0)
     mob:setLocalVar("StartTrampling", 0)
+    tpz.path.loop(mob, pathNodes, tpz.path.flag.RUN)
 end
 
 function onMobEngaged(mob)
