@@ -27,9 +27,10 @@ function onMobSkillCheck(target, mob, skill)
 
     if target:isInfront(mob, 90) then
         return 1
-    else
-        return 0
+    elseif target:isBeside(mob, 45) then
+        return 1
     end
+    return 0
 end
 
 function onMobWeaponSkill(target, mob, skill)

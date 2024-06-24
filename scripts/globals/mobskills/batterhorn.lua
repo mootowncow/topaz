@@ -11,10 +11,10 @@ require("scripts/globals/status")
 require("scripts/globals/monstertpmoves")
 ---------------------------------------------
 function onMobSkillCheck(target, mob, skill)
-    if target:isInfront(mob, 48) then
-        return 0
+    if not target:isInfront(mob, 90) then
+        return 1
     end
-    return 1
+    return 0
 end
 
 function onMobWeaponSkill(target, mob, skill)

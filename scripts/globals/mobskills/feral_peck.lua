@@ -15,7 +15,9 @@ require("scripts/globals/magic")
 function onMobSkillCheck(target, mob, skill)
     local result = 1
     if (mob:getPool() == 5869) then -- Only used by certain NM's
-	    if target:isInfront(mob, 90) then
+	    if not target:isInfront(mob, 90) then
+            result = 1
+        else
             result = 0
         end
     end
