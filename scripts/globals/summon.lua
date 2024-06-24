@@ -284,14 +284,18 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
                 finaldmg = finaldmg + magicdmg / 2
                 --printf("%i", finaldmg)
             end
-            -- Check if mob blocked us
-            if avatar:isInfront(target, 90) and isBlocked then
-                finaldmg = target:getBlockedDamage(finaldmg)
+
+            if not (attackType == tpz.attackType.RANGED) then
+                -- Check if mob blocked us
+                if avatar:isInfront(target, 90) and isBlocked then
+                    finaldmg = target:getBlockedDamage(finaldmg)
+                end
+                -- Check if mob parried us
+                if avatar:isInfront(target, 90) and isParried then
+                    finaldmg = 0
+                end
             end
-            -- Check if mob parried us
-            if avatar:isInfront(target, 90) and isParried then
-                finaldmg = 0
-            end
+
             numHitsProcessed = 1
         end
 
@@ -333,14 +337,18 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
             finaldmg = finaldmg + (avatarHitDmg(weaponDmg, fSTR, WSC, pDif) * ftp)
             --handling phalanx
             finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
-            -- Check if mob blocked us
-            if avatar:isInfront(target, 90) and isBlocked then
-                finaldmg = target:getBlockedDamage(finaldmg)
+
+            if not (attackType == tpz.attackType.RANGED) then
+                -- Check if mob blocked us
+                if avatar:isInfront(target, 90) and isBlocked then
+                    finaldmg = target:getBlockedDamage(finaldmg)
+                end
+                -- Check if mob parried us
+                if avatar:isInfront(target, 90) and isParried then
+                    finaldmg = 0
+                end
             end
-            -- Check if mob parried us
-            if avatar:isInfront(target, 90) and isParried then
-                finaldmg = 0
-            end
+
             numHitsProcessed = numHitsProcessed + 1
         end
         -- apply ftp bonus
