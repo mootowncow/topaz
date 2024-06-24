@@ -16238,78 +16238,108 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
 
     if (lua_isnumber(L, 1))
     {
-        auto skillid {(uint16)lua_tointeger(L, 1)};
-        CMobEntity* PMob = (CMobEntity*)m_PBaseEntity;
-        CBattleEntity* PTarget {nullptr};
-        auto PMobSkill {battleutils::GetMobSkill(skillid)};
+        auto skillid{ (uint16)lua_tointeger(L, 1) };
+        CMobEntity* PMob = dynamic_cast<CMobEntity*>(m_PBaseEntity);
+        CBattleEntity* PTarget{ nullptr };
+        auto PMobSkill{ battleutils::GetMobSkill(skillid) };
 
         if (!PMobSkill)
         {
+            //printf("PMobSkill is null\n");
             return 0;
         }
 
         if (!lua_isnil(L, 2) && lua_isuserdata(L, 2))
         {
             CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 2);
-            PTarget = (CBattleEntity*)PLuaBaseEntity->m_PBaseEntity;
+            PTarget = dynamic_cast<CBattleEntity*>(PLuaBaseEntity->m_PBaseEntity);
         }
 
-        m_PBaseEntity->PAI->QueueAction(queueAction_t(0ms, true, [PTarget, PMob, skillid, PMobSkill](auto PEntity) {
-            if (PTarget)
-                PEntity->PAI->MobSkill(PTarget->targid, skillid);
-            else if (dynamic_cast<CMobEntity*>(PEntity))
+        // If PTarget is not set from Lua, get it from the battle target ID
+        if (!PTarget)
+        {
+            auto targetID = PMob->GetBattleTargetID();
+            auto PEntity = PMob->GetEntity(targetID);
+            if (PEntity)
             {
-                // TODO: PTarget is wrong and crashes the gameeverything
-                //if (luautils::OnMobSkillCheck(PTarget, PEntity, PMobSkill) == 0) // A script says that the move in question is valid
-                //{
-                //    if (PMobSkill->getValidTargets() & TARGET_ENEMY)
-                //    {
-                //        PEntity->PAI->MobSkill(static_cast<CMobEntity*>(PEntity)->GetBattleTargetID(), skillid);
-
-                //        // Set message for "Player" and Fomor TP moves
-                //        if (PMobSkill->getID() <= 255)
-                //        {
-                //            PMob->loc.zone->PushPacket(PMob, CHAR_INRANGE, new CMessageBasicPacket(PMob, PMob, 0, PMobSkill->getID(), MSGBASIC_READIES_WS));
-                //        }
-                //    }
-                //    else if (PMobSkill->getValidTargets() & TARGET_SELF)
-                //    {
-                //        PEntity->PAI->MobSkill(PEntity->targid, skillid);
-                //    }
-
-                if (PMobSkill->getValidTargets() & TARGET_ENEMY)
-                {
-                    PEntity->PAI->MobSkill(static_cast<CMobEntity*>(PEntity)->GetBattleTargetID(), skillid);
-
-                    // Set message for "Player" and Fomor TP moves
-                    if (PMobSkill->getID() <= 255)
-                    {
-                        PMob->loc.zone->PushPacket(PMob, CHAR_INRANGE, new CMessageBasicPacket(PMob, PMob, 0, PMobSkill->getID(), MSGBASIC_READIES_WS));
-                    }
-                }
-                else if (PMobSkill->getValidTargets() & TARGET_SELF)
-                {
-                    PEntity->PAI->MobSkill(PEntity->targid, skillid);
-                }
+                PTarget = dynamic_cast<CBattleEntity*>(PEntity);
             }
-            if (!PMobSkill->isTwoHour())
-                {
-                    // Set var for use in monstertpmoves.lua TP scaling
-                    int16 tp = PMob->health.tp;
-                    PMob->SetLocalVar("tp", tp);
-                }
-        }));
+        }
+
+        if (!PTarget)
+        {
+            //printf("PTarget is null before queuing action\n");
+            return 0;
+        }
+
+        m_PBaseEntity->PAI->QueueAction(
+            queueAction_t(0ms, true,
+                          [PTarget, PMob, skillid, PMobSkill](auto PEntity)
+                          {
+                              if (!PTarget)
+                              {
+                                  //printf("PTarget is null inside lambda\n");
+                                  return;
+                              }
+
+                              if (!PEntity)
+                              {
+                                  //printf("PEntity is null inside lambda\n");
+                                  return;
+                              }
+
+                              if (dynamic_cast<CMobEntity*>(PEntity))
+                              {
+                                  if (luautils::OnMobSkillCheck(PTarget, PEntity, PMobSkill) == 0)
+                                  {
+                                      if (PMobSkill->getValidTargets() & TARGET_ENEMY)
+                                      {
+                                          auto targetID = static_cast<CMobEntity*>(PEntity)->GetBattleTargetID();
+                                          if (targetID == 0)
+                                          {
+                                              //printf("Invalid targetID\n");
+                                              return;
+                                          }
+                                          PEntity->PAI->MobSkill(targetID, skillid);
+
+                                          if (PMobSkill->getID() <= 255)
+                                          {
+                                              if (PMob && PMob->loc.zone)
+                                              {
+                                                  PMob->loc.zone->PushPacket(PMob, CHAR_INRANGE,
+                                                                             new CMessageBasicPacket(PMob, PMob, 0, PMobSkill->getID(), MSGBASIC_READIES_WS));
+                                              }
+                                              else
+                                              {
+                                                  //printf("PMob or PMob->loc.zone is null\n");
+                                              }
+                                          }
+                                      }
+                                      else if (PMobSkill->getValidTargets() & TARGET_SELF)
+                                      {
+                                          PEntity->PAI->MobSkill(PEntity->targid, skillid);
+                                      }
+                                  }
+                              }
+
+                              if (!PMobSkill->isTwoHour())
+                              {
+                                  if (PMob)
+                                  {
+                                      int16 tp = PMob->health.tp;
+                                      PMob->SetLocalVar("tp", tp);
+                                  }
+                                  else
+                                  {
+                                      //printf("PMob is null\n");
+                                  }
+                              }
+                          }));
     }
-    else
-    {
-        m_PBaseEntity->PAI->QueueAction(queueAction_t(0ms, true, [](auto PEntity) {
-            if (dynamic_cast<CMobEntity*>(PEntity))
-                static_cast<CMobController*>(PEntity->PAI->GetController())->MobSkill();
-        }));
-    };
 
     return 0;
 }
+
 
 /************************************************************************
 *  Function: hasTPMoves()
