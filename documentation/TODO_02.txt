@@ -76,7 +76,6 @@ Add effect magian trial weapons require 255+ of venom etc potions relating to th
 Custom Tres Duendes mob with changing stance
 Finish JP. Also need to add gifts function from lsb to actually get gifts
 Missing jobpointutils::RefreshGiftMods(PChar); and prob other stuff
-!usews crashes server via OnMobSkillCheck() if positional(is facing)
 Flan "Spikey" mixin
 Edit setdroprate() to allow editing/adding drop groups or add another funcion binding to do it
 Sabotender Ballarin missing?
@@ -161,7 +160,6 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
-Need to remove MEVA mod from being applied to players and mobs and then fix how meva mod is coded in getMagicHitRate(Lua) getMagicHitRate(CPP)
 Wild Rage said "999 shadows absorbed" with blink up?
 Buff Musanto / Katana from ANNM(Enmity +3 Evasion +7?)
 Don't save : in item names for item_Basic.sql (FFXI item editor)
@@ -174,7 +172,6 @@ Enagakure did not spawn at 20:00
 Nakuals set weather to none on disengage
 move tchakka to the big room
 applyResistanceAddEffect(player, target, element, bonus, effect, skill) should be used for stuff like feral howl and aura steal?
-Does wild card JA reset and random deal even work?
 Add submodules for losnavmeshes and navmeshes(update to new one) https://github.blog/2016-02-01-working-with-submodules/
 Sic merits don't work?
 Ic Pilav bun(new item)
@@ -191,38 +188,29 @@ Fomor HNM's(Lugh etc)
 
 
 How does slug shot do 61 instead of 400+ dmg? It's 1 hit
-AddDimishingReturns should use 1 var for sleep and not different ones(sleep_I and sleep_II all share 1 DR). Also add AddDimishingReturns to light shot, and light shot shares DR with sleep
 Wyvern pets should folllow master on disengage(mobID + 1?)
-Give PUP some sword WS natively
 Variable for setting to limit points on not always changed when job swapped to 75
 STATUSRESTRAIT should work on all status effects, attack down etc
 Bark Tarantula and Sapplings in Boyahda tree need spawns audited
-Diss poison landed on a statue with -95% poison EEM?
-Should not be able to parry ranged TP moves. Check SMN PUP and WS too
 Most things with getPlayersInRange needs to also get pets in range use logic I coded into AddMobAura for reference
 Tipua needs some type of mechanic, very boring and easy. Maybe summon bees and eat them for HP if you don't kill them fast enough? And 100 fists
-Dark Ixion pathing is broken
 Missing ANNM fights(the TODO ones on wiki?) and retune decimation weapon augment(too high %)
 Revival tree root drop rate? 10-15%? Check FFXIDB
 Handle for Asterion, Forneus,(probably fleshgnasher and Vee Ladu doesn't work(isnt clickable)? Copy handle behind the 4 handle door where it says "its locked" when behind
 Providence shouldn't be removed by being parad, make add another mixin for where para procs are? Or what "is interruoted" counts as para? or something if msg ~= para idk
-Jailer of Temp Uses Meikyo Shisui multiple times and should not be aggressive(always aggros on spawn but not aggressive flag). Also vulnerable to grav
 Zilart mission after DM(kid zilart) and missions after work
 Make sure Rank6-10 Sandy / Bastok mission work
 Make salvage require tag again
 BST Relic, especially the body(make it remove erasable effects). Maybe entire set of ready move Attack % bonus / dmg cause pet ready moves suck without attack.
 DRG relic? Boots suck
 BLU relic? boots suck
-UL spell ranges slightly too short
 https://github.com/LandSandBoat/server/issues/5127
 Buff Charger / Jaeger / Gunner mantle
 Better logic for behind TP moves like clobber, they get used if in front or side very often. Copy Yilbegan
 Sky Curtana ??? should be random
 Mobs that aggro by sound and sound and are true aggro don't seem to link by both? Imps in WOTG strongholds don't
-Impact / Comet / Meteor given to BLM
 Logic for mob TP moves going off even if target is out of range (Dark Ixion one doesnt work)
 Impact / Comet / Meteor given to BLM via items from long grinds (RMEA? Especially strongholdLM via items from long grinds (RMEA? Especially stronghold one?)
-Move/speed changes from LSB
 Don't drop items with a msg if "you do not meet the requiements to obtain <item>" because it's rare and everyone has it. Or just don't display the msg?
 NO_EFFECT msg missing from simplelog
 Touch up Nagi fight, tries to spawn mobs if they are dead on floor, spawns adds all on top of eachother, and they do too little dmg and stuff
@@ -239,10 +227,8 @@ Reward / Repair enmity
 
 Extremely rare item dropped !!! msg and no item in pool, was a level 81+ mob. Did I miss out on super rare item or somehow bugged and procced on a < 81 level item
 but nothing is in the list for 81+ in that drop rate
-COR good with pet jobs, so buff its pet rolls to the moon
 Cascade 500 TP bonus+ gear and manawell CDR gear
 Pet stat mainhands (daggers)
-Do COR shots need to be getTick() / 1000 ?
 Avatars (mostly dynamis) should use 2 hr if they wake up while master has astral flow active still
 Only take ZNM items on ZNM kill not pop
 Gotoh Zha the Redolent SDT/EEM in sql (Copy whats in its lua)
@@ -265,7 +251,6 @@ WS changing weapons! Like completely change the WS entirely(Lyft weapons? anothe
 Gargoyle HNM boss need to nuke when flying to bring back down immune to phys dmg in air and some stoneform mechanic where it gains HP
 Finish Lyft/MMM weapon progression system, better rewards from all MMM's especially the uber hard ones
 spellAI added to where spell_list is for diff spell casting AI's
-Lyft Sword Latent when engaged: +1 refresh  some acc/attk
 Add Prime and Bonanza WS IDs
 KS99's
 60-80 inventory expansions from COP HNMS
@@ -291,7 +276,9 @@ Lvl90, 200k hp
 Mat that lets you add a random augment to any ring/amulet/earring
 
 
-SetActionInterrupted from airskyboat
+Empthy / Wyvern stuff
+https://www.bg-wiki.com/ffxi/User:Tatang
+
 Might be needed
 https://github.com/LandSandBoat/server/blob/b438e28cd0a25664932153f8fe6804f633c16ed0/src/map/entities/battleentity.cpp#L2391C1-L2395C10
 
@@ -357,9 +344,6 @@ https://github.com/CatsAndBoats/catseyexi/commit/7990f9bf296c5765df69d9dfb6f070f
 Temper II
 https://github.com/CatsAndBoats/catseyexi/commit/97dae748a3f97c6cf610561d8f0835b798ecfb01
 
-Retal attack bonus
-https://github.com/CatsAndBoats/catseyexi/commit/9f04d5741a4c08ad19434a17962670ada0dc1136
-
 PDMG+(Physical damage limit pdif+)
 https://github.com/CatsAndBoats/catseyexi/commit/e9147a4ed1f38dde2481cc52295542d96eba2528
 
@@ -381,9 +365,6 @@ https://github.com/CatsAndBoats/catseyexi/commit/18cae6787763af887a84043474ea25b
 Enums
 https://github.com/CatsAndBoats/catseyexi/commit/c4700f03e50435edc57e28ce38e0a06d8bcb1e0a
 
-Attack underflow fix
-https://github.com/CatsAndBoats/catseyexi/commit/a487c3ea951c4e5783a7ce3eedfd1483675f2e1f
-
 Crit fixes?
 https://github.com/CatsAndBoats/catseyexi/commit/1cbf875167200f94329e95790821b9a1948ae668
 
@@ -392,15 +373,6 @@ https://github.com/LandSandBoat/server/commit/9c7a72a534a360f8c1c94fe58d13f2f179
 
 Prevent special attacks being impacted by slow (BE VERY CAREFUL WITH THIS ITS FROM FALLISA)
 https://github.com/CatsAndBoats/catseyexi/commit/490d246b7d910edc0dd3650940a68e633f4ce618
-
-Dual wield var fixes
-https://github.com/CatsAndBoats/catseyexi/commit/a1d2ecb8ba0fa89e32072537157168aa11f333e4
-
-Mob OOC regen logic
-https://github.com/CatsAndBoats/catseyexi/commit/baed2e72d1d90c03b6934e2c447cf9129b56760b
-
-Boost counter:
-https://github.com/LandSandBoat/server/commit/1cbf850a512ce2cb0d72373f4e4d857454773794
 
 Targetfind alegiance stuff for enemy
 https://github.com/LandSandBoat/server/commit/df8ce3c05f999e1fd17977caf93cfbbc6ef85f22
