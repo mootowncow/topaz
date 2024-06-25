@@ -20,7 +20,8 @@ function onMobWeaponSkill(target, mob, skill)
     MobStatusEffectMove(mob, target, tpz.effect.BLINDNESS, 20, 0, 300)
     MobStatusEffectMove(mob, target, tpz.effect.PLAGUE, 1, 0, 300)
     skill:setMsg(MobStatusEffectMove(mob, target, tpz.effect.AMNESIA, 1, 0, 30))
-    if target:isInfront(mob, 90) then
+    -- Only resets enmity on main target
+    if (target:getID() == skill:getPrimaryTargetID()) then
         mob:resetEnmity(target)
     end
 
