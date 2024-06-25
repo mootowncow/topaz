@@ -238,7 +238,7 @@ uint8 CBattleEntity::GetSpeed()
     // Note: retail treats mounted speed as double what it actually is! 40 is in fact retail accurate!
     if (isMounted())
     {
-        baseSpeed = 40 + map_config.mount_speed_mod;
+        baseSpeed = 20;
         outputSpeed = baseSpeed * (100 + getMod(Mod::MOUNT_MOVE)) / 100;
 
         return std::clamp<uint8>(outputSpeed, std::numeric_limits<uint8>::min(), std::numeric_limits<uint8>::max());
