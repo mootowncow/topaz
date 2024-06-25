@@ -161,7 +161,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 return false;
             }
             // Make sure pet is engaged when trying to use ready moves
-            if (PAbility->getID() >= ABILITY_FOOT_KICK && PAbility->getID() <= ABILITY_NIHILITY_SONG)
+            if (PAbility->isReadyMove())
             {
                 CBattleEntity* PPet = ((CBattleEntity*)PChar)->PPet;
                 if (!PPet->PAI->IsEngaged())
@@ -170,7 +170,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     return false;
                 }
             }
-            if (PAbility->getID() >= ABILITY_HEALING_RUBY)
+            if (PAbility->isPetAbility())
             {
                 // Blood pact MP costs are stored under animation ID
                 if (PChar->health.mp < PAbility->getAnimationID())
@@ -180,15 +180,27 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 }
             }
         }
+
         // Check for TP costing JA's
-        if (playerTP < PAbility->getTPCost() && !PChar->StatusEffectContainer->HasStatusEffect(EFFECT_TRANCE))
+        int16 tpCost = PAbility->getTPCost();
+        if (PAbility->isWaltz())
+        {
+            tpCost -= PChar->getMod(Mod::WALTZ_COST);
+        }
+
+        if (PAbility->isStep())
+        {
+            tpCost -= PChar->getMod(Mod::STEP_COST);
+        }
+
+        if (playerTP < tpCost && !PChar->StatusEffectContainer->HasStatusEffect(EFFECT_TRANCE))
         {
             PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NOT_ENOUGH_TP));
             return false;
         }
-        // Check for Finish Move costing JA's
-        if (PAbility->getID() >= ABILITY_ANIMATED_FLOURISH && PAbility->getID() <= ABILITY_WILD_FLOURISH || PAbility->getID() == ABILITY_CLIMACTIC_FLOURISH ||
-            PAbility->getID() == ABILITY_STRIKING_FLOURISH || PAbility->getID() == ABILITY_TERNARY_FLOURISH)
+
+        // Check for finishing moves
+        if (PAbility->isFlourish())
         {
             if (!PChar->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_FINISHING_MOVE))
             {
@@ -196,6 +208,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 return false;
             }
         }
+
         // Check for paraylze
         if (battleutils::IsParalyzed(PChar))
         {

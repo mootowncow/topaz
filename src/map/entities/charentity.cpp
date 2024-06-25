@@ -1428,6 +1428,13 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         {
             action.recast = PAbility->getRecastTime() - meritRecastReduction;
         }
+
+        // Ready moves recast reduction
+        if (PAbility->isReadyMove())
+        {
+            action.recast = charge->chargeTime * PAbility->getRecastTime() - PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SIC_RECAST, this);
+        }
+
         // If Third Eye is paralyzed while seigan is active, use the modified seigan cooldown for thirdeye(30s instead of 1m)
         if (PAbility->getID() == ABILITY_THIRD_EYE && this->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
         {
@@ -1485,6 +1492,20 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
         if (PAbility->getID() == ABILITY_REWARD) {
             action.recast -= getMod(Mod::REWARD_RECAST);
+        }
+
+        // The minimum recast time for Ready is 10 seconds per charge when taking into account all effects from merit points, Job Point Gifts, and equipment.
+        // https://www.bg-wiki.com/ffxi/Ready
+        if (PAbility->getID() == ABILITY_READY || PAbility->getID() == ABILITY_SIC || PAbility->isReadyMove())
+        {
+            action.recast -= std::min<int16>(getMod(Mod::SIC_READY_RECAST), 10);
+        }
+
+        // There is an overall cap of -25 seconds for a 35 second recast
+        // https://www.bg-wiki.com/ffxi/Quick_Draw
+        if ( PAbility->isQuickDraw())
+        {
+            action.recast -= std::min<int16>(getMod(Mod::QUICK_DRAW_RECAST), 25);
         }
 
         if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR)

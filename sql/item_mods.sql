@@ -23251,6 +23251,7 @@ INSERT INTO `item_mods` VALUES (18533,25,7);      -- Magnus Axe: Accuracy+7
 INSERT INTO `item_mods` VALUES (18534,25,5);	  -- Charmer's Merlin: Accuracy+5
 INSERT INTO `item_mods` VALUES (18534,903,50);	  -- "Fencer" +1 50 TP Bonus
 INSERT INTO `item_mods` VALUES (18534,904,1);	  -- "Fencer" +1 1% Crit Rate
+INSERT INTO `item_mods` VALUES (18534,1373,5);	  -- "Sic" and "Ready" ability delay -5
 INSERT INTO `item_mods` VALUES (18535,73,4);
 INSERT INTO `item_mods` VALUES (18535,104,5);
 INSERT INTO `item_mods` VALUES (18535,105,5);

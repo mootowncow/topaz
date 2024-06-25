@@ -719,9 +719,16 @@ function corsairSetup(caster, ability, action, effect, job)
                              true)
     caster:setLocalVar("corsairRollTotal", roll)
     action:speceffect(caster:getID(), roll)
-    if (checkForElevenRoll(caster)) then
-        action:recast(action:recast()/2) -- halves phantom roll recast timer for all rolls while under the effects of an 11 (upon first hitting 11, phantom roll cooldown is reset in double-up.lua)
+
+    -- However, the upper limit is -45 seconds , so the shortest reuse time is 15 seconds
+    -- https://wiki.ffo.jp/html/3347.html
+    local recastReduction = utils.clamp(caster:getMerit(tpz.merit.PHANTOM_ROLL_RECAST) + caster:getMod(tpz.mod.PHANTOM_RECAST),0, 45)
+    if checkForElevenRoll(caster) and numBustEffects == 0 then
+        action:recast((ability:getRecast() / 2) - recastReduction) -- halves phantom roll recast timer for all rolls while under the effects of an 11 without bust (upon first hitting 11, phantom roll cooldown is reset in double-up.lua)
+    else
+        action:recast(ability:getRecast() - recastReduction) -- Corsair Recast merits + Phantom Roll Recast Reduction
     end
+
     checkForJobBonus(caster, job)
 end
 

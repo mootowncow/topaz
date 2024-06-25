@@ -1294,6 +1294,8 @@ tpz.mod =
     COOK                            = 135,
     SYNERGY                         = 136,
     RIDING                          = 137,
+    WALTZ_COST                      = 139, -- Reduce Waltz cost by 5tp (50 post 1000tp scale)
+    STEP_COST                       = 140, -- Reduce step cost
     ANTIHQ_WOOD                     = 144,
     ANTIHQ_SMITH                    = 145,
     ANTIHQ_GOLDSMITH                = 146,
@@ -1764,6 +1766,7 @@ tpz.mod =
     ROLL_RANGE                      = 528, -- Additional range for COR roll abilities.
     PHANTOM_ROLL                    = 881, -- Phantom Roll+ Effect from SOA Rings.
     PHANTOM_DURATION                = 882, -- Phantom Roll Duration +.
+    PHANTOM_RECAST                  = 1076,-- Phantom Roll Recast -.
 
     ENHANCES_REFRESH                = 529, -- "Enhances Refresh" adds +1 per modifier to spell's tick result.
     NO_SPELL_MP_DEPLETION           = 530, -- % to not deplete MP on spellcast.
@@ -2069,8 +2072,11 @@ tpz.mod =
     TRANQUIL_HEART          = 1369, -- Grants the bonuses based on currently summoned Automaton
     ELEMENTAL_WSACC         = 1370, -- Elemental Weaponskill Accuracy
     DMG_AOE                 = 1371, -- Damage Taken % when not main target of an AoE action. (Ex: Locus Mobs) In retail, the main target takes extra damage from high level mob TP TP moves / spells
+    CALL_BEAST_DELAY        = 1372, -- Lowers Call Beast recast (seconds)
+    SIC_READY_RECAST        = 1373, -- Sic/Ready recast reduction (seconds)
+    QUICK_DRAW_RECAST       = 1374, -- Quick Draw Charge Reduction (seconds)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1372 NEXT
+    -- 1375 NEXT
 }
 
 tpz.latent =

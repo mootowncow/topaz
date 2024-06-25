@@ -455,6 +455,9 @@ enum class Mod
     FERAL_HOWL_DURATION       = 503, // +20% duration per merit when wearing augmented Monster Jackcoat +2
     JUG_LEVEL_RANGE           = 564, // Decreases the level range of spawned jug pets. Maxes out at 2.
     JUG_LVL_BONUS             = 1350,// Jug: Lv.+ (Increases Jugs's base level above 99
+    CALL_BEAST_DELAY          = 1372,// Lowers Call Beast recast (seconds)
+    SIC_READY_RECAST          = 1373,// Sic/Ready recast reduction (seconds)
+
     // Bard
     MINNE_EFFECT              = 433, //
     MINUET_EFFECT             = 434, //
@@ -487,7 +490,7 @@ enum class Mod
     SNAP_SHOT                 = 365, // Percent reduction to range attack delay
     RAPID_SHOT                = 359, // Percent chance to proc rapid shot
     WIDESCAN                  = 340, //
-    BARRAGE_SHOT_COUNT        = 1275, // Number of shots fired by Barrage
+    BARRAGE_SHOT_COUNT        = 1275,// Number of shots fired by Barrage
     BARRAGE_ACC               = 420, // Barrage accuracy
     DOUBLE_SHOT_RATE          = 422, // The rate that double shot can proc. Without this, the default is 40%.
     VELOCITY_SNAPSHOT_BONUS   = 423, // Increases Snapshot whilst Velocity Shot is up.
@@ -609,8 +612,10 @@ enum class Mod
     QUICK_DRAW_DMG            = 411, // Flat damage increase to base QD damage
     QUICK_DRAW_DMG_PERCENT    = 834, // Percentage increase to QD damage
     QUICK_DRAW_MACC           = 191, // Quick draw magic accuracy
+    QUICK_DRAW_RECAST         = 1374,// Quick Draw Charge Reduction (seconds)
     PHANTOM_ROLL              = 881, // Phantom Roll+ Effect from SOA Rings.
-    PHANTOM_DURATION          = 882, // Phantom Roll Duration +.
+    PHANTOM_DURATION          = 882, // Phantom Roll Duration +
+    PHANTOM_RECAST            = 1076,// Phantom Roll Recast -.
 
     // Puppetmaster
     MANEUVER_BONUS            = 504, // Maneuver Stat Bonus
@@ -647,6 +652,8 @@ enum class Mod
     WALTZ_DELAY               = 497, // Waltz Ability Delay modifier (-1 mod is -1 second)
     SAMBA_PDURATION           = 498, // Samba percent duration bonus
     REVERSE_FLOURISH_EFFECT   = 836, // Reverse Flourish effect in tenths of squared term multiplier
+    WALTZ_COST                = 139, // Reduce Waltz cost 
+    STEP_COST                 = 140, // Reduce step cost
 
     // Scholar
     BLACK_MAGIC_COST          = 393, // MP cost for black magic (light/dark arts)
@@ -1057,7 +1064,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1372 NEXT
+    // 1375 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

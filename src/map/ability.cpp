@@ -32,6 +32,37 @@ bool CAbility::isPetAbility()
     return getID() >= ABILITY_HEALING_RUBY;
 }
 
+bool CAbility::isReadyMove()
+{
+    return getID() >= ABILITY_FOOT_KICK && getID() <= ABILITY_NIHILITY_SONG;
+}
+
+bool CAbility::isQuickDraw()
+{
+    return getID() >= ABILITY_FIRE_SHOT && getID() <= ABILITY_DARK_SHOT;
+}
+
+bool CAbility::isWaltz()
+{
+    return getID() >= ABILITY_CURING_WALTZ && getID() <= ABILITY_DIVINE_WALTZ ||
+            getID() == ABILITY_DIVINE_WALTZ_II ||
+            getID() == ABILITY_CURING_WALTZ_V;
+}
+
+bool CAbility::isStep()
+{
+    return getID() >= ABILITY_QUICKSTEP && getID() <= ABILITY_STUTTER_STEP ||
+            getID() == ABILITY_FEATHER_STEP;
+}
+
+bool CAbility::isFlourish()
+{
+    return getID() >= ABILITY_ANIMATED_FLOURISH && getID() <= ABILITY_WILD_FLOURISH ||
+            getID() == ABILITY_CLIMACTIC_FLOURISH ||
+           getID() == ABILITY_STRIKING_FLOURISH ||
+            getID() == ABILITY_TERNARY_FLOURISH;
+}
+
 bool CAbility::isAoE()
 {
     return m_aoe == 1;

@@ -404,8 +404,8 @@ INSERT INTO `augments` VALUES (320, 0, 357, 1, 0, 0); -- Blood Pact ability dela
 INSERT INTO `augments` VALUES (321, 0, 346, 1, 0, 0); -- Avatar perpetuation cost -1
 INSERT INTO `augments` VALUES (322, 0, 455, -1, 0, 0); -- Song spellcasting time -1% (Wrong? shouldn't be minus maybe?')
 INSERT INTO `augments` VALUES (323, 0, 519, 1, 0, 0); -- Cure spellcasting time -1%
-INSERT INTO `augments` VALUES (324, 0, 0, 0, 0, 0); -- TODO: Call Beast ability delay -1
-INSERT INTO `augments` VALUES (325, 0, 0, 0, 0, 0); -- TODO: Quick Draw ability delay -1
+INSERT INTO `augments` VALUES (324, 0, 1372, 1, 0, 0); -- Call Beast ability delay -1
+INSERT INTO `augments` VALUES (325, 0, 1374, 1, 0, 0); -- Quick Draw ability delay -1
 INSERT INTO `augments` VALUES (326, 0, 48, 1, 0, 0); -- Weapon Skill Acc.+1
 INSERT INTO `augments` VALUES (327, 0, 841, 1, 0, 0); -- Weapon skill damage+1% First Hit Only
 INSERT INTO `augments` VALUES (328, 0, 421, 1, 0, 0); -- Crit. hit damage+1%
@@ -416,13 +416,13 @@ INSERT INTO `augments` VALUES (332, 0, 175, 1, 0, 0); -- Sklchn.dmg.+1%
 INSERT INTO `augments` VALUES (333, 0, 944, 1, 0, 0); -- Conserve TP+1
 INSERT INTO `augments` VALUES (334, 0, 487, 1, 0, 0); -- Magic burst dmg.+1%
 INSERT INTO `augments` VALUES (335, 0, 542, 1, 0, 0); -- Mag. crit. hit dmg.+1%
-INSERT INTO `augments` VALUES (336, 0, 0, 0, 0, 0); -- TODO: Sic and Ready ability delay -1
-INSERT INTO `augments` VALUES (337, 0, 0, 0, 0, 0); -- TODO: Song recast delay -1
+INSERT INTO `augments` VALUES (336, 0, 1373, 1, 0, 0); -- Sic and Ready ability delay -1
+INSERT INTO `augments` VALUES (337, 0, 833, 1, 0, 0); -- Song recast delay -1
 INSERT INTO `augments` VALUES (338, 0, 1275, 1, 0, 0); -- Barrage+1 (additional shots, NOT acc)
 INSERT INTO `augments` VALUES (339, 0, 540, 1, 0, 0); -- Elemental Siphon+5 (value*5) Use Multiplier field.
-INSERT INTO `augments` VALUES (340, 0, 0, 0, 0, 0); -- TODO: Phantom Roll ability delay -1
-INSERT INTO `augments` VALUES (341, 0, 0, 0, 0, 0); -- TODO: Repair potency+1%
-INSERT INTO `augments` VALUES (342, 0, 0, 0, 0, 0); -- TODO: Waltz TP cost -1
+INSERT INTO `augments` VALUES (340, 0, 1076, 1, 0, 0); -- Phantom Roll ability delay -1
+INSERT INTO `augments` VALUES (341, 0, 854, 1, 0, 0); -- Repair potency+1%
+INSERT INTO `augments` VALUES (342, 0, 139, 1, 0, 0); -- Waltz TP cost -1
 INSERT INTO `augments` VALUES (343, 0, 315, 1, 0, 0); -- "Drain" and "Aspir" Potency +1
 INSERT INTO `augments` VALUES (343, 0, 0, 0, 0, 0); -- Cont.
 

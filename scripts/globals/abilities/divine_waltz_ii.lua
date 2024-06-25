@@ -18,8 +18,6 @@ function onAbilityCheck(player, target, ability)
         return tpz.msg.basic.UNABLE_TO_USE_JA2, 0
     elseif (player:hasStatusEffect(tpz.effect.TRANCE)) then
         return 0, 0
-    elseif (player:getTP() < 800) then
-        return tpz.msg.basic.NOT_ENOUGH_TP, 0
     else
         --[[ Apply "Waltz Ability Delay" reduction
             1 modifier = 1 second]]
@@ -41,9 +39,10 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    local waltzCost = 800 - player:getMod(tpz.mod.WALTZ_COST)
     -- Only remove TP if the player doesn't have Trance, and only deduct once instead of for each target.
     if (player:getID() == target:getID() and player:hasStatusEffect(tpz.effect.TRANCE) == false) then
-        player:delTP(800)
+        player:delTP(waltzCost)
     end
 
     -- Check for zombie status
