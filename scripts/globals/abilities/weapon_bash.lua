@@ -13,11 +13,7 @@ require("scripts/globals/utils")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    if not player:isWeaponTwoHanded() then
-        return tpz.msg.basic.NEEDS_2H_WEAPON, 0
-    else
-        return 0, 0
-    end
+return 0, 0
 end
 
 function onUseAbility(player, target, ability)

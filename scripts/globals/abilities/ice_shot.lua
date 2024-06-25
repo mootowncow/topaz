@@ -10,16 +10,7 @@ require("scripts/globals/job_util")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    --ranged weapon/ammo: You do not have an appropriate ranged weapon equipped.
-    --no card: <name> cannot perform that action.
-    if player:getWeaponSkillType(tpz.slot.RANGED) ~= tpz.skill.MARKSMANSHIP or player:getWeaponSkillType(tpz.slot.AMMO) ~= tpz.skill.MARKSMANSHIP then
-        return 216, 0
-    end
-    if player:hasItem(2177, 0) or player:hasItem(2974, 0) then
-        return 0, 0
-    else
-        return 71, 0
-    end
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability, action)

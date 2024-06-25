@@ -37,6 +37,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../status_effect_container.h"
 #include "../../weapon_skill.h"
 #include "../../roe.h"
+#include "../../utils/zoneutils.h"
 
 CPlayerController::CPlayerController(CCharEntity* _PChar) :
     CController(_PChar)
@@ -179,6 +180,309 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     return false;
                 }
             }
+        }
+
+        // JA error checks (Checking in LUA will cause delay to be added to your auto-attacks on an error)
+        switch (PAbility->getID())
+        {
+            // Quick Draw
+            case ABILITY_FIRE_SHOT:
+            case ABILITY_ICE_SHOT:
+            case ABILITY_WIND_SHOT:
+            case ABILITY_EARTH_SHOT:
+            case ABILITY_THUNDER_SHOT:
+            case ABILITY_WATER_SHOT:
+            case ABILITY_LIGHT_SHOT:
+            case ABILITY_DARK_SHOT:
+            {
+                uint16 elementCardID = 0;
+
+                switch (PAbility->getID())
+                {
+                    case ABILITY_FIRE_SHOT:
+                        elementCardID = 2176;
+                        break; // Fire Card ID
+                    case ABILITY_ICE_SHOT:
+                        elementCardID = 2177;
+                        break; // Ice Card ID
+                    case ABILITY_WIND_SHOT:
+                        elementCardID = 2178;
+                        break; // Wind Card ID
+                    case ABILITY_EARTH_SHOT:
+                        elementCardID = 2179;
+                        break; // Earth Card ID
+                    case ABILITY_THUNDER_SHOT:
+                        elementCardID = 2180;
+                        break; // Thunder Card ID
+                    case ABILITY_WATER_SHOT:
+                        elementCardID = 2181;
+                        break; // Water Card ID
+                    case ABILITY_LIGHT_SHOT:
+                        elementCardID = 2182;
+                        break; // Light Card ID
+                    case ABILITY_DARK_SHOT:
+                        elementCardID = 2183;
+                        break; // Dark Card ID
+                }
+
+                bool hasElementCard = (PChar->getStorage(LOC_INVENTORY)->SearchItem(elementCardID) != ERROR_SLOTID);
+                bool hasTrumpCard = (PChar->getStorage(LOC_INVENTORY)->SearchItem(2974) != ERROR_SLOTID); // Trump Card ID
+
+                if (!hasElementCard && !hasTrumpCard)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_PERFORM_ACTION));
+                    return false;
+                }
+
+                auto PItem = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_AMMO));
+                auto weapon = dynamic_cast<CItemWeapon*>(PChar->m_Weapons[SLOT_RANGED]);
+                auto ammo = dynamic_cast<CItemWeapon*>(PChar->m_Weapons[SLOT_AMMO]);
+
+                if (PItem == nullptr || !weapon || weapon->getSkillType() != SKILL_MARKSMANSHIP ||
+                    !ammo || ammo->getSkillType() != SKILL_MARKSMANSHIP ||
+                    PChar->equip[SLOT_AMMO] == 0)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NO_RANGED_WEAPON));
+                    return false;
+                }
+                break;
+            }
+
+            // COR rolls
+            case ABILITY_FIGHTERS_ROLL:
+            case ABILITY_MONKS_ROLL:
+            case ABILITY_HEALERS_ROLL:
+            case ABILITY_WIZARDS_ROLL:
+            case ABILITY_WARLOCKS_ROLL:
+            case ABILITY_ROGUES_ROLL:
+            case ABILITY_GALLANTS_ROLL:
+            case ABILITY_CHAOS_ROLL:
+            case ABILITY_BEAST_ROLL:
+            case ABILITY_CHORAL_ROLL:
+            case ABILITY_HUNTERS_ROLL:
+            case ABILITY_SAMURAI_ROLL:
+            case ABILITY_NINJA_ROLL:
+            case ABILITY_DRACHEN_ROLL:
+            case ABILITY_EVOKERS_ROLL:
+            case ABILITY_MAGUSS_ROLL:
+            case ABILITY_CORSAIRS_ROLL:
+            case ABILITY_PUPPET_ROLL:
+            case ABILITY_DANCERS_ROLL:
+            case ABILITY_SCHOLARS_ROLL:
+            case ABILITY_BOLTERS_ROLL:
+            case ABILITY_CASTERS_ROLL:
+            case ABILITY_COURSERS_ROLL:
+            case ABILITY_BLITZERS_ROLL:
+            case ABILITY_TACTICIANS_ROLL:
+            case ABILITY_ALLIES_ROLL:
+            case ABILITY_MISERS_ROLL:
+            case ABILITY_COMPANIONS_ROLL:
+            case ABILITY_AVENGERS_ROLL:
+            case ABILITY_NATURALISTS_ROLL:
+            case ABILITY_RUNEISTS_ROLL:
+            {
+                // Check if the player has the status effect for the roll
+                EFFECT rollEffect = EFFECT_KO;
+
+                switch (PAbility->getID())
+                {
+                    case ABILITY_FIGHTERS_ROLL:
+                        rollEffect = EFFECT_FIGHTERS_ROLL;
+                        break;
+                    case ABILITY_MONKS_ROLL:
+                        rollEffect = EFFECT_MONKS_ROLL;
+                        break;
+                    case ABILITY_HEALERS_ROLL:
+                        rollEffect = EFFECT_HEALERS_ROLL;
+                        break;
+                    case ABILITY_WIZARDS_ROLL:
+                        rollEffect = EFFECT_WIZARDS_ROLL;
+                        break;
+                    case ABILITY_WARLOCKS_ROLL:
+                        rollEffect = EFFECT_WARLOCKS_ROLL;
+                        break;
+                    case ABILITY_ROGUES_ROLL:
+                        rollEffect = EFFECT_ROGUES_ROLL;
+                        break;
+                    case ABILITY_GALLANTS_ROLL:
+                        rollEffect = EFFECT_GALLANTS_ROLL;
+                        break;
+                    case ABILITY_CHAOS_ROLL:
+                        rollEffect = EFFECT_CHAOS_ROLL;
+                        break;
+                    case ABILITY_BEAST_ROLL:
+                        rollEffect = EFFECT_BEAST_ROLL;
+                        break;
+                    case ABILITY_CHORAL_ROLL:
+                        rollEffect = EFFECT_CHORAL_ROLL;
+                        break;
+                    case ABILITY_HUNTERS_ROLL:
+                        rollEffect = EFFECT_HUNTERS_ROLL;
+                        break;
+                    case ABILITY_SAMURAI_ROLL:
+                        rollEffect = EFFECT_SAMURAI_ROLL;
+                        break;
+                    case ABILITY_NINJA_ROLL:
+                        rollEffect = EFFECT_NINJA_ROLL;
+                        break;
+                    case ABILITY_DRACHEN_ROLL:
+                        rollEffect = EFFECT_DRACHEN_ROLL;
+                        break;
+                    case ABILITY_EVOKERS_ROLL:
+                        rollEffect = EFFECT_EVOKERS_ROLL;
+                        break;
+                    case ABILITY_MAGUSS_ROLL:
+                        rollEffect = EFFECT_MAGUSS_ROLL;
+                        break;
+                    case ABILITY_CORSAIRS_ROLL:
+                        rollEffect = EFFECT_CORSAIRS_ROLL;
+                        break;
+                    case ABILITY_PUPPET_ROLL:
+                        rollEffect = EFFECT_PUPPET_ROLL;
+                        break;
+                    case ABILITY_DANCERS_ROLL:
+                        rollEffect = EFFECT_DANCERS_ROLL;
+                        break;
+                    case ABILITY_SCHOLARS_ROLL:
+                        rollEffect = EFFECT_SCHOLARS_ROLL;
+                        break;
+                    case ABILITY_BOLTERS_ROLL:
+                        rollEffect = EFFECT_BOLTERS_ROLL;
+                        break;
+                    case ABILITY_CASTERS_ROLL:
+                        rollEffect = EFFECT_CASTERS_ROLL;
+                        break;
+                    case ABILITY_COURSERS_ROLL:
+                        rollEffect = EFFECT_COURSERS_ROLL;
+                        break;
+                    case ABILITY_BLITZERS_ROLL:
+                        rollEffect = EFFECT_BLITZERS_ROLL;
+                        break;
+                    case ABILITY_TACTICIANS_ROLL:
+                        rollEffect = EFFECT_TACTICIANS_ROLL;
+                        break;
+                    case ABILITY_ALLIES_ROLL:
+                        rollEffect = EFFECT_ALLIES_ROLL;
+                        break;
+                    case ABILITY_MISERS_ROLL:
+                        rollEffect = EFFECT_MISERS_ROLL;
+                        break;
+                    case ABILITY_COMPANIONS_ROLL:
+                        rollEffect = EFFECT_COMPANIONS_ROLL;
+                        break;
+                    case ABILITY_AVENGERS_ROLL:
+                        rollEffect = EFFECT_AVENGERS_ROLL;
+                        break;
+                    case ABILITY_NATURALISTS_ROLL:
+                        rollEffect = EFFECT_NATURALISTS_ROLL;
+                        break;
+                    case ABILITY_RUNEISTS_ROLL:
+                        rollEffect = EFFECT_RUNEISTS_ROLL;
+                        break;
+                }
+
+                if (rollEffect != EFFECT_KO && PChar->StatusEffectContainer->HasStatusEffect(rollEffect))
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_ROLL_ALREADY_ACTIVE));
+                    return false;
+                }
+
+                int16 numBusts = PChar->StatusEffectContainer->GetEffectsCount(EFFECT_BUST);
+                if (numBusts >= 2 && PChar->GetMJob() == JOB_COR ||
+                    numBusts >= 1 && PChar->GetMJob() != JOB_COR)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_PERFORM_ACTION));
+                    return false;
+                }
+                break;
+            }
+
+            case ABILITY_DOUBLE_UP:
+            {
+                if (!PChar->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBLE_UP_CHANCE))
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NO_ELIGIBLE_ROLL));
+                    return false;
+                }
+            }
+            break;
+
+            case ABILITY_FOLD:
+            {
+                if (!PChar->StatusEffectContainer->HasCorsairEffect(PChar->id))
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_PERFORM_ACTION));
+                    return false;
+                }
+            }
+            break;
+
+            case ABILITY_CURING_WALTZ:
+            case ABILITY_HEALING_WALTZ:
+            case ABILITY_DIVINE_WALTZ:
+            case ABILITY_DIVINE_WALTZ_II:
+            case ABILITY_CURING_WALTZ_V:
+            {
+                // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
+                CCharEntity* PTarget = (CCharEntity*)zoneutils::GetEntity(targid, TYPE_PC);
+                if (PTarget && PTarget->GetHPP() == 0)
+                {
+                    // TODO: Not sure why this says "You cannot attack that target"
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG));
+                    return false;
+                }
+                else if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SABER_DANCE))
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA2));
+                    return false;
+                }
+                break;
+            }
+
+            case ABILITY_WEAPON_BASH:
+            case ABILITY_HASSO:
+            case ABILITY_SEIGAN:
+            case ABILITY_BLADE_BASH:
+            {
+                // TODO: Test
+                auto PItem = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_AMMO));
+                auto weapon = dynamic_cast<CItemWeapon*>(PChar->m_Weapons[SLOT_MAIN]);
+
+                if (PItem == nullptr || !weapon || !weapon->isTwoHanded())
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NEEDS_2H_WEAPON));
+                    return false;
+                }
+                break;
+            }
+
+            case ABILITY_ARCANE_CREST:
+            {
+                // TODO: Test
+                // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
+                CBattleEntity* PTarget = (CBattleEntity*)zoneutils::GetEntity(targid, TYPE_MOB);
+                if (PTarget && !PTarget->m_EcoSystem == SYSTEM_ARCANA)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG));
+                    return false;
+                }
+                break;
+            }
+            case ABILITY_DRAGON_BREAKER:
+            {
+                // TODO: Test
+                // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
+                CBattleEntity* PTarget = (CBattleEntity*)zoneutils::GetEntity(targid, TYPE_MOB);
+                if (PTarget && !PTarget->m_EcoSystem == SYSTEM_DRAGON)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG));
+                    return false;
+                }
+                break;
+            }
+                // Add more cases for other abilities as needed
+            default:
+                break;
         }
 
         // Check for TP costing JA's

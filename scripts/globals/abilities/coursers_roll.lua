@@ -31,15 +31,8 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    local effectID = tpz.effect.COURSERS_ROLL
     ability:setRange(ability:getRange() + player:getMod(tpz.mod.ROLL_RANGE))
-    if (player:hasStatusEffect(effectID)) then
-        return tpz.msg.basic.ROLL_ALREADY_ACTIVE, 0
-    elseif atMaxCorsairBusts(player) then
-        return tpz.msg.basic.CANNOT_PERFORM, 0
-    else
-        return 0, 0
-    end
+    return 0, 0
 end
 
 function onUseAbility(caster, target, ability, action)

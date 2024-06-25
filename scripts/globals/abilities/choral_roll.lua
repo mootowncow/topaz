@@ -29,17 +29,9 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    local effectID = tpz.effect.CHORAL_ROLL
     ability:setRange(ability:getRange() + player:getMod(tpz.mod.ROLL_RANGE))
-    if (player:hasStatusEffect(effectID)) then
-        return tpz.msg.basic.ROLL_ALREADY_ACTIVE, 0
-    elseif atMaxCorsairBusts(player) then
-        return tpz.msg.basic.CANNOT_PERFORM, 0
-    else
-        return 0, 0
-    end
+    return 0, 0
 end
-
 function onUseAbility(caster, target, ability, action)
     if (caster:getID() == target:getID()) then
         corsairSetup(caster, ability, action, tpz.effect.CHORAL_ROLL, tpz.job.BRD)

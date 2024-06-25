@@ -11,11 +11,7 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    if (target:getHP() == 0) then
-        return tpz.msg.basic.CANNOT_ON_THAT_TARG, 0
-    elseif (player:hasStatusEffect(tpz.effect.SABER_DANCE)) then
-        return tpz.msg.basic.UNABLE_TO_USE_JA2, 0
-    elseif (player:hasStatusEffect(tpz.effect.TRANCE)) then
+    if (player:hasStatusEffect(tpz.effect.TRANCE)) then
         return 0, 0
     else
         --[[ Apply "Waltz Ability Delay" reduction

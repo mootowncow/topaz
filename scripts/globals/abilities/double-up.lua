@@ -13,11 +13,7 @@ require("scripts/globals/msg")
 
 function onAbilityCheck(player, target, ability)
     ability:setRange(ability:getRange() + player:getMod(tpz.mod.ROLL_RANGE))
-    if (not player:hasStatusEffect(tpz.effect.DOUBLE_UP_CHANCE)) then
-        return tpz.msg.basic.NO_ELIGIBLE_ROLL, 0
-    else
-        return 0, 0
-    end
+    return 0, 0
 end
 
 function onUseAbility(caster, target, ability, action)
