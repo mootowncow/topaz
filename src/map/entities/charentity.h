@@ -236,14 +236,14 @@ public:
     uint8					equipLoc[18];					// ContainerID where equipment is
     uint16                  styleItems[16];                 // Item IDs for items that are style locked.
 
-    uint8					m_ZonesList[36];				// список посещенных персонажем зон
+    uint8					m_ZonesList[38];				// список посещенных персонажем зон
     std::bitset<1024>	    m_SpellList;				    // список изученных заклинаний
-    uint8					m_TitleList[94];				// список заслуженных завний
-    uint8					m_Abilities[62];				// список текущих способностей
-    uint8					m_LearnedAbilities[47];			// learnable abilities (corsair rolls)
+    uint8					m_TitleList[143];				// список заслуженных завний
+    uint8					m_Abilities[64];				// список текущих способностей
+    uint8					m_LearnedAbilities[49];			// learnable abilities (corsair rolls)
     std::bitset<49>         m_LearnedWeaponskills;          // learnable weaponskills
     uint8					m_TraitList[18];				// ist of active job traits in the form of a bit mask
-    uint8					m_PetCommands[40];				// список доступных команд питомцу
+    uint8					m_PetCommands[64];				// список доступных команд питомцу
     uint8					m_WeaponSkills[32];
     questlog_t				m_questLog[MAX_QUESTAREA];		// список всех квестов
     missionlog_t			m_missionLog[MAX_MISSIONAREA];	// список миссий
