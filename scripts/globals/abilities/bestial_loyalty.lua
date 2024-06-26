@@ -12,12 +12,7 @@ require("scripts/globals/mobs")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    local pet = player:getPet()
-    if not pet then
-        return tpz.msg.basic.REQUIRES_A_PET, 0
-    else
-        return 0, 0
-    end
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability)

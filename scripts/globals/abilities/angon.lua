@@ -14,12 +14,7 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    local id = player:getEquipID(tpz.slot.AMMO)
-    if (id == 18259) then
-        return 0, 0
-    else
-        return tpz.msg.basic.UNABLE_TO_USE_JA, 0
-    end
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability)

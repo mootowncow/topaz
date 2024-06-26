@@ -12,18 +12,7 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    if not player:getPet() then
-        return tpz.msg.basic.REQUIRES_A_PET, 0
-    elseif not player:getPetID() or not (player:getPetID() >= 69 and player:getPetID() <= 72) then
-        return tpz.msg.basic.NO_EFFECT_ON_PET, 0
-    else
-        local id = player:getEquipID(tpz.slot.AMMO)
-        if (id >= 18731 and id <= 18733 or id == 19185) then
-            return 0, 0
-        else
-            return tpz.msg.basic.UNABLE_TO_USE_JA, 0
-        end
-    end
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability)

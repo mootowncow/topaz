@@ -12,16 +12,8 @@ require("scripts/globals/msg")
 
 function onAbilityCheck(player, target, ability)
     local pet = player:getPet()
-    if not pet then
-        return tpz.msg.basic.REQUIRES_A_PET, 0
-    elseif not player:isJugPet() and pet:getObjType() ~= tpz.objType.MOB then
-        return tpz.msg.basic.NO_EFFECT_ON_PET, 0
-    elseif pet:getLocalVar("ReceivedFamiliar") == 1 then
-        return tpz.msg.basic.NO_EFFECT_ON_PET, 0
-    else
-        pet:setLocalVar("ReceivedFamiliar", 1)
-        return 0, 0
-    end
+    pet:setLocalVar("ReceivedFamiliar", 1)
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability)

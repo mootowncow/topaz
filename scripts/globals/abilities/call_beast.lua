@@ -11,16 +11,8 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    if player:getPet() ~= nil then
-        return tpz.msg.basic.ALREADY_HAS_A_PET, 0
-    elseif not player:hasValidJugPetItem() then
-        return tpz.msg.basic.NO_JUG_PET_ITEM, 0
-    elseif not player:canUseMisc(tpz.zoneMisc.PET) then
-        return tpz.msg.basic.CANT_BE_USED_IN_AREA, 0
-    else
-        ability:setRecast(math.max(0, ability:getRecast() - player:getMod(tpz.mod.CALL_BEAST_DELAY)))
-        return 0, 0
-    end
+    ability:setRecast(math.max(0, ability:getRecast() - player:getMod(tpz.mod.CALL_BEAST_DELAY)))
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability)

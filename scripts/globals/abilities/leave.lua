@@ -10,9 +10,6 @@ require("scripts/globals/status")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    if player:getPet() == nil then
-        return tpz.msg.basic.REQUIRES_A_PET, 0
-    end
     return 0, 0
 end
 

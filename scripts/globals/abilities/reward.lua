@@ -13,20 +13,7 @@ require("scripts/globals/items")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    local pet = player:getPet()
-    if not pet then
-        return tpz.msg.basic.REQUIRES_A_PET, 0
-    elseif not player:isJugPet() and pet:getObjType() ~= tpz.objType.MOB then
-        return tpz.msg.basic.NO_EFFECT_ON_PET, 0
-    else
-        local id = player:getEquipID(tpz.slot.AMMO)
-        if (id >= tpz.items.PET_FOOD_ALPHA_BISCUIT and id <= tpz.items.PET_FOOD_THETA_BISCUIT and
-        id ~= tpz.items.PET_ROBORANT and id ~= tpz.items.PET_POULTICE) then
-            return 0, 0
-        else
-            return tpz.msg.basic.MUST_HAVE_FOOD, 0
-        end
-    end
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability, action)

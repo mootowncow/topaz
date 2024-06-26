@@ -27,13 +27,7 @@ function cutEmpathyEffectTable(validEffects, i, maxCount)
 end
 
 function onAbilityCheck(player, target, ability)
-   if (player:getPet() == nil) then
-        return tpz.msg.basic.REQUIRES_A_PET, 0
-   elseif (player:getPetID() ~= tpz.pet.id.WYVERN) then
-      return tpz.msg.basic.NO_EFFECT_ON_PET, 0
-   else
-      return 0, 0
-   end
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability)

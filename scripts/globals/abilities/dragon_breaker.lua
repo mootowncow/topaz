@@ -14,8 +14,7 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local dragon = target:getSystem() == 10
-	if dragon then
-        target:addStatusEffect(tpz.effect.DRAGON_BREAKER, 14, 0, 180)
-    end
+    target:addStatusEffect(tpz.effect.DRAGON_BREAKER, 14, 0, 180)
+
+    return tpz.effect.DRAGON_BREAKER
 end

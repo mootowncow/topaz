@@ -37,7 +37,6 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../status_effect_container.h"
 #include "../../weapon_skill.h"
 #include "../../roe.h"
-#include "../../utils/zoneutils.h"
 
 CPlayerController::CPlayerController(CCharEntity* _PChar) :
     CController(_PChar)
@@ -424,10 +423,10 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             case ABILITY_CURING_WALTZ_V:
             {
                 // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
-                CCharEntity* PTarget = (CCharEntity*)zoneutils::GetEntity(targid, TYPE_PC);
+                CBattleEntity* PTarget = (CBattleEntity*)(PChar->GetEntity(targid));
                 if (PTarget && PTarget->GetHPP() == 0)
                 {
-                    // TODO: Not sure why this says "You cannot attack that target"
+                    // TODO: Not sure why this says "You cannot attack that target", try with // command
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG));
                     return false;
                 }
@@ -456,12 +455,279 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 break;
             }
 
+            case ABILITY_ACTIVATE:
+            case ABILITY_DEUX_EX_AUTOMATA:
+            case ABILITY_CALL_BEAST:
+            case ABILITY_CALL_WYVERN:
+            case ABILITY_CHARM:
+            {
+                if (PChar->PPet != nullptr)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_ALREADY_HAS_A_PET));
+                    return false;
+                }
+
+                if (!PChar->loc.zone->CanUseMisc(MISC_PET))
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANT_BE_USED_IN_AREA));
+                    return false;
+                }
+
+                if (PAbility->getID() == ABILITY_CALL_BEAST)
+                {
+                    CItemWeapon* PItem = static_cast<CItemWeapon*>(PChar->getEquip(SLOT_AMMO));
+
+                    if (PItem != nullptr && PItem->getSubSkillType() >= SUBSKILL_SHEEP && PItem->getSubSkillType() <= SUBSKILL_SEFINA)
+                    {
+                        // Valid Jug item
+                    }
+                    else
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NO_JUG_PET_ITEM));
+                        return false;
+                    }
+                }
+
+                if (PAbility->getID() == ABILITY_CHARM)
+                {
+                    // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
+                    CBattleEntity* PTarget = (CBattleEntity*)(PChar->GetEntity(targid));
+                    if (PTarget && PTarget->PMaster && PTarget->PMaster->objtype == TYPE_PC)
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_THAT_SOMEONES_PET));
+                        return false;
+                    }
+                }
+                break;
+            }
+
+            case ABILITY_BESTIAL_LOYALTY:
+            case ABILITY_FAMILIAR:
+            case ABILITY_FIGHT:
+            case ABILITY_HEEL:
+            case ABILITY_SIC:
+            case ABILITY_SNARL:
+            case ABILITY_SPUR:
+            case ABILITY_STAY:
+            case ABILITY_RUN_WILD:
+            case ABILITY_KILLER_INSTINCT:
+            case ABILITY_LEAVE:
+            {
+                if (PChar->PPet == nullptr)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_REQUIRES_A_PET));
+                    return false;
+                }
+
+                if (PAbility->getID() == ABILITY_FAMILIAR)
+                {
+                    if (PChar->PPet != nullptr)
+                    {
+                        CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
+                        if (PPet->getPetType() != PETTYPE_JUG_PET && !PPet->isCharmed ||
+                            (PPet->GetLocalVar("ReceivedFamiliar") > 0))
+                        {
+                            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NO_EFFECT_ON_PET));
+                            return false;
+                        }
+                    }
+                }
+
+                if (PAbility->getID() == ABILITY_FIGHT)
+                {
+                    // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
+                    CBattleEntity* PTarget = (CBattleEntity*)(PChar->GetEntity(targid));
+                    if (PTarget)
+                    {
+                        if (PChar->PPet->id == PTarget->id || PTarget->PMaster && PTarget->PMaster->objtype == TYPE_PC)
+                        {
+                            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_ATTACK_TARGET));
+                            return false;
+                        }
+                    }
+                }
+
+                if (PAbility->getID() == ABILITY_SIC)
+                {
+                    uint16 familyID = ((CPetEntity*)PChar->PPet)->m_Family;
+                    const std::vector<uint16>& MobSkills = battleutils::GetMobSkillList(familyID);
+                    if (PChar->PPet->GetHPP() == 0 ||
+                        !PChar->PPet->GetBattleTargetID() ||
+                        (MobSkills.size() != 0))
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
+                    return false;
+                }
+
+                if (PAbility->getID() == ABILITY_SNARL)
+                {
+                    if (!PChar->PPet->GetBattleTargetID())
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_PET_CANNOT_DO_ACTION));
+                        return false;
+                    }
+
+                    if (PChar->PPet != nullptr)
+                    {
+                        CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
+                        if (PPet->getPetType() != PETTYPE_JUG_PET)
+                        {
+                            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_PET_CANNOT_DO_ACTION));
+                            return false;
+                        }
+                    }
+                }
+                break;
+            }
+
+            case ABILITY_DEEP_BREATHING:
+            case ABILITY_DISMISS:
+            case ABILITY_RESTORING_BREATH:
+            case ABILITY_SMITING_BREATH:
+            case ABILITY_SPIRIT_LINK:
+            case ABILITY_SPIRIT_SURGE:
+            {
+                // TODO: Range check for breaths
+                if (PChar->PPet == nullptr)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_REQUIRES_A_PET));
+                    return false;
+                }
+
+                if (PChar->PPet != nullptr)
+                {
+                    CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
+                    if (PPet->getPetType() != PETTYPE_WYVERN)
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_PET_CANNOT_DO_ACTION));
+                        return false;
+                    }
+                }
+
+                if (PAbility->getID() == ABILITY_SPIRIT_SURGE)
+                {
+                    if (PChar->GetLocalVar("UndaRunes") < 3)
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_PERFORM_ACTION));
+                        return false;
+                    }
+                }
+                break;
+            }
+
+            case ABILITY_COOLDOWN:
+            case ABILITY_DEACTIVATE:
+            case ABILITY_OVERDRIVE:
+            case ABILITY_TACTICAL_SWITCH:
+            case ABILITY_VENTRILOQUY:
+            case ABILITY_ROLE_REVERSAL:
+            case ABILITY_HEADY_ARTIFICE:
+            {
+                if (PChar->PPet == nullptr)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_REQUIRES_A_PET));
+                    return false;
+                }
+
+                if (PChar->PPet != nullptr)
+                {
+                    CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
+                    if (PPet->getPetType() != PETTYPE_AUTOMATON)
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_PET_CANNOT_DO_ACTION));
+                        return false;
+                    }
+                }
+                break;
+            }
+
+            case ABILITY_ANGON:
+            case ABILITY_REWARD:
+            case ABILITY_MAINTENANCE:
+            case ABILITY_REPAIR:
+            {
+                if (PAbility->getID() != ABILITY_ANGON)
+                {
+                    if (PChar->PPet == nullptr)
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_REQUIRES_A_PET));
+                        return false;
+                    }
+                }
+
+                CItem* PItem = PChar->getEquip((SLOTTYPE)SLOT_AMMO);
+                if (PItem == nullptr)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
+                    return false;
+                }
+
+                if (PItem->isType(ITEM_EQUIPMENT))
+                {
+                    if (PAbility->getID() == ABILITY_ANGON)
+                    {
+                        // Angon
+                        if (PItem->getID() != 18259)
+                        {
+                            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
+                            return false;
+                        }
+                    }
+
+                    if (PAbility->getID() == ABILITY_REWARD)
+                    {
+                        // Pet Food Biscuits, Roborant, and Poultice
+                        if ((PItem->getID() >= 17016 && PItem->getID() <= 17023) || PItem->getID() == 19251 || PItem->getID() == 19252)
+                        {
+                            // Valid pet food
+                        }
+                        else
+                        {
+                            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_MUST_HAVE_FOOD));
+                            return false;
+                        }
+
+                        CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
+                        if (PPet->getPetType() != PETTYPE_JUG_PET && !PPet->isCharmed)
+                        {
+                            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NO_EFFECT_ON_PET));
+                            return false;
+                        }
+                    }
+
+                    if (PAbility->getID() == ABILITY_MAINTENANCE || PAbility->getID() == ABILITY_REPAIR)
+                    {
+                        // Automaton Oils
+                        if ((PItem->getID() >= 18731 && PItem->getID() <= 18733) || PItem->getID() == 19185)
+                        {
+                            // Valid Oil
+                        }
+                        else
+                        {
+                            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
+                            return false;
+                        }
+
+                        CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
+                        if (PPet->getPetType() != PETTYPE_AUTOMATON)
+                        {
+                            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NO_EFFECT_ON_PET));
+                            return false;
+                        }
+                    }
+                }
+                break;
+            }
+
             case ABILITY_ARCANE_CREST:
             {
                 // TODO: Test
                 // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
-                CBattleEntity* PTarget = (CBattleEntity*)zoneutils::GetEntity(targid, TYPE_MOB);
-                if (PTarget && !PTarget->m_EcoSystem == SYSTEM_ARCANA)
+                CBattleEntity* PTarget = (CBattleEntity*)(PChar->GetEntity(targid));
+                if (PTarget)
+                {
+                    uint16 eco = ((CBattleEntity*)PTarget)->m_EcoSystem;
+                }
+                if (PTarget && ((CBattleEntity*)PTarget)->m_EcoSystem != SYSTEM_ARCANA)
                 {
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG));
                     return false;
@@ -472,8 +738,12 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             {
                 // TODO: Test
                 // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
-                CBattleEntity* PTarget = (CBattleEntity*)zoneutils::GetEntity(targid, TYPE_MOB);
-                if (PTarget && !PTarget->m_EcoSystem == SYSTEM_DRAGON)
+                CBattleEntity* PTarget = (CBattleEntity*)(PChar->GetEntity(targid));
+                if (PTarget)
+                {
+                    uint16 eco = ((CBattleEntity*)PTarget)->m_EcoSystem;
+                }
+                if (PTarget && ((CBattleEntity*)PTarget)->m_EcoSystem != SYSTEM_DRAGON)
                 {
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG));
                     return false;
