@@ -14,12 +14,7 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    local pet = player:getPetID()
-    if (pet >= 0 and pet <= 7) then -- spirits
-        return 0, 0
-    else
-        return tpz.msg.basic.UNABLE_TO_USE_JA, 0
-    end
+    return 0, 0
 end
 
 function onUseAbility(player,target,ability)

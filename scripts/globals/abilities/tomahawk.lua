@@ -8,17 +8,8 @@ require("scripts/globals/status")
 require("scripts/globals/msg")
 -----------------------------------
 
-function onAbilityCheck(player,target,ability)
-    if not player:isFacing(target) then
-		return 5, target:getID()
-	end
-
-    local id = player:getEquipID(tpz.slot.AMMO)
-    if (id == 18258) then
-        return 0,0
-    else
-        return tpz.msg.basic.UNABLE_TO_USE_JA,0
-    end
+function onAbilityCheck(player, target, ability)
+    return 0, 0
 end
 
 function onUseAbility(player,target,ability)

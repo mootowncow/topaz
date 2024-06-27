@@ -10,13 +10,7 @@ require("scripts/globals/summon")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    if not player:getPet() then
-        return tpz.msg.basic.REQUIRES_A_PET, 0
-    elseif not player:getPetID() or not (player:getPetID() > 7 and player:getPetID() < 21) then
-        return tpz.msg.basic.NO_EFFECT_ON_PET, 0
-    else
-        return 0, 0
-    end
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability)

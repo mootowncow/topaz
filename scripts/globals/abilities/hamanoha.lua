@@ -11,12 +11,7 @@ require("scripts/globals/job_util")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    local Runes = player:getLocalVar("IgnisRunes")
-    if Runes == 0 then
-        return tpz.msg.basic.CANNOT_PERFORM_ACTION, 0
-    else
-        return 0, 0
-    end
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability)

@@ -20,10 +20,6 @@ local despoilDebuffs =
 }
 
 function onAbilityCheck(player, target, ability)
-    if player:getFreeSlotsCount() == 0 then
-        return tpz.msg.basic.FULL_INVENTORY, 0
-    end
-
     if player:getObjType() == tpz.objType.TRUST then
         if player:getMaster():getFreeSlotsCount() == 0 then
             return 1, 0

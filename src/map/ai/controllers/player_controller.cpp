@@ -37,6 +37,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../status_effect_container.h"
 #include "../../weapon_skill.h"
 #include "../../roe.h"
+#include "../../utils/petutils.h"
 
 CPlayerController::CPlayerController(CCharEntity* _PChar) :
     CController(_PChar)
@@ -180,6 +181,27 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 }
             }
         }
+
+    std::map<int, EFFECT> abilityToEffectMap = { { ABILITY_DIFFUSION, EFFECT_DIFFUSION },
+                                                     { ABILITY_ACCESSION, EFFECT_ACCESSION },
+                                                     { ABILITY_ADDENDUM_BLACK, EFFECT_ADDENDUM_BLACK },
+                                                     { ABILITY_ADDENDUM_WHITE, EFFECT_ADDENDUM_WHITE },
+                                                     { ABILITY_ALACRITY, EFFECT_ALACRITY },
+                                                     { ABILITY_ALTRUISM, EFFECT_ALTRUISM },
+                                                     { ABILITY_APOGEE, EFFECT_APOGEE },
+                                                     { ABILITY_CELERITY, EFFECT_CELERITY },
+                                                     { ABILITY_DARK_ARTS, EFFECT_DARK_ARTS },
+                                                     { ABILITY_EBULLIENCE, EFFECT_EBULLIENCE },
+                                                     { ABILITY_ENLIGHTENMENT, EFFECT_ENLIGHTENMENT },
+                                                     { ABILITY_EQUANIMITY, EFFECT_EQUANIMITY },
+                                                     { ABILITY_FOCALIZATION, EFFECT_FOCALIZATION },
+                                                     { ABILITY_LIGHT_ARTS, EFFECT_LIGHT_ARTS },
+                                                     { ABILITY_MANIFESTATION, EFFECT_MANIFESTATION },
+                                                     { ABILITY_PARSIMONY, EFFECT_PARSIMONY },
+                                                     { ABILITY_PENURY, EFFECT_PENURY },
+                                                     { ABILITY_PERPETUANCE, EFFECT_PERPETUANCE },
+                                                     { ABILITY_RAPTURE, EFFECT_RAPTURE },
+                                                     { ABILITY_TRANQUILITY, EFFECT_TRANQUILITY } };
 
         // JA error checks (Checking in LUA will cause delay to be added to your auto-attacks on an error)
         switch (PAbility->getID())
@@ -417,6 +439,9 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             break;
 
             case ABILITY_CURING_WALTZ:
+            case ABILITY_CURING_WALTZ_II:
+            case ABILITY_CURING_WALTZ_III:
+            case ABILITY_CURING_WALTZ_IV:
             case ABILITY_HEALING_WALTZ:
             case ABILITY_DIVINE_WALTZ:
             case ABILITY_DIVINE_WALTZ_II:
@@ -443,7 +468,6 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             case ABILITY_SEIGAN:
             case ABILITY_BLADE_BASH:
             {
-                // TODO: Test
                 auto PItem = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_AMMO));
                 auto weapon = dynamic_cast<CItemWeapon*>(PChar->m_Weapons[SLOT_MAIN]);
 
@@ -586,16 +610,27 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             case ABILITY_SPIRIT_LINK:
             case ABILITY_SPIRIT_SURGE:
             {
-                // TODO: Range check for breaths
                 if (PChar->PPet == nullptr)
                 {
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_REQUIRES_A_PET));
                     return false;
                 }
 
+                CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
+
+                if (PAbility->getID() != ABILITY_DEEP_BREATHING)
+                {
+                    // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
+                    CBattleEntity* PTarget = dynamic_cast<CBattleEntity*>(PChar->GetEntity(targid));
+                    if (distance(PChar->PPet->loc.p, PTarget->loc.p) > 13)
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PPet, 0, 0, MSGBASIC_TOO_FAR_AWAY));
+                        return false;
+                    }
+                }
+
                 if (PChar->PPet != nullptr)
                 {
-                    CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
                     if (PPet->getPetType() != PETTYPE_WYVERN)
                     {
                         PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_PET_CANNOT_DO_ACTION));
@@ -608,6 +643,37 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     if (PChar->GetLocalVar("UndaRunes") < 3)
                     {
                         PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_PERFORM_ACTION));
+                        return false;
+                    }
+                }
+                break;
+            }
+
+            case ABILITY_ELEMENTAL_SIPHON:
+            case ABILITY_AVATARS_FAVOR:
+            case ABILITY_MANA_CEDE:
+            case ABILITY_ASTRAL_CONDUIT:
+            {
+                if (PChar->PPet == nullptr)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_REQUIRES_A_PET));
+                    return false;
+                }
+
+                CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
+                if (PAbility->getID() == ABILITY_ELEMENTAL_SIPHON)
+                {
+                    if (PPet->m_PetID > PETID_DARKSPIRIT) // Not an elemental spirit
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_PET_CANNOT_DO_ACTION));
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (PPet->getPetType() != PETTYPE_AVATAR)
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_PET_CANNOT_DO_ACTION));
                         return false;
                     }
                 }
@@ -640,20 +706,10 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 break;
             }
 
-            case ABILITY_ANGON:
             case ABILITY_REWARD:
             case ABILITY_MAINTENANCE:
             case ABILITY_REPAIR:
             {
-                if (PAbility->getID() != ABILITY_ANGON)
-                {
-                    if (PChar->PPet == nullptr)
-                    {
-                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_REQUIRES_A_PET));
-                        return false;
-                    }
-                }
-
                 CItem* PItem = PChar->getEquip((SLOTTYPE)SLOT_AMMO);
                 if (PItem == nullptr)
                 {
@@ -663,16 +719,6 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
 
                 if (PItem->isType(ITEM_EQUIPMENT))
                 {
-                    if (PAbility->getID() == ABILITY_ANGON)
-                    {
-                        // Angon
-                        if (PItem->getID() != 18259)
-                        {
-                            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
-                            return false;
-                        }
-                    }
-
                     if (PAbility->getID() == ABILITY_REWARD)
                     {
                         // Pet Food Biscuits, Roborant, and Poultice
@@ -718,32 +764,266 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 break;
             }
 
-            case ABILITY_ARCANE_CREST:
+            case ABILITY_ANGON:
+            case ABILITY_TOMAHAWK:
             {
-                // TODO: Test
                 // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
-                CBattleEntity* PTarget = (CBattleEntity*)(PChar->GetEntity(targid));
-                if (PTarget)
+                CBattleEntity* PTarget = dynamic_cast<CBattleEntity*>(PChar->GetEntity(targid));
+                if (!facing(PChar->loc.p, PTarget->loc.p, 45))
                 {
-                    uint16 eco = ((CBattleEntity*)PTarget)->m_EcoSystem;
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PTarget, 0, 0, MSGASIC_CANNOT_SEE_TARGET));
+                    return false;
                 }
-                if (PTarget && ((CBattleEntity*)PTarget)->m_EcoSystem != SYSTEM_ARCANA)
+
+                CItem* PItem = PChar->getEquip((SLOTTYPE)SLOT_AMMO);
+                if (PItem == nullptr)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
+                    return false;
+                }
+
+                if (PItem->isType(ITEM_EQUIPMENT))
+                {
+                    if (PAbility->getID() == ABILITY_ANGON)
+                    {
+                        // Angon
+                        if (PItem->getID() != 18259)
+                        {
+                            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
+                            return false;
+                        }
+                    }
+
+                    if (PAbility->getID() == ABILITY_TOMAHAWK)
+                    {
+                        // Tomahawk
+                        if (PItem->getID() != 18258)
+                        {
+                            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
+                            return false;
+                        }
+                    }
+                }
+                break;
+            }
+
+            case ABILITY_ACCOMPLICE:
+            case ABILITY_COLLABORATOR:
+            case ABILITY_COVER:
+            case ABILITY_DEVOTION:
+            case ABILITY_MARTYR:
+            case ABILITY_CAPER_EMISSARIUS:
+            {
+                // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
+                CBattleEntity* PTarget = dynamic_cast<CBattleEntity*>(PChar->GetEntity(targid));
+                if (!PTarget ||
+                    PChar->id == PTarget->id ||
+                    PTarget->objtype != TYPE_PC)
                 {
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG));
                     return false;
                 }
+
+                if (PAbility->getID() == ABILITY_DEVOTION || PAbility->getID() == ABILITY_MARTYR)
+                {
+                    if (PChar->health.hp < 4)
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
+                        return false;
+                    }
+                }
                 break;
             }
-            case ABILITY_DRAGON_BREAKER:
+
+            case ABILITY_CONVERT:
             {
-                // TODO: Test
-                // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
-                CBattleEntity* PTarget = (CBattleEntity*)(PChar->GetEntity(targid));
-                if (PTarget)
+                if (PChar->health.mp == 0)
                 {
-                    uint16 eco = ((CBattleEntity*)PTarget)->m_EcoSystem;
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_PERFORM_ACTION));
+                    return false;
                 }
-                if (PTarget && ((CBattleEntity*)PTarget)->m_EcoSystem != SYSTEM_DRAGON)
+                break;
+            }
+
+            case ABILITY_DESPOIL:
+            case ABILITY_STEAL:
+            {
+                if (PChar->getStorage(LOC_INVENTORY)->GetFreeSlotsCount() == 0)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_FULL_INVENTORY));
+                    return false;
+                }
+                break;
+            }
+
+            case ABILITY_EAGLE_EYE_SHOT:
+            {
+                // Get the equipped items
+                auto ranged = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_RANGED));
+                auto ammo = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_AMMO));
+
+                // Check if ranged weapon is equipped and is of type weapon
+                if (ranged && ranged->isType(ITEM_WEAPON))
+                {
+                    // Check the skill type of the ranged weapon
+                    uint16 skilltype = ranged->getSkillType();
+                    if (skilltype == SKILL_ARCHERY || skilltype == SKILL_MARKSMANSHIP || skilltype == SKILL_THROWING)
+                    {
+                        // Check if ammo is equipped and is of type weapon or if skill type is throwing
+                        if (ammo && (ammo->isType(ITEM_WEAPON) || skilltype == SKILL_THROWING))
+                        {
+                            break; // All checks passed, continue to use the ability
+                        }
+                    }
+                }
+
+                // If any of the checks fail, send the message and return false
+                PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NO_RANGED_WEAPON));
+                return false;
+            }
+
+            case ABILITY_BOX_STEP:
+            case ABILITY_FEATHER_STEP:
+            case ABILITY_QUICKSTEP:
+            case ABILITY_STUTTER_STEP:
+            case ABILITY_DESPERATE_FLOURISH:
+            case ABILITY_VIOLENT_FLOURISH:
+            case ABILITY_WILD_FLOURISH:
+            case ABILITY_KONZEN_ITTAI:
+            {
+                if (PChar->animation != ANIMATION_ATTACK)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, abilityid, 0, MSGBASIC_REQUIRES_COMBAT));
+                    return false;
+                }
+                break;
+            }
+
+            case ABILITY_DIFFUSION:
+            case ABILITY_ACCESSION:
+            case ABILITY_ADDENDUM_BLACK:
+            case ABILITY_ADDENDUM_WHITE:
+            case ABILITY_ALACRITY:
+            case ABILITY_ALTRUISM:
+            case ABILITY_APOGEE:
+            case ABILITY_CELERITY:
+            case ABILITY_DARK_ARTS:
+            case ABILITY_EBULLIENCE:
+            case ABILITY_ENLIGHTENMENT:
+            case ABILITY_EQUANIMITY:
+            case ABILITY_FOCALIZATION:
+            case ABILITY_LIGHT_ARTS:
+            case ABILITY_MANIFESTATION:
+            case ABILITY_PARSIMONY:
+            case ABILITY_PENURY:
+            case ABILITY_PERPETUANCE:
+            case ABILITY_RAPTURE:
+            case ABILITY_TRANQUILITY:
+            {
+                EFFECT effectID = abilityToEffectMap[PAbility->getID()];
+                if (PChar->StatusEffectContainer->HasStatusEffect(effectID))
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_EFFECT_ALREADY_ACTIVE));
+                    return false;
+                }
+
+                if (PAbility->getID() == ABILITY_DARK_ARTS)
+                {
+                    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_ADDENDUM_BLACK))
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_EFFECT_ALREADY_ACTIVE));
+                        return false;
+                    }
+                }
+
+                if (PAbility->getID() == ABILITY_LIGHT_ARTS)
+                {
+                    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_ADDENDUM_WHITE))
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_EFFECT_ALREADY_ACTIVE));
+                        return false;
+                    }
+                }
+                break;
+            }
+
+            case ABILITY_SHIELD_BASH:
+            {
+                if (PChar->getShieldSize() == SHIELDSIZE_NONE)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_REQUIRES_SHIELD));
+                    return false;
+                }
+                break;
+            }
+
+            case ABILITY_HAGAKURE:
+            case ABILITY_HAMANOHA:
+            case ABILITY_SENGIKORI:
+            case ABILITY_YAEGASUMI:
+            {
+                if (PChar->GetLocalVar("IgnisRunes") == 0)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_PERFORM_ACTION));
+                    return false;
+                }
+                break;
+            }
+
+            case ABILITY_SHIKIKOYO:
+            {
+                // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
+                CBattleEntity* PTarget = dynamic_cast<CBattleEntity*>(PChar->GetEntity(targid));
+                if (PChar->id == PTarget->id)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG));
+                    return false;
+                }
+
+                if (PChar->health.tp < 1000)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NOT_ENOUGH_TP));
+                    return false;
+                }
+                break;
+            }
+
+            case ABILITY_ARCANE_CREST:
+            case ABILITY_DRAGON_BREAKER:
+            case ABILITY_SEPULCHER:
+            {
+                // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
+                CBattleEntity* PTarget = dynamic_cast<CBattleEntity*>(PChar->GetEntity(targid));
+                if (!PTarget)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG));
+                    return false;
+                }
+
+                // Get the target's ecosystem
+                ECOSYSTEM eco = PTarget->m_EcoSystem;
+
+                // Determine the required ecosystem based on the ability
+                ECOSYSTEM requiredEco;
+                switch (PAbility->getID())
+                {
+                    case ABILITY_ARCANE_CREST:
+                        requiredEco = SYSTEM_ARCANA;
+                        break;
+                    case ABILITY_DRAGON_BREAKER:
+                        requiredEco = SYSTEM_DRAGON;
+                        break;
+                    case ABILITY_SEPULCHER:
+                        requiredEco = SYSTEM_UNDEAD;
+                        break;
+                    default:
+                        // Shouldn't happen
+                        requiredEco = SYSTEM_ERROR;
+                        break;
+                }
+
+                // Check if the target's ecosystem matches the required ecosystem
+                if (eco != requiredEco)
                 {
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG));
                     return false;

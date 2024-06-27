@@ -32,11 +32,7 @@ validThfQuestMobs =
 
 
 function onAbilityCheck(player, target, ability)
-    if (player:getFreeSlotsCount() == 0) then
-        return tpz.msg.basic.FULL_INVENTORY, 0
-    else
-        return 0, 0
-    end
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability, action)

@@ -11,11 +11,7 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    if target == nil or target:getID() == player:getID() or not target:isPC() then
-        return tpz.msg.basic.CANNOT_PERFORM_TARG, 0
-    else
-        return 0, 0
-    end
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability)

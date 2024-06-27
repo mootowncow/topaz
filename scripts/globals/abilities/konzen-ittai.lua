@@ -12,11 +12,7 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    if (player:getAnimation() ~= 1) then
-        return tpz.msg.basic.REQUIRES_COMBAT, 0
-    else
-        return 0, 0
-    end
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability, action)

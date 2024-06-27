@@ -19,9 +19,6 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    if player:hasStatusEffect(tpz.effect.ADDENDUM_BLACK) then
-        return tpz.msg.basic.EFFECT_ALREADY_ACTIVE, 0
-    end
     return 0, 0
 end
 

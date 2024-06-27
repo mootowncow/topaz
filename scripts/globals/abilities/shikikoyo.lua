@@ -13,13 +13,7 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    if (player:getID() == target:getID()) then
-        return tpz.msg.basic.CANNOT_PERFORM_TARG, 0
-    elseif (player:getTP() < 1000) then
-        return tpz.msg.basic.NOT_ENOUGH_TP, 0
-    else
-        return 0, 0
-    end
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability)

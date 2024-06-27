@@ -77,7 +77,8 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_NEEDS_2H_WEAPON		= 307, // That action requires a two-handed weapon. 
 	MSGBASIC_USES_BUT_MISSES		= 324, // The <player> uses .. but misses <target>. 
 	MSGBASIC_CANT_BE_USED_IN_AREA	= 316, // That action cannot be used in this area. 
-	MSGBASIC_REQUIRES_SHIELD		= 199, // That action requires a shield. 
+	MSGBASIC_REQUIRES_SHIELD		= 199, // That action requires a shield.
+    MSGBASIC_REQUIRES_COMBAT        = 525, // .. can only be performed during battle.
     MSGBASIC_JA_MISS                = 158, // <user> uses <ability>, but misses. (no name included)
 
     // Spikes
@@ -95,7 +96,8 @@ enum MSGBASIC_ID : uint16
     MSGBASIC_GAINS_EFFECT_OF_STATUS = 205, // ${target} gains the effect of ${status}. 
     MSGBASIC_STATUS_WEARS_OFF       = 206, // ${target}'s ${status} effect wears off. 
     MSGBASIC_MAGIC_BURST_BLACK      = 252, // "Magic Burst!" Black Magic   
-    MSGBASIC_MAGIC_BURST_BREATH     = 265, // "Magic Burst!" BLU breaths 
+    MSGBASIC_MAGIC_BURST_BREATH     = 265, // "Magic Burst!" BLU breaths
+    MSGBASIC_EFFECT_ALREADY_ACTIVE  = 523, // The same effect is already active on <player>.
 	// Distance 
 	MSGBASIC_TARG_OUT_OF_RANGE		= 4, // <target> is out of range. 
 	MSGBASIC_UNABLE_TO_SEE_TARG		= 5, // Unable to see <target>. 

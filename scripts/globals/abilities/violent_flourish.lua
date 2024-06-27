@@ -14,31 +14,27 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    if (player:getAnimation() ~= 1) then
-        return tpz.msg.basic.REQUIRES_COMBAT, 0
+    if (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_1)) then
+        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_1)
+        return 0, 0
+    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_2)) then
+        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_2)
+        player:addStatusEffect(tpz.effect.FINISHING_MOVE_1, 1, 0, 7200)
+        return 0, 0
+    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_3)) then
+        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_3)
+        player:addStatusEffect(tpz.effect.FINISHING_MOVE_2, 1, 0, 7200)
+        return 0, 0
+    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_4)) then
+        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_4)
+        player:addStatusEffect(tpz.effect.FINISHING_MOVE_3, 1, 0, 7200)
+        return 0, 0
+    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_5)) then
+        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_5)
+        player:addStatusEffect(tpz.effect.FINISHING_MOVE_4, 1, 0, 7200)
+        return 0, 0
     else
-        if (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_1)) then
-            player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_1)
-            return 0, 0
-        elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_2)) then
-            player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_2)
-            player:addStatusEffect(tpz.effect.FINISHING_MOVE_1, 1, 0, 7200)
-            return 0, 0
-        elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_3)) then
-            player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_3)
-            player:addStatusEffect(tpz.effect.FINISHING_MOVE_2, 1, 0, 7200)
-            return 0, 0
-        elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_4)) then
-            player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_4)
-            player:addStatusEffect(tpz.effect.FINISHING_MOVE_3, 1, 0, 7200)
-            return 0, 0
-        elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_5)) then
-            player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_5)
-            player:addStatusEffect(tpz.effect.FINISHING_MOVE_4, 1, 0, 7200)
-            return 0, 0
-        else
-            return 0, 0
-        end
+        return 0, 0
     end
 end
 

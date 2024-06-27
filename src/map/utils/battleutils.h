@@ -123,6 +123,18 @@ enum WEAPONTYPE
     WEAPONTYPE_BLUE_MAGIC =     0x8000,
 };
 
+enum SHIELDSIZE
+{
+    SHIELDSIZE_NONE         = 0,
+    SHIELDSIZE_BUCKER       = 1,
+    SHIELDSIZE_ROUND        = 2,
+    SHIELDSIZE_KITE         = 3,
+    SHIELDSIZE_TOWER        = 4,
+    SHIELDSIZE_AEGIS        = 5,
+    SHIELDSIZE_SRIVATSA     = 5,
+    SHIELDSIZE_OCHAIN       = 6,
+};
+
 namespace battleutils
 {
     void            LoadSkillTable();
