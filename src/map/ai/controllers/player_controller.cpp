@@ -577,9 +577,11 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     const std::vector<uint16>& MobSkills = battleutils::GetMobSkillList(familyID);
                     if (PChar->PPet->GetHPP() == 0 ||
                         !PChar->PPet->GetBattleTargetID() ||
-                        (MobSkills.size() != 0))
-                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
-                    return false;
+                        (MobSkills.size() == 0))
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
+                        return false;
+                    }
                 }
 
                 if (PAbility->getID() == ABILITY_SNARL)
