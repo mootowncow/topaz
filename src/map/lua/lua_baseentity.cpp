@@ -16336,6 +16336,15 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                               }
                           }));
     }
+    else // Use a random mob skill if none is specificed (Used for Sic)
+    {
+        m_PBaseEntity->PAI->QueueAction(queueAction_t(0ms, true,
+                                                      [](auto PEntity)
+                                                      {
+                                                          if (dynamic_cast<CMobEntity*>(PEntity))
+                                                              static_cast<CMobController*>(PEntity->PAI->GetController())->MobSkill();
+                                                      }));
+    };
 
     return 0;
 }
