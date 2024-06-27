@@ -16,15 +16,21 @@ end
 
 function onUseAbility(player, target, ability)
     local function doSic(mob)
+        if mob == nil then
+            return -- Exit if mob is nil
+        end
+
         if mob:getTP() >= 1000 then
             mob:useMobAbility()
         elseif mob:hasSpellList() then
             mob:castSpell()
         else
-            mob:queue(0, doSic)
+            mob:queue(1000, doSic) -- Retry after 1 second (1000 ms)
         end
-
     end
 
-    player:getPet():queue(0, doSic)
+    local pet = player:getPet()
+    if pet then
+        pet:queue(0, doSic)
+    end
 end
