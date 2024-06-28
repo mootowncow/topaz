@@ -295,6 +295,7 @@ public:
     int32 levelRestriction(lua_State*);     // Establish/return current level restriction
     int32 addJobTraits(lua_State*);         // Add job traits
     int32 delJobTraits(lua_State*);         // Delete job traits
+    int32 hasTrait(lua_State*);             // Has trait
 
     // Player Titles and Fame
     int32 getTitle(lua_State*);             // Gets character's title
@@ -703,7 +704,6 @@ public:
 
     int32 instantiateMob(lua_State* L);
 
-    int32 hasTrait(lua_State*);
     int32 hasImmunity(lua_State*);          // Check if the mob has immunity for a type of spell (list at mobentity.h)
 
     int32 setAggressive(lua_State* L);

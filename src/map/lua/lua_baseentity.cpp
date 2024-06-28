@@ -15087,7 +15087,7 @@ inline int32 CLuaBaseEntity::instantiateMob(lua_State* L)
 
 /************************************************************************
 *  Function: hasTrait()
-*  Purpose : Returns true if a Mob has an active trait
+*  Purpose : Returns true if a battle entity has an active trait
 *  Example : if (target:hasTrait(15)) -- Double Attack
 *  Notes   :
 ************************************************************************/
@@ -15095,16 +15095,21 @@ inline int32 CLuaBaseEntity::instantiateMob(lua_State* L)
 inline int32 CLuaBaseEntity::hasTrait(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_SHIP);
 
-    if (m_PBaseEntity->objtype != TYPE_PC)
+    CBattleEntity* PBattleEntity = dynamic_cast<CBattleEntity*>(m_PBaseEntity);
+
+    if (PBattleEntity)
+    {
+        printf("Is a battle entity");
+        lua_pushboolean(L, PBattleEntity->hasTrait(lua_isnumber(L, 1)));
+    }
+    else
     {
         lua_pushboolean(L, false);
-        return 1;
     }
 
-    lua_pushboolean(L, charutils::hasTrait((CCharEntity*)m_PBaseEntity, (uint16)lua_tointeger(L, 1)));
     return 1;
 }
 
@@ -17004,6 +17009,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,levelRestriction),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addJobTraits),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delJobTraits),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasTrait),
 
     // Player Titles and Fame
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getTitle),
@@ -17407,7 +17413,6 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,instantiateMob),
 
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasTrait),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasImmunity),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setAggressive),

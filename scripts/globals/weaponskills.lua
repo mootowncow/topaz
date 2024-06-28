@@ -401,7 +401,7 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
                                  target:hasStatusEffect(tpz.effect.DOUBT))
     calcParams.taChar = taChar
     calcParams.trickApplicable = calcParams.taChar ~= nil
-    calcParams.assassinApplicable = calcParams.trickApplicable and attacker:hasTrait(68)
+    calcParams.assassinApplicable = calcParams.trickApplicable and attacker:hasTrait(tpz.trait.ASSASSIN)
     calcParams.guaranteedHit = calcParams.sneakApplicable or calcParams.trickApplicable
     calcParams.mightyStrikesApplicable = attacker:hasStatusEffect(tpz.effect.MIGHTY_STRIKES)
     calcParams.forcedFirstCrit = calcParams.sneakApplicable or calcParams.assassinApplicable
@@ -968,7 +968,7 @@ function getHitRate(attacker, target, capHitRate, firsthit, bonus)
             bonus = bonus - (target:getStatusEffect(tpz.effect.YONIN):getPower() + target:getJobPointLevel(tpz.jp.YONIN_EFFECT))
         end
 
-        if attacker:hasTrait(76) then
+        if attacker:hasTrait(tpz.trait.AMBUSH) then
             if target:hasStatusEffect(tpz.effect.DOUBT) or attacker:isBehind(target, 90) then --TRAIT_AMBUSH
                 bonus = bonus + attacker:getMerit(tpz.merit.AMBUSH)
             end
@@ -1025,7 +1025,7 @@ function getRangedHitRate(attacker, target, slugwinder, bonus)
     if (bonus == nil) then
         bonus = 0
     end
-    if attacker:hasTrait(76) then
+    if attacker:hasTrait(tpz.trait.AMBUSH) then
         if target:hasStatusEffect(tpz.effect.DOUBT) or attacker:isBehind(target, 90) then --TRAIT_AMBUSH
             bonus = bonus + attacker:getMerit(tpz.merit.AMBUSH)
         end
@@ -1363,7 +1363,7 @@ function getMultiAttacks(attacker, target, numHits)
     local oaTwiceRate = attacker:getMod(tpz.mod.MYTHIC_OCC_ATT_TWICE)/100
 
     -- Add Ambush Augments to Triple Attack
-    if attacker:hasTrait(76) then
+    if attacker:hasTrait(tpz.trait.AMBUSH) then
         if target:hasStatusEffect(tpz.effect.DOUBT) or attacker:isBehind(target, 90) then --TRAIT_AMBUSH
             tripleRate = tripleRate + attacker:getMerit(tpz.merit.AMBUSH) / 3 -- Value of Ambush is 3 per mert, augment gives +1 Triple Attack per merit
         end

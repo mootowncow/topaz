@@ -18,7 +18,7 @@ require("scripts/globals/status")
 function onEffectGain(target, effect)
     if effect:getPower() < 2 then
         target:addMod(tpz.mod.UDMGMAGIC, -101)
-        if target:isPC() and target:hasTrait(77) then -- Iron Will
+        if target:isPC() and target:hasTrait(tpz.trait.IRON_WILL) then
             target:addMod(tpz.mod.SPELLINTERRUPT, target:getMerit(tpz.merit.IRON_WILL))
         end
     elseif effect:getPower() == 2 then
@@ -33,7 +33,7 @@ end
 function onEffectLose(target, effect)
     if effect:getPower() < 2 then
         target:delMod(tpz.mod.UDMGMAGIC, -101)
-        if target:isPC() and target:hasTrait(77) then -- Iron Will
+        if target:isPC() and target:hasTrait(tpz.trait.IRON_WILL) then
             target:delMod(tpz.mod.SPELLINTERRUPT, target:getMerit(tpz.merit.IRON_WILL))
         end
     elseif effect:getPower() == 2 then

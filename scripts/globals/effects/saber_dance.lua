@@ -14,7 +14,7 @@ function onEffectGain(target, effect)
         target:addMod(tpz.mod.SAMBA_PDURATION, (saberDanceMerits -5))
     end
     -- Does not stack with warrior Double Attack trait, so disable it
-    if (target:hasTrait(15)) then --TRAIT_DOUBLE_ATTACK
+    if (target:hasTrait(tpz.trait.DOUBLE_ATTACK)) then
         target:delMod(tpz.mod.DOUBLE_ATTACK, 10)
     end
     target:addMod(tpz.mod.DOUBLE_ATTACK, effect:getPower())
@@ -31,7 +31,7 @@ function onEffectLose(target, effect)
     if (saberDanceMerits>1) then
         target:delMod(tpz.mod.SAMBA_PDURATION, (saberDanceMerits -5))
     end
-    if (target:hasTrait(15)) then --TRAIT_DOUBLE_ATTACK
+    if (target:hasTrait(tpz.trait.DOUBLE_ATTACK)) then
         -- put Double Attack trait back on.
         target:addMod(tpz.mod.DOUBLE_ATTACK, 10)
     end
