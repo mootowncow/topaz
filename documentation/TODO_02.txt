@@ -160,6 +160,7 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Recast for Ready is wrong, and displays weird numbers.
 Wild Rage said "999 shadows absorbed" with blink up?
 Buff Musanto / Katana from ANNM(Enmity +3 Evasion +7?)
 Don't save : in item names for item_Basic.sql (FFXI item editor)
