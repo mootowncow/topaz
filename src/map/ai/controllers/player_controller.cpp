@@ -474,10 +474,9 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             case ABILITY_SEIGAN:
             case ABILITY_BLADE_BASH:
             {
-                auto PItem = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_AMMO));
                 auto weapon = dynamic_cast<CItemWeapon*>(PChar->m_Weapons[SLOT_MAIN]);
 
-                if (PItem == nullptr || !weapon || !weapon->isTwoHanded())
+                if (weapon == nullptr || !weapon || !weapon->isTwoHanded())
                 {
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NEEDS_2H_WEAPON));
                     return false;
