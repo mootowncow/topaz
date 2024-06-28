@@ -374,6 +374,11 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
             int16 hasteAbility = std::clamp<int16>(getMod(Mod::HASTE_ABILITY), -2500, 2500); // 25% cap
             int16 hasteGear = std::clamp<int16>(getMod(Mod::HASTE_GEAR), -2500, 2500); // 25%
 
+            if (weapon->isTwoHanded())
+            {
+                hasteAbility = std::clamp<int16>(getMod(Mod::HASTE_ABILITY) + getMod(Mod::TWOHAND_HASTE_ABILITY), -2500, 2500); // 25% cap
+            }
+
             // Divide by float to get a more accurate reduction, then use int16 cast to truncate
             WeaponDelay -= (int16)(WeaponDelay * (hasteMagic + hasteAbility + hasteGear) / 10000.f);
         }
@@ -688,6 +693,11 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
 
 uint16 CBattleEntity::STR()
 {
+    // Hasso gives STR only if main weapon is two handed
+    if (auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]); weapon->isTwoHanded())
+    {
+        return std::clamp(stats.STR + m_modStat[Mod::STR] + m_modStat[Mod::TWOHAND_STR], 0, 999);
+    }
     return std::clamp(stats.STR + m_modStat[Mod::STR], 0, 999);
 }
 
@@ -850,6 +860,7 @@ uint16 CBattleEntity::ACC(int8 attackNumber, int8 offsetAccuracy)
         if (auto weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]); weapon && weapon->isTwoHanded() == true)
         {
             ACC += (int16)(DEX() * 0.75);
+            ACC += m_modStat[Mod::TWOHAND_ACC];
         }
         else
         {

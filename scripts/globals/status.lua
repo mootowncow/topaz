@@ -1751,6 +1751,10 @@ tpz.mod =
     MINING_RESULT                   = 515, -- Improves mining results
     EGGHELM                         = 517, -- Egg Helm (Chocobo Digging)
 
+    TWOHAND_HASTE_ABILITY           = 217, -- Only applies to auto attacks when using two handed weapons, additive to HASTE_ABILITY
+    TWOHAND_STR                     = 218, -- Same as STR, but only active when using a two handed weapon (e.g. Hasso)
+    TWOHAND_ACC                     = 219, -- Same as ACC, but only active when using a two handed weapon (e.g. Hasso)
+
     SHIELDBLOCKRATE                 = 518, -- Affects shield block rate, percent based
     SCAVENGE_EFFECT                 = 312, --
     DIA_DOT                         = 313, -- Increases the DoT damage of Dia

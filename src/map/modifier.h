@@ -44,6 +44,7 @@ enum class Mod
     INT                       = 12, // Intelligence
     MND                       = 13, // Mind
     CHR                       = 14, // Charisma
+    TWOHAND_STR               = 218, // Same as STR, but only active when using a two handed weapon (e.g. Hasso)
 
     // Elemental Defenses
     // 128 = 128 / 256 = 50% reduction
@@ -61,6 +62,7 @@ enum class Mod
 
     ACC                       = 25, // Accuracy
     RACC                      = 26, // Ranged Accuracy
+    TWOHAND_ACC = 219, // Same as ACC, but only active when using a two handed weapon (e.g. Hasso)
 
     ENMITY                    = 27, // Enmity
     ENMITY_LOSS_REDUCTION     = 427, // Reduces Enmity lost when taking damage
@@ -232,6 +234,7 @@ enum class Mod
     HASTE_MAGIC               = 167, // Haste (and Slow) from magic - 10000 base, 375 = 3.75%
     HASTE_ABILITY             = 383, // Haste (and Slow) from abilities - 10000 base, 375 = 3.75%
     HASTE_GEAR                = 384, // Haste (and Slow) from equipment - 10000 base, 375 = 3.75%
+    TWOHAND_HASTE_ABILITY     = 217, // Haste (and Slow) from abilities - 10000 base, 375 = 3.75% - Only applies to auto attacks when using two handed weapons, additive to HASTE_ABILITY
     SPELLINTERRUPT            = 168, // % Spell Interruption Rate
     MOVE_SPEED_OVERIDE        = 169, // Modifier used to overide regular speed caps. (GM speed and Feast of Swords)
     MOVE_SPEED_STACKABLE      = 75, // Gear movement speed penalties, flee bonus, etc.
