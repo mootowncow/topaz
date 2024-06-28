@@ -1936,7 +1936,6 @@ namespace charutils
 
                         if (!((CItemWeapon*)PChar->m_Weapons[SLOT_MAIN])->isTwoHanded())
                         {
-                            PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_HASSO);
                             PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_SEIGAN);
                         }
 
