@@ -789,7 +789,7 @@ void CMobController::CastSpell(SpellID spellid)
                 {
                     // chance to target party
                     PMob->PAI->TargetFind->reset();
-                    PMob->PAI->TargetFind->findWithinArea(PMob, AOERADIUS_ATTACKER, PSpell->getRange());
+                    PMob->PAI->TargetFind->findWithinArea(PMob, AOERADIUS_ATTACKER, static_cast<float>(PCastTarget->m_ModelSize) + PSpell->getRange());
 
                     if (!PMob->PAI->TargetFind->m_targets.empty())
                     {
@@ -814,11 +814,11 @@ void CMobController::CastSpell(SpellID spellid)
         //if (PSpell->getValidTarget() & TARGET_PLAYER_PARTY)
         //{
         //    PMob->PAI->TargetFind->reset();
-        //    PMob->PAI->TargetFind->findWithinArea(PMob, AOERADIUS_ATTACKER, PSpell->getRange());
+        //    PMob->PAI->TargetFind->findWithinArea(PMob, AOERADIUS_ATTACKER, static_cast<float>(PCastTarget->m_ModelSize) + PSpell->getRange());
         //    if (!PMob->PAI->TargetFind->m_targets.empty())
         //    {
         //        PCureTarget = PMob->PAI->TargetFind->m_targets[tpzrand::GetRandomNumber(PMob->PAI->TargetFind->m_targets.size())];
-        //        PMob->PAI->TargetFind->findWithinArea(PMob, AOERADIUS_ATTACKER, PSpell->getRange());
+        //        PMob->PAI->TargetFind->findWithinArea(PMob, AOERADIUS_ATTACKER, static_cast<float>(PCastTarget->m_ModelSize) + PSpell->getRange());
         //        if (PCureTarget->GetHPP() <= PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) && PCureTarget->GetHPP() >=d PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE))
         //        {
         //            PCastTarget = PCureTarget;
@@ -830,7 +830,7 @@ void CMobController::CastSpell(SpellID spellid)
         {
             float currentDistance = distance(PMob->loc.p, PCastTarget->loc.p);
             // Make sure target is in spell range
-            if (currentDistance <= PSpell->getRange())
+            if (currentDistance <= static_cast<float>(PCastTarget->m_ModelSize) + PSpell->getRange())
             {
                 Cast(PCastTarget->targid, spellid);
             }

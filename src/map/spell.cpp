@@ -758,7 +758,7 @@ namespace spell
     {
         float total = spell->getRadius();
 
-            // -Ga Enfeebles are 15 yalms
+        // -Ga Enfeebles are 15 yalms
         if (spell->getID() >= SpellID::Paralyga && spell->getID() <= SpellID::Graviga)
         {
             total = 15.0f;
