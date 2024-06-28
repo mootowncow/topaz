@@ -11,7 +11,6 @@ local ID = require("scripts/zones/Dynamis-Xarcabard/IDs")
 require("scripts/globals/mobs")
 -----------------------------------
 function onMobSpawn(mob)
-    mob:setMobMod(tpz.mobMod.ATTACK_SKILL_LIST, 1157)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
