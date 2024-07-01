@@ -685,6 +685,7 @@ INSERT INTO `mob_family_system` VALUES (628,'Yggdreant',17,'Plantoid',3,40,120,1
 INSERT INTO `mob_family_system` VALUES (629,'Tchakka',2,'Aquan',2,40,120,140,1,3,3,3,2,4,1,1,3,1,3,1,1,1,1,0.15,0.5,0.5,0.7,0.7,0.15,0.5,0.3,6,2,0,15,	15,	50,	50,	70,	50,	5,	50,	50,	70,	70,	70,	15,	30,	30);
 INSERT INTO `mob_family_system` VALUES (630,'Sidhe',11,'Elemental',0,60,100,100,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,0.85,0.85,0.05,0.85,0.85,0.85,0.2,0.85,3,5,0,60,	60,	5,	5,	60,	15,	15,	60,	60,	60,	60,	60,	60,	60,	60);
 INSERT INTO `mob_family_system` VALUES (631,'Angra_Mainyu',9,'Demon',0,40,100,90,3,3,3,3,3,3,3,1,3,1,3,1,1,1,1,0.85,0.85,0.85,0.85,0.85,0.85,1.15,0.25,8,6,0,85,	85,	5,	85,	85,	5,	115,	85,	85,	85,	5,	85,	85,	5,	25);
+INSERT INTO `mob_family_system` VALUES (632,'Vanguards_Hecteyes',1,'Amorph',1,40,100,140,5,4,4,4,3,4,4,1,3,1,3,1,1,0.75,0.75,1.3,1.3,1.3,1.3,1.3,1.3,1.3,0.7,8,2,1,130,	130,	130,	130,	130,	130,	130,	130,	130,	130,	130,	130,	130,	5,	70);
 
 -- Mythic Weapon Fights (Custom)
 INSERT INTO `mob_family_system` VALUES (887,'Cyranuce',13,'Humanoid',0,50,100,120,1,3,3,7,7,7,3,1,3,1,3,1,3,1,3,1,1,1,1,1,1,1,1,0,2,0,50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50);
@@ -770,7 +771,7 @@ INSERT INTO `mob_family_system` VALUES (969,'Cosmos_Cocora',17,'Plantoid',0,40,1
 INSERT INTO `mob_family_system` VALUES (970,'Goldcap',17,'Plantoid',0,68,125,110,3,4,4,4,5,4,4,1,1,1,1,1,1,1,1,0.7,0.7,0.7,0.7,0.7,0.1,1.3,0.1,8,2,1,50, 50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50);
 
 -- 10,22,50,96,111,317-318,405,411-434,439-443, 598 available for use
--- NEXT: 632
+-- NEXT: 633
 -- NEXT Custom: 971
 
   -- `familyid` smallint(4) unsigned NOT NULL,

@@ -10,7 +10,6 @@ function onMobInitialize(mob)
 end
 
 function onMobSpawn(mob)
-    mob:setMod(tpz.mod.SDT_DARK, 5)
 
 end
 function onMobDeath(mob, player, isKiller, noKiller)
