@@ -1304,6 +1304,16 @@ void CMobController::DoRoamTick(time_point tick)
     }
     if (m_Tick >= m_LastRoamScript + 3s)
     {
+        // Despawn if you are a pet and your master is dead
+        if (PMob->PMaster != nullptr)
+        {
+            if (PMob->PMaster->isDead())
+            {
+                Despawn();
+                return;
+            }
+        }
+
         PMob->PAI->EventHandler.triggerListener("ROAM_TICK", PMob);
         PMob->StatusEffectContainer->DelStatusEffect(EFFECT_HEALING);
         luautils::OnMobRoam(PMob);
