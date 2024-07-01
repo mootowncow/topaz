@@ -9718,7 +9718,7 @@ inline int32 CLuaBaseEntity::recalculateAbilitiesTable(lua_State* L)
 
 /************************************************************************
  *  Function: getPlayersInRange()
- *  Purpose : Returns a Lua table of players within range of the base entity
+ *  Purpose : Returns a Lua table of players(and their pets) within range of the base entity
  *  Example : local players = npc:getPlayersInRange(50)
  *  Notes   : if the passed argument is nil or 0, just returns all players in the zone
  ************************************************************************/
@@ -9731,22 +9731,25 @@ inline int32 CLuaBaseEntity::getPlayersInRange(lua_State* L)
 
     const uint32 distSquared = dist * dist;
     int size = 0;
-    std::vector<CCharEntity*> PlayerList;
+    std::vector<CBaseEntity*> EntityList;
 
     zoneutils::GetZone(m_PBaseEntity->getZone())
         ->ForEachChar(
             [&](CCharEntity* PChar)
             {
-                if (!distSquared)
+                // Add player character if in range
+                if (!distSquared || distanceSquared(PChar->loc.p, m_PBaseEntity->loc.p) < distSquared)
                 {
-                    PlayerList.push_back(PChar);
+                    EntityList.push_back(PChar);
                     size++;
                 }
-                else // range specified, must be in range.
+
+                // Check and add player's pets if it exists and is in range
+                if (PChar->PPet)
                 {
-                    if (distanceSquared(PChar->loc.p, m_PBaseEntity->loc.p) < distSquared)
+                    if (!distSquared || distanceSquared(PChar->PPet->loc.p, m_PBaseEntity->loc.p) < distSquared)
                     {
-                        PlayerList.push_back(PChar);
+                        EntityList.push_back(dynamic_cast<CPetEntity*>(PChar->PPet));
                         size++;
                     }
                 }
@@ -9761,7 +9764,7 @@ inline int32 CLuaBaseEntity::getPlayersInRange(lua_State* L)
     lua_createtable(L, size, 0);
     int i = 1;
 
-    for (auto it = PlayerList.begin(); it != PlayerList.end(); it++)
+    for (auto it = EntityList.begin(); it != EntityList.end(); it++)
     {
         lua_getglobal(L, CLuaBaseEntity::className);
         lua_pushstring(L, "new");

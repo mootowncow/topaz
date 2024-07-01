@@ -815,7 +815,6 @@ function TickMobAura(mob, target, auraParams)
         if os.time() >= auraTick then
             mob:setLocalVar("auraTick" .. auraParams.auraNumber, os.time() + 3)
             local nearbyPlayers = mob:getPlayersInRange(auraParams.radius)
-            -- Players
             if nearbyPlayers ~= nil then 
                 for _,v in ipairs(nearbyPlayers) do
                     v:delStatusEffectSilent(auraParams.effect)
@@ -823,23 +822,6 @@ function TickMobAura(mob, target, auraParams)
                     local buffEffect = v:getStatusEffect(auraParams.effect)
                     buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
                     buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
-                end
-            end
-
-            -- Pets
-            nearbyPlayers = mob:getPlayersInRange(100)
-            if nearbyPlayers ~= nil then 
-                for _,v in ipairs(nearbyPlayers) do
-                    if v:getPet() then
-                        local pet = v:getPet()
-                        if mob:checkDistance(pet) <= auraParams.radius then
-                            pet:delStatusEffectSilent(auraParams.effect)
-                            pet:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
-                            local buffEffect = pet:getStatusEffect(auraParams.effect)
-                            buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
-                            buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
-                        end
-                    end
                 end
             end
         end
@@ -860,7 +842,6 @@ function TickDamageAura(mob, target, radius, dmg, attackType, damageType, tick)
     if os.time() >= DmgAuraTick then
         mob:setLocalVar("DmgAuraTick", os.time() + tick)
         local nearbyPlayers = mob:getPlayersInRange(radius)
-        -- Players
         if nearbyPlayers ~= nil then 
             for _,v in ipairs(nearbyPlayers) do
                 if (attackType == tpz.attackType.MAGICAL) or (attackType == tpz.attackType.SPECIAL) then
@@ -873,26 +854,6 @@ function TickDamageAura(mob, target, radius, dmg, attackType, damageType, tick)
                     dmg = v:physicalDmgTaken(dmg, damageType)
                 end
                 v:takeDamage(dmg, mob, attackType, damageType)
-            end
-
-            -- Pets
-            nearbyPlayers = mob:getPlayersInRange(radius)
-            if nearbyPlayers ~= nil then 
-                for _,v in ipairs(nearbyPlayers) do
-                    if v:getPet() then
-                        local pet = v:getPet()
-                        if (attackType == tpz.attackType.MAGICAL) or (attackType == tpz.attackType.SPECIAL) then
-                            dmg = pet:magicDmgTaken(dmg, element)
-                        elseif (attackType == tpz.attackType.BREATH) then
-                            dmg = pet:breathDmgTaken(dmg, element)
-                        elseif (attackType == tpz.attackType.RANGED) then
-                            dmg = pet:rangedDmgTaken(dmg)
-                        elseif (attackType == tpz.attackType.PHYSICAL) then
-                            dmg = pet:physicalDmgTaken(dmg, damageType)
-                        end
-                        pet:takeDamage(dmg, mob, attackType, damageType)
-                    end
-                end
             end
         end
     end
