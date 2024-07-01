@@ -30,6 +30,10 @@ end
 function onMobWeaponSkill(target, mob, skill)
 end
 
+function onMobDisengage(mob)
+    mob:setWeather(tpz.weather.NONE)
+end
+
 function onMobDeath(mob, player, isKiller, noKiller)
     mob:setWeather(tpz.weather.NONE)
     player:addTitle(tpz.title.YUMCAX_LOGGER)

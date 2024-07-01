@@ -62,7 +62,7 @@ function onMobSpawn(mob)
     mob:addStatusEffectEx(tpz.effect.FLEE, 0, 100, 0, 60)
 end
 
-function onMobDisEngage(mob, target)
+function onMobDisengage(mob, target)
 end
 
 --[[ onMobskill -- When this functionlity is added, this should work.
