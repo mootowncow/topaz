@@ -139,7 +139,6 @@ local waves =
 
 function afterInstanceRegister(player)
     local instance = player:getInstance()
-    player:setCharVar("Halshaob_Quest", 0)
     player:messageSpecial(ID.text.TIME_TO_COMPLETE, instance:getTimeLimit())
 end
 
@@ -220,6 +219,7 @@ function onInstanceComplete(instance)
     local chars = instance:getChars()
     
     for _, v in pairs(chars) do
+        v:setCharVar("Halshaob_Quest", 0)
         v:completeQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.SCOUTING_THE_ASHU_TALIF)
     end
 

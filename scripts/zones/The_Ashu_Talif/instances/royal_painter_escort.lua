@@ -12,7 +12,6 @@ local ID = require("scripts/zones/The_Ashu_Talif/IDs")
 
 function afterInstanceRegister(player)
     local instance = player:getInstance()
-    player:setCharVar("Halshaob_Quest", 0)
     player:messageSpecial(ID.text.TIME_TO_COMPLETE, instance:getTimeLimit())
 end
 
@@ -70,6 +69,7 @@ function onInstanceComplete(instance)
     local faluuya = GetMobByID(ID.mob[56].FALUUYA, instance)
     
     for _, v in pairs(chars) do
+        v:setCharVar("Halshaob_Quest", 0)
         v:completeQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT)
     end
 

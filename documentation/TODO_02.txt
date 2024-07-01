@@ -160,7 +160,7 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
-Recast for Ready is wrong, and displays weird numbers.
+Lyft weapon revamp (MAB for gun)
 Wild Rage said "999 shadows absorbed" with blink up?
 Buff Musanto / Katana from ANNM(Enmity +3 Evasion +7?)
 Don't save : in item names for item_Basic.sql (FFXI item editor)
@@ -299,22 +299,11 @@ https://github.com/CatsAndBoats/catseyexi/commit/3fcc6a9a29b1271a8048fb75ec0cbb6
 Trait enums
 https://github.com/CatsAndBoats/catseyexi/commit/60ac3bc5a0f031f596034fa79aeadc646706ce82
 
-Cover PDIF fixes
-https://github.com/AirSkyBoat/AirSkyBoat/commit/ab7d0174b565ea53999a0ef366d4b91e5812286a
-
 PUP? 
 https://github.com/LandSandBoat/server/commit/c12e2e37839e23b0459e088eb05e6d084bea2448
 
-AoE dmg DR
-https://github.com/LandSandBoat/server/commit/6a85f7caf3423211840e43387258bb3b4890a8e2
-
 Timer fill stuff
 https://github.com/LandSandBoat/server/commit/0609d8370a21f3b5b4654ebdfd0402276acadeed
-
-Has Trait
-https://github.com/LandSandBoat/server/commit/8f0b67c8f74197636721acc7be0ca5f81a8182bb
-+
-https://github.com/LandSandBoat/server/commit/67db4b00448a4df23ceda9743599a9243273e605
 
 This prob needs to be fixed for beastial loyalty and voracious trunk
 https://github.com/LandSandBoat/server/commit/109c821bad83af4283740f3fe510f5d266ab168b
@@ -347,12 +336,6 @@ https://github.com/CatsAndBoats/catseyexi/commit/97dae748a3f97c6cf610561d8f0835b
 
 PDMG+(Physical damage limit pdif+)
 https://github.com/CatsAndBoats/catseyexi/commit/e9147a4ed1f38dde2481cc52295542d96eba2528
-
-Hasso removal
-https://github.com/CatsAndBoats/catseyexi/commit/53554dc47ec0cad75a60e3a06c9da285dca90744
-
-Hasso mods?
-https://github.com/CatsAndBoats/catseyexi/commit/59cf95ed6415a837e5a76173b88bb6b13696b90c
 
 Fix hide with hearing and weather with scent mobs
 https://github.com/CatsAndBoats/catseyexi/commit/4ab66b7d2e7afca0cfd0334d76f5547053c89808
