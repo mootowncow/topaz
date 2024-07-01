@@ -15,6 +15,11 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     mob:spawnPet()
+    local enemy = mob:getTarget()
+    local pet = mob:getPet()
+    if (enemy ~= nil) then
+        pet:updateEnmity(enemy)
+    end
 
     skill:setMsg(tpz.msg.basic.NONE)
 
