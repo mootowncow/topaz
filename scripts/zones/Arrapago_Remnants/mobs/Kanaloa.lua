@@ -30,7 +30,7 @@ function onMobFight(mob, target)
         if not mob:hasStatusEffect(tpz.effect.SILENCE) then
             PeriodicInstanceMessage(mob, target, "The " .. MobName(mob) .. " seems weak to skillchains...", 0xD, none, 30)
         end
-        AddDamageAura(mob, target, 12, 50, tpz.attackType.MAGICAL, tpz.damageType.WATER, 3)
+        TickDamageAura(mob, target, 12, 50, tpz.attackType.MAGICAL, tpz.damageType.WATER, 3)
     end
 end
 

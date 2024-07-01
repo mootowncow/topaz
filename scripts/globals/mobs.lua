@@ -852,25 +852,47 @@ function TickMobAura(mob, target, auraParams)
     end
 end
 
-function AddDamageAura(mob, target, radius, dmg, attackType, damageType, tick)
+-- TODO: Add damage aura, tick damage aura like TickMobAura
+function TickDamageAura(mob, target, radius, dmg, attackType, damageType, tick)
     local DmgAuraTick = mob:getLocalVar("DmgAuraTick")
     local element = damageType - 5
 
     if os.time() >= DmgAuraTick then
         mob:setLocalVar("DmgAuraTick", os.time() + tick)
         local nearbyPlayers = mob:getPlayersInRange(radius)
+        -- Players
         if nearbyPlayers ~= nil then 
             for _,v in ipairs(nearbyPlayers) do
-            if (attackType == tpz.attackType.MAGICAL) or (attackType == tpz.attackType.SPECIAL) then
-                dmg = v:magicDmgTaken(dmg, element)
-            elseif (attackType == tpz.attackType.BREATH) then
-                dmg = v:breathDmgTaken(dmg, element)
-            elseif (attackType == tpz.attackType.RANGED) then
-                dmg = v:rangedDmgTaken(dmg)
-            elseif (attackType == tpz.attackType.PHYSICAL) then
-                dmg = v:physicalDmgTaken(dmg, damageType)
+                if (attackType == tpz.attackType.MAGICAL) or (attackType == tpz.attackType.SPECIAL) then
+                    dmg = v:magicDmgTaken(dmg, element)
+                elseif (attackType == tpz.attackType.BREATH) then
+                    dmg = v:breathDmgTaken(dmg, element)
+                elseif (attackType == tpz.attackType.RANGED) then
+                    dmg = v:rangedDmgTaken(dmg)
+                elseif (attackType == tpz.attackType.PHYSICAL) then
+                    dmg = v:physicalDmgTaken(dmg, damageType)
+                end
+                v:takeDamage(dmg, mob, attackType, damageType)
             end
-            v:takeDamage(dmg, mob, attackType, damageType)
+
+            -- Pets
+            nearbyPlayers = mob:getPlayersInRange(radius)
+            if nearbyPlayers ~= nil then 
+                for _,v in ipairs(nearbyPlayers) do
+                    if v:getPet() then
+                        local pet = v:getPet()
+                        if (attackType == tpz.attackType.MAGICAL) or (attackType == tpz.attackType.SPECIAL) then
+                            dmg = pet:magicDmgTaken(dmg, element)
+                        elseif (attackType == tpz.attackType.BREATH) then
+                            dmg = pet:breathDmgTaken(dmg, element)
+                        elseif (attackType == tpz.attackType.RANGED) then
+                            dmg = pet:rangedDmgTaken(dmg)
+                        elseif (attackType == tpz.attackType.PHYSICAL) then
+                            dmg = pet:physicalDmgTaken(dmg, damageType)
+                        end
+                        pet:takeDamage(dmg, mob, attackType, damageType)
+                    end
+                end
             end
         end
     end
