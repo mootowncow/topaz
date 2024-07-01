@@ -23,7 +23,7 @@ MAGIC_HIT - caster, target, spell -- Hit and was not absorbed by a shadow
 EN_SPIKES_HIT - attacker, target, enspellID (enum ENSPELL in battleutils.h)
 MAGIC_INTERRUPTED - attacker, Target, Spell
 
-RANGE_STATE_EXIT - attacker, target, ???(Msg?)
+RANGE_STATE_EXIT - attacker, target, ???(Msg?) 
 
 TAKE_DAMAGE - Entity, amount, attacker, attacktype, damagetype
 SKILLCHAIN_TAKE - defender, attacker, skillchain, damage
