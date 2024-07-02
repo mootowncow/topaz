@@ -399,6 +399,10 @@ namespace petutils
                 return battleutils::GetMaxSkill(SKILL_ARCHERY, JOB_WAR, mlvl); // D Skill (4)
             case 5:
                 return battleutils::GetMaxSkill(SKILL_THROWING, JOB_MNK, mlvl); // E Skill (5)
+            case 6:
+                return battleutils::GetMaxSkill(SKILL_THROWING, JOB_RDM, mlvl); // F Skill (6)
+            case 7:
+                return battleutils::GetMaxSkill(SKILL_SHIELD, JOB_RUN, mlvl); // G Skill (7)
         }
 
         ShowError("Petutils::GetBase rank (%d) is out of bounds for pet (%u) ", rank, PMob->id);
