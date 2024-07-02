@@ -76,6 +76,7 @@ CBattleEntity::CBattleEntity()
     memset(&WorkingSkills, 0, sizeof(WorkingSkills));
 
     PPet = nullptr;
+    PPet2 = nullptr;
     PParty = nullptr;
     PMaster = nullptr;
     PLastAttacker = nullptr;

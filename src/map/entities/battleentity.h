@@ -733,7 +733,8 @@ public:
     ActionList_t	m_ActionList;			    // список совершенных действий за одну атаку (нужно будет написать структуру, включающую ActionList в которой будут категории анимации и т.д.)
 
     CParty*			PParty;					    // описание группы, в которой состоит сущность
-    CBattleEntity*	PPet;					    // питомец сущности
+    CBattleEntity*	PPet;					    // Pet #1
+    CBattleEntity*  PPet2;                      // Pet #2
     CBattleEntity*	PMaster;				    // владелец/хозяин сущности (распространяется на все боевые сущности)
     CBattleEntity*  PLastAttacker;
     time_point      LastAttacked;

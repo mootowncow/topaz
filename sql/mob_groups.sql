@@ -28,7 +28,7 @@ CREATE TABLE `mob_groups` (
   `zoneid` smallint(3) unsigned NOT NULL DEFAULT 0,
   `name` varchar(24) DEFAULT NULL,
   `respawntime` int(10) unsigned NOT NULL DEFAULT 0,
-  `spawntype` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `spawntype` smallint(3) unsigned NOT NULL DEFAULT 0,
   `dropid` int(10) unsigned NOT NULL DEFAULT 0,
   `HP` mediumint(8) NOT NULL DEFAULT 0,
   `MP` mediumint(8) NOT NULL DEFAULT 0,
@@ -1212,8 +1212,8 @@ INSERT INTO `mob_groups` VALUES (56,21,33,'Absolute_Virtue',0,128,3,45000,0,90,9
 INSERT INTO `mob_groups` VALUES (57,6190,33,'Ulaern_whm',960,0,2514,0,5000,70,73,0);
 INSERT INTO `mob_groups` VALUES (58,6197,33,'Ulaern_brd',960,0,2514,0,0,70,73,0);
 INSERT INTO `mob_groups` VALUES (59,6194,33,'Ulaern_pld',960,0,2514,0,0,70,73,0);
-INSERT INTO `mob_groups` VALUES (60,4088,33,'Ulxzomit_Baby',960,0,1856,0,0,68,70,0); -- baby ul'xzomit
-INSERT INTO `mob_groups` VALUES (61,2978,33,'Omxzomit_Baby',960,0,1856,0,0,72,74,0); -- baby om'xzomit
+INSERT INTO `mob_groups` VALUES (60,4088,33,'Ulxzomit_Baby',960,512,1856,0,0,68,70,0); -- baby ul'xzomit
+INSERT INTO `mob_groups` VALUES (61,2978,33,'Omxzomit_Baby',960,512,1856,0,0,72,74,0); -- baby om'xzomit
 INSERT INTO `mob_groups` VALUES (62,6744,33,'Omxzomit',960,0,1856,0,0,75,76,0); -- single om'xzomit
 
 -- ------------------------------------------------------------

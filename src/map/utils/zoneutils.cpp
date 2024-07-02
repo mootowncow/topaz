@@ -565,14 +565,14 @@ void LoadMOBList()
             luautils::ApplyZoneMixins(PMob);
             PMob->saveModifiers();
             PMob->saveMobModifiers();
-            PMob->m_AllowRespawn = PMob->m_SpawnType == SPAWNTYPE_NORMAL || PMob->m_SpawnType == SPAWNTYPE_PIXIE;
+            PMob->m_AllowRespawn = (PMob->m_SpawnType == SPAWNTYPE_NORMAL || PMob->m_SpawnType == SPAWNTYPE_PIXIE || PMob->m_SpawnType == SPAWNTYPE_ALWAYS);
             bool shouldSpawn = PMob->m_AllowRespawn;
             // TODO: Pixie server spawn rates
             //if (PMob->m_SpawnType == SPAWNTYPE_PIXIE)
             //{
             //    shouldSpawn = PMob->PixieShouldSpawn();
             //}
-            if (PMob->m_SpawnType == SPAWNTYPE_PIXIE)
+            if (PMob->m_SpawnType == SPAWNTYPE_PIXIE || PMob->m_SpawnType == SPAWNTYPE_ALWAYS)
             {
                 shouldSpawn = true;
             }
@@ -590,7 +590,7 @@ void LoadMOBList()
 
     // attach pets to mobs
     const char* PetQuery =
-        "SELECT mob_groups.zoneid, mob_mobid, pet_offset \
+        "SELECT mob_groups.zoneid, mob_mobid, pet_offset, pet_offset2 \
         FROM mob_pets \
         LEFT JOIN mob_spawn_points ON mob_pets.mob_mobid = mob_spawn_points.mobid \
         LEFT JOIN mob_groups ON mob_spawn_points.groupid = mob_groups.groupid \
@@ -607,9 +607,11 @@ void LoadMOBList()
             uint16 ZoneID = (uint16)Sql_GetUIntData(SqlHandle, 0);
             uint32 masterid = (uint32)Sql_GetUIntData(SqlHandle,1);
             uint32 petid = masterid + (uint32)Sql_GetUIntData(SqlHandle,2);
+            uint32 petid2 = masterid + (uint32)Sql_GetUIntData(SqlHandle, 3);
 
             CMobEntity* PMaster = (CMobEntity*)GetZone(ZoneID)->GetEntity(masterid & 0x0FFF, TYPE_MOB);
             CMobEntity* PPet = (CMobEntity*)GetZone(ZoneID)->GetEntity(petid & 0x0FFF, TYPE_MOB);
+            CMobEntity* PPet2 = (CMobEntity*)GetZone(ZoneID)->GetEntity(petid2 & 0x0FFF, TYPE_MOB);
 
             if (PMaster == nullptr)
             {
@@ -625,12 +627,26 @@ void LoadMOBList()
             }
             else
             {
-                // pet is always spawned by master
-                PPet->m_AllowRespawn = false;
-                PPet->m_SpawnType = SPAWNTYPE_SCRIPTED;
-                PPet->SetDespawnTime(0s);
+                // pet is always spawned by master unless spawnType is set to SPAWNTYPE_ALWAYS
+                if (PPet->m_SpawnType != SPAWNTYPE_ALWAYS)
+                {
+                    PPet->m_AllowRespawn = false;
+                    PPet->m_SpawnType = SPAWNTYPE_SCRIPTED;
+                    PPet->SetDespawnTime(0s);
+                    if (petid2 > 0)
+                    {
+                        PPet2->m_AllowRespawn = false;
+                        PPet2->m_SpawnType = SPAWNTYPE_SCRIPTED;
+                        PPet2->SetDespawnTime(0s);
+                    }
+                }
 
                 PMaster->PPet = PPet;
+                // Add 2nd pet if entry is not 0
+                if (petid2 > 0)
+                {
+                    PMaster->PPet2 = PPet2;
+                }
                 PPet->PMaster = PMaster;
             }
         }

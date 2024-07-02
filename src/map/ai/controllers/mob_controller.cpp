@@ -191,6 +191,11 @@ void CMobController::TryLink()
         PMob->PPet->PAI->Engage(PTarget->id);
     }
 
+    if (PMob->PPet2 != nullptr && PMob->PPet2->PAI->IsRoaming())
+    {
+        PMob->PPet2->PAI->Engage(PTarget->id);
+    }
+
     // Mobs shouldn't link to pets unless the pet's master is on the enmity list
     if (PTarget->objtype == TYPE_PET || (PTarget->objtype == TYPE_MOB && PTarget->isCharmed))
     {
@@ -1352,6 +1357,18 @@ void CMobController::FollowRoamPath()
             }
         }
 
+        CBattleEntity* PPet2 = PMob->PPet2;
+        if (PPet2 != nullptr)
+        {
+            if (PPet2 != nullptr && PPet2->PAI->IsSpawned() && !PPet2->PAI->IsEngaged())
+            {
+                // pet should follow me if roaming
+                position_t targetPoint = nearPosition(PMob->loc.p, 2.1f, (float)M_PI);
+
+                PPet2->PAI->PathFind->PathTo(targetPoint);
+            }
+        }
+
         // if I just finished reset my last action time
         if (!PMob->PAI->PathFind->IsFollowingPath())
         {
@@ -1472,6 +1489,11 @@ bool CMobController::Engage(uint16 targid)
         if (PMob->PPet && !PMob->PPet->PAI->IsEngaged())
         {
             PMob->PPet->PAI->Engage(targid);
+        }
+
+        if (PMob->PPet2 && !PMob->PPet2->PAI->IsEngaged())
+        {
+            PMob->PPet2->PAI->Engage(targid);
         }
     }
     return ret;
