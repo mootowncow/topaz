@@ -114,16 +114,13 @@ pickNewPosition 3rd arg as "false" for chests/coffers in treasures.lua
 Gears weak to dark(chariots/ramparts too?)
 Double msg zoning into level sync zoned(level restricted to x)
 Phalaenopsis unused item 1730 gil regional
-<player name>'s attack devastates the fiend!
 Custom name pets
 Quelveulat in Tav patrols
 Quu Bokye patrols
 Aquaveil +1 gear
-PathThrough no longer works? The lua binding, check LSB's or Wings since we changed the function of paththrough in  C++
 Mob Berserk should stack like Amplification / Memento Mori
 Hippogryph Hoof Volley wrong animation they are using spellid 1330 and animation ID 915
 Dispel msgs for mob TP moves are wrong and should show status removed in msg log
-Tribulation 13/tick from an abyssea soulflayer
 More content that forces bad jobs(like not allowing RDM somehow)
 More content that is super good to have a thief lockpick in(assault with soulflayer / mamool ja training grounds)
 You can turn away from grim glower and don't get perma petrified and Grim Glower can be used while it's still active(shouldn't be able to...I changed duration)
@@ -142,9 +139,7 @@ Conquest dump need a million for some weapons or something
 https://www.bluegartr.com/threads/108196-Random-Facts-Thread-Magic?p=5937222&viewfull=1#post5937222
 
 
-useMobAbility onbmoskillcheck crashes cause PTarget is wrong for getting position
 Inventory shouldn't be re-organized on zone, check whats being sent on zone to do it
-Do drain TP moves work and properly remove TP from target? i.e. tp drainkiss
 In game clock addon next to inventory space
  Sadly, blocking Searing Serration still doesn't prevent the all stats down... Stupid hybrid ws and their magic hit.  <- Check monstertpmoves logic for magic/hybrid
  Need to edit uint16 CMobSkill::getPetAnimationID() const for bps past 75. Prob just delete this all and code animationIDs into the sql
@@ -160,21 +155,16 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+noKiller to tpz.annm.SpawnChest and all its files its used in
 Lyft weapon revamp (MAB for gun)
 Wild Rage said "999 shadows absorbed" with blink up?
 Buff Musanto / Katana from ANNM(Enmity +3 Evasion +7?)
 Don't save : in item names for item_Basic.sql (FFXI item editor)
 Bestial Loyalty utsusemi transfer needs special logic because it's tracked really weird(copy utsu files?)
 Spikes proc chance from items should be based on the mod not w/e im doing
-Spikes res traits should be halved vs NM's and clamped to 95%
 Don't port pet if csiD is prot/shell/regen/refresh etc gov buffs
-Merits json and edit NIN(and bst) merits
 Enagakure did not spawn at 20:00
-Nakuals set weather to none on disengage
 move tchakka to the big room
-applyResistanceAddEffect(player, target, element, bonus, effect, skill) should be used for stuff like feral howl and aura steal?
-Add submodules for losnavmeshes and navmeshes(update to new one) https://github.blog/2016-02-01-working-with-submodules/
-Sic merits don't work?
 Ic Pilav bun(new item)
 Ogre Gloves fencer buffed to 2/3%(NO TP BONUS)
 Update retail
@@ -182,7 +172,6 @@ Sange animation wrong?
 Zdei in cubbys can't aggro people in hall? need longer sight aggro range on them?
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
 Leaden Salute and Blade: Kamu weren't unlocked when I had enough WS points
-applyResistanceAddEffect() 
 not mob:hasPreventActionEffect() to qultada talking/using stuff
 tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
 Fomor HNM's(Lugh etc)
@@ -191,9 +180,6 @@ Fomor HNM's(Lugh etc)
 How does slug shot do 61 instead of 400+ dmg? It's 1 hit
 Wyvern pets should folllow master on disengage(mobID + 1?)
 Variable for setting to limit points on not always changed when job swapped to 75
-STATUSRESTRAIT should work on all status effects, attack down etc
-Bark Tarantula and Sapplings in Boyahda tree need spawns audited
-Most things with getPlayersInRange needs to also get pets in range use logic I coded into AddMobAura for reference
 Tipua needs some type of mechanic, very boring and easy. Maybe summon bees and eat them for HP if you don't kill them fast enough? And 100 fists
 Missing ANNM fights(the TODO ones on wiki?) and retune decimation weapon augment(too high %)
 Revival tree root drop rate? 10-15%? Check FFXIDB
@@ -208,7 +194,6 @@ BLU relic? boots suck
 https://github.com/LandSandBoat/server/issues/5127
 Buff Charger / Jaeger / Gunner mantle
 Better logic for behind TP moves like clobber, they get used if in front or side very often. Copy Yilbegan
-Sky Curtana ??? should be random
 Mobs that aggro by sound and sound and are true aggro don't seem to link by both? Imps in WOTG strongholds don't
 Logic for mob TP moves going off even if target is out of range (Dark Ixion one doesnt work)
 Impact / Comet / Meteor given to BLM via items from long grinds (RMEA? Especially strongholdLM via items from long grinds (RMEA? Especially stronghold one?)
@@ -216,7 +201,6 @@ Don't drop items with a msg if "you do not meet the requiements to obtain <item>
 NO_EFFECT msg missing from simplelog
 Touch up Nagi fight, tries to spawn mobs if they are dead on floor, spawns adds all on top of eachother, and they do too little dmg and stuff
 Mob_controller.cpp add losing TP if resting effect(pet /stay only) to // can't rest with a DOT on (plague does not stop mob regen)
-Mobs that summon pets should force their pet to engage their target after summoning (BST / SMN / PUP / DRG) in core somehow
 Hunts
 WOE
 
@@ -230,15 +214,11 @@ Extremely rare item dropped !!! msg and no item in pool, was a level 81+ mob. Di
 but nothing is in the list for 81+ in that drop rate
 Cascade 500 TP bonus+ gear and manawell CDR gear
 Pet stat mainhands (daggers)
-Avatars (mostly dynamis) should use 2 hr if they wake up while master has astral flow active still
-Only take ZNM items on ZNM kill not pop
 Gotoh Zha the Redolent SDT/EEM in sql (Copy whats in its lua)
 JP wiki for killer weapon/armor percentages
 Buff: Meatloaf(Add HP and +5 ACC) https://www.bg-wiki.com/ffxi/Orange_Kuchen and https://www.bg-wiki.com/ffxi/Army_Biscuit and https://ffxiclopedia.fandom.com/wiki/Patlican_Salata and Bataquiche and Nopales Salad
 +Asylum / Misery / Auspice effect gear
 Ziz animation sub change after using TP moves? (Give some type of stat boost from it too!)
-Storage NPCs for alex forgotten items etc
-"Your pet is about to expire" red text messages fopr jugs
 ENM's only take KI on completion like ISNM
 Super linking doesn't properly work in BCNM's anymore?
 Item/trait that earth spell mp cost -50%, another item/trait wind spell cast time -50%, another item/trait water mp cost -50%
@@ -248,14 +228,13 @@ Add JP camp for BLM + SCH(slime page in horutoto?)
 Finish Escheutons
 Custom pet names for all level 76+ pets
 WS changing weapons! Like completely change the WS entirely(Lyft weapons? another set of weapons?)
-3/tick refresh body with - move speed
+3/tick refresh body with with - move speed
 Gargoyle HNM boss need to nuke when flying to bring back down immune to phys dmg in air and some stoneform mechanic where it gains HP
 Finish Lyft/MMM weapon progression system, better rewards from all MMM's especially the uber hard ones
 spellAI added to where spell_list is for diff spell casting AI's
 Add Prime and Bonanza WS IDs
 KS99's
 60-80 inventory expansions from COP HNMS
-All offensive AOE Unbridled spells should be around mob not player
 Cap all GP turn ins by 1/3
 Add "You gain x Zeni" from mobs that give Zeni.
 Amplification needs to be changed to something else
@@ -296,9 +275,6 @@ https://github.com/LandSandBoat/server/commit/039f4fd601996488fb1d3cf5ed4664bbe7
 Velocity shot
 https://github.com/CatsAndBoats/catseyexi/commit/3fcc6a9a29b1271a8048fb75ec0cbb6d46ab55ef
 
-Trait enums
-https://github.com/CatsAndBoats/catseyexi/commit/60ac3bc5a0f031f596034fa79aeadc646706ce82
-
 PUP? 
 https://github.com/LandSandBoat/server/commit/c12e2e37839e23b0459e088eb05e6d084bea2448
 
@@ -315,7 +291,7 @@ Light spirit AI:
 https://github.com/LandSandBoat/server/commit/973fb38f661da5d5a9c10c99eaff1d1b3537f8a6
 
 Ranged attack fixes
-https://github.com/CatsAndBoats/catseyexi/commit/fcb335a14e11b2d90512930acccd698e5213b261
+
 https://github.com/CatsAndBoats/catseyexi/commit/960e098e4bfa06d460df9fe728e284b44b1dfb40
 
 Shadow ring death resist
