@@ -761,8 +761,11 @@ function applyResistanceAddEffect(player, target, element, bonus, effect, skill)
     if (skill == nil) then
         skill = player:getWeaponSkillType(tpz.slot.MAIN)
     end
-
-    local p = getMagicHitRate(player, target, 0, element, SDT, skill, bonus, params)
+    -- If player has no weapon equipped, skill should be H2H. None is not a valid skill type.
+    if (skill == tpz.skill.NONE) then
+        skill = tpz.skill.HAND_TO_HAND
+    end
+    local p = getMagicHitRate(player, target, skill, element, SDT, 0, bonus, params)
 	local res = getMagicResist(p)
 
     if (effect == nil) then
@@ -819,9 +822,8 @@ function getMagicHitRate(caster, target, skillType, element, SDT, percentBonus, 
     end
 
     local magicacc = caster:getMod(tpz.mod.MACC) + caster:getILvlMacc()
-	
     -- Get the base acc (just skill + skill mod (79 + skillID = ModID) + magic acc mod)
-    if skillType ~= 0 then
+    if (skillType ~= 0) then
         local skillBonus = 0
         local skillAmount = caster:getSkillLevel(skillType)
         skillBonus = skillAmount
