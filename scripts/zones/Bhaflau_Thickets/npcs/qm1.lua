@@ -5,11 +5,13 @@
 -----------------------------------
 local ID = require("scripts/zones/Bhaflau_Thickets/IDs")
 require("scripts/globals/npc_util")
+require("scripts/globals/znm")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 2578) and npcUtil.popFromQM(player, npc, ID.mob.LIVIDROOT_AMOOSHAH) then -- Oily Blood
-        player:confirmTrade()
+    if npcUtil.tradeHasExactly(trade, 2578) and npcUtil.popFromQM(player, npc, ID.mob.LIVIDROOT_AMOOSHAH) then -- Oily Blood
+        tpz.znm.onTrade(player, 2578)
+        player:messageSpecial(ID.text.DRAWS_NEAR)
     end
 end
 

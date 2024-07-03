@@ -5,11 +5,13 @@
 -----------------------------------
 local ID = require("scripts/zones/Mount_Zhayolm/IDs")
 require("scripts/globals/npc_util")
+require("scripts/globals/znm")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 2585) and npcUtil.popFromQM(player, npc, ID.mob.KHROMASOUL_BHURBORLOR, {hide = 0}) then -- Vinegar Pie
-        player:confirmTrade()
+    if npcUtil.tradeHasExactly(trade, 2585) and npcUtil.popFromQM(player, npc, ID.mob.KHROMASOUL_BHURBORLOR, {hide = 0}) then -- Vinegar Pie
+        tpz.znm.onTrade(player, 2585)
+        player:messageSpecial(ID.text.DRAWS_NEAR)
     end
 end
 

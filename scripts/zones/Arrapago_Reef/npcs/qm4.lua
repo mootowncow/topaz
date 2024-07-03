@@ -5,11 +5,13 @@
 -----------------------------------
 local ID = require("scripts/zones/Arrapago_Reef/IDs")
 require("scripts/globals/npc_util")
+require("scripts/globals/znm")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 2596) and npcUtil.popFromQM(player, npc, ID.mob.NUHN) then -- Trade Rose Scampi
-        player:confirmTrade()
+    if npcUtil.tradeHasExactly(trade, 2596) and npcUtil.popFromQM(player, npc, ID.mob.NUHN) then -- Trade Rose Scampi
+        tpz.znm.onTrade(player, 2596)
+        player:messageSpecial(ID.text.DRAWS_NEAR)
     end
 end
 

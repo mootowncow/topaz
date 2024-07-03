@@ -5,11 +5,12 @@
 -----------------------------------
 local ID = require("scripts/zones/Aydeewa_Subterrane/IDs")
 require("scripts/globals/npc_util")
+require("scripts/globals/znm")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 2602) and npcUtil.popFromQM(player, npc, ID.mob.CHIGRE) then
-        player:confirmTrade()
+    if npcUtil.tradeHasExactly(trade, 2602) and npcUtil.popFromQM(player, npc, ID.mob.CHIGRE) then
+        tpz.znm.onTrade(player, 2602)
         player:messageSpecial(ID.text.DRAWS_NEAR)
     end
 end

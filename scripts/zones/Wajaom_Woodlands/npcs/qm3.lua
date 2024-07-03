@@ -5,11 +5,12 @@
 -----------------------------------
 local ID = require("scripts/zones/Wajaom_Woodlands/IDs")
 require("scripts/globals/npc_util")
+require("scripts/globals/znm")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 2575) and npcUtil.popFromQM(player, npc, ID.mob.GOTOH_ZHA_THE_REDOLENT) then
-        player:confirmTrade()
+    if npcUtil.tradeHasExactly(trade, 2575) and npcUtil.popFromQM(player, npc, ID.mob.GOTOH_ZHA_THE_REDOLENT) then
+        tpz.znm.onTrade(player, 2575)
         player:messageSpecial(ID.text.DRAWS_NEAR)
     end
 end

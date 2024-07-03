@@ -5,11 +5,12 @@
 -----------------------------------
 local ID = require("scripts/zones/Caedarva_Mire/IDs")
 require("scripts/globals/npc_util")
+require("scripts/globals/znm")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 2593) and npcUtil.popFromQM(player, npc, ID.mob.TYGER) then -- Singed Buffalo
-        player:confirmTrade()
+    if npcUtil.tradeHasExactly(trade, 2593) and npcUtil.popFromQM(player, npc, ID.mob.TYGER) then -- Singed Buffalo
+        tpz.znm.onTrade(player, 2593)
         player:messageSpecial(ID.text.OMINOUS_PRESENCE)
     end
 end

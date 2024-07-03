@@ -5,11 +5,13 @@
 -----------------------------------
 local ID = require("scripts/zones/Mamook/IDs")
 require("scripts/globals/npc_util")
+require("scripts/globals/znm")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 2579) and npcUtil.popFromQM(player, npc, ID.mob.IRIRI_SAMARIRI) then -- Trade Samariri Corpsehair
-        player:confirmTrade()
+    if npcUtil.tradeHasExactly(trade, 2579) and npcUtil.popFromQM(player, npc, ID.mob.IRIRI_SAMARIRI) then -- Trade Samariri Corpsehair
+        tpz.znm.onTrade(player, 2579)
+        player:messageSpecial(ID.text.DRAWS_NEAR)
     end
 end
 

@@ -5,11 +5,13 @@
 -----------------------------------
 local ID = require("scripts/zones/Caedarva_Mire/IDs")
 require("scripts/globals/npc_util")
+require("scripts/globals/znm")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 2595) and npcUtil.popFromQM(player, npc, ID.mob.EXPERIMENTAL_LAMIA) then -- Myrrh
-        player:confirmTrade()
+    if npcUtil.tradeHasExactly(trade, 2595) and npcUtil.popFromQM(player, npc, ID.mob.EXPERIMENTAL_LAMIA) then -- Myrrh
+        tpz.znm.onTrade(player, 2595)
+        player:messageSpecial(ID.text.DRAWS_NEAR)
     end
 end
 

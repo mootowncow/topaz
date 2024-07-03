@@ -5,11 +5,13 @@
 -----------------------------------
 local ID = require("scripts/zones/Caedarva_Mire/IDs")
 require("scripts/globals/npc_util")
+require("scripts/globals/znm")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 2594) and npcUtil.popFromQM(player, npc, ID.mob.MAHJLAEF_THE_PAINTORN) then -- Exorcism Treatise
-        player:confirmTrade()
+    if npcUtil.tradeHasExactly(trade, 2594) and npcUtil.popFromQM(player, npc, ID.mob.MAHJLAEF_THE_PAINTORN) then -- Exorcism Treatise
+        tpz.znm.onTrade(player, 2594)
+        player:messageSpecial(ID.text.DRAWS_NEAR)
     end
 end
 

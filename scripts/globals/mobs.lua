@@ -12,6 +12,7 @@ require("scripts/globals/npc_util")
 require("scripts/globals/roe")
 require("scripts/globals/world")
 require("scripts/globals/mob_skills")
+require("scripts/globals/znm")
 -----------------------------------
 
 tpz = tpz or {}
@@ -42,6 +43,7 @@ function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill)
         end
     end
 
+    tpz.znm.OnMobDeath(mob, player, isKiller, isWeaponSkillKill)
     -- tpz.magian.checkMagianTrial(player, {['mob'] = mob}) TODO: NYI
 end
 

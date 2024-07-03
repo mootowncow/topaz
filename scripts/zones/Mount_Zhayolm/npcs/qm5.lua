@@ -5,11 +5,12 @@
 -----------------------------------
 local ID = require("scripts/zones/Mount_Zhayolm/IDs")
 require("scripts/globals/npc_util")
+require("scripts/globals/znm")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 2583) and npcUtil.popFromQM(player, npc, ID.mob.SARAMEYA) then -- Buffalo Corpse
-        player:confirmTrade()
+    if npcUtil.tradeHasExactly(trade, 2583) and npcUtil.popFromQM(player, npc, ID.mob.SARAMEYA) then -- Buffalo Corpse
+        tpz.znm.onTrade(player, 2583)
         player:messageSpecial(ID.text.DRAWS_NEAR)
     end
 end

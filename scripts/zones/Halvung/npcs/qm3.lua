@@ -5,11 +5,13 @@
 -----------------------------------
 local ID = require("scripts/zones/Halvung/IDs")
 require("scripts/globals/npc_util")
+require("scripts/globals/znm")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 2588) and npcUtil.popFromQM(player, npc, ID.mob.REACTON) then -- Bone Charcoal
-        player:confirmTrade()
+    if npcUtil.tradeHasExactly(trade, 2588) and npcUtil.popFromQM(player, npc, ID.mob.REACTON) then -- Bone Charcoal
+        tpz.znm.onTrade(player, 2588)
+        player:messageSpecial(ID.text.DRAWS_NEAR)
     end
 end
 
