@@ -16298,7 +16298,24 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
 
                               if (dynamic_cast<CMobEntity*>(PEntity))
                               {
-                                  if (luautils::OnMobSkillCheck(PTarget, PEntity, PMobSkill) == 0)
+                                  int onSkillCheck = luautils::OnMobSkillCheck(PTarget, PEntity, PMobSkill);
+
+                                  if (PMob->objtype == TYPE_PET && static_cast<CPetEntity*>(PMob)->getPetType() == PETTYPE_AUTOMATON)
+                                  {
+                                      //printf("PMob is automaton\n");
+                                      CAutomatonEntity* PAutomaton = dynamic_cast<CAutomatonEntity*>(dynamic_cast<CPetEntity*>(PMob));
+                                      if (PAutomaton)
+                                      {
+                                          //printf("PAutomaton is valid\n");
+                                          onSkillCheck = luautils::OnMobAutomatonSkillCheck(PTarget, PAutomaton, PMobSkill);
+                                      }
+                                      else
+                                      {
+                                          //printf("PAutomaton is null\n");
+                                      }
+                                  }
+
+                                  if (onSkillCheck == 0)
                                   {
                                       if (PMobSkill->getValidTargets() & TARGET_ENEMY)
                                       {
