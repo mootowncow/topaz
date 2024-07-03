@@ -17,7 +17,7 @@ function onUseAbility(player, target, ability)
     local duration = 30 + player:getMod(tpz.mod.FERAL_HOWL_DURATION)
     local bonusAcc = (player:getMerit(tpz.merit.FERAL_HOWL) * 5) - 5
     local skill = player:getWeaponSkillType(tpz.slot.MAIN)
-    local resist = applyResistanceAbility(player, target, tpz.magic.ele.EARTH, skill, bonusAcc)
+    local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.EARTH, bonusAcc, tpz.effect.NONE, skill)
 
     -- Half duration on NMs
     if target:isNM() then

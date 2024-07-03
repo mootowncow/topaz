@@ -80,7 +80,7 @@ function onUseAbility(player, target, ability, action)
     local skill = player:getWeaponSkillType(tpz.slot.MAIN)
     local bonus = 175
     if (stolen == 0 and player:hasTrait(tpz.trait.AURA_STEAL)) then
-        local resist = applyResistanceAbility(player, target, tpz.magic.ele.WIND, skill, bonus)
+        local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, bonus, tpz.effect.NONE, skill)
         local effectStealSuccess = false
         if (resist >= 0.50) and math.random(100) > target:getMod(tpz.mod.DISPELRESTRAIT) then
             local auraStealChance = math.min(player:getMerit(tpz.merit.AURA_STEAL), 95)

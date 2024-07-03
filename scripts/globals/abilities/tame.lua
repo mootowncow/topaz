@@ -27,7 +27,7 @@ function onUseAbility(player, target, ability)
     local skill = player:getWeaponSkillType(tpz.slot.MAIN)
     local element = tpz.magic.ele.NONE
     local bonus = player:getMod(tpz.mod.TAME_SUCCESS_RATE)
-    local resist = applyResistanceAbility(player, target, element, skill, bonus)
+    local resist = applyResistanceAddEffect(player, target, element, bonus, tpz.effect.NONE, skill)
 
     if resist < 1 then
         ability:setMsg(tpz.msg.basic.JA_MISS_2)

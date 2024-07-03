@@ -13,12 +13,11 @@ function onMobSkillCheck(target, automaton, skill)
 end
 
 function onPetAbility(target, automaton, skill, master, action)
-printf("?")
     automaton:addRecast(tpz.recast.ABILITY, skill:getID(), 60)
     local element = tpz.magic.ele.DARK
     local skillType = jobUtil.GetAutoMainSkill(automaton)
     local bonus = 175
-    local resist = applyResistanceAbility(automaton, target, element, skillType, bonus)
+    local resist = applyResistanceAddEffect(automaton, target, element, bonus, tpz.effect.NONE, skillType)
     local stolen = 0
 
     if resist >= 0.5 then

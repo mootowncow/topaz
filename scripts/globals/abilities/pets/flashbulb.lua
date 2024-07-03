@@ -9,14 +9,16 @@ require("scripts/globals/job_util")
 ---------------------------------------------
 
 function onMobSkillCheck(target, automaton, skill)
+    printf("On mob skill check")
     return 0
 end
 
 function onPetAbility(target, automaton, skill, master, action)
     automaton:addRecast(tpz.recast.ABILITY, skill:getID(), 45)
+    local element = tpz.magic.ele.LIGHT
     local skillType = jobUtil.GetAutoMainSkill(automaton)
-
-    local resist = applyResistanceAbility(automaton, target, 7, skillType, 256)
+    local bonus = 256
+    local resist = applyResistanceAddEffect(automaton, target, element, bonus, tpz.effect.FLASH, skillType)
     local duration = 12 * resist
     -- master:PrintToPlayer(string.format("Resist %i", resist*100))
     -- master:PrintToPlayer(string.format("Targets accuracy %i", target:getACC()))
