@@ -10,6 +10,22 @@ require("scripts/globals/treasure")
 
 function onInitialize(zone)
     tpz.treasure.initZone(zone)
+
+    -- Place Curtana at a random ??? on initialize
+    local randpos = math.random(1, 8)
+    local curtana = GetNPCByID(17502581)
+
+    switch (randpos): caseof
+    {
+        [1] = function (x) curtana:setPos(-370.039, 16.014, -274.378); end,
+        [2] = function (x) curtana:setPos(-389, 16, -274); end,
+        [3] = function (x) curtana:setPos(-434, 16, -229); end,
+        [4] = function (x) curtana:setPos(-434, 16, -210); end,
+        [5] = function (x) curtana:setPos(434, 13, -210); end,
+        [6] = function (x) curtana:setPos(434, 16, -230); end,
+        [7] = function (x) curtana:setPos(390, 16, -194); end,
+        [8] = function (x) curtana:setPos(370, 16, -194); end,
+    }
 end
 
 function onConquestUpdate(zone, updatetype)
