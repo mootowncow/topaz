@@ -29,6 +29,8 @@ function onTrade(player, npc, trade)
                     player:startEvent(10093)
                 elseif wsPoints >= 250 then
                     player:startEvent(10088, i)
+                    player:confirmTrade()
+                    player:addItem(wepId)
                 end
             end
 
