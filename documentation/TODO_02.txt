@@ -155,6 +155,7 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+spell cooldown timer added to mob casting (Does mob_spell_container exist?)
 noKiller to tpz.annm.SpawnChest and all its files its used in
 Lyft weapon revamp (MAB for gun)
 Wild Rage said "999 shadows absorbed" with blink up?
