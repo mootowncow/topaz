@@ -921,7 +921,7 @@ namespace petutils
         }
         LoadAvatarStats(PPet); // follows PC calcs (w/o SJ)
 
-        if (PPetData != nullptr)
+        if (PPetData != nullptr && PPetData != (decltype(PPetData))0xFFFFFFFFFFFFFF99)
         {
             PPet->m_SpellListContainer = mobSpellList::GetMobSpellList(PPetData->spellList);
         }

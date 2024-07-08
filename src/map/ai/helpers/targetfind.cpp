@@ -86,7 +86,7 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
     m_PMasterTarget = findMaster(PTarget);
 
     // no not include pets if this AoE is a buff spell
-    // this is a buff because i'm targetting my self
+    // this is a buff because i'm targeting my self
     bool withPet = PETS_CAN_AOE_BUFF || (m_findFlags & FINDFLAGS_PET) || (m_PMasterTarget->objtype != m_PBattleEntity->objtype);
 
     // always add original target first
@@ -133,7 +133,7 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
     {
         // handle this as a mob
         if (m_PMasterTarget->objtype == TYPE_PC || m_PBattleEntity->allegiance == ALLEGIANCE_PLAYER ||
-            (radius > 0 && m_PMasterTarget == m_PBattleEntity && m_PBattleEntity->name == "Dark_Ixion")) // DI targetting himself with AoE mobskill
+            (radius > 0 && m_PMasterTarget == m_PBattleEntity && m_PBattleEntity->name == "Dark_Ixion")) // DI targeting himself with AoE mobskill
         {
             m_findType = FIND_MONSTER_PLAYER;
 
@@ -445,7 +445,7 @@ bool CTargetFind::validEntity(CBattleEntity* PTarget)
 
     // check placement
     // force first target to be added
-    // this will be removed when conal targetting is polished
+    // this will be removed when conal targeting is polished
     if (m_conal)
     {
         if (isWithinCone(&PTarget->loc.p))

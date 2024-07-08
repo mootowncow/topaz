@@ -2947,11 +2947,11 @@ INSERT INTO `mob_skills` VALUES (2984,70,'heartfelt_aura',0,7.0,2000,1000,1,0,0,
 INSERT INTO `mob_skills` VALUES (2985,71,'impairing_glister',1,18.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2986,2120,'crippling_gleam',1,18.0,2000,1000,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2987,2731,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2988,2155,'glutinous_dart',1,18.0,2000,1000,4,0,0,0,0,0,0); -- Check Animation / targetting(Aoe etc)
+INSERT INTO `mob_skills` VALUES (2988,2155,'glutinous_dart',1,18.0,2000,1000,4,0,0,0,0,0,0); -- Check Animation / targeting(Aoe etc)
 INSERT INTO `mob_skills` VALUES (2989,2156,'death_spin',1,18.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2990,2157,'velkkan_pygmachia',1,18.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2991,2158,'saurian_slide',1,18.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2992,2159,'jungle_wallop',1,18.0,2000,1000,4,0,0,0,0,0,0); -- Check Animation / targetting(Aoe etc)
+INSERT INTO `mob_skills` VALUES (2992,2159,'jungle_wallop',1,18.0,2000,1000,4,0,0,0,0,0,0); -- Check Animation / targeting(Aoe etc)
 -- INSERT INTO `mob_skills` VALUES (2993,2737,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2994,107,'glutinous_dart',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2995,108,'death_spin',0,7.0,2000,1500,4,0,0,0,0,0,0);

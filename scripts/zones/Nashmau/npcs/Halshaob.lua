@@ -33,14 +33,14 @@ function onTrade(player, npc, trade)
           player:setCharVar("Halshaob_Timer", os.date("%j"))
           player:setCharVar("Halshaob_Quest", 4)
           player:startEvent(302, 2185, 1, 102)
-        elseif trade:getItemQty(2186) == 1 and trade:getItemCount() == 1 and questRPE == QUEST_COMPLETED then
---          if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.TARGETING_THE_CAPTAIN) == QUEST_AVAILABLE then
---              player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.TARGETING_THE_CAPTAIN)
---              player:confirmTrade()
---          end
---          player:setCharVar("Halshaob_Timer", os.date("%j"))
---          player:setCharVar("Halshaob_Quest", 8)
---          player:startEvent(302, 2186, 1, 103)
+        elseif trade:getItemQty(tpz.items.IMPERIAL_MYTHRIL_PIECE) == 1 and trade:getItemCount() == 1 and questRPE == QUEST_COMPLETED then
+            if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.TARGETING_THE_CAPTAIN) == QUEST_AVAILABLE then
+                player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.TARGETING_THE_CAPTAIN)
+                player:confirmTrade()
+            end
+            player:setCharVar("Halshaob_Timer", os.date("%j"))
+            player:setCharVar("Halshaob_Quest", 8)
+            player:startEvent(302, 2186, 1, 103)
         end
     end
 end

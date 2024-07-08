@@ -41,7 +41,6 @@ and clearing enms + KI's being deleted + conquest tally timer
 
 https://github.com/mootowncow/topaz/commit/ad288f0dd06a3922f2bf2aaf96f3de38afd33f60 - Checked some BLU spells, gates of hades, choke , frost
 BLM AM2's - Magic burst bonus and MACC bonus
-Self targetting nukes/enfeebles for mobs
 Double Weather for WKR on engage, removed when procced, readded once not procced
 DRK Relic Armor Absorb spells and set bonus
 Cait sith SDT/physical resistances and blood pacts

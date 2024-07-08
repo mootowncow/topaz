@@ -234,6 +234,18 @@ tpz.path =
         end
     end,
 
+    faceRandomDirection = function(npc)
+        -- Needs mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
+        local spawnPos = npc:getSpawnPos()
+        local Turn = npc:getLocalVar("Turn")
+        local Time = os.time()
+        local facingDirection = {255, 190}
+        if Time > Turn then
+            npc:setPos(spawnPos.x, spawnPos.y, spawnPos.z, math.random(0, 255))
+            npc:setLocalVar("Turn", Time + 5)
+        end
+    end,
+
     IsStuck = function(npc)
         local npcId = npc:getID()
         local currentPosition = {x = npc:getXPos(), y = npc:getYPos(), z = npc:getZPos()}

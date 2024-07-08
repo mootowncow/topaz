@@ -165,10 +165,11 @@ zones[tpz.zone.THE_ASHU_TALIF] =
             BLACK_BARTHOLOMEW = 17023023,
             FALUUYA = 17023011,
         },
-        -- Targetting the captain
+        -- Targeting the captain
         [57] =
         {
-            CAPTAIN = 17023011,
+            BUBBLY              = 17023028,
+            CUTTHROAT_KABSALAH  = 17023029,
         },
     },
     npc =

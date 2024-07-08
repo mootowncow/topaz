@@ -86,6 +86,59 @@ function onTrigger(player, npc)
         {itemid = tpz.items.QUESTIONMARK_BOX, droprate = 500},
     }
 
+    local targetingCaptainBoxA =
+    {
+        {itemid = tpz.items.GOLD_BEASTCOIN, droprate = 100},
+        {itemid = tpz.items.MYTHRIL_BEASTCOIN, droprate = 100},
+        {itemid = tpz.items.PLATINUM_BEASTCOIN, droprate = 100},
+        {itemid = tpz.items.JADEITE, droprate = 100},
+        {itemid = tpz.items.EMERALD, droprate = 100},
+        {itemid = tpz.items.RUBY, droprate = 100},
+        {itemid = tpz.items.DIAMOND, droprate = 100},
+        {itemid = tpz.items.PERIDOT, droprate = 100},
+        {itemid = tpz.items.TOPAZ, droprate = 100},
+        {itemid = tpz.items.GARNET, droprate = 100},
+        {itemid = tpz.items.AQUAMARINE, droprate = 100},
+        {itemid = tpz.items.PEARL, droprate = 100},
+        {itemid = tpz.items.BLACK_PEARL, droprate = 100},
+        {itemid = tpz.items.SAPPHIRE, droprate = 100},
+        {itemid = tpz.items.PAINITE, droprate = 100},
+        {itemid = tpz.items.TURQUOISE, droprate = 100},
+        {itemid = tpz.items.CHRYSOBERYL, droprate = 100},
+        {itemid = tpz.items.MOONSTONE, droprate = 100},
+        {itemid = tpz.items.SUNSTONE, droprate = 100},
+        {itemid = tpz.items.SPINEL, droprate = 100},
+        {itemid = tpz.items.ZIRCON, droprate = 100},
+        {itemid = tpz.items.GOSHENITE, droprate = 100},
+        {itemid = tpz.items.FLUORITE, droprate = 100},
+        {itemid = tpz.items.AMETRINE, droprate = 100},
+        {itemid = tpz.items.ANGELSTONE, droprate = 100},
+        {itemid = tpz.items.SPHENE, droprate = 100},
+        {itemid = tpz.items.YOICHIS_SASH, droprate = 100}
+    }
+
+    local targetingCaptainBoxB =
+    {
+        {itemid = tpz.items.QUESTIONMARK_BOX, droprate = 1000},
+    }
+
+    local targetingCaptainBoxC_Gloves =
+    {
+        {itemid = tpz.items.QUESTIONMARK_GLOVES, droprate = 1000},
+    }
+    local targetingCaptainBoxC_Attachments =
+    {
+        {itemid = tpz.items.SCHURZEN, droprate = 100},
+        {itemid = tpz.items.DYNAMO, droprate = 100},
+        {itemid = tpz.items.ECONOMIZER, droprate = 100},
+        {itemid = tpz.items.OPTIC_FIBER, droprate = 100},
+        {itemid = tpz.items.TURBO_CHARGER, droprate = 100},
+        {itemid = tpz.items.REACTIVE_SHIELD, droprate = 100},
+        {itemid = tpz.items.TRANQUILIZER, droprate = 100},
+        {itemid = tpz.items.CONDENSER, droprate = 100},
+    }
+
+
     local regItem = {
         [55] = {itemid = tpz.items.STAR_SAPPHIRE, droprate = 100}
     }
@@ -94,12 +147,21 @@ function onTrigger(player, npc)
     local instanceID = instance:getID()
     local chars = instance:getChars()
     local chestID = npc:getID()
+    local boxClootTables = {
+        targetingCaptainBoxC_Gloves,
+        targetingCaptainBoxC_Attachments,
+    }
+
+    -- Instance IDs
+    local SCOUTING_THE_ASHU_TALIF = 55
+    local ROYAL_PAINTER_ESCORT = 56
+    local TARGETING_THE_CAPTAIN = 57
     
     local chests = {
         {name = "qChest", id = ID.npc[55].ANCIENT_LOCKBOX_EXTRA},
-        {name = "royalPainterChest", id = ID.npc[56].ANCIENT_LOCKBOX},
-        {name = "royalPainterChestBoss", id = ID.npc[56].ANCIENT_LOCKBOX_BOSS_BONUS},
-        {name = "royalPainterChestFaluuya", id = ID.npc[56].ANCIENT_LOCKBOX_NO_DAMAGE_BONUS}
+        {name = "mainChest", id = ID.npc[56].ANCIENT_LOCKBOX},
+        {name = "firstBonusChest", id = ID.npc[56].ANCIENT_LOCKBOX_BOSS_BONUS},
+        {name = "secondBonusChest", id = ID.npc[56].ANCIENT_LOCKBOX_NO_DAMAGE_BONUS}
     }
 
     if instance:completed() and npc:getLocalVar("open") == 0 then
@@ -122,13 +184,25 @@ function onTrigger(player, npc)
 
             if chestType == "qChest" then
                 distributeLoot(player, chars, qItem[instanceID], instanceID)
-            elseif chestType == "royalPainterChest" then
+            elseif chestType == "mainChest" then
                 player:addTreasure(tpz.items.KOGA_SHURIKEN, npc)
-                distributeLoot(player, chars, royalPainterItem, instanceID)
-            elseif chestType == "royalPainterChestBoss" then
-                distributeLoot(player, chars, royalPainterItemBoss, instanceID)
-            elseif chestType == "royalPainterChestFaluuya" then
-                distributeLoot(player, chars, royalPainterItemFaluuya, instanceID)
+                if (instanceID == ROYAL_PAINTER_ESCORT) then
+                    distributeLoot(player, chars, royalPainterItem, instanceID)
+                elseif (instanceID == TARGETING_THE_CAPTAIN) then
+                    distributeLoot(player, chars, targetingCaptainBoxA, instanceID)
+                end
+            elseif chestType == "firstBonusChest" then
+                if (instanceID == ROYAL_PAINTER_ESCORT) then
+                    distributeLoot(player, chars, royalPainterItemBoss, instanceID)
+                elseif (instanceID == TARGETING_THE_CAPTAIN) then
+                    distributeLoot(player, chars, targetingCaptainBoxB, instanceID)
+                end
+            elseif chestType == "secondBonusChest" then
+                if (instanceID == ROYAL_PAINTER_ESCORT) then
+                    distributeLoot(player, chars, royalPainterItemFaluuya, instanceID)
+                elseif (instanceID == TARGETING_THE_CAPTAIN) then
+                    distributeLoot(player, chars, lootTables[math.random(#lootTables)], instanceID) -- One of two Possible chests
+                end
             else
                 player:addTreasure(tpz.items.KOGA_SHURIKEN, npc)
 

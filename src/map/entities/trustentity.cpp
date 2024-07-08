@@ -462,7 +462,7 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
                     luautils::OnWeaponskillHit(PBattleTarget, this, PWeaponSkill->getID());
                 }
             }
-            else // Self-targetting WS restoring MP
+            else // Self-targeting WS restoring MP
             {
                 actionTarget.messageID = primary ? 224 : 276; // Restores mp msg
                 actionTarget.reaction = REACTION_HIT;

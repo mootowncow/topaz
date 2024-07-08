@@ -634,6 +634,20 @@ INSERT INTO `instance_entities` VALUES(56, 17023030); -- Ancient Lockbox (Faluuy
 INSERT INTO `instance_entities` VALUES(56, 17023057); -- Door: Cargo Hold
 INSERT INTO `instance_entities` VALUES(56, 17023059); -- Gate: Lifeboat
 
+-- Targeting the Captain
+-- Mobs
+INSERT INTO `instance_entities` VALUES(57, 17023026); -- Windjammer Imp
+INSERT INTO `instance_entities` VALUES(57, 17023027); -- Windjammer Imp
+INSERT INTO `instance_entities` VALUES(57, 17023028); -- Bubbly
+INSERT INTO `instance_entities` VALUES(57, 17023029); -- Cutthroat Kabsalah
+
+-- NPCs
+INSERT INTO `instance_entities` VALUES(57, 17023024); -- Ancient Lockbox (Winning)
+INSERT INTO `instance_entities` VALUES(57, 17023025); -- Ancient Lockbox (Boss killed)
+INSERT INTO `instance_entities` VALUES(57, 17023030); -- Ancient Lockbox (Faluuya 0 damage taken)
+INSERT INTO `instance_entities` VALUES(57, 17023057); -- Door: Cargo Hold
+INSERT INTO `instance_entities` VALUES(57, 17023058); -- Door: Great Cabin
+INSERT INTO `instance_entities` VALUES(57, 17023059); -- Gate: Lifeboat
 
 -- Path of Darkness
 -- mobs

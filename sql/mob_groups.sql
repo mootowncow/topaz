@@ -2913,6 +2913,10 @@ INSERT INTO `mob_groups` VALUES (14, 4305, 60, 'Watch_Imp', 0, 128, 0, 750, 0, 7
 INSERT INTO `mob_groups` VALUES (15, 3826, 60, 'Swiftwinged_Gekko', 0, 128, 0, 6500, 0, 77, 78, 0);
 INSERT INTO `mob_groups` VALUES (16,1294,60,'Faluuya',0,128,0,1000,0,75,75,1); -- Escort NPC
 INSERT INTO `mob_groups` VALUES (17,432,60,'Black_Bartholomew',0,128,0,5500,0,81,81,0);
+-- Targeting the Captain
+INSERT INTO `mob_groups` VALUES (18,4348,60,'Windjammer_Imp',0,128,0,0,0,78,78,0);
+INSERT INTO `mob_groups` VALUES (19,550,60,'Bubbly',0,128,0,17500,0,80,80,0);
+INSERT INTO `mob_groups` VALUES (202020,873,60,'Cutthroat_Kabsalah',0,128,0,17500,0,80,80,0);
 
 INSERT INTO `mob_groups` VALUES (2017,264,60,'Ashu_Talif_Marine',0,128,0,0,0,75,75,0);
 INSERT INTO `mob_groups` VALUES (2018,432,60,'Black_Bartholomew',0,128,0,0,0,76,76,0);

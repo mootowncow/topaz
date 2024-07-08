@@ -3036,7 +3036,7 @@ tpz.allegiance =
 }
 
 ----------------------------------
--- Targetting for auras relative to objtype
+-- Targeting for auras relative to objtype
 ----------------------------------
 
 tpz.auraTarget =

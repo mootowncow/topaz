@@ -43,7 +43,7 @@ function instanceCheckReqs(player, instanceId, isInitiator)
     local registerRequirements = {
         [  55] = function() return ( player:getCharVar("Halshaob_Quest") == 2 ) end, -- Scouting the Ashu Talif
         [  56] = function() return ( player:getCharVar("Halshaob_Quest") == 4 ) end, -- Royal Painter Escort
-        [  57] = function() return ( player:getCharVar("Halshaob_Quest") == 8 ) end, -- Targetting the captain
+        [  57] = function() return ( player:getCharVar("Halshaob_Quest") == 8 ) end, -- Targeting the captain
         [  90] = function() return ( player:hasKeyItem(tpz.ki.MINE_SHAFT_KEY) and (player:getCharVar("LightInTheDarkness") == 5 or player:getCharVar("LightInTheDarkness") == 8) ) end, -- Light in the Darkness (WotG Mission-Quest)
         [  96] = function() return ( player:hasKeyItem(tpz.ki.FORT_KEY) ) end, -- A Manifest Problem (WotG Mission-Quest)
     }
@@ -52,7 +52,7 @@ function instanceCheckReqs(player, instanceId, isInitiator)
     local enterRequirements = {
         [  55] = function() return ( player:getCharVar("Halshaob_Quest") == 2 ) end, -- Scouting the Ashu Talif
         [  56] = function() return ( player:getCharVar("Halshaob_Quest") == 4 ) end, -- Royal Painter Escort (Not Tested, delete if doens't work)
-        [  57] = function() return ( player:getCharVar("Halshaob_Quest") == 8 ) end, -- Targetting the captain (Not Tested, delete if doens't work)
+        [  57] = function() return ( player:getCharVar("Halshaob_Quest") == 8 ) end, -- Targeting the captain (Not Tested, delete if doens't work)
         [  90] = function() return ((player:hasKeyItem(tpz.ki.MINE_SHAFT_KEY) and (player:getCharVar("LightInTheDarkness") == 5 or player:getCharVar("LightInTheDarkness") == 8)) or player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.LIGHT_IN_THE_DARKNESS) == QUEST_COMPLETED ) end, -- Light in the Darkness (WotG Mission-Quest)
         [  96] = function() return ( player:hasKeyItem(tpz.ki.FORT_KEY) or player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.A_MANIFEST_PROBLEM) == QUEST_COMPLETED ) end, -- A Manifest Problem (WotG Mission-Quest)
     }

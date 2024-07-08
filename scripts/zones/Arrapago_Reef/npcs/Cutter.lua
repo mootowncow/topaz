@@ -46,6 +46,11 @@ function onTrigger(player, npc)
         availableInstances = bit.bxor(availableInstances, ROYAL_PAINTER)
     end
 
+    -- if player:getCharVar("Halshaob_Quest") == 8 then
+    if VerfyInstanceForPlayer(player, 57, true) then
+        availableInstances = bit.bxor(availableInstances, TARGETING_CAPTAIN)
+    end
+
     if availableInstances < allInstances then
         player:startEvent(221, 54, availableInstances, 0, 99, 6, 0)
     else

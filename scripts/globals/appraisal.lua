@@ -572,6 +572,17 @@ tpz.appraisalUtil.appraisalItems =
                 { 5, 14937}, -- Storm Gages
             },
         },
+        [tpz.appraisalUtil.Origin.TARGETING_THE_CAPTAIN] =
+        {
+            items =
+            {
+                {20, 12969}, -- Leather Gloves
+                {20, 12965}, -- Bronze Mittens + 1
+                {20, 12721}, -- Cotton Gloves
+                {20, 12728}, -- Cuffs
+                {20, 14943}, -- Barbarossa's Moufles
+            }
+        },
         [tpz.appraisalUtil.Origin.NYZUL_PEALLAIDH] =
         {
             items =
@@ -1206,7 +1217,6 @@ tpz.appraisalUtil.appraisalItems =
                 { 1,    90}, -- Rusty Bucket
             },
         },
-
         [tpz.appraisalUtil.Origin.SCOUTING_THE_ASHU_TALIF] =
         {
             items =
@@ -1230,6 +1240,32 @@ tpz.appraisalUtil.appraisalItems =
                 {5, tpz.items.SPOOL_OF_SILVER_THREAD},
                 {5, tpz.items.SPOOL_OF_WOOL_THREAD},
                 {5, tpz.items.AMETRINE},
+                {5, tpz.items.DEATHSTONE},
+                {5, tpz.items.ANGELSTONE},
+                {5, tpz.items.CHUNK_OF_KHROMA_ORE},
+                {5, tpz.items.SCHURZEN},
+                {5, tpz.items.DYNAMO},
+                {5, tpz.items.ECONOMIZER},
+                {5, tpz.items.OPTIC_FIBER},
+                {5, tpz.items.TURBO_CHARGER},
+                {5, tpz.items.REACTIVE_SHIELD},
+                {5, tpz.items.TRANQUILIZER},
+                {5, tpz.items.CONDENSER},
+            }
+        },
+        [tpz.appraisalUtil.Origin.TARGETING_THE_CAPTAIN] =
+        {
+            items =
+            {
+                {5, tpz.items.CERBERUS_HIDE},
+                {5, tpz.items.HYDRA_SCALE},
+                {5, tpz.items.DIAMOND},
+                {5, tpz.items.EMERALD},
+                {5, tpz.items.SPOOL_OF_RAINBOW_THREAD},
+                {5, tpz.items.SPOOL_OF_GOLD_THREAD},
+                {5, tpz.items.SPOOL_OF_SILVER_THREAD},
+                {5, tpz.items.SPOOL_OF_WOOL_THREAD},
+                {5, tpz.items.BLOODWOOD_LOG},
                 {5, tpz.items.DEATHSTONE},
                 {5, tpz.items.ANGELSTONE},
                 {5, tpz.items.CHUNK_OF_KHROMA_ORE},
