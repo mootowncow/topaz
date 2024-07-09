@@ -221,6 +221,7 @@ function onInstanceComplete(instance)
     for _, v in pairs(chars) do
         v:setCharVar("Halshaob_Quest", 0)
         v:completeQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.SCOUTING_THE_ASHU_TALIF)
+        v:messageSpecial(ID.text.RETURN_TO_LIFEBOAT)
     end
 
     -- Spawn exit and chest(s)

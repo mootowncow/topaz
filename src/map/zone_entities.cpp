@@ -543,7 +543,7 @@ void CZoneEntities::SpawnMOBs(CCharEntity* PChar)
             if (PChar->isDead() || PChar->nameflags.flags & FLAG_GM || PCurrentMob->PMaster)
                 continue;
 
-            // проверка ночного/дневного сна монстров уже учтена в проверке CurrentAction, т.к. во сне монстры не ходят ^^
+            // The check for night/day sleep of monsters is already considered in the CurrentAction check, as monsters do not move while asleep
 
             const EMobDifficulty mobCheck = charutils::CheckMob(PChar->GetMLevel(), PCurrentMob->m_maxLevel);
 
@@ -553,6 +553,7 @@ void CZoneEntities::SpawnMOBs(CCharEntity* PChar)
 
             if (validAggro && PController->CanAggroTarget(PChar))
                 PCurrentMob->PAI->Engage(PChar->targid);
+                PCurrentMob->PAI->EventHandler.triggerListener("AGGRO_TARGET", PCurrentMob, PChar->targid);
         }
         else
         {
@@ -1374,6 +1375,7 @@ void CZoneEntities::ZoneServer(time_point tick, bool check_trigger_areas)
                 if (PController != nullptr && PController->CanAggroTarget(PMob))
                 {
                     PCurrentMob->PAI->Engage(PMob->targid);
+                    PCurrentMob->PAI->EventHandler.triggerListener("AGGRO_TARGET", PCurrentMob, PMob->targid);
                 }
             }
         }

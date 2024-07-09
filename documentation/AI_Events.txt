@@ -56,3 +56,5 @@ EFFECT_LOSE - Entity, Effect
 
 COMBAT_TICK - Mob, target
 ROAM_TICK - Mob
+AGGRO_TARGET - Mob, target (Aggros the target via detection methods, uesd for Nyzul "No aggro" and Cutthroat Kabsalah)
+Link - Mob, target

@@ -17,7 +17,7 @@ end
 
 function onInstanceCreated(instance)
     -- Spawn mobs
-    for v = 17023026,17023029,1 do
+    for v = ID.mob[57].WINDJAMMER_IMP[1], ID.mob[57].CUTTHROAT_KABSALAH do
         SpawnMob(v, instance)
     end
 
@@ -47,53 +47,32 @@ function onInstanceFailure(instance)
 end
 
 function onInstanceProgressUpdate(instance, progress)
-    local stage = instance:getStage()
-    local progress = instance:getProgress()
-    if (stage >= 2) then -- Mobs will now spawn
-        if progress == 0 then -- Wave 1
-            printf("Spawning wave 1")
-            spawnWave(1, instance)
-        elseif progress == 3 then -- Wave 2
-            printf("Spawning wave 2")
-            spawnWave(2, instance)
-        elseif progress == 6 then -- Wave 3
-            printf("Spawning wave 3")
-            spawnWave(3, instance)
-        elseif progress == 9 then -- Wave 4
-            printf("Spawning wave 4")
-            spawnWave(4, instance)
-        elseif progress == 11 then -- All waves killed
-            printf("All waves cleared")
-            instance:setLocalVar("allWavedCleared", 1)
-            DespawnMob(ID.mob[56].BLACK_BARTHOLOMEW, instance)
-        end
-    end
 end
 
 function onInstanceComplete(instance)
     local chars = instance:getChars()
-    local faluuya = GetMobByID(ID.mob[56].FALUUYA, instance)
     
     for _, v in pairs(chars) do
         v:setCharVar("Halshaob_Quest", 0)
-        v:completeQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT)
+        v:completeQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.TARGETING_THE_CAPTAIN)
+        v:messageSpecial(ID.text.RETURN_TO_LIFEBOAT)
     end
 
     -- Despawn mobs
-    for v = ID.mob[56].CREW[1], ID.mob[56].MARINE[5] do
+    for v = ID.mob[57].WINDJAMMER_IMP[1], ID.mob[57].CUTTHROAT_KABSALAH do
         DespawnMob(v, instance)
     end
 
     -- Spawn exit and chest(s)
     instance:getEntity(bit.band(ID.npc.GATE_LIFEBOAT, 0xFFF), tpz.objType.NPC):untargetable(false)
-    instance:getEntity(bit.band(ID.npc[56].ANCIENT_LOCKBOX, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
+    instance:getEntity(bit.band(ID.npc[57].ANCIENT_LOCKBOX, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
 
-    if (instance:getLocalVar("bartholomew_killed") > 0) then
-        instance:getEntity(bit.band(ID.npc[56].ANCIENT_LOCKBOX_BOSS_BONUS, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
+    if (instance:getLocalVar("bubbly_Defeated") == 1) then
+        instance:getEntity(bit.band(ID.npc[57].ANCIENT_LOCKBOX_BUBBLY_BONUS, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
     end
 
-    if (instance:getLocalVar("faluuya_damaged") == 0) then
-        instance:getEntity(bit.band(ID.npc[56].ANCIENT_LOCKBOX_NO_DAMAGE_BONUS, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
+    if (instance:getLocalVar("detected") == 0) then
+        instance:getEntity(bit.band(ID.npc[57].ANCIENT_LOCKBOX_NO_AGGRO_BONUS, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
     end
 end
 

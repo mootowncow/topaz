@@ -155,8 +155,10 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
-spell cooldown timer added to mob casting (Does mob_spell_container exist?)
+ShowDebug("%s summoned an avatar but the petID was nil! Please report. \n", PMaster->GetName()); happens and crashes server sometimes (Lamia dancer / bellydancer)
 noKiller to tpz.annm.SpawnChest and all its files its used in
+add m_instanceId member to char entity and when loading in or something set the player to that instance so they dont load into nowhere land
+spell cooldown timer added to mob casting (Does mob_spell_container exist?)
 Lyft weapon revamp (MAB for gun)
 Wild Rage said "999 shadows absorbed" with blink up?
 Buff Musanto / Katana from ANNM(Enmity +3 Evasion +7?)

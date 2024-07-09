@@ -461,7 +461,7 @@ bool CMobEntity::IsHumanoid()
 {
     return this->m_EcoSystem == SYSTEM_BEASTMEN || this->m_EcoSystem == SYSTEM_HUMANOID || this->m_Family == 3 || this->m_Family == 115 ||
         this->m_Family == 359 || this->m_Family == 509 || this->m_Family == 221 || this->m_Family == 222 || this->m_Family == 223 || this->m_Family == 169 ||
-           this->m_Family == 358 || this->m_Family == 329 || this->m_Family == 927 || this->m_Family == 928 || this->m_Family == 61;
+           this->m_Family == 358 || this->m_Family == 329 || this->m_Family == 927 || this->m_Family == 928 || this->m_Family == 61 || this->m_Family == 597;
 }
 
 

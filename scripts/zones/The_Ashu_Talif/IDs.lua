@@ -71,6 +71,9 @@ zones[tpz.zone.THE_ASHU_TALIF] =
         YOU_ARE_INCREDIBLE         = 7610, -- It doesn't seem that there are any ghosts left... You defeated them all, didn't you? My, you are incredible!
         A_TREASURE_CHEST           = 7611, -- Ah, a treasure chest! Be sure to open it before we head back.
         CHILL_DOWN_SPINE           = 7612, -- A chill runs down your spine!
+        RETURN_TO_LIFEBOAT         = 7579, -- Objective complete. You may return on the lifeboat.
+        UGH_WHAT                   = 7613, -- Ugh! What!?
+        WHERE_DID_YOU_COME_FROM    = 7614, -- Huh? Where did you come from!? Ahahaha... Imperial dogs, you are too naive!
     },
     mob =
     {
@@ -168,6 +171,11 @@ zones[tpz.zone.THE_ASHU_TALIF] =
         -- Targeting the captain
         [57] =
         {
+            WINDJAMMER_IMP =
+            {
+                [1] = 17023026,
+                [2] = 17023027,
+            },
             BUBBLY              = 17023028,
             CUTTHROAT_KABSALAH  = 17023029,
         },
@@ -187,6 +195,12 @@ zones[tpz.zone.THE_ASHU_TALIF] =
             ANCIENT_LOCKBOX                 = 17023024,
             ANCIENT_LOCKBOX_BOSS_BONUS      = 17023025,
             ANCIENT_LOCKBOX_NO_DAMAGE_BONUS = 17023030,
+        },
+        [57] =
+        {
+            ANCIENT_LOCKBOX                 = 17023024,
+            ANCIENT_LOCKBOX_BUBBLY_BONUS    = 17023025,
+            ANCIENT_LOCKBOX_NO_AGGRO_BONUS  = 17023030,
         }
     },
 }

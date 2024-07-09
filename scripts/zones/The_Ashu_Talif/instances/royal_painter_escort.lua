@@ -71,6 +71,7 @@ function onInstanceComplete(instance)
     for _, v in pairs(chars) do
         v:setCharVar("Halshaob_Quest", 0)
         v:completeQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT)
+        v:messageSpecial(ID.text.RETURN_TO_LIFEBOAT)
     end
 
     -- Despawn mobs

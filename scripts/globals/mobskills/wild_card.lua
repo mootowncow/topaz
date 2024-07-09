@@ -12,6 +12,7 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
 
+    mob:setTP(3000)
     skill:setMsg(tpz.msg.basic.USES)
 
     return tpz.effect.WILD_CARD
