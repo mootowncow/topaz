@@ -10,11 +10,13 @@ require("scripts/globals/status")
 require("scripts/globals/msg")
 require("scripts/globals/magic")
 require("scripts/globals/utils")
+require("scripts/globals/raid")
 -----------------------------------
 function onMobInitialize(mob)
 end
 
 function onMobSpawn(mob)
+    tpz.raid.onMobSpawn(mob)
 end
 
 function onMobEngaged(mob, target)

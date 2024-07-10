@@ -49,6 +49,7 @@ public:
     int32 getRegionID(lua_State*);
     int32 getType(lua_State*);
     int32 getBattlefieldByInitiator(lua_State*);
+    int32 getName(lua_State*);
     int32 battlefieldsFull(lua_State*);
     int32 getWeather(lua_State*);
     int32 addListener(lua_State*);

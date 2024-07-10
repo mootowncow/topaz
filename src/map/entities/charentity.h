@@ -88,6 +88,7 @@ struct profile_t
     uint32	   rankpoints;	    // очки ранга в трех государствах
     location_t home_point;		// точка возрождения персонажа
     uint8      campaign_allegiance;
+    uint8      unity_leader;
 };
 
 struct expChain_t
@@ -192,6 +193,7 @@ enum CHAR_PERSIST : uint8
 
 class CBasicPacket;
 class CLinkshell;
+class CUnityChat;
 class CJobPoints;
 class CMeritPoints;
 class CCharRecastContainer;
@@ -317,6 +319,7 @@ public:
 
     CLinkshell*       PLinkshell1;                  // linkshell, в которой общается персонаж
     CLinkshell*       PLinkshell2;                  // linkshell 2
+    CUnityChat*       PUnityChat;
     CTreasurePool*	  PTreasurePool;                // сокровища, добытые с монстров
     CMeritPoints*     PMeritPoints;                 //
     CJobPoints*       PJobPoints;

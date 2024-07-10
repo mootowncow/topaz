@@ -93,6 +93,8 @@ set(SOURCES
     transport.h
     treasure_pool.cpp
     treasure_pool.h
+    unitychat.cpp
+    unitychat.h
     universal_container.cpp
     universal_container.h
     vana_time.cpp
@@ -122,7 +124,7 @@ endif()
 
 add_executable(topaz_game
     ${SOURCES}
-    ${resource}    "job_points.cpp" "job_points.h")
+    ${resource}    "job_points.cpp" "job_points.h" "unitychat.cpp" "unitychat.h")
 
 if(WIN32)
     set_target_properties(topaz_game PROPERTIES OUTPUT_NAME topaz_game${spacer}${platform_suffix})

@@ -87,6 +87,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../universal_container.h"
 #include "../latent_effect_container.h"
 #include "../treasure_pool.h"
+#include "../unitychat.h"
 #include "../mob_modifier.h"
 #include "../roe.h"
 
@@ -850,6 +851,7 @@ namespace charutils
         PChar->m_pixieHate = GetCharVar(PChar, "PIXIE_HATE");
 
         charutils::LoadEquip(PChar);
+        unitychat::AddOnlineMember(PChar, PChar->profile.unity_leader);
         charutils::EmptyRecycleBin(PChar);
         bool canRestore = zoneutils::IsResidentialArea(PChar) && HP > 0;
         PChar->health.hp = canRestore ? PChar->GetMaxHP() : HP;

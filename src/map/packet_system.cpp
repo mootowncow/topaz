@@ -58,6 +58,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "trade_container.h"
 #include "zone.h"
 #include "utils/zoneutils.h"
+#include "unitychat.h"
 #include "message.h"
 #include "status_effect_container.h"
 #include "latent_effect_container.h"
@@ -4751,6 +4752,17 @@ void SmallPacket0x0B5(map_session_data_t* session, CCharEntity* PChar, CBasicPac
                 {
                     PChar->pushPacket(new CMessageStandardPacket(PChar, 0, MsgStd::CannotHere));
                 }
+            }
+            break;
+            case MESSAGE_UNITY:
+            {
+                PChar->loc.zone->PushPacket(PChar, CHAR_INSHOUT, new CChatMessagePacket(PChar, MESSAGE_SHOUT, (const char*)data[6]));
+                int8 packetData[8]{};
+                // TODO:
+                // ref<uint32>(packetData, 0) = PChar->PUnityChat->getLeader();
+                ref<uint32>(packetData, 0) = 0;
+                ref<uint32>(packetData, 4) = PChar->id;
+                message::send(MSG_CHAT_UNITY, packetData, sizeof packetData, new CChatMessagePacket(PChar, MESSAGE_UNITY, (const char*)data[6]));
             }
             break;
             }
