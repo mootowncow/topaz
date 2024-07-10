@@ -1687,7 +1687,11 @@ namespace petutils
         PPet->setModifier(Mod::EEM_POISON, PPetData->eempoison);
         PPet->setModifier(Mod::EEM_DARK_SLEEP, PPetData->eemdarksleep);
         PPet->setModifier(Mod::EEM_BLIND, PPetData->eemblind);
-
+        ShowDebug("%s (%s) is summoning a pet petID(%s) \n", PMaster->GetName(), PMaster->id, PetID);
+        if (PetID < 0)
+        {
+            ShowDebug("%s (%s) is summoning a pet without a petID(%s)! \n", PMaster->GetName(), PMaster->id, PetID);
+        }
         // Calculate pet specific stats
         if (PetID <= PETID_CAIT_SITH)
         {
