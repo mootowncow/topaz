@@ -633,7 +633,7 @@ void LoadMOBList()
                     PPet->m_AllowRespawn = false;
                     PPet->m_SpawnType = SPAWNTYPE_SCRIPTED;
                     PPet->SetDespawnTime(0s);
-                    if (petid2 > 0)
+                    if (petid2 > masterid) // If equal to masterid, pet_offset2 is 0, and 0 means no PPet2 entry
                     {
                         PPet2->m_AllowRespawn = false;
                         PPet2->m_SpawnType = SPAWNTYPE_SCRIPTED;
@@ -643,7 +643,7 @@ void LoadMOBList()
 
                 PMaster->PPet = PPet;
                 // Add 2nd pet if entry is not 0
-                if (petid2 > 0)
+                if (petid2 > masterid) // If equal to masterid, pet_offset2 is 0, and 0 means no PPet2 entry
                 {
                     PMaster->PPet2 = PPet2;
                 }
