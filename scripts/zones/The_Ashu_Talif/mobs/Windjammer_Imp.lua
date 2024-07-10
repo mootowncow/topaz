@@ -23,16 +23,13 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local instance = mob:getInstance()
+    local cutthroatKabsalah = GetMobByID(ID.mob[57].CUTTHROAT_KABSALAH, instance)
     -- If Kabsalah is in range of Tantara, he will detect players
     if skill:getID() >= tpz.mob.skills.ABRASIVE_TANTARA and skill:getID() <= tpz.mob.skills.DEAFENING_TANTARA then
-        printf("Checking distance")
-        local distanceToKabsalah = mob:checkDistance(ID.mob[57].CUTTHROAT_KABSALAH, instance)
-        printf("Distance to Kabsalah %d", distanceToKabsalah)
-        local distanceToTarget = mob:checkDistance(target)
-        printf("Distance to target %d", distanceToTarget)
-        if mob:checkDistance(ID.mob[57].CUTTHROAT_KABSALAH, instance) <= 70 then
+        local distanceToKabsalah = mob:checkDistance(cutthroatKabsalah, instance)
+        if mob:checkDistance(cutthroatKabsalah, instance) <= 50 then
             instance:setLocalVar("detected", 1)
-	        GetMobByID(ID.mob[57].CUTTHROAT_KABSALAH, instance):updateEnmity(target)
+	        cutthroatKabsalah:updateEnmity(target)
         end
     end
 end

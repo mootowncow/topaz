@@ -2120,17 +2120,53 @@ inline int32 CLuaBaseEntity::clearPath(lua_State* L)
 *  Notes   : Example1 is an entity, the others are coordinate point inputs
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::checkDistance(lua_State *L)
+/************************************************************************
+ *  Function: checkDistance()
+ *  Purpose : Returns the yalm distance between entities
+ *  Example1: if player:checkDistance(target) <= 25 then
+ *  Example2: if player:checkDistance(pos) <= 25 then
+ *  Example3: if player:checkDistance(posX, posY, PosZ) <= 25 then
+ *  Notes   : Example1 is an entity, the others are coordinate point inputs
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::checkDistance(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1));
 
     float calcdistance = 0;
+    CInstance* PInstance = nullptr;
+
+    // Check for instance in the second argument
+    if (!lua_isnil(L, 2) && lua_isuserdata(L, 2))
+    {
+        CLuaInstance* PLuaInstance = Lunar<CLuaInstance>::check(L, 2);
+        PInstance = PLuaInstance->GetInstance();
+    }
 
     if (lua_isuserdata(L, 1))
     {
         CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
-        calcdistance = distance(m_PBaseEntity->loc.p, PLuaBaseEntity->GetBaseEntity()->loc.p);
+        CBaseEntity* PTarget = nullptr;
+
+        if (PInstance)
+        {
+            PTarget = PInstance->GetEntity(PLuaBaseEntity->GetBaseEntity()->id & 0xFFF, PLuaBaseEntity->GetBaseEntity()->objtype);
+        }
+        else
+        {
+            PTarget = PLuaBaseEntity->GetBaseEntity();
+        }
+
+        if (PTarget)
+        {
+            calcdistance = distance(m_PBaseEntity->loc.p, PTarget->loc.p);
+        }
+        else
+        {
+            ShowError("Lua::checkDistance : target entity not found.");
+            return 0;
+        }
     }
     else
     {

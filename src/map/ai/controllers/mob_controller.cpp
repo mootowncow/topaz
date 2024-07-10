@@ -188,13 +188,13 @@ void CMobController::TryLink()
     // my pet should help as well
     if (PMob->PPet != nullptr && PMob->PPet->PAI->IsRoaming())
     {
-        PMob->PAI->EventHandler.triggerListener("LINK", PMob, PMob->targid);
+        PMob->PAI->EventHandler.triggerListener("LINK", PMob->PPet, PTarget->targid);
         PMob->PPet->PAI->Engage(PTarget->id);
     }
 
     if (PMob->PPet2 != nullptr && PMob->PPet2->PAI->IsRoaming())
     {
-        PMob->PAI->EventHandler.triggerListener("LINK", PMob, PMob->targid);
+        PMob->PAI->EventHandler.triggerListener("LINK", PMob->PPet2, PTarget->targid);
         PMob->PPet2->PAI->Engage(PTarget->id);
     }
 
