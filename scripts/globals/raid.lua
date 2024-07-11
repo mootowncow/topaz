@@ -9,20 +9,23 @@ require("scripts/globals/zone")
 require("scripts/globals/msg")
 require("scripts/globals/spell_data")
 --------------------------------------
--- local day = VanadielDayOfTheWeek()
+-- TODO: Confrontation status when in range of the NMs
+-- TODO: NPC's and mobs don't auto-fight eachother on spawn
+-- TODO: Erase won't be cast because not in party
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
+-- Needs to match std::vector<MobData> mobData in time_server.cpp
 local mobData =
 {
-    { Name = 'Unknown', SpawnDay = tpz.day.FIRESDAY },
-    { Name = 'Unknown', SpawnDay = tpz.day.EARTHSDAY },
-    { Name = 'Unknown', SpawnDay = tpz.day.WATERSDAY },
-    { Name = 'Unknown', SpawnDay = tpz.day.WINDSDAY },
-    { Name = 'Unknown', SpawnDay = tpz.day.ICEDAY },
-    { Name = 'Unknown', SpawnDay = tpz.day.LIGHTNINGDAY },
-    { Name = 'Unknown', SpawnDay = tpz.day.LIGHTSDAY },
-    { Name = 'Unknown', SpawnDay = tpz.day.DARKSDAY },
+    { Name = 'Promathia',       Zone = tpz.zone.BIBIKI_BAY,             Day = tpz.day.FIRESDAY     },
+    { Name = 'PH_01',           Zone = tpz.zone.ATTOHWA_CHASM,          Day = tpz.day.EARTHSDAY    },
+    { Name = 'Bahamut',         Zone = tpz.zone.LUFAISE_MEADOWS,        Day = tpz.day.WATERSDAY    },
+    { Name = 'PH_02',           Zone = tpz.zone.CAPE_TERIGGAN,          Day = tpz.day.WINDSDAY     },
+    { Name = 'Ealdnarche',      Zone = tpz.zone.WESTERN_ALTEPA_DESERT,  Day = tpz.day.ICEDAY       },
+    { Name = 'Kamlanaut',       Zone = tpz.zone.YHOATOR_JUNGLE,         Day = tpz.day.LIGHTNINGDAY },
+    { Name = 'Shadow Lord',     Zone = tpz.zone.THE_SANCTUARY_OF_ZITAH, Day = tpz.day.LIGHTSDAY    },
+    { Name = 'PH_03',           Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY     },
 }
 
 local npcData =
@@ -39,9 +42,10 @@ tpz.raid.onMobSpawn = function(mob)
     local mobName = MobName(mob)
     local zone = mob:getZone()
     local zoneName = zone:getName()
-    -- TODO: Zone name needs to not have _'s and need to change the talking to not the mobs name
+    zoneName = string.gsub(zoneName, '_', ' ');
+    -- TODO: need to change the talking to not the mobs name
 
-    mob:PrintToArea(mobName .. " has appeared in " .. zoneName .. "!", tpz.msg.channel.UNITY, 0)
+    mob:PrintToArea(mobName .. " has appeared in " .. zoneName .. "!", tpz.msg.channel.UNITY, "Test")
 end
 
 tpz.raid.onMobEngaged = function(mob, target)
@@ -62,10 +66,15 @@ end
 
 -- NPC helper functions
 
+tpz.raid.onNpcSpawn = function(mob)
+    mob:setSpellList(0)
+end
+
 tpz.raid.onNpcEngaged = function(mob, target)
 end
 
 tpz.raid.onNpcFight = function(mob, target)
+    UpdateHealerAI(mob, target)
 end
 
 tpz.raid.onSpellPrecast = function(mob, spell)
@@ -73,7 +82,7 @@ tpz.raid.onSpellPrecast = function(mob, spell)
         tpz.magic.spell.AUSPICE
     }
 
-    if (mob:getMainJob() == tpz.job.SCH) then
+    if (mob:getMainJob() == tpz.job.SCH) or (spell:getSkillType() == tpz.skill.ENHANCING_MAGIC) then
         spell:setAoE(tpz.magic.aoe.RADIAL)
         spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
         spell:setRadius(20)
@@ -90,7 +99,7 @@ tpz.raid.onSpellPrecast = function(mob, spell)
 end
 
 -- Zone helper functions
-tpz.raid.onGameHour = function(zone)
+tpz.raid.afterZoneIn = function(player)
 end
 
 
@@ -103,66 +112,12 @@ end
 tpz.raid.onNpcDeath = function(mob, player, isKiller, noKiller)
 end
 
-function UpdateTankAI(mob, target)
-end
-
-function UpdateDamageAI(mob, target)
-end
-
-function UpdateHealerAI(mob, target)
-    local cureTimer = mob:getLocalVar("cureTimer")
-    local naTimer = mob:getLocalVar("naTimer")
-    local buffTimer = mob:getLocalVar("buffTimer")
-
-    local nearbyPlayers = mob:getPlayersInRange(20)
-    if (nearbyPlayers ~= nil) then 
-        for _, player in ipairs(nearbyPlayers) do
-            -- Cure
-            if (os.time() >= cureTimer) then
-                if (player:getHPP() < 75) then
-                    local healingSpell = GetBestCure(mob, player)
-                    if (healingSpell ~= nil) then
-                        mob:castSpell(healingSpell, player)
-                        mob:setLocalVar("cureTimer", os.time() + 10)
-                        break
-                    end
-                end
-            end
-
-            -- Na
-            if (os.time() >= naTimer) then
-                local naSpell = GetBestNA(mob, player)
-                if (naSpell ~= nil) then
-                    mob:castSpell(naSpell, player)
-                    mob:setLocalVar("naTimer", os.time() + 10)
-                    break
-                end
-            end
-
-            -- Buff
-            if (os.time() >= buffTimer) then
-                local buffSpell = GetBestBuff(mob, player)
-                if (buffSpell ~= nil) then
-                    mob:castSpell(buffSpell, player)
-                    mob:setLocalVar("buffTimer", os.time() + 10)
-                    break
-                end
-            end
-        end
-    end
-end
-
-function UpdateSupportAI(mob, target)
-end
-
 local function GetBestCure(mob, player)
     local job = mob:getMainJob()
     local playerHPP = player:getHPP()
     local selectedCure
 
-    if (job == tpz.job.RDM) then
-        selectedCure = tpz.magic.spell.CURE_IV
-    elseif (job == tpz.job.WHM) then
+    if (job == tpz.job.WHM) then
         if (playerHPP < 25) then
             selectedCure = tpz.magic.spell.CURE_VI
         elseif (playerHPP < 50) then
@@ -170,6 +125,8 @@ local function GetBestCure(mob, player)
         else
             selectedCure = tpz.magic.spell.CURE_IV
         end
+    else
+        selectedCure = tpz.magic.spell.CURE_IV
     end
 
     return selectedCure
@@ -258,4 +215,92 @@ local function GetBestBuff(mob, player)
     end
 
     return selectedBuff
+end
+
+local function CanCast(mob)
+    local act = mob:getCurrentAction()
+
+    local canCast = not (act == tpz.act.MOBABILITY_START or
+                        act == tpz.act.MOBABILITY_USING or
+                        act == tpz.act.MOBABILITY_FINISH or
+                        act == tpz.act.MAGIC_START or
+                        act == tpz.act.MAGIC_CASTING or
+                        act == tpz.act.MAGIC_FINISH or
+                        mob:hasStatusEffect(tpz.effect.MUTE) or
+                        mob:hasPreventActionEffect())
+
+    print(string.format("[DEBUG] CanCast - Current Action: %d, MUTE: %s, Prevent Action Effect: %s, Can Cast: %s", 
+        act, 
+        tostring(mob:hasStatusEffect(tpz.effect.MUTE)), 
+        tostring(mob:hasPreventActionEffect()), 
+        tostring(canCast)))
+
+    return canCast
+end
+
+
+
+function UpdateTankAI(mob, target)
+end
+
+function UpdateDamageAI(mob, target)
+end
+
+function UpdateHealerAI(mob, target)
+    local cureTimer = mob:getLocalVar("cureTimer")
+    local naTimer = mob:getLocalVar("naTimer")
+    local buffTimer = mob:getLocalVar("buffTimer")
+
+    local nearbyPlayers = mob:getPlayersInRange(20)
+    if (nearbyPlayers ~= nil) then 
+        for _, player in ipairs(nearbyPlayers) do
+            -- Cure
+            if (os.time() >= cureTimer) then
+                if (player:getHPP() < 75) then
+                    local healingSpell = GetBestCure(mob, player)
+                    if (healingSpell ~= nil) then
+                        if CanCast(mob) then
+                            printf("[DEBUG] Can cast healing spell: %d at time: %d", healingSpell, os.time())
+                            mob:castSpell(healingSpell, player)
+                            mob:setLocalVar("cureTimer", os.time() + 10)
+                            printf("Casting Cure %d at time: %d", healingSpell, os.time())
+                            return
+                        end
+                    end
+                end
+            end
+
+            -- Na
+            if (os.time() >= naTimer) then
+                local naSpell = GetBestNA(mob, player)
+                if (naSpell ~= nil) then
+                    if CanCast(mob) then
+                        printf("[DEBUG] Can cast na spell: %d at time: %d", naSpell, os.time())
+                        mob:castSpell(naSpell, player)
+                        mob:setLocalVar("naTimer", os.time() + 10)
+                        printf("Casting Na %d at time: %d", naSpell, os.time())
+                        return
+                    end
+                end
+            end
+
+            -- Buff
+            if (os.time() >= buffTimer) then
+                local buffSpell = GetBestBuff(mob, player)
+                if (buffSpell ~= nil) then
+                    if CanCast(mob) then
+                        printf("[DEBUG] Can cast buff spell: %d at time: %d", buffSpell, os.time())
+                        mob:castSpell(buffSpell, mob)
+                        mob:setLocalVar("buffTimer", os.time() + 10)
+                        printf("Casting Buff %d at time: %d", buffSpell, os.time())
+                        return
+                    end
+                end
+            end
+        end
+    end
+end
+
+
+function UpdateSupportAI(mob, target)
 end

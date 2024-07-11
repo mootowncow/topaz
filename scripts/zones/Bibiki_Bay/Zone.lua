@@ -7,6 +7,7 @@ local ID = require("scripts/zones/Bibiki_Bay/IDs")
 require("scripts/globals/chocobo_digging")
 require("scripts/globals/manaclipper")
 require("scripts/globals/zone")
+require("scripts/globals/world")
 -----------------------------------
 
 function onChocoboDig(player, precheck)
@@ -31,6 +32,23 @@ function onZoneIn(player, prevZone)
 
     return cs
 end
+
+function afterZoneIn(player)
+    local day = VanadielDayOfTheWeek()
+    if (day == tpz.day.LIGHTNINGDAY) then
+        for v = 16793982, 16793989 do
+            if not GetMobByID(v):isSpawned() then
+                GetMobByID(v):spawn()
+            end
+        end
+    end
+    for v = 16793982, 16793989 do
+        if not GetMobByID(v):isSpawned() then
+            GetMobByID(v):spawn()
+        end
+    end
+end
+
 
 function onConquestUpdate(zone, updatetype)
     tpz.conq.onConquestUpdate(zone, updatetype)

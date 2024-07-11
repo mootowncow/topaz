@@ -327,28 +327,34 @@ inline int32 CLuaBaseEntity::PrintToArea(lua_State* L)
     uint8 messageRange = (lua_isnil(L, 3) || !lua_isnumber(L, 3)) ? 0 : (CHAT_MESSAGE_TYPE)lua_tointeger(L, 3);
     std::string name = (lua_isnil(L, 4) || !lua_isstring(L, 4)) ? std::string() : lua_tostring(L, 4);
 
-    if (messageRange == 0) // All zones world wide
+    if (messageRange == MESSAGE_AREA_SYSTEM) // All zones world wide
     {
         message::send(MSG_CHAT_SERVMES, 0, 0, new CChatMessagePacket(PChar, messageLook, (char*)lua_tostring(L, 1), name));
     }
-    else if (messageRange == 1) // Say range
+    else if (messageRange == MESSAGE_AREA_SAY) // Say range
     {
         PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE, new CChatMessagePacket(PChar, messageLook, (char*)lua_tostring(L, 1), name));
     }
-    else if (messageRange == 2) // Shout
+    else if (messageRange == MESSAGE_AREA_SHOUT) // Shout
     {
         PChar->loc.zone->PushPacket(PChar, CHAR_INSHOUT, new CChatMessagePacket(PChar, messageLook, (char*)lua_tostring(L, 1), name));
     }
-    else if (messageRange == 3) // Party and Alliance
+    else if (messageRange == MESSAGE_AREA_PARTY) // Party and Alliance
     {
         message::send(MSG_CHAT_PARTY, 0, 0, new CChatMessagePacket(PChar, messageLook, (char*)lua_tostring(L, 1), name));
     }
-    else if (messageRange == 4) // Yell zones only
+    else if (messageRange == MESSAGE_AREA_YELL) // Yell zones only
     {
         message::send(MSG_CHAT_YELL, 0, 0, new CChatMessagePacket(PChar, messageLook, (char*)lua_tostring(L, 1), name));
     }
+    else if (messageRange == MESSAGE_AREA_UNITY)
+    {
+        message::send(MSG_CHAT_UNITY, nullptr, 0, new CChatMessagePacket(PChar, messageLook, (char*)lua_tostring(L, 1), name));
+        PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CChatMessagePacket(PChar, messageLook, (char*)lua_tostring(L, 1), name));
+    }
+
     /*
-    Todo: Unity, LS 1 and LS 2 for the lols?
+    Todo: Assist channels
     */
 
     return 0;

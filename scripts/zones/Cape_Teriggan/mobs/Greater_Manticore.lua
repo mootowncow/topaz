@@ -16,7 +16,6 @@ function onMobInitialize(mob)
 end
 
 function onMobSpawn(mob)
-    tpz.raid.onMobSpawn(mob)
 end
 
 function onMobEngaged(mob, target)

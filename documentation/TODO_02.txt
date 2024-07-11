@@ -159,6 +159,7 @@ noKiller to tpz.annm.SpawnChest and all its files its used in
 add m_instanceId member to char entity and when loading in or something set the player to that instance so they dont load into nowhere land
 Finish unity_leader stuff in charentity https://github.com/search?q=repo%3ALandSandBoat%2Fserver%20unity_leader&type=code
 ZNM taking item on death works properly on mobs with names with two words
+-- Open / Close randomly every hour (Psoxoja zone) shouldn't rotate on hour, just when a player is near the door(NPC)
 spell cooldown timer added to mob casting (Does mob_spell_container exist?)
 Lyft weapon revamp (MAB for gun)
 Wild Rage said "999 shadows absorbed" with blink up?

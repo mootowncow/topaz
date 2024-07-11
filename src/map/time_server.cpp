@@ -34,6 +34,8 @@
 #include "entities/charentity.h"
 #include "latent_effect_container.h"
 #include "daily_system.h"
+#include "message.h"
+#include "../map/packets/chat_message.h"
 
 int32 time_server(time_point tick, CTaskMgr::CTask* PTask)
 {
@@ -107,27 +109,61 @@ int32 time_server(time_point tick, CTaskMgr::CTask* PTask)
         }
     }
 
+    struct MobData
+    {
+        std::string Name;
+        std::string Zone;
+        DAYTYPE Day;
+    };
+
+    std::vector<MobData> mobData = {
+        { "Promathia", "Bibiki Bay", FIRESDAY },
+        { "PH_01", "Attohwa Chasm", EARTHSDAY },
+        { "Bahamut", "Lufaise Meadows", WATERSDAY },
+        { "PH_02", "Cape Terrigan", WINDSDAY },
+        { "Ealdnarche", "Western Altepa Desert", ICEDAY },
+        { "Kamlanaut", "Yuhtunga Jungle", LIGHTNINGDAY },
+        { "Shadow Lord", "The Sanctuary of Zi'tah", LIGHTSDAY },
+        { "PH_03", "Qufim Island", DARKSDAY },
+    };
+
     // Vanadiel Day
-    static time_point lastVDailyUpdate = tick - 4800ms;
+    static auto lastVDailyUpdate = std::chrono::system_clock::now() - std::chrono::milliseconds(4800);
+    auto now = std::chrono::system_clock::now();
+
     if (CVanaTime::getInstance()->getHour() == 0 && CVanaTime::getInstance()->getMinute() == 0)
     {
-        TracyZoneScoped;
-        if (tick > (lastVDailyUpdate + 4800ms))
+        if (now > (lastVDailyUpdate + std::chrono::milliseconds(4800)))
         {
-			zoneutils::ForEachZone([](CZone* PZone)
-			{
-                luautils::OnGameDay(PZone);
-				PZone->ForEachChar([](CCharEntity* PChar)
-				{
-					PChar->PLatentEffectContainer->CheckLatentsWeekDay();
-				});
-			});
+            zoneutils::ForEachZone(
+                [&mobData](CZone* PZone)
+                {
+                    luautils::OnGameDay(PZone);
+                    PZone->ForEachChar(
+                        [&mobData](CCharEntity* PChar)
+                        {
+                            int32 currentDay = CVanaTime::getInstance()->getWeekday();
+
+                            // Check for matching day in mobData and send message
+                            for (const auto& mob : mobData)
+                            {
+                                if (currentDay == mob.Day)
+                                {
+                                    std::string message = mob.Name + " has spawned in " + mob.Zone;
+                                    message::send(MSG_CHAT_UNITY, nullptr, 0, new CChatMessagePacket(PChar, MESSAGE_UNITY, message, "Announcer")); // message.c_str() ?
+                                    PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CChatMessagePacket(PChar, MESSAGE_UNITY, message, "Announcer")); // message.c_str() ?
+                                }
+                            }
+
+                            PChar->PLatentEffectContainer->CheckLatentsWeekDay();
+                        });
+                });
 
             guildutils::UpdateGuildsStock();
             zoneutils::SavePlayTime();
             zoneutils::SaveCharacterData();
 
-            lastVDailyUpdate = tick;
+            lastVDailyUpdate = now;
         }
     }
 
