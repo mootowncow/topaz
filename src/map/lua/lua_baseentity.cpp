@@ -11308,46 +11308,49 @@ int32 CLuaBaseEntity::getEntity(lua_State* L)
 }
 
 /************************************************************************
-*  Function: getNearbyEntities()
-*  Purpose : Returns a Lua table of all Entities surrounding target Entity?
-*  Example : mob:getNearbyEntities(target); player:getNearbyEntities(target)
-*  Notes   : Currently unused in any script
-************************************************************************/
-
+ *  Function: getNearbyEntities(distance)
+ *  Purpose : Returns a Lua table of all Entities surrounding the target within the provided distance
+ *  Example : mob:getNearbyEntities(distance)
+ *  Notes   :
+ ************************************************************************/
 inline int32 CLuaBaseEntity::getNearbyEntities(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
 
-    CCharEntity* iterTarget = (CCharEntity*)(m_PBaseEntity->objtype == TYPE_PC ? m_PBaseEntity : nullptr);
+    position_t position = m_PBaseEntity->loc.p;
 
-    if (!iterTarget)
-    {
-        if (m_PBaseEntity->objtype == TYPE_MOB && ((CBattleEntity*)m_PBaseEntity)->GetBattleTarget()->objtype == TYPE_PC)
-        {
-            iterTarget = (CCharEntity*)((CBattleEntity*)m_PBaseEntity)->GetBattleTarget();
-        }
-        else if (((CBattleEntity*)m_PBaseEntity)->PMaster && ((CBattleEntity*)m_PBaseEntity)->PMaster->objtype == TYPE_PC)
-        {
-            iterTarget = (CCharEntity*)((CBattleEntity*)m_PBaseEntity)->PMaster;
-        }
-    }
+    float max_distance = (float)lua_tonumber(L, 1);
+    lua_pop(L, 1);
 
     lua_newtable(L);
     int newTable = lua_gettop(L);
 
-    for (auto&& list : {iterTarget->SpawnMOBList, iterTarget->SpawnPCList, iterTarget->SpawnPETList})
+    // Lambda function to add an entity to the Lua table if it's within the specified distance
+    auto addEntityIfNearby = [&L, &newTable, &position, &max_distance](CBaseEntity* PEntity)
     {
-        for (auto&& entity : list)
+        if (distance(position, PEntity->loc.p) <= max_distance)
         {
             lua_getglobal(L, CLuaBaseEntity::className);
             lua_pushstring(L, "new");
             lua_gettable(L, -2);
             lua_insert(L, -2);
-            lua_pushlightuserdata(L, (void*)entity.second);
+            lua_pushlightuserdata(L, (void*)PEntity);
             lua_pcall(L, 2, 1, 0);
-            lua_rawseti(L, newTable, entity.first);
+            lua_rawseti(L, newTable, PEntity->id);
         }
-    }
+    };
+
+    // Iterate over all characters
+    zoneutils::GetZone(m_PBaseEntity->getZone())->ForEachChar([&addEntityIfNearby](CCharEntity* PChar) { addEntityIfNearby(PChar); });
+
+    // Iterate over all mobs
+    zoneutils::GetZone(m_PBaseEntity->getZone())->ForEachMob([&addEntityIfNearby](CMobEntity* PMob) { addEntityIfNearby(PMob); });
+
+    // Iterate over all trusts
+    zoneutils::GetZone(m_PBaseEntity->getZone())->ForEachTrust([&addEntityIfNearby](CTrustEntity* PTrust) { addEntityIfNearby(PTrust); });
+
+    // Iterate over all NPCs
+    zoneutils::GetZone(m_PBaseEntity->getZone())->ForEachNpc([&addEntityIfNearby](CNpcEntity* PNpc) { addEntityIfNearby(PNpc); });
 
     return 1;
 }
@@ -16242,11 +16245,11 @@ inline int32 CLuaBaseEntity::castSpell(lua_State* L)
 }
 
 /************************************************************************
-*  Function: useJobAbility()
-*  Purpose : Instruct a Mob to use a specified Job Ability
-*  Example : wyvern:useJobAbility(636, wyvern) -- Specifying pet to use
-*  Notes   : Inserts directly into queue stack with 0ms delay
-************************************************************************/
+ *  Function: useJobAbility()
+ *  Purpose : Instruct a Mob to use a specified Job Ability
+ *  Example : wyvern:useJobAbility(636, wyvern) -- Specifying pet to use
+ *  Notes   : Inserts directly into queue stack with 0ms delay
+ ************************************************************************/
 
 inline int32 CLuaBaseEntity::useJobAbility(lua_State* L)
 {
@@ -16254,25 +16257,39 @@ inline int32 CLuaBaseEntity::useJobAbility(lua_State* L)
 
     if (lua_isnumber(L, 1))
     {
-        auto skillid {(uint16)lua_tointeger(L, 1)};
-        CBattleEntity* PTarget {nullptr};
+        auto skillid{ (uint16)lua_tointeger(L, 1) };
+        CBattleEntity* PTarget{ nullptr };
+
+        printf("useJobAbility called with skillid: %d\n", skillid); // Print skill ID
 
         if (!lua_isnil(L, 2) && lua_isuserdata(L, 2))
         {
             CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 2);
             PTarget = (CBattleEntity*)PLuaBaseEntity->m_PBaseEntity;
+            printf("Target is not nil, target ID: %d\n", PTarget->id); // Print target ID
         }
 
-        m_PBaseEntity->PAI->QueueAction(queueAction_t(0ms, true, [PTarget, skillid](auto PEntity) {
-            if (PTarget)
-                PEntity->PAI->Ability(PTarget->targid, skillid);
-            else if (dynamic_cast<CMobEntity*>(PEntity))
-                PEntity->PAI->Ability(static_cast<CMobEntity*>(PEntity)->GetBattleTargetID(), skillid);
-        }));
+        m_PBaseEntity->PAI->QueueAction(
+            queueAction_t(0ms, true,
+                          [PTarget, skillid](auto PEntity)
+                          {
+                              if (PTarget)
+                              {
+                                  printf("Using job ability on specified target, skillid: %d, target ID: %d\n", skillid, PTarget->id); // Print action details
+                                  PEntity->PAI->Ability(PTarget->targid, skillid);
+                              }
+                              else if (dynamic_cast<CMobEntity*>(PEntity))
+                              {
+                                  uint16 targetID = static_cast<CMobEntity*>(PEntity)->GetBattleTargetID();
+                                  printf("Using job ability on battle target, skillid: %d, target ID: %d\n", skillid, targetID); // Print action details
+                                  PEntity->PAI->Ability(targetID, skillid);
+                              }
+                          }));
     }
 
     return 0;
 }
+
 
 /************************************************************************
 *  Function: useMobAbility()

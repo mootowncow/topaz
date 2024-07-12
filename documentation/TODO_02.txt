@@ -155,6 +155,7 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Allow mobs to have shield skill and base their block rate on that like parry works
 noKiller to tpz.annm.SpawnChest and all its files its used in
 add m_instanceId member to char entity and when loading in or something set the player to that instance so they dont load into nowhere land
 Finish unity_leader stuff in charentity https://github.com/search?q=repo%3ALandSandBoat%2Fserver%20unity_leader&type=code

@@ -5,6 +5,10 @@
 -----------------------------------
 require("scripts/globals/raid")
 -----------------------------------
+function onMobSpawn(mob)
+    tpz.raid.onMobSpawn(mob)
+end
+
 function onMobFight(mob, target)
 end
 
@@ -16,4 +20,8 @@ function onSpellPrecast(mob, spell)
         spell:setAnimation(280)
         spell:setMPCost(1)
     end
+end
+
+function onMobDeath(mob, player, isKiller, noKiller)
+    tpz.raid.onMobDeath(mob)
 end

@@ -44,6 +44,13 @@ zones[tpz.zone.BIBIKI_BAY] =
         END_BILLET              = 7492, -- You use up your <item>.
         COMMON_SENSE_SURVIVAL   = 8637, -- It appears that you have arrived at a new survival guide provided by the Adventurers' Mutual Aid Network. Common sense dictates that you should now be able to teleport here from similar tomes throughout the world.
         NEWS_BILLET             = 8660, -- <item> has been [added to your list of favorites/removed from your list of favorites].
+        CONF_TOO_FAR            = 8577, -- You have ventured too far from the field of battle. The Confrontation will automatically disengage if you do not return
+        CONF_DISENAGED          = 8578, -- Ventured too far, confrontation has disengaged.
+        CONF_REENGAGED          = 8579, -- You have returned to the field of battle.
+        CONF_BATTLE_BEGIN       = 8580, -- You have x earth time to complete the battle.
+        CONF_MIN_REMAINING      = 8581, -- X earth minutes remaining to complete the battle.
+        CONF_SEC_REMAINING      = 8582, -- x earth seconds remaining to complete the battle.
+        CONF_TIME_UP            = 8583, -- Your time for this Confrontation is up...
     },
     mob =
     {

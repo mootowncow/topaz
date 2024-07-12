@@ -7,6 +7,7 @@ require("scripts/globals/keyitems")
 require("scripts/globals/mobs")
 require("scripts/globals/zone")
 require("scripts/globals/msg")
+require("scripts/globals/ability")
 require("scripts/globals/spell_data")
 --------------------------------------
 -- TODO: Confrontation status when in range of the NMs
@@ -39,42 +40,64 @@ local npcData =
 -- Mob helper functions
 
 tpz.raid.onMobSpawn = function(mob)
-    local mobName = MobName(mob)
-    local zone = mob:getZone()
-    local zoneName = zone:getName()
-    zoneName = string.gsub(zoneName, '_', ' ');
-    -- TODO: need to change the talking to not the mobs name
-
-    mob:PrintToArea(mobName .. " has appeared in " .. zoneName .. "!", tpz.msg.channel.UNITY, "Test")
+    ApplyConfrontationToSelf(mob)
 end
 
 tpz.raid.onMobEngaged = function(mob, target)
 end
 
 tpz.raid.onMobFight = function(mob, target)
+    ApplyConfrontationToPlayers(mob, target)
 end
 
 tpz.raid.onMobDisengage = function(mob)
 end
 
 tpz.raid.onMobDespawn = function(mob)
+    OnBattleEndConfrontation(mob)
 end
 
 tpz.raid.onMobDeath = function(mob, player, isKiller, noKiller)
+    OnBattleEndConfrontation(mob)
 end
 
 
 -- NPC helper functions
 
 tpz.raid.onNpcSpawn = function(mob)
+    ApplyConfrontationToSelf(mob)
     mob:setSpellList(0)
+    if isHealer(mob) then
+    elseif isTank(mob) then
+        mob:setMobMod(tpz.mobMod.BLOCK, 35)
+    elseif isMelee(mob) then
+    elseif isCaster(mob) then
+    end
+    mob:setUnkillable(true) -- For testing
+end
+
+tpz.raid.onNpcRoam = function(mob)
+    local entities = mob:getNearbyMobs(20)
+    for i, entity in pairs(entities) do
+        if entity:hasStatusEffect(tpz.effect.CONFRONTATION) then
+            mob:updateEnmity(entity)
+        end
+    end
 end
 
 tpz.raid.onNpcEngaged = function(mob, target)
 end
 
 tpz.raid.onNpcFight = function(mob, target)
-    UpdateHealerAI(mob, target)
+    if isHealer(mob) then
+        UpdateHealerAI(mob, target)
+    elseif isTank(mob) then
+        UpdateTankAI(mob, target)
+    elseif isMelee(mob) then
+        UpdateMeleeAI(mob, target)
+    elseif isCaster(mob) then
+        UpdateCasterAI(mob, target)
+    end
 end
 
 tpz.raid.onSpellPrecast = function(mob, spell)
@@ -102,7 +125,6 @@ end
 tpz.raid.afterZoneIn = function(player)
 end
 
-
 tpz.raid.onNpcDisengage = function(mob)
 end
 
@@ -110,6 +132,68 @@ tpz.raid.onNpcDespawn = function(mob)
 end
 
 tpz.raid.onNpcDeath = function(mob, player, isKiller, noKiller)
+end
+
+function ApplyConfrontationToSelf(mob)
+    local power = 10
+    local tick = 5
+    local duration = 3600
+    local subId = 0
+    local subPower = mob:getID()
+    local tier = 0
+    mob:addStatusEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
+end
+
+function ApplyConfrontationToPlayers(mob, target)
+    local NearbyPlayers = mob:getPlayersInRange(50)
+    if NearbyPlayers == nil then return end
+    if NearbyPlayers then
+        for _,v in ipairs(NearbyPlayers) do
+            local power = 10
+            local tick = 5
+            local duration = 3600
+            local subId = 0
+            local subPower = mob:getID()
+            local tier = 0
+            v:addStatusEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
+        end
+    end
+end
+
+function isHealer(mob)
+    local job = mob:getMainJob()
+    return
+        job == tpz.job.WHM or
+        job == tpz.job.RDM or
+        job == tpz.job.SCH
+end
+
+function isTank(mob)
+    return mob:getMainJob() == tpz.job.PLD
+end
+
+function isMelee(mob)
+    local job = mob:getMainJob()
+    return
+        job == tpz.job.WAR or
+        job == tpz.job.MNK or
+        job == tpz.job.THF or
+        job == tpz.job.DRK or
+        job == tpz.job.BST or
+        job == tpz.job.RNG or
+        job == tpz.job.SAM or
+        job == tpz.job.NIN or
+        job == tpz.job.DRG or
+        job == tpz.job.BLU or
+        job == tpz.job.COR or
+        job == tpz.job.PUP or
+        job == tpz.job.DNC
+end
+
+function isCaster(mob)
+    local job = mob:getMainJob()
+    return
+        job == tpz.job.BLM
 end
 
 local function GetBestCure(mob, player)
@@ -176,7 +260,6 @@ local function GetBestNA(mob, player)
     return selectedNA
 end
 
-
 local function GetBestBuff(mob, player)
     local job = mob:getMainJob()
     local selectedBuff
@@ -217,82 +300,40 @@ local function GetBestBuff(mob, player)
     return selectedBuff
 end
 
-local function CanCast(mob)
-    local act = mob:getCurrentAction()
-
-    local canCast = not (act == tpz.act.MOBABILITY_START or
-                        act == tpz.act.MOBABILITY_USING or
-                        act == tpz.act.MOBABILITY_FINISH or
-                        act == tpz.act.MAGIC_START or
-                        act == tpz.act.MAGIC_CASTING or
-                        act == tpz.act.MAGIC_FINISH or
-                        mob:hasStatusEffect(tpz.effect.MUTE) or
-                        mob:hasPreventActionEffect())
-
-    print(string.format("[DEBUG] CanCast - Current Action: %d, MUTE: %s, Prevent Action Effect: %s, Can Cast: %s", 
-        act, 
-        tostring(mob:hasStatusEffect(tpz.effect.MUTE)), 
-        tostring(mob:hasPreventActionEffect()), 
-        tostring(canCast)))
-
-    return canCast
-end
-
-
-
 function UpdateTankAI(mob, target)
-end
+    local jaData = {
+        {   Skill = tpz.jobAbility.PROVOKE,         Duration = 0,       Cooldown = 30,       Type = 'Enmity',        Ja = 'True' },
+        {   Skill = tpz.mob.skills.ROYAL_BASH,      Duration = 5,       Cooldown = 60,       Type = 'Enmity' ,       Ja = 'False' },
+        {   Skill = tpz.mob.skills.ROYAL_SAVIOR,    Duration = 30,      Cooldown = 300,      Type = 'Defensive',     Ja = 'False' }
+    }
 
-function UpdateDamageAI(mob, target)
-end
-
-function UpdateHealerAI(mob, target)
-    local cureTimer = mob:getLocalVar("cureTimer")
-    local naTimer = mob:getLocalVar("naTimer")
-    local buffTimer = mob:getLocalVar("buffTimer")
-
-    local nearbyPlayers = mob:getPlayersInRange(20)
-    if (nearbyPlayers ~= nil) then 
-        for _, player in ipairs(nearbyPlayers) do
-            -- Cure
-            if (os.time() >= cureTimer) then
-                if (player:getHPP() < 75) then
-                    local healingSpell = GetBestCure(mob, player)
-                    if (healingSpell ~= nil) then
-                        if CanCast(mob) then
-                            printf("[DEBUG] Can cast healing spell: %d at time: %d", healingSpell, os.time())
-                            mob:castSpell(healingSpell, player)
-                            mob:setLocalVar("cureTimer", os.time() + 10)
-                            printf("Casting Cure %d at time: %d", healingSpell, os.time())
-                            return
-                        end
-                    end
-                end
-            end
-
-            -- Na
-            if (os.time() >= naTimer) then
-                local naSpell = GetBestNA(mob, player)
-                if (naSpell ~= nil) then
-                    if CanCast(mob) then
-                        printf("[DEBUG] Can cast na spell: %d at time: %d", naSpell, os.time())
-                        mob:castSpell(naSpell, player)
-                        mob:setLocalVar("naTimer", os.time() + 10)
-                        printf("Casting Na %d at time: %d", naSpell, os.time())
+    for _, ja in pairs(jaData) do
+        -- Defensive CDs
+        if mob:getHPP() <= 75 then
+            if (ja.Type == 'Defensive') then
+                if isJaReady(mob, ja.Skill) then
+                    if CanUseAbiity then
+                        mob:setLocalVar(ja.skill, os.time() + ja.Cooldown)
+                        mob:useMobAbility(ja.Skill)
                         return
                     end
                 end
             end
+        end
 
-            -- Buff
-            if (os.time() >= buffTimer) then
-                local buffSpell = GetBestBuff(mob, player)
-                if (buffSpell ~= nil) then
-                    if CanCast(mob) then
-                        printf("[DEBUG] Can cast buff spell: %d at time: %d", buffSpell, os.time())
-                        mob:castSpell(buffSpell, mob)
-                        mob:setLocalVar("buffTimer", os.time() + 10)
-                        printf("Casting Buff %d at time: %d", buffSpell, os.time())
+        -- Enmity Generation
+        if (ja.Type == 'Enmity') then
+            if isJaReady(mob, ja.Skill) then
+                if IsJa(mob, skill) then
+                    if CanUseAbiity then
+                        mob:setLocalVar(ja.skill, os.time() + ja.Cooldown)
+                        mob:useJobAbility(ja.Skill, target)
+                        return
+                    end
+                else
+                    if CanUseAbiity then
+                        mob:setLocalVar(ja.skill, os.time() + ja.Cooldown)
+                        mob:useMobAbility(ja.Skill)
                         return
                     end
                 end
@@ -301,6 +342,121 @@ function UpdateHealerAI(mob, target)
     end
 end
 
+function UpdateMeleeAI(mob, target)
+end
+
+function UpdateCasterAI(mob, target)
+end
+
+function UpdateHealerAI(mob, target)
+    local cureTimer = mob:getLocalVar("cureTimer")
+    local naTimer = mob:getLocalVar("naTimer")
+    local buffTimer = mob:getLocalVar("buffTimer")
+
+    local nearbyFriendly = mob:getNearbyEntities(20)
+    if (nearbyFriendly ~= nil) then 
+        for _, friendlyTarget in ipairs(nearbyFriendly) do
+            -- Cure
+            if (friendlyTarget:getAllegiance() == mob:getAllegiance()) then
+                if (os.time() >= cureTimer) then
+                    if (friendlyTarget:getHPP() < 75) then
+                        local healingSpell = GetBestCure(mob, friendlyTarget)
+                        if (healingSpell ~= nil) then
+                            if CanCast(mob) then
+                                -- printf("[DEBUG] Can cast healing spell: %d at time: %d", healingSpell, os.time())
+                                mob:castSpell(healingSpell, friendlyTarget)
+                                mob:setLocalVar("cureTimer", os.time() + 10)
+                                -- printf("Casting Cure %d at time: %d", healingSpell, os.time())
+                                return
+                            end
+                        end
+                    end
+                end
+
+                -- Na
+                if (os.time() >= naTimer) then
+                    local naSpell = GetBestNA(mob, friendlyTarget)
+                    if (naSpell ~= nil) then
+                        if CanCast(mob) then
+                            --printf("[DEBUG] Can cast na spell: %d at time: %d", naSpell, os.time())
+                            mob:castSpell(naSpell, friendlyTarget)
+                            mob:setLocalVar("naTimer", os.time() + 10)
+                            --printf("Casting Na %d at time: %d", naSpell, os.time())
+                            return
+                        end
+                    end
+                end
+
+                -- Buff
+                if (os.time() >= buffTimer) then
+                    local buffSpell = GetBestBuff(mob, friendlyTarget)
+                    if (buffSpell ~= nil) then
+                        if CanCast(mob) then
+                            --printf("[DEBUG] Can cast buff spell: %d at time: %d", buffSpell, os.time())
+                            mob:castSpell(buffSpell, mob)
+                            mob:setLocalVar("buffTimer", os.time() + 10)
+                            --printf("Casting Buff %d at time: %d", buffSpell, os.time())
+                            return
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
 
 function UpdateSupportAI(mob, target)
+end
+
+function IsJa(mob, skill)
+    if (skill == Ja) then
+        return true
+    end
+
+    return false
+end
+
+function isJaReady(mob, skill)
+
+    if (os.time() < mob:getLocalVar(skill)) then
+        return false
+    end
+
+    return true
+end
+
+function CanCast(mob)
+    local act = mob:getCurrentAction()
+
+    local canCast = not (act == tpz.act.MOBABILITY_START or
+                        act == tpz.act.MOBABILITY_USING or
+                        act == tpz.act.MOBABILITY_FINISH or
+                        act == tpz.act.MAGIC_START or
+                        act == tpz.act.MAGIC_CASTING or
+                        act == tpz.act.MAGIC_FINISH or
+                        mob:hasStatusEffect(tpz.effect.SILENCE) or
+                        mob:hasStatusEffect(tpz.effect.MUTE) or
+                        mob:hasPreventActionEffect())
+
+    --print(string.format("[DEBUG] CanCast - Current Action: %d, MUTE: %s, Prevent Action Effect: %s, Can Cast: %s", 
+      --  act, 
+      --  tostring(mob:hasStatusEffect(tpz.effect.MUTE)), 
+      --  tostring(mob:hasPreventActionEffect()), 
+      --  tostring(canCast)))
+
+    return canCast
+end
+
+function CanUseAbiity(mob)
+    local act = mob:getCurrentAction()
+
+    local CanUseAbiity = not (act == tpz.act.MOBABILITY_START or
+                        act == tpz.act.MOBABILITY_USING or
+                        act == tpz.act.MOBABILITY_FINISH or
+                        act == tpz.act.MAGIC_START or
+                        act == tpz.act.MAGIC_CASTING or
+                        act == tpz.act.MAGIC_FINISH or
+                        mob:hasStatusEffect(tpz.effect.AMNESIA) or
+                        mob:hasPreventActionEffect())
+    return CanUseAbiity
 end

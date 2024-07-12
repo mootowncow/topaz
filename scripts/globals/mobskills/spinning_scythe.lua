@@ -35,7 +35,6 @@ function onMobWeaponSkill(target, mob, skill)
 
     -- 150-200 damage
     target:takeDamage(dmg, mob, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING)
-	mob:messageBasic(tpz.msg.basic.READIES_WS, 0, skill:getID())
     if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then   target:tryInterruptSpell(mob, info.hitslanded) end
     return dmg
 end
