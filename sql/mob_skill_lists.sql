@@ -3697,10 +3697,17 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Tenzen',1023,1395); -- Amatsu: Tsuk
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mihli_Aliapoh',1024,162); -- Brainshaker
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mihli_Aliapoh',1024,166); -- True Strike
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mihli_Aliapoh',1024,168); -- Hexastrike
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Valaineral',1025,34);  -- Red Lotus Blade
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Valaineral',1025,41);  -- Swift Blade
+
+-- Update on October 11, 2021 https://wiki.ffo.jp/html/38404.html
+-- He now uses the weapon skills " Sanguine Blade " and " Circle Blade ."
+-- Stopped using the weapon skills " Red Lotus " and " Swift Blade ".
+-- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Valaineral',1025,34);  -- Red Lotus Blade
+-- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Valaineral',1025,41);  -- Swift Blade
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Valaineral',1025,38);  -- Circle Blade
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Valaineral',1025,47);  -- Sanguine Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Valaineral',1025,42);  -- Savage Blade
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Valaineral',1025,238); -- Uriel Blade
+-- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Valaineral',1025,238); -- Uriel Blade Uses player WS not mob ability for this? Unsure how it works
+
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Joachim',1026,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Naja_Salaheem',1026,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Prishe',1028,3234); -- Nullifying Dropkick

@@ -1,39 +1,34 @@
 ---------------------------------------------------------------------------------------------------
--- func: useWs
--- desc: Tells the target mob to use specificed weapon skill.
+-- func: useTP
+-- desc: Tells the target mob to use specificed TP move.
 ---------------------------------------------------------------------------------------------------
-require("scripts/globals/weaponskillids")
+require("scripts/globals/mobs")
 
 cmdprops =
 {
     permission = 1,
-    parameters = "ss"
+    parameters = "s"
 }
 
 function error(player, msg)
     player:PrintToPlayer(msg)
-    player:PrintToPlayer("!useWS")
+    player:PrintToPlayer("!useTP")
 end
 
-function onTrigger(player, weaponSkill, self)
+function onTrigger(player, tpmove)
     local targ = player:getCursorTarget()
     
     if targ == nil or (not targ:isMob() and not targ:isPet()) then
         error(player, "you must select a target monster with the cursor first")
     else
         
-        weaponSkill = tonumber(weaponSkill) or tpz.tpz.weaponskill[string.upper(weaponSkill)]
+        tpmove = tonumber(tpmove) or tpz.mob.skills[string.upper(tpmove)]
         
-        if (weaponSkill == nil) then
-            error(player, "Invalid weapon skill.")
+        if (tpmove == nil) then
+            error(player, "Invalid TP move.")
             return
         end
         
-        if (self == nil) then
-            targ:useWeaponSkill(weaponSkill)
-        else
-            targ:useWeaponSkill(weaponSkill, targ)
-        end
+        targ:useMobAbility(tpmove)
     end
 end
-

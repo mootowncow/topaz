@@ -9,6 +9,7 @@ require("scripts/globals/zone")
 require("scripts/globals/msg")
 require("scripts/globals/ability")
 require("scripts/globals/spell_data")
+require("scripts/globals/weaponskillids")
 --------------------------------------
 -- TODO: Confrontation status when in range of the NMs
 -- TODO: NPC's and mobs don't auto-fight eachother on spawn
@@ -20,13 +21,13 @@ tpz.raid = tpz.raid or {}
 local mobData =
 {
     { Name = 'Promathia',       Zone = tpz.zone.BIBIKI_BAY,             Day = tpz.day.FIRESDAY     },
-    { Name = 'PH_01',           Zone = tpz.zone.ATTOHWA_CHASM,          Day = tpz.day.EARTHSDAY    },
+    { Name = 'Omega',           Zone = tpz.zone.ATTOHWA_CHASM,          Day = tpz.day.EARTHSDAY    },
     { Name = 'Bahamut',         Zone = tpz.zone.LUFAISE_MEADOWS,        Day = tpz.day.WATERSDAY    },
-    { Name = 'PH_02',           Zone = tpz.zone.CAPE_TERIGGAN,          Day = tpz.day.WINDSDAY     },
+    { Name = 'Ultima',          Zone = tpz.zone.CAPE_TERIGGAN,          Day = tpz.day.WINDSDAY     },
     { Name = 'Ealdnarche',      Zone = tpz.zone.WESTERN_ALTEPA_DESERT,  Day = tpz.day.ICEDAY       },
     { Name = 'Kamlanaut',       Zone = tpz.zone.YHOATOR_JUNGLE,         Day = tpz.day.LIGHTNINGDAY },
     { Name = 'Shadow Lord',     Zone = tpz.zone.THE_SANCTUARY_OF_ZITAH, Day = tpz.day.LIGHTSDAY    },
-    { Name = 'PH_03',           Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY     },
+    { Name = 'Crystal Warrior', Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY     },
 }
 
 local npcData =
@@ -40,6 +41,7 @@ local npcData =
 -- Mob helper functions
 
 tpz.raid.onMobSpawn = function(mob)
+    mob:setDamage(150)
     ApplyConfrontationToSelf(mob)
 end
 
@@ -65,22 +67,30 @@ end
 -- NPC helper functions
 
 tpz.raid.onNpcSpawn = function(mob)
-    ApplyConfrontationToSelf(mob)
-    mob:setSpellList(0)
     if isHealer(mob) then
     elseif isTank(mob) then
         mob:setMobMod(tpz.mobMod.BLOCK, 35)
     elseif isMelee(mob) then
     elseif isCaster(mob) then
     end
+    mob:setDamage(20)
+    mob:setMod(tpz.mod.DMG, -50) 
+    mob:setSpellList(0)
+    ApplyConfrontationToSelf(mob)
     mob:setUnkillable(true) -- For testing
 end
 
 tpz.raid.onNpcRoam = function(mob)
+    -- TODO: Doesn't work?
     local entities = mob:getNearbyMobs(20)
+    printf("Found %d entities nearby\n", #entities)
     for i, entity in pairs(entities) do
+        printf("Checking entity %d\n", entity:getID())
         if entity:hasStatusEffect(tpz.effect.CONFRONTATION) then
-            mob:updateEnmity(entity)
+            printf("Entity %d has CONFRONTATION effect, updating enmity\n", entity:getID())
+            mob:updateEnmity(entity) -- This is part that doesn't work? was (enmity) but i added getID()
+        else
+            printf("Entity %d does not have CONFRONTATION effect\n", entity:getID())
         end
     end
 end
@@ -129,9 +139,11 @@ tpz.raid.onNpcDisengage = function(mob)
 end
 
 tpz.raid.onNpcDespawn = function(mob)
+    OnBattleEndConfrontation(mob)
 end
 
 tpz.raid.onNpcDeath = function(mob, player, isKiller, noKiller)
+    OnBattleEndConfrontation(mob)
 end
 
 function ApplyConfrontationToSelf(mob)
@@ -275,6 +287,7 @@ local function GetBestBuff(mob, player)
         [tpz.job.RDM] = {
             {effect = tpz.effect.HASTE, spell = tpz.magic.spell.HASTE_II},
             {effect = tpz.effect.MULTI_STRIKES, spell = tpz.magic.spell.TEMPER},
+            {effect = tpz.effect.PHALANX, spell = tpz.magic.spell.PHALANX},
             {effect = tpz.effect.SHELL, spell = tpz.magic.spell.SHELL_IV},
             {effect = tpz.effect.PROTECT, spell = tpz.magic.spell.PROTECT_IV},
             {effect = tpz.effect.REGEN, spell = tpz.magic.spell.REGEN},
@@ -301,42 +314,117 @@ local function GetBestBuff(mob, player)
 end
 
 function UpdateTankAI(mob, target)
-    local jaData = {
-        {   Skill = tpz.jobAbility.PROVOKE,         Duration = 0,       Cooldown = 30,       Type = 'Enmity',        Ja = 'True' },
-        {   Skill = tpz.mob.skills.ROYAL_BASH,      Duration = 5,       Cooldown = 60,       Type = 'Enmity' ,       Ja = 'False' },
-        {   Skill = tpz.mob.skills.ROYAL_SAVIOR,    Duration = 30,      Cooldown = 300,      Type = 'Defensive',     Ja = 'False' }
+    local abilityData = {
+        {   Skill = tpz.jobAbility.PROVOKE,         Cooldown = 30,       Type = 'Enmity',        AbilityType = 'Job Ability'    },
+        {   Skill = tpz.jobAbility.DEFENDER,        Cooldown = 300,      Type = 'Buff',          AbilityType = 'Job Ability'    },
+        {   Skill = tpz.jobAbility.SENTINEL,        Cooldown = 300,      Type = 'Buff',          AbilityType = 'Job Ability'    },
+        {   Skill = tpz.jobAbility.DIVINE_EMBLEM,   Cooldown = 300,      Type = 'Buff',          AbilityType = 'Job Ability'    },
+        {   Skill = tpz.mob.skills.ROYAL_BASH,      Cooldown = 60,       Type = 'Enmity' ,       AbilityType = 'Mob Skill'      },
+        {   Skill = tpz.mob.skills.ROYAL_SAVIOR,    Cooldown = 300,      Type = 'Defensive',     AbilityType = 'Mob Skill'      },
+        {   Skill = tpz.weaponskill.URIEL_BLADE,    Cooldown = 60,       Type = 'Offensive',     AbilityType = 'Weapon Skill'   },
     }
+    local globalJATimer = mob:getLocalVar("globalJATimer")
+    local flashTimer = mob:getLocalVar("flashTimer")
+    local reprisalTimer = mob:getLocalVar("reprisalTimer")
+    local cureTimer = mob:getLocalVar("cureTimer")
 
-    for _, ja in pairs(jaData) do
-        -- Defensive CDs
-        if mob:getHPP() <= 75 then
-            if (ja.Type == 'Defensive') then
-                if isJaReady(mob, ja.Skill) then
-                    if CanUseAbiity then
-                        mob:setLocalVar(ja.skill, os.time() + ja.Cooldown)
-                        mob:useMobAbility(ja.Skill)
-                        return
+    -- Ability AI
+    for _, ability in pairs(abilityData) do
+        if (os.time() > globalJATimer) then
+            -- Weapon Skills
+            if (ability.Type == 'Offensive') then
+                if isJaReady(mob, ability.Skill) then
+                    if IsWeaponSkill(mob, ability.AbilityType) then
+                        if CanUseAbiity(mob) then
+                            mob:setLocalVar("globalJATimer", os.time() + 10)
+                            mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                            mob:useWeaponSkill(ability.Skill)
+                            return
+                        end
+                    end
+                end
+            end
+
+            -- Defensive CDs
+            if mob:getHPP() <= 75 then
+                if (ability.Type == 'Defensive') then
+                    if isJaReady(mob, ability.Skill) then
+                        if CanUseAbiity(mob) then
+                            mob:setLocalVar("globalJATimer", os.time() + 10)
+                            mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                            mob:useMobAbility(ability.Skill)
+                            return
+                        end
+                    end
+                end
+            end
+
+            -- Enmity Generation
+            if (ability.Type == 'Enmity') then
+                if isJaReady(mob, ability.Skill) then
+                    if IsJa(mob, ability.AbilityType) then
+                        if CanUseAbiity(mob) then
+                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                            mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                            mob:useJobAbility(ability.Skill, target)
+                            return
+                        end
+                    else
+                        if CanUseAbiity(mob) then
+                            mob:setLocalVar("globalJATimer", os.time() + 10)
+                            mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                            mob:useMobAbility(ability.Skill)
+                            return
+                        end
+                    end
+                end
+            end
+
+            -- Self Buffs
+            if (ability.Type == 'Buff') then
+                if CanUseAbiity(mob) then
+                    if isJaReady(mob, ability.Skill) then
+                        if IsJa(mob, ability.AbilityType) then
+                            mob:setLocalVar("globalJATimer", os.time() + 10)
+                            mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                            mob:useJobAbility(ability.Skill, mob)
+                            return
+                        end
                     end
                 end
             end
         end
+    end
 
-        -- Enmity Generation
-        if (ja.Type == 'Enmity') then
-            if isJaReady(mob, ja.Skill) then
-                if IsJa(mob, skill) then
-                    if CanUseAbiity then
-                        mob:setLocalVar(ja.skill, os.time() + ja.Cooldown)
-                        mob:useJobAbility(ja.Skill, target)
-                        return
-                    end
-                else
-                    if CanUseAbiity then
-                        mob:setLocalVar(ja.skill, os.time() + ja.Cooldown)
-                        mob:useMobAbility(ja.Skill)
-                        return
-                    end
-                end
+    -- Spell AI
+    if (os.time() >= flashTimer) then
+        if CanCast(mob) then
+            -- printf("[DEBUG] Can cast healing spell: %d at time: %d", healingSpell, os.time())
+            mob:castSpell(tpz.magic.spell.FLASH)
+            mob:setLocalVar("flashTimer", os.time() + 30)
+            -- printf("Casting Cure %d at time: %d", healingSpell, os.time())
+            return
+        end
+    end
+
+    if (os.time() >= reprisalTimer) then
+        if CanCast(mob) then
+            -- printf("[DEBUG] Can cast healing spell: %d at time: %d", healingSpell, os.time())
+            mob:castSpell(tpz.magic.spell.REPRISAL, mob)
+            mob:setLocalVar("reprisalTimer", os.time() + 180)
+            -- printf("Casting Cure %d at time: %d", healingSpell, os.time())
+            return
+        end
+    end
+
+    if (os.time() >= cureTimer) then
+        if (mob:getHPP() < 75) then
+            if CanCast(mob) then
+                -- printf("[DEBUG] Can cast healing spell: %d at time: %d", healingSpell, os.time())
+                mob:castSpell(tpz.magic.spell.CURE_IV, mob)
+                mob:setLocalVar("cureTimer", os.time() + 10)
+                -- printf("Casting Cure %d at time: %d", healingSpell, os.time())
+                return
             end
         end
     end
@@ -408,8 +496,8 @@ end
 function UpdateSupportAI(mob, target)
 end
 
-function IsJa(mob, skill)
-    if (skill == Ja) then
+function IsJa(mob, abilityType)
+    if (abilityType == 'Job Ability') then
         return true
     end
 
@@ -423,6 +511,14 @@ function isJaReady(mob, skill)
     end
 
     return true
+end
+
+function IsWeaponSkill(mob, abilityType)
+    if (abilityType == 'Weapon Skill') then
+        return true
+    end
+
+    return false
 end
 
 function CanCast(mob)

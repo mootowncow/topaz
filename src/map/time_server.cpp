@@ -118,13 +118,13 @@ int32 time_server(time_point tick, CTaskMgr::CTask* PTask)
 
     std::vector<MobData> mobData = {
         { "Promathia", "Bibiki Bay", FIRESDAY },
-        { "PH_01", "Attohwa Chasm", EARTHSDAY },
+        { "Omega", "Attohwa Chasm", EARTHSDAY },
         { "Bahamut", "Lufaise Meadows", WATERSDAY },
-        { "PH_02", "Cape Terrigan", WINDSDAY },
+        { "Ultima", "Cape Terrigan", WINDSDAY },
         { "Ealdnarche", "Western Altepa Desert", ICEDAY },
         { "Kamlanaut", "Yuhtunga Jungle", LIGHTNINGDAY },
         { "Shadow Lord", "The Sanctuary of Zi'tah", LIGHTSDAY },
-        { "PH_03", "Qufim Island", DARKSDAY },
+        { "Crystal Warrior", "Qufim Island", DARKSDAY },
     };
 
     // Vanadiel Day

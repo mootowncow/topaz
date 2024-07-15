@@ -747,7 +747,8 @@ public:
     int32 actionQueueEmpty(lua_State*);     // returns whether the action queue is empty or not
 
     int32 castSpell(lua_State*);            // forces a mob to cast a spell (parameter = spell ID, otherwise picks a spell from its list)
-    int32 useJobAbility(lua_State*);        // forces a job ability use (players/pets only)
+    int32 useJobAbility(lua_State*);        // forces a job ability use (players/pets/mobs only)
+    int32 useWeaponSkill(lua_State*);       // forces a weapon skill use (players/mobs only)
     int32 useMobAbility(lua_State*);        // forces a mob to use a mobability (parameter = skill ID)
     int32 hasTPMoves(lua_State*);
 

@@ -21,5 +21,10 @@ function onSpellPrecast(mob, spell)
     tpz.raid.onSpellPrecast(mob, spell)
 end
 
+function onMobDespawn(mob)
+    tpz.raid.onNpcDespawn(mob, target)
+end
+
 function onMobDeath(mob, player, isKiller, noKiller)
+    tpz.raid.onNpcDeath(mob, target)
 end

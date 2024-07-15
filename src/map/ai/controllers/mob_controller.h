@@ -32,12 +32,13 @@ public:
 
     virtual void Tick(time_point tick) override;
     virtual bool Disengage() override;
+    virtual bool WeaponSkill(uint16 targid, uint16 wsid) override;
     virtual bool Engage(uint16 targid) override;
     virtual void Despawn() override;
     virtual void Reset() override;
 
     virtual bool MobSkill(uint16 targid, uint16 wsid);
-    virtual bool Ability(uint16 targid, uint16 abilityid) override { return false; }
+    virtual bool Ability(uint16 targid, uint16 abilityid) override;
     bool MobSkill(int list = 0);
     bool TryCastSpell();
     bool TrySpecialSkill();

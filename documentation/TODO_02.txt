@@ -155,6 +155,9 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+getNearbyMobs needs to be fixed for quasluminims
+Add not mob:hasPreventActionEffect() to qultada talking/using stuff and add using roles via mob:useJobAbility(roll, mob)
+Add rangedattack to fomors, like how I added Ability(JA's) to mobs via mob_controller and mob_entity
 Allow mobs to have shield skill and base their block rate on that like parry works
 noKiller to tpz.annm.SpawnChest and all its files its used in
 add m_instanceId member to char entity and when loading in or something set the player to that instance so they dont load into nowhere land
@@ -178,7 +181,7 @@ Sange animation wrong?
 Zdei in cubbys can't aggro people in hall? need longer sight aggro range on them?
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
 Leaden Salute and Blade: Kamu weren't unlocked when I had enough WS points
-not mob:hasPreventActionEffect() to qultada talking/using stuff
+
 tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
 Fomor HNM's(Lugh etc)
 

@@ -42,11 +42,8 @@ function afterZoneIn(player)
             end
         end
     end
-    for v = 16793982, 16793989 do
-        if not GetMobByID(v):isSpawned() then
-            GetMobByID(v):spawn()
-        end
-    end
+    GetMobByID(16793982):spawn()
+    GetMobByID(16793987):spawn()
 end
 
 

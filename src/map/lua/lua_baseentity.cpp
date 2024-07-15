@@ -16260,13 +16260,13 @@ inline int32 CLuaBaseEntity::useJobAbility(lua_State* L)
         auto skillid{ (uint16)lua_tointeger(L, 1) };
         CBattleEntity* PTarget{ nullptr };
 
-        printf("useJobAbility called with skillid: %d\n", skillid); // Print skill ID
+        //printf("useJobAbility called with skillid: %d\n", skillid); // Print skill ID
 
         if (!lua_isnil(L, 2) && lua_isuserdata(L, 2))
         {
             CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 2);
             PTarget = (CBattleEntity*)PLuaBaseEntity->m_PBaseEntity;
-            printf("Target is not nil, target ID: %d\n", PTarget->id); // Print target ID
+            //printf("Target is not nil, target ID: %d\n", PTarget->id); // Print target ID
         }
 
         m_PBaseEntity->PAI->QueueAction(
@@ -16275,13 +16275,13 @@ inline int32 CLuaBaseEntity::useJobAbility(lua_State* L)
                           {
                               if (PTarget)
                               {
-                                  printf("Using job ability on specified target, skillid: %d, target ID: %d\n", skillid, PTarget->id); // Print action details
+                                  //printf("Using job ability on specified target, skillid: %d, target ID: %d\n", skillid, PTarget->id); // Print action details
                                   PEntity->PAI->Ability(PTarget->targid, skillid);
                               }
                               else if (dynamic_cast<CMobEntity*>(PEntity))
                               {
                                   uint16 targetID = static_cast<CMobEntity*>(PEntity)->GetBattleTargetID();
-                                  printf("Using job ability on battle target, skillid: %d, target ID: %d\n", skillid, targetID); // Print action details
+                                  //printf("Using job ability on battle target, skillid: %d, target ID: %d\n", skillid, targetID); // Print action details
                                   PEntity->PAI->Ability(targetID, skillid);
                               }
                           }));
@@ -16290,6 +16290,51 @@ inline int32 CLuaBaseEntity::useJobAbility(lua_State* L)
     return 0;
 }
 
+/************************************************************************
+ *  Function: useWeaponSkill()
+ *  Purpose : Instruct a Mob to use a specified weapon skill
+ *  Example : wyvern:useWeaponSkill(636, wyvern) -- Specifying pet to use
+ *  Notes   : Inserts directly into queue stack with 0ms delay
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::useWeaponSkill(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    if (lua_isnumber(L, 1))
+    {
+        auto wsid{ (uint16)lua_tointeger(L, 1) };
+        CBattleEntity* PTarget{ nullptr };
+
+        //printf("useWeaponSkill called with wsid: %d\n", wsid); // Print skill ID
+
+        if (!lua_isnil(L, 2) && lua_isuserdata(L, 2))
+        {
+            CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 2);
+            PTarget = (CBattleEntity*)PLuaBaseEntity->m_PBaseEntity;
+            //printf("Target is not nil, target ID: %d\n", PTarget->id); // Print target ID
+        }
+
+        m_PBaseEntity->PAI->QueueAction(queueAction_t(0ms, true,
+                                                      [PTarget, wsid](auto PEntity)
+                                                      {
+                                                          if (PTarget)
+                                                          {
+                                                              //printf("Using job ability on specified target, wsid: %d, target ID: %d\n", wsid, PTarget->id); // Print action details
+                                                              PEntity->PAI->WeaponSkill(PTarget->targid, wsid);
+                                                          }
+                                                          else if (dynamic_cast<CMobEntity*>(PEntity))
+                                                          {
+                                                              uint16 targetID = static_cast<CMobEntity*>(PEntity)->GetBattleTargetID();
+                                                               //printf("Using job ability on battle target, wsid: %d, target ID: %d\n", wsid, targetID);
+                                                               // Print action details
+                                                              PEntity->PAI->WeaponSkill(targetID, wsid);
+                                                          }
+                                                      }));
+    }
+
+    return 0;
+}
 
 /************************************************************************
 *  Function: useMobAbility()
@@ -17547,6 +17592,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,castSpell),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,useJobAbility),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,useWeaponSkill),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,useMobAbility),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasTPMoves),
 

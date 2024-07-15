@@ -739,8 +739,10 @@ end
 
 function checkForJobBonus(caster, job)
     local jobBonus = 0
-    if (caster:hasPartyJob(job) or math.random(0, 99) < caster:getMod(tpz.mod.JOB_BONUS_CHANCE)) then
-        jobBonus = 1
+    if not caster:isMob() then
+        if (caster:hasPartyJob(job) or math.random(0, 99) < caster:getMod(tpz.mod.JOB_BONUS_CHANCE)) then
+            jobBonus = 1
+        end
     end
     caster:setLocalVar("corsairRollBonus", jobBonus)
 end

@@ -33,6 +33,7 @@
 #include "../ai/states/weaponskill_state.h"
 #include "../ai/states/mobskill_state.h"
 #include "../ai/states/magic_state.h"
+#include "../ai/states/ability_state.h"
 #include "../entities/charentity.h"
 #include "../packets/action.h"
 #include "../packets/entity_update.h"
@@ -55,6 +56,7 @@
 #include "../conquest_system.h"
 #include "../utils/zoneutils.h"
 #include "../packets/chat_message.h"
+#include "../ability.h"
 
 int32 g_pixieAmity = 0;
 time_t g_pixieLastAmityRefresh = 0;
@@ -713,6 +715,66 @@ float CMobEntity::GetRoamRate()
     return (float)getMobMod(MOBMOD_ROAM_RATE) / 10.0f;
 }
 
+void CMobEntity::OnAbility(CAbilityState& state, action_t& action)
+{
+    auto PAbility = state.GetAbility();
+    auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+
+    std::unique_ptr<CBasicPacket> errMsg;
+    if (PTarget && IsValidTarget(PTarget->targid, PAbility->getValidTarget(), errMsg))
+    {
+        if (this != PTarget && distance(this->loc.p, PTarget->loc.p) > PAbility->getRange())
+        {
+            return;
+        }
+
+        // Currently, only the Wyvern uses abilities at all as of writing, but their abilities are not instant and are mob abilities.
+        // Abilities are not subject to paralyze if they have non-zero cast time due to this corner case.
+        if (state.GetAbility()->getCastTime() == 0s && battleutils::IsParalyzed(this))
+        {
+            setActionInterrupted(action, PTarget, MSGBASIC_IS_PARALYZED_2, 0);
+            return;
+        }
+
+        action.id = this->id;
+        action.actiontype = PAbility->getActionType();
+        action.actionid = PAbility->getID();
+        actionList_t& actionList = action.getNewActionList();
+        actionList.ActionTargetID = PTarget->id;
+        actionTarget_t& actionTarget = actionList.getNewActionTarget();
+        actionTarget.reaction = REACTION_NONE;
+        actionTarget.speceffect = SPECEFFECT_RECOIL;
+        actionTarget.animation = PAbility->getAnimationID();
+        actionTarget.param = 0;
+        auto prevMsg = actionTarget.messageID;
+
+        int32 value = luautils::OnUseAbility(this, PTarget, PAbility, &action);
+        if (prevMsg == actionTarget.messageID)
+            actionTarget.messageID = PAbility->getMessage();
+        if (actionTarget.messageID == 0)
+            actionTarget.messageID = MSGBASIC_USES_JA;
+        actionTarget.param = value;
+
+        if (value < 0)
+        {
+            actionTarget.messageID = ability::GetAbsorbMessage(actionTarget.messageID);
+            actionTarget.param = -value;
+        }
+    }
+    else // Can't target anything, just cancel the animation.
+    {
+        action.actiontype = ACTION_MOBABILITY_INTERRUPT;
+        action.actionid = 28787; // Some hardcoded magic for interrupts
+        actionList_t& actionList = action.getNewActionList();
+        actionList.ActionTargetID = id;
+
+        actionTarget_t& actionTarget = actionList.getNewActionTarget();
+        actionTarget.animation = 0x1FC;
+        actionTarget.messageID = 0;
+        actionTarget.reaction = REACTION_ABILITY_HIT;
+    }
+}
+
 bool CMobEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
 {
     if (StatusEffectContainer->GetConfrontationEffect() != PInitiator->StatusEffectContainer->GetConfrontationEffect())
@@ -811,7 +873,181 @@ void CMobEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& actio
 {
     CBattleEntity::OnWeaponSkillFinished(state, action);
 
-    static_cast<CMobController*>(PAI->GetController())->TapDeaggroTime();
+    auto PWeaponSkill = state.GetSkill();
+    auto PBattleTarget = static_cast<CBattleEntity*>(state.GetTarget());
+
+    int16 tp = state.GetSpentTP();
+    tp = battleutils::CalculateWeaponSkillTP(this, PWeaponSkill, tp);
+
+    SLOTTYPE damslot = SLOT_MAIN;
+    bool isRangedWS = (PWeaponSkill->getID() >= 192 && PWeaponSkill->getID() <= 218);
+
+    // Check if target is alive
+    if (PBattleTarget->GetHPP() < 1)
+        return;
+
+    if (distance(loc.p, PBattleTarget->loc.p) - PBattleTarget->m_ModelSize <= PWeaponSkill->getRange())
+    {
+        PAI->TargetFind->reset();
+        // #TODO: revise parameters
+        if (PWeaponSkill->isAoE())
+        {
+            PAI->TargetFind->findWithinArea(PBattleTarget, AOERADIUS_TARGET, 10);
+        }
+        else
+        {
+            PAI->TargetFind->findSingleTarget(PBattleTarget);
+        }
+
+        // Assumed, it's very difficult to produce this due to WS being nearly instant
+        // TODO: attempt to verify.
+        if (PAI->TargetFind->m_targets.size() == 0)
+        {
+            // No targets, perhaps something like Super Jump or otherwise untargetable
+            action.actiontype = ACTION_MAGIC_FINISH;
+            action.actionid = 28787; // Some hardcoded magic for interrupts
+            actionList_t& actionList = action.getNewActionList();
+            actionList.ActionTargetID = id;
+
+            actionTarget_t& actionTarget = actionList.getNewActionTarget();
+
+            actionTarget.animation = 0x1FC; // Assumed, but not verified.
+            actionTarget.messageID = 0;
+            actionTarget.reaction = REACTION_ABILITY_HIT;
+
+            return;
+        }
+
+        for (auto&& PTarget : PAI->TargetFind->m_targets)
+        {
+            bool primary = PTarget == PBattleTarget;
+            actionList_t& actionList = action.getNewActionList();
+            actionList.ActionTargetID = PTarget->id;
+
+            actionTarget_t& actionTarget = actionList.getNewActionTarget();
+
+            uint16 tpHitsLanded;
+            uint16 extraHitsLanded;
+            int32 damage;
+            CBattleEntity* taChar = battleutils::getAvailableTrickAttackChar(this, PTarget);
+
+            actionTarget.reaction = REACTION_NONE;
+            actionTarget.speceffect = SPECEFFECT_NONE;
+            actionTarget.animation = PWeaponSkill->getAnimationId();
+            actionTarget.messageID = 0;
+            std::tie(damage, tpHitsLanded, extraHitsLanded) = luautils::OnUseWeaponSkill(this, PTarget, PWeaponSkill, tp, primary, action, taChar);
+
+            if (!battleutils::isValidSelfTargetWeaponskill(PWeaponSkill->getID()))
+            {
+                if (primary && PBattleTarget->objtype == TYPE_MOB)
+                {
+                    luautils::OnWeaponskillHit(PBattleTarget, this, PWeaponSkill->getID());
+                }
+            }
+            else
+            {
+                actionTarget.messageID = primary ? 224 : 276; // restores mp msg
+                actionTarget.reaction = REACTION_HIT;
+                damage = std::max(damage, 0);
+                actionTarget.param = PTarget->addMP(damage);
+            }
+
+            if (primary)
+            {
+                // TODO: Probably not needed for mobs?
+                //if (PWeaponSkill->getID() >= 192 && PWeaponSkill->getID() <= 218)
+                //{
+                //    uint16 recycleChance =
+                //        getMod(Mod::RECYCLE) + PMeritPoints->GetMeritValue(MERIT_RECYCLE, this) + this->PJobPoints->GetJobPointValue(JP_AMMO_CONSUMPTION);
+
+                //    if (StatusEffectContainer->HasStatusEffect(EFFECT_UNLIMITED_SHOT))
+                //    {
+                //        StatusEffectContainer->DelStatusEffectSilent(EFFECT_UNLIMITED_SHOT);
+                //        recycleChance = 100;
+                //    }
+                //    if (tpzrand::GetRandomNumber(100) > recycleChance)
+                //    {
+                //        battleutils::RemoveAmmo(this);
+                //    }
+                //}
+                if (actionTarget.reaction == REACTION_HIT)
+                {
+                    if (PWeaponSkill->getPrimarySkillchain() != 0)
+                    {
+                        // NOTE: GetSkillChainEffect is INSIDE this if statement because it
+                        //  ALTERS the state of the resonance, which misses and non-elemental(i.e. spirits within) skills should NOT do.
+
+                        SUBEFFECT effect = battleutils::GetSkillChainEffect(PBattleTarget, PWeaponSkill->getPrimarySkillchain(),
+                                                                            PWeaponSkill->getSecondarySkillchain(), PWeaponSkill->getTertiarySkillchain());
+                        if (effect != SUBEFFECT_NONE)
+                        {
+                            // TODO: Probably shouldn't exist for mobs
+                            // Apply Inundation weapon skill type tracking
+                            //if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_INUNDATION))
+                            //{
+                            //    CStatusEffect* PEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_INUNDATION, 0);
+                            //    auto power = PEffect->GetPower();
+                            //    auto currentFlag = PItem->getSkillTypeFlag();
+                            //    auto subPower = PEffect->GetSubPower();
+                            //    if ((subPower & currentFlag) == 0)
+                            //    {
+                            //        PEffect->SetPower(power + 1);
+                            //        PEffect->SetSubPower(subPower | currentFlag);
+                            //    }
+                            //}
+
+                            actionTarget.addEffectParam = battleutils::TakeSkillchainDamage(this, PBattleTarget, damage, taChar);
+                            if (actionTarget.addEffectParam < 0)
+                            {
+                                actionTarget.addEffectParam = -actionTarget.addEffectParam;
+                                actionTarget.addEffectMessage = 384 + effect;
+                            }
+                            else
+                                actionTarget.addEffectMessage = 287 + effect;
+                            actionTarget.additionalEffect = effect;
+                        }
+                        else if (effect == SUBEFFECT_NONE)
+                        {
+                            // TODO: Probably shouldn't exist for mobs
+                            // Reset Inundation weapon skill type tracking
+                            //if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_INUNDATION))
+                            //{
+                            //    CStatusEffect* PEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_INUNDATION, 0);
+                            //    auto currentFlag = PItem->getSkillTypeFlag();
+                            //    PEffect->SetPower(0);
+                            //    PEffect->SetSubPower(currentFlag);
+                            //}
+                        }
+                    }
+                }
+            }
+        }
+        // Remove effects consumed if present
+        StatusEffectContainer->DelStatusEffectSilent(EFFECT_SENGIKORI);
+        StatusEffectContainer->DelStatusEffectSilent(EFFECT_FOOTWORK);
+        battleutils::ClaimMob(PBattleTarget, this);
+
+    }
+    else
+    {
+        actionList_t& actionList = action.getNewActionList();
+        actionList.ActionTargetID = PBattleTarget->id;
+        action.actiontype = ACTION_MAGIC_FINISH; // all "Too Far" messages use cat 4
+
+        actionTarget_t& actionTarget = actionList.getNewActionTarget();
+        actionTarget.animation = 0x1FC; // Seems hardcoded, two bits away from 0x1FF
+        actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
+
+        // While it doesn't seem that speceffect is actually used at all in this "do nothing" animation, this is here for accuracy.
+        if (isRangedWS) // Ranged WS seem to stay 0 on Reaction
+        {
+            actionTarget.speceffect = SPECEFFECT_NONE;
+        }
+        else // Always 2 observed on various melee weapons
+        {
+            actionTarget.speceffect = SPECEFFECT_BLOOD;
+        }
+    }
 }
 
 

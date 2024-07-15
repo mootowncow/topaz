@@ -7,7 +7,7 @@ require("scripts/globals/ability")
 cmdprops =
 {
     permission = 1,
-    parameters = "s"
+    parameters = "ss"
 }
 
 function error(player, msg)
@@ -15,23 +15,25 @@ function error(player, msg)
     player:PrintToPlayer("!useja")
 end
 
-function onTrigger(player, tpmove)
+function onTrigger(player, jobAbility, self)
     local targ = player:getCursorTarget()
     
     if targ == nil or (not targ:isMob() and not targ:isPet()) then
         error(player, "you must select a target monster with the cursor first")
     else
-        print("onTrigger called with tpmove:", tpmove) -- Print initial tpmove
         
-        tpmove = tonumber(tpmove) or tpz.jobAbility[string.upper(tpmove)]
+        jobAbility = tonumber(jobAbility) or tpz.jobAbility[string.upper(jobAbility)]
         
-        if (tpmove == nil) then
+        if (jobAbility == nil) then
             error(player, "Invalid job ability.")
             return
         end
         
-        print("targ:useJobAbility called with tpmove:", tpmove, " target ID:", targ:getTarget():getID()) -- Print final tpmove and target ID
-        targ:useJobAbility(tpmove, targ:getTarget())
+        if (self == nil) then
+            targ:useJobAbility(jobAbility)
+        else
+            targ:useJobAbility(jobAbility, targ)
+        end
     end
 end
 

@@ -78,6 +78,7 @@ INSERT INTO `mob_skills` VALUES (39,8,'spirits_within',0,7.0,2000,0,4,0,0,0,0,0,
 INSERT INTO `mob_skills` VALUES (40,9,'vorpal_blade',0,7.0,2000,0,4,0,0,0,4,8,0);
 INSERT INTO `mob_skills` VALUES (41,10,'swift_blade',0,7.0,2000,0,4,0,0,0,9,0,0);
 INSERT INTO `mob_skills` VALUES (42,11,'savage_blade',0,7.0,2000,0,4,0,0,0,12,4,0);
+INSERT INTO `mob_skills` VALUES (47,230,'sanguine_blade',0,7.0,2000,0,4,0,0,0,1,8,0);
 INSERT INTO `mob_skills` VALUES (48,106,'hard_slash',0,7.0,2000,0,4,0,0,0,4,0,0);
 INSERT INTO `mob_skills` VALUES (49,107,'power_slash',0,7.0,2000,0,4,0,0,0,1,0,0);
 INSERT INTO `mob_skills` VALUES (50,108,'frostbite',0,7.0,2000,0,4,0,0,0,7,0,0);

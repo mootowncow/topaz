@@ -695,6 +695,34 @@ bool CMobController::TrySpecialSkill()
     return false;
 }
 
+bool CMobController::WeaponSkill(uint16 targid, uint16 wsid)
+{
+    if (PMob->PAI->CanChangeState())
+    {
+        // #TODO: put all this in weaponskill_state
+        CWeaponSkill* PWeaponSkill = battleutils::GetWeaponSkill(wsid);
+
+        if (PMob->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
+        {
+            return false;
+        }
+
+        std::unique_ptr<CBasicPacket> errMsg;
+        auto PTarget = PMob->IsValidTarget(targid, battleutils::isValidSelfTargetWeaponskill(wsid) ? TARGET_SELF : TARGET_ENEMY, errMsg);
+
+        if (PTarget)
+        {
+            if (!facing(PMob->loc.p, PTarget->loc.p, 64) && PTarget != PMob)
+            {
+                return false;
+            }
+            return CController::WeaponSkill(targid, wsid);
+        }
+    }
+
+    return false;
+}
+
 bool CMobController::TryCastSpell()
 {
     TracyZoneScoped;
@@ -1704,4 +1732,13 @@ bool CMobController::IsSpellReady(float currentDistance)
     }
 
     return (m_Tick >= m_LastMagicTime + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_MAGIC_COOL) - bonusTime));
+}
+
+bool CMobController::Ability(uint16 targid, uint16 abilityid)
+{
+    if (PMob->PAI->CanChangeState())
+    {
+        return PMob->PAI->Internal_Ability(targid, abilityid);
+    }
+    return false;
 }

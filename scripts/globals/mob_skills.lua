@@ -33,6 +33,7 @@ tpz.mob.skills = {
     VORPAL_BLADE = 40,
     SWIFT_BLADE = 41,
     SAVAGE_BLADE = 42,
+    SANGUINE_BLADE = 47,
     HARD_SLASH = 48,
     POWER_SLASH = 49,
     FROSTBITE = 50,
