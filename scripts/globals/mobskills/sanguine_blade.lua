@@ -31,7 +31,7 @@ function onMobWeaponSkill(target, mob, skill)
 
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.DARK)
     if not target:isUndead() then
-        mob:addHP(math.floor((damage/100) * drain))
+        mob:addHP(math.floor((dmg/100) * drain))
     end
     return dmg
 end

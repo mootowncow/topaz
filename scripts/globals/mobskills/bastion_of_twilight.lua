@@ -6,13 +6,17 @@ require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/zone")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
     if (mob:hasStatusEffect(tpz.effect.MAGIC_SHIELD) or mob:hasStatusEffect(tpz.effect.PHYSICAL_SHIELD)) then
         return 1
     end
-    mob:showText(mob, ID.text.PROMATHIA_TEXT + 5)
+    local zoneId = mob:getZoneID()
+    if (zoneId == tpz.zone.EMPYREAL_PARADOX) then
+        mob:showText(mob, ID.text.PROMATHIA_TEXT + 5)
+    end
     return 0
 end
 

@@ -29,7 +29,6 @@ function onMobSkillCheck(target,mob,skill)
     elseif target:isBeside(mob, 45) then
         return 1
     end
-    return 0
 
     if (skillList == 54 or (skillList == 727 and mob:AnimationSub() == 1)) then
         return 0

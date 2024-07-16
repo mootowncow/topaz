@@ -40,7 +40,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 	
     local maccBonus = math.floor(MaccTPModifier(tp) * 10) -- 100/200/300
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.LIGHT, maccBonus, tpz.effect.FLASH)
-    if (dmg > 0 and not target:hasStatusEffect(tpz.effect.FLASH) and resist >= 0.5) then
+    if (damage > 0 and not target:hasStatusEffect(tpz.effect.FLASH) and resist >= 0.5) then
         local duration = 12 * resist
         target:addStatusEffect(tpz.effect.FLASH, 300, 3, duration)
     end

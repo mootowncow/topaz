@@ -18,46 +18,71 @@ require("scripts/globals/magic")
 -----------------------------------
 
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
-    local params = {}
-    params.numHits = 2
-    params.ftp100 = 3.5 params.ftp200 = 3.5 params.ftp300 = 3.5
-    params.str_wsc = 0.3 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0
-    params.mnd_wsc = 0.5 params.chr_wsc = 0.0
-    params.crit100 = 0.0 params.crit200 = 0.0 params.crit300 = 0.0
-    params.canCrit = false
-    params.acc100 = 0.0 params.acc200 = 0.0 params.acc300 = 0.0
-    params.atk100 = 1; params.atk200 = 1; params.atk300 = 1
+    if player:isPC() then
+        local params = {}
+        params.numHits = 2
+        params.ftp100 = 3.5 params.ftp200 = 3.5 params.ftp300 = 3.5
+        params.str_wsc = 0.3 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0
+        params.mnd_wsc = 0.5 params.chr_wsc = 0.0
+        params.crit100 = 0.0 params.crit200 = 0.0 params.crit300 = 0.0
+        params.canCrit = false
+        params.acc100 = 0.0 params.acc200 = 0.0 params.acc300 = 0.0
+        params.atk100 = 1; params.atk200 = 1; params.atk300 = 1
 
-    if USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.ftp100 = 2.5 params.ftp200 = 4 params.ftp300 = 7
-        params.mnd_wsc = 0.7
-    end
+        if USE_ADOULIN_WEAPON_SKILL_CHANGES then
+            params.ftp100 = 2.5 params.ftp200 = 4 params.ftp300 = 7
+            params.mnd_wsc = 0.7
+        end
 
-    local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-	if damage > 0 then player:trySkillUp(target, tpz.skill.CLUB, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+        local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
+	    if damage > 0 then player:trySkillUp(target, tpz.skill.CLUB, tpHits+extraHits) end
+	    if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
 
-    local pet = player:getPet()
-    local healAmount = math.floor(damage / 2)
+        local pet = player:getPet()
+        local healAmount = math.floor(damage / 2)
 
-    if (damage > 0) then
-        if (pet ~= nil) then
-            if pet:isAlive() and player:checkDistance(pet) <= 10 then
-                pet:addHP(healAmount)
-                player:updateEnmityFromCure(pet, healAmount)
-                -- Add Phalanx
-                if not pet:hasStatusEffect(tpz.effect.PHALANX) then
-                    pet:addStatusEffect(tpz.effect.PHALANX, 20, 0, 30)
-                end
-                -- Add Defense boost 
-                if not pet:hasStatusEffect(tpz.effect.DEFENSE_BOOST) then
-                    pet:addStatusEffect(tpz.effect.DEFENSE_BOOST, 33, 0, 30)
-                end
-                -- Add +all attributes
-                for v = tpz.effect.STR_BOOST, tpz.effect.CHR_BOOST do
-                    pet:addStatusEffect(v, 15, 0, 30)
+        if (damage > 0) then
+            if (pet ~= nil) then
+                if pet:isAlive() and player:checkDistance(pet) <= 10 then
+                    pet:addHP(healAmount)
+                    player:updateEnmityFromCure(pet, healAmount)
+                    -- Add Phalanx
+                    if not pet:hasStatusEffect(tpz.effect.PHALANX) then
+                        pet:addStatusEffect(tpz.effect.PHALANX, 20, 0, 30)
+                    end
+                    -- Add Defense boost 
+                    if not pet:hasStatusEffect(tpz.effect.DEFENSE_BOOST) then
+                        pet:addStatusEffect(tpz.effect.DEFENSE_BOOST, 33, 0, 30)
+                    end
+                    -- Add +all attributes
+                    for v = tpz.effect.STR_BOOST, tpz.effect.CHR_BOOST do
+                        pet:addStatusEffect(v, 15, 0, 30)
+                    end
                 end
             end
+        end
+    else
+        local params = {}
+        params.ftp100 = 2.0 params.ftp200 = 2.1 params.ftp300 = 2.3
+        params.str_wsc = 0.0 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0 params.mnd_wsc = 0.5 params.chr_wsc = 0.0
+        params.ele = tpz.magic.ele.LIGHT
+        params.skill = tpz.skill.SWORD
+        params.includemab = true
+	    params.enmityMult = 2.0
+	    params.bonusmacc = 100
+
+        if (USE_ADOULIN_WEAPON_SKILL_CHANGES == true) then
+            params.str_wsc = 0.5 params.mnd_wsc = 0.5
+        end
+
+        local damage, criticalHit, tpHits, extraHits = doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
+	    if damage > 0 then player:trySkillUp(target, tpz.skill.SWORD, tpHits+extraHits) end
+	
+        local maccBonus = math.floor(MaccTPModifier(tp) * 10) -- 100/200/300
+        local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.LIGHT, maccBonus, tpz.effect.FLASH)
+        if (damage > 0 and not target:hasStatusEffect(tpz.effect.FLASH) and resist >= 0.5) then
+            local duration = 12 * resist
+            target:addStatusEffect(tpz.effect.FLASH, 300, 3, duration)
         end
     end
 

@@ -198,14 +198,14 @@ INSERT INTO `mob_groups` VALUES (50,4669,4,'Bismarck',0,128,0,0,9999,95,98,0);
 INSERT INTO `mob_groups` VALUES (51,0,4,'Intuila',0,128,0,0,0,99,99,0);
 INSERT INTO `mob_groups` VALUES (52,9118,4,'Behemoth',330,0,0,0,0,82,83,0); -- G-10
 
-INSERT INTO `mob_groups` VALUES (53,9125,4,'Promathia',0,128,0,100000,0,90,90,0);
-INSERT INTO `mob_groups` VALUES (54,5976,4,'Kayeel-Payeel',0,128,0,10000,0,85,85,1);
-INSERT INTO `mob_groups` VALUES (55,5968,4,'Adelheid',0,128,0,10000,0,85,85,1);
-INSERT INTO `mob_groups` VALUES (56,3790,4,'Striking_Bull',0,128,0,10000,0,85,85,1);
-INSERT INTO `mob_groups` VALUES (57,2655,4,'Mikhe_Aryohcha',0,128,0,10000,0,85,85,1);
-INSERT INTO `mob_groups` VALUES (58,5910,4,'Valaineral_R_Davilles',0,128,0,10000,0,85,85,1);
-INSERT INTO `mob_groups` VALUES (59,1313,4,'Febrenard_C_Brunnaut',0,128,0,10000,0,85,85,1);
-INSERT INTO `mob_groups` VALUES (60,352,4,'Bartholomaus',0,128,0,10000,0,85,85,1);
+INSERT INTO `mob_groups` VALUES (53,9125,4,'Promathia',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (54,5976,4,'Kayeel-Payeel',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (55,5968,4,'Adelheid',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (56,3790,4,'Striking_Bull',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (57,5910,4,'Valaineral_R_Davilles',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (58,1313,4,'Febrenard_C_Brunnaut',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (59,352,4,'Bartholomaus',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (60,5964,4,'Lhe_Lhangavo',0,128,0,10000,0,80,80,1);
 
 -- ------------------------------------------------------------
 -- Uleguerand_Range (Zone 5)
@@ -338,6 +338,15 @@ INSERT INTO `mob_groups` VALUES (52,104,7,'Ambusher_Antlion',3600,0,61,12500,0,7
 INSERT INTO `mob_groups` VALUES (53,71,7,'Air_Elemental',330,4,38,0,0,75,77,0);
 INSERT INTO `mob_groups` VALUES (54,1160,7,'Earth_Elemental',330,4,733,0,0,75,77,0);
 INSERT INTO `mob_groups` VALUES (55,9120,7,'Wyrm',330,0,0,0,0,82,83,0); -- E-9
+
+INSERT INTO `mob_groups` VALUES (56,3208,7,'Omega',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (57,5914,7,'Ulmia',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (58,5913,7,'Prishe',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (59,5900,7,'Ayame',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (60,5898,7,'Kupipi',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (61,1202,7,'Else',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (62,5905,7,'Trion',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (63,5901,7,'Nanaa_Mihgo',0,128,0,10000,0,80,80,1);
 
 -- ------------------------------------------------------------
 -- Boneyard_Gully (Zone 8)

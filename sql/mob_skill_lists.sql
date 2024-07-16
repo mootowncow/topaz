@@ -740,7 +740,10 @@ INSERT INTO `mob_skill_lists` VALUES ('Coeurl_CoP',161,483); -- charged_whisker
 INSERT INTO `mob_skill_lists` VALUES ('Coeurl_WoTG',162,652); -- blaster
 INSERT INTO `mob_skill_lists` VALUES ('Coeurl_WoTG',162,653); -- chaotic_eye
 INSERT INTO `mob_skill_lists` VALUES ('Coeurl_WoTG',162,483); -- charged_whisker
--- 163: free
+INSERT INTO `mob_skill_lists` VALUES ('Striking_Bull',163,69); -- Rampage
+INSERT INTO `mob_skill_lists` VALUES ('Striking_Bull',163,70); -- Calamity
+INSERT INTO `mob_skill_lists` VALUES ('Striking_Bull',163,71); -- Mistral Axe
+INSERT INTO `mob_skill_lists` VALUES ('Striking_Bull',163,72); -- Decimnation
 INSERT INTO `mob_skill_lists` VALUES ('Hydra',164,1828);
 INSERT INTO `mob_skill_lists` VALUES ('Hydra',164,1829);
 INSERT INTO `mob_skill_lists` VALUES ('Hydra',164,1830);
@@ -1130,7 +1133,10 @@ INSERT INTO `mob_skill_lists` VALUES ('Structure_Exoplate',237,998);
 INSERT INTO `mob_skill_lists` VALUES ('Structure_Exoplate',237,999);
 INSERT INTO `mob_skill_lists` VALUES ('Structure_Exoplate',237,1000);
 INSERT INTO `mob_skill_lists` VALUES ('Structure_Exoplate',237,1001);
--- 238: free
+INSERT INTO `mob_skill_lists` VALUES ('Lhe_Lhangavo',238,4); -- Backhand Blow
+INSERT INTO `mob_skill_lists` VALUES ('Lhe_Lhangavo',238,5); -- Raging Fists
+INSERT INTO `mob_skill_lists` VALUES ('Lhe_Lhangavo',238,8); -- Dragon Kick
+INSERT INTO `mob_skill_lists` VALUES ('Lhe_Lhangavo',238,9); -- Asuran Fists
 INSERT INTO `mob_skill_lists` VALUES ('Thunderclaw_Thuban',239,378); -- thunderbolt
 INSERT INTO `mob_skill_lists` VALUES ('Tauri',240,498);
 INSERT INTO `mob_skill_lists` VALUES ('Tauri',240,499);
@@ -1188,7 +1194,10 @@ INSERT INTO `mob_skill_lists` VALUES ('Troll_Armored',247,1899);
 -- INSERT INTO `mob_skill_lists` VALUES ('Troll_Armored',247,1748);
 INSERT INTO `mob_skill_lists` VALUES ('Troll_Armored',247,1900);
 -- 247: Tube
--- 248 to 249: free
+INSERT INTO `mob_skill_lists` VALUES ('Else',248,116); -- penta_thrust
+INSERT INTO `mob_skill_lists` VALUES ('Else',248,118); -- skewer
+INSERT INTO `mob_skill_lists` VALUES ('Else',248,120); -- impulse_drive
+-- 249: free
 INSERT INTO `mob_skill_lists` VALUES ('Uragnite_shell',250,1571); -- gas_shell
 INSERT INTO `mob_skill_lists` VALUES ('Uragnite_shell',250,1572); -- venom_shell
 INSERT INTO `mob_skill_lists` VALUES ('Uragnite',251,1573); -- palsynyxis
@@ -3682,10 +3691,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Volker',1018,40); -- Vorpal Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Volker',1018,42); -- Savage Blade
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ajido-Marujido',1019,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Trion',1020,34);   -- Red Lotus Blade
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Trion',1020,35);   -- Flat Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Trion',1020,42);   -- Savage Blade
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Trion',1020,3193); -- Royal Bash
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Trion',1020,3194); -- Royal Saviour
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zeid',1021,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lion',1022,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Tenzen',1023,1390); -- Amatsu: Torimai

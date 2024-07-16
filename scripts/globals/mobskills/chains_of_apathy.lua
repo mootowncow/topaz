@@ -8,6 +8,7 @@ require("scripts/globals/settings")
 require("scripts/globals/keyitems")
 require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/zone")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
@@ -16,7 +17,10 @@ function onMobSkillCheck(target, mob, skill)
         if (v.entity:isPC()) then
             local race = v.entity:getRace()
             if (race == tpz.race.HUME_M or race == tpz.race.HUME_F) and not v.entity:hasKeyItem(tpz.ki.LIGHT_OF_VAHZL) then
-                mob:showText(mob, ID.text.PROMATHIA_TEXT)
+                local zoneId = mob:getZoneID()
+                if (zoneId == tpz.zone.EMPYREAL_PARADOX) then
+                    mob:showText(mob, ID.text.PROMATHIA_TEXT)
+                end
                 return 0
             end
         end

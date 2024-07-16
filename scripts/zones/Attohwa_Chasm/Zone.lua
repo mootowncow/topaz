@@ -55,6 +55,17 @@ function onZoneIn(player, prevZone)
     return cs
 end
 
+function afterZoneIn(player)
+    local day = VanadielDayOfTheWeek()
+    if (day == tpz.day.EARTHSDAY) then
+        for v = 16806397, 16806404 do
+            if not GetMobByID(v):isSpawned() then
+                GetMobByID(v):spawn()
+            end
+        end
+    end
+end
+
 function onConquestUpdate(zone, updatetype)
     tpz.conq.onConquestUpdate(zone, updatetype)
 end

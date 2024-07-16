@@ -1166,18 +1166,14 @@ function OnBattleStartConfrontation(player, mobId, duration)
 end
 
 function OnBattleEndConfrontation(mob)
-    if (mob:getTarget() == nil or target == nil) then
-        local NearbyPlayers = mob:getPlayersInRange(50)
-        if NearbyPlayers == nil then return end
-        if NearbyPlayers then
-            for _,v in ipairs(NearbyPlayers) do
-                if v:hasStatusEffect(tpz.effect.CONFRONTATION) then
-                    v:delPartyEffect(tpz.effect.CONFRONTATION)
-                end
+    local NearbyEntities = mob:getNearbyEntities(50)
+    if NearbyEntities == nil then return end
+    if NearbyEntities then
+        for _,v in ipairs(NearbyEntities) do
+            if v:hasStatusEffect(tpz.effect.CONFRONTATION) then
+                v:delStatusEffect(tpz.effect.CONFRONTATION)
             end
         end
-    else
-        target:delPartyEffect(tpz.effect.CONFRONTATION)
     end
     mob:delStatusEffect(tpz.effect.CONFRONTATION)
 end

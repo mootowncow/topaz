@@ -25,6 +25,13 @@ zones[tpz.zone.ATTOHWA_CHASM] =
         GASPONIA_POISON         = 7328, -- The poison of the Gasponia has begun to spread through your body.
         OCCASIONAL_LUMPS        = 7343, -- Occasionally lumps arise in the ground here, then settle down again. It seems that there is something beneath the earth.
         HOMEPOINT_SET           = 8230, -- Home point set!
+        CONF_TOO_FAR            = 8250, -- You have ventured too far from the field of battle. The Confrontation will automatically disengage if you do not return
+        CONF_DISENAGED          = 8251, -- Ventured too far, confrontation has disengaged.
+        CONF_REENGAGED          = 8252, -- You have returned to the field of battle.
+        CONF_BATTLE_BEGIN       = 8253, -- You have x earth time to complete the battle.
+        CONF_MIN_REMAINING      = 8254, -- X earth minutes remaining to complete the battle.
+        CONF_SEC_REMAINING      = 8255, -- x earth seconds remaining to complete the battle.
+        CONF_TIME_UP            = 8256, -- Your time for this Confrontation is up...
     },
     mob =
     {

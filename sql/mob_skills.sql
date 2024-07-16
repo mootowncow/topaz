@@ -51,8 +51,8 @@ CREATE TABLE IF NOT EXISTS `mob_skills` (
 INSERT INTO `mob_skills` VALUES (1,16,'combo',0,5.0,2000,0,4,0,0,0,8,0,0);
 INSERT INTO `mob_skills` VALUES (2,17,'shoulder_tackle',0,5.0,2000,0,4,0,0,0,5,8,0);
 INSERT INTO `mob_skills` VALUES (3,18,'one_inch_punch',0,7.0,2000,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4,19,'backhand_blow',0,7.0,2000,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (5,20,'raging_fists',0,7.0,2000,0,4,0,64,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (4,19,'backhand_blow',0,7.0,2000,0,4,0,0,0,6,0,0);
+INSERT INTO `mob_skills` VALUES (5,20,'raging_fists',0,7.0,2000,0,4,0,64,0,8,0,0);
 INSERT INTO `mob_skills` VALUES (6,21,'spinning_attack',0,7.0,2000,0,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (7,22,'howling_fist',0,7.0,2000,0,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (8,23,'dragon_kick',0,7.0,2000,0,4,0,0,0,12,0,0);
@@ -69,7 +69,7 @@ INSERT INTO `mob_skills` VALUES (24,39,'shark_bite',0,7.0,2000,0,4,0,0,0,12,0,0)
 INSERT INTO `mob_skills` VALUES (25,40,'evisceration',0,7.0,2000,0,4,0,0,0,9,1,0);
 INSERT INTO `mob_skills` VALUES (32,1,'fast_blade',0,7.0,2000,0,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (33,2,'burning_blade',0,7.0,2000,0,4,0,0,0,3,0,0);
-INSERT INTO `mob_skills` VALUES (34,3,'red_lotus_blade',0,7.0,2000,0,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (34,3,'red_lotus_blade',0,7.0,2000,0,4,0,0,0,3,6,0);
 INSERT INTO `mob_skills` VALUES (35,6,'flat_blade',0,7.0,2000,0,4,0,0,0,8,0,0);
 INSERT INTO `mob_skills` VALUES (36,4,'shining_blade',0,7.0,2000,0,4,0,0,0,4,0,0);
 INSERT INTO `mob_skills` VALUES (37,5,'seraph_blade',0,7.0,2000,0,4,0,0,0,4,0,0);
@@ -3149,7 +3149,7 @@ INSERT INTO `mob_skills` VALUES (3172,279,'stalking_prey',1,18.0,2000,1000,4,0,0
 -- INSERT INTO `mob_skills` VALUES (3186,434,'yaegasumi',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3187,2931,'dragonfall',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3188,2932,'tachi_fudo',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3189,1508,'king_cobra_clamp',0,7.0,2000,1500,4,0,0,0,0,0,0); -- Nanaa Mihgo
+INSERT INTO `mob_skills` VALUES (3189,1508,'king_cobra_clamp',4,10.0,2000,1500,4,0,0,0,12,10,0); -- Nanaa Mihgo
 -- INSERT INTO `mob_skills` VALUES (3190,2934,'red_lotus_blade',0,7.0,2000,1500,4,0,0,0,3,6,0);
 -- INSERT INTO `mob_skills` VALUES (3191,2935,'spirits_within',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3192,681,'vorpal_blade',0,7.0,2000,1500,4,0,0,0,4,8,0); -- Trion
@@ -3196,7 +3196,7 @@ INSERT INTO `mob_skills` VALUES (3232,1784,'iridal_pierce',0,7.0,2000,1500,4,0,0
 INSERT INTO `mob_skills` VALUES (3233,1785,'lunar_revolution',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3234,1095,'nullifying_dropkick',0,7.0,2000,0,4,0,0,0,7,6,8);
 INSERT INTO `mob_skills` VALUES (3235,1343,'auroral_uppercut',0,7.0,2000,0,4,0,0,0,13,12,0);
-INSERT INTO `mob_skills` VALUES (3236,2033,'knuckle_sandwich',0,7.0,2000,0,4,0,0,0,11,2,8);
+INSERT INTO `mob_skills` VALUES (3236,2033,'knuckle_sandwich',4,10.0,2000,0,4,0,0,0,11,2,8);
 INSERT INTO `mob_skills` VALUES (3237,1427,'victory_beacon',0,7.0,2000,1500,4,0,0,0,0,0,0); -- Rughadjeen
 -- INSERT INTO `mob_skills` VALUES (3238,2982,'salamander_flame',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3239,1429,'typhonic_arrow',0,7.0,2000,1500,4,0,0,0,0,0,0);

@@ -5,10 +5,14 @@ require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
 require("scripts/globals/status")
 local ID = require("scripts/zones/Empyreal_Paradox/IDs")
+require("scripts/globals/zone")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    mob:showText(mob, ID.text.PROMATHIA_TEXT + 6)
+    local zoneId = mob:getZoneID()
+    if (zoneId == tpz.zone.EMPYREAL_PARADOX) then
+        mob:showText(mob, ID.text.PROMATHIA_TEXT + 6)
+    end
     return 0
 end
 

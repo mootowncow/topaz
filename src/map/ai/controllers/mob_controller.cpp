@@ -627,8 +627,10 @@ bool CMobController::MobSkill(int wsList)
                 int16 tp = PMob->health.tp;
                 PMob->SetLocalVar("tp", tp);
 
-                // Set message for "Player" and Fomor TP moves
-                if (PMobSkill->getID() <= 255)
+                // Set message for "Player" and Fomor TP moves, and Prishe TP moves
+                if (PMobSkill->getID() <= 255 ||
+                    PMobSkill->getID() >= 1489 && PMobSkill->getID()  <= 1490 ||
+                    PMobSkill->getID() == 3236)
                 {
                     PMob->loc.zone->PushPacket(PMob, CHAR_INRANGE, new CMessageBasicPacket(PMob, PTarget, 0, PMobSkill->getID(), MSGBASIC_READIES_WS));
                 }

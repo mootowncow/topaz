@@ -1,9 +1,9 @@
 ---------------------------------------------------
 -- King Cobra Clamp
--- Damage varies with TP.
--- Type: Magical
--- Utsusemi/Blink absorb: Ignores shadows
--- Skillchain Properties: Fragmentation-IconFragmentation
+-- Damage varies with TP. Conal.
+-- Type: Physical
+-- Utsusemi/Blink absorb: Wipes shadows
+-- Additional effect: Poison, Paralysis, Stun
 ---------------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -29,9 +29,13 @@ function onMobWeaponSkill(target, mob, skill)
     params_phys.int_wsc = 0.2
     params_phys.mnd_wsc = 0.0
     params_phys.chr_wsc = 0.0
+    params_phys.attack_boost = 150
     local info = MobPhysicalMove(mob, target, skill, numhits, accmod, dmgmod, TP_NO_EFFECT, params_phys)
-    local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING, info.hitslanded)
-
-    target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.SLASHING)
+    local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.PIERCING, MOBPARAM_WIPE_SHADOWS)
+    target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.PIERCING)
+    MobPhysicalStatusEffectMove(mob, target, skill, tpz.effect.POISON, 20, 3, 60)
+    MobPhysicalStatusEffectMove(mob, target, skill, tpz.effect.PARALYSIS, 25, 0, 60)
+    MobPhysicalStatusEffectMove(mob, target, skill, tpz.effect.STUN, 8, 0, 8)
+    if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then   target:tryInterruptSpell(mob, info.hitslanded) end
     return dmg
 end

@@ -6,14 +6,19 @@ local ID = require("scripts/zones/Empyreal_Paradox/IDs")
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/monstertpmoves")
+require("scripts/globals/zone")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if (target:hasStatusEffect(tpz.effect.PHYSICAL_SHIELD) or target:hasStatusEffect(tpz.effect.MAGIC_SHIELD)) then
-        mob:showText(mob, ID.text.PRISHE_TEXT + 5)
-        return 0
+    local zoneId = mob:getZoneID()
+    if (zoneId == tpz.zone.EMPYREAL_PARADOX) then
+        if (target:hasStatusEffect(tpz.effect.PHYSICAL_SHIELD) or target:hasStatusEffect(tpz.effect.MAGIC_SHIELD)) then
+            mob:showText(mob, ID.text.PRISHE_TEXT + 5)
+            return 0
+        end
+        return 1
     end
-    return 1
+    return 0
 end
 
 function onMobWeaponSkill(target, mob, skill)
