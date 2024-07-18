@@ -265,6 +265,29 @@ Roc, Serket, Casssie, Promathia, Ouryu, Bahamut, Shadow Lord, Kamalanaut(?), Ome
 Lvl90, 200k hp
 Mat that lets you add a random augment to any ring/amulet/earring
 
+SC resistance rank reduction
+https://github.com/LandSandBoat/server/commit/ae3fb1625f06d3cc6ec4a0d9b5fc0b6b8d2f8623
+
+Memory receptacles
+https://github.com/LandSandBoat/server/commit/5442524cc2b7304982c59039eef1fec1f3f63864
+
+getEntitiesInRange
+https://github.com/LandSandBoat/server/commit/a42edeb03e7d4072bc046e79c174db77fa978ec0
+
+Fix job level latent when leveling up 
+https://github.com/LandSandBoat/server/commit/43961672b5aacb33c0a6c3a63f0f78b77900bd6a
+
+hasSlotEquipped 
+https://github.com/LandSandBoat/server/commit/5d257d52299be1c9593f49f9c75ed7106cc1aa5b
+
+[Core] Adds missing quantity count to getItemCount 
+https://github.com/LandSandBoat/server/commit/2dc1751f5ad4537885dcd29ce23f109ff3a720b1
+
+Add nullptr check for Party Leader in RemoveEntity
+https://github.com/LandSandBoat/server/commit/4803799b3d8f9341a4f3c28cc4444613c3c0c606
+
+The Pit
+https://github.com/LandSandBoat/server/commit/bee2dc2823f3c173b8b7be7cda3daa7cb22b1ecb
 
 Empthy / Wyvern stuff
 https://www.bg-wiki.com/ffxi/User:Tatang
