@@ -919,6 +919,17 @@ INSERT INTO `mob_groups` VALUES (80,0,24,'Immanibugard',0,128,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (81,0,24,'Vermillion_Fishfly',0,128,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (82,6750,24,'Yal-un_Eke',3600,8,6042,5500,0,52,54,0);
 
+INSERT INTO `mob_groups` VALUES (83,325,24,'Bahamut',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (84,5902,24,'Curilla',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (85,5989,24,'King_of_Hearts',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (86,5930,24,'Aldo',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (87,5906,24,'Zeid',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (88,5934,24,'D_Shantotto',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (89,5955,24,'Apururu',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (90,5943,24,'Lhu_Mhakaracca',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (91,6864,24,'Kyo',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (92,6865,24,'Pya',0,128,0,10000,0,80,80,1);
+
 -- ------------------------------------------------------------
 -- Misareaux_Coast (Zone 25)
 -- ------------------------------------------------------------

@@ -416,6 +416,7 @@ INSERT INTO `mob_family_mods` VALUES (175,7,50,1);	-- Magic Pot 50% chance to -G
 
 -- Dual Wield
 INSERT INTO `mob_family_mods` VALUES (285,44,1,1); -- Gulool_Ja_Ja
+INSERT INTO `mob_family_mods` VALUES (971,44,1,1); -- Aldo
 
 -- Immunities
 

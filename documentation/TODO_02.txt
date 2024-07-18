@@ -155,8 +155,8 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+confrontation.lua onEffectLose(target,effect) procs and despawns mobs after being respawned with confrontation? it needs to be removed before they despawn? I dont understand
 Divine Emblem shouldn't just give +100 enmity, only give on next holy spell and get removed via C++
-getNearbyMobs needs to be fixed for quasluminims
 Add not mob:hasPreventActionEffect() to qultada talking/using stuff and add using roles via mob:useJobAbility(roll, mob)
 Add rangedattack to fomors, like how I added Ability(JA's) to mobs via mob_controller and mob_entity
 Allow mobs to have shield skill and base their block rate on that like parry works
@@ -356,6 +356,9 @@ https://github.com/LandSandBoat/server/commit/587156851dd0513f4a73ae8b8883f998c9
 
 Crate cleanp. unsure if needed
 https://github.com/LandSandBoat/server/commit/98a9b29b2cde8a684714a4c65b2122ff29eba210
+
+Accession / Majesty targetting fixes? unsure if needed 
+https://github.com/LandSandBoat/server/commit/1e28135a8ef651631408bc98d21183f59d62d1f4
 
 Unsure if needed
 https://github.com/LandSandBoat/server/commit/e754f7f0360dd5eb11e926c5cf559268345f4ba9

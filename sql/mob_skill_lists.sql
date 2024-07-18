@@ -3685,6 +3685,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Nanaa_Mihgo',1016,3189); -- King Co
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Curilla',1017,34); -- Red Lotus Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Curilla',1017,37); -- Seraph Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Curilla',1017,41); -- Swift Blade
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Curilla',1017,40); -- Vorpal Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Volker',1018,34); -- Red Lotus Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Volker',1018,39); -- Spirits Within
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Volker',1018,40); -- Vorpal Blade
@@ -3692,7 +3693,10 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Volker',1018,42); -- Savage Blade
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ajido-Marujido',1019,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Trion',1020,34);   -- Red Lotus Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Trion',1020,42);   -- Savage Blade
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zeid',1021,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zeid',1021,51); -- Freezebite
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zeid',1021,56); -- Groundstrike
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zeid',1021,3195); -- Abyssal Drain
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zeid',1021,3196); -- Abyssal strike
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lion',1022,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Tenzen',1023,1390); -- Amatsu: Torimai
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Tenzen',1023,1391); -- Amatsu: Kazakiri
@@ -3737,7 +3741,10 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,88); -- Steel Cycl
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Sakura',1042,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Luzaf',1043,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Najelith',1044,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Aldo',1045,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Aldo',1045,3283); -- iniquitous_stab
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Aldo',1045,3284); -- shockstorm_edge
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Aldo',1045,3285); -- choreographed_carnage
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Aldo',1045,3286); -- lock_and_load
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Moogle',1046,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Fablinix',1047,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maat',1048,0); -- Combo (Maat)
@@ -3750,7 +3757,10 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maat',1048,1028); -- Shoulder Tackl
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maat',1048,1033); -- Dragon Kick (Maat)
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maat',1048,1034); -- Asuran Fists (Maat)
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maat',1048,0); -- TODO: Bear Killer
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_D_Shantotto',1049,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_D_Shantotto',1049,98); -- Shadow of Death
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_D_Shantotto',1049,102); -- Guillotine
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_D_Shantotto',1049,103); -- Cross Reaper
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_D_Shantotto',1049,2486); -- Salvation Scythe
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Star_Sibyl',1050,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Karaha-Baruha',1051,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Cid',1052,0);
@@ -3762,7 +3772,10 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Semih_Lafihna',1055,3489); -- Lux A
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Semih_Lafihna',1055,3490); -- Stellar Arrow
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Elivira',1056,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Noillurie',1057,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhu_Mhakaracca',1058,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhu_Mhakaracca',1058,68); -- Spinning Axe
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhu_Mhakaracca',1058,69); -- Rampage
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhu_Mhakaracca',1058,72); -- Decimation
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhu_Mhakaracca',1058,1192); -- Onslaught
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ferreous_Coffin',1059,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lilisette',1060,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mumor',1061,0);
@@ -3774,7 +3787,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Semih_Lafihna',1055,3490); -- Stell
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Koru-Moru',1067,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Pieuje_UC',1068,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Invincible_Shield_UC',1069,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Apururu_UC',1070,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Apururu_UC',1070,3502); -- Nott
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Jakoh_Wahcondalo_UC',1071,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Flaviria_UC',1072,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Babban',1073,0);
@@ -3811,7 +3824,10 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Adelheid',1083,3469); -- Twirling D
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Teodor',1101,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ullegore',1102,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Makki-Chebukki',1103,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_King_of_Hearts',1104,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_King_of_Hearts',1104,3689); -- shuffle
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_King_of_Hearts',1104,3690); -- double_down
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_King_of_Hearts',1104,3691); -- bludgeon
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_King_of_Hearts',1104,3692); -- deal_out
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Morimar',1105,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Darrcuiln',1106,0);
 -- TODO: Verify these

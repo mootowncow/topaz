@@ -14,5 +14,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    player:addStatusEffect(tpz.effect.MAJESTY, 7, 0, 180)
+    player:addStatusEffect(tpz.effect.MAJESTY, 25, 0, 180)
 end

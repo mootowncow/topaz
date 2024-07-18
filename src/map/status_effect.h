@@ -586,7 +586,7 @@ enum EFFECT
     EFFECT_COLLIMATED_FERVOR        = 517,
     EFFECT_DEMATERIALIZE            = 518,
     EFFECT_THEURGIC_FOCUS           = 519,
-    // EFFECT_NONE                     = 521,
+    EFFECT_MAJESTY                  = 521,
     EFFECT_ELEMENTAL_SFORZO         = 522,
     EFFECT_IGNIS                    = 523,
     EFFECT_GELUS                    = 524,

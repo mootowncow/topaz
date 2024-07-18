@@ -193,6 +193,7 @@ function onMobRoam(mob)
     for i, entity in pairs(entities) do
         if entity:getAggressive() == 1 and mob:getID() ~= entity:getID() and entity:isAlive() then
             mobNearby = true;
+                print(string.format("ID: %d, Name: %s, Allegiance: %d, Type: %d", entity:getID(), entity:getName(), entity:getAllegiance(), entity:getObjType()))
             entity:updateEnmity(mob)
             if progress ~= EscortProgress.PAUSED then
                 mob:pathThrough(mob:getPos(), tpz.path.flag.NONE)

@@ -1385,10 +1385,10 @@ INSERT INTO `mob_pets` VALUES (16986197, 1, 9, 0, 9); -- Percipient_Zoraal_Ja
 -- Arrapago Remnants (Zone 74)
 -- ------------------------------------------------------------
 -- Custom Start
+INSERT INTO `mob_pets` VALUES (16806404, 1, 9, 2, 9); -- Lhu Mhakaracca
 -- Can't have instance pets?
 --INSERT INTO `mob_pets` VALUES (17081190, 1, 15, 0, 9); -- Lamie Bellydancer SMN
 --INSERT INTO `mob_pets` VALUES (17081203, 1, 15, 0, 9); -- Lamie Bellydancer SMN
-
 -- Custom End
 
 -- ------------------------------------------------------------

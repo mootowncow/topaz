@@ -8955,6 +8955,22 @@ inline int32 CLuaBaseEntity::getMP(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: getMPP()
+ *  Purpose : Returns current Mana Points Percentage of Entity
+ *  Example : player:getMPP()
+ *  Notes   : Mana Points / Max Mana Points, rounded up to whole integer
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getMPP(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->GetMPP());
+    return 1;
+}
+
+/************************************************************************
 *  Function: getMaxMP()
 *  Purpose : Returns the Max Mana Points of an entity
 *  Example : player:getMaxMP()
@@ -11311,7 +11327,7 @@ int32 CLuaBaseEntity::getEntity(lua_State* L)
  *  Function: getNearbyEntities(distance)
  *  Purpose : Returns a Lua table of all Entities surrounding the target within the provided distance
  *  Example : mob:getNearbyEntities(distance)
- *  Notes   :
+ *  Notes   : MUST be pairs NOT ipairs when iterating
  ************************************************************************/
 inline int32 CLuaBaseEntity::getNearbyEntities(lua_State* L)
 {
@@ -11359,7 +11375,7 @@ inline int32 CLuaBaseEntity::getNearbyEntities(lua_State* L)
  *  Function: getNearbyMobs(distance)
  *  Purpose : Returns a Lua table of all mobs surrounding target with provided distance
  *  Example : mob:getNearbyMobs(distance)
- *  Notes   :
+ *  Notes   : MUST be pairs NOT ipairs when iterating
  ************************************************************************/
 inline int32 CLuaBaseEntity::getNearbyMobs(lua_State* L)
 {
@@ -17234,7 +17250,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hideHP),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMP),
-    // Got an MPP? Well, I then you don't know me...
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMPP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMaxMP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getBaseMP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addMP),

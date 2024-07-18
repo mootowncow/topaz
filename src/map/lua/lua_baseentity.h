@@ -397,6 +397,7 @@ public:
     int32 hideHP(lua_State* L);
 
     int32 getMP(lua_State*);                // Gets MP of Entity
+    int32 getMPP(lua_State*);               // Returns entity MP %
     int32 getMaxMP(lua_State*);             // Get max mp of entity
     int32 getBaseMP(lua_State*);            // Gets base MP before modifiers of Entity
     int32 addMP(lua_State*);                // Modify mp of Entity +/-

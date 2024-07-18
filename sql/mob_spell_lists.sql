@@ -2705,7 +2705,6 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,245,10,255);            -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,246,62,255);            -- Drain II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,247,20,255);            -- Aspir
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,248,78,255);            -- Aspir II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,252,37,255);            -- Stun
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,266,43,255);            -- Absorb-str
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,267,41,255);            -- Absorb-dex
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,268,35,255);            -- Absorb-vit
@@ -2714,6 +2713,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,270,39,255);            -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,271,31,255);            -- Absorb-mnd
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,272,33,255);            -- Absorb-chr
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,275,45,255);            -- Absorb-tp
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,243,45,255);            -- Absorb-Attri
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Zeid',318,311,45,255);            -- Endark
 
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Lion',319,0,1,255);            -- none (reserved)
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Tenzen',320,0,1,255);          -- none (reserved)

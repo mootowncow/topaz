@@ -6525,6 +6525,13 @@ int16 GetSDTTier(int16 SDT)
 
     uint8 GetSpellAoEType(CBattleEntity* PCaster, CSpell* PSpell)
     {
+        // Majesty turns the Cure and Protect spell families into AoE when active
+        if (PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_MAJESTY) &&
+            (PSpell->getSpellFamily() == SPELLFAMILY_CURE || PSpell->getSpellFamily() == SPELLFAMILY_PROTECT))
+        {
+            return SPELLAOE_RADIAL;
+        }
+
         if (PSpell->getAOE() == SPELLAOE_RADIAL_ACCE) // Divine Veil goes here because -na spells have AoE w/ Accession
         {
             if (PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_ACCESSION) || (PCaster->objtype == TYPE_PC &&

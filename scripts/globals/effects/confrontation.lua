@@ -81,6 +81,7 @@ function onEffectLose(target,effect)
         target:getPet():delStatusEffect(tpz.effect.CONFRONTATION)
     end
     if (target:isMob()) then
-        DespawnMob(target:getID())
+        DespawnMob(target:getID()) -- TODO: doesn't work properly on respawning? If a mob has, then despawns, it will just immediately run this and despawn?
+        -- or just for RAID mobs?
     end
 end

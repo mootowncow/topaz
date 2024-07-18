@@ -11,10 +11,14 @@ require("scripts/globals/ability")
 require("scripts/globals/spell_data")
 require("scripts/globals/weaponskillids")
 --------------------------------------
--- TODO: Confrontation status when in range of the NMs
--- TODO: NPC's and mobs don't auto-fight eachother on spawn
 -- TODO: Erase won't be cast because not in party
 -- TODO: Spread out around NMs don't have all NPCs stack on them
+-- TODO: Confrontation status isn't ticking down?
+-- TODO: Make sure tanks always spawn opposite side of everyone (DPS/healers > mob < tank)
+-- TODO: Lhu Mhakaracca and StrikingBull have shield skill
+-- TODO: Correct weapon types(club scythe etc) on everyone
+-- TODO: Killer instinc line 33 errors for mobs
+-- TODO: Code Bahamut, it doesn't work
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -39,20 +43,14 @@ local npcData =
     { Name = 'Unknown', Role = 'Support' },
 }
 
--- Mob helper functions
-
-tpz.raid.onMobSpawn = function(mob)
-    mob:setDamage(150)
-    mob:setMod(tpz.mod.ATTP, 25)
-    mob:setMod(tpz.mod.DEFP, 25)
-    mob:addMod(tpz.mod.ACC, 25) 
-    mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
-
-    local mobName = mob:getName()
-    if (mobName == 'Promathia') then -- TODO: Test
+local modByMobName =
+{
+    ['Promathia'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 60)
         mob:setMod(tpz.mod.UDMGMAGIC, -20)
-    elseif (mobName == 'Omega') then
+    end,
+
+    ['Omega'] = function(mob)
         mob:addMod(tpz.mod.MDEF, 68)
 	    mob:setMod(tpz.mod.DOUBLE_ATTACK, 0)
 	    mob:setMod(tpz.mod.COUNTER, 25)
@@ -63,7 +61,125 @@ tpz.raid.onMobSpawn = function(mob)
         mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
         mob:setLocalVar("form", 0)
+    end,
+
+    ['Bahamut'] = function(mob)
+        mob:setDamage(250)
+        mob:setMod(tpz.mod.UFASTCAST, 50) 
+        mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
+        mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 25)
+        mob:setMobMod(tpz.mobMod.SOUND_RANGE, 25)
+        mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
+        mob:addStatusEffect(tpz.effect.PHALANX, 35, 0, 180)
+        mob:addStatusEffect(tpz.effect.STONESKIN, 350, 0, 300)
+        mob:addStatusEffect(tpz.effect.PROTECT, 175, 0, 1800)
+        mob:addStatusEffect(tpz.effect.SHELL, 24, 0, 1800)
+        mob:setLocalVar("NextPhase", 89)
+    end,
+}
+
+local mixinByMobName =
+{
+
+}
+
+local mobFightByMobName =
+{
+    ['Omega'] = function(mob, target)
+        local mobID = mob:getID()
+        local formTime = mob:getLocalVar("formWait")
+        local lifePercent = mob:getHPP()
+        local currentForm = mob:getLocalVar("form")
+        local AnimationSub = mob:AnimationSub()
+
+        if lifePercent > 30 then
+            if AnimationSub == 1 then
+                mob:setMod(tpz.mod.UDMGPHYS, -90)
+                mob:setMod(tpz.mod.UDMGRANGE, -90)
+                mob:setMod(tpz.mod.UDMGMAGIC, 0)
+                mob:setMod(tpz.mod.UDMGBREATH, 0)
+                mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
+            elseif AnimationSub == 2 then
+                mob:setMod(tpz.mod.UDMGPHYS, 0)
+                mob:setMod(tpz.mod.UDMGRANGE, 0)
+                mob:setMod(tpz.mod.UDMGMAGIC, -90)
+                mob:setMod(tpz.mod.UDMGBREATH, -90)
+                mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 0)
+            end
+        end
+
+        if lifePercent < 70 and currentForm < 1 then
+            currentForm = 1
+            mob:setLocalVar("form", currentForm)
+            formTime = os.time()
+        end
+
+        if currentForm > 0 then
+            if currentForm == 1 then
+                if formTime < os.time() then
+                    if mob:AnimationSub() == 1 then
+                        mob:AnimationSub(2)
+                        mob:setBehaviour(bit.band(mob:getBehaviour(), bit.bnot(tpz.behavior.NO_TURN)))
+                     else
+                        mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
+                        mob:AnimationSub(1)
+                    end
+                    mob:setLocalVar("formWait", os.time() + 60)
+                end
+            elseif currentForm == 2 then
+                if formTime < os.time() then
+                mob:setLocalVar("formWait", os.time() + 60)
+                end
+            end
+
+            if lifePercent < 30 then
+                mob:AnimationSub(2)
+                mob:setBehaviour(bit.band(mob:getBehaviour(), bit.bnot(tpz.behavior.NO_TURN)))
+                mob:setMod(tpz.mod.UDMGPHYS, -50)
+                mob:setMod(tpz.mod.UDMGRANGE, -50)
+                mob:setMod(tpz.mod.UDMGMAGIC, -50)
+                mob:setMod(tpz.mod.UDMGBREATH, -50)
+                mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
+                mob:setMod(tpz.mod.REGAIN, 50)
+                currentForm = 2
+                mob:setLocalVar("form", currentForm)
+            end
+        end
+    end,
+
+    ['Bahamut'] = function(mob, target)
+        local NextPhase = mob:getLocalVar("NextPhase")
+        local MegaFlare = mob:getLocalVar("MegaFlare")
+        local GigaFlareUsed = mob:getLocalVar("GigaFlareUsed")
+        if mob:getHPP() > 10 and mob:getHPP() < NextPhase and MegaFlare == 0 then -- Summons a random avatar every 20% HP
+            mob:useMobAbility(1551)
+            mob:setLocalVar("NextPhase", NextPhase - 10)
+            mob:setLocalVar("MegaFlare", 1)
+        end
+        if mob:getHPP() < 10 and GigaFlareUsed == 0 then
+            mob:setLocalVar("GigaFlareUsed", 1)
+            mob:useMobAbility(1552)
+        end
+    end,
+}
+
+
+-- Mob helper functions
+
+tpz.raid.onMobSpawn = function(mob)
+    mob:setDamage(150)
+    mob:setMod(tpz.mod.ATTP, 25)
+    mob:setMod(tpz.mod.DEFP, 25)
+    mob:addMod(tpz.mod.ACC, 25) 
+    mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
+
+    local mobName = mob:getName()
+    local mods = modByMobName[mobName]
+
+    if mods then
+        mods(mob)
     end
+
     ApplyConfrontationToSelf(mob)
 end
 
@@ -71,9 +187,16 @@ tpz.raid.onMobEngaged = function(mob, target)
 end
 
 tpz.raid.onMobFight = function(mob, target)
-    local mobName = mob:getName()
-    if (mobName == 'Omega') then
-        OmegaOnMobFight(mob, target)
+    local mobName  = mob:getName()
+    local mixin    = mixinByMobName[mobName]
+    local mobFight = mobFightByMobName[mobName]
+
+    if mixin then
+        mixin(mob, target)
+    end
+
+    if mobFight then
+        mobFight(mob, target)
     end
 
     ApplyConfrontationToPlayers(mob, target)
@@ -99,6 +222,7 @@ tpz.raid.onNpcSpawn = function(mob)
     if isHealer(mob) then
         mob:setSpellList(0)
     elseif isTank(mob) then
+        mob:setSpellList(0)
         mob:setMobMod(tpz.mobMod.BLOCK, 35)
     elseif isSupport(mob) then
         mob:setSpellList(0)
@@ -159,8 +283,9 @@ tpz.raid.onSpellPrecast = function(mob, spell)
 
     if
         (mob:getMainJob() == tpz.job.SCH) or
-        (spell:getSkillType() == tpz.skill.ENHANCING_MAGIC) or
-        (spell:getSkillType() == tpz.skill.SINGING)
+        (spell:getSkillType() == tpz.skill.ENHANCING_MAGIC and spell:getID() ~= tpz.magic.spell.REPRISAL) or
+        (spell:getSkillType() == tpz.skill.SINGING) or
+        (mob:hasStatusEffect(tpz.effect.MAJESTY) and spell:getSkillType() == tpz.skill.HEALING_MAGIC)
     then
         spell:setAoE(tpz.magic.aoe.RADIAL)
         spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
@@ -206,7 +331,7 @@ function ApplyConfrontationToPlayers(mob, target)
     local NearbyPlayers = mob:getPlayersInRange(50)
     if NearbyPlayers == nil then return end
     if NearbyPlayers then
-        for _,v in ipairs(NearbyPlayers) do
+        for _,v in pairs(NearbyPlayers) do
             if not v:hasStatusEffect(tpz.effect.CONFRONTATION) then
                 local power = 10
                 local tick = 5
@@ -217,68 +342,6 @@ function ApplyConfrontationToPlayers(mob, target)
                 printf("Applying confrontation")
                 v:addStatusEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
             end
-        end
-    end
-end
-
-function OmegaOnMobFight(mob, target)
-    local mobID = mob:getID()
-    local formTime = mob:getLocalVar("formWait")
-    local lifePercent = mob:getHPP()
-    local currentForm = mob:getLocalVar("form")
-    local AnimationSub = mob:AnimationSub()
-
-    if lifePercent > 30 then
-        if AnimationSub == 1 then
-            mob:setMod(tpz.mod.UDMGPHYS, -90)
-            mob:setMod(tpz.mod.UDMGRANGE, -90)
-            mob:setMod(tpz.mod.UDMGMAGIC, 0)
-            mob:setMod(tpz.mod.UDMGBREATH, 0)
-            mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
-        elseif AnimationSub == 2 then
-            mob:setMod(tpz.mod.UDMGPHYS, 0)
-            mob:setMod(tpz.mod.UDMGRANGE, 0)
-            mob:setMod(tpz.mod.UDMGMAGIC, -90)
-            mob:setMod(tpz.mod.UDMGBREATH, -90)
-            mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 0)
-        end
-    end
-
-    if lifePercent < 70 and currentForm < 1 then
-        currentForm = 1
-        mob:setLocalVar("form", currentForm)
-        formTime = os.time()
-    end
-
-    if currentForm > 0 then
-        if currentForm == 1 then
-            if formTime < os.time() then
-                if mob:AnimationSub() == 1 then
-                    mob:AnimationSub(2)
-                    mob:setBehaviour(bit.band(mob:getBehaviour(), bit.bnot(tpz.behavior.NO_TURN)))
-                 else
-                    mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
-                    mob:AnimationSub(1)
-                end
-                mob:setLocalVar("formWait", os.time() + 60)
-            end
-        elseif currentForm == 2 then
-            if formTime < os.time() then
-            mob:setLocalVar("formWait", os.time() + 60)
-            end
-        end
-
-        if lifePercent < 30 then
-            mob:AnimationSub(2)
-            mob:setBehaviour(bit.band(mob:getBehaviour(), bit.bnot(tpz.behavior.NO_TURN)))
-            mob:setMod(tpz.mod.UDMGPHYS, -50)
-            mob:setMod(tpz.mod.UDMGRANGE, -50)
-            mob:setMod(tpz.mod.UDMGMAGIC, -50)
-            mob:setMod(tpz.mod.UDMGBREATH, -50)
-            mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
-            mob:setMod(tpz.mod.REGAIN, 50)
-            currentForm = 2
-            mob:setLocalVar("form", currentForm)
         end
     end
 end
@@ -435,16 +498,18 @@ end
 
 function UpdateTankAI(mob, target)
     local abilityData = {
-        {   Skill = tpz.jobAbility.PROVOKE,         Cooldown = 30,       Type = 'Enmity',        Category = 'Job Ability'    },
-        {   Skill = tpz.jobAbility.DEFENDER,        Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability'    },
-        {   Skill = tpz.jobAbility.SENTINEL,        Cooldown = 300,      Type = 'Defensive',     Category = 'Job Ability'    },
-        {   Skill = tpz.jobAbility.DIVINE_EMBLEM,   Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability'    },
-        {   Skill = tpz.jobAbility.FEALTY,          Cooldown = 180,      Type = 'Defensive',     Category = 'Job Ability'    },
-        {   Skill = tpz.jobAbility.INVINCIBLE,      Cooldown = 180,      Type = 'Defensive',     Category = 'Job Ability'    },
-        {   Skill = tpz.mob.skills.ROYAL_BASH,      Cooldown = 60,       Type = 'Enmity' ,       Category = 'Mob Skill'      },
-        {   Skill = tpz.mob.skills.ROYAL_SAVIOR,    Cooldown = 300,      Type = 'Defensive',     Category = 'Mob Skill'      },
-        {   Skill = tpz.weaponskill.URIEL_BLADE,    Cooldown = 60,       Type = 'Offensive',     Category = 'Weapon Skill'   },
+        {   Skill = tpz.jobAbility.PROVOKE,         Cooldown = 30,       Type = 'Enmity',        Category = 'Job Ability',    Job = tpz.job.PLD },
+        {   Skill = tpz.jobAbility.MAJESTY,         Cooldown = 60,       Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.PLD },
+        {   Skill = tpz.jobAbility.DEFENDER,        Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.PLD },
+        {   Skill = tpz.jobAbility.SENTINEL,        Cooldown = 300,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
+        {   Skill = tpz.jobAbility.DIVINE_EMBLEM,   Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.PLD },
+        {   Skill = tpz.jobAbility.FEALTY,          Cooldown = 180,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
+        {   Skill = tpz.jobAbility.INVINCIBLE,      Cooldown = 180,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.ROYAL_BASH,      Cooldown = 60,       Type = 'Enmity' ,       Category = 'Mob Skill',      Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.ROYAL_SAVIOR,    Cooldown = 300,      Type = 'Defensive',     Category = 'Mob Skill',      Job = tpz.job.PLD },
+        {   Skill = tpz.weaponskill.URIEL_BLADE,    Cooldown = 60,       Type = 'Offensive',     Category = 'Weapon Skill',   Job = tpz.job.PLD },
     }
+    local job = mob:getMainJob()
     local globalJATimer = mob:getLocalVar("globalJATimer")
     local globalMagicTimer = mob:getLocalVar("globalMagicTimer")
     local flashTimer = mob:getLocalVar("flashTimer")
@@ -452,75 +517,80 @@ function UpdateTankAI(mob, target)
     local cureTimer = mob:getLocalVar("cureTimer")
 
     -- Ability AI
-    for _, ability in pairs(abilityData) do
+    for _, ability in ipairs(abilityData) do
         if (os.time() > globalJATimer) then
             -- Weapon Skills
-            if (ability.Type == 'Offensive') then
-                if isJaReady(mob, ability.Skill) then
-                    if IsWeaponSkill(mob, ability.Category) then
-                        if CanUseAbiity(mob) then
-                            mob:setLocalVar("globalJATimer", os.time() + 10)
-                            mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                            mob:useWeaponSkill(ability.Skill)
-                            return
-                        end
-                    end
-                end
-            end
-
-            -- Defensive CDs
-            if mob:getHPP() <= 75 then
-                if (ability.Type == 'Defensive') then
-                    if isJaReady(mob, ability.Skill) then
-                        if IsJa(mob, ability.Category) then
-                            if CanUseAbiity(mob) then
-                                mob:setLocalVar("globalJATimer", os.time() + 10)
-                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                mob:useJobAbility(ability.Skill, mob)
-                                return
-                            end
-                        else
-                            if CanUseAbiity(mob) then
-                                mob:setLocalVar("globalJATimer", os.time() + 10)
-                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                mob:useMobAbility(ability.Skill)
-                                return
+            if (job == ability.Job) then
+                if IsValidUser(mob, ability.Skill) then
+                    if (ability.Type == 'Offensive') then
+                        if isJaReady(mob, ability.Skill) then
+                            if IsWeaponSkill(mob, ability.Category) then
+                                if CanUseAbiity(mob) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useWeaponSkill(ability.Skill)
+                                    return
+                                end
                             end
                         end
                     end
-                end
-            end
 
-            -- Enmity Generation
-            if (ability.Type == 'Enmity') then
-                if isJaReady(mob, ability.Skill) then
-                    if IsJa(mob, ability.Category) then
-                        if CanUseAbiity(mob) then
-                            mob:setLocalVar("globalJATimer", os.time() + 10)
-                            mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                            mob:useJobAbility(ability.Skill, target)
-                            return
-                        end
-                    else
-                        if CanUseAbiity(mob) then
-                            mob:setLocalVar("globalJATimer", os.time() + 10)
-                            mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                            mob:useMobAbility(ability.Skill)
-                            return
+                    -- Defensive CDs
+                    if mob:getHPP() <= 75 then
+                        if (ability.Type == 'Defensive') then
+                            if isJaReady(mob, ability.Skill) then
+                                if IsJa(mob, ability.Category) then
+                                    if CanUseAbiity(mob) then
+                                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                        mob:useJobAbility(ability.Skill, mob)
+                                        return
+                                    end
+                                else
+                                    if CanUseAbiity(mob) then
+                                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                        mob:useMobAbility(ability.Skill)
+                                        return
+                                    end
+                                end
+                            end
                         end
                     end
-                end
-            end
 
-            -- Self Buffs
-            if (ability.Type == 'Buff') then
-                if CanUseAbiity(mob) then
-                    if isJaReady(mob, ability.Skill) then
-                        if IsJa(mob, ability.Category) then
-                            mob:setLocalVar("globalJATimer", os.time() + 10)
-                            mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                            mob:useJobAbility(ability.Skill, mob)
-                            return
+                    -- Enmity Generation
+                    if (ability.Type == 'Enmity') then
+                        if isJaReady(mob, ability.Skill) then
+                            if IsJa(mob, ability.Category) then
+                                if CanUseAbiity(mob) then
+                                    if (ability.Skill == tpz.jobAbility.PROVOKE) and IsCurilla(mob) then return end -- Curilla does not provoke
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useJobAbility(ability.Skill, target)
+                                    return
+                                end
+                            else
+                                if CanUseAbiity(mob) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useMobAbility(ability.Skill)
+                                    return
+                                end
+                            end
+                        end
+                    end
+
+                    -- Self Buffs
+                    if (ability.Type == 'Buff') then
+                        if CanUseAbiity(mob) then
+                            if isJaReady(mob, ability.Skill) then
+                                if IsJa(mob, ability.Category) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useJobAbility(ability.Skill, mob)
+                                    return
+                                end
+                            end
                         end
                     end
                 end
@@ -532,10 +602,12 @@ function UpdateTankAI(mob, target)
     if (os.time() > globalMagicTimer) then
         if (os.time() >= flashTimer) then
             if CanCast(mob) then
-                mob:castSpell(tpz.magic.spell.FLASH)
-                mob:setLocalVar("flashTimer", os.time() + 30)
-                mob:setLocalVar("globalMagicTimer", os.time() + 10)
-                return
+                if not target:hasStatusEffect(tpz.effect.FLASH) then
+                    mob:castSpell(tpz.magic.spell.FLASH)
+                    mob:setLocalVar("flashTimer", os.time() + 30)
+                    mob:setLocalVar("globalMagicTimer", os.time() + 10)
+                    return
+                end
             end
         end
 
@@ -590,6 +662,9 @@ function UpdateMeleeAI(mob, target)
         {   Skill = tpz.jobAbility.SOULEATER,           Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.DRK    },
         {   Skill = tpz.jobAbility.LAST_RESORT,         Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.DRK    },
         {   Skill = tpz.jobAbility.WEAPON_BASH,         Cooldown = 180, Type = 'Offensive', Category = 'Job Ability',   Job = tpz.job.DRK    },
+        {   Skill = tpz.jobAbility.NETHER_VOID,         Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.DRK    },
+        {   Skill = tpz.jobAbility.FERAL_HOWL,          Cooldown = 90,  Type = 'Offensive', Category = 'Job Ability',   Job = tpz.job.BST    },
+        {   Skill = tpz.jobAbility.KILLER_INSTINCT,     Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.BST    },
         {   Skill = tpz.jobAbility.HASSO,               Cooldown = 60,  Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.SAM    },
         {   Skill = tpz.jobAbility.MEIKYO_SHISUI,       Cooldown = 180, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.SAM    },
         {   Skill = tpz.jobAbility.MEDITATE,            Cooldown = 180, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.SAM    },
@@ -599,12 +674,27 @@ function UpdateMeleeAI(mob, target)
     }
     local job = mob:getMainJob()
     local globalJATimer = mob:getLocalVar("globalJATimer")
+    local stunTimer = mob:getLocalVar("stunTimer")
 
     -- Ability AI
     for _, ability in pairs(abilityData) do
         if (os.time() > globalJATimer) then
             if (job == ability.Job) then
-                -- Weapon Skills
+                -- Self Buffs
+                if (ability.Type == 'Buff') then
+                    if CanUseAbiity(mob) then
+                        if isJaReady(mob, ability.Skill) then
+                            if IsJa(mob, ability.Category) then
+                                mob:setLocalVar("globalJATimer", os.time() + 10)
+                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                mob:useJobAbility(ability.Skill, mob)
+                                return
+                            end
+                        end
+                    end
+                end
+
+                -- Offensive
                 if (ability.Type == 'Offensive') then
                     if isJaReady(mob, ability.Skill) then
                         if IsWeaponSkill(mob, ability.Category) then
@@ -661,19 +751,17 @@ function UpdateMeleeAI(mob, target)
                         end
                     end
                 end
+            end
+        end
+    end
 
-                -- Self Buffs
-                if (ability.Type == 'Buff') then
-                    if CanUseAbiity(mob) then
-                        if isJaReady(mob, ability.Skill) then
-                            if IsJa(mob, ability.Category) then
-                                mob:setLocalVar("globalJATimer", os.time() + 10)
-                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                mob:useJobAbility(ability.Skill, mob)
-                                return
-                            end
-                        end
-                    end
+    if IsZeid(mob) then
+        if (os.time() >= stunTimer) then
+            if CanCast(mob) then
+                if IsReadyingTPMove(target) then
+                    mob:castSpell(tpz.magic.spell.STUN, target)
+                    mob:setLocalVar("stunTimer", os.time() + 30)
+                    return
                 end
             end
         end
@@ -688,6 +776,7 @@ function UpdateHealerAI(mob, target)
     local naTimer = mob:getLocalVar("naTimer")
     local buffTimer = mob:getLocalVar("buffTimer")
     local debuffTimer = mob:getLocalVar("debuffTimer")
+    local convertTimer = mob:getLocalVar("convertTimer")
     local job = mob:getMainJob()
 
     -- JA's
@@ -696,6 +785,14 @@ function UpdateHealerAI(mob, target)
             if not mob:hasStatusEffect(tpz.effect.AFFLATUS_SOLACE) then
                 mob:useJobAbility(tpz.jobAbility.AFFLATUS_SOLACE, mob)
                 return
+            end
+        elseif (job == tpz.job.RDM) then
+            if (mob:getMPP() <= 10 and mob:getHPP() >= 50) then
+                if (os.time() >= convertTimer) then
+                    mob:useJobAbility(tpz.jobAbility.CONVERT, mob)
+                    mob:setLocalVar("convertTimer", os.time() + 600)
+                    return
+                end
             end
         elseif (job == tpz.job.SCH) then
             if not mob:hasStatusEffect(tpz.effect.LIGHT_ARTS) then
@@ -707,7 +804,7 @@ function UpdateHealerAI(mob, target)
 
     local nearbyFriendly = mob:getNearbyEntities(20)
     if (nearbyFriendly ~= nil) then 
-        for _, friendlyTarget in ipairs(nearbyFriendly) do
+        for _, friendlyTarget in pairs(nearbyFriendly) do
             -- Cure
             if (friendlyTarget:getAllegiance() == mob:getAllegiance()) then
                 if (os.time() >= cureTimer) then
@@ -779,6 +876,16 @@ function UpdateHealerAI(mob, target)
             end
         end
     end
+
+    if (os.time() >= debuffTimer) then
+        if (job == tpz.job.RDM) then
+            if HasDispellableEffect(target) then
+                mob:castSpell(tpz.magic.spell.DISPEL, target)
+                mob:setLocalVar("debuffTimer", os.time() + 10)
+                return
+            end
+        end
+    end
 end
 
 function UpdateSupportAI(mob, target)
@@ -797,7 +904,7 @@ function UpdateSupportAI(mob, target)
             -- Buffs
             local nearbyFriendly = mob:getNearbyEntities(20)
             if (nearbyFriendly ~= nil) then 
-                for _, friendlyTarget in ipairs(nearbyFriendly) do
+                for _, friendlyTarget in pairs(nearbyFriendly) do
                     if (friendlyTarget:getAllegiance() == mob:getAllegiance()) then
                         if CanCast(mob) then
                             if (friendlyTarget:countEffect(tpz.effect.MARCH) == 0) then
@@ -836,6 +943,38 @@ function UpdateSupportAI(mob, target)
     end
 end
 
+function IsCurilla(mob)
+    return mob:getName() == 'Curilla'
+end
+
+function IsZeid(mob)
+    return mob:getName() == 'Zeid'
+end
+
+function IsReadyingTPMove(target)
+    local act = target:getCurrentAction()
+
+    if (act == tpz.act.MOBABILITY_START) or (act == tpz.act.MOBABILITY_USING) then
+        return true
+    end
+
+    return false
+end
+
+function HasDispellableEffect(target)
+    local effects = target:getStatusEffects()
+    local num = 0
+
+    for i, effect in ipairs(effects) do
+        -- check mask bit for tpz.effectFlag.DISPELABLE
+        if (utils.mask.getBit(effect:getFlag(), 0)) then
+            return true
+        end
+    end
+
+    return false
+end
+
 function GetBestThrenody(mob, target)
     -- Mapping SDT effects to their corresponding threnody spells
     local sdtToThrenody = {
@@ -862,7 +1001,6 @@ function GetBestThrenody(mob, target)
         end
     end
 
-    -- Return the best threnody spell
     return bestThrenody
 end
 
@@ -926,4 +1064,34 @@ function CanUseAbiity(mob)
                         mob:hasStatusEffect(tpz.effect.AMNESIA) or
                         mob:hasPreventActionEffect())
     return CanUseAbiity
+end
+
+function IsValidUser(mob, skill)
+    local mobName = mob:getName()
+    
+    -- Curilla should not use Provoke
+    if (mobName == 'Curilla' and skill == tpz.jobAbility.PROVOKE) then
+        --printf("Curilla shouldn't use provoke (JA)!")
+        return false
+    end
+
+    -- Non-Curilla should not use Majesty
+    if (mobName ~= 'Curilla' and skill == tpz.jobAbility.MAJESTY) then
+        --printf("%s shouldn't use Majesty (JA)!", mobName)
+        return false
+    end
+
+    -- Non-Trion should not use Royal Bash or Royal Savior
+    if (mobName ~= 'Trion') and (skill == tpz.mob.skills.ROYAL_BASH or skill == tpz.mob.skills.ROYAL_SAVIOR) then
+        --printf("%s shouldn't use %d (JA)!", mobName, skill)
+        return false
+    end
+
+    -- Non-Valaineral should not use Uriel Blade
+    if (mobName ~= 'Valaineral_R_Davilles') and (skill == tpz.weaponskill.URIEL_BLADE) then
+        --printf("%s shouldn't use %d (WS) !", mobName, skill)
+        return false
+    end
+
+    return true
 end

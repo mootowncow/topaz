@@ -1,7 +1,6 @@
 ---------------------------------------------
 --  Dancing Edge
 --  Description: Delivers a fivefold attack. Acc varies with TP.
---  Type: Physical only when weapon is broken
 ---------------------------------------------
 require("scripts/globals/status")
 require("scripts/globals/monstertpmoves")
