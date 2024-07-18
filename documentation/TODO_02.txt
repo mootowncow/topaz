@@ -266,6 +266,18 @@ Lvl90, 200k hp
 Mat that lets you add a random augment to any ring/amulet/earring
 
 
+hasSlotEquipped 
+https://github.com/LandSandBoat/server/commit/5d257d52299be1c9593f49f9c75ed7106cc1aa5b
+
+[Core] Adds missing quantity count to getItemCount 
+https://github.com/LandSandBoat/server/commit/2dc1751f5ad4537885dcd29ce23f109ff3a720b1
+
+Add nullptr check for Party Leader in RemoveEntity
+https://github.com/LandSandBoat/server/commit/4803799b3d8f9341a4f3c28cc4444613c3c0c606
+
+The Pit
+https://github.com/LandSandBoat/server/commit/bee2dc2823f3c173b8b7be7cda3daa7cb22b1ecb
+
 Empthy / Wyvern stuff
 https://www.bg-wiki.com/ffxi/User:Tatang
 
