@@ -13,15 +13,7 @@ require("scripts/globals/monstertpmoves")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    local mobhp = mob:getHPP()
-
-    if (mobhp < 10) then -- set up Gigaflare for being called by the script again.
-        mob:setLocalVar("GigaFlare", 0)
-        mob:SetMobAbilityEnabled(false) -- disable mobskills/spells until Gigaflare is used successfully (don't want to delay it/queue Megaflare)
-        mob:SetMagicCastingEnabled(false)
-    end
-
-    return 1
+    return 0
 end
 
 function onMobWeaponSkill(target, mob, skill)

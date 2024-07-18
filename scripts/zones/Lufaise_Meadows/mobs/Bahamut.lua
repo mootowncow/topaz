@@ -14,8 +14,8 @@ function onMobFight(mob, target)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    if skill:getID() == 1551 then --Giga Flare
-        mob:setLocalVar("MegaFlare", 1)   
+    if (skill:getID() == tpz.mob.skills.TERAFLARE) then
+        mob:setLocalVar("teraFlareTimer", os.time() + 30)
     end
 end
 

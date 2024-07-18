@@ -2129,8 +2129,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Bahamut',449,1546);
 INSERT INTO `mob_skill_lists` VALUES ('Bahamut',449,1547);
 INSERT INTO `mob_skill_lists` VALUES ('Bahamut',449,1548);
 INSERT INTO `mob_skill_lists` VALUES ('Bahamut',449,1549);
-INSERT INTO `mob_skill_lists` VALUES ('Bahamut',449,1551);
-INSERT INTO `mob_skill_lists` VALUES ('Bahamut',449,1552);
 INSERT INTO `mob_skill_lists` VALUES ('Bahamut',449,1553);
 INSERT INTO `mob_skill_lists` VALUES ('Caturae',450,2566);
 INSERT INTO `mob_skill_lists` VALUES ('Caturae',450,2567);
@@ -2576,8 +2574,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Bahamut',726,1546);
 INSERT INTO `mob_skill_lists` VALUES ('Bahamut',726,1547);
 INSERT INTO `mob_skill_lists` VALUES ('Bahamut',726,1548);
 INSERT INTO `mob_skill_lists` VALUES ('Bahamut',726,1549);
-INSERT INTO `mob_skill_lists` VALUES ('Bahamut',726,1551);
-INSERT INTO `mob_skill_lists` VALUES ('Bahamut',726,1552);
 INSERT INTO `mob_skill_lists` VALUES ('Bahamut',726,1553);
 INSERT INTO `mob_skill_lists` VALUES ('Proto-Omega',727,1525);
 INSERT INTO `mob_skill_lists` VALUES ('Proto-Omega',727,1526);
@@ -3811,7 +3807,9 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Adelheid',1083,3469); -- Twirling D
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Rongelouts',1088,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Leonoyne',1089,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maximilian',1090,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,180); -- Sunburst
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,2283); -- tartarus_torpor
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,1199); -- gate_of_tartarus
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Robel-Akbel',1092,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kupofried',1093,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Selh_teus',1094,0);

@@ -1169,7 +1169,7 @@ function OnBattleEndConfrontation(mob)
     local NearbyEntities = mob:getNearbyEntities(50)
     if NearbyEntities == nil then return end
     if NearbyEntities then
-        for _,v in ipairs(NearbyEntities) do
+        for _,v in pairs(NearbyEntities) do
             if v:hasStatusEffect(tpz.effect.CONFRONTATION) then
                 v:delStatusEffect(tpz.effect.CONFRONTATION)
             end

@@ -13,15 +13,12 @@ require("scripts/globals/monstertpmoves")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-   --[[ local mobhp = mob:getHPP()
-
-    if (mobhp <= 10 and mob:getLocalVar("GigaFlare") ~= 0) then -- make sure Gigaflare has happened first - don't want a random Megaflare to block it.
-        mob:setLocalVar("MegaFlareQueue", 1) -- set up Megaflare for being called by the script again.
+    local currentHP = mob:getHPP()
+    if (currentHP <= 10) then
+        return 0
     end
 
     return 1
-        Taken from Megaflare fix later
-    ]]
 end
 
 function onMobWeaponSkill(target, mob, skill)

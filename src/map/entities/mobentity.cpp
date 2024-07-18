@@ -1047,6 +1047,7 @@ void CMobEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& actio
         {
             actionTarget.speceffect = SPECEFFECT_BLOOD;
         }
+        this->PAI->EventHandler.triggerListener("WEAPONSKILL_STATE_INTERRUPTED", this, PWeaponSkill->getID());
     }
 }
 
@@ -1127,6 +1128,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         actionTarget.animation = 0x1FC; // Hardcoded magic sent from the server
         actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
         actionTarget.speceffect = SPECEFFECT_BLOOD;
+        this->PAI->EventHandler.triggerListener("WEAPONSKILL_STATE_INTERRUPTED", this, PSkill->getID());
         return;
     }
 
