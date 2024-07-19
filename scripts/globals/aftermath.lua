@@ -233,11 +233,17 @@ tpz.aftermath.effects =
     }
 }
 
-tpz.aftermath.addStatusEffect = function(player, tp, weaponSlot, aftermathType)
-    local weapon = player:getStorageItem(0, 0, weaponSlot)
-    if not weapon then return end
+tpz.aftermath.addStatusEffect = function(player, tp, weaponSlot, aftermathType, isMob, modId)
+    local id
 
-    local id = weapon:getMod(tpz.mod.AFTERMATH)
+    if not isMob then
+        local weapon = player:getStorageItem(0, 0, weaponSlot)
+        if not weapon then return end
+
+        id = weapon:getMod(tpz.mod.AFTERMATH)
+    else
+        id = modId 
+    end
 
     -- Verify the aftermath ID matches the aftermath Type
     local invalid = false

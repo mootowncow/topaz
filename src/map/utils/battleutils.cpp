@@ -2291,7 +2291,7 @@ int16 GetSDTTier(int16 SDT)
         {
             acc = PAttacker->RACC(SKILL_AUTOMATON_RANGED);
         }
-        else if (PAttacker->objtype == TYPE_TRUST)
+        else if (PAttacker->objtype == TYPE_MOB || PAttacker->objtype == TYPE_TRUST)
         {
             auto archery_acc = PAttacker->RACC(SKILL_ARCHERY);
             auto marksmanship_acc = PAttacker->RACC(SKILL_MARKSMANSHIP);
@@ -2324,7 +2324,6 @@ int16 GetSDTTier(int16 SDT)
             return finalhitrate;
         }
         uint8 finalhitrate = std::clamp(hitrate, 20, 95);
-        //printf("Your hit rate is.. %i \n", finalhitrate);
         return finalhitrate;
     }
 
@@ -2369,6 +2368,7 @@ int16 GetSDTTier(int16 SDT)
         {
             //assume mobs capped
             rAttack = battleutils::GetMaxSkill(SKILL_ARCHERY, JOB_RNG, PAttacker->GetMLevel());
+            //printf("Your ranged attack is... %u\n", rAttack);
         }
 
         //get ratio (2.5 pDIF cap RAs)
@@ -2376,9 +2376,13 @@ int16 GetSDTTier(int16 SDT)
 
         ratio = std::clamp<float>(ratio, 0, 2.5);
 
-        //level correct (0.025 not 0.05 like for melee)
-        if (PDefender->GetMLevel() > PAttacker->GetMLevel()) {
-            ratio -= 0.025f * (PDefender->GetMLevel() - PAttacker->GetMLevel());
+        //level correct (0.025 not 0.05 like for melee) PLAYERS ONLY
+        if (PAttacker->objtype == TYPE_PC)
+        {
+            if (PDefender->GetMLevel() > PAttacker->GetMLevel())
+            {
+                ratio -= 0.025f * (PDefender->GetMLevel() - PAttacker->GetMLevel());
+            }
         }
 
         //calculate min/max PDIF
@@ -2834,7 +2838,6 @@ int16 GetSDTTier(int16 SDT)
             //this is a little hacky, but will work for now
             if (damage < 0 && isCounter)
                 damage = -damage;
-
             //if (!isCounter || giveTPtoAttacker) // counters are always considered blunt (assuming h2h) damage, except retaliation (which is the only counter that gives TP to the attacker)
             //{
             //    switch (damageType)
@@ -2973,7 +2976,6 @@ int16 GetSDTTier(int16 SDT)
             HandleAfflatusMiseryDamage(PDefender, damage);
         }
         damage = std::clamp(damage, -99999, 99999);
-
         int32 corrected = PDefender->takeDamage(damage, PAttacker, attackType, damageType);
         if (damage < 0)
             damage = -corrected;
@@ -3124,7 +3126,6 @@ int16 GetSDTTier(int16 SDT)
 
         if (PAttacker->objtype == TYPE_PC && !isRanged && !isCounter)
             PAttacker->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK, true);
-
         return damage;
 
     }

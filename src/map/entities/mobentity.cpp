@@ -34,6 +34,7 @@
 #include "../ai/states/mobskill_state.h"
 #include "../ai/states/magic_state.h"
 #include "../ai/states/ability_state.h"
+#include "../ai/states/range_state.h"
 #include "../entities/charentity.h"
 #include "../packets/action.h"
 #include "../packets/entity_update.h"
@@ -57,6 +58,7 @@
 #include "../utils/zoneutils.h"
 #include "../packets/chat_message.h"
 #include "../ability.h"
+#include "../attack.h"
 
 int32 g_pixieAmity = 0;
 time_t g_pixieLastAmityRefresh = 0;
@@ -773,6 +775,254 @@ void CMobEntity::OnAbility(CAbilityState& state, action_t& action)
         actionTarget.messageID = 0;
         actionTarget.reaction = REACTION_ABILITY_HIT;
     }
+}
+
+void CMobEntity::OnRangedAttack(CRangeState& state, action_t& action)
+{
+    auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+
+    if (battleutils::IsParalyzed(this))
+    {
+        // setup new action packet to send paralyze message
+        action_t paralyze_action = {};
+        setActionInterrupted(paralyze_action, PTarget, MSGBASIC_IS_PARALYZED, 0);
+        loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CActionPacket(paralyze_action));
+
+        // Set up /ra action to be interrupted
+        action.actiontype = ACTION_RANGED_INTERRUPT; // This handles some magic numbers in CActionPacket to cancel actions
+        action.id = id;
+
+        actionList_t& actionList = action.getNewActionList();
+        actionList.ActionTargetID = id;
+
+        actionTarget_t& actionTarget = actionList.getNewActionTarget();
+        actionTarget.animation = 0x1FC; // Seems hardcoded, two bits away from 0x1FF (0x1FC = 1 1111 1100)
+        actionTarget.speceffect = SPECEFFECT::SPECEFFECT_RECOIL;
+        actionTarget.reaction = REACTION::REACTION_NONE;
+
+        return;
+    }
+
+    int32 damage = 0;
+    int32 totalDamage = 0;
+
+    action.id = id;
+    action.actiontype = ACTION_RANGED_FINISH;
+
+    actionList_t& actionList = action.getNewActionList();
+    actionList.ActionTargetID = PTarget->id;
+
+    actionTarget_t& actionTarget = actionList.getNewActionTarget();
+    actionTarget.reaction = REACTION_HIT;     // 0x10
+    actionTarget.speceffect = SPECEFFECT_HIT; // 0x60 (SPECEFFECT_HIT + SPECEFFECT_RECOIL)
+    actionTarget.messageID = 352;
+
+    uint8 slot = SLOT_RANGED;
+
+    uint8 shadowsTaken = 0;
+    uint8 hitCount = 1; // 1 hit by default
+    uint8 realHits = 0; // to store the real number of hit for tp multipler
+    auto ammoConsumed = 0;
+    bool hitOccured = false; // track if player hit mob at all
+    bool isBarrage = StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE, 0);
+
+    // Calculate barrage
+    if (isBarrage)
+    {
+        uint8 lvl = this->GetMJob();
+
+        if (lvl < 30)
+            hitCount += 0;
+        else if (lvl < 50)
+            hitCount += 3;
+        else if (lvl < 75)
+            hitCount += 4;
+        else if (lvl < 90)
+            hitCount += 5;
+        else if (lvl < 99)
+            hitCount += 6;
+        else if (lvl >= 99)
+            hitCount += 7;
+
+        // Add + Barrage gear mod
+        hitCount += this->getMod(Mod::BARRAGE_SHOT_COUNT); 
+    }
+    else if (this->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBLE_SHOT) && tpzrand::GetRandomNumber(100) < (this->getMod(Mod::DOUBLE_SHOT_RATE)))
+    {
+        hitCount = 2;
+    }
+    else if (this->StatusEffectContainer->HasStatusEffect(EFFECT_TRIPLE_SHOT) && tpzrand::GetRandomNumber(100) < (this->getMod(Mod::TRIPLE_SHOT_RATE)))
+    {
+        hitCount = 3;
+    }
+    // loop for barrage hits, if a miss occurs, the loop will end
+    for (uint8 i = 1; i <= hitCount; ++i)
+    {
+        if (tpzrand::GetRandomNumber(100) < battleutils::GetRangedHitRate(this, PTarget, isBarrage)) // hit!
+        {
+            // absorbed by shadow
+            if (battleutils::IsAbsorbByShadow(PTarget, this))
+            {
+                shadowsTaken++;
+            }
+            else
+            {
+                bool isCritical = tpzrand::GetRandomNumber(100) < battleutils::GetRangedCritHitRate(this, PTarget, true);
+                float pdif = battleutils::GetRangedDamageRatio(this, PTarget, isCritical);
+
+                if (isCritical)
+                {
+                    actionTarget.speceffect = SPECEFFECT_CRITICAL_HIT;
+                    actionTarget.messageID = 353;
+
+                    luautils::OnCriticalHit(PTarget, this);
+                }
+
+                // at least 1 hit occured
+                hitOccured = true;
+                realHits++;
+
+                damage = (int32)((this->GetRangedWeaponDmg() + battleutils::GetFSTR(this, PTarget, slot)) * pdif);
+            }
+        }
+        else // miss
+        {
+            damage = 0;
+            actionTarget.reaction = REACTION_EVADE;
+            actionTarget.speceffect = SPECEFFECT_NONE;
+            actionTarget.messageID = 354;
+            hitCount = i; // end barrage, shot missed
+        }
+
+        totalDamage += damage;
+    }
+
+    // if a hit did occur (even without barrage)
+    if (hitOccured == true)
+    {
+        // any misses with barrage cause remaing shots to miss, meaning we must check Action.reaction
+        if (actionTarget.reaction == REACTION_EVADE && (this->StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE)))
+        {
+            actionTarget.messageID = 352;
+            actionTarget.reaction = REACTION_HIT;
+            actionTarget.speceffect = SPECEFFECT_CRITICAL_HIT;
+        }
+        actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);
+
+        // lower damage based on shadows taken
+        if (shadowsTaken)
+            actionTarget.param = (int32)(actionTarget.param * (1 - ((float)shadowsTaken / realHits)));
+
+        // absorb message
+        if (actionTarget.param < 0)
+        {
+            actionTarget.param = -(actionTarget.param);
+            actionTarget.messageID = 382;
+        }
+
+        // Handle frontal PDT
+        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
+        {
+            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 3)
+            {
+                resist = 0;
+            }
+            actionTarget.param = (int32)(actionTarget.param * (float)resist);
+        }
+        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
+        {
+            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 5)
+            {
+                resist = 0.25f;
+            }
+            actionTarget.param = (int32)(actionTarget.param * (float)resist);
+        }
+        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
+        {
+            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 6)
+            {
+                resist = 0.5f;
+            }
+            actionTarget.param = (int32)(actionTarget.param * (float)resist);
+        }
+
+        // Handle Behind PDT
+        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
+        {
+            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 4)
+            {
+                resist = 0;
+            }
+            actionTarget.param = (int32)(actionTarget.param * (float)resist);
+        }
+        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
+        {
+            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 7)
+            {
+                resist = 0.25f;
+            }
+            actionTarget.param = (int32)(actionTarget.param * (float)resist);
+        }
+        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
+        {
+            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 8)
+            {
+                resist = 0.5f;
+            }
+            actionTarget.param = (int32)(actionTarget.param * (float)resist);
+        }
+    }
+    else if (shadowsTaken > 0)
+    {
+        // shadows took damage
+        actionTarget.messageID = 0;
+        actionTarget.reaction = REACTION_EVADE;
+        PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE_SELF, new CMessageBasicPacket(PTarget, PTarget, 0, shadowsTaken, MSGBASIC_SHADOW_ABSORB));
+    }
+    if (actionTarget.speceffect == SPECEFFECT_HIT && actionTarget.param > 0)
+        actionTarget.speceffect = SPECEFFECT_RECOIL;
+
+    // remove barrage effect if present
+    if (this->StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE, 0))
+    {
+        StatusEffectContainer->DelStatusEffect(EFFECT_BARRAGE, 0);
+    }
+    battleutils::ClaimMob(PTarget, this);
+    // only remove detectables and NOT camouflage
+    if (!StatusEffectContainer->HasStatusEffect(EFFECT_CAMOUFLAGE))
+        StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+
+    if (hitOccured == false && PTarget->objtype == TYPE_MOB)
+    {
+        // 1 ce for a missed attack for TH application
+        ((CMobEntity*)PTarget)->PEnmityContainer->UpdateEnmity((CBattleEntity*)this, 1, 0);
+    }
+
+    // Try to double shot
+    // #TODO: figure out the packet structure of double/triple shot
+    // if (this->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBLE_SHOT, 0) && !this->secondDoubleShotTaken &&	!isBarrage)
+    //{
+    //    uint16 doubleShotChance = getMod(Mod::DOUBLE_SHOT_RATE);
+    //    if (tpzrand::GetRandomNumber(100) < doubleShotChance)
+    //    {
+    //        this->secondDoubleShotTaken = true;
+    //        m_ActionType = ACTION_RANGED_FINISH;
+    //        this->m_rangedDelay = 0;
+    //        return;
+    //    }
+    //}
 }
 
 bool CMobEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)

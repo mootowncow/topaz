@@ -41,6 +41,13 @@ zones[tpz.zone.CAPE_TERIGGAN] =
         REGIME_REGISTERED          = 10106, -- New training regime registered!
         COMMON_SENSE_SURVIVAL      = 11225, -- It appears that you have arrived at a new survival guide provided by the Adventurers' Mutual Aid Network. Common sense dictates that you should now be able to teleport here from similar tomes throughout the world.
         HOMEPOINT_SET              = 11253, -- Home point set!
+        CONF_TOO_FAR               = 7952, -- You have ventured too far from the field of battle. The Confrontation will automatically disengage if you do not return
+        CONF_DISENAGED             = 7953, -- Ventured too far, confrontation has disengaged.
+        CONF_REENGAGED             = 7954, -- You have returned to the field of battle.
+        CONF_BATTLE_BEGIN          = 7955, -- You have x earth time to complete the battle.
+        CONF_MIN_REMAINING         = 7956, -- X earth minutes remaining to complete the battle.
+        CONF_SEC_REMAINING         = 7957, -- x earth seconds remaining to complete the battle.
+        CONF_TIME_UP               = 7958, -- Your time for this Confrontation is up...
     },
     mob =
     {

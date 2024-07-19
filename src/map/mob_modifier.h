@@ -125,6 +125,7 @@ enum MOBMODIFIER : int
     MOBMOD_NO_DR               = 108, // No dimishing returns on any CC
     MOBMOD_FIXATE              = 109, // Will only target this entity.
     MOBMOD_ONE_WAY_LINKING     = 110, // Will link with other mobs in its party (typically the same mob family) while roaming, but will not let others link with it once engaged
+    MOBMOD_CAN_RA              = 111, // Mob will use player-type ranged attacks and animations (power is cooldown between ranged attacks)
 };
 
 #endif

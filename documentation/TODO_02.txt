@@ -155,7 +155,7 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
-confrontation.lua onEffectLose(target,effect) procs and despawns mobs after being respawned with confrontation? it needs to be removed before they despawn? I dont understand
+Movement for mob RA check(i think trusts had it)
 Divine Emblem shouldn't just give +100 enmity, only give on next holy spell and get removed via C++
 Add not mob:hasPreventActionEffect() to qultada talking/using stuff and add using roles via mob:useJobAbility(roll, mob)
 Add rangedattack to fomors, like how I added Ability(JA's) to mobs via mob_controller and mob_entity

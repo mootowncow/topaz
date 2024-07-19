@@ -87,6 +87,7 @@ CBattleEntity::CBattleEntity()
 
     m_modStat[Mod::SLASHRES] = 1000;
     m_modStat[Mod::PIERCERES] = 1000;
+    m_modStat[Mod::RANGEDRES] = 1000;
     m_modStat[Mod::HTHRES] = 1000;
     m_modStat[Mod::IMPACTRES] = 1000;
 
@@ -525,6 +526,7 @@ uint16 CBattleEntity::GetRangedWeaponDmg()
         else
             dmg += ammo->getDamage();
     }
+    //printf("Ranged weapon damage is %u\n", dmg);
     return dmg + getMod(Mod::RANGED_DMG_RATING);
 }
 

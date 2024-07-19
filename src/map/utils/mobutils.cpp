@@ -846,8 +846,8 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::POISONRESTRAIT, 0);
             }
-            // Exclude Gear(s), Fomors(ToAU Shades)
-            if (PMob->m_Family != 119 && PMob->m_Family != 120 && PMob->m_Family != 359)
+            // Exclude Gear(s)
+            if (PMob->m_Family != 119 && PMob->m_Family != 120)
             {
                 if ((PMob->m_Family >= 126 && PMob->m_Family <= 130) || PMob->m_Family == 328) // Gigas
                 {
@@ -874,6 +874,11 @@ void SetupJob(CMobEntity* PMob)
                 {
                     PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1388);
                 }
+                else if (PMob->m_Family == 115 || PMob->m_Family == 359 || PMob->m_Family == 509 || PMob->m_Family == 597 ||
+                         PMob->m_Family == 928) // Fomors / Shades
+                {
+                    PMob->defaultMobMod(MOBMOD_CAN_RA, 16);
+                }
                 else
                 {
                     // All other rangers
@@ -892,8 +897,7 @@ void SetupJob(CMobEntity* PMob)
                 PMob->setModifier(Mod::AMNESIARESTRAIT, 0);
                 PMob->setModifier(Mod::PARALYZERESTRAIT, 0);
             }
-            PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 272);
-            PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 16);
+            PMob->defaultMobMod(MOBMOD_CAN_RA, 16);
             break;
         case JOB_NIN:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -901,8 +905,8 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::BINDRESTRAIT, 0);
             }
-            // Exclude Fomors, Animated Weapons and Mamools
-            if (PMob->m_Family != 176 && PMob->m_Family != 115 && PMob->m_Family != 359 && PMob->m_Family != 509 && PMob->m_Family != 17)
+            // Exclude Animated Weapons and Mamools
+            if (PMob->m_Family != 176 && PMob->m_Family != 17)
             {
                 if (PMob->m_Family == 3)
                 {
@@ -919,6 +923,11 @@ void SetupJob(CMobEntity* PMob)
                 {
                     PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1146);
                     PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 16);
+                }
+                else if (PMob->m_Family == 115 || PMob->m_Family == 359 || PMob->m_Family == 509 || PMob->m_Family == 597 ||
+                         PMob->m_Family == 928) // Fomors / Shades
+                {
+                    PMob->defaultMobMod(MOBMOD_CAN_RA, 16);
                 }
                 // exclude NIN Maat
                 else if (PMob->m_Family != 335)

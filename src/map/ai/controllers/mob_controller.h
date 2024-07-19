@@ -39,9 +39,11 @@ public:
 
     virtual bool MobSkill(uint16 targid, uint16 wsid);
     virtual bool Ability(uint16 targid, uint16 abilityid) override;
+    bool RangedAttack(uint16 targid);
     bool MobSkill(int list = 0);
     bool TryCastSpell();
     bool TrySpecialSkill();
+    bool TryRangedAttack();
 
     bool CanAggroTarget(CBattleEntity*);
     void TapDeaggroTime();
@@ -82,6 +84,7 @@ protected:
     void FollowRoamPath();
     bool CanMoveForward(float currentDistance);
     bool IsSpecialSkillReady(float currentDistance);
+    bool IsRangedAttackReady(float currentDistance);
     bool IsSpellReady(float currentDistance);
 
     CBattleEntity* PTarget {nullptr};
@@ -108,6 +111,7 @@ private:
 
     std::vector<CBattleEntity*> m_forcedDeaggroEntities;
     bool m_forceDeaggroAll;
+    time_point m_LastRangedAttackTime;
 };
 
 #endif // _AI_CONTROLLER_H

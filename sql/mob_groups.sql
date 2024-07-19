@@ -202,10 +202,10 @@ INSERT INTO `mob_groups` VALUES (53,9125,4,'Promathia',0,128,0,100000,0,85,85,0)
 INSERT INTO `mob_groups` VALUES (54,5976,4,'Kayeel-Payeel',0,128,0,10000,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (55,5968,4,'Adelheid',0,128,0,10000,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (56,3790,4,'Striking_Bull',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (57,5910,4,'Valaineral_R_Davilles',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (58,1313,4,'Febrenard_C_Brunnaut',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (59,352,4,'Bartholomaus',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (60,5964,4,'Lhe_Lhangavo',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (57,5964,4,'Lhe_Lhangavo',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (58,5910,4,'Valaineral_R_Davilles',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (59,1313,4,'Febrenard_C_Brunnaut',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (60,352,4,'Bartholomaus',0,128,0,10000,0,80,80,1);
 
 -- ------------------------------------------------------------
 -- Uleguerand_Range (Zone 5)
@@ -2711,9 +2711,9 @@ INSERT INTO `mob_groups` VALUES (69,2364,54,'Lamie_Necromancer',300,0,1494,0,0,8
 INSERT INTO `mob_groups` VALUES (70,2362,54,'Lamie_Bellydancer',300,0,1657,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (71,2363,54,'Lamie_Deathdancer',300,0,1657,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (72,2368,54,'Lamie_Toxophilite',300,0,1485,0,0,81,83,0);
-INSERT INTO `mob_groups` VALUES (73,5203,54,'Ephramadian_Shade',0,128,0,0,5000,81,83,0);
-INSERT INTO `mob_groups` VALUES (74,5202,54,'Ephramadian_Shade',0,128,0,0,5000,81,83,0);
-INSERT INTO `mob_groups` VALUES (75,5204,54,'Ephramadian_Shade',0,128,0,0,5000,81,83,0);
+INSERT INTO `mob_groups` VALUES (73,5203,54,'Ephramadian_Shade',300,0,786,0,0,81,83,0);
+INSERT INTO `mob_groups` VALUES (74,5202,54,'Ephramadian_Shade',300,0,786,0,0,81,83,0);
+INSERT INTO `mob_groups` VALUES (75,5204,54,'Ephramadian_Shade',300,0,786,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (76,1247,54,'Ephramadian_Shade',300,0,786,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (77,573,54,'Bukki',0,128,0,15000,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (78,2339,54,'Lamia_No11',0,128,0,22350,0,83,83,0);
@@ -8306,6 +8306,15 @@ INSERT INTO `mob_groups` VALUES (44,378,113,'Beach_Bunny',330,0,247,0,0,64,65,0)
 INSERT INTO `mob_groups` VALUES (45,3375,113,'Robber_Crab',330,0,2108,0,0,67,68,0);
 INSERT INTO `mob_groups` VALUES (46,4218,113,'Velociraptor',330,0,2572,0,0,68,69,0);
 INSERT INTO `mob_groups` VALUES (47,3882,113,'Terror_Pugil',330,0,1229,0,0,69,70,0);
+
+INSERT INTO `mob_groups` VALUES (48,3209,7,'Ultima',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (49,5937,7,'Cid',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (50,5940,7,'Semih_Lafihna',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (51,6014,7,'Tenzen',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (52,5917,7,'Iron_Eater',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (53,5952,7,'Koru-Moru',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (54,5954,7,'Invincible_Shield',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (55,5980,7,'Yoran=Oran',0,128,0,10000,0,80,80,1);
 
 INSERT INTO `mob_groups` VALUES (6232,2226,113,'Kilhwch',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (6234,2405,113,'Lhu_Mhakaracca',0,0,0,0,0,0,0,0);

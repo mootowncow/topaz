@@ -3724,7 +3724,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Prishe',1028,3236); -- Knuckle Sand
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Cherukiki',1031,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,80); -- Shield Break
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,83); -- Armor Break
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,88); -- Steel Cyclone
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,85); -- Weapon Break
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gessho',1033,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gadalar',1034,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Rainemard',1035,0);
@@ -3759,7 +3759,10 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_D_Shantotto',1049,103); -- Cross Re
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_D_Shantotto',1049,2486); -- Salvation Scythe
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Star_Sibyl',1050,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Karaha-Baruha',1051,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Cid',1052,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Cid',1052,166); -- True Strike
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Cid',1052,168); -- Hexa Strike
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Cid',1052,3322); -- Critical Mass
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Cid',1052,3323); -- Fiery Tailings
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gilgamesh',1053,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Areuhat',1054,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Semih_Lafihna',1055,3487); -- Sidewinder (Semih Lafihna)
@@ -3782,7 +3785,9 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhu_Mhakaracca',1058,1192); -- Onsl
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Rahal',1066,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Koru-Moru',1067,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Pieuje_UC',1068,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Invincible_Shield_UC',1069,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Invincible_Shield_UC',1069,86); -- Raging Rush
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Invincible_Shield_UC',1069,88); -- Steel Cyclone
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Invincible_Shield_UC',1069,3499); -- Soturis Fury
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Apururu_UC',1070,3502); -- Nott
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Jakoh_Wahcondalo_UC',1071,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Flaviria_UC',1072,0);
@@ -3813,7 +3818,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,1199); -- gate_
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Robel-Akbel',1092,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kupofried',1093,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Selh_teus',1094,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Yoran-Oran_UC',1095,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Yoran-Oran_UC',1095,3502);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Sylvie_UC',1096,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Abquhbah',1097,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Balamor',1098,0);
@@ -3864,7 +3869,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zied_II',1125,56); -- Ground Strike
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Prishe_II',1126,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Nashmeira_II',1127,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lilisette_II',1128,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Tenzen_II',1129,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Tenzen_II',1129,3542); -- Oisoya
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mumor_II',1130,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ingrid_II',1131,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Arciela_II',1132,0);

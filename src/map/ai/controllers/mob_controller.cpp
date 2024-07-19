@@ -35,6 +35,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../utils/battleutils.h"
 #include "../../../common/utils.h"
 #include "../../utils/petutils.h"
+#include "../../items/item_weapon.h"
 
 CMobController::CMobController(CMobEntity* PEntity) :
     CController(PEntity),
@@ -697,6 +698,36 @@ bool CMobController::TrySpecialSkill()
     return false;
 }
 
+bool CMobController::TryRangedAttack()
+{
+    TracyZoneScoped;
+    CBattleEntity* PAbilityTarget = nullptr;
+    if ((PMob->m_specialFlags & SPECIALFLAG_HIDDEN) && !PMob->IsNameHidden())
+    {
+        return false;
+    }
+
+    if (PTarget != nullptr)
+    {
+        // distance check for ranged
+        float currentDistance = distance(PMob->loc.p, PTarget->loc.p);
+
+        if (currentDistance <= 25)
+        {
+            PAbilityTarget = PTarget;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return false;
+    }
+    return RangedAttack(PAbilityTarget->targid);
+}
+
 bool CMobController::WeaponSkill(uint16 targid, uint16 wsid)
 {
     if (PMob->PAI->CanChangeState())
@@ -936,6 +967,10 @@ void CMobController::DoCombatTick(time_point tick)
 
     // Try to spellcast (this is done first so things like Chainspell spam is prioritised over TP moves etc.
     if (IsSpecialSkillReady(currentDistance) && TrySpecialSkill())
+    {
+        return;
+    }
+    else if (IsRangedAttackReady(currentDistance) && TryRangedAttack())
     {
         return;
     }
@@ -1694,9 +1729,11 @@ bool CMobController::CanMoveForward(float currentDistance)
 bool CMobController::IsSpecialSkillReady(float currentDistance)
 {
     TracyZoneScoped;
-    if (PMob->getMobMod(MOBMOD_SPECIAL_SKILL) == 0) return false;
+    if (PMob->getMobMod(MOBMOD_SPECIAL_SKILL) == 0)
+        return false;
 
-    if (PMob->StatusEffectContainer->HasStatusEffect(EFFECT_CHAINSPELL)) return false;
+    if (PMob->StatusEffectContainer->HasStatusEffect(EFFECT_CHAINSPELL))
+        return false;
 
     int32 bonusTime = 0;
     if (currentDistance > 5)
@@ -1705,11 +1742,35 @@ bool CMobController::IsSpecialSkillReady(float currentDistance)
         bonusTime = PMob->getBigMobMod(MOBMOD_STANDBACK_COOL);
     }
 
-    if(m_Tick >= m_LastSpecialTime + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_SPECIAL_COOL) - bonusTime))
+    if (m_Tick >= m_LastSpecialTime + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_SPECIAL_COOL) - bonusTime))
     {
         return true;
     }
 
+    return false;
+}
+
+bool CMobController::IsRangedAttackReady(float currentDistance)
+{
+    TracyZoneScoped;
+
+    if (PMob->getMobMod(MOBMOD_CAN_RA) == 0)
+        return false;
+
+    if (PMob->StatusEffectContainer->HasStatusEffect(EFFECT_CHAINSPELL))
+        return false;
+
+    int32 bonusTime = 0;
+    if (currentDistance > 5)
+    {
+        // Mobs use ranged attacks quicker when standing back
+        bonusTime = PMob->getBigMobMod(MOBMOD_STANDBACK_COOL);
+    }
+
+    if (m_Tick >= m_LastRangedAttackTime + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_SPECIAL_COOL) - bonusTime))
+    {
+        return true;
+    }
     return false;
 }
 
@@ -1741,6 +1802,17 @@ bool CMobController::Ability(uint16 targid, uint16 abilityid)
     if (PMob->PAI->CanChangeState())
     {
         return PMob->PAI->Internal_Ability(targid, abilityid);
+    }
+    return false;
+}
+
+bool CMobController::RangedAttack(uint16 targid)
+{
+    TracyZoneScoped;
+
+    if (PMob->PAI->CanChangeState() && PMob->PAI->Internal_RangedAttack(targid))
+    {
+        m_LastRangedAttackTime = m_Tick;
     }
     return false;
 }

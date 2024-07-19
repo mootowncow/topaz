@@ -11,14 +11,15 @@ require("scripts/globals/ability")
 require("scripts/globals/spell_data")
 require("scripts/globals/weaponskillids")
 --------------------------------------
--- TODO: Adelheid won't stop spamming adlo
 -- TODO: Erase won't be cast because not in party
 -- TODO: Spread out around NMs don't have all NPCs stack on them
 -- TODO: Make sure tanks always spawn opposite side of everyone (DPS/healers > mob < tank)
 -- TODO: Spread out DPS to surround the NMs better
 -- TODO: Correct weapon types(club scythe etc) on everyone
 -- TODO: Does Kyo respawn and work?
--- TODO: Dark / Light weakness for GetBestNuke makes BLM cast nothing for light and SCH only casts helix
+-- TODO: OnNpcSpawn ApplyConfrontationToSelf(mob) isn't needed I think?
+-- TODO: Shikaree(DRG logic, also summon a wyvern and code wyvern AI!)
+-- TODO: Selh'teus, Lion, Gilgamesh, Halver, Fablinix
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -74,6 +75,26 @@ local modByMobName =
         mob:addStatusEffect(tpz.effect.STONESKIN, 350, 0, 300)
         mob:addStatusEffect(tpz.effect.PROTECT, 175, 0, 1800)
         mob:addStatusEffect(tpz.effect.SHELL, 24, 0, 1800)
+    end,
+
+    ['Ultima'] = function(mob, target)
+	    mob:setDamage(140)
+        mob:setMod(tpz.mod.ATT, 535)
+        mob:setMod(tpz.mod.ATTP, 0)
+        mob:setMod(tpz.mod.DEF, 522)
+        mob:setMod(tpz.mod.DEFP, 0)
+        mob:setMod(tpz.mod.ACC, 300) 
+        mob:setMod(tpz.mod.EVA, 300) 
+        mob:setMod(tpz.mod.REFRESH, 50)
+	    mob:setMod(tpz.mod.MDEF, 119)
+        mob:setMod(tpz.mod.UDMGMAGIC, -30)
+	    mob:setMod(tpz.mod.REGEN, 0) 
+	    mob:setMod(tpz.mod.REGAIN, 0) 
+	    mob:setMod(tpz.mod.DOUBLE_ATTACK, 0)
+        mob:SetMagicCastingEnabled(false)
+        mob:SetAutoAttackEnabled(true)
+        mob:SetMobAbilityEnabled(true)
+        mob:setMobMod(tpz.mobMod.DRAW_IN, 0)
     end,
 }
 
@@ -198,6 +219,51 @@ local mobFightByMobName =
             end
         end)
     end,
+
+    ['Ultima'] = function(mob, target)
+        local phase = mob:getLocalVar("battlePhase")
+        local holyEnabled = mob:getLocalVar("holyEnabled")
+        local enmityList = mob:getEnmityList()
+        local holyTarget = nil
+
+        if mob:getLocalVar("nuclearWaste") == 1 then
+            local ability = math.random(1262,1267)
+            mob:useMobAbility(ability)
+            mob:setLocalVar("nuclearWaste", 0)
+        end
+
+        -- Holy IIs a random target after using certain TP moves in Phase 2
+        if mob:getCurrentAction() ~= tpz.action.MOBABILITY_START
+        and mob:getCurrentAction() ~= tpz.action.MOBABILITY_USING
+        and mob:actionQueueEmpty() then
+            for _, enmity in ipairs(enmityList) do
+                if enmityList and #enmityList > 0 and (holyEnabled > 0) then
+                    local randomTarget = enmityList[math.random(1,#enmityList)];
+                    entityId = randomTarget.entity:getID();
+                    if (entityId > 10000) then -- ID is a mob(pet) then
+                        holyTarget = GetMobByID(entityId)
+                    else
+                        holyTarget = GetPlayerByID(entityId)
+                    end
+                    mob:setLocalVar("holyEnabled", 0)
+                    mob:castSpell(22, GetPlayerByID(holyTarget)) -- Holy II
+                end
+            end
+        end
+
+        if mob:getCurrentAction() ~= tpz.action.MOBABILITY_START
+        and mob:getCurrentAction() ~= tpz.action.MOBABILITY_USING
+        and mob:actionQueueEmpty() then
+            if mob:getHPP() < (80 - (phase * 20)) then
+                mob:useMobAbility(1524) -- use Dissipation on phase change
+                phase = phase + 1
+                if phase == 4 then -- add Regain in final phase
+                    mob:setMod(tpz.mod.REGAIN, 50)
+                end
+                mob:setLocalVar("battlePhase", phase) -- incrementing the phase here instead of in the Dissipation skill because stunning it prevents use.
+            end
+        end
+    end,
 }
 
 function Unused()
@@ -284,20 +350,23 @@ tpz.raid.onNpcSpawn = function(mob)
             (npcName == 'Lhu_Mhakaracca') 
         then
             mob:setMobMod(tpz.mobMod.BLOCK, 35)
+        elseif (npcName == 'Invincible_Shield') then
+            mob:setMod(tpz.mod.DMG, -25)
         end
+    elseif isRanged(mob) then
+        mob:setMobMod(tpz.mobMod.HP_STANDBACK, 0)
+        mob:setMobMod(tpz.mobMod.CAN_RA, 16)
     elseif isCaster(mob) then
         mob:setSpellList(0)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     end
     mob:setDamage(20)
-    mob:setMod(tpz.mod.DMG, -50)
     mob:setMod(tpz.mod.REFRESH, 8) 
     ApplyConfrontationToSelf(mob)
     mob:setUnkillable(true) -- For testing
 end
 
 tpz.raid.onNpcRoam = function(mob)
-    -- TODO: Doesn't work?
     local entities = mob:getNearbyMobs(50)
     -- printf("Found %d entities nearby\n", #entities)
     for i, entity in pairs(entities) do
@@ -325,6 +394,8 @@ tpz.raid.onNpcFight = function(mob, target)
         UpdateTankAI(mob, target)
     elseif isMelee(mob) then
         UpdateMeleeAI(mob, target)
+    elseif isRanged(mob) then
+        UpdateRangedAI(mob, target)
     elseif isCaster(mob) then
         UpdateCasterAI(mob, target)
     elseif isSupport(mob) then
@@ -416,6 +487,16 @@ function isMelee(mob)
         job == tpz.job.DNC
 end
 
+function isRanged(mob)
+    local mJob = mob:getMainJob()
+    local sJob = mob:getSubJob()
+    return
+        mJob == tpz.job.RNG or
+        mJob == tpz.job.COR or
+        sJob == tpz.job.RNG or
+        sJob == tpz.job.COR or
+end
+
 function isCaster(mob)
     local job = mob:getMainJob()
     return
@@ -471,6 +552,10 @@ local function GetBestNuke(mob, target)
             if math.random() < 0.5 then
                 bestElement = element
             end
+        end
+        -- If the enemies weakness is dark or light, select a random element
+        if (bestElement == tpz.magic.ele.LIGHT) or (bestElement == tpz.magic.ele.DARK) then
+            bestElement = math.random(tpz.magic.ele.FIRE, tpz.magic.ele.WATER)
         end
     end
 
@@ -768,7 +853,9 @@ function UpdateMeleeAI(mob, target)
         {   Skill = tpz.jobAbility.AGGRESSOR,           Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.WAR    },
         {   Skill = tpz.jobAbility.WARCRY,              Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.WAR    },
         {   Skill = tpz.jobAbility.RETALIATION,         Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.WAR    },
-        {   Skill = tpz.jobAbility.BLOOD_RAGE,          Cooldown = 30,  Type = 'Defensive', Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.PROVOKE,             Cooldown = 30,  Type = 'Enmity',    Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.BLOOD_RAGE,          Cooldown = 30,  Type = 'Enmity',    Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.RESTRAINT,           Cooldown = 60,  Type = 'Defensive', Category = 'Job Ability',   Job = tpz.job.WAR    },
         {   Skill = tpz.jobAbility.FOCUS,               Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.MNK    },
         {   Skill = tpz.jobAbility.FORMLESS_STRIKES,    Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.MNK    },
         {   Skill = tpz.jobAbility.PERFECT_COUNTER,     Cooldown = 30,  Type = 'Defensive', Category = 'Job Ability',   Job = tpz.job.MNK    },
@@ -794,6 +881,7 @@ function UpdateMeleeAI(mob, target)
 
     }
     local job = mob:getMainJob()
+    local mobName = mob:getName()
     local globalJATimer = mob:getLocalVar("globalJATimer")
     local stunTimer = mob:getLocalVar("stunTimer")
 
@@ -854,20 +942,22 @@ function UpdateMeleeAI(mob, target)
 
                 -- Enmity Generation
                 if (ability.Type == 'Enmity') then
-                    if isJaReady(mob, ability.Skill) then
-                        if IsJa(mob, ability.Category) then
-                            if CanUseAbiity(mob) then
-                                mob:setLocalVar("globalJATimer", os.time() + 10)
-                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                mob:useJobAbility(ability.Skill, target)
-                                return
-                            end
-                        else
-                            if CanUseAbiity(mob) then
-                                mob:setLocalVar("globalJATimer", os.time() + 10)
-                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                mob:useMobAbility(ability.Skill)
-                                return
+                    if (mobName == "Invincible_Shield") then
+                        if isJaReady(mob, ability.Skill) then
+                            if IsJa(mob, ability.Category) then
+                                if CanUseAbiity(mob) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useJobAbility(ability.Skill, target)
+                                    return
+                                end
+                            else
+                                if CanUseAbiity(mob) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useMobAbility(ability.Skill)
+                                    return
+                                end
                             end
                         end
                     end
@@ -887,6 +977,9 @@ function UpdateMeleeAI(mob, target)
             end
         end
     end
+end
+
+function UpdateRangedAI(mob, target)
 end
 
 function UpdateHealerAI(mob, target)
