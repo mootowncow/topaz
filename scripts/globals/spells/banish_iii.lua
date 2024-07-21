@@ -25,6 +25,9 @@ end
 function onSpellCast(caster, target, spell)
     --doDivineBanishNuke(V, M, caster, spell, target, hasMultipleTargetReduction, resistBonus)
     local params = {}
+    params.diff = caster:getStat(tpz.mod.MND) - target:getStat(tpz.mod.MND)
+    params.skillType = tpz.skill.DIVINE_MAGIC
+    params.effect = tpz.effect.NONE
     params.dmg = 198
     params.multiplier = 1.5
     params.hasMultipleTargetReduction = false

@@ -1681,6 +1681,11 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
             {
                 StatusEffectContainer->DelStatusEffectSilent(EFFECT_SABOTEUR);
             }
+            // Remove Divine Emblem
+            if (PSpell->getSkillType() == SKILLTYPE::SKILL_DIVINE_MAGIC || PSpell->isCure())
+            {
+                StatusEffectContainer->DelStatusEffectSilent(EFFECT_DIVINE_EMBLEM);
+            }
             if (msg == MSGBASIC_NONE)
             {
                 msg = PSpell->getMessage();

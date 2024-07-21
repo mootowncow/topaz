@@ -498,7 +498,6 @@ function getCureFinal(caster, spell, basecure, minCure, isBlueMagic)
     end
 
     local final = math.floor(math.floor(math.floor(math.floor(basecure) * potency) * dayWeatherBonus) * rapture) * dSeal
-	caster:delStatusEffectSilent(tpz.effect.DIVINE_EMBLEM)
     return final
 end
 
@@ -1104,6 +1103,11 @@ function getSpellBonusAcc(caster, target, spell, params)
         magicAccBonus = magicAccBonus + 256
     end
 
+    -- Add Acc for divine emblem
+    if (skill == tpz.skill.DIVINE_MAGIC and caster:hasStatusEffect(tpz.effect.DIVINE_EMBLEM)) then
+        magicAccBonus = magicAccBonus + 256
+    end
+
     -- Add acc for RDM group 1 merits
     if (element >= tpz.magic.element.FIRE and element <= tpz.magic.element.WATER) then
         magicAccBonus = magicAccBonus + caster:getMerit(rdmMerit[element])
@@ -1264,7 +1268,6 @@ function finalMagicAdjustments(caster, target, spell, dmg)
             end
         end
     end
-	caster:delStatusEffectSilent(tpz.effect.DIVINE_EMBLEM)
     caster:delStatusEffectSilent(tpz.effect.CASCADE)
 
     return dmg
@@ -1335,6 +1338,11 @@ function calculateMagicBurst(caster, spell, target, params)
         if (modburst > 1.4) then
             modburst = 1.4
         end
+    end
+
+    -- Divine Emblem bonus bypases the 40% cap, and adds a +100% multiplier
+    if caster:hasStatusEffect(tpz.effect.DIVINE_EMBLEM) then
+        modburst = modburst + 1
     end
 
     -- Innin adds +30 Magic Burst bonus that bypasses the 40 cap
@@ -2593,6 +2601,17 @@ function doNuke(caster, target, spell, params)
         if (caster:hasStatusEffect(tpz.effect.FUTAE)) then
             dmg = math.floor(dmg * 1.50)
             caster:delStatusEffectSilent(tpz.effect.FUTAE)
+        end
+    end
+
+    -- Divine Emblem damage bonus for Banish / Holy
+    if
+        (spell:getSpellFamily() == tpz.magic.spellFamily.BANISH or
+        spell:getSpellFamily() == tpz.magic.spellFamily.BANISHGA or
+        spell:getSpellFamily() == tpz.magic.spellFamily.HOLY)
+    then
+        if caster:hasStatusEffect(tpz.effect.DIVINE_EMBLEM) then
+            dmg = dmg * (1 + caster:getSkillLevel(tpz.skill.DIVINE_MAGIC) / 300)
         end
     end
 

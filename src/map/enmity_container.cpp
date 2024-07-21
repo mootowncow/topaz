@@ -114,6 +114,7 @@ void CEnmityContainer::AddBaseEnmity(CBattleEntity* PChar)
 float CEnmityContainer::CalculateEnmityBonus(CBattleEntity* PEntity)
 {
     int enmityBonus = PEntity->getMod(Mod::ENMITY);
+    float specialEnmityBonus = (100.f + PEntity->getMod(Mod::ENMITY_II)) / 100.f;
 
     if (auto PChar = dynamic_cast<CCharEntity*>(PEntity))
     {
@@ -125,9 +126,10 @@ float CEnmityContainer::CalculateEnmityBonus(CBattleEntity* PEntity)
         }
     }
 
-    float bonus = (100.f + std::clamp(enmityBonus, -50, 100)) / 100.f;
+    float baseBonus = (100.f + std::clamp(enmityBonus, -50, 100)) / 100.f;
+    float totalBonus = baseBonus * specialEnmityBonus;
 
-    return bonus;
+    return totalBonus;
 }
 
 /************************************************************************

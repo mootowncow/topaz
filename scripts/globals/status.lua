@@ -1167,6 +1167,7 @@ tpz.mod =
     ACC                             = 25,
     RACC                            = 26,
     ENMITY                          = 27,
+    ENMITY_II                       = 1376,
     ENMITY_LOSS_REDUCTION           = 427,
     MATT                            = 28,
     MDEF                            = 29,
@@ -2079,8 +2080,9 @@ tpz.mod =
     CALL_BEAST_DELAY        = 1372, -- Lowers Call Beast recast (seconds)
     SIC_READY_RECAST        = 1373, -- Sic/Ready recast reduction (seconds)
     QUICK_DRAW_RECAST       = 1374, -- Quick Draw Charge Reduction (seconds)
+    DIVINE_EMBLEM_BONUS     = 1375, -- Enmity bonus on divine emblem.
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1375 NEXT
+    -- 1377 NEXT
 }
 
 tpz.latent =

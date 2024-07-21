@@ -524,6 +524,10 @@ void CMagicState::ApplyEnmity(CBattleEntity* PTarget, int ce, int ve)
     {
         m_PEntity->delModifier(Mod::ENMITY, -(m_PEntity->getMod(Mod::DIVINE_BENISON) >> 1)); // Half of divine benison mod amount = -enmity
     }
+    if (m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_DIVINE_EMBLEM) && m_PSpell->getSkillType() == SKILLTYPE::SKILL_DIVINE_MAGIC)
+    {
+        m_PEntity->addModifier(Mod::ENMITY_II, -(50 + m_PEntity->getMod(Mod::DIVINE_EMBLEM_BONUS)));
+    }
 }
 
 bool CMagicState::HasMoved()

@@ -7461,6 +7461,15 @@ int16 GetSDTTier(int16 SDT)
             cost = 0;
         }
 
+        // Divine Emblem reduces the MP cost of all Cures and Divine Magic to 0
+        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_DIVINE_EMBLEM))
+        {
+            if (PSpell->getSkillType() == SKILLTYPE::SKILL_DIVINE_MAGIC || PSpell->isCure())
+            {
+                cost = 0;
+            }
+        }
+
         return std::clamp<int16>(cost, 0, 9999);
     }
     uint32 CalculateSpellRecastTime(CBattleEntity* PEntity, CSpell* PSpell)

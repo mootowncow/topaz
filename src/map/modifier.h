@@ -65,6 +65,7 @@ enum class Mod
     TWOHAND_ACC = 219, // Same as ACC, but only active when using a two handed weapon (e.g. Hasso)
 
     ENMITY                    = 27, // Enmity
+    ENMITY_II                 = 1376,// Enmity II
     ENMITY_LOSS_REDUCTION     = 427, // Reduces Enmity lost when taking damage
 
     MATT                      = 28, // Magic Attack
@@ -436,6 +437,7 @@ enum class Mod
     COVER_TO_MP               = 1014, // Converts a successful cover's phsyical damage to MP
     COVER_MAGIC_AND_RANGED    = 1015, // Redirects ranged and single target magic attacks to the cover ability user
     COVER_DURATION            = 1016, // Increases Cover Duration
+    DIVINE_EMBLEM_BONUS       = 1375, // Enmity bonus on divine emblem.
 
     // Dark Knight
     ARCANE_CIRCLE_DURATION    = 858, // Arcane Circle extended duration in seconds
@@ -1067,7 +1069,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1375 NEXT
+    // 1377 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it
