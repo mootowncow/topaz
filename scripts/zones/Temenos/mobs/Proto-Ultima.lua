@@ -6,13 +6,13 @@ require("scripts/globals/titles")
 require("scripts/globals/limbus")
 local ID = require("scripts/zones/Temenos/IDs")
 
-    local SkillID =
-    {
-        [1] = 1521, 
-        [2] = 1522,
-        [3] = 1523,
-        [4] = 1269,
-    }
+local SkillID =
+{
+    [1] = 1521, 
+    [2] = 1522,
+    [3] = 1523,
+    [4] = 1269,
+}
 
 function onMobSpawn(mob)
 	mob:setDamage(140)

@@ -8307,14 +8307,14 @@ INSERT INTO `mob_groups` VALUES (45,3375,113,'Robber_Crab',330,0,2108,0,0,67,68,
 INSERT INTO `mob_groups` VALUES (46,4218,113,'Velociraptor',330,0,2572,0,0,68,69,0);
 INSERT INTO `mob_groups` VALUES (47,3882,113,'Terror_Pugil',330,0,1229,0,0,69,70,0);
 
-INSERT INTO `mob_groups` VALUES (48,3209,7,'Ultima',0,128,0,100000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (49,5937,7,'Cid',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (50,5940,7,'Semih_Lafihna',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (51,6014,7,'Tenzen',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (52,5917,7,'Iron_Eater',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (53,5952,7,'Koru-Moru',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (54,5954,7,'Invincible_Shield',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (55,5980,7,'Yoran=Oran',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (48,3209,113,'Ultima',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (49,5937,113,'Cid',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (50,5940,113,'Semih_Lafihna',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (51,6014,113,'Tenzen',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (52,5917,113,'Iron_Eater',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (53,5952,113,'Koru-Moru',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (54,5954,113,'Invincible_Shield',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (55,5980,113,'Yoran-Oran',0,128,0,10000,0,80,80,1);
 
 INSERT INTO `mob_groups` VALUES (6232,2226,113,'Kilhwch',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (6234,2405,113,'Lhu_Mhakaracca',0,0,0,0,0,0,0,0);

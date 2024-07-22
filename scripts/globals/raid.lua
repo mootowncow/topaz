@@ -21,6 +21,9 @@ require("scripts/globals/weaponskillids")
 -- TODO: Shikaree(DRG logic, also summon a wyvern and code wyvern AI!)
 -- TODO: Selh'teus, Lion, Gilgamesh, Halver, Fablinix, Rainemard, Mildaurion
 -- TODO: For JA's, if a mob is using and it's AOE then set to hit all targets and set aoe to 20 in cpp in MobEntity::OnAbility (Look at charentity::OnAbility line 1615)
+-- TODO: Semih model ID doesn't ranged, get one from retail
+-- TODO: Tenzen is stil being considered melee?
+-- TODO: Don't try to haste targets with slow
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -44,6 +47,26 @@ local npcData =
     { Name = 'Unknown', Role = 'Healer' },
     { Name = 'Unknown', Role = 'Support' },
 }
+
+local immunityMap =
+{
+    { Effect = tpz.effect.SLEEP_I,          Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
+    { Effect = tpz.effect.SLEEP_II,         Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
+    { Effect = tpz.effect.POISON,           Immunity = { tpz.immunity.POISON } },
+    { Effect = tpz.effect.PARALYSIS,        Immunity = { tpz.immunity.PARALYZE } },
+    { Effect = tpz.effect.BLINDNESS,        Immunity = { tpz.immunity.BLIND } },
+    { Effect = tpz.effect.SILENCE,          Immunity = { tpz.immunity.SILENCE } },
+    { Effect = tpz.effect.STUN,             Immunity = { tpz.immunity.STUN } },
+    { Effect = tpz.effect.BIND,             Immunity = { tpz.immunity.BIND } },
+    { Effect = tpz.effect.WEIGHT,           Immunity = { tpz.immunity.GRAVITY } },
+    { Effect = tpz.effect.SLOW,             Immunity = { tpz.immunity.SLOW } },
+    { Effect = tpz.effect.ELEGY,            Immunity = { tpz.immunity.ELEGY } },
+    { Effect = tpz.effect.REQUIEM,          Immunity = { tpz.immunity.REQUIEM } },
+    { Effect = tpz.effect.LULLABY,          Immunity = { tpz.immunity.SLEEP, tpz.immunity.LIGHTSLEEP } },
+    { Effect = tpz.effect.PETRIFICATION,    Immunity = { tpz.immunity.PETRIFY } },
+}
+
+
 
 local modByMobName =
 {
@@ -492,13 +515,12 @@ function isMelee(mob)
         job == tpz.job.THF or
         job == tpz.job.DRK or
         job == tpz.job.BST or
-        job == tpz.job.RNG or
         job == tpz.job.SAM or
         job == tpz.job.DRG or
         job == tpz.job.BLU or
-        job == tpz.job.COR or
         job == tpz.job.PUP or
-        job == tpz.job.DNC
+        job == tpz.job.DNC or
+        mob:getPool() ~= 6014 -- Tenzen II 
 end
 
 function isRanged(mob)
@@ -508,7 +530,7 @@ function isRanged(mob)
         mJob == tpz.job.RNG or
         mJob == tpz.job.COR or
         sJob == tpz.job.RNG or
-        sJob == tpz.job.COR or
+        sJob == tpz.job.COR
 end
 
 function isCaster(mob)
@@ -968,13 +990,31 @@ function UpdateHealerAI(mob, target)
     }
 
     
-    if (os.time() >= debuffTimer) then
+    if os.time() >= debuffTimer then
         for _, enfeeble in pairs(debuffSpells) do
             if (job == enfeeble.Job) then
+                -- Check if the target already has the effect
                 if not target:hasStatusEffect(enfeeble.Effect) then
-                    mob:castSpell(enfeeble.Id, target)
-                    mob:setLocalVar("debuffTimer", os.time() + 10)
-                    break
+                    -- Get the list of immunities for the current effect
+                    local hasImmunity = false
+                    for _, immunityEntry in pairs(immunityMap) do
+                        if (immunityEntry.Effect == enfeeble.Effect) then
+                            for _, immunity in pairs(immunityEntry.Immunity) do -- Line 1000
+                                if target:hasImmunity(immunity) then
+                                    hasImmunity = true
+                                    break
+                                end
+                            end
+                            break
+                        end
+                    end
+
+                    -- Cast the spell only if the target does not have immunity
+                    if not hasImmunity then
+                        mob:castSpell(enfeeble.Id, target)
+                        mob:setLocalVar("debuffTimer", os.time() + 10)
+                        break
+                    end
                 end
             end
         end
@@ -1154,101 +1194,103 @@ function UpdateAbilityAI(mob, target, abilityData)
     for _, ability in pairs(abilityData) do
         if (os.time() > globalJATimer) then
             if (mJob == ability.Job) or (sJob == ability.Job) then
+                if IsValidUser(mob, ability.Skill) then
 
-                -- Enmity Generation
-                if (ability.Type == 'Enmity') then
-                    if IsInvincibleShield(mob)then
+                    -- Enmity Generation
+                    if (ability.Type == 'Enmity') then
+                        if IsInvincibleShield(mob)then
+                            if isJaReady(mob, ability.Skill) then
+                                if IsJa(mob, ability.Category) then
+                                    if CanUseAbility(mob) then
+                                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                        mob:useJobAbility(ability.Skill, target)
+                                        return
+                                    end
+                                else
+                                    if CanUseAbility(mob) then
+                                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                        mob:useMobAbility(ability.Skill)
+                                        return
+                                    end
+                                end
+                            end
+                        end
+                    end
+
+                    -- Self Buffs
+                    if (ability.Type == 'Buff') then
+                        if CanUseAbility(mob) then
+                            if isJaReady(mob, ability.Skill) then
+                                if IsJa(mob, ability.Category) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useJobAbility(ability.Skill, mob)
+                                    return
+                                end
+                            end
+                        end
+                    end
+
+                    -- Offensive
+                    if (ability.Type == 'Offensive') then
                         if isJaReady(mob, ability.Skill) then
-                            if IsJa(mob, ability.Category) then
+                            if IsWeaponSkill(mob, ability.Category) then
                                 if CanUseAbility(mob) then
                                     mob:setLocalVar("globalJATimer", os.time() + 10)
                                     mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useJobAbility(ability.Skill, target)
+                                    mob:useWeaponSkill(ability.Skill)
                                     return
                                 end
-                            else
-                                if CanUseAbility(mob) then
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useMobAbility(ability.Skill)
+                            elseif IsJa(mob, ability.Category) then
+                                if TryJaStun(mob, target, ability) then
                                     return
                                 end
-                            end
-                        end
-                    end
-                end
-
-                -- Self Buffs
-                if (ability.Type == 'Buff') then
-                    if CanUseAbility(mob) then
-                        if isJaReady(mob, ability.Skill) then
-                            if IsJa(mob, ability.Category) then
-                                mob:setLocalVar("globalJATimer", os.time() + 10)
-                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                mob:useJobAbility(ability.Skill, mob)
-                                return
-                            end
-                        end
-                    end
-                end
-
-                -- Offensive
-                if (ability.Type == 'Offensive') then
-                    if isJaReady(mob, ability.Skill) then
-                        if IsWeaponSkill(mob, ability.Category) then
-                            if CanUseAbility(mob) then
-                                mob:setLocalVar("globalJATimer", os.time() + 10)
-                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                mob:useWeaponSkill(ability.Skill)
-                                return
-                            end
-                        elseif IsJa(mob, ability.Category) then
-                            if TryJaStun(mob, target, ability) then
-                                return
-                            end
-                            if CanUseAbility(mob) then
-                                mob:setLocalVar("globalJATimer", os.time() + 10)
-                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                mob:useJobAbility(ability.Skill, mob)
-                                return
-                            end
-                        end
-                    end
-                end
-
-                -- Defensive CDs
-                if (mob:getHPP() <= 75) then
-                    if (ability.Type == 'Defensive') then
-                        if isJaReady(mob, ability.Skill) then
-                            if IsJa(mob, ability.Category) then
                                 if CanUseAbility(mob) then
                                     mob:setLocalVar("globalJATimer", os.time() + 10)
                                     mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
                                     mob:useJobAbility(ability.Skill, mob)
                                     return
                                 end
-                            else
-                                if CanUseAbility(mob) then
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useMobAbility(ability.Skill)
-                                    return
+                            end
+                        end
+                    end
+
+                    -- Defensive CDs
+                    if (mob:getHPP() <= 75) then
+                        if (ability.Type == 'Defensive') then
+                            if isJaReady(mob, ability.Skill) then
+                                if IsJa(mob, ability.Category) then
+                                    if CanUseAbility(mob) then
+                                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                        mob:useJobAbility(ability.Skill, mob)
+                                        return
+                                    end
+                                else
+                                    if CanUseAbility(mob) then
+                                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                        mob:useMobAbility(ability.Skill)
+                                        return
+                                    end
                                 end
                             end
                         end
                     end
-                end
 
-                -- Pet
-                if (ability.Type == 'Defensive') then
-                    if isJaReady(mob, ability.Skill) then
-                        if IsJa(mob, ability.Category) then
-                            if CanUseAbility(mob) then
-                                if (pet ~= nil) then
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useJobAbility(ability.Skill, pet)
-                                    return
+                    -- Pet
+                    if (ability.Type == 'Defensive') then
+                        if isJaReady(mob, ability.Skill) then
+                            if IsJa(mob, ability.Category) then
+                                if CanUseAbility(mob) then
+                                    if (pet ~= nil) then
+                                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                        mob:useJobAbility(ability.Skill, pet)
+                                        return
+                                    end
                                 end
                             end
                         end
@@ -1426,6 +1468,7 @@ end
 
 function IsValidUser(mob, skill)
     local mJob = mob:getMainJob()
+    local sJob = mob:getSubJob()
     local mobName = mob:getName()
     
     -- Curilla should not use Provoke
@@ -1453,7 +1496,7 @@ function IsValidUser(mob, skill)
     end
 
     -- Non-Valaineral should not use Uriel Blade or Invincible
-    if (mobName ~= 'Valaineral_R_Davilles') and (skill == tpz.weaponskill.URIEL_BLADE or skill = tpz.jobAbility.INVINCIBLE) then
+    if (mobName ~= 'Valaineral_R_Davilles') and (skill == tpz.weaponskill.URIEL_BLADE or skill == tpz.jobAbility.INVINCIBLE) then
         --printf("%s shouldn't use %d (WS) !", mobName, skill)
         return false
     end
@@ -1470,10 +1513,38 @@ function IsValidUser(mob, skill)
         return false
     end
 
-    -- Non-Semih Lafihna should not use Mighty Strikes
+    -- Non-Iron Eater should not use Mighty Strikes
     if (mobName ~= 'Iron_Eater' and skill == tpz.jobAbility.MIGHTY_STRIKES) then
         --printf("%s shouldn't use Mighty Strikes (JA)!", mobName)
         return false
+    end
+
+    -- Non-Iron Eater should not use Blood Rage
+    if (mobName ~= 'Invincible_Shield' and skill == tpz.jobAbility.BLOOD_RAGE) then
+        --printf("%s shouldn't use Blood Rage (JA)!", mobName)
+        return false
+    end
+
+    -- Invincible Shield should not use Bererk
+    if (mobName == 'Invincible_Shield' and skill == tpz.jobAbility.BERSERK) then
+        --printf("%s shouldn't use Blood Rage (JA)!", mobName)
+        return false
+    end
+
+    -- Only WAR/WAR should use Retaliation
+    if (mJob == tpz.job.WAR) then
+        if (sJob ~= tpz.job.WAR and skill == tpz.jobAbility.RETALIATION) then
+            --printf("%s shouldn't use Retaliation (JA)!", mobName)
+            return false
+        end
+    end
+
+    -- Only WAR/WAR should use Restraint
+    if (mJob == tpz.job.WAR) then
+        if (sJob ~= tpz.job.WAR and skill == tpz.jobAbility.RESTRAINT) then
+        --printf("%s shouldn't use Restraint (JA)!", mobName)
+        return false
+        end
     end
 
     -- Paladin's shouldn't use Berserk or Aggressor

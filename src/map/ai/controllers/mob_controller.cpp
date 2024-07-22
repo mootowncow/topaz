@@ -1767,7 +1767,7 @@ bool CMobController::IsRangedAttackReady(float currentDistance)
         bonusTime = PMob->getBigMobMod(MOBMOD_STANDBACK_COOL);
     }
 
-    if (m_Tick >= m_LastRangedAttackTime + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_SPECIAL_COOL) - bonusTime))
+    if (m_Tick >= m_LastRangedAttackTime + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_CAN_RA) - bonusTime))
     {
         return true;
     }

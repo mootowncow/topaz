@@ -1,6 +1,6 @@
 ---------------------------------------------
 -- Weapon Break
--- Description: Massive attack down. Ignores Shadows
+-- Description: Massive attack down, and weapon damage down. Ignores Shadows
 -- Type: Physical
 ---------------------------------------------
 require("scripts/globals/settings")
@@ -15,7 +15,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local numhits = 1
     local accmod = 1
-    local dmgmod = 1.5
+    local dmgmod = 1
     local params_phys = {}
     params_phys.multiplier = dmgmod
     params_phys.tp150 = 1
@@ -33,7 +33,7 @@ function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.ATTACK_DOWN
 
     target:takeDamage(dmg, mob, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING)
-    MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, 75, 0, 300)
+    MobPhysicalStatusEffectMoveSub(mob, target, skill, typeEffect, 75, 0, 60, 0, 25, 0)
     if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then target:tryInterruptSpell(mob, info.hitslanded) end
     return dmg
 end

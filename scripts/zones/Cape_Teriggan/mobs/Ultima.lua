@@ -5,6 +5,14 @@
 -----------------------------------
 require("scripts/globals/raid")
 -----------------------------------
+local SkillID =
+{
+    [1] = 1521, 
+    [2] = 1522,
+    [3] = 1523,
+    [4] = 1269,
+}
+
 function onMobSpawn(mob)
     tpz.raid.onMobSpawn(mob)
 end
