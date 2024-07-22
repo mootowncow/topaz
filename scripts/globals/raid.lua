@@ -19,7 +19,8 @@ require("scripts/globals/weaponskillids")
 -- TODO: Does Kyo respawn and work?
 -- TODO: OnNpcSpawn ApplyConfrontationToSelf(mob) isn't needed I think?
 -- TODO: Shikaree(DRG logic, also summon a wyvern and code wyvern AI!)
--- TODO: Selh'teus, Lion, Gilgamesh, Halver, Fablinix
+-- TODO: Selh'teus, Lion, Gilgamesh, Halver, Fablinix, Rainemard, Mildaurion
+-- TODO: For JA's, if a mob is using and it's AOE then set to hit all targets and set aoe to 20 in cpp in MobEntity::OnAbility (Look at charentity::OnAbility line 1615)
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -345,14 +346,7 @@ tpz.raid.onNpcSpawn = function(mob)
     elseif isSupport(mob) then
         mob:setSpellList(0)
     elseif isMelee(mob) then
-        if
-            (npcName == 'Striking_Bull') or
-            (npcName == 'Lhu_Mhakaracca') 
-        then
-            mob:setMobMod(tpz.mobMod.BLOCK, 35)
-        elseif (npcName == 'Invincible_Shield') then
-            mob:setMod(tpz.mod.DMG, -25)
-        end
+        SetUpMeleeNPCs(mob)
     elseif isRanged(mob) then
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, 0)
         mob:setMobMod(tpz.mobMod.CAN_RA, 16)
@@ -448,6 +442,24 @@ tpz.raid.onNpcDeath = function(mob, player, isKiller, noKiller)
     OnBattleEndConfrontation(mob)
 end
 
+function SetUpMeleeNPCs(mob)
+    local mJob = mob:getMainJob()
+    local sJob = mob:getSubJob()
+
+    if
+        (npcName == 'Striking_Bull') or
+        (npcName == 'Lhu_Mhakaracca') 
+    then
+        mob:setMobMod(tpz.mobMod.BLOCK, 35)
+    elseif (npcName == 'Invincible_Shield') then
+        mob:setMod(tpz.mod.DMG, -25)
+    end
+
+    if (sJob == tpz.job.RNG) then
+        mob:setMobMod(tpz.mobMod.CAN_RA, 16)
+    end
+end
+
 function ApplyConfrontationToSelf(mob)
     local power = 10
     local tick = 5
@@ -466,7 +478,10 @@ function isHealer(mob)
 end
 
 function isTank(mob)
-    return mob:getMainJob() == tpz.job.PLD
+    local job = mob:getMainJob()
+    return
+        job == tpz.job.PLD or
+        job == tpz.job.NIN
 end
 
 function isMelee(mob)
@@ -479,7 +494,6 @@ function isMelee(mob)
         job == tpz.job.BST or
         job == tpz.job.RNG or
         job == tpz.job.SAM or
-        job == tpz.job.NIN or
         job == tpz.job.DRG or
         job == tpz.job.BLU or
         job == tpz.job.COR or
@@ -708,101 +722,21 @@ function UpdateTankAI(mob, target)
         {   Skill = tpz.jobAbility.MAJESTY,         Cooldown = 60,       Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.DEFENDER,        Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.SENTINEL,        Cooldown = 300,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
+        {   Skill = tpz.jobAbility.RAMPART,         Cooldown = 300,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.DIVINE_EMBLEM,   Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.FEALTY,          Cooldown = 180,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.INVINCIBLE,      Cooldown = 180,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
-        {   Skill = tpz.mob.skills.ROYAL_BASH,      Cooldown = 60,       Type = 'Enmity' ,       Category = 'Mob Skill',      Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.SHIELD_BASH,     Cooldown = 60,       Type = 'Interrupt' ,    Category = 'Mob Skill',      Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.ROYAL_BASH,      Cooldown = 60,       Type = 'Interrupt' ,    Category = 'Mob Skill',      Job = tpz.job.PLD },
         {   Skill = tpz.mob.skills.ROYAL_SAVIOR,    Cooldown = 300,      Type = 'Defensive',     Category = 'Mob Skill',      Job = tpz.job.PLD },
         {   Skill = tpz.weaponskill.URIEL_BLADE,    Cooldown = 60,       Type = 'Offensive',     Category = 'Weapon Skill',   Job = tpz.job.PLD },
     }
-    local job = mob:getMainJob()
-    local globalJATimer = mob:getLocalVar("globalJATimer")
     local globalMagicTimer = mob:getLocalVar("globalMagicTimer")
     local flashTimer = mob:getLocalVar("flashTimer")
     local reprisalTimer = mob:getLocalVar("reprisalTimer")
     local cureTimer = mob:getLocalVar("cureTimer")
 
-    -- Ability AI
-    for _, ability in ipairs(abilityData) do
-        if (os.time() > globalJATimer) then
-            -- Weapon Skills
-            if (job == ability.Job) then
-                if IsValidUser(mob, ability.Skill) then
-                    if (ability.Type == 'Offensive') then
-                        if isJaReady(mob, ability.Skill) then
-                            if IsWeaponSkill(mob, ability.Category) then
-                                if CanUseAbiity(mob) then
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useWeaponSkill(ability.Skill)
-                                    return
-                                end
-                            end
-                        end
-                    end
-
-                    -- Defensive CDs
-                    if mob:getHPP() <= 75 then
-                        if (ability.Type == 'Defensive') then
-                            if isJaReady(mob, ability.Skill) then
-                                if IsJa(mob, ability.Category) then
-                                    if CanUseAbiity(mob) then
-                                        mob:setLocalVar("globalJATimer", os.time() + 10)
-                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                        mob:useJobAbility(ability.Skill, mob)
-                                        return
-                                    end
-                                else
-                                    if CanUseAbiity(mob) then
-                                        mob:setLocalVar("globalJATimer", os.time() + 10)
-                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                        mob:useMobAbility(ability.Skill)
-                                        return
-                                    end
-                                end
-                            end
-                        end
-                    end
-
-                    -- Enmity Generation
-                    if (ability.Type == 'Enmity') then
-                        if isJaReady(mob, ability.Skill) then
-                            if IsJa(mob, ability.Category) then
-                                if CanUseAbiity(mob) then
-                                    if (ability.Skill == tpz.jobAbility.PROVOKE) and IsCurilla(mob) then return end -- Curilla does not provoke
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useJobAbility(ability.Skill, target)
-                                    return
-                                end
-                            else
-                                if CanUseAbiity(mob) then
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useMobAbility(ability.Skill)
-                                    return
-                                end
-                            end
-                        end
-                    end
-
-                    -- Self Buffs
-                    if (ability.Type == 'Buff') then
-                        if CanUseAbiity(mob) then
-                            if isJaReady(mob, ability.Skill) then
-                                if IsJa(mob, ability.Category) then
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useJobAbility(ability.Skill, mob)
-                                    return
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
+    UpdateAbilityAI(mob, target, abilityData)
 
     -- Spell AI
     if (os.time() > globalMagicTimer) then
@@ -819,10 +753,12 @@ function UpdateTankAI(mob, target)
 
         if (os.time() >= reprisalTimer) then
             if CanCast(mob) then
-                mob:castSpell(tpz.magic.spell.REPRISAL, mob)
-                mob:setLocalVar("reprisalTimer", os.time() + 180)
-                mob:setLocalVar("globalMagicTimer", os.time() + 10)
-                return
+                if not mob:hasStatusEffect(tpz.effect.REPRISAL) then
+                    mob:castSpell(tpz.magic.spell.REPRISAL, mob)
+                    mob:setLocalVar("reprisalTimer", os.time() + 180)
+                    mob:setLocalVar("globalMagicTimer", os.time() + 10)
+                    return
+                end
             end
         end
 
@@ -849,122 +785,47 @@ end
 
 function UpdateMeleeAI(mob, target)
     local abilityData = {
-        {   Skill = tpz.jobAbility.BERSERK,             Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.WAR    },
-        {   Skill = tpz.jobAbility.AGGRESSOR,           Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.WAR    },
-        {   Skill = tpz.jobAbility.WARCRY,              Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.WAR    },
-        {   Skill = tpz.jobAbility.RETALIATION,         Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.WAR    },
-        {   Skill = tpz.jobAbility.PROVOKE,             Cooldown = 30,  Type = 'Enmity',    Category = 'Job Ability',   Job = tpz.job.WAR    },
-        {   Skill = tpz.jobAbility.BLOOD_RAGE,          Cooldown = 30,  Type = 'Enmity',    Category = 'Job Ability',   Job = tpz.job.WAR    },
-        {   Skill = tpz.jobAbility.RESTRAINT,           Cooldown = 60,  Type = 'Defensive', Category = 'Job Ability',   Job = tpz.job.WAR    },
-        {   Skill = tpz.jobAbility.FOCUS,               Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.MNK    },
-        {   Skill = tpz.jobAbility.FORMLESS_STRIKES,    Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.MNK    },
-        {   Skill = tpz.jobAbility.PERFECT_COUNTER,     Cooldown = 30,  Type = 'Defensive', Category = 'Job Ability',   Job = tpz.job.MNK    },
-        {   Skill = tpz.jobAbility.DODGE,               Cooldown = 300, Type = 'Defensive', Category = 'Job Ability',   Job = tpz.job.MNK    },
-        {   Skill = tpz.jobAbility.CHAKRA,              Cooldown = 180, Type = 'Defensive', Category = 'Job Ability',   Job = tpz.job.MNK    },
-        {   Skill = tpz.jobAbility.BULLY,               Cooldown = 60,  Type = 'Offensive', Category = 'Job Ability',   Job = tpz.job.THF    },
-        {   Skill = tpz.jobAbility.SNEAK_ATTACK,        Cooldown = 60,  Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.THF    },
-        {   Skill = tpz.jobAbility.TRICK_ATTACK,        Cooldown = 60,  Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.THF    },
-        {   Skill = tpz.jobAbility.FEINT,               Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.THF    },
-        {   Skill = tpz.jobAbility.ASSASSINS_CHARGE,    Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.THF    },
-        {   Skill = tpz.jobAbility.CONSPIRATOR,         Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.THF    },
-        {   Skill = tpz.jobAbility.SOULEATER,           Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.DRK    },
-        {   Skill = tpz.jobAbility.LAST_RESORT,         Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.DRK    },
-        {   Skill = tpz.jobAbility.WEAPON_BASH,         Cooldown = 180, Type = 'Offensive', Category = 'Job Ability',   Job = tpz.job.DRK    },
-        {   Skill = tpz.jobAbility.NETHER_VOID,         Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.DRK    },
-        {   Skill = tpz.jobAbility.FERAL_HOWL,          Cooldown = 90,  Type = 'Offensive', Category = 'Job Ability',   Job = tpz.job.BST    },
-        {   Skill = tpz.jobAbility.KILLER_INSTINCT,     Cooldown = 300, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.BST    },
-        {   Skill = tpz.jobAbility.HASSO,               Cooldown = 60,  Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.SAM    },
-        {   Skill = tpz.jobAbility.MEIKYO_SHISUI,       Cooldown = 180, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.SAM    },
-        {   Skill = tpz.jobAbility.MEDITATE,            Cooldown = 180, Type = 'Buff',      Category = 'Job Ability',   Job = tpz.job.SAM    },
-        {   Skill = tpz.jobAbility.THIRD_EYE,           Cooldown = 60,  Type = 'Defensive', Category = 'Job Ability',   Job = tpz.job.SAM    },
-        {   Skill = tpz.jobAbility.BLADE_BASH,          Cooldown = 180, Type = 'Offensive', Category = 'Job Ability',   Job = tpz.job.SAM    },
-
+        {   Skill = tpz.jobAbility.BERSERK,             Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.AGGRESSOR,           Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.WARCRY,              Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.RETALIATION,         Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.PROVOKE,             Cooldown = 30,  Type = 'Enmity',        Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.BLOOD_RAGE,          Cooldown = 30,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.RESTRAINT,           Cooldown = 60,  Type = 'Defensive',     Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.FOCUS,               Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.MNK    },
+        {   Skill = tpz.jobAbility.FORMLESS_STRIKES,    Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.MNK    },
+        {   Skill = tpz.jobAbility.PERFECT_COUNTER,     Cooldown = 30,  Type = 'Defensive',     Category = 'Job Ability',   Job = tpz.job.MNK    },
+        {   Skill = tpz.jobAbility.DODGE,               Cooldown = 300, Type = 'Defensive',     Category = 'Job Ability',   Job = tpz.job.MNK    },
+        {   Skill = tpz.jobAbility.CHAKRA,              Cooldown = 180, Type = 'Defensive',     Category = 'Job Ability',   Job = tpz.job.MNK    },
+        {   Skill = tpz.jobAbility.BULLY,               Cooldown = 60,  Type = 'Offensive',     Category = 'Job Ability',   Job = tpz.job.THF    },
+        {   Skill = tpz.jobAbility.SNEAK_ATTACK,        Cooldown = 60,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.THF    },
+        {   Skill = tpz.jobAbility.TRICK_ATTACK,        Cooldown = 60,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.THF    },
+        {   Skill = tpz.jobAbility.FEINT,               Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.THF    },
+        {   Skill = tpz.jobAbility.ASSASSINS_CHARGE,    Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.THF    },
+        {   Skill = tpz.jobAbility.CONSPIRATOR,         Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.THF    },
+        {   Skill = tpz.jobAbility.SOULEATER,           Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.DRK    },
+        {   Skill = tpz.jobAbility.LAST_RESORT,         Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.DRK    },
+        {   Skill = tpz.jobAbility.WEAPON_BASH,         Cooldown = 180, Type = 'Interrupt',     Category = 'Job Ability',   Job = tpz.job.DRK    },
+        {   Skill = tpz.jobAbility.NETHER_VOID,         Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.DRK    },
+        {   Skill = tpz.jobAbility.FERAL_HOWL,          Cooldown = 90,  Type = 'Interrupt',     Category = 'Job Ability',   Job = tpz.job.BST    },
+        {   Skill = tpz.jobAbility.KILLER_INSTINCT,     Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.BST    },
+        {   Skill = tpz.jobAbility.HASSO,               Cooldown = 60,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
+        {   Skill = tpz.jobAbility.MEIKYO_SHISUI,       Cooldown = 120, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
+        {   Skill = tpz.jobAbility.MEDITATE,            Cooldown = 180, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
+        {   Skill = tpz.jobAbility.THIRD_EYE,           Cooldown = 60,  Type = 'Defensive',     Category = 'Job Ability',   Job = tpz.job.SAM    },
+        {   Skill = tpz.jobAbility.BLADE_BASH,          Cooldown = 180, Type = 'Interrupt',     Category = 'Job Ability',   Job = tpz.job.SAM    },
+        {   Skill = tpz.jobAbility.JUMP,                Cooldown = 60,  Type = 'Offensive',     Category = 'Job Ability',   Job = tpz.job.DRG    },
+        {   Skill = tpz.jobAbility.HIGH_JUMP,           Cooldown = 60,  Type = 'Offensive',     Category = 'Job Ability',   Job = tpz.job.DRG    },
+        {   Skill = tpz.jobAbility.SUPER_JUMP,          Cooldown = 60,  Type = 'Offensive',     Category = 'Job Ability',   Job = tpz.job.DRG    },
+        {   Skill = tpz.jobAbility.ANGON,               Cooldown = 300, Type = 'Offensive',     Category = 'Job Ability',   Job = tpz.job.DRG    },
+        {   Skill = tpz.jobAbility.SPIRIT_LINK,         Cooldown = 60,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.DRG    },
+        {   Skill = tpz.jobAbility.SPIRIT_SURGE,        Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.DRG    },
+        {   Skill = tpz.jobAbility.SMITING_BREATH,      Cooldown = 60,  Type = 'Pet',           Category = 'Job Ability',   Job = tpz.job.DRG    },
+        {   Skill = tpz.jobAbility.RESTORING_BREATH,    Cooldown = 60,  Type = 'Pet',           Category = 'Job Ability',   Job = tpz.job.DRG    },
     }
-    local job = mob:getMainJob()
-    local mobName = mob:getName()
-    local globalJATimer = mob:getLocalVar("globalJATimer")
     local stunTimer = mob:getLocalVar("stunTimer")
 
-    -- Ability AI
-    for _, ability in pairs(abilityData) do
-        if (os.time() > globalJATimer) then
-            if (job == ability.Job) then
-                -- Self Buffs
-                if (ability.Type == 'Buff') then
-                    if CanUseAbiity(mob) then
-                        if isJaReady(mob, ability.Skill) then
-                            if IsJa(mob, ability.Category) then
-                                mob:setLocalVar("globalJATimer", os.time() + 10)
-                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                mob:useJobAbility(ability.Skill, mob)
-                                return
-                            end
-                        end
-                    end
-                end
-
-                -- Offensive
-                if (ability.Type == 'Offensive') then
-                    if isJaReady(mob, ability.Skill) then
-                        if IsWeaponSkill(mob, ability.Category) then
-                            if CanUseAbiity(mob) then
-                                mob:setLocalVar("globalJATimer", os.time() + 10)
-                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                mob:useWeaponSkill(ability.Skill)
-                                return
-                            end
-                        end
-                    end
-                end
-
-                -- Defensive CDs
-                if mob:getHPP() <= 75 then
-                    if (ability.Type == 'Defensive') then
-                        if isJaReady(mob, ability.Skill) then
-                            if IsJa(mob, ability.Category) then
-                                if CanUseAbiity(mob) then
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useJobAbility(ability.Skill, mob)
-                                    return
-                                end
-                            else
-                                if CanUseAbiity(mob) then
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useMobAbility(ability.Skill)
-                                    return
-                                end
-                            end
-                        end
-                    end
-                end
-
-                -- Enmity Generation
-                if (ability.Type == 'Enmity') then
-                    if (mobName == "Invincible_Shield") then
-                        if isJaReady(mob, ability.Skill) then
-                            if IsJa(mob, ability.Category) then
-                                if CanUseAbiity(mob) then
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useJobAbility(ability.Skill, target)
-                                    return
-                                end
-                            else
-                                if CanUseAbiity(mob) then
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useMobAbility(ability.Skill)
-                                    return
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
+    UpdateAbilityAI(mob, target, abilityData)
 
     if IsZeid(mob) then
         if (os.time() >= stunTimer) then
@@ -980,6 +841,42 @@ function UpdateMeleeAI(mob, target)
 end
 
 function UpdateRangedAI(mob, target)
+    local abilityData = {
+        {   Skill = tpz.jobAbility.BERSERK,             Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.AGGRESSOR,           Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.MIGHTY_STRIKES,      Cooldown = 120, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.WARCRY,              Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.RETALIATION,         Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.BULLY,               Cooldown = 60,  Type = 'Offensive',     Category = 'Job Ability',   Job = tpz.job.THF    },
+        {   Skill = tpz.jobAbility.SNEAK_ATTACK,        Cooldown = 60,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.THF    },
+        {   Skill = tpz.jobAbility.TRICK_ATTACK,        Cooldown = 60,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.THF    },
+        {   Skill = tpz.jobAbility.FEINT,               Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.THF    },
+        {   Skill = tpz.jobAbility.ASSASSINS_CHARGE,    Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.THF    },
+        {   Skill = tpz.jobAbility.CONSPIRATOR,         Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.THF    },
+        {   Skill = tpz.jobAbility.HASSO,               Cooldown = 60,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
+        {   Skill = tpz.jobAbility.MEIKYO_SHISUI,       Cooldown = 180, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
+        {   Skill = tpz.jobAbility.MEDITATE,            Cooldown = 180, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
+        {   Skill = tpz.jobAbility.THIRD_EYE,           Cooldown = 60,  Type = 'Defensive',     Category = 'Job Ability',   Job = tpz.job.SAM    },
+        {   Skill = tpz.jobAbility.VELOCITY_SHOT,       Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.RNG    },
+        {   Skill = tpz.jobAbility.SHARPSHOT,           Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.RNG    },
+        {   Skill = tpz.jobAbility.BARRAGE,             Cooldown = 180, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.RNG    },
+        {   Skill = tpz.jobAbility.EAGLE_EYE_SHOT,      Cooldown = 120, Type = 'Offensive',     Category = 'Job Ability',   Job = tpz.job.RNG    },
+    }
+    local stunTimer = mob:getLocalVar("stunTimer")
+
+    UpdateAbilityAI(mob, target, abilityData)
+
+    if IsFablinix(mob) then
+        if (os.time() >= stunTimer) then
+            if CanCast(mob) then
+                if IsReadyingTPMove(target) then
+                    mob:castSpell(tpz.magic.spell.STUN, target)
+                    mob:setLocalVar("stunTimer", os.time() + 30)
+                    return
+                end
+            end
+        end
+    end
 end
 
 function UpdateHealerAI(mob, target)
@@ -991,7 +888,7 @@ function UpdateHealerAI(mob, target)
     local job = mob:getMainJob()
 
     -- JA's
-    if CanUseAbiity(mob) then
+    if CanUseAbility(mob) then
         if (job == tpz.job.WHM) then
             if not mob:hasStatusEffect(tpz.effect.AFFLATUS_SOLACE) then
                 mob:useJobAbility(tpz.jobAbility.AFFLATUS_SOLACE, mob)
@@ -1104,7 +1001,7 @@ function UpdateCasterAI(mob, target)
     local sJob = mob:getSubJob()
 
     -- JA's
-    if CanUseAbiity(mob) then
+    if CanUseAbility(mob) then
         if (mJob == tpz.job.BLM) then
         -- Nothing yet
         elseif (mJob == tpz.job.SCH) then
@@ -1247,6 +1144,121 @@ function UpdateSupportAI(mob, target)
     end
 end
 
+function UpdateAbilityAI(mob, target, abilityData)
+    local mJob = mob:getMainJob()
+    local sJob = mob:getSubJob()
+    local mobName = mob:getName()
+    local pet = mob:getPet()
+    local globalJATimer = mob:getLocalVar("globalJATimer")
+
+    for _, ability in pairs(abilityData) do
+        if (os.time() > globalJATimer) then
+            if (mJob == ability.Job) or (sJob == ability.Job) then
+
+                -- Enmity Generation
+                if (ability.Type == 'Enmity') then
+                    if IsInvincibleShield(mob)then
+                        if isJaReady(mob, ability.Skill) then
+                            if IsJa(mob, ability.Category) then
+                                if CanUseAbility(mob) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useJobAbility(ability.Skill, target)
+                                    return
+                                end
+                            else
+                                if CanUseAbility(mob) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useMobAbility(ability.Skill)
+                                    return
+                                end
+                            end
+                        end
+                    end
+                end
+
+                -- Self Buffs
+                if (ability.Type == 'Buff') then
+                    if CanUseAbility(mob) then
+                        if isJaReady(mob, ability.Skill) then
+                            if IsJa(mob, ability.Category) then
+                                mob:setLocalVar("globalJATimer", os.time() + 10)
+                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                mob:useJobAbility(ability.Skill, mob)
+                                return
+                            end
+                        end
+                    end
+                end
+
+                -- Offensive
+                if (ability.Type == 'Offensive') then
+                    if isJaReady(mob, ability.Skill) then
+                        if IsWeaponSkill(mob, ability.Category) then
+                            if CanUseAbility(mob) then
+                                mob:setLocalVar("globalJATimer", os.time() + 10)
+                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                mob:useWeaponSkill(ability.Skill)
+                                return
+                            end
+                        elseif IsJa(mob, ability.Category) then
+                            if TryJaStun(mob, target, ability) then
+                                return
+                            end
+                            if CanUseAbility(mob) then
+                                mob:setLocalVar("globalJATimer", os.time() + 10)
+                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                mob:useJobAbility(ability.Skill, mob)
+                                return
+                            end
+                        end
+                    end
+                end
+
+                -- Defensive CDs
+                if (mob:getHPP() <= 75) then
+                    if (ability.Type == 'Defensive') then
+                        if isJaReady(mob, ability.Skill) then
+                            if IsJa(mob, ability.Category) then
+                                if CanUseAbility(mob) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useJobAbility(ability.Skill, mob)
+                                    return
+                                end
+                            else
+                                if CanUseAbility(mob) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useMobAbility(ability.Skill)
+                                    return
+                                end
+                            end
+                        end
+                    end
+                end
+
+                -- Pet
+                if (ability.Type == 'Defensive') then
+                    if isJaReady(mob, ability.Skill) then
+                        if IsJa(mob, ability.Category) then
+                            if CanUseAbility(mob) then
+                                if (pet ~= nil) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useJobAbility(ability.Skill, pet)
+                                    return
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
 function IsCurilla(mob)
     return mob:getName() == 'Curilla'
 end
@@ -1255,14 +1267,47 @@ function IsZeid(mob)
     return mob:getName() == 'Zeid'
 end
 
+function IsInvincibleShield(mob)
+    return mob:getName() == 'Invincible_Shield'
+end
+
+function IsFablinix(mob)
+    return mob:getName() == 'Fablinix'
+end
+
 function IsReadyingTPMove(target)
     local act = target:getCurrentAction()
+
+    if target:hasImmunity(tpz.immunity.STUN) then
+        return false
+    end
+
+    if target:getMod(tpz.mod.EEM_STUN) <= 5 then
+        return false
+    end
 
     if (act == tpz.act.MOBABILITY_START) or (act == tpz.act.MOBABILITY_USING) then
         return true
     end
 
     return false
+end
+
+function TryJaStun(mob, target, ability)
+    if CanUseAbility(mob) then
+        if (ability.Type == 'Interrupt') then
+            if IsReadyingTPMove(target) then
+                mob:setLocalVar("globalJATimer", os.time() + 10)
+                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                mob:useJobAbility(ability.Skill)
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function ReadyToWS(mob)
 end
 
 function HasDispellableEffect(target)
@@ -1363,10 +1408,10 @@ function CanCast(mob)
     return canCast
 end
 
-function CanUseAbiity(mob)
+function CanUseAbility(mob)
     local act = mob:getCurrentAction()
 
-    local CanUseAbiity = not (act == tpz.act.MOBABILITY_START or
+    local CanUseAbility = not (act == tpz.act.MOBABILITY_START or
                         act == tpz.act.MOBABILITY_USING or
                         act == tpz.act.MOBABILITY_FINISH or
                         act == tpz.act.MAGIC_START or
@@ -1376,10 +1421,11 @@ function CanUseAbiity(mob)
                         act == tpz.act.JOBABILITY_FINISH or
                         mob:hasStatusEffect(tpz.effect.AMNESIA) or
                         mob:hasPreventActionEffect())
-    return CanUseAbiity
+    return CanUseAbility
 end
 
 function IsValidUser(mob, skill)
+    local mJob = mob:getMainJob()
     local mobName = mob:getName()
     
     -- Curilla should not use Provoke
@@ -1400,9 +1446,39 @@ function IsValidUser(mob, skill)
         return false
     end
 
-    -- Non-Valaineral should not use Uriel Blade
-    if (mobName ~= 'Valaineral_R_Davilles') and (skill == tpz.weaponskill.URIEL_BLADE) then
+    -- Trion does not use Shield Bash or Sentinel, he uses Royal Bash and Royal Savior instead
+    if (mobName == 'Trion') and (skill == tpz.jobAbility.SHIELD_BASH or skill == tpz.jobAbility.SENTINEL) then
+        --printf("%s shouldn't use %d (JA)!", mobName, skill)
+        return false
+    end
+
+    -- Non-Valaineral should not use Uriel Blade or Invincible
+    if (mobName ~= 'Valaineral_R_Davilles') and (skill == tpz.weaponskill.URIEL_BLADE or skill = tpz.jobAbility.INVINCIBLE) then
         --printf("%s shouldn't use %d (WS) !", mobName, skill)
+        return false
+    end
+
+    -- Non-Semih Lafihna should not use Eagle Eye Shot
+    if (mobName ~= 'Semih_Lafihna' and skill == tpz.jobAbility.EAGLE_EYE_SHOT) then
+        --printf("%s shouldn't use Eagle Eye Shot (JA)!", mobName)
+        return false
+    end
+
+    -- Non-Ayame should not use Meikyo Shisui
+    if (mobName ~= ' Ayame' and skill == tpz.jobAbility.MEIKYO_SHISUI) then
+        --printf("%s shouldn't use Meikyo Shisui (JA)!", mobName)
+        return false
+    end
+
+    -- Non-Semih Lafihna should not use Mighty Strikes
+    if (mobName ~= 'Iron_Eater' and skill == tpz.jobAbility.MIGHTY_STRIKES) then
+        --printf("%s shouldn't use Mighty Strikes (JA)!", mobName)
+        return false
+    end
+
+    -- Paladin's shouldn't use Berserk or Aggressor
+    if (mJob == tpz.job.PLD) and (skill == tpz.jobAbility.BERSERK or skill == tpz.jobAbility.AGGRESSOR) then
+        --printf("%s shouldn't use %d (JA)!", mobName, skill)
         return false
     end
 

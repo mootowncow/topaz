@@ -13,17 +13,17 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local power = 100
     local duration = 60
 
-    local maxReflectedDamage = target:getMaxHP() * 0.5
+    local maxReflectedDamage = target:getMaxHP() * 2
     local reflectedPercent = 33
 
+    mob:delStatusEffect(tpz.effect.REPRISAL)
     mob:addStatusEffect(tpz.effect.DEFENSE_BOOST, 100, 0, duration)
-    mob:addStatusEffect(tpz.effect.STONESKIN, 500, 0, duration)
+    mob:addStatusEffect(tpz.effect.STONESKIN, 1500, 0, duration)
     mob:addStatusEffect(tpz.effect.REPRISAL, reflectedPercent, 0, duration, 0, maxReflectedDamage)
     skill:setMsg(tpz.effect.PROTECT)
 
-    return typeEffect
+    return tpz.effect.PROTECT
 end
 
