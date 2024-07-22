@@ -13,49 +13,7 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local minCure = 130
+    local cure = doCure(caster, target, spell)
 
-    local divisor = 1
-    local constant = 70
-    local power = getCurePowerOld(caster)
-    if (power > 300) then
-        divisor = 15.6666
-        constant = 180.43
-    elseif (power > 180) then
-        divisor =  2
-        constant = 115
-    end
-
-    local final = getCureFinal(caster, spell, getBaseCureOld(power, divisor, constant), minCure, false)
-
-    final = final + (final * (target:getMod(tpz.mod.CURE_POTENCY_RCVD)/100))
-
-    --Applying server mods....
-    final = final * CURE_POWER
-
-    local diff = (target:getMaxHP() - target:getHP())
-    if (final > diff) then
-        final = diff
-    end
-    if target:hasStatusEffect(tpz.effect.CURSE_II) then
-         target:addHP(0)
-    else
-        target:addHP(final)
-
-        target:wakeUp()
-        caster:updateEnmityFromCure(target, final)
-    end
-
-    if target:getID() == spell:getPrimaryTargetID() then
-        spell:setMsg(tpz.msg.basic.MAGIC_RECOVERS_HP)
-    else
-        spell:setMsg(tpz.msg.basic.SELF_HEAL_SECONDARY)
-    end
-
-    local mpBonusPercent = (final*caster:getMod(tpz.mod.CURE2MP_PERCENT))/100
-    if (mpBonusPercent > 0) then
-        caster:addMP(mpBonusPercent)
-    end
-
-    return final
+    return cure
 end

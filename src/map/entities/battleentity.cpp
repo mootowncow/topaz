@@ -1539,7 +1539,6 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
         return OnCastInterrupted(state, action, MSGBASIC_IS_INTERRUPTED, true);
     }
 
-
     luautils::OnSpellPrecast(this, PSpell);
 
     state.SpendCost();
@@ -1635,6 +1634,13 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
 
         auto ce = PSpell->getCE();
         auto ve = PSpell->getVE();
+
+        if (this->StatusEffectContainer->HasStatusEffect(EFFECT_DIVINE_EMBLEM) && PSpell->getSkillType() == SKILLTYPE::SKILL_DIVINE_MAGIC)
+        {
+            auto divineEmblemBonus = 1.5f + (static_cast<float>(this->getMod(Mod::DIVINE_EMBLEM_BONUS)) / 100.0f);
+            ce *= divineEmblemBonus;
+            ve *= divineEmblemBonus;
+        }
 
         // Super Jump and Super Climb
         if (PTarget->isSuperJumped)

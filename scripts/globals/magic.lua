@@ -1127,6 +1127,21 @@ function getSpellBonusAcc(caster, target, spell, params)
     return magicAccBonus
 end
 
+function getSpellEnmityBonus(caster, target, spell)
+    local enmityBonus = 1
+    local skill = spell:getSkillType()
+
+    -- divine emblem Enmity bonus
+    if (skill == tpz.skill.DIVINE_MAGIC or skill == tpz.skill.HEALING_MAGIC) then
+        if (caster:hasStatusEffect(tpz.effect.DIVINE_EMBLEM)) then
+            enmityBonus = enmityBonus + (0.5 + (caster:getMod(tpz.mod.DIVINE_EMBLEM_BONUS) / 100))
+        end
+    end
+
+    -- printf("Enmity bonus: %f", enmityBonus)
+    return enmityBonus
+end
+
 function handleAfflatusMisery(caster, spell, dmg)
     if (caster:hasStatusEffect(tpz.effect.AFFLATUS_MISERY)) then
         local misery = caster:getMod(tpz.mod.AFFLATUS_MISERY)
@@ -1251,13 +1266,15 @@ function finalMagicAdjustments(caster, target, spell, dmg)
         dmg = utils.stoneskin(target, dmg, attackType)
         dmg = utils.clamp(dmg, -99999, 99999)
 
+        local enmityBonus = getSpellEnmityBonus(caster, target, spell)
+
         if (dmg < 0) then
             dmg = target:addHP(-dmg)
             spell:setMsg(tpz.msg.basic.MAGIC_RECOVERS_HP)
         else
             target:takeSpellDamage(caster, spell, dmg, tpz.attackType.MAGICAL, tpz.damageType.ELEMENTAL + spell:getElement())
             target:handleAfflatusMiseryDamage(dmg)
-            target:updateEnmityFromDamage(caster, dmg)
+            target:updateEnmityFromDamage(caster, dmg * enmityBonus)
             -- Only add TP if the target is a mob
             if (dmg > 0) then
                 if (target:getObjType() ~= tpz.objType.PC) then
@@ -2647,7 +2664,11 @@ function doDivineBanishNuke(caster, target, spell, params)
 	 
     --get the resisted damage
     dmg = dmg * resist
-    
+
+    -- divine emblem damage bonus
+    if caster:hasStatusEffect(tpz.effect.DIVINE_EMBLEM) then
+        dmg = dmg * (1 + caster:getSkillLevel(tpz.skill.DIVINE_MAGIC) / 300)
+    end    
 
     --add on bonuses (staff/day/weather/jas/mab/etc all go in this function)
     dmg = addBonuses(caster, spell, target, dmg, params)
@@ -2658,6 +2679,460 @@ function doDivineBanishNuke(caster, target, spell, params)
     --add in final adjustments
     dmg = finalMagicAdjustments(caster, target, spell, dmg)
     return dmg
+end
+
+function doCure(caster, target, spell)
+    local divisor = 1
+    local constant = 0
+    local basepower = 0
+    local minCure = 0
+    local power = 0
+    local basecure = 0
+    local final = 0
+    local baseDmg = 1
+    local offensiveMultiplier = 1
+    local spellID = spell:getID()
+
+    if USE_OLD_CURE_FORMULA then
+        power = getCurePowerOld(caster)
+    else
+        power = getCurePower(caster)
+    end
+
+
+    if spellID == tpz.magic.spell.CURE then
+        minCure = 10
+        baseDmg = 7
+        if USE_OLD_CURE_FORMULA then
+            divisor = 1
+            constant = -10
+            if power > 100 then
+                divisor = 57
+                constant = 29.125
+            elseif power > 60 then
+                divisor = 2
+                constant = 5
+            end
+        else
+            if power < 20 then
+                divisor = 4
+                constant = 10
+                basepower = 0
+            elseif power < 40 then
+                divisor = 1.3333
+                constant = 15
+                basepower = 20
+            elseif power < 125 then
+                divisor = 8.5
+                constant = 30
+                basepower = 40
+            elseif power < 200 then
+                divisor = 15
+                constant = 40
+                basepower = 125
+            elseif power < 600 then
+                divisor = 20
+                constant = 40
+                basepower = 200
+            else
+                divisor = 999999
+                constant = 65
+                basepower = 0
+            end
+        end
+    elseif spellID == tpz.magic.spell.CURE_II then
+        minCure = 60
+        baseDmg = 35
+        if USE_OLD_CURE_FORMULA then
+            divisor = 1
+            constant = 20
+            if power > 170 then
+                divisor = 35.6666
+                constant = 87.62
+            elseif power > 110 then
+                divisor = 2
+                constant = 47.5
+            end
+        else
+            if power < 70 then
+                divisor = 1
+                constant = 60
+                basepower = 40
+            elseif power < 125 then
+                divisor = 5.5
+                constant = 90
+                basepower = 70
+            elseif power < 200 then
+                divisor = 7.5
+                constant = 100
+                basepower = 125
+            elseif power < 400 then
+                divisor = 10
+                constant = 110
+                basepower = 200
+            elseif power < 700 then
+                divisor = 20
+                constant = 130
+                basepower = 400
+            else
+                divisor = 999999
+                constant = 145
+                basepower = 0
+            end
+        end
+    elseif spellID == tpz.magic.spell.CURE_III then
+        minCure = 130
+        baseDmg = 70
+        if USE_OLD_CURE_FORMULA then
+            divisor = 1
+            constant = 70
+            if power > 300 then
+                divisor = 15.6666
+                constant = 180.43
+            elseif power > 180 then
+                divisor = 2
+                constant = 115
+            end
+        else
+            if power < 125 then
+                divisor = 2.2
+                constant = 130
+                basepower = 70
+            elseif power < 200 then
+                divisor = 75 / 65
+                constant = 155
+                basepower = 125
+            elseif power < 300 then
+                divisor = 2.5
+                constant = 220
+                basepower = 200
+            elseif power < 700 then
+                divisor = 5
+                constant = 260
+                basepower = 300
+            else
+                divisor = 999999
+                constant = 340
+                basepower = 0
+            end
+        end
+    elseif spellID == tpz.magic.spell.CURE_IV then
+        minCure = 270
+        baseDmg = 140
+        offensiveMultiplier = 1.5
+        if USE_OLD_CURE_FORMULA then
+            divisor = 0.6666
+            constant = 165
+            if power > 460 then
+                divisor = 6.5
+                constant = 354.6666
+            elseif power > 220 then
+                divisor = 2
+                constant = 275
+            end
+        else
+            if power < 200 then
+                divisor = 1
+                constant = 270
+                basepower = 70
+            elseif power < 300 then
+                divisor = 2
+                constant = 400
+                basepower = 200
+            elseif power < 400 then
+                divisor = 10 / 7
+                constant = 450
+                basepower = 300
+            elseif power < 700 then
+                divisor = 2.5
+                constant = 520
+                basepower = 400
+            else
+                divisor = 999999
+                constant = 640
+                basepower = 0
+            end
+        end
+    elseif spellID == tpz.magic.spell.CURE_V then
+        minCure = 450
+        baseDmg = 210
+        offensiveMultiplier = 1.5
+        if USE_OLD_CURE_FORMULA then
+            divisor = 0.6666
+            constant = 330
+            if power > 560 then
+                divisor = 2.8333
+                constant = 591.2
+            elseif power > 320 then
+                divisor = 1
+                constant = 410
+            end
+        else
+            if power < 150 then
+                divisor = 0.70
+                constant = 450
+                basepower = 80
+            elseif power < 190 then
+                divisor = 1.25
+                constant = 550
+                basepower = 150
+            elseif power < 260 then
+                divisor = 70 / 38
+                constant = 582
+                basepower = 190
+            elseif power < 300 then
+                divisor = 2
+                constant = 620
+                basepower = 260
+            elseif power < 500 then
+                divisor = 2.5
+                constant = 640
+                basepower = 300
+            elseif power < 700 then
+                divisor = 10 / 3
+                constant = 720
+                basepower = 500
+            else
+                divisor = 999999
+                constant = 780
+                basepower = 0
+            end
+        end
+    elseif spellID == tpz.magic.spell.CURE_VI then
+        minCure = 600
+        baseDmg = 295
+        offensiveMultiplier = 2
+        if USE_OLD_CURE_FORMULA then
+            divisor = 0.6666
+            constant = 330
+            if power > 560 then
+                divisor = 2.8333
+                constant = 591.2
+            elseif power > 320 then
+                divisor = 1
+                constant = 410
+            end
+        else
+            if power < 210 then
+                divisor = 1.5
+                constant = 600
+                basepower = 90
+            elseif power < 300 then
+                divisor = 0.9
+                constant = 680
+                basepower = 210
+            elseif power < 400 then
+                divisor = 10 / 7
+                constant = 780
+                basepower = 300
+            elseif power < 500 then
+                divisor = 2.5
+                constant = 850
+                basepower = 400
+            elseif power < 700 then
+                divisor = 5 / 3
+                constant = 890
+                basepower = 500
+            else
+                divisor = 999999
+                constant = 1010
+                basepower = 0
+            end
+        end
+    elseif spellID == tpz.magic.spell.CURAGA then
+        minCure = 60
+        if USE_OLD_CURE_FORMULA then
+            divisor = 1
+            constant = 20
+            if power > 170 then
+                divisor = 35.6666
+                constant = 87.62
+            elseif power > 110 then
+                divisor = 2
+                constant = 47.5
+            end
+        end
+    elseif spellID == tpz.magic.spell.CURAGA_II then
+        minCure = 130
+        if USE_OLD_CURE_FORMULA then
+            divisor = 1
+            constant = 70
+            if power > 300 then
+                divisor = 15.6666
+                constant = 180.43
+            elseif power > 180 then
+                divisor = 2
+                constant = 115
+            end
+        end
+    elseif spellID == tpz.magic.spell.CURAGA_III then
+        minCure = 270
+        if USE_OLD_CURE_FORMULA then
+            divisor = 0.6666
+            constant = 165
+            if power > 460 then
+                divisor = 6.5
+                constant = 354.6666
+            elseif power > 220 then
+                divisor = 2
+                constant = 275
+            end
+        end
+    elseif spellID == tpz.magic.spell.CURAGA_IV then
+        minCure = 450
+        if USE_OLD_CURE_FORMULA then
+            divisor = 0.6666
+            constant = 330
+            if power > 560 then
+                divisor = 2.8333
+                constant = 591.2
+            elseif power > 320 then
+                divisor = 1
+                constant = 410
+            end
+        end
+    elseif spellID == tpz.magic.spell.CURAGA_V then
+        minCure = 600
+        if USE_OLD_CURE_FORMULA then
+            divisor = 1
+            constant = 570
+            if power > 780 then
+                divisor = 2.667
+                constant = 814 -- this is too powerful and needs to be fixed when the rest of the curaga V numbers are determined
+            end
+        end
+    elseif spellID == tpz.magic.spell.CURAGA_VI then
+        minCure = 800
+        if USE_OLD_CURE_FORMULA then
+            divisor = 1
+            constant = 750
+            if power > 1000 then
+                divisor = 3.0
+                constant = 1050
+            end
+        end
+    end
+
+
+
+    local enmityBonus = getSpellEnmityBonus(caster, target, spell)
+
+    if (spellID >= tpz.magic.spell.CURE and spellID <= tpz.magic.spell.CURE_VI) then
+        if isValidHealTarget(caster, target) then
+            if USE_OLD_CURE_FORMULA then
+                basecure = getBaseCureOld(power,divisor,constant)
+            else
+                basecure = getBaseCure(power,divisor,constant,basePower)
+            end
+            final = getCureFinal(caster, spell, basecure,minCure, false)
+            if (caster:hasStatusEffect(tpz.effect.AFFLATUS_SOLACE) and target:hasStatusEffect(tpz.effect.STONESKIN) == false) then
+                local solaceStoneskin = 0
+                local equippedBody = caster:getEquipID(tpz.slot.BODY)
+                if (equippedBody == 11186) then
+                    solaceStoneskin = math.floor(final * 0.30)
+                elseif (equippedBody == 11086) then
+                    solaceStoneskin = math.floor(final * 0.35)
+                else
+                    solaceStoneskin = math.floor(final * 0.25)
+                end
+
+                solaceStoneskin = solaceStoneskin * (1 + caster:getMerit(tpz.merit.ANIMUS_SOLACE)/100)
+
+                target:addStatusEffect(tpz.effect.STONESKIN, solaceStoneskin, 0, 25, 0, 0, 1)
+            end
+            final = final + (final * (target:getMod(tpz.mod.CURE_POTENCY_RCVD)/100))
+
+            --Applying server mods....
+            final = final * CURE_POWER
+
+            local diff = (target:getMaxHP() - target:getHP())
+            if (final > diff) then
+                final = diff
+            end
+            if target:hasStatusEffect(tpz.effect.CURSE_II) then
+                    target:addHP(0)
+            else
+                target:addHP(final)
+
+                target:wakeUp()
+                caster:updateEnmityFromCure(target, final * enmityBonus)
+            end
+        else
+            if (target:isUndead()) then
+               spell:setMsg(tpz.msg.basic.MAGIC_DMG)
+               local params = {}
+               params.dmg = baseDmg
+               params.multiplier = offensiveMultiplier
+               params.skillType = tpz.skill.HEALING_MAGIC
+               params.attribute = tpz.mod.MND
+               params.hasMultipleTargetReduction = false
+
+               local dmg = calculateMagicDamage(caster, target, spell, params)
+               local params = {}
+               params.diff = caster:getStat(tpz.mod.MND)-target:getStat(tpz.mod.MND)
+               params.attribute = tpz.mod.MND
+               params.skillType = tpz.skill.HEALING_MAGIC
+               params.bonus = 0
+               local resist = applyResistance(caster, target, spell, params)
+               dmg = dmg*resist
+               dmg = addBonuses(caster, spell, target, dmg)
+               dmg = adjustForTarget(target, dmg, spell:getElement())
+               dmg = finalMagicAdjustments(caster, target, spell, dmg)
+               final = dmg
+               -- printf(string.format("Cure resist: %f final damage: %d", resist, dmg))
+               target:takeDamage(final, caster, tpz.attackType.MAGICAL, tpz.damageType.LIGHT)
+               target:updateEnmityFromDamage(caster, final)
+            elseif (caster:getObjType() == tpz.objType.PC) then
+                spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+            else
+                -- e.g. monsters healing themselves.
+                if (USE_OLD_CURE_FORMULA == true) then
+                    basecure = getBaseCureOld(power,divisor,constant)
+                else
+                    basecure = getBaseCure(power,divisor,constant,basePower)
+                end
+                final = getCureFinal(caster, spell, basecure,minCure, false)
+                local diff = (target:getMaxHP() - target:getHP())
+                if (final > diff) then
+                    final = diff
+                end
+                target:addHP(final)
+            end
+        end
+    elseif (spellID >= tpz.magic.spell.CURAGA and spellID <= tpz.magic.spell.CURAGA_V) then
+        final = getCureFinal(caster, spell, getBaseCureOld(power, divisor, constant), minCure, false)
+
+        final = final + (final * (target:getMod(tpz.mod.CURE_POTENCY_RCVD)/100))
+
+        --Applying server mods....
+        final = final * CURE_POWER
+
+        local diff = (target:getMaxHP() - target:getHP())
+        if (final > diff) then
+            final = diff
+        end
+        if target:hasStatusEffect(tpz.effect.CURSE_II) then
+             target:addHP(0)
+        else
+            target:addHP(final)
+
+            target:wakeUp()
+            caster:updateEnmityFromCure(target, final)
+        end
+
+        if target:getID() == spell:getPrimaryTargetID() then
+            spell:setMsg(tpz.msg.basic.MAGIC_RECOVERS_HP)
+        else
+            spell:setMsg(tpz.msg.basic.SELF_HEAL_SECONDARY)
+        end
+    end
+
+    local mpBonusPercent = (final*caster:getMod(tpz.mod.CURE2MP_PERCENT))/100
+    if (mpBonusPercent > 0) then
+        caster:addMP(mpBonusPercent)
+    end
+
+    return final
 end
 
 function doAdditionalEffectDamage(player, target, chance, dmg, dStat, incudeMAB, bonusMAB, element, maccBonus)
