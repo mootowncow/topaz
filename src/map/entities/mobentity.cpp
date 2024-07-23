@@ -725,13 +725,14 @@ void CMobEntity::OnAbility(CAbilityState& state, action_t& action)
     std::unique_ptr<CBasicPacket> errMsg;
     if (PTarget && IsValidTarget(PTarget->targid, PAbility->getValidTarget(), errMsg))
     {
+        // Log target validity and distance
+
         if (this != PTarget && distance(this->loc.p, PTarget->loc.p) > PAbility->getRange())
         {
+            setActionInterrupted(action, PTarget, MSGBASIC_TOO_FAR_AWAY, 0);
             return;
         }
 
-        // Currently, only the Wyvern uses abilities at all as of writing, but their abilities are not instant and are mob abilities.
-        // Abilities are not subject to paralyze if they have non-zero cast time due to this corner case.
         if (state.GetAbility()->getCastTime() == 0s && battleutils::IsParalyzed(this))
         {
             setActionInterrupted(action, PTarget, MSGBASIC_IS_PARALYZED_2, 0);
@@ -741,35 +742,64 @@ void CMobEntity::OnAbility(CAbilityState& state, action_t& action)
         action.id = this->id;
         action.actiontype = PAbility->getActionType();
         action.actionid = PAbility->getID();
-        actionList_t& actionList = action.getNewActionList();
-        actionList.ActionTargetID = PTarget->id;
-        actionTarget_t& actionTarget = actionList.getNewActionTarget();
-        actionTarget.reaction = REACTION_NONE;
-        actionTarget.speceffect = SPECEFFECT_RECOIL;
-        actionTarget.animation = PAbility->getAnimationID();
-        actionTarget.param = 0;
-        auto prevMsg = actionTarget.messageID;
 
-        int32 value = luautils::OnUseAbility(this, PTarget, PAbility, &action);
-        if (prevMsg == actionTarget.messageID)
-            actionTarget.messageID = PAbility->getMessage();
-        if (actionTarget.messageID == 0)
-            actionTarget.messageID = MSGBASIC_USES_JA;
-        actionTarget.param = value;
-
-        if (value < 0)
+        std::vector<CBattleEntity*> targets = { PTarget };
+        if (PAbility->isAoE())
         {
-            actionTarget.messageID = ability::GetAbsorbMessage(actionTarget.messageID);
-            actionTarget.param = -value;
+            PAI->TargetFind->reset();
+            PAI->TargetFind->findWithinArea(this, AOERADIUS_ATTACKER, PAbility->getRange(), FINDFLAGS_HIT_ALL);
+            targets = PAI->TargetFind->m_targets;
+        }
+
+        bool first = true;
+        for (auto&& PTarget : targets)
+        {
+            actionList_t& actionList = action.getNewActionList();
+            actionList.ActionTargetID = PTarget->id;
+            actionTarget_t& actionTarget = actionList.getNewActionTarget();
+            actionTarget.reaction = REACTION_NONE;
+            actionTarget.speceffect = SPECEFFECT_NONE;
+            actionTarget.animation = PAbility->getAnimationID();
+            actionTarget.messageID = 0;
+            actionTarget.param = 0;
+
+            if (PTarget->isSuperJumped)
+            {
+                actionTarget.animation = ANIMATION_NONE;
+                actionTarget.messageID = 0;
+            }
+            else
+            {
+                int32 value = luautils::OnUseAbility(this, PTarget, PAbility, &action);
+
+                if (actionTarget.messageID == 0)
+                {
+                    actionTarget.messageID = first ? PAbility->getMessage() : PAbility->getAoEMsg();
+                }
+
+                if (first && actionTarget.messageID == 0)
+                    actionTarget.messageID = MSGBASIC_USES_JA;
+
+                actionTarget.param = value;
+
+                if (value < 0)
+                {
+                    actionTarget.messageID = ability::GetAbsorbMessage(actionTarget.messageID);
+                    actionTarget.param = -value;
+                }
+
+                state.ApplyEnmity();
+            }
+
+            first = false;
         }
     }
-    else // Can't target anything, just cancel the animation.
+    else
     {
         action.actiontype = ACTION_MOBABILITY_INTERRUPT;
-        action.actionid = 28787; // Some hardcoded magic for interrupts
+        action.actionid = 28787;
         actionList_t& actionList = action.getNewActionList();
         actionList.ActionTargetID = id;
-
         actionTarget_t& actionTarget = actionList.getNewActionTarget();
         actionTarget.animation = 0x1FC;
         actionTarget.messageID = 0;
