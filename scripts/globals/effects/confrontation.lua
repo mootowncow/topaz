@@ -56,20 +56,24 @@ function onEffectTick(target, effect)
     end
 
     -- If an engaged mob, and someone without confrontation ventured too far away, re-enable their confrontation status
-    if (target:isMob()) then
-        local NearbyPlayers = target:getPlayersInRange(25)
-        if NearbyPlayers == nil then return end
-        if NearbyPlayers then
-            for _,v in ipairs(NearbyPlayers) do
-                if not v:hasStatusEffect(tpz.effect.CONFRONTATION) then
-                    local power = effect:getPower()
-                    local tick = effect:getTick() / 1000
-                    local duration = math.ceil((effect:getTimeRemaining()) / 1000)
-                    local subId = 0
-                    local subPower = effect:getSubPower()
-                    local tier = 0
-                    v:addStatusEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
-                    v:messageSpecial(ID.text.CONF_REENGAGED)
+    if (target:isMob() and target:getAllegiance() == tpz.allegiance.MOB) then
+        local NearbyEntities = target:getNearbyEntities(25)
+        if NearbyEntities == nil then return end
+        if NearbyEntities then
+            for _,entity in pairs(NearbyEntities) do
+                if (entity:getAllegiance() ~= target:getAllegiance()) then
+                    if not entity:hasStatusEffect(tpz.effect.CONFRONTATION) then
+                        local power = effect:getPower()
+                        local tick = effect:getTick() / 1000
+                        local duration = math.ceil((effect:getTimeRemaining()) / 1000)
+                        local subId = 0
+                        local subPower = effect:getSubPower()
+                        local tier = 0
+                        entity:addStatusEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
+                        if (entity:isPC()) then
+                            entity:messageSpecial(ID.text.CONF_REENGAGED)
+                        end
+                    end
                 end
             end
         end

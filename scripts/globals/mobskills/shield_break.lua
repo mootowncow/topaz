@@ -1,6 +1,6 @@
 ---------------------------------------------
 -- Shield Break
--- Description: Massive Evasion down. Ignores shadows.
+-- Description: Evasion down. Ignores shadows.
 -- Type: Physical
 ---------------------------------------------
 require("scripts/globals/settings")
@@ -32,8 +32,8 @@ function onMobWeaponSkill(target, mob, skill)
 
     local typeEffect = tpz.effect.EVASION_DOWN
 
-   target:takeDamage(dmg, mob, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING)
-   MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, 100, 0, 300)
-   if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then target:tryInterruptSpell(mob, info.hitslanded) end
-   return dmg
+    target:takeDamage(dmg, mob, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING)
+    MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, 40, 0, 300)
+    if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then target:tryInterruptSpell(mob, info.hitslanded) end
+    return dmg
 end

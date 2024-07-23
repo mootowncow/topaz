@@ -3459,10 +3459,10 @@ INSERT INTO `mob_skills` VALUES (3495,684,'ground_strike',0,7.0,2000,1500,4,0,0,
 INSERT INTO `mob_skills` VALUES (3496,24,'hollow_smite',0,7.0,2000,1500,4,0,0,0,0,0,0); -- was animation 457
 -- INSERT INTO `mob_skills` VALUES (3497,3241,'sarva's_storm',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3498,3242,'sarva's_storm',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3499,3243,'soturis_fury',0,7.0,2000,1500,4,0,0,0,13,12,0);
+INSERT INTO `mob_skills` VALUES (3499,103,'soturis_fury',0,7.0,2000,1500,4,0,0,0,13,12,0); -- TODO: Animation
 -- INSERT INTO `mob_skills` VALUES (3500,3244,'celidon's_torment',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3501,3245,'tachi_mudo',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3502,89,'nott',0,7.0,2000,1500,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3502,80,'nott',0,7.0,2000,1500,1,0,0,0,0,0,0);  -- TODO: Animation
 INSERT INTO `mob_skills` VALUES (3503,3247,'justicebreaker',0,7.0,2000,0,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3504,3248,'rancid_breath',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3505,3249,'geotic_spin',0,7.0,2000,1500,4,0,0,0,0,0,0);

@@ -17,13 +17,12 @@ require("scripts/globals/weaponskillids")
 -- TODO: Spread out DPS to surround the NMs better
 -- TODO: Correct weapon types(club scythe etc) on everyone
 -- TODO: Does Kyo respawn and work?
--- TODO: OnNpcSpawn ApplyConfrontationToSelf(mob) isn't needed I think?
 -- TODO: Shikaree(DRG logic, also summon a wyvern and code wyvern AI!)
 -- TODO: Selh'teus, Lion, Gilgamesh, Halver, Fablinix, Rainemard, Mildaurion
 -- TODO: For JA's, if a mob is using and it's AOE then set to hit all targets and set aoe to 20 in cpp in MobEntity::OnAbility (Look at charentity::OnAbility line 1615)
 -- TODO: Semih model ID doesn't ranged, get one from retail
--- TODO: Tenzen is stil being considered melee?
--- TODO: Don't try to haste targets with slow
+-- TODO: Check that barrage is properly adding hits in cpp with print
+-- TODO: Semih is type2 animation
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -246,45 +245,108 @@ local mobFightByMobName =
 
     ['Ultima'] = function(mob, target)
         local phase = mob:getLocalVar("battlePhase")
+        local citadelBusterTimer = mob:getLocalVar("citadelBusterTimer")
+        local citadelBuster = mob:getLocalVar("citadelBuster")
         local holyEnabled = mob:getLocalVar("holyEnabled")
         local enmityList = mob:getEnmityList()
         local holyTarget = nil
 
-        if mob:getLocalVar("nuclearWaste") == 1 then
-            local ability = math.random(1262,1267)
-            mob:useMobAbility(ability)
-            mob:setLocalVar("nuclearWaste", 0)
-        end
-
-        -- Holy IIs a random target after using certain TP moves in Phase 2
-        if mob:getCurrentAction() ~= tpz.action.MOBABILITY_START
-        and mob:getCurrentAction() ~= tpz.action.MOBABILITY_USING
-        and mob:actionQueueEmpty() then
-            for _, enmity in ipairs(enmityList) do
-                if enmityList and #enmityList > 0 and (holyEnabled > 0) then
-                    local randomTarget = enmityList[math.random(1,#enmityList)];
-                    entityId = randomTarget.entity:getID();
-                    if (entityId > 10000) then -- ID is a mob(pet) then
-                        holyTarget = GetMobByID(entityId)
-                    else
-                        holyTarget = GetPlayerByID(entityId)
-                    end
-                    mob:setLocalVar("holyEnabled", 0)
-                    mob:castSpell(22, GetPlayerByID(holyTarget)) -- Holy II
-                end
+        if not IsMobBusy(mob) then
+            if mob:getLocalVar("nuclearWaste") == 1 then
+                local ability = math.random(1262,1267)
+                mob:useMobAbility(ability)
             end
         end
 
-        if mob:getCurrentAction() ~= tpz.action.MOBABILITY_START
-        and mob:getCurrentAction() ~= tpz.action.MOBABILITY_USING
-        and mob:actionQueueEmpty() then
+        -- Holy IIs a random target after using certain TP moves in Phase 2
+        if not IsMobBusy(mob) then
+            if enmityList and #enmityList > 0 and (holyEnabled > 0) then
+                local randomTarget = enmityList[math.random(1, #enmityList)]
+                local entityId = randomTarget.entity:getID()
+        
+                if (entityId > 10000) then -- ID is a mob (pet)
+                    holyTarget = GetMobByID(entityId)
+                else
+                    holyTarget = GetPlayerByID(entityId)
+                end
+        
+                mob:setLocalVar("holyEnabled", 0)
+                mob:castSpell(22, holyTarget) -- Holy II
+            end
+        end
+
+
+        if not IsMobBusy(mob) then
             if mob:getHPP() < (80 - (phase * 20)) then
                 mob:useMobAbility(1524) -- use Dissipation on phase change
                 phase = phase + 1
-                if phase == 4 then -- add Regain in final phase
-                    mob:setMod(tpz.mod.REGAIN, 50)
-                end
                 mob:setLocalVar("battlePhase", phase) -- incrementing the phase here instead of in the Dissipation skill because stunning it prevents use.
+            end
+
+            -- Citadel Buster
+            if phase == 4 then
+                mob:setMod(tpz.mod.REGAIN, 50)
+
+                if (os.time() >= citadelBusterTimer) and (citadelBuster == 0) then
+                    mob:setLocalVar("citadelBuster", 1)
+                    mob:SetMobAbilityEnabled(false)
+                    mob:SetMagicCastingEnabled(false)
+                    mob:SetAutoAttackEnabled(false)
+                    mob:setMobMod(tpz.mobMod.DRAW_IN, 1)
+                    local NearbyPlayers = mob:getPlayersInRange(50)
+                    if NearbyPlayers == nil then return end
+                    if NearbyPlayers then
+                        for _,players in ipairs(NearbyPlayers) do
+                            players:PrintToPlayer("30...", tpz.msg.textColor.HIDDEN, sender)
+                        end
+                        mob:timer(10000, function(mob)
+                            for _,players in ipairs(NearbyPlayers) do
+                                players:PrintToPlayer("20...", tpz.msg.textColor.HIDDEN, sender)
+                            end
+                            mob:timer(10000, function(mob)
+                                for _,players in ipairs(NearbyPlayers) do
+                                    players:PrintToPlayer("10...", tpz.msg.textColor.HIDDEN, sender)
+                                end
+                                mob:timer(5000, function(mob)
+                                    for _,players in ipairs(NearbyPlayers) do
+                                        players:PrintToPlayer("5.", tpz.msg.textColor.HIDDEN, sender)
+                                    end
+                                    mob:timer(1000, function(mob)
+                                        for _,players in ipairs(NearbyPlayers) do
+                                            players:PrintToPlayer("4.", tpz.msg.textColor.HIDDEN, sender)
+                                        end
+                                        mob:timer(1000, function(mob)
+                                            for _,players in ipairs(NearbyPlayers) do
+                                                players:PrintToPlayer("3!", tpz.msg.textColor.HIDDEN, sender)
+                                            end
+                                            mob:timer(1000, function(mob)
+                                                for _,players in ipairs(NearbyPlayers) do
+                                                    players:PrintToPlayer("2!!", tpz.msg.textColor.HIDDEN, sender)
+                                                end
+                                                mob:timer(1000, function(mob)
+                                                    for _,players in ipairs(NearbyPlayers) do
+                                                        players:PrintToPlayer("1!!!", tpz.msg.textColor.HIDDEN, sender)
+                                                    end
+                                                    mob:timer(1000, function(mob)
+                                                        mob:useMobAbility(1540)
+                                                        mob:timer(500, function(mob)
+                                                            mob:setLocalVar("citadelBusterTimer", os.time() +70)
+                                                            mob:setLocalVar("citadelBuster", 0)
+                                                            mob:SetMagicCastingEnabled(true)
+                                                            mob:SetAutoAttackEnabled(true)
+                                                            mob:SetMobAbilityEnabled(true)
+                                                            mob:setMobMod(tpz.mobMod.DRAW_IN, 0)
+                                                        end)
+                                                    end)
+                                                end)
+                                            end)
+                                        end)
+                                    end)
+                                end)
+                            end)
+                        end)
+                    end
+                end
             end
         end
     end,
@@ -359,27 +421,27 @@ end
 -- NPC helper functions
 
 tpz.raid.onNpcSpawn = function(mob)
-    local npcName = mob:getName()
+    mob:setDamage(20)
+    mob:setMod(tpz.mod.REFRESH, 8)
+    SetUpParry(mob)
 
     if isHealer(mob) then
         mob:setSpellList(0)
+        mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
     elseif isTank(mob) then
         mob:setSpellList(0)
         mob:setMobMod(tpz.mobMod.BLOCK, 35)
     elseif isSupport(mob) then
         mob:setSpellList(0)
     elseif isMelee(mob) then
-        SetUpMeleeNPCs(mob)
+        SetUpMeleeNPC(mob)
     elseif isRanged(mob) then
-        mob:setMobMod(tpz.mobMod.HP_STANDBACK, 0)
-        mob:setMobMod(tpz.mobMod.CAN_RA, 16)
+        SetUpRangedNPC(mob)
     elseif isCaster(mob) then
         mob:setSpellList(0)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     end
-    mob:setDamage(20)
-    mob:setMod(tpz.mod.REFRESH, 8) 
-    ApplyConfrontationToSelf(mob)
+
     mob:setUnkillable(true) -- For testing
 end
 
@@ -465,9 +527,10 @@ tpz.raid.onNpcDeath = function(mob, player, isKiller, noKiller)
     OnBattleEndConfrontation(mob)
 end
 
-function SetUpMeleeNPCs(mob)
+function SetUpMeleeNPC(mob)
     local mJob = mob:getMainJob()
     local sJob = mob:getSubJob()
+    local npcName = mob:getName()
 
     if
         (npcName == 'Striking_Bull') or
@@ -475,12 +538,21 @@ function SetUpMeleeNPCs(mob)
     then
         mob:setMobMod(tpz.mobMod.BLOCK, 35)
     elseif (npcName == 'Invincible_Shield') then
+        mob:setDamage(40)
+        mob:addMod(tpz.mod.ENMITY, 20)
         mob:setMod(tpz.mod.DMG, -25)
+        mob:setMod(tpz.mod.INQUARTATA, 25)
     end
 
     if (sJob == tpz.job.RNG) then
         mob:setMobMod(tpz.mobMod.CAN_RA, 16)
     end
+end
+
+function SetUpRangedNPC(mob)
+    mob:addMod(tpz.mod.ENMITY, -30)
+    mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
+    mob:setMobMod(tpz.mobMod.CAN_RA, 16)
 end
 
 function ApplyConfrontationToSelf(mob)
@@ -510,7 +582,7 @@ end
 function isMelee(mob)
     local job = mob:getMainJob()
     return
-        job == tpz.job.WAR or
+        (job == tpz.job.WAR or
         job == tpz.job.MNK or
         job == tpz.job.THF or
         job == tpz.job.DRK or
@@ -519,9 +591,10 @@ function isMelee(mob)
         job == tpz.job.DRG or
         job == tpz.job.BLU or
         job == tpz.job.PUP or
-        job == tpz.job.DNC or
-        mob:getPool() ~= 6014 -- Tenzen II 
+        job == tpz.job.DNC) and
+        mob:getPool() ~= 6014 -- Tenzen II
 end
+
 
 function isRanged(mob)
     local mJob = mob:getMainJob()
@@ -696,33 +769,42 @@ local function GetBestBuff(mob, player)
 
     local buffs = {
         [tpz.job.WHM] = {
-            {effect = tpz.effect.HASTE, spell = tpz.magic.spell.HASTE_II},
-            {effect = tpz.effect.AUSPICE, spell = tpz.magic.spell.AUSPICE},
-            {effect = tpz.effect.SHELL, spell = tpz.magic.spell.SHELL_V},
-            {effect = tpz.effect.PROTECT, spell = tpz.magic.spell.PROTECT_V},
-            {effect = tpz.effect.REGEN, spell = tpz.magic.spell.REGEN_III},
+            { Effect = tpz.effect.HASTE,            Spell = tpz.magic.spell.HASTE_II    },
+            { Effect = tpz.effect.AUSPICE,          Spell = tpz.magic.spell.AUSPICE     },
+            { Effect = tpz.effect.SHELL,            Spell = tpz.magic.spell.SHELL_V     },
+            { Effect = tpz.effect.PROTECT,          Spell = tpz.magic.spell.PROTECT_V   },
+            { Effect = tpz.effect.REGEN,            Spell = tpz.magic.spell.REGEN_III   },
         },
         [tpz.job.RDM] = {
-            {effect = tpz.effect.HASTE, spell = tpz.magic.spell.HASTE_II},
-            {effect = tpz.effect.MULTI_STRIKES, spell = tpz.magic.spell.TEMPER},
-            {effect = tpz.effect.REFRESH, spell = tpz.magic.spell.REFRESH_II},
-            {effect = tpz.effect.PHALANX, spell = tpz.magic.spell.PHALANX},
-            {effect = tpz.effect.SHELL, spell = tpz.magic.spell.SHELL_IV},
-            {effect = tpz.effect.PROTECT, spell = tpz.magic.spell.PROTECT_IV},
-            {effect = tpz.effect.REGEN, spell = tpz.magic.spell.REGEN},
+            { Effect = tpz.effect.HASTE,            Spell = tpz.magic.spell.HASTE_II    },
+            { Effect = tpz.effect.MULTI_STRIKES,    Spell = tpz.magic.spell.TEMPER      },
+            { Effect = tpz.effect.REFRESH,          Spell = tpz.magic.spell.REFRESH_II  },
+            { Effect = tpz.effect.PHALANX,          Spell = tpz.magic.spell.PHALANX     },
+            { Effect = tpz.effect.SHELL,            Spell = tpz.magic.spell.SHELL_IV    },
+            { Effect = tpz.effect.PROTECT,          Spell = tpz.magic.spell.PROTECT_IV  },
+            { Effect = tpz.effect.REGEN,            Spell = tpz.magic.spell.REGEN       },
         },
         [tpz.job.SCH] = {
-            {effect = tpz.effect.REGAIN, spell = tpz.magic.spell.ADLOQUIUM},
-            {effect = tpz.effect.FIRESTORM, spell = tpz.magic.spell.FIRESTORM},
+            { Effect = tpz.effect.REGAIN,           Spell = tpz.magic.spell.ADLOQUIUM   },
+            { Effect = tpz.effect.FIRESTORM,        Spell = tpz.magic.spell.FIRESTORM   },
         },
     }
 
     local jobBuffs = buffs[job]
     if jobBuffs then
         for _, buff in ipairs(jobBuffs) do
-            if not player:hasStatusEffect(buff.effect) then
-                selectedBuff = buff.spell
-                break
+            local shouldBuff = true
+            if (buff.Effect == tpz.effect.HASTE) then
+                if player:hasStatusEffect(tpz.effect.SLOW) then
+                    shouldBuff = false
+                end
+            end
+
+            if shouldBuff then
+                if not player:hasStatusEffect(buff.Effect) then
+                    selectedBuff = buff.Spell
+                    break
+                end
             end
         end
     end
@@ -807,12 +889,13 @@ end
 
 function UpdateMeleeAI(mob, target)
     local abilityData = {
+        {   Skill = tpz.jobAbility.PROVOKE,             Cooldown = 30,  Type = 'Enmity',        Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.BLOOD_RAGE,          Cooldown = 30,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.DEFENDER,            Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
         {   Skill = tpz.jobAbility.BERSERK,             Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
         {   Skill = tpz.jobAbility.AGGRESSOR,           Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
         {   Skill = tpz.jobAbility.WARCRY,              Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
         {   Skill = tpz.jobAbility.RETALIATION,         Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
-        {   Skill = tpz.jobAbility.PROVOKE,             Cooldown = 30,  Type = 'Enmity',        Category = 'Job Ability',   Job = tpz.job.WAR    },
-        {   Skill = tpz.jobAbility.BLOOD_RAGE,          Cooldown = 30,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
         {   Skill = tpz.jobAbility.RESTRAINT,           Cooldown = 60,  Type = 'Defensive',     Category = 'Job Ability',   Job = tpz.job.WAR    },
         {   Skill = tpz.jobAbility.FOCUS,               Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.MNK    },
         {   Skill = tpz.jobAbility.FORMLESS_STRIKES,    Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.MNK    },
@@ -1466,6 +1549,39 @@ function CanUseAbility(mob)
     return CanUseAbility
 end
 
+function SetUpParry(mob)
+    local parryMapToSkill = {
+        { Job = tpz.job.WAR,    Skill = 1   },
+        { Job = tpz.job.MNK,    Skill = 10  },
+        { Job = tpz.job.RDM,    Skill = 10  },
+        { Job = tpz.job.THF,    Skill = 2   },
+        { Job = tpz.job.PLD,    Skill = 7   },
+        { Job = tpz.job.DRK,    Skill = 10  },
+        { Job = tpz.job.BST,    Skill = 7   },
+        { Job = tpz.job.BRD,    Skill = 10  },
+        { Job = tpz.job.SAM,    Skill = 2   },
+        { Job = tpz.job.NIN,    Skill = 2   },
+        { Job = tpz.job.DRG,    Skill = 5   },
+        { Job = tpz.job.BLU,    Skill = 9   },
+        { Job = tpz.job.COR,    Skill = 1   },
+        { Job = tpz.job.PUP,    Skill = 9   },
+        { Job = tpz.job.DNC,    Skill = 4   },
+        { Job = tpz.job.SCH,    Skill = 10  },
+        { Job = tpz.job.GEO,    Skill = 10  },
+        { Job = tpz.job.RUN,    Skill = 1   },
+    }
+    local job = mob:getMainJob()
+    for _, parryData in pairs(parryMapToSkill) do
+        if (job == parryData.Job) then
+            mob:setMobMod(tpz.mobMod.CAN_PARRY, parryData.Skill)
+        end
+    end
+
+    if (job == tpz.job.WAR) then
+        mob:setMod(tpz.mod.INQUARTATA, 11)
+    end
+end
+
 function IsValidUser(mob, skill)
     local mJob = mob:getMainJob()
     local sJob = mob:getSubJob()
@@ -1551,6 +1667,14 @@ function IsValidUser(mob, skill)
     if (mJob == tpz.job.PLD) and (skill == tpz.jobAbility.BERSERK or skill == tpz.jobAbility.AGGRESSOR) then
         --printf("%s shouldn't use %d (JA)!", mobName, skill)
         return false
+    end
+
+    -- Only Invicible Shield should use Defender, not other warriors
+    if mobName ~= 'Invincible_Shield' then
+        if (mJob == tpz.job.WAR) and (skill == tpz.jobAbility.DEFENDER) then
+            --printf("%s shouldn't use %d (JA)!", mobName, skill)
+            return false
+        end
     end
 
     return true

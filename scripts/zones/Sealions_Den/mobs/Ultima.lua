@@ -5,6 +5,7 @@
 require("scripts/globals/status");
 require("scripts/globals/titles");
 require("scripts/globals/msg");
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobSpawn(mob)
@@ -62,10 +63,11 @@ function onMobFight(mob, target)
         mob:setMod(tpz.mod.REGAIN, 500)
     end
 
-    if mob:getLocalVar("nuclearWaste") == 1 then
-        local ability = math.random(1262,1267)
-        mob:useMobAbility(ability)
-        mob:setLocalVar("nuclearWaste", 0)
+    if not IsMobBusy(mob) then
+        if mob:getLocalVar("nuclearWaste") == 1 then
+            local ability = math.random(1262,1267)
+            mob:useMobAbility(ability)
+        end
     end
     
 end

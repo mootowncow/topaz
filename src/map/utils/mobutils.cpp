@@ -846,8 +846,8 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::POISONRESTRAIT, 0);
             }
-            // Exclude Gear(s)
-            if (PMob->m_Family != 119 && PMob->m_Family != 120)
+            // Exclude Gear(s) and Semih Lafihna
+            if (PMob->m_Family != 119 && PMob->m_Family != 120 && PMob->m_Family != 5940)
             {
                 if ((PMob->m_Family >= 126 && PMob->m_Family <= 130) || PMob->m_Family == 328) // Gigas
                 {

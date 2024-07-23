@@ -34,6 +34,7 @@ function onMobSkillCheck(target,mob,skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
+    printf("Setting nuclearwaste var")
     mob:setLocalVar("nuclearWaste", 1)
     local typeEffect = tpz.effect.ELEMENTALRES_DOWN
     local resist = applyPlayerResistance(mob,typeEffect,target,mob:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT),0,0);

@@ -90,7 +90,7 @@ enum MOBMODIFIER : int
     MOBMOD_WEAPON_BONUS        = 59, // Add a bonus to mob weapon damage (i.e +30 weapon damage)
     MOBMOD_SPAWN_ANIMATIONSUB  = 60, // reset animationsub to this on spawn
     MOBMOD_HP_SCALE            = 61, // Scale the mobs max HP. ( hp_scale / 100 ) * maxhp
-    MOBMOD_NO_STANDBACK        = 62, // Mob will never standback
+    MOBMOD_NO_STANDBACK        = 62, // Mob will never standback (0 = false, 1 = true)
     MOBMOD_ATTACK_SKILL_LIST   = 63, // skill list to use in place of regular attacks
     MOBMOD_CHARMABLE           = 64, // mob is charmable
     MOBMOD_NO_MOVE             = 65, // Mob will not be able to move
