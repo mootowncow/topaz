@@ -2064,6 +2064,7 @@ INSERT INTO `mob_skills` VALUES (2101,1434,'demoralizing_roar',1,10.0,2000,1000,
 INSERT INTO `mob_skills` VALUES (2102,1435,'boiling_blood',0,7.0,2000,1000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2103,1439,'granite_skin',0,7.0,2000,1000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2104,1436,'crippling_slam',1,15.0,2000,2000,4,0,0,4,0,0,0);
+INSERT INTO `mob_skills` VALUES (2105,848,'snort_autoattack',4,3.0,0,0,4,16,0,4,0,0,0); -- Geush Urvan AutoAttack
 -- INSERT INTO `mob_skills` VALUES (2105,1440,'mijin_gakure',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2106,1449,'bloodrake',0,7.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2107,1450,'decollation',4,10.0,2000,1000,4,0,0,0,0,0,0);
@@ -4045,27 +4046,26 @@ INSERT INTO `mob_skills` VALUES (3993,441,'sucker_punch',0,7.0,2000,1500,4,0,0,0
 -- INSERT INTO `mob_skills` VALUES (4078,3822,'#2286',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (4079,3823,'#2287',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (4080,3824,'#2288',0,7.0,2000,1500,4,0,0,0,0,0,0);
---INSERT INTO `mob_skills` VALUES (4232,549,'potion',0,7.0,2000,1500,4,0,0,0,0,0,0); -- Monberaux
-INSERT INTO `mob_skills` VALUES (4232,848,'snort_autoattack',4,3.0,0,0,4,16,0,4,0,0,0); -- Geush Urvan AutoAttack
-INSERT INTO `mob_skills` VALUES (4234,550,'x-potion',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4235,550,'hyper-potion',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4236,550,'max_potion',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4237,550,'mix_max_potion',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4238,552,'mix_antidote',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4239,553,'mix_para-b-gone',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4241,555,'echo_drops',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4245,556,'mix_panacea-1',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4246,552,'antidote',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4247,553,'mix_para-b-gone',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4253,556,'mix_panacea-1',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4254,551,'mix_dry_ether_concoction',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4255,559,'mix_guard_drink',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4256,560,'mix_insomniant',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4257,561,'mix_life_water',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4258,562,'mix_elemental_power',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4259,562,'mix_dragon_shield',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4260,563,'mix_dark_potion',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4261,564,'mix_samsons_strength',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (4232,549,'potion',0,21.0,2000,100,3,4,0,0,0,0,0); -- Trust: Monberaux
+INSERT INTO `mob_skills` VALUES (4234,550,'x-potion',0,21.0,2000,100,3,4,0,0,0,0,0); -- Doesn't have a script?
+INSERT INTO `mob_skills` VALUES (4235,2598,'hyper-potion',0,21.0,2000,100,3,4,0,0,0,0,0); -- verified
+INSERT INTO `mob_skills` VALUES (4236,2598,'max_potion',0,21.0,2000,100,3,4,0,0,0,0,0); -- verified
+INSERT INTO `mob_skills` VALUES (4237,2598,'mix_max_potion',0,21.0,2000,100,3,4,0,0,0,0,0); -- verified
+INSERT INTO `mob_skills` VALUES (4238,2600,'mix_antidote',0,21.0,2000,100,3,4,0,0,0,0,0); -- verified, no effect message might be wrong
+INSERT INTO `mob_skills` VALUES (4239,553,'mix_para-b-gone',0,21.0,2000,100,3,4,0,0,0,0,0); -- script guessed
+INSERT INTO `mob_skills` VALUES (4241,2603,'echo_drops',0,21.0,2000,100,3,4,0,0,0,0,0); -- messaging might be wrong on no effect
+INSERT INTO `mob_skills` VALUES (4245,2604,'mix_panacea-1',0,21.0,2000,100,3,4,0,0,0,0,0); -- messaging is probably wrong
+-- INSERT INTO `mob_skills` VALUES (4246,552,'antidote',0,21.0,2000,100,3,4,0,0,0,0,0); -- second antidote?
+-- INSERT INTO `mob_skills` VALUES (4247,553,'mix_para-b-gone',0,21.0,2000,100,3,4,0,0,0,0,0); -- second para-b-gone?
+-- INSERT INTO `mob_skills` VALUES (4253,556,'mix_panacea-1',0,21.0,2000,100,3,4,0,0,0,0,0); -- second panacea-1?
+INSERT INTO `mob_skills` VALUES (4254,2599,'mix_dry_ether_concoction',0,21.0,2000,100,3,4,0,0,0,0,0); -- messaging is probably wrong if only partial MP recovery
+INSERT INTO `mob_skills` VALUES (4255,2607,'mix_guard_drink',1,21.0,2000,100,3,4,0,0,0,0,0); -- verified
+INSERT INTO `mob_skills` VALUES (4256,2608,'mix_insomniant',0,21.0,2000,100,3,4,0,0,0,0,0); -- guessed messaging, animation wrong so disabled
+INSERT INTO `mob_skills` VALUES (4257,2609,'mix_life_water',1,21.0,2000,100,3,4,0,0,0,0,0); -- verified, but no effect messaging is probably wrong.
+INSERT INTO `mob_skills` VALUES (4258,2610,'mix_elemental_power',1,21.0,2000,100,3,4,0,0,0,0,0); -- verified, but no effect messaging is probably wrong.
+INSERT INTO `mob_skills` VALUES (4259,2610,'mix_dragon_shield',1,21.0,2000,100,3,4,0,0,0,0,0); -- verified, but no effect messaging is probably wrong
+INSERT INTO `mob_skills` VALUES (4260,2611,'mix_dark_potion',0,21.0,2000,100,3,4,0,0,0,0,0); -- verified, but check if correct messaging.
+INSERT INTO `mob_skills` VALUES (4261,2612,'mix_samsons_strength',1,21.0,2000,100,3,4,0,0,0,0,0); -- verified, but check no effect messaging
 
 -- JA's
 INSERT INTO `mob_skills` VALUES (221,207,'saber_dance',0,7.0,2000,1500,1,2,0,0,0,0,0); -- Thorned Dance Animation

@@ -1334,7 +1334,6 @@ function MobBuffMoveSub(mob, typeEffect, power, tick, duration, subid, subpower,
 end
 
 function MobHealMove(mob, target, skill, multiplier)
-
     local mobHP = target:getHP()
     local mobMaxHP = target:getMaxHP()
     local healAmount = math.floor(target:getMaxHP()/15)
@@ -1357,7 +1356,6 @@ function MobHealMove(mob, target, skill, multiplier)
 end
 
 function MobPercentHealMove(mob, target, skill, heal)
-
     local mobHP = target:getHP()
     local mobMaxHP = target:getMaxHP()
     heal = math.floor(mobMaxHP * heal)
@@ -1372,6 +1370,27 @@ function MobPercentHealMove(mob, target, skill, heal)
     mob:updateEnmityFromCure(target, heal)
 
     return heal
+end
+
+-- Heals for the exact amount provided as an arg. Only used for Monberaux potions 
+function MobHealMoveExact(mob, target, skill, amount)
+    local mobHP = target:getHP()
+    local mobMaxHP = target:getMaxHP()
+    local healAmount = amount
+    local weather = getMobWeatherDayBonus(target, 7)
+    -- check for weather procs
+    healAmount = healAmount * weather
+
+    if (mobHP+healAmount > mobMaxHP) then
+        healAmount = mobMaxHP - mobHP
+    end
+
+    target:wakeUp()
+    target:addHP(healAmount)
+    skill:setMsg(tpz.msg.basic.RECOVERS_HP)
+    mob:updateEnmityFromCure(target, healAmount)
+
+    return healAmount
 end
 
 function MobEncumberMove(mob, target, maxSlots, duration)

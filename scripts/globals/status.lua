@@ -130,6 +130,18 @@ tpz.magianElement =
     ANY       = 10,
 }
 
+tpz.shieldSize = 
+{
+    NONE         = 0,
+    BUCKER       = 1,
+    ROUND        = 2,
+    KITE         = 3,
+    TOWER        = 4,
+    AEGIS        = 5,
+    SRIVATSA     = 5,
+    OCHAIN       = 6,
+}
+
 ------------------------------------
 -- Traits
 ------------------------------------
@@ -3181,6 +3193,7 @@ tpz.mobMod =
     FIXATE              = 109, -- Will only target this entity.
     ONE_WAY_LINKING     = 110, -- Will link with other mobs in its party (typically the same mob family) while roaming, but will not let others link with it once engaged
     CAN_RA              = 111, -- Mob will use player-type ranged attacks and animations (power is cooldown between ranged attacks)
+    TP_USE              = 112, -- Amount of TP mob will use a TP move at(i.e 1500)
 }
 
 ------------------------------------

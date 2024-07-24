@@ -376,6 +376,14 @@ uint16 CMobEntity::TPUseChance()
     {
         return 10000;
     }
+    else if (getMobMod(MOBMOD_TP_USE) > 0 && health.tp >= getMobMod(MOBMOD_TP_USE))
+    {
+        return 10000;
+    }
+    else if (allegiance == ALLEGIANCE_PLAYER && health.tp >= 1000) // NPC's use TP at 1k like a player
+    {
+        return 10000;
+    }
     else
     {
         if (health.tp < 1000 || MobSkillList.empty() || !static_cast<CMobController*>(PAI->GetController())->IsWeaponSkillEnabled())

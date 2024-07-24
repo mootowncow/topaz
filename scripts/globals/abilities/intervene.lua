@@ -15,7 +15,10 @@ end
 
 function onUseAbility(player, target, ability)
     -- TODO: Retail testing to determine damage
-    local shieldSize = player:getShieldSize()
+    local shieldSize = tpz.shieldSize.KITE
+    if player:isPC() then
+        shieldSize = player:getShieldSize()
+    end
     local jpValue    = 1 + (player:getJobPointLevel(tpz.jp.INTERVENE_EFFECT) / 100)
     local damage     = math.floor(player:getMainLvl() * 3.36)
 

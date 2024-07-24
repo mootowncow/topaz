@@ -19,10 +19,12 @@ require("scripts/globals/weaponskillids")
 -- TODO: Does Kyo respawn and work?
 -- TODO: Shikaree(DRG logic, also summon a wyvern and code wyvern AI!)
 -- TODO: Selh'teus, Lion, Gilgamesh, Halver, Fablinix, Rainemard, Mildaurion
--- TODO: For JA's, if a mob is using and it's AOE then set to hit all targets and set aoe to 20 in cpp in MobEntity::OnAbility (Look at charentity::OnAbility line 1615)
--- TODO: Semih model ID doesn't ranged, get one from retail
 -- TODO: Check that barrage is properly adding hits in cpp with print
--- TODO: Semih is type2 animation
+-- TODO: Ealdnarche super super high evasion(also add to his files for missions
+-- TODO: Insominant AI, negate_sleep effect coded
+-- TODO: Monberaux buff potion msg is wrong (Maybe need custom msg?)
+-- TODO: Mix: Dark Potion should ignore MDEF and resists (but not MDT)
+-- TODO: Mix: Dry Ether Concotion (Ether logic in TryChemistAbility)
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -428,6 +430,8 @@ tpz.raid.onNpcSpawn = function(mob)
     if isHealer(mob) then
         mob:setSpellList(0)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
+    elseif isChemist(mob) then
+        mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
     elseif isTank(mob) then
         mob:setSpellList(0)
         mob:setMobMod(tpz.mobMod.BLOCK, 35)
@@ -469,6 +473,8 @@ end
 tpz.raid.onNpcFight = function(mob, target)
     if isHealer(mob) then
         UpdateHealerAI(mob, target)
+    elseif isChemist(mob) then
+        UpdateChemistAI(mob, target)
     elseif isTank(mob) then
         UpdateTankAI(mob, target)
     elseif isMelee(mob) then
@@ -570,6 +576,12 @@ function isHealer(mob)
     return
         job == tpz.job.WHM or
         job == tpz.job.RDM
+end
+
+function isChemist(mob)
+    local npcName = mob:getName()
+
+    return (npcName == 'Monberaux')
 end
 
 function isTank(mob)
@@ -812,6 +824,78 @@ local function GetBestBuff(mob, player)
     return selectedBuff
 end
 
+local function GetBestPotion(mob, player)
+    local playerHPP = player:getHPP()
+    local selectedPotion
+
+    if (playerHPP < 25) then
+        selectedPotion = tpz.mob.skills.MIX_MAX_POTION
+    elseif (playerHPP < 50) then
+        selectedPotion = tpz.mob.skills.MAX_POTION
+    else
+        selectedPotion = tpz.mob.skills.HYPER_POTION
+    end
+
+    return selectedPotion
+end
+
+local function GetBestNAPotion(mob, player)
+    local selectedNA
+
+    local debuffData = {
+        { effects = {tpz.effect.POISON},                        Potion = tpz.mob.skills.MIX_ANTIDOTE },
+        { effects = {tpz.effect.PARALYSIS},                     Potion = tpz.mob.skills.MIX_PARA_B_GONE },
+        { effects = {tpz.effect.SILENCE},                       Potion = tpz.mob.skills.ECHO_DROPS },
+        { effects = {tpz.effect.BLINDNESS},                     Potion = tpz.mob.skills.BLINDNA },
+        -- { effects = {tpz.effect.CURSE_I, tpz.effect.DOOM},      Potion = tpz.mob.skills.CURSNA }, Missing skill ID?
+        -- { effects = {tpz.effect.PETRIFICATION},                 Potion = tpz.mob.skills.STONA },  Missing skill ID?
+        -- { effects = {tpz.effect.DISEASE, tpz.effect.PLAGUE},    Potion = tpz.mob.skills.VIRUNA }, Missing skill ID?
+    }
+
+    -- Check NA Potions
+    for _, AbilityData in ipairs(debuffData) do
+        for _, effect in ipairs(AbilityData.effects) do
+            if player:hasStatusEffect(effect) then
+                selectedNA = AbilityData.Potion
+                break
+            end
+        end
+        if selectedNA then
+            break
+        end
+    end
+
+    -- Check for erasable effects
+    if not selectedNA then
+        local playerEffects = player:getStatusEffects()
+        for _, playerEffect in ipairs(playerEffects) do
+            local effectFlags = playerEffect:getFlag()
+            if (bit.band(effectFlags, tpz.effectFlag.ERASABLE) == tpz.effectFlag.ERASABLE) then
+                selectedNA = tpz.mob.skills.MIX_PANACEA
+                break
+            end
+        end
+    end
+
+    return selectedNA
+end
+
+local function GetBestBuffPotion(mob, player)
+    local selectedBuffPotion
+    local skill = math.random(tpz.mob.skills.MIX_LIFE_WATER, tpz.mob.skills.MIX_SAMSONS_STRENGTH)
+
+    -- Always keeps up Prot / Shell Potion
+    if not player:hasStatusEffect(tpz.effect.PROTECT) or not player:hasStatusEffect(tpz.effect.SHELL) then
+        return tpz.mob.skills.MIX_GUARD_DRINK
+    end
+
+    if isJaReady(mob, skill)
+        skill = selectedBuffPotion
+    end
+
+    return selectedBuffPotion
+end
+
 function IsHelix(spellId)
     return (spellId >= tpz.magic.spell.GEOHELIX and spellId <= tpz.magic.spell.LUMINOHELIX)
 end
@@ -828,6 +912,7 @@ function UpdateTankAI(mob, target)
         {   Skill = tpz.jobAbility.SENTINEL,        Cooldown = 300,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.RAMPART,         Cooldown = 300,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.DIVINE_EMBLEM,   Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.PLD },
+        {   Skill = tpz.jobAbility.INTERVENE,       Cooldown = 120,      Type = 'Offensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.FEALTY,          Cooldown = 180,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.INVINCIBLE,      Cooldown = 180,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.mob.skills.SHIELD_BASH,     Cooldown = 60,       Type = 'Interrupt' ,    Category = 'Mob Skill',      Job = tpz.job.PLD },
@@ -1114,7 +1199,34 @@ function UpdateHealerAI(mob, target)
     end
 end
 
+function UpdateChemistAI(mob, target)
+    local abilityData = {
+        {   Skill = tpz.mob.skills.POTION,                      Cooldown = 0,   Type = 'Chemist',  Category = 'Potion',         Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.X_POTION,                    Cooldown = 0,   Type = 'Chemist',  Category = 'Potion',         Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.HYPER_POTION,                Cooldown = 0,   Type = 'Chemist',  Category = 'Potion',         Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MAX_POTION,                  Cooldown = 0,   Type = 'Chemist',  Category = 'Potion',         Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MIX_MAX_POTION,              Cooldown = 0,   Type = 'Chemist',  Category = 'Potion',         Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MIX_ANTIDOTE,                Cooldown = 0,   Type = 'Chemist',  Category = 'Poisona',        Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MIX_PARA_B_GONE,             Cooldown = 0,   Type = 'Chemist',  Category = 'Paralyna',       Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.ECHO_DROPS,                  Cooldown = 0,   Type = 'Chemist',  Category = 'Silena',         Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MIX_PANACEA,                 Cooldown = 0,   Type = 'Chemist',  Category = 'Erase',          Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MIX_DRY_ETHER_CONCOCTION,    Cooldown = 90,  Type = 'Chemist',  Category = 'Ether',          Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MIX_GUARD_DRINK,             Cooldown = 0,   Type = 'Chemist',  Category = 'Protect',        Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MIX_INSOMNIANT,              Cooldown = 0,   Type = 'Chemist',  Category = 'Sleep',          Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MIX_LIFE_WATER,              Cooldown = 60,  Type = 'Chemist',  Category = 'Regen',          Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MIX_ELEMENTAL_POWER,         Cooldown = 60,  Type = 'Chemist',  Category = 'MATT',           Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MIX_DRAGON_SHIELD,           Cooldown = 60,  Type = 'Chemist',  Category = 'MDEF',           Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MIX_DARK_POTION,             Cooldown = 60,  Type = 'Chemist',  Category = 'Dark',           Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MIX_SAMSONS_STRENGTH,        Cooldown = 60,  Type = 'Chemist',  Category = 'All Stats',      Job = tpz.job.PLD },
+    }
+
+    UpdateAbilityAI(mob, target, abilityData)
+end
+
 function UpdateCasterAI(mob, target)
+    local abilityData = {
+        {   Skill = tpz.jobAbility.PARSIMONY,         Cooldown = 30,       Type = 'Buff',        Category = 'Job Ability',    Job = tpz.job.SCH },
+    }
     local cureTimer = mob:getLocalVar("cureTimer")
     local naTimer = mob:getLocalVar("naTimer")
     local buffTimer = mob:getLocalVar("buffTimer")
@@ -1138,6 +1250,8 @@ function UpdateCasterAI(mob, target)
             end
         end
     end
+
+    UpdateAbilityAI(mob, target, abilityData)
 
     local nearbyFriendly = mob:getNearbyEntities(20)
     if (nearbyFriendly ~= nil) then 
@@ -1378,6 +1492,76 @@ function UpdateAbilityAI(mob, target, abilityData)
                             end
                         end
                     end
+
+                    if (ability.Type == 'Chemist') then
+                        if CanUseItem(mob) then
+                            if TryChemistAbility(mob, target, ability.Skill) then
+                                mob:setLocalVar("globalJATimer", os.time() + 10)
+                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                return
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+function TryChemistAbility(mob, target, skill)
+    local globalPotionTimer = mob:getLocalVar("globalPotionTimer")
+    local cureTimer = mob:getLocalVar("cureTimer")
+    local naTimer = mob:getLocalVar("naTimer")
+    local buffTimer = mob:getLocalVar("buffTimer")
+
+    local nearbyFriendly = mob:getNearbyEntities(20)
+    if (nearbyFriendly ~= nil) then 
+        for _, friendlyTarget in pairs(nearbyFriendly) do
+            -- Potions
+            if (friendlyTarget:getAllegiance() == mob:getAllegiance()) then
+                if (os.time() >= globalPotionTimer) then
+                    if (os.time() >= cureTimer) then
+                        if (friendlyTarget:getHPP() < 75) then
+                            local potion = GetBestPotion(mob, friendlyTarget)
+                            if (potion ~= nil) then
+                                mob:useJobAbility(potion, friendlyTarget)
+                                mob:setLocalVar("globalPotionTimer", os.time() + 5)
+                                mob:setLocalVar("cureTimer", os.time() + 10)
+                                return
+                            end
+                        end
+                    end
+
+                    -- TODO: Ethers
+
+                    -- Na
+                    if (os.time() >= naTimer) then
+                        local naSpell = GetBestNA(mob, friendlyTarget)
+                        if (naSpell ~= nil) then
+                            mob:useJobAbility(potion, friendlyTarget)
+                            mob:setLocalVar("globalPotionTimer", os.time() + 5)
+                            mob:setLocalVar("naTimer", os.time() + 10)
+                            return
+                        end
+                    end
+
+                    -- Buff
+                    if (os.time() >= buffTimer) then
+                        local buffPotion = GetBestBuffPotion(mob, player)
+                        if (buffPotion ~= nil) then
+                            local currentTarget = friendlyTarget
+                            if (buffPotion == tpz.mob.skills.MIX_DARK_POTION) then -- Dark Potion is a nuke on the enemy target
+                                currentTarget = target
+                            end
+                            mob:useJobAbility(potion, currentTarget)
+                            mob:setLocalVar("globalPotionTimer", os.time() + 5)
+                            mob:setLocalVar("buffTimer", os.time() + 10)
+                            for buffPotionId = tpz.mob.skills.MIX_LIFE_WATER, tpz.mob.skills.MIX_SAMSONS_STRENGTH do
+                                mob:setLocalVar(buffPotionId, os.time() + ability.Cooldown)
+                            end
+                            return
+                        end
+                    end
                 end
             end
         end
@@ -1549,6 +1733,22 @@ function CanUseAbility(mob)
     return CanUseAbility
 end
 
+function CanUseItem(mob)
+    local act = mob:getCurrentAction()
+
+    local CanUseItem = not (act == tpz.act.MOBABILITY_START or
+                        act == tpz.act.MOBABILITY_USING or
+                        act == tpz.act.MOBABILITY_FINISH or
+                        act == tpz.act.MAGIC_START or
+                        act == tpz.act.MAGIC_CASTING or
+                        act == tpz.act.MAGIC_FINISH or
+                        act == tpz.act.JOBABILITY_START or
+                        act == tpz.act.JOBABILITY_FINISH or
+                        mob:hasStatusEffect(tpz.effect.MUDDLE) or
+                        mob:hasPreventActionEffect())
+    return CanUseItem
+end
+
 function SetUpParry(mob)
     local parryMapToSkill = {
         { Job = tpz.job.WAR,    Skill = 1   },
@@ -1641,6 +1841,12 @@ function IsValidUser(mob, skill)
         return false
     end
 
+    -- Non-Halver should not use Blood Rage
+    if (mobName ~= 'Halver' and skill == tpz.jobAbility.INTERVENE) then
+        --printf("%s shouldn't use Blood Rage (JA)!", mobName)
+        return false
+    end
+
     -- Invincible Shield should not use Bererk
     if (mobName == 'Invincible_Shield' and skill == tpz.jobAbility.BERSERK) then
         --printf("%s shouldn't use Blood Rage (JA)!", mobName)
@@ -1658,9 +1864,15 @@ function IsValidUser(mob, skill)
     -- Only WAR/WAR should use Restraint
     if (mJob == tpz.job.WAR) then
         if (sJob ~= tpz.job.WAR and skill == tpz.jobAbility.RESTRAINT) then
+            --printf("%s shouldn't use Restraint (JA)!", mobName)
+            return false
+        end
+    end
+
+    -- Only WAR main jobs should use Restraint
+    if (mJob ~= tpz.job.WAR) and (skill == tpz.jobAbility.RESTRAINT) then
         --printf("%s shouldn't use Restraint (JA)!", mobName)
         return false
-        end
     end
 
     -- Paladin's shouldn't use Berserk or Aggressor
@@ -1669,10 +1881,19 @@ function IsValidUser(mob, skill)
         return false
     end
 
+    -- Only PLD's subbing WAR should use Defender
+    if (sJob == tpz.job.WAR) and (skill == tpz.jobAbility.DEFENDER) then
+        if (mJob ~= tpz.job.PLD) then
+            --printf("%s shouldn't use Defender (JA)!", mobName)
+            return false
+        end
+    end
+
+
     -- Only Invicible Shield should use Defender, not other warriors
     if mobName ~= 'Invincible_Shield' then
         if (mJob == tpz.job.WAR) and (skill == tpz.jobAbility.DEFENDER) then
-            --printf("%s shouldn't use %d (JA)!", mobName, skill)
+             --printf("%s shouldn't use Defender (JA)!", mobName)
             return false
         end
     end

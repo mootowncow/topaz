@@ -155,12 +155,11 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Sphereoids should have insane evasion mobfamily mod
 Monbereaux https://github.com/LandSandBoat/server/blob/base/sql/mob_skills.sql
 Gates outside the wotg jeuno zones auto-open if you get near them on a mount
-Movement for mob RA check(i think trusts had it)
-Divine Emblem shouldn't just give +100 enmity, only give on next holy spell and get removed via C++
+Sphereoids should have insane evasion mobfamily mod
 Add not mob:hasPreventActionEffect() to qultada talking/using stuff and add using roles via mob:useJobAbility(roll, mob)
-Add rangedattack to fomors, like how I added Ability(JA's) to mobs via mob_controller and mob_entity
 Allow mobs to have shield skill and base their block rate on that like parry works
 noKiller to tpz.annm.SpawnChest and all its files its used in
 add m_instanceId member to char entity and when loading in or something set the player to that instance so they dont load into nowhere land
