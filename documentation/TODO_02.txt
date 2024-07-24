@@ -155,6 +155,7 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Monbereaux https://github.com/LandSandBoat/server/blob/base/sql/mob_skills.sql
 Movement for mob RA check(i think trusts had it)
 Divine Emblem shouldn't just give +100 enmity, only give on next holy spell and get removed via C++
 Add not mob:hasPreventActionEffect() to qultada talking/using stuff and add using roles via mob:useJobAbility(roll, mob)
