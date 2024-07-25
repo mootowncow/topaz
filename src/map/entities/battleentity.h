@@ -452,23 +452,29 @@ enum SKILLCHAIN_ELEMENT
 #define MAX_SKILLCHAIN_LEVEL (4)
 #define MAX_SKILLCHAIN_COUNT (5)
 
-enum IMMUNITY : uint16
+enum IMMUNITY
 {
-    IMMUNITY_NONE = 0x00,
-    IMMUNITY_SLEEP = 0x01,
-    IMMUNITY_GRAVITY = 0x02,
-    IMMUNITY_BIND = 0x04,
-    IMMUNITY_STUN = 0x08,
-    IMMUNITY_SILENCE = 0x10,  // 16
-    IMMUNITY_PARALYZE = 0x20,  // 32
-    IMMUNITY_BLIND = 0x40,  // 64
-    IMMUNITY_SLOW = 0x80,  // 128
-    IMMUNITY_POISON = 0x100, // 256
-    IMMUNITY_ELEGY = 0x200, // 512
-    IMMUNITY_REQUIEM = 0x400, // 1024
-    IMMUNITY_LIGHT_SLEEP = 0x800, // 2048
-    IMMUNITY_DARK_SLEEP = 0x1000, // 4096
-    IMMUNITY_PETRIFY = 0x2000, // 8192
+    IMMUNITY_NONE               = 0x00,
+    IMMUNITY_SLEEP              = 0x01,
+    IMMUNITY_GRAVITY            = 0x02,
+    IMMUNITY_BIND               = 0x04,
+    IMMUNITY_STUN               = 0x08,
+    IMMUNITY_SILENCE            = 0x10,  // 16
+    IMMUNITY_PARALYZE           = 0x20,  // 32
+    IMMUNITY_BLIND              = 0x40,  // 64
+    IMMUNITY_SLOW               = 0x80,  // 128
+    IMMUNITY_POISON             = 0x100, // 256
+    IMMUNITY_ELEGY              = 0x200, // 512
+    IMMUNITY_REQUIEM            = 0x400, // 1024
+    IMMUNITY_LIGHT_SLEEP        = 0x800, // 2048
+    IMMUNITY_DARK_SLEEP         = 0x1000,// 4096
+    IMMUNITY_PETRIFY            = 0x2000,// 81927
+    IMMUNITY_TERROR             = 0x4000,// 16384
+    IMMUNITY_AMNESIA            = 0x8000,// 32768
+    IMMUNITY_VIRUS              = 0x10000,// 65536
+    IMMUNITY_CURSE              = 0x20000,// 131072
+    IMMUNITY_DOOM               = 0x40000,// 262144
+    IMMUNITY_CHARM              = 0x80000,// 524288
 };
 
 struct apAction_t

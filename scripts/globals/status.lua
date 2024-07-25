@@ -3216,6 +3216,12 @@ tpz.immunity =
     LIGHTSLEEP  = 2048,
     DARKSLEEP   = 4096,
     PETRIFY     = 8192,
+    TERROR      = 16384,
+    AMNESIA     = 32768,
+    VIRUS       = 65536,
+    CURSE       = 131072,
+    DOOM        = 262144,
+    CHARM       = 524288
 }
 
 ------------------------------------

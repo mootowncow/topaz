@@ -39,16 +39,17 @@ function onSpellCast(caster, target, spell)
 		params.bonus = -25
 	end
 
-    if target:hasStatusEffect(params.effect) or os.time() < target:getLocalVar("bluJettatura") then
+    if target:hasStatusEffect(params.effect) then
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
         return params.effect
     end
 
     if BlueTryEnfeeble(caster, target, spell, 1, power, 0, duration, params) then
-        target:setLocalVar("bluJettatura", os.time() + 90)
         spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
     else
-        spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
+        if (spell:getMsg() ~= tpz.msg.basic.MAGIC_IMMUNE) then
+            spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
+        end
     end
 
     return tpz.effect.TERROR

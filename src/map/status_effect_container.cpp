@@ -275,6 +275,7 @@ bool CStatusEffectContainer::CanGainStatusEffect(CStatusEffect* PStatusEffect)
             if (m_POwner->hasImmunity(IMMUNITY_STUN)) return false;
             break;
         case EFFECT_SILENCE:
+        case EFFECT_MUTE:
             if (m_POwner->hasImmunity(IMMUNITY_SILENCE)) return false;
             break;
         case EFFECT_PARALYSIS:
@@ -296,9 +297,36 @@ bool CStatusEffectContainer::CanGainStatusEffect(CStatusEffect* PStatusEffect)
             if (m_POwner->hasImmunity(IMMUNITY_REQUIEM)) return false;
             break;
         case EFFECT_PETRIFICATION:
+        case EFFECT_GRADUAL_PETRIFICATION:
             if (m_POwner->hasImmunity(IMMUNITY_PETRIFY))
                 return false;
             if (m_POwner->hasImmunity(IMMUNITY_SLEEP))
+                return false;
+            break;
+        case EFFECT_TERROR:
+            if (m_POwner->hasImmunity(IMMUNITY_TERROR))
+                return false;
+            break;
+        case EFFECT_AMNESIA:
+            if (m_POwner->hasImmunity(IMMUNITY_AMNESIA))
+                return false;
+            break;
+        case EFFECT_PLAGUE:
+        case EFFECT_BANE:
+            if (m_POwner->hasImmunity(IMMUNITY_VIRUS))
+                return false;
+            break;
+        case EFFECT_CURSE:
+        case EFFECT_CURSE_II:
+            if (m_POwner->hasImmunity(IMMUNITY_CURSE))
+                return false;
+            break;
+        case EFFECT_DOOM:
+            if (m_POwner->hasImmunity(IMMUNITY_DOOM))
+                return false;
+            break;
+        case EFFECT_CHARM:
+            if (m_POwner->hasImmunity(IMMUNITY_CHARM))
                 return false;
             break;
         default:

@@ -55,7 +55,9 @@ function onSpellCast(caster, target, spell)
     if BlueTryEnfeeble(caster, target, spell, 1, power, 0, duration, params) then
         spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
     else
-        spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
+        if (spell:getMsg() ~= tpz.msg.basic.MAGIC_IMMUNE) then
+            spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
+        end
     end
 
     return tpz.effect.TERROR

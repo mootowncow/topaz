@@ -22,7 +22,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Check that barrage is properly adding hits in cpp with print
 -- TODO: Ealdnarche super super high evasion(also add to his files for missions
 -- TODO: Insominant AI, negate_sleep effect coded
--- TODO: Monberaux buff potion msg is wrong (Maybe need custom msg?)
 -- TODO: Mix: Dark Potion should ignore MDEF and resists (but not MDT)
 -- TODO: Mix: Dry Ether Concotion (Ether logic in TryChemistAbility)
 tpz = tpz or {}
@@ -51,21 +50,31 @@ local npcData =
 
 local immunityMap =
 {
-    { Effect = tpz.effect.SLEEP_I,          Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
-    { Effect = tpz.effect.SLEEP_II,         Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
-    { Effect = tpz.effect.POISON,           Immunity = { tpz.immunity.POISON } },
-    { Effect = tpz.effect.PARALYSIS,        Immunity = { tpz.immunity.PARALYZE } },
-    { Effect = tpz.effect.BLINDNESS,        Immunity = { tpz.immunity.BLIND } },
-    { Effect = tpz.effect.SILENCE,          Immunity = { tpz.immunity.SILENCE } },
-    { Effect = tpz.effect.STUN,             Immunity = { tpz.immunity.STUN } },
-    { Effect = tpz.effect.BIND,             Immunity = { tpz.immunity.BIND } },
-    { Effect = tpz.effect.WEIGHT,           Immunity = { tpz.immunity.GRAVITY } },
-    { Effect = tpz.effect.SLOW,             Immunity = { tpz.immunity.SLOW } },
-    { Effect = tpz.effect.ELEGY,            Immunity = { tpz.immunity.ELEGY } },
-    { Effect = tpz.effect.REQUIEM,          Immunity = { tpz.immunity.REQUIEM } },
-    { Effect = tpz.effect.LULLABY,          Immunity = { tpz.immunity.SLEEP, tpz.immunity.LIGHTSLEEP } },
-    { Effect = tpz.effect.PETRIFICATION,    Immunity = { tpz.immunity.PETRIFY } },
+    { Effect = tpz.effect.SLEEP_I,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
+    { Effect = tpz.effect.SLEEP_II,                 Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
+    { Effect = tpz.effect.POISON,                   Immunity = { tpz.immunity.POISON } },
+    { Effect = tpz.effect.PARALYSIS,                Immunity = { tpz.immunity.PARALYZE } },
+    { Effect = tpz.effect.BLINDNESS,                Immunity = { tpz.immunity.BLIND } },
+    { Effect = tpz.effect.SILENCE,                  Immunity = { tpz.immunity.SILENCE } },
+    { Effect = tpz.effect.STUN,                     Immunity = { tpz.immunity.STUN } },
+    { Effect = tpz.effect.BIND,                     Immunity = { tpz.immunity.BIND } },
+    { Effect = tpz.effect.WEIGHT,                   Immunity = { tpz.immunity.GRAVITY } },
+    { Effect = tpz.effect.SLOW,                     Immunity = { tpz.immunity.SLOW } },
+    { Effect = tpz.effect.ELEGY,                    Immunity = { tpz.immunity.ELEGY } },
+    { Effect = tpz.effect.REQUIEM,                  Immunity = { tpz.immunity.REQUIEM } },
+    { Effect = tpz.effect.LULLABY,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.LIGHTSLEEP } },
+    { Effect = tpz.effect.PETRIFICATION,            Immunity = { tpz.immunity.PETRIFY } },
+    { Effect = tpz.effect.GRADUAL_PETRIFICATION,    Immunity = { tpz.immunity.PETRIFY } },
+    { Effect = tpz.effect.TERROR,                   Immunity = { tpz.immunity.TERROR } },
+    { Effect = tpz.effect.AMNESIA,                  Immunity = { tpz.immunity.AMNESIA } },
+    { Effect = tpz.effect.PLAGUE,                   Immunity = { tpz.immunity.VIRUS } },
+    { Effect = tpz.effect.BANE,                     Immunity = { tpz.immunity.VIRUS } },
+    { Effect = tpz.effect.CURSE_I,                  Immunity = { tpz.immunity.CURSE } },
+    { Effect = tpz.effect.CURSE_II,                 Immunity = { tpz.immunity.CURSE } },
+    { Effect = tpz.effect.DOOM,                     Immunity = { tpz.immunity.DOOM } },
+    { Effect = tpz.effect.CHARM,                    Immunity = { tpz.immunity.CHARM } },
 }
+
 
 
 
@@ -889,7 +898,7 @@ local function GetBestBuffPotion(mob, player)
         return tpz.mob.skills.MIX_GUARD_DRINK
     end
 
-    if isJaReady(mob, skill)
+    if isJaReady(mob, skill) then
         skill = selectedBuffPotion
     end
 
