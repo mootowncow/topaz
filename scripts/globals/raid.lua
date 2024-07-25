@@ -75,9 +75,6 @@ local immunityMap =
     { Effect = tpz.effect.CHARM,                    Immunity = { tpz.immunity.CHARM } },
 }
 
-
-
-
 local modByMobName =
 {
     ['Promathia'] = function(mob)
@@ -111,7 +108,7 @@ local modByMobName =
         mob:addStatusEffect(tpz.effect.SHELL, 24, 0, 1800)
     end,
 
-    ['Ultima'] = function(mob, target)
+    ['Ultima'] = function(mob)
 	    mob:setDamage(140)
         mob:setMod(tpz.mod.ATT, 535)
         mob:setMod(tpz.mod.ATTP, 0)
@@ -129,6 +126,17 @@ local modByMobName =
         mob:SetAutoAttackEnabled(true)
         mob:SetMobAbilityEnabled(true)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 0)
+    end,
+
+    ['Ealdnarche'] = function(mob)
+        mob:addMod(tpz.mod.ATTP, 50)
+        mob:addMod(tpz.mod.DEFP, 50) 
+        mob:addMod(tpz.mod.ACC, 50) 
+        mob:addMod(tpz.mod.EVA, 100)
+        mob:setMod(tpz.mod.UDMGMAGIC, -95)
+        mob:setMod(tpz.mod.REFRESH, 400)
+        mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
+        mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     end,
 }
 
@@ -361,6 +369,18 @@ local mobFightByMobName =
             end
         end
     end,
+
+    ['Ealdnarche'] = function(mob, target)
+	    mob:setMod(tpz.mod.REGAIN, 100)
+        local battletime = mob:getBattleTime()
+        local WarpTime = mob:getLocalVar("WarpTime")
+        if WarpTime == 0 then
+            mob:setLocalVar("WarpTime", math.random(15, 20))
+	    elseif battletime >= WarpTime then
+		    mob:useMobAbility(989) -- Warp out
+		    mob:setLocalVar("WarpTime", battletime + math.random(15, 20))
+	    end
+    end,
 }
 
 function Unused()
@@ -443,7 +463,7 @@ tpz.raid.onNpcSpawn = function(mob)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
     elseif isTank(mob) then
         mob:setSpellList(0)
-        mob:setMobMod(tpz.mobMod.BLOCK, 35)
+        SetUpTankNPC(mob)
     elseif isSupport(mob) then
         mob:setSpellList(0)
     elseif isMelee(mob) then
@@ -540,6 +560,20 @@ end
 
 tpz.raid.onNpcDeath = function(mob, player, isKiller, noKiller)
     OnBattleEndConfrontation(mob)
+end
+
+function SetUpTankNPC(mob)
+    local mJob = mob:getMainJob()
+    local sJob = mob:getSubJob()
+    local npcName = mob:getName()
+
+    if (npcName ~= 'Halver') then
+        mob:setMobMod(tpz.mobMod.BLOCK, 35)
+    end
+
+    if (npcName == 'Halver') then
+        mob:setMod(tpz.mod.DMG, -35)
+    end
 end
 
 function SetUpMeleeNPC(mob)
@@ -1011,6 +1045,7 @@ function UpdateMeleeAI(mob, target)
         {   Skill = tpz.jobAbility.HASSO,               Cooldown = 60,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
         {   Skill = tpz.jobAbility.MEIKYO_SHISUI,       Cooldown = 120, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
         {   Skill = tpz.jobAbility.MEDITATE,            Cooldown = 180, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
+        {   Skill = tpz.jobAbility.SEKKANOKI,           Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
         {   Skill = tpz.jobAbility.THIRD_EYE,           Cooldown = 60,  Type = 'Defensive',     Category = 'Job Ability',   Job = tpz.job.SAM    },
         {   Skill = tpz.jobAbility.BLADE_BASH,          Cooldown = 180, Type = 'Interrupt',     Category = 'Job Ability',   Job = tpz.job.SAM    },
         {   Skill = tpz.jobAbility.JUMP,                Cooldown = 60,  Type = 'Offensive',     Category = 'Job Ability',   Job = tpz.job.DRG    },

@@ -28,9 +28,6 @@ function onMobFight(mob, target)
     if WarpTime == 0 then
         mob:setLocalVar("WarpTime", math.random(15, 20))
 	elseif battletime >= WarpTime then
-        -- Keep TP when warping out
-    	local CurrentTP = mob:getTP()
-	    mob:setLocalVar("TP", CurrentTP)
 		mob:useMobAbility(989) -- Warp out
 		mob:setLocalVar("WarpTime", battletime + math.random(15, 20))
 	end

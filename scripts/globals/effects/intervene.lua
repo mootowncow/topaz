@@ -4,6 +4,8 @@
 --     Sets the enemy's accuracy and attack to 1 for the duration.
 --     
 -----------------------------------
+require("scripts/globals/status")
+-----------------------------------
 function onEffectGain(target, effect)
     target:addMod(tpz.mod.ATT, -9999)
     target:addMod(tpz.mod.ACC, -9999)

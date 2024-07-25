@@ -9103,13 +9103,14 @@ INSERT INTO `mob_groups` VALUES (38,6723,125,'Picolaton',3600,0,6008,9500,0,60,6
 
 -- RAID
 INSERT INTO `mob_groups` VALUES (48,6641,125,'Ealdnarche',0,128,0,100000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (49,5937,125,'Cid',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (50,5940,125,'Semih_Lafihna',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (51,6014,125,'Tenzen',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (52,5917,125,'Iron_Eater',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (53,5952,125,'Koru-Moru',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (54,5954,125,'Invincible_Shield',0,128,0,10000,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (55,5980,125,'Yoran-Oran',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (49,5972,125,'Halver',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (50,5938,125,'Gilgamesh',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (51,5971,125,'Mildaurion',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (52,5920,125,'Rainemard',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (53,5907,125,'Lion',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (54,5999,125,'Monberaux',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (55,5915,125,'Shikaree_Z',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (56,4736,125,'Shikaree_Zs_Wyvern',0,128,0,10000,0,80,80,1);
 
 INSERT INTO `mob_groups` VALUES (6784,2226,125,'Kilhwch',0,128,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (6786,2405,125,'Lhu_Mhakaracca',0,128,0,0,0,0,0,0);
