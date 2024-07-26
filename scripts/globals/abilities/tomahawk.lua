@@ -24,5 +24,7 @@ function onUseAbility(player,target,ability)
         end)
     end
     target:updateClaim(player)
-    player:removeAmmo()
+    if player:isPC() then
+        player:removeAmmo()
+    end
 end

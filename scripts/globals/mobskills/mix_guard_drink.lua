@@ -13,7 +13,7 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     target:addStatusEffect(tpz.effect.SHELL, 29, 0, 300)
-    target:addStatusEffect(tpz.effect.PROTECT, 220, 0, 300)
+    target:addStatusEffect(tpz.effect.PROTECT, 68, 0, 300)
     skill:setMsg(tpz.msg.basic.GAINS_EFFECT_OF_STATUS)
 
     return tpz.effect.PROTECT

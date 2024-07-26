@@ -13482,6 +13482,21 @@ inline int32 CLuaBaseEntity::getWeaponSkillType(lua_State *L)
 
     if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
     {
+        if (m_PBaseEntity->objtype == TYPE_MOB)
+        {
+            auto weapon = ((CItemWeapon*)((CMobEntity*)m_PBaseEntity)->m_Weapons[SLOT_MAIN]);
+            if (weapon == nullptr)
+            {
+                lua_pushinteger(L, 0);
+                return 1;
+            }
+            else
+            {
+                lua_pushinteger(L, weapon->getSkillType());
+                return 1;
+            }
+        }
+
         uint8 SLOT = (uint8)lua_tointeger(L, 1);
         if (SLOT > 3)
         {
@@ -16440,6 +16455,7 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                                       if (PMobSkill->getValidTargets() & TARGET_ENEMY)
                                       {
                                           auto targetID = static_cast<CMobEntity*>(PEntity)->GetBattleTargetID();
+                                          //printf("Trying to use mob ability on %u\n", targetID);
                                           if (targetID == 0)
                                           {
                                               //printf("Invalid targetID\n");
@@ -16459,6 +16475,10 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                                                   //printf("PMob or PMob->loc.zone is null\n");
                                               }
                                           }
+                                      }
+                                      else if (PMobSkill->getValidTargets() & TARGET_PLAYER || PMobSkill->getValidTargets() & TARGET_PLAYER_PARTY)
+                                      {
+                                          PEntity->PAI->MobSkill(PTarget->targid, skillid);
                                       }
                                       else if (PMobSkill->getValidTargets() & TARGET_SELF)
                                       {

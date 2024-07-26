@@ -28,12 +28,14 @@ function onUseAbility(player, target, ability)
     target:updateClaim(player)
     local Learring = player:getEquipID(tpz.slot.EAR1)
     local Rearring = player:getEquipID(tpz.slot.EAR2)
-    if Learring == 16000 or Rearring == 16000 then -- Dragoon's Earring 10% proc chance https://www.bg-wiki.com/ffxi/Dragoon%27s_Earring
-        if math.random(1,100) > 10 then
+    if player:isPC() then
+        if Learring == 16000 or Rearring == 16000 then -- Dragoon's Earring 10% proc chance https://www.bg-wiki.com/ffxi/Dragoon%27s_Earring
+            if math.random(1,100) > 10 then
+                player:removeAmmo()
+            end
+        else
             player:removeAmmo()
         end
-    else
-        player:removeAmmo()
     end
 
     return typeEffect

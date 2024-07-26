@@ -40,6 +40,7 @@ function onMobWeaponSkill(target, mob, skill)
         end
     end
 end
+
 function onSpellPrecast(mob, spell)
 end
 

@@ -1565,6 +1565,7 @@ function MobDispelMove(mob, target, skill, element, param1, param2)
 end
 
 function MobFullDispelMove(mob, target, skill, param1, param2)
+    -- TODO: Element arg
     local statmod = tpz.mod.INT
     local dStat = mob:getStat(statmod)-target:getStat(statmod)
     local effect = tpz.effect.NONE

@@ -25,7 +25,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.BURN
     local power = 40
-    skill:setMsg(MMobStatusEffectMoveSub(mob, target, typeEffect, power, 3, 15, 0, 33, 0))
+    skill:setMsg(MobStatusEffectMoveSub(mob, target, typeEffect, power, 3, 15, 0, 33, 0))
 
     return typeEffect
 end

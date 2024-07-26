@@ -20,6 +20,7 @@ function onMobWeaponSkill(target, mob, skill)
 end
 
 function onSpellPrecast(mob, spell)
+    tpz.raid.onSpellPrecast(mob, spell)
 end
 
 function onMobDespawn(mob)
