@@ -720,7 +720,7 @@ public:
     health_t	    health;						// hp,mp,tp
     stats_t		    stats;						// атрибуты STR,DEX,VIT,AGI,INT,MND,CHR
     skills_t	    WorkingSkills;				// структура всех доступных сущности умений, ограниченных уровнем
-    uint16		    m_Immunity;					// Mob immunity
+    uint32		    m_Immunity;					// Mob immunity
     bool            m_unkillable;               // entity is not able to die (probably until some action removes this flag)
 
     time_point  	charmTime;					// to hold the time entity is charmed

@@ -15606,7 +15606,7 @@ inline int32 CLuaBaseEntity::addImmunity(lua_State* L)
 
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
-    ((CMobEntity*)m_PBaseEntity)->m_Immunity |= (uint16)lua_tointeger(L, 1);
+    ((CMobEntity*)m_PBaseEntity)->m_Immunity |= (uint32)lua_tointeger(L, 1);
 
     return 0;
 }
@@ -15630,7 +15630,7 @@ inline int32 CLuaBaseEntity::delImmunity(lua_State* L)
 
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
-    ((CMobEntity*)m_PBaseEntity)->m_Immunity &= ~(uint16)lua_tointeger(L, 1);
+    ((CMobEntity*)m_PBaseEntity)->m_Immunity &= ~(uint32)lua_tointeger(L, 1);
 
     return 0;
 }
