@@ -13482,21 +13482,6 @@ inline int32 CLuaBaseEntity::getWeaponSkillType(lua_State *L)
 
     if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
     {
-        if (m_PBaseEntity->objtype == TYPE_MOB)
-        {
-            auto weapon = ((CItemWeapon*)((CMobEntity*)m_PBaseEntity)->m_Weapons[SLOT_MAIN]);
-            if (weapon == nullptr)
-            {
-                lua_pushinteger(L, 0);
-                return 1;
-            }
-            else
-            {
-                lua_pushinteger(L, weapon->getSkillType());
-                return 1;
-            }
-        }
-
         uint8 SLOT = (uint8)lua_tointeger(L, 1);
         if (SLOT > 3)
         {

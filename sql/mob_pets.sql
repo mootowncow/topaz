@@ -1382,16 +1382,6 @@ INSERT INTO `mob_pets` VALUES (17326090, 2, 15, 0, 9); -- Dagourmarches_Avatar
 INSERT INTO `mob_pets` VALUES (16986197, 1, 9, 0, 9); -- Percipient_Zoraal_Ja
 
 -- ------------------------------------------------------------
--- Arrapago Remnants (Zone 74)
--- ------------------------------------------------------------
--- Custom Start
-INSERT INTO `mob_pets` VALUES (16875928, 1, 9, 2, 9); -- Lhu Mhakaracca
--- Can't have instance pets?
---INSERT INTO `mob_pets` VALUES (17081190, 1, 15, 0, 9); -- Lamie Bellydancer SMN
---INSERT INTO `mob_pets` VALUES (17081203, 1, 15, 0, 9); -- Lamie Bellydancer SMN
--- Custom End
-
--- ------------------------------------------------------------
 -- Escha_RuAun (Zone 289)
 -- ------------------------------------------------------------
 
@@ -1415,6 +1405,14 @@ INSERT INTO `mob_pets` VALUES (17961253, 1, 15, 0, 9); -- Eschan Ilaern SMN
 INSERT INTO `mob_pets` VALUES (17961257, 1, 15, 0, 9); -- Eschan Ilaern SMN
 INSERT INTO `mob_pets` VALUES (17961267, 1, 15, 0, 9); -- Eschan Ilaern SMN
 INSERT INTO `mob_pets` VALUES (17961277, 1, 15, 0, 9); -- Eschan Ilaern SMN
+
+-- Custom Start
+INSERT INTO `mob_pets` VALUES (16875928, 1, 9, 2, 9); -- Lhu Mhakaracca
+INSERT INTO `mob_pets` VALUES (17289826, 1, 14, 0, 9); -- Shikaree_Z
+-- Can't have instance pets?
+--INSERT INTO `mob_pets` VALUES (17081190, 1, 15, 0, 9); -- Lamie Bellydancer SMN
+--INSERT INTO `mob_pets` VALUES (17081203, 1, 15, 0, 9); -- Lamie Bellydancer SMN
+-- Custom End
 
 
 
