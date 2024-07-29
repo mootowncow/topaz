@@ -309,6 +309,9 @@ https://github.com/LandSandBoat/server/commit/039f4fd601996488fb1d3cf5ed4664bbe7
 Velocity shot
 https://github.com/CatsAndBoats/catseyexi/commit/3fcc6a9a29b1271a8048fb75ec0cbb6d46ab55ef
 
+Waypoints! (Adoulin teleports)
+https://github.com/LandSandBoat/server/blob/base/scripts/globals/waypoint.lua
+
 PUP? 
 https://github.com/LandSandBoat/server/commit/c12e2e37839e23b0459e088eb05e6d084bea2448
 
