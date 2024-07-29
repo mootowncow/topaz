@@ -266,6 +266,12 @@ Roc, Serket, Casssie, Promathia, Ouryu, Bahamut, Shadow Lord, Kamalanaut(?), Ome
 Lvl90, 200k hp
 Mat that lets you add a random augment to any ring/amulet/earring
 
+Wep delay overflow / TP return
+https://github.com/LandSandBoat/server/commit/5131acdb1a80b0bd177eea82ec8358118723b4cd
+
+Lotting
+https://github.com/LandSandBoat/server/commit/7ecad7379c694f658dbfb4f720387047454a4e68
+
 SC resistance rank reduction
 https://github.com/LandSandBoat/server/commit/ae3fb1625f06d3cc6ec4a0d9b5fc0b6b8d2f8623
 
