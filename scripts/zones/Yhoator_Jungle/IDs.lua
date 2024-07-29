@@ -42,6 +42,13 @@ zones[tpz.zone.YHOATOR_JUNGLE] =
         NO_COMBINATION              = 7819,  -- You were unable to enter a combination.
         REGIME_REGISTERED           = 9997, -- New training regime registered!
         COMMON_SENSE_SURVIVAL       = 11116, -- It appears that you have arrived at a new survival guide provided by the Adventurers' Mutual Aid Network. Common sense dictates that you should now be able to teleport here from similar tomes throughout the world.
+        CONF_TOO_FAR                = 7843, -- You have ventured too far from the field of battle. The Confrontation will automatically disengage if you do not return
+        CONF_DISENAGED              = 7844, -- Ventured too far, confrontation has disengaged.
+        CONF_REENGAGED              = 7845, -- You have returned to the field of battle.
+        CONF_BATTLE_BEGIN           = 7846, -- You have x earth time to complete the battle.
+        CONF_MIN_REMAINING          = 7847, -- X earth minutes remaining to complete the battle.
+        CONF_SEC_REMAINING          = 7848, -- x earth seconds remaining to complete the battle.
+        CONF_TIME_UP                = 7849, -- Your time for this Confrontation is up...
     },
     mob =
     {

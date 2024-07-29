@@ -4804,7 +4804,7 @@ int16 GetSDTTier(int16 SDT)
             for (auto iter = enmityList->begin(); iter != enmityList->end(); iter++)
             {
                 auto entity = iter->second.PEnmityOwner;
-                if (entity->objtype == TYPE_PET)
+                if (entity && entity->objtype == TYPE_PET)
                 {
                     if (((CPetEntity*)entity)->getPetType() == PETTYPE_AUTOMATON)
                     {

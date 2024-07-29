@@ -14,5 +14,6 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    printf("Using smiting breath")
     doOffensiveBreath(player, target)
 end

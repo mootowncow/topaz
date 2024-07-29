@@ -110,16 +110,19 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         attackBonus = params_phys.attack_boost
     end
 
-    if (tpeffect == TP_IGNORE_DEFENSE or params_phys.ignoreDefMod ~= nil) then
-        if (params_phys.ignoreDefMod > 0) then
-            ignoredDefMod = params_phys.ignoreDefMod / 100
-        else
-            ignoredDefMod = MobIgnoreDefenseModifier(tp) / 100
-        end
+    -- Ignore def mod
+    if (tpeffect == TP_IGNORE_DEFENSE) then
+        ignoredDefMod = MobIgnoreDefenseModifier(tp) / 100
+    end
+    if (params_phys.ignoreDefMod ~= nil) then
+        ignoredDefMod = params_phys.ignoreDefMod / 100
+    end
+    if (ignoredDefMod > 0) then
         -- printf("Ignore def modifier %u", ignoredDefMod*100)
         ignoredDef = target:getStat(tpz.mod.DEF) * ignoredDefMod
         -- printf("Amount of defense ignored final %u", ignoredDef)
     end
+
     --work out and cap ratio
     if (offcratiomod == nil) then -- default to attack. Pretty much every physical mobskill will use this, Cannonball being the exception.
         local attk = mob:getStat(tpz.mod.ATT)
@@ -391,21 +394,15 @@ end
 -- TP_DMG_BONUS and TP=200, tpvalue = 2, assume V=150  --> damage is now 150*(TP*2)/100 = 600
 -- ignoremacc is to have 100% land rate on spell and ignore resists
 -- 101 = true
+-- params.DAMAGE_OVERRIDE - override damage with a specific number
 
-function MobMagicalMove(mob, target, skill, damage, element, dmgmod, tpeffect, ignoremacc)
+function MobMagicalMove(mob, target, skill, damage, element, dmgmod, tpeffect, ignoremacc, params)
     returninfo = {}
     -- Params NYI
-    local params = {}
-    params.multiplier = dmgmod
-    params.tp150 = 1
-    params.tp300 = 1
-    params.str_wsc = 0.0
-    params.dex_wsc = 0.0
-    params.vit_wsc = 0.0
-    params.agi_wsc = 0.0
-    params.int_wsc = 0.3
-    params.mnd_wsc = 0.0
-    params.chr_wsc = 0.0
+    -- Initialize params if it is nil
+    if (params == nil) then
+        params = {}
+    end
     local statmod = INT_BASED
     local resist = 1
     local bonus = 0 -- bonus macc
@@ -423,9 +420,9 @@ function MobMagicalMove(mob, target, skill, damage, element, dmgmod, tpeffect, i
 
     -- get ftp
     local tp = 1000
-    local multiplier = params.multiplier
-    local tp150 = params.tp150
-    local tp300 = params.tp300
+    local multiplier = dmgmod
+    local tp150 = 1
+    local tp300 = 1
     local ftp = MobMagicfTPModifier(tp, multiplier, tp150, tp300)
 
     -- get dStat
@@ -446,7 +443,12 @@ function MobMagicalMove(mob, target, skill, damage, element, dmgmod, tpeffect, i
     local magicAttkBonus = getMobMAB(mob, target)
 
     -- Do the formula!
-    local finaldmg = getMobMagicalDamage(mobLevel, WSC, ftp, dStat, magicBurstBonus, resist, weatherBonus, magicAttkBonus)
+    local finaldmg = 0
+    if (params.DAMAGE_OVERRIDE == nil) then
+        finaldmg = getMobMagicalDamage(mobLevel, WSC, ftp, dStat, magicBurstBonus, resist, weatherBonus, magicAttkBonus)
+    else
+        finaldmg = getMobMagicalDamageOveride(params.DAMAGE_OVERRIDE, magicBurstBonus, resist, weatherBonus, magicAttkBonus)
+    end
 
     -- Add TP scaling if not a high fTP skill(mainly 2 hours / Mijin Gakure / special attacks)
     local tp = mob:getLocalVar("tp")
@@ -671,7 +673,10 @@ function MobHPBasedMove(mob, target, percent, base, element, cap, isSuicide, opp
     return damage
 end
 
-function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, shadowbehav)
+-- params.IGNORE_DAMAGE_REDUCTION -- Ignores MDT/PDT/BDT etc
+function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, shadowbehav, params)
+
+    local params = {}
 
     target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
 
@@ -797,18 +802,20 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
 
     local element = damageType - 5
     -- Handle damage type resistances
-    if attackType == tpz.attackType.PHYSICAL then
-        dmg = utils.HandlePositionalPDT(mob, target, dmg)
-        dmg = target:physicalDmgTaken(dmg, damageType)
-    elseif (attackType == tpz.attackType.MAGICAL) then
-        dmg = utils.HandlePositionalMDT(mob, target, dmg)
-        dmg = target:magicDmgTaken(dmg, element)
-    elseif (attackType == tpz.attackType.BREATH) then
-        dmg = utils.HandlePositionalMDT(mob, target, dmg)
-        dmg = target:breathDmgTaken(dmg, element)
-    elseif (attackType == tpz.attackType.RANGED) then
-        dmg = utils.HandlePositionalPDT(mob, target, dmg)
-        dmg = target:rangedDmgTaken(dmg)
+    if (params.IGNORE_DAMAGE_REDUCTION == nil) then
+        if attackType == tpz.attackType.PHYSICAL then
+            dmg = utils.HandlePositionalPDT(mob, target, dmg)
+            dmg = target:physicalDmgTaken(dmg, damageType)
+        elseif (attackType == tpz.attackType.MAGICAL) then
+            dmg = utils.HandlePositionalMDT(mob, target, dmg)
+            dmg = target:magicDmgTaken(dmg, element)
+        elseif (attackType == tpz.attackType.BREATH) then
+            dmg = utils.HandlePositionalMDT(mob, target, dmg)
+            dmg = target:breathDmgTaken(dmg, element)
+        elseif (attackType == tpz.attackType.RANGED) then
+            dmg = utils.HandlePositionalPDT(mob, target, dmg)
+            dmg = target:rangedDmgTaken(dmg)
+        end
     end
 
     -- Handle TP move DR mod
@@ -1875,7 +1882,7 @@ function getMobWSC(mob, params_phys)
 end
 
 function getMobMagicWSC(mob, tpeffect)
-    if  params == nil then
+    if (params == nil) then
         wsc = mob:getStat(tpz.mod.INT) * 0.3 -- Place holder WSC for magic
         --printf("wsc: %u", wsc)
         return wsc
@@ -2073,6 +2080,11 @@ end
 function getMobMagicalDamage(mobLevel, WSC, ftp, dStat, magicBurstBonus, resist, weatherBonus, magicAttkBonus)
     -- Formula is ((Lvl*2 + WSC) x fTP + dstat) x Magic Burst bonus x resist x dayweather bonus x  MAB/MDB x mdt
     return math.floor(((mobLevel*2 + WSC) * ftp + dStat) * magicBurstBonus * resist * weatherBonus * magicAttkBonus)
+end
+
+function getMobMagicalDamageOveride(dmg, magicBurstBonus, resist, weatherBonus, magicAttkBonus)
+    -- Formula is (params.DAMAGE_OVERRIDE) x Magic Burst bonus x resist x dayweather bonus x  MAB/MDB x mdt
+    return math.floor((dmg) * magicBurstBonus * resist * weatherBonus * magicAttkBonus)
 end
 
 function MobGetStatusEffectDuration(effect)

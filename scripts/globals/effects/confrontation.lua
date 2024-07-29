@@ -40,9 +40,9 @@ function onEffectTick(target, effect)
 
     local confrontationStart = GetMobByID(effect:getSubPower())
     local confrontationStartPos = confrontationStart:getSpawnPos()
-    -- Display a warning if vendoring too far from where
+    -- Display a warning if vendoring too far from where the mob spawns
     if (target:isPC()) then
-        if target:checkDistance(confrontationStartPos) >= 25 then
+        if target:checkDistance(confrontationStartPos) >= 30 then
             target:messageSpecial(ID.text.CONF_TOO_FAR)
         end
     end

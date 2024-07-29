@@ -13,24 +13,16 @@ require("scripts/globals/spell_data")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 -- TODO: Erase won't be cast because not in party
--- TODO: Spread out around NMs don't have all NPCs stack on them
 -- TODO: Make sure tanks always spawn opposite side of everyone (DPS/healers > mob < tank)
 -- TODO: Spread out DPS to surround the NMs better
 -- TODO: Correct weapon types(club scythe etc) on everyone
 -- TODO: Does Kyo respawn and work?
--- TODO: Shikaree(DRG logic, also summon a wyvern and code wyvern AI!)
--- TODO: Selh'teus, Lion, Gilgamesh, Halver, Fablinix, Rainemard, Mildaurion
 -- TODO: Check that barrage is properly adding hits in cpp with print
--- TODO: Ealdnarche super super high evasion(also add to his files for missions
--- TODO: Insominant AI, negate_sleep effect coded
--- TODO: Mix: Dark Potion should ignore MDEF and resists (but not MDT)
--- TODO: Mix: Dry Ether Concotion (Ether logic in TryChemistAbility)
--- TODO: Keep ranged / healers / chemists out of range if they are not the mobs current target
--- TODO: Does intervene work and does animation look correct?
--- TODO: Citadel buster check MDB and resists? It should!
 -- TODO: SA / TA damage on monstertpmoves
--- TODO: Insertmobs, make sure Shikaree Z's name doesn't have a _
--- TODO: lua::getWeaponSkillType  broken
+-- TODO: Make Cornelia untargettable
+-- TODO: Test Dark Potion
+-- TODO: Test Insomninant AI, negate_sleep effect coded
+-- TODO: Test Cornelia
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -477,6 +469,7 @@ tpz.raid.onNpcSpawn = function(mob)
         mob:setSpellList(0)
         SetUpTankNPC(mob)
     elseif isSupport(mob) then
+        mob:SetAutoAttackEnabled(false)
         mob:setSpellList(0)
     elseif isMelee(mob) then
         SetUpMeleeNPC(mob)
@@ -512,6 +505,12 @@ tpz.raid.onNpcEngaged = function(mob, target)
 end
 
 tpz.raid.onNpcFight = function(mob, target)
+    local isMoving = mob:getLocalVar("isMoving")
+
+    if (os.time() < isMoving) then
+        return
+    end
+
     if isPet(mob) then
     elseif isHealer(mob) then
         UpdateHealerAI(mob, target)
@@ -975,6 +974,12 @@ function UpdateTankAI(mob, target)
         {   Skill = tpz.jobAbility.PROVOKE,         Cooldown = 30,       Type = 'Enmity',        Category = 'Job Ability',    Job = tpz.job.WAR },
         {   Skill = tpz.jobAbility.MAJESTY,         Cooldown = 60,       Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.DEFENDER,        Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.WAR },
+        {   Skill = tpz.jobAbility.COUNTERSTANCE,   Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.MNK },
+        {   Skill = tpz.jobAbility.HUNDRED_FISTS,   Cooldown = 180,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.MNK },
+        {   Skill = tpz.jobAbility.PERFECT_COUNTER, Cooldown = 60,       Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.MNK },
+        {   Skill = tpz.jobAbility.DODGE,           Cooldown = 300,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.MNK },
+        {   Skill = tpz.jobAbility.FOCUS,           Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.MNK },
+        {   Skill = tpz.jobAbility.CHAKRA,          Cooldown = 180,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.MNK },
         {   Skill = tpz.jobAbility.SENTINEL,        Cooldown = 300,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.weaponskill.URIEL_BLADE,    Cooldown = 60,       Type = 'Offensive',     Category = 'Weapon Skill',   Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.RAMPART,         Cooldown = 300,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
@@ -986,6 +991,7 @@ function UpdateTankAI(mob, target)
         {   Skill = tpz.mob.skills.ROYAL_BASH,      Cooldown = 60,       Type = 'Interrupt' ,    Category = 'Mob Skill',      Job = tpz.job.PLD },
         {   Skill = tpz.mob.skills.ROYAL_SAVIOR,    Cooldown = 300,      Type = 'Defensive',     Category = 'Mob Skill',      Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.WARCRY,          Cooldown = 300,      Type = 'Enmity',        Category = 'Job Ability',    Job = tpz.job.WAR },
+        {   Skill = tpz.jobAbility.BOOST,           Cooldown = 15,       Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.MNK },
     }
     local globalMagicTimer = mob:getLocalVar("globalMagicTimer")
     local flashTimer = mob:getLocalVar("flashTimer")
@@ -1080,8 +1086,6 @@ function UpdateMeleeAI(mob, target)
         {   Skill = tpz.jobAbility.ANGON,               Cooldown = 300, Type = 'Offensive',     Category = 'Job Ability',   Job = tpz.job.DRG    },
         {   Skill = tpz.jobAbility.SPIRIT_LINK,         Cooldown = 60,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.DRG    },
         {   Skill = tpz.jobAbility.SPIRIT_SURGE,        Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.DRG    },
-        {   Skill = tpz.jobAbility.SMITING_BREATH,      Cooldown = 60,  Type = 'Pet',           Category = 'Job Ability',   Job = tpz.job.DRG    },
-        {   Skill = tpz.jobAbility.RESTORING_BREATH,    Cooldown = 60,  Type = 'Pet',           Category = 'Job Ability',   Job = tpz.job.DRG    },
     }
     local stunTimer = mob:getLocalVar("stunTimer")
 
@@ -1137,6 +1141,7 @@ function UpdateRangedAI(mob, target)
             end
         end
     end
+    TryKeepDistance(mob, target)
 end
 
 function UpdateHealerAI(mob, target)
@@ -1267,6 +1272,8 @@ function UpdateHealerAI(mob, target)
             end
         end
     end
+
+    TryKeepDistance(mob, target)
 end
 
 function UpdateChemistAI(mob, target)
@@ -1282,7 +1289,7 @@ function UpdateChemistAI(mob, target)
         {   Skill = tpz.mob.skills.MIX_PANACEA,                 Cooldown = 0,   Type = 'Chemist',  Category = 'Erase',          Job = tpz.job.PLD },
         {   Skill = tpz.mob.skills.MIX_DRY_ETHER_CONCOCTION,    Cooldown = 90,  Type = 'Chemist',  Category = 'Ether',          Job = tpz.job.PLD },
         {   Skill = tpz.mob.skills.MIX_GUARD_DRINK,             Cooldown = 0,   Type = 'Chemist',  Category = 'Protect',        Job = tpz.job.PLD },
-        {   Skill = tpz.mob.skills.MIX_INSOMNIANT,              Cooldown = 0,   Type = 'Chemist',  Category = 'Sleep',          Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.MIX_INSOMNIANT,              Cooldown = 60,  Type = 'Chemist',  Category = 'Sleep',          Job = tpz.job.PLD },
         {   Skill = tpz.mob.skills.MIX_LIFE_WATER,              Cooldown = 60,  Type = 'Chemist',  Category = 'Regen',          Job = tpz.job.PLD },
         {   Skill = tpz.mob.skills.MIX_ELEMENTAL_POWER,         Cooldown = 60,  Type = 'Chemist',  Category = 'MATT',           Job = tpz.job.PLD },
         {   Skill = tpz.mob.skills.MIX_DRAGON_SHIELD,           Cooldown = 60,  Type = 'Chemist',  Category = 'MDEF',           Job = tpz.job.PLD },
@@ -1290,7 +1297,11 @@ function UpdateChemistAI(mob, target)
         {   Skill = tpz.mob.skills.MIX_SAMSONS_STRENGTH,        Cooldown = 60,  Type = 'Chemist',  Category = 'All Stats',      Job = tpz.job.PLD },
     }
 
+    if hasSleepEffects(mob) then
+        mob:setLocalVar("wasSlept", 1)
+    end
     UpdateAbilityAI(mob, target, abilityData)
+    TryKeepDistance(mob, target)
 end
 
 function UpdateCasterAI(mob, target)
@@ -1397,6 +1408,7 @@ function UpdateCasterAI(mob, target)
 end
 
 function UpdateSupportAI(mob, target)
+    local mobName = mob:getName()
     local job = mob:getMainJob()
 
     -- Bard
@@ -1448,6 +1460,12 @@ function UpdateSupportAI(mob, target)
         end
     elseif (job == tpz.job.COR) then
     elseif (job == tpz.job.GEO) then
+        local power = 1
+        local duration = 0
+        if (mobName == 'Cornelia') then
+            mob:addStatusEffectEx(tpz.effect.COLURE_ACTIVE, tpz.effect.COLURE_ACTIVE, 13, 3, duration, tpz.effect.GEO_HASTE, power, tpz.auraTarget.ALLIES, tpz.effectFlag.AURA)
+        else
+        end
     end
 end
 
@@ -1547,22 +1565,6 @@ function UpdateAbilityAI(mob, target, abilityData)
                         end
                     end
 
-                    -- Pet
-                    if (ability.Type == 'Defensive') then
-                        if isJaReady(mob, ability.Skill) then
-                            if IsJa(mob, ability.Category) then
-                                if CanUseAbility(mob) then
-                                    if (pet ~= nil) then
-                                        mob:setLocalVar("globalJATimer", os.time() + 10)
-                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                        mob:useJobAbility(ability.Skill, pet)
-                                        return
-                                    end
-                                end
-                            end
-                        end
-                    end
-
                     if (ability.Type == 'Chemist') then
                         if CanUseItem(mob) then
                             if TryChemistAbility(mob, target, ability.Skill) then
@@ -1579,11 +1581,19 @@ function UpdateAbilityAI(mob, target, abilityData)
 end
 
 function TryChemistAbility(mob, target, skill)
+    local wasSlept = mob:getLocalVar("wasSlept")
     local globalPotionTimer = mob:getLocalVar("globalPotionTimer")
     local cureTimer = mob:getLocalVar("cureTimer")
     local naTimer = mob:getLocalVar("naTimer")
     local etherTimer = mob:getLocalVar("etherTimer")
     local buffTimer = mob:getLocalVar("buffTimer")
+
+    -- Applies Insomninant to self after being slept once
+    if wasSlept and not mob:hasStatusEffect(tpz.effect.NEGATE_SLEEP) then
+        mob:useMobAbility(tpz.mob.skills.MIX_INSOMNIANT, mob)
+        mob:setLocalVar("globalPotionTimer", os.time() + 5)
+        return
+    end
 
     local nearbyFriendly = mob:getNearbyEntities(20)
     if (nearbyFriendly ~= nil) then 
@@ -1690,6 +1700,40 @@ function TryJaStun(mob, target, ability)
     return false
 end
 
+function TryKeepDistance(mob, target)
+    local isMoving = mob:getLocalVar("isMoving")
+    local distanceToTarget = mob:checkDistance(target)
+    local targetIsTargetingMob = (target:getTarget() == mob)
+
+    -- If the mob is currently moving, do nothing
+    if (os.time() < isMoving) then
+        return
+    end
+
+    -- If already 15 yards away, do nothing
+    if (distanceToTarget >= 15) then
+        return
+    end
+
+    -- If the mob is too close to the target and the target is not targeting the mob
+    if (distanceToTarget < 15 and not targetIsTargetingMob) then
+        local targetSpawnPos = target:getSpawnPos()
+        local distanceToSpawn = mob:checkDistance(targetSpawnPos)
+
+        if (distanceToSpawn < 20) then
+            -- Move to a position 15 units away from the target
+            mob:pathTo(target:getXPos() + 15, target:getYPos(), target:getZPos() + 15)
+        else
+            -- Move to the opposite side relative to the target's spawn point
+            mob:pathTo(target:getXPos() - 15, target:getYPos(), target:getZPos() - 15)
+        end
+
+        -- Set a local variable to prevent immediate repeated movement
+        mob:setLocalVar("isMoving", os.time() + 5)
+    end
+end
+
+
 function ReadyToWS(mob)
 end
 
@@ -1740,7 +1784,6 @@ function GetBestThrenody(mob, target)
 
     return bestThrenody
 end
-
 
 function IsJa(mob, category)
     if (category == 'Job Ability') then

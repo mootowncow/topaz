@@ -17,8 +17,10 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
+    local params = {}
+    params.IGNORE_DAMAGE_REDUCTION = true
     local dmgmod = 666
-    local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.DARK, MOBPARAM_IGNORE_SHADOWS)
+    local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.DARK, MOBPARAM_IGNORE_SHADOWS, params)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.DARK)
     skill:setMsg(tpz.msg.basic.DAMAGE_SECONDARY) -- TODO: Wrong msg
     return dmg

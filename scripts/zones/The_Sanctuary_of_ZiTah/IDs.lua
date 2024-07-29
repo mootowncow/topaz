@@ -43,6 +43,13 @@ zones[tpz.zone.THE_SANCTUARY_OF_ZITAH] =
         NO_COMBINATION             = 8085,  -- You were unable to enter a combination.
         REGIME_REGISTERED          = 10263, -- New training regime registered!
         COMMON_SENSE_SURVIVAL      = 12252, -- It appears that you have arrived at a new survival guide provided by the Adventurers' Mutual Aid Network. Common sense dictates that you should now be able to teleport here from similar tomes throughout the world.
+        CONF_TOO_FAR               = 8109, -- You have ventured too far from the field of battle. The Confrontation will automatically disengage if you do not return
+        CONF_DISENAGED             = 8110, -- Ventured too far, confrontation has disengaged.
+        CONF_REENGAGED             = 8111, -- You have returned to the field of battle.
+        CONF_BATTLE_BEGIN          = 8112, -- You have x earth time to complete the battle.
+        CONF_MIN_REMAINING         = 8113, -- X earth minutes remaining to complete the battle.
+        CONF_SEC_REMAINING         = 8114, -- x earth seconds remaining to complete the battle.
+        CONF_TIME_UP               = 8115, -- Your time for this Confrontation is up...
     },
     mob =
     {
