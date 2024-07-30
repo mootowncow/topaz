@@ -2377,7 +2377,7 @@ int16 GetSDTTier(int16 SDT)
         ratio = std::clamp<float>(ratio, 0, 2.5);
 
         //level correct (0.025 not 0.05 like for melee) PLAYERS ONLY
-        if (PAttacker->objtype == TYPE_PC)
+        if (PAttacker->objtype == TYPE_PC && !PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_FLASHY_SHOT))
         {
             if (PDefender->GetMLevel() > PAttacker->GetMLevel())
             {
@@ -2775,7 +2775,7 @@ int16 GetSDTTier(int16 SDT)
 
         if (PDefender->objtype == TYPE_MOB)
         {
-            return static_cast<uint8>(std::clamp<float>((uint8)guardchance, 5, 20));
+            return static_cast<uint8>(std::clamp<float>((uint8)guardchance, 5, 20 * guardmod));
         }
         else
         {

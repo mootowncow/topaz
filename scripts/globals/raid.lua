@@ -23,6 +23,12 @@ require("scripts/globals/weaponskillids")
 -- TODO: Test Dark Potion
 -- TODO: Test Insomninant AI, negate_sleep effect coded
 -- TODO: Test Cornelia
+-- TODO: Test GetBestNA and if curing sleep logic works
+-- TODO: Move invincible shield to being a tank and add his JA's into the tank ability table and fix the exceptions relating to him and make it so only he uses the JA's in exceptions'
+-- TODO: Tenzen TP moves need "Readies xxx" added to cpp (mob_conroller?)
+-- TODO: Tenzen needs save TP mod, and I forgot to do his WS(sc properties, setting them in mob_skill_list and mob_skills as well as their lua files)
+-- TODO: Test Oisoya enmity reduction (equal to Namas Arrow)
+-- TODO: Test Flashy shot pdif stuff for level correction (ranged pdif and ws ranged pdif)
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -136,7 +142,15 @@ local modByMobName =
         mob:setMod(tpz.mod.UDMGMAGIC, -95)
         mob:setMod(tpz.mod.REFRESH, 400)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
-        mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+    end,
+
+    ['Kamlanaut'] = function(mob)
+        mob:setDamage(140)
+        mob:addMod(tpz.mod.ATTP, 50)
+        mob:addMod(tpz.mod.DEFP, 50) 
+        mob:addMod(tpz.mod.ACC, 50) 
+        mob:setMod(tpz.mod.REFRESH, 400)
+        mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     end,
 }
 
@@ -381,6 +395,15 @@ local mobFightByMobName =
 		    mob:setLocalVar("WarpTime", battletime + math.random(15, 20))
 	    end
     end,
+
+    ['Kamlanaut'] = function(mob, target)
+        if os.time() > mob:getLocalVar("nextEnSkill") then
+            local skill = math.random(823, 828)
+            mob:setLocalVar("currentTP", mob:getTP())
+            mob:useMobAbility(skill)
+            mob:setLocalVar("nextEnSkill", os.time() + 30)
+        end
+    end,
 }
 
 function Unused()
@@ -452,25 +475,34 @@ end
 -- NPC helper functions
 
 tpz.raid.onNpcSpawn = function(mob)
-    mob:setDamage(20)
+    local mJob = mob:getMainJob()
+    if (mJob == tpz.job.MNK) then
+        mob:setDamage(10)
+    else
+        mob:setDamage(20)
+    end
     mob:setMod(tpz.mod.REFRESH, 8)
     if not isPet(mob) then
         SetUpParry(mob)
     end
 
+    local weaponSkill = mob:getWeaponSkillType(tpz.slot.MAIN)
+
+    -- Cannot parry without a weapon or H2H
+    if (weaponSkill == tpz.skill.NONE) or (weaponSkill == HAND_TO_HAND) then
+        mob:SetAutoAttackEnabled(false)
+    end
+
     if isPet(mob) then
     elseif isHealer(mob) then
-        mob:setSpellList(0)
-        mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
+        SetUpHealerNPC(mob)
     elseif isChemist(mob) then
         mob:SetAutoAttackEnabled(false)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
     elseif isTank(mob) then
-        mob:setSpellList(0)
         SetUpTankNPC(mob)
     elseif isSupport(mob) then
-        mob:SetAutoAttackEnabled(false)
-        mob:setSpellList(0)
+        SetUpSupportNPC(mob)
     elseif isMelee(mob) then
         SetUpMeleeNPC(mob)
     elseif isRanged(mob) then
@@ -531,7 +563,8 @@ end
 
 tpz.raid.onSpellPrecast = function(mob, spell)
     local aoeSpells = {
-        tpz.magic.spell.AUSPICE
+        tpz.magic.spell.AUSPICE,
+        tpz.magic.spell.STONESKIN
     }
 
     if
@@ -574,18 +607,46 @@ tpz.raid.onNpcDeath = function(mob, player, isKiller, noKiller)
     OnBattleEndConfrontation(mob)
 end
 
+function SetUpHealerNPC(mob)
+    local npcName = mob:getName()
+
+    if IsFablinix(mob) then
+        mob:setMobMod(tpz.mobMod.CAN_RA, 16)
+    elseif IsCherukiki(mob) then
+        mob:addMod(tpz.mobMod.STONESKIN_BONUS_HP, 350)
+    end
+    mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
+    mob:setSpellList(0)
+end
+
 function SetUpTankNPC(mob)
     local mJob = mob:getMainJob()
     local sJob = mob:getSubJob()
     local npcName = mob:getName()
 
-    if (npcName ~= 'Halver') then
-        mob:setMobMod(tpz.mobMod.BLOCK, 35)
+    if not IsHalver(mob) then
+        mob:addMod(tpz.mobMod.BLOCK, 35)
     end
 
-    if (npcName == 'Halver') then
-        mob:setMod(tpz.mod.DMG, -35)
+    if IsHalver(mob) then
+        mob:addMod(tpz.mod.DMG, -35)
+    elseif IsMaat(mob) then
+        -- Full MNK merits (H2H, guard, KA, counter)
+        mob:addMod(tpz.mod.COUNTER, 5)
+        mob:addMod(tpz.mod.KICK_ATTACK_RATE, 5)
+        mob:addMod(tpz.mod.GUARD, 16)
+        mob:addMod(tpz.mod.HTH, 16)
+        -- HQ Arhats Helm / Body, Black Belt, Fumas, Byakkos, Rajas
+        mob:addMod(tpz.mod.HASTE_GEAR, 2000)
+        mob:addMod(tpz.mod.STR, 17)
+        mob:addMod(tpz.mod.DEX, 20)
+        mob:addMod(tpz.mod.STORETP, 5)
+        mob:addMod(tpz.mod.SUBTLE_BLOW, 10)
+        mob:addMod(tpz.mod.DMGPHYS, -20)
+        -- 50% Guard rate cap like players
+        mob:addMod(tpz.mod.GUARD_PERCENT, 150) 
     end
+    mob:setSpellList(0)
 end
 
 function SetUpMeleeNPC(mob)
@@ -614,6 +675,15 @@ function SetUpRangedNPC(mob)
     mob:addMod(tpz.mod.ENMITY, -30)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
     mob:setMobMod(tpz.mobMod.CAN_RA, 16)
+end
+
+function SetUpSupportNPC(mob)
+    local mJob = mob:getMainJob()
+
+    if (mJob == tpz.job.BRD) then
+        mob:SetAutoAttackEnabled(false)
+    end
+    mob:setSpellList(0)
 end
 
 function ApplyConfrontationToSelf(mob)
@@ -650,10 +720,16 @@ end
 function isTank(mob)
     local npcName = mob:getName()
     local job = mob:getMainJob()
+
+    if IsMaat(mob) then
+        return true
+    end
+
     return
         (job == tpz.job.PLD or
         job == tpz.job.NIN) and
-        (npcName ~= 'Mildaurion')
+        (npcName ~= 'Mildaurion') and
+        (npcName ~= 'Selhteus')
 end
 
 function isMelee(mob)
@@ -838,6 +914,12 @@ local function GetBestNA(mob, player)
         end
     end
 
+    -- Check for Sleep
+    if hasSleepEffects(player) then
+        selectedNA = tpz.magic.spell.CURE
+    end
+
+
     return selectedNA
 end
 
@@ -867,6 +949,13 @@ local function GetBestBuff(mob, player)
             { Effect = tpz.effect.FIRESTORM,        Spell = tpz.magic.spell.FIRESTORM   },
         },
     }
+
+    -- Cherukiki keeps Stoneskin up on everyone
+    if IsCherukiki(mob) then
+        if not player:hasStatusEffect(tpz.effect.STONESKIN) then
+            selectedBuff = tpz.magic.spell.STONESKIN
+        end
+    end
 
     local jobBuffs = buffs[job]
     if jobBuffs then
@@ -1124,23 +1213,12 @@ function UpdateRangedAI(mob, target)
         {   Skill = tpz.jobAbility.VELOCITY_SHOT,       Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.RNG    },
         {   Skill = tpz.jobAbility.SHARPSHOT,           Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.RNG    },
         {   Skill = tpz.jobAbility.BARRAGE,             Cooldown = 180, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.RNG    },
+        {   Skill = tpz.jobAbility.STEALTH_SHOT,        Cooldown = 180, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.RNG    },
+        {   Skill = tpz.jobAbility.FLASHY_SHOT,         Cooldown = 180, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.RNG    },
         {   Skill = tpz.jobAbility.EAGLE_EYE_SHOT,      Cooldown = 120, Type = 'Offensive',     Category = 'Job Ability',   Job = tpz.job.RNG    },
     }
-    local stunTimer = mob:getLocalVar("stunTimer")
 
     UpdateAbilityAI(mob, target, abilityData)
-
-    if IsFablinix(mob) then
-        if (os.time() >= stunTimer) then
-            if CanCast(mob) then
-                if IsReadyingTPMove(target) then
-                    mob:castSpell(tpz.magic.spell.STUN, target)
-                    mob:setLocalVar("stunTimer", os.time() + 30)
-                    return
-                end
-            end
-        end
-    end
     TryKeepDistance(mob, target)
 end
 
@@ -1150,6 +1228,7 @@ function UpdateHealerAI(mob, target)
     local buffTimer = mob:getLocalVar("buffTimer")
     local debuffTimer = mob:getLocalVar("debuffTimer")
     local convertTimer = mob:getLocalVar("convertTimer")
+    local stunTimer = mob:getLocalVar("stunTimer")
     local job = mob:getMainJob()
 
     -- JA's
@@ -1164,6 +1243,18 @@ function UpdateHealerAI(mob, target)
                 if (os.time() >= convertTimer) then
                     mob:useJobAbility(tpz.jobAbility.CONVERT, mob)
                     mob:setLocalVar("convertTimer", os.time() + 600)
+                    return
+                end
+            end
+        end
+    end
+
+    if IsFablinix(mob) then
+        if (os.time() >= stunTimer) then
+            if CanCast(mob) then
+                if IsReadyingTPMove(target) then
+                    mob:castSpell(tpz.magic.spell.STUN, target)
+                    mob:setLocalVar("stunTimer", os.time() + 30)
                     return
                 end
             end
@@ -1483,22 +1574,20 @@ function UpdateAbilityAI(mob, target, abilityData)
 
                     -- Enmity Generation
                     if (ability.Type == 'Enmity') then
-                        if IsInvincibleShield(mob)then
-                            if isJaReady(mob, ability.Skill) then
-                                if IsJa(mob, ability.Category) then
-                                    if CanUseAbility(mob) then
-                                        mob:setLocalVar("globalJATimer", os.time() + 10)
-                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                        mob:useJobAbility(ability.Skill, target)
-                                        return
-                                    end
-                                else
-                                    if CanUseAbility(mob) then
-                                        mob:setLocalVar("globalJATimer", os.time() + 10)
-                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                        mob:useMobAbility(ability.Skill)
-                                        return
-                                    end
+                        if isJaReady(mob, ability.Skill) then
+                            if IsJa(mob, ability.Category) then
+                                if CanUseAbility(mob) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useJobAbility(ability.Skill, target)
+                                    return
+                                end
+                            else
+                                if CanUseAbility(mob) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useMobAbility(ability.Skill)
+                                    return
                                 end
                             end
                         end
@@ -1668,6 +1757,18 @@ function IsFablinix(mob)
     return mob:getName() == 'Fablinix'
 end
 
+function IsHalver(mob)
+    return mob:getName() == 'Halver'
+end
+
+function IsMaat(mob)
+    return mob:getName() == 'Maat'
+end
+
+function IsCherukiki(mob)
+    return mob:getName() == 'Cherukiki'
+end
+
 function IsReadyingTPMove(target)
     local act = target:getCurrentAction()
 
@@ -1705,34 +1806,48 @@ function TryKeepDistance(mob, target)
     local distanceToTarget = mob:checkDistance(target)
     local targetIsTargetingMob = (target:getTarget() == mob)
 
+    -- Debug prints to monitor distances and conditions
+    -- print(string.format("%s - Distance to Target: %.2f, Target is Targeting: %s", mob:getName(), distanceToTarget, tostring(targetIsTargetingMob)))
+    -- print(string.format("%s - Current Time: %d, Moving Until: %d", mob:getName(), os.time(), isMoving))
+
     -- If the mob is currently moving, do nothing
     if (os.time() < isMoving) then
+        -- print(string.format("%s is currently moving and will check again later.", mob:getName()))
         return
     end
 
-    -- If already 15 yards away, do nothing
-    if (distanceToTarget >= 15) then
+    -- Define distance thresholds
+    local minDistance = 13 -- Minimum distance at which the mob will start moving
+    local maxDistance = 18 -- Maximum distance at which the mob will stop moving
+
+    -- If already within the acceptable range, do nothing
+    if (distanceToTarget >= minDistance and distanceToTarget <= maxDistance) then
+        -- print(string.format("%s is within the acceptable range and does not need to move.", mob:getName()))
         return
     end
 
     -- If the mob is too close to the target and the target is not targeting the mob
-    if (distanceToTarget < 15 and not targetIsTargetingMob) then
+    if (distanceToTarget < minDistance and not targetIsTargetingMob) then
         local targetSpawnPos = target:getSpawnPos()
         local distanceToSpawn = mob:checkDistance(targetSpawnPos)
 
+        -- Debug print for spawn distance
+        -- print(string.format("%s - Distance to Spawn: %.2f", mob:getName(), distanceToSpawn))
+
         if (distanceToSpawn < 20) then
             -- Move to a position 15 units away from the target
+            -- print(string.format("%s is moving to a position 15 units away from the target.", mob:getName()))
             mob:pathTo(target:getXPos() + 15, target:getYPos(), target:getZPos() + 15)
         else
             -- Move to the opposite side relative to the target's spawn point
+            -- print(string.format("%s is moving to the opposite side of the target's spawn point.", mob:getName()))
             mob:pathTo(target:getXPos() - 15, target:getYPos(), target:getZPos() - 15)
         end
 
         -- Set a local variable to prevent immediate repeated movement
-        mob:setLocalVar("isMoving", os.time() + 5)
+        mob:setLocalVar("isMoving", os.time() + 15)
     end
 end
-
 
 function ReadyToWS(mob)
 end
@@ -1821,6 +1936,8 @@ function CanCast(mob)
                         act == tpz.act.MAGIC_FINISH or
                         act == tpz.act.JOBABILITY_START or
                         act == tpz.act.JOBABILITY_FINISH or
+                        act == tpz.act.RANGED_START or
+                        act == tpz.act.RANGED_FINISH or
                         mob:hasStatusEffect(tpz.effect.SILENCE) or
                         mob:hasStatusEffect(tpz.effect.MUTE) or
                         mob:hasPreventActionEffect())
@@ -1845,6 +1962,8 @@ function CanUseAbility(mob)
                         act == tpz.act.MAGIC_FINISH or
                         act == tpz.act.JOBABILITY_START or
                         act == tpz.act.JOBABILITY_FINISH or
+                        act == tpz.act.RANGED_START or
+                        act == tpz.act.RANGED_FINISH or
                         mob:hasStatusEffect(tpz.effect.AMNESIA) or
                         mob:hasPreventActionEffect())
     return CanUseAbility
@@ -1861,6 +1980,8 @@ function CanUseItem(mob)
                         act == tpz.act.MAGIC_FINISH or
                         act == tpz.act.JOBABILITY_START or
                         act == tpz.act.JOBABILITY_FINISH or
+                        act == tpz.act.RANGED_START or
+                        act == tpz.act.RANGED_FINISH or
                         mob:hasStatusEffect(tpz.effect.MUDDLE) or
                         mob:hasPreventActionEffect())
     return CanUseItem
@@ -1888,6 +2009,13 @@ function SetUpParry(mob)
         { Job = tpz.job.RUN,    Skill = 1   },
     }
     local job = mob:getMainJob()
+    local weaponSkill = mob:getWeaponSkillType(tpz.slot.MAIN)
+
+    -- Cannot parry without a weapon or H2H
+    if (weaponSkill == tpz.skill.NONE) or (weaponSkill == HAND_TO_HAND) then
+        return
+    end
+
     for _, parryData in pairs(parryMapToSkill) do
         if (job == parryData.Job) then
             mob:setMobMod(tpz.mobMod.CAN_PARRY, parryData.Skill)
@@ -1940,6 +2068,18 @@ function IsValidUser(mob, skill)
         return false
     end
 
+    -- Non-Makki-Chebukki should not use Flashy Shot
+    if (mobName ~= 'Makki-Chebukki' and skill == tpz.jobAbility.FLASHY_SHOT) then
+        --printf("%s shouldn't use Flashy Shot (JA)!", mobName)
+        return false
+    end
+
+    -- Makki-Chebukki should not use Stealth Shot
+    if (mobName == 'Makki-Chebukki' and skill == tpz.jobAbility.STEALTH_SHOT) then
+        --printf("%s shouldn't use Stealth Shot (JA)!", mobName)
+        return false
+    end
+
     -- Non-Ayame should not use Meikyo Shisui
     if (mobName ~= ' Ayame' and skill == tpz.jobAbility.MEIKYO_SHISUI) then
         --printf("%s shouldn't use Meikyo Shisui (JA)!", mobName)
@@ -1976,6 +2116,12 @@ function IsValidUser(mob, skill)
             --printf("%s shouldn't use Retaliation (JA)!", mobName)
             return false
         end
+    end
+
+    -- Only WAR main jobs should use Retaliation
+    if (mJob ~= tpz.job.WAR) and (skill == tpz.jobAbility.RETALIATION) then
+        --printf("%s shouldn't use Retaliation (JA)!", mobName)
+        return false
     end
 
     -- Only WAR/WAR should use Restraint

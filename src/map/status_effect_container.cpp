@@ -1754,8 +1754,16 @@ void CStatusEffectContainer::HandleAura(CStatusEffect* PStatusEffect)
     {
         if (auraTarget == AURATARGET_ALLIES)
         {
-            PEntity->ForParty([&](CBattleEntity* PMember) {
-                if (PMember != nullptr && PEntity->loc.zone->GetID() == PMember->loc.zone->GetID() && distance(m_POwner->loc.p, PMember->loc.p) <= aura_range &&
+            // Get the position and aura range
+            position_t position = PEntity->loc.p;
+
+            // Lambda function to add an effect if the entity is nearby
+            auto addEffectIfNearby = [&](CBattleEntity* PMember)
+            {
+                if (PMember != nullptr &&
+                    PEntity->loc.zone->GetID() == PMember->loc.zone->GetID() &&
+                    PEntity->allegiance == PMember->allegiance &&
+                    distance(position, PMember->loc.p) <= aura_range &&
                     !PMember->isDead())
                 {
                     CStatusEffect* PEffect = new CStatusEffect((EFFECT)PStatusEffect->GetSubID(),    // Effect ID
@@ -1766,7 +1774,13 @@ void CStatusEffectContainer::HandleAura(CStatusEffect* PStatusEffect)
                     PEffect->SetFlag(EFFECTFLAG_NO_LOSS_MESSAGE);
                     PMember->StatusEffectContainer->AddStatusEffect(PEffect, true);
                 }
-            });
+            };
+
+            // Iterate over all characters
+            zoneutils::GetZone(PEntity->loc.zone->GetID())->ForEachChar([&addEffectIfNearby](CCharEntity* PChar) { addEffectIfNearby(PChar); });
+
+            // Iterate over all mobs
+            zoneutils::GetZone(PEntity->loc.zone->GetID())->ForEachMob([&addEffectIfNearby](CMobEntity* PMob) { addEffectIfNearby(PMob); });
         }
         else if (auraTarget == AURATARGET_ENEMIES)
         {

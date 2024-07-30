@@ -371,7 +371,7 @@ enum class Mod
     CHAKRA_MULT               = 123, // Chakra multiplier increase (from gear)
     CHAKRA_REMOVAL            = 124, // Extra statuses removed by Chakra
     SUBTLE_BLOW               = 289, // How much TP to reduce.
-    SUBTLE_BLOW_II            = 1009, // Subtle Blow II Effect (Cap 50%) Total Effect (SB + SB_II cap 75%)
+    SUBTLE_BLOW_II            = 1009,// Subtle Blow II Effect (Cap 50%) Total Effect (SB + SB_II cap 75%)
     COUNTER                   = 291, // Percent chance to counter
     KICK_ATTACK_RATE          = 292, // Percent chance to kick
     PERFECT_COUNTER_ATT       = 428, // TODO: Raises weapon damage by 20 when countering while under the Perfect Counter effect. This also affects Weapon Rank (though not if fighting barehanded).

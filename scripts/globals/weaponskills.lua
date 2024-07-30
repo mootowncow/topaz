@@ -1187,8 +1187,10 @@ function cRangedRatio(attacker, defender, params, ignoredDef, tp)
     local cratio = attacker:getRATT() / (defender:getStat(tpz.mod.DEF) - ignoredDef)
 
     local levelcor = 0
-    if (attacker:getMainLvl() < defender:getMainLvl()) then
-        levelcor = 0.025 * (defender:getMainLvl() - attacker:getMainLvl())
+    if not attacker:hasStatusEffect(tpz.effect.FLASHY_SHOT) then
+        if (attacker:getMainLvl() < defender:getMainLvl()) then
+            levelcor = 0.025 * (defender:getMainLvl() - attacker:getMainLvl())
+        end
     end
 
     cratio = cratio - levelcor

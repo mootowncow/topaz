@@ -802,7 +802,7 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
 
     local element = damageType - 5
     -- Handle damage type resistances
-    if (params.IGNORE_DAMAGE_REDUCTION == nil) then
+    if (params.IGNORE_DAMAGE_REDUCTION == nil) then -- TODO: Doesn't work on phys because its params_phys
         if attackType == tpz.attackType.PHYSICAL then
             dmg = utils.HandlePositionalPDT(mob, target, dmg)
             dmg = target:physicalDmgTaken(dmg, damageType)
@@ -869,7 +869,14 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     if (dmg > 0) then
         local tpAdded = math.floor((25 * (100 + target:getMod(tpz.mod.STORETP))) / 100)
         target:addTP(tpAdded)
-        target:updateEnmityFromDamage(mob, dmg)
+
+        local enmityMult = params_phys.enmityMult or 1
+        if (params_phys.overrideCE and params_phys.overrideVE) then
+            target:addEnmity(mob, params_phys.overrideCE, params_phys.overrideVE)
+        else
+            target:updateEnmityFromDamage(mob, dmg * enmityMult)
+        end
+
         target:handleAfflatusMiseryDamage(dmg)
     end
 

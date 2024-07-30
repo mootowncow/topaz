@@ -690,7 +690,11 @@ function IsMobBusy(mob)
             act == tpz.act.MOBABILITY_FINISH or
             act == tpz.act.MAGIC_START or
             act == tpz.act.MAGIC_CASTING or
-            act == tpz.act.MAGIC_FINISH
+            act == tpz.act.MAGIC_FINISH or
+            act == tpz.act.JOBABILITY_START or
+            act == tpz.act.JOBABILITY_FINISH or
+            act == tpz.act.RANGED_START or
+            act == tpz.act.RANGED_FINISH
 end
 
 function AffectWeatherMob(mobId, weather, nqWeather, nqChance, hqWeather, hqChance)

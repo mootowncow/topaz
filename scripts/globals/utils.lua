@@ -1026,6 +1026,9 @@ function utils.CapHealAmount(target, healamount)
 end
 
 function utils.ApplyStoneskinBonuses(caster, power)
+    -- Apply gear Mod
+    power = power + caster:getMod(tpz.mod.STONESKIN_BONUS_HP)
+
     -- Apply Divine Seal bonus
     if (caster:hasStatusEffect(tpz.effect.DIVINE_SEAL)) then
         power = math.floor(power * 2)

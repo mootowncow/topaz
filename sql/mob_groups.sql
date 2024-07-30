@@ -9057,6 +9057,15 @@ INSERT INTO `mob_groups` VALUES (57,3954,124,'Tonberry_Decimator',0,128,0,0,0,55
 INSERT INTO `mob_groups` VALUES (58,1174,124,'Edacious_Opo-opo',0,128,744,9000,0,60,60,0);
 INSERT INTO `mob_groups` VALUES (59,2201,124,'Kedgebelly_Kate',1,0,0,0,0,1,1,0);
 INSERT INTO `mob_groups` VALUES (60,6303,124,'Goblins_Bee',0,128,1697,0,0,38,40,0);
+-- RAID
+INSERT INTO `mob_groups` VALUES (61,6640,124,'Kamlanaut',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (62,6006,124,'Maat',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (63,5979,124,'Selhteus',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (64,5932,124,'Fablinix',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (65,5908,124,'Tenzen',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (66,5988,124,'Makki-Chebukki',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (67,5916,124,'Cherukiki',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (68,6003,124,'Cornelia',0,128,0,10000,0,80,80,1);
 
 -- ------------------------------------------------------------
 -- Western_Altepa_Desert (Zone 125)

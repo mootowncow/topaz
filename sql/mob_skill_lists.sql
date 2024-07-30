@@ -3751,7 +3751,8 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Aldo',1045,3284); -- shockstorm_edg
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Aldo',1045,3285); -- choreographed_carnage
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Aldo',1045,3286); -- lock_and_load
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Moogle',1046,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Fablinix',1047,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Fablinix',1047,3261); -- Bomb Toss
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Fablinix',1047,3262); -- Goblin Rush
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maat',1048,0); -- Combo (Maat)
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maat',1048,1028); -- Shoulder Tackle (Maat)
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maat',1048,0); -- One Inch Punch (Maat)
@@ -3830,11 +3831,13 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Halver',1087,120); -- Impulse Drive
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Leonoyne',1089,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maximilian',1090,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,180); -- Sunburst
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,2283); -- tartarus_torpor
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,1199); -- gate_of_tartarus
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,2283); -- Tartarus Torpor
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,1199); -- Gate Of Tartarus
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Robel-Akbel',1092,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kupofried',1093,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Selh_teus',1094,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Selh_teus',1094,3621); -- Luminous Lance Trust
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Selh_teus',1094,3622); -- Rejuvenation Trust
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Selh_teus',1094,3623); -- Revelation Trust
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Yoran-Oran_UC',1095,3502);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Sylvie_UC',1096,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Abquhbah',1097,0);
@@ -3843,7 +3846,9 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Yoran-Oran_UC',1095,3502);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Rosulatia',1100,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Teodor',1101,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ullegore',1102,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Makki-Chebukki',1103,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Makki-Chebukki',1103,192); -- Flaming Arrow
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Makki-Chebukki',1103,196); -- Sidewinder
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Makki-Chebukki',1103,199); -- Empyreal Arrow
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_King_of_Hearts',1104,3689); -- shuffle
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_King_of_Hearts',1104,3690); -- double_down
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_King_of_Hearts',1104,3691); -- bludgeon
@@ -3878,7 +3883,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_AAGK',1111,937);       -- Dragonfal
 -- Reserved for future Trust 6003 (ID: 1118) (Formerly Cornelia)
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Excenmille_S',1119,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ayame_UC',1120,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maat_UC',1121,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maat_UC',1121,3496); -- Hollow Smite
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Aldo_UC',1122,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Naja_Salaheem_UC',1123,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lion_II',1124,0);

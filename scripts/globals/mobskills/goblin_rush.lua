@@ -1,7 +1,6 @@
 ---------------------------------------------------
 -- Goblin Rush
--- Delivers a threefold attack. Accuracy varies with TP.
--- 100% TP: ??? / 250% TP: ??? / 300% TP: ???
+-- Delivers a threefold attack.
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
