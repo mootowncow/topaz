@@ -275,6 +275,12 @@ https://github.com/LandSandBoat/server/commit/7ecad7379c694f658dbfb4f72038704745
 SC resistance rank reduction
 https://github.com/LandSandBoat/server/commit/ae3fb1625f06d3cc6ec4a0d9b5fc0b6b8d2f8623
 
+Set Melee Range binding (Rename to setmodelSize tbh)
+https://github.com/LandSandBoat/server/commit/3da1133c907965a6d465c3e88ac486fc90818f5d
+
+/folllow
+https://github.com/LandSandBoat/server/commit/a51b5d851f1de31b62516e20d68cb8a08f1748db
+
 Memory receptacles
 https://github.com/LandSandBoat/server/commit/5442524cc2b7304982c59039eef1fec1f3f63864
 
