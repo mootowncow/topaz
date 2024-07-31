@@ -1334,12 +1334,12 @@ INSERT INTO `mob_skills` VALUES (1386,1021,'medusa_javelin',0,7.0,2000,1000,4,0,
 INSERT INTO `mob_skills` VALUES (1387,1017,'sideswipe',0,7.0,2000,2000,4,0,0,5,0,0,0);
 INSERT INTO `mob_skills` VALUES (1388,1015,'ranged_attack_aern',0,25.0,2000,0,4,4,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1389,1016,'eagle_eye_shot',0,25.0,2000,0,4,2,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1390,1036,'amatsu_torimai',0,7.0,2000,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1391,1038,'amatsu_kazakiri',0,7.0,2000,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1392,1038,'amatsu_yukiarashi',0,7.0,2000,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1393,1040,'amatsu_tsukioboro',0,7.0,2000,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1394,1041,'amatsu_hanaikusa',0,7.0,2000,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1395,1041,'amatsu_tsukikage',0,7.0,2000,0,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1390,1036,'amatsu_torimai',0,7.0,2000,0,4,0,0,0,1,4,0);
+INSERT INTO `mob_skills` VALUES (1391,1038,'amatsu_kazakiri',0,7.0,2000,0,4,0,0,0,4,6,0);
+INSERT INTO `mob_skills` VALUES (1392,1038,'amatsu_yukiarashi',0,7.0,2000,0,4,0,0,0,7,6,0);
+INSERT INTO `mob_skills` VALUES (1393,1040,'amatsu_tsukioboro',0,7.0,2000,0,4,0,0,0,10,5,0);
+INSERT INTO `mob_skills` VALUES (1394,1041,'amatsu_hanaikusa',0,7.0,2000,0,4,0,0,0,11,2,0);
+INSERT INTO `mob_skills` VALUES (1395,1041,'amatsu_tsukikage',0,7.0,2000,0,4,0,0,0,14,12,0);
 INSERT INTO `mob_skills` VALUES (1396,1035,'cosmic_elucidation',1,50.0,3000,0,4,0,0,0,0,0,0); -- cosmic elucidation Level4 SC Tenzen fight "fail" flag
 INSERT INTO `mob_skills` VALUES (1397,1042,'oisoya',0,15.0,2000,0,4,0,0,0,13,10,0);
 INSERT INTO `mob_skills` VALUES (1398,1032,'riceball',0,7.0,2000,0,1,0,0,0,0,0,0); -- riceball eating
@@ -3378,11 +3378,11 @@ INSERT INTO `mob_skills` VALUES (3414,730,'one-ilm_punch',0,7.0,2000,1500,4,0,0,
 INSERT INTO `mob_skills` VALUES (3415,397,'chaotic_eye',4,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3416,291,'dragon_kick',0,7.5,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3417,3161,'asuran_fists',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3418,1037,'amatsu_torimai',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3419,1038,'amatsu_kazakiri',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3420,1039,'amatsu_yukiarashi',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3421,1040,'amatsu_tsukioboro',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3422,1041,'amatsu_hanaikusa',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3418,1037,'amatsu_torimai',0,7.0,2000,1500,4,0,0,0,1,4,0); -- Iroha?
+INSERT INTO `mob_skills` VALUES (3419,1038,'amatsu_kazakiri',0,7.0,2000,1500,4,0,0,0,4,6,0); -- Iroha?
+INSERT INTO `mob_skills` VALUES (3420,1039,'amatsu_yukiarashi',0,7.0,2000,1500,4,0,0,0,7,6,0) -- Iroha?;
+INSERT INTO `mob_skills` VALUES (3421,1040,'amatsu_tsukioboro',0,7.0,2000,1500,4,0,0,0,10,5,0); -- Iroha?
+INSERT INTO `mob_skills` VALUES (3422,1041,'amatsu_hanaikusa',0,7.0,2000,1500,4,0,0,0,11,2,0); -- Iroha?
 INSERT INTO `mob_skills` VALUES (3423,1506,'wasp_sting',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3424,1507,'dancing_edge',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3425,3169,'flat_blade',0,7.0,2000,1500,4,0,0,0,8,0,0);

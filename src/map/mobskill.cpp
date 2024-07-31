@@ -371,6 +371,16 @@ bool CMobSkill::isDamageMsg()
     return m_Message == 110 || m_Message == 185 || m_Message == 197 || m_Message == 264 || m_Message == 187 || m_Message == 225 || m_Message == 226;
 }
 
+bool CMobSkill::isReadiesException()
+{
+    return
+        m_ID <= 255 ||
+        m_ID >= 1390 && m_ID <= 1395 ||
+        m_ID >= 1489 && m_ID <= 1490 ||
+        m_ID >= 3418 && m_ID <= 3422 ||
+        m_ID == 3236;
+}
+
 void CMobSkill::setParam(int16 value)
 {
     m_Param = value;

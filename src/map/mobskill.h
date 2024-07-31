@@ -82,6 +82,7 @@ public:
     uint8       getTertiarySkillchain() const;
 
     bool        isDamageMsg();
+    bool        isReadiesException();
 
     void        setID(uint16 id);
     void        setAnimationID(uint16 aid);

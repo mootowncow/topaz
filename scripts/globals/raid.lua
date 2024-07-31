@@ -20,14 +20,8 @@ require("scripts/globals/weaponskillids")
 -- TODO: Check that barrage is properly adding hits in cpp with print
 -- TODO: SA / TA damage on monstertpmoves
 -- TODO: Make Cornelia untargettable
--- TODO: Test Dark Potion
 -- TODO: Test Insomninant AI, negate_sleep effect coded
--- TODO: Test Cornelia
 -- TODO: Test GetBestNA and if curing sleep logic works
--- TODO: Move invincible shield to being a tank and add his JA's into the tank ability table and fix the exceptions relating to him and make it so only he uses the JA's in exceptions'
--- TODO: Tenzen TP moves need "Readies xxx" added to cpp (mob_conroller?)
--- TODO: Tenzen needs save TP mod, and I forgot to do his WS(sc properties, setting them in mob_skill_list and mob_skills as well as their lua files)
--- TODO: Test Oisoya enmity reduction (equal to Namas Arrow)
 -- TODO: Test Flashy shot pdif stuff for level correction (ranged pdif and ws ranged pdif)
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
@@ -615,7 +609,10 @@ function SetUpHealerNPC(mob)
     elseif IsCherukiki(mob) then
         mob:addMod(tpz.mobMod.STONESKIN_BONUS_HP, 350)
     end
-    mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
+
+    if ShouldStandBack(mob) then
+        mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
+    end
     mob:setSpellList(0)
 end
 
@@ -642,9 +639,20 @@ function SetUpTankNPC(mob)
         mob:addMod(tpz.mod.DEX, 20)
         mob:addMod(tpz.mod.STORETP, 5)
         mob:addMod(tpz.mod.SUBTLE_BLOW, 10)
+        mob:addMod(tpz.mod.ENMITY, 6)
         mob:addMod(tpz.mod.DMGPHYS, -20)
         -- 50% Guard rate cap like players
-        mob:addMod(tpz.mod.GUARD_PERCENT, 150) 
+        mob:addMod(tpz.mod.GUARD_PERCENT, 150)
+    elseif IsInvincibleShield(mob) then
+        mob:setDamage(40)
+        -- Full Koenig
+        mob:addMod(tpz.mod.STR, -30)
+        mob:addMod(tpz.mod.DEX, -30)
+        mob:addMod(tpz.mod.VIT, 60)
+        mob:addMod(tpz.mod.CHR, 60)
+        mob:addMod(tpz.mod.ENMITY, 20)
+        mob:setMod(tpz.mod.DMG, -25)
+        mob:setMod(tpz.mod.INQUARTATA, 25)
     end
     mob:setSpellList(0)
 end
@@ -659,11 +667,8 @@ function SetUpMeleeNPC(mob)
         (npcName == 'Lhu_Mhakaracca') 
     then
         mob:setMobMod(tpz.mobMod.BLOCK, 35)
-    elseif (npcName == 'Invincible_Shield') then
-        mob:setDamage(40)
-        mob:addMod(tpz.mod.ENMITY, 20)
-        mob:setMod(tpz.mod.DMG, -25)
-        mob:setMod(tpz.mod.INQUARTATA, 25)
+    elseif (npcName == 'Tenzen') then
+        mob:addMod(tpz.mod.SAVETP, 400)
     end
 
     if (sJob == tpz.job.RNG) then
@@ -682,6 +687,9 @@ function SetUpSupportNPC(mob)
 
     if (mJob == tpz.job.BRD) then
         mob:SetAutoAttackEnabled(false)
+    end
+    if IsCornelia(mob) then
+        mob:addMod(tpz.mod.AURA_RADIUS, 20)
     end
     mob:setSpellList(0)
 end
@@ -721,7 +729,7 @@ function isTank(mob)
     local npcName = mob:getName()
     local job = mob:getMainJob()
 
-    if IsMaat(mob) then
+    if IsMaat(mob) or IsInvincibleShield(mob) then
         return true
     end
 
@@ -916,7 +924,7 @@ local function GetBestNA(mob, player)
 
     -- Check for Sleep
     if hasSleepEffects(player) then
-        selectedNA = tpz.magic.spell.CURE
+        selectedNA = tpz.magic.spell.CURAGA
     end
 
 
@@ -1060,9 +1068,13 @@ end
 
 function UpdateTankAI(mob, target)
     local abilityData = {
+            
         {   Skill = tpz.jobAbility.PROVOKE,         Cooldown = 30,       Type = 'Enmity',        Category = 'Job Ability',    Job = tpz.job.WAR },
         {   Skill = tpz.jobAbility.MAJESTY,         Cooldown = 60,       Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.DEFENDER,        Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.WAR },
+        {   Skill = tpz.jobAbility.BLOOD_RAGE,      Cooldown = 30,       Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.WAR },
+        {   Skill = tpz.jobAbility.RESTRAINT,       Cooldown = 60,       Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.WAR },
+        {   Skill = tpz.jobAbility.RETALIATION,     Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.WAR },
         {   Skill = tpz.jobAbility.COUNTERSTANCE,   Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.MNK },
         {   Skill = tpz.jobAbility.HUNDRED_FISTS,   Cooldown = 180,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.MNK },
         {   Skill = tpz.jobAbility.PERFECT_COUNTER, Cooldown = 60,       Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.MNK },
@@ -1138,14 +1150,11 @@ end
 
 function UpdateMeleeAI(mob, target)
     local abilityData = {
-        {   Skill = tpz.jobAbility.PROVOKE,             Cooldown = 30,  Type = 'Enmity',        Category = 'Job Ability',   Job = tpz.job.WAR    },
-        {   Skill = tpz.jobAbility.BLOOD_RAGE,          Cooldown = 30,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
-        {   Skill = tpz.jobAbility.DEFENDER,            Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
+        {   Skill = tpz.jobAbility.HASSO,               Cooldown = 60,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
         {   Skill = tpz.jobAbility.BERSERK,             Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
         {   Skill = tpz.jobAbility.AGGRESSOR,           Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
         {   Skill = tpz.jobAbility.WARCRY,              Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
         {   Skill = tpz.jobAbility.RETALIATION,         Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.WAR    },
-        {   Skill = tpz.jobAbility.RESTRAINT,           Cooldown = 60,  Type = 'Defensive',     Category = 'Job Ability',   Job = tpz.job.WAR    },
         {   Skill = tpz.jobAbility.FOCUS,               Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.MNK    },
         {   Skill = tpz.jobAbility.FORMLESS_STRIKES,    Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.MNK    },
         {   Skill = tpz.jobAbility.PERFECT_COUNTER,     Cooldown = 30,  Type = 'Defensive',     Category = 'Job Ability',   Job = tpz.job.MNK    },
@@ -1163,7 +1172,6 @@ function UpdateMeleeAI(mob, target)
         {   Skill = tpz.jobAbility.NETHER_VOID,         Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.DRK    },
         {   Skill = tpz.jobAbility.FERAL_HOWL,          Cooldown = 90,  Type = 'Interrupt',     Category = 'Job Ability',   Job = tpz.job.BST    },
         {   Skill = tpz.jobAbility.KILLER_INSTINCT,     Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.BST    },
-        {   Skill = tpz.jobAbility.HASSO,               Cooldown = 60,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
         {   Skill = tpz.jobAbility.MEIKYO_SHISUI,       Cooldown = 120, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
         {   Skill = tpz.jobAbility.MEDITATE,            Cooldown = 180, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
         {   Skill = tpz.jobAbility.SEKKANOKI,           Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.SAM    },
@@ -1287,7 +1295,7 @@ function UpdateHealerAI(mob, target)
                     local naSpell = GetBestNA(mob, friendlyTarget)
                     if (naSpell ~= nil) then
                         if CanCast(mob) then
-                            --printf("[DEBUG] Can cast na spell: %d at time: %d", naSpell, os.time())
+                            printf("[DEBUG] Can cast na spell: %d at time: %d", naSpell, os.time())
                             mob:castSpell(naSpell, friendlyTarget)
                             mob:setLocalVar("naTimer", os.time() + 10)
                             mob:setLocalVar("globalMagicTimer", os.time() + 10)
@@ -1364,7 +1372,9 @@ function UpdateHealerAI(mob, target)
         end
     end
 
-    TryKeepDistance(mob, target)
+    if ShouldStandBack(mob) then
+        TryKeepDistance(mob, target)
+    end
 end
 
 function UpdateChemistAI(mob, target)
@@ -1551,9 +1561,9 @@ function UpdateSupportAI(mob, target)
         end
     elseif (job == tpz.job.COR) then
     elseif (job == tpz.job.GEO) then
-        local power = 1
+        local power = 1082
         local duration = 0
-        if (mobName == 'Cornelia') then
+        if IsCornelia(mob) then
             mob:addStatusEffectEx(tpz.effect.COLURE_ACTIVE, tpz.effect.COLURE_ACTIVE, 13, 3, duration, tpz.effect.GEO_HASTE, power, tpz.auraTarget.ALLIES, tpz.effectFlag.AURA)
         else
         end
@@ -1767,6 +1777,20 @@ end
 
 function IsCherukiki(mob)
     return mob:getName() == 'Cherukiki'
+end
+function IsCornelia(mob)
+    return mob:getName() == 'Cornelia'
+end
+
+function ShouldStandBack(mob)
+    local mobName = mob:getName() 
+    local job = mob:getMainJob()
+
+    if (mobName == 'Koru-Moru') then
+        return true
+    end
+
+    return job == tpz.job.WHM
 end
 
 function IsReadyingTPMove(target)
@@ -2092,20 +2116,8 @@ function IsValidUser(mob, skill)
         return false
     end
 
-    -- Non-Iron Eater should not use Blood Rage
-    if (mobName ~= 'Invincible_Shield' and skill == tpz.jobAbility.BLOOD_RAGE) then
-        --printf("%s shouldn't use Blood Rage (JA)!", mobName)
-        return false
-    end
-
     -- Non-Halver should not use Blood Rage
     if (mobName ~= 'Halver' and skill == tpz.jobAbility.INTERVENE) then
-        --printf("%s shouldn't use Blood Rage (JA)!", mobName)
-        return false
-    end
-
-    -- Invincible Shield should not use Bererk
-    if (mobName == 'Invincible_Shield' and skill == tpz.jobAbility.BERSERK) then
         --printf("%s shouldn't use Blood Rage (JA)!", mobName)
         return false
     end
@@ -2119,17 +2131,15 @@ function IsValidUser(mob, skill)
     end
 
     -- Only WAR main jobs should use Retaliation
-    if (mJob ~= tpz.job.WAR) and (skill == tpz.jobAbility.RETALIATION) then
-        --printf("%s shouldn't use Retaliation (JA)!", mobName)
+    if (mJob ~= tpz.job.WAR) and (skill == tpz.jobAbility.BLOOD_RAGE) then
+        --printf("%s shouldn't use Blood Rage (JA)!", mobName)
         return false
     end
 
-    -- Only WAR/WAR should use Restraint
-    if (mJob == tpz.job.WAR) then
-        if (sJob ~= tpz.job.WAR and skill == tpz.jobAbility.RESTRAINT) then
-            --printf("%s shouldn't use Restraint (JA)!", mobName)
-            return false
-        end
+    -- Only WAR main jobs should use Retaliation
+    if (mJob ~= tpz.job.WAR) and (skill == tpz.jobAbility.RETALIATION) then
+        --printf("%s shouldn't use Retaliation (JA)!", mobName)
+        return false
     end
 
     -- Only WAR main jobs should use Restraint
@@ -2147,15 +2157,6 @@ function IsValidUser(mob, skill)
     -- Only PLD's subbing WAR should use Defender
     if (sJob == tpz.job.WAR) and (skill == tpz.jobAbility.DEFENDER) then
         if (mJob ~= tpz.job.PLD) then
-            --printf("%s shouldn't use Defender (JA)!", mobName)
-            return false
-        end
-    end
-
-
-    -- Only Invicible Shield should use Defender, not other warriors
-    if mobName ~= 'Invincible_Shield' then
-        if (mJob == tpz.job.WAR) and (skill == tpz.jobAbility.DEFENDER) then
             --printf("%s shouldn't use Defender (JA)!", mobName)
             return false
         end

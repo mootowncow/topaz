@@ -990,16 +990,22 @@ uint8 CStatusEffectContainer::DispelAllStatusEffect(EFFECTFLAG flag)
 
 bool CStatusEffectContainer::HasStatusEffect(EFFECT StatusID)
 {
+    if (m_StatusEffectSet.empty())
+    {
+        return false;
+    }
+
     for (CStatusEffect* PStatusEffect : m_StatusEffectSet)
     {
-        if (PStatusEffect->GetStatusID() == StatusID &&
-            !PStatusEffect->deleted)
+        if (PStatusEffect && PStatusEffect->GetStatusID() == StatusID && !PStatusEffect->deleted)
         {
             return true;
         }
     }
+
     return false;
 }
+
 
 uint16 CStatusEffectContainer::GetTotalMinneBonus()
 {
@@ -1712,7 +1718,7 @@ void CStatusEffectContainer::HandleAura(CStatusEffect* PStatusEffect)
         PEntity = PEntity->PMaster;
     }
 
-    float aura_range = 6.25; // TODO: Add mods
+    float aura_range = 6.25 + static_cast<float>(PEntity->getMod(Mod::AURA_RADIUS));
 
     if (PEntity->objtype == TYPE_PC)
     {

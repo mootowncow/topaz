@@ -48,6 +48,17 @@ CMagicState::CMagicState(CBattleEntity* PEntity, uint16 targid, SpellID spellid,
 
     m_PSpell = PSpell->clone();
 
+    // Allow mobs to cast party only spells on anyone
+    if (m_PEntity->objtype == TYPE_MOB)
+    {
+        if (m_PSpell->getValidTarget() == (TARGET_SELF | TARGET_PLAYER_PARTY))
+        {
+            m_PSpell->setValidTarget(TARGET_SELF | TARGET_PLAYER_PARTY | TARGET_ENEMY | TARGET_PLAYER_ALLIANCE | TARGET_PLAYER | TARGET_PLAYER_DEAD |
+                                     TARGET_NPC);
+        }
+    }
+
+
     auto PTarget = m_PEntity->IsValidTarget(m_targid, m_PSpell->getValidTarget(), m_errorMsg);
     if (!PTarget || m_errorMsg)
     {

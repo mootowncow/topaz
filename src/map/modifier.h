@@ -689,6 +689,7 @@ enum class Mod
     RADIAL_ARCANA             = 1006,
     CURATIVE_RECANTATION      = 1007,
     PRIMEVAL_ZEAL             = 1008,
+    AURA_RADIUS               = 1377,// Increases the range of indi auras. Flat amount. (1 = +1 range, 10 = +10 range)
 
     ENSPELL                   = 341, // stores the type of enspell active (0 if nothing)
     ENSPELL_DMG               = 343, // stores the base damage of the enspell before reductions
@@ -1069,7 +1070,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1377 NEXT
+    // 1378 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

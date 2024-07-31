@@ -5,7 +5,7 @@ require("scripts/globals/utils")
 require("scripts/globals/msg")
 require("scripts/globals/mobs")
 require("scripts/globals/weaponskills")
-
+-- TODO: Change params_phys to params and also change in all phys tp move files
 -- Foreword: A lot of this is good estimating since the FFXI playerbase has not found all of info for individual moves.
 --            What is known is that they roughly follow player Weaponskill calculations (pDIF, dMOD, ratio, etc) so this is what
 --            this set of functions emulates.
@@ -676,7 +676,10 @@ end
 -- params.IGNORE_DAMAGE_REDUCTION -- Ignores MDT/PDT/BDT etc
 function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, shadowbehav, params)
 
-    local params = {}
+    -- Initialize params if it is nil
+    if (params == nil) then
+        params = {}
+    end
 
     target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
 
@@ -870,10 +873,11 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
         local tpAdded = math.floor((25 * (100 + target:getMod(tpz.mod.STORETP))) / 100)
         target:addTP(tpAdded)
 
-        local enmityMult = params_phys.enmityMult or 1
-        if (params_phys.overrideCE and params_phys.overrideVE) then
-            target:addEnmity(mob, params_phys.overrideCE, params_phys.overrideVE)
+        local enmityMult = params.enmityMult or 1
+        if (params.overrideCE and params.overrideVE) then
+            target:addEnmity(mob, params.overrideCE, params.overrideVE)
         else
+            local enmitytoAdd = dmg*enmityMult
             target:updateEnmityFromDamage(mob, dmg * enmityMult)
         end
 

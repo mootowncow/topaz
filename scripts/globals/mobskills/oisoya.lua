@@ -36,7 +36,7 @@ function onMobWeaponSkill(target, mob, skill)
     params_phys.overrideVE = 480
 
     local info = MobRangedMove(mob, target, skill, numhits, accmod, dmgmod, TP_RANGED, params_phys, 2, 3)
-    local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, MOBPARAM_IGNORE_SHADOWS)
+    local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, MOBPARAM_IGNORE_SHADOWS, params_phys)
     target:takeDamage(dmg, mob, tpz.attackType.RANGED, tpz.damageType.RANGED)
     return dmg
 end

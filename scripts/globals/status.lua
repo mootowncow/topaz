@@ -2,7 +2,7 @@ require("scripts/globals/world")
 require("scripts/globals/items")
 require("scripts/globals/keyitems")
 require("scripts/globals/augments")
-
+require("scripts/globals/zone")
 ------------------------------------
 --
 -- STATUSES AND MODS
@@ -2093,8 +2093,9 @@ tpz.mod =
     SIC_READY_RECAST        = 1373, -- Sic/Ready recast reduction (seconds)
     QUICK_DRAW_RECAST       = 1374, -- Quick Draw Charge Reduction (seconds)
     DIVINE_EMBLEM_BONUS     = 1375, -- Enmity bonus on divine emblem.
+    AURA_RADIUS             = 1377, -- Increases the range of indi auras. Flat amount. (1 = +1 range, 10 = +10 range)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1377 NEXT
+    -- 1378 NEXT
 }
 
 tpz.latent =
