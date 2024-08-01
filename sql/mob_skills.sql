@@ -3380,7 +3380,7 @@ INSERT INTO `mob_skills` VALUES (3416,291,'dragon_kick',0,7.5,2000,1500,4,0,0,0,
 -- INSERT INTO `mob_skills` VALUES (3417,3161,'asuran_fists',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3418,1037,'amatsu_torimai',0,7.0,2000,1500,4,0,0,0,1,4,0); -- Iroha?
 INSERT INTO `mob_skills` VALUES (3419,1038,'amatsu_kazakiri',0,7.0,2000,1500,4,0,0,0,4,6,0); -- Iroha?
-INSERT INTO `mob_skills` VALUES (3420,1039,'amatsu_yukiarashi',0,7.0,2000,1500,4,0,0,0,7,6,0) -- Iroha?;
+INSERT INTO `mob_skills` VALUES (3420,1039,'amatsu_yukiarashi',0,7.0,2000,1500,4,0,0,0,7,6,0); -- Iroha?
 INSERT INTO `mob_skills` VALUES (3421,1040,'amatsu_tsukioboro',0,7.0,2000,1500,4,0,0,0,10,5,0); -- Iroha?
 INSERT INTO `mob_skills` VALUES (3422,1041,'amatsu_hanaikusa',0,7.0,2000,1500,4,0,0,0,11,2,0); -- Iroha?
 INSERT INTO `mob_skills` VALUES (3423,1506,'wasp_sting',0,7.0,2000,1500,4,0,0,0,0,0,0);

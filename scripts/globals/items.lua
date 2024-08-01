@@ -3,7 +3,7 @@
 --  ITEM IDS
 --
 ---------------------------------------------
-require('scripts/globals/augments')
+require("scripts/globals/augments")
 ---------------------------------------------
 tpz = tpz or {}
 

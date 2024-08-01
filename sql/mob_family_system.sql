@@ -773,10 +773,11 @@ INSERT INTO `mob_family_system` VALUES (970,'Goldcap',17,'Plantoid',0,68,125,110
 
 -- Trusts
 INSERT INTO `mob_family_system` VALUES (971,'Aldo',13,'Humanoid',0,40,90,110,3,3,2,3,2,2,3,1,3,1,3,1,1,1,1,1,1,1,1,1,1,1,1,3,1,0,100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100); 
+INSERT INTO `mob_family_system` VALUES (972,'Maximilian',13,'Humanoid',0,40,90,110,3,3,2,3,2,2,3,1,3,1,3,1,1,1,1,1,1,1,1,1,1,1,1,3,1,0,100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100); 
 
 -- 22,50,96,111,317-318,405,411-434,439-443, 598 available for use
 -- NEXT: 633
--- NEXT Custom: 972
+-- NEXT Custom: 973
 
   -- `familyid` smallint(4) unsigned NOT NULL,
   -- `family` tinytext,

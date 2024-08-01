@@ -3,6 +3,7 @@
 --  Raid NM utilities
 --
 -----------------------------------
+require("scripts/globals/items")
 require("scripts/globals/keyitems")
 require("scripts/globals/mobs")
 require("scripts/globals/zone")
@@ -21,8 +22,10 @@ require("scripts/globals/weaponskillids")
 -- TODO: SA / TA damage on monstertpmoves
 -- TODO: Make Cornelia untargettable
 -- TODO: Test Insomninant AI, negate_sleep effect coded
--- TODO: Test GetBestNA and if curing sleep logic works
 -- TODO: Test Flashy shot pdif stuff for level correction (ranged pdif and ws ranged pdif)
+-- TODO: Test Pinning Nocturne(does it cast and does effect work? -15% FASTCAST and -15 MACC base)
+-- TODO: Give all NPCs 1k base HP
+-- TODO: Test Cure priority to lower HP targets
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -558,7 +561,12 @@ end
 tpz.raid.onSpellPrecast = function(mob, spell)
     local aoeSpells = {
         tpz.magic.spell.AUSPICE,
-        tpz.magic.spell.STONESKIN
+        tpz.magic.spell.STONESKIN,
+        tpz.magic.spell.CURAGA,
+        tpz.magic.spell.CURAGA_II,
+        tpz.magic.spell.CURAGA_III,
+        tpz.magic.spell.CURAGA_IV,
+        tpz.magic.spell.CURAGA_V,
     }
 
     if
@@ -607,7 +615,12 @@ function SetUpHealerNPC(mob)
     if IsFablinix(mob) then
         mob:setMobMod(tpz.mobMod.CAN_RA, 16)
     elseif IsCherukiki(mob) then
+        mob:addMod(tpz.mod.MND, 50)
         mob:addMod(tpz.mobMod.STONESKIN_BONUS_HP, 350)
+        mob:addMod(tpz.mobMod.CURE_CAST_TIME, 50)
+    elseif IsFerreousCoffin(mob) then
+        mob:addMod(tpz.mod.DMG, -20)
+        mob:addMod(tpz.mobMod.REGEN_MULTIPLIER, 50)
     end
 
     if ShouldStandBack(mob) then
@@ -687,8 +700,8 @@ function SetUpSupportNPC(mob)
 
     if (mJob == tpz.job.BRD) then
         mob:SetAutoAttackEnabled(false)
-    end
-    if IsCornelia(mob) then
+    elseif (mJob == tpz.job.GEO) then
+        mob:untargetable(true)
         mob:addMod(tpz.mod.AURA_RADIUS, 20)
     end
     mob:setSpellList(0)
@@ -861,22 +874,44 @@ local function GetBestNuke(mob, target)
     return selectedNuke
 end
 
+local cures = {
+    [tpz.job.WHM] = function(mob, playerHPP)
+        if IsCherukiki(mob) then
+            if playerHPP < 25 then
+                return tpz.magic.spell.CURAGA_V
+            elseif playerHPP < 50 then
+                return tpz.magic.spell.CURAGA_IV
+            else
+                return tpz.magic.spell.CURAGA_III
+            end
+        elseif IsFerreousCoffin(mob) then
+            if playerHPP < 25 then
+                return tpz.magic.spell.CURA_III
+            else
+                return tpz.magic.spell.CURA_II
+            end
+        else
+            if playerHPP < 25 then
+                return tpz.magic.spell.CURE_VI
+            elseif playerHPP < 50 then
+                return tpz.magic.spell.CURE_V
+            else
+                return tpz.magic.spell.CURE_IV
+            end
+        end
+    end,
+    default = function()
+        return tpz.magic.spell.CURE_IV
+    end
+}
+
 local function GetBestCure(mob, player)
     local job = mob:getMainJob()
     local playerHPP = player:getHPP()
     local selectedCure
 
-    if (job == tpz.job.WHM) then
-        if (playerHPP < 25) then
-            selectedCure = tpz.magic.spell.CURE_VI
-        elseif (playerHPP < 50) then
-            selectedCure = tpz.magic.spell.CURE_V
-        else
-            selectedCure = tpz.magic.spell.CURE_IV
-        end
-    else
-        selectedCure = tpz.magic.spell.CURE_IV
-    end
+    local cureFunction = cures[job] or cures.default
+    selectedCure = cureFunction(mob, playerHPP)
 
     return selectedCure
 end
@@ -901,6 +936,13 @@ local function GetBestNA(mob, player)
             for _, effect in ipairs(spellData.effects) do
                 if player:hasStatusEffect(effect) then
                     selectedNA = spellData.spell
+
+                    -- Ferreous Coffin uses Esuna over -nas
+                    if IsFerreousCoffin(mob) then
+                        if mob:hasStatusEffect(effect) then
+                            selectedNA = tpz.magic.spell.ESUNA
+                        end
+                    end
                     break
                 end
             end
@@ -916,6 +958,13 @@ local function GetBestNA(mob, player)
                 local effectFlags = playerEffect:getFlag()
                 if (bit.band(effectFlags, tpz.effectFlag.ERASABLE) == tpz.effectFlag.ERASABLE) then
                     selectedNA = tpz.magic.spell.ERASE
+
+                    -- Ferreous Coffin uses Esuna over ERase
+                    if IsFerreousCoffin(mob) then
+                        if mob:hasStatusEffect(effect) then
+                            selectedNA = tpz.magic.spell.ESUNA
+                        end
+                    end
                     break
                 end
             end
@@ -935,7 +984,8 @@ local function GetBestBuff(mob, player)
     local job = mob:getMainJob()
     local selectedBuff = nil
 
-    local buffs = {
+    -- Define default buffs for each job
+    local defaultBuffs = {
         [tpz.job.WHM] = {
             { Effect = tpz.effect.HASTE,            Spell = tpz.magic.spell.HASTE_II    },
             { Effect = tpz.effect.AUSPICE,          Spell = tpz.magic.spell.AUSPICE     },
@@ -958,13 +1008,35 @@ local function GetBestBuff(mob, player)
         },
     }
 
-    -- Cherukiki keeps Stoneskin up on everyone
+    local cherukikiBuffs = {
+        [tpz.job.WHM] = {
+            { Effect = tpz.effect.STONESKIN,        Spell = tpz.magic.spell.STONESKIN   },
+            { Effect = tpz.effect.SHELL,            Spell = tpz.magic.spell.SHELL_V     },
+            { Effect = tpz.effect.PROTECT,          Spell = tpz.magic.spell.PROTECT_V   },
+        }
+    }
+
+    local ferreousCoffinBuffs = {
+        [tpz.job.WHM] = {
+            { Effect = tpz.effect.HASTE,            Spell = tpz.magic.spell.HASTE_II    },
+            { Effect = tpz.effect.STONESKIN,        Spell = tpz.magic.spell.STONESKIN   },
+            { Effect = tpz.effect.SHELL,            Spell = tpz.magic.spell.SHELL_V     },
+            { Effect = tpz.effect.PROTECT,          Spell = tpz.magic.spell.PROTECT_V   },
+            { Effect = tpz.effect.REGEN,            Spell = tpz.magic.spell.REGEN_III   },
+        }
+    }
+
+    -- Determine which set of buffs to use
+    local buffs
     if IsCherukiki(mob) then
-        if not player:hasStatusEffect(tpz.effect.STONESKIN) then
-            selectedBuff = tpz.magic.spell.STONESKIN
-        end
+        buffs = cherukikiBuffs
+    elseif IsFerreousCoffin(mob) then
+        buffs = ferreousCoffinBuffs
+    else
+        buffs = defaultBuffs
     end
 
+    -- Get the job-specific buffs
     local jobBuffs = buffs[job]
     if jobBuffs then
         for _, buff in ipairs(jobBuffs) do
@@ -1066,10 +1138,91 @@ function IsGa(spellId)
     return (spellId >= tpz.magic.spell.FIRAGA and spellId <= tpz.magic.spell.WATERGA_V)
 end
 
+local function TryKeepUpUtsusemi(mob)
+    local timers = {
+        { spell = tpz.magic.spell.UTSUSEMI_SAN,     var = "sanTimer",   duration = 30},
+        { spell = tpz.magic.spell.UTSUSEMI_NI,      var = "niTimer",    duration = 23},
+        { spell = tpz.magic.spell.UTSUSEMI_ICHI,    var = "ichiTimer",  duration = 15}
+    }
+
+    local currentTime = os.time()
+    local ret = false
+
+    if not mob:hasStatusEffect(tpz.effect.COPY_IMAGE) then
+        for _, timer in ipairs(timers) do
+            if currentTime <= mob:getLocalVar(timer.var) then
+                if CanCast(mob) then
+                    mob:castSpell(timer.spell, mob)
+                    mob:setLocalVar(timer.var, currentTime + timer.duration)
+                    ret = true
+                end
+                break
+            end
+        end
+    end
+
+    return ret
+end
+
+local function TryKeepUpWHMBuffs(mob)
+    if IsFerreousCoffin(mob) then
+        if not mob:hasStatusEffect(tpz.effect.AFFLATUS_MISERY) then
+            mob:useJobAbility(tpz.jobAbility.AFFLATUS_MISERY, mob)
+            return true
+        end
+        if not mob:hasStatusEffect(tpz.effect.LIGHT_ARTS) then
+            mob:useJobAbility(tpz.jobAbility.LIGHT_ARTS, mob)
+            return
+        end
+        if not mob:hasStatusEffect(tpz.effect.SANCROSANCTITY) then
+            mob:useJobAbility(tpz.jobAbility.SANCROSANCTITY, mob)
+            return true
+        end
+        if not mob:hasStatusEffect(tpz.effect.ASYLUM) then
+            mob:useJobAbility(tpz.jobAbility.ASYLUM, mob)
+            return true
+        end
+    else
+        if not mob:hasStatusEffect(tpz.effect.AFFLATUS_SOLACE) then
+            mob:useJobAbility(tpz.jobAbility.AFFLATUS_SOLACE, mob)
+            return true
+        end
+    end
+
+    return false
+end
+
+local function TryRaise(mob, player)
+    local raiseTimer = mob:getLocalVar("raiseTimer")
+
+    if (os.time() >= raiseTimer) then
+        if CanCast(mob) then
+            if player:isDead() then
+                if IsFerreousCoffin(mob) then
+                    mob:castSpell(tpz.magic.spell.ARISE, player)
+                else
+                    mob:castSpell(tpz.magic.spell.RAISE_III, player)
+                end
+            end
+        end
+    end
+end
+
+local function CompareByHPP(a, b)
+    return a:getHPP() < b:getHPP()
+end
+
+local function GetLowestHPTarget(entities)
+    table.sort(entities, CompareByHPP)
+    return entities
+end
+
 function UpdateTankAI(mob, target)
     local abilityData = {
             
         {   Skill = tpz.jobAbility.PROVOKE,         Cooldown = 30,       Type = 'Enmity',        Category = 'Job Ability',    Job = tpz.job.WAR },
+        {   Skill = tpz.jobAbility.YONIN,           Cooldown = 60,       Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.NIN },
+        {   Skill = tpz.jobAbility.ISSEKIGAN,       Cooldown = 300,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.NIN },
         {   Skill = tpz.jobAbility.MAJESTY,         Cooldown = 60,       Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.DEFENDER,        Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.WAR },
         {   Skill = tpz.jobAbility.BLOOD_RAGE,      Cooldown = 30,       Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.WAR },
@@ -1098,51 +1251,58 @@ function UpdateTankAI(mob, target)
     local flashTimer = mob:getLocalVar("flashTimer")
     local reprisalTimer = mob:getLocalVar("reprisalTimer")
     local cureTimer = mob:getLocalVar("cureTimer")
+    local mJob = mob:getMainJob()
 
     UpdateAbilityAI(mob, target, abilityData)
 
     -- Spell AI
-    if (os.time() > globalMagicTimer) then
-        if (os.time() >= flashTimer) then
-            if CanCast(mob) then
-                if not target:hasStatusEffect(tpz.effect.FLASH) then
-                    mob:castSpell(tpz.magic.spell.FLASH)
-                    mob:setLocalVar("flashTimer", os.time() + 30)
-                    mob:setLocalVar("globalMagicTimer", os.time() + 10)
-                    return
-                end
-            end
-        end
+    if TryKeepUpUtsusemi(mob) then
+        return
+    end
 
-        if (os.time() >= reprisalTimer) then
-            if CanCast(mob) then
-                if not mob:hasStatusEffect(tpz.effect.REPRISAL) then
-                    if (utils.GetWeaponType(mob) == 'SWORD') then
-                        mob:castSpell(tpz.magic.spell.REPRISAL, mob)
-                        mob:setLocalVar("reprisalTimer", os.time() + 180)
+    if (mJob == tpz.job.PLD) then
+        if (os.time() > globalMagicTimer) then
+            if (os.time() >= flashTimer) then
+                if CanCast(mob) then
+                    if not target:hasStatusEffect(tpz.effect.FLASH) then
+                        mob:castSpell(tpz.magic.spell.FLASH)
+                        mob:setLocalVar("flashTimer", os.time() + 30)
                         mob:setLocalVar("globalMagicTimer", os.time() + 10)
                         return
                     end
                 end
             end
-        end
 
-        if (os.time() >= cureTimer) then
-            if (mob:getHPP() < 75) then
+            if (os.time() >= reprisalTimer) then
                 if CanCast(mob) then
-                    mob:castSpell(tpz.magic.spell.CURE_IV, mob)
-                    mob:setLocalVar("cureTimer", os.time() + 10)
+                    if not mob:hasStatusEffect(tpz.effect.REPRISAL) then
+                        if (utils.GetWeaponType(mob) == 'SWORD') then
+                            mob:castSpell(tpz.magic.spell.REPRISAL, mob)
+                            mob:setLocalVar("reprisalTimer", os.time() + 180)
+                            mob:setLocalVar("globalMagicTimer", os.time() + 10)
+                            return
+                        end
+                    end
+                end
+            end
+
+            if (os.time() >= cureTimer) then
+                if (mob:getHPP() < 75) then
+                    if CanCast(mob) then
+                        mob:castSpell(tpz.magic.spell.CURE_IV, mob)
+                        mob:setLocalVar("cureTimer", os.time() + 20)
+                        mob:setLocalVar("globalMagicTimer", os.time() + 10)
+                        return
+                    end
+                end
+            end
+
+            if CanCast(mob) then
+                if not mob:hasStatusEffect(tpz.effect.ENLIGHT) then
+                    mob:castSpell(tpz.magic.spell.ENLIGHT, mob)
                     mob:setLocalVar("globalMagicTimer", os.time() + 10)
                     return
                 end
-            end
-        end
-
-        if CanCast(mob) then
-            if not mob:hasStatusEffect(tpz.effect.ENLIGHT) then
-                mob:castSpell(tpz.magic.spell.ENLIGHT, mob)
-                mob:setLocalVar("globalMagicTimer", os.time() + 10)
-                return
             end
         end
     end
@@ -1231,6 +1391,7 @@ function UpdateRangedAI(mob, target)
 end
 
 function UpdateHealerAI(mob, target)
+    local itemTimer = mob:getLocalVar("itemTimer")
     local cureTimer = mob:getLocalVar("cureTimer")
     local naTimer = mob:getLocalVar("naTimer")
     local buffTimer = mob:getLocalVar("buffTimer")
@@ -1239,11 +1400,21 @@ function UpdateHealerAI(mob, target)
     local stunTimer = mob:getLocalVar("stunTimer")
     local job = mob:getMainJob()
 
+    -- Items
+    if (os.time() >= itemTimer) then
+        if CanUseItem(mob) then
+            if mob:hasStatusEffect(tpz.effect.SILENCE) then
+                mob:useItem(tpz.items.FLASK_OF_ECHO_DROPS, mob)
+                mob:setLocalVar("itemTimer", os.time() + 5)
+                return
+            end
+        end
+    end
+
     -- JA's
     if CanUseAbility(mob) then
         if (job == tpz.job.WHM) then
-            if not mob:hasStatusEffect(tpz.effect.AFFLATUS_SOLACE) then
-                mob:useJobAbility(tpz.jobAbility.AFFLATUS_SOLACE, mob)
+            if TryKeepUpWHMBuffs(mob) then
                 return
             end
         elseif (job == tpz.job.RDM) then
@@ -1272,49 +1443,57 @@ function UpdateHealerAI(mob, target)
     local nearbyFriendly = mob:getNearbyEntities(20)
     if (nearbyFriendly ~= nil) then 
         for _, friendlyTarget in pairs(nearbyFriendly) do
-            -- Cure
             if (friendlyTarget:getAllegiance() == mob:getAllegiance()) then
+                -- Raise
+                if TryRaise(mob, friendlyTarget) then
+                    mob:setLocalVar("raiseTimer", os.time() + 60)
+                    mob:setLocalVar("globalMagicTimer", os.time() + 10)
+                    return
+                end
+
+                -- Cure
+                local cureTimer = mob:getLocalVar("cureTimer")
                 if (os.time() >= cureTimer) then
-                    if (friendlyTarget:getHPP() < 75) then
-                        local healingSpell = GetBestCure(mob, friendlyTarget)
-                        if (healingSpell ~= nil) then
-                            if CanCast(mob) then
-                                -- printf("[DEBUG] Can cast healing spell: %d at time: %d", healingSpell, os.time())
-                                mob:castSpell(healingSpell, friendlyTarget)
-                                mob:setLocalVar("cureTimer", os.time() + 10)
-                                mob:setLocalVar("globalMagicTimer", os.time() + 10)
-                                -- printf("Casting Cure %d at time: %d", healingSpell, os.time())
-                                return
+                    local sortedFriendlyTargets = GetLowestHPTarget(nearbyFriendly)
+                    for _, cureTarget in ipairs(sortedFriendlyTargets) do
+                        if (cureTarget:getHPP() < 75) then
+                            local healingSpell = GetBestCure(mob, cureTarget)
+                            if (healingSpell ~= nil) then
+                                if CanCast(mob) then
+                                    mob:castSpell(healingSpell, cureTarget)
+                                    mob:setLocalVar("cureTimer", os.time() + 10)
+                                    mob:setLocalVar("globalMagicTimer", os.time() + 10)
+                                    return
+                                end
                             end
                         end
                     end
                 end
 
                 -- Na
+                local naTimer = mob:getLocalVar("naTimer")
                 if (os.time() >= naTimer) then
                     local naSpell = GetBestNA(mob, friendlyTarget)
                     if (naSpell ~= nil) then
                         if CanCast(mob) then
-                            printf("[DEBUG] Can cast na spell: %d at time: %d", naSpell, os.time())
+                            -- printf("[DEBUG] Can cast na spell: %d at time: %d", naSpell, os.time())
                             mob:castSpell(naSpell, friendlyTarget)
                             mob:setLocalVar("naTimer", os.time() + 10)
                             mob:setLocalVar("globalMagicTimer", os.time() + 10)
-                            --printf("Casting Na %d at time: %d", naSpell, os.time())
                             return
                         end
                     end
                 end
 
                 -- Buff
+                local buffTimer = mob:getLocalVar("buffTimer")
                 if (os.time() >= buffTimer) then
                     local buffSpell = GetBestBuff(mob, friendlyTarget)
                     if (buffSpell ~= nil) then
                         if CanCast(mob) then
-                            --printf("[DEBUG] Can cast buff spell: %d at time: %d", buffSpell, os.time())
                             mob:castSpell(buffSpell, mob)
                             mob:setLocalVar("buffTimer", os.time() + 10)
                             mob:setLocalVar("globalMagicTimer", os.time() + 10)
-                            --printf("Casting Buff %d at time: %d", buffSpell, os.time())
                             return
                         end
                     end
@@ -1464,8 +1643,12 @@ function UpdateCasterAI(mob, target)
                         local naSpell = GetBestNA(mob, friendlyTarget)
                         if (naSpell ~= nil) then
                             if CanCast(mob) then
+                                local currentTarget = friendlyTarget
+                                if (naSpell == tpz.magic.spell.ESUNA) then
+                                    currentTarget = mob
+                                end
                                 --printf("[DEBUG] Can cast na spell: %d at time: %d", naSpell, os.time())
-                                mob:castSpell(naSpell, friendlyTarget)
+                                mob:castSpell(naSpell, currentTarget)
                                 mob:setLocalVar("naTimer", os.time() + 10)
                                 mob:setLocalVar("globalMagicTimer", os.time() + 10)
                                 --printf("Casting Na %d at time: %d", naSpell, os.time())
@@ -1563,9 +1746,12 @@ function UpdateSupportAI(mob, target)
     elseif (job == tpz.job.GEO) then
         local power = 1082
         local duration = 0
-        if IsCornelia(mob) then
+        if (mobName == 'Cornelia') then
             mob:addStatusEffectEx(tpz.effect.COLURE_ACTIVE, tpz.effect.COLURE_ACTIVE, 13, 3, duration, tpz.effect.GEO_HASTE, power, tpz.auraTarget.ALLIES, tpz.effectFlag.AURA)
-        else
+        elseif (mobName == 'Moogle') then
+            mob:addStatusEffectEx(tpz.effect.COLURE_ACTIVE, tpz.effect.COLURE_ACTIVE, 13, 3, duration, tpz.effect.GEO_ACCURACY_BOOST, power, tpz.auraTarget.ALLIES, tpz.effectFlag.AURA)
+        elseif (mobName == 'Star_Sibyl') then
+            mob:addStatusEffectEx(tpz.effect.COLURE_ACTIVE, tpz.effect.COLURE_ACTIVE, 13, 3, duration, tpz.effect.GEO_MAGIC_ATK_BOOST, power, tpz.auraTarget.ALLIES, tpz.effectFlag.AURA)
         end
     end
 end
@@ -1751,10 +1937,6 @@ function TryChemistAbility(mob, target, skill)
     end
 end
 
-function IsCurilla(mob)
-    return mob:getName() == 'Curilla'
-end
-
 function IsZeid(mob)
     return mob:getName() == 'Zeid'
 end
@@ -1778,8 +1960,9 @@ end
 function IsCherukiki(mob)
     return mob:getName() == 'Cherukiki'
 end
-function IsCornelia(mob)
-    return mob:getName() == 'Cornelia'
+
+function IsFerreousCoffin(mob)
+    return mob:getName() == 'Ferreous_Coffin'
 end
 
 function ShouldStandBack(mob)
@@ -1788,6 +1971,10 @@ function ShouldStandBack(mob)
 
     if (mobName == 'Koru-Moru') then
         return true
+    end
+
+    if IsFerreousCoffin(mob) then
+        return false
     end
 
     return job == tpz.job.WHM

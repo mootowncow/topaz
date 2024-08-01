@@ -3829,7 +3829,9 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Halver',1087,116); -- Penta Thrust
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Halver',1087,120); -- Impulse Drive
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Rongelouts',1088,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Leonoyne',1089,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maximilian',1090,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maximilian',1090,40); -- Vorpal Blade
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maximilian',1090,41); -- Swift Blade
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Maximilian',1090,42); -- Savage Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,180); -- Sunburst
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,2283); -- Tartarus Torpor
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,1199); -- Gate Of Tartarus

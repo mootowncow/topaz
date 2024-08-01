@@ -30,7 +30,6 @@ function onTrigger(player, item, self)
         end
         
         if (self == nil) then
-            printf("Using item %d", item)
             targ:useItem(item)
         else
             targ:useItem(item, targ)

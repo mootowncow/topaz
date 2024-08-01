@@ -1,7 +1,7 @@
 -----------------------------------
 --
 --     tpz.effect.GEO_HASTE
--- Power 1082: Cornelia grants Haste +20%, Accuracy +30, Ranged Accuracy +30, Magic Accuracy +30
+-- Power 1082: Cornelia grants Haste +20%, Accuracy +30, Ranged Accuracy +30, Magic Accuracy +15
 -----------------------------------
 require("scripts/globals/status")
 -----------------------------------

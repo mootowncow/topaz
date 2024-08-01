@@ -1,7 +1,7 @@
 ---------------------------------------------
 -- Swift Blade
 --
--- Description: Delivers a three-hit attack. Accuracy varies with TP.
+-- Description: Delivers a three-hit attack.
 -- Type: Physical
 -- Utsusemi/Blink absorb: Shadow per hit
 -- Range: Melee
@@ -32,8 +32,6 @@ function onMobWeaponSkill(target, mob, skill)
     params_phys.chr_wsc = 0.0
     local info = MobPhysicalMove(mob, target, skill, numhits, accmod, dmgmod, TP_ACC_VARIES, params_phys, 2, 3)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING, info.hitslanded)
-
-    -- Around 700 damage from AA HM
     target:takeDamage(dmg, mob, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING)
 	if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then   target:tryInterruptSpell(mob, info.hitslanded) end
     return dmg

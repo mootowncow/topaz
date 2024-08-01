@@ -8895,6 +8895,18 @@ INSERT INTO `mob_groups` VALUES (52,0,121,'Bastet',0,128,3154,5500,0,62,62,0);
 INSERT INTO `mob_groups` VALUES (53,0,121,'Skeleton_Scuffler',0,128,0,0,0,58,58,0);
 INSERT INTO `mob_groups` VALUES (54,0,121,'Blest_Bones',0,128,0,0,0,59,59,0);
 INSERT INTO `mob_groups` VALUES (55,0,121,'Holey_Horror',0,128,0,0,0,60,60,0);
+-- RAID
+INSERT INTO `mob_groups` VALUES (56,4593,121,'Shadow_Lord',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (57,9126,121,'Maximilian',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (58,5944,121,'Ferreous_Coffin',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (59,5961,121,'Kukki-Chebukki',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (60,5931,121,'Moogle',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (61,5935,121,'Star_Sibyl',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (62,5956,121,'Jakoh_Wahcondalo',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (63,5904,121,'Ajido-Marujido',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (64,4582,121,'Ifrit',0,128,0,10000,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (65,4581,121,'Fenrir',0,128,0,10000,0,80,80,1);
+
 
 INSERT INTO `mob_groups` VALUES (6591,1324,121,'Ferreous_Coffin',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (6621,2226,121,'Kilhwch',0,0,0,0,0,0,0,0);
