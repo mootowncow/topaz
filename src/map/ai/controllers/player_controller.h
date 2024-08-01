@@ -43,7 +43,7 @@ public:
 
     virtual bool Ability(uint16 targid, uint16 abilityid) override;
     virtual bool RangedAttack(uint16 targid);
-    virtual bool UseItem(uint16 targid, uint8 loc, uint8 slotid);
+    virtual bool UseItem(uint16 targid, uint8 loc, uint16 slotid);
 
     time_point getLastAttackTime();
     void setLastAttackTime(time_point);

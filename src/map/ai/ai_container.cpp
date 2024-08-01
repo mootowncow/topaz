@@ -147,12 +147,11 @@ bool CAIContainer::Trigger(uint16 targID)
     return false;
 }
 
-bool CAIContainer::UseItem(uint16 targid, uint8 loc, uint8 slotid)
+bool CAIContainer::UseItem(uint16 targid, uint8 loc, uint16 slotid)
 {
-    auto PlayerController = dynamic_cast<CPlayerController*>(PEntity->PAI->GetController());
-    if (PlayerController)
+    if (Controller)
     {
-        return PlayerController->UseItem(targid, loc, slotid);
+        return Controller->UseItem(targid, loc, slotid);
     }
     return false;
 }
@@ -277,9 +276,9 @@ bool CAIContainer::Internal_Raise()
     return false;
 }
 
-bool CAIContainer::Internal_UseItem(uint16 targetid, uint8 loc, uint8 slotid)
+bool CAIContainer::Internal_UseItem(uint16 targetid, uint8 loc, uint16 slotid)
 {
-    auto entity {dynamic_cast<CCharEntity*>(PEntity)};
+    auto entity {dynamic_cast<CBattleEntity*>(PEntity)};
     if (entity)
         return ChangeState<CItemState>(entity, targetid, loc, slotid);
     return false;

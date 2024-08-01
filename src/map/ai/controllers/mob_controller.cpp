@@ -629,9 +629,7 @@ bool CMobController::MobSkill(int wsList)
                 PMob->SetLocalVar("tp", tp);
 
                 // Set message for "Player" and Fomor TP moves, and Prishe TP moves
-                if (PMobSkill->getID() <= 255 ||
-                    PMobSkill->getID() >= 1489 && PMobSkill->getID()  <= 1490 ||
-                    PMobSkill->getID() == 3236)
+                if (PMobSkill->isReadiesException())
                 {
                     PMob->loc.zone->PushPacket(PMob, CHAR_INRANGE, new CMessageBasicPacket(PMob, PTarget, 0, PMobSkill->getID(), MSGBASIC_READIES_WS));
                 }
@@ -1813,6 +1811,20 @@ bool CMobController::RangedAttack(uint16 targid)
     if (PMob->PAI->CanChangeState() && PMob->PAI->Internal_RangedAttack(targid))
     {
         m_LastRangedAttackTime = m_Tick;
+    }
+    return false;
+}
+
+bool CMobController::UseItem(uint16 targid, uint8 loc, uint16 slotid)
+{
+    auto PMob = static_cast<CMobEntity*>(POwner);
+    if (PMob->PAI->CanChangeState())
+    {
+        if (PMob->StatusEffectContainer->HasStatusEffect(EFFECT_MUDDLE))
+        {
+            return false;
+        }
+        return PMob->PAI->Internal_UseItem(targid, loc, slotid);
     }
     return false;
 }

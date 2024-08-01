@@ -29,6 +29,7 @@
 class CMobSpellContainer;
 class CMobSpellList;
 class CEnmityContainer;
+class CItemState;
 
 enum SPAWNTYPE
 {
@@ -168,6 +169,7 @@ public:
 
     virtual void OnWeaponSkillFinished(CWeaponSkillState&, action_t&) override;
     virtual void OnMobSkillFinished(CMobSkillState&, action_t&);
+    virtual void OnItemFinish(CItemState&, action_t&);
     virtual void OnEngage(CAttackState&) override;
 
     virtual bool OnAttack(CAttackState&, action_t&) override;

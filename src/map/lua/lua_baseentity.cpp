@@ -16307,6 +16307,51 @@ inline int32 CLuaBaseEntity::useJobAbility(lua_State* L)
 }
 
 /************************************************************************
+ *  Function: useItem()
+ *  Purpose : Instruct a Mob to use a specified item
+ *  Example : mob:useItem(tpz.items.FLASK_OF_ECHO_DROPS)
+ *  Notes   : Inserts directly into queue stack with 0ms delay
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::useItem(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    if (lua_isnumber(L, 1))
+    {
+        uint16 itemId = (uint16)lua_tointeger(L, 1);
+        CBattleEntity* PTarget = nullptr;
+
+        if (!lua_isnil(L, 2) && lua_isuserdata(L, 2))
+        {
+            CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 2);
+            if (PLuaBaseEntity != nullptr)
+            {
+                PTarget = (CBattleEntity*)PLuaBaseEntity->m_PBaseEntity;
+            }
+        }
+
+        m_PBaseEntity->PAI->QueueAction(
+            queueAction_t(0ms, true,
+                          [PTarget, itemId](auto PEntity)
+                          {
+                              if (PTarget)
+                              {
+                                  PEntity->PAI->UseItem(PTarget->targid, LOC_INVENTORY, itemId); // Pass itemId
+                              }
+                              else
+                              {
+                                  PEntity->PAI->UseItem(PEntity->targid, LOC_INVENTORY, itemId); // Pass itemId
+                              }
+                          }));
+
+    }
+
+    return 0;
+}
+
+/************************************************************************
  *  Function: useWeaponSkill()
  *  Purpose : Instruct a Mob to use a specified weapon skill
  *  Example : wyvern:useWeaponSkill(636, wyvern) -- Specifying pet to use
@@ -16448,7 +16493,7 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                                           }
                                           PEntity->PAI->MobSkill(targetID, skillid);
 
-                                          if (PMobSkill->getID() <= 255)
+                                          if (PMobSkill->isReadiesException())
                                           {
                                               if (PMob && PMob->loc.zone)
                                               {
@@ -17613,6 +17658,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,castSpell),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,useJobAbility),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,useItem),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,useWeaponSkill),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,useMobAbility),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasTPMoves),

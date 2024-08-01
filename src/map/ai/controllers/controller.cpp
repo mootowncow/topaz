@@ -100,6 +100,15 @@ bool CController::WeaponSkill(uint16 targid, uint16 wsid)
     return false;
 }
 
+bool CController::UseItem(uint16 targid, uint8 loc, uint16 slotid)
+{
+    if (POwner)
+    {
+        return POwner->PAI->UseItem(targid, loc, slotid);
+    }
+    return false;
+}
+
 bool CController::IsAutoAttackEnabled()
 {
     return m_AutoAttackEnabled;

@@ -36,102 +36,142 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 
 #include "../../utils/battleutils.h"
 #include "../../utils/charutils.h"
+#include "../../utils/itemutils.h"
 
 
-CItemState::CItemState(CCharEntity* PEntity, uint16 targid, uint8 loc, uint8 slotid) :
+CItemState::CItemState(CBattleEntity* PEntity, uint16 targid, uint8 loc, uint16 slotid) :
     CState(PEntity, targid),
     m_PEntity(PEntity),
     m_PItem(nullptr),
     m_location(loc),
     m_slot(slotid)
 {
-    auto PItem = dynamic_cast<CItemUsable*>(m_PEntity->getStorage(loc)->GetItem(slotid));
-    m_PItem = PItem;
-
-    if (m_PItem && m_PItem->isType(ITEM_USABLE))
+    if (m_PEntity && m_PEntity->objtype == TYPE_MOB)
     {
-        if (m_PItem->isType(ITEM_EQUIPMENT))
+        CItem* PItem = itemutils::GetItem(slotid);
+
+        // Try to cast CItem to CItemUsable
+        CItemUsable* PUsableItem = dynamic_cast<CItemUsable*>(PItem);
+        m_PItem = PUsableItem;
+        if (PUsableItem)
         {
-            // check if this item is equipped
-            bool found = false;
-            for (auto equipslot = 0; equipslot < 18; ++equipslot)
+            auto PTarget = m_PEntity->IsValidTarget(targid, PUsableItem->getValidTarget(), m_errorMsg);
+            CState::UpdateTarget(m_targid);
+
+            m_startPos = m_PEntity->loc.p;
+            m_castTime = std::chrono::milliseconds(PUsableItem->getActivationTime());
+            m_animationTime = std::chrono::milliseconds(PUsableItem->getAnimationTime());
+
+            action_t action;
+            action.id = m_PEntity->id;
+            action.actiontype = ACTION_ITEM_START;
+
+            actionList_t& actionList = action.getNewActionList();
+            actionList.ActionTargetID = PTarget->id;
+
+            actionTarget_t& actionTarget = actionList.getNewActionTarget();
+
+            actionTarget.reaction = REACTION_NONE;
+            actionTarget.speceffect = SPECEFFECT_NONE;
+            actionTarget.animation = 0;
+            actionTarget.param = PUsableItem->getID();
+            actionTarget.messageID = 28;
+            actionTarget.knockback = 0;
+
+            m_PEntity->PAI->EventHandler.triggerListener("ITEM_START", PTarget, PUsableItem, &action);
+            m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+        }
+    }
+    else if (m_PEntity && m_PEntity->objtype == TYPE_PC)
+    {
+        CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_PEntity);
+        auto PItem = dynamic_cast<CItemUsable*>(PChar->getStorage(loc)->GetItem(slotid));
+        m_PItem = PItem;
+        if (m_PItem && m_PItem->isType(ITEM_USABLE))
+        {
+            if (m_PItem->isType(ITEM_EQUIPMENT))
             {
-                if (m_PEntity->getEquip((SLOTTYPE)equipslot) == m_PItem && m_PItem->getCurrentCharges() > 0)
+                // check if this item is equipped
+                bool found = false;
+                for (auto equipslot = 0; equipslot < 18; ++equipslot)
                 {
-                    found = true;
-                    break;
+                    if (PChar->getEquip((SLOTTYPE)equipslot) == m_PItem && m_PItem->getCurrentCharges() > 0)
+                    {
+                        found = true;
+                        break;
+                    }
                 }
+                if (!found)
+                    m_PItem = nullptr;
             }
-            if (!found)
-                m_PItem = nullptr;
-        }
-        else if (m_PItem->isSubType(ITEM_LOCKED))
-        {
-            m_PItem = nullptr;
-        }
-    }
-
-    if (!m_PItem)
-    {
-        throw CStateInitException(std::make_unique<CMessageBasicPacket>(m_PEntity, m_PEntity, 0, 0, MSGBASIC_ITEM_UNABLE_TO_USE_2));
-    }
-
-    auto PTarget = m_PEntity->IsValidTarget(targid, m_PItem->getValidTarget(), m_errorMsg);
-
-    if (!PTarget || m_errorMsg)
-    {
-        throw CStateInitException(std::move(m_errorMsg));
-    }
-
-    auto [error, param, value] = luautils::OnItemCheck(PTarget, m_PItem, ITEMCHECK::NONE, m_PEntity);
-    if (error || m_PEntity->StatusEffectContainer->HasPreventActionEffect())
-    {
-        if (error == -1)
-        {
-            throw CStateInitException(nullptr);
-        }
-        else
-        {
-            if (value == 0)
+            else if (m_PItem->isSubType(ITEM_LOCKED))
             {
-                param = m_PItem->getFlag() & ITEM_FLAG_SCROLL ? m_PItem->getSubID() : m_PItem->getID();
+                m_PItem = nullptr;
             }
-            throw CStateInitException(std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget ? PTarget : m_PEntity, param, value, error));
         }
+
+        if (!m_PItem)
+        {
+            throw CStateInitException(std::make_unique<CMessageBasicPacket>(PChar, PChar, 0, 0, MSGBASIC_ITEM_UNABLE_TO_USE_2));
+        }
+
+        auto PTarget = PChar->IsValidTarget(targid, m_PItem->getValidTarget(), m_errorMsg);
+
+        if (!PTarget || m_errorMsg)
+        {
+            throw CStateInitException(std::move(m_errorMsg));
+        }
+
+        auto [error, param, value] = luautils::OnItemCheck(PTarget, m_PItem, ITEMCHECK::NONE, PChar);
+        if (error || PChar->StatusEffectContainer->HasPreventActionEffect())
+        {
+            if (error == -1)
+            {
+                throw CStateInitException(nullptr);
+            }
+            else
+            {
+                if (value == 0)
+                {
+                    param = m_PItem->getFlag() & ITEM_FLAG_SCROLL ? m_PItem->getSubID() : m_PItem->getID();
+                }
+                throw CStateInitException(std::make_unique<CMessageBasicPacket>(PChar, PTarget ? PTarget : PChar, param, value, error));
+            }
+        }
+
+        PChar->UContainer->SetType(UCONTAINER_USEITEM);
+        PChar->UContainer->SetItem(0, m_PItem);
+
+        CState::UpdateTarget(m_targid);
+
+        m_startPos = PChar->loc.p;
+        m_castTime = std::chrono::milliseconds(m_PItem->getActivationTime());
+        m_animationTime = std::chrono::milliseconds(PItem->getAnimationTime());
+
+        action_t action;
+        action.id = PChar->id;
+        action.actiontype = ACTION_ITEM_START;
+
+        actionList_t& actionList = action.getNewActionList();
+        actionList.ActionTargetID = PTarget->id;
+
+        actionTarget_t& actionTarget = actionList.getNewActionTarget();
+
+        actionTarget.reaction = REACTION_NONE;
+        actionTarget.speceffect = SPECEFFECT_NONE;
+        actionTarget.animation = 0;
+        actionTarget.param = m_PItem->getID();
+        actionTarget.messageID = 28;
+        actionTarget.knockback = 0;
+
+        PChar->PAI->EventHandler.triggerListener("ITEM_START", PTarget, m_PItem, &action);
+        PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CActionPacket(action));
+
+        m_PItem->setSubType(ITEM_LOCKED);
+
+        PChar->pushPacket(new CInventoryAssignPacket(m_PItem, INV_NOSELECT));
+        PChar->pushPacket(new CInventoryFinishPacket());
     }
-
-    m_PEntity->UContainer->SetType(UCONTAINER_USEITEM);
-    m_PEntity->UContainer->SetItem(0, m_PItem);
-
-    CState::UpdateTarget(m_targid);
-
-    m_startPos = m_PEntity->loc.p;
-    m_castTime = std::chrono::milliseconds(m_PItem->getActivationTime());
-    m_animationTime = std::chrono::milliseconds(PItem->getAnimationTime());
-
-    action_t action;
-    action.id = m_PEntity->id;
-    action.actiontype = ACTION_ITEM_START;
-
-    actionList_t& actionList = action.getNewActionList();
-    actionList.ActionTargetID = PTarget->id;
-
-    actionTarget_t& actionTarget = actionList.getNewActionTarget();
-
-    actionTarget.reaction = REACTION_NONE;
-    actionTarget.speceffect = SPECEFFECT_NONE;
-    actionTarget.animation = 0;
-    actionTarget.param = m_PItem->getID();
-    actionTarget.messageID = 28;
-    actionTarget.knockback = 0;
-
-    m_PEntity->PAI->EventHandler.triggerListener("ITEM_START", PTarget, m_PItem, &action);
-    m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
-
-    m_PItem->setSubType(ITEM_LOCKED);
-
-    m_PEntity->pushPacket(new CInventoryAssignPacket(m_PItem, INV_NOSELECT));
-    m_PEntity->pushPacket(new CInventoryFinishPacket());
 }
 
 bool CItemState::Update(time_point tick)
@@ -165,20 +205,24 @@ bool CItemState::Update(time_point tick)
 
 void CItemState::Cleanup(time_point tick)
 {
-    m_PEntity->UContainer->Clean();
+    if (m_PEntity && m_PEntity->objtype == TYPE_PC)
+    {
+        CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_PEntity);
+        PChar->UContainer->Clean();
 
-    if ((m_interrupted || !IsCompleted()) && !m_PItem->isType(ITEM_EQUIPMENT))
-        m_PItem->setSubType(ITEM_UNLOCKED);
+        if ((m_interrupted || !IsCompleted()) && !m_PItem->isType(ITEM_EQUIPMENT))
+            m_PItem->setSubType(ITEM_UNLOCKED);
 
-    auto PItem = m_PEntity->getStorage(m_location)->GetItem(m_slot);
+        auto PItem = PChar->getStorage(m_location)->GetItem(m_slot);
 
-    if (PItem && PItem == m_PItem)
-        m_PEntity->pushPacket(new CInventoryAssignPacket(m_PItem, INV_NORMAL));
-    else
-        m_PItem = nullptr;
+        if (PItem && PItem == m_PItem)
+            PChar->pushPacket(new CInventoryAssignPacket(m_PItem, INV_NORMAL));
+        else
+            m_PItem = nullptr;
 
-    m_PEntity->pushPacket(new CInventoryItemPacket(m_PItem, m_location, m_slot));
-    m_PEntity->pushPacket(new CInventoryFinishPacket());
+        PChar->pushPacket(new CInventoryItemPacket(m_PItem, m_location, m_slot));
+        PChar->pushPacket(new CInventoryFinishPacket());
+    }
 }
 
 bool CItemState::CanChangeState()
@@ -245,14 +289,30 @@ void CItemState::InterruptItem(action_t& action)
         actionTarget.param = 0;
         actionTarget.messageID = 0;
         actionTarget.knockback = 0;
-        m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CMessageBasicPacket(m_PEntity, m_PEntity, m_PItem->getID(), 0, MSGBASIC_ITEM_FAILS_TO_ACTIVATE));
-        m_PEntity->pushPacket(m_errorMsg.release());
+        if (m_PEntity && m_PEntity->objtype == TYPE_PC)
+        {
+            CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_PEntity);
+            PChar->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CMessageBasicPacket(m_PEntity, m_PEntity, m_PItem->getID(), 0, MSGBASIC_ITEM_FAILS_TO_ACTIVATE));
+            PChar->pushPacket(m_errorMsg.release());
+        }
     }
 }
 
 void CItemState::FinishItem(action_t& action)
 {
-    m_PEntity->OnItemFinish(*this, action);
+    if (m_PEntity)
+    {
+        if (m_PEntity->objtype == TYPE_PC)
+        {
+            CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_PEntity);
+            PChar->OnItemFinish(*this, action);
+        }
+        else if(m_PEntity->objtype == TYPE_MOB)
+        {
+            CMobEntity* PMob = dynamic_cast<CMobEntity*>(m_PEntity);
+            PMob->OnItemFinish(*this, action);
+        }
+    }
 }
 
 bool CItemState::HasMoved()

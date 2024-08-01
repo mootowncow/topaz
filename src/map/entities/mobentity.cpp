@@ -32,6 +32,7 @@
 #include "../ai/states/attack_state.h"
 #include "../ai/states/weaponskill_state.h"
 #include "../ai/states/mobskill_state.h"
+#include "../ai/states/item_state.h"
 #include "../ai/states/magic_state.h"
 #include "../ai/states/ability_state.h"
 #include "../ai/states/range_state.h"
@@ -1618,6 +1619,149 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         battleutils::ClaimMob(PTarget, this);
     }
     battleutils::DirtyExp(PTarget, this);
+}
+
+void CMobEntity::OnItemFinish(CItemState& state, action_t& action)
+{
+    auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    auto PItem = static_cast<CItemUsable*>(state.GetItem());
+
+    PAI->TargetFind->reset();
+    if (PItem->getAoE())
+    {
+        PTarget->ForParty(
+            [PItem, PTarget](CBattleEntity* PMember)
+            {
+                if (!PMember->isDead() && distance(PTarget->loc.p, PMember->loc.p) <= 10)
+                {
+                    luautils::OnItemUse(PMember, PItem);
+                    battleutils::GenerateInRangeEnmity(PTarget, 0, 640);
+                    // Prism and Rainbow powders
+                    if (PItem->getID() != 4164 && PItem->getID() != 5362)
+                    {
+                        PTarget->StatusEffectContainer->DelStatusEffectSilent(EFFECT_INVISIBLE);
+                    }
+                }
+            });
+        float radius = 10.0f;
+        PAI->TargetFind->findWithinArea(PTarget, AOERADIUS_ATTACKER, radius);
+
+        uint16 targets = (uint16)PAI->TargetFind->m_targets.size();
+
+        for (auto&& PActionTarget : PAI->TargetFind->m_targets)
+        {
+            if (this->allegiance == PActionTarget->allegiance)
+            {
+                action.id = this->id;
+                action.actiontype = ACTION_ITEM_FINISH;
+                action.actionid = PItem->getID();
+
+                actionList_t& actionList = action.getNewActionList();
+                actionList.ActionTargetID = PActionTarget->id;
+
+                actionTarget_t& actionTarget = actionList.getNewActionTarget();
+                actionTarget.animation = PItem->getAnimationID();
+                actionTarget.reaction = REACTION_HIT;
+                actionTarget.messageID = PItem->getMsg();
+                actionTarget.param = PItem->getParam();
+
+                // Percentage HP / MP restored msg, Healing/Mana Powder
+                if (actionTarget.messageID == MSGBASIC_RECOVERS_HP_MP || PItem->getID() == 5322 || PItem->getID() == 4255)
+                {
+                    int hp = floor(PActionTarget->GetMaxHP() * actionTarget.param);
+                    int mp = floor(PActionTarget->GetMaxMP() * actionTarget.param);
+                    int hpp = floor(hp / 100);
+                    int mpp = floor(mp / 100);
+
+                    actionTarget.param = hpp;
+
+                    // Mana Powder
+                    if (PItem->getID() == 4255)
+                    {
+                        actionTarget.param = mpp;
+                    }
+                }
+
+                // HP restored msg
+                if (actionTarget.messageID == MSGBASIC_RECOVERS_HP || actionTarget.messageID == MSGBASIC_RECOVERS_HP_MP)
+                {
+                    if (this->StatusEffectContainer->HasStatusEffect(EFFECT_CURSE_II))
+                    {
+                        actionTarget.param = 0;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        luautils::OnItemUse(PTarget, PItem);
+        battleutils::GenerateInRangeEnmity(PTarget, 0, 640);
+        // Prism and Rainbow powders
+        if (PItem->getID() != 4164 && PItem->getID() != 5362)
+        {
+            this->StatusEffectContainer->DelStatusEffectSilent(EFFECT_INVISIBLE);
+        }
+        action.id = this->id;
+        action.actiontype = ACTION_ITEM_FINISH;
+        action.actionid = PItem->getID();
+
+        actionList_t& actionList = action.getNewActionList();
+        actionList.ActionTargetID = PTarget->id;
+
+        // Healing / Clear Salve / Dawn Mulsum (Pet items)
+        if (PItem->getID() >= 5835 && PItem->getID() <= 5838 || PItem->getID() == 5411)
+        {
+            if (PTarget->PPet != nullptr)
+            {
+                actionList.ActionTargetID = PTarget->PPet->id;
+            }
+        }
+
+        actionTarget_t& actionTarget = actionList.getNewActionTarget();
+        actionTarget.animation = PItem->getAnimationID();
+        actionTarget.reaction = REACTION_HIT;
+        actionTarget.messageID = PItem->getMsg();
+        actionTarget.param = PItem->getParam();
+
+        // Percentage HP for Healing Salve I and II
+        if (PItem->getID() == 5835 || PItem->getID() == 5836)
+        {
+            if (PTarget->PPet != nullptr)
+            {
+                int hp = floor(PPet->GetMaxHP() * actionTarget.param);
+                int hpp = floor(hp / 100);
+
+                actionTarget.param = hpp;
+            }
+        }
+
+        // Percentage HP / MP restored msg, Healing/Mana Powder
+        if (actionTarget.messageID == MSGBASIC_RECOVERS_HP_MP || PItem->getID() == 5322 || PItem->getID() == 4255)
+        {
+            int hp = floor(this->GetMaxHP() * actionTarget.param);
+            int mp = floor(this->GetMaxMP() * actionTarget.param);
+            int hpp = floor(hp / 100);
+            int mpp = floor(mp / 100);
+
+            actionTarget.param = hpp;
+
+            // Mana Powder
+            if (PItem->getID() == 4255)
+            {
+                actionTarget.param = mpp;
+            }
+        }
+
+        // HP restored msg
+        if (actionTarget.messageID == MSGBASIC_RECOVERS_HP || actionTarget.messageID == MSGBASIC_RECOVERS_HP_MP)
+        {
+            if (this->StatusEffectContainer->HasStatusEffect(EFFECT_CURSE_II))
+            {
+                actionTarget.param = 0;
+            }
+        }
+    }
 }
 
 void CMobEntity::DistributeRewards()

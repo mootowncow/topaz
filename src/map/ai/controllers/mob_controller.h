@@ -40,6 +40,7 @@ public:
     virtual bool MobSkill(uint16 targid, uint16 wsid);
     virtual bool Ability(uint16 targid, uint16 abilityid) override;
     bool RangedAttack(uint16 targid);
+    virtual bool UseItem(uint16 targid, uint8 loc, uint16 slotid);
     bool MobSkill(int list = 0);
     bool TryCastSpell();
     bool TrySpecialSkill();
