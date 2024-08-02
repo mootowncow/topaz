@@ -10774,6 +10774,20 @@ int32 CLuaBaseEntity::isDead(lua_State* L)
 }
 
 /************************************************************************
+ *  Function: hasRaise()
+ *  Purpose : Returns true if an Entity has a raise prompt active(option to select yes/no to allowing self to be reived)
+ *  Example : if (player:hasRaise())
+ *  Notes   :
+ ************************************************************************/
+
+int32 CLuaBaseEntity::hasRaise(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+    lua_pushboolean(L, static_cast<CCharEntity*>(m_PBaseEntity)->m_hasRaise);
+    return 1;
+}
+
+/************************************************************************
 *  Function: sendRaise()
 *  Purpose : Updates the m_hasRaise private member with the Raise Level
 *  Example : target:sendRaise(1) -- 2, or 3 for R2, R3
@@ -17394,6 +17408,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isAlive),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isDead),
 
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasRaise),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,sendRaise),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,sendReraise),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,sendTractor),

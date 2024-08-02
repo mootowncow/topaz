@@ -498,6 +498,7 @@ public:
     // Battle Utilities
     int32 isAlive(lua_State* L);
     int32 isDead(lua_State* L);
+    int32 hasRaise(lua_State* L);             // has a raise prompt active
     int32 sendRaise(lua_State*);              // send raise request to char
     int32 sendReraise(lua_State*);            // send raise request to char
     int32 sendTractor(lua_State*);            // send tractor request to char

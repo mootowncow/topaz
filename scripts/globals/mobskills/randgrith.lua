@@ -17,7 +17,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-
+    local tp = mob:getLocalVar("tp")
     local numhits = 1
     local accmod = 1
     local dmgmod = 2
@@ -34,14 +34,14 @@ function onMobWeaponSkill(target, mob, skill)
     params_phys.chr_wsc = 0.0
 
     local info = MobPhysicalMove(mob, target, skill, numhits, accmod, dmgmod, TP_DMG_VARIES, params_phys, 3, 3)
-    local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING, info.hitslanded)
+    local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.BLUNT, info.hitslanded)
 
     local duration = 300
     local typeEffect = tpz.effect.EVASION_DOWN
     local power = 32
 
-    target:takeDamage(dmg, mob, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING)
+    target:takeDamage(dmg, mob, tpz.attackType.PHYSICAL, tpz.damageType.BLUNT)
     MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, power, 0, duration)
+    tpz.aftermath.addStatusEffect(mob, tp, tpz.slot.MAIN, tpz.aftermath.type.RELIC, true, 11)
     return dmg
-
 end

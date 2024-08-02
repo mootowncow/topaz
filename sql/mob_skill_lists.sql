@@ -3788,7 +3788,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhu_Mhakaracca',1058,68); -- Spinni
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhu_Mhakaracca',1058,69); -- Rampage
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhu_Mhakaracca',1058,72); -- Decimation
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhu_Mhakaracca',1058,1192); -- Onslaught
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ferreous_Coffin',1059,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ferreous_Coffin',1059,1198); -- Randgrith
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lilisette',1060,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mumor',1061,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Uka_Totlihn',1062,0);
@@ -3802,7 +3802,9 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Invincible_Shield_UC',1069,86); -- 
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Invincible_Shield_UC',1069,88); -- Steel Cyclone
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Invincible_Shield_UC',1069,3499); -- Soturis Fury
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Apururu_UC',1070,3502); -- Nott
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Jakoh_Wahcondalo_UC',1071,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Jakoh_Wahcondalo_UC',1071,23); -- Dancing Edge
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Jakoh_Wahcondalo_UC',1071,25); -- Evisceration
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Jakoh_Wahcondalo_UC',1071,3497); -- Sarvas Storm
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Flaviria_UC',1072,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Babban',1073,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Abenzio',1074,0);

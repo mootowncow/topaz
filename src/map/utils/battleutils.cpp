@@ -584,7 +584,7 @@ int16 GetSDTTier(int16 SDT)
         {
             SDT = 100;
         }
-        printf("SDT %f\n", SDT);
+        //printf("SDT %f\n", SDT);
         return SDT;
     }
 
@@ -803,7 +803,7 @@ int16 GetSDTTier(int16 SDT)
             }
         }
 
-        printf("res: %f\n", res);
+        //printf("res: %f\n", res);
         return res;
     }
 

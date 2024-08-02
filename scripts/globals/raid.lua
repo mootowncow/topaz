@@ -20,12 +20,14 @@ require("scripts/globals/weaponskillids")
 -- TODO: Does Kyo respawn and work?
 -- TODO: Check that barrage is properly adding hits in cpp with print
 -- TODO: SA / TA damage on monstertpmoves
--- TODO: Make Cornelia untargettable
 -- TODO: Test Insomninant AI, negate_sleep effect coded
 -- TODO: Test Flashy shot pdif stuff for level correction (ranged pdif and ws ranged pdif)
 -- TODO: Test Pinning Nocturne(does it cast and does effect work? -15% FASTCAST and -15 MACC base)
 -- TODO: Give all NPCs 1k base HP
--- TODO: Test Cure priority to lower HP targets
+-- TODO: Spells can be parad/interrupted, make sure vars for recasts are only set IF spell is casted so "IfCasted(spell) then <set vars>"
+-- TODO: Does RDM raise and WHM RAise III?
+-- TODO: Why does ifrit despawn?
+-- TODO: Next set of NPCs qultada + ovjang(tank) + nashmeira and other serpent generals
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -142,6 +144,15 @@ local modByMobName =
     end,
 
     ['Kamlanaut'] = function(mob)
+        mob:setDamage(140)
+        mob:addMod(tpz.mod.ATTP, 50)
+        mob:addMod(tpz.mod.DEFP, 50) 
+        mob:addMod(tpz.mod.ACC, 50) 
+        mob:setMod(tpz.mod.REFRESH, 400)
+        mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
+    end,
+
+    ['Shadow_Lord'] = function(mob)
         mob:setDamage(140)
         mob:addMod(tpz.mod.ATTP, 50)
         mob:addMod(tpz.mod.DEFP, 50) 
@@ -401,26 +412,51 @@ local mobFightByMobName =
             mob:setLocalVar("nextEnSkill", os.time() + 30)
         end
     end,
+
+    ['Shadow_Lord'] = function(mob, target)
+        -- have to keep track of both the last time he changed immunity and the HP he changed at
+        local changeTime = mob:getLocalVar("changeTime")
+        local changeHP = mob:getLocalVar("changeHP")
+
+        -- subanimation 0 is first phase subanim, so just go straight to magic mode
+        if (mob:AnimationSub() == 0) then
+            mob:AnimationSub(1)
+            mob:delStatusEffectSilent(tpz.effect.PHYSICAL_SHIELD)
+            mob:addStatusEffectEx(tpz.effect.MAGIC_SHIELD, 0, 1, 0, 0)
+            mob:SetAutoAttackEnabled(false)
+            mob:SetMagicCastingEnabled(true)
+            mob:setMobMod(tpz.mobMod.MAGIC_COOL, 2)
+            --and record the time and HP this immunity was started
+            mob:setLocalVar("changeTime", mob:getBattleTime())
+            mob:setLocalVar("changeHP", mob:getHP())
+        -- subanimation 2 is physical mode, so check if he should change into magic mode
+        elseif (mob:AnimationSub() == 2 and (mob:getHP() <= changeHP - 1000 or
+                mob:getBattleTime() - changeTime > 300)) then
+            mob:AnimationSub(1)
+            mob:delStatusEffectSilent(tpz.effect.PHYSICAL_SHIELD)
+            mob:addStatusEffectEx(tpz.effect.MAGIC_SHIELD, 0, 1, 0, 0)
+            mob:SetAutoAttackEnabled(false)
+            mob:SetMagicCastingEnabled(true)
+            mob:setMobMod(tpz.mobMod.MAGIC_COOL, 2)
+            mob:setLocalVar("changeTime", mob:getBattleTime())
+            mob:setLocalVar("changeHP", mob:getHP())
+        -- subanimation 1 is magic mode, so check if he should change into physical mode
+        elseif (mob:AnimationSub() == 1 and (mob:getHP() <= changeHP - 1000 or
+                mob:getBattleTime() - changeTime > 300)) then
+            -- and use an ability before changing
+            mob:useMobAbility(tpz.mob.skills.DARK_NOVA)
+            mob:AnimationSub(2)
+            mob:delStatusEffectSilent(tpz.effect.MAGIC_SHIELD)
+            mob:addStatusEffectEx(tpz.effect.PHYSICAL_SHIELD, 0, 1, 0, 0)
+            mob:SetAutoAttackEnabled(true)
+            mob:SetMagicCastingEnabled(false)
+            mob:setMobMod(tpz.mobMod.MAGIC_COOL, 10)
+            mob:setLocalVar("changeTime", mob:getBattleTime())
+            mob:setLocalVar("changeHP", mob:getHP())
+        end
+    end,
 }
 
-function Unused()
-    local NextPhase = mob:getLocalVar("NextPhase")
-    local MegaFlare = mob:getLocalVar("MegaFlare")
-    local GigaFlareUsed = mob:getLocalVar("GigaFlareUsed")
-
-
-    if mob:getHPP() >= 70 and (mob:getHPP() < NextPhase) and (MegaFlare == 0) then
-        mob:useMobAbility(tpz.mob.skills.MEGAFLARE)
-        mob:setLocalVar("NextPhase", NextPhase - 10)
-        mob:setLocalVar("MegaFlare", 1)
-    end
-
-
-    if mob:getHPP() >= 20 and (mob:getHPP() < NextPhase) and (GigaFlareUsed == 0) then
-        mob:setLocalVar("GigaFlareUsed", 1)
-        mob:useMobAbility(1552)
-    end
-end
 -- Mob helper functions
 
 tpz.raid.onMobSpawn = function(mob)
@@ -505,8 +541,7 @@ tpz.raid.onNpcSpawn = function(mob)
     elseif isRanged(mob) then
         SetUpRangedNPC(mob)
     elseif isCaster(mob) then
-        mob:setSpellList(0)
-        mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
+        SetUpCasterNPC(mob)
     end
 
     mob:setUnkillable(true) -- For testing
@@ -670,6 +705,19 @@ function SetUpTankNPC(mob)
     mob:setSpellList(0)
 end
 
+function SetUpSupportNPC(mob)
+    local mJob = mob:getMainJob()
+
+    if (mJob == tpz.job.BRD) then
+        mob:SetAutoAttackEnabled(false)
+    elseif (mJob == tpz.job.GEO) then
+        mob:addMod(tpz.mod.AURA_RADIUS, 20)
+        mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
+        mob:untargetable(true)
+    end
+    mob:setSpellList(0)
+end
+
 function SetUpMeleeNPC(mob)
     local mJob = mob:getMainJob()
     local sJob = mob:getSubJob()
@@ -695,14 +743,11 @@ function SetUpRangedNPC(mob)
     mob:setMobMod(tpz.mobMod.CAN_RA, 16)
 end
 
-function SetUpSupportNPC(mob)
-    local mJob = mob:getMainJob()
-
-    if (mJob == tpz.job.BRD) then
-        mob:SetAutoAttackEnabled(false)
-    elseif (mJob == tpz.job.GEO) then
-        mob:untargetable(true)
-        mob:addMod(tpz.mod.AURA_RADIUS, 20)
+function SetUpCasterNPC(mob)
+    if ShouldStandBack(mob) then
+        mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
+    else
+        mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     end
     mob:setSpellList(0)
 end
@@ -1019,7 +1064,6 @@ local function GetBestBuff(mob, player)
     local ferreousCoffinBuffs = {
         [tpz.job.WHM] = {
             { Effect = tpz.effect.HASTE,            Spell = tpz.magic.spell.HASTE_II    },
-            { Effect = tpz.effect.STONESKIN,        Spell = tpz.magic.spell.STONESKIN   },
             { Effect = tpz.effect.SHELL,            Spell = tpz.magic.spell.SHELL_V     },
             { Effect = tpz.effect.PROTECT,          Spell = tpz.magic.spell.PROTECT_V   },
             { Effect = tpz.effect.REGEN,            Spell = tpz.magic.spell.REGEN_III   },
@@ -1145,15 +1189,13 @@ local function TryKeepUpUtsusemi(mob)
         { spell = tpz.magic.spell.UTSUSEMI_ICHI,    var = "ichiTimer",  duration = 15}
     }
 
-    local currentTime = os.time()
     local ret = false
-
     if not mob:hasStatusEffect(tpz.effect.COPY_IMAGE) then
         for _, timer in ipairs(timers) do
-            if currentTime <= mob:getLocalVar(timer.var) then
+            if os.time() >= mob:getLocalVar(timer.var) then
                 if CanCast(mob) then
                     mob:castSpell(timer.spell, mob)
-                    mob:setLocalVar(timer.var, currentTime + timer.duration)
+                    mob:setLocalVar(timer.var, os.time() + timer.duration)
                     ret = true
                 end
                 break
@@ -1174,8 +1216,8 @@ local function TryKeepUpWHMBuffs(mob)
             mob:useJobAbility(tpz.jobAbility.LIGHT_ARTS, mob)
             return
         end
-        if not mob:hasStatusEffect(tpz.effect.SANCROSANCTITY) then
-            mob:useJobAbility(tpz.jobAbility.SANCROSANCTITY, mob)
+        if not mob:hasStatusEffect(tpz.effect.SACROSANCTITY) then
+            mob:useJobAbility(tpz.jobAbility.SACROSANCTITY, mob)
             return true
         end
         if not mob:hasStatusEffect(tpz.effect.ASYLUM) then
@@ -1193,15 +1235,22 @@ local function TryKeepUpWHMBuffs(mob)
 end
 
 local function TryRaise(mob, player)
+    local mJob = mob:getMainJob()
     local raiseTimer = mob:getLocalVar("raiseTimer")
 
     if (os.time() >= raiseTimer) then
         if CanCast(mob) then
             if player:isDead() then
-                if IsFerreousCoffin(mob) then
-                    mob:castSpell(tpz.magic.spell.ARISE, player)
-                else
-                    mob:castSpell(tpz.magic.spell.RAISE_III, player)
+                if not player:hasRaise() then
+                    if (mJob == tpz.job.WHM) then
+                        if IsFerreousCoffin(mob) then
+                            mob:castSpell(tpz.magic.spell.ARISE, player)
+                        else
+                            mob:castSpell(tpz.magic.spell.RAISE_III, player)
+                        end
+                    else
+                        mob:castSpell(tpz.magic.spell.RAISE, player)
+                    end
                 end
             end
         end
@@ -1212,9 +1261,15 @@ local function CompareByHPP(a, b)
     return a:getHPP() < b:getHPP()
 end
 
-local function GetLowestHPTarget(entities)
-    table.sort(entities, CompareByHPP)
-    return entities
+local function GetLowestHPTarget(mob, nearbyFriendly)
+    local friendlyTargets = {}
+    for _, target in pairs(nearbyFriendly) do
+        if target:getAllegiance() == mob:getAllegiance() and target:getHPP() < 100 then
+            table.insert(friendlyTargets, target)
+        end
+    end
+    table.sort(friendlyTargets, function(a, b) return a:getHPP() < b:getHPP() end)
+    return friendlyTargets
 end
 
 function UpdateTankAI(mob, target)
@@ -1451,50 +1506,52 @@ function UpdateHealerAI(mob, target)
                     return
                 end
 
-                -- Cure
-                local cureTimer = mob:getLocalVar("cureTimer")
-                if (os.time() >= cureTimer) then
-                    local sortedFriendlyTargets = GetLowestHPTarget(nearbyFriendly)
-                    for _, cureTarget in ipairs(sortedFriendlyTargets) do
-                        if (cureTarget:getHPP() < 75) then
-                            local healingSpell = GetBestCure(mob, cureTarget)
-                            if (healingSpell ~= nil) then
-                                if CanCast(mob) then
-                                    mob:castSpell(healingSpell, cureTarget)
-                                    mob:setLocalVar("cureTimer", os.time() + 10)
-                                    mob:setLocalVar("globalMagicTimer", os.time() + 10)
-                                    return
+                if friendlyTarget:isAlive() then
+                    -- Cure
+                    local cureTimer = mob:getLocalVar("cureTimer")
+                    if (os.time() >= cureTimer) then
+                        local sortedFriendlyTargets = GetLowestHPTarget(mob, nearbyFriendly)
+                        for _, cureTarget in pairs(sortedFriendlyTargets) do
+                            if (cureTarget:getHPP() < 75) then
+                                local healingSpell = GetBestCure(mob, cureTarget)
+                                if (healingSpell ~= nil) then
+                                    if CanCast(mob) then
+                                        mob:castSpell(healingSpell, cureTarget)
+                                        mob:setLocalVar("cureTimer", os.time() + 10)
+                                        mob:setLocalVar("globalMagicTimer", os.time() + 10)
+                                        return
+                                    end
                                 end
                             end
                         end
                     end
-                end
 
-                -- Na
-                local naTimer = mob:getLocalVar("naTimer")
-                if (os.time() >= naTimer) then
-                    local naSpell = GetBestNA(mob, friendlyTarget)
-                    if (naSpell ~= nil) then
-                        if CanCast(mob) then
-                            -- printf("[DEBUG] Can cast na spell: %d at time: %d", naSpell, os.time())
-                            mob:castSpell(naSpell, friendlyTarget)
-                            mob:setLocalVar("naTimer", os.time() + 10)
-                            mob:setLocalVar("globalMagicTimer", os.time() + 10)
-                            return
+                    -- Na
+                    local naTimer = mob:getLocalVar("naTimer")
+                    if (os.time() >= naTimer) then
+                        local naSpell = GetBestNA(mob, friendlyTarget)
+                        if (naSpell ~= nil) then
+                            if CanCast(mob) then
+                                -- printf("[DEBUG] Can cast na spell: %d at time: %d", naSpell, os.time())
+                                mob:castSpell(naSpell, friendlyTarget)
+                                mob:setLocalVar("naTimer", os.time() + 10)
+                                mob:setLocalVar("globalMagicTimer", os.time() + 10)
+                                return
+                            end
                         end
                     end
-                end
 
-                -- Buff
-                local buffTimer = mob:getLocalVar("buffTimer")
-                if (os.time() >= buffTimer) then
-                    local buffSpell = GetBestBuff(mob, friendlyTarget)
-                    if (buffSpell ~= nil) then
-                        if CanCast(mob) then
-                            mob:castSpell(buffSpell, mob)
-                            mob:setLocalVar("buffTimer", os.time() + 10)
-                            mob:setLocalVar("globalMagicTimer", os.time() + 10)
-                            return
+                    -- Buff
+                    local buffTimer = mob:getLocalVar("buffTimer")
+                    if (os.time() >= buffTimer) then
+                        local buffSpell = GetBestBuff(mob, friendlyTarget)
+                        if (buffSpell ~= nil) then
+                            if CanCast(mob) then
+                                mob:castSpell(buffSpell, mob)
+                                mob:setLocalVar("buffTimer", os.time() + 10)
+                                mob:setLocalVar("globalMagicTimer", os.time() + 10)
+                                return
+                            end
                         end
                     end
                 end
@@ -1683,11 +1740,17 @@ function UpdateCasterAI(mob, target)
         local nukeSpell = GetBestNuke(mob, target)
         if (nukeSpell ~= nil) then
             if CanCast(mob) then
-                mob:castSpell(nukeSpell, target)
-                mob:setLocalVar("nukeTimer", os.time() + 35)
-                return
+                if not target:hasStatusEffect(tpz.effect.MAGIC_SHIELD) then
+                    mob:castSpell(nukeSpell, target)
+                    mob:setLocalVar("nukeTimer", os.time() + 35)
+                    return
+                end
             end
         end
+    end
+
+    if ShouldStandBack(mob) then
+        TryKeepDistance(mob, target)
     end
 end
 
@@ -1973,6 +2036,10 @@ function ShouldStandBack(mob)
         return true
     end
 
+    if (mobName == 'Kukki-Chebukki') then
+        return true
+    end
+
     if IsFerreousCoffin(mob) then
         return false
     end
@@ -2223,7 +2290,7 @@ function SetUpParry(mob)
     local weaponSkill = mob:getWeaponSkillType(tpz.slot.MAIN)
 
     -- Cannot parry without a weapon or H2H
-    if (weaponSkill == tpz.skill.NONE) or (weaponSkill == HAND_TO_HAND) then
+    if (weaponSkill == tpz.skill.NONE) or (weaponSkill == tpz.skill.HAND_TO_HAND) then
         return
     end
 

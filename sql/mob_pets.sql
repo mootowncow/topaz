@@ -1409,7 +1409,7 @@ INSERT INTO `mob_pets` VALUES (17961277, 1, 15, 0, 9); -- Eschan Ilaern SMN
 -- Custom Start
 INSERT INTO `mob_pets` VALUES (16875928, 1, 9, 2, 9); -- Lhu Mhakaracca
 INSERT INTO `mob_pets` VALUES (17289826, 1, 14, 0, 9); -- Shikaree_Z
--- INSERT INTO `mob_pets` VALUES (17289827, 1, 15, 2, 15); -- Ajido-Marujido TODO: ID
+INSERT INTO `mob_pets` VALUES (17273445, 1, 15, 2, 15); -- Ajido-Marujido
 -- Can't have instance pets?
 --INSERT INTO `mob_pets` VALUES (17081190, 1, 15, 0, 9); -- Lamie Bellydancer SMN
 --INSERT INTO `mob_pets` VALUES (17081203, 1, 15, 0, 9); -- Lamie Bellydancer SMN

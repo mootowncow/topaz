@@ -5,6 +5,7 @@ require("scripts/globals/utils")
 require("scripts/globals/msg")
 require("scripts/globals/mobs")
 require("scripts/globals/weaponskills")
+require("scripts/globals/aftermath")
 -- TODO: Change params_phys to params and also change in all phys tp move files
 -- Foreword: A lot of this is good estimating since the FFXI playerbase has not found all of info for individual moves.
 --            What is known is that they roughly follow player Weaponskill calculations (pDIF, dMOD, ratio, etc) so this is what
