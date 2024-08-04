@@ -28,6 +28,9 @@ require("scripts/globals/weaponskillids")
 -- TODO: Does RDM raise and WHM RAise III?
 -- TODO: Why does ifrit despawn?
 -- TODO: Next set of NPCs qultada + ovjang(tank) + nashmeira and other serpent generals
+-- TODO: only apply buffs if effect isnt active (need to make an ability to effect map)
+-- TODO: addle effect subpower to use its power if subpower is nill or 0
+-- TODO: AOE JA's for player if  has status effect confrontation in charentity.cpp ability 
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 

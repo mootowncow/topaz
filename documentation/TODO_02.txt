@@ -186,6 +186,8 @@ Leaden Salute and Blade: Kamu weren't unlocked when I had enough WS points
 
 tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
 Fomor HNM's(Lugh etc)
+Add AOE weapon skills to every weapon and make them do good damage. Spinning Axe = AOE
+Content where mobs constantly spawn in waves over and over
 
 
 How does slug shot do 61 instead of 400+ dmg? It's 1 hit
