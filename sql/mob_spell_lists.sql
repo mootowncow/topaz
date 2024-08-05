@@ -5997,7 +5997,25 @@ INSERT INTO `mob_spell_lists` VALUES ('Ashu_Talif_Marine',542,46,1,255); -- Prot
 INSERT INTO `mob_spell_lists` VALUES ('Ashu_Talif_Marine',542,51,1,75); -- Shell IV
 INSERT INTO `mob_spell_lists` VALUES ('Ashu_Talif_Marine',542,108,1,255); -- Regen
 
--- NEXT 543
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid',543,176,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid',543,181,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid',543,186,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid',543,191,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid',543,196,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid',543,201,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid',543,246,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid',543,248,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid',543,277,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 227, 1, 255); -- Poisonga III
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 356, 1, 255); -- Paralyga
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 357, 1, 255); -- Slowga
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 360, 1, 255); -- Dispelga
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 362, 1, 255); -- Bindga
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 361, 1, 255); -- Blindga
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 366, 1, 255); -- Graviga
+INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 274, 1, 255); -- Sleepga II
+
+-- NEXT 544
 -- NEXT 1022
 -- NEXT 2086(Custom)
 

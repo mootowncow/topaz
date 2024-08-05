@@ -17,6 +17,10 @@ function onSpellCast(caster, target, spell)
     -- 60 base with only 1 merit in
     local power = 58 + meritBonus -- changed to 75 era was 220
 
+    if caster:isMob() then
+        power = 60
+    end
+
     local typeEffect = tpz.effect.PROTECT
     if ApplyProtectShell(caster, target, typeEffect, power, duration) then
         spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)

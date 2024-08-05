@@ -370,6 +370,11 @@ bool CMobEntity::CanBeNeutral()
     return !(m_Type & MOBTYPE_NOTORIOUS || m_Type & MOBTYPE_QUEST);
 }
 
+bool CMobEntity::isPlayerRaceFamily()
+{
+    return (m_Family >= 145 && m_Family <= 154 || m_Family == 971 || m_Family == 972);
+}
+
 uint16 CMobEntity::TPUseChance()
 {
     auto& MobSkillList = battleutils::GetMobSkillList(getMobMod(MOBMOD_SKILL_LIST));

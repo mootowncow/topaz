@@ -167,6 +167,7 @@ Finish unity_leader stuff in charentity https://github.com/search?q=repo%3ALandS
 ZNM taking item on death works properly on mobs with names with two words
 -- Open / Close randomly every hour (Psoxoja zone) shouldn't rotate on hour, just when a player is near the door(NPC)
 spell cooldown timer added to mob casting (Does mob_spell_container exist?)
+Ability to set attributes (m_dex? or w/e) instead of adding it as a mod to mobs/players. same with acc/attk/def/racc/rattk
 Lyft weapon revamp (MAB for gun)
 Wild Rage said "999 shadows absorbed" with blink up?
 Buff Musanto / Katana from ANNM(Enmity +3 Evasion +7?)

@@ -3248,8 +3248,8 @@ INSERT INTO `mob_skills` VALUES (3284,2329,'shockstorm_edge',1,10.0,2000,1500,4,
 INSERT INTO `mob_skills` VALUES (3285,2330,'choreographed_carnage',0,7.0,2000,1500,4,0,0,0,14,10,0);
 INSERT INTO `mob_skills` VALUES (3286,2331,'lock_and_load',0,7.0,2000,1500,4,0,0,0,11,5,0);
 -- INSERT INTO `mob_skills` VALUES (3287,3031,'lunge',0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (3288,3032,'swath_of_silence',0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (3289,3033,'damning_edict',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3288,3032,'swath_of_silence',1,15.0,2000,1500,4,8,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3289,3033,'damning_edict',1,15.0,2000,1500,4,8,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3290,3034,'bowels_of_agony',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3291,1724,'stags_call',0,7.0,2000,1500,4,0,0,0,0,0,0); -- Excenmille (S)
 INSERT INTO `mob_skills` VALUES (3292,1725,'gyre_strike',0,7.0,2000,1500,4,0,0,0,0,0,0);

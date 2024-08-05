@@ -458,30 +458,45 @@ void CAttackRound::CreateKickAttacks()
 ************************************************************************/
 void CAttackRound::CreateDakenAttack()
 {
-    if (m_attacker->objtype == TYPE_PC && m_attacker->GetMJob() == JOB_NIN)
+    if (m_attacker->GetMJob() == JOB_NIN)
     {
-        auto PAmmo = dynamic_cast<CItemWeapon*>(m_attacker->m_Weapons[SLOT_AMMO]);
-        auto hasSangeActive = m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SANGE);
-        if (PAmmo != nullptr)
+        if (m_attacker->objtype == TYPE_PC)
         {
-            if (PAmmo && PAmmo->isShuriken())
+            auto PAmmo = dynamic_cast<CItemWeapon*>(m_attacker->m_Weapons[SLOT_AMMO]);
+            auto hasSangeActive = m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SANGE);
+            if (PAmmo != nullptr)
             {
-                uint16 daken = m_attacker->getMod(Mod::DAKEN);
-                auto PChar = dynamic_cast<CCharEntity*>(m_attacker);
-                if (PChar)
+                if (PAmmo && PAmmo->isShuriken())
                 {
-                    daken += PChar->PMeritPoints->GetMeritValue(MERIT_NINJA_TOOL_EXPERTISE, PChar) / 5;
+                    uint16 daken = m_attacker->getMod(Mod::DAKEN);
+                    auto PChar = dynamic_cast<CCharEntity*>(m_attacker);
+                    if (PChar)
+                    {
+                        daken += PChar->PMeritPoints->GetMeritValue(MERIT_NINJA_TOOL_EXPERTISE, PChar) / 5;
+                    }
+                    // printf("Daken proc rate: %u\n", daken);
+                    if (tpzrand::GetRandomNumber(100) < daken || hasSangeActive)
+                    {
+                        AddAttackSwing(PHYSICAL_ATTACK_TYPE::DAKEN, RIGHTATTACK, 1);
+                        // Ammo is consumed while Sange is active
+                        if (PChar && hasSangeActive)
+                        {
+                            auto ammoConsumed = 1;
+                            battleutils::RemoveAmmo(PChar, ammoConsumed);
+                        }
+                    }
                 }
-                // printf("Daken proc rate: %u\n", daken);
+            }
+        }
+        else if (m_attacker->objtype == TYPE_MOB && m_attacker->allegiance == ALLEGIANCE_PLAYER) // Only NPC type mobs use Daken (Add mobmod for it in the future?)
+        {
+            {
+                auto hasSangeActive = m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SANGE);
+                uint16 daken = m_attacker->getMod(Mod::DAKEN);
+                //printf("Daken proc rate: %u\n", daken);
                 if (tpzrand::GetRandomNumber(100) < daken || hasSangeActive)
                 {
                     AddAttackSwing(PHYSICAL_ATTACK_TYPE::DAKEN, RIGHTATTACK, 1);
-                    // Ammo is consumed while Sange is active
-                    if (PChar && hasSangeActive)
-                    {
-                        auto ammoConsumed = 1;
-                        battleutils::RemoveAmmo(PChar, ammoConsumed);
-                    }
                 }
             }
         }

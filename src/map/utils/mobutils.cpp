@@ -905,8 +905,8 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::BINDRESTRAIT, 0);
             }
-            // Exclude Animated Weapons and Mamools
-            if (PMob->m_Family != 176 && PMob->m_Family != 17)
+            // Exclude Animated Weapons, Mamools and player races
+            if (PMob->m_Family != 176 && PMob->m_Family != 17 && !PMob->isPlayerRaceFamily())
             {
                 if (PMob->m_Family == 3)
                 {

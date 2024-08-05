@@ -2486,33 +2486,41 @@ int16 GetSDTTier(int16 SDT)
             return false;
         }
 
-        //Reasonable assumption for the time being.
         int base = 60;
 
         int diff = PAttacker->GetMLevel() - PDefender->GetMLevel();
 
-        if (PDefender->objtype == TYPE_MOB) {
+        // If the attacker is higher level than the defender, then the difference is multiplid by 10 for a severe penalty of +10% chance per level
+        if (diff > 0)
+        {
+            diff *= 10;
+        }
+
+        if (PDefender->objtype == TYPE_MOB && PDefender->allegiance != ALLEGIANCE_PLAYER)
+        {
             base = 5;
         }
 
         float check = (float)(base + diff);
+        check = std::clamp(check, 5.0f, 100.0f);
         uint8 meritReduction = 0;
 
-        if (PDefender->objtype == TYPE_PC) { //Check player's skill.
+        if (PDefender->objtype == TYPE_PC || PDefender->allegiance == ALLEGIANCE_PLAYER) // Check player's skill.
+        { 
             //For mobs, we can assume their skill is capped at their level, so this term is 1 anyway.
-            CCharEntity* PChar = (CCharEntity*)PDefender;
-            float skill = PChar->GetSkill(PSpell->getSkillType());
-            if (skill <= 0) {
+            float skill = PDefender->GetSkill(PSpell->getSkillType());
+            if (skill <= 0)
+            {
                 skill = 1;
             }
 
-            float cap = GetMaxSkill((SKILLTYPE)PSpell->getSkillType(), PChar->GetMJob(), PChar->GetMLevel());
+            float cap = GetMaxSkill((SKILLTYPE)PSpell->getSkillType(), PDefender->GetMJob(), PDefender->GetMLevel());
 
             //if cap is 0 then player is using a spell from their subjob
             if (cap == 0)
             {
-                cap = GetMaxSkill((SKILLTYPE)PSpell->getSkillType(), PChar->GetSJob(),
-                    PChar->GetMLevel()); // This may need to be re-investigated in the future...
+                cap = GetMaxSkill((SKILLTYPE)PSpell->getSkillType(), PDefender->GetSJob(),
+                    PDefender->GetMLevel()); // This may need to be re-investigated in the future...
             }
 
             if (skill > cap)
@@ -2525,7 +2533,11 @@ int16 GetSDTTier(int16 SDT)
             if (check > 100) check = 100;
 
             //apply any merit reduction
-            meritReduction = ((CCharEntity*)PDefender)->PMeritPoints->GetMeritValue(MERIT_SPELL_INTERUPTION_RATE, (CCharEntity*)PDefender);
+            if (PDefender->objtype == TYPE_PC)
+            {
+                CCharEntity* PChar = (CCharEntity*)PDefender;
+                meritReduction = ((CCharEntity*)PDefender)->PMeritPoints->GetMeritValue(MERIT_SPELL_INTERUPTION_RATE, (CCharEntity*)PDefender);
+            }
         }
 
         float interruptRate = ((float)((100.0f - (meritReduction + (float)PDefender->getMod(Mod::SPELLINTERRUPT))) / 100.0f));
@@ -2533,10 +2545,11 @@ int16 GetSDTTier(int16 SDT)
         uint8 chance = tpzrand::GetRandomNumber(100);
 
         // caps, always give a 1% chance of interrupt
-        if (check < 1) {
+        if (check < 1)
+        {
             check = 0;
         }
-
+        //printf("Interrupt check chance %f\n", check);
         if (chance < check)
         {
             // Prevent interrupt if Aquaveil is active, if it were to interrupt.

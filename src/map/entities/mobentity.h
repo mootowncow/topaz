@@ -123,6 +123,7 @@ public:
 
     bool      IsFarFromHome();                         // check if mob is too far from spawn
     bool      CanBeNeutral();                          // check if mob can have killing pause
+    bool      isPlayerRaceFamily();                     // check if mob is a player race family( i.e. humanoid galka, mFamily 146)
 
     uint16    TPUseChance();                           // return % chance to use TP move per 400ms tick
 

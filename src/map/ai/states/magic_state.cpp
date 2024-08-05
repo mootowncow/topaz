@@ -216,6 +216,7 @@ bool CMagicState::Update(time_point tick)
             actionTarget.animation = 0;
             actionTarget.param = 0; // sometimes 1?
             m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+            m_PEntity->PAI->EventHandler.triggerListener("MAGIC_PARALYZED", m_PEntity, m_PSpell.get());
 
             Complete();
             return false;
@@ -242,6 +243,7 @@ bool CMagicState::Update(time_point tick)
             actionTarget.animation = 0;
             actionTarget.param = 0; // sometimes 1?
             m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+            m_PEntity->PAI->EventHandler.triggerListener("MAGIC_PARALYZED", m_PEntity, m_PSpell.get());
 
             Complete();
             return false;

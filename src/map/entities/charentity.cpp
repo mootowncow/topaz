@@ -1626,8 +1626,15 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 PAI->TargetFind->reset();
 
                 float distance = PAbility->getRange();
+                FINDFLAGS findFlags = FINDFLAGS_NONE;
 
-            PAI->TargetFind->findWithinArea(this, AOERADIUS_ATTACKER, distance);
+                // AoE ALL targets if certain status effects are active in order to buff friendly NPCs
+                if (this->StatusEffectContainer->HasStatusEffect({ EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
+                {
+                    findFlags = FINDFLAGS_HIT_ALL;
+                }
+
+                PAI->TargetFind->findWithinArea(this, AOERADIUS_ATTACKER, distance, findFlags);
                 PTargets = PAI->TargetFind->m_targets;
             }
             for (auto&& PTarget : PTargets)

@@ -7870,8 +7870,10 @@ inline int32 CLuaBaseEntity::addCapacityPoints(lua_State* L)
 
     CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
     auto capacity = (uint32)lua_tointeger(L, 1);
-
-    charutils::AddCapacityPoints(PChar, m_PBaseEntity,  capacity, 0, false);
+    if (charutils::hasKeyItem(PChar, 2544) && PChar->GetMLevel() >= 75)
+    {
+        charutils::AddCapacityPoints(PChar, m_PBaseEntity, capacity, 0, false);
+    }
     return 0;
 }
 

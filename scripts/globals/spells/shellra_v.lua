@@ -17,6 +17,10 @@ function onSpellCast(caster, target, spell)
 	--62/256 = 24.218% ～ 70/256 = 27.343% *
 	-- 2/256 per merit
 
+    if caster:isMob() then
+        power = 24
+    end
+
     local duration = 1800
     duration = calculateDurationForLvl(duration, 75, target:getMainLvl())
 

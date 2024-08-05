@@ -25,12 +25,20 @@ require("scripts/globals/weaponskillids")
 -- TODO: Test Pinning Nocturne(does it cast and does effect work? -15% FASTCAST and -15 MACC base)
 -- TODO: Give all NPCs 1k base HP
 -- TODO: Spells can be parad/interrupted, make sure vars for recasts are only set IF spell is casted so "IfCasted(spell) then <set vars>"
--- TODO: Does RDM raise and WHM RAise III?
+-- TODO: Does WHM Raise III?
+-- TODO: Ajido-Marujido doesn't despawn after boss does and confrontation is removed?
 -- TODO: Why does ifrit despawn?
 -- TODO: Next set of NPCs qultada + ovjang(tank) + nashmeira and other serpent generals
 -- TODO: only apply buffs if effect isnt active (need to make an ability to effect map)
 -- TODO: addle effect subpower to use its power if subpower is nill or 0
--- TODO: AOE JA's for player if  has status effect confrontation in charentity.cpp ability 
+-- TODO: AOE JA's for player if  has status effect confrontation in charentity.cpp ability
+-- TODO: Don't start shadow lord mechanics until ~90% or lower
+-- TODO: Ability to add/delete merits to mobs
+-- TODO: Different recast timers for different healers(i.e. cheruikki has longer recast on buffs and cures)
+-- TODO: Are pets not getting AOE buffs?
+-- TODO: addCapacityPoints() needs to add 10 job points..maybe need to add a lua binding for addjobpoints instead of add capacity points
+-- TODO: Add logic for tracking player "contribution" and then only having a formula for addCapacityPoints() in onMobDeath based on contribution amount
+-- TODO: Test if addle works properly with changes
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -53,6 +61,57 @@ local npcData =
     { Name = 'Unknown', Role = 'Damage' },
     { Name = 'Unknown', Role = 'Healer' },
     { Name = 'Unknown', Role = 'Support' },
+}
+
+local abilityMap =
+{
+    { Ability = tpz.jobAbility.YONIN,               Effect = tpz.effect.YONIN },
+    { Ability = tpz.jobAbility.ISSEKIGAN,           Effect = tpz.effect.ISSEKIGAN },
+    { Ability = tpz.jobAbility.SANGE,               Effect = tpz.effect.SANGE },
+    { Ability = tpz.jobAbility.MAJESTY,             Effect = tpz.effect.MAJESTY },
+    { Ability = tpz.jobAbility.DEFENDER,            Effect = tpz.effect.DEFENDER },
+    { Ability = tpz.jobAbility.BLOOD_RAGE,          Effect = tpz.effect.BLOOD_RAGE },
+    { Ability = tpz.jobAbility.RESTRAINT,           Effect = tpz.effect.RESTRAINT },
+    { Ability = tpz.jobAbility.RETALIATION,         Effect = tpz.effect.RETALIATION },
+    { Ability = tpz.jobAbility.COUNTERSTANCE,       Effect = tpz.effect.COUNTERSTANCE },
+    { Ability = tpz.jobAbility.HUNDRED_FISTS,       Effect = tpz.effect.HUNDRED_FISTS },
+    { Ability = tpz.jobAbility.PERFECT_COUNTER,     Effect = tpz.effect.PERFECT_COUNTER },
+    { Ability = tpz.jobAbility.DODGE,               Effect = tpz.effect.DODGE },
+    { Ability = tpz.jobAbility.FOCUS,               Effect = tpz.effect.FOCUS },
+    { Ability = tpz.jobAbility.SENTINEL,            Effect = tpz.effect.SENTINEL },
+    { Ability = tpz.jobAbility.RAMPART,             Effect = tpz.effect.RAMPART },
+    { Ability = tpz.jobAbility.DIVINE_EMBLEM,       Effect = tpz.effect.DIVINE_EMBLEM },
+    { Ability = tpz.jobAbility.INTERVENE,           Effect = tpz.effect.INTERVENE },
+    { Ability = tpz.jobAbility.FEALTY,              Effect = tpz.effect.FEALTY },
+    { Ability = tpz.jobAbility.INVINCIBLE,          Effect = tpz.effect.INVINCIBLE },
+    { Ability = tpz.jobAbility.WARCRY,              Effect = tpz.effect.WARCRY },
+    { Ability = tpz.jobAbility.BOOST,               Effect = tpz.effect.BOOST },
+    { Ability = tpz.jobAbility.HASSO,               Effect = tpz.effect.HASSO },
+    { Ability = tpz.jobAbility.BERSERK,             Effect = tpz.effect.BERSERK },
+    { Ability = tpz.jobAbility.AGGRESSOR,           Effect = tpz.effect.AGGRESSOR },
+    { Ability = tpz.jobAbility.FORMLESS_STRIKES,    Effect = tpz.effect.FORMLESS_STRIKES },
+    { Ability = tpz.jobAbility.SNEAK_ATTACK,        Effect = tpz.effect.SNEAK_ATTACK },
+    { Ability = tpz.jobAbility.TRICK_ATTACK,        Effect = tpz.effect.TRICK_ATTACK },
+    { Ability = tpz.jobAbility.FEINT,               Effect = tpz.effect.FEINT },
+    { Ability = tpz.jobAbility.ASSASSINS_CHARGE,    Effect = tpz.effect.ASSASSINS_CHARGE },
+    { Ability = tpz.jobAbility.CONSPIRATOR,         Effect = tpz.effect.CONSPIRATOR },
+    { Ability = tpz.jobAbility.SOULEATER,           Effect = tpz.effect.SOULEATER },
+    { Ability = tpz.jobAbility.LAST_RESORT,         Effect = tpz.effect.LAST_RESORT },
+    { Ability = tpz.jobAbility.WEAPON_BASH,         Effect = tpz.effect.WEAPON_BASH },
+    { Ability = tpz.jobAbility.NETHER_VOID,         Effect = tpz.effect.NETHER_VOID },
+    { Ability = tpz.jobAbility.KILLER_INSTINCT,     Effect = tpz.effect.KILLER_INSTINCT },
+    { Ability = tpz.jobAbility.MEIKYO_SHISUI,       Effect = tpz.effect.MEIKYO_SHISUI },
+    { Ability = tpz.jobAbility.SEKKANOKI,           Effect = tpz.effect.SEKKANOKI },
+    { Ability = tpz.jobAbility.THIRD_EYE,           Effect = tpz.effect.THIRD_EYE },
+    { Ability = tpz.jobAbility.BLADE_BASH,          Effect = tpz.effect.BLADE_BASH },
+    { Ability = tpz.jobAbility.SPIRIT_LINK,         Effect = tpz.effect.SPIRIT_LINK },
+    { Ability = tpz.jobAbility.SPIRIT_SURGE,        Effect = tpz.effect.SPIRIT_SURGE },
+    { Ability = tpz.jobAbility.MIGHTY_STRIKES,      Effect = tpz.effect.MIGHTY_STRIKES },
+    { Ability = tpz.jobAbility.VELOCITY_SHOT,       Effect = tpz.effect.VELOCITY_SHOT },
+    { Ability = tpz.jobAbility.SHARPSHOT,           Effect = tpz.effect.SHARPSHOT },
+    { Ability = tpz.jobAbility.BARRAGE,             Effect = tpz.effect.BARRAGE },
+    { Ability = tpz.jobAbility.STEALTH_SHOT,        Effect = tpz.effect.STEALTH_SHOT },
+    { Ability = tpz.jobAbility.FLASHY_SHOT,         Effect = tpz.effect.FLASHY_SHOT },
 }
 
 local immunityMap =
@@ -116,14 +175,6 @@ local modByMobName =
     end,
 
     ['Ultima'] = function(mob)
-	    mob:setDamage(140)
-        mob:setMod(tpz.mod.ATT, 535)
-        mob:setMod(tpz.mod.ATTP, 0)
-        mob:setMod(tpz.mod.DEF, 522)
-        mob:setMod(tpz.mod.DEFP, 0)
-        mob:setMod(tpz.mod.ACC, 300) 
-        mob:setMod(tpz.mod.EVA, 300) 
-        mob:setMod(tpz.mod.REFRESH, 50)
 	    mob:setMod(tpz.mod.MDEF, 119)
         mob:setMod(tpz.mod.UDMGMAGIC, -30)
 	    mob:setMod(tpz.mod.REGEN, 0) 
@@ -136,10 +187,7 @@ local modByMobName =
     end,
 
     ['Ealdnarche'] = function(mob)
-        mob:setDamage(70)
-        mob:addMod(tpz.mod.ATTP, 50)
-        mob:addMod(tpz.mod.DEFP, 50) 
-        mob:addMod(tpz.mod.ACC, 50) 
+        mob:setDamage(75)
         mob:addMod(tpz.mod.EVA, 100)
         mob:setMod(tpz.mod.UDMGMAGIC, -95)
         mob:setMod(tpz.mod.REFRESH, 400)
@@ -147,21 +195,12 @@ local modByMobName =
     end,
 
     ['Kamlanaut'] = function(mob)
-        mob:setDamage(140)
-        mob:addMod(tpz.mod.ATTP, 50)
-        mob:addMod(tpz.mod.DEFP, 50) 
-        mob:addMod(tpz.mod.ACC, 50) 
-        mob:setMod(tpz.mod.REFRESH, 400)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     end,
 
     ['Shadow_Lord'] = function(mob)
-        mob:setDamage(140)
-        mob:addMod(tpz.mod.ATTP, 50)
-        mob:addMod(tpz.mod.DEFP, 50) 
-        mob:addMod(tpz.mod.ACC, 50) 
-        mob:setMod(tpz.mod.REFRESH, 400)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
+        mob:setSpellList(543)
     end,
 }
 
@@ -420,53 +459,77 @@ local mobFightByMobName =
         -- have to keep track of both the last time he changed immunity and the HP he changed at
         local changeTime = mob:getLocalVar("changeTime")
         local changeHP = mob:getLocalVar("changeHP")
+        local hp = mob:getHPP()
 
-        -- subanimation 0 is first phase subanim, so just go straight to magic mode
-        if (mob:AnimationSub() == 0) then
-            mob:AnimationSub(1)
-            mob:delStatusEffectSilent(tpz.effect.PHYSICAL_SHIELD)
-            mob:addStatusEffectEx(tpz.effect.MAGIC_SHIELD, 0, 1, 0, 0)
-            mob:SetAutoAttackEnabled(false)
-            mob:SetMagicCastingEnabled(true)
-            mob:setMobMod(tpz.mobMod.MAGIC_COOL, 2)
-            --and record the time and HP this immunity was started
-            mob:setLocalVar("changeTime", mob:getBattleTime())
-            mob:setLocalVar("changeHP", mob:getHP())
-        -- subanimation 2 is physical mode, so check if he should change into magic mode
-        elseif (mob:AnimationSub() == 2 and (mob:getHP() <= changeHP - 1000 or
-                mob:getBattleTime() - changeTime > 300)) then
-            mob:AnimationSub(1)
-            mob:delStatusEffectSilent(tpz.effect.PHYSICAL_SHIELD)
-            mob:addStatusEffectEx(tpz.effect.MAGIC_SHIELD, 0, 1, 0, 0)
-            mob:SetAutoAttackEnabled(false)
-            mob:SetMagicCastingEnabled(true)
-            mob:setMobMod(tpz.mobMod.MAGIC_COOL, 2)
-            mob:setLocalVar("changeTime", mob:getBattleTime())
-            mob:setLocalVar("changeHP", mob:getHP())
-        -- subanimation 1 is magic mode, so check if he should change into physical mode
-        elseif (mob:AnimationSub() == 1 and (mob:getHP() <= changeHP - 1000 or
-                mob:getBattleTime() - changeTime > 300)) then
-            -- and use an ability before changing
-            mob:useMobAbility(tpz.mob.skills.DARK_NOVA)
-            mob:AnimationSub(2)
-            mob:delStatusEffectSilent(tpz.effect.MAGIC_SHIELD)
-            mob:addStatusEffectEx(tpz.effect.PHYSICAL_SHIELD, 0, 1, 0, 0)
-            mob:SetAutoAttackEnabled(true)
-            mob:SetMagicCastingEnabled(false)
-            mob:setMobMod(tpz.mobMod.MAGIC_COOL, 10)
-            mob:setLocalVar("changeTime", mob:getBattleTime())
-            mob:setLocalVar("changeHP", mob:getHP())
+        -- Starts changing phases at 89% HP
+        if (hp < 90) then
+            -- subanimation 0 is first phase subanim, so just go straight to magic mode
+            if (mob:AnimationSub() == 0) then
+                mob:AnimationSub(1)
+                mob:delStatusEffectSilent(tpz.effect.PHYSICAL_SHIELD)
+                mob:addStatusEffectEx(tpz.effect.MAGIC_SHIELD, 0, 1, 0, 0)
+                mob:SetAutoAttackEnabled(false)
+                mob:SetMagicCastingEnabled(true)
+                mob:setMobMod(tpz.mobMod.MAGIC_COOL, 2)
+                --and record the time and HP this immunity was started
+                mob:setLocalVar("changeTime", mob:getBattleTime())
+                mob:setLocalVar("changeHP", mob:getHP())
+            -- subanimation 2 is physical mode, so check if he should change into magic mode
+            elseif
+                (mob:AnimationSub() == 2 and (mob:getHP() <= changeHP - 10000 or
+                mob:getBattleTime() - changeTime > 60))
+            then
+                printf("Changing to magical immunity")
+                -- and use an ability before changing
+                mob:useMobAbility(tpz.mob.skills.SWATH_OF_SILENCE)
+                mob:AnimationSub(1)
+                mob:delStatusEffectSilent(tpz.effect.PHYSICAL_SHIELD)
+                mob:addStatusEffectEx(tpz.effect.MAGIC_SHIELD, 0, 1, 0, 0)
+                mob:SetAutoAttackEnabled(false)
+                mob:SetMagicCastingEnabled(true)
+                mob:setMobMod(tpz.mobMod.MAGIC_COOL, 2)
+                mob:setLocalVar("changeTime", mob:getBattleTime())
+                mob:setLocalVar("changeHP", mob:getHP())
+            -- subanimation 1 is magic mode, so check if he should change into physical mode
+            elseif
+                (mob:AnimationSub() == 1 and (mob:getHP() <= changeHP - 10000 or
+                mob:getBattleTime() - changeTime > 60))
+            then
+                printf("Changing to physical immunity")
+                -- and use an ability before changing
+                mob:useMobAbility(tpz.mob.skills.DAMNING_EDICT)
+                mob:AnimationSub(2)
+                mob:delStatusEffectSilent(tpz.effect.MAGIC_SHIELD)
+                mob:addStatusEffectEx(tpz.effect.PHYSICAL_SHIELD, 0, 1, 0, 0)
+                mob:SetAutoAttackEnabled(true)
+                mob:SetMagicCastingEnabled(false)
+                mob:setMobMod(tpz.mobMod.MAGIC_COOL, 10)
+                mob:setLocalVar("changeTime", mob:getBattleTime())
+                mob:setLocalVar("changeHP", mob:getHP())
+            end
         end
     end,
 }
+
+local function IsAPet(mob)
+    local npcName = mob:getName()
+    return
+        (npcName == 'Shikaree_Zs_Wyvern') or
+        (npcName == 'Pya') or
+        (npcName == 'Kyo') or
+        (npcName == 'Ifrit') or
+        (npcName == 'Fenrir')
+end
 
 -- Mob helper functions
 
 tpz.raid.onMobSpawn = function(mob)
     mob:setDamage(150)
     mob:setMod(tpz.mod.ATTP, 25)
-    mob:setMod(tpz.mod.DEFP, 25)
-    mob:addMod(tpz.mod.ACC, 25) 
+    mob:setMod(tpz.mod.DEFP, 75)
+    mob:addMod(tpz.mod.ACC, 50)
+    mob:addMod(tpz.mod.VIT, 75)
+    mob:addMod(tpz.mod.REGEN, 150)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
 
     local mobName = mob:getName()
@@ -504,6 +567,13 @@ tpz.raid.onMobDespawn = function(mob)
 end
 
 tpz.raid.onMobDeath = function(mob, player, isKiller, noKiller)
+    local NearbyEntities = mob:getNearbyEntities(50)
+    if NearbyEntities == nil then return end
+    if NearbyEntities then
+        for _,entity in pairs(NearbyEntities) do
+            entity:addCapacityPoints(300000)
+        end
+    end
     OnBattleEndConfrontation(mob)
 end
 
@@ -518,18 +588,18 @@ tpz.raid.onNpcSpawn = function(mob)
         mob:setDamage(20)
     end
     mob:setMod(tpz.mod.REFRESH, 8)
-    if not isPet(mob) then
+    if not IsAPet(mob) then
         SetUpParry(mob)
     end
 
     local weaponSkill = mob:getWeaponSkillType(tpz.slot.MAIN)
-
-    -- Cannot parry without a weapon or H2H
-    if (weaponSkill == tpz.skill.NONE) or (weaponSkill == HAND_TO_HAND) then
+    -- No weapon type set means can't attack
+    if (weaponSkill == tpz.skill.NONE) then
         mob:SetAutoAttackEnabled(false)
     end
 
-    if isPet(mob) then
+    mob:addMod(tpz.mod.DMG, -20)
+    if IsAPet(mob) then
     elseif isHealer(mob) then
         SetUpHealerNPC(mob)
     elseif isChemist(mob) then
@@ -546,6 +616,68 @@ tpz.raid.onNpcSpawn = function(mob)
     elseif isCaster(mob) then
         SetUpCasterNPC(mob)
     end
+
+    local spellTimers = {
+        [tpz.skill.HEALING_MAGIC] = "cureTimer",
+        [tpz.skill.ENFEEBLING_MAGIC] = "debuffTimer",
+        [tpz.skill.ENHANCING_MAGIC] = "buffTimer",
+        [tpz.skill.ELEMENTAL_MAGIC] = "nukeTimer",
+        [tpz.skill.NINJUTSU] = {
+            [tpz.magic.spell.UTSUSEMI_SAN] = "sanTimer",
+            [tpz.magic.spell.UTSUSEMI_NI] = "niTimer",
+            [tpz.magic.spell.UTSUSEMI_ICHI] = "ichiTimer"
+        },
+        [tpz.skill.DIVINE_MAGIC] = {
+            [tpz.magic.spell.FLASH] = "flashTimer",
+            [tpz.magic.spell.REPRISAL] = "reprisalTimer"
+        }
+    }
+
+    -- If a spell is interrupted, reset cast timers
+    mob:addListener("MAGIC_INTERRUPTED", "RAID_MAGIC_INTERRUPTED", function(mob, spell)
+        local skill = spell:getSkillType()
+        local id = spell:getID()
+        -- Check if the skill has a direct timer or a nested table
+        if spellTimers[skill] then
+            local timer = spellTimers[skill]
+        
+            -- If the timer is a table, we need to look up the specific spell ID
+            if type(timer) == "table" then
+                timer = timer[id]
+            end
+        
+            -- If a valid timer was found, reset it
+            if timer then
+                mob:setLocalVar(timer, 0)
+            end
+        end
+
+        -- Always reset the global magic timer
+        mob:setLocalVar("globalMagicTimer", 0)
+    end)
+
+    -- If a spell is paralyzed/intimidated, reset cast timers
+    mob:addListener("MAGIC_PARALYZED", "RAID_MAGIC_PARALYZED", function(mob, spell)
+        local skill = spell:getSkillType()
+        local id = spell:getID()
+        -- Check if the skill has a direct timer or a nested table
+        if spellTimers[skill] then
+            local timer = spellTimers[skill]
+        
+            -- If the timer is a table, we need to look up the specific spell ID
+            if type(timer) == "table" then
+                timer = timer[id]
+            end
+        
+            -- If a valid timer was found, reset it
+            if timer then
+                mob:setLocalVar(timer, 0)
+            end
+        end
+
+        -- Always reset the global magic timer
+        mob:setLocalVar("globalMagicTimer", 0)
+    end)
 
     mob:setUnkillable(true) -- For testing
 end
@@ -578,7 +710,7 @@ tpz.raid.onNpcFight = function(mob, target)
         return
     end
 
-    if isPet(mob) then
+    if IsAPet(mob) then
     elseif isHealer(mob) then
         UpdateHealerAI(mob, target)
     elseif isChemist(mob) then
@@ -672,12 +804,14 @@ function SetUpTankNPC(mob)
     local sJob = mob:getSubJob()
     local npcName = mob:getName()
 
+    mob:addMod(tpz.mod.ENMITY_II, 25)
+
     if not IsHalver(mob) then
         mob:addMod(tpz.mobMod.BLOCK, 35)
     end
 
     if IsHalver(mob) then
-        mob:addMod(tpz.mod.DMG, -35)
+        mob:addMod(tpz.mod.DMG, -30)
     elseif IsMaat(mob) then
         -- Full MNK merits (H2H, guard, KA, counter)
         mob:addMod(tpz.mod.COUNTER, 5)
@@ -702,7 +836,7 @@ function SetUpTankNPC(mob)
         mob:addMod(tpz.mod.VIT, 60)
         mob:addMod(tpz.mod.CHR, 60)
         mob:addMod(tpz.mod.ENMITY, 20)
-        mob:setMod(tpz.mod.DMG, -25)
+        mob:addMod(tpz.mod.DMG, -25)
         mob:setMod(tpz.mod.INQUARTATA, 25)
     end
     mob:setSpellList(0)
@@ -763,14 +897,6 @@ function ApplyConfrontationToSelf(mob)
     local subPower = mob:getID()
     local tier = 0
     mob:addStatusEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
-end
-
-function isPet(mob)
-    local npcName = mob:getName()
-    return
-        (npcName == 'Shikaree_Zs_Wyvern') or
-        (npcName == 'Pya') or
-        (npcName == 'Kyo')
 end
 
 function isHealer(mob)
@@ -923,45 +1049,43 @@ local function GetBestNuke(mob, target)
 end
 
 local cures = {
+    -- Returns cure and cure recast
     [tpz.job.WHM] = function(mob, playerHPP)
         if IsCherukiki(mob) then
             if playerHPP < 25 then
-                return tpz.magic.spell.CURAGA_V
+                return tpz.magic.spell.CURAGA_V, 30
             elseif playerHPP < 50 then
-                return tpz.magic.spell.CURAGA_IV
+                return tpz.magic.spell.CURAGA_IV, 30
             else
-                return tpz.magic.spell.CURAGA_III
+                return tpz.magic.spell.CURAGA_III, 30
             end
         elseif IsFerreousCoffin(mob) then
             if playerHPP < 25 then
-                return tpz.magic.spell.CURA_III
+                return tpz.magic.spell.CURA_III, 30
             else
-                return tpz.magic.spell.CURA_II
+                return tpz.magic.spell.CURA_II, 30
             end
         else
             if playerHPP < 25 then
-                return tpz.magic.spell.CURE_VI
+                return tpz.magic.spell.CURE_VI, 10
             elseif playerHPP < 50 then
-                return tpz.magic.spell.CURE_V
+                return tpz.magic.spell.CURE_V, 10
             else
-                return tpz.magic.spell.CURE_IV
+                return tpz.magic.spell.CURE_IV, 10
             end
         end
     end,
     default = function()
-        return tpz.magic.spell.CURE_IV
+        return tpz.magic.spell.CURE_IV, 10
     end
 }
 
 local function GetBestCure(mob, player)
     local job = mob:getMainJob()
     local playerHPP = player:getHPP()
-    local selectedCure
-
     local cureFunction = cures[job] or cures.default
-    selectedCure = cureFunction(mob, playerHPP)
-
-    return selectedCure
+    local selectedCure, cureRecast = cureFunction(mob, playerHPP)
+    return selectedCure, cureRecast
 end
 
 local function GetBestNA(mob, player)
@@ -1031,14 +1155,15 @@ end
 local function GetBestBuff(mob, player)
     local job = mob:getMainJob()
     local selectedBuff = nil
+    local buffRecast = 10
 
     -- Define default buffs for each job
     local defaultBuffs = {
         [tpz.job.WHM] = {
             { Effect = tpz.effect.HASTE,            Spell = tpz.magic.spell.HASTE_II    },
             { Effect = tpz.effect.AUSPICE,          Spell = tpz.magic.spell.AUSPICE     },
-            { Effect = tpz.effect.SHELL,            Spell = tpz.magic.spell.SHELL_V     },
-            { Effect = tpz.effect.PROTECT,          Spell = tpz.magic.spell.PROTECT_V   },
+            { Effect = tpz.effect.SHELL,            Spell = tpz.magic.spell.SHELLRA_V   },
+            { Effect = tpz.effect.PROTECT,          Spell = tpz.magic.spell.PROTECTRA_V },
             { Effect = tpz.effect.REGEN,            Spell = tpz.magic.spell.REGEN_III   },
         },
         [tpz.job.RDM] = {
@@ -1059,16 +1184,16 @@ local function GetBestBuff(mob, player)
     local cherukikiBuffs = {
         [tpz.job.WHM] = {
             { Effect = tpz.effect.STONESKIN,        Spell = tpz.magic.spell.STONESKIN   },
-            { Effect = tpz.effect.SHELL,            Spell = tpz.magic.spell.SHELL_V     },
-            { Effect = tpz.effect.PROTECT,          Spell = tpz.magic.spell.PROTECT_V   },
+            { Effect = tpz.effect.SHELL,            Spell = tpz.magic.spell.SHELLRA_V   },
+            { Effect = tpz.effect.PROTECT,          Spell = tpz.magic.spell.PROTECTRA_V },
         }
     }
 
     local ferreousCoffinBuffs = {
         [tpz.job.WHM] = {
             { Effect = tpz.effect.HASTE,            Spell = tpz.magic.spell.HASTE_II    },
-            { Effect = tpz.effect.SHELL,            Spell = tpz.magic.spell.SHELL_V     },
-            { Effect = tpz.effect.PROTECT,          Spell = tpz.magic.spell.PROTECT_V   },
+            { Effect = tpz.effect.SHELL,            Spell = tpz.magic.spell.SHELLRA_V   },
+            { Effect = tpz.effect.PROTECT,          Spell = tpz.magic.spell.PROTECTRA_V },
             { Effect = tpz.effect.REGEN,            Spell = tpz.magic.spell.REGEN_III   },
         }
     }
@@ -1094,6 +1219,10 @@ local function GetBestBuff(mob, player)
                 end
             end
 
+            if IsAPet(player) then
+                shouldBuff = false
+            end
+
             if shouldBuff then
                 if not player:hasStatusEffect(buff.Effect) then
                     selectedBuff = buff.Spell
@@ -1103,7 +1232,12 @@ local function GetBestBuff(mob, player)
         end
     end
 
-    return selectedBuff
+    -- buffRecast overrides
+    if (selectedBuff == tpz.magic.spell.STONESKIN) then
+        buffRecast = 45
+    end
+
+    return selectedBuff, buffRecast
 end
 
 local function GetBestPotion(mob, player)
@@ -1251,8 +1385,6 @@ local function TryRaise(mob, player)
                         else
                             mob:castSpell(tpz.magic.spell.RAISE_III, player)
                         end
-                    else
-                        mob:castSpell(tpz.magic.spell.RAISE, player)
                     end
                 end
             end
@@ -1280,6 +1412,7 @@ function UpdateTankAI(mob, target)
             
         {   Skill = tpz.jobAbility.PROVOKE,         Cooldown = 30,       Type = 'Enmity',        Category = 'Job Ability',    Job = tpz.job.WAR },
         {   Skill = tpz.jobAbility.YONIN,           Cooldown = 60,       Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.NIN },
+        {   Skill = tpz.jobAbility.SANGE,           Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.NIN },
         {   Skill = tpz.jobAbility.ISSEKIGAN,       Cooldown = 300,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.NIN },
         {   Skill = tpz.jobAbility.MAJESTY,         Cooldown = 60,       Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.DEFENDER,        Cooldown = 300,      Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.WAR },
@@ -1314,8 +1447,10 @@ function UpdateTankAI(mob, target)
     UpdateAbilityAI(mob, target, abilityData)
 
     -- Spell AI
-    if TryKeepUpUtsusemi(mob) then
-        return
+    if (mJob == tpz.job.NIN) then
+        if TryKeepUpUtsusemi(mob) then
+            return
+        end
     end
 
     if (mJob == tpz.job.PLD) then
@@ -1516,11 +1651,16 @@ function UpdateHealerAI(mob, target)
                         local sortedFriendlyTargets = GetLowestHPTarget(mob, nearbyFriendly)
                         for _, cureTarget in pairs(sortedFriendlyTargets) do
                             if (cureTarget:getHPP() < 75) then
-                                local healingSpell = GetBestCure(mob, cureTarget)
+                                local healingSpell, cureRecast = GetBestCure(mob, friendlyTarget)
                                 if (healingSpell ~= nil) then
                                     if CanCast(mob) then
-                                        mob:castSpell(healingSpell, cureTarget)
-                                        mob:setLocalVar("cureTimer", os.time() + 10)
+                                        local currentTarget = cureTarget
+                                        if IsFerreousCoffin(mob) then
+                                            currentTarget = mob
+                                        end
+                                        printf("Cure recast %d", cureRecast)
+                                        mob:castSpell(healingSpell, currentTarget)
+                                        mob:setLocalVar("cureTimer", os.time() + cureRecast)
                                         mob:setLocalVar("globalMagicTimer", os.time() + 10)
                                         return
                                     end
@@ -1547,11 +1687,12 @@ function UpdateHealerAI(mob, target)
                     -- Buff
                     local buffTimer = mob:getLocalVar("buffTimer")
                     if (os.time() >= buffTimer) then
-                        local buffSpell = GetBestBuff(mob, friendlyTarget)
+                        local buffSpell, buffRecast = GetBestBuff(mob, friendlyTarget)
                         if (buffSpell ~= nil) then
                             if CanCast(mob) then
+                                printf("Buff recast %d", buffRecast)
                                 mob:castSpell(buffSpell, mob)
-                                mob:setLocalVar("buffTimer", os.time() + 10)
+                                mob:setLocalVar("buffTimer", os.time() + buffRecast)
                                 mob:setLocalVar("globalMagicTimer", os.time() + 10)
                                 return
                             end
@@ -1682,12 +1823,12 @@ function UpdateCasterAI(mob, target)
                 if (mJob == tpz.job.SCH or sJob == tpz.job.WHM) then
                     if (os.time() >= cureTimer) then
                         if (friendlyTarget:getHPP() < 75) then
-                            local healingSpell = GetBestCure(mob, friendlyTarget)
+                            local healingSpell, cureRecast = GetBestCure(mob, friendlyTarget)
                             if (healingSpell ~= nil) then
                                 if CanCast(mob) then
                                     -- printf("[DEBUG] Can cast healing spell: %d at time: %d", healingSpell, os.time())
                                     mob:castSpell(healingSpell, friendlyTarget)
-                                    mob:setLocalVar("cureTimer", os.time() + 10)
+                                    mob:setLocalVar("cureTimer", os.time() + cureRecast)
                                     mob:setLocalVar("globalMagicTimer", os.time() + 10)
                                     -- printf("Casting Cure %d at time: %d", healingSpell, os.time())
                                     return
@@ -1721,12 +1862,12 @@ function UpdateCasterAI(mob, target)
                 -- Buff
                 if (mJob == tpz.job.SCH)  then
                     if (os.time() >= buffTimer) then
-                        local buffSpell = GetBestBuff(mob, friendlyTarget)
+                        local buffSpell, buffRecast = GetBestBuff(mob, friendlyTarget)
                         if (buffSpell ~= nil) then
                             if CanCast(mob) then
                                 --printf("[DEBUG] Can cast buff spell: %d at time: %d", buffSpell, os.time())
                                 mob:castSpell(buffSpell, mob)
-                                mob:setLocalVar("buffTimer", os.time() + 10)
+                                mob:setLocalVar("buffTimer", os.time() + buffRecast)
                                 mob:setLocalVar("globalMagicTimer", os.time() + 10)
                                 --printf("Casting Buff %d at time: %d", buffSpell, os.time())
                                 return
@@ -1857,13 +1998,19 @@ function UpdateAbilityAI(mob, target, abilityData)
 
                     -- Self Buffs
                     if (ability.Type == 'Buff') then
-                        if CanUseAbility(mob) then
-                            if isJaReady(mob, ability.Skill) then
-                                if IsJa(mob, ability.Category) then
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useJobAbility(ability.Skill, mob)
-                                    return
+                        for _, abilityEffect in pairs(abilityMap) do
+                            if CanUseAbility(mob) then
+                                if isJaReady(mob, ability.Skill) then
+                                    if IsJa(mob, ability.Category) then
+                                        if (abilityEffect.Ability == ability.Skill) then
+                                            if not mob:hasStatusEffect(abilityEffect.Effect) then
+                                                mob:setLocalVar("globalJATimer", os.time() + 10)
+                                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                                mob:useJobAbility(ability.Skill, mob)
+                                                return
+                                            end
+                                        end
+                                    end
                                 end
                             end
                         end

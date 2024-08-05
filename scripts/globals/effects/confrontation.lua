@@ -10,9 +10,6 @@ function onEffectGain(target,effect)
     if (target:isPC()) then
         target:messageSpecial(ID.text.CONF_BATTLE_BEGIN, duration / 60, 0, 0, 0) 
     end
-    if target:getPet() then
-        target:getPet():addStatusEffect(effect)
-    end
 end
 
 function onEffectTick(target, effect)
@@ -42,14 +39,14 @@ function onEffectTick(target, effect)
     local confrontationStartPos = confrontationStart:getSpawnPos()
     -- Display a warning if vendoring too far from where the mob spawns
     if (target:isPC()) then
-        if target:checkDistance(confrontationStartPos) >= 30 then
+        if (target:checkDistance(confrontationStartPos) >= 30) then
             target:messageSpecial(ID.text.CONF_TOO_FAR)
         end
     end
 
     -- Delete effect if 50 yards from the spawn pos
     if (target:isPC()) then
-        if target:checkDistance(confrontationStartPos) >= 50 then
+        if (target:checkDistance(confrontationStartPos) >= 50) then
             target:messageSpecial(ID.text.CONF_DISENAGED)
             target:delStatusEffect(tpz.effect.CONFRONTATION)
         end
@@ -81,11 +78,7 @@ function onEffectTick(target, effect)
 end
 
 function onEffectLose(target,effect)
-    if target:getPet() then
-        target:getPet():delStatusEffect(tpz.effect.CONFRONTATION)
-    end
     if (target:isMob()) then
-        DespawnMob(target:getID()) -- TODO: doesn't work properly on respawning? If a mob has, then despawns, it will just immediately run this and despawn?
-        -- or just for RAID mobs?
+        DespawnMob(target:getID())
     end
 end
