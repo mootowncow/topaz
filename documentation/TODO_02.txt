@@ -155,6 +155,7 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+m_ShieldSize to battleentities (or mobs/trusts/pets?)
 ranged attack store TP mod
 Sphereoids should have insane evasion mobfamily mod
 Gates outside the wotg jeuno zones auto-open if you get near them on a mount

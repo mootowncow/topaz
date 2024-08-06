@@ -104,6 +104,8 @@ struct Trust_t
     int16 waterres;
     int16 lightres;
     int16 darkres;
+
+    int16 shieldSize;
 };
 
 std::vector<Trust_t*> g_PTrustList;
@@ -170,7 +172,8 @@ void BuildTrust(uint32 TrustID)
                 mob_family_system.Fire, mob_family_system.Ice, \
                 mob_family_system.Wind, mob_family_system.Earth, \
                 mob_family_system.Lightning, mob_family_system.Water, \
-                mob_family_system.Light, mob_family_system.Dark \
+                mob_family_system.Light, mob_family_system.Dark, \
+                mob_pools.shieldSize \
                 FROM spell_list, mob_pools, mob_family_system WHERE spell_list.spellid = %u \
                 AND (spell_list.spellid+5000) = mob_pools.poolid AND mob_pools.familyid = mob_family_system.familyid ORDER BY spell_list.spellid";
 
@@ -237,6 +240,7 @@ void BuildTrust(uint32 TrustID)
             trust->waterres   = (uint16)((Sql_GetFloatData(SqlHandle, 39) - 1) * -100);
             trust->lightres   = (uint16)((Sql_GetFloatData(SqlHandle, 40) - 1) * -100);
             trust->darkres    = (uint16)((Sql_GetFloatData(SqlHandle, 41) - 1) * -100);
+            trust->shieldSize = (uint16)(Sql_GetUIntData(SqlHandle, 42)); // TODO: Probably turn into a member(m_shieldSize)
 
             g_PTrustList.push_back(trust);
         }
@@ -338,6 +342,8 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     {
         mobutils::SetSpellList(PTrust, trustData->spellList);
     }
+
+    PTrust->setMobMod(MOBMOD_BLOCK, trustData->shieldSize); // TODO: Probably turn into a member(m_shieldSize)
 
     return PTrust;
 }

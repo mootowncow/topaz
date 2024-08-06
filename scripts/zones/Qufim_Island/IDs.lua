@@ -38,6 +38,13 @@ zones[tpz.zone.QUFIM_ISLAND] =
         NO_COMBINATION                 = 8052,  -- You were unable to enter a combination.
         REGIME_REGISTERED              = 10328, -- New training regime registered!
         COMMON_SENSE_SURVIVAL          = 12653, -- It appears that you have arrived at a new survival guide provided by the Adventurers' Mutual Aid Network. Common sense dictates that you should now be able to teleport here from similar tomes throughout the world.
+        CONF_TOO_FAR                   = 8076, -- You have ventured too far from the field of battle. The Confrontation will automatically disengage if you do not return
+        CONF_DISENAGED                 = 8077, -- Ventured too far, confrontation has disengaged.
+        CONF_REENGAGED                 = 8078, -- You have returned to the field of battle.
+        CONF_BATTLE_BEGIN              = 8079, -- You have x earth time to complete the battle.
+        CONF_MIN_REMAINING             = 8080, -- X earth minutes remaining to complete the battle.
+        CONF_SEC_REMAINING             = 8081, -- x earth seconds remaining to complete the battle.
+        CONF_TIME_UP                   = 8082, -- Your time for this Confrontation is up...
     },
     mob =
     {

@@ -150,6 +150,8 @@ struct Pet_t
     uint16 eemdarksleep;
     uint16 eemblind;
 
+    uint16 shieldSize;
+
 };
 
 std::vector<Pet_t*> g_PPetList;
@@ -199,7 +201,7 @@ namespace petutils
                 Slash, Pierce, H2H, Impact, \
                 Fire, Ice, Wind, Earth, Lightning, Water, Light, Dark, \
                 Amnesia, Virus, Silence, Gravity, Stun, LightSleep, Charm, Paralyze, Bind, Slow, Petrify, Terror, Poison, Darksleep, Blind, \
-                cmbDelay, name_prefix, mob_pools.skill_list_id \
+                cmbDelay, name_prefix, mob_pools.skill_list_id, mob_pools.shieldSize \
                 FROM pet_list, mob_pools, mob_family_system \
                 WHERE pet_list.poolid = mob_pools.poolid AND mob_pools.familyid = mob_family_system.familyid";
 
@@ -296,6 +298,7 @@ namespace petutils
                 Pet->cmbDelay = (uint16)Sql_GetIntData(SqlHandle, 55);
                 Pet->name_prefix = (uint8)Sql_GetUIntData(SqlHandle, 56);
                 Pet->m_MobSkillList = (uint16)Sql_GetUIntData(SqlHandle, 57);
+                Pet->shieldSize = Sql_GetUIntData(SqlHandle, 58);
 
                 g_PPetList.push_back(Pet);
             }
@@ -2175,6 +2178,7 @@ namespace petutils
         PPet->m_MobSkillList = PPetData->m_MobSkillList;
         PPet->m_Element = PPetData->m_Element;
         PPet->m_PetID = PPetData->PetID;
+        PPet->setMobMod(MOBMOD_BLOCK, PPetData->shieldSize); // TODO: Probably turn into a member(m_shieldSize)
         // add special mob mods
 
         // this only has to be added once

@@ -595,6 +595,15 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         PMob->setModifier(Mod::INQUARTATA, 0);
     }
 
+    // Check for Shield Barrier
+    if (PMob->getMobMod(MOBMOD_BLOCK)) // TODO: MOBMOD_CAN_BLOCK
+    {
+        if (PMob->hasTrait(TRAIT_SHIELD_BARRIER))
+        {
+            PMob->addModifier(Mod::PHALANX, PMob->getMod(Mod::SHIELD_BARRIER));
+        }
+    }
+
     // Max [HP/MP] Boost traits
     PMob->UpdateHealth();
     PMob->health.tp = 0;
@@ -703,11 +712,6 @@ void SetupJob(CMobEntity* PMob)
         job = sJob;
     }
 
-    // WAR mobs have 25% DA
-    if (mJob == JOB_WAR && mLvl >= 25)
-    {
-        PMob->setModifier(Mod::DOUBLE_ATTACK, 25);
-    }
     // This switch falls back to a subjob if a mainjob isn't matched, and is mainly magic stuff
     switch(job)
     {
@@ -716,10 +720,6 @@ void SetupJob(CMobEntity* PMob)
             // Only beastmen get resist job traits
             {
                 PMob->setModifier(Mod::VIRUSRESTRAIT, 0);
-            }
-            if (mLvl >= 25)
-            {
-                PMob->setModifier(Mod::DOUBLE_ATTACK, 25);
             }
             break;
         case JOB_SAM:
@@ -982,10 +982,6 @@ void SetupJob(CMobEntity* PMob)
             // Only beastmen get resist job traits
             {
                 PMob->setModifier(Mod::VIRUSRESTRAIT, 0);
-            }
-            if (sLvl >= 25)
-            {
-                PMob->setModifier(Mod::DOUBLE_ATTACK, 25);
             }
             break;
         case JOB_RDM:
@@ -1764,7 +1760,7 @@ CMobEntity* InstantiateAlly(uint32 groupid, uint16 zoneID, CInstance* instance)
         Fire, Ice, Wind, Earth, Lightning, Water, Light, Dark, Element, \
         mob_pools.familyid, name_prefix, entityFlags, animationsub, \
         (mob_family_system.HP / 100), (mob_family_system.MP / 100), hasSpellScript, spellList, ATT, ACC, mob_groups.poolid, \
-        allegiance, namevis, aggro, mob_pools.skill_list_id, mob_pools.true_detection, mob_family_system.detects, packet_name \
+        allegiance, namevis, aggro, mob_pools.skill_list_id, mob_pools.true_detection, mob_family_system.detects, mob_pools.shieldSize, packet_name \
         FROM mob_groups INNER JOIN mob_pools ON mob_groups.poolid = mob_pools.poolid \
         INNER JOIN mob_family_system ON mob_pools.familyid = mob_family_system.familyid \
         WHERE mob_groups.groupid = %u";
@@ -1878,6 +1874,7 @@ CMobEntity* InstantiateAlly(uint32 groupid, uint16 zoneID, CInstance* instance)
             PMob->m_MobSkillList = Sql_GetUIntData(SqlHandle, 58);
             PMob->m_TrueDetection = Sql_GetUIntData(SqlHandle, 59);
             PMob->m_Detects = Sql_GetUIntData(SqlHandle, 60);
+            PMob->setMobMod(MOBMOD_BLOCK, Sql_GetUIntData(SqlHandle, 61)); // TODO: Probably turn into a member(m_shieldSize)
 
             // must be here first to define mobmods
             mobutils::InitializeMob(PMob, zoneutils::GetZone(zoneID));

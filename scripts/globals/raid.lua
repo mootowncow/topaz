@@ -13,32 +13,24 @@ require("scripts/globals/utils")
 require("scripts/globals/spell_data")
 require("scripts/globals/weaponskillids")
 --------------------------------------
--- TODO: Erase won't be cast because not in party
 -- TODO: Make sure tanks always spawn opposite side of everyone (DPS/healers > mob < tank)
 -- TODO: Spread out DPS to surround the NMs better
 -- TODO: Correct weapon types(club scythe etc) on everyone
 -- TODO: Does Kyo respawn and work?
 -- TODO: Check that barrage is properly adding hits in cpp with print
 -- TODO: SA / TA damage on monstertpmoves
--- TODO: Test Insomninant AI, negate_sleep effect coded
+-- TODO: Insomninant AI is wonky on detecting the sleep and it the skill crashes the game
 -- TODO: Test Flashy shot pdif stuff for level correction (ranged pdif and ws ranged pdif)
--- TODO: Test Pinning Nocturne(does it cast and does effect work? -15% FASTCAST and -15 MACC base)
--- TODO: Give all NPCs 1k base HP
--- TODO: Spells can be parad/interrupted, make sure vars for recasts are only set IF spell is casted so "IfCasted(spell) then <set vars>"
--- TODO: Does WHM Raise III?
 -- TODO: Ajido-Marujido doesn't despawn after boss does and confrontation is removed?
--- TODO: Why does ifrit despawn?
 -- TODO: Next set of NPCs qultada + ovjang(tank) + nashmeira and other serpent generals
--- TODO: only apply buffs if effect isnt active (need to make an ability to effect map)
--- TODO: addle effect subpower to use its power if subpower is nill or 0
--- TODO: AOE JA's for player if  has status effect confrontation in charentity.cpp ability
--- TODO: Don't start shadow lord mechanics until ~90% or lower
 -- TODO: Ability to add/delete merits to mobs
--- TODO: Different recast timers for different healers(i.e. cheruikki has longer recast on buffs and cures)
--- TODO: Are pets not getting AOE buffs?
+-- TODO: Are pets not getting AOE buffs? (CTargetFind::findWithinArea for this logic {PETS_CAN_AOE_BUFF})
 -- TODO: addCapacityPoints() needs to add 10 job points..maybe need to add a lua binding for addjobpoints instead of add capacity points
 -- TODO: Add logic for tracking player "contribution" and then only having a formula for addCapacityPoints() in onMobDeath based on contribution amount
--- TODO: Test if addle works properly with changes
+-- TODO: Are bosses absorbing damage from very low mob hits? (Below 0)
+-- TODO: Gadalar Converts 15% of damage received into MP
+-- TODO: Rughadjeen is melee not tank(DPS paladin, spams holy2 / banish 4 or something with a 2h)
+-- TODO: Rughadjeen Additional effects on normal attacks : Fire damage . Triple Attack +3% (Using the one sword from cerberus or w/e)
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -806,10 +798,6 @@ function SetUpTankNPC(mob)
 
     mob:addMod(tpz.mod.ENMITY_II, 25)
 
-    if not IsHalver(mob) then
-        mob:addMod(tpz.mobMod.BLOCK, 35)
-    end
-
     if IsHalver(mob) then
         mob:addMod(tpz.mod.DMG, -30)
     elseif IsMaat(mob) then
@@ -860,12 +848,7 @@ function SetUpMeleeNPC(mob)
     local sJob = mob:getSubJob()
     local npcName = mob:getName()
 
-    if
-        (npcName == 'Striking_Bull') or
-        (npcName == 'Lhu_Mhakaracca') 
-    then
-        mob:setMobMod(tpz.mobMod.BLOCK, 35)
-    elseif (npcName == 'Tenzen') then
+    if (npcName == 'Tenzen') then
         mob:addMod(tpz.mod.SAVETP, 400)
     end
 
@@ -1011,10 +994,11 @@ local function GetBestNuke(mob, target)
                 bestElement = element
             end
         end
-        -- If the enemies weakness is dark or light, select a random element
-        if (bestElement == tpz.magic.ele.LIGHT) or (bestElement == tpz.magic.ele.DARK) then
-            bestElement = math.random(tpz.magic.ele.FIRE, tpz.magic.ele.WATER)
-        end
+    end
+
+    -- If the enemies weakness is dark or light, select a random element
+    if (bestElement == tpz.magic.ele.LIGHT) or (bestElement == tpz.magic.ele.DARK) then
+        bestElement = math.random(tpz.magic.ele.FIRE, tpz.magic.ele.WATER)
     end
 
     if (bestElement ~= nil) then
@@ -1483,7 +1467,7 @@ function UpdateTankAI(mob, target)
                 if (mob:getHPP() < 75) then
                     if CanCast(mob) then
                         mob:castSpell(tpz.magic.spell.CURE_IV, mob)
-                        mob:setLocalVar("cureTimer", os.time() + 20)
+                        mob:setLocalVar("cureTimer", os.time() + 25)
                         mob:setLocalVar("globalMagicTimer", os.time() + 10)
                         return
                     end
@@ -1779,6 +1763,7 @@ function UpdateChemistAI(mob, target)
     }
 
     if hasSleepEffects(mob) then
+        printf("Slept")
         mob:setLocalVar("wasSlept", 1)
     end
     UpdateAbilityAI(mob, target, abilityData)
@@ -2087,9 +2072,9 @@ function TryChemistAbility(mob, target, skill)
     local buffTimer = mob:getLocalVar("buffTimer")
 
     -- Applies Insomninant to self after being slept once
-    if wasSlept and not mob:hasStatusEffect(tpz.effect.NEGATE_SLEEP) then
-        mob:useMobAbility(tpz.mob.skills.MIX_INSOMNIANT, mob)
-        mob:setLocalVar("globalPotionTimer", os.time() + 5)
+    if (wasSlept > 0) and not mob:hasStatusEffect(tpz.effect.NEGATE_SLEEP) then
+        -- mob:useMobAbility(tpz.mob.skills.MIX_INSOMNIANT, mob) TODO: CRASHES GAME
+        -- mob:setLocalVar("globalPotionTimer", os.time() + 5) TODO: CRASHES GAME
         return
     end
 
@@ -2312,17 +2297,22 @@ function GetBestThrenody(mob, target)
     local bestThrenody = nil
 
     -- Iterate through the SDT effects to find the highest value
-    for sdtMod, element in pairs(sdtToElement) do
+    for sdtMod, element in pairs(sdtToThrenody) do
         local sdtValue = target:getMod(sdtMod)
         if sdtValue > highestSdtValue then
             highestSdtValue = sdtValue
-            bestElement = element
+            bestThrenody = element
         elseif sdtValue == highestSdtValue then
             -- If SDT values are equal, randomly select one
             if math.random() < 0.5 then
-                bestElement = element
+                bestThrenody = element
             end
         end
+    end
+
+    -- If the enemies weakness is dark or light, select a random element
+    if (bestThrenody == tpz.magic.spell.LIGHT_THRENODY) or (bestThrenody == tpz.magic.spell.DARK_THRENODY) then
+        bestThrenody = math.random(tpz.magic.spell.FIRE_THRENODY, tpz.magic.spell.WATER_THRENODY)
     end
 
     return bestThrenody

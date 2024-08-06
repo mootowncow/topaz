@@ -4059,7 +4059,7 @@ INSERT INTO `mob_skills` VALUES (4245,2604,'mix_panacea-1',0,21.0,2000,100,16,4,
 -- INSERT INTO `mob_skills` VALUES (4253,556,'mix_panacea-1',0,21.0,2000,100,16,4,0,0,0,0,0); -- second panacea-1?
 INSERT INTO `mob_skills` VALUES (4254,2599,'mix_dry_ether_concoction',0,21.0,2000,100,16,4,0,0,0,0,0); -- messaging is probably wrong if only partial MP recovery
 INSERT INTO `mob_skills` VALUES (4255,2607,'mix_guard_drink',1,21.0,2000,100,16,10,0,0,0,0,0); -- verified
-INSERT INTO `mob_skills` VALUES (4256,2608,'mix_insomniant',0,21.0,2000,100,16,1,0,0,0,0,0); -- guessed messaging, animation wrong so disabled
+INSERT INTO `mob_skills` VALUES (4256,2609,'mix_insomniant',0,21.0,2000,100,16,1,0,0,0,0,0); -- guessed messaging, animation wrong so disabled
 INSERT INTO `mob_skills` VALUES (4257,2609,'mix_life_water',1,21.0,2000,100,16,10,0,0,0,0,0); -- verified, but no effect messaging is probably wrong.
 INSERT INTO `mob_skills` VALUES (4258,2610,'mix_elemental_power',1,21.0,2000,100,16,10,0,0,0,0,0); -- verified, but no effect messaging is probably wrong.
 INSERT INTO `mob_skills` VALUES (4259,2610,'mix_dragon_shield',1,21.0,2000,100,16,10,0,0,0,0,0); -- verified, but no effect messaging is probably wrong

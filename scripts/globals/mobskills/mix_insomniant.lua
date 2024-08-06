@@ -17,7 +17,7 @@ function onMobWeaponSkill(target, mob, skill)
     local tick = 0
     local duration = 180
 
-    skill:setMsg(MobBuffMove(mob, typeEffect, power, tick, duration)) -- GAINS_EFFECT_OF_STATUS ?
-
-    return typeEffect
+    MobBuffMove(mob, typeEffect, power, tick, duration)
+    skill:setMsg(tpz.msg.basic.NONE)
+    return 0
 end

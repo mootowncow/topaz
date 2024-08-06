@@ -15182,7 +15182,6 @@ inline int32 CLuaBaseEntity::hasTrait(lua_State *L)
 
     if (PBattleEntity)
     {
-        printf("Is a battle entity");
         lua_pushboolean(L, PBattleEntity->hasTrait(lua_isnumber(L, 1)));
     }
     else

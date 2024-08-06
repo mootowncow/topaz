@@ -201,7 +201,7 @@ INSERT INTO `mob_groups` VALUES (52,9118,4,'Behemoth',330,0,0,0,0,82,83,0); -- G
 INSERT INTO `mob_groups` VALUES (53,9125,4,'Promathia',0,128,0,100000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (54,5976,4,'Kayeel-Payeel',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (55,5968,4,'Adelheid',0,128,0,1300,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (56,3790,4,'Striking_Bull',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (56,5917,4,'Striking_Bull',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (57,5964,4,'Lhe_Lhangavo',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (58,5910,4,'Valaineral_R_Davilles',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (59,1313,4,'Febrenard_C_Brunnaut',0,128,0,1300,0,80,80,1);
@@ -9192,6 +9192,23 @@ INSERT INTO `mob_groups` VALUES (48,6169,126,'Ophiotaurus',0,128,0,0,0,43,43,0);
 INSERT INTO `mob_groups` VALUES (49,6570,126,'Wight',330,1,2652,0,0,28,30,0);
 INSERT INTO `mob_groups` VALUES (50,0,126,'Atkorkamuy',0,128,0,10000,0,73,73,0);
 INSERT INTO `mob_groups` VALUES (51,1642,126,'Goblin_Bounty_Hunter',0,128,1031,0,0,11,11,0);
+
+INSERT INTO `mob_groups` VALUES (52,9125,126,'Ark_Angel_HM',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (53,9125,126,'Ark_Angel_MR',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (54,9125,126,'Ark_Angels_Tiger',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (55,9125,126,'Ark_Angels_Mandragora',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (56,9125,126,'Ark_Angel_EV',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (57,9125,126,'Ark_Angel_TT',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (58,9125,126,'Ark_Angel_GK',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (59,9125,126,'Ark_Angels_Wyvern',0,128,0,100000,0,85,85,0);
+
+INSERT INTO `mob_groups` VALUES (60,5926,126,'Mnejing',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (61,5909,126,'Mihli_Aliapoh',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (62,5924,126,'Zazarg',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (63,5929,126,'Najelith',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (64,5967,126,'Qultada',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (65,5960,126,'Gadalar',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (66,5923,126,'Nashmeira',0,128,0,1300,0,80,80,1);
 
 INSERT INTO `mob_groups` VALUES (6802,1027,126,'Diabolos',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (6835,3584,126,'Shantotto',0,0,0,0,0,0,0,0);

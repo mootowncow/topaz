@@ -121,6 +121,12 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
                 // just add myself
                 addEntity(m_PMasterTarget, withPet);
             }
+
+            // AoE ALL targets if certain status effects are active in order to buff friendly NPCs
+            if (m_PMasterTarget->StatusEffectContainer->HasStatusEffect({ EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
+            {
+                addAllInZone(m_PMasterTarget, withPet);
+            }
         }
         else 
         {

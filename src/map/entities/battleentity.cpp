@@ -357,15 +357,19 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
 
             WeaponDelay = (uint16)(WeaponDelay * ((100.0f - dualWieldMods) / 100.0f));
         }
+
         //Add Fencer JA haste 
         CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]);
         CItemWeapon* PSub = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]);
         if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand() &&
                  (!PSub || PSub->getSkillType() == SKILL_NONE || m_Weapons[SLOT_SUB]->IsShield()))
         {
-            if (objtype == TYPE_PC && getMod(Mod::FENCER_JA_HASTE) > 0)
+            if (getMod(Mod::FENCER_JA_HASTE) > 0)
             {
-                WeaponDelay = (uint16)(WeaponDelay * ((100.0f - getMod(Mod::FENCER_JA_HASTE)) / 100.0f));
+                if (objtype == TYPE_PC || allegiance == ALLEGIANCE_PLAYER)
+                {
+                    WeaponDelay = (uint16)(WeaponDelay * ((100.0f - getMod(Mod::FENCER_JA_HASTE)) / 100.0f));
+                }
             }
         }
 

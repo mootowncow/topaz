@@ -7114,7 +7114,7 @@ int16 GetSDTTier(int16 SDT)
                 bool add = true;
 
                 // Player DA is 10%, everything else is 25%
-                if (PEntity->objtype == TYPE_PC)
+                if (PEntity->objtype == TYPE_PC || PEntity->allegiance == ALLEGIANCE_PLAYER)
                 {
                     if (PTrait->getID() == TRAIT_DOUBLE_ATTACK)
                     {
@@ -7203,7 +7203,7 @@ int16 GetSDTTier(int16 SDT)
                 bool del = false;
 
                 // Player DA is 10%, everything else is 25%
-                if (PEntity->objtype == TYPE_PC)
+                if (PEntity->objtype == TYPE_PC || PEntity->allegiance == ALLEGIANCE_PLAYER)
                 {
                     if (PTrait->getID() == TRAIT_DOUBLE_ATTACK)
                     {

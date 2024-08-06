@@ -33,6 +33,17 @@ function onZoneIn(player, prevZone)
     return cs
 end
 
+function afterZoneIn(player)
+    local day = VanadielDayOfTheWeek()
+    if (day == tpz.day.DARKSDAY) then
+        for v = 17273438, 17273447 do
+            if not GetMobByID(v):isSpawned() then
+                GetMobByID(v):spawn()
+            end
+        end
+    end
+end
+
 function onRegionEnter(player, region)
 end
 
