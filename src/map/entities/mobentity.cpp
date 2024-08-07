@@ -1037,6 +1037,7 @@ void CMobEntity::OnRangedAttack(CRangeState& state, action_t& action)
     }
     if (actionTarget.speceffect == SPECEFFECT_HIT && actionTarget.param > 0)
         actionTarget.speceffect = SPECEFFECT_RECOIL;
+    // TODO: luautils::OnAdditionalEffectRanged(PAttacker, PDefender, weapon, Action, finaldamage);?
 
     // remove barrage effect if present
     if (this->StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE, 0))

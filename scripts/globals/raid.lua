@@ -31,6 +31,11 @@ require("scripts/globals/weaponskillids")
 -- TODO: Gadalar Converts 15% of damage received into MP
 -- TODO: Rughadjeen is melee not tank(DPS paladin, spams holy2 / banish 4 or something with a 2h)
 -- TODO: Rughadjeen Additional effects on normal attacks : Fire damage . Triple Attack +3% (Using the one sword from cerberus or w/e)
+-- TODO: Mijin gakure hit ALL?
+-- TODO: Ark Angel TP moves hit ALL if AOE/conal
+-- TODO: Ppet2 spawning with spawnPet()
+-- TODO: Ark Angel MR (and all mob (not npcs) pets?) don't get confrontation on spawn, might need to add to SpawnMobPet() like players have it
+-- TODO: Line 2048 errors
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -193,6 +198,26 @@ local modByMobName =
     ['Shadow_Lord'] = function(mob)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
         mob:setSpellList(543)
+    end,
+
+    ['Ark_Angel_HM'] = function(mob)
+        mob:addMod(tpz.mod.MDEF, 24)
+    end,
+
+    ['Ark_Angel_MR'] = function(mob)
+        mob:addMod(tpz.mod.MDEF, 24)
+    end,
+
+    ['Ark_Angel_EV'] = function(mob)
+        mob:addMod(tpz.mod.MDEF, 24)
+    end,
+
+    ['Ark_Angel_TT'] = function(mob)
+        mob:addMod(tpz.mod.MDEF, 24)
+    end,
+
+    ['Ark_Angel_GK'] = function(mob)
+        mob:addMod(tpz.mod.MDEF, 24)
     end,
 }
 
@@ -501,6 +526,69 @@ local mobFightByMobName =
             end
         end
     end,
+
+    ['Ark_Angel_HM'] = function(mob, target)
+        tpz.mix.jobSpecial.config(mob, {
+            between = 120,
+            specials =
+            {
+                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 360, hpp = 50},
+                {id = tpz.jsa.MIJIN_GAKURE, cooldown = 360, hpp = 50},
+            },
+        })
+    end,
+
+    ['Ark_Angel_MR'] = function(mob, target)
+        tpz.mix.jobSpecial.config(mob, {
+            between = 120,
+            specials =
+            {
+                {id = tpz.jsa.PERFECT_DODGE, cooldown = 360, hpp = 50},
+                {id = tpz.jsa.CHARM, cooldown = 360, hpp = 50},
+            },
+        })
+    end,
+
+    ['Ark_Angel_EV'] = function(mob, target)
+        tpz.mix.jobSpecial.config(mob, {
+            between = 120,
+            specials =
+            {
+            {id = tpz.jsa.BENEDICTION, hpp = math.random(5, 20)},
+            {id = tpz.jsa.INVINCIBLE, cooldown = 90, hpp = 50},
+            },
+        })
+    end,
+
+    ['Ark_Angel_TT'] = function(mob, target)
+    tpz.mix.jobSpecial.config(mob, {
+        between = 120,
+        specials =
+        {
+            {id = tpz.jsa.BLOOD_WEAPON, cooldown = 90, hpp = 50},
+            {
+                id = tpz.jsa.MANAFONT,
+                cooldown = 90,
+                hpp = 50,
+                endCode = function(mob)
+                    mob:castSpell(tpz.magic.spell.SLEEPGA_II)
+                    mob:castSpell(tpz.magic.spell.METEOR)
+                end,
+            },
+        },
+    })
+    end,
+
+    ['Ark_Angel_GK'] = function(mob, target)
+        tpz.mix.jobSpecial.config(mob, {
+            between = 120,
+            specials =
+            {
+                {id = tpz.jsa.SPIRIT_SURGE, cooldown = 360, hpp = 50},
+                {id = tpz.jsa.MEIKYO_SHISUI, cooldown = 360, hpp = 50},
+            },
+        })
+    end,
 }
 
 local function IsAPet(mob)
@@ -764,11 +852,9 @@ tpz.raid.onNpcDisengage = function(mob)
 end
 
 tpz.raid.onNpcDespawn = function(mob)
-    OnBattleEndConfrontation(mob)
 end
 
 tpz.raid.onNpcDeath = function(mob, player, isKiller, noKiller)
-    OnBattleEndConfrontation(mob)
 end
 
 function SetUpHealerNPC(mob)
@@ -933,9 +1019,8 @@ function isRanged(mob)
     local sJob = mob:getSubJob()
     return
         mJob == tpz.job.RNG or
-        mJob == tpz.job.COR or
-        sJob == tpz.job.RNG or
-        sJob == tpz.job.COR
+        sJob == tpz.job.RNG and
+        mob:getPool() ~= 5967 -- Qultada
 end
 
 function isCaster(mob)
@@ -1887,7 +1972,6 @@ function UpdateSupportAI(mob, target)
     local mobName = mob:getName()
     local job = mob:getMainJob()
 
-    -- Bard
     if (job == tpz.job.BRD) then
         local globalMagicTimer = mob:getLocalVar("globalMagicTimer")
         local debuffSongs = {
@@ -1935,6 +2019,68 @@ function UpdateSupportAI(mob, target)
             end
         end
     elseif (job == tpz.job.COR) then
+        local globalJATimer = mob:getLocalVar("globalJATimer")
+        local qdCharges = mob:getLocalVar("qdCharges")
+        local qdLastUsed = mob:getLocalVar("qdLastUsed")
+        local activeRolls = 0
+        local canDoubleUp = false
+        local rolls = { tpz.jobAbility.FIGHTERS_ROLL, tpz.jobAbility.CHAOS_ROLL, tpz.jobAbility.HUNTERS_ROLL, tpz.jobAbility.SAMURAI_ROLL }
+
+        -- Quick Draw
+        if (qdCharges < 2) and (os.time() - qdLastUsed >= 60) then
+            qdCharges = qdCharges + 1
+            mob:setLocalVar("qdCharges", qdCharges)
+            mob:setLocalVar("qdLastUsed", os.time())
+        end
+
+        if (qdCharges > 0) then
+            if HasDispellableEffect(target) then
+                if CanUseAbility(mob) then
+                    qdCharges = qdCharges - 1
+                    mob:setLocalVar("qdCharges", qdCharges)
+                    mob:useJobAbility(tpz.jobAbility.DARK_SHOT, target)
+                    return
+                end
+            end
+        end
+
+        -- Rolls
+        local effects = mob:getStatusEffects()
+        for _, effect in ipairs(effects) do -- Errors attempt to compare number with userdata
+            if
+                (effect >= tpz.effect.FIGHTERS_ROLL and effect <= tpz.effect.NATURALISTS_ROLL) or
+                effect == tpz.effect.RUNEISTS_ROLL or
+                effect == tpz.effect.BUST
+            then
+                if (effect:getPower() <= 6) then
+                    canDoubleUp = true
+                end
+
+                if (effect:getSubType() == mob:getID()) then
+                    activeRolls = activeRolls +1
+                end
+            end
+        end
+
+        if (activeRolls < 2) then
+            if (os.time() > globalJATimer) then
+                if CanUseAbility(mob) then
+                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                    mob:useJobAbility(rolls[math.random(#rolls)], mob)
+                    return
+                end
+            end
+        else
+            if canDoubleUp then
+                if (os.time() > globalJATimer) then
+                    if CanUseAbility(mob) then
+                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                        mob:useJobAbility(tpz.jobAbility.DOUBLE_UP, mob)
+                        return
+                    end
+                end
+            end
+        end
     elseif (job == tpz.job.GEO) then
         local power = 1082
         local duration = 0

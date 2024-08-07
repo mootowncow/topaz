@@ -9193,15 +9193,15 @@ INSERT INTO `mob_groups` VALUES (49,6570,126,'Wight',330,1,2652,0,0,28,30,0);
 INSERT INTO `mob_groups` VALUES (50,0,126,'Atkorkamuy',0,128,0,10000,0,73,73,0);
 INSERT INTO `mob_groups` VALUES (51,1642,126,'Goblin_Bounty_Hunter',0,128,1031,0,0,11,11,0);
 
-INSERT INTO `mob_groups` VALUES (52,9125,126,'Ark_Angel_HM',0,128,0,100000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (53,9125,126,'Ark_Angel_MR',0,128,0,100000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (54,9125,126,'Ark_Angels_Tiger',0,128,0,100000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (55,9125,126,'Ark_Angels_Mandragora',0,128,0,100000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (56,9125,126,'Ark_Angel_EV',0,128,0,100000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (57,9125,126,'Ark_Angel_TT',0,128,0,100000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (58,9125,126,'Ark_Angel_GK',0,128,0,100000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (59,9125,126,'Ark_Angels_Wyvern',0,128,0,100000,0,85,85,0);
-
+-- RAID
+INSERT INTO `mob_groups` VALUES (52,237,126,'Ark_Angel_HM',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (53,238,126,'Ark_Angel_MR',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (54,240,126,'Ark_Angels_Tiger',0,128,0,100000,0,83,83,0);
+INSERT INTO `mob_groups` VALUES (55,239,126,'Ark_Angels_Mandragora',0,128,0,100000,0,83,83,0);
+INSERT INTO `mob_groups` VALUES (56,235,126,'Ark_Angel_EV',0,128,0,50000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (57,242,126,'Ark_Angel_TT',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (58,236,126,'Ark_Angel_GK',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (59,241,126,'Ark_Angels_Wyvern',0,128,0,100000,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (60,5926,126,'Mnejing',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (61,5909,126,'Mihli_Aliapoh',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (62,5924,126,'Zazarg',0,128,0,1300,0,80,80,1);

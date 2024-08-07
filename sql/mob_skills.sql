@@ -662,7 +662,7 @@ INSERT INTO `mob_skills` VALUES (727,63,'bad_breath',4,15.0,2000,1500,4,0,0,0,0,
 INSERT INTO `mob_skills` VALUES (728,64,'sweet_breath',4,15.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (729,473,'death_trap',0,7.0,2000,2500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (730,438,'meikyo_shisui',0,7.0,2000,0,1,2,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (731,18,'mijin_gakure',1,20.0,2000,0,4,2,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (731,18,'mijin_gakure',1,50.0,2000,0,4,10,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (732,438,'call_wyvern',0,7.0,2000,0,1,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (733,351,'jump',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (734,438,'astral_flow',0,7.0,2000,0,1,2,0,0,0,0,0);
@@ -964,7 +964,7 @@ INSERT INTO `mob_skills` VALUES (1017,718,'call_beast',0,7.0,2000,0,1,2,0,0,0,0,
 INSERT INTO `mob_skills` VALUES (1018,719,'soul_voice',0,7.0,2000,0,1,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1019,720,'eagle_eye_shot',0,25.0,2000,0,4,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1020,721,'meikyo_shisui',0,7.0,2000,0,1,2,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1021,722,'mijin_gakure',1,20.0,2000,0,4,2,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1021,722,'mijin_gakure',1,50.0,2000,0,4,10,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1022,723,'call_wyvern',0,7.0,2000,0,1,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1023,724,'astral_flow_pet',0,7.0,2000,0,1,2,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1024,725,'warp_out',0,7.0,2000,1500,4,0,0,0,0,0,0);

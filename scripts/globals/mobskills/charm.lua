@@ -8,6 +8,14 @@ require("scripts/globals/msg")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
+    local isArkAngelMR = mob:getPool() == 238
+
+    if isArkAngelMR then
+        if mob:hasStatusEffect(tpz.effect.CONFRONTATION) then
+            skill:setAoe(1)
+            skill:setDistance(50)
+        end
+    end
     return 0
 end
 
