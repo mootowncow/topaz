@@ -536,7 +536,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         PMob->m_SpellListContainer = mobSpellList::GetMobSpellList(PMob->getMobMod(MOBMOD_SPELL_LIST));
     }
 
-    // cap all combat and magic skills for mobs
+    // cap all magic skills for mobs(A+)
     for (int i=SKILL_DIVINE_MAGIC; i <=SKILL_BLUE_MAGIC; i++)
     {
         uint16 maxSkill = battleutils::GetMaxSkill(SKILL_ENFEEBLING_MAGIC, JOB_RDM, PMob->GetMLevel());
@@ -555,6 +555,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
             }
         }
     }
+    // cap all weapon skills for mobs(A+)
     for (int i=SKILL_HAND_TO_HAND; i <=SKILL_STAFF; i++)
     {
         uint16 maxSkill = battleutils::GetMaxSkill(SKILL_ENFEEBLING_MAGIC, JOB_RDM, PMob->GetMLevel());
@@ -563,6 +564,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
             PMob->WorkingSkills.skill[i] = maxSkill;
         }
     }
+    
 
     PMob->addModifier(Mod::DEF, GetDefense(PMob, PMob->defRank));
     PMob->addModifier(Mod::EVA, GetBase(PMob, PMob->evaRank));  // Base Evasion for all mobs
@@ -595,9 +597,12 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         PMob->setModifier(Mod::INQUARTATA, 0);
     }
 
-    // Check for Shield Barrier
-    if (PMob->getMobMod(MOBMOD_BLOCK)) // TODO: MOBMOD_CAN_BLOCK
+    // Add shield skill(A+) if block mod > 0
+    if (PMob->getMobMod(MOBMOD_BLOCK) > 0) // TODO: MOBMOD_CAN_BLOCK ?
     {
+        PMob->addModifier(Mod::SHIELD, battleutils::GetMaxSkill(SKILL_ENFEEBLING_MAGIC, JOB_RDM, PMob->GetMLevel()));
+
+        // Check for Shield Barrier
         if (PMob->hasTrait(TRAIT_SHIELD_BARRIER))
         {
             PMob->addModifier(Mod::PHALANX, PMob->getMod(Mod::SHIELD_BARRIER));

@@ -18,7 +18,6 @@ mixins = {require("scripts/mixins/job_special")}
 
 function onMobSpawn(mob)
     tpz.wotg.NMMods(mob)
-    mob:setMobMod(tpz.mobMod.BLOCK, 100) 
     mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
     mob:setMobMod(tpz.mobMod.HP_HEAL_CHANCE, 33) 
     mob:addStatusEffect(tpz.effect.REPRISAL, 33, 0, 7200, 0, mob:getMaxHP())

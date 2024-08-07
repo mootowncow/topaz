@@ -2592,12 +2592,12 @@ int16 GetSDTTier(int16 SDT)
     ************************************************************************/
     uint8 GetBlockRate(CBattleEntity* PAttacker, CBattleEntity* PDefender)
     {
-        int8 shieldSize = 3;
+        int8 shieldSize = SHIELDSIZE_KITE;
         int32 base = 0;
         float blockRateMod = (100.0f + PDefender->getMod(Mod::SHIELDBLOCKRATE)) / 100.0f;
         auto weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_MAIN]);
         uint16 attackskill = PAttacker->GetSkill((SKILLTYPE)(weapon ? weapon->getSkillType() : 0));
-        uint16 blockskill = PDefender->GetSkill(SKILL_SHIELD);
+        uint16 blockskill = PDefender->GetSkill(SKILL_SHIELD) + PDefender->getMod(Mod::SHIELD);
 
         if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_AVOIDANCE_DOWN))
         {
@@ -2619,9 +2619,7 @@ int16 GetSDTTier(int16 SDT)
             CMobEntity* PMob = (CMobEntity*)PDefender;
             if (PMob->getMobMod(MOBMOD_BLOCK) > 0 || PMob->getMod(Mod::SHIELDBLOCKRATE) > 0)
             {
-                base = PMob->getMobMod(MOBMOD_BLOCK);
-                base += PMob->getMod(Mod::SHIELDBLOCKRATE);
-                return base;
+                shieldSize = PMob->getMobMod(MOBMOD_BLOCK);
             }
             else
                 return 0;
@@ -2636,32 +2634,51 @@ int16 GetSDTTier(int16 SDT)
 
         switch (shieldSize)
         {
-            case 1: // Buckler
+            case SHIELDSIZE_BUCKER:
                 base = 55;
                 break;
-            case 2: // Round
+            case SHIELDSIZE_ROUND:
                 base = 40;
                 break;
-            case 3: // Kite
+            case SHIELDSIZE_KITE:
                 base = 45;
                 break;
-            case 4: // Tower
+            case SHIELDSIZE_TOWER:
                 base = 30;
                 break;
-            case 5: // Aegis and Srivatsa
+            case SHIELDSIZE_AEGIS:
                 base = 50;
                 break;
-            case 6: // Ochain
+            case SHIELDSIZE_OCHAIN:
                 base = 108;
                 break;
             default:
-                return 0;
+                return SHIELDSIZE_NONE;
         }
 
+        // Reprisal Increases current shield skill by +15%.(1.15x)
+        // https://www.bg-wiki.com/ffxi/Reprisal
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_REPRISAL))
+        {
+            blockskill *= 1.15;
+        }
         float skillmodifier = (blockskill - attackskill) * 0.2325f;
         // int8 blockRate = (int8)std::clamp((int32)((base + (int32)skillmodifier) * blockRateMod), 5, (shieldSize == 6 ? 100 : std::max<int32>((int32)(65 * blockRateMod), 100)));
         // ShowDebug(CL_CYAN "GetBlockRate: %i\n" CL_RESET, blockRate);
-        return (int8)std::clamp((int32)((base + (int32)skillmodifier) * blockRateMod), 5, (shieldSize == 6 ? 100 : std::max<int32>((int32)(65 * blockRateMod), 100)));
+        int32 baseValue = base + (int32)skillmodifier;
+        int32 adjustedValue = static_cast<int32>(baseValue * blockRateMod);
+
+        // Reprisal increases block rate by 50% of your current block rate
+        // https://www.bg-wiki.com/ffxi/Reprisal
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_REPRISAL))
+        {
+            adjustedValue *= 1.5;
+        }
+        int32 maxBlockRate = (shieldSize == 6 ? 100 : std::max<int32>(static_cast<int32>(65 * blockRateMod), 100));
+        int8 clampedValue = static_cast<int8>(std::clamp(adjustedValue, 5, maxBlockRate));
+
+        //printf("Attackskill: %u, Blockskill: %u, Skill modifier: %f, Shield Size: %i, Base value: %d, Adjusted value: %d, Max block rate: %d, Clamped value: %d\n", attackskill, blockskill, skillmodifier, shieldSize, baseValue, adjustedValue, maxBlockRate, clampedValue);
+        return clampedValue;
     }
 
     uint8 GetParryRate(CBattleEntity* PAttacker, CBattleEntity* PDefender)

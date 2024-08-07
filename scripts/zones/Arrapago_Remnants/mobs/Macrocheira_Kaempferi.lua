@@ -14,7 +14,6 @@ require("scripts/globals/mobs")
 function onMobSpawn(mob)
     mob:setMod(tpz.mod.DMG, -50)
     mob:setMod(tpz.mod.DMGMB, 100)
-    mob:setMobMod(tpz.mobMod.BLOCK, 35)
     addSpikes(mob)
 end
 
