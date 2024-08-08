@@ -272,6 +272,9 @@ Roc, Serket, Casssie, Promathia, Ouryu, Bahamut, Shadow Lord, Kamalanaut(?), Ome
 Lvl90, 200k hp
 Mat that lets you add a random augment to any ring/amulet/earring
 
+Subskill unequip on zone
+https://github.com/LandSandBoat/server/commit/0e86ebc221098284a4490a7e83387814a9032f8f
+
 Wep delay overflow / TP return
 https://github.com/LandSandBoat/server/commit/5131acdb1a80b0bd177eea82ec8358118723b4cd
 
@@ -312,6 +315,15 @@ https://github.com/LandSandBoat/server/commit/4803799b3d8f9341a4f3c28cc4444613c3
 
 The Pit
 https://github.com/LandSandBoat/server/commit/bee2dc2823f3c173b8b7be7cda3daa7cb22b1ecb
+
+Check spell levels for pet spells
+https://github.com/LandSandBoat/server/commit/8f8161663c45d8bc4f8d9b734dcf746a33131e2e
+
+Evasion skill up chance
+https://github.com/LandSandBoat/server/commit/e393dbc2373c0c650c79de7a4623e10c579a9d60
+
+Flan
+https://github.com/LandSandBoat/server/commit/f8b8987da1e166f525a9a41c56a15cf01d3c5042
 
 Empthy / Wyvern stuff
 https://www.bg-wiki.com/ffxi/User:Tatang
