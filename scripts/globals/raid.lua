@@ -33,9 +33,13 @@ require("scripts/globals/weaponskillids")
 -- TODO: Rughadjeen Additional effects on normal attacks : Fire damage . Triple Attack +3% (Using the one sword from cerberus or w/e)
 -- TODO: Mijin gakure hit ALL?
 -- TODO: Ark Angel TP moves hit ALL if AOE/conal
--- TODO: Ppet2 spawning with spawnPet()
 -- TODO: Ark Angel MR (and all mob (not npcs) pets?) don't get confrontation on spawn, might need to add to SpawnMobPet() like players have it
--- TODO: Line 2048 errors
+-- TODO: AA MR and GK pets to always assist them on their target
+-- TODO: AA GK wyvern spam despawns zZzz. MR's works fine...
+-- TODO: Dispel and Interrupt Abilities work properly
+-- TODO: params.ALWAYS_CRIT on true strike and other crit moves (isCrit())
+-- TODO: Snake Eye logic, and better rolling logic?
+-- TODO: Disruptor dispel msg(copy dark shot?). Also use for pet ability disruptor
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -109,6 +113,7 @@ local abilityMap =
     { Ability = tpz.jobAbility.BARRAGE,             Effect = tpz.effect.BARRAGE },
     { Ability = tpz.jobAbility.STEALTH_SHOT,        Effect = tpz.effect.STEALTH_SHOT },
     { Ability = tpz.jobAbility.FLASHY_SHOT,         Effect = tpz.effect.FLASHY_SHOT },
+    { Ability = tpz.mob.skills.SHOCK_ABSORBER,      Effect = tpz.effect.STONESKIN },
 }
 
 local immunityMap =
@@ -206,6 +211,8 @@ local modByMobName =
 
     ['Ark_Angel_MR'] = function(mob)
         mob:addMod(tpz.mod.MDEF, 24)
+        mob:setMobMod(tpz.mobMod.SPECIAL_SKILL, 0)
+        mob:setLocalVar("pet", mob:getID() + math.random(1, 2))
     end,
 
     ['Ark_Angel_EV'] = function(mob)
@@ -547,6 +554,16 @@ local mobFightByMobName =
                 {id = tpz.jsa.CHARM, cooldown = 360, hpp = 50},
             },
         })
+        local battletime = mob:getBattleTime()
+        local pet = GetMobByID(mob:getLocalVar("pet"))
+
+        if (battletime > 10) then
+            if not pet:isSpawned() then
+                pet:spawn()
+            end
+        end
+
+        ApplyConfrontation(mob, pet)
     end,
 
     ['Ark_Angel_EV'] = function(mob, target)
@@ -561,22 +578,35 @@ local mobFightByMobName =
     end,
 
     ['Ark_Angel_TT'] = function(mob, target)
-    tpz.mix.jobSpecial.config(mob, {
-        between = 120,
-        specials =
-        {
-            {id = tpz.jsa.BLOOD_WEAPON, cooldown = 90, hpp = 50},
+        tpz.mix.jobSpecial.config(mob, {
+            between = 120,
+            specials =
             {
-                id = tpz.jsa.MANAFONT,
-                cooldown = 90,
-                hpp = 50,
-                endCode = function(mob)
-                    mob:castSpell(tpz.magic.spell.SLEEPGA_II)
-                    mob:castSpell(tpz.magic.spell.METEOR)
-                end,
+                {id = tpz.jsa.BLOOD_WEAPON, cooldown = 90, hpp = 50},
+                {
+                    id = tpz.jsa.MANAFONT,
+                    cooldown = 90,
+                    hpp = 50,
+                    endCode = function(mob)
+                        mob:castSpell(tpz.magic.spell.SLEEPGA_II)
+                        mob:castSpell(tpz.magic.spell.METEOR)
+                    end,
+                },
             },
-        },
-    })
+        })
+
+        if (mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON) and bit.band(mob:getBehaviour(), tpz.behavior.STANDBACK) > 0) then
+            mob:setBehaviour(bit.band(mob:getBehaviour(), bit.bnot(tpz.behavior.STANDBACK)))
+            mob:setMobMod(tpz.mobMod.TELEPORT_TYPE, 0)
+            mob:setMobMod(tpz.mobMod.SPAWN_LEASH, 0)
+            mob:setSpellList(0)
+        end
+        if (not mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON) and bit.band(mob:getBehaviour(), tpz.behavior.STANDBACK) == 0) then
+            mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.STANDBACK))
+            mob:setMobMod(tpz.mobMod.TELEPORT_TYPE, 1)
+            mob:setMobMod(tpz.mobMod.SPAWN_LEASH, 22)
+            mob:setSpellList(39)
+        end
     end,
 
     ['Ark_Angel_GK'] = function(mob, target)
@@ -588,6 +618,16 @@ local mobFightByMobName =
                 {id = tpz.jsa.MEIKYO_SHISUI, cooldown = 360, hpp = 50},
             },
         })
+        local battletime = mob:getBattleTime()
+        local pet = GetMobByID(mob:getID()+1)
+
+        if (battletime > 10) then
+            if not pet:isSpawned() then
+                pet:spawn()
+            end
+        end
+
+        ApplyConfrontation(mob, pet)
     end,
 }
 
@@ -662,7 +702,7 @@ end
 
 tpz.raid.onNpcSpawn = function(mob)
     local mJob = mob:getMainJob()
-    if (mJob == tpz.job.MNK) then
+    if (mJob == tpz.job.MNK) or (mJob == tpz.job.PUP) then
         mob:setDamage(10)
     else
         mob:setDamage(20)
@@ -685,6 +725,8 @@ tpz.raid.onNpcSpawn = function(mob)
     elseif isChemist(mob) then
         mob:SetAutoAttackEnabled(false)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
+    elseif isPuppet(mob) then
+        SetUpPuppetNPC(mob)
     elseif isTank(mob) then
         SetUpTankNPC(mob)
     elseif isSupport(mob) then
@@ -795,6 +837,8 @@ tpz.raid.onNpcFight = function(mob, target)
         UpdateHealerAI(mob, target)
     elseif isChemist(mob) then
         UpdateChemistAI(mob, target)
+    elseif isPuppet(mob) then
+        UpdatePuppetAI(mob, target)
     elseif isTank(mob) then
         UpdateTankAI(mob, target)
     elseif isMelee(mob) then
@@ -869,6 +913,10 @@ function SetUpHealerNPC(mob)
     elseif IsFerreousCoffin(mob) then
         mob:addMod(tpz.mod.DMG, -20)
         mob:addMod(tpz.mobMod.REGEN_MULTIPLIER, 50)
+    elseif (npcName == 'Mihli_Aliapoh') then
+        mob:addMod(tpz.mod.HEALING, 25)
+        mob:addMod(tpz.mod.CURE_POTENCY, 25)
+        mob:setMobMod(tpz.mobMod.MULTI_HIT, 8)
     end
 
     if ShouldStandBack(mob) then
@@ -916,6 +964,20 @@ function SetUpTankNPC(mob)
     mob:setSpellList(0)
 end
 
+function SetUpPuppetNPC(mob)
+    if IsMnejing(mob) then
+        mob:addMod(tpz.mod.DMG, -38)
+        mob:addMod(tpz.mod.ENMITY_II, 25)
+    end
+
+    -- Add 3 of each manever to the puppet
+    for maneuver = tpz.effect.FIRE_MANEUVER, tpz.effect.DARK_MANEUVER do
+        for i = 1, 3 do
+            mob:addStatusEffect(maneuver)
+        end
+    end
+end
+
 function SetUpSupportNPC(mob)
     local mJob = mob:getMainJob()
 
@@ -950,6 +1012,12 @@ function SetUpRangedNPC(mob)
 end
 
 function SetUpCasterNPC(mob)
+    local npcName = mob:getName()
+
+    if (npcName == 'Gadalar') then
+        mob:addMod(tpz.mod.ABSORB_DMG_TO_MP, 15)
+    end
+
     if ShouldStandBack(mob) then
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
     else
@@ -979,6 +1047,10 @@ function isChemist(mob)
     local npcName = mob:getName()
 
     return (npcName == 'Monberaux')
+end
+
+function isPuppet(mob)
+    return IsMnejing(mob)
 end
 
 function isTank(mob)
@@ -1476,6 +1548,19 @@ local function GetLowestHPTarget(mob, nearbyFriendly)
     return friendlyTargets
 end
 
+function UpdatePuppetAI(mob, target)
+    local abilityData = {
+            
+        {   Skill = tpz.mob.skills.PROVOKE,         Cooldown = 30,       Type = 'Enmity',        Category = 'Mob Skill',    Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.FLASHBULB,       Cooldown = 30,       Type = 'Enmity',        Category = 'Mob Skill',    Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.SHOCK_ABSORBER,  Cooldown = 180,      Type = 'Buff',          Category = 'Mob Skill',    Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.DISRUPTOR,       Cooldown = 60,       Type = 'Dispel',        Category = 'Mob Skill',    Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.SHIELD_BASH,     Cooldown = 60,       Type = 'Interrupt',     Category = 'Mob Skill',    Job = tpz.job.PLD },
+    }
+
+    UpdateAbilityAI(mob, target, abilityData)
+end
+
 function UpdateTankAI(mob, target)
     local abilityData = {
             
@@ -1501,8 +1586,8 @@ function UpdateTankAI(mob, target)
         {   Skill = tpz.jobAbility.INTERVENE,       Cooldown = 120,      Type = 'Offensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.FEALTY,          Cooldown = 180,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.INVINCIBLE,      Cooldown = 180,      Type = 'Defensive',     Category = 'Job Ability',    Job = tpz.job.PLD },
-        {   Skill = tpz.mob.skills.SHIELD_BASH,     Cooldown = 60,       Type = 'Interrupt' ,    Category = 'Mob Skill',      Job = tpz.job.PLD },
-        {   Skill = tpz.mob.skills.ROYAL_BASH,      Cooldown = 60,       Type = 'Interrupt' ,    Category = 'Mob Skill',      Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.SHIELD_BASH,     Cooldown = 60,       Type = 'Interrupt',     Category = 'Mob Skill',      Job = tpz.job.PLD },
+        {   Skill = tpz.mob.skills.ROYAL_BASH,      Cooldown = 60,       Type = 'Interrupt',     Category = 'Mob Skill',      Job = tpz.job.PLD },
         {   Skill = tpz.mob.skills.ROYAL_SAVIOR,    Cooldown = 300,      Type = 'Defensive',     Category = 'Mob Skill',      Job = tpz.job.PLD },
         {   Skill = tpz.jobAbility.WARCRY,          Cooldown = 300,      Type = 'Enmity',        Category = 'Job Ability',    Job = tpz.job.WAR },
         {   Skill = tpz.jobAbility.BOOST,           Cooldown = 15,       Type = 'Buff',          Category = 'Job Ability',    Job = tpz.job.MNK },
@@ -1727,7 +1812,6 @@ function UpdateHealerAI(mob, target)
                                         if IsFerreousCoffin(mob) then
                                             currentTarget = mob
                                         end
-                                        printf("Cure recast %d", cureRecast)
                                         mob:castSpell(healingSpell, currentTarget)
                                         mob:setLocalVar("cureTimer", os.time() + cureRecast)
                                         mob:setLocalVar("globalMagicTimer", os.time() + 10)
@@ -1759,7 +1843,6 @@ function UpdateHealerAI(mob, target)
                         local buffSpell, buffRecast = GetBestBuff(mob, friendlyTarget)
                         if (buffSpell ~= nil) then
                             if CanCast(mob) then
-                                printf("Buff recast %d", buffRecast)
                                 mob:castSpell(buffSpell, mob)
                                 mob:setLocalVar("buffTimer", os.time() + buffRecast)
                                 mob:setLocalVar("globalMagicTimer", os.time() + 10)
@@ -2024,6 +2107,7 @@ function UpdateSupportAI(mob, target)
         local qdLastUsed = mob:getLocalVar("qdLastUsed")
         local activeRolls = 0
         local canDoubleUp = false
+        local snakeEye = false
         local rolls = { tpz.jobAbility.FIGHTERS_ROLL, tpz.jobAbility.CHAOS_ROLL, tpz.jobAbility.HUNTERS_ROLL, tpz.jobAbility.SAMURAI_ROLL }
 
         -- Quick Draw
@@ -2035,25 +2119,32 @@ function UpdateSupportAI(mob, target)
 
         if (qdCharges > 0) then
             if HasDispellableEffect(target) then
-                if CanUseAbility(mob) then
-                    qdCharges = qdCharges - 1
-                    mob:setLocalVar("qdCharges", qdCharges)
-                    mob:useJobAbility(tpz.jobAbility.DARK_SHOT, target)
-                    return
+                if (os.time() > globalJATimer) then
+                    if CanUseAbility(mob) then
+                        qdCharges = qdCharges - 1
+                        mob:setLocalVar("qdCharges", qdCharges)
+                        mob:setLocalVar("globalJATimer", os.time() + 3)
+                        mob:useJobAbility(tpz.jobAbility.DARK_SHOT, target)
+                        return
+                    end
                 end
             end
         end
 
         -- Rolls
         local effects = mob:getStatusEffects()
-        for _, effect in ipairs(effects) do -- Errors attempt to compare number with userdata
+        for _, effect in ipairs(effects) do
             if
-                (effect >= tpz.effect.FIGHTERS_ROLL and effect <= tpz.effect.NATURALISTS_ROLL) or
-                effect == tpz.effect.RUNEISTS_ROLL or
-                effect == tpz.effect.BUST
+                (effect:getType() >= tpz.effect.FIGHTERS_ROLL and effect:getType() <= tpz.effect.NATURALISTS_ROLL) or
+                effect:getType() == tpz.effect.RUNEISTS_ROLL or
+                effect:getType() == tpz.effect.BUST
             then
-                if (effect:getPower() <= 6) then
+                if (effect:getSubPower() <= 6) then
                     canDoubleUp = true
+                end
+
+                if (effect:getSubPower() == 10) then
+                    snakeEye = true
                 end
 
                 if (effect:getSubType() == mob:getID()) then
@@ -2062,20 +2153,34 @@ function UpdateSupportAI(mob, target)
             end
         end
 
-        if (activeRolls < 2) then
-            if (os.time() > globalJATimer) then
-                if CanUseAbility(mob) then
-                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                    mob:useJobAbility(rolls[math.random(#rolls)], mob)
-                    return
+        if mob:hasStatusEffect(tpz.effect.DOUBLE_UP_CHANCE) then
+            if snakeEye then
+                if (os.time() > globalJATimer) then
+                    if CanUseAbility(mob) then
+                        if not mob:hasStatusEffect(tpz.effect.SNAKE_EYE) then
+                            mob:setLocalVar("globalJATimer", os.time() + 3)
+                            mob:useJobAbility(tpz.jobAbility.SNAKE_EYE, mob)
+                            return
+                        end
+                    end
                 end
             end
-        else
+
             if canDoubleUp then
                 if (os.time() > globalJATimer) then
                     if CanUseAbility(mob) then
-                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                        mob:setLocalVar("globalJATimer", os.time() + 3)
                         mob:useJobAbility(tpz.jobAbility.DOUBLE_UP, mob)
+                        return
+                    end
+                end
+            end
+        else
+            if (activeRolls < 2) then
+                if (os.time() > globalJATimer) then
+                    if CanUseAbility(mob) then
+                        mob:setLocalVar("globalJATimer", os.time() + 3)
+                        mob:useJobAbility(rolls[math.random(#rolls)], mob)
                         return
                     end
                 end
@@ -2106,18 +2211,35 @@ function UpdateAbilityAI(mob, target, abilityData)
             if (mJob == ability.Job) or (sJob == ability.Job) then
                 if IsValidUser(mob, ability.Skill) then
 
-                    -- Enmity Generation
-                    if (ability.Type == 'Enmity') then
-                        if isJaReady(mob, ability.Skill) then
-                            if IsJa(mob, ability.Category) then
-                                if CanUseAbility(mob) then
+                    -- Interrupt
+                    if (ability.Type == 'Interrupt') then
+                        if CanUseAbility(mob) then
+                            if IsReadyingTPMove(target) then
+                                if IsJa(mob, ability.Category) then
                                     mob:setLocalVar("globalJATimer", os.time() + 10)
                                     mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
                                     mob:useJobAbility(ability.Skill, target)
                                     return
+                                else
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useMobAbility(ability.Skill, target)
+                                    return
                                 end
-                            else
-                                if CanUseAbility(mob) then
+                            end
+                        end
+                    end
+
+                    -- Enmity Generation
+                    if (ability.Type == 'Enmity') then
+                        if CanUseAbility(mob) then
+                            if isJaReady(mob, ability.Skill) then
+                                if IsJa(mob, ability.Category) then
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useJobAbility(ability.Skill, target)
+                                    return
+                                else
                                     mob:setLocalVar("globalJATimer", os.time() + 10)
                                     mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
                                     mob:useMobAbility(ability.Skill)
@@ -2141,6 +2263,36 @@ function UpdateAbilityAI(mob, target, abilityData)
                                                 return
                                             end
                                         end
+                                    else
+                                        if (abilityEffect.Ability == ability.Skill) then
+                                            if not mob:hasStatusEffect(abilityEffect.Effect) then
+                                                mob:setLocalVar("globalJATimer", os.time() + 10)
+                                                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                                mob:useMobAbility(ability.Skill, mob)
+                                                return
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+
+                    -- Dispel
+                    if (ability.Type == 'Dispel') then
+                        if CanUseAbility(mob) then
+                            if isJaReady(mob, ability.Skill) then
+                                if HasDispellableEffect(target) then
+                                    if IsJa(mob, ability.Category) then
+                                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                        mob:useJobAbility(ability.Skill, target)
+                                        return
+                                    else
+                                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                        mob:useMobAbility(ability.Skill, target)
+                                        return
                                     end
                                 end
                             end
@@ -2149,22 +2301,22 @@ function UpdateAbilityAI(mob, target, abilityData)
 
                     -- Offensive
                     if (ability.Type == 'Offensive') then
-                        if isJaReady(mob, ability.Skill) then
-                            if IsWeaponSkill(mob, ability.Category) then
-                                if CanUseAbility(mob) then
+                        if CanUseAbility(mob) then
+                            if isJaReady(mob, ability.Skill) then
+                                if IsWeaponSkill(mob, ability.Category) then
                                     mob:setLocalVar("globalJATimer", os.time() + 10)
                                     mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
                                     mob:useWeaponSkill(ability.Skill)
                                     return
-                                end
-                            elseif IsJa(mob, ability.Category) then
-                                if TryJaStun(mob, target, ability) then
-                                    return
-                                end
-                                if CanUseAbility(mob) then
+                                elseif IsJa(mob, ability.Category) then
                                     mob:setLocalVar("globalJATimer", os.time() + 10)
                                     mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
                                     mob:useJobAbility(ability.Skill, target)
+                                    return
+                                else
+                                    mob:setLocalVar("globalJATimer", os.time() + 10)
+                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                    mob:useMobAbility(ability.Skill, target)
                                     return
                                 end
                             end
@@ -2174,16 +2326,14 @@ function UpdateAbilityAI(mob, target, abilityData)
                     -- Defensive CDs
                     if (mob:getHPP() <= 75) then
                         if (ability.Type == 'Defensive') then
-                            if isJaReady(mob, ability.Skill) then
-                                if IsJa(mob, ability.Category) then
-                                    if CanUseAbility(mob) then
+                            if CanUseAbility(mob) then
+                                if isJaReady(mob, ability.Skill) then
+                                    if IsJa(mob, ability.Category) then
                                         mob:setLocalVar("globalJATimer", os.time() + 10)
                                         mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
                                         mob:useJobAbility(ability.Skill, mob)
                                         return
-                                    end
-                                else
-                                    if CanUseAbility(mob) then
+                                    else
                                         mob:setLocalVar("globalJATimer", os.time() + 10)
                                         mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
                                         mob:useMobAbility(ability.Skill)
@@ -2293,6 +2443,10 @@ function IsFablinix(mob)
     return mob:getName() == 'Fablinix'
 end
 
+function IsMnejing(mob)
+    return mob:getName() == 'Mnejing'
+end
+
 function IsHalver(mob)
     return mob:getName() == 'Halver'
 end
@@ -2343,20 +2497,6 @@ function IsReadyingTPMove(target)
         return true
     end
 
-    return false
-end
-
-function TryJaStun(mob, target, ability)
-    if CanUseAbility(mob) then
-        if (ability.Type == 'Interrupt') then
-            if IsReadyingTPMove(target) then
-                mob:setLocalVar("globalJATimer", os.time() + 10)
-                mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                mob:useJobAbility(ability.Skill)
-                return true
-            end
-        end
-    end
     return false
 end
 

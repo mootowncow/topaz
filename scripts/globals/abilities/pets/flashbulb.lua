@@ -9,7 +9,6 @@ require("scripts/globals/job_util")
 ---------------------------------------------
 
 function onMobSkillCheck(target, automaton, skill)
-    printf("On mob skill check")
     return 0
 end
 

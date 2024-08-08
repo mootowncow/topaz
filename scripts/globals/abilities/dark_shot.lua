@@ -76,7 +76,9 @@ function onUseAbility(player, target, ability)
         ability:setMsg(tpz.msg.basic.JA_NO_EFFECT_2)
     end
 
-    local del = player:delItem(2183, 1) or player:delItem(2974, 1)
+    if player:isPC() then
+        local del = player:delItem(2183, 1) or player:delItem(2974, 1)
+    end
     target:updateClaim(player)
     return dispelledEffect
 end

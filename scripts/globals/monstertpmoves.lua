@@ -182,7 +182,6 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
         critRate = critRate + MobCritTPModifier(tp)
 
-
         --printf("critRate after param %i", critRate)
 
         critRate = critRate / 100
@@ -250,7 +249,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
         pdif = math.random((minRatio*1000), (maxRatio*1000)) --generate random PDIF
         pdif = pdif/1000  --multiplier set.
-        if isCrit(mob, critRate) then
+        if isCrit(mob, critRate, params_phys) then
             if target:isMob() then
                 TryBreakMob(target)
             end
@@ -299,7 +298,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         if ((chance*100)<=hitrate) then --it hit
             pdif = math.random((minRatio*1000), (maxRatio*1000)) --generate random PDIF
             pdif = pdif/1000  --multiplier set.
-            if isCrit(mob, critRate) then
+            if isCrit(mob, critRate, params_phys) then
                 if target:isMob() then
                     TryBreakMob(target)
                 end
@@ -396,6 +395,7 @@ end
 -- ignoremacc is to have 100% land rate on spell and ignore resists
 -- 101 = true
 -- params.DAMAGE_OVERRIDE - override damage with a specific number
+-- params.ALWAYS_CRIT = 100% crit rate
 
 function MobMagicalMove(mob, target, skill, damage, element, dmgmod, tpeffect, ignoremacc, params)
     returninfo = {}
@@ -1866,11 +1866,14 @@ function getMobFSTR(weaponDmg, mobStr, targetVit)
     return math.max(-min, fSTR)
 end
 
-function isCrit(mob, critRate)
+function isCrit(mob, critRate, params)
     if math.random() < critRate then
         return true
     end
     if mob:hasStatusEffect(tpz.effect.MIGHTY_STRIKES) then
+        return true
+    end
+    if (params.ALWAYS_CRIT ~= nil) then
         return true
     end
     return false

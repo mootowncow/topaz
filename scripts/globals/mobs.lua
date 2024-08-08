@@ -1183,3 +1183,17 @@ function OnBattleEndConfrontation(mob)
     end
     mob:delStatusEffect(tpz.effect.CONFRONTATION)
 end
+
+function ApplyConfrontation(mob, entity)
+    local effect = mob:getStatusEffect(tpz.effect.CONFRONTATION)
+    local power = effect:getPower()
+    local tick = effect:getTick() / 1000
+    local duration = math.ceil((effect:getTimeRemaining()) / 1000)
+    local subId = 0
+    local subPower = effect:getSubPower()
+    local tier = 0
+    if not entity:hasStatusEffect(tpz.effect.CONFRONTATION) then
+        printf("Applying confrontation to %d", entity:getID())
+        entity:addStatusEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
+    end
+end

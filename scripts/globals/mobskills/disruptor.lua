@@ -8,16 +8,15 @@ require("scripts/globals/msg")
 require("scripts/globals/job_util")
 ---------------------------------------------
 
-function onMobSkillCheck(target, automaton, skill)
+function onMobSkillCheck(target, mob, skill)
     return 0
 end
 
-function onPetAbility(target, automaton, skill, master, action)
-    automaton:addRecast(tpz.recast.ABILITY, skill:getID(), 60)
+function onMobWeaponSkill(target, mob, skill)
     local element = tpz.magic.ele.DARK
-    local skillType = jobUtil.GetAutoMainSkill(automaton)
+    local skillType = jobUtil.GetAutoMainSkill(mob)
     local bonus = 175
-    local resist = applyResistanceAddEffect(automaton, target, element, bonus, tpz.effect.NONE, skillType)
+    local resist = applyResistanceAddEffect(mob, target, element, bonus, tpz.effect.NONE, skillType)
     local effect = 0
 
     -- Check for dispel resistance trait
@@ -26,6 +25,7 @@ function onPetAbility(target, automaton, skill, master, action)
         return effect
     end
 
+    -- print(string.format("Trying to dispel Element: %d, Skilltype: %d, Bonus: %d, Resist: %f", element, skillType, bonus, resist))
     if resist >= 0.5 then
         effect = target:dispelStatusEffect()
         skill:setMsg(tpz.msg.basic.SKILL_ERASE)

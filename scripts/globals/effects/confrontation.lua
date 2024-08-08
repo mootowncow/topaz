@@ -36,6 +36,11 @@ function onEffectTick(target, effect)
     end
 
     local confrontationStart = GetMobByID(effect:getSubPower())
+    if (confrontationStart == nil) then
+        target:delStatusEffect(tpz.effect.CONFRONTATION)
+        return
+    end
+
     local confrontationStartPos = confrontationStart:getSpawnPos()
     -- Display a warning if vendoring too far from where the mob spawns
     if (target:isPC()) then

@@ -9207,7 +9207,7 @@ INSERT INTO `mob_groups` VALUES (61,5909,126,'Mihli_Aliapoh',0,128,0,1300,0,80,8
 INSERT INTO `mob_groups` VALUES (62,5924,126,'Zazarg',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (63,5929,126,'Najelith',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (64,5967,126,'Qultada',0,128,0,1300,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (65,5960,126,'Gadalar',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (65,5919,126,'Gadalar',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (66,5923,126,'Nashmeira',0,128,0,1300,0,80,80,1);
 
 INSERT INTO `mob_groups` VALUES (6802,1027,126,'Diabolos',0,0,0,0,0,0,0,0);

@@ -41,7 +41,9 @@ function onUseAbility(player, target, ability, action)
         jobUtil.HandleCorsairShoTP(player, target, dmg, tp)
     end
 
-    local del = player:delItem(2180, 1) or player:delItem(2974, 1)
+    if player:isPC() then
+        local del = player:delItem(2180, 1) or player:delItem(2974, 1)
+    end
     target:updateClaim(player)
     return dmg
 end

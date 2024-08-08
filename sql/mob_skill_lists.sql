@@ -3706,6 +3706,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Tenzen',1023,1395); -- Amatsu: Tsuk
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mihli_Aliapoh',1024,162); -- Brainshaker
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mihli_Aliapoh',1024,166); -- True Strike
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mihli_Aliapoh',1024,168); -- Hexastrike
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mihli_Aliapoh',1024,2092); -- Scouring Bubbles
 
 -- Update on October 11, 2021 https://wiki.ffo.jp/html/38404.html
 -- He now uses the weapon skills " Sanguine Blade " and " Circle Blade ."
@@ -3732,20 +3733,31 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,80); -- Shield Bre
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,83); -- Armor Break
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,85); -- Weapon Break
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gessho',1033,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gadalar',1034,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gadalar',1034,100); -- Spinning Scythe
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gadalar',1034,101); -- Vorpal Scythe
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gadalar',1034,104); -- Spiral Hell
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gadalar',1034,2089); -- Salamander Flame
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Rainemard',1035,33); -- Burning Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Rainemard',1035,34); -- Red Lotus Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Rainemard',1035,40); -- Vorpal Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Rainemard',1035,42); -- Savage Blade
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ingrid',1036,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lehko_Habhoka',1037,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Nashmeira',1038,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zazarg',1039,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Nashmeira',1038,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zazarg',1039,7); -- Howling Fist
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zazarg',1039,8); -- Dragon Kick
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zazarg',1039,9); -- Asuran Fists
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zazarg',1039,2091); -- Meteoric Impact
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ovjang',1040,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mnejing',1041,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mnejing',1041,1940); -- Chimera Ripper
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mnejing',1041,1941); -- String Clipper
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mnejing',1041,3245); -- Shield Subverter
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Sakura',1042,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Luzaf',1043,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Najelith',1044,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Najelith',1044,20); -- Cyclone
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Najelith',1044,196); -- Sidewinder
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Najelith',1044,199); -- Empyreal Arrow
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Najelith',1044,2090); -- Typhonic Arrow
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Aldo',1045,3283); -- iniquitous_stab
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Aldo',1045,3284); -- shockstorm_edge
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Aldo',1045,3285); -- choreographed_carnage
@@ -3815,7 +3827,10 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Jakoh_Wahcondalo_UC',1071,3497); --
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhe_Lhangavo',1079,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Arciela',1080,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mayakov',1081,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Qultada',1082,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Qultada',1082,33); -- Burning Blade
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Qultada',1082,42); -- Savage Blade
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Qultada',1082,210); -- Sniper Shot
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Qultada',1082,215); -- Detonator
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Adelheid',1083,3466); -- Paralyzing Microtube
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Adelheid',1083,3467); -- Silencing Microtube
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Adelheid',1083,3468); -- Binding Microtube

@@ -556,7 +556,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         }
     }
     // cap all weapon skills for mobs(A+)
-    for (int i=SKILL_HAND_TO_HAND; i <=SKILL_STAFF; i++)
+    for (int i=SKILL_HAND_TO_HAND; i <=SKILL_THROWING; i++)
     {
         uint16 maxSkill = battleutils::GetMaxSkill(SKILL_ENFEEBLING_MAGIC, JOB_RDM, PMob->GetMLevel());
         if (maxSkill != 0)
