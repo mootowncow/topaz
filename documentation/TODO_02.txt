@@ -193,6 +193,15 @@ tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
 Fomor HNM's(Lugh etc)
 Add AOE weapon skills to every weapon and make them do good damage. Spinning Axe = AOE
 Content where mobs constantly spawn in waves over and over
+Add stats to Maat's cap
+
+~~~~~~~~~~~~~~~~~~~~Thief revamp~~~~~~~~~~~~~~~~~~~~
+TA gives the TA target a gigantic stoneskin effect?
+Conspirator gives some type of buff? Haste? MEVA? DEFP? Reprisal? Guard rate? Counter?
+
+~~~~~~~~~~~~~~~~~~~~Daily / Weekly Tasks System?~~~~~~~~~~~~~~~~~~~~
+
+
 
 
 How does slug shot do 61 instead of 400+ dmg? It's 1 hit
@@ -273,6 +282,43 @@ TP moves hit all targets(VALIDTARGET_FLAG_HIT_ALL on mobskill check)
 Roc, Serket, Casssie, Promathia, Ouryu, Bahamut, Shadow Lord, Kamalanaut(?), Omega, Ultima, Alexander, Odin
 Lvl90, 200k hp
 Mat that lets you add a random augment to any ring/amulet/earring
+
+https://github.com/LandSandBoat/server/commits/base/?author=WinterSolstice8&after=06f2ef4dcf192fd3508768c2c734ba9a9f7c361f+34
+
+Use recast container for mob spells
+https://github.com/LandSandBoat/server/commit/ca4b93b7c2241152b3d7bc35f608d7f8d6d35ea7
+
+Set unarmed weapons on char load if main slot is null 
+https://github.com/LandSandBoat/server/commit/7408e0b09ecc2aeceeeba36c56d6e29a85aeff7c
+
+Interrupt resist mod logic
+https://github.com/LandSandBoat/server/commit/0077af43d542ed8c89e33d0971447d03be322e1f
+
+SetMobLevel traits
+https://github.com/LandSandBoat/server/commit/37772ab475034ce7a936c886000d11bcab245761
+
+Petid on zoning
+https://github.com/LandSandBoat/server/commit/0f7c8a0cd811eaf56d0fbce6f0926ba0f9fb04a1
+
+Smn pet gifts
+https://github.com/LandSandBoat/server/commit/04595b03ce5b00ec9e4d64a573f31e8c2a8c549c
+
+Bound mobs attack nearby players
+https://github.com/LandSandBoat/server/commit/93f2ca5e67c4bb04b8157e0c1d347847fd797357
+
+Fix mobs turning while casting with Manafont up 
+https://github.com/LandSandBoat/server/commit/53a5a8738a07c86da85607447657ed1da9666fc8\
+
+Mob facing on tp moves? Unsure if needed cause i fixed this
+https://github.com/LandSandBoat/server/commit/c80583494523435ede292aea56d959974e942b81
++
+https://github.com/LandSandBoat/server/commit/59806fc7f2dcc6709d31790ab9b311d791e3ae37
+
+Chi blast breath dmg? prob already fixed
+https://github.com/LandSandBoat/server/commit/b725e21ecf35c303ebb0eaf0958800915cda54c4
+
+Automaton in an instance
+https://github.com/LandSandBoat/server/commit/a3c5bbbf3402ee1a784d4e4ee50b8a1129c71fb5
 
 Subskill unequip on zone
 https://github.com/LandSandBoat/server/commit/0e86ebc221098284a4490a7e83387814a9032f8f
