@@ -194,6 +194,14 @@ Add AOE weapon skills to every weapon and make them do good damage. Spinning Axe
 Content where mobs constantly spawn in waves over and over
 Add stats to Maat's cap
 
+~~~~~~~~~~~~~~~~~~~~Thief revamp~~~~~~~~~~~~~~~~~~~~
+TA gives the TA target a gigantic stoneskin effect?
+Conspirator gives some type of buff? Haste? MEVA? DEFP? Reprisal? Guard rate? Counter?
+
+~~~~~~~~~~~~~~~~~~~~Daily / Weekly Tasks System?~~~~~~~~~~~~~~~~~~~~
+
+
+
 
 How does slug shot do 61 instead of 400+ dmg? It's 1 hit
 Wyvern pets should folllow master on disengage(mobID + 1?)
