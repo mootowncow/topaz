@@ -83,7 +83,4 @@ function onEffectTick(target, effect)
 end
 
 function onEffectLose(target,effect)
-    if (target:isMob()) then
-        DespawnMob(target:getID())
-    end
 end

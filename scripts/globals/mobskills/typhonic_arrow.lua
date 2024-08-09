@@ -35,7 +35,7 @@ function onMobWeaponSkill(target, mob, skill)
     params_phys.mnd_wsc = 0.0
     params_phys.chr_wsc = 0.0
     local info = MobRangedMove(mob, target, skill, numhits, accmod, dmgmod, TP_RANGED, params_phys, 2, 3)
-    local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, info.hitslanded*.math.random(2,3))
+    local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, info.hitslanded*math.random(2,3))
     target:takeDamage(dmg, mob, tpz.attackType.RANGED, tpz.damageType.RANGED)
     MobPhysicalStatusEffectMove(mob, target, skill, tpz.effect.BIND, 1, 0, 30)
     return dmg

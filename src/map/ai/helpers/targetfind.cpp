@@ -122,7 +122,7 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
                 addEntity(m_PMasterTarget, withPet);
             }
 
-            // AoE ALL targets if certain status effects are active in order to buff friendly NPCs
+            // AoE ALL targets if certain status effects are active in order to buff friendly NPCs and players
             if (m_PMasterTarget->StatusEffectContainer->HasStatusEffect({ EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
             {
                 addAllInZone(m_PMasterTarget, withPet);
@@ -153,6 +153,12 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
         if (m_findType == FIND_MONSTER_MONSTER && m_PTarget->PMaster == nullptr)
         {
             withPet = PETS_CAN_AOE_BUFF;
+        }
+
+        // AoE ALL targets if certain status effects are active in order to buff friendly NPCs and players
+        if (m_PMasterTarget->StatusEffectContainer->HasStatusEffect({ EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
+        {
+            addAllInZone(m_PMasterTarget, withPet);
         }
 
         if (m_findFlags & FINDFLAGS_HIT_ALL ||

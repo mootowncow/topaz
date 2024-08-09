@@ -76,7 +76,7 @@ enum MOBMODIFIER : int
     MOBMOD_ADD_EFFECT          = 45, // enables additional effect script to process on mobs attacks
     MOBMOD_AUTO_SPIKES         = 46, // enables additional effect script to process when mob is attacked
     MOBMOD_SPAWN_LEASH         = 47, // forces a mob to not move farther from its spawn than its leash distance
-    MOBMOD_SHARE_TARGET        = 48, // mob always targets same target as ID in this var (i.e pet:setMobMod(tpz.mobMod.SHARE_TARGET, mob:getTargID()))
+    MOBMOD_SHARE_TARGET        = 48, // mob always targets same target as ID in this var (i.e pet:setMobMod(tpz.mobMod.SHARE_TARGET, mob:getShortID()))
     MOBMOD_CHECK_AS_NM         = 49, // If set , mob will check as a NM
     // 50 Available for use
     MOBMOD_ROAM_TURNS          = 51, // Maximum amount of turns during a roam

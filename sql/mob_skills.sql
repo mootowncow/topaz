@@ -879,7 +879,7 @@ INSERT INTO `mob_skills` VALUES (932,634,'havoc_spiral',1,10,2000,500,4,8,0,0,0,
 INSERT INTO `mob_skills` VALUES (933,635,'dominion_slash',2,10,2000,500,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (934,638,'shield_strike',4,7,2000,0,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (935,636,'amon_drive',1,15.0,2000,500,4,8,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (936,639,'ark_guardian_tarutaru',0,22.0,500,0,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (936,639,'ark_guardian_tarutaru',0,22.0,500,0,1,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (937,637,'dragonfall',1,10,2000,500,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (938,640,'circle_blade',1,10,2000,0,4,8,0,0,5,8,0);
 INSERT INTO `mob_skills` VALUES (939,641,'swift_blade',0,7,2000,0,4,0,0,0,9,0,0);
@@ -1995,7 +1995,7 @@ INSERT INTO `mob_skills` VALUES (2033,1384,'choke_chain',0,7.0,2000,1500,4,0,0,0
 INSERT INTO `mob_skills` VALUES (2034,1778,'reinforcements',0,7.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2035,1396,'biomagnet',1,30.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2036,1397,'astral_gate',4,10.0,2000,1500,4,0,0,5,0,0,0);
-INSERT INTO `mob_skills` VALUES (2037,1781,'warp',0,22.0,500,0,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2037,1781,'warp',0,22.0,500,0,1,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2038,1387,'artificial_gravity',1,15.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2039,1388,'antigravity',1,15.0,2000,1500,4,0,0,7,0,0,0);
 INSERT INTO `mob_skills` VALUES (2040,1373,'rail_cannon',1,10.0,2000,1500,4,0,0,0,0,0,0);
@@ -2048,7 +2048,7 @@ INSERT INTO `mob_skills` VALUES (2086,1278,'grim_reaper',4,10.0,2000,1500,4,0,0,
 -- INSERT INTO `mob_skills` VALUES (2087,1831,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2088,1427,'victory_beacon',2,7.0,2000,1500,4,0,0,0,0,0,0);  -- Rughadjeen
 INSERT INTO `mob_skills` VALUES (2089,1428,'salamander_flame',1,10.0,2000,1500,4,0,0,0,13,11,0);  -- Gadalar
-INSERT INTO `mob_skills` VALUES (2090,1429,'typhonic_arrow',4,10.0,2000,1500,4,0,0,0,13,12,0);  -- Najelith
+INSERT INTO `mob_skills` VALUES (2090,1429,'typhonic_arrow',4,15.0,2000,1500,4,0,0,0,13,12,0);  -- Najelith
 INSERT INTO `mob_skills` VALUES (2091,1430,'meteoric_impact',1,10.0,2000,1500,4,0,0,7,14,12,0);  -- Zazarg
 INSERT INTO `mob_skills` VALUES (2092,1431,'scouring_bubbles',1,10.0,2000,1500,4,0,0,0,14,10,0);  -- Mihli
 -- INSERT INTO `mob_skills` VALUES (2093,1837,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);

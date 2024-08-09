@@ -28,10 +28,8 @@ require("scripts/globals/weaponskillids")
 -- TODO: addCapacityPoints() needs to add 10 job points..maybe need to add a lua binding for addjobpoints instead of add capacity points
 -- TODO: Add logic for tracking player "contribution" and then only having a formula for addCapacityPoints() in onMobDeath based on contribution amount
 -- TODO: Are bosses absorbing damage from very low mob hits? (Below 0)
--- TODO: Gadalar Converts 15% of damage received into MP
--- TODO: Rughadjeen is melee not tank(DPS paladin, spams holy2 / banish 4 or something with a 2h)
--- TODO: Rughadjeen Additional effects on normal attacks : Fire damage . Triple Attack +3% (Using the one sword from cerberus or w/e)
 -- TODO: Mijin gakure hit ALL?
+-- TODO: Spawn AA MR / GK pets next to them
 -- TODO: Ark Angel TP moves hit ALL if AOE/conal
 -- TODO: Ark Angel MR (and all mob (not npcs) pets?) don't get confrontation on spawn, might need to add to SpawnMobPet() like players have it
 -- TODO: AA MR and GK pets to always assist them on their target
@@ -40,6 +38,11 @@ require("scripts/globals/weaponskillids")
 -- TODO: params.ALWAYS_CRIT on true strike and other crit moves (isCrit())
 -- TODO: Snake Eye logic, and better rolling logic?
 -- TODO: Disruptor dispel msg(copy dark shot?). Also use for pet ability disruptor
+-- TODO: Set music
+-- TODO: On death, remove confrontation off pet?
+-- TODO: Nashmeira doesn't use her TP move?
+-- TODO: targetfind to AOE mob skills also if confrontation
+-- TODO: AA 2 hours work?
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -559,11 +562,27 @@ local mobFightByMobName =
 
         if (battletime > 10) then
             if not pet:isSpawned() then
+                pet:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
                 pet:spawn()
             end
         end
 
-        ApplyConfrontation(mob, pet)
+        if pet:isSpawned() then
+            ApplyConfrontation(mob, pet)
+            pet:updateEnmity(mob:getTarget())
+        end
+    end,
+
+    ['Ark_Angels_Tiger'] = function(mob, target)
+        local arkAngelMR = 17293833
+        local master = GetMobByID(arkAngelMR)
+        mob:setMobMod(tpz.mobMod.SHARE_TARGET, master:getShortID())
+    end,
+
+    ['Ark_Angels_Mandragora'] = function(mob, target)
+        local arkAngelMR = 17293833
+        local master = GetMobByID(arkAngelMR)
+        mob:setMobMod(tpz.mobMod.SHARE_TARGET, master:getShortID())
     end,
 
     ['Ark_Angel_EV'] = function(mob, target)
@@ -584,13 +603,7 @@ local mobFightByMobName =
             {
                 {id = tpz.jsa.BLOOD_WEAPON, cooldown = 90, hpp = 50},
                 {
-                    id = tpz.jsa.MANAFONT,
-                    cooldown = 90,
-                    hpp = 50,
-                    endCode = function(mob)
-                        mob:castSpell(tpz.magic.spell.SLEEPGA_II)
-                        mob:castSpell(tpz.magic.spell.METEOR)
-                    end,
+                    {id = tpz.jsa.MANAFONT, cooldown = 90, hpp = 50}
                 },
             },
         })
@@ -602,10 +615,20 @@ local mobFightByMobName =
             mob:setSpellList(0)
         end
         if (not mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON) and bit.band(mob:getBehaviour(), tpz.behavior.STANDBACK) == 0) then
-            mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.STANDBACK))
-            mob:setMobMod(tpz.mobMod.TELEPORT_TYPE, 1)
-            mob:setMobMod(tpz.mobMod.SPAWN_LEASH, 22)
-            mob:setSpellList(39)
+            if not mob:hasStatusEffect(tpz.effect.MANAFONT) then
+                mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.STANDBACK))
+                mob:setMobMod(tpz.mobMod.TELEPORT_TYPE, 1)
+                mob:setMobMod(tpz.mobMod.SPAWN_LEASH, 22)
+                mob:setSpellList(39)
+            end
+        end
+
+        if mob:hasStatusEffect(tpz.effect.MANAFONT) then
+            mob:setSpellList(0)
+            if CanCast(mob) then
+                mob:castSpell(tpz.magic.spell.SLEEPGA_II)
+                mob:castSpell(tpz.magic.spell.METEOR)
+            end
         end
     end,
 
@@ -623,11 +646,21 @@ local mobFightByMobName =
 
         if (battletime > 10) then
             if not pet:isSpawned() then
+                pet:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
                 pet:spawn()
             end
         end
 
-        ApplyConfrontation(mob, pet)
+        if pet:isSpawned() then
+            ApplyConfrontation(mob, pet)
+            pet:updateEnmity(mob:getTarget())
+        end
+    end,
+
+    ['Ark_Angels_Wyvern'] = function(mob, target)
+        local arkAngelGK = 17293838
+        local master = GetMobByID(arkAngelGK)
+        mob:setMobMod(tpz.mobMod.SHARE_TARGET, master:getShortID())
     end,
 }
 
@@ -646,9 +679,9 @@ end
 tpz.raid.onMobSpawn = function(mob)
     mob:setDamage(150)
     mob:setMod(tpz.mod.ATTP, 25)
-    mob:setMod(tpz.mod.DEFP, 75)
+    mob:setMod(tpz.mod.DEFP, 50)
     mob:addMod(tpz.mod.ACC, 50)
-    mob:addMod(tpz.mod.VIT, 75)
+    mob:addMod(tpz.mod.VIT, 50)
     mob:addMod(tpz.mod.REGEN, 150)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
 
@@ -883,6 +916,14 @@ tpz.raid.onSpellPrecast = function(mob, spell)
         end
     end
 
+    if (spell:getID() == tpz.magic.spell.METEOR) then
+        spell:setAoE(tpz.magic.aoe.RADIAL)
+        spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
+        spell:setRadius(50)
+        spell:setAnimation(280)
+        spell:setMPCost(1)
+    end
+
     if (spell:isAoE() > 0) then
         spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
     end
@@ -912,10 +953,12 @@ function SetUpHealerNPC(mob)
         mob:addMod(tpz.mobMod.CURE_CAST_TIME, 50)
     elseif IsFerreousCoffin(mob) then
         mob:addMod(tpz.mod.DMG, -20)
-        mob:addMod(tpz.mobMod.REGEN_MULTIPLIER, 50)
-    elseif (npcName == 'Mihli_Aliapoh') then
+    elseif isMihliAliapoh(mob) then
+        mob:addMod(tpz.mod.HEALING, 25)
+        mob:addMod(tpz.mod.UFASTCAST, 50)
         mob:addMod(tpz.mod.HEALING, 25)
         mob:addMod(tpz.mod.CURE_POTENCY, 25)
+        mob:addMod(tpz.mobMod.REGEN_MULTIPLIER, 50)
         mob:setMobMod(tpz.mobMod.MULTI_HIT, 8)
     end
 
@@ -1248,7 +1291,11 @@ local function GetBestNA(mob, player)
         for _, spellData in ipairs(debuffData) do
             for _, effect in ipairs(spellData.effects) do
                 if player:hasStatusEffect(effect) then
-                    selectedNA = spellData.spell
+                    local effect = player:getStatusEffect(effect)
+                    local effectFlags = effect:getFlag()
+                    if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) ~= 0) then
+                        selectedNA = spellData.spell
+                    end
 
                     -- Ferreous Coffin uses Esuna over -nas
                     if IsFerreousCoffin(mob) then
@@ -1339,12 +1386,23 @@ local function GetBestBuff(mob, player)
         }
     }
 
+    local mihliAliapohBuffs = {
+        [tpz.job.WHM] = {
+            { Effect = tpz.effect.HASTE,            Spell = tpz.magic.spell.HASTE_II    },
+            { Effect = tpz.effect.SHELL,            Spell = tpz.magic.spell.SHELLRA_V   },
+            { Effect = tpz.effect.PROTECT,          Spell = tpz.magic.spell.PROTECTRA_V },
+            { Effect = tpz.effect.REGEN,            Spell = tpz.magic.spell.REGEN_IV   },
+        }
+    }
+
     -- Determine which set of buffs to use
     local buffs
     if IsCherukiki(mob) then
         buffs = cherukikiBuffs
     elseif IsFerreousCoffin(mob) then
         buffs = ferreousCoffinBuffs
+    elseif isMihliAliapoh(mob) then
+        buffs = mihliAliapohBuffs
     else
         buffs = defaultBuffs
     end
@@ -1490,10 +1548,6 @@ local function TryKeepUpWHMBuffs(mob)
             mob:useJobAbility(tpz.jobAbility.AFFLATUS_MISERY, mob)
             return true
         end
-        if not mob:hasStatusEffect(tpz.effect.LIGHT_ARTS) then
-            mob:useJobAbility(tpz.jobAbility.LIGHT_ARTS, mob)
-            return
-        end
         if not mob:hasStatusEffect(tpz.effect.SACROSANCTITY) then
             mob:useJobAbility(tpz.jobAbility.SACROSANCTITY, mob)
             return true
@@ -1501,6 +1555,11 @@ local function TryKeepUpWHMBuffs(mob)
         if not mob:hasStatusEffect(tpz.effect.ASYLUM) then
             mob:useJobAbility(tpz.jobAbility.ASYLUM, mob)
             return true
+        end
+    elseif isMihliAliapoh(mob) then
+        if not mob:hasStatusEffect(tpz.effect.LIGHT_ARTS) then
+            mob:useJobAbility(tpz.jobAbility.LIGHT_ARTS, mob)
+            return
         end
     else
         if not mob:hasStatusEffect(tpz.effect.AFFLATUS_SOLACE) then
@@ -1596,8 +1655,23 @@ function UpdateTankAI(mob, target)
     local flashTimer = mob:getLocalVar("flashTimer")
     local reprisalTimer = mob:getLocalVar("reprisalTimer")
     local cureTimer = mob:getLocalVar("cureTimer")
+    local itemTimer = mob:getLocalVar("itemTimer")
     local mJob = mob:getMainJob()
 
+    -- Items AI
+    if (os.time() >= itemTimer) then
+        if CanUseItem(mob) then
+            if not mob:hasStatusEffect(tpz.effect.FOOD) then
+                if not IsMnejing(mob) then
+                    mob:useItem(tpz.items.TAVNAZIAN_TACO, mob)
+                    mob:setLocalVar("itemTimer", os.time() + 5)
+                    return
+                end
+            end
+        end
+    end
+
+    -- Abilities AI
     UpdateAbilityAI(mob, target, abilityData)
 
     -- Spell AI
@@ -1755,6 +1829,14 @@ function UpdateHealerAI(mob, target)
                 mob:setLocalVar("itemTimer", os.time() + 5)
                 return
             end
+
+            if isMihliAliapoh(mob) then
+                if not mob:hasStatusEffect(tpz.effect.POISON) then
+                    mob:useItem(tpz.items.FLASK_OF_POISON_POTION, mob)
+                    mob:setLocalVar("itemTimer", os.time() + 5)
+                    return
+                end
+            end
         end
     end
 
@@ -1812,6 +1894,7 @@ function UpdateHealerAI(mob, target)
                                         if IsFerreousCoffin(mob) then
                                             currentTarget = mob
                                         end
+                                        --printf("[DEBUG] Can cast cure spell: %d on %s at time: %d", healingSpell, currentTarget:getName(), os.time())
                                         mob:castSpell(healingSpell, currentTarget)
                                         mob:setLocalVar("cureTimer", os.time() + cureRecast)
                                         mob:setLocalVar("globalMagicTimer", os.time() + 10)
@@ -1828,7 +1911,7 @@ function UpdateHealerAI(mob, target)
                         local naSpell = GetBestNA(mob, friendlyTarget)
                         if (naSpell ~= nil) then
                             if CanCast(mob) then
-                                -- printf("[DEBUG] Can cast na spell: %d at time: %d", naSpell, os.time())
+                                --printf("[DEBUG] Can cast na spell: %d on %s at time: %d", naSpell, friendlyTarget:getName(), os.time())
                                 mob:castSpell(naSpell, friendlyTarget)
                                 mob:setLocalVar("naTimer", os.time() + 10)
                                 mob:setLocalVar("globalMagicTimer", os.time() + 10)
@@ -1843,6 +1926,7 @@ function UpdateHealerAI(mob, target)
                         local buffSpell, buffRecast = GetBestBuff(mob, friendlyTarget)
                         if (buffSpell ~= nil) then
                             if CanCast(mob) then
+                                --printf("[DEBUG] Can cast buff spell: %d on %s at time: %d", buffSpell, friendlyTarget:getName(), os.time())
                                 mob:castSpell(buffSpell, mob)
                                 mob:setLocalVar("buffTimer", os.time() + buffRecast)
                                 mob:setLocalVar("globalMagicTimer", os.time() + 10)
@@ -2105,6 +2189,7 @@ function UpdateSupportAI(mob, target)
         local globalJATimer = mob:getLocalVar("globalJATimer")
         local qdCharges = mob:getLocalVar("qdCharges")
         local qdLastUsed = mob:getLocalVar("qdLastUsed")
+        local snakeEyeTimer = mob:getLocalVar("snakeEyeTimer")
         local activeRolls = 0
         local canDoubleUp = false
         local snakeEye = false
@@ -2145,6 +2230,9 @@ function UpdateSupportAI(mob, target)
 
                 if (effect:getSubPower() == 10) then
                     snakeEye = true
+                    if mob:hasStatusEffect(tpz.effect.SNAKE_EYE) then
+                        canDoubleUp = true
+                    end
                 end
 
                 if (effect:getSubType() == mob:getID()) then
@@ -2154,11 +2242,12 @@ function UpdateSupportAI(mob, target)
         end
 
         if mob:hasStatusEffect(tpz.effect.DOUBLE_UP_CHANCE) then
-            if snakeEye then
+            if snakeEye and (os.time() > snakeEyeTimer) then
                 if (os.time() > globalJATimer) then
                     if CanUseAbility(mob) then
                         if not mob:hasStatusEffect(tpz.effect.SNAKE_EYE) then
                             mob:setLocalVar("globalJATimer", os.time() + 3)
+                            mob:setLocalVar("snakeEyeTimer", os.time() + 300)
                             mob:useJobAbility(tpz.jobAbility.SNAKE_EYE, mob)
                             return
                         end
@@ -2178,10 +2267,21 @@ function UpdateSupportAI(mob, target)
         else
             if (activeRolls < 2) then
                 if (os.time() > globalJATimer) then
-                    if CanUseAbility(mob) then
-                        mob:setLocalVar("globalJATimer", os.time() + 3)
-                        mob:useJobAbility(rolls[math.random(#rolls)], mob)
-                        return
+                    local nearbyFriendly = mob:getNearbyEntities(20)
+                    if (nearbyFriendly ~= nil) then 
+                        local friendlyCount = 0
+                        for _, friendlyTarget in pairs(nearbyFriendly) do
+                            if (friendlyTarget:getAllegiance() == mob:getAllegiance()) then
+                                friendlyCount = friendlyCount + 1
+                                if (friendlyCount > 1) then
+                                    if CanUseAbility(mob) then
+                                        mob:setLocalVar("globalJATimer", os.time() + 3)
+                                        mob:useJobAbility(rolls[math.random(#rolls)], mob)
+                                        return
+                                    end
+                                end
+                            end
+                        end
                     end
                 end
             end
@@ -2463,6 +2563,10 @@ function IsFerreousCoffin(mob)
     return mob:getName() == 'Ferreous_Coffin'
 end
 
+function isMihliAliapoh(mob)
+    return mob:getName() == 'Mihli_Aliapoh'
+end
+
 function ShouldStandBack(mob)
     local mobName = mob:getName() 
     local job = mob:getMainJob()
@@ -2473,6 +2577,10 @@ function ShouldStandBack(mob)
 
     if (mobName == 'Kukki-Chebukki') then
         return true
+    end
+
+    if isMihliAliapoh(mob) then
+        return false
     end
 
     if IsFerreousCoffin(mob) then
@@ -2642,6 +2750,8 @@ function CanCast(mob)
                         act == tpz.act.JOBABILITY_FINISH or
                         act == tpz.act.RANGED_START or
                         act == tpz.act.RANGED_FINISH or
+                        act == tpz.act.ITEM_START or
+                        act == tpz.act.ITEM_FINISH or
                         mob:hasStatusEffect(tpz.effect.SILENCE) or
                         mob:hasStatusEffect(tpz.effect.MUTE) or
                         mob:hasPreventActionEffect())
@@ -2668,6 +2778,8 @@ function CanUseAbility(mob)
                         act == tpz.act.JOBABILITY_FINISH or
                         act == tpz.act.RANGED_START or
                         act == tpz.act.RANGED_FINISH or
+                        act == tpz.act.ITEM_START or
+                        act == tpz.act.ITEM_FINISH or
                         mob:hasStatusEffect(tpz.effect.AMNESIA) or
                         mob:hasPreventActionEffect())
     return CanUseAbility
@@ -2686,6 +2798,8 @@ function CanUseItem(mob)
                         act == tpz.act.JOBABILITY_FINISH or
                         act == tpz.act.RANGED_START or
                         act == tpz.act.RANGED_FINISH or
+                        act == tpz.act.ITEM_START or
+                        act == tpz.act.ITEM_FINISH or
                         mob:hasStatusEffect(tpz.effect.MUDDLE) or
                         mob:hasPreventActionEffect())
     return CanUseItem
@@ -2724,6 +2838,11 @@ function SetUpParry(mob)
         if (job == parryData.Job) then
             mob:setMobMod(tpz.mobMod.CAN_PARRY, parryData.Skill)
         end
+    end
+
+    -- A+ Parry for puppet tank
+    if IsMnejing(mob) then
+        mob:setMobMod(tpz.mobMod.CAN_PARRY, 1)
     end
 
     if (job == tpz.job.WAR) then

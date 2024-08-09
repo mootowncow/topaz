@@ -694,7 +694,9 @@ function IsMobBusy(mob)
             act == tpz.act.JOBABILITY_START or
             act == tpz.act.JOBABILITY_FINISH or
             act == tpz.act.RANGED_START or
-            act == tpz.act.RANGED_FINISH
+            act == tpz.act.RANGED_FINISH or
+            act == tpz.act.ITEM_START or
+            act == tpz.act.ITEM_FINISH
 end
 
 function AffectWeatherMob(mobId, weather, nqWeather, nqChance, hqWeather, hqChance)
@@ -1177,11 +1179,15 @@ function OnBattleEndConfrontation(mob)
             if entity:isAlive() then
                 if entity:hasStatusEffect(tpz.effect.CONFRONTATION) then
                     entity:delStatusEffect(tpz.effect.CONFRONTATION)
+                    if entity:isMob() then
+                        DespawnMob(entity:getID())
+                    end
                 end
             end
         end
     end
     mob:delStatusEffect(tpz.effect.CONFRONTATION)
+    DespawnMob(mob)
 end
 
 function ApplyConfrontation(mob, entity)

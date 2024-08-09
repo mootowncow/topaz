@@ -6,6 +6,7 @@
 require("scripts/globals/raid")
 -----------------------------------
 function onMobSpawn(mob)
+    printf("Ark angels wyvern spawned")
 end
 
 function onMobEngaged(mob, target)

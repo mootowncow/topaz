@@ -4,6 +4,7 @@
 -- RAID NM
 -----------------------------------
 require("scripts/globals/raid")
+mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
 function onMobSpawn(mob)
     tpz.raid.onMobSpawn(mob)

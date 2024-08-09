@@ -761,7 +761,7 @@ void CMobEntity::OnAbility(CAbilityState& state, action_t& action)
         if (PAbility->isAoE())
         {
             PAI->TargetFind->reset();
-            PAI->TargetFind->findWithinArea(this, AOERADIUS_ATTACKER, PAbility->getRange(), FINDFLAGS_HIT_ALL);
+            PAI->TargetFind->findWithinArea(this, AOERADIUS_ATTACKER, PAbility->getRange());
             targets = PAI->TargetFind->m_targets;
         }
 

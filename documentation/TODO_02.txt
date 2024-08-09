@@ -155,6 +155,7 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Does confrontation properly work on dynamis bosses despawning/spawning over and over?
 m_ShieldSize to battleentities (or mobs/trusts/pets?)
 ranged attack store TP mod
 Sphereoids should have insane evasion mobfamily mod
@@ -220,6 +221,7 @@ Touch up Nagi fight, tries to spawn mobs if they are dead on floor, spawns adds 
 Mob_controller.cpp add losing TP if resting effect(pet /stay only) to // can't rest with a DOT on (plague does not stop mob regen)
 Hunts
 WOE
+Combat skill enum(C++ and lua)
 
 ****TEST****
 Peiste / Pixie BDO custom exp camps in WOTG

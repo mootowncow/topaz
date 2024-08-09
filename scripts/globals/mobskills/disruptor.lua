@@ -28,7 +28,7 @@ function onMobWeaponSkill(target, mob, skill)
     -- print(string.format("Trying to dispel Element: %d, Skilltype: %d, Bonus: %d, Resist: %f", element, skillType, bonus, resist))
     if resist >= 0.5 then
         effect = target:dispelStatusEffect()
-        skill:setMsg(tpz.msg.basic.SKILL_ERASE)
+        skill:setMsg(tpz.msg.basic.JA_REMOVE_EFFECT_2)
     else
         skill:setMsg(tpz.msg.basic.SKILL_MISS)
     end
