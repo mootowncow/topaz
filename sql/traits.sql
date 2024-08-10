@@ -323,7 +323,7 @@ INSERT INTO `traits` VALUES (24,'clear mind',21,99,5,295,2,'SOA',0);
 INSERT INTO `traits` VALUES (25,'shield mastery',1,50,1,485,10,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (25,'shield mastery',1,75,2,485,20,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (25,'shield mastery',1,93,3,485,30,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (25,'shield mastery',5,87,1,485,10,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (25,'shield mastery',5,10,1,485,10,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (25,'shield mastery',5,97,2,485,20,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (25,'shield mastery',7,25,1,485,10,NULL,0);
 INSERT INTO `traits` VALUES (25,'shield mastery',7,50,2,485,20,NULL,0);
