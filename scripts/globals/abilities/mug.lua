@@ -56,7 +56,7 @@ function onUseAbility(player, target, ability, action)
     end
 
     -- Deal damage based on DEX + AGI
-    local dmg = dex + agi
+    local dmg = (dex + agi) * 5
     target:takeDamage(dmg, player, tpz.attackType.SPECIAL, tpz.damageType.NONE)
 
     -- Recover for amount dealt

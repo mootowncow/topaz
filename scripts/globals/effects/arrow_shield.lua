@@ -1,7 +1,7 @@
 -----------------------------------
 -- Arrow Shield
 -- Blocks all ranged attacks
---
+-- TODO:Absorb ranged damage only like magic shield if power is > 100
 -----------------------------------
 require("scripts/globals/status")
 -----------------------------------

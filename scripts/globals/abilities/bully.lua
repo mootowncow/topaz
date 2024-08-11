@@ -15,6 +15,10 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    target:addStatusEffectEx(tpz.effect.DOUBT, tpz.effect.INTIMIDATE, 15, 0, 30)
+    if player:isPC() then
+        target:addStatusEffectEx(tpz.effect.DOUBT, tpz.effect.INTIMIDATE, 25, 0, 60)
+    else
+        target:addStatusEffectEx(tpz.effect.DOUBT, tpz.effect.INTIMIDATE, 15, 0, 30)
+    end
     return tpz.effect.INTIMIDATE
 end

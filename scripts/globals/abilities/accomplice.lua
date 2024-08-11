@@ -8,6 +8,7 @@
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/utils")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
@@ -15,5 +16,30 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    local mob = player:getTarget()
+    if (mob ~= nil) then
+        local CE = mob:getCE(target) * (0.50 + player:getMod(tpz.mod.ACC_COLLAB_EFFECT))
+        local VE = mob:getVE(target) * (0.50 + player:getMod(tpz.mod.ACC_COLLAB_EFFECT))
+        local removeMagicShield = true
+
+        -- Gain a Stoneskin + Magic Stoneskin equal to the amount of enmity redirected
+        if player:isPC() then
+            if player:hasStatusEffect(tpz.effect.MAGIC_SHIELD) then
+                local effect = player:getStatusEffect(tpz.effect.MAGIC_SHIELD)
+                local effectPower = effect:getPower()
+                if (effectPower < 100) then -- Isn't an absorb shield magic shield effect
+                    removeMagicShield = false -- So don't remove it
+                end
+            end
+
+            if removeMagicShield then
+                player:delStatusEffect(tpz.effect.MAGIC_SHIELD)
+            end
+            utils.ShouldRemoveStoneskin(target, (CE + VE) / 10)
+            player:addStatusEffect(tpz.effect.STONESKIN, (CE + VE) / 10, 0, 300)
+            player:addStatusEffect(tpz.effect.MAGIC_SHIELD, (CE + VE) / 10, 0, 300)
+        end
+    end
+
     target:transferEnmity(player, 50 + player:getMod(tpz.mod.ACC_COLLAB_EFFECT), 20.6)
 end

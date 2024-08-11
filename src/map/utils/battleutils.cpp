@@ -3027,9 +3027,31 @@ int16 GetSDTTier(int16 SDT)
                     if (!isCounter)
                     {
                         if (taChar == nullptr)
+                        {
                             ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, damage);
+                        }
                         else
+                        {
+                            bool removeMagicShield = true;
+                            uint16 shieldPower = 750 + (PAttacker->CHR() * 3);
+
+                            if (taChar->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
+                            {
+                                CStatusEffect* magicShield = taChar->StatusEffectContainer->GetStatusEffect(EFFECT_MAGIC_SHIELD, 0);
+                                uint16 magicShieldPower = magicShield->GetPower();
+
+                                if (magicShieldPower < 100)
+                                    removeMagicShield = false;
+                            }
+
+                            if (removeMagicShield)
+                                taChar->StatusEffectContainer->DelStatusEffect(EFFECT_MAGIC_SHIELD);
+
+                            taChar->StatusEffectContainer->DelStatusEffect(EFFECT_STONESKIN);
+                            taChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_STONESKIN, EFFECT_STONESKIN, shieldPower, 0, 60));
+                            taChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_MAGIC_SHIELD, EFFECT_MAGIC_SHIELD, shieldPower, 0, 60));
                             ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(taChar, damage);
+                        }
                     }
 
                     if (((CMobEntity*)PDefender)->m_HiPCLvl < PAttacker->GetMLevel())
@@ -4874,6 +4896,28 @@ int16 GetSDTTier(int16 SDT)
             case TYPE_MOB:
             {
                 ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(taChar ? taChar : PAttacker, (uint16)damage);
+                if (taChar != nullptr)
+                {
+                    bool removeMagicShield = true;
+                    uint16 shieldPower = 750 + (PAttacker->CHR() * 3);
+
+                    if (taChar->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
+                    {
+                        CStatusEffect* magicShield = taChar->StatusEffectContainer->GetStatusEffect(EFFECT_MAGIC_SHIELD, 0);
+                        uint16 magicShieldPower = magicShield->GetPower();
+
+                        if (magicShieldPower < 100)
+                            removeMagicShield = false;
+                    }
+
+                    if (removeMagicShield)
+                        taChar->StatusEffectContainer->DelStatusEffect(EFFECT_MAGIC_SHIELD);
+
+                    taChar->StatusEffectContainer->DelStatusEffect(EFFECT_STONESKIN);
+                    taChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_STONESKIN, EFFECT_STONESKIN, shieldPower, 0, 60));
+                    taChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_MAGIC_SHIELD, EFFECT_MAGIC_SHIELD, shieldPower, 0, 60));
+                    ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(taChar, damage);
+                }
             }
             break;
             default:

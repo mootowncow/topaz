@@ -7,17 +7,55 @@
 -----------------------------------
 require("scripts/globals/magic")
 require("scripts/globals/msg")
-
-local despoilDebuffs =
-{
-    tpz.effect.EVASION_DOWN,
-    tpz.effect.DEFENSE_DOWN,
-    tpz.effect.ACCURACY_DOWN,
-    tpz.effect.ATTACK_DOWN,
-    tpz.effect.MAGIC_ATK_DOWN,
-    tpz.effect.MAGIC_DEF_DOWN,
-    tpz.effect.SLOW
+-----------------------------------
+local jobCategories = {
+    melee = {
+        tpz.job.WAR, tpz.job.MNK, tpz.job.THF, tpz.job.PLD, tpz.job.DRK, tpz.job.BST,
+        tpz.job.SAM, tpz.job.NIN, tpz.job.DRG, tpz.job.RNG, tpz.job.COR, tpz.job.PUP,
+        tpz.job.DNC, tpz.job.RUN
+    },
+    magic = {
+        tpz.job.WHM, tpz.job.BLM, tpz.job.RDM, tpz.job.BRD, tpz.job.SMN, tpz.job.BLU,
+        tpz.job.SCH, tpz.job.GEO
+    }
 }
+
+local debuffs = {
+    melee = {
+        { effect = tpz.effect.GEO_ATTACK_DOWN,    msg = tpz.msg.basic.DESPOIL_ATT_DOWN,   power = 25   },
+        { effect = tpz.effect.GEO_DEFENSE_DOWN,   msg = tpz.msg.basic.DESPOIL_DEF_DOWN,   power = 10   },
+        { effect = tpz.effect.GEO_EVASION_DOWN,   msg = tpz.msg.basic.DESPOIL_EVA_DOWN,   power = 10   },
+        { effect = tpz.effect.GEO_ACCURACY_DOWN,  msg = tpz.msg.basic.DESPOIL_ACC_DOWN,   power = 50   },
+        { effect = tpz.effect.GEO_SLOW,           msg = tpz.msg.basic.DESPOIL_SLOW,       power = 2000 }
+    },
+    magic = {
+        { effect = tpz.effect.GEO_MAGIC_ATK_DOWN, msg = tpz.msg.basic.DESPOIL_MATT_DOWN,  power = 25 },
+        { effect = tpz.effect.MAGIC_DEF_DOWN,     msg = tpz.msg.basic.DESPOIL_MDEF_DOWN,  power = 10 }
+    }
+}
+
+local function getJobCategory(job)
+    for _, meleeJob in ipairs(jobCategories.melee) do
+        if job == meleeJob then
+            return "melee"
+        end
+    end
+    return "magic"
+end
+
+local function getDespoilDebuff(player, target, stolen)
+    local debuff = player:getDespoilDebuff(stolen)
+    if not debuff then
+        local mobJob = target:getMainJob()
+
+        -- Determine the job category and select a random debuff from the appropriate category
+        local debuffCategory = debuffs[getJobCategory(mobJob)]
+        local chosenDebuff = debuffCategory[math.random(#debuffCategory)]
+        return chosenDebuff.effect, chosenDebuff.msg, chosenDebuff.power
+    end
+
+    return debuff.effect, debuff.msg, debuff.power
+end
 
 function onAbilityCheck(player, target, ability)
     if player:getObjType() == tpz.objType.TRUST then
@@ -30,12 +68,12 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability, action)
-    local level = player:getMainLvl() -- Can only reach THF77 as main job
+    local level = player:getMainLvl()
     local despoilMod = player:getMod(tpz.mod.DESPOIL)
     -- 50% base chance
     local despoilChance = 50 + despoilMod + level - target:getMainLvl() -- Same math as Steal
 
-    despoilChance = utils.clamp(despoilChance, 5, 50) -- Cap at 45% chance
+    despoilChance = utils.clamp(despoilChance, 5, 50) -- Cap at 50% chance
 
     local stolen = target:getDespoilItem()
     if target:isMob() and math.random(100) < despoilChance and (stolen > 0) then
@@ -46,17 +84,13 @@ function onUseAbility(player, target, ability, action)
         end
         target:itemStolen()
 
-        -- Attempt to grab the debuff from the DB
-        -- If there isn't a debuff assigned to the item stolen, select one at random
-        local debuff = player:getDespoilDebuff(stolen)
-        if not debuff then
-            debuff = despoilDebuffs[math.random(#despoilDebuffs)]
-        end
-
-        local power = processDebuff(player, target, ability, debuff) -- Also sets ability message
-        -- Don't overwrite debuffs already on the target
-        if not target:hasStatusEffect(debuff) then
-            target:addStatusEffect(debuff, power, 0, 90)
+        -- Attempt to grab the debuff from the DB or select one randomly based on the mob's job
+        local effect, msg, power = getDespoilDebuff(player, target, stolen)
+        
+        -- Process the debuff and apply it to the target
+        ability:setMsg(msg)
+        if not target:hasStatusEffect(effect) then
+            target:addStatusEffect(effect, power, 0, 300)
         end
     else
         action:animation(target:getID(), 182)
@@ -67,29 +101,3 @@ function onUseAbility(player, target, ability, action)
     return stolen
 end
 
-function processDebuff(player, target, ability, debuff)
-    local power = 10
-    if debuff == tpz.effect.ATTACK_DOWN then
-        ability:setMsg(tpz.msg.basic.DESPOIL_ATT_DOWN)
-        power = 10      -- changed from 20
-    elseif debuff == tpz.effect.DEFENSE_DOWN then
-        ability:setMsg(tpz.msg.basic.DESPOIL_DEF_DOWN)
-        power = 10  -- changed from 30
-    elseif debuff == tpz.effect.MAGIC_ATK_DOWN then
-        ability:setMsg(tpz.msg.basic.DESPOIL_MATT_DOWN)
-    elseif debuff == tpz.effect.MAGIC_DEF_DOWN then
-        ability:setMsg(tpz.msg.basic.DESPOIL_MDEF_DOWN)
-        power = 10  -- changed from 20
-    elseif debuff == tpz.effect.EVASION_DOWN then
-        ability:setMsg(tpz.msg.basic.DESPOIL_EVA_DOWN)
-        power = 10  -- changed from 30
-    elseif debuff == tpz.effect.ACCURACY_DOWN then
-        ability:setMsg(tpz.msg.basic.DESPOIL_ACC_DOWN)
-        power = 10  -- changed from 20
-    elseif debuff == tpz.effect.SLOW then
-        ability:setMsg(tpz.msg.basic.DESPOIL_SLOW)
-        power = 1000 
-    end
-
-    return power
-end

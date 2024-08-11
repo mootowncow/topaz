@@ -1,5 +1,5 @@
 -----------------------------------
---
+-- tpz.effect.MAGIC_SHIELD
 -- Magic Shield blocks magic, but NOT breath attacks
 -- if power is > 100, adds a "Magic Stoneskin" effect.
 -- if power is > 19 and < 100 then MDT % = power
