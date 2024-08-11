@@ -1159,7 +1159,7 @@ function utils.ShouldRemoveStoneskin(target, newPower)
         local effect = target:getStatusEffect(tpz.effect.STONESKIN)
         local oldPower = effect:getPower()
         if (newPower >= oldPower) then
-            target:delStatusEffect(tpz.effect.STONESKIN)
+            target:delStatusEffectSilent(tpz.effect.STONESKIN)
             return true
         end
     end

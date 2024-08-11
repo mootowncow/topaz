@@ -3045,9 +3045,9 @@ int16 GetSDTTier(int16 SDT)
                             }
 
                             if (removeMagicShield)
-                                taChar->StatusEffectContainer->DelStatusEffect(EFFECT_MAGIC_SHIELD);
+                                taChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_MAGIC_SHIELD);
 
-                            taChar->StatusEffectContainer->DelStatusEffect(EFFECT_STONESKIN);
+                            taChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_STONESKIN);
                             taChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_STONESKIN, EFFECT_STONESKIN, shieldPower, 0, 60));
                             taChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_MAGIC_SHIELD, EFFECT_MAGIC_SHIELD, shieldPower, 0, 60));
                             ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(taChar, damage);
@@ -4911,9 +4911,9 @@ int16 GetSDTTier(int16 SDT)
                     }
 
                     if (removeMagicShield)
-                        taChar->StatusEffectContainer->DelStatusEffect(EFFECT_MAGIC_SHIELD);
+                        taChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_MAGIC_SHIELD);
 
-                    taChar->StatusEffectContainer->DelStatusEffect(EFFECT_STONESKIN);
+                    taChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_STONESKIN);
                     taChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_STONESKIN, EFFECT_STONESKIN, shieldPower, 0, 60));
                     taChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_MAGIC_SHIELD, EFFECT_MAGIC_SHIELD, shieldPower, 0, 60));
                     ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(taChar, damage);

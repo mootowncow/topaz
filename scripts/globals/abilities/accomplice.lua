@@ -33,7 +33,7 @@ function onUseAbility(player, target, ability)
             end
 
             if removeMagicShield then
-                player:delStatusEffect(tpz.effect.MAGIC_SHIELD)
+                player:delStatusEffectSilent(tpz.effect.MAGIC_SHIELD)
             end
             utils.ShouldRemoveStoneskin(target, (CE + VE) / 10)
             player:addStatusEffect(tpz.effect.STONESKIN, (CE + VE) / 10, 0, 300)
