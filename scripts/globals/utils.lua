@@ -1154,3 +1154,15 @@ function utils.GetRemovableEffects()
     return effects
 end
 
+function utils.ShouldRemoveStoneskin(target, newPower)
+    if target:hasStatusEffect(tpz.effect.STONESKIN) then
+        local effect = target:getStatusEffect(tpz.effect.STONESKIN)
+        local oldPower = effect:getPower()
+        if (newPower >= oldPower) then
+            target:delStatusEffect(tpz.effect.STONESKIN)
+            return true
+        end
+    end
+
+    return false
+end

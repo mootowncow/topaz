@@ -17,6 +17,7 @@ require("scripts/globals/bluemagic")
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/utils")
 -----------------------------------------
 
 function onMagicCastingCheck(caster, target, spell)
@@ -31,7 +32,7 @@ function onSpellCast(caster, target, spell)
 
     power = utils.ApplyStoneskinBonuses(caster, power)
 
-    target:delStatusEffectSilent(typeEffect)
+    utils.ShouldRemoveStoneskin(target, power)
     target:addStatusEffect(typeEffect, power, 0, duration, 0, 0, 2)
 
 

@@ -38,6 +38,8 @@ function onSpellCast(caster, target, spell)
 
     absorbFinal = utils.ApplyStoneskinBonuses(caster, absorbFinal)
 
+    utils.ShouldRemoveStoneskin(target, absorbFinal)
+
     if target:addStatusEffect(tpz.effect.STONESKIN, absorbFinal, 0, duration, 0, 0, 4) then
         spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
     else

@@ -55,10 +55,9 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
                     member:addHP(healAmount)
                     player:updateEnmityFromCure(member, healAmount)
                     member:removeAllNegativeEffects()
-                    if not member:hasStatusEffect(tpz.effect.STONESKIN) then
-                        member:addStatusEffect(tpz.effect.STONESKIN, stoneskinAmount, 0, 60)
-                    end
-                    if not member:hasStatusEffect(tpz.effect.MAGIC_DEF_BOOST) then
+                    utils.ShouldRemoveStoneskin(member, stoneskinAmount)
+                    member:addStatusEffect(tpz.effect.STONESKIN, stoneskinAmount, 0, 60)
+                    if canOverwrite(member, 25, tpz.effect.MAGIC_DEF_BOOST) then
                         member:addStatusEffect(tpz.effect.MAGIC_DEF_BOOST, 25, 0, 60)
                     end
                 end

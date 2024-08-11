@@ -6,6 +6,7 @@ require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/magic")
+require("scripts/globals/utils")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
@@ -20,6 +21,7 @@ function onMobWeaponSkill(target, mob, skill)
 
     mob:delStatusEffect(tpz.effect.REPRISAL)
     mob:addStatusEffect(tpz.effect.DEFENSE_BOOST, 100, 0, duration)
+    utils.ShouldRemoveStoneskin(mob, 1500)
     mob:addStatusEffect(tpz.effect.STONESKIN, 1500, 0, duration)
     mob:addStatusEffect(tpz.effect.REPRISAL, reflectedPercent, 0, duration, 0, maxReflectedDamage)
     skill:setMsg(tpz.effect.PROTECT)

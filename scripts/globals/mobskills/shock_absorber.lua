@@ -6,6 +6,7 @@ require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/msg")
 require("scripts/globals/spell_data")
+require("scripts/globals/utils")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
@@ -45,7 +46,10 @@ function onMobWeaponSkill(target, mob, skill)
             bonus = pMod * 0.6
         end
     end
+
     amount = amount + math.floor(bonus)
+
+    utils.ShouldRemoveStoneskin(mob, amount)
     if mob:addStatusEffect(tpz.effect.STONESKIN, amount, 0, duration, 0, 0, 4) then
         skill:setMsg(tpz.msg.basic.SKILL_GAIN_EFFECT)
     else

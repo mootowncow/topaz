@@ -5,6 +5,7 @@ require("scripts/globals/automatonweaponskills")
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/utils")
 ---------------------------------------------
 
 function onMobSkillCheck(target, automaton, skill)
@@ -46,6 +47,7 @@ function onPetAbility(target, automaton, skill, master, action)
     end
     amount = amount + math.floor(bonus)
 
+    utils.ShouldRemoveStoneskin(target, amount)
     if target:addStatusEffect(tpz.effect.STONESKIN, amount, 0, duration, 0, 0, 4) then
         skill:setMsg(tpz.msg.basic.SKILL_GAIN_EFFECT)
     else

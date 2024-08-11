@@ -42,7 +42,7 @@ function onSpellCast(caster, target, spell)
 
     power = utils.ApplyStoneskinBonuses(caster, power)
 
-    target:delStatusEffectSilent(typeEffect)
+    utils.ShouldRemoveStoneskin(target, power)
     target:addStatusEffect(typeEffect, power, 0, duration, 0, 0, 2)
 
     return typeEffect
