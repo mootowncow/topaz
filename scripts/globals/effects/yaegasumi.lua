@@ -4,7 +4,7 @@
 --     Grants avoidance to mob TP moves
 -----------------------------------
 function onEffectGain(target, effect)
-    target:addMod(tpz.mod.TPEVA, -effect:getPower())
+    target:addMod(tpz.mod.TPEVA, effect:getPower())
 end
 
 function onEffectTick(target, effect)
