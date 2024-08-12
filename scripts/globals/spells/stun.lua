@@ -53,19 +53,21 @@ function onSpellCast(caster, target, spell)
     params.effect = tpz.effect.STUN
     local resist = applyResistanceEffect(caster, target, spell, params)
     duration = math.ceil(duration * resist * tryBuildResistance(tpz.magic.buildcat.STUN, target))
+    duration = CheckDiminishingReturns(caster, target, params.effect, duration)
 
     -- Resist trait proc
-    if (math.random() < getEffectResistanceTraitChance(caster, target, tpz.effect.STUN)) then
+    if (math.random() < getEffectResistanceTraitChance(caster, target, params.effect)) then
         spell:setMsg(tpz.msg.basic.MAGIC_RESIST_2) -- Resist trait proc!
-        return tpz.effect.STUN
+        return params.effect
     end
 
     if (resist >= 0.5) then
-		if (target:hasStatusEffect(tpz.effect.STUN)) then
+		if (target:hasStatusEffect(params.effect)) then
 			-- no effect
 			spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
 		else
-			if (target:addStatusEffect(tpz.effect.STUN, 1, 0, duration)) then
+			if (target:addStatusEffect(params.effect, 1, 0, duration)) then
+                AddDimishingReturns(caster, target, spell, params.effect)
 				spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
                 CheckForMagicBurst(caster, spell, target)
 			else
@@ -74,5 +76,5 @@ function onSpellCast(caster, target, spell)
 		end
 	end
 
-    return tpz.effect.STUN
+    return params.effect
 end
