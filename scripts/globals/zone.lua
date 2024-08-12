@@ -439,3 +439,59 @@ function SetExplorerMoogles(moogle)
         end
     end
 end
+
+-- Helper functions
+
+function GetZoneByExpansion(zoneId)
+    if
+        zoneId == tpz.zone.CAPE_TERIGGAN or
+        zoneId == tpz.zone.EASTERN_ALTEPA_DESERT or
+        zoneId == tpz.zone.THE_SANCTUARY_OF_ZITAH or
+        zoneId == tpz.zone.ROMAEVE or
+        zoneId == tpz.zone.YUHTUNGA_JUNGLE or
+        zoneId == tpz.zone.YHOATOR_JUNGLE or
+        zoneId == tpz.zone.WESTERN_ALTEPA_DESERT or
+        zoneId == tpz.zone.BEHEMOTHS_DOMINION or
+        zoneId == tpz.zone.VALLEY_OF_SORROWS or
+        zoneId == tpz.zone.RUAUN_GARDENS or
+        zoneId == tpz.zone.THE_BOYAHDA_TREE or
+        zoneId == tpz.zone.DRAGONS_AERY or
+        zoneId == tpz.zone.KORROLOKA_TUNNEL or
+        zoneId == tpz.zone.KUFTAL_TUNNEL or
+        zoneId == tpz.zone.GUSTAV_TUNNEL or
+        zoneId == tpz.zone.LABYRINTH_OF_ONZOZO or
+        zoneId == tpz.zone.TEMPLE_OF_UGGALEPIH or
+        zoneId == tpz.zone.DEN_OF_RANCOR or
+        zoneId == tpz.zone.SEA_SERPENT_GROTTO or
+        zoneId == tpz.zone.VELUGANNON_PALACE or
+        zoneId == tpz.zone.THE_SHRINE_OF_RUAVITAU
+    then
+        return 'ZILART'
+    end
+
+
+    if zoneId <= tpz.zone.APOLLYON and zoneID ~= tpz.zone.ABYSSEA_KONSCHTAT then
+        return 'COP'
+    end
+
+    if zoneId >= tpz.zone.OPEN_SEA_ROUTE_TO_AL_ZAHBI and zoneId <= tpz.zone.CAEDARVA_MIRE then
+        return 'TOAU'
+    end
+
+    if
+        zoneId >= tpz.zone.SOUTHERN_SAN_DORIA_S and zoneId <= tpz.zone.CASTLE_OZTROJA_S or
+        zoneId >= tpz.zone.BEAUCEDINE_GLACIER_S and zoneId <= tpz.zone.CASTLE_ZVAHL_BAILEYS_S or
+        zoneId == tpz.zone.CASTLE_ZVAHL_KEEP_S or
+        zoneId == tpz.zone.GARLAIGE_CITADEL_S or
+        zoneId == tpz.zone.CRAWLERS_NEST_S or
+        zoneId == tpz.zone.THE_ELDIEME_NECROPOLIS_S
+    then
+        return 'WOTG'
+    end
+
+    if zoneId >= tpz.zone.OPEN_SEA_ROUTE_TO_AL_ZAHBI and zoneId <= tpz.zone.CAEDARVA_MIRE then -- TODO
+        return 'ADOULIN'
+    end
+
+    return "ORIGINAL"
+end

@@ -18,31 +18,16 @@ require("scripts/globals/weaponskillids")
 -- TODO: Correct weapon types(club scythe etc) on everyone
 -- TODO: Does Kyo respawn and work?
 -- TODO: Check that barrage is properly adding hits in cpp with print
--- TODO: SA / TA damage on monstertpmoves
--- TODO: Insomninant AI is wonky on detecting the sleep and it the skill crashes the game
+-- TODO: Insomninant skill crashes the game
 -- TODO: Test Flashy shot pdif stuff for level correction (ranged pdif and ws ranged pdif)
 -- TODO: Ajido-Marujido doesn't despawn after boss does and confrontation is removed?
--- TODO: Next set of NPCs qultada + ovjang(tank) + nashmeira and other serpent generals
 -- TODO: Ability to add/delete merits to mobs
 -- TODO: Are pets not getting AOE buffs? (CTargetFind::findWithinArea for this logic {PETS_CAN_AOE_BUFF})
--- TODO: addCapacityPoints() needs to add 10 job points..maybe need to add a lua binding for addjobpoints instead of add capacity points
 -- TODO: Add logic for tracking player "contribution" and then only having a formula for addCapacityPoints() in onMobDeath based on contribution amount
 -- TODO: Are bosses absorbing damage from very low mob hits? (Below 0)
--- TODO: Mijin gakure hit ALL?
--- TODO: Spawn AA MR / GK pets next to them
--- TODO: Ark Angel TP moves hit ALL if AOE/conal
 -- TODO: Ark Angel MR (and all mob (not npcs) pets?) don't get confrontation on spawn, might need to add to SpawnMobPet() like players have it
--- TODO: AA MR and GK pets to always assist them on their target
--- TODO: AA GK wyvern spam despawns zZzz. MR's works fine...
--- TODO: Dispel and Interrupt Abilities work properly
--- TODO: params.ALWAYS_CRIT on true strike and other crit moves (isCrit())
--- TODO: Snake Eye logic, and better rolling logic?
--- TODO: Disruptor dispel msg(copy dark shot?). Also use for pet ability disruptor
--- TODO: Set music
--- TODO: On death, remove confrontation off pet?
--- TODO: Nashmeira doesn't use her TP move?
--- TODO: targetfind to AOE mob skills also if confrontation
--- TODO: AA 2 hours work?
+-- TODO: params.ALWAYS_CRIT on true strike and other crit moves (isCrit()
+-- TODO: getAvailableTrickAttackChar to work for mob entities not in a party
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -146,6 +131,55 @@ local immunityMap =
     { Effect = tpz.effect.CHARM,                    Immunity = { tpz.immunity.CHARM } },
 }
 
+local function SetBattleMusicOnFight(mob, track)
+    local musicCheck = mob:getLocalVar("musicCheck")
+
+    if (os.time() >= musicCheck) then
+        local nearbyPlayers = mob:getPlayersInRange(50)
+        if nearbyPlayers == nil then return end
+        if nearbyPlayers then
+            for _,player in ipairs(nearbyPlayers) do
+                if player:isAlive() then
+                    player:ChangeMusic(tpz.music.type.BATTLE_SOLO, track)
+                    player:ChangeMusic(tpz.music.type.BATTLE_PARTY, track)
+                end
+            end
+        end
+        mob:setLocalVar("musicCheck", os.time() + 5)
+    end
+end
+
+local function SetBattleMusicOnDeath(mob)
+    local zone = mob:getZoneID()
+    local expansion = GetZoneByExpansion(zone)
+    local soloTrack = tpz.music.track.BATTLE_THEME
+    local partyTrack = tpz.music.track.BATTLE_THEME_2
+
+    -- printf("Expansion %s", expansion)
+
+    if (expansion == 'ORIGINAL') then
+        soloTrack = tpz.music.track.BATTLE_THEME
+        partyTrack = tpz.music.track.BATTLE_THEME_2
+    elseif (expansion == 'ZILART') then
+        soloTrack = tpz.music.track.BATTLE_THEME
+        partyTrack = tpz.music.track.SANDORIA
+    elseif (expansion == 'COP') then
+        soloTrack = tpz.music.track.BATTLE_THEME
+        partyTrack = tpz.music.track.JUNGLE_THEME
+    end
+
+    local nearbyPlayers = mob:getPlayersInRange(50)
+    if nearbyPlayers == nil then return end
+    if nearbyPlayers then
+        for _,player in ipairs(nearbyPlayers) do
+            if player:isAlive() then
+                player:ChangeMusic(tpz.music.type.BATTLE_SOLO, soloTrack)
+                player:ChangeMusic(tpz.music.type.BATTLE_PARTY, partyTrack)
+            end
+        end
+    end
+end
+
 local modByMobName =
 {
     ['Promathia'] = function(mob)
@@ -245,6 +279,8 @@ local mobFightByMobName =
         local currentForm = mob:getLocalVar("form")
         local AnimationSub = mob:AnimationSub()
 
+        SetBattleMusicOnFight(mob, tpz.music.track.FINAL_THEME)
+
         if lifePercent > 30 then
             if AnimationSub == 1 then
                 mob:setMod(tpz.mod.UDMGPHYS, -90)
@@ -314,6 +350,8 @@ local mobFightByMobName =
         local currentHP = mob:getHPP()
         local teraFlareTimer = mob:getLocalVar("teraFlareTimer")
 
+        SetBattleMusicOnFight(mob, tpz.music.track.FINAL_THEME)
+
         -- 10-90% HP logic
         for _, phase in ipairs(phaseData) do
             if (currentHP <= phase.HP) and (mob:getLocalVar(phase.Var) == 0) then
@@ -360,6 +398,8 @@ local mobFightByMobName =
         local holyEnabled = mob:getLocalVar("holyEnabled")
         local enmityList = mob:getEnmityList()
         local holyTarget = nil
+
+        SetBattleMusicOnFight(mob, tpz.music.track.FINAL_THEME)
 
         if not IsMobBusy(mob) then
             if mob:getLocalVar("nuclearWaste") == 1 then
@@ -465,6 +505,9 @@ local mobFightByMobName =
 	    mob:setMod(tpz.mod.REGAIN, 100)
         local battletime = mob:getBattleTime()
         local WarpTime = mob:getLocalVar("WarpTime")
+
+        SetBattleMusicOnFight(mob, tpz.music.track.PRELUDE2)
+
         if WarpTime == 0 then
             mob:setLocalVar("WarpTime", math.random(15, 20))
 	    elseif battletime >= WarpTime then
@@ -474,6 +517,8 @@ local mobFightByMobName =
     end,
 
     ['Kamlanaut'] = function(mob, target)
+        SetBattleMusicOnFight(mob, tpz.music.track.THE_SHATTERING)
+
         if os.time() > mob:getLocalVar("nextEnSkill") then
             local skill = math.random(823, 828)
             mob:setLocalVar("currentTP", mob:getTP())
@@ -488,6 +533,7 @@ local mobFightByMobName =
         local changeHP = mob:getLocalVar("changeHP")
         local hp = mob:getHPP()
 
+        SetBattleMusicOnFight(mob, tpz.music.track.SHADOW_LORD)
         -- Starts changing phases at 89% HP
         if (hp < 90) then
             -- subanimation 0 is first phase subanim, so just go straight to magic mode
@@ -546,6 +592,7 @@ local mobFightByMobName =
                 {id = tpz.jsa.MIJIN_GAKURE, cooldown = 360, hpp = 50},
             },
         })
+        SetBattleMusicOnFight(mob, tpz.music.track.GALKA)
     end,
 
     ['Ark_Angel_MR'] = function(mob, target)
@@ -559,6 +606,8 @@ local mobFightByMobName =
         })
         local battletime = mob:getBattleTime()
         local pet = GetMobByID(mob:getLocalVar("pet"))
+
+        SetBattleMusicOnFight(mob, tpz.music.track.GALKA)
 
         if (battletime > 10) then
             if not pet:isSpawned() then
@@ -577,12 +626,14 @@ local mobFightByMobName =
         local arkAngelMR = 17293833
         local master = GetMobByID(arkAngelMR)
         mob:setMobMod(tpz.mobMod.SHARE_TARGET, master:getShortID())
+        SetBattleMusicOnFight(mob, tpz.music.track.GALKA)
     end,
 
     ['Ark_Angels_Mandragora'] = function(mob, target)
         local arkAngelMR = 17293833
         local master = GetMobByID(arkAngelMR)
         mob:setMobMod(tpz.mobMod.SHARE_TARGET, master:getShortID())
+        SetBattleMusicOnFight(mob, tpz.music.track.GALKA)
     end,
 
     ['Ark_Angel_EV'] = function(mob, target)
@@ -594,6 +645,7 @@ local mobFightByMobName =
             {id = tpz.jsa.INVINCIBLE, cooldown = 90, hpp = 50},
             },
         })
+        SetBattleMusicOnFight(mob, tpz.music.track.GALKA)
     end,
 
     ['Ark_Angel_TT'] = function(mob, target)
@@ -607,6 +659,8 @@ local mobFightByMobName =
                 },
             },
         })
+
+        SetBattleMusicOnFight(mob, tpz.music.track.GALKA)
 
         if (mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON) and bit.band(mob:getBehaviour(), tpz.behavior.STANDBACK) > 0) then
             mob:setBehaviour(bit.band(mob:getBehaviour(), bit.bnot(tpz.behavior.STANDBACK)))
@@ -644,6 +698,8 @@ local mobFightByMobName =
         local battletime = mob:getBattleTime()
         local pet = GetMobByID(mob:getID()+1)
 
+        SetBattleMusicOnFight(mob, tpz.music.track.GALKA)
+
         if (battletime > 10) then
             if not pet:isSpawned() then
                 pet:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
@@ -661,6 +717,7 @@ local mobFightByMobName =
         local arkAngelGK = 17293838
         local master = GetMobByID(arkAngelGK)
         mob:setMobMod(tpz.mobMod.SHARE_TARGET, master:getShortID())
+        SetBattleMusicOnFight(mob, tpz.music.track.GALKA)
     end,
 }
 
@@ -684,6 +741,7 @@ tpz.raid.onMobSpawn = function(mob)
     mob:addMod(tpz.mod.VIT, 50)
     mob:addMod(tpz.mod.REGEN, 150)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
+    mob:setMobMod(tpz.mobMod.NO_DR, 1)
 
     local mobName = mob:getName()
     local mods = modByMobName[mobName]
@@ -722,12 +780,15 @@ end
 tpz.raid.onMobDeath = function(mob, player, isKiller, noKiller)
     local NearbyEntities = mob:getNearbyEntities(50)
     if NearbyEntities == nil then return end
-    if NearbyEntities then
-        for _,entity in pairs(NearbyEntities) do
-            entity:addCapacityPoints(300000)
+
+    for _, entity in pairs(NearbyEntities) do
+        for i = 1, 10 do
+            entity:addCapacityPoints(30000)
         end
     end
+
     OnBattleEndConfrontation(mob)
+    SetBattleMusicOnDeath(mob)
 end
 
 
@@ -953,7 +1014,7 @@ function SetUpHealerNPC(mob)
         mob:addMod(tpz.mobMod.CURE_CAST_TIME, 50)
     elseif IsFerreousCoffin(mob) then
         mob:addMod(tpz.mod.DMG, -20)
-    elseif isMihliAliapoh(mob) then
+    elseif IsMihliAliapoh(mob) then
         mob:addMod(tpz.mod.HEALING, 25)
         mob:addMod(tpz.mod.UFASTCAST, 50)
         mob:addMod(tpz.mod.HEALING, 25)
@@ -1041,6 +1102,8 @@ function SetUpMeleeNPC(mob)
 
     if (npcName == 'Tenzen') then
         mob:addMod(tpz.mod.SAVETP, 400)
+    elseif IsLhuMhakaracca(mob) then
+        mob:setMobMod(tpz.mobMod.SPECIAL_SKILL, 0)
     end
 
     if (sJob == tpz.job.RNG) then
@@ -1391,7 +1454,9 @@ local function GetBestBuff(mob, player)
             { Effect = tpz.effect.HASTE,            Spell = tpz.magic.spell.HASTE_II    },
             { Effect = tpz.effect.SHELL,            Spell = tpz.magic.spell.SHELLRA_V   },
             { Effect = tpz.effect.PROTECT,          Spell = tpz.magic.spell.PROTECTRA_V },
-            { Effect = tpz.effect.REGEN,            Spell = tpz.magic.spell.REGEN_IV   },
+            { Effect = tpz.effect.REGEN,            Spell = tpz.magic.spell.REGEN_IV    },
+            { Effect = tpz.effect.BARFIRE,          Spell = tpz.magic.spell.BARFIRA     },
+            { Effect = tpz.effect.BARPETRIFY,       Spell = tpz.magic.spell.BARPETRA     },
         }
     }
 
@@ -1401,7 +1466,7 @@ local function GetBestBuff(mob, player)
         buffs = cherukikiBuffs
     elseif IsFerreousCoffin(mob) then
         buffs = ferreousCoffinBuffs
-    elseif isMihliAliapoh(mob) then
+    elseif IsMihliAliapoh(mob) then
         buffs = mihliAliapohBuffs
     else
         buffs = defaultBuffs
@@ -1556,7 +1621,7 @@ local function TryKeepUpWHMBuffs(mob)
             mob:useJobAbility(tpz.jobAbility.ASYLUM, mob)
             return true
         end
-    elseif isMihliAliapoh(mob) then
+    elseif IsMihliAliapoh(mob) then
         if not mob:hasStatusEffect(tpz.effect.LIGHT_ARTS) then
             mob:useJobAbility(tpz.jobAbility.LIGHT_ARTS, mob)
             return
@@ -1605,6 +1670,14 @@ local function GetLowestHPTarget(mob, nearbyFriendly)
     end
     table.sort(friendlyTargets, function(a, b) return a:getHPP() < b:getHPP() end)
     return friendlyTargets
+end
+
+local function TrySpawnPet(mob, offset)
+    local pet = GetMobByID(mob:getID() + offset)
+    if not pet:isSpawned() then
+        pet:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
+        pet:spawn()
+    end
 end
 
 function UpdatePuppetAI(mob, target)
@@ -1765,7 +1838,15 @@ function UpdateMeleeAI(mob, target)
         {   Skill = tpz.jobAbility.SPIRIT_LINK,         Cooldown = 60,  Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.DRG    },
         {   Skill = tpz.jobAbility.SPIRIT_SURGE,        Cooldown = 300, Type = 'Buff',          Category = 'Job Ability',   Job = tpz.job.DRG    },
     }
+    local mobName = mob:getName()
     local stunTimer = mob:getLocalVar("stunTimer")
+
+    if (mobName == 'Shikaree_Z') then
+        TrySpawnPet(mob, 1)
+    elseif IsLhuMhakaracca(mob) or (mobName == 'Ajido-Marujido') then
+        TrySpawnPet(mob, 1)
+        TrySpawnPet(mob, 2)
+    end
 
     UpdateAbilityAI(mob, target, abilityData)
 
@@ -1830,7 +1911,7 @@ function UpdateHealerAI(mob, target)
                 return
             end
 
-            if isMihliAliapoh(mob) then
+            if IsMihliAliapoh(mob) then
                 if not mob:hasStatusEffect(tpz.effect.POISON) then
                     mob:useItem(tpz.items.FLASK_OF_POISON_POTION, mob)
                     mob:setLocalVar("itemTimer", os.time() + 5)
@@ -2563,8 +2644,12 @@ function IsFerreousCoffin(mob)
     return mob:getName() == 'Ferreous_Coffin'
 end
 
-function isMihliAliapoh(mob)
+function IsMihliAliapoh(mob)
     return mob:getName() == 'Mihli_Aliapoh'
+end
+
+function IsLhuMhakaracca(mob)
+    return mob:getName() == 'Lhu_Mhakaracca'
 end
 
 function ShouldStandBack(mob)
@@ -2579,7 +2664,7 @@ function ShouldStandBack(mob)
         return true
     end
 
-    if isMihliAliapoh(mob) then
+    if IsMihliAliapoh(mob) then
         return false
     end
 
@@ -2662,6 +2747,11 @@ end
 function HasDispellableEffect(target)
     local effects = target:getStatusEffects()
     local num = 0
+
+    -- Don't try to dispel Utsusemi or Blink
+    if target:hasStatusEffect(tpz.effect.COPY_IMAGE) or target:hasStatusEffect(tpz.effect.BLINK) then
+        return false
+    end
 
     for i, effect in ipairs(effects) do
         -- check mask bit for tpz.effectFlag.DISPELABLE

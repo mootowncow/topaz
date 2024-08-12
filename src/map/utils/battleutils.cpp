@@ -5113,77 +5113,53 @@ int16 GetSDTTier(int16 SDT)
             return nullptr;
         }
 
-        // angle and distance between mob and TA user
+        // Angle and distance between mob and TA user
         uint8 angleTAmob = worldAngle(PMob->loc.p, taUser->loc.p);
         auto distTAmob = distance(taUser->loc.p, PMob->loc.p);
         std::vector<std::pair<float, CBattleEntity*>> taTargetList;
 
-        if (taUser->PParty != nullptr)
+        // Lambda function to add an entity to the entityList if it's within a reasonable distance and has allegiance ALLEGIANCE_PLAYER
+        std::vector<CBattleEntity*> entityList;
+        auto addEntityIfNearby = [&entityList, &PMob](CBaseEntity* PEntity)
         {
-            std::vector<CParty*> taPartyList;
-            if (taUser->PParty->m_PAlliance != nullptr)
+            if ((PEntity->objtype == TYPE_PC || PEntity->objtype == TYPE_MOB || PEntity->objtype == TYPE_TRUST) &&
+                distance(PEntity->loc.p, PMob->loc.p) <= worldAngleMinDistance)
             {
-                taPartyList = taUser->PParty->m_PAlliance->partyList;
-            }
-            else
-            {
-                taPartyList.emplace_back(taUser->PParty);
-            }
-
-            // Collect all potential TA targets who are closer to the mob than the TA user
-            for (auto&& party : taPartyList)
-            {
-                for (auto&& member : party->members)
+                auto* battleEntity = dynamic_cast<CBattleEntity*>(PEntity);
+                if (battleEntity && battleEntity->allegiance == ALLEGIANCE_PLAYER)
                 {
-                    float distTAtarget = distance(member->loc.p, PMob->loc.p);
-                    // require closer target not be closer than .5 yalms (.5*.5=.25 distsquared) to mob
-                    if (distTAtarget >= worldAngleMinDistance && distTAtarget < distTAmob)
-                    {
-                        taTargetList.emplace_back(distTAtarget, member);
-                    }
-
-                    if (auto* PChar = dynamic_cast<CCharEntity*>(member))
-                    {
-                        for (auto* PTrust : PChar->PTrusts)
-                        {
-                            float distTAtarget = distance(PTrust->loc.p, PMob->loc.p);
-                            // require closer target not be closer than .5 yalms (.5*.5=.25 distsquared) to mob
-                            if (distTAtarget >= worldAngleMinDistance && distTAtarget < distTAmob)
-                            {
-                                taTargetList.emplace_back(distTAtarget, PTrust);
-                            }
-                        }
-                    }
+                    entityList.emplace_back(battleEntity);
                 }
             }
-        }
+        };
 
-        // Check TA user's fellow
-        /*
-        if (auto* PChar = dynamic_cast<CCharEntity*>(taUser))
+        // Iterate over all characters
+        zoneutils::GetZone(taUser->getZone())->ForEachChar([&addEntityIfNearby](CCharEntity* PChar) { addEntityIfNearby(PChar); });
+
+        // Iterate over all mobs
+        zoneutils::GetZone(taUser->getZone())->ForEachMob([&addEntityIfNearby](CMobEntity* PMob) { addEntityIfNearby(PMob); });
+
+        // Iterate over all trusts
+        zoneutils::GetZone(taUser->getZone())->ForEachTrust([&addEntityIfNearby](CTrustEntity* PTrust) { addEntityIfNearby(PTrust); });
+
+        // Now that entityList is populated, iterate over it to find a valid Trick Attack target
+        for (auto&& entity : entityList)
         {
-            if (PChar->PFellow)
+            float distTAtarget = distance(entity->loc.p, PMob->loc.p);
+            // Require closer target not be closer than .5 yalms (.5*.5=.25 distsquared) to mob
+            if (distTAtarget >= worldAngleMinDistance && distTAtarget < distTAmob)
             {
-                if (auto* fellow = dynamic_cast<CBattleEntity*>(PChar->PFellow))
-                {
-                    float distTAtarget = distance(fellow->loc.p, PMob->loc.p);
-                    // require closer target not be closer than .5 yalms (.5*.5=.25 distsquared) to mob
-                    if (distTAtarget >= worldAngleMinDistance && distTAtarget < distTAmob)
-                    {
-                        taTargetList.emplace_back(distTAtarget, fellow);
-                    }
-                }
+                taTargetList.emplace_back(distTAtarget, entity);
             }
         }
-        */
 
         if (!taTargetList.empty())
         {
-            // sorts by distance then by pointer id (only if floats are equal)
+            // Sorts by distance then by pointer id (only if floats are equal)
             std::sort(taTargetList.begin(), taTargetList.end());
             for (auto const& [dist, potentialTAtarget] : taTargetList)
             {
-                if (taUser->id == potentialTAtarget->id || // can't TA self
+                if (taUser->id == potentialTAtarget->id || // Can't TA self
                     potentialTAtarget->isDead())           // Dead entity should not be TA-able
                 {
                     continue;
@@ -5196,7 +5172,7 @@ int16 GetSDTTier(int16 SDT)
             }
         }
 
-        // No Trick attack party member available
+        // No Trick Attack party member available
         return nullptr;
     }
 

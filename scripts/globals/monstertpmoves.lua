@@ -240,6 +240,12 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     --firstHitChance = utils.clamp(firstHitChance, 35, 95)
     firstHitChance = utils.clamp(firstHitChance, 20, 100)
+
+    -- Sneak and Trick attack force 100% hit rate on the first attack
+    if isSneakAttack(mob, target) or isTrickAttack(mob, target) then
+        firstHitChance = 100
+    end
+
     local critAttackBonus = 1 + ((mob:getMod(tpz.mod.CRIT_DMG_INCREASE) - target:getMod(tpz.mod.CRIT_DEF_BONUS)) / 100)
 
     -- Set block rate to 0 for now
@@ -249,7 +255,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
         pdif = math.random((minRatio*1000), (maxRatio*1000)) --generate random PDIF
         pdif = pdif/1000  --multiplier set.
-        if isCrit(mob, critRate, params_phys) then
+        if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
             if target:isMob() then
                 TryBreakMob(target)
             end
@@ -1869,15 +1875,36 @@ function getMobFSTR(weaponDmg, mobStr, targetVit)
 end
 
 function isCrit(mob, critRate, params)
-    if math.random() < critRate then
-        return true
-    end
-    if mob:hasStatusEffect(tpz.effect.MIGHTY_STRIKES) then
-        return true
-    end
     if (params.ALWAYS_CRIT ~= nil) then
+        printf("Is Crit - ALWAYS_CRIT")
         return true
     end
+    if math.random() < critRate then
+        printf("Is Crit - RNG")
+        return true
+    end
+    return false
+end
+
+function isSneakAttack(mob, target)
+    if mob:hasStatusEffect(tpz.effect.SNEAK_ATTACK) and
+        (mob:isBehind(target) or mob:hasStatusEffect(tpz.effect.HIDE) or
+        target:hasStatusEffect(tpz.effect.DOUBT))
+    then
+        printf("Is Sneak Attack")
+        return true
+    end
+
+    return false
+end
+
+function isTrickAttack(mob, target)
+    local taChar = mob:getTrickAttackChar(target)
+    if mob:hasStatusEffect(tpz.effect.TRICK_ATTACK) and (taChar ~= nill) then
+        printf("Is Trick Attack")
+        return true
+    end
+
     return false
 end
 

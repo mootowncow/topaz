@@ -3,6 +3,7 @@ require("scripts/globals/items")
 require("scripts/globals/keyitems")
 require("scripts/globals/augments")
 require("scripts/globals/zone")
+require("scripts/globals/music")
 ------------------------------------
 --
 -- STATUSES AND MODS

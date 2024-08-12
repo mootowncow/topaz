@@ -868,12 +868,12 @@ void CMobEntity::OnRangedAttack(CRangeState& state, action_t& action)
     uint8 realHits = 0; // to store the real number of hit for tp multipler
     auto ammoConsumed = 0;
     bool hitOccured = false; // track if player hit mob at all
-    bool isBarrage = StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE, 0);
+    bool isBarrage = this->StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE, 0);
 
     // Calculate barrage
     if (isBarrage)
     {
-        uint8 lvl = this->GetMJob();
+        uint8 lvl = this->GetMLevel();
 
         if (lvl < 30)
             hitCount += 0;
@@ -887,7 +887,6 @@ void CMobEntity::OnRangedAttack(CRangeState& state, action_t& action)
             hitCount += 6;
         else if (lvl >= 99)
             hitCount += 7;
-
         // Add + Barrage gear mod
         hitCount += this->getMod(Mod::BARRAGE_SHOT_COUNT); 
     }

@@ -3743,7 +3743,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Rainemard',1035,40); -- Vorpal Blad
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Rainemard',1035,42); -- Savage Blade
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ingrid',1036,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lehko_Habhoka',1037,0);
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Nashmeira',1038,0);
+-- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Nashmeira',1038,3243); -- Imperial Authority TODO: FOr some reason this skill list doesn't work? 6136 works though and is only imperial authority
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zazarg',1039,7); -- Howling Fist
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zazarg',1039,8); -- Dragon Kick
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zazarg',1039,9); -- Asuran Fists
