@@ -21,11 +21,6 @@ local ChakraStatusEffects =
 }
 
 function onAbilityCheck(player, target, ability)
-    if player:hasStatusEffect(tpz.effect.BOOST) then
-        ability:setRecast(ability:getRecast() / 2)
-    end
-    -- needs to be run in C++ and not onAbilityCheck or it won't update in the game client or
-    -- need to add lua bindings for PChar->pushPacket(new CCharSkillsPacket(PChar)) and PChar->pushPacket(new CCharRecastPacket(PChar));
     return 0, 0
 end
 

@@ -1440,6 +1440,14 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         {
             action.recast /= 2;
         }
+        // Halve Chakra cooldown if the player has Boost
+        if (PAbility->getID() == ABILITY_CHAKRA)
+        {
+            if (this->StatusEffectContainer->HasStatusEffect(EFFECT_BOOST))
+            {
+                action.recast /= 2;
+            }
+        }
         // Sneak Attack merits also reduce the recast of BUlly
         if (PAbility->getID() == ABILITY_BULLY)
         {
@@ -1470,6 +1478,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 action.recast -= std::min<int16>(getMod(Mod::BP_DELAY_II), 15);
             }
         }
+        // TODO: DNC recast stuff
 
         // Remove invisible if aggressive and not specific BST JA's
         if (PAbility->getID() != ABILITY_TAME && PAbility->getID() != ABILITY_FIGHT)
