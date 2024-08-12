@@ -15,4 +15,5 @@ end
 
 function onEffectLose(target, effect)
     target:delMod(tpz.mod.ATTP, effect:getPower())
+    target:setCharVar("boost", 0)
 end

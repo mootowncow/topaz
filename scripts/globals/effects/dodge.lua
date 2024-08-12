@@ -12,6 +12,7 @@ function onEffectGain(target, effect)
     target:addMod(tpz.mod.EVA, effect:getPower() + jpLevel)
     target:addMod(tpz.mod.GUARD_PERCENT, 50 + jpLevel)
     target:addMod(tpz.mod.INQUARTATA, 15 + jpLevel)
+    target:addMod(tpz.mod.MEVA, effect:getSubPower())
 end
 
 function onEffectTick(target, effect)
@@ -23,4 +24,5 @@ function onEffectLose(target, effect)
     target:delMod(tpz.mod.EVA, effect:getPower() + jpLevel)
     target:delMod(tpz.mod.GUARD_PERCENT, 50 + jpLevel)
     target:delMod(tpz.mod.INQUARTATA, 15 + jpLevel)
+    target:delMod(tpz.mod.MEVA, effect:getSubPower())
 end

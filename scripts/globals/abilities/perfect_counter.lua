@@ -3,7 +3,7 @@
 -- Description: Allows you to counter the next attack directed at you.
 -- Obtained: MNK Level 79
 -- Recast Time: 00:01:00
--- Duration: 0:00:30
+-- Duration: 0:00:03
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -14,5 +14,9 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    player:addStatusEffect(tpz.effect.PERFECT_COUNTER, 2, 0, 30)
+    if player:isPC() then
+        player:addStatusEffect(tpz.effect.PERFECT_COUNTER, 2, 0, 3)
+    else
+        player:addStatusEffect(tpz.effect.PERFECT_COUNTER, 2, 0, 30)
+    end
 end

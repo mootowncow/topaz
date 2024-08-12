@@ -161,8 +161,9 @@ m_ShieldSize to battleentities (or mobs/trusts/pets?)
 ranged attack store TP mod
 Sphereoids should have insane evasion mobfamily mod
 Gates outside the wotg jeuno zones auto-open if you get near them on a mount
+Waltz CDR from gear needs to be run in C++ and not onAbilityCheck or it won't update in the game client or need to add  lua bindings for PChar->pushPacket(new CCharSkillsPacket(PChar)) and PChar->pushPacket(new CCharRecastPacket(PChar));
 Add not mob:hasPreventActionEffect() to qultada talking/using stuff and add using roles via mob:useJobAbility(roll, mob)
-Allow mobs to have shield skill and base their block rate on that like parry works
+Add "Pulling the strings" ENM but make duo and give all JSE items somehow
 noKiller to tpz.annm.SpawnChest and all its files its used in
 add m_instanceId member to char entity and when loading in or something set the player to that instance so they dont load into nowhere land
 Finish unity_leader stuff in charentity https://github.com/search?q=repo%3ALandSandBoat%2Fserver%20unity_leader&type=code
@@ -193,27 +194,31 @@ add music to every zone esp the sea zone without music in zone sql
 mobskills need DR
 no DR to raid mobs and  npcs
 Revamp JSE rings and earrings
-
 tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
 Fomor HNM's(Lugh etc)
+Finish Salvage, edit it so need to do all 3 to finish salvage gear again. NPCs in one of them.
 Add AOE weapon skills to every weapon and make them do good damage. Spinning Axe = AOE
 Content where mobs constantly spawn in waves over and over
 Add stats to Maat's cap
 Buff daken %?
+Buff coquest point items
+Dune Widow - > Diremite (make big like one from Abyssea Ule with same tarsal slam or w/e too). Buff spider torque.
+Buff low level ENM drops like test your mite / promy ones / monarch linn etc
 
 ~~~~~~~~~~~~~~~~~~~~Thief Revamp~~~~~~~~~~~~~~~~~~~~
 Despoil effects sql
 attack/mattack ALL DIFF TYPE OF UNIQUE ENFEEBLES , boon corrupt, etc down on every thief dagger OR items that add it to your weapon as a status effect? prob tons easier..like an enchantment (and make enhantments stack)
 itemID 9152 to 9192
-conspirator buffs scale with AGI
-TA stoneskin scale with CHR
-Accomplice / Collab grant SS + magic SS on thief equal to the amount of enmity taken
+conspirator buffs scale with AGI ?
 
 ~~~~~~~~~~~~~~~~~~~~Monk Revamp~~~~~~~~~~~~~~~~~~~~
 Counterstance doesn't give counter. instead on a succesful counter via perfect counter, reset the cooldown of perfect counter
 Perfect counter dura reduced to 3s.
-MNK no longer auto-attacks and has to combo JA's in a row, comboing the JA resets the cooldown of other JA's. Like boost > chi blast > footwork > impetus
-Chakra resets CD of perfect counter? Or absorbs all damage for 3s? or something
+
+~~~~~~~~~~~~~~~~~~~~Summoner Revamp~~~~~~~~~~~~~~~~~~~~
+Titan = tank
+??? = ranged dps(Shoots)
+Leviathan = healer
 
 ~~~~~~~~~~~~~~~~~~~~Daily / Weekly Tasks System?~~~~~~~~~~~~~~~~~~~~
 

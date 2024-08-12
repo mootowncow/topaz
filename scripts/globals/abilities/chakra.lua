@@ -4,6 +4,7 @@
 -- Obtained: Monk Level 35
 -- Recast Time: 3:00
 -- Duration: Instant
+-- Boost: Halves cooldown
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -20,6 +21,11 @@ local ChakraStatusEffects =
 }
 
 function onAbilityCheck(player, target, ability)
+    if player:hasStatusEffect(tpz.effect.BOOST) then
+        ability:setRecast(ability:getRecast() / 2)
+    end
+    -- needs to be run in C++ and not onAbilityCheck or it won't update in the game client or
+    -- need to add lua bindings for PChar->pushPacket(new CCharSkillsPacket(PChar)) and PChar->pushPacket(new CCharRecastPacket(PChar));
     return 0, 0
 end
 
@@ -66,6 +72,8 @@ function onUseAbility(player, target, ability)
         end
         player:addStatusEffect(tpz.effect.REGEN, 10, 0, merits, 0, 0, 1)
     end
+
+    player:delStatusEffectSilent(tpz.effect.BOOST)
 
     return recover
 end

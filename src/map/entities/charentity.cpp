@@ -1358,7 +1358,6 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
         }
         // Remove effects consumed if present
         StatusEffectContainer->DelStatusEffectSilent(EFFECT_SENGIKORI);
-        StatusEffectContainer->DelStatusEffectSilent(EFFECT_FOOTWORK);
         battleutils::ClaimMob(PBattleTarget, this);
 
         // Safety check to not get locked in cutscene status

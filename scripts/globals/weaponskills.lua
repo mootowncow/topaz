@@ -534,10 +534,8 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
 
     -- Handle Footwork 
 	if attacker:hasStatusEffect(tpz.effect.FOOTWORK) then
-        -- +30% Damage to Kick WS, removed in core after executing a WS
+        -- Non-kick WS deal half damage while Footwork is active
         if (wsID == tpz.weaponskill.DRAGON_KICK) or (wsID == tpz.weaponskill.TORNADO_KICK) then
-            finaldmg = math.floor(finaldmg * 1.3)
-        else -- Non-kick WS deal half damage while Footwork is active
 	        finaldmg = math.floor(finaldmg * 0.5)
 	    end
     end

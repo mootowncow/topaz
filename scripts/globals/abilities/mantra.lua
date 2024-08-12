@@ -4,8 +4,10 @@
 -- Obtainable: Monk Level 75
 -- Recast Time: 0:10:00
 -- Duration: 0:03:00
+-- Boost: Increases duration to 9 minutes.
 -----------------------------------
 require("scripts/globals/status")
+require("scripts/globals/magic")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
@@ -13,9 +15,18 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    player:delStatusEffectSilent(tpz.effect.MAX_HP_BOOST)
-
     local merits = player:getMerit(tpz.merit.MANTRA)
+    local duration = 180
 
-    target:addStatusEffect(tpz.effect.MAX_HP_BOOST, merits, 0, 180)
+    if player:isPC() then
+        if player:hasStatusEffect(tpz.effect.BOOST) then
+            duration = 540
+        end
+    end
+
+    if canOverwrite(target, tpz.effect.MAX_HP_BOOST, 25) then
+        player:delStatusEffectSilent(tpz.effect.MAX_HP_BOOST)
+        target:addStatusEffect(tpz.effect.MAX_HP_BOOST, merits, 0, 180)
+        player:delStatusEffectSilent(tpz.effect.BOOST)
+    end
 end

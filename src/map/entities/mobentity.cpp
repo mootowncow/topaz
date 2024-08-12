@@ -1319,7 +1319,6 @@ void CMobEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& actio
         }
         // Remove effects consumed if present
         StatusEffectContainer->DelStatusEffectSilent(EFFECT_SENGIKORI);
-        StatusEffectContainer->DelStatusEffectSilent(EFFECT_FOOTWORK);
         battleutils::ClaimMob(PBattleTarget, this);
 
     }

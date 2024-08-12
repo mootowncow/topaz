@@ -3,6 +3,7 @@
 -- Obtained: Monk Level 41
 -- Recast Time: 3:00
 -- Duration: Instant
+-- Boost: Doubles the duration of penance.
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -15,10 +16,12 @@ end
 function onUseAbility(player, target, ability)
     local boost = player:getStatusEffect(tpz.effect.BOOST)
     local multiplier = player:getCharVar("boost") -- Get boost variable from abilities/boost.lua
+    local penanceDurationMultiplier = 1
 	if multiplier == 0 then -- If buff isn't active, don't multiply by zero!
 		multiplier = 1
 	end
-    if boost ~= nil then
+    if (boost ~= nil) then
+        penanceDurationMultiplier = 2
         multiplier = multiplier * ( (boost:getPower()/100) * 4 + 1)  -- power is the raw % atk boost. Get boost damage bonus
     end
 
@@ -26,9 +29,9 @@ function onUseAbility(player, target, ability)
     
     local penance = player:getMerit(tpz.merit.PENANCE)
     
-    if penance > 0 then
+    if (penance > 0) then
         target:delStatusEffectSilent(tpz.effect.INHIBIT_TP)
-        target:addStatusEffect(tpz.effect.INHIBIT_TP,25,3,penance)
+        target:addStatusEffect(tpz.effect.INHIBIT_TP,25,3,penance * penanceDurationMultiplier)
     end
 
     local attackType = tpz.attackType.BREATH
