@@ -3464,11 +3464,14 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
 end
 
 function AddDimishingReturns(caster, target, spell, effect)
+    -- No DR building on players or NPC's friendly to players
+    if target:isPC() or (target:getAllegiance() == tpz.allegiance.PLAYER) then
+        return
+    end
+
     -- No DR building if NO_DR mobmod is on the target
-    if not target:isPC() then
-        if (target:getMobMod(tpz.mobMod.NO_DR) > 0) then
-            return
-        end
+    if (target:getMobMod(tpz.mobMod.NO_DR) > 0) then
+        return
     end
 
     -- Only build dimishing returns on NMs
@@ -3484,20 +3487,18 @@ function AddDimishingReturns(caster, target, spell, effect)
         tpz.effect.PETRIFICATION
     }
 
-    if not target:isPC() then
-        if target:isNM() then
-            for _, currentEffect in pairs(effectTable) do
-                if (effect == currentEffect) then
+    if target:isNM() then
+        for _, currentEffect in pairs(effectTable) do
+            if (effect == currentEffect) then
 
-                    -- Both forms of sleep should share a DR
-                    if (currentEffect == tpz.effect.SLEEP_I or currentEffect == tpz.effect.SLEEP_II) then
-                        effect = tpz.effect.SLEEP_I
-                    end
+                -- Both forms of sleep should share a DR
+                if (currentEffect == tpz.effect.SLEEP_I or currentEffect == tpz.effect.SLEEP_II) then
+                    effect = tpz.effect.SLEEP_I
+                end
 
-                    if target:getLocalVar("enfeebleDR" .. effect) < 100 then
-                        target:setLocalVar("enfeebleDR" .. effect, target:getLocalVar("enfeebleDR" .. effect) + 10)
-                        break
-                    end
+                if target:getLocalVar("enfeebleDR" .. effect) < 100 then
+                    target:setLocalVar("enfeebleDR" .. effect, target:getLocalVar("enfeebleDR" .. effect) + 10)
+                    break
                 end
             end
         end

@@ -1127,6 +1127,7 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isG
 
             -- Reduce duration by resist percentage
             local totalDuration = duration * resist
+            duration = CheckDiminishingReturns(mob, target, typeEffect, duration)
 
             -- add TP scaling
             local tp = mob:getLocalVar("tp")
@@ -1139,6 +1140,7 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isG
                 return tpz.msg.basic.SKILL_MISS
             end
 
+            AddDimishingReturns(mob, target, nil, typeEffect)
             target:addStatusEffect(typeEffect, power, tick, totalDuration)
 
             return tpz.msg.basic.SKILL_ENFEEB_IS
