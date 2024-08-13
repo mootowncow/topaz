@@ -173,7 +173,10 @@ ZNM taking item on death works properly on mobs with names with two words
 spell cooldown timer added to mob casting (Does mob_spell_container exist?)
 Ability to set attributes (m_dex? or w/e) instead of adding it as a mod to mobs/players. same with acc/attk/def/racc/rattk
 Lyft weapon revamp (MAB for gun)
+Add fencer crit rate and TP bonus to allegance == TYPE_PLAYER (crit rate is  in battleutils uint8 GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack))
+Change all charutils::hasTrait() to PEntity->hasTrait()
 Add luautils::OnAdditionalEffectRanged(PAttacker, PDefender, weapon, Action, finaldamage) to CMobEntity::OnRangedAttack
+add setMerits() and getMerits() for allegiance == TYPE_PLAYER
 Wild Rage said "999 shadows absorbed" with blink up?
 Buff Musanto / Katana from ANNM(Enmity +3 Evasion +7?)
 Don't save : in item names for item_Basic.sql (FFXI item editor)
@@ -205,6 +208,8 @@ Buff daken %?
 Buff coquest point items
 Dune Widow - > Diremite (make big like one from Abyssea Ule with same tarsal slam or w/e too). Buff spider torque.
 Buff low level ENM drops like test your mite / promy ones / monarch linn etc
+Merit camps with 4 NPCs like an old merit pt
+XP camps with trusts 1-75 for leveling like an old xp pt
 
 ~~~~~~~~~~~~~~~~~~~~Thief Revamp~~~~~~~~~~~~~~~~~~~~
 Despoil effects sql

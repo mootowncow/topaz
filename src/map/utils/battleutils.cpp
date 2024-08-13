@@ -108,7 +108,7 @@ namespace battleutils
     *                                                                       *
     ************************************************************************/
 
-    const float worldAngleMinDistance = 0.0f;
+    const float worldAngleMinDistance = 5.0f;
     const uint8 worldAngleMaxDeviance = 10;
 
     void LoadSkillTable()
@@ -3536,19 +3536,21 @@ int16 GetSDTTier(int16 SDT)
             PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIGHTY_STRIKES)) {
             return 100;
         }
-        else if (PAttacker->objtype == TYPE_PC && (!ignoreSneakTrickAttack) && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK))
+        else if ((!ignoreSneakTrickAttack) && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK))
         {
             if (behind(PAttacker->loc.p, PDefender->loc.p, 64) || PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE) ||
                 PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT))
             {
-                crithitrate = 100;
+                return 100;
             }
         }
-        else if (PAttacker->objtype == TYPE_PC && PAttacker->GetMJob() == JOB_THF && charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_ASSASSIN) && (!ignoreSneakTrickAttack) &&
-            PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK))
+        else if (PAttacker->GetMJob() == JOB_THF && PAttacker->hasTrait(TRAIT_ASSASSIN) && (!ignoreSneakTrickAttack) && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK))
         {
             CBattleEntity* taChar = battleutils::getAvailableTrickAttackChar(PAttacker, PDefender);
-            if (taChar != nullptr) crithitrate = 100;
+            if (taChar != nullptr)
+            {
+                return 100;
+            }
         }
         else
         {
@@ -5108,6 +5110,7 @@ int16 GetSDTTier(int16 SDT)
     CBattleEntity* getAvailableTrickAttackChar(CBattleEntity* taUser, CBattleEntity* PMob)
     {
         TracyZoneScoped;
+
         if (!taUser->StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK))
         {
             return nullptr;
@@ -5116,63 +5119,73 @@ int16 GetSDTTier(int16 SDT)
         // Angle and distance between mob and TA user
         uint8 angleTAmob = worldAngle(PMob->loc.p, taUser->loc.p);
         auto distTAmob = distance(taUser->loc.p, PMob->loc.p);
-        std::vector<std::pair<float, CBattleEntity*>> taTargetList;
 
-        // Lambda function to add an entity to the entityList if it's within a reasonable distance and has allegiance ALLEGIANCE_PLAYER
+        std::vector<std::pair<float, CBattleEntity*>> taTargetList;
         std::vector<CBattleEntity*> entityList;
-        auto addEntityIfNearby = [&entityList, &PMob](CBaseEntity* PEntity)
+
+        auto addEntityIfNearby = [&entityList, &taUser](CBaseEntity* PEntity)
         {
-            if ((PEntity->objtype == TYPE_PC || PEntity->objtype == TYPE_MOB || PEntity->objtype == TYPE_TRUST) &&
-                distance(PEntity->loc.p, PMob->loc.p) <= worldAngleMinDistance)
+            auto* battleEntity = dynamic_cast<CBattleEntity*>(PEntity);
+            if (battleEntity)
             {
-                auto* battleEntity = dynamic_cast<CBattleEntity*>(PEntity);
-                if (battleEntity && battleEntity->allegiance == ALLEGIANCE_PLAYER)
+                float entityDistance = distance(PEntity->loc.p, taUser->loc.p);
+                if ((PEntity->objtype == TYPE_PC || PEntity->objtype == TYPE_MOB || PEntity->objtype == TYPE_TRUST) &&
+                    entityDistance <= worldAngleMinDistance + static_cast<float>(battleEntity->m_ModelSize) && battleEntity->allegiance == ALLEGIANCE_PLAYER &&
+                    battleEntity->GetName() != taUser->GetName())
                 {
                     entityList.emplace_back(battleEntity);
                 }
             }
         };
 
-        // Iterate over all characters
-        zoneutils::GetZone(taUser->getZone())->ForEachChar([&addEntityIfNearby](CCharEntity* PChar) { addEntityIfNearby(PChar); });
+        auto zone = zoneutils::GetZone(taUser->getZone());
+        if (!zone)
+        {
+            return nullptr;
+        }
 
-        // Iterate over all mobs
-        zoneutils::GetZone(taUser->getZone())->ForEachMob([&addEntityIfNearby](CMobEntity* PMob) { addEntityIfNearby(PMob); });
+        zone->ForEachChar(
+            [&addEntityIfNearby](CCharEntity* PChar)
+            {
+                addEntityIfNearby(PChar);
+            });
 
-        // Iterate over all trusts
-        zoneutils::GetZone(taUser->getZone())->ForEachTrust([&addEntityIfNearby](CTrustEntity* PTrust) { addEntityIfNearby(PTrust); });
+        zone->ForEachMob([&addEntityIfNearby](CMobEntity* PMob) { addEntityIfNearby(PMob); });
 
-        // Now that entityList is populated, iterate over it to find a valid Trick Attack target
+        zone->ForEachTrust([&addEntityIfNearby](CTrustEntity* PTrust) { addEntityIfNearby(PTrust); });
+
+        // Iterate over entityList to find a valid Trick Attack target
         for (auto&& entity : entityList)
         {
-            float distTAtarget = distance(entity->loc.p, PMob->loc.p);
-            // Require closer target not be closer than .5 yalms (.5*.5=.25 distsquared) to mob
-            if (distTAtarget >= worldAngleMinDistance && distTAtarget < distTAmob)
+            float distTAtarget = distance(entity->loc.p, taUser->loc.p);
+
+            if (distTAtarget >= 0.0f && distTAtarget <= worldAngleMinDistance + static_cast<float>(entity->m_ModelSize) && distTAtarget < distTAmob)
             {
                 taTargetList.emplace_back(distTAtarget, entity);
             }
         }
 
+
+
         if (!taTargetList.empty())
         {
-            // Sorts by distance then by pointer id (only if floats are equal)
             std::sort(taTargetList.begin(), taTargetList.end());
-            for (auto const& [dist, potentialTAtarget] : taTargetList)
+            for (const auto& [dist, potentialTAtarget] : taTargetList)
             {
-                if (taUser->id == potentialTAtarget->id || // Can't TA self
-                    potentialTAtarget->isDead())           // Dead entity should not be TA-able
+                if (taUser->id == potentialTAtarget->id || potentialTAtarget->isDead())
                 {
                     continue;
                 }
 
                 if (areInLine(angleTAmob, PMob, potentialTAtarget))
                 {
+                    //printf("Debug: Trick attack entity selected: %s.\n", potentialTAtarget->GetName());
                     return potentialTAtarget;
                 }
             }
         }
 
-        // No Trick Attack party member available
+        //printf("Debug: No valid TA target found.\n");
         return nullptr;
     }
 
