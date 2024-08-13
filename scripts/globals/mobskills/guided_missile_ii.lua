@@ -14,6 +14,11 @@ require("scripts/globals/monstertpmoves")
 ---------------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
+    -- Only uses Laser Shower and Colossal Blow the final phase
+    local currentForm = mob:getLocalVar("form") -- this var is only set for proto-omega
+    if (currentForm == 2) and mob:AnimationSub() == 2 then
+        return 1
+    end
     if mob:AnimationSub() == 2 then
         return 0
     end

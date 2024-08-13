@@ -26,8 +26,8 @@ require("scripts/globals/weaponskillids")
 -- TODO: Add logic for tracking player "contribution" and then only having a formula for addCapacityPoints() in onMobDeath based on contribution amount
 -- TODO: Are bosses absorbing damage from very low mob hits? (Below 0)
 -- TODO: Ark Angel MR (and all mob (not npcs) pets?) don't get confrontation on spawn, might need to add to SpawnMobPet() like players have it
--- TODO: params.ALWAYS_CRIT on true strike and other crit moves (isCrit()
--- TODO: getAvailableTrickAttackChar to work for mob entities not in a party
+-- TODO: SubId on confrontation too big of a number for its data type?
+-- TODO: Don't run movement if casting/using ranged (CanMove() function?)
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -189,6 +189,7 @@ local modByMobName =
 
     ['Omega'] = function(mob)
         mob:addMod(tpz.mod.MDEF, 68)
+        mob:setMod(tpz.mod.REGEN, 25)
 	    mob:setMod(tpz.mod.DOUBLE_ATTACK, 0)
 	    mob:setMod(tpz.mod.COUNTER, 25)
         mob:setMod(tpz.mod.UDMGPHYS, -90)
@@ -198,6 +199,12 @@ local modByMobName =
         mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
         mob:setLocalVar("form", 0)
+    end,
+
+    ['Gunpod'] = function(mob)
+    	mob:setDamage(200)
+        mob:setMod(tpz.mod.TRIPLE_ATTACK, 5)
+        mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     end,
 
     ['Bahamut'] = function(mob)
@@ -252,6 +259,14 @@ local modByMobName =
         mob:setLocalVar("pet", mob:getID() + math.random(1, 2))
     end,
 
+    ['Ark_Angels_Tiger'] = function(mob)
+        mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+    end,
+
+    ['Ark_Angels_Mandragora'] = function(mob)
+        mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+    end,
+
     ['Ark_Angel_EV'] = function(mob)
         mob:addMod(tpz.mod.MDEF, 24)
     end,
@@ -263,6 +278,10 @@ local modByMobName =
     ['Ark_Angel_GK'] = function(mob)
         mob:addMod(tpz.mod.MDEF, 24)
     end,
+
+    ['Ark_Angels_Wyvern'] = function(mob)
+        mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+    end,
 }
 
 local mixinByMobName =
@@ -272,11 +291,17 @@ local mixinByMobName =
 
 local mobFightByMobName =
 {
+    ['Promathia'] = function(mob, target)
+        SetBattleMusicOnFight(mob, tpz.music.track.A_REALM_OF_EMPTINESS)
+    end,
+
     ['Omega'] = function(mob, target)
+        -- Summons unlimited Gunpods
         local mobID = mob:getID()
         local formTime = mob:getLocalVar("formWait")
         local lifePercent = mob:getHPP()
         local currentForm = mob:getLocalVar("form")
+        local forcedPod = mob:getLocalVar("forcedPod")
         local AnimationSub = mob:AnimationSub()
 
         SetBattleMusicOnFight(mob, tpz.music.track.FINAL_THEME)
@@ -303,13 +328,24 @@ local mobFightByMobName =
             formTime = os.time()
         end
 
+        -- Force a pod if Pod Ejection was interrupted
+        if (forcedPod > 0) then
+            if not IsMobBusy(mob) then
+                mob:setLocalVar("forcedPod", 0)
+                mob:useMobAbility(tpz.mob.skills.POD_EJECTION)
+            end
+        end
+
         if currentForm > 0 then
             if currentForm == 1 then
                 if formTime < os.time() then
                     if mob:AnimationSub() == 1 then
                         mob:AnimationSub(2)
                         mob:setBehaviour(bit.band(mob:getBehaviour(), bit.bnot(tpz.behavior.NO_TURN)))
-                     else
+                        if not GetMobByID(mobID +1):isSpawned() then
+                            mob:useMobAbility(tpz.mob.skills.POD_EJECTION)
+                        end 
+                    else
                         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
                         mob:AnimationSub(1)
                     end
@@ -317,6 +353,9 @@ local mobFightByMobName =
                 end
             elseif currentForm == 2 then
                 if formTime < os.time() then
+                    if not GetMobByID(mobID +1):isSpawned() then
+                        mob:useMobAbility(tpz.mob.skills.POD_EJECTION)
+                    end 
                 mob:setLocalVar("formWait", os.time() + 60)
                 end
             end
@@ -334,6 +373,18 @@ local mobFightByMobName =
                 mob:setLocalVar("form", currentForm)
             end
         end
+
+        mob:addListener("WEAPONSKILL_STATE_INTERRUPTED", "OMEGA_WS_INTERRUPTED", function(mob, skill)
+            if (skill == tpz.mob.skills.POD_EJECTION) then
+                if not GetMobByID(mobID +1):isSpawned() then
+                    mob:setLocalVar("forcedPod", 1)
+                end
+            end
+        end)
+    end,
+
+    ['Gunpod'] = function(mob, target)
+        SetBattleMusicOnFight(mob, tpz.music.track.FINAL_THEME)
     end,
 
     ['Bahamut'] = function(mob, target)
@@ -742,6 +793,8 @@ tpz.raid.onMobSpawn = function(mob)
     mob:addMod(tpz.mod.REGEN, 150)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
     mob:setMobMod(tpz.mobMod.NO_DR, 1)
+    mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
 
     local mobName = mob:getName()
     local mods = modByMobName[mobName]
@@ -778,12 +831,15 @@ tpz.raid.onMobDespawn = function(mob)
 end
 
 tpz.raid.onMobDeath = function(mob, player, isKiller, noKiller)
+    local givenCP = 0
     local NearbyEntities = mob:getNearbyEntities(50)
     if NearbyEntities == nil then return end
-
     for _, entity in pairs(NearbyEntities) do
         for i = 1, 10 do
-            entity:addCapacityPoints(30000)
+            if (entity:getLocalVar("givenCP") < 10) then
+                entity:addCapacityPoints(30000)
+                entity:setLocalVar("givenCP", givenCP +1)
+            end
         end
     end
 
@@ -2022,10 +2078,10 @@ function UpdateHealerAI(mob, target)
 
     -- Debuff
     local debuffSpells = {
-        { Id = tpz.magic.spell.PARALYZE_II,    Effect = tpz.effect.PARALYSIS,   Job = tpz.job.RDM   },
-        { Id = tpz.magic.spell.SLOW_II,        Effect = tpz.effect.SLOW,        Job = tpz.job.RDM   },
-        { Id = tpz.magic.spell.BLIND_II,       Effect = tpz.effect.BLINDNESS,   Job = tpz.job.RDM   },
-        { Id = tpz.magic.spell.DIA_III,        Effect = tpz.effect.DIA,         Job = tpz.job.RDM   },
+        { Id = tpz.magic.spell.PARALYZE_II,    Effect = tpz.effect.PARALYSIS,   EEM = tpz.mod.EEM_PARALYZE,   Job = tpz.job.RDM   },
+        { Id = tpz.magic.spell.SLOW_II,        Effect = tpz.effect.SLOW,        EEM = tpz.mod.EEM_SLOW,       Job = tpz.job.RDM   },
+        { Id = tpz.magic.spell.BLIND_II,       Effect = tpz.effect.BLINDNESS,   EEM = tpz.mod.EEM_BLIND,      Job = tpz.job.RDM   },
+        { Id = tpz.magic.spell.DIA_III,        Effect = tpz.effect.DIA,         EEM = tpz.mod.EEM_PARALYZE,   Job = tpz.job.RDM   },
     }
 
     
@@ -2048,8 +2104,13 @@ function UpdateHealerAI(mob, target)
                         end
                     end
 
-                    -- Cast the spell only if the target does not have immunity
-                    if not hasImmunity then
+                    local highEEM = false
+                    if (target:getMod(enfeeble.EEM) <= 20) then
+                        highEEM = true
+                    end
+
+                    -- Cast the spell only if the target does not have immunity or high EEM to that element
+                    if not hasImmunity and not highEEM then
                         mob:castSpell(enfeeble.Id, target)
                         mob:setLocalVar("debuffTimer", os.time() + 10)
                         break
@@ -2062,9 +2123,11 @@ function UpdateHealerAI(mob, target)
     if (os.time() >= debuffTimer) then
         if (job == tpz.job.RDM) then
             if HasDispellableEffect(target) then
-                mob:castSpell(tpz.magic.spell.DISPEL, target)
-                mob:setLocalVar("debuffTimer", os.time() + 10)
-                return
+                if CanLandEnfeeble(target) then
+                    mob:castSpell(tpz.magic.spell.DISPEL, target)
+                    mob:setLocalVar("debuffTimer", os.time() + 10)
+                    return
+                end
             end
         end
     end
@@ -2664,6 +2727,10 @@ function ShouldStandBack(mob)
         return true
     end
 
+    if (mobName == 'Febrenard_C_Brunnaut') then
+        return false
+    end
+
     if IsMihliAliapoh(mob) then
         return false
     end
@@ -2758,6 +2825,14 @@ function HasDispellableEffect(target)
         if (utils.mask.getBit(effect:getFlag(), 0)) then
             return true
         end
+    end
+
+    return false
+end
+
+function CanLandEnfeeble(target)
+    if (target:getMod(tpz.mod.SDT_DARK) > 20) and (target:getMod(tpz.mod.DISPELRESTRAIT) < 40) then
+        return true
     end
 
     return false

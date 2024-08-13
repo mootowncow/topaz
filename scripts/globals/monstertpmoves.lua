@@ -1876,11 +1876,9 @@ end
 
 function isCrit(mob, critRate, params)
     if (params.ALWAYS_CRIT ~= nil) then
-        printf("Is Crit - ALWAYS_CRIT")
         return true
     end
     if math.random() < critRate then
-        printf("Is Crit - RNG")
         return true
     end
     return false
@@ -1891,7 +1889,6 @@ function isSneakAttack(mob, target)
         (mob:isBehind(target) or mob:hasStatusEffect(tpz.effect.HIDE) or
         target:hasStatusEffect(tpz.effect.DOUBT))
     then
-        printf("Is Sneak Attack")
         return true
     end
 
@@ -1901,7 +1898,6 @@ end
 function isTrickAttack(mob, target)
     local taChar = mob:getTrickAttackChar(target)
     if mob:hasStatusEffect(tpz.effect.TRICK_ATTACK) and (taChar ~= nill) then
-        printf("Is Trick Attack")
         return true
     end
 

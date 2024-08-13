@@ -2574,6 +2574,51 @@ int16 GetSDTTier(int16 SDT)
         return false;
     }
 
+    /************************************************************************
+    *                                                                       *
+    *   Get shield block amount base (Mobs / Pets only!)                    *
+    *                                                                       *
+    ************************************************************************/
+    uint8 getShieldBlockAmount(CBattleEntity* PEntity)
+    {
+        uint8 shieldSize = SHIELDSIZE_KITE;
+        int32 blockAmountBase = 0;
+
+        if (PEntity && PEntity->objtype == TYPE_MOB)
+        {
+            ((CMobEntity*)PEntity)->getMobMod(MOBMOD_BLOCK);
+        }
+
+        if (PEntity && PEntity->objtype == TYPE_PET)
+        {
+            ((CPetEntity*)PEntity)->getMobMod(MOBMOD_BLOCK);
+        }
+        switch (shieldSize)
+        {
+            case SHIELDSIZE_BUCKER:
+                blockAmountBase = 20;
+                break;
+            case SHIELDSIZE_ROUND:
+                blockAmountBase = 40;
+                break;
+            case SHIELDSIZE_KITE:
+                blockAmountBase = 50;
+                break;
+            case SHIELDSIZE_TOWER:
+                blockAmountBase = 65;
+                break;
+            case SHIELDSIZE_AEGIS:
+                blockAmountBase = 75;
+                break;
+            case SHIELDSIZE_OCHAIN:
+                blockAmountBase = 60;
+                break;
+            default:
+                return 0;
+        }
+        return blockAmountBase;
+    }
+
     /***********************************************************************
             Calculates the block rate of the defender
     Incorporates testing and data from:
@@ -2944,7 +2989,8 @@ int16 GetSDTTier(int16 SDT)
                     }
                     else if (PDefender->objtype == TYPE_PET)
                     {
-                        absorb = 50;
+                        absorb = battleutils::getShieldBlockAmount(PDefender);
+                        absorb -= PDefender->getMod(Mod::SHIELD_DEF_BONUS); // Include Shield Defense Bonus in absorb amount
 
                         //Shield Mastery
                         if ((std::max(damage - (PDefender->getMod(Mod::PHALANX) + PDefender->getMod(Mod::STONESKIN)), 0) > 0) &&
@@ -2957,12 +3003,8 @@ int16 GetSDTTier(int16 SDT)
                     }
                     else if (PDefender->objtype == TYPE_MOB && ((CMobEntity*)PDefender)->getMobMod(MOBMOD_BLOCK) > 0)
                     {
-                        absorb = 50;
-                        int32 shieldDefBonus = PDefender->getMod(Mod::SHIELD_DEF_BONUS);
-
-                        shieldDefBonus = std::clamp((int32)shieldDefBonus, 0, 50);
-
-                        absorb -= shieldDefBonus; // Include Shield Defense Bonus in absorb amount
+                        absorb = battleutils::getShieldBlockAmount(PDefender);
+                        absorb -= PDefender->getMod(Mod::SHIELD_DEF_BONUS); // Include Shield Defense Bonus in absorb amount
 
                         // Shield Mastery
                         if ((std::max(damage - (PDefender->getMod(Mod::PHALANX) + PDefender->getMod(Mod::STONESKIN)), 0) > 0) &&
@@ -2977,7 +3019,7 @@ int16 GetSDTTier(int16 SDT)
                     {
                         absorb = 50;
                     }
-
+                    //printf("Shield block precentage: %u\n", absorb);
                     //Reprisal
                     if ((damage > 0) && PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_REPRISAL))
                     {

@@ -15,11 +15,18 @@ function onMobSkillCheck(target, mob, skill)
     local mobhp = mob:getHPP()
 	if mob:getPool() == 2973 then
 		if mobhp > 25 then
-			return 0
+            if mob:AnimationSub() == 2 then
+			    return 0
+            end
 		else
 			return 1
 		end
 	end
+    -- Only uses Laser Shower and Colossal Blow the final phase
+    local currentForm = mob:getLocalVar("form") -- this var is only set for proto-omega
+    if (currentForm == 2) and mob:AnimationSub() == 2 then
+        return 1
+    end
     if (mob:AnimationSub() <= 1) then -- omega four leg form
         return 0
     end

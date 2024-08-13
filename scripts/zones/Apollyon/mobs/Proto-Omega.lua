@@ -5,6 +5,7 @@
 require("scripts/globals/titles")
 require("scripts/globals/mobs")
 local ID = require("scripts/zones/Apollyon/IDs")
+-----------------------------------
 
 function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
@@ -39,103 +40,14 @@ function onMobEngaged(mob, target)
 end
 
 function onMobFight(mob, target)
+    -- Only summons 6 Gunpods max
     local mobID = mob:getID()
     local formTime = mob:getLocalVar("formWait")
     local lifePercent = mob:getHPP()
     local currentForm = mob:getLocalVar("form")
     local Gunpod = mob:getLocalVar("Gunpod")
+    local forcedPod = mob:getLocalVar("forcedPod")
     local AnimationSub = mob:AnimationSub()
-
-    local First = mob:getLocalVar("First")
-    local Second = mob:getLocalVar("Second")
-    local Third = mob:getLocalVar("Third")
-    local Fourth = mob:getLocalVar("Fourth")
-    local Fifth = mob:getLocalVar("Fifth")
-    local Sixth = mob:getLocalVar("Sixth")
-    local Seventh = mob:getLocalVar("Seventh")
-    local Eighth = mob:getLocalVar("Eighth")
-    local Ninth = mob:getLocalVar("Ninth")
-    local Tenth = mob:getLocalVar("Tenth")
-    local Eleventh = mob:getLocalVar("Eleventh")
-    local Twelth = mob:getLocalVar("Twelth")
-    local Thirteenth = mob:getLocalVar("Thirteenth")
-    local Fourteenth = mob:getLocalVar("Fourteenth")
-    local Fifteenth = mob:getLocalVar("Fifteenth")
-    
-    if First ~= 0 then
-        mob:useMobAbility(1525) -- dustvoid
-        mob:setLocalVar("First", 0)
-    end
-
-    if Second ~= 0 then
-        mob:useMobAbility(1526) -- slaverous_gale
-        mob:setLocalVar("Second", 0)
-    end
-
-    if Third ~= 0 then
-        mob:useMobAbility(1527) -- aeolian_void
-        mob:setLocalVar("Third", 0)
-    end
-
-    if Fourth ~= 0 then
-        mob:useMobAbility(1528) -- extreme_purgation
-        mob:setLocalVar("Fourth", 0)
-    end
-
-    if Fifth ~= 0 then
-        mob:useMobAbility(1529) -- doomvoid
-        mob:setLocalVar("Fifth", 0)
-    end
-
-    if Sixth ~= 0 then
-        mob:useMobAbility(1530) -- desiccation
-        mob:setLocalVar("Sixth", 0)
-    end
-
-    if Seventh ~= 0 then
-        mob:useMobAbility(1533) -- desiccation
-        mob:setLocalVar("Seventh", 0)
-    end
-
-    if Eighth ~= 0 then
-        mob:useMobAbility(1534) -- desiccation
-        mob:setLocalVar("Eighth", 0)
-    end
-
-    if Ninth ~= 0 then
-        mob:useMobAbility(1536) -- desiccation
-        mob:setLocalVar("Ninth", 0)
-    end
-
-    if Tenth ~= 0 then
-        mob:useMobAbility(1538) -- desiccation
-        mob:setLocalVar("Tenth", 0)
-    end
-
-    if Eleventh ~= 0 then
-        mob:useMobAbility(1539) -- desiccation
-        mob:setLocalVar("Eleventh", 0)
-    end
-
-    if Twelth ~= 0 then
-        mob:useMobAbility(1521) -- desiccation
-        mob:setLocalVar("Twelth", 0)
-    end
-
-    if Thirteenth ~= 0 then
-        mob:useMobAbility(1522) -- desiccation
-        mob:setLocalVar("Thirteenth", 0)
-    end
-
-    if Fourteenth ~= 0 then
-        mob:useMobAbility(1523) -- desiccation
-        mob:setLocalVar("Fourteenth", 0)
-    end
-
-    if Fifteenth ~= 0 then
-        mob:useMobAbility(1540) -- desiccation
-        mob:setLocalVar("Fifteenth", 0)
-    end
 
     if lifePercent > 30 then
         if AnimationSub == 1 then
@@ -159,6 +71,14 @@ function onMobFight(mob, target)
         formTime = os.time()
     end
 
+        -- Force a pod if Pod Ejection was interrupted
+        if (forcedPod > 0) then
+            if not IsMobBusy(mob) then
+                mob:setLocalVar("forcedPod", 0)
+                mob:useMobAbility(tpz.mob.skills.POD_EJECTION)
+            end
+        end
+
     if currentForm > 0 then
         if currentForm == 1 then
             if formTime < os.time() then
@@ -169,7 +89,7 @@ function onMobFight(mob, target)
                         if Gunpod < 6 then
                             Gunpod = Gunpod +1
                             mob:setLocalVar("Gunpod", Gunpod)
-                            mob:useMobAbility(1532)
+                            mob:useMobAbility(tpz.mob.skills.POD_EJECTION)
                         end
                     end 
                 else
@@ -184,7 +104,7 @@ function onMobFight(mob, target)
                     if Gunpod < 6 then
                         Gunpod = Gunpod +1
                         mob:setLocalVar("Gunpod", Gunpod)
-                        mob:useMobAbility(1532)
+                        mob:useMobAbility(tpz.mob.skills.POD_EJECTION)
                     end
                 end 
             mob:setLocalVar("formWait", os.time() + 60)
@@ -204,6 +124,14 @@ function onMobFight(mob, target)
             mob:setLocalVar("form", currentForm)
         end
     end
+
+        mob:addListener("WEAPONSKILL_STATE_INTERRUPTED", "OMEGA_WS_INTERRUPTED", function(mob, skill)
+            if (skill == tpz.mob.skills.POD_EJECTION) then
+                if not GetMobByID(mobID +1):isSpawned() then
+                    mob:setLocalVar("forcedPod", 1)
+                end
+            end
+        end)
 end
 
 function onAdditionalEffect(mob, target, damage)

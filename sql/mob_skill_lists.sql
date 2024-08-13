@@ -2796,9 +2796,13 @@ INSERT INTO `mob_skill_lists` VALUES ('Ob_Valoredge',1200,2299); -- bone_crusher
 INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,1942); -- arcuballista
 INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,2066); -- daze
 INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,2300); -- armor_piercer
-
-
 INSERT INTO `mob_skill_lists` VALUES ('Capricornus-MS',1202,641); -- Recoil Dive Only
+INSERT INTO `mob_skill_lists` VALUES ('Febrenard_C_Brunnaut',1203,36); -- Shining Blade
+INSERT INTO `mob_skill_lists` VALUES ('Febrenard_C_Brunnaut',1203,37); -- Seraph Blade
+INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,38); -- Circle Blade
+INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,40); -- Vorpal Blade
+INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,41); -- Swift Blade
+INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,2278); -- Glory Slash
 
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
@@ -4898,6 +4902,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,169); -- black_hal
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,250); -- carnal_nightmare
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,252); -- dancing_chains
 
--- Next available ID: 1203
+-- Next available ID: 1205
 -- Next custom ID: 6153
 

@@ -15828,7 +15828,7 @@ inline int32 CLuaBaseEntity::getBlockedDamage(lua_State* L)
     if (PDefender && PDefender->objtype == TYPE_MOB && ((CMobEntity*)PDefender)->getMobMod(MOBMOD_BLOCK) > 0 ||
         PDefender && PDefender->objtype == TYPE_MOB && ((CMobEntity*)PDefender)->getMod(Mod::SHIELDBLOCKRATE) > 0)
     {
-    uint8 absorb = 50;
+    uint8 absorb = battleutils::getShieldBlockAmount(PDefender);
     int32 shieldDefBonus = PDefender->getMod(Mod::SHIELD_DEF_BONUS);
 
     shieldDefBonus = std::clamp((int32)shieldDefBonus, 0, 50);
@@ -15850,7 +15850,7 @@ inline int32 CLuaBaseEntity::getBlockedDamage(lua_State* L)
     // Pet
     if (PDefender && PDefender->objtype == TYPE_PET && ((CPetEntity*)PDefender)->getMobMod(MOBMOD_BLOCK) > 0)
     {
-    uint8 absorb = 50;
+    uint8 absorb = battleutils::getShieldBlockAmount(PDefender);
     int32 shieldDefBonus = PDefender->getMod(Mod::SHIELD_DEF_BONUS);
 
     shieldDefBonus = std::clamp((int32)shieldDefBonus, 0, 50);
@@ -16457,6 +16457,11 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
         if (!PTarget)
         {
             //printf("PTarget is null before queuing action\n");
+            return 0;
+        }
+
+        if (PMob->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA))
+        {
             return 0;
         }
 

@@ -22,8 +22,14 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.MAGIC_SHIELD
+    local duration = 0
 
-    mob:addStatusEffect(tpz.effect.MAGIC_SHIELD, 0, 0, 0)
+    local zoneId = mob:getZoneID()
+    if (zoneId == tpz.zone.BIBIKI_BAY) then
+        duration = 60
+    end
+
+    mob:addStatusEffect(tpz.effect.MAGIC_SHIELD, 0, 0, duration)
     mob:AnimationSub(2)
 
     skill:setMsg(tpz.msg.basic.SKILL_GAIN_EFFECT)

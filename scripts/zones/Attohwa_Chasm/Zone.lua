@@ -58,7 +58,10 @@ end
 function afterZoneIn(player)
     local day = VanadielDayOfTheWeek()
     if (day == tpz.day.EARTHSDAY) then
-        for v = 16806397, 16806404 do
+        if not GetMobByID(16806397):isSpawned() then
+            GetMobByID(16806397):spawn()
+        end
+        for v = 16806399, 16806404 do
             if not GetMobByID(v):isSpawned() then
                 GetMobByID(v):spawn()
             end

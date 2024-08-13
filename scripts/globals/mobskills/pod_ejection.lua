@@ -1,12 +1,15 @@
 ---------------------------------------------
 -- Pod Ejection
 ---------------------------------------------
+require("scripts/globals/mobs")
+---------------------------------------------
 
 function onMobSkillCheck(target,mob,skill)
     local pod = GetMobByID(mob:getID() + 1)
     local currentForm = mob:getLocalVar("form")
-
-    if not pod:isSpawned() and currentForm == 2 then -- proto-omega final form
+    printf("Onskill check")
+    if not pod:isSpawned() and mob:AnimationSub() == 2 then -- On 2 legs
+        printf("Passed on skill check")
         return 0
     end
     return 1
@@ -14,17 +17,30 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local battlefield = mob:getBattlefield()
-    local pod = GetMobByID(mob:getID() + 1)
-    if battlefield and not pod:isSpawned() then
-        local players = battlefield:getPlayers()
-        local random = math.random(1, #players)
-        local X = mob:getXPos()
-        local Y = mob:getYPos()
-        local Z = mob:getZPos()
-        pod:spawn()
-        pod:setPos(X,Y,Z)
-        pod:updateEnmity(players[random])
+    local pod = GetMobByID(mob:getID() +1)
+    if not pod:isSpawned() then
+        printf("Pod is not spawned")
+        if battlefield then
+            local players = battlefield:getPlayers()
+            local random = math.random(1, #players)
+            pod:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
+            pod:spawn()
+            pod:updateEnmity(players[random])
+        else
+            printf("Not a battlefield")
+            local NearbyEntities = mob:getNearbyEntities(30)
+            if NearbyEntities and #NearbyEntities > 0 then
+                local randomTarget = NearbyEntities[math.random(1, #NearbyEntities)]
+                if randomTarget:isAlive() then
+                    pod:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
+                    pod:spawn()
+                    ApplyConfrontation(mob, pod)
+                    pod:updateEnmity(randomTarget)
+                end
+            end
+        end
     end
+
     skill:setMsg(tpz.msg.basic.NONE)
     return 0
 end

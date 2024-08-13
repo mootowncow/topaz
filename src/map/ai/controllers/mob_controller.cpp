@@ -619,6 +619,10 @@ bool CMobController::MobSkill(int wsList)
         {
             return false;
         }
+        if (PMob->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA))
+        {
+            return false;
+        }
         float currentDistance = distance(PMob->loc.p, PActionTarget->loc.p);
         if (!PMobSkill->isTwoHour() && luautils::OnMobSkillCheck(PActionTarget, PMob, PMobSkill) == 0) //A script says that the move in question is valid
         {

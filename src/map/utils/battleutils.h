@@ -228,7 +228,7 @@ namespace battleutils
     void                GenerateInRangeEnmity(CBattleEntity* PSource, int16 CE, int16 VE);
 
     CItemWeapon*        GetEntityWeapon(CBattleEntity* PEntity, SLOTTYPE Slot);
-    CItemEquipment*         GetEntityArmor(CBattleEntity* PEntity, SLOTTYPE Slot);
+    CItemEquipment*     GetEntityArmor(CBattleEntity* PEntity, SLOTTYPE Slot);
 
     void                MakeEntityStandUp(CBattleEntity* PEntity);
     inline bool         areInLine(uint8 firstPlayerWA, CBattleEntity* insidePlayer, CBattleEntity* outidePlayer);
@@ -250,6 +250,7 @@ namespace battleutils
     void                TransferEnmity(CBattleEntity* PHateReceiver, CBattleEntity* PHateGiver, CMobEntity* PMob, uint8 percentToTransfer);
     uint8               getBarrageShotCount(CCharEntity* PChar);
     uint8               getStoreTPbonusFromMerit(CBattleEntity* PEntity);
+    uint8               getShieldBlockAmount(CBattleEntity* PEntity); // Get shield block amount base (Mobs / Pets only!)  
 
     void                ClaimMob(CBattleEntity* PDefender, CBattleEntity* PAttacker, bool passing = false);
     void                DirtyExp(CBattleEntity* PDefender, CBattleEntity* PAttacker);

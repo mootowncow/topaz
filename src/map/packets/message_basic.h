@@ -36,7 +36,8 @@ enum MSGBASIC_ID : uint16
     MSGBASIC_NONE                   = 0, // Display nothing 
 	MSGBASIC_DEFEATS_TARG			= 6, // The <player> defeats <target>. 
     MSGBASIC_MAGIC_RECOVERS_HP      = 7, // <caster> casts <spell>. <target> recovers <amount> HP. 
-    MSGBASIC_SELF_HEAL_SECONDARY    = 263,// <target recovers <amount> HP | Used for Curaga 
+    MSGBASIC_SELF_HEAL_SECONDARY    = 263,// <target recovers <amount> HP | Used for Curaga
+    MSGBASIC_HIT_ABSORBS_HP         = 373,//The<player> hits<target>.<target>recovers..hit points !
     MSGBASIC_MISS                   = 15, // The <entity> misses <target>.
     MSGBASIC_DODGE                  = 32, // <target> dodges the attack.
     MSGBASIC_ALREADY_CLAIMED		= 12, // Cannot attack. Your target is already claimed. 

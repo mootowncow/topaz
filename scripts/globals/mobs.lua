@@ -1199,7 +1199,6 @@ function ApplyConfrontation(mob, entity)
     local subPower = effect:getSubPower()
     local tier = 0
     if not entity:hasStatusEffect(tpz.effect.CONFRONTATION) then
-        printf("Applying confrontation to %d", entity:getID())
         entity:addStatusEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
     end
 end

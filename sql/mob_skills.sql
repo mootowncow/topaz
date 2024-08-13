@@ -2237,7 +2237,7 @@ INSERT INTO `mob_skills` VALUES (2270,1623,'shirahadori',1,10.0,2000,1500,4,0,0,
 -- INSERT INTO `mob_skills` VALUES (2275,2019,'prominence',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2276,2020,'arrow_of_apathy',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2277,2021,'cruel_riposte',0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (2278,2022,'glory_slash',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2278,642,'glory_slash',1,10.0,2000,1500,4,0,0,0,13,11,0); -- TODO: Animation?
 -- INSERT INTO `mob_skills` VALUES (2279,2023,'napalm_tomahawk',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2280,2024,'iainuki',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2281,2025,'oppressive_embrace',0,7.0,2000,1500,4,0,0,0,0,0,0);

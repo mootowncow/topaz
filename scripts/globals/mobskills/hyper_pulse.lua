@@ -11,17 +11,17 @@ require("scripts/globals/status")
 
 function onMobSkillCheck(target,mob,skill)
     local mobhp = mob:getHPP()
-    local currentForm = mob:getLocalVar("form")
-    local skillList = mob:getMobMod(tpz.mobMod.SKILL_LIST)
 	if mob:getPool() == 2973 then
 		if mobhp > 25 then
-			return 0
+            if (mob:AnimationSub() == 1) then -- Omega on 4 legs
+                return 0
+            end
 		else
 			return 1
 		end
 	end
-
-    if (mob:AnimationSub() == 2 and currentForm == 1) or skillList == 54 then -- proto-omega bipedform
+    local currentForm = mob:getLocalVar("form")
+    if (mob:AnimationSub() == 1) then -- Omega on 4 legs
         return 0
     end
     return 1
@@ -46,11 +46,9 @@ function onMobWeaponSkill(target, mob, skill)
     params_phys.chr_wsc = 0.0
     local info = MobPhysicalMove(mob, target, skill, numhits, accmod, dmgmod, TP_NO_EFFECT, params_phys)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.BLUNT, info.hitslanded*math.random(2, 3))
-
-    local typeEffect = tpz.effect.BIND
-    MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, 1, 0, 5)
-
     target:takeDamage(dmg, mob, tpz.attackType.PHYSICAL, tpz.damageType.BLUNT)
+    MobPhysicalStatusEffectMove(mob, target, skill, tpz.effect.BIND, 1, 0, 15)
+    MobPhysicalStatusEffectMove(mob, target, skill, tpz.effect.WEIGHT, 33, 0, 60)
 	if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then   target:tryInterruptSpell(mob, info.hitslanded) end
     return dmg
 end

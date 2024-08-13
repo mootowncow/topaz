@@ -340,13 +340,14 @@ INSERT INTO `mob_groups` VALUES (54,1160,7,'Earth_Elemental',330,4,733,0,0,75,77
 INSERT INTO `mob_groups` VALUES (55,9120,7,'Wyrm',330,0,0,0,0,82,83,0); -- E-9
 
 INSERT INTO `mob_groups` VALUES (56,3208,7,'Omega',0,128,0,100000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (57,5914,7,'Ulmia',0,128,0,1300,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (58,5913,7,'Prishe',0,128,0,1300,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (59,5900,7,'Ayame',0,128,0,1300,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (60,5898,7,'Kupipi',0,128,0,1300,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (61,1202,7,'Else',0,128,0,1300,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (62,5905,7,'Trion',0,128,0,1300,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (63,5901,7,'Nanaa_Mihgo',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (57,1849,7,'Gunpod',0,128,0,2000,600,80,80,0);
+INSERT INTO `mob_groups` VALUES (58,5914,7,'Ulmia',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (59,5913,7,'Prishe',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (60,5900,7,'Ayame',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (61,5898,7,'Kupipi',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (62,1202,7,'Else',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (63,5905,7,'Trion',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (64,5901,7,'Nanaa_Mihgo',0,128,0,1300,0,80,80,1);
 
 -- ------------------------------------------------------------
 -- Boneyard_Gully (Zone 8)
