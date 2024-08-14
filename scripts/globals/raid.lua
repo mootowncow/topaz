@@ -24,10 +24,8 @@ require("scripts/globals/weaponskillids")
 -- TODO: Ability to add/delete merits to mobs
 -- TODO: Are pets not getting AOE buffs? (CTargetFind::findWithinArea for this logic {PETS_CAN_AOE_BUFF})
 -- TODO: Add logic for tracking player "contribution" and then only having a formula for addCapacityPoints() in onMobDeath based on contribution amount
--- TODO: Are bosses absorbing damage from very low mob hits? (Below 0)
 -- TODO: Ark Angel MR (and all mob (not npcs) pets?) don't get confrontation on spawn, might need to add to SpawnMobPet() like players have it
 -- TODO: SubId on confrontation too big of a number for its data type?
--- TODO: Don't run movement if casting/using ranged (CanMove() function?)
 -- TODO: dont remove confrontation on death
 -- TODO: Chat filters to filter their damage
 -- TODO: Does new JA logic for onuse work in instances?
@@ -42,20 +40,26 @@ require("scripts/globals/weaponskillids")
 -- TODO: BLU and BST TH1 not 2
 -- TODO: TH proc with thorny's new numbers
 -- TODO: TA + WS extremely unreliable/inconsistent at giving stoneskin + magic shield for some odd reason (Is it bugged in the WS lua need to be behind, 64 or w/e? )
+-- TODO: Febrenard_C_Brunnaut stats? He melees.
+-- TODO: Does the proper WHMs use Nott and melee? They also might need regain.
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
 -- Needs to match std::vector<MobData> mobData in time_server.cpp
 local mobData =
 {
-    { Name = 'Promathia',       Zone = tpz.zone.BIBIKI_BAY,             Day = tpz.day.FIRESDAY     },
-    { Name = 'Omega',           Zone = tpz.zone.ATTOHWA_CHASM,          Day = tpz.day.EARTHSDAY    },
-    { Name = 'Bahamut',         Zone = tpz.zone.LUFAISE_MEADOWS,        Day = tpz.day.WATERSDAY    },
-    { Name = 'Ultima',          Zone = tpz.zone.CAPE_TERIGGAN,          Day = tpz.day.WINDSDAY     },
-    { Name = 'Ealdnarche',      Zone = tpz.zone.WESTERN_ALTEPA_DESERT,  Day = tpz.day.ICEDAY       },
-    { Name = 'Kamlanaut',       Zone = tpz.zone.YHOATOR_JUNGLE,         Day = tpz.day.LIGHTNINGDAY },
-    { Name = 'Shadow Lord',     Zone = tpz.zone.THE_SANCTUARY_OF_ZITAH, Day = tpz.day.LIGHTSDAY    },
-    { Name = 'Crystal Warrior', Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY     },
+    { Name = 'Promathia',       Zone = tpz.zone.BIBIKI_BAY,             Day = tpz.day.FIRESDAY,           Loot = tpz.items.GYVE_TROUSERS        },
+    { Name = 'Omega',           Zone = tpz.zone.ATTOHWA_CHASM,          Day = tpz.day.EARTHSDAY,          Loot = tpz.items.TERMINAL_HELM        },
+    { Name = 'Bahamut',         Zone = tpz.zone.LUFAISE_MEADOWS,        Day = tpz.day.WATERSDAY,          Loot = tpz.items.VANIR_BOOTS          },
+    { Name = 'Ultima',          Zone = tpz.zone.CAPE_TERIGGAN,          Day = tpz.day.WINDSDAY,           Loot = tpz.items.CULMINUS             },
+    { Name = 'Ealdnarche',      Zone = tpz.zone.WESTERN_ALTEPA_DESERT,  Day = tpz.day.ICEDAY,             Loot = tpz.items.VANIR_COTEHARDIE     },
+    { Name = 'Kamlanaut',       Zone = tpz.zone.YHOATOR_JUNGLE,         Day = tpz.day.LIGHTNINGDAY,       Loot = tpz.items.MESYOHI_HAUBERGEON   },
+    { Name = 'Shadow_Lord',     Zone = tpz.zone.THE_SANCTUARY_OF_ZITAH, Day = tpz.day.LIGHTSDAY,          Loot = tpz.items.DREAD_JUPON          },
+    { Name = 'Ark_Angel_HM',    Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY,           Loot = tpz.items.LITHELIMB_CAP        },
+    { Name = 'Ark_Angel_MR',    Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY,           Loot = tpz.items.REGIMEN_MITTENS      },
+    { Name = 'Ark_Angel_EV',    Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY,           Loot = tpz.items.PATRICIUS_RING       },
+    { Name = 'Ark_Angel_TT',    Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY,           Loot = tpz.items.FRAVASHI_MANTLE      },
+    { Name = 'Ark_Angel_GK',    Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY,           Loot = tpz.items.LURID_MITTS          },
 }
 
 local npcData =
@@ -189,6 +193,28 @@ local function SetBattleMusicOnDeath(mob)
             if player:isAlive() then
                 player:ChangeMusic(tpz.music.type.BATTLE_SOLO, soloTrack)
                 player:ChangeMusic(tpz.music.type.BATTLE_PARTY, partyTrack)
+            end
+        end
+    end
+end
+
+local function AddTreasure(mob, player)
+    local mobName = mob:getName()
+
+    if (math.random(100) <= 1) then
+        for _, NM in pairs(mobData) do
+            if (mobName == NM.Name) then
+                local NearbyPlayers = mob:getPlayersInRange(50)
+                if not NearbyPlayers or #NearbyPlayers == 0 then
+                    return
+                end
+                for _, player in ipairs(NearbyPlayers) do
+                    if player:hasStatusEffect(tpz.effect.CONFRONTATION) then
+                        player:addTreasure(NM.Loot, mob)
+                        break -- Add treasure to the first player and exit the loop
+                    end
+                end
+                return -- Exit the function after processing the mob
             end
         end
     end
@@ -857,6 +883,7 @@ tpz.raid.onMobDeath = function(mob, player, isKiller, noKiller)
         end
     end
 
+    AddTreasure(mob, player)
     OnBattleEndConfrontation(mob)
     SetBattleMusicOnDeath(mob)
 end

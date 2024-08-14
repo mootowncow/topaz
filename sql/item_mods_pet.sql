@@ -426,10 +426,10 @@ INSERT INTO `item_mods_pet` VALUES (27957,27,5,1);      -- Con. Bracers Avatar: 
 INSERT INTO `item_mods_pet` VALUES (27960,384,300,3);   -- Foire Dastanas Automaton: Haste +3%
 INSERT INTO `item_mods_pet` VALUES (27978,27,5,1);      -- Con. Bracers +1 Avatar: Enmity+5
 INSERT INTO `item_mods_pet` VALUES (27981,384,400,3);   -- Foire Dastanas +1 Automaton: Haste +4%
-INSERT INTO `item_mods_pet` VALUES (28025,25,20,0);     -- Regimen Mittens Pet: Accuracy+20
-INSERT INTO `item_mods_pet` VALUES (28025,26,20,0);     -- Pet: Ranged Accuracy+20
-INSERT INTO `item_mods_pet` VALUES (28025,30,20,0);     -- Pet: Magic Accuracy+20
-INSERT INTO `item_mods_pet` VALUES (28025,384,600,0);   -- Pet: Haste+6%
+INSERT INTO `item_mods_pet` VALUES (28025,25,5,0); -- All: ACC 5
+INSERT INTO `item_mods_pet` VALUES (28025,26,5,0); -- All: RACC 5
+INSERT INTO `item_mods_pet` VALUES (28025,30,5,0); -- All: MACC 5
+INSERT INTO `item_mods_pet` VALUES (28025,384,300,0); -- All: HASTE_GEAR 300
 INSERT INTO `item_mods_pet` VALUES (28103,3,20,2);      -- Vishap Brais Wyvern: HP+20%
 INSERT INTO `item_mods_pet` VALUES (28104,25,20,1);     -- Convoker's Spats Avatar: Increases Accuracy +20 (?)
 INSERT INTO `item_mods_pet` VALUES (28104,27,4,1);      -- Avatar: Enmity+4
@@ -604,3 +604,8 @@ INSERT INTO `item_mods_pet` VALUES (14742,384,500,0);   -- Brastly Earring: Hast
 
 
 
+INSERT INTO `item_mods_pet` VALUES (27886,25,10,0); -- All: ACC 10
+INSERT INTO `item_mods_pet` VALUES (27886,23,10,0); -- All: ATT 10
+INSERT INTO `item_mods_pet` VALUES (27886,384,200,0); -- All: HASTE_GEAR 200
+INSERT INTO `item_mods_pet` VALUES (25634,370,10,0); -- All: REGEN 10
+INSERT INTO `item_mods_pet` VALUES (25634,160,-5,0); -- All: DMG -5
