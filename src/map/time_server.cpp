@@ -121,10 +121,10 @@ int32 time_server(time_point tick, CTaskMgr::CTask* PTask)
         { "Omega", "Attohwa Chasm", EARTHSDAY },
         { "Bahamut", "Lufaise Meadows", WATERSDAY },
         { "Ultima", "Cape Terrigan", WINDSDAY },
-        { "Ealdnarche", "Western Altepa Desert", ICEDAY },
-        { "Kamlanaut", "Yuhtunga Jungle", LIGHTNINGDAY },
+        { "Eald'narche", "Western Altepa Desert", ICEDAY },
+        { "Kam'lanaut", "Yuhtunga Jungle", LIGHTNINGDAY },
         { "Shadow Lord", "The Sanctuary of Zi'tah", LIGHTSDAY },
-        { "Crystal Warrior", "Qufim Island", DARKSDAY },
+        { "A Crystal Warrior", "Qufim Island", DARKSDAY },
     };
 
     // Vanadiel Day
@@ -149,9 +149,10 @@ int32 time_server(time_point tick, CTaskMgr::CTask* PTask)
                             {
                                 if (currentDay == mob.Day)
                                 {
-                                    std::string message = mob.Name + " has spawned in " + mob.Zone;
+                                    std::string message = mob.Name + " has appeared in " + mob.Zone + "!";
                                     message::send(MSG_CHAT_UNITY, nullptr, 0, new CChatMessagePacket(PChar, MESSAGE_UNITY, message, "Announcer")); // message.c_str() ?
                                     PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CChatMessagePacket(PChar, MESSAGE_UNITY, message, "Announcer")); // message.c_str() ?
+                                    break;
                                 }
                             }
 

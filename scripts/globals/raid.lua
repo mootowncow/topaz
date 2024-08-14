@@ -28,6 +28,20 @@ require("scripts/globals/weaponskillids")
 -- TODO: Ark Angel MR (and all mob (not npcs) pets?) don't get confrontation on spawn, might need to add to SpawnMobPet() like players have it
 -- TODO: SubId on confrontation too big of a number for its data type?
 -- TODO: Don't run movement if casting/using ranged (CanMove() function?)
+-- TODO: dont remove confrontation on death
+-- TODO: Chat filters to filter their damage
+-- TODO: Does new JA logic for onuse work in instances?
+-- TODO: Uninvited guests, x's knife bcnm(did I code the npcs? I captured CS data) and first ashu talif mission
+-- TODO: Stabializer III Mana Jammer III Auto-rep. Kit III vendor prices
+-- TODO: Better storage logic, make a function, allow trading multiple items. "You have stored x item for a total of y"
+-- TODO: Deleting / Adding ZNM item work on NMs with multi word names?
+-- TODO: Wyvern Earring + Target BCNMs
+-- TODO: Asylum + Mystic boon + shining/seraph strike to work on all entities not party (For NPCs)
+-- TODO: Inline should also work diagnally
+-- TODO: Perfect Doge recast changed back
+-- TODO: BLU and BST TH1 not 2
+-- TODO: TH proc with thorny's new numbers
+-- TODO: TA + WS extremely unreliable/inconsistent at giving stoneskin + magic shield for some odd reason (Is it bugged in the WS lua need to be behind, 64 or w/e? )
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -2753,6 +2767,10 @@ function IsReadyingTPMove(target)
         return false
     end
 
+    if target:hasPreventActionEffect() then
+        return false
+    end
+
     if (act == tpz.act.MOBABILITY_START) or (act == tpz.act.MOBABILITY_USING) then
         return true
     end
@@ -2772,6 +2790,10 @@ function TryKeepDistance(mob, target)
     -- If the mob is currently moving, do nothing
     if (os.time() < isMoving) then
         -- print(string.format("%s is currently moving and will check again later.", mob:getName()))
+        return
+    end
+
+    if not CanMove(mob) then
         return
     end
 
@@ -2928,6 +2950,24 @@ function CanCast(mob)
       --  tostring(canCast)))
 
     return canCast
+end
+
+function CanMove(mob)
+    local act = mob:getCurrentAction()
+
+    local CanMove = not (act == tpz.act.MOBABILITY_START or
+                        act == tpz.act.MOBABILITY_USING or
+                        act == tpz.act.MOBABILITY_FINISH or
+                        act == tpz.act.MAGIC_START or
+                        act == tpz.act.MAGIC_CASTING or
+                        act == tpz.act.MAGIC_FINISH or
+                        act == tpz.act.RANGED_START or
+                        act == tpz.act.RANGED_FINISH or
+                        act == tpz.act.ITEM_START or
+                        act == tpz.act.ITEM_FINISH or
+                        mob:hasStatusEffect(tpz.effect.BIND) or
+                        mob:hasPreventActionEffect())
+    return CanMove
 end
 
 function CanUseAbility(mob)

@@ -155,6 +155,8 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Despoil on Aura Statue crashed simple log
+Final zilart missons + apoc nigh + storms of fate + rank6-10 bastok/sandy
 GM menu from lsb
 Does confrontation properly work on dynamis bosses despawning/spawning over and over?
 m_ShieldSize to battleentities (or mobs/trusts/pets?)
@@ -199,6 +201,7 @@ add music to every zone esp the sea zone without music in zone sql
 mobskills need DR
 no DR to raid mobs and  npcs
 Revamp JSE rings and earrings
+More enhancing magic dura gear
 tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
 Fomor HNM's(Lugh etc)
 Finish Salvage, edit it so need to do all 3 to finish salvage gear again. NPCs in one of them.
@@ -206,19 +209,33 @@ Add AOE weapon skills to every weapon and make them do good damage. Spinning Axe
 Content where mobs constantly spawn in waves over and over
 Add stats to Maat's cap
 Buff daken %?
+SAM better at using bow, maybe make overwhelm work on it
 Buff coquest point items
 Dune Widow - > Diremite (make big like one from Abyssea Ule with same tarsal slam or w/e too). Buff spider torque.
 Buff low level ENM drops like test your mite / promy ones / monarch linn etc
 Merit camps with 4 NPCs like an old merit pt
 XP camps with trusts 1-75 for leveling like an old xp pt
+Why don't players get loaded while you're in a CS?
+Changing SJ bug
+KS99's
+60-80 inventory expansions from COP HNMS
+GOV Elite training!
+Hunts
+WOE
+
+~~~~~~~~~~~~~~~~~~~~Relic Weapons Revamp~~~~~~~~~~~~~~~~~~~~
 
 ~~~~~~~~~~~~~~~~~~~~Thief Revamp~~~~~~~~~~~~~~~~~~~~
+Mug back to 15m CD
+Despoil crashes simplelog now? I also don't like it
 Despoil effects sql
 attack/mattack ALL DIFF TYPE OF UNIQUE ENFEEBLES , boon corrupt, etc down on every thief dagger OR items that add it to your weapon as a status effect? prob tons easier..like an enchantment (and make enhantments stack)
 itemID 9152 to 9192
 conspirator buffs scale with AGI ?
 
 ~~~~~~~~~~~~~~~~~~~~Monk Revamp~~~~~~~~~~~~~~~~~~~~
+Boosting perfect counter increases duration or gives additional perfect counters before it fades
+Buff boost bonus on chi blast or chi blast base dmg
 Counterstance doesn't give counter. instead on a succesful counter via perfect counter, reset the cooldown of perfect counter
 Perfect counter dura reduced to 3s.
 
@@ -256,8 +273,6 @@ Don't drop items with a msg if "you do not meet the requiements to obtain <item>
 NO_EFFECT msg missing from simplelog
 Touch up Nagi fight, tries to spawn mobs if they are dead on floor, spawns adds all on top of eachother, and they do too little dmg and stuff
 Mob_controller.cpp add losing TP if resting effect(pet /stay only) to // can't rest with a DOT on (plague does not stop mob regen)
-Hunts
-WOE
 Combat skill enum(C++ and lua)
 
 ****TEST****
@@ -289,8 +304,6 @@ Gargoyle HNM boss need to nuke when flying to bring back down immune to phys dmg
 Finish Lyft/MMM weapon progression system, better rewards from all MMM's especially the uber hard ones
 spellAI added to where spell_list is for diff spell casting AI's
 Add Prime and Bonanza WS IDs
-KS99's
-60-80 inventory expansions from COP HNMS
 Cap all GP turn ins by 1/3
 Add "You gain x Zeni" from mobs that give Zeni.
 Amplification needs to be changed to something else
@@ -552,6 +565,7 @@ Rune Fencer Merits:
 https://github.com/AirSkyBoat/AirSkyBoat/commit/f1c415bb239c9afdc4247eb1b2444433f8671341
 
 DATS:
+MNK/THF JA's
 AM1 cast times
 Mystic Boon / Asylum and Footwork descriptions
 Buff Noble's / Aristocrat's Crown / Mitts / Slacks  / Pumps  
@@ -560,6 +574,9 @@ ToAU ring buffs
 Aketon change to damage taken not phalanx check others with same type of text
 
 LAC:
+Enable / Disable LAC toggle as 1 button(make global and usable via shiyolibs?)
+WHM fencer / DW logic
+CHR gear for thf TA(gear set toggle?)
 
 Wiki: 
 flame / ice shield to wiki
