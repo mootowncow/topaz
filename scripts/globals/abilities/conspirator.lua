@@ -7,6 +7,7 @@
 -- Duration: 1:00
 -----------------------------------
 require("scripts/globals/status")
+require("scripts/globals/magic")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
@@ -64,7 +65,7 @@ function onUseAbility(player, target, ability)
         }
 
         for _, eff in ipairs(effects) do
-            if not target:hasStatusEffect(eff.effect) then
+            if canOverwrite(target, eff.effect, eff.power) then
                 if (scale > 0) then
                     target:addStatusEffect(eff.effect, eff.power, 0, 300)
                 end
