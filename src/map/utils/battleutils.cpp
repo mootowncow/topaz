@@ -1499,7 +1499,7 @@ int16 GetSDTTier(int16 SDT)
 
                         Action->spikesEffect = (SUBEFFECT)0;
                         auto spikes_type = battleutils::GetScaledItemModifier(PDefender, PItem, Mod::ITEM_SPIKES_TYPE);
-                        if (spikes_type > 0 && spikes_type < 7)
+                        if (spikes_type > 0 && spikes_type < 11)
                         {
                             Action->spikesEffect = (SUBEFFECT)spikes_type;
                         }
@@ -1565,30 +1565,31 @@ int16 GetSDTTier(int16 SDT)
             default:
                 break;
         }
-        resist = static_cast<float>(ApplyResistance(PDefender, PAttacker, element, SKILL_EVASION, 0, static_cast<float>(spikesMaccBonus)));
-        if (resist >= 0.5f)
+
+        // spikes procced
+        if (tpzrand::GetRandomNumber(100) < chance)
         {
-            // spikes landed
-            if (spikesType == SUBEFFECT_CURSE_SPIKES)
+            resist = static_cast<float>(ApplyResistance(PDefender, PAttacker, element, SKILL_EVASION, 0, static_cast<float>(spikesMaccBonus)));
+            if (resist >= 0.5f)
             {
-                Action->spikesMessage = MSGBASIC_SPIKES_ARMOR_SUBEFFECT;
-                Action->spikesParam = EFFECT_CURSE;
-            }
-            else
-            {
-                auto ratio = std::clamp<uint8>(damage / 4, 1, 255);
-                Action->spikesParam =
-                    HandleStoneskin(PAttacker, damage - tpzrand::GetRandomNumber<uint16>(ratio) + tpzrand::GetRandomNumber<uint16>(ratio), ATTACK_MAGICAL);
-                PAttacker->takeDamage(Action->spikesParam),
-                                      PDefender,
-                                      ATTACK_MAGICAL,
-                                      GetSpikesDamageType(spikesType);
-            }
+                if (spikesType == SUBEFFECT_CURSE_SPIKES)
+                {
+                    Action->spikesMessage = MSGBASIC_SPIKES_ARMOR_SUBEFFECT;
+                    Action->spikesParam = EFFECT_CURSE;
+                }
+                else
+                {
+                    auto ratio = std::clamp<uint8>(damage / 4, 1, 255);
+                    Action->spikesParam =
+                        HandleStoneskin(PAttacker, damage - tpzrand::GetRandomNumber<uint16>(ratio) + tpzrand::GetRandomNumber<uint16>(ratio), ATTACK_MAGICAL);
+                    PAttacker->takeDamage(Action->spikesParam), PDefender, ATTACK_MAGICAL, GetSpikesDamageType(spikesType);
+                }
 
-            // Temp till moved to script.
-            HandleSpikesStatusEffect(PAttacker, PDefender, Action);
+                // Temp till moved to script.
+                HandleSpikesStatusEffect(PAttacker, PDefender, Action);
 
-            return true;
+                return true;
+            }
         }
 
         return false;
