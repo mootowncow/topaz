@@ -20,6 +20,7 @@ function onUseAbility(player, target, ability)
     local counter = 0
     local defp = 0
     local mdef = 0
+    local AGI = player:getStat(tpz.mod.AGI)
     local scale = 1
     local mob = player:getTarget()
     if mob then
@@ -28,24 +29,24 @@ function onUseAbility(player, target, ability)
             if #enmityList < 6 then
                 subtleBlow = math.floor(player:getMainLvl() / 5) -- 15 @ level 75
                 accuracy = math.floor(player:getMainLvl() / 8) + 1   -- 10 @ level 75
-                guard = 25
-                counter = 25
-                defp = 33
-                mdef = 50
+                guard = math.floor(AGI * (25 / 200))
+                counter = math.floor(AGI * (25 / 200))
+                defp = math.floor(AGI * (33 / 200))
+                mdef = math.floor(AGI * (50 / 200))
             elseif #enmityList < 18 then
                 subtleBlow = math.floor(player:getMainLvl() / 5) -- 15 @ level 75
                 accuracy = math.floor(player:getMainLvl() / 8) + 1  -- 10 @ level 75
-                guard = 25
-                counter = 25
-                defp = 33
-                mdef = 50
+                guard = math.floor(AGI * (25 / 200))
+                counter = math.floor(AGI * (25 / 200))
+                defp = math.floor(AGI * (33 / 200))
+                mdef = math.floor(AGI * (50 / 200))
             else
                 subtleBlow = math.floor(player:getMainLvl() / 5) -- 15 @ level 75
                 accuracy = math.floor(player:getMainLvl() / 8) + 1  -- 10 @ level 75
-                guard = 25
-                counter = 25
-                defp = 33
-                mdef = 50
+                guard = math.floor(AGI * (25 / 200))
+                counter = math.floor(AGI * (25 / 200))
+                defp = math.floor(AGI * (33 / 200))
+                mdef = math.floor(AGI * (50 / 200))
             end
         end
 

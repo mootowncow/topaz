@@ -226,12 +226,10 @@ WOE
 ~~~~~~~~~~~~~~~~~~~~Relic Weapons Revamp~~~~~~~~~~~~~~~~~~~~
 
 ~~~~~~~~~~~~~~~~~~~~Thief Revamp~~~~~~~~~~~~~~~~~~~~
-Mug back to 15m CD
 Despoil crashes simplelog now? I also don't like it
 Despoil effects sql
 attack/mattack ALL DIFF TYPE OF UNIQUE ENFEEBLES , boon corrupt, etc down on every thief dagger OR items that add it to your weapon as a status effect? prob tons easier..like an enchantment (and make enhantments stack)
 itemID 9152 to 9192
-conspirator buffs scale with AGI ?
 
 ~~~~~~~~~~~~~~~~~~~~Monk Revamp~~~~~~~~~~~~~~~~~~~~
 Boosting perfect counter increases duration or gives additional perfect counters before it fades
