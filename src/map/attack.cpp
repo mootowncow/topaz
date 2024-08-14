@@ -436,6 +436,10 @@ bool CAttack::CheckCounter()
     {
         m_isCountered = true;
         m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false));
+        if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_COUNTER))
+        {
+            CheckPerfectCounterReset();
+        }
     }
     else if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_COUNTER) && facing(m_victim->loc.p, m_attacker->loc.p, 40))
     {
@@ -443,30 +447,32 @@ bool CAttack::CheckCounter()
         m_isCountered = true;
         m_isCritical = true;
         m_victim->StatusEffectContainer->DelStatusEffectSilent(EFFECT_PERFECT_COUNTER);
-
-        // If a player, reset the cooldown of perfect counter on a successful counter if counterstance is active
-        if (m_victim->objtype == TYPE_PC)
-        {
-            if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_COUNTERSTANCE))
-            {
-                CCharEntity* PChar = (CCharEntity*)m_victim;
-                RECASTTYPE recastContainer = (RECASTTYPE)RECAST_ABILITY;
-                auto recastID = 22;
-
-                if (PChar->PRecastContainer->Has(recastContainer, recastID))
-                {
-                    PChar->PRecastContainer->Del(recastContainer, recastID);
-                    PChar->PRecastContainer->Add(recastContainer, recastID, 0);
-                }
-
-                PChar->pushPacket(new CCharSkillsPacket(PChar));
-                PChar->pushPacket(new CCharRecastPacket(PChar));
-            }
-        }
+        CheckPerfectCounterReset();
     }
     return m_isCountered;
 }
 
+void CAttack::CheckPerfectCounterReset()
+{
+    if (m_victim->objtype == TYPE_PC)
+    {
+        if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_COUNTERSTANCE))
+        {
+            CCharEntity* PChar = (CCharEntity*)m_victim;
+            RECASTTYPE recastContainer = (RECASTTYPE)RECAST_ABILITY;
+            auto recastID = 22;
+
+            if (PChar->PRecastContainer->Has(recastContainer, recastID))
+            {
+                PChar->PRecastContainer->Del(recastContainer, recastID);
+                PChar->PRecastContainer->Add(recastContainer, recastID, 0);
+            }
+
+            PChar->pushPacket(new CCharSkillsPacket(PChar));
+            PChar->pushPacket(new CCharRecastPacket(PChar));
+        }
+    }
+}
 
 
 bool CAttack::IsCovered()
