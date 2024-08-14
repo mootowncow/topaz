@@ -429,13 +429,43 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         }
     }
 
-    ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
-    ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
+    if (PMob->m_Weapons[SLOT_MAIN] != nullptr)
+    {
+        auto* mainWeapon = dynamic_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN]);
+        if (mainWeapon != nullptr)
+        {
+            mainWeapon->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
+        }
+    }
+    else
+    {
+        ShowDebug("%s [%u] main hand weapon not found!", PMob->GetName(), PMob->id);
+    }
+
+    if (PMob->m_Weapons[SLOT_RANGED] != nullptr)
+    {
+        auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED]);
+        if (rangedWeapon != nullptr)
+        {
+            rangedWeapon->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
+        }
+    }
+    else
+    {
+        ShowDebug("%s [%u] ranged weapon not found!", PMob->GetName(), PMob->id);
+    }
 
     // reduce weapon delay of MNK
-    if (PMob->GetMJob() == JOB_MNK)
+    if (PMob->m_Weapons[SLOT_MAIN] != nullptr)
     {
-        ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->resetDelay();
+        if (PMob->GetMJob() == JOB_MNK)
+        {
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->resetDelay();
+        }
+    }
+    else
+    {
+        ShowDebug("%s [%u] main hand weapon not found!", PMob->GetName(), PMob->id);
     }
 
     // Deprecate MOBMOD_DUAL_WIELD later, replace if check with value from DB
