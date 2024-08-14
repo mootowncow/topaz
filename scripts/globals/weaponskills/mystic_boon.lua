@@ -16,6 +16,7 @@ require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/weaponskills")
 require("scripts/globals/utils")
+require("scripts/globals/magic")
 -----------------------------------
 
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
@@ -48,17 +49,19 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     stoneskinAmount = utils.ApplyStoneskinBonuses(player, stoneskinAmount)
 
-    if (damage > 0) then
-        if party ~= nil then
-            for _,member in ipairs(party) do
-                if member:isAlive() and player:checkDistance(member) <= 10 then
-                    member:addHP(healAmount)
-                    player:updateEnmityFromCure(member, healAmount)
-                    member:removeAllNegativeEffects()
-                    utils.ShouldRemoveStoneskin(member, stoneskinAmount)
-                    member:addStatusEffect(tpz.effect.STONESKIN, stoneskinAmount, 0, 60)
-                    if canOverwrite(member, 25, tpz.effect.MAGIC_DEF_BOOST) then
-                        member:addStatusEffect(tpz.effect.MAGIC_DEF_BOOST, 25, 0, 60)
+    local NearbyEntities = player:getNearbyEntities(10)
+    if NearbyEntities == nil then return end
+    if NearbyEntities then
+        for _,entity in pairs(NearbyEntities) do
+            if entity:isAlive() then
+                if (entity:getAllegiance() == player:getAllegiance()) then
+                    entity:addHP(healAmount)
+                    player:updateEnmityFromCure(entity, healAmount)
+                    entity:removeAllNegativeEffects()
+                    utils.ShouldRemoveStoneskin(entity, stoneskinAmount)
+                    entity:addStatusEffect(tpz.effect.STONESKIN, stoneskinAmount, 0, 60)
+                    if canOverwrite(entity, 25, tpz.effect.MAGIC_DEF_BOOST) then
+                        entity:addStatusEffect(tpz.effect.MAGIC_DEF_BOOST, 25, 0, 60)
                     end
                 end
             end

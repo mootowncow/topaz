@@ -40,13 +40,17 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local healAmount = math.floor(damage / 2)
     local regenAmount = math.floor(player:getMainLvl() / 8)
 
-    if party ~= nil then
-        for _,member in ipairs(party) do
-            if member:isAlive() and player:checkDistance(member) <= 10 then
-                member:addHP(healAmount)
-                player:updateEnmityFromCure(member, healAmount)
-                if not member:hasStatusEffect(tpz.effect.REGEN) then
-                    member:addStatusEffect(tpz.effect.REGEN, regenAmount, 3, 30)
+    local NearbyEntities = player:getNearbyEntities(10)
+    if NearbyEntities == nil then return end
+    if NearbyEntities then
+        for _,entity in pairs(NearbyEntities) do
+            if entity:isAlive() then
+                if (entity:getAllegiance() == player:getAllegiance()) then
+                    entity:addHP(healAmount)
+                    player:updateEnmityFromCure(entity, healAmount)
+                    if canOverwrite(entity, tpz.effect.REGEN, regenAmount) then
+                        entity:addStatusEffect(tpz.effect.REGEN, regenAmount, 3, 30)
+                    end
                 end
             end
         end

@@ -18,11 +18,13 @@ function onUseAbility(player, target, ability)
     local party = player:getParty()
 
     if player:hasStatusEffect(tpz.effect.AFFLATUS_MISERY) then
-        if (party ~= nil) then
-            for _,member in ipairs(party) do
-                if member:isAlive()
-                and player:checkDistance(member) <= 10
-                and player:getID() ~= member:getID() then
+        local NearbyEntities = player:getNearbyEntities(10)
+        if NearbyEntities == nil then return end
+        if NearbyEntities then
+            for _,entity in pairs(NearbyEntities) do
+                if entity:isAlive() and
+                (entity:getAllegiance() == player:getAllegiance())
+                and (player:getID() ~= entity:getID()) then
                     player:addMP((player:getMaxMP()/100)*10)
                     break
                 end
