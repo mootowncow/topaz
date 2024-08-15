@@ -17,7 +17,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Spread out DPS to surround the NMs better
 -- TODO: Correct weapon types(club scythe etc) on everyone
 -- TODO: Does Kyo respawn and work?
--- TODO: Check that barrage is properly adding hits in cpp with print
 -- TODO: Insomninant skill crashes the game
 -- TODO: Test Flashy shot pdif stuff for level correction (ranged pdif and ws ranged pdif)
 -- TODO: Ajido-Marujido doesn't despawn after boss does and confrontation is removed?
@@ -42,6 +41,13 @@ require("scripts/globals/weaponskillids")
 -- TODO: TA + WS extremely unreliable/inconsistent at giving stoneskin + magic shield for some odd reason (Is it bugged in the WS lua need to be behind, 64 or w/e? )
 -- TODO: Febrenard_C_Brunnaut stats? He melees.
 -- TODO: Does the proper WHMs use Nott and melee? They also might need regain.
+-- TODO: Autotarget defaults to OFF and resets on relog or zoning? Shouldn't reset and should default to ON.'Test it with prints
+-- TODO: Add zone linking back to Dynamis and make sure pets dont link to non-masters
+-- TODO: Mobs interrupted too easily by pets and friendly NPCs if below level?
+-- TODO: Ga'fho venomtouch model is too small/wrong model? Tiny NM
+-- TODO: Uninvited guests better drops! And test your mite also(buff the earring?)
+-- shikaree's no drops
+-- Tango with a Tracker should give 10k gil
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 

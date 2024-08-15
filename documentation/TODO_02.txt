@@ -155,6 +155,9 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Leave and releasing pet should wipe aggro onto master! Pet dying/despawning also shouldn't. Should reset mob to neutral if no one else is on enmity table no
+If pet has prevent action effect, dont allow heel/pup thing/smn thing and block player from being able to use action just like avatar BPs and ready moves
+Does WS not remove invis/sneak?
 Despoil on Aura Statue crashed simple log
 Final zilart missons + apoc nigh + storms of fate + rank6-10 bastok/sandy
 GM menu from lsb
@@ -173,7 +176,8 @@ add m_instanceId member to char entity and when loading in or something set the 
 Finish unity_leader stuff in charentity https://github.com/search?q=repo%3ALandSandBoat%2Fserver%20unity_leader&type=code
 ZNM taking item on death works properly on mobs with names with two words
 -- Open / Close randomly every hour (Psoxoja zone) shouldn't rotate on hour, just when a player is near the door(NPC)
-spell cooldown timer added to mob casting (Does mob_spell_container exist?)
+spell cooldown timer added to mob casting (Copy the commit from LSB)
+Only show effects fading msg if m_owner(caster?) or person with the buff. Maybe need to track who casted it in some new member? (m_caster)
 Ability to set attributes (m_dex? or w/e) instead of adding it as a mod to mobs/players. same with acc/attk/def/racc/rattk
 Lyft weapon revamp (MAB for gun)
 Add fencer crit rate and TP bonus to allegance == TYPE_PLAYER (crit rate is  in battleutils uint8 GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack))
@@ -188,6 +192,7 @@ Spikes proc chance from items should be based on the mod not w/e im doing
 Don't port pet if csiD is prot/shell/regen/refresh etc gov buffs
 Enagakure did not spawn at 20:00
 move tchakka to the big room
+Steps / offensive non-taunt flourishes range 5 + model size
 Ic Pilav bun(new item)
 Ogre Gloves fencer buffed to 2/3%(NO TP BONUS)
 Update retail
@@ -217,6 +222,7 @@ Merit camps with 4 NPCs like an old merit pt
 XP camps with trusts 1-75 for leveling like an old xp pt
 Why don't players get loaded while you're in a CS?
 Changing SJ bug
+Save chars every 5m(tick listener part of code?) not just on day change
 KS99's
 60-80 inventory expansions from COP HNMS
 GOV Elite training!
@@ -232,6 +238,7 @@ attack/mattack ALL DIFF TYPE OF UNIQUE ENFEEBLES , boon corrupt, etc down on eve
 itemID 9152 to 9192
 
 ~~~~~~~~~~~~~~~~~~~~Monk Revamp~~~~~~~~~~~~~~~~~~~~
+Use Inner Strength instead of Boost
 Boosting perfect counter increases duration or gives additional perfect counters before it fades
 Buff boost bonus on chi blast or chi blast base dmg
 Counterstance doesn't give counter. instead on a succesful counter via perfect counter, reset the cooldown of perfect counter
@@ -577,6 +584,8 @@ WHM fencer / DW logic
 CHR gear for thf TA(gear set toggle?)
 
 Wiki: 
+Position of storage NPCs
+RAID NMs, position, drops, mention JP
 flame / ice shield to wiki
 Sky god gear to wiki(absorb on genbu/suzaku items)
 Afflatus Misery buffing auspice enspell effect
