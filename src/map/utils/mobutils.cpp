@@ -429,31 +429,46 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         }
     }
 
-    if (PMob->m_Weapons[SLOT_MAIN] != nullptr)
+    if (PMob && SLOT_MAIN >= 0 && SLOT_MAIN < SLOT_LINK2) // Ensure valid index and PMob
     {
-        auto* mainWeapon = dynamic_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN]);
-        if (mainWeapon != nullptr)
+        if (PMob->m_Weapons[SLOT_MAIN] != nullptr)
         {
-            mainWeapon->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
+            auto* mainWeapon = dynamic_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN]);
+            if (mainWeapon != nullptr)
+            {
+                mainWeapon->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
+            }
+            else
+            {
+                ShowDebug("%s [%u] main hand weapon cast failed!", PMob->GetName(), PMob->id);
+            }
         }
-    }
-    else
-    {
-        ShowDebug("%s [%u] main hand weapon not found!", PMob->GetName(), PMob->id);
+        else
+        {
+            ShowDebug("%s [%u] main hand weapon not found!", PMob->GetName(), PMob->id);
+        }
     }
 
-    if (PMob->m_Weapons[SLOT_RANGED] != nullptr)
+    if (PMob && SLOT_RANGED >= 0 && SLOT_RANGED < SLOT_LINK2) // Ensure valid index and PMob
     {
-        auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED]);
-        if (rangedWeapon != nullptr)
+        if (PMob->m_Weapons[SLOT_RANGED] != nullptr)
         {
-            rangedWeapon->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
+            auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED]);
+            if (rangedWeapon != nullptr)
+            {
+                rangedWeapon->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
+            }
+            else
+            {
+                ShowDebug("%s [%u] ranged weapon cast failed!", PMob->GetName(), PMob->id);
+            }
+        }
+        else
+        {
+            ShowDebug("%s [%u] ranged weapon not found!", PMob->GetName(), PMob->id);
         }
     }
-    else
-    {
-        ShowDebug("%s [%u] ranged weapon not found!", PMob->GetName(), PMob->id);
-    }
+
 
     // reduce weapon delay of MNK
     if (PMob->m_Weapons[SLOT_MAIN] != nullptr)
