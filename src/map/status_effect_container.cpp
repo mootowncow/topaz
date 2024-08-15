@@ -1827,17 +1827,31 @@ void CStatusEffectContainer::TickEffects(time_point tick)
         for (const auto& PStatusEffect : m_StatusEffectSet)
         {
             if (PStatusEffect->GetTickTime() != 0 &&
-                PStatusEffect->GetElapsedTickCount() < std::chrono::duration_cast<std::chrono::milliseconds>(tick - PStatusEffect->GetStartTime()).count() / PStatusEffect->GetTickTime())
+                PStatusEffect->GetElapsedTickCount() <
+                    std::chrono::duration_cast<std::chrono::milliseconds>(tick - PStatusEffect->GetStartTime()).count() / PStatusEffect->GetTickTime())
             {
                 if (PStatusEffect->GetFlag() & EFFECTFLAG_AURA)
                 {
                     HandleAura(PStatusEffect);
                 }
                 PStatusEffect->IncrementElapsedTickCount();
-                luautils::OnEffectTick(m_POwner, PStatusEffect);
+
+                try
+                {
+                    luautils::OnEffectTick(m_POwner, PStatusEffect);
+                }
+                catch (const std::exception& e)
+                {
+                    ShowDebug("Exception caught in OnEffectTick: %s\n", e.what());
+                }
+                catch (...)
+                {
+                    ShowDebug("Unknown exception caught in OnEffectTick.\n");
+                }
             }
         }
     }
+
     if (!m_POwner->isDead())
     {
         for (const auto& PStatusEffect : m_StatusEffectSet)
@@ -1850,11 +1864,24 @@ void CStatusEffectContainer::TickEffects(time_point tick)
                 {
                     HandleAura(PStatusEffect);
                     PStatusEffect->IncrementElapsedTickCount();
-                    luautils::OnEffectTick(m_POwner, PStatusEffect);
+
+                    try
+                    {
+                        luautils::OnEffectTick(m_POwner, PStatusEffect);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        ShowDebug("Exception caught in OnEffectTick (AURA): %s\n", e.what());
+                    }
+                    catch (...)
+                    {
+                        ShowDebug("Unknown exception caught in OnEffectTick (AURA).\n");
+                    }
                 }
             }
         }
     }
+
     DeleteStatusEffects();
     m_POwner->PAI->EventHandler.triggerListener("EFFECTS_TICK", m_POwner);
 }
