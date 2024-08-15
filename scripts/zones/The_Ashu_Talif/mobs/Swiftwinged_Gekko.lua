@@ -25,13 +25,15 @@ function onMobSpawn(mob)
     mob:addMod(tpz.mod.ACC, 15) 
     mob:addMod(tpz.mod.EVA, 15)
     mob:setMod(tpz.mod.REFRESH, 40)
+    mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 50)
+    mob:setMobMod(tpz.mobMod.SOUND_RANGE, 50)
 end
 
 
 function onMobFight(mob, target)
     local mobPos = mob:getPos()
 
-    if mobPos.x == 5.5 and mobPos.y == -31 and mobPos.z == 47 then
+    if mobPos.x == 5.5 then
         mob:hideName(true)
         mob:untargetable(true)
         mob:setStatus(tpz.status.INVISIBLE)

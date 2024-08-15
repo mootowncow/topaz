@@ -42,7 +42,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Febrenard_C_Brunnaut stats? He melees.
 -- TODO: Does the proper WHMs use Nott and melee? They also might need regain.
 -- TODO: Autotarget defaults to OFF and resets on relog or zoning? Shouldn't reset and should default to ON.'Test it with prints
--- TODO: Add zone linking back to Dynamis and make sure pets dont link to non-masters
 -- TODO: Mobs interrupted too easily by pets and friendly NPCs if below level?
 -- TODO: Ga'fho venomtouch model is too small/wrong model? Tiny NM
 -- TODO: Uninvited guests better drops! And test your mite also(buff the earring?)

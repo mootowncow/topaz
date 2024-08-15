@@ -2,6 +2,7 @@
 -- Area: The Ashu Talif
 --   NM: Watch Imp
 -----------------------------------
+require("scripts/globals/status")
 mixins = {require("scripts/mixins/families/imp")}
 -----------------------------------
 
@@ -15,6 +16,22 @@ function onMobInitialize(mob)
 end
 
 function onMobSpawn(mob)
+    mob:setDamage(20)
+    mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 15)
+    mob:setMobMod(tpz.mobMod.SOUND_RANGE, 15)
+    mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
+end
+
+function onMobEngaged(mob, target)
+    local instance = mob:getInstance()
+    local instanceID = instance:getID()
+
+    for adds = 17022986, 17023008 do
+        local selectedAdd = GetMobByID(adds, instance)
+        if selectedAdd then
+            selectedAdd:updateEnmity(target)
+        end
+    end
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

@@ -9,6 +9,7 @@ require("scripts/globals/quests")
 require("scripts/globals/status")
 local ID = require("scripts/zones/The_Ashu_Talif/IDs")
 -----------------------------------
+-- TODO: Is loot correct? Check JP wiki
 
 local waves =
 {
