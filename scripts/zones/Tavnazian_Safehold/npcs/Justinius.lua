@@ -83,6 +83,7 @@ function onEventFinish(player, csid, option)
         player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.MONARCH_LINN_PATROL_PERMIT)
         player:setCharVar("UninvitedGuestsStatus", 1) -- accepted
     elseif csid == 572 then
+        local rewardId = player:getCharVar("UninvitedGuestsReward") -- Done to prevent people from holding the r/ex xp page and forcing a recalculation
         if rewardId == 0 then
             rewardId = generateUninvitedGuestsReward(player)
         end
