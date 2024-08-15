@@ -858,6 +858,12 @@ namespace charutils
         PChar->health.mp = canRestore ? PChar->GetMaxMP() : MP;
         PChar->UpdateHealth();
         PChar->ReloadParty();
+
+    if (charutils::GetCharVar(PChar, "AUTOTARGET_ON") == 1)
+            PChar->m_hasAutoTarget = 1;
+        else
+            PChar->m_hasAutoTarget = 0;
+
         PChar->m_event.EventID = luautils::OnZoneIn(PChar);
         luautils::OnGameIn(PChar, zoning == 1);
     }
