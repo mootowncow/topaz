@@ -47,6 +47,7 @@ require("scripts/globals/weaponskillids")
 -- TODO: Uninvited guests better drops! And test your mite also(buff the earring?)
 -- shikaree's no drops
 -- Tango with a Tracker should give 10k gil
+-- TODO: 	Pulling the Strings
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
