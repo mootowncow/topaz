@@ -2491,10 +2491,13 @@ int16 GetSDTTier(int16 SDT)
 
         int diff = PAttacker->GetMLevel() - PDefender->GetMLevel();
 
-        // If the attacker is higher level than the defender, then the difference is multiplid by 10 for a severe penalty of +10% chance per level
-        if (diff > 0)
+        // If the defender is a player, and the attacker is higher level than the defender, then the difference is multiplid by 10 for a severe penalty of +10% chance per level
+        if (PDefender->objtype == TYPE_PC)
         {
-            diff *= 10;
+            if (diff > 0)
+            {
+                diff *= 10;
+            }
         }
 
         if (PDefender->objtype == TYPE_MOB && PDefender->allegiance != ALLEGIANCE_PLAYER)
