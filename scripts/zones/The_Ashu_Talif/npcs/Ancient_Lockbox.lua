@@ -39,8 +39,9 @@ function onTrigger(player, npc)
 
     local qItem = {
         [55] = {
-            {itemid = 2286, droprate = 600}, -- ??? box
-            {itemid = 2191, droprate = 400}  -- ??? dagger
+            {itemid = tpz.items.QUESTIONMARK_CAPE, droprate = 334},
+            {itemid = tpz.items.QUESTIONMARK_HEADPIECE, droprate = 333}
+            {itemid = tpz.items.QUESTIONMARK_GLOVES, droprate = 333}
         }
     }
 
@@ -71,8 +72,8 @@ function onTrigger(player, npc)
         {itemid = tpz.items.FLUORITE, droprate = 100},
         {itemid = tpz.items.AMETRINE, droprate = 100},
         {itemid = tpz.items.ANGELSTONE, droprate = 100},
-        {itemid = tpz.items.SPHENE, droprate = 100},
-        {itemid = tpz.items.YOICHIS_SASH, droprate = 100}
+        {itemid = tpz.items.YOICHIS_SASH, droprate = 100},
+        {itemid = tpz.items.WARLOCKS_BAG, droprate = 100},
     }
 
     local royalPainterItemBoss =
@@ -82,7 +83,7 @@ function onTrigger(player, npc)
 
     local royalPainterItemFaluuya =
     {
-        {itemid = tpz.items.QUESTIONMARK_HEADPIECE, droprate = 500},
+        {itemid = tpz.items.QUESTIONMARK_RING, droprate = 500},
         {itemid = tpz.items.QUESTIONMARK_BOX, droprate = 500},
     }
 
@@ -111,10 +112,10 @@ function onTrigger(player, npc)
         {itemid = tpz.items.ZIRCON, droprate = 100},
         {itemid = tpz.items.GOSHENITE, droprate = 100},
         {itemid = tpz.items.FLUORITE, droprate = 100},
-        {itemid = tpz.items.AMETRINE, droprate = 100},
         {itemid = tpz.items.ANGELSTONE, droprate = 100},
         {itemid = tpz.items.SPHENE, droprate = 100},
-        {itemid = tpz.items.YOICHIS_SASH, droprate = 100}
+        {itemid = tpz.items.YOICHIS_SASH, droprate = 100},
+        {itemid = tpz.items.BARBAROSSAS_ZEREHS, droprate = 100},
     }
 
     local targetingCaptainBoxB =

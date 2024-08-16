@@ -543,6 +543,15 @@ tpz.appraisalUtil.appraisalItems =
     },
     [tpz.appraisalUtil.questionMarkItems.GLOVES] =
     {
+        [tpz.appraisalUtil.Origin.SCOUTING_THE_ASHU_TALIF] =
+        {
+            items =
+            {
+                {5, 12679}, -- Trickster's Gloves
+                {50, 12696}, -- Leather Gloves
+                {45, 12721}, -- Cotton Gloves
+            }
+        },
         [ORICHALCUM_SURVEY] =
         {
             items =
@@ -656,6 +665,15 @@ tpz.appraisalUtil.appraisalItems =
     },
     [tpz.appraisalUtil.questionMarkItems.HEADPIECE] =
     {
+        [tpz.appraisalUtil.Origin.SCOUTING_THE_ASHU_TALIF] =
+        {
+            items =
+            {
+                {5, 12523}, -- Clergy Crown
+                {50, 12472}, -- Circlet
+                {45, 13837}, -- Bonzes Circlet
+            }
+        },
         [tpz.appraisalUtil.Origin.ROYAL_PAINTER_ESCORT] =
         {
             items =
@@ -770,6 +788,15 @@ tpz.appraisalUtil.appraisalItems =
     },
     [tpz.appraisalUtil.questionMarkItems.RING] =
     {
+        [tpz.appraisalUtil.Origin.ROYAL_PAINTER_ESCORT] =
+        {
+            items =
+            {
+                { 5, 13505}, -- Veterinarians Ring
+                {50, 13454}, -- Copper Ring
+                {45, 13465}, -- Brass Ring
+            },
+        },
         [LEUJAOAM_CLEANSING] =
         {
             items =
@@ -874,6 +901,15 @@ tpz.appraisalUtil.appraisalItems =
     },
     [tpz.appraisalUtil.questionMarkItems.CAPE] =
     {
+        [tpz.appraisalUtil.Origin.SCOUTING_THE_ASHU_TALIF] =
+        {
+            items =
+            {
+                {5, 13606}, -- Clergy Cape
+                {50, 13583}, -- Cape
+                {45, 13584}, -- Cotton Cape
+            }
+        },
         [LEBROS_SUPPLIES] =
         {
             items =
@@ -1239,7 +1275,6 @@ tpz.appraisalUtil.appraisalItems =
                 {5, tpz.items.SPOOL_OF_GOLD_THREAD},
                 {5, tpz.items.SPOOL_OF_SILVER_THREAD},
                 {5, tpz.items.SPOOL_OF_WOOL_THREAD},
-                {5, tpz.items.AMETRINE},
                 {5, tpz.items.DEATHSTONE},
                 {5, tpz.items.ANGELSTONE},
                 {5, tpz.items.CHUNK_OF_KHROMA_ORE},
@@ -1251,6 +1286,7 @@ tpz.appraisalUtil.appraisalItems =
                 {5, tpz.items.REACTIVE_SHIELD},
                 {5, tpz.items.TRANQUILIZER},
                 {5, tpz.items.CONDENSER},
+                {5, tpz.items.JUDGES_CUISSES},
             }
         },
         [tpz.appraisalUtil.Origin.TARGETING_THE_CAPTAIN] =
@@ -1260,7 +1296,6 @@ tpz.appraisalUtil.appraisalItems =
                 {5, tpz.items.CERBERUS_HIDE},
                 {5, tpz.items.HYDRA_SCALE},
                 {5, tpz.items.DIAMOND},
-                {5, tpz.items.EMERALD},
                 {5, tpz.items.SPOOL_OF_RAINBOW_THREAD},
                 {5, tpz.items.SPOOL_OF_GOLD_THREAD},
                 {5, tpz.items.SPOOL_OF_SILVER_THREAD},
@@ -1277,6 +1312,7 @@ tpz.appraisalUtil.appraisalItems =
                 {5, tpz.items.REACTIVE_SHIELD},
                 {5, tpz.items.TRANQUILIZER},
                 {5, tpz.items.CONDENSER},
+                {5, tpz.items.BARBAROSSAS_ZEREHS},
             }
         },
         [tpz.appraisalUtil.Origin.NYZUL_AIATAR] =
