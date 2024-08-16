@@ -1416,33 +1416,36 @@ void CZoneEntities::ZoneServer(time_point tick, bool check_trigger_areas)
         //     : this way, but we need to do this to keep allies working (for now).
         if (auto* PPet = static_cast<CPetEntity*>(it->second))
         {
-            PPet->PRecastContainer->Check();
-            PPet->StatusEffectContainer->CheckEffectsExpiry(tick);
-            if (tick > m_EffectCheckTime)
+            if (PPet)
             {
-                PPet->StatusEffectContainer->TickRegen(tick);
-                PPet->StatusEffectContainer->TickEffects(tick);
-            }
-            PPet->PAI->Tick(tick);
-
-            if (PPet->status == STATUS_DISAPPEAR)
-            {
-                for (auto PMobIt : m_mobList)
+                PPet->PRecastContainer->Check();
+                PPet->StatusEffectContainer->CheckEffectsExpiry(tick);
+                if (tick > m_EffectCheckTime)
                 {
-                    CMobEntity* PCurrentMob = (CMobEntity*)PMobIt.second;
-                    PCurrentMob->PEnmityContainer->Clear(PPet->id);
+                    PPet->StatusEffectContainer->TickRegen(tick);
+                    PPet->StatusEffectContainer->TickEffects(tick);
                 }
+                PPet->PAI->Tick(tick);
 
-                if (PPet->getPetType() != PETTYPE_AUTOMATON || !PPet->PMaster)
+                if (PPet->status == STATUS_DISAPPEAR)
                 {
-                    delete it->second;
-                    it->second = nullptr;
+                    for (auto PMobIt : m_mobList)
+                    {
+                        CMobEntity* PCurrentMob = (CMobEntity*)PMobIt.second;
+                        PCurrentMob->PEnmityContainer->Clear(PPet->id);
+                    }
+
+                    if (PPet->getPetType() != PETTYPE_AUTOMATON || !PPet->PMaster)
+                    {
+                        delete it->second;
+                        it->second = nullptr;
+                    }
+
+                    dynamicTargIdsToDelete.push_back(std::make_pair(it->first, server_clock::now()));
+
+                    m_petList.erase(it++);
+                    continue;
                 }
-
-                dynamicTargIdsToDelete.push_back(std::make_pair(it->first, server_clock::now()));
-
-                m_petList.erase(it++);
-                continue;
             }
         }
         it++;
