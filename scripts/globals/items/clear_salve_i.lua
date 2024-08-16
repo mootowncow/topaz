@@ -27,7 +27,11 @@ function onItemUse(target)
             if (pet:hasStatusEffect(effect)) then
                 local currentEffect = pet:getStatusEffect(effect)
                 local effectFlags = currentEffect:getFlag()
-                if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) ~= 0) or (effect == tpz.effect.PETRIFICATION) then
+                if
+                    (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) ~= 0) or
+                    (effect == tpz.effect.DOOM) or
+                    (effect == tpz.effect.PETRIFICATION)
+                then
                     if pet:delStatusEffect(effect) then return true end
                 end
             end
