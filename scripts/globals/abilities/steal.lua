@@ -79,7 +79,7 @@ function onUseAbility(player, target, ability, action)
     local effect = tpz.effect.NONE
     local skill = player:getWeaponSkillType(tpz.slot.MAIN)
     local bonus = 175
-    if (stolen == 0 and player:hasTrait(tpz.trait.AURA_STEAL)) then
+    if player:hasTrait(tpz.trait.AURA_STEAL) then
         local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, bonus, tpz.effect.NONE, skill)
         local effectStealSuccess = false
         if (resist >= 0.50) and math.random(100) > target:getMod(tpz.mod.DISPELRESTRAIT) then
@@ -95,7 +95,7 @@ function onUseAbility(player, target, ability, action)
             end
 
             -- Try for a second effect if we have the augment
-            if ((effect ~= tpz.effect.NONE or stolen ~= 0) and player:getMod(tpz.mod.AUGMENTS_AURA_STEAL) > 0) then
+            if ((effect ~= tpz.effect.NONE) and player:getMod(tpz.mod.AUGMENTS_AURA_STEAL) > 0) then
                 if (math.random(100) < auraStealChance) then
                     if (stolenEffect2 ~= nil and math.random(100) < auraStealChance) then
                         effect = player:stealStatusEffect(target)
