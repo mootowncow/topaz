@@ -42,13 +42,13 @@ uint16 GetMogHouseID(CCharEntity* PChar)
     switch (zoneutils::GetCurrentRegion(PChar->getZone()))
     {
     case REGION_WEST_AHT_URHGAN:
-        return ZONE_214;
+            return 214;
     case REGION_RONFAURE_FRONT:
-        return ZONE_189;
+        return 745;
     case REGION_GUSTABERG_FRONT:
-        return ZONE_199;
+        return 199;
     case REGION_SARUTA_FRONT:
-        return ZONE_219;
+        return 219;
     case REGION_SANDORIA:
         return (PChar->profile.nation == 0 ? 0x0121 : 0x0101);
     case REGION_BASTOK:
@@ -57,7 +57,10 @@ uint16 GetMogHouseID(CCharEntity* PChar)
         return (PChar->profile.nation == 2 ? 0x0123 : 0x0120);
     case REGION_JEUNO:
         return 0x0100;
+    case REGION_ADOULIN_ISLANDS:
+        return 0x0124;
     default:
+        ShowWarning("Default case reached for GetMogHouseID by %s (%u)", PChar->GetName(), PChar->getZone());
         return 0x0100;
     }
 }

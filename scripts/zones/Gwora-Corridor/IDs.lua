@@ -29,4 +29,4 @@ zones[tpz.zone.GWORA_CORRIDOR] =
     },
 }
 
-return zones[tpz.zone.LABYRINTH_OF_ONZOZO]
+return zones[tpz.zone.GWORA_CORRIDOR]

@@ -1061,6 +1061,9 @@ tpz.title =
     TRIBOULEX_TERRORIZER                      = 1071,
     AITA_ABNEGATER                            = 1072,
     AMINON_APPREHENDER                        = 1073,
+    PARADISE_REGAINED                         = 1074,
+    FOUNDERS_PRIDE                            = 1075,
+    MASTER_OF_ALL                             = 1076,
     RAPTOR_WRANGLER                           = 1116,
     GARDENER_FOR_THE_AGES                     = 1117,
     LAGOON_EXPLORER                           = 1118,
@@ -1094,6 +1097,7 @@ tpz.title =
     ANOTHER_PSYCHE                            = 1146,
     SENDER_OF_SHADOW                          = 1147,
     ASTRAL_ALIGNER                            = 1148,
+    VENERATED_ADVENTURER                      = 1149,
 }
 
 -----------------------------------
