@@ -15182,7 +15182,7 @@ inline int32 CLuaBaseEntity::hasTrait(lua_State *L)
 
     if (PBattleEntity)
     {
-        lua_pushboolean(L, PBattleEntity->hasTrait(lua_isnumber(L, 1)));
+        lua_pushboolean(L, PBattleEntity->hasTrait(lua_tointeger(L, 1)));
     }
     else
     {
