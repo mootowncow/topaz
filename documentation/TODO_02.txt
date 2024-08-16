@@ -232,7 +232,6 @@ WOE
 ~~~~~~~~~~~~~~~~~~~~Relic Weapons Revamp~~~~~~~~~~~~~~~~~~~~
 
 ~~~~~~~~~~~~~~~~~~~~Thief Revamp~~~~~~~~~~~~~~~~~~~~
-Despoil crashes simplelog now? I also don't like it
 Despoil effects sql
 attack/mattack ALL DIFF TYPE OF UNIQUE ENFEEBLES , boon corrupt, etc down on every thief dagger OR items that add it to your weapon as a status effect? prob tons easier..like an enchantment (and make enhantments stack)
 itemID 9152 to 9192
@@ -330,6 +329,9 @@ Lvl90, 200k hp
 Mat that lets you add a random augment to any ring/amulet/earring
 
 https://github.com/LandSandBoat/server/commits/base/?author=WinterSolstice8&after=06f2ef4dcf192fd3508768c2c734ba9a9f7c361f+34
+
+Diff zone in packet size? Maybe needed to edit all the other char packets that would break?
+https://github.com/LandSandBoat/server/blob/fa36bc0303e813d5e2b878fbd97ffa7f319130ce/src/map/packets/zone_in.cpp#L221
 
 Use recast container for mob spells
 https://github.com/LandSandBoat/server/commit/ca4b93b7c2241152b3d7bc35f608d7f8d6d35ea7

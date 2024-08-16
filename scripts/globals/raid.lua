@@ -48,6 +48,12 @@ require("scripts/globals/weaponskillids")
 -- shikaree's no drops
 -- Tango with a Tracker should give 10k gil
 -- TODO: 	Pulling the Strings
+-- TODO: Jailer of Faith should ONLY cast Quake2 during manafont (Does it cast Quake2 outside?)
+-- TODO: Mystic Boon work like atonement and scale off having lower HP and not ftp or atack
+-- TODO: Redesign jailer of prudence
+-- TODO: Perfect Dodge on CD when 1 hr is on CD
+-- TODO: Aura Steal never works?
+-- TODO: Add more important items to all 3 of the Ashu Talif fights
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
