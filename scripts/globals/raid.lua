@@ -33,16 +33,9 @@ require("scripts/globals/weaponskillids")
 -- TODO: Better storage logic, make a function, allow trading multiple items. "You have stored x item for a total of y"
 -- TODO: Deleting / Adding ZNM item work on NMs with multi word names?
 -- TODO: Wyvern Earring + Target BCNMs
--- TODO: Asylum + Mystic boon + shining/seraph strike to work on all entities not party (For NPCs)
--- TODO: Inline should also work diagnally
--- TODO: Perfect Doge recast changed back
--- TODO: BLU and BST TH1 not 2
 -- TODO: TH proc with thorny's new numbers
--- TODO: TA + WS extremely unreliable/inconsistent at giving stoneskin + magic shield for some odd reason (Is it bugged in the WS lua need to be behind, 64 or w/e? )
 -- TODO: Febrenard_C_Brunnaut stats? He melees.
 -- TODO: Does the proper WHMs use Nott and melee? They also might need regain.
--- TODO: Autotarget defaults to OFF and resets on relog or zoning? Shouldn't reset and should default to ON.'Test it with prints
--- TODO: Mobs interrupted too easily by pets and friendly NPCs if below level?
 -- TODO: Ga'fho venomtouch model is too small/wrong model? Tiny NM
 -- TODO: Uninvited guests better drops! And test your mite also(buff the earring?)
 -- shikaree's no drops
@@ -52,7 +45,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Mystic Boon work like atonement and scale off having lower HP and not ftp or atack
 -- TODO: Redesign jailer of prudence
 -- TODO: Perfect Dodge on CD when 1 hr is on CD
--- TODO: Aura Steal never works?
 -- TODO: Add more important items to all 3 of the Ashu Talif fights
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}

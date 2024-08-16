@@ -720,6 +720,7 @@ namespace petutils
                 PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(10, mlvl > 99 ? 99 : mlvl));
                 break;
             case FRAME_VALOREDGE:
+                PPet->WorkingSkills.shield =  battleutils::GetMaxSkill(1, mlvl > 99 ? 99 : mlvl); // A+ Shield
                 PPet->WorkingSkills.evasion = battleutils::GetMaxSkill(5, mlvl > 99 ? 99 : mlvl);
                 PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(5, mlvl > 99 ? 99 : mlvl));
                 break;

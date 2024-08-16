@@ -2675,8 +2675,13 @@ int16 GetSDTTier(int16 SDT)
         }
         else if (PDefender->objtype == TYPE_PET)
         {
-            base = PDefender->getMod(Mod::SHIELDBLOCKRATE);
-            return base;
+            CPetEntity* PPet = (CPetEntity*)PDefender;
+            if (PPet->getMobMod(MOBMOD_BLOCK) > 0 || PPet->getMod(Mod::SHIELDBLOCKRATE) > 0)
+            {
+                shieldSize = PPet->getMobMod(MOBMOD_BLOCK);
+            }
+            else
+                return 0;
         }
         else
             return 0;
@@ -2975,7 +2980,7 @@ int16 GetSDTTier(int16 SDT)
             if (isBlocked)
             {
                 uint8 absorb = 100;
-                if (PDefender->m_Weapons[SLOT_SUB]->IsShield() || PDefender->objtype == TYPE_MOB)
+                if (PDefender->m_Weapons[SLOT_SUB]->IsShield() || PDefender->objtype == TYPE_MOB || PDefender->objtype == TYPE_PET)
                 {
                     if (PDefender->objtype == TYPE_PC)
                     {
@@ -2991,7 +2996,7 @@ int16 GetSDTTier(int16 SDT)
                             PDefender->addTP(PDefender->getMod(Mod::SHIELD_MASTERY_TP));
                         }
                     }
-                    else if (PDefender->objtype == TYPE_PET)
+                    else if (PDefender->objtype == TYPE_PET && ((CMobEntity*)PDefender)->getMobMod(MOBMOD_BLOCK) > 0)
                     {
                         absorb = battleutils::getShieldBlockAmount(PDefender);
                         absorb -= PDefender->getMod(Mod::SHIELD_DEF_BONUS); // Include Shield Defense Bonus in absorb amount
@@ -3041,7 +3046,7 @@ int16 GetSDTTier(int16 SDT)
                             0, reprisalEffect->GetSubPower()));
                     }
                 }
-
+                //printf("Absorb %u\n", absorb);
                 damage = (damage * absorb) / 100;
             }
         }

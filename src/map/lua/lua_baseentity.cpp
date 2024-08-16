@@ -15709,12 +15709,6 @@ inline int32 CLuaBaseEntity::getGuardRate(lua_State* L)
     CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
     CBattleEntity* PAttacker = (CBattleEntity*)(PLuaBaseEntity->GetBaseEntity());
 
-    if (PDefender->objtype != TYPE_PC && PDefender->objtype != TYPE_MOB)
-    {
-        lua_pushinteger(L, 0);
-        return 1;
-    }
-
     if (PDefender && PAttacker && PDefender->PAI && PDefender->PAI->IsEngaged() && facing(PDefender->loc.p, PAttacker->loc.p, 64))
         lua_pushinteger(L, battleutils::GetGuardRate(PAttacker, PDefender));
     else
@@ -15738,18 +15732,15 @@ inline int32 CLuaBaseEntity::getParryRate(lua_State* L)
     CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
     CBattleEntity* PAttacker = (CBattleEntity*)(PLuaBaseEntity->GetBaseEntity());
 
-    if (PDefender->objtype != TYPE_PC && PDefender->objtype != TYPE_MOB)
-    {
-        lua_pushinteger(L, 0);
-        return 1;
-    }
-
     if (PDefender && PAttacker && PDefender->objtype == TYPE_PC && !PDefender->StatusEffectContainer->HasPreventActionEffect(false) && PDefender->PAI &&
         PDefender->PAI->IsEngaged() &&
         facing(PDefender->loc.p, PAttacker->loc.p, 64))
         lua_pushinteger(L, battleutils::GetParryRate(PAttacker, PDefender));
     else if (PDefender && PAttacker && PDefender->objtype == TYPE_MOB && !PDefender->StatusEffectContainer->HasPreventActionEffect(false) && PDefender->PAI &&
         PDefender->PAI->IsEngaged() && facing(PDefender->loc.p, PAttacker->loc.p, 64))
+        lua_pushinteger(L, battleutils::GetMobParryRate(PAttacker, PDefender));
+    else if (PDefender && PAttacker && PDefender->objtype == TYPE_PET && !PDefender->StatusEffectContainer->HasPreventActionEffect(false) && PDefender->PAI &&
+             PDefender->PAI->IsEngaged() && facing(PDefender->loc.p, PAttacker->loc.p, 64))
         lua_pushinteger(L, battleutils::GetMobParryRate(PAttacker, PDefender));
     else
         lua_pushinteger(L, 0);
@@ -15771,13 +15762,7 @@ inline int32 CLuaBaseEntity::getBlockRate(lua_State* L)
     CBattleEntity* PDefender = (CBattleEntity*)m_PBaseEntity;
     CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
     CBattleEntity* PAttacker = (CBattleEntity*)(PLuaBaseEntity->GetBaseEntity());
-
-    if (PDefender->objtype != TYPE_PC && PDefender->objtype != TYPE_MOB) // This allows you to get mob block rate, possibly. Worked for guard
-    {
-        lua_pushinteger(L, 0);
-        return 1;
-    }
-    else if (PDefender->objtype == TYPE_MOB)
+    if (PDefender->objtype == TYPE_MOB || PDefender->objtype == TYPE_PET)
     {
         if (PDefender && PAttacker && !PDefender->StatusEffectContainer->HasPreventActionEffect(false) && facing(PDefender->loc.p, PAttacker->loc.p, 64))
             lua_pushinteger(L, battleutils::GetBlockRate(PAttacker, PDefender));
@@ -15785,7 +15770,6 @@ inline int32 CLuaBaseEntity::getBlockRate(lua_State* L)
             lua_pushinteger(L, 0);
         return 1;
     }
-
     else
     {
         CCharEntity* PChar = (CCharEntity*)PDefender;
@@ -15842,7 +15826,6 @@ inline int32 CLuaBaseEntity::getBlockedDamage(lua_State* L)
         // unblocked damage (before block but as if affected by stoneskin/phalanx) must be greater than zero
         PDefender->addTP(PDefender->getMod(Mod::SHIELD_MASTERY_TP));
     }
-
     lua_pushinteger(L, damage * (100 - absorb) / 100);
     return 1;
     }
@@ -15864,7 +15847,6 @@ inline int32 CLuaBaseEntity::getBlockedDamage(lua_State* L)
         // unblocked damage (before block but as if affected by stoneskin/phalanx) must be greater than zero
         PDefender->addTP(PDefender->getMod(Mod::SHIELD_MASTERY_TP));
     }
-
     lua_pushinteger(L, damage * (100 - absorb) / 100);
     return 1;
     }
@@ -15885,7 +15867,6 @@ inline int32 CLuaBaseEntity::getBlockedDamage(lua_State* L)
         // If the player blocked with a shield and has shield mastery, add shield mastery TP bonus
         PDefender->addTP(PDefender->getMod(Mod::SHIELD_MASTERY_TP));
     }
-
     lua_pushinteger(L, damage * (100 - absorb) / 100);
     return 1;
 }
