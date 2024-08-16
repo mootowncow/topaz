@@ -572,6 +572,22 @@ utils.mask =
     end,
 }
 
+ -- checks if mob is in any stage of using a mobskill or casting a spell or under the status effects listed below
+ -- prevents multiple abilities/actions to be called at the same time
+function utils.canUseAbility(mob)
+    local act = mob:getCurrentAction()
+    if act == tpz.act.MOBABILITY_START or act == tpz.act.MOBABILITY_USING or act == tpz.act.MOBABILITY_FINISH
+    or act == tpz.act.MAGIC_START or act == tpz.act.MAGIC_CASTING or mob:getStatusEffect(tpz.effect.STUN) ~= nil
+    or mob:getStatusEffect(tpz.effect.PETRIFICATION) ~= nil or mob:getStatusEffect(tpz.effect.TERROR) ~= nil
+    or mob:getStatusEffect(tpz.effect.SLEEP_I) ~= nil or mob:getStatusEffect(tpz.effect.SLEEP_II) ~= nil
+    or mob:getStatusEffect(tpz.effect.AMNESIA) ~= nil or mob:getStatusEffect(tpz.effect.LULLABY) ~= nil then
+        return false
+    end
+
+    return true
+end
+
+
 -- Selects a random entry from a table, returns the index and the entry
 -- https://gist.github.com/jdev6/1e7ff30671edf88d03d4
 function utils.randomEntryIdx(t)
