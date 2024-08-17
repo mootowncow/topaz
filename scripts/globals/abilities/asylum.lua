@@ -28,6 +28,7 @@ function onUseAbility(player, target, ability)
                     player:addMP((player:getMaxMP()/100)*10)
                     break
                 end
+                break
             end
         end
     end
