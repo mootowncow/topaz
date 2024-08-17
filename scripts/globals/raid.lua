@@ -45,7 +45,30 @@ require("scripts/globals/weaponskillids")
 -- TODO: Mystic Boon work like atonement and scale off having lower HP and not ftp or atack
 -- TODO: Redesign jailer of prudence
 -- TODO: Perfect Dodge on CD when 1 hr is on CD
--- TODO: Add more important items to all 3 of the Ashu Talif fights
+-- TODO: You can dispel your own helixes off enemies?!
+-- TODO: Adendum white boosts regen and it shouldn't boost it more than light arts
+-- TODO: Aldo healing Bahamut on autos sometimes
+-- TODO: Bahamut spams gigaflare below 50%...bugged?
+-- TODO: Bahamut Flares not supposed to be instant? And have cutscene text before he does them?
+-- TODO: Ultima randomly bugged out and didn't start confrontation? Had to force respawn it
+-- TODO: Buff all tanks damage so they can actually tank?
+-- TODO: AOE spells shouldn't apply to dead players(magic.cpp logic?)
+-- TODO: Swathe of Silence and Daming Edict should be "2hr/JA" and not consume TP
+-- TODO: Give all the melee WHM / BLM / RDM some way to restore MP(mostly on their unique WS). Not sure what Febrenard_C_Brunnaut needs. Marujido needs mana well.
+-- TODO: AA TT immune to stun during manafont
+-- TODO: Kamlanaut waay undertuned, dies really fast and does nothing. Make new mob family and give trong ga enfeebles? Also make his enspells undispellable and give him ochain
+-- TODO: Confrontation should be removed after a timer when the red text shows but make it only show at 50+ yards
+-- TODO: Omega pods dont spawn?
+-- TODO: NPC's didn't despawn after Ealdnarche died?
+-- TODO: Kupipi needs way to get MP back
+-- TODO: PLD's need chivalry
+-- TODO: Shikaree Z's wyvern has insane attack speed?
+-- TODO: Monberaux overwrites shell/haste
+-- TODO: Monberaux na/erase should be AOE only for this content
+-- TODO: Ealdnarche manafont meteor at 25% (90s cd)
+-- TODO: A_REALM_OF_EMPTINESS music doesnt work for promathia?
+-- TODO: Set all musics (.DAY and .NIGHT also)
+-- TODO: Asylum restores MP per target, prob have to code in C++?
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -161,7 +184,7 @@ local function SetBattleMusicOnFight(mob, track)
         if nearbyPlayers == nil then return end
         if nearbyPlayers then
             for _,player in ipairs(nearbyPlayers) do
-                if player:isAlive() then
+                if player:isPC() and player:isAlive() then
                     player:ChangeMusic(tpz.music.type.BATTLE_SOLO, track)
                     player:ChangeMusic(tpz.music.type.BATTLE_PARTY, track)
                 end
@@ -194,7 +217,7 @@ local function SetBattleMusicOnDeath(mob)
     if nearbyPlayers == nil then return end
     if nearbyPlayers then
         for _,player in ipairs(nearbyPlayers) do
-            if player:isAlive() then
+            if player:isPC() and player:isAlive() then
                 player:ChangeMusic(tpz.music.type.BATTLE_SOLO, soloTrack)
                 player:ChangeMusic(tpz.music.type.BATTLE_PARTY, partyTrack)
             end
@@ -265,9 +288,9 @@ local modByMobName =
     end,
 
     ['Ultima'] = function(mob)
+        mob:addMod(tpz.mod.REGEN, 0)
 	    mob:setMod(tpz.mod.MDEF, 119)
         mob:setMod(tpz.mod.UDMGMAGIC, -30)
-	    mob:setMod(tpz.mod.REGEN, 0) 
 	    mob:setMod(tpz.mod.REGAIN, 0) 
 	    mob:setMod(tpz.mod.DOUBLE_ATTACK, 0)
         mob:SetMagicCastingEnabled(false)
@@ -277,7 +300,6 @@ local modByMobName =
     end,
 
     ['Ealdnarche'] = function(mob)
-        mob:setDamage(75)
         mob:addMod(tpz.mod.EVA, 100)
         mob:setMod(tpz.mod.UDMGMAGIC, -95)
         mob:setMod(tpz.mod.REFRESH, 400)
@@ -285,10 +307,14 @@ local modByMobName =
     end,
 
     ['Kamlanaut'] = function(mob)
+        mob:setMod(tpz.mod.UDMGPHYS, -30)
+        mob:setMod(tpz.mod.UDMGMAGIC, -30)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     end,
 
     ['Shadow_Lord'] = function(mob)
+        mob:addMod(tpz.mod.REGEN, 0)
+        mob:setMod(tpz.mod.REGAIN, 100) 
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
         mob:setSpellList(543)
     end,
@@ -428,6 +454,7 @@ local mobFightByMobName =
     end,
 
     ['Gunpod'] = function(mob, target)
+        mob:setMod(tpz.mod.REGAIN, 0)
         SetBattleMusicOnFight(mob, tpz.music.track.FINAL_THEME)
     end,
 
@@ -638,7 +665,7 @@ local mobFightByMobName =
                 mob:addStatusEffectEx(tpz.effect.MAGIC_SHIELD, 0, 1, 0, 0)
                 mob:SetAutoAttackEnabled(false)
                 mob:SetMagicCastingEnabled(true)
-                mob:setMobMod(tpz.mobMod.MAGIC_COOL, 2)
+                mob:setMobMod(tpz.mobMod.MAGIC_COOL, 10)
                 --and record the time and HP this immunity was started
                 mob:setLocalVar("changeTime", mob:getBattleTime())
                 mob:setLocalVar("changeHP", mob:getHP())
@@ -647,7 +674,6 @@ local mobFightByMobName =
                 (mob:AnimationSub() == 2 and (mob:getHP() <= changeHP - 10000 or
                 mob:getBattleTime() - changeTime > 60))
             then
-                printf("Changing to magical immunity")
                 -- and use an ability before changing
                 mob:useMobAbility(tpz.mob.skills.SWATH_OF_SILENCE)
                 mob:AnimationSub(1)
@@ -663,7 +689,6 @@ local mobFightByMobName =
                 (mob:AnimationSub() == 1 and (mob:getHP() <= changeHP - 10000 or
                 mob:getBattleTime() - changeTime > 60))
             then
-                printf("Changing to physical immunity")
                 -- and use an ability before changing
                 mob:useMobAbility(tpz.mob.skills.DAMNING_EDICT)
                 mob:AnimationSub(2)
@@ -683,8 +708,8 @@ local mobFightByMobName =
             between = 120,
             specials =
             {
-                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 360, hpp = 50},
-                {id = tpz.jsa.MIJIN_GAKURE, cooldown = 360, hpp = 50},
+                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 90, hpp = 90},
+                {id = tpz.jsa.MIJIN_GAKURE, cooldown = 90, hpp = 90},
             },
         })
         SetBattleMusicOnFight(mob, tpz.music.track.GALKA)
@@ -695,8 +720,8 @@ local mobFightByMobName =
             between = 120,
             specials =
             {
-                {id = tpz.jsa.PERFECT_DODGE, cooldown = 360, hpp = 50},
-                {id = tpz.jsa.CHARM, cooldown = 360, hpp = 50},
+                {id = tpz.jsa.PERFECT_DODGE, cooldown = 360, hpp = 90},
+                {id = tpz.jsa.CHARM, cooldown = 360, hpp = 90},
             },
         })
         local battletime = mob:getBattleTime()
@@ -786,8 +811,8 @@ local mobFightByMobName =
             between = 120,
             specials =
             {
-                {id = tpz.jsa.SPIRIT_SURGE, cooldown = 360, hpp = 50},
-                {id = tpz.jsa.MEIKYO_SHISUI, cooldown = 360, hpp = 50},
+                {id = tpz.jsa.SPIRIT_SURGE, cooldown = 90, hpp = 90},
+                {id = tpz.jsa.MEIKYO_SHISUI, cooldown = 90, hpp = 90},
             },
         })
         local battletime = mob:getBattleTime()
@@ -839,6 +864,11 @@ tpz.raid.onMobSpawn = function(mob)
     mob:setMobMod(tpz.mobMod.NO_DR, 1)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
+    mob:addImmunity(tpz.immunity.SLEEP)
+    mob:addImmunity(tpz.immunity.GRAVITY)
+    mob:addImmunity(tpz.immunity.BIND)
+    mob:addImmunity(tpz.immunity.SILENCE) 
+    mob:addImmunity(tpz.immunity.PETRIFY)
 
     local mobName = mob:getName()
     local mods = modByMobName[mobName]
@@ -882,7 +912,7 @@ tpz.raid.onMobDeath = function(mob, player, isKiller, noKiller)
         for i = 1, 10 do
             if (entity:getLocalVar("givenCP") < 10) then
                 entity:addCapacityPoints(30000)
-                entity:setLocalVar("givenCP", givenCP +1)
+                entity:setLocalVar("givenCP", entity:getLocalVar("givenCP") +1)
             end
         end
     end
@@ -898,9 +928,9 @@ end
 tpz.raid.onNpcSpawn = function(mob)
     local mJob = mob:getMainJob()
     if (mJob == tpz.job.MNK) or (mJob == tpz.job.PUP) then
-        mob:setDamage(10)
+        mob:setDamage(15)
     else
-        mob:setDamage(20)
+        mob:setDamage(30)
     end
     mob:setMod(tpz.mod.REFRESH, 8)
     if not IsAPet(mob) then
@@ -995,12 +1025,10 @@ tpz.raid.onNpcSpawn = function(mob)
         -- Always reset the global magic timer
         mob:setLocalVar("globalMagicTimer", 0)
     end)
-
-    mob:setUnkillable(true) -- For testing
 end
 
 tpz.raid.onNpcRoam = function(mob)
-    local entities = mob:getNearbyMobs(50)
+    local entities = mob:getNearbyMobs(100)
     -- printf("Found %d entities nearby\n", #entities)
     for i, entity in pairs(entities) do
         if entity:getID() ~= mob:getID() then
@@ -1109,6 +1137,9 @@ function SetUpHealerNPC(mob)
 
     if IsFablinix(mob) then
         mob:setMobMod(tpz.mobMod.CAN_RA, 16)
+    elseif IsFebrenard(mob) then
+        mob:setMod(tpz.mod.CURE_CAST_TIME, 50)
+        mob:setMod(tpz.mod.CURE2MP_PERCENT, 25)
     elseif IsCherukiki(mob) then
         mob:addMod(tpz.mod.MND, 50)
         mob:addMod(tpz.mobMod.STONESKIN_BONUS_HP, 350)
@@ -1133,8 +1164,16 @@ end
 function SetUpTankNPC(mob)
     local mJob = mob:getMainJob()
     local sJob = mob:getSubJob()
+    local level = mob:getMainLvl()
     local npcName = mob:getName()
 
+    local weaponDamage = level + 2
+    if (mJob == tpz.job.MNK) or (mJob == tpz.job.PUP) then
+        local h2hskill = math.floor(utils.getSkillLvl(1, mob:getMainLvl()))
+        weaponDamage = 0.11 * h2hskill + 3 + 18 * math.floor((level + 2) / 75)
+    end
+
+    mob:setDamage(weaponDamage)
     mob:addMod(tpz.mod.ENMITY_II, 25)
 
     if IsHalver(mob) then
@@ -1156,7 +1195,6 @@ function SetUpTankNPC(mob)
         -- 50% Guard rate cap like players
         mob:addMod(tpz.mod.GUARD_PERCENT, 150)
     elseif IsInvincibleShield(mob) then
-        mob:setDamage(40)
         -- Full Koenig
         mob:addMod(tpz.mod.STR, -30)
         mob:addMod(tpz.mod.DEX, -30)
@@ -1171,7 +1209,12 @@ end
 
 function SetUpPuppetNPC(mob)
     if IsMnejing(mob) then
+        local level = mob:getMainLvl()
+        local weaponDamage = level + 2
+
+        mob:setDamage(weaponDamage)
         mob:addMod(tpz.mod.DMG, -38)
+        mob:setMod(tpz.mod.UDMGBREATH, -90)
         mob:addMod(tpz.mod.ENMITY_II, 25)
     end
 
@@ -2760,6 +2803,10 @@ function IsLhuMhakaracca(mob)
     return mob:getName() == 'Lhu_Mhakaracca'
 end
 
+function IsFebrenard(mob)
+    return mob:getName() == 'Febrenard_C_Brunnaut'
+end
+
 function ShouldStandBack(mob)
     local mobName = mob:getName() 
     local job = mob:getMainJob()
@@ -2772,7 +2819,7 @@ function ShouldStandBack(mob)
         return true
     end
 
-    if (mobName == 'Febrenard_C_Brunnaut') then
+    if IsFebrenard(mob) then
         return false
     end
 

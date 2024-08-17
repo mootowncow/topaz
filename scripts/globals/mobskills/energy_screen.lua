@@ -10,7 +10,7 @@ require("scripts/globals/status")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-	if mob:hasStatusEffect(tpz.effect.PHYSICAL_SHIELD) then
+	if mob:hasStatusEffect(tpz.effect.PHYSICAL_SHIELD) or mob:hasStatusEffect(tpz.effect.MAGIC_SHIELD) then
 		return 1
 	end
     local phase = mob:getLocalVar("battlePhase")

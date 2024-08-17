@@ -22,5 +22,8 @@ function onMobWeaponSkill(target, mob, skill)
     MobStatusEffectMove(mob, target, tpz.effect.SLEEP, 1, 0, 60)
     MobStatusEffectMove(mob, target, tpz.effect.MAGIC_DEF_DOWN, 25, 0, 60)
     MobStatusEffectMove(mob, target, tpz.effect.MAGIC_EVASION_DOWN, 25, 0, 60)
+    if mob:hasStatusEffect(tpz.effect.CONFRONTATION) then
+        mob:addMP(mob:getMaxMP())
+    end
     return dmg
 end

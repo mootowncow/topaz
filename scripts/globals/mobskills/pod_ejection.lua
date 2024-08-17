@@ -19,7 +19,6 @@ function onMobWeaponSkill(target, mob, skill)
     local battlefield = mob:getBattlefield()
     local pod = GetMobByID(mob:getID() +1)
     if not pod:isSpawned() then
-        printf("Pod is not spawned")
         if battlefield then
             local players = battlefield:getPlayers()
             local random = math.random(1, #players)
@@ -27,15 +26,16 @@ function onMobWeaponSkill(target, mob, skill)
             pod:spawn()
             pod:updateEnmity(players[random])
         else
-            printf("Not a battlefield")
             local NearbyEntities = mob:getNearbyEntities(30)
             if NearbyEntities and #NearbyEntities > 0 then
                 local randomTarget = NearbyEntities[math.random(1, #NearbyEntities)]
                 if randomTarget:isAlive() then
-                    pod:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
-                    pod:spawn()
-                    ApplyConfrontation(mob, pod)
-                    pod:updateEnmity(randomTarget)
+                    if (randomTarget:getAllegiance() ~= mob:getAllegiance()) then
+                        pod:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
+                        pod:spawn()
+                        ApplyConfrontation(mob, pod)
+                        pod:updateEnmity(randomTarget)
+                    end
                 end
             end
         end
