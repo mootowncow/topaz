@@ -552,8 +552,11 @@ void CZoneEntities::SpawnMOBs(CCharEntity* PChar)
             bool validAggro = mobCheck > EMobDifficulty::TooWeak || PChar->isSitting() || PCurrentMob->getMobMod(MOBMOD_ALWAYS_AGGRO) > 0;
 
             if (validAggro && PController->CanAggroTarget(PChar))
+            {
                 PCurrentMob->PAI->Engage(PChar->targid);
+                PCurrentMob->PEnmityContainer->AddBaseEnmity(PChar);
                 PCurrentMob->PAI->EventHandler.triggerListener("AGGRO_TARGET", PCurrentMob, PChar->targid);
+            }
         }
         else
         {

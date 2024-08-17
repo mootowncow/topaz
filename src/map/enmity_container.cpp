@@ -196,15 +196,6 @@ void CEnmityContainer::UpdateEnmity(CBattleEntity* PEntity, int32 CE, int32 VE, 
 
         m_EnmityList.emplace(PEntity->id, EnmityObject_t {PEntity, CE, VE, true});
         PEntity->PNotorietyContainer->add(m_EnmityHolder);
-
-        if (withMaster && PEntity->PMaster != nullptr)
-        {
-            // add master to the enmity list (pet and charmed mob)
-            if (PEntity->objtype == TYPE_PET || (PEntity->objtype == TYPE_MOB && PEntity->PMaster != nullptr && PEntity->PMaster->objtype == TYPE_PC))
-            {
-                AddBaseEnmity(PEntity->PMaster);
-            }
-        }
     }
 
     if (!tameable)
