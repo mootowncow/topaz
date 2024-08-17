@@ -55,7 +55,9 @@ require("scripts/globals/weaponskillids")
 -- TODO: Buff all tanks damage so they can actually tank?
 -- TODO: AOE spells shouldn't apply to dead players(magic.cpp logic?)
 -- TODO: Swathe of Silence and Daming Edict should be "2hr/JA" and not consume TP
--- TODO: Give all the melee WHM / BLM / RDM some way to restore MP(mostly on their unique WS). Not sure what Febrenard_C_Brunnaut needs
+-- TODO: Give all the melee WHM / BLM / RDM some way to restore MP(mostly on their unique WS). Not sure what Febrenard_C_Brunnaut needs. Marujido needs mana well.
+-- TODO: AA TT immune to stun during manafont
+-- TODO: Confrontation should be removed after a timer when the red text shows but make it only show at 50+ yards
 -- TODO: Asylum restores MP per target, prob have to code in C++?
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
@@ -694,8 +696,8 @@ local mobFightByMobName =
             between = 120,
             specials =
             {
-                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 360, hpp = 50},
-                {id = tpz.jsa.MIJIN_GAKURE, cooldown = 360, hpp = 50},
+                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 90, hpp = 90},
+                {id = tpz.jsa.MIJIN_GAKURE, cooldown = 90, hpp = 90},
             },
         })
         SetBattleMusicOnFight(mob, tpz.music.track.GALKA)
@@ -706,8 +708,8 @@ local mobFightByMobName =
             between = 120,
             specials =
             {
-                {id = tpz.jsa.PERFECT_DODGE, cooldown = 360, hpp = 50},
-                {id = tpz.jsa.CHARM, cooldown = 360, hpp = 50},
+                {id = tpz.jsa.PERFECT_DODGE, cooldown = 360, hpp = 90},
+                {id = tpz.jsa.CHARM, cooldown = 360, hpp = 90},
             },
         })
         local battletime = mob:getBattleTime()
@@ -797,8 +799,8 @@ local mobFightByMobName =
             between = 120,
             specials =
             {
-                {id = tpz.jsa.SPIRIT_SURGE, cooldown = 360, hpp = 50},
-                {id = tpz.jsa.MEIKYO_SHISUI, cooldown = 360, hpp = 50},
+                {id = tpz.jsa.SPIRIT_SURGE, cooldown = 90, hpp = 90},
+                {id = tpz.jsa.MEIKYO_SHISUI, cooldown = 90, hpp = 90},
             },
         })
         local battletime = mob:getBattleTime()
@@ -850,6 +852,11 @@ tpz.raid.onMobSpawn = function(mob)
     mob:setMobMod(tpz.mobMod.NO_DR, 1)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
+    mob:addImmunity(tpz.immunity.SLEEP)
+    mob:addImmunity(tpz.immunity.GRAVITY)
+    mob:addImmunity(tpz.immunity.BIND)
+    mob:addImmunity(tpz.immunity.SILENCE) 
+    mob:addImmunity(tpz.immunity.PETRIFY)
 
     local mobName = mob:getName()
     local mods = modByMobName[mobName]
@@ -1118,6 +1125,9 @@ function SetUpHealerNPC(mob)
 
     if IsFablinix(mob) then
         mob:setMobMod(tpz.mobMod.CAN_RA, 16)
+    elseif IsFebrenard(mob) then
+        mob:setMod(tpz.mod.CURE_CAST_TIME, 50)
+        mob:setMod(tpz.mod.CURE2MP_PERCENT, 25)
     elseif IsCherukiki(mob) then
         mob:addMod(tpz.mod.MND, 50)
         mob:addMod(tpz.mobMod.STONESKIN_BONUS_HP, 350)
@@ -2781,6 +2791,10 @@ function IsLhuMhakaracca(mob)
     return mob:getName() == 'Lhu_Mhakaracca'
 end
 
+funciton IsFebrenard(mob)
+    return mob:getName() == 'Febrenard_C_Brunnaut'
+end
+
 function ShouldStandBack(mob)
     local mobName = mob:getName() 
     local job = mob:getMainJob()
@@ -2793,7 +2807,7 @@ function ShouldStandBack(mob)
         return true
     end
 
-    if (mobName == 'Febrenard_C_Brunnaut') then
+    if IsFebrenard(mob) then
         return false
     end
 
