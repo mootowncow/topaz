@@ -55,6 +55,7 @@ require("scripts/globals/weaponskillids")
 -- TODO: Buff all tanks damage so they can actually tank?
 -- TODO: AOE spells shouldn't apply to dead players(magic.cpp logic?)
 -- TODO: Swathe of Silence and Daming Edict should be "2hr/JA" and not consume TP
+-- TODO: Give all the melee WHM / BLM / RDM some way to restore MP(mostly on their unique WS). Not sure what Febrenard_C_Brunnaut needs
 -- TODO: Asylum restores MP per target, prob have to code in C++?
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
@@ -908,9 +909,9 @@ end
 tpz.raid.onNpcSpawn = function(mob)
     local mJob = mob:getMainJob()
     if (mJob == tpz.job.MNK) or (mJob == tpz.job.PUP) then
-        mob:setDamage(20)
+        mob:setDamage(15)
     else
-        mob:setDamage(40)
+        mob:setDamage(30)
     end
     mob:setMod(tpz.mod.REFRESH, 8)
     if not IsAPet(mob) then
@@ -1005,8 +1006,6 @@ tpz.raid.onNpcSpawn = function(mob)
         -- Always reset the global magic timer
         mob:setLocalVar("globalMagicTimer", 0)
     end)
-
-    mob:setUnkillable(true) -- For testing
 end
 
 tpz.raid.onNpcRoam = function(mob)
@@ -1193,6 +1192,7 @@ function SetUpPuppetNPC(mob)
 
         mob:setDamage(weaponDamage)
         mob:addMod(tpz.mod.DMG, -38)
+        mob:setMod(tpz.mod.UDMGBREATH, -90)
         mob:addMod(tpz.mod.ENMITY_II, 25)
     end
 

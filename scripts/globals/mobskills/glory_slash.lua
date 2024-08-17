@@ -33,6 +33,10 @@ function onMobWeaponSkill(target, mob, skill)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING, info.hitslanded*math.random(2, 3))
     target:takeDamage(dmg, mob, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING)
     MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, 1, 0, 8)
+    if mob:hasStatusEffect(tpz.effect.CONFRONTATION) then
+        local mpRestore = math.floor(mob:getMaxMP() * 0.25)
+        mob:addMP(mpRestore)
+    end
 	if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then   target:tryInterruptSpell(mob, info.hitslanded) end
     return dmg
 end
