@@ -28,7 +28,7 @@ function onUseAbility(player, target, ability)
                 and (player:getID() ~= entity:getID()) then
                     if not mpAdded then
                         player:addMP((player:getMaxMP()/100)*10)
-                        mpAdded = tru
+                        mpAdded = true
                     end
                     break
                 end
