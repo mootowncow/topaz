@@ -893,7 +893,7 @@ tpz.raid.onMobDeath = function(mob, player, isKiller, noKiller)
         for i = 1, 10 do
             if (entity:getLocalVar("givenCP") < 10) then
                 entity:addCapacityPoints(30000)
-                entity:setLocalVar("givenCP", givenCP +1)
+                entity:setLocalVar("givenCP", entity:getLocalVar("givenCP") +1)
             end
         end
     end
