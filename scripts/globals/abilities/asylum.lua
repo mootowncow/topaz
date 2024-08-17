@@ -26,9 +26,9 @@ function onUseAbility(player, target, ability)
                 if entity:isAlive() and
                 (entity:getAllegiance() == player:getAllegiance())
                 and (player:getID() ~= entity:getID()) then
-                    mpAdded = true
                     if not mpAdded then
                         player:addMP((player:getMaxMP()/100)*10)
+                        mpAdded = tru
                     end
                     break
                 end
