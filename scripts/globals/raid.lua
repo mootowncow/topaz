@@ -2791,7 +2791,7 @@ function IsLhuMhakaracca(mob)
     return mob:getName() == 'Lhu_Mhakaracca'
 end
 
-funciton IsFebrenard(mob)
+function IsFebrenard(mob)
     return mob:getName() == 'Febrenard_C_Brunnaut'
 end
 
