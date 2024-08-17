@@ -45,7 +45,17 @@ require("scripts/globals/weaponskillids")
 -- TODO: Mystic Boon work like atonement and scale off having lower HP and not ftp or atack
 -- TODO: Redesign jailer of prudence
 -- TODO: Perfect Dodge on CD when 1 hr is on CD
--- TODO: Add more important items to all 3 of the Ashu Talif fights
+-- TODO: You can dispel your own helixes off enemies?!
+-- TODO: Adendum white boosts regen and it shouldn't boost it more than light arts
+-- TODO: Aldo healing Bahamut on autos sometimes
+-- TODO: Bahamut spams gigaflare below 50%..
+-- TODO: Teraflare dmg too high(slightly, like 100 too high)
+-- TODO: FLares not supposed to be instant?
+-- TODO: Ultima randomly bugged out and didn't start confrontation? Had to force respawn it
+-- TODO: Buff all tanks damage so they can actually tank?
+-- TODO: AOE spells shouldn't apply to dead players(magic.cpp logic?)
+-- TODO: Swathe of Silence and Daming Edict should be "2hr/JA" and not consume TP
+-- TODO: Asylum restores MP per target, prob have to code in C++?
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
@@ -161,7 +171,7 @@ local function SetBattleMusicOnFight(mob, track)
         if nearbyPlayers == nil then return end
         if nearbyPlayers then
             for _,player in ipairs(nearbyPlayers) do
-                if player:isAlive() then
+                if player:isPC() and player:isAlive() then
                     player:ChangeMusic(tpz.music.type.BATTLE_SOLO, track)
                     player:ChangeMusic(tpz.music.type.BATTLE_PARTY, track)
                 end
@@ -194,7 +204,7 @@ local function SetBattleMusicOnDeath(mob)
     if nearbyPlayers == nil then return end
     if nearbyPlayers then
         for _,player in ipairs(nearbyPlayers) do
-            if player:isAlive() then
+            if player:isPC() and player:isAlive() then
                 player:ChangeMusic(tpz.music.type.BATTLE_SOLO, soloTrack)
                 player:ChangeMusic(tpz.music.type.BATTLE_PARTY, partyTrack)
             end
@@ -265,9 +275,9 @@ local modByMobName =
     end,
 
     ['Ultima'] = function(mob)
+        mob:addMod(tpz.mod.REGEN, 0)
 	    mob:setMod(tpz.mod.MDEF, 119)
         mob:setMod(tpz.mod.UDMGMAGIC, -30)
-	    mob:setMod(tpz.mod.REGEN, 0) 
 	    mob:setMod(tpz.mod.REGAIN, 0) 
 	    mob:setMod(tpz.mod.DOUBLE_ATTACK, 0)
         mob:SetMagicCastingEnabled(false)
@@ -289,6 +299,8 @@ local modByMobName =
     end,
 
     ['Shadow_Lord'] = function(mob)
+        mob:addMod(tpz.mod.REGEN, 0)
+        mob:setMod(tpz.mod.REGAIN, 100) 
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
         mob:setSpellList(543)
     end,
@@ -638,7 +650,7 @@ local mobFightByMobName =
                 mob:addStatusEffectEx(tpz.effect.MAGIC_SHIELD, 0, 1, 0, 0)
                 mob:SetAutoAttackEnabled(false)
                 mob:SetMagicCastingEnabled(true)
-                mob:setMobMod(tpz.mobMod.MAGIC_COOL, 2)
+                mob:setMobMod(tpz.mobMod.MAGIC_COOL, 10)
                 --and record the time and HP this immunity was started
                 mob:setLocalVar("changeTime", mob:getBattleTime())
                 mob:setLocalVar("changeHP", mob:getHP())
@@ -647,7 +659,6 @@ local mobFightByMobName =
                 (mob:AnimationSub() == 2 and (mob:getHP() <= changeHP - 10000 or
                 mob:getBattleTime() - changeTime > 60))
             then
-                printf("Changing to magical immunity")
                 -- and use an ability before changing
                 mob:useMobAbility(tpz.mob.skills.SWATH_OF_SILENCE)
                 mob:AnimationSub(1)
@@ -663,7 +674,6 @@ local mobFightByMobName =
                 (mob:AnimationSub() == 1 and (mob:getHP() <= changeHP - 10000 or
                 mob:getBattleTime() - changeTime > 60))
             then
-                printf("Changing to physical immunity")
                 -- and use an ability before changing
                 mob:useMobAbility(tpz.mob.skills.DAMNING_EDICT)
                 mob:AnimationSub(2)
@@ -898,9 +908,9 @@ end
 tpz.raid.onNpcSpawn = function(mob)
     local mJob = mob:getMainJob()
     if (mJob == tpz.job.MNK) or (mJob == tpz.job.PUP) then
-        mob:setDamage(10)
-    else
         mob:setDamage(20)
+    else
+        mob:setDamage(40)
     end
     mob:setMod(tpz.mod.REFRESH, 8)
     if not IsAPet(mob) then
@@ -1133,8 +1143,16 @@ end
 function SetUpTankNPC(mob)
     local mJob = mob:getMainJob()
     local sJob = mob:getSubJob()
+    local level = mob:getMainLvl()
     local npcName = mob:getName()
 
+    local weaponDamage = level + 2
+    if (mJob == tpz.job.MNK) or (mJob == tpz.job.PUP) then
+        local h2hskill = math.floor(utils.getSkillLvl(1, mob:getMainLvl()))
+        weaponDamage = 0.11 * h2hskill + 3 + 18 * math.floor((level + 2) / 75)
+    end
+
+    mob:setDamage(weaponDamage)
     mob:addMod(tpz.mod.ENMITY_II, 25)
 
     if IsHalver(mob) then
@@ -1156,7 +1174,6 @@ function SetUpTankNPC(mob)
         -- 50% Guard rate cap like players
         mob:addMod(tpz.mod.GUARD_PERCENT, 150)
     elseif IsInvincibleShield(mob) then
-        mob:setDamage(40)
         -- Full Koenig
         mob:addMod(tpz.mod.STR, -30)
         mob:addMod(tpz.mod.DEX, -30)
@@ -1171,6 +1188,10 @@ end
 
 function SetUpPuppetNPC(mob)
     if IsMnejing(mob) then
+        local level = mob:getMainLvl()
+        local weaponDamage = level + 2
+
+        mob:setDamage(weaponDamage)
         mob:addMod(tpz.mod.DMG, -38)
         mob:addMod(tpz.mod.ENMITY_II, 25)
     end
@@ -2787,7 +2808,7 @@ function ShouldStandBack(mob)
     return job == tpz.job.WHM
 end
 
-function IsReadyingTPMove(target)
+function IsReadyingTPMove(target) -- TODO: Doesn't have stun or terror effect
     local act = target:getCurrentAction()
 
     if target:hasImmunity(tpz.immunity.STUN) then

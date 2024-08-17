@@ -19,7 +19,7 @@ function onMobWeaponSkill(target, mob, skill)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.NONE, MOBPARAM_WIPE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.NONE)
 	MobStatusEffectMoveSub(mob, target, tpz.effect.TERROR, 1, 0, 5, 0, 0, 0)
-	MobStatusEffectMoveSub(mob, target, tpz.effect.BIND, 1, 0, 45, 0, 0, 0)
+	MobStatusEffectMoveSub(mob, target, tpz.effect.BIND, 1, 0, 15, 0, 0, 0)
 	
 	mob:resetEnmity(target)
 
