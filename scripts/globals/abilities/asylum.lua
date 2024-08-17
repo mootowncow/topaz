@@ -16,6 +16,7 @@ end
 
 function onUseAbility(player, target, ability)
     local party = player:getParty()
+    local mpAdded = false
 
     if player:hasStatusEffect(tpz.effect.AFFLATUS_MISERY) then
         local NearbyEntities = player:getNearbyEntities(10)
@@ -25,7 +26,10 @@ function onUseAbility(player, target, ability)
                 if entity:isAlive() and
                 (entity:getAllegiance() == player:getAllegiance())
                 and (player:getID() ~= entity:getID()) then
-                    player:addMP((player:getMaxMP()/100)*10)
+                    if not mpAdded then
+                        player:addMP((player:getMaxMP()/100)*10)
+                        mpAdded = true
+                    end
                     break
                 end
             end
