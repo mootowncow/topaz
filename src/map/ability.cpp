@@ -32,6 +32,19 @@ bool CAbility::isPetAbility()
     return getID() >= ABILITY_HEALING_RUBY;
 }
 
+bool CAbility::isPetCommand()
+{
+    return (getID() == ABILITY_FIGHT || 
+            getID() == ABILITY_HEEL || 
+            getID() == ABILITY_SIC || 
+            getID() == ABILITY_STAY || 
+            getID() == ABILITY_ASSAULT || 
+            getID() == ABILITY_RETREAT || 
+            getID() == ABILITY_DEPLOY || 
+            getID() == ABILITY_RETRIEVE);
+}
+
+
 bool CAbility::isReadyMove()
 {
     return getID() >= ABILITY_FOOT_KICK && getID() <= ABILITY_NIHILITY_SONG;

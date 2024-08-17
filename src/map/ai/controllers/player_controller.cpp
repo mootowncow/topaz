@@ -152,7 +152,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA2));
             return false;
         }
-        if (PAbility->isPetAbility())
+        if (PAbility->isPetAbility() || PAbility->isPetCommand())
         {
             CBattleEntity* PPet = ((CBattleEntity*)PChar)->PPet;
             // Not enough time since last pet ability was used
