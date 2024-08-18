@@ -59,11 +59,11 @@ function onTrigger(player, npc)
 end
 
 function onEventUpdate(player, csid, option, target)
-local BLACK_COFFIN = 524288
-local AGAINST_ALL_ODDS = 786432
-local SCOUTING_THE_ASHU_TALIF = 1048576
-local ROYAL_PAINTER = 1310720
-local TARGETING_CAPTAIN = 1572864
+    local BLACK_COFFIN = 524288
+    local AGAINST_ALL_ODDS = 786432
+    local SCOUTING_THE_ASHU_TALIF = 1048576
+    local ROYAL_PAINTER = 1310720
+    local TARGETING_CAPTAIN = 1572864
 
     if (csid == 221) then
         local party = player:getParty()
