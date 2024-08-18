@@ -143,6 +143,11 @@ CMobEntity::CMobEntity()
     m_IsClaimable = true;
     m_forceCast = false;
 
+    m_Weapons[SLOT_MAIN] = new CItemWeapon(0);
+    m_Weapons[SLOT_SUB] = new CItemWeapon(0);
+    m_Weapons[SLOT_RANGED] = new CItemWeapon(0);
+    m_Weapons[SLOT_AMMO] = new CItemWeapon(0);
+
     PAI = std::make_unique<CAIContainer>(this, std::make_unique<CPathFind>(this), std::make_unique<CMobController>(this),
         std::make_unique<CTargetFind>(this));
 }

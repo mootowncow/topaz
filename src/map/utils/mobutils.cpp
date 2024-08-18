@@ -429,66 +429,23 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         }
     }
 
-    if (PMob && SLOT_MAIN >= 0 && SLOT_MAIN < SLOT_LINK2) // Ensure valid index and PMob
-    {
-        if (PMob->m_Weapons[SLOT_MAIN] != nullptr)
-        {
-            auto* mainWeapon = dynamic_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN]);
-            if (mainWeapon != nullptr)
-            {
-                mainWeapon->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
-            }
-            else
-            {
-                ShowDebug("%s [%u] main hand weapon cast failed!", PMob->GetName(), PMob->id);
-            }
-        }
-        else
-        {
-            ShowDebug("%s [%u] main hand weapon not found!", PMob->GetName(), PMob->id);
-        }
-    }
-
-    
-    // TODO: Crashes game sometimes...
-    //if (PMob && SLOT_RANGED >= 0 && SLOT_RANGED < SLOT_LINK2) // Ensure valid index and PMob
-    //{
-    //    if (PMob->m_Weapons[SLOT_RANGED] != nullptr)
-    //    {
-    //        auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED]);
-    //        if (rangedWeapon != nullptr)
-    //        {
-    //            rangedWeapon->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
-    //        }
-    //        else
-    //        {
-    //            ShowDebug("%s [%u] ranged weapon cast failed!", PMob->GetName(), PMob->id);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        ShowDebug("%s [%u] ranged weapon not found!", PMob->GetName(), PMob->id);
-    //    }
-    //}
+    ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
+    ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
 
 
     // reduce weapon delay of MNK
-    if (PMob->m_Weapons[SLOT_MAIN] != nullptr)
+    if (PMob->GetMJob() == JOB_MNK)
     {
-        if (PMob->GetMJob() == JOB_MNK)
-        {
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->resetDelay();
-        }
-    }
-    else
-    {
-        ShowDebug("%s [%u] main hand weapon not found!", PMob->GetName(), PMob->id);
+        ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->resetDelay();
     }
 
     // Deprecate MOBMOD_DUAL_WIELD later, replace if check with value from DB
     if (PMob->getMobMod(MOBMOD_DUAL_WIELD))
     {
         PMob->m_dualWield = true;
+        // if mob is going to dualWield then need to have sub slot
+        // assume it is the same damage as the main slot
+        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_SUB])->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
     }
 
     uint16 fSTR = GetBaseToRank(PMob->strRank, mLvl);
