@@ -4,7 +4,7 @@
 -- Obtained: Monk Level 25
 -- Recast Time: 5:00
 -- Duration: 2:00
--- Boost: Also grants crit rate bonus.
+-- Inner Strength: Also grants crit rate bonus.
 -----------------------------------
 require("scripts/globals/status")
 -----------------------------------
@@ -17,11 +17,11 @@ function onUseAbility(player, target, ability)
     local power = 20 + player:getMod(tpz.mod.FOCUS_EFFECT)
     local subpower = 0
     if player:isPC() then
-        if player:hasStatusEffect(tpz.effect.BOOST) then
+        if player:hasStatusEffect(tpz.effect.INNER_STRENGTH) then
             subpower = 25
         end
     end
 
     player:addStatusEffect(tpz.effect.FOCUS, power, 0, 180, 0, subpower, 0)
-    player:delStatusEffectSilent(tpz.effect.BOOST)
+    player:delStatusEffectSilent(tpz.effect.INNER_STRENGTH)
 end

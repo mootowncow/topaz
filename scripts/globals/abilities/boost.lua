@@ -2,8 +2,8 @@
 -- Ability: Boost
 -- Enhances user's next attack.
 -- Obtained: Monk Level 5
--- Recast Time: 1:00
--- Duration: 0:30
+-- Recast Time: 0:15
+-- Duration: 3:00
 -----------------------------------
 require("scripts/globals/status")
 -----------------------------------
@@ -20,10 +20,10 @@ function onUseAbility(player, target, ability)
         local effect = player:getStatusEffect(tpz.effect.BOOST)
         effect:setPower(effect:getPower() + power)
         player:addMod(tpz.mod.ATTP, power)
-		boost = boost + 4
+		boost = boost + 1
 		player:setCharVar("boost", boost)
     else
-        player:addStatusEffect(tpz.effect.BOOST, power, 0, 30)
-		player:setCharVar("boost", 4)
+        player:addStatusEffect(tpz.effect.BOOST, power, 0, 180)
+		player:setCharVar("boost", 1)
     end
 end

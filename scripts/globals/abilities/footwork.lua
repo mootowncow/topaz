@@ -4,6 +4,7 @@
 -- Obtained: Monk Level 65
 -- Recast Time: 3:00
 -- Duration: 1:30
+-- Inner Strength: Doubles duration
 -----------------------------------
 require("scripts/globals/status")
 -----------------------------------
@@ -18,11 +19,11 @@ function onUseAbility(player, target, ability)
     local duration = 90
 
     if player:isPC() then
-        if player:hasStatusEffect(tpz.effect.BOOST) then
+        if player:hasStatusEffect(tpz.effect.INNER_STRENGTH) then
             duration = 180
         end
     end
 
    player:addStatusEffect(tpz.effect.FOOTWORK, kickDmg, 0, duration, 0, doubleAttackRate)
-   player:delStatusEffectSilent(tpz.effect.BOOST)
+   player:delStatusEffectSilent(tpz.effect.INNER_STRENGTH)
 end

@@ -62,7 +62,7 @@ INSERT INTO `abilities` VALUES (35,'provoke',1,5,4,30,5,0,0,3,2000,0,6,18.0,0,1,
 INSERT INTO `abilities` VALUES (36,'focus',2,25,1,300,13,120,0,4,2000,0,6,20.0,0,1,300,448,0,NULL,0);
 INSERT INTO `abilities` VALUES (37,'dodge',2,15,1,180,14,121,0,5,2000,0,6,20.0,0,1,300,450,0,NULL,0);
 INSERT INTO `abilities` VALUES (38,'chakra',2,20,1,180,15,441,421,6,2000,0,6,20.0,0,1,300,452,0,NULL,0);
-INSERT INTO `abilities` VALUES (39,'boost',2,5,1,60,16,116,0,7,2000,0,6,20.0,0,1,300,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (39,'boost',2,5,1,15,16,116,0,7,2000,0,6,20.0,0,1,300,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (40,'counterstance',2,45,1,300,17,0,0,8,2000,0,6,20.0,0,1,900,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (41,'steal',6,5,4,300,60,125,0,181,2000,0,3,5.4,0,1,300,0,0,NULL,0);		-- made 120s
 INSERT INTO `abilities` VALUES (42,'flee',6,25,1,300,62,126,0,9,2000,0,6,20.0,0,1,80,704,0,NULL,0);	
@@ -319,7 +319,7 @@ INSERT INTO `abilities` VALUES (262,'divine_waltz_ii',19,55,27,20,225,102,0,34,2
 INSERT INTO `abilities` VALUES (263,'flourishes_iii',19,60,1,0,226,0,0,0,2000,0,14,20.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (264,'climactic_flourish',19,75,1,90,226,100,0,230,2000,0,14,20.0,1,1,80,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (265,'libra',20,76,4,60,237,100,0,231,2000,0,6,11.2,0,0,0,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (266,'tactical_switch',18,40,1,90,213,100,0,232,2000,0,6,11.2,0,0,0,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (266,'tactical_switch',18,40,1,90,213,100,0,228,2000,0,6,11.2,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (267,'blood_rage',1,50,1,30,11,441,421,239,2000,0,6,13.0,0,180,1280,0,0,NULL,0);  
 INSERT INTO `abilities` VALUES (269,'impetus',2,88,1,360,31,100,0,240,2000,0,6,20.0,0,1,80,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (270,'divine_caress',3,83,1,60,32,100,0,254,2000,0,6,20.0,0,0,0,0,0,NULL,0);
@@ -353,7 +353,7 @@ INSERT INTO `abilities` VALUES (302,'allies_roll',17,75,1,60,193,420,0,138,2000,
 INSERT INTO `abilities` VALUES (303,'misers_roll',17,75,1,60,193,420,0,139,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (304,'companions_roll',17,75,1,60,193,420,0,265,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (305,'avengers_roll',17,75,1,60,193,420,0,266,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0);
-INSERT INTO `abilities` VALUES (309,'cooldown',18,70,1,120,114,0,0,232,2000,0,6,11.2,0,0,0,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (309,'cooldown',18,70,1,120,114,0,0,264,2000,0,6,11.2,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (310,'deus_ex_automata',18,5,1,7200,115,0,0,83,2000,0,6,20.0,0,1,80,0,0,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (311,'curing_waltz_v',19,87,27,14,217,102,0,35,2000,0,14,20.0,0,0,0,0,0,'ABYSSEA',800);
 INSERT INTO `abilities` VALUES (312,'feather_step',19,83,4,5,220,591,0,17,2000,0,14,5.4,0,1,0,0,0,NULL,50);
@@ -367,7 +367,7 @@ INSERT INTO `abilities` VALUES (320,'konzen-ittai',12,55,4,180,132,529,0,39,2000
 INSERT INTO `abilities` VALUES (321,'bully',6,40,4,60,240,127,0,248,2000,0,6,8.0,0,1,300,0,4,'ABYSSEA',0);	-- changed to level 40, 180s cd
 INSERT INTO `abilities` VALUES (322,'maintenance',18,30,1,90,214,0,0,83,2000,0,6,12.0,0,0,0,1474,0,'ABYSSEA',0); -- ta257
 INSERT INTO `abilities` VALUES (323,'brazen_rush',1,96,1,7200,254,100,0,271,2000,0,6,0.0,0,1,300,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (324,'inner_strength',2,96,1,7200,254,100,0,272,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
+INSERT INTO `abilities` VALUES (324,'inner_strength',2,60,1,60,254,100,0,272,2000,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (325,'asylum',3,70,1,60,254,100,0,273,2000,0,6,10.0,1,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (326,'subtle_sorcery',4,60,1,300,75,0,0,274,2000,0,6,0.0,0,0,0,0,4,NULL,0);
 INSERT INTO `abilities` VALUES (327,'stymie',5,75,1,600,254,100,0,275,2000,0,6,20.0,0,1,80,0,0,'SOA',0);

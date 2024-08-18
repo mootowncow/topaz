@@ -4,7 +4,7 @@
 -- Obtained: Monk Level 35
 -- Recast Time: 3:00
 -- Duration: Instant
--- Boost: Halves cooldown
+-- Inner Strength: Halves cooldown
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -15,6 +15,7 @@ local ChakraStatusEffects =
 {
     POISON       = 0, -- Removed by default
     BLINDNESS    = 0, -- Removed by default
+    TAINT        = 0, -- Removed by default
     PARALYSIS    = 1,
     DISEASE      = 2,
     PLAGUE       = 4
@@ -68,7 +69,7 @@ function onUseAbility(player, target, ability)
         player:addStatusEffect(tpz.effect.REGEN, 10, 0, merits, 0, 0, 1)
     end
 
-    player:delStatusEffectSilent(tpz.effect.BOOST)
+    player:delStatusEffectSilent(tpz.effect.INNER_STRENGTH)
 
     return recover
 end

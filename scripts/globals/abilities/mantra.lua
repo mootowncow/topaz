@@ -4,7 +4,7 @@
 -- Obtainable: Monk Level 75
 -- Recast Time: 0:10:00
 -- Duration: 0:03:00
--- Boost: Increases duration to 9 minutes.
+-- Inner Strength: Increases duration to 9 minutes.
 -----------------------------------
 require("scripts/globals/status")
 require("scripts/globals/magic")
@@ -19,7 +19,7 @@ function onUseAbility(player, target, ability)
     local duration = 180
 
     if player:isPC() then
-        if player:hasStatusEffect(tpz.effect.BOOST) then
+        if player:hasStatusEffect(tpz.effect.INNER_STRENGTH) then
             duration = 540
         end
     end
@@ -27,6 +27,6 @@ function onUseAbility(player, target, ability)
     if canOverwrite(target, tpz.effect.MAX_HP_BOOST, 25) then
         player:delStatusEffectSilent(tpz.effect.MAX_HP_BOOST)
         target:addStatusEffect(tpz.effect.MAX_HP_BOOST, merits, 0, 180)
-        player:delStatusEffectSilent(tpz.effect.BOOST)
+        player:delStatusEffectSilent(tpz.effect.INNER_STRENGTH)
     end
 end

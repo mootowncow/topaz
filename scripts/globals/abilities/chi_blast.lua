@@ -3,7 +3,7 @@
 -- Obtained: Monk Level 41
 -- Recast Time: 3:00
 -- Duration: Instant
--- Boost: Doubles the duration of penance.
+-- Inner Strength: Doubles the duration of penance.
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")

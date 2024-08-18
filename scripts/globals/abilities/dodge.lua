@@ -4,7 +4,7 @@
 -- Obtained: Monk Level 15
 -- Recast Time: 3:00
 -- Duration: 1:00
--- Boost: Also grants MEVA
+-- Inner Strength: Also grants MEVA
 -----------------------------------
 require("scripts/globals/status")
 -----------------------------------
@@ -17,11 +17,11 @@ function onUseAbility(player, target, ability)
     local power = 20 + player:getMod(tpz.mod.DODGE_EFFECT)
     local subpower = 0
     if player:isPC() then
-        if player:hasStatusEffect(tpz.effect.BOOST) then
+        if player:hasStatusEffect(tpz.effect.INNER_STRENGTH) then
             subpower = 100
         end
     end
 
     player:addStatusEffect(tpz.effect.DODGE, power, 0, 60, 0, subpower, 0)
-    player:delStatusEffectSilent(tpz.effect.BOOST)
+    player:delStatusEffectSilent(tpz.effect.INNER_STRENGTH)
 end
