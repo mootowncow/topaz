@@ -435,8 +435,20 @@ int16 CBattleEntity::GetRangedWeaponDelay(bool tp)
     // base delay
     int16 delay = 0;
 
-    if (PRange != nullptr && PRange->getDamage() != 0) {
-        delay = ((PRange->getDelay() * 60) / 1000);
+    if (this->objtype == TYPE_MOB)
+    {
+        CItemWeapon* PRange = (CItemWeapon*)m_Weapons[SLOT_MAIN];
+        if (PRange != nullptr && PRange->getDamage() != 0)
+        {
+            delay = ((PRange->getDelay() * 60) / 1000);
+        }
+    }
+    else
+    {
+        if (PRange != nullptr && PRange->getDamage() != 0)
+        {
+            delay = ((PRange->getDelay() * 60) / 1000);
+        }
     }
 
     delay = (((delay - getMod(Mod::RANGED_DELAY)) * 1000) / 120);
