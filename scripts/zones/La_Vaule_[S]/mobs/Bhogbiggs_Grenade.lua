@@ -19,6 +19,7 @@ function onMobFight(mob, target)
 end
 
 function onMobWeaponSkill(target, mob, skill)
+    mob:setUnkillable(false)
     mob:setHP(0)
 end
 
