@@ -3,7 +3,7 @@
 --   NM: Agrios
 -- Has a chance to use all TP moves up to 3 times in a row
 -- Uses Daunting Hurl below 40% HP
--- Daunting hrows a boulder that damages enemies around the impact radius. Additional effect: Terror and hate reset.
+-- Daunting hurtl throws a boulder that damages enemies around the impact radius. Additional effect: Terror and hate reset.
 -----------------------------------
 require("scripts/globals/status")
 require("scripts/globals/mobs")
