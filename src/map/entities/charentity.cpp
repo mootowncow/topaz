@@ -1438,7 +1438,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         // Halve Chakra cooldown if the player has Boost
         if (PAbility->getID() == ABILITY_CHAKRA)
         {
-            if (this->StatusEffectContainer->HasStatusEffect(EFFECT_BOOST))
+            if (this->StatusEffectContainer->HasStatusEffect(EFFECT_INNER_STRENGTH))
             {
                 action.recast /= 2;
             }

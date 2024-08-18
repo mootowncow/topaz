@@ -139,30 +139,26 @@ int32 time_server(time_point tick, CTaskMgr::CTask* PTask)
                 [&mobData](CZone* PZone)
                 {
                     luautils::OnGameDay(PZone);
-
-                    int32 currentDay = CVanaTime::getInstance()->getWeekday();
-
-                    // Check for matching day in mobData
-                    for (const auto& mob : mobData)
-                    {
-                        if (currentDay == mob.Day)
+                    PZone->ForEachChar(
+                        [&mobData](CCharEntity* PChar)
                         {
-                            std::string message = mob.Name + " has appeared in " + mob.Zone + "!";
+                            int32 currentDay = CVanaTime::getInstance()->getWeekday();
 
-                            // Send the message to all players in the zone
-                            PZone->ForEachChar(
-                                [&message](CCharEntity* PChar)
+                            // Check for matching day in mobData and send message
+                            for (const auto& mob : mobData)
+                            {
+                                if (currentDay == mob.Day)
                                 {
-                                    message::send(MSG_CHAT_UNITY, nullptr, 0, new CChatMessagePacket(PChar, MESSAGE_UNITY, message, "Announcer"));
-                                    PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CChatMessagePacket(PChar, MESSAGE_UNITY, message, "Announcer"));
-                                    PChar->PLatentEffectContainer->CheckLatentsWeekDay();
-                                });
+                                    std::string message = mob.Name + " has appeared in " + mob.Zone + "!";
+                                    message::send(MSG_CHAT_UNITY, nullptr, 0, new CChatMessagePacket(PChar, MESSAGE_UNITY, message, "Announcer")); // message.c_str() ?
+                                    PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CChatMessagePacket(PChar, MESSAGE_UNITY, message, "Announcer")); // message.c_str() ?
+                                    break;
+                                }
+                            }
 
-                            break; // Break after sending the message to prevent further checks
-                        }
-                    }
+                            PChar->PLatentEffectContainer->CheckLatentsWeekDay();
+                        });
                 });
-
 
             guildutils::UpdateGuildsStock();
             zoneutils::SavePlayTime();

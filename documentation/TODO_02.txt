@@ -155,13 +155,20 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
-Leave and releasing pet should wipe aggro onto master! Pet dying/despawning also shouldn't. Should reset mob to neutral if no one else is on enmity table no
-If pet has prevent action effect, dont allow heel/pup thing/smn thing and block player from being able to use action just like avatar BPs and ready moves
+Rugaroo not work properly with x5 call of moon into asuran?
+Feeblescheme tubes don't go on a random target, spawn too fast(he seems to spawn a grenade AND a tube 100%?) and grenades don't despawn after using a TP move(?)
+Feeblescheme can vials be AOEd by WS? Like circle blade?
+Coinbiter needs better dread spikes logic, seems to spam cast it multiple times
+https://www.bg-wiki.com/ffxi/Draketrader_Zlodgodd
+MAX TP DOWN doens't work
+TryProcTH needs level 15+ job check(maybe 75?)
+Add Cura-III to the new cure magic.lua function
+Add tractor to raise
 Does WS not remove invis/sneak?
 Despoil on Aura Statue crashed simple log
 Final zilart missons + apoc nigh + storms of fate + rank6-10 bastok/sandy
 GM menu from lsb
-Does confrontation properly work on dynamis bosses despawning/spawning over and over?
+Make holy good somehow(TP reduction?)
 m_ShieldSize to battleentities (or mobs/trusts/pets?)
 Block DR based on mobmod_block instead of always being 50% or w/e it is
 ranged attack store TP mod
@@ -195,7 +202,6 @@ move tchakka to the big room
 Steps / offensive non-taunt flourishes range 5 + model size
 Ic Pilav bun(new item)
 Ogre Gloves fencer buffed to 2/3%(NO TP BONUS)
-Update retail
 Sange animation wrong?
 Better racial stats for races? Stronger emphasis on strengths i.e. give mithra even more dex/agi but even less mnd and chr
 Zdei in cubbys can't aggro people in hall? need longer sight aggro range on them?
@@ -350,6 +356,9 @@ https://github.com/LandSandBoat/server/commit/0f7c8a0cd811eaf56d0fbce6f0926ba0f9
 
 Smn pet gifts
 https://github.com/LandSandBoat/server/commit/04595b03ce5b00ec9e4d64a573f31e8c2a8c549c
+
+Keep Camo on RA(can adjust %)
+https://github.com/LandSandBoat/server/commit/5e3c8e8029c6802c500bac49293ed8a43a6b68c0
 
 Bound mobs attack nearby players
 https://github.com/LandSandBoat/server/commit/93f2ca5e67c4bb04b8157e0c1d347847fd797357

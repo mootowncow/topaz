@@ -680,16 +680,16 @@ enum EFFECT
     EFFECT_COLURE_ACTIVE            = 612,
     EFFECT_GUARD_BOOST              = 622,
     EFFECT_RAMPART                  = 623,
-    WINDS_BLESSING                  = 624,
-    SIRENS_FAVOR                    = 625,
-    NEGATE_SLEEP                    = 626,
-    MOBILIZATION                    = 627,
-    HOVER_SHOT                      = 628,
-    MOOGLE_AMPLIFIER                = 629,
-    TAINT                           = 630, // Undispellable Poison
-    HAUNT                           = 631, // Undispellable Curse
-    BLACK_SANCTUS                   = 632,
-    ANIMATED                        = 633,
+    EFFECT_WINDS_BLESSING           = 624,
+    EFFECT_SIRENS_FAVOR             = 625,
+    EFFECT_NEGATE_SLEEP             = 626,
+    EFFECT_MOBILIZATION             = 627,
+    EFFECT_HOVER_SHOT               = 628,
+    EFFECT_MOOGLE_AMPLIFIER         = 629,
+    EFFECT_TAINT                    = 630, // Undispellable Poison
+    EFFECT_HAUNT                    = 631, // Undispellable Curse
+    EFFECT_BLACK_SANCTUS            = 632,
+    EFFECT_ANIMATED                 = 633,
 
     // Effect icons in packet can go from 0-767, so no custom effects should go in that range.
 
