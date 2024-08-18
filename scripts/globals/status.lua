@@ -139,8 +139,8 @@ tpz.shieldSize =
     KITE         = 3, -- 45%
     TOWER        = 4, -- 30%
     AEGIS        = 5, -- 50%
-    SRIVATSA     = 5, -- 100%
-    OCHAIN       = 6, -- 0%
+    SRIVATSA     = 5, -- 50%
+    OCHAIN       = 6, -- 108%
 }
 
 ------------------------------------

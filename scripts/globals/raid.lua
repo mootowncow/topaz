@@ -48,16 +48,26 @@ require("scripts/globals/weaponskillids")
 -- TODO: You can dispel your own helixes off enemies?!
 -- TODO: Adendum white boosts regen and it shouldn't boost it more than light arts
 -- TODO: Aldo healing Bahamut on autos sometimes
--- TODO: Bahamut spams gigaflare below 50%..
--- TODO: Teraflare dmg too high(slightly, like 100 too high)
--- TODO: FLares not supposed to be instant?
+-- TODO: Bahamut spams gigaflare below 50%...bugged?
+-- TODO: Bahamut Flares not supposed to be instant? And have cutscene text before he does them?
 -- TODO: Ultima randomly bugged out and didn't start confrontation? Had to force respawn it
 -- TODO: Buff all tanks damage so they can actually tank?
 -- TODO: AOE spells shouldn't apply to dead players(magic.cpp logic?)
 -- TODO: Swathe of Silence and Daming Edict should be "2hr/JA" and not consume TP
 -- TODO: Give all the melee WHM / BLM / RDM some way to restore MP(mostly on their unique WS). Not sure what Febrenard_C_Brunnaut needs. Marujido needs mana well.
 -- TODO: AA TT immune to stun during manafont
+-- TODO: Kamlanaut waay undertuned, dies really fast and does nothing. Make new mob family and give trong ga enfeebles? Also make his enspells undispellable and give him ochain
 -- TODO: Confrontation should be removed after a timer when the red text shows but make it only show at 50+ yards
+-- TODO: Omega pods dont spawn?
+-- TODO: NPC's didn't despawn after Ealdnarche died?
+-- TODO: Kupipi needs way to get MP back
+-- TODO: PLD's need chivalry
+-- TODO: Shikaree Z's wyvern has insane attack speed?
+-- TODO: Monberaux overwrites shell/haste
+-- TODO: Monberaux na/erase should be AOE only for this content
+-- TODO: Ealdnarche manafont meteor at 25% (90s cd)
+-- TODO: A_REALM_OF_EMPTINESS music doesnt work for promathia?
+-- TODO: Set all musics (.DAY and .NIGHT also)
 -- TODO: Asylum restores MP per target, prob have to code in C++?
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
@@ -290,7 +300,6 @@ local modByMobName =
     end,
 
     ['Ealdnarche'] = function(mob)
-        mob:setDamage(75)
         mob:addMod(tpz.mod.EVA, 100)
         mob:setMod(tpz.mod.UDMGMAGIC, -95)
         mob:setMod(tpz.mod.REFRESH, 400)
@@ -298,6 +307,8 @@ local modByMobName =
     end,
 
     ['Kamlanaut'] = function(mob)
+        mob:setMod(tpz.mod.UDMGPHYS, -30)
+        mob:setMod(tpz.mod.UDMGMAGIC, -30)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     end,
 
@@ -443,6 +454,7 @@ local mobFightByMobName =
     end,
 
     ['Gunpod'] = function(mob, target)
+        mob:setMod(tpz.mod.REGAIN, 0)
         SetBattleMusicOnFight(mob, tpz.music.track.FINAL_THEME)
     end,
 
@@ -1016,7 +1028,7 @@ tpz.raid.onNpcSpawn = function(mob)
 end
 
 tpz.raid.onNpcRoam = function(mob)
-    local entities = mob:getNearbyMobs(50)
+    local entities = mob:getNearbyMobs(100)
     -- printf("Found %d entities nearby\n", #entities)
     for i, entity in pairs(entities) do
         if entity:getID() ~= mob:getID() then
@@ -2822,7 +2834,7 @@ function ShouldStandBack(mob)
     return job == tpz.job.WHM
 end
 
-function IsReadyingTPMove(target) -- TODO: Doesn't have stun or terror effect
+function IsReadyingTPMove(target)
     local act = target:getCurrentAction()
 
     if target:hasImmunity(tpz.immunity.STUN) then

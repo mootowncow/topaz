@@ -16,5 +16,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.ENBLIZZARD
     skill:setMsg(MobBuffMove(mob, typeEffect, 65, 0, 300))
+    local effect1 = mob:getStatusEffect(typeEffect)
+    effect1:unsetFlag(tpz.effectFlag.DISPELABLE)
     return typeEffect
 end

@@ -29,7 +29,6 @@ Carnal Nightmare on pet and players
 TryProcWS on WS work with SA/TA for high proc chance?
 Ele or Hybrid WS TryProcTH?
 ToAU family stats(import mobdb custom)
-Taza forgotten item storage
 Check all IsMobBusy()'s have proper arg for mob(target etc) and wont crash
 TryProcTH needs level 15+ job check(maybe 75?)
 
@@ -62,13 +61,10 @@ Cait Sith BP animations (astral flow too)
 Diabolos BP animations (astral flow too)
 Stealth job trait
 Tres Duendes + Grand Train
-Goblin Call Beast
 Double down / shuffle (cardian NM tp moves) animations
 FOV/GOV elite training
 Dancing Chains wipe shadows?
 Simplelog show buff mob gets from buff moves?
-Aldazal locus gears (nashmau hp > run east)
-Parrying packet
 Mob move missing, buff, dispel, etc packet
 X's knife BCNM
 Normal roc TP moves
