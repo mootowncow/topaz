@@ -449,25 +449,27 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         }
     }
 
-    if (PMob && SLOT_RANGED >= 0 && SLOT_RANGED < SLOT_LINK2) // Ensure valid index and PMob
-    {
-        if (PMob->m_Weapons[SLOT_RANGED] != nullptr)
-        {
-            auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED]);
-            if (rangedWeapon != nullptr)
-            {
-                rangedWeapon->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
-            }
-            else
-            {
-                ShowDebug("%s [%u] ranged weapon cast failed!", PMob->GetName(), PMob->id);
-            }
-        }
-        else
-        {
-            ShowDebug("%s [%u] ranged weapon not found!", PMob->GetName(), PMob->id);
-        }
-    }
+    
+    // TODO: Crashes game sometimes...
+    //if (PMob && SLOT_RANGED >= 0 && SLOT_RANGED < SLOT_LINK2) // Ensure valid index and PMob
+    //{
+    //    if (PMob->m_Weapons[SLOT_RANGED] != nullptr)
+    //    {
+    //        auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED]);
+    //        if (rangedWeapon != nullptr)
+    //        {
+    //            rangedWeapon->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
+    //        }
+    //        else
+    //        {
+    //            ShowDebug("%s [%u] ranged weapon cast failed!", PMob->GetName(), PMob->id);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        ShowDebug("%s [%u] ranged weapon not found!", PMob->GetName(), PMob->id);
+    //    }
+    //}
 
 
     // reduce weapon delay of MNK
