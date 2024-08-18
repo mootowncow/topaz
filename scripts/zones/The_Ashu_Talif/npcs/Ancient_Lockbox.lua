@@ -40,7 +40,7 @@ function onTrigger(player, npc)
     local qItem = {
         [55] = {
             {itemid = tpz.items.QUESTIONMARK_CAPE, droprate = 334},
-            {itemid = tpz.items.QUESTIONMARK_HEADPIECE, droprate = 333}
+            {itemid = tpz.items.QUESTIONMARK_HEADPIECE, droprate = 333},
             {itemid = tpz.items.QUESTIONMARK_GLOVES, droprate = 333}
         }
     }
