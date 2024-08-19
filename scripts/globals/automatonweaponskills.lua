@@ -1496,8 +1496,6 @@ function getAutoMagicHitRate(auto, target, skillType, element, SDT, percentBonus
 
     if (element > 0) and (effect == nil) then -- Element resist does not work on status effects with an EEM(Like para)
         resMod = target:getMod(tpz.magic.resistMod[element])
-        -- Apply resistance mods
-        bonusAcc = bonusAcc - resMod
     end
 
     -- Callculate base magic evasion. F for players C for everything else

@@ -841,8 +841,6 @@ function getMagicHitRate(caster, target, skillType, element, SDT, percentBonus, 
         local elementBonus = caster:getMod(spellAcc[element])
         -- print(elementBonus)
         bonusAcc = bonusAcc + affinityBonus + elementBonus
-        -- Apply resistance mods
-        bonusAcc = bonusAcc - resMod
     end
 
     magicacc = magicacc + caster:getMerit(tpz.merit.MAGIC_ACCURACY)
@@ -3861,7 +3859,7 @@ function AreaOfEffectResistance(target, spell, dmg)
     local areaOfEffectMultiplier = 1
 
     if (target:getID() ~= spell:getPrimaryTargetID()) then
-        areaOfEffectMultiplier = utils.clamp(areaOfEffectMultiplier + target:getMod(tpz.mod.DMG_AOE) / 100, 0, 2)
+        areaOfEffectMultiplier = utils.clamp(areaOfEffectMultiplier + target:getMod(tpz.mod.DMGAOE) / 100, 0, 2)
     end
 
     dmg = dmg * areaOfEffectMultiplier
