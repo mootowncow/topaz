@@ -662,7 +662,10 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
             }
             else
             {
-                SetupDungeonInstancedMob(PMob);
+                if (zoneID != ZONE_THE_ASHU_TALIF)
+                {
+                    SetupDungeonInstancedMob(PMob);
+                }
             }
         }
         else if (zoneType == ZONETYPE_STRONGHOLDS)
