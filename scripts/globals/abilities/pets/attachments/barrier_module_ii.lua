@@ -28,13 +28,13 @@ end
 
 function onUpdate(pet, maneuvers)
     if maneuvers == 0 then
-        updateModPerformance(pet, tpz.mod.SHIELDBLOCKRATE, 'barrier_module_block_II', 30)
+        updateModPerformance(pet, tpz.mod.SHIELDBLOCKRATE, 'barrier_module_block_II', 15)
     elseif maneuvers == 1 then
-        updateModPerformance(pet, tpz.mod.SHIELDBLOCKRATE, 'barrier_module_block_II', 40)
+        updateModPerformance(pet, tpz.mod.SHIELDBLOCKRATE, 'barrier_module_block_II', 30)
     elseif maneuvers == 2 then
-        updateModPerformance(pet, tpz.mod.SHIELDBLOCKRATE, 'barrier_module_block_II', 45)
+        updateModPerformance(pet, tpz.mod.SHIELDBLOCKRATE, 'barrier_module_block_II', 35)
     elseif maneuvers == 3 then
-        updateModPerformance(pet, tpz.mod.SHIELDBLOCKRATE, 'barrier_module_block_II', 50)
+        updateModPerformance(pet, tpz.mod.SHIELDBLOCKRATE, 'barrier_module_block_II', 40)
     end
 
     if maneuvers == 0 then
