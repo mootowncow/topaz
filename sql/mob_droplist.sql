@@ -5198,7 +5198,7 @@ INSERT INTO `mob_droplist` VALUES (1002,0,0,1000,2163,240);
 INSERT INTO `mob_droplist` VALUES (1003,0,0,1000,642,250);
 INSERT INTO `mob_droplist` VALUES (1003,0,0,1000,643,50);
 INSERT INTO `mob_droplist` VALUES (1003,0,0,1000,1654,50);
-INSERT INTO `mob_droplist` VALUES (1003,0,0,1000,1885,270);
+INSERT INTO `mob_droplist` VALUES (1003,0,0,1000,1885,240);
 INSERT INTO `mob_droplist` VALUES (1003,2,0,1000,17296,0);
 INSERT INTO `mob_droplist` VALUES (1004,0,0,1000,2426,100);
 INSERT INTO `mob_droplist` VALUES (1004,0,0,1000,2427,240);
@@ -9095,8 +9095,8 @@ INSERT INTO `mob_droplist` VALUES (1742,0,0,1000,1052,50);
 INSERT INTO `mob_droplist` VALUES (1742,0,0,1000,4358,220);
 INSERT INTO `mob_droplist` VALUES (1743,0,0,1000,897,560);
 INSERT INTO `mob_droplist` VALUES (1744,0,0,1000,642,10);  -- (Mountain_Worm, non-NM) chunk_of_zinc_ore
-INSERT INTO `mob_droplist` VALUES (1744,0,0,1000,1885,80); -- chunk_of_zincite
-INSERT INTO `mob_droplist` VALUES (1744,0,0,1000,1885,80); -- chunk_of_zincite
+INSERT INTO `mob_droplist` VALUES (1744,0,0,1000,1885,240); -- chunk_of_zincite
+INSERT INTO `mob_droplist` VALUES (1744,0,0,1000,1885,240); -- chunk_of_zincite
 INSERT INTO `mob_droplist` VALUES (1745,0,0,1000,5382,100);
 INSERT INTO `mob_droplist` VALUES (1746,4,0,1000,834,0);
 INSERT INTO `mob_droplist` VALUES (1746,0,0,1000,1052,50);
