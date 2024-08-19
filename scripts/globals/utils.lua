@@ -937,7 +937,7 @@ function utils.getDropRate(mob, base)
     return dropChance
 end
 
-function utils.spawnPetInBattle(mob, pet, aggro)
+function utils.spawnPetInBattle(mob, pet, aggro, randomizeTarget)
     mob:entityAnimationPacket("casm")
     mob:SetAutoAttackEnabled(false)
     mob:SetMagicCastingEnabled(false)
@@ -949,7 +949,21 @@ function utils.spawnPetInBattle(mob, pet, aggro)
         mob:SetMobAbilityEnabled(true)
         pet:spawn()
         if (aggro ~= nil) then
-            pet:updateEnmity(mob:getTarget())
+            if (randomizeTarget ~= nil) then
+                local enmityList = mob:getEnmityList()
+                if enmityList and #enmityList > 0 then
+                local randomTarget = enmityList[math.random(1, #enmityList)]
+                local entityId = randomTarget.entity:getID()
+        
+                    if (entityId > 10000) then -- ID is a mob (pet)
+                        pet:updateEnmity(GetMobByID(entityId))
+                    else
+                        pet:updateEnmity(GetPlayerByID(entityId))
+                    end
+                end
+            else
+                pet:updateEnmity(mob:getTarget())
+            end
         end
     end)
 end

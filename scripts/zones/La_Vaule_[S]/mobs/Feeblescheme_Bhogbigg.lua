@@ -27,27 +27,33 @@ end
 function onMobFight(mob, target)
     local grenadeTime = mob:getLocalVar("grenadeTime")
     local vialTime = mob:getLocalVar("vialTime")
+    local vialsSummoned = mob:getLocalVar("vialsSummoned")
+    local grenade = GetMobByID(mob:getID() +1)
+    local vial = GetMobByID(mob:getID() +4)
 
     -- Grenade is summoned every 5-60s
     -- Grenades run towards a random target and uses one of their TP moves then depop after.
     if os.time() >= grenadeTime then
-        mob:setLocalVar("grenadeTime", os.time() + math.random(5, 60))
-        local grenade = GetMobByID(mob:getID() +1)
         if grenade:isSpawned() then grenade = GetMobByID(mob:getID() +2) end
         if grenade:isSpawned() then grenade = GetMobByID(mob:getID() +3) end
         if not grenade:isSpawned() then
+            mob:setLocalVar("grenadeTime", os.time() + math.random(15, 60))
             grenade:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
-            utils.spawnPetInBattle(mob, grenade)
+            utils.spawnPetInBattle(mob, grenade, true, true)
         end
-        return
-    elseif os.time() >= vialTime then -- Vials stay alive spamming Noxious Spray (Poison for 30/tick). Can only have 1 vial active max.
-        mob:setLocalVar("vialTime", os.time() + math.random(5, 15))
-        local vial = GetMobByID(mob:getID() +4)
+    end
+    if os.time() >= vialTime then -- Vials stay alive spamming Noxious Spray (Poison for 30/tick). Can only have 1 vial active max.
+        if (vialsSummoned >= 5) then
+            mob:setLocalVar("vialTime", os.time() + 360)
+            mob:setLocalVar("vialsSummoned", 0)
+            return
+        end
         if not vial:isSpawned() then
+            mob:setLocalVar("vialTime", os.time() + math.random(30, 60))
+            mob:setLocalVar("vialsSummoned", vialsSummoned +1)
             vial:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
-            utils.spawnPetInBattle(mob, vial)
+            utils.spawnPetInBattle(mob, vial, true, true)
         end
-        return
     end
 end
 

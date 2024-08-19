@@ -5566,6 +5566,12 @@ INSERT INTO `mob_spell_lists` VALUES ('All-Seeing_Onyx_Eye',2079,157,1,255); -- 
 INSERT INTO `mob_spell_lists` VALUES ('All-Seeing_Onyx_Eye',2079,162,1,255); -- Stone 4
 INSERT INTO `mob_spell_lists` VALUES ('All-Seeing_Onyx_Eye',2079,167,1,255); -- Thunder 4
 INSERT INTO `mob_spell_lists` VALUES ('All-Seeing_Onyx_Eye',2079,172,1,255); -- Water 4
+INSERT INTO `mob_spell_lists` VALUES ('All-Seeing_Onyx_Eye',2079,204,1,255); -- Flare
+INSERT INTO `mob_spell_lists` VALUES ('All-Seeing_Onyx_Eye',2079,206,1,255); -- Freeze
+INSERT INTO `mob_spell_lists` VALUES ('All-Seeing_Onyx_Eye',2079,208,1,255); -- Tornado
+INSERT INTO `mob_spell_lists` VALUES ('All-Seeing_Onyx_Eye',2079,210,1,255); -- Quake
+INSERT INTO `mob_spell_lists` VALUES ('All-Seeing_Onyx_Eye',2079,212,1,255); -- Burst
+INSERT INTO `mob_spell_lists` VALUES ('All-Seeing_Onyx_Eye',2079,214,1,255); -- Flood
 INSERT INTO `mob_spell_lists` VALUES ('All-Seeing_Onyx_Eye',2079,253,1,255); -- Sleep
 INSERT INTO `mob_spell_lists` VALUES ('All-Seeing_Onyx_Eye',2079,259,1,255); -- Sleep II
 INSERT INTO `mob_spell_lists` VALUES ('All-Seeing_Onyx_Eye',2079,4,1,255);   -- Cure IV

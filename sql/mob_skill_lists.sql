@@ -2801,6 +2801,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,38); -- Circle Blade
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,40); -- Vorpal Blade
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,41); -- Swift Blade
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,2278); -- Glory Slash
+INSERT INTO `mob_skill_lists` VALUES ('Shouldercharge_Only',1205,2264);
 
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
@@ -4900,6 +4901,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,169); -- black_hal
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,250); -- carnal_nightmare
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,252); -- dancing_chains
 
--- Next available ID: 1205
+-- Next available ID: 1206
 -- Next custom ID: 6153
 

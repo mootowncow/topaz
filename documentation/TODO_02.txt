@@ -158,9 +158,6 @@ Check all immunities with mobdb
 Steal message doesn't work properly (if you have aura steal learned?)
 Fix bahamut and code Cloud Evoker  BCNM's
 Rugaroo not work properly with x5 call of moon into asuran?
-Feeblescheme tubes don't go on a random target, spawn too fast(he seems to spawn a grenade AND a tube 100%?) and grenades don't despawn after using a TP move(?)
-Feeblescheme can vials be AOEd by WS? Like circle blade?
-Coinbiter needs better dread spikes logic, seems to spam cast it multiple times
 https://www.bg-wiki.com/ffxi/Draketrader_Zlodgodd
 MAX TP DOWN doens't work
 TryProcTH needs level 15+ job check(maybe 75?)

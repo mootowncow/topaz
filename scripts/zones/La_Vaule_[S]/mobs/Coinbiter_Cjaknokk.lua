@@ -7,6 +7,7 @@
 -----------------------------------
 require("scripts/globals/status")
 require("scripts/globals/mobs")
+require("scripts/globals/magic")
 require("scripts/globals/wotg")
 -----------------------------------
 
@@ -34,28 +35,14 @@ function onMobFight(mob, target)
     end
 
     if not mob:hasStatusEffect(tpz.effect.DREAD_SPIKES) then
-        mob:setLocalVar("dreadSpikes", 1)
+        if (dreadSpikes == 0) then
+            mob:setLocalVar("dreadSpikes", 1)
+            mob:castSpell(tpz.magic.spell.DREAD_SPIKES, mob)
+        end
     end
 
-    mob:addListener("MAGIC_START", "CJAKNOKK_MAGIC_START", function(mob, spell)
-        if spell:getID() == 277 then
-            mob:setLocalVar("dreadSpikes", 0)
-        end
-    end)
-end
-
-function onMobWeaponSkillPrepare(mob, target)
-    return 2264 -- Shoulder Charge
-end
-
-function onMonsterMagicPrepare(mob, target)
-    local dreadSpikes = mob:getLocalVar("dreadSpikes")
-
-    -- Keeps up dreadspikes and immediately recasts if it's removed
-    if (dreadSpikes > 0) then
-        return 277
-    else
-        return 0
+    mob:addListener("MAGIC_STATE_EXIT", "CJAK_MAGIC_STATE_EXIT", function(mob, spell)
+        mob:setLocalVar("dreadSpikes", 0)
     end
 end
 
