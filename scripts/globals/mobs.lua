@@ -697,6 +697,7 @@ function IsMobBusy(mob)
             act == tpz.act.RANGED_FINISH or
             act == tpz.act.ITEM_START or
             act == tpz.act.ITEM_FINISH
+            -- TODO: or mob:hasPreventActionEffect()?
 end
 
 function AffectWeatherMob(mobId, weather, nqWeather, nqChance, hqWeather, hqChance)

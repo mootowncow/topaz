@@ -1491,13 +1491,13 @@ INSERT INTO `mob_skills` VALUES (1543,1134,'tempest_wing',1,40.0,2000,1500,4,8,0
 INSERT INTO `mob_skills` VALUES (1544,1139,'touchdown_bahamut',1,15.0,2000,1500,4,10,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1545,1135,'sweeping_flail',1,50.0,2000,1500,4,8,0,7,0,0,0);
 INSERT INTO `mob_skills` VALUES (1546,1140,'prodigious_spike',0,15.0,2000,1500,4,8,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1547,1141,'impulsion',1,15.0,2000,1500,4,8,0,7,0,0,0);
+INSERT INTO `mob_skills` VALUES (1547,1141,'impulsion',2,10.0,2000,1500,4,8,0,7,0,0,0);
 INSERT INTO `mob_skills` VALUES (1548,1143,'absolute_terror',1,15.0,2000,1500,4,8,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1549,1142,'horrible_roar',0,15.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1549,1142,'horrible_roar',1,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1550,1294,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1551,1136,'megaflare',1,10.0,6000,1500,4,10,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1552,1137,'gigaflare',1,10.0,6000,1500,4,10,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1553,1138,'teraflare',1,10.0,2000,1500,4,10,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1551,1136,'megaflare',2,10.0,6000,1500,4,10,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1552,1137,'gigaflare',2,10.0,6000,1500,4,10,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1553,1138,'teraflare',2,10.0,2000,1500,4,10,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1554,1298,'camisado',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1555,1299,'blessed_radiance',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1556,1300,'regeneration',0,7.0,2000,1500,4,0,0,0,0,0,0);

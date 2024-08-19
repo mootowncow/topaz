@@ -38,5 +38,8 @@ function onMobWeaponSkill(target, mob, skill)
     MobPhysicalStatusEffectMove(mob, target, skill, tpz.effect.SLOW, 1250, 0, 60)
     MobStatusEffectMoveSub(mob, target, tpz.effect.BIO, 10, 3, 180, 0, 15, 3)
     if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then   target:tryInterruptSpell(mob, info.hitslanded) end
+    if mob:hasStatusEffect(tpz.effect.CONFRONTATION) then
+        mob:addMP(mob:getMaxMP())
+    end
     return dmg
 end

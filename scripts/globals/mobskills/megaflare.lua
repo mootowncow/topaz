@@ -29,6 +29,9 @@ function onMobWeaponSkill(target, mob, skill)
     end
 
     local dmgmod = math.floor(mob:getMainLvl() * 10) + math.floor(getMobDStat(INT_BASED, mob, target) * 1.5)
+    -- Check for resist
+    local resist = ApplyPlayerGearResistModCheck(mob, target, typeEffect, getMobDStat(INT_BASED, mob, target), 0, tpz.magic.ele.FIRE)
+    dmgmod = dmgmod * resist
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.FIRE, MOBPARAM_WIPE_SHADOWS)
 
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.FIRE)

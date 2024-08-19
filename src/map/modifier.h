@@ -214,7 +214,7 @@ enum class Mod
     DMGMB                     = 1277, // Magic Burst Damage Taken %
     DMGSPIRITS                = 1278, // Spirits Damage Taken % (Spirits Within / Atonement / Formless Strikes
     DMGTP                     = 1307, // TP move Damge taken %
-    DMG_AOE                   = 1371, // Damage Taken % when not main target of an AoE action. (Ex: Locus Mobs) In retail, the main target takes extra damage from high level mob TP TP moves / spells
+    DMGAOE                    = 1371, // Damage Taken % when not main target of an AoE action. (Ex: Locus Mobs) In retail, the main target takes extra damage from high level mob TP TP moves / spells
 
     CRITHITRATE               = 165, // Raises chance to crit
     CRIT_DMG_INCREASE         = 421, // Raises the damage of critical hit by percent %

@@ -194,6 +194,7 @@ tpz.msg.basic =
     REQUIRES_COMBAT        = 525, -- .. can only be performed during battle.
     STATUS_PREVENTS        = 569, -- Your current status prevents you from using that ability.
     EFFECTS_DISAPPEAR      = 757, -- <number> of <player's> effects disappear!
+    EFFECT_DISPELLED       = 323, -- The <player> uses .. Effect dispelled.
     STEAL_SUCCESS          = 125, -- <user> uses <ability>. <user> steals <item> from <target>.
     STEAL_FAIL             = 153, -- <user> uses <ability>. <user> fails to steal from <target>.
     STEAL_EFFECT           = 453, -- <user> uses <ability>. <user> steals the effect of <status> from <target>.

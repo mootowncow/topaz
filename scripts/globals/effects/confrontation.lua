@@ -44,7 +44,7 @@ function onEffectTick(target, effect)
     local confrontationStartPos = confrontationStart:getSpawnPos()
     -- Display a warning if vendoring too far from where the mob spawns
     if (target:isPC()) then
-        if (target:checkDistance(confrontationStartPos) >= 30) then
+        if (target:checkDistance(confrontationStartPos) >= 35) then
             target:messageSpecial(ID.text.CONF_TOO_FAR)
         end
     end
@@ -59,7 +59,7 @@ function onEffectTick(target, effect)
 
     -- If an engaged mob, and someone without confrontation ventured too far away, re-enable their confrontation status
     if (target:isMob() and target:getAllegiance() == tpz.allegiance.MOB) then
-        local NearbyEntities = target:getNearbyEntities(25)
+        local NearbyEntities = target:getNearbyEntities(30)
         if NearbyEntities == nil then return end
         if NearbyEntities then
             for _,entity in pairs(NearbyEntities) do

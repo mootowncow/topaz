@@ -34,7 +34,10 @@ function onMobWeaponSkill(target, mob, skill)
     end
         Taken from Megaflare fix later]]
 
-    local dmgmod = math.floor(mob:getMainLvl() * 18) + math.floor(getMobDStat(INT_BASED, mob, target) * 1.5)
+    local dmgmod = math.floor(mob:getMainLvl() * 20) + math.floor(getMobDStat(INT_BASED, mob, target) * 1.5)
+    -- Check for resist
+    local resist = ApplyPlayerGearResistModCheck(mob, target, typeEffect, getMobDStat(INT_BASED, mob, target), 0, tpz.magic.ele.FIRE)
+    dmgmod = dmgmod * resist
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.FIRE, MOBPARAM_WIPE_SHADOWS)
 
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.FIRE)
