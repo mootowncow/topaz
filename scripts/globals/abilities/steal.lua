@@ -29,6 +29,24 @@ validThfQuestMobs =
     17379554, 17379558, 17379562, 17379567, 17379571, 17379575, 17379579, 17379583, 17379587, 17379599
 }
 
+local function HasDispellableEffect(target)
+    local effects = target:getStatusEffects()
+    local num = 0
+
+    -- Don't try to dispel Utsusemi or Blink
+    if target:hasStatusEffect(tpz.effect.COPY_IMAGE) or target:hasStatusEffect(tpz.effect.BLINK) then
+        return false
+    end
+
+    for i, effect in ipairs(effects) do
+        -- check mask bit for tpz.effectFlag.DISPELABLE
+        if (utils.mask.getBit(effect:getFlag(), 0)) then
+            return true
+        end
+    end
+
+    return false
+end
 
 
 function onAbilityCheck(player, target, ability)
@@ -38,6 +56,8 @@ end
 function onUseAbility(player, target, ability, action)
     local thfLevel
     local stolen = 0
+    local itemStolen = false
+    local stoleEffect = false
 
     if (player:getMainJob() == tpz.job.THF) then
         thfLevel = player:getMainLvl()
@@ -66,6 +86,7 @@ function onUseAbility(player, target, ability, action)
             stolen = 4569
         end
 
+        itemStolen = true
         player:addItem(stolen)
         target:itemStolen()
         ability:setMsg(tpz.msg.basic.STEAL_SUCCESS) -- Item stolen successfully
@@ -79,39 +100,60 @@ function onUseAbility(player, target, ability, action)
     local effect = tpz.effect.NONE
     local skill = player:getWeaponSkillType(tpz.slot.MAIN)
     local bonus = 175
-    if player:hasTrait(tpz.trait.AURA_STEAL) then
+    if (not itemStolen and player:hasTrait(tpz.trait.AURA_STEAL)) then
         local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, bonus, tpz.effect.NONE, skill)
-        local effectStealSuccess = false
         if (resist >= 0.50) and math.random(100) > target:getMod(tpz.mod.DISPELRESTRAIT) then
-            local auraStealChance = math.min(player:getMerit(tpz.merit.AURA_STEAL), 95)
-            if (math.random(100) < auraStealChance) then
-                effect = player:stealStatusEffect(target)
+            local auraStealChance = player:getMerit(tpz.merit.AURA_STEAL)
+            if (math.random(100) <= auraStealChance) then
+                local stolenEffect = player:stealStatusEffect(target)
+                if (stolenEffect ~= tpz.effect.KO and stolenEffect ~= tpz.effect.NONE) then
+                    effect = stolenEffect
+                    stoleEffect = true
+                end
                 ability:setMsg(tpz.msg.basic.STEAL_EFFECT)
                 action:animation(target:getID(), 181)
             else
-                effect = target:dispelStatusEffect()
+                local dispelledEffect = target:dispelStatusEffect()
+                if (dispelledEffect ~= tpz.effect.KO and dispelledEffect ~= tpz.effect.NONE) then
+                    effect = dispelledEffect
+                    stoleEffect = true
+                end
                 ability:setMsg(322)
                 action:animation(target:getID(), 181)
             end
+        end
 
             -- Try for a second effect if we have the augment
-            if ((effect ~= tpz.effect.NONE) and player:getMod(tpz.mod.AUGMENTS_AURA_STEAL) > 0) then
-                if (math.random(100) < auraStealChance) then
-                    if (stolenEffect2 ~= nil and math.random(100) < auraStealChance) then
-                        effect = player:stealStatusEffect(target)
-                        ability:setMsg(tpz.msg.basic.STEAL_EFFECT)
-                        action:animation(target:getID(), 181)
-                    else
-                        effect = target:dispelStatusEffect()
-                        ability:setMsg(322)
-                        action:animation(target:getID(), 181)
+            if (player:getMod(tpz.mod.AUGMENTS_AURA_STEAL) > 0) then
+                if math.random(100) <= player:getMerit(tpz.merit.AURA_STEAL) then
+                    resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, bonus, tpz.effect.NONE, skill)
+                    if (resist >= 0.50) and math.random(100) > target:getMod(tpz.mod.DISPELRESTRAIT) then
+                        local auraStealChance = player:getMerit(tpz.merit.AURA_STEAL)
+                        if (math.random(100) < auraStealChance) then
+                            if (math.random(100) <= auraStealChance) then
+                                local stolenEffect = player:stealStatusEffect(target)
+                                if (stolenEffect ~= tpz.effect.KO and stolenEffect ~= tpz.effect.NONE) then
+                                    effect = stolenEffect
+                                    stoleEffect = true
+                                end
+                                ability:setMsg(tpz.msg.basic.STEAL_EFFECT)
+                                action:animation(target:getID(), 181)
+                            else
+                                local dispelledEffect = target:dispelStatusEffect()
+                                if (dispelledEffect ~= tpz.effect.KO and dispelledEffect ~= tpz.effect.NONE) then
+                                    effect = dispelledEffect
+                                    stoleEffect = true
+                                end
+                                ability:setMsg(322)
+                                action:animation(target:getID(), 181)
+                            end
+                        end
                     end
                 end
             end
-        end
 
         -- No valid effects on target to steal
-        if (effect == tpz.effect.NONE or effect == tpz.effect.KO) then
+        if (stoleEffect == false) then
             ability:setMsg(tpz.msg.basic.STEAL_FAIL) -- Failed to steal
             action:animation(target:getID(), 182)
         end
