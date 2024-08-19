@@ -13,6 +13,9 @@ require("scripts/globals/utils")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
+    if mob:getName() == 'Rugaroo' then
+        return 0
+    end
 	if mob:hasStatusEffect(tpz.effect.PROWESS_KILLER) then
 		return 1
 	end
