@@ -51,7 +51,7 @@ function onTrigger(player, npc)
     elseif (copCurrentMission >= copMissions.DAWN) and (tangoWithTracker == QUEST_AVAILABLE) then
         player:startEvent(576)
     -- Requiem of Sin
-    elseif (tangoWithTracker == QUEST_COMPLETED) and (RequiemOfSinCD >= os.time()) and not player:hasKeyItem(tpz.ki.LETTER_FROM_SHIKAREE_Y) then
+    elseif (tangoWithTracker == QUEST_COMPLETED) then
         player:startEvent(578)
     -- COP Default dialogue change
     elseif player:getCurrentMission(COP) > copMissions.DARKNESS_NAMED then
