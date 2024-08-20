@@ -155,16 +155,12 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
-Steal message doesn't work properly (if you have aura steal learned?)
-Fix bahamut and code Cloud Evoker  BCNM's
-Rugaroo not work properly with x5 call of moon into asuran?
-https://www.bg-wiki.com/ffxi/Draketrader_Zlodgodd
-MAX TP DOWN doens't work
-TryProcTH needs level 15+ job check(maybe 75?)
-Add Cura-III to the new cure magic.lua function
-Add tractor to raise
-Does WS not remove invis/sneak?
-Despoil on Aura Statue crashed simple log
+BLU Diss poison constantly 1s duration? Shouldn't ever be a 1s duration enfeeble.. full half or 0
+Memory Recaptacle deteciton method sneak 10-15 yards in  the BCNM and probably outside(deodorize detection only atm)
+Also adjut HP of all the mobs. Video for HP: https://www.youtube.com/watch?v=AVnFl0vSolQ&t=130s
+Z's wyvern doesnt healing breath
+shikaree's rabbit no loot
+Mammet-800 needs updated spells for level 85. Transmog and probably Mind Wall don't work?
 Final zilart missons + apoc nigh + storms of fate + rank6-10 bastok/sandy
 GM menu from lsb
 Make holy good somehow(TP reduction?)
@@ -233,6 +229,17 @@ KS99's
 GOV Elite training!
 Hunts
 WOE
+
+Later:
+mob darkness SC from shikaree Y did 0 damage to me?
+Fix bahamut and code Cloud Evoker  BCNM's
+https://www.bg-wiki.com/ffxi/Draketrader_Zlodgodd
+MAX TP DOWN doens't work
+TryProcTH needs level 15+ job check(maybe 75?)
+Add Cura-III to the new cure magic.lua function
+Add tractor to raise
+Does WS not remove invis/sneak?
+Despoil on Aura Statue crashed simple log
 
 ~~~~~~~~~~~~~~~~~~~~Relic Weapons Revamp~~~~~~~~~~~~~~~~~~~~
 
