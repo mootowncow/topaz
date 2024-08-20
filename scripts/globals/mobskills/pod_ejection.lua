@@ -7,9 +7,7 @@ require("scripts/globals/mobs")
 function onMobSkillCheck(target,mob,skill)
     local pod = GetMobByID(mob:getID() + 1)
     local currentForm = mob:getLocalVar("form")
-    printf("Onskill check")
     if not pod:isSpawned() and mob:AnimationSub() == 2 then -- On 2 legs
-        printf("Passed on skill check")
         return 0
     end
     return 1

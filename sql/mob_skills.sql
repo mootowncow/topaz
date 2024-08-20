@@ -833,19 +833,19 @@ INSERT INTO `mob_skills` VALUES (890,596,'thunder_iv',0,10.0,613,3000,4,0,0,0,0,
 INSERT INTO `mob_skills` VALUES (891,597,'chaotic_strike',0,10.0,614,3000,4,4,0,0,12,1,0); -- Fragmentation (12) / Transfixion (1)
 INSERT INTO `mob_skills` VALUES (892,598,'thunderstorm',0,10.0,615,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (893,599,'judgment_bolt',1,30.0,616,0,4,2,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (894,621,'healing_breath_i',0,10.0,2000,2000,2,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (895,622,'healing_breath_ii',0,10.0,2000,2000,2,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (896,623,'healing_breath_iii',0,10.0,2000,2000,2,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (897,624,'remove_poison',0,10.0,2000,1500,2,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (898,625,'remove_blindness',0,10.0,2000,1500,2,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (899,626,'remove_paralysis',0,10.0,2000,1500,2,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (894,621,'healing_breath_i',0,10.0,2000,2000,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (895,622,'healing_breath_ii',0,10.0,2000,2000,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (896,623,'healing_breath_iii',0,10.0,2000,2000,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (897,624,'remove_poison',0,10.0,2000,1500,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (898,625,'remove_blindness',0,10.0,2000,1500,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (899,626,'remove_paralysis',0,10.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (900,627,'pet_flame_breath',0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (901,628,'pet_frost_breath',0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (902,629,'pet_gust_breath',0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (903,630,'pet_sand_breath',0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (904,631,'pet_lightning_breath',0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (905,632,'pet_hydro_breath',0,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (906,605,'healing_ruby',0,10.0,496,3000,2,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (906,605,'healing_ruby',0,10.0,496,3000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (907,606,'poison_nails',0,10.0,497,3000,4,4,0,0,1,0,0); -- Transfixion (1)
 INSERT INTO `mob_skills` VALUES (908,607,'shining_ruby',1,10.0,498,3000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (909,608,'glittering_ruby',1,10.0,499,3000,1,0,0,0,0,0,0);

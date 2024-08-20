@@ -8,6 +8,7 @@ require("scripts/globals/mobs")
 
 function onMobSpawn(mob)
     mob:addTP(3000)
+    mob:setMod(tpz.mod.REGAIN, 3000)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)

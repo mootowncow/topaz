@@ -9,6 +9,7 @@ require("scripts/globals/status")
 require("scripts/globals/mobs")
 require("scripts/globals/magic")
 require("scripts/globals/wotg")
+mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
 
 function onMobSpawn(mob)

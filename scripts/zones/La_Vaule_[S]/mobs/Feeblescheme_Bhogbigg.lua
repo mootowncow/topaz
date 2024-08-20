@@ -33,6 +33,13 @@ function onMobFight(mob, target)
 
     -- Grenade is summoned every 5-60s
     -- Grenades run towards a random target and uses one of their TP moves then depop after.
+    -- After summoning five vials, they go on "cooldown" for 6 minutes
+    if (vialsSummoned >= 5) then
+        mob:setLocalVar("vialTime", os.time() + 360)
+        mob:setLocalVar("vialsSummoned", 0)
+        return
+    end
+
     if os.time() >= grenadeTime then
         if grenade:isSpawned() then grenade = GetMobByID(mob:getID() +2) end
         if grenade:isSpawned() then grenade = GetMobByID(mob:getID() +3) end
@@ -42,12 +49,8 @@ function onMobFight(mob, target)
             utils.spawnPetInBattle(mob, grenade, true, true)
         end
     end
+
     if os.time() >= vialTime then -- Vials stay alive spamming Noxious Spray (Poison for 30/tick). Can only have 1 vial active max.
-        if (vialsSummoned >= 5) then
-            mob:setLocalVar("vialTime", os.time() + 360)
-            mob:setLocalVar("vialsSummoned", 0)
-            return
-        end
         if not vial:isSpawned() then
             mob:setLocalVar("vialTime", os.time() + math.random(30, 60))
             mob:setLocalVar("vialsSummoned", vialsSummoned +1)

@@ -38,7 +38,10 @@ function onMobFight(mob, target)
     -- Handle Healing Breath
     mob:addListener("MAGIC_STATE_EXIT", "SHIKAREE_Z_REQ", function(mob, spell)
         local wyvern = GetMobByID(mob:getID() +3)
-        wyvern:useMobAbility(896) -- Healing Breath III
+        if (mob:getLocalVar("forceBreath") == 0) then
+            mob:setLocalVar("forceBreath", 1)
+            wyvern:useMobAbility(896) -- Healing Breath III
+        end
     end)
 end
 

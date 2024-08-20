@@ -6020,8 +6020,13 @@ INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 362, 1, 255); -- 
 INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 361, 1, 255); -- Blindga
 INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 366, 1, 255); -- Graviga
 INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 274, 1, 255); -- Sleepga II
-
--- NEXT 544
+INSERT INTO `mob_spell_lists` VALUES ('Mammet-800',544,176,1,255);-- firaga_iii
+INSERT INTO `mob_spell_lists` VALUES ('Mammet-800',544,181,1,255);-- blizzaga_iii
+INSERT INTO `mob_spell_lists` VALUES ('Mammet-800',544,186,1,255);-- aeroga_iii
+INSERT INTO `mob_spell_lists` VALUES ('Mammet-800',544,191,1,255);-- stonega_iii
+INSERT INTO `mob_spell_lists` VALUES ('Mammet-800',544,196,1,255);-- thundaga_iii
+INSERT INTO `mob_spell_lists` VALUES ('Mammet-800',544,201,1,255);-- waterga_iii
+-- NEXT 545
 -- NEXT 1022
 -- NEXT 2086(Custom)
 

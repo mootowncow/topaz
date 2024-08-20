@@ -19,7 +19,7 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
 
-	mob:addStatusEffect(tpz.effect.PHYSICAL_SHIELD, 3, 0, 30)
+	mob:addStatusEffect(tpz.effect.PHYSICAL_SHIELD, 2, 0, 30)
     skill:setMsg(tpz.msg.basic.NONE)
 
     return 0

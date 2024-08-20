@@ -828,10 +828,10 @@ INSERT INTO `mob_groups` VALUES (5,782,23,'Contemplator',0,128,0,0,0,51,52,0);
 INSERT INTO `mob_groups` VALUES (6,2081,23,'Ingurgitator',0,128,0,0,0,51,52,0);
 INSERT INTO `mob_groups` VALUES (7,3351,23,'Repiner',0,128,0,0,0,51,52,0);
 INSERT INTO `mob_groups` VALUES (8,2826,23,'Neoingurgitator',0,128,0,0,0,51,52,0);
-INSERT INTO `mob_groups` VALUES (9,6647,23,'Memory_Receptacle_Red',0,128,0,5500,0,52,52,0); -- Red
-INSERT INTO `mob_groups` VALUES (10,6646,23,'Memory_Receptacle_Blue',0,128,0,3500,0,52,52,0); -- Blue
-INSERT INTO `mob_groups` VALUES (11,6645,23,'Memory_Receptacle_Green',0,128,0,3500,0,52,52,0); -- Green
-INSERT INTO `mob_groups` VALUES (12,2614,23,'Memory_Receptacle_Teal',0,128,0,3500,0,52,52,0); -- Teal/Aqua
+INSERT INTO `mob_groups` VALUES (9,6647,23,'Memory_Receptacle_Red',0,128,0,3100,0,55,55,0); -- Red
+INSERT INTO `mob_groups` VALUES (10,6646,23,'Memory_Receptacle_Blue',0,128,0,1500,0,50,50,0); -- Blue
+INSERT INTO `mob_groups` VALUES (11,6645,23,'Memory_Receptacle_Green',0,128,0,1500,0,50,50,0); -- Green
+INSERT INTO `mob_groups` VALUES (12,2614,23,'Memory_Receptacle_Teal',0,128,0,1500,0,50,50,0); -- Teal/Aqua
 
 -- ------------------------------------------------------------
 -- Lufaise_Meadows (Zone 24)
@@ -1157,11 +1157,11 @@ INSERT INTO `mob_groups` VALUES (20,3596,30,'Shieldtrap',0,128,2235,5500,0,46,48
 
 INSERT INTO `mob_groups` VALUES (1,2499,31,'Mammet-19_Epsilon',0,128,1585,2000,0,43,44,0);
 INSERT INTO `mob_groups` VALUES (2,3070,31,'Ouryu',0,128,0,9000,500,54,55,0);
-INSERT INTO `mob_groups` VALUES (3,1885,31,'Hamadryad',0,128,0,2500,0,42,42,0);
-INSERT INTO `mob_groups` VALUES (4,3333,31,'Razon',0,128,0,2000,0,42,42,0);
-INSERT INTO `mob_groups` VALUES (5,4304,31,'Watch_Hippogryph',0,128,0,6500,0,55,57,0);
-INSERT INTO `mob_groups` VALUES (6,1834,31,'Guard_Hippogryph',0,128,0,1000,0,53,55,0);
-INSERT INTO `mob_groups` VALUES (7,1992,31,'Hotupuku',0,128,0,8000,0,55,57,0);
+INSERT INTO `mob_groups` VALUES (3,1885,31,'Hamadryad',0,128,0,2500,0,45,45,0);
+INSERT INTO `mob_groups` VALUES (4,3333,31,'Razon',0,128,0,2100,0,45,45,0);
+INSERT INTO `mob_groups` VALUES (5,4304,31,'Watch_Hippogryph',0,128,0,6500,0,55,55,0);
+INSERT INTO `mob_groups` VALUES (6,1834,31,'Guard_Hippogryph',0,128,0,1000,0,55,55,0);
+INSERT INTO `mob_groups` VALUES (7,1992,31,'Hotupuku',0,128,0,8000,0,55,55,0);
 INSERT INTO `mob_groups` VALUES (8,2502,31,'Mammet_Master',0,128,0,5500,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (9,2501,31,'Mammet-800',0,128,1585,35000,0,85,85,0);
 
@@ -10558,8 +10558,8 @@ INSERT INTO `mob_groups` VALUES (13,3214,146,'Prune',0,128,0,0,0,20,20,0);
 INSERT INTO `mob_groups` VALUES (14,3116,146,'Pepper',0,128,0,0,0,20,20,0);
 INSERT INTO `mob_groups` VALUES (15,3132,146,'Phoedme',0,128,0,0,0,20,20,0);
 INSERT INTO `mob_groups` VALUES (16,425,146,'Bitoso',0,128,0,3600,1200,31,33,0);
-INSERT INTO `mob_groups` VALUES (17,2822,146,'Nenaunir',0,128,0,0,0,30,30,0);
-INSERT INTO `mob_groups` VALUES (18,2823,146,'Nenaunirs_Wife',0,128,0,0,0,30,30,0);
+INSERT INTO `mob_groups` VALUES (17,2822,146,'Nenaunir',0,128,0,0,0,33,33,0);
+INSERT INTO `mob_groups` VALUES (18,2823,146,'Nenaunirs_Wife',0,128,0,0,0,27,28,0);
 -- Steamed Sprouts
 INSERT INTO `mob_groups` VALUES (19,1149,146,'Dvorovoi',0,128,0,4200,0,45,45,0);
 INSERT INTO `mob_groups` VALUES (20,1078,146,'Domovoi',0,128,0,400,0,40,40,0);

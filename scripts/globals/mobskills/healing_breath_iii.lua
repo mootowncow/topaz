@@ -11,6 +11,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
+    local master = GetMobByID(mob:getID() -3)
     local mobs = {
         GetMobByID(mob:getID() - 3),
         GetMobByID(mob:getID() - 2),
@@ -21,6 +22,7 @@ function onMobWeaponSkill(target, mob, skill)
     end)
 
     local lowestShikaree = mobs[1];
+    master:setLocalVar("forceBreath", 0)
 
     return MobPercentHealMove(mob, lowestShikaree, skill, 0.25)
 end
