@@ -45,22 +45,15 @@ require("scripts/globals/weaponskillids")
 -- TODO: Mystic Boon work like atonement and scale off having lower HP and not ftp or atack
 -- TODO: Redesign jailer of prudence
 -- TODO: Perfect Dodge on CD when 1 hr is on CD
--- TODO: You can dispel your own helixes off enemies?!
--- TODO: Adendum white boosts regen and it shouldn't boost it more than light arts
 -- TODO: Aldo healing Bahamut on autos sometimes
--- TODO: Bahamut spams gigaflare below 50%...bugged?
--- TODO: Bahamut Flares not supposed to be instant? And have cutscene text before he does them?
 -- TODO: Ultima randomly bugged out and didn't start confrontation? Had to force respawn it
--- TODO: Buff all tanks damage so they can actually tank?
 -- TODO: AOE spells shouldn't apply to dead players(magic.cpp logic?)
 -- TODO: Swathe of Silence and Daming Edict should be "2hr/JA" and not consume TP
 -- TODO: Give all the melee WHM / BLM / RDM some way to restore MP(mostly on their unique WS). Not sure what Febrenard_C_Brunnaut needs. Marujido needs mana well.
 -- TODO: AA TT immune to stun during manafont
 -- TODO: Kamlanaut waay undertuned, dies really fast and does nothing. Make new mob family and give trong ga enfeebles? Also make his enspells undispellable and give him ochain
 -- TODO: Confrontation should be removed after a timer when the red text shows but make it only show at 50+ yards
--- TODO: Omega pods dont spawn?
 -- TODO: NPC's didn't despawn after Ealdnarche died?
--- TODO: Kupipi needs way to get MP back
 -- TODO: PLD's need chivalry
 -- TODO: Shikaree Z's wyvern has insane attack speed?
 -- TODO: Monberaux overwrites shell/haste
@@ -1974,12 +1967,14 @@ function UpdateTankAI(mob, target)
                 end
             end
 
-            if (os.time() >= stoneskinTimer) then
-                if CanCast(mob) then
-                    mob:castSpell(tpz.magic.spell.STONESKIN, mob)
-                    mob:setLocalVar("stoneskinTimer", os.time() + 25)
-                    mob:setLocalVar("globalMagicTimer", os.time() + 10)
-                    return
+            if IsCurilla(mob) then
+                if (os.time() >= stoneskinTimer) then
+                    if CanCast(mob) then
+                        mob:castSpell(tpz.magic.spell.STONESKIN, mob)
+                        mob:setLocalVar("stoneskinTimer", os.time() + 25)
+                        mob:setLocalVar("globalMagicTimer", os.time() + 10)
+                        return
+                    end
                 end
             end
 
@@ -2907,6 +2902,10 @@ function ShouldStandBack(mob)
 
     if (mobName == 'Kukki-Chebukki') then
         return true
+    end
+
+    if (mobName == 'Kupipi') then
+        return false
     end
 
     if IsFebrenard(mob) then
