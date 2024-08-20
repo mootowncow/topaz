@@ -82,15 +82,15 @@ enum MOBTYPE
 enum DETECT : uint16
 {
     DETECT_NONE        = 0x00,
-    DETECT_SIGHT       = 0x01,
-    DETECT_HEARING     = 0x02,
-    DETECT_LOWHP       = 0x04,
-    DETECT_NONE1       = 0x08,
-    DETECT_NONE2       = 0x10,
-    DETECT_MAGIC       = 0x20,
-    DETECT_WEAPONSKILL = 0x40,
-    DETECT_JOBABILITY  = 0x80,
-    DETECT_SCENT       = 0x100
+    DETECT_SIGHT       = 0x01, // 1
+    DETECT_HEARING     = 0x02, // 2
+    DETECT_LOWHP       = 0x04, // 4
+    DETECT_NONE1       = 0x08, // 8
+    DETECT_NONE2       = 0x10, // 16
+    DETECT_MAGIC       = 0x20, // 32
+    DETECT_WEAPONSKILL = 0x40, // 64
+    DETECT_JOBABILITY  = 0x80, // 128
+    DETECT_SCENT       = 0x100 // 256
 };
 
 enum BEHAVIOUR : uint16
