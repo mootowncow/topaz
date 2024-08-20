@@ -34,7 +34,7 @@ function onTrade(player, npc, trade)
     if npcUtil.tradeHas(trade, 1782) then -- Florid Stone for Test Your Mite ENM
         if player:hasKeyItem(tpz.ki.ASTRAL_COVENANT) then
             player:PrintToPlayer("You're already in the possession of an Astral Covenant.",0,"Ghebi Damomohe")
-        elseif VanadielTime() > AstralCovenantTimer and player:hasKeyItem(tpz.ki.ASTRAL_COVENANT) == false then
+        elseif os.time() >= AstralCovenantTimer and not player:hasKeyItem(tpz.ki.ASTRAL_COVENANT) then
             player:confirmTrade()
             player:PrintToPlayer("This stone... there's something inside of it!",0,"Ghebi Damomohe")
             player:addKeyItem(tpz.ki.ASTRAL_COVENANT)
