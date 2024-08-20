@@ -1167,7 +1167,7 @@ function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, p
         finalDuration = CheckDiminishingReturns(caster, target, params.effect, finalDuration)
 
         if (finalDuration > 0) then
-            if target:addStatusEffect(params.effect, power, tick, params.effect, finalDuration) then
+            if target:addStatusEffect(params.effect, power, tick, finalDuration) then
                 -- Check for magic burst
                 if GetEnfeebleMagicBurstMessage(caster, spell, target) and (damage < 2) then
                     spell:setMsg(spell:getMagicBurstMessage()) 

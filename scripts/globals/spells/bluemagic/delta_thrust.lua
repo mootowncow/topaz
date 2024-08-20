@@ -52,7 +52,7 @@ function onSpellCast(caster, target, spell)
     damage = BluePhysicalSpell(caster, target, spell, params)
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
-    BlueTryEnfeeble(caster, target, spell, damage, 10, 0, 60, params)
+    BlueTryEnfeeble(caster, target, spell, damage, 10, 3, 60, params)
 
     return damage
 end
