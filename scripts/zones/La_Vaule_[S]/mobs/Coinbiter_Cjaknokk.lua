@@ -43,7 +43,7 @@ function onMobFight(mob, target)
 
     mob:addListener("MAGIC_STATE_EXIT", "CJAK_MAGIC_STATE_EXIT", function(mob, spell)
         mob:setLocalVar("dreadSpikes", 0)
-    end
+    end)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
