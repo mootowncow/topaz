@@ -3,11 +3,13 @@
 --  Mob: Defender
 -----------------------------------
 require("scripts/globals/regimes")
+require("scripts/globals/status")
 -----------------------------------
 
 function onMobSpawn(mob)
     mob:setLocalVar("petCount", 1)
-     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+    mob:addMod(tpz.mod.EVA, 100)
+    mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
 end
 
 function onMobFight(mob, target)

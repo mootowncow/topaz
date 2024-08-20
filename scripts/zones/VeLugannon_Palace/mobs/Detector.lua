@@ -3,6 +3,7 @@
 --  Mob: Detector
 -----------------------------------
 local ID = require("scripts/zones/VeLugannon_Palace/IDs")
+require("scripts/globals/status")
 require("scripts/globals/pathfind")
 require("scripts/globals/regimes")
 -----------------------------------
@@ -262,6 +263,7 @@ DETECTOR_PATHS =
 }
 
 function onMobSpawn(mob)
+    mob:addMod(tpz.mod.EVA, 100)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     onMobRoam(mob)
     mob:setLocalVar("petCount", 1)
