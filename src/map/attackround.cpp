@@ -292,9 +292,12 @@ void CAttackRound::CreateAttacks(CItemWeapon* PWeapon, PHYSICAL_ATTACK_DIRECTION
     // Checking Mikage Effect - Hits Vary With Num of Utsusemi Shadows for Main Weapon
     if (m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIKAGE) && m_attacker->m_Weapons[SLOT_MAIN]->getID() == PWeapon->getID())
     {
-        auto shadows = (uint8)m_attacker->getMod(Mod::UTSUSEMI);
-        //ShowDebug(CL_CYAN"Create Attacks: Mikage Active, Rolling Attack Chance for %d Shadowss...\n" CL_RESET, shadows);
-        AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, shadows);
+        auto mikageAttackRounds = battleutils::GetMikageBonus(m_attacker);
+        ShowDebug(CL_CYAN"Create Attacks: Mikage Active, Rolling Attack Chance for %d...\n" CL_RESET, mikageAttackRounds);
+        if (mikageAttackRounds > 0)
+        {
+            AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, mikageAttackRounds);
+        }
     }
     // Quad/Triple/Double Attack
     else if (tpzrand::GetRandomNumber(100) < quadAttack)

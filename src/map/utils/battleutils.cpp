@@ -7941,6 +7941,70 @@ int16 GetSDTTier(int16 SDT)
         }
     }
 
+    int16 GetMikageBonus(CBattleEntity* PEntity)
+    {
+        // TODO: Made up outside of 5 shadows, no testing done
+        // https://www.bluegartr.com/threads/108197-Random-Facts-Thread-Abilities?p=5959896&viewfull=1#post5959896
+        int16 mikageBonus = 0;
+        uint16 shadows = PEntity->getMod(Mod::UTSUSEMI);
+
+        if (shadows > 0)
+        {
+            int16 randomValue = tpzrand::GetRandomNumber<int16>(100);
+
+            if (shadows == 5)
+            {
+                if (randomValue < 30)
+                    mikageBonus = 1; // 30% chance
+                else if (randomValue < 60)
+                    mikageBonus = 2; // 30% chance
+                else if (randomValue < 80)
+                    mikageBonus = 3; // 20% chance
+                else if (randomValue < 90)
+                    mikageBonus = 4; // 10% chance
+                else
+                    mikageBonus = 5; // 10% chance
+            }
+            else if (shadows == 4)
+            {
+                if (randomValue < 40)
+                    mikageBonus = 1; // 40% chance
+                else if (randomValue < 70)
+                    mikageBonus = 2; // 30% chance
+                else if (randomValue < 90)
+                    mikageBonus = 3; // 20% chance
+                else
+                    mikageBonus = 4; // 10% chance
+            }
+            else if (shadows == 3)
+            {
+                if (randomValue < 50)
+                    mikageBonus = 1; // 50% chance
+                else if (randomValue < 80)
+                    mikageBonus = 2; // 30% chance
+                else
+                    mikageBonus = 3; // 20% chance
+            }
+            else if (shadows == 2)
+            {
+                if (randomValue < 60)
+                    mikageBonus = 1; // 60% chance
+                else
+                    mikageBonus = 2; // 40% chance
+            }
+            else if (shadows == 1)
+            {
+                if (randomValue < 70)
+                    mikageBonus = 1; // 70% chance
+                else
+                    mikageBonus = 2; // 30% chance
+            }
+        }
+
+        return mikageBonus;
+    }
+
+
     CBattleEntity* GetCoverAbilityUser(CBattleEntity* PCoverAbilityTarget, CBattleEntity* PMob)
     {
         CBattleEntity* PCoverAbilityUser = nullptr;
