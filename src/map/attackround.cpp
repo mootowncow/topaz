@@ -293,7 +293,7 @@ void CAttackRound::CreateAttacks(CItemWeapon* PWeapon, PHYSICAL_ATTACK_DIRECTION
     if (m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIKAGE) && m_attacker->m_Weapons[SLOT_MAIN]->getID() == PWeapon->getID())
     {
         auto mikageAttackRounds = battleutils::GetMikageBonus(m_attacker);
-        ShowDebug(CL_CYAN"Create Attacks: Mikage Active, Rolling Attack Chance for %d...\n" CL_RESET, mikageAttackRounds);
+        //ShowDebug(CL_CYAN"Create Attacks: Mikage Active, Rolling Attack Chance for %d...\n" CL_RESET, mikageAttackRounds);
         if (mikageAttackRounds > 0)
         {
             AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, mikageAttackRounds);
