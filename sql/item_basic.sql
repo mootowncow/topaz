@@ -4126,7 +4126,7 @@ INSERT INTO `item_basic` VALUES (4370,0,'honey','honey',12,1548,59,0,30);
 INSERT INTO `item_basic` VALUES (4371,0,'grilled_hare','grilled_hare',1,1580,52,0,46);
 INSERT INTO `item_basic` VALUES (4372,0,'slice_of_giant_sheep_meat','g._sheep_meat',99,1548,59,0,11);
 INSERT INTO `item_basic` VALUES (4373,0,'woozyshroom','woozyshroom',99,1548,59,0,215);
-INSERT INTO `item_basic` VALUES (4374,0,'sleepshroom','sleepshroom',99,1548,59,0,25);
+INSERT INTO `item_basic` VALUES (4374,0,'sleepshroom','sleepshroom',12,1548,59,0,25);
 INSERT INTO `item_basic` VALUES (4375,0,'danceshroom','danceshroom',99,1548,59,0,620);
 INSERT INTO `item_basic` VALUES (4376,0,'meat_jerky','meat_jerky',12,1548,52,0,30);
 INSERT INTO `item_basic` VALUES (4377,0,'coeurl_meat','coeurl_meat',12,1548,59,0,240);
