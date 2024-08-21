@@ -23,7 +23,7 @@ function onMobFight(mob, target)
 end
 
 function onMobDespawn(mob)
-    tpz.mob.phOnDespawn(mob, ID.mob.PROWLOX_BARRELBELLY_PH, 50, 3600) -- 20 minutes
+    tpz.mob.phOnDespawn(mob, ID.mob.PROWLOX_BARRELBELLY_PH, 5, 3600) -- 1 hour
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

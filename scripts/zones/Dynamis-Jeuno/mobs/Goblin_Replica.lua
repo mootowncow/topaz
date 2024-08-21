@@ -18,12 +18,12 @@ end
 
 
 function onMobDespawn(mob)
-    tpz.mob.phOnDespawn(mob, ID.mob.SMELTIX_THICKHIDE_PH, 50, 3600) -- 20 minutes
-    tpz.mob.phOnDespawn(mob, ID.mob.JABKIX_PIGEONPECS_PH, 50, 3600) -- 20 minutes
-    tpz.mob.phOnDespawn(mob, ID.mob.WASABIX_CALLUSDIGIT_PH, 50, 3600) -- 20 minutes
-    tpz.mob.phOnDespawn(mob, ID.mob.TICKTOX_BEADYEYES_PH, 50, 3600) -- 20 minutes
-    tpz.mob.phOnDespawn(mob, ID.mob.LURKLOX_DHALMELNECK_PH, 50, 3600) -- 20 minutes
-    tpz.mob.phOnDespawn(mob, ID.mob.TRAILBLIX_GOATMUG_PH, 50, 3600) -- 20 minutes
+    tpz.mob.phOnDespawn(mob, ID.mob.SMELTIX_THICKHIDE_PH, 5, 3600) -- 1 hour
+    tpz.mob.phOnDespawn(mob, ID.mob.JABKIX_PIGEONPECS_PH, 5, 3600) -- 1 hour
+    tpz.mob.phOnDespawn(mob, ID.mob.WASABIX_CALLUSDIGIT_PH, 5, 3600) -- 1 hour
+    tpz.mob.phOnDespawn(mob, ID.mob.TICKTOX_BEADYEYES_PH, 5, 3600) -- 1 hour
+    tpz.mob.phOnDespawn(mob, ID.mob.LURKLOX_DHALMELNECK_PH, 5, 3600) -- 1 hour
+    tpz.mob.phOnDespawn(mob, ID.mob.TRAILBLIX_GOATMUG_PH, 5, 3600) -- 1 hour
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

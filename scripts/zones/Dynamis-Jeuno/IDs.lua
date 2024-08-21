@@ -100,6 +100,7 @@ zones[tpz.zone.DYNAMIS_JEUNO] =
         MORTILOX_WARTPAWS_PH      = {[17547270] = 17547438}, -- Vanguard_Shaman
         SLYSTIX_MEGAPEEPERS_PH      = {[17547286] = 17547492}, -- Vanguard_Necromancer
         TYMEXOX_NINEFINGERS_PH      = {[17547288] = 17547486}, -- Vanguard_Ronin
+        GABBLOX_MAGPIETONGUE_PH    = {[17547276] = 17547277}, -- Vanguard_Hitman
 
     },
     npc =

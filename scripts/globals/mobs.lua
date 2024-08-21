@@ -70,7 +70,6 @@ tpz.mob.phOnDespawn = function(ph, phList, chance, cooldown, immediate)
     if NM_LOTTERY_CHANCE then
         chance = NM_LOTTERY_CHANCE >= 0 and (chance * NM_LOTTERY_CHANCE) or 100
     end
-
     if NM_LOTTERY_COOLDOWN  then
         cooldown = NM_LOTTERY_COOLDOWN >= 0 and (cooldown * NM_LOTTERY_COOLDOWN) or cooldown
     end
@@ -78,6 +77,7 @@ tpz.mob.phOnDespawn = function(ph, phList, chance, cooldown, immediate)
     local phId = ph:getID()
     local nmId = phList[phId]
 
+    --printf("NM Pop chance %d", chance)
     if nmId ~= nil then
         local nm = GetMobByID(nmId)
         if nm ~= nil then

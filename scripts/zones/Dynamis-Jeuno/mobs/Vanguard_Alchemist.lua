@@ -12,8 +12,8 @@ require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDespawn(mob)
-    tpz.mob.phOnDespawn(mob, ID.mob.WYRMWIX_SNAKESPECS_PH, 50, 3600) -- 20 minutes
-    tpz.mob.phOnDespawn(mob, ID.mob.DISTILIX_STICKYTOES_PH, 50, 3600) -- 20 minutes
+    tpz.mob.phOnDespawn(mob, ID.mob.WYRMWIX_SNAKESPECS_PH, 5, 3600) -- 1 hour
+    tpz.mob.phOnDespawn(mob, ID.mob.DISTILIX_STICKYTOES_PH, 5, 3600) -- 1 hour
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

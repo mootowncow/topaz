@@ -817,7 +817,7 @@ end
 
 function dynamis.removeTwoHour(mob)
     -- Proccing removes the mobs current active 2 hour and sets their 2 hour on a 2 minute cooldown
-    for v = 44, 54 do
+    for v = tpz.effect.MIGHTY_STRIKES, tpz.effect.ASTRAL_FLOW do
         mob:setLocalVar("[jobSpecial]cooldown", os.time() + 120)
         if mob:hasStatusEffect(v) then
             mob:delStatusEffectSilent(v)

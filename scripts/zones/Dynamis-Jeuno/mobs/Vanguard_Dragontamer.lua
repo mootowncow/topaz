@@ -11,7 +11,7 @@ local ID = require("scripts/zones/Dynamis-Jeuno/IDs")
 require("scripts/globals/mobs")
 -----------------------------------
 function onMobDespawn(mob)
-    tpz.mob.phOnDespawn(mob, ID.mob.RUTRIX_HAMGAM_PHS, 50, 3600) -- 20 minutes
+    tpz.mob.phOnDespawn(mob, ID.mob.RUTRIX_HAMGAM_PHS, 5, 3600) -- 1 hour
 end
 
 
