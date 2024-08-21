@@ -627,6 +627,12 @@ int16 CBattleEntity::addTP(int16 tp)
             tp -= (health.tp - max);
             health.tp = max;
         }
+        else
+        {
+            int16 cap = std::clamp(health.tp + tp, 0, max);
+            tp = health.tp - cap;
+            health.tp = cap;
+        }
     }
     else
     {

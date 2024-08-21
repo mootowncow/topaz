@@ -18,6 +18,6 @@ function onMobWeaponSkill(target, mob, skill)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.DARK)
     MobStatusEffectMove(mob, target, tpz.effect.MAX_HP_DOWN, 50, 0, 60)
     MobStatusEffectMove(mob, target, tpz.effect.MAX_MP_DOWN, 50, 0, 60)
-    -- MobStatusEffectMove(mob, target, tpz.effect.MAX_TP_DOWN, 50, 0, 60) TODO: Doesn't properly work still
+    MobStatusEffectMove(mob, target, tpz.effect.MAX_TP_DOWN, 50, 0, 60)
     return dmg
 end
