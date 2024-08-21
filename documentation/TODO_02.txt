@@ -155,12 +155,6 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
-Summoned mob avatars don't update enmity and assist master on spawn/summon only when the mob is first engaged(?)
-Shikaree Z(normal and _R?)'s wyvern doesn't update enmity and assist on spawn
-Ga'fho venomtouch model is too small/wrong model? Tiny NM
-Dynamis Glacier / Jeuno and maybe Xarca NM's PH and not always up. Lower pop rates to 1% Glacier / Jeuno (dont touch Xarca)
-Remove Famiiliar off pet if procced in Dynamis
-Harem Scarem - > Aggro ~13 sight(right as soon as I entered inner circle) All "Wives" open with Berserk at range upon engage. Nenaunir uses Whistle pretty fast after casting once
 "Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking
 Final zilart missons + apoc nigh + storms of fate + rank6-10 bastok/sandy
 Fix bahamut and code Cloud Evoker  BCNM's
