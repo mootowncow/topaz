@@ -1311,6 +1311,14 @@ function tpz.pet.spawnPet(player, petID)
         local duration = math.floor(statusEffect:getTimeRemaining()/1000)
         pet:addStatusEffectEx(effect, effect, power, 0, duration)
     end
+
+    if player:isMob() then
+        local enemy = player:getTarget()
+        local pet = player:getPet()
+        if (enemy ~= nil) then
+            pet:updateEnmity(enemy)
+        end
+    end
 end
 
 function tpz.pet.handleJugBuffs(target, mob, skill, typeEffect, power, tick, duration, subid, subpower, tier)
