@@ -31,7 +31,6 @@ end
 function onMobFight(mob, target)
     local wyvern = GetMobByID(mob:getID() +3)
     if wyvern:isDead() then
-        SpawnMob(mob:getID() + 3)
         mob:useMobAbility(732) -- Call Wyvern
     end
 
