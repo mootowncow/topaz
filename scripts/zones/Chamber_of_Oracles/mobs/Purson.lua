@@ -20,11 +20,10 @@ function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:setMod(tpz.mod.TRIPLE_ATTACK, 50)
-    mob:setMobMod(tpz.mobMod.NO_DROPS, 0)
     tpz.mix.jobSpecial.config(mob, {
         specials =
         {
-            {id = tpz.jsa.BLOOD_WEAPON, cooldown = 40, hpp = 98},
+            {id = tpz.jsa.BLOOD_WEAPON, cooldown = 30, hpp = 50},
         },
      })
 end
