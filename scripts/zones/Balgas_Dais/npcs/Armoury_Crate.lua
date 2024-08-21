@@ -354,6 +354,19 @@ local loot =
         },
         {
             {itemid =     0, droprate =  400}, -- nothing
+            {itemid = 13659, droprate =  150}, -- mercenary_mantle
+            {itemid = 13669, droprate =  150}, -- beaters_mantle
+            {itemid = 13665, droprate =  150}, -- esquires_mantle
+            {itemid = 13661, droprate =  150}, -- healers_mantle
+        },
+        {
+            {itemid =     0, droprate =  400}, -- nothing
+            {itemid = 12392, droprate =  200}, -- wizards_shield
+            {itemid = 12397, droprate =  200}, -- trimmers_aspis
+            {itemid = 12402, droprate =  200}, -- wyvern_targe
+        },
+        {
+            {itemid =     0, droprate =  400}, -- nothing
             {itemid = 12392, droprate =  200}, -- wizards_shield
             {itemid = 12397, droprate =  200}, -- trimmers_aspis
             {itemid = 12402, droprate =  200}, -- wyvern_targe
