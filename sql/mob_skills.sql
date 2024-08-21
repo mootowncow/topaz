@@ -221,7 +221,7 @@ INSERT INTO `mob_skills` VALUES (281,25,'stomping',0,7.0,2000,1500,4,0,0,0,4,0,0
 -- INSERT INTO `mob_skills` VALUES (283,27,'spinning_tail',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (284,28,'cold_stare',4,10.0,2000,2000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (285,29,'whistle',1,20.0,2000,1500,1,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (286,30,'berserk',0,7.0,2000,1500,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (286,30,'berserk_dhalmel',0,7.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (287,31,'healing_breeze',1,21.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (288,32,'vicious_claw',0,7.0,2000,1500,4,0,0,0,4,0,0);
 INSERT INTO `mob_skills` VALUES (289,33,'stone_throw',0,25.0,2000,1500,4,0,0,0,1,0,0);
