@@ -294,8 +294,11 @@ local modByMobName =
 
     ['Ealdnarche'] = function(mob)
         mob:addMod(tpz.mod.EVA, 100)
+        mob:setMod(tpz.mod.UFASTCAST, 60)
+        mob:setMod(tpz.mod.UDMGPHYS, -75)
+        mob:setMod(tpz.mod.UDMGRANGE, -75)
         mob:setMod(tpz.mod.UDMGMAGIC, -95)
-        mob:setMod(tpz.mod.REFRESH, 400)
+        mob:setMod(tpz.mod.UDMGBREATH, -95)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     end,
 
