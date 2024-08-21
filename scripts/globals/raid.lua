@@ -36,8 +36,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: TH proc with thorny's new numbers
 -- TODO: Febrenard_C_Brunnaut stats? He melees.
 -- TODO: Does the proper WHMs use Nott and melee? They also might need regain.
--- TODO: Ga'fho venomtouch model is too small/wrong model? Tiny NM
--- TODO: Uninvited guests better drops! And test your mite also(buff the earring?)
 -- shikaree's no drops
 -- Tango with a Tracker should give 10k gil
 -- TODO: 	Pulling the Strings

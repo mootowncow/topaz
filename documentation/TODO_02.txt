@@ -155,12 +155,21 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Summoned mob avatars don't update enmity and assist master on spawn/summon only when the mob is first engaged(?)
+Shikaree Z(normal and _R?)'s wyvern doesn't update enmity and assist on spawn
+Ga'fho venomtouch model is too small/wrong model? Tiny NM
+Dynamis Glacier / Jeuno and maybe Xarca NM's PH and not always up. Lower pop rates to 1% Glacier / Jeuno (dont touch Xarca)
+Remove Famiiliar off pet if procced in Dynamis
 Harem Scarem - > Aggro ~13 sight(right as soon as I entered inner circle) All "Wives" open with Berserk at range upon engage. Nenaunir uses Whistle pretty fast after casting once
 "Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking
-Wyvern Targe BCNM
 Final zilart missons + apoc nigh + storms of fate + rank6-10 bastok/sandy
+Fix bahamut and code Cloud Evoker  BCNM's
+https://www.bg-wiki.com/ffxi/Draketrader_Zlodgodd
+MAX TP DOWN doens't work
 GM menu from lsb
 Make holy good somehow(TP reduction?)
+Add fencer crit rate and TP bonus to allegance == TYPE_PLAYER (crit rate is  in battleutils uint8 GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack))
+DNC insane dps like retail with all its new flourishes
 Build Dispel resistance as a mob_mod toggle
 AddDelay() function that adds a delay to next auto, either in C++ or a mobs.lua function (reference bahamut in raid.lua)
 m_ShieldSize to battleentities (or mobs/trusts/pets?)
@@ -175,43 +184,39 @@ add m_instanceId member to char entity and when loading in or something set the 
 Finish unity_leader stuff in charentity https://github.com/search?q=repo%3ALandSandBoat%2Fserver%20unity_leader&type=code
 ZNM taking item on death works properly on mobs with names with two words
 -- Open / Close randomly every hour (Psoxoja zone) shouldn't rotate on hour, just when a player is near the door(NPC)
-spell cooldown timer added to mob casting (Copy the commit from LSB)
 Only show effects fading msg if m_owner(caster?) or person with the buff. Maybe need to track who casted it in some new member? (m_caster)
 Ability to set attributes (m_dex? or w/e) instead of adding it as a mod to mobs/players. same with acc/attk/def/racc/rattk
 Lyft weapon revamp (MAB for gun)
-Add fencer crit rate and TP bonus to allegance == TYPE_PLAYER (crit rate is  in battleutils uint8 GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack))
 Change all charutils::hasTrait() to PEntity->hasTrait()
 Add luautils::OnAdditionalEffectRanged(PAttacker, PDefender, weapon, Action, finaldamage) to CMobEntity::OnRangedAttack
 add setMerits() and getMerits() for allegiance == TYPE_PLAYER
-Wild Rage said "999 shadows absorbed" with blink up?
 Buff Musanto / Katana from ANNM(Enmity +3 Evasion +7?)
 Don't save : in item names for item_Basic.sql (FFXI item editor)
 Bestial Loyalty utsusemi transfer needs special logic because it's tracked really weird(copy utsu files?)
-Spikes proc chance from items should be based on the mod not w/e im doing
+UpdateEnmityFromCure() doesn't work on repair/reward
 Don't port pet if csiD is prot/shell/regen/refresh etc gov buffs
+2x SMN off goblin pets (give boosted xp equal to 40k/hr GOV exp values)
 Enagakure did not spawn at 20:00
 move tchakka to the big room
 Steps / offensive non-taunt flourishes range 5 + model size
 Ic Pilav bun(new item)
 Ogre Gloves fencer buffed to 2/3%(NO TP BONUS)
-Sange animation wrong?
+Pet Haste / dmg etc Shield
+getDespoilItem() doesn't know how to properly get the itemID of multiple items for the despoil lua file for some reason? But properly steals 1 or the other... I got it from LSB
 Better racial stats for races? Stronger emphasis on strengths i.e. give mithra even more dex/agi but even less mnd and chr
 Zdei in cubbys can't aggro people in hall? need longer sight aggro range on them?
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
 Leaden Salute and Blade: Kamu weren't unlocked when I had enough WS points
 magic_shield can overwrite false? or w/e stoneskin uses
 add music to every zone esp the sea zone without music in zone sql
-mobskills need DR
-no DR to raid mobs and  npcs
 Revamp JSE rings and earrings
 More enhancing magic dura gear
-tpz.ws_unlock for merit WS and last stand missing an ID (should it be 82??)
+tpz.ws_unlock add merit WS
 Fomor HNM's(Lugh etc)
 Finish Salvage, edit it so need to do all 3 to finish salvage gear again. NPCs in one of them.
 Add AOE weapon skills to every weapon and make them do good damage. Spinning Axe = AOE
 Content where mobs constantly spawn in waves over and over
 Add stats to Maat's cap
-Buff daken %?
 SAM better at using bow, maybe make overwhelm work on it
 Buff coquest point items
 Dune Widow - > Diremite (make big like one from Abyssea Ule with same tarsal slam or w/e too). Buff spider torque.
@@ -229,20 +234,17 @@ WOE
 
 Later:
 mob darkness SC from shikaree Y did 0 damage to me?
-Fix bahamut and code Cloud Evoker  BCNM's
-https://www.bg-wiki.com/ffxi/Draketrader_Zlodgodd
-MAX TP DOWN doens't work
 TryProcTH needs level 15+ job check(maybe 75?)
 Add Cura-III to the new cure magic.lua function
 Add tractor to raise
 Does WS not remove invis/sneak?
-Despoil on Aura Statue crashed simple log
+Despoil on Aura Statue crashed  log
 
 ~~~~~~~~~~~~~~~~~~~~Relic Weapons Revamp~~~~~~~~~~~~~~~~~~~~
 
 ~~~~~~~~~~~~~~~~~~~~Thief Revamp~~~~~~~~~~~~~~~~~~~~
 Despoil effects sql
-attack/mattack ALL DIFF TYPE OF UNIQUE ENFEEBLES , boon corrupt, etc down on every thief dagger OR items that add it to your weapon as a status effect? prob tons easier..like an enchantment (and make enhantments stack)
+attack/mattack ALL DIFF TYPE OF UNIQUE ENFEEBLES , boon corrupt, etc down on new types of bolts
 itemID 9152 to 9192
 
 ~~~~~~~~~~~~~~~~~~~~Monk Revamp~~~~~~~~~~~~~~~~~~~~
@@ -584,6 +586,7 @@ Rune Fencer Merits:
 https://github.com/AirSkyBoat/AirSkyBoat/commit/f1c415bb239c9afdc4247eb1b2444433f8671341
 
 DATS:
+judges cuisses +15% ele WSD not matt
 MNK/THF JA's
 AM1 cast times
 Mystic Boon / Asylum and Footwork descriptions
