@@ -10,7 +10,6 @@ require("scripts/globals/magic")
 
 function onMobInitialize(mob)
     --50% fast cast, no standback
-    mob:addMod(tpz.mod.UFASTCAST, 50)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
@@ -32,21 +31,19 @@ function onMobSpawn(mob)
 end
 
 function onMobEngaged(mob, target)
-    mob:addStatusEffectEx(tpz.effect.SILENCE, 0, 1, 0, 5)
+    mob:addStatusEffectEx(tpz.effect.SILENCE, 0, 1, 0, 5) -- Why is this here?
     GetMobByID(mob:getID() + 1):updateEnmity(target)
+    mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 100)
+    mob:setMobMod(tpz.mobMod.SOUND_RANGE, 100)
 end
 
 function onMobFight(mob, target)
 	local orbitalOne = GetMobByID(mob:getID()+3)
 	local orbitalTwo = GetMobByID(mob:getID()+4)
-	
-	if orbitalOne:isSpawned() then
-		orbitalOne:updateEnmity(target)
-	end
-	if  orbitalTwo:isSpawned() then
-		orbitalTwo:updateEnmity(target)
-	end
-	
+    local exoplates = GetMobByID(mob:getID() +1)
+
+    -- Shares enmity with Exoplates
+	mob:setMobMod(tpz.mobMod.SHARE_TARGET, exoplates:getShortID())
     if (mob:getBattleTime() % 9 <= 2) then
         if not orbitalOne:isSpawned() then
             orbitalOne:setPos(mob:getPos())

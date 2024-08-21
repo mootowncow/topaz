@@ -7,18 +7,15 @@ require("scripts/globals/status")
 require("scripts/globals/mobs")
 -----------------------------------
 function onMobSpawn(mob)
-    mob:addMod(tpz.mod.ATTP, 50)
-    mob:addMod(tpz.mod.DEFP, 50) 
-    mob:addMod(tpz.mod.ACC, 50) 
-    mob:addMod(tpz.mod.EVA, 70)
+    mob:addMod(tpz.mod.EVA, 100)
+    mob:setMod(tpz.mod.UFASTCAST, 60)
+    mob:setMod(tpz.mod.UDMGPHYS, -75)
+    mob:setMod(tpz.mod.UDMGRANGE, -75)
     mob:setMod(tpz.mod.UDMGMAGIC, -95)
-    mob:setMod(tpz.mod.REFRESH, 400)
+    mob:setMod(tpz.mod.UDMGBREATH, -95)
+    mob:setMobMod(tpz.mobMod.GA_CHANCE, 60)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
-end
-
-function onMobInitialize(mob)
-    mob:setMod(tpz.mod.MDEF, 50);
 end
 
 function onMobFight(mob, target)

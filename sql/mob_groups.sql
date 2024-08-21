@@ -1322,8 +1322,8 @@ INSERT INTO `mob_groups` VALUES (33,6746,35,'Ixzdei',0,128,0,7100,0,75,75,0); --
 
 INSERT INTO `mob_groups` VALUES (1,3205,36,'Promathia',0,128,0,8000,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (2,5106,36,'Promathia',0,128,0,12000,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (3,6640,36,'Kamlanaut',0,128,0,10000,1500,78,78,0);
-INSERT INTO `mob_groups` VALUES (4,6641,36,'Ealdnarche',0,128,0,5000,2500,78,78,0);
+INSERT INTO `mob_groups` VALUES (3,6640,36,'Kamlanaut',0,128,0,20000,1500,85,85,0);
+INSERT INTO `mob_groups` VALUES (4,6641,36,'Ealdnarche',0,128,0,5000,2500,85,85,0);
 INSERT INTO `mob_groups` VALUES (5,4820,36,'Metus',0,128,0,0,20000,125,125,0);
 INSERT INTO `mob_groups` VALUES (14166,3199,36,'Prishe',0,128,0,2200,0,75,75,1);
 INSERT INTO `mob_groups` VALUES (14167,5417,36,'Selhteus',0,128,0,5000,0,75,75,1);
@@ -9124,7 +9124,7 @@ INSERT INTO `mob_groups` VALUES (37,6722,125,'Dahu',3600,0,6007,9000,0,57,59,0);
 INSERT INTO `mob_groups` VALUES (38,6723,125,'Picolaton',3600,0,6008,9500,0,60,62,0);
 
 -- RAID
-INSERT INTO `mob_groups` VALUES (48,6641,125,'Ealdnarche',0,128,0,100000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (48,6641,125,'Ealdnarche',0,128,0,25000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (49,5972,125,'Halver',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (50,5938,125,'Gilgamesh',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (51,5971,125,'Mildaurion',0,128,0,1300,0,80,80,1);
@@ -12288,10 +12288,10 @@ INSERT INTO `mob_groups` VALUES (8,241,180,'Ark_Angels_Wyvern',0,128,0,0,0,78,78
 -- The_Celestial_Nexus (Zone 181)
 -- ------------------------------------------------------------
 
-INSERT INTO `mob_groups` VALUES (1,1158,181,'Ealdnarche',0,128,0,2000,7000,80,80,0);
-INSERT INTO `mob_groups` VALUES (2,1270,181,'Exoplates',0,128,0,2000,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (3,4676,181,'Ealdnarche_2',0,128,0,2500,7500,80,80,0);
-INSERT INTO `mob_groups` VALUES (4,2993,181,'Orbital',0,128,0,145,0,76,76,0);
+INSERT INTO `mob_groups` VALUES (1,1158,181,'Ealdnarche',0,128,0,2000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (2,1270,181,'Exoplates',0,128,0,10000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (3,4676,181,'Ealdnarche_2',0,128,0,2500,7500,85,85,0);
+INSERT INTO `mob_groups` VALUES (4,2993,181,'Orbital',0,128,0,145,0,82,82,0);
 
 INSERT INTO `mob_groups` VALUES (9320,4498,181,'Zeid',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (11188,4676,181,'Ealdnarche_2',960,0,2889,0,0,78,78,0);

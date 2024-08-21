@@ -10,9 +10,6 @@ require("scripts/globals/magic")
 
 function onMobInitialize(mob)
     -- 60% fast cast, -75% physical damage taken, 10tp/tick regain, no standback
-    mob:addMod(tpz.mod.UFASTCAST, 60)
-    mob:addMod(tpz.mod.UDMGPHYS, -75)
-    mob:addMod(tpz.mod.UDMGRANGE, -75)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
@@ -20,13 +17,21 @@ function onMobInitialize(mob)
 end
 
 function onMobSpawn(mob)
-    mob:addMod(tpz.mod.DEFP, 25) 
-    mob:addMod(tpz.mod.EVA, 30)
-    mob:setMod(tpz.mod.REFRESH, 400)
-    mob:setMobMod(tpz.mobMod.GA_CHANCE, 25)
+    mob:addMod(tpz.mod.EVA, 100)
+    mob:setMod(tpz.mod.UFASTCAST, 60)
+    mob:setMod(tpz.mod.UDMGPHYS, -75)
+    mob:setMod(tpz.mod.UDMGRANGE, -75)
+    mob:setMod(tpz.mod.UDMGMAGIC, -95)
+    mob:setMod(tpz.mod.UDMGBREATH, -95)
+    mob:setMobMod(tpz.mobMod.GA_CHANCE, 60)
     if GetMobByID(mob:getID() - 1):isDead() and GetMobByID(mob:getID() - 2):isDead() then
         mob:getBattlefield():setLocalVar("phaseChange", 0)
     end
+end
+
+function onMobEngaged(mob, target)
+    mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 100)
+    mob:setMobMod(tpz.mobMod.SOUND_RANGE, 100)
 end
 
 function onMobFight(mob, target)

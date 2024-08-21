@@ -13,22 +13,15 @@ function onMobInitialize(mob)
 end
 
 function onMobSpawn(mob)
-    mob:addMod(tpz.mod.DEFP, 50) 
-    mob:addMod(tpz.mod.ATTP, 50)
-    mob:addMod(tpz.mod.ACC, 30) 
-    mob:addMod(tpz.mod.EVA, 30)
-    mob:setMod(tpz.mod.REFRESH, 400)
+    mob:addMod(tpz.mod.DEFP, 25) 
     mob:AnimationSub(0)
     mob:SetAutoAttackEnabled(false)
     mob:setUnkillable(true)
 end
 
 function onMobFight(mob, target)
-	mob:setMod(tpz.mod.REGAIN, 50)
     local shifts = mob:getLocalVar("shifts")
     local shiftTime = mob:getLocalVar("shiftTime")
-    -- Make sure you can tank Eald by hitting the Exoplates
-	GetMobByID(17518595):updateEnmity(target)
 
     if (mob:AnimationSub() == 0 and shifts == 0 and mob:getHPP() <= 67) then
         mob:useMobAbility(993)
@@ -47,6 +40,8 @@ function onMobFight(mob, target)
     elseif (mob:getHPP() <= 33 and mob:AnimationSub() == 1 and mob:getBattleTime() >= shiftTime) then
         mob:AnimationSub(2)
     end
+
+    mob:setMod(tpz.mod.REGAIN, 50)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
