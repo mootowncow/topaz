@@ -897,6 +897,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             case ABILITY_VIOLENT_FLOURISH:
             case ABILITY_WILD_FLOURISH:
             case ABILITY_KONZEN_ITTAI:
+            case ABILITY_CONSPIRATOR:
             {
                 if (PChar->animation != ANIMATION_ATTACK)
                 {
