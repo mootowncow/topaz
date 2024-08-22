@@ -1,7 +1,7 @@
 ---------------------------------------------------
 -- Jump
 -- Jumping Attack, only used by dragoon orcs.
--- 100% TP: ??? / 200% TP: ??? / 300% TP: ???
+-- Does not consume TP. Only used in scripts.
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
