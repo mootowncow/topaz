@@ -50,6 +50,7 @@ end
 
 function onTrigger(player, npc)
     local GetGems = player:getCharVar("PXPassGetGems")
+    local takeAstralToPsoxja = player:getLocalVar("takeAstralToPsoxja")
 
     if player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.TENSHODO_MEMBERSHIP) == QUEST_AVAILABLE then
         -- Start Quest: Tenshodo Membership
@@ -62,8 +63,9 @@ function onTrigger(player, npc)
         player:startEvent(54)
     elseif (GetGems == 1) then
         player:startEvent(53)
-    elseif player:hasKeyItem(tpz.ki.ASTRAL_COVENANT) then
+    elseif player:hasKeyItem(tpz.ki.ASTRAL_COVENANT) and (takeAstralToPsoxja == 0) then
         player:PrintToPlayer("What are you waiting for? Take that Astral Covenant to Pso\'Xja!",0,"Ghebi Damomohe")
+        player:setLocalVar("takeAstralToPsoxja", 1)
     else
         player:startEvent(106, 4)
     end
