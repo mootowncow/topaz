@@ -15,6 +15,6 @@ function onPetAbility(target, automaton, skill, master, action)
     automaton:addRecast(tpz.recast.ABILITY, skill:getID(), 30)
     target:addEnmity(automaton, 1, 1800)
     target:updateClaim(automaton)
-    skill:setMsg(tpz.msg.basic.USES)
+    skill:setMsg(tpz.msg.basic.TARGET_SWITCHES_TO)
     return 0
 end

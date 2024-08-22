@@ -162,6 +162,7 @@ tpz.msg.basic =
     NARROWLY_ESCAPE        = 359, -- <name> narrowly escapes impending doom.
     AOE_HP_RECOVERY        = 367, -- <target> recovers <amount> HP.
     IS_EFFECT              = 277, -- "is <status>" - that's the entire message.
+    TARGET_SWITCHES_TO     = 418,  -- The <player> uses .. on <target>. <target>'s target switches to the <player>! (Used for Automaton Provoke)
     EVADES                 = 282,
     NO_EFFECT              = 283, -- "No effect" - that's the entire message.
     FAMILIAR_PC            = 108, -- The <player> uses .. Pet's powers increase!
