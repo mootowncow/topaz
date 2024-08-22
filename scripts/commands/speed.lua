@@ -19,6 +19,10 @@ end
 function onTrigger(player, speed)
     local targ = player:getCursorTarget()
 
+    if (targ == nil) then
+        targ = player
+    end
+
     if not speed then
         player:PrintToPlayer(string.format('Current Speed: %u', player:getSpeed()))
         return
