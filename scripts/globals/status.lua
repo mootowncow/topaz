@@ -3187,7 +3187,7 @@ tpz.mobMod =
     NO_ROAM             = 100, -- disable roaming out of combat
     HP                  = 101, -- sets a mobs max HP (Only works on mob initialize)
     RETURN_TO_SPAWN     = 102, -- Mob will return to it's spawn posituon on disengage
-    BLOCK               = 103, -- Allows a mob to block, in percent(10 = 10% block chance).
+    BLOCK               = 103, -- Gets the shield size of the mob, allowing them to block. (3 = kite)
     ECOSYSTEMLINK       = 104, -- Mob will link to the same echo system(i.e. Demon or Bird)
     VERTICAL_AGGRO      = 105, -- Always aggro regardless of verrtical distance
     CAN_PARRY           = 106, -- Check if a mob is allowed to have parry rank(Rank Value 1 - 5)

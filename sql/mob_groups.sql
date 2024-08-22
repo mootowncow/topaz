@@ -1125,6 +1125,7 @@ INSERT INTO `mob_groups` VALUES (24,1160,29,'Earth_Elemental',0,128,0,0,0,75,75,
 INSERT INTO `mob_groups` VALUES (25,3124,29,'Pey',0,128,0,0,0,75,75,0);
 INSERT INTO `mob_groups` VALUES (26,2105,29,'Iruci',0,128,0,0,0,75,75,0);
 INSERT INTO `mob_groups` VALUES (27,70,29,'Airi',0,128,0,0,0,15,17,0);
+INSERT INTO `mob_groups` VALUES (28,325,29,'Bahamut-V2',0,128,0,26000,15000,92,92,0);
 
 -- ------------------------------------------------------------
 -- Riverne-Site_A01 (Zone 30)

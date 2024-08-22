@@ -13211,6 +13211,29 @@ int32 CLuaBaseEntity::handleAfflatusMiseryDamage(lua_State* L)
 }
 
 /************************************************************************
+ *  Function: isWeaponHandToHand()
+ *  Purpose : Returns true if the Weapon in the Main Slot is hand-to-hand
+ *  Example : if (player:isWeaponHandToHand()) then
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::isWeaponHandToHand(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    auto weapon = dynamic_cast<CItemWeapon*>(((CBattleEntity*)m_PBaseEntity)->m_Weapons[SLOT_MAIN]);
+
+    if (weapon == nullptr)
+    {
+        ShowDebug(CL_CYAN "lua::getWeaponDmg weapon in main slot is NULL!\n" CL_RESET);
+        return 0;
+    }
+    lua_pushboolean(L, weapon->isHandToHand());
+    return 1;
+}
+
+/************************************************************************
 *  Function: isWeaponTwoHanded()
 *  Purpose : Returns true if the Weapon in the Main Slot is two-handed
 *  Example : if (player:isWeaponTwoHanded()) then
@@ -16523,6 +16546,16 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                                   if (PMob)
                                   {
                                       int16 tp = PMob->health.tp;
+                                      if (PMob->objtype == TYPE_MOB && PMob->allegiance == ALLEGIANCE_PLAYER) // NPCs
+                                      {
+                                          // Add Fencer TP Bonus
+                                          CMobEntity* PMobAttacker = static_cast<CMobEntity*>(PMob);
+                                          CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PMobAttacker->m_Weapons[SLOT_MAIN]);
+                                          if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand() && PMobAttacker->getMobMod(MOBMOD_BLOCK) > 0)
+                                          {
+                                              tp += PMobAttacker->getMod(Mod::FENCER_TP_BONUS);
+                                          }
+                                      }
                                       PMob->SetLocalVar("tp", tp);
                                   }
                                   else
@@ -17510,6 +17543,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,breathDmgTaken),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,handleAfflatusMiseryDamage),
 
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,isWeaponHandToHand),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isWeaponTwoHanded),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMeleeHitDamage),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getWeaponDmg),

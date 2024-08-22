@@ -182,7 +182,8 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
         critRate = critRate + MobCritTPModifier(tp)
 
-        --printf("critRate after param %i", critRate)
+        -- Apply fencer bonus (NPCs only)
+        critRate = critRate + getMobFencerCritBonus(mob)
 
         critRate = critRate / 100
         --printf("final crit %d", critRate * 100)
@@ -233,10 +234,6 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     -- first hit has a higher chance to land
     local firstHitChance = hitrate +50 -- changed from * 1.5 to +50 meaning 50% hit rate aka +100 acc
-
-    if (tpeffect==TP_RANGED) then
-        firstHitChance = hitrate +50    -- changed from * 1.5 to +50 meaning 50% hit rate aka +100 acc
-    end
 
     --firstHitChance = utils.clamp(firstHitChance, 35, 95)
     firstHitChance = utils.clamp(firstHitChance, 20, 100)
@@ -1740,6 +1737,20 @@ end
 function MobTakeAoEShadow(mob, target, max)
 
     return max
+end
+
+function getMobFencerCritBonus(mob)
+    if
+        mob:isMob() and
+        (mob:getAllegiance() == tpz.allegiance.PLAYER) and
+        not mob:isWeaponTwoHanded() and
+        not mob:isWeaponHandToHand() and
+        (mob:getMobMod(tpz.mobMod.BLOCK) > 0)
+    then
+        return mob:getMod(tpz.mod.FENCER_CRITHITRATE)
+    end
+
+    return 0
 end
 
 function MobTPMod(tp)

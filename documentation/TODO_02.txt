@@ -156,18 +156,14 @@ Check all immunities with mobdb
 
 **** NOW ***
 Spawn pet if drg / bst aern function and add if pet:notSpawned() or w/e on engage
-"No longer hasted" or "Haste effect wears off?"
 Redesign jailer of prudence
 Add mob being unable to see target as stuck to CMobController::IsStuck(). I've never seen it work though? UpdateLastKnownPosition(): missing or isstuck missing in places?
 HQ aern organ drop rate too high?
 Better storage logic, make a function, allow trading multiple items. "You have stored x item for a total of y"
 Stabializer III Mana Jammer III Auto-rep. Kit III vendor prices
-Tango with a Tracker should give 10k gil
 mob ranged autos have +100 acc bonus?
 melee gaiters bonus(and other counterstance items/merits/jp?
 TA doesn't work if party member is inside mobs hitbox or too close to mob?
-PUP provoke message: https://cdn.discordapp.com/attachments/863427693138935818/1275904256859439238/image.png?ex=66c795ef&is=66c6446f&hm=93736916a4a02466712c435f427972bb3b03afd4ed7e26c59ebe980e5d5b19b3&
-Scarem Harem Nenaunir doesn't attack and only uses TP moves and spells. Only TP move is healing breeeze https://www.youtube.com/watch?v=Dc7_f5dvqA0
 Avatar repeat logic(i think its in utils file or quests or something?) added to other npcs  + tested
 "Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking
 Final zilart missons + apoc nigh + storms of fate + rank6-10 bastok/sandy
@@ -176,7 +172,6 @@ https://www.bg-wiki.com/ffxi/Draketrader_Zlodgodd
 Add Waking the Beast, buff the loot to be obscene weapons for off-class. Weekly. Make infinite repeatable reward so its worth doing every week
 GM menu from lsb
 Make holy good somehow(TP reduction?)
-Add fencer crit rate and TP bonus to allegance == TYPE_PLAYER (crit rate is in battleutils uint8 GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack))
 DNC insane dps like retail with all its new flourishes
 Build Dispel resistance as a mob_mod toggle
 AddDelay() function that adds a delay to next auto, either in C++ or a mobs.lua function (reference bahamut in raid.lua)
@@ -593,6 +588,7 @@ Rune Fencer Merits:
 https://github.com/AirSkyBoat/AirSkyBoat/commit/f1c415bb239c9afdc4247eb1b2444433f8671341
 
 DATS:
+Rathe Earring
 judges cuisses +15% ele WSD not matt
 MNK/THF JA's
 AM1 cast times

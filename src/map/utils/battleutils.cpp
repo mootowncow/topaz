@@ -3620,8 +3620,18 @@ int16 GetSDTTier(int16 SDT)
                     crithitrate += PCharAttacker->getMod(Mod::FENCER_CRITHITRATE);
                 }
             }
+            else if (PAttacker->objtype == TYPE_MOB && PAttacker->allegiance == ALLEGIANCE_PLAYER) // NPCs
+            {
+                // Add Fencer crit hit rate
+                CMobEntity* PMobAttacker = static_cast<CMobEntity*>(PAttacker);
+                CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PMobAttacker->m_Weapons[SLOT_MAIN]);
+                if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand() && PMobAttacker->getMobMod(MOBMOD_BLOCK) > 0)
+                {
+                    crithitrate += PMobAttacker->getMod(Mod::FENCER_CRITHITRATE);
+                }
+            }
 
-            // ShowDebug("Crit rate mod before Innin/Yonin: %d\n", crithitrate);
+            //ShowDebug("Crit rate mod before Innin/Yonin: %d\n", crithitrate);
             if (PDefender->objtype == TYPE_PC)
             {
                 crithitrate -= ((CCharEntity*)PDefender)->PMeritPoints->GetMeritValue(MERIT_ENEMY_CRIT_RATE, (CCharEntity*)PDefender);

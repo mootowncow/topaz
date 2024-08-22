@@ -117,7 +117,7 @@ enum MOBMODIFIER : int
     MOBMOD_NO_ROAM             = 100, // disable roaming out of combat
     MOBMOD_HP                  = 101, // sets a mobs max HP (Only works on mob initialize)
     MOBMOD_RETURN_TO_SPAWN     = 102, // Mob will return to it's spawn posituon on disengage
-    MOBMOD_BLOCK               = 103, // Allows a mob to block, in percent(10 = 10% block chance).
+    MOBMOD_BLOCK               = 103, // Gets the shield size of the mob, allowing them to block. (i.e 3 = kite)
     MOBMOD_ECOSYSTEMLINK       = 104, // Mob will link to the same echo system(i.e. Demon or Bird)
     MOBMOD_VERTICAL_AGGRO      = 105, // Always aggro regardless of verrtical distance
     MOBMOD_CAN_PARRY           = 106, // Check if a mob is allowed to have parry rank(Rank Value 1 - 5)

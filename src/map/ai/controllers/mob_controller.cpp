@@ -630,8 +630,17 @@ bool CMobController::MobSkill(int wsList)
             {
                 // Set var for use in monstertpmoves.lua TP scaling
                 int16 tp = PMob->health.tp;
+                if (PMob->objtype == TYPE_MOB && PMob->allegiance == ALLEGIANCE_PLAYER) // NPCs
+                {
+                    // Add Fencer TP Bonus
+                    CMobEntity* PMobAttacker = static_cast<CMobEntity*>(PMob);
+                    CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PMobAttacker->m_Weapons[SLOT_MAIN]);
+                    if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand() && PMobAttacker->getMobMod(MOBMOD_BLOCK) > 0)
+                    {
+                        tp += PMobAttacker->getMod(Mod::FENCER_TP_BONUS);
+                    }
+                }
                 PMob->SetLocalVar("tp", tp);
-
                 // Set message for "Player" and Fomor TP moves, and Prishe TP moves
                 if (PMobSkill->isReadiesException())
                 {

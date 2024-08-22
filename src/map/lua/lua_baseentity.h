@@ -611,6 +611,7 @@ public:
     int32 breathDmgTaken(lua_State* L);
     int32 handleAfflatusMiseryDamage(lua_State* L);
 
+    int32 isWeaponHandToHand(lua_State*);
     int32 isWeaponTwoHanded(lua_State*);
     int32 getMeleeHitDamage(lua_State*);        // gets the damage of a single hit vs the specified mob
     int32 getWeaponDmg(lua_State*);             // gets the current equipped weapons' DMG rating
