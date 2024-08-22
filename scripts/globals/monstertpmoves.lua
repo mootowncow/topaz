@@ -234,8 +234,10 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     -- first hit has a higher chance to land
     local firstHitChance = hitrate +50 -- changed from * 1.5 to +50 meaning 50% hit rate aka +100 acc
+    if (params_phys.NO_FIRST_HIT_BONUS ~= nil) then
+        firstHitChance = hitrate
+    end
 
-    --firstHitChance = utils.clamp(firstHitChance, 35, 95)
     firstHitChance = utils.clamp(firstHitChance, 20, 100)
 
     -- Sneak and Trick attack force 100% hit rate on the first attack
