@@ -460,7 +460,7 @@ INSERT INTO `mob_skill_lists` VALUES ('DynamisStatue-Quadav',94,1112); -- seismo
 INSERT INTO `mob_skill_lists` VALUES ('DynamisStatue-Quadav',94,1117); -- lead_breath
 INSERT INTO `mob_skill_lists` VALUES ('DynamisStatue-Yagudo',95,1116); -- seismostomp
 INSERT INTO `mob_skill_lists` VALUES ('DynamisStatue-Yagudo',95,1113); -- tormentful_glare
-INSERT INTO `mob_skill_lists` VALUES ('Nandi',96,287);
+INSERT INTO `mob_skill_lists` VALUES ('Nandi',96,287); -- Healing Breeze ONLY
 INSERT INTO `mob_skill_lists` VALUES ('IceLizard',97,366);
 INSERT INTO `mob_skill_lists` VALUES ('IceLizard',97,368);
 INSERT INTO `mob_skill_lists` VALUES ('IceLizard',97,369);
