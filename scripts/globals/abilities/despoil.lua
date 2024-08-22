@@ -44,7 +44,8 @@ local function getJobCategory(job)
 end
 
 local function getDespoilDebuff(player, target, stolen)
-    local debuff = player:getDespoilDebuff(stolen)
+    --local debuff = player:getDespoilDebuff(stolen) -- TODO: Doesn't work, but won't crash simple log
+    local debuff = nil
     if not debuff then
         local mobJob = target:getMainJob()
 
@@ -54,7 +55,7 @@ local function getDespoilDebuff(player, target, stolen)
         return chosenDebuff.effect, chosenDebuff.msg, chosenDebuff.power
     end
 
-    return debuff.effect, debuff.msg, debuff.power
+    return debuffs.effect, debuffs.msg, debuffs.power
 end
 
 function onAbilityCheck(player, target, ability)

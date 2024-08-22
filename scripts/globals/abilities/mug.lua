@@ -70,7 +70,6 @@ function onUseAbility(player, target, ability, action)
     end
 
     player:addHP(dmg)
-    player:updateEnmityFromCure(player, dmg)
 
     if fail then
         action:animation(target:getID(), 184)
