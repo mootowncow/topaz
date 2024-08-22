@@ -45,8 +45,6 @@ function onMobFight(mob, target)
     local gigaFlareTimer = mob:getLocalVar("gigaFlareTimer")
     local autoattackDelay = mob:getLocalVar("autoattackDelay")
 
-    SetBattleMusicOnFight(mob, tpz.music.track.FINAL_THEME)
-
     -- Delays his autos by 10-13 seconds after every TP move
     if (os.time() >= autoattackDelay) then
         mob:SetAutoAttackEnabled(true)
