@@ -5,6 +5,7 @@ require("scripts/globals/summon")
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/utils")
 ---------------------------------------------
 
 function onAbilityCheck(player, target, ability)
@@ -21,6 +22,7 @@ function onPetAbility(target, pet, skill, summoner)
     local duration2 = 180
     local bonus = 0
 
+    utils.ShouldRemoveStoneskin(target, power)
     AvatarBuffBP(pet, target, skill, effect2, power2, tick, duration2, params, bonus)
     AvatarBuffBP(pet, target, skill, effect, power, tick, duration, params, bonus)
     return effect
