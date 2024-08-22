@@ -126,7 +126,7 @@ enum WEAPONTYPE
 enum SHIELDSIZE
 {
     SHIELDSIZE_NONE         = 0,
-    SHIELDSIZE_BUCKER       = 1,
+    SHIELDSIZE_BUCKLER      = 1,
     SHIELDSIZE_ROUND        = 2,
     SHIELDSIZE_KITE         = 3,
     SHIELDSIZE_TOWER        = 4,

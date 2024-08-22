@@ -2599,7 +2599,7 @@ int16 GetSDTTier(int16 SDT)
         }
         switch (shieldSize)
         {
-            case SHIELDSIZE_BUCKER:
+            case SHIELDSIZE_BUCKLER:
                 blockAmountBase = 20;
                 break;
             case SHIELDSIZE_ROUND:
@@ -2688,7 +2688,7 @@ int16 GetSDTTier(int16 SDT)
 
         switch (shieldSize)
         {
-            case SHIELDSIZE_BUCKER:
+            case SHIELDSIZE_BUCKLER:
                 base = 55;
                 break;
             case SHIELDSIZE_ROUND:
