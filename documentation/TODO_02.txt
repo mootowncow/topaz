@@ -155,14 +155,28 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Spawn pet if drg / bst aern function and add if pet:notSpawned() or w/e on engage
+"No longer hasted" or "Haste effect wears off?"
+Redesign jailer of prudence
+Add mob being unable to see target as stuck to CMobController::IsStuck(). I've never seen it work though? UpdateLastKnownPosition(): missing or isstuck missing in places?
+HQ aern organ drop rate too high?
+Better storage logic, make a function, allow trading multiple items. "You have stored x item for a total of y"
+Stabializer III Mana Jammer III Auto-rep. Kit III vendor prices
+Tango with a Tracker should give 10k gil
+mob ranged autos have +100 acc bonus?
+melee gaiters bonus(and other counterstance items/merits/jp?
+TA doesn't work if party member is inside mobs hitbox or too close to mob?
+PUP provoke message: https://cdn.discordapp.com/attachments/863427693138935818/1275904256859439238/image.png?ex=66c795ef&is=66c6446f&hm=93736916a4a02466712c435f427972bb3b03afd4ed7e26c59ebe980e5d5b19b3&
+Scarem Harem Nenaunir doesn't attack and only uses TP moves and spells. Only TP move is healing breeeze https://www.youtube.com/watch?v=Dc7_f5dvqA0
+Avatar repeat logic(i think its in utils file or quests or something?) added to other npcs  + tested
 "Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking
 Final zilart missons + apoc nigh + storms of fate + rank6-10 bastok/sandy
-Fix bahamut and code Cloud Evoker  BCNM's
+Fix bahamut and code Cloud Evoker  BCNM's. Buff the Bahamut V2 fight rewards a ton, make the items as good as AV / PW
 https://www.bg-wiki.com/ffxi/Draketrader_Zlodgodd
-MAX TP DOWN doens't work
+Add Waking the Beast, buff the loot to be obscene weapons for off-class. Weekly. Make infinite repeatable reward so its worth doing every week
 GM menu from lsb
 Make holy good somehow(TP reduction?)
-Add fencer crit rate and TP bonus to allegance == TYPE_PLAYER (crit rate is  in battleutils uint8 GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack))
+Add fencer crit rate and TP bonus to allegance == TYPE_PLAYER (crit rate is in battleutils uint8 GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack))
 DNC insane dps like retail with all its new flourishes
 Build Dispel resistance as a mob_mod toggle
 AddDelay() function that adds a delay to next auto, either in C++ or a mobs.lua function (reference bahamut in raid.lua)
@@ -196,7 +210,6 @@ Steps / offensive non-taunt flourishes range 5 + model size
 Ic Pilav bun(new item)
 Ogre Gloves fencer buffed to 2/3%(NO TP BONUS)
 Pet Haste / dmg etc Shield
-getDespoilItem() doesn't know how to properly get the itemID of multiple items for the despoil lua file for some reason? But properly steals 1 or the other... I got it from LSB
 Better racial stats for races? Stronger emphasis on strengths i.e. give mithra even more dex/agi but even less mnd and chr
 Zdei in cubbys can't aggro people in hall? need longer sight aggro range on them?
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
@@ -227,6 +240,7 @@ Hunts
 WOE
 
 Later:
+Does the mob:wait() or w/e thing cause crashes for scouting the ashu talif?
 mob darkness SC from shikaree Y did 0 damage to me?
 TryProcTH needs level 15+ job check(maybe 75?)
 Add Cura-III to the new cure magic.lua function
@@ -279,7 +293,6 @@ Mobs that aggro by sound and sound and are true aggro don't seem to link by both
 Logic for mob TP moves going off even if target is out of range (Dark Ixion one doesnt work)
 Impact / Comet / Meteor given to BLM via items from long grinds (RMEA? Especially strongholdLM via items from long grinds (RMEA? Especially stronghold one?)
 Don't drop items with a msg if "you do not meet the requiements to obtain <item>" because it's rare and everyone has it. Or just don't display the msg?
-NO_EFFECT msg missing from simplelog
 Touch up Nagi fight, tries to spawn mobs if they are dead on floor, spawns adds all on top of eachother, and they do too little dmg and stuff
 Mob_controller.cpp add losing TP if resting effect(pet /stay only) to // can't rest with a DOT on (plague does not stop mob regen)
 Combat skill enum(C++ and lua)
@@ -588,6 +601,10 @@ Buff Noble's / Aristocrat's Crown / Mitts / Slacks  / Pumps
 Birdman cape diff stats
 ToAU ring buffs
 Aketon change to damage taken not phalanx check others with same type of text
+
+Simple log:
+NO_EFFECT msg missing from simplelog for items?
+418 missing from simple log (automaton provoke)
 
 LAC:
 Enable / Disable LAC toggle as 1 button(make global and usable via shiyolibs?)

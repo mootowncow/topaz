@@ -16,7 +16,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Make sure tanks always spawn opposite side of everyone (DPS/healers > mob < tank)
 -- TODO: Spread out DPS to surround the NMs better
 -- TODO: Correct weapon types(club scythe etc) on everyone
--- TODO: Does Kyo respawn and work?
 -- TODO: Insomninant skill crashes the game
 -- TODO: Test Flashy shot pdif stuff for level correction (ranged pdif and ws ranged pdif)
 -- TODO: Ajido-Marujido doesn't despawn after boss does and confrontation is removed?
@@ -28,20 +27,12 @@ require("scripts/globals/weaponskillids")
 -- TODO: dont remove confrontation on death
 -- TODO: Chat filters to filter their damage
 -- TODO: Does new JA logic for onuse work in instances?
--- TODO: Uninvited guests, x's knife bcnm(did I code the npcs? I captured CS data) and first ashu talif mission
--- TODO: Stabializer III Mana Jammer III Auto-rep. Kit III vendor prices
--- TODO: Better storage logic, make a function, allow trading multiple items. "You have stored x item for a total of y"
 -- TODO: Deleting / Adding ZNM item work on NMs with multi word names?
--- TODO: Wyvern Earring + Target BCNMs
--- TODO: TH proc with thorny's new numbers
 -- TODO: Febrenard_C_Brunnaut stats? He melees.
 -- TODO: Does the proper WHMs use Nott and melee? They also might need regain.
--- shikaree's no drops
--- Tango with a Tracker should give 10k gil
--- TODO: 	Pulling the Strings
+-- TODO: NPC's shouldn't move inside mob so close. Think just add model_size to the pathTo in Move() on mob_controller?
 -- TODO: Jailer of Faith should ONLY cast Quake2 during manafont (Does it cast Quake2 outside?)
 -- TODO: Mystic Boon work like atonement and scale off having lower HP and not ftp or atack
--- TODO: Redesign jailer of prudence
 -- TODO: Perfect Dodge on CD when 1 hr is on CD
 -- TODO: Aldo healing Bahamut on autos sometimes
 -- TODO: Ultima randomly bugged out and didn't start confrontation? Had to force respawn it
