@@ -1053,7 +1053,7 @@ void CMobController::Move()
     }
 
     bool move = PMob->PAI->PathFind->IsFollowingPath();
-    float attack_range = PMob->GetMeleeRange();
+    float attack_range = PMob->GetMeleeRange() + PTarget->m_ModelSize;
 
     if (PMob->getMobMod(MOBMOD_ATTACK_SKILL_LIST) > 0)
     {
