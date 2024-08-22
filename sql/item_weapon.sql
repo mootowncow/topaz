@@ -4309,7 +4309,7 @@ INSERT INTO `item_weapon` VALUES (21363,'hasty_pinion_+1',0,0,0,0,0,0,1,999,0,0)
 INSERT INTO `item_weapon` VALUES (21366,'floestone',0,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21367,'tengu-no-hane',0,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21368,'bestas_bane',27,0,242,0,0,0,1,286,65,0);
-INSERT INTO `item_weapon` VALUES (21369,'moggie_goodie_bag',0,0,0,0,0,0,1,999,0,0);
+INSERT INTO `item_weapon` VALUES (21369,'warlocks_bag',0,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21370,'gobbie_goodie_bag',0,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21371,'ginsen',0,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21372,'dunna',45,0,0,0,0,0,1,999,0,0);
