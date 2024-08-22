@@ -156,12 +156,12 @@ Check all immunities with mobdb
 
 **** NOW ***
 Spawn pet if drg / bst aern function and add if pet:notSpawned() or w/e on engage
+Overthrow: Direct damage and 5.0 yalm knock-back. Ignores Utsusemi. Can be avoided by stepping to the side.
 Redesign jailer of prudence
 Add mob being unable to see target as stuck to CMobController::IsStuck(). I've never seen it work though? UpdateLastKnownPosition(): missing or isstuck missing in places?
 HQ aern organ drop rate too high?
 Better storage logic, make a function, allow trading multiple items. "You have stored x item for a total of y"
 Stabializer III Mana Jammer III Auto-rep. Kit III vendor prices
-mob ranged autos have +100 acc bonus?
 melee gaiters bonus(and other counterstance items/merits/jp?
 TA doesn't work if party member is inside mobs hitbox or too close to mob?
 Avatar repeat logic(i think its in utils file or quests or something?) added to other npcs  + tested
