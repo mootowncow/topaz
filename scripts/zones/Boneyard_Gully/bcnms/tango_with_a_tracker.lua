@@ -34,8 +34,9 @@ end
 function onEventFinish(player, csid, option)
     if csid == 32001 then
         npcUtil.deleteKeyItem(player, tpz.ki.LETTER_FROM_SHIKAREE_X)
-        player:addExp(2000)
         npcUtil.completeQuest(player, OTHER_AREAS_LOG, tpz.quest.id.otherAreas.TANGO_WITH_A_TRACKER, {
+            gil = 10000,
+            xp = 2000,
             var = "tangoWithTracker",
         })
     end
