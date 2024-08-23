@@ -14,7 +14,7 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local duration = 10 + player:getMod(tpz.mod.PERFECT_DODGE)
+    local duration = 30 + player:getMod(tpz.mod.PERFECT_DODGE)
     if player:isPC() then -- AOE
         target:addStatusEffect(tpz.effect.PERFECT_DODGE, 1, 0, duration)
     else -- Self only
