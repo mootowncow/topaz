@@ -59,8 +59,10 @@ function onTrigger(player)
     targ:setUnkillable(immortal)
 
     if immortal then
+        targ:addMod(tpz.mod.REGEN, 1000)
         player:PrintToPlayer(string.format("%s is now immortal!", targ:getName()))
     else
+        targ:delMod(tpz.mod.REGEN, 1000)
         player:PrintToPlayer(string.format("%s is mortal again.", targ:getName()))
     end
  end
