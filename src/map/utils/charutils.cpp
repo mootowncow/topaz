@@ -6248,14 +6248,45 @@ namespace charutils
             return;
         }
 
-        // https://www.bg-wiki.com/ffxi/Treasure_Hunter
-        uint16 maxTH = 12 + PChar->getMod(Mod::TH_MAX);
+        if (PChar->GetMLevel() < 75)
+        {
+            return;
+        }
+
+        uint16 maxUpgrade = PChar->getMod(Mod::TH_MAX);
         uint16 playerTHMod = PChar->getMod(Mod::TREASURE_HUNTER);
         uint16 targetTH = PTarget->m_THLvl;
         int16 treasureDiff = std::min(playerTHMod - targetTH, 0);
-        uint16 procChance = std::max((treasureDiff + 6), 0);
+        if (((treasureDiff + maxUpgrade) < -3) || (targetTH > 13))
+            return;
+
+        uint32 procChance = 0;
+
+        switch (treasureDiff)
+        {
+            case 0:
+                procChance = 400; // 4.00% when 0 levels below..
+                break;
+            case -1:
+                procChance = 200; // 2.00% when 1 level below..
+                break;
+            case -2:
+                procChance = 100; // 1.00% when 2 levels below..
+                break;
+            case -3:
+                procChance = 50; // 0.50% when 3 levels below..
+                break;
+            case -4:
+                procChance = 25; // 0.25% when 4 levels below..
+                break;
+            case -5:
+                procChance = 12; // 0.12% when 5 levels below..
+                break;
+            default:
+                procChance = 5; // 0.05% when more than 5 levels below..
+                break;
+        }
         uint16 procChanceMod = 100 + PChar->getMod(Mod::TH_PROC_CHANCE);
-        procChance *= 10;
 
         // Apply high proc rate bonus (Sneak Attack or Trick Attack active)
         if (highProcRate)
@@ -6263,36 +6294,36 @@ namespace charutils
             procChance *= 5;
         }
 
-        // Add proc rate mod(mostly from gifts)
+        // Add proc rate mod (mostly from gifts)
         if (procChanceMod > 100)
         {
             procChance *= procChanceMod;
             procChance /= 100;
         }
+
         // Apply Feint bonus
         if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_FEINT))
         {
-            uint16 feintBonus = 100 + PChar->PMeritPoints->GetMeritValue(MERIT_FEINT, PChar);
-            if (feintBonus > 100)
+            uint16 feintValue = PChar->PMeritPoints->GetMeritValue(MERIT_FEINT, PChar);
+            if (feintValue > 25)
             {
-                procChance *= feintBonus;
+                procChance *= (75 + feintValue);
                 procChance /= 100;
             }
         }
 
+        //ShowDebug(CL_CYAN "TH proc chance final: %u\n" CL_RESET, procChance);
+
         if (tpzrand::GetRandomNumber(1000) < procChance)
         {
-            if (PTarget->m_THLvl < maxTH)
-            {
-                PTarget->m_THLvl += 1;
-                uint32 thlvl = PTarget->m_THLvl;
+            PTarget->m_THLvl += 1;
+            uint32 thlvl = PTarget->m_THLvl;
 
-                if (Action)
-                {
-                    Action->additionalEffect = SUBEFFECT_LIGHT_DAMAGE;
-                    Action->addEffectMessage = MSGBASIC_TREASURE_HUNTER_UP;
-                    Action->addEffectParam = thlvl;
-                }
+            if (Action)
+            {
+                Action->additionalEffect = SUBEFFECT_LIGHT_DAMAGE;
+                Action->addEffectMessage = MSGBASIC_TREASURE_HUNTER_UP;
+                Action->addEffectParam = thlvl;
             }
         }
     }
