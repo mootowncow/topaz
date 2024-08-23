@@ -152,6 +152,8 @@ Asylum restores MP per target, prob have to code in C++?
 The Scarlet King (Purson) test on retail (dont forget mob level) + code
 Use extremely rare drop msg for "has spawned"?
 NPC Mobs can't guard/parry TP moves?
+Finish MMM weapons via the mats at magian moogle and ANNM fights(some are missing, test changes i did in general)
+FINISH JP
 Crystal Rain doesn't always AOE? Or magic shield from collab/conspirator is bugged and doesn't fade after magic shield fades? Or magic shield effect is bugged?
 
 Zdei spin 2x as fast on retail
@@ -169,7 +171,6 @@ The sky is different in sea? Can have fog or clear or sunny or something?
 Redesign jailer of prudence
 Grenades 33/66/99/99 crafts
 Sea Robber Cudgel set bonus(put on item too) (Dual wield set bonus)
-Finish MMM weapons via the mats at magian moogle and ANNM fights(some are missing, test changes i did in general)
 Puppet use Cannibal Blade if 1 light NOT bonecrusher, make bonecrusher require 2x fire(?) or 1x thunder
 Spawn pet if drg / bst aern function and add if pet:notSpawned() or w/e on engage
 Add mob being unable to see target as stuck to CMobController::IsStuck(). I've never seen it work though? UpdateLastKnownPosition(): missing or isstuck missing in places?
