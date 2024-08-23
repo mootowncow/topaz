@@ -35,21 +35,13 @@ Trade in quests for SMN 50 JSE
 Custom NM at bottom of kuftal, maybe multiple, its a huge area with nothing
 Why do bat earrings work but flaggelents rope doesnt? Try putting eva mod on being parad on flagg rope see if it bugs too?
 
-Fomor RA that uses charutil ranged attack or w/e instead of mob skill somehow
 
-See if PathThrough is fixable (lua binding and core part)
 Something messed up with changing main/sub/ammo/range. Main / Sub if grip and 2h and ammo/range idk
 
 
-Revamp NIN merits
 Enlight and Endark acc/attk decay
 maybe in else if (enspell >= ENSPELL_I_LIGHT && enspell <= ENSPELL_I_DARK || enspell >= ENSPELL_II_LIGHT && enspell <= ENSPELL_II_DARK) L1732 battleutils.cpp
-Make it so wardrobe 5-8 can have only armor/weapons
 
-
-
-Giving EXP overflowing merits works properly until at 10 merits then stops working, doesn't keep going until 9999/9999 merit exp
-Xzomit babies convert all to pets tbh
 The items to upgrade inventory 60-80 that come from login campaign only(?) drop from tiamat jorm vtra? or vagary NMs
 Make LoadInventory() or w/e in charutils (on zoning) not move inventory around
 Boat docking soon custom msgparty() functions or w/e. is ok, add a ton and say which line for each one and prints in each one
@@ -155,11 +147,32 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
-Spawn pet if drg / bst aern function and add if pet:notSpawned() or w/e on engage
-Overthrow: Direct damage and 5.0 yalm knock-back. Ignores Utsusemi. Can be avoided by stepping to the side.
+Test new TH then push it
+Asylum restores MP per target, prob have to code in C++?
+The Scarlet King (Purson) test on retail (dont forget mob level) + code
+Use extremely rare drop msg for "has spawned"?
+NPC Mobs can't guard/parry TP moves?
+Crystal Rain doesn't always AOE? Or magic shield from collab/conspirator is bugged and doesn't fade after magic shield fades? Or magic shield effect is bugged?
+
+Zdei spin 2x as fast on retail
+Sharks roam
+Yovra roam
+Omyovra 84-85
+Omaern bst pets 70. They don't call beast, they do the summon animation. They resummon pet if its dead very quickly(~1m)
+Non-mommy zomits(Om'Xzomit) patroll all around on a path.
+Mommy zomit patrol paths can ve very short.
+Zomits do not link
+Aw'euvhi 79-81
+The sky is different in sea? Can have fog or clear or sunny or something?
+
+
 Redesign jailer of prudence
+Grenades 33/66/99/99 crafts
+Sea Robber Cudgel set bonus(put on item too) (Dual wield set bonus)
+Finish MMM weapons via the mats at magian moogle and ANNM fights(some are missing, test changes i did in general)
+Puppet use Cannibal Blade if 1 light NOT bonecrusher, make bonecrusher require 2x fire(?) or 1x thunder
+Spawn pet if drg / bst aern function and add if pet:notSpawned() or w/e on engage
 Add mob being unable to see target as stuck to CMobController::IsStuck(). I've never seen it work though? UpdateLastKnownPosition(): missing or isstuck missing in places?
-HQ aern organ drop rate too high?
 Better storage logic, make a function, allow trading multiple items. "You have stored x item for a total of y"
 Stabializer III Mana Jammer III Auto-rep. Kit III vendor prices
 melee gaiters bonus(and other counterstance items/merits/jp?
@@ -168,9 +181,12 @@ Avatar repeat logic(i think its in utils file or quests or something?) added to 
 "Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking
 Final zilart missons + apoc nigh + storms of fate + rank6-10 bastok/sandy
 Fix bahamut and code Cloud Evoker  BCNM's. Buff the Bahamut V2 fight rewards a ton, make the items as good as AV / PW
-https://www.bg-wiki.com/ffxi/Draketrader_Zlodgodd
+Martial / KSNM weapons shouldn't work offhand
 Add Waking the Beast, buff the loot to be obscene weapons for off-class. Weekly. Make infinite repeatable reward so its worth doing every week
+Cura - Cura III msg wrong for AOEing? Add it to magic and use the cure function I made
 GM menu from lsb
+Limbus restore chest animation doesn't always work? esp not AOE?
+Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc)
 Make holy good somehow(TP reduction?)
 DNC insane dps like retail with all its new flourishes
 Build Dispel resistance as a mob_mod toggle
@@ -200,6 +216,7 @@ UpdateEnmityFromCure() doesn't work on repair/reward
 Don't port pet if csiD is prot/shell/regen/refresh etc gov buffs
 2x SMN off goblin pets (give boosted xp equal to 40k/hr GOV exp values)
 Enagakure did not spawn at 20:00
+Overthrow: Direct damage and 5.0 yalm knock-back. Ignores Utsusemi. Can be avoided by stepping to the side. <- code this type of logic
 move tchakka to the big room
 Steps / offensive non-taunt flourishes range 5 + model size
 Ic Pilav bun(new item)
@@ -235,6 +252,7 @@ Hunts
 WOE
 
 Later:
+Trusts
 Does the mob:wait() or w/e thing cause crashes for scouting the ashu talif?
 mob darkness SC from shikaree Y did 0 damage to me?
 TryProcTH needs level 15+ job check(maybe 75?)
@@ -588,6 +606,7 @@ Rune Fencer Merits:
 https://github.com/AirSkyBoat/AirSkyBoat/commit/f1c415bb239c9afdc4247eb1b2444433f8671341
 
 DATS:
+ZNM T4 rare weapons
 Rathe Earring
 judges cuisses +15% ele WSD not matt
 MNK/THF JA's
@@ -608,6 +627,7 @@ WHM fencer / DW logic
 CHR gear for thf TA(gear set toggle?)
 
 Wiki: 
+Magian Weapons page
 Position of storage NPCs
 RAID NMs, position, drops, mention JP
 flame / ice shield to wiki

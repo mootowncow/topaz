@@ -50,7 +50,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Ealdnarche manafont meteor at 25% (90s cd)
 -- TODO: A_REALM_OF_EMPTINESS music doesnt work for promathia?
 -- TODO: Set all musics (.DAY and .NIGHT also)
--- TODO: Asylum restores MP per target, prob have to code in C++?
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 

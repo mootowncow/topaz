@@ -54,9 +54,8 @@ https://ffxiclopedia.fandom.com/wiki/A_Reputation_in_Ruins doors should shut onc
 Doors around that area are supposed to open when players are nearby and close when aren't I think
 
 Retail:
+use mobmodel to get the model of the mithra in sauromogue gate near meriph
 Hecteyes Dark Sleep / Blind resist
-Do UFO's move around?
-Do xzomits link? Trio packs link to other trio packs? Or singles to singles. Do babies have greatly reduced hP?
 DRG or BST aern resummon their pets if killed?
 Aern Wynavs immmune to sleep and despawn if you deaggro mob? (BST too)
 Elite training regimes
