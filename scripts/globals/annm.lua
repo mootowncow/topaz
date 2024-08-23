@@ -5,12 +5,14 @@
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/msg")
+require("scripts/globals/utils")
 require("scripts/globals/npc_util")
 require("scripts/globals/status")
 require("scripts/globals/zone")
 require("scripts/globals/keyitems")
 require("scripts/globals/items")
 require("scripts/globals/augments")
+require("scripts/globals/mobs")
 -----------------------------------
 
 tpz = tpz or {}
@@ -1799,10 +1801,15 @@ tpz.annm.NMMods = function(mob)
     mob:addImmunity(tpz.immunity.POISON)
     mob:addImmunity(tpz.immunity.ELEGY)
     mob:addImmunity(tpz.immunity.PETRIFY)
+
+    -- Removed once adds are dead
+    mob:addMod(tpz.mod.DMGAOE, -100)
+    mob:setMod(tpz.mod.REGEN, 5000)
     mob:SetAutoAttackEnabled(false)
     mob:SetMagicCastingEnabled(false)
     mob:SetMobAbilityEnabled(false)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
+    mob:untargetable(true)
     mob:setUnkillable(true)
 end
 
@@ -1844,14 +1851,20 @@ end
 tpz.annm.PetShield = function(mob, addsIDstart, addsIDend)
     for i = addsIDstart, addsIDend do
         if not GetMobByID(i):isDead() then
-            return
+            return true
         end
     end
+
+    mob:addMod(tpz.mod.DMGAOE, 0)
+    mob:setMod(tpz.mod.REGEN, 0)
     mob:SetAutoAttackEnabled(true)
     mob:SetMagicCastingEnabled(true)
     mob:SetMobAbilityEnabled(true)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
+    mob:untargetable(false)
     mob:setUnkillable(false)
+
+    return false
 end
 
 tpz.annm.SpawnChest = function(mob, player, isKiller)
