@@ -147,22 +147,21 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
-Test new TH then push it
-Asylum restores MP per target, prob have to code in C++?
 The Scarlet King (Purson) test on retail (dont forget mob level) + code
-Use extremely rare drop msg for "has spawned"?
 NPC Mobs can't guard/parry TP moves?
 Finish MMM weapons via the mats at magian moogle and ANNM fights(some are missing, test changes i did in general)
+Amaranth needs to be fixed in CBattleEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) for targetting its own bee or something
 FINISH JP
 Crystal Rain doesn't always AOE? Or magic shield from collab/conspirator is bugged and doesn't fade after magic shield fades? Or magic shield effect is bugged?
 
 Zdei spin 2x as fast on retail
+Ulhpemde not underwater and aggro from ~13-14 true sound. The only oms underwater are by the towers, not in crag zones. Underwater ones aggro by true sound 10 yalms
 Sharks roam
 Yovra roam
 Omyovra 84-85
 Omaern bst pets 70. They don't call beast, they do the summon animation. They resummon pet if its dead very quickly(~1m)
 Non-mommy zomits(Om'Xzomit) patroll all around on a path.
-Mommy zomit patrol paths can ve very short.
+Mommy zomit patrol paths can be very short.
 Zomits do not link
 Aw'euvhi 79-81
 The sky is different in sea? Can have fog or clear or sunny or something?
@@ -179,12 +178,13 @@ Stabializer III Mana Jammer III Auto-rep. Kit III vendor prices
 melee gaiters bonus(and other counterstance items/merits/jp?
 TA doesn't work if party member is inside mobs hitbox or too close to mob?
 Avatar repeat logic(i think its in utils file or quests or something?) added to other npcs  + tested
-"Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking
+"Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking. Copy  Cheese Hoarder Gigiroon to code it
 Final zilart missons + apoc nigh + storms of fate + rank6-10 bastok/sandy
 Fix bahamut and code Cloud Evoker  BCNM's. Buff the Bahamut V2 fight rewards a ton, make the items as good as AV / PW
 Martial / KSNM weapons shouldn't work offhand
 Add Waking the Beast, buff the loot to be obscene weapons for off-class. Weekly. Make infinite repeatable reward so its worth doing every week
 Cura - Cura III msg wrong for AOEing? Add it to magic and use the cure function I made
+Remove "untargettable" moves from targetfind.cpp for aoe(or in magic? idk, prob targetfind)
 GM menu from lsb
 Limbus restore chest animation doesn't always work? esp not AOE?
 Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc)
