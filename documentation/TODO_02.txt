@@ -147,6 +147,7 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+La Vaule gate doesn't work properly
 The Scarlet King (Purson) test on retail (dont forget mob level) + code
 NPC Mobs can't guard/parry TP moves?
 Finish MMM weapons via the mats at magian moogle and ANNM fights(some are missing, test changes i did in general)
