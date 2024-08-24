@@ -14101,9 +14101,10 @@ INSERT INTO `item_mods` VALUES (14400,59,1);
 INSERT INTO `item_mods` VALUES (14401,1,26);      -- Duende Cotehardie
 INSERT INTO `item_mods` VALUES (14401,296,10);    -- Conserve MP +10
 INSERT INTO `item_mods` VALUES (14401,913,10);    -- Blood Boon +10
-INSERT INTO `item_mods` VALUES (14402,1,31);
-INSERT INTO `item_mods` VALUES (14402,11,4);
-INSERT INTO `item_mods` VALUES (14402,27,1);
+INSERT INTO `item_mods` VALUES (14402,1,31); -- DEF 31
+INSERT INTO `item_mods` VALUES (14402,11,4); -- AGI 4
+INSERT INTO `item_mods` VALUES (14402,27,1); -- ENMITY 1
+INSERT INTO `item_mods` VALUES (14402,170,5); -- FASTCAST 5
 INSERT INTO `item_mods` VALUES (14403,1,32);
 INSERT INTO `item_mods` VALUES (14403,26,2);
 INSERT INTO `item_mods` VALUES (14403,384,400);
