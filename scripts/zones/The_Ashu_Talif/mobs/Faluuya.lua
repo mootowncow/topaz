@@ -106,7 +106,7 @@ function onMobRoam(mob)
 
     if ShouldWait(mob) then
         return
-        -- printf("Waiting...") -- Unsure if returning this works
+        printf("Waiting...") -- Unsure if returning this works
     end
 
     if IsCompleted(instance) then
@@ -122,24 +122,24 @@ function onMobRoam(mob)
         local pathX = mob:getLocalVar("currentPathX")
         local pathY = mob:getLocalVar("currentPathY")
         local pathZ = mob:getLocalVar("currentPathZ")
-        -- printf("Faluuya is stuck, teleporting to %d, %d, %d", pathX, pathY, pathZ)
+        printf("Faluuya is stuck, teleporting to %d, %d, %d", pathX, pathY, pathZ)
         mob:setPos(pathX, pathY, pathZ)
     end
 
     if IsOutsideDoor(mob) then
         if (stage == 0) then
-            -- printf("Waiting for door to be opened")
+            printf("Waiting for door to be opened")
             DisplayText(mob, "canYouOpen", ID.text.CAN_YOU_OPEN)
             instance:setProgress(1)
         end
         if (stage == 1) then
-            -- printf("Outside door, increasing progress and teleporting")
+            printf("Outside door, increasing progress and teleporting")
             instance:setProgress(instance:getProgress() +1)
             Teleport(mob, -8.02, -22.50, -4.83)
             return
         end
         if (stage == 4) then
-                -- printf("Outside door, increasing progress and teleporting")
+                printf("Outside door, increasing progress and teleporting")
                 instance:setStage(instance:getStage() +1)
                 Teleport(mob, -8.02, -22.50, -4.83)
             return
@@ -147,7 +147,7 @@ function onMobRoam(mob)
     end
 
     if IsAtFirstSpawns(mob) and (stage == 1) and (progress == 2) then
-        -- printf("At first spawns, spawning mobs and setting stage to 2")
+        printf("At first spawns, spawning mobs and setting stage to 2")
         mob:setLocalVar("dmgTakenMsgTimer", os.time() + 15)
         mob:timer(0, function(mob)
             DisplayText(mob, "givingCreeps", ID.text.GIVING_ME_CREEPS)
@@ -174,7 +174,7 @@ function onMobRoam(mob)
 
     if IsInsideDoor(mob) then
         if (stage == 2) or (stage == 7) then
-            -- printf("Inside door, teleporting")
+            printf("Inside door, teleporting")
             instance:setStage(instance:getStage() +1)
             Teleport(mob, -7.56, -22.50, 3.40)
             return
@@ -183,7 +183,7 @@ function onMobRoam(mob)
 
     if IsAtTop(mob) then
         if (stage == 3) then
-            -- printf("At top")
+            printf("At top")
             DisplayText(mob, "itsHere", ID.text.ITS_HERE)
             instance:setStage(instance:getStage() +1)
             mob:clearPath()
@@ -194,7 +194,7 @@ function onMobRoam(mob)
     end
 
     if IsAtBalconyOne(mob) and (stage == 5) then
-        -- printf("At balcony one, setting a timer before moving")
+        printf("At balcony one, setting a timer before moving")
         instance:setStage(instance:getStage() +1)
         mob:clearPath()
         mob:setLocalVar("path", 0)
@@ -204,7 +204,7 @@ function onMobRoam(mob)
     end
 
     if IsAtBalconyTwo(mob) and (stage == 6) then
-        -- printf("At balcony two, setting a timer before moving") 
+        printf("At balcony two, setting a timer before moving") 
         instance:setStage(instance:getStage() +1)
         mob:clearPath()
         mob:setLocalVar("path", 0)
@@ -214,7 +214,7 @@ function onMobRoam(mob)
     end
 
     if IsAtChest(mob) and (stage == 8) then
-        -- printf("completed")
+        printf("completed")
         DisplayText(mob, "treasureChest", ID.text.A_TREASURE_CHEST)
         instance:complete()
     end
