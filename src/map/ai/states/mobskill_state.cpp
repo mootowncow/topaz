@@ -112,11 +112,14 @@ bool CMobSkillState::Update(time_point tick)
 {
     if (tick > GetEntryTime() + m_castTime && !IsCompleted())
     {
+        ShowDebug("CMobSkillState::Update: CastTime Check Passed\n");
+
         if (!m_PSkill->isTwoHour() && !m_PSkill->isJobAbility())
         {
             SpendCost();
         }
         action_t action;
+        ShowDebug("CMobSkillState::Update: OnMobSkillFinished Called\n");
         m_PEntity->OnMobSkillFinished(*this, action);
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
         auto PTarget{ GetTarget() };
