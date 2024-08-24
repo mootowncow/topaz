@@ -1319,9 +1319,10 @@ int16 CBattleEntity::getMod(Mod modID)
 }
 
 /************************************************************************
- *                                                                      *
- *  Get the highest value of the specified modifier across all gear     *
- *                                                                      *
+*                                                                       *
+*  Get the highest value of the specified modifier across all gear      *
+*  and latent effects                                                   *
+*                                                                       *
  ************************************************************************/
 int16 CBattleEntity::getMaxGearMod(Mod modID)
 {
@@ -1332,17 +1333,16 @@ int16 CBattleEntity::getMaxGearMod(Mod modID)
     if (!PChar)
     {
         ShowWarning("CBattleEntity::getMaxGearMod() - Entity is not a player.");
-
         return 0;
     }
 
+    // Check equipment modifiers
     for (uint8 i = 0; i < SLOT_BACK; ++i)
     {
         auto* PItem = PChar->getEquip((SLOTTYPE)i);
         if (PItem && (PItem->isType(ITEM_EQUIPMENT) || PItem->isType(ITEM_WEAPON)))
         {
             uint16 modValue = PItem->getModifier(modID);
-
             if (modValue > maxModValue)
             {
                 maxModValue = modValue;
@@ -1350,8 +1350,16 @@ int16 CBattleEntity::getMaxGearMod(Mod modID)
         }
     }
 
+    // Check latent mods directly applied to the player
+    uint16 latentModValue = PChar->getMod(modID);
+    if (latentModValue > maxModValue)
+    {
+        maxModValue = latentModValue;
+    }
+
     return maxModValue;
 }
+
 
 void CBattleEntity::addPetModifier(Mod type, PetModType petmod, int16 amount)
 {
