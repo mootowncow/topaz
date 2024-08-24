@@ -147,6 +147,8 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+give TP on perfect counters
+player_controller don't engage if > 25 or w/e max range is for engage, run before engaging
 La Vaule gate doesn't work properly
 The Scarlet King (Purson) test on retail (dont forget mob level) + code
 NPC Mobs can't guard/parry TP moves?
@@ -186,9 +188,10 @@ Martial / KSNM weapons shouldn't work offhand
 Add Waking the Beast, buff the loot to be obscene weapons for off-class. Weekly. Make infinite repeatable reward so its worth doing every week
 Cura - Cura III msg wrong for AOEing? Add it to magic and use the cure function I made
 Remove "untargettable" moves from targetfind.cpp for aoe(or in magic? idk, prob targetfind)
+Fix charm controller pathing!
 GM menu from lsb
 Limbus restore chest animation doesn't always work? esp not AOE?
-Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc)
+Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
 Make holy good somehow(TP reduction?)
 DNC insane dps like retail with all its new flourishes
 Build Dispel resistance as a mob_mod toggle
@@ -256,6 +259,7 @@ WOE
 Later:
 Trusts
 Does the mob:wait() or w/e thing cause crashes for scouting the ashu talif?
+Mob AOE moves you can dodge that aoe around them / directional / conal and get their target AFTER the tp move animation finishes instead of before so they go off even if no targets in range and give spewcial "no targets in range" msg or w/e
 mob darkness SC from shikaree Y did 0 damage to me?
 TryProcTH needs level 15+ job check(maybe 75?)
 Add Cura-III to the new cure magic.lua function
@@ -281,6 +285,9 @@ Perfect counter dura reduced to 3s.
 Titan = tank
 ??? = ranged dps(Shoots)
 Leviathan = healer
+
+~~~~~~~~~~~~~~~~~~~~Relic Weapon Revamp~~~~~~~~~~~~~~~~~~~~
+Additional effect: Corrupt or corrupt on a TP move?
 
 ~~~~~~~~~~~~~~~~~~~~Daily / Weekly Tasks System?~~~~~~~~~~~~~~~~~~~~
 
@@ -409,6 +416,9 @@ https://github.com/LandSandBoat/server/commit/0e86ebc221098284a4490a7e83387814a9
 
 Wep delay overflow / TP return
 https://github.com/LandSandBoat/server/commit/5131acdb1a80b0bd177eea82ec8358118723b4cd
+
+NIN SB merits..?
+https://github.com/LandSandBoat/server/commit/e0b117607f3e01858490b9ddb66e6218652ab95f
 
 Lotting
 https://github.com/LandSandBoat/server/commit/7ecad7379c694f658dbfb4f720387047454a4e68
