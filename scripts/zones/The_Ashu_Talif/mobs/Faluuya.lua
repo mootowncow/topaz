@@ -88,7 +88,6 @@ function onMobSpawn(mob)
 end
 
 function onMobRoam(mob)
-printf("Am I roaming?")
     local instance = mob:getInstance()
     local stage = instance:getStage()
     local progress = instance:getProgress()
@@ -107,7 +106,7 @@ printf("Am I roaming?")
 
     if ShouldWait(mob) then
         return
-        printf("Waiting...") -- Unsure if returning this works
+        -- printf("Waiting...") -- Unsure if returning this works
     end
 
     if IsCompleted(instance) then
@@ -123,24 +122,24 @@ printf("Am I roaming?")
         local pathX = mob:getLocalVar("currentPathX")
         local pathY = mob:getLocalVar("currentPathY")
         local pathZ = mob:getLocalVar("currentPathZ")
-        printf("Faluuya is stuck, teleporting to %d, %d, %d", pathX, pathY, pathZ)
+        -- printf("Faluuya is stuck, teleporting to %d, %d, %d", pathX, pathY, pathZ)
         mob:setPos(pathX, pathY, pathZ)
     end
 
     if IsOutsideDoor(mob) then
         if (stage == 0) then
-            printf("Waiting for door to be opened")
+            -- printf("Waiting for door to be opened")
             DisplayText(mob, "canYouOpen", ID.text.CAN_YOU_OPEN)
             instance:setProgress(1)
         end
         if (stage == 1) then
-            printf("Outside door, increasing progress and teleporting")
+            -- printf("Outside door, increasing progress and teleporting")
             instance:setProgress(instance:getProgress() +1)
             Teleport(mob, -8.02, -22.50, -4.83)
             return
         end
         if (stage == 4) then
-                printf("Outside door, increasing progress and teleporting")
+                -- printf("Outside door, increasing progress and teleporting")
                 instance:setStage(instance:getStage() +1)
                 Teleport(mob, -8.02, -22.50, -4.83)
             return
@@ -148,7 +147,7 @@ printf("Am I roaming?")
     end
 
     if IsAtFirstSpawns(mob) and (stage == 1) and (progress == 2) then
-        printf("At first spawns, spawning mobs and setting stage to 2")
+        -- printf("At first spawns, spawning mobs and setting stage to 2")
         mob:setLocalVar("dmgTakenMsgTimer", os.time() + 15)
         mob:timer(0, function(mob)
             DisplayText(mob, "givingCreeps", ID.text.GIVING_ME_CREEPS)
@@ -175,7 +174,7 @@ printf("Am I roaming?")
 
     if IsInsideDoor(mob) then
         if (stage == 2) or (stage == 7) then
-            printf("Inside door, teleporting")
+            -- printf("Inside door, teleporting")
             instance:setStage(instance:getStage() +1)
             Teleport(mob, -7.56, -22.50, 3.40)
             return
@@ -184,7 +183,7 @@ printf("Am I roaming?")
 
     if IsAtTop(mob) then
         if (stage == 3) then
-            printf("At top")
+            -- printf("At top")
             DisplayText(mob, "itsHere", ID.text.ITS_HERE)
             instance:setStage(instance:getStage() +1)
             mob:clearPath()
@@ -195,7 +194,7 @@ printf("Am I roaming?")
     end
 
     if IsAtBalconyOne(mob) and (stage == 5) then
-        printf("At balcony one, setting a timer before moving")
+        -- printf("At balcony one, setting a timer before moving")
         instance:setStage(instance:getStage() +1)
         mob:clearPath()
         mob:setLocalVar("path", 0)
@@ -205,7 +204,7 @@ printf("Am I roaming?")
     end
 
     if IsAtBalconyTwo(mob) and (stage == 6) then
-        printf("At balcony two, setting a timer before moving") 
+        -- printf("At balcony two, setting a timer before moving") 
         instance:setStage(instance:getStage() +1)
         mob:clearPath()
         mob:setLocalVar("path", 0)
@@ -215,7 +214,7 @@ printf("Am I roaming?")
     end
 
     if IsAtChest(mob) and (stage == 8) then
-        printf("completed")
+        -- printf("completed")
         DisplayText(mob, "treasureChest", ID.text.A_TREASURE_CHEST)
         instance:complete()
     end
@@ -229,36 +228,36 @@ printf("Am I roaming?")
     end
 
     if (stage == 0) then
-        printf("stageOnePts1")
+        -- printf("stageOnePts1")
         DisplayText(mob, "introText", ID.text.SHALL_WE_BE_OFF)
         tpz.path.followPointsInstance(mob, stageOnePts1, tpz.path.flag.NONE)
     elseif (stage == 1) and (progress == 2) then
         DisplayText(mob, "phew", ID.text.PHEW)
         tpz.path.followPointsInstance(mob, stageOnePts2, tpz.path.flag.NONE)
-        printf("stageOnePts2")
+        -- printf("stageOnePts2")
     elseif (stage == 2) then
         tpz.path.followPointsInstance(mob, retreatToTopPts1, tpz.path.flag.RUN)
-        printf("retreatToTopPts1")
+        -- printf("retreatToTopPts1")
     elseif (stage == 3) then 
-        printf("retreatToTopPts2")
+        -- printf("retreatToTopPts2")
         tpz.path.followPointsInstance(mob, retreatToTopPts2, tpz.path.flag.RUN)
     elseif (stage == 4) then
-        printf("sketchOnePt1")
+        -- printf("sketchOnePt1")
         DisplayText(mob, "mustSketch", ID.text.MUST_SKETCH)
         tpz.path.followPointsInstance(mob, sketchOnePt1, tpz.path.flag.RUN)
     elseif (stage == 5) then
-        printf("sketchOnePt2")
+        -- printf("sketchOnePt2")
         tpz.path.followPointsInstance(mob, sketchOnePt2, tpz.path.flag.RUN)
     elseif (stage == 6)  and (os.time() >= sketchOneWait) then
-        printf("sketchTwo")
+        -- printf("sketchTwo")
         DisplayText(mob, "mustDraw", ID.text.MUST_DRAW)
         tpz.path.followPointsInstance(mob, sketchTwo, tpz.path.flag.RUN)
     elseif (stage == 7)  and (os.time() >= sketchTwoWait) then
-        printf("pathToChestPt1")
+        -- printf("pathToChestPt1")
         DisplayText(mob, "finished", ID.text.FINISHED)
         tpz.path.followPointsInstance(mob, pathToChestPt1, tpz.path.flag.RUN)
     elseif (stage == 8) then
-        printf("pathToChestPt2")
+        -- printf("pathToChestPt2")
         tpz.path.followPointsInstance(mob, pathToChestPt2, tpz.path.flag.NONE)
     end
     CheckInstanceStatue(mob, instance)
@@ -274,6 +273,17 @@ end
 
 function onMobFight(mob, target)
     local instance = mob:getInstance()
+
+    -- Safety check for beeing stuck in combat
+    local entities = mob:getNearbyMobs(30)
+    if (entities == nil) then
+        mob:disengage()
+    end
+    for i, entity in pairs(entities) do
+        if (mob:getID() ~= entity:getID()) and entity:isAlive() then
+            mob:disengage()
+        end
+    end
 
     mob:addListener("TAKE_DAMAGE", "FALUUYA_TAKE_DAMAGE", function(mob, amount, attacker, attacktype, damagetype)
         local totalDmgTaken = mob:getLocalVar("totalDmgTaken")

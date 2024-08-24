@@ -169,6 +169,13 @@ Zomits do not link
 Aw'euvhi 79-81
 The sky is different in sea? Can have fog or clear or sunny or something?
 
+Ashu Talif:
+Faluuya got "stuck" after winning and killing the boss(Discord has screenshots). 
+Fidgets around waiting at door(shouldn't roam..)
+Boss and 2 adds get stuck after spawning on the stairs until faluuya runs back
+Damage tracking on faluuya doesn't work properly and overflowed
+Mobs didn't depop after the boss died
+
 
 Redesign jailer of prudence
 Grenades 33/66/99/99 crafts
