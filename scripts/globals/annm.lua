@@ -13,6 +13,7 @@ require("scripts/globals/keyitems")
 require("scripts/globals/items")
 require("scripts/globals/augments")
 require("scripts/globals/mobs")
+require("scripts/globals/pathfind")
 -----------------------------------
 
 tpz = tpz or {}

@@ -9,6 +9,7 @@
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/annm")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
@@ -35,6 +36,21 @@ function onMobWeaponSkill(target, mob, skill)
 
 	skill:setMsg(MobPhysicalDrainMove(mob, target, skill, MOBDRAIN_HP, dmg))
 	if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then   target:tryInterruptSpell(mob, info.hitslanded) end
+
+    -- Amaranth "Consuming" the Bee
+    local amaranth = GetMobByID(17170650)
+    if amaranth then
+        local level = amaranth:getMainLvl()
+        local bee = GetMobByID(17171292)
+        if bee:isAlive() then
+            bee:setHP(0)
+            amaranth:useMobAbility(tpz.mob.skills.LEVEL_UP, amaranth)
+            amaranth:setMobLevel(level +1)
+            -- Mods and Mobmods are cleared on leveling up, need to readd them
+            tpz.annm.NMMods(mob)
+            mob:setMobMod(tpz.mobMod.FRIENDLY_FIRE, 1)
+        end
+    end
 
     return dmg
 end

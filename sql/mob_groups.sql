@@ -6729,7 +6729,7 @@ INSERT INTO `mob_groups` VALUES (138,0,96,'Ferreous_Coffin',0,128,0,0,0,70,70,0)
 INSERT INTO `mob_groups` VALUES (139,0,96,'Lewenhart',0,128,0,0,0,70,70,0);
 INSERT INTO `mob_groups` VALUES (140,0,96,'Auroral_Alicorn',0,128,0,0,0,70,70,0);
 INSERT INTO `mob_groups` VALUES (141,9074,96,'Tipua',3600,0,6060,35000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (142,3335,96,'Roaming_bee',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (142,3335,96,'Roaming_bee',0,128,0,1000,0,77,77,0);
 
 -- ------------------------------------------------------------
 -- Meriphataud_Mountains_[S] (Zone 97)

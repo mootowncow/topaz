@@ -14640,6 +14640,7 @@ inline int32 CLuaBaseEntity::updateAttachments(lua_State* L)
 *  Purpose : Updates the monsters level and recalculates stats
 *  Example : mob:setMobLevel(125)
 *  Notes   : CalculateStats will refill mobs hp/mp as well
+*  !!! WARNING! CLEARS ALL MODS AND MOBMODS !!!
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::setMobLevel(lua_State *L)
@@ -16446,7 +16447,7 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
             CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 2);
             PTarget = dynamic_cast<CBattleEntity*>(PLuaBaseEntity->m_PBaseEntity);
         }
-
+        //ShowDebug("Using mobskill %u on %s [%u]\n", skillid, PTarget->GetName(), PTarget->id);
         // If PTarget is not set from Lua, get it from the battle target ID
         if (!PTarget)
         {
@@ -16457,13 +16458,11 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                 PTarget = dynamic_cast<CBattleEntity*>(PEntity);
             }
         }
-
         if (!PTarget)
         {
             //printf("PTarget is null before queuing action\n");
             return 0;
         }
-
         if (PMob->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA))
         {
             return 0;
@@ -16488,7 +16487,6 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                               if (dynamic_cast<CMobEntity*>(PEntity))
                               {
                                   int onSkillCheck = luautils::OnMobSkillCheck(PTarget, PEntity, PMobSkill);
-
                                   if (PMob->objtype == TYPE_PET && static_cast<CPetEntity*>(PMob)->getPetType() == PETTYPE_AUTOMATON)
                                   {
                                       //printf("PMob is automaton\n");
@@ -16508,14 +16506,14 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                                   {
                                       if (PMobSkill->getValidTargets() & TARGET_ENEMY)
                                       {
-                                          auto targetID = static_cast<CMobEntity*>(PEntity)->GetBattleTargetID();
                                           //printf("Trying to use mob ability on %u\n", targetID);
-                                          if (targetID == 0)
+                                          if (PTarget->targid == 0)
                                           {
                                               //printf("Invalid targetID\n");
                                               return;
                                           }
-                                          PEntity->PAI->MobSkill(targetID, skillid);
+                                          //ShowDebug("Using mobskill %u on %s [%u]\n", skillid, PTarget->GetName(), PTarget->id);
+                                          PEntity->PAI->MobSkill(PTarget->targid, skillid);
 
                                           if (PMobSkill->isReadiesException())
                                           {

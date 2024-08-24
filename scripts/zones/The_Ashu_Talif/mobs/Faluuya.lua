@@ -275,6 +275,17 @@ end
 function onMobFight(mob, target)
     local instance = mob:getInstance()
 
+    -- Safety check for beeing stuck in combat
+    local entities = mob:getNearbyMobs(30)
+    if (entities == nil) then
+        mob:disengage()
+    end
+    for i, entity in pairs(entities) do
+        if (mob:getID() ~= entity:getID()) and entity:isAlive() then
+            mob:disengage()
+        end
+    end
+
     mob:addListener("TAKE_DAMAGE", "FALUUYA_TAKE_DAMAGE", function(mob, amount, attacker, attacktype, damagetype)
         local totalDmgTaken = mob:getLocalVar("totalDmgTaken")
         local dmgTakenMsgTimer = mob:getLocalVar("dmgTakenMsgTimer")

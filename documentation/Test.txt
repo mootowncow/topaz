@@ -54,6 +54,8 @@ https://ffxiclopedia.fandom.com/wiki/A_Reputation_in_Ruins doors should shut onc
 Doors around that area are supposed to open when players are nearby and close when aren't I think
 
 Retail:
+Buy PUP attachments/animator/gear for testing(esp low level)
+Scarlet king
 Do under water Omhpemde roam? (remove 1024 roamflag if so)
 use mobmodel to get the model of the mithra in sauromogue gate near meriph
 Hecteyes Dark Sleep / Blind resist
