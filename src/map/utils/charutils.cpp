@@ -6314,7 +6314,7 @@ namespace charutils
 
         //ShowDebug(CL_CYAN "TH proc chance final: %u\n" CL_RESET, procChance);
 
-        if (tpzrand::GetRandomNumber(1000) < procChance)
+        if (tpzrand::GetRandomNumber(10000) < procChance)
         {
             PTarget->m_THLvl += 1;
             uint32 thlvl = PTarget->m_THLvl;
@@ -6328,4 +6328,4 @@ namespace charutils
         }
     }
 
-    }; // namespace charutils
+}; // namespace charutils
