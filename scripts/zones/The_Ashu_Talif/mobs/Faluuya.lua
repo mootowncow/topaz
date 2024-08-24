@@ -88,6 +88,7 @@ function onMobSpawn(mob)
 end
 
 function onMobRoam(mob)
+printf("Am I roaming?")
     local instance = mob:getInstance()
     local stage = instance:getStage()
     local progress = instance:getProgress()
