@@ -53,9 +53,11 @@ function onSpellCast(caster, target, spell)
     if (dot > 0) then
         target:delStatusEffectSilent(tpz.effect.HELIX)
         target:addStatusEffect(tpz.effect.HELIX, dot, 3, duration)
-        if caster:getMainJob() == tpz.job.SCH then
-            if caster:hasStatusEffect(tpz.effect.DARK_ARTS) or caster:hasStatusEffect(tpz.effect.ADDENDUM_BLACK) then
-                target:addStatusEffectEx(tpz.effect.INCREASED_DAMAGE_TAKEN, tpz.effect.INCREASED_DAMAGE_TAKEN, 9, 0, duration)
+        if caster:isPC() then
+            if (caster:getMainJob() == tpz.job.SCH) then
+                if caster:hasStatusEffect(tpz.effect.DARK_ARTS) or caster:hasStatusEffect(tpz.effect.ADDENDUM_BLACK) then
+                    target:addStatusEffectEx(tpz.effect.INCREASED_DAMAGE_TAKEN, tpz.effect.INCREASED_DAMAGE_TAKEN, 9, 0, duration)
+                end
             end
         end
     end
