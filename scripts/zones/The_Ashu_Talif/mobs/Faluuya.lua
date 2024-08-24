@@ -228,36 +228,36 @@ function onMobRoam(mob)
     end
 
     if (stage == 0) then
-        -- printf("stageOnePts1")
+        printf("stageOnePts1")
         DisplayText(mob, "introText", ID.text.SHALL_WE_BE_OFF)
         tpz.path.followPointsInstance(mob, stageOnePts1, tpz.path.flag.NONE)
     elseif (stage == 1) and (progress == 2) then
         DisplayText(mob, "phew", ID.text.PHEW)
         tpz.path.followPointsInstance(mob, stageOnePts2, tpz.path.flag.NONE)
-        -- printf("stageOnePts2")
+        printf("stageOnePts2")
     elseif (stage == 2) then
         tpz.path.followPointsInstance(mob, retreatToTopPts1, tpz.path.flag.RUN)
-        -- printf("retreatToTopPts1")
+        printf("retreatToTopPts1")
     elseif (stage == 3) then 
-        -- printf("retreatToTopPts2")
+        printf("retreatToTopPts2")
         tpz.path.followPointsInstance(mob, retreatToTopPts2, tpz.path.flag.RUN)
     elseif (stage == 4) then
-        -- printf("sketchOnePt1")
+        printf("sketchOnePt1")
         DisplayText(mob, "mustSketch", ID.text.MUST_SKETCH)
         tpz.path.followPointsInstance(mob, sketchOnePt1, tpz.path.flag.RUN)
     elseif (stage == 5) then
-        -- printf("sketchOnePt2")
+        printf("sketchOnePt2")
         tpz.path.followPointsInstance(mob, sketchOnePt2, tpz.path.flag.RUN)
     elseif (stage == 6)  and (os.time() >= sketchOneWait) then
-        -- printf("sketchTwo")
+        printf("sketchTwo")
         DisplayText(mob, "mustDraw", ID.text.MUST_DRAW)
         tpz.path.followPointsInstance(mob, sketchTwo, tpz.path.flag.RUN)
     elseif (stage == 7)  and (os.time() >= sketchTwoWait) then
-        -- printf("pathToChestPt1")
+        printf("pathToChestPt1")
         DisplayText(mob, "finished", ID.text.FINISHED)
         tpz.path.followPointsInstance(mob, pathToChestPt1, tpz.path.flag.RUN)
     elseif (stage == 8) then
-        -- printf("pathToChestPt2")
+        printf("pathToChestPt2")
         tpz.path.followPointsInstance(mob, pathToChestPt2, tpz.path.flag.NONE)
     end
     CheckInstanceStatue(mob, instance)
