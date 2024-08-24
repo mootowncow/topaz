@@ -212,7 +212,7 @@ INSERT INTO `status_effects` VALUES (164,'chain_affinity',545,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (165,'burst_affinity',545,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (166,'overdrive',544,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (167,'magic_def_down',16418,0,0,0,0,0,5,0,1);
-INSERT INTO `status_effects` VALUES (168,'inhibit_tp',33,0,0,0,0,0,8,0,1);
+INSERT INTO `status_effects` VALUES (168,'inhibit_tp',12582946,0,0,0,0,0,8,0,1);
 INSERT INTO `status_effects` VALUES (169,'potency',297,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (170,'regain',809,0,0,0,0,0,7,0,0);
 INSERT INTO `status_effects` VALUES (171,'pax',297,0,0,0,0,0,0,0,0);
