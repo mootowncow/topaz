@@ -2453,7 +2453,7 @@ INSERT INTO `item_weapon` VALUES (18861,'grandeur',11,0,0,0,0,3,1,310,34,0);
 INSERT INTO `item_weapon` VALUES (18862,'clearpath',11,0,0,0,0,3,1,288,27,0);
 INSERT INTO `item_weapon` VALUES (18863,'dream_bell',11,0,0,0,0,3,1,216,1,0);
 INSERT INTO `item_weapon` VALUES (18864,'dream_bell_+1',11,0,0,0,0,3,1,210,2,0);
-INSERT INTO `item_weapon` VALUES (18865,'zonure',11,0,0,0,0,3,1,324,55,0);
+INSERT INTO `item_weapon` VALUES (18865,'zonure',11,0,0,0,0,3,1,324,50,0);
 INSERT INTO `item_weapon` VALUES (18866,'club_hammer',11,0,0,0,0,3,1,300,1,0);
 INSERT INTO `item_weapon` VALUES (18867,'daedalus_hammer',11,0,0,0,0,3,1,300,31,0);
 INSERT INTO `item_weapon` VALUES (18868,'lady_bell',11,0,0,0,0,3,1,216,1,0);

@@ -24607,9 +24607,10 @@ INSERT INTO `item_mods` VALUES (19156,5,10);
 INSERT INTO `item_mods` VALUES (19156,516,10);     -- Converts 10% of damage taken to MP
 INSERT INTO `item_mods` VALUES (19157,2,5);
 INSERT INTO `item_mods` VALUES (19157,5,5);
-INSERT INTO `item_mods` VALUES (19158,110,5); -- Scheherazade 
-INSERT INTO `item_mods` VALUES (19158,227,10); -- Lizard Killer(Intimidate)
-INSERT INTO `item_mods` VALUES (19158,1227,10); -- Lizard Circle(% DMG)
+INSERT INTO `item_mods` VALUES (19158,110,5); -- PARRY 5
+INSERT INTO `item_mods` VALUES (19158,227,10); -- LIZARD_KILLER 10
+INSERT INTO `item_mods` VALUES (19158,1227,10); -- LIZARD_CIRCLE 10
+INSERT INTO `item_mods` VALUES (19158,625,25); -- SPINNING_SLASH 25
 INSERT INTO `item_mods` VALUES (19160,431,1);
 INSERT INTO `item_mods` VALUES (19161,431,1);     -- (Lyft Claymore) Additional Effect: Light damage +75
 INSERT INTO `item_mods` VALUES (19163,368,10);    -- Nightfall: Regain +10
@@ -24759,9 +24760,10 @@ INSERT INTO `item_mods` VALUES (19271,1,50);      -- Osoraku: DEF +50
 INSERT INTO `item_mods` VALUES (19271,10,15);     -- VIT +15
 INSERT INTO `item_mods` VALUES (19272,522,10);    -- Yagentoshiro
 INSERT INTO `item_mods` VALUES (19272,259,3);     -- DW +3 
-INSERT INTO `item_mods` VALUES (19273,68,5); -- Onishibari
-INSERT INTO `item_mods` VALUES (19273,230,10); -- Beast Killer(Intimidate)
-INSERT INTO `item_mods` VALUES (19273,1230,10); -- Beast Circle(% DMG)
+INSERT INTO `item_mods` VALUES (19273,68,5); -- EVA 5
+INSERT INTO `item_mods` VALUES (19273,230,10); -- BEAST_KILLER 10
+INSERT INTO `item_mods` VALUES (19273,1230,10); -- BEAST_CIRCLE 10
+INSERT INTO `item_mods` VALUES (19273,259,3); -- DUAL_WIELD 3
 INSERT INTO `item_mods` VALUES (19276,68,1);
 INSERT INTO `item_mods` VALUES (19277,25,1);
 INSERT INTO `item_mods` VALUES (19278,27,-5);
