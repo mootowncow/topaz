@@ -1323,7 +1323,7 @@ int16 CBattleEntity::getMod(Mod modID)
 *  Get the highest value of the specified modifier across all gear      *
 *  and latent effects                                                   *
 *                                                                       *
- ************************************************************************/
+************************************************************************/
 int16 CBattleEntity::getMaxGearMod(Mod modID)
 {
     TracyZoneScoped;
@@ -1356,6 +1356,8 @@ int16 CBattleEntity::getMaxGearMod(Mod modID)
     {
         maxModValue = latentModValue;
     }
+
+    maxModValue = std::min(maxModValue, static_cast<uint16>(25));
 
     return maxModValue;
 }
