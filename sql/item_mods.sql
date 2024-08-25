@@ -8440,10 +8440,11 @@ INSERT INTO `item_mods` VALUES (12488,60,14);     -- Light resistance +14
 INSERT INTO `item_mods` VALUES (12488,289,4);     -- Subtle Blow +4
 INSERT INTO `item_mods` VALUES (12489,2,-30);
 INSERT INTO `item_mods` VALUES (12489,5,75);
-INSERT INTO `item_mods` VALUES (12490,1,22);      -- Yasha Jinpachi: DEF 22
-INSERT INTO `item_mods` VALUES (12490,12,7);      -- INT +7
-INSERT INTO `item_mods` VALUES (12490,27,2);      -- Enmity +2
-INSERT INTO `item_mods` VALUES (12490,168,5);     -- Spell interruption rate down 5%
+INSERT INTO `item_mods` VALUES (12490,1,22); -- DEF 22
+INSERT INTO `item_mods` VALUES (12490,12,7); -- INT 7
+INSERT INTO `item_mods` VALUES (12490,27,2); -- ENMITY 2
+INSERT INTO `item_mods` VALUES (12490,168,5); -- SPELLINTERRUPT 5
+INSERT INTO `item_mods` VALUES (12490,28,5); -- MATT 5
 INSERT INTO `item_mods` VALUES (12492,1,27);
 INSERT INTO `item_mods` VALUES (12492,68,12);
 INSERT INTO `item_mods` VALUES (12492,161,-1);
@@ -8804,11 +8805,13 @@ INSERT INTO `item_mods` VALUES (12617,1,43); -- War Shinobi Gi
 INSERT INTO `item_mods` VALUES (12617,8,7);
 INSERT INTO `item_mods` VALUES (12617,88,15);
 INSERT INTO `item_mods` VALUES (12617,106,5);
-INSERT INTO `item_mods` VALUES (12618,1,43);      -- Yasha Samue: DEF 43
-INSERT INTO `item_mods` VALUES (12618,12,3);      -- INT +3
-INSERT INTO `item_mods` VALUES (12618,27,4);      -- Enmity +4
-INSERT INTO `item_mods` VALUES (12618,110,3);     -- Parrying skill +3
-INSERT INTO `item_mods` VALUES (12618,168,10);    -- Spell interruption rate down 10%
+INSERT INTO `item_mods` VALUES (12618,1,43); -- DEF 43
+INSERT INTO `item_mods` VALUES (12618,12,3); -- INT 3
+INSERT INTO `item_mods` VALUES (12618,27,4); -- ENMITY 4
+INSERT INTO `item_mods` VALUES (12618,110,3); -- PARRY 3
+INSERT INTO `item_mods` VALUES (12618,168,10); -- SPELLINTERRUPT 10
+INSERT INTO `item_mods` VALUES (12618,28,5); -- MATT 5
+INSERT INTO `item_mods` VALUES (12618,30,5); -- MACC 5
 INSERT INTO `item_mods` VALUES (12620,1,65);
 INSERT INTO `item_mods` VALUES (12620,8,16);
 INSERT INTO `item_mods` VALUES (12620,23,32);
@@ -9393,11 +9396,12 @@ INSERT INTO `item_mods` VALUES (12846,1,33);
 INSERT INTO `item_mods` VALUES (12846,8,3);
 INSERT INTO `item_mods` VALUES (12846,25,12);
 INSERT INTO `item_mods` VALUES (12846,27,3);
-INSERT INTO `item_mods` VALUES (12847,1,31);      -- Yasha Hakama: DEF 31
-INSERT INTO `item_mods` VALUES (12847,2,25);      -- HP +25
-INSERT INTO `item_mods` VALUES (12847,12,2);      -- INT +2
-INSERT INTO `item_mods` VALUES (12847,27,2);      -- Enmity +2
-INSERT INTO `item_mods` VALUES (12847,168,2);     -- Spell interruption rate down 2%
+INSERT INTO `item_mods` VALUES (12847,1,31); -- DEF 31
+INSERT INTO `item_mods` VALUES (12847,2,25); -- HP 25
+INSERT INTO `item_mods` VALUES (12847,12,2); -- INT 2
+INSERT INTO `item_mods` VALUES (12847,27,2); -- ENMITY 2
+INSERT INTO `item_mods` VALUES (12847,168,2); -- SPELLINTERRUPT 2
+INSERT INTO `item_mods` VALUES (12847,1272,10); -- ELEMENTAL_WSDMG 10
 INSERT INTO `item_mods` VALUES (12848,1,7);		-- Brais
 INSERT INTO `item_mods` VALUES (12849,1,12);
 INSERT INTO `item_mods` VALUES (12850,1,17);
@@ -9760,11 +9764,12 @@ INSERT INTO `item_mods` VALUES (13001,12,8);      -- INT +8
 INSERT INTO `item_mods` VALUES (13001,115,3);     -- Elemental magic skill +3
 INSERT INTO `item_mods` VALUES (13001,116,3);     -- Dark magic skill +3
 INSERT INTO `item_mods` VALUES (13001,170,3);     -- Fast Cast +3%
-INSERT INTO `item_mods` VALUES (13002,1,13);      -- Yasha Sune-Ate: DEF 13
-INSERT INTO `item_mods` VALUES (13002,2,10);      -- HP +10
-INSERT INTO `item_mods` VALUES (13002,12,3);      -- INT +3
-INSERT INTO `item_mods` VALUES (13002,27,2);      -- Enmity +2
-INSERT INTO `item_mods` VALUES (13002,168,5);     -- Spell interruption rate down 5%
+INSERT INTO `item_mods` VALUES (13002,1,13); -- DEF 13
+INSERT INTO `item_mods` VALUES (13002,2,10); -- HP 10
+INSERT INTO `item_mods` VALUES (13002,12,3); -- INT 3
+INSERT INTO `item_mods` VALUES (13002,27,2); -- ENMITY 2
+INSERT INTO `item_mods` VALUES (13002,168,5); -- SPELLINTERRUPT 5
+INSERT INTO `item_mods` VALUES (13002,28,3); -- MATT 3
 INSERT INTO `item_mods` VALUES (13003,1,2);
 INSERT INTO `item_mods` VALUES (13003,56,3);
 INSERT INTO `item_mods` VALUES (13003,57,3);
@@ -12401,10 +12406,11 @@ INSERT INTO `item_mods` VALUES (13956,2,4);
 INSERT INTO `item_mods` VALUES (13956,55,-2);
 INSERT INTO `item_mods` VALUES (13956,59,7);
 INSERT INTO `item_mods` VALUES (13956,61,7);
-INSERT INTO `item_mods` VALUES (13957,1,16);      -- Yasha Tekko: DEF 16
-INSERT INTO `item_mods` VALUES (13957,27,2);      -- Enmity +2
-INSERT INTO `item_mods` VALUES (13957,110,7);     -- Parrying skill +7
-INSERT INTO `item_mods` VALUES (13957,168,3);     -- Spell interruption rate down 3%
+INSERT INTO `item_mods` VALUES (13957,1,16); -- DEF 16
+INSERT INTO `item_mods` VALUES (13957,27,2); -- ENMITY 2
+INSERT INTO `item_mods` VALUES (13957,110,7); -- PARRY 7
+INSERT INTO `item_mods` VALUES (13957,168,3); -- SPELLINTERRUPT 3
+INSERT INTO `item_mods` VALUES (13957,28,5); -- MATT 5
 INSERT INTO `item_mods` VALUES (13958,1,14);
 INSERT INTO `item_mods` VALUES (13958,12,1);
 INSERT INTO `item_mods` VALUES (13958,54,-1);
@@ -14243,11 +14249,13 @@ INSERT INTO `item_mods` VALUES (14441,25,6);
 INSERT INTO `item_mods` VALUES (14441,27,-3);
 INSERT INTO `item_mods` VALUES (14441,30,6);
 INSERT INTO `item_mods` VALUES (14441,832,2);     -- Aquaveil +2
-INSERT INTO `item_mods` VALUES (14442,1,44);      -- Yasha Samue +1: DEF 44
-INSERT INTO `item_mods` VALUES (14442,12,4);      -- INT +4
-INSERT INTO `item_mods` VALUES (14442,27,5);      -- Enmity +5
-INSERT INTO `item_mods` VALUES (14442,110,4);     -- Parrying skill +4
-INSERT INTO `item_mods` VALUES (14442,168,11);    -- Spell interruption rate down 11%
+INSERT INTO `item_mods` VALUES (14442,1,44); -- DEF 44
+INSERT INTO `item_mods` VALUES (14442,12,4); -- INT 4
+INSERT INTO `item_mods` VALUES (14442,27,5); -- ENMITY 5
+INSERT INTO `item_mods` VALUES (14442,110,4); -- PARRY 4
+INSERT INTO `item_mods` VALUES (14442,168,11); -- SPELLINTERRUPT 11
+INSERT INTO `item_mods` VALUES (14442,30,7); -- MACC 7
+INSERT INTO `item_mods` VALUES (14442,28,7); -- MATT 7
 INSERT INTO `item_mods` VALUES (14443,1,65);
 INSERT INTO `item_mods` VALUES (14444,1,30);
 INSERT INTO `item_mods` VALUES (14445,1,30);
@@ -15607,10 +15615,11 @@ INSERT INTO `item_mods` VALUES (14881,13,6);
 INSERT INTO `item_mods` VALUES (14881,25,12);
 INSERT INTO `item_mods` VALUES (14881,26,12);
 INSERT INTO `item_mods` VALUES (14881,27,-3);
-INSERT INTO `item_mods` VALUES (14882,1,17);      -- Yasha Tekko +1: DEF 17
-INSERT INTO `item_mods` VALUES (14882,27,3);      -- Enmity +3
-INSERT INTO `item_mods` VALUES (14882,110,8);     -- Parrying skill +8
-INSERT INTO `item_mods` VALUES (14882,168,4);     -- Spell interruption rate down 4%
+INSERT INTO `item_mods` VALUES (14882,1,17); -- DEF 17
+INSERT INTO `item_mods` VALUES (14882,27,3); -- ENMITY 3
+INSERT INTO `item_mods` VALUES (14882,110,8); -- PARRY 8
+INSERT INTO `item_mods` VALUES (14882,168,4); -- SPELLINTERRUPT 4
+INSERT INTO `item_mods` VALUES (14882,28,6); -- MATT 6
 INSERT INTO `item_mods` VALUES (14883,1,19);
 INSERT INTO `item_mods` VALUES (14883,2,20);
 INSERT INTO `item_mods` VALUES (14883,10,3);
@@ -16879,10 +16888,11 @@ INSERT INTO `item_mods` VALUES (15191,25,3);
 INSERT INTO `item_mods` VALUES (15191,26,4);
 INSERT INTO `item_mods` VALUES (15191,30,6);
 INSERT INTO `item_mods` VALUES (15191,384,200);     -- Haste+2%
-INSERT INTO `item_mods` VALUES (15192,1,23);      -- Yasha Jinpachi +1: DEF 23
-INSERT INTO `item_mods` VALUES (15192,12,8);      -- INT +8
-INSERT INTO `item_mods` VALUES (15192,27,3);      -- Enmity +3
-INSERT INTO `item_mods` VALUES (15192,168,6);     -- Spell interruption rate down 6%
+INSERT INTO `item_mods` VALUES (15192,1,23); -- DEF 23
+INSERT INTO `item_mods` VALUES (15192,12,8); -- INT 8
+INSERT INTO `item_mods` VALUES (15192,27,3); -- ENMITY 3
+INSERT INTO `item_mods` VALUES (15192,168,6); -- SPELLINTERRUPT 6
+INSERT INTO `item_mods` VALUES (15192,28,5); -- MATT 5
 INSERT INTO `item_mods` VALUES (15193,1,27);
 INSERT INTO `item_mods` VALUES (15193,2,15);
 INSERT INTO `item_mods` VALUES (15193,10,3);
@@ -17441,11 +17451,12 @@ INSERT INTO `item_mods` VALUES (15335,25,3);
 INSERT INTO `item_mods` VALUES (15335,26,4);
 INSERT INTO `item_mods` VALUES (15335,27,-2);
 INSERT INTO `item_mods` VALUES (15335,890,12);    -- Increases enhancing magic effect duration +12%
-INSERT INTO `item_mods` VALUES (15336,1,14);      -- Yasha Sune-ate +1: DEF 14
-INSERT INTO `item_mods` VALUES (15336,2,12);      -- HP +12
-INSERT INTO `item_mods` VALUES (15336,12,4);      -- INT +4
-INSERT INTO `item_mods` VALUES (15336,27,3);      -- Enmity +3
-INSERT INTO `item_mods` VALUES (15336,168,6);     -- Spell interruption rate down 6%
+INSERT INTO `item_mods` VALUES (15336,1,14); -- DEF 14
+INSERT INTO `item_mods` VALUES (15336,2,12); -- HP 12
+INSERT INTO `item_mods` VALUES (15336,12,4); -- INT 4
+INSERT INTO `item_mods` VALUES (15336,27,3); -- ENMITY 3
+INSERT INTO `item_mods` VALUES (15336,168,6); -- SPELLINTERRUPT 6
+INSERT INTO `item_mods` VALUES (15336,28,3); -- MATT 3
 INSERT INTO `item_mods` VALUES (15337,1,17);
 INSERT INTO `item_mods` VALUES (15337,2,10);
 INSERT INTO `item_mods` VALUES (15337,10,2);
@@ -17674,11 +17685,12 @@ INSERT INTO `item_mods` VALUES (15397,8,4);         -- STR+4
 INSERT INTO `item_mods` VALUES (15397,13,4);        -- MND+4
 INSERT INTO `item_mods` VALUES (15397,23,12);       -- Attack+12
 INSERT INTO `item_mods` VALUES (15397,384,-1000);   -- Slow +10%
-INSERT INTO `item_mods` VALUES (15398,1,32);      -- Yasha Hakama +1: DEF 32
-INSERT INTO `item_mods` VALUES (15398,2,30);      -- HP +30
-INSERT INTO `item_mods` VALUES (15398,12,3);      -- INT +3
-INSERT INTO `item_mods` VALUES (15398,27,3);      -- Enmity +3
-INSERT INTO `item_mods` VALUES (15398,168,3);     -- Spell interruption rate down 3%
+INSERT INTO `item_mods` VALUES (15398,1,32); -- DEF 32
+INSERT INTO `item_mods` VALUES (15398,2,30); -- HP 30
+INSERT INTO `item_mods` VALUES (15398,12,3); -- INT 3
+INSERT INTO `item_mods` VALUES (15398,27,3); -- ENMITY 3
+INSERT INTO `item_mods` VALUES (15398,168,3); -- SPELLINTERRUPT 3
+INSERT INTO `item_mods` VALUES (15398,1272,12); -- ELEMENTAL_WSDMG 12
 INSERT INTO `item_mods` VALUES (15399,1,39);
 INSERT INTO `item_mods` VALUES (15399,2,12);
 INSERT INTO `item_mods` VALUES (15399,10,3);
