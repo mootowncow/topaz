@@ -17,19 +17,18 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.DEFENSE_DOWN
 
-    local silenced = false
-    local blinded = false
+    local defDown = false
+    local mdefDown = false
 
-    silenced = MobStatusEffectMove(mob, target, tpz.effect.DEFENSE_DOWN, 40, 0, 300)
-
-    blinded = MobStatusEffectMove(mob, target, tpz.effect.MAGIC_DEF_DOWN, 40, 0, 300)
+    defDown = MobStatusEffectMoveSub(mob, target, tpz.effect.DEFENSE_DOWN, 50, 0, 30, 0, 0, 0)
+    mdefDown = MobStatusEffectMoveSub(mob, target, tpz.effect.MAGIC_DEF_DOWN, 50, 0, 30, 0, 0, 0)
 
     skill:setMsg(tpz.msg.basic.SKILL_ENFEEB_IS)
 
-    -- display silenced first, else blind
-    if (silenced == tpz.msg.basic.SKILL_ENFEEB_IS) then
+    -- display defDown first, else blind
+    if (defDown == tpz.msg.basic.SKILL_ENFEEB_IS) then
         typeEffect = tpz.effect.DEFENSE_DOWN
-    elseif (blinded == tpz.msg.basic.SKILL_ENFEEB_IS) then
+    elseif (mdefDown == tpz.msg.basic.SKILL_ENFEEB_IS) then
         typeEffect = tpz.effect.MAGIC_DEF_DOWN
     else
         skill:setMsg(tpz.msg.basic.SKILL_MISS)
