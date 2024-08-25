@@ -625,3 +625,5 @@ INSERT INTO `item_mods_pet` VALUES (15875,384,400,0); -- All: HASTE_GEAR 400
 INSERT INTO `item_mods_pet` VALUES (15115,2,100,2); -- Wyvern: HP 100
 INSERT INTO `item_mods_pet` VALUES (15130,370,5,2); -- Wyvern: REGEN 5
 INSERT INTO `item_mods_pet` VALUES (15878,160,-5,2); -- Wyvern: DMG -5
+INSERT INTO `item_mods_pet` VALUES (15476,23,10,0); -- All: ATT 10
+INSERT INTO `item_mods_pet` VALUES (15476,25,10,0); -- All: ACC 10

@@ -5233,8 +5233,8 @@ INSERT INTO `item_equipment` VALUES (15471,'merciful_cape',73,0,4194303,0,0,0,32
 INSERT INTO `item_equipment` VALUES (15472,'altruistic_cape',73,0,4194303,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (15473,'astute_cape',73,0,4194303,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (15474,'harmony_cape',78,0,1753628,0,0,0,32768,0,0);
-INSERT INTO `item_equipment` VALUES (15475,'charger_mantle',70,0,2473971,0,0,0,32768,0,0);
-INSERT INTO `item_equipment` VALUES (15476,'jaeger_mantle',70,0,2473971,0,0,0,32768,0,0);
+INSERT INTO `item_equipment` VALUES (15475,'charger_mantle',70,0,1720332,0,0,0,32768,0,0);
+INSERT INTO `item_equipment` VALUES (15476,'jaeger_mantle',70,0,155904,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (15477,'boxers_mantle',70,0,4194303,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (15478,'melee_cape',70,0,2,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (15479,'abyss_cape',70,0,128,0,0,0,32768,0,0);
