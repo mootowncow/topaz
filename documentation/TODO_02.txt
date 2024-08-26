@@ -147,27 +147,38 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+NMs too easily interrupted casting, add 75%+ interrupt resist mod to every NM above 75? Or change formula? Unsure why they're being interrupted tbh
+Job points
+Redesign jailer of prudence
+Final zilart missons + apoc nigh(revamp earrings) + storms of fate + rank6-10 bastok/sandy
+Finish bodies https://www.bg-wiki.com/ffxi/Shiyo_Server_Systems/Gear#COP_Bodies
 give TP on perfect counters
-player_controller don't engage if > 25 or w/e max range is for engage, run before engaging
+Magian turn ins broken?
+Tags 24 hr CD
+Voidwalker NMs have regain?
+Voidwalker KI delete on T3/T4 kill
+Very low damage turns into absorb on physical attacks, unsure why. Happened on a level 5 mob hitting a level 75 player
+Fatality belt latent(change it prob)
+"Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking. Copy  Cheese Hoarder Gigiroon to code it
+Banishga's need the special debuff vs undead and prob diff formula
+Ninja spells, ichi and san nukes. Ichi are proper in dats but not in sql, SAN might not be 100% accurate? (SQL is shorter than the DAT for SAN)
+Group Yagudo lutenists scroll drops ?
+charm_controller don't engage if > 25 or w/e max range is for engage, run before engaging
 La Vaule gate doesn't work properly
 The Scarlet King (Purson) test on retail (dont forget mob level) + code
 NPC Mobs can't guard/parry TP moves?
-Finish MMM weapons via the mats at magian moogle and ANNM fights(some are missing, test changes i did in general)
+Finish MMM weapons via the mats at magian moogle and ANNM fights(some are missing, test changes i did in general). Add 09 voucher drops: https://www.bg-wiki.com/ffxi/Category:Moblin_Maze_Mongers
 Amaranth needs to be fixed in CBattleEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) for targetting its own bee or something
 FINISH JP
-Crystal Rain doesn't always AOE? Or magic shield from collab/conspirator is bugged and doesn't fade after magic shield fades? Or magic shield effect is bugged?
+
 
 Zdei spin 2x as fast on retail
 Ulhpemde not underwater and aggro from ~13-14 true sound. The only oms underwater are by the towers, not in crag zones. Underwater ones aggro by true sound 10 yalms
 Sharks roam
 Yovra roam
-Omyovra 84-85
-Omaern bst pets 70. They don't call beast, they do the summon animation. They resummon pet if its dead very quickly(~1m)
+Omaern bst They don't call beast, they do the summon animation. They resummon pet if its dead very quickly(~1m)
 Non-mommy zomits(Om'Xzomit) patroll all around on a path.
 Mommy zomit patrol paths can be very short.
-Zomits do not link
-Aw'euvhi 79-81
-The sky is different in sea? Can have fog or clear or sunny or something?
 
 Ashu Talif:
 Faluuya got "stuck" after winning and killing the boss(Discord has screenshots). 
@@ -177,8 +188,7 @@ Damage tracking on faluuya doesn't work properly and overflowed
 Mobs didn't depop after the boss died
 
 
-Redesign jailer of prudence
-Grenades 33/66/99/99 crafts
+Do something with meratetes memoirs exp #
 Sea Robber Cudgel set bonus(put on item too) (Dual wield set bonus)
 Puppet use Cannibal Blade if 1 light NOT bonecrusher, make bonecrusher require 2x fire(?) or 1x thunder
 Spawn pet if drg / bst aern function and add if pet:notSpawned() or w/e on engage
@@ -188,8 +198,6 @@ Stabializer III Mana Jammer III Auto-rep. Kit III vendor prices
 melee gaiters bonus(and other counterstance items/merits/jp?
 TA doesn't work if party member is inside mobs hitbox or too close to mob?
 Avatar repeat logic(i think its in utils file or quests or something?) added to other npcs  + tested
-"Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking. Copy  Cheese Hoarder Gigiroon to code it
-Final zilart missons + apoc nigh + storms of fate + rank6-10 bastok/sandy
 Fix bahamut and code Cloud Evoker  BCNM's. Buff the Bahamut V2 fight rewards a ton, make the items as good as AV / PW
 Martial / KSNM weapons shouldn't work offhand
 Add Waking the Beast, buff the loot to be obscene weapons for off-class. Weekly. Make infinite repeatable reward so its worth doing every week
@@ -221,9 +229,7 @@ Lyft weapon revamp (MAB for gun)
 Change all charutils::hasTrait() to PEntity->hasTrait()
 Add luautils::OnAdditionalEffectRanged(PAttacker, PDefender, weapon, Action, finaldamage) to CMobEntity::OnRangedAttack
 add setMerits() and getMerits() for allegiance == TYPE_PLAYER
-Buff Musanto / Katana from ANNM(Enmity +3 Evasion +7?)
-Don't save : in item names for item_Basic.sql (FFXI item editor)
-Bestial Loyalty utsusemi transfer needs special logic because it's tracked really weird(copy utsu files?)
+Bestial Loyalty utsusemi transfer needs special logic because it's tracked really weird(copy utsu files?). Also Stealing Copy Image(and prob voracious trunk)
 UpdateEnmityFromCure() doesn't work on repair/reward
 Don't port pet if csiD is prot/shell/regen/refresh etc gov buffs
 2x SMN off goblin pets (give boosted xp equal to 40k/hr GOV exp values)
@@ -625,6 +631,7 @@ Rune Fencer Merits:
 https://github.com/AirSkyBoat/AirSkyBoat/commit/f1c415bb239c9afdc4247eb1b2444433f8671341
 
 DATS:
+Toolbag (Ino) cast time
 ZNM T4 rare weapons
 Rathe Earring
 judges cuisses +15% ele WSD not matt
@@ -635,6 +642,9 @@ Buff Noble's / Aristocrat's Crown / Mitts / Slacks  / Pumps
 Birdman cape diff stats
 ToAU ring buffs
 Aketon change to damage taken not phalanx check others with same type of text
+
+Item editor:
+"Select all" "Deslect all" button for races/flags/jobs/slots
 
 Simple log:
 NO_EFFECT msg missing from simplelog for items?
