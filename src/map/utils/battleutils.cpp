@@ -2506,7 +2506,15 @@ int16 GetSDTTier(int16 SDT)
         }
 
         float check = (float)(base + diff);
-        check = std::clamp(check, 5.0f, 100.0f);
+
+        if (PDefender->objtype == TYPE_MOB && PDefender->allegiance != ALLEGIANCE_PLAYER)
+        {
+            check = std::clamp(check, 1.0f, 100.0f);
+        }
+        else
+        {
+            check = std::clamp(check, 5.0f, 100.0f);
+        }
         uint8 meritReduction = 0;
 
         if (PDefender->objtype == TYPE_PC || PDefender->allegiance == ALLEGIANCE_PLAYER) // Check player's skill.
