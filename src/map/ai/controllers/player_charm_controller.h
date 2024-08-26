@@ -41,10 +41,19 @@ public:
     virtual bool Ability(uint16 targid, uint16 abilityid) override { return false; }
     virtual bool RangedAttack(uint16 targid) override { return false; }
 
+protected:
+    bool IsStuck();
+    virtual void UpdateLastKnownPosition();
+
 private:
+    bool m_Stuck = false;
     static constexpr float RoamDistance {2.1f};
     void DoCombatTick(time_point tick);
     void DoRoamTick(time_point tick);
+
+    position_t m_LastPos;
+
+    time_point m_StuckTick;
 };
 
 #endif // _PLAYERCONTROLLER

@@ -61,53 +61,98 @@ void CPlayerCharmController::Tick(time_point tick)
     }
 }
 
+bool CPlayerCharmController::IsStuck()
+{
+    return m_Stuck;
+}
+
+void CPlayerCharmController::UpdateLastKnownPosition()
+{
+    // Mob is considered "Stuck" if:
+    // 1. Last Pos && Current Pos are <= 1.5
+    // 2. Distance to Target > Melee Range
+    // 3. Mob is not bound or asleep
+    auto PTarget = POwner->GetBattleTarget();
+    m_Stuck = distanceSquared(m_LastPos, POwner->loc.p) <= 1.5f && distanceSquared(POwner->loc.p, PTarget->loc.p) > POwner->GetMeleeRange() &&
+              POwner->StatusEffectContainer->GetStatusEffect(EFFECT_BIND) == nullptr && POwner->StatusEffectContainer->GetStatusEffect(EFFECT_SLEEP) == nullptr &&
+              POwner->StatusEffectContainer->GetStatusEffect(EFFECT_SLEEP_II) == nullptr;
+    m_LastPos = POwner->loc.p;
+}
+
 void CPlayerCharmController::DoCombatTick(time_point tick)
 {
     if (!POwner->PMaster->PAI->IsEngaged())
     {
         POwner->PAI->Internal_Disengage();
     }
+
     if (POwner->PMaster->GetBattleTargetID() != POwner->GetBattleTargetID())
     {
         POwner->PAI->Internal_ChangeTarget(POwner->PMaster->GetBattleTargetID());
     }
-    auto PTarget {POwner->GetBattleTarget()};
+
+    auto PTarget = POwner->GetBattleTarget();
     if (PTarget)
     {
-        if (POwner->PAI->CanFollowPath())
+        // Update target position
+        POwner->PAI->PathFind->LookAt(PTarget->loc.p);
+
+        // Check if target is within range to follow path
+        float currentDistance = distance(POwner->loc.p, PTarget->loc.p);
+        float attack_range = POwner->GetMeleeRange() + PTarget->m_ModelSize;
+
+        if (currentDistance > attack_range - 0.2f && POwner->PAI->CanFollowPath())
         {
-            POwner->PAI->PathFind->LookAt(PTarget->loc.p);
-            std::unique_ptr<CBasicPacket> err;
-            if (!POwner->CanAttack(PTarget, err))
+            if (!POwner->PAI->PathFind->IsFollowingPath() || distanceSquared(POwner->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10 * 10)
             {
-                if (POwner->speed > 0)
+                POwner->PAI->PathFind->PathInRange(PTarget->loc.p, attack_range - 0.2f, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+            }
+            POwner->PAI->PathFind->FollowPath();
+
+            // Check for stuck scenario
+            if (tick - m_StuckTick >= 2s)
+            {
+                m_StuckTick = tick;
+                UpdateLastKnownPosition();
+                if (IsStuck() && PTarget)
                 {
-                    POwner->PAI->PathFind->PathAround(PTarget->loc.p, 2.0f, PATHFLAG_WALLHACK | PATHFLAG_RUN);
-                    POwner->PAI->PathFind->FollowPath();
+                    POwner->PAI->PathFind->StepTo(PTarget->loc.p, false);
                 }
             }
+        }
+        else
+        {
+            // Handle case where entity is within melee range
+            if (!POwner->PAI->PathFind->IsFollowingPath() || distanceSquared(POwner->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10 * 10)
+            {
+                POwner->PAI->PathFind->PathTo(PTarget->loc.p, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+            }
+            POwner->PAI->PathFind->FollowPath();
         }
     }
 }
 
 void CPlayerCharmController::DoRoamTick(time_point tick)
 {
-    if (POwner->PMaster->PAI->IsEngaged())
+    auto PTarget = POwner->PMaster->GetBattleTarget();
+    float currentDistance = distance(POwner->loc.p, PTarget->loc.p);
+
+    // Check if the target is within 30 yalms before engaging
+    if (POwner->PMaster->PAI->IsEngaged() && currentDistance < 30.0f)
     {
         POwner->PAI->Internal_Engage(POwner->PMaster->GetBattleTargetID());
     }
+    float currentDistanceSquared = distanceSquared(POwner->loc.p, POwner->PMaster->loc.p);
 
-    float currentDistance = distance(POwner->loc.p, POwner->PMaster->loc.p);
-
-    if (currentDistance > RoamDistance)
+    if (currentDistanceSquared > RoamDistance * RoamDistance)
     {
-        if (currentDistance < 35.0f && POwner->PAI->PathFind->PathAround(POwner->PMaster->loc.p, 2.0f, PATHFLAG_RUN | PATHFLAG_WALLHACK))
-        {
-            POwner->PAI->PathFind->FollowPath();
+        if (!POwner->PAI->PathFind->IsFollowingPath() || distanceSquared(POwner->PAI->PathFind->GetDestination(), POwner->PMaster->loc.p) > 10 * 10)
+        { // recalculate path only if owner moves more than X yalms
+            if (!POwner->PAI->PathFind->PathAround(POwner->PMaster->loc.p, RoamDistance, PATHFLAG_RUN | PATHFLAG_WALLHACK))
+            {
+                POwner->PAI->PathFind->PathInRange(POwner->PMaster->loc.p, RoamDistance, PATHFLAG_RUN | PATHFLAG_WALLHACK);
+            }
         }
-        else if (POwner->GetSpeed() > 0)
-        {
-            POwner->PAI->PathFind->WarpTo(POwner->PMaster->loc.p, RoamDistance);
-        }
+        POwner->PAI->PathFind->FollowPath();
     }
 }
