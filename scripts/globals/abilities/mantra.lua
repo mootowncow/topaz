@@ -15,7 +15,7 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local merits = player:getMerit(tpz.merit.MANTRA)
+    local merits = 20 + (1 - player:getMerit(tpz.merit.MANTRA))
     local duration = 180
 
     if player:isPC() then
@@ -24,9 +24,9 @@ function onUseAbility(player, target, ability)
         end
     end
 
-    if canOverwrite(target, tpz.effect.MAX_HP_BOOST, 25) then
+    if canOverwrite(target, tpz.effect.MAX_HP_BOOST, merits) then
         player:delStatusEffectSilent(tpz.effect.MAX_HP_BOOST)
-        target:addStatusEffect(tpz.effect.MAX_HP_BOOST, merits, 0, 180)
+        target:addStatusEffect(tpz.effect.MAX_HP_BOOST, merits, 0, duration)
         player:delStatusEffectSilent(tpz.effect.INNER_STRENGTH)
     end
 end
