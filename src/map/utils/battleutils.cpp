@@ -4054,7 +4054,7 @@ int16 GetSDTTier(int16 SDT)
         float dif = (float)(PAttacker->STR() - PDefender->VIT());
 
         // does mob FSTR2 for ranged attack apply here?
-        if (PAttacker->objtype == TYPE_MOB || PAttacker->objtype == TYPE_PET)
+        if ((PAttacker->objtype == TYPE_MOB && PAttacker->allegiance != ALLEGIANCE_PLAYER) || PAttacker->objtype == TYPE_PET)
         {
             fstr = (PAttacker->STR() - PDefender->VIT() + 4) / 4;
 
