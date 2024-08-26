@@ -1804,12 +1804,11 @@ tpz.annm.NMMods = function(mob)
     mob:addImmunity(tpz.immunity.PETRIFY)
 
     -- Removed once adds are dead
-    mob:addMod(tpz.mod.DMGAOE, -100)
-    mob:setMod(tpz.mod.REGEN, 5000)
     mob:SetAutoAttackEnabled(false)
     mob:SetMagicCastingEnabled(false)
     mob:SetMobAbilityEnabled(false)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
+    mob:hideName(true)
     mob:untargetable(true)
     mob:setUnkillable(true)
 end
@@ -1856,12 +1855,11 @@ tpz.annm.PetShield = function(mob, addsIDstart, addsIDend)
         end
     end
 
-    mob:addMod(tpz.mod.DMGAOE, 0)
-    mob:setMod(tpz.mod.REGEN, 0)
     mob:SetAutoAttackEnabled(true)
     mob:SetMagicCastingEnabled(true)
     mob:SetMobAbilityEnabled(true)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
+    mob:hideName(false)
     mob:untargetable(false)
     mob:setUnkillable(false)
 
