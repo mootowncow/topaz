@@ -40,6 +40,7 @@ function onUseAbility(player, target, ability)
     target:updateEnmityFromDamage(player, dmg)
     target:updateClaim(player)
     player:delStatusEffectSilent(tpz.effect.BOOST)
+    player:delStatusEffectSilent(tpz.effect.INNER_STRENGTH)
 	player:setCharVar("boost", 0)
 
     return dmg
