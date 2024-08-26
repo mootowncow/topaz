@@ -550,6 +550,9 @@ void CAttack::ProcessDamage()
         m_damage = (uint32)((m_attacker->GetRangedWeaponDmg() + battleutils::GetFSTR(m_attacker, m_victim, slot)) * m_damageRatio);
     }
 
+    // Clamp minimum weapon damage to 0
+    m_damage = std::max(m_damage, 0);
+
     // Soul eater.
     if (m_attacker->objtype == TYPE_PC)
     {
@@ -712,6 +715,9 @@ void CAttack::ProcessDamage()
         float dmgBonus = 1 + ((uint16)power / 100.0f);
         m_damage = m_damage * (float)dmgBonus;
     }
+
+    // Damage should never be below 0
+    m_damage = std::max(m_damage, 0);
 
     // Try skill up and Proc Treasure Hunter
     if (m_damage > 0)
