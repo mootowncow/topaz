@@ -137,7 +137,6 @@ In game clock addon next to inventory space
  Need to edit uint16 CMobSkill::getPetAnimationID() const for bps past 75. Prob just delete this all and code animationIDs into the sql
 content that spawns mobs over and over kinda like BDO trees
 Throwing weapons(Boomerangs etc) BLU and DNC can use with stats
-Add / Delete trait bugged with Max HP boost - > Maybe only delete/add grah job trats ON CHANGE and ON SPAWN so it wont spam?
 Convert set bonuses to SQL
 Bonus MACC / blu params/dmg type/etc columns in spells sql
 CE/VE sql columns in mob_skill.sql for mob enfeeble moves
