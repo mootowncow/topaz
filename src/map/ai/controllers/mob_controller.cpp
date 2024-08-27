@@ -1046,9 +1046,12 @@ void CMobController::Move()
     {
         return;
     }
-    if (PMob->PAI->PathFind->IsFollowingScriptedPath() && PMob->PAI->CanFollowPath())
+
+    // Ensure the mob faces the target if it's following a scripted path
+    if (PMob->PAI->PathFind->IsFollowingScriptedPath())
     {
         PMob->PAI->PathFind->FollowPath();
+        FaceTarget(); // Add FaceTarget() here
         return;
     }
 
@@ -1063,6 +1066,7 @@ void CMobController::Move()
             {
                 m_LastSpecialTime = m_Tick;
                 MobSkill(PMob->targid, teleportBegin->getID());
+                FaceTarget(); // Ensure facing target after teleport attempt
             }
         }
     }
@@ -1092,12 +1096,12 @@ void CMobController::Move()
     }
     else if (((currentDistance > attack_range - 0.2f) || move) && PMob->PAI->CanFollowPath())
     {
-        //#TODO: can this be moved to scripts entirely?
+        // #TODO: can this be moved to scripts entirely?
         if (PMob->getMobMod(MOBMOD_DRAW_IN) > 0)
         {
             if (currentDistance >= PMob->GetMeleeRange() * 2 && battleutils::DrawIn(PTarget, PMob, PMob->GetMeleeRange() - 0.2f))
             {
-                FaceTarget();
+                FaceTarget(); // Ensure facing target when drawing in
             }
         }
         if (PMob->speed != 0 && PMob->getMobMod(MOBMOD_NO_MOVE) == 0 && m_Tick >= m_LastSpecialTime)
@@ -1111,6 +1115,7 @@ void CMobController::Move()
                 {
                     MobSkill(PMob->targid, teleportBegin->getID());
                     m_LastSpecialTime = m_Tick;
+                    FaceTarget(); // Ensure facing target after teleport attempt
                     return;
                 }
             }
@@ -1144,6 +1149,7 @@ void CMobController::Move()
                     if (IsStuck() && PTarget != nullptr)
                     {
                         PMob->PAI->PathFind->StepTo(PTarget->loc.p, false);
+                        FaceTarget(); // Ensure facing target when stuck and stepping to it
                     }
                 }
                 if (!PMob->PAI->PathFind->IsFollowingPath())
@@ -1185,17 +1191,19 @@ void CMobController::Move()
                     {
                         PMob->PAI->PathFind->StepTo(new_pos);
                         PMob->PAI->EventHandler.triggerListener("MOB_PATH", PMob, PTarget);
+                        FaceTarget(); // Ensure facing target when stepping to new position
                     }
                 }
-                FaceTarget();
+                FaceTarget(); // Ensure facing target if no other conditions met
             }
         }
     }
     else
     {
-        FaceTarget();
+        FaceTarget(); // Ensure facing target if not moving
     }
 }
+
 
 void CMobController::HandleEnmity()
 {
