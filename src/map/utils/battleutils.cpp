@@ -4731,6 +4731,12 @@ int16 GetSDTTier(int16 SDT)
 
         Mod defMod = Mod::NONE;
 
+        // Players have 100 SDT to every element
+        if (PDefender->objtype == TYPE_PC)
+        {
+            return 100;
+        }
+
         switch (element)
         {
             // Level 1 skill chains
