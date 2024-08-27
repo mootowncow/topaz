@@ -146,9 +146,7 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
-SHOCK SPIKES FROM BLU 1 shot a mob with mind wall up(magic absorb)?
 Trust and fun leveling experience
-If mobs have to wiggle around they won't face target properly. I saw logic about this in their pathing in mob_controller for Move(). FaceTarget(); I think 
 Do "no effect" (stun) spells add DR?
 Add DR to automatonweapopnskills and summon.lua. Also to the automatons shield bash?
 Valleys of sorrows Survival Guide facing wrong way(flip 180)
@@ -159,15 +157,12 @@ Redesign jailer of prudence
 Final zilart missons + apoc nigh(revamp earrings) + storms of fate + rank6-10 bastok/sandy
 Finish bodies https://www.bg-wiki.com/ffxi/Shiyo_Server_Systems/Gear#COP_Bodies
 give TP on perfect counters
-Magian turn ins broken?
 Tags 24 hr CD
 Voidwalker KI delete on T3/T4 kill
 Fatality belt latent(change it prob)
 "Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking. Copy  Cheese Hoarder Gigiroon to code it
-Banishga's need the special debuff vs undead and prob diff formula
 Ninja spells, ichi and san nukes. Ichi are proper in dats but not in sql, SAN might not be 100% accurate? (SQL is shorter than the DAT for SAN)
 Group Yagudo lutenists scroll drops ?
-charm_controller don't engage if > 25 or w/e max range is for engage, run before engaging
 La Vaule gate doesn't work properly
 The Scarlet King (Purson) test on retail (dont forget mob level) + code
 NPC Mobs can't guard/parry TP moves?
