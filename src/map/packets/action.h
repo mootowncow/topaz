@@ -72,7 +72,7 @@ struct actionTarget_t
     int32             addEffectParam;       // 17 bits
     uint16            addEffectMessage;     // 10 bits
     SUBEFFECT         spikesEffect;         // 10 bits
-    uint16            spikesParam;          // 14 bits
+    int16             spikesParam;          // 14 bits
     uint16            spikesMessage;        // 10 bits
 
     actionTarget_t() : reaction(REACTION_NONE), animation(0),

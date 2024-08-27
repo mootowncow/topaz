@@ -82,6 +82,10 @@ enum MSGBASIC_ID : uint16
     MSGBASIC_REQUIRES_COMBAT        = 525, // .. can only be performed during battle.
     MSGBASIC_JA_MISS                = 158, // <user> uses <ability>, but misses. (no name included)
 
+    // Enspell
+    MSGBASIC_ENSPELL_DMG            = 163,  // Additional effect: 0 points of damage.
+    MSGBASIC_ENSPELL_HEAL           = 384, // Additional effect: <target> recovers 0 HP.
+
     // Spikes
     MSGBASIC_SPIKES_EFFECT_DMG      = 44,  // <target>'s spikes deal <number> damage to <attacker>
     MSGBASIC_SPIKES_EFFECT_HEAL     = 383, // <target>'s spikes restore <number> HP to <attacker>

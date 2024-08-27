@@ -1331,14 +1331,21 @@ int16 GetSDTTier(int16 SDT)
                 Action->spikesEffect = SUBEFFECT_GLINT_SPIKES;
             }
 
+            Action->spikesParam = CalculateSpikeDamage(PAttacker, PDefender, Action, damage);
+
             // Handle phalanx
-            Action->spikesParam = std::max(Action->spikesParam - PAttacker->getMod(Mod::PHALANX), 0);
+            if (Action->spikesParam > 0)
+            {
+                Action->spikesParam = std::max(Action->spikesParam - PAttacker->getMod(Mod::PHALANX), 0);
+            }
+
             // Handle Stoneskin
-            Action->spikesParam = HandleMagicStoneskin(PAttacker, CalculateSpikeDamage(PAttacker, PDefender, Action, (uint16)(abs(damage))));
+            Action->spikesParam = HandleMagicStoneskin(PAttacker, Action->spikesParam);
+
             int16 magicSS = PAttacker->getMod(Mod::MAGIC_SS);
             if (!magicSS)
             {
-                Action->spikesParam = HandleStoneskin(PAttacker, CalculateSpikeDamage(PAttacker, PDefender, Action, (uint16)(abs(damage))), ATTACK_MAGICAL);
+                Action->spikesParam = HandleStoneskin(PAttacker, Action->spikesParam, ATTACK_MAGICAL);
             }
 
             ELEMENT element = ELEMENT_NONE;
@@ -1386,10 +1393,14 @@ int16 GetSDTTier(int16 SDT)
                 case SPIKE_GALE:
                 case SPIKE_CLOD:
                 case SPIKE_DELUGE:
-
                     PAttacker->takeDamage(Action->spikesParam,
                                           PDefender, ATTACK_MAGICAL,
                                           GetSpikesDamageType(Action->spikesEffect));
+                    // Handle Negative damage
+                    if (Action->spikesParam < 0)
+                    {
+                        Action->spikesParam = -Action->spikesParam;
+                    }
                     break;
 
                 case SPIKE_DREAD:
@@ -1445,6 +1456,11 @@ int16 GetSDTTier(int16 SDT)
                         PAttacker->takeDamage(Action->spikesParam,
                                               PDefender, ATTACK_MAGICAL,
                                               DAMAGE_LIGHT);
+                            // Handle Negative damage
+                            if (Action->spikesParam < 0)
+                            {
+                                Action->spikesParam = -Action->spikesParam;
+                            }
                         auto PEffect = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_REPRISAL);
                         if (PEffect)
                         {
@@ -1583,6 +1599,12 @@ int16 GetSDTTier(int16 SDT)
                     Action->spikesParam =
                         HandleStoneskin(PAttacker, damage - tpzrand::GetRandomNumber<uint16>(ratio) + tpzrand::GetRandomNumber<uint16>(ratio), ATTACK_MAGICAL);
                     PAttacker->takeDamage(Action->spikesParam), PDefender, ATTACK_MAGICAL, GetSpikesDamageType(spikesType);
+                    // Handle Negative damage
+                    if (Action->spikesParam < 0)
+                    {
+                        Action->spikesParam = -Action->spikesParam;
+                        Action->spikesMessage = MSGBASIC_SPIKES_EFFECT_HEAL;
+                    }
                 }
 
                 // Temp till moved to script.
@@ -1815,48 +1837,49 @@ int16 GetSDTTier(int16 SDT)
             if (enspell >= ENSPELL_I_FIRE && enspell <= ENSPELL_I_WATER)
             {
                 Action->additionalEffect = enspell_subeffects[enspell - 1];
-                Action->addEffectMessage = 163;
+                Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
                     CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 1);
                 // printf("\nElement inside T1 enspell call = %i \n", element);
+                PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
+                // Handle Negative damage
                 if (Action->addEffectParam < 0)
                 {
                     Action->addEffectParam = -Action->addEffectParam;
-                    Action->addEffectMessage = 384;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
                 }
-
-                PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
             }
             else if (enspell >= ENSPELL_II_FIRE && enspell <= ENSPELL_II_WATER && isFirstSwing)
             {
                 Action->additionalEffect = enspell_subeffects[enspell - 9];
-                Action->addEffectMessage = 163;
+                Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
                     CalculateEnspellDamage(PAttacker, PDefender, 2, enspell - 9);
 
-                if (Action->addEffectParam < 0)
-                {
-                    Action->addEffectParam = -Action->addEffectParam;
-                    Action->addEffectMessage = 384;
-                }
                 // Add -30 element resist down effect based on the enspell for 15 seconds
                 ((CBattleEntity*)PDefender)->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_NINJUTSU_ELE_DEBUFF, 0, 30, 0, 10, 0, resistDownEle, 0, false));
                 PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
+                // Handle Negative damage
+                if (Action->addEffectParam < 0)
+                {
+                    Action->addEffectParam = -Action->addEffectParam;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
+                }
             }
             else if (enspell >= ENSPELL_I_LIGHT && enspell <= ENSPELL_I_DARK || enspell >= ENSPELL_II_LIGHT && enspell <= ENSPELL_II_DARK)
             {
                 Action->additionalEffect = enspell_subeffects[enspell -1];
-                Action->addEffectMessage = 163;
+                Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
                     CalculateEnspellDamage(PAttacker, PDefender, 3, enspell -1);
 
+                PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
+                // Handle Negative damage
                 if (Action->addEffectParam < 0)
                 {
                     Action->addEffectParam = -Action->addEffectParam;
-                    Action->addEffectMessage = 384;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
                 }
-
-                PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
             }
             else if (enspell == ENSPELL_BLOOD_WEAPON)
             {
@@ -1880,19 +1903,19 @@ int16 GetSDTTier(int16 SDT)
             else if (enspell == ENSPELL_AUSPICE)
             {
                 Action->additionalEffect = SUBEFFECT_LIGHT_DAMAGE;
-                Action->addEffectMessage = 163;
+                Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
                     CalculateEnspellDamage(PAttacker, PDefender, 1, ELEMENT_LIGHT -1);
-
-                if (Action->addEffectParam < 0)
-                {
-                    Action->addEffectParam = -Action->addEffectParam;
-                    Action->addEffectMessage = 384;
-                }
 
                 PDefender->takeDamage(Action->addEffectParam,
                                                          PAttacker, ATTACK_MAGICAL,
                                       GetEnspellDamageType((ENSPELL)enspell));
+                // Handle Negative damage
+                if (Action->addEffectParam < 0)
+                {
+                    Action->addEffectParam = -Action->addEffectParam;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
+                }
             }
         }
         // check weapon for additional effects ... TODO: weapon additional effects need to take into account SDT, needs to be done on each item script
@@ -1900,9 +1923,9 @@ int16 GetSDTTier(int16 SDT)
         else if (PAttacker->objtype == TYPE_PC && battleutils::GetScaledItemModifier(PAttacker, weapon, Mod::ADDITIONAL_EFFECT) > 0 &&
                  luautils::OnAdditionalEffect(PAttacker, PDefender, weapon, Action, finaldamage) == 0 && Action->additionalEffect)
         {
-            if (Action->addEffectMessage == 163 && Action->addEffectParam < 0)
+            if (Action->addEffectMessage == MSGBASIC_ENSPELL_DMG && Action->addEffectParam < 0)
             {
-                Action->addEffectMessage = 384;
+                Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
             }
         }
         // check script for grip if main failed
@@ -1913,17 +1936,17 @@ int16 GetSDTTier(int16 SDT)
                                               finaldamage) == 0 &&
                  Action->additionalEffect)
         {
-            if (Action->addEffectMessage == 163 && Action->addEffectParam < 0)
+            if (Action->addEffectMessage == MSGBASIC_ENSPELL_DMG && Action->addEffectParam < 0)
             {
-                Action->addEffectMessage = 384;
+                Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
             }
         }
         else if (PAttacker->objtype == TYPE_MOB && ((CMobEntity*)PAttacker)->getMobMod(MOBMOD_ADD_EFFECT) > 0)
         {
             luautils::OnAdditionalEffect(PAttacker, PDefender, weapon, Action, finaldamage);
-            if (Action->addEffectMessage == 163 && Action->addEffectParam < 0)
+            if (Action->addEffectMessage == MSGBASIC_ENSPELL_DMG && Action->addEffectParam < 0)
             {
-                Action->addEffectMessage = 384;
+                Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
             }
         }
         else if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DRAIN_DAZE) || PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_HASTE_DAZE) ||
@@ -2099,7 +2122,7 @@ int16 GetSDTTier(int16 SDT)
             //is simply AGI with a degree of randomisation
 
                     Action->additionalEffect = SUBEFFECT_WIND_DAMAGE;
-                    Action->addEffectMessage = 163;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
 
                     //calculate damage
                     uint8 damage = (PAttacker->AGI() - PDefender->AGI())/2;
@@ -2121,7 +2144,7 @@ int16 GetSDTTier(int16 SDT)
             //is simply VIT with a degree of randomisation
 
                     Action->additionalEffect = SUBEFFECT_EARTH_DAMAGE;
-                    Action->addEffectMessage = 163;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
 
                     //calculate damage
                     uint8 damage = (PAttacker->VIT() - PDefender->VIT())/2;
@@ -2143,7 +2166,7 @@ int16 GetSDTTier(int16 SDT)
             //is simply MND with a degree of randomisation
 
                     Action->additionalEffect = SUBEFFECT_WATER_DAMAGE;
-                    Action->addEffectMessage = 163;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
 
                     //calculate damage
                     uint8 damage = (PAttacker->MND() - PDefender->MND())/2;
@@ -2164,7 +2187,7 @@ int16 GetSDTTier(int16 SDT)
             //is simply MND with a degree of randomisation
 
                     Action->additionalEffect = SUBEFFECT_LIGHT_DAMAGE;
-                    Action->addEffectMessage = 163;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
 
                     //calculate damage
                     uint8 damage = (PAttacker->MND() - PDefender->MND())/2;
@@ -2185,7 +2208,7 @@ int16 GetSDTTier(int16 SDT)
             //is simply DEX with a degree of randomisation
 
                     Action->additionalEffect = SUBEFFECT_LIGHTNING_DAMAGE;
-                    Action->addEffectMessage = 163;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
 
                     //calculate damage
                     uint8 damage = (PAttacker->DEX() - PDefender->DEX())/2;
@@ -2206,7 +2229,7 @@ int16 GetSDTTier(int16 SDT)
             //is simply INT with a degree of randomisation
 
                     Action->additionalEffect = SUBEFFECT_ICE_DAMAGE;
-                    Action->addEffectMessage = 163;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
 
                     //calculate damage
                     uint8 damage = (PAttacker->INT() - PDefender->INT())/2;
@@ -2228,7 +2251,7 @@ int16 GetSDTTier(int16 SDT)
             //is simply INT with a degree of randomisation
 
                     Action->additionalEffect = SUBEFFECT_FIRE_DAMAGE;
-                    Action->addEffectMessage = 163;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
 
                     //calculate damage
                     uint8 damage = (PAttacker->INT() - PDefender->INT())/2;
@@ -6440,6 +6463,12 @@ int16 GetSDTTier(int16 SDT)
     {
         // Check phys only SS
         int16 physSkin = PDefender->getMod(Mod::PHYSICAL_SS);
+        // No effect on negative damage, it will heal the target
+        if (damage < 0)
+        {
+            return damage;
+        }
+
         if (attackType == ATTACK_PHYSICAL || attackType == ATTACK_RANGED)
         {
             if (damage > 0 && physSkin > 0)
@@ -6474,6 +6503,12 @@ int16 GetSDTTier(int16 SDT)
     int32 HandleMagicStoneskin(CBattleEntity* PDefender, int32 damage)
     {
         int16 magicSS = PDefender->getMod(Mod::MAGIC_SS);
+        // No effect on negative damage, it will heal the target
+        if (damage < 0)
+        {
+            return damage;
+        }
+
         if (magicSS)
         {
             if (damage >= magicSS)
