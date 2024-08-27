@@ -36,6 +36,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../../common/utils.h"
 #include "../../utils/petutils.h"
 #include "../../items/item_weapon.h"
+#include "../../mob_spell_list.h"
 
 CMobController::CMobController(CMobEntity* PEntity) :
     CController(PEntity),
@@ -974,6 +975,11 @@ void CMobController::DoCombatTick(time_point tick)
     if (!PMob->CanSeeTarget(PTarget))
     {
         Move();
+    }
+
+    if (PMob->getMobMod(MOBMOD_SPELL_LIST) > 0)
+    {
+        PMob->m_SpellListContainer = mobSpellList::GetMobSpellList(PMob->getMobMod(MOBMOD_SPELL_LIST));
     }
 
     // Try to spellcast (this is done first so things like Chainspell spam is prioritised over TP moves etc.

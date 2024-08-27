@@ -526,7 +526,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
 
 
     // special case, give spell list to my pet
-    if(PMob->getMobMod(MOBMOD_PET_SPELL_LIST) && PMob->PPet != nullptr)
+    if(PMob->getMobMod(MOBMOD_PET_SPELL_LIST) > 0 && PMob->PPet != nullptr)
     {
         // Stubborn_Dredvodd
         CMobEntity* PPet = (CMobEntity*)PMob->PPet;
@@ -535,7 +535,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         PPet->m_SpellListContainer = mobSpellList::GetMobSpellList(PMob->getMobMod(MOBMOD_PET_SPELL_LIST));
     }
 
-    if(PMob->getMobMod(MOBMOD_SPELL_LIST))
+    if(PMob->getMobMod(MOBMOD_SPELL_LIST) > 0)
     {
         PMob->m_SpellListContainer = mobSpellList::GetMobSpellList(PMob->getMobMod(MOBMOD_SPELL_LIST));
     }
