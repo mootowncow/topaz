@@ -146,6 +146,14 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+SHOCK SPIKES FROM BLU 1 shot a mob with mind wall up(magic absorb)?
+Trust and fun leveling experience
+If mobs have to wiggle around they won't face target properly. I saw logic about this in their pathing in mob_controller for Move(). FaceTarget(); I think 
+Do "no effect" (stun) spells add DR?
+Add DR to automatonweapopnskills and summon.lua. Also to the automatons shield bash?
+Valleys of sorrows Survival Guide facing wrong way(flip 180)
+Trusts so I can level PLD in old school camps
+Pet camps so I can level SMN x2
 Job points
 Redesign jailer of prudence
 Final zilart missons + apoc nigh(revamp earrings) + storms of fate + rank6-10 bastok/sandy
@@ -182,7 +190,10 @@ Boss and 2 adds get stuck after spawning on the stairs until faluuya runs back
 Damage tracking on faluuya doesn't work properly and overflowed
 Mobs didn't depop after the boss died
 
+Voidwalker:
+https://discord.com/channels/443544205206355968/1129045297302097942/1129109467062096033 Vids of captures
 
+Set PPets with a Pmaster to Pmasters level -2 AFTER getting mob level from DB
 Do something with meratetes memoirs exp #
 Sea Robber Cudgel set bonus(put on item too) (Dual wield set bonus)
 Puppet use Cannibal Blade if 1 light NOT bonecrusher, make bonecrusher require 2x fire(?) or 1x thunder
