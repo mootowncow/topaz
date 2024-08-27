@@ -15,9 +15,9 @@ end
 
 function onTrigger(player, npc)
     local MonarchBeardTimer = player:getCharVar("[ENM]MonarchBeardTimer")
-    if VanadielTime() < MonarchBeardTimer and player:hasKeyItem(tpz.ki.MONARCH_BEARD) == false then -- Time remaining until player can get another Monarch Beard
+    if os.time() < MonarchBeardTimer and player:hasKeyItem(tpz.ki.MONARCH_BEARD) == false then -- Time remaining until player can get another Monarch Beard
         player:startEvent(522) 
-    elseif VanadielTime() > MonarchBeardTimer and player:hasKeyItem(tpz.ki.MONARCH_BEARD) == false then -- Give player Monarch Beard
+    elseif os.time() > MonarchBeardTimer and player:hasKeyItem(tpz.ki.MONARCH_BEARD) == false then -- Give player Monarch Beard
         player:startEvent(521) 
     elseif player:hasKeyItem(tpz.ki.MONARCH_BEARD) then 
         player:startEvent(520) -- ENM already accepted text

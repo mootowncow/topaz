@@ -6,18 +6,14 @@ require("scripts/globals/status")
 -----------------------------------
 
 function onEffectGain(target, effect)
-    if not target:isPC() then
-        local power = effect:getPower()
-        target:addMod(tpz.mod.COUNTER, effect:getPower())
-    end
+    local power = effect:getPower()
+    target:addMod(tpz.mod.COUNTER, effect:getPower())
 end
 
 function onEffectTick(target, effect)
 end
 
 function onEffectLose(target, effect)
-    if not target:isPC() then
-        local power = effect:getPower()
-        target:delMod(tpz.mod.COUNTER, effect:getPower())
-    end
+    local power = effect:getPower()
+    target:delMod(tpz.mod.COUNTER, effect:getPower())
 end

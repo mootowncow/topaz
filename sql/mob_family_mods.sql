@@ -514,8 +514,10 @@ INSERT INTO `mob_family_mods` VALUES (499,388,100,0); -- Stray +100% BDT(Bonus)
 INSERT INTO `mob_family_mods` VALUES (499,389,100,0); -- Stray +100% MDT(Bonus)
 
 -- Jugs
-INSERT INTO `mob_family_mods` VALUES (556,62,60,0);		-- Tiger Familiar +60% Attack
+INSERT INTO `mob_family_mods` VALUES (556,62,20,0);		-- Tiger Familiar +20% Attack
 INSERT INTO `mob_family_mods` VALUES (556,63,-10,0);	-- Tiger Familiar -10% Defense
+INSERT INTO `mob_family_mods` VALUES (633,62,60,0);		-- Saber Siravarde +60% Attack
+INSERT INTO `mob_family_mods` VALUES (633,63,-10,0);	-- Saber Siravarde -10% Defense
 INSERT INTO `mob_family_mods` VALUES (571,62,40,0);		-- Pugil Familiar +40% Attack
 INSERT INTO `mob_family_mods` VALUES (571,63,-10,0);	-- Pugil Familiar -10% Defense
 INSERT INTO `mob_family_mods` VALUES (560,62,-10,0);    -- Crab Familiar -10% Attack
@@ -524,8 +526,10 @@ INSERT INTO `mob_family_mods` VALUES (588,62,-10,0);    -- Courier Carrie -10% A
 INSERT INTO `mob_family_mods` VALUES (588,63,20,0);     -- Courier Carrie +20% Def
 INSERT INTO `mob_family_mods` VALUES (623,62,-10,0);    -- Porter Crab -10% Attack
 INSERT INTO `mob_family_mods` VALUES (623,63,60,0);     -- Porter Crab +60% Def
-INSERT INTO `mob_family_mods` VALUES (564,62,30,0);     -- Lizard Familiar +30% Attack
+INSERT INTO `mob_family_mods` VALUES (564,62,10,0);     -- Lizard Familiar +10% Attack
 INSERT INTO `mob_family_mods` VALUES (564,63,-20,0);    -- Lizard Familiar -20% Def
+INSERT INTO `mob_family_mods` VALUES (634,62,40,0);     -- Coldblood Camo +40% Attack
+INSERT INTO `mob_family_mods` VALUES (634,63,-20,0);    -- Coldblood Camo -20% Def
 INSERT INTO `mob_family_mods` VALUES (562,63,30,0);     -- Antlion Familiar +30% Def
 INSERT INTO `mob_family_mods` VALUES (558,62,20,0);     -- Beetle Familiar +20% Attack
 INSERT INTO `mob_family_mods` VALUES (565,62,30,0);     -- Diremite Familiar +30% Attack

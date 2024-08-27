@@ -1305,7 +1305,7 @@ INSERT INTO `mob_skills` VALUES (1357,1008,'tidal_dive',1,15.0,2000,1000,4,0,0,0
 INSERT INTO `mob_skills` VALUES (1358,1009,'plasma_charge',0,7.0,2000,1000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1359,855,'chthonian_ray',4,25.0,2000,4000,4,0,0,0,0,0,0); -- Brothers ENM
 INSERT INTO `mob_skills` VALUES (1360,855,'apocalyptic_ray',4,10.0,2000,3000,4,0,0,0,0,0,0); -- Brothers ENM
-INSERT INTO `mob_skills` VALUES (1361,832,'viscid_secretion',4,10.0,2000,1500,4,0,0,0,0,0,0); -- Test Your Mite ENM
+INSERT INTO `mob_skills` VALUES (1361,832,'viscid_secretion',4,10.0,2000,1500,4,2,0,0,0,0,0); -- Test Your Mite ENM
 -- INSERT INTO `mob_skills` VALUES (1362,1106,'wild_ginseng',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1363,822,'hungry_crunch',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1364,848,'mighty_snort',0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -3430,10 +3430,10 @@ INSERT INTO `mob_skills` VALUES (3466,2472,'paralyzing_microtube',0,7.0,2000,150
 INSERT INTO `mob_skills` VALUES (3467,2473,'silencing_microtube',0,7.0,2000,1500,4,0,0,0,3,6,0);
 INSERT INTO `mob_skills` VALUES (3468,2474,'binding_microtube',0,7.0,2000,1500,4,0,0,0,9,7,0);
 INSERT INTO `mob_skills` VALUES (3469,2475,'twirling_dervish',1,10.0,2000,1500,4,0,0,0,13,11,0);
-INSERT INTO `mob_skills` VALUES (3470,445,'great_wheel-mildaurion',1,10.0,2000,1500,4,0,0,0,12,4,0);
-INSERT INTO `mob_skills` VALUES (3471,447,'light_blade-mildaurion',0,30.0,2000,1500,4,0,0,0,13,11,0);
-INSERT INTO `mob_skills` VALUES (3472,444,'vortex-mildaurion',0,7.0,2000,1500,4,0,0,0,10,5,0);
-INSERT INTO `mob_skills` VALUES (3473,446,'stellar_burst-mildaurion',0,7.0,2000,1500,4,0,0,0,14,9,0);
+INSERT INTO `mob_skills` VALUES (3470,2493,'great_wheel-mildaurion',1,10.0,2000,1500,4,0,0,0,12,4,0);
+INSERT INTO `mob_skills` VALUES (3471,2495,'light_blade-mildaurion',0,30.0,2000,1500,4,0,0,0,13,11,0);
+INSERT INTO `mob_skills` VALUES (3472,2492,'vortex-mildaurion',0,7.0,2000,1500,4,0,0,0,10,5,0);
+INSERT INTO `mob_skills` VALUES (3473,2494,'stellar_burst-mildaurion',0,7.0,2000,1500,4,0,0,0,14,9,0);
 -- INSERT INTO `mob_skills` VALUES (3474,187,'bubble_curtain',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3475,192,'metallic_body',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3476,3220,'venom_storm',0,7.0,2000,1500,4,0,0,0,0,0,0);

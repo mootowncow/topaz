@@ -532,12 +532,15 @@ local modByMobName =
     ['Krabkatoa'] = function(mob)
         mob:setDamage(150)
         mob:setMod(tpz.mod.VIT, 130)
+        mob:setMod(tpz.mod.WATERDEF, 256)
+        mob:setMod(tpz.mod.REGEN, 10)
     end,
 
     ['Blobdingnag'] = function(mob)
         mob:setDamage(150)
         mob:setMod(tpz.mod.VIT, 130)
         mob:setMod(tpz.mod.DARKDEF, 256)
+        mob:setMod(tpz.mod.REGAIN, 100)
     end,
 
     ['Orcus'] = function(mob)
