@@ -532,6 +532,8 @@ enum class Mod
     WYVERN_ATTRIBUTE_DA       = 1333,// Adds an amount of Double Attack to Dragoon each time Wyverns Attributes Increase (percent)
     WYVERN_LVL_BONUS          = 1334,// Wyvern: Lv.+ (Increases wyvern's base level above 99
     DRAGOON_BREATH_RECAST     = 1335,// Restoring/Smithing Breath Recast Reduction (seconds)
+    WYVERN_BREATH             = 402,  //
+
     // Summoner
     AVATAR_PERPETUATION       = 371, // stores base cost of current avatar
     AVATAR_ATT                = 1258, // Avatar Attack and Ranged Attack.
@@ -766,8 +768,6 @@ enum class Mod
     SHIELD_BASH               = 385, //
     KICK_DMG                  = 386, // increases kick attack damage
     WEAPON_BASH               = 392, //
-
-    WYVERN_BREATH             = 402, //
 
     // Gear set modifiers
     DA_DOUBLE_DAMAGE          = 408, // Double attack's double damage chance %.
