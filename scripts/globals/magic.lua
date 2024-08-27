@@ -370,21 +370,21 @@ end
 function doEnspell(caster, target, spell, effect)
     local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
 
-    --calculate potency
-    local magicskill = target:getSkillLevel(tpz.skill.ENHANCING_MAGIC)
-	local level = target:getMainLvl()
+    -- Calculate potency
+    local enhancingSkill = target:getSkillLevel(tpz.skill.ENHANCING_MAGIC)
 
-    local potency = 3 + math.floor(6 * magicskill / 100)
-    if magicskill > 200 then
-        potency = 5 + math.floor(5 * magicskill / 100)
+    local potency
+
+    if enhancingSkill < 150 then
+        potency = math.floor(math.sqrt(enhancingSkill)) - 1
+    elseif enhancingSkill < 500 then
+        potency = math.floor(enhancingSkill / 10) + 5
+    else
+        potency = 45 * math.floor(enhancingSkill / 500)
     end
-	if magicskill == 0 then
-		potency = 3 + math.floor(level / 10)
-	end
 
-    -- Composure doubles Enspell damage and increases Enspell duration to 1 hour
+    -- Composure increases Enspell duration to 1 hour
     if caster:hasStatusEffect(tpz.effect.COMPOSURE) then
-        potency = potency * 2
         duration = 3600
     end
 

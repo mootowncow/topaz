@@ -1007,18 +1007,29 @@ int16 GetSDTTier(int16 SDT)
         if (Tier == 1)
         {
             damage = PAttacker->getMod(Mod::ENSPELL_DMG) + PAttacker->getMod(Mod::ENSPELL_DMG_BONUS);
-            auto PChar = dynamic_cast<CCharEntity *>(PAttacker);
-            if (PChar)
-                damage += PChar->PMeritPoints->GetMeritValue(MERIT_ENSPELL_DAMAGE, PChar);
         }
         else if (Tier == 2)
         {
             //Tier 2 enspells calculate the damage on each hit and increment the potency in Mod::ENSPELL_DMG per hit
             uint16 skill = PAttacker->GetSkill(SKILL_ENHANCING_MAGIC);
-            uint16 cap = 6 + ((16 * skill) / 100); //  uint16 cap = 3 + ((6 * skill) / 100);
-            if (skill > 200) {
-                cap = 14 + ((15 * skill) / 100); // cap = 5 + ((5 * skill) / 100);
+            uint16 cap;
+
+            // For skill < 150
+            if (skill < 150)
+            {
+                cap = static_cast<uint16>(std::floor(std::sqrt(skill)) - 1);
             }
+            // For skill > 150
+            else if (skill >= 150 && skill < 500)
+            {
+                cap = static_cast<uint16>(std::floor(skill / 10.0) + 5);
+            }
+            // For skill ≥ 500
+            else
+            {
+                cap = 45;
+            }
+
             cap *= 2;
 
             if (PAttacker->getMod(Mod::ENSPELL_DMG) > cap)
@@ -1036,10 +1047,6 @@ int16 GetSDTTier(int16 SDT)
                 damage = PAttacker->getMod(Mod::ENSPELL_DMG) + 1;
             }
             damage += PAttacker->getMod(Mod::ENSPELL_DMG_BONUS);
-
-            auto PChar = dynamic_cast<CCharEntity *>(PAttacker);
-            if (PChar)
-                damage += PChar->PMeritPoints->GetMeritValue(MERIT_ENSPELL_DAMAGE, PChar) * 2;
         }
         else if (Tier == 3) //enlight or endark
         {
