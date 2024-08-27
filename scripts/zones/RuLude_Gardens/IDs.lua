@@ -62,6 +62,7 @@ zones[tpz.zone.RULUDE_GARDENS] =
         ITEM_NOT_ARMOR_MAGIAN            = 14620, -- Uh, sorry, I'm only in charge of armor. Nande, for that item, you'll have to talk to the other dude.
         RETURN_MAGIAN_ITEM               = 14515, -- The Magian Moogle returns your <item>.
         MAGIAN_TRIAL_COMPLETE            = 14622, -- It looks like you finished your objectives. Omedetou! Sugoi, that <item> is totally bursting with power.
+        MAGIAN_DELIVERY_CRATE            = 14528, -- A sturdy, sizable wooden crate lies before you. To complete an item acquisition trial, trade your retrieved items together with the corresponding inscribed piece of equipment.
         COMMON_SENSE_SURVIVAL            = 15689, -- It appears that you have arrived at a new survival guide provided by the Adventurers' Mutual Aid Network. Common sense dictates that you should now be able to teleport here from similar tomes throughout the world.
         TEAR_IN_FABRIC_OF_SPACE          = 15949, -- There appears to be a tear in the fabric of space...
     },

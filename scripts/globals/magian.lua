@@ -24,6 +24,45 @@ tpz.magian.moogle =
     GREEN   = 17772784,
 }
 
+tpz.magian.magianOnTrigger = function(player, npc, trade)
+    local npc        = player:getEventTarget()
+    local moogleData = magianMoogleInfo[npc:getName()]
+    local moogle = npc:getName()
+
+    if
+        moogleData[1] and
+        player:getMainLvl() < 75
+    then
+        player:startEvent(moogleData[1])
+    elseif not player:hasKeyItem(tpz.ki.MAGIAN_TRIAL_LOG) then
+        player:startEvent(moogleData[2])
+    else
+        if (moogle == 'Magian_Moogle_Blue') then
+            player:startEvent(10142, 0, 0, 0, 0, 0, 13146543, 4095, 0)
+        elseif (moogle == 'Magian_Moogle_Orange') then
+            player:startEvent(10123, 0, 0, 0, 0, 0, 13146543, 4095, 0)
+        end
+    end
+end
+
+tpz.magian.magianEventUpdate = function(player, csid, option)
+end
+
+tpz.magian.magianOnEventFinish = function(player, csid, option)
+    local npc        = player:getEventTarget()
+    local moogleData = magianMoogleInfo[npc:getName()]
+    local finishType = bit.band(option, 0xFF)
+
+    if
+        csid == moogleData[2] and
+        option == 1
+    then
+        npcUtil.giveKeyItem(player, tpz.ki.MAGIAN_TRIAL_LOG)
+    else
+        -- TODO: ???
+    end
+end
+
 tpz.magian.magianOnTrade = function(player, npc, trade)
     local moogleData = magianMoogleInfo[npc:getName()]
     local trialData = tpz.magian.trials
@@ -54,7 +93,8 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
                             if (tpz.magian.IsValidReward(player, npc, trade, rewardItem)) then
                                 player:addItem(rewardItem, 1, unpack(flatAugments))
                                 player:tradeComplete()
-                                return player:messageSpecial(ID.text.MAGIAN_TRIAL_COMPLETE, rewardItem) -- TODO: Probably a CS
+                                player:messageSpecial(ID.text.MAGIAN_TRIAL_COMPLETE, rewardItem) -- TODO: Probably a CS
+                                return player:messageSpecial(ID.text.ITEM_OBTAINED, rewardItem)
                             else
                                 return player:messageSpecial(ID.text.MAGIAN_ALREADY_HAVE_ITEM, rewardItem)
                             end

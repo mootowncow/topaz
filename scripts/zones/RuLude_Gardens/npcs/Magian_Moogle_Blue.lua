@@ -18,9 +18,9 @@ function onTrigger(player, npc)
 end
 
 function onEventUpdate(player, csid, option)
-    tpz.magian.magianEventUpdate(player, csid, option, npc)
+    tpz.magian.magianEventUpdate(player, csid, option)
 end
 
 function onEventFinish(player, csid, option)
-    tpz.magian.magianOnEventFinish(player, csid, option, npc)
+    tpz.magian.magianOnEventFinish(player, csid, option)
 end
