@@ -5436,7 +5436,7 @@ INSERT INTO `mob_groups` VALUES (57,6832,88,'Ground_Guzzler',300,0,0,5200,0,80,8
 INSERT INTO `mob_groups` VALUES (58,6833,88,'Lamprey_Lord',3600,0,3213,13500,0,82,82,0);
 INSERT INTO `mob_groups` VALUES (59,6834,88,'Shoggoth',3600,0,3214,13500,0,82,82,0);
 INSERT INTO `mob_groups` VALUES (60,6835,88,'Blobdingnag',7200,0,3224,45000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (61,6836,88,'Septic_Boil',0,128,0,0,0,80,80,0); -- Blobdingnag's Pet
+INSERT INTO `mob_groups` VALUES (61,6836,88,'Septic_Boil',0,128,0,1400,0,80,80,0); -- Blobdingnag's Pet
 INSERT INTO `mob_groups` VALUES (62,6863,88,'Yilbegan',7200,0,3229,35000,0,90,90,0);
 
 INSERT INTO `mob_groups` VALUES (3860,1,88,'1st_Gold_Musketeer',0,0,0,0,0,0,0,0);
@@ -5807,7 +5807,7 @@ INSERT INTO `mob_groups` VALUES (56,6832,90,'Ground_Guzzler',300,0,0,5200,0,80,8
 INSERT INTO `mob_groups` VALUES (57,6833,90,'Lamprey_Lord',3600,0,3213,13500,0,82,82,0);
 INSERT INTO `mob_groups` VALUES (58,6834,90,'Shoggoth',3600,0,3214,13500,0,82,82,0);
 INSERT INTO `mob_groups` VALUES (59,6835,90,'Blobdingnag',7200,0,3224,45000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (60,6836,90,'Septic_Boil',0,128,0,0,0,80,80,0); -- Blobdingnag's Pet
+INSERT INTO `mob_groups` VALUES (60,6836,90,'Septic_Boil',0,128,0,1400,0,80,80,0); -- Blobdingnag's Pet
 INSERT INTO `mob_groups` VALUES (61,6863,90,'Yilbegan',7200,0,3229,35000,0,90,90,0);
 
 INSERT INTO `mob_groups` VALUES (62,3745,90,'Pixie',0,128,6124,0,0,77,77,0);
@@ -7830,7 +7830,7 @@ INSERT INTO `mob_groups` VALUES (72,6832,106,'Ground_Guzzler',300,0,0,5200,0,80,
 INSERT INTO `mob_groups` VALUES (73,6833,106,'Lamprey_Lord',3600,0,3213,13500,0,82,82,0);
 INSERT INTO `mob_groups` VALUES (74,6834,106,'Shoggoth',3600,0,3214,13500,0,82,82,0);
 INSERT INTO `mob_groups` VALUES (75,6835,106,'Blobdingnag',7200,0,3224,45000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (76,6836,106,'Septic_Boil',0,128,0,0,0,80,80,0); -- Blobdingnag's Pet
+INSERT INTO `mob_groups` VALUES (76,6836,106,'Septic_Boil',0,128,0,1400,0,80,80,0); -- Blobdingnag's Pet
 INSERT INTO `mob_groups` VALUES (77,6863,106,'Yilbegan',7200,0,3229,35000,0,90,90,0);
 
 INSERT INTO `mob_groups` VALUES (5895,2226,106,'Kilhwch',0,0,0,0,0,0,0,0);
@@ -8054,7 +8054,7 @@ INSERT INTO `mob_groups` VALUES (81,6832,109,'Ground_Guzzler',300,0,0,5200,0,80,
 INSERT INTO `mob_groups` VALUES (82,6833,109,'Lamprey_Lord',3600,0,3213,13500,0,82,82,0);
 INSERT INTO `mob_groups` VALUES (83,6834,109,'Shoggoth',3600,0,3214,13500,0,82,82,0);
 INSERT INTO `mob_groups` VALUES (84,6835,109,'Blobdingnag',7200,0,3224,45000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (85,6836,109,'Septic_Boil',0,128,0,0,0,80,80,0); -- Blobdingnag's Pet
+INSERT INTO `mob_groups` VALUES (85,6836,109,'Septic_Boil',0,128,0,1400,0,80,80,0); -- Blobdingnag's Pet
 INSERT INTO `mob_groups` VALUES (86,6863,109,'Yilbegan',7200,0,3229,35000,0,90,90,0);
 
 INSERT INTO `mob_groups` VALUES (6001,305,109,'Ayame',0,0,0,0,0,0,0,0);

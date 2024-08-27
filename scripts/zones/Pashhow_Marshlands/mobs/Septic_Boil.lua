@@ -14,7 +14,10 @@ local addEffects = {
 }
 
 function onMobSpawn(mob)
+    mob:setDamage(40)
+    mob:setMod(tpz.mod.DARKDEF, 256)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
 end
 
 function onAdditionalEffect(mob, target, damage)
