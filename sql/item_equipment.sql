@@ -2121,7 +2121,7 @@ INSERT INTO `item_equipment` VALUES (12356,'viking_shield',45,0,2421,40,2,0,2,0,
 INSERT INTO `item_equipment` VALUES (12357,'ice_shield_+1',72,0,337,25,3,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (12358,'ritter_shield_+1',71,0,193,24,3,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (12359,'hickory_shield',70,0,2529,40,2,0,2,0,0);
-INSERT INTO `item_equipment` VALUES (12360,'tatami_shield',72,0,2529,32,4,0,2,0,0);
+INSERT INTO `item_equipment` VALUES (12360,'tatami_shield',72,0,155904,32,4,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (12361,'sipar',70,0,2385,45,1,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (12362,'highlanders_targe',70,0,64,43,1,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (12363,'ptr.prt._shield',60,0,1720332,36,2,0,2,0,0);

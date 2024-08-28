@@ -98,7 +98,6 @@ getPetAnimationID() in mobskill.cpp to add new level 75+ BP animations
 Change all healing items to item:getPower() for power in their scripts
 Legendary rare drops rare and not rare/ex(so tradable)
 Dullahan TP moves - Atramentous Libations gives mob intimidate
-Yasha Gear mods
 The end of pet list might be where it causes final two IDs to break and its assumes the final two IDs after that is used for something?
 Windurst Salad / Taco
 https://ffxiclopedia.fandom.com/wiki/Tuning_In Better rewards by a lot! a godly BIS item for something
@@ -245,8 +244,6 @@ move tchakka to the big room
 Steps / offensive non-taunt flourishes range 5 + model size
 Ic Pilav bun(new item)
 Ogre Gloves fencer buffed to 2/3%(NO TP BONUS)
-Pet Haste / dmg etc Shield
-Better racial stats for races? Stronger emphasis on strengths i.e. give mithra even more dex/agi but even less mnd and chr
 Zdei in cubbys can't aggro people in hall? need longer sight aggro range on them?
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
 Leaden Salute and Blade: Kamu weren't unlocked when I had enough WS points
