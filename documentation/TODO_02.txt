@@ -146,13 +146,20 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+Does Shen work?
+Quadav Howl bugged in dynamis(was dynamis-glacier)? Mobs autoing for SO much. Check other TP moves like howl(warcry, also check the w arcry effect file)
+Test yesterdays commits from home like Banishga1-3
+RA interrupt on movement packet or state change? Maybe LSB has
+Dynamis Beaucedine drops are fine? Especially 11295 Commodore Frac
+Mobs should heal other mobs in combat
 Trust and fun leveling experience
-Do "no effect" (stun) spells add DR?
-Add DR to automatonweapopnskills and summon.lua. Also to the automatons shield bash?
-Valleys of sorrows Survival Guide facing wrong way(flip 180)
 Trusts so I can level PLD in old school camps
 Pet camps so I can level SMN x2
 Job points
+Mine Shaft + Promy ENMs
+Do "no effect" (stun) spells add DR?
+Add DR to automatonweapopnskills and summon.lua. Also to the automatons shield bash?
+Valleys of sorrows Survival Guide facing wrong way(flip 180)
 Redesign jailer of prudence
 Final zilart missons + apoc nigh(revamp earrings) + storms of fate + rank6-10 bastok/sandy
 Finish bodies https://www.bg-wiki.com/ffxi/Shiyo_Server_Systems/Gear#COP_Bodies
@@ -654,8 +661,8 @@ Enable / Disable LAC toggle as 1 button(make global and usable via shiyolibs?)
 WHM fencer / DW logic
 CHR gear for thf TA(gear set toggle?)
 
-Wiki: 
-Magian Weapons page
+BG Wiki: 
+Magian Weapons page with screenshots of weapons
 Position of storage NPCs
 RAID NMs, position, drops, mention JP
 flame / ice shield to wiki

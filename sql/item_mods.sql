@@ -19464,9 +19464,7 @@ INSERT INTO `item_mods` VALUES (16009,2,15);
 INSERT INTO `item_mods` VALUES (16009,11,2);
 INSERT INTO `item_mods` VALUES (16010,2,17);
 INSERT INTO `item_mods` VALUES (16010,11,3);
-INSERT INTO `item_mods` VALUES (16011,30,1);         -- (Lycopodium Earring)
-INSERT INTO `item_mods` VALUES (16011,432,15);       -- Sword enhancement spell damage +15
-INSERT INTO `item_mods` VALUES (16011,1271,15); 
+INSERT INTO `item_mods` VALUES (16011,432,5); -- ENSPELL_DMG_BONUS 5
 INSERT INTO `item_mods` VALUES (16012,13,3);
 INSERT INTO `item_mods` VALUES (16013,24,1);
 INSERT INTO `item_mods` VALUES (16013,106,1);
@@ -53016,3 +53014,4 @@ UNLOCK TABLES;
 -- Dump completed on 2015-08-01 18:47:07
 INSERT INTO `item_mods` VALUES (21369,116,5); -- DARK 5
 INSERT INTO `item_mods` VALUES (18101,402,25); -- WYVERN_BREATH 25
+INSERT INTO `item_mods` VALUES (13290,432,5); -- ENSPELL_DMG_BONUS 5

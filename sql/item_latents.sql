@@ -421,7 +421,18 @@ INSERT INTO `item_latents` VALUES(13289, 28, 10, 2, 76);    -- "Magic Atk. Bonus
 -- -------------------------------------------------------
 -- Fencer's Ring
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(13290, 432, 5, 2, 75);    -- Sword enhancement spell damage +5 while HP <=75% and TP <=100%
+INSERT INTO `item_latents` VALUES(13290, 25, 5, 13, 94); -- [13290] Fencer's Ring: Status Effect Active(94) - ACC 5
+INSERT INTO `item_latents` VALUES(13290, 25, 5, 13, 95); -- [13290] Fencer's Ring: Status Effect Active(95) - ACC 5
+INSERT INTO `item_latents` VALUES(13290, 25, 5, 13, 96); -- [13290] Fencer's Ring: Status Effect Active(96) - ACC 5
+INSERT INTO `item_latents` VALUES(13290, 25, 5, 13, 97); -- [13290] Fencer's Ring: Status Effect Active(97) - ACC 5
+INSERT INTO `item_latents` VALUES(13290, 25, 5, 13, 98); -- [13290] Fencer's Ring: Status Effect Active(98) - ACC 5
+INSERT INTO `item_latents` VALUES(13290, 25, 5, 13, 99); -- [13290] Fencer's Ring: Status Effect Active(99) - ACC 5
+INSERT INTO `item_latents` VALUES(13290, 25, 5, 13, 277); -- [13290] Fencer's Ring: Status Effect Active(277) - ACC 5
+INSERT INTO `item_latents` VALUES(13290, 25, 5, 13, 278); -- [13290] Fencer's Ring: Status Effect Active(278) - ACC 5
+INSERT INTO `item_latents` VALUES(13290, 25, 5, 13, 279); -- [13290] Fencer's Ring: Status Effect Active(279) - ACC 5
+INSERT INTO `item_latents` VALUES(13290, 25, 5, 13, 280); -- [13290] Fencer's Ring: Status Effect Active(280) - ACC 5
+INSERT INTO `item_latents` VALUES(13290, 25, 5, 13, 281); -- [13290] Fencer's Ring: Status Effect Active(281) - ACC 5
+INSERT INTO `item_latents` VALUES(13290, 25, 5, 13, 282); -- [13290] Fencer's Ring: Status Effect Active(282) - ACC 5
 
 -- -------------------------------------------------------
 -- Rogue's Ring
@@ -3900,3 +3911,15 @@ INSERT INTO `item_latents` VALUES(18592, 355, 188, 47, 0);  -- Elder Staff
 --  `latentParam` smallint(5) NOT NULL,
 --  PRIMARY KEY (`itemId`, `modId`, `value`, `latentId`, `latentParam`)
 
+INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 94); -- [16011] Lyc. Earring: Status Effect Active(94) - ACC 5
+INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 95); -- [16011] Lyc. Earring: Status Effect Active(95) - ACC 5
+INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 96); -- [16011] Lyc. Earring: Status Effect Active(96) - ACC 5
+INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 97); -- [16011] Lyc. Earring: Status Effect Active(97) - ACC 5
+INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 98); -- [16011] Lyc. Earring: Status Effect Active(98) - ACC 5
+INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 99); -- [16011] Lyc. Earring: Status Effect Active(99) - ACC 5
+INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 277); -- [16011] Lyc. Earring: Status Effect Active(277) - ACC 5
+INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 278); -- [16011] Lyc. Earring: Status Effect Active(278) - ACC 5
+INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 279); -- [16011] Lyc. Earring: Status Effect Active(279) - ACC 5
+INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 280); -- [16011] Lyc. Earring: Status Effect Active(280) - ACC 5
+INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 281); -- [16011] Lyc. Earring: Status Effect Active(281) - ACC 5
+INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 282); -- [16011] Lyc. Earring: Status Effect Active(282) - ACC 5
