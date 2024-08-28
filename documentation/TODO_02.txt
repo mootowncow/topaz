@@ -145,8 +145,8 @@ Voidwalker:
 Check all immunities with mobdb
 
 **** NOW ***
+!!! Quadav Howl bugged in dynamis(was dynamis-glacier)? Mobs autoing for SO much. Check other TP moves like howl(warcry, also check the w arcry effect file) !!!
 Does Shen work?
-Quadav Howl bugged in dynamis(was dynamis-glacier)? Mobs autoing for SO much. Check other TP moves like howl(warcry, also check the w arcry effect file)
 Test yesterdays commits from home like Banishga1-3
 RA interrupt on movement packet or state change? Maybe LSB has
 Dynamis Beaucedine drops are fine? Especially 11295 Commodore Frac
