@@ -20,7 +20,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local power = math.floor(mob:getStat(tpz.mod.ATT) * 1.33)
+    local power = math.floor(mob:getStat(tpz.mod.ATT) * 0.33)
     local duration = 120
 
     local typeEffect = tpz.effect.WARCRY
