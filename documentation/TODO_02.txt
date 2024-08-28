@@ -144,12 +144,21 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 Voidwalker:
 Check all immunities with mobdb
 
+Trusts:
+Only summon trusts if level < 75
+Aspir / Drain Gambit logic?
+Koru-Moru spams phalanx on himself and no other spells?
+storm weakness doesn't work because target is self in gambit
+mob:setMobMod(xi.mobMod.TRUST_DISTANCE, xi.trust.movementType.NO_MOVE) <- trust distance and movementType
+Ability to set mobs TP usage(maybe just check the MOBMOD_TP_USE > 0) in CGambitsContainer::TryTrustSkill()
+Ability to check multiple statuses for dark arts / addendum (and light also)
+Huge delay on first spell cast by adelheid? And storm - > helix is also a huge delay?
+
 **** NOW ***
-!!! Quadav Howl bugged in dynamis(was dynamis-glacier)? Mobs autoing for SO much. Check other TP moves like howl(warcry, also check the w arcry effect file) !!!
+Check Skill for all spells in spell_list.sql. I did most of ele/enfeebling
 Does Shen work?
 Test yesterdays commits from home like Banishga1-3
 RA interrupt on movement packet or state change? Maybe LSB has
-Dynamis Beaucedine drops are fine? Especially 11295 Commodore Frac
 Mobs should heal other mobs in combat
 Trust and fun leveling experience
 Trusts so I can level PLD in old school camps
