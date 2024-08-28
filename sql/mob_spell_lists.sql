@@ -2624,7 +2624,6 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,19,34,255);           -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,20,29,255);           -- Cursna
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,56,13,255);           -- Slow
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,58,6,255);            -- Paralyze
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,112,45,255);          -- Flash
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,125,7,255);           -- Protectra
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,126,27,255);          -- Protectra II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,127,47,255);          -- Protectra III
@@ -2762,6 +2761,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,2,17,255);        -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,3,30,255);        -- Cure III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,4,55,255);        -- Cure IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,112,37,255);      -- Flash
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,97,61,255);       -- Reprisal
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,310,70,255);      -- Enlight
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Joachim',323,1,2,255);            -- Cure
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Joachim',323,2,22,255);           -- Cure II

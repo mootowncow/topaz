@@ -53,6 +53,77 @@ local rovKIBattlefieldIDs = set{
 -- TODO: RUN LB5
 }
 
+local modByMobName =
+{
+    ['valaineral'] = function(mob)
+        mob:addMod(tpz.mod.HPP, 10)
+        mob:addMod(tpz.mod.MPP, 20)
+        mob:addMod(tpz.mod.DMG, -8)
+        mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
+        mob:addMod(tpz.mod.REFRESH, 3)
+        mob:addMod(tpz.mod.ENMITY, 30)
+        mob:addMod(tpz.mod.CURE_POTENCY, 50)
+    end,
+
+    ['adelheid'] = function(mob)
+        mob:addMod(tpz.mod.MPP, 80)
+        mob:addMod(tpz.mod.DMGAOE, -33)
+        mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
+        mob:addMod(tpz.mod.REFRESH, 8)
+        mob:addMod(tpz.mod.ENMITY, -15)
+    end,
+
+    ['koru-moru'] = function(mob)
+        mob:addMod(tpz.mod.HPP, 20)
+        mob:addMod(tpz.mod.MPP, 80)
+        mob:addMod(tpz.mod.DMGAOE, -33)
+        mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
+        mob:addMod(tpz.mod.REFRESH, 8)
+        mob:addMod(tpz.mod.ENMITY, -15)
+    end,
+
+    ['kupipi'] = function(mob)
+        mob:addMod(tpz.mod.HPP, 20)
+        mob:addMod(tpz.mod.MPP, 80)
+        mob:addMod(tpz.mod.DMGAOE, -33)
+        mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
+        mob:addMod(tpz.mod.REFRESH, 8)
+        mob:addMod(tpz.mod.ENMITY, -15)
+    end,
+
+    ['tenzen'] = function(mob)
+        mob:addMod(tpz.mod.SAVETP, 400)
+    end,
+
+    ['shikaree_z'] = function(mob)
+        mob:addMod(tpz.mod.HPP, 10)
+    end,
+
+    ['zeid'] = function(mob)
+        mob:addMod(tpz.mod.HPP, 10)
+    end,
+
+    ['aldo'] = function(mob)
+        mob:addMod(tpz.mod.HPP, 10)
+    end,
+
+    ['myakov'] = function(mob)
+        mob:addMod(tpz.mod.HPP, 10)
+    end,
+
+    ['elvira'] = function(mob)
+        mob:addMod(tpz.mod.HPP, 10)
+    end,
+
+    ['ulmnia'] = function(mob)
+        mob:addMod(tpz.mod.MPP, 200)
+        mob:addMod(tpz.mod.DMGAOE, -33)
+        mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
+        mob:addMod(tpz.mod.REFRESH, 8)
+        mob:addMod(tpz.mod.ENMITY, -15)
+    end,
+}
+
 tpz.trust.onTradeCipher = function(player, trade, csid, rovCs, arkAngelCs)
     local hasPermit = player:hasKeyItem(tpz.ki.WINDURST_TRUST_PERMIT) or
                       player:hasKeyItem(tpz.ki.BASTOK_TRUST_PERMIT) or
@@ -204,6 +275,18 @@ tpz.trust.spawn = function(caster, spell)
     end
 
     return 0
+end
+
+tpz.trust.onMobSpawn = function(mob)
+    local mobName = mob:getName()
+    local mods = modByMobName[mobName]
+
+    if mods then
+        mods(mob)
+    end
+
+    mob:setHP(mob:getMaxHP())
+    mob:setMP(mob:getMaxMP())
 end
 
 -- page_offset is: (summon_message_id - 1) / 100

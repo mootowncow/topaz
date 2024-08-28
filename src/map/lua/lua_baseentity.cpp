@@ -13993,6 +13993,7 @@ int32 CLuaBaseEntity::setTrustTPSkillSettings(lua_State* L)
 
     controller->m_GambitsContainer->tp_trigger = static_cast<G_TP_TRIGGER>(lua_tointeger(L, 1));
     controller->m_GambitsContainer->tp_select = static_cast<G_SELECT>(lua_tointeger(L, 2));
+    controller->m_GambitsContainer->tp_value = static_cast<uint16>(lua_tointeger(L, 3));
 
     return 0;
 }

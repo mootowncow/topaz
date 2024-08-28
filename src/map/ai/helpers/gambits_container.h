@@ -49,15 +49,18 @@ namespace gambits
 
 enum class G_TARGET : uint16
 {
-    SELF       = 0,
-    PARTY      = 1,
-    TARGET     = 2,
-    MASTER     = 3,
-    TANK       = 4,
-    MELEE      = 5,
-    RANGED     = 6,
-    CASTER     = 7,
-    TOP_ENMITY = 8,
+    SELF            = 0,
+    PARTY           = 1,
+    TARGET          = 2,
+    MASTER          = 3,
+    TANK            = 4,
+    MELEE           = 5,
+    RANGED          = 6,
+    CASTER          = 7,
+    TOP_ENMITY      = 8,
+    CURILLA         = 9, // Special case for Rainemard
+    PARTY_DEAD      = 10,
+    PARTY_MULTI     = 11,
 };
 
 enum class G_CONDITION : uint16
@@ -81,6 +84,12 @@ enum class G_CONDITION : uint16
     READYING_JA        = 16,
     CASTING_MA         = 17,
     RANDOM             = 18,
+    NO_SAMBA           = 19,
+    NO_STORM           = 20,
+    PT_HAS_TANK        = 21,
+    NOT_PT_HAS_TANK    = 22,
+    IS_ECOSYSTEM       = 23,
+    HP_MISSING         = 24,
 };
 
 enum class G_REACTION : uint16
@@ -96,20 +105,30 @@ enum class G_REACTION : uint16
 
 enum class G_SELECT : uint16
 {
-    HIGHEST    = 0,
-    LOWEST     = 1,
-    SPECIFIC   = 2,
-    RANDOM     = 3,
-    MB_ELEMENT = 4,
-    SPECIAL_AYAME = 5,
+    HIGHEST                 = 0,
+    LOWEST                  = 1,
+    SPECIFIC                = 2,
+    RANDOM                  = 3,
+    MB_ELEMENT              = 4,
+    SPECIAL_AYAME           = 5,
+    BEST_AGAINST_TARGET     = 6,
+    BEST_SAMBA              = 7,
+    HIGHEST_WALTZ           = 8,
+    ENTRUSTED               = 9,
+    BEST_INDI               = 10,
+    STORM_DAY               = 11,
+    HELIX_DAY               = 12,
+    STORM_WEAKNESS          = 13,
+    HELIX_WEAKNESS          = 14,
 };
 
 enum class G_TP_TRIGGER : uint16
 {
-    ASAP = 0,
-    RANDOM = 1,
-    OPENER = 2,
-    CLOSER = 3,
+    ASAP            = 0,
+    RANDOM          = 1,
+    OPENER          = 2,
+    CLOSER          = 3,
+    CLOSER_UNTIL_TP = 4,
 };
 
 struct Predicate_t
@@ -210,13 +229,18 @@ public:
     std::vector<TrustSkill_t> tp_skills;
     G_TP_TRIGGER tp_trigger;
     G_SELECT tp_select;
+    uint16 tp_value;
 
 private:
     bool CheckTrigger(CBattleEntity* trigger_target, Predicate_t& predicate);
     bool TryTrustSkill();
+    bool PartyHasHealer();
+    bool PartyHasTank();
+    void SetSpellRecast(time_point tick, SpellID spellid);
 
     CTrustEntity* POwner;
     time_point m_lastAction;
+    time_point m_lastCast;
     std::vector<Gambit_t> gambits;
 
     std::set<JOBTYPE> melee_jobs =

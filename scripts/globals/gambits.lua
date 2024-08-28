@@ -11,15 +11,18 @@ ai = ai or {}
 -- Target
 ai.target =
 {
-    SELF       = 0,
-    PARTY      = 1,
-    TARGET     = 2,
-    MASTER     = 3,
-    TANK       = 4,
-    MELEE      = 5,
-    RANGED     = 6,
-    CASTER     = 7,
-    TOP_ENMITY = 8,
+    SELF            = 0,
+    PARTY           = 1,
+    TARGET          = 2,
+    MASTER          = 3,
+    TANK            = 4,
+    MELEE           = 5,
+    RANGED          = 6,
+    CASTER          = 7,
+    TOP_ENMITY      = 8,
+    CURILLA         = 9, -- Special case for Rainemard
+    PARTY_DEAD      = 10,
+    PARTY_MULTI     = 11,
 }
 ai.t = ai.target
 
@@ -45,6 +48,12 @@ ai.condition =
     READYING_JA        = 16,
     CASTING_MA         = 17,
     RANDOM             = 18,
+    NO_SAMBA           = 19,
+    NO_STORM           = 20,
+    PT_HAS_TANK        = 21,
+    NOT_PT_HAS_TANK    = 22,
+    IS_ECOSYSTEM       = 23,
+    HP_MISSING         = 24,
 }
 ai.c = ai.condition
 
@@ -64,20 +73,30 @@ ai.r = ai.reaction
 -- Select
 ai.select =
 {
-    HIGHEST    = 0,
-    LOWEST     = 1,
-    SPECIFIC   = 2,
-    RANDOM     = 3,
-    MB_ELEMENT = 4,
-    SPECIAL_AYAME = 5,
+    HIGHEST             = 0,
+    LOWEST              = 1,
+    SPECIFIC            = 2,
+    RANDOM              = 3,
+    MB_ELEMENT          = 4,
+    SPECIAL_AYAME       = 5,
+    BEST_AGAINST_TARGET = 6,
+    BEST_SAMBA          = 7,
+    HIGHEST_WALTZ       = 8,
+    ENTRUSTED           = 9,
+    BEST_INDI           = 10,
+    STORM_DAY           = 11,
+    HELIX_DAY           = 12,
+    STORM_WEAKNESS      = 13,
+    HELIX_WEAKNESS      = 14,
 }
 ai.s = ai.select
 
 -- TP Move Trigger
 ai.tp =
 {
-    ASAP   = 0,
-    RANDOM = 1,
-    OPENER = 2,
-    CLOSER = 3,
+    ASAP            = 0,
+    RANDOM          = 1,
+    OPENER          = 2,
+    CLOSER          = 3,
+    CLOSER_UNTIL_TP = 4, -- Will Hold TP to close a SC until a certain threshold
 }

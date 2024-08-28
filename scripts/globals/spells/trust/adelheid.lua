@@ -34,13 +34,21 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_JA, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
 
-    -- TODO: Storms
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.DARK_ARTS,
+                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.DARK_ARTS)
 
-    -- TODO: Helices
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.ADDENDUM_BLACK,
+                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.ADDENDUM_BLACK)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NO_STORM, 0, ai.r.MA, ai.s.STORM_WEAKNESS, 0, 0)
+
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.HELIX, ai.r.MA, ai.s.HELIX_WEAKNESS, 0, 0)
 
     mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 75, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_SC_AVAILABLE, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.NONE, 75)
+
+    tpz.trust.onMobSpawn(mob)
 end
 
 function onMobDespawn(mob)

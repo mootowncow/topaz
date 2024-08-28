@@ -137,6 +137,20 @@ void CGambitsContainer::Tick(time_point tick)
         {
             return CheckTrigger(POwner->PMaster, predicate);
         }
+        else if (predicate.target == G_TARGET::PARTY_DEAD)
+        {
+            auto result = false;
+            // clang-format off
+                static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+                {
+                    if (PMember->isDead())
+                    {
+                        result = true;
+                    }
+                });
+            // clang-format on
+            return result;
+        }
         else if (predicate.target == G_TARGET::TANK)
         {
             auto result = false;
@@ -199,6 +213,38 @@ void CGambitsContainer::Tick(time_point tick)
                 });
             }
             return result;
+        }
+        else if (predicate.target == G_TARGET::CURILLA)
+        {
+            auto result = false;
+            // clang-format off
+                static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+                {
+                    if (isValidMember(PMember) && CheckTrigger(PMember, predicate))
+                    {
+                        auto name = PMember->name;
+                        if (name == "curilla") // TODO: Unsure if this works
+                        {
+                            result = true;
+                        }
+                    }
+                });
+            // clang-format on
+            return result;
+        }
+        else if (predicate.target == G_TARGET::PARTY_MULTI)
+        {
+            uint8 count = 0;
+            // clang-format off
+                static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+                {
+                    if (isValidMember(PMember) && CheckTrigger(PMember, predicate))
+                    {
+                        ++count;
+                    }
+                });
+            // clang-format on
+            return count > 1;
         }
 
         // Fallthrough
@@ -310,6 +356,22 @@ void CGambitsContainer::Tick(time_point tick)
                     });
                 }
             }
+            else if (gambit.predicates[0].target == G_TARGET::CURILLA)
+            {
+                // clang-format off
+                    static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+                    {
+                        if (isValidMember(target, PMember) && CheckTrigger(PMember, gambit.predicates[0]))
+                        {
+                            auto name = PMember->name;
+                            if (name == "curilla") // TODO: Unsure if this works
+                            {
+                                target = PMember;
+                            }
+                        }
+                    });
+                // clang-format on
+            }
 
             if (!target)
             {
@@ -322,12 +384,18 @@ void CGambitsContainer::Tick(time_point tick)
             }
             else if (action.reaction == G_REACTION::MA)
             {
+                if (tick < m_lastCast)
+                {
+                    return;
+                }
+
                 if (action.select == G_SELECT::SPECIFIC)
                 {
                     auto spell_id = POwner->SpellContainer->GetAvailable(static_cast<SpellID>(action.select_arg));
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
+                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                     }
                 }
                 else if (action.select == G_SELECT::HIGHEST)
@@ -336,6 +404,7 @@ void CGambitsContainer::Tick(time_point tick)
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
+                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                     }
                 }
                 else if (action.select == G_SELECT::LOWEST)
@@ -345,7 +414,77 @@ void CGambitsContainer::Tick(time_point tick)
                     //if (spell_id.has_value())
                     //{
                     //    controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
+                    //   SetLastNuke(tick, static_cast<SpellID>(spell_id.value()));
                     //}
+                }
+                else if (action.select == G_SELECT::BEST_INDI)
+                {
+                    auto* PMaster = static_cast<CCharEntity*>(POwner->PMaster);
+                    auto spell_id = POwner->SpellContainer->GetBestIndiSpell(PMaster);
+                    if (spell_id.has_value())
+                    {
+                        controller->Cast(target->targid, spell_id.value());
+                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                    }
+                }
+                else if (action.select == G_SELECT::ENTRUSTED)
+                {
+                    auto* PMaster = static_cast<CCharEntity*>(POwner->PMaster);
+                    auto spell_id = POwner->SpellContainer->GetBestEntrustedSpell(PMaster);
+                    target = PMaster;
+                    if (spell_id.has_value())
+                    {
+                        controller->Cast(target->targid, spell_id.value());
+                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                    }
+                }
+                else if (action.select == G_SELECT::BEST_AGAINST_TARGET)
+                {
+                    auto spell_id = POwner->SpellContainer->GetBestAgainstTargetWeakness(target);
+                    if (spell_id.has_value())
+                    {
+                        controller->Cast(target->targid, spell_id.value());
+                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                    }
+                }
+                else if (action.select == G_SELECT::STORM_DAY)
+                {
+                    auto spell_id = POwner->SpellContainer->GetStormDay();
+                    if (spell_id.has_value())
+                    {
+                        controller->Cast(target->targid, spell_id.value());
+                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                    }
+                }
+                else if (action.select == G_SELECT::HELIX_DAY)
+                {
+                    auto spell_id = POwner->SpellContainer->GetHelixDay();
+                    if (spell_id.has_value())
+                    {
+                        controller->Cast(target->targid, spell_id.value());
+                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                    }
+                }
+                else if (action.select == G_SELECT::STORM_WEAKNESS)
+                {
+                    auto PTarget = POwner->GetBattleTarget();
+                    if (PTarget)
+                    {
+                        auto spell_id = POwner->SpellContainer->StormWeakness(PTarget);
+                        if (spell_id.has_value())
+                        {
+                            controller->Cast(target->targid, spell_id.value());
+                        }
+                    }
+                }
+                else if (action.select == G_SELECT::HELIX_WEAKNESS)
+                {
+                    auto spell_id = POwner->SpellContainer->HelixWeakness(target);
+                    if (spell_id.has_value())
+                    {
+                        controller->Cast(target->targid, spell_id.value());
+                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                    }
                 }
                 else if (action.select == G_SELECT::RANDOM)
                 {
@@ -353,6 +492,7 @@ void CGambitsContainer::Tick(time_point tick)
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
+                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                     }
                 }
                 else if (action.select == G_SELECT::MB_ELEMENT)
@@ -389,12 +529,67 @@ void CGambitsContainer::Tick(time_point tick)
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
+                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                     }
                 }
             }
             else if (action.reaction == G_REACTION::JA)
             {
                 CAbility* PAbility = ability::GetAbility(action.select_arg);
+                auto mLevel = POwner->GetMLevel();
+
+                if (action.select == G_SELECT::HIGHEST_WALTZ)
+                {
+                    auto currentTP = POwner->health.tp;
+
+                    // clang-format off
+                        ABILITY wlist[5] =
+                        {
+                            ABILITY_CURING_WALTZ_V,
+                            ABILITY_CURING_WALTZ_IV,
+                            ABILITY_CURING_WALTZ_III,
+                            ABILITY_CURING_WALTZ_II,
+                            ABILITY_CURING_WALTZ,
+                        };
+                    // clang-format on
+
+                    for (ABILITY const& waltz : wlist)
+                    {
+                        auto waltzLevel = ability::GetAbility(waltz)->getLevel();
+                        uint16 tpCost = 0;
+
+                        if (mLevel >= waltzLevel)
+                        {
+                            switch (ability::GetAbility(waltz)->getID())
+                            {
+                                case ABILITY_CURING_WALTZ_V:
+                                    tpCost = 800;
+                                    break;
+                                case ABILITY_CURING_WALTZ_IV:
+                                    tpCost = 650;
+                                    break;
+                                case ABILITY_CURING_WALTZ_III:
+                                    tpCost = 500;
+                                    break;
+                                case ABILITY_CURING_WALTZ_II:
+                                    tpCost = 350;
+                                    break;
+                                case ABILITY_CURING_WALTZ:
+                                    tpCost = 200;
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            if (tpCost != 0 && currentTP >= tpCost)
+                            {
+                                PAbility = ability::GetAbility(waltz);
+                                controller->Ability(target->targid, PAbility->getID());
+                            }
+                        }
+                    }
+                }
+
                 if (PAbility->getValidTarget() == TARGET_SELF)
                 {
                     target = POwner;
@@ -407,6 +602,57 @@ void CGambitsContainer::Tick(time_point tick)
                 if (action.select == G_SELECT::SPECIFIC)
                 {
                     controller->Ability(target->targid, PAbility->getID());
+                }
+
+                if (action.select == G_SELECT::BEST_SAMBA)
+                {
+                    auto currentTP = POwner->health.tp;
+                    uint16 tpCost = 0;
+
+                    if (mLevel >= 5)
+                    {
+                        if (mLevel > 65)
+                        {
+                            if (PartyHasHealer())
+                            {
+                                PAbility = ability::GetAbility(ABILITY_HASTE_SAMBA);
+                                tpCost = 350;
+                            }
+                            else
+                            {
+                                PAbility = ability::GetAbility(ABILITY_DRAIN_SAMBA_III);
+                                tpCost = 400;
+                            }
+                        }
+                        else if (mLevel < 65 && mLevel > 45)
+                        {
+                            if (PartyHasHealer())
+                            {
+                                PAbility = ability::GetAbility(ABILITY_HASTE_SAMBA);
+                                tpCost = 350;
+                            }
+                            else
+                            {
+                                PAbility = ability::GetAbility(ABILITY_DRAIN_SAMBA_II);
+                                tpCost = 250;
+                            }
+                        }
+                        else if (mLevel < 45 && mLevel > 35)
+                        {
+                            PAbility = ability::GetAbility(ABILITY_DRAIN_SAMBA_II);
+                            tpCost = 250;
+                        }
+                        else
+                        {
+                            PAbility = ability::GetAbility(ABILITY_DRAIN_SAMBA);
+                            tpCost = 100;
+                        }
+                    }
+
+                    if (tpCost != 0 && (currentTP >= tpCost))
+                    {
+                        controller->Ability(target->targid, PAbility->getID());
+                    }
                 }
             }
             else if (action.reaction == G_REACTION::MSG)
@@ -471,6 +717,57 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
         case G_CONDITION::NOT_STATUS:
         {
             return !trigger_target->StatusEffectContainer->HasStatusEffect(static_cast<EFFECT>(predicate.condition_arg));
+            break;
+        }
+        case G_CONDITION::NO_SAMBA:
+        {
+            bool noSamba = true;
+            if (trigger_target->StatusEffectContainer->HasStatusEffect(EFFECT_DRAIN_SAMBA) ||
+                trigger_target->StatusEffectContainer->HasStatusEffect(EFFECT_HASTE_SAMBA))
+            {
+                noSamba = false;
+            }
+            return noSamba;
+            break;
+        }
+        case G_CONDITION::NO_STORM:
+        {
+            bool noStorm = true;
+            // clang-format off
+                if (trigger_target->StatusEffectContainer->HasStatusEffect(
+                {
+                    EFFECT_FIRESTORM,
+                    EFFECT_HAILSTORM,
+                    EFFECT_WINDSTORM,
+                    EFFECT_SANDSTORM,
+                    EFFECT_THUNDERSTORM,
+                    EFFECT_RAINSTORM,
+                    EFFECT_AURORASTORM,
+                    EFFECT_VOIDSTORM,
+                    EFFECT_FIRESTORM_II,
+                    EFFECT_HAILSTORM_II,
+                    EFFECT_WINDSTORM_II,
+                    EFFECT_SANDSTORM_II,
+                    EFFECT_THUNDERSTORM_II,
+                    EFFECT_RAINSTORM_II,
+                    EFFECT_AURORASTORM_II,
+                    EFFECT_VOIDSTORM_II,
+                }))
+                {
+                    noStorm = false;
+                }
+            // clang-format on
+            return noStorm;
+            break;
+        }
+        case G_CONDITION::PT_HAS_TANK:
+        {
+            return PartyHasTank();
+            break;
+        }
+        case G_CONDITION::NOT_PT_HAS_TANK:
+        {
+            return !PartyHasTank();
             break;
         }
         case G_CONDITION::STATUS_FLAG:
@@ -543,7 +840,7 @@ bool CGambitsContainer::TryTrustSkill()
 
     auto checkTPTrigger = [&]() -> bool
     {
-        if (POwner->health.tp >= 3000) { return true; } // Go, go, go!
+        if (POwner->health.tp >= 1000) { return true; } // Go, go, go!
 
         switch (tp_trigger)
         {
@@ -568,6 +865,23 @@ bool CGambitsContainer::TryTrustSkill()
         case G_TP_TRIGGER::CLOSER:
         {
             auto PSCEffect = target->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
+
+            // TODO: ...and has a valid WS...
+
+            return PSCEffect && PSCEffect->GetStartTime() + 3s < server_clock::now() && PSCEffect->GetTier() == 0;
+            break;
+        }
+        case G_TP_TRIGGER::CLOSER_UNTIL_TP: // Will hold TP to close a SC, but WS immediately once specified value is reached.
+        {
+            if (tp_value <= 1500) // If the value provided by the script is missing or too low
+            {
+                tp_value = 1500; // Apply the minimum TP Hold Threshold
+            }
+            if (POwner->health.tp >= tp_value) // tp_value reached
+            {
+                return true; // Time to WS!
+            }
+            auto* PSCEffect = target->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
 
             // TODO: ...and has a valid WS...
 
@@ -695,5 +1009,73 @@ bool CGambitsContainer::TryTrustSkill()
     }
     return false;
 }
+
+    // currently only used for Uka Totlihn to determin what samba to use.
+    bool CGambitsContainer::PartyHasHealer()
+    {
+        bool hasHealer = false;
+        // clang-format off
+            static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+            {
+                auto jobType = PMember->GetMJob();
+
+                if (jobType == JOB_WHM || jobType == JOB_RDM || jobType == JOB_PLD || jobType == JOB_SCH)
+                {
+                    hasHealer = true;
+                }
+            });
+        // clang-format on
+        return hasHealer;
+    }
+    // used to check for tanks in party (Volker, AA Hume)
+    bool CGambitsContainer::PartyHasTank()
+    {
+        bool hasTank = false;
+        // clang-format off
+            static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+            {
+                auto jobType = PMember->GetMJob();
+
+                if (jobType == JOB_NIN || jobType == JOB_PLD || jobType == JOB_RUN)
+                {
+                    hasTank = true;
+                }
+            });
+        // clang-format on
+        return hasTank;
+    }
+
+    void CGambitsContainer::SetSpellRecast(time_point tick, SpellID spellid)
+    {
+        auto PSpell = spell::GetSpell(spellid);
+        auto spellCastTime = PSpell->getCastTime();
+        auto skillType = PSpell->getSkillType();
+        //printf("spellid %d, PSpell %p, spellCastTime: %d, skillType: %d \n", static_cast<int>(spellid), static_cast<void*>(PSpell), spellCastTime, skillType);
+
+        switch (skillType)
+        {
+            case SKILLTYPE::SKILL_DIVINE_MAGIC:
+            case SKILLTYPE::SKILL_HEALING_MAGIC:
+            case SKILLTYPE::SKILL_ENHANCING_MAGIC:
+            case SKILLTYPE::SKILL_ENFEEBLING_MAGIC:
+            case SKILLTYPE::SKILL_DARK_MAGIC:
+            case SKILLTYPE::SKILL_SUMMONING_MAGIC:
+            case SKILLTYPE::SKILL_NINJUTSU:
+            case SKILLTYPE::SKILL_SINGING:
+            case SKILLTYPE::SKILL_STRING_INSTRUMENT:
+            case SKILLTYPE::SKILL_WIND_INSTRUMENT:
+            case SKILLTYPE::SKILL_BLUE_MAGIC:
+            case SKILLTYPE::SKILL_GEOMANCY:
+            case SKILLTYPE::SKILL_HANDBELL:
+                m_lastCast = tick + std::chrono::milliseconds(spellCastTime + 5000);
+                break;
+            case SKILLTYPE::SKILL_ELEMENTAL_MAGIC:
+                m_lastCast = tick + std::chrono::milliseconds(spellCastTime + 23000);
+                break;
+            default:
+                m_lastCast = tick + std::chrono::milliseconds(spellCastTime + 5000);
+                break;
+        }
+    }
 
 } // namespace gambits
