@@ -2601,17 +2601,19 @@ function UpdateAbilityAI(mob, target, abilityData)
                     -- Interrupt
                     if (ability.Type == 'Interrupt') then
                         if CanUseAbility(mob) then
-                            if IsReadyingTPMove(target) then
-                                if IsJa(mob, ability.Category) then
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useJobAbility(ability.Skill, target)
-                                    return
-                                else
-                                    mob:setLocalVar("globalJATimer", os.time() + 10)
-                                    mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
-                                    mob:useMobAbility(ability.Skill, target)
-                                    return
+                            if isJaReady(mob, ability.Skill) then
+                                if IsReadyingTPMove(target) then
+                                    if IsJa(mob, ability.Category) then
+                                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                        mob:useJobAbility(ability.Skill, target)
+                                        return
+                                    else
+                                        mob:setLocalVar("globalJATimer", os.time() + 10)
+                                        mob:setLocalVar(ability.Skill, os.time() + ability.Cooldown)
+                                        mob:useMobAbility(ability.Skill, target)
+                                        return
+                                    end
                                 end
                             end
                         end
