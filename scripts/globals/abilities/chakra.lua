@@ -62,6 +62,12 @@ function onUseAbility(player, target, ability)
 	ability:setMsg(tpz.msg.basic.JA_RECOVERS_HP)
 
     local merits = player:getMerit(tpz.merit.INVIGORATE)
+    if player:getObjType() == tpz.objType.TRUST then -- Lhe Lhangavo trust has Invigorate merits
+        if (player:getName() == 'lhe_lhangavo') then
+            merits = 5
+        end
+    end
+
     if merits > 0 then
         if player:hasStatusEffect(tpz.effect.REGEN) then
             player:delStatusEffect(tpz.effect.REGEN)

@@ -834,6 +834,7 @@ enum class Mod
 
     EXTRA_DMG_CHANCE          = 506, // Proc rate of OCC_DO_EXTRA_DMG. 111 would be 11.1%
     OCC_DO_EXTRA_DMG          = 507, // Multiplier for "Occasionally do x times normal damage". 250 would be 2.5 times damage.
+    // Both the above need to be combined
 
     REM_OCC_DO_DOUBLE_DMG     = 863, // Proc rate for REM Aftermaths that apply "Occasionally do double damage"
     REM_OCC_DO_TRIPLE_DMG     = 864, // Proc rate for REM Aftermaths that apply "Occasionally do triple damage"
