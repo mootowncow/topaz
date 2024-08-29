@@ -98,6 +98,7 @@ public:
     int32 isMob(lua_State*);
     int32 isPet(lua_State*);
     int32 isAlly(lua_State*);
+    int32 isTrust(lua_State*);
 
     // AI and Control
     int32 initNpcAi(lua_State* L);

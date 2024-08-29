@@ -50,6 +50,32 @@ CTrustEntity::CTrustEntity(CCharEntity* PChar)
     m_MobSkillList = 0;
     PMaster = PChar;
     m_IsClaimable = false;
+
+    m_modStat[Mod::SDT_FIRE] = 100;
+    m_modStat[Mod::SDT_ICE] = 100;
+    m_modStat[Mod::SDT_WIND] = 100;
+    m_modStat[Mod::SDT_EARTH] = 100;
+    m_modStat[Mod::SDT_THUNDER] = 100;
+    m_modStat[Mod::SDT_WATER] = 100;
+    m_modStat[Mod::SDT_LIGHT] = 100;
+    m_modStat[Mod::SDT_DARK] = 100;
+
+    m_modStat[Mod::EEM_AMNESIA] = 100;
+    m_modStat[Mod::EEM_VIRUS] = 100;
+    m_modStat[Mod::EEM_SILENCE] = 100;
+    m_modStat[Mod::EEM_GRAVITY] = 100;
+    m_modStat[Mod::EEM_STUN] = 100;
+    m_modStat[Mod::EEM_LIGHT_SLEEP] = 100;
+    m_modStat[Mod::EEM_CHARM] = 100;
+    m_modStat[Mod::EEM_PARALYZE] = 100;
+    m_modStat[Mod::EEM_BIND] = 100;
+    m_modStat[Mod::EEM_SLOW] = 100;
+    m_modStat[Mod::EEM_PETRIFY] = 100;
+    m_modStat[Mod::EEM_TERROR] = 100;
+    m_modStat[Mod::EEM_POISON] = 100;
+    m_modStat[Mod::EEM_DARK_SLEEP] = 100;
+    m_modStat[Mod::EEM_BLIND] = 100;
+
     PAI = std::make_unique<CAIContainer>(this, std::make_unique<CPathFind>(this), std::make_unique<CTrustController>(PChar, this), std::make_unique<CTargetFind>(this));
 }
 

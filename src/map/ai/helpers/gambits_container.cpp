@@ -47,6 +47,7 @@
 
 #include "../controllers/player_controller.h"
 #include "../../weapon_skill.h"
+#include "../../mob_modifier.h"
 
 namespace gambits
 {
@@ -770,6 +771,11 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             return !PartyHasTank();
             break;
         }
+        case G_CONDITION::PT_HAS_WHM:
+        {
+            return PartyHasWHM();
+            break;
+        }
         case G_CONDITION::STATUS_FLAG:
         {
             return trigger_target->StatusEffectContainer->HasStatusEffectByFlag(static_cast<EFFECTFLAG>(predicate.condition_arg));
@@ -823,9 +829,29 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             return trigger_target->PAI->IsCurrentState<CMagicState>();
             break;
         }
+        case G_CONDITION::IS_ECOSYSTEM:
+        {
+            return trigger_target->m_EcoSystem == ECOSYSTEM(predicate.condition_arg);
+            break;
+        }
+        case G_CONDITION::RESISTS_DMGTYPE:
+        {
+            return trigger_target->getMod(static_cast<Mod>(predicate.condition_arg)) < 1000;
+            break;
+        }
+        case G_CONDITION::CAN_SNEAK_ATTACK:
+        {
+            return CanSneakAttack();
+            break;
+        }
         case G_CONDITION::RANDOM:
         {
             return tpzrand::GetRandomNumber<uint16>(100) < (int16)predicate.condition_arg;
+            break;
+        }
+        case G_CONDITION::HP_MISSING:
+        {
+            return (trigger_target->health.maxhp - trigger_target->health.hp) >= (int16)predicate.condition_arg;
             break;
         }
         default: { return false;  break; }
@@ -840,7 +866,9 @@ bool CGambitsContainer::TryTrustSkill()
 
     auto checkTPTrigger = [&]() -> bool
     {
-        if (POwner->health.tp >= 1000) { return true; } // Go, go, go!
+        auto tpThreshold = POwner->getMobMod(MOBMOD_TP_USE);
+        if (tpThreshold > 0 && POwner->health.tp >= tpThreshold) { return true; } // Go, go, go!
+        if (POwner->health.tp >= 3000) { return true; } // Go, go, go!
 
         switch (tp_trigger)
         {
@@ -1043,6 +1071,40 @@ bool CGambitsContainer::TryTrustSkill()
             });
         // clang-format on
         return hasTank;
+    }
+
+    // used to check if party has a WHM
+    bool CGambitsContainer::PartyHasWHM()
+    {
+        bool hasWHM = false;
+        // clang-format off
+            static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+            {
+                auto jobType = PMember->GetMJob();
+
+                if (jobType == JOB_WHM)
+                {
+                    hasWHM = true;
+                }
+            });
+        // clang-format on
+        return hasWHM;
+    }
+
+    // Sneak Attack will land
+    bool CGambitsContainer::CanSneakAttack()
+    {
+        bool canSA = false;
+        auto PTarget = POwner->GetBattleTarget();
+        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT))
+        {
+            canSA = true;
+        }
+        if (behind(POwner->loc.p, PTarget->loc.p, 64))
+        {
+            canSA = true;
+        }
+        return canSA;
     }
 
     void CGambitsContainer::SetSpellRecast(time_point tick, SpellID spellid)

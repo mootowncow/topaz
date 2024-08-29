@@ -34,10 +34,10 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_JA, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.DARK_ARTS,
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.ADDENDUM_BLACK,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.DARK_ARTS)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.ADDENDUM_BLACK,
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DARK_ARTS,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.ADDENDUM_BLACK)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NO_STORM, 0, ai.r.MA, ai.s.STORM_WEAKNESS, 0, 0)

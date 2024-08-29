@@ -125,22 +125,23 @@ local modByMobName =
         mob:addMod(tpz.mod.HPP, -10)
         mob:addMod(tpz.mod.MPP, 100)
         mob:addMod(tpz.mod.CRITHITRATE, 4)
-        mob:addMod(tpz.mod.TWOHAND_HASTE_ABILITY, 1500)
+        mob:addMod(tpz.mod.JUMP_TP_BONUS, 450)
         mob:addMod(tpz.mod.CONSERVE_TP, 21)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.FASTCAST, 25)
         mob:addMod(tpz.mod.REFRESH, 4)
     end,
 
-    ['zeid'] = function(mob)
+    ['zeid_ii'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
         mob:addMod(tpz.mod.ATTP, 15)
         mob:addMod(tpz.mod.EXTRA_DMG_CHANCE, 100) -- 10% chance
         mob:addMod(tpz.mod.OCC_DO_EXTRA_DMG, 150) -- to deal 1.5x damage
         mob:addMod(tpz.mod.STR, 12)
+        mob:setMobMod(tpz.mobMod.TP_USE, 1000)
     end,
 
-    ['aldo'] = function(mob) -- aldo_uc?
+    ['aldo'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
         mob:addMod(tpz.mod.TRIPLE_ATTACK, 5)
         mob:addMod(tpz.mod.DUAL_WIELD, 5)
@@ -238,6 +239,16 @@ tpz.trust.canCast = function(caster, spell, not_allowed_trust_ids)
 
     -- Trusts must be enabled in settings
     if ENABLE_TRUST_CASTING == 0 then
+        return tpz.msg.basic.TRUST_NO_CAST_TRUST
+    end
+
+    -- Trusts can only be summoned if below level 75
+    if (caster:getMainLvl() >= 75) then
+        return tpz.msg.basic.TRUST_NO_CAST_TRUST
+    end
+
+    -- Trusts cannot be summoned under level sync or level restriction
+    if (caster:hasStatusEffect(tpz.effect.LEVEL_SYNC) or caster:hasStatusEffect(tpz.effect.LEVEL_RESTRICTION)) then
         return tpz.msg.basic.TRUST_NO_CAST_TRUST
     end
 

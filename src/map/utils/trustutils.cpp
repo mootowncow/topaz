@@ -43,12 +43,14 @@ std::vector<TrustSpell_ID*> g_PTrustIDList;
 struct Trust_t
 {
     uint32 trustID;
+    uint32 pool;
     look_t look;          // appearance data
     string_t name;        // script name string
     string_t packet_name; // packet name string
     ECOSYSTEM EcoSystem;  // ecosystem
 
     uint8 name_prefix;
+    uint8 radius; // Model Radius - affects melee range etc.
     uint8 size; // размер модели
     uint16 m_Family;
 
@@ -59,6 +61,7 @@ struct Trust_t
     float HPscale; // HP boost percentage
     float MPscale; // MP boost percentage
 
+    uint8 cmbSkill;
     uint16 cmbDmgMult;
     uint16 cmbDelay;
     uint8 speed;
@@ -149,7 +152,7 @@ void BuildTrust(uint32 TrustID)
                 mob_pools.mJob,\
                 mob_pools.sJob,\
                 mob_pools.hasSpellScript, mob_pools.spellList, \
-                mob_pools.cmbDmgMult, mob_pools.cmbDelay, mob_pools.name_prefix, \
+                mob_pools.cmbSkill, mob_pools.cmbDmgMult, mob_pools.cmbDelay, mob_pools.name_prefix, \
                 mob_pools.behavior, mob_pools.skill_list_id, \
                 spell_list.spellid, \
                 mob_family_system.mobsize, mob_family_system.systemid, \
@@ -189,58 +192,59 @@ void BuildTrust(uint32 TrustID)
             trust->name.insert(0, (const char*)Sql_GetData(SqlHandle, 0));
             trust->packet_name.insert(0, (const char*)Sql_GetData(SqlHandle, 1));
             memcpy(&trust->look, Sql_GetData(SqlHandle, 2), 20);
-            trust->m_Family       = (uint16)Sql_GetIntData(SqlHandle, 3);
-            trust->mJob           = (uint8)Sql_GetIntData(SqlHandle, 4);
-            trust->sJob           = (uint8)Sql_GetIntData(SqlHandle, 5);
+            trust->m_Family = (uint16)Sql_GetIntData(SqlHandle, 3);
+            trust->mJob = (uint8)Sql_GetIntData(SqlHandle, 4);
+            trust->sJob = (uint8)Sql_GetIntData(SqlHandle, 5);
             trust->hasSpellScript = (bool)Sql_GetIntData(SqlHandle, 6);
-            trust->spellList      = (uint16)Sql_GetIntData(SqlHandle, 7);
-            trust->cmbDmgMult     = (uint16)Sql_GetIntData(SqlHandle, 8);
-            trust->cmbDelay       = (uint16)Sql_GetIntData(SqlHandle, 9);
-            trust->name_prefix    = (uint8)Sql_GetUIntData(SqlHandle, 10);
-            trust->behaviour      = (uint16)Sql_GetUIntData(SqlHandle, 11);
-            trust->m_MobSkillList = (uint16)Sql_GetUIntData(SqlHandle, 12);
+            trust->spellList = (uint16)Sql_GetIntData(SqlHandle, 7);
+            trust->cmbSkill = (uint16)Sql_GetIntData(SqlHandle, 8);
+            trust->cmbDmgMult = (uint16)Sql_GetIntData(SqlHandle, 9);
+            trust->cmbDelay = (uint16)Sql_GetIntData(SqlHandle, 10);
+            trust->name_prefix = (uint8)Sql_GetUIntData(SqlHandle, 11);
+            trust->behaviour = (uint16)Sql_GetUIntData(SqlHandle, 12);
+            trust->m_MobSkillList = (uint16)Sql_GetUIntData(SqlHandle, 13);
             // SpellID
-            trust->size      = Sql_GetUIntData(SqlHandle, 14);
-            trust->EcoSystem = (ECOSYSTEM)Sql_GetIntData(SqlHandle, 15);
-            trust->HPscale   = Sql_GetFloatData(SqlHandle, 16);
-            trust->MPscale   = Sql_GetFloatData(SqlHandle, 17);
-            trust->speed     = (uint8)Sql_GetIntData(SqlHandle, 18);
-            trust->strRank   = (uint8)Sql_GetIntData(SqlHandle, 19);
-            trust->dexRank   = (uint8)Sql_GetIntData(SqlHandle, 20);
-            trust->vitRank   = (uint8)Sql_GetIntData(SqlHandle, 21);
-            trust->agiRank   = (uint8)Sql_GetIntData(SqlHandle, 22);
-            trust->intRank   = (uint8)Sql_GetIntData(SqlHandle, 23);
-            trust->mndRank   = (uint8)Sql_GetIntData(SqlHandle, 24);
-            trust->chrRank   = (uint8)Sql_GetIntData(SqlHandle, 25);
-            trust->defRank   = (uint8)Sql_GetIntData(SqlHandle, 26);
-            trust->attRank   = (uint8)Sql_GetIntData(SqlHandle, 27);
-            trust->accRank   = (uint8)Sql_GetIntData(SqlHandle, 28);
-            trust->evaRank   = (uint8)Sql_GetIntData(SqlHandle, 29);
+            trust->size = Sql_GetUIntData(SqlHandle, 15);
+            trust->EcoSystem = (ECOSYSTEM)Sql_GetIntData(SqlHandle, 16);
+            trust->HPscale = Sql_GetFloatData(SqlHandle, 17);
+            trust->MPscale = Sql_GetFloatData(SqlHandle, 18);
+            trust->speed = (uint8)Sql_GetIntData(SqlHandle, 19);
+            trust->strRank = (uint8)Sql_GetIntData(SqlHandle, 20);
+            trust->dexRank = (uint8)Sql_GetIntData(SqlHandle, 21);
+            trust->vitRank = (uint8)Sql_GetIntData(SqlHandle, 22);
+            trust->agiRank = (uint8)Sql_GetIntData(SqlHandle, 23);
+            trust->intRank = (uint8)Sql_GetIntData(SqlHandle, 24);
+            trust->mndRank = (uint8)Sql_GetIntData(SqlHandle, 25);
+            trust->chrRank = (uint8)Sql_GetIntData(SqlHandle, 26);
+            trust->defRank = (uint8)Sql_GetIntData(SqlHandle, 27);
+            trust->attRank = (uint8)Sql_GetIntData(SqlHandle, 28);
+            trust->accRank = (uint8)Sql_GetIntData(SqlHandle, 29);
+            trust->evaRank = (uint8)Sql_GetIntData(SqlHandle, 30);
 
             // resistances
-            trust->slashres  = (uint16)(Sql_GetFloatData(SqlHandle, 30) * 1000);
-            trust->pierceres = (uint16)(Sql_GetFloatData(SqlHandle, 31) * 1000);
-            trust->hthres    = (uint16)(Sql_GetFloatData(SqlHandle, 32) * 1000);
-            trust->impactres = (uint16)(Sql_GetFloatData(SqlHandle, 33) * 1000);
+            trust->slashres = (uint16)(Sql_GetFloatData(SqlHandle, 31) * 1000);
+            trust->pierceres = (uint16)(Sql_GetFloatData(SqlHandle, 32) * 1000);
+            trust->hthres = (uint16)(Sql_GetFloatData(SqlHandle, 33) * 1000);
+            trust->impactres = (uint16)(Sql_GetFloatData(SqlHandle, 34) * 1000);
 
-            trust->firedef    = 0;
-            trust->icedef     = 0;
-            trust->winddef    = 0;
-            trust->earthdef   = 0;
+            trust->firedef = 0;
+            trust->icedef = 0;
+            trust->winddef = 0;
+            trust->earthdef = 0;
             trust->thunderdef = 0;
-            trust->waterdef   = 0;
-            trust->lightdef   = 0;
-            trust->darkdef    = 0;
+            trust->waterdef = 0;
+            trust->lightdef = 0;
+            trust->darkdef = 0;
 
-            trust->fireres    = (uint16)((Sql_GetFloatData(SqlHandle, 34) - 1) * -100);
-            trust->iceres     = (uint16)((Sql_GetFloatData(SqlHandle, 35) - 1) * -100);
-            trust->windres    = (uint16)((Sql_GetFloatData(SqlHandle, 36) - 1) * -100);
-            trust->earthres   = (uint16)((Sql_GetFloatData(SqlHandle, 37) - 1) * -100);
-            trust->thunderres = (uint16)((Sql_GetFloatData(SqlHandle, 38) - 1) * -100);
-            trust->waterres   = (uint16)((Sql_GetFloatData(SqlHandle, 39) - 1) * -100);
-            trust->lightres   = (uint16)((Sql_GetFloatData(SqlHandle, 40) - 1) * -100);
-            trust->darkres    = (uint16)((Sql_GetFloatData(SqlHandle, 41) - 1) * -100);
-            trust->shieldSize = (uint16)(Sql_GetUIntData(SqlHandle, 42)); // TODO: Probably turn into a member(m_shieldSize)
+            trust->fireres = (uint16)((Sql_GetFloatData(SqlHandle, 35) - 1) * -100);
+            trust->iceres = (uint16)((Sql_GetFloatData(SqlHandle, 36) - 1) * -100);
+            trust->windres = (uint16)((Sql_GetFloatData(SqlHandle, 37) - 1) * -100);
+            trust->earthres = (uint16)((Sql_GetFloatData(SqlHandle, 38) - 1) * -100);
+            trust->thunderres = (uint16)((Sql_GetFloatData(SqlHandle, 39) - 1) * -100);
+            trust->waterres = (uint16)((Sql_GetFloatData(SqlHandle, 40) - 1) * -100);
+            trust->lightres = (uint16)((Sql_GetFloatData(SqlHandle, 41) - 1) * -100);
+            trust->darkres = (uint16)((Sql_GetFloatData(SqlHandle, 42) - 1) * -100);
+            trust->shieldSize = (uint16)(Sql_GetUIntData(SqlHandle, 43)); // TODO: Probably turn into a member(m_shieldSize)
 
             g_PTrustList.push_back(trust);
         }
@@ -282,37 +286,71 @@ void SpawnTrust(CCharEntity* PMaster, uint32 TrustID)
 CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
 {
     auto* PTrust = new CTrustEntity(PMaster);
-    auto trustData = *std::find_if(g_PTrustList.begin(), g_PTrustList.end(), [TrustID](Trust_t* t) { return t->trustID == TrustID; });
 
-    PTrust->loc              = PMaster->loc;
-    PTrust->m_OwnerID.id     = PMaster->id;
+    // clang-format off
+    auto maybeTrustData = std::find_if(g_PTrustList.begin(), g_PTrustList.end(), [TrustID](Trust_t* t)
+    {
+        return t->trustID == TrustID;
+    });
+    // clang-format on
+
+    if (maybeTrustData == g_PTrustList.end())
+    {
+        ShowError(fmt::format("Could not look up trust data for id: {}", TrustID));
+        return PTrust;
+    }
+
+    auto* trustData = *maybeTrustData;
+
+    PTrust->loc = PMaster->loc;
+    PTrust->m_OwnerID.id = PMaster->id;
     PTrust->m_OwnerID.targid = PMaster->targid;
 
     // spawn me randomly around master
     PTrust->loc.p = nearPosition(PMaster->loc.p, CTrustController::SpawnDistance + (PMaster->PTrusts.size() * CTrustController::SpawnDistance), (float)M_PI);
-    PTrust->look  = trustData->look;
-    PTrust->name  = trustData->name;
+    PTrust->look = trustData->look;
+    PTrust->name = trustData->name;
 
-    PTrust->packetName       = trustData->packet_name;
-    PTrust->m_name_prefix    = trustData->name_prefix;
-    PTrust->m_Family         = trustData->m_Family;
-    PTrust->m_MobSkillList   = trustData->m_MobSkillList;
-    PTrust->HPscale          = trustData->HPscale;
-    PTrust->MPscale          = trustData->MPscale;
-    PTrust->speed            = trustData->speed;
-    PTrust->m_HasSpellScript = trustData->hasSpellScript;
-    PTrust->m_TrustID        = trustData->trustID;
-    PTrust->status           = STATUS_NORMAL;
-    PTrust->m_ModelSize      = trustData->size;
-    PTrust->m_EcoSystem      = trustData->EcoSystem;
-    PTrust->m_MovementType   = static_cast<TRUST_MOVEMENT_TYPE>(trustData->behaviour);
+    PTrust->m_Pool = trustData->pool;
+    PTrust->packetName = trustData->packet_name;
+    PTrust->m_name_prefix = trustData->name_prefix;
+    PTrust->m_Family = trustData->m_Family;
+    PTrust->m_MobSkillList = trustData->m_MobSkillList;
+    PTrust->HPscale = trustData->HPscale;
+    PTrust->MPscale = trustData->MPscale;
+    PTrust->speed = trustData->speed;
+    PTrust->m_TrustID = trustData->trustID;
+    PTrust->status = STATUS_NORMAL;
+    PTrust->m_ModelSize = trustData->radius;
+    PTrust->m_EcoSystem = trustData->EcoSystem;
 
     PTrust->SetMJob(trustData->mJob);
     PTrust->SetSJob(trustData->sJob);
 
     // assume level matches master
     PTrust->SetMLevel(PMaster->GetMLevel());
-    PTrust->SetSLevel(PMaster->GetSLevel());
+    PTrust->SetSLevel(std::floor(PMaster->GetMLevel() / 2));
+
+    PTrust->setModifier(Mod::SLASHRES, trustData->slashres);
+    PTrust->setModifier(Mod::PIERCERES, trustData->pierceres);
+    PTrust->setModifier(Mod::RANGEDRES, trustData->pierceres);
+    PTrust->setModifier(Mod::HTHRES, trustData->hthres);
+    PTrust->setModifier(Mod::IMPACTRES, trustData->impactres);
+
+    PTrust->setModifier(Mod::FIRERES, trustData->fireres);
+    PTrust->setModifier(Mod::ICERES, trustData->iceres);
+    PTrust->setModifier(Mod::WINDRES, trustData->windres);
+    PTrust->setModifier(Mod::EARTHRES, trustData->earthres);
+    PTrust->setModifier(Mod::THUNDERRES, trustData->thunderres);
+    PTrust->setModifier(Mod::WATERRES, trustData->waterres);
+    PTrust->setModifier(Mod::LIGHTRES, trustData->lightres);
+    PTrust->setModifier(Mod::DARKRES, trustData->darkres);
+
+    PTrust->setMobMod(MOBMOD_BLOCK, trustData->shieldSize); // TODO: Probably turn into a member(m_shieldSize)
+    PTrust->setMobMod(MOBMOD_CAN_PARRY, 1); // All trusts have the ability to parry if their weapon is capable of doing so
+
+    PTrust->saveModifiers();
+    PTrust->saveMobModifiers();
 
     LoadTrustStatsAndSkills(PTrust);
 
@@ -321,29 +359,53 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     auto baseDamage = mobStyleDamage * 0.5f;
     auto damageMultiplier = static_cast<float>(trustData->cmbDmgMult) / 100.0f;
     auto adjustedDamage = baseDamage * damageMultiplier;
-    auto finalDamage = std::max(adjustedDamage, 1.0f);
+    auto finalDamage = static_cast<uint16>(std::max(adjustedDamage, 1.0f));
 
-    (dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]))->setDamage(static_cast<uint16>(finalDamage));
-    (dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_RANGED]))->setDamage(static_cast<uint16>(finalDamage));
-    (dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_AMMO]))->setDamage(static_cast<uint16>(finalDamage));
+    // Trust do not really have weapons, but they are modelled internally as
+    // if they do.
+    if (auto* mainWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]))
+    {
+        mainWeapon->setMaxHit(1);
+        mainWeapon->setSkillType(trustData->cmbSkill);
 
-    (dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]))->setDelay((trustData->cmbDelay * 1000) / 60);
-    (dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]))->setBaseDelay((trustData->cmbDelay * 1000) / 60);
+        mainWeapon->setDamage(finalDamage);
+        mainWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
+        mainWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
+    }
 
-    (dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_RANGED]))->setDelay((trustData->cmbDelay * 1000) / 60);
-    (dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_RANGED]))->setBaseDelay((trustData->cmbDelay * 1000) / 60);
+    if (auto* subWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_SUB]))
+    {
+        subWeapon->setDamage(finalDamage);
+        subWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
+        subWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
+    }
 
-    (dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_AMMO]))->setDelay((trustData->cmbDelay * 1000) / 60);
-    (dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_AMMO]))->setBaseDelay((trustData->cmbDelay * 1000) / 60);
+    if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_RANGED]))
+    {
+        rangedWeapon->setDamage(finalDamage);
+        rangedWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
+        rangedWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
+    }
 
-    // Spell lists
-    auto* spellList = mobSpellList::GetMobSpellList(trustData->spellList);
-    if (spellList)
+    if (auto* ammoWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_AMMO]))
+    {
+        ammoWeapon->setDamage(finalDamage);
+        ammoWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
+        ammoWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
+    }
+
+    // NOTE: Trusts don't really have weapons, and they don't really have combat skills. They only have
+    // a damage type, and whether or not they are multi-hit. We handle this wrong everywhere.
+    // To give any Trust multi-hit, you need to give them cmbSkill == SKILL_HAND_TO_HAND (1).
+    //if (trustData->cmbSkill == SKILL_HAND_TO_HAND) Unsure if this should be turned on?
+    //{
+    //    PTrust->m_dualWield = true;
+    //}
+
+    if (auto* spellList = mobSpellList::GetMobSpellList(trustData->spellList); spellList != nullptr)
     {
         mobutils::SetSpellList(PTrust, trustData->spellList);
     }
-
-    PTrust->setMobMod(MOBMOD_BLOCK, trustData->shieldSize); // TODO: Probably turn into a member(m_shieldSize)
 
     return PTrust;
 }
@@ -565,6 +627,14 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
 
     PTrust->addModifier(Mod::RATT, mobutils::GetBase(PTrust, PTrust->attRank));
     PTrust->addModifier(Mod::RACC, mobutils::GetBase(PTrust, PTrust->accRank));
+
+    PTrust->addModifier(Mod::PARRY, battleutils::GetMaxSkill(SKILL_SINGING, JOB_BRD, mLvl)); // C Rank parrying
+
+    // Add shield skill(A+) if block mod > 0
+    if (PTrust->getMobMod(MOBMOD_BLOCK) > 0) // TODO: MOBMOD_CAN_BLOCK ?
+    {
+        PTrust->addModifier(Mod::SHIELD, battleutils::GetMaxSkill(SKILL_ENFEEBLING_MAGIC, JOB_RDM, mLvl));
+    }
 
     // Add traits for sub and main
     battleutils::AddTraits(PTrust, traits::GetTraits(mJob), mLvl);

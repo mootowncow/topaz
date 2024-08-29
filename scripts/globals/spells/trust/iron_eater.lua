@@ -26,6 +26,14 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.MASTER, ai.c.HPP_LT, 50,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.PROVOKE)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0,
+                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.RESTRAINT)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.BERSERK,
+                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.BERSERK)
+
+    tpz.trust.onMobSpawn(mob)
 end
 
 function onMobDespawn(mob)

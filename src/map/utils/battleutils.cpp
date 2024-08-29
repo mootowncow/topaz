@@ -2635,6 +2635,11 @@ int16 GetSDTTier(int16 SDT)
         {
             ((CPetEntity*)PEntity)->getMobMod(MOBMOD_BLOCK);
         }
+
+        if (PEntity && PEntity->objtype == TYPE_TRUST)
+        {
+            ((CTrustEntity*)PEntity)->getMobMod(MOBMOD_BLOCK);
+        }
         switch (shieldSize)
         {
             case SHIELDSIZE_BUCKLER:
@@ -2721,11 +2726,21 @@ int16 GetSDTTier(int16 SDT)
             else
                 return 0;
         }
+        else if (PDefender->objtype == TYPE_TRUST)
+        {
+            CTrustEntity* PTrust = (CTrustEntity*)PDefender;
+            if (PTrust->getMobMod(MOBMOD_BLOCK) > 0 || PTrust->getMod(Mod::SHIELDBLOCKRATE) > 0)
+            {
+                shieldSize = PTrust->getMobMod(MOBMOD_BLOCK);
+            }
+            else
+                return 0;
+        }
         else
             return 0;
 
-        switch (shieldSize)
-        {
+            switch (shieldSize)
+            {
             case SHIELDSIZE_BUCKLER:
                 base = 55;
                 break;
@@ -2746,121 +2761,83 @@ int16 GetSDTTier(int16 SDT)
                 break;
             default:
                 return SHIELDSIZE_NONE;
-        }
+            }
 
-        // Reprisal Increases current shield skill by +15%.(1.15x)
-        // https://www.bg-wiki.com/ffxi/Reprisal
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_REPRISAL))
-        {
-            blockskill *= 1.15;
-        }
-        float skillmodifier = (blockskill - attackskill) * 0.2325f;
-        // int8 blockRate = (int8)std::clamp((int32)((base + (int32)skillmodifier) * blockRateMod), 5, (shieldSize == 6 ? 100 : std::max<int32>((int32)(65 * blockRateMod), 100)));
-        // ShowDebug(CL_CYAN "GetBlockRate: %i\n" CL_RESET, blockRate);
-        int32 baseValue = base + (int32)skillmodifier;
-        int32 adjustedValue = static_cast<int32>(baseValue * blockRateMod);
+            // Reprisal Increases current shield skill by +15%.(1.15x)
+            // https://www.bg-wiki.com/ffxi/Reprisal
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_REPRISAL))
+            {
+                blockskill *= 1.15;
+            }
+            float skillmodifier = (blockskill - attackskill) * 0.2325f;
+            // int8 blockRate = (int8)std::clamp((int32)((base + (int32)skillmodifier) * blockRateMod), 5, (shieldSize == 6 ? 100 : std::max<int32>((int32)(65 * blockRateMod), 100)));
+            // ShowDebug(CL_CYAN "GetBlockRate: %i\n" CL_RESET, blockRate);
+            int32 baseValue = base + (int32)skillmodifier;
+            int32 adjustedValue = static_cast<int32>(baseValue * blockRateMod);
 
-        // Reprisal increases block rate by 50% of your current block rate
-        // https://www.bg-wiki.com/ffxi/Reprisal
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_REPRISAL))
-        {
-            adjustedValue *= 1.5;
-        }
-        int32 maxBlockRate = (shieldSize == 6 ? 100 : std::max<int32>(static_cast<int32>(65 * blockRateMod), 100));
-        int8 clampedValue = static_cast<int8>(std::clamp(adjustedValue, 5, maxBlockRate));
+            // Reprisal increases block rate by 50% of your current block rate
+            // https://www.bg-wiki.com/ffxi/Reprisal
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_REPRISAL))
+            {
+                adjustedValue *= 1.5;
+            }
+            int32 maxBlockRate = (shieldSize == 6 ? 100 : std::max<int32>(static_cast<int32>(65 * blockRateMod), 100));
+            int8 clampedValue = static_cast<int8>(std::clamp(adjustedValue, 5, maxBlockRate));
 
-        //printf("Attackskill: %u, Blockskill: %u, Skill modifier: %f, Shield Size: %i, Base value: %d, Adjusted value: %d, Max block rate: %d, Clamped value: %d\n", attackskill, blockskill, skillmodifier, shieldSize, baseValue, adjustedValue, maxBlockRate, clampedValue);
-        return clampedValue;
+            //printf("Attackskill: %u, Blockskill: %u, Skill modifier: %f, Shield Size: %i, Base value: %d, Adjusted value: %d, Max block rate: %d, Clamped value: %d\n", attackskill, blockskill, skillmodifier, shieldSize, baseValue, adjustedValue, maxBlockRate, clampedValue);
+            return clampedValue;
     }
 
     uint8 GetParryRate(CBattleEntity* PAttacker, CBattleEntity* PDefender)
     {
         CItemWeapon* PWeapon = GetEntityWeapon(PDefender, SLOT_MAIN);
-        if ((PWeapon != nullptr && PWeapon->getID() != 0 && PWeapon->getID() != 65535 &&
-            PWeapon->getSkillType() != SKILL_HAND_TO_HAND) && PDefender->PAI->IsEngaged())
+
+        if ((PWeapon != nullptr && PWeapon->getID() != 0 && PWeapon->getID() != 65535) || PDefender->objtype > TYPE_PC)
         {
-            JOBTYPE job = PDefender->GetMJob();
-
-            if (job == JOB_NIN || job == JOB_SAM ||
-                job == JOB_THF || job == JOB_BST || job == JOB_DRG ||
-                job == JOB_PLD || job == JOB_WAR || job == JOB_BRD ||
-                job == JOB_DRK || job == JOB_RDM || job == JOB_COR ||
-                job == JOB_DNC || job == JOB_PUP || job == JOB_RUN ||
-                job == JOB_BLU || job == JOB_MNK || job == JOB_GEO ||
-                job == JOB_SCH)
+            if (PWeapon->getSkillType() != SKILL_HAND_TO_HAND && PWeapon->getSkillType() != SKILL_NONE && PDefender->PAI->IsEngaged())
             {
-                if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_AVOIDANCE_DOWN))
+                JOBTYPE job = PDefender->GetMJob();
+
+                if (job == JOB_NIN || job == JOB_SAM || job == JOB_THF || job == JOB_BST || job == JOB_DRG || job == JOB_PLD || job == JOB_WAR ||
+                    job == JOB_BRD || job == JOB_DRK || job == JOB_RDM || job == JOB_COR || job == JOB_DNC || job == JOB_PUP || job == JOB_RUN ||
+                    job == JOB_BLU || job == JOB_MNK || job == JOB_GEO || job == JOB_SCH)
                 {
-                    return 0;
-                }
-                auto weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_MAIN]);
-                uint16 attackskill = static_cast<uint16>(PAttacker->GetSkill((SKILLTYPE)(weapon ? weapon->getSkillType() : 0)));
-                uint16 skill = static_cast<uint16>((PDefender->GetSkill(SKILL_PARRY) + PDefender->getMod(Mod::PARRY) + PWeapon->getILvlParry()));
+                    if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_AVOIDANCE_DOWN))
+                    {
+                        return 0;
+                    }
 
-                // parry rate = clamp(15 + floor((parryskill - weaponskill)*.125f - (level correction?)),5,20)
-                // https://ffxilogdialy.hatenablog.com/entry/2018/08/10/113719 
-                auto parryRate = std::clamp<float>((float)((15 + floor(skill - attackskill) * 0.125f)), 5.0f, 20.0f);
-                // Issekigan grants parry rate bonus. From best available data, if you already capped out at 25% parry it grants another 25% bonus for ~50% parry rate
-                if (PDefender->objtype == TYPE_PC && PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_ISSEKIGAN)) {
-                    int16 issekiganBonus = static_cast<int16>(PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_ISSEKIGAN)->GetPower());
-                    //ShowDebug(CL_CYAN"GetParryRate: Issekigan Active, Parry Rate %d -> %d...\n" CL_RESET, parryRate, (parryRate+issekiganBonus));
-                    parryRate = parryRate + issekiganBonus;
-                }
+                    if (PDefender->objtype > TYPE_PC && ((CMobEntity*)PDefender)->getMobMod(MOBMOD_CAN_PARRY) == 0)
+                    {
+                        return 0;
+                    }
 
-                // Inquartata grants a flat parry rate bonus.
-                int16 inquartataBonus = static_cast<int16>(PDefender->getMod(Mod::INQUARTATA));
-                parryRate += (uint8)inquartataBonus;
+                    auto weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_MAIN]);
+                    uint16 attackskill = static_cast<uint16>(PAttacker->GetSkill((SKILLTYPE)(weapon ? weapon->getSkillType() : 0)));
+                    uint16 skill = static_cast<uint16>((PDefender->GetSkill(SKILL_PARRY) + PDefender->getMod(Mod::PARRY) + PWeapon->getILvlParry()));
 
-                // Parry rate caps at 80% like Counter(unverified)
-                if (parryRate > 80.0f)
-                {
-                    parryRate = 80.0f;
+                    // Calculate parry rate and clamp it between 5 and 20
+                    auto parryRate = std::clamp<float>(15.0f + floor((skill - attackskill) * 0.125f), 5.0f, 20.0f);
+
+                    // Apply Issekigan effect if active
+                    if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_ISSEKIGAN))
+                    {
+                        int16 issekiganBonus = static_cast<int16>(PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_ISSEKIGAN)->GetPower());
+                        parryRate += issekiganBonus;
+                    }
+
+                    // Apply Inquartata bonus
+                    int16 inquartataBonus = static_cast<int16>(PDefender->getMod(Mod::INQUARTATA));
+                    parryRate += static_cast<uint8>(inquartataBonus);
+
+                    // Cap parry rate at 80%
+                    parryRate = std::min(parryRate, 80.0f);
+
+                    printf("Parry rate is... %f \n", parryRate);
+                    return static_cast<uint8>(parryRate);
                 }
-                // printf("Player parry rate is... %f \n", parryRate);
-                return static_cast<uint8>(parryRate);
             }
         }
-
-        return 0;
-    }
-
-    uint8 GetMobParryRate(CBattleEntity* PAttacker, CBattleEntity* PDefender)
-    {
-        CItemWeapon* PWeapon = GetEntityWeapon(PDefender, SLOT_MAIN);
-        if (PDefender->objtype == TYPE_MOB || PDefender->objtype == TYPE_PET)
-        {
-            JOBTYPE job = PDefender->GetMJob();
-
-            if (job == JOB_NIN || job == JOB_SAM || job == JOB_THF || job == JOB_BST || job == JOB_DRG || job == JOB_PLD || job == JOB_WAR || job == JOB_BRD ||
-                job == JOB_DRK || job == JOB_RDM || job == JOB_COR || job == JOB_DNC || job == JOB_PUP || job == JOB_RUN || job == JOB_BLU || job == JOB_MNK ||
-                job == JOB_GEO || job == JOB_SCH)
-            {
-                if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_AVOIDANCE_DOWN) || ((CMobEntity*)PDefender)->getMobMod(MOBMOD_CAN_PARRY) == 0)
-                {
-                    return 0;
-                }
-                auto weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_MAIN]);
-                uint16 attackskill = static_cast<uint16>(PAttacker->GetSkill((SKILLTYPE)(weapon ? weapon->getSkillType() : 0)));
-                uint16 skill = static_cast<uint16>((PDefender->GetSkill(SKILL_PARRY) + PDefender->getMod(Mod::PARRY) + PWeapon->getILvlParry()));
-
-                // parry rate = clamp(15 + floor((parryskill - weaponskill)*.125f - (level correction?)),5,20)
-                // https://ffxilogdialy.hatenablog.com/entry/2018/08/10/113719
-                auto parryRate = std::clamp<float>((float)((15 + floor(skill - attackskill) * 0.125f)), 5.0f, 20.0f);
-
-                // Inquartata grants a flat parry rate bonus.
-                int16 inquartataBonus = static_cast<int16>(PDefender->getMod(Mod::INQUARTATA));
-                parryRate += (uint8)inquartataBonus;
-
-                //  Parry rate caps at 80% like Counter(unverified)
-                if (parryRate > 80.0f)
-                {
-                    parryRate = 80.0f;
-                }
-                // printf("Mobs parry rate is... %f \n", parryRate);
-                return static_cast<uint8>(parryRate);
-            }
-        }
-
         return 0;
     }
 
@@ -2871,7 +2848,7 @@ int16 GetSDTTier(int16 SDT)
         // Defender must have no weapon equipped, or a hand to hand weapon equipped to guard
         bool validWeapon = (PWeapon == nullptr || PWeapon->getSkillType() == SKILL_HAND_TO_HAND);
 
-        if (PDefender->objtype == TYPE_MOB || PDefender->objtype == TYPE_PET) {
+        if (PDefender->objtype == TYPE_MOB || PDefender->objtype == TYPE_PET || PDefender->objtype == TYPE_TRUST) {
             validWeapon = PDefender->GetMJob() == JOB_MNK || PDefender->GetMJob() == JOB_PUP;
         }
 
@@ -3018,7 +2995,7 @@ int16 GetSDTTier(int16 SDT)
             if (isBlocked)
             {
                 uint8 absorb = 100;
-                if (PDefender->m_Weapons[SLOT_SUB]->IsShield() || PDefender->objtype == TYPE_MOB || PDefender->objtype == TYPE_PET)
+                if (PDefender->m_Weapons[SLOT_SUB]->IsShield() || PDefender->objtype == TYPE_MOB || PDefender->objtype == TYPE_PET || PDefender->objtype == TYPE_TRUST)
                 {
                     if (PDefender->objtype == TYPE_PC)
                     {
@@ -3034,7 +3011,7 @@ int16 GetSDTTier(int16 SDT)
                             PDefender->addTP(PDefender->getMod(Mod::SHIELD_MASTERY_TP));
                         }
                     }
-                    else if (PDefender->objtype == TYPE_PET && ((CMobEntity*)PDefender)->getMobMod(MOBMOD_BLOCK) > 0)
+                    else if (PDefender->objtype == TYPE_PET && ((CPetEntity*)PDefender)->getMobMod(MOBMOD_BLOCK) > 0)
                     {
                         absorb = battleutils::getShieldBlockAmount(PDefender);
                         absorb -= PDefender->getMod(Mod::SHIELD_DEF_BONUS); // Include Shield Defense Bonus in absorb amount
@@ -3049,6 +3026,20 @@ int16 GetSDTTier(int16 SDT)
                         }
                     }
                     else if (PDefender->objtype == TYPE_MOB && ((CMobEntity*)PDefender)->getMobMod(MOBMOD_BLOCK) > 0)
+                    {
+                        absorb = battleutils::getShieldBlockAmount(PDefender);
+                        absorb -= PDefender->getMod(Mod::SHIELD_DEF_BONUS); // Include Shield Defense Bonus in absorb amount
+
+                        // Shield Mastery
+                        if ((std::max(damage - (PDefender->getMod(Mod::PHALANX) + PDefender->getMod(Mod::STONESKIN)), 0) > 0) &&
+                            PDefender->getMod(Mod::SHIELD_MASTERY_TP) > 0)
+                        {
+                            // If the player blocked with a shield and has shield mastery, add shield mastery TP bonus
+                            // unblocked damage (before block but as if affected by stoneskin/phalanx) must be greater than zero
+                            PDefender->addTP(PDefender->getMod(Mod::SHIELD_MASTERY_TP));
+                        }
+                    }
+                    else if (PDefender->objtype == TYPE_TRUST && ((CTrustEntity*)PDefender)->getMobMod(MOBMOD_BLOCK) > 0)
                     {
                         absorb = battleutils::getShieldBlockAmount(PDefender);
                         absorb -= PDefender->getMod(Mod::SHIELD_DEF_BONUS); // Include Shield Defense Bonus in absorb amount
@@ -3084,7 +3075,7 @@ int16 GetSDTTier(int16 SDT)
                             0, reprisalEffect->GetSubPower()));
                     }
                 }
-                //printf("Absorb %u\n", absorb);
+                printf("Absorb %u\n", absorb);
                 damage = (damage * absorb) / 100;
             }
         }

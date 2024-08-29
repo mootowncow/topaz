@@ -1,7 +1,7 @@
 function onTrigger(player)
     local targ = player:getCursorTarget();
     if (targ ~= nil)  then
-        if (targ:isMob() or targ:isPet()) then
+        if (targ:isMob() or targ:isPet() or targ:isTrust()) then
             local fire = targ:getMod(tpz.mod.SDT_FIRE)
             local ice = targ:getMod(tpz.mod.SDT_ICE)
             local wind = targ:getMod(tpz.mod.SDT_WIND)

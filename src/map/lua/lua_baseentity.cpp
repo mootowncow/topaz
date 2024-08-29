@@ -1694,6 +1694,21 @@ inline int32 CLuaBaseEntity::isAlly(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: isTrust()
+ *  Purpose : Returns true if entity is a trust
+ *  Example : if (mob:isTrust()) then 
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::isTrust(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    lua_pushboolean(L, m_PBaseEntity->objtype == TYPE_TRUST);
+    return 1;
+}
+
+/************************************************************************
 *  Function: initNpcAi()
 *  Purpose : Initiate pre-defined NPC AI
 *  Example : npc:initNpcAi(); -- Red Ghost in Port Jeuno (walks a path)
@@ -15757,16 +15772,10 @@ inline int32 CLuaBaseEntity::getParryRate(lua_State* L)
     CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
     CBattleEntity* PAttacker = (CBattleEntity*)(PLuaBaseEntity->GetBaseEntity());
 
-    if (PDefender && PAttacker && PDefender->objtype == TYPE_PC && !PDefender->StatusEffectContainer->HasPreventActionEffect(false) && PDefender->PAI &&
+    if (PDefender && PAttacker && !PDefender->StatusEffectContainer->HasPreventActionEffect(false) && PDefender->PAI &&
         PDefender->PAI->IsEngaged() &&
         facing(PDefender->loc.p, PAttacker->loc.p, 64))
         lua_pushinteger(L, battleutils::GetParryRate(PAttacker, PDefender));
-    else if (PDefender && PAttacker && PDefender->objtype == TYPE_MOB && !PDefender->StatusEffectContainer->HasPreventActionEffect(false) && PDefender->PAI &&
-        PDefender->PAI->IsEngaged() && facing(PDefender->loc.p, PAttacker->loc.p, 64))
-        lua_pushinteger(L, battleutils::GetMobParryRate(PAttacker, PDefender));
-    else if (PDefender && PAttacker && PDefender->objtype == TYPE_PET && !PDefender->StatusEffectContainer->HasPreventActionEffect(false) && PDefender->PAI &&
-             PDefender->PAI->IsEngaged() && facing(PDefender->loc.p, PAttacker->loc.p, 64))
-        lua_pushinteger(L, battleutils::GetMobParryRate(PAttacker, PDefender));
     else
         lua_pushinteger(L, 0);
 
@@ -15787,7 +15796,7 @@ inline int32 CLuaBaseEntity::getBlockRate(lua_State* L)
     CBattleEntity* PDefender = (CBattleEntity*)m_PBaseEntity;
     CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
     CBattleEntity* PAttacker = (CBattleEntity*)(PLuaBaseEntity->GetBaseEntity());
-    if (PDefender->objtype == TYPE_MOB || PDefender->objtype == TYPE_PET)
+    if (PDefender->objtype == TYPE_MOB || PDefender->objtype == TYPE_PET || PDefender->objtype == TYPE_TRUST)
     {
         if (PDefender && PAttacker && !PDefender->StatusEffectContainer->HasPreventActionEffect(false) && facing(PDefender->loc.p, PAttacker->loc.p, 64))
             lua_pushinteger(L, battleutils::GetBlockRate(PAttacker, PDefender));
@@ -15874,6 +15883,27 @@ inline int32 CLuaBaseEntity::getBlockedDamage(lua_State* L)
     }
     lua_pushinteger(L, damage * (100 - absorb) / 100);
     return 1;
+    }
+
+    // Trust
+    if (PDefender && PDefender->objtype == TYPE_TRUST && ((CTrustEntity*)PDefender)->getMobMod(MOBMOD_BLOCK) > 0)
+    {
+        uint8 absorb = battleutils::getShieldBlockAmount(PDefender);
+        int32 shieldDefBonus = PDefender->getMod(Mod::SHIELD_DEF_BONUS);
+
+        shieldDefBonus = std::clamp((int32)shieldDefBonus, 0, 50);
+
+        absorb += shieldDefBonus; // Include Shield Defense Bonus in absorb amount
+
+        // Shield Mastery
+        if ((std::max(damage - (PDefender->getMod(Mod::PHALANX) + PDefender->getMod(Mod::STONESKIN)), 0) > 0) && PDefender->getMod(Mod::SHIELD_MASTERY_TP) > 0)
+        {
+            // If the player blocked with a shield and has shield mastery, add shield mastery TP bonus
+            // unblocked damage (before block but as if affected by stoneskin/phalanx) must be greater than zero
+            PDefender->addTP(PDefender->getMod(Mod::SHIELD_MASTERY_TP));
+        }
+        lua_pushinteger(L, damage * (100 - absorb) / 100);
+        return 1;
     }
 
     // Player
@@ -17035,6 +17065,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isMob),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isPet),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isAlly),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,isTrust),
 
     // AI and Control
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,initNpcAi),

@@ -35,7 +35,7 @@ function onTrigger(player, modifier, amount, target)
         target = player:getCursorTarget()
     end
 
-    if not target or target:isNPC() or not target:isMob() then
+    if not target or target:isNPC() or not target:isMob() or not target:isTrust() then
         error(player, "No valid target found. place cursor on a non-npc / non-player object or specify a mob ID. ")
         return
     end

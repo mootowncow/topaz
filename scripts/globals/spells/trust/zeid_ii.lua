@@ -20,7 +20,16 @@ function onSpellCast(caster, target, spell)
 end
 
 function onMobSpawn(mob)
-    tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.SPAWN)
+    tpz.trust.teamworkMessage(mob, {
+        [tpz.magic.spell.LION_II] = tpz.trust.messageOffset.TEAMWORK_1,
+    })
+
+    mob:addListener('WEAPONSKILL_USE', 'ZEID_II_WEAPONSKILL_USE', function(mobArg, target, wsid, tp, action)
+        if wsid == 56 then -- Ground Strike
+            -- Never again will I lose sight of who I am
+            tpz.trust.message(mobArg, tpz.trust.messageOffset.SPECIAL_MOVE_1)
+        end
+    end)
 
     -- Stun all the things!
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0,
@@ -36,13 +45,13 @@ function onMobSpawn(mob)
                         ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
 
     -- Non-stun things
-    mob:addSimpleGambit(ai.t.SELF, ai.c.ALWAYS, 0,
+    mob:addSimpleGambit(ai.t.SELF, ai.c.PT_HAS_WHM, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.SOULEATER)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.ALWAYS, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.LAST_RESORT)
 
-    mob:setTrustTPSkillSettings(ai.tp.CLOSER, ai.s.RANDOM)
+    tpz.trust.onMobSpawn(mob)
 end
 
 function onMobDespawn(mob)

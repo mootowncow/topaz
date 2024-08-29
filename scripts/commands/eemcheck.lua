@@ -1,7 +1,7 @@
 function onTrigger(player)
     local targ = player:getCursorTarget();
     if (targ ~= nil)  then
-        if (targ:isMob() or targ:isPet()) then
+        if (targ:isMob() or targ:isPet() or targ:isTrust()) then
             local amnesia = targ:getMod(tpz.mod.EEM_AMNESIA)
             local virus = targ:getMod(tpz.mod.EEM_VIRUS)
             local silence = targ:getMod(tpz.mod.EEM_SILENCE)

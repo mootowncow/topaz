@@ -90,6 +90,10 @@ enum class G_CONDITION : uint16
     NOT_PT_HAS_TANK    = 22,
     IS_ECOSYSTEM       = 23,
     HP_MISSING         = 24,
+    RESISTS_DMGTYPE    = 25,
+    PT_HAS_WHM         = 26,
+    CAN_SNEAK_ATTACK   = 27,
+    WITH_WS            = 28, // TODO
 };
 
 enum class G_REACTION : uint16
@@ -236,6 +240,8 @@ private:
     bool TryTrustSkill();
     bool PartyHasHealer();
     bool PartyHasTank();
+    bool PartyHasWHM();
+    bool CanSneakAttack();
     void SetSpellRecast(time_point tick, SpellID spellid);
 
     CTrustEntity* POwner;
