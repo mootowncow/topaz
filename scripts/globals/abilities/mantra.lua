@@ -30,5 +30,4 @@ function onUseAbility(player, target, ability)
         target:delStatusEffectSilent(tpz.effect.MAX_HP_BOOST)
         target:addStatusEffect(tpz.effect.MAX_HP_BOOST, power, 0, duration)
     end
-    player:delStatusEffectSilent(tpz.effect.INNER_STRENGTH)
 end
