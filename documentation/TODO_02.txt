@@ -145,7 +145,7 @@ Voidwalker:
 Check all immunities with mobdb
 
 Trusts:
-Only summon trusts if level < 75
+Only summon trusts if level < 75, not level capped, not level synced
 Aspir / Drain Gambit logic?
 Koru-Moru spams phalanx on himself and no other spells?
 storm weakness doesn't work because target is self in gambit
@@ -153,8 +153,16 @@ mob:setMobMod(xi.mobMod.TRUST_DISTANCE, xi.trust.movementType.NO_MOVE) <- trust 
 Ability to set mobs TP usage(maybe just check the MOBMOD_TP_USE > 0) in CGambitsContainer::TryTrustSkill()
 Ability to check multiple statuses for dark arts / addendum (and light also)
 Huge delay on first spell cast by adelheid? And storm - > helix is also a huge delay?
+SC logic for all the melee imo
+AddMerit() for mobs(Trusts)
+I think LSB had merits for trusts/mobs? https://github.com/LandSandBoat/server/commit/f17a2326a19ae6e7b3089cf2ae5b78862474216d
 
 **** NOW ***
+Qnaern shouldnt use combo and freezebite, combo also shouldnt aoe and be 20 yards. (they are using skill id 3412 and 3413 i think..)
+spawnmob/mobhere should work with npcs(does it on LSB?) I think despawnmob works with npcs
+Evil Armory should be magic immune(shouldnt get removed from trash dying)
+ixDRK has wrong msgid wheb you get animosity
+Remove inner strength in C++ after using certain JA's(the ones it buffs)
 Check Skill for all spells in spell_list.sql. I did most of ele/enfeebling
 Does Shen work?
 Test yesterdays commits from home like Banishga1-3
@@ -176,7 +184,6 @@ Tags 24 hr CD
 Voidwalker KI delete on T3/T4 kill
 Fatality belt latent(change it prob)
 "Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking. Copy  Cheese Hoarder Gigiroon to code it
-Ninja spells, ichi and san nukes. Ichi are proper in dats but not in sql, SAN might not be 100% accurate? (SQL is shorter than the DAT for SAN)
 Group Yagudo lutenists scroll drops ?
 La Vaule gate doesn't work properly
 The Scarlet King (Purson) test on retail (dont forget mob level) + code
@@ -194,11 +201,22 @@ Non-mommy zomits(Om'Xzomit) patroll all around on a path.
 Mommy zomit patrol paths can be very short.
 
 Ashu Talif:
-Faluuya got "stuck" after winning and killing the boss(Discord has screenshots). 
-Fidgets around waiting at door(shouldn't roam..)
-Boss and 2 adds get stuck after spawning on the stairs until faluuya runs back
-Damage tracking on faluuya doesn't work properly and overflowed
-Mobs didn't depop after the boss died
+Imperial pieces are not taken by Hashbob(sp)
+Royal Painter Escort:
+        Faluuya got "stuck" after winning and killing the boss(Discord has screenshots). 
+        Fidgets around waiting at door(shouldn't roam..)
+        Boss and 2 adds get stuck after spawning on the stairs until faluuya runs back
+        Damage tracking on faluuya doesn't work properly and overflowed
+        Mobs didn't depop after the boss died
+    Targetting the captain:
+        Windjammer imps impossible to gauge, no exp, no loot, no gil
+        Bubbly,Kabsalah no exp, loot, gil
+        One of the chests only gave a Koga shuriken
+            elseif chestType == "secondBonusChest" then
+                if (instanceID == ROYAL_PAINTER_ESCORT) then
+                    distributeLoot(player, chars, royalPainterItemFaluuya, instanceID)
+                elseif (instanceID == TARGETING_THE_CAPTAIN) then
+                    distributeLoot(player, chars, lootTables[math.random(#lootTables)], instanceID) -- One of two Possible chests <- Doesn't work
 
 Voidwalker:
 https://discord.com/channels/443544205206355968/1129045297302097942/1129109467062096033 Vids of captures

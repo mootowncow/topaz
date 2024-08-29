@@ -54,6 +54,8 @@ https://ffxiclopedia.fandom.com/wiki/A_Reputation_in_Ruins doors should shut onc
 Doors around that area are supposed to open when players are nearby and close when aren't I think
 
 Retail:
+Chakra heal the HP it gives?
+Ghrah / Zdei / Euvhi aggro distance
 Can mobs parry SA/TA? Check on dynmamis mobs, also check their parry rate
 Shikaree's levels
 Paseks level
