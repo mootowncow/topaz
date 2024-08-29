@@ -24,6 +24,9 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.EEM_PARALYZE, 15)
     mob:setMod(tpz.mod.EEM_BIND, 15)
     mob:setMod(tpz.mod.EEM_SLOW, 30)
+    mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
+    mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
 
     tpz.mix.jobSpecial.config(mob, {
         specials =

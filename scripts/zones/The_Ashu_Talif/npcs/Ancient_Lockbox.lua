@@ -202,7 +202,7 @@ function onTrigger(player, npc)
                 if (instanceID == ROYAL_PAINTER_ESCORT) then
                     distributeLoot(player, chars, royalPainterItemFaluuya, instanceID)
                 elseif (instanceID == TARGETING_THE_CAPTAIN) then
-                    distributeLoot(player, chars, lootTables[math.random(#lootTables)], instanceID) -- One of two Possible chests
+                    distributeLoot(player, chars, boxClootTables[math.random(#boxClootTables)], instanceID)
                 end
             else
                 player:addTreasure(tpz.items.KOGA_SHURIKEN, npc)
