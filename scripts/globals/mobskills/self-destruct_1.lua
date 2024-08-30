@@ -11,7 +11,6 @@ function onMobSkillCheck(target, mob, skill)
 	if mob:AnimationSub() == 2 then
 		return 0
 	end
-	mob:setLocalVar("self-destruct_hp", mob:getHP())
 	return 1
 end
 
