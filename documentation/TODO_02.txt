@@ -142,6 +142,7 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+AddLightMeleeAccuracyGear SH is lower level than hauby so shouldnt be 59
 Test parry block guard with npcs/trusts/pets/mobs. mostly parry
 Test fencer haste/crit/tp bonus with npcs/trusts/pets/mobs. getMobFencerCritBonus() in monstertpmoves as well!
 "gear" for other trusts based on levels (aka acc for melee/ranged)
