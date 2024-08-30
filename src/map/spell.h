@@ -983,7 +983,15 @@ enum class SpellID : uint16
     Frazzle                 = 843,
     Frazzle_II              = 844,
     Flurry                  = 845,
-    Flurry_II               = 846
+    Flurry_II               = 846,
+    Geohelix_II             = 885,
+    Hydrohelix_II           = 886,
+    Anemohelix_II           = 887,
+    Pyrohelix_II            = 888,
+    Cryohelix_II            = 889,
+    Ionohelix_II            = 890,
+    Noctohelix_II           = 891,
+    Luminohelix_II          = 892
 };
 
 #define MAX_SPELL_ID 1024U

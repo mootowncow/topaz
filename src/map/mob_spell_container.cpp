@@ -132,14 +132,17 @@ std::optional<SpellID> CMobSpellContainer::GetBestAvailable(SPELLFAMILY family)
             bool sameFamily = (family == SPELLFAMILY_NONE) ? true : spell->getSpellFamily() == family;
             bool hasEnoughMP = spell->getMPCost() <= m_PMob->health.mp;
             bool isNotInRecast = !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(id));
-            if (sameFamily && hasEnoughMP && isNotInRecast)
+
+            // Exclude helix spells
+            bool isNotHelix = !(id >= SpellID::Geohelix && id <= SpellID::Luminohelix) && !(id >= SpellID::Geohelix_II && id <= SpellID::Luminohelix_II);
+
+            if (sameFamily && hasEnoughMP && isNotInRecast && isNotHelix)
             {
                 matches.push_back(id);
             }
-        };
+        }
     };
 
-    // TODO: After a good refactoring, this sort of hack won't be needed...
     if (family == SPELLFAMILY_NONE)
     {
         searchInList(m_damageList);
@@ -154,11 +157,8 @@ std::optional<SpellID> CMobSpellContainer::GetBestAvailable(SPELLFAMILY family)
         searchInList(m_naList);
     }
 
-    // Assume the highest ID is the best (back of the vector)
-    // TODO: These will need to be organised by family, then merged
     return (!matches.empty()) ? std::optional<SpellID>{ matches.back() } : std::nullopt;
 }
-
 
 std::optional<SpellID> CMobSpellContainer::GetBestIndiSpell(CBattleEntity* PTarget)
 {
@@ -309,7 +309,7 @@ std::optional<SpellID> CMobSpellContainer::GetBestEntrustedSpell(CBattleEntity* 
     return choice;
 }
 
-std::optional<SpellID> CMobSpellContainer::GetBestAgainstTargetWeakness(CBattleEntity* PTarget)
+std::optional<SpellID> CMobSpellContainer::GetBestAgainstTargetWeakness(CBattleEntity* PMob, CBattleEntity* PTarget)
 {
     // Look up what the target has the _least resistance to_:
     // clang-format off
@@ -326,10 +326,15 @@ std::optional<SpellID> CMobSpellContainer::GetBestAgainstTargetWeakness(CBattleE
     };
     // clang-format on
 
+    // Check if all resistances are equal
+    bool allEqual = std::all_of(resistances.begin(), resistances.end(), [&](int16 value) { return value == resistances[0]; });
+
     std::size_t strongestIndex  = std::distance(resistances.begin(), std::max_element(resistances.begin(), resistances.end()));
 
     // TODO: Figure this out properly:
     std::optional<SpellID> choice = std::nullopt;
+    std::size_t dotwIndex = battleutils::GetDayElement();
+    std::size_t weatherIndex = battleutils::GetWeather(PMob, false);
     switch (strongestIndex  + 1) // Adjust to ignore ELEMENT_NONE
     {
         case ELEMENT_FIRE:
@@ -371,6 +376,109 @@ std::optional<SpellID> CMobSpellContainer::GetBestAgainstTargetWeakness(CBattleE
         {
             choice = GetBestAvailable(SPELLFAMILY_DRAIN);
             break;
+        }
+    }
+
+    // All equal weakness, pick a spell based on day
+    if (allEqual)
+    {
+        switch (dotwIndex)
+        {
+            case ELEMENT_FIRE:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_FIRE);
+                break;
+            }
+            case ELEMENT_ICE:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_BLIZZARD);
+                break;
+            }
+            case ELEMENT_WIND:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_AERO);
+                break;
+            }
+            case ELEMENT_EARTH:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_STONE);
+                break;
+            }
+            case ELEMENT_THUNDER:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_THUNDER);
+                break;
+            }
+            case ELEMENT_WATER:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_WATER);
+                break;
+            }
+            case ELEMENT_LIGHT:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_BANISH);
+                break;
+            }
+            case ELEMENT_DARK:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_DRAIN);
+                break;
+            }
+        }
+    }
+    // All equal weakness, check if weather is active, pick a spell based on weather
+    if (allEqual)
+    {
+        switch (weatherIndex)
+        {
+            case WEATHER_HOT_SPELL:
+            case WEATHER_HEAT_WAVE:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_FIRE);
+                break;
+            }
+            case WEATHER_SNOW:
+            case WEATHER_BLIZZARDS:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_BLIZZARD);
+                break;
+            }
+            case WEATHER_WIND:
+            case WEATHER_GALES:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_AERO);
+                break;
+            }
+            case WEATHER_DUST_STORM:
+            case WEATHER_SAND_STORM:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_STONE);
+                break;
+            }
+            case WEATHER_THUNDER:
+            case WEATHER_THUNDERSTORMS:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_THUNDER);
+                break;
+            }
+            case WEATHER_RAIN:
+            case WEATHER_SQUALL:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_WATER);
+                break;
+            }
+            case WEATHER_AURORAS:
+            case WEATHER_STELLAR_GLARE:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_BANISH);
+                break;
+            }
+            case WEATHER_GLOOM:
+            case WEATHER_DARKNESS:
+            {
+                choice = GetBestAvailable(SPELLFAMILY_DRAIN);
+                break;
+            }
         }
     }
 
@@ -428,10 +536,12 @@ std::optional<SpellID> CMobSpellContainer::GetStormDay()
     return choice;
 }
 
-std::optional<SpellID> CMobSpellContainer::GetHelixDay()
+std::optional<SpellID> CMobSpellContainer::GetHelixDay(CBattleEntity* PMob)
 {
     std::optional<SpellID> choice = std::nullopt;
     std::size_t dotwIndex = battleutils::GetDayElement();
+    std::size_t weatherIndex = battleutils::GetWeather(PMob, false);
+
     switch (dotwIndex)
     {
         case ELEMENT_FIRE:
@@ -475,6 +585,59 @@ std::optional<SpellID> CMobSpellContainer::GetHelixDay()
             break;
         }
     }
+
+    switch (weatherIndex)
+    {
+        case WEATHER_HOT_SPELL:
+        case WEATHER_HEAT_WAVE:
+        {
+            choice = GetBestAvailable(SPELLFAMILY_PYROHELIX);
+            break;
+        }
+        case WEATHER_SNOW:
+        case WEATHER_BLIZZARDS:
+        {
+            choice = GetBestAvailable(SPELLFAMILY_CRYOHELIX);
+            break;
+        }
+        case WEATHER_WIND:
+        case WEATHER_GALES:
+        {
+            choice = GetBestAvailable(SPELLFAMILY_ANEMOHELIX);
+            break;
+        }
+        case WEATHER_DUST_STORM:
+        case WEATHER_SAND_STORM:
+        {
+            choice = GetBestAvailable(SPELLFAMILY_GEOHELIX);
+            break;
+        }
+        case WEATHER_THUNDER:
+        case WEATHER_THUNDERSTORMS:
+        {
+            choice = GetBestAvailable(SPELLFAMILY_IONOHELIX);
+            break;
+        }
+        case WEATHER_RAIN:
+        case WEATHER_SQUALL:
+        {
+            choice = GetBestAvailable(SPELLFAMILY_HYDROHELIX);
+            break;
+        }
+        case WEATHER_AURORAS:
+        case WEATHER_STELLAR_GLARE:
+        {
+            choice = GetBestAvailable(SPELLFAMILY_LUMINOHELIX);
+            break;
+        }
+        case WEATHER_GLOOM:
+        case WEATHER_DARKNESS:
+        {
+            choice = GetBestAvailable(SPELLFAMILY_NOCTOHELIX);
+            break;
+        }
+    }
+
     return choice;
 }
 
@@ -494,6 +657,15 @@ std::optional<SpellID> CMobSpellContainer::StormWeakness(CBattleEntity* PTarget)
         PTarget->getMod(Mod::SDT_DARK),
     };
     // clang-format on
+
+    // Check if all resistances are equal
+    bool allEqual = std::all_of(resistances.begin(), resistances.end(), [&](int16 value) { return value == resistances[0]; });
+
+    // If all resistances are equal, choose the helix based on the current day
+    if (allEqual)
+    {
+        return GetStormDay();
+    }
 
     std::size_t strongestIndex  = std::distance(resistances.begin(), std::max_element(resistances.begin(), resistances.end()));
 
@@ -543,16 +715,10 @@ std::optional<SpellID> CMobSpellContainer::StormWeakness(CBattleEntity* PTarget)
         }
     }
 
-    // If none of the above is valid, pick day
-    if (!choice)
-    {
-        choice = GetStormDay();
-    }
-
     return choice;
 }
 
-std::optional<SpellID> CMobSpellContainer::HelixWeakness(CBattleEntity* PTarget)
+std::optional<SpellID> CMobSpellContainer::HelixWeakness(CBattleEntity* PMob, CBattleEntity* PTarget)
 {
     // Look up what the target has the _least resistance to_:
     // clang-format off
@@ -568,6 +734,15 @@ std::optional<SpellID> CMobSpellContainer::HelixWeakness(CBattleEntity* PTarget)
         PTarget->getMod(Mod::SDT_DARK),
     };
     // clang-format on
+
+    // Check if all resistances are equal
+    bool allEqual = std::all_of(resistances.begin(), resistances.end(), [&](int16 value) { return value == resistances[0]; });
+
+    // If all resistances are equal, choose the helix based on the current day
+    if (allEqual)
+    {
+        return GetHelixDay(PMob);
+    }
 
     std::size_t strongestIndex  = std::distance(resistances.begin(), std::max_element(resistances.begin(), resistances.end()));
 
@@ -615,12 +790,6 @@ std::optional<SpellID> CMobSpellContainer::HelixWeakness(CBattleEntity* PTarget)
             choice = SpellID::Noctohelix;
             break;
         }
-    }
-
-    // If none of the above is valid, pick day
-    if (!choice)
-    {
-        choice = GetHelixDay();
     }
 
     return choice;

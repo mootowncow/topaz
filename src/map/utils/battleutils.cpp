@@ -3635,7 +3635,7 @@ int16 GetSDTTier(int16 SDT)
         else
         {
             // apply merit mods and traits
-            if (PAttacker->objtype == TYPE_PC)
+            if (PAttacker->objtype == TYPE_PC) // Players
             {
                 CCharEntity* PCharAttacker = static_cast<CCharEntity*>(PAttacker);
                 crithitrate += PCharAttacker->PMeritPoints->GetMeritValue(MERIT_CRIT_HIT_RATE, PCharAttacker);
@@ -3647,6 +3647,7 @@ int16 GetSDTTier(int16 SDT)
                     (!PSub || PSub->getSkillType() == SKILL_NONE || PCharAttacker->m_Weapons[SLOT_SUB]->IsShield()))
                 {
                     crithitrate += PCharAttacker->getMod(Mod::FENCER_CRITHITRATE);
+                    ShowDebug("Adding fencer crit hit rate PLAYER");
                 }
             }
             else if (PAttacker->objtype == TYPE_MOB && PAttacker->allegiance == ALLEGIANCE_PLAYER) // NPCs
@@ -3657,6 +3658,18 @@ int16 GetSDTTier(int16 SDT)
                 if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand() && PMobAttacker->getMobMod(MOBMOD_BLOCK) > 0)
                 {
                     crithitrate += PMobAttacker->getMod(Mod::FENCER_CRITHITRATE);
+                    ShowDebug("Adding fencer crit hit rate NPC");
+                }
+            }
+            else if (PAttacker->objtype == TYPE_TRUST) // Trusts
+            {
+                // Add Fencer crit hit rate
+                CMobEntity* PMobAttacker = static_cast<CMobEntity*>(PAttacker);
+                CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PMobAttacker->m_Weapons[SLOT_MAIN]);
+                if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand() && PMobAttacker->getMobMod(MOBMOD_BLOCK) > 0)
+                {
+                    crithitrate += PMobAttacker->getMod(Mod::FENCER_CRITHITRATE);
+                    ShowDebug("Adding fencer crit hit rate TRUST");
                 }
             }
 
@@ -3678,9 +3691,9 @@ int16 GetSDTTier(int16 SDT)
             }
 
             // ShowDebug("Crit rate mod after Innin/Yonin: %d\n", crithitrate);
-            //printf("Your crit rate before dDex is... %i \n", crithitrate);
+            //ShowDebug("Your crit rate before dDex is... %i \n", crithitrate);
             crithitrate += GetDexCritBonus(PAttacker, PDefender);
-            //printf("Your crit rate after dDex is... %i \n", crithitrate);
+            ShowDebug("Your crit rate after dDex is... %i \n", crithitrate);
             crithitrate += PAttacker->getMod(Mod::CRITHITRATE);
             crithitrate += PDefender->getMod(Mod::ENEMYCRITRATE);
             crithitrate = std::clamp(crithitrate, 5, 100);

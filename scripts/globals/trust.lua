@@ -65,15 +65,37 @@ local modByMobName =
         mob:addMod(tpz.mod.CURE_POTENCY, 50)
     end,
 
-    ['adelheid'] = function(mob)
-        mob:addMod(tpz.mod.MPP, 80)
-        mob:addMod(tpz.mod.DMGAOE, -33)
-        mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
-        mob:addMod(tpz.mod.REFRESH, 8)
-        mob:addMod(tpz.mod.ENMITY, -15)
-        mob:addMod(tpz.mod.HELIX_EFFECT, 25)
-        mob:addMod(tpz.mod.INT, 15)
-    end,
+['adelheid'] = function(mob)
+    local mobLevel = mob:getMainLvl()
+
+    -- Apply INT, Elemental Staves Affinity Bonuses and Moldavite Earring MATT
+    if mobLevel >= 10 and mobLevel < 20 then
+        mob:addMod(tpz.mod.INT, 8)
+    elseif mobLevel >= 20 and mobLevel < 29 then
+        mob:addMod(tpz.mod.INT, 11)
+    elseif mobLevel >= 29 and mobLevel < 32 then
+        mob:addMod(tpz.mod.INT, 19)
+    elseif mobLevel >= 32 and mobLevel < 51 then
+        mob:addMod(tpz.mod.INT, 23)
+    elseif mobLevel >= 51 and mobLevel < 72 then
+        mob:addMod(tpz.mod.INT, 18)
+        mob:addMod(tpz.mod.MATT, 5)
+        AddElementalStaves(mob, 'nq')
+    elseif mobLevel >= 72 and mobLevel <= 75 then
+        mob:addMod(tpz.mod.INT, 47)
+        mob:addMod(tpz.mod.MATT, 5)
+        AddElementalStaves(mob, 'nq')
+    end
+
+    mob:addMod(tpz.mod.MPP, 80)
+    mob:addMod(tpz.mod.DMGAOE, -33)
+    mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
+    mob:addMod(tpz.mod.REFRESH, 8)
+    mob:addMod(tpz.mod.ENMITY, -15)
+    mob:addMod(tpz.mod.HELIX_EFFECT, 25)
+    mob:setMobMod(tpz.mobMod.TP_USE, 1000)
+end,
+
 
     ['koru-moru'] = function(mob)
         mob:addMod(tpz.mod.HPP, 20)
@@ -101,6 +123,7 @@ local modByMobName =
         mob:addMod(tpz.mod.ZANSHIN, 5)
         mob:addMod(tpz.mod.ALL_WSDMG_FIRST_HIT, 19)
         mob:addMod(tpz.mod.SAVETP, 400)
+        AddHeavyMeleeAccuracyGear(mob)
     end,
 
     ['iron_eater'] = function(mob)
@@ -110,6 +133,7 @@ local modByMobName =
         mob:addMod(tpz.mod.STORETP, 25)
         mob:addMod(tpz.mod.DA_DOUBLE_DAMAGE, 10)
         mob:setMod(tpz.INQUARTATA, 12)
+        AddHeavyMeleeAccuracyGear(mob)
     end,
 
     ['lhe_lhangavo'] = function(mob)
@@ -119,6 +143,7 @@ local modByMobName =
         mob:addMod(tpz.mod.ACC, 30)
         mob:addMod(tpz.mod.HASTE_GEAR, 1500)
         mob:addMod(tpz.mod.DEX, 12)
+        AddLightMeleeAccuracyGear(mob)
     end,
 
     ['shikaree_z'] = function(mob)
@@ -130,6 +155,7 @@ local modByMobName =
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.FASTCAST, 25)
         mob:addMod(tpz.mod.REFRESH, 4)
+        AddLightMeleeAccuracyGear(mob)
     end,
 
     ['zeid_ii'] = function(mob)
@@ -138,6 +164,7 @@ local modByMobName =
         mob:addMod(tpz.mod.EXTRA_DMG_CHANCE, 100) -- 10% chance
         mob:addMod(tpz.mod.OCC_DO_EXTRA_DMG, 150) -- to deal 1.5x damage
         mob:addMod(tpz.mod.STR, 12)
+        AddHeavyMeleeAccuracyGear(mob)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
     end,
 
@@ -148,15 +175,17 @@ local modByMobName =
         mob:addMod(tpz.mod.CRIT_DMG_INCREASE, 8)
         mob:addMod(tpz.mod.EVA, 25)
         mob:addMod(tpz.mod.AGI, 12)
+        AddLightMeleeAccuracyGear(mob)
     end,
 
     ['uka_totlihn'] = function(mob)
         mob:addMod(tpz.mod.HPP, 25)
-        mob:setMobMod(tpz.mobMod.MULTI_HIT, 3)
+        mob:setMobMod(tpz.mobtpz.mobMod.MULTI_HIT, 3)
         -- mob:addMod(tpz.mod.MAX_SWINGS, 3) Same as above?
         mob:addMod(tpz.mod.MEVA, 50)
         mob:addMod(tpz.mod.TPEVA, 25)
         mob:addMod(tpz.mod.CHR, 12)
+        AddLightMeleeAccuracyGear(mob)
     end,
 
     ['elivira'] = function(mob)
@@ -166,6 +195,7 @@ local modByMobName =
         --mob:addMod(tpz.mod.STORETP, -30) TODO
         --mob:addMod(tpz.mod.RANGEDSTORETP, 130) TODO
         mob:addMod(tpz.mod.ENMITY, -30)
+        -- AddRangedAccuracyGear(mob) -- TODO
     end,
 
     ['ulmnia'] = function(mob)
@@ -180,6 +210,7 @@ local modByMobName =
         mob:addMod(tpz.mod.DMGAOE, -15)
         mob:addMod(tpz.mod.ENMITY, -15)
         mob:addMod(tpz.mod.PHANTOM_DURATION, 100)
+        AddLightMeleeAccuracyGear(mob)
     end,
 
     ['sylvie'] = function(mob) -- sylvie_uc ?
@@ -412,5 +443,85 @@ end
 tpz.trust.dumpMessagePages = function(mob)
     for i=0, 120 do
         tpz.trust.message(mob, i, tpz.trust.message_offset.SPAWN)
+    end
+end
+
+function AddLightMeleeAccuracyGear(mob)
+    local mobLevel = mob:getMainLvl()
+
+    if mobLevel >= 40 and mobLevel < 48 then
+        mob:addMod(tpz.mod.ACC, 20)
+    elseif mobLevel >= 48 and mobLevel < 59 then
+        mob:addMod(tpz.mod.ACC, 30)
+    elseif mobLevel >= 59 and mobLevel < 70 then
+        mob:addMod(tpz.mod.ACC, 40)
+        mob:addMod(tpz.mod.EVA, 10)
+    elseif mobLevel >= 70 and mobLevel <= 75 then
+        mob:addMod(tpz.mod.ACC, 50)
+        mob:addMod(tpz.mod.EVA, 10)
+    end
+end
+
+function AddHeavyMeleeAccuracyGear(mob)
+    local mobLevel = mob:getMainLvl()
+
+    if mobLevel >= 40 and mobLevel < 48 then
+        mob:addMod(tpz.mod.ACC, 20)
+    elseif mobLevel >= 48 and mobLevel < 59 then
+        mob:addMod(tpz.mod.ACC, 30)
+    elseif mobLevel >= 59 and mobLevel < 70 then
+        mob:addMod(tpz.mod.ACC, 40)
+        mob:addMod(tpz.mod.STR, 5)
+        mob:addMod(tpz.mod.DEX, 5)
+        mob:addMod(tpz.mod.AGI, -5)
+        mob:addMod(tpz.mod.EVA, -20)
+    elseif mobLevel >= 70 and mobLevel <= 75 then
+        mob:addMod(tpz.mod.ACC, 50)
+        mob:addMod(tpz.mod.STR, 5)
+        mob:addMod(tpz.mod.DEX, 5)
+        mob:addMod(tpz.mod.AGI, -5)
+        mob:addMod(tpz.mod.EVA, -20)
+    end
+end
+
+function AddRangedAccuracyGear(mob) -- TODO
+end
+
+function AddElementalStaves(mob, tier)
+    local dmgMods = {
+        tpz.mod.FIRE_AFFINITY_DMG,
+        tpz.mod.ICE_AFFINITY_DMG,
+        tpz.mod.WIND_AFFINITY_DMG,
+        tpz.mod.EARTH_AFFINITY_DMG,
+        tpz.mod.THUNDER_AFFINITY_DMG,
+        tpz.mod.WATER_AFFINITY_DMG,
+        tpz.mod.LIGHT_AFFINITY_DMG,
+        tpz.mod.DARK_AFFINITY_DMG
+    }
+
+    local accMods = {
+        tpz.mod.FIRE_AFFINITY_ACC,
+        tpz.mod.ICE_AFFINITY_ACC,
+        tpz.mod.WIND_AFFINITY_ACC,
+        tpz.mod.EARTH_AFFINITY_ACC,
+        tpz.mod.THUNDER_AFFINITY_ACC,
+        tpz.mod.WATER_AFFINITY_ACC,
+        tpz.mod.LIGHT_AFFINITY_ACC,
+        tpz.mod.DARK_AFFINITY_ACC
+    }
+
+    local modValue = 2 -- Default to NQ if no arg given
+    if (tier == 'hq') then
+        modValue = 3
+    end
+
+    -- Apply the damage affinity mods
+    for _, mod in ipairs(dmgMods) do
+        mob:addMod(mod, modValue)
+    end
+
+    -- Apply the accuracy affinity mods
+    for _, mod in ipairs(accMods) do
+        mob:addMod(mod, modValue)
     end
 end

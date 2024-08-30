@@ -1752,6 +1752,16 @@ function getMobFencerCritBonus(mob)
         return mob:getMod(tpz.mod.FENCER_CRITHITRATE)
     end
 
+    if
+        mob:isTrust() and
+        (mob:getAllegiance() == tpz.allegiance.PLAYER) and
+        not mob:isWeaponTwoHanded() and
+        not mob:isWeaponHandToHand() and
+        (mob:getMobMod(tpz.mobMod.BLOCK) > 0)
+    then
+        return mob:getMod(tpz.mod.FENCER_CRITHITRATE)
+    end
+
     return 0
 end
 

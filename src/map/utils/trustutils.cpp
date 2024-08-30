@@ -368,21 +368,37 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
         mainWeapon->setMaxHit(1);
         mainWeapon->setSkillType(trustData->cmbSkill);
 
+        // 2H Weapons should deal more damage
+        if (mainWeapon->isTwoHanded())
+        {
+            finalDamage = finalDamage * 2;
+        }
+
         mainWeapon->setDamage(finalDamage);
-        mainWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
-        mainWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
+
+        // 1h weapons should be faster
+        if (!mainWeapon->isTwoHanded() && !mainWeapon->isHandToHand())
+        {
+            mainWeapon->setDelay(((trustData->cmbDelay * 1000) / 60) / 2);
+            mainWeapon->setBaseDelay(((trustData->cmbDelay * 1000) / 60) / 2);
+        }
+        else
+        {
+            mainWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
+            mainWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
+        }
     }
 
     if (auto* subWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_SUB]))
     {
         subWeapon->setDamage(finalDamage);
-        subWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
-        subWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
+        subWeapon->setDelay(((trustData->cmbDelay * 1000) / 60) / 2);
+        subWeapon->setBaseDelay(((trustData->cmbDelay * 1000) / 60) / 2);
     }
 
     if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_RANGED]))
     {
-        rangedWeapon->setDamage(finalDamage);
+        rangedWeapon->setDamage(finalDamage * 2);
         rangedWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
         rangedWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
     }

@@ -441,7 +441,7 @@ void CGambitsContainer::Tick(time_point tick)
                 }
                 else if (action.select == G_SELECT::BEST_AGAINST_TARGET)
                 {
-                    auto spell_id = POwner->SpellContainer->GetBestAgainstTargetWeakness(target);
+                    auto spell_id = POwner->SpellContainer->GetBestAgainstTargetWeakness(POwner, target);
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, spell_id.value());
@@ -459,7 +459,7 @@ void CGambitsContainer::Tick(time_point tick)
                 }
                 else if (action.select == G_SELECT::HELIX_DAY)
                 {
-                    auto spell_id = POwner->SpellContainer->GetHelixDay();
+                    auto spell_id = POwner->SpellContainer->GetHelixDay(POwner);
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, spell_id.value());
@@ -480,7 +480,7 @@ void CGambitsContainer::Tick(time_point tick)
                 }
                 else if (action.select == G_SELECT::HELIX_WEAKNESS)
                 {
-                    auto spell_id = POwner->SpellContainer->HelixWeakness(target);
+                    auto spell_id = POwner->SpellContainer->HelixWeakness(POwner, target);
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, spell_id.value());

@@ -15598,12 +15598,13 @@ inline int32 CLuaBaseEntity::setMobMod(lua_State *L)
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
 
     // putting this in here to find elusive bug
-    if (!(m_PBaseEntity->objtype & TYPE_MOB))
+    if (!(m_PBaseEntity->objtype & (TYPE_MOB | TYPE_TRUST)))
     {
         // this once broke on an entity (17532673) but it could not be found
-        ShowError("CLuaBaseEntity::setMobMod Expected type mob (%d) but its a (%d)\n", m_PBaseEntity->id, m_PBaseEntity->objtype);
+        ShowError("CLuaBaseEntity::setMobMod Expected type mob or trust (%d) but its a (%d)\n", m_PBaseEntity->id, m_PBaseEntity->objtype);
         return 0;
     }
+
 
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));

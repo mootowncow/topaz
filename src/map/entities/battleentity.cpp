@@ -366,9 +366,17 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
         {
             if (getMod(Mod::FENCER_JA_HASTE) > 0)
             {
-                if (objtype == TYPE_PC || allegiance == ALLEGIANCE_PLAYER)
+                if (objtype == TYPE_PC)
                 {
                     WeaponDelay = (uint16)(WeaponDelay * ((100.0f - getMod(Mod::FENCER_JA_HASTE)) / 100.0f));
+                }
+                if (allegiance == ALLEGIANCE_PLAYER)
+                {
+                    auto* mobEntity = dynamic_cast<CMobEntity*>(this);
+                    if (mobEntity->getMobMod(MOBMOD_BLOCK) > 0)
+                    {
+                        WeaponDelay = (uint16)(WeaponDelay * ((100.0f - getMod(Mod::FENCER_JA_HASTE)) / 100.0f));
+                    }
                 }
             }
         }
@@ -417,7 +425,7 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
             MinimumDelay -= (uint16)(MinimumDelay * 0.6);
         }
         WeaponDelay = (WeaponDelay < MinimumDelay) ? MinimumDelay : WeaponDelay;
-        //ShowDebug("Your weapon delay is... %i \n", WeaponDelay);
+        ShowDebug("Your weapon delay is... %i \n", WeaponDelay);
     }
     return WeaponDelay;
 }

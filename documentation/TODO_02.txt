@@ -141,10 +141,13 @@ Bonus MACC / blu params/dmg type/etc columns in spells sql
 CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
-Voidwalker:
-Check all immunities with mobdb
-
 Trusts:
+Test parry block guard with npcs/trusts/pets/mobs. mostly parry
+Test fencer haste/crit/tp bonus with npcs/trusts/pets/mobs. getMobFencerCritBonus() in monstertpmoves as well!
+"gear" for other trusts based on levels (aka acc for melee/ranged)
+food gambit so they can keep up food
+Twirling dervish level 50+ only
+Tenzens WS on ReadiesException or w/e
 Parry / Guard / Block work properly on players, mobs, pets, and friendly NPCs still? Mainly parry.
 SDT/EEM not working. BuildTrust() doesnt save EEM data at all(unneeded?)
 Only summon trusts if level < 75, not level capped, not level synced
@@ -158,6 +161,8 @@ AddMerit() for mobs(Trusts)
 I think LSB had merits for trusts/mobs? https://github.com/LandSandBoat/server/commit/f17a2326a19ae6e7b3089cf2ae5b78862474216d
 
 **** NOW ***
+Slow didn't remove elemental seal, but blind did?
+Solace should give enhancing magic duration
 Qnaern shouldnt use combo and freezebite, combo also shouldnt aoe and be 20 yards. (they are using skill id 3412 and 3413 i think..)
 spawnmob/mobhere should work with npcs(does it on LSB?) I think despawnmob works with npcs
 Evil Armory should be magic immune(shouldnt get removed from trash dying)
@@ -168,11 +173,11 @@ Does Shen work?
 Test yesterdays commits from home like Banishga1-3
 RA interrupt on movement packet or state change? Maybe LSB has
 Mobs should heal other mobs in combat
-Trust and fun leveling experience
-Trusts so I can level PLD in old school camps
+Shouldn't magic shield calculate before stoneshield? For spikes, they don't? Do they for enspells?
 Pet camps so I can level SMN x2
 Job points
 Mine Shaft + Promy ENMs
+Anticans starting from pool ID 165 need 240 delay. Check if any mobs dont have 240 or 480 delay in heidisql
 Do "no effect" (stun) spells add DR?
 Add DR to automatonweapopnskills and summon.lua. Also to the automatons shield bash?
 Valleys of sorrows Survival Guide facing wrong way(flip 180)
@@ -220,6 +225,7 @@ Royal Painter Escort:
 
 Voidwalker:
 https://discord.com/channels/443544205206355968/1129045297302097942/1129109467062096033 Vids of captures
+Check all immunities with mobdb
 
 Set PPets with a Pmaster to Pmasters level -2 AFTER getting mob level from DB
 Do something with meratetes memoirs exp #
@@ -300,7 +306,7 @@ Hunts
 WOE
 
 Later:
-Trusts
+Zoning from Whitegate to Aldazal ruins need to flip char rot 180 in zone_lines.sql or w/e
 Does the mob:wait() or w/e thing cause crashes for scouting the ashu talif?
 Mob AOE moves you can dodge that aoe around them / directional / conal and get their target AFTER the tp move animation finishes instead of before so they go off even if no targets in range and give spewcial "no targets in range" msg or w/e
 mob darkness SC from shikaree Y did 0 damage to me?
