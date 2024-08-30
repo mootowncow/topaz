@@ -142,10 +142,7 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-AddLightMeleeAccuracyGear SH is lower level than hauby so shouldnt be 59
-Test parry block guard with npcs/trusts/pets/mobs. mostly parry
-Test fencer haste/crit/tp bonus with npcs/trusts/pets/mobs. getMobFencerCritBonus() in monstertpmoves as well!
-"gear" for other trusts based on levels (aka acc for melee/ranged)
+Tenzen use JA"s like hasso?
 food gambit so they can keep up food
 Twirling dervish level 50+ only
 Tenzens WS on ReadiesException or w/e
@@ -162,6 +159,8 @@ AddMerit() for mobs(Trusts)
 I think LSB had merits for trusts/mobs? https://github.com/LandSandBoat/server/commit/f17a2326a19ae6e7b3089cf2ae5b78862474216d
 
 **** NOW ***
+Bomb toss suicide does 0 damage in AOE?
+Correct frame isn't being assigned to automatons on summon? (petid) petutils::SpawnPet always sets up harlequin frame but petutils::LoadPet (and calculate automaton stats) works??
 Slow didn't remove elemental seal, but blind did?
 Solace should give enhancing magic duration
 Qnaern shouldnt use combo and freezebite, combo also shouldnt aoe and be 20 yards. (they are using skill id 3412 and 3413 i think..)

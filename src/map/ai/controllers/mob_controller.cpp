@@ -636,9 +636,12 @@ bool CMobController::MobSkill(int wsList)
                     // Add Fencer TP Bonus
                     CMobEntity* PMobAttacker = static_cast<CMobEntity*>(PMob);
                     CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PMobAttacker->m_Weapons[SLOT_MAIN]);
-                    if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand() && PMobAttacker->getMobMod(MOBMOD_BLOCK) > 0)
+                    if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
                     {
-                        tp += PMobAttacker->getMod(Mod::FENCER_TP_BONUS);
+                        if (!PMobAttacker->m_dualWield)
+                        {
+                            tp += PMobAttacker->getMod(Mod::FENCER_TP_BONUS);
+                        }
                     }
                 }
                 PMob->SetLocalVar("tp", tp);

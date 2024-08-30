@@ -66,27 +66,6 @@ local modByMobName =
     end,
 
 ['adelheid'] = function(mob)
-    local mobLevel = mob:getMainLvl()
-
-    -- Apply INT, Elemental Staves Affinity Bonuses and Moldavite Earring MATT
-    if mobLevel >= 10 and mobLevel < 20 then
-        mob:addMod(tpz.mod.INT, 8)
-    elseif mobLevel >= 20 and mobLevel < 29 then
-        mob:addMod(tpz.mod.INT, 11)
-    elseif mobLevel >= 29 and mobLevel < 32 then
-        mob:addMod(tpz.mod.INT, 19)
-    elseif mobLevel >= 32 and mobLevel < 51 then
-        mob:addMod(tpz.mod.INT, 23)
-    elseif mobLevel >= 51 and mobLevel < 72 then
-        mob:addMod(tpz.mod.INT, 18)
-        mob:addMod(tpz.mod.MATT, 5)
-        AddElementalStaves(mob, 'nq')
-    elseif mobLevel >= 72 and mobLevel <= 75 then
-        mob:addMod(tpz.mod.INT, 47)
-        mob:addMod(tpz.mod.MATT, 5)
-        AddElementalStaves(mob, 'nq')
-    end
-
     mob:addMod(tpz.mod.MPP, 80)
     mob:addMod(tpz.mod.DMGAOE, -33)
     mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
@@ -94,6 +73,7 @@ local modByMobName =
     mob:addMod(tpz.mod.ENMITY, -15)
     mob:addMod(tpz.mod.HELIX_EFFECT, 25)
     mob:setMobMod(tpz.mobMod.TP_USE, 1000)
+    AddCasterGear(mob)
 end,
 
 
@@ -104,7 +84,7 @@ end,
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
         mob:addMod(tpz.mod.REFRESH, 8)
         mob:addMod(tpz.mod.ENMITY, -15)
-        mob:addMod(tpz.mod.MND, 15)
+        AddEnfeebleGear(mob)
     end,
 
     ['kupipi'] = function(mob)
@@ -115,6 +95,7 @@ end,
         mob:addMod(tpz.mod.REFRESH, 8)
         mob:addMod(tpz.mod.CURE_CAST_TIME, 25)
         mob:addMod(tpz.mod.ENMITY, -15)
+        AddHealerGear(mob)
     end,
 
     ['tenzen'] = function(mob)
@@ -158,7 +139,7 @@ end,
         AddLightMeleeAccuracyGear(mob)
     end,
 
-    ['zeid_ii'] = function(mob)
+    ['zeid'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
         mob:addMod(tpz.mod.ATTP, 15)
         mob:addMod(tpz.mod.EXTRA_DMG_CHANCE, 100) -- 10% chance
@@ -195,7 +176,7 @@ end,
         --mob:addMod(tpz.mod.STORETP, -30) TODO
         --mob:addMod(tpz.mod.RANGEDSTORETP, 130) TODO
         mob:addMod(tpz.mod.ENMITY, -30)
-        -- AddRangedAccuracyGear(mob) -- TODO
+        AddRangedAccuracyGear(mob) 
     end,
 
     ['ulmnia'] = function(mob)
@@ -203,6 +184,7 @@ end,
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.REFRESH, 8)
         mob:addMod(tpz.mod.ENMITY, -15)
+        -- AddBRDGear(mob) TODO
     end,
 
     ['qultada'] = function(mob)
@@ -219,6 +201,7 @@ end,
         mob:addMod(tpz.mod.REGAIN, 50)
         mob:addMod(tpz.mod.REFRESH, 8)
         mob:addMod(tpz.mod.ENMITY, -15)
+        AddHealerGear(mob)
     end,
 }
 
@@ -451,9 +434,9 @@ function AddLightMeleeAccuracyGear(mob)
 
     if mobLevel >= 40 and mobLevel < 48 then
         mob:addMod(tpz.mod.ACC, 20)
-    elseif mobLevel >= 48 and mobLevel < 59 then
+    elseif mobLevel >= 48 and mobLevel < 57 then
         mob:addMod(tpz.mod.ACC, 30)
-    elseif mobLevel >= 59 and mobLevel < 70 then
+    elseif mobLevel >= 57 and mobLevel < 70 then
         mob:addMod(tpz.mod.ACC, 40)
         mob:addMod(tpz.mod.EVA, 10)
     elseif mobLevel >= 70 and mobLevel <= 75 then
@@ -484,7 +467,122 @@ function AddHeavyMeleeAccuracyGear(mob)
     end
 end
 
-function AddRangedAccuracyGear(mob) -- TODO
+function AddRangedAccuracyGear(mob) 
+    local mobLevel = mob:getMainLvl()
+
+    if mobLevel >= 7 and mobLevel < 16 then
+        mob:addMod(tpz.mod.DEX, 3)
+        mob:addMod(tpz.mod.AGI, 3)
+    elseif mobLevel >= 16 and mobLevel < 29 then
+        mob:addMod(tpz.mod.ACC, -4)
+        mob:addMod(tpz.mod.RACC, 11)
+        mob:addMod(tpz.mod.RATT, 5)
+        mob:addMod(tpz.mod.DEX, 3)
+        mob:addMod(tpz.mod.AGI, 3)
+    elseif mobLevel >= 29 and mobLevel < 40 then
+        mob:addMod(tpz.mod.ACC, -6)
+        mob:addMod(tpz.mod.RACC, 30)
+        mob:addMod(tpz.mod.RATT, 5)
+        mob:addMod(tpz.mod.EVA, 10)
+        mob:addMod(tpz.mod.DEX, 9)
+        mob:addMod(tpz.mod.AGI, 9)
+    elseif mobLevel >= 40 and mobLevel < 58 then
+        mob:addMod(tpz.mod.ACC, 5)
+        mob:addMod(tpz.mod.RACC, 33)
+        mob:addMod(tpz.mod.RATT, 5)
+        mob:addMod(tpz.mod.EVA, 10)
+        mob:addMod(tpz.mod.DEX, 9)
+        mob:addMod(tpz.mod.AGI, 16)
+    elseif mobLevel >= 58 and mobLevel <= 70 then
+        mob:addMod(tpz.mod.ACC, 5)
+        mob:addMod(tpz.mod.RACC, 40)
+        mob:addMod(tpz.mod.RATT, 5)
+        mob:addMod(tpz.mod.EVA, 10)
+        mob:addMod(tpz.mod.DEX, 9)
+        mob:addMod(tpz.mod.AGI, 16)
+    elseif mobLevel >= 70 and mobLevel <= 75 then
+        mob:addMod(tpz.mod.ACC, 5)
+        mob:addMod(tpz.mod.RACC, 50)
+        mob:addMod(tpz.mod.RATT, 5)
+        mob:addMod(tpz.mod.DEX, 6)
+        mob:addMod(tpz.mod.AGI, 13)
+    end
+end
+
+function AddCasterGear(mob)
+    local mobLevel = mob:getMainLvl()
+
+    if mobLevel >= 10 and mobLevel < 20 then
+        mob:addMod(tpz.mod.INT, 8)
+    elseif mobLevel >= 20 and mobLevel < 29 then
+        mob:addMod(tpz.mod.INT, 11)
+    elseif mobLevel >= 29 and mobLevel < 32 then
+        mob:addMod(tpz.mod.INT, 19)
+    elseif mobLevel >= 32 and mobLevel < 51 then
+        mob:addMod(tpz.mod.INT, 23)
+    elseif mobLevel >= 51 and mobLevel < 72 then
+        mob:addMod(tpz.mod.INT, 18)
+        mob:addMod(tpz.mod.MATT, 5)
+        AddElementalStaves(mob, 'nq')
+    elseif mobLevel >= 72 and mobLevel <= 75 then
+        mob:addMod(tpz.mod.INT, 47)
+        mob:addMod(tpz.mod.MATT, 5)
+        AddElementalStaves(mob, 'nq')
+    end
+end
+
+function AddEnfeebleGear(mob)
+    local mobLevel = mob:getMainLvl()
+
+    if mobLevel >= 14 and mobLevel < 20 then
+        mob:addMod(tpz.mod.INT, -2)
+        mob:addMod(tpz.mod.MND, 16)
+    elseif mobLevel >= 20 and mobLevel < 32 then
+        mob:addMod(tpz.mod.INT, 1)
+        mob:addMod(tpz.mod.MND, 20)
+    elseif mobLevel >= 32 and mobLevel < 51 then
+        mob:addMod(tpz.mod.INT, 7)
+        mob:addMod(tpz.mod.MND, 22)
+    elseif mobLevel >= 51 and mobLevel < 72 then
+        mob:addMod(tpz.mod.INT, 5)
+        mob:addMod(tpz.mod.MND, 20)
+        mob:addMod(tpz.mod.MATT, 5)
+        AddElementalStaves(mob, 'nq')
+    elseif mobLevel >= 72 and mobLevel <= 75 then
+        mob:addMod(tpz.mod.INT, 30)
+        mob:addMod(tpz.mod.MND, 51)
+        mob:addMod(tpz.mod.MATT, 5)
+        AddElementalStaves(mob, 'nq')
+    end
+end
+
+function AddBRDGear(mob) -- TODO
+end
+
+function AddHealerGear(mob)
+    local mobLevel = mob:getMainLvl()
+
+    if mobLevel >= 14 and mobLevel < 20 then
+        mob:addMod(tpz.mod.INT, -2)
+        mob:addMod(tpz.mod.MND, 16)
+    elseif mobLevel >= 20 and mobLevel < 32 then
+        mob:addMod(tpz.mod.INT, 1)
+        mob:addMod(tpz.mod.MND, 20)
+    elseif mobLevel >= 32 and mobLevel < 51 then
+        mob:addMod(tpz.mod.INT, 7)
+        mob:addMod(tpz.mod.MND, 22)
+    elseif mobLevel >= 51 and mobLevel < 72 then
+        mob:addMod(tpz.mod.INT, 5)
+        mob:addMod(tpz.mod.MND, 20)
+        mob:addMod(tpz.mod.MATT, 5)
+        AddElementalStaves(mob, 'nq')
+    elseif mobLevel >= 72 and mobLevel <= 75 then
+        mob:addMod(tpz.mod.INT, 30)
+        mob:addMod(tpz.mod.MND, 51)
+        mob:addMod(tpz.mod.MATT, 5)
+        mob:addMod(tpz.mod.CURE_POTENCY, 10)
+        AddElementalStaves(mob, 'nq')
+    end
 end
 
 function AddElementalStaves(mob, tier)
@@ -524,4 +622,7 @@ function AddElementalStaves(mob, tier)
     for _, mod in ipairs(accMods) do
         mob:addMod(mod, modValue)
     end
+
+    -- Add cure potency
+    mob:addMod(tpz.mod.CURE_POTENCY, 10)
 end

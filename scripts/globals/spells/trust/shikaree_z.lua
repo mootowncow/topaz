@@ -26,7 +26,7 @@ function onSpellCast(caster, target, spell)
 end
 
 function onMobSpawn(mob)
-    tpz.trust.message(mob,tpz.trust.messageOffset.SPAWN)
+    -- tpz.trust.message(mob,tpz.trust.messageOffset.SPAWN)  TODO
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS,tpz.effect.SLOW, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.ERASE)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS,tpz.effect.HASTE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.HASTE)
@@ -58,9 +58,9 @@ function onMobSpawn(mob)
 end
 
 function onMobDespawn(mob)
-   tpz.trust.message(mob,tpz.trust.messageOffset.DESPAWN)
+   -- tpz.trust.message(mob,tpz.trust.messageOffset.DESPAWN) TODO
 end
 
 function onMobDeath(mob)
-   tpz.trust.message(mob,tpz.trust.messageOffset.DEATH)
+   -- tpz.trust.message(mob,tpz.trust.messageOffset.DEATH) TODO
 end

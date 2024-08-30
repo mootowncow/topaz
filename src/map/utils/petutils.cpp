@@ -1546,7 +1546,7 @@ namespace petutils
             }
 
             // Valoredge can parry
-            if (PPet->getPetType() == PETTYPE_AUTOMATON && PetID == PETID_VALOREDGEFRAME)
+            if (PPet->getPetType() == PETTYPE_AUTOMATON)
             {
                 PPet->setMobMod(MOBMOD_CAN_PARRY, 1);
                 PPet->addModifier(Mod::PARRY, GetPetBase(PPet, PPet->getMobMod(MOBMOD_CAN_PARRY)));

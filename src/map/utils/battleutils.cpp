@@ -2784,7 +2784,7 @@ int16 GetSDTTier(int16 SDT)
             int32 maxBlockRate = (shieldSize == 6 ? 100 : std::max<int32>(static_cast<int32>(65 * blockRateMod), 100));
             int8 clampedValue = static_cast<int8>(std::clamp(adjustedValue, 5, maxBlockRate));
 
-            //printf("Attackskill: %u, Blockskill: %u, Skill modifier: %f, Shield Size: %i, Base value: %d, Adjusted value: %d, Max block rate: %d, Clamped value: %d\n", attackskill, blockskill, skillmodifier, shieldSize, baseValue, adjustedValue, maxBlockRate, clampedValue);
+            //ShowDebug("[%s] Attackskill: %u, Blockskill: %u, Skill modifier: %f, Shield Size: %i, Base value: %d, Adjusted value: %d, Max block rate: %d, Clamped value: %d\n]", PDefender->name, attackskill, blockskill, skillmodifier, shieldSize, baseValue, adjustedValue, maxBlockRate, clampedValue);
             return clampedValue;
     }
 
@@ -2833,7 +2833,7 @@ int16 GetSDTTier(int16 SDT)
                     // Cap parry rate at 80%
                     parryRate = std::min(parryRate, 80.0f);
 
-                    printf("Parry rate is... %f \n", parryRate);
+                    //ShowDebug("[%s] Parry rate is... %f \n", PDefender->name, parryRate);
                     return static_cast<uint8>(parryRate);
                 }
             }
@@ -2848,7 +2848,8 @@ int16 GetSDTTier(int16 SDT)
         // Defender must have no weapon equipped, or a hand to hand weapon equipped to guard
         bool validWeapon = (PWeapon == nullptr || PWeapon->getSkillType() == SKILL_HAND_TO_HAND);
 
-        if (PDefender->objtype == TYPE_MOB || PDefender->objtype == TYPE_PET || PDefender->objtype == TYPE_TRUST) {
+        if (PDefender->objtype == TYPE_MOB || PDefender->objtype == TYPE_PET || PDefender->objtype == TYPE_TRUST)
+        {
             validWeapon = PDefender->GetMJob() == JOB_MNK || PDefender->GetMJob() == JOB_PUP;
         }
 
@@ -2857,33 +2858,35 @@ int16 GetSDTTier(int16 SDT)
         if (validWeapon && hasGuardSkillRank && PDefender->PAI->IsEngaged())
         {
             if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_AVOIDANCE_DOWN))
-        {
-            return 0;
-        }
-        // making this is like block
-        float skill = (float)PDefender->GetSkill(SKILL_GUARD) + PDefender->getMod(Mod::GUARD);
-        float guardmod = (100.0f + PDefender->getMod(Mod::GUARD_PERCENT)) / 100.0f;
-        auto weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_MAIN]);
-		float enemyskill = (float)PAttacker->GetSkill((SKILLTYPE)(weapon ? weapon->getSkillType() : 0));
-        float guardchance = (skill - enemyskill) * 0.2325f;
-        //printf("Your guard chance before adding 50 base is... %f \n", guardchance);
-        guardchance = guardchance + 50.0f;
-        //printf("Your guard chance AFTER adding 50 base is... %f \n", guardchance);
-        guardchance = guardchance * guardmod;
-        //printf("Your guard chance AFTER multiplying by guard mod is... %f \n", guardchance);
+            {
+                //ShowDebug("%s's guard rate is... %f \n", PDefender->name, 0.0f);
+                return 0;
+            }
 
-        if (PDefender->objtype == TYPE_MOB)
-        {
-            return static_cast<uint8>(std::clamp<float>((uint8)guardchance, 5, 20 * guardmod));
-        }
-        else
-        {
-            return static_cast<uint8>(std::clamp<float>((uint8)guardchance, 5, 50 * guardmod));
-        }
-        }
+            float skill = static_cast<float>(PDefender->GetSkill(SKILL_GUARD)) + PDefender->getMod(Mod::GUARD);
+            float guardmod = (100.0f + PDefender->getMod(Mod::GUARD_PERCENT)) / 100.0f;
+            auto weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_MAIN]);
+            float enemyskill = static_cast<float>(PAttacker->GetSkill(static_cast<SKILLTYPE>(weapon ? weapon->getSkillType() : 0)));
+            float guardchance = (skill - enemyskill) * 0.2325f;
+            guardchance = guardchance + 50.0f;
+            guardchance = guardchance * guardmod;
 
+            uint8 finalGuardRate;
+            if (PDefender->objtype == TYPE_MOB)
+            {
+                finalGuardRate = static_cast<uint8>(std::clamp<float>(guardchance, 5, 20 * guardmod));
+            }
+            else
+            {
+                finalGuardRate = static_cast<uint8>(std::clamp<float>(guardchance, 5, 50 * guardmod));
+            }
+
+            //ShowDebug("[%s] guard rate is... %f \n", PDefender->name, static_cast<float>(finalGuardRate));
+            return finalGuardRate;
+        }
         return 0;
     }
+
 
     /************************************************************************
     *                                                                       *
@@ -3075,7 +3078,7 @@ int16 GetSDTTier(int16 SDT)
                             0, reprisalEffect->GetSubPower()));
                     }
                 }
-                printf("Absorb %u\n", absorb);
+                //ShowDebug("[%s] Absorb %u\n", PDefender->name, absorb);
                 damage = (damage * absorb) / 100;
             }
         }
@@ -3647,7 +3650,7 @@ int16 GetSDTTier(int16 SDT)
                     (!PSub || PSub->getSkillType() == SKILL_NONE || PCharAttacker->m_Weapons[SLOT_SUB]->IsShield()))
                 {
                     crithitrate += PCharAttacker->getMod(Mod::FENCER_CRITHITRATE);
-                    ShowDebug("Adding fencer crit hit rate PLAYER");
+                    //ShowDebug("Adding fencer crit hit rate PLAYER\n", PAttacker->name);
                 }
             }
             else if (PAttacker->objtype == TYPE_MOB && PAttacker->allegiance == ALLEGIANCE_PLAYER) // NPCs
@@ -3655,21 +3658,27 @@ int16 GetSDTTier(int16 SDT)
                 // Add Fencer crit hit rate
                 CMobEntity* PMobAttacker = static_cast<CMobEntity*>(PAttacker);
                 CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PMobAttacker->m_Weapons[SLOT_MAIN]);
-                if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand() && PMobAttacker->getMobMod(MOBMOD_BLOCK) > 0)
+                if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
                 {
-                    crithitrate += PMobAttacker->getMod(Mod::FENCER_CRITHITRATE);
-                    ShowDebug("Adding fencer crit hit rate NPC");
+                    if (!PMobAttacker->m_dualWield)
+                    {
+                        crithitrate += PMobAttacker->getMod(Mod::FENCER_CRITHITRATE);
+                        //ShowDebug("[%s] Adding fencer crit hit rate NPC\n", PAttacker->name);
+                    }
                 }
             }
             else if (PAttacker->objtype == TYPE_TRUST) // Trusts
             {
                 // Add Fencer crit hit rate
-                CMobEntity* PMobAttacker = static_cast<CMobEntity*>(PAttacker);
-                CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PMobAttacker->m_Weapons[SLOT_MAIN]);
-                if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand() && PMobAttacker->getMobMod(MOBMOD_BLOCK) > 0)
+                CTrustEntity* PTrustAttacker = static_cast<CTrustEntity*>(PAttacker);
+                CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PTrustAttacker->m_Weapons[SLOT_MAIN]);
+                if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
                 {
-                    crithitrate += PMobAttacker->getMod(Mod::FENCER_CRITHITRATE);
-                    ShowDebug("Adding fencer crit hit rate TRUST");
+                    if (!PTrustAttacker->m_dualWield)
+                    {
+                        crithitrate += PTrustAttacker->getMod(Mod::FENCER_CRITHITRATE);
+                        //ShowDebug("[%s] Adding fencer crit hit rate TRUST\n", PAttacker->name);
+                    }
                 }
             }
 
@@ -3693,7 +3702,7 @@ int16 GetSDTTier(int16 SDT)
             // ShowDebug("Crit rate mod after Innin/Yonin: %d\n", crithitrate);
             //ShowDebug("Your crit rate before dDex is... %i \n", crithitrate);
             crithitrate += GetDexCritBonus(PAttacker, PDefender);
-            ShowDebug("Your crit rate after dDex is... %i \n", crithitrate);
+            //ShowDebug("[%s] crit rate after dDex is... %i \n", PAttacker->name, crithitrate);
             crithitrate += PAttacker->getMod(Mod::CRITHITRATE);
             crithitrate += PDefender->getMod(Mod::ENEMYCRITRATE);
             crithitrate = std::clamp(crithitrate, 5, 100);
