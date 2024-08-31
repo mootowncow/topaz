@@ -86,7 +86,6 @@ local modByMobName =
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
         mob:addMod(tpz.mod.REFRESH, 8)
-        mob:addMod(tpz.mod.ENMITY, -15)
         mob:addMod(tpz.mod.HELIX_EFFECT, 25)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddCasterGear(mob)
@@ -99,7 +98,6 @@ local modByMobName =
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
         mob:addMod(tpz.mod.REFRESH, 8)
-        mob:addMod(tpz.mod.ENMITY, -15)
         AddEnfeebleGear(mob)
     end,
 
@@ -110,7 +108,6 @@ local modByMobName =
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
         mob:addMod(tpz.mod.REFRESH, 8)
         mob:addMod(tpz.mod.CURE_CAST_TIME, 25)
-        mob:addMod(tpz.mod.ENMITY, -15)
         AddHealerGear(mob)
     end,
 
@@ -188,7 +185,7 @@ local modByMobName =
         --mob:addMod(tpz.mod.STORETP, -30) TODO
         --mob:addMod(tpz.mod.RANGEDSTORETP, 130) TODO
         mob:addMod(tpz.mod.STORETP,130)
-        mob:addMod(tpz.mod.ENMITY, -30)
+        mob:addMod(tpz.mod.ENMITY, -15)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddRangedAccuracyGear(mob) 
     end,
@@ -197,14 +194,12 @@ local modByMobName =
         mob:addMod(tpz.mod.MPP, 200)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.REFRESH, 8)
-        mob:addMod(tpz.mod.ENMITY, -15)
         -- AddBRDGear(mob) TODO
     end,
 
     ['qultada'] = function(mob)
         mob:addMod(tpz.mod.MPP, 200)
         mob:addMod(tpz.mod.DMGAOE, -15)
-        mob:addMod(tpz.mod.ENMITY, -15)
         mob:addMod(tpz.mod.PHANTOM_DURATION, 100)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddLightMeleeAccuracyGear(mob)
@@ -215,7 +210,6 @@ local modByMobName =
         mob:addMod(tpz.mod.DMG, -25)
         mob:addMod(tpz.mod.REGAIN, 50)
         mob:addMod(tpz.mod.REFRESH, 8)
-        mob:addMod(tpz.mod.ENMITY, -15)
         mob:addMod(tpz.mod.INDI_DURATION, 180)
         AddHealerGear(mob)
     end,
