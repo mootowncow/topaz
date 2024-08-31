@@ -1768,6 +1768,18 @@ int16 GetSDTTier(int16 SDT)
                     PDefender->StatusEffectContainer->DelStatusEffect(EFFECT_ASPIR_DAZE, PAttacker->PParty->members[i]->id);
                 }
             }
+            else if (PAttacker->objtype == TYPE_TRUST && PAttacker->PMaster)
+            {
+                // clang-format off
+                static_cast<CCharEntity*>(PAttacker->PMaster)->ForPartyWithTrusts(
+                [&](CBattleEntity* PMember)
+                {
+                    PDefender->StatusEffectContainer->DelStatusEffect(EFFECT_DRAIN_DAZE, PMember->id);
+                    PDefender->StatusEffectContainer->DelStatusEffect(EFFECT_HASTE_DAZE, PMember->id);
+                    PDefender->StatusEffectContainer->DelStatusEffect(EFFECT_ASPIR_DAZE, PMember->id);
+                });
+                // clang-format on
+            }
             else
             {
                 PDefender->StatusEffectContainer->DelStatusEffect(EFFECT_DRAIN_DAZE, PAttacker->id);
@@ -1956,78 +1968,70 @@ int16 GetSDTTier(int16 SDT)
                 Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
             }
         }
-        else if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DRAIN_DAZE) || PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_HASTE_DAZE) ||
-                 PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_ASPIR_DAZE))
+        else
         {
-            // Generic drain for anyone able to do melee damage to a dazed target
-            // TODO: ignore dazes from dancers outside party
-            int16 delay = PAttacker->GetWeaponDelay(true) * 60 / 1000;
+            bool hasDrainDaze = PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DRAIN_DAZE);
+            bool hasAspirDaze = PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_ASPIR_DAZE);
+            bool hasHasteDaze = PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_HASTE_DAZE);
 
-            if (PAttacker->PMaster == nullptr || PAttacker->objtype == TYPE_TRUST)
+            if (hasDrainDaze || hasAspirDaze || hasHasteDaze)
             {
-                // TODO: All of this is very ugly, but is fairly fragile, be careful refactoring!
+                int32 delay = PAttacker->GetWeaponDelay(false) / 10;
+
                 EFFECT daze = EFFECT_NONE;
+                uint32 attackerID = 0;
                 uint16 power = 0;
+
+                if (hasDrainDaze)
+                {
+                    daze = EFFECT_DRAIN_DAZE;
+                }
+                else if (hasAspirDaze)
+                {
+                    daze = EFFECT_ASPIR_DAZE;
+                }
+                else if (hasHasteDaze)
+                {
+                    daze = EFFECT_HASTE_DAZE;
+                }
+
+                attackerID = PDefender->StatusEffectContainer->GetStatusEffect(daze)->GetSubID();
+
                 if (PAttacker->objtype == TYPE_PC && PAttacker->PParty != nullptr)
                 {
-                    for (uint8 i = 0; i < PAttacker->PParty->members.size(); i++)
+                    if (auto* PChar = dynamic_cast<CCharEntity*>(PAttacker))
                     {
-                        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DRAIN_DAZE, PAttacker->PParty->members[i]->id))
+                        // clang-format off
+                        PChar->ForPartyWithTrusts([&](CBattleEntity* PMember)
                         {
-                            daze = EFFECT_DRAIN_DAZE;
-                            power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_DRAIN_DAZE, PAttacker->PParty->members[i]->id)->GetPower();
-                            break;
-                        }
-                        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_HASTE_DAZE, PAttacker->PParty->members[i]->id))
-                        {
-                            daze = EFFECT_HASTE_DAZE;
-                            power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_HASTE_DAZE, PAttacker->PParty->members[i]->id)->GetPower();
-                            break;
-                        }
-                        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_ASPIR_DAZE, PAttacker->PParty->members[i]->id))
-                        {
-                            daze = EFFECT_ASPIR_DAZE;
-                            power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_ASPIR_DAZE, PAttacker->PParty->members[i]->id)->GetPower();
-                            break;
-                        }
+                            if (attackerID == PMember->id)
+                            {
+                                power = PDefender->StatusEffectContainer->GetStatusEffect(daze)->GetPower();
+                            }
+                        });
+                        // clang-format on
                     }
                 }
-                else if (PAttacker->objtype == TYPE_TRUST && PAttacker->PMaster)
+                else if (PAttacker->objtype == TYPE_TRUST)
                 {
-                    static_cast<CCharEntity*>(PAttacker->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember) {
-                        if (daze == EFFECT_NONE && PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DRAIN_DAZE, PMember->id))
+                    if (auto* PChar = dynamic_cast<CCharEntity*>(PAttacker->PMaster))
+                    {
+                        // clang-format off
+                        PChar->ForPartyWithTrusts([&](CBattleEntity* PMember)
                         {
-                            daze = EFFECT_DRAIN_DAZE;
-                            power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_DRAIN_DAZE, PMember->id)->GetPower();
-                        }
-                        if (daze == EFFECT_NONE && PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DRAIN_DAZE, PMember->id))
-                        {
-                            daze = EFFECT_DRAIN_DAZE;
-                            power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_DRAIN_DAZE, PMember->id)->GetPower();
-                        }
-                        if (daze == EFFECT_NONE && PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_ASPIR_DAZE, PMember->id))
-                        {
-                            daze = EFFECT_DRAIN_DAZE;
-                            power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_ASPIR_DAZE, PMember->id)->GetPower();
-                        }
-                    });
+                            if (attackerID == PMember->id)
+                            {
+                                power = PDefender->StatusEffectContainer->GetStatusEffect(daze)->GetPower();
+                            }
+                        });
+                        // clang-format on
+                    }
                 }
-                else
+                else if (PAttacker->PMaster == nullptr)
                 {
-                    if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DRAIN_DAZE, PAttacker->id))
+                    if (attackerID == PAttacker->id)
                     {
-                        daze = EFFECT_DRAIN_DAZE;
-                        power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_DRAIN_DAZE, PAttacker->id)->GetPower();
-                    }
-                    if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_HASTE_DAZE, PAttacker->id))
-                    {
-                        daze = EFFECT_HASTE_DAZE;
-                        power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_HASTE_DAZE, PAttacker->id)->GetPower();
-                    }
-                    if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_ASPIR_DAZE, PAttacker->id))
-                    {
-                        daze = EFFECT_ASPIR_DAZE;
-                        power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_ASPIR_DAZE, PAttacker->id)->GetPower();
+                        power = PDefender->StatusEffectContainer->GetStatusEffect(daze)->GetPower();
                     }
                 }
 
@@ -2091,7 +2095,7 @@ int16 GetSDTTier(int16 SDT)
                         PChar->updatemask |= UPDATE_HP;
                     }
                 }
-                else if (daze == EFFECT_HASTE_DAZE)
+                else if (daze == EFFECT_HASTE_DAZE && power > 0)
                 {
                     Action->additionalEffect = SUBEFFECT_HASTE;
                     // Ability haste added in scripts\globals\effects\haste_samba_haste_effect.lua

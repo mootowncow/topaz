@@ -128,6 +128,7 @@ enum MOBMODIFIER : int
     MOBMOD_CAN_RA              = 111, // Mob will use player-type ranged attacks and animations (power is cooldown between ranged attacks)
     MOBMOD_TP_USE              = 112, // TP mob will use a TP move at(i.e 1500)
     MOBMOD_FRIENDLY_FIRE       = 113, // Can target friendly mobs offensively
+    MOBMOD_TRUST_DISTANCE      = 114, // Trust distancing AI
 };
 
 #endif

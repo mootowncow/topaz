@@ -20,9 +20,12 @@ function onSpellCast(caster, target, spell)
 end
 
 function onMobSpawn(mob)
+    --[[
+    TODO
     tpz.trust.teamworkMessage(mob, {
-        [tpz.magic.spell.LION_II] = tpz.trust.messageOffset.TEAMWORK_1,
+        [tpz.magic.spell.LION_II] = tpz.trust.message_offset.TEAMWORK_1,
     })
+    ]]
 
     -- Stun all the things!
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0,
@@ -44,13 +47,15 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.ALWAYS, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.LAST_RESORT)
 
+    mob:setTrustTPSkillSettings(ai.tp.OPENER, ai.s.HIGHEST) -- Maybe WS at 1k or have him open for variety
+
     tpz.trust.onMobSpawn(mob)
 end
 
 function onMobDespawn(mob)
-    tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DESPAWN)
+    -- TODO tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DESPAWN)
 end
 
 function onMobDeath(mob)
-    tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DEATH)
+    -- TODO tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DEATH)
 end

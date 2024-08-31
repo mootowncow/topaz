@@ -16,8 +16,7 @@ function onUseAbility(player, target, ability)
     local bonusAcc = player:getStat(tpz.mod.AGI) / 2 + player:getMerit(tpz.merit.QUICK_DRAW_ACCURACY) + player:getMod(tpz.mod.QUICK_DRAW_MACC)
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.DARK, bonusAcc, tpz.effect.NONE, tpz.skill.MARKSMANSHIP)
 
-    --print(string.format("step1: %u",magicacc))
-	--GetPlayerByID(6):PrintToPlayer(string.format("Hit chance: %u",magicacc))
+    --printf("Marksmanship skill %d", player:getSkillLevel(tpz.skill.MARKSMANSHIP))
 
     if resist < 0.5 then
         ability:setMsg(tpz.msg.basic.JA_MISS_2) -- resist message

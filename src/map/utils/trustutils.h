@@ -1,4 +1,4 @@
-#ifndef _ITRUSTUTILS_H
+﻿#ifndef _ITRUSTUTILS_H
 #define _ITRUSTUTILS_H
 
 #include "../../common/cbasetypes.h"

@@ -18,7 +18,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-
+    local tp = mob:getLocalVar("tp")
     local numhits = 1
     local accmod = 1
     local dmgmod = 2
@@ -38,6 +38,7 @@ function onMobWeaponSkill(target, mob, skill)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, info.hitslanded)
 
     target:takeDamage(dmg, mob, tpz.attackType.RANGED, tpz.damageType.RANGED)
+    tpz.aftermath.addStatusEffect(mob, tp, tpz.slot.MAIN, tpz.aftermath.type.RELIC, true, 14)
     return dmg
 
 end

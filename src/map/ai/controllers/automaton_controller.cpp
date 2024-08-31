@@ -249,10 +249,15 @@ bool CAutomatonController::TryShieldBash()
     {
         return false;
     }
-    if (m_shieldbashCooldown > 0s && PState && PState->CanInterrupt() &&
-        m_Tick > m_LastShieldBashTime + (m_shieldbashCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_SHIELD_BASH_DELAY))))
+
+    float currentDistance = distance(PAutomaton->loc.p, PTarget->loc.p);
+    if (currentDistance <= 7.0f)
     {
-        return MobSkill(PTarget->targid, m_ShieldBashAbility);
+        if (m_shieldbashCooldown > 0s && PState && PState->CanInterrupt() &&
+            m_Tick > m_LastShieldBashTime + (m_shieldbashCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_SHIELD_BASH_DELAY))))
+        {
+            return MobSkill(PTarget->targid, m_ShieldBashAbility);
+        }
     }
     return false;
 }
@@ -1513,8 +1518,14 @@ bool CAutomatonController::TryTPMove()
 bool CAutomatonController::TryRangedAttack() // TODO: Find the animation for its ranged attack
 {
     if (PAutomaton->getFrame() == FRAME_SHARPSHOT)
-        if (m_rangedCooldown > 0s && m_Tick > m_LastRangedTime + (m_rangedCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::SNAP_SHOT))))
-            return MobSkill(PTarget->targid, m_RangedAbility);
+    {
+        float currentDistance = distance(PAutomaton->loc.p, PTarget->loc.p);
+        if (currentDistance <= 25.0f)
+        {
+            if (m_rangedCooldown > 0s && m_Tick > m_LastRangedTime + (m_rangedCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::SNAP_SHOT))))
+                return MobSkill(PTarget->targid, m_RangedAbility);
+        }
+    }
 
     return false;
 }

@@ -357,7 +357,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     -- Reduce the damage by half on 5+ hit TP moves or else they become out of control
     if hitslanded >= 5 then
-        if not mob:isTrust() then -- Don't nerf MNK trusts WS
+        if not mob:isTrust() then -- Don't Trusts WS
             finaldmg = finaldmg / 2
         end
     end

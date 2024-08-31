@@ -163,9 +163,11 @@ std::optional<SpellID> CMobSpellContainer::GetBestAvailable(SPELLFAMILY family)
 std::optional<SpellID> CMobSpellContainer::GetBestIndiSpell(CBattleEntity* PTarget)
 {
     auto mJob = PTarget->GetMJob();
+
     auto mTarget = PTarget->GetBattleTarget();
     auto hitrate = battleutils::GetHitRate(PTarget, mTarget);
     bool accBuffNeeded = hitrate < 65 ? true : false;
+
     auto mInt = PTarget->getMod(Mod::INT);
     auto tInt = mTarget->getMod(Mod::INT);
     auto intDiff = mInt - tInt + 10;
@@ -173,6 +175,7 @@ std::optional<SpellID> CMobSpellContainer::GetBestIndiSpell(CBattleEntity* PTarg
     auto tMaeva = mTarget->getMod(Mod::MEVA);
     auto mSkill = PTarget->GetSkill(SKILL_ELEMENTAL_MAGIC);
     auto maccFromInt = mInt;
+
 
     if (mInt > tInt + 10)
     {
@@ -248,18 +251,37 @@ std::optional<SpellID> CMobSpellContainer::GetBestIndiSpell(CBattleEntity* PTarg
             break;
     }
 
-    if (PTarget->GetMLevel() < 20)
+
+    if (choice == SpellID::Indi_Haste && PTarget->GetMLevel() < 93)
     {
-        choice = std::nullopt;
+        choice = SpellID::Indi_Fury;
     }
-    else if (PTarget->GetMLevel() < 93)
+
+    if (choice == SpellID::Indi_Acumen && PTarget->GetMLevel() < 46)
     {
-        choice = subChoice;
-        if (subChoice == SpellID::Indi_Refresh && PTarget->GetMLevel() < 30)
-        {
-            choice = SpellID::Indi_Regen;
-        }
+        choice = SpellID::Indi_Refresh;
     }
+
+    if (choice == SpellID::Indi_Fury && PTarget->GetMLevel() < 34)
+    {
+        choice = SpellID::Indi_Precision;
+    }
+
+    if (choice == SpellID::Indi_Refresh && PTarget->GetMLevel() < 30)
+    {
+        choice = SpellID::Indi_Regen;
+    }
+
+    if (choice == SpellID::Indi_Focus && PTarget->GetMLevel() < 22)
+    {
+        choice = SpellID::Indi_Regen;
+    }
+
+    if (PTarget->GetMLevel() < 10)
+    {
+        choice = SpellID::Indi_Regen;
+    }
+
 
     return choice;
 }

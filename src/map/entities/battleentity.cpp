@@ -358,6 +358,14 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
             WeaponDelay = (uint16)(WeaponDelay * ((100.0f - dualWieldMods) / 100.0f));
         }
 
+        // Add Dual Wield to Mobs / NPCS / Trusts
+        if (this->objtype > TYPE_NPC)
+        {
+            if (m_dualWield)
+            {
+                WeaponDelay = (uint16)(WeaponDelay * ((100.0f - getMod(Mod::DUAL_WIELD)) / 100.0f));
+            }
+        }
         //Add Fencer JA haste 
         CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]);
         CItemWeapon* PSub = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]);

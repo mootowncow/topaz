@@ -32,10 +32,8 @@ function onMobFight(mob, target)
     local wingsDown = mob:getLocalVar("wingsDown")
 
     if twohourTime == 0 then
-        printf("Setting two hour time");
         mob:setLocalVar("twohourTime", math.random(30, 90))
     elseif battletime >= twohourTime and wingsDown == 0 then
-        printf("Wings Up");
         mob:addMod(tpz.mod.ATT, 400)
         mob:addMod(tpz.mod.EVA, 378)
         mob:addMod(tpz.mod.MATT, 25)
@@ -49,7 +47,6 @@ function onMobFight(mob, target)
     end
 
     if battletime >= wingsTime and wingsDown == 1 then
-        printf("Wings Down");
         mob:addMod(tpz.mod.ATT, -400)
         mob:addMod(tpz.mod.EVA, -378)
         mob:addMod(tpz.mod.MATT, -25)

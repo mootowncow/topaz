@@ -13,6 +13,22 @@ require("scripts/globals/status")
 tpz = tpz or {}
 tpz.trust = tpz.trust or {}
 
+tpz.trust.movementType =
+{
+    -- NOTE: If you need to add special movement types, add descending into the minus values.
+    --     : All of the positive values are taken for the ranged movement range.
+    --     : See trust_controller.cpp for more.
+    -- NOTE: You can use any positive value as a distance, and it will act as MID_RANGE or LONG_RANGE, but with the value you've provided.
+    --     : For example:
+    --     :     mob:setMobMod(xi.mobMod.TRUST_DISTANCE, 20)
+    --     : Will set the combat distance the trust tries to stick to to 20'
+    -- NOTE: If a Trust doesn't immediately sprint to a certain distance at the start of battle, it's probably NO_MOVE or MELEE.
+    NO_MOVE    = -1, -- Will stand still providing they're within casting distance of their master and target when the fight starts. Otherwise will reposition to be within 9.0' of both
+    MELEE      = 0,  -- Default: will continually reposition to stay within melee range of the target
+    MID_RANGE  = 6,  -- Will path at the start of battle to 6' away from the target, and try to stay at that distance
+    LONG_RANGE = 12, -- Will path at the start of battle to 12' away from the target, and try to stay at that distance
+}
+
 tpz.trust.message_offset =
 {
     SPAWN          = 1,
@@ -65,16 +81,16 @@ local modByMobName =
         mob:addMod(tpz.mod.CURE_POTENCY, 50)
     end,
 
-['adelheid'] = function(mob)
-    mob:addMod(tpz.mod.MPP, 80)
-    mob:addMod(tpz.mod.DMGAOE, -33)
-    mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
-    mob:addMod(tpz.mod.REFRESH, 8)
-    mob:addMod(tpz.mod.ENMITY, -15)
-    mob:addMod(tpz.mod.HELIX_EFFECT, 25)
-    mob:setMobMod(tpz.mobMod.TP_USE, 1000)
-    AddCasterGear(mob)
-end,
+    ['adelheid'] = function(mob)
+        mob:addMod(tpz.mod.MPP, 80)
+        mob:addMod(tpz.mod.DMGAOE, -33)
+        mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
+        mob:addMod(tpz.mod.REFRESH, 8)
+        mob:addMod(tpz.mod.ENMITY, -15)
+        mob:addMod(tpz.mod.HELIX_EFFECT, 25)
+        mob:setMobMod(tpz.mobMod.TP_USE, 1000)
+        AddCasterGear(mob)
+    end,
 
 
     ['koru-moru'] = function(mob)
@@ -113,7 +129,7 @@ end,
         mob:addMod(tpz.mod.DOUBLE_ATTACK, 5)
         mob:addMod(tpz.mod.STORETP, 25)
         mob:addMod(tpz.mod.DA_DOUBLE_DAMAGE, 10)
-        mob:setMod(tpz.INQUARTATA, 12)
+        mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddHeavyMeleeAccuracyGear(mob)
     end,
 
@@ -141,12 +157,10 @@ end,
 
     ['zeid'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
-        mob:addMod(tpz.mod.ATTP, 15)
         mob:addMod(tpz.mod.EXTRA_DMG_CHANCE, 100) -- 10% chance
         mob:addMod(tpz.mod.OCC_DO_EXTRA_DMG, 150) -- to deal 1.5x damage
-        mob:addMod(tpz.mod.STR, 12)
+        -- mob:setMobMod(tpz.mobMod.TP_USE, 1000) Maybe WS at 1k or have him open for variety
         AddHeavyMeleeAccuracyGear(mob)
-        mob:setMobMod(tpz.mobMod.TP_USE, 1000)
     end,
 
     ['aldo'] = function(mob)
@@ -161,8 +175,6 @@ end,
 
     ['uka_totlihn'] = function(mob)
         mob:addMod(tpz.mod.HPP, 25)
-        mob:setMobMod(tpz.mobtpz.mobMod.MULTI_HIT, 3)
-        -- mob:addMod(tpz.mod.MAX_SWINGS, 3) Same as above?
         mob:addMod(tpz.mod.MEVA, 50)
         mob:addMod(tpz.mod.TPEVA, 25)
         mob:addMod(tpz.mod.CHR, 12)
@@ -175,11 +187,13 @@ end,
         mob:addMod(tpz.mod.RACC, 30)
         --mob:addMod(tpz.mod.STORETP, -30) TODO
         --mob:addMod(tpz.mod.RANGEDSTORETP, 130) TODO
+        mob:addMod(tpz.mod.STORETP,130)
         mob:addMod(tpz.mod.ENMITY, -30)
+        mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddRangedAccuracyGear(mob) 
     end,
 
-    ['ulmnia'] = function(mob)
+    ['ulmia'] = function(mob)
         mob:addMod(tpz.mod.MPP, 200)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.REFRESH, 8)
@@ -192,6 +206,7 @@ end,
         mob:addMod(tpz.mod.DMGAOE, -15)
         mob:addMod(tpz.mod.ENMITY, -15)
         mob:addMod(tpz.mod.PHANTOM_DURATION, 100)
+        mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddLightMeleeAccuracyGear(mob)
     end,
 
@@ -201,6 +216,7 @@ end,
         mob:addMod(tpz.mod.REGAIN, 50)
         mob:addMod(tpz.mod.REFRESH, 8)
         mob:addMod(tpz.mod.ENMITY, -15)
+        mob:addMod(tpz.mod.INDI_DURATION, 180)
         AddHealerGear(mob)
     end,
 }

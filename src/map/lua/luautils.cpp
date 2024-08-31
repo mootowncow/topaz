@@ -3002,7 +3002,7 @@ namespace luautils
     *                                                                       *
     ************************************************************************/
 
-    int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
+int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
     {
         TracyZoneScoped;
         TPZ_DEBUG_BREAK_IF(PMob == nullptr);
@@ -3012,8 +3012,21 @@ namespace luautils
         CLuaBaseEntity LuaKillerEntity(PTarget);
 
         int8 File[255];
-        PMob->objtype == TYPE_PET ? snprintf((char*)File, sizeof(File), "scripts/globals/pets/%s.lua", static_cast<CPetEntity*>(PMob)->GetScriptName().c_str()) :
-            snprintf((char*)File, sizeof(File), "scripts/zones/%s/mobs/%s.lua", PMob->loc.zone->GetName(), PMob->GetName());
+        switch (PMob->objtype)
+        {
+            case TYPE_MOB:
+                snprintf((char*)File, sizeof(File), "scripts/zones/%s/mobs/%s.lua", PMob->loc.zone->GetName(), PMob->GetName());
+                break;
+            case TYPE_PET:
+                snprintf((char*)File, sizeof(File), "scripts/globals/pets/%s.lua", static_cast<CPetEntity*>(PMob)->GetScriptName().c_str());
+                break;
+            case TYPE_TRUST:
+                snprintf((char*)File, sizeof(File), "scripts/globals/spells/trust/%s.lua", PMob->GetName());
+                break;
+            default:
+                ShowWarning("OnMobFight (%d): unknown objtype\n", PMob->objtype);
+                return -1;
+        }
 
         if (prepFile(File, "onMobFight"))
         {
@@ -3031,6 +3044,7 @@ namespace luautils
         }
         return 0;
     }
+
 
     int32 OnCriticalHit(CBattleEntity* PMob, CBattleEntity* PAttacker)
     {

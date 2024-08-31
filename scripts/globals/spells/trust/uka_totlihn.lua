@@ -27,10 +27,12 @@ function onSpellCast(caster, target, spell)
 end
 
 function onMobSpawn(mob)
+    --[[ TODO
     tpz.trust.teamworkMessage(mob, {
-        [tpz.magic.spell.MUMOR   ] = tpz.trust.messageOffset.TEAMWORK_1,
-        [tpz.magic.spell.ULLEGORE] = tpz.trust.messageOffset.TEAMWORK_2,
+        [tpz.magic.spell.MUMOR   ] = tpz.trust.message_offset.TEAMWORK_1,
+        [tpz.magic.spell.ULLEGORE] = tpz.trust.message_offset.TEAMWORK_2,
     })
+    ]]
 
     -- Dynamic modifier that checks party member list on tick to apply synergy
     mob:addListener('COMBAT_TICK', 'UKA_TOTLIHN_CTICK', function(mobArg)
@@ -86,9 +88,9 @@ function onMobSpawn(mob)
 end
 
 function onMobDespawn(mob)
-    tpz.trust.message(mob, tpz.trust.messageOffset.DESPAWN)
+    -- TODO tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DESPAWN)
 end
 
 function onMobDeath(mob)
-    tpz.trust.message(mob, tpz.trust.messageOffset.DEATH)
+    -- TODO tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DEATH)
 end

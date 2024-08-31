@@ -3198,6 +3198,7 @@ tpz.mobMod =
     CAN_RA              = 111, -- Mob will use player-type ranged attacks and animations (power is cooldown between ranged attacks)
     TP_USE              = 112, -- Amount of TP mob will use a TP move at(i.e 1500)
     FRIENDLY_FIRE       = 113, -- Can target friendly mobs offensive
+    TRUST_DISTANCE      = 114, -- Trust distancing AI
 }
 
 ------------------------------------

@@ -21,13 +21,13 @@ end
 
 function onMobSpawn(mob)
     tpz.trust.teamworkMessage(mob, {
-        [tpz.magic.spell.LION_II] = tpz.trust.messageOffset.TEAMWORK_1,
+        [tpz.magic.spell.LION_II] = tpz.trust.message_offset.TEAMWORK_1,
     })
 
     mob:addListener('WEAPONSKILL_USE', 'ZEID_II_WEAPONSKILL_USE', function(mobArg, target, wsid, tp, action)
         if wsid == 56 then -- Ground Strike
             -- Never again will I lose sight of who I am
-            tpz.trust.message(mobArg, tpz.trust.messageOffset.SPECIAL_MOVE_1)
+            tpz.trust.message(mobArg, tpz.trust.message_offset.SPECIAL_MOVE_1)
         end
     end)
 

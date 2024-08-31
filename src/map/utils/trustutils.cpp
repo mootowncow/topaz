@@ -410,13 +410,10 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
         ammoWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
     }
 
-    // NOTE: Trusts don't really have weapons, and they don't really have combat skills. They only have
-    // a damage type, and whether or not they are multi-hit. We handle this wrong everywhere.
-    // To give any Trust multi-hit, you need to give them cmbSkill == SKILL_HAND_TO_HAND (1).
-    //if (trustData->cmbSkill == SKILL_HAND_TO_HAND) Unsure if this should be turned on?
-    //{
-    //    PTrust->m_dualWield = true;
-    //}
+    if (trustData->m_Family == 971) 
+    {
+        PTrust->m_dualWield = true;
+    }
 
     if (auto* spellList = mobSpellList::GetMobSpellList(trustData->spellList); spellList != nullptr)
     {
@@ -608,7 +605,9 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
     PTrust->stats.CHR = static_cast<uint16>((fCHR + mCHR + sCHR) * map_config.alter_ego_stat_multiplier);
 
     // Skills =======================
-    for (int i = SKILL_DIVINE_MAGIC; i <= SKILL_BLUE_MAGIC; i++)
+
+    // Spells
+    for (int i = SKILL_DIVINE_MAGIC; i <= SKILL_HANDBELL; i++)
     {
         uint16 maxSkill = battleutils::GetMaxSkill((SKILLTYPE)i, mJob, mLvl > 99 ? 99 : mLvl);
         if (maxSkill != 0)
@@ -627,7 +626,18 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
         }
     }
 
+    // Melee
     for (int i = SKILL_HAND_TO_HAND; i <= SKILL_STAFF; i++)
+    {
+        uint16 maxSkill = battleutils::GetMaxSkill((SKILLTYPE)i, mLvl > 99 ? 99 : mLvl);
+        if (maxSkill != 0)
+        {
+            PTrust->WorkingSkills.skill[i] = static_cast<uint16>(maxSkill * map_config.alter_ego_skill_multiplier);
+        }
+    }
+
+    // Ranged
+    for (int i = SKILL_ARCHERY; i <= SKILL_THROWING; i++)
     {
         uint16 maxSkill = battleutils::GetMaxSkill((SKILLTYPE)i, mLvl > 99 ? 99 : mLvl);
         if (maxSkill != 0)

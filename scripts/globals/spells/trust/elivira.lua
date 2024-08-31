@@ -1,7 +1,13 @@
 -----------------------------------------
 -- Trust: Elivira
 -----------------------------------------
+require("scripts/globals/ability")
+require("scripts/globals/gambits")
+require("scripts/globals/magic")
+require("scripts/globals/status")
+require("scripts/globals/roe")
 require("scripts/globals/trust")
+require("scripts/globals/weaponskillids")
 -----------------------------------------
 
 function onMagicCastingCheck(caster, target, spell)
@@ -10,4 +16,33 @@ end
 
 function onSpellCast(caster, target, spell)
     return tpz.trust.spawn(caster, spell)
+end
+
+function onMobSpawn(mob)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.DECOY_SHOT,
+        ai.r.JA, ai.s.SPECIFIC, tpz.ja.DECOY_SHOT)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, 0,
+        ai.r.JA, ai.s.SPECIFIC, tpz.ja.BERSERK)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, 0,
+        ai.r.JA, ai.s.SPECIFIC, tpz.ja.BARRAGE)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, 0,
+        ai.r.JA, ai.s.SPECIFIC, tpz.ja.DOUBLE_SHOT)
+
+    -- Ranged Attack as much as possible (limited by "weapon" delay)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.ALWAYS, 0, ai.r.RATTACK, 0, 0)
+
+    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.MID_RANGE)
+
+    tpz.trust.onMobSpawn(mob)
+end
+
+function onMobDespawn(mob)
+    tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DESPAWN)
+end
+
+function onMobDeath(mob)
+    tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DEATH)
 end

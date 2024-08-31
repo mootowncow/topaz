@@ -3799,7 +3799,10 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Semih_Lafihna',1055,3487); -- Sidew
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Semih_Lafihna',1055,3488); -- Arching Arrow (Semih Lafihna)
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Semih_Lafihna',1055,3489); -- Lux Arrow
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Semih_Lafihna',1055,3490); -- Stellar Arrow
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Elivira',1056,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Elivira',1056,209); -- Split Shot
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Elivira',1056,212); -- Slug Shot
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Elivira',1056,214); -- Heavy Shot
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Elivira',1056,1201); -- Coronach
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Noillurie',1057,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhu_Mhakaracca',1058,68); -- Spinning Axe
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhu_Mhakaracca',1058,69); -- Rampage
@@ -3863,7 +3866,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Selh_teus',1094,3621); -- Luminous 
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Selh_teus',1094,3622); -- Rejuvenation Trust
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Selh_teus',1094,3623); -- Revelation Trust
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Yoran-Oran_UC',1095,3502);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Sylvie_UC',1096,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Sylvie_UC',1096,3502); -- Nott
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Abquhbah',1097,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Balamor',1098,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_August',1099,0);

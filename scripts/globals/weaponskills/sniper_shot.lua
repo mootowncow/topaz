@@ -34,7 +34,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.THUNDER, 0, tpz.effect.MND_DOWN)
 
     if (damage > 0 and target:hasStatusEffect(tpz.effect.MND_DOWN) == false) and resist >= 0.5 then
-    local duration = duration * resist
+    local duration = 90 * resist
     local power = math.floor((player:getMainLvl() / 10) * (tp / 2000) + 5)
         target:addStatusEffect(tpz.effect.MND_DOWN, power, 0, duration)
     end

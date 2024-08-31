@@ -19,9 +19,11 @@ function onSpellCast(caster, target, spell)
 end
 
 function onMobSpawn(mob)
+    --[[ TODO
     tpz.trust.teamworkMessage(mob, message_page_offset, {
         [tpz.magic.spell.IROHA] = tpz.trust.message_offset.TEAMWORK_1,
     })
+    ]]
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.DOUBT,
         ai.r.JA, ai.s.SPECIFIC, tpz.ja.BULLY)
@@ -35,4 +37,12 @@ function onMobSpawn(mob)
     mob:setTrustTPSkillSettings(ai.tp.CLOSER_UNTIL_TP, ai.s.HIGHEST, 2000)
 
     tpz.trust.onMobSpawn(mob)
+end
+
+function onMobDespawn(mob)
+    -- TODO tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DESPAWN)
+end
+
+function onMobDeath(mob)
+    -- TODO tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DEATH)
 end
