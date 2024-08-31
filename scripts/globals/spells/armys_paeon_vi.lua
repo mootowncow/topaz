@@ -1,5 +1,5 @@
 -----------------------------------------
--- Spell: Army's Paeon VI
+-- Spell: Army's Paeon VI (Level 78)
 -- Gradually restores target's HP.
 -----------------------------------------
 require("scripts/globals/status")
@@ -14,11 +14,20 @@ function onSpellCast(caster, target, spell)
     local sLvl = caster:getSkillLevel(tpz.skill.SINGING) -- Gets skill level of Singing
     local iLvl = caster:getWeaponSkillLevel(tpz.slot.RANGED)
 
-    local power = 6
+    local power = 18
 
-    --if (sLvl+iLvl > 450) then
-     if (sLvl+iLvl > 480) then
-        power = power + 1
+    if caster:isPC() then
+        power = 90
+    end
+
+    if (sLvl+iLvl > 424) then
+        power = power + 2
+    elseif (sLvl+iLvl > 449) then
+        power = power + 3
+    elseif (sLvl+iLvl > 475) then
+        power = power + 4
+    elseif (sLvl+iLvl > 499) then
+        power = power + 5
     end
 
     local iBoost = caster:getMod(tpz.mod.PAEON_EFFECT) + caster:getMod(tpz.mod.ALL_SONGS_EFFECT)

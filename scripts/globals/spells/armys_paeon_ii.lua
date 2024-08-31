@@ -1,5 +1,5 @@
 -----------------------------------------
--- Spell: Army's Paeon II
+-- Spell: Army's Paeon II (Level 15)
 -- Gradually restores target's HP.
 -----------------------------------------
 require("scripts/globals/status")
@@ -16,7 +16,10 @@ function onSpellCast(caster, target, spell)
 
     local power = 3
 
-   -- if (sLvl+iLvl > 150) then
+    if caster:isPC() then
+        power = 10
+    end
+
     if (sLvl+iLvl > 115) then
         power = power + 1
     end
