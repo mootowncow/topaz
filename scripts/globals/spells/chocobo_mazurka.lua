@@ -15,7 +15,7 @@ function onSpellCast(caster, target, spell)
 
     local iBoost = caster:getMod(tpz.mod.MAZURKA_EFFECT) + caster:getMod(tpz.mod.ALL_SONGS_EFFECT)
 
-    local duration = 1800
+    local duration = 120
 
     duration = duration * ((iBoost * 0.1) + (caster:getMod(tpz.mod.SONG_DURATION_BONUS)/100) + 1)
 
