@@ -5268,24 +5268,25 @@ namespace charutils
             }
         }
 
-        int32 rovBonus = 0;
-        // Only apply RoV bonuses for players below 75 and not in a level capped zone, to not effect merits
-        if (PChar->GetMLevel() < 75 && !PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_RESTRICTION))
-        {
-            for (auto i = 2884; i <= 2892; ++i) // RHAPSODY KI are sequential, so start at WHITE and end at OCHRE
-            {
-                if (hasKeyItem(PChar, i))
-                {
-                    rovBonus += 50;
-                }
-                else
-                {
-                    break; // No need to check further as you can't get KI out of order, so break out.
-                }
-            }
-        }
+        //int32 rovBonus = 0;
+        //// Only apply RoV bonuses for players below 75 and not in a level capped zone, to not effect merits
+        //if (PChar->GetMLevel() < 75 && !PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_RESTRICTION))
+        //{
+        //    for (auto i = 2884; i <= 2892; ++i) // RHAPSODY KI are sequential, so start at WHITE and end at OCHRE
+        //    {
+        //        if (hasKeyItem(PChar, i))
+        //        {
+        //            rovBonus += 50;
+        //        }
+        //        else
+        //        {
+        //            break; // No need to check further as you can't get KI out of order, so break out.
+        //        }
+        //    }
+        //}
 
-         bonus += (int32)(exp * ((PChar->getMod(Mod::EXP_BONUS) + rovBonus) / 100.0f));
+         //bonus += (int32)(exp * ((PChar->getMod(Mod::EXP_BONUS) + rovBonus) / 100.0f));
+        bonus += (int32)(exp * ((PChar->getMod(Mod::EXP_BONUS) ) / 100.0f));
 
         if (bonus + (int32)exp < 0)
         {
