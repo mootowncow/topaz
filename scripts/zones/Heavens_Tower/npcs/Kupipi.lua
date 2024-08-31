@@ -212,6 +212,11 @@ function onEventFinish(player, csid, option)
             ki = tpz.ki.WINDURST_TRUST_PERMIT,
             title = tpz.title.THE_TRUSTWORTHY,
             var = "WindurstFirstTrust" })
+        -- Add all custom starter trusts
+        local spellIDs = {906, 908, 910, 914, 915, 917, 930, 941, 947, 952, 967, 968, 981, 964}
+        for _, spellID in ipairs(spellIDs) do
+            player:addSpell(spellID, true, true)
+        end
         player:messageSpecial(ID.text.CALL_MULTIPLE_ALTER_EGO)
     elseif csid == 439 then
         player:addSpell(898, true, true)
