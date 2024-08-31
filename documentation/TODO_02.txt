@@ -142,8 +142,9 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Tenzen use JA"s like hasso?
-food gambit so they can keep up food
+Add guard skill? trustutils for (int i = SKILL_ARCHERY; i <= SKILL_THROWING; i++)
+Trusts only 10% DA
+Need to get tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DEATH) from LSB theirs is xi.trust.message(mob, xi.trust.messageOffset.DESPAWN)
 Twirling dervish level 50+ only
 Tenzens WS on ReadiesException or w/e
 Parry / Guard / Block work properly on players, mobs, pets, and friendly NPCs still? Mainly parry.
@@ -159,7 +160,9 @@ AddMerit() for mobs(Trusts)
 I think LSB had merits for trusts/mobs? https://github.com/LandSandBoat/server/commit/f17a2326a19ae6e7b3089cf2ae5b78862474216d
 
 **** NOW ***
-Bomb toss suicide does 0 damage in AOE?
+Do mobs get guard skill...?
+Don't allow Ready if pet has amnesia!
+Probably need to use int8 maneuvers = luautils::OnMobAutomatonSkillCheck(PTarget, PAutomaton, PSkill); for automaton TP moves
 Correct frame isn't being assigned to automatons on summon? (petid) petutils::SpawnPet always sets up harlequin frame but petutils::LoadPet (and calculate automaton stats) works??
 Slow didn't remove elemental seal, but blind did?
 Solace should give enhancing magic duration
@@ -176,7 +179,10 @@ Mobs should heal other mobs in combat
 Shouldn't magic shield calculate before stoneshield? For spikes, they don't? Do they for enspells?
 Pet camps so I can level SMN x2
 Job points
+Lamia / Merrow and undead + acroliths in same party. Mobmod to make mobs be in same party. (For Illrusi Atoll assault mainly)
 Mine Shaft + Promy ENMs
+tpz.znm.OnMobDeath doesn't properly take KI on death if someone pops and isn't killer(?) check eneities in range instead for the var instead of isKiller / noKiller
+Dea pop zone msg ID missing/wrong (Bhaflau thickets)
 Anticans starting from pool ID 165 need 240 delay. Check if any mobs dont have 240 or 480 delay in heidisql
 Do "no effect" (stun) spells add DR?
 Add DR to automatonweapopnskills and summon.lua. Also to the automatons shield bash?
@@ -193,8 +199,8 @@ Group Yagudo lutenists scroll drops ?
 La Vaule gate doesn't work properly
 The Scarlet King (Purson) test on retail (dont forget mob level) + code
 NPC Mobs can't guard/parry TP moves?
+Need high level fomor groups by 16875650 (Fomor ninja - abraxas) in lufaise meadows
 Finish MMM weapons via the mats at magian moogle and ANNM fights(some are missing, test changes i did in general). Add 09 voucher drops: https://www.bg-wiki.com/ffxi/Category:Moblin_Maze_Mongers
-FINISH JP
 
 
 Zdei spin 2x as fast on retail
@@ -214,14 +220,7 @@ Royal Painter Escort:
         Damage tracking on faluuya doesn't work properly and overflowed
         Mobs didn't depop after the boss died
     Targetting the captain:
-        Windjammer imps impossible to gauge, no exp, no loot, no gil
-        Bubbly,Kabsalah no exp, loot, gil
-        One of the chests only gave a Koga shuriken
-            elseif chestType == "secondBonusChest" then
-                if (instanceID == ROYAL_PAINTER_ESCORT) then
-                    distributeLoot(player, chars, royalPainterItemFaluuya, instanceID)
-                elseif (instanceID == TARGETING_THE_CAPTAIN) then
-                    distributeLoot(player, chars, lootTables[math.random(#lootTables)], instanceID) -- One of two Possible chests <- Doesn't work
+        Completion message plays per party member
 
 Voidwalker:
 https://discord.com/channels/443544205206355968/1129045297302097942/1129109467062096033 Vids of captures
