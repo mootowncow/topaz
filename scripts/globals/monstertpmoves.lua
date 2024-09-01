@@ -890,6 +890,11 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
         target:handleAfflatusMiseryDamage(dmg)
     end
 
+    if (attackType == tpz.attackType.PHYSICAL) then
+        mob:delStatusEffectSilent(tpz.effect.SNEAK_ATTACK)
+        mob:delStatusEffectSilent(tpz.effect.TRICK_ATTACK)
+    end
+
     return dmg
 end
 
