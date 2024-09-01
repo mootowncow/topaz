@@ -441,14 +441,14 @@ end
 function AddRefresh(mob)
     local mobLevel = mob:getMainLvl()
 
-    if mobLevel >= 1 and mobLevel <= 20 then
+    if mobLevel >= 1 and mobLevel <= 27 then
         mob:addMod(tpz.mod.REFRESH, 2)
-    elseif mobLevel >= 21 and mobLevel <= 40 then
+    elseif mobLevel >= 28 and mobLevel <= 47 then
+        mob:addMod(tpz.mod.REFRESH, 3)
+    elseif mobLevel >= 48 and mobLevel <= 69 then
         mob:addMod(tpz.mod.REFRESH, 4)
-    elseif mobLevel >= 41 and mobLevel <= 69 then
-        mob:addMod(tpz.mod.REFRESH, 6)
     elseif mobLevel >= 70 and mobLevel <= 75 then
-        AddRefresh(mob)
+        mob:addMod(tpz.mod.REFRESH, 5)
     end
 end
 
