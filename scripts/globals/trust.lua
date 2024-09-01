@@ -190,7 +190,6 @@ local modByMobName =
     end,
 
     ['ulmia'] = function(mob)
-        mob:addMod(tpz.mod.MPP, 200)
         mob:addMod(tpz.mod.DMGAOE, -33)
         AddRefresh(mob)
         -- AddBRDGear(mob) TODO
@@ -383,9 +382,6 @@ tpz.trust.onMobSpawn = function(mob)
     if mods then
         mods(mob)
     end
-
-    mob:setHP(mob:getMaxHP())
-    mob:setMP(mob:getMaxMP())
 end
 
 -- page_offset is: (summon_message_id - 1) / 100
