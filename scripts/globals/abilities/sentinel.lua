@@ -15,7 +15,7 @@ end
 function onUseAbility(player, target, ability)
     -- Whether feet have to be equipped before using ability, or if they can be swapped in
     -- is disputed.  Source used: http://wiki.bluegartr.com/bg/Sentinel
-    local power       = (90 + player:getMod(tpz.mod.SENTINEL_EFFECT)) * 100
+    local power       = (90 + player:getMod(tpz.mod.SENTINEL_EFFECT))
     local guardian    = player:getMerit(tpz.merit.GUARDIAN)
     local enhGuardian = player:getMod(tpz.mod.ENHANCES_GUARDIAN) * (guardian / 19) -- TODO(mod missing)
     local jpValue     = player:getJobPointLevel(tpz.jp.SENTINEL_EFFECT)
