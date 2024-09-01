@@ -82,7 +82,7 @@ local modByMobName =
     end,
 
     ['adelheid'] = function(mob)
-        mob:addMod(tpz.mod.MPP, 25)
+        mob:addMod(tpz.mod.MPP, 40)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
         AddRefresh(mob)
@@ -436,14 +436,12 @@ end
 function AddRefresh(mob)
     local mobLevel = mob:getMainLvl()
 
-    if mobLevel >= 1 and mobLevel <= 27 then
+    if mobLevel >= 1 and mobLevel < 59 then
         mob:addMod(tpz.mod.REFRESH, 1)
-    elseif mobLevel >= 28 and mobLevel <= 47 then
+    elseif mobLevel >= 59 and mobLevel < 75 then
         mob:addMod(tpz.mod.REFRESH, 2)
-    elseif mobLevel >= 48 and mobLevel <= 69 then
-        mob:addMod(tpz.mod.REFRESH, 3)
-    elseif mobLevel >= 70 and mobLevel <= 75 then
-        mob:addMod(tpz.mod.REFRESH, 4)
+    elseif mobLevel >= 75 then
+        mob:addMod(tpz.mod.REFRESH, 6)
     end
 end
 
