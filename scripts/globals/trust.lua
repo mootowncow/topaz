@@ -85,19 +85,18 @@ local modByMobName =
         mob:addMod(tpz.mod.MPP, 80)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
-        mob:addMod(tpz.mod.REFRESH, 8)
+        AddRefresh(mob)
         mob:addMod(tpz.mod.HELIX_EFFECT, 25)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddCasterGear(mob)
     end,
-
 
     ['koru-moru'] = function(mob)
         mob:addMod(tpz.mod.HPP, 20)
         mob:addMod(tpz.mod.MPP, 80)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
-        mob:addMod(tpz.mod.REFRESH, 8)
+        AddRefresh(mob)
         AddEnfeebleGear(mob)
     end,
 
@@ -106,7 +105,7 @@ local modByMobName =
         mob:addMod(tpz.mod.MPP, 80)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
-        mob:addMod(tpz.mod.REFRESH, 8)
+        AddRefresh(mob)
         mob:addMod(tpz.mod.CURE_CAST_TIME, 25)
         AddHealerGear(mob)
     end,
@@ -193,7 +192,7 @@ local modByMobName =
     ['ulmia'] = function(mob)
         mob:addMod(tpz.mod.MPP, 200)
         mob:addMod(tpz.mod.DMGAOE, -33)
-        mob:addMod(tpz.mod.REFRESH, 8)
+        AddRefresh(mob)
         -- AddBRDGear(mob) TODO
     end,
 
@@ -205,11 +204,11 @@ local modByMobName =
         AddLightMeleeAccuracyGear(mob)
     end,
 
-    ['sylvie'] = function(mob) -- sylvie_uc ?
+    ['sylvie'] = function(mob)
         mob:addMod(tpz.mod.MPP, 80)
         mob:addMod(tpz.mod.DMG, -25)
         mob:addMod(tpz.mod.REGAIN, 50)
-        mob:addMod(tpz.mod.REFRESH, 8)
+        AddRefresh(mob)
         mob:addMod(tpz.mod.INDI_DURATION, 180)
         AddHealerGear(mob)
     end,
@@ -438,6 +437,21 @@ tpz.trust.dumpMessagePages = function(mob)
         tpz.trust.message(mob, i, tpz.trust.message_offset.SPAWN)
     end
 end
+
+function AddRefresh(mob)
+    local mobLevel = mob:getMainLvl()
+
+    if mobLevel >= 1 and mobLevel <= 27 then
+        mob:addMod(tpz.mod.REFRESH, 2)
+    elseif mobLevel >= 28 and mobLevel <= 47 then
+        mob:addMod(tpz.mod.REFRESH, 4)
+    elseif mobLevel >= 48 and mobLevel <= 69 then
+        mob:addMod(tpz.mod.REFRESH, 6)
+    elseif mobLevel >= 70 and mobLevel <= 75 then
+        AddRefresh(mob)
+    end
+end
+
 
 function AddLightMeleeAccuracyGear(mob)
     local mobLevel = mob:getMainLvl()

@@ -15,6 +15,9 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local tp = mob:getLocalVar("tp")
     local lvl = mob:getSkillLevel(tpz.skill.CLUB)
+    if (tp == nil) or (tp == 0) then
+        tp = 1000
+    end
     local recovery = lvl * 0.22
     local recoveryFinal = recovery * (tp/2000 + 0.5)
 
