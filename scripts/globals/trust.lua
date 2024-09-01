@@ -82,7 +82,7 @@ local modByMobName =
     end,
 
     ['adelheid'] = function(mob)
-        mob:addMod(tpz.mod.MPP, 80)
+        mob:addMod(tpz.mod.MPP, 25)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
         AddRefresh(mob)
@@ -93,7 +93,7 @@ local modByMobName =
 
     ['koru-moru'] = function(mob)
         mob:addMod(tpz.mod.HPP, 20)
-        mob:addMod(tpz.mod.MPP, 80)
+        mob:addMod(tpz.mod.MPP, 25)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
         AddRefresh(mob)
@@ -102,7 +102,7 @@ local modByMobName =
 
     ['kupipi'] = function(mob)
         mob:addMod(tpz.mod.HPP, 20)
-        mob:addMod(tpz.mod.MPP, 80)
+        mob:addMod(tpz.mod.MPP, 25)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
         AddRefresh(mob)
@@ -197,7 +197,6 @@ local modByMobName =
     end,
 
     ['qultada'] = function(mob)
-        mob:addMod(tpz.mod.MPP, 200)
         mob:addMod(tpz.mod.DMGAOE, -15)
         mob:addMod(tpz.mod.PHANTOM_DURATION, 100)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)

@@ -24,5 +24,10 @@ function onUseAbility(player, target, ability)
     duration = duration * (100 + player:getMod(tpz.mod.SAMBA_PDURATION)) / 100
     player:delStatusEffect(tpz.effect.DRAIN_SAMBA)
     player:delStatusEffect(tpz.effect.ASPIR_SAMBA)
-    player:addStatusEffect(tpz.effect.HASTE_SAMBA, 1000 + player:getMerit(tpz.merit.HASTE_SAMBA_EFFECT) * 2, 0, duration)
+
+    if player:isPC() -- Players give 20%(25% with Merits) JA haste
+        player:addStatusEffect(tpz.effect.HASTE_SAMBA, 1000 + player:getMerit(tpz.merit.HASTE_SAMBA_EFFECT) * 2, 0, duration)
+    else -- Trusts / Mobs / NPCS etc 5%(10% with merits)
+        player:addStatusEffect(tpz.effect.HASTE_SAMBA, 500 + player:getMerit(tpz.merit.HASTE_SAMBA_EFFECT), 0, duration)
+    end
 end
