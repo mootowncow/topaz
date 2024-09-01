@@ -1031,6 +1031,7 @@ bool CGambitsContainer::TryTrustSkill()
         }
         else // Mobskill
         {
+            POwner->SetLocalVar("tp", POwner->health.tp);
             controller->MobSkill(target->targid, chosen_skill->skill_id);
         }
         return true;
