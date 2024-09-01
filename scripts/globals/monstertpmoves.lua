@@ -82,6 +82,11 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local weaponDmg = mob:getWeaponDmg()
     local fSTR = getMobFSTR(weaponDmg, mob:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))
 
+    if (tpeffect == TP_RANGED) then
+        weaponDmg = mob:getRangedDmg()
+        fSTR = getMobFSTR2(weaponDmg, mob:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))
+    end
+
     local lvluser = mob:getMainLvl()
     local lvltarget = target:getMainLvl()
     local acc = mob:getACC()
@@ -96,8 +101,14 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local WSC = getMobWSC(mob, params_phys)
     --printf("WSC %u", WSC)
     local withoutws = mob:getWeaponDmg() + fSTR
+    if (tpeffect == TP_RANGED) then
+        withoutws = mob:getRangedDmg() + fSTR
+    end
     --printf("dmg without wsc %u", withoutws)
     local base = mob:getWeaponDmg() + WSC + fSTR
+    if (tpeffect == TP_RANGED) then
+        base = mob:getRangedDmg() + WSC + fSTR
+    end
     --printf("dmg WITH wsc %u", base)
     if (base < 1) then
         base = 1
@@ -1895,6 +1906,33 @@ function getMobFSTR(weaponDmg, mobStr, targetVit)
         fSTR = (dSTR + 12) / 4
     else
         fSTR = (dSTR + 13) / 4
+    end
+
+    local min = math.floor(weaponDmg/9)
+    return math.max(-min, fSTR)
+end
+
+function getMobFSTR2(weaponDmg, mobStr, targetVit)
+    -- https://www.bluegartr.com/threads/114636-Monster-Avatar-Pet-damage
+    -- fSTR for mobs has no cap and a lower bound of floor(weaponDmg/9)
+    local dSTR = mobStr - targetVit
+    local fSTR = dSTR
+    if fSTR >= 12 then
+        fSTR = (dSTR + 4) / 2
+    elseif fSTR >= 6 then
+        fSTR = (dSTR + 6) / 2
+    elseif fSTR >= 1 then
+        fSTR = (dSTR + 7) / 2
+    elseif fSTR >= -2 then
+        fSTR = (dSTR + 8) /2 
+    elseif fSTR >= -7 then
+        fSTR = (dSTR + 9) /2 
+    elseif fSTR >= -15 then
+        fSTR = (dSTR + 10) /2 
+    elseif fSTR >= -21 then
+        fSTR = (dSTR + 12) /2 
+    else
+        fSTR = (dSTR + 13) /2 
     end
 
     local min = math.floor(weaponDmg/9)
