@@ -1,7 +1,7 @@
 ---------------------------------------------
 --  Slugshot
 --
---  Description: Deals hihg damage to the target.
+--  Description: Deals high damage to the target.
 --  Type: Ranged
 --  Utsusemi/Blink absorb: 1 shadow
 --  Range: 10' single
@@ -21,7 +21,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local numhits = 1
     local accmod = 1
-    local dmgmod = 3.0
+    local dmgmod = 2.0
     local params_phys = {}
     params_phys.multiplier = dmgmod
     params_phys.tp150 = 1
