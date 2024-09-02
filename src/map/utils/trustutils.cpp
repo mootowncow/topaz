@@ -666,6 +666,12 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
     battleutils::AddTraits(PTrust, traits::GetTraits(mJob), mLvl);
     battleutils::AddTraits(PTrust, traits::GetTraits(sJob), sLvl);
 
+    // Max [HP/MP] Boost traits
+    PTrust->UpdateHealth();
+    PTrust->health.tp = 0;
+    PTrust->health.hp = PTrust->GetMaxHP();
+    PTrust->health.mp = PTrust->GetMaxMP();
+
     mobutils::SetupJob(PTrust);
 
     // Skills
@@ -689,12 +695,8 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
                 break;
             }
 
-            skill = TrustSkill_t {
-                G_REACTION::WS,
-                skill_id,
-                PWeaponSkill->getPrimarySkillchain(),
-                PWeaponSkill->getSecondarySkillchain(),
-                PWeaponSkill->getTertiarySkillchain(),
+            skill = TrustSkill_t{
+                G_REACTION::WS, skill_id, PWeaponSkill->getPrimarySkillchain(), PWeaponSkill->getSecondarySkillchain(), PWeaponSkill->getTertiarySkillchain(),
             };
         }
         else // MobSkills
@@ -706,26 +708,26 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
                 break;
             }
             skill = {
-                G_REACTION::MS,
-                skill_id,
-                skill.primary = PMobSkill->getPrimarySkillchain(),
-                skill.secondary = PMobSkill->getSecondarySkillchain(),
-                skill.tertiary = PMobSkill->getTertiarySkillchain(),
+                G_REACTION::MS, skill_id, PMobSkill->getPrimarySkillchain(), PMobSkill->getSecondarySkillchain(), PMobSkill->getTertiarySkillchain(),
             };
-
-            controller->m_GambitsContainer->tp_skills.emplace_back(skill);
         }
 
         // Only get access to skills that produce Lv3 SCs after Lv60
         bool canFormLv3Skillchain = skill.primary >= SC_GRAVITATION || skill.secondary >= SC_GRAVITATION || skill.tertiary >= SC_GRAVITATION;
 
         // Special case for Zeid II and others who only have Lv3+ skills
-        bool onlyHasLc3Skillchains = canFormLv3Skillchain && controller->m_GambitsContainer->tp_skills.empty();
+        bool onlyHasLv3Skillchains = canFormLv3Skillchain && controller->m_GambitsContainer->tp_skills.empty();
 
-        if (!canFormLv3Skillchain || PTrust->GetMLevel() >= 60 || onlyHasLc3Skillchains)
+        // Check for high-level weapon skills and level 60+ requirement
+        if ((!canFormLv3Skillchain || PTrust->GetMLevel() >= 60 || onlyHasLv3Skillchains) && (PTrust->GetMLevel() >= 60 || !IsHighLevelWS(skill_id)))
         {
             controller->m_GambitsContainer->tp_skills.emplace_back(skill);
         }
     }
+}
+
+bool IsHighLevelWS(uint16 skill_id)
+{
+    return skill_id == 3469 || skill_id == 212 || skill_id == 3285;
 }
 }; // namespace trustutils

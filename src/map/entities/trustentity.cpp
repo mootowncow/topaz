@@ -50,6 +50,7 @@ CTrustEntity::CTrustEntity(CCharEntity* PChar)
     m_MobSkillList = 0;
     PMaster = PChar;
     m_IsClaimable = false;
+    namevis = 0; 
 
     m_modStat[Mod::SDT_FIRE] = 100;
     m_modStat[Mod::SDT_ICE] = 100;
@@ -446,6 +447,21 @@ bool CTrustEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
         return true;
     }
 
+    if ((targetFlags & TARGET_PLAYER_PARTY_PIANISSIMO) && PInitiator->allegiance == allegiance && PMaster && PInitiator != this)
+    {
+        return true;
+    }
+
+    if ((targetFlags & TARGET_PLAYER_PARTY_ENTRUST) && PInitiator->allegiance == allegiance && PMaster && PInitiator != this)
+    {
+        return true;
+    }
+
+    if ((targetFlags & TARGET_PLAYER_PARTY_ENTRUST) && PInitiator->objtype == TYPE_TRUST && PInitiator->allegiance == allegiance)
+    {
+        return true;
+    }
+
     if (targetFlags & TARGET_PLAYER_PARTY && PInitiator->objtype == TYPE_PET && PInitiator->allegiance == allegiance)
     {
         return true;
@@ -461,7 +477,7 @@ bool CTrustEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
 
 void CTrustEntity::OnDespawn(CDespawnState&)
 {
-    if (GetHPP())
+    if (GetHPP() > 0)
     {
         // Don't call this when despawning after being killed
         luautils::OnMobDespawn(this);

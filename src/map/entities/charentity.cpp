@@ -891,13 +891,43 @@ bool CCharEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
         return true;
     }
 
-    if (((targetFlags & TARGET_PLAYER_PARTY) || ((targetFlags & TARGET_PLAYER_PARTY_PIANISSIMO) &&
-        PInitiator->StatusEffectContainer->HasStatusEffect(EFFECT_PIANISSIMO))) &&
-        ((PParty && PInitiator->PParty == PParty) ||
-        (PInitiator->PMaster && PInitiator->PMaster->PParty == PParty)) &&
-        PInitiator != this)
+    bool isSameParty = PParty && PInitiator->PParty && PInitiator->PParty == PParty;
+    bool isSameAlliance = PParty && PParty->m_PAlliance && PInitiator->PParty && PInitiator->PParty->m_PAlliance && PParty->m_PAlliance == PInitiator->PParty->m_PAlliance;
+    bool isPartyPetMaster = PInitiator->PMaster && PInitiator->PMaster->PParty && PInitiator->PMaster->PParty == PParty;
+    bool isSoloPetMaster = PParty == nullptr && PInitiator->PMaster == this;
+    bool targetsParty = targetFlags & TARGET_PLAYER_PARTY;
+    bool targetsAlliance = targetFlags & TARGET_PLAYER_ALLIANCE;
+    bool hasPianissimo = (targetFlags & TARGET_PLAYER_PARTY_PIANISSIMO) && PInitiator->StatusEffectContainer->HasStatusEffect(EFFECT_PIANISSIMO);
+    bool isDifferentChar = PInitiator != this;
+
+    // Alliance member valid target.
+    if (targetsAlliance && isSameAlliance && isDifferentChar)
     {
         return true;
+    }
+
+    // Party member valid targeting.
+    if ((targetsParty || hasPianissimo) && (isSameParty || isPartyPetMaster || isSoloPetMaster) && isDifferentChar)
+    {
+        return true;
+    }
+
+    if (targetFlags & TARGET_PLAYER_PARTY_ENTRUST)
+    {
+        if (PInitiator->objtype == TYPE_TRUST)
+        {
+            return true;
+        }
+
+        // Can cast on self and others in party but potency gets no bonuses from equipment mods if entrust is active
+        if (!PInitiator->StatusEffectContainer->HasStatusEffect(EFFECT_ENTRUST) && PInitiator == this)
+        {
+            return true;
+        }
+        else if (PInitiator->StatusEffectContainer->HasStatusEffect(EFFECT_ENTRUST) && ((PParty && PInitiator->PParty == PParty) || PInitiator == this))
+        {
+            return true;
+        }
     }
 
     return false;

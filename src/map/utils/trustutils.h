@@ -12,6 +12,7 @@ namespace trustutils
 {
     void LoadTrustList();
     void FreeTrustList();
+    bool IsHighLevelWS(uint16 skill_id);
 
     void SpawnTrust(CCharEntity* PMaster, uint32 TrustID);
 

@@ -414,15 +414,18 @@ enum SUBEFFECT
 
 enum TARGETTYPE
 {
-    TARGET_SELF = 0x01,
-    TARGET_PLAYER_PARTY = 0x02,
-    TARGET_ENEMY = 0x04,
-    TARGET_PLAYER_ALLIANCE = 0x08,
-    TARGET_PLAYER = 0x10,
-    TARGET_PLAYER_DEAD = 0x20,
-    TARGET_NPC = 0x40,		// скорее всего подразумевается mob, выглядящий как npc и воюющий на стороне персонажа
+    TARGET_NONE                    = 0x00,
+    TARGET_SELF                    = 0x01,
+    TARGET_PLAYER_PARTY            = 0x02,
+    TARGET_ENEMY                   = 0x04,
+    TARGET_PLAYER_ALLIANCE         = 0x08,
+    TARGET_PLAYER                  = 0x10,
+    TARGET_PLAYER_DEAD             = 0x20,
+    TARGET_NPC                     = 0x40, // an npc is a mob that looks like an npc and fights on the side of the character
     TARGET_PLAYER_PARTY_PIANISSIMO = 0x80,
-    TARGET_PET = 0x100
+    TARGET_PET                     = 0x100,
+    TARGET_PLAYER_PARTY_ENTRUST    = 0x200,
+    TARGET_IGNORE_BATTLEID         = 0x400, // Can hit targets that do not have the same battle ID
 };
 
 enum SKILLCHAIN_ELEMENT
