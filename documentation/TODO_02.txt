@@ -142,24 +142,37 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Add guard skill? trustutils for (int i = SKILL_ARCHERY; i <= SKILL_THROWING; i++)
+Koru-Moru breaks and does nothing if he can't cant haste(so any level below 48).Putting haste last in list fixed it, maybe put helixses last on adel? Or above storms
+Can't cover trusts "cannot perm that action on the specified target" is it in char_controller?
+Don't stun ranged attack TP moves (gambit)
+Adelheid no spells at uber low level?(15) Still no spells until like 26+ or w/e Needs to casts something if no choice BEST_AGAINST_TARGET (helix might be ok?)
+Engage at melee range + modelsize like I did for mobs
+Last Resort and Hasoh (2h JA haste) work on trusts?
+Does Tenzen Meditate on CD?
+Lhe Lhangavo DPS is trash? Give her MNK "belts" and make her cmbmultipier 100
+Trusts can get stuck, if stuck teleport them to master or target (use IsStuck()?)
+Maybe not setting TP var when trust uses a WS? Check in trust WS logic in CPP
+Scaling refresh based on level for WHM/RDM/Geo trusts
+No souleater logic for monstertpmoves, also it doesn't deal damage to zeid on autoattacks?(does it even add damage?)
+Slug shot miss stil SCed(for 0). Is this a trust only issue?
+Remove blue i off trusts (Think set somtehing on their object, I did it for pets)
+Why does slugshot do a ton of damage? is it using player slug shot WS file? If so, shouldn't be used until 55+ in bool canFormLv3Skillchain in trustutils.cpp
+Kupipi should only AOE protra/shellra if multiple missing are missing and protect/shell otherwise
+Check JP wiki for kupipi/koru heal %'s, makes it hard to heal sel fon PLD
+HP / MP % mods from trust.lua are applied super late after summoning trusts, not immeditately on spawn. Check where onmobspawn() is run for them? 
+Also why doesn't it heal them to 100%? Packet isnt being updated OnMobSpawn() and for some reason my sethp/mp doesn't work? try setting 100000 of each?
+Does barrage and double shot work? (take ranged from LSB it prob has it, or get one i have from mobentity)
 Trusts only 10% DA
-Need to get tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DEATH) from LSB theirs is xi.trust.message(mob, xi.trust.messageOffset.DESPAWN)
-Twirling dervish level 50+ only
-Tenzens WS on ReadiesException or w/e
-Parry / Guard / Block work properly on players, mobs, pets, and friendly NPCs still? Mainly parry.
-SDT/EEM not working. BuildTrust() doesnt save EEM data at all(unneeded?)
-Only summon trusts if level < 75, not level capped, not level synced
+Fencer bonus added to gambits container "POwner->SetLocalVar("tp", POwner->health.tp);" from mob_controller "PMob->SetLocalVar("tp", tp);"
+Tenzens WS on ReadiesException or w/e to gambits container "POwner->SetLocalVar("tp", POwner->health.tp);" from mob_controller "PMob->SetLocalVar("tp", tp);"
 Aspir / Drain Gambit logic?
-Koru-Moru spams phalanx on himself and no other spells?
-mob:setMobMod(xi.mobMod.TRUST_DISTANCE, xi.trust.movementType.NO_MOVE) <- trust distance and movementType
-Ability to check multiple statuses for dark arts / addendum (and light also)
 Huge delay on first spell cast by adelheid? And storm - > helix is also a huge delay?
-SC logic for all the melee imo
-AddMerit() for mobs(Trusts)
-I think LSB had merits for trusts/mobs? https://github.com/LandSandBoat/server/commit/f17a2326a19ae6e7b3089cf2ae5b78862474216d
+Missing unsummon animation
+"Respawning" animation after spawning once, it's used for avatars/puppets too. From LSB. Lots to change
 
 **** NOW ***
+Cactrot Rapid pathing bugged
+Shield blocks should up as "MISS" in SCT, they are wrong reaction type. have to fix simplelog after too
 Do mobs get guard skill...?
 Don't allow Ready if pet has amnesia!
 Probably need to use int8 maneuvers = luautils::OnMobAutomatonSkillCheck(PTarget, PAutomaton, PSkill); for automaton TP moves
@@ -184,6 +197,7 @@ Mine Shaft + Promy ENMs
 tpz.znm.OnMobDeath doesn't properly take KI on death if someone pops and isn't killer(?) check eneities in range instead for the var instead of isKiller / noKiller
 Dea pop zone msg ID missing/wrong (Bhaflau thickets)
 Anticans starting from pool ID 165 need 240 delay. Check if any mobs dont have 240 or 480 delay in heidisql
+Item enchantments so you always want 1 item perma active (like high breath mantle)
 Do "no effect" (stun) spells add DR?
 Add DR to automatonweapopnskills and summon.lua. Also to the automatons shield bash?
 Valleys of sorrows Survival Guide facing wrong way(flip 180)
@@ -237,7 +251,7 @@ Stabializer III Mana Jammer III Auto-rep. Kit III vendor prices
 melee gaiters bonus(and other counterstance items/merits/jp?
 TA doesn't work if party member is inside mobs hitbox or too close to mob?
 Avatar repeat logic(i think its in utils file or quests or something?) added to other npcs  + tested
-Fix bahamut and code Cloud Evoker  BCNM's. Buff the Bahamut V2 fight rewards a ton, make the items as good as AV / PW
+Fix bahamut and code Cloud Evoker  BCNM's. Buff the Bahamut V2 fight rewards a ton, make the items as good as AV / PW. No cashmere, make it drop the items like behemoth
 Martial / KSNM weapons shouldn't work offhand
 Add Waking the Beast, buff the loot to be obscene weapons for off-class. Weekly. Make infinite repeatable reward so its worth doing every week
 Cura - Cura III msg wrong for AOEing? Add it to magic and use the cure function I made
@@ -313,9 +327,22 @@ TryProcTH needs level 15+ job check(maybe 75?)
 Add Cura-III to the new cure magic.lua function
 Add tractor to raise
 Does WS not remove invis/sneak?
-Despoil on Aura Statue crashed  log
+Might need to add this to mobs spawning so adding hp/mp boost mods works on them if added onto them OnMobSpawn() in lua scripts?
+    luautils::OnMobSpawn(this);
+    // Max [HP/MP] Boost mods
+    this->UpdateHealth();
+    this->health.tp = 0;
+    this->health.hp = this->GetMaxHP();
+    this->health.mp = this->GetMaxMP();
 
 ~~~~~~~~~~~~~~~~~~~~Relic Weapons Revamp~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~Bard Revamp~~~~~~~~~~~~~~~~~~~~
+Be able to mainheal with paeon, but don't want to fulltime cause you want to give other songs(acc/attk/haste)
+Combine songs into multiple things
+MND stat song gives healing potency
+Mordant Rime very bad damage but insane enfeebles/stat downs/etc
+Herb Pastoral / Scop's Operetta / Fowl Aubade / Goblin Gavotte / Gold Capriccio / Shining Fantasia / Puppet's Operetta / Warding Round
 
 ~~~~~~~~~~~~~~~~~~~~Thief Revamp~~~~~~~~~~~~~~~~~~~~
 Despoil effects sql
@@ -482,8 +509,18 @@ https://github.com/LandSandBoat/server/commit/a51b5d851f1de31b62516e20d68cb8a08f
 Sample:
 https://github.com/LandSandBoat/server/commit/3b7540090b9fa7a4bb9aa3a9bb81ded09892abbd
 
+
+Move all damage taken to being same scale as haste instead of base 100
+https://github.com/LandSandBoat/server/commit/40cd370a1543177e0ed99c89fb4b506b0f09899d
+
 Mammool ja Stuff
 https://github.com/LandSandBoat/server/commit/bab03a3bb06cc4f54b81bd45e5aba7814f77c320
+
+Healing with dmg spells
+https://github.com/LandSandBoat/server/commit/4283634316bcce0e5c0e182a0a9b08285d41e9a6
+
+Set Max HP(also make max MP imo)
+https://github.com/LandSandBoat/server/commit/3a463d6c02f38f08095e151858de0a18d98ab1cd
 
 Memory receptacles
 https://github.com/LandSandBoat/server/commit/5442524cc2b7304982c59039eef1fec1f3f63864
