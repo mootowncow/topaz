@@ -134,9 +134,9 @@ local modByMobName =
         mob:addMod(tpz.mod.COUNTER, 5)
         mob:addMod(tpz.mod.KICK_ATTACK_RATE, 5)
         mob:addMod(tpz.mod.ACC, 30)
-        mob:addMod(tpz.mod.HASTE_GEAR, 1500)
         mob:addMod(tpz.mod.DEX, 12)
         AddLightMeleeAccuracyGear(mob)
+        AddMNKBelts(mob)
     end,
 
     ['shikaree_z'] = function(mob)
@@ -179,6 +179,7 @@ local modByMobName =
 
     ['elivira'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
+        mob:addMod(tpz.mod.DMGAOE, -25)
         mob:addMod(tpz.mod.RACC, 30)
         mob:addMod(tpz.mod.ENMITY, -15)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
@@ -595,6 +596,23 @@ function AddHealerGear(mob)
         mob:addMod(tpz.mod.MATT, 5)
         mob:addMod(tpz.mod.CURE_POTENCY, 10)
         AddElementalStaves(mob, 'nq')
+    end
+end
+
+function AddMNKBelts(mob)
+    local mobLevel = mob:getMainLvl()
+
+    if mobLevel >= 18 and mobLevel < 40 then
+        mob:addMod(tpz.mod.STR, 3)
+        mob:addMod(tpz.mod.HASTE_GEAR, 400)
+    elseif mobLevel >= 40 and mobLevel < 75 then
+        mob:addMod(tpz.mod.STR, 5)
+        mob:addMod(tpz.mod.HASTE_GEAR, 800)
+    elseif mobLevel >= 75 then
+        mob:addMod(tpz.mod.STR, 7)
+        mob:addMod(tpz.mod.SUBTLE_BLOW, 5)
+        mob:addMod(tpz.mod.HASTE_GEAR, 1200)
+        mob:addMod(tpz.mod.DMGPHYS, -5)
     end
 end
 

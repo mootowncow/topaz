@@ -79,13 +79,15 @@ void CGambitsContainer::Tick(time_point tick)
 {
     TracyZoneScoped;
 
-    if (tick < m_lastAction)
+    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
+    uint8 currentPartyPos = controller->GetPartyPosition();
+    auto position_offset = static_cast<std::chrono::milliseconds>(currentPartyPos * 10);
+
+    if ((tick + position_offset) < m_lastAction)
     {
         return;
     }
 
-    // TODO: Is this necessary?
-    // Not already doing something
     if (POwner->PAI->IsCurrentState<CAbilityState>() ||
         POwner->PAI->IsCurrentState<CRangeState>() ||
         POwner->PAI->IsCurrentState<CMagicState>() ||
@@ -95,10 +97,15 @@ void CGambitsContainer::Tick(time_point tick)
         return;
     }
 
+    if (!POwner->PAI->CanChangeState())
+    {
+        ShowDebug("Can't change state, returning\n");
+        return;
+    }
+
     auto random_offset = static_cast<std::chrono::milliseconds>(tpzrand::GetRandomNumber(1000, 2500));
     m_lastAction = tick + random_offset;
 
-    auto controller = static_cast<CTrustController*>(POwner->PAI->GetController());
 
     // Deal with TP skills before any gambits
     // TODO: Should this be its own special gambit?
@@ -397,6 +404,7 @@ void CGambitsContainer::Tick(time_point tick)
                     {
                         controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
                         SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                        return;
                     }
                 }
                 else if (action.select == G_SELECT::HIGHEST)
@@ -406,6 +414,7 @@ void CGambitsContainer::Tick(time_point tick)
                     {
                         controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
                         SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                        return;
                     }
                 }
                 else if (action.select == G_SELECT::LOWEST)
@@ -426,6 +435,7 @@ void CGambitsContainer::Tick(time_point tick)
                     {
                         controller->Cast(target->targid, spell_id.value());
                         SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                        return;
                     }
                 }
                 else if (action.select == G_SELECT::ENTRUSTED)
@@ -437,6 +447,7 @@ void CGambitsContainer::Tick(time_point tick)
                     {
                         controller->Cast(target->targid, spell_id.value());
                         SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                        return;
                     }
                 }
                 else if (action.select == G_SELECT::BEST_AGAINST_TARGET)
@@ -446,6 +457,7 @@ void CGambitsContainer::Tick(time_point tick)
                     {
                         controller->Cast(target->targid, spell_id.value());
                         SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                        return;
                     }
                 }
                 else if (action.select == G_SELECT::STORM_DAY)
@@ -455,6 +467,7 @@ void CGambitsContainer::Tick(time_point tick)
                     {
                         controller->Cast(target->targid, spell_id.value());
                         SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                        return;
                     }
                 }
                 else if (action.select == G_SELECT::HELIX_DAY)
@@ -464,6 +477,7 @@ void CGambitsContainer::Tick(time_point tick)
                     {
                         controller->Cast(target->targid, spell_id.value());
                         SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                        return;
                     }
                 }
                 else if (action.select == G_SELECT::STORM_WEAKNESS)
@@ -471,10 +485,12 @@ void CGambitsContainer::Tick(time_point tick)
                     auto PTarget = POwner->GetBattleTarget();
                     if (PTarget)
                     {
-                        auto spell_id = POwner->SpellContainer->StormWeakness(PTarget);
+                        auto spell_id = POwner->SpellContainer->StormWeakness(POwner, PTarget);
                         if (spell_id.has_value())
                         {
                             controller->Cast(target->targid, spell_id.value());
+                            SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                            return;
                         }
                     }
                 }
@@ -485,6 +501,7 @@ void CGambitsContainer::Tick(time_point tick)
                     {
                         controller->Cast(target->targid, spell_id.value());
                         SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                        return;
                     }
                 }
                 else if (action.select == G_SELECT::RANDOM)
@@ -494,6 +511,7 @@ void CGambitsContainer::Tick(time_point tick)
                     {
                         controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
                         SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                        return;
                     }
                 }
                 else if (action.select == G_SELECT::MB_ELEMENT)
@@ -531,6 +549,7 @@ void CGambitsContainer::Tick(time_point tick)
                     {
                         controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
                         SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                        return;
                     }
                 }
             }
@@ -653,6 +672,7 @@ void CGambitsContainer::Tick(time_point tick)
                     if (tpCost != 0 && (currentTP >= tpCost))
                     {
                         controller->Ability(target->targid, PAbility->getID());
+                        return;
                     }
                 }
             }
@@ -816,9 +836,36 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
         }
         case G_CONDITION::READYING_MS:
         {
-            return trigger_target->PAI->IsCurrentState<CMobSkillState>();
+            CState* currentState = trigger_target->PAI->GetCurrentState();
+            if (currentState)
+            {
+                // Attempt to cast to CMobSkillState
+                CMobSkillState* msState = dynamic_cast<CMobSkillState*>(currentState);
+                if (msState)
+                {
+                    CMobSkill* skill = msState->GetSkill();
+                    if (skill)
+                    {
+                        bool isTwoHour              = skill->isTwoHour();
+                        bool isJobAbility           = skill->isJobAbility();
+                        bool isAttackReplacement    = skill->isAttackReplacement();
+                        bool isSpecial              = skill->isSpecial();
+                        if (!isTwoHour && !isJobAbility && !isAttackReplacement && !isSpecial)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return false;
             break;
         }
+
         case G_CONDITION::READYING_JA:
         {
             return trigger_target->PAI->IsCurrentState<CAbilityState>();
@@ -1131,11 +1178,14 @@ bool CGambitsContainer::TryTrustSkill()
             case SKILLTYPE::SKILL_GEOMANCY:
             case SKILLTYPE::SKILL_HANDBELL:
                 m_lastCast = tick + std::chrono::milliseconds(spellCastTime + 5000);
+                //ShowDebug("Adding 5s to spell recast timer\n");
                 break;
             case SKILLTYPE::SKILL_ELEMENTAL_MAGIC:
+                //ShowDebug("Adding 23s to spell recast timer\n");
                 m_lastCast = tick + std::chrono::milliseconds(spellCastTime + 23000);
                 break;
             default:
+                //ShowDebug("Adding 5s to spell recast timer\n");
                 m_lastCast = tick + std::chrono::milliseconds(spellCastTime + 5000);
                 break;
         }

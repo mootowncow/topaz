@@ -360,18 +360,21 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     -- printf("final: %f, hits: %f, acc: %f", finaldmg, hitslanded, hitrate)
     -- printf("ratio: %f, min: %f, max: %f, pdif, %f hitdmg: %f", ratio, minRatio, maxRatio, pdif, hitdamage)
 
-    -- Add TP scaling if not a crit TP move
+    -- Add Souleater bonus
+    finaldmg = finaldmg + souleaterBonus(mob, hitslanded)
 
+    -- Add TP scaling if not a crit TP move
     if (tpeffect ~= TP_CRIT_VARIES) and (tpeffect ~= TP_AUTO_ATTACK) and (numberofhits <= 2) then
         finaldmg = math.floor(finaldmg * MobDmgTPModifier(tp))
     end
 
     -- Reduce the damage by half on 5+ hit TP moves or else they become out of control
     if hitslanded >= 5 then
-        if not mob:isTrust() then -- Don't Trusts WS
+        if not mob:isTrust() then -- Don't nerf Trusts WS
             finaldmg = finaldmg / 2
         end
     end
+
     -- Fully parried the attack(Displays miss)
     if (hitslanded >= 1 and finaldmg < 1) then
         skill:setMsg(tpz.msg.basic.SKILL_MISS)

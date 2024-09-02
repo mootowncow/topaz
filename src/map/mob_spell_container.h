@@ -70,7 +70,7 @@ public:
   std::optional<SpellID> GetBestAgainstTargetWeakness(CBattleEntity* PMob, CBattleEntity* PTarget);
   std::optional<SpellID> GetStormDay();
   std::optional<SpellID> GetHelixDay(CBattleEntity* PMob);
-  std::optional<SpellID> StormWeakness(CBattleEntity* PTarget);
+  std::optional<SpellID> StormWeakness(CBattleEntity* PMob, CBattleEntity* PTarget);
   std::optional<SpellID> HelixWeakness(CBattleEntity* PMob, CBattleEntity* PTarget);
 
   std::vector<SpellID> m_gaList;

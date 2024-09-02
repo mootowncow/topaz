@@ -663,10 +663,9 @@ std::optional<SpellID> CMobSpellContainer::GetHelixDay(CBattleEntity* PMob)
     return choice;
 }
 
-std::optional<SpellID> CMobSpellContainer::StormWeakness(CBattleEntity* PTarget)
+std::optional<SpellID> CMobSpellContainer::StormWeakness(CBattleEntity* PMob, CBattleEntity* PTarget)
 {
     // Look up what the target has the _least resistance to_:
-    // clang-format off
     std::vector<int16> resistances
     {
         PTarget->getMod(Mod::SDT_FIRE),
@@ -678,72 +677,87 @@ std::optional<SpellID> CMobSpellContainer::StormWeakness(CBattleEntity* PTarget)
         PTarget->getMod(Mod::SDT_LIGHT),
         PTarget->getMod(Mod::SDT_DARK),
     };
-    // clang-format on
+
+    std::size_t strongestIndex = std::distance(resistances.begin(), std::max_element(resistances.begin(), resistances.end()));
+
+    // Define spell levels
+    const std::map<int16, SpellID> levelToSpell = {
+        {41, SpellID::Sandstorm},
+        {42, SpellID::Rainstorm},
+        {43, SpellID::Windstorm},
+        {44, SpellID::Firestorm},
+        {45, SpellID::Hailstorm},
+        {46, SpellID::Thunderstorm},
+        {47, SpellID::Voidstorm},
+        {48, SpellID::Aurorastorm}
+    };
+
+    // Determine the spell level required for the strongest element
+    int16 requiredLevel = 0;
+    switch (strongestIndex + 1) // Adjust to ignore ELEMENT_NONE
+    {
+        case ELEMENT_FIRE:
+            requiredLevel = 44;
+            break;
+        case ELEMENT_ICE:
+            requiredLevel = 45;
+            break;
+        case ELEMENT_WIND:
+            requiredLevel = 43;
+            break;
+        case ELEMENT_EARTH:
+            requiredLevel = 41;
+            break;
+        case ELEMENT_THUNDER:
+            requiredLevel = 46;
+            break;
+        case ELEMENT_WATER:
+            requiredLevel = 42;
+            break;
+        case ELEMENT_LIGHT:
+            requiredLevel = 48;
+            break;
+        case ELEMENT_DARK:
+            requiredLevel = 47;
+            break;
+        default:
+            return std::nullopt;
+    }
+
+    // Default to Sandstorm if not high enough level to cast the weakness helix and level is at least 18
+    if (PMob->GetMLevel() >= 41 && PMob->GetMLevel() < requiredLevel)
+    {
+        return SpellID::Sandstorm;
+    }
+
+    // Otherwise, return nothing
+    if (PTarget->GetMLevel() < requiredLevel)
+    {
+        return std::nullopt;
+    }
 
     // Check if all resistances are equal
     bool allEqual = std::all_of(resistances.begin(), resistances.end(), [&](int16 value) { return value == resistances[0]; });
 
-    // If all resistances are equal, choose the helix based on the current day
+    // If all resistances are equal, choose the storm based on the current day
     if (allEqual)
     {
         return GetStormDay();
     }
 
-    std::size_t strongestIndex  = std::distance(resistances.begin(), std::max_element(resistances.begin(), resistances.end()));
-
-    // TODO: Figure this out properly:
-    std::optional<SpellID> choice = std::nullopt;
-    switch (strongestIndex  + 1) // Adjust to ignore ELEMENT_NONE
+    // Return the appropriate SpellID
+    auto it = levelToSpell.find(requiredLevel);
+    if (it != levelToSpell.end())
     {
-        case ELEMENT_FIRE:
-        {
-            choice = SpellID::Firestorm;
-            break;
-        }
-        case ELEMENT_ICE:
-        {
-            choice = SpellID::Hailstorm;
-            break;
-        }
-        case ELEMENT_WIND:
-        {
-            choice = SpellID::Windstorm;
-            break;
-        }
-        case ELEMENT_EARTH:
-        {
-            choice = SpellID::Sandstorm;
-            break;
-        }
-        case ELEMENT_THUNDER:
-        {
-            choice = SpellID::Thunderstorm;
-            break;
-        }
-        case ELEMENT_WATER:
-        {
-            choice = SpellID::Rainstorm;
-            break;
-        }
-        case ELEMENT_LIGHT:
-        {
-            choice = SpellID::Aurorastorm;
-            break;
-        }
-        case ELEMENT_DARK:
-        {
-            choice = SpellID::Voidstorm;
-            break;
-        }
+        return it->second;
     }
 
-    return choice;
+    return std::nullopt;
 }
 
 std::optional<SpellID> CMobSpellContainer::HelixWeakness(CBattleEntity* PMob, CBattleEntity* PTarget)
 {
     // Look up what the target has the _least resistance to_:
-    // clang-format off
     std::vector<int16> resistances
     {
         PTarget->getMod(Mod::SDT_FIRE),
@@ -755,7 +769,64 @@ std::optional<SpellID> CMobSpellContainer::HelixWeakness(CBattleEntity* PMob, CB
         PTarget->getMod(Mod::SDT_LIGHT),
         PTarget->getMod(Mod::SDT_DARK),
     };
-    // clang-format on
+
+    std::size_t strongestIndex  = std::distance(resistances.begin(), std::max_element(resistances.begin(), resistances.end()));
+
+    // Define spell levels
+    const std::map<int16, SpellID> levelToSpell = {
+        {18, SpellID::Geohelix},
+        {20, SpellID::Hydrohelix},
+        {22, SpellID::Anemohelix},
+        {24, SpellID::Pyrohelix},
+        {26, SpellID::Cryohelix},
+        {28, SpellID::Ionohelix},
+        {30, SpellID::Noctohelix},
+        {32, SpellID::Luminohelix}
+    };
+
+    // Determine the spell level required for the strongest element
+    int16 requiredLevel = 0;
+    switch (strongestIndex + 1) // Adjust to ignore ELEMENT_NONE
+    {
+        case ELEMENT_FIRE:
+            requiredLevel = 24;
+            break;
+        case ELEMENT_ICE:
+            requiredLevel = 26;
+            break;
+        case ELEMENT_WIND:
+            requiredLevel = 22;
+            break;
+        case ELEMENT_EARTH:
+            requiredLevel = 18;
+            break;
+        case ELEMENT_THUNDER:
+            requiredLevel = 28;
+            break;
+        case ELEMENT_WATER:
+            requiredLevel = 20;
+            break;
+        case ELEMENT_LIGHT:
+            requiredLevel = 32;
+            break;
+        case ELEMENT_DARK:
+            requiredLevel = 30;
+            break;
+        default:
+            return std::nullopt;
+    }
+
+    // Default to GeoHelix if not high enough level to cast the weakness helix and level is at least 18
+    if (PMob->GetMLevel() >= 18 && PMob->GetMLevel() < requiredLevel)
+    {
+        return SpellID::Geohelix;
+    }
+
+    // Otherwise, return nothing
+    if (PMob->GetMLevel() < requiredLevel)
+    {
+        return std::nullopt;
+    }
 
     // Check if all resistances are equal
     bool allEqual = std::all_of(resistances.begin(), resistances.end(), [&](int16 value) { return value == resistances[0]; });
@@ -766,56 +837,16 @@ std::optional<SpellID> CMobSpellContainer::HelixWeakness(CBattleEntity* PMob, CB
         return GetHelixDay(PMob);
     }
 
-    std::size_t strongestIndex  = std::distance(resistances.begin(), std::max_element(resistances.begin(), resistances.end()));
-
-    // TODO: Figure this out properly:
-    std::optional<SpellID> choice = std::nullopt;
-    switch (strongestIndex  + 1) // Adjust to ignore ELEMENT_NONE
+    // Return the appropriate SpellID
+    auto it = levelToSpell.find(requiredLevel);
+    if (it != levelToSpell.end())
     {
-        case ELEMENT_FIRE:
-        {
-            choice = SpellID::Pyrohelix;
-            break;
-        }
-        case ELEMENT_ICE:
-        {
-            choice = SpellID::Cryohelix;
-            break;
-        }
-        case ELEMENT_WIND:
-        {
-            choice = SpellID::Anemohelix;
-            break;
-        }
-        case ELEMENT_EARTH:
-        {
-            choice = SpellID::Geohelix;
-            break;
-        }
-        case ELEMENT_THUNDER:
-        {
-            choice = SpellID::Ionohelix;
-            break;
-        }
-        case ELEMENT_WATER:
-        {
-            choice = SpellID::Hydrohelix;
-            break;
-        }
-        case ELEMENT_LIGHT:
-        {
-            choice = SpellID::Luminohelix;
-            break;
-        }
-        case ELEMENT_DARK:
-        {
-            choice = SpellID::Noctohelix;
-            break;
-        }
+        return it->second;
     }
 
-    return choice;
+    return std::nullopt;
 }
+
 
 bool CMobSpellContainer::HasSpells() const
 {

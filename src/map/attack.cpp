@@ -554,10 +554,7 @@ void CAttack::ProcessDamage()
     m_damage = std::max(m_damage, 0);
 
     // Soul eater.
-    if (m_attacker->objtype == TYPE_PC)
-    {
-        m_damage = battleutils::doSoulEaterEffect((CCharEntity*)m_attacker, m_damage);
-    }
+    m_damage = battleutils::doSoulEaterEffect(m_attacker, m_damage);
 
     // Consume mana
     if (m_attacker->objtype == TYPE_PC)

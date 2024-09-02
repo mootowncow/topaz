@@ -632,6 +632,7 @@ namespace spell
                 // ensure trust level is appropriate+
                 if (PCaster->objtype == TYPE_TRUST && PCaster->GetMLevel() < JobMLVL && PCaster->GetSLevel() < JobSLVL)
                 {
+                    //printf("Trust %s cannot cast spell %d due to level requirement!\n",PCaster->name, spell->getID());
                     return false;
                 }
 

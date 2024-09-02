@@ -40,9 +40,9 @@ function onMobSpawn(mob)
 end
 
 function onMobDespawn(mob)
-    tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DESPAWN)
+    -- TODO tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DESPAWN)
 end
 
 function onMobDeath(mob)
-    tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DEATH)
+    -- TODO tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DEATH)
 end

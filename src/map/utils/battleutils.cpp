@@ -5424,28 +5424,28 @@ int16 GetSDTTier(int16 SDT)
     *   Effect from soul eater                                              *
     *                                                                       *
     ************************************************************************/
-    uint16 doSoulEaterEffect(CCharEntity* m_PChar, uint32 damage)
+    uint16 doSoulEaterEffect(CBattleEntity* PEntity, uint32 damage)
     {
         // Souleater has no effect <10HP.
-        if (m_PChar->GetMJob() == JOB_DRK && m_PChar->health.hp >= 10 && m_PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SOULEATER))
+        if (PEntity->GetMJob() == JOB_DRK && PEntity->health.hp >= 10 && PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_SOULEATER))
         {
             //lost 10% current hp, converted to damage (displayed as just a strong regular hit)
             float drainPercent = 0.1f;
 
             //at most 2% bonus from gear
-            auto gearBonusPercent = m_PChar->getMod(Mod::SOULEATER_EFFECT);
+            auto gearBonusPercent = PEntity->getMod(Mod::SOULEATER_EFFECT);
             drainPercent = drainPercent + std::min(0.02f, 0.01f * gearBonusPercent);
             drainPercent = std::clamp(drainPercent, 0.01f, 0.15f); // Caps at 15%
-            auto stalwartSoul = std::clamp(m_PChar->getMod(Mod::STALWART_SOUL)* 0.001f, 0.0f, 0.10f);
+            auto stalwartSoul = std::clamp(PEntity->getMod(Mod::STALWART_SOUL)* 0.001f, 0.0f, 0.10f);
 
-            damage += (uint32)(m_PChar->health.hp * drainPercent);
-            m_PChar->addHP(-HandleStoneskin(m_PChar, (int32)(m_PChar->health.hp * (drainPercent - stalwartSoul)), ATTACK_MAGICAL));
+            damage += (uint32)(PEntity->health.hp * drainPercent);
+            PEntity->addHP(-HandleStoneskin(PEntity, (int32)(PEntity->health.hp * (drainPercent - stalwartSoul)), ATTACK_MAGICAL));
         }
-        else if (m_PChar->GetSJob() == JOB_DRK &&m_PChar->health.hp >= 10 && m_PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SOULEATER))
+        else if (PEntity->GetSJob() == JOB_DRK && PEntity->health.hp >= 10 && PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_SOULEATER))
         {
             //lose 10% Current HP, only HALF (5%) converted to damage
-            damage += (uint32)(m_PChar->health.hp * 0.05f);
-            m_PChar->addHP(-HandleStoneskin(m_PChar, (int32)(m_PChar->health.hp * 0.1f), ATTACK_MAGICAL));
+            damage += (uint32)(PEntity->health.hp * 0.05f);
+            PEntity->addHP(-HandleStoneskin(PEntity, (int32)(PEntity->health.hp * 0.1f), ATTACK_MAGICAL));
         }
         return damage;
     }
@@ -5672,15 +5672,11 @@ int16 GetSDTTier(int16 SDT)
 
 
         //check for soul eater
-        if (PAttacker->objtype == TYPE_PC)
-            totalDamage = battleutils::doSoulEaterEffect((CCharEntity*)PAttacker, totalDamage);
+        totalDamage = battleutils::doSoulEaterEffect(PAttacker, totalDamage);
 
         // bonus jump tp is added even if damage is 0, will not add if jump misses
-        if (PAttacker->objtype == TYPE_PC && hitTarget)
-        {
-            int mod = PAttacker->getMod(Mod::JUMP_TP_BONUS);
-            PAttacker->addTP(mod);
-        }
+        int mod = PAttacker->getMod(Mod::JUMP_TP_BONUS);
+        PAttacker->addTP(mod);
 
         // if damage is 0 then jump missed
         if (totalDamage == 0) {

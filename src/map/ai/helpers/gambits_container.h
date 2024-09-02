@@ -242,6 +242,7 @@ private:
     bool PartyHasTank();
     bool PartyHasWHM();
     bool CanSneakAttack();
+    bool JATPMoves();
     void SetSpellRecast(time_point tick, SpellID spellid);
 
     CTrustEntity* POwner;

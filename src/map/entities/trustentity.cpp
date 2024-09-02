@@ -288,13 +288,35 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
     bool hitOccured = false;	// track if player hit mob at all
     bool isBarrage = StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE, 0);
 
-    /*
-    // if barrage is detected, getBarrageShotCount also checks for ammo count
-    if (!ammoThrowing && !rangedThrowing && isBarrage)
+    // Calculate barrage
+    if (isBarrage)
     {
-        hitCount += battleutils::getBarrageShotCount(this);
+        uint8 lvl = this->GetMLevel();
+
+        if (lvl < 30)
+            hitCount += 0;
+        else if (lvl < 50)
+            hitCount += 3;
+        else if (lvl < 75)
+            hitCount += 4;
+        else if (lvl < 90)
+            hitCount += 5;
+        else if (lvl < 99)
+            hitCount += 6;
+        else if (lvl >= 99)
+            hitCount += 7;
+        // Add + Barrage gear mod
+        hitCount += this->getMod(Mod::BARRAGE_SHOT_COUNT);
     }
-    */
+    else if (this->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBLE_SHOT) && tpzrand::GetRandomNumber(100) < (this->getMod(Mod::DOUBLE_SHOT_RATE)))
+    {
+        hitCount = 2;
+    }
+    else if (this->StatusEffectContainer->HasStatusEffect(EFFECT_TRIPLE_SHOT) && tpzrand::GetRandomNumber(100) < (this->getMod(Mod::TRIPLE_SHOT_RATE)))
+    {
+        hitCount = 3;
+    }
+    //ShowDebug("Hit Count: %u\n", hitCount);
 
     // loop for barrage hits, if a miss occurs, the loop will end
     for (uint8 i = 1; i <= hitCount; ++i)

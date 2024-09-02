@@ -142,32 +142,16 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Koru-Moru breaks and does nothing if he can't cant haste(so any level below 48).Putting haste last in list fixed it, maybe put helixses last on adel? Or above storms
 Can't cover trusts "cannot perm that action on the specified target" is it in char_controller?
-Don't stun ranged attack TP moves (gambit)
-Adelheid no spells at uber low level?(15) Still no spells until like 26+ or w/e Needs to casts something if no choice BEST_AGAINST_TARGET (helix might be ok?)
-Engage at melee range + modelsize like I did for mobs
-Last Resort and Hasoh (2h JA haste) work on trusts?
-Does Tenzen Meditate on CD?
-Lhe Lhangavo DPS is trash? Give her MNK "belts" and make her cmbmultipier 100
 Trusts can get stuck, if stuck teleport them to master or target (use IsStuck()?)
 Maybe not setting TP var when trust uses a WS? Check in trust WS logic in CPP
-Scaling refresh based on level for WHM/RDM/Geo trusts
-No souleater logic for monstertpmoves, also it doesn't deal damage to zeid on autoattacks?(does it even add damage?)
 Slug shot miss stil SCed(for 0). Is this a trust only issue?
-Remove blue i off trusts (Think set somtehing on their object, I did it for pets)
-Why does slugshot do a ton of damage? is it using player slug shot WS file? If so, shouldn't be used until 55+ in bool canFormLv3Skillchain in trustutils.cpp
 Kupipi should only AOE protra/shellra if multiple missing are missing and protect/shell otherwise
 Check JP wiki for kupipi/koru heal %'s, makes it hard to heal sel fon PLD
-HP / MP % mods from trust.lua are applied super late after summoning trusts, not immeditately on spawn. Check where onmobspawn() is run for them? 
-Also why doesn't it heal them to 100%? Packet isnt being updated OnMobSpawn() and for some reason my sethp/mp doesn't work? try setting 100000 of each?
-Does barrage and double shot work? (take ranged from LSB it prob has it, or get one i have from mobentity)
-Trusts only 10% DA
 use lge condition for assassins charge and meditate?
 Fencer bonus added to gambits container "POwner->SetLocalVar("tp", POwner->health.tp);" from mob_controller "PMob->SetLocalVar("tp", tp);"
 Tenzens WS on ReadiesException or w/e to gambits container "POwner->SetLocalVar("tp", POwner->health.tp);" from mob_controller "PMob->SetLocalVar("tp", tp);"
 Aspir / Drain Gambit logic?
-Huge delay on first spell cast by adelheid? And storm - > helix is also a huge delay?
 Missing unsummon animation
 "Respawning" animation after spawning once, it's used for avatars/puppets too. From LSB. Lots to change
 
