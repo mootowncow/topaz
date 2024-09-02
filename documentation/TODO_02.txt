@@ -163,6 +163,7 @@ HP / MP % mods from trust.lua are applied super late after summoning trusts, not
 Also why doesn't it heal them to 100%? Packet isnt being updated OnMobSpawn() and for some reason my sethp/mp doesn't work? try setting 100000 of each?
 Does barrage and double shot work? (take ranged from LSB it prob has it, or get one i have from mobentity)
 Trusts only 10% DA
+use lge condition for assassins charge and meditate?
 Fencer bonus added to gambits container "POwner->SetLocalVar("tp", POwner->health.tp);" from mob_controller "PMob->SetLocalVar("tp", tp);"
 Tenzens WS on ReadiesException or w/e to gambits container "POwner->SetLocalVar("tp", POwner->health.tp);" from mob_controller "PMob->SetLocalVar("tp", tp);"
 Aspir / Drain Gambit logic?
@@ -171,6 +172,7 @@ Missing unsummon animation
 "Respawning" animation after spawning once, it's used for avatars/puppets too. From LSB. Lots to change
 
 **** NOW ***
+Enlight PLD 55 and remove 1 acc per attack (in battleutils at DoEnspell() probably). might be on LSB
 Cactrot Rapid pathing bugged
 Shield blocks should up as "MISS" in SCT, they are wrong reaction type. have to fix simplelog after too
 Do mobs get guard skill...?
