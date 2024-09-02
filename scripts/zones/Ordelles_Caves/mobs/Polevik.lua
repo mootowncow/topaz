@@ -15,6 +15,8 @@ function onMobSpawn(mob)
     mob:addMod(tpz.mod.EVA, 30)
     mob:setMod(tpz.mod.MACC, 50) 
     mob:setMod(tpz.mod.REFRESH, 400)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
+    mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
 end
 
 function onMobInitialize(mob)
