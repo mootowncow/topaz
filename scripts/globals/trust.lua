@@ -153,8 +153,6 @@ local modByMobName =
 
     ['zeid'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
-        mob:addMod(tpz.mod.EXTRA_DMG_CHANCE, 100) -- 10% chance
-        mob:addMod(tpz.mod.OCC_DO_EXTRA_DMG, 150) -- to deal 1.5x damage
         -- mob:setMobMod(tpz.mobMod.TP_USE, 1000) Maybe WS at 1k or have him open for variety
         AddHeavyMeleeAccuracyGear(mob)
     end,
