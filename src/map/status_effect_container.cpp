@@ -601,6 +601,7 @@ void CStatusEffectContainer::RemoveStatusEffect(CStatusEffect* PStatusEffect, bo
                 if (!silent && (PStatusEffect->GetFlag() & EFFECTFLAG_NO_LOSS_MESSAGE) == 0 && !m_POwner->isDead())
                 {
                     if (PStatusEffect->GetStatusID() >= EFFECT_WEAKNESS && PStatusEffect->GetStatusID() <= EFFECT_PLAGUE ||
+                        PStatusEffect->GetStatusID() == EFFECT_ENCUMBRANCE || PStatusEffect->GetStatusID() == EFFECT_ENCUMBRANCE_II ||
                         PStatusEffect->GetStatusID() == EFFECT_MUDDLE || PStatusEffect->GetStatusID() == EFFECT_TAINT ||
                         PStatusEffect->GetStatusID() == EFFECT_HAUNT)
                     {
@@ -620,6 +621,7 @@ void CStatusEffectContainer::RemoveStatusEffect(CStatusEffect* PStatusEffect, bo
             if (!silent && PStatusEffect->GetIcon() != 0 && ((PStatusEffect->GetFlag() & EFFECTFLAG_NO_LOSS_MESSAGE) == 0) && !m_POwner->isDead())
             {
                 if (PStatusEffect->GetStatusID() >= EFFECT_WEAKNESS && PStatusEffect->GetStatusID() <= EFFECT_PLAGUE ||
+                    PStatusEffect->GetStatusID() ==  EFFECT_ENCUMBRANCE || PStatusEffect->GetStatusID() ==  EFFECT_ENCUMBRANCE_II ||
                     PStatusEffect->GetStatusID() == EFFECT_MUDDLE || PStatusEffect->GetStatusID() == EFFECT_TAINT ||
                     PStatusEffect->GetStatusID() == EFFECT_HAUNT)
                 {
