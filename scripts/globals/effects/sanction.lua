@@ -13,10 +13,10 @@ function onEffectGain(target, effect)
     elseif power == 2 then
         target:addLatent(tpz.latent.SANCTION_REFRESH_BONUS, 75, tpz.mod.REFRESH, 1)
     elseif power == 3 then
-        target:addMod(tpz.mod.FOOD_DURATION, 100)
+        target:addMod(tpz.mod.FOOD_DURATION, 120)
     end
-    -- Gain +25% more EXP in besieged regiions if above level 55 and below 75
-    target:addLatent(tpz.latent.SANCTION_EXP_BONUS, 1, tpz.mod.EXP_BONUS, 25)
+    -- Gain +15% more EXP in besieged regiions if above level 55 and below 75
+    target:addLatent(tpz.latent.SANCTION_EXP_BONUS, 1, tpz.mod.EXP_BONUS, 15)
 end
 
 function onEffectTick(target, effect)
@@ -30,7 +30,7 @@ function onEffectLose(target, effect)
     elseif power == 2 then
         target:delLatent(tpz.latent.SANCTION_REFRESH_BONUS, 75, tpz.mod.REFRESH, 1)
     elseif power == 3 then
-        target:delMod(tpz.mod.FOOD_DURATION, 100)
+        target:delMod(tpz.mod.FOOD_DURATION, 120)
     end
-    target:delLatent(tpz.latent.SANCTION_EXP_BONUS, 1, tpz.mod.EXP_BONUS, 25)
+    target:delLatent(tpz.latent.SANCTION_EXP_BONUS, 1, tpz.mod.EXP_BONUS, 15)
 end
