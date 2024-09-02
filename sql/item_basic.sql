@@ -529,7 +529,7 @@ INSERT INTO `item_basic` VALUES (616,0,'pie_dough','pie_dough',99,4,59,0,20);
 INSERT INTO `item_basic` VALUES (617,0,'ginger','ginger',99,4,59,0,31);
 INSERT INTO `item_basic` VALUES (618,0,'blue_peas','blue_peas',99,4,59,0,7);
 INSERT INTO `item_basic` VALUES (619,0,'popoto','popoto',99,4,59,0,11);
-INSERT INTO `item_basic` VALUES (620,0,'tarutaru_rice','tarutaru_rice',99,4,59,0,15);
+INSERT INTO `item_basic` VALUES (620,0,'tarutaru_rice','tarutaru_rice',12,4,59,0,15);
 INSERT INTO `item_basic` VALUES (621,0,'crying_mustard','crying_mustard',99,4,59,0,7);
 INSERT INTO `item_basic` VALUES (622,0,'dried_marjoram','dried_marjoram',99,4,59,0,12);
 INSERT INTO `item_basic` VALUES (623,0,'bay_leaves','bay_leaves',99,4,59,0,25);
