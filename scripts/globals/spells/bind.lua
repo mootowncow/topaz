@@ -14,8 +14,10 @@ function onSpellCast(caster, target, spell)
     -- Pull base stats.
     local dINT = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)
 
-    -- Duration, including resistance.  May need more research.
-    local duration = 60
+    -- BIND spells have a special random duration the follows a normal distribution with mean=30 and std=12
+    -- Use the Box-Muller transform to change uniform dist sample to the normal dist sample
+    local z0 = math.sqrt(-2 * math.log(math.random())) * math.cos(2 * math.pi * math.random())
+    local duration = utils.clamp(math.floor(30 + z0 * 12), 1, duration)
 
     -- Resist
     local params = {}
