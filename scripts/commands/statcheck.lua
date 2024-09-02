@@ -1,7 +1,7 @@
 function onTrigger(player)
     local targ = player:getCursorTarget();
     if (targ ~= nil)  then
-        if (targ:isMob() or targ:isPet() or targ:isTrust()) then
+        if (targ:isPC() or targ:isMob() or targ:isPet() or targ:isTrust()) then
             local str = targ:getStat(tpz.mod.STR)
             local dex = targ:getStat(tpz.mod.DEX)
             local vit = targ:getStat(tpz.mod.VIT)
