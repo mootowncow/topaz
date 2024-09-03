@@ -2201,7 +2201,7 @@ function MobGetStatusEffectDuration(effect)
     local duration = 0
     if (effect ~= nil) then
         if (effect == tpz.effect.BIND) then
-            duration = 20
+            duration = GetBindDuration()
         elseif (effect == tpz.effect.PETRIFICATION) then
             duration = 15
         elseif (effect == tpz.effect.STUN) then

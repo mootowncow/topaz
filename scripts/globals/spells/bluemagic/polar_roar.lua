@@ -62,7 +62,7 @@ function onSpellCast(caster, target, spell)
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
     params.effect = tpz.effect.BIND
-    BlueTryEnfeeble(caster, target, spell, 1, 1, 0, 45, params)
+    BlueTryEnfeeble(caster, target, spell, 1, 1, 0, GetBindDuration(), params)
 
     return damage
 end

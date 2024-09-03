@@ -22,7 +22,7 @@ function onAdditionalEffect(player, target, damage)
         return TryApplyAdditionalEffect(player, target, tpz.effect.PARALYSIS, tpz.magic.ele.ICE, power, tick, duration, subpower, tier, chance, bonus)
     elseif (rng == 3) then
         power = 1
-        duration = 15
+        duration = GetBindDuration()
         return TryApplyAdditionalEffect(player, target, tpz.effect.BIND, tpz.magic.ele.ICE, power, tick, duration, subpower, tier, chance, bonus)
     end
 end

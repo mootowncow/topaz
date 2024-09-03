@@ -14,6 +14,7 @@
 require("scripts/globals/status")
 require("scripts/globals/settings")
 require("scripts/globals/weaponskills")
+require("scripts/globals/magic")
 -----------------------------------
 
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
@@ -38,7 +39,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 	local resist =  applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, 0, tpz.effect.BIND) 
     if damage > 0 and resist >= 0.5 then
         if (target:hasStatusEffect(tpz.effect.BIND) == false) then
-            local duration = (30 + (tp/1000 * 5)) * resist
+            local duration = GetBindDuration() * resist
             target:addStatusEffect(tpz.effect.BIND, 1, 0, duration)
         end
     end

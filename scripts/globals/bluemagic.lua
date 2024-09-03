@@ -1215,7 +1215,7 @@ function getBlueEffectDuration(caster, resist, effect, varieswithtp)
     end
 
     if (effect == tpz.effect.BIND) then
-        duration = 30 * resist
+        duration = GetBindDuration() * resist
     elseif (effect == tpz.effect.STUN) then
         duration = 4 * resist
         -- printf("Duration of stun is %i", duration)

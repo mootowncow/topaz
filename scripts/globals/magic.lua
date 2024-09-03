@@ -3687,6 +3687,15 @@ function CheckForMagicBurst(caster, spell, target)
     end
 end
 
+function GetBindDuration()
+    -- BIND spells have a special random duration the follows a normal distribution with mean=30 and std=12
+    -- Use the Box-Muller transform to change uniform dist sample to the normal dist sample
+    local z0 = math.sqrt(-2 * math.log(math.random())) * math.cos(2 * math.pi * math.random())
+    local duration = utils.clamp(math.floor(30 + z0 * 12), 1, duration)
+
+    return duration
+end
+
 function CheckForGuaranteedLandRate(caster, params)
     local skills =
     {

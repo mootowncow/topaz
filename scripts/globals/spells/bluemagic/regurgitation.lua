@@ -54,7 +54,7 @@ function onSpellCast(caster, target, spell)
     end
     damage = BlueFinalAdjustments(caster, target, spell, damage, params) -- Regurgitation has static enmity https://www.bg-wiki.com/ffxi/Regurgitation
 	
-    BlueTryEnfeeble(caster, target, spell, damage, 1, 0, 45, params)
+    BlueTryEnfeeble(caster, target, spell, damage, 1, 0, GetBindDuration(), params)
 
     return damage
 end

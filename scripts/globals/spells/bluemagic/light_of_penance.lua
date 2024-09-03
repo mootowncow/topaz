@@ -55,7 +55,7 @@ function onSpellCast(caster, target, spell)
     params.effect = tpz.effect.BLINDNESS
     BlueTryEnfeeble(caster, target, spell, damage, 100, 0, 12, params)
     params.effect = tpz.effect.BIND
-    BlueTryEnfeeble(caster, target, spell, damage, 1, 0, 30, params)
+    BlueTryEnfeeble(caster, target, spell, damage, 1, 0, GetBindDuration(), params)
 
 	return damage
 end

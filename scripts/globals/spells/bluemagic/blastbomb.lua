@@ -49,7 +49,7 @@ function onSpellCast(caster, target, spell)
 
     params.diff = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)
     params.effect = tpz.effect.BIND
-    BlueTryEnfeeble(caster, target, spell, damage, 1, 0, 45, params)
+    BlueTryEnfeeble(caster, target, spell, damage, 1, 0, GetBindDuration(), params)
 
     return damage
 end

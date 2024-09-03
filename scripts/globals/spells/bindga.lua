@@ -16,7 +16,7 @@ function onSpellCast(caster, target, spell)
     local dINT = (caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT))
 
     --Duration, including resistance.  May need more research.
-    local duration = 60
+    local duration = GetBindDuration()
 
     --Resist
     local params = {}

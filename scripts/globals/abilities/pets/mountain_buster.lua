@@ -5,7 +5,6 @@
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/summon")
-
 ---------------------------------------------------
 
 function onAbilityCheck(player, target, ability)
@@ -26,7 +25,7 @@ function onPetAbility(target, pet, skill)
 
     local effect = tpz.effect.BIND
     local power = 1
-    local duration = 45
+    local duration = GetBindDuration()
     local bonus = 0
 
     local damage = AvatarPhysicalBP(pet, target, skill, tpz.attackType.PHYSICAL, numhits, ftp, TP_DMG_BONUS, params)
