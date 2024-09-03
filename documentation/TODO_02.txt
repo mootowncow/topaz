@@ -142,7 +142,12 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Enable at 75. Don't allow in raid NMs somehow. Don't allow in any instanced content (ISNM/Ashu Talif/ENM/BCNM/KSNM/Salvage/Assault/Limbus). Buff sky gods to lvl. 90. Revert THF tank buffs
 Can't cover trusts "cannot perm that action on the specified target" is it in char_controller?
+Only stun -ga, cure, or severe spells
+Lhe doesn't formless strikes slimes
+Ulmia Piasimmo logic(should work now)
+Unsummoning all trusts when solo should disband pt(LSB maybe has)
 Trusts can get stuck, if stuck teleport them to master or target (use IsStuck()?)
 Maybe not setting TP var when trust uses a WS? Check in trust WS logic in CPP
 Slug shot miss stil SCed(for 0). Is this a trust only issue?
@@ -156,7 +161,12 @@ Missing unsummon animation
 "Respawning" animation after spawning once, it's used for avatars/puppets too. From LSB. Lots to change
 
 **** NOW ***
-Enlight PLD 55 and remove 1 acc per attack (in battleutils at DoEnspell() probably). might be on LSB
+unity chat doesn't work cross-zone
+Slug pet ready moves still give bugged out recast numbers, maybe need to add their IDs to function?
+Yagudo Elemental levels
+Dismount(remove chocobo status effect) on CS start
+Set PPets with a Pmaster to Pmasters level -2 AFTER getting mob level from DB
+Opening castle zhavl coffer on thief gave me thiefs vest, it's on AF moogle slip. Should have given me MIQUES_PAINTBRUSH (PLD AF3)
 Cactrot Rapid pathing bugged
 Shield blocks should up as "MISS" in SCT, they are wrong reaction type. have to fix simplelog after too
 Do mobs get guard skill...?
@@ -226,7 +236,6 @@ Voidwalker:
 https://discord.com/channels/443544205206355968/1129045297302097942/1129109467062096033 Vids of captures
 Check all immunities with mobdb
 
-Set PPets with a Pmaster to Pmasters level -2 AFTER getting mob level from DB
 Do something with meratetes memoirs exp #
 Sea Robber Cudgel set bonus(put on item too) (Dual wield set bonus)
 Puppet use Cannibal Blade if 1 light NOT bonecrusher, make bonecrusher require 2x fire(?) or 1x thunder
