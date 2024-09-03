@@ -644,8 +644,9 @@ bool CMobController::MobSkill(int wsList)
                         }
                     }
                 }
+                tp = std::min(static_cast<int>(tp), 3000);
                 PMob->SetLocalVar("tp", tp);
-                // Set message for "Player" and Fomor TP moves, and Prishe TP moves
+                // Set message for "Player" and Fomor TP moves, and Prishe/Tenzen TP moves
                 if (PMobSkill->isReadiesException())
                 {
                     PMob->loc.zone->PushPacket(PMob, CHAR_INRANGE, new CMessageBasicPacket(PMob, PTarget, 0, PMobSkill->getID(), MSGBASIC_READIES_WS));

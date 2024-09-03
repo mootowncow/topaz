@@ -94,6 +94,8 @@ enum class G_CONDITION : uint16
     PT_HAS_WHM         = 26,
     CAN_SNEAK_ATTACK   = 27,
     WITH_WS            = 28, // TODO
+    PROTECTRA          = 29,
+    SHELLRA            = 30,
 };
 
 enum class G_REACTION : uint16
@@ -241,8 +243,10 @@ private:
     bool PartyHasHealer();
     bool PartyHasTank();
     bool PartyHasWHM();
+    bool ShouldProtectra();
+    bool ShouldShellra();
     bool CanSneakAttack();
-    bool JATPMoves();
+    bool IsStunImmune(CBattleEntity* trigger_target);
     void SetSpellRecast(time_point tick, SpellID spellid);
 
     CTrustEntity* POwner;

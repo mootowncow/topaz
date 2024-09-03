@@ -79,6 +79,7 @@ local modByMobName =
         mob:addMod(tpz.mod.REFRESH, 3)
         mob:addMod(tpz.mod.ENMITY, 30)
         mob:addMod(tpz.mod.CURE_POTENCY, 50)
+        -- TODO AddTankGear(mob)
     end,
 
     ['adelheid'] = function(mob)
@@ -436,6 +437,8 @@ function AddRefresh(mob)
     end
 end
 
+function AddTankGear(mob) -- TODO
+end
 
 function AddLightMeleeAccuracyGear(mob)
     local mobLevel = mob:getMainLvl()

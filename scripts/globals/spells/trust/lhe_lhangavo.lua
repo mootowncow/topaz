@@ -26,7 +26,7 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.DODGE)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.RESISTS_DMGTYPE, tpz.mod.HTHRES,
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.RESISTS_DMGTYPE, tpz.mod.HTHRES,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.FORMLESS_STRIKES)
 
     mob:setTrustTPSkillSettings(ai.tp.OPENER, ai.s.HIGHEST)

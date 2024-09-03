@@ -1399,7 +1399,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         }
         else
         {
-            if (this->objtype == TYPE_MOB && PTarget->objtype == TYPE_PC)
+            if (this->objtype == TYPE_MOB && (PTarget->objtype == TYPE_PC || PTarget->objtype == TYPE_TRUST))
             {
                 CBattleEntity* PCoverAbilityUser = battleutils::GetCoverAbilityUser(PTarget, this);
                 if (PCoverAbilityUser != nullptr)

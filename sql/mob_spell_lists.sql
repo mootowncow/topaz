@@ -2634,6 +2634,14 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,131,37,255);          -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,132,57,255);          -- Shellra III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,133,68,255);          -- Shellra IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,134,75,255);          -- Shellra V
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,43,7,255);            -- Protect
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,44,27,255);           -- Protect II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,45,47,255);           -- Protect III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,46,63,255);           -- Protect IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,48,17,255);           -- Shell
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,49,37,255);           -- Shell II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,50,57,255);           -- Shell III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,51,68,255);           -- Shell IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,143,32,255);          -- Erase
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Excenmille',311,1,5,255);         -- Cure
@@ -2762,7 +2770,7 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,3,30,255);        -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,4,55,255);        -- Cure IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,112,37,255);      -- Flash
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,97,61,255);       -- Reprisal
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,310,70,255);      -- Enlight
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,310,55,255);      -- Enlight
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Joachim',323,1,2,255);            -- Cure
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Joachim',323,2,22,255);           -- Cure II

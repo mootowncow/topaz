@@ -1660,7 +1660,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     }
     else
     {
-        if (this->objtype == TYPE_MOB && PActionTarget->objtype == TYPE_PC)
+        if (this->objtype == TYPE_MOB && (PActionTarget->objtype == TYPE_PC || PActionTarget->objtype == TYPE_TRUST))
         {
             CBattleEntity* PCoverAbilityUser = battleutils::GetCoverAbilityUser(PActionTarget, this);
             IsMagicCovered = battleutils::IsMagicCovered((CCharEntity*) PCoverAbilityUser);

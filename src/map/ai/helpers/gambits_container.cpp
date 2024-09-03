@@ -48,6 +48,7 @@
 #include "../controllers/player_controller.h"
 #include "../../weapon_skill.h"
 #include "../../mob_modifier.h"
+#include "../../items/item_weapon.h"
 
 namespace gambits
 {
@@ -410,11 +411,40 @@ void CGambitsContainer::Tick(time_point tick)
                 else if (action.select == G_SELECT::HIGHEST)
                 {
                     auto spell_id = POwner->SpellContainer->GetBestAvailable(static_cast<SPELLFAMILY>(action.select_arg));
+
                     if (spell_id.has_value())
                     {
-                        controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
-                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
-                        return;
+                        SpellID PSpell = static_cast<SpellID>(spell_id.value());
+                        auto spell = spell::GetSpell(PSpell);
+
+                        if (spell)
+                        {
+                            SPELLFAMILY family = spell->getSpellFamily();
+
+                            if (family == SPELLFAMILY_PROTECTRA)
+                            {
+                                if (!ShouldProtectra())
+                                {
+                                    spell_id = POwner->SpellContainer->GetBestAvailable(SPELLFAMILY_PROTECT);
+                                }
+                            }
+                            else if (family == SPELLFAMILY_SHELLRA)
+                            {
+                                if (!ShouldShellra())
+                                {
+                                    spell_id = POwner->SpellContainer->GetBestAvailable(SPELLFAMILY_SHELL);
+                                }
+                            }
+
+                            // After updating spell_id, ensure it still has a value
+                            if (spell_id.has_value())
+                            {
+                                PSpell = static_cast<SpellID>(spell_id.value()); 
+                                controller->Cast(target->targid, PSpell);
+                                SetSpellRecast(tick, PSpell);
+                                return;
+                            }
+                        }
                     }
                 }
                 else if (action.select == G_SELECT::LOWEST)
@@ -796,6 +826,16 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             return PartyHasWHM();
             break;
         }
+        case G_CONDITION::PROTECTRA:
+        {
+            return PartyHasWHM();
+            break;
+        }
+        case G_CONDITION::SHELLRA:
+        {
+            return PartyHasWHM();
+            break;
+        }
         case G_CONDITION::STATUS_FLAG:
         {
             return trigger_target->StatusEffectContainer->HasStatusEffectByFlag(static_cast<EFFECTFLAG>(predicate.condition_arg));
@@ -831,11 +871,21 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
         }
         case G_CONDITION::READYING_WS:
         {
+            if (IsStunImmune(trigger_target))
+            {
+                return false;
+            }
+
             return trigger_target->PAI->IsCurrentState<CWeaponSkillState>();
             break;
         }
         case G_CONDITION::READYING_MS:
         {
+            if (IsStunImmune(trigger_target))
+            {
+                return false;
+            }
+
             CState* currentState = trigger_target->PAI->GetCurrentState();
             if (currentState)
             {
@@ -868,12 +918,49 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
 
         case G_CONDITION::READYING_JA:
         {
+            if (IsStunImmune(trigger_target))
+            {
+                return false;
+            }
+
             return trigger_target->PAI->IsCurrentState<CAbilityState>();
             break;
         }
         case G_CONDITION::CASTING_MA:
         {
-            return trigger_target->PAI->IsCurrentState<CMagicState>();
+            if (IsStunImmune(trigger_target))
+            {
+                return false;
+            }
+
+            // Only interrupt -ga/cures/severe spells
+            CState* currentState = trigger_target->PAI->GetCurrentState();
+            if (currentState)
+            {
+                // Attempt to cast to CMagicState
+                CMagicState* maState = dynamic_cast<CMagicState*>(currentState);
+                if (maState)
+                {
+                    CSpell* spell = maState->GetSpell();
+                    if (spell)
+                    {
+                        bool isAOE = false;
+                        bool isHeal = spell->isHeal();
+                        bool isSevere = spell->isSevere();
+                        uint8 aoe = battleutils::GetSpellAoEType(trigger_target, spell);
+                        if (aoe > 0) { isAOE = true; }
+
+                        if (isAOE || isHeal || isSevere)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
             break;
         }
         case G_CONDITION::IS_ECOSYSTEM:
@@ -1074,11 +1161,42 @@ bool CGambitsContainer::TryTrustSkill()
             {
                 target = POwner->GetBattleTarget();
             }
+            int16 tp = POwner->health.tp;
+            // Add Fencer TP Bonus
+            CTrustEntity* PTrust = static_cast<CTrustEntity*>(POwner);
+            CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]);
+            if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
+            {
+                if (!PTrust->m_dualWield)
+                {
+                    tp += PTrust->getMod(Mod::FENCER_TP_BONUS);
+                }
+            }
+            tp = std::min(static_cast<int>(tp), 3000);
+            POwner->SetLocalVar("tp", tp);
             controller->WeaponSkill(target->targid, PWeaponSkill->getID());
         }
         else // Mobskill
         {
-            POwner->SetLocalVar("tp", POwner->health.tp);
+            int16 tp = POwner->health.tp;
+            // Add Fencer TP Bonus
+            CTrustEntity* PTrust = static_cast<CTrustEntity*>(POwner);
+            CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]);
+            if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
+            {
+                if (!PTrust->m_dualWield)
+                {
+                    tp += PTrust->getMod(Mod::FENCER_TP_BONUS);
+                }
+            }
+            tp = std::min(static_cast<int>(tp), 3000);
+            POwner->SetLocalVar("tp", tp);
+            // Set message for "Player" and Fomor TP moves, and Prishe/Tenzen TP moves
+            CMobSkill* skill = battleutils::GetMobSkill(chosen_skill->skill_id);
+            if (skill && skill->isReadiesException())
+            {
+                POwner->loc.zone->PushPacket(POwner, CHAR_INRANGE, new CMessageBasicPacket(POwner, target, 0, skill->getID(), MSGBASIC_READIES_WS));
+            }
             controller->MobSkill(target->targid, chosen_skill->skill_id);
         }
         return true;
@@ -1153,6 +1271,63 @@ bool CGambitsContainer::TryTrustSkill()
             canSA = true;
         }
         return canSA;
+    }
+
+    bool CGambitsContainer::ShouldProtectra()
+    {
+        auto memberMissingProtectra = 0;
+        // clang-format off
+        static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+        {
+            if (!PMember->StatusEffectContainer->HasStatusEffect(EFFECT_PROTECT))
+            {
+                memberMissingProtectra ++;
+            }
+        });
+        // clang-format on
+
+        if (memberMissingProtectra >= 3)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    bool CGambitsContainer::ShouldShellra()
+    {
+        auto memberMissingProtectra = 0;
+        // clang-format off
+        static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+        {
+            if (!PMember->StatusEffectContainer->HasStatusEffect(EFFECT_SHELL))
+            {
+                memberMissingProtectra ++;
+            }
+        });
+        // clang-format on
+
+        if (memberMissingProtectra >= 3)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    bool CGambitsContainer::IsStunImmune(CBattleEntity* trigger_target)
+    {
+        if (trigger_target->getMod(Mod::EEM_STUN) <= 5)
+        {
+            return true;
+        }
+
+        if (trigger_target->hasImmunity(IMMUNITY_STUN))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     void CGambitsContainer::SetSpellRecast(time_point tick, SpellID spellid)

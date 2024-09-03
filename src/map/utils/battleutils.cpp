@@ -8049,6 +8049,7 @@ int16 GetSDTTier(int16 SDT)
         CBattleEntity* PCoverAbilityUser = nullptr;
         uint32 coverAbilityTargetID      = PCoverAbilityTarget->id;
 
+        // Check players
         //If the cover ability target is in a party, try to find a cover ability user
         if (PCoverAbilityTarget->PParty != nullptr)
         {
@@ -8068,6 +8069,30 @@ int16 GetSDTTier(int16 SDT)
             if (PCoverAbilityUser != nullptr)
             {
                 if (distance(PCoverAbilityUser->loc.p, PMob->loc.p) <= (float)PMob->GetMeleeRange()) // make sure cover user is within melee range
+                {
+                    return PCoverAbilityUser;
+                }
+            }
+        }
+
+        // Check trusts
+        if (auto* PTrust = dynamic_cast<CTrustEntity*>(PCoverAbilityTarget))
+        {
+            if (auto* PMaster = dynamic_cast<CCharEntity*>(PTrust->PMaster))
+            {
+                // Use ForPartyWithTrusts from the master character
+                PMaster->ForPartyWithTrusts(
+                    [&PCoverAbilityUser, coverAbilityTargetID](CBattleEntity* member)
+                    {
+                        if (coverAbilityTargetID == member->GetLocalVar("COVER_ABILITY_TARGET") &&
+                            member->StatusEffectContainer->HasStatusEffect(EFFECT_COVER) && member->isAlive())
+                        {
+                            PCoverAbilityUser = member;
+                        }
+                    });
+
+                // Ensure the cover ability user is within melee range of the mob
+                if (PCoverAbilityUser != nullptr && distance(PCoverAbilityUser->loc.p, PMob->loc.p) <= static_cast<float>(PMob->GetMeleeRange()))
                 {
                     return PCoverAbilityUser;
                 }

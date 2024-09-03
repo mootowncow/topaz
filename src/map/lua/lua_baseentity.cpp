@@ -16589,6 +16589,7 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                                               }
                                           }
                                       }
+                                      tp = std::min(static_cast<int>(tp), 3000);
                                       PMob->SetLocalVar("tp", tp);
                                   }
                                   else

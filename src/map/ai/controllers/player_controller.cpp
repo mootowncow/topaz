@@ -825,7 +825,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 CBattleEntity* PTarget = dynamic_cast<CBattleEntity*>(PChar->GetEntity(targid));
                 if (!PTarget ||
                     PChar->id == PTarget->id ||
-                    PTarget->objtype != TYPE_PC)
+                    (PTarget->objtype != TYPE_PC && PTarget->objtype != TYPE_TRUST))
                 {
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG));
                     return false;

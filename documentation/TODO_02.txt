@@ -143,19 +143,14 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 Trusts:
 Enable at 75. Don't allow in raid NMs somehow. Don't allow in any instanced content (ISNM/Ashu Talif/ENM/BCNM/KSNM/Salvage/Assault/Limbus).Buff MMM to lvl. 90. Revert THF tank buffs
-Can't cover trusts "cannot perm that action on the specified target" is it in char_controller?
-Only stun -ga, cure, or severe spells
-Lhe doesn't formless strikes slimes
+Trusts can get stuck, if stuck teleport them to master or target (use IsStuck()?). Also give them pet/mob pathing logic
+Valaineral use Fealty if target is going to mijin gakure(can get their var of hp% and is var of if will use it from job_special) or casting meteor
 Ulmia Piasimmo logic(should work now)
 Unsummoning all trusts when solo should disband pt(LSB maybe has)
-Trusts can get stuck, if stuck teleport them to master or target (use IsStuck()?)
-Maybe not setting TP var when trust uses a WS? Check in trust WS logic in CPP
 Slug shot miss stil SCed(for 0). Is this a trust only issue?
 Kupipi should only AOE protra/shellra if multiple missing are missing and protect/shell otherwise
-Check JP wiki for kupipi/koru heal %'s, makes it hard to heal sel fon PLD
+Check JP wiki for kupipi/koru heal %'s, makes it hard to heal self on PLD
 use lge condition for assassins charge and meditate?
-Fencer bonus added to gambits container "POwner->SetLocalVar("tp", POwner->health.tp);" from mob_controller "PMob->SetLocalVar("tp", tp);"
-Tenzens WS on ReadiesException or w/e to gambits container "POwner->SetLocalVar("tp", POwner->health.tp);" from mob_controller "PMob->SetLocalVar("tp", tp);"
 Aspir / Drain Gambit logic?
 Missing unsummon animation
 "Respawning" animation after spawning once, it's used for avatars/puppets too. From LSB. Lots to change
@@ -468,7 +463,10 @@ Bound mobs attack nearby players
 https://github.com/LandSandBoat/server/commit/93f2ca5e67c4bb04b8157e0c1d347847fd797357
 
 Fix mobs turning while casting with Manafont up 
-https://github.com/LandSandBoat/server/commit/53a5a8738a07c86da85607447657ed1da9666fc8\
+https://github.com/LandSandBoat/server/commit/53a5a8738a07c86da85607447657ed1da9666fc8
+
+Party size latent should work on trusts
+https://github.com/LandSandBoat/server/commit/64b14f85f911f86f2392c8d0f044b6ce82b06cd4
 
 Mob facing on tp moves? Unsure if needed cause i fixed this
 https://github.com/LandSandBoat/server/commit/c80583494523435ede292aea56d959974e942b81
@@ -483,6 +481,9 @@ https://github.com/LandSandBoat/server/commit/a3c5bbbf3402ee1a784d4e4ee50b8a1129
 
 Subskill unequip on zone
 https://github.com/LandSandBoat/server/commit/0e86ebc221098284a4490a7e83387814a9032f8f
+
+Unarm weapon on char load if no weapon found
+https://github.com/LandSandBoat/server/commit/7408e0b09ecc2aeceeeba36c56d6e29a85aeff7c
 
 Wep delay overflow / TP return
 https://github.com/LandSandBoat/server/commit/5131acdb1a80b0bd177eea82ec8358118723b4cd

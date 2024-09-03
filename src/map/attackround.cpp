@@ -42,7 +42,7 @@ CAttackRound::CAttackRound(CBattleEntity* attacker, CBattleEntity* defender)
     m_taEntity = battleutils::getAvailableTrickAttackChar(attacker, attacker->GetBattleTarget());
 
     // Get cover partner
-    if (attacker->GetBattleTarget()->objtype == TYPE_PC)
+    if (attacker->GetBattleTarget()->objtype == TYPE_PC || attacker->GetBattleTarget()->objtype == TYPE_TRUST)
     {
         m_coverAbilityUserEntity = battleutils::GetCoverAbilityUser(attacker->GetBattleTarget(), attacker);
     }

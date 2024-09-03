@@ -58,6 +58,8 @@ ai.condition =
     PT_HAS_WHM         = 26,
     CAN_SNEAK_ATTACK   = 27,
     WITH_WS            = 28, -- TODO
+    PROTECTRA          = 29,
+    SHELLRA            = 30,
 }
 ai.c = ai.condition
 

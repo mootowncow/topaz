@@ -48,20 +48,31 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SENTINEL,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.SENTINEL)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS_FLAG, tpz.effect.MANAFONT,
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.MANAFONT,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS_FLAG, tpz.effect.ASTRAL_FLOW,
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.CHAINSPELL,
+                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
+
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.ASTRAL_FLOW,
+                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
+
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.TABULA_RASA,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.FEALTY,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.MPP_LT, 15,
+    mob:addSimpleGambit(ai.t.SELF, ai.c.MPP_LT, 25,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.CHIVALRY)
 
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 75,
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.REPRISAL, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.REPRISAL)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.ENLIGHT, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ENLIGHT)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.HPP_LT, 75,
                         ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
+
+    mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 33, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
 
     tpz.trust.onMobSpawn(mob)
 end
