@@ -142,8 +142,8 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Enable at 75. Don't allow in raid NMs somehow. Don't allow in any instanced content (ISNM/Ashu Talif/ENM/BCNM/KSNM/Salvage/Assault/Limbus).Buff MMM to lvl. 90. Revert THF tank buffs
 Trusts can get stuck, if stuck teleport them to master or target (use IsStuck()?). Also give them pet/mob pathing logic
+Can't TA trusts?
 Valaineral use Fealty if target is going to mijin gakure(can get their var of hp% and is var of if will use it from job_special) or casting meteor
 Ulmia Piasimmo logic(should work now)
 Unsummoning all trusts when solo should disband pt(LSB maybe has)
