@@ -142,7 +142,7 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Enable at 75. Don't allow in raid NMs somehow. Don't allow in any instanced content (ISNM/Ashu Talif/ENM/BCNM/KSNM/Salvage/Assault/Limbus). Buff sky gods to lvl. 90. Revert THF tank buffs
+Enable at 75. Don't allow in raid NMs somehow. Don't allow in any instanced content (ISNM/Ashu Talif/ENM/BCNM/KSNM/Salvage/Assault/Limbus).Buff MMM to lvl. 90. Revert THF tank buffs
 Can't cover trusts "cannot perm that action on the specified target" is it in char_controller?
 Only stun -ga, cure, or severe spells
 Lhe doesn't formless strikes slimes
