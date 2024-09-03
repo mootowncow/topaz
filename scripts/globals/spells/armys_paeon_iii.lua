@@ -17,7 +17,7 @@ function onSpellCast(caster, target, spell)
     local power = 5
 
     if caster:isPC() then
-        power = 20
+        power = 10
     end
 
     if (sLvl+iLvl > 227) then
