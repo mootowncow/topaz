@@ -163,12 +163,12 @@ Missing unsummon animation
 **** NOW ***
 unity chat doesn't work cross-zone
 Slug pet ready moves still give bugged out recast numbers, maybe need to add their IDs to function?
-Yagudo Elemental levels
 Dismount(remove chocobo status effect) on CS start
+Yagudo Elemental levels
 Set PPets with a Pmaster to Pmasters level -2 AFTER getting mob level from DB
 Opening castle zhavl coffer on thief gave me thiefs vest, it's on AF moogle slip. Should have given me MIQUES_PAINTBRUSH (PLD AF3)
 Cactrot Rapid pathing bugged
-Shield blocks should up as "MISS" in SCT, they are wrong reaction type. have to fix simplelog after too
+Shield blocks show up as "MISS" in SCT, they are wrong reaction type. have to fix simplelog after too
 Do mobs get guard skill...?
 Don't allow Ready if pet has amnesia!
 Probably need to use int8 maneuvers = luautils::OnMobAutomatonSkillCheck(PTarget, PAutomaton, PSkill); for automaton TP moves
