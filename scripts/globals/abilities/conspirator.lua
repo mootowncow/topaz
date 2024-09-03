@@ -17,11 +17,6 @@ end
 function onUseAbility(player, target, ability)
     local subtleBlow = 0
     local accuracy = 0
-    local guard = 0
-    local counter = 0
-    local defp = 0
-    local mdef = 0
-    local AGI = player:getStat(tpz.mod.AGI)
     local scale = 1
     local mob = player:getTarget()
     if mob then
@@ -30,24 +25,12 @@ function onUseAbility(player, target, ability)
             if #enmityList < 6 then
                 subtleBlow = math.floor(player:getMainLvl() / 5) -- 15 @ level 75
                 accuracy = math.floor(player:getMainLvl() / 8) + 1   -- 10 @ level 75
-                guard = math.floor(AGI * (25 / 200))
-                counter = math.floor(AGI * (25 / 200))
-                defp = math.floor(AGI * (33 / 200))
-                mdef = math.floor(AGI * (50 / 200))
             elseif #enmityList < 18 then
                 subtleBlow = math.floor(player:getMainLvl() / 5) -- 15 @ level 75
                 accuracy = math.floor(player:getMainLvl() / 8) + 1  -- 10 @ level 75
-                guard = math.floor(AGI * (25 / 200))
-                counter = math.floor(AGI * (25 / 200))
-                defp = math.floor(AGI * (33 / 200))
-                mdef = math.floor(AGI * (50 / 200))
             else
                 subtleBlow = math.floor(player:getMainLvl() / 5) -- 15 @ level 75
                 accuracy = math.floor(player:getMainLvl() / 8) + 1  -- 10 @ level 75
-                guard = math.floor(AGI * (25 / 200))
-                counter = math.floor(AGI * (25 / 200))
-                defp = math.floor(AGI * (33 / 200))
-                mdef = math.floor(AGI * (50 / 200))
             end
         end
 
@@ -56,22 +39,6 @@ function onUseAbility(player, target, ability)
         scale = player:getMod(tpz.mod.AUGMENTS_CONSPIRATOR)
     end
 
-    if player:isPC() then
-        local effects = {
-            { effect = tpz.effect.GUARD_BOOST,       power = guard * scale   },
-            { effect = tpz.effect.COUNTER_BOOST,     power = counter * scale },
-            { effect = tpz.effect.DEFENSE_BOOST,     power = defp * scale    },
-            { effect = tpz.effect.MAGIC_DEF_BOOST,   power = mdef * scale    }
-        }
-
-        for _, eff in ipairs(effects) do
-            if canOverwrite(target, eff.effect, eff.power) then
-                if (scale > 0) then
-                    target:addStatusEffect(eff.effect, eff.power, 0, 300)
-                end
-            end
-        end
-    end
     target:addStatusEffect(tpz.effect.CONSPIRATOR, subtleBlow * scale, 0, 300, 0, accuracy * scale)
     end
 end

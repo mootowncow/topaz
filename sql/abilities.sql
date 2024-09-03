@@ -364,7 +364,7 @@ INSERT INTO `abilities` VALUES (316,'perpetuance',20,65,1,1,231,100,0,244,2000,0
 INSERT INTO `abilities` VALUES (318,'smiting_breath',14,40,4,60,238,100,0,94,2000,0,6,8.0,0,1,80,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (319,'restoring_breath',14,30,1,60,239,100,0,94,2000,0,6,0.0,0,1,80,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (320,'konzen-ittai',12,55,4,180,132,529,0,39,2000,0,14,4.0,0,1,300,0,0,'ABYSSEA',0);	-- changed from level 65
-INSERT INTO `abilities` VALUES (321,'bully',6,40,4,60,240,127,0,248,2000,0,6,8.0,0,1,300,0,4,'ABYSSEA',0);	-- changed to level 40, 180s cd
+INSERT INTO `abilities` VALUES (321,'bully',6,40,4,180,240,127,0,248,2000,0,6,8.0,0,1,300,0,4,'ABYSSEA',0);	-- changed to level 40, 180s cd
 INSERT INTO `abilities` VALUES (322,'maintenance',18,30,1,90,214,0,0,83,2000,0,6,12.0,0,0,0,1474,0,'ABYSSEA',0); -- ta257
 INSERT INTO `abilities` VALUES (323,'brazen_rush',1,96,1,7200,254,100,0,271,2000,0,6,0.0,0,1,300,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (324,'inner_strength',2,60,1,60,254,100,0,272,2000,0,6,0.0,0,0,0,0,0,NULL,0);

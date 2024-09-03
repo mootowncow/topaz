@@ -3120,7 +3120,7 @@ int16 GetSDTTier(int16 SDT)
                         else
                         {
                             bool removeMagicShield = true;
-                            uint16 shieldPower = 750 + (PAttacker->CHR() * 3);
+                            uint16 shieldPower = 200 + (PAttacker->CHR());
 
                             if (taChar->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
                             {
@@ -5023,7 +5023,7 @@ int16 GetSDTTier(int16 SDT)
                 if (taChar != nullptr)
                 {
                     bool removeMagicShield = true;
-                    uint16 shieldPower = 750 + (PAttacker->CHR() * 3);
+                    uint16 shieldPower = 200 + (PAttacker->CHR());
 
                     if (taChar->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
                     {

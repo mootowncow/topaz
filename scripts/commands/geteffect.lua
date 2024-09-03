@@ -20,7 +20,7 @@ function onTrigger(player, arg1)
     local targ = player:getCursorTarget()
     local id = arg1
 
-    if (targ:isMob() or targ:isPet() or targ:isPC()) then
+    if (targ:isMob() or targ:isPet() or targ:isTrust() or targ:isPC()) then
 
         if (arg1 == nil) then
             error(player, "Invalid effect.")
