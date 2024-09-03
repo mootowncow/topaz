@@ -131,7 +131,7 @@ local modByMobName =
     end,
 
     ['lhe_lhangavo'] = function(mob)
-        mob:addMod(tpz.mod.HPP, 75)
+        mob:addMod(tpz.mod.HPP, 30)
         mob:addMod(tpz.mod.COUNTER, 5)
         mob:addMod(tpz.mod.KICK_ATTACK_RATE, 5)
         mob:addMod(tpz.mod.ACC, 30)

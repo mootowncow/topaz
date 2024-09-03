@@ -45,10 +45,10 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)
 
     if mob:getMainLvl() >= 20 then
-        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.COLURE_ACTIVE, ai.r.MA, ai.s.BEST_INDI, tpz.magic.spellFamily.NONE)
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.COLURE_ACTIVE, ai.r.MA, ai.s.BEST_INDI, tpz.magic.spellFamily.INDI_BUFF)
     end
 
-    if mob:getMainLvl() >= 93 and mJob ~= tpz.job.GEO then
+    if mJob ~= tpz.job.GEO then
         mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.ENTRUST, ai.r.JA, ai.s.SPECIFIC, tpz.jobAbility.ENTRUST)
         mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.ENTRUST, ai.r.MA, ai.s.ENTRUSTED, tpz.magic.spellFamily.INDI_BUFF)
     end
