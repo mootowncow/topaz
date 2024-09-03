@@ -179,6 +179,7 @@ local modByMobName =
         mob:addMod(tpz.mod.HPP, 10)
         mob:addMod(tpz.mod.DMGAOE, -25)
         mob:addMod(tpz.mod.RACC, 30)
+        mob:addMod(tpz.mod.STORETP, 130)
         mob:addMod(tpz.mod.ENMITY, -15)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddRangedAccuracyGear(mob) 
@@ -258,13 +259,8 @@ tpz.trust.canCast = function(caster, spell, not_allowed_trust_ids)
         return tpz.msg.basic.TRUST_NO_CAST_TRUST
     end
 
-    -- Trusts can only be summoned if below level 75
-    if (caster:getMainLvl() >= 75) then
-        return tpz.msg.basic.TRUST_NO_CAST_TRUST
-    end
-
-    -- Trusts cannot be summoned under level sync or level restriction
-    if (caster:hasStatusEffect(tpz.effect.LEVEL_SYNC) or caster:hasStatusEffect(tpz.effect.LEVEL_RESTRICTION)) then
+    -- Trusts cannot be summoned under level restriction
+    if caster:hasStatusEffect(tpz.effect.LEVEL_RESTRICTION) then
         return tpz.msg.basic.TRUST_NO_CAST_TRUST
     end
 
