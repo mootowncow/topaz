@@ -7,12 +7,8 @@ require("scripts/globals/titles")
 require("scripts/globals/mobs")
 require("scripts/globals/status")
 -----------------------------------
-
-
 function onMobSpawn(mob)
-    mob:addMod(tpz.mod.DEFP, 50) 
-    mob:addMod(tpz.mod.ATTP, 50)
-    mob:addMod(tpz.mod.ACC, 50) 
-    mob:addMod(tpz.mod.EVA, 50)
+    SetGenericNMStats(mob)
     mob:setMod(tpz.mod.DOUBLE_ATTACK, 50)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
 end
