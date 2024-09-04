@@ -41,13 +41,13 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local damage = 0
     action:messageID(target:getID(), tpz.msg.basic.DAMAGE)
 
-    -- Damage calculations based on https://www.bg-wiki.com/index.php?title=Spirits_Within&oldid=269806
+    -- Damage calculations based on https://www.bg-wiki.com/index.php?title=Spirits_Within&oldid=202305
     if (tp == 3000) then
-        WSC = HP
+        WSC = HP * (120 / 256)
     elseif (tp >= 2000) then
-        WSC = HP * 0.5
+        WSC = HP * (48 / 256)
     elseif (tp >= 1000) then
-        WSC = HP * 0.2
+        WSC = HP * (32 / 256)
     end
 
     if (USE_ADOULIN_WEAPON_SKILL_CHANGES == true) then
