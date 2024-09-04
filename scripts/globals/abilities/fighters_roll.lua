@@ -9,18 +9,18 @@
 --
 -- Die Roll    |No WAR  |With WAR
 -- --------    -------- -----------
--- 1           |10%      |16%
--- 2           |10%      |16%
--- 3           |12%      |18%
--- 4           |14%      |20%
--- 5           |32%      |38%
--- 6           |15%      |21%
--- 7           |16%      |22%
--- 8           |17%      |23%
--- 9           |5%       |11%
--- 10          |29%      |35%
--- 11          |28%      |34%
--- Bust         |-6%      |-6%
+-- 1           |2%      |8%
+-- 2           |2%      |8%
+-- 3           |3%      |9%
+-- 4           |4%      |10%
+-- 5           |12%     |18%
+-- 6           |5%      |11%
+-- 7           |6%      |12%
+-- 8           |7%      |13%
+-- 9           |1%      |7%
+-- 10          |9%      |15%
+-- 11          |18%     |24%
+-- 12+         |-6%     |-6%
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/ability")
@@ -44,7 +44,7 @@ end
 
 function applyRoll(caster, target, ability, action, total)
     local duration = 300 + caster:getMerit(tpz.merit.WINNING_STREAK) + caster:getMod(tpz.mod.PHANTOM_DURATION) + (caster:getJobPointLevel(tpz.jp.PHANTOM_ROLL_DURATION) * 2)
-    local effectpowers = {10, 10, 12, 14, 32, 15, 16, 17, 5, 29, 28, 6}
+    local effectpowers = {2, 2, 3, 4, 12, 5, 6, 7, 1, 9, 18, 6}
     local effectpower = effectpowers[total]
     if (caster:getLocalVar("corsairRollBonus") == 1 and total < 12) then
         effectpower = effectpower + 6

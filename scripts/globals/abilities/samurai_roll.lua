@@ -8,13 +8,13 @@
 -- Phantom Roll +1 Value: 4
 --
 -- Die Roll    |No SAM  |With SAM
--- 1           |+18     |+18
--- 2           |+42     |+52
--- 3           |+20     |+30
--- 4           |+22     |+32
--- 5           |+24     |+34
--- 6           |+14     |+24
--- 7           |+26     |+36
+-- 1           |+8      |+18
+-- 2           |+32     |+42
+-- 3           |+10     |+20
+-- 4           |+12     |+22
+-- 5           |+14     |+24
+-- 6           |+4      |+14
+-- 7           |+16     |+26
 -- 8           |+20     |+30
 -- 9           |+22     |+32
 -- 10          |+24     |+34
@@ -42,7 +42,7 @@ end
 
 function applyRoll(caster, target, ability, action, total)
     local duration = 300 + caster:getMerit(tpz.merit.WINNING_STREAK) + caster:getMod(tpz.mod.PHANTOM_DURATION) + (caster:getJobPointLevel(tpz.jp.PHANTOM_ROLL_DURATION) * 2)
-    local effectpowers = {18, 42, 20, 22, 24, 14, 26, 20, 22, 24, 40, 5}
+    local effectpowers = {8, 32, 10, 12, 14, 4, 16, 20, 22, 24, 40, 5}
     local effectpower = effectpowers[total]
     if (caster:getLocalVar("corsairRollBonus") == 1 and total < 12) then
         effectpower = effectpower + 10
