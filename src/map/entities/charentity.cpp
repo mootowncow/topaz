@@ -1178,7 +1178,7 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
                 SKILLTYPE Skilltype = (SKILLTYPE)PItem->getSkillType();
                 if (Skilltype == SKILL_STRING_INSTRUMENT || Skilltype == SKILL_WIND_INSTRUMENT || Skilltype == SKILL_SINGING)
                 {
-                    charutils::TrySkillUP(this, Skilltype, PTarget->GetMLevel(), false);
+                    charutils::TrySkillUP(this, Skilltype, PTarget->GetMLevel(), true);
                 }
             }
         }
