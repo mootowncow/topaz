@@ -94,6 +94,7 @@ ai.select =
     HELIX_DAY           = 12,
     STORM_WEAKNESS      = 13,
     HELIX_WEAKNESS      = 14,
+    LOWEST_WALTZ        = 15,
 }
 ai.s = ai.select
 

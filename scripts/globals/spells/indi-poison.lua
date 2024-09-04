@@ -22,6 +22,7 @@ function onSpellCast(caster, target, spell)
         power = 1
     end
 
-    caster:addStatusEffectEx(tpz.effect.COLURE_ACTIVE, tpz.effect.COLURE_ACTIVE, 13, 3, 180, tpz.effect.GEO_POISON, power, tpz.auraTarget.ENEMIES, tpz.effectFlag.AURA)
+    target:addStatusEffectEx(tpz.effect.COLURE_ACTIVE, tpz.effect.COLURE_ACTIVE, 13, 3, 180, tpz.effect.GEO_POISON, power, tpz.auraTarget.ENEMIES, tpz.effectFlag.AURA)
+    caster:delStatusEffectSilent(tpz.effect.ENTRUST)
     return tpz.effect.COLURE_ACTIVE
 end

@@ -89,6 +89,11 @@ void CGambitsContainer::Tick(time_point tick)
         return;
     }
 
+    if (POwner->PAI->PathFind->IsFollowingPath())
+    {
+        return;
+    }
+
     if (POwner->PAI->IsCurrentState<CAbilityState>() ||
         POwner->PAI->IsCurrentState<CRangeState>() ||
         POwner->PAI->IsCurrentState<CMagicState>() ||
@@ -640,6 +645,60 @@ void CGambitsContainer::Tick(time_point tick)
                     }
                 }
 
+                if (action.select == G_SELECT::LOWEST_WALTZ)
+                                {
+                                    auto currentTP = POwner->health.tp;
+
+                                    // clang-format off
+                    ABILITY wlist[5] =
+                    {
+                        ABILITY_CURING_WALTZ,
+                        ABILITY_CURING_WALTZ_II,
+                        ABILITY_CURING_WALTZ_III,
+                        ABILITY_CURING_WALTZ_IV,
+                        ABILITY_CURING_WALTZ_V,
+                    };
+                    // clang-format on
+
+                    for (ABILITY const& waltz : wlist)
+                    {
+                        auto waltzLevel = ability::GetAbility(waltz)->getLevel();
+                        uint16 tpCost = 0;
+
+                        if (mLevel >= waltzLevel)
+                        {
+                            switch (ability::GetAbility(waltz)->getID())
+                            {
+                                case ABILITY_CURING_WALTZ:
+                                    tpCost = 200;
+                                    break;
+                                case ABILITY_CURING_WALTZ_II:
+                                    tpCost = 350;
+                                    break;
+                                case ABILITY_CURING_WALTZ_III:
+                                    tpCost = 500;
+                                    break;
+                                case ABILITY_CURING_WALTZ_IV:
+                                    tpCost = 650;
+                                    break;
+                                case ABILITY_CURING_WALTZ_V:
+                                    tpCost = 800;
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            if (tpCost != 0 && currentTP >= tpCost)
+                            {
+                                PAbility = ability::GetAbility(waltz);
+                                controller->Ability(target->targid, PAbility->getID());
+                                break;
+                            }
+                        }
+                    }
+                }
+
+
                 if (PAbility->getValidTarget() == TARGET_SELF)
                 {
                     target = POwner;
@@ -1150,6 +1209,7 @@ bool CGambitsContainer::TryTrustSkill()
     if (chosen_skill)
     {
         auto controller = static_cast<CTrustController*>(POwner->PAI->GetController());
+        float currentDistance = distance(POwner->loc.p, target->loc.p);
         if (chosen_skill->skill_type == G_REACTION::WS)
         {
             CWeaponSkill* PWeaponSkill = battleutils::GetWeaponSkill(chosen_skill->skill_id);
@@ -1161,43 +1221,66 @@ bool CGambitsContainer::TryTrustSkill()
             {
                 target = POwner->GetBattleTarget();
             }
-            int16 tp = POwner->health.tp;
-            // Add Fencer TP Bonus
-            CTrustEntity* PTrust = static_cast<CTrustEntity*>(POwner);
-            CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]);
-            if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
+            if (currentDistance <= (static_cast<float>(PWeaponSkill->getRange()) + static_cast<float>(target->m_ModelSize)))
             {
-                if (!PTrust->m_dualWield)
+                int16 tp = POwner->health.tp;
+                // Add Fencer TP Bonus
+                CTrustEntity* PTrust = static_cast<CTrustEntity*>(POwner);
+                CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]);
+                if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
                 {
-                    tp += PTrust->getMod(Mod::FENCER_TP_BONUS);
+                    if (!PTrust->m_dualWield)
+                    {
+                        tp += PTrust->getMod(Mod::FENCER_TP_BONUS);
+                    }
                 }
+                tp = std::min(static_cast<int>(tp), 3000);
+                POwner->SetLocalVar("tp", tp);
+                controller->WeaponSkill(target->targid, PWeaponSkill->getID());
             }
-            tp = std::min(static_cast<int>(tp), 3000);
-            POwner->SetLocalVar("tp", tp);
-            controller->WeaponSkill(target->targid, PWeaponSkill->getID());
+            else
+            {
+                return false;
+            }
         }
         else // Mobskill
         {
-            int16 tp = POwner->health.tp;
-            // Add Fencer TP Bonus
-            CTrustEntity* PTrust = static_cast<CTrustEntity*>(POwner);
-            CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]);
-            if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
-            {
-                if (!PTrust->m_dualWield)
-                {
-                    tp += PTrust->getMod(Mod::FENCER_TP_BONUS);
-                }
-            }
-            tp = std::min(static_cast<int>(tp), 3000);
-            POwner->SetLocalVar("tp", tp);
-            // Set message for "Player" and Fomor TP moves, and Prishe/Tenzen TP moves
             CMobSkill* skill = battleutils::GetMobSkill(chosen_skill->skill_id);
-            if (skill && skill->isReadiesException())
+            if (skill->getValidTargets() == TARGET_SELF) // self
             {
-                POwner->loc.zone->PushPacket(POwner, CHAR_INRANGE, new CMessageBasicPacket(POwner, target, 0, skill->getID(), MSGBASIC_READIES_WS));
+                target = POwner;
             }
-            controller->MobSkill(target->targid, chosen_skill->skill_id);
+            else if (skill->getValidTargets() == TARGET_ENEMY) // enemy
+            {
+                target = POwner->GetBattleTarget();
+            }
+            if (currentDistance <= (skill->getDistance() + static_cast<float>(target->m_ModelSize)))
+            {
+                int16 tp = POwner->health.tp;
+                // Add Fencer TP Bonus
+                CTrustEntity* PTrust = static_cast<CTrustEntity*>(POwner);
+                CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]);
+                if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
+                {
+                    if (!PTrust->m_dualWield)
+                    {
+                        tp += PTrust->getMod(Mod::FENCER_TP_BONUS);
+                    }
+                }
+                tp = std::min(static_cast<int>(tp), 3000);
+                POwner->SetLocalVar("tp", tp);
+
+                // Set message for "Player" and Fomor TP moves, and Prishe/Tenzen TP moves
+                if (skill && skill->isReadiesException())
+                {
+                    POwner->loc.zone->PushPacket(POwner, CHAR_INRANGE, new CMessageBasicPacket(POwner, target, 0, skill->getID(), MSGBASIC_READIES_WS));
+                }
+                controller->MobSkill(target->targid, chosen_skill->skill_id);
+            }
+            else
+            {
+                return false;
+            }
         }
         return true;
     }

@@ -199,10 +199,13 @@ local modByMobName =
         AddLightMeleeAccuracyGear(mob)
     end,
 
-    ['sylvie'] = function(mob)
-        mob:addMod(tpz.mod.MPP, 80)
+    ['sylvie_uc'] = function(mob)
+        mob:addMod(tpz.mod.MPP, 25)
         mob:addMod(tpz.mod.DMG, -25)
-        mob:addMod(tpz.mod.REGAIN, 50)
+        mob:addMod(tpz.mod.REGAIN, 25)
+        if mob:getMainLvl() >= 99 then
+            mob:addMod(tpz.mod.GEOMANCY_BONUS, 3)
+        end
         AddRefresh(mob)
         mob:addMod(tpz.mod.INDI_DURATION, 180)
         AddHealerGear(mob)

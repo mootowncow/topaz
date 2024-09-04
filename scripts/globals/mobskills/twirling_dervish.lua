@@ -2,7 +2,7 @@
 --  Twirling Dervish
 --
 --  Description: Deals damage. Additional effect: Bind
---  Type: Magical Light
+--  Type: Magical Fire
 --  Utsusemi/Blink absorb: Ignores shadows
 ---------------------------------------------
 require("scripts/globals/settings")
@@ -16,9 +16,9 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local dmgmod = 8
-    local info = MobMagicalMove(mob, target, skill, mob:getWeaponDmg()*1, tpz.magic.ele.LIGHT, dmgmod, TP_NO_EFFECT)
-    local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.LIGHT, MOBPARAM_IGNORE_SHADOWS)
-    target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.LIGHT)
+    local info = MobMagicalMove(mob, target, skill, mob:getWeaponDmg()*1, tpz.magic.ele.FIRE, dmgmod, TP_NO_EFFECT)
+    local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.FIRE, MOBPARAM_IGNORE_SHADOWS)
+    target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.FIRE)
     if mob:hasStatusEffect(tpz.effect.CONFRONTATION) then
         mob:addMP(mob:getMaxMP())
     end

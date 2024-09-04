@@ -16,6 +16,7 @@ local casterJobs =
     tpz.job.WHM,
     tpz.job.BLM,
     tpz.job.RDM,
+    tpz.job.PLD,
     tpz.job.SMN,
     tpz.job.SCH,
     tpz.job.GEO,
@@ -37,26 +38,32 @@ function onMobSpawn(mob)
     })
     ]]
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MINUET, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.VALOR_MINUET)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MADRIGAL, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MADRIGAL)
 
     local master = mob:getMaster()
-    if master then
-        local isCaster = false
 
+    if not master then
+        return
+    end
+
+    -- Ballad if a "Caster" master
+    if mob:getMainLvl() >= 25 then -- Minimum level to cast Ballad
         for i = 1, #casterJobs do
             if master:getMainJob() == casterJobs[i] then
-                mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MAGES_BALLAD)
-                isCaster = true
+                mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.JA, ai.s.SPECIFIC, tpz.jobAbility.PIANISSIMO)
+                mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MAGES_BALLAD)
                 break 
             end
         end
+    end
 
-        if not isCaster then
-            mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MINUET, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.VALOR_MINUET)
+    -- Prelude if a ranger master
+    if mob:getMainLvl() >= 31 then -- Minimum level to cast Prelude
+        if master:getMainJob() == tpz.job.RNG then
+            mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS, tpz.effect.PRELUDE, ai.r.JA, ai.s.SPECIFIC, tpz.jobAbility.PIANISSIMO)
+            mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS, tpz.effect.PRELUDE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.PRELUDE)
         end
-    else
-        -- Handle case where there is no master
-        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MINUET, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.VALOR_MINUET)
     end
 
 

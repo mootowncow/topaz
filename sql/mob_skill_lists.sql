@@ -3811,7 +3811,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lhu_Mhakaracca',1058,1192); -- Onsl
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ferreous_Coffin',1059,1198); -- Randgrith
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lilisette',1060,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mumor',1061,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Uka_Totlihn',1062,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Uka_Totlihn',1062,166); -- True Strike
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Klara',1063,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Romaa_Mihgo',1064,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kuyin_Hathdenna',1065,0);
@@ -3865,7 +3865,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Kayeel-Payeel',1091,1199); -- Gate 
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Selh_teus',1094,3621); -- Luminous Lance Trust
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Selh_teus',1094,3622); -- Rejuvenation Trust
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Selh_teus',1094,3623); -- Revelation Trust
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Yoran-Oran_UC',1095,3502);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Yoran-Oran_UC',1095,3502); -- Nott
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Sylvie_UC',1096,3502); -- Nott
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Abquhbah',1097,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Balamor',1098,0);

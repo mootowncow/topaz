@@ -76,7 +76,9 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.IS_ECOSYSTEM, tpz.ecosystem.UNDEAD, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASTE_SAMBA)
 
     -- Healing logic
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 50, ai.r.JA, ai.s.HIGHEST_WALTZ, tpz.ja.CURING_WALTZ)
+    mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 66, ai.r.JA, ai.s.HIGHEST_WALTZ, tpz.ja.CURING_WALTZ)
+    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_I, ai.r.JA, ai.s.LOWEST_WALTZ, tpz.ja.CURING_WALTZ)
+    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.JA, ai.s.LOWEST_WALTZ, tpz.ja.CURING_WALTZ)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NO_SAMBA, 0, ai.r.JA, ai.s.BEST_SAMBA, tpz.ja.DRAIN_SAMBA)
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS_FLAG, tpz.effectFlag.WALTZABLE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HEALING_WALTZ)
 

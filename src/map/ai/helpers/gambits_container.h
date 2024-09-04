@@ -126,6 +126,7 @@ enum class G_SELECT : uint16
     HELIX_DAY               = 12,
     STORM_WEAKNESS          = 13,
     HELIX_WEAKNESS          = 14,
+    LOWEST_WALTZ            = 15,
 };
 
 enum class G_TP_TRIGGER : uint16

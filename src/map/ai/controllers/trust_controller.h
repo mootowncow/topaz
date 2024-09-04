@@ -78,6 +78,10 @@ private:
     std::size_t m_NumHealingTicks = { 0 };
 
     time_point m_LastRangedAttackTime;
+
+    position_t m_LastPos;
+
+    time_point m_StuckTick;
 };
 
 #endif // _TRUSTCONTROLLER

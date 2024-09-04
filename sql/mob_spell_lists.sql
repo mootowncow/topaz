@@ -2821,6 +2821,7 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,397,63,255);           -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,398,87,255);           -- Valor Minuet V
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,399,11,255);           -- Sword Madrigal
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,400,51,255);           -- Blade Madrigal
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,401,31,255);           -- Hunters Prelude
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,402,71,255);           -- Archers Prelude
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,419,29,255);           -- Advancing March
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,420,60,255);           -- Victory March
@@ -3112,7 +3113,6 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,79,75,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,106,33,255);        -- Phalanx
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,107,75,255);        -- Phalanx II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,109,41,255);        -- Refresh
-
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,260,32,255);        -- Dispel
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,473,75,255);        -- Refresh II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,511,75,255);        -- Haste II
@@ -3504,6 +3504,7 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Sylvie_UC',394,17,38,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Sylvie_UC',394,18,78,255);          -- Stona
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Sylvie_UC',394,19,68,255);          -- Viruna
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Sylvie_UC',394,20,58,255);          -- Cursna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Sylvie_UC',394,143,64,255);         -- Erase
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Sylvie_UC',394,57,80,255);          -- Haste
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Sylvie_UC',394,779,34,255);           -- Indi-Fury        (not implimented yet)
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Sylvie_UC',394,783,10,255);           -- Indi-Precision   (not implimented yet)

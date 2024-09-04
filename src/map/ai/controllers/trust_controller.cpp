@@ -164,17 +164,36 @@ void CTrustController::DoCombatTick(time_point tick)
                     std::unique_ptr<CBasicPacket> err;
                     if (!POwner->CanAttack(PTarget, err) && POwner->speed > 0)
                     {
-                        if (currentDistanceToTarget > RoamDistance)
+                        // Check if target is within range to follow path
+                        float attack_range = POwner->GetMeleeRange() + PTarget->m_ModelSize;
+
+                        if (currentDistanceToTarget > attack_range - 0.2f && POwner->PAI->CanFollowPath())
                         {
-                            if (currentDistanceToTarget < RoamDistance * 3.0f &&
-                                POwner->PAI->PathFind->PathAround(PTarget->loc.p, RoamDistance, PATHFLAG_RUN | PATHFLAG_WALLHACK))
+                            if (!POwner->PAI->PathFind->IsFollowingPath() || distanceSquared(POwner->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10 * 10)
                             {
-                                POwner->PAI->PathFind->FollowPath();
+                                POwner->PAI->PathFind->PathInRange(PTarget->loc.p, attack_range - 0.2f, PATHFLAG_WALLHACK | PATHFLAG_RUN);
                             }
-                            else if (POwner->GetSpeed() > 0)
+                            POwner->PAI->PathFind->FollowPath();
+
+                            // Check for stuck scenario
+                            if (tick - m_StuckTick >= 2s)
                             {
-                                POwner->PAI->PathFind->StepTo(PTarget->loc.p, true);
+                                m_StuckTick = tick;
+                                UpdateLastKnownPosition();
+                                if (IsStuck() && PTarget)
+                                {
+                                    POwner->PAI->PathFind->StepTo(PTarget->loc.p, false);
+                                }
                             }
+                        }
+                        else
+                        {
+                            // Handle case where entity is within melee range
+                            if (!POwner->PAI->PathFind->IsFollowingPath() || distanceSquared(POwner->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10 * 10)
+                            {
+                                POwner->PAI->PathFind->PathTo(PTarget->loc.p, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                            }
+                            POwner->PAI->PathFind->FollowPath();
                         }
                     }
                     break;
@@ -200,12 +219,12 @@ void CTrustController::DoCombatTick(time_point tick)
         if (!m_InTransit)
         {
             POwner->PAI->PathFind->FollowPath();
+
+            m_GambitsContainer->Tick(tick);
+
+            POwner->PAI->EventHandler.triggerListener("COMBAT_TICK", POwner, POwner->PMaster, PTarget);
+            luautils::OnMobFight(POwner, PTarget);
         }
-
-        m_GambitsContainer->Tick(tick);
-
-        POwner->PAI->EventHandler.triggerListener("COMBAT_TICK", POwner, POwner->PMaster, PTarget);
-        luautils::OnMobFight(POwner, PTarget);
     }
 }
 
@@ -412,7 +431,7 @@ bool CTrustController::RangedAttack(uint16 targid)
     //    rangedDelay = std::chrono::milliseconds(PRange->getDelay());
     //}
 
-    if (m_Tick - m_LastRangedAttackTime > rangedDelay && !m_InTransit)
+    if (m_Tick - m_LastRangedAttackTime > rangedDelay && !m_InTransit && m_Tick > m_LastRepositionTime)
     {
         FaceTarget(PTarget->targid);
         if (POwner->PAI->CanChangeState() && POwner->PAI->Internal_RangedAttack(targid))

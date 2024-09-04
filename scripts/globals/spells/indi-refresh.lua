@@ -23,8 +23,10 @@ function onSpellCast(caster, target, spell)
     if power > 6 then
         power = 6
     end
+    -- TODO: An Indicolure spell cast on another party member with Entrust active will not factor in Geomancy+ equipment from the caster.
 
 
-    caster:addStatusEffectEx(tpz.effect.COLURE_ACTIVE, tpz.effect.COLURE_ACTIVE, 13, 3, 180, tpz.effect.GEO_REFRESH, power, tpz.auraTarget.ENEMIES, tpz.effectFlag.AURA)
+    target:addStatusEffectEx(tpz.effect.COLURE_ACTIVE, tpz.effect.COLURE_ACTIVE, 13, 3, 180, tpz.effect.GEO_REFRESH, power, tpz.auraTarget.ALLIES, tpz.effectFlag.AURA)
+    caster:delStatusEffectSilent(tpz.effect.ENTRUST)
     return tpz.effect.COLURE_ACTIVE
 end

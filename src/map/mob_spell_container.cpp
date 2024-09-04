@@ -305,7 +305,8 @@ std::optional<SpellID> CMobSpellContainer::GetBestEntrustedSpell(CBattleEntity* 
         case JOB_COR:
         case JOB_PUP:
         case JOB_DNC:
-            choice = SpellID::Indi_Frailty;
+            choice = SpellID::Indi_Barrier;
+            // choice = SpellID::Indi_Frailty; Requiers level 76
             break;
         case JOB_WHM:
         case JOB_BRD:

@@ -2,7 +2,7 @@
 --  Paralyzing Microtube
 --
 --  Description: Deals damage. Additional effect: Bind
---  Type: Magical Non-elemental
+--  Type: Magical Ice
 --  Utsusemi/Blink absorb: Ignores shadows
 ---------------------------------------------
 require("scripts/globals/settings")
@@ -21,9 +21,9 @@ function onMobWeaponSkill(target, mob, skill)
     local duration = 60
 
     local dmgmod = 2
-    local info = MobMagicalMove(mob, target, skill, mob:getWeaponDmg()*1, tpz.magic.ele.NONE, dmgmod, TP_NO_EFFECT)
-    local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.ELEMENTAL, MOBPARAM_IGNORE_SHADOWS)
-    target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.ELEMENTAL)
+    local info = MobMagicalMove(mob, target, skill, mob:getWeaponDmg()*1, tpz.magic.ele.ICE, dmgmod, TP_NO_EFFECT)
+    local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.ICE, MOBPARAM_IGNORE_SHADOWS)
+    target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.ICE)
     MobStatusEffectMove(mob, target, typeEffect, power, tick, duration)
     return dmg
 end
