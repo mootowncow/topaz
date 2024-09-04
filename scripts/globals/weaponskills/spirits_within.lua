@@ -45,9 +45,9 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     if (tp == 3000) then
         WSC = HP
     elseif (tp >= 2000) then
-        WSC = HP / 1.5
+        WSC = HP / 0.5
     elseif (tp >= 1000) then
-        WSC = HP / 2
+        WSC = HP * 0.3
     end
 
     if (USE_ADOULIN_WEAPON_SKILL_CHANGES == true) then
