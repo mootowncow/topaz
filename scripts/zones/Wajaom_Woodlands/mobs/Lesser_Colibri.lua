@@ -3,9 +3,9 @@
 --  Mob: Lesser Colibri
 -- Note: Place holder Zoraal Ja's Pkuucha
 -----------------------------------
-mixins = {require("scripts/mixins/families/colibri_mimic")}
 local ID = require("scripts/zones/Wajaom_Woodlands/IDs")
 require("scripts/globals/mobs")
+-----------------------------------
 
 function onMobDeath(mob, player, isKiller, noKiller)
 	if isKiller and math.random(1,100) <= 24 then 
