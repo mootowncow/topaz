@@ -58,8 +58,11 @@ enum TRUST_MOVEMENT_TYPE
 
 CTrustController::CTrustController(CCharEntity* PChar, CTrustEntity* PTrust)
 : CMobController(PTrust)
+, m_GambitsContainer(std::make_unique<gambits::CGambitsContainer>(PTrust))
+, m_LastTopEnmity(nullptr)
+, m_failedRepositionAttempts(0)
+, m_InTransit(false)
 {
-    m_GambitsContainer = std::make_unique<gambits::CGambitsContainer>(PTrust);
 }
 
 CTrustController::~CTrustController()
