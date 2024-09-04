@@ -45,7 +45,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     if (tp == 3000) then
         WSC = HP
     elseif (tp >= 2000) then
-        WSC = HP / 0.5
+        WSC = HP * 0.5
     elseif (tp >= 1000) then
         WSC = HP * 0.3
     end
