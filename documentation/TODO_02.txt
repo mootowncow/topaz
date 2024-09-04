@@ -142,24 +142,13 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Tune spirits within. ~200 dmg 1k hp 1k TP
-Don't WS or mob skill a target too far away! Distance check!
-Cast times seem wrong and not accurate to DAT
-NERF COR ROLLS
 Elivira 15 yards
 Trusts sometimes break party UI for someone on summon (Need more reloadparty()? does LSB have a fix?)
-Sylvie indi buffs don't AOE onto players/trusts?
-Trusts can get stuck, if stuck teleport them to master or target (use IsStuck()?). Also give them pet/mob pathing logic
-Koru haste1's AND haste2's at 75, want him to only use haste2
 Can't TA trusts? I eem to be able to but it won't add the SS/magic SS?
-Uka AI (Healing % ai mostly?)
-Adelheid cure % / AI (JP wiki)
 Valaineral use Fealty if target is going to mijin gakure(can get their var of hp% and is var of if will use it from job_special) or casting meteor
-Ulmia Piasimmo logic(should work now)
 Level 75 trust stats in the functions per archetype (give them gear). Also tune / balance / design them.
 Unsummoning all trusts when solo should disband pt(LSB maybe has)
 Slug shot miss stil SCed(for 0). Is this a trust only issue?
-Trusts sometimes interrupt themselves upon first engaging if casting too early RIGHT when you engage. Also interrupt themselves moving after disengaging
 use lge condition for assassins charge and meditate?
 Trusts proc resist trait msg when they resist spells?
 Tenzen more zanshin related stuff? TP Bonus? DA? (retail zanshin thing?)
