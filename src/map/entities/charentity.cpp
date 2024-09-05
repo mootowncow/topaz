@@ -1160,9 +1160,11 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
     {
         StatusEffectContainer->DelStatusEffectSilent(EFFECT_ELEMENTAL_SEAL);
     }
+
     if (PSpell->tookEffect())
     {
-        if (PSpell->dealsDamage() || PSpell->getSpellFamily() == SPELLFAMILY_DRAIN || PSpell->getSpellFamily() == SPELLFAMILY_ASPIR)
+        // High skill up chance if casting buffs/cures on an NPC or using an offensive spell
+        if (PTarget->objtype > TYPE_PC) 
         {
             charutils::TrySkillUP(this, (SKILLTYPE)PSpell->getSkillType(), PTarget->GetMLevel(), true);
         }
@@ -1170,6 +1172,7 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
         {
             charutils::TrySkillUP(this, (SKILLTYPE)PSpell->getSkillType(), PTarget->GetMLevel(), false);
         }
+
         if (PSpell->getSkillType() == SKILL_SINGING)
         {
             CItemWeapon* PItem = static_cast<CItemWeapon*>(getEquip(SLOT_RANGED));
@@ -1178,7 +1181,15 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
                 SKILLTYPE Skilltype = (SKILLTYPE)PItem->getSkillType();
                 if (Skilltype == SKILL_STRING_INSTRUMENT || Skilltype == SKILL_WIND_INSTRUMENT || Skilltype == SKILL_SINGING)
                 {
-                    charutils::TrySkillUP(this, Skilltype, PTarget->GetMLevel(), true);
+                    // High skill up chance if casting buffs/cures on an NPC or using an offensive spell
+                    if (PTarget->objtype > TYPE_PC)
+                    {
+                        charutils::TrySkillUP(this, Skilltype, PTarget->GetMLevel(), true);
+                    }
+                    else
+                    {
+                        charutils::TrySkillUP(this, Skilltype, PTarget->GetMLevel(), false);
+                    }
                 }
             }
         }
