@@ -2973,7 +2973,7 @@ INSERT INTO `mob_groups` VALUES (9,5330,61,'Sulphuric_Jagil',330,0,463,0,0,74,76
 INSERT INTO `mob_groups` VALUES (10,3130,61,'Phasma',330,1,1996,0,0,85,87,0);
 INSERT INTO `mob_groups` VALUES (11,1160,61,'Earth_Elemental',330,4,733,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (12,271,61,'Assassin_Fly',330,0,6013,0,0,74,76,0);
-INSERT INTO `mob_groups` VALUES (13,2485,61,'Magmatic_Eruca',330,0,1573,0,0,78,80,0);
+INSERT INTO `mob_groups` VALUES (13,2485,61,'Magmatic_Eruca',330,0,1573,0,0,75,77,0);
 INSERT INTO `mob_groups` VALUES (14,1341,61,'Fire_Elemental',330,4,831,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (15,2758,61,'Mountain_Clot',330,0,9054,0,0,74,76,0);
 INSERT INTO `mob_groups` VALUES (16,1954,61,'Hilltroll_Warrior',330,0,1313,0,0,81,83,0);
