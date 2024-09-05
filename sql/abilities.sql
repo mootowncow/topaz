@@ -394,7 +394,7 @@ INSERT INTO `abilities` VALUES (347,'ecliptic_attrition',21,25,1,300,244,664,0,3
 INSERT INTO `abilities` VALUES (348,'collimated_fervor',21,40,1,300,245,100,0,304,2000,0,6,0.0,0,1,300,0,0,'SOA',0);
 INSERT INTO `abilities` VALUES (349,'life_cycle',21,50,1,600,246,306,0,309,2000,0,6,0.0,0,1,300,0,0,'SOA',0);
 INSERT INTO `abilities` VALUES (350,'blaze_of_glory',21,60,1,600,247,100,0,308,2000,0,6,0.0,0,1,300,0,0,'SOA',0);
-INSERT INTO `abilities` VALUES (351,'dematerialize',7,61,1,300,248,100,0,310,2000,0,6,0.0,0,1,300,0,0,'SOA',0);
+INSERT INTO `abilities` VALUES (351,'dematerialize',21,70,1,300,248,100,0,310,2000,0,6,0.0,0,1,300,0,0,'SOA',0);
 INSERT INTO `abilities` VALUES (352,'theurgic_focus',21,80,1,300,249,100,0,305,2000,0,6,0.0,0,1,300,0,0,'SOA',0);
 INSERT INTO `abilities` VALUES (353,'concentric_pulse',21,90,4,300,250,0,0,311,2000,0,6,8.0,0,1,300,0,0,'SOA',0);
 INSERT INTO `abilities` VALUES (354,'mending_halation',21,75,1,300,251,0,0,311,2000,0,6,10.0,0,1,0,3392,1,'SOA',0);
