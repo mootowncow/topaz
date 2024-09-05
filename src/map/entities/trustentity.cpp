@@ -50,7 +50,8 @@ CTrustEntity::CTrustEntity(CCharEntity* PChar)
     m_MobSkillList = 0;
     PMaster = PChar;
     m_IsClaimable = false;
-    namevis = 0; 
+    namevis = 0;
+    speed = 50;
 
     m_modStat[Mod::SDT_FIRE] = 100;
     m_modStat[Mod::SDT_ICE] = 100;

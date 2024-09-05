@@ -96,6 +96,8 @@ enum class G_CONDITION : uint16
     WITH_WS            = 28, // TODO
     PROTECTRA          = 29,
     SHELLRA            = 30,
+    DETECT_MIJIN       = 31,
+    CASTING_SPECIFIC   = 32,
 };
 
 enum class G_REACTION : uint16

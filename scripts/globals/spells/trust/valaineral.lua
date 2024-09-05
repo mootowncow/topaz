@@ -33,6 +33,14 @@ function onMobSpawn(mob)
     ]]
     tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.SPAWN)
 
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_SPECIFIC, tpz.magic.spell.METEOR, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.DETECT_MIJIN, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
+
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.MANAFONT, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.CHAINSPELL, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.ASTRAL_FLOW, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.TABULA_RASA,ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
+
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.PROVOKE)
 
@@ -47,21 +55,6 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SENTINEL,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.SENTINEL)
-
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.MANAFONT,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
-
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.CHAINSPELL,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
-
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.ASTRAL_FLOW,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
-
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.TABULA_RASA,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
-
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.FEALTY,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.MPP_LT, 25,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.CHIVALRY)

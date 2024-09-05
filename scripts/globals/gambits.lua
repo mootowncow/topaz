@@ -60,6 +60,8 @@ ai.condition =
     WITH_WS            = 28, -- TODO
     PROTECTRA          = 29,
     SHELLRA            = 30,
+    DETECT_MIJIN       = 31,
+    CASTING_SPECIFIC   = 32,
 }
 ai.c = ai.condition
 

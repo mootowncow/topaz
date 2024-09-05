@@ -95,6 +95,11 @@ void CGambitsContainer::Tick(time_point tick)
         return;
     }
 
+    if (POwner->StatusEffectContainer->HasPreventActionEffect(false))
+    {
+        return;
+    }
+
     if (POwner->PAI->IsCurrentState<CAbilityState>() ||
         POwner->PAI->IsCurrentState<CRangeState>() ||
         POwner->PAI->IsCurrentState<CMagicState>() ||
@@ -1023,9 +1028,56 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             }
             break;
         }
+        case G_CONDITION::CASTING_SPECIFIC:
+        {
+            CState* currentState = trigger_target->PAI->GetCurrentState();
+            if (currentState)
+            {
+                // Attempt to cast to CMagicState
+                CMagicState* maState = dynamic_cast<CMagicState*>(currentState);
+                if (maState)
+                {
+                    CSpell* spell = maState->GetSpell();
+                    if (spell)
+                    {
+                        if (spell->getID() == static_cast<SpellID>(predicate.condition_arg))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+            break;
+        }
         case G_CONDITION::IS_ECOSYSTEM:
         {
             return trigger_target->m_EcoSystem == ECOSYSTEM(predicate.condition_arg);
+            break;
+        }
+        case G_CONDITION::DETECT_MIJIN:
+        {
+            for (int i = 1; i <= 99; ++i)
+            {
+                std::string ability_key = "[jobSpecial]ability_" + std::to_string(i);
+                std::string hpp_key = "[jobSpecial]hpp_" + std::to_string(i);
+                std::string cooldown_key = "[jobSpecial]cooldown_" + std::to_string(i);
+
+                if (trigger_target->GetLocalVar(ability_key.c_str()) == 731)
+                {
+                    int32 hp_Trigger = trigger_target->GetLocalVar(hpp_key.c_str());
+                    hp_Trigger += 5;
+                    if (trigger_target->GetHPP() <= hp_Trigger)
+                    {
+                        if (trigger_target->GetLocalVar(cooldown_key.c_str()) == 0)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
             break;
         }
         case G_CONDITION::RESISTS_DMGTYPE:

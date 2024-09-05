@@ -96,6 +96,11 @@ void CTrustController::Tick(time_point tick)
         return;
     }
 
+    if (POwner->StatusEffectContainer->HasPreventActionEffect(false))
+    {
+        return;
+    }
+
     if (POwner->PMaster->isCharmed)
     {
         this->Despawn();
@@ -126,6 +131,11 @@ void CTrustController::DoCombatTick(time_point tick)
     {
         POwner->PAI->Internal_ChangeTarget(POwner->PMaster->GetBattleTargetID());
         m_LastTopEnmity = nullptr;
+    }
+
+    if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BIND))
+    {
+        return;
     }
 
     CTrustEntity* PTrust = static_cast<CTrustEntity*>(POwner);

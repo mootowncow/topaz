@@ -318,7 +318,7 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     PTrust->m_MobSkillList = trustData->m_MobSkillList;
     PTrust->HPscale = trustData->HPscale;
     PTrust->MPscale = trustData->MPscale;
-    PTrust->speed = trustData->speed;
+    // PTrust->speed = trustData->speed; Unneeded, all trusts should be 50 speed
     PTrust->m_TrustID = trustData->trustID;
     PTrust->status = STATUS_NORMAL;
     PTrust->m_ModelSize = trustData->radius;

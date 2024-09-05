@@ -202,6 +202,7 @@ tpz.mix.jobSpecial.config = function(mob, params)
         local specials = params.specials
         local i = 0
 
+         -- sets vars as [jobSpecial]ability_1, [jobSpecial]ability_2 etc
         for _, v in pairs(specials) do
             if v.id and type(v.id) == "number" then
                 i = i + 1
