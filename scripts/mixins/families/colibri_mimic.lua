@@ -24,7 +24,7 @@ g_mixins.families.colibri_mimic = function(mob)
             not IsMobBusy(target) and
             target:AnimationSub() == 0 and
             spell:tookEffect() and
-            (caster:isPC() or caster:isPet()) and
+            (caster:isPC() or caster:isPet() or caster:isTrust()) and
             (spell:getSpellGroup() ~= tpz.magic.spellGroup.BLUE or target:getLocalVar("[colibri]reflect_blue_magic") == 1)
         then
             target:setLocalVar("[colibri]spellToMimic", spell:getID()) -- which spell to mimic
