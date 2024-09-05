@@ -1221,7 +1221,7 @@ int16 GetSDTTier(int16 SDT)
                 break;
             case SPIKE_REPRISAL:
                 element = ELEMENT_LIGHT;
-                damage = static_cast<float>((damage * ApplyResistance(PDefender, PAttacker, element, SKILL_DIVINE_MAGIC, 0, static_cast<float>(spikesMaccBonus))));
+                damage = static_cast<float>((damage * ApplyResistance(PDefender, PAttacker, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus))));
                 // apply elemental damage reduction
                 magicDefense = 1.0f - (PDefender->getMod(Mod::LIGHTDEF) / 256.0f);
                 damage *= magicDefense;
