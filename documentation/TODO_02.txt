@@ -142,13 +142,6 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Enlight should use divine magic for macc, and endark use dark magic unless ninja then use ninjutsu
-Return if HasPreventActionEffect() in gambits at top
-Make a PSpell->isOffensiveSong() for req/lullaby/threnody/elegy/virelai for line 1179 and make charutils::TrySkillUP(this, Skilltype, PTarget->GetMLevel(), true); "True" for it, then else false
-Make Flash have 70% skill up rate
-Think there should be 2 more colibri by 16986336
-Why does raging fists suck?
-Shikaree Z sucks below 60, bad WS. Give her double thrust remove raiden? Or penta?
 Trusts sometimes break party UI for someone on summon (Need more reloadparty()? does LSB have a fix?)
 Can't TA trusts? I eem to be able to but it won't add the SS/magic SS?
 Valaineral use Fealty if target is going to mijin gakure(can get their var of hp% and is var of if will use it from job_special) or casting meteor
