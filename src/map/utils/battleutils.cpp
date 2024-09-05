@@ -1116,11 +1116,11 @@ int16 GetSDTTier(int16 SDT)
         // printf("\nDayWeather Bonus %f\n", dBonus);
         uint32 enspellMaccBonus = PAttacker->getMod(Mod::ENSPELL_MACC) + 30;
         //printf("Element in enspell: %u\n", element);
-        if (element == ELEMENT_LIGHT) // Enlight
+        if (element +1 == ELEMENT_LIGHT) // Enlight
         {
             damage = static_cast<int32>(static_cast<float>(damage) * ApplyResistance(PAttacker, PDefender, static_cast<ELEMENT>(element + 1), SKILL_DIVINE_MAGIC, 0, static_cast<float>(enspellMaccBonus)));
         }
-        else if (element == ELEMENT_DARK) // Endark
+        else if (element +1 == ELEMENT_DARK) // Endark
         {
             if (PAttacker->GetMJob() == JOB_NIN) // Ninja Endark
             {
@@ -1967,7 +1967,7 @@ int16 GetSDTTier(int16 SDT)
         }
         // check script for grip if main failed
         else if (PAttacker->objtype == TYPE_PC && static_cast<CCharEntity*>(PAttacker)->getEquip(SLOT_SUB) && weapon == PAttacker->m_Weapons[SLOT_MAIN] &&
-                 static_cast<CItemWeapon*>(static_cast<CCharEntity*>(PAttacker)->getEquip(SLOT_SUB))->getSkillType() == SKILL_NSKILL_NONE &&
+                 static_cast<CItemWeapon*>(static_cast<CCharEntity*>(PAttacker)->getEquip(SLOT_SUB))->getSkillType() == SKILL_NONE &&
                  battleutils::GetScaledItemModifier(PAttacker, static_cast<CCharEntity*>(PAttacker)->getEquip(SLOT_SUB), Mod::ADDITIONAL_EFFECT) > 0 &&
                  luautils::OnAdditionalEffect(PAttacker, PDefender, static_cast<CItemWeapon*>(static_cast<CCharEntity*>(PAttacker)->getEquip(SLOT_SUB)), Action,
                                               finaldamage) == 0 &&
