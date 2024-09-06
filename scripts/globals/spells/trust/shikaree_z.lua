@@ -28,21 +28,23 @@ end
 function onMobSpawn(mob)
     -- tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.SPAWN) TODO
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS,tpz.effect.SLOW, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.ERASE)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.SLOW, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.ERASE)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS,tpz.effect.HASTE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.HASTE)
-    mob:addSimpleGambit(ai.t.MASTER, ai.c.STATUS,tpz.effect.SLOW, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.ERASE)
-    mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS,tpz.effect.HASTE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.HASTE)
+    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.SLOW, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.ERASE)
+    mob:addSimpleGambit(ai.t.MELEE, ai.c.NOT_STATUS,tpz.effect.HASTE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.HASTE)
 
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS,tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.CURE)
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS,tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS,tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS,tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.CURE)
 
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS,tpz.effect.POISON, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.POISONA)
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS,tpz.effect.PARALYSIS, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.PARALYNA)
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS,tpz.effect.BLINDNESS, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.BLINDNA)
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS,tpz.effect.SILENCE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.SILENA)
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS,tpz.effect.PETRIFICATION, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.STONA)
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS,tpz.effect.DISEASE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.VIRUNA)
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS,tpz.effect.CURSE_I, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.CURSNA)
+    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.POISON, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.POISONA)
+    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.PARALYSIS, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.PARALYNA)
+    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.BLINDNESS, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.BLINDNA)
+    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.SILENCE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.SILENA)
+    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.PETRIFICATION, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.STONA)
+    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.DISEASE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.VIRUNA)
+    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.CURSE_I, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.CURSNA)
+
+    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)
 
     mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 50, ai.r.MA, ai.s.HIGHEST,tpz.magic.spellFamily.CURE)
 

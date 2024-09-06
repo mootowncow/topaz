@@ -432,6 +432,7 @@ end
 
 function AddRefresh(mob)
     local mobLevel = mob:getMainLvl()
+    local master = mob:getMaster()
 
     if mobLevel >= 1 and mobLevel < 59 then
         mob:addMod(tpz.mod.REFRESH, 1)
@@ -440,13 +441,18 @@ function AddRefresh(mob)
     elseif mobLevel >= 75 then
         mob:addMod(tpz.mod.REFRESH, 6)
     end
+    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    end
 end
 
 function AddTankGear(mob) -- TODO
+    local mobLevel = mob:getMainLvl()
+    local master = mob:getMaster()
 end
 
 function AddLightMeleeAccuracyGear(mob)
     local mobLevel = mob:getMainLvl()
+    local master = mob:getMaster()
 
     if mobLevel >= 40 and mobLevel < 48 then
         mob:addMod(tpz.mod.ACC, 20)
@@ -459,10 +465,13 @@ function AddLightMeleeAccuracyGear(mob)
         mob:addMod(tpz.mod.ACC, 50)
         mob:addMod(tpz.mod.EVA, 10)
     end
+    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    end
 end
 
 function AddHeavyMeleeAccuracyGear(mob)
     local mobLevel = mob:getMainLvl()
+    local master = mob:getMaster()
 
     if mobLevel >= 40 and mobLevel < 48 then
         mob:addMod(tpz.mod.ACC, 20)
@@ -481,10 +490,13 @@ function AddHeavyMeleeAccuracyGear(mob)
         mob:addMod(tpz.mod.AGI, -5)
         mob:addMod(tpz.mod.EVA, -20)
     end
+    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    end
 end
 
 function AddRangedAccuracyGear(mob) 
     local mobLevel = mob:getMainLvl()
+    local master = mob:getMaster()
 
     if mobLevel >= 7 and mobLevel < 16 then
         mob:addMod(tpz.mod.DEX, 3)
@@ -523,10 +535,13 @@ function AddRangedAccuracyGear(mob)
         mob:addMod(tpz.mod.DEX, 6)
         mob:addMod(tpz.mod.AGI, 13)
     end
+    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    end
 end
 
 function AddCasterGear(mob)
     local mobLevel = mob:getMainLvl()
+    local master = mob:getMaster()
 
     if mobLevel >= 10 and mobLevel < 20 then
         mob:addMod(tpz.mod.INT, 8)
@@ -545,10 +560,13 @@ function AddCasterGear(mob)
         mob:addMod(tpz.mod.MATT, 5)
         AddElementalStaves(mob, 'nq')
     end
+    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    end
 end
 
 function AddEnfeebleGear(mob)
     local mobLevel = mob:getMainLvl()
+    local master = mob:getMaster()
 
     if mobLevel >= 14 and mobLevel < 20 then
         mob:addMod(tpz.mod.INT, -2)
@@ -570,13 +588,18 @@ function AddEnfeebleGear(mob)
         mob:addMod(tpz.mod.MATT, 5)
         AddElementalStaves(mob, 'nq')
     end
+    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    end
 end
 
 function AddBRDGear(mob) -- TODO
+    local mobLevel = mob:getMainLvl()
+    local master = mob:getMaster()
 end
 
 function AddHealerGear(mob)
     local mobLevel = mob:getMainLvl()
+    local master = mob:getMaster()
 
     if mobLevel >= 14 and mobLevel < 20 then
         mob:addMod(tpz.mod.INT, -2)
@@ -599,18 +622,22 @@ function AddHealerGear(mob)
         mob:addMod(tpz.mod.CURE_POTENCY, 10)
         AddElementalStaves(mob, 'nq')
     end
+    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    end
 end
 
 function AddMNKBelts(mob)
     local mobLevel = mob:getMainLvl()
+    local master = mob:getMaster()
 
     if mobLevel >= 18 and mobLevel < 40 then
         mob:addMod(tpz.mod.STR, 3)
         mob:addMod(tpz.mod.HASTE_GEAR, 400)
-    elseif mobLevel >= 40 and mobLevel < 75 then
+    elseif mobLevel >= 40 and mobLevel <= 75 then
         mob:addMod(tpz.mod.STR, 5)
         mob:addMod(tpz.mod.HASTE_GEAR, 800)
-    elseif mobLevel >= 75 then
+    end
+    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
         mob:addMod(tpz.mod.STR, 7)
         mob:addMod(tpz.mod.SUBTLE_BLOW, 5)
         mob:addMod(tpz.mod.HASTE_GEAR, 1200)
