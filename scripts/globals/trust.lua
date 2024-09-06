@@ -117,7 +117,7 @@ local modByMobName =
         mob:addMod(tpz.mod.ZANSHIN, 5)
         mob:addMod(tpz.mod.ALL_WSDMG_FIRST_HIT, 19)
         mob:addMod(tpz.mod.SAVETP, 400)
-        AddHeavyMeleeAccuracyGear(mob)
+        AddFarEasternAccuracyGear(mob)
     end,
 
     ['iron_eater'] = function(mob)
@@ -136,7 +136,7 @@ local modByMobName =
         mob:addMod(tpz.mod.KICK_ATTACK_RATE, 5)
         mob:addMod(tpz.mod.ACC, 30)
         mob:addMod(tpz.mod.DEX, 12)
-        AddLightMeleeAccuracyGear(mob)
+        AddFarEasternAccuracyGear(mob)
         AddMNKBelts(mob)
     end,
 
@@ -532,13 +532,19 @@ function AddFarEasternAccuracyGear(mob)
         mob:addMod(tpz.mod.ACC, 20)
         mob:addMod(tpz.mod.HASTE_GEAR, 300)
     elseif mobLevel >= 48 and mobLevel < 57 then
+        mob:addMod(tpz.mod.ATT, 20)
         mob:addMod(tpz.mod.ACC, 30)
+        mob:addMod(tpz.mod.HASTE_GEAR, 300)
     elseif mobLevel >= 57 and mobLevel < 70 then
+        mob:addMod(tpz.mod.ATT, 20)
         mob:addMod(tpz.mod.ACC, 40)
         mob:addMod(tpz.mod.EVA, 10)
+        mob:addMod(tpz.mod.HASTE_GEAR, 300)
     elseif mobLevel >= 70 and mobLevel < 75 then
+        mob:addMod(tpz.mod.ATT, 20)
         mob:addMod(tpz.mod.ACC, 50)
         mob:addMod(tpz.mod.EVA, 10)
+        mob:addMod(tpz.mod.HASTE_GEAR, 300)
     elseif mobLevel >= 75 then
         mob:addMod(tpz.mod.ACC, 40)
         mob:addMod(tpz.mod.EVA, 10)
