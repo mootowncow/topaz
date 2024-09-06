@@ -1156,7 +1156,7 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
 
     // Remove Elemental Seal if the spell is black magic, blue magic, ninjitsu, a song, or a divine spell
     if (PSpell->getSpellGroup() >= SPELLGROUP_SONG && PSpell->getSpellGroup() <= SPELLGROUP_NINJUTSU ||
-        PSpell->getSkillType()  == SKILL_DIVINE_MAGIC)
+        PSpell->getSpellGroup() == SPELLGROUP_WHITE)
     {
         StatusEffectContainer->DelStatusEffectSilent(EFFECT_ELEMENTAL_SEAL);
     }
