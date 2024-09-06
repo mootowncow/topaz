@@ -79,16 +79,16 @@ void CEntityUpdatePacket::updateWith(CBaseEntity* PEntity, ENTITYUPDATE type, ui
         case ENTITY_SPAWN:
         {
             updatemask = UPDATE_ALL_MOB;
-            if (PEntity->objtype == TYPE_PET)
-            {
-                ref<uint8>(0x28) = 0x04;
-            }
             if (PEntity->look.size == MODEL_EQUIPED || PEntity->look.size == MODEL_CHOCOBO)
             {
                 updatemask = 0x57;
             }
             if (PEntity->animationsub != 0)
                 ref<uint8>(0x2A) = 4;
+            if (PEntity->spawnAnimation == SPAWN_ANIMATION::SPECIAL)
+            {
+                ref<uint8>(0x28) |= 0x04;
+            }
             ref<uint8>(0x0A) |= updatemask;
         }
         break;
@@ -185,7 +185,9 @@ void CEntityUpdatePacket::updateWith(CBaseEntity* PEntity, ENTITYUPDATE type, ui
         //ref<uint8>(0x2A) = 0x08;
         //ref<uint8>(0x25) = 0x0f;
         //ref<uint8>(0x27) = 0x28;
-        ref<uint8>(0x28) = 0x45;
+        //  Special spawn animation
+        //  This also allows trusts to be despawned
+        ref<uint8>(0x28) |= 0x45;
     }
 
     switch (PEntity->look.size)

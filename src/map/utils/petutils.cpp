@@ -1598,6 +1598,11 @@ namespace petutils
                 PPet->PInstance = PMaster->PInstance;
             }
 
+            if (spawningFromZone)
+            {
+                PPet->spawnAnimation = SPAWN_ANIMATION::NORMAL; // Don't play special spawn animation on zone in
+            }
+
             PMaster->loc.zone->InsertPET(PPet);
 
             PPet->Spawn();

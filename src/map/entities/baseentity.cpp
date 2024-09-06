@@ -39,6 +39,7 @@ CBaseEntity::CBaseEntity()
     memset(&loc, 0, sizeof(loc));
     animation = ANIMATION_NONE;
     animationsub = 0;
+    spawnAnimation = SPAWN_ANIMATION::NORMAL;
     speed = 50 + map_config.speed_mod;
     speedsub = 50 + map_config.speed_mod;
     namevis = 1;

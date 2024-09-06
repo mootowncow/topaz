@@ -47,6 +47,7 @@ CTrustEntity::CTrustEntity(CCharEntity* PChar)
     objtype = TYPE_TRUST;
     m_EcoSystem = SYSTEM_UNCLASSIFIED;
     allegiance = ALLEGIANCE_PLAYER;
+    spawnAnimation = SPAWN_ANIMATION::SPECIAL; // Initial spawn has the special spawn-in animation
     m_MobSkillList = 0;
     PMaster = PChar;
     m_IsClaimable = false;

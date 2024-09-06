@@ -49,10 +49,12 @@ CPetEntity::CPetEntity(PETTYPE petType)
 	objtype = TYPE_PET;
 	m_EcoSystem = SYSTEM_UNCLASSIFIED;
 	allegiance = ALLEGIANCE_PLAYER;
+    spawnAnimation = SPAWN_ANIMATION::SPECIAL; // Initial spawn has the special spawn-in animation
     m_IsClaimable = false;
     m_MobSkillList = 0;
     m_HasSpellScript = 0;
-    namevis = 0; 
+    namevis = 0;
+
     PAI = std::make_unique<CAIContainer>(this, std::make_unique<CPathFind>(this), std::make_unique<CPetController>(this),
         std::make_unique<CTargetFind>(this));
 }
@@ -203,7 +205,15 @@ void CPetEntity::FadeOut()
 void CPetEntity::Die()
 {
     PAI->ClearStateStack();
-    PAI->Internal_Die(2500ms);
+    // master is zoning, don't go to death state, instead despawn instantly
+    if (health.hp > 0 && PMaster && PMaster->objtype == TYPE_PC && static_cast<CCharEntity*>(PMaster)->petZoningInfo.respawnPet)
+    {
+        PAI->Internal_Despawn();
+    }
+    else
+    {
+        PAI->Internal_Die(0s);
+    }
     m_unkillable = false;
     
     if ((PAI != nullptr) && (PAI->GetController() != nullptr))

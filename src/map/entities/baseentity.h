@@ -172,6 +172,12 @@ enum ENTITYFLAGS
     FLAG_UNTARGETABLE  = 0x800,
 };
 
+enum class SPAWN_ANIMATION : uint8
+{
+    NORMAL = 0,
+    SPECIAL = 1,
+};
+
 // TODO: возможо стоит сделать эту структуру частью класса, взамен нынешних id и targid, но уже без метода clean
 
 struct EntityID_t
@@ -269,6 +275,8 @@ public:
     bool animStart;   // Is this starting an animation?
 
     bool m_bReleaseTargIDOnDisappear = false;
+
+    SPAWN_ANIMATION spawnAnimation;
 
     std::unique_ptr<CAIContainer> PAI;       // AI container
     CBattlefield* PBattlefield;            // pointer to battlefield (if in one)
