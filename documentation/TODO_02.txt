@@ -142,12 +142,7 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Ritter Shield latent paladin: DEF +2
-Minuet Earring latant 
-Shkaree Z AI from JP wiki
-Cap barrage/double shot to stop rolling when dmg > enemy hp. trust, mob, player
 Trusts sometimes break party UI for someone on summon (Need more reloadparty()? does LSB have a fix?)
-Can't TA trusts? I eem to be able to but it won't add the SS/magic SS?
 Level 75 trust stats in the functions per archetype (give them gear). Also tune / balance / design them.
 Unsummoning all trusts when solo should disband pt(LSB maybe has)
 Slug shot miss stil SCed(for 0). Is this a trust only issue?
@@ -172,7 +167,6 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added
 
 **** NOW ***
-Snow Lizards in psoxja shouldnt be immune to charm
 Can cast songs on trusts and AOE them onto people (and don't need piansimmo)
 Give players the ability to give 3-4 songs
 Do shield blocked TP moves still interrupt with shield mastery trait on?
@@ -182,29 +176,20 @@ add more jp camps, and RAID nms wont give 10 JP anymore but gonna give them more
 Fix /tell chat
 unity chat doesn't work cross-zone
 Slug pet ready moves still give bugged out recast numbers, maybe need to add their IDs to function?
-Dismount(remove chocobo status effect) on CS start
-Yagudo Elemental levels
-Set PPets with a Pmaster to Pmasters level -2 AFTER getting mob level from DB
 Opening castle zhavl coffer on thief gave me thiefs vest, it's on AF moogle slip. Should have given me MIQUES_PAINTBRUSH (PLD AF3)
 Cactrot Rapid pathing bugged
 Shield blocks show up as "MISS" in SCT, they are wrong reaction type. have to fix simplelog after too
 Do mobs get guard skill...?
-Don't allow Ready if pet has amnesia!
 Probably need to use int8 maneuvers = luautils::OnMobAutomatonSkillCheck(PTarget, PAutomaton, PSkill); for automaton TP moves
 Correct frame isn't being assigned to automatons on summon? (petid) petutils::SpawnPet always sets up harlequin frame but petutils::LoadPet (and calculate automaton stats) works??
-Slow didn't remove elemental seal, but blind did?
 Solace should give enhancing magic duration
-Qnaern shouldnt use combo and freezebite, combo also shouldnt aoe and be 20 yards. (they are using skill id 3412 and 3413 i think..)
 spawnmob/mobhere should work with npcs(does it on LSB?) I think despawnmob works with npcs
-Evil Armory should be magic immune(shouldnt get removed from trash dying)
-ixDRK has wrong msgid wheb you get animosity
 Remove inner strength in C++ after using certain JA's(the ones it buffs)
 Check Skill for all spells in spell_list.sql. I did most of ele/enfeebling
 Does Shen work?
 Test yesterdays commits from home like Banishga1-3
 RA interrupt on movement packet or state change? Maybe LSB has
 Mobs should heal other mobs in combat
-Shouldn't magic shield calculate before stoneshield? For spikes, they don't? Do they for enspells?
 Pet camps so I can level SMN x2
 Job points
 Lamia / Merrow and undead + acroliths in same party. Mobmod to make mobs be in same party. (For Illrusi Atoll assault mainly)
@@ -214,13 +199,11 @@ Dea pop zone msg ID missing/wrong (Bhaflau thickets)
 Anticans starting from pool ID 165 need 240 delay. Check if any mobs dont have 240 or 480 delay in heidisql
 Item enchantments so you always want 1 item perma active (like high breath mantle)
 Do "no effect" (stun) spells add DR?
-Add DR to automatonweapopnskills and summon.lua. Also to the automatons shield bash?
 Valleys of sorrows Survival Guide facing wrong way(flip 180)
 Redesign jailer of prudence
 Final zilart missons + apoc nigh(revamp earrings) + storms of fate + rank6-10 bastok/sandy
 Finish bodies https://www.bg-wiki.com/ffxi/Shiyo_Server_Systems/Gear#COP_Bodies
 give TP on perfect counters
-Tags 24 hr CD
 All mimics start with 3k TP
 Voidwalker KI delete on T3/T4 kill
 Fatality belt latent(change it prob)
@@ -271,6 +254,7 @@ Martial / KSNM weapons shouldn't work offhand
 Add Waking the Beast, buff the loot to be obscene weapons for off-class. Weekly. Make infinite repeatable reward so its worth doing every week
 Cura - Cura III msg wrong for AOEing? Add it to magic and use the cure function I made
 GM menu from lsb
+Add latents effects mods directly to the item itself when active(remove when inactive). Make ritter shield def 21 + 2(hq version has no latent or extra def at all) from PLD after
 Limbus restore chest animation doesn't always work? esp not AOE?
 Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
 Make holy good somehow(TP reduction?)
