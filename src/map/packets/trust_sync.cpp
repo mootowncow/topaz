@@ -25,6 +25,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 
 #include "../entities/charentity.h"
 #include "../entities/trustentity.h"
+#include "../utils/charutils.h"
 
 CTrustSyncPacket::CTrustSyncPacket(CCharEntity* PChar, CTrustEntity* PTrust)
 {
@@ -49,4 +50,5 @@ CTrustSyncPacket::CTrustSyncPacket(CCharEntity* PChar, CTrustEntity* PTrust)
 
     // Unknown
     ref<uint8>(0x10) = 0x04;
+    charutils::ReloadParty(PChar);
 }
