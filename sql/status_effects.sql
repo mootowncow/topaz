@@ -293,7 +293,7 @@ INSERT INTO `status_effects` VALUES (249,'dedication',0,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (250,'ef_badge',32,0,0,0,0,0,0,0,0);
 --INSERT INTO `status_effects` VALUES (251,'food',8421408,0,0,2,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (251,'food',8421408,0,0,2,0,0,0,0,1);
-INSERT INTO `status_effects` VALUES (252,'mounted',164,0,0,0,0,0,0,0,0);
+INSERT INTO `status_effects` VALUES (252,'mounted',676,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (253,'signet',16777216,0,0,0,0,0,0,0,1000);
 INSERT INTO `status_effects` VALUES (254,'battlefield',8912896,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (256,'sanction',16777216,0,0,0,0,0,0,0,1000);
