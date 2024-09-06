@@ -142,9 +142,12 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Ritter Shield latent paladin: DEF +2
+Minuet Earring latant 
+Shkaree Z AI from JP wiki
+Cap barrage/double shot to stop rolling when dmg > enemy hp. trust, mob, player
 Trusts sometimes break party UI for someone on summon (Need more reloadparty()? does LSB have a fix?)
 Can't TA trusts? I eem to be able to but it won't add the SS/magic SS?
-Valaineral use Fealty if target is going to mijin gakure(can get their var of hp% and is var of if will use it from job_special) or casting meteor
 Level 75 trust stats in the functions per archetype (give them gear). Also tune / balance / design them.
 Unsummoning all trusts when solo should disband pt(LSB maybe has)
 Slug shot miss stil SCed(for 0). Is this a trust only issue?
@@ -153,12 +156,25 @@ Trusts proc resist trait msg when they resist spells?
 Tenzen more zanshin related stuff? TP Bonus? DA? (retail zanshin thing?)
 Aspir / Drain Gambit logic?
 Missing unsummon animation
+https://github.com/LandSandBoat/server/commits/656eacf7157771992012bd82655635137c80758a/src/map/packets/entity_update.cpp
+
+(ref<uint8>(0x28) |= 0x04; fixes them and the wyvern)
+https://github.com/LandSandBoat/server/commit/2f9bb94b9ef7ae0c2c9c56f80173b03929cbd83b + 
+https://github.com/LandSandBoat/server/commit/3b5b6c1c8573c95a7762d72221438cf56e0f50a3 +
+https://github.com/LandSandBoat/server/commit/b2e2cd0ec1e8d12bd81bf6e7a9141e501b4e201b +
+https://github.com/LandSandBoat/server/commit/243f5f346c68fbf87c5fef081e5d537403e16ff1
+
 "Respawning" animation after spawning once, it's used for avatars/puppets too. From LSB. Lots to change
-Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific archetype?). Does retail have this, is it from key items? Can I use keyitems to demonstrate it?
+1: Swapping target mid fight with cursor sends all trusts to attack it, but broke kupipi and made her stop fuctioning. Need to reset some member bool on disengage
+2: m_InTransit or m_failedRepositionAttempts ? Because she has move -1 or NO_MVE or w/e so she doesn't move so won't move to the mob i swapped to and breaks?
+
+Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific archetype?). Retail KI: https://www.bg-wiki.com/ffxi/Filled_memory_gem 
+Just say its "upgraded" everytime a new bonus is added
 
 **** NOW ***
 Snow Lizards in psoxja shouldnt be immune to charm
 Can cast songs on trusts and AOE them onto people (and don't need piansimmo)
+Give players the ability to give 3-4 songs
 Do shield blocked TP moves still interrupt with shield mastery trait on?
 Get merrow/lamia dukrippen stuff from jcmorris
 Add puk camp back by Mamook
