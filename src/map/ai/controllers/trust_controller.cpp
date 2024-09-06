@@ -123,6 +123,11 @@ void CTrustController::DoCombatTick(time_point tick)
 {
     TracyZoneScoped;
 
+    CCharEntity* PMaster = static_cast<CCharEntity*>(POwner->PMaster);
+    auto masterLastAttackTime = static_cast<CPlayerController*>(PMaster->PAI->GetController())->getLastAttackTime();
+    bool masterMeleeSwing = masterLastAttackTime > server_clock::now() - 1s;
+    bool trustEngageCondition = PMaster->GetBattleTarget() && masterMeleeSwing;
+
     if (!POwner->PMaster->PAI->IsEngaged())
     {
         POwner->PAI->Internal_Disengage();
@@ -130,7 +135,7 @@ void CTrustController::DoCombatTick(time_point tick)
         m_CombatEndTime = m_Tick;
     }
 
-    if (POwner->PMaster->GetBattleTargetID() != POwner->GetBattleTargetID())
+    if (POwner->PMaster->GetBattleTargetID() != POwner->GetBattleTargetID() && trustEngageCondition)
     {
         POwner->PAI->Internal_ChangeTarget(POwner->PMaster->GetBattleTargetID());
         m_LastTopEnmity = nullptr;
@@ -150,7 +155,6 @@ void CTrustController::DoCombatTick(time_point tick)
     }
 
     CTrustEntity* PTrust = static_cast<CTrustEntity*>(POwner);
-    CCharEntity* PMaster = static_cast<CCharEntity*>(POwner->PMaster);
     PTarget = POwner->GetBattleTarget();
 
     if (PTarget)
@@ -175,11 +179,11 @@ void CTrustController::DoCombatTick(time_point tick)
                 {
                     if (currentDistanceToMaster > CastingDistance)
                     {
-                        PathOutToDistance(PTarget, 16.0f);
+                        POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 16.0f + PMaster->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
                     }
                     else if (currentDistanceToTarget > CastingDistance)
                     {
-                        PathOutToDistance(PTarget, 16.0f);
+                        POwner->PAI->PathFind->PathInRange(PTarget->loc.p, 16.0f + PTarget->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
                     }
                     break;
                 }

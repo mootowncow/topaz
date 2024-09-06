@@ -54,8 +54,10 @@ https://ffxiclopedia.fandom.com/wiki/A_Reputation_in_Ruins doors should shut onc
 Doors around that area are supposed to open when players are nearby and close when aren't I think
 
 Retail:
+Assassin Fly, there's baby ones? Do they give less XP? Aggro? Link? Less HP? How many babies? Do they follow the "mommy"? Do they use venom/cursed sphere only?
 Sahagin torque KSNM levels
-Do enfeebles have to land for chance of skill up?
+Cait Sith BP animations (astral flow too)
+Diabolos BP animations (astral flow too)
 Item(dusty scroll etc) RR dispellable?
 Mantra heal the HP it gives?
 Ghrah / Zdei / Euvhi aggro distance
@@ -74,8 +76,6 @@ Elite training regimes
 Sange animation wrong?
 Shadows of the mind leaving cutscene at door
 Psoxja by rangemount pass doors logic
-Cait Sith BP animations (astral flow too)
-Diabolos BP animations (astral flow too)
 Stealth job trait
 Tres Duendes + Grand Train
 Double down / shuffle (cardian NM tp moves) animations

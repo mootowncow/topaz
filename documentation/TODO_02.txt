@@ -142,6 +142,10 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Heraldic Imp blaze spikes doing 0-1 damage to me on PLD? Have shell 4 and shield barrier. Dealing 11-15 to my trusts. is SDT not returning 100 for players? MEVA/MACC is fucked somehow?
+Even NO_MOVE, trust should simply walk closer to the target to get in range, not fly all over the map in a 360 circle
+Trusts should not swap targets mid combat unless I phyically hit the other mob
+Iron Eater sucks real bad needs huge dps buffs
 Trusts sometimes break party UI for someone on summon (Need more reloadparty()? does LSB have a fix?)
 Level 75 trust stats in the functions per archetype (give them gear). Also tune / balance / design them.
 Unsummoning all trusts when solo should disband pt(LSB maybe has)
@@ -167,6 +171,7 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added
 
 **** NOW ***
+m_ModelSize on player/trust/mob RA, tp moves, WS(player and mob I think?). 
 Can cast songs on trusts and AOE them onto people (and don't need piansimmo)
 Give players the ability to give 3-4 songs
 Do shield blocked TP moves still interrupt with shield mastery trait on?
@@ -319,6 +324,7 @@ WOE
 
 Later:
 Zoning from Whitegate to Aldazal ruins need to flip char rot 180 in zone_lines.sql or w/e
+Cap barrage/double/triple shot hits for players like trusts/mobs to stop adding hits and return instead after the mob is dead
 Does the mob:wait() or w/e thing cause crashes for scouting the ashu talif?
 Mob AOE moves you can dodge that aoe around them / directional / conal and get their target AFTER the tp move animation finishes instead of before so they go off even if no targets in range and give spewcial "no targets in range" msg or w/e
 mob darkness SC from shikaree Y did 0 damage to me?
