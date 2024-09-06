@@ -58,14 +58,14 @@ function onTrigger(player, npc)
     elseif player:getCurrentMission(TOAU) > tpz.mission.id.toau.PRESIDENT_SALAHEEM or (player:getCurrentMission(TOAU) == tpz.mission.id.toau.PRESIDENT_SALAHEEM and player:getCharVar("AhtUrganStatus") >= 1) then
         local currentTime = os.time()
         local refreshTime = player:getCharVar("lastTagTime")
-        local diffday = math.floor((currentTime - refreshTime)/28800)
+        local diffday = math.floor((currentTime - refreshTime)/86400)
         local tagStock = player:getCurrency("id_tags")
-        local allTagsTimeCS = (refreshTime - 1009897200) + (diffday * 28800)
+        local allTagsTimeCS = (refreshTime - 1009897200) + (diffday * 86400)
         local haveimperialIDtag = 0
         local tagsAvail = 0
 
         while currentTime >= refreshTime and tagStock < 3 do
-            refreshTime = refreshTime + 28800
+            refreshTime = refreshTime + 86400
             tagStock = tagStock + 1
         end
 
