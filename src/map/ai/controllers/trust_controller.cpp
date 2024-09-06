@@ -33,6 +33,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../packets/char.h"
 #include "../../recast_container.h"
 #include "../../mob_spell_container.h"
+#include "../../ai/states/magic_state.h"
 #include "../../ai/states/range_state.h"
 #include "../../items/item_weapon.h"
 #include "../../mob_modifier.h"
@@ -75,6 +76,8 @@ CTrustController::~CTrustController()
     POwner->allegiance = ALLEGIANCE_PLAYER;
     POwner->status = STATUS_DISAPPEAR;
     m_LastTopEnmity = nullptr;
+    m_failedRepositionAttempts = 0;  // Unsure if needed
+    m_InTransit = false;  // Unsure if needed
 }
 
 void CTrustController::Despawn()
@@ -131,9 +134,17 @@ void CTrustController::DoCombatTick(time_point tick)
     {
         POwner->PAI->Internal_ChangeTarget(POwner->PMaster->GetBattleTargetID());
         m_LastTopEnmity = nullptr;
+        m_failedRepositionAttempts = 0; // Unsure if needed
+        m_InTransit = false; // Unsure if needed
     }
 
     if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BIND))
+    {
+        return;
+    }
+
+    // If busy, don't run around!
+    if (POwner->PAI->IsCurrentState<CMagicState>() || POwner->PAI->IsCurrentState<CRangeState>())
     {
         return;
     }
