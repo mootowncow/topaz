@@ -90,6 +90,9 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local lvluser = mob:getMainLvl()
     local lvltarget = target:getMainLvl()
     local acc = mob:getACC()
+    if (tpeffect == TP_RANGED) then
+        acc = mob:getRACC()
+    end
     local eva = target:getEVA()
     if target:isPC() then
         if (target:hasStatusEffect(tpz.effect.YONIN) and mob:isFacing(target, 23)) then -- Yonin evasion boost if mob is facing target
