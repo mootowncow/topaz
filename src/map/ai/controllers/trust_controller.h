@@ -50,7 +50,7 @@ public:
 
     static constexpr float RoamDistance = { 2.0f };
     static constexpr float SpawnDistance = { 3.0f };
-    static constexpr float CastingDistance = { 15.0f };
+    static constexpr float CastingDistance = { 19.0f };
     static constexpr float WarpDistance = { 30.0f };
 
     CBattleEntity* GetTopEnmity();

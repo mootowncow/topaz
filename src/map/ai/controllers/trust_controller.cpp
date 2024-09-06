@@ -157,8 +157,8 @@ void CTrustController::DoCombatTick(time_point tick)
     {
         if (POwner->PAI->CanFollowPath() && POwner->speed > 0)
         {
-            float currentDistanceToTarget = distance(POwner->loc.p, PTarget->loc.p);
-            float currentDistanceToMaster = distance(POwner->loc.p, PMaster->loc.p);
+            float currentDistanceToTarget = distance(POwner->loc.p, PTarget->loc.p) + static_cast<float>(PTarget->m_ModelSize);
+            float currentDistanceToMaster = distance(POwner->loc.p, PMaster->loc.p) + static_cast<float>(PMaster->m_ModelSize);
 
             if (currentDistanceToTarget > WarpDistance)
             {
@@ -175,11 +175,11 @@ void CTrustController::DoCombatTick(time_point tick)
                 {
                     if (currentDistanceToMaster > CastingDistance)
                     {
-                        PathOutToDistance(PTarget, 9.0f);
+                        PathOutToDistance(PTarget, 16.0f);
                     }
                     else if (currentDistanceToTarget > CastingDistance)
                     {
-                        PathOutToDistance(PTarget, 9.0f);
+                        PathOutToDistance(PTarget, 16.0f);
                     }
                     break;
                 }
