@@ -28,6 +28,9 @@ function onPetAbility(target, pet, skill, master, action)
 
     local chance = 75
     local stunEEM = target:getMod(tpz.mod.EEM_STUN)
+    local effect = tpz.effect.STUN
+    local duration = 6
+    duration = CheckDiminishingReturns(pet, target, effect, duration)
 
     if (pet:getMod(tpz.mod.SHIELD_BASH) > 0) then -- 100% chance to stun if Hammermill is equipped
         chance = 100
@@ -35,10 +38,11 @@ function onPetAbility(target, pet, skill, master, action)
 
     if
         (math.random() * 100 <= chance) and
-        not target:hasStatusEffect(tpz.effect.STUN) and
+        not target:hasStatusEffect(effect) and
         (stunEEM > 5)
     then
-        target:addStatusEffect(tpz.effect.STUN, 1, 0, 6)
+        AddDimishingReturns(pet, target, nil, effect)
+        target:addStatusEffect(effect, 1, 0, duration)
     end
 
     local slowPower = pet:getMod(tpz.mod.AUTO_SHIELD_BASH_SLOW)

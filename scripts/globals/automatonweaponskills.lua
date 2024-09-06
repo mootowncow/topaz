@@ -758,7 +758,9 @@ function AutoStatusEffectWeaponSkill(auto, target, effect, power, duration, para
         if (resist >= 0.50) then
             -- Reduce duration by resist percentage
             local totalDuration = duration * resist
+            duration = CheckDiminishingReturns(auto, target, effect, duration)
             --printf("totalDuration %i", totalDuration)
+
             if (TP_EFFECT_DURATION ~= nil) then
                 totalDuration = math.floor(totalDuration * AutoEnfeebleDurationTPModifier(tp))
             end
@@ -769,6 +771,7 @@ function AutoStatusEffectWeaponSkill(auto, target, effect, power, duration, para
                 target:addStatusEffect(effect, power, 0, totalDuration)
             end
 
+            AddDimishingReturns(auto, target, nil, effect)
             giveAutoTP(auto)
             return tpz.msg.basic.SKILL_ENFEEB_IS
         end

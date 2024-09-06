@@ -646,6 +646,8 @@ function AvatarStatusEffectBP(avatar, target, effect, power, duration, params, b
         if (resist >= 0.50) then
             -- Reduce duration by resist percentage
             local totalDuration = duration * resist
+            duration = CheckDiminishingReturns(avatar, target, effect, duration)
+
             --printf("totalDuration %i", totalDuration)
             if params.DOT then -- Used for Nightmare / Shining Ruby
                 target:addStatusEffect(effect, power, 3, totalDuration)
@@ -653,6 +655,7 @@ function AvatarStatusEffectBP(avatar, target, effect, power, duration, params, b
                 target:addStatusEffect(effect, power, 0, totalDuration)
             end
 
+            AddDimishingReturns(avatar, target, nil, effect)
             giveAvatarTP(avatar)
             return tpz.msg.basic.SKILL_ENFEEB_IS
         end
