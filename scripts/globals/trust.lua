@@ -440,8 +440,23 @@ function AddRefresh(mob)
         mob:addMod(tpz.mod.REFRESH, 2)
     elseif mobLevel >= 75 then
         mob:addMod(tpz.mod.REFRESH, 6)
+    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
     end
-    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+end
+
+function AddHasteGear(mob, type)
+    if (type == 'Heavy') then
+        mob:addMod(tpz.mod.ATT, 4)
+        mob:addMod(tpz.mod.ACC, 3)
+        mob:addMod(tpz.mod.HASTE_GEAR, 900)
+    elseif (type == 'Light') then
+        mob:addMod(tpz.mod.ATT, 4)
+        mob:addMod(tpz.mod.ACC, 3)
+        mob:addMod(tpz.mod.HASTE_GEAR, 900)
+    elseif (type == 'Far Eastern') then
+        mob:addMod(tpz.mod.ATT, -1)
+        mob:addMod(tpz.mod.ACC, 3)
+        mob:addMod(tpz.mod.HASTE_GEAR, 1000)
     end
 end
 
@@ -461,11 +476,14 @@ function AddLightMeleeAccuracyGear(mob)
     elseif mobLevel >= 57 and mobLevel < 70 then
         mob:addMod(tpz.mod.ACC, 40)
         mob:addMod(tpz.mod.EVA, 10)
-    elseif mobLevel >= 70 and mobLevel <= 75 then
+    elseif mobLevel >= 70 and mobLevel < 75 then
         mob:addMod(tpz.mod.ACC, 50)
         mob:addMod(tpz.mod.EVA, 10)
-    end
-    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    elseif mobLevel >= 75 then
+        mob:addMod(tpz.mod.ACC, 40)
+        mob:addMod(tpz.mod.EVA, 10)
+        AddHasteGear(mob, 'Light')
+    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
     end
 end
 
@@ -483,14 +501,49 @@ function AddHeavyMeleeAccuracyGear(mob)
         mob:addMod(tpz.mod.DEX, 5)
         mob:addMod(tpz.mod.AGI, -5)
         mob:addMod(tpz.mod.EVA, -20)
-    elseif mobLevel >= 70 and mobLevel <= 75 then
+    elseif mobLevel >= 70 and mobLevel < 75 then
         mob:addMod(tpz.mod.ACC, 50)
         mob:addMod(tpz.mod.STR, 5)
         mob:addMod(tpz.mod.DEX, 5)
         mob:addMod(tpz.mod.AGI, -5)
         mob:addMod(tpz.mod.EVA, -20)
+    elseif mobLevel >= 75 then
+        mob:addMod(tpz.mod.ACC, 40)
+        mob:addMod(tpz.mod.STR, 5)
+        mob:addMod(tpz.mod.DEX, 5)
+        mob:addMod(tpz.mod.AGI, -5)
+        mob:addMod(tpz.mod.EVA, -20)
+        AddHasteGear(mob, 'Heavy')
+    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
     end
-    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+end
+
+function AddFarEasternAccuracyGear(mob)
+    local mobLevel = mob:getMainLvl()
+    local master = mob:getMaster()
+
+    if mobLevel >= 34 and mobLevel < 39 then
+        mob:addMod(tpz.mod.ATT, 20)
+    elseif mobLevel >= 39 and mobLevel < 40 then
+        mob:addMod(tpz.mod.ATT, 20)
+        mob:addMod(tpz.mod.HASTE_GEAR, 300)
+    elseif mobLevel >= 40 and mobLevel < 48 then
+        mob:addMod(tpz.mod.ATT, 20)
+        mob:addMod(tpz.mod.ACC, 20)
+        mob:addMod(tpz.mod.HASTE_GEAR, 300)
+    elseif mobLevel >= 48 and mobLevel < 57 then
+        mob:addMod(tpz.mod.ACC, 30)
+    elseif mobLevel >= 57 and mobLevel < 70 then
+        mob:addMod(tpz.mod.ACC, 40)
+        mob:addMod(tpz.mod.EVA, 10)
+    elseif mobLevel >= 70 and mobLevel < 75 then
+        mob:addMod(tpz.mod.ACC, 50)
+        mob:addMod(tpz.mod.EVA, 10)
+    elseif mobLevel >= 75 then
+        mob:addMod(tpz.mod.ACC, 40)
+        mob:addMod(tpz.mod.EVA, 10)
+        AddHasteGear(mob, 'Light')
+    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
     end
 end
 
