@@ -1358,12 +1358,6 @@ int16 GetSDTTier(int16 SDT)
 
             Action->spikesParam = CalculateSpikeDamage(PAttacker, PDefender, Action, damage);
 
-            // Handle phalanx
-            if (Action->spikesParam > 0)
-            {
-                Action->spikesParam = std::max(Action->spikesParam - PAttacker->getMod(Mod::PHALANX), 0);
-            }
-
             // Handle Stoneskin
             Action->spikesParam = HandleMagicStoneskin(PAttacker, Action->spikesParam);
 
