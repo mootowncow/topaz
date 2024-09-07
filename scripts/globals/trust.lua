@@ -387,6 +387,8 @@ tpz.trust.onMobSpawn = function(mob)
     mob:addMod(tpz.mod.INT, -2)
     mob:addMod(tpz.mod.FOOD_ATTP, 22)
     mob:addMod(tpz.mod.FOOD_ATT_CAP, 60)
+    mob:addMod(tpz.mod.FOOD_RATTP, 22)
+    mob:addMod(tpz.mod.FOOD_RATT_CAP, 60)
 end
 
 -- page_offset is: (summon_message_id - 1) / 100
