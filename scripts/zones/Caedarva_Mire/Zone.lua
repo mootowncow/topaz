@@ -24,8 +24,7 @@ function onInitialize(zone)
     zone:registerRegion(7, 452, 6, -302, 0, 0, 0)
     zone:registerRegion(8, 457, 6, -308, 0, 0, 0)
     zone:registerRegion(9, 469, 6, -301, 0, 0, 0)
-    zone:registerRegion(10, 457, 6, -328, 0, 0, 0)
-    zone:registerRegion(11, 458, 6, -339, 0, 0, 0)
+    zone:registerRegion(10, 458, 6, -339, 0, 0, 0)
 
     UpdateNMSpawnPoint(ID.mob.AYNU_KAYSEY)
 
@@ -74,7 +73,7 @@ function onRegionEnter(player, region)
     local RegionID = region:GetRegionID()
     local tick = player:getLocalVar("Caedarva_Mire_Swamp_Tick")
     
-    if (RegionID <= 11 and not player:hasStatusEffect(tpz.effect.MOUNTED) and os.time() >= tick) then
+    if (RegionID <= 10 and not player:hasStatusEffect(tpz.effect.MOUNTED) and os.time() >= tick) then
         printf("Entered Region")
         player:setLocalVar("Caedarva_Mire_Swamp_Tick", os.time() + 5)
         if RNG < 50 then
