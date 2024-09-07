@@ -379,6 +379,14 @@ tpz.trust.onMobSpawn = function(mob)
     if mods then
         mods(mob)
     end
+
+    -- Add food
+    -- TODO: Scale the food based on level / if has FILLED_MEMORY_GEM
+    mob:addMod(tpz.mod.STR, 5)
+    mob:addMod(tpz.mod.AGI, 1)
+    mob:addMod(tpz.mod.INT, -2)
+    mob:addMod(tpz.mod.FOOD_ATTP, 22)
+    mob:addMod(tpz.mod.FOOD_ATT_CAP, 60)
 end
 
 -- page_offset is: (summon_message_id - 1) / 100
