@@ -50,6 +50,12 @@ tpz.mix.jnun.config = function(mob, params)
 end
 
 g_mixins.families.jnun = function(mob)
+    -- these defaults can be overwritten by using tpz.mix.jnun.config() in onMobSpawn.  sleepHour must be > wakeHour to function properly.
+    mob:addListener("SPAWN", "JNUN_SPAWN", function(mob)
+        mob:setLocalVar("[jnun]sleepHour", 6)
+        mob:setLocalVar("[jnun]wakeHour", 18)
+    end)
+
     mob:addListener("ROAM_TICK", "JNUN_ROAM_TICK", function(mob)
         local currentHour = VanadielHour()
         local sleepHour = mob:getLocalVar("[jnun]sleepHour")

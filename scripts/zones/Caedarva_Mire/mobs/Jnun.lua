@@ -6,6 +6,8 @@ require("scripts/globals/mobs")
 mixins = {require("scripts/mixins/families/jnun")}
 -----------------------------------
 function onMobSpawn(mob)
+    mob:setLocalVar("[jnun]sleepHour", 6)
+    mob:setLocalVar("[jnun]wakeHour", 18)
     mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
 end
 
