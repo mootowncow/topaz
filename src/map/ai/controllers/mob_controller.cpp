@@ -25,6 +25,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../states/ability_state.h"
 #include "../states/magic_state.h"
 #include "../states/weaponskill_state.h"
+#include "../states/attack_state.h"
 #include "../../mobskill.h"
 #include "../../party.h"
 #include "../../status_effect_container.h"
@@ -1213,14 +1214,17 @@ void CMobController::HandleEnmity()
 {
     TracyZoneScoped;
     PMob->PEnmityContainer->DecayEnmity();
+    auto* PHighestEnmityTarget{ PMob->PEnmityContainer->GetHighestEnmity() };
     if (PMob->getMobMod(MOBMOD_FIXATE) > 0)
     {
         ChangeTarget(PMob->getMobMod(MOBMOD_FIXATE));
 
         if (!PMob->GetBattleTargetID())
         {
-            auto PTarget{ PMob->PEnmityContainer->GetHighestEnmity() };
-            ChangeTarget(PTarget ? PTarget->targid : 0);
+            if (PHighestEnmityTarget)
+            {
+                ChangeTarget(PHighestEnmityTarget->targid);
+            }
         }
     }
     else if (PMob->getMobMod(MOBMOD_SHARE_TARGET) > 0 && PMob->GetEntity(PMob->getMobMod(MOBMOD_SHARE_TARGET), TYPE_MOB))
@@ -1229,14 +1233,56 @@ void CMobController::HandleEnmity()
 
         if (!PMob->GetBattleTargetID())
         {
-            auto PTarget {PMob->PEnmityContainer->GetHighestEnmity()};
-            ChangeTarget(PTarget ? PTarget->targid : 0);
+            if (PHighestEnmityTarget)
+            {
+                ChangeTarget(PHighestEnmityTarget->targid);
+            }
         }
     }
     else
     {
-        auto PTarget {PMob->PEnmityContainer->GetHighestEnmity()};
-        if (PTarget) ChangeTarget(PTarget->targid);
+        if (PHighestEnmityTarget)
+        {
+            ChangeTarget(PHighestEnmityTarget->targid);
+        }
+    }
+
+    // Bind special case
+    // Target the closest person
+    // TODO: do jug pets do this?
+    if (PMob->objtype == TYPE_MOB && PMob->StatusEffectContainer && PMob->StatusEffectContainer->HasStatusEffect(EFFECT_BIND) &&
+        PMob->PAI->IsCurrentState<CAttackState>())
+    {
+        //ShowDebug("Mob is bound and in Attack State.\n");
+        CBattleEntity* PNewTarget = nullptr;
+        std::unique_ptr<CBasicPacket> m_errorMsg; // Ignored
+
+        // Check if the current target is out of range and if there is enmity
+        if (PTarget && !PMob->CanAttack(PTarget, m_errorMsg))
+        {
+            //ShowDebug("Current target is out of range or cannot be attacked. Looking for a new target.\n");
+
+            PMob->PAI->TargetFind->reset();
+            PMob->PAI->TargetFind->findWithinArea(PTarget, AOERADIUS_ATTACKER, 7.0f);
+
+            //ShowDebug("Found targets in melee range.\n");
+
+            // If there are targets within melee range, select a random one
+            if (!PMob->PAI->TargetFind->m_targets.empty())
+            {
+                int targetIndex = tpzrand::GetRandomNumber(PMob->PAI->TargetFind->m_targets.size());
+                PNewTarget = PMob->PAI->TargetFind->m_targets[targetIndex];
+
+                //ShowDebug("Randomly selected target: %s at index %d\n", PNewTarget->GetName(), targetIndex);
+            }
+        }
+
+        if (PNewTarget)
+        {
+            //ShowDebug("Changing target to: %s\n", PNewTarget->name);
+            ChangeTarget(PNewTarget->targid);
+            FaceTarget(PNewTarget->targid);
+        }
     }
 }
 
