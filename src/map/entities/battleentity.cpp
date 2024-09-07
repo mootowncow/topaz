@@ -1561,7 +1561,7 @@ bool CBattleEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
 
 bool CBattleEntity::CanUseSpell(CSpell* PSpell)
 {
-    return spell::CanUseSpell(this, PSpell);
+    return spell::CanUseSpell(this, PSpell) && !PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(PSpell->getID()));
 }
 
 void CBattleEntity::Spawn()
@@ -1842,6 +1842,8 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     }
 
     this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_MAGIC_END, true);
+
+    PRecastContainer->Add(RECAST_MAGIC, static_cast<uint16>(PSpell->getID()), action.recast);
 }
 
 void CBattleEntity::OnCastInterrupted(CMagicState& state, action_t& action, MSGBASIC_ID msg, bool blockedCast)
