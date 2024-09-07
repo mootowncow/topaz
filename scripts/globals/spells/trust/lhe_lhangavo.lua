@@ -26,6 +26,10 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.DODGE)
 
+    if mob:getMainLvl() >= 30 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.BERSERK, ai.r.JA, ai.s.SPECIFIC, tpz.ja.BERSERK)
+    end
+
     mob:addSimpleGambit(ai.t.TARGET, ai.c.RESISTS_DMGTYPE, tpz.mod.HTHRES,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.FORMLESS_STRIKES)
 

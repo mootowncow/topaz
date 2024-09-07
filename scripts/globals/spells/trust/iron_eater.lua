@@ -30,8 +30,16 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.RESTRAINT)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.BERSERK,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.BERSERK)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.BERSERK, ai.r.JA, ai.s.SPECIFIC, tpz.ja.BERSERK)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.AGGRESSOR, ai.r.JA, ai.s.SPECIFIC, tpz.ja.AGGRESSOR)
+
+    if mob:getMainLvl() >= 50 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.HASSO, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASSO)
+    end
+
+    if mob:getMainLvl() >= 60 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.ALWAYS, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MEDITATE)
+    end
 
     tpz.trust.onMobSpawn(mob)
 end
