@@ -20,11 +20,14 @@ end
 function onMobSpawn(mob)
     -- tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.SPAWN) TODO
 
-    mob:addSimpleGambit(ai.t.MASTER, ai.c.HPP_LT, 50,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.PROVOKE)
+    mob:addSimpleGambit(ai.t.MASTER, ai.c.HPP_LT, 50, ai.r.JA, ai.s.SPECIFIC, tpz.ja.PROVOKE)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.DODGE)
+    if mob:getMainLvl() >= 45 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.COUNTERSTANCE)
+    end
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.DODGE)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.FOCUS, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FOCUS)
 
     if mob:getMainLvl() >= 30 then
         mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.BERSERK, ai.r.JA, ai.s.SPECIFIC, tpz.ja.BERSERK)
