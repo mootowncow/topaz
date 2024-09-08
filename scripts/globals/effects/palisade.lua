@@ -9,7 +9,7 @@ require("scripts/globals/status")
 -----------------------------------
 function onEffectGain(target, effect)
     if target:getMainJob() == tpz.job.PLD then
-	    target:addMod(tpz.mod.DEFP, effect:getPower())
+	    target:addMod(tpz.mod.DEFP, 100)
         target:addMod(tpz.mod.ENMITY_LOSS_REDUCTION, 100)
         if not target:hasStatusEffect(tpz.effect.BIND) then
             effect:setPower(target:speed())
@@ -23,7 +23,7 @@ end
 
 function onEffectLose(target, effect)
     if target:getMainJob() == tpz.job.PLD then
-        target:delMod(tpz.mod.DEFP, effect:getPower())
+        target:delMod(tpz.mod.DEFP, 100)
         target:delMod(tpz.mod.ENMITY_LOSS_REDUCTION, 100)
         if not target:hasStatusEffect(tpz.effect.BIND) then
             target:speed(effect:getPower())
