@@ -1147,6 +1147,10 @@ tpz.voidwalker.onMobEngaged = function(mob, target)
         mob:SetMagicCastingEnabled(true)
         mob:castSpell(tpz.magic.spell.ICE_SPIKES, mob)
     end
+
+    if (mobName == 'Orcus') then
+        mob:useMobAbility(tpz.mob.skills.PIT_AMBUSH)
+    end
 end
 
 tpz.voidwalker.onMobFight = function(mob, target)
@@ -1186,6 +1190,7 @@ tpz.voidwalker.onMobDisengage = function(mob)
     mob:hideHP(true)
     mob:hideName(true)
     mob:untargetable(true)
+    mob:setHP(mob:getMaxHP())
 end
 
 tpz.voidwalker.onMobDespawn = function(mob)
