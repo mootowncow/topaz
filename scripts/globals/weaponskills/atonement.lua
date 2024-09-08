@@ -154,7 +154,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
             calcParams.extraHitsLanded = 1
 
             player:trySkillUp(target, tpz.skill.SWORD, tpHitsLanded)
-            target:tryInterruptSpell(player, tpHitsLanded) end
+            target:tryInterruptSpell(player, tpHitsLanded)
         else
             action:messageID(target:getID(), tpz.msg.basic.SKILL_NO_EFFECT)
         end
