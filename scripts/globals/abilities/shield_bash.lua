@@ -8,6 +8,7 @@
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/items")
 require("scripts/globals/utils")
 -----------------------------------
 
@@ -27,6 +28,10 @@ function onUseAbility(player, target, ability)
     local damage = 0
     local chance = 99
     local stunEEM = target:getMod(tpz.mod.EEM_STUN)
+    local shield = player:getEquipID(tpz.slot.SUB)
+	local hasHighLanderTarget =  (shield == tpz.items.HIGHLANDERS_TARGE)
+    local hands = player:getEquipID(tpz.slot.HANDS)
+    local hasValorGauntlets = (hands == tpz.items.VALOR_GAUNTLETS)
 
     damage = player:getMod(tpz.mod.SHIELD_BASH) + (jpValue * 10)
 
@@ -54,15 +59,32 @@ function onUseAbility(player, target, ability)
         not target:hasStatusEffect(tpz.effect.STUN) and
         (stunEEM > 5)
     then
-        -- Highlander's Targe Hidden Effect
-        local shield = player:getEquipID(tpz.slot.SUB)
-	    if shield == 12362 then -- Highlander's Targe
-            local power = (target:getStat(tpz.mod.STR) * 0.2)
+        target:addStatusEffect(tpz.effect.STUN, 1, 0, 4)
+    end
+
+    -- Highlanders Target hidden effect
+	if hasHighLanderTarget then
+        local power = (target:getStat(tpz.mod.STR) * 0.2)
+        local bonus = 255
+        local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WATER, bonus, tpz.effect.ATTACK_DOWN)
+
+        if (resist >= 0.5) then
+            printf("applying attack down")
             target:delStatusEffect(tpz.effect.ATTACK_BOOST)
             target:addStatusEffect(tpz.effect.ATTACK_DOWN, 10, 0, 60)
+        end
+
+        resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WATER, bonus, tpz.effect.STR_DOWN)
+        if (resist >= 0.5) then
+            printf("applying str down")
             target:addStatusEffect(tpz.effect.STR_DOWN, power, 6, 60)
         end
-        target:addStatusEffect(tpz.effect.STUN, 1, 0, 4)
+    end
+
+    -- Valor Gauntlets dispel
+    if hasValorGauntlets then
+        printf("Dispelling")
+        target:dispelStatusEffect()
     end
 
     -- Randomize damage
@@ -87,7 +109,6 @@ function onUseAbility(player, target, ability)
     end
 
     -- Check for phalanx + stoneskin
-
     if (damage > 0) then
         local attackType = tpz.attackType.PHYSICAL
         damage = damage - target:getMod(tpz.mod.PHALANX)
