@@ -22,6 +22,8 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.MASTER, ai.c.HPP_LT, 50, ai.r.JA, ai.s.SPECIFIC, tpz.ja.PROVOKE)
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.HPP_LT, 75, ai.r.JA, ai.s.SPECIFIC, tpz.ja.CHAKRA)
+
     if mob:getMainLvl() >= 45 then
         mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.COUNTERSTANCE)
     end
