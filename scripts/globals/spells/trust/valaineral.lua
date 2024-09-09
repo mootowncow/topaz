@@ -34,6 +34,7 @@ function onMobSpawn(mob)
     tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.SPAWN)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_SPECIFIC, tpz.magic.spell.METEOR, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_SPECIFIC, tpz.magic.spell.DEATH, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.DETECT_MIJIN, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.MANAFONT, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
