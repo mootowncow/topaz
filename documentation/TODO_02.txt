@@ -142,7 +142,6 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-NEED IMMUNITY CHECK ON ENFEEBLES (and eem <= 5)
 1: Spells aren't AOEd onto trusts from being cast on master(or allies?) if they aren't engaged (ValdTarget()?). Or 
 2: Or is there more to it? And even if they're engaged it won't hit them because the cast started without them being engaged
 Scaling food based on level / KI
@@ -154,6 +153,7 @@ Tenzen AF hat meditate bonus, also demon circle and AF duration bonus 56+ or w/e
 Shikaree Z AF duration bonus on ancient circle 56+ or w/e level is for the item
 Rapp Harness + haste subligar for thf/dnc trusts
 Sylvie should follow on top of you and not the mob (needs new movement type)
+Ulmia double march, ways to track x2 song effect gambit on target
 Trusts shouldn't play their special animation/sound effect after being summoned. Need to probably set them to normal animation after spawn like other stuff??
 Iron Eater sucks real bad needs huge dps buffs
 Level 75 trust stats in the functions per archetype (give them gear). Also tune / balance / design them.
@@ -465,8 +465,8 @@ https://github.com/LandSandBoat/server/commits/base/?author=WinterSolstice8&afte
 Diff zone in packet size? Maybe needed to edit all the other char packets that would break?
 https://github.com/LandSandBoat/server/blob/fa36bc0303e813d5e2b878fbd97ffa7f319130ce/src/map/packets/zone_in.cpp#L221
 
-Use recast container for mob spells
-https://github.com/LandSandBoat/server/commit/ca4b93b7c2241152b3d7bc35f608d7f8d6d35ea7
+Rear Conal AOE (I maybe have already done this? unsure)
+https://github.com/LandSandBoat/server/commit/c3b06039d52adabfe6ae548b927baf41780c76cf
 
 Set unarmed weapons on char load if main slot is null 
 https://github.com/LandSandBoat/server/commit/7408e0b09ecc2aeceeeba36c56d6e29a85aeff7c
