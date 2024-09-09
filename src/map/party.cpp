@@ -198,19 +198,21 @@ uint8 CParty::MemberCount(uint16 ZoneID)
 {
     uint8 count = 0;
 
-    for (uint32 i = 0; i < members.size(); ++i)
+    for (auto member : members)
     {
-        auto* member = members.at(i);
         if (member->getZone() == ZoneID)
         {
             count++;
         }
         if (member->objtype == TYPE_PC)
         {
+            // clang-format off
             auto* charMember = static_cast<CCharEntity*>(member);
-            std::for_each(charMember->PTrusts.begin(), charMember->PTrusts.end(), [&](CTrustEntity* trust) {
+            std::for_each(charMember->PTrusts.begin(), charMember->PTrusts.end(), [&](CTrustEntity* trust)
+            {
                 count++;
             });
+            // clang-format on
         }
     }
     return count;
