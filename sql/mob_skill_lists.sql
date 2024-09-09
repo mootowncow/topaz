@@ -2804,6 +2804,12 @@ INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,2278); -- Glory Slash
 INSERT INTO `mob_skill_lists` VALUES ('Shouldercharge_Only',1205,2264);
 INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1206,733); -- Jump
 INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1206,1064); -- Jump (Long cast time)
+INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2193); -- zephyr_arrow
+INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2194); -- lethe_arrows
+INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2195); -- spring_breeze
+INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2196); -- summer_breeze
+INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2197); -- autumn_breeze
+INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2198); -- winter_breeze
 
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
@@ -4906,6 +4912,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,169); -- black_hal
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,250); -- carnal_nightmare
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,252); -- dancing_chains
 
--- Next available ID: 1207
+-- Next available ID: 1208
 -- Next custom ID: 6153
 

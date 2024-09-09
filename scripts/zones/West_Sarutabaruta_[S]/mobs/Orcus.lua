@@ -27,6 +27,10 @@ function onMobSpawn(mob)
     tpz.voidwalker.onMobSpawn(mob)
 end
 
+function onMobEngaged(mob, target)
+    tpz.voidwalker.onMobEngaged(mob, target)
+end
+
 function onMobFight(mob, target)
     tpz.voidwalker.onMobFight(mob, target)
     TickMobAura(mob, target, auraParams1)

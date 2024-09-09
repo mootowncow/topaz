@@ -1156,6 +1156,7 @@ tpz.voidwalker.onMobEngaged = function(mob, target)
     --    engageLogic(mob)
     -- end
 
+    -- Need to add tpz.voidwalker.onMobEngaged(mob, target) to any mob file that you add a new NM for
     if (mobName == 'Gjenganger') then
         mob:SetMagicCastingEnabled(true)
         mob:castSpell(tpz.magic.spell.ICE_SPIKES, mob)
