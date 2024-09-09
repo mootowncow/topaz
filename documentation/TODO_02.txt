@@ -142,11 +142,20 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Heraldic Imp blaze spikes doing 0-1 damage to me on PLD? Have shell 4 and shield barrier. Dealing 11-15 to my trusts. is SDT not returning 100 for players? MEVA/MACC is fucked somehow?
-Even NO_MOVE, trust should simply walk closer to the target to get in range, not fly all over the map in a 360 circle
-Trusts should not swap targets mid combat unless I phyically hit the other mob
+NEED IMMUNITY CHECK ON ENFEEBLES (and eem <= 5)
+1: Spells aren't AOEd onto trusts from being cast on master(or allies?) if they aren't engaged (ValdTarget()?). Or 
+2: Or is there more to it? And even if they're engaged it won't hit them because the cast started without them being engaged
+Scaling food based on level / KI
+On big hitbox mobs trusts don't get proper range because the range of stuff is exactly 16 but the range of WS is WS range + modelSize
+Can trusts kick attack?
+can AOE trusts with self AOES 40 yards away? AOEing onto trusts is fucky? Voidstorm hits them even though they're like 40 yards... do other spells/jas?
+Elivira 75 gear
+Tenzen AF hat meditate bonus, also demon circle and AF duration bonus 56+ or w/e level is for the item
+Shikaree Z AF duration bonus on ancient circle 56+ or w/e level is for the item
+Rapp Harness + haste subligar for thf/dnc trusts
+Sylvie should follow on top of you and not the mob (needs new movement type)
+Trusts shouldn't play their special animation/sound effect after being summoned. Need to probably set them to normal animation after spawn like other stuff??
 Iron Eater sucks real bad needs huge dps buffs
-Trusts sometimes break party UI for someone on summon (Need more reloadparty()? does LSB have a fix?)
 Level 75 trust stats in the functions per archetype (give them gear). Also tune / balance / design them.
 Unsummoning all trusts when solo should disband pt(LSB maybe has)
 Slug shot miss stil SCed(for 0). Is this a trust only issue?
@@ -154,29 +163,31 @@ use lge condition for assassins charge and meditate?
 Trusts proc resist trait msg when they resist spells?
 Tenzen more zanshin related stuff? TP Bonus? DA? (retail zanshin thing?)
 Aspir / Drain Gambit logic?
-Missing unsummon animation
-https://github.com/LandSandBoat/server/commits/656eacf7157771992012bd82655635137c80758a/src/map/packets/entity_update.cpp
-
-(ref<uint8>(0x28) |= 0x04; fixes them and the wyvern)
-https://github.com/LandSandBoat/server/commit/2f9bb94b9ef7ae0c2c9c56f80173b03929cbd83b + 
-https://github.com/LandSandBoat/server/commit/3b5b6c1c8573c95a7762d72221438cf56e0f50a3 +
-https://github.com/LandSandBoat/server/commit/b2e2cd0ec1e8d12bd81bf6e7a9141e501b4e201b +
-https://github.com/LandSandBoat/server/commit/243f5f346c68fbf87c5fef081e5d537403e16ff1
 
 "Respawning" animation after spawning once, it's used for avatars/puppets too. From LSB. Lots to change
 1: Swapping target mid fight with cursor sends all trusts to attack it, but broke kupipi and made her stop fuctioning. Need to reset some member bool on disengage
 2: m_InTransit or m_failedRepositionAttempts ? Because she has move -1 or NO_MVE or w/e so she doesn't move so won't move to the mob i swapped to and breaks?
 
 Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific archetype?). Retail KI: https://www.bg-wiki.com/ffxi/Filled_memory_gem 
-Just say its "upgraded" everytime a new bonus is added
+Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+SMN ability msgs to say what buffs they give(custom ones)
+12Pdif capped melee attacks do same dmg no variance? same with crits, always same amount. RATTK same? FIX ASAP
+Mob Atonement breath dmg capped at 750
+Does Orcus use pit ambush on engage?
+Remove abiliy for uld (DNC one) to use cyclonic as a normal TP move
+Fix automaton attachment drops from the ashu talif BCNMS, needs to be ones with subid. i.e. ID: 2347 for reactive_shield and NOT 8454
++++ FINISH JP FIRST BEFORE ANYTHING +++
+Divine Emblem huge dmg to holy so its worth using over flash/cure
+Missed WS can SC(and SC for 0), and counter for starting a SC as well. Check hasmissmsg or w/e
 m_ModelSize on player/trust/mob RA, tp moves, WS(player and mob I think?). 
 Can cast songs on trusts and AOE them onto people (and don't need piansimmo)
 Give players the ability to give 3-4 songs
 Do shield blocked TP moves still interrupt with shield mastery trait on?
 Get merrow/lamia dukrippen stuff from jcmorris
 Add puk camp back by Mamook
+Buff conquest gear + campaign gear
 add more jp camps, and RAID nms wont give 10 JP anymore but gonna give them more loot
 Fix /tell chat
 unity chat doesn't work cross-zone
@@ -185,6 +196,7 @@ Opening castle zhavl coffer on thief gave me thiefs vest, it's on AF moogle slip
 Cactrot Rapid pathing bugged
 Shield blocks show up as "MISS" in SCT, they are wrong reaction type. have to fix simplelog after too
 Do mobs get guard skill...?
+Imps don't link by sound only sight? do dual aggro mobs not link by dual aggro?
 Probably need to use int8 maneuvers = luautils::OnMobAutomatonSkillCheck(PTarget, PAutomaton, PSkill); for automaton TP moves
 Correct frame isn't being assigned to automatons on summon? (petid) petutils::SpawnPet always sets up harlequin frame but petutils::LoadPet (and calculate automaton stats) works??
 Solace should give enhancing magic duration
@@ -205,6 +217,7 @@ Anticans starting from pool ID 165 need 240 delay. Check if any mobs dont have 2
 Item enchantments so you always want 1 item perma active (like high breath mantle)
 Do "no effect" (stun) spells add DR?
 Valleys of sorrows Survival Guide facing wrong way(flip 180)
+Turn Zeruhn Mines grounds tome to be equal to survival guide
 Redesign jailer of prudence
 Final zilart missons + apoc nigh(revamp earrings) + storms of fate + rank6-10 bastok/sandy
 Finish bodies https://www.bg-wiki.com/ffxi/Shiyo_Server_Systems/Gear#COP_Bodies
@@ -296,8 +309,8 @@ Ic Pilav bun(new item)
 Ogre Gloves fencer buffed to 2/3%(NO TP BONUS)
 Zdei in cubbys can't aggro people in hall? need longer sight aggro range on them?
 PUP Enh magic higher prio than regen magic, don't haste self. Enh higher prio than -na. Give WHM and RDM puppet some FC? (20-30%?)
-Leaden Salute and Blade: Kamu weren't unlocked when I had enough WS points
-magic_shield can overwrite false? or w/e stoneskin uses
+Leaden Salute, Atonement and Blade: Kamu weren't unlocked when I had enough WS points
+magic_shield can overwrite false? or w/e stoneskin uses in status_Effect.sql?
 add music to every zone esp the sea zone without music in zone sql
 Revamp JSE rings and earrings
 More enhancing magic dura gear
@@ -327,7 +340,6 @@ Zoning from Whitegate to Aldazal ruins need to flip char rot 180 in zone_lines.s
 Cap barrage/double/triple shot hits for players like trusts/mobs to stop adding hits and return instead after the mob is dead
 Does the mob:wait() or w/e thing cause crashes for scouting the ashu talif?
 Mob AOE moves you can dodge that aoe around them / directional / conal and get their target AFTER the tp move animation finishes instead of before so they go off even if no targets in range and give spewcial "no targets in range" msg or w/e
-mob darkness SC from shikaree Y did 0 damage to me?
 TryProcTH needs level 15+ job check(maybe 75?)
 Add Cura-III to the new cure magic.lua function
 Add tractor to raise
@@ -464,6 +476,9 @@ https://github.com/LandSandBoat/server/commit/0077af43d542ed8c89e33d0971447d03be
 
 SetMobLevel traits
 https://github.com/LandSandBoat/server/commit/37772ab475034ce7a936c886000d11bcab245761
+
+Check for untargettable state
+https://github.com/LandSandBoat/server/commit/f1283d253b373afc32602914989d0306bb5e4bbf
 
 Petid on zoning
 https://github.com/LandSandBoat/server/commit/0f7c8a0cd811eaf56d0fbce6f0926ba0f9fb04a1
