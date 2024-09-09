@@ -10,10 +10,13 @@ require("scripts/globals/msg")
 
 function onMagicCastingCheck(caster, target, spell)
     spell:setFlag(tpz.magic.spellFlag.IGNORE_SHADOWS)
+    local CanProvidence = caster:getLocalVar("CanProvidence") > 0
+    if CanProvidence then 
         local Providence = caster:getLocalVar("Providence")
         if (Providence == 0) then
             return 1
         end
+    end
     return 0
 end
 
