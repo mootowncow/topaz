@@ -308,6 +308,11 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         hitslanded = hitslanded + 1
     end
 
+    -- Add +1 hit for offhand if dual wielding
+    if mob:isDualWielding() then
+        numberofhits = numberofhits +1
+    end
+
     -- Cap at 8 hits
     if numberofhits > 8 then numberofhits = 8 end
 
