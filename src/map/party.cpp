@@ -128,7 +128,7 @@ void CParty::DisbandParty(bool playerInitiated)
 
             PChar->PParty = nullptr;
             PChar->PLatentEffectContainer->CheckLatentsPartyJobs();
-            PChar->PLatentEffectContainer->CheckLatentsPartyMembers(members.size(), 0);
+            PChar->PLatentEffectContainer->CheckLatentsPartyMembers(members.size());
             PChar->PLatentEffectContainer->CheckLatentsPartyAvatar();
             PChar->pushPacket(new CPartyMemberUpdatePacket(PChar, 0, 0, PChar->getZone()));
 
@@ -295,9 +295,7 @@ void CParty::RemoveMember(CBattleEntity* PEntity)
                             }
                         }
                     }
-
-                    auto trustCount = static_cast<CCharEntity*>(m_PLeader)->PTrusts.size();
-                    PChar->PLatentEffectContainer->CheckLatentsPartyMembers(members.size(), trustCount);
+                    PChar->PLatentEffectContainer->CheckLatentsPartyMembers(members.size());
 
                     PChar->pushPacket(new CPartyDefinePacket(nullptr));
                     PChar->pushPacket(new CPartyMemberUpdatePacket(PChar, 0, 0, PChar->getZone()));
@@ -375,7 +373,7 @@ void CParty::DelMember(CBattleEntity* PEntity)
                             }
                         }
                     }
-                    PChar->PLatentEffectContainer->CheckLatentsPartyMembers(members.size(), 0);
+                    PChar->PLatentEffectContainer->CheckLatentsPartyMembers(members.size());
 
                     PChar->pushPacket(new CPartyDefinePacket(nullptr));
                     PChar->pushPacket(new CPartyMemberUpdatePacket(PChar, 0, 0, PChar->getZone()));
@@ -752,14 +750,13 @@ void CParty::ReloadParty()
     {
         RefreshFlags(info);
         CBattleEntity* PLeader = GetLeader();
-        auto trustCount = static_cast<CCharEntity*>(PLeader)->PTrusts.size();
         //regular party
         for (uint8 i = 0; i < members.size(); ++i)
         {
             CCharEntity* PChar = (CCharEntity*)members.at(i);
 
             PChar->PLatentEffectContainer->CheckLatentsPartyJobs();
-            PChar->PLatentEffectContainer->CheckLatentsPartyMembers(members.size(), trustCount);
+            PChar->PLatentEffectContainer->CheckLatentsPartyMembers(members.size());
             PChar->PLatentEffectContainer->CheckLatentsPartyAvatar();
             PChar->ReloadPartyDec();
             if (PLeader)
