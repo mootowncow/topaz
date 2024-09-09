@@ -13660,7 +13660,7 @@ INSERT INTO `item_equipment` VALUES (28005,'alrunas_gloves_+1',99,118,66592,96,0
 INSERT INTO `item_equipment` VALUES (28006,'iuven._mittens_+1',99,118,4,57,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (28007,'nomkah._mittens_+1',99,118,2594082,129,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (28008,'nilas_gloves',99,119,2594082,231,0,0,64,0,0);
-INSERT INTO `item_equipment` VALUES (28009,'onimusha-no-kote',99,119,6146,9,0,0,64,0,0);
+INSERT INTO `item_equipment` VALUES (28009,'onimusha-no-kote',72,0,137218,9,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (28010,'gorney_moufles_+1',99,119,10689,354,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (28011,'shned._gloves_+1',99,119,2593826,355,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (28012,'weath._cuffs_+1',99,119,3850780,356,0,0,64,0,0);
