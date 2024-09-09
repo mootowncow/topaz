@@ -428,7 +428,7 @@ void CAttackRound::CreateAttacks(CItemWeapon* PWeapon, PHYSICAL_ATTACK_DIRECTION
 ************************************************************************/
 void CAttackRound::CreateKickAttacks()
 {
-    if (m_attacker->objtype == TYPE_PC || m_attacker->objtype == TYPE_MOB)
+    if (m_attacker->objtype == TYPE_PC || m_attacker->objtype == TYPE_MOB || m_attacker->objtype == TYPE_TRUST)
     {
         // kick attack mod (All jobs)
         uint16 kickAttack = m_attacker->getMod(Mod::KICK_ATTACK_RATE);

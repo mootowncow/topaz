@@ -62,9 +62,9 @@ function onUseAbility(player, target, ability)
 	ability:setMsg(tpz.msg.basic.JA_RECOVERS_HP)
 
     local merits = player:getMerit(tpz.merit.INVIGORATE)
-    if player:getObjType() == tpz.objType.TRUST then -- Lhe Lhangavo trust has Invigorate merits
+    if player:isTrust() then -- Lhe Lhangavo trust has Invigorate merits
         if (player:getName() == 'lhe_lhangavo') then
-            merits = 5
+            merits = 120
         end
     end
 
