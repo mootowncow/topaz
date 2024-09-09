@@ -433,53 +433,62 @@ void CLatentEffectContainer::CheckLatentsHours()
 *  activates them if the conditions are met.							*
 *																		*
 ************************************************************************/
-void CLatentEffectContainer::CheckLatentsPartyMembers(size_t members)
+void CLatentEffectContainer::CheckLatentsPartyMembers(size_t members, size_t trustCount)
 {
-    ProcessLatentEffects([this, members](CLatentEffect& latentEffect)
-    {
-        switch (latentEffect.GetConditionsID())
+    ProcessLatentEffects(
+        [this, members, trustCount](CLatentEffect& latentEffect)
         {
-        case LATENT_PARTY_MEMBERS:
-            if (latentEffect.GetConditionsValue() <= members)
-            {
-                return latentEffect.Activate();
-            }
-            else
-            {
-                return latentEffect.Deactivate();
-            }
-        case LATENT_PARTY_MEMBERS_IN_ZONE:
-            if (latentEffect.GetConditionsValue() <= members)
-            {
-                auto inZone = 0;
-                for (size_t m = 0; m < members; ++m)
-                {
-                    auto PMember = (CCharEntity*)m_POwner->PParty->members.at(m);
-                    if (PMember->getZone() == m_POwner->getZone())
-                    {
-                        inZone++;
-                    }
-                }
+            size_t totalMembers = members + trustCount;
 
-                if (inZone == latentEffect.GetConditionsValue())
-                {
-                    return latentEffect.Activate();
-                }
-                else
-                {
-                    return latentEffect.Deactivate();
-                }
-            }
-            else
+            switch (latentEffect.GetConditionsID())
             {
-                return latentEffect.Deactivate();
+                case LATENT_PARTY_MEMBERS:
+                    if (latentEffect.GetConditionsValue() <= totalMembers)
+                    {
+                        return latentEffect.Activate();
+                    }
+                    else
+                    {
+                        return latentEffect.Deactivate();
+                    }
+                case LATENT_PARTY_MEMBERS_IN_ZONE:
+                    if (latentEffect.GetConditionsValue() <= totalMembers)
+                    {
+                        auto inZone = 0;
+                        for (size_t m = 0; m < members; ++m)
+                        {
+                            auto* PMember = dynamic_cast<CCharEntity*>(m_POwner->PParty->members.at(m));
+                            if (PMember != nullptr && PMember->getZone() == m_POwner->getZone())
+                            {
+                                inZone++;
+                            }
+                        }
+
+                        auto* PLeader = dynamic_cast<CCharEntity*>(m_POwner->PParty->GetLeader());
+                        if (PLeader != nullptr && m_POwner->getZone() == PLeader->getZone())
+                        {
+                            inZone = inZone + static_cast<int>(trustCount);
+                        }
+
+                        if (inZone == latentEffect.GetConditionsValue())
+                        {
+                            return latentEffect.Activate();
+                        }
+                        else
+                        {
+                            return latentEffect.Deactivate();
+                        }
+                    }
+                    else
+                    {
+                        return latentEffect.Deactivate();
+                    }
+                    break;
+                default:
+                    break;
             }
-            break;
-        default:
-            break;
-        }
-        return false;
-    });
+            return false;
+        });
 }
 
 void CLatentEffectContainer::CheckLatentsPartyJobs()
