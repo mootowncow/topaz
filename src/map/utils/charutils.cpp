@@ -3183,12 +3183,11 @@ namespace charutils
                     SkillUpChance = 0.70;
                 }
             }
-            else if (SkillID == SKILL_GREAT_SWORD || SkillID == SKILL_GREAT_AXE || SkillID == SKILL_SCYTHE || SkillID == SKILL_POLEARM ||
-                     SkillID == SKILL_GREAT_KATANA || SkillID == SKILL_STAFF)
+            else if (SkillID == SKILL_GREAT_SWORD || SkillID == SKILL_GREAT_AXE || SkillID == SKILL_SCYTHE || SkillID == SKILL_POLEARM || SkillID == SKILL_GREAT_KATANA || SkillID == SKILL_STAFF)
             {
-                if (SkillUpChance > 0.5)
+                if (SkillUpChance > 0.80)
                 {
-                    SkillUpChance = 0.5;
+                    SkillUpChance = 0.80;
                 }
             }
             else
