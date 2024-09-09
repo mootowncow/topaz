@@ -7,9 +7,14 @@ require("scripts/globals/status")
 require("scripts/globals/magic")
 require("scripts/globals/msg")
 -----------------------------------
-
 function onAdditionalEffect(player, target, damage)
-    local dmg = doAdditionalEffectDamage(player, target, 10, 10, nil, false, 0, tpz.magic.ele.FIRE, 0)
+    local chance = 10
+    local dmg = 10
+    local includeMAB = false
+    local bonusMAB = 0
+    local element = tpz.magic.ele.FIRE
+    local bonus = 0
+    local dmg = doAdditionalEffectDamage(player, target, chance, dmg, nil, includeMAB, bonusMAB, element, bonus)
 
     if dmg == 0 then
         return 0, 0, 0
