@@ -556,6 +556,7 @@ local modByMobName =
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.UDMGMAGIC, -25)
         mob:setMod(tpz.mod.UDMGBREATH, -50)
+        mob:setMod(tpz.mod.DMGSPIRITS, -50)
         mob:setMod(tpz.mod.DARKDEF, 256)
         mob:setMobMod(tpz.mobMod.BUFF_CHANCE, 50)
         mob:setLocalVar("tpMoveTimer", os.time() + math.random(30, 45))
@@ -567,6 +568,7 @@ local modByMobName =
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.UDMGMAGIC, -25)
         mob:setMod(tpz.mod.UDMGBREATH, -50)
+        mob:setMod(tpz.mod.DMGSPIRITS, -50)
         mob:addStatusEffect(tpz.effect.DAMAGE_SPIKES, 100, 0, 0)
         SetBuffUndispellable(mob, tpz.effect.DAMAGE_SPIKES)
     end,
@@ -583,6 +585,7 @@ local modByMobName =
         mob:setDamage(150)
         mob:setMod(tpz.mod.VIT, 150)
         mob:setMod(tpz.mod.UDMGBREATH, -50)
+        mob:setMod(tpz.mod.DMGSPIRITS, -50)
         mob:setSpellList(531)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
@@ -826,11 +829,13 @@ local mixinByMobName =
                 mob:setMod(tpz.mod.UDMGRANGE, 0)
                 mob:setMod(tpz.mod.UDMGMAGIC, -75)
                 mob:setMod(tpz.mod.UDMGBREATH, -75)
+                mob:setMod(tpz.mod.DMGSPIRITS, -75)
             elseif (animationSub == wingState.DOWN) then
                 mob:setMod(tpz.mod.UDMGPHYS, -75)
                 mob:setMod(tpz.mod.UDMGRANGE, -75)
                 mob:setMod(tpz.mod.UDMGMAGIC, 0)
                 mob:setMod(tpz.mod.UDMGBREATH, 0)
+                mob:setMod(tpz.mod.DMGSPIRITS, 0)
             end
         end
 
@@ -862,11 +867,13 @@ local mixinByMobName =
                 mob:setMod(tpz.mod.UDMGRANGE, 0)
                 mob:setMod(tpz.mod.UDMGMAGIC, -50)
                 mob:setMod(tpz.mod.UDMGBREATH, -50)
+                mob:setMod(tpz.mod.DMGSPIRITS, -50)
             elseif (animationSub == wingState.DOWN) then
                 mob:setMod(tpz.mod.UDMGPHYS, -50)
                 mob:setMod(tpz.mod.UDMGRANGE, -50)
                 mob:setMod(tpz.mod.UDMGMAGIC, 0)
                 mob:setMod(tpz.mod.UDMGBREATH, 0)
+                mob:setMod(tpz.mod.DMGSPIRITS, 0)
             end
         end)
         mob:addListener("WEAPONSKILL_STATE_EXIT", "YILBEGAN_MOBSKILL_FINISHED", function(mob)
@@ -875,11 +882,13 @@ local mixinByMobName =
                 mob:setMod(tpz.mod.UDMGRANGE, 0)
                 mob:setMod(tpz.mod.UDMGMAGIC, -75)
                 mob:setMod(tpz.mod.UDMGBREATH, -75)
+                mob:setMod(tpz.mod.DMGSPIRITS, -75)
             elseif (animationSub == wingState.DOWN) then
                 mob:setMod(tpz.mod.UDMGPHYS, -75)
                 mob:setMod(tpz.mod.UDMGRANGE, -75)
                 mob:setMod(tpz.mod.UDMGMAGIC, 0)
                 mob:setMod(tpz.mod.UDMGBREATH, 0)
+                mob:setMod(tpz.mod.DMGSPIRITS, 0)
             end
         end)
         mob:addListener("MAGIC_START", "YILBEGAN_MAGIC_START", function(mob, spell)
@@ -888,11 +897,13 @@ local mixinByMobName =
                 mob:setMod(tpz.mod.UDMGRANGE, 0)
                 mob:setMod(tpz.mod.UDMGMAGIC, -50)
                 mob:setMod(tpz.mod.UDMGBREATH, -50)
+                mob:setMod(tpz.mod.DMGSPIRITS, -50)
             elseif (animationSub == wingState.DOWN) then
                 mob:setMod(tpz.mod.UDMGPHYS, -50)
                 mob:setMod(tpz.mod.UDMGRANGE, -50)
                 mob:setMod(tpz.mod.UDMGMAGIC, 0)
                 mob:setMod(tpz.mod.UDMGBREATH, 0)
+                mob:setMod(tpz.mod.DMGSPIRITS, 0)
             end
         end)
         mob:addListener("MAGIC_STATE_EXIT", "YILBEGAN_MAGIC_STATE_EXIT", function(mob, spell)
@@ -901,11 +912,13 @@ local mixinByMobName =
                 mob:setMod(tpz.mod.UDMGRANGE, 0)
                 mob:setMod(tpz.mod.UDMGMAGIC, -75)
                 mob:setMod(tpz.mod.UDMGBREATH, -75)
+                mob:setMod(tpz.mod.DMGSPIRITS, -75)
             elseif (animationSub == wingState.DOWN) then
                 mob:setMod(tpz.mod.UDMGPHYS, -75)
                 mob:setMod(tpz.mod.UDMGRANGE, -75)
                 mob:setMod(tpz.mod.UDMGMAGIC, 0)
                 mob:setMod(tpz.mod.UDMGBREATH, 0)
+                mob:setMod(tpz.mod.DMGSPIRITS, 0)
             end
         end)
     end,
