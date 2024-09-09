@@ -2458,23 +2458,17 @@ int16 GetSDTTier(int16 SDT)
         //return random number between the two
         float pdif = tpzrand::GetRandomNumber(minPdif, maxPdif);
 
-        // Ranged pDIF cap at 3.0
-        pdif = std::min(pdif, 3.0f);
-
         //printf("PDif before crit: %f\n", pdif);
 
         if (isCritical)
         {
             pdif *= 1.25;
 
-            // Ranged pDIF cap at 3.0
-            pdif = std::min(pdif, 3.0f);
-
             int16 criticaldamage = PAttacker->getMod(Mod::CRIT_DMG_INCREASE) + PAttacker->getMod(Mod::RANGED_CRIT_DMG_INCREASE) - PDefender->getMod(Mod::CRIT_DEF_BONUS);
             criticaldamage = std::clamp<int16>(criticaldamage, 0, 100);
             pdif *= ((100 + criticaldamage) / 100.0f);
         }
-        //printf("PDif after crit: %f\n", pdif);
+        //ShowDebug("PDif after crit: %f\n", pdif);
         return pdif;
     }
 
@@ -4054,43 +4048,8 @@ int16 GetSDTTier(int16 SDT)
 
         float pDIF = qRatio * tpzrand::GetRandomNumber(1.f, 1.05f);
 
-        // pDIF caps
-        if (attackerType == TYPE_PC && targ_weapon)
-        {
-            if (targ_weapon->isHandToHand() || targ_weapon->getSkillType() == SKILL_GREAT_KATANA)
-            {
-                pDIF = std::min(pDIF, 2.1f);
-            }
-            else if (targ_weapon->getSkillType() == SKILL_SCYTHE)
-            {
-                pDIF = std::min(pDIF, 2.3f);
-            }
-            else if (targ_weapon->isTwoHanded())
-            {
-                pDIF = std::min(pDIF, 2.2f);
-            }
-            else // 1H
-            {
-                pDIF = std::min(pDIF, 2.0f);
-            }
-        }
-        else // Mobs / Pets
-        {
-            pDIF = std::min(pDIF, 2.0f);
-        }
-
         if (isCritical)
         {
-            // Base Crits cap at 3.0 for players, 2.0 everything else
-            if (attackerType == TYPE_PC)
-            {
-                pDIF = std::min(pDIF, 3.0f);
-            }
-            else
-            {
-                pDIF = std::min(pDIF, 2.0f);
-            }
-
             // Crit Attack Bonus caps at +100% and is a flat increase to final crit damage
             // so this is change to increase pDIF and not the qRatio
             int16 criticaldamage = PAttacker->getMod(Mod::CRIT_DMG_INCREASE) - PDefender->getMod(Mod::CRIT_DEF_BONUS);
@@ -4098,7 +4057,7 @@ int16 GetSDTTier(int16 SDT)
             criticaldamage = std::clamp<int16>(criticaldamage, 0, 100);
             pDIF *= ((100 + criticaldamage) / 100.0f);
         }
-        //printf("PDif: %f\n", pDIF);
+        //ShowDebug("PDif: %f\n", pDIF);
         return pDIF;
     }
 
