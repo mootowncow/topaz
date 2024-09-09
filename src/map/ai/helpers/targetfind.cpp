@@ -449,7 +449,20 @@ bool CTargetFind::validEntity(CBattleEntity* PTarget)
         else if (m_findType == FIND_MONSTER_MONSTER || m_findType == FIND_PLAYER_PLAYER){
             if (PTarget->objtype == TYPE_TRUST)
             {
-                return true;
+                if (m_conal)
+                {
+                    if (isWithinCone(&PTarget->loc.p))
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if ((m_findFlags & FINDFLAGS_UNLIMITED) || isWithinArea(&PTarget->loc.p))
+                    {
+                        return true;
+                    }
+                }
             }
             return false;
         }

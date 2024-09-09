@@ -19,17 +19,17 @@ function onSpellCast(caster, target, spell)
 end
 
 function onMobSpawn(mob)
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.DECOY_SHOT,
-        ai.r.JA, ai.s.SPECIFIC, tpz.ja.DECOY_SHOT)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.DECOY_SHOT, ai.r.JA, ai.s.SPECIFIC, tpz.ja.DECOY_SHOT)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, 0,
-        ai.r.JA, ai.s.SPECIFIC, tpz.ja.BERSERK)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.BERSERK, ai.r.JA, ai.s.SPECIFIC, tpz.ja.BERSERK)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, 0,
-        ai.r.JA, ai.s.SPECIFIC, tpz.ja.BARRAGE)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.BARRAGE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.BARRAGE)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, 0,
-        ai.r.JA, ai.s.SPECIFIC, tpz.ja.DOUBLE_SHOT)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.BARRAGE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.DOUBLE_SHOT)
+
+    if mob:getMainLvl() >= 45 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.VELOCITY_SHOT, ai.r.JA, ai.s.SPECIFIC, tpz.ja.VELOCITY_SHOT)
+    end
 
     -- Ranged Attack as much as possible (limited by "weapon" delay)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.ALWAYS, 0, ai.r.RATTACK, 0, 0)

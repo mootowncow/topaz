@@ -58,6 +58,7 @@ public:
   bool HasNaSpells() const;
   bool HasDebuffSpells() const;
   bool HasSevereSpells() const;
+  bool IsImmune(CBattleEntity* PTarget, SpellID spellId);
 
   void ClearSpells();
   void AddSpell(SpellID spellId);

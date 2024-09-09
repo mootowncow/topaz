@@ -597,7 +597,13 @@ function AddRangedAccuracyGear(mob)
         mob:addMod(tpz.mod.EVA, 10)
         mob:addMod(tpz.mod.DEX, 9)
         mob:addMod(tpz.mod.AGI, 16)
-    elseif mobLevel >= 70 and mobLevel <= 75 then
+    elseif mobLevel >= 70 and mobLevel < 75 then
+        mob:addMod(tpz.mod.ACC, 5)
+        mob:addMod(tpz.mod.RACC, 50)
+        mob:addMod(tpz.mod.RATT, 5)
+        mob:addMod(tpz.mod.DEX, 6)
+        mob:addMod(tpz.mod.AGI, 13)
+    elseif mobLevel >= 75 then
         mob:addMod(tpz.mod.ACC, 5)
         mob:addMod(tpz.mod.RACC, 50)
         mob:addMod(tpz.mod.RATT, 5)

@@ -1071,3 +1071,53 @@ bool CMobSpellContainer::HasNaSpell(SpellID spellId) const
     }
     return false;
 }
+
+bool CMobSpellContainer::IsImmune(CBattleEntity* PTarget, SpellID spellId)
+{
+    struct SpellInfo
+    {
+        EFFECT effect;
+        int immunity; // Using an int type to allow bitwise operations on immunities
+        Mod eem;
+    };
+
+    // Map SpellID to SpellInfo (effect, immunity, EEM)
+    const std::unordered_map<SpellID, SpellInfo> spellInfoMap = {
+        { SpellID::Paralyze, { EFFECT_PARALYSIS, IMMUNITY_PARALYZE, Mod::EEM_PARALYZE } },
+        { SpellID::Paralyze_II, { EFFECT_PARALYSIS, IMMUNITY_PARALYZE, Mod::EEM_PARALYZE } },
+        { SpellID::Slow, { EFFECT_SLOW, IMMUNITY_SLOW, Mod::EEM_SLOW } },
+        { SpellID::Slow_II, { EFFECT_SLOW, IMMUNITY_SLOW, Mod::EEM_SLOW } },
+        { SpellID::Blind, { EFFECT_BLINDNESS, IMMUNITY_BLIND, Mod::EEM_BLIND } },
+        { SpellID::Blind_II, { EFFECT_BLINDNESS, IMMUNITY_BLIND, Mod::EEM_BLIND } },
+        { SpellID::Silence, { EFFECT_SILENCE, IMMUNITY_SILENCE, Mod::EEM_SILENCE } },
+        { SpellID::Poison, { EFFECT_POISON, IMMUNITY_POISON, Mod::EEM_POISON } },
+        { SpellID::Poison_II, { EFFECT_POISON, IMMUNITY_POISON, Mod::EEM_POISON } },
+        { SpellID::Poison_III, { EFFECT_POISON, IMMUNITY_POISON, Mod::EEM_POISON } },
+        { SpellID::Poison_IV, { EFFECT_POISON, IMMUNITY_POISON, Mod::EEM_POISON } },
+        { SpellID::Stun, { EFFECT_STUN, IMMUNITY_STUN, Mod::EEM_STUN } },
+        { SpellID::Battlefield_Elegy, { EFFECT_SLOW, IMMUNITY_SLOW, Mod::EEM_SLOW } },
+        { SpellID::Carnage_Elegy, { EFFECT_SLOW, IMMUNITY_SLOW, Mod::EEM_SLOW } },
+        { SpellID::Massacre_Elegy, { EFFECT_SLOW, IMMUNITY_SLOW, Mod::EEM_SLOW } },
+    };
+
+    // Find the spell information based on the spell ID
+    auto it = spellInfoMap.find(spellId);
+    if (it != spellInfoMap.end())
+    {
+        const SpellInfo& spell = it->second;
+
+        // Check if hard immune
+        if (PTarget->hasImmunity(static_cast<uint32>(spell.immunity)))
+        {
+            return true;
+        }
+
+        // Check if immune due to EEM
+        if (PTarget->getMod(static_cast<Mod>(spell.eem)) <= 5)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}

@@ -414,9 +414,12 @@ void CGambitsContainer::Tick(time_point tick)
                     auto spell_id = POwner->SpellContainer->GetAvailable(static_cast<SpellID>(action.select_arg));
                     if (spell_id.has_value())
                     {
-                        controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
-                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
-                        return;
+                        if (!POwner->SpellContainer->IsImmune(target, static_cast<SpellID>(spell_id.value())))
+                        {
+                            controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
+                            SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                            return;
+                        }
                     }
                 }
                 else if (action.select == G_SELECT::HIGHEST)
@@ -450,22 +453,29 @@ void CGambitsContainer::Tick(time_point tick)
                             // After updating spell_id, ensure it still has a value
                             if (spell_id.has_value())
                             {
-                                PSpell = static_cast<SpellID>(spell_id.value()); 
-                                controller->Cast(target->targid, PSpell);
-                                SetSpellRecast(tick, PSpell);
-                                return;
+                                if (!POwner->SpellContainer->IsImmune(target, PSpell))
+                                {
+                                    PSpell = static_cast<SpellID>(spell_id.value());
+                                    controller->Cast(target->targid, PSpell);
+                                    SetSpellRecast(tick, PSpell);
+                                    return;
+                                }
                             }
                         }
                     }
                 }
                 else if (action.select == G_SELECT::LOWEST)
                 {
-                    // TODO
+                    //TODO
                     //auto spell_id = POwner->SpellContainer->GetWorstAvailable(static_cast<SPELLFAMILY>(gambit.action.select_arg));
                     //if (spell_id.has_value())
                     //{
-                    //    controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
-                    //   SetLastNuke(tick, static_cast<SpellID>(spell_id.value()));
+                    //if (!POwner->SpellContainer->IsImmune(target, static_cast<SpellID>(spell_id.value())))
+                    //    {
+                    //        controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
+                    //        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                    //        return;
+                    //    }
                     //}
                 }
                 else if (action.select == G_SELECT::BEST_INDI)
@@ -550,9 +560,12 @@ void CGambitsContainer::Tick(time_point tick)
                     auto spell_id = POwner->SpellContainer->GetSpell();
                     if (spell_id.has_value())
                     {
-                        controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
-                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
-                        return;
+                        if (!POwner->SpellContainer->IsImmune(target, static_cast<SpellID>(spell_id.value())))
+                        {
+                            controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
+                            SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
+                            return;
+                        }
                     }
                 }
                 else if (action.select == G_SELECT::MB_ELEMENT)
