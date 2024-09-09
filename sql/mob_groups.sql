@@ -11397,11 +11397,11 @@ INSERT INTO `mob_groups` VALUES (9,4224,163,'Vermilion-eared_Noberry',0,128,0,0,
 INSERT INTO `mob_groups` VALUES (10,4674,163,'Vermilions_Elemental',0,128,0,0,0,61,61,0);
 INSERT INTO `mob_groups` VALUES (11,3970,163,'Tonberrys_Avatar',0,128,0,2400,0,65,65,0);
 -- Amphibian Assault
-INSERT INTO `mob_groups` VALUES (12,3290,163,'Qull_the_Fallstopper',0,128,0,0,0,63,63,0);
-INSERT INTO `mob_groups` VALUES (13,3328,163,'Rauu_the_Whaleswooner',0,128,0,0,0,63,63,0);
-INSERT INTO `mob_groups` VALUES (14,2038,163,'Hyohh_the_Conchblower',0,128,0,0,0,63,63,0);
-INSERT INTO `mob_groups` VALUES (15,3123,163,'Pevv_the_Riverleaper',0,128,0,0,0,63,63,0);
-INSERT INTO `mob_groups` VALUES (16,3442,163,'Sahagins_Wyvern',0,128,0,0,0,61,61,0);
+INSERT INTO `mob_groups` VALUES (12,3290,163,'Qull_the_Fallstopper',0,128,0,3600,0,63,65,0);
+INSERT INTO `mob_groups` VALUES (13,3328,163,'Rauu_the_Whaleswooner',0,128,0,3600,0,63,65,0);
+INSERT INTO `mob_groups` VALUES (14,2038,163,'Hyohh_the_Conchblower',0,128,0,3600,0,63,65,0);
+INSERT INTO `mob_groups` VALUES (15,3123,163,'Pevv_the_Riverleaper',0,128,0,3600,0,63,65,0);
+INSERT INTO `mob_groups` VALUES (16,3442,163,'Sahagins_Wyvern',0,128,0,1200,0,63,63,0);
 INSERT INTO `mob_groups` VALUES (17,3584,163,'Shantotto',0,0,0,0,0,0,0,0);
 
 -- ------------------------------------------------------------
