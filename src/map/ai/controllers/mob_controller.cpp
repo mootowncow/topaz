@@ -29,6 +29,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../mobskill.h"
 #include "../../party.h"
 #include "../../status_effect_container.h"
+#include "../../recast_container.h"
 #include "../../enmity_container.h"
 #include "../../mob_modifier.h"
 #include "../../mob_spell_container.h"
@@ -790,6 +791,7 @@ bool CMobController::TryCastSpell()
         auto chosenSpellId = luautils::OnMonsterMagicPrepare(PMob, PTarget);
         if (chosenSpellId && currentDistance <= 20.4)
         {
+            PMob->PRecastContainer->Del(RECAST_MAGIC, static_cast<uint16>(chosenSpellId.value()));
             CastSpell(chosenSpellId.value());
             return true;
         }
