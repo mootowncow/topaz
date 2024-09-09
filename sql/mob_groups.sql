@@ -11653,7 +11653,7 @@ INSERT INTO `mob_groups` VALUES (15,3303,168,'Radiant_Wyvern',0,128,0,0,0,78,78,
 INSERT INTO `mob_groups` VALUES (16,454,168,'Blizzard_Wyvern',0,128,0,0,0,78,78,0);
 INSERT INTO `mob_groups` VALUES (17,2411,168,'Lightning_Wyvern',0,128,0,0,0,78,78,0);
 INSERT INTO `mob_groups` VALUES (18,695,168,'Chaos_Wyvern',0,128,0,0,0,78,78,0);
-INSERT INTO `mob_groups` VALUES (19,3234,168,'Purson',0,128,0,35000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (19,3234,168,'Purson',0,128,0,19200,0,79,80,0);
 INSERT INTO `mob_groups` VALUES (20,2804,168,'Nanaa_Mihgo',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (21,704,168,'Cha_Lebagta',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (22,506,168,'Bopa_Greso',0,0,0,0,0,0,0,0);
