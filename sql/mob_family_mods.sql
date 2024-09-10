@@ -148,11 +148,32 @@ INSERT INTO `mob_family_mods` VALUES (481,42,989,1);
 --INSERT INTO `mob_family_mods` VALUES (47,243,75,0);		-- bat blind resist
 
 -- Experience bonus
-INSERT INTO `mob_family_mods` VALUES (208,382,23,1);	-- Ram +23% EXP
-INSERT INTO `mob_family_mods` VALUES (266,382,23,1);	-- Wyvern +23% EXP 
-INSERT INTO `mob_family_mods` VALUES (109,382,10,1);	-- Euvhi +10% EXP 
-INSERT INTO `mob_family_mods` VALUES (194,382,10,1);	-- Phuabo +10% EXP 
-INSERT INTO `mob_family_mods` VALUES (132,382,10,1);	-- Gnole +10% EXP 
+INSERT INTO `mob_family_mods` VALUES (271,28,37,1);	-- Yovra +37% EXP
+
+INSERT INTO `mob_family_mods` VALUES (208,28,23,1);	-- Ram +23% EXP
+INSERT INTO `mob_family_mods` VALUES (266,28,23,1);	-- Wyvern +23% EXP 
+INSERT INTO `mob_family_mods` VALUES (186,28,23,1);	-- Morbol +23% EXP 
+INSERT INTO `mob_family_mods` VALUES (530,28,23,1);	-- Ameretat +23% EXP 
+
+INSERT INTO `mob_family_mods` VALUES (140,28,15,1);	-- Hippogryph +15% EXP 
+INSERT INTO `mob_family_mods` VALUES (141,28,15,1);	-- Hippogryph +15% EXP 
+
+INSERT INTO `mob_family_mods` VALUES (194,28,10,1);	-- Phuabo +10% EXP 
+INSERT INTO `mob_family_mods` VALUES (180,28,10,1);	-- Marid +10% EXP 
+INSERT INTO `mob_family_mods` VALUES (371,28,10,1);	-- Marid +10% EXP 
+INSERT INTO `mob_family_mods` VALUES (132,28,10,1);	-- Gnole +10% EXP 
+INSERT INTO `mob_family_mods` VALUES (192,28,10,1);	-- Peiste +10% EXP 
+-- Ule Bunies in mob_pool_mods.sql
+
+INSERT INTO `mob_family_mods` VALUES (176,28,6,1);	-- Mamool Ja +6% EXP 
+INSERT INTO `mob_family_mods` VALUES (176,66,5,1);	-- Mamool Ja +6% EXP 
+INSERT INTO `mob_family_mods` VALUES (177,28,6,1);	-- Mamool Ja +6% EXP 
+INSERT INTO `mob_family_mods` VALUES (591,28,6,1);	-- Mamool Ja +6% EXP 
+INSERT INTO `mob_family_mods` VALUES (171,28,6,1);	-- Lamia +6% EXP 
+INSERT INTO `mob_family_mods` VALUES (182,28,6,1);	-- Merrow +6% EXP 
+INSERT INTO `mob_family_mods` VALUES (112,28,6,1);	-- Flan +6% EXP 
+
+INSERT INTO `mob_family_mods` VALUES (627,28,5,1);	-- Scolopendrid +5% EXP 
 
 
 
@@ -454,14 +475,12 @@ INSERT INTO `mob_family_mods` VALUES (378,95,40,1);	-- Diabolos
 INSERT INTO `mob_family_mods` VALUES (271,68,50,0);		-- +50 Evasion Racial
 INSERT INTO `mob_family_mods` VALUES (271,63,50,0);		-- +50% Defense Bonus
 INSERT INTO `mob_family_mods` VALUES (271,370,50,0);	-- +50/tick Regen
-INSERT INTO `mob_family_mods` VALUES (271,28,35,1);		-- +35% Experience Bonus
 
 -- Antlion
 INSERT INTO `mob_family_mods` VALUES (26,62,10,0);		-- Antlion +10% Attack
 INSERT INTO `mob_family_mods` VALUES (26,63,20,0);		-- Antlion +20% Defense Bonus
 INSERT INTO `mob_family_mods` VALUES (357,62,10,0);		-- Antlion +10% Attack
 INSERT INTO `mob_family_mods` VALUES (357,63,20,0);		-- Antlion +20% Defense Bonus
-
 
 -- Chigoe
 INSERT INTO `mob_family_mods` VALUES (64,63,-20,0);		---20% Defense Penalty

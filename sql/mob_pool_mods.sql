@@ -148,7 +148,6 @@ INSERT INTO `mob_pool_mods` VALUES (3051,4,4,1);
 INSERT INTO `mob_pool_mods` VALUES (3099,23,23,1); -- Parata immune to Sleep, Bind, Silence and Gravity.
 INSERT INTO `mob_pool_mods` VALUES (3124,48,434,1);
 INSERT INTO `mob_pool_mods` VALUES (3129,370,50,0);
-INSERT INTO `mob_pool_mods` VALUES (3168,28,10,1);
 INSERT INTO `mob_pool_mods` VALUES (3245,56,1,1);
 INSERT INTO `mob_pool_mods` VALUES (3252,56,1,1);
 INSERT INTO `mob_pool_mods` VALUES (3257,56,1,1);
@@ -188,8 +187,8 @@ INSERT INTO `mob_pool_mods` VALUES (4189,244,15,0);
 INSERT INTO `mob_pool_mods` VALUES (4189,34,20,1);
 INSERT INTO `mob_pool_mods` VALUES (4189,35,0,1);
 INSERT INTO `mob_pool_mods` VALUES (4204,28,10,1); -- (Variable Hare) 10% XP bonus
+INSERT INTO `mob_pool_mods` VALUES (3168,28,10,1); -- (Polar Hare) 10% XP bonus
 INSERT INTO `mob_pool_mods` VALUES (4222,4,4,1);
-INSERT INTO `mob_pool_mods` VALUES (4238,28,5,1); -- (Virulent Peiste) 5% XP bonus
 INSERT INTO `mob_pool_mods` VALUES (4261,29,50,0);
 INSERT INTO `mob_pool_mods` VALUES (4261,370,25,0);
 INSERT INTO `mob_pool_mods` VALUES (4361,288,55,0);
