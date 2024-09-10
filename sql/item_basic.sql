@@ -19801,7 +19801,7 @@ INSERT INTO `item_basic` VALUES (25703,0,'uac_jerkin','uac_jerkin',1,63568,0,0,0
 INSERT INTO `item_basic` VALUES (25704,0,'abnoba_kaftan','abnoba_kaftan',1,63568,0,0,0);
 INSERT INTO `item_basic` VALUES (25705,0,'witching_robe','witching_robe',1,30800,0,0,0);
 INSERT INTO `item_basic` VALUES (25706,0,'shango_robe','shango_robe',1,63568,0,0,0);
-INSERT INTO `item_basic` VALUES (25707,0,'terminal_plate','terminal_plate',1,63572,0,0,0);
+INSERT INTO `item_basic` VALUES (25707,0,'terminal_plate','terminal_plate',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (25708,0,'gyve_doublet','gyve_doublet',1,63572,0,0,0);
 INSERT INTO `item_basic` VALUES (25709,0,'obviation_cuirass','obviation_cuirass',1,63568,0,0,0);
 INSERT INTO `item_basic` VALUES (25710,0,'obviation_cuirass_+1','obviat._cuirass_+1',1,63569,0,0,0);
@@ -20257,7 +20257,7 @@ INSERT INTO `item_basic` VALUES (26320,0,'kobo_obi','kobo_obi',1,63568,0,0,0);
 INSERT INTO `item_basic` VALUES (26321,0,'reiki_yotai','reiki_yotai',1,63568,0,0,0);
 INSERT INTO `item_basic` VALUES (26322,0,'kerygma_belt','kerygma_belt',1,63568,0,0,0);
 INSERT INTO `item_basic` VALUES (26323,0,'gishdubar_sash','gishdubar_sash',1,63572,0,0,0);
-INSERT INTO `item_basic` VALUES (26324,0,'latria_sash','latria_sash',1,63572,0,0,0);
+INSERT INTO `item_basic` VALUES (26324,0,'latria_sash','latria_sash',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (26325,0,'refoccilation_stone','refoccilation_stone',1,63572,0,0,0);
 INSERT INTO `item_basic` VALUES (26326,0,'channelers_stone','channelers_stone',1,63572,0,0,0);
 INSERT INTO `item_basic` VALUES (26327,0,'asklepian_belt','asklepian_belt',1,63572,0,0,0);
@@ -22074,8 +22074,8 @@ INSERT INTO `item_basic` VALUES (28308,0,'wayfarer_clogs','wayfarer_clogs',1,635
 INSERT INTO `item_basic` VALUES (28309,0,'temachtiani_boots','temachtiani_boots',1,63572,0,0,0);
 INSERT INTO `item_basic` VALUES (28310,0,'vanir_boots','vanir_boots',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (28311,0,'manabyss_pigaches','manabyss_pigaches',1,63572,0,0,0);
-INSERT INTO `item_basic` VALUES (28312,0,'scamps_sollerets','scamps_sollerets',1,63572,0,0,0);
-INSERT INTO `item_basic` VALUES (28313,0,'daihanshi_habaki','daihanshi_habaki',1,63572,0,0,0);
+INSERT INTO `item_basic` VALUES (28312,0,'scamps_sollerets','scamps_sollerets',1,63572,0,1,0);
+INSERT INTO `item_basic` VALUES (28313,0,'daihanshi_habaki','daihanshi_habaki',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (28314,0,'aetosaur_ledelsens','aeto._ledelsens',1,2084,21,0,0);
 INSERT INTO `item_basic` VALUES (28315,0,'aetosaur_ledelsens_+1','aeto._ledel._+1',1,2080,21,0,0);
 INSERT INTO `item_basic` VALUES (28316,0,'shabti_sabatons','shabti_sabatons',1,2084,21,0,0);

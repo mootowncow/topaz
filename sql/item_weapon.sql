@@ -2249,7 +2249,7 @@ INSERT INTO `item_weapon` VALUES (18620,'magnus_pole',12,0,0,0,0,3,1,402,64,0);
 INSERT INTO `item_weapon` VALUES (18621,'warmages_pole',12,0,0,0,0,3,1,402,77,0);
 INSERT INTO `item_weapon` VALUES (18622,'warmages_pole_+1',12,0,0,0,0,3,1,390,78,0);
 INSERT INTO `item_weapon` VALUES (18623,'chtonic_staff',12,0,0,0,0,3,1,356,45,0);
-INSERT INTO `item_weapon` VALUES (18624,'numen_staff',12,0,0,0,0,3,1,402,11,0);
+INSERT INTO `item_weapon` VALUES (18624,'numen_staff',12,0,0,0,0,3,1,366,51,0);
 INSERT INTO `item_weapon` VALUES (18625,'gerras_staff',12,0,0,0,0,3,1,366,75,0);
 INSERT INTO `item_weapon` VALUES (18626,'plenitas_virga',12,0,0,0,0,3,1,360,98,0);
 INSERT INTO `item_weapon` VALUES (18627,'bryojas_staff',12,0,0,0,0,3,1,412,80,0);
@@ -4069,7 +4069,7 @@ INSERT INTO `item_weapon` VALUES (21118,'g._spriggan_club',11,0,0,0,0,3,1,288,1,
 INSERT INTO `item_weapon` VALUES (21119,'eminent_wand',11,0,215,215,191,3,1,288,134,0);
 INSERT INTO `item_weapon` VALUES (21120,'patriarch_cane',11,0,108,108,96,3,1,288,116,0);
 INSERT INTO `item_weapon` VALUES (21121,'rose_couverte_-1',11,0,0,0,0,3,1,310,76,0);
-INSERT INTO `item_weapon` VALUES (21122,'mesyohi_rod',11,0,242,242,215,3,1,288,125,0);
+INSERT INTO `item_weapon` VALUES (21122,'mesyohi_rod',11,0,242,242,215,3,1,288,42,0);
 INSERT INTO `item_weapon` VALUES (21123,'cama._wand',11,0,108,108,96,3,1,264,95,0);
 INSERT INTO `item_weapon` VALUES (21124,'dowsers_wand',11,0,108,108,96,3,1,216,87,0);
 INSERT INTO `item_weapon` VALUES (21125,'tamaxchi',11,0,188,188,167,3,1,216,88,0);

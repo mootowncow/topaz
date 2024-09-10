@@ -628,3 +628,7 @@ INSERT INTO `item_mods_pet` VALUES (15878,160,-5,2); -- Wyvern: DMG -5
 INSERT INTO `item_mods_pet` VALUES (15476,23,10,0); -- All: ATT 10
 INSERT INTO `item_mods_pet` VALUES (15476,25,10,0); -- All: ACC 10
 INSERT INTO `item_mods_pet` VALUES (12360,384,300,0); -- All: HASTE_GEAR 300
+INSERT INTO `item_mods_pet` VALUES (28311,384,300,0); -- All: HASTE_GEAR 300
+INSERT INTO `item_mods_pet` VALUES (26000,25,5,1); -- Avatar: ACC 5
+INSERT INTO `item_mods_pet` VALUES (26000,30,5,1); -- Avatar: MACC 5
+INSERT INTO `item_mods_pet` VALUES (26000,27,5,1); -- Avatar: ENMITY 5
