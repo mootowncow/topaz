@@ -173,7 +173,6 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 // Make sure pet is engaged when trying to use ready moves
                 if (PAbility->isReadyMove())
                 {
-                    CBattleEntity* PPet = ((CBattleEntity*)PChar)->PPet;
                     if (!PPet->PAI->IsEngaged())
                     {
                         PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_PERFORM_ACTION));
