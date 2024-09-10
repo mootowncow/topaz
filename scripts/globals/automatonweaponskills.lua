@@ -330,11 +330,13 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
             --Final pDif is qRatio randomized with a 1-1.05 multiplier
             local pDif = qRatio * (1 + (math.random() * 0.05))
 
+            -- PDif caps at 3.15 for crits
+            if pDif > 3.15 then pDif = 3.15 end
+
             if isCrit then
                 pDif = pDif * critAttackBonus
-                -- PDif caps at 3.0 for crits
-                if pDif > 3.0 then pDif = 3.0 end
             end
+
             --printf("pdif first hit %u", pDif * 100)
             finaldmg = autoHitDmg(weaponDmg, fSTR, WSC, pDif) * ftp
             --printf("%i", finaldmg)
@@ -412,12 +414,13 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
             local pDif = qRatio * (1 + (math.random() * 0.05))
 
             --printf("%i,", pDif)
-            
+            -- PDif caps at 3.15 for crits
+            if pDif > 3.15 then pDif = 3.15 end
+
             if isCrit then
                 pDif = pDif * critAttackBonus
-                -- PDif caps at 3.0 for crits
-                if pDif > 3.0 then pDif = 3.0 end
             end
+
             --printf("pdif multihits %u", pDif * 100)
             if params.multiHitFtp == nil then ftp = 1 end -- Not fTP transfer
 

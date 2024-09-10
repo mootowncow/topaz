@@ -277,13 +277,16 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
             -- Ranged crits are pdif * 1.25
             if (tpeffect==TP_RANGED) then
                 pdif = pdif * 1.25
-                pdif = pdif * critAttackBonus
             else
                 pdif = pdif + 1
-                pdif = pdif * critAttackBonus
             end
             -- Pdif cannot go past 2.1 for mobs (2.0 normal, 2.1 randomized)
             if pdif > 2.1 then pdif = 2.1 end
+
+            -- Apply crit dmg increase
+            if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
+                pdif = pdif * critAttackBonus
+            end
         end
 
         -- Guard / Parry / Block check for non-ranged TP moves
@@ -339,13 +342,16 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
                 -- Ranged crits are pdif * 1.25
                 if (tpeffect==TP_RANGED) then
                     pdif = pdif * 1.25
-                    pdif = pdif * critAttackBonus
                 else
                     pdif = pdif + 1
-                    pdif = pdif * critAttackBonus
                 end
                 -- Pdif cannot go past 2.1 for mobs (2.0 normal, 2.1 randomized)
                 if pdif > 2.1 then pdif = 2.1 end
+
+                -- Apply crit dmg increase
+                if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
+                    pdif = pdif * critAttackBonus
+                end
             end
 
             -- Guard / Parry / Block check for non-ranged TP moves
