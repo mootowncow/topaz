@@ -39,9 +39,6 @@ Why do bat earrings work but flaggelents rope doesnt? Try putting eva mod on bei
 Something messed up with changing main/sub/ammo/range. Main / Sub if grip and 2h and ammo/range idk
 
 
-Enlight and Endark acc/attk decay
-maybe in else if (enspell >= ENSPELL_I_LIGHT && enspell <= ENSPELL_I_DARK || enspell >= ENSPELL_II_LIGHT && enspell <= ENSPELL_II_DARK) L1732 battleutils.cpp
-
 The items to upgrade inventory 60-80 that come from login campaign only(?) drop from tiamat jorm vtra? or vagary NMs
 Make LoadInventory() or w/e in charutils (on zoning) not move inventory around
 Boat docking soon custom msgparty() functions or w/e. is ok, add a ton and say which line for each one and prints in each one
@@ -168,13 +165,7 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Halve exp 10-55, or figure out what's making it give so much. cap EXP at 200 base without chain? Or remove the duo bonus?
-MonsterTPMoves add all weaponskill damage mods if trust only (copy from weaponskills.lua)
-Add Endark @ 55 with attack bosot prob needs to be in GetAttack() or w/e, check LSB
-Dimidation for DRK as a mythic WS latent you break like scythe
 void SmallPacket0x03A(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data) Sort Inventory   shouldn't be called on zoning?
-Did I accidentally cap mob pdif on monstertpmoves? Or weaponskills? OR BLU? or smn? or avatar?
-Don't turn while readying a TP move so in FaceTarget() or w/e function make it say not in action state mobskill or any state tbh?
 Char saving every 15m
 Fix automaton attachment drops from the ashu talif BCNMS, needs to be ones with subid. i.e. ID: 2347 for reactive_shield and NOT 8454
 +++ FINISH JP FIRST BEFORE ANYTHING +++
