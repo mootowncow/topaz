@@ -3824,7 +3824,7 @@ namespace charutils
                         }
                     }
 
-                    if (PMember->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET) && region >= 0 && region <= 22)
+                    if (PMember->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET) && region >= REGION_RONFAURE && region <= REGION_JEUNO)
                     {
                         switch (pcinzone)
                         {
@@ -3837,7 +3837,7 @@ namespace charutils
                             default: exp *= (1.0f / pcinzone); break;
                         }
                     }
-                    else if (PMember->StatusEffectContainer->HasStatusEffect(EFFECT_SANCTION) && region >= 28 && region <= 32)
+                    else if (PMember->StatusEffectContainer->HasStatusEffect(EFFECT_SANCTION) && region >= REGION_WEST_AHT_URHGAN && region <= REGION_ALZADAAL)
                     {
                         switch (pcinzone)
                         {
@@ -3851,6 +3851,19 @@ namespace charutils
                         }
 
                     }
+                    else if (PMember->StatusEffectContainer->HasStatusEffect(EFFECT_SIGIL) && region >= REGION_RONFAURE_FRONT && region <= REGION_VALDEAUNIA_FRONT)
+                    {
+                        switch (pcinzone)
+                        {
+                            case 1: exp *= 1.00f; break;
+                            case 2: exp *= 0.75f; break;
+                            case 3: exp *= 0.55f; break;
+                            case 4: exp *= 0.45f; break;
+                            case 5: exp *= 0.39f; break;
+                            case 6: exp *= 0.35f; break;
+                            default: exp *= (1.0f / pcinzone); break;
+                        }
+                    }
                     else
                     {
                         switch (pcinzone)
@@ -3863,6 +3876,24 @@ namespace charutils
                             case 6: exp *= 0.35f; break;
                             default: exp *= (1.0f / pcinzone); break;
                         }
+                    }
+
+                    // Cap base mob experience based on player level
+                    // 1-50 200
+                    // 51-60 250
+                    // 61-75 300
+                    // https://ffxiclopedia.fandom.com/wiki/Experience_Points?oldid=215371
+                    if (memberlevel >= 1 && memberlevel <= 50)
+                    {
+                        exp = std::min(exp, 200.0f);
+                    }
+                    else if (memberlevel >= 51 && memberlevel <= 60)
+                    {
+                        exp = std::min(exp, 250.0f);
+                    }
+                    else if (memberlevel >= 61 && memberlevel <= 75)
+                    {
+                        exp = std::min(exp, 300.0f);
                     }
 
                     if (PMob->getMobMod(MOBMOD_EXP_BONUS))
@@ -4382,7 +4413,7 @@ namespace charutils
 
             // Should this user be awarded conquest points..
             if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET) &&
-                (region >= 0 && region <= 22))
+                (region >= REGION_RONFAURE && region <= REGION_JEUNO))
             {
                 // Add influence for the players region..
                 conquest::AddConquestPoints(PChar, exp);
@@ -4390,7 +4421,7 @@ namespace charutils
 
             // Should this user be awarded imperial standing..
             if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SANCTION) &&
-                (region >= 28 && region <= 32))
+                (region >= REGION_WEST_AHT_URHGAN && region <= REGION_ALZADAAL))
             {
                 charutils::AddPoints(PChar, "imperial_standing", (int32)(exp * 0.1f));
                 PChar->pushPacket(new CConquestPacket(PChar));
@@ -4399,7 +4430,7 @@ namespace charutils
 		  // TEMPORARY: Until we have campaign implemented, allow players
             // to get allied notes by exping in past zones with sigil.
             if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGIL) &&
-                (region >= 33 && region <= 40))
+                (region >= REGION_RONFAURE_FRONT && region <= REGION_VALDEAUNIA_FRONT))
             {
                 charutils::AddPoints(PChar, "allied_notes", (int32)(exp * 0.1f));
                 PChar->pushPacket(new CConquestPacket(PChar));
