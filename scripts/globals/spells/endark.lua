@@ -13,8 +13,8 @@ end
 
 function onSpellCast(caster, target, spell)
     local effect = tpz.effect.ENDARK
-    local magicskill = target:getSkillLevel(tpz.skill.DARK_MAGIC)
-    local potency = (magicskill / 8) + 12.5
+    local magicSkill = target:getSkillLevel(tpz.skill.DARK_MAGIC)
+    local potency = (12 + math.floor(magicSkill / 20) * 3) - math.floor(magicSkill / 40)
 
     if target:addStatusEffect(effect, potency, 0, 180) then
         spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
