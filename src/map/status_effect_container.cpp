@@ -2007,7 +2007,8 @@ void CStatusEffectContainer::TickRegen(time_point tick)
 bool CStatusEffectContainer::HasPreventActionEffect(bool checkCharm)
 {
     if (checkCharm)
-    return HasStatusEffect({EFFECT_SLEEP,
+    return HasStatusEffect({
+        EFFECT_SLEEP,
         EFFECT_SLEEP_II,
         EFFECT_PETRIFICATION,
         EFFECT_LULLABY,
@@ -2019,7 +2020,8 @@ bool CStatusEffectContainer::HasPreventActionEffect(bool checkCharm)
         EFFECT_DEEPSLEEP});
     else
     {
-        return HasStatusEffect({EFFECT_SLEEP,
+        return HasStatusEffect({
+        EFFECT_SLEEP,
         EFFECT_SLEEP_II,
         EFFECT_PETRIFICATION,
         EFFECT_LULLABY,

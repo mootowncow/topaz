@@ -25,6 +25,8 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../states/ability_state.h"
 #include "../states/magic_state.h"
 #include "../states/weaponskill_state.h"
+#include "../states/mobskill_state.h"
+#include "../states/item_state.h"
 #include "../states/attack_state.h"
 #include "../../mobskill.h"
 #include "../../party.h"
@@ -1013,11 +1015,20 @@ void CMobController::DoCombatTick(time_point tick)
 void CMobController::FaceTarget(uint16 targid)
 {
     TracyZoneScoped;
-    if (PMob->StatusEffectContainer->HasStatusEffect(
-            { EFFECT_SLEEP, EFFECT_SLEEP_II, EFFECT_LULLABY, EFFECT_TERROR, EFFECT_STUN, EFFECT_PETRIFICATION, EFFECT_DEEPSLEEP}))
+
+    // If CCed, don't face target!
+    if (PMob->StatusEffectContainer->HasPreventActionEffect(false))
     {
         return;
     }
+
+    // If busy, don't face target!
+    if (PMob->PAI->IsCurrentState<CMagicState>() || PMob->PAI->IsCurrentState<CMobSkillState>() || PMob->PAI->IsCurrentState<CWeaponSkillState>() ||
+        PMob->PAI->IsCurrentState<CItemState>())
+    {
+        return;
+    }
+
     CBaseEntity* targ = PTarget;
     if (targid != 0 && ((targ && targid != targ->targid ) || !targ))
     {
