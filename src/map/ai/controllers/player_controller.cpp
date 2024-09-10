@@ -162,20 +162,23 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 return false;
             }
             // Pet is unable to use pet abilities due to Amnesia or hard CC
-            if (PPet->StatusEffectContainer->HasPreventActionEffect(false) ||
-                PPet->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
+            if (PPet)
             {
-                PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_PET_CANNOT_DO_ACTION));
-                return false;
-            }
-            // Make sure pet is engaged when trying to use ready moves
-            if (PAbility->isReadyMove())
-            {
-                CBattleEntity* PPet = ((CBattleEntity*)PChar)->PPet;
-                if (!PPet->PAI->IsEngaged())
+                if (PPet->StatusEffectContainer->HasPreventActionEffect(false) ||
+                    PPet->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
                 {
-                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_PERFORM_ACTION));
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_PET_CANNOT_DO_ACTION));
                     return false;
+                }
+                // Make sure pet is engaged when trying to use ready moves
+                if (PAbility->isReadyMove())
+                {
+                    CBattleEntity* PPet = ((CBattleEntity*)PChar)->PPet;
+                    if (!PPet->PAI->IsEngaged())
+                    {
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_PERFORM_ACTION));
+                        return false;
+                    }
                 }
             }
             if (PAbility->isPetAbility())
