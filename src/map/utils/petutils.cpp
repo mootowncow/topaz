@@ -977,6 +977,7 @@ namespace petutils
             PPet->SetSJob(JOB_RDM);
             // No elemental staff. Need bonus Macc or they struggle to land spells.
             PPet->addModifier(Mod::MACC, 30);
+            PPet->addModifier(Mod::MPP, 200);
         }
 
         // Set global avatar mods

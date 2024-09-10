@@ -282,7 +282,7 @@ INSERT INTO `abilities` VALUES (227,'footwork',2,65,1,120,21,0,0,197,2000,0,6,20
 INSERT INTO `abilities` VALUES (228,'despoil',6,60,4,300,61,125,0,181,2000,0,3,5.4,0,1,300,0,0,'ABYSSEA',0);		-- changed from  300s cd level 77
 INSERT INTO `abilities` VALUES (229,'pianissimo',10,20,1,15,112,0,0,194,2000,0,6,20.0,0,1,60,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (230,'sekkanoki',12,40,1,300,140,0,0,199,2000,0,6,20.0,0,1,80,0,0,'WOTG',0);
-INSERT INTO `abilities` VALUES (232,'elemental_siphon',15,50,1,300,175,451,0,201,2000,0,6,20.0,0,1,0,0,0,'WOTG',0);
+INSERT INTO `abilities` VALUES (232,'elemental_siphon',15,40,1,300,175,451,0,201,2000,0,6,20.0,0,1,0,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (233,'sublimation',20,35,1,30,234,0,0,189,2000,0,6,20.0,0,1,80,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (234,'addendum_white',20,10,1,1,231,0,0,191,2000,0,6,20.0,0,1,80,0,16,'WOTG',0);
 INSERT INTO `abilities` VALUES (235,'addendum_black',20,30,1,1,231,0,0,192,2000,0,6,20.0,0,1,80,0,32,'WOTG',0);

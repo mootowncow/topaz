@@ -172,6 +172,7 @@ Halve exp 10-55, or figure out what's making it give so much. cap EXP at 200 bas
 MonsterTPMoves add all weaponskill damage mods if trust only (copy from weaponskills.lua)
 Add Endark @ 55 with attack bosot prob needs to be in GetAttack() or w/e, check LSB
 Dimidation for DRK as a mythic WS latent you break like scythe
+void SmallPacket0x03A(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data) Sort Inventory   shouldn't be called on zoning?
 Did I accidentally cap mob pdif on monstertpmoves? Or weaponskills? OR BLU? or smn? or avatar?
 Don't turn while readying a TP move so in FaceTarget() or w/e function make it say not in action state mobskill or any state tbh?
 Char saving every 15m
@@ -194,6 +195,7 @@ Opening castle zhavl coffer on thief gave me thiefs vest, it's on AF moogle slip
 Cactrot Rapid pathing bugged
 Shield blocks show up as "MISS" in SCT, they are wrong reaction type. have to fix simplelog after too
 Do mobs get guard skill...?
+SmallPacket0x0E7 shouldn't delete EFFECT_HEALING when logging out(Retail tested) packet system Line 5641
 Imps don't link by sound only sight? do dual aggro mobs not link by dual aggro?
 Probably need to use int8 maneuvers = luautils::OnMobAutomatonSkillCheck(PTarget, PAutomaton, PSkill); for automaton TP moves
 Correct frame isn't being assigned to automatons on summon? (petid) petutils::SpawnPet always sets up harlequin frame but petutils::LoadPet (and calculate automaton stats) works??
