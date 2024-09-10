@@ -142,12 +142,8 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-1: Spells aren't AOEd onto trusts from being cast on master(or allies?) if they aren't engaged (ValdTarget()?). Or 
-2: Or is there more to it? And even if they're engaged it won't hit them because the cast started without them being engaged
 Scaling food based on level / KI
 On big hitbox mobs trusts don't get proper range because the range of stuff is exactly 16 but the range of WS is WS range + modelSize
-Can trusts kick attack?
-can AOE trusts with self AOES 40 yards away? AOEing onto trusts is fucky? Voidstorm hits them even though they're like 40 yards... do other spells/jas?
 Elivira 75 gear
 Tenzen AF hat meditate bonus, also demon circle and AF duration bonus 56+ or w/e level is for the item
 Shikaree Z AF duration bonus on ancient circle 56+ or w/e level is for the item
@@ -172,11 +168,13 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-SMN ability msgs to say what buffs they give(custom ones)
-12Pdif capped melee attacks do same dmg no variance? same with crits, always same amount. RATTK same? FIX ASAP
-Mob Atonement breath dmg capped at 750
-Does Orcus use pit ambush on engage?
-Remove abiliy for uld (DNC one) to use cyclonic as a normal TP move
+Halve exp 10-55, or figure out what's making it give so much. cap EXP at 200 base without chain? Or remove the duo bonus?
+MonsterTPMoves add all weaponskill damage mods if trust only (copy from weaponskills.lua)
+Add Endark @ 55 with attack bosot prob needs to be in GetAttack() or w/e, check LSB
+Dimidation for DRK as a mythic WS latent you break like scythe
+Did I accidentally cap mob pdif on monstertpmoves? Or weaponskills? OR BLU? or smn? or avatar?
+Don't turn while readying a TP move so in FaceTarget() or w/e function make it say not in action state mobskill or any state tbh?
+Char saving every 15m
 Fix automaton attachment drops from the ashu talif BCNMS, needs to be ones with subid. i.e. ID: 2347 for reactive_shield and NOT 8454
 +++ FINISH JP FIRST BEFORE ANYTHING +++
 Divine Emblem huge dmg to holy so its worth using over flash/cure
