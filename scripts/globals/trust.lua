@@ -87,7 +87,6 @@ local modByMobName =
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
         AddRefresh(mob)
-        mob:addMod(tpz.mod.HELIX_EFFECT, 25)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddCasterGear(mob)
     end,
