@@ -458,35 +458,6 @@ INSERT INTO `mob_pool_mods` VALUES (4199,106,3,1); -- CAN_PARRY: 3
 INSERT INTO `mob_pool_mods` VALUES (4649,106,3,1); -- CAN_PARRY: 3
 
 
--- Jug Pets
--- Lvl 1-75
-INSERT INTO `mob_pool_mods` VALUES (4610,62,-10,0);     -- Crab Familiar -10% Attack
-INSERT INTO `mob_pool_mods` VALUES (4610,63,10,0);      -- Crab Familiar +10% Def
-INSERT INTO `mob_pool_mods` VALUES (4611,62,-10,0);     -- Courier Carrie -10% Attack
-INSERT INTO `mob_pool_mods` VALUES (4611,63,20,0);      -- Courier Carrie +20% Def
-INSERT INTO `mob_pool_mods` VALUES (4604,62,60,0);      -- Tiger Familiar +60% Attack
-INSERT INTO `mob_pool_mods` VALUES (4604,63,-10,0);     -- Tiger Familiar -10% Def
-INSERT INTO `mob_pool_mods` VALUES (4605,62,60,0);      -- Saber Siravarde +60% Attack
-INSERT INTO `mob_pool_mods` VALUES (4605,63,-10,0);     -- Saber Siravarde -10% Def
-INSERT INTO `mob_pool_mods` VALUES (4600,62,30,0);      -- Lizard Familiar +30% Attack
-INSERT INTO `mob_pool_mods` VALUES (4600,63,-20,0);     -- Lizard Familiar -20% Def
-INSERT INTO `mob_pool_mods` VALUES (4601,62,30,0);      -- Coldblood Como +30% Attack
-INSERT INTO `mob_pool_mods` VALUES (4601,63,-20,0);     -- Coldblood Como -20% Def
-INSERT INTO `mob_pool_mods` VALUES (4625,63,30,0);      -- Antlion Familiar +30% Def
-INSERT INTO `mob_pool_mods` VALUES (4626,63,30,0);      -- Chopsuey Chucky +30% Def
-INSERT INTO `mob_pool_mods` VALUES (4606,62,20,0);      -- Beetle Familiar +20% Attack
-INSERT INTO `mob_pool_mods` VALUES (4607,62,20,0);      -- Panzer Galahad +20% Attack
-INSERT INTO `mob_pool_mods` VALUES (4623,62,30,0);      -- Diremite Familiar +30% Attack
-INSERT INTO `mob_pool_mods` VALUES (4624,62,30,0);      -- Lifedrinker Lars +30% Attack
-INSERT INTO `mob_pool_mods` VALUES (4614,162,-35,0);    -- Funguar Familiar -35% BDT
-INSERT INTO `mob_pool_mods` VALUES (4614,163,-35,0);    -- Funguar Familiar -35% MDT
-
--- Lvl 76+
-INSERT INTO `mob_pool_mods` VALUES (4629,62,10,0);      -- Nursery Nazuna +10% Attack
-INSERT INTO `mob_pool_mods` VALUES (4629,63,30,0);      -- Nursery Nazuna +30% Def
-
-
-
 /*!40000 ALTER TABLE `mob_pool_mods` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
