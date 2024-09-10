@@ -308,6 +308,10 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         hitslanded = hitslanded + 1
     end
 
+    -- For items that apply bonus damage to the first hit of a weaponskill (but not later hits),
+    -- store bonus damage for first hit, for use after other calculations are done
+    local firstHitBonus = math.floor(((finaldmg * mob:getMod(tpz.mod.ALL_WSDMG_FIRST_HIT))/100))
+
     -- Add +1 hit for offhand if dual wielding
     if mob:isDualWielding() then
         numberofhits = numberofhits +1
@@ -367,6 +371,11 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     -- printf("final: %f, hits: %f, acc: %f", finaldmg, hitslanded, hitrate)
     -- printf("ratio: %f, min: %f, max: %f, pdif, %f hitdmg: %f", ratio, minRatio, maxRatio, pdif, hitdamage)
+
+    -- Finally add in our "first hit" WS dmg bonus from before
+    if mob:isTrust() then
+        finaldmg = finaldmg + firstHitBonus
+    end
 
     -- Add Souleater bonus
     finaldmg = finaldmg + souleaterBonus(mob, hitslanded)
@@ -809,6 +818,11 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
             end
             dmg = math.floor(dmg * jpValue)
         end
+    end
+
+    -- Handle WSD (Trusts only)
+    if mob:isTrust() then
+        dmg = math.floor(dmg * ((100 + mob:getMod(tpz.mod.ALL_WSDMG_ALL_HITS)) / 100))
     end
 
     -- Handle Boost status effect
