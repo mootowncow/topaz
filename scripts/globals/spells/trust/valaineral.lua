@@ -63,7 +63,7 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.REPRISAL, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.REPRISAL)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.ENLIGHT, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ENLIGHT)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.HPP_LT, 75,
+    mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.HPP_LT, 75,
                         ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
 
     mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 33, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
