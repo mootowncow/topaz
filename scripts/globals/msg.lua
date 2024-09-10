@@ -226,6 +226,7 @@ tpz.msg.basic =
     ALREADY_HAS_A_PET      = 315, -- The <player> already has a pet.
     NO_EFFECT_ON_PET       = 336, -- No effect on that pet.
     NO_JUG_PET_ITEM        = 337, -- You do not have the necessary item equipped to call a beast.
+    CANT_HEAL_AVATAR       = 345, -- You cannot heal while you have an avatar summoned.
     MUST_HAVE_FOOD         = 347, -- You must have pet food equipped to use that command.
     STATUS_INCREASED       = 562, -- The status parameters of ${target} have increased.
     PET_CANNOT_DO_ACTION   = 574, -- <player>'s pet is currently unable to perform that action.
