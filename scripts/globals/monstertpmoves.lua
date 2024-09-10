@@ -264,10 +264,12 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     -- Set block rate to 0 for now
     mob:setLocalVar("isBlocked", 0) 
 
-    if ((chance*100) <= firstHitChance) then
+    -- Generate pDIF
+    local qRatio = math.random(minRatio * 1000, maxRatio * 1000) / 1000
+    local randomFactor = (math.random() * 0.05) + 1
+    pdif = qRatio * randomFactor
 
-        pdif = math.random((minRatio*1000), (maxRatio*1000)) --generate random PDIF
-        pdif = pdif/1000  --multiplier set.
+    if ((chance*100) <= firstHitChance) then
         if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
             if target:isMob() then
                 TryBreakMob(target)
@@ -280,9 +282,10 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
                 pdif = pdif + 1
                 pdif = pdif * critAttackBonus
             end
-            -- Pdif cannot go past 2.0 for mobs
-            if pdif > 2.0 then pdif = 2.0 end
+            -- Pdif cannot go past 2.1 for mobs (2.0 normal, 2.1 randomized)
+            if pdif > 2.1 then pdif = 2.1 end
         end
+
         -- Guard / Parry / Block check for non-ranged TP moves
         if (tpeffect ~= TP_RANGED) then
             if math.random()*100 < target:getGuardRate(mob) then -- Try to guard
@@ -324,8 +327,11 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         chance = math.random()
 
         if ((chance*100)<=hitrate) then --it hit
-            pdif = math.random((minRatio*1000), (maxRatio*1000)) --generate random PDIF
-            pdif = pdif/1000  --multiplier set.
+            -- Generate random pDIF
+            qRatio = math.random(minRatio * 1000, maxRatio * 1000) / 1000
+            randomFactor = (math.random() * 0.05) + 1
+            pdif = qRatio * randomFactor
+
             if isCrit(mob, critRate, params_phys) then
                 if target:isMob() then
                     TryBreakMob(target)
@@ -338,9 +344,10 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
                     pdif = pdif + 1
                     pdif = pdif * critAttackBonus
                 end
-                -- Pdif cannot go past 2.0 for mobs
-                if pdif > 2.0 then pdif = 2.0 end
+                -- Pdif cannot go past 2.1 for mobs (2.0 normal, 2.1 randomized)
+                if pdif > 2.1 then pdif = 2.1 end
             end
+
             -- Guard / Parry / Block check for non-ranged TP moves
             if (tpeffect ~= TP_RANGED) then
                 if math.random()*100 < target:getGuardRate(mob) then -- Try to guard
