@@ -163,7 +163,6 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Add an alternate camp to onzozo(yhoator gate crystal coeurl/crawler? Crawlers nest? Garlaige?). 17285277 master coeurl yhoator, add crawlers/coeurls all over, make level 50-52
 Targetted party member logic for mob TP moves for healing ruby (pet) etc
 NPC Mobs can't guard/parry TP moves?
 
@@ -217,7 +216,6 @@ Pet camps so I can level SMN x2
 Job points
 Lamia / Merrow and undead + acroliths in same party. Mobmod to make mobs be in same party. (For Illrusi Atoll assault mainly)
 Mine Shaft + Promy ENMs
-tpz.znm.OnMobDeath doesn't properly take KI on death if someone pops and isn't killer(?) check eneities in range instead for the var instead of isKiller / noKiller
 Dea pop zone msg ID missing/wrong (Bhaflau thickets)
 Anticans starting from pool ID 165 need 240 delay. Check if any mobs dont have 240 or 480 delay in heidisql
 Item enchantments so you always want 1 item perma active (like high breath mantle)
@@ -290,7 +288,6 @@ noKiller to tpz.annm.SpawnChest and all its files its used in
 Mobs shouldn't cast spells they already have a buff up, i.e. won't stoneskin if they have stoneskin already. Requires a map
 add m_instanceId member to char entity and when loading in or something set the player to that instance so they dont load into nowhere land
 Finish unity_leader stuff in charentity https://github.com/search?q=repo%3ALandSandBoat%2Fserver%20unity_leader&type=code
-ZNM taking item on death works properly on mobs with names with two words
 -- Open / Close randomly every hour (Psoxoja zone) shouldn't rotate on hour, just when a player is near the door(NPC)
 Only show effects fading msg if m_owner(caster?) or person with the buff. Maybe need to track who casted it in some new member? (m_caster)
 Ability to set attributes (m_dex? or w/e) instead of adding it as a mod to mobs/players. same with acc/attk/def/racc/rattk
