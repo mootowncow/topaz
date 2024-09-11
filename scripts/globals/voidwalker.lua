@@ -1224,10 +1224,13 @@ end
 
 tpz.voidwalker.onMobDeath = function(mob, player, isKiller, keyItem)
     if player then
+        local zoneId        = player:getZoneID()
+        local zoneTextTable = zones[zoneId].text
         local popkeyitem = mob:getLocalVar("[VoidWalker]PopedWith")
+        local playerpoped = GetPlayerByID(mob:getLocalVar("[VoidWalker]PopedBy"))
+        local isT3OrT4Abyssite = popkeyitem >= tpz.ki.BLUE_ABYSSITE and popkeyitem <= tpz.ki.BLACK_ABYSSITE
 
         if isKiller then
-            local playerpoped = GetPlayerByID(mob:getLocalVar("[VoidWalker]PopedBy"))
             local alliance    = player:getAlliance()
             local outOfParty  = true
 
@@ -1253,10 +1256,13 @@ tpz.voidwalker.onMobDeath = function(mob, player, isKiller, keyItem)
             checkUpgrade(player, mob, keyItem)
         end
 
-        -- Delete pop key item on a successful kill only from the person who popped the NM
-        if playerpoped then
+        -- Delete pop key item on a successful T3 kill only from the person who popped the NM
+        if (isT3OrT4Abyssite) then
             playerpoped:delKeyItem(popkeyitem)
-            playerpoped:messageSpecial(zoneTextTable.VOIDWALKER_BREAK_KI, popkeyitem)
+            if (playerpoped:getLocalVar("sawKIBreakMsg") == 0) then
+                playerpoped:setLocalVar("sawKIBreakMsg", 1)
+                playerpoped:messageSpecial(zoneTextTable.VOIDWALKER_BREAK_KI, popkeyitem)
+            end
         end
     end
     DespawnPet(mob)
@@ -1290,6 +1296,7 @@ tpz.voidwalker.onHealing = function(player)
         mob:setLocalVar("[VoidWalker]PopedAt", os.time())
 
         player:messageSpecial(zoneTextTable.VOIDWALKER_SPAWN_MOB)
+        player:setLocalVar("sawKIBreakMsg", 0)
         mob:hideName(false)
         mob:untargetable(false)
         mob:setStatus(tpz.status.UPDATE)

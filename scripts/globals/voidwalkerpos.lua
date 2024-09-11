@@ -251,10 +251,10 @@ tpz.voidwalker.pos =
         [15] = { mobId = nil, pos = { 59, -1, 16 } },
         [16] = { mobId = nil, pos = { -7, -9, 134 } },
         [17] = { mobId = nil, pos = { 32, -13, 215 } },
-        [18] = { mobId = nil, pos = { 214, -20, 651 } },
+        [18] = { mobId = nil, pos = { -214, -20, 651 } },
         [19] = { mobId = nil, pos = { 57, -1, -95 } },
         [20] = { mobId = nil, pos = { 19, -1, -174 } },
-        [21] = { mobId = nil, pos = { 128, -4, -148 } },
+        [21] = { mobId = nil, pos = { -128, -4, -148 } },
     },
 
     [tpz.zone.MERIPHATAUD_MOUNTAINS] =
