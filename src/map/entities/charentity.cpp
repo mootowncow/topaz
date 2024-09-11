@@ -1638,10 +1638,24 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
                     addMP((int32)-mpCost);
 
-                    if (PAbility->getValidTarget() == TARGET_SELF)
+                    uint16 validTarget = PAbility->getValidTarget();
+
+                    if (validTarget & TARGET_SELF)
                     {
                         PPetTarget = PPet->targid;
+
+                        // Check if it also includes TARGET_PLAYER_PARTY
+                        if (validTarget & TARGET_PLAYER_PARTY)
+                        {
+                            PPetTarget = PTarget->targid;
+                        }
                     }
+                    else if (validTarget & TARGET_PLAYER_PARTY)
+                    {
+                        // If only TARGET_PLAYER_PARTY is set
+                        PPetTarget = PTarget->targid;
+                    }
+
                 }
                 else
                 {
