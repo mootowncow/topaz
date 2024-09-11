@@ -1287,7 +1287,7 @@ bool CGambitsContainer::TryTrustSkill()
             {
                 target = POwner->GetBattleTarget();
             }
-            if (currentDistance <= (static_cast<float>(PWeaponSkill->getRange()) + static_cast<float>(target->m_ModelSize)))
+            if (currentDistance <= (static_cast<float>(PWeaponSkill->getRange())))
             {
                 int16 tp = POwner->health.tp;
                 // Add Fencer TP Bonus
@@ -1320,7 +1320,7 @@ bool CGambitsContainer::TryTrustSkill()
             {
                 target = POwner->GetBattleTarget();
             }
-            if (currentDistance <= (skill->getDistance() + static_cast<float>(target->m_ModelSize)))
+            if (currentDistance <= (skill->getDistance()))
             {
                 int16 tp = POwner->health.tp;
                 // Add Fencer TP Bonus
