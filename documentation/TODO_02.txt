@@ -1,14 +1,8 @@
 Make arrows/bolts/bullets lvl 75 https://www.bg-wiki.com/ffxi/Nokkhi_Jinjahl and all synth recips converted to real crafts? 
 or ones we can use like consumables
-81+ legendary drops 10x as rare 1 in 5000, don't forget the message
-LVl 30-60 cap ENM's with better rewards
-Capacity Point chains. It's added but seems wonky and not work very well, maybe need to fix formula
 Ele or Hybrid WS TryProcTH?
-All MNK and WHM JP
-BLM Aspir II + 4m CD Manawell
 Code KS99 with custom drops
 Goblin Grenade Quest
-if targetID is dead / nil for a spell then set ID to 0 or something?
 Fix target:setTP moves msg, use feather tickle as a base
 Sea NM tuning
 MobtransferEnfeeblesMove needs to use new #enmitylist logic
@@ -27,7 +21,6 @@ Full cure scroll from a ENM or KSNM or BCNM
 Tick #(decay) on mob stat down moves match the duration of it or instantly removes all the stat down?
 Can't see players casting spells on mobs "starts casting", magic_State.cpp
 Funguar shrooms supposed to grow back over time (Check JP wiki for how it works). might need a mixin for all funguars
-Mob ranged attacks (like goblin robbers / aerns) shouldn't have +100 acc bonus
 Changing subjob randomly bugs out and makes you unable to change main job afterwards
 Level restriction message isn't shown twice when zoning into bcnms but is for level capped areas?
 Daken should only proc on main job nin, and trait should be main job only too! add MJ only traits flag? Should also only proc on SHURIKENS it procced on ungur boomerang
@@ -139,6 +132,11 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Valaineral gear
+Tenzen TE/Seigan logic (needs to work with hasso somehow..)
+Don't WS mid action(Mainly JAs)
+If one is CCed sometimes none of them will follow out of combat because of how they pay in a line? This means onRoam pathing
+Save / Conserve TP work? It's on mob moves but I don't think its on trusts
 Scaling food based on level / KI
 On big hitbox mobs trusts don't get proper range because the range of stuff is exactly 16 but the range of WS is WS range + modelSize
 Elivira 75 gear
@@ -165,19 +163,38 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-void SmallPacket0x03A(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data) Sort Inventory   shouldn't be called on zoning?
+Add an alternate camp to onzozo(yhoator gate crystal coeurl/crawler? Crawlers nest? Garlaige?)
+Fix removestatuseffectbyflag in monster tp moves for enfeebles that's removing /heal (it should remove by dmg flag and NOT status effect healing or something? dunno)
+DRK AF. Weapon Bash gloves boon corrupt - > custom msg with a map for what the effect turns into!
+Targetted party member logic for mob TP moves for healing ruby (pet) etc
+NPC Mobs can't guard/parry TP moves?
+
+1: Mob ranged / skill / WS / ability radius should also be based on targets modelsize
+2: player JA's(reduce DNC steps range in sql after) / player ws / player RA should also be based on targets modelsize
+3: Maybe can't caue the radius of the WS is already decided as a variable and can't compare while being out of combat
+4: so don't add +modelsize to WS/MS checks(I think its only for trusts? check mob too) at all then so they can be OOR and waste
+5: Make Elivira 16 yards move again
+
 Char saving every 15m
 Fix automaton attachment drops from the ashu talif BCNMS, needs to be ones with subid. i.e. ID: 2347 for reactive_shield and NOT 8454
 +++ FINISH JP FIRST BEFORE ANYTHING +++
+Add RUN and GEO (Check LSB - get their proper rune C++ code)
+Randomize conquest control
+Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
+Blood boon / -perp cost / +Ele siphon gear
 Divine Emblem huge dmg to holy so its worth using over flash/cure
+If a skill chain is really close it can bug out and give 1 person chain and other not? Exp randomly desyncs dunno why
 Missed WS can SC(and SC for 0), and counter for starting a SC as well. Check hasmissmsg or w/e
-m_ModelSize on player/trust/mob RA, tp moves, WS(player and mob I think?). 
 Can cast songs on trusts and AOE them onto people (and don't need piansimmo)
 Give players the ability to give 3-4 songs
 Do shield blocked TP moves still interrupt with shield mastery trait on?
 Get merrow/lamia dukrippen stuff from jcmorris
 Add puk camp back by Mamook
-Buff conquest gear + campaign gear
+Buff conquest gear + campaign gear 
+https://ffxiclopedia.fandom.com/wiki/Fourth_Brunne_Set 
+https://ffxiclopedia.fandom.com/wiki/Cobra_Harness_Set 
+https://ffxiclopedia.fandom.com/wiki/Cobra_Unit_Robe_Set
+
 add more jp camps, and RAID nms wont give 10 JP anymore but gonna give them more loot
 Fix /tell chat
 unity chat doesn't work cross-zone
@@ -218,9 +235,6 @@ Voidwalker KI delete on T3/T4 kill
 Fatality belt latent(change it prob)
 "Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking. Copy  Cheese Hoarder Gigiroon to code it
 Group Yagudo lutenists scroll drops ?
-La Vaule gate doesn't work properly
-The Scarlet King (Purson) test on retail (dont forget mob level) + code
-NPC Mobs can't guard/parry TP moves?
 Need high level fomor groups by 16875650 (Fomor ninja - abraxas) in lufaise meadows
 Finish MMM weapons via the mats at magian moogle and ANNM fights(some are missing, test changes i did in general). Add 09 voucher drops: https://www.bg-wiki.com/ffxi/Category:Moblin_Maze_Mongers
 
@@ -265,7 +279,6 @@ Cura - Cura III msg wrong for AOEing? Add it to magic and use the cure function 
 GM menu from lsb
 Add latents effects mods directly to the item itself when active(remove when inactive). Make ritter shield def 21 + 2(hq version has no latent or extra def at all) from PLD after
 Limbus restore chest animation doesn't always work? esp not AOE?
-Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
 Make holy good somehow(TP reduction?)
 DNC insane dps like retail with all its new flourishes
 Build Dispel resistance as a mob_mod toggle
@@ -482,6 +495,9 @@ https://github.com/LandSandBoat/server/commit/5e3c8e8029c6802c500bac49293ed8a43a
 
 Bound mobs attack nearby players
 https://github.com/LandSandBoat/server/commit/93f2ca5e67c4bb04b8157e0c1d347847fd797357
+
+Call to arms
+https://github.com/LandSandBoat/server/commit/268395585b5669bbfc17acb413d1d5a9645807fd
 
 Fix mobs turning while casting with Manafont up 
 https://github.com/LandSandBoat/server/commit/53a5a8738a07c86da85607447657ed1da9666fc8

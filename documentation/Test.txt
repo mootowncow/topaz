@@ -54,8 +54,7 @@ https://ffxiclopedia.fandom.com/wiki/A_Reputation_in_Ruins doors should shut onc
 Doors around that area are supposed to open when players are nearby and close when aren't I think
 
 Retail:
-Can you log off with an avatar out?
-Does it respawn when you log in?
+Can avatars "too far" if you use blood pact too far from mob?
 Cait Sith BP animations (astral flow too)
 Diabolos BP animations (astral flow too)
 Item(dusty scroll etc) RR dispellable?
