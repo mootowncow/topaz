@@ -63,16 +63,20 @@ tpz.znm.onTrade = function(player, popItem)
 end
 
 tpz.znm.OnMobDeath = function(mob, player, isKiller, noKiller)
-    if isKiller or noKiller then
-        local mobName = mob:getName()
-        mobName = string.gsub(mobName, '_', ' ');
+    local nearbyPlayers = mob:getPlayersInRange(50)
+    if nearbyPlayers == nil then return end
+    if nearbyPlayers then
+        for _,PChar in ipairs(nearbyPlayers) do
+            local mobName = mob:getName()
+            mobName = string.gsub(mobName, '_', ' ');
 
-        for _, nmData in pairs(nmPopData) do
-            if (mobName == nmData.name) then
-                if (player:getLocalVar("znmTrade-" .. nmData.popItem) > 0) then
-                    player:delItem(nmData.popItem, 1)
-                    player:setLocalVar("znmTrade-" .. nmData.popItem, 0)
-                    break
+            for _, nmData in pairs(nmPopData) do
+                if (mobName == nmData.name) then
+                    if (PChar:getLocalVar("znmTrade-" .. nmData.popItem) > 0) then
+                        PChar:delItem(nmData.popItem, 1)
+                        PChar:setLocalVar("znmTrade-" .. nmData.popItem, 0)
+                        break
+                    end
                 end
             end
         end

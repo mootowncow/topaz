@@ -33,6 +33,7 @@ zones[tpz.zone.MOUNT_ZHAYOLM] =
         PARTY_MIN_REQS          = 7485, -- Your party does not meet the minimum required number of ≺Numeric Parameter 0≻ members.
         MEMBER_TOO_FAR          = 7486, -- One or more party members are too far away from the entrance. Unable to enter area.
         DETACHED_PART           = 7533, -- There is a detached part here...
+        DRAWS_NEAR              = 7575, -- Something draws near!
         HOMEPOINT_SET           = 8724, -- Home point set!
     },
     mob =
