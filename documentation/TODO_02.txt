@@ -164,8 +164,6 @@ Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
 Add an alternate camp to onzozo(yhoator gate crystal coeurl/crawler? Crawlers nest? Garlaige?). 17285277 master coeurl yhoator, add crawlers/coeurls all over, make level 50-52
-Fix removestatuseffectbyflag in monster tp moves for enfeebles that's removing /heal (it should remove by dmg flag and NOT status effect healing or something? dunno)
-DRK AF. Weapon Bash gloves boon corrupt - > custom msg with a map for what the effect turns into!
 Targetted party member logic for mob TP moves for healing ruby (pet) etc
 NPC Mobs can't guard/parry TP moves?
 
@@ -231,7 +229,6 @@ Final zilart missons + apoc nigh(revamp earrings) + storms of fate + rank6-10 ba
 Finish bodies https://www.bg-wiki.com/ffxi/Shiyo_Server_Systems/Gear#COP_Bodies
 give TP on perfect counters
 All mimics start with 3k TP
-Voidwalker KI delete on T3/T4 kill
 Fatality belt latent(change it prob)
 "Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking. Copy  Cheese Hoarder Gigiroon to code it
 Group Yagudo lutenists scroll drops ?
