@@ -69,21 +69,18 @@ function onUseAbility(player, target, ability)
         local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WATER, bonus, tpz.effect.ATTACK_DOWN)
 
         if (resist >= 0.5) then
-            printf("applying attack down")
             target:delStatusEffect(tpz.effect.ATTACK_BOOST)
             target:addStatusEffect(tpz.effect.ATTACK_DOWN, 10, 0, 60)
         end
 
         resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WATER, bonus, tpz.effect.STR_DOWN)
         if (resist >= 0.5) then
-            printf("applying str down")
             target:addStatusEffect(tpz.effect.STR_DOWN, power, 6, 60)
         end
     end
 
     -- Valor Gauntlets dispel
     if hasValorGauntlets then
-        printf("Dispelling")
         target:dispelStatusEffect()
     end
 

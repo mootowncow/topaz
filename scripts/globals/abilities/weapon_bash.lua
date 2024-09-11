@@ -10,6 +10,7 @@ require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/msg")
 require("scripts/globals/utils")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
@@ -24,6 +25,9 @@ function onUseAbility(player, target, ability)
     end
 
     local stunEEM = target:getMod(tpz.mod.EEM_STUN)
+    local hands = player:getEquipID(tpz.slot.HANDS)
+    local hasChaosGauntlets = (hands == tpz.items.CHAOS_GAUNTLETS)
+
     -- Applying Weapon Bash stun. Rate is said to be near 100%, so let's say 99%.
     if
         (math.random()*100 < 99) and
@@ -31,6 +35,12 @@ function onUseAbility(player, target, ability)
         (stunEEM > 5)
     then
         target:addStatusEffect(tpz.effect.STUN, 1, 0, 4)
+    end
+
+    -- Chaos Gauntlets effect corrupt
+    if hasChaosGauntlets then
+        local corruptAmount = 1
+        CorruptBuffs(player, target, corruptAmount)
     end
 
     -- Get fSTR
