@@ -28,6 +28,7 @@ zones[tpz.zone.BHAFLAU_THICKETS] =
         AREA_FULL                   = 7585, -- This area is fully occupied. You were unable to enter.
         MEMBER_NO_REQS              = 7589, -- Not all of your party members meet the requirements for this objective. Unable to enter area.
         MEMBER_TOO_FAR              = 7593, -- One or more party members are too far away from the entrance. Unable to enter area.
+        DRAWS_NEAR                  = 7681, -- Something draws near
         HOMEPOINT_SET               = 7692, -- Home point set!
     },
     mob =
