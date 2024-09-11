@@ -1129,7 +1129,7 @@ function MobDrainStatusEffectMove(mob, target)
     -- try to drain buff
     local effect = mob:stealStatusEffect(target)
 
-    target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+    MobRemoveEffects(target)
     target:addEnmity(mob, 1, 320)
 
     if (effect ~= 0) then
@@ -1142,7 +1142,7 @@ end
 -- Adds a status effect to a target
 function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isGaze)
 
-    target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+    MobRemoveEffects(target)
     target:addEnmity(mob, 1, 320)
 
     if target:hasStatusEffect(tpz.effect.FEALTY) then
@@ -1213,7 +1213,7 @@ end
 -- Adds a status effect to a target with customizable duration and subpower
 function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, isGaze)
 
-    target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+    MobRemoveEffects(target)
     target:addEnmity(mob, 1, 320)
 
     if target:hasStatusEffect(tpz.effect.FEALTY) then
@@ -1280,7 +1280,7 @@ end
 -- Used for Slows that overwrite Haste
 function MobHasteOverwriteSlowMove(mob, target, power, tick, duration, subid, subpower, tier)
 
-    target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+    MobRemoveEffects(target)
     target:addEnmity(mob, 1, 320)
 
     if target:hasStatusEffect(tpz.effect.FEALTY) then
@@ -1340,7 +1340,7 @@ end
 function MobGazeMove(mob, target, typeEffect, power, tick, duration)
     if (target:isFacing(mob)) then
 		if target:hasStatusEffect(tpz.effect.BLINDNESS) then
-            target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+            MobRemoveEffects(target)
             target:addEnmity(mob, 1, 320)
 			return tpz.msg.basic.SKILL_MISS
 		else
@@ -1348,7 +1348,7 @@ function MobGazeMove(mob, target, typeEffect, power, tick, duration)
 		end
     end
 
-    target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+    MobRemoveEffects(target)
     target:addEnmity(mob, 1, 320)
     return tpz.msg.basic.SKILL_MISS
 end
@@ -1357,7 +1357,7 @@ end
 function MobGazeMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier)
     if (target:isFacing(mob)) then
 		if target:hasStatusEffect(tpz.effect.BLINDNESS) then
-            target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+            MobRemoveEffects(target)
             target:addEnmity(mob, 1, 320)
 			return tpz.msg.basic.SKILL_MISS
 		else
@@ -1365,7 +1365,7 @@ function MobGazeMoveSub(mob, target, typeEffect, power, tick, duration, subid, s
 		end
     end
 
-    target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+    MobRemoveEffects(target)
     target:addEnmity(mob, 1, 320)
     return tpz.msg.basic.SKILL_MISS
 end
@@ -1527,7 +1527,7 @@ function MobEncumberMove(mob, target, maxSlots, duration)
           target:unequipItem(encumberSlots[i]);
           mask = mask + math.pow(2, encumberSlots[i]);
         end
-        target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+        MobRemoveEffects(target)
         target:addEnmity(mob, 1, 320)
         target:addStatusEffectEx(tpz.effect.ENCUMBRANCE_II, tpz.effect.ENCUMBRANCE_II, mask, 0, duration * resist);
     end
@@ -1545,14 +1545,14 @@ function MobCharmMove(mob, target, skill, costume, duration)
 	--GetPlayerByID(6):PrintToPlayer(string.format("Resist: %u",resist))
 
 	if (not target:isPC()) then
-        target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+        MobRemoveEffects(target)
         target:addEnmity(mob, 1, 320)
 		return skill:setMsg(tpz.msg.basic.SKILL_MISS)
 	end
 	
 	if (resist >= 0.5) then
 		if target:hasStatusEffect(tpz.effect.FEALTY) then
-            target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+            MobRemoveEffects(target)
             target:addEnmity(mob, 1, 320)
 		    return skill:setMsg(tpz.msg.basic.SKILL_MISS)
 		else
@@ -1563,7 +1563,7 @@ function MobCharmMove(mob, target, skill, costume, duration)
             return skill:setMsg(tpz.msg.basic.SKILL_ENFEEB_IS)
         end
 	else
-        target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+        MobRemoveEffects(target)
         target:addEnmity(mob, 1, 320)
 	    return skill:setMsg(tpz.msg.basic.SKILL_MISS)
 	end
@@ -1621,7 +1621,7 @@ function MobDispelMove(mob, target, skill, element, param1, param2)
     -- Negative / Positive element resist on players
     resist = CheckPlayerStatusElementResist(mob, target, element, effect, resist, bonus)
 
-    target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+    MobRemoveEffects(target)
     target:addEnmity(mob, 1, 320)
 
     -- Check for dispel resistance trait
@@ -1657,7 +1657,7 @@ function MobFullDispelMove(mob, target, skill, param1, param2)
     -- Negative / Positive element resist on players
     resist = CheckPlayerStatusElementResist(mob, target, element, effect, resist, bonus)
 
-    target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+    MobRemoveEffects(target)
     target:addEnmity(mob, 1, 320)
 
     -- Check for dispel resistance trait
@@ -1692,7 +1692,7 @@ function MobCorruptMove(mob, target, skill, amount)
     -- Negative / Positive element resist on players
     resist = CheckPlayerStatusElementResist(mob, target, element, effect, resist, bonus)
 
-    target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+    MobRemoveEffects(target)
     target:addEnmity(mob, 1, 320)
 
 	if (resist >= 0.5) then
@@ -2332,6 +2332,12 @@ function ApplyPlayerGearResistModCheck(mob, target, typeEffect, dStat, bonus, el
         end
     end
     return resist
+end
+
+function MobRemoveEffects(target)
+    target:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    target:delStatusEffectSilent(tpz.effect.QUICKENING)
+    target:delStatusEffectSilent(tpz.effect.MAZURKA)
 end
 
 function MobDmgTPModifier(tp)
