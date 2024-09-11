@@ -9026,10 +9026,10 @@ INSERT INTO `mob_groups` VALUES (11,1710,124,'Goblin_Shaman',330,0,1150,0,0,35,3
 INSERT INTO `mob_groups` VALUES (12,136,124,'Anemone',330,0,91,0,0,51,54,0);
 INSERT INTO `mob_groups` VALUES (13,1641,124,'Goblin_Bouncer',330,0,1027,0,0,53,55,0);
 INSERT INTO `mob_groups` VALUES (14,1677,124,'Goblin_Hunter',330,0,1093,0,0,53,55,0);
-INSERT INTO `mob_groups` VALUES (15,4375,124,'Worker_Crawler',330,0,2670,0,0,43,46,0);
+INSERT INTO `mob_groups` VALUES (15,4375,124,'Worker_Crawler',330,0,2670,0,0,50,52,0);
 INSERT INTO `mob_groups` VALUES (16,1709,124,'Goblin_Robber',330,0,1145,0,0,47,49,0);
 INSERT INTO `mob_groups` VALUES (17,1741,124,'Goblin_Trader',330,0,1180,0,0,47,49,0);
-INSERT INTO `mob_groups` VALUES (18,2585,124,'Master_Coeurl',330,0,1640,0,0,47,50,0);
+INSERT INTO `mob_groups` VALUES (18,2585,124,'Master_Coeurl',330,0,1640,0,0,51,53,0);
 INSERT INTO `mob_groups` VALUES (19,4361,124,'Woodland_Sage',95040,128,2666,0,0,60,61,0);
 INSERT INTO `mob_groups` VALUES (20,5123,124,'Big_Jaw',330,0,279,0,0,43,47,0);
 INSERT INTO `mob_groups` VALUES (21,4309,124,'Water_Elemental',330,4,2629,0,0,53,55,0);
