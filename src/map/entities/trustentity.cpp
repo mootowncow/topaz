@@ -242,6 +242,12 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
 
         PRecastContainer->Add(RECAST_ABILITY, action.actionid, action.recast);
     }
+
+    if (PTarget && PTarget->isDead())
+    {
+        ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
+        ((CMobEntity*)PTarget)->DoAutoTarget();
+    }
 }
 
 void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
@@ -468,6 +474,12 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
     //battleutils::RemoveAmmo(this, ammoConsumed);
     // only remove detectables
     StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+
+    if (PTarget && PTarget->isDead())
+    {
+        ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
+        ((CMobEntity*)PTarget)->DoAutoTarget();
+    }
 }
 
 bool CTrustEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
@@ -524,11 +536,25 @@ void CTrustEntity::OnCastFinished(CMagicState& state, action_t& action)
     auto PSpell = state.GetSpell();
 
     PRecastContainer->Add(RECAST_MAGIC, static_cast<uint16>(PSpell->getID()), action.recast);
+
+    auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    if (PTarget->isDead())
+    {
+        ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
+        ((CMobEntity*)PTarget)->DoAutoTarget();
+    }
 }
 
 void CTrustEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 {
     CMobEntity::OnMobSkillFinished(state, action);
+
+    auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    if (PTarget->isDead())
+    {
+        ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
+        ((CMobEntity*)PTarget)->DoAutoTarget();
+    }
 }
 
 void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& action)
@@ -667,5 +693,12 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
 
         actionTarget.speceffect = SPECEFFECT_NONE; // It seems most mobs use NONE, but player-like models use BLOOD for their weaponskills
                                                    // TODO: figure out a good way to differentiate between the two. There does not seem to be a functional difference.
+    }
+
+    auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    if (PTarget->isDead())
+    {
+        ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
+        ((CMobEntity*)PTarget)->DoAutoTarget();
     }
 }

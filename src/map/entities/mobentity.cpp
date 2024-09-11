@@ -1607,7 +1607,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
                 }
             }
         }
-        // Pet buffing abilities shouldn't revmove sneak/invis off players(i.e. Garuda's Hastega Blood Pact: Ward)
+        // Pet buffing abilities shouldn't remove sneak/invis off players(i.e. Garuda's Hastega Blood Pact: Ward)
         if (objtype != TYPE_PET)
         {
             PTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);

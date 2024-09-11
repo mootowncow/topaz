@@ -2374,6 +2374,15 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
     this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK | EFFECTFLAG_DETECTABLE);
 
+    if (this->objtype == TYPE_TRUST) // Player pets / Player is done in mobentity/char entity but trust entity does not have an OnAttack override
+    {
+        if (PTarget && PTarget->isDead())
+        {
+            ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
+            ((CMobEntity*)PTarget)->DoAutoTarget();
+        }
+    }
+
     return true;
 }
 
