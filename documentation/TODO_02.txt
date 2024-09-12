@@ -133,6 +133,7 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 Trusts:
 Valaineral gear
+Ulmia Ballad caster PT members
 Tenzen TE/Seigan logic (needs to work with hasso somehow..)
 Don't WS mid action(Mainly JAs)
 If one is CCed sometimes none of them will follow out of combat because of how they pay in a line? This means onRoam pathing
@@ -143,7 +144,7 @@ Elivira 75 gear
 Tenzen AF hat meditate bonus, also demon circle and AF duration bonus 56+ or w/e level is for the item
 Shikaree Z AF duration bonus on ancient circle 56+ or w/e level is for the item
 Rapp Harness + haste subligar for thf/dnc trusts
-Sylvie should follow on top of you and not the mob (needs new movement type)
+Sylvie and Ulmia should follow on top of you and not the mob (needs new movement type)
 Ulmia double march, ways to track x2 song effect gambit on target
 Trusts shouldn't play their special animation/sound effect after being summoned. Need to probably set them to normal animation after spawn like other stuff??
 Iron Eater sucks real bad needs huge dps buffs
@@ -166,11 +167,8 @@ Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 Targetted party member logic for mob TP moves for healing ruby (pet) etc
 NPC Mobs can't guard/parry TP moves?
 
-1: Mob ranged / skill / WS / ability radius should also be based on targets modelsize
-2: player JA's(reduce DNC steps range in sql after) / player ws / player RA should also be based on targets modelsize
-3: Maybe can't caue the radius of the WS is already decided as a variable and can't compare while being out of combat
-4: so don't add +modelsize to WS/MS checks(I think its only for trusts? check mob too) at all then so they can be OOR and waste
-5: Make Elivira 16 yards move again
+1: Mob ranged  / ability radius should also be based on targets modelsize
+2: Player JA's(reduce DNC steps range in sql after) / player ws / player RA should also be based on targets modelsize
 
 Char saving every 15m
 Fix automaton attachment drops from the ashu talif BCNMS, needs to be ones with subid. i.e. ID: 2347 for reactive_shield and NOT 8454
