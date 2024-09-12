@@ -511,7 +511,7 @@ INSERT INTO `abilities` VALUES (600,'aerial_blast',15,1,4,60,173,0,0,0,2000,0,6,
 -- INSERT INTO `abilities` VALUES (602,'hastega_ii',22,1,1,0,300,0,0,???,2000,0,6,20.0,0,450,900,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (608,'axe_kick',15,1,4,60,173,0,0,10,2000,0,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (609,'blizzard_ii',15,10,4,60,173,0,0,24,2000,0,6,18.0,0,1,60,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (610,'frost_armor',15,28,1,60,174,0,0,63,2000,0,6,18.0,0,1,60,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (610,'frost_armor',15,41,1,60,174,0,0,63,2000,0,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (611,'sleepga',15,39,4,60,174,0,0,56,2000,0,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (612,'double_slap',15,50,4,60,173,0,0,96,2000,0,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (613,'blizzard_iv',15,60,4,60,173,0,0,118,2000,0,6,18.0,0,1,60,0,0,NULL,0);
