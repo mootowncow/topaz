@@ -14,7 +14,7 @@ end
 
 function onTrigger(player, npc)
     local RegionOwner = GetRegionOwner(tpz.region.ELSHIMOLOWLANDS)
-    if (RegionOwner ~= tpz.nation.BASTOK) then
+    if (RegionOwner ~= tpz.nation.WINDURST) then
         player:showText(npc, ID.text.FOMINA_CLOSED_DIALOG)
     else
         player:showText(npc, ID.text.FOMINA_OPEN_DIALOG)
