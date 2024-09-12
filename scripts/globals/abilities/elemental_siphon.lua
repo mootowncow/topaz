@@ -24,18 +24,15 @@ function onUseAbility(player,target,ability)
     -- The formula for MP recovery = floor( floor( Summoning Magic Skill × 1.05 - 55 + Elemental Siphon Equipment ) × ( 1.0 ± Weather and Day factors ) ) + Elemental Siphon Effect Job Points.
     local pEquipMods = player:getMod(tpz.mod.ENHANCES_ELEMENTAL_SIPHON)
     local skill = player:getSkillLevel(tpz.skill.SUMMONING_MAGIC)
+
+    -- Ensure skill doesn't go negative
+    skill = math.max(0, skill)
+
+    -- Calculate base power without clamping the skill
     local basePower = skill * 1.05 + pEquipMods - 55
 
-    if (skill < 55) then
-        basePower = 50
-    end
-
-    if (basePower < 55) then
-        basePower = 50
-    end
-
-    -- Lowest possible value is 55
-    utils.clamp(basePower, 50, player:getMaxMP())
+    -- Clamp the final basePower to be at least 50 but not more than max MP
+    basePower = math.max(50, math.min(basePower, player:getMaxMP()))
 
     -- Custom x3 multiplier
     basePower = basePower * 3
