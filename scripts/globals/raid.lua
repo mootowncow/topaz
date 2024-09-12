@@ -53,29 +53,20 @@ require("scripts/globals/weaponskillids")
 tpz = tpz or {}
 tpz.raid = tpz.raid or {}
 
--- Needs to match std::vector<MobData> mobData in time_server.cpp
 local mobData =
 {
-    { Name = 'Promathia',       Zone = tpz.zone.BIBIKI_BAY,             Day = tpz.day.FIRESDAY,           Loot = tpz.items.GYVE_TROUSERS        },
-    { Name = 'Omega',           Zone = tpz.zone.ATTOHWA_CHASM,          Day = tpz.day.EARTHSDAY,          Loot = tpz.items.TERMINAL_HELM        },
-    { Name = 'Bahamut',         Zone = tpz.zone.LUFAISE_MEADOWS,        Day = tpz.day.WATERSDAY,          Loot = tpz.items.VANIR_BOOTS          },
-    { Name = 'Ultima',          Zone = tpz.zone.CAPE_TERIGGAN,          Day = tpz.day.WINDSDAY,           Loot = tpz.items.CULMINUS             },
-    { Name = 'Ealdnarche',      Zone = tpz.zone.WESTERN_ALTEPA_DESERT,  Day = tpz.day.ICEDAY,             Loot = tpz.items.VANIR_COTEHARDIE     },
-    { Name = 'Kamlanaut',       Zone = tpz.zone.YHOATOR_JUNGLE,         Day = tpz.day.LIGHTNINGDAY,       Loot = tpz.items.MESYOHI_HAUBERGEON   },
-    { Name = 'Shadow_Lord',     Zone = tpz.zone.THE_SANCTUARY_OF_ZITAH, Day = tpz.day.LIGHTSDAY,          Loot = tpz.items.DREAD_JUPON          },
-    { Name = 'Ark_Angel_HM',    Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY,           Loot = tpz.items.LITHELIMB_CAP        },
-    { Name = 'Ark_Angel_MR',    Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY,           Loot = tpz.items.REGIMEN_MITTENS      },
-    { Name = 'Ark_Angel_EV',    Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY,           Loot = tpz.items.PATRICIUS_RING       },
-    { Name = 'Ark_Angel_TT',    Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY,           Loot = tpz.items.FRAVASHI_MANTLE      },
-    { Name = 'Ark_Angel_GK',    Zone = tpz.zone.QUFIM_ISLAND,           Day = tpz.day.DARKSDAY,           Loot = tpz.items.LURID_MITTS          },
-}
-
-local npcData =
-{
-    { Name = 'Unknown', Role = 'Tank' },
-    { Name = 'Unknown', Role = 'Damage' },
-    { Name = 'Unknown', Role = 'Healer' },
-    { Name = 'Unknown', Role = 'Support' },
+    { Name = 'Promathia',       Loot = { tpz.items.GYVE_TROUSERS, tpz.items.GYVE_DOUBLET, tpz.items.LAIC_MANTLE, tpz.items.LATRIA_SASH }                        },
+    { Name = 'Omega',           Loot = { tpz.items.TERMINAL_HELM, tpz.items.TERMINAL_PLATE, tpz.items.CESSANCE_EARRING, tpz.items.CONSUMMATION_TORQUE }         },
+    { Name = 'Bahamut',         Loot = { tpz.items.VANIR_BOOTS }                                                                                                },
+    { Name = 'Ultima',          Loot = { tpz.items.CULMINUS }                                                                                                   },
+    { Name = 'Ealdnarche',      Loot = { tpz.items.VANIR_COTEHARDIE, tpz.items.VANIR_BATTERY, tpz.items }                                                       },
+    { Name = 'Kamlanaut',       Loot = { tpz.items.MESYOHI_HAUBERGEON, tpz.items.MESYOHI_ROD, tpz.items.MESYOHI_SLACKS }                                        },
+    { Name = 'Shadow_Lord',     Loot = { tpz.items.DREAD_JUPON, tpz.items.PERDITION_SLOPS, tpz.items.ONIMUSHA_NO_KOTE, tpz.items.TREPIDITY_MANTLE }             },
+    { Name = 'Ark_Angel_HM',    Loot = { tpz.items.LITHELIMB_CAP, tpz.items.BLOODRAIN_STRAP, tpz.items.MANABYSS_PIGACHES }                                      },
+    { Name = 'Ark_Angel_MR',    Loot = { tpz.items.REGIMEN_MITTENS, tpz.items.FELISTRIS_MASK, tpz.items.SEKHMET_CORSET }                                        },
+    { Name = 'Ark_Angel_EV',    Loot = { tpz.items.PATRICIUS_RING, tpz.items.OSMIUM_CUISSES, tpz.items.DYNASTY_MITTS }                                          },
+    { Name = 'Ark_Angel_TT',    Loot = { tpz.items.FRAVASHI_MANTLE, tpz.items.THEURGISTS_SLACKS, tpz.items.SCAMPS_SOLLERETS }                                   },
+    { Name = 'Ark_Angel_GK',    Loot = { tpz.items.LURID_MITTS, tpz.items.AGITATORS_COLLAR, tpz.items.DAIHANSHI_HABAKI }                                        },
 }
 
 local abilityMap =
@@ -218,7 +209,13 @@ local function AddTreasure(mob, player)
                 end
                 for _, player in ipairs(NearbyPlayers) do
                     if player:hasStatusEffect(tpz.effect.CONFRONTATION) then
-                        player:addTreasure(NM.Loot, mob)
+                        -- Pick a random item from the Loot table
+                        local lootTable = NM.Loot
+                        if #lootTable > 0 then
+                            local randomIndex = math.random(1, #lootTable)
+                            local randomItem = lootTable[randomIndex]
+                            player:addTreasure(randomItem, mob)
+                        end
                         break -- Add treasure to the first player and exit the loop
                     end
                 end
