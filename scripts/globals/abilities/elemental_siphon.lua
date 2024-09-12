@@ -23,10 +23,9 @@ function onUseAbility(player,target,ability)
 
     local pEquipMods = player:getMod(tpz.mod.ENHANCES_ELEMENTAL_SIPHON)
     local basePower = player:getSkillLevel(tpz.skill.SUMMONING_MAGIC) + pEquipMods - 50
+
+    utils.clamp(basePower, 50, player:getMaxMP())
     basePower = basePower * 3
-    if (basePower < 0) then
-        basePower = 0
-    end
     local weatherDayBonus = 1
     local day = VanadielDayElement()
     local dayElement = 0
