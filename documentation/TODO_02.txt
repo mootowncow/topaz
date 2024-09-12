@@ -132,19 +132,12 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Valaineral gear
-Ulmia Ballad caster PT members
-Tenzen TE/Seigan logic (needs to work with hasso somehow..)
-Don't WS mid action(Mainly JAs)
 If one is CCed sometimes none of them will follow out of combat because of how they pay in a line? This means onRoam pathing
-Save / Conserve TP work? It's on mob moves but I don't think its on trusts
 Scaling food based on level / KI
-On big hitbox mobs trusts don't get proper range because the range of stuff is exactly 16 but the range of WS is WS range + modelSize
 Elivira 75 gear
-Tenzen AF hat meditate bonus, also demon circle and AF duration bonus 56+ or w/e level is for the item
-Shikaree Z AF duration bonus on ancient circle 56+ or w/e level is for the item
+TP_BONUS mod working on trusts/mobs/lua search "tp"
+mob:setTrustTPSkillSettings(ai.tp.OPENER Opener not work properly?
 Rapp Harness + haste subligar for thf/dnc trusts
-Sylvie and Ulmia should follow on top of you and not the mob (needs new movement type)
 Ulmia double march, ways to track x2 song effect gambit on target
 Trusts shouldn't play their special animation/sound effect after being summoned. Need to probably set them to normal animation after spawn like other stuff??
 Iron Eater sucks real bad needs huge dps buffs
@@ -164,7 +157,13 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Targetted party member logic for mob TP moves for healing ruby (pet) etc
+Does it properly randomize an item from the NMs loot list?
+Ultima needs 3 more drops (RAID)
+Bahamut needs 3 more drops (RAID)
+Ealdnarche needs 1 more drop and 1 weapon (RAID)
+Kamlanaut needs 1 more weapon (RAID)
+All AA needs 1 more weapon (RAID)
+
 NPC Mobs can't guard/parry TP moves?
 
 1: Mob ranged  / ability radius should also be based on targets modelsize
@@ -174,6 +173,8 @@ Char saving every 15m
 Fix automaton attachment drops from the ashu talif BCNMS, needs to be ones with subid. i.e. ID: 2347 for reactive_shield and NOT 8454
 +++ FINISH JP FIRST BEFORE ANYTHING +++
 Add RUN and GEO (Check LSB - get their proper rune C++ code)
+m_dmg on weapon crash
+Save / Conserve TP work? It's on mob moves but I don't think its on trusts. Need to add a new function TakeMobSkillDamage copying TakeWeaponSkillDamage and add PAttacker->addTP(std::max((PAttacker->getMod(Mod::SAVETP)), standbyTp));
 Randomize conquest control
 Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
 Blood boon / -perp cost / +Ele siphon gear
@@ -181,7 +182,6 @@ Divine Emblem huge dmg to holy so its worth using over flash/cure
 If a skill chain is really close it can bug out and give 1 person chain and other not? Exp randomly desyncs dunno why
 Missed WS can SC(and SC for 0), and counter for starting a SC as well. Check hasmissmsg or w/e
 Can cast songs on trusts and AOE them onto people (and don't need piansimmo)
-Give players the ability to give 3-4 songs
 Do shield blocked TP moves still interrupt with shield mastery trait on?
 Get merrow/lamia dukrippen stuff from jcmorris
 Add puk camp back by Mamook
