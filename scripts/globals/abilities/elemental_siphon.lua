@@ -30,6 +30,10 @@ function onUseAbility(player,target,ability)
         basePower = 50
     end
 
+    if (basePower < 55) then
+        basePower = 50
+    end
+
     -- Lowest possible value is 55
     utils.clamp(basePower, 50, player:getMaxMP())
 
