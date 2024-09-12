@@ -21,11 +21,21 @@ function onUseAbility(player,target,ability)
     local spiritEle = player:getPetID() + 1 -- get the spirit's ID, it is already aligned in proper element order
     -- element order: fire, ice, wind, earth, thunder, water, light, dark
 
+    -- The formula for MP recovery = floor( floor( Summoning Magic Skill × 1.05 - 55 + Elemental Siphon Equipment ) × ( 1.0 ± Weather and Day factors ) ) + Elemental Siphon Effect Job Points.
     local pEquipMods = player:getMod(tpz.mod.ENHANCES_ELEMENTAL_SIPHON)
-    local basePower = player:getSkillLevel(tpz.skill.SUMMONING_MAGIC) + pEquipMods - 50
+    local skill = player:getSkillLevel(tpz.skill.SUMMONING_MAGIC)
+    local basePower = skill * 1.05 + pEquipMods - 55
 
+    if (skill < 55) then
+        basePower = 50
+    end
+
+    -- Lowest possible value is 55
     utils.clamp(basePower, 50, player:getMaxMP())
+
+    -- Custom x3 multiplier
     basePower = basePower * 3
+
     local weatherDayBonus = 1
     local day = VanadielDayElement()
     local dayElement = 0
@@ -58,7 +68,7 @@ function onUseAbility(player,target,ability)
     end
 
     local power = math.floor(basePower * weatherDayBonus)
-    --printf("power  %u", power)
+    -- printf("power  %u", power)
     local spirit = player:getPet()
     power = utils.clamp(power, 0, spirit:getMP()) -- cap MP drained at spirit's MP
     power = utils.clamp(power, 0, player:getMaxMP() - player:getMP()) -- cap MP drained at the max MP - current MP
