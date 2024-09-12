@@ -61,6 +61,7 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.MELEE, ai.c.NOT_STATUS, tpz.effect.HASTE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.HASTE)
 
     mob:SetAutoAttackEnabled(false)
+    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.FOLLOW_MASTER)
 
     tpz.trust.onMobSpawn(mob)
 end

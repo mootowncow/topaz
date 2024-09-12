@@ -23,7 +23,7 @@ function onMobWeaponSkill(target, mob, skill)
     params_phys.multiplier = dmgmod
     params_phys.tp150 = 1
     params_phys.tp300 = 1
-    params_phys.str_wsc = 0.7
+    params_phys.str_wsc = 0.75
     params_phys.dex_wsc = 0.0
     params_phys.vit_wsc = 0.0
     params_phys.agi_wsc = 0.0

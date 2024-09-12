@@ -3700,7 +3700,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Volker',1018,42); -- Savage Blade
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ajido-Marujido',1019,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Trion',1020,34);   -- Red Lotus Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Trion',1020,42);   -- Savage Blade
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zeid',1021,51); -- Freezebite
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zeid',1021,48); -- Hard Slash
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zeid',1021,56); -- Groundstrike
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zeid',1021,3195); -- Abyssal Drain
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zeid',1021,3196); -- Abyssal strike
@@ -3743,6 +3743,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Shikaree_Z',1030,120); -- Impulse D
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,80); -- Shield Break
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,83); -- Armor Break
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,85); -- Weapon Break
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,88); -- Steel Cyclone
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gessho',1033,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gadalar',1034,100); -- Spinning Scythe
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gadalar',1034,101); -- Vorpal Scythe

@@ -49,11 +49,13 @@ enum TRUST_MOVEMENT_TYPE
     //     :     mob:setMobMod(xi.mobMod.TRUST_DISTANCE, 20)
     //     : Will set the combat distance the trust tries to stick to to 20'
     // NOTE: If a Trust doesn't immediately sprint to a certain distance at the start of battle, it's probably NO_MOVE or MELEE.
-    NO_MOVE = -1,  // Will stand still providing they're within casting distance of their master and target when the fight starts. Otherwise will reposition to
-                   // be within 9.0' of both
-    MELEE = 0,     // Default: will continually reposition to stay within melee range of the target
-    MID_RANGE = 6, // Will path at the start of battle to 6' away from the target, and try to stay at that distance
-    LONG_RANGE = 12, // Will path at the start of battle to 12' away from the target, and try to stay at that distance
+
+    FOLLOW_MASTER   = -2, // Follows master very closely
+    NO_MOVE         = -1,  // Will stand still providing they're within casting distance of their master and target when the fight starts. Otherwise will reposition to
+                          // be within 9.0' of both
+    MELEE           = 0,     // Default: will continually reposition to stay within melee range of the target
+    MID_RANGE       = 6, // Will path at the start of battle to 6' away from the target, and try to stay at that distance
+    LONG_RANGE      = 12, // Will path at the start of battle to 12' away from the target, and try to stay at that distance
 };
 } // namespace
 
@@ -223,6 +225,14 @@ void CTrustController::DoCombatTick(time_point tick)
                             }
                             POwner->PAI->PathFind->FollowPath();
                         }
+                    }
+                    break;
+                }
+                case TRUST_MOVEMENT_TYPE::FOLLOW_MASTER:
+                {
+                    if (currentDistanceToMaster > FollowDistance)
+                    {
+                        POwner->PAI->PathFind->PathInRange(PMaster->loc.p, PMaster->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
                     }
                     break;
                 }

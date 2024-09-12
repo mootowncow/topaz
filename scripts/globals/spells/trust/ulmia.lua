@@ -41,39 +41,30 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MADRIGAL, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MADRIGAL)
 
     if mob:getMainLvl() >= 75 then
-        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MARCH, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spellFamily.MARCH)
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MARCH, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MARCH)
     else
         mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MINUET, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.VALOR_MINUET)
     end
 
-    local master = mob:getMaster()
-
-    if not master then
-        return
+    -- Ballad casters
+    mob:addSimpleGambit(ai.t.CASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.JA, ai.s.SPECIFIC, tpz.jobAbility.PIANISSIMO)
+    if mob:getMainLvl() >= 55 then
+        mob:addSimpleGambit(ai.t.CASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.MAGES_BALLAD_II)
+    else
+        mob:addSimpleGambit(ai.t.CASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.MAGES_BALLAD)
     end
 
-    -- Ballad if a "Caster" master
-    if mob:getMainLvl() >= 25 then -- Minimum level to cast Ballad
-        for i = 1, #casterJobs do
-            if master:getMainJob() == casterJobs[i] then
-                mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.JA, ai.s.SPECIFIC, tpz.jobAbility.PIANISSIMO)
-                mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MAGES_BALLAD)
-                break 
-            end
-        end
-    end
-
-    -- Prelude if a ranger master
-    if mob:getMainLvl() >= 31 then -- Minimum level to cast Prelude
-        if master:getMainJob() == tpz.job.RNG then
-            mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS, tpz.effect.PRELUDE, ai.r.JA, ai.s.SPECIFIC, tpz.jobAbility.PIANISSIMO)
-            mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS, tpz.effect.PRELUDE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.PRELUDE)
-        end
+    -- Prelude COR and Rangers
+    mob:addSimpleGambit(ai.t.RANGED, ai.c.NOT_STATUS, tpz.effect.PRELUDE, ai.r.JA, ai.s.SPECIFIC, tpz.jobAbility.PIANISSIMO)
+    if mob:getMainLvl() >= 71 then
+        mob:addSimpleGambit(ai.t.RANGED, ai.c.NOT_STATUS, tpz.effect.PRELUDE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ARCHERS_PRELUDE)
+    else
+        mob:addSimpleGambit(ai.t.RANGED, ai.c.NOT_STATUS, tpz.effect.PRELUDE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.HUNTERS_PRELUDE)
     end
 
 
     mob:SetAutoAttackEnabled(false)
-    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.MID_RANGE)
+    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.FOLLOW_MASTER)
 
     tpz.trust.onMobSpawn(mob)
 end

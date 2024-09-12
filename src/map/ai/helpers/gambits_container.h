@@ -279,7 +279,6 @@ private:
         JOB_WHM,
         JOB_BLM,
         JOB_RDM,
-        JOB_BRD,
         JOB_SMN,
         JOB_BLU,
         JOB_SCH,

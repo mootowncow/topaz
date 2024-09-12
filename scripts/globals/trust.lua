@@ -23,10 +23,11 @@ tpz.trust.movementType =
     --     :     mob:setMobMod(xi.mobMod.TRUST_DISTANCE, 20)
     --     : Will set the combat distance the trust tries to stick to to 20'
     -- NOTE: If a Trust doesn't immediately sprint to a certain distance at the start of battle, it's probably NO_MOVE or MELEE.
-    NO_MOVE    = -1, -- Will stand still providing they're within casting distance of their master and target when the fight starts. Otherwise will reposition to be within 9.0' of both
-    MELEE      = 0,  -- Default: will continually reposition to stay within melee range of the target
-    MID_RANGE  = 6,  -- Will path at the start of battle to 6' away from the target, and try to stay at that distance
-    LONG_RANGE = 12, -- Will path at the start of battle to 12' away from the target, and try to stay at that distance
+    FOLLOW_MASTER   = -2, -- Follows master very closely
+    NO_MOVE         = -1, -- Will stand still providing they're within casting distance of their master and target when the fight starts. Otherwise will reposition to be within 9.0' of both
+    MELEE           = 0,  -- Default: will continually reposition to stay within melee range of the target
+    MID_RANGE       = 6,  -- Will path at the start of battle to 6' away from the target, and try to stay at that distance
+    LONG_RANGE      = 12, -- Will path at the start of battle to 12' away from the target, and try to stay at that distance
 }
 
 tpz.trust.message_offset =
@@ -79,16 +80,19 @@ local modByMobName =
         mob:addMod(tpz.mod.REFRESH, 3)
         mob:addMod(tpz.mod.ENMITY, 30)
         mob:addMod(tpz.mod.CURE_POTENCY, 50)
-        -- TODO AddTankGear(mob)
+        AddHeavyMeleeAccuracyGear(mob)
+        AddShieldSkillGear(mob)
+        AddArtifactGear(mob)
     end,
 
     ['adelheid'] = function(mob)
         mob:addMod(tpz.mod.MPP, 40)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
-        AddRefresh(mob)
+        AddRefreshGear(mob)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddCasterGear(mob)
+        AddArtifactGear(mob)
     end,
 
     ['koru-moru'] = function(mob)
@@ -96,8 +100,9 @@ local modByMobName =
         mob:addMod(tpz.mod.MPP, 25)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
-        AddRefresh(mob)
+        AddRefreshGear(mob)
         AddEnfeebleGear(mob)
+        AddArtifactGear(mob)
     end,
 
     ['kupipi'] = function(mob)
@@ -105,9 +110,10 @@ local modByMobName =
         mob:addMod(tpz.mod.MPP, 25)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
-        AddRefresh(mob)
+        AddRefreshGear(mob)
         mob:addMod(tpz.mod.CURE_CAST_TIME, 25)
         AddHealerGear(mob)
+        AddArtifactGear(mob)
     end,
 
     ['tenzen'] = function(mob)
@@ -117,6 +123,7 @@ local modByMobName =
         mob:addMod(tpz.mod.ALL_WSDMG_FIRST_HIT, 19)
         mob:addMod(tpz.mod.SAVETP, 400)
         AddFarEasternAccuracyGear(mob)
+        AddArtifactGear(mob)
     end,
 
     ['iron_eater'] = function(mob)
@@ -127,6 +134,7 @@ local modByMobName =
         mob:addMod(tpz.mod.DA_DOUBLE_DAMAGE, 10)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddHeavyMeleeAccuracyGear(mob)
+        AddArtifactGear(mob)
     end,
 
     ['lhe_lhangavo'] = function(mob)
@@ -137,6 +145,7 @@ local modByMobName =
         mob:addMod(tpz.mod.DEX, 12)
         AddFarEasternAccuracyGear(mob)
         AddMNKBelts(mob)
+        AddArtifactGear(mob)
     end,
 
     ['shikaree_z'] = function(mob)
@@ -151,12 +160,14 @@ local modByMobName =
         mob:addMod(tpz.mod.FASTCAST, 25)
         mob:addMod(tpz.mod.REFRESH, 4)
         AddLightMeleeAccuracyGear(mob)
+        AddArtifactGear(mob)
     end,
 
     ['zeid'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
-        -- mob:setMobMod(tpz.mobMod.TP_USE, 1000) Maybe WS at 1k or have him open for variety
+        mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddHeavyMeleeAccuracyGear(mob)
+        AddArtifactGear(mob)
     end,
 
     ['aldo'] = function(mob)
@@ -167,6 +178,7 @@ local modByMobName =
         mob:addMod(tpz.mod.EVA, 25)
         mob:addMod(tpz.mod.AGI, 12)
         AddLightMeleeAccuracyGear(mob)
+        AddArtifactGear(mob)
     end,
 
     ['uka_totlihn'] = function(mob)
@@ -175,6 +187,7 @@ local modByMobName =
         mob:addMod(tpz.mod.TPEVA, 25)
         mob:addMod(tpz.mod.CHR, 12)
         AddLightMeleeAccuracyGear(mob)
+        AddArtifactGear(mob)
     end,
 
     ['elivira'] = function(mob)
@@ -184,13 +197,15 @@ local modByMobName =
         mob:addMod(tpz.mod.STORETP, 130)
         mob:addMod(tpz.mod.ENMITY, -15)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
-        AddRangedAccuracyGear(mob) 
+        AddRangedAccuracyGear(mob)
+        AddArtifactGear(mob)
     end,
 
     ['ulmia'] = function(mob)
         mob:addMod(tpz.mod.DMGAOE, -33)
-        AddRefresh(mob)
-        -- AddBRDGear(mob) TODO
+        AddBRDInstruments(mob)
+        AddRefreshGear(mob)
+        AddArtifactGear(mob)
     end,
 
     ['qultada'] = function(mob)
@@ -198,6 +213,7 @@ local modByMobName =
         mob:addMod(tpz.mod.PHANTOM_DURATION, 100)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddLightMeleeAccuracyGear(mob)
+        AddArtifactGear(mob)
     end,
 
     ['sylvie_uc'] = function(mob)
@@ -207,9 +223,10 @@ local modByMobName =
         if mob:getMainLvl() >= 99 then
             mob:addMod(tpz.mod.GEOMANCY_BONUS, 3)
         end
-        AddRefresh(mob)
         mob:addMod(tpz.mod.INDI_DURATION, 180)
         AddHealerGear(mob)
+        AddRefreshGear(mob)
+        AddArtifactGear(mob)
     end,
 }
 
@@ -439,7 +456,7 @@ tpz.trust.dumpMessagePages = function(mob)
     end
 end
 
-function AddRefresh(mob)
+function AddRefreshGear(mob)
     local mobLevel = mob:getMainLvl()
     local master = mob:getMaster()
 
@@ -450,6 +467,47 @@ function AddRefresh(mob)
     elseif mobLevel >= 75 then
         mob:addMod(tpz.mod.REFRESH, 6)
     elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    end
+end
+
+function AddShieldSkillGear(mob)
+    local mobLevel = mob:getMainLvl()
+    local master = mob:getMaster()
+
+    if mobLevel >= 52  and mobLevel < 65 then
+        mob:addMod(tpz.mod.SHIELD, 10)
+    elseif mobLevel >= 65  and mobLevel < 75 then
+        mob:addMod(tpz.mod.SHIELD, 17)
+    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+        mob:addMod(tpz.mod.SHIELD, 37)
+    end
+end
+
+function AddArtifactGear(mob)
+    local mobJob = mob:getMainJob()
+    local mobLevel = mob:getMainLvl()
+    local master = mob:getMaster()
+    local artifactGearData = {
+        { Job = tpz.job.PLD,        Lvl = 52,   Mod = tpz.mod.HOLY_CIRCLE_DURATION,             Power = 90,     KI = false  },
+        { Job = tpz.job.DRK,        Lvl = 52,   Mod = tpz.mod.ARCANE_CIRCLE_DURATION,           Power = 90,     KI = false  },
+        { Job = tpz.job.DRK,        Lvl = 60,   Mod = tpz.mod.SOULEATER_EFFECT,                 Power = 2,      KI = false  },
+        { Job = tpz.job.DRG,        Lvl = 52,   Mod = tpz.mod.ANCIENT_CIRCLE_DURATION,          Power = 90,     KI = false  },
+        { Job = tpz.job.SAM,        Lvl = 60,   Mod = tpz.mod.WARDING_CIRCLE_DURATION,          Power = 90,     KI = false  },
+        { Job = tpz.job.SAM,        Lvl = 60,   Mod = tpz.mod.MEDITATE_DURATION,                Power = 4,      KI = false  },
+    }
+
+    for _, afMods in pairs(artifactGearData) do
+        if (afMods.Job == mobJob) then
+            if (mobLevel >= afMods.Lvl) then
+                if (afMods.KI == true) then -- If KI is true(Required) check if master has filled memory gem
+                    if master and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+                        mob:addMod(afMods.Mod, afMods.Power)
+                    end
+                else
+                    mob:addMod(afMods.Mod, afMods.Power)
+                end
+            end
+        end
     end
 end
 
@@ -479,7 +537,7 @@ function AddLightMeleeAccuracyGear(mob)
     local master = mob:getMaster()
 
     if mobLevel >= 40 and mobLevel < 48 then
-        mob:addMod(tpz.mod.ACC, 20)
+        mob:addMod(tpz.mod.ACC, 25)
     elseif mobLevel >= 48 and mobLevel < 57 then
         mob:addMod(tpz.mod.ACC, 30)
     elseif mobLevel >= 57 and mobLevel < 70 then
@@ -501,7 +559,7 @@ function AddHeavyMeleeAccuracyGear(mob)
     local master = mob:getMaster()
 
     if mobLevel >= 40 and mobLevel < 48 then
-        mob:addMod(tpz.mod.ACC, 20)
+        mob:addMod(tpz.mod.ACC, 25)
     elseif mobLevel >= 48 and mobLevel < 59 then
         mob:addMod(tpz.mod.ACC, 30)
     elseif mobLevel >= 59 and mobLevel < 70 then
@@ -538,7 +596,7 @@ function AddFarEasternAccuracyGear(mob)
         mob:addMod(tpz.mod.HASTE_GEAR, 300)
     elseif mobLevel >= 40 and mobLevel < 48 then
         mob:addMod(tpz.mod.ATT, 20)
-        mob:addMod(tpz.mod.ACC, 20)
+        mob:addMod(tpz.mod.ACC, 25)
         mob:addMod(tpz.mod.HASTE_GEAR, 300)
     elseif mobLevel >= 48 and mobLevel < 57 then
         mob:addMod(tpz.mod.ATT, 20)
@@ -666,9 +724,40 @@ function AddEnfeebleGear(mob)
     end
 end
 
-function AddBRDGear(mob) -- TODO
+function AddBRDInstruments(mob)
+    local mobJob = mob:getMainJob()
     local mobLevel = mob:getMainLvl()
     local master = mob:getMaster()
+    -- TODO: Can't use multiple instruments at once if using +all songs instruments, so maybe not needed?
+    local brdInstrumentsData = {
+        { Lvl = 4,   Mod = tpz.mod.MINUET_EFFECT,             Power = 2,     KI = false  },
+        { Lvl = 9,   Mod = tpz.mod.THRENODY_EFFECT,           Power = 2,     KI = false  },
+        { Lvl = 14,  Mod = tpz.mod.MINNE_EFFECT,              Power = 2,     KI = false  },
+        { Lvl = 19,  Mod = tpz.mod.MAMBO_EFFECT,              Power = 2,     KI = false  },
+        { Lvl = 23,  Mod = tpz.mod.REQUIEM_EFFECT,            Power = 2,     KI = false  },
+        { Lvl = 32,  Mod = tpz.mod.MADRIGAL_EFFECT,           Power = 2,     KI = false  },
+        { Lvl = 36,  Mod = tpz.mod.MARCH_EFFECT,              Power = 2,     KI = false  },
+        { Lvl = 36,  Mod = tpz.mod.ETUDE_EFFECT,              Power = 2,     KI = false  },
+        { Lvl = 40,  Mod = tpz.mod.ELEGY_EFFECT,              Power = 2,     KI = false  },
+        { Lvl = 48,  Mod = tpz.mod.PRELUDE_EFFECT,            Power = 2,     KI = false  },
+        { Lvl = 56,  Mod = tpz.mod.CAROL_EFFECT,              Power = 2,     KI = false  },
+        { Lvl = 60,  Mod = tpz.mod.PAEON_EFFECT,              Power = 2,     KI = false  },
+        { Lvl = 60,  Mod = tpz.mod.LULLABY_EFFECT,            Power = 2,     KI = false  },
+        { Lvl = 70,  Mod = tpz.mod.MAZURKA_EFFECT,            Power = 2,     KI = false  },
+        { Lvl = 71,  Mod = tpz.mod.HYMNUS_EFFECT,             Power = 2,     KI = false  },
+    }
+
+    for _, instrument in pairs(brdInstrumentsData) do
+        if (mobLevel >= instrument.Lvl) then
+            if (instrument.KI == true) then -- If KI is true(Required) check if master has filled memory gem
+                if master and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+                    mob:addMod(instrument.Mod, instrument.Power)
+                end
+            else
+                mob:addMod(instrument.Mod, instrument.Power)
+            end
+        end
+    end
 end
 
 function AddHealerGear(mob)

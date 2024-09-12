@@ -66,7 +66,7 @@ void CGambitsContainer::AddGambit(Gambit_t gambit)
         {
             if (!spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), static_cast<SpellID>(action.select_arg)))
             {
-                ShowDebug("%s cannot cast %u!", POwner->name, action.select_arg);
+                //ShowDebug("%s cannot cast %u!\n", POwner->name, action.select_arg);
                 available = false;
             }
         }
@@ -111,7 +111,6 @@ void CGambitsContainer::Tick(time_point tick)
 
     if (!POwner->PAI->CanChangeState())
     {
-        ShowDebug("Can't change state, returning\n");
         return;
     }
 
