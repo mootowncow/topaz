@@ -176,6 +176,7 @@ INSERT INTO `mob_skills` VALUES (212,200,'slug_shot',0,18.5,2000,0,4,0,0,0,5,1,6
 INSERT INTO `mob_skills` VALUES (213,222,'blast_shot',0,5.0,2000,0,4,0,0,0,7,1,0);
 INSERT INTO `mob_skills` VALUES (214,223,'heavy_shot',0,5.0,2000,0,4,0,0,0,11,0,0);
 INSERT INTO `mob_skills` VALUES (215,224,'detonator',0,5.0,2000,0,4,0,0,0,11,1,0);
+INSERT INTO `mob_skills` VALUES (216,226,'coronach',0,18.0,2000,1500,4,0,0,0,14,12,0);  
 INSERT INTO `mob_skills` VALUES (241,241,'netherspikes',4,10.0,2000,0,4,0,0,0,0,0,0); 
 INSERT INTO `mob_skills` VALUES (242,242,'carnal_nightmare',1,10.0,2000,0,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (243,243,'aegis_schism',0,7.0,2000,0,4,0,0,0,0,0,0);
@@ -1144,7 +1145,7 @@ INSERT INTO `mob_skills` VALUES (1197,803,'tachi_kaiten',0,7.0,2000,1500,4,0,0,0
 INSERT INTO `mob_skills` VALUES (1198,797,'randgrith',0,7.0,2000,1500,4,0,0,0,0,0,0);             -- animated_hammer
 INSERT INTO `mob_skills` VALUES (1199,801,'gate_of_tartarus',0,7.0,2000,1500,4,0,0,0,14,10,0);     -- animated_staff
 INSERT INTO `mob_skills` VALUES (1200,804,'namas_arrow',0,18.0,2000,1500,4,0,0,0,0,0,0);          -- animated_longbow
-INSERT INTO `mob_skills` VALUES (1201,805,'coronach',0,18.0,2000,1500,4,0,0,0,0,0,0);            -- animated_gun
+INSERT INTO `mob_skills` VALUES (1201,805,'coronach',0,18.0,2000,1500,4,0,0,0,14,12,0);           -- animated_gun
 -- INSERT INTO `mob_skills` VALUES (1202,946,'ranged_attack',0,7.0,2000,1500,4,4,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1203,947,'ranged_attack',0,7.0,2000,1500,4,4,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1204,948,'ranged_attack',0,7.0,2000,1500,4,4,0,0,0,0,0);

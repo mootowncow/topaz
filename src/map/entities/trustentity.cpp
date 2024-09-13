@@ -154,10 +154,34 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
             return;
         }
 
+        // If Third Eye is paralyzed while seigan is active, use the modified seigan cooldown for thirdeye(30s instead of 1m)
+        if (PAbility->getID() == ABILITY_THIRD_EYE && this->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
+        {
+            action.recast /= 2;
+        }
+
         if (battleutils::IsParalyzed(this))
         {
             setActionInterrupted(action, PTarget, MSGBASIC_IS_PARALYZED, 0);
             return;
+        }
+
+        // There is an overall cap of -25 seconds for a 35 second recast
+        // https://www.bg-wiki.com/ffxi/Quick_Draw
+        if (PAbility->isQuickDraw())
+        {
+            action.recast -= std::min<int16>(getMod(Mod::QUICK_DRAW_RECAST), 25);
+        }
+
+        if (PAbility->getID() == ABILITY_LIGHT_ARTS || PAbility->getID() == ABILITY_DARK_ARTS || PAbility->getRecastId() == 231) // stratagems
+        {
+            if (this->StatusEffectContainer->HasStatusEffect(EFFECT_TABULA_RASA))
+                action.recast = 0;
+        }
+
+        if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR)
+        {
+            action.recast -= getMod(Mod::ONE_HOUR_RECAST);
         }
 
         action.id = this->id;
@@ -239,6 +263,13 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
         }
 
         state.ApplyEnmity();
+
+        // Remove Contradance after using a Waltz
+        if (StatusEffectContainer->HasStatusEffect(EFFECT_CONTRADANCE) && PAbility->getID() > ABILITY_HASTE_SAMBA && PAbility->getID() < ABILITY_HEALING_WALTZ ||
+            PAbility->getID() == ABILITY_DIVINE_WALTZ || PAbility->getID() == ABILITY_DIVINE_WALTZ_II)
+        {
+            StatusEffectContainer->DelStatusEffectSilent(EFFECT_CONTRADANCE);
+        }
 
         PRecastContainer->Add(RECAST_ABILITY, action.actionid, action.recast);
     }

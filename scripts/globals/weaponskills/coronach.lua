@@ -39,7 +39,11 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     -- Apply aftermath
     if damage > 0 then
-        tpz.aftermath.addStatusEffect(player, tp, tpz.slot.RANGED, tpz.aftermath.type.RELIC)
+        if player:isTrust() then
+            tpz.aftermath.addStatusEffect(player, tp, tpz.slot.MAIN, tpz.aftermath.type.RELIC, true, 14)
+        else
+            tpz.aftermath.addStatusEffect(player, tp, tpz.slot.RANGED, tpz.aftermath.type.RELIC)
+        end
     end
 	if damage > 0 then player:trySkillUp(target, tpz.skill.MARKSMANSHIP, tpHits+extraHits) end
 

@@ -301,6 +301,7 @@ void CGambitsContainer::Tick(time_point tick)
             CBattleEntity* target = nullptr;
             if (gambit.predicates[0].target == G_TARGET::SELF)
             {
+                POwner->StatusEffectContainer->DelStatusEffect(EFFECT_PIANISSIMO);
                 target = CheckTrigger(POwner, gambit.predicates[0]) ? POwner : nullptr;
             }
             else if (gambit.predicates[0].target == G_TARGET::TARGET)
@@ -1429,7 +1430,11 @@ bool CGambitsContainer::TryTrustSkill()
         {
             if (!PMember->StatusEffectContainer->HasStatusEffect(EFFECT_PROTECT))
             {
-                memberMissingProtectra ++;
+                float distanceToMember = distance(POwner->loc.p, PMember->loc.p);
+                if (distanceToMember <= 10.0f)
+                {
+                    memberMissingProtectra ++;
+                }
             }
         });
         // clang-format on
@@ -1444,18 +1449,22 @@ bool CGambitsContainer::TryTrustSkill()
 
     bool CGambitsContainer::ShouldShellra()
     {
-        auto memberMissingProtectra = 0;
+        auto memberMissingShellra = 0;
         // clang-format off
         static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
         {
             if (!PMember->StatusEffectContainer->HasStatusEffect(EFFECT_SHELL))
             {
-                memberMissingProtectra ++;
+                float distanceToMember = distance(POwner->loc.p, PMember->loc.p);
+                if (distanceToMember <= 10.0f)
+                {
+                    memberMissingShellra ++;
+                }
             }
         });
         // clang-format on
 
-        if (memberMissingProtectra >= 3)
+        if (memberMissingShellra >= 3)
         {
             return true;
         }

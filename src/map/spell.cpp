@@ -757,7 +757,7 @@ namespace spell
 
     float GetSpellRadius(CSpell* spell, CBattleEntity* entity)
     {
-        float total = spell->getRadius();
+        float total = spell->getRadius(); // Default 10 for most spells
 
         // -Ga Enfeebles are 15 yalms
         if (spell->getID() >= SpellID::Paralyga && spell->getID() <= SpellID::Graviga)

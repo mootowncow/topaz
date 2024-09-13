@@ -1099,7 +1099,7 @@ private:
     uint16      m_animationTime {};
     uint8       m_skillType {};
     float       m_range {};
-    float       m_radius {};
+    float       m_radius {};                               // Default 10 for most spells
     uint16      m_totalTargets {};
     uint16      m_mpCost {};                               // mpCost/itemId for ninjitsu tool
     uint8       m_job[MAX_JOBTYPE]{};                      // job

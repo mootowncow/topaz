@@ -52,12 +52,17 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.WEAPON_BASH)
 
+    if mob:getMainLvl() >= 70 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.SEIGAN)
+        mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.THIRD_EYE)
+    end
+
     if mob:getMainLvl() >= 50 then
-        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.HASSO, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASSO)
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASSO)
     end
 
     if mob:getMainLvl() >= 60 then
-        mob:addSimpleGambit(ai.t.SELF, ai.c.ALWAYS, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MEDITATE)
+        mob:addSimpleGambit(ai.t.SELF, ai.c.TP_LT, 400, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MEDITATE)
     end
 
     -- Non-stun things

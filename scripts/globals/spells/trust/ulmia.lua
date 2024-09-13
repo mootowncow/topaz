@@ -46,6 +46,21 @@ function onMobSpawn(mob)
         mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MINUET, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.VALOR_MINUET)
     end
 
+    -- Ballad casters
+    mob:addSimpleGambit(ai.t.CASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.JA, ai.s.SPECIFIC, tpz.jobAbility.PIANISSIMO)
+    if mob:getMainLvl() >= 55 then
+        mob:addSimpleGambit(ai.t.CASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.MAGES_BALLAD_II)
+    else
+        mob:addSimpleGambit(ai.t.CASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.MAGES_BALLAD)
+    end
+
+    -- Prelude COR and Rangers
+    mob:addSimpleGambit(ai.t.RANGED, ai.c.NOT_STATUS, tpz.effect.PRELUDE, ai.r.JA, ai.s.SPECIFIC, tpz.jobAbility.PIANISSIMO)
+    if mob:getMainLvl() >= 71 then
+        mob:addSimpleGambit(ai.t.RANGED, ai.c.NOT_STATUS, tpz.effect.PRELUDE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ARCHERS_PRELUDE)
+    else
+        mob:addSimpleGambit(ai.t.RANGED, ai.c.NOT_STATUS, tpz.effect.PRELUDE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.HUNTERS_PRELUDE)
+    end
 
     mob:SetAutoAttackEnabled(false)
     mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.FOLLOW_MASTER)
