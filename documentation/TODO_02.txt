@@ -161,6 +161,7 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Do all the code with tpz.magic.singleWeatherStrong etc need to be  element -1 or does the indexing of tpz.magic.dayStrong  etc need to be changed...?
 Rock Buster attack down description added to DAT
 Rock Throw / Megalith Throw slow description added to DAT ? Might aleady be there
 Tail Whip defense down description added to DAT wha
