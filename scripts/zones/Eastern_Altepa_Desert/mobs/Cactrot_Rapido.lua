@@ -116,7 +116,6 @@ local pathingTable =
 }
 
 function onMobSpawn(mob)
-    onPath(mob)
 end
 
 function onMobRoam(mob)
