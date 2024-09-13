@@ -21,7 +21,10 @@ function onPetAbility(target, pet, skill, summoner)
     local duration = 900
     local bonus = 0
     local effect2 = tpz.effect.REFRESH
-    local power2 = 3
+    local power2 = 3 -- Refresh
+    if summoner:getMainJob() >= 75 then
+        power2 = 6 -- Refresh II
+    end
     local tick2 = 3
     local duration2 = 600 + target:getMod(tpz.mod.REFRESH_DURATION)
     local bonus = 0
