@@ -132,6 +132,10 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Is Seigan + TE recast halved for trusts?
+Tenzen Meditate if less than 600 TP only
+Check players have to refund TP if mob dies second they WS / mob skill
+Special gambits for Piansimmo being active and also check targets distance before using the JA at all
 If one is CCed sometimes none of them will follow out of combat because of how they pay in a line? This means onRoam pathing
 Scaling food based on level / KI
 Elivira 75 gear
@@ -157,6 +161,18 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Rock Buster attack down description added to DAT
+Rock Throw / Megalith Throw slow description added to DAT ? Might aleady be there
+Tail Whip defense down description added to DAT wha
+Last Resort duration mod added to last resort (tpz.mod.LAST_RESORT_DURATION)
+Cactrot Rapid pathing bugged
+1: 135 MP ele siphon with air spirit on thunderday is wrrong it should never go below 150 in neutral day/weather. Are day/weather enums wrong? Or logic?
+2: Around 80 skill it bugged out and was doing 135 every single cast, then at 87 it started doing 150 again...
+
+All mob pets no_drops 1
+
+Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
+Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva only etc) specific items
 Does it properly randomize an item from the NMs loot list?
 Ultima needs 3 more drops (RAID)
 Bahamut needs 3 more drops (RAID)
@@ -165,6 +181,8 @@ Kamlanaut needs 1 more weapon (RAID)
 All AA needs 1 more weapon (RAID)
 
 NPC Mobs can't guard/parry TP moves?
+Higher level beetles at the south goblin Oasis in Eastern Altepa?
+Lower level beetles away from Revelation Rock in middle of Western Altepa
 
 1: Mob ranged  / ability radius should also be based on targets modelsize
 2: Player JA's(reduce DNC steps range in sql after) / player ws / player RA should also be based on targets modelsize
@@ -172,12 +190,12 @@ NPC Mobs can't guard/parry TP moves?
 Char saving every 15m
 Fix automaton attachment drops from the ashu talif BCNMS, needs to be ones with subid. i.e. ID: 2347 for reactive_shield and NOT 8454
 +++ FINISH JP FIRST BEFORE ANYTHING +++
+SpendCost() fix for mob skills
+If trusts(or players? or pets?) get aggro mid fight(not link? auto-target stops working. Recode DoAutoTarget() entirely or get from LSB/ASB/Reliko(Wings)
 Add RUN and GEO (Check LSB - get their proper rune C++ code)
 m_dmg on weapon crash
 Save / Conserve TP work? It's on mob moves but I don't think its on trusts. Need to add a new function TakeMobSkillDamage copying TakeWeaponSkillDamage and add PAttacker->addTP(std::max((PAttacker->getMod(Mod::SAVETP)), standbyTp));
 Randomize conquest control
-Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
-Blood boon / -perp cost / +Ele siphon gear
 Divine Emblem huge dmg to holy so its worth using over flash/cure
 If a skill chain is really close it can bug out and give 1 person chain and other not? Exp randomly desyncs dunno why
 Missed WS can SC(and SC for 0), and counter for starting a SC as well. Check hasmissmsg or w/e
@@ -185,6 +203,7 @@ Can cast songs on trusts and AOE them onto people (and don't need piansimmo)
 Do shield blocked TP moves still interrupt with shield mastery trait on?
 Get merrow/lamia dukrippen stuff from jcmorris
 Add puk camp back by Mamook
+Windurst medals NPCs(Bastoks might be done? can copy)
 Buff conquest gear + campaign gear 
 https://ffxiclopedia.fandom.com/wiki/Fourth_Brunne_Set 
 https://ffxiclopedia.fandom.com/wiki/Cobra_Harness_Set 
@@ -195,8 +214,8 @@ Fix /tell chat
 unity chat doesn't work cross-zone
 Slug pet ready moves still give bugged out recast numbers, maybe need to add their IDs to function?
 Opening castle zhavl coffer on thief gave me thiefs vest, it's on AF moogle slip. Should have given me MIQUES_PAINTBRUSH (PLD AF3)
-Cactrot Rapid pathing bugged
-Shield blocks show up as "MISS" in SCT, they are wrong reaction type. have to fix simplelog after too
+
+Shield blocks show up as "MISS" in SCT, they are wrong reaction type. have to fix simplelog after to
 Do mobs get guard skill...?
 SmallPacket0x0E7 shouldn't delete EFFECT_HEALING when logging out(Retail tested) packet system Line 5641
 Imps don't link by sound only sight? do dual aggro mobs not link by dual aggro?
@@ -218,6 +237,7 @@ Dea pop zone msg ID missing/wrong (Bhaflau thickets)
 Anticans starting from pool ID 165 need 240 delay. Check if any mobs dont have 240 or 480 delay in heidisql
 Item enchantments so you always want 1 item perma active (like high breath mantle)
 Do "no effect" (stun) spells add DR?
+Spike effects on items seem to be 100% proc regardless of the % chance mod
 Valleys of sorrows Survival Guide facing wrong way(flip 180)
 Turn Zeruhn Mines grounds tome to be equal to survival guide
 Redesign jailer of prudence
