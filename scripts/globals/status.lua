@@ -2096,8 +2096,9 @@ tpz.mod =
     QUICK_DRAW_RECAST       = 1374, -- Quick Draw Charge Reduction (seconds)
     DIVINE_EMBLEM_BONUS     = 1375, -- Enmity bonus on divine emblem.
     AURA_RADIUS             = 1377, -- Increases the range of indi auras. Flat amount. (1 = +1 range, 10 = +10 range)
+    NINJUTSU_CASTING_TIME   = 1378, -- Reduces Ninjutsu Casting Time by percentage (e.g. mod value -10 = -10% cast time)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1378 NEXT
+    -- 1379 NEXT
 }
 
 tpz.latent =

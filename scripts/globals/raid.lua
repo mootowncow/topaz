@@ -60,13 +60,13 @@ local mobData =
     { Name = 'Bahamut',         Loot = { tpz.items.VANIR_BOOTS }                                                                                                },
     { Name = 'Ultima',          Loot = { tpz.items.CULMINUS }                                                                                                   },
     { Name = 'Ealdnarche',      Loot = { tpz.items.VANIR_COTEHARDIE, tpz.items.VANIR_BATTERY, tpz.items }                                                       },
-    { Name = 'Kamlanaut',       Loot = { tpz.items.MESYOHI_HAUBERGEON, tpz.items.MESYOHI_ROD, tpz.items.MESYOHI_SLACKS }                                        },
+    { Name = 'Kamlanaut',       Loot = { tpz.items.MESYOHI_HAUBERGEON, tpz.items.MESYOHI_ROD, tpz.items.MESYOHI_SLACKS , tpz.items.KAMLANAUTS_SHIELD }          },
     { Name = 'Shadow_Lord',     Loot = { tpz.items.DREAD_JUPON, tpz.items.PERDITION_SLOPS, tpz.items.ONIMUSHA_NO_KOTE, tpz.items.TREPIDITY_MANTLE }             },
-    { Name = 'Ark_Angel_HM',    Loot = { tpz.items.LITHELIMB_CAP, tpz.items.BLOODRAIN_STRAP, tpz.items.MANABYSS_PIGACHES }                                      },
-    { Name = 'Ark_Angel_MR',    Loot = { tpz.items.REGIMEN_MITTENS, tpz.items.FELISTRIS_MASK, tpz.items.SEKHMET_CORSET }                                        },
-    { Name = 'Ark_Angel_EV',    Loot = { tpz.items.PATRICIUS_RING, tpz.items.OSMIUM_CUISSES, tpz.items.DYNASTY_MITTS }                                          },
-    { Name = 'Ark_Angel_TT',    Loot = { tpz.items.FRAVASHI_MANTLE, tpz.items.THEURGISTS_SLACKS, tpz.items.SCAMPS_SOLLERETS }                                   },
-    { Name = 'Ark_Angel_GK',    Loot = { tpz.items.LURID_MITTS, tpz.items.AGITATORS_COLLAR, tpz.items.DAIHANSHI_HABAKI }                                        },
+    { Name = 'Ark_Angel_HM',    Loot = { tpz.items.LITHELIMB_CAP, tpz.items.BLOODRAIN_STRAP, tpz.items.MANABYSS_PIGACHES, tpz.items.ANAHERA_SABER }             },
+    { Name = 'Ark_Angel_MR',    Loot = { tpz.items.REGIMEN_MITTENS, tpz.items.FELISTRIS_MASK, tpz.items.SEKHMET_CORSET, tpz.items.ANAHERA_TABAR }               },
+    { Name = 'Ark_Angel_EV',    Loot = { tpz.items.PATRICIUS_RING, tpz.items.OSMIUM_CUISSES, tpz.items.DYNASTY_MITTS, tpz.items.ANAHERA_SWORD }                 },
+    { Name = 'Ark_Angel_TT',    Loot = { tpz.items.FRAVASHI_MANTLE, tpz.items.THEURGISTS_SLACKS, tpz.items.SCAMPS_SOLLERETS, tpz.items.ANAHERA_SCYTHE }         },
+    { Name = 'Ark_Angel_GK',    Loot = { tpz.items.LURID_MITTS, tpz.items.AGITATORS_COLLAR, tpz.items.DAIHANSHI_HABAKI, tpz.items.ANAHERA_BLADE }               },
 }
 
 local abilityMap =

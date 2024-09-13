@@ -26065,15 +26065,16 @@ INSERT INTO `item_mods` VALUES (20722,29,1);
 INSERT INTO `item_mods` VALUES (20726,23,10);
 INSERT INTO `item_mods` VALUES (20726,25,15);
 INSERT INTO `item_mods` VALUES (20728,967,8);     -- Kheshig Blade - Cover Duration +8
-INSERT INTO `item_mods` VALUES (20733,8,10);      -- Anahera Saber (iLvl 119): STR +10
-INSERT INTO `item_mods` VALUES (20733,11,10);     -- AGI +10
-INSERT INTO `item_mods` VALUES (20733,288,2);     -- Double Attack +2%
-INSERT INTO `item_mods` VALUES (20733,311,93);    -- Magic Damage +93
-INSERT INTO `item_mods` VALUES (20734,5,20);      -- Anahera Sword (iLvl 119): MP +20
-INSERT INTO `item_mods` VALUES (20734,13,15);     -- MND +15
-INSERT INTO `item_mods` VALUES (20734,23,26);     -- Attack +26
-INSERT INTO `item_mods` VALUES (20734,109,15);    -- Shield skill +15
-INSERT INTO `item_mods` VALUES (20734,163,-2);    -- Magic damage taken -2%
+INSERT INTO `item_mods` VALUES (20733,432,20); -- ENSPELL_DMG_BONUS 20
+INSERT INTO `item_mods` VALUES (20733,1271,20); -- ENSPELL_MACC 20
+INSERT INTO `item_mods` VALUES (20733,1357,10); -- BLU_ATTP 10
+INSERT INTO `item_mods` VALUES (20733,369,1); -- REFRESH 1
+INSERT INTO `item_mods` VALUES (20734,13,15); -- MND 15
+INSERT INTO `item_mods` VALUES (20734,109,20); -- SHIELD 20
+INSERT INTO `item_mods` VALUES (20734,163,-7); -- DMGMAGIC -7
+INSERT INTO `item_mods` VALUES (20734,27,5); -- ENMITY 5
+INSERT INTO `item_mods` VALUES (20734,2,20); -- HP 20
+INSERT INTO `item_mods` VALUES (20734,12,15); -- INT 15
 INSERT INTO `item_mods` VALUES (20737,23,7);
 INSERT INTO `item_mods` VALUES (20737,25,11);
 INSERT INTO `item_mods` VALUES (20738,8,13);
@@ -26187,7 +26188,8 @@ INSERT INTO `item_mods` VALUES (20819,8,10);
 INSERT INTO `item_mods` VALUES (20819,11,-5);
 INSERT INTO `item_mods` VALUES (20819,23,20);
 INSERT INTO `item_mods` VALUES (20819,24,15);
-INSERT INTO `item_mods` VALUES (20822,27,-6);     -- Anahera Tabar (iLvl 119): Enmity -6
+INSERT INTO `item_mods` VALUES (20822,25,10); -- ACC 10
+INSERT INTO `item_mods` VALUES (20822,73,5); -- STORETP 5
 INSERT INTO `item_mods` VALUES (20825,25,15);
 INSERT INTO `item_mods` VALUES (20827,23,13);
 INSERT INTO `item_mods` VALUES (20827,25,13);
@@ -26337,10 +26339,12 @@ INSERT INTO `item_mods` VALUES (20908,25,15);
 INSERT INTO `item_mods` VALUES (20910,12,6);      -- Anaimatos Scythe (iLvl 109): INT +6
 INSERT INTO `item_mods` VALUES (20910,311,40);    -- Magic Damage +40
 INSERT INTO `item_mods` VALUES (20910,315,10);    -- Enhances effect of Drain and Aspir +10% ?
-INSERT INTO `item_mods` VALUES (20913,8,10);      -- Anahera Scythe (iLvl 119): STR +10
-INSERT INTO `item_mods` VALUES (20913,12,15);     -- INT +15
-INSERT INTO `item_mods` VALUES (20913,23,15);     -- Attack +15
-INSERT INTO `item_mods` VALUES (20913,311,155);   -- Magic Damage +155
+INSERT INTO `item_mods` VALUES (20913,8,5); -- STR 5
+INSERT INTO `item_mods` VALUES (20913,12,5); -- INT 5
+INSERT INTO `item_mods` VALUES (20913,315,10); -- ENH_DRAIN_ASPIR 10
+INSERT INTO `item_mods` VALUES (20913,1330,-33); -- DARK_MAGIC_CAST -33
+INSERT INTO `item_mods` VALUES (20913,1328,25); -- DREAD_SPIKES_EFFECT 25
+INSERT INTO `item_mods` VALUES (20913,369,1); -- REFRESH 1
 INSERT INTO `item_mods` VALUES (20916,25,15);
 INSERT INTO `item_mods` VALUES (20922,8,6);       -- Aak'ab Scythe (iLvl 100): STR +6
 INSERT INTO `item_mods` VALUES (20922,23,10);     -- Attack +10
@@ -26542,7 +26546,6 @@ INSERT INTO `item_mods` VALUES (21041,73,5); -- Sukezane - STP +5
 INSERT INTO `item_mods` VALUES (21042,73,6); -- Sukezane - STP +6
 INSERT INTO `item_mods` VALUES (21044,23,10);
 INSERT INTO `item_mods` VALUES (21044,25,15);
-INSERT INTO `item_mods` VALUES (21049,73,5);      -- Anahera Blade (iLvl 119): Store TP +5
 INSERT INTO `item_mods` VALUES (21052,23,10);
 INSERT INTO `item_mods` VALUES (21052,25,15);
 INSERT INTO `item_mods` VALUES (21060,23,40); -- Mjollnir iLvL 119 - ATT +40
@@ -27114,7 +27117,7 @@ INSERT INTO `item_mods` VALUES (21378,421,5); -- Crit DMG +5%
 INSERT INTO `item_mods` VALUES (21379,165,2); -- Yetshila +1 - Crit Rate +2%
 INSERT INTO `item_mods` VALUES (21379,421,6); -- Crit DMG +6%
 INSERT INTO `item_mods` VALUES (21380,288,1); -- DOUBLE_ATTACK 1
-INSERT INTO `item_mods` VALUES (21381,541,5);
+INSERT INTO `item_mods` VALUES (21381,1348,1); -- AVATAR_LVL_BONUS 1
 INSERT INTO `item_mods` VALUES (21382,28,6);
 INSERT INTO `item_mods` VALUES (21382,311,13);
 INSERT INTO `item_mods` VALUES (21383,541,3);
@@ -52897,3 +52900,11 @@ INSERT INTO `item_mods` VALUES (21369,116,5); -- DARK 5
 INSERT INTO `item_mods` VALUES (18101,402,25); -- WYVERN_BREATH 25
 INSERT INTO `item_mods` VALUES (13290,432,5); -- ENSPELL_DMG_BONUS 5
 INSERT INTO `item_mods` VALUES (26000,913,3); -- BLOOD_BOON 3
+INSERT INTO `item_mods` VALUES (26412,459,25); -- FIRE_ABSORB 25
+INSERT INTO `item_mods` VALUES (26412,460,25); -- ICE_ABSORB 25
+INSERT INTO `item_mods` VALUES (26412,461,25); -- WIND_ABSORB 25
+INSERT INTO `item_mods` VALUES (26412,462,25); -- EARTH_ABSORB 25
+INSERT INTO `item_mods` VALUES (26412,463,25); -- LTNG_ABSORB 25
+INSERT INTO `item_mods` VALUES (26412,464,25); -- WATER_ABSORB 25
+INSERT INTO `item_mods` VALUES (26412,465,25); -- LIGHT_ABSORB 25
+INSERT INTO `item_mods` VALUES (26412,466,25); -- DARK_ABSORB 25

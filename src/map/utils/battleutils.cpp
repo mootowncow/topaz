@@ -7454,6 +7454,12 @@ int16 GetSDTTier(int16 SDT)
 
         if (PSpell->getSpellGroup() == SPELLGROUP_BLACK)
         {
+            if (PSpell->getSkillType() == SKILL_DARK_MAGIC)
+            {
+                uint16 darkCasting = PEntity->getMod(Mod::DARK_MAGIC_CAST);
+                cast = (uint32)(cast * (1.0f - ((darkCasting > 50 ? 50 : darkCasting) / 100.0f)));
+            }
+
             if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_ALACRITY))
             {
                 uint16 bonus = 0;
@@ -7526,13 +7532,18 @@ int16 GetSDTTier(int16 SDT)
             {
                 cast = (uint32)(cast * 1.5f);
             }
-            uint16 songcasting = PEntity->getMod(Mod::SONG_SPELLCASTING_TIME);
-            cast = (uint32)(cast * (1.0f - ((songcasting > 50 ? 50 : songcasting) / 100.0f)));
+            uint16 songCasting = PEntity->getMod(Mod::SONG_SPELLCASTING_TIME);
+            cast = (uint32)(cast * (1.0f - ((songCasting > 50 ? 50 : songCasting) / 100.0f)));
+        }
+        else if (PSpell->getSpellGroup() == SPELLGROUP_NINJUTSU)
+        {
+            uint16 ninjutsuCasting = PEntity->getMod(Mod::NINJUTSU_CASTING_TIME);
+            cast = (uint32)(cast * (1.0f - ((ninjutsuCasting > 50 ? 50 : ninjutsuCasting) / 100.0f)));
         }
         else if (PSpell->getSpellGroup() == SPELLGROUP_BLUE)
         {
-            uint16 bluecasting = PEntity->getMod(Mod::BLUE_SPELLCASTING_TIME);
-            cast = (uint32)(cast * (1.0f - ((bluecasting > 50 ? 50 : bluecasting) / 100.0f)));
+            uint16 blueCasting = PEntity->getMod(Mod::BLUE_SPELLCASTING_TIME);
+            cast = (uint32)(cast * (1.0f - ((blueCasting > 50 ? 50 : blueCasting) / 100.0f)));
         }
 
         int16 fastCast = std::clamp<int16>(PEntity->getMod(Mod::FASTCAST), -100, 50);

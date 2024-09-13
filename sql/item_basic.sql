@@ -20303,7 +20303,7 @@ INSERT INTO `item_basic` VALUES (26406,0,'kupo_shield','kupo_shield',1,63552,0,0
 INSERT INTO `item_basic` VALUES (26409,0,'dullahan_shield','dullahan_shield',1,63552,0,0,0);
 INSERT INTO `item_basic` VALUES (26410,0,'diamond_buckler','diamond_buckler',1,30784,0,0,0);
 INSERT INTO `item_basic` VALUES (26411,0,'diamond_buckler_+1','diamond_buckler_+1',1,31816,0,0,0);
-INSERT INTO `item_basic` VALUES (26412,0,'kamlanauts_shield','kamlanauts_shield',1,63552,0,0,0);
+INSERT INTO `item_basic` VALUES (26412,0,'kamlanauts_shield','kamlanauts_shield',1,63552,0,1,0);
 INSERT INTO `item_basic` VALUES (26413,0,'voluspa_shield','voluspa_shield',1,63552,0,0,0);
 INSERT INTO `item_basic` VALUES (26419,0,'ammurapi_shield','ammurapi_shield',1,63568,0,1,0);
 INSERT INTO `item_basic` VALUES (26420,0,'adapa_shield','adapa_shield',1,63568,0,1,0);
