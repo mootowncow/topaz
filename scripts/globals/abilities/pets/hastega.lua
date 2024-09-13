@@ -23,7 +23,7 @@ function onPetAbility(target, pet, skill, summoner)
     local duration = 600
     local bonus = 0
     local effect2 = tpz.effect.QUICKENING
-    local power2 = 25
+    local power2 = 20
 
     AvatarBuffBP(pet, target, skill, effect, power, tick, duration, params, bonus)
     AvatarBuffBP(pet, target, skill, effect2, power2, tick, duration, params, bonus)
