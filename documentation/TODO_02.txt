@@ -161,14 +161,9 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Do all the code with tpz.magic.singleWeatherStrong etc need to be  element -1 or does the indexing of tpz.magic.dayStrong  etc need to be changed...?
 Rock Buster attack down description added to DAT
 Rock Throw / Megalith Throw slow description added to DAT ? Might aleady be there
-Tail Whip defense down description added to DAT wha
-Last Resort duration mod added to last resort (tpz.mod.LAST_RESORT_DURATION)
-Cactrot Rapid pathing bugged
-1: 135 MP ele siphon with air spirit on thunderday is wrrong it should never go below 150 in neutral day/weather. Are day/weather enums wrong? Or logic?
-2: Around 80 skill it bugged out and was doing 135 every single cast, then at 87 it started doing 150 again...
+Tail Whip defense down description added to DAT
 
 All mob pets no_drops 1
 
@@ -178,10 +173,9 @@ Does it properly randomize an item from the NMs loot list?
 Ultima needs 3 more drops (RAID)
 Bahamut needs 3 more drops (RAID)
 Ealdnarche needs 1 more drop and 1 weapon (RAID)
-Kamlanaut needs 1 more weapon (RAID)
-All AA needs 1 more weapon (RAID)
 
 NPC Mobs can't guard/parry TP moves?
+BreathDmgTaken in battleutils is capped at +50% take(should prob be uncapped)
 Higher level beetles at the south goblin Oasis in Eastern Altepa?
 Lower level beetles away from Revelation Rock in middle of Western Altepa
 
@@ -762,6 +756,7 @@ ToAU ring buffs
 Aketon change to damage taken not phalanx check others with same type of text
 
 Item editor:
+If no entry for the item in item_equipement, (ID?), then add it
 "Select all" "Deslect all" button for races/flags/jobs/slots
 
 Simple log:
