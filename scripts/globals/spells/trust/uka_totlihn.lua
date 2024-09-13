@@ -9,15 +9,6 @@ require("scripts/globals/roe")
 require("scripts/globals/trust")
 require("scripts/globals/weaponskillids")
 -----------------------------------------
--- Define the main jobs with access to primary healing used to toggle Samba type
-local healingJobs =
-{
-    tpz.job.WHM,
-    tpz.job.RDM,
-    tpz.job.SCH,
-    tpz.job.PLD,
-}
-
 function onMagicCastingCheck(caster, target, spell)
     return tpz.trust.canCast(caster, spell)
 end
@@ -55,14 +46,8 @@ function onMobSpawn(mob)
         mobArg:setMod(tpz.mod.WALTZ_POTENCY, waltzPotencyBoost)
     end)
 
-    for i = 1, #healingJobs do
-        local master  = mob:getMaster()
-        if
-            master and
-            master:getMainJob() == healingJobs[i]
-        then
-            mob:addSimpleGambit(ai.t.SELF, ai.c.NO_SAMBA, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASTE_SAMBA)
-        end
+    if mob:getMainLvl() >= 45 then -- Haste samba if lvl >= 45
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NO_SAMBA, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASTE_SAMBA)
     end
 
     -- Step Interactions:
