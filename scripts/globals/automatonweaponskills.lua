@@ -1302,11 +1302,12 @@ function getAutoWeatherBonus(auto, element)
         end
     end
 
-    if VanadielDayElement() == tpz.magic.dayStrong[element] then
+    local dayElement = VanadielDayElement() -1
+    if dayElement == tpz.magic.dayStrong[element] then
         if math.random() < 0.33 then
             dayWeatherBonus = dayWeatherBonus + 0.10
         end
-    elseif VanadielDayElement() == tpz.magic.dayWeak[element] then
+    elseif dayElement == tpz.magic.dayWeak[element] then
         if math.random() < 0.33 then
             dayWeatherBonus = dayWeatherBonus - 0.10
         end
@@ -1322,6 +1323,7 @@ end
 function getAutoWeatherMaccBonus(auto, element)
     local dayWeatherBonus = 0
     local weather = auto:getWeather()
+    local dayElement = VanadielDayElement() -1
 
     if (weather == tpz.magic.singleWeatherStrong[element]) then
         if (auto:getMod(tpz.mod.IRIDESCENCE) >= 1) then
@@ -1351,7 +1353,6 @@ function getAutoWeatherMaccBonus(auto, element)
         end
     end
 
-    local dayElement = VanadielDayElement()
     if (dayElement == element) then
         dayWeatherBonus = dayWeatherBonus + auto:getMod(tpz.mod.DAY_NUKE_BONUS)/100 -- sorc. tonban(+1)/zodiac ring
         if math.random() < 0.33 then

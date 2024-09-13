@@ -311,18 +311,9 @@ function getDayWeatherEffect(mob, master)
     local spiritEle = master:getPetID() +1 -- get the spirit's ID, it is already aligned in proper element order
     -- element order: fire, ice, wind, earth, thunder, water, light, dark
     local weatherDayBonus = 0
-    local day = VanadielDayElement()
-    local dayElement = 0
+    local dayElement = VanadielDayElement() -1
     local weather = master:getWeather()
-    if day == 1 then dayElement = 0
-    elseif day == 2 then dayElement = 1
-    elseif day == 3 then dayElement = 2
-    elseif day == 4 then dayElement = 3
-    elseif day == 5 then dayElement = 4
-    elseif day == 6 then dayElement = 5
-    elseif day == 7 then dayElement = 6
-    elseif day == 8 then dayElement = 7
-    end
+
     --printf("ele element %u", spiritEle)
     --printf(" dayStrong table %u", tpz.magic.dayStrong[spiritEle]) 
     -- Day bonus/penalty

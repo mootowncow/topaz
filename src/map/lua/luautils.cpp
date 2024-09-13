@@ -743,7 +743,8 @@ namespace luautils
     *   Return Vanadiel Day's element                                       *
     *   Note: THIS IS NOT THE SAME AS THE DAY OF THE WEEK                   *
     *   Days of week: Fire Earth Water Wind Ice Lightning Light Dark        *
-    *   Elements: Fire Ice Wind Earth Thunder Water Light Dark              *
+    *   Elements: Fire Ice Wind Earth Thunder Water Light Dark
+    *   RETURNS 1-8 NOT 0-7
     *                                                                       *
     ************************************************************************/
 

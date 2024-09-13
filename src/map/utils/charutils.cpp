@@ -5442,7 +5442,7 @@ namespace charutils
             reduction = reduction + PChar->getMod(Mod::WEATHER_REDUCTION);
         }
 
-        // Doesn't work for some odd reason
+        // Doesn't work for some odd reason. Think it needs to be element -1
         //if (weather == weatherStrong[element] || weather == weatherStrong[element] +1)
         //{
         //    reduction = reduction + PChar->getMod(Mod::WEATHER_REDUCTION);

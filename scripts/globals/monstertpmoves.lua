@@ -614,6 +614,7 @@ function mobAddBonuses(caster, spell, target, dmg, ele)
     dmg = math.floor(dmg * magicDefense)
 
     dayWeatherBonus = 1.00
+    local dayElement = VanadielDayElement() -1
 
     if caster:getWeather() == tpz.magic.singleWeatherStrong[ele] then
         if math.random() < 0.33 then
@@ -633,11 +634,11 @@ function mobAddBonuses(caster, spell, target, dmg, ele)
         end
     end
 
-    if VanadielDayElement() == tpz.magic.dayStrong[ele] then
+    if dayElement == tpz.magic.dayStrong[ele] then
         if math.random() < 0.33 then
             dayWeatherBonus = dayWeatherBonus + 0.10
         end
-    elseif VanadielDayElement() == tpz.magic.dayWeak[ele] then
+    elseif dayElement == tpz.magic.dayWeak[ele] then
         if math.random() < 0.33 then
             dayWeatherBonus = dayWeatherBonus - 0.10
         end
@@ -2038,6 +2039,7 @@ end
 
 function getMobWeatherDayBonus(mob, element)
     dayWeatherBonus = 1.00
+    local dayElement = VanadielDayElement() -1
 
     if mob:getWeather() == tpz.magic.singleWeatherStrong[element] then
         if math.random() < 0.33 then
@@ -2057,11 +2059,11 @@ function getMobWeatherDayBonus(mob, element)
         end
     end
 
-    if VanadielDayElement() == tpz.magic.dayStrong[element] then
+    if dayElement == tpz.magic.dayStrong[element] then
         if math.random() < 0.33 then
             dayWeatherBonus = dayWeatherBonus + 0.10
         end
-    elseif VanadielDayElement() == tpz.magic.dayWeak[element] then
+    elseif dayElement == tpz.magic.dayWeak[element] then
         if math.random() < 0.33 then
             dayWeatherBonus = dayWeatherBonus - 0.10
         end

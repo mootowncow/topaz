@@ -1333,6 +1333,7 @@ end
 
 function BlueGetWeatherDayBonus(caster, element)
     dayWeatherBonus = 1.00
+    local dayElement = VanadielDayElement() -1
 
     if caster:getWeather() == tpz.magic.singleWeatherStrong[element] then
         if math.random() < 0.33 then
@@ -1352,11 +1353,11 @@ function BlueGetWeatherDayBonus(caster, element)
         end
     end
 
-    if VanadielDayElement() == tpz.magic.dayStrong[element] then
+    if dayElement == tpz.magic.dayStrong[element] then
         if math.random() < 0.33 then
             dayWeatherBonus = dayWeatherBonus + 0.10
         end
-    elseif VanadielDayElement() == tpz.magic.dayWeak[element] then
+    elseif dayElement == tpz.magic.dayWeak[element] then
         if math.random() < 0.33 then
             dayWeatherBonus = dayWeatherBonus - 0.10
         end
