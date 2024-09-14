@@ -796,6 +796,15 @@ void CCharEntity::Tick(time_point tick)
         m_deathSyncTime = tick + death_update_frequency;
     }
 
+    // Save character data every 5 minutes
+    if (tick > m_LastPlayerDataSave)
+    {
+        charutils::SaveCharPosition(this);
+        this->StatusEffectContainer->SaveStatusEffects(false, false);
+        ShowDebug(CL_CYAN "Player data saving finished\n", CL_RESET);
+        m_LastPlayerDataSave = tick + std::chrono::milliseconds(300000);
+    }
+
     if (m_moghouseID != 0)
     {
         gardenutils::UpdateGardening(this, true);

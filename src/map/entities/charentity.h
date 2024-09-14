@@ -403,6 +403,7 @@ public:
     bool              m_EffectsChanged;
     time_point        m_LastSynthTime;
     time_point        m_LastRangedAttackTime;
+    time_point        m_LastPlayerDataSave;         // time between last player data save
 
     CHAR_SUBSTATE     m_Substate;
 
