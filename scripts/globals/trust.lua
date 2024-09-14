@@ -281,16 +281,15 @@ tpz.trust.canCast = function(caster, spell, not_allowed_trust_ids)
         return tpz.msg.basic.TRUST_NO_CAST_TRUST
     end
 
-    -- Trusts cannot be summoned under level restriction
-    if caster:hasStatusEffect(tpz.effect.LEVEL_RESTRICTION) then
-        return tpz.msg.basic.TRUST_NO_CAST_TRUST
-    end
-
     -- Trusts not allowed in an alliance
     if caster:checkSoloPartyAlliance() == 2 then
         return tpz.msg.basic.TRUST_NO_CAST_TRUST
     end
 
+    -- Trusts only allowed in certain zones (Remove this for trusts everywhere)
+    if not caster:canUseMisc(tpz.zoneMisc.TRUST) then
+        return tpz.msg.basic.TRUST_NO_CALL_AE
+    end
 
     -- You can only summon trusts if you are the party leader or solo
     local leader = caster:getPartyLeader()
