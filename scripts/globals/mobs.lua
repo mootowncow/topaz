@@ -1046,7 +1046,9 @@ function SetGenericNMStats(mob)
         wepDMG = wepDMG * 0.4
     end
 
-	mob:setDamage(wepDMG)
+    if (wepDMG > 0 and wepDMG ~= nil) then
+	    mob:setDamage(wepDMG)
+    end
     mob:addMod(tpz.mod.ATTP, 25)
     mob:addMod(tpz.mod.DEFP, 25)
     mob:addMod(tpz.mod.ACC, 25)
