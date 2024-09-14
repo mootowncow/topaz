@@ -16,7 +16,7 @@ function onSpellCast(caster, target, spell)
     local typeEffect = tpz.effect.DREAD_SPIKES
     local drainAmount = target:getMaxHP() / 2
 
-    drainAmount = drainAmount * (100 + caster:getMod(tpz.mod.DREAD_SPIKES_EFFECT)) / 100)
+    drainAmount = drainAmount * ((100 + caster:getMod(tpz.mod.DREAD_SPIKES_EFFECT)) / 100)
 
     if target:addStatusEffect(typeEffect, 0, 0, duration, 0, drainAmount, 1) then
         spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
