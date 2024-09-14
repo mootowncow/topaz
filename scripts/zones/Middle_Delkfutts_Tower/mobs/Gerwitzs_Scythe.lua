@@ -10,14 +10,11 @@ require("scripts/globals/status")
 -----------------------------------
 
 function onMobSpawn(mob)
-	mob:addMod(tpz.mod.ATTP, 100)
-    mob:addMod(tpz.mod.DEFP, 50) 
-	mob:addMod(tpz.mod.ACC, 30) 
-    mob:addMod(tpz.mod.EVA, 30)
-    mob:setMod(tpz.mod.REFRESH, 400)
-	mob:setMod(tpz.mod.SLEEPRESTRAIT, 100)
-	mob:setMod(tpz.mod.LULLABYRESTRAIT, 100)
-	mob:setMod(tpz.mod.SILENCERESTRAIT, 100)
+    SetGenericNMStats(mob)
+    mob:addImmunity(tpz.immunity.SLEEP)
+    mob:addImmunity(tpz.immunity.PETRIFY)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
+    mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
 end
 
 function onMobInitialize(mob)
@@ -25,7 +22,7 @@ function onMobInitialize(mob)
 end
 
 function onAdditionalEffect(mob, target, damage)
-	RNG = math.random(1, 2)
+	local RNG = math.random(1, 2)
 	if RNG == 1 then
 		return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.TP_DRAIN, {chance = 25, power = math.random(100, 150)})
 	elseif RNG == 2 then

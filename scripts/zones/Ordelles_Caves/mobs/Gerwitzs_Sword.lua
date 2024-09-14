@@ -10,14 +10,12 @@ require("scripts/globals/status")
 -----------------------------------
 
 function onMobSpawn(mob)
-	mob:addMod(tpz.mod.ATTP, 100)
-    mob:addMod(tpz.mod.DEFP, 50) 
-	mob:addMod(tpz.mod.ACC, 30) 
-    mob:addMod(tpz.mod.EVA, 30)
+    SetGenericNMStats(mob)
     mob:setMod(tpz.mod.REFRESH, 400)
 	mob:setMod(tpz.mod.SLEEPRESTRAIT, 100)
 	mob:setMod(tpz.mod.LULLABYRESTRAIT, 100)
 	mob:setMod(tpz.mod.SILENCERESTRAIT, 100)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

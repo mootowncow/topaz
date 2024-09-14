@@ -11119,9 +11119,9 @@ INSERT INTO `mob_groups` VALUES (30,2988,157,'Ophion',3600,0,787,3500,0,33,38,0)
 INSERT INTO `mob_groups` VALUES (31,3359,157,'Rhoikos',3600,0,787,3000,0,33,38,0);
 INSERT INTO `mob_groups` VALUES (32,2124,157,'Jagd_Doll',330,0,192,0,0,33,34,0);
 INSERT INTO `mob_groups` VALUES (33,2956,157,'Ogygos',3600,0,1844,3500,0,33,38,0);
-INSERT INTO `mob_groups` VALUES (34,1502,157,'Gerwitzs_Scythe',0,128,0,9000,0,60,60,0);
-INSERT INTO `mob_groups` VALUES (35,3514,157,'Scythe_Victim',0,128,0,7500,0,58,58,0);
-INSERT INTO `mob_groups` VALUES (36,6564,157,'Scythe_Victim',0,128,0,7500,0,58,58,0);
+INSERT INTO `mob_groups` VALUES (34,1502,157,'Gerwitzs_Scythe',0,128,0,9000,0,65,65,0);
+INSERT INTO `mob_groups` VALUES (35,3514,157,'Scythe_Victim',0,128,0,0,0,62,62,0);
+INSERT INTO `mob_groups` VALUES (36,6564,157,'Scythe_Victim',0,128,0,0,0,62,62,0);
 
 INSERT INTO `mob_groups` VALUES (8377,3992,157,'Treasure_Chest',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (8378,4498,157,'Zeid',0,0,0,0,0,0,0,0);

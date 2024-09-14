@@ -2,7 +2,7 @@
 -- Area: Ordelles Caves
 --  NPC: ??? (qm4)
 -- Involved In Quest: Dark Puppet
--- !pos -52 27 -85 193
+-- !gotoid 17568176
 -----------------------------------
 local ID = require("scripts/zones/Ordelles_Caves/IDs")
 require("scripts/globals/npc_util")
