@@ -1047,8 +1047,12 @@ function SetGenericNMStats(mob)
     end
 
     if (wepDMG > 0 and wepDMG ~= nil) then
-	    mob:setDamage(wepDMG)
+        mob:setDamage(wepDMG)
+    else
+        local mobName = mob:getName()
+        printf("WARNING! %s tried to set negative or nil weapon damage!", mobName)
     end
+
     mob:addMod(tpz.mod.ATTP, 25)
     mob:addMod(tpz.mod.DEFP, 25)
     mob:addMod(tpz.mod.ACC, 25)

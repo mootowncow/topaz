@@ -15397,20 +15397,35 @@ inline int32 CLuaBaseEntity::setDelay(lua_State* L)
 }
 
 /************************************************************************
-*  Function: setDamage()
-*  Purpose : Override default damage settings for a Mob
-*  Example : mob:setDamage(40)
-*  Notes   :
-************************************************************************/
+ *  Function: setDamage()
+ *  Purpose : Override default damage settings for a Mob
+ *  Example : mob:setDamage(40)
+ *  Notes   :
+ ************************************************************************/
 
 inline int32 CLuaBaseEntity::setDamage(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
 
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    // Check if the argument is nil or not a number
+    if (lua_isnil(L, 1) || !lua_isnumber(L, 1))
+    {
+        ShowWarning(CL_YELLOW "[%s] tried to set nil weapon damage!\n" CL_RESET, m_PBaseEntity->GetName());
+        return 0;
+    }
 
-    ((CItemWeapon*)((CMobEntity*)m_PBaseEntity)->m_Weapons[SLOT_MAIN])->setDamage((uint16)lua_tonumber(L, 1));
+    // Get the damage value from Lua
+    int32 damage = (int32)lua_tonumber(L, 1);
+
+    // Check if the damage is less than 0
+    if (damage < 0)
+    {
+        ShowWarning(CL_YELLOW "[%s] tried to set negative weapon damage!\n" CL_RESET, m_PBaseEntity->GetName());
+        return 0;
+    }
+
+    ((CItemWeapon*)((CMobEntity*)m_PBaseEntity)->m_Weapons[SLOT_MAIN])->setDamage((uint16)damage);
     return 0;
 }
 

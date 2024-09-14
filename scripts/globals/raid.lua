@@ -1169,7 +1169,13 @@ function SetUpTankNPC(mob)
         weaponDamage = 0.11 * h2hskill + 3 + 18 * math.floor((level + 2) / 75)
     end
 
-    mob:setDamage(weaponDamage)
+    if (weaponDamage > 0 and weaponDamage ~= nil) then
+        mob:setDamage(weaponDamage)
+    else
+        local mobName = mob:getName()
+        printf("WARNING! %s tried to set negative or nil weapon damage!", mobName)
+    end
+
     mob:addMod(tpz.mod.ENMITY_II, 25)
 
     if IsHalver(mob) then
@@ -1213,7 +1219,13 @@ function SetUpPuppetNPC(mob)
         local level = mob:getMainLvl()
         local weaponDamage = level + 2
 
-        mob:setDamage(weaponDamage)
+        if (weaponDamage > 0 and weaponDamage ~= nil) then
+            mob:setDamage(weaponDamage)
+        else
+            local mobName = mob:getName()
+            printf("WARNING! %s tried to set negative or nil weapon damage!", mobName)
+        end
+
         mob:addMod(tpz.mod.DMG, -38)
         mob:setMod(tpz.mod.UDMGBREATH, -90)
         mob:addMod(tpz.mod.ENMITY_II, 25)
