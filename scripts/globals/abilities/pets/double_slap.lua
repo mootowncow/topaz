@@ -24,7 +24,7 @@ function onPetAbility(target, pet, skill)
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.3
 
-    local damage = AvatarPhysicalBP(pet, target, skill, tpz.attackType.PHYSICAL, numhits, ftp, TP_ACC_BONUS, params)
+    local damage = AvatarPhysicalBP(pet, target, skill, tpz.attackType.PHYSICAL, numhits, ftp, TP_CRIT_VARIES, params) -- TP_ACC_BONUS in retail but it sucks!
     dmg = AvatarPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.BLUNT, damage.hitslanded, params)
 
     return dmg
