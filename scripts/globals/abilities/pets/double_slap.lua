@@ -13,21 +13,19 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onPetAbility(target, pet, skill)
+    local numhits = 2
+    local ftp = 3.6640625
     local params = {}
-    params.multiplier = 3.0
-    params.tp150 = 3.0
-    params.tp300 = 3.0
     params.str_wsc = 0.0
     params.dex_wsc = 0.0
     params.vit_wsc = 0.0
     params.agi_wsc = 0.0
-    params.int_wsc = 0.3
+    params.int_wsc = 0.0
     params.mnd_wsc = 0.0
-    params.chr_wsc = 0.0
-    params.NO_TP_CONSUMPTION = true
+    params.chr_wsc = 0.3
 
-    local damage = AvatarMagicalBP(pet, target, skill, tpz.magic.ele.NONE, params, INT_BASED, 0)
-    dmg = AvatarMagicalFinalAdjustments(damage, pet, skill, target, tpz.attackType.MAGICAL, tpz.magic.ele.NONE, params)
+    local damage = AvatarPhysicalBP(pet, target, skill, tpz.attackType.PHYSICAL, numhits, ftp, TP_ACC_BONUS, params)
+    dmg = AvatarPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.BLUNT, damage.hitslanded, params)
 
     return dmg
 end
