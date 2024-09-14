@@ -429,14 +429,38 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         }
     }
 
-    ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
-    ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
+    auto mhDmg = GetWeaponDamage(PMob, SLOT_MAIN);
+    auto ohDmg = GetWeaponDamage(PMob, SLOT_RANGED);
 
+    if (PMob->m_Weapons[SLOT_MAIN] != nullptr && mhDmg)
+    {
+        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setDamage(mhDmg);
+    }
+    else
+    {
+        ShowWarning(CL_YELLOW "(%s, %d) main hand damage is invalid!\n" CL_RESET, PMob->GetName(), PMob->id);
+    }
+
+    if (PMob->m_Weapons[SLOT_RANGED] != nullptr && ohDmg)
+    {
+        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED])->setDamage(ohDmg);
+    }
+    else
+    {
+        ShowWarning(CL_YELLOW "(%s, %d) ranged damage is invalid!\n" CL_RESET, PMob->GetName(), PMob->id);
+    }
 
     // reduce weapon delay of MNK
     if (PMob->GetMJob() == JOB_MNK)
     {
-        ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->resetDelay();
+        if (auto* weapon = dynamic_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN]))
+        {
+            weapon->resetDelay();
+        }
+        else
+        {
+            ShowWarning(CL_YELLOW "(%s, %d) main hand weapon is invalid for resetting delay!\n" CL_RESET, PMob->GetName(), PMob->id);
+        }
     }
 
     // Deprecate MOBMOD_DUAL_WIELD later, replace if check with value from DB
@@ -445,7 +469,14 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         PMob->m_dualWield = true;
         // if mob is going to dualWield then need to have sub slot
         // assume it is the same damage as the main slot
-        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_SUB])->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
+        if (PMob->m_Weapons[SLOT_SUB] != nullptr && mhDmg)
+        {
+            static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_SUB])->setDamage(mhDmg);
+        }
+        else
+        {
+            ShowWarning(CL_YELLOW "(%s, %d) sub weapon is invalid!\n" CL_RESET, PMob->GetName(), PMob->id);
+        }
     }
 
     uint16 fSTR = GetBaseToRank(PMob->strRank, mLvl);

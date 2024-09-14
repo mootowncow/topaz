@@ -1009,6 +1009,7 @@ void CZoneEntities::TOTDChange(TIMETYPE TOTD)
                 {
                     PMob->SetDespawnTime(0s);
                     PMob->m_AllowRespawn = true;
+                    ShowWarning(CL_YELLOW "(%s, %d) spawning at evening!\n" CL_RESET, PMob->GetName(), PMob->id);
                     PMob->Spawn();
                 }
             }

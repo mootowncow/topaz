@@ -15411,7 +15411,7 @@ inline int32 CLuaBaseEntity::setDamage(lua_State* L)
     // Check if the argument is nil or not a number
     if (lua_isnil(L, 1) || !lua_isnumber(L, 1))
     {
-        ShowWarning(CL_YELLOW "[%s] tried to set nil weapon damage!\n" CL_RESET, m_PBaseEntity->GetName());
+        ShowWarning(CL_YELLOW "[%s] tried to set nil weapon damage!\n" CL_RESET, m_PBaseEntity->name);
         return 0;
     }
 
