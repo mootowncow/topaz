@@ -19,7 +19,7 @@ function onSpellCast(caster, target, spell)
     params.diff = dINT
     params.attribute = tpz.mod.INT
     params.skillType = tpz.skill.DARK_MAGIC
-    params.bonus = 0
+    params.bonus = 100
     params.effect = nil
     local power = getAbsorbSpellPower(caster)
     local tick = 0

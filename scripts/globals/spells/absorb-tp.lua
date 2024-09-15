@@ -20,6 +20,7 @@ function onSpellCast(caster, target, spell)
     local params = {}
     params.attribute = tpz.mod.INT
     params.skillType = tpz.skill.DARK_MAGIC
+    params.bonus = 100
     local resist = applyResistanceEffect(caster, target, spell, params)
 
     --get the resisted damage
