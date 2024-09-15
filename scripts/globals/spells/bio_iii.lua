@@ -48,7 +48,7 @@ function onSpellCast(caster, target, spell)
     local duration = 30 + (meritBonus - 30)
     local tier = 3
 	
-	if caster:isMob() then
+	if not caster:PC() then
 		duration = 180
 	end
 

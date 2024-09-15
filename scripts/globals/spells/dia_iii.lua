@@ -48,7 +48,7 @@ function onSpellCast(caster, target, spell)
     local dotBonus = caster:getMod(tpz.mod.DIA_DOT) -- Dia Wand
     local tier = 3
 	
-	if caster:isMob() then
+	if not caster:PC() then
 		duration = 180
 	end
 
