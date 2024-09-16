@@ -659,6 +659,8 @@
 779 - A barrier pulsates around
 780 - Takes aim on
 
+790 - {id=792,en="${actor} uses ${spell}.${lb}${number} of ${target}'s effects disappears!",color=56,suffix="effects disappears"},
+
 1023 - <name>'s damage dealt is increased and damage taken is reduced.
 -------------------------------------------------
 End of client dat file. No entries above 1023.

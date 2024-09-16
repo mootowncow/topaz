@@ -27,7 +27,7 @@ function onSpellCast(caster, target, spell)
 
     if (resist >= 0.50) then
         spell:setMsg(tpz.msg.basic.MAGIC_ERASE)
-        -- TODOCheckForMagicBurst(caster, spell, target)
+        -- TODO: tpz.msg.basic.EFFECTS_DISAPPEAR_2 for more than 1 effect dispelled, and return # of effects not effect
         effect = target:dispelStatusEffect()
         if (effect == tpz.effect.NONE) then
             -- no effect
