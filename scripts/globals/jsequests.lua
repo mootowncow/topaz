@@ -35,18 +35,23 @@ tpz.jsequest = tpz.jsequest or {}
 
 tpz.jsequest.onTrigger = function(player, npc, job)
     local npcName = npc:getName()
+    local isCorrectJob = player:getMainJob() == job
+    local isLevelCapped = player:getMainLvl() >= 75
 
     -- If var is 1, then player has seen the intro quest text already, don't show again
-    if (player:getCharVar("[JSEQUEST" .. job .. "]") == 0) then
-        player:setCharVar("[JSEQUEST" .. job .. "]", 1)
-        local itemOne = GetItem(questItems[job].items[1])
-        local itemTwo = GetItem(questItems[job].items[2])
-        local itemOneName = string.gsub(itemOne:getName(), '_', ' ');
-        local itemTwoName = string.gsub(itemTwo:getName(), '_', ' ');
+    if isCorrectJob and isLevelCapped then
+        if (player:getCharVar("[JSEQUEST" .. job .. "]") == 0) then
+            if questItems[job] and #questItems[job].items >= 2 then
+                local itemOne = GetItem(questItems[job].items[1])
+                local itemTwo = GetItem(questItems[job].items[2])
+                local itemOneName = string.gsub(itemOne:getName(), '_', ' ');
+                local itemTwoName = string.gsub(itemTwo:getName(), '_', ' ');
 
-        player:PrintToPlayer("To show your mastery in your job, please bring me a " .. itemOneName .. " and a ".. itemTwoName .. ".", 0, npcName)
-        
-        return
+                player:setCharVar("[JSEQUEST" .. job .. "]", 1)
+                player:PrintToPlayer("To show your mastery in your job, please bring me a " .. itemOneName .. " and a ".. itemTwoName .. ".", 0, npcName)
+            end
+            return
+        end
     end
 end
 

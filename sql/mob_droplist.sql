@@ -17702,7 +17702,7 @@ INSERT INTO `mob_droplist` VALUES (6115,0,0,1000,954,240);   -- Magic pot shard
 INSERT INTO `mob_droplist` VALUES (6115,2,0,1000,9924,0);    -- (Steal) Carafe Core
 INSERT INTO `mob_droplist` VALUES (6116,0,0,1000,846,240);  -- (Darter - Boyahda Tree)
 INSERT INTO `mob_droplist` VALUES (6116,0,0,1000,9926,5);  -- Darter Wing
-INSERT INTO `mob_droplist` VALUES (6117,0,0,1000,2163,240); -- (Heraldic Imp - Caedara Mire)
+INSERT INTO `mob_droplist` VALUES (6117,0,0,1000,2163,240); -- (Heraldic Imp - Caedara Mire(Hediva Isle))
 INSERT INTO `mob_droplist` VALUES (6117,0,0,1000,9927,5);  -- Imp Eye
 INSERT INTO `mob_droplist` VALUES (6118,0,0,1000,2175,240); -- (Ebony Pudding - Mount Z) Flan Meat
 INSERT INTO `mob_droplist` VALUES (6118,0,0,1000,9928,5);  -- Pudding Putty
