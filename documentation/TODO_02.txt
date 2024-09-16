@@ -171,6 +171,7 @@ Move pugils at the two beaches
 1 goblin smithy missing near entrance of Kazham in middle
 Only 1 goblin ambushers at dunes entrance, too many tinkers? Add more ambushers/butchers
 Add more Defiloators or Puktraps to room where 17055821 Defoliator is (1-2 max)
+Mobs should heal and buff other mobs in combat
 
 Voidwalker:
 Orcus Immune to Slow / Para
@@ -241,7 +242,6 @@ Check Skill for all spells in spell_list.sql. I did most of ele/enfeebling
 Does Shen work?
 Test yesterdays commits from home like Banishga1-3
 RA interrupt on movement packet or state change? Maybe LSB has
-Mobs should heal other mobs in combat
 Pet camps so I can level SMN x2
 Job points
 Lamia / Merrow and undead + acroliths in same party. Mobmod to make mobs be in same party. (For Illrusi Atoll assault mainly)
