@@ -1169,6 +1169,17 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect)
             }
         }
         break;
+    case LATENT_EQUIP_SLOT:
+    {
+        auto slot = latentEffect.GetSlot();
+        auto slotCondition = latentEffect.GetConditionsValue();;
+        auto item = (CItemEquipment*)m_POwner->getEquip((SLOTTYPE)slot);
+        if (slot == slotCondition)
+        {
+            expression = item != nullptr;
+        }
+        break;
+    }
     default:
         latentFound = false;
         ShowWarning("Latent ID %d unhandled in ProcessLatentEffect\n", latentEffect.GetConditionsID());

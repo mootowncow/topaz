@@ -3513,7 +3513,7 @@ INSERT INTO `item_weapon` VALUES (20511,'kenkonken',1,0,269,269,228,4,1,559,144,
 INSERT INTO `item_weapon` VALUES (20512,'verethragna',1,0,269,269,228,4,1,561,158,0);
 INSERT INTO `item_weapon` VALUES (20514,'aphelion_knuckles',1,0,0,0,0,4,1,540,1,0);
 INSERT INTO `item_weapon` VALUES (20515,'godhands',1,0,269,269,228,4,1,618,197,0);
-INSERT INTO `item_weapon` VALUES (20516,'denouements',1,0,242,242,188,4,1,606,165,0);
+INSERT INTO `item_weapon` VALUES (20516,'denouements',1,0,242,242,188,4,1,531,18,0);
 INSERT INTO `item_weapon` VALUES (20517,'fleshcarvers',1,0,242,242,188,4,1,570,114,0);
 INSERT INTO `item_weapon` VALUES (20518,'eshus',1,0,228,232,188,4,1,606,154,0);
 INSERT INTO `item_weapon` VALUES (20519,'hammerfists',1,0,242,242,188,4,1,561,115,0);
@@ -3613,7 +3613,7 @@ INSERT INTO `item_weapon` VALUES (20628,'mindmeld_kris',2,0,102,102,84,1,1,192,7
 INSERT INTO `item_weapon` VALUES (20629,'legato_dagger',2,0,102,102,84,1,1,201,70,0);
 INSERT INTO `item_weapon` VALUES (20630,'atoyac',2,0,188,188,146,1,1,200,97,0);
 INSERT INTO `item_weapon` VALUES (20631,'khandroma_-1',2,0,0,0,0,1,1,201,48,0);
-INSERT INTO `item_weapon` VALUES (20632,'vanir_knife',2,0,242,242,188,1,1,205,111,0);
+INSERT INTO `item_weapon` VALUES (20632,'vanir_knife',2,0,242,242,188,1,1,150,28,0);
 INSERT INTO `item_weapon` VALUES (20633,'cama._dagger',2,0,108,108,84,1,1,211,75,0);
 INSERT INTO `item_weapon` VALUES (20634,'leisilonu_+1',2,0,162,162,128,1,1,183,75,0);
 INSERT INTO `item_weapon` VALUES (20635,'forefront_dagger',2,0,63,63,52,1,1,183,53,0);
@@ -4308,7 +4308,7 @@ INSERT INTO `item_weapon` VALUES (21362,'ombre_tathlum_+1',0,0,0,0,0,0,1,999,0,0
 INSERT INTO `item_weapon` VALUES (21363,'hasty_pinion_+1',0,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21366,'floestone',0,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21367,'tengu-no-hane',0,0,0,0,0,0,1,999,0,0);
-INSERT INTO `item_weapon` VALUES (21368,'bestas_bane',27,0,242,0,0,0,1,286,65,0);
+INSERT INTO `item_weapon` VALUES (21368,'bestas_bane',27,0,242,0,0,1,1,286,35,0);
 INSERT INTO `item_weapon` VALUES (21369,'warlocks_bag',0,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21370,'gobbie_goodie_bag',0,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21371,'ginsen',0,0,0,0,0,0,1,999,0,0);

@@ -17253,7 +17253,7 @@ INSERT INTO `item_basic` VALUES (20511,0,'kenkonken','kenkonken',1,63552,0,0,0);
 INSERT INTO `item_basic` VALUES (20512,0,'verethragna','verethragna',1,63552,0,0,0);
 INSERT INTO `item_basic` VALUES (20514,0,'aphelion_knuckles','aphelion_knuckles',1,63552,0,1,0);
 INSERT INTO `item_basic` VALUES (20515,0,'godhands','godhands',1,63552,0,0,0);
-INSERT INTO `item_basic` VALUES (20516,0,'denouements','denouements',1,63572,0,0,0);
+INSERT INTO `item_basic` VALUES (20516,0,'denouements','denouements',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (20517,0,'fleshcarvers','fleshcarvers',1,30800,0,0,0);
 INSERT INTO `item_basic` VALUES (20518,0,'eshus','eshus',1,63568,0,0,0);
 INSERT INTO `item_basic` VALUES (20519,0,'hammerfists','hammerfists',1,30805,0,0,0);
@@ -18050,7 +18050,7 @@ INSERT INTO `item_basic` VALUES (21364,0,'elders_grip_+1','elders_grip_+1',1,348
 INSERT INTO `item_basic` VALUES (21365,0,'dilettantes_grip_+1','dilet.s_grip_+1',1,34820,62,0,0);
 INSERT INTO `item_basic` VALUES (21366,0,'floestone','floestone',1,63572,0,0,0);
 INSERT INTO `item_basic` VALUES (21367,0,'tengu-no-hane','tengu-no-hane',1,63572,0,0,0);
-INSERT INTO `item_basic` VALUES (21368,0,'bestas_bane','bestas_bane',1,63572,0,0,0);
+INSERT INTO `item_basic` VALUES (21368,0,'bestas_bane','bestas_bane',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (21369,0,'warlocks_bag','warlocks_bag',1,64584,0,1,0);
 INSERT INTO `item_basic` VALUES (21370,0,'gobbie_goodie_bag','gobbie_goodie_bag',1,64584,0,0,0);
 INSERT INTO `item_basic` VALUES (21371,0,'ginsen','ginsen',1,63572,0,0,0);

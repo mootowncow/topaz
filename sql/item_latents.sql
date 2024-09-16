@@ -3903,6 +3903,10 @@ INSERT INTO `item_latents` VALUES(18754, 355, 12, 47, 0);   -- Inferno Claws
 INSERT INTO `item_latents` VALUES(19102, 355, 29, 47, 0);   -- Main Gauche
 INSERT INTO `item_latents` VALUES(18592, 355, 188, 47, 0);  -- Elder Staff
 
+-- -------------------------------------------------------
+-- Vanir Knife
+-- -------------------------------------------------------
+INSERT INTO `item_latents` VALUES(20632, 303, 1, 62, 1); -- TH+1 in Offhand
 
 --  `itemId` smallint(5) unsigned NOT NULL,
 --  `modId` smallint(5) unsigned NOT NULL,

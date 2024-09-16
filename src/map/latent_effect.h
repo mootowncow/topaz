@@ -89,6 +89,7 @@ enum LATENT
     LATENT_VS_ECOSYSTEM             = 59, // Vs. Specific Ecosystem ID (e.g. Vs. Birds: Accuracy+3)
     LATENT_VS_FAMILY                = 60, // Vs. Specific Family ID (e.g. Vs. Apkallu: Accuracy+3)
     LATENT_CITIZEN_OF               = 61, // Citizen of Nation SANDY = 0, BASTOK = 1, WINDURST = 2
+    LATENT_EQUIP_SLOT               = 62, // Item is equipped specific slot (i.e. MAIN = 0, SUB = 1, EAR1 = 11, EAR2 = 12, RING1 = 13, RING2 = 14) 
 };
 
 #define MAX_LATENTEFFECTID    999

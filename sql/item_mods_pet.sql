@@ -632,3 +632,8 @@ INSERT INTO `item_mods_pet` VALUES (28311,384,300,0); -- All: HASTE_GEAR 300
 INSERT INTO `item_mods_pet` VALUES (26000,25,5,1); -- Avatar: ACC 5
 INSERT INTO `item_mods_pet` VALUES (26000,30,5,1); -- Avatar: MACC 5
 INSERT INTO `item_mods_pet` VALUES (26000,27,5,1); -- Avatar: ENMITY 5
+INSERT INTO `item_mods_pet` VALUES (28505,27,5,0); -- All: ENMITY 5
+INSERT INTO `item_mods_pet` VALUES (28505,288,3,0); -- All: DOUBLE_ATTACK 3
+INSERT INTO `item_mods_pet` VALUES (20516,370,4,3); -- Automaton: REGEN 4
+INSERT INTO `item_mods_pet` VALUES (20516,369,4,3); -- Automaton: REFRESH 4
+INSERT INTO `item_mods_pet` VALUES (20516,160,-10,3); -- Automaton: DMG -10

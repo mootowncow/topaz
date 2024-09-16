@@ -57,9 +57,9 @@ local mobData =
 {
     { Name = 'Promathia',       Loot = { tpz.items.GYVE_TROUSERS, tpz.items.GYVE_DOUBLET, tpz.items.LAIC_MANTLE, tpz.items.LATRIA_SASH }                        },
     { Name = 'Omega',           Loot = { tpz.items.TERMINAL_HELM, tpz.items.TERMINAL_PLATE, tpz.items.CESSANCE_EARRING, tpz.items.CONSUMMATION_TORQUE }         },
-    { Name = 'Bahamut',         Loot = { tpz.items.VANIR_BOOTS }                                                                                                },
-    { Name = 'Ultima',          Loot = { tpz.items.CULMINUS }                                                                                                   },
-    { Name = 'Ealdnarche',      Loot = { tpz.items.VANIR_COTEHARDIE, tpz.items.VANIR_BATTERY, tpz.items }                                                       },
+    { Name = 'Bahamut',         Loot = { tpz.items.VANIR_BOOTS, tpz.items.BESTAS_BANE, tpz.items.LENTUS_GRIP, tpz.items.KYUJUTSUGI   }                          },
+    { Name = 'Ultima',          Loot = { tpz.items.CULMINUS, tpz.items.DENOUEMENTS, tpz.items.DOMESTICATORS_EARRING, tpz.items.TENGU_NO_HANE }                  },
+    { Name = 'Ealdnarche',      Loot = { tpz.items.VANIR_COTEHARDIE, tpz.items.VANIR_BATTERY, tpz.items.VANIR_KNIFE, tpz.items.DIVINATOR }                      },
     { Name = 'Kamlanaut',       Loot = { tpz.items.MESYOHI_HAUBERGEON, tpz.items.MESYOHI_ROD, tpz.items.MESYOHI_SLACKS , tpz.items.KAMLANAUTS_SHIELD }          },
     { Name = 'Shadow_Lord',     Loot = { tpz.items.DREAD_JUPON, tpz.items.PERDITION_SLOPS, tpz.items.ONIMUSHA_NO_KOTE, tpz.items.TREPIDITY_MANTLE }             },
     { Name = 'Ark_Angel_HM',    Loot = { tpz.items.LITHELIMB_CAP, tpz.items.BLOODRAIN_STRAP, tpz.items.MANABYSS_PIGACHES, tpz.items.ANAHERA_SABER }             },
@@ -200,7 +200,7 @@ end
 local function AddTreasure(mob, player)
     local mobName = mob:getName()
 
-    if (math.random(100) <= 1) then
+    if (math.random(100) <= 5) then
         for _, NM in pairs(mobData) do
             if (mobName == NM.Name) then
                 local NearbyPlayers = mob:getPlayersInRange(50)
