@@ -3719,6 +3719,7 @@ int16 GetSDTTier(int16 SDT)
             // https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
             crithitrate = std::clamp(crithitrate, 1, 100);
         }
+        //ShowDebug("[%s] crit rate is %u\n", PAttacker->name, crithitrate);
         return (uint8)crithitrate;
     }
 
@@ -5427,13 +5428,14 @@ int16 GetSDTTier(int16 SDT)
     {
         if (m_PChar->StatusEffectContainer->HasStatusEffect(EFFECT_CONSUME_MANA))
         {
-            // Add 2 damage for every 1 MP
-            damage += (uint32)(m_PChar->health.mp * 2);
-            m_PChar->health.mp = 0;
+            // Add 2 damage for every 10 MP
+            damage += (uint32)((m_PChar->health.mp / 10) * 2);
+            m_PChar->health.mp = 0; // Set MP to 0 after consuming it
             m_PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_CONSUME_MANA);
         }
         return damage;
     }
+
 
     /************************************************************************
     *                                                                       *
