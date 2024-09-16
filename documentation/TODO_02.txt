@@ -132,7 +132,6 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Party menu still bugs for other players sometimes after summoning a trust, call ReloadParty() every 1s in charentity tick
 Kupipi Moonlight gives AOE to everyone if she has full MP? It say that in log at least, fix msg if its giving MP
 Ulmia should ballad + march/madrigal PLDs
 Give Zeid Endark(needs it in mob_spell_list.sql and then gambit)
@@ -163,10 +162,8 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Test consume mana on autos, crits on automaton/monster/summoner/player ws and autos
+Fix attachments ids(probably only ashu talif ones?) in items.lua
 Remove MACC bonus off absorbs, add onto nether void, also give nether void -50% cast time on next absorb (Keep on absorb-TP and absorb-attri)
-DRK absorb-attri
-Nerf consume MP, its too strong on multihits even though souleater isn't? Check the formulas..
 MonsterTPMoves needs a hybrid function, for Amatsu: Yakiarashi and Gusting Gouge etc
 SPAWNTYPE_ATEVENING     = 0x02, // 18:00-06:00 crashing server in YHOATOR JUNGLE? Two day before dark day That's when giant/triple bats spawn
 Qufim Gigas Ranger / Hunter jobs messed up..? MobDB says both warrior but pool says 11/1? Are they wrong group in spawn_points.sql?
@@ -174,8 +171,6 @@ Move pugils at the two beaches
 1 goblin smithy missing near entrance of Kazham in middle
 Only 1 goblin ambushers at dunes entrance, too many tinkers? Add more ambushers/butchers
 Add more Defiloators or Puktraps to room where 17055821 Defoliator is (1-2 max)
-Treant Sapling in Aydeewa proper level not 76-78
-Give DRK absorb-attri
 
 Voidwalker:
 Orcus Immune to Slow / Para
@@ -197,10 +192,6 @@ All mob pets no_drops 1
 
 Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
 Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva only etc) specific items
-Does it properly randomize an item from the NMs loot list?
-Ultima needs 3 more drops (RAID)
-Bahamut needs 3 more drops (RAID)
-Ealdnarche needs 1 more drop and 1 weapon (RAID)
 
 NPC Mobs can't guard/parry TP moves?
 BreathDmgTaken in battleutils is capped at +50% take(should prob be uncapped)
@@ -782,6 +773,7 @@ ToAU ring buffs
 Aketon change to damage taken not phalanx check others with same type of text
 
 Item editor:
+H2H weapons don't set dmg or delay in iten_weapon.sql. They also have really weird values compared to item_weapon.sql
 If no entry for the item in item_equipement, (ID?), then add it
 "Select all" "Deslect all" button for races/flags/jobs/slots
 
