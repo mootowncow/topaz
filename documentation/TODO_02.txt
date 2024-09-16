@@ -162,6 +162,7 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Test consume mana on autos, crits on automaton/monster/summoner/player ws and autos
 Remove MACC bonus off absorbs, add onto nether void, also give nether void -50% cast time on next absorb (Keep on absorb-TP and absorb-attri)
 DRK absorb-attri
 Nerf consume MP, its too strong on multihits even though souleater isn't? Check the formulas..
