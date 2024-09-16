@@ -801,8 +801,17 @@ void CCharEntity::Tick(time_point tick)
     {
         charutils::SaveCharPosition(this);
         this->StatusEffectContainer->SaveStatusEffects(false, false);
-        ShowDebug(CL_CYAN "Player data saving finished\n", CL_RESET);
         m_LastPlayerDataSave = tick + std::chrono::milliseconds(300000);
+    }
+
+    // Reload party every second, incase something bad happened
+    if (tick > m_LastPartyReload)
+    {
+        if (PParty)
+        {
+            PParty->ReloadParty();
+        }
+        m_LastPartyReload = tick + std::chrono::milliseconds(1000);
     }
 
     if (m_moghouseID != 0)
