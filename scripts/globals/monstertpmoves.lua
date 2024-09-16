@@ -201,13 +201,12 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         critRate = critRate + getMobFencerCritBonus(mob)
 
         critRate = critRate / 100
-        --printf("final crit %d", critRate * 100)
         critRate = utils.clamp(critRate, minCritRate, maxCritRate)
     else
         critRate = 0  -- Cannot crit unless TP_CRIT_VARIES
     end
+    -- printf("final crit %d", critRate * 100)
 
-    --printf("critRate with mod %u", critRate * 100)
     if (ratio < 0.5) then
         maxRatio = ratio + 0.5
     elseif ((0.5 <= ratio) and (ratio <= 0.7)) then

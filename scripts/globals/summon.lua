@@ -11,9 +11,9 @@ require("scripts/globals/monstertpmoves")
 -- https://w.atwiki.jp/bartlett3/pages/329.html 
 
 -- tpeffects
---TP_DMG_BONUS
---TP_ACC_BONUS
---TP_CRIT_VARIES
+TP_DMG_BONUS = 1
+TP_ACC_BONUS = 2
+TP_CRIT_VARIES = 3
 
 -- params
 -- phys only
@@ -163,6 +163,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
 
         local critRate = baseCritRate + getDexCritRate(avatar, target) + avatar:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE)
+        printf("TP effect %u", tpeffect)
         --printf("critRate before param %i", critRate)
         if tpeffect == TP_CRIT_VARIES then
             critRate = critRate + AvatarCritTPModifier(tp)
@@ -170,12 +171,11 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
             --printf("critRate after param %i", critRate)
 
             critRate = critRate / 100
-            --printf("final crit %d", critRate * 100)
             critRate = utils.clamp(critRate, minCritRate, maxCritRate)
         else
             critRate = 0  -- Cannot crit unless crit param
         end
-        --printf("not crit varies %d", critRate * 100)
+        -- printf("Final crit %d", critRate * 100)
 
         local weaponDmg = avatar:getWeaponDmg()
 

@@ -241,7 +241,9 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
             CritTPBonus = 0.05
 			CritTPBonus = CritTPBonus + BLUGetCritTPModifier(caster:getTP())
             CritTPBonus = CritTPBonus + target:getMod(tpz.mod.ENEMYCRITRATE)/100
-            --caster:PrintToPlayer(string.format("native physical spell crit rate was %d", CritTPBonus*100))
+            -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
+            CritTPBonus = math.max(CritTPBonus, 0.01)
+            -- caster:PrintToPlayer(string.format("native physical spell crit rate was %d", CritTPBonus*100))
 		end
 	end
 
@@ -254,12 +256,11 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
             nativecrit = nativecrit + math.floor(dAGI/10)/100 -- no known cap
             nativecrit = nativecrit + caster:getMod(tpz.mod.CRITHITRATE)/100 + caster:getMerit(tpz.merit.CRIT_HIT_RATE)/100
                                 + target:getMod(tpz.mod.ENEMYCRITRATE)/100  - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)/100
-            --caster:PrintToPlayer(string.format("native ranged spell crit rate was %d", nativecrit*100))
+            -- caster:PrintToPlayer(string.format("native ranged spell crit rate was %d", nativecrit*100))
         end
-        -- Always minimum 5% native crit
-        if nativecrit < 0.05 then
-            nativecrit = 0.05
-        end
+
+        -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
+        nativecrit = math.max(nativecrit, 0.01)
         if math.random() < nativecrit then
             SpellCritPdifModifier = 1.25 + ((caster:getMod(tpz.mod.CRIT_DMG_INCREASE) / 100) - (target:getMod(tpz.mod.CRIT_DEF_BONUS) / 100)) -- It crit!
             --caster:PrintToPlayer(string.format("Your ramged spell Crit!"))

@@ -9,12 +9,12 @@ require("scripts/globals/weaponskills")
 -- Mostly re-used from summon.lua
 
 -- tpeffects
---TP_NONE
---TP_DMG_BONUS
---TP_ACC_BONUS
---TP_CRIT_VARIES
---TP_IGNORE_DEF NYI
---TP_EFFECT_DURATION
+TP_NONE             = 0
+TP_DMG_BONUS        = 1 -- Used, but not needed because Automatons have fTP scaling logic like player weaponskills
+TP_ACC_BONUS        = 2
+TP_CRIT_VARIES      = 3
+TP_IGNORE_DEF       = 4 -- NYI
+TP_EFFECT_DURATION  = 5
 
 -- params
 -- phys only
@@ -207,12 +207,11 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
             --printf("critRate after param %i", critRate)
 
             critRate = critRate / 100
-            --printf("final crit %d", critRate * 100)
             critRate = utils.clamp(critRate, minCritRate, maxCritRate)
         else
             critRate = 0  -- Cannot crit unless crit param
         end
-        --printf("not crit varies %d", critRate * 100)
+        -- printf("Final crit %d", critRate * 100)
 
         local weaponDmg = auto:getWeaponDmg()
         if attackType == tpz.attackType.RANGED then
@@ -740,6 +739,7 @@ function AutoStatusEffectWeaponSkill(auto, target, effect, power, duration, para
     end
 
     local maccBonus = bonus
+    local tp = auto:getLocalVar("TP")
 
     if (target:canGainStatusEffect(effect, power)) then
         local statmod = tpz.mod.INT

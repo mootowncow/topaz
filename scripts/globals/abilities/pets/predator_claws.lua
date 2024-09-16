@@ -8,6 +8,7 @@ require("scripts/globals/summon")
 ---------------------------------------------------
 
 function onAbilityCheck(player, target, ability)
+    getAvatarTP(player)
     return 0, 0
 end
 

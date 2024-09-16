@@ -154,7 +154,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     -- Calculate critrates
     local critRate = 0
 
-    if (wsParams.canCrit) then -- Work out critical hit ratios
+    if (wsParams.canCrit) then
         local nativecrit = 0.05
         critrate = fTP(tp, wsParams.crit100, wsParams.crit200, wsParams.crit300)
 
@@ -194,8 +194,12 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
 
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
         critrate = math.max(critrate, 0.01)
+    else
+        critrate = 0
     end
+
     calcParams.critRate = critrate
+    --printf("WS crit rate is %u", critrate*100)
 
     -- Start the WS
     local hitdmg = 0
@@ -328,8 +332,8 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     end
 	
 	-- Apply Consume MP bonus
-    if calcParams.melee then -- consumeMPBonus() checks for the effect inside itself
-        finaldmg = finaldmg + consumeMPBonus(attacker, (calcParams.tpHitsLanded+calcParams.extraHitsLanded))
+    if calcParams.melee then -- consumeManaBonus() checks for the effect inside itself
+        finaldmg = finaldmg + consumeManaBonus(attacker, (calcParams.tpHitsLanded+calcParams.extraHitsLanded))
     end
 
     -- Factor in "all hits" bonus damage mods
@@ -902,7 +906,7 @@ function souleaterBonus(attacker, numhits)
     end
 end
 
-function consumeMPBonus(attacker, numhits)
+function consumeManaBonus(attacker, numhits)
     -- Add 2 damage for every 1 MP
     if attacker:hasStatusEffect(tpz.effect.CONSUME_MANA) then
         local damage = 0
