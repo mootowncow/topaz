@@ -3313,7 +3313,7 @@ INSERT INTO `mob_groups` VALUES (2,119,68,'Anautogenous_Slug',0,128,79,0,0,66,66
 INSERT INTO `mob_groups` VALUES (3,665,68,'Cave_Pugil',0,128,2900,0,0,69,69,0);
 INSERT INTO `mob_groups` VALUES (4,306,68,'Aydeewa_Crab',0,128,203,0,0,68,70,0);
 -- Fishing end
-INSERT INTO `mob_groups` VALUES (5,6354,68,'Treant_Sapling',300,0,462,0,0,76,78,0);
+INSERT INTO `mob_groups` VALUES (5,6354,68,'Treant_Sapling',300,0,462,0,0,66,69,0);
 INSERT INTO `mob_groups` VALUES (6,3224,68,'Puktrap',330,0,2039,0,0,66,68,0);
 INSERT INTO `mob_groups` VALUES (7,3670,68,'Slime_Mold',300,0,15,0,0,66,69,0);
 INSERT INTO `mob_groups` VALUES (8,3252,68,'Qiqirn_Enterpriser',300,0,2053,0,0,68,70,0);
