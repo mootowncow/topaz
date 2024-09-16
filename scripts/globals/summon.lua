@@ -163,7 +163,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
 
         local critRate = baseCritRate + getDexCritRate(avatar, target) + avatar:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE)
-        printf("TP effect %u", tpeffect)
+        -- printf("TP effect %u", tpeffect)
         --printf("critRate before param %i", critRate)
         if tpeffect == TP_CRIT_VARIES then
             critRate = critRate + AvatarCritTPModifier(tp)
