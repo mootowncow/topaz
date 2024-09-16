@@ -136,6 +136,7 @@ Party menu still bugs for other players sometimes after summoning a trust, call 
 Kupipi Moonlight gives AOE to everyone if she has full MP? It say that in log at least, fix msg if its giving MP
 Ulmia should ballad + march/madrigal PLDs
 Give Zeid Endark(needs it in mob_spell_list.sql and then gambit)
+MonsterTPMoves for trust should cap pdif based on their weapon like weaponskills.lua, and battleutils should as well for autos
 Audit zonemisc tpz.zoneMisc.TRUST
 Valaineral Uriel Blade (need to code WS file in /weaponskills [its a player WS])
 Swapping target mid fight with cursor sends all trusts to attack. Add a var to check masters current target based on mobID and not just auto time
@@ -175,6 +176,15 @@ Only 1 goblin ambushers at dunes entrance, too many tinkers? Add more ambushers/
 Add more Defiloators or Puktraps to room where 17055821 Defoliator is (1-2 max)
 Treant Sapling in Aydeewa proper level not 76-78
 Give DRK absorb-attri
+
+Voidwalker:
+Orcus IMmune to Slow / Para
+NOT immune to poison
+Normal delay, quad attacks ~75-90% of the time, very low damage (like 40 wep dmg)
+Extremely resistant to magic, like -75%
+https://discord.com/channels/443544205206355968/1129045297302097942/1129109467062096033 Vids of captures
+Check all immunities with mobdb
+
 +++ FINISH JP FIRST BEFORE ANYTHING +++
 Rock Buster attack down description added to DAT
 Rock Throw / Megalith Throw slow description added to DAT ? Might aleady be there
@@ -282,10 +292,6 @@ Royal Painter Escort:
         Mobs didn't depop after the boss died
     Targetting the captain:
         Completion message plays per party member
-
-Voidwalker:
-https://discord.com/channels/443544205206355968/1129045297302097942/1129109467062096033 Vids of captures
-Check all immunities with mobdb
 
 Do something with meratetes memoirs exp #
 Sea Robber Cudgel set bonus(put on item too) (Dual wield set bonus)
