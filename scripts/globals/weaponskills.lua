@@ -900,9 +900,10 @@ function souleaterBonus(attacker, numhits)
 end
 
 function consumeMPBonus(attacker, numhits)
+    -- Add 2 damage for every 1 MP
     if attacker:hasStatusEffect(tpz.effect.CONSUME_MANA) then
         local damage = 0
-        local percent = 1
+        local percent = 0.2
 
         local hitscounted = 0
         while (hitscounted < numhits) do
@@ -913,6 +914,7 @@ function consumeMPBonus(attacker, numhits)
             hitscounted = hitscounted + 1
         end
         attacker:setMP(0)
+        -- printf("Consume MP damage bonus: %u", damage)
         return damage
     else
         return 0

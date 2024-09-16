@@ -5425,7 +5425,8 @@ int16 GetSDTTier(int16 SDT)
     {
         if (m_PChar->StatusEffectContainer->HasStatusEffect(EFFECT_CONSUME_MANA))
         {
-            damage += (uint32)(floor(m_PChar->health.mp / 10));
+            // Add 2 damage for every 1 MP
+            damage += (uint32)(m_PChar->health.mp * 2);
             m_PChar->health.mp = 0;
             m_PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_CONSUME_MANA);
         }
