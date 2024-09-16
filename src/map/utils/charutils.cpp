@@ -3185,9 +3185,9 @@ namespace charutils
             }
             else if (SkillID == SKILL_GREAT_SWORD || SkillID == SKILL_GREAT_AXE || SkillID == SKILL_SCYTHE || SkillID == SKILL_POLEARM || SkillID == SKILL_GREAT_KATANA || SkillID == SKILL_STAFF)
             {
-                if (SkillUpChance > 0.80)
+                if (SkillUpChance > 0.60)
                 {
-                    SkillUpChance = 0.80;
+                    SkillUpChance = 0.60;
                 }
             }
             else
