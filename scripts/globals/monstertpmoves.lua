@@ -187,7 +187,8 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     -- Dex contribution to crit rate is capped and works in tiers
     local baseCritRate = 5
     local maxCritRate = 1 -- 100%
-    local minCritRate = 0 -- 0%
+    local minCritRate = 0.01 -- 1%
+    -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
 
     local critRate = baseCritRate + getMobDexCritRate(mob, target) + mob:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE)
     --printf("ddex critRate %u", critRate)
@@ -205,6 +206,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     else
         critRate = 0  -- Cannot crit unless TP_CRIT_VARIES
     end
+
     --printf("critRate with mod %u", critRate * 100)
     if (ratio < 0.5) then
         maxRatio = ratio + 0.5

@@ -3715,7 +3715,9 @@ int16 GetSDTTier(int16 SDT)
             //ShowDebug("[%s] crit rate after dDex is... %i \n", PAttacker->name, crithitrate);
             crithitrate += PAttacker->getMod(Mod::CRITHITRATE);
             crithitrate += PDefender->getMod(Mod::ENEMYCRITRATE);
-            crithitrate = std::clamp(crithitrate, 5, 100);
+            // Crits floor at 1%
+            // https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
+            crithitrate = std::clamp(crithitrate, 1, 100);
         }
         return (uint8)crithitrate;
     }

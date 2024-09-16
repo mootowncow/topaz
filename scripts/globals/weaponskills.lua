@@ -191,6 +191,9 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
         end
 
         critrate = critrate + nativecrit
+
+        -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
+        critrate = math.max(critrate, 0.01)
     end
     calcParams.critRate = critrate
 
