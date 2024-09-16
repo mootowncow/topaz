@@ -178,7 +178,7 @@ Treant Sapling in Aydeewa proper level not 76-78
 Give DRK absorb-attri
 
 Voidwalker:
-Orcus IMmune to Slow / Para
+Orcus Immune to Slow / Para
 NOT immune to poison
 Normal delay, quad attacks ~75-90% of the time, very low damage (like 40 wep dmg)
 Extremely resistant to magic, like -75%
