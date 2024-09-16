@@ -134,13 +134,13 @@ tpz.magianElement =
 tpz.shieldSize = 
 {
     NONE         = 0,
-    BUCKLER      = 1, -- 55%
-    ROUND        = 2, -- 40%
-    KITE         = 3, -- 45%
-    TOWER        = 4, -- 30%
-    AEGIS        = 5, -- 50%
-    SRIVATSA     = 5, -- 50%
-    OCHAIN       = 6, -- 108%
+    BUCKLER      = 1, -- 55% Block Rate
+    ROUND        = 2, -- 40% Block Rate
+    KITE         = 3, -- 45% Block Rate
+    TOWER        = 4, -- 30% Block Rate
+    AEGIS        = 5, -- 50% Block Rate
+    SRIVATSA     = 5, -- 50% Block Rate
+    OCHAIN       = 6, -- 108%, Also Duban
 }
 
 ------------------------------------

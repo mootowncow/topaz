@@ -126,13 +126,13 @@ enum WEAPONTYPE
 enum SHIELDSIZE
 {
     SHIELDSIZE_NONE         = 0,
-    SHIELDSIZE_BUCKLER      = 1,
-    SHIELDSIZE_ROUND        = 2,
-    SHIELDSIZE_KITE         = 3,
-    SHIELDSIZE_TOWER        = 4,
-    SHIELDSIZE_AEGIS        = 5,
-    SHIELDSIZE_SRIVATSA     = 5,
-    SHIELDSIZE_OCHAIN       = 6,
+    SHIELDSIZE_BUCKLER      = 1, // 55% Block Rate
+    SHIELDSIZE_ROUND        = 2, // 40% Block Rate
+    SHIELDSIZE_KITE         = 3, // 45% Block Rate
+    SHIELDSIZE_TOWER        = 4, // 30% Block Rate
+    SHIELDSIZE_AEGIS        = 5, // 50% Block Rate
+    SHIELDSIZE_SRIVATSA     = 5, // 50% Block Rate
+    SHIELDSIZE_OCHAIN       = 6, // 108% Also Duban
 };
 
 namespace battleutils

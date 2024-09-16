@@ -132,10 +132,14 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Is Seigan + TE recast halved for trusts?
-Tenzen Meditate if less than 600 TP only
+Party menu still bugs for other players sometimes after summoning a trust, call ReloadParty() every 1s in charentity tick
+Kupipi Moonlight gives AOE to everyone if she has full MP? It say that in log at least, fix msg if its giving MP
+Ulmia should ballad + march/madrigal PLDs
+Give Zeid Endark(needs it in mob_spell_list.sql and then gambit)
+Audit zonemisc tpz.zoneMisc.TRUST
+Valaineral Uriel Blade (need to code WS file in /weaponskills [its a player WS])
+Swapping target mid fight with cursor sends all trusts to attack. Add a var to check masters current target based on mobID and not just auto time
 Check players have to refund TP if mob dies second they WS / mob skill
-Special gambits for Piansimmo being active and also check targets distance before using the JA at all
 If one is CCed sometimes none of them will follow out of combat because of how they pay in a line? This means onRoam pathing
 Scaling food based on level / KI
 Elivira 75 gear
@@ -153,17 +157,30 @@ Trusts proc resist trait msg when they resist spells?
 Tenzen more zanshin related stuff? TP Bonus? DA? (retail zanshin thing?)
 Aspir / Drain Gambit logic?
 
-"Respawning" animation after spawning once, it's used for avatars/puppets too. From LSB. Lots to change
-1: Swapping target mid fight with cursor sends all trusts to attack it, but broke kupipi and made her stop fuctioning. Need to reset some member bool on disengage
-2: m_InTransit or m_failedRepositionAttempts ? Because she has move -1 or NO_MVE or w/e so she doesn't move so won't move to the mob i swapped to and breaks?
-
+"Respawning" animation after spawning once, it's used for avatars/puppets too. From LSB. Lots to change. Sometimes it plays the unsummon animation/sound , sometimes it doesn't
 Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific archetype?). Retail KI: https://www.bg-wiki.com/ffxi/Filled_memory_gem 
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Remove MACC bonus off absorbs, add onto nether void, also give nether void -50% cast time on next absorb (Keep on absorb-TP and absorb-attri)
+DRK absorb-attri
+Nerf consume MP, its too strong on multihits even though souleater isn't? Check the formulas..
+MonsterTPMoves needs a hybrid function, for Amatsu: Yakiarashi and Gusting Gouge etc
+SPAWNTYPE_ATEVENING     = 0x02, // 18:00-06:00 crashing server in YHOATOR JUNGLE? Two day before dark day That's when giant/triple bats spawn
+Qufim Gigas Ranger / Hunter jobs messed up..? MobDB says both warrior but pool says 11/1? Are they wrong group in spawn_points.sql?
+Move pugils at the two beaches
+1 goblin smithy missing near entrance of Kazham in middle
+Only 1 goblin ambushers at dunes entrance, too many tinkers? Add more ambushers/butchers
+Add more Defiloators or Puktraps to room where 17055821 Defoliator is (1-2 max)
+Treant Sapling in Aydeewa proper level not 76-78
+Give DRK absorb-attri
++++ FINISH JP FIRST BEFORE ANYTHING +++
 Rock Buster attack down description added to DAT
 Rock Throw / Megalith Throw slow description added to DAT ? Might aleady be there
 Tail Whip defense down description added to DAT
+Double SLap "Chance to crit varies with tp"
+
+Low level mob HP too low? (<40ish). Compare mob HP values in dunes/qufim
 
 All mob pets no_drops 1
 
@@ -184,9 +201,8 @@ Lower level beetles away from Revelation Rock in middle of Western Altepa
 
 Char saving every 15m
 Fix automaton attachment drops from the ashu talif BCNMS, needs to be ones with subid. i.e. ID: 2347 for reactive_shield and NOT 8454
-+++ FINISH JP FIRST BEFORE ANYTHING +++
 SpendCost() fix for mob skills
-If trusts(or players? or pets?) get aggro mid fight(not link? auto-target stops working. Recode DoAutoTarget() entirely or get from LSB/ASB/Reliko(Wings)
+If trusts(or pets?) get aggro mid fight(not link?) auto-target stops working. Recode DoAutoTarget() entirely or get from LSB/ASB/Reliko(Wings)
 Add RUN and GEO (Check LSB - get their proper rune C++ code)
 m_dmg on weapon crash
 Save / Conserve TP work? It's on mob moves but I don't think its on trusts. Need to add a new function TakeMobSkillDamage copying TakeWeaponSkillDamage and add PAttacker->addTP(std::max((PAttacker->getMod(Mod::SAVETP)), standbyTp));
@@ -204,7 +220,7 @@ https://ffxiclopedia.fandom.com/wiki/Fourth_Brunne_Set
 https://ffxiclopedia.fandom.com/wiki/Cobra_Harness_Set 
 https://ffxiclopedia.fandom.com/wiki/Cobra_Unit_Robe_Set
 
-add more jp camps, and RAID nms wont give 10 JP anymore but gonna give them more loot
+add more JP camps(WOTG dungeons! also add fomor NMs and nms for those zones!), and RAID nms wont give 10 JP anymore but gonna give them more loot
 Fix /tell chat
 unity chat doesn't work cross-zone
 Slug pet ready moves still give bugged out recast numbers, maybe need to add their IDs to function?
@@ -275,7 +291,7 @@ Sea Robber Cudgel set bonus(put on item too) (Dual wield set bonus)
 Puppet use Cannibal Blade if 1 light NOT bonecrusher, make bonecrusher require 2x fire(?) or 1x thunder
 Spawn pet if drg / bst aern function and add if pet:notSpawned() or w/e on engage
 Add mob being unable to see target as stuck to CMobController::IsStuck() (and CPlayerCharmController) . I've never seen it work though? UpdateLastKnownPosition(): missing or isstuck missing in places?
-Better storage logic, make a function, allow trading multiple items. "You have stored x item for a total of y"
+Better storage logic, make a function, allow trading multiple items. "You have stored x item for a total of y". Shami and crystal moogles for example
 Stabializer III Mana Jammer III Auto-rep. Kit III vendor prices
 melee gaiters bonus(and other counterstance items/merits/jp?
 TA doesn't work if party member is inside mobs hitbox or too close to mob?
@@ -525,6 +541,9 @@ https://github.com/LandSandBoat/server/commit/a3c5bbbf3402ee1a784d4e4ee50b8a1129
 
 Subskill unequip on zone
 https://github.com/LandSandBoat/server/commit/0e86ebc221098284a4490a7e83387814a9032f8f
+
+H2h +3 weapon damage?
+https://github.com/LandSandBoat/server/commit/4caecaea0bee9a2833b7df5ac146f41f72c880f3
 
 Unarm weapon on char load if no weapon found
 https://github.com/LandSandBoat/server/commit/7408e0b09ecc2aeceeeba36c56d6e29a85aeff7c
