@@ -659,7 +659,8 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
                 actionTarget.messageID = primary ? 224 : 276; // Restores mp msg
                 actionTarget.reaction = REACTION_HIT;
                 damage = std::max(damage, 0);
-                actionTarget.param = addMP(damage);
+                actionTarget.param = damage;
+                PTarget->addMP(damage);
             }
 
             if (primary)

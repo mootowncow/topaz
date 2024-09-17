@@ -1,6 +1,6 @@
 ---------------------------------------------------
 -- Moonlight
--- Restores HP and MP. Amount restored varies with TP.
+-- Restores MP for party members in range. Amount restored varies with TP.
 ---------------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -21,7 +21,6 @@ function onMobWeaponSkill(target, mob, skill)
     local recovery = lvl * 0.22
     local recoveryFinal = recovery * (tp/2000 + 0.5)
 
-    target:addHP(recoveryFinal)
     target:addMP(recoveryFinal)
     skill:setMsg(tpz.msg.basic.SKILL_RECOVERS_MP)
     return recoveryFinal
