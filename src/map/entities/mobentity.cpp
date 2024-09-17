@@ -2361,6 +2361,26 @@ void CMobEntity::OnEngage(CAttackState& state)
         }
     }
 
+    // my pet should engage as well
+    if (this->objtype == TYPE_MOB)
+    {
+        CBaseEntity* PTarget = state.GetTarget();
+        if (PTarget)
+        {
+            if (this->PPet != nullptr && this->PPet->PAI->IsRoaming())
+            {
+                this->PAI->EventHandler.triggerListener("LINK", this->PPet, PTarget->targid);
+                this->PPet->PAI->Engage(PTarget->id);
+            }
+
+            if (this->PPet2 != nullptr && this->PPet2->PAI->IsRoaming())
+            {
+                this->PAI->EventHandler.triggerListener("LINK", this->PPet2, PTarget->targid);
+                this->PPet2->PAI->Engage(PTarget->id);
+            }
+        }
+    }
+
     static_cast<CMobController*>(PAI->GetController())->TapDeaggroTime();
 }
 
