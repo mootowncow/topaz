@@ -1919,7 +1919,7 @@ void CMobEntity::DropItems(CCharEntity* PChar)
         }
     }
     // Roll for random rare items
-    if (tpzrand::GetRandomNumber(500) < 1 && getMobMod(MOBMOD_NO_DROPS) == 0 && GetMLevel() >= 11)
+    if (tpzrand::GetRandomNumber(500) < 1 && getMobMod(MOBMOD_NO_DROPS) == 0 && GetMLevel() >= 11 && GetMLevel() < 80)
     {
         if (GetMLevel() >= 11 && GetMLevel() <= 20) // 11-20 bracket rare drops
         {
@@ -2059,7 +2059,7 @@ void CMobEntity::DropItems(CCharEntity* PChar)
                     break;
             }
         }
-        else if (GetMLevel() >= 71 && GetMLevel() <= 80) // 71-80+ bracket rare drops
+        else if (GetMLevel() >= 71 && GetMLevel() < 80) // 71-79 bracket rare drops
         {
             switch (tpzrand::GetRandomNumber(4))
             {
@@ -2085,9 +2085,9 @@ void CMobEntity::DropItems(CCharEntity* PChar)
         loc.zone->PushPacket(this, CHAR_INZONE, new CChatMessagePacket(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_2, "An extremely rare item has dropped!!!"));
     }
 
-    if (tpzrand::GetRandomNumber(5000) < 1 && getMobMod(MOBMOD_NO_DROPS) == 0 && GetMLevel() >= 81)
+    if (tpzrand::GetRandomNumber(5000) < 1 && getMobMod(MOBMOD_NO_DROPS) == 0 && GetMLevel() >= 80)
     {
-        if (GetMLevel() >= 81) // 81+ bracket rare drops
+        if (GetMLevel() >= 80) // 80+ bracket rare drops
         {
             switch (tpzrand::GetRandomNumber(9))
             {
