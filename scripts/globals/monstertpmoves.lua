@@ -155,7 +155,12 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     end
 
     ratio = ratio + lvldiff * 0.05
-    ratio = utils.clamp(ratio, 0, 2)
+
+    if (tpeffect == TP_RANGED) then
+        ratio = utils.clamp(ratio, 0, 2.5)
+    else
+        ratio = utils.clamp(ratio, 0, 2)
+    end
 
     -- Add Acc varies with TP to 3+ hit TP moves
     if (tpeffect ~= TP_CRIT_VARIES) and (numberofhits > 2) then
@@ -204,6 +209,10 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     -- printf("final crit %d", critRate * 100)
 
     local maxRatio, minRatio = utils.GetMeleeRatio(mob, ratio)
+
+    if (tpeffect == TP_RANGED) then
+        maxRatio, minRatio = utils.GetRangedRatio(mob, ratio)
+    end
 
     --Applying pDIF
     local pdif = 0

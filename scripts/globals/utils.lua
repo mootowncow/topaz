@@ -1121,6 +1121,39 @@ function utils.GetMeleeRatio(mob, ratio)
     return maxRatio, minRatio
 end
 
+function utils.GetRangedRatio(mob, ratio)
+    --work out min and max ratio
+    local maxRatio = 1
+    local minRatio = 0
+
+    -- max
+    local maxRatio = 0
+    if (ratio < 0.9) then
+        maxRatio = ratio * (10/9)
+    elseif (ratio < 1.1) then
+        maxRatio = 1
+    else
+        maxRatio = ratio
+    end
+
+    -- Ranged pDif caps at 2.5 pre-crits
+    printf("[%s] PDif max before clamp %f", mob:getName(), maxRatio)
+    maxRatio = math.min(maxRatio, 2.5)
+    printf("[%s] PDif max after clamp %f", mob:getName(), maxRatio)
+
+    -- min
+    local minRatio = 0
+    if (ratio < 0.9) then
+        minRatio = ratio
+    elseif (ratio < 1.1) then
+        minRatio = 1
+    else
+        minRatio = (ratio * (20/19))-(3/19)
+    end
+
+    return maxRatio, minRatio
+end
+
 function utils.ScarletDeliriumBonus(player, dmg)
     local scarletDeliriumEffect = player:getStatusEffect(tpz.effect.SCARLET_DELIRIUM_1)
     if (scarletDeliriumEffect ~= nil) and (scarletDeliriumEffect:getPower() >= 1) then
