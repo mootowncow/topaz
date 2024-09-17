@@ -1071,6 +1071,9 @@ bool CCharEntity::OnAttack(CAttackState& state, action_t& action)
         ((CMobEntity*)PTarget)->DoAutoTarget();
     }
 
+    // Set targetID as a trackable local var for Trusts
+    SetLocalVar("LastTargetHit", PTarget->id);
+
     return ret;
 }
 

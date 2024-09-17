@@ -128,7 +128,8 @@ void CTrustController::DoCombatTick(time_point tick)
     CCharEntity* PMaster = static_cast<CCharEntity*>(POwner->PMaster);
     auto masterLastAttackTime = static_cast<CPlayerController*>(PMaster->PAI->GetController())->getLastAttackTime();
     bool masterMeleeSwing = masterLastAttackTime > server_clock::now() - 1s;
-    bool trustEngageCondition = PMaster->GetBattleTarget() && masterMeleeSwing;
+    auto mastersLastTargetHit = PMaster->GetLocalVar("LastTargetHit");
+    bool trustEngageCondition = PMaster->GetBattleTarget() && masterMeleeSwing && mastersLastTargetHit == PMaster->GetBattleTarget()->id;
 
     if (!POwner->PMaster->PAI->IsEngaged())
     {
