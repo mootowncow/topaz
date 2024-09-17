@@ -72,6 +72,10 @@ end
 -- if TP_ATK_VARIES -> three values are attack multiplier (1.5x 0.5x etc)
 -- if TP_DMG_VARIES -> three values are
 
+-- HYBRID MOVES:
+-- params_phys.hybrid = true
+-- params_phys.hybridElement = (i.e. tpz.magic.ele.WIND) **REQUIRED**
+
 function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, params_phys, mtp150, mtp300, offcratiomod)
     local returninfo = {}
     local name = mob:getName()
@@ -293,6 +297,39 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         end
         --printf("pdif first hit %u", pdif * 100)
         finaldmg = finaldmg + hitdamage * pdif
+
+        -- Duplicate the first hit with an added magical component for hybrid WSes
+        if params_phys.hybrid then
+            local element = params_phys.hybridElement
+            local paramshybrid = {}
+            paramshybrid.includemab = true
+            local bonusMacc = 0
+            local magicdmg = addBonusesAbility(mob, element, target, finaldmg, paramshybrid)
+            local resist = applyPlayerResistance(mob, effect, target, mob:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT), bonusMacc, element)
+            --printf("resist %u", resist * 100)
+            --printf("magicdmg before resist %u", magicdmg)
+            magicdmg = magicdmg * resist
+            -- Hybrid hits are only HALF a physical hits damage
+            magicdmg = magicdmg / 2
+            --printf("magicdmg after resist %u", magicdmg)
+            magicdmg = target:magicDmgTaken(magicdmg, element)
+            -- Handle absorb
+            magicdmg = adjustForTarget(target, magicdmg, element)
+            -- Add HP if absorbed
+            if (magicdmg < 0) then
+                magicdmg = (target:addHP(-magicdmg))
+            end
+            --handling phalanx
+            magicdmg = magicdmg - target:getMod(tpz.mod.PHALANX)
+            --printf("%i", magicdmg)
+            --handling rampart stoneskin
+            magicdmg = utils.rampartstoneskin(target, magicdmg) 
+            --printf("%i", magicdmg)
+
+            finaldmg = finaldmg + magicdmg / 2
+            --printf("%i", finaldmg)
+        end
+
         hitslanded = hitslanded + 1
     end
 
