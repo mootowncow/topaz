@@ -34,7 +34,7 @@ function onMobSpawn(mob)
     -- Ranged Attack as much as possible (limited by "weapon" delay)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.ALWAYS, 0, ai.r.RATTACK, 0, 0)
 
-    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, 16)
+    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, 15)
 
     tpz.trust.onMobSpawn(mob)
 end
