@@ -23,5 +23,4 @@ function onUseAbility(player, target, ability)
     end
 
     player:addStatusEffect(tpz.effect.DODGE, power, 0, 180, 0, subpower, 0)
-    player:delStatusEffectSilent(tpz.effect.INNER_STRENGTH)
 end

@@ -25,5 +25,4 @@ function onUseAbility(player, target, ability)
     end
 
    player:addStatusEffect(tpz.effect.FOOTWORK, kickDmg, 0, duration, 0, doubleAttackRate)
-   player:delStatusEffectSilent(tpz.effect.INNER_STRENGTH)
 end

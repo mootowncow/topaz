@@ -1798,6 +1798,13 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         {
             StatusEffectContainer->DelStatusEffectSilent(EFFECT_CONTRADANCE);
         }
+
+        // Handle Inner Strength JA's
+        if (PAbility->isBuffedByInnerStrength())
+        {
+            StatusEffectContainer->DelStatusEffectSilent(EFFECT_INNER_STRENGTH);
+        }
+
         battleutils::HandlePlayerAbilityUsed(this, PAbility, &action);
 
         PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), action.recast);

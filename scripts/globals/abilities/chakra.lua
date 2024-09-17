@@ -75,7 +75,5 @@ function onUseAbility(player, target, ability)
         player:addStatusEffect(tpz.effect.REGEN, 10, 0, merits, 0, 0, 1)
     end
 
-    player:delStatusEffectSilent(tpz.effect.INNER_STRENGTH)
-
     return recover
 end

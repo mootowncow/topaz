@@ -55,6 +55,25 @@ bool CAbility::isQuickDraw()
     return getID() >= ABILITY_FIRE_SHOT && getID() <= ABILITY_DARK_SHOT;
 }
 
+bool CAbility::isBuffedByInnerStrength()
+{
+    switch (getID())
+    {
+        case ABILITY_FOCUS:
+        case ABILITY_DODGE:
+        case ABILITY_CHAKRA:
+        case ABILITY_CHI_BLAST:
+        case ABILITY_FOOTWORK:
+        case ABILITY_MANTRA:
+            return true;
+            break;
+        default:
+            return false;
+            break;
+    }
+    return false;
+}
+
 bool CAbility::isWaltz()
 {
     return getID() >= ABILITY_CURING_WALTZ && getID() <= ABILITY_DIVINE_WALTZ ||

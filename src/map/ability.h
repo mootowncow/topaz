@@ -716,6 +716,7 @@ public:
     bool        isPetCommand();
     bool        isReadyMove();
     bool        isQuickDraw();
+    bool        isBuffedByInnerStrength();
     bool        isWaltz();
     bool        isStep();
     bool        isFlourish();
