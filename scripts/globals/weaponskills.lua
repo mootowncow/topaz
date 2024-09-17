@@ -52,6 +52,7 @@ function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams)
                 end
                 --attacker:PrintToPlayer("The monster guarded your WS!")
             end
+            --printf("[%s] pDIF is %f", attacker:getName(), calcParams.pdif)
 
             finaldmg = dmg * calcParams.pdif
 
@@ -1129,8 +1130,13 @@ function cMeleeRatio(attacker, defender, params, ignoredDef, tp)
     else
         pdifmax = GetMaxWeaponPdif(attacker)
     end
-    -- min
 
+    -- Clamp pdifmax to the weapon's maximum allowed value
+    -- printf("[%s] PDif max before clamp %f", attacker:getName(), pdifmax)
+    pdifmax = math.min(pdifmax, GetMaxWeaponPdif(attacker))
+    -- printf("[%s] PDif max after clamp %f", attacker:getName(), pdifmax)
+
+    -- min
     if cratio < 0.38 then
         pdifmin = 0
     elseif (cratio < 1.25) then
@@ -1149,7 +1155,7 @@ function cMeleeRatio(attacker, defender, params, ignoredDef, tp)
 
     local pdifcrit = {}
     cratio = cratio + 1
-    cratio = utils.clamp(cratio, 0, GetMaxWeaponPdif(attacker)) 
+    cratio = utils.clamp(cratio, 0, GetMaxWeaponPdif(attacker) * 1.05) 
 
     -- printf("ratio: %f min: %f max %f\n", cratio, pdifmin, pdifmax)
 
@@ -1222,6 +1228,11 @@ function cRangedRatio(attacker, defender, params, ignoredDef, tp)
         pdifmax = cratio
     end
 
+    -- Ranged pDif caps at 2.5 pre-crits
+    -- printf("[%s] PDif max before clamp %f", attacker:getName(), pdifmax)
+    pdifmax = math.min(pdifmax, 2.5)
+    -- printf("[%s] PDif max after clamp %f", attacker:getName(), pdifmax)
+
     -- min
     local pdifmin = 0
     if (cratio < 0.9) then
@@ -1245,7 +1256,6 @@ function cRangedRatio(attacker, defender, params, ignoredDef, tp)
     pdifcrit[2] = pdifmax
 
     return pdif, pdifcrit
-
 end
 
 -- Given the attacker's str and the mob's vit, fSTR is calculated (for melee WS)
@@ -1765,14 +1775,19 @@ function GetMobFamily(target)
 end
 
 function GetMaxWeaponPdif(attacker)
-    local weaponStyle = utils.getWeaponStyle(attacker)
+    local weaponStype = '1H'
+    if attacker:isPC() then
+        weaponStyle = utils.getWeaponStyle(attacker)
+    elseif attacker:isTrust() then
+        weaponStyle = utils.getMobWeaponStyle(attacker)
+    end
     local weaponType = utils.GetWeaponType(attacker)
-    -- printf("weapon style %s", weaponStyle)
-    -- printf("weaponType %s", weaponType)
+    -- printf("[%s] weapon style %s", attacker:getName(), weaponStyle)
+    -- printf("[%s] weaponType %s", attacker:getName(), weaponType)
 
     if (weaponStyle == 'H2H') or (weaponType == 'GREAT KATANA') then
         return 2.1
-    elseif (weaponStyle == 'DW' or weaponStyle == 'SHIELD') then
+    elseif (weaponStyle == 'DW' or weaponStyle == 'SHIELD' or weaponStyle == '1H') then
         return 2.0
     elseif (weaponType == 'SCYTHE') then
         return 2.3

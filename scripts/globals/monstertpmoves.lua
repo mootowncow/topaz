@@ -74,7 +74,7 @@ end
 
 function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, params_phys, mtp150, mtp300, offcratiomod)
     local returninfo = {}
-
+    local name = mob:getName()
     -- get TP
     local tp = mob:getLocalVar("tp")
 
@@ -178,10 +178,6 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     hitdamage = hitdamage * dmgmod
 
-    --work out min and max cRatio
-    local maxRatio = 1
-    local minRatio = 0
-
     -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
     -- Crit rate has a base of 5% and no cap, 0-100% are valid
     -- Dex contribution to crit rate is capped and works in tiers
@@ -207,34 +203,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     end
     -- printf("final crit %d", critRate * 100)
 
-    if (ratio < 0.5) then
-        maxRatio = ratio + 0.5
-    elseif ((0.5 <= ratio) and (ratio <= 0.7)) then
-        maxRatio = 1
-    elseif ((0.7 < ratio) and (ratio <= 1.2)) then
-        maxRatio = ratio + 0.3
-    elseif ((1.2 < ratio) and (ratio <= 1.5)) then
-        maxRatio = (ratio * 0.25) + ratio
-    elseif ((1.5 < ratio) and (ratio <= 2.625)) then
-        maxRatio = utils.clamp(ratio + 0.375, 0, 2)
-    elseif ((2.625 < ratio) and (ratio <= 3.25)) then
-        maxRatio = 2
-    else
-        maxRatio = ratio
-    end
-
-
-    if (ratio < 0.38) then
-        minRatio =  0
-    elseif ((0.38 <= ratio) and (ratio <= 1.25)) then
-        minRatio = ratio * (1176 / 1024) - (448 / 1024)
-    elseif ((1.25 < ratio) and (ratio <= 1.51)) then
-        minRatio = 1
-    elseif ((1.51 < ratio) and (ratio <= 2.44)) then
-        minRatio = ratio * (1176 / 1024) - (775 / 1024)
-    else
-        minRatio = ratio - 0.375
-    end
+    local maxRatio, minRatio = utils.GetMeleeRatio(mob, ratio)
 
     --Applying pDIF
     local pdif = 0
@@ -269,7 +238,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local qRatio = math.random(minRatio * 1000, maxRatio * 1000) / 1000
     local randomFactor = (math.random() * 0.05) + 1
     pdif = qRatio * randomFactor
-
+    -- printf("[%s] Pdif is %f", name, pdif)
     if ((chance*100) <= firstHitChance) then
         if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
             if target:isMob() then
@@ -281,8 +250,11 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
             else
                 pdif = pdif + 1
             end
-            -- Pdif cannot go past 2.1 for mobs (2.0 normal, 2.1 randomized)
-            if pdif > 2.1 then pdif = 2.1 end
+
+            -- Crits cap at pdIF cap * 1.05
+            local critPdifCap = GetMaxWeaponPdif(mob) * 1.05
+            pdif = utils.clamp(pdif, 0, critPdifCap)
+            --printf("%s Pdif after critting is %f", name, pdif)
 
             -- Apply crit dmg increase
             if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
@@ -346,8 +318,11 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
                 else
                     pdif = pdif + 1
                 end
-                -- Pdif cannot go past 2.1 for mobs (2.0 normal, 2.1 randomized)
-                if pdif > 2.1 then pdif = 2.1 end
+
+                -- Crits cap at pdIF cap * 1.05
+                local critPdifCap = GetMaxWeaponPdif(mob) * 1.05
+                pdif = utils.clamp(pdif, 0, critPdifCap)
+                --printf("%s Pdif after critting is %f", name, pdif)
 
                 -- Apply crit dmg increase
                 if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then

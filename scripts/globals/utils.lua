@@ -1007,8 +1007,45 @@ function utils.getWeaponStyle(player)
     end
 
 
-    return 'H2H'
+    return '1H'
 end
+
+function utils.getMobWeaponStyle(mob)
+    local weapon = utils.GetWeaponType(mob)
+
+    -- Categorize the weapon type
+    if weapon == 'H2H' or weapon == 'GREAT KATANA' then
+        return 'H2H'
+    elseif weapon == 'DAGGER' or weapon == 'SWORD' or weapon == 'AXE' or weapon == 'CLUB' or weapon == 'SHIELD' then
+        return 'DW' -- Dual Wield or 1-handed weapons
+    elseif weapon == 'SCYTHE' then
+        return 'SCYTHE'
+    elseif weapon == 'GREAT SWORD' or weapon == 'POLEARM' or weapon == 'GREAT AXE' then
+        return '2H' -- 2-handed weapons, excluding scythe
+    else
+        return 'UNKNOWN'
+    end
+end
+
+function utils.GetMobMaxWeaponPdif(mob)
+    local weaponStyle = utils.getMobWeaponStyle(mob)
+    local weaponType = utils.GetWeaponType(mob)
+    -- printf("[%s] weapon style %s", mob:getName(), weaponStyle)
+    -- printf("[%s] weaponType %s", mob:getName(), weaponType)
+
+    if (weaponStyle == 'H2H') or (weaponType == 'GREAT KATANA') then
+        return 2.1
+    elseif (weaponStyle == 'DW' or weaponStyle == 'SHIELD') then
+        return 2.0
+    elseif (weaponType == 'SCYTHE') then
+        return 2.3
+    elseif (weaponStyle == '2H') then
+        return 2.2
+    end
+
+    return 2.0
+end
+
 
 function utils.GetWeaponType(player)
     local mainHandSkill = player:getWeaponSkillType(tpz.slot.MAIN)
@@ -1034,6 +1071,54 @@ function utils.GetWeaponType(player)
             return combatSkills[2]
         end
     end
+end
+
+function utils.GetMeleeRatio(mob, ratio)
+    --work out min and max ratio
+    local maxRatio = 1
+    local minRatio = 0
+
+    -- max
+    if ratio < 0.5 then
+        maxRatio = ratio *  0.4 + 1.2
+    elseif ratio <= 0.5 then
+        maxRatio = 1
+    elseif ratio < 1.2 then
+        maxRatio = ratio + 0.3
+    elseif ratio < 1.5 then
+        maxRatio = ratio * 0.25 + ratio
+    elseif ratio < 2.625 then
+        maxRatio = ratio + 0.375
+    else
+        if mob:isTrust() then
+            maxRatio = utils.GetMobMaxWeaponPdif(mob)
+        else
+            maxRatio = 2
+        end
+    end
+
+    --printf("[%s] pdif before clamp is %f", mob:getName(), maxRatio)
+    if mob:isTrust() then
+        maxRatio = math.min(maxRatio, utils.GetMobMaxWeaponPdif(mob))
+    else
+        maxRatio = 2
+    end
+    --printf("[%s] pdif after clamp is %f", mob:getName(), maxRatio)
+
+    -- min
+    if ratio < 0.38 then
+        minRatio = 0
+    elseif (ratio < 1.25) then
+        minRatio = ratio * 1176 / 1024 - 448 / 1024
+    elseif ratio < 1.51 then
+        minRatio = 1
+    elseif ratio < 2.44 then
+        minRatio = ratio * 1176 / 1024 - 775 / 1024
+    else
+        minRatio = ratio - 0.375
+    end
+
+    return maxRatio, minRatio
 end
 
 function utils.ScarletDeliriumBonus(player, dmg)

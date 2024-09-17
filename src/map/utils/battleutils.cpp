@@ -3992,7 +3992,7 @@ int16 GetSDTTier(int16 SDT)
                 maxRatio += 1.0f;
             }
         }
-
+        //ShowDebug("[%s] MaxRatio is %f\n", PAttacker->name, maxRatio);
         // https://www.bg-wiki.com/bg/Damage_Limit+
         // There is an additional step here but I am skipping it for now because we do not have the data in the database.
         // The Damage Limit+ trait adds 0.1 to the maxRatio per trait level so a level 80 DRK would get maxRatio += 0.5
