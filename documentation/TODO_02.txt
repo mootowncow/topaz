@@ -139,7 +139,7 @@ MonsterTPMoves for trust should cap pdif based on their weapon like weaponskills
 Audit zonemisc tpz.zoneMisc.TRUST
 Valaineral Uriel Blade (need to code WS file in /weaponskills [its a player WS])
 Swapping target mid fight with cursor sends all trusts to attack. Add a var to check masters current target based on mobID and not just auto time
-Check players have to refund TP if mob dies second they WS / mob skill
+Check players have to refund TP if mob dies second they WS / mob skill (trussts will WS and it will consume TP but not go off cause mobs dead, players have this fixed on ws state or w/e)
 If one is CCed sometimes none of them will follow out of combat because of how they pay in a line? This means onRoam pathing
 Scaling food based on level / KI
 Elivira 75 gear
@@ -162,9 +162,13 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+pDIF in a single function, use it everywhere, maybe copy LSB(but with my values)
+pDIF for ranged tp moves should still be ranged  pdif and not get lowered by being a trust!
 Fix attachments ids(probably only ashu talif ones?) in items.lua
-Remove MACC bonus off absorbs, add onto nether void, also give nether void -50% cast time on next absorb (Keep on absorb-TP and absorb-attri)
+Remove Inner Strength after using the JA's it buffs in charentity or w/e
+Add more Land Worms at qufim pond
 MonsterTPMoves needs a hybrid function, for Amatsu: Yakiarashi and Gusting Gouge etc
+Reset all player JA's to max timer still doesn't work (for monster tp moves)
 SPAWNTYPE_ATEVENING     = 0x02, // 18:00-06:00 crashing server in YHOATOR JUNGLE? Two day before dark day That's when giant/triple bats spawn
 Qufim Gigas Ranger / Hunter jobs messed up..? MobDB says both warrior but pool says 11/1? Are they wrong group in spawn_points.sql?
 Move pugils at the two beaches
