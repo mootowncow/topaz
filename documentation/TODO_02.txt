@@ -132,13 +132,8 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Kupipi Moonlight gives AOE to everyone if she has full MP? It say that in log at least, fix msg if its giving MP
 Ulmia should ballad + march/madrigal PLDs
-Give Zeid Endark(needs it in mob_spell_list.sql and then gambit)
-MonsterTPMoves for trust should cap pdif based on their weapon like weaponskills.lua, and battleutils should as well for autos
 Audit zonemisc tpz.zoneMisc.TRUST
-Valaineral Uriel Blade (need to code WS file in /weaponskills [its a player WS])
-Swapping target mid fight with cursor sends all trusts to attack. Add a var to check masters current target based on mobID and not just auto time
 Check players have to refund TP if mob dies second they WS / mob skill (trussts will WS and it will consume TP but not go off cause mobs dead, players have this fixed on ws state or w/e)
 If one is CCed sometimes none of them will follow out of combat because of how they pay in a line? This means onRoam pathing
 Scaling food based on level / KI
@@ -154,28 +149,15 @@ Unsummoning all trusts when solo should disband pt(LSB maybe has)
 Slug shot miss stil SCed(for 0). Is this a trust only issue?
 use lge condition for assassins charge and meditate?
 Trusts proc resist trait msg when they resist spells?
-Tenzen more zanshin related stuff? TP Bonus? DA? (retail zanshin thing?)
-Aspir / Drain Gambit logic?
 
 "Respawning" animation after spawning once, it's used for avatars/puppets too. From LSB. Lots to change. Sometimes it plays the unsummon animation/sound , sometimes it doesn't
 Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific archetype?). Retail KI: https://www.bg-wiki.com/ffxi/Filled_memory_gem 
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-pDIF in a single function, use it everywhere, maybe copy LSB(but with my values)
-pDIF for ranged tp moves should still be ranged  pdif and not get lowered by being a trust!
-Fix attachments ids(probably only ashu talif ones?) in items.lua
-Remove Inner Strength after using the JA's it buffs in charentity or w/e
-Add more Land Worms at qufim pond
-MonsterTPMoves needs a hybrid function, for Amatsu: Yakiarashi and Gusting Gouge etc
-Reset all player JA's to max timer still doesn't work (for monster tp moves)
-SPAWNTYPE_ATEVENING     = 0x02, // 18:00-06:00 crashing server in YHOATOR JUNGLE? Two day before dark day That's when giant/triple bats spawn
-Qufim Gigas Ranger / Hunter jobs messed up..? MobDB says both warrior but pool says 11/1? Are they wrong group in spawn_points.sql?
-Move pugils at the two beaches
-1 goblin smithy missing near entrance of Kazham in middle
-Only 1 goblin ambushers at dunes entrance, too many tinkers? Add more ambushers/butchers
-Add more Defiloators or Puktraps to room where 17055821 Defoliator is (1-2 max)
+Final zilart missons + apoc nigh(revamp earrings) + storms of fate + rank6-10 bastok/sandy
 Mobs should heal and buff other mobs in combat
+Reset all player JA's to max timer still doesn't work (for monster tp moves)
 
 Voidwalker:
 Orcus Immune to Slow / Para
@@ -186,10 +168,6 @@ https://discord.com/channels/443544205206355968/1129045297302097942/112910946706
 Check all immunities with mobdb
 
 +++ FINISH JP FIRST BEFORE ANYTHING +++
-Rock Buster attack down description added to DAT
-Rock Throw / Megalith Throw slow description added to DAT ? Might aleady be there
-Tail Whip defense down description added to DAT
-Double SLap "Chance to crit varies with tp"
 
 Low level mob HP too low? (<40ish). Compare mob HP values in dunes/qufim
 
@@ -206,7 +184,6 @@ Lower level beetles away from Revelation Rock in middle of Western Altepa
 1: Mob ranged  / ability radius should also be based on targets modelsize
 2: Player JA's(reduce DNC steps range in sql after) / player ws / player RA should also be based on targets modelsize
 
-Char saving every 15m
 Fix automaton attachment drops from the ashu talif BCNMS, needs to be ones with subid. i.e. ID: 2347 for reactive_shield and NOT 8454
 SpendCost() fix for mob skills
 If trusts(or pets?) get aggro mid fight(not link?) auto-target stops working. Recode DoAutoTarget() entirely or get from LSB/ASB/Reliko(Wings)
@@ -262,9 +239,7 @@ Spike effects on items seem to be 100% proc regardless of the % chance mod
 Valleys of sorrows Survival Guide facing wrong way(flip 180)
 Turn Zeruhn Mines grounds tome to be equal to survival guide
 Redesign jailer of prudence
-Final zilart missons + apoc nigh(revamp earrings) + storms of fate + rank6-10 bastok/sandy
 Finish bodies https://www.bg-wiki.com/ffxi/Shiyo_Server_Systems/Gear#COP_Bodies
-give TP on perfect counters
 All mimics start with 3k TP
 Fatality belt latent(change it prob)
 "Pulling the Plug" the 3 side recaptacles should "rotate" and swap places with normal movement not pos hacking. Copy  Cheese Hoarder Gigiroon to code it
@@ -282,7 +257,6 @@ Non-mommy zomits(Om'Xzomit) patroll all around on a path.
 Mommy zomit patrol paths can be very short.
 
 Ashu Talif:
-Imperial pieces are not taken by Hashbob(sp)
 Royal Painter Escort:
         Faluuya got "stuck" after winning and killing the boss(Discord has screenshots). 
         Fidgets around waiting at door(shouldn't roam..)
@@ -450,8 +424,6 @@ Cait Sith avatar skills and fight/quests
 Reward / Repair enmity
 
 
-Extremely rare item dropped !!! msg and no item in pool, was a level 81+ mob. Did I miss out on super rare item or somehow bugged and procced on a < 81 level item
-but nothing is in the list for 81+ in that drop rate
 Cascade 500 TP bonus+ gear and manawell CDR gear
 Pet stat mainhands (daggers)
 Gotoh Zha the Redolent SDT/EEM in sql (Copy whats in its lua)
@@ -495,6 +467,9 @@ Mat that lets you add a random augment to any ring/amulet/earring
 
 https://github.com/LandSandBoat/server/commits/base/?author=WinterSolstice8&after=06f2ef4dcf192fd3508768c2c734ba9a9f7c361f+34
 
+Calculate next spell cast time when casting stops rather than start
+https://github.com/LandSandBoat/server/commit/b8acd991685e482557ad72459f90b906dcf0faee
+
 Diff zone in packet size? Maybe needed to edit all the other char packets that would break?
 https://github.com/LandSandBoat/server/blob/fa36bc0303e813d5e2b878fbd97ffa7f319130ce/src/map/packets/zone_in.cpp#L221
 
@@ -512,6 +487,9 @@ https://github.com/LandSandBoat/server/commit/37772ab475034ce7a936c886000d11bcab
 
 Check for untargettable state
 https://github.com/LandSandBoat/server/commit/f1283d253b373afc32602914989d0306bb5e4bbf
+
+Speed logic
+https://github.com/LandSandBoat/server/commit/8527243a44c23c022118f7bec85c3bfcd7a0f5fd
 
 Petid on zoning
 https://github.com/LandSandBoat/server/commit/0f7c8a0cd811eaf56d0fbce6f0926ba0f9fb04a1
@@ -768,6 +746,10 @@ Rune Fencer Merits:
 https://github.com/AirSkyBoat/AirSkyBoat/commit/f1c415bb239c9afdc4247eb1b2444433f8671341
 
 DATS:
+Rock Buster attack down description added to DAT
+Rock Throw / Megalith Throw slow description added to DAT ? Might aleady be there
+Tail Whip defense down description added to DAT
+Double SLap "Chance to crit varies with tp"
 Toolbag (Ino) cast time
 ZNM T4 rare weapons
 Rathe Earring
