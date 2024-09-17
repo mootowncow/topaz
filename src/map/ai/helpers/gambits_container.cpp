@@ -1068,6 +1068,28 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             return trigger_target->m_EcoSystem == ECOSYSTEM(predicate.condition_arg);
             break;
         }
+        case G_CONDITION::CAN_DRAIN:
+        {
+            if (trigger_target->m_EcoSystem == SYSTEM_UNDEAD)
+            {
+                return false;
+            }
+            return POwner->GetHPP() < predicate.condition_arg;
+            break;
+        }
+        case G_CONDITION::CAN_ASPIR:
+        {
+            if (trigger_target->m_EcoSystem == SYSTEM_UNDEAD)
+            {
+                return false;
+            }
+            if (trigger_target->health.mp == 0)
+            {
+                return false;
+            }
+            return POwner->GetMPP() < predicate.condition_arg;
+            break;
+        }
         case G_CONDITION::DETECT_MIJIN:
         {
             for (int i = 1; i <= 99; ++i)

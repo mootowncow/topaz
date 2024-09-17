@@ -61,6 +61,11 @@ function onMobSpawn(mob)
         mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASSO)
     end
 
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS_FLAG, tpz.effectFlag.DISPELABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ABSORB_ATTRI)
+
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_ASPIR, 50, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ASPIR)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_DRAIN, 50, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DRAIN)
+
     if mob:getMainLvl() >= 60 then
         mob:addSimpleGambit(ai.t.SELF, ai.c.TP_LT, 400, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MEDITATE)
     end
@@ -72,7 +77,15 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.ALWAYS, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.LAST_RESORT)
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.ENDARK, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ENDARK)
+
     mob:addSimpleGambit(ai.t.TARGET, ai.c.IS_ECOSYSTEM,tpz. ecosystem.ARCANA, ai.r.JA, ai.s.SPECIFIC,tpz.ja.ARCANE_CIRCLE)
+
+    if mob:getMainLvl() >= 61 then
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.ACCURACY_DOWN, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ABSORB_ACC)
+    else
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.STR_DOWN, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ABSORB_STR)
+    end
 
     tpz.trust.onMobSpawn(mob)
 end

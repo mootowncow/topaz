@@ -98,6 +98,8 @@ enum class G_CONDITION : uint16
     SHELLRA            = 30,
     DETECT_MIJIN       = 31,
     CASTING_SPECIFIC   = 32,
+    CAN_DRAIN          = 33, // Arg is MP% to cast
+    CAN_ASPIR          = 34, // Arg is MP% to cast
 };
 
 enum class G_REACTION : uint16

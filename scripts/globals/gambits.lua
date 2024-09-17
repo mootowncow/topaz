@@ -62,6 +62,8 @@ ai.condition =
     SHELLRA            = 30,
     DETECT_MIJIN       = 31,
     CASTING_SPECIFIC   = 32,
+    CAN_DRAIN          = 33, -- Arg is MP% to cast
+    CAN_ASPIR          = 34, -- Arg is MP% to cast
 }
 ai.c = ai.condition
 
