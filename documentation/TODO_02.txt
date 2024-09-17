@@ -229,7 +229,11 @@ https://ffxiclopedia.fandom.com/wiki/Cobra_Unit_Robe_Set
 
 add more JP camps(WOTG dungeons! also add fomor NMs and nms for those zones!), and RAID nms wont give 10 JP anymore but gonna give them more loot
 Fix /tell chat
-unity chat doesn't work cross-zone
+
+1: unity chat doesn't work cross-zone
+2: SetUnityLeader(CCharEntity* PChar, uint8 leaderID) https://github.com/search?q=repo%3ALandSandBoat%2Fserver%20SetUnityLeader&type=code
+3: https://github.com/LandSandBoat/server/blob/806510a1e4be3450a9da7191d05b4e124c05538c/src/map/utils/charutils.cpp#L1096
+4: https://github.com/LandSandBoat/server/blob/806510a1e4be3450a9da7191d05b4e124c05538c/scripts/globals/unity.lua#L103
 Slug pet ready moves still give bugged out recast numbers, maybe need to add their IDs to function?
 Opening castle zhavl coffer on thief gave me thiefs vest, it's on AF moogle slip. Should have given me MIQUES_PAINTBRUSH (PLD AF3)
 
