@@ -16,6 +16,8 @@ function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.GA_CHANCE, 60)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+    mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 25)
+    mob:setMobMod(tpz.mobMod.SOUND_RANGE, 25)
 end
 
 function onMobFight(mob, target)

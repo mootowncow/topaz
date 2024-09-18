@@ -28,6 +28,8 @@ function onMobSpawn(mob)
     mob:addStatusEffectEx(tpz.effect.ARROW_SHIELD, 0, 1, 0, 0)
     mob:addStatusEffectEx(tpz.effect.MAGIC_SHIELD, 0, 1, 0, 0)
     mob:setMobMod(tpz.mobMod.SHARE_TARGET, 17518596)
+    mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 25)
+    mob:setMobMod(tpz.mobMod.SOUND_RANGE, 25)
 end
 
 function onMobEngaged(mob, target)
