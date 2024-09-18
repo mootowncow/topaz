@@ -768,20 +768,33 @@ function AvatarBuffMultipleEffects(avatar, target, skill, power, count, tick, du
     local buffs = {};
     local currIndex = 1;
     while (currIndex <= count) do
-      local newbuff = math.random(80, 86)  -- STR boost to CHR boost
-      for _, buff in pairs(buffs) do
-        if (buff == newbuff) then
-          newbuff = -1;
+        local newbuff = math.random(80, 86)  -- STR boost to CHR boost
+            for _, buff in pairs(buffs) do
+                if (buff == newbuff) then
+                    newbuff = -1;
+                end
+            end
+        if (newbuff ~= -1) then
+            buffs[currIndex] = newbuff;
+            currIndex = currIndex + 1;
         end
-      end
-      if (newbuff ~= -1) then
-        buffs[currIndex] = newbuff;
-        currIndex = currIndex + 1;
-      end
     end
 
     for i = 1,count,1 do
-        AvatarBuffBP(avatar, target, skill, buffs[i], power, tick, duration, params, bonus)
+        local shouldOverwrite = true
+
+        -- Check if target has the current boost trying to be applied
+        if target:hasStatusEffect(buffs[i]) then
+            local effect = target:getStatusEffect(buffs[i]) -- Get boost effectId
+            if (effect:getPower() >= power) then -- If targets current boost effect is stronger, then don't overwrite
+                shouldOverwrite = false
+            end
+        end
+
+        -- Only apply effect if targets current boost is weaker
+        if shouldOverwrite then
+            AvatarBuffBP(avatar, target, skill, buffs[i], power, tick, duration, params, bonus)
+        end
     end
     
 
