@@ -158,11 +158,10 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Don't overwrite boost with elciptic howl(or any boost effect that's wrose tbh). Audit all of them to not overwrite weaker power, can make a util function or magic
-Final zilart missons + apoc nigh(revamp earrings) + storms of fate + rank6-10 bastok/sandy
-DoAutoTarget() recoded entirely or get from LSB/ASB/Reliko(Wings) If trusts(or pets?) get aggro mid fight(not link?) auto-target stops working. 
+Rank6-10 bastok/sandy
 Mobs should heal and buff other mobs in combat
 Reset all player JA's to max timer still doesn't work (for monster tp moves)
+Farkiller / Dreadnaught / Dragoon (maybe others) need diff pool (70-72) in the room with the beastmen king
 
 Voidwalker:
 Orcus Immune to Slow / Para
