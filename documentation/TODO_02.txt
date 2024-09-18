@@ -132,6 +132,9 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Valaineral defense equal to a players at least?
+Zeid absorb TP everytime its up below 600 TP
+Test Valaineral tanking level 85+ bosses
 Ulmia should ballad + march/madrigal PLDs
 Audit zonemisc tpz.zoneMisc.TRUST
 Check players have to refund TP if mob dies second they WS / mob skill (trussts will WS and it will consume TP but not go off cause mobs dead, players have this fixed on ws state or w/e)
@@ -155,7 +158,9 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Don't overwrite boost with elciptic howl(or any boost effect that's wrose tbh). Audit all of them to not overwrite weaker power, can make a util function or magic
 Final zilart missons + apoc nigh(revamp earrings) + storms of fate + rank6-10 bastok/sandy
+DoAutoTarget() recoded entirely or get from LSB/ASB/Reliko(Wings) If trusts(or pets?) get aggro mid fight(not link?) auto-target stops working. 
 Mobs should heal and buff other mobs in combat
 Reset all player JA's to max timer still doesn't work (for monster tp moves)
 
@@ -168,6 +173,8 @@ https://discord.com/channels/443544205206355968/1129045297302097942/112910946706
 Check all immunities with mobdb
 
 +++ FINISH JP FIRST BEFORE ANYTHING +++
+Lyft NMs (level 90, revamp weapons - MAB for gun)
+Finish Lyft/MMM weapon progression system, better rewards from all MMM's especially the uber hard ones
 
 Low level mob HP too low? (<40ish). Compare mob HP values in dunes/qufim
 
@@ -186,7 +193,6 @@ Lower level beetles away from Revelation Rock in middle of Western Altepa
 
 Fix automaton attachment drops from the ashu talif BCNMS, needs to be ones with subid. i.e. ID: 2347 for reactive_shield and NOT 8454
 SpendCost() fix for mob skills
-If trusts(or pets?) get aggro mid fight(not link?) auto-target stops working. Recode DoAutoTarget() entirely or get from LSB/ASB/Reliko(Wings)
 Add RUN and GEO (Check LSB - get their proper rune C++ code)
 m_dmg on weapon crash
 Save / Conserve TP work? It's on mob moves but I don't think its on trusts. Need to add a new function TakeMobSkillDamage copying TakeWeaponSkillDamage and add PAttacker->addTP(std::max((PAttacker->getMod(Mod::SAVETP)), standbyTp));
@@ -300,7 +306,6 @@ Finish unity_leader stuff in charentity https://github.com/search?q=repo%3ALandS
 -- Open / Close randomly every hour (Psoxoja zone) shouldn't rotate on hour, just when a player is near the door(NPC)
 Only show effects fading msg if m_owner(caster?) or person with the buff. Maybe need to track who casted it in some new member? (m_caster)
 Ability to set attributes (m_dex? or w/e) instead of adding it as a mod to mobs/players. same with acc/attk/def/racc/rattk
-Lyft weapon revamp (MAB for gun)
 Change all charutils::hasTrait() to PEntity->hasTrait()
 Add luautils::OnAdditionalEffectRanged(PAttacker, PDefender, weapon, Action, finaldamage) to CMobEntity::OnRangedAttack
 add setMerits() and getMerits() for allegiance == TYPE_PLAYER
@@ -442,7 +447,6 @@ Custom pet names for all level 76+ pets
 WS changing weapons! Like completely change the WS entirely(Lyft weapons? another set of weapons?)
 3/tick refresh body with with - move speed
 Gargoyle HNM boss need to nuke when flying to bring back down immune to phys dmg in air and some stoneform mechanic where it gains HP
-Finish Lyft/MMM weapon progression system, better rewards from all MMM's especially the uber hard ones
 spellAI added to where spell_list is for diff spell casting AI's
 Add Prime and Bonanza WS IDs
 Cap all GP turn ins by 1/3
