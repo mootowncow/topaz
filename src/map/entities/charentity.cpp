@@ -2164,6 +2164,12 @@ bool CCharEntity::IsMobOwner(CBattleEntity* PBattleTarget)
 {
     TPZ_DEBUG_BREAK_IF(PBattleTarget == nullptr);
 
+    if (PBattleTarget->objtype != TYPE_PC || PBattleTarget->objtype == TYPE_PC)
+    {
+        // always true for mobs, npcs, pets
+        return true;
+    }
+
     if (PBattleTarget->m_OwnerID.id == 0 || PBattleTarget->m_OwnerID.id == this->id || PBattleTarget->objtype == TYPE_PC)
     {
         return true;
