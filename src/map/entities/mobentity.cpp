@@ -545,162 +545,79 @@ void CMobEntity::DoAutoTarget()
     if (!PZone)
         return;
 
-    if (PZone->GetType() != ZONETYPE_DYNAMIS)
+    PZone->ForEachChar(
+    [](CCharEntity* PChar)
     {
-        POwner->ForAlliance(
-            [](CBattleEntity* PMemberBE)
-            {
-                if (PMemberBE && PMemberBE->objtype == TYPE_PC)
-                    ((CCharEntity*)PMemberBE)->m_autoTargetOverride = nullptr;
-            });
+        if (PChar && PChar->objtype == TYPE_PC)
+            PChar->m_autoTargetOverride = nullptr;
+    });
 
-        POwner->ForAlliance(
-            [this, POwner](CBattleEntity* PMemberBE)
-            {
-                bool success = false;
+    PZone->ForEachChar(
+        [this, POwner, PZone](CCharEntity* PChar)
+        {
+            bool success = false;
 
-                if (PMemberBE && PMemberBE->objtype == TYPE_PC && PMemberBE->loc.zone->GetID() == this->loc.zone->GetID() &&
-                    ((CCharEntity*)PMemberBE)->m_LastEngagedTargID == this->targid && ((CCharEntity*)PMemberBE)->m_hasAutoTarget)
+            if (PChar && PChar->objtype == TYPE_PC && PChar->loc.zone->GetID() == this->loc.zone->GetID() && PChar->m_LastEngagedTargID == this->targid &&
+                PChar->m_hasAutoTarget)
+            {
+                CCharEntity* PMember = PChar;
+                std::unique_ptr<CBasicPacket> errMsg;
+                if (PMember->m_autoTargetOverride)
                 {
-                    CCharEntity* PMember = (CCharEntity*)PMemberBE;
-                    std::unique_ptr<CBasicPacket> errMsg;
-                    if (PMember->m_autoTargetOverride)
-                    {
-                        if (PMember->m_autoTargetOverride->allegiance == ALLEGIANCE_MOB && PMember->IsMobOwner(PMember->m_autoTargetOverride) &&
-                            !((CBattleEntity*)(PMember->m_autoTargetOverride)->IsNameHidden()) &&
-                            distanceSquared(PMember->loc.p, PMember->m_autoTargetOverride->loc.p) < 29.0f * 29.0f)
-                        {
-                            auto controller{ static_cast<CPlayerController*>(PMember->PAI->GetController()) };
-                            success = controller->ChangeTarget(PMember->m_autoTargetOverride->targid);
-                        }
-                    }
-                    else
+                    if (PMember->m_autoTargetOverride->allegiance == ALLEGIANCE_MOB && PMember->IsMobOwner(PMember->m_autoTargetOverride) &&
+                        !((CBattleEntity*)(PMember->m_autoTargetOverride)->IsNameHidden()) &&
+                        distanceSquared(PMember->loc.p, PMember->m_autoTargetOverride->loc.p) < 29.0f * 29.0f)
                     {
                         auto controller{ static_cast<CPlayerController*>(PMember->PAI->GetController()) };
-                        CMobEntity* PWinner = nullptr;
-                        for (auto&& PPotentialTarget : PMember->SpawnMOBList)
-                        {
-                            CBattleEntity* PMob = (CBattleEntity*)PPotentialTarget.second;
-                            CBattleEntity* PMobTarget = (CBattleEntity*)(PMob->GetEntity(PMob->GetBattleTargetID()));
-
-                            if ((PMob->objtype == TYPE_MOB || PMob->objtype == TYPE_PET) && PMob->animation == ANIMATION_ATTACK &&
-                                PMob->allegiance == ALLEGIANCE_MOB && PMember->IsMobOwner(PMob) && !PMob->IsNameHidden() && PMob->id != this->id &&
-                                distanceSquared(PMember->loc.p, PMob->loc.p) < 29 * 29 && !PMember->m_autoTargetOverride &&
-                                ((PMobTarget->objtype == TYPE_PC && PMember->IsPartiedWith((CCharEntity*)PMobTarget)) ||
-                                 (PMobTarget->objtype == TYPE_PET && PMobTarget->PMaster && PMobTarget->PMaster->objtype == TYPE_PC &&
-                                  PMember->IsPartiedWith((CCharEntity*)(PMobTarget->PMaster)))))
-                            {
-                                if (PWinner)
-                                {
-                                    if (distanceSquared(PMob->loc.p, POwner->loc.p) < distanceSquared(PWinner->loc.p, POwner->loc.p))
-                                        PWinner = (CMobEntity*)PMob;
-                                }
-                                else
-                                {
-                                    PWinner = (CMobEntity*)PMob;
-                                }
-                            }
-                        }
-                        if (PWinner)
-                        {
-                            success = controller->ChangeTarget(PWinner->targid);
-                            PMember->ForAlliance(
-                                [PMember, PWinner](CBattleEntity* PMembermember)
-                                {
-                                    if (PMembermember->objtype == TYPE_PC && PMembermember->loc.zone->GetID() == PMember->loc.zone->GetID() &&
-                                        PMembermember->animation == ANIMATION_ATTACK)
-                                        ((CCharEntity*)PMembermember)->m_autoTargetOverride = (CBattleEntity*)PWinner;
-                                    // Player pet should auto-target too(if the pet is not currently healing)
-                                    if (((CCharEntity*)PMembermember)->PPet != nullptr &&
-                                        !((CCharEntity*)PMembermember)->PPet->StatusEffectContainer->HasStatusEffect(EFFECT_HEALING))
-                                    {
-                                        petutils::AttackTarget((CBattleEntity*)((CCharEntity*)PMembermember), (CBattleEntity*)PWinner);
-                                    }
-                                });
-                        }
+                        success = controller->ChangeTarget(PMember->m_autoTargetOverride->targid);
                     }
                 }
-
-                if (!success && PMemberBE && PMemberBE->objtype == TYPE_PC)
-                    ((CCharEntity*)PMemberBE)->m_LastEngagedTargID = 0;
-            });
-    }
-    else // use dynamis version of checking all nearby players, not just alliance
-    {
-        PZone->ForEachChar(
-            [](CCharEntity* PChar)
-            {
-                if (PChar && PChar->objtype == TYPE_PC)
-                    PChar->m_autoTargetOverride = nullptr;
-            });
-
-        PZone->ForEachChar(
-            [this, POwner, PZone](CCharEntity* PChar)
-            {
-                bool success = false;
-
-                if (PChar && PChar->objtype == TYPE_PC && PChar->loc.zone->GetID() == this->loc.zone->GetID() && PChar->m_LastEngagedTargID == this->targid &&
-                    PChar->m_hasAutoTarget)
+                else
                 {
-                    CCharEntity* PMember = PChar;
-                    std::unique_ptr<CBasicPacket> errMsg;
-                    if (PMember->m_autoTargetOverride)
+                    auto controller{ static_cast<CPlayerController*>(PMember->PAI->GetController()) };
+                    CMobEntity* PWinner = nullptr;
+                    for (auto&& PPotentialTarget : PMember->SpawnMOBList)
                     {
-                        if (PMember->m_autoTargetOverride->allegiance == ALLEGIANCE_MOB && PMember->IsMobOwner(PMember->m_autoTargetOverride) &&
-                            !((CBattleEntity*)(PMember->m_autoTargetOverride)->IsNameHidden()) &&
-                            distanceSquared(PMember->loc.p, PMember->m_autoTargetOverride->loc.p) < 29.0f * 29.0f)
-                        {
-                            auto controller{ static_cast<CPlayerController*>(PMember->PAI->GetController()) };
-                            success = controller->ChangeTarget(PMember->m_autoTargetOverride->targid);
-                        }
-                    }
-                    else
-                    {
-                        auto controller{ static_cast<CPlayerController*>(PMember->PAI->GetController()) };
-                        CMobEntity* PWinner = nullptr;
-                        for (auto&& PPotentialTarget : PMember->SpawnMOBList)
-                        {
-                            CBattleEntity* PMob = (CBattleEntity*)PPotentialTarget.second;
+                        CBattleEntity* PMob = (CBattleEntity*)PPotentialTarget.second;
 
-                            if ((PMob->objtype == TYPE_MOB || PMob->objtype == TYPE_PET) && PMob->animation == ANIMATION_ATTACK &&
-                                PMob->allegiance == ALLEGIANCE_MOB && PMember->IsMobOwner(PMob) && !PMob->IsNameHidden() && PMob->id != this->id &&
-                                distanceSquared(PMember->loc.p, PMob->loc.p) < 29 * 29 && !PMember->m_autoTargetOverride)
+                        if ((PMob->objtype == TYPE_MOB || PMob->objtype == TYPE_PET) && PMob->animation == ANIMATION_ATTACK &&
+                            PMob->allegiance == ALLEGIANCE_MOB && PMember->IsMobOwner(PMob) && !PMob->IsNameHidden() && PMob->id != this->id &&
+                            distanceSquared(PMember->loc.p, PMob->loc.p) < 29 * 29 && !PMember->m_autoTargetOverride)
+                        {
+                            if (PWinner)
                             {
-                                if (PWinner)
-                                {
-                                    if (distanceSquared(PMob->loc.p, POwner->loc.p) < distanceSquared(PWinner->loc.p, POwner->loc.p))
-                                        PWinner = (CMobEntity*)PMob;
-                                }
-                                else
-                                {
+                                if (distanceSquared(PMob->loc.p, POwner->loc.p) < distanceSquared(PWinner->loc.p, POwner->loc.p))
                                     PWinner = (CMobEntity*)PMob;
-                                }
+                            }
+                            else
+                            {
+                                PWinner = (CMobEntity*)PMob;
                             }
                         }
-                        if (PWinner)
-                        {
-                            success = controller->ChangeTarget(PWinner->targid);
-                            PZone->ForEachChar(
-                                [PMember, PWinner](CCharEntity* PMembermember)
+                    }
+                    if (PWinner)
+                    {
+                        success = controller->ChangeTarget(PWinner->targid);
+                        PZone->ForEachChar(
+                            [PMember, PWinner](CCharEntity* PMembermember)
+                            {
+                                if (PMembermember->objtype == TYPE_PC && PMembermember->loc.zone->GetID() == PMember->loc.zone->GetID() &&
+                                    PMembermember->animation == ANIMATION_ATTACK)
+                                    PMembermember->m_autoTargetOverride = (CBattleEntity*)PWinner;
+                                // Player pet should auto-target too(if the pet is not currently healing)
+                                if (((CCharEntity*)PMembermember)->PPet != nullptr &&
+                                    !((CCharEntity*)PMembermember)->PPet->StatusEffectContainer->HasStatusEffect(EFFECT_HEALING))
                                 {
-                                    if (PMembermember->objtype == TYPE_PC && PMembermember->loc.zone->GetID() == PMember->loc.zone->GetID() &&
-                                        PMembermember->animation == ANIMATION_ATTACK)
-                                        PMembermember->m_autoTargetOverride = (CBattleEntity*)PWinner;
-                                    // Player pet should auto-target too(if the pet is not currently healing)
-                                    if (((CCharEntity*)PMembermember)->PPet != nullptr &&
-                                        !((CCharEntity*)PMembermember)->PPet->StatusEffectContainer->HasStatusEffect(EFFECT_HEALING))
-                                    {
-                                        petutils::AttackTarget((CBattleEntity*)((CCharEntity*)PMembermember), (CBattleEntity*)PWinner);
-                                    }
-                                });
-                        }
+                                    petutils::AttackTarget((CBattleEntity*)((CCharEntity*)PMembermember), (CBattleEntity*)PWinner);
+                                }
+                            });
                     }
                 }
+            }
 
-                if (!success && PChar && PChar->objtype == TYPE_PC)
-                    PChar->m_LastEngagedTargID = 0;
-            });
-    }
+            if (!success && PChar && PChar->objtype == TYPE_PC)
+                PChar->m_LastEngagedTargID = 0;
+        });
 }
 
 
