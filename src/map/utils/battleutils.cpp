@@ -1231,7 +1231,7 @@ int16 GetSDTTier(int16 SDT)
             case SPIKE_CURSE:
                 element = ELEMENT_DARK;
                 // drain same as damage taken
-                damage = static_cast<float>((damage * ApplyResistance(PDefender, PAttacker, element, SKILL_DARK_MAGIC, 0, static_cast<float>(spikesMaccBonus))));
+                damage = static_cast<float>((damageTaken * ApplyResistance(PDefender, PAttacker, element, SKILL_DARK_MAGIC, 0, static_cast<float>(spikesMaccBonus))));
                 // apply elemental damage reduction
                 magicDefense = 1.0f - (PDefender->getMod(Mod::DARKDEF) / 256.0f);
                 damage *= magicDefense;
