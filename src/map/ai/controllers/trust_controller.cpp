@@ -449,6 +449,11 @@ bool CTrustController::Ability(uint16 targid, uint16 abilityid)
         return false;
     }
 
+    if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA))
+    {
+        return false;
+    }
+
     if (POwner->PAI->CanChangeState())
     {
         return POwner->PAI->Internal_Ability(targid, abilityid);
