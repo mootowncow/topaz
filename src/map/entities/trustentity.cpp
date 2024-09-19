@@ -715,16 +715,20 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
     }
     else
     {
-        actionList_t& actionList = action.getNewActionList();
-        actionList.ActionTargetID = PBattleTarget->id;
-        action.actiontype = ACTION_MAGIC_FINISH; // all "too far" messages use cat 4
+        if (PBattleTarget)
+        {
+            actionList_t& actionList = action.getNewActionList();
+            actionList.ActionTargetID = PBattleTarget->id;
+            action.actiontype = ACTION_MAGIC_FINISH; // all "too far" messages use cat 4
 
-        actionTarget_t& actionTarget = actionList.getNewActionTarget();
-        actionTarget.animation = 0x1FC; // seems hardcoded, 2 bits away from 0x1FF.
-        actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
+            actionTarget_t& actionTarget = actionList.getNewActionTarget();
+            actionTarget.animation = 0x1FC; // seems hardcoded, 2 bits away from 0x1FF.
+            actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
 
-        actionTarget.speceffect = SPECEFFECT_NONE; // It seems most mobs use NONE, but player-like models use BLOOD for their weaponskills
-                                                   // TODO: figure out a good way to differentiate between the two. There does not seem to be a functional difference.
+            actionTarget.speceffect =
+                SPECEFFECT_NONE; // It seems most mobs use NONE, but player-like models use BLOOD for their weaponskills
+                                 // TODO: figure out a good way to differentiate between the two. There does not seem to be a functional difference.
+        }
     }
 
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());

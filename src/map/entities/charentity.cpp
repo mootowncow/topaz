@@ -1459,22 +1459,25 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
     }
     else
     {
-        actionList_t& actionList = action.getNewActionList();
-        actionList.ActionTargetID = PBattleTarget->id;
-        action.actiontype = ACTION_MAGIC_FINISH; // all "Too Far" messages use cat 4
-
-        actionTarget_t& actionTarget = actionList.getNewActionTarget();
-        actionTarget.animation = 0x1FC; // Seems hardcoded, two bits away from 0x1FF
-        actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
-
-        // While it doesn't seem that speceffect is actually used at all in this "do nothing" animation, this is here for accuracy.
-        if (isRangedWS) // Ranged WS seem to stay 0 on Reaction
+        if (PBattleTarget)
         {
-            actionTarget.speceffect = SPECEFFECT_NONE;
-        }
-        else // Always 2 observed on various melee weapons
-        {
-            actionTarget.speceffect = SPECEFFECT_BLOOD;
+            actionList_t& actionList = action.getNewActionList();
+            actionList.ActionTargetID = PBattleTarget->id;
+            action.actiontype = ACTION_MAGIC_FINISH; // all "Too Far" messages use cat 4
+
+            actionTarget_t& actionTarget = actionList.getNewActionTarget();
+            actionTarget.animation = 0x1FC; // Seems hardcoded, two bits away from 0x1FF
+            actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
+
+            // While it doesn't seem that speceffect is actually used at all in this "do nothing" animation, this is here for accuracy.
+            if (isRangedWS) // Ranged WS seem to stay 0 on Reaction
+            {
+                actionTarget.speceffect = SPECEFFECT_NONE;
+            }
+            else // Always 2 observed on various melee weapons
+            {
+                actionTarget.speceffect = SPECEFFECT_BLOOD;
+            }
         }
     }
 }
