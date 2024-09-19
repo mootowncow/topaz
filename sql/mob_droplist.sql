@@ -16887,34 +16887,6 @@ INSERT INTO `mob_droplist` VALUES (3168,0,0,1000,4108,150);
 INSERT INTO `mob_droplist` VALUES (3168,0,0,1000,1059,50);
 INSERT INTO `mob_droplist` VALUES (3169,0,0,1000,1049,50); -- (Temple Guardian) Coffer Key
 
-
--- Avatars
-INSERT INTO `mob_droplist` VALUES (3170,0,0,1000,8924,150); -- (Shiva Prime) Shivatear 15%
-INSERT INTO `mob_droplist` VALUES (3170,0,0,1000,17711,50); -- Shiva's Shotel 5%
-
-INSERT INTO `mob_droplist` VALUES (3171,0,0,1000,8921,150); -- (Ramuh Prime) Ramutear 15%
-INSERT INTO `mob_droplist` VALUES (3171,0,0,1000,18404,50); -- Ramuh's Mace 5%
-
-INSERT INTO `mob_droplist` VALUES (3172,0,0,1000,8923,150); -- (Titan Prime) Titatear 15%
-INSERT INTO `mob_droplist` VALUES (3172,0,0,1000,18021,50); -- Titan's Baselard 5%
-
-INSERT INTO `mob_droplist` VALUES (3173,0,0,1000,8919,150); -- (ifrit Prime) Ifritear 15%
-INSERT INTO `mob_droplist` VALUES (3173,0,0,1000,17192,50); -- Ifrit's Bow 5%
-
-INSERT INTO `mob_droplist` VALUES (3174,0,0,1000,8920,150); -- (Leviathan Prime) Leviatear 15%
-INSERT INTO `mob_droplist` VALUES (3174,0,0,1000,18109,50); -- Leviathan's Couse 5%
-
-INSERT INTO `mob_droplist` VALUES (3175,0,0,1000,8922,150); -- (Garuda Prime) Garutear 15%
-INSERT INTO `mob_droplist` VALUES (3175,0,0,1000,18063,50); -- Garuda's Sickle 5%
-
-INSERT INTO `mob_droplist` VALUES (3176,0,0,1000,8926,150); -- (Fenrir Prime) Fenritear 15%
-INSERT INTO `mob_droplist` VALUES (3176,1,0,50,17711,166); -- Shiva's Shotel 5%
-INSERT INTO `mob_droplist` VALUES (3176,1,0,50,18404,166); -- Ramuh's Mace 5%
-INSERT INTO `mob_droplist` VALUES (3176,1,0,50,18021,166); -- Titan's Baselard 5%
-INSERT INTO `mob_droplist` VALUES (3176,1,0,50,17192,166); -- Ifrit's Bow 5%
-INSERT INTO `mob_droplist` VALUES (3176,1,0,50,18109,166); -- Leviathan's Couse 5%
-INSERT INTO `mob_droplist` VALUES (3176,1,0,50,18063,170); -- Garuda's Sickle 5%
-
 -- Animated Weapons(Mythic)
 INSERT INTO `mob_droplist` VALUES (3177,0,0,1000,17742,1000); -- Vorpal Sword(RDM Sword) 100%
 INSERT INTO `mob_droplist` VALUES (3177,0,0,1000,16563,240); -- Rune Blade 24% 
@@ -18421,6 +18393,7 @@ INSERT INTO `mob_droplist` VALUES (9060,0,0,1000,1618,240); -- (Harajnite) Uragn
 INSERT INTO `mob_droplist` VALUES (9060,0,0,1000,1719,50); -- Harajnite Shell
 
 -- free 22, 1665, 2331
+-- free 3170 - 3176
 -- NEXT: 3231
 -- NEXT: 6129
 
