@@ -156,5 +156,11 @@ bool CAbilityState::CanUseAbility()
         }
         return false;
     }
+
+    if (m_PEntity->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
+    {
+        return false;
+    }
+
     return true;
 }
