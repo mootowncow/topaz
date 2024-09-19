@@ -20,6 +20,7 @@
 */
 
 #include "mob_spell_container.h"
+#include "../map/ai/ai_container.h"
 #include "utils/battleutils.h"
 #include "status_effect_container.h"
 #include "recast_container.h"
@@ -889,6 +890,31 @@ std::optional<SpellID> CMobSpellContainer::GetSpell()
     // prioritize curing if health low enough
     if(HasHealSpells() && m_PMob->GetHPP() <= m_PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_HEAL_CHANCE)){
         return GetHealSpell();
+    }
+
+    // See if a nearby ally is low enough HP to cure
+    if (HasHealSpells())
+    {
+        CBattleEntity* PCureTarget = nullptr;
+        m_PMob->PAI->TargetFind->reset();
+        m_PMob->PAI->TargetFind->findWithinArea(m_PMob, AOERADIUS_ATTACKER, 20.0f);
+
+        // Iterate through all targets and find the lowest HP target
+        for (auto& target : m_PMob->PAI->TargetFind->m_targets)
+        {
+            if (target->GetHPP() < m_PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) && target->PAI->IsEngaged()) // Don't heal targets out of combat
+            {
+                if (PCureTarget == nullptr || target->GetHPP() < PCureTarget->GetHPP())
+                {
+                    PCureTarget = target;
+                }
+            }
+        }
+
+        if (PCureTarget != nullptr && PCureTarget->GetHPP() < m_PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE)) // Target's HP is below the heal chance threshold
+        {
+            return GetHealSpell();
+        }
     }
 
     // almost always use na if I can

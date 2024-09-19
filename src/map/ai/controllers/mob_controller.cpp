@@ -901,21 +901,33 @@ void CMobController::CastSpell(SpellID spellid)
             PCastTarget = PTarget;
         }
 
-        // TODO: Cure other party members if they are low HP logic
-        //if (PSpell->getValidTarget() & TARGET_PLAYER_PARTY)
-        //{
-        //    PMob->PAI->TargetFind->reset();
-        //    PMob->PAI->TargetFind->findWithinArea(PMob, AOERADIUS_ATTACKER, static_cast<float>(PCastTarget->m_ModelSize) + PSpell->getRange());
-        //    if (!PMob->PAI->TargetFind->m_targets.empty())
-        //    {
-        //        PCureTarget = PMob->PAI->TargetFind->m_targets[tpzrand::GetRandomNumber(PMob->PAI->TargetFind->m_targets.size())];
-        //        PMob->PAI->TargetFind->findWithinArea(PMob, AOERADIUS_ATTACKER, static_cast<float>(PCastTarget->m_ModelSize) + PSpell->getRange());
-        //        if (PCureTarget->GetHPP() <= PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) && PCureTarget->GetHPP() >=d PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE))
-        //        {
-        //            PCastTarget = PCureTarget;
-        //        }
-        //    }
-        //}
+        // Healing logic for party members
+        if (PSpell->isHeal() && PSpell->getValidTarget() & TARGET_PLAYER_PARTY)
+        {
+            PMob->PAI->TargetFind->reset();
+            PMob->PAI->TargetFind->findWithinArea(PMob, AOERADIUS_ATTACKER, static_cast<float>(PMob->m_ModelSize) + PSpell->getRange());
+
+            // Iterate through all targets and find the lowest HP target
+            for (auto& target : PMob->PAI->TargetFind->m_targets)
+            {
+                if (target->GetHPP() < PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) && target->PAI->IsEngaged()) // Don't heal targets out of combat
+                {
+                    if (PCureTarget == nullptr || target->GetHPP() < PCureTarget->GetHPP())
+                    {
+                        PCureTarget = target;
+                    }
+                }
+            }
+
+            // Check if we should heal this target (mob's HP must be higher than the target's HP)
+            if (PCureTarget != nullptr && PCureTarget->GetHPP() < PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) // Target's HP is below the heal chance threshold
+                && PMob->GetHPP() >= PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE)                              // Mob's HP is above the heal chance threshold
+                && PMob->GetHPP() > PCureTarget->GetHPP())                                               // Mob's HP is higher than the target's HP
+            {
+                PCastTarget = PCureTarget;
+            }
+
+        }
 
         if (PCastTarget)
         {
