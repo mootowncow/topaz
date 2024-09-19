@@ -161,13 +161,9 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-1: Mobs should heal and buff other mobs in combat
-2: Logic I did, maybe don't need to check targets HP again?
-3: Need to change if a cure vs a buff, should be able to buff allies in combat too
-4: Also should add a map to check buff effect isnt active on the CastTarget before applying the buff
+1: Mobs should be able to buff allies in combat too
+2: Also should add a map to check buff effect isnt active on the CastTarget before applying the buff
 
-If pets get amnesiad mid using an ability it should cancel the ability(Maybe only avatars have this bug? Is it even bugged?)
-Avatar shows "too far" message if target dies mid blood pact, it shouldn't show the msg but should cancel as it normally does
 
 Rank6-10 bastok/sandy
 Reset all player JA's to max timer still doesn't work (for monster tp moves)
