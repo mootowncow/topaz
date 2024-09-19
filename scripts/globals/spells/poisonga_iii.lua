@@ -21,6 +21,8 @@ function onSpellCast(caster, target, spell)
         power = 25
     end
 
+    power = calculatePotency(power, spell:getSkillType(), caster, target)
+
     local params = {}
     params.diff = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)
     params.attribute = tpz.mod.INT
@@ -29,7 +31,7 @@ function onSpellCast(caster, target, spell)
     params.effect = tpz.effect.POISON
 
     local resist = applyResistanceEffect(caster, target, spell, params)
-    TryApplyEffect(caster, target, spell, params.effect, power, 0, duration, resist, 0.5)
+    TryApplyEffect(caster, target, spell, params.effect, power, 3, duration, resist, 0.5)
 
     return params.effect
 end
