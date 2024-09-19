@@ -804,14 +804,14 @@ void CCharEntity::Tick(time_point tick)
         m_LastPlayerDataSave = tick + std::chrono::milliseconds(300000);
     }
 
-    // Reload party every second, incase something bad happened
+    // Reload party every 10 seconds, incase something bad happened
     if (tick > m_LastPartyReload)
     {
         if (PParty)
         {
             PParty->ReloadParty();
         }
-        m_LastPartyReload = tick + std::chrono::milliseconds(1000);
+        m_LastPartyReload = tick + std::chrono::milliseconds(10000);
     }
 
     if (m_moghouseID != 0)
