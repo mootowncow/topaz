@@ -1309,6 +1309,12 @@ bool CGambitsContainer::TryTrustSkill()
             {
                 target = POwner->GetBattleTarget();
             }
+
+            if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA))
+            {
+                return false;
+            }
+
             if (currentDistance <= (static_cast<float>(PWeaponSkill->getRange())))
             {
                 int16 tp = POwner->health.tp;
@@ -1342,6 +1348,12 @@ bool CGambitsContainer::TryTrustSkill()
             {
                 target = POwner->GetBattleTarget();
             }
+
+            if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA))
+            {
+                return false;
+            }
+
             if (currentDistance <= (skill->getDistance()))
             {
                 int16 tp = POwner->health.tp;
