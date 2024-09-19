@@ -120,7 +120,6 @@ Conquest dump need a million for some weapons or something
 https://www.bluegartr.com/threads/108196-Random-Facts-Thread-Magic?p=5937222&viewfull=1#post5937222
 
 
-Inventory shouldn't be re-organized on zone, check whats being sent on zone to do it
 In game clock addon next to inventory space
  Sadly, blocking Searing Serration still doesn't prevent the all stats down... Stupid hybrid ws and their magic hit.  <- Check monstertpmoves logic for magic/hybrid
  Need to edit uint16 CMobSkill::getPetAnimationID() const for bps past 75. Prob just delete this all and code animationIDs into the sql
@@ -132,7 +131,11 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Valaineral defense equal to a players at least?
+Amnesia / Impairment(I think its this? Check "tp" for mobs) check on using a ws/mobskill
+72 haste gear
+Valaineral Palisade at level 75 +
+Valaineral Shield Bash 
+Kupipi Curaga logic
 Zeid absorb TP everytime its up below 600 TP
 Test Valaineral tanking level 85+ bosses
 Ulmia should ballad + march/madrigal PLDs
@@ -158,10 +161,17 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+1: Mobs should heal and buff other mobs in combat
+2: Logic I did, maybe don't need to check targets HP again?
+3: Need to change if a cure vs a buff, should be able to buff allies in combat too
+4: Also should add a map to check buff effect isnt active on the CastTarget before applying the buff
+
+If pets get amnesiad mid using an ability it should cancel the ability(Maybe only avatars have this bug? Is it even bugged?)
+Avatar shows "too far" message if target dies mid blood pact, it shouldn't show the msg but should cancel as it normally does
+
 Rank6-10 bastok/sandy
-Mobs should heal and buff other mobs in combat
 Reset all player JA's to max timer still doesn't work (for monster tp moves)
-Farkiller / Dreadnaught / Dragoon (maybe others) need diff pool (70-72) in the room with the beastmen king
+Farkiller / Dreadnaught / Dragoon (maybe others) need diff pool (70-72) in the room with the Orc king
 
 Voidwalker:
 Orcus Immune to Slow / Para
@@ -171,9 +181,11 @@ Extremely resistant to magic, like -75%
 https://discord.com/channels/443544205206355968/1129045297302097942/1129109467062096033 Vids of captures
 Check all immunities with mobdb
 
+Ramuhs Mace add effect
 +++ FINISH JP FIRST BEFORE ANYTHING +++
 Lyft NMs (level 90, revamp weapons - MAB for gun)
 Finish Lyft/MMM weapon progression system, better rewards from all MMM's especially the uber hard ones
+My interrupt logic (it sends some weird hex code) as param or w/e should make it say mob tp move interrupted on combatmessages
 
 Low level mob HP too low? (<40ish). Compare mob HP values in dunes/qufim
 
@@ -181,6 +193,7 @@ All mob pets no_drops 1
 
 Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
 Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva only etc) specific items
+NEED A RAMUH SPECIFIC ITEM!!
 
 NPC Mobs can't guard/parry TP moves?
 BreathDmgTaken in battleutils is capped at +50% take(should prob be uncapped)
