@@ -81,11 +81,8 @@ function onTrigger(player, npc)
         local tradesMamaMia = player:getCharVar("tradesMamaMia")
 
         if utils.mask.isFull(tradesMamaMia, 7) then
-            if realday == questday then
-                player:startEvent(196) --need to wait longer for reward
-            elseif questday ~= 0 then
-                player:startEvent(197) --Reward
-            end
+            -- player:startEvent(196) --need to wait longer for reward
+            player:startEvent(197) --Reward
         else
             player:startEvent(192) -- During Quest "Mama Mia"
         end
