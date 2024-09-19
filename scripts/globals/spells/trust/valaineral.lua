@@ -42,6 +42,18 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.ASTRAL_FLOW, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.TABULA_RASA,ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
 
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0,
+                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.SHIELD_BASH)
+
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_MS, 0,
+                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.SHIELD_BASH)
+
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_JA, 0,
+                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.SHIELD_BASH)
+
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0,
+                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.SHIELD_BASH)
+
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.PROVOKE)
 
@@ -56,6 +68,11 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SENTINEL,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.SENTINEL)
+
+    if mob:getMainLvl() >= 75 then
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.PALISADE,
+                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.PALISADE)
+    end
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.MPP_LT, 25,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.CHIVALRY)

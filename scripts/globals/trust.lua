@@ -538,14 +538,20 @@ function AddLightMeleeAccuracyGear(mob)
     elseif mobLevel >= 57 and mobLevel < 70 then
         mob:addMod(tpz.mod.ACC, 40)
         mob:addMod(tpz.mod.EVA, 10)
-    elseif mobLevel >= 70 and mobLevel < 75 then
+    elseif mobLevel >= 70 and mobLevel < 72 then
         mob:addMod(tpz.mod.ACC, 50)
         mob:addMod(tpz.mod.EVA, 10)
+    elseif mobLevel >= 72 and mobLevel < 75 then
+        mob:addMod(tpz.mod.ACC, 40)
+        mob:addMod(tpz.mod.EVA, 10)
+        AddHasteGear(mob, 'Light')
     elseif mobLevel >= 75 then
         mob:addMod(tpz.mod.ACC, 40)
         mob:addMod(tpz.mod.EVA, 10)
         AddHasteGear(mob, 'Light')
-    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+        if master and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+            -- TODO
+        end
     end
 end
 
@@ -563,12 +569,19 @@ function AddHeavyMeleeAccuracyGear(mob)
         mob:addMod(tpz.mod.DEX, 5)
         mob:addMod(tpz.mod.AGI, -5)
         mob:addMod(tpz.mod.EVA, -20)
-    elseif mobLevel >= 70 and mobLevel < 75 then
+    elseif mobLevel >= 70 and mobLevel < 72 then
         mob:addMod(tpz.mod.ACC, 50)
         mob:addMod(tpz.mod.STR, 5)
         mob:addMod(tpz.mod.DEX, 5)
         mob:addMod(tpz.mod.AGI, -5)
         mob:addMod(tpz.mod.EVA, -20)
+    elseif mobLevel >= 72 and mobLevel < 75 then
+        mob:addMod(tpz.mod.ACC, 40)
+        mob:addMod(tpz.mod.STR, 5)
+        mob:addMod(tpz.mod.DEX, 5)
+        mob:addMod(tpz.mod.AGI, -5)
+        mob:addMod(tpz.mod.EVA, -20)
+        AddHasteGear(mob, 'Heavy')
     elseif mobLevel >= 75 then
         mob:addMod(tpz.mod.ACC, 40)
         mob:addMod(tpz.mod.STR, 5)
@@ -576,7 +589,9 @@ function AddHeavyMeleeAccuracyGear(mob)
         mob:addMod(tpz.mod.AGI, -5)
         mob:addMod(tpz.mod.EVA, -20)
         AddHasteGear(mob, 'Heavy')
-    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+        if master and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+            -- TODO
+        end
     end
 end
 
@@ -602,16 +617,22 @@ function AddFarEasternAccuracyGear(mob)
         mob:addMod(tpz.mod.ACC, 40)
         mob:addMod(tpz.mod.EVA, 10)
         mob:addMod(tpz.mod.HASTE_GEAR, 300)
-    elseif mobLevel >= 70 and mobLevel < 75 then
+    elseif mobLevel >= 70 and mobLevel < 72 then
         mob:addMod(tpz.mod.ATT, 20)
         mob:addMod(tpz.mod.ACC, 50)
         mob:addMod(tpz.mod.EVA, 10)
         mob:addMod(tpz.mod.HASTE_GEAR, 300)
+    elseif mobLevel >= 72 and mobLevel < 75 then
+        mob:addMod(tpz.mod.ACC, 40)
+        mob:addMod(tpz.mod.EVA, 10)
+        AddHasteGear(mob, 'Light')
     elseif mobLevel >= 75 then
         mob:addMod(tpz.mod.ACC, 40)
         mob:addMod(tpz.mod.EVA, 10)
         AddHasteGear(mob, 'Light')
-    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+        if master and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+            -- TODO
+        end
     end
 end
 
@@ -661,8 +682,9 @@ function AddRangedAccuracyGear(mob)
         mob:addMod(tpz.mod.RATT, 5)
         mob:addMod(tpz.mod.DEX, 6)
         mob:addMod(tpz.mod.AGI, 13)
-    end
-    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+        if master and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+            -- TODO
+        end
     end
 end
 
@@ -686,8 +708,8 @@ function AddCasterGear(mob)
         mob:addMod(tpz.mod.INT, 47)
         mob:addMod(tpz.mod.MATT, 5)
         AddElementalStaves(mob, 'nq')
-    end
-    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+        -- TODO
     end
 end
 
@@ -714,8 +736,8 @@ function AddEnfeebleGear(mob)
         mob:addMod(tpz.mod.MND, 51)
         mob:addMod(tpz.mod.MATT, 5)
         AddElementalStaves(mob, 'nq')
-    end
-    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+        -- TODO
     end
 end
 
@@ -779,8 +801,8 @@ function AddHealerGear(mob)
         mob:addMod(tpz.mod.MATT, 5)
         mob:addMod(tpz.mod.CURE_POTENCY, 10)
         AddElementalStaves(mob, 'nq')
-    end
-    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+        -- TODO
     end
 end
 
@@ -794,8 +816,7 @@ function AddMNKBelts(mob)
     elseif mobLevel >= 40 and mobLevel <= 75 then
         mob:addMod(tpz.mod.STR, 5)
         mob:addMod(tpz.mod.HASTE_GEAR, 800)
-    end
-    if mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
         mob:addMod(tpz.mod.STR, 7)
         mob:addMod(tpz.mod.SUBTLE_BLOW, 5)
         mob:addMod(tpz.mod.HASTE_GEAR, 1200)
