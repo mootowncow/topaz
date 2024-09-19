@@ -1254,7 +1254,14 @@ void CMobEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& actio
 
             actionTarget_t& actionTarget = actionList.getNewActionTarget();
             actionTarget.animation = 0x1FC; // Seems hardcoded, two bits away from 0x1FF
-            actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
+            if (PBattleTarget->isAlive())
+            {
+                actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
+            }
+            else
+            {
+                actionTarget.messageID = 0;
+            }
 
             // While it doesn't seem that speceffect is actually used at all in this "do nothing" animation, this is here for accuracy.
             if (isRangedWS) // Ranged WS seem to stay 0 on Reaction
@@ -1347,7 +1354,15 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             actionList.ActionTargetID = PTarget->id;
             actionTarget_t& actionTarget = actionList.getNewActionTarget();
             actionTarget.animation = 0x1FC; // Hardcoded magic sent from the server
-            actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
+            if (PTarget->isAlive())
+            {
+                actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
+            }
+            else
+            {
+                actionTarget.messageID = 0;
+            }
+
             actionTarget.speceffect = SPECEFFECT_BLOOD;
             this->PAI->EventHandler.triggerListener("WEAPONSKILL_STATE_INTERRUPTED", this, PSkill->getID());
             return;

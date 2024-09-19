@@ -723,7 +723,14 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
 
             actionTarget_t& actionTarget = actionList.getNewActionTarget();
             actionTarget.animation = 0x1FC; // seems hardcoded, 2 bits away from 0x1FF.
-            actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
+            if (PBattleTarget->isAlive())
+            {
+                actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
+            }
+            else
+            {
+                actionTarget.messageID = 0;
+            }
 
             actionTarget.speceffect =
                 SPECEFFECT_NONE; // It seems most mobs use NONE, but player-like models use BLOOD for their weaponskills
