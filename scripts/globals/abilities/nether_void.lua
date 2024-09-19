@@ -14,5 +14,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    player:addStatusEffect(tpz.effect.NETHER_VOID, 8, 0, 30)
+    player:addStatusEffect(tpz.effect.NETHER_VOID, 8, 0, 60)
 end
