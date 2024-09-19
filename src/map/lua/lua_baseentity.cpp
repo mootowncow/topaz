@@ -16524,7 +16524,7 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
             //printf("PTarget is null before queuing action\n");
             return 0;
         }
-        if (PMob->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA))
+        if (PMob->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
         {
             return 0;
         }

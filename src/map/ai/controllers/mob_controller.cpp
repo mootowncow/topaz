@@ -624,7 +624,7 @@ bool CMobController::MobSkill(int wsList)
         {
             return false;
         }
-        if (PMob->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA))
+        if (PMob->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
         {
             return false;
         }

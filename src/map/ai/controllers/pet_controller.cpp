@@ -128,9 +128,15 @@ bool CPetController::TryDeaggro()
 
 bool CPetController::Ability(uint16 targid, uint16 abilityid)
 {
+    if (PPet->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
+    {
+        return false;
+    }
+
     if (PPet->PAI->CanChangeState())
     {
         return PPet->PAI->Internal_Ability(targid, abilityid);
     }
+
     return false;
 }

@@ -449,7 +449,7 @@ bool CTrustController::Ability(uint16 targid, uint16 abilityid)
         return false;
     }
 
-    if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA))
+    if (POwner->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
     {
         return false;
     }

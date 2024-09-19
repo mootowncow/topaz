@@ -1310,7 +1310,7 @@ bool CGambitsContainer::TryTrustSkill()
                 target = POwner->GetBattleTarget();
             }
 
-            if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA))
+            if (POwner->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
             {
                 return false;
             }
@@ -1349,7 +1349,7 @@ bool CGambitsContainer::TryTrustSkill()
                 target = POwner->GetBattleTarget();
             }
 
-            if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA))
+            if (POwner->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
             {
                 return false;
             }
