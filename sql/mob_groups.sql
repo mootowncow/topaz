@@ -4866,7 +4866,7 @@ INSERT INTO `mob_groups` VALUES (24,1402,84,'Forester_Beetle',330,0,169,0,0,47,5
 INSERT INTO `mob_groups` VALUES (25,2382,84,'La_Velue',3600,0,1503,0,0,62,67,0);
 INSERT INTO `mob_groups` VALUES (26,5760,84,'Habergoass',3600,0,3044,6500,0,64,66,0);
 INSERT INTO `mob_groups` VALUES (27,5546,84,'Chaneque',5400,0,2986,5500,0,56,57,0);
-INSERT INTO `mob_groups` VALUES (28,3020,84,'Orcish_Impaler',330,0,1881,0,0,65,69,0);
+INSERT INTO `mob_groups` VALUES (28,6867,84,'Orcish_Impaler',330,0,1881,0,0,65,69,0);
 INSERT INTO `mob_groups` VALUES (29,3001,84,'Orcish_Chasseur',330,0,1878,0,0,65,69,0);
 INSERT INTO `mob_groups` VALUES (30,6272,84,'Orcish_Brawler',330,0,1878,0,0,65,69,0);
 INSERT INTO `mob_groups` VALUES (31,6284,84,'Orcish_Trooper',330,0,1881,0,0,65,69,0);
@@ -9307,7 +9307,7 @@ INSERT INTO `mob_groups` VALUES (6889,2985,129,'Onyx_Mine',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (6890,6272,129,'Orcish_Brawler',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (6891,6280,129,'Orcish_Footsoldier',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (6892,5558,129,'Orcish_Hexspinner',0,0,1920,0,0,0,0,0);
-INSERT INTO `mob_groups` VALUES (6893,3020,129,'Orcish_Impaler',0,0,0,0,0,0,0,0);
+INSERT INTO `mob_groups` VALUES (6893,6867,129,'Orcish_Impaler',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (6894,6284,129,'Orcish_Trooper',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (6895,3040,129,'Orcish_Turret',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (6896,3243,129,'Python_Mercenary',0,0,0,0,0,0,0,0);
