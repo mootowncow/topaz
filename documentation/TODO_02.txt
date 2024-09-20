@@ -131,14 +131,11 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Amnesia / Impairment(I think its this? Check "tp" for mobs) check on using a ws/mobskill
-72 haste gear
-Valaineral Palisade at level 75 +
-Valaineral Shield Bash 
 Kupipi Curaga logic
 Zeid absorb TP everytime its up below 600 TP
 Test Valaineral tanking level 85+ bosses
 Ulmia should ballad + march/madrigal PLDs
+Can't summon trusts in "Trial by X" avatar BCNM's
 Audit zonemisc tpz.zoneMisc.TRUST
 Check players have to refund TP if mob dies second they WS / mob skill (trussts will WS and it will consume TP but not go off cause mobs dead, players have this fixed on ws state or w/e)
 If one is CCed sometimes none of them will follow out of combat because of how they pay in a line? This means onRoam pathing
@@ -161,13 +158,25 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Third Eye sort same slot as utsusemi
+Does +Hasso work? Also require it to be fulltimed to get effect not just for swap
+Absorb-attribute cast time is very very wrong(its like 0.5s in DAT but normal absorb-x cast time in server code)
 1: Mobs should be able to buff allies in combat too
 2: Also should add a map to check buff effect isnt active on the CastTarget before applying the buff
+3: stoneskin blink aquaveil enspells
+4: Calculate next spell cast time when casting stops rather than start
+5: https://github.com/LandSandBoat/server/commit/b8acd991685e482557ad72459f90b906dcf0faee
+
+Multihitting monstertpmoves for TRUSTS ONLY
+Apc Night earrings(I might've already done this)
+
+Leepe-Hoppe gives dark mana orb KI text even if you already have it (skip displaying msg / giving KI if already have it)
+
 
 
 Rank6-10 bastok/sandy
 Reset all player JA's to max timer still doesn't work (for monster tp moves)
-Farkiller / Dreadnaught / Dragoon (maybe others) need diff pool (70-72) in the room with the Orc king
+
 
 Voidwalker:
 Orcus Immune to Slow / Para
@@ -177,10 +186,15 @@ Extremely resistant to magic, like -75%
 https://discord.com/channels/443544205206355968/1129045297302097942/1129109467062096033 Vids of captures
 Check all immunities with mobdb
 
-Ramuhs Mace add effect
 +++ FINISH JP FIRST BEFORE ANYTHING +++
 Lyft NMs (level 90, revamp weapons - MAB for gun)
 Finish Lyft/MMM weapon progression system, better rewards from all MMM's especially the uber hard ones
+KS99's
+60-80 inventory expansions from COP HNMS
+Other salvage NMs
+WOE
+Hunts
+GOV Elite training!
 My interrupt logic (it sends some weird hex code) as param or w/e should make it say mob tp move interrupted on combatmessages
 
 Low level mob HP too low? (<40ish). Compare mob HP values in dunes/qufim
@@ -218,7 +232,7 @@ https://ffxiclopedia.fandom.com/wiki/Fourth_Brunne_Set
 https://ffxiclopedia.fandom.com/wiki/Cobra_Harness_Set 
 https://ffxiclopedia.fandom.com/wiki/Cobra_Unit_Robe_Set
 
-add more JP camps(WOTG dungeons! also add fomor NMs and nms for those zones!), and RAID nms wont give 10 JP anymore but gonna give them more loot
+add more JP camps 81-83 mobs just more attk/acc/def/eva/attributes(WOTG dungeons! also add fomor NMs and nms for those zones!), and RAID nms wont give 10 JP anymore but gonna give them more loot
 Fix /tell chat
 
 1: unity chat doesn't work cross-zone
@@ -260,7 +274,9 @@ Fatality belt latent(change it prob)
 Group Yagudo lutenists scroll drops ?
 Need high level fomor groups by 16875650 (Fomor ninja - abraxas) in lufaise meadows
 Finish MMM weapons via the mats at magian moogle and ANNM fights(some are missing, test changes i did in general). Add 09 voucher drops: https://www.bg-wiki.com/ffxi/Category:Moblin_Maze_Mongers
-
+Enmity and CE loss
+https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/78/#3500716
+Farkiller / Dreadnaught / Dragoon (maybe others) need diff pool (70-72) in the room with the Orc king
 
 Zdei spin 2x as fast on retail
 Ulhpemde not underwater and aggro from ~13-14 true sound. The only oms underwater are by the towers, not in crag zones. Underwater ones aggro by true sound 10 yalms
@@ -347,13 +363,6 @@ Buff low level ENM drops like test your mite / promy ones / monarch linn etc
 Merit camps with 4 NPCs like an old merit pt
 XP camps with trusts 1-75 for leveling like an old xp pt
 Why don't players get loaded while you're in a CS?
-Changing SJ bug
-Save chars every 5m(tick listener part of code?) not just on day change
-KS99's
-60-80 inventory expansions from COP HNMS
-GOV Elite training!
-Hunts
-WOE
 
 Later:
 Zoning from Whitegate to Aldazal ruins need to flip char rot 180 in zone_lines.sql or w/e
@@ -478,9 +487,6 @@ Lvl90, 200k hp
 Mat that lets you add a random augment to any ring/amulet/earring
 
 https://github.com/LandSandBoat/server/commits/base/?author=WinterSolstice8&after=06f2ef4dcf192fd3508768c2c734ba9a9f7c361f+34
-
-Calculate next spell cast time when casting stops rather than start
-https://github.com/LandSandBoat/server/commit/b8acd991685e482557ad72459f90b906dcf0faee
 
 Diff zone in packet size? Maybe needed to edit all the other char packets that would break?
 https://github.com/LandSandBoat/server/blob/fa36bc0303e813d5e2b878fbd97ffa7f319130ce/src/map/packets/zone_in.cpp#L221
