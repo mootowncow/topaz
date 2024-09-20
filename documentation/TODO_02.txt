@@ -132,7 +132,6 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 Trusts:
 Kupipi Curaga logic
-Zeid absorb TP everytime its up below 600 TP
 Test Valaineral tanking level 85+ bosses
 Ulmia should ballad + march/madrigal PLDs
 Can't summon trusts in "Trial by X" avatar BCNM's
@@ -158,21 +157,8 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Third Eye sort same slot as utsusemi
-Does +Hasso work? Also require it to be fulltimed to get effect not just for swap
-Absorb-attribute cast time is very very wrong(its like 0.5s in DAT but normal absorb-x cast time in server code)
-1: Mobs should be able to buff allies in combat too
-2: Also should add a map to check buff effect isnt active on the CastTarget before applying the buff
-3: stoneskin blink aquaveil enspells
-4: Calculate next spell cast time when casting stops rather than start
-5: https://github.com/LandSandBoat/server/commit/b8acd991685e482557ad72459f90b906dcf0faee
-
-Multihitting monstertpmoves for TRUSTS ONLY
-Apc Night earrings(I might've already done this)
-
-Leepe-Hoppe gives dark mana orb KI text even if you already have it (skip displaying msg / giving KI if already have it)
-
-
+Mobs should be able to buff allies in combat too with my new changes
+Mobs shouldn't go underground mid casting
 
 Rank6-10 bastok/sandy
 Reset all player JA's to max timer still doesn't work (for monster tp moves)
