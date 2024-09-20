@@ -15,7 +15,7 @@ end
 
 function onPetAbility(target, pet, skill, summoner)
     local effect = tpz.effect.MULTI_STRIKES
-    local power = math.floor(pet:getMainLvl() / 1.5)
+    local power = math.floor(pet:getMainLvl() / 3) -- 25% at 75
     local duration = 180
     local bonus = 0
 
