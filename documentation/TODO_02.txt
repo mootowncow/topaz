@@ -131,6 +131,7 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Uriel Blade SCed for 0 on a magmatic eruca (fragmentation)
 Kupipi Curaga logic
 Test Valaineral tanking level 85+ bosses
 Ulmia should ballad + march/madrigal PLDs
