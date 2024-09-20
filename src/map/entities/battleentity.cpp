@@ -394,7 +394,15 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
 
             if (weapon->isTwoHanded())
             {
-                hasteAbility = std::clamp<int16>(getMod(Mod::HASTE_ABILITY) + getMod(Mod::TWOHAND_HASTE_ABILITY), -2500, 2500); // 25% cap
+                auto jaHaste = getMod(Mod::HASTE_ABILITY);
+                auto twoHandedHaste = getMod(Mod::TWOHAND_HASTE_ABILITY);
+
+                if (StatusEffectContainer->HasStatusEffect(EFFECT_HASSO))
+                {
+                    twoHandedHaste += getMod(Mod::HASSO_HASTE);
+                }
+
+                hasteAbility = std::clamp<int16>(jaHaste + twoHandedHaste, -2500, 2500); // 25% cap
             }
 
             // Check if we are using a special attack list that should not be affected by attack speed debuffs

@@ -6,7 +6,7 @@
 require("scripts/globals/status")
 -----------------------------------
 function onEffectGain(target, effect)
-    local jaHaste = 1000 + target:getMod(tpz.mod.HASSO_HASTE)
+    local jaHaste = 1000
 
     target:addMod(tpz.mod.TWOHAND_STR, effect:getPower())
     target:addMod(tpz.mod.TWOHAND_HASTE_ABILITY, jaHaste)
@@ -17,7 +17,7 @@ function onEffectTick(target, effect)
 end
 
 function onEffectLose(target, effect)
-    local jaHaste = 1000 + target:getMod(tpz.mod.HASSO_HASTE)
+    local jaHaste = 1000
 
     target:delMod(tpz.mod.TWOHAND_STR, effect:getPower())
     target:delMod(tpz.mod.TWOHAND_HASTE_ABILITY, jaHaste)
