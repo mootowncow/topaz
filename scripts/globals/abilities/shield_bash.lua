@@ -33,7 +33,9 @@ function onUseAbility(player, target, ability)
     local hands = player:getEquipID(tpz.slot.HANDS)
     local hasValorGauntlets = (hands == tpz.items.VALOR_GAUNTLETS)
 
-    damage = player:getMod(tpz.mod.SHIELD_BASH) + (jpValue * 10)
+    if not player:isPC() then
+        shieldSize = player:getMobMod(tpz.mobMod.BLOCK)
+    end
 
     if shieldSize == 1 or shieldSize == 5 then
         damage = 25 + damage
@@ -44,6 +46,8 @@ function onUseAbility(player, target, ability)
     elseif shieldSize == 4 then
         damage = 90 + damage
     end
+
+    damage = damage + (player:getMod(tpz.mod.SHIELD_BASH) + (jpValue * 10))
 
     -- Main job factors
     if player:getMainJob() ~= tpz.job.PLD then
