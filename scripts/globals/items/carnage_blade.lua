@@ -9,8 +9,8 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAdditionalEffect(player, target, damage)
-    local chance = 12
-    local power = 25
+    local chance = CalculateAdditionalEffectChance(player, 10)
+    local power = math.random(20, 25)
     local dmg = doAdditionalEffectDamage(player, target, chance, power, nil, false, 0, tpz.magic.ele.DARK, 0)
 
     if dmg == 0 then

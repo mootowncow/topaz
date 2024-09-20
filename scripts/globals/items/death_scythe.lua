@@ -9,8 +9,8 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAdditionalEffect(player, target, damage)
-    local chance = 10
-    local power = 25
+    local chance = CalculateAdditionalEffectChance(player, 10)
+    local power = math.random(100, 120)
     local dmg = doAdditionalEffectDamage(player, target, chance, power, nil, false, 0, tpz.magic.ele.DARK, 0)
 
     if dmg == 0 then
@@ -26,3 +26,4 @@ function onAdditionalEffect(player, target, damage)
     player:addHP(dmg)
     return tpz.subEffect.HP_DRAIN, message, dmg
 end
+
