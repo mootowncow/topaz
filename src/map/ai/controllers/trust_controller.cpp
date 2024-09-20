@@ -146,11 +146,6 @@ void CTrustController::DoCombatTick(time_point tick)
         m_InTransit = false; // Unsure if needed
     }
 
-    if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BIND))
-    {
-        return;
-    }
-
     // If busy, don't run around!
     if (POwner->PAI->IsCurrentState<CMagicState>() || POwner->PAI->IsCurrentState<CRangeState>())
     {
