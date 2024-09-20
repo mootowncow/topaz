@@ -190,8 +190,10 @@ function onEventFinish(player, csid, option)
         end
 
         if (player:getNation() == tpz.nation.WINDURST and player:getRank() == 10 and player:getQuestStatus(WINDURST, tpz.quest.id.windurst.THE_PROMISE) == QUEST_COMPLETED) then
-            player:addKeyItem(tpz.ki.DARK_MANA_ORB)
-            player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.DARK_MANA_ORB)
+            if not player:hasKeyItem(tpz.ki.DARK_MANA_ORB) then
+                player:addKeyItem(tpz.ki.DARK_MANA_ORB)
+                player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.DARK_MANA_ORB)
+            end
         end
     elseif (csid == 850) then -- Repeat turn-in event
         local reward = 0
@@ -226,8 +228,10 @@ function onEventFinish(player, csid, option)
         end
 
         if (player:getNation() == tpz.nation.WINDURST and player:getRank() == 10 and player:getQuestStatus(WINDURST, tpz.quest.id.windurst.THE_PROMISE) == QUEST_COMPLETED) then
-            player:addKeyItem(tpz.ki.DARK_MANA_ORB)
-            player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.DARK_MANA_ORB)
+            if not player:hasKeyItem(tpz.ki.DARK_MANA_ORB) then
+                player:addKeyItem(tpz.ki.DARK_MANA_ORB)
+                player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.DARK_MANA_ORB)
+            end
         end
     elseif (csid == 848) then
         player:addKeyItem(tpz.ki.MOON_BAUBLE)
