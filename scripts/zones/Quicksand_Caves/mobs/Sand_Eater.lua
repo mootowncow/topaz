@@ -2,6 +2,7 @@
 -- Area: Quicksand Caves
 --  Mob: Sand Eater
 -----------------------------------
+mixins = {require("scripts/mixins/families/worm")}
 require("scripts/globals/regimes")
 -----------------------------------
 
