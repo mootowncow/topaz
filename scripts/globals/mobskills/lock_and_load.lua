@@ -18,7 +18,7 @@ function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.POISON
     local numhits = 1
     local accmod = 1
-    local dmgmod = 1.5
+    local dmgmod = 2.0
     local params_phys = {}
     params_phys.multiplier = dmgmod
     params_phys.tp150 = 1
@@ -26,7 +26,7 @@ function onMobWeaponSkill(target, mob, skill)
     params_phys.str_wsc = 0.0
     params_phys.dex_wsc = 0.0
     params_phys.vit_wsc = 0.0
-    params_phys.agi_wsc = 0.35
+    params_phys.agi_wsc = 0.5
     params_phys.int_wsc = 0.0
     params_phys.mnd_wsc = 0.0
     params_phys.chr_wsc = 0.0

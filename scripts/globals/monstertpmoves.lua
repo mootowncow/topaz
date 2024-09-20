@@ -79,6 +79,7 @@ end
 function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, params_phys, mtp150, mtp300, offcratiomod)
     local returninfo = {}
     local name = mob:getName()
+    local isRanged = false
     -- get TP
     local tp = mob:getLocalVar("tp")
 
@@ -87,6 +88,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local fSTR = getMobFSTR(weaponDmg, mob:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))
 
     if (tpeffect == TP_RANGED) then
+        isRanged = true
         weaponDmg = mob:getRangedDmg()
         fSTR = getMobFSTR2(weaponDmg, mob:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))
     end
@@ -338,8 +340,12 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local firstHitBonus = math.floor(((finaldmg * mob:getMod(tpz.mod.ALL_WSDMG_FIRST_HIT))/100))
 
     -- Add +1 hit for offhand if dual wielding
-    if mob:isDualWielding() then
+    if mob:isDualWielding() and not isRanged then
         numberofhits = numberofhits +1
+    end
+
+    if mob:isTrust() then
+        numberofhits = getMultiAttacks(mob, target, numberofhits, isRanged)
     end
 
     -- Cap at 8 hits

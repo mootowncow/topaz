@@ -316,7 +316,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     -- Calculate additional hits if a multiHit WS (or we're supposed to get a DA/TA/QA proc from main hit)
     dmg = mainBase + 1.0            -- changed additional hits to +1.0 ftp
     local hitsDone = 1
-    local numHits = getMultiAttacks(attacker, target, wsParams.numHits)
+    local numHits = getMultiAttacks(attacker, target, wsParams.numHits, isRanged)
     while (hitsDone < numHits) do -- numHits is hits in the base WS _and_ DA/TA/QA procs during those hits
         hitdmg, calcParams = getSingleHitDamage(attacker, target, dmg, wsParams, calcParams)
         if (target:getHP() <= finaldmg) then break end -- Stop adding hits if target would die before calculating other hits
@@ -1372,7 +1372,7 @@ function getAlpha(level)
     return alpha
 end
 
-function getMultiAttacks(attacker, target, numHits)
+function getMultiAttacks(attacker, target, numHits, isRanged)
     local bonusHits = 0
     local multiChances = 1
     local doubleRate = (attacker:getMod(tpz.mod.DOUBLE_ATTACK) + attacker:getMerit(tpz.merit.DOUBLE_ATTACK_RATE))/100
@@ -1423,11 +1423,14 @@ function getMultiAttacks(attacker, target, numHits)
 end
 ]]--
     -- QA/TA/DA can only proc on the first hit of each weapon or each fist
-    if (attacker:getOffhandDmg() > 0 or attacker:getWeaponSkillType(tpz.slot.MAIN) == tpz.skill.HAND_TO_HAND) then
-        multiChances = 2
+    if attacker:isDualWielding() or attacker:isWeaponHandToHand() then
+        if not isRanged then
+            multiChances = 2
+        end
     end
+
     
-    if melee == false then
+    if isRanged then
         bonusHits = 0
         multiChances = 0
         doubleRate = 0

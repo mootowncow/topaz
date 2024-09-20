@@ -1137,9 +1137,9 @@ function utils.GetRangedRatio(mob, ratio)
     end
 
     -- Ranged pDif caps at 2.5 pre-crits
-    printf("[%s] PDif max before clamp %f", mob:getName(), maxRatio)
+    -- printf("[%s] PDif max before clamp %f", mob:getName(), maxRatio)
     maxRatio = math.min(maxRatio, 2.5)
-    printf("[%s] PDif max after clamp %f", mob:getName(), maxRatio)
+    -- printf("[%s] PDif max after clamp %f", mob:getName(), maxRatio)
 
     -- min
     local minRatio = 0
