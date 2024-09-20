@@ -19377,10 +19377,10 @@ INSERT INTO `item_mods` VALUES (15963,5,20);      -- Magnetic Earring: MP +20
 INSERT INTO `item_mods` VALUES (15963,71,1);      -- MP recovered while healing +1
 INSERT INTO `item_mods` VALUES (15963,168,8);     -- Spell interruption rate down 8%
 INSERT INTO `item_mods` VALUES (15963,296,5);     -- Conserve MP +5%
-INSERT INTO `item_mods` VALUES (15964,9,2);
-INSERT INTO `item_mods` VALUES (15964,25,3);
-INSERT INTO `item_mods` VALUES (15964,26,3);
-INSERT INTO `item_mods` VALUES (15964,432,3);
+INSERT INTO `item_mods` VALUES (15964,9,2); -- DEX 2
+INSERT INTO `item_mods` VALUES (15964,25,3); -- ACC 3
+INSERT INTO `item_mods` VALUES (15964,26,3); -- RACC 3
+INSERT INTO `item_mods` VALUES (15964,421,1); -- CRIT_DMG_INCREASE 1
 INSERT INTO `item_mods` VALUES (15965,2,15);      -- Ethereal Earring: HP +15
 INSERT INTO `item_mods` VALUES (15965,23,5);      -- Attack +5
 INSERT INTO `item_mods` VALUES (15965,68,5);      -- Evasion +5

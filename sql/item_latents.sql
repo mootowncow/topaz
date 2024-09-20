@@ -3915,16 +3915,16 @@ INSERT INTO `item_latents` VALUES(20632, 303, 1, 62, 1); -- TH+1 in Offhand
 --  `latentParam` smallint(5) NOT NULL,
 --  PRIMARY KEY (`itemId`, `modId`, `value`, `latentId`, `latentParam`)
 
-INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 94); -- [16011] Lyc. Earring: Status Effect Active(94) - ACC 5
-INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 95); -- [16011] Lyc. Earring: Status Effect Active(95) - ACC 5
-INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 96); -- [16011] Lyc. Earring: Status Effect Active(96) - ACC 5
-INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 97); -- [16011] Lyc. Earring: Status Effect Active(97) - ACC 5
-INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 98); -- [16011] Lyc. Earring: Status Effect Active(98) - ACC 5
-INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 99); -- [16011] Lyc. Earring: Status Effect Active(99) - ACC 5
-INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 277); -- [16011] Lyc. Earring: Status Effect Active(277) - ACC 5
-INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 278); -- [16011] Lyc. Earring: Status Effect Active(278) - ACC 5
-INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 279); -- [16011] Lyc. Earring: Status Effect Active(279) - ACC 5
-INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 280); -- [16011] Lyc. Earring: Status Effect Active(280) - ACC 5
-INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 281); -- [16011] Lyc. Earring: Status Effect Active(281) - ACC 5
-INSERT INTO `item_latents` VALUES(16011, 25, 5, 13, 282); -- [16011] Lyc. Earring: Status Effect Active(282) - ACC 5
+INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 94); -- [16011] Lyc. Earring: Status Effect Active(94) - Double Attack 5
+INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 95); -- [16011] Lyc. Earring: Status Effect Active(95) - Double Attack 5
+INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 96); -- [16011] Lyc. Earring: Status Effect Active(96) - Double Attack 5
+INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 97); -- [16011] Lyc. Earring: Status Effect Active(97) - Double Attack 5
+INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 98); -- [16011] Lyc. Earring: Status Effect Active(98) - Double Attack 5
+INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 99); -- [16011] Lyc. Earring: Status Effect Active(99) - Double Attack 5
+INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 277); -- [16011] Lyc. Earring: Status Effect Active(277) - Double Attack 5
+INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 278); -- [16011] Lyc. Earring: Status Effect Active(278) - Double Attack 5
+INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 279); -- [16011] Lyc. Earring: Status Effect Active(279) - Double Attack 5
+INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 280); -- [16011] Lyc. Earring: Status Effect Active(280) - Double Attack 5
+INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 281); -- [16011] Lyc. Earring: Status Effect Active(281) - Double Attack 5
+INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 282); -- [16011] Lyc. Earring: Status Effect Active(282) - Double Attack 5
 INSERT INTO `item_latents` VALUES(14764, 25, 3, 13, 198); -- [14764] Minuet Earring: Status Effect Active(198) - ACC 3
