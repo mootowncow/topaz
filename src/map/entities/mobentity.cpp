@@ -2406,6 +2406,12 @@ void CMobEntity::OnCastFinished(CMagicState& state, action_t& action)
 {
     CBattleEntity::OnCastFinished(state, action);
 
+    CMobController* mobController = dynamic_cast<CMobController*>(PAI->GetController());
+    if (mobController)
+    {
+        mobController->OnCastStopped(state, action);
+    }
+
     static_cast<CMobController*>(PAI->GetController())->TapDeaggroTime();
 
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
@@ -2413,6 +2419,18 @@ void CMobEntity::OnCastFinished(CMagicState& state, action_t& action)
     {
         ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
         ((CMobEntity*)PTarget)->DoAutoTarget();
+    }
+}
+
+void CMobEntity::OnCastInterrupted(CMagicState& state, action_t& action, MSGBASIC_ID msg, bool blockedCast)
+{
+    TracyZoneScoped;
+    CBattleEntity::OnCastInterrupted(state, action, msg, blockedCast);
+
+    CMobController* mobController = dynamic_cast<CMobController*>(PAI->GetController());
+    if (mobController)
+    {
+        mobController->OnCastStopped(state, action);
     }
 }
 

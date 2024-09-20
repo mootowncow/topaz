@@ -55,6 +55,8 @@ public:
     bool DeaggroEntity(CBattleEntity* PEntity);
     bool DeaggroAll();
 
+    void OnCastStopped(CMagicState& state, action_t& action);
+
 protected:
     virtual bool TryDeaggro();
 
@@ -97,7 +99,7 @@ private:
     position_t m_LastPos;
 
     time_point m_LastActionTime;
-    time_point m_LastMagicTime;
+    time_point m_NextMagicTime;
     time_point m_LastMobSkillTime;
     time_point m_LastSpecialTime;
     time_point m_DeaggroTime;

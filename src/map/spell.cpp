@@ -435,6 +435,214 @@ void CSpell::setRange(float range)
     m_range = range;
 }
 
+EFFECT CSpell::getEffectForSpell(SpellID SpellId)
+{
+    CSpell* spell = spell::GetSpell(SpellId);
+
+    // Search by spell
+    switch (SpellId)
+    {
+        case SpellID::Blink:
+            return EFFECT_BLINK;
+        case SpellID::Stoneskin:
+            return EFFECT_STONESKIN;
+        case SpellID::Aquaveil:
+            return EFFECT_AQUAVEIL;
+        default:
+            break;
+    }
+    // Search by spell family
+    switch (spell->getSpellFamily())
+    {
+        case SPELLFAMILY_PROTECT:
+            return EFFECT_PROTECT;
+        case SPELLFAMILY_SHELL:
+            return EFFECT_SHELL;
+        case SPELLFAMILY_HASTE:
+            return EFFECT_HASTE;
+        case SPELLFAMILY_REFRESH:
+            return EFFECT_REFRESH;
+        case SPELLFAMILY_REGEN:
+            return EFFECT_REGEN;
+        case SPELLFAMILY_PHALANX:
+            return EFFECT_PHALANX;
+        case SPELLFAMILY_SPIKES:
+        {
+            switch (m_ID)
+            {
+                case SpellID::Blaze_Spikes:
+                    return EFFECT_BLAZE_SPIKES;
+                case SpellID::Ice_Spikes:
+                    return EFFECT_ICE_SPIKES;
+                case SpellID::Shock_Spikes:
+                    return EFFECT_SHOCK_SPIKES;
+                case SpellID::Dread_Spikes:
+                    return EFFECT_DREAD_SPIKES;
+                default:
+                    return EFFECT_NONE;
+            }
+        }
+        case SPELLFAMILY_ENFIRE:
+            return EFFECT_ENFIRE;
+        case SPELLFAMILY_ENBLIZZARD:
+            return EFFECT_ENBLIZZARD;
+        case SPELLFAMILY_ENAERO:
+            return EFFECT_ENAERO;
+        case SPELLFAMILY_ENSTONE:
+            return EFFECT_ENSTONE;
+        case SPELLFAMILY_ENTHUNDER:
+            return EFFECT_ENTHUNDER;
+        case SPELLFAMILY_ENWATER:
+            return EFFECT_ENWATER;
+        case SPELLFAMILY_RERAISE:
+            return EFFECT_RERAISE;
+        case SPELLFAMILY_FIRE_THRENODY:
+            return EFFECT_THRENODY;
+        case SPELLFAMILY_ICE_THRENODY:
+            return EFFECT_THRENODY;
+        case SPELLFAMILY_WIND_THRENODY:
+            return EFFECT_THRENODY;
+        case SPELLFAMILY_EARTH_THRENODY:
+            return EFFECT_THRENODY;
+        case SPELLFAMILY_LIGHT_THRENODY:
+            return EFFECT_THRENODY;
+        case SPELLFAMILY_DARK_THRENODY:
+            return EFFECT_THRENODY;
+        case SPELLFAMILY_LIGHTNING_THRENODY:
+            return EFFECT_THRENODY;
+        case SPELLFAMILY_WATER_THRENODY:
+            return EFFECT_THRENODY;
+        case SPELLFAMILY_GAIN:
+        {
+            switch (m_ID)
+            {
+                case SpellID::Gain_STR:
+                    return EFFECT_STR_BOOST;
+                case SpellID::Gain_DEX:
+                    return EFFECT_DEX_BOOST;
+                case SpellID::Gain_VIT:
+                    return EFFECT_VIT_BOOST;
+                case SpellID::Gain_AGI:
+                    return EFFECT_AGI_BOOST;
+                case SpellID::Gain_INT:
+                    return EFFECT_INT_BOOST;
+                case SpellID::Gain_MND:
+                    return EFFECT_MND_BOOST;
+                case SpellID::Gain_CHR:
+                    return EFFECT_CHR_BOOST;
+                default:
+                    return EFFECT_NONE;
+            }
+        }
+        case SPELLFAMILY_TEMPER:
+            return EFFECT_MULTI_STRIKES;
+        case SPELLFAMILY_FLURRY:
+            return EFFECT_FLURRY;
+        case SPELLFAMILY_BOOST:
+            return EFFECT_BOOST;
+        case SPELLFAMILY_ENLIGHT:
+            return EFFECT_ENLIGHT;
+        case SPELLFAMILY_ENDARK:
+            return EFFECT_ENDARK;
+        case SPELLFAMILY_SLOW:
+            return EFFECT_SLOW;
+        case SPELLFAMILY_PARALYZE:
+            return EFFECT_PARALYSIS;
+        case SPELLFAMILY_STATUS_BAR:
+        {
+            switch (m_ID)
+            {
+                case SpellID::Barsleep:
+                    return EFFECT_BARSLEEP;
+                case SpellID::Barpoison:
+                    return EFFECT_BARPOISON;
+                case SpellID::Barparalyze:
+                    return EFFECT_BARPARALYZE;
+                case SpellID::Barblind:
+                    return EFFECT_BARBLIND;
+                case SpellID::Barsilence:
+                    return EFFECT_BARSILENCE;
+                case SpellID::Barpetrify:
+                    return EFFECT_BARPETRIFY;
+                case SpellID::Barvirus:
+                    return EFFECT_BARVIRUS;
+                case SpellID::Baramnesia:
+                    return EFFECT_BARAMNESIA;
+                default:
+                    return EFFECT_NONE;
+            }
+        }
+        case SPELLFAMILY_STATUS_BAR_RA:
+        {
+            switch (m_ID)
+            {
+                case SpellID::Barsleepra:
+                    return EFFECT_BARSLEEP;
+                case SpellID::Barpoisonra:
+                    return EFFECT_BARPOISON;
+                case SpellID::Barparalyzra:
+                    return EFFECT_BARPARALYZE;
+                case SpellID::Barblindra:
+                    return EFFECT_BARBLIND;
+                case SpellID::Barsilencera:
+                    return EFFECT_BARSILENCE;
+                case SpellID::Barpetra:
+                    return EFFECT_BARPETRIFY;
+                case SpellID::Barvira:
+                    return EFFECT_BARVIRUS;
+                case SpellID::Baramnesra:
+                    return EFFECT_BARAMNESIA;
+                default:
+                    return EFFECT_NONE;
+            }
+        }
+        case SPELLFAMILY_ELE_BAR:
+        {
+            switch (m_ID)
+            {
+                case SpellID::Barfire:
+                    return EFFECT_BARFIRE;
+                case SpellID::Barblizzard:
+                    return EFFECT_BARBLIZZARD;
+                case SpellID::Baraero:
+                    return EFFECT_BARAERO;
+                case SpellID::Barstone:
+                    return EFFECT_BARSTONE;
+                case SpellID::Barthunder:
+                    return EFFECT_BARTHUNDER;
+                case SpellID::Barwater:
+                    return EFFECT_BARWATER;
+                default:
+                    return EFFECT_NONE;
+            }
+        }
+        case SPELLFAMILY_ELE_BAR_RA:
+        {
+            switch (m_ID)
+            {
+                case SpellID::Barfira:
+                    return EFFECT_BARFIRE;
+                case SpellID::Barblizzara:
+                    return EFFECT_BARBLIZZARD;
+                case SpellID::Baraera:
+                    return EFFECT_BARAERO;
+                case SpellID::Barstonra:
+                    return EFFECT_BARSTONE;
+                case SpellID::Barthundra:
+                    return EFFECT_BARTHUNDER;
+                case SpellID::Barwatera:
+                    return EFFECT_BARWATER;
+                default:
+                    return EFFECT_NONE;
+            }
+        }
+            // Add other spell families and their corresponding effects here
+
+        default:
+            return EFFECT_NONE; // Default for unhandled spell families
+    }
+}
+
 //Implement namespace to work with spells
 namespace spell
 {

@@ -989,9 +989,32 @@ std::optional<SpellID> CMobSpellContainer::GetDamageSpell()
 
 std::optional<SpellID> CMobSpellContainer::GetBuffSpell()
 {
-    if(m_buffList.empty()) return {};
+    if (m_buffList.empty())
+        return {};
 
-    return m_buffList[tpzrand::GetRandomNumber(m_buffList.size())];
+    std::vector<SpellID> availableBuffs;
+
+    // Iterate through the buff list and check if the corresponding effect is already active
+    for (SpellID spellId : m_buffList)
+    {
+        CSpell* spell = spell::GetSpell(spellId);
+        EFFECT effect = spell->getEffectForSpell(spellId);
+
+        if (m_PMob->StatusEffectContainer->HasStatusEffect(effect))
+        {
+        }
+        else
+        {
+            availableBuffs.push_back(spellId);
+        }
+    }
+
+    // If no available buffs, return empty
+    if (availableBuffs.empty())
+        return {};
+
+    // Randomly pick a buff from the available buffs
+    return availableBuffs[tpzrand::GetRandomNumber(availableBuffs.size())];
 }
 
 std::optional<SpellID> CMobSpellContainer::GetDebuffSpell()

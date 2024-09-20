@@ -27,6 +27,7 @@
 
 #include "entities/battleentity.h"
 #include "entities/charentity.h"
+#include "../map/status_effect.h"
 
 #define CANNOT_USE_SPELL    0
 
@@ -1043,6 +1044,8 @@ public:
     uint8       getFlag();
     int8*       getContentTag();
     float       getRange();
+    EFFECT      getEffectForSpell(SpellID SpellId);
+
     bool        tookEffect(); // returns true if the spell landed, not resisted or missed
     bool        hasMPCost(); // checks if spell costs mp to use
     bool        isHeal(); // is a heal spell

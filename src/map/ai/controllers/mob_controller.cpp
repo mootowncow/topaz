@@ -784,7 +784,6 @@ bool CMobController::TryCastSpell()
         return false;
     }
 
-    m_LastMagicTime = m_Tick - std::chrono::milliseconds(tpzrand::GetRandomNumber(PMob->getBigMobMod(MOBMOD_MAGIC_COOL) / 2));
     float currentDistance = distance(PMob->loc.p, PTarget->loc.p);
 
     if (PMob->m_HasSpellScript)
@@ -1420,8 +1419,7 @@ void CMobController::DoRoamTick(time_point tick)
                 {
                     // I spawned a pet
                 }
-                else if (PMob->GetMJob() == JOB_SMN && CanCastSpells() && PMob->SpellContainer->HasBuffSpells() &&
-                    m_Tick >= m_LastMagicTime + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_MAGIC_COOL)))
+                else if (PMob->GetMJob() == JOB_SMN && CanCastSpells() && PMob->SpellContainer->HasBuffSpells() && m_Tick >= m_NextMagicTime)
                 {
                     // summon pet
                     auto spellID = PMob->SpellContainer->GetBuffSpell();
@@ -1639,7 +1637,7 @@ bool CMobController::Engage(uint16 targid)
         // Don't cast magic or use special ability right away
         if(PMob->getBigMobMod(MOBMOD_MAGIC_DELAY) != 0)
         {
-            m_LastMagicTime = m_Tick - std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_MAGIC_COOL) + tpzrand::GetRandomNumber(PMob->getBigMobMod(MOBMOD_MAGIC_DELAY)));
+            m_NextMagicTime = m_Tick + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_MAGIC_COOL) + tpzrand::GetRandomNumber(PMob->getBigMobMod(MOBMOD_MAGIC_DELAY)));
         }
 
         if(PMob->getBigMobMod(MOBMOD_SPECIAL_DELAY) != 0)
@@ -1666,6 +1664,12 @@ bool CMobController::Engage(uint16 targid)
         }
     }
     return ret;
+}
+
+void CMobController::OnCastStopped(CMagicState& state, action_t& action)
+{
+    int32 magicCool = PMob->getBigMobMod(MOBMOD_MAGIC_COOL);
+    m_NextMagicTime = m_Tick + std::chrono::milliseconds(tpzrand::GetRandomNumber(magicCool / 2, magicCool));
 }
 
 int32 CMobController::GetFomorHate(CBattleEntity* PTarget)
@@ -1878,11 +1882,6 @@ bool CMobController::IsSpellReady(float currentDistance)
 {
     TracyZoneScoped;
     int32 bonusTime = 0;
-    if (currentDistance > 5)
-    {
-        // Mobs use ranged attacks quicker when standing back
-        bonusTime = PMob->getBigMobMod(MOBMOD_STANDBACK_COOL);
-    }
 
     if (PMob->m_forceCast)
     {
@@ -1894,7 +1893,13 @@ bool CMobController::IsSpellReady(float currentDistance)
         return true;
     }
 
-    return (m_Tick >= m_LastMagicTime + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_MAGIC_COOL) - bonusTime));
+    if (currentDistance > 5)
+    {
+        // Mobs use magic quicker when standing back
+        return m_Tick >= (m_NextMagicTime - std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_STANDBACK_COOL)));
+    }
+
+    return m_Tick >= m_NextMagicTime;
 }
 
 bool CMobController::Ability(uint16 targid, uint16 abilityid)
