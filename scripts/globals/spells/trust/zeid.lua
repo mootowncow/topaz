@@ -66,6 +66,10 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_ASPIR, 50, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ASPIR)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_DRAIN, 50, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DRAIN)
 
+    if mob:getMainLvl() >= 61 then
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.TP_GTE, 900, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ABSORB_TP)
+    end
+
     if mob:getMainLvl() >= 60 then
         mob:addSimpleGambit(ai.t.SELF, ai.c.TP_LT, 400, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MEDITATE)
     end
