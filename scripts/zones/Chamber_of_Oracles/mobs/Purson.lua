@@ -36,6 +36,10 @@ function onMobSpawn(mob)
      mob:addTP(3000)
 end
 
+function onMobEngaged(mob, target)
+    mob:addTP(3000)
+end
+
 function onMobFight(mob, target)
     -- Hundred Fists during Blood Weapon
     if mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON) then
