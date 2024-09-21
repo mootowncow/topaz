@@ -295,7 +295,7 @@ inline int32 CLuaBaseEntity::PrintToPlayer(lua_State* L)
 
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isstring(L, 1));
 
-    if (m_PBaseEntity->objtype == TYPE_MOB)
+    if (m_PBaseEntity->objtype > TYPE_PC)
     {
         return 0;
     }
