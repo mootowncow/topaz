@@ -11395,7 +11395,7 @@ INSERT INTO `mob_groups` VALUES (6,3425,163,'Sable-tongued_Gonberry',0,128,0,360
 INSERT INTO `mob_groups` VALUES (7,4235,163,'Virid-faced_Shanberry',0,128,0,3600,0,63,65,0);
 INSERT INTO `mob_groups` VALUES (8,877,163,'Cyaneous-toed_Yallberry',0,128,0,3600,0,63,65,0);
 INSERT INTO `mob_groups` VALUES (9,4224,163,'Vermilion-eared_Noberry',0,128,0,3600,0,63,65,0);
-INSERT INTO `mob_groups` VALUES (10,4674,163,'Vermilions_Elemental',0,128,0,0,0,62,62,0);
+INSERT INTO `mob_groups` VALUES (10,4674,163,'Vermilions_Elemental',0,128,0,0,0,63,63,0);
 INSERT INTO `mob_groups` VALUES (11,3970,163,'Tonberrys_Avatar',0,128,0,2400,0,65,65,0);
 -- Amphibian Assault
 INSERT INTO `mob_groups` VALUES (12,3290,163,'Qull_the_Fallstopper',0,128,0,3600,0,63,65,0);
