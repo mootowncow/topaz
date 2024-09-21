@@ -7,6 +7,9 @@
 require("scripts/globals/mobs")
 require("scripts/globals/status")
 ------------------------------
+function onMobInitialize(mob)
+    mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 180)
+end
 
 function onMobSpawn(mob)
     SetGenericNMStats(mob)

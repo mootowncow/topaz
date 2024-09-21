@@ -15,6 +15,7 @@ local buffs =
 local storms = { 99, 113, 114, 115, 116, 117, 118, 119 }
 
 function onMobInitialize(mob)
+    mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 180)
 end
 
 function onMobSpawn(mob)

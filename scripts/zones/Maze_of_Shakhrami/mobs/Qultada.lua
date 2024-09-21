@@ -42,6 +42,7 @@ function onMobInitialize(mob)
             utils.MessageParty(target, marksmanshipWsMsg[math.random(#marksmanshipWsMsg)], 0, "Qultada")
         end
     end)
+    mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 180)
 end
 
 function onMobSpawn(mob)

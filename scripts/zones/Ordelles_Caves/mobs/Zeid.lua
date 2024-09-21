@@ -8,6 +8,9 @@ require("scripts/globals/hunts")
 require("scripts/globals/mobs")
 require("scripts/globals/status")
 ------------------------------
+function onMobInitialize(mob)
+    mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 180)
+end
 
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
@@ -15,10 +18,13 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.REFRESH, 400)
     mob:setMod(tpz.mod.DOUBLE_ATTACK, 0)
 	mob:setMobMod(tpz.mobMod.SKILL_LIST, 6063)
-	mob:setLocalVar("TwoHourUsed", 0)
 end
 
-function onMobInitialize(mob)
+function onMobEngaged(mob, target)
+	mob:setLocalVar("TwoHourUsed", 0)
+    mob:setLocalVar("StunTime", 0)
+    mob:setLocalVar("DreadSpikesTime", 0)
+    mob:setLocalVar("DrainTime", 0)
 end
 
 function onMobFight(mob, target)
@@ -82,6 +88,9 @@ end
 
 function onMobDisengage(mob)
 	mob:setLocalVar("TwoHourUsed", 0)
+    mob:setLocalVar("StunTime", 0)
+    mob:setLocalVar("DreadSpikesTime", 0)
+    mob:setLocalVar("DrainTime", 0)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

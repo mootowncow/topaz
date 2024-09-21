@@ -14,6 +14,7 @@ require("scripts/globals/utils")
 mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
 function onMobInitialize(mob)
+    mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 180)
 end
 
 function onMobSpawn(mob)
