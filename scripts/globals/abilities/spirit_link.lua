@@ -125,8 +125,9 @@ function onUseAbility(player, target, ability)
     end
 
     if player:isPC() then
-        pet:addExp(200 * merits)
+        pet:setLocalVar("wyvern_exp", 200 + merits)
     end
+
     pet:addHP(healPet) --add the hp to pet
     player:updateEnmityFromCure(pet, healPet)
     pet:addStatusEffect(tpz.effect.REGEN, regenAmount, 3, 18, 0, 0, 0) -- Was 90 seconds of regen. Changed to 15s due to being reduced in CD
