@@ -70,7 +70,7 @@ function onMobSpawn(mob)
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.SENTINEL)
 
     if mob:getMainLvl() >= 75 then
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.PALISADE,
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SENTINEL,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.PALISADE)
     end
 
