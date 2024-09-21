@@ -126,8 +126,8 @@ function onUseAbility(player, target, ability)
 
     if player:isPC() then
         local prev_exp = pet:getLocalVar("wyvern_exp")
-        local wyvernBonusDA = player:getMod(tpz.mod.WYVERN_ATTRIBUTE_DA)
         local currentExp = 200 + merits
+        local wyvernBonusDA = player:getMod(tpz.mod.WYVERN_ATTRIBUTE_DA)
         local numLevelUps  = math.floor((prev_exp + currentExp) / 200) - math.floor(prev_exp / 200)
         if numLevelUps  ~= 0 then
             -- wyvern levelled up
@@ -136,11 +136,11 @@ function onUseAbility(player, target, ability)
             pet:addMod(tpz.mod.ATTP, 5 * numLevelUps)
             pet:setHP(pet:getMaxHP())
             player:messageBasic(tpz.msg.basic.STATUS_INCREASED, 0, 0, pet, false)
-            master:addMod(tpz.mod.ATTP, 2 * numLevelUps)
-            master:addMod(tpz.mod.DEFP, 4 * numLevelUps)
-            master:addMod(tpz.mod.DOUBLE_ATTACK, wyvernBonusDA * numLevelUps)
+            player:addMod(tpz.mod.ATTP, 2 * numLevelUps)
+            player:addMod(tpz.mod.DEFP, 4 * numLevelUps)
+            player:addMod(tpz.mod.DOUBLE_ATTACK, wyvernBonusDA * numLevelUps)
         end
-        pet:setLocalVar("wyvern_exp", prev_exp + exp)
+        pet:setLocalVar("wyvern_exp", prev_exp + currentExp)
         pet:setLocalVar("level_Ups", pet:getLocalVar("level_Ups") + numLevelUps)
     end
 
