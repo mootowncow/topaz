@@ -490,8 +490,7 @@ bool CCharEntity::shouldPetPersistThroughZoning()
         petType = petZoningInfo.petType;
     }
 
-    return petType == PETTYPE_WYVERN || petType == PETTYPE_AVATAR || petType == PETTYPE_AUTOMATON ||
-           (petType == PETTYPE_JUG_PET);
+    return petType == PETTYPE_WYVERN || petType == PETTYPE_AVATAR || petType == PETTYPE_AUTOMATON;
 }
 /************************************************************************
 *																		*
