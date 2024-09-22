@@ -124,7 +124,7 @@ INSERT INTO `item_equipment` VALUES (10317,'dux_fng._gnt._+1',99,0,2141649,336,0
 INSERT INTO `item_equipment` VALUES (10318,'chelona_gloves',72,0,147456,337,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (10319,'chl._gloves_+1',72,0,147456,337,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (10320,'enif_manopolas',99,0,41184,159,0,0,64,0,0);
-INSERT INTO `item_equipment` VALUES (10321,'adhara_gages',75,0,49180,160,0,0,64,0,0);
+INSERT INTO `item_equipment` VALUES (10321,'adhara_gages',99,0,49180,160,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (10322,'murzim_manopolas',99,0,468192,159,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (10323,'shedir_gages',99,0,1622556,160,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (10324,'leoht_gloves',99,0,2462754,1,0,0,64,0,0);
@@ -4347,7 +4347,7 @@ INSERT INTO `item_equipment` VALUES (14585,'fourth_tunica',1,0,4194303,102,0,0,3
 INSERT INTO `item_equipment` VALUES (14586,'cobra_tunica',1,0,4194303,105,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14587,'pilgrim_tunica',1,0,4194303,104,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14588,'iron_ram_hauberk',68,0,193,221,0,0,32,0,0);
-INSERT INTO `item_equipment` VALUES (14589,'fourth_brunne',68,0,14785,222,0,0,32,0,0);
+INSERT INTO `item_equipment` VALUES (14589,'fourth_brunne',75,0,14785,222,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14590,'cobra_harness',68,0,2589730,219,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14591,'cobra_robe',68,0,3850780,220,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14592,'reflex_ring_+1',14,0,4194303,0,0,0,24576,0,0);
@@ -4768,7 +4768,7 @@ INSERT INTO `item_equipment` VALUES (15006,'fourth_gauntlets',55,0,193,25,0,0,64
 INSERT INTO `item_equipment` VALUES (15007,'cobra_cuffs',55,0,4179646,19,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (15008,'trainee_gloves',1,0,4194303,105,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (15009,'i.r._dastanas',68,0,193,221,0,0,64,0,0);
-INSERT INTO `item_equipment` VALUES (15010,'fourth_hentzes',68,0,14785,222,0,0,64,0,0);
+INSERT INTO `item_equipment` VALUES (15010,'fourth_hentzes',75,0,14785,222,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (15011,'cobra_mittens',68,0,2589730,220,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (15012,'cobra_gloves',68,0,3850780,219,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (15013,'vicious_mufflers',70,0,1573000,58,0,0,64,0,0);
@@ -5514,7 +5514,7 @@ INSERT INTO `item_equipment` VALUES (15752,'dream_boots',1,0,4194303,140,0,0,256
 INSERT INTO `item_equipment` VALUES (15753,'dream_boots_+1',1,0,4194303,140,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15754,'sprinters_shoes',1,0,4194303,163,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15755,'iron_ram_greaves',68,0,193,221,0,0,256,0,0);
-INSERT INTO `item_equipment` VALUES (15756,'fourth_schuhs',68,0,14785,222,0,0,256,0,0);
+INSERT INTO `item_equipment` VALUES (15756,'fourth_schuhs',75,0,14785,222,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15757,'cobra_leggings',68,0,2589730,219,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15758,'cobra_crackows',68,0,3850780,220,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15759,'mahant_sandals',63,0,3851870,3,0,0,256,0,0);
@@ -5898,7 +5898,7 @@ INSERT INTO `item_equipment` VALUES (16143,'cobra_hat',55,0,4179646,19,0,0,16,0,
 INSERT INTO `item_equipment` VALUES (16144,'sol_cap',10,0,4194303,223,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16145,'lunar_cap',10,0,4194303,224,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16146,'iron_ram_sallet',68,0,193,221,0,0,16,0,0);
-INSERT INTO `item_equipment` VALUES (16147,'fourth_haube',68,0,14785,222,0,0,16,0,0);
+INSERT INTO `item_equipment` VALUES (16147,'fourth_haube',74,0,14785,222,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16148,'cobra_cap',68,0,2589730,219,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16149,'cobra_cloche',68,0,3850780,220,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16150,'saurian_helm',73,0,2141649,6,0,0,16,0,0);
@@ -6066,7 +6066,7 @@ INSERT INTO `item_equipment` VALUES (16312,'i.r._breeches',45,0,6593,12,0,0,128,
 INSERT INTO `item_equipment` VALUES (16313,'fourth_cuisses',55,0,193,25,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (16314,'cobra_slops',55,0,4179646,19,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (16315,'iron_ram_hose',68,0,193,221,0,0,128,0,0);
-INSERT INTO `item_equipment` VALUES (16316,'fourth_schoss',68,0,14785,222,0,0,128,0,0);
+INSERT INTO `item_equipment` VALUES (16316,'fourth_schoss',75,0,14785,222,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (16317,'cobra_subligar',68,0,2589730,219,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (16318,'cobra_trews',68,0,3850780,220,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (16319,'sangoma_lappa',74,0,3069758,137,0,0,128,0,0);
