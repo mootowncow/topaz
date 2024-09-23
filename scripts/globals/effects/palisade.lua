@@ -11,9 +11,12 @@ function onEffectGain(target, effect)
     if target:getMainJob() == tpz.job.PLD then
 	    target:addMod(tpz.mod.DEFP, 100)
         target:addMod(tpz.mod.ENMITY_LOSS_REDUCTION, 100)
-        if not target:hasStatusEffect(tpz.effect.BIND) then
-            effect:setPower(target:speed())
-            target:speed(0)
+
+        if target:isPC() then
+            if not target:hasStatusEffect(tpz.effect.BIND) then
+                effect:setPower(target:speed())
+                target:speed(0)
+            end
         end
     end
 end
@@ -25,8 +28,11 @@ function onEffectLose(target, effect)
     if target:getMainJob() == tpz.job.PLD then
         target:delMod(tpz.mod.DEFP, 100)
         target:delMod(tpz.mod.ENMITY_LOSS_REDUCTION, 100)
-        if not target:hasStatusEffect(tpz.effect.BIND) then
-            target:speed(effect:getPower())
+
+        if target:isPC() then
+            if not target:hasStatusEffect(tpz.effect.BIND) then
+                target:speed(effect:getPower())
+            end
         end
     end
 end
