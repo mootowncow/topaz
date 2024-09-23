@@ -178,9 +178,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
         -- printf("Final crit %d", critRate * 100)
 
         local weaponDmg = avatar:getWeaponDmg()
-
         local fSTR = getAvatarFSTR(weaponDmg, avatar:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))
-
         local WSC = getAvatarWSC(avatar, params)
 
         -- https://www.bg-wiki.com/bg/PDIF
@@ -288,7 +286,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
                 --printf("%i", finaldmg)
             end
 
-            if not (attackType == tpz.attackType.RANGED) then
+            if (attackType ~= tpz.attackType.RANGED) then
                 -- Check if mob blocked us
                 if avatar:isInfront(target, 90) and isBlocked then
                     finaldmg = target:getBlockedDamage(finaldmg)
@@ -298,7 +296,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
                     finaldmg = 0
                 end
             end
-
+            --printf("First hit damage %u", finaldmg)
             numHitsProcessed = 1
         end
 
@@ -335,23 +333,24 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
             if isCrit then
                 pDif = pDif * critAttackBonus
             end
-            --printf("pdif multihits %u", pDif * 100)
-            if params.multiHitFtp == nil then ftp = 1 end -- Not fTP transfer
 
-            finaldmg = finaldmg + (avatarHitDmg(weaponDmg, fSTR, WSC, pDif) * ftp)
-            --handling phalanx
-            finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
-
-            if not (attackType == tpz.attackType.RANGED) then
+            if attackType ~= tpz.attackType.RANGED then
                 -- Check if mob blocked us
                 if avatar:isInfront(target, 90) and isBlocked then
-                    finaldmg = target:getBlockedDamage(finaldmg)
+                    multiHitDmg = target:getBlockedDamage(avatarHitDmg(weaponDmg, fSTR, WSC, pDif))
                 end
                 -- Check if mob parried us
                 if avatar:isInfront(target, 90) and isParried then
-                    finaldmg = 0
+                    multiHitDmg = 0
                 end
             end
+            --printf("multiHitDmg %u", multiHitDmg)
+            --printf("pdif multihits %u", pDif * 100)
+            if params.multiHitFtp == nil then ftp = 1 end -- Not fTP transfer
+
+            finaldmg = finaldmg + multiHitDmg * ftp
+            --handling phalanx
+            finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
 
             numHitsProcessed = numHitsProcessed + 1
         end

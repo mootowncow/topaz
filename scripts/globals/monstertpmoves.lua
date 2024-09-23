@@ -281,24 +281,27 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         if (tpeffect ~= TP_RANGED) then
             if math.random()*100 < target:getGuardRate(mob) then -- Try to guard
                 target:trySkillUp(mob, tpz.skill.GUARD, 1)
-                --target:PrintToPlayer("Successfully guarded first hit TP move swing!")
+                --printf("Guarded (First hit)!")
                 pdif = pdif - 1
                 if pdif < 0.25 then pdif = 0.25 end -- Cap at 0.25 pdif
             end
-            if math.random()*100 < target:getParryRate(mob) then -- Try to parry
-                target:trySkillUp(mob, tpz.skill.PARRY, 1)
-                --target:PrintToPlayer("Successfully parried first hit TP move swing!")
-                hitdamage = 0
-            end
             if isBlocked(mob, target) then -- Try To block
                 target:trySkillUp(mob, tpz.skill.SHIELD, 1)
-                --target:PrintToPlayer("Successfully blocked first hit TP move swing!")
                 hitdamage = target:getBlockedDamage(hitdamage)
+                --printf("Blocked! (First hit) [%u]", hitdamage)
                 mob:setLocalVar("isBlocked", 1) 
             end
+            if math.random()*100 < target:getParryRate(mob) then -- Try to parry
+                target:trySkillUp(mob, tpz.skill.PARRY, 1)
+                --printf("Parried (First hit)!")
+                hitdamage = 0
+            end
         end
+
         --printf("pdif first hit %u", pdif * 100)
+
         finaldmg = finaldmg + hitdamage * pdif
+        --printf("First hit damage %d", finaldmg)
 
         -- Duplicate the first hit with an added magical component for hybrid WSes
         if params_phys.hybrid then
@@ -386,23 +389,26 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
             if (tpeffect ~= TP_RANGED) then
                 if math.random()*100 < target:getGuardRate(mob) then -- Try to guard
                     target:trySkillUp(mob, tpz.skill.GUARD, 1)
-                    --target:PrintToPlayer("Successfully guarded a TP move swing!")
+                    --printf("Guarded!")
                     pdif = pdif - 1
                     if pdif < 0.25 then pdif = 0.25 end -- Cap at 0.25 pdif
                 end
-                if math.random()*100 < target:getParryRate(mob) then -- Try to parry
-                    target:trySkillUp(mob, tpz.skill.PARRY, 1)
-                    --target:PrintToPlayer("Successfully parried a TP move swing!")
-                    hitdamage = 0
-                end
                 if isBlocked(mob, target) then  -- Try To block
                     target:trySkillUp(mob, tpz.skill.SHIELD, 1)
-                    --target:PrintToPlayer("Successfully blocked a TP move swing!")
-                    hitdamage = target:getBlockedDamage(hitdamage)
+                    multiHitDmg = target:getBlockedDamage(hitdamage)
+                    --printf("Blocked! [%u]", hitdamage)
+                end
+                if math.random()*100 < target:getParryRate(mob) then -- Try to parry
+                    target:trySkillUp(mob, tpz.skill.PARRY, 1)
+                    --printf("Parried!")
+                    multiHitDmg = 0
                 end
             end
+
             --printf("pdif multihits %u", pdif * 100)
             finaldmg = finaldmg + multiHitDmg * pdif
+            --printf("multihit hit damage %d", finaldmg)
+
             --handling phalanx
             finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
             hitslanded = hitslanded + 1
