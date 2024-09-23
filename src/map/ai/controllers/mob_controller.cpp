@@ -1239,6 +1239,14 @@ void CMobController::HandleEnmity()
     TracyZoneScoped;
     PMob->PEnmityContainer->DecayEnmity();
     auto* PHighestEnmityTarget{ PMob->PEnmityContainer->GetHighestEnmity() };
+
+    // If busy, update enmity
+    if (PMob->PAI->IsCurrentState<CMobSkillState>() || PMob->PAI->IsCurrentState<CWeaponSkillState>() ||
+        PMob->PAI->IsCurrentState<CItemState>())
+    {
+        return;
+    }
+
     if (PMob->getMobMod(MOBMOD_FIXATE) > 0)
     {
         ChangeTarget(PMob->getMobMod(MOBMOD_FIXATE));
