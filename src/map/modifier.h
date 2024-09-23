@@ -430,7 +430,7 @@ enum class Mod
     RAMPART_DURATION          = 92,  // Rampart duration in seconds
     ABSORB_PHYSDMG_TO_MP      = 426, // Absorbs a percentage of physical damage taken to MP.
     SHIELD_MASTERY_TP         = 485, // Shield mastery TP bonus when blocking with a shield
-    SHIELD_DEF_BONUS          = 905, // Shield Defense Bonus (Block Amount)
+    SHIELD_DEF_BONUS          = 905, // Shield Defense Bonus (Absorb Amount)
     SHIELDBLOCKRATE           = 518, // Affects shield block rate, percent based
     SHIELD_BARRIER            = 1310,// Phalanx effect while wielding a shield
     SENTINEL_EFFECT           = 837, // Sentinel effect in percents
