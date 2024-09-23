@@ -272,9 +272,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
             --printf("%s Pdif after critting is %f", name, pdif)
 
             -- Apply crit dmg increase
-            if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
-                pdif = pdif * critAttackBonus
-            end
+            pdif = pdif * critAttackBonus
         end
 
         -- Guard / Parry / Block check for non-ranged TP moves
@@ -380,9 +378,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
                 --printf("%s Pdif after critting is %f", name, pdif)
 
                 -- Apply crit dmg increase
-                if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
-                    pdif = pdif * critAttackBonus
-                end
+                pdif = pdif * critAttackBonus
             end
 
             -- Guard / Parry / Block check for non-ranged TP moves
@@ -2016,9 +2012,15 @@ function isCrit(mob, critRate, params)
     if (params.ALWAYS_CRIT ~= nil) then
         return true
     end
+
     if math.random() < critRate then
         return true
     end
+
+    if mob:hasStatusEffect(tpz.effect.MIGHTY_STRIKES) then
+        return true
+    end
+
     return false
 end
 
