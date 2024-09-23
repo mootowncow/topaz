@@ -159,10 +159,10 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Why did moatfiller have a SLEEPRESTRAIT proc? It should be BST/BST?
-Don't let mobs updateenmity while mid action state
+isCrit needs to be recoded in automaton/summon as a var because its called twice per hit on a TP move 
+Finish getAoEMessage() enums in spell.cpp
+284 is correct, need to figure out the way to code the Resist! proc msg...
 viperine pick add effect and resist sleep
-Does Mighty Strikes(and SA/TA, but I think they're coded already? so look there) should give mobs 100% crit rate and make the TP moves able to crit in monstertpmoves
 Fix Cyranuce (Also doesn't spawn on trade?) Takes +200% blunt +200%, +200% something else, wrong model(kid cyraunce) and doesn't turn into dragon/benediction
 
 1: If Avatar/Wyvern/Puppet was called, and you zoned into a city before a combat area, it should still respawn when zoning into the combat area
