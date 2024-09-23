@@ -80,8 +80,11 @@ local modByMobName =
         mob:addMod(tpz.mod.REFRESH, 3)
         mob:addMod(tpz.mod.ENMITY, 30)
         mob:addMod(tpz.mod.CURE_POTENCY, 50)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.DMGPHYS, -33)
+        end
         AddHeavyMeleeAccuracyGear(mob)
-        AddShieldSkillGear(mob)
+        AddShieldBonuses(mob)
         AddArtifactGear(mob)
     end,
 
@@ -391,15 +394,7 @@ tpz.trust.onMobSpawn = function(mob)
         mods(mob)
     end
 
-    -- Add food
-    -- TODO: Scale the food based on level / if has FILLED_MEMORY_GEM
-    mob:addMod(tpz.mod.STR, 5)
-    mob:addMod(tpz.mod.AGI, 1)
-    mob:addMod(tpz.mod.INT, -2)
-    mob:addMod(tpz.mod.FOOD_ATTP, 22)
-    mob:addMod(tpz.mod.FOOD_ATT_CAP, 60)
-    mob:addMod(tpz.mod.FOOD_RATTP, 22)
-    mob:addMod(tpz.mod.FOOD_RATT_CAP, 60)
+    AddFoodBonuses(mob)
 end
 
 -- page_offset is: (summon_message_id - 1) / 100
@@ -461,20 +456,40 @@ function AddRefreshGear(mob)
         mob:addMod(tpz.mod.REFRESH, 2)
     elseif mobLevel >= 75 then
         mob:addMod(tpz.mod.REFRESH, 6)
-    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+        if master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+            -- TODO
+        end
     end
 end
 
-function AddShieldSkillGear(mob)
+function AddShieldBonuses(mob)
     local mobLevel = mob:getMainLvl()
     local master = mob:getMaster()
 
+    -- +Shield absorb amount
+    if mobLevel >= 28  and mobLevel < 43 then
+        mob:addMod(tpz.mod.SHIELD_DEF_BONUS, 4)
+    elseif mobLevel >= 43  and mobLevel < 50 then
+        mob:addMod(tpz.mod.SHIELD_DEF_BONUS, 6)
+    elseif mobLevel >= 50  and mobLevel < 66 then
+        mob:addMod(tpz.mod.SHIELD_DEF_BONUS, 7)
+    elseif mobLevel >= 66  and mobLevel < 73 then
+        mob:addMod(tpz.mod.SHIELD_DEF_BONUS, 9)
+    elseif mobLevel >= 73  and mobLevel <= 75 then
+        mob:addMod(tpz.mod.SHIELD_DEF_BONUS, 11)
+        if master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+        -- TODO
+        end
+    end
+
+    -- +Shield Skill gear
     if mobLevel >= 52  and mobLevel < 65 then
         mob:addMod(tpz.mod.SHIELD, 10)
-    elseif mobLevel >= 65  and mobLevel < 75 then
+    elseif mobLevel >= 65  and mobLevel <= 75 then
         mob:addMod(tpz.mod.SHIELD, 17)
-    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
-        mob:addMod(tpz.mod.SHIELD, 37)
+        if master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+            mob:addMod(tpz.mod.SHIELD, 37)
+        end
     end
 end
 
@@ -708,8 +723,9 @@ function AddCasterGear(mob)
         mob:addMod(tpz.mod.INT, 47)
         mob:addMod(tpz.mod.MATT, 5)
         AddElementalStaves(mob, 'nq')
-    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
-        -- TODO
+        if master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+            -- TODO
+        end
     end
 end
 
@@ -736,8 +752,9 @@ function AddEnfeebleGear(mob)
         mob:addMod(tpz.mod.MND, 51)
         mob:addMod(tpz.mod.MATT, 5)
         AddElementalStaves(mob, 'nq')
-    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+        if master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
         -- TODO
+        end
     end
 end
 
@@ -801,8 +818,9 @@ function AddHealerGear(mob)
         mob:addMod(tpz.mod.MATT, 5)
         mob:addMod(tpz.mod.CURE_POTENCY, 10)
         AddElementalStaves(mob, 'nq')
-    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
-        -- TODO
+        if master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+            -- TODO
+        end
     end
 end
 
@@ -816,7 +834,7 @@ function AddMNKBelts(mob)
     elseif mobLevel >= 40 and mobLevel <= 75 then
         mob:addMod(tpz.mod.STR, 5)
         mob:addMod(tpz.mod.HASTE_GEAR, 800)
-    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+    elseif mobLevel >= 75 and master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then 
         mob:addMod(tpz.mod.STR, 7)
         mob:addMod(tpz.mod.SUBTLE_BLOW, 5)
         mob:addMod(tpz.mod.HASTE_GEAR, 1200)
@@ -864,4 +882,49 @@ function AddElementalStaves(mob, tier)
 
     -- Add cure potency
     mob:addMod(tpz.mod.CURE_POTENCY, 10)
+end
+
+function AddFoodBonuses(mob)
+    local mobLevel = mob:getMainLvl()
+    local job = mob:getMainJob()
+    local master = mob:getMaster()
+
+    if (job ~= tpz.job.PLD) then
+        if mobLevel >= 1 and mobLevel < 75 then
+            mob:addMod(tpz.mod.STR, 5)
+            mob:addMod(tpz.mod.AGI, 1)
+            mob:addMod(tpz.mod.INT, -2)
+            mob:addMod(tpz.mod.FOOD_ATTP, 22)
+            mob:addMod(tpz.mod.FOOD_ATT_CAP, 60)
+            mob:addMod(tpz.mod.FOOD_RATTP, 22)
+            mob:addMod(tpz.mod.FOOD_RATT_CAP, 60)
+        elseif mobLevel >= 75 then
+            mob:addMod(tpz.mod.HP, 20)
+            mob:addMod(tpz.mod.STR, 5)
+            mob:addMod(tpz.mod.DEX, 6)
+            mob:addMod(tpz.mod.FOOD_ACCP, 15)
+            mob:addMod(tpz.mod.FOOD_ACC_CAP, 72)
+            mob:addMod(tpz.mod.FOOD_RACCP, 15)
+            mob:addMod(tpz.mod.FOOD_RACC_CAP, 72)
+            mob:addMod(tpz.mod.SLEEPRESTRAIT, 1)
+        end
+    else
+        if mobLevel >= 1 and mobLevel < 75 then
+            mob:addMod(tpz.mod.STR, 5)
+            mob:addMod(tpz.mod.AGI, 1)
+            mob:addMod(tpz.mod.INT, -2)
+            mob:addMod(tpz.mod.FOOD_ATTP, 22)
+            mob:addMod(tpz.mod.FOOD_ATT_CAP, 60)
+            mob:addMod(tpz.mod.FOOD_RATTP, 22)
+            mob:addMod(tpz.mod.FOOD_RATT_CAP, 60)
+        elseif mobLevel >= 75 then
+            mob:addMod(tpz.mod.HP, 20)
+            mob:addMod(tpz.mod.DEX, 4)
+            mob:addMod(tpz.mod.AGI, 4)
+            mob:addMod(tpz.mod.VIT, 6)
+            mob:addMod(tpz.mod.FOOD_DEFP, 25)
+            mob:addMod(tpz.mod.FOOD_DEF_CAP, 150)
+            mob:addMod(tpz.mod.HPHEAL, 1)
+        end
+    end
 end

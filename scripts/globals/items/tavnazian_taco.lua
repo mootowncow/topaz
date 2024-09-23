@@ -38,7 +38,6 @@ function onEffectGain(target, effect)
     target:addMod(tpz.mod.FOOD_DEFP, 25)
     target:addMod(tpz.mod.FOOD_DEF_CAP, 150)
     target:addMod(tpz.mod.HPHEAL, 1)
-
 end
 
 function onEffectLose(target, effect)
@@ -49,5 +48,4 @@ function onEffectLose(target, effect)
     target:delMod(tpz.mod.FOOD_DEFP, 25)
     target:delMod(tpz.mod.FOOD_DEF_CAP, 150)
     target:delMod(tpz.mod.HPHEAL, 1)
-
 end
