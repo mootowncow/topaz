@@ -334,6 +334,8 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
                 pDif = pDif * critAttackBonus
             end
 
+            local multiHitDmg = avatarHitDmg(weaponDmg, fSTR, WSC, pDif)
+
             if attackType ~= tpz.attackType.RANGED then
                 -- Check if mob blocked us
                 if avatar:isInfront(target, 90) and isBlocked then

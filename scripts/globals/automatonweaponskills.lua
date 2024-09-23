@@ -419,6 +419,8 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
                 pDif = pDif * critAttackBonus
             end
 
+            local multiHitDmg = autoHitDmg(weaponDmg, fSTR, WSC, pDif)
+
             if attackType ~= tpz.attackType.RANGED then
                 -- Check if mob blocked us
                 if auto:isInfront(target, 90) and isBlocked then
