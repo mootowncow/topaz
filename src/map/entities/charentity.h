@@ -385,7 +385,7 @@ public:
     uint32            m_moghouseID;
     uint16            m_moghancementID;
 
-    uint8             m_hitCounter; // auto-attack it counter for Tredecim Scythe
+    uint8             m_hitCounter;     // auto-attack hit counter for Tredecim Scythe
     uint32            m_fomorHate;
     uint32            m_pixieHate;
 
