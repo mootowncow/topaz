@@ -5926,8 +5926,8 @@ namespace charutils
 
         PChar->SetDeathTimestamp(0);
 
-        PChar->health.hp = PChar->GetMaxHP();
-        PChar->health.mp = PChar->GetMaxMP();
+        PChar->health.hp = 9999;
+        PChar->health.mp = 9999;
 
         PChar->loc.boundary = 0;
         PChar->loc.p = PChar->profile.home_point.p;
