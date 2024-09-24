@@ -159,9 +159,17 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Lower HP of anything above 50k to 50k
+AoE DR to mob/BLU breath attacks
+Terror from mobs or anything shouldn't overwrite itself prob  flag in status effect
+Netherblasts costs 0 MP. See how LSB fixed it. I bandiaded it with player:delMP(109)
+Noctoshield range needs to be icnreased?
+HPing should set HP/MP to 100%
+Increase Fafnirs model size by 1
+Fafnir(and prob Nidhogg?) won't use anything but Absolute Terror / Horrid Roar? No breath? Becausew mob:AnimationSub() == 1 on Dragon Breath / Hurricane wing?
 isCrit needs to be recoded in automaton/summon as a var because its called twice per hit on a TP move 
 Finish getAoEMessage() enums in spell.cpp
-284 is correct, need to figure out the way to code the Resist! proc msg...
+If objectype > TYPE_PC is "cannot see target" multiple times when trying to attack(like 10 times?) +1 the var and at 10 teleport to their target then set var to 0
 viperine pick add effect and resist sleep
 Fix Cyranuce (Also doesn't spawn on trade?) Takes +200% blunt +200%, +200% something else, wrong model(kid cyraunce) and doesn't turn into dragon/benediction
 
