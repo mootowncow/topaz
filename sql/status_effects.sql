@@ -68,7 +68,7 @@ INSERT INTO `status_effects` VALUES (20,'curse',8392736,9,0,2,0,0,8,1,1);
 INSERT INTO `status_effects` VALUES (21,'addle',8405026,0,0,2,0,0,1,1,0);
 INSERT INTO `status_effects` VALUES (22,'intimidate',32,0,0,2,0,0,0,1,0);
 INSERT INTO `status_effects` VALUES (23,'kaustra',8388640,0,228,0,0,0,8,0,1);
-INSERT INTO `status_effects` VALUES (28,'terror',8389152,7,0,0,0,0,0,1,1);
+INSERT INTO `status_effects` VALUES (28,'terror',8389152,7,0,2,0,0,0,1,1);
 INSERT INTO `status_effects` VALUES (29,'mute',8388640,0,0,2,0,6,3,1,1);
 INSERT INTO `status_effects` VALUES (30,'bane',8405024,0,0,2,0,9,8,1,1);
 INSERT INTO `status_effects` VALUES (31,'plague',8409120,8,0,2,0,0,1,1,1);
