@@ -131,6 +131,7 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Aldo Utsusemi Ichi / Ni (At level 22 and 74)
 Uriel Blade SCed for 0 on a magmatic eruca (fragmentation)
 Kupipi Curaga logic
 Test Valaineral tanking level 85+ bosses
@@ -159,31 +160,14 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Lower HP of anything above 50k to 50k
-AoE DR to mob/BLU breath attacks
-Terror from mobs or anything shouldn't overwrite itself prob  flag in status effect
-Netherblasts costs 0 MP. See how LSB fixed it. I bandiaded it with player:delMP(109)
+addMaxRecastToAllAbilities() needs bool for 2 hours
 Noctoshield range needs to be icnreased?
-HPing should set HP/MP to 100%
-Increase Fafnirs model size by 1
-Fafnir(and prob Nidhogg?) won't use anything but Absolute Terror / Horrid Roar? No breath? Becausew mob:AnimationSub() == 1 on Dragon Breath / Hurricane wing?
-isCrit needs to be recoded in automaton/summon as a var because its called twice per hit on a TP move 
-Finish getAoEMessage() enums in spell.cpp
-If objectype > TYPE_PC is "cannot see target" multiple times when trying to attack(like 10 times?) +1 the var and at 10 teleport to their target then set var to 0
 viperine pick add effect and resist sleep
 Fix Cyranuce (Also doesn't spawn on trade?) Takes +200% blunt +200%, +200% something else, wrong model(kid cyraunce) and doesn't turn into dragon/benediction
 
-1: If Avatar/Wyvern/Puppet was called, and you zoned into a city before a combat area, it should still respawn when zoning into the combat area
-2: https://github.com/LandSandBoat/server/commit/8551b4b8945dcb8e7e580ce49873da6f60c94d96 (I think I did this and it didnt fix?)
-3: might be some type of zone_utils.cpp or zone.cpp logic that forces pet to despawn when zoning into a zone without zone_misc PET_ALLOWED?
-4: Search that enum name PET_ALLOWED or w/e in the code it's under ENUM MISC
-
 Spirit Link empathy working correctly?
-Thornsong damage spikes too weak or get resisted?
-Shield Bash and Weapon Bash dispel check that effect is dispellable
 MessageGroup() and other stuff doesn't work with trusts?
 Diabolos Pole is missing and there's two earrings from Waking Dreams?
-Does stealStatusEffect() not steal subpower? Stealing berserk(boiling blood from a wivre) didn't give its defense down(I think)
 Cait Sith / Siren
 Mobs should be able to buff allies in combat too with my new changes
 Mobs shouldn't go underground mid casting
@@ -578,9 +562,6 @@ https://github.com/LandSandBoat/server/commit/7ecad7379c694f658dbfb4f72038704745
 
 SC resistance rank reduction
 https://github.com/LandSandBoat/server/commit/ae3fb1625f06d3cc6ec4a0d9b5fc0b6b8d2f8623
-
-Set Melee Range binding (Rename to setmodelSize tbh)
-https://github.com/LandSandBoat/server/commit/3da1133c907965a6d465c3e88ac486fc90818f5d
 
 /folllow
 https://github.com/LandSandBoat/server/commit/a51b5d851f1de31b62516e20d68cb8a08f1748db
