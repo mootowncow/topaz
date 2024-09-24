@@ -2218,7 +2218,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 }
 
                 // Apply Feint
-                if (this->objtype == TYPE_PC)
+                if (this->objtype == TYPE_PC || (this->objtype == TYPE_MOB && this->allegiance == ALLEGIANCE_PLAYER) || this->objtype == TYPE_TRUST)
                 {
                     if (CStatusEffect* PFeintEffect = StatusEffectContainer->GetStatusEffect(EFFECT_FEINT))
                     {
