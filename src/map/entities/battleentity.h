@@ -747,6 +747,7 @@ public:
     CBattleEntity*	PMaster;				    // владелец/хозяин сущности (распространяется на все боевые сущности)
     CBattleEntity*  PLastAttacker;
     time_point      LastAttacked;
+    uint8           m_outOfLosAutoAttacks;     // How many times the entity failed to auto due to the target being out of LOS
 
     std::unique_ptr<CStatusEffectContainer> StatusEffectContainer;
     std::unique_ptr<CRecastContainer> PRecastContainer;

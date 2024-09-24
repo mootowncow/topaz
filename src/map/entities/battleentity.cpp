@@ -95,6 +95,7 @@ CBattleEntity::CBattleEntity()
     isCharmed = false;
     isSuperJumped = false;
     m_unkillable = false;
+    m_outOfLosAutoAttacks = 0;
 }
 
 CBattleEntity::~CBattleEntity()
@@ -1917,6 +1918,7 @@ bool CBattleEntity::CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPack
 void CBattleEntity::OnDisengage(CAttackState& s)
 {
     m_battleTarget = 0;
+    m_outOfLosAutoAttacks = 0;
     if (animation == ANIMATION_ATTACK)
     {
         animation = ANIMATION_NONE;
@@ -1927,6 +1929,7 @@ void CBattleEntity::OnDisengage(CAttackState& s)
 
 void CBattleEntity::OnChangeTarget(CBattleEntity* PTarget)
 {
+    m_outOfLosAutoAttacks = 0;
 }
 
 void CBattleEntity::setActionInterrupted(action_t& action, CBattleEntity* PTarget, uint16 messageID, uint16 actionID)
@@ -1986,8 +1989,24 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
         {
             CCharEntity* PChar = (CCharEntity*)this;
             PChar->pushPacket(new CMessageBasicPacket(PChar, PTarget, 0, 0, MSGBASIC_CANNOT_SEE));
+
+            return false;
         }
-        return false;
+        else
+        {
+            if (m_outOfLosAutoAttacks < 2) // If a mob/trust cannot reach the target with auto's 2 times in a row, teleport them to the target
+            {
+                ++m_outOfLosAutoAttacks;
+                return false;
+
+            }
+            else
+            {
+                m_outOfLosAutoAttacks = 0;
+                float warpOffset = 0.0f;
+                this->PAI->PathFind->WarpTo(PTarget->loc.p, warpOffset);
+            }
+        }
     }
 
     // Create a new attack round.
@@ -2347,6 +2366,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
     PAI->EventHandler.triggerListener("ATTACK", this, PTarget, &action);
     PTarget->PAI->EventHandler.triggerListener("ATTACKED", PTarget, this, &action);
     PTarget->LastAttacked = server_clock::now();
+    m_outOfLosAutoAttacks = 0;
     /////////////////////////////////////////////////////////////////////////////////////////////
     // End of attack loop
     /////////////////////////////////////////////////////////////////////////////////////////////
