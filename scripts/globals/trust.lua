@@ -205,7 +205,7 @@ local modByMobName =
     end,
 
     ['ulmia'] = function(mob)
-        mob:addMod(tpz.mod.DMGAOE, -33)
+        mob:addMod(tpz.mod.DMGAOE, -66)
         AddBRDInstruments(mob)
         AddRefreshGear(mob)
         AddArtifactGear(mob)

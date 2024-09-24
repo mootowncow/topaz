@@ -2973,7 +2973,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ovjang',337,260,32,255);          -
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Sakura',339,0,1,255);          -- none (reserved)
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Luzaf',340,0,1,255);           -- none (reserved)
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Najelith',341,0,1,255);        -- none (reserved)
--- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Aldo',342,0,1,255);            -- none (reserved)
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Aldo',342,338,24,255);            -- Utsusemi: Ichi
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Aldo',342,339,75,255);            -- Utsusemi: Ni
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Moogle',343,0,1,255);          -- none (reserved)
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Fablinix',344,1,8,255);           -- Cure
