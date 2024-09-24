@@ -1437,7 +1437,7 @@ function MobBuffMoveSub(mob, typeEffect, power, tick, duration, subid, subpower,
         target:addEnmity(mob, 320, 320)
     end
 
-    if (mob:addStatusEffect(typeEffect, power, tick, finalDuration)) then
+    if (mob:addStatusEffect(typeEffect, power, tick, finalDuration, subid, subpower, tier)) then
         return tpz.msg.basic.SKILL_GAIN_EFFECT
     end
 
