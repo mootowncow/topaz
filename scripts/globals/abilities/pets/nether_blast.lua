@@ -30,7 +30,8 @@ function onPetAbility(target, pet, skill)
 
     local damage = AvatarMagicalBP(pet, target, skill, tpz.magic.ele.DARK, params, NONE, 0)
     dmg = AvatarMagicalFinalAdjustments(damage, pet, skill, target, tpz.attackType.BREATH, tpz.magic.ele.DARK, params)
-    player:delMP(109)
+    local master = pet:getMaster()
+    master:delMP(109)
 
     return dmg
 end
