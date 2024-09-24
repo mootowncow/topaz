@@ -11666,10 +11666,10 @@ INSERT INTO `mob_groups` VALUES (25,1655,168,'Goblin_Enforcer',0,0,0,0,0,0,0,0);
 -- Toraimarai_Canal (Zone 169)
 -- ------------------------------------------------------------
 
-INSERT INTO `mob_groups` VALUES (1,413,169,'Bigclaw',330,128,274,0,0,49,52,0);
+INSERT INTO `mob_groups` VALUES (1,413,169,'Bigclaw',330,0,274,0,0,49,52,0);
 INSERT INTO `mob_groups` VALUES (2,618,169,'Canal_Leech',0,128,0,0,0,45,47,0);
 INSERT INTO `mob_groups` VALUES (3,3377,169,'Rock_Crab',0,128,273,0,0,52,54,0);
-INSERT INTO `mob_groups` VALUES (4,461,169,'Bloodsucker',0,128,302,0,0,54,57,0);
+INSERT INTO `mob_groups` VALUES (4,461,169,'Bloodsucker',330,0,302,0,0,54,57,0);
 INSERT INTO `mob_groups` VALUES (5,617,169,'Canal_Bats',330,0,80,0,0,45,47,0);
 INSERT INTO `mob_groups` VALUES (6,5130,169,'Hell_Bat',330,0,234,0,0,47,49,0);
 INSERT INTO `mob_groups` VALUES (7,1287,169,'Fallen_Knight',330,0,810,0,0,53,55,0);
@@ -11706,6 +11706,10 @@ INSERT INTO `mob_groups` VALUES (37,5757,169,'Brazen_Bones',0,128,2868,35000,0,8
 INSERT INTO `mob_groups` VALUES (38,3755,169,'Starmite',330,0,2325,0,0,65,67,0);
 INSERT INTO `mob_groups` VALUES (39,2664,169,'Mimic',0,128,1684,0,0,65,67,0);
 INSERT INTO `mob_groups` VALUES (40,6721,169,'Cutlass_Scorpion',330,0,3159,0,0,64,66,0);
+INSERT INTO `mob_groups` VALUES (41,413,169,'Bigclaw_fished',0,128,0,0,0,49,52,0);
+INSERT INTO `mob_groups` VALUES (42,461,169,'Bloodsucker_fished',0,128,0,0,0,54,57,0);
+INSERT INTO `mob_groups` VALUES (43,2764,169,'Mousse_fished',0,128,0,0,0,63,65,0);
+
 
 
 -- ------------------------------------------------------------
