@@ -1384,7 +1384,8 @@ CStatusEffect* CStatusEffectContainer::StealStatusEffect(EFFECTFLAG flag)
         CStatusEffect* oldEffect = dispelableList.at(rndIdx);
 
         //make a copy
-        CStatusEffect* EffectCopy = new CStatusEffect(oldEffect->GetStatusID(), oldEffect->GetIcon(), oldEffect->GetPower(), oldEffect->GetTickTime() / 1000, oldEffect->GetDuration() / 1000);
+        CStatusEffect* EffectCopy = new CStatusEffect(oldEffect->GetStatusID(), oldEffect->GetIcon(), oldEffect->GetPower(), oldEffect->GetTickTime() / 1000,
+                                                      oldEffect->GetDuration() / 1000, oldEffect->GetSubID(), oldEffect->GetSubPower(), oldEffect->GetTier());
 
         RemoveStatusEffect(oldEffect, true);
 
