@@ -553,7 +553,7 @@ INSERT INTO `abilities` VALUES (658,'nightmare',15,29,4,60,174,0,0,42,2000,0,6,1
 INSERT INTO `abilities` VALUES (659,'ultimate_terror',15,37,4,60,174,0,0,42,2000,0,6,18.0,0,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (660,'noctoshield',15,49,1,60,174,0,0,92,2000,0,6,18.0,1,1,60,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (661,'dream_shroud',15,56,1,60,174,0,0,121,2000,0,6,18.0,1,1,60,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (662,'nether_blast',15,65,4,60,173,0,0,0,2000,0,6,18.0,0,1,60,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (662,'nether_blast',15,65,4,60,173,0,0,109,2000,0,6,18.0,0,1,60,0,0,NULL,0);
 -- INSERT INTO `abilities` VALUES (663,'cacodemonia',22,1,1,0,300,0,0,???,2000,0,6,20.0,0,450,900,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (664,'ruinous_omen',15,1,4,60,173,0,0,30,2000,0,6,18.0,1,1,60,0,2,NULL,0);
 -- INSERT INTO `abilities` VALUES (665,'night_terror',22,1,1,0,300,0,0,???,2000,0,6,20.0,0,450,900,0,0,NULL,0);
