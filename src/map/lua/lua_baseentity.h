@@ -695,6 +695,7 @@ public:
     int32 isNM(lua_State* L);
 
     int32 getModelSize(lua_State *L);       // Gets model size
+    int32 setModelSize(lua_State* L);       // Sets model size
     int32 setMobFlags(lua_State*);          // Used to manipulate the mob's flags for testing.
     int32 getMobFlags(lua_State*);
 

@@ -14891,6 +14891,39 @@ inline int32 CLuaBaseEntity::getModelSize(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: setModelSize()
+ *  Purpose : Sets the model size for a mob
+ *  Example : mob:setModelSize(3)
+ *  Notes   : This affects the distance players can hit the mob from
+ ************************************************************************/
+inline int32 CLuaBaseEntity::setModelSize(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_PC);
+
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    // Only valid for mobs
+    if (m_PBaseEntity->objtype != TYPE_MOB)
+    {
+        ShowWarning("Attempt to set melee range for non-mob entity (%s).", m_PBaseEntity->GetName());
+        return 0;
+    }
+
+    auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity);
+    // Ensure that the cast to MobEntity worked properly and we dont have a NULL PTR
+    if (!PMob)
+    {
+        ShowWarning("Error casting to CMobEntity in CLuaBaseEntity::setMeleeRange()");
+        return 0;
+    }
+
+    // Update the model size range
+    ((CMobEntity*)m_PBaseEntity)->m_ModelSize = ((lua_tointeger(L, 1)));
+    return 0;
+}
+
+/************************************************************************
 *  Function: setMobFlags()
 *  Purpose : Manually set Mob flags
 *  Example : Not in use in scripts
@@ -17696,6 +17729,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isNM),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getModelSize),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setModelSize),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMobFlags),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMobFlags),
 
