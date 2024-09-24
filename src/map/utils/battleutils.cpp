@@ -7177,13 +7177,47 @@ int16 GetSDTTier(int16 SDT)
 
     /************************************************************************
      *                                                                       *
-     *    Sets all abilities to their maximumr recast timer.                 *
+     *    Sets all abilities to their maximum recast timer.                 *
      *                                                                       *
      ************************************************************************/
-    void AddMaxRecastToAllAbilities(CCharEntity* PTarget)
+    void ResetAllAbilitiesToMaxRecast(CCharEntity* PChar, bool resetTwoHour)
     {
-        //TODO: bool for 2 hours
-        PTarget->PRecastContainer->PutAllAbilitiesOnCooldown();
+        // Reset main job abilities
+        auto MainAbilitiesList = ability::GetAbilities(PChar->GetMJob());
+        for (CAbility* PAbility : MainAbilitiesList)
+        {
+            if (PAbility != nullptr)
+            {
+                // Skip resetting if it's a two-hour ability and resetTwoHour is false
+                if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR && !resetTwoHour)
+                {
+                    continue;
+                }
+
+                // Reset the ability
+                PChar->PRecastContainer->Load(RECAST_ABILITY, PAbility->getRecastId(), PAbility->getRecastTime());
+            }
+        }
+
+        // Reset subjob abilities if valid
+        if (PChar->GetSJob() != JOB_NON)
+        {
+            auto SubAbilitiesList = ability::GetAbilities(PChar->GetSJob());
+            for (CAbility* PAbility : SubAbilitiesList)
+            {
+                if (PAbility != nullptr)
+                {
+                    // Skip resetting if it's a two-hour ability and resetTwoHour is false
+                    if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR && !resetTwoHour)
+                    {
+                        continue;
+                    }
+
+                    // Reset the ability
+                    PChar->PRecastContainer->Load(RECAST_ABILITY, PAbility->getRecastId(), PAbility->getRecastTime());
+                }
+            }
+        }
     }
 
     /************************************************************************

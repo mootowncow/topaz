@@ -11156,9 +11156,9 @@ inline int32 CLuaBaseEntity::addRecast(lua_State* L)
 
 /************************************************************************
  *  Function: addMaxRecastToAllAbilities()
- *  Purpose : Manually adds a cooldown for a particular Ability
+ *  Purpose : Resets all cooldowns to their max timer
  *  Example : mob:addMaxRecastToAllAbilities(true)
- *  Notes   : True = resets 2 hours, false = don't reste 2 hours
+ *  Notes   : True = resets 2 hours, false = don't reset 2 hours
  *  TODO: bool for 2 hours
  ************************************************************************/
 
@@ -11170,7 +11170,18 @@ inline int32 CLuaBaseEntity::addMaxRecastToAllAbilities(lua_State* L)
 
     if (PChar && PChar->objtype == TYPE_PC)
     {
-        battleutils::AddMaxRecastToAllAbilities(PChar);
+        bool reset2hrs = false;
+        if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
+        {
+            reset2hrs = lua_toboolean(L, 2);
+        }
+
+        ShowDebug("Resetting JA's for [%s]\n", PChar->name);
+
+        // Reset all abilities with option to reset two-hour abilities
+        battleutils::ResetAllAbilitiesToMaxRecast(PChar, reset2hrs);
+
+        // Send updated packets after resetting abilities
         PChar->pushPacket(new CCharSkillsPacket(PChar));
         PChar->pushPacket(new CCharRecastPacket(PChar));
     }

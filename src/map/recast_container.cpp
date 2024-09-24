@@ -301,22 +301,3 @@ void CRecastContainer::ResetAbilities()
         }
     }
 }
-
-/************************************************************************
- *                                                                       *
- *        Sets all job abilities to their maximumr recast timer.         *
- *                                                                       *
- ************************************************************************/
-
-void CRecastContainer::PutAllAbilitiesOnCooldown()
-{
-    RecastList_t* PRecastList = GetRecastList(RECAST_ABILITY);
-
-    for (auto&& recast : *PRecastList)
-    {
-        if (!HasRecast(RECAST_ABILITY, recast.ID, recast.RecastTime))
-        {
-            Load(RECAST_ABILITY, recast.ID, recast.RecastTime, 0);
-        }
-    }
-}

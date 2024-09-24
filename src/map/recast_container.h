@@ -69,7 +69,6 @@ class CRecastContainer
     virtual void Add(RECASTTYPE type, uint16 id, uint32 duration, uint32 chargeTime = 0, uint8 maxCharges = 0);
     Recast_t* Load(RECASTTYPE type, uint16 id, uint32 duration, uint32 chargeTime = 0, uint8 maxCharges = 0);
     virtual void ResetAbilities();
-    virtual void PutAllAbilitiesOnCooldown();
     virtual void ChangeJob() {}
 
     virtual RecastList_t* GetRecastList(RECASTTYPE type);

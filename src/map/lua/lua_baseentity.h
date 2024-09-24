@@ -515,7 +515,7 @@ public:
     int32 timer(lua_State* L);                //execute lua closure after some time
     int32 queue(lua_State* L);
     int32 addRecast(lua_State*);
-    int32 addMaxRecastToAllAbilities(lua_State*); // Sets all abilities to their maximumr recast timer.
+    int32 addMaxRecastToAllAbilities(lua_State*); // Sets all abilities to their maximum recast timer.
     int32 hasRecast(lua_State*);
     int32 resetRecast(lua_State*);            // Reset one recast ID
     int32 resetRecasts(lua_State*);           // Reset recasts for the caller

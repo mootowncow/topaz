@@ -1,4 +1,5 @@
-
+---------------------------------------------
+--  Desiccation
 --  Removes most if not all equipment and resets job ability timers.
 -- 	Additional effect: Knockback
 ---------------------------------------------
@@ -14,6 +15,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
 
     MobEncumberMove(mob, target, 16, 20)
-    skill:setMsg(MobStatusEffectMove(mob, target, tpz.effect.AMNESIA, 1, 0, 60))
+    target:addMaxRecastToAllAbilities(true)
+	skill:setMsg(tpz.msg.basic.NONE)
     return 0
 end
