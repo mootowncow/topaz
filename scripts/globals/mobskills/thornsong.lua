@@ -21,7 +21,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local power = 10
+    local power = math.random(100, 150)
     local duration = 30
     local typeEffect = tpz.effect.DAMAGE_SPIKES
     skill:setMsg(MobBuffMove(mob, typeEffect, power, 0, duration))
