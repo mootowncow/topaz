@@ -220,6 +220,10 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
 
         if firstHitLanded then
             local wRatio = cRatio
+            -- get a random ratio from min and max
+            local qRatio = getRandRatio(wRatio)
+            --Final pDif is qRatio randomized with a 1-1.05 multiplier
+            local pDif = qRatio * (1 + (math.random() * 0.05))
             local isCrit = math.random() < critRate
             local isGuarded = math.random()*100 < target:getGuardRate(avatar)
             local isBlocked = math.random()*100 < target:getBlockRate(avatar)
@@ -228,30 +232,24 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
                 TryBreakMob(target)
                 -- Ranged crits are pdif * 1.25
                 if attackType == tpz.attackType.RANGED then
-                    wRatio = wRatio * 1.25
+                    pDif = pDif * 1.25
                 else
-                   wRatio = wRatio + 1
+                   pDif = pDif + 1
                 end
-            end
-            if avatar:isInfront(target, 90) and isGuarded then
-                wRatio = wRatio - 1
-            end
-            -- get a random ratio from min and max
-            local qRatio = getRandRatio(wRatio)
-
-            --Final pDif is qRatio randomized with a 1-1.05 multiplier
-            local pDif = qRatio * (1 + (math.random() * 0.05))
-
-            -- PDif caps at 3.15 for crits
-            if pDif > 3.15 then pDif = 3.15 end
-
-            if isCrit then
                 pDif = pDif * critAttackBonus
             end
 
+            if avatar:isInfront(target, 90) and isGuarded then
+                wRatio = wRatio - 1
+            end
+
+            -- PDif caps at 3.15 for crits
+            if pDif > 3.15 then pDif = 3.15 end
             --printf("pdif first hit %u", pDif * 100)
+
             finaldmg = avatarHitDmg(weaponDmg, fSTR, WSC, pDif) * ftp
             --printf("%i", finaldmg)
+
             --handling phalanx
             finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
             -- Duplicate the first hit with an added magical component for hybrid WSes
@@ -303,6 +301,10 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
         while numHitsProcessed < numHitsLanded do
             if (target:getHP() <= finaldmg) then break end -- Stop adding hits if target would die before calculating other hits
             local wRatio = cRatio
+            -- get a random ratio from min and max
+            local qRatio = getRandRatio(wRatio)
+            --Final pDif is qRatio randomized with a 1-1.05 multiplier
+            local pDif = qRatio * (1 + (math.random() * 0.05))
             local isCrit = math.random() < critRate
             local isGuarded = math.random()*100 < target:getGuardRate(avatar)
             local isBlocked = math.random()*100 < target:getBlockRate(avatar)
@@ -311,28 +313,19 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
                 TryBreakMob(target)
                 -- Ranged crits are pdif * 1.25
                 if attackType == tpz.attackType.RANGED then
-                    wRatio = wRatio * 1.25
+                    pDif = pDif * 1.25
                 else
-                   wRatio = wRatio + 1
+                   pDif = pDif + 1
                 end
+                pDif = pDif * critAttackBonus
             end
+
             if avatar:isInfront(target, 90) and isGuarded then
                 wRatio = wRatio - 1
             end
-            -- get a random ratio from min and max
-            local qRatio = getRandRatio(wRatio)
-
-            --Final pDif is qRatio randomized with a 1-1.05 multiplier
-            local pDif = qRatio * (1 + (math.random() * 0.05))
-
-            --printf("%i,", pDif)
 
             -- PDif caps at 3.15 for crits
             if pDif > 3.15 then pDif = 3.15 end
-
-            if isCrit then
-                pDif = pDif * critAttackBonus
-            end
 
             local multiHitDmg = avatarHitDmg(weaponDmg, fSTR, WSC, pDif)
 
