@@ -35,7 +35,6 @@ enum MSGBASIC_ID : uint16
 {
     MSGBASIC_NONE                   = 0, // Display nothing 
 	MSGBASIC_DEFEATS_TARG			= 6, // The <player> defeats <target>. 
-    MSGBASIC_MAGIC_RECOVERS_HP      = 7, // <caster> casts <spell>. <target> recovers <amount> HP. 
     MSGBASIC_SELF_HEAL_SECONDARY    = 263,// <target recovers <amount> HP | Used for Curaga
     MSGBASIC_HIT_ABSORBS_HP         = 373,//The<player> hits<target>.<target>recovers..hit points !
     MSGBASIC_MISS                   = 15, // The <entity> misses <target>.
@@ -44,7 +43,7 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_IS_INTERRUPTED			= 16, // The <player>'s casting is interrupted. 
 	MSGBASIC_UNABLE_TO_CAST			= 18, // Unable to cast spells at this time. 
     MSGBASIC_FALLS_TO_GROUND        = 20, // The <target> falls to the ground. 
-    MSGBASIC_RECOVERS_HP            = 24, // The <target> recovers HP. 
+    MSGBASIC_RECOVERS_HP            = 24, // The <target> recovers HP. 23
     MSGBASIC_RECOVERS_MP            = 25, // The <target> recovers MP. 
     MSGBASIC_RECOVERS_HP_MP         = 26, // The <target> recovers HP and MP. 
 	MSGBASIC_UNABLE_TO_USE_JA		= 87, // Unable to use job ability. 
@@ -52,16 +51,13 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_IS_PARALYZED			= 29, // The <player> is paralyzed.
     MSGBASIC_IS_PARALYZED_2         = 84, // <target> is paralyzed.
     MSGBASIC_ANTICIPATE             = 30,
-	MSGBASIC_SHADOW_ABSORB			= 31, // .. of <target>'s shadows absorb the damage and disappear. 
-	MSGBASIC_NOT_ENOUGH_MP			= 34, // The <player> does not have enough MP to cast (nullptr). 
+	MSGBASIC_SHADOW_ABSORB			= 31, // .. of <target>'s shadows absorb the damage and disappear.
 	MSGBASIC_NO_NINJA_TOOLS			= 35, // The <player> lacks the ninja tools to cast (nullptr). 
     MSGBASIC_CANNOT_CAST_SPELL      = 47, // >player> cannot cast <spell>. 
     MSGBASIC_CANNOT_USE_IN_AREA     = 40, // cannot use in this area 
 	MSGBASIC_UNABLE_TO_CAST_SPELLS  = 49, // The <player> is unable to cast spells.
     MSGBASIC_SHIELD_BLOCK           = 69, // <target> blocks the <player>'s attack with his shield.
     MSGBASIC_PARRY                  = 70, //<target> parries the <player>'s attack with his weapon.
-    MSGBASIC_MAGIC_NO_EFFECT        = 75, // <caster>'s <spell> has no effect on <target>. 
-    MSGBASIC_MAGIC_TELEPORT         = 93, // <caster> casts <spell>. <target> vanishes. 
 	MSGBASIC_WAIT_LONGER			= 94, // You must wait longer to perform that action. 
     MSGBASIC_PLAYER_DEFEATED_BY     = 97, // <player> was defeated by the <target>. 
 	MSGBASIC_USES_JA				= 100, // The <player> uses .. 
@@ -95,7 +91,10 @@ enum MSGBASIC_ID : uint16
     MSGBASIC_SPIKES_RETAL           = 536, // <target> retaliates. The <player> takes 0 points of damage.
 
     // Magic
+    MSGBASIC_MAGIC_DMG              = 2,   // <caster> casts <spell>. <target> takes <amount> damage.
+    MSGBASIC_DAMAGE_SECONDARY       = 264, // Damage to secondary targets
     MSGBASIC_STARTS_CASTING         = 3,   // <caster> starts casting <spell>.
+    MSGBASIC_MAGIC_RECOVERS_HP = 7,        // <caster> casts <spell>. <target> recovers <amount> HP. 
     MSGBASIC_STARTS_CASTING_TARGET  = 327, // <caster> starts casting <spell> on <target>.
     MSGBASIC_STATUS_NO_LONGER       = 204, // <target> is no longer${status}. 
     MSGBASIC_GAINS_EFFECT_OF_STATUS = 205, // ${target} gains the effect of ${status}. 
@@ -103,7 +102,19 @@ enum MSGBASIC_ID : uint16
     MSGBASIC_MAGIC_BURST_BLACK      = 252, // "Magic Burst!" Black Magic   
     MSGBASIC_MAGIC_BURST_BREATH     = 265, // "Magic Burst!" BLU breaths
     MSGBASIC_EFFECT_ALREADY_ACTIVE  = 523, // The same effect is already active on <player>.
-	// Distance 
+    MSGBASIC_MAGIC_ENFEEB_IS        = 236, // <caster> casts <spell>. <target> is <status>.
+    MSGBASIC_IS_EFFECT              = 277, // "is <status>" - that's the entire message.
+    MSGBASIC_TARGET_VANISHES        = 273, // <target> vanishes !
+    MSGBASIC_MAGIC_ENFEEB           = 237, // <caster> casts <spell>. <target> receives the effect of <status>.
+    MSGBASIC_MAGIC_ENFEEB_2         = 278, // <target> receives the effect of stun.
+    MSGBASIC_MAGIC_RESIST           = 85,  // <caster> casts <spell>. <target> resists the spell.
+    MSGBASIC_MAGIC_GAIN_EFFECT      = 230, // <caster> casts <spell>. <target> gains the effect of <status>.
+    MSGBASIC_MAGIC_AOE_GAIN_EFFECT  = 266, // <target> gains the effect of stun.
+    MSGBASIC_NOT_ENOUGH_MP          = 34,  // The <player> does not have enough MP to cast (nullptr).
+    MSGBASIC_MAGIC_NO_EFFECT        = 75,  // <caster>'s <spell> has no effect on <target>.
+    MSGBASIC_MAGIC_TELEPORT         = 93,  // <caster> casts <spell>. <target> vanishes.
+
+    // Distance 
 	MSGBASIC_TARG_OUT_OF_RANGE		= 4, // <target> is out of range. 
 	MSGBASIC_UNABLE_TO_SEE_TARG		= 5, // Unable to see <target>. 
 	MSGBASIC_LOSE_SIGHT				= 36, // You lose sight of <target>. 

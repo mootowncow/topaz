@@ -306,20 +306,20 @@ uint16 CSpell::getMessage()
 uint16 CSpell::getAoEMessage()
 {
     switch(m_message){
-        case 93: // vanishes
-            return 273;
-        case 85: // resists
-            return 284;
-        case 230: //casts gain the effect of
-            return 266; // gains the effect of
-        case 236: // is blind
+        case MSGBASIC_MAGIC_TELEPORT:
+            return MSGBASIC_TARGET_VANISHES;
+        case MSGBASIC_MAGIC_RESIST:
+            return MSGBASIC_MAGIC_RESIST;
+        case MSGBASIC_MAGIC_GAIN_EFFECT:
+            return MSGBASIC_MAGIC_AOE_GAIN_EFFECT;
+        case MSGBASIC_MAGIC_ENFEEB_IS: 
             // return 203;
-            return 277;
+            return MSGBASIC_IS_EFFECT;
             // 279
-        case 237: //if its a damage spell msg and is hitting the 2nd+ target
-        return 278;
-        case 2: //if its a damage spell msg and is hitting the 2nd+ target
-            return 264;
+        case MSGBASIC_MAGIC_ENFEEB:
+            return MSGBASIC_MAGIC_ENFEEB_2;
+        case MSGBASIC_MAGIC_DMG:
+            return MSGBASIC_DAMAGE_SECONDARY;
         default:
             return m_message;
     }
