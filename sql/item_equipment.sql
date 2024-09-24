@@ -12202,7 +12202,7 @@ INSERT INTO `item_equipment` VALUES (26402,'forfend_+1',99,119,2385,45,1,0,2,0,0
 INSERT INTO `item_equipment` VALUES (26403,'srivatsa',99,119,64,658,5,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (26406,'kupo_shield',1,0,4194303,56,3,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (26409,'dullahan_shield',1,0,4194303,669,3,0,2,0,0);
-INSERT INTO `item_equipment` VALUES (26412,'kamlanauts_shield',75,0,193,30,3,0,2,0,0);
+INSERT INTO `item_equipment` VALUES (26412,'kamlanauts_shield',75,0,668,30,3,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (26413,'voluspa_shield',99,119,193,30,3,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (26419,'ammurapi_shield',99,119,1589788,42,1,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (26420,'adapa_shield',99,119,385,29,3,0,2,0,0);
