@@ -544,9 +544,11 @@ local modByMobName =
     end,
 
     ['Orcus'] = function(mob)
-        mob:setDamage(70)
+        mob:setDamage(40)
         mob:setMod(tpz.mod.VIT, 130)
-        mob:setMod(tpz.mod.TRIPLE_ATTACK, 25)
+        mob:setMod(tpz.mod.QUAD_ATTACK, 75)
+        mob:setMod(tpz.mod.MDEF, 70)
+        mob:setMod(tpz.mod.UDMGMAGIC, -40)
         mob:setMod(tpz.mod.EARTHDEF, 256)
     end,
 
