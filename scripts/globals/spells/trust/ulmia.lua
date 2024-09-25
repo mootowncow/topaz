@@ -71,7 +71,7 @@ function onMobSpawn(mob)
     end
 
     mob:SetAutoAttackEnabled(false)
-    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.FOLLOW_MASTER)
+    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.NO_MOVE)
 
     tpz.trust.onMobSpawn(mob)
 end
