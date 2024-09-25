@@ -45,7 +45,7 @@ function onMobEngaged(mob, target)
     -- Spawn Dragons
     local mobId = mob:getID()
     for i = mobId + 1, mobId + 4 do
-        if pet:isSpawned() and pet:getCurrentAction() == tpz.act.ROAMING then
+        if not GetMobByID(i):isSpawned() then
             SpawnMob(i)
         end
     end
@@ -57,7 +57,7 @@ function onMobFight(mob, target)
     local mobId = mob:getID()
     for i = mobId + 1, mobId + 4 do
         local pet = GetMobByID(i)
-        if pet:isSpawned() then
+        if pet:isSpawned() and pet:getCurrentAction() == tpz.act.ROAMING then
             pet:updateEnmity(target)
         end
     end
