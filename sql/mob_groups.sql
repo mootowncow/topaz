@@ -1384,7 +1384,7 @@ INSERT INTO `mob_groups` VALUES (48,1223,37,'Enhanced_Lizard',0,128,2856,10000,0
 INSERT INTO `mob_groups` VALUES (49,1229,37,'Enhanced_Slime',0,128,2856,10000,1000,73,74,0);
 INSERT INTO `mob_groups` VALUES (50,1226,37,'Enhanced_Pugil',0,128,2856,10000,0,73,74,0);
 INSERT INTO `mob_groups` VALUES (51,1231,37,'Enhanced_Vulture',0,128,2856,11000,1000,73,74,0);
-INSERT INTO `mob_groups` VALUES (52,3209,37,'Proto-Ultima',0,128,0,50000,2000,81,81,0);
+INSERT INTO `mob_groups` VALUES (52,3209,37,'Proto-Ultima',0,128,0,50000,2000,85,85,0);
 INSERT INTO `mob_groups` VALUES (53,6144,37,'Kingslayer_Doggvdegg',0,128,6051,20000,0,75,80,0);
 INSERT INTO `mob_groups` VALUES (54,2152,37,'JiGho_Ageless',0,128,6051,20000,0,75,80,0);
 INSERT INTO `mob_groups` VALUES (55,2279,37,'Koo_Buzu_the_Theomanic',0,128,6051,20000,0,75,80,0);
@@ -1525,7 +1525,7 @@ INSERT INTO `mob_groups` VALUES (49,2211,38,'Kerkopes',0,128,2861,9500,0,73,74,0
 INSERT INTO `mob_groups` VALUES (50,841,38,'Criosphinx',0,128,2862,13000,0,77,78,0);
 INSERT INTO `mob_groups` VALUES (51,6168,38,'Hieracosphinx',0,128,2862,13000,0,77,78,0);
 INSERT INTO `mob_groups` VALUES (52,4008,38,'Troglodyte_Dhalmel',0,128,2862,9500,0,73,74,0);
-INSERT INTO `mob_groups` VALUES (53,3208,38,'Proto-Omega',0,128,0,26000,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (53,3208,38,'Proto-Omega',0,128,0,26000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (54,1849,38,'Gunpod',0,128,0,2000,600,80,80,0);
 INSERT INTO `mob_groups` VALUES (55,644,38,'Carnagechief_Jackbodokk',0,128,2863,15000,0,77,78,0);
 INSERT INTO `mob_groups` VALUES (56,1821,38,'Grognard_Mesmerizer',0,128,2863,10000,0,73,74,0);
