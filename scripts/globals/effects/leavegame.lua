@@ -17,8 +17,8 @@ function onEffectTick(target, effect)
         local pet = target:getPetID()
         if pet then
             if (pet >= tpz.pet.id.FIRE_SPIRIT and pet <= tpz.pet.id.CAIT_SITH) then
-                target:setAnimation(0)
                 target:messageBasic(tpz.msg.basic.CANT_HEAL_AVATAR, 0, 0, 0, false)
+                target:delStatusEffect(tpz.effect.LEAVEGAME)
             end
         else
             target:leavegame()
