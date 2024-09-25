@@ -15,11 +15,23 @@ function onTrigger(player, npc)
         return 1
     else
         local DoorID = npc:getID()
+        local door = GetNPCByID(DoorID)
 
         for i = DoorID, DoorID+4, 1 do
-            GetNPCByID(i):openDoor(60) -- was 30
+            GetNPCByID(i):openDoor(60)
         end
-        player:messageSpecial(ID.text.BANISHING_GATES + 1) -- Second Banishing gate opening
+
+        local zonePlayers = player:getZone():getPlayers()
+        for _, zonePlayer in pairs(zonePlayers) do
+            -- send gate opening text to each player in zone
+            zonePlayer:messageText(zonePlayer, ID.text.SECOND_GATE_OPENING, 5)
+
+            door:timer(1000 * 60, function(door)
+                -- send gate closing text to each player in zone
+                zonePlayer:messageText(zonePlayer, ID.text.SECOND_GATE_CLOSING, 5)
+            end)
+        end
+
         return 1
     end
 end

@@ -68,12 +68,12 @@ function onRegionEnter(player, region)
             local zonePlayers = player:getZone():getPlayers()
             for _, zonePlayer in pairs(zonePlayers) do
                 -- send gate opening text to each player in zone
-                zonePlayer:messageSpecial(ID.text.BANISHING_GATES + leverSet)
+                zonePlayer:messageText(zonePlayer, ID.text.FIRST_GATE_OPENING + leverSet, 5)
                 gate:openDoor(time)
 
                 gate:timer(1000 * time, function(gate)
                     -- send gate closing text to each player in zone
-                    zonePlayer:messageSpecial(ID.text.BANISHING_GATES_CLOSING + leverSet)
+                    zonePlayer:messageText(zonePlayer, ID.text.FIRST_GATE_CLOSING + leverSet, 5)
                 end)
             end
 
