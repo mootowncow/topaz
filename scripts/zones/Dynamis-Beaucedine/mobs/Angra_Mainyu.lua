@@ -45,7 +45,7 @@ function onMobEngaged(mob, target)
     -- Spawn Dragons
     local mobId = mob:getID()
     for i = mobId + 1, mobId + 4 do
-        if not GetMobByID(i):isSpawned() then
+        if pet:isSpawned() and pet:getCurrentAction() == tpz.act.ROAMING then
             SpawnMob(i)
         end
     end
@@ -107,12 +107,10 @@ function onMonsterMagicPrepare(mob, target)
 end
 
 function onMobDespawn(mob)
-    OnBattleEndConfrontation(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
     dynamis.megaBossOnDeath(mob, player, isKiller)
-    OnBattleEndConfrontation(mob)
     -- Despawn Dragons
     local mobId = mob:getID()
     for i = mobId + 1, mobId + 4 do
