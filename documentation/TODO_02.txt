@@ -162,19 +162,15 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-SMN instantly logs out after releasing pet if they /healed for max duration, need to reset their var or something
-addMaxRecastToAllAbilities() needs bool for 2 hours
-Unnerf omega/ultima and pods HP/level/triple attack(?). Unsure if I n erfed them
 Noctoshield range needs to be icnreased?
-viperine pick add effect and resist sleep
 Halve most mob weight moves
-Fix Cyranuce (Also doesn't spawn on trade?) Takes +200% blunt +200%, +200% something else, wrong model(kid cyraunce) and doesn't turn into dragon/benediction
 
 Spirit Link empathy working correctly?
 MessageGroup() and other stuff doesn't work with trusts?
 Diabolos Pole is missing and there's two earrings from Waking Dreams?
 Cait Sith / Siren
 Mobs should be able to buff allies in combat too with my new changes
+Mobs should buff/heal allies that are in combat while being out of combat
 Mobs shouldn't go underground mid casting
 
 Rank6-10 bastok/sandy
@@ -182,16 +178,11 @@ Reset all player JA's to max timer still doesn't work (for monster tp moves)
 
 
 Voidwalker:
-Orcus Immune to Slow / Para
-NOT immune to poison
-Normal delay, quad attacks ~75-90% of the time, very low damage (like 40 wep dmg)
-Extremely resistant to magic, like -75%
 https://discord.com/channels/443544205206355968/1129045297302097942/1129109467062096033 Vids of captures
 Check all immunities with mobdb
 
 +++ FINISH JP FIRST BEFORE ANYTHING +++
-Lyft NMs (level 90, revamp weapons - MAB for gun)
-Finish Lyft/MMM weapon progression system, better rewards from all MMM's especially the uber hard ones
+Finish Zilartian Weapons (Blatherix). Need mods / aftermath and WS testing
 Odin / Alex RAID (Drop their BCNM gear + Einherjar odin gear)
 KS99's
 60-80 inventory expansions from COP HNMS
@@ -209,18 +200,14 @@ Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e
 Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva/ramuh/etc only) specific items
 NEED A RAMUH SPECIFIC ITEM!!
 
-NPC Mobs can't guard/parry TP moves?
-BreathDmgTaken in battleutils is capped at +50% take(should prob be uncapped)
 Higher level beetles at the south goblin Oasis in Eastern Altepa?
 Lower level beetles away from Revelation Rock in middle of Western Altepa
 
 1: Mob ranged  / ability radius should also be based on targets modelsize
 2: Player JA's(reduce DNC steps range in sql after) / player ws / player RA should also be based on targets modelsize
 
-Fix automaton attachment drops from the ashu talif BCNMS, needs to be ones with subid. i.e. ID: 2347 for reactive_shield and NOT 8454
 SpendCost() fix for mob skills
 Add RUN and GEO (Check LSB - get their proper rune C++ code)
-m_dmg on weapon crash
 Save / Conserve TP work? It's on mob moves but I don't think its on trusts. Need to add a new function TakeMobSkillDamage copying TakeWeaponSkillDamage and add PAttacker->addTP(std::max((PAttacker->getMod(Mod::SAVETP)), standbyTp));
 Randomize conquest control
 Divine Emblem huge dmg to holy so its worth using over flash/cure
