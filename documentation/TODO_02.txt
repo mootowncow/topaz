@@ -131,9 +131,11 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Gambit to check melee acc vs target. Use for Lhe focus and Zeid absorb-ACC, also Ulmias Madrigal
 Aldo Utsusemi Ichi / Ni (At level 22 and 74)
 Uriel Blade SCed for 0 on a magmatic eruca (fragmentation)
 Kupipi Curaga logic
+Kupipi /SCH and light arts / parsimony
 Test Valaineral tanking level 85+ bosses
 Valaineral needs more PDT and +shield skill and +VIT at 75, dies too easily to high damage TP moves/bosses without shadows (33%+ PDT)
 Ulmia should ballad + march/madrigal PLDs
@@ -160,9 +162,12 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+SMN instantly logs out after releasing pet if they /healed for max duration, need to reset their var or something
 addMaxRecastToAllAbilities() needs bool for 2 hours
+Unnerf omega/ultima and pods HP/level/triple attack(?). Unsure if I n erfed them
 Noctoshield range needs to be icnreased?
 viperine pick add effect and resist sleep
+Halve most mob weight moves
 Fix Cyranuce (Also doesn't spawn on trade?) Takes +200% blunt +200%, +200% something else, wrong model(kid cyraunce) and doesn't turn into dragon/benediction
 
 Spirit Link empathy working correctly?
@@ -201,7 +206,7 @@ Low level mob HP too low? (<40ish). Compare mob HP values in dunes/qufim
 All mob pets no_drops 1
 
 Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
-Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva only etc) specific items
+Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva/ramuh/etc only) specific items
 NEED A RAMUH SPECIFIC ITEM!!
 
 NPC Mobs can't guard/parry TP moves?
