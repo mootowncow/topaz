@@ -22454,7 +22454,7 @@ INSERT INTO `item_mods` VALUES (17953,364,10);
 INSERT INTO `item_mods` VALUES (17958,23,10);
 INSERT INTO `item_mods` VALUES (17958,248,2);
 INSERT INTO `item_mods` VALUES (17959,2,16);        -- Viperine Pick
-INSERT INTO `item_mods` VALUES (17959,240,2);
+INSERT INTO `item_mods` VALUES (17959,1240,10);     -- 10% Sleep res trait
 INSERT INTO `item_mods` VALUES (17959,431,1);
 INSERT INTO `item_mods` VALUES (17960,8,2);
 INSERT INTO `item_mods` VALUES (17960,11,2);
