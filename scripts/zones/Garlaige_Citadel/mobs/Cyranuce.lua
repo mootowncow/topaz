@@ -13,31 +13,38 @@ function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:setMobMod(tpz.mobMod.SKILL_LIST, 1014)
     mob:setUnkillable(true)
+    tpz.mix.jobSpecial.config(mob, {
+        specials =
+        {
+            {id = tpz.jsa.MIGHTY_STRIKES, cooldown = math.random(60, 90), hpp = 90},
+        },
+    })
 end
 
 function onMobFight(mob, target)
     local dragonForm = mob:getLocalVar("dragonForm")
 
-    if mob:getHPP() <= 10 and dragonForm == 0 then
-        tpz.mix.jobSpecial.config(mob, {
-            specials =
-            {
-                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = math.random(60, 90), hpp = 90},
-            },
-        })
-        SetGenericNMStats(mob)
-        mob:setMod(tpz.mod.REGAIN, 25)
-        mob:setMobMod(tpz.mobMod.SKILL_LIST, 6016)
-        mob:useMobAbility(689) -- Benediction
-        mob:setModelId(318) -- Guivre Wyvern
-        mob:setUnkillable(false)
-        MessageGroup(mob, target, "I shall show you the real power of a Dragoon!", 0, "Cyranuce")
-        mob:setLocalVar("dragonForm", 1)
+    if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
+        if mob:getHPP() <= 10 and dragonForm == 0 then
+            mob:useMobAbility(689) -- Benediction
+            MessageGroup(mob, target, "I shall show you the real power of a Dragoon!", 0, "Cyranuce")
+            mob:setLocalVar("dragonForm", 1)
+        end
     end
+
+        mob:addListener("WEAPONSKILL_STATE_EXIT", "CYRANUCE_WS_EXIT", function(mob, skill)
+            if (skill == 689) then
+                SetGenericNMStats(mob)
+                mob:setMod(tpz.mod.REGAIN, 25)
+                mob:setMobMod(tpz.mobMod.SKILL_LIST, 6016)
+                mob:setModelId(318) -- Guivre Wyvern
+                mob:setUnkillable(false)
+            end
+        end)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local buffs = { tpz.effect.ICE_SPIKES, tpz.effect.SHOCK_SPIKES, DREAD_SPIKES }
+    local buffs = { tpz.effect.ICE_SPIKES, tpz.effect.SHOCK_SPIKES, tpz.effect.DREAD_SPIKES }
 
     if skill:getID() == 819 then -- Blizzard Breath
         mob:addStatusEffect(tpz.effect.ICE_SPIKES, 20, 0, 30)
