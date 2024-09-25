@@ -2692,7 +2692,7 @@ INSERT INTO `item_weapon` VALUES (19157,'surviver',4,0,0,0,0,2,1,444,19,0);
 INSERT INTO `item_weapon` VALUES (19158,'scheherazade',4,0,0,0,0,2,1,430,76,0);
 INSERT INTO `item_weapon` VALUES (19159,'galatyn',4,0,0,0,0,2,1,494,85,0);
 INSERT INTO `item_weapon` VALUES (19160,'estramacon',4,0,0,0,0,2,1,444,28,0);
-INSERT INTO `item_weapon` VALUES (19161,'lyft_claymore',4,0,0,0,0,2,1,444,81,0);
+INSERT INTO `item_weapon` VALUES (19161,'lyft_claymore',4,0,0,0,0,2,1,489,81,0);
 INSERT INTO `item_weapon` VALUES (19162,'dull_claymore',4,0,0,0,0,2,1,444,1,0);
 INSERT INTO `item_weapon` VALUES (19163,'nightfall',4,0,0,0,0,2,1,444,85,0);
 INSERT INTO `item_weapon` VALUES (19164,'ferus_algol',4,0,0,0,0,2,1,480,94,0);

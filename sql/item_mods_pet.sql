@@ -637,3 +637,5 @@ INSERT INTO `item_mods_pet` VALUES (28505,288,3,0); -- All: DOUBLE_ATTACK 3
 INSERT INTO `item_mods_pet` VALUES (20516,370,4,3); -- Automaton: REGEN 4
 INSERT INTO `item_mods_pet` VALUES (20516,369,4,3); -- Automaton: REFRESH 4
 INSERT INTO `item_mods_pet` VALUES (20516,160,-10,3); -- Automaton: DMG -10
+INSERT INTO `item_mods_pet` VALUES (18771,28,20,3); -- Automaton: MATT 20
+INSERT INTO `item_mods_pet` VALUES (18771,30,20,3); -- Automaton: MACC 20

@@ -15,9 +15,9 @@ function onMobInitialize(mob)
 end
 
 function onMobSpawn(mob)
-    local bufftwo = tpz.effect.BLAZE_SPIKES
+    local bufftwo = tpz.effect.DAMAGE_SPIKES
 
-    mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 70, 0, 3600)
+    mob:addStatusEffect(tpz.effect.DAMAGE_SPIKES, 70, 0, 3600)
     mob:getStatusEffect(bufftwo):unsetFlag(tpz.effectFlag.DISPELABLE)
 	mob:setDamage(250) -- 350-450 on DD's
     mob:addMod(tpz.mod.DEFP, 100) 

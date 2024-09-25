@@ -8575,7 +8575,7 @@ INSERT INTO `item_equipment` VALUES (18868,'lady_bell',1,0,4194303,456,0,0,3,0,0
 INSERT INTO `item_equipment` VALUES (18869,'lady_bell_+1',1,0,4194303,456,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (18870,'dweomer_maul',75,0,4,112,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (18871,'kitty_rod',1,0,4194303,240,0,0,3,0,0);
-INSERT INTO `item_equipment` VALUES (18872,'lyft_ferule',73,0,1622044,228,0,0,3,0,0);
+INSERT INTO `item_equipment` VALUES (18872,'lyft_ferule',73,0,1622108,228,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (18873,'brise-os',74,0,68,401,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (18874,'brise-os_+1',74,0,68,401,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (18875,'vodun_mace',77,0,1048645,103,0,0,3,0,0);
@@ -9003,7 +9003,7 @@ INSERT INTO `item_equipment` VALUES (19302,'uguisu',99,0,4096,605,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (19303,'fay_lance',75,0,8192,209,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (19304,'sarissa',75,0,8192,461,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (19305,'pike',11,0,8192,210,0,0,1,0,0);
-INSERT INTO `item_equipment` VALUES (19306,'lyft_lance',73,0,8192,212,0,0,1,0,0);
+INSERT INTO `item_equipment` VALUES (19306,'lyft_lance',73,0,10305,212,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (19307,'blunt_lance',75,0,8192,211,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (19308,'rusty_spear',60,0,10305,205,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (19309,'gleaming_spear',80,0,10305,204,0,0,1,0,0);
