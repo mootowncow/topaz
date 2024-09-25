@@ -24,7 +24,7 @@ function onMobSpawn(mob)
         [tpz.magic.spell.IROHA] = tpz.trust.message_offset.TEAMWORK_1,
     })
     ]]
-
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.COPY_IMAGE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.UTSUSEMI)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.DOUBT,
         ai.r.JA, ai.s.SPECIFIC, tpz.ja.BULLY)
 

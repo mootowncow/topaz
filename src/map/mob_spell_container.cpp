@@ -116,7 +116,8 @@ void CMobSpellContainer::RemoveSpell(SpellID spellId)
 std::optional<SpellID> CMobSpellContainer::GetAvailable(SpellID spellId)
 {
     auto spell = spell::GetSpell(spellId);
-    bool hasEnoughMP = spell->getMPCost() <= m_PMob->health.mp;
+    auto skillType = spell->getSkillType();
+    bool hasEnoughMP = spell->getMPCost() <= m_PMob->health.mp || skillType == SKILL_NINJUTSU;
     bool isNotInRecast = !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(spellId));
 
     return  (isNotInRecast && hasEnoughMP) ? std::optional<SpellID>(spellId) : std::nullopt;
