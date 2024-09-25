@@ -1836,9 +1836,6 @@ function canOverwrite(target, effect, power, mod)
     return true
 end
 
--- Immunobreak
--- 20->30, 30->40, 40->50 (no more immunobreaks from there)
-
 function getElementalSDT(element, target) -- takes into account if magic burst window is open -> increase tier by 1
     if target:isPC() then
         return 100
@@ -3446,12 +3443,15 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
         end
     else
         -- Try to Immunobreak
+        -- https://wiki.ffo.jp/html/1801.html#i0po5su18q
+        -- https://wiki.ffo.jp/html/27204.html
+        -- 0-50% (no more immunobreaks from there)
         local element = target:getStatusEffectElement(effect)
         local SDT = getEnfeeblelSDT(effect, element, target)
         -- 10% chance to Immunobreak
         if caster:isPC() then
             -- Immunobreak caps at 50 SDT and +4 tiers increase max
-            if (SDT > 15 and SDT < 50) then
+            if (SDT < 50) then
                 return TryImmunobreak(caster, target, spell, effect, SDT)
             end
         end
