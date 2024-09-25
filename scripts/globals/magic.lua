@@ -3445,6 +3445,7 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
         -- Try to Immunobreak
         -- https://wiki.ffo.jp/html/1801.html#i0po5su18q
         -- https://wiki.ffo.jp/html/27204.html
+        -- https://forum.square-enix.com/ffxi/threads/353?p=572700&viewfull=1#post572700+
         -- 0-50% (no more immunobreaks from there)
         local element = target:getStatusEffectElement(effect)
         local SDT = getEnfeeblelSDT(effect, element, target)
