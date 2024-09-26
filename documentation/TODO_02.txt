@@ -161,16 +161,7 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Banish 1 healing mobs?? Was on a WHM and very little damage
-Snow Devils When Hell Freezes Over OnMobFight force all other mobs to also engage
-OnBattleStartConfrontation does addPartyEffect work properly with trusts? Also angramainyuu adds need to get confrontation status. 
-2: Also is it given to player pets? that are already out?
-
-Dynamis shouldn't have 0 CD to enter(???)
-Mammet ENM aggro range to ~20-25
-SAM relic gear(especially body!)
 BRD Relic
-Noctoshield range needs to be icnreased?
 Halve most mob weight moves
 
 Spirit Link empathy working correctly?
