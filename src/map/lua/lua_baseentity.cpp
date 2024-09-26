@@ -3276,6 +3276,24 @@ inline int32 CLuaBaseEntity::setPos(lua_State *L)
                     PPet->loc.p.rotation = (uint8)lua_tointeger(L, 4);
                 petutils::RetreatToMaster((CBattleEntity*)m_PBaseEntity);
             }
+
+            // Also set the position of the players trusts as well
+            static_cast<CCharEntity*>(m_PBaseEntity)->ForPartyWithTrusts([&](CBattleEntity* PMember) {
+                if (PMember->id != m_PBaseEntity->id)
+                {
+                    if (PMember->objtype == TYPE_TRUST)
+                    {
+                        if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
+                            PMember->loc.p.x = (float)lua_tonumber(L, 1);
+                        if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+                            PMember->loc.p.y = (float)lua_tonumber(L, 2);
+                        if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
+                            PMember->loc.p.z = (float)lua_tonumber(L, 3);
+                        if (!lua_isnil(L, 4) && lua_isnumber(L, 4))
+                            PMember->loc.p.rotation = (uint8)lua_tointeger(L, 4);
+                    }
+                }
+            });
         }
     }
     else

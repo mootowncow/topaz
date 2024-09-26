@@ -95,8 +95,9 @@ void CTrustController::Tick(time_point tick)
     TracyZoneIString(POwner->GetName());
 
     m_Tick = tick;
+    CCharEntity* PMaster = static_cast<CCharEntity*>(POwner->PMaster);
 
-    if (!POwner->PMaster)
+    if (!PMaster)
     {
         return;
     }
@@ -106,9 +107,19 @@ void CTrustController::Tick(time_point tick)
         return;
     }
 
-    if (POwner->PMaster->isCharmed)
+    if (PMaster->isCharmed)
     {
         this->Despawn();
+    }
+
+    // Trusts match their owners speed
+    if (PMaster->GetSpeed() > 50)
+    {
+        POwner->speed = PMaster->speed;
+    }
+    else
+    {
+        POwner->speed = 50;
     }
 
     if (POwner->PAI->IsEngaged())
@@ -306,11 +317,7 @@ void CTrustController::DoRoamTick(time_point tick)
         }
     }
 
-    if (currentDistance > WarpDistance)
-    {
-        POwner->PAI->PathFind->WarpTo(PFollowTarget->loc.p);
-    }
-    else if (currentDistance > RoamDistance)
+    if (currentDistance > RoamDistance)
     {
         if (currentDistance < RoamDistance * 3.0f && POwner->PAI->PathFind->PathAround(PFollowTarget->loc.p, RoamDistance, PATHFLAG_RUN | PATHFLAG_WALLHACK))
         {

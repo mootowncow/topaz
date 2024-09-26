@@ -39,6 +39,7 @@
 
 #include "../ability.h"
 #include "../entities/baseentity.h"
+#include "../entities/trustentity.h"
 #include "../utils/battleutils.h"
 #include "../entities/charentity.h"
 #include "../conquest_system.h"
@@ -1869,7 +1870,7 @@ namespace luautils
             PChar->updatemask |= UPDATE_HP;
         }
 
-    // Treasure chests are 1001, 1004, 1007, 1010, 1011, 1013, 1016 for taking items (only ones recorded so far)
+        // Treasure chests are 1001, 1004, 1007, 1010, 1011, 1013, 1016 for taking items (only ones recorded so far)
         // for opening(and dropping?) 10512, 10518, 10520, 10522, 10524, 10528, 10532
         // TODO: FoV Books
         bool isInterruptableCS = false;
@@ -1879,12 +1880,13 @@ namespace luautils
             isInterruptableCS = true;
         }
 
-        // Set player pets position to the player for cutscenes that teleport the player (i.e promyvion teleports)
+        // Set player pets' position to the player for cutscenes that teleport the player (i.e. Promyvion teleports)
         if (!isInterruptableCS)
         {
             if (PChar->objtype == TYPE_PC)
             {
-                CBattleEntity* PPet = ((CBattleEntity*)PChar)->PPet;
+                // Set pet's position
+                CBattleEntity* PPet = static_cast<CBattleEntity*>(PChar->PPet);
                 if (PPet != nullptr && PPet->status != STATUS_DISAPPEAR)
                 {
                     PPet->loc.p.x = PChar->loc.p.x;
@@ -1893,8 +1895,25 @@ namespace luautils
                     PPet->loc.p.rotation = PChar->loc.p.rotation;
                     petutils::RetreatToMaster(PChar);
                 }
+
+                // Set Trusts' positions as well
+                static_cast<CCharEntity*>(PChar)->ForPartyWithTrusts(
+                    [&](CBattleEntity* PMember)
+                    {
+                        if (PMember->id != PChar->id && PMember->objtype == TYPE_TRUST)
+                        {
+                            // Cast PMember to CTrustEntity* before using it
+                            auto* trustMember = static_cast<CTrustEntity*>(PMember);
+                            trustMember->loc.p.x = PChar->loc.p.x;
+                            trustMember->loc.p.y = PChar->loc.p.y;
+                            trustMember->loc.p.z = PChar->loc.p.z;
+                            trustMember->loc.p.rotation = PChar->loc.p.rotation;
+                        }
+                    });
+
             }
         }
+
         return 0;
     }
 
