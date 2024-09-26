@@ -55,6 +55,10 @@ INSERT INTO `traits` VALUES (1,'accuracy bonus',11,86,5,25,60,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (1,'accuracy bonus',11,86,5,26,60,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (1,'accuracy bonus',11,96,6,25,73,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (1,'accuracy bonus',11,96,6,26,73,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (1,'accuracy bonus',13,50,1,25,10,NULL,0);
+INSERT INTO `traits` VALUES (1,'accuracy bonus',13,50,1,26,10,NULL,0);
+INSERT INTO `traits` VALUES (1,'accuracy bonus',13,60,2,25,22,'TOAU',0);
+INSERT INTO `traits` VALUES (1,'accuracy bonus',13,60,2,26,22,'TOAU',0);
 INSERT INTO `traits` VALUES (1,'accuracy bonus',14,30,1,25,10,NULL,0);
 INSERT INTO `traits` VALUES (1,'accuracy bonus',14,30,1,26,10,NULL,0);
 INSERT INTO `traits` VALUES (1,'accuracy bonus',14,50,2,25,22,'TOAU',0);
@@ -527,6 +531,9 @@ INSERT INTO `traits` VALUES (97,'stormsurge',20,75,1,0,0,'WOTG',0);
 -- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',19,97,1,421,5,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',19,98,2,421,8,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',19,99,3,421,11,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (98,'crit. atk. bonus',13,50,1,421,5,'ABYSSEA',0); -- NIN
+INSERT INTO `traits` VALUES (98,'crit. atk. bonus',13,60,2,421,8,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (98,'crit. atk. bonus',13,70,3,421,11,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (99,'crit. def. bonus',7,79,1,908,5,'ABYSSEA',0);   -- Paladin
 -- INSERT INTO `traits` VALUES (99,'crit. def. bonus',7,85,2,908,8,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (99,'crit. def. bonus',7,91,3,908,11,'ABYSSEA',0);
