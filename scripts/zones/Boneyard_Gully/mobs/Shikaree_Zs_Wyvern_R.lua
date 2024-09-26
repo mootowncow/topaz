@@ -10,6 +10,7 @@ require("scripts/globals/status")
 function onMobInitialize(mob)
     mob:setMod(tpz.mod.EEM_DARK_SLEEP, 5)
     mob:setMod(tpz.mod.EEM_LIGHT_SLEEP, 5)
+    mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

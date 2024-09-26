@@ -20,6 +20,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.PIERCERES, 250)
     mob:setMod(tpz.mod.RANGEDRES, 1000)
     mob:setMod(tpz.mod.IMPACTRES, 250)
+    mob:setMod(tpz.mod.UDMGMAGIC, 100)
     for sdt = tpz.mod.SDT_FIRE, tpz.mod.SDT_DARK do
         mob:setMod(sdt, 150)
     end

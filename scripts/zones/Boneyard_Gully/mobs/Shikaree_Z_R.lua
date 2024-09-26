@@ -15,6 +15,7 @@ function onMobInitialize(mob)
     SetGenericNMStats(mob)
     mob:addMod(tpz.mod.DEFP, 50) 
     mob:setMod(tpz.mod.EEM_DARK_SLEEP, 30)
+    mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
 end
 
 function onMobSpawn(mob)
