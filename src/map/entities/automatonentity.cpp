@@ -237,6 +237,11 @@ void CAutomatonEntity::OnMobSkillFinished(CMobSkillState& state, action_t& actio
 
 void CAutomatonEntity::Spawn()
 {
+    // Max [HP/MP] Boost mods
+    this->UpdateHealth();
+    this->health.tp = 0;
+    this->health.hp = this->GetMaxHP();
+    this->health.mp = this->GetMaxMP();
     status = allegiance == ALLEGIANCE_MOB ? STATUS_MOB : STATUS_NORMAL;
     updatemask |= UPDATE_HP;
     PAI->Reset();

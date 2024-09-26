@@ -261,6 +261,11 @@ void CPetEntity::Spawn()
     }
 
     CBattleEntity::Spawn();
+    // Max [HP/MP] Boost mods
+    this->UpdateHealth();
+    this->health.tp = 0;
+    this->health.hp = this->GetMaxHP();
+    this->health.mp = this->GetMaxMP();
     PAI->EventHandler.triggerListener("SPAWN", this);
     luautils::OnMobSpawn(this);
 }
