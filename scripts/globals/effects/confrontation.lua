@@ -10,6 +10,20 @@ function onEffectGain(target,effect)
     if (target:isPC()) then
         target:messageSpecial(ID.text.CONF_BATTLE_BEGIN, duration / 60, 0, 0, 0) 
     end
+
+    -- Apply effect to currently active pet
+    local pet = target:getPet()
+    if pet then
+        if not pet:hasStatusEffect(tpz.effect.CONFRONTATION) then
+            local power = effect:getPower()
+            local tick = effect:getTick() / 1000
+            local duration = math.ceil((effect:getTimeRemaining()) / 1000)
+            local subId = 0
+            local subPower = effect:getSubPower()
+            local tier = 0
+            pet:addStatusEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
+        end
+    end
 end
 
 function onEffectTick(target, effect)
