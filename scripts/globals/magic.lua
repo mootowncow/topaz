@@ -299,11 +299,8 @@ function calculateMagicDamage(caster, target, spell, params)
     local dINT = caster:getStat(params.attribute) - target:getStat(params.attribute)
     local dmg = params.dmg
 
-    if (dINT <= 0) then --if dINT penalises, it's always M=1
-        dmg = dmg + dINT
-        if (dmg <= 0) then --dINT penalty cannot result in negative damage (target absorption)
-             DMG = math.random(5, 20)
-        end
+    if (dINT <= 0) then
+        dmg = math.max(dmg + dINT, 0) -- Damage should never go negative from dStat
     elseif (dINT > 0 and dINT <= SOFT_CAP) then --The standard calc, most spells hit this
         dmg = dmg + (dINT * params.multiplier)
     elseif (dINT > 0 and dINT > SOFT_CAP and dINT < HARD_CAP) then --After SOFT_CAP, INT is only half effective
