@@ -22,6 +22,8 @@ function onMobWeaponSkill(target, mob, skill)
 
     local lowestShikaree = mobs[1];
 
-    return MobPercentHealMove(mob, lowestShikaree, skill, 0.15)
+    if mob:checkDistance(lowestShikaree) < 10 then 
+        return MobPercentHealMove(mob, lowestShikaree, skill, 0.15)
+    end
 end
 
