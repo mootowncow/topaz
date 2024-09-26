@@ -27,6 +27,13 @@ function onMobRoam(mob)
 end
 
 function onMobFight(mob, target)
+    local battlefield = mob:getBattlefield()
+    local bfmobs = battlefield:getMobs(true, true)
+    for _, mobs in pairs(bfmobs) do
+        if mobs:getID() ~= 16801826 then -- Holds the chest
+            mobs:updateEnmity(target)
+        end
+    end
 end
 
 function onMobEngaged(mob, target)
