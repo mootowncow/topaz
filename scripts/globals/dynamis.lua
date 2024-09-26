@@ -696,6 +696,7 @@ dynamis.qmOnTrade = function(player, npc, trade)
                     -- Shouldn't the ??? disappear on pop?
                     if mobId and npcUtil.popFromQM(player, npc, mobId, {hide = 30, radius = 2}) then
                         player:confirmTrade()
+                        OnBattleStartConfrontation(player, mobId, confrontationDuration)
                     end
                     break
                 end

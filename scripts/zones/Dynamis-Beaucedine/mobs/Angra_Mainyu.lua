@@ -47,6 +47,18 @@ function onMobEngaged(mob, target)
     for i = mobId + 1, mobId + 4 do
         if not GetMobByID(i):isSpawned() then
             SpawnMob(i)
+            if not GetMobByID(i):hasStatusEffect(tpz.effect.CONFRONTATION) then
+                local effect = mob:getStatusEffect(tpz.effect.CONFRONTATION)
+                if effect then
+                    local power = effect:getPower()
+                    local tick = effect:getTick() / 1000
+                    local duration = math.ceil((effect:getTimeRemaining()) / 1000)
+                    local subId = 0
+                    local subPower = effect:getSubPower()
+                    local tier = 0
+                    GetMobByID(i):addStatusEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
+                end
+            end
         end
     end
     mob:setLocalVar("teleport", 0)
