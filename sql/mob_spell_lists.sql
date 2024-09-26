@@ -3338,7 +3338,7 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,170,34,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,171,57,255);         -- Water III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,172,71,255);         -- Water IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,173,83,255);         -- Water V
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,252,45,255);         -- Stun
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,252,90,255);         -- Stun
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,278,18,255);         -- Geohelix
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,279,20,255);         -- Hydrohelix
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,280,22,255);         -- Anemohelix

@@ -131,7 +131,6 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Aldo isn't using utsusemi?
 Gambit to check melee acc vs target. Use for Lhe focus and Zeid absorb-ACC, also Ulmias Madrigal
 Uriel Blade SCed for 0 on a magmatic eruca (fragmentation)
 Kupipi Curaga logic
@@ -162,7 +161,6 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-ALDO DOESNT CAST UTSUSEMI?
 Banish 1 healing mobs?? Was on a WHM and very little damage
 Snow Devils When Hell Freezes Over OnMobFight force all other mobs to also engage
 OnBattleStartConfrontation does addPartyEffect work properly with trusts? Also angramainyuu adds need to get confrontation status. 

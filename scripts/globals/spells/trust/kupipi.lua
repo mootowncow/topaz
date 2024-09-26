@@ -33,6 +33,8 @@ function onMobSpawn(mob)
         [tpz.magic.spell.STAR_SIBYL] = tpz.trust.message_offset.TEAMWORK_2,
     })
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.LIGHT_ARTS, ai.r.JA, ai.s.SPECIFIC, tpz.ja.LIGHT_ARTS)
+
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.STATUS, tpz.effect.PETRIFICATION, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STONA)
 
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.HPP_LT, 75, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)

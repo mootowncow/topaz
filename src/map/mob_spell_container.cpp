@@ -132,7 +132,8 @@ std::optional<SpellID> CMobSpellContainer::GetBestAvailable(SPELLFAMILY family)
         {
             auto spell = spell::GetSpell(id);
             bool sameFamily = (family == SPELLFAMILY_NONE) ? true : spell->getSpellFamily() == family;
-            bool hasEnoughMP = spell->getMPCost() <= m_PMob->health.mp;
+            auto skillType = spell->getSkillType();
+            bool hasEnoughMP = spell->getMPCost() <= m_PMob->health.mp || skillType == SKILL_NINJUTSU;
             bool isNotInRecast = !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(id));
 
             // Exclude helix spells
