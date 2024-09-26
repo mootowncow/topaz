@@ -131,8 +131,8 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Aldo isn't using utsusemi?
 Gambit to check melee acc vs target. Use for Lhe focus and Zeid absorb-ACC, also Ulmias Madrigal
-Aldo Utsusemi Ichi / Ni (At level 22 and 74)
 Uriel Blade SCed for 0 on a magmatic eruca (fragmentation)
 Kupipi Curaga logic
 Kupipi /SCH and light arts / parsimony
@@ -162,6 +162,16 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+ALDO DOESNT CAST UTSUSEMI?
+Banish 1 healing mobs?? Was on a WHM and very little damage
+Snow Devils When Hell Freezes Over OnMobFight force all other mobs to also engage
+OnBattleStartConfrontation does addPartyEffect work properly with trusts? Also angramainyuu adds need to get confrontation status. 
+2: Also is it given to player pets? that are already out?
+
+Dynamis shouldn't have 0 CD to enter(???)
+Mammet ENM aggro range to ~20-25
+SAM relic gear(especially body!)
+BRD Relic
 Noctoshield range needs to be icnreased?
 Halve most mob weight moves
 
@@ -199,6 +209,7 @@ All mob pets no_drops 1
 Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
 Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva/ramuh/etc only) specific items
 NEED A RAMUH SPECIFIC ITEM!!
+SiR ring. +Enfeebling magic duration items
 
 Higher level beetles at the south goblin Oasis in Eastern Altepa?
 Lower level beetles away from Revelation Rock in middle of Western Altepa
