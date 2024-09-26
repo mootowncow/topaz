@@ -9,7 +9,6 @@ require("scripts/globals/pathfind")
 -----------------------------------
 
 function onMobInitialize(mob)
-    mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
 end
 
 function onMobSpawn(mob)
@@ -17,10 +16,6 @@ function onMobSpawn(mob)
     mob:addMod(tpz.mod.MOVE, 45)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     onPath(mob)
-end
-
-function onAdditionalEffect(mob, target, damage)
-    return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.STUN)
 end
 
 function onPath(mob)
