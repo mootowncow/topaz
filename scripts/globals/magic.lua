@@ -3443,13 +3443,14 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
         -- https://wiki.ffo.jp/html/1801.html#i0po5su18q
         -- https://wiki.ffo.jp/html/27204.html
         -- https://forum.square-enix.com/ffxi/threads/353?p=572700&viewfull=1#post572700+
-        -- 0-50% (no more immunobreaks from there)
+        -- https://sazitouhuu.blogspot.com/2020/02/iicl.html?m=1 
+        -- 0-30% (no more immunobreaks from there)
         local element = target:getStatusEffectElement(effect)
         local SDT = getEnfeeblelSDT(effect, element, target)
         -- 10% chance to Immunobreak
         if caster:isPC() then
-            -- Immunobreak caps at 50 SDT and +4 tiers increase max
-            if (SDT < 50) then
+            -- Immunobreak caps at 40 SDT and +4 tiers increase max
+            if (SDT < 40) then
                 return TryImmunobreak(caster, target, spell, effect, SDT)
             end
         end
