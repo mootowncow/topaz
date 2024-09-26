@@ -15,7 +15,9 @@ function onMobSpawn(mob)
     mob:addMod(tpz.mod.ATTP, 25)
     mob:addMod(tpz.mod.ACC, 25)
     mob:addMod(tpz.mod.DEFP, 25)
-    mob:addMod(tpz.mod.MDEF, 24) 
+    mob:addMod(tpz.mod.MDEF, 24)
+    mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 22)
+    mob:setMobMod(tpz.mobMod.SOUND_RANGE, 22)
 end
 
 function onMobFight(mob, target)
