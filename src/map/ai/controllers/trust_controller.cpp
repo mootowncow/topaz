@@ -112,14 +112,16 @@ void CTrustController::Tick(time_point tick)
         this->Despawn();
     }
 
-    // Trusts match their owners speed
-    if (PMaster->GetSpeed() > 50)
+    // Match owners speed
+    uint8 mastersSpeed = PMaster->GetSpeed();
+    uint8 trustsSpeed = POwner->speed;
+    if (PMaster->isMounted())
     {
-        POwner->speed = PMaster->speed;
+        POwner->speed = 100;
     }
     else
     {
-        POwner->speed = 50;
+        POwner->speed = std::clamp(mastersSpeed + 10, 50, 255); // 50 Minimum 255 max
     }
 
     if (POwner->PAI->IsEngaged())
