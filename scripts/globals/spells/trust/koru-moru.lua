@@ -32,12 +32,12 @@ function onMobSpawn(mob)
 
     if mob:getMainLvl() >= 75 then
         mob:addSimpleGambit(ai.t.MELEE, ai.c.NOT_STATUS, tpz.effect.HASTE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.HASTE_II)
-        mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS, tpz.effect.REFRESH, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.REFRESH_II)
-        mob:addSimpleGambit(ai.t.CASTER, ai.c.NOT_STATUS, tpz.effect.REFRESH, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.REFRESH_II)
+        mob:addSimpleGambit(ai.t.MASTER, ai.c.REFRESH, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.REFRESH_II)
+        mob:addSimpleGambit(ai.t.CASTER, ai.c.REFRESH, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.REFRESH_II)
     else
         mob:addSimpleGambit(ai.t.MELEE, ai.c.NOT_STATUS, tpz.effect.HASTE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.HASTE)
-        mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS, tpz.effect.REFRESH, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.REFRESH)
-        mob:addSimpleGambit(ai.t.CASTER, ai.c.NOT_STATUS, tpz.effect.REFRESH, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.REFRESH)
+        mob:addSimpleGambit(ai.t.MASTER, ai.c.REFRESH, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.REFRESH)
+        mob:addSimpleGambit(ai.t.CASTER, ai.c.REFRESH, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.REFRESH)
     end
 
     mob:addSimpleGambit(ai.t.RANGED, ai.c.NOT_STATUS, tpz.effect.FLURRY, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.FLURRY)
@@ -54,7 +54,12 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.NOT_STATUS, tpz.effect.SHELL, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.SHELL)
 
     mob:SetAutoAttackEnabled(false)
-    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.NO_MOVE)
+
+    if mob:getMainLvl() >= 75 then
+        mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.LONG_RANGE)
+    else
+        mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.NO_MOVE)
+    end
 
     tpz.trust.onMobSpawn(mob)
 end

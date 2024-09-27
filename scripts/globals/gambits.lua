@@ -64,6 +64,7 @@ ai.condition =
     CASTING_SPECIFIC   = 32,
     CAN_DRAIN          = 33, -- Arg is MP% to cast
     CAN_ASPIR          = 34, -- Arg is MP% to cast
+    REFRESH            = 35,
 }
 ai.c = ai.condition
 

@@ -1090,6 +1090,15 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             return POwner->GetMPP() < predicate.condition_arg;
             break;
         }
+        case G_CONDITION::REFRESH:
+        {
+            if (trigger_target->StatusEffectContainer->HasStatusEffect({ EFFECT_REFRESH, EFFECT_SUBLIMATION_ACTIVATED, EFFECT_SUBLIMATION_COMPLETE }))
+            {
+                return false;
+            }
+            return true;
+            break;
+        }
         case G_CONDITION::DETECT_MIJIN:
         {
             for (int i = 1; i <= 99; ++i)
