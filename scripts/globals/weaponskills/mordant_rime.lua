@@ -45,7 +45,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     if damage > 0 and chance and not target:hasStatusEffect(tpz.effect.WEIGHT) then
         if not target:hasStatusEffect(tpz.effect.WEIGHT) then
             if tp - 1000 > math.random() * 150 then
-                target:addStatusEffect(tpz.effect.WEIGHT, 50, 0, 60)
+                target:addStatusEffect(tpz.effect.WEIGHT, 25, 0, 60)
             end
         end
     end

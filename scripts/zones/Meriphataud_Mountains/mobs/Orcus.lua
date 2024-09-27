@@ -7,7 +7,7 @@ require("scripts/globals/voidwalker")
 local auraParams1 = {
     radius = 10,
     effect = tpz.effect.WEIGHT,
-    power = 35,
+    power = 20,
     duration = 30,
     auraNumber = 1
 }

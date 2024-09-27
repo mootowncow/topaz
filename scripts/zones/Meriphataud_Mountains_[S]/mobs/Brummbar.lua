@@ -29,7 +29,7 @@ function onMobFight(mob, target)
         mob:addStatusEffect(tpz.effect.PARALYSIS, 33, 0, 120)
         mob:addStatusEffect(tpz.effect.BLINDNESS, 80, 0, 120)
         mob:addStatusEffect(tpz.effect.SILENCE, 1, 0, 120)
-        mob:addStatusEffect(tpz.effect.WEIGHT, 33, 0, 120)
+        mob:addStatusEffect(tpz.effect.WEIGHT, 20, 0, 120)
         mob:addStatusEffect(tpz.effect.SLOW, 2550, 0, 120)
         mob:addStatusEffect(tpz.effect.PLAGUE, 3, 3, 120)
 		mob:useMobAbility(2162) -- Emetic Discharge

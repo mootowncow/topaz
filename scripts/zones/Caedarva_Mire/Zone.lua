@@ -79,7 +79,7 @@ function onRegionEnter(player, region)
         if RNG < 50 then
             --printf("%u", RNG)
             --printf("Apply Weight")
-            player:addStatusEffect(tpz.effect.WEIGHT, 50, 0, 180)
+            player:addStatusEffect(tpz.effect.WEIGHT, 26, 0, 180)
         elseif RNG < 75 then
             --printf("Apply Random Status from Table")
             if BuffRoll < 20 then

@@ -50,7 +50,7 @@ function onSpellCast(caster, target, spell)
     local damage = BlueMagicalSpell(caster, target, spell, params, INT_BASED)
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
-    BlueTryEnfeeble(caster, target, spell, damage, 50, 0, 180, params)
+    BlueTryEnfeeble(caster, target, spell, damage, 25, 0, 180, params)
 
     return damage
 end

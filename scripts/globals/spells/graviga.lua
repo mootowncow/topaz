@@ -14,7 +14,7 @@ function onSpellCast(caster, target, spell)
 
     -- Pull base stats.
     local dINT = (caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT))
-    local power = 50 
+    local power = calculatePotency(26, spell:getSkillType(), caster, target) 
 
     -- Duration, including resistance.  Unconfirmed.
     local duration = 120

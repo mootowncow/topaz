@@ -42,7 +42,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     -- tpz.effect.WEIGHT power value is equal to lead breath as per bg-wiki: http://www.bg-wiki.com/bg/Rudra%27s_Storm
     if damage > 0 then
         if not target:hasStatusEffect(tpz.effect.WEIGHT) then
-            target:addStatusEffect(tpz.effect.WEIGHT, 50, 0, 60)
+            target:addStatusEffect(tpz.effect.WEIGHT, 25, 0, 60)
         end
     end
 

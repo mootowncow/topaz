@@ -37,7 +37,7 @@ function onSpellCast(caster, target, spell)
     BlueTryEnfeeble(caster, target, spell, damage, 20, 0, 180, params)
 
     params.effect = tpz.effect.WEIGHT
-    BlueTryEnfeeble(caster, target, spell, damage, 50, 0, 180, params)
+    BlueTryEnfeeble(caster, target, spell, damage, 25, 0, 180, params)
 
     params.effect = tpz.effect.POISON
     BlueTryEnfeeble(caster, target, spell, damage, 15, 3, 180, params)
