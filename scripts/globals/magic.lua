@@ -3444,7 +3444,7 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
         -- https://wiki.ffo.jp/html/27204.html
         -- https://forum.square-enix.com/ffxi/threads/353?p=572700&viewfull=1#post572700+
         -- https://sazitouhuu.blogspot.com/2020/02/iicl.html?m=1 
-        -- 0-30% (no more immunobreaks from there)
+        -- 0-40% (no more immunobreaks from there)
         local element = target:getStatusEffectElement(effect)
         local SDT = getEnfeeblelSDT(effect, element, target)
         -- 10% chance to Immunobreak
@@ -3462,7 +3462,11 @@ end
 
 function AddDimishingReturns(caster, target, spell, effect)
     -- No DR building on players or NPC's friendly to players
-    if target:isPC() or (target:getAllegiance() == tpz.allegiance.PLAYER) then
+    if
+        target:isPC() or
+        (target:getAllegiance() == tpz.allegiance.PLAYER) or
+        target:isTrust()
+    then
         return
     end
 
