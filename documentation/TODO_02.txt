@@ -131,14 +131,10 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Trusts don't properly match speed to master. Should it be PMaster->getSpeed() instead of PMmaster->speed? Or ran in movement logic?
 Gambit to check melee acc vs target. Use for Lhe focus and Zeid absorb-ACC, also Ulmias Madrigal
 Uriel Blade SCed for 0 on a magmatic eruca (fragmentation)
 Kupipi Curaga logic
-Kupipi /SCH and light arts / parsimony
 Test Valaineral tanking level 85+ bosses
-Valaineral needs more PDT and +shield skill and +VIT at 75, dies too easily to high damage TP moves/bosses without shadows (33%+ PDT)
-Ulmia should ballad + march/madrigal PLDs
 Can't summon trusts in "Trial by X" avatar BCNM's
 Audit zonemisc tpz.zoneMisc.TRUST
 Check players have to refund TP if mob dies second they WS / mob skill (trussts will WS and it will consume TP but not go off cause mobs dead, players have this fixed on ws state or w/e)
@@ -163,7 +159,6 @@ Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
 BRD Relic
-Halve most mob weight moves
 
 Spirit Link empathy working correctly?
 MessageGroup() and other stuff doesn't work with trusts?
@@ -174,7 +169,6 @@ Mobs should buff/heal allies that are in combat while being out of combat
 Mobs shouldn't go underground mid casting
 
 Rank6-10 bastok/sandy
-Reset all player JA's to max timer still doesn't work (for monster tp moves)
 
 
 Voidwalker:
@@ -194,10 +188,6 @@ Sky tatters system for augmenting sky gear
 HNM's that need Water / Wind / Thunder / Dark resist sets
 My interrupt logic (it sends some weird hex code) as param or w/e should make it say mob tp move interrupted on combatmessages
 
-Low level mob HP too low? (<40ish). Compare mob HP values in dunes/qufim
-
-All mob pets no_drops 1
-
 Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
 Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva/ramuh/etc only) specific items
 NEED A RAMUH SPECIFIC ITEM!!
@@ -214,7 +204,6 @@ SpendCost() fix for mob skills
 Add RUN and GEO (Check LSB - get their proper rune C++ code)
 Save / Conserve TP work? It's on mob moves but I don't think its on trusts. Need to add a new function TakeMobSkillDamage copying TakeWeaponSkillDamage and add PAttacker->addTP(std::max((PAttacker->getMod(Mod::SAVETP)), standbyTp));
 Randomize conquest control
-Divine Emblem huge dmg to holy so its worth using over flash/cure
 If a skill chain is really close it can bug out and give 1 person chain and other not? Exp randomly desyncs dunno why
 Missed WS can SC(and SC for 0), and counter for starting a SC as well. Check hasmissmsg or w/e
 Can cast songs on trusts and AOE them onto people (and don't need piansimmo)
@@ -242,7 +231,6 @@ Cure divides enmity between targets on hate list https://www.ffxiah.com/forum/to
 Shield blocks show up as "MISS" in SCT, they are wrong reaction type. have to fix simplelog after to
 Do mobs get guard skill...?
 SmallPacket0x0E7 shouldn't delete EFFECT_HEALING when logging out(Retail tested) packet system Line 5641
-Imps don't link by sound only sight? do dual aggro mobs not link by dual aggro?
 Probably need to use int8 maneuvers = luautils::OnMobAutomatonSkillCheck(PTarget, PAutomaton, PSkill); for automaton TP moves
 Correct frame isn't being assigned to automatons on summon? (petid) petutils::SpawnPet always sets up harlequin frame but petutils::LoadPet (and calculate automaton stats) works??
 Solace should give enhancing magic duration
@@ -508,9 +496,6 @@ https://github.com/LandSandBoat/server/commit/04595b03ce5b00ec9e4d64a573f31e8c2a
 Keep Camo on RA(can adjust %)
 https://github.com/LandSandBoat/server/commit/5e3c8e8029c6802c500bac49293ed8a43a6b68c0
 
-Bound mobs attack nearby players
-https://github.com/LandSandBoat/server/commit/93f2ca5e67c4bb04b8157e0c1d347847fd797357
-
 Call to arms
 https://github.com/LandSandBoat/server/commit/268395585b5669bbfc17acb413d1d5a9645807fd
 
@@ -543,13 +528,10 @@ https://github.com/LandSandBoat/server/commit/7408e0b09ecc2aeceeeba36c56d6e29a85
 Wep delay overflow / TP return
 https://github.com/LandSandBoat/server/commit/5131acdb1a80b0bd177eea82ec8358118723b4cd
 
-NIN SB merits..?
-https://github.com/LandSandBoat/server/commit/e0b117607f3e01858490b9ddb66e6218652ab95f
-
 Lotting
 https://github.com/LandSandBoat/server/commit/7ecad7379c694f658dbfb4f720387047454a4e68
 
-SC resistance rank reduction
+Skillchain resistance rank reduction
 https://github.com/LandSandBoat/server/commit/ae3fb1625f06d3cc6ec4a0d9b5fc0b6b8d2f8623
 
 /folllow
@@ -616,9 +598,6 @@ Pet magic burst msg(maybe I fixed this already too?)
 https://github.com/AirSkyBoat/AirSkyBoat/commit/24c2586c5851dfa5ec26b08fa512d097bc6adf67
 https://github.com/LandSandBoat/server/commit/039f4fd601996488fb1d3cf5ed4664bbe70c5e33
 
-Velocity shot
-https://github.com/CatsAndBoats/catseyexi/commit/3fcc6a9a29b1271a8048fb75ec0cbb6d46ab55ef
-
 Waypoints! (Adoulin teleports)
 https://github.com/LandSandBoat/server/blob/base/scripts/globals/waypoint.lua
 
@@ -677,9 +656,6 @@ https://github.com/CatsAndBoats/catseyexi/commit/1cbf875167200f94329e95790821b9a
 
 What's this do?
 https://github.com/LandSandBoat/server/commit/9c7a72a534a360f8c1c94fe58d13f2f1794a460a
-
-Prevent special attacks being impacted by slow (BE VERY CAREFUL WITH THIS ITS FROM FALLISA)
-https://github.com/CatsAndBoats/catseyexi/commit/490d246b7d910edc0dd3650940a68e633f4ce618
 
 Targetfind alegiance stuff for enemy
 https://github.com/LandSandBoat/server/commit/df8ce3c05f999e1fd17977caf93cfbbc6ef85f22
