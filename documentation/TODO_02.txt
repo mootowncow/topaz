@@ -131,6 +131,7 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Trusts don't properly match speed to master. Should it be PMaster->getSpeed() instead of PMmaster->speed? Or ran in movement logic?
 Gambit to check melee acc vs target. Use for Lhe focus and Zeid absorb-ACC, also Ulmias Madrigal
 Uriel Blade SCed for 0 on a magmatic eruca (fragmentation)
 Kupipi Curaga logic
@@ -161,7 +162,6 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Slave Globes spawn below 100% HP(from trait?) Prob need to fix like how fixed trusts
 BRD Relic
 Halve most mob weight moves
 
@@ -190,6 +190,8 @@ Other salvage NMs
 WOE
 Hunts
 GOV Elite training!
+Sky tatters system for augmenting sky gear
+HNM's that need Water / Wind / Thunder / Dark resist sets
 My interrupt logic (it sends some weird hex code) as param or w/e should make it say mob tp move interrupted on combatmessages
 
 Low level mob HP too low? (<40ish). Compare mob HP values in dunes/qufim
@@ -200,6 +202,7 @@ Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e
 Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva/ramuh/etc only) specific items
 NEED A RAMUH SPECIFIC ITEM!!
 SiR ring. +Enfeebling magic duration items
+Resist gear options!
 
 Higher level beetles at the south goblin Oasis in Eastern Altepa?
 Lower level beetles away from Revelation Rock in middle of Western Altepa
@@ -250,7 +253,6 @@ Does Shen work?
 Test yesterdays commits from home like Banishga1-3
 RA interrupt on movement packet or state change? Maybe LSB has
 Pet camps so I can level SMN x2
-Job points
 Lamia / Merrow and undead + acroliths in same party. Mobmod to make mobs be in same party. (For Illrusi Atoll assault mainly)
 Mine Shaft + Promy ENMs
 Dea pop zone msg ID missing/wrong (Bhaflau thickets)
@@ -282,6 +284,7 @@ Mommy zomit patrol paths can be very short.
 
 Ashu Talif:
 Royal Painter Escort:
+        More info: (Maybe 4 vids total?) https://www.youtube.com/watch?v=5P1IjeeSKBs and https://www.youtube.com/watch?v=ntU_CTGPOg0
         Faluuya got "stuck" after winning and killing the boss(Discord has screenshots). 
         Fidgets around waiting at door(shouldn't roam..)
         Boss and 2 adds get stuck after spawning on the stairs until faluuya runs back
@@ -367,13 +370,6 @@ TryProcTH needs level 15+ job check(maybe 75?)
 Add Cura-III to the new cure magic.lua function
 Add tractor to raise
 Does WS not remove invis/sneak?
-Might need to add this to mobs spawning so adding hp/mp boost mods works on them if added onto them OnMobSpawn() in lua scripts?
-    luautils::OnMobSpawn(this);
-    // Max [HP/MP] Boost mods
-    this->UpdateHealth();
-    this->health.tp = 0;
-    this->health.hp = this->GetMaxHP();
-    this->health.mp = this->GetMaxMP();
 
 ~~~~~~~~~~~~~~~~~~~~Relic Weapons Revamp~~~~~~~~~~~~~~~~~~~~
 
