@@ -39,6 +39,27 @@ void CPetController::Tick(time_point tick)
     TracyZoneScoped;
     TracyZoneIString(PPet->GetName());
 
+    CBattleEntity* PMaster = static_cast<CBattleEntity*>(PPet->PMaster);
+
+    if (!PMaster)
+    {
+        return;
+    }
+
+    // Match owners speed
+    uint8 mastersSpeed = PMaster->GetSpeed();
+    uint8 trustsSpeed = PPet->speed;
+    ShowDebug("[%s] masters speed %u\n", PMaster->name, PMaster->speed);
+    ShowDebug("[%s] speed before changing %u\n", PPet->name, PPet->speed);
+    if (PMaster->isMounted())
+    {
+        PPet->speed = 100;
+    }
+    else
+    {
+        PPet->speed = std::clamp(mastersSpeed + 10, 50, 255); // 50 Minimum 255 max
+    }
+    ShowDebug("[%s] speed after changing %u\n", PPet->name, PPet->speed);
     if (PPet->shouldDespawn(tick))
     {
         petutils::DespawnPet(PPet->PMaster);
