@@ -289,14 +289,7 @@ bool CMobEntity::CanRoam()
 
 bool CMobEntity::CanLink(position_t* pos, int16 superLink)
 {
-    if (loc.zone->HasReducedVerticalAggro())
-    {
-        float verticalDistance = abs(loc.p.y - (*pos).y);
-        if (verticalDistance > 3.5f)
-        {
-            return false;
-        }
-    }
+    float linkRadius = getMobMod(MOBMOD_LINK_RADIUS);
 
     // handle super linking
     if (superLink && getMobMod(MOBMOD_SUPERLINK) == superLink)
@@ -322,16 +315,29 @@ bool CMobEntity::CanLink(position_t* pos, int16 superLink)
         return false;
     }
 
-    // link only if I see him
-    if (m_Detects & DETECT_SIGHT) {
-
-        if (!facing(loc.p, *pos, 64))
+    bool canDetectTarget = false;
+    if (m_Detects & DETECT_SIGHT) // Sight link
+    {
+        if (facing(loc.p, *pos, 64))
         {
-            return false;
+            canDetectTarget = true;
         }
     }
 
-    if (distance(loc.p, *pos) > getMobMod(MOBMOD_LINK_RADIUS))
+    if (m_Detects & DETECT_HEARING) // Sound link
+    {
+        if (distance(loc.p, *pos) <= linkRadius)
+        {
+            canDetectTarget = true;
+        }
+    }
+
+    if (!canDetectTarget)
+    {
+        return false;
+    }
+
+    if (distance(loc.p, *pos) > linkRadius)
     {
         return false;
     }
@@ -341,7 +347,7 @@ bool CMobEntity::CanLink(position_t* pos, int16 superLink)
         return false;
     }
 
-    if (!CanSeeTarget(*pos))
+    if (!CanSeeTarget(*pos)) // Make sure target is within LoS (I.e. don't link through walls/floor)
     {
         return false;
     }

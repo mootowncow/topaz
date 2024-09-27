@@ -200,11 +200,6 @@ CZone::CZone(ZONEID ZoneID, REGIONTYPE RegionID, CONTINENTTYPE ContinentID)
     LoadZoneLos();
 }
 
-bool CZone::HasReducedVerticalAggro()
-{
-    return std::find(std::begin(ReducedVerticalAggroZones), std::end(ReducedVerticalAggroZones), this->m_zoneID) != std::end(ReducedVerticalAggroZones);
-}
-
 CZone::~CZone()
 {
     delete m_zoneEntities;
