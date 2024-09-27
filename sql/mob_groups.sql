@@ -12224,7 +12224,7 @@ INSERT INTO `mob_groups` VALUES (6,1306,178,'Faust',10800,0,2821,25000,0,83,83,0
 INSERT INTO `mob_groups` VALUES (7,955,178,'Defender',330,0,0,500,0,71,76,0);
 INSERT INTO `mob_groups` VALUES (8,287,178,'Aura_Gear',0,128,192,0,0,76,81,0);
 INSERT INTO `mob_groups` VALUES (9,2755,178,'Mother_Globe',10800,0,2820,12500,0,83,83,0);
-INSERT INTO `mob_groups` VALUES (10,955,178,'Slave_Globe',0,128,0,150,0,78,78,0);
+INSERT INTO `mob_groups` VALUES (10,955,178,'Slave_Globe',0,128,0,600,0,78,78,0);
 INSERT INTO `mob_groups` VALUES (11,289,178,'Aura_Statue',330,0,2824,0,0,81,84,0);
 INSERT INTO `mob_groups` VALUES (12,4082,178,'Ullikummi',0,128,2822,25000,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (13,946,178,'Decorative_Weapon',330,0,0,0,0,79,81,0);
