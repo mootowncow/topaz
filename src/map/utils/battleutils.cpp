@@ -3235,8 +3235,14 @@ int16 GetSDTTier(int16 SDT)
 
             if (giveTPtoVictim)
             {
+                uint32 sBlowMerit = 0;
+                if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
+                {
+                    sBlowMerit = PChar->PMeritPoints->GetMeritValue(MERIT_TYPE::MERIT_SUBTLE_BLOW_EFFECT, PChar);
+                }
+
                 //account for attacker's subtle blow which reduces the baseTP gain for the defender
-                float sBlow1 = std::clamp((float)PAttacker->getMod(Mod::SUBTLE_BLOW), -50.0f, 50.0f);
+                float sBlow1 = std::clamp((float)(PAttacker->getMod(Mod::SUBTLE_BLOW) + sBlowMerit), -50.0f, 50.0f);
                 float sBlow2 = std::clamp((float)PAttacker->getMod(Mod::SUBTLE_BLOW_II), -50.0f, 50.0f);
                 float sBlowMult = ((100.0f - std::clamp((float)(sBlow1 + sBlow2), -75.0f, 75.0f)) / 100.0f);
 
@@ -3376,8 +3382,14 @@ int16 GetSDTTier(int16 SDT)
                     (1.0f + 0.01f * (float)((PAttacker->getMod(Mod::STORETP) + getStoreTPbonusFromMerit(PAttacker))))));
             }
 
+            uint32 sBlowMerit = 0;
+            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
+            {
+                sBlowMerit = PChar->PMeritPoints->GetMeritValue(MERIT_TYPE::MERIT_SUBTLE_BLOW_EFFECT, PChar);
+            }
+
             //account for attacker's subtle blow which reduces the baseTP gain for the defender
-            float sBlow1 = std::clamp((float)PAttacker->getMod(Mod::SUBTLE_BLOW), -50.0f, 50.0f);
+            float sBlow1 = std::clamp((float)(PAttacker->getMod(Mod::SUBTLE_BLOW) + sBlowMerit), -50.0f, 50.0f);
             float sBlow2 = std::clamp((float)PAttacker->getMod(Mod::SUBTLE_BLOW_II), -50.0f, 50.0f);
             float sBlowMult = ((100.0f - std::clamp((float)(sBlow1 + sBlow2), -75.0f, 75.0f)) / 100.0f);
 

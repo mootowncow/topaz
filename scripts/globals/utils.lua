@@ -1254,9 +1254,10 @@ function utils.CalculateBaseTP(delay)
 end
 
 function utils.CalculateSpellTPGiven(caster, target, totalhits)
-    local sBlow1 = utils.clamp(caster:getMod(tpz.mod.SUBTLE_BLOW), -50, 50)
-    local sBlow2 = utils.clamp(caster:getMod(tpz.mod.SUBTLE_BLOW_II), -50, 50)
-    local sBlowMult = (utils.clamp((sBlow1 + sBlow2), -75, 75))
+    local subtleBlowMerits   = caster:getMerit(tpz.merit.SUBTLE_BLOW_EFFECT)
+    local sBlow1             = utils.clamp(caster:getMod(tpz.mod.SUBTLE_BLOW) + subtleBlowMerits, -50, 50)
+    local sBlow2             = utils.clamp(caster:getMod(tpz.mod.SUBTLE_BLOW_II), -50, 50)
+    local sBlowMult         = (utils.clamp((sBlow1 + sBlow2), -75, 75))
     local TP = 100
     if (totalhits == nil) then
         totalhits = 1
