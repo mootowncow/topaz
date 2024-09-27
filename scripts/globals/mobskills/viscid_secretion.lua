@@ -13,7 +13,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    MobStatusEffectMove(mob, target, tpz.effect.WEIGHT, 50, 0, 300)
+    MobStatusEffectMove(mob, target, tpz.effect.WEIGHT, 25, 0, 300)
     skill:setMsg(MobHasteOverwriteSlowMove(mob, target, 5000, 0, 90, 0, 0, 2)) 
     mob:resetEnmity(target)
 

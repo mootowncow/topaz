@@ -20,7 +20,7 @@ function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.WEIGHT
     local duration = 45
 
-    MobStatusEffectMove(mob, target, typeEffect, 50, 0, duration)
+    MobStatusEffectMove(mob, target, typeEffect, 25, 0, duration)
 
     local dmgmod = 5
     local baseDamage = mob:getWeaponDmg()*3

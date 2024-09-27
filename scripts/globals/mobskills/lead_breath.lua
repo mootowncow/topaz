@@ -17,7 +17,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.WEIGHT
 
-    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 75, 0, 300))
+    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 50, 0, 300))
 
     return typeEffect
 end

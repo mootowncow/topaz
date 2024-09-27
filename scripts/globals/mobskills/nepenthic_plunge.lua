@@ -21,6 +21,6 @@ function onMobWeaponSkill(target, mob, skill)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.WATER)
     local power = 15
     MobStatusEffectMoveSub(mob, target, tpz.effect.DROWN, power, 3, 60, 0, 33, 0)
-    MobStatusEffectMove(mob, target, tpz.effect.WEIGHT, 76, 0, 300)
+    MobStatusEffectMove(mob, target, tpz.effect.WEIGHT, 25, 0, 300)
     return dmg
 end

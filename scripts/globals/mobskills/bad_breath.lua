@@ -31,7 +31,7 @@ function onMobWeaponSkill(target, mob, skill)
     MobStatusEffectMove(mob, target, tpz.effect.SILENCE, 1, 0, 300)
     MobStatusEffectMove(mob, target, tpz.effect.PARALYSIS, 25, 0, 300)
     MobStatusEffectMove(mob, target, tpz.effect.BLINDNESS, 20, 0, 300)
-    MobStatusEffectMove(mob, target, tpz.effect.WEIGHT, 50, 0, 300)
+    MobStatusEffectMove(mob, target, tpz.effect.WEIGHT, 25, 0, 300)
     MobStatusEffectMove(mob, target, tpz.effect.BIND, 1, 0, 45)
 
     return dmg

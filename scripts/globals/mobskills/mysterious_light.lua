@@ -15,7 +15,7 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.WEIGHT
-    local power = 75
+    local power = 50
 
     local dmgmod = 2.5
     local accmod = 1

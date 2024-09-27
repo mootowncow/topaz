@@ -22,7 +22,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.WEIGHT
 
-    MobStatusEffectMove(mob, target, typeEffect, 20, 0, 300)
+    MobStatusEffectMove(mob, target, typeEffect, 15, 0, 300)
     local dmgmod = 0.5
 	if mob:AnimationSub() == 0 then
 		dmgmod = dmgmod + 0.75

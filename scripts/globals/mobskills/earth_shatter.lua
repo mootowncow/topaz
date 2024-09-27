@@ -30,7 +30,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
     if (mob:getPool() == 178) then -- Antican Legatus
 		MobStatusEffectMove(mob, target, tpz.effect.SLOW, 50, 0, 30)
-		MobStatusEffectMove(mob, target, tpz.effect.WEIGHT, 50, 0, 30)
+		MobStatusEffectMove(mob, target, tpz.effect.WEIGHT, 25, 0, 30)
 		MobStatusEffectMove(mob, target, tpz.effect.ACCURACY_DOWN, 50, 0, 30)
 		MobStatusEffectMove(mob, target, tpz.effect.EVASION_DOWN, 50, 0, 30)
         local power = 25

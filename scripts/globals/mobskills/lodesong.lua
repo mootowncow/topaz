@@ -17,7 +17,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    skill:setMsg(MobStatusEffectMove(mob, target, tpz.effect.WEIGHT, 75, 0, 50))
+    skill:setMsg(MobStatusEffectMove(mob, target, tpz.effect.WEIGHT, 50, 0, 50))
 
     return tpz.effect.WEIGHT
 end
