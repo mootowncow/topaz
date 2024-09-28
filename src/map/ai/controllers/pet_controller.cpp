@@ -46,20 +46,18 @@ void CPetController::Tick(time_point tick)
         return;
     }
 
-    // Match owners speed
-    uint8 mastersSpeed = PMaster->GetSpeed();
-    uint8 trustsSpeed = PPet->speed;
-    ShowDebug("[%s] masters speed %u\n", PMaster->name, PMaster->speed);
-    ShowDebug("[%s] speed before changing %u\n", PPet->name, PPet->speed);
-    if (PMaster->isMounted())
-    {
-        PPet->speed = 100;
-    }
-    else
-    {
-        PPet->speed = std::clamp(mastersSpeed + 10, 50, 255); // 50 Minimum 255 max
-    }
-    ShowDebug("[%s] speed after changing %u\n", PPet->name, PPet->speed);
+    //// Match owners speed
+    //uint8 mastersSpeed = PMaster->GetSpeed();
+    //uint8 trustsSpeed = PPet->speed;
+    //if (PMaster->isMounted())
+    //{
+    //    PPet->speed = 100;
+    //}
+    //else
+    //{
+    //    PPet->speed = std::clamp(mastersSpeed + 10, 50, 255); // 50 Minimum 255 max
+    //}
+
     if (PPet->shouldDespawn(tick))
     {
         petutils::DespawnPet(PPet->PMaster);
