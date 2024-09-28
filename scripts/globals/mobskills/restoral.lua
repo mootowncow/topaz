@@ -8,8 +8,10 @@ require("scripts/globals/msg")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if math.random(100) <= 75 then
-        return 1
+    if mob:getPool() == 243 then
+        if math.random(100) <= 80 then
+            return 1
+        end
     end
     if mob:getFamily() == 119 then -- Single Gear
         return 0
