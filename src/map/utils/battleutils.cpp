@@ -3238,7 +3238,10 @@ int16 GetSDTTier(int16 SDT)
                 uint32 sBlowMerit = 0;
                 if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
                 {
-                    sBlowMerit = PChar->PMeritPoints->GetMeritValue(MERIT_TYPE::MERIT_SUBTLE_BLOW_EFFECT, PChar);
+                    if (PChar && PChar->objtype == TYPE_PC)
+                    {
+                        sBlowMerit = PChar->PMeritPoints->GetMeritValue(MERIT_TYPE::MERIT_SUBTLE_BLOW_EFFECT, PChar);
+                    }
                 }
 
                 //account for attacker's subtle blow which reduces the baseTP gain for the defender
@@ -3385,7 +3388,10 @@ int16 GetSDTTier(int16 SDT)
             uint32 sBlowMerit = 0;
             if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
             {
-                sBlowMerit = PChar->PMeritPoints->GetMeritValue(MERIT_TYPE::MERIT_SUBTLE_BLOW_EFFECT, PChar);
+                if (PChar && PChar->objtype == TYPE_PC)
+                {
+                    sBlowMerit = PChar->PMeritPoints->GetMeritValue(MERIT_TYPE::MERIT_SUBTLE_BLOW_EFFECT, PChar);
+                }
             }
 
             //account for attacker's subtle blow which reduces the baseTP gain for the defender
