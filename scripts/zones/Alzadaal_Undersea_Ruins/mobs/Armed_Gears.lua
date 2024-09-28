@@ -151,7 +151,7 @@ function onMobFight(mob, target)
     end
     -- Resistances based on number of gears active
     if AnimationSub == 0 then -- 3 gears
-        mob:setMod(tpz.mod.UDMGMAGIC, -66)
+        mob:setMod(tpz.mod.UDMGMAGIC, -50)
         mob:setMod(tpz.mod.HTHRES, 100)
         mob:setMod(tpz.mod.SLASHRES, 100)
         mob:setMod(tpz.mod.PIERCERES, 100)
@@ -159,7 +159,7 @@ function onMobFight(mob, target)
         mob:setMod(tpz.mod.IMPACTRES, 100)
     end
     if AnimationSub == 1 then -- 2 gears
-        mob:setMod(tpz.mod.UDMGMAGIC, -33)
+        mob:setMod(tpz.mod.UDMGMAGIC, -25)
         mob:setMod(tpz.mod.HTHRES, 300)
         mob:setMod(tpz.mod.SLASHRES, 300)
         mob:setMod(tpz.mod.PIERCERES, 300)
