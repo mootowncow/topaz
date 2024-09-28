@@ -766,9 +766,9 @@ INSERT INTO `mob_skills` VALUES (830,502,'light_blade',0,30.0,2000,1500,4,0,0,0,
 -- Player pet Avatars start
 INSERT INTO `mob_skills` VALUES (544,141,'camisado',0,7.0,2000,1500,4,0,0,4,0,0,0);
 INSERT INTO `mob_skills` VALUES (545,142,'somnolence',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (546,143,'noctoshield',1,7.0,2000,1500,1,0,0,0,0,0,0); 
+INSERT INTO `mob_skills` VALUES (546,143,'noctoshield',1,10.0,2000,1500,1,0,0,0,0,0,0); 
 INSERT INTO `mob_skills` VALUES (547,144,'ultimate_terror',1,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (556,145,'dream_shroud',1,15.0,2000,1500,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (556,145,'dream_shroud',1,10.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (558,146,'nightmare',1,20.0,2000,2000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (610,148,'nether_blast',0,21.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (616,149,'ruinous_omen',1,30.0,2000,0,4,2,0,0,0,0,0);
