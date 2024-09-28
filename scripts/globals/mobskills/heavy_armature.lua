@@ -14,7 +14,7 @@ require("scripts/globals/monstertpmoves")
 
 function onMobSkillCheck(target, mob, skill)
     local AnimationSub = mob:AnimationSub()
-    if mob:getPool() == 243 and AnimationSub > 0 then
+    if mob:getPool() == 243 then
         return 0
     else
         return 1
