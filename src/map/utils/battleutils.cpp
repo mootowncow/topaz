@@ -363,72 +363,79 @@ namespace battleutils
         return false;
     }
 
-int16 GetSDTTier(int16 SDT)
+
+    int16 getSDTRank(CBattleEntity* PDefender, ELEMENT element, int16 SDT)
     {
-        int tier = 0;
+        struct SDTRank
+        {
+            int Rank;
+            int SDT;
+        };
 
-        if (SDT == 150)
+        struct SDTMod
         {
-            tier = -3;
-        }
-        else if (SDT == 130)
+            ELEMENT Element;
+            Mod RankMod;
+        };
+
+        SDTRank sdtRanks[] = {
+            { -3, 150 },
+            { -2, 130 },
+            { -1, 115 },
+            {  0, 100 },
+            {  1,  85 },
+            {  2,  70 },
+            {  3,  60 },
+            {  4,  50 },
+            {  5,  40 },
+            {  6,  30 },
+            {  7,  25 },
+            {  8,  20 },
+            {  9,  15 },
+            { 10,  10 },
+            { 11,   5 }
+        };
+
+        SDTMod sdtMods[] = {
+            { ELEMENT_FIRE,     Mod::SDT_FIRE_RANK    },
+            { ELEMENT_ICE,      Mod::SDT_ICE_RANK     },
+            { ELEMENT_WIND,     Mod::SDT_WIND_RANK    },
+            { ELEMENT_EARTH,    Mod::SDT_EARTH_RANK   },
+            { ELEMENT_THUNDER,  Mod::SDT_THUNDER_RANK },
+            { ELEMENT_WATER,    Mod::SDT_WATER_RANK   },
+            { ELEMENT_LIGHT,    Mod::SDT_LIGHT_RANK   },
+            { ELEMENT_DARK,     Mod::SDT_DARK_RANK    }
+        };
+
+        int16 rank = 0;
+
+        // Lookup SDT value to determine the rank
+        for (const auto& entry : sdtRanks)
         {
-            tier = -2;
-        }
-        else if (SDT == 115)
-        {
-            tier = -1;
-        }
-        else if (SDT == 100)
-        {
-            tier = 0;
-        }
-        else if (SDT == 85)
-        {
-            tier = 1;
-        }
-        else if (SDT == 70)
-        {
-            tier = 2;
-        }
-        else if (SDT == 60)
-        {
-            tier = 3;
-        }
-        else if (SDT == 50)
-        {
-            tier = 4;
-        }
-        else if (SDT == 40)
-        {
-            tier = 5;
-        }
-        else if (SDT == 30)
-        {
-            tier = 6;
-        }
-        else if (SDT == 25)
-        {
-            tier = 7;
-        }
-        else if (SDT == 20)
-        {
-            tier = 8;
-        }
-        else if (SDT == 15)
-        {
-            tier = 9;
-        }
-        else if (SDT == 10) // because 10 % (T10)tier forcibly sets your hit rate to 5 %
-        {
-            tier = 10;
-        }
-        else if (SDT == 5) // 5 % (T11)causes you to auto fail all the coin flips
-        {
-            tier = 11;
+            if (SDT == entry.SDT)
+            {
+                rank = entry.Rank;
+                printf("SDT rank before rank mod: %d\n", rank);
+
+                // Find the element mod to adjust rank
+                for (const auto& modEntry : sdtMods)
+                {
+                    if (element == modEntry.Element)
+                    {
+                        // Adjust the rank based on the attacker's mod
+                        rank += PDefender->getMod(modEntry.RankMod);
+                        // Use rank directly instead of sdtMod, as it is undefined
+                        rank = std::clamp(rank, static_cast<int16>(-3), static_cast<int16>(11)); // Use rank directly
+                        break;
+                    }
+                }
+
+                break;
+            }
         }
 
-        return tier;
+        printf("Final SDT rank: %d\n", rank);
+        return rank;
     }
 
     float GetSDTMultiplier(float tier)
@@ -628,7 +635,7 @@ int16 GetSDTTier(int16 SDT)
         return dstatMaccBonus;
     }
 
-    float CalculateMagicHitRate(float magicacc, float magiceva, ELEMENT element, float percentBonus, float casterLvl, float targetLvl, int SDT)
+    float CalculateMagicHitRate(CBattleEntity* PDefender, float magicacc, float magiceva, ELEMENT element, float percentBonus, float casterLvl, float targetLvl, int SDT)
     {
         float p = 0;
         magicacc = magicacc + (casterLvl - targetLvl) * 4;
@@ -648,7 +655,7 @@ int16 GetSDTTier(int16 SDT)
         // p += percentBonus +status resist mod, flat mevasion/hit rate to enfeebles
 
         // Check SDT tiers
-        int tier = static_cast<int>(GetSDTTier(SDT));
+        int tier = static_cast<int>(getSDTRank(PDefender, element, SDT));
         if (tier >= 10)
         {
             p = 5.0f;
@@ -702,8 +709,8 @@ int16 GetSDTTier(int16 SDT)
         {
             baseMeva = static_cast<float>(GetPlayerMeva(PDefender));
         }
-        baseMeva *= GetSDTMultiplier(static_cast<float>(GetSDTTier(static_cast<int>(SDT))));
-        //printf("getSDTMultiplier: %f\n", getSDTMultiplier(getSDTTier(SDT)));
+        baseMeva *= GetSDTMultiplier(static_cast<float>(getSDTRank(PDefender, element, static_cast<int>(SDT))));
+        //printf("getSDTMultiplier: %f\n", getSDTMultiplier(getSDTRank(SDT)));
         //printf("baseMeva after SDT %f\n", baseMeva);
         baseMeva += PDefender->getMod(Mod::MEVA);
         //printf("baseMeva after MEVA mod %f\n", baseMeva);
@@ -713,7 +720,7 @@ int16 GetSDTTier(int16 SDT)
         float magicevaFinal = baseMeva;
         //printf("Meva final %f\n-----------------------------------------------------------------\n", magicevaFinal);
 
-        return CalculateMagicHitRate(magicacc, magicevaFinal, element, percentBonus, casterLvl, targetLvl, SDT);
+        return CalculateMagicHitRate(PDefender, magicacc, magicevaFinal, element, percentBonus, casterLvl, targetLvl, SDT);
     }
 
     float ApplyResistance(CBattleEntity* PAttacker, CBattleEntity* PDefender, ELEMENT element, uint8 skillType, float diff, float bonus)
@@ -4692,17 +4699,68 @@ int16 GetSDTTier(int16 SDT)
                 }
             }
 
+            Mod resistanceRankMods[] = { Mod::SDT_FIRE_RANK,    Mod::SDT_ICE_RANK,   Mod::SDT_WIND_RANK,  Mod::SDT_EARTH_RANK,
+                                         Mod::SDT_THUNDER_RANK, Mod::SDT_WATER_RANK, Mod::SDT_LIGHT_RANK, Mod::SDT_DARK_RANK };
+            // Reset any resistance rank mods on the defender
+            PDefender->delModifiers(&PSCEffect->modList);
+            // Reset the effects resistance rank mods
+            for (auto& resistanceRank : resistanceRankMods)
+            {
+                PSCEffect->setMod(resistanceRank, 0);
+            }
             if (skillchain != SC_NONE)
             {
                 PSCEffect->SetStartTime(server_clock::now());
-                //   ShowDebug("duration: %d", PSCEffect->GetDuration());
                 PSCEffect->SetDuration(PSCEffect->GetDuration() - 1000);
                 PSCEffect->SetTier(GetSkillchainTier((SKILLCHAIN_ELEMENT)skillchain));
                 PSCEffect->SetPower(skillchain);
-                PSCEffect->SetSubPower(std::min(static_cast<int>(PSCEffect->GetSubPower() + 1), 6)); // Linked, limited to 6. Unsure if I broke when changing subpower to uint32(was uint16)
+                PSCEffect->SetSubPower(std::min(static_cast<int>(PSCEffect->GetSubPower() + 1), 6));
+
+                static const Mod resistanceRanks[][4] = {
+                    { Mod::NONE, Mod::NONE, Mod::NONE, Mod::NONE },             // SC_NONE
+                    { Mod::SDT_LIGHT_RANK, Mod::NONE, Mod::NONE, Mod::NONE },   // SC_TRANSFIXION
+                    { Mod::SDT_DARK_RANK, Mod::NONE, Mod::NONE, Mod::NONE },    // SC_COMPRESSION
+                    { Mod::SDT_FIRE_RANK, Mod::NONE, Mod::NONE, Mod::NONE },    // SC_LIQUEFACTION
+                    { Mod::SDT_EARTH_RANK, Mod::NONE, Mod::NONE, Mod::NONE },   // SC_SCISSION
+                    { Mod::SDT_WATER_RANK, Mod::NONE, Mod::NONE, Mod::NONE },   // SC_REVERBERATION
+                    { Mod::SDT_WIND_RANK, Mod::NONE, Mod::NONE, Mod::NONE },    // SC_DETONATION
+                    { Mod::SDT_ICE_RANK, Mod::NONE, Mod::NONE, Mod::NONE },     // SC_INDURATION
+                    { Mod::SDT_THUNDER_RANK, Mod::NONE, Mod::NONE, Mod::NONE }, // SC_IMPACTION
+
+                    { Mod::SDT_EARTH_RANK, Mod::SDT_DARK_RANK, Mod::NONE, Mod::NONE },   // SC_GRAVITATION
+                    { Mod::SDT_ICE_RANK, Mod::SDT_WATER_RANK, Mod::NONE, Mod::NONE },    // SC_DISTORTION
+                    { Mod::SDT_FIRE_RANK, Mod::SDT_LIGHT_RANK, Mod::NONE, Mod::NONE },   // SC_FUSION
+                    { Mod::SDT_WIND_RANK, Mod::SDT_THUNDER_RANK, Mod::NONE, Mod::NONE }, // SC_FRAGMENTATION
+
+                    { Mod::SDT_FIRE_RANK, Mod::SDT_WIND_RANK, Mod::SDT_THUNDER_RANK, Mod::SDT_LIGHT_RANK }, // SC_LIGHT
+                    { Mod::SDT_ICE_RANK, Mod::SDT_EARTH_RANK, Mod::SDT_WATER_RANK, Mod::SDT_DARK_RANK },    // SC_DARKNESS
+                    { Mod::SDT_FIRE_RANK, Mod::SDT_WIND_RANK, Mod::SDT_THUNDER_RANK, Mod::SDT_LIGHT_RANK }, // SC_LIGHT
+                    { Mod::SDT_ICE_RANK, Mod::SDT_EARTH_RANK, Mod::SDT_WATER_RANK, Mod::SDT_DARK_RANK },    // SC_DARKNESS_II
+                };
+
+                // Clear the existing modifiers before setting new ones
+                PSCEffect->modList.clear();
+
+                // Map skillchain to its elements and set mods
+                int elementCount = GetSkillchainElementCount((SKILLCHAIN_ELEMENT)skillchain);
+                for (int i = 0; i < elementCount; ++i)
+                {
+                    // Retrieve the resistance rank for the current skillchain and index
+                    Mod resistanceRankMod = resistanceRanks[(int)skillchain][i];
+
+                    // Set the mod only if it's not NONE
+                    if (resistanceRankMod != Mod::NONE)
+                    {
+                        PSCEffect->setMod(resistanceRankMod, -1);
+                    }
+                }
+
+                // Finally, add the mods back to the target
+                PDefender->addModifiers(&PSCEffect->modList);
 
                 return (SUBEFFECT)GetSkillchainSubeffect((SKILLCHAIN_ELEMENT)skillchain);
             }
+
 
             PSCEffect->SetStartTime(server_clock::now());
             PSCEffect->SetDuration(10000);
@@ -4711,6 +4769,25 @@ int16 GetSDTTier(int16 SDT)
             PSCEffect->SetSubPower(0);
 
             return SUBEFFECT_NONE;
+        }
+    }
+
+    constexpr int GetSkillchainElementCount(SKILLCHAIN_ELEMENT skillchain)
+    {
+        switch (skillchain)
+        {
+            case SC_LIGHT:
+            case SC_DARKNESS:
+            case SC_LIGHT_II:
+            case SC_DARKNESS_II:
+                return 4; // Lvl3 SC
+            case SC_GRAVITATION:
+            case SC_DISTORTION:
+            case SC_FUSION:
+            case SC_FRAGMENTATION:
+                return 2; // Lvl2 SC
+            default:
+                return 1; // Lvl1 SC
         }
     }
 

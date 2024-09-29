@@ -860,7 +860,7 @@ function getMagicHitRate(caster, target, skillType, element, SDT, percentBonus, 
     end
     -- printf("Base MEVA: %s", baseMagiceva)
     -- apply SDT
-    local tier = getSDTTier(SDT)
+    local tier = getSDTRank(target, element, SDT)
     local multiplier = getSDTMultiplier(tier)
     -- print(string.format('SDT: %s, Tier: %s, Multiplier: %s', SDT, tier, multiplier))
     baseMagiceva = math.floor(baseMagiceva * multiplier)
@@ -878,10 +878,10 @@ function getMagicHitRate(caster, target, skillType, element, SDT, percentBonus, 
     magicacc = math.floor(magicacc + utils.clamp(maccFood, 0, caster:getMod(tpz.mod.FOOD_MACC_CAP)))
     -- printf("MACC: %s", magicacc)
     
-    return calculateMagicHitRate(magicacc, magiceva, element, percentBonus, caster:getMainLvl(), target:getMainLvl(), SDT)
+    return calculateMagicHitRate(target, magicacc, magiceva, element, percentBonus, caster:getMainLvl(), target:getMainLvl(), SDT)
 end
 
-function calculateMagicHitRate(magicacc, magiceva, element, percentBonus, casterLvl, targetLvl, SDT)
+function calculateMagicHitRate(target, magicacc, magiceva, element, percentBonus, casterLvl, targetLvl, SDT)
     local p = 0
     
     -- percentBonus is a bit deceiving of a name. it's either 0 or a negative number. its only application is specific effect resistance (i.e. +5 resist to paralyze = -5% hitrate on incoming paras)
@@ -905,7 +905,7 @@ function calculateMagicHitRate(magicacc, magiceva, element, percentBonus, caster
     p = p + percentBonus
 
     -- Check SDT tiers
-    local tier = getSDTTier(SDT)
+    local tier = getSDTRank(target, element, SDT)
     -- print(string.format('calculateMagicHitRate SDT: %s, Tier: %s,', SDT, tier))
     -- T10 sets your hit rate to 5% max
     if (tier >= 10) then
@@ -1856,90 +1856,6 @@ function getElementalSDT(element, target) -- takes into account if magic burst w
 		--print("invalid SDT detected")
     end
 
-    -- Handle Magic Bursts
-    local MB1 = 0
-    local MB2 = 0
-    MB1, MB2 = FormMagicBurst(element, target)
-    
-    if MB1 > 0 then -- window is open for this element
-        if SDT == 5 then
-            SDT = 10
-        elseif SDT == 10 then
-            SDT = 15
-        elseif SDT == 15 then
-            SDT = 20
-        elseif SDT == 20 then
-            SDT = 25
-        elseif SDT == 25 then
-            SDT = 30
-        elseif SDT == 30 then
-            SDT = 40
-        elseif SDT == 40 then
-            SDT = 50
-        elseif SDT == 50 then
-            SDT = 60
-        elseif SDT == 60 then
-            SDT = 70
-        elseif SDT == 70 then
-            SDT = 85
-        elseif SDT == 85 then
-            SDT = 100
-        elseif SDT == 100 then
-            SDT = 115
-        elseif SDT == 115 then
-            SDT = 130
-        elseif SDT == 130 then
-            SDT = 150
-        elseif SDT == 150 then
-            SDT = 150
-        else
-            print(string.format("non-standard SDT tier on target %u valve pls fix",target:getID()))
-            SDT = SDT + 10
-        end
-    end
-
-    -- Handle Sengikori
-    if target:isMob() and target:hasStatusEffect(tpz.effect.SENGIKORI) then
-        if SDT == 5 then
-            SDT = 10
-        elseif SDT == 10 then
-            SDT = 15
-        elseif SDT == 15 then
-            SDT = 20
-        elseif SDT == 20 then
-            SDT = 25
-        elseif SDT == 25 then
-            SDT = 30
-        elseif SDT == 30 then
-            SDT = 40
-        elseif SDT == 40 then
-            SDT = 50
-        elseif SDT == 50 then
-            SDT = 60
-        elseif SDT == 60 then
-            SDT = 70
-        elseif SDT == 70 then
-            SDT = 85
-        elseif SDT == 85 then
-            SDT = 100
-        elseif SDT == 100 then
-            SDT = 115
-        elseif SDT == 115 then
-            SDT = 130
-        elseif SDT == 130 then
-            SDT = 150
-        elseif SDT == 150 then
-            SDT = 150
-        else
-            print(string.format("non-standard SDT tier on target %u valve pls fix",target:getID()))
-            SDT = SDT + 10
-        end
-    end
-
-    -- Add banish on undead / tomahawk effect
-    local SDTResistanceReduction = target:getMod(tpz.mod.SPDEF_DOWN) / 100
-    SDT = utils.clamp(math.max(100 - SDT, 0) * (SDTResistanceReduction) + SDT, 5, 150)
-
     --print(string.format(SDT))
     return SDT
 end
@@ -2010,126 +1926,59 @@ function getEnfeeblelSDT(status, element, target) -- takes into account if magic
 		--print("invalid SDT detected")
     end
 
-    -- Handle Magic Bursts
-    local MB1 = 0
-    local MB2 = 0
-    MB1, MB2 = FormMagicBurst(element, target)
-    
-    if MB1 > 0 then -- window is open for this element
-        if SDT == 5 then
-            SDT = 10
-        elseif SDT == 10 then
-            SDT = 15
-        elseif SDT == 15 then
-            SDT = 20
-        elseif SDT == 20 then
-            SDT = 25
-        elseif SDT == 25 then
-            SDT = 30
-        elseif SDT == 30 then
-            SDT = 40
-        elseif SDT == 40 then
-            SDT = 50
-        elseif SDT == 50 then
-            SDT = 60
-        elseif SDT == 60 then
-            SDT = 70
-        elseif SDT == 70 then
-            SDT = 85
-        elseif SDT == 85 then
-            SDT = 100
-        elseif SDT == 100 then
-            SDT = 115
-        elseif SDT == 115 then
-            SDT = 130
-        elseif SDT == 130 then
-            SDT = 150
-        elseif SDT == 150 then
-            SDT = 150
-        else
-            print(string.format("non-standard SDT tier on target %u valve pls fix",target:getID()))
-            SDT = SDT + 10
-        end
-    end
-
-    -- Handle Sengikori
-    if target:isMob() and target:hasStatusEffect(tpz.effect.SENGIKORI) then
-        if SDT == 5 then
-            SDT = 10
-        elseif SDT == 10 then
-            SDT = 15
-        elseif SDT == 15 then
-            SDT = 20
-        elseif SDT == 20 then
-            SDT = 25
-        elseif SDT == 25 then
-            SDT = 30
-        elseif SDT == 30 then
-            SDT = 40
-        elseif SDT == 40 then
-            SDT = 50
-        elseif SDT == 50 then
-            SDT = 60
-        elseif SDT == 60 then
-            SDT = 70
-        elseif SDT == 70 then
-            SDT = 85
-        elseif SDT == 85 then
-            SDT = 100
-        elseif SDT == 100 then
-            SDT = 115
-        elseif SDT == 115 then
-            SDT = 130
-        elseif SDT == 130 then
-            SDT = 150
-        elseif SDT == 150 then
-            SDT = 150
-        else
-            print(string.format("non-standard SDT tier on target %u valve pls fix",target:getID()))
-            SDT = SDT + 10
-        end
-    end
-
     -- print(string.format("Enfeeble SDT: %s", SDT))
     return SDT
 end
 
-function getSDTTier(SDT)
-    local tier = 0
+function getSDTRank(target, element, SDT)
+    local rank = 0
+    local sdtRanks = {
+        { Rank = -3, SDT = 150 },
+        { Rank = -2, SDT = 130 },
+        { Rank = -1, SDT = 115 },
+        { Rank = 0,  SDT = 100 },
+        { Rank = 1,  SDT = 85  },
+        { Rank = 2,  SDT = 70  },
+        { Rank = 3,  SDT = 60  },
+        { Rank = 4,  SDT = 50  },
+        { Rank = 5,  SDT = 40  },
+        { Rank = 6,  SDT = 30  },
+        { Rank = 7,  SDT = 25  },
+        { Rank = 8,  SDT = 20  },
+        { Rank = 9,  SDT = 15  },
+        { Rank = 10, SDT = 10  },
+        { Rank = 11, SDT = 5   }
+    }
 
-    if (SDT == 150) then
-        tier = -3
-    elseif (SDT == 130) then
-        tier = -2
-    elseif (SDT == 115) then
-        tier = -1
-    elseif (SDT == 100) then
-        tier = 0
-    elseif (SDT == 85) then
-        tier = 1
-    elseif (SDT == 70) then
-        tier = 2
-    elseif (SDT == 60) then
-        tier = 3
-    elseif (SDT == 50) then
-        tier = 4
-    elseif (SDT == 40) then
-        tier = 5
-    elseif (SDT == 30) then
-        tier = 6
-    elseif (SDT == 25) then
-        tier = 7
-    elseif (SDT == 20) then
-        tier = 8
-    elseif (SDT == 15) then
-        tier = 9
-    elseif (SDT == 10) then -- because 10% (T10) tier forcibly sets your hit rate to 5%
-        tier = 10
-    elseif (SDT == 5) then -- 5% (T11) causes you to auto fail all the coin flips
-        tier = 11
+    local sdtMod =
+    {
+        { Element = tpz.magic.ele.FIRE,      RankMod = tpz.mod.SDT_FIRE_RANK },
+        { Element = tpz.magic.ele.ICE,       RankMod = tpz.mod.SDT_ICE_RANK },
+        { Element = tpz.magic.ele.WIND,      RankMod = tpz.mod.SDT_WIND_RANK },
+        { Element = tpz.magic.ele.EARTH,     RankMod = tpz.mod.SDT_EARTH_RANK },
+        { Element = tpz.magic.ele.THUNDER,   RankMod = tpz.mod.SDT_THUNDER_RANK },
+        { Element = tpz.magic.ele.WATER,     RankMod = tpz.mod.SDT_WATER_RANK },
+        { Element = tpz.magic.ele.LIGHT,     RankMod = tpz.mod.SDT_LIGHT_RANK },
+        { Element = tpz.magic.ele.DARK,      RankMod = tpz.mod.SDT_DARK_RANK }
+    }
+
+
+
+    for _, entry in ipairs(sdtRanks) do
+        if (SDT == entry.SDT) then
+            rank = entry.Rank
+            -- printf("SDT rank before rank mod %d", rank)
+            for _, modList in ipairs(sdtMod) do
+                if (element == modList.Element) then
+                    -- Adjust rank based on targets rank mod
+                    rank = utils.clamp(rank + target:getMod(modList.RankMod), -3, 11)
+                end
+            end
+        end
     end
 
-    return tier
+    -- printf("SDT rank %d", rank)
+    return rank
 end
 
 function getSDTMultiplier(tier)
@@ -3907,7 +3756,7 @@ function outputMagicHitRateInfo()
                     magicAcc = magicAcc + dINT
                 end
 
-                local magicHitRate = calculateMagicHitRate(magicAcc, magicEva, element, 0, casterLvl, targetLvl, 100, SDT)
+                local magicHitRate = calculateMagicHitRate(target, magicacc, magicEva, element, 0, casterLvl, targetLvl, 100, SDT)
 
                 printf("Lvl: %d vs %d, %d%%, MA: %d, ME: %d", casterLvl, targetLvl, magicHitRate, magicAcc, magicEva)
             end

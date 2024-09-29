@@ -1006,14 +1006,40 @@ enum class Mod
     RESBUILD_STUN = 966,
     RESBUILD_POISON = 967,
 
-    SDT_FIRE = 968,
-    SDT_ICE = 969,
-    SDT_WIND = 970,
-    SDT_EARTH = 971,
-    SDT_THUNDER = 972,
-    SDT_WATER = 973,
-    SDT_LIGHT = 974,
-    SDT_DARK = 975,
+    SDT_FIRE         = 968,
+    SDT_ICE          = 969,
+    SDT_WIND         = 970,
+    SDT_EARTH        = 971,
+    SDT_THUNDER      = 972,
+    SDT_WATER        = 973,
+    SDT_LIGHT        = 974,
+    SDT_DARK         = 975,
+
+    SDT_FIRE_RANK    = 1378,
+    SDT_ICE_RANK     = 1379,
+    SDT_WIND_RANK    = 1380,
+    SDT_EARTH_RANK   = 1381,
+    SDT_THUNDER_RANK = 1382,
+    SDT_WATER_RANK   = 1383,
+    SDT_LIGHT_RANK   = 1384,
+    SDT_DARK_RANK    = 1385,
+
+    EEM_AMNESIA = 1280,
+    EEM_VIRUS = 1281,
+    EEM_SILENCE = 1282,
+    EEM_GRAVITY = 1283,
+    EEM_STUN = 1284,
+    EEM_LIGHT_SLEEP = 1285,
+    EEM_CHARM = 1286,
+    EEM_PARALYZE = 1287,
+    EEM_BIND = 1288,
+    EEM_SLOW = 1289,
+    EEM_PETRIFY = 1290,
+    EEM_TERROR = 1291,
+    EEM_POISON = 1292,
+    EEM_DARK_SLEEP = 1293,
+    EEM_BLIND = 1294,
+
 
     SUSC_TO_WS_STUN = 1176,
     ENHANCES_COVER = 1178,
@@ -1044,22 +1070,6 @@ enum class Mod
     LUMORIAN_CIRCLE = 1237,
     LUMINION_CIRCLE = 1238,
 
-    EEM_AMNESIA = 1280,
-    EEM_VIRUS = 1281,
-    EEM_SILENCE = 1282,
-    EEM_GRAVITY = 1283,
-    EEM_STUN = 1284,
-    EEM_LIGHT_SLEEP = 1285,
-    EEM_CHARM = 1286,
-    EEM_PARALYZE = 1287,
-    EEM_BIND = 1288,
-    EEM_SLOW = 1289,
-    EEM_PETRIFY = 1290,
-    EEM_TERROR = 1291,
-    EEM_POISON = 1292,
-    EEM_DARK_SLEEP = 1293,
-    EEM_BLIND = 1294,
-
     // Forced land rate, never resists. 1 = true 0 = false
     DIVINE_NEVER_MISS = 1295,   
     ENFEEBLE_NEVER_MISS = 1296, 
@@ -1072,7 +1082,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1379 NEXT
+    // 1386 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

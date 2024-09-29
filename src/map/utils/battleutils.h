@@ -164,12 +164,13 @@ namespace battleutils
     void                FreeWeaponSkillsList();
     void                FreeMobSkillList();
 
-    SUBEFFECT GetSkillChainEffect(CBattleEntity* PDefender, uint8 primary, uint8 secondary, uint8 tertiary);
+    SUBEFFECT            GetSkillChainEffect(CBattleEntity* PDefender, uint8 primary, uint8 secondary, uint8 tertiary);
     SKILLCHAIN_ELEMENT   FormSkillchain(const std::list<SKILLCHAIN_ELEMENT>& resonance, const std::list<SKILLCHAIN_ELEMENT>& skill);
     uint8                GetSkillchainTier(SKILLCHAIN_ELEMENT skillchain);
     uint8                GetSkillchainSubeffect(SKILLCHAIN_ELEMENT skillchain);
     int16                GetSkillchainMinimumResistance(SKILLCHAIN_ELEMENT element, CBattleEntity* PDefender, ELEMENT* appliedEle);
     std::vector<ELEMENT> GetSkillchainMagicElement(SKILLCHAIN_ELEMENT skillchain);
+    constexpr int        GetSkillchainElementCount(SKILLCHAIN_ELEMENT skillchain);
 
     bool                IsParalyzed(CBattleEntity* PAttacker);
     bool                IsAbsorbByShadow(CBattleEntity* PDefender, CBattleEntity* PAttacker);
@@ -189,14 +190,14 @@ namespace battleutils
     uint8               GetGuardRate(CBattleEntity* PAttacker, CBattleEntity* PDefender);
     float               GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent);
 
-    int16               GetSDTTier(int16 SDT);
+    int16               getSDTRank(CBattleEntity* PDefender, ELEMENT element, int16 SDT);
     float               GetSDTMultiplier(float tier);
     int16               GetPlayerMeva(CBattleEntity* PAttacker);
     float               GetMagicResist(float magicHitRate);
     int16               GetElementalSDT(ELEMENT element, CBattleEntity* PDefender);
     int16               GetEnfeebleSDT(uint8 status, ELEMENT element, CBattleEntity* PDefender);
     float               GetDstatBonus(float softcap, float diff);
-    float               CalculateMagicHitRate(float magicacc, float magiceva, ELEMENT element, float percentBonus, float casterLvl, float targetLvl, int SDT);
+    float               CalculateMagicHitRate(CBattleEntity* PDefender, float magicacc, float magiceva, ELEMENT element, float percentBonus, float casterLvl, float targetLvl, int SDT);
     float               ApplyResistance(CBattleEntity* PAttacker, CBattleEntity* PDefender, ELEMENT element, uint8 skillType, float diff, float bonus);
     float               ApplyResistanceEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 status, ELEMENT element, uint8 skillType, float diff, float bonus);
     int16               GetEffectResistanceTraitChance(CBattleEntity* PAttacker, CBattleEntity* PDefender, EFFECT effect);

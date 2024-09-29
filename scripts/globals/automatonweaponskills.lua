@@ -1509,7 +1509,7 @@ function getAutoMagicHitRate(auto, target, skillType, element, SDT, percentBonus
     end
     -- printf("Base MEVA: %s", baseMagiceva)
     -- apply SDT
-    local tier = getSDTTier(SDT)
+    local tier = getSDTRank(target, element, SDT)
     local multiplier = getSDTMultiplier(tier)
     -- print(string.format('SDT: %s, Tier: %s, Multiplier: %s', SDT, tier, multiplier))
     baseMagiceva = math.floor(baseMagiceva * multiplier)
@@ -1527,10 +1527,10 @@ function getAutoMagicHitRate(auto, target, skillType, element, SDT, percentBonus
     magicacc = math.floor(magicacc + utils.clamp(maccFood, 0, auto:getMod(tpz.mod.FOOD_MACC_CAP)))
     -- printf("MACC: %s", magicacc)
 
-    return calculateAutoMagicHitRate(magicacc, magiceva, percentBonus, SDT)
+    return calculateAutoMagicHitRate(target, magicacc, magiceva, element, percentBonus, SDT)
 end
 
-function calculateAutoMagicHitRate(magicacc, magiceva, percentBonus, SDT)
+function calculateAutoMagicHitRate(target, magicacc, magiceva, element, percentBonus, SDT)
     local p = 0
     
     -- percentBonus is a bit deceiving of a name. it's either 0 or a negative number. its only application is specific effect resistance (i.e. +5 resist to paralyze = -5% hitrate on incoming paras)
@@ -1553,7 +1553,7 @@ function calculateAutoMagicHitRate(magicacc, magiceva, percentBonus, SDT)
     p = p + percentBonus
 
     -- Check SDT tiers
-    local tier = getSDTTier(SDT)
+    local tier = getSDTRank(target, element, SDT)
     -- print(string.format('calculateMagicHitRate SDT: %s, Tier: %s,', SDT, tier))
     -- T10 sets your hit rate to 5% max
     if (tier >= 10) then
