@@ -1234,7 +1234,24 @@ namespace battleutils
                 damage *= magicDefense;
                 break;
             case SPIKE_GLINT:
+                element = ELEMENT_DARK;
+                // drain same as damage taken
+                damage = static_cast<float>(
+                    (damageTaken * ApplyResistance(PDefender, PAttacker, element, SKILL_DARK_MAGIC, 0, static_cast<float>(spikesMaccBonus))));
+                // apply elemental damage reduction
+                magicDefense = 1.0f - (PDefender->getMod(Mod::DARKDEF) / 256.0f);
+                damage *= magicDefense;
+                break;
             case SPIKE_DREAD:
+                spikesMaccBonus += 145;
+                element = ELEMENT_DARK;
+                // drain same as damage taken
+                damage = static_cast<float>(
+                    (damageTaken * ApplyResistance(PDefender, PAttacker, element, SKILL_DARK_MAGIC, 0, static_cast<float>(spikesMaccBonus))));
+                // apply elemental damage reduction
+                magicDefense = 1.0f - (PDefender->getMod(Mod::DARKDEF) / 256.0f);
+                damage *= magicDefense;
+                break;
             case SPIKE_CURSE:
                 element = ELEMENT_DARK;
                 // drain same as damage taken
