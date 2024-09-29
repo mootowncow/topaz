@@ -259,7 +259,7 @@ end
 function utils.thirdeye(attacker, target)
     -- Starts at 100% proc rate, decaying by 10% every 3 seconds until 10%.
     local thirdEye = target:getStatusEffect(tpz.effect.THIRD_EYE)
-	local hasSeigan = target:getStatusEffect(tpz.effect.SEIGAN)
+    local hasSeigan = target:getStatusEffect(tpz.effect.SEIGAN)
 
     if (thirdEye == nil) then
         return false
@@ -273,18 +273,21 @@ function utils.thirdeye(attacker, target)
         target:isFacing(attacker, 45) and
         not target:hasPreventActionEffect()
     then
+        -- Always anticipate the attack if TE is active
+        -- printf("Anticipated!")
+        
+        -- Now check if Seigan is active for TE persistence
         if not hasSeigan then
-            -- printf("Anticipated!")
-            target:delStatusEffect(tpz.effect.THIRD_EYE)
-            return true
+            -- No Seigan: remove TE after anticipation
+            target:delStatusEffectSilent(tpz.effect.THIRD_EYE)
+        else
+            -- Seigan active: roll to see if TE persists
+            if math.random(100) > anticipateChance then
+                target:delStatusEffectSilent(tpz.effect.THIRD_EYE)
+            end
         end
 
-        if (math.random(100) <= anticipateChance) then
-            -- printf("Anticipated!")
-            return true
-        else
-		    target:delStatusEffect(tpz.effect.THIRD_EYE)
-	    end
+        return true
     end
 
     return false

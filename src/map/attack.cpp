@@ -354,38 +354,39 @@ bool CAttack::CheckAnticipated()
     // Starts at 100% proc rate, decaying by 10% every 3 seconds until 10%.
     uint16 anticipateChance = effect->GetPower();
     bool hasSeigan = m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN, 0);
-    //printf("anticipateChance: %u\n", anticipateChance);
-    if (m_victim->PAI->IsEngaged() &&
-        facing(m_victim->loc.p, m_attacker->loc.p, 45) &&
-        !m_victim->StatusEffectContainer->HasPreventActionEffect(false))
+
+    // Always anticipate the attack if TE is active
+    if (m_victim->PAI->IsEngaged() && facing(m_victim->loc.p, m_attacker->loc.p, 45) && !m_victim->StatusEffectContainer->HasPreventActionEffect(false))
     {
+        m_anticipated = true;
+
+        // Now decide whether to remove TE or keep it based on Seigan and random roll
         if (!hasSeigan)
         {
-            m_victim->StatusEffectContainer->DelStatusEffect(EFFECT_THIRD_EYE);
-            m_anticipated = true;
-            return true;
+            // If no Seigan, remove TE immediately after anticipating
+            m_victim->StatusEffectContainer->DelStatusEffectSilent(EFFECT_THIRD_EYE);
         }
         else
         {
-            if (tpzrand::GetRandomNumber(100) < anticipateChance)
+            // If Seigan is active, roll the random chance for TE to persist
+            if (tpzrand::GetRandomNumber(100) >= anticipateChance)
             {
-                // chance to counter - 25% base
-                if (!m_victim->StatusEffectContainer->HasPreventActionEffect(false) &&
-                    tpzrand::GetRandomNumber(100) < 25 + m_victim->getMod(Mod::THIRD_EYE_COUNTER_RATE))
-                {
-                    if (!m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
-                    {
-                        m_isCountered = true;
-                        m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false));
-                    }
-                }
-                m_anticipated = true;
-                return true;
+                // If the random roll fails, remove TE
+                m_victim->StatusEffectContainer->DelStatusEffectSilent(EFFECT_THIRD_EYE);
             }
-            m_victim->StatusEffectContainer->DelStatusEffect(EFFECT_THIRD_EYE);
-            m_anticipated = true;
-            return true;
         }
+
+        // Check for counter chance (still happens only if Seigan is active)
+        if (hasSeigan && tpzrand::GetRandomNumber(100) < 25 + m_victim->getMod(Mod::THIRD_EYE_COUNTER_RATE))
+        {
+            if (!m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
+            {
+                m_isCountered = true;
+                m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false));
+            }
+        }
+
+        return true;
     }
 
     return false;
