@@ -4778,7 +4778,6 @@ namespace battleutils
                 return (SUBEFFECT)GetSkillchainSubeffect((SKILLCHAIN_ELEMENT)skillchain);
             }
 
-
             PSCEffect->SetStartTime(server_clock::now());
             PSCEffect->SetDuration(10000);
             PSCEffect->SetTier(0);
