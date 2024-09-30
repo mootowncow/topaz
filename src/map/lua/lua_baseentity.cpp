@@ -10876,7 +10876,7 @@ inline int32 CLuaBaseEntity::sendReraise(lua_State *L)
 
     uint8 RaiseLevel = (uint8)lua_tonumber(L, 1);
 
-    if (RaiseLevel == 0 || RaiseLevel > 3)
+    if (RaiseLevel == 0 || RaiseLevel > 6)
     {
         ShowDebug(CL_CYAN"lua::sendRaise raise value is not valide!\n" CL_RESET);
     }
