@@ -2355,6 +2355,11 @@ void CCharEntity::OnRaise()
         SetLocalVar("GMRaise", 0);
 
         m_hasRaise = 0;
+
+        if (GetSpeed() == 0) // Safety check for dying with Palisade up
+        {
+            speed = 40;
+        }
     }
 }
 
