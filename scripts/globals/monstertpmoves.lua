@@ -935,11 +935,6 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
         end
     end
 
-    --handling magic stoneskin / stoneskin
-    if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.BREATH then
-        dmg = utils.rampartstoneskin(target, dmg)
-    end
-    dmg = utils.stoneskin(target, dmg)
     dmg = utils.clamp(dmg, -99999, 99999)
 
     -- Add HP if absorbed
@@ -953,6 +948,12 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
         skill:setMsg(tpz.msg.basic.SKILL_RECOVERS_HP)
         return dmg
     end
+
+    --handling magic stoneskin / stoneskin
+    if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.BREATH then
+        dmg = utils.rampartstoneskin(target, dmg)
+    end
+    dmg = utils.stoneskin(target, dmg)
 
     --printf("dmg after %u",dmg)
     if (dmg > 0) then
