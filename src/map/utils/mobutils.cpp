@@ -775,7 +775,7 @@ void SetupJob(CMobEntity* PMob)
         case JOB_BLM:
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
             PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 5);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 25);
             PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 10);
             break;
         case JOB_PLD:
@@ -799,6 +799,7 @@ void SetupJob(CMobEntity* PMob)
         case JOB_WHM:
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
             PMob->defaultMobMod(MOBMOD_MAGIC_DELAY, 10);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
             break;
         case JOB_BRD:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -822,7 +823,7 @@ void SetupJob(CMobEntity* PMob)
             }
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
             PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
             PMob->defaultMobMod(MOBMOD_MAGIC_DELAY, 10);
             break;
         case JOB_SMN:
@@ -848,19 +849,19 @@ void SetupJob(CMobEntity* PMob)
         case JOB_SCH:
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
             PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 5);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
             PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 10);
             break;
         case JOB_GEO:
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
             PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 5);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
             PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 10);
             break;
         case JOB_RUN:
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
             PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 5);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
             PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 10);
             break;
         default:
@@ -1501,7 +1502,7 @@ void GetAvailableSpells(CMobEntity* PMob) {
     PMob->defaultMobMod(MOBMOD_GA_CHANCE, 35);
     PMob->defaultMobMod(MOBMOD_NA_CHANCE, 05);
     PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 20);
-    PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 10);
+    PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
     PMob->defaultMobMod(MOBMOD_HEAL_CHANCE, 40);
     PMob->defaultMobMod(MOBMOD_HP_HEAL_CHANCE, 40);
 
