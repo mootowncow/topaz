@@ -1854,11 +1854,11 @@ INSERT INTO `mob_skills` VALUES (1901,505,'activate',0,7.0,2000,0,1,2,0,0,0,0,0)
 -- INSERT INTO `mob_skills` VALUES (1902,1646,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1903,915,'camisado',0,10.0,2000,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1904,1126,'somnolence',4,15.0,2000,3000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1905,916,'noctoshield',1,10.0,2000,1500,1,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1906,917,'ultimate_terror',1,10.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1905,916,'noctoshield',1,10.0,2000,3000,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1906,917,'ultimate_terror',1,10.0,2000,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1907,1127,'dream_shroud',1,10.0,2000,3000,1,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1908,918,'nightmare',1,10.0,2000,2500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1909,1128,'cacodemonia',1,10.0,2000,1500,4,0,0,0,0,0,0); 
+INSERT INTO `mob_skills` VALUES (1908,918,'nightmare',1,10.0,2000,3000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1909,1128,'cacodemonia',1,10.0,2000,3000,4,0,0,0,0,0,0); 
 INSERT INTO `mob_skills` VALUES (1910,1129,'nether_blast',4,15.0,646,3000,4,0,0,0,0,0,0); 
 
 -- Don't use!
@@ -2408,23 +2408,23 @@ INSERT INTO `mob_skills` VALUES (2444,1712,'dancers_fury',0,7.0,2000,1000,4,0,0,
 INSERT INTO `mob_skills` VALUES (2445,1713,'whirling_edge',0,7.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2446,1716,'rousing_samba',0,7.0,2000,1000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2447,1717,'vivifying_waltz',1,18.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2448,1686,'regal_scratch',1,7.0,2000,1000,4,4,0,0,4,0,0); -- Scission (4)
-INSERT INTO `mob_skills` VALUES (2449,1687,'mewing_lullaby',1,7.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2450, 1688, 'eerie_eye', 4, 10.0, 2000, 1600, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2451, 1689, 'divine_favor', 1, 18.0, 2000, 1600, 1, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2452, 1690, 'level-1-holy', 1, 10.0, 2000, 1000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2453, 1691, 'level-2-holy', 1, 10.0, 2000, 1000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2454, 1692, 'level-3-holy', 1, 10.0, 2000, 1000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2455, 1693, 'level-4-holy', 1, 10.0, 2000, 1000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2456, 1694, 'level-5-holy', 1, 10.0, 2000, 1000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2457, 1695, 'level-6-holy', 1, 10.0, 2000, 1000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2448,1686,'regal_scratch',1,7.0,2000,3000,4,4,0,0,4,0,0); -- Scission (4) -- TODO: Animation IDs should be the MP cost of the blood pacts?
+INSERT INTO `mob_skills` VALUES (2449,1687,'mewing_lullaby',1,7.0,2000,3000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2450, 1688, 'eerie_eye', 4, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2451, 1689, 'divine_favor', 1, 18.0, 2000, 3000, 1, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2452, 1690, 'level-1-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2453, 1691, 'level-2-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2454, 1692, 'level-3-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2455, 1693, 'level-4-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2456, 1694, 'level-5-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2457, 1695, 'level-6-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
 -- INSERT INTO `mob_skills` VALUES (2458,2202,'soul_vacuum',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2459,2203,'soul_infusion',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2460, 1696, 'raise_ii', 0, 18.0, 2000, 1000, 34, 0, 0, 0, 0, 0, 0); -- Cottus used after killing a trust??
 -- INSERT INTO `mob_skills` VALUES (2461,2205,'mog_bomb',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2462,2206,'mog_shrapnel',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2463,2207,'flowerpot',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2464, 1685, 'reraise_ii', 0, 18.0, 2000, 1000, 2, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2464, 1685, 'reraise_ii', 0, 18.0, 2000, 3000, 2, 0, 0, 0, 0, 0, 0);
 -- INSERT INTO `mob_skills` VALUES (2465,2209,'bill_toss',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2466,2210,'washtub',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2467,2211,'crystalline_flare',0,7.0,2000,1500,4,0,0,0,0,0,0);
