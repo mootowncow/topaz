@@ -55,6 +55,7 @@ Doors around that area are supposed to open when players are nearby and close wh
 
 Retail:
 Do pots immediately cast on aggro?
+BRD mobs casting logic after aggro, how long before they cast?
 How long do Dynamis pets take to cast breakga/paralyga/silencega after engaging?
 Terror overwrite itself?
 Cerberus mobs Howl

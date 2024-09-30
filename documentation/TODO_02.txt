@@ -131,8 +131,21 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+1: Better NO_MOVE logic, they seem to stay too far to cure because are staying max distance to the enemy but that's not close enoguh to cure? Also should have cast distance set to 19 or something
+2: Need to set their distance to stay to the target to be clsoer than the distance to the ally and both shorter than max cast range.
+3: Needs to at least allow them to sit 15 yards, atm they sit like 12-14 and its annoying
+Elivira needs logic that if she can't see target when trying to RA (!CanSeeTarget()?) 2-3 times in a row she will re-position (like warping if can't auto logic)
+Adelheid does basically zero damage at level75 as a nuker. Horrible MACC? Barely casts?
+Don't cure players with curse II on them(Zombie)
+Don't try to para / slow mobs that have mobmod MOBMOD_ATTACK_SKILL_LIST > 0 (0) (Put in isimmunne() check or w/e)
+If trusts JA's are para'd do they go on full recast?
+Dispel to check dark SDT in immunitycheck
+1: Add logic so Kupipi won't move if she needs to cast protectra/shellra on engage (disable movement while needing to cast it?)
+2: Maybe just all trusts don't run movement logic if no prot/shell on them yet?
+Absorb logic for what nuke to select (target having absorb mod)
 Gambit to check melee acc vs target. Use for Lhe focus and Zeid absorb-ACC, also Ulmias Madrigal
 Uriel Blade SCed for 0 on a magmatic eruca (fragmentation)
+Trusts can still get the bug players used to get on WSing as a target dies then losing all TP Add WS state stuff PCs to mobskill state
 Kupipi Curaga logic
 Test Valaineral tanking level 85+ bosses
 Can't summon trusts in "Trial by X" avatar BCNM's
@@ -158,7 +171,43 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Atonement shouldn't be able to bypass 750 dmg via gorgets 0.1 fTP. Or why is it doing 787 damage?
+Find a way to set player speed back to 40 on revive/death because if you die with palisade up you're stuck at speed 0
+Add aura mechanic to Yumcax so you can turn of Tiiimbeeer
+Nakuals weather can fade, so make them change weather onMobFight if weather isn't their weather
+Remove stacking EXP bonus from GoV completionsw
+FSTR2 for throwing weapons 
+https://github.com/LandSandBoat/server/commit/2dd7c97c35508fe5a8c0a8ff78cd05fee7070a6f#diff-dea0a7c8d005d1e7507dcb2370aff3a46df84ab53d87ba50beeab376c3082621R3050
+
+Remove runes on job change
+Slightly (They are basically 1y too short to hit me) increase range of Nakual TP autos or add some type of +modelsize or +melee range to them because I can palisade, auto them, but they can't use JA autos on me
+Banish "resistance" reducton to magic? I don't see proof - check JP wiki, remove if no proof
+1: Tomahawk, check JP wiki, and code what it says, otherwise it should just set a mobs UDMGMAGIC / DMGMAGIC / DMGMAGIC II to 0 
+2: or in magicdmgtaken(C++) if tomahawk, its 0 resist
+SMN Avatar MAB merits should work on nether blast
+Test Dread Spikes MACC (Should get +175 total)
+Marids and grand marids take +200% slashing, fix their family!
+Grand Marid PH again
+Normal Marids Grand Marids and Iriz Ima should all link together
+Lividroot modelsize bigger(Or only on final spawn? can set modelsize in lua now)
+Move a T1 of mid path and right path to Mamool / Trolls to make them worth meriting on
+Kerutoto gave me waking dreams(repeat), I killed diabolos, came back, gave me waking dreams  again, and then let me turn in my diabolos kill
+Quick Draw ignore absorb mods?
+Armed Gears should cast cure IV  on itself in light mode (maybe need to change mobmod_cure or w/e? it might only do it below 33%?)
+Pet speed matching player speed crashed the server when zoning from a dungeon to a city with a pet out
+Party all mobs together
+Give all the 280 skill WS an add effect like Agheha has defense down
+Add tractor to raise
+When I casted with lac disabled my shock spikes was higher potency than my shock spikes gear? (BLU)
+Cover https://www.bg-wiki.com/ffxi/Cover missing the CE/VE transfer and 10% Loss thing too I think
+Does magic cover work?
+For BST JA's to AOE the animation is it some getaoe enum/switch in ability.h or something? Like the magic one
 BRD Relic
+In BattleUtils.cpp can't I just add new entries for enum ENSPELL and enum SPIKES instead of using weird charvars for BLU spikes / NIN endark?
+Why does armed gears only use restoral with 2 gears active unless i make the file return 1 with an RNG roll?
+Blood Pacts being shadow absorbed by blink says 0 shadows (At least for single hit)
+Dream Shroud(and prob all Diabolos blood pacts not Nether Blast?) activate too fast, should be 3s or w/e other ones are
+Noctoshields AoE range is somehow shorter than dream shroud? Prob need to edit it then, its like 8 yards or less. mobskill.sql I think
 
 Spirit Link empathy working correctly?
 MessageGroup() and other stuff doesn't work with trusts?
@@ -167,6 +216,9 @@ Cait Sith / Siren
 Mobs should be able to buff allies in combat too with my new changes
 Mobs should buff/heal allies that are in combat while being out of combat
 Mobs shouldn't go underground mid casting
+RAID:
+Absorb logic for  what nuke to select (target having absoreb mod)
+Seigan mods like +DEF +VIT + PDT +TPEVA(probably this one) while seigan is active. Maybe on SAM relic pants?
 
 Rank6-10 bastok/sandy
 
@@ -178,20 +230,25 @@ Check all immunities with mobdb
 +++ FINISH JP FIRST BEFORE ANYTHING +++
 Finish Zilartian Weapons (Blatherix). Need mods / aftermath and WS testing
 Odin / Alex RAID (Drop their BCNM gear + Einherjar odin gear)
-KS99's
+KS99's (Add new spell drops to every KS99, like Migawari/Full Cure/Comet/Meteor)
 60-80 inventory expansions from COP HNMS
+Relic / Mythic weapon revamp
 Other salvage NMs
 WOE
 Hunts
 GOV Elite training!
 Sky tatters system for augmenting sky gear
 HNM's that need Water / Wind / Thunder / Dark resist sets
+1: Add more JP camps 81-83 mobs just more attk/acc/def/eva/attributes(WOTG dungeons! also add fomor NMs and nms for those zones!). 
+2: Reduce capacity point timer at higher chains, check JP wiki if it has any math/info
+Give the mobs huge capacity exp bonus(Need to add as a mod?)
 My interrupt logic (it sends some weird hex code) as param or w/e should make it say mob tp move interrupted on combatmessages
+Can get TP on spirits within start function and set as a local var? can be tp wiped mid ws ;/
 
 Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
 Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva/ramuh/etc only) specific items
 NEED A RAMUH SPECIFIC ITEM!!
-SiR ring. +Enfeebling magic duration items
+SiR ring. +Enfeebling magic duration items. +SC damage gear, nice for "Weaker" WS like spiral hell / cross reaper which you only use to SC with
 Resist gear options!
 
 Higher level beetles at the south goblin Oasis in Eastern Altepa?
@@ -211,12 +268,12 @@ Do shield blocked TP moves still interrupt with shield mastery trait on?
 Get merrow/lamia dukrippen stuff from jcmorris
 Add puk camp back by Mamook
 Windurst medals NPCs(Bastoks might be done? can copy)
-Buff conquest gear + campaign gear 
+Buff conquest gear + campaign gear
 https://ffxiclopedia.fandom.com/wiki/Cobra_Unit_Robe_Set
+Buff Bad Enkidu Pieces, Bad Oracle Pieces, Ares Set, Skadi Set, Yigit Set
+Buff immortal's sash
 
-Buff Aurumn Set, Ares Set, Skadi Set
 
-add more JP camps 81-83 mobs just more attk/acc/def/eva/attributes(WOTG dungeons! also add fomor NMs and nms for those zones!), and RAID nms wont give 10 JP anymore but gonna give them more loot
 Fix /tell chat
 
 1: unity chat doesn't work cross-zone
@@ -356,7 +413,6 @@ Does the mob:wait() or w/e thing cause crashes for scouting the ashu talif?
 Mob AOE moves you can dodge that aoe around them / directional / conal and get their target AFTER the tp move animation finishes instead of before so they go off even if no targets in range and give spewcial "no targets in range" msg or w/e
 TryProcTH needs level 15+ job check(maybe 75?)
 Add Cura-III to the new cure magic.lua function
-Add tractor to raise
 Does WS not remove invis/sneak?
 
 ~~~~~~~~~~~~~~~~~~~~Relic Weapons Revamp~~~~~~~~~~~~~~~~~~~~
@@ -484,6 +540,9 @@ https://github.com/LandSandBoat/server/commit/37772ab475034ce7a936c886000d11bcab
 Check for untargettable state
 https://github.com/LandSandBoat/server/commit/f1283d253b373afc32602914989d0306bb5e4bbf
 
+Dmg cap mod
+https://github.com/LandSandBoat/server/commit/66c91e225acd9aedf4f6db8654155988bb04d9f7
+
 Speed logic
 https://github.com/LandSandBoat/server/commit/8527243a44c23c022118f7bec85c3bfcd7a0f5fd
 
@@ -530,9 +589,6 @@ https://github.com/LandSandBoat/server/commit/5131acdb1a80b0bd177eea82ec83581187
 
 Lotting
 https://github.com/LandSandBoat/server/commit/7ecad7379c694f658dbfb4f720387047454a4e68
-
-Skillchain resistance rank reduction
-https://github.com/LandSandBoat/server/commit/ae3fb1625f06d3cc6ec4a0d9b5fc0b6b8d2f8623
 
 /folllow
 https://github.com/LandSandBoat/server/commit/a51b5d851f1de31b62516e20d68cb8a08f1748db
