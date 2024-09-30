@@ -722,10 +722,15 @@ function AddCasterGear(mob)
         mob:addMod(tpz.mod.INT, 18)
         mob:addMod(tpz.mod.MATT, 5)
         AddElementalStaves(mob, 'nq')
-    elseif mobLevel >= 72 and mobLevel <= 75 then
+    elseif mobLevel >= 72 and mobLevel < 75 then
         mob:addMod(tpz.mod.INT, 47)
         mob:addMod(tpz.mod.MATT, 5)
         AddElementalStaves(mob, 'nq')
+    elseif mobLevel >= 75 then
+        mob:addMod(tpz.mod.INT, 47)
+        mob:addMod(tpz.mod.MATT, 5)
+        mob:addMod(tpz.mod.ELEM, 80)
+        AddElementalStaves(mob, 'hq')
         if master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
             -- TODO
         end
@@ -911,6 +916,12 @@ function AddFoodBonuses(mob)
             mob:addMod(tpz.mod.FOOD_RACC_CAP, 72)
             mob:addMod(tpz.mod.SLEEPRESTRAIT, 1)
         end
+    elseif (job == tpz.job.BLM) or (job == tpz.job.SCH) then
+        mob:addMod(tpz.mod.MP, 25)
+        mob:addMod(tpz.mod.CHR, -2)
+        mob:addMod(tpz.mod.INT, 2)
+        mob:addMod(tpz.mod.FOOD_MACCP, 21)
+        mob:addMod(tpz.mod.FOOD_MACC_CAP, 10)
     else
         if mobLevel >= 1 and mobLevel < 75 then
             mob:addMod(tpz.mod.STR, 5)
