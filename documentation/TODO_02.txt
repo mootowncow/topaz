@@ -171,49 +171,33 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Atonement shouldn't be able to bypass 750 dmg via gorgets 0.1 fTP. Or why is it doing 787 damage?
-Find a way to set player speed back to 40 on revive/death because if you die with palisade up you're stuck at speed 0
-Add aura mechanic to Yumcax so you can turn of Tiiimbeeer
-Nakuals weather can fade, so make them change weather onMobFight if weather isn't their weather
-Remove stacking EXP bonus from GoV completionsw
+Remove stacking EXP bonus from GoV completions
 FSTR2 for throwing weapons 
 https://github.com/LandSandBoat/server/commit/2dd7c97c35508fe5a8c0a8ff78cd05fee7070a6f#diff-dea0a7c8d005d1e7507dcb2370aff3a46df84ab53d87ba50beeab376c3082621R3050
 
-Remove runes on job change
-Slightly (They are basically 1y too short to hit me) increase range of Nakual TP autos or add some type of +modelsize or +melee range to them because I can palisade, auto them, but they can't use JA autos on me
 Banish "resistance" reducton to magic? I don't see proof - check JP wiki, remove if no proof
 1: Tomahawk, check JP wiki, and code what it says, otherwise it should just set a mobs UDMGMAGIC / DMGMAGIC / DMGMAGIC II to 0 
 2: or in magicdmgtaken(C++) if tomahawk, its 0 resist
-SMN Avatar MAB merits should work on nether blast
 Test Dread Spikes MACC (Should get +175 total)
-Marids and grand marids take +200% slashing, fix their family!
-Grand Marid PH again
-Normal Marids Grand Marids and Iriz Ima should all link together
-Lividroot modelsize bigger(Or only on final spawn? can set modelsize in lua now)
 Move a T1 of mid path and right path to Mamool / Trolls to make them worth meriting on
 Kerutoto gave me waking dreams(repeat), I killed diabolos, came back, gave me waking dreams  again, and then let me turn in my diabolos kill
-Quick Draw ignore absorb mods?
-Armed Gears should cast cure IV  on itself in light mode (maybe need to change mobmod_cure or w/e? it might only do it below 33%?)
 Pet speed matching player speed crashed the server when zoning from a dungeon to a city with a pet out
-Party all mobs together
+Party all mobs together? Or can't do this because then ALL mobs will link with eachother? So just party mobs in assaults? Or just specific ones? Add a mob_mod to add to party togetheR?
 Give all the 280 skill WS an add effect like Agheha has defense down
-Add tractor to raise
 When I casted with lac disabled my shock spikes was higher potency than my shock spikes gear? (BLU)
 Cover https://www.bg-wiki.com/ffxi/Cover missing the CE/VE transfer and 10% Loss thing too I think
 Does magic cover work?
-For BST JA's to AOE the animation is it some getaoe enum/switch in ability.h or something? Like the magic one
 BRD Relic
 In BattleUtils.cpp can't I just add new entries for enum ENSPELL and enum SPIKES instead of using weird charvars for BLU spikes / NIN endark?
 Why does armed gears only use restoral with 2 gears active unless i make the file return 1 with an RNG roll?
 Blood Pacts being shadow absorbed by blink says 0 shadows (At least for single hit)
-Dream Shroud(and prob all Diabolos blood pacts not Nether Blast?) activate too fast, should be 3s or w/e other ones are
-Noctoshields AoE range is somehow shorter than dream shroud? Prob need to edit it then, its like 8 yards or less. mobskill.sql I think
 
+Mobskill ENUM SKILLFLAG that makes moves go off regardless of anyone being in range or not
 Spirit Link empathy working correctly?
 MessageGroup() and other stuff doesn't work with trusts?
-Diabolos Pole is missing and there's two earrings from Waking Dreams?
 Cait Sith / Siren
 Mobs should be able to buff allies in combat too with my new changes
+Mobs should -na/erase allies that are in combat while being in combat with my new changes
 Mobs should buff/heal allies that are in combat while being out of combat
 Mobs shouldn't go underground mid casting
 RAID:
@@ -221,6 +205,7 @@ Absorb logic for  what nuke to select (target having absoreb mod)
 Seigan mods like +DEF +VIT + PDT +TPEVA(probably this one) while seigan is active. Maybe on SAM relic pants?
 
 Rank6-10 bastok/sandy
+What is player:countdown(60)?!
 
 
 Voidwalker:
@@ -449,7 +434,6 @@ Additional effect: Corrupt or corrupt on a TP move?
 
 
 
-How does slug shot do 61 instead of 400+ dmg? It's 1 hit
 Wyvern pets should folllow master on disengage(mobID + 1?)
 Variable for setting to limit points on not always changed when job swapped to 75
 Tipua needs some type of mechanic, very boring and easy. Maybe summon bees and eat them for HP if you don't kill them fast enough? And 100 fists
