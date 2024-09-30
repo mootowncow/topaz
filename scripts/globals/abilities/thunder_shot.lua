@@ -38,7 +38,7 @@ function onUseAbility(player, target, ability, action)
         end
 
         local tp = utils.CalcualteTPGain(player, target, true)
-        jobUtil.HandleCorsairShoTP(player, target, dmg, tp)
+        jobUtil.HandleCorsairShotTP(player, target, dmg, tp)
     end
 
     if player:isPC() then

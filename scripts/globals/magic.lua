@@ -1322,6 +1322,17 @@ function adjustForTarget(target, dmg, ele)
     return dmg
 end
 
+-- Only used for takeAbilityDamage in ability.lua
+function isAbsorbed(target, dmg, ele)
+    if (dmg > 0 and math.random(0, 99) < target:getMod(tpz.magic.absorbMod[ele])) then
+        return -dmg
+    end
+    if (math.random(0, 99) < target:getMod(nullMod[ele])) then
+        return 0
+    end
+    return dmg
+end
+
 function calculateMagicBurst(caster, spell, target, params)
 
     local burst = 1.0

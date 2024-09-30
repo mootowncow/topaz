@@ -5,6 +5,7 @@
 -----------------------------------
 require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/utils")
 
 tpz = tpz or {}
 
@@ -874,15 +875,50 @@ function takeAbilityDamage(defender, attacker, params, primary, finaldmg, attack
     else
         -- no abilities that use ability message can miss (the rest use ws messages)
     end
-    local targetTPMult = params.targetTPMult or 1
-    finaldmg = defender:takeWeaponskillDamage(attacker, finaldmg, attackType, damageType, slot, primary, tpHitsLanded, (extraHitsLanded * 10) + bonusTP, targetTPMult)
-    local enmityEntity = taChar or attacker
-    if (params.overrideCE and params.overrideVE) then
-        defender:addEnmity(enmityEntity, params.overrideCE, params.overrideVE)
-    else
-        local enmityMult = params.enmityMult or 1
-        defender:updateEnmityFromDamage(enmityEntity, finaldmg * enmityMult)
+
+    -- Handle positional PDT
+    if attackType == tpz.attackType.PHYSICAL or attackType == tpz.attackType.RANGED then
+        finaldmg = utils.HandlePositionalPDT(attacker, defender, finaldmg)
     end
 
+    -- Handle positional MDT
+    if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.SPECIAL or attackType == tpz.attackType.BREATH then
+        finaldmg = utils.HandlePositionalMDT(attacker, defender, finaldmg)
+    end
+
+    --handling absorb
+    if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.BREATH then
+        local element = damageType - 5 -- This will match spell_data.lua's elements index
+        if (damageType > 5 and damageType < 14) then -- Anything below 5 and above 13 isn't an element and can't be absorbed
+            finaldmg = isAbsorbed(defender, finaldmg, element)
+        end
+    end
+
+    finaldmg = utils.clamp(finaldmg, -99999, 99999)
+
+    -- Add HP if absorbed
+    if (finaldmg < 0) then
+        -- Give target HP
+        finaldmg = (defender:addHP(-finaldmg))
+        action:messageID(defender:getID(), tpz.msg.basic.JA_RECOVERS_HP)
+    else
+        --handling magic stoneskin / stoneskin
+        if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.BREATH then
+            finaldmg = utils.rampartstoneskin(defender, finaldmg)
+        end
+        finaldmg = utils.stoneskin(defender, finaldmg)
+
+        local targetTPMult = params.targetTPMult or 1
+        finaldmg = defender:takeWeaponskillDamage(attacker, finaldmg, attackType, damageType, slot, primary, tpHitsLanded, (extraHitsLanded * 10) + bonusTP, targetTPMult)
+        local enmityEntity = taChar or attacker
+        if (params.overrideCE and params.overrideVE) then
+            defender:addEnmity(enmityEntity, params.overrideCE, params.overrideVE)
+        else
+            local enmityMult = params.enmityMult or 1
+            defender:updateEnmityFromDamage(enmityEntity, finaldmg * enmityMult)
+        end
+    end
+    
+    -- printf("Final damage %d", finaldmg)
     return finaldmg
 end

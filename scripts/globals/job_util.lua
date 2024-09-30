@@ -83,7 +83,7 @@ function jobUtil.GetAutoMainSkill(pet)
     return tpz.skill.AUTOMATON_MELEE
 end
 
-function jobUtil.HandleCorsairShoTP(player, target, dmg, tp)
+function jobUtil.HandleCorsairShotTP(player, target, dmg, tp)
     if (dmg > 0) then
         player:addTP(tp)
         target:handleAfflatusMiseryDamage(dmg)
