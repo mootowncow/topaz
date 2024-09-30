@@ -342,6 +342,10 @@ uint8 CMobSkill::getAoe() const
 
 float CMobSkill::getDistance() const
 {
+    if (m_Flag == SKILLFLAG_REPLACE_ATTACK)
+    {
+        return 5.0f;
+    }
     return m_Distance;
 }
 
