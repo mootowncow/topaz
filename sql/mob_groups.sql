@@ -2441,7 +2441,7 @@ INSERT INTO `mob_groups` VALUES (13,3698,51,'Soldier_Pephredo',330,0,2293,0,0,76
 INSERT INTO `mob_groups` VALUES (14,4376,51,'Worker_Pephredo',330,0,2672,0,0,74,76,0);
 INSERT INTO `mob_groups` VALUES (15,2562,51,'Marid',330,0,1617,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (16,3343,51,'Red_Kisser',330,0,174,0,0,74,76,0);
-INSERT INTO `mob_groups` VALUES (17,1787,51,'Grand_Marid',3600,0,1214,0,0,85,87,0);
+INSERT INTO `mob_groups` VALUES (17,1787,51,'Grand_Marid',0,32,1214,0,0,85,87,0);
 INSERT INTO `mob_groups` VALUES (18,106,51,'Ameretat',330,0,2923,0,0,66,68,0);
 INSERT INTO `mob_groups` VALUES (19,4275,51,'Wajaom_Tiger',330,0,2601,0,0,67,68,0);
 INSERT INTO `mob_groups` VALUES (20,5555,51,'Chelicerata',0,128,3041,7900,0,78,78,0);
@@ -2567,7 +2567,7 @@ INSERT INTO `mob_groups` VALUES (15,4650,52,'Fomor_Thief',330,1,0,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (16,5137,52,'Harvestman',36000,128,2891,7500,0,72,72,0);
 INSERT INTO `mob_groups` VALUES (17,3991,52,'Treant_Sapling',330,0,2464,0,0,65,68,0);
 INSERT INTO `mob_groups` VALUES (18,714,52,'Chigoe',330,0,466,0,0,76,78,0);
-INSERT INTO `mob_groups` VALUES (19,1787,52,'Grand_Marid',3600,0,1214,0,0,78,79,0);
+INSERT INTO `mob_groups` VALUES (19,1787,52,'Grand_Marid',0,32,1214,0,0,78,79,0);
 INSERT INTO `mob_groups` VALUES (20,2562,52,'Marid',330,0,1617,0,0,78,79,0);
 INSERT INTO `mob_groups` VALUES (21,765,52,'Colibri',330,0,500,0,0,71,73,0);
 INSERT INTO `mob_groups` VALUES (22,5139,52,'Mahishasura',3600,0,2893,15000,0,81,81,0);
