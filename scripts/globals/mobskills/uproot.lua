@@ -1,5 +1,5 @@
 ---------------------------------------------
--- FUproot
+-- Uproot
 --
 -- Description: AoE magical damage Additional effect: Slow, hate reset and dispels all effects on self.
 -- Type: Magical
@@ -9,8 +9,11 @@ require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
 require("scripts/globals/status")
 ---------------------------------------------
-
 function onMobSkillCheck(target, mob, skill)
+    local hasAura = mob:AnimationSub() == 1
+    if (hasAura) then
+        return 1
+    end
     return 0
 end
 
@@ -22,5 +25,6 @@ function onMobWeaponSkill(target, mob, skill)
     MobSelfDispelMove(mob, skill)
     mob:resetEnmity(target)
     skill:setMsg(tpz.msg.basic.DAMAGE)
+    mob:AnimationSub(1)
     return dmg
 end

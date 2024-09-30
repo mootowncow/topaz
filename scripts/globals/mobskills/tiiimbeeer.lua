@@ -11,7 +11,11 @@ require("scripts/globals/status")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    return 0
+    local hasAura = mob:AnimationSub() == 1
+    if (hasAura) then
+        return 0
+    end
+    return 1
 end
 
 function onMobWeaponSkill(target, mob, skill)

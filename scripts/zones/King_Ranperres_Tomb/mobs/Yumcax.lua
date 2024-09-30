@@ -22,6 +22,51 @@ function onMobEngaged(mob, target)
 end
 
 function onMobFight(mob, target)
+    local hasAura = mob:AnimationSub() == 1
+
+    -- Gains Regen when "Firefly" aura is active
+    if hasAura then
+        mob:setMod(tpz.mod.REGEN, 100)
+    else
+        mob:setMod(tpz.mod.REGEN, 0)
+    end
+
+    -- Aura removed by wind damage
+    mob:addListener("MAGIC_HIT", "YUMCAX_MAGIC_HIT", function(caster, mob, spell)
+        local hasAura = mob:AnimationSub() == 1
+
+        if hasAura then
+            if (spell:getElement() == tpz.magic.ele.WIND) then
+                mob:AnimationSub(0)
+            end
+        end
+    end)
+
+    mob:addListener("SKILLCHAIN_TAKE", "YUMCAX_SC_TAKE", function(mob, target, scElement)
+        local hasAura = mob:AnimationSub() == 1
+        local name = target:getName()
+
+        if hasAura then
+            if -- Wind damage skillchains
+                (scElement == tpz.skillchainEle.DETONATION) or
+                (scElement == tpz.skillchainEle.FRAGMENTATION) or
+                (scElement == tpz.skillchainEle.LIGHT) or
+                (scElement == tpz.skillchainEle.LIGHT_II)
+            then
+                mob:AnimationSub(0)
+            end
+        end
+    end)
+
+    mob:addListener("EN_SPIKES_HIT", "YUMCAX_EN_SPIKES_HIT", function(attacker, mob, element)
+        local hasAura = mob:AnimationSub() == 1
+
+        if hasAura then
+            if (element == tpz.magic.ele.WIND) then
+                mob:AnimationSub(0)
+            end
+        end
+    end)
 end
 
 function onMobWeaponSkillPrepare(mob, target)
