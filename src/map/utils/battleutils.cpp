@@ -415,7 +415,7 @@ namespace battleutils
             if (SDT == entry.SDT)
             {
                 rank = entry.Rank;
-                printf("SDT rank before rank mod: %d\n", rank);
+                //printf("SDT rank before rank mod: %d\n", rank);
 
                 // Find the element mod to adjust rank
                 for (const auto& modEntry : sdtMods)
@@ -434,7 +434,7 @@ namespace battleutils
             }
         }
 
-        printf("Final SDT rank: %d\n", rank);
+        //printf("Final SDT rank: %d\n", rank);
         return rank;
     }
 
