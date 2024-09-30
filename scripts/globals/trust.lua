@@ -82,6 +82,7 @@ local modByMobName =
         mob:addMod(tpz.mod.CURE_POTENCY, 50)
         if mob:getMainLvl() >= 75 then
             mob:addMod(tpz.mod.DMGPHYS, -33)
+            mob:addMod(tpz.mod.DMGBREATH, -33)
         end
         AddHeavyMeleeAccuracyGear(mob)
         AddShieldBonuses(mob)

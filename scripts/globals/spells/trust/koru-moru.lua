@@ -56,7 +56,7 @@ function onMobSpawn(mob)
     mob:SetAutoAttackEnabled(false)
 
     if mob:getMainLvl() >= 75 then
-        mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.LONG_RANGE)
+        mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.MID_RANGE)
     else
         mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.NO_MOVE)
     end
