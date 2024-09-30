@@ -24,6 +24,11 @@ function onMobSpawn(mob)
         mob:setMobMod(tpz.mobMod.GIL_MAX, 7300) 
         mob:setMobMod(tpz.mobMod.GIL_BONUS, 0) 
         mob:setMobMod(tpz.mobMod.NO_DROPS, 0)
+        mob:setModelSize(3)
+    else
+        mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
+        mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+        mob:setModelSize(1)
     end
     local NearbyPlayers = mob:getPlayersInRange(50)
     if NearbyPlayers == nil then return end

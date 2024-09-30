@@ -256,6 +256,10 @@ INSERT INTO `mob_pool_mods` VALUES(3845, 74, 169, 1); -- Tauri link with demons
 INSERT INTO `mob_pool_mods` VALUES(5556, 74, 169, 1); -- Tauri link with demons
 INSERT INTO `mob_pool_mods` VALUES(3978, 74, 169, 1); -- Tauri link with demons
 
+INSERT INTO `mob_pool_mods` VALUES(2090, 74, 180, 1); -- Iriz Ima links with Marids and Grand Marids
+INSERT INTO `mob_pool_mods` VALUES(2562, 74, 295, 1); -- Marids link with Iriz Ima 
+INSERT INTO `mob_pool_mods` VALUES(1787, 74, 295, 1); -- Grand Marids link with Iriz Ima 
+
 
 
 

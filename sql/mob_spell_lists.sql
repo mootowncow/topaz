@@ -5276,10 +5276,10 @@ INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Water',2053,105,24,255); -- E
 INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Water',2053,221,24,255); -- Poison II
 INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Water',2053,55,24,255); -- Aquaveil
 
-INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Light',2054,1,1,10); -- Cure
-INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Light',2054,2,1,20); -- Cure II
-INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Light',2054,3,1,40); -- Cure III
-INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Light',2054,4,1,60); -- Cure IV
+INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Light',2054,1,1,255); -- Cure
+INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Light',2054,2,1,255); -- Cure II
+INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Light',2054,3,1,255); -- Cure III
+INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Light',2054,4,1,255); -- Cure IV
 INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Light',2054,24,24,255); -- Dia II
 INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Light',2054,33,24,255); -- Diaga
 INSERT INTO `mob_spell_lists` VALUES ('Armed_Gears_Light',2054,108,24,255); -- Regen

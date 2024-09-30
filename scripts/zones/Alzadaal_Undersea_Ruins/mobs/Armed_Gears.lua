@@ -31,6 +31,9 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.RANGEDRES, 100)
     mob:setMod(tpz.mod.IMPACTRES, 100)
 	mob:setMobMod(tpz.mobMod.MAGIC_COOL, 15)
+    mob:setMobMod(tpz.mobMod.HEAL_CHANCE, 20) -- Chance to cast a cure
+    mob:setMobMod(tpz.mobMod.HP_HEAL_CHANCE, 95) -- HP threshold to start casting a cure
+    mob:setMobMod(tpz.mobMod.BUFF_CHANCE, 40)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMobMod(tpz.mobMod.GIL_MIN, 8000) -- 9k Gil
     mob:setMobMod(tpz.mobMod.GIL_MAX, 9000) 
