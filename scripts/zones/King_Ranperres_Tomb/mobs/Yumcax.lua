@@ -22,7 +22,12 @@ function onMobEngaged(mob, target)
 end
 
 function onMobFight(mob, target)
+    local weather = mob:getWeather()
     local hasAura = mob:AnimationSub() == 1
+
+    if (weather ~= tpz.weather.SAND_STORM) then
+        mob:setWeather(tpz.weather.SAND_STORM)
+    end
 
     -- Gains Regen when "Firefly" aura is active
     if hasAura then

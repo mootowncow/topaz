@@ -22,6 +22,11 @@ function onMobEngaged(mob, target)
 end
 
 function onMobFight(mob, target)
+    local weather = mob:getWeather()
+
+    if (weather ~= tpz.weather.HEAT_WAVE) then
+        mob:setWeather(tpz.weather.HEAT_WAVE)
+    end
 end
 
 function onMobWeaponSkillPrepare(mob, target)
