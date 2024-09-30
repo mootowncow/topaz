@@ -909,7 +909,7 @@ void CMobController::CastSpell(SpellID spellid)
             // Iterate through all targets and find the lowest HP target
             for (auto& target : PMob->PAI->TargetFind->m_targets)
             {
-                if (target->GetHPP() < PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) && target->PAI->IsEngaged()) // Don't heal targets out of combat
+                if (target->GetHPP() <= PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) && target->PAI->IsEngaged()) // Don't heal targets out of combat
                 {
                     if (PCureTarget == nullptr || target->GetHPP() < PCureTarget->GetHPP())
                     {
@@ -919,7 +919,7 @@ void CMobController::CastSpell(SpellID spellid)
             }
 
             // Check if we should heal this target (mob's HP must be higher than the target's HP)
-            if (PCureTarget != nullptr && PCureTarget->GetHPP() < PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) // Target's HP is below the heal chance threshold
+            if (PCureTarget != nullptr && PCureTarget->GetHPP() <= PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) // Target's HP is below the heal chance threshold
                 && PMob->GetHPP() >= PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE)                              // Mob's HP is above the heal chance threshold
                 && PMob->GetHPP() > PCureTarget->GetHPP())                                               // Mob's HP is higher than the target's HP
             {

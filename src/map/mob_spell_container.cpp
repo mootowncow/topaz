@@ -913,7 +913,7 @@ std::optional<SpellID> CMobSpellContainer::GetSpell()
             }
         }
 
-        if (PCureTarget != nullptr && PCureTarget->GetHPP() < m_PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE)) // Target's HP is below the heal chance threshold
+        if (PCureTarget != nullptr && PCureTarget->GetHPP() <= m_PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_HEAL_CHANCE))
         {
             return GetHealSpell();
         }
