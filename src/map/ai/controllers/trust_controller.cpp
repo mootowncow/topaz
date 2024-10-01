@@ -37,7 +37,6 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../ai/states/range_state.h"
 #include "../../items/item_weapon.h"
 #include "../../mob_modifier.h"
-#include "../../utils/battleutils.h"
 
 namespace
 {
@@ -461,27 +460,6 @@ bool CTrustController::Ability(uint16 targid, uint16 abilityid)
 
     if (POwner->PAI->CanChangeState())
     {
-        CAbility* PAbility = ability::GetAbility(abilityid);
-
-        // Check for paraylze
-        if (battleutils::IsParalyzed(POwner))
-        {
-            // 2 hours can be paraylzed but it won't reset their timers
-            if (PAbility->getRecastId() != ABILITYRECAST_TWO_HOUR && PAbility->getRecastId() != ABILITYRECAST_TWO_HOUR_TWO)
-            {
-                // If Third Eye is paralyzed while seigan is active, use the modified seigan cooldown for thirdeye(30s instead of 1m)
-                if (PAbility->getID() == ABILITY_THIRD_EYE && POwner->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
-                {
-                    POwner->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), PAbility->getRecastTime() / 2);
-                }
-                else
-                {
-                    POwner->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), PAbility->getRecastTime());
-                }
-            }
-            POwner->loc.zone->PushPacket(POwner, CHAR_INRANGE, new CMessageBasicPacket(POwner, POwner, 0, 0, MSGBASIC_IS_PARALYZED));
-            return false;
-        }
         return POwner->PAI->Internal_Ability(targid, abilityid);
     }
 
