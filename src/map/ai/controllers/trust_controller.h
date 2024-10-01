@@ -57,8 +57,11 @@ public:
     CBattleEntity* GetTopEnmity();
 
     uint8 GetPartyPosition();
+    void OnCastStopped(CMagicState& state, action_t& action);
 
     std::unique_ptr<gambits::CGambitsContainer> m_GambitsContainer;
+
+    time_point m_NextMagicTime;
 
 private:
     void DoCombatTick(time_point tick) override;

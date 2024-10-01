@@ -532,6 +532,58 @@ bool CTrustController::Cast(uint16 targid, SpellID spellid)
     return CController::Cast(targid, spellid);
 }
 
+void CTrustController::OnCastStopped(CMagicState& state, action_t& action)
+{
+    int32 magicCool = 0;
+    CState* currentState = POwner->PAI->GetCurrentState();
+    if (currentState)
+    {
+        // Attempt to cast to CMagicState
+        CMagicState* maState = dynamic_cast<CMagicState*>(currentState);
+        if (maState)
+        {
+            CSpell* PSpell = maState->GetSpell();
+            if (PSpell)
+            {
+                auto spellCastTime = PSpell->getCastTime();
+                auto skillType = PSpell->getSkillType();
+                // printf("spellid %d, PSpell %p, spellCastTime: %d, skillType: %d \n", static_cast<int>(spellid), static_cast<void*>(PSpell), spellCastTime,
+                // skillType);
+
+                switch (skillType)
+                {
+                    case SKILLTYPE::SKILL_DIVINE_MAGIC:
+                    case SKILLTYPE::SKILL_HEALING_MAGIC:
+                    case SKILLTYPE::SKILL_ENHANCING_MAGIC:
+                    case SKILLTYPE::SKILL_ENFEEBLING_MAGIC:
+                    case SKILLTYPE::SKILL_DARK_MAGIC:
+                    case SKILLTYPE::SKILL_SUMMONING_MAGIC:
+                    case SKILLTYPE::SKILL_NINJUTSU:
+                    case SKILLTYPE::SKILL_SINGING:
+                    case SKILLTYPE::SKILL_STRING_INSTRUMENT:
+                    case SKILLTYPE::SKILL_WIND_INSTRUMENT:
+                    case SKILLTYPE::SKILL_BLUE_MAGIC:
+                    case SKILLTYPE::SKILL_GEOMANCY:
+                    case SKILLTYPE::SKILL_HANDBELL:
+                        magicCool = spellCastTime + 5000;
+                        // ShowDebug("Adding 5s to spell recast timer\n");
+                        break;
+                    case SKILLTYPE::SKILL_ELEMENTAL_MAGIC:
+                        // ShowDebug("Adding 23s to spell recast timer\n");
+                        magicCool = spellCastTime + 23000;
+                        break;
+                    default:
+                        // ShowDebug("Adding 5s to spell recast timer\n");
+                        magicCool = spellCastTime + 5000;
+                        break;
+                }
+            }
+        }
+    }
+
+    m_NextMagicTime = m_Tick + std::chrono::milliseconds(magicCool);
+}
+
 CBattleEntity* CTrustController::GetTopEnmity()
 {
     TracyZoneScoped;

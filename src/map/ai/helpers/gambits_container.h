@@ -253,11 +253,9 @@ private:
     bool ShouldShellra();
     bool CanSneakAttack();
     bool IsStunImmune(CBattleEntity* trigger_target);
-    void SetSpellRecast(time_point tick, SpellID spellid);
 
     CTrustEntity* POwner;
     time_point m_lastAction;
-    time_point m_lastCast;
     std::vector<Gambit_t> gambits;
 
     std::set<JOBTYPE> melee_jobs =

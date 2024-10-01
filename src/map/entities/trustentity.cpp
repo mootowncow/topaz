@@ -553,6 +553,13 @@ void CTrustEntity::OnCastFinished(CMagicState& state, action_t& action)
 {
     CBattleEntity::OnCastFinished(state, action);
 
+
+    CTrustController* trustController = dynamic_cast<CTrustController*>(PAI->GetController());
+    if (trustController)
+    {
+        trustController->OnCastStopped(state, action);
+    }
+
     auto PSpell = state.GetSpell();
 
     PRecastContainer->Add(RECAST_MAGIC, static_cast<uint16>(PSpell->getID()), action.recast);
@@ -562,6 +569,18 @@ void CTrustEntity::OnCastFinished(CMagicState& state, action_t& action)
     {
         ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
         ((CMobEntity*)PTarget)->DoAutoTarget();
+    }
+}
+
+void CTrustEntity::OnCastInterrupted(CMagicState& state, action_t& action, MSGBASIC_ID msg, bool blockedCast)
+{
+    TracyZoneScoped;
+    CBattleEntity::OnCastInterrupted(state, action, msg, blockedCast);
+
+    CTrustController* trustController = dynamic_cast<CTrustController*>(PAI->GetController());
+    if (trustController)
+    {
+        trustController->OnCastStopped(state, action);
     }
 }
 

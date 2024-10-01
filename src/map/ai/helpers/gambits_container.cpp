@@ -404,7 +404,7 @@ void CGambitsContainer::Tick(time_point tick)
             }
             else if (action.reaction == G_REACTION::MA)
             {
-                if (tick < m_lastCast)
+                if (tick < controller->m_NextMagicTime)
                 {
                     return;
                 }
@@ -417,7 +417,6 @@ void CGambitsContainer::Tick(time_point tick)
                         if (!POwner->SpellContainer->IsImmune(target, static_cast<SpellID>(spell_id.value())))
                         {
                             controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
-                            SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                             return;
                         }
                     }
@@ -457,7 +456,6 @@ void CGambitsContainer::Tick(time_point tick)
                                 {
                                     PSpell = static_cast<SpellID>(spell_id.value());
                                     controller->Cast(target->targid, PSpell);
-                                    SetSpellRecast(tick, PSpell);
                                     return;
                                 }
                             }
@@ -473,7 +471,6 @@ void CGambitsContainer::Tick(time_point tick)
                     //if (!POwner->SpellContainer->IsImmune(target, static_cast<SpellID>(spell_id.value())))
                     //    {
                     //        controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
-                    //        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                     //        return;
                     //    }
                     //}
@@ -485,7 +482,6 @@ void CGambitsContainer::Tick(time_point tick)
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, spell_id.value());
-                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                         return;
                     }
                 }
@@ -497,7 +493,6 @@ void CGambitsContainer::Tick(time_point tick)
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, spell_id.value());
-                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                         return;
                     }
                 }
@@ -507,7 +502,6 @@ void CGambitsContainer::Tick(time_point tick)
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, spell_id.value());
-                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                         return;
                     }
                 }
@@ -517,7 +511,6 @@ void CGambitsContainer::Tick(time_point tick)
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, spell_id.value());
-                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                         return;
                     }
                 }
@@ -527,7 +520,6 @@ void CGambitsContainer::Tick(time_point tick)
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, spell_id.value());
-                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                         return;
                     }
                 }
@@ -540,7 +532,6 @@ void CGambitsContainer::Tick(time_point tick)
                         if (spell_id.has_value())
                         {
                             controller->Cast(target->targid, spell_id.value());
-                            SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                             return;
                         }
                     }
@@ -551,7 +542,6 @@ void CGambitsContainer::Tick(time_point tick)
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, spell_id.value());
-                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                         return;
                     }
                 }
@@ -563,7 +553,6 @@ void CGambitsContainer::Tick(time_point tick)
                         if (!POwner->SpellContainer->IsImmune(target, static_cast<SpellID>(spell_id.value())))
                         {
                             controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
-                            SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                             return;
                         }
                     }
@@ -602,7 +591,6 @@ void CGambitsContainer::Tick(time_point tick)
                     if (spell_id.has_value())
                     {
                         controller->Cast(target->targid, static_cast<SpellID>(spell_id.value()));
-                        SetSpellRecast(tick, static_cast<SpellID>(spell_id.value()));
                         return;
                     }
                 }
@@ -1528,42 +1516,6 @@ bool CGambitsContainer::TryTrustSkill()
         }
 
         return false;
-    }
-
-    void CGambitsContainer::SetSpellRecast(time_point tick, SpellID spellid)
-    {
-        auto PSpell = spell::GetSpell(spellid);
-        auto spellCastTime = PSpell->getCastTime();
-        auto skillType = PSpell->getSkillType();
-        //printf("spellid %d, PSpell %p, spellCastTime: %d, skillType: %d \n", static_cast<int>(spellid), static_cast<void*>(PSpell), spellCastTime, skillType);
-
-        switch (skillType)
-        {
-            case SKILLTYPE::SKILL_DIVINE_MAGIC:
-            case SKILLTYPE::SKILL_HEALING_MAGIC:
-            case SKILLTYPE::SKILL_ENHANCING_MAGIC:
-            case SKILLTYPE::SKILL_ENFEEBLING_MAGIC:
-            case SKILLTYPE::SKILL_DARK_MAGIC:
-            case SKILLTYPE::SKILL_SUMMONING_MAGIC:
-            case SKILLTYPE::SKILL_NINJUTSU:
-            case SKILLTYPE::SKILL_SINGING:
-            case SKILLTYPE::SKILL_STRING_INSTRUMENT:
-            case SKILLTYPE::SKILL_WIND_INSTRUMENT:
-            case SKILLTYPE::SKILL_BLUE_MAGIC:
-            case SKILLTYPE::SKILL_GEOMANCY:
-            case SKILLTYPE::SKILL_HANDBELL:
-                m_lastCast = tick + std::chrono::milliseconds(spellCastTime + 5000);
-                //ShowDebug("Adding 5s to spell recast timer\n");
-                break;
-            case SKILLTYPE::SKILL_ELEMENTAL_MAGIC:
-                //ShowDebug("Adding 23s to spell recast timer\n");
-                m_lastCast = tick + std::chrono::milliseconds(spellCastTime + 23000);
-                break;
-            default:
-                //ShowDebug("Adding 5s to spell recast timer\n");
-                m_lastCast = tick + std::chrono::milliseconds(spellCastTime + 5000);
-                break;
-        }
     }
 
 } // namespace gambits
