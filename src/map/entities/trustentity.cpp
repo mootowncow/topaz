@@ -155,14 +155,33 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
             return;
         }
 
+        action.id = this->id;
+        action.actiontype = PAbility->getActionType();
+        action.actionid = PAbility->getID();
+        action.recast = PAbility->getRecastTime();
+
         // If Third Eye is paralyzed while seigan is active, use the modified seigan cooldown for thirdeye(30s instead of 1m)
-        if (PAbility->getID() == ABILITY_THIRD_EYE && this->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
+        if (action.actionid == ABILITY_THIRD_EYE && this->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
         {
             action.recast /= 2;
         }
 
         if (battleutils::IsParalyzed(this))
         {
+            // 2 hours can be paraylzed but it won't reset their timers
+            if (PAbility->getRecastId() != ABILITYRECAST_TWO_HOUR && PAbility->getRecastId() != ABILITYRECAST_TWO_HOUR_TWO)
+            {
+                // If Third Eye is paralyzed while seigan is active, use the modified seigan cooldown for thirdeye(30s instead of 1m)
+                if (action.actionid == ABILITY_THIRD_EYE && this->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
+                {
+                    PRecastContainer->Add(RECAST_ABILITY, action.actionid, action.recast / 2);
+                }
+                else
+                {
+                    PRecastContainer->Add(RECAST_ABILITY, action.actionid, action.recast);
+                }
+            }
+
             setActionInterrupted(action, PTarget, MSGBASIC_IS_PARALYZED, 0);
             return;
         }
@@ -174,7 +193,7 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast -= std::min<int16>(getMod(Mod::QUICK_DRAW_RECAST), 25);
         }
 
-        if (PAbility->getID() == ABILITY_LIGHT_ARTS || PAbility->getID() == ABILITY_DARK_ARTS || PAbility->getRecastId() == 231) // stratagems
+        if (action.actionid == ABILITY_LIGHT_ARTS || action.actionid == ABILITY_DARK_ARTS || PAbility->getRecastId() == 231) // stratagems
         {
             if (this->StatusEffectContainer->HasStatusEffect(EFFECT_TABULA_RASA))
                 action.recast = 0;
@@ -184,11 +203,6 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
         {
             action.recast -= getMod(Mod::ONE_HOUR_RECAST);
         }
-
-        action.id = this->id;
-        action.actiontype = PAbility->getActionType();
-        action.actionid = PAbility->getID();
-        action.recast = PAbility->getRecastTime();
 
         if (PAbility->isAoE())
         {
