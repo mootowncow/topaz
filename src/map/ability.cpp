@@ -27,6 +27,42 @@ CAbility::CAbility(uint16 id)
     m_ID = id;
 }
 
+bool CAbility::isMeleeAbility()
+{
+    switch (getID())
+    {
+        case ABILITY_STEAL:
+        case ABILITY_MUG:
+        case ABILITY_DESPOIL:
+        case ABILITY_LARCENY:
+        case ABILITY_SHIELD_BASH:
+        case ABILITY_INTERVENE:
+        case ABILITY_WEAPON_BASH:
+        case ABILITY_BLADE_BASH:
+        case ABILITY_KONZEN_ITTAI:
+        case ABILITY_JUMP:
+        case ABILITY_HIGH_JUMP:
+        case ABILITY_SUPER_JUMP:
+        case ABILITY_SPIRIT_JUMP:
+        case ABILITY_DESPERATE_FLOURISH:
+        case ABILITY_VIOLENT_FLOURISH:
+        case ABILITY_SWIPE:
+        case ABILITY_LUNGE:
+        case ABILITY_RAYKE:
+        case ABILITY_ODYLLIC_SUBTERFUGE:
+            return true;
+            break;
+        default:
+            return false;
+            break;
+    }
+    if (isStep())
+    {
+        return true;
+    }
+    return false;
+}
+
 bool CAbility::isPetAbility()
 {
     return getID() >= ABILITY_HEALING_RUBY;

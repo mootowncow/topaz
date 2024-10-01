@@ -712,6 +712,7 @@ public:
 
     CAbility(uint16 id);
 
+    bool        isMeleeAbility();
     bool        isPetAbility();
     bool        isPetCommand();
     bool        isReadyMove();

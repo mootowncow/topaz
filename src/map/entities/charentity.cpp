@@ -1498,10 +1498,19 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
     std::unique_ptr<CBasicPacket> errMsg;
     if (IsValidTarget(PTarget->targid, PAbility->getValidTarget(), errMsg))
     {
-        if (this != PTarget && distance(this->loc.p, PTarget->loc.p) > PAbility->getRange())
+        if (this != PTarget)
         {
-            setActionInterrupted(action, PTarget, MSGBASIC_TOO_FAR_AWAY, 0);
-            return;
+            float jaRange = PAbility->getRange();
+            if (PAbility->isMeleeAbility())
+            {
+                jaRange = GetMeleeRange() + PTarget->m_ModelSize;
+            }
+
+            if (distance(this->loc.p, PTarget->loc.p) > jaRange)
+            {
+                setActionInterrupted(action, PTarget, MSGBASIC_TOO_FAR_AWAY, 0);
+                return;
+            }
         }
 
         // get any available merit recast reduction
@@ -1528,11 +1537,6 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast = charge->chargeTime * PAbility->getRecastTime() - PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SIC_RECAST, this);
         }
 
-        // If Third Eye is paralyzed while seigan is active, use the modified seigan cooldown for thirdeye(30s instead of 1m)
-        if (PAbility->getID() == ABILITY_THIRD_EYE && this->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
-        {
-            action.recast /= 2;
-        }
         // Halve Chakra cooldown if the player has Boost
         if (PAbility->getID() == ABILITY_CHAKRA)
         {
@@ -1541,7 +1545,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 action.recast /= 2;
             }
         }
-        // Sneak Attack merits also reduce the recast of BUlly
+        // Sneak Attack merits also reduce the recast of Bully
         if (PAbility->getID() == ABILITY_BULLY)
         {
             action.recast = PAbility->getRecastTime() - PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SNEAK_ATTACK_RECAST, this);
