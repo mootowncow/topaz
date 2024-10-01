@@ -131,6 +131,16 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Try to use
+        if (currentDistance < RoamDistance * 3.0f && POwner->PAI->PathFind->PathAround(PFollowTarget->loc.p, RoamDistance, PATHFLAG_RUN | PATHFLAG_WALLHACK))
+        {
+            POwner->PAI->PathFind->FollowPath();
+        }
+        else if (POwner->GetSpeed() > 0)
+        {
+            POwner->PAI->PathFind->StepTo(PFollowTarget->loc.p, true);
+        }
+        in ShowDebug("[%s] Can't see enemy, pathing closer\n", POwner->name);
 Only use level60+ WS if level 60+
 Make a list of refresh jobs and only refresh them in CAN_REFRESH gambit_container.cpp logic (a list like std::set<JOBTYPE> melee_jobs in gambits container?)
 1: Better NO_MOVE logic, they seem to stay too far to cure because are staying max distance to the enemy but that's not close enoguh to cure? Also should have cast distance set to 19 or something
