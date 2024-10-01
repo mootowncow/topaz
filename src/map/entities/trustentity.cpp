@@ -154,18 +154,6 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
             return;
         }
 
-        // If Third Eye is paralyzed while seigan is active, use the modified seigan cooldown for thirdeye(30s instead of 1m)
-        if (PAbility->getID() == ABILITY_THIRD_EYE && this->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
-        {
-            action.recast /= 2;
-        }
-
-        if (battleutils::IsParalyzed(this))
-        {
-            setActionInterrupted(action, PTarget, MSGBASIC_IS_PARALYZED, 0);
-            return;
-        }
-
         // There is an overall cap of -25 seconds for a 35 second recast
         // https://www.bg-wiki.com/ffxi/Quick_Draw
         if (PAbility->isQuickDraw())
