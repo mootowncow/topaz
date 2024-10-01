@@ -131,10 +131,14 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Trusts get ported to non-owners in party when they do a CS /setPOS. Check that they are the trusts owner on porting(two places)
+Move setting last_cast to CTrustController::Cast(uint16 targid, SpellID spellid) incase the spell is para'd (is para check after this?)
+Make a list of refresh jobs and only refresh them in CAN_REFRESH gambit_container.cpp logic (a list like std::set<JOBTYPE> melee_jobs in gambits container?)
 1: Better NO_MOVE logic, they seem to stay too far to cure because are staying max distance to the enemy but that's not close enoguh to cure? Also should have cast distance set to 19 or something
 2: Need to set their distance to stay to the target to be clsoer than the distance to the ally and both shorter than max cast range.
 3: Needs to at least allow them to sit 15 yards, atm they sit like 12-14 and its annoying
 Elivira needs logic that if she can't see target when trying to RA (!CanSeeTarget()?) 2-3 times in a row she will re-position (like warping if can't auto logic)
+Casters (Debuffs / nukes /etc) also need this logic. Also for healing allies!
 Adelheid does basically zero damage at level75 as a nuker. Horrible MACC? Barely casts?
 Don't cure players with curse II on them(Zombie)
 Don't try to para / slow mobs that have mobmod MOBMOD_ATTACK_SKILL_LIST > 0 (0) (Put in isimmunne() check or w/e)
@@ -171,11 +175,41 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Test commits I did from home!
+
+Infernal Swarm:
+Beezlebub:
+    Huge moodel size
+    Immune to silence, sleep and bind
+    stays back and just spams silencega/paralyga every 30s
+    Cure 5's itself or adds if they are below ~25%
+    comes into melee range at the normal threshold ~65%
+    Uses all TP moves besides final sting
+    1193 pollen
+
+Hell Fly:
+    Normal bee model size
+    Can use pollen at 100% HP
+    Uses normal TP moves besides final sting
+    exactly 600 HP pollen
+
+All mobs are required to die to complete
+Prob drops all the JSE belts not just the two listed
+BCNM treasure chest spawns the SECOND mobs die and not on despawn
+
+
 Remove stacking EXP bonus from GoV completions
 FSTR2 for throwing weapons 
 https://github.com/LandSandBoat/server/commit/2dd7c97c35508fe5a8c0a8ff78cd05fee7070a6f#diff-dea0a7c8d005d1e7507dcb2370aff3a46df84ab53d87ba50beeab376c3082621R3050
 
+Weapon STR stuff (Already did I think?)
+https://github.com/LandSandBoat/server/commit/d930fbb0b83311a80ee4b88ef1063822f2d2eb4e
+
 Banish "resistance" reducton to magic? I don't see proof - check JP wiki, remove if no proof
+Steal is stealing Bone Chip over ice spikes with aura steal
+Mobs are really bad at casting buffs while roaming...why? Do they not have 100% chance of casting buffing magic on every roam cast and try to cast other stuff?
+JA distances for players (Like steps/flourishes/steal/mug/despoil/shield bash/weapon bash/etc) Model size + melee range()
+QD recast on some items(COR Relic?) to make QD ~30s cd
 1: Tomahawk, check JP wiki, and code what it says, otherwise it should just set a mobs UDMGMAGIC / DMGMAGIC / DMGMAGIC II to 0 
 2: or in magicdmgtaken(C++) if tomahawk, its 0 resist
 Test Dread Spikes MACC (Should get +175 total)
@@ -228,6 +262,11 @@ HNM's that need Water / Wind / Thunder / Dark resist sets
 2: Reduce capacity point timer at higher chains, check JP wiki if it has any math/info
 Give the mobs huge capacity exp bonus(Need to add as a mod?)
 My interrupt logic (it sends some weird hex code) as param or w/e should make it say mob tp move interrupted on combatmessages
+Add more lockstyle gear that's missing to places and modelID's if needed
+1: Jaridah peti for THF?
+2: 577 body for PLD?
+3: Mirke Wardecors for ???
+4: Iratsume Happi
 Can get TP on spirits within start function and set as a local var? can be tp wiped mid ws ;/
 
 Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
@@ -529,6 +568,10 @@ https://github.com/LandSandBoat/server/commit/66c91e225acd9aedf4f6db8654155988bb
 
 Speed logic
 https://github.com/LandSandBoat/server/commit/8527243a44c23c022118f7bec85c3bfcd7a0f5fd
++
+https://github.com/LandSandBoat/server/commit/b268c2c885d22629cdcc6b634a527c86a21957b1
++
+https://github.com/LandSandBoat/server/commit/a707393f2e136b4e3354bacb6dc7f9b035813d54
 
 Petid on zoning
 https://github.com/LandSandBoat/server/commit/0f7c8a0cd811eaf56d0fbce6f0926ba0f9fb04a1
