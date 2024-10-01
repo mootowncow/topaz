@@ -150,7 +150,26 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
     std::unique_ptr<CBasicPacket> errMsg;
     if (IsValidTarget(PTarget->targid, PAbility->getValidTarget(), errMsg))
     {
-        if (this != PTarget && distance(this->loc.p, PTarget->loc.p) > PAbility->getRange())
+        if (this != PTarget)
+        {
+            float jaRange = PAbility->getRange();
+            if (PAbility->isMeleeAbility())
+            {
+                if (CBattleEntity* pBattleTarget = dynamic_cast<CBattleEntity*>(PTarget))
+                {
+                    if (pBattleTarget)
+                    {
+                        jaRange = this->GetMeleeRange() + pBattleTarget->m_ModelSize;
+                    }
+                }
+            }
+            if (distance(this->loc.p, PTarget->loc.p) > jaRange)
+            {
+                return;
+            }
+        }
+
+        if (this->loc.zone->CanUseMisc(MISC_LOS_BLOCK) && !this->CanSeeTarget(PTarget, false))
         {
             return;
         }
