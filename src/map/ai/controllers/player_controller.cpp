@@ -1080,7 +1080,15 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             // 2 hours can be paraylzed but it won't reset their timers
             if (PAbility->getRecastId() != ABILITYRECAST_TWO_HOUR && PAbility->getRecastId() != ABILITYRECAST_TWO_HOUR_TWO)
             {
-                PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), PAbility->getRecastTime());
+                // If Third Eye is paralyzed while seigan is active, use the modified seigan cooldown for thirdeye(30s instead of 1m)
+                if (PAbility->getID() == ABILITY_THIRD_EYE && PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
+                {
+                    PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), PAbility->getRecastTime() / 2);
+                }
+                else
+                {
+                    PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), PAbility->getRecastTime());
+                }
             }
             PChar->pushPacket(new CCharRecastPacket(PChar));
             PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_IS_PARALYZED));
