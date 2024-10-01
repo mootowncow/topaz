@@ -14,5 +14,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    player:addStatusEffect(tpz.effect.DIVINE_EMBLEM, 7, 0, 30)
+    player:addStatusEffect(tpz.effect.DIVINE_EMBLEM, 7, 0, 60)
 end
