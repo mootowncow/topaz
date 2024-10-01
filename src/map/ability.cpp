@@ -29,6 +29,12 @@ CAbility::CAbility(uint16 id)
 
 bool CAbility::isMeleeAbility()
 {
+    // Check for steps first
+    if (isStep())
+    {
+        return true;
+    }
+
     switch (getID())
     {
         case ABILITY_STEAL:
@@ -51,17 +57,13 @@ bool CAbility::isMeleeAbility()
         case ABILITY_RAYKE:
         case ABILITY_ODYLLIC_SUBTERFUGE:
             return true;
-            break;
         default:
             return false;
-            break;
     }
-    if (isStep())
-    {
-        return true;
-    }
+
     return false;
 }
+
 
 bool CAbility::isPetAbility()
 {

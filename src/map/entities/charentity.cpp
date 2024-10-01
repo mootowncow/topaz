@@ -1498,21 +1498,6 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
     std::unique_ptr<CBasicPacket> errMsg;
     if (IsValidTarget(PTarget->targid, PAbility->getValidTarget(), errMsg))
     {
-        if (this != PTarget)
-        {
-            float jaRange = PAbility->getRange();
-            if (PAbility->isMeleeAbility())
-            {
-                jaRange = GetMeleeRange() + PTarget->m_ModelSize;
-            }
-
-            if (distance(this->loc.p, PTarget->loc.p) > jaRange)
-            {
-                setActionInterrupted(action, PTarget, MSGBASIC_TOO_FAR_AWAY, 0);
-                return;
-            }
-        }
-
         // get any available merit recast reduction
         uint8 meritRecastReduction = 0;
 
@@ -1545,6 +1530,12 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 action.recast /= 2;
             }
         }
+
+        if (PAbility->getID() == ABILITY_THIRD_EYE && this->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
+        {
+            action.recast /= 2;
+        }
+
         // Sneak Attack merits also reduce the recast of Bully
         if (PAbility->getID() == ABILITY_BULLY)
         {

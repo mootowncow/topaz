@@ -135,10 +135,24 @@ bool CAbilityState::CanUseAbility()
         auto PTarget = GetTarget();
         if (PChar->IsValidTarget(PTarget->targid, PAbility->getValidTarget(), errMsg))
         {
-            if (PChar != PTarget && distance(PChar->loc.p, PTarget->loc.p) > PAbility->getRange())
+            if (PChar != PTarget)
             {
-                PChar->pushPacket(new CMessageBasicPacket(PChar, PTarget, 0, 0, MSGBASIC_TOO_FAR_AWAY));
-                return false;
+                float jaRange = PAbility->getRange();
+                if (PAbility->isMeleeAbility())
+                {
+                    if (CBattleEntity* pBattleTarget = dynamic_cast<CBattleEntity*>(PTarget))
+                    {
+                        if (pBattleTarget)
+                        {
+                            jaRange = PChar->GetMeleeRange() + pBattleTarget->m_ModelSize;
+                        }
+                    }
+                }
+                if (distance(PChar->loc.p, PTarget->loc.p) > jaRange)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PTarget, 0, 0, MSGBASIC_TOO_FAR_AWAY));
+                    return false;
+                }
             }
             if (m_PEntity->loc.zone->CanUseMisc(MISC_LOS_BLOCK) && !m_PEntity->CanSeeTarget(PTarget, false))
             {
