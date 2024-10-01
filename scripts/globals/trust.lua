@@ -730,9 +730,10 @@ function AddCasterGear(mob)
     elseif mobLevel >= 75 then
         mob:addMod(tpz.mod.INT, 47)
         mob:addMod(tpz.mod.MATT, 5)
-        mob:addMod(tpz.mod.ELEM, 80)
+        mob:addMod(tpz.mod.ELEM, 64)
         AddElementalStaves(mob, 'hq')
         if master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
+            -- Obis, more MAB, more int, etc
             -- TODO
         end
     end

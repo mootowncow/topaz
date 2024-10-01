@@ -40,6 +40,10 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DARK_ARTS,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.ADDENDUM_BLACK)
 
+    if mob:getMainLvl() >= 65 then
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.HELIX, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MODUS_VERITAS)
+    end
+
     if mob:getMainLvl() >= 55 then
         mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.EBULLIENCE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.EBULLIENCE)
     else
