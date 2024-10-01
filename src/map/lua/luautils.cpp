@@ -1904,10 +1904,13 @@ namespace luautils
                         {
                             // Cast PMember to CTrustEntity* before using it
                             auto* trustMember = static_cast<CTrustEntity*>(PMember);
-                            trustMember->loc.p.x = PChar->loc.p.x;
-                            trustMember->loc.p.y = PChar->loc.p.y;
-                            trustMember->loc.p.z = PChar->loc.p.z;
-                            trustMember->loc.p.rotation = PChar->loc.p.rotation;
+                            if (PChar->id == trustMember->PMaster->id)
+                            {
+                                trustMember->loc.p.x = PChar->loc.p.x;
+                                trustMember->loc.p.y = PChar->loc.p.y;
+                                trustMember->loc.p.z = PChar->loc.p.z;
+                                trustMember->loc.p.rotation = PChar->loc.p.rotation;
+                            }
                         }
                     });
 

@@ -3283,14 +3283,17 @@ inline int32 CLuaBaseEntity::setPos(lua_State *L)
                 {
                     if (PMember->objtype == TYPE_TRUST)
                     {
-                        if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
-                            PMember->loc.p.x = (float)lua_tonumber(L, 1);
-                        if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
-                            PMember->loc.p.y = (float)lua_tonumber(L, 2);
-                        if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
-                            PMember->loc.p.z = (float)lua_tonumber(L, 3);
-                        if (!lua_isnil(L, 4) && lua_isnumber(L, 4))
-                            PMember->loc.p.rotation = (uint8)lua_tointeger(L, 4);
+                        if (m_PBaseEntity->id == PMember->PMaster->id)
+                        {
+                            if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
+                                PMember->loc.p.x = (float)lua_tonumber(L, 1);
+                            if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+                                PMember->loc.p.y = (float)lua_tonumber(L, 2);
+                            if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
+                                PMember->loc.p.z = (float)lua_tonumber(L, 3);
+                            if (!lua_isnil(L, 4) && lua_isnumber(L, 4))
+                                PMember->loc.p.rotation = (uint8)lua_tointeger(L, 4);
+                        }
                     }
                 }
             });
