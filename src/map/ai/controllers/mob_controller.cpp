@@ -1645,12 +1645,12 @@ bool CMobController::Engage(uint16 targid)
         // Don't cast magic or use special ability right away
         if(PMob->getBigMobMod(MOBMOD_MAGIC_DELAY) != 0)
         {
-            m_NextMagicTime = m_Tick + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_MAGIC_COOL) + tpzrand::GetRandomNumber(PMob->getBigMobMod(MOBMOD_MAGIC_DELAY)));
+            m_NextMagicTime = m_Tick + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_MAGIC_DELAY));
         }
 
         if(PMob->getBigMobMod(MOBMOD_SPECIAL_DELAY) != 0)
         {
-            m_LastSpecialTime = m_Tick - std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_SPECIAL_COOL) + tpzrand::GetRandomNumber(PMob->getBigMobMod(MOBMOD_SPECIAL_DELAY)));
+            m_LastSpecialTime = m_Tick - std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_SPECIAL_DELAY));
         }
         // i'm a worm pop back up
         if (PMob->m_roamFlags & ROAMFLAG_WORM)
