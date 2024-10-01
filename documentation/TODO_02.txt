@@ -131,16 +131,13 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Trusts missing IsIntimidated logic for JAs and autos? Does intim reset JA recasts?
-Trusts get ported to non-owners in party when they do a CS /setPOS. Check that they are the trusts owner on porting(two places)
-Move setting last_cast to CTrustController::Cast(uint16 targid, SpellID spellid) incase the spell is para'd (is para check after this?)
+Only use level60+ WS if level 60+
 Make a list of refresh jobs and only refresh them in CAN_REFRESH gambit_container.cpp logic (a list like std::set<JOBTYPE> melee_jobs in gambits container?)
 1: Better NO_MOVE logic, they seem to stay too far to cure because are staying max distance to the enemy but that's not close enoguh to cure? Also should have cast distance set to 19 or something
 2: Need to set their distance to stay to the target to be clsoer than the distance to the ally and both shorter than max cast range.
 3: Needs to at least allow them to sit 15 yards, atm they sit like 12-14 and its annoying
 Elivira needs logic that if she can't see target when trying to RA (!CanSeeTarget()?) 2-3 times in a row she will re-position (like warping if can't auto logic)
 Casters (Debuffs / nukes /etc) also need this logic. Also for healing allies!
-Adelheid does basically zero damage at level75 as a nuker. Horrible MACC? Barely casts?
 Don't cure players with curse II on them(Zombie)
 Don't try to para / slow mobs that have mobmod MOBMOD_ATTACK_SKILL_LIST > 0 (0) (Put in isimmunne() check or w/e)
 If trusts JA's are para'd do they go on full recast?
@@ -176,8 +173,6 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Test commits I did from home!
-Players missing IsIntimidated? Does it reset JA recasts?
 
 Infernal Swarm:
 Beezlebub:
