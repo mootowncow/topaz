@@ -24,7 +24,8 @@ function onEffectGain(target, effect)
     if (target:getMainJob() == tpz.job.SCH) then
         target:addMod(tpz.mod.ACC, 50)
     end
-    if target:isPC() then
+
+    if target:isPC() or target:isTrust() then
         target:recalculateSkillsTable()
     end
 end

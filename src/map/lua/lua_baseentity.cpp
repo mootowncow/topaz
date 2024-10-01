@@ -9779,14 +9779,22 @@ inline int32 CLuaBaseEntity::recalculateSkillsTable(lua_State* L)
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC)
 
-        CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
+    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
+    CTrustEntity* PTrust = (CTrustEntity*)m_PBaseEntity;
 
-    charutils::BuildingCharSkillsTable(PChar);
-    charutils::BuildingCharWeaponSkills(PChar);
+    if (m_PBaseEntity->objtype == TYPE_PC && PChar)
+    {
+        charutils::BuildingCharSkillsTable(PChar);
+        charutils::BuildingCharWeaponSkills(PChar);
 
-    PChar->pushPacket(new CCharSkillsPacket(PChar));
-    PChar->pushPacket(new CCharRecastPacket(PChar));
-    PChar->pushPacket(new CCharAbilitiesPacket(PChar));
+        PChar->pushPacket(new CCharSkillsPacket(PChar));
+        PChar->pushPacket(new CCharRecastPacket(PChar));
+        PChar->pushPacket(new CCharAbilitiesPacket(PChar));
+    }
+    else if (m_PBaseEntity->objtype == TYPE_TRUST && PTrust)
+    {
+        trustutils::BuildingTrustSkillsTable(PTrust);
+    }
     return 0;
 }
 

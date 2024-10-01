@@ -11,6 +11,7 @@ class CTrustEntity;
 namespace trustutils
 {
     void LoadTrustList();
+    void BuildingTrustSkillsTable(CTrustEntity* PTrust);
     void FreeTrustList();
     bool IsHighLevelWS(uint16 skill_id);
 

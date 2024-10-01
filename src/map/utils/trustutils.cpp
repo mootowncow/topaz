@@ -606,45 +606,7 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
 
     // Skills =======================
 
-    // Spells
-    for (int i = SKILL_DIVINE_MAGIC; i <= SKILL_HANDBELL; i++)
-    {
-        uint16 maxSkill = battleutils::GetMaxSkill((SKILLTYPE)i, mJob, mLvl > 99 ? 99 : mLvl);
-        if (maxSkill != 0)
-        {
-            PTrust->WorkingSkills.skill[i] = static_cast<uint16>(maxSkill * map_config.alter_ego_skill_multiplier);
-        }
-        else //if the mob is WAR/BLM and can cast spell
-        {
-            // set skill as high as main level, so their spells won't get resisted
-            uint16 maxSubSkill = battleutils::GetMaxSkill((SKILLTYPE)i, sJob, mLvl > 99 ? 99 : mLvl);
-
-            if (maxSubSkill != 0)
-            {
-                PTrust->WorkingSkills.skill[i] = static_cast<uint16>(maxSubSkill * map_config.alter_ego_skill_multiplier);
-            }
-        }
-    }
-
-    // Melee
-    for (int i = SKILL_HAND_TO_HAND; i <= SKILL_STAFF; i++)
-    {
-        uint16 maxSkill = battleutils::GetMaxSkill((SKILLTYPE)i, mLvl > 99 ? 99 : mLvl);
-        if (maxSkill != 0)
-        {
-            PTrust->WorkingSkills.skill[i] = static_cast<uint16>(maxSkill * map_config.alter_ego_skill_multiplier);
-        }
-    }
-
-    // Ranged
-    for (int i = SKILL_ARCHERY; i <= SKILL_THROWING; i++)
-    {
-        uint16 maxSkill = battleutils::GetMaxSkill((SKILLTYPE)i, mLvl > 99 ? 99 : mLvl);
-        if (maxSkill != 0)
-        {
-            PTrust->WorkingSkills.skill[i] = static_cast<uint16>(maxSkill * map_config.alter_ego_skill_multiplier);
-        }
-    }
+    BuildingTrustSkillsTable(PTrust);
 
     PTrust->addModifier(Mod::DEF, mobutils::GetBase(PTrust, PTrust->defRank));
     PTrust->addModifier(Mod::EVA, mobutils::GetBase(PTrust, PTrust->evaRank));
@@ -722,6 +684,147 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
         if ((!canFormLv3Skillchain || PTrust->GetMLevel() >= 60 || onlyHasLv3Skillchains) && (PTrust->GetMLevel() >= 60 || !IsHighLevelWS(skill_id)))
         {
             controller->m_GambitsContainer->tp_skills.emplace_back(skill);
+        }
+    }
+}
+
+void BuildingTrustSkillsTable(CTrustEntity* PTrust)
+{
+    JOBTYPE mJob = PTrust->GetMJob();
+    JOBTYPE sJob = PTrust->GetSJob();
+    uint8 mLvl = PTrust->GetMLevel();
+    uint8 sLvl = PTrust->GetSLevel();
+    int32 skillBonus = 0;
+
+    // Spells
+    // Set base skills for all magic skills
+    for (int i = SKILL_DIVINE_MAGIC; i <= SKILL_HANDBELL; i++)
+    {
+        uint16 maxSkill = battleutils::GetMaxSkill((SKILLTYPE)i, PTrust->GetMJob(), PTrust->GetMLevel() > 99 ? 99 : PTrust->GetMLevel());
+        if (maxSkill != 0)
+        {
+            PTrust->WorkingSkills.skill[i] = static_cast<uint16>(maxSkill * map_config.alter_ego_skill_multiplier);
+        }
+        else
+        {
+            // Check subjob skill if main job has no skill
+            uint16 maxSubSkill = battleutils::GetMaxSkill((SKILLTYPE)i, PTrust->GetSJob(), PTrust->GetMLevel() > 99 ? 99 : PTrust->GetMLevel());
+
+            if (maxSubSkill != 0)
+            {
+                PTrust->WorkingSkills.skill[i] = static_cast<uint16>(maxSubSkill * map_config.alter_ego_skill_multiplier);
+            }
+        }
+    }
+
+    for (int32 i = 1; i < 48; ++i)
+    {
+        // ignore unused skills
+        if ((i >= 13 && i <= 21) || (i >= 46 && i <= 47))
+        {
+            PTrust->WorkingSkills.skill[i] = 0x8000;
+            continue;
+        }
+        uint16 MaxMSkill = battleutils::GetMaxSkill((SKILLTYPE)i, PTrust->GetMJob(), PTrust->GetMLevel());
+        uint16 MaxSSkill = battleutils::GetMaxSkill((SKILLTYPE)i, PTrust->GetSJob(), PTrust->GetSLevel());
+        int32 skillBonus = 0;
+        // apply arts bonuses
+        if ((i >= 32 && i <= 35 && PTrust->StatusEffectContainer->HasStatusEffect({ EFFECT_LIGHT_ARTS, EFFECT_ADDENDUM_WHITE })) ||
+            (i >= 35 && i <= 37 && PTrust->StatusEffectContainer->HasStatusEffect({ EFFECT_DARK_ARTS, EFFECT_ADDENDUM_BLACK })))
+        {
+            uint16 artsSkill = battleutils::GetMaxSkill(SKILL_ENHANCING_MAGIC, JOB_RDM, PTrust->GetMLevel()); // B+ skill
+            uint16 skillCapD = battleutils::GetMaxSkill((SKILLTYPE)i, JOB_SCH, PTrust->GetMLevel());          // D skill cap
+            uint16 skillCapE = battleutils::GetMaxSkill(SKILL_DARK_MAGIC, JOB_RDM, PTrust->GetMLevel());      // E skill cap
+            auto currentSkill = MaxMSkill;
+            uint16 artsBaseline = 0; // Level based baseline to which to raise skills
+            uint8 mLevel = PTrust->GetMLevel();
+            if (mLevel < 51)
+            {
+                artsBaseline = (uint16)(5 + 2.7 * (mLevel - 1));
+            }
+            else if ((mLevel > 50) && (mLevel < 61))
+            {
+                artsBaseline = (uint16)(137 + 4.7 * (mLevel - 50));
+            }
+            else if ((mLevel > 60) && (mLevel < 71))
+            {
+                artsBaseline = (uint16)(184 + 3.7 * (mLevel - 60));
+            }
+            else if ((mLevel > 70) && (mLevel < 75))
+            {
+                artsBaseline = (uint16)(221 + 5.0 * (mLevel - 70));
+            }
+            else if (mLevel >= 75)
+            {
+                artsBaseline = skillCapD + 36;
+            }
+            if (currentSkill < skillCapE)
+            {
+                // If the player's skill is below the E cap
+                // give enough bonus points to raise it to the arts baseline
+                skillBonus += std::max(artsBaseline - currentSkill, 0);
+            }
+            else if (currentSkill < skillCapD)
+            {
+                // if the skill is at or above the E cap but below the D cap
+                //  raise it up to the B+ skill cap minus the difference between the current skill rank and the scholar base skill cap (D)
+                //  i.e. give a bonus of the difference between the B+ skill cap and the D skill cap
+                skillBonus += std::max((artsSkill - skillCapD), 0);
+            }
+            else if (currentSkill < artsSkill)
+            {
+                // If the player's skill is at or above the D cap but below the B+ cap
+                // give enough bonus points to raise it to the B+ cap
+                skillBonus += std::max(artsSkill - currentSkill, 0);
+            }
+
+            if (PTrust->StatusEffectContainer->HasStatusEffect({ EFFECT_LIGHT_ARTS, EFFECT_ADDENDUM_WHITE }))
+            {
+                skillBonus += PTrust->getMod(Mod::LIGHT_ARTS_SKILL);
+            }
+            else
+            {
+                skillBonus += PTrust->getMod(Mod::DARK_ARTS_SKILL);
+            }
+        }
+
+        skillBonus += PTrust->getMod(static_cast<Mod>(i + 79));
+
+        if (MaxMSkill != 0)
+        {
+            PTrust->WorkingSkills.skill[i] = static_cast<uint16>(MaxMSkill + skillBonus * map_config.alter_ego_skill_multiplier);
+        }
+        else if (MaxSSkill != 0)
+        {
+            PTrust->WorkingSkills.skill[i] = static_cast<uint16>(MaxSSkill + skillBonus * map_config.alter_ego_skill_multiplier);
+        }
+        else
+        {
+            PTrust->WorkingSkills.skill[i] = std::max(static_cast<uint16>(0), static_cast<uint16>(skillBonus * map_config.alter_ego_skill_multiplier)) | 0x8000;
+        }
+    }
+
+    // Melee
+    for (int i = SKILL_HAND_TO_HAND; i <= SKILL_STAFF; i++)
+    {
+        uint16 maxSkill = battleutils::GetMaxSkill((SKILLTYPE)i, mLvl > 99 ? 99 : mLvl);
+        int32 skillBonus = 0;
+        if (maxSkill != 0)
+        {
+            skillBonus += PTrust->getMod(static_cast<Mod>(i + 79));
+            PTrust->WorkingSkills.skill[i] = static_cast<uint16>(maxSkill + skillBonus * map_config.alter_ego_skill_multiplier);
+        }
+    }
+
+    // Ranged
+    for (int i = SKILL_ARCHERY; i <= SKILL_THROWING; i++)
+    {
+        uint16 maxSkill = battleutils::GetMaxSkill((SKILLTYPE)i, mLvl > 99 ? 99 : mLvl);
+        int32 skillBonus = 0;
+        if (maxSkill != 0)
+        {
+            skillBonus += PTrust->getMod(static_cast<Mod>(i + 79));
+            PTrust->WorkingSkills.skill[i] = static_cast<uint16>(maxSkill + skillBonus * map_config.alter_ego_skill_multiplier);
         }
     }
 }

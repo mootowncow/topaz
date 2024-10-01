@@ -134,6 +134,7 @@ void CTrustEntity::Spawn()
     this->health.mp = this->GetMaxMP();
     PAI->EventHandler.triggerListener("SPAWN", this);
     luautils::OnMobSpawn(this);
+    trustutils::BuildingTrustSkillsTable(this);
     ((CCharEntity*)PMaster)->pushPacket(new CTrustSyncPacket((CCharEntity*)PMaster, this));
 }
 

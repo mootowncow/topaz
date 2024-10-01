@@ -25,7 +25,7 @@ function onEffectGain(target, effect)
         target:addMod(tpz.mod.ACC, 50)
     end
 
-    if target:isPC() then
+    if target:isPC() or target:isTrust() then
         target:recalculateSkillsTable()
     end
 end
