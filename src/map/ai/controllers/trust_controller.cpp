@@ -190,11 +190,11 @@ void CTrustController::DoCombatTick(time_point tick)
                 {
                     if (currentDistanceToMaster > CastingDistance)
                     {
-                        POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 16.0f + PMaster->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                        POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 18.0f + PMaster->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
                     }
                     else if (currentDistanceToTarget > CastingDistance)
                     {
-                        POwner->PAI->PathFind->PathInRange(PTarget->loc.p, 16.0f + PTarget->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                        POwner->PAI->PathFind->PathInRange(PTarget->loc.p, 18.0f + PTarget->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
                     }
                     break;
                 }
