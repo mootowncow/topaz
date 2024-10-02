@@ -795,7 +795,8 @@ void SetupJob(CMobEntity* PMob)
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
             break;
         case JOB_WHM:
-            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
+            PMob->defaultMobMod(MOBMOD_MAGIC_DELAY, 15);
             PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
             break;
         case JOB_BRD:
