@@ -9652,23 +9652,23 @@ INSERT INTO `mob_groups` VALUES (14,154,135,'Animated_Shield',0,128,106,20500,0,
 INSERT INTO `mob_groups` VALUES (15,2239,135,'Kindred_Paladin',900,0,1442,0,0,70,71,0);
 INSERT INTO `mob_groups` VALUES (16,2235,135,'Kindred_Dark_Knight',900,0,1442,0,0,70,71,0);
 INSERT INTO `mob_groups` VALUES (17,2233,135,'Kindred_Beastmaster',900,0,1442,0,0,70,71,0);
-INSERT INTO `mob_groups` VALUES (18,2246,135,'Kindreds_Vouivre',0,128,0,0,0,72,73,0);
+INSERT INTO `mob_groups` VALUES (18,2246,135,'Kindreds_Vouivre',0,128,0,0,0,68,68,0);
 INSERT INTO `mob_groups` VALUES (19,2240,135,'Kindred_Ranger',900,0,1442,0,0,70,71,0);
 INSERT INTO `mob_groups` VALUES (20,2232,135,'Kindred_Bard',900,0,1442,0,0,70,71,0);
 INSERT INTO `mob_groups` VALUES (21,2573,135,'Marquis_Decarabia',0,32,1626,12500,0,75,76,0); -- BRD
 INSERT INTO `mob_groups` VALUES (22,2242,135,'Kindred_Samurai',900,0,1442,0,0,70,71,0);
 INSERT INTO `mob_groups` VALUES (23,2238,135,'Kindred_Ninja',900,0,1442,0,0,70,71,0);
 INSERT INTO `mob_groups` VALUES (24,2243,135,'Kindred_Summoner',900,0,1442,0,0,70,71,0);
-INSERT INTO `mob_groups` VALUES (25,2244,135,'Kindreds_Avatar',0,128,0,0,0,72,73,0);
+INSERT INTO `mob_groups` VALUES (25,2244,135,'Kindreds_Avatar',0,128,0,0,0,68,68,0);
 INSERT INTO `mob_groups` VALUES (26,43,135,'Adamantking_Effigy',0,128,3115,750,750,71,71,0);
 INSERT INTO `mob_groups` VALUES (27,2236,135,'Kindred_Dragoon',900,0,1442,0,0,70,71,0);
-INSERT INTO `mob_groups` VALUES (28,2247,135,'Kindreds_Wyvern',0,128,0,0,0,72,73,0);
+INSERT INTO `mob_groups` VALUES (28,2247,135,'Kindreds_Wyvern',0,128,0,0,0,68,68,0);
 INSERT INTO `mob_groups` VALUES (29,2250,135,'Kindred_White_Mage',900,0,1442,0,0,70,71,0);
 INSERT INTO `mob_groups` VALUES (30,2234,135,'Kindred_Black_Mage',900,0,1442,0,0,70,71,0);
 INSERT INTO `mob_groups` VALUES (31,2241,135,'Kindred_Red_Mage',900,0,1442,0,0,70,71,0);
 INSERT INTO `mob_groups` VALUES (32,2249,135,'Kindred_Warrior',900,0,1442,0,0,70,71,0);
 INSERT INTO `mob_groups` VALUES (33,2237,135,'Kindred_Monk',900,0,1442,0,0,70,71,0);
-INSERT INTO `mob_groups` VALUES (34,2248,135,'Kindred_Thief',900,0,1442,0,0,75,77,0);
+INSERT INTO `mob_groups` VALUES (34,2248,135,'Kindred_Thief',900,0,1442,0,0,70,71,0);
 INSERT INTO `mob_groups` VALUES (35,3548,135,'Serjeant_Tombstone',0,128,3119,750,750,71,71,0);
 INSERT INTO `mob_groups` VALUES (36,294,135,'Avatar_Icon',0,128,3121,750,750,71,71,0);
 INSERT INTO `mob_groups` VALUES (37,3478,135,'Satellite_Shield',1800,0,0,0,0,70,71,0); -- Start of satellite weps
