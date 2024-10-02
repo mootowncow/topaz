@@ -64,6 +64,9 @@ CTrustController::CTrustController(CCharEntity* PChar, CTrustEntity* PTrust)
 , m_GambitsContainer(std::make_unique<gambits::CGambitsContainer>(PTrust))
 , m_LastTopEnmity(nullptr)
 , m_failedRepositionAttempts(0)
+, m_distanceModifier(0)
+, m_outOfLosChecks(0)
+, m_numberOfWarps(0)
 , m_InTransit(false)
 {
 }
@@ -149,14 +152,20 @@ void CTrustController::DoCombatTick(time_point tick)
         POwner->PAI->Internal_Disengage();
         m_LastTopEnmity = nullptr;
         m_CombatEndTime = m_Tick;
+        m_distanceModifier = 0;
+        m_outOfLosChecks = 0;
+        m_numberOfWarps = 0;
     }
 
     if (POwner->PMaster->GetBattleTargetID() != POwner->GetBattleTargetID() && trustEngageCondition)
     {
         POwner->PAI->Internal_ChangeTarget(POwner->PMaster->GetBattleTargetID());
         m_LastTopEnmity = nullptr;
-        m_failedRepositionAttempts = 0; // Unsure if needed
-        m_InTransit = false; // Unsure if needed
+        m_failedRepositionAttempts = 0;
+        m_InTransit = false;
+        m_distanceModifier = 0;
+        m_outOfLosChecks = 0;
+        m_numberOfWarps = 0;
     }
 
     // If busy, don't run around!
@@ -172,93 +181,145 @@ void CTrustController::DoCombatTick(time_point tick)
     {
         if (POwner->PAI->CanFollowPath() && POwner->speed > 0)
         {
-            float currentDistanceToTarget = distance(POwner->loc.p, PTarget->loc.p) + static_cast<float>(PTarget->m_ModelSize);
-            float currentDistanceToMaster = distance(POwner->loc.p, PMaster->loc.p) + static_cast<float>(PMaster->m_ModelSize);
-
-            if (currentDistanceToTarget > WarpDistance)
+            // Path close to the enemy if unable to see the enemy.
+            if (!POwner->CanSeeTarget(PTarget))
             {
-                POwner->PAI->PathFind->WarpTo(PTarget->loc.p);
-            }
-
-            POwner->PAI->PathFind->LookAt(PTarget->loc.p);
-
-            int16 movementDistance = PTrust->getMobMod(MOBMOD_TRUST_DISTANCE);
-
-            switch (movementDistance)
-            {
-                case TRUST_MOVEMENT_TYPE::NO_MOVE:
+                if (m_numberOfWarps < 3)
                 {
-                    if (currentDistanceToMaster > CastingDistance)
+                    if (m_Tick - m_LastLosCheckTime > 3s)
                     {
-                        POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 18.0f + PMaster->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
-                    }
-                    else if (currentDistanceToTarget > CastingDistance)
-                    {
-                        POwner->PAI->PathFind->PathInRange(PTarget->loc.p, 18.0f + PTarget->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
-                    }
-                    break;
-                }
-                case TRUST_MOVEMENT_TYPE::MELEE:
-                {
-                    std::unique_ptr<CBasicPacket> err;
-                    if (!POwner->CanAttack(PTarget, err) && POwner->speed > 0)
-                    {
-                        // Check if target is within range to follow path
-                        float attack_range = POwner->GetMeleeRange() + PTarget->m_ModelSize;
+                        m_LastLosCheckTime = m_Tick;
+                        m_distanceModifier -= 1;
 
-                        if (currentDistanceToTarget > attack_range - 0.5f && POwner->PAI->CanFollowPath())
+                        // Checked once per 3 seconds
+                        if (m_outOfLosChecks < 2)
                         {
-                            if (!POwner->PAI->PathFind->IsFollowingPath() || distanceSquared(POwner->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10 * 10)
-                            {
-                                POwner->PAI->PathFind->PathInRange(PTarget->loc.p, attack_range - 0.5f, PATHFLAG_WALLHACK | PATHFLAG_RUN);
-                            }
-                            POwner->PAI->PathFind->FollowPath();
-
-                            // Check for stuck scenario
-                            if (tick - m_StuckTick >= 2s)
-                            {
-                                m_StuckTick = tick;
-                                UpdateLastKnownPosition();
-                                if (IsStuck() && PTarget)
-                                {
-                                    POwner->PAI->PathFind->StepTo(PTarget->loc.p, false);
-                                }
-                            }
+                            ++m_outOfLosChecks;
+                            POwner->PAI->PathFind->StepTo(PTarget->loc.p, false);
                         }
                         else
                         {
-                            // Handle case where entity is within melee range
-                            if (!POwner->PAI->PathFind->IsFollowingPath() || distanceSquared(POwner->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10 * 10)
-                            {
-                                POwner->PAI->PathFind->PathTo(PTarget->loc.p, PATHFLAG_WALLHACK | PATHFLAG_RUN);
-                            }
-                            POwner->PAI->PathFind->FollowPath();
+                            m_distanceModifier = 0;
+                            m_outOfLosChecks = 0;
+                            ++m_numberOfWarps;
+                            float warpOffset = 0.0f;
+                            POwner->PAI->PathFind->WarpTo(PTarget->loc.p, warpOffset);
                         }
                     }
-                    break;
                 }
-                case TRUST_MOVEMENT_TYPE::FOLLOW_MASTER:
+                else
                 {
-                    if (currentDistanceToMaster > FollowDistance)
-                    {
-                        POwner->PAI->PathFind->PathInRange(PMaster->loc.p, PMaster->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
-                    }
-                    break;
-                }
-                case TRUST_MOVEMENT_TYPE::MID_RANGE:
-                    [[fallthrough]];
-                case TRUST_MOVEMENT_TYPE::LONG_RANGE:
-                    [[fallthrough]];
-                default: // Using the positive-non-zero movementDistance mobMod value
-                {
-                    PathOutToDistance(PTarget, static_cast<float>(movementDistance));
-                    break;
+                    float warpOffset = 0.0f;
+                    POwner->PAI->PathFind->WarpTo(PTarget->loc.p, warpOffset);
                 }
             }
-
-            if (!POwner->PAI->PathFind->IsFollowingPath())
+            else
             {
-                Declump(PMaster, PTarget);
+                float currentDistanceToTarget = distance(POwner->loc.p, PTarget->loc.p) + static_cast<float>(PTarget->m_ModelSize);
+                float currentDistanceToMaster = distance(POwner->loc.p, PMaster->loc.p) + static_cast<float>(PMaster->m_ModelSize);
+
+                if (currentDistanceToTarget > WarpDistance)
+                {
+                    POwner->PAI->PathFind->WarpTo(PTarget->loc.p);
+                }
+
+                POwner->PAI->PathFind->LookAt(PTarget->loc.p);
+
+                int16 movementDistance = m_distanceModifier - PTrust->getMobMod(MOBMOD_TRUST_DISTANCE);
+                movementDistance = std::max(movementDistance, static_cast<int16>(3));
+
+                // Disable movement if a trust has had to warp 3 times due to LOS issues
+                if (m_numberOfWarps >= 3)
+                {
+                    movementDistance = TRUST_MOVEMENT_TYPE::NO_MOVE;
+                }
+
+                switch (movementDistance)
+                {
+                    case TRUST_MOVEMENT_TYPE::NO_MOVE:
+                    {
+                        if (currentDistanceToMaster > CastingDistance)
+                        {
+                            // Path closer to Master if unable to see due to LOS
+                            if (!POwner->CanSeeTarget(PMaster))
+                            {
+                                POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 5.0f + PMaster->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                            }
+                            else
+                            {
+                                POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 18.0f + PMaster->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                            }
+                        }
+                        else if (currentDistanceToTarget > CastingDistance)
+                        {
+                            POwner->PAI->PathFind->PathInRange(PTarget->loc.p, 16.0f + PTarget->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                        }
+                        break;
+                    }
+                    case TRUST_MOVEMENT_TYPE::MELEE:
+                    {
+                        std::unique_ptr<CBasicPacket> err;
+                        if (!POwner->CanAttack(PTarget, err) && POwner->speed > 0)
+                        {
+                            // Check if target is within range to follow path
+                            float attack_range = POwner->GetMeleeRange() + PTarget->m_ModelSize;
+
+                            if (currentDistanceToTarget > attack_range - 0.5f && POwner->PAI->CanFollowPath())
+                            {
+                                if (!POwner->PAI->PathFind->IsFollowingPath() ||
+                                    distanceSquared(POwner->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10 * 10)
+                                {
+                                    POwner->PAI->PathFind->PathInRange(PTarget->loc.p, attack_range - 0.5f, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                                }
+                                POwner->PAI->PathFind->FollowPath();
+
+                                // Check for stuck scenario
+                                if (tick - m_StuckTick >= 2s)
+                                {
+                                    m_StuckTick = tick;
+                                    UpdateLastKnownPosition();
+                                    if (IsStuck() && PTarget)
+                                    {
+                                        POwner->PAI->PathFind->StepTo(PTarget->loc.p, false);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                // Handle case where entity is within melee range
+                                if (!POwner->PAI->PathFind->IsFollowingPath() ||
+                                    distanceSquared(POwner->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10 * 10)
+                                {
+                                    POwner->PAI->PathFind->PathTo(PTarget->loc.p, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                                }
+                                POwner->PAI->PathFind->FollowPath();
+                            }
+                        }
+                        break;
+                    }
+                    case TRUST_MOVEMENT_TYPE::FOLLOW_MASTER:
+                    {
+                        if (currentDistanceToMaster > FollowDistance)
+                        {
+                            POwner->PAI->PathFind->PathInRange(PMaster->loc.p, PMaster->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                        }
+                        break;
+                    }
+                    case TRUST_MOVEMENT_TYPE::MID_RANGE:
+                        [[fallthrough]];
+                    case TRUST_MOVEMENT_TYPE::LONG_RANGE:
+                        [[fallthrough]];
+                    default: // Using the positive-non-zero movementDistance mobMod value
+                    {
+                        PathOutToDistance(PTarget, static_cast<float>(movementDistance));
+                        break;
+                    }
+                }
+
+                if (!POwner->PAI->PathFind->IsFollowingPath())
+                {
+                    Declump(PMaster, PTarget);
+                }
             }
         }
 
