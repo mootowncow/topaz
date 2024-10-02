@@ -605,14 +605,15 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
     PTrust->stats.CHR = static_cast<uint16>((fCHR + mCHR + sCHR) * map_config.alter_ego_stat_multiplier);
 
     // Skills =======================
+    int8 mlvl = PTrust->GetMLevel();
+    int evasionRank = GetEvasionRankForJob(PTrust->GetMJob()); // Get rank for Trust's job
 
     BuildingTrustSkillsTable(PTrust);
 
     PTrust->addModifier(Mod::DEF, mobutils::GetBase(PTrust, PTrust->defRank));
-    PTrust->addModifier(Mod::EVA, mobutils::GetBase(PTrust, PTrust->evaRank));
+    PTrust->addModifier(Mod::EVA, battleutils::GetMaxSkill(evasionRank, mlvl > 99 ? 99 : mlvl));
     PTrust->addModifier(Mod::ATT, mobutils::GetBase(PTrust, PTrust->attRank));
     PTrust->addModifier(Mod::ACC, mobutils::GetBase(PTrust, PTrust->accRank));
-
     PTrust->addModifier(Mod::RATT, mobutils::GetBase(PTrust, PTrust->attRank));
     PTrust->addModifier(Mod::RACC, mobutils::GetBase(PTrust, PTrust->accRank));
 
@@ -760,7 +761,7 @@ void BuildingTrustSkillsTable(CTrustEntity* PTrust)
             }
             if (currentSkill < skillCapE)
             {
-                // If the player's skill is below the E cap
+                // If the Trusts's skill is below the E cap
                 // give enough bonus points to raise it to the arts baseline
                 skillBonus += std::max(artsBaseline - currentSkill, 0);
             }
@@ -773,7 +774,7 @@ void BuildingTrustSkillsTable(CTrustEntity* PTrust)
             }
             else if (currentSkill < artsSkill)
             {
-                // If the player's skill is at or above the D cap but below the B+ cap
+                // If the Trusts's skill is at or above the D cap but below the B+ cap
                 // give enough bonus points to raise it to the B+ cap
                 skillBonus += std::max(artsSkill - currentSkill, 0);
             }
@@ -786,22 +787,25 @@ void BuildingTrustSkillsTable(CTrustEntity* PTrust)
             {
                 skillBonus += PTrust->getMod(Mod::DARK_ARTS_SKILL);
             }
+
+            if (MaxMSkill != 0)
+            {
+                PTrust->WorkingSkills.skill[i] = static_cast<uint16>(MaxMSkill + skillBonus * map_config.alter_ego_skill_multiplier);
+            }
+            else if (MaxSSkill != 0)
+            {
+                PTrust->WorkingSkills.skill[i] = static_cast<uint16>(MaxSSkill + skillBonus * map_config.alter_ego_skill_multiplier);
+            }
+            else
+            {
+                PTrust->WorkingSkills.skill[i] = std::max(static_cast<uint16>(0), static_cast<uint16>(skillBonus * map_config.alter_ego_skill_multiplier)) | 0x8000;
+            }
+
+            skillBonus += PTrust->getMod(static_cast<Mod>(i + 79));
         }
 
-        skillBonus += PTrust->getMod(static_cast<Mod>(i + 79));
-
-        if (MaxMSkill != 0)
-        {
-            PTrust->WorkingSkills.skill[i] = static_cast<uint16>(MaxMSkill + skillBonus * map_config.alter_ego_skill_multiplier);
-        }
-        else if (MaxSSkill != 0)
-        {
-            PTrust->WorkingSkills.skill[i] = static_cast<uint16>(MaxSSkill + skillBonus * map_config.alter_ego_skill_multiplier);
-        }
-        else
-        {
-            PTrust->WorkingSkills.skill[i] = std::max(static_cast<uint16>(0), static_cast<uint16>(skillBonus * map_config.alter_ego_skill_multiplier)) | 0x8000;
-        }
+        // TODO: All skills. Bugged and double dips on shield block / guard / evasion / parry
+        // skillBonus += PTrust->getMod(static_cast<Mod>(i + 79));
     }
 
     // Melee
@@ -829,8 +833,62 @@ void BuildingTrustSkillsTable(CTrustEntity* PTrust)
     }
 }
 
-bool IsHighLevelWS(uint16 skill_id)
-{
-    return skill_id == 3469 || skill_id == 212 || skill_id == 3285;
-}
+    bool IsHighLevelWS(uint16 skill_id)
+    {
+        return skill_id == 3469 || skill_id == 212 || skill_id == 3285;
+    }
+
+    int GetEvasionRankForJob(uint8 job)
+    {
+        switch (job)
+        {
+            case JOB_WAR:
+                return 7;
+            case JOB_MNK:
+                return 3;
+            case JOB_WHM:
+                return 10;
+            case JOB_BLM:
+                return 10;
+            case JOB_RDM:
+                return 9;
+            case JOB_THF:
+                return 1;
+            case JOB_PLD:
+                return 7;
+            case JOB_DRK:
+                return 7;
+            case JOB_BST:
+                return 2;
+            case JOB_BRD:
+                return 9;
+            case JOB_RNG:
+                return 10;
+            case JOB_SAM:
+                return 3;
+            case JOB_NIN:
+                return 2;
+            case JOB_DRG:
+                return 4;
+            case JOB_SMN:
+                return 10;
+            case JOB_BLU:
+                return 8;
+            case JOB_COR:
+                return 9;
+            case JOB_PUP:
+                return 4;
+            case JOB_DNC:
+                return 3;
+            case JOB_SCH:
+                return 10;
+            case JOB_GEO:
+                return 9;
+            case JOB_RUN:
+                return 3;
+            default:
+                return 7; // Default to C rank if no Job. Shouldn't happen.
+        }
+    }
+
 }; // namespace trustutils

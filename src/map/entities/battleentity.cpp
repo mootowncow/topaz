@@ -992,7 +992,7 @@ uint16 CBattleEntity::EVA()
 {
     int16 evasion = 1;
 
-    if (this->objtype == TYPE_MOB || this->objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() != PETTYPE_AUTOMATON)
+    if (this->objtype == TYPE_MOB || this->objtype == TYPE_TRUST || (this->objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() != PETTYPE_AUTOMATON))
     {
         evasion = m_modStat[Mod::EVA]; // Mobs and pets base evasion is based off the EVA mod
     }
@@ -1009,9 +1009,9 @@ uint16 CBattleEntity::EVA()
 
     evasion += AGI() / 2;
 
-    return std::max(0, evasion + (this->objtype == TYPE_MOB || this->objtype == TYPE_PET
+    return std::max(0, evasion + (this->objtype == TYPE_MOB || this->objtype == TYPE_TRUST || (this->objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() != PETTYPE_AUTOMATON)
                                       ? 0
-                                      : m_modStat[Mod::EVA])); // The mod for a pet or mob is already calclated in the above so return 0
+                                      : m_modStat[Mod::EVA])); // The mod for a pet trust or mob is already calclated in the above so return 0
 }
 
 /************************************************************************
