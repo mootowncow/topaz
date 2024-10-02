@@ -12,7 +12,6 @@ function onMobInitialize(mob)
 end
 
 function onMobSpawn(mob)
-	mob:setHP(150)
     mob:addMod(tpz.mod.MOVE, 45)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     onPath(mob)
