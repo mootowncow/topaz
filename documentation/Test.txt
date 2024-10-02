@@ -54,10 +54,6 @@ https://ffxiclopedia.fandom.com/wiki/A_Reputation_in_Ruins doors should shut onc
 Doors around that area are supposed to open when players are nearby and close when aren't I think
 
 Retail:
-Do pots immediately cast on aggro?
-BRD mobs casting logic after aggro, how long before they cast?
-How long do Dynamis pets take to cast breakga/paralyga/silencega after engaging?
-Terror overwrite itself?
 Cerberus mobs Howl
 Goblin Robbers eastern altepa desert oasis/outpost gil amount. 45-53g on pserver. Poacher ~30-33g
 Can avatars "too far" if you use blood pact too far from mob?

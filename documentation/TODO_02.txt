@@ -141,7 +141,12 @@ Try to use
             POwner->PAI->PathFind->StepTo(PFollowTarget->loc.p, true);
         }
         in ShowDebug("[%s] Can't see enemy, pathing closer\n", POwner->name);
+
+Don't melee WS or use DNC JA's(IsMeleeAbility()?) into perfect dodge/invincible, don't cast magic into elemental sforzo 
+Don't Declump if Sneak Attack or Trick Attack effect active
 Only use level60+ WS if level 60+
+Do trusts get +attk/rattk/acc/racc from +combat skill (i.e. dagger) ?
+Look at declaump logic and see if can use that to make aldo go behind mobs at all time for SA?
 Make a list of refresh jobs and only refresh them in CAN_REFRESH gambit_container.cpp logic (a list like std::set<JOBTYPE> melee_jobs in gambits container?)
 1: Better NO_MOVE logic, they seem to stay too far to cure because are staying max distance to the enemy but that's not close enoguh to cure? Also should have cast distance set to 19 or something
 2: Need to set their distance to stay to the target to be clsoer than the distance to the ally and both shorter than max cast range.
@@ -183,7 +188,7 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-
+Test occult acumen for trusts(and players) for nukes. Then add Infernal Swarm
 Infernal Swarm:
 Beezlebub:
     Huge moodel size
@@ -200,6 +205,16 @@ Hell Fly:
     Uses normal TP moves besides final sting
     exactly 600 HP pollen
 
+Mobs cast timer is random, for BLM it was 15-20s (At range) ?
+BST Mobs pet level was -6...hmm
+Blade Bats (Outer Horutoto) link
+Shouldn't Garuda Hastega overwrite lesser slows?
+173330402 (THF) needs to be 70-71 group
+Kindred Voivres/avatars are higher level than the BST mobs! need 2 groups? (70-71 mobs)
+Kindred Voivres also should not be aggressive or link
+Hundred Fists lasts 45s in dynamis-xarca
+monstertpmoves local isH2H = mob:getWeaponSkillType(tpz.slot.MAIN) == tpz.skill.HAND_TO_HAND shouldn't work on kindred monks(They don't use h2h but are monks)
+
 All mobs are required to die to complete
 Prob drops all the JSE belts not just the two listed
 BCNM treasure chest spawns the SECOND mobs die and not on despawn
@@ -213,6 +228,7 @@ Weapon STR stuff (Already did I think?)
 https://github.com/LandSandBoat/server/commit/d930fbb0b83311a80ee4b88ef1063822f2d2eb4e
 
 Banish "resistance" reducton to magic? I don't see proof - check JP wiki, remove if no proof
+Attack nearby enemies if target has palisade and can't reach enemy(in attack nearby if bound logic)
 Steal is stealing Bone Chip over ice spikes with aura steal
 Mobs are really bad at casting buffs while roaming...why? Do they not have 100% chance of casting buffing magic on every roam cast and try to cast other stuff?
 JA distances for players (Like steps/flourishes/steal/mug/despoil/shield bash/weapon bash/etc) Model size + melee range()
@@ -234,6 +250,7 @@ Why does armed gears only use restoral with 2 gears active unless i make the fil
 Blood Pacts being shadow absorbed by blink says 0 shadows (At least for single hit)
 
 Mobskill ENUM SKILLFLAG that makes moves go off regardless of anyone being in range or not
+High DPS DNC like retail DNC, add all the flourish III's
 Spirit Link empathy working correctly?
 MessageGroup() and other stuff doesn't work with trusts?
 Cait Sith / Siren
@@ -280,7 +297,7 @@ Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e
 Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva/ramuh/etc only) specific items
 NEED A RAMUH SPECIFIC ITEM!!
 SiR ring. +Enfeebling magic duration items. +SC damage gear, nice for "Weaker" WS like spiral hell / cross reaper which you only use to SC with
-Resist gear options!
+Resist gear options! Tank ranged(gun? bow? xbow?/ammo!
 
 Higher level beetles at the south goblin Oasis in Eastern Altepa?
 Lower level beetles away from Revelation Rock in middle of Western Altepa
