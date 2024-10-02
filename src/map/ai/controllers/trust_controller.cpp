@@ -413,6 +413,11 @@ void CTrustController::Declump(CCharEntity * PMaster, CBattleEntity * PTarget)
 {
     TracyZoneScoped;
 
+    if (POwner->StatusEffectContainer->HasStatusEffect({ EFFECT_SNEAK_ATTACK, EFFECT_TRICK_ATTACK }))
+    {
+        return;
+    }
+
     uint8 currentPartyPos = GetPartyPosition();
     for (auto* POtherTrust : PMaster->PTrusts)
     {
