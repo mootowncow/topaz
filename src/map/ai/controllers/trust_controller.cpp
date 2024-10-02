@@ -52,7 +52,7 @@ enum TRUST_MOVEMENT_TYPE
 
     FOLLOW_MASTER   = -2, // Follows master very closely
     NO_MOVE         = -1,  // Will stand still providing they're within casting distance of their master and target when the fight starts. Otherwise will reposition to
-                          // be within 9.0' of both
+                          // be within 18.0' of both
     MELEE           = 0,     // Default: will continually reposition to stay within melee range of the target
     MID_RANGE       = 6, // Will path at the start of battle to 6' away from the target, and try to stay at that distance
     LONG_RANGE      = 12, // Will path at the start of battle to 12' away from the target, and try to stay at that distance
@@ -64,7 +64,6 @@ CTrustController::CTrustController(CCharEntity* PChar, CTrustEntity* PTrust)
 , m_GambitsContainer(std::make_unique<gambits::CGambitsContainer>(PTrust))
 , m_LastTopEnmity(nullptr)
 , m_failedRepositionAttempts(0)
-, m_distanceModifier(0)
 , m_outOfLosChecks(0)
 , m_numberOfWarps(0)
 , m_InTransit(false)
@@ -152,7 +151,6 @@ void CTrustController::DoCombatTick(time_point tick)
         POwner->PAI->Internal_Disengage();
         m_LastTopEnmity = nullptr;
         m_CombatEndTime = m_Tick;
-        m_distanceModifier = 0;
         m_outOfLosChecks = 0;
         m_numberOfWarps = 0;
     }
@@ -163,7 +161,6 @@ void CTrustController::DoCombatTick(time_point tick)
         m_LastTopEnmity = nullptr;
         m_failedRepositionAttempts = 0;
         m_InTransit = false;
-        m_distanceModifier = 0;
         m_outOfLosChecks = 0;
         m_numberOfWarps = 0;
     }
@@ -189,7 +186,6 @@ void CTrustController::DoCombatTick(time_point tick)
                     if (m_Tick - m_LastLosCheckTime > 3s)
                     {
                         m_LastLosCheckTime = m_Tick;
-                        m_distanceModifier -= 1;
 
                         // Checked once per 3 seconds
                         if (m_outOfLosChecks < 2)
@@ -199,7 +195,6 @@ void CTrustController::DoCombatTick(time_point tick)
                         }
                         else
                         {
-                            m_distanceModifier = 0;
                             m_outOfLosChecks = 0;
                             ++m_numberOfWarps;
                             float warpOffset = 0.0f;
@@ -225,13 +220,39 @@ void CTrustController::DoCombatTick(time_point tick)
 
                 POwner->PAI->PathFind->LookAt(PTarget->loc.p);
 
-                int16 movementDistance = m_distanceModifier - PTrust->getMobMod(MOBMOD_TRUST_DISTANCE);
-                movementDistance = std::max(movementDistance, static_cast<int16>(3));
+                int16 movementDistance = PTrust->getMobMod(MOBMOD_TRUST_DISTANCE);
 
-                // Disable movement if a trust has had to warp 3 times due to LOS issues
+                // Set trust movement based on the number of warps
                 if (m_numberOfWarps >= 3)
                 {
                     movementDistance = TRUST_MOVEMENT_TYPE::NO_MOVE;
+                }
+                else if (m_numberOfWarps > 0)
+                {
+                    movementDistance = TRUST_MOVEMENT_TYPE::MID_RANGE;
+                }
+
+
+                // If WHM, don't move until Protectra / Shellra has been casted
+                if (POwner->GetMJob() == JOB_WHM)
+                {
+                    bool hasProtect = POwner->StatusEffectContainer->HasStatusEffect(EFFECT_PROTECT);
+                    bool hasShell = POwner->StatusEffectContainer->HasStatusEffect(EFFECT_SHELL);
+
+                    if (POwner->GetMLevel() < 17)
+                    {
+                        if (!hasProtect)
+                        {
+                            movementDistance = TRUST_MOVEMENT_TYPE::NO_MOVE;
+                        }
+                    }
+                    else
+                    {
+                        if (!hasProtect || !hasShell)
+                        {
+                            movementDistance = TRUST_MOVEMENT_TYPE::NO_MOVE;
+                        }
+                    }
                 }
 
                 switch (movementDistance)

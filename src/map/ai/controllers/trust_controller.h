@@ -75,7 +75,6 @@ private:
     time_point m_LastRepositionTime;
     uint8 m_failedRepositionAttempts;
     time_point m_LastLosCheckTime;
-    int16 m_distanceModifier = 0;
     uint8 m_outOfLosChecks = 0;
     uint8 m_numberOfWarps = 0;
     bool m_InTransit;
