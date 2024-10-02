@@ -764,6 +764,7 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::VIRUSRESTRAIT, 0);
             }
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 40);
             break;
         case JOB_SAM:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -771,6 +772,7 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::BLINDRESTRAIT, 0);
             }
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 40);
             break;
         case JOB_BLM:
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 20);
@@ -828,7 +830,7 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::SLOWRESTRAIT, 0);
             }
-            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 5);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 40);
             PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 100); // SMN only has "buffs"
             break;
         case JOB_NIN:

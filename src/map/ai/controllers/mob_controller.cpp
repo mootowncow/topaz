@@ -1677,7 +1677,7 @@ bool CMobController::Engage(uint16 targid)
 void CMobController::OnCastStopped(CMagicState& state, action_t& action)
 {
     int32 magicCool = PMob->getBigMobMod(MOBMOD_MAGIC_COOL);
-    m_NextMagicTime = m_Tick + std::chrono::milliseconds(tpzrand::GetRandomNumber(magicCool / 2, magicCool));
+    m_NextMagicTime = m_Tick + std::chrono::milliseconds(magicCool);
 }
 
 int32 CMobController::GetFomorHate(CBattleEntity* PTarget)
@@ -1899,12 +1899,6 @@ bool CMobController::IsSpellReady(float currentDistance)
     if (PMob->StatusEffectContainer->HasStatusEffect({EFFECT_CHAINSPELL, EFFECT_MANAFONT, EFFECT_AZURE_LORE, EFFECT_TABULA_RASA}))
     {
         return true;
-    }
-
-    if (currentDistance > 5)
-    {
-        // Mobs use magic quicker when standing back
-        return m_Tick >= (m_NextMagicTime - std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_STANDBACK_COOL)));
     }
 
     return m_Tick >= m_NextMagicTime;
