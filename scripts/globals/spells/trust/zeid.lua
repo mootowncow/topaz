@@ -83,6 +83,10 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.ENDARK, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ENDARK)
 
+    if mob:getMainLvl() >= 71 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.DREAD_SPIKES, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.DREAD_SPIKES)
+    end
+
     mob:addSimpleGambit(ai.t.TARGET, ai.c.IS_ECOSYSTEM,tpz. ecosystem.ARCANA, ai.r.JA, ai.s.SPECIFIC,tpz.ja.ARCANE_CIRCLE)
 
     if mob:getMainLvl() >= 61 then
