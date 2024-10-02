@@ -29,6 +29,8 @@ function onMonsterMagicPrepare(mob, target)
             return 186 -- aeroga 3
         elseif rnd < 0.7 then
             return 157 -- aero 4
+        elseif rnd < 0.8 then
+            return 53 -- blink
         elseif rnd < 0.9 then
             return 208 -- tornado
         else
