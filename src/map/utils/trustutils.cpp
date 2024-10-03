@@ -803,9 +803,6 @@ void BuildingTrustSkillsTable(CTrustEntity* PTrust)
 
             skillBonus += PTrust->getMod(static_cast<Mod>(i + 79));
         }
-
-        // TODO: All skills. Bugged and double dips on shield block / guard / evasion / parry
-        // skillBonus += PTrust->getMod(static_cast<Mod>(i + 79));
     }
 
     // Melee
