@@ -41,6 +41,8 @@ function onMonsterMagicPrepare(mob, target)
         return 201 -- Waterga 3
     elseif (rnd < 0.7) then
         return 172 -- Water 4
+    elseif (rnd < 0.8) then
+        return 227 -- Poisonga III
     elseif (rnd < 0.9) then
         return 214 -- Flood
     else
