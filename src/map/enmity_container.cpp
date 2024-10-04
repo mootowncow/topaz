@@ -152,6 +152,7 @@ void CEnmityContainer::UpdateEnmity(CBattleEntity* PEntity, int32 CE, int32 VE, 
     if (directAction && PEntity->getMod(Mod::TREASURE_HUNTER) > m_EnmityHolder->m_THLvl)
     {
         m_EnmityHolder->m_THLvl = PEntity->getMod(Mod::TREASURE_HUNTER);
+        m_EnmityHolder->extDataUpdateFlag = true;
     }
 
     auto enmity_obj = m_EnmityList.find(PEntity->id);

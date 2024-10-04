@@ -150,6 +150,8 @@ set(SOURCES
     message_system.h
     message_text.cpp
     message_text.h
+    mob_extdata.cpp
+    mob_extdata.h
     party_define.cpp
     party_define.h
     party_effects.cpp
