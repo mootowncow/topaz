@@ -8790,6 +8790,11 @@ inline int32 CLuaBaseEntity::addHP(lua_State *L)
 
     CBattleEntity* PBattle = (CBattleEntity*)m_PBaseEntity;
 
+    if (((CBattleEntity*)m_PBaseEntity)->isDead())
+    {
+        return 1;
+    }
+
     // Don't add HP if target has zombie(curse II)
     if (PBattle->StatusEffectContainer->HasStatusEffect(EFFECT_CURSE_II))
     {
@@ -9061,6 +9066,11 @@ inline int32 CLuaBaseEntity::addMP(lua_State *L)
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
 
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    if (((CBattleEntity*)m_PBaseEntity)->isDead())
+    {
+        return 1;
+    }
 
     int32 result = ((CBattleEntity*)m_PBaseEntity)->addMP((int32)lua_tointeger(L, 1));
 
