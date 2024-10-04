@@ -6348,6 +6348,7 @@ namespace charutils
         if (tpzrand::GetRandomNumber(10000) < procChance)
         {
             PTarget->m_THLvl += 1;
+            PTarget->extDataUpdateFlag = true;
             uint32 thlvl = PTarget->m_THLvl;
 
             if (Action)

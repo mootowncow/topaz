@@ -1629,6 +1629,7 @@ bool CMobController::Disengage()
     PMob->animation = ANIMATION_NONE;
     // https://www.bluegartr.com/threads/108198-Random-Facts-Thread-Traits-and-Stats-(Player-and-Monster)?p=5670209&viewfull=1#post5670209
     PMob->m_THLvl = 0;
+    PMob->extDataUpdateFlag = true;
     m_mobHealTime = m_Tick;
 
     return CController::Disengage();

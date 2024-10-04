@@ -269,6 +269,7 @@ public:
     uint8           namevis;
     uint8           allegiance;         // what types of targets the entity can fight
     uint8           updatemask;         // what to update next server tick to players nearby
+    bool            extDataUpdateFlag;  // Flag to send custom mob extdata packet..
 
     uint32 animBegin; // Animation start time
     uint8 animPath;   // Which animation Path

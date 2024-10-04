@@ -39,6 +39,7 @@
 #include "../entities/charentity.h"
 #include "../packets/action.h"
 #include "../packets/entity_update.h"
+#include "../packets/mob_extdata.h"
 #include "../packets/pet_sync.h"
 #include "../utils/battleutils.h"
 #include "../utils/blueutils.h"
@@ -97,6 +98,7 @@ CMobEntity::CMobEntity()
     m_HiPCLvl = 0;
     m_HiPartySize = 0;
     m_THLvl = 0;
+    extDataUpdateFlag = true;
     m_ItemStolen = false;
     m_autoTargetReady = true;
     m_autoTargetKiller = nullptr;
@@ -630,17 +632,29 @@ void CMobEntity::DoAutoTarget()
 void CMobEntity::PostTick()
 {
     CBattleEntity::PostTick();
-    if (loc.zone && updatemask)
+    if (loc.zone)
     {
-        loc.zone->PushPacket(this, CHAR_INRANGE, new CEntityUpdatePacket(this, ENTITY_UPDATE, updatemask));
-
-        // If this mob is charmed, it should sync with its master
-        if (PMaster && PMaster->PPet == this && PMaster->objtype == TYPE_PC)
+        if (updatemask)
         {
-            ((CCharEntity*)PMaster)->pushPacket(new CPetSyncPacket((CCharEntity*)PMaster));
+            loc.zone->PushPacket(this, CHAR_INRANGE, new CEntityUpdatePacket(this, ENTITY_UPDATE, updatemask));
+
+            // If this mob is charmed, it should sync with its master
+            if (PMaster && PMaster->PPet == this && PMaster->objtype == TYPE_PC)
+            {
+                ((CCharEntity*)PMaster)->pushPacket(new CPetSyncPacket((CCharEntity*)PMaster));
+            }
+
+            updatemask = 0;
         }
 
-        updatemask = 0;
+        if (extDataUpdateFlag)
+        {
+            // Send update packet for custom data..
+            loc.zone->PushPacket(this, CHAR_INRANGE, new CMobExtDataPacket(this));
+
+            // Clear flag..
+            extDataUpdateFlag = false;
+        }
     }
 }
 
@@ -1037,6 +1051,7 @@ void CMobEntity::Spawn()
     m_HiPCLvl = 0;
     m_HiPartySize = 0;
     m_THLvl = 0;
+    extDataUpdateFlag = true;
     m_ItemStolen = false;
     m_autoTargetReady = true;
     m_autoTargetKiller = nullptr;
