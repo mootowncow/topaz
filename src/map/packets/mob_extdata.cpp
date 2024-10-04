@@ -35,6 +35,6 @@ CMobExtDataPacket::CMobExtDataPacket(CMobEntity* pMonster)
     this->size = 0x06;
 
     ref<uint32>(0x04) = pMonster->id;
-    ref<uint16_t>(0x06) = pMonster->targid;
-    ref<int16_t>(0x08) = pMonster->m_THLvl;
+    ref<uint16_t>(0x08) = pMonster->targid;
+    ref<int16_t>(0x0A) = pMonster->m_THLvl;
 }
