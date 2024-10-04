@@ -934,6 +934,9 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
         if (damageType > 5 and damageType < 14) then -- Anything below 5 and above 13 isn't an element and can't be absorbed
             dmg = adjustForTarget(target, dmg, element)
         end
+
+        local magicDefense = getElementalDamageReduction(target, element) -- percentage DR to elements
+        dmg = math.floor(dmg * magicDefense)
     end
 
     dmg = utils.clamp(dmg, -99999, 99999)
