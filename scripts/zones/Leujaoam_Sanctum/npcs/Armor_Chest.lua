@@ -26,7 +26,7 @@ function onTrigger(player, npc)
         for _, member in pairs(player:getAlliance()) do
             if member:getZoneID() == player:getZoneID() then
                 member:PrintToPlayer("You armor is enchanted with fire resistant runes! But a nearby chest melts away...",0,"Armor Chest")
-                member:addMod(tpz.mod.FIRERES, 10)
+                member:addMod(tpz.mod.FIREDEF, 26)
                 GetNPCByID(npc:getID()+5, instance):setStatus(tpz.status.DISAPPEAR)
                 npc:setLocalVar("Message", 1)
             end

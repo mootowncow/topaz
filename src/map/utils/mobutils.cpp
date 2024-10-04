@@ -1248,24 +1248,40 @@ void SetupDungeonInstancedMob(CMobEntity* PMob)
 {
     uint8 mLvl = PMob->GetMLevel();
     // Bonus stats for difficulty
-    if (mLvl >= 81)
+    if (mLvl >= 80) // Bosses
     {
         if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
         {
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(100);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(120);
         }
 
+        PMob->addModifier(Mod::ATTP, 25);
+        PMob->addModifier(Mod::DEFP, 25);
         PMob->addModifier(Mod::REGEN, 30);
         PMob->addModifier(Mod::REGAIN, 50);
     }
-    else
+    else if (mLvl >= 77) // Mini-bosses
+    {
+        if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
+        {
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(110);
+        }
+
+        PMob->addModifier(Mod::ATTP, 25);
+        PMob->addModifier(Mod::DEFP, 25);
+        PMob->addModifier(Mod::REGEN, 30);
+        PMob->addModifier(Mod::REGAIN, 50);
+    }
+    else // Trash
     {
         if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(90);
         }
 
+        PMob->addModifier(Mod::ATTP, 25);
         PMob->addModifier(Mod::ACC, 30);
+        PMob->addModifier(Mod::DEFP, 25);
         PMob->addModifier(Mod::REGEN, 30);
         PMob->addModifier(Mod::REGAIN, 50);
     }

@@ -4,6 +4,7 @@
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/salvage")
 local ID = require("scripts/zones/Ilrusi_Atoll/IDs")
 -----------------------------------
 function onMobSpawn(mob)
@@ -52,8 +53,5 @@ function onMobDeath(mob, player, isKiller, noKiller)
     SpawnMob(17060199, instance)
 	Wamoura:updateEnmity(player)
     Wamoura:setMobMod(tpz.mobMod.NO_AGGRO, 0)
-    local zonePlayers = mob:getZone():getPlayers()
-    for _, zonePlayer in pairs(zonePlayers) do
-        zonePlayer:PrintToPlayer("The Wamouracampa's cocoon opens and something big appears!",0,"Wamouracampa")
-    end
+    salvageUtil.msgGroup(mob, "The Wamouracampa's cocoon opens and something big appears!", 0xD, none)
 end

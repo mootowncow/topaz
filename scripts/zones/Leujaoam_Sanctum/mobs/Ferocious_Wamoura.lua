@@ -21,7 +21,9 @@ function onMobRoam(mob)
         mob:setTP(1000)
     end
 	if mob:hasStatusEffect(tpz.effect.BLAZE_SPIKES) == false then
-		mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 25, 0, 3600)
+		mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 25, 0, 7200)
+        local effect1 = mob:getStatusEffect(tpz.effect.BLAZE_SPIKES)
+        effect1:unsetFlag(tpz.effectFlag.DISPELABLE)
 	end
     mob:setMod(tpz.mod.REGAIN, 50)
 end
@@ -37,7 +39,9 @@ function onMobFight(mob, target)
 	local BattleTime = mob:getBattleTime()
 
 	if mob:hasStatusEffect(tpz.effect.BLAZE_SPIKES) == false then
-		mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 25, 0, 3600)
+		mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 25, 0, 7200)
+            local effect1 = mob:getStatusEffect(tpz.effect.BLAZE_SPIKES)
+            effect1:unsetFlag(tpz.effectFlag.DISPELABLE)
 	end
 
 	if mob:getHPP() <= 50 then

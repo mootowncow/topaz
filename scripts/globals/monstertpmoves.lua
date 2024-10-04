@@ -639,7 +639,6 @@ end
 
 function mobAddBonuses(caster, spell, target, dmg, ele)
 
-    -- Unused? No longer needed? Check this
     local magicDefense = getElementalDamageReduction(target, ele)
     dmg = math.floor(dmg * magicDefense)
 

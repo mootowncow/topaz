@@ -23,6 +23,8 @@ function onMobRoam(mob)
 end
 
 function onMobEngaged(mob)
+    mob:setTP(3000)
+    mob:setMod(tpz.mod.REGAIN, 250)
     mob:hideName(false)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
 end

@@ -2,6 +2,7 @@
 -- Area: Leujaoam Sanctum (Leujaoam Cleansing)
 --  Mob: Ravaging Diremite
 -----------------------------------
+require("scripts/globals/salvage")
 local ID = require("scripts/zones/Ilrusi_Atoll/IDs")
 -----------------------------------
 local auraParams = {
@@ -14,6 +15,7 @@ local auraParams = {
 
 function onMobSpawn(mob)
     mob:hideName(true)
+    mob:setDamage(140)
     mob:setMod(tpz.mod.MDEF, 40)
     mob:setMod(tpz.mod.UDMGMAGIC, 13)
     mob:setMobMod(tpz.mobMod.MOVE, 0)
@@ -82,8 +84,5 @@ end
 function onMobDeath(mob, player, isKiller, noKiller)
     local instance = mob:getInstance()
     SpawnMob(17060198, instance)
-    local zonePlayers = mob:getZone():getPlayers()
-    for _, zonePlayer in pairs(zonePlayers) do
-        zonePlayer:PrintToPlayer("You hear a rumbling noise in the distance...",0,"???")
-    end
+    salvageUtil.msgGroup(mob, "You hear a rumbling noise in the distance...", 0xD, none)
 end
