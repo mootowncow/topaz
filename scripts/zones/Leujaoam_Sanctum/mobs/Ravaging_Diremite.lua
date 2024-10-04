@@ -49,7 +49,7 @@ function onMobFight(mob, target)
 	local MessageWait = mob:getLocalVar("MessageWait")
 	local BattleTime = mob:getBattleTime()
 
-	if mob:getHPP() <= 35 then
+	if mob:getHPP() < 75 then
 		if SpinningTopTime == 0 then
 			mob:setLocalVar("SpinningTopTime", BattleTime)
 		elseif BattleTime >= SpinningTopTime then
@@ -61,7 +61,7 @@ function onMobFight(mob, target)
             mob:SetMobAbilityEnabled(false)
             mob:setLocalVar("MessageWait", BattleTime + 14)
             mob:setLocalVar("Message", 0)
-			mob:setLocalVar("SpinningTopTime", BattleTime + 45)
+			mob:setLocalVar("SpinningTopTime", BattleTime + 30)
 		end
 	end
     if Message == 0 and BattleTime >= MessageWait then
