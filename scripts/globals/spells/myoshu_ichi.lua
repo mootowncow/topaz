@@ -12,11 +12,10 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local effect = tpz.effect.ENDARK
-    local magicskill = target:getSkillLevel(tpz.skill.NINJUTSU)
-    local potency = math.floor((magicskill / 8) + 12.5)
+    local effect = tpz.effect.SUBTLE_BLOW_PLUS
+    local potency = 10
 
-    if target:addStatusEffect(effect, potency, 0, 1800) then
+    if target:addStatusEffect(effect, potency, 0, 300) then
         spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
     else
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
