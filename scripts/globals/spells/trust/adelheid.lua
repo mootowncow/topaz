@@ -40,6 +40,8 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DARK_ARTS,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.ADDENDUM_BLACK)
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NO_STORM, 0, ai.r.MA, ai.s.STORM_WEAKNESS, 0, 0)
+
     if mob:getMainLvl() >= 65 then
         mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.HELIX, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MODUS_VERITAS)
     end
@@ -50,7 +52,7 @@ function onMobSpawn(mob)
         mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.PARSIMONY, ai.r.JA, ai.s.SPECIFIC, tpz.ja.PARSIMONY)
     end
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NO_STORM, 0, ai.r.MA, ai.s.STORM_WEAKNESS, 0, 0)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.KLIMAFORM, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.KLIMAFORM)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.HELIX, ai.r.MA, ai.s.HELIX_WEAKNESS, 0, 0)
 
