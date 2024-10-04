@@ -7,6 +7,7 @@ local ID = require("scripts/zones/Leujaoam_Sanctum/IDs")
 -----------------------------------
 function onMobSpawn(mob)
     mob:hideName(true)
+    mob:untargetable(true)
     mob:setMod(tpz.mod.UDMGPHYS, 25)
     mob:setMod(tpz.mod.UDMGRANGE, 25)
     mob:setMod(tpz.mod.UDMGMAGIC, 0)
@@ -28,6 +29,7 @@ end
 function onMobEngaged(mob)
     mob:setTP(3000)
     mob:hideName(false)
+    mob:untargetable(false)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
 end
 

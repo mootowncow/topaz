@@ -34,9 +34,7 @@ function onMobEngaged(mob)
 end
 
 function onMobFight(mob, target)
-	local StunTime = mob:getLocalVar("StunTime")
 	local AddleTime = mob:getLocalVar("AddleTime")
-	local DrainTime = mob:getLocalVar("DrainTime")
 	local BattleTime = mob:getBattleTime()
 
 	if mob:hasStatusEffect(tpz.effect.BLAZE_SPIKES) == false then
@@ -67,7 +65,7 @@ function onSpellPrecast(mob, spell)
 end
 
 function onMobWeaponSkillPrepare(mob, target)
-    if mob:getHPP() <= 25 then
+    if mob:getHPP() < 66 then
         return 1956 -- Fire Break
     end
 end

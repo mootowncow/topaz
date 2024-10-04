@@ -8,6 +8,7 @@ require("scripts/globals/utils")
 -----------------------------------
 function onMobSpawn(mob)
     mob:hideName(true)
+    mob:untargetable(true)
     mob:setMod(tpz.mod.MDEF, 0)
     mob:setMod(tpz.mod.UDMGMAGIC, 0)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
@@ -29,6 +30,7 @@ end
 
 function onMobEngaged(mob)
     mob:hideName(false)
+    mob:untargetable(false)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
 end
 

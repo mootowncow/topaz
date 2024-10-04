@@ -8,13 +8,14 @@ local ID = require("scripts/zones/Leujaoam_Sanctum/IDs")
 local auraParams = {
     radius = 10,
     effect = tpz.effect.GEO_SLOW,
-    power = 3000,
+    power = 7000,
     duration = 3,
     auraNumber = 1
 }
 
 function onMobSpawn(mob)
     mob:hideName(true)
+    mob:untargetable(true)
     mob:setMod(tpz.mod.MDEF, 40)
     mob:setMod(tpz.mod.UDMGMAGIC, 13)
     mob:setMobMod(tpz.mobMod.MOVE, 0)
@@ -39,6 +40,7 @@ function onMobEngaged(mob)
     mob:setDamage(140)
     mob:addMod(tpz.mod.ATTP, 100)
     mob:hideName(false)
+    mob:untargetable(false)
     mob:setMobMod(tpz.mobMod.MOVE, 0)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
     mob:SetMobAbilityEnabled(true)

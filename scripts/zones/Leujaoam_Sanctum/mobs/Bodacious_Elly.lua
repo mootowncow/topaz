@@ -10,6 +10,7 @@ local ID = require("scripts/zones/Leujaoam_Sanctum/IDs")
 -----------------------------------
 function onMobSpawn(mob)
     mob:hideName(true)
+    mob:untargetable(true)
     mob:setMod(tpz.mod.TRIPLE_ATTACK, 10)
     mob:setMod(tpz.mod.MDEF, 0)
     mob:setMod(tpz.mod.UDMGMAGIC, 0)
@@ -30,6 +31,7 @@ end
 
 function onMobEngaged(mob)
     mob:hideName(false)
+    mob:untargetable(false)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
 end
 
