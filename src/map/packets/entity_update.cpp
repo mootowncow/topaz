@@ -242,26 +242,4 @@ void CEntityUpdatePacket::updateWith(CBaseEntity* PEntity, ENTITYUPDATE type, ui
         }
         break;
     }
-
-    // CUSTOM
-    if (type == TYPE_MOB)
-    {
-        int base = this->size * 2;
-        int offset = base + 2;
-        this->type = 0xFF;                           // whatever, a packet that's not used by client
-        ref<uint16_t>(offset) = ((CMobEntity*)PEntity)->m_THLvl; // Store a uint16_t value for your addon..
-        offset += 2;
-        //for (??)
-        //{                                 // iterate buffs..
-        //    ref<uint16_t>(offset) = buff; // store a buff..
-        //    offset += 2;
-        //}
-
-        int newBytes = offset - base;
-        while ((newBytes % 4) != 0)
-            newBytes++;
-
-        ref<uint16_t>(base) = newBytes;
-        this->size += newBytes / 2;
-    };
 }
