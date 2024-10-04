@@ -4,7 +4,7 @@
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/mobs")
-local ID = require("scripts/zones/Ilrusi_Atoll/IDs")
+local ID = require("scripts/zones/Leujaoam_Sanctum/IDs")
 -----------------------------------
 function onMobSpawn(mob)
     mob:hideName(true)

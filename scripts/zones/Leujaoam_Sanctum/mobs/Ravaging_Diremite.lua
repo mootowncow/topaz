@@ -3,7 +3,7 @@
 --  Mob: Ravaging Diremite
 -----------------------------------
 require("scripts/globals/mobs")
-local ID = require("scripts/zones/Ilrusi_Atoll/IDs")
+local ID = require("scripts/zones/Leujaoam_Sanctum/IDs")
 -----------------------------------
 local auraParams = {
     radius = 10,
