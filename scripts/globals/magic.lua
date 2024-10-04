@@ -1419,7 +1419,7 @@ function addBonuses(caster, spell, target, dmg, params)
     params.bonusmab = params.bonusmab or 0
     params.AMIIburstBonus = params.AMIIburstBonus or 0
 
-    local magicDefense = getElementalDamageReduction(target, ele) -- special defense
+    local magicDefense = getElementalDamageReduction(target, ele) -- percentage DR to elements
     dmg = math.floor(dmg * magicDefense)
 
     local dayWeatherBonus = 1.00
