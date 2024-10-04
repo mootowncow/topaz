@@ -920,9 +920,9 @@ function MessageGroup(mob, target, msg, textcolor, sender)
     end
 end
 
-function OnDeathMessage(mob, player, isKiller, noKiller, msg, textcolor, mob)
+function OnDeathMessage(mob, player, isKiller, noKiller, msg, textcolor, sender)
     if isKiller or noKiller then
-        MessageGroup(mob, player, msg, textcolor, mob)
+        MessageGroup(mob, player, msg, textcolor, sender)
     end
 end
 
