@@ -3,8 +3,7 @@
 --  Mob: Sleepy Wamourcampa
 -----------------------------------
 require("scripts/globals/settings")
-require("scripts/globals/status")
-require("scripts/globals/salvage")
+require("scripts/globals/mobs")
 local ID = require("scripts/zones/Ilrusi_Atoll/IDs")
 -----------------------------------
 function onMobSpawn(mob)
@@ -53,5 +52,5 @@ function onMobDeath(mob, player, isKiller, noKiller)
     SpawnMob(17060199, instance)
 	Wamoura:updateEnmity(player)
     Wamoura:setMobMod(tpz.mobMod.NO_AGGRO, 0)
-    salvageUtil.msgGroup(mob, "The Wamouracampa's cocoon opens and something big appears!", 0xD, none)
+    OnDeathMessage(mob, player, isKiller, noKiller, "The Wamouracampa's cocoon opens and something big appears!", 0xD, none)
 end

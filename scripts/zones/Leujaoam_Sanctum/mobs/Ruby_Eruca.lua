@@ -2,6 +2,7 @@
 -- Area: Leujaoam Sanctum (Leujaoam Cleansing)
 --  Mob: Leujaoam Worm
 -----------------------------------
+require("scripts/globals/mobs")
 local ID = require("scripts/zones/Ilrusi_Atoll/IDs")
 -----------------------------------
 function onMobSpawn(mob)
