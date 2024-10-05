@@ -1345,6 +1345,7 @@ tpz.regime.checkRegime = function(player, mob, regimeId, index, regimeType)
     -- get base reward
     player:messageBasic(tpz.msg.basic.FOV_COMPLETED_REGIME, 0, 0, 0, false)
     local reward = page[7]
+    local xpReward = page[7]
 
     -- adjust reward down if regime is higher than server mob level cap
     -- example: if you have mobs capped at level 80, and the regime is level 100, you will only get 80% of the reward
@@ -1393,7 +1394,7 @@ tpz.regime.checkRegime = function(player, mob, regimeId, index, regimeType)
     end
 
     -- award XP every page completion
-    player:addExp(reward)
+    player:addExp(xpReward)
 
     -- repeating regimes
     if player:getCharVar("[regime]repeat") == 1 then
