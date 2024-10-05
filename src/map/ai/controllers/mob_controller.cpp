@@ -1411,8 +1411,7 @@ void CMobController::DoRoamTick(time_point tick)
                     // move back every 5 seconds
                     m_LastActionTime = m_Tick - (std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_ROAM_COOL)) + 10s);
                 }
-                else if (!PMob->getMobMod(MOBMOD_NO_DESPAWN) != 0 &&
-                    !map_config.mob_no_despawn)
+                else if (!PMob->getMobMod(MOBMOD_NO_DESPAWN) != 0 && !map_config.mob_no_despawn)
                 {
                     PMob->PAI->Despawn();
                     return;
@@ -1432,14 +1431,22 @@ void CMobController::DoRoamTick(time_point tick)
                     // summon pet
                     auto spellID = PMob->SpellContainer->GetBuffSpell();
                     if(spellID)
+                    {
                         CastSpell(spellID.value());
+                        m_LastActionTime = m_Tick;
+                        return;
+                    }
                 }
-                else if (CanCastSpells() && tpzrand::GetRandomNumber(10) < 3 && PMob->SpellContainer->HasBuffSpells())
+                else if (CanCastSpells() && tpzrand::GetRandomNumber(10) < 5 && PMob->SpellContainer->HasBuffSpells())
                 {
-                    // cast buff
+                    // Cast buff while roaming
                     auto spellID = PMob->SpellContainer->GetBuffSpell();
-                    if(spellID)
+                    if (spellID)
+                    {
                         CastSpell(spellID.value());
+                        m_LastActionTime = m_Tick;
+                        return;
+                    }
                 }
                 else if (PMob->m_roamFlags & ROAMFLAG_EVENT)
                 {
@@ -1447,11 +1454,10 @@ void CMobController::DoRoamTick(time_point tick)
                     luautils::OnMobRoamAction(PMob);
                     m_LastActionTime = m_Tick;
                 }
-                else if (PMob->getMobMod(MOBMOD_NO_ROAM) == 0 && PMob->CanRoam() &&
-                         PMob->PAI->PathFind->RoamAround(PMob->m_SpawnPoint, PMob->GetRoamDistance(), (uint8)PMob->getMobMod(MOBMOD_ROAM_TURNS),
-                                                         PMob->m_roamFlags))
+                else if (PMob->getMobMod(MOBMOD_NO_ROAM) == 0 && PMob->CanRoam() && PMob->PAI->PathFind->RoamAround(PMob->m_SpawnPoint, PMob->GetRoamDistance(), (uint8)PMob->getMobMod(MOBMOD_ROAM_TURNS), PMob->m_roamFlags))
                 {
                     //#TODO: #AIToScript (event probably)
+                    // Worm going underground and moving logic
                     if (PMob->m_roamFlags & ROAMFLAG_WORM)
                     {
                         // move down
