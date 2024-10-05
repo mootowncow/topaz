@@ -29,12 +29,32 @@
 #include "../entities/mobentity.h"
 #include "../status_effect_container.h"
 
-CMobExtDataPacket::CMobExtDataPacket(CMobEntity* pMonster)
+#define MAX_STATUS_EFFECTS 16
+
+CMobExtDataPacket::CMobExtDataPacket(CMobEntity* PMob)
 {
     this->type = 0xFF;
     this->size = 0x06;
 
-    ref<uint32>(0x04) = pMonster->id;
-    ref<uint16_t>(0x08) = pMonster->targid;
-    ref<int16_t>(0x0A) = pMonster->m_THLvl;
+    ref<uint32>(0x04) = PMob->id;
+    ref<uint16_t>(0x08) = PMob->targid;
+    ref<int16_t>(0x0A) = PMob->m_THLvl;
+
+    auto effectCount = 0;
+    PMob->StatusEffectContainer.get()->ForEachEffect(
+        [&](CStatusEffect* PEffect)
+        {
+            if (effectCount < MAX_STATUS_EFFECTS)
+            {
+                auto offset = 0x0C + (effectCount * 8);
+                ref<uint16_t>(offset) = PEffect->GetStatusID();
+                ref<uint16_t>(offset + 2) = PEffect->GetPower();
+
+                auto elapsedTime = server_clock::now() - PEffect->GetStartTime();
+                auto remainingTime = PEffect->GetDuration() - std::chrono::duration_cast<std::chrono::milliseconds>(elapsedTime).count();
+                ref<uint32_t>(offset + 4) = remainingTime > 0 ? static_cast<uint32_t>(remainingTime) : 0;
+                effectCount++;
+            }
+        });
+    this->size += effectCount * 4;
 }
