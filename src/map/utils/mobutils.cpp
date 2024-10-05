@@ -899,17 +899,14 @@ void SetupJob(CMobEntity* PMob)
                     // Trolls love cannons, but they take a second to shoot
                     PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1747);
                     // so slow down the trolls a bit
-                    PMob->defaultMobMod(MOBMOD_STANDBACK_COOL, 8);
                 }
                 else if (PMob->m_Family == 337 || PMob->m_Family == 954) // Quadav
                 {
                     PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1123);
-                    PMob->defaultMobMod(MOBMOD_STANDBACK_COOL, 8);
                 }
                 else if (PMob->m_Family == 358) // Dyna-Kindred
                 {
                     PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1146);
-                    PMob->defaultMobMod(MOBMOD_STANDBACK_COOL, 8);
                 }
                 else if (PMob->m_Family == 3) // Aern
                 {
@@ -926,7 +923,7 @@ void SetupJob(CMobEntity* PMob)
                     PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 272);
                 }
 
-                PMob->defaultMobMod(MOBMOD_STANDBACK_COOL, 8);
+                PMob->defaultMobMod(MOBMOD_STANDBACK_COOL, 2);
                 PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 10);
                 PMob->defaultMobMod(MOBMOD_HP_STANDBACK, 65);
             }
@@ -977,21 +974,21 @@ void SetupJob(CMobEntity* PMob)
                     PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 10);
                 }
 
-                PMob->defaultMobMod(MOBMOD_STANDBACK_COOL, 8);
+                PMob->defaultMobMod(MOBMOD_STANDBACK_COOL, 2);
                 PMob->defaultMobMod(MOBMOD_HP_STANDBACK, 65);
             }
             break;
         case JOB_BST:
-         if (!PMob->CMobEntity::IsHumanoid())
-         // Only beastmen get resist job traits
-         {
-         PMob->setModifier(Mod::AMNESIARESTRAIT, 0);
-         }
-		 if (PMob->m_Family != 3)  // Exclude Aerns, should only summon in combat and hide their jobs
-		 {
-            PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 180);
-            PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1017);
-		 }
+             if (!PMob->CMobEntity::IsHumanoid())
+             // Only beastmen get resist job traits
+             {
+             PMob->setModifier(Mod::AMNESIARESTRAIT, 0);
+             }
+		     if (PMob->m_Family != 3)  // Exclude Aerns, should only summon in combat and hide their jobs
+		     {
+                PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 180);
+                PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1017);
+		     }
             break;
         case JOB_PUP:
             PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1901);
@@ -999,17 +996,14 @@ void SetupJob(CMobEntity* PMob)
             break;
         case JOB_BLM:
             // We don't want to do the mages stand-back part from subjob, so we have it here
-            PMob->defaultMobMod(MOBMOD_STANDBACK_COOL, 20);
             PMob->defaultMobMod(MOBMOD_HP_STANDBACK, 65);
             break;
         case JOB_SCH:
             // We don't want to do the mages stand-back part from subjob, so we have it here
-            PMob->defaultMobMod(MOBMOD_STANDBACK_COOL, 20);
             PMob->defaultMobMod(MOBMOD_HP_STANDBACK, 65);
             break;
         case JOB_GEO:
             // We don't want to do the mages stand-back part from subjob, so we have it here
-            PMob->defaultMobMod(MOBMOD_STANDBACK_COOL, 20);
             PMob->defaultMobMod(MOBMOD_HP_STANDBACK, 65);
             break;
         default:
