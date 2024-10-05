@@ -260,14 +260,14 @@ void CPetEntity::Spawn()
         this->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_CONFRONTATION, EFFECT_CONFRONTATION, power, tick, duration, subid, subPower, tier));
     }
 
-    CBattleEntity::Spawn();
-    // Max [HP/MP] Boost mods
-    this->UpdateHealth();
     this->health.tp = 0;
-    this->health.hp = this->GetMaxHP();
-    this->health.mp = this->GetMaxMP();
+    CBattleEntity::Spawn();
     PAI->EventHandler.triggerListener("SPAWN", this);
     luautils::OnMobSpawn(this);
+    // Max [HP/MP] Boost mods
+    this->UpdateHealth();
+    this->health.hp = this->GetMaxHP();
+    this->health.mp = this->GetMaxMP();
 }
 
 bool CPetEntity::shouldDespawn(time_point tick)

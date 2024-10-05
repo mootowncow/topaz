@@ -127,14 +127,14 @@ void CTrustEntity::Spawn()
 {
     //we need to skip CMobEntity's spawn because it calculates stats (and our stats are already calculated)
     CBattleEntity::Spawn();
+    PAI->EventHandler.triggerListener("SPAWN", this);
+    luautils::OnMobSpawn(this);
+    trustutils::BuildingTrustSkillsTable(this);
     // Max [HP/MP] Boost mods
     this->UpdateHealth();
     this->health.tp = 0;
     this->health.hp = this->GetMaxHP();
     this->health.mp = this->GetMaxMP();
-    PAI->EventHandler.triggerListener("SPAWN", this);
-    luautils::OnMobSpawn(this);
-    trustutils::BuildingTrustSkillsTable(this);
     ((CCharEntity*)PMaster)->pushPacket(new CTrustSyncPacket((CCharEntity*)PMaster, this));
 }
 
