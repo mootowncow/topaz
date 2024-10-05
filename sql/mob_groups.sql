@@ -3366,7 +3366,7 @@ INSERT INTO `mob_groups` VALUES (4,714,69,'Chigoe',0,128,0,5000,0,74,74,0);
 INSERT INTO `mob_groups` VALUES (5,9042,69,'Bodacious_Elly',0,128,0,15000,0,77,77,0);
 INSERT INTO `mob_groups` VALUES (6,9043,69,'Ravaging_Diremite',0,128,0,15000,0,77,77,0);
 INSERT INTO `mob_groups` VALUES (7,9044,69,'Sleepy_Wamouracampa',0,128,0,5000,0,74,74,0);
-INSERT INTO `mob_groups` VALUES (8,9045,69,'Ferocious_Wamoura',0,128,0,15000,0,80,80,0);
+INSERT INTO `mob_groups` VALUES (8,9045,69,'Ferocious_Wamoura',0,128,0,25000,0,80,80,0);
 
 
 --Custom end
