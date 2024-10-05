@@ -4288,7 +4288,7 @@ INSERT INTO `item_equipment` VALUES (14526,'jaridah_peti',72,0,2473969,172,0,0,3
 INSERT INTO `item_equipment` VALUES (14527,'yigit_gomlek',72,0,1622556,176,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14528,'abtal_jawshan',72,0,2497,171,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14529,'akinji_peti',72,0,2473969,172,0,0,32,0,0);
-INSERT INTO `item_equipment` VALUES (14530,'pln._khazagand',72,0,2569522,175,0,0,32,0,0);
+INSERT INTO `item_equipment` VALUES (14530,'pln._khazagand',72,0,2602290,175,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14531,'bannaret_mail',24,0,6593,5,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14532,'otoko_yukata',1,0,4194303,126,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14533,'onago_yukata',1,0,4194303,127,0,0,32,0,0);
@@ -4698,7 +4698,7 @@ INSERT INTO `item_equipment` VALUES (14936,'storm_manopolas',50,0,4194303,159,0,
 INSERT INTO `item_equipment` VALUES (14937,'storm_gages',50,0,4194303,135,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14938,'abtal_dastanas',72,0,2497,171,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14939,'akinji_bazubands',72,0,2473969,172,0,0,64,0,0);
-INSERT INTO `item_equipment` VALUES (14940,'pln._dastanas',72,0,2569522,175,0,0,64,0,0);
+INSERT INTO `item_equipment` VALUES (14940,'pln._dastanas',72,0,2602290,175,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14941,'marid_mittens',65,0,2472947,14,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14942,'marid_mittens_+1',65,0,2472947,14,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14943,'barb._moufles',73,0,2473969,164,0,0,64,0,0);
@@ -5367,7 +5367,7 @@ INSERT INTO `item_equipment` VALUES (15605,'jaridah_salvars',72,0,2473969,172,0,
 INSERT INTO `item_equipment` VALUES (15606,'yigit_seraweels',72,0,1622556,176,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15607,'abtal_zerehs',72,0,2497,171,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15608,'akinji_salvars',72,0,2473969,172,0,0,128,0,0);
-INSERT INTO `item_equipment` VALUES (15609,'pln._seraweels',72,0,2569522,175,0,0,128,0,0);
+INSERT INTO `item_equipment` VALUES (15609,'pln._seraweels',72,0,2602290,175,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15610,'sturdy_trousers',7,0,2473969,1,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15611,'sturdy_slacks',8,0,3851870,3,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15612,'strike_subligar',60,0,2472947,56,0,0,128,0,0);
@@ -5453,7 +5453,7 @@ INSERT INTO `item_equipment` VALUES (15691,'storm_gambieras',50,0,4194303,159,0,
 INSERT INTO `item_equipment` VALUES (15692,'storm_crackows',50,0,4194303,160,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15693,'abtal_boots',72,0,2497,171,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15694,'akinji_nails',72,0,2473969,172,0,0,256,0,0);
-INSERT INTO `item_equipment` VALUES (15695,'pln._crackows',72,0,2569522,175,0,0,256,0,0);
+INSERT INTO `item_equipment` VALUES (15695,'pln._crackows',72,0,2602290,175,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15696,'marid_leggings',65,0,2472947,14,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15697,'marid_leggings_+1',65,0,2472947,14,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15698,'sneaking_boots',50,0,4194303,96,0,0,256,0,0);
@@ -5820,7 +5820,7 @@ INSERT INTO `item_equipment` VALUES (16065,'storm_zucchetto',50,0,4194303,159,0,
 INSERT INTO `item_equipment` VALUES (16066,'storm_turban',50,0,4194303,160,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16067,'abtal_turban',72,0,2497,171,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16068,'akinji_khud',72,0,2473969,172,0,0,16,0,0);
-INSERT INTO `item_equipment` VALUES (16069,'pln._qalansuwa',72,0,2569522,175,0,0,16,0,0);
+INSERT INTO `item_equipment` VALUES (16069,'pln._qalansuwa',72,0,2602290,175,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16070,'glory_crown',75,0,4194303,202,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16071,'kawahori_kabuto',75,0,6146,106,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16072,'brigands_mask',73,0,2363683,54,0,0,16,0,0);
