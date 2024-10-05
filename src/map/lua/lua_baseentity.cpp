@@ -373,6 +373,11 @@ inline int32 CLuaBaseEntity::messageBasic(lua_State* L)
 
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
+    if (m_PBaseEntity->objtype > TYPE_PC)
+    {
+        return 0;
+    }
+
     uint16 messageID = (uint16)lua_tointeger(L, 1);
 
     uint32 param0 = 0;
