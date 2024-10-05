@@ -15,7 +15,8 @@ end
 function onEffectTick(target, effect)
     if (effect:getTickCount() > 5) then
         local pet = target:getPetID()
-        if pet then
+        local isSmn = target:getMainJob() == tpz.job.SMN
+        if isSmn and pet then
             if (pet >= tpz.pet.id.FIRE_SPIRIT and pet <= tpz.pet.id.CAIT_SITH) then
                 target:messageBasic(tpz.msg.basic.CANT_HEAL_AVATAR, 0, 0, 0, false)
                 target:delStatusEffect(tpz.effect.LEAVEGAME)
