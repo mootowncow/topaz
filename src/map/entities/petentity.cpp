@@ -26,6 +26,7 @@
 #include "../mob_spell_list.h"
 #include "../packets/entity_update.h"
 #include "../packets/pet_sync.h"
+#include "../packets/mob_extdata.h"
 #include "../ai/ai_container.h"
 #include "../ai/controllers/pet_controller.h"
 #include "../ai/helpers/pathfind.h"
@@ -183,16 +184,28 @@ WYVERNTYPE CPetEntity::getWyvernType()
 void CPetEntity::PostTick()
 {
     CBattleEntity::PostTick();
-    if (loc.zone && updatemask && status != STATUS_DISAPPEAR)
+    if (loc.zone && status != STATUS_DISAPPEAR)
     {
-        loc.zone->PushPacket(this, CHAR_INRANGE, new CEntityUpdatePacket(this, ENTITY_UPDATE, updatemask));
-
-        if (PMaster && PMaster->PPet == this)
+        if (updatemask)
         {
-            ((CCharEntity*)PMaster)->pushPacket(new CPetSyncPacket((CCharEntity*)PMaster));
+            loc.zone->PushPacket(this, CHAR_INRANGE, new CEntityUpdatePacket(this, ENTITY_UPDATE, updatemask));
+
+            if (PMaster && PMaster->PPet == this)
+            {
+                ((CCharEntity*)PMaster)->pushPacket(new CPetSyncPacket((CCharEntity*)PMaster));
+            }
+
+            updatemask = 0;
         }
 
-        updatemask = 0;
+        if (extDataUpdateFlag)
+        {
+            // Send update packet for custom data..
+            loc.zone->PushPacket(this, CHAR_INRANGE, new CMobExtDataPacket(this));
+
+            // Clear flag..
+            extDataUpdateFlag = false;
+        }
     }
 }
 

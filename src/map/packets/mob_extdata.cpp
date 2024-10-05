@@ -29,6 +29,7 @@
 #include "../entities/battleentity.h"
 #include "../entities/mobentity.h"
 #include "../entities/trustentity.h"
+#include "../entities/petentity.h"
 #include "../status_effect_container.h"
 
 #define MAX_STATUS_EFFECTS 16
@@ -68,3 +69,44 @@ CMobExtDataPacket::CMobExtDataPacket(CBattleEntity* PEntity)
         });
     this->size += effectCount * 4;
 }
+
+// To add Flags...
+//#define MAX_STATUS_EFFECTS 16
+//#define EFFECT_SIZE 12
+//
+//CMobExtDataPacket::CMobExtDataPacket(CBattleEntity* PEntity)
+//{
+//    this->type = 0xFF;
+//    this->size = 0x06;
+//
+//    ref<uint32>(0x04) = PEntity->id;
+//    ref<uint16_t>(0x08) = PEntity->targid;
+//
+//    if (PEntity->objtype == TYPE_MOB)
+//    {
+//        ref<int16_t>(0x0A) = ((CMobEntity*)PEntity)->m_THLvl;
+//    }
+//    else
+//    {
+//        ref<int16_t>(0x0A) = 0;
+//    }
+//
+//    auto effectCount = 0;
+//    PEntity->StatusEffectContainer.get()->ForEachEffect(
+//        [&](CStatusEffect* PEffect)
+//        {
+//            if (effectCount < MAX_STATUS_EFFECTS)
+//            {
+//                auto offset = 0x0C + (effectCount * EFFECT_SIZE);
+//                ref<uint16_t>(offset) = PEffect->GetStatusID();
+//                ref<uint16_t>(offset + 2) = PEffect->GetPower();
+//
+//                auto elapsedTime = server_clock::now() - PEffect->GetStartTime();
+//                auto remainingTime = PEffect->GetDuration() - std::chrono::duration_cast<std::chrono::milliseconds>(elapsedTime).count();
+//                ref<uint32_t>(offset + 4) = remainingTime > 0 ? static_cast<uint32_t>(remainingTime) : 0;
+//                ref<uint32_t>(offset + 8) = PEffect->GetFlag();
+//                effectCount++;
+//            }
+//        });
+//    this->size += (effectCount * EFFECT_SIZE) / 2;
+//}

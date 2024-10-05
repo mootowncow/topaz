@@ -8,6 +8,7 @@
 class CBattleEntity;
 class CMobEntity;
 class CTrustEntity;
+class CPetEntity;
 
 class CMobExtDataPacket : public CBasicPacket
 {
