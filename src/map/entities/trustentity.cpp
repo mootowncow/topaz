@@ -25,6 +25,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../packets/char_health.h"
 #include "../packets/entity_update.h"
 #include "../packets/trust_sync.h"
+#include "../packets/mob_extdata.h"
 #include "../ai/ai_container.h"
 #include "../ai/controllers/trust_controller.h"
 #include "../ai/helpers/pathfind.h"
@@ -85,18 +86,27 @@ CTrustEntity::CTrustEntity(CCharEntity* PChar)
 void CTrustEntity::PostTick()
 {
     CBattleEntity::PostTick();
-    if (loc.zone && updatemask && status != STATUS_DISAPPEAR)
+    if (loc.zone && status != STATUS_DISAPPEAR)
     {
-        loc.zone->PushPacket(this, CHAR_INRANGE, new CEntityUpdatePacket(this, ENTITY_UPDATE, updatemask));
-
-        if (PMaster && PMaster->PParty && updatemask & UPDATE_HP)
+        if (updatemask)
         {
-            PMaster->ForParty([this](auto PMember)
+            loc.zone->PushPacket(this, CHAR_INRANGE, new CEntityUpdatePacket(this, ENTITY_UPDATE, updatemask));
+
+            if (PMaster && PMaster->PParty && updatemask & UPDATE_HP)
             {
-                static_cast<CCharEntity*>(PMember)->pushPacket(new CCharHealthPacket(this));
-            });
+                PMaster->ForParty([this](auto PMember) { static_cast<CCharEntity*>(PMember)->pushPacket(new CCharHealthPacket(this)); });
+            }
+            updatemask = 0;
         }
-        updatemask = 0;
+
+        if (extDataUpdateFlag)
+        {
+            // Send update packet for custom data..
+            loc.zone->PushPacket(this, CHAR_INRANGE, new CMobExtDataPacket(this));
+
+            // Clear flag..
+            extDataUpdateFlag = false;
+        }
     }
 }
 

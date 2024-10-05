@@ -5,12 +5,14 @@
 
 #include "basic.h"
 
+class CBattleEntity;
 class CMobEntity;
+class CTrustEntity;
 
 class CMobExtDataPacket : public CBasicPacket
 {
 public:
-    CMobExtDataPacket(CMobEntity* PEntity);
+    CMobExtDataPacket(CBattleEntity* PEntity);
 };
 
 #endif

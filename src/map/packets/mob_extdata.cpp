@@ -26,22 +26,32 @@
 
 #include "mob_extdata.h"
 
+#include "../entities/battleentity.h"
 #include "../entities/mobentity.h"
+#include "../entities/trustentity.h"
 #include "../status_effect_container.h"
 
 #define MAX_STATUS_EFFECTS 16
 
-CMobExtDataPacket::CMobExtDataPacket(CMobEntity* PMob)
+CMobExtDataPacket::CMobExtDataPacket(CBattleEntity* PEntity)
 {
     this->type = 0xFF;
     this->size = 0x06;
 
-    ref<uint32>(0x04) = PMob->id;
-    ref<uint16_t>(0x08) = PMob->targid;
-    ref<int16_t>(0x0A) = PMob->m_THLvl;
+    ref<uint32>(0x04) = PEntity->id;
+    ref<uint16_t>(0x08) = PEntity->targid;
+
+    if (PEntity->objtype == TYPE_MOB)
+    {
+        ref<int16_t>(0x0A) = ((CMobEntity*)PEntity)->m_THLvl;
+    }
+    else
+    {
+        ref<int16_t>(0x0A) = 0;
+    }
 
     auto effectCount = 0;
-    PMob->StatusEffectContainer.get()->ForEachEffect(
+    PEntity->StatusEffectContainer.get()->ForEachEffect(
         [&](CStatusEffect* PEffect)
         {
             if (effectCount < MAX_STATUS_EFFECTS)
