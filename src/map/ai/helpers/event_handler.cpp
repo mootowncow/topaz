@@ -29,8 +29,13 @@ CAIEventHandler::~CAIEventHandler()
 
 void CAIEventHandler::addListener(std::string eventname, int lua_func, std::string identifier)
 {
-    eventListeners[eventname].emplace_back(identifier, lua_func);
+    // Make sure the listener doesn't already exist
+    if (!listenerExists(identifier))
+    {
+        eventListeners[eventname].emplace_back(identifier, lua_func);
+    }
 }
+
 
 void CAIEventHandler::removeListener(std::string identifier)
 {
@@ -49,4 +54,20 @@ void CAIEventHandler::removeListener(std::string identifier)
             return false;
         }), eventListener.second.end());
     }
+}
+
+
+bool CAIEventHandler::listenerExists(const std::string& identifier)
+{
+    for (const auto& eventListener : eventListeners)
+    {
+        for (const auto& event : eventListener.second)
+        {
+            if (event.identifier == identifier)
+            {
+                return true; // Listener with this identifier already exists
+            }
+        }
+    }
+    return false;
 }

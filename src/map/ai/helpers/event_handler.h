@@ -44,6 +44,7 @@ public:
     CAIEventHandler::~CAIEventHandler();
     void addListener(std::string eventname, int lua_func, std::string identifier);
     void removeListener(std::string identifier);
+    bool listenerExists(const std::string& identifier); 
 
     // calls event from core
     template<class... Args>
