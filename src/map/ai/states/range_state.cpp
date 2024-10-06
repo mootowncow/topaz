@@ -54,18 +54,22 @@ CRangeState::CRangeState(CBattleEntity* PEntity, uint16 targid) :
     auto delay = m_PEntity->GetRangedWeaponDelay(false);
     delay = battleutils::GetSnapshotReduction(m_PEntity, delay);
 
-    // TODO: Allow trusts to use this
-    if (auto PChar = dynamic_cast<CCharEntity*>(m_PEntity))
+    if (m_PEntity->hasTrait(TRAIT_RAPID_SHOT))
     {
-        if (charutils::hasTrait(PChar, TRAIT_RAPID_SHOT))
+        auto chance{ m_PEntity->getMod(Mod::RAPID_SHOT) };
+        if (auto PChar = dynamic_cast<CCharEntity*>(m_PEntity))
         {
-            auto chance {PChar->getMod(Mod::RAPID_SHOT) + PChar->PMeritPoints->GetMeritValue(MERIT_RAPID_SHOT_RATE, PChar)};
-            if (tpzrand::GetRandomNumber(100) < chance)
+            if (m_PEntity->objtype == TYPE_PC)
             {
-                // reduce delay by 10%-50%
-                delay = (int16)(delay * (10 - tpzrand::GetRandomNumber(1, 6)) / 10.f);
-                m_rapidShot = true;
+                chance += PChar->PMeritPoints->GetMeritValue(MERIT_RAPID_SHOT_RATE, PChar);
             }
+        }
+
+        if (tpzrand::GetRandomNumber(100) < chance)
+        {
+            // reduce delay by 10%-50%
+            delay = (int16)(delay * (10 - tpzrand::GetRandomNumber(1, 6)) / 10.f);
+            m_rapidShot = true;
         }
     }
 
@@ -229,6 +233,7 @@ bool CRangeState::CanUseRangedAttack(CBattleEntity* PTarget, bool isEndOfAttack)
     }
 
     // There is a slight cooldown on ranged attacks after the previous shot
+    // TODO: Add to trusts
     if (m_PEntity->objtype == TYPE_PC && m_PEntity->PAI->getTick() - ((CCharEntity*)m_PEntity)->m_LastRangedAttackTime < m_freePhaseTime)
     {
         m_errorMsg = std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget, 0, 0, MSGBASIC_WAIT_LONGER);
