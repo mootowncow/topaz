@@ -10,7 +10,7 @@
 -- If power is 4, 100% MDT from BEHIND
 -- If power is 3, 100% MDT in FRONT
 -- If power is 2, 100% magic absorb
--- If power is < 2, 100% MDT
+-- If power is < 2, 100% MDT and debuff immunity (BLU debuffs ignore this)
 -----------------------------------
 
 require("scripts/globals/status")
