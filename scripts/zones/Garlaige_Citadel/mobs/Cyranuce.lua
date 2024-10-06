@@ -26,21 +26,21 @@ function onMobFight(mob, target)
 
     if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
         if mob:getHPP() <= 10 and dragonForm == 0 then
+            SetGenericNMStats(mob)
             mob:useMobAbility(689) -- Benediction
             MessageGroup(mob, target, "I shall show you the real power of a Dragoon!", 0, "Cyranuce")
             mob:setLocalVar("dragonForm", 1)
         end
     end
 
-        mob:addListener("WEAPONSKILL_STATE_EXIT", "CYRANUCE_WS_EXIT", function(mob, skill)
-            if (skill == 689) then
-                SetGenericNMStats(mob)
-                mob:setMod(tpz.mod.REGAIN, 25)
-                mob:setMobMod(tpz.mobMod.SKILL_LIST, 6016)
-                mob:setModelId(318) -- Guivre Wyvern
-                mob:setUnkillable(false)
-            end
-        end)
+    mob:addListener("WEAPONSKILL_STATE_EXIT", "CYRANUCE_WS_EXIT", function(mob, skill)
+        if (skill == 689) then
+            mob:setMod(tpz.mod.REGAIN, 25)
+            mob:setMobMod(tpz.mobMod.SKILL_LIST, 6016)
+            mob:setModelId(318) -- Guivre Wyvern
+            mob:setUnkillable(false)
+        end
+    end)
 end
 
 function onMobWeaponSkill(target, mob, skill)
