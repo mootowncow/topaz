@@ -93,8 +93,11 @@ local modByMobName =
         mob:addMod(tpz.mod.MPP, 40)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
-        AddRefreshGear(mob)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.REGAIN, 25)
+        end
+        AddRefreshGear(mob)
         AddCasterGear(mob)
         AddArtifactGear(mob)
     end,

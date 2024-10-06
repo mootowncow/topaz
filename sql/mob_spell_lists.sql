@@ -3347,6 +3347,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,282,26,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,283,28,255);         -- Ionohelix
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,284,30,255);         -- Noctohelix
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,285,32,255);         -- Luminohelix
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,245,21,255);         -- Drain
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,247,36,255);         -- Aspir
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,163,79,255);         -- Stone V
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Amchuchu',382,43,20,255);          -- Protect
