@@ -409,6 +409,7 @@ void CGambitsContainer::Tick(time_point tick)
                     return;
                 }
 
+
                 if (action.select == G_SELECT::SPECIFIC)
                 {
                     auto spell_id = POwner->SpellContainer->GetAvailable(static_cast<SpellID>(action.select_arg));
@@ -452,9 +453,9 @@ void CGambitsContainer::Tick(time_point tick)
                             // After updating spell_id, ensure it still has a value
                             if (spell_id.has_value())
                             {
+                                PSpell = static_cast<SpellID>(spell_id.value());
                                 if (!POwner->SpellContainer->IsImmune(target, PSpell))
                                 {
-                                    PSpell = static_cast<SpellID>(spell_id.value());
                                     controller->Cast(target->targid, PSpell);
                                     return;
                                 }
@@ -501,8 +502,11 @@ void CGambitsContainer::Tick(time_point tick)
                     auto spell_id = POwner->SpellContainer->GetBestAgainstTargetWeakness(POwner, target);
                     if (spell_id.has_value())
                     {
-                        controller->Cast(target->targid, spell_id.value());
-                        return;
+                        if (!POwner->SpellContainer->IsImmune(target, spell_id.value()))
+                        {
+                            controller->Cast(target->targid, spell_id.value());
+                            return;
+                        }
                     }
                 }
                 else if (action.select == G_SELECT::STORM_DAY)
@@ -541,8 +545,11 @@ void CGambitsContainer::Tick(time_point tick)
                     auto spell_id = POwner->SpellContainer->HelixWeakness(POwner, target);
                     if (spell_id.has_value())
                     {
-                        controller->Cast(target->targid, spell_id.value());
-                        return;
+                        if (!POwner->SpellContainer->IsImmune(target, spell_id.value()))
+                        {
+                            controller->Cast(target->targid, spell_id.value());
+                            return;
+                        }
                     }
                 }
                 else if (action.select == G_SELECT::RANDOM)
@@ -1062,7 +1069,7 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             {
                 return false;
             }
-            return POwner->GetHPP() < predicate.condition_arg;
+            return POwner->GetHPP() <= predicate.condition_arg;
             break;
         }
         case G_CONDITION::CAN_ASPIR:
@@ -1075,7 +1082,7 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             {
                 return false;
             }
-            return POwner->GetMPP() < predicate.condition_arg;
+            return POwner->GetMPP() <= predicate.condition_arg;
             break;
         }
         case G_CONDITION::REFRESH:
@@ -1295,6 +1302,15 @@ bool CGambitsContainer::TryTrustSkill()
     {
         auto controller = static_cast<CTrustController*>(POwner->PAI->GetController());
         float currentDistance = distance(POwner->loc.p, target->loc.p);
+        auto isMelee = melee_jobs.find(POwner->GetMJob()) != melee_jobs.end();
+        auto isRanged = POwner->GetMJob() == JOB_RNG || POwner->GetMJob() == JOB_COR;
+        auto isCaster = caster_jobs.find(POwner->GetMJob()) != caster_jobs.end();
+
+        if (POwner->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
+        {
+            return false;
+        }
+
         if (chosen_skill->skill_type == G_REACTION::WS)
         {
             CWeaponSkill* PWeaponSkill = battleutils::GetWeaponSkill(chosen_skill->skill_id);
@@ -1307,9 +1323,36 @@ bool CGambitsContainer::TryTrustSkill()
                 target = POwner->GetBattleTarget();
             }
 
-            if (POwner->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
+            // Melee jobs shouldn't MS/WS into Perfect Dodge
+            if (isMelee && target->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
             {
                 return false;
+            }
+
+            // Melee and Ranged jobs shouldn't MS/WS into Invincible
+            if ((isMelee || isRanged) && target->StatusEffectContainer->HasStatusEffect(EFFECT_INVINCIBLE))
+            {
+                return false;
+            }
+
+            // Caster jobs shouldn't MS/WS into Elemental Sforzo or Magic Immunity
+            if (isCaster)
+            {
+                if (target->StatusEffectContainer->HasStatusEffect(EFFECT_ELEMENTAL_SFORZO))
+                {
+                    return false;
+                }
+
+                if (target->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
+                {
+                    CStatusEffect* magicShield = target->StatusEffectContainer->GetStatusEffect(EFFECT_MAGIC_SHIELD, 0);
+                    uint16 magicShieldPower = magicShield->GetPower();
+
+                    if (magicShieldPower < 2)
+                    {
+                        return false;
+                    }
+                }
             }
 
             if (currentDistance <= (static_cast<float>(PWeaponSkill->getRange())))
@@ -1346,9 +1389,36 @@ bool CGambitsContainer::TryTrustSkill()
                 target = POwner->GetBattleTarget();
             }
 
-            if (POwner->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
+            // Melee jobs shouldn't MS/WS into Perfect Dodge
+            if (isMelee && target->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
             {
                 return false;
+            }
+
+            // Melee and Ranged jobs shouldn't MS/WS into Invincible
+            if ((isMelee || isRanged) && target->StatusEffectContainer->HasStatusEffect(EFFECT_INVINCIBLE))
+            {
+                return false;
+            }
+
+            // Caster jobs shouldn't MS/WS into Elemental Sforzo or Magic Immunity
+            if (isCaster)
+            {
+                if (target->StatusEffectContainer->HasStatusEffect(EFFECT_ELEMENTAL_SFORZO))
+                {
+                    return false;
+                }
+
+                if (target->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
+                {
+                    CStatusEffect* magicShield = target->StatusEffectContainer->GetStatusEffect(EFFECT_MAGIC_SHIELD, 0);
+                    uint16 magicShieldPower = magicShield->GetPower();
+
+                    if (magicShieldPower < 2)
+                    {
+                        return false;
+                    }
+                }
             }
 
             if (currentDistance <= (skill->getDistance()))

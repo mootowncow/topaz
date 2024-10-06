@@ -508,6 +508,63 @@ std::optional<SpellID> CMobSpellContainer::GetBestAgainstTargetWeakness(CBattleE
         }
     }
 
+    // TODO: Compare the spell family picked to make sure the absorb mod on enemy isnt >= 50
+
+    // struct AbsorbInfo
+    //{
+    //     Mod absorb;
+    // };
+
+    //// Map SpellFamily to AbsorbInfo (absorb)
+    // const std::unordered_map<SPELLFAMILY, AbsorbInfo> absorbInfoMap = {
+    //     { SPELLFAMILY_FIRE,          { Mod::FIRE_ABSORB     } },
+    //     { SPELLFAMILY_BLIZZARD,      { Mod::ICE_ABSORB      } },
+    //     { SPELLFAMILY_AERO,          { Mod::WIND_ABSORB     } },
+    //     { SPELLFAMILY_STONE,         { Mod::EARTH_ABSORB    } },
+    //     { SPELLFAMILY_THUNDER,       { Mod::LTNG_ABSORB     } },
+    //     { SPELLFAMILY_WATER,         { Mod::WATER_ABSORB    } },
+    //     { SPELLFAMILY_FIRAGA,        { Mod::FIRE_ABSORB     } },
+    //     { SPELLFAMILY_BLIZZAGA,      { Mod::ICE_ABSORB      } },
+    //     { SPELLFAMILY_AEROGA,        { Mod::WIND_ABSORB     } },
+    //     { SPELLFAMILY_STONEGA,       { Mod::EARTH_ABSORB    } },
+    //     { SPELLFAMILY_THUNDAGA,      { Mod::LTNG_ABSORB     } },
+    //     { SPELLFAMILY_WATERGA,       { Mod::WATER_ABSORB    } },
+    //     { SPELLFAMILY_FLARE,         { Mod::FIRE_ABSORB     } },
+    //     { SPELLFAMILY_FREEZE,        { Mod::ICE_ABSORB      } },
+    //     { SPELLFAMILY_TORNADO,       { Mod::WIND_ABSORB     } },
+    //     { SPELLFAMILY_QUAKE,         { Mod::EARTH_ABSORB    } },
+    //     { SPELLFAMILY_BURST,         { Mod::LTNG_ABSORB     } },
+    //     { SPELLFAMILY_FLOOD,         { Mod::WATER_ABSORB    } },
+    //     { SPELLFAMILY_GEOHELIX,      { Mod::EARTH_ABSORB    } },
+    //     { SPELLFAMILY_HYDROHELIX,    { Mod::WATER_ABSORB    } },
+    //     { SPELLFAMILY_ANEMOHELIX,    { Mod::WIND_ABSORB     } },
+    //     { SPELLFAMILY_PYROHELIX,     { Mod::FIRE_ABSORB     } },
+    //     { SPELLFAMILY_CRYOHELIX,     { Mod::ICE_ABSORB      } },
+    //     { SPELLFAMILY_IONOHELIX,     { Mod::LTNG_ABSORB     } },
+    //     { SPELLFAMILY_NOCTOHELIX,    { Mod::DARK_ABSORB     } },
+    //     { SPELLFAMILY_LUMINOHELIX,   { Mod::LIGHT_ABSORB    } }
+    // };
+
+    //// Check if the spell family is in the absorbInfoMap and if the absorb mod is >= 50
+    //// Check if mob has JA Autos
+    // SpellID PSpell = static_cast<SpellID>(spellId);
+    // auto spellData = spell::GetSpell(PSpell);
+
+    // if (spellData)
+    //{
+    //     SPELLFAMILY spellFamily = spellData->getSpellFamily();
+    //     auto absorbIt = absorbInfoMap.find(spellFamily);
+    //     if (absorbIt != absorbInfoMap.end())
+    //     {
+    //         const AbsorbInfo& absorbInfo = absorbIt->second;
+
+    //        if (PTarget->getMod(absorbInfo.absorb) >= 50)
+    //        {
+    //            return true;
+    //        }
+    //    }
+    //}
+
     // If all else fails, just cast the best you have!
     return !choice ? GetBestAvailable(SPELLFAMILY_NONE) : choice;
 }
@@ -1134,39 +1191,95 @@ bool CMobSpellContainer::IsImmune(CBattleEntity* PTarget, SpellID spellId)
 
     // Map SpellID to SpellInfo (effect, immunity, EEM)
     const std::unordered_map<SpellID, SpellInfo> spellInfoMap = {
-        { SpellID::Paralyze, { EFFECT_PARALYSIS, IMMUNITY_PARALYZE, Mod::EEM_PARALYZE } },
-        { SpellID::Paralyze_II, { EFFECT_PARALYSIS, IMMUNITY_PARALYZE, Mod::EEM_PARALYZE } },
-        { SpellID::Slow, { EFFECT_SLOW, IMMUNITY_SLOW, Mod::EEM_SLOW } },
-        { SpellID::Slow_II, { EFFECT_SLOW, IMMUNITY_SLOW, Mod::EEM_SLOW } },
-        { SpellID::Blind, { EFFECT_BLINDNESS, IMMUNITY_BLIND, Mod::EEM_BLIND } },
-        { SpellID::Blind_II, { EFFECT_BLINDNESS, IMMUNITY_BLIND, Mod::EEM_BLIND } },
-        { SpellID::Silence, { EFFECT_SILENCE, IMMUNITY_SILENCE, Mod::EEM_SILENCE } },
-        { SpellID::Poison, { EFFECT_POISON, IMMUNITY_POISON, Mod::EEM_POISON } },
-        { SpellID::Poison_II, { EFFECT_POISON, IMMUNITY_POISON, Mod::EEM_POISON } },
-        { SpellID::Poison_III, { EFFECT_POISON, IMMUNITY_POISON, Mod::EEM_POISON } },
-        { SpellID::Poison_IV, { EFFECT_POISON, IMMUNITY_POISON, Mod::EEM_POISON } },
-        { SpellID::Stun, { EFFECT_STUN, IMMUNITY_STUN, Mod::EEM_STUN } },
-        { SpellID::Battlefield_Elegy, { EFFECT_SLOW, IMMUNITY_SLOW, Mod::EEM_SLOW } },
-        { SpellID::Carnage_Elegy, { EFFECT_SLOW, IMMUNITY_SLOW, Mod::EEM_SLOW } },
-        { SpellID::Massacre_Elegy, { EFFECT_SLOW, IMMUNITY_SLOW, Mod::EEM_SLOW } },
+        { SpellID::Paralyze,           { EFFECT_PARALYSIS,  IMMUNITY_PARALYZE,   Mod::EEM_PARALYZE   } },
+        { SpellID::Paralyze_II,        { EFFECT_PARALYSIS,  IMMUNITY_PARALYZE,   Mod::EEM_PARALYZE   } },
+        { SpellID::Slow,               { EFFECT_SLOW,       IMMUNITY_SLOW,       Mod::EEM_SLOW       } },
+        { SpellID::Slow_II,            { EFFECT_SLOW,       IMMUNITY_SLOW,       Mod::EEM_SLOW       } },
+        { SpellID::Blind,              { EFFECT_BLINDNESS,  IMMUNITY_BLIND,      Mod::EEM_BLIND      } },
+        { SpellID::Blind_II,           { EFFECT_BLINDNESS,  IMMUNITY_BLIND,      Mod::EEM_BLIND      } },
+        { SpellID::Silence,            { EFFECT_SILENCE,    IMMUNITY_SILENCE,    Mod::EEM_SILENCE    } },
+        { SpellID::Gravity,            { EFFECT_WEIGHT,     IMMUNITY_GRAVITY,    Mod::EEM_GRAVITY    } },
+        { SpellID::Gravity_II,         { EFFECT_WEIGHT,     IMMUNITY_GRAVITY,    Mod::EEM_GRAVITY    } },
+        { SpellID::Poison,             { EFFECT_POISON,     IMMUNITY_POISON,     Mod::EEM_POISON     } },
+        { SpellID::Poison_II,          { EFFECT_POISON,     IMMUNITY_POISON,     Mod::EEM_POISON     } },
+        { SpellID::Poison_III,         { EFFECT_POISON,     IMMUNITY_POISON,     Mod::EEM_POISON     } },
+        { SpellID::Poison_IV,          { EFFECT_POISON,     IMMUNITY_POISON,     Mod::EEM_POISON     } },
+        { SpellID::Stun,               { EFFECT_STUN,       IMMUNITY_STUN,       Mod::EEM_STUN       } },
+        { SpellID::Sleep,              { EFFECT_SLEEP,      IMMUNITY_SLEEP,      Mod::EEM_DARK_SLEEP } },
+        { SpellID::Sleep_II,           { EFFECT_SLEEP_II,   IMMUNITY_SLEEP,      Mod::EEM_DARK_SLEEP } },
+        { SpellID::Sleepga,            { EFFECT_SLEEP,      IMMUNITY_SLEEP,      Mod::EEM_DARK_SLEEP } },
+        { SpellID::Sleepga_II,         { EFFECT_SLEEP_II,   IMMUNITY_SLEEP,      Mod::EEM_DARK_SLEEP } },
+        { SpellID::Foe_Lullaby,        { EFFECT_SLEEP,      IMMUNITY_SLEEP,      Mod::EEM_LIGHT_SLEEP} },
+        { SpellID::Foe_Lullaby_II,     { EFFECT_SLEEP,      IMMUNITY_SLEEP,      Mod::EEM_LIGHT_SLEEP} },
+        { SpellID::Horde_Lullaby,      { EFFECT_SLEEP,      IMMUNITY_SLEEP,      Mod::EEM_LIGHT_SLEEP} },
+        { SpellID::Horde_Lullaby_II,   { EFFECT_SLEEP,      IMMUNITY_SLEEP,      Mod::EEM_LIGHT_SLEEP} },
+        { SpellID::Battlefield_Elegy,  { EFFECT_ELEGY,      IMMUNITY_ELEGY,      Mod::EEM_SLOW       } },
+        { SpellID::Carnage_Elegy,      { EFFECT_ELEGY,      IMMUNITY_ELEGY,      Mod::EEM_SLOW       } },
+        { SpellID::Massacre_Elegy,     { EFFECT_ELEGY,      IMMUNITY_ELEGY,      Mod::EEM_SLOW       } },
+        { SpellID::Dispel,             { EFFECT_NONE,       IMMUNITY_NONE,       Mod::SDT_DARK       } },
+        { SpellID::Dispelga,           { EFFECT_NONE,       IMMUNITY_NONE,       Mod::SDT_DARK       } },
+        { SpellID::Magic_Finale,       { EFFECT_NONE,       IMMUNITY_NONE,       Mod::SDT_LIGHT      } },
+        { SpellID::Addle,              { EFFECT_NONE,       IMMUNITY_NONE,       Mod::SDT_FIRE       } }
     };
 
-    // Find the spell information based on the spell ID
-    auto it = spellInfoMap.find(spellId);
-    if (it != spellInfoMap.end())
-    {
-        const SpellInfo& spell = it->second;
+    const std::unordered_set<SPELLFAMILY> jaAutosSpellFamilies = {
+        SPELLFAMILY_PARALYZE,
+        SPELLFAMILY_SLOW
+    };
 
-        // Check if hard immune
-        if (PTarget->hasImmunity(static_cast<uint32>(spell.immunity)))
+    // Check for magic immunity buffs
+    if (PTarget->objtype == TYPE_MOB)
+    {
+        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
+        {
+            CStatusEffect* magicShield = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_MAGIC_SHIELD, 0);
+            uint16 magicShieldPower = magicShield->GetPower();
+
+            if (magicShieldPower < 2)
+            {
+                return true;
+            }
+        }
+
+        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_ELEMENTAL_SFORZO))
         {
             return true;
         }
 
-        // Check if immune due to EEM
-        if (PTarget->getMod(static_cast<Mod>(spell.eem)) <= 5)
+        // Check immunities
+        auto it = spellInfoMap.find(spellId);
+        if (it != spellInfoMap.end())
         {
-            return true;
+            const SpellInfo& spell = it->second;
+
+            // Check if hard immune
+            if (PTarget->hasImmunity(static_cast<uint32>(spell.immunity)))
+            {
+                return true;
+            }
+
+            // Check if immune due to EEM
+            if (PTarget->getMod(static_cast<Mod>(spell.eem)) <= 5)
+            {
+                return true;
+            }
+        }
+
+        // Check if mob has JA Autos
+        SpellID PSpell = static_cast<SpellID>(spellId);
+        auto spellData = spell::GetSpell(PSpell);
+
+        if (spellData)
+        {
+            SPELLFAMILY spellFamily = spellData->getSpellFamily();
+
+            if (jaAutosSpellFamilies.count(spellFamily))
+            {
+                if (((CMobEntity*)PTarget)->getMobMod(MOBMOD_ATTACK_SKILL_LIST) > 0)
+                {
+                    return true;
+                }
+            }
         }
     }
 

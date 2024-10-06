@@ -439,6 +439,28 @@ void CTrustController::Declump(CCharEntity * PMaster, CBattleEntity * PTarget)
         return;
     }
 
+    // If WHM, don't move until Protectra / Shellra has been casted
+    if (POwner->GetMJob() == JOB_WHM)
+    {
+        bool hasProtect = POwner->StatusEffectContainer->HasStatusEffect(EFFECT_PROTECT);
+        bool hasShell = POwner->StatusEffectContainer->HasStatusEffect(EFFECT_SHELL);
+
+        if (POwner->GetMLevel() < 17)
+        {
+            if (!hasProtect)
+            {
+                return;
+            }
+        }
+        else
+        {
+            if (!hasProtect || !hasShell)
+            {
+                return;
+            }
+        }
+    }
+
     uint8 currentPartyPos = GetPartyPosition();
     for (auto* POtherTrust : PMaster->PTrusts)
     {

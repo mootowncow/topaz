@@ -281,10 +281,8 @@ private:
         JOB_BLM,
         JOB_RDM,
         JOB_SMN,
-        JOB_BLU,
         JOB_SCH,
         JOB_GEO,
-        JOB_RUN,
     };
 };
 
