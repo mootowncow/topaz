@@ -18,6 +18,7 @@ require("scripts/globals/magic")
 -----------------------------------
 
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
+    local damage, criticalHit, tpHits, extraHits = 0
     if player:isPC() then
         local params = {}
         params.numHits = 2
@@ -34,7 +35,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
             params.mnd_wsc = 0.7
         end
 
-        local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
+        damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 	    if damage > 0 then player:trySkillUp(target, tpz.skill.CLUB, tpHits+extraHits) end
 	    if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
 
@@ -75,7 +76,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
             params.str_wsc = 0.5 params.mnd_wsc = 0.5
         end
 
-        local damage, criticalHit, tpHits, extraHits = doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
+        damage, criticalHit, tpHits, extraHits = doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
 	    if damage > 0 then player:trySkillUp(target, tpz.skill.SWORD, tpHits+extraHits) end
 	
         local maccBonus = math.floor(MaccTPModifier(tp) * 10) -- 100/200/300
