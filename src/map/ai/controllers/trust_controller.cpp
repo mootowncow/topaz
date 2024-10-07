@@ -40,23 +40,23 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 
 namespace
 {
-enum TRUST_MOVEMENT_TYPE
-{
-    // NOTE: If you need to add special movement types, add descending into the minus values.
-    //     : All of the positive values are taken for the ranged movement range.
-    // NOTE: You can use any positive value as a distance, and it will act as MID_RANGE or LONG_RANGE, but with the value you've provided.
-    //     : For example:
-    //     :     mob:setMobMod(xi.mobMod.TRUST_DISTANCE, 20)
-    //     : Will set the combat distance the trust tries to stick to to 20'
-    // NOTE: If a Trust doesn't immediately sprint to a certain distance at the start of battle, it's probably NO_MOVE or MELEE.
+    enum TRUST_MOVEMENT_TYPE
+    {
+        // NOTE: If you need to add special movement types, add descending into the minus values.
+        //     : All of the positive values are taken for the ranged movement range.
+        // NOTE: You can use any positive value as a distance, and it will act as MID_RANGE or LONG_RANGE, but with the value you've provided.
+        //     : For example:
+        //     :     mob:setMobMod(xi.mobMod.TRUST_DISTANCE, 20)
+        //     : Will set the combat distance the trust tries to stick to to 20'
+        // NOTE: If a Trust doesn't immediately sprint to a certain distance at the start of battle, it's probably NO_MOVE or MELEE.
 
-    FOLLOW_MASTER   = -2, // Follows master very closely
-    NO_MOVE         = -1,  // Will stand still providing they're within casting distance of their master and target when the fight starts. Otherwise will reposition to
-                          // be within 18.0' of both
-    MELEE           = 0,     // Default: will continually reposition to stay within melee range of the target
-    MID_RANGE       = 6, // Will path at the start of battle to 6' away from the target, and try to stay at that distance
-    LONG_RANGE      = 12, // Will path at the start of battle to 12' away from the target, and try to stay at that distance
-};
+        FOLLOW_MASTER   = -2,       // Follows master very closely
+        NO_MOVE         = -1,       // Will stand still providing they're within casting distance of their master and target when the fight starts. Otherwise will reposition to
+                                    // be within 18.0' of both
+        MELEE           = 0,        // Default: will continually reposition to stay within melee range of the target
+        MID_RANGE       = 6,        // Will path at the start of battle to 6' away from the target, and try to stay at that distance
+        LONG_RANGE      = 12,       // Will path at the start of battle to 12' away from the target, and try to stay at that distance
+    };
 } // namespace
 
 CTrustController::CTrustController(CCharEntity* PChar, CTrustEntity* PTrust)
@@ -222,14 +222,17 @@ void CTrustController::DoCombatTick(time_point tick)
 
                 int16 movementDistance = PTrust->getMobMod(MOBMOD_TRUST_DISTANCE);
 
-                // Set trust movement based on the number of warps
-                if (m_numberOfWarps >= 3)
+                // Set trust movement based on the number of warps if trust isn't melee
+                if (movementDistance > TRUST_MOVEMENT_TYPE::MELEE)
                 {
-                    movementDistance = TRUST_MOVEMENT_TYPE::NO_MOVE;
-                }
-                else if (m_numberOfWarps > 0)
-                {
-                    movementDistance = TRUST_MOVEMENT_TYPE::MID_RANGE;
+                    if (m_numberOfWarps >= 3)
+                    {
+                        movementDistance = TRUST_MOVEMENT_TYPE::NO_MOVE;
+                    }
+                    else if (m_numberOfWarps > 0)
+                    {
+                        movementDistance = TRUST_MOVEMENT_TYPE::MID_RANGE;
+                    }
                 }
 
 
