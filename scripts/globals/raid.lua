@@ -248,6 +248,7 @@ local modByMobName =
 
     ['Gunpod'] = function(mob)
     	mob:setDamage(200)
+        mob:setMod(tpz.mod.REGEN, 0)
         mob:setMod(tpz.mod.TRIPLE_ATTACK, 5)
         mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     end,
@@ -268,7 +269,7 @@ local modByMobName =
     end,
 
     ['Ultima'] = function(mob)
-        mob:addMod(tpz.mod.REGEN, 0)
+        mob:setMod(tpz.mod.REGEN, 0)
 	    mob:setMod(tpz.mod.MDEF, 119)
         mob:setMod(tpz.mod.UDMGMAGIC, -30)
 	    mob:setMod(tpz.mod.REGAIN, 0) 
@@ -296,7 +297,7 @@ local modByMobName =
     end,
 
     ['Shadow_Lord'] = function(mob)
-        mob:addMod(tpz.mod.REGEN, 0)
+        mob:setMod(tpz.mod.REGEN, 0)
         mob:setMod(tpz.mod.REGAIN, 100) 
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
         mob:setSpellList(543)
@@ -1154,6 +1155,9 @@ function SetUpHealerNPC(mob)
         mob:addMod(tpz.mod.REGAIN, 100)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
     end
+
+    mob:setMod(tpz.mod.DMGAOE, -60)
+
     mob:setSpellList(0)
 end
 
@@ -1193,7 +1197,6 @@ function SetUpTankNPC(mob)
         mob:addMod(tpz.mod.STORETP, 5)
         mob:addMod(tpz.mod.SUBTLE_BLOW, 10)
         mob:addMod(tpz.mod.ENMITY, 6)
-        mob:addMod(tpz.mod.DMGPHYS, -20)
         -- 50% Guard rate cap like players
         mob:addMod(tpz.mod.GUARD_PERCENT, 150)
     elseif IsInvincibleShield(mob) then
@@ -1203,14 +1206,16 @@ function SetUpTankNPC(mob)
         mob:addMod(tpz.mod.VIT, 60)
         mob:addMod(tpz.mod.CHR, 60)
         mob:addMod(tpz.mod.ENMITY, 20)
-        mob:addMod(tpz.mod.DMG, -25)
         mob:setMod(tpz.mod.INQUARTATA, 25)
     elseif IsCurilla(mob) then
-        mob:addMod(tpz.mod.UDMGMAGIC, -35)
         mob:addMod(tpz.mobMod.STONESKIN_BONUS_HP, 350)
         mob:setMod(tpz.mod.CURE_CAST_TIME, 25)
         mob:addMod(tpz.mod.ABSORB_DMG_TO_MP, 25)
     end
+    mob:addMod(tpz.mod.UDMGPHYS, -75)
+    mob:addMod(tpz.mod.UDMGMAGIC, -75)
+    mob:addMod(tpz.mod.UDMGBREATH, -75)
+
     mob:setSpellList(0)
 end
 
@@ -1242,7 +1247,7 @@ end
 function SetUpSupportNPC(mob)
     local mJob = mob:getMainJob()
 
-    mob:setMod(tpz.mod.DMGAOE, -50)
+    mob:setMod(tpz.mod.DMGAOE, -75)
     if (mJob == tpz.job.BRD) then
         mob:SetAutoAttackEnabled(false)
     elseif (mJob == tpz.job.GEO) then
@@ -1258,7 +1263,7 @@ function SetUpMeleeNPC(mob)
     local sJob = mob:getSubJob()
     local npcName = mob:getName()
 
-    mob:setMod(tpz.mod.DMGAOE, -33)
+    mob:setMod(tpz.mod.DMGAOE, -75)
 
     if (npcName == 'Tenzen') then
         mob:addMod(tpz.mod.SAVETP, 400)
@@ -1272,6 +1277,7 @@ function SetUpMeleeNPC(mob)
 end
 
 function SetUpRangedNPC(mob)
+    mob:setMod(tpz.mod.DMGAOE, -75)
     mob:addMod(tpz.mod.ENMITY, -30)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
     mob:setMobMod(tpz.mobMod.CAN_RA, 16)
@@ -1280,7 +1286,7 @@ end
 function SetUpCasterNPC(mob)
     local npcName = mob:getName()
 
-    mob:setMod(tpz.mod.DMGAOE, -33)
+    mob:setMod(tpz.mod.DMGAOE, -75)
     if (npcName == 'Gadalar') then
         mob:addMod(tpz.mod.ABSORB_DMG_TO_MP, 50)
     end

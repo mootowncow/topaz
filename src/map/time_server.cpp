@@ -122,7 +122,7 @@ int32 time_server(time_point tick, CTaskMgr::CTask* PTask)
         { "Bahamut", "Lufaise Meadows", WATERSDAY },
         { "Ultima", "Cape Terrigan", WINDSDAY },
         { "Eald'narche", "Western Altepa Desert", ICEDAY },
-        { "Kam'lanaut", "Yuhtunga Jungle", LIGHTNINGDAY },
+        { "Kam'lanaut", "Yhoator Jungle", LIGHTNINGDAY },
         { "Shadow Lord", "The Sanctuary of Zi'tah", LIGHTSDAY },
         { "A Crystal Warrior", "Qufim Island", DARKSDAY },
     };
