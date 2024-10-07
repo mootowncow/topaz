@@ -25,6 +25,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../states/death_state.h"
 #include "../../ability.h"
 #include "../../entities/charentity.h"
+#include "../../entities/automatonentity.h"
 #include "../../items/item_weapon.h"
 #include "../../packets/char_update.h"
 #include "../../packets/lock_on.h"
@@ -1080,15 +1081,95 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             // 2 hours can be paraylzed but it won't reset their timers
             if (PAbility->getRecastId() != ABILITYRECAST_TWO_HOUR && PAbility->getRecastId() != ABILITYRECAST_TWO_HOUR_TWO)
             {
-                // If Third Eye is paralyzed while seigan is active, use the modified seigan cooldown for thirdeye(30s instead of 1m)
-                if (PAbility->getID() == ABILITY_THIRD_EYE && PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
+                // get any available merit recast reduction
+                uint16 recast = PAbility->getRecastTime();
+                uint8 meritRecastReduction = 0;
+
+                if (PAbility->getMeritModID() > 0 && !(PAbility->getAddType() & ADDTYPE_MERIT))
                 {
-                    PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), PAbility->getRecastTime() / 2);
+                    meritRecastReduction = PChar->PMeritPoints->GetMeritValue((MERIT_TYPE)PAbility->getMeritModID(), PChar);
+                }
+
+                auto charge = ability::GetCharge(PChar, PAbility->getRecastId());
+                if (charge && PAbility->getID() != ABILITY_SIC)
+                {
+                    recast = charge->chargeTime * PAbility->getRecastTime() - meritRecastReduction;
                 }
                 else
                 {
-                    PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), PAbility->getRecastTime());
+                    recast = PAbility->getRecastTime() - meritRecastReduction;
                 }
+
+                if (PAbility->isReadyMove())
+                {
+                    recast = charge->chargeTime * PAbility->getRecastTime() - PChar->PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SIC_RECAST, PChar);
+                }
+
+                // Halve Chakra cooldown if the player has Boost
+                if (PAbility->getID() == ABILITY_CHAKRA)
+                {
+                    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_INNER_STRENGTH))
+                    {
+                        recast /= 2;
+                    }
+                }
+
+                if (PAbility->getID() == ABILITY_THIRD_EYE && PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
+                {
+                    recast /= 2;
+                }
+
+                // Sneak Attack merits also reduce the recast of Bully
+                if (PAbility->getID() == ABILITY_BULLY)
+                {
+                    recast = PAbility->getRecastTime() - PChar->PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SNEAK_ATTACK_RECAST, PChar);
+                }
+
+                if (PAbility->getID() == ABILITY_LIGHT_ARTS || PAbility->getID() == ABILITY_DARK_ARTS || PAbility->getRecastId() == 231) // stratagems
+                {
+                    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_TABULA_RASA))
+                        recast = 0;
+                }
+                else if (PAbility->getID() == ABILITY_DEACTIVATE && PChar->PAutomaton && PChar->PAutomaton->health.hp == PChar->PAutomaton->GetMaxHP())
+                {
+                    CAbility* PAbility = ability::GetAbility(ABILITY_ACTIVATE);
+                    if (PAbility)
+                        PChar->PRecastContainer->Del(RECAST_ABILITY, PAbility->getRecastId());
+                }
+                else if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
+                {
+                    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_APOGEE))
+                    {
+                        recast = 0;
+                    }
+                    else
+                    {
+                        recast = 45;
+                        recast -= std::min<int16>(PChar->getMod(Mod::BP_DELAY), 15);
+                        recast -= std::min<int16>(PChar->getMod(Mod::BP_DELAY_II), 15);
+                    }
+                }
+
+                if (PAbility->getID() == ABILITY_REWARD)
+                {
+                    recast -= PChar->getMod(Mod::REWARD_RECAST);
+                }
+
+                // The minimum recast time for Ready is 10 seconds per charge when taking into account all effects from merit points, Job Point Gifts, and
+                // equipment. https://www.bg-wiki.com/ffxi/Ready
+                if (PAbility->getID() == ABILITY_READY || PAbility->getID() == ABILITY_SIC || PAbility->isReadyMove())
+                {
+                    recast -= std::min<int16>(PChar->getMod(Mod::SIC_READY_RECAST), 10);
+                }
+
+                // There is an overall cap of -25 seconds for a 35 second recast
+                // https://www.bg-wiki.com/ffxi/Quick_Draw
+                if (PAbility->isQuickDraw())
+                {
+                    recast -= std::min<int16>(PChar->getMod(Mod::QUICK_DRAW_RECAST), 25);
+                }
+
+                PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), recast);
             }
             PChar->pushPacket(new CCharRecastPacket(PChar));
             PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_IS_PARALYZED));
