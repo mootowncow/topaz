@@ -167,30 +167,18 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Test RAID omega pods 
-Ultima / omega model size too small?
-Mob behind TP moves like rear lasers and kickback maybe the conal isnt in sync with the lua files back cone degrees check? They don't always hit when they are triggered
-If blood pacts are parad they go on 60s cd. Probably same with DNC JA's? Check anything reducing JA recasts and edit it when parad where third eye is as well
 Dusk Mask(+1). Remove enhancing replace with something else.
 Dusk Jerkin(+1). Remove RACC replace with something else. Update LAC sets that use for RACC
 Three Eyed Fish with 100 fishing and Lu's on GM
 Use Conquest msg logic to send all players RAID spawning msg
 Tune other assaults same level / HP for bosses and mini bosses
 On assault completion when you gain points, if can rank up(>= 25 var) say "You are ready to rank up!". Add to ANNM clear too(when chest is opened?)
-Do trusts mess up spawning ix'drk? Set to 100% pop chance then check in awaern.lua if (math.random(1, 4) == 1) then
 Acorn stack to 12
 Terminal Helm magic dmg taken after the snapshot(needs a \n)
-Can make custom status effects then when a mob has them make an addon do animations/ui/text
-Needed in summon/auto/blu?
-        local magicDefense = getElementalDamageReduction(target, element) -- percentage DR to elements
-        dmg = math.floor(dmg * magicDefense)
 Flamingos should be in trio spawns in sky
-Pets shouldn't auto-target if they already have a target (are engaged?)
+Pets Only swap target if master is also now targetting the new mob DoAutoTarget()
 Crackle MDEF down has "No Effect" if the target has MDEF up. Maybe all MDEF downs are like this?
 Ghrahs can go to 99% HP after being swapped to humanoid or spider due to max hp boot trait, add healing/updatepacket to AddTrait and DelTrait lua bindings
-Why is Mammet-800 intimidated by me? (PLD with aquan killer ammo)
-Mammet-800 should have silence immunity
-Does Ix'Drk still reraise?
 1: Blocked attacks still proc add effects. Is this a trust only bug or does it happen for players, because getBlockRate is a separate roll? Need a way to get if current attack was blocked or not then...
 2: Need to edit luautils::OnAdditionalEffect to have a bool for isBlocked and then change it...everywhere..in a thousand lua scripts and HandleEnspell (Battleutils.cpp)
 All lvl90+ mobs need absurd vit, like +150 vit mod
@@ -207,10 +195,8 @@ Weapon STR stuff (Already did I think?)
 https://github.com/LandSandBoat/server/commit/d930fbb0b83311a80ee4b88ef1063822f2d2eb4e
 
 Banish "resistance" reducton to magic? I don't see proof - check JP wiki, remove if no proof
-Mobs can die mid TP move and then if the TP move heals them (i.e. blood saber) it will revive them. Maybe add if hp > 0 to MobPercentHealMove / MobDrainMoves? (Any move that will give them HP)
 Attack nearby enemies if target has palisade and can't reach enemy(in attack nearby if bound logic)
 Steal is stealing Bone Chip over ice spikes with aura steal
-Mobs are really bad at casting buffs while roaming...why? Do they not have 100% chance of casting buffing magic on every roam cast and try to cast other stuff?
 QD recast on some items(COR Relic?) to make QD ~30s cd
 1: Tomahawk, check JP wiki, and code what it says, otherwise it should just set a mobs UDMGMAGIC / DMGMAGIC / DMGMAGIC II to 0 
 2: or in magicdmgtaken(C++) if tomahawk, its 0 resist
@@ -237,7 +223,6 @@ Cait Sith / Siren
 Mobs should be able to buff allies in combat too with my new changes
 Mobs should -na/erase allies that are in combat while being in combat with my new changes
 Mobs should buff/heal allies that are in combat while being out of combat
-Mobs shouldn't go underground mid casting
 RAID:
 Absorb logic for  what nuke to select (target having absoreb mod)
 Seigan mods like +DEF +VIT + PDT +TPEVA(probably this one) while seigan is active. Maybe on SAM relic pants?
@@ -286,6 +271,7 @@ Lower level beetles away from Revelation Rock in middle of Western Altepa
 2: Player JA's(reduce DNC steps range in sql after) / player ws / player RA should also be based on targets modelsize
 
 SpendCost() fix for mob skills
+Can make custom status effects then when a mob has them make an addon do animations/ui/text
 Double level restriction msg when entering level restriction zones/content
 Add RUN and GEO (Check LSB - get their proper rune C++ code)
 Save / Conserve TP work? It's on mob moves but I don't think its on trusts. Need to add a new function TakeMobSkillDamage copying TakeWeaponSkillDamage and add PAttacker->addTP(std::max((PAttacker->getMod(Mod::SAVETP)), standbyTp));
