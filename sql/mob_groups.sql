@@ -1274,7 +1274,7 @@ INSERT INTO `mob_groups` VALUES (20,6180,34,'Eoaern_drk',960,0,775,0,9999,79,82,
 INSERT INTO `mob_groups` VALUES (21,6177,34,'Eoaern_rdm',960,0,775,0,9999,79,82,0);
 INSERT INTO `mob_groups` VALUES (22,2113,34,'Ixghrah',0,128,0,9500,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (23,2136,34,'Jailer_of_Temperance',0,32,1402,25000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (24,4661,34,'Ixaern_mnk',0,128,2845,11000,0,80,80,0);
+INSERT INTO `mob_groups` VALUES (24,4661,34,'Ixaern_mnk',0,128,2845,16000,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (25,3269,34,'Qnaern_rdm',0,128,0,10000,0,77,77,0);
 INSERT INTO `mob_groups` VALUES (26,4651,34,'Qnaern_whm',0,128,0,10000,0,77,77,0);
 INSERT INTO `mob_groups` VALUES (27,6748,34,'Quasilumin',0,128,0,1000,0,65,65,1);
@@ -1310,11 +1310,11 @@ INSERT INTO `mob_groups` VALUES (24,6745,35,'Ixzdei',0,128,0,6300,0,75,75,0); --
 INSERT INTO `mob_groups` VALUES (25,2131,35,'Jailer_of_Fortitude',0,128,1397,25000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (26,2215,35,'Kfghrah_whm',0,128,0,9000,0,77,78,0);
 INSERT INTO `mob_groups` VALUES (27,4659,35,'Kfghrah_blm',0,128,0,9000,0,77,78,0);
-INSERT INTO `mob_groups` VALUES (28,4660,35,'Ixaern_drk',0,128,2844,10000,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (29,5549,35,'Qnaern_rng',0,128,0,0,0,80,82,0);
+INSERT INTO `mob_groups` VALUES (28,4660,35,'Ixaern_drk',0,128,2844,10000,0,83,83,0);
+INSERT INTO `mob_groups` VALUES (29,5549,35,'Qnaern_rng',0,128,0,0,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (30,2130,35,'Jailer_of_Faith',0,128,1396,25000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (31,2112,35,'Ixaern_drg',0,128,2843,16000,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (32,5536,35,'Ixaern_drgs_Wynav',0,128,0,10000,0,76,77,0);
+INSERT INTO `mob_groups` VALUES (31,2112,35,'Ixaern_drg',0,128,2843,16000,0,83,83,0);
+INSERT INTO `mob_groups` VALUES (32,5536,35,'Ixaern_drgs_Wynav',0,128,0,10000,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (33,6746,35,'Ixzdei',0,128,0,7100,0,75,75,0); -- RDM
 
 -- ------------------------------------------------------------
