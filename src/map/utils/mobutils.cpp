@@ -1182,7 +1182,7 @@ void SetupDynamisMob(CMobEntity* PMob)
     {
         Mod type = PTrait->getMod();
 
-        if(type >= Mod::SLEEPRES && type <= Mod::DEATHRES)
+        if (type >= Mod::SLEEPRESTRAIT && type <= Mod::DISPELRESTRAIT || type == Mod::STATUSRESTRAIT)
         {
             // give mob a total of x2 the regular rate
             PMob->addModifier(type, PTrait->getValue());

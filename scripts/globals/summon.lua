@@ -269,6 +269,9 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
                 magicdmg = target:magicDmgTaken(magicdmg, tpz.magic.ele.FIRE) -- Only hybrid BP is fire for now
                 -- Handle absorb
                 magicdmg = adjustForTarget(target, magicdmg, tpz.magic.ele.FIRE)
+                -- Handle percentage DR to elements
+                local magicDefense = getElementalDamageReduction(target, tpz.magic.ele.FIRE) -- percentage DR to elements
+                magicdmg = math.floor(magicdmg * magicDefense)
                 -- Add HP if absorbed
                 if (magicdmg < 0) then
                     magicdmg = (target:addHP(-magicdmg))
@@ -590,6 +593,9 @@ function AvatarMagicalFinalAdjustments(dmg, avatar, skill, target, attackType, e
     -- Handle absorb
     if (element ~= 0) then -- Non-elemental damage cannot be absorbed
         dmg = adjustForTarget(target, dmg, element)
+
+        local magicDefense = getElementalDamageReduction(target, element) -- percentage DR to elements
+        dmg = math.floor(dmg * magicDefense)
     end
     --printf("dmg %d", dmg)
     dmg = utils.clamp(dmg, -99999, 99999)

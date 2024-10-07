@@ -683,6 +683,9 @@ function BlueFinalAdjustments(caster, target, spell, dmg, params)
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.BREATH or attackType == tpz.attackType.SPECIAL then
         local element = spell:getElement()
         dmg = adjustForTarget(target, dmg, element)
+
+        local magicDefense = getElementalDamageReduction(target, element) -- percentage DR to elements
+        dmg = math.floor(dmg * magicDefense)
     end
     dmg = utils.clamp(dmg, -99999, 99999)
     -- Add HP if absorbed

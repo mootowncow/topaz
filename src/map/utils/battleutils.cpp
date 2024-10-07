@@ -1290,14 +1290,7 @@ namespace battleutils
             {
                 gallantsRoll = (uint8)(PEffect->GetPower());
                 Action->spikesEffect = SUBEFFECT_FIRE_DAMAGE; // looks like blaze spikes
-                if (PDefender->objtype == TYPE_MOB)
-                {
-                    Action->spikesParam = damage * gallantsRoll / 10;
-                }
-                else
-                {
-                    Action->spikesParam = tpzrand::GetRandomNumber(25);
-                }
+                Action->spikesParam = tpzrand::GetRandomNumber(25); // 1-25 damage
                 if  (Action->spikesParam < 1)
                 {
                     Action->spikesParam = 1;

@@ -281,6 +281,7 @@ local modByMobName =
     end,
 
     ['Ealdnarche'] = function(mob)
+        mob:setMod(tpz.mod.REGEN, 50)
         mob:addMod(tpz.mod.EVA, 100)
         mob:setMod(tpz.mod.UFASTCAST, 60)
         mob:setMod(tpz.mod.UDMGPHYS, -75)

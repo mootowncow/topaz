@@ -134,31 +134,26 @@ Trusts:
 Movement logic if can't see allies then reposition / warp (like can't see enemy logic)
 Don't melee WS or use DNC JA's(IsMeleeAbility()?) into perfect dodge/invincible, don't cast magic into elemental sforzo 
 Only use level60+ WS if level 60+
-Do trusts get +attk/rattk/acc/racc from +combat skill (i.e. dagger) ?
-Look at declaump logic and see if can use that to make aldo go behind mobs at all time for SA?
+Do trusts get +attk/rattk/acc/racc from +combat skill (i.e. dagger)? They should based on their combat skill in the sql for their pool
+Look at declump logic and see if can use that to make aldo go behind mobs at all time for SA?
 Make a list of refresh jobs and only refresh them in CAN_REFRESH gambit_container.cpp logic (a list like std::set<JOBTYPE> melee_jobs in gambits container?)
 Don't cure players with curse II on them(Zombie)
-Don't try to para / slow mobs that have mobmod MOBMOD_ATTACK_SKILL_LIST > 0 (0) (Put in isimmunne() check or w/e)
-If trusts JA's are para'd do they go on full recast?
-Dispel to check dark SDT in immunitycheck
-1: Add logic so Kupipi won't move if she needs to cast protectra/shellra on engage (disable movement while needing to cast it?)
-2: Maybe just all trusts don't run movement logic if no prot/shell on them yet?
-Absorb logic for what nuke to select (target having absorb mod)
+Multiple immunities check for for sleeps(sleep + dark/light sleep) in CMobSpellContainer::IsImmune
+Snapshot / Rapid Shot / Velocity Shot logic
 Gambit to check melee acc vs target. Use for Lhe focus and Zeid absorb-ACC, also Ulmias Madrigal
 Uriel Blade SCed for 0 on a magmatic eruca (fragmentation)
 Trusts can still get the bug players used to get on WSing as a target dies then losing all TP Add WS state stuff PCs to mobskill state
 Kupipi Curaga logic
-Test Valaineral tanking level 85+ bosses
+CRangeState::CanUseRangedAttack add bottom part to trusts (There is a slight cooldown on ranged attacks after the previous shot) and remove m_LastRangedAttackTime from CTrustController::RangedAttack
 Can't summon trusts in "Trial by X" avatar BCNM's
 Audit zonemisc tpz.zoneMisc.TRUST
-Check players have to refund TP if mob dies second they WS / mob skill (trussts will WS and it will consume TP but not go off cause mobs dead, players have this fixed on ws state or w/e)
 If one is CCed sometimes none of them will follow out of combat because of how they pay in a line? This means onRoam pathing
 Scaling food based on level / KI
+if (state.IsRapidShot()) made to work for trusts in CTrustEntity::OnRangedAttack
 Elivira 75 gear
 TP_BONUS mod working on trusts/mobs/lua search "tp"
 mob:setTrustTPSkillSettings(ai.tp.OPENER Opener not work properly?
 Rapp Harness + haste subligar for thf/dnc trusts
-Ulmia double march, ways to track x2 song effect gambit on target
 Trusts shouldn't play their special animation/sound effect after being summoned. Need to probably set them to normal animation after spawn like other stuff??
 Iron Eater sucks real bad needs huge dps buffs
 Level 75 trust stats in the functions per archetype (give them gear). Also tune / balance / design them.
@@ -172,6 +167,21 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Dusk Mask(+1). Remove enhancing replace with something else.
+Dusk Jerkin(+1). Remove RACC replace with something else. Update LAC sets that use for RACC
+Three Eyed Fish with 100 fishing and Lu's on GM
+Use Conquest msg logic to send all players RAID spawning msg
+Tune other assaults same level / HP for bosses and mini bosses
+On assault completion when you gain points, if can rank up(>= 25 var) say "You are ready to rank up!". Add to ANNM clear too(when chest is opened?)
+Acorn stack to 12
+Terminal Helm magic dmg taken after the snapshot(needs a \n)
+Flamingos should be in trio spawns in sky
+Pets Only swap target if master is also now targetting the new mob DoAutoTarget()
+Crackle MDEF down has "No Effect" if the target has MDEF up. Maybe all MDEF downs are like this?
+Ghrahs can go to 99% HP after being swapped to humanoid or spider due to max hp boot trait, add healing/updatepacket to AddTrait and DelTrait lua bindings
+1: Blocked attacks still proc add effects. Is this a trust only bug or does it happen for players, because getBlockRate is a separate roll? Need a way to get if current attack was blocked or not then...
+2: Need to edit luautils::OnAdditionalEffect to have a bool for isBlocked and then change it...everywhere..in a thousand lua scripts and HandleEnspell (Battleutils.cpp)
+All lvl90+ mobs need absurd vit, like +150 vit mod
 Party mobs together in assaults/Salvage like Dynamis
 Hundred Fists lasts 45s in dynamis-xarca
 
@@ -187,8 +197,6 @@ https://github.com/LandSandBoat/server/commit/d930fbb0b83311a80ee4b88ef1063822f2
 Banish "resistance" reducton to magic? I don't see proof - check JP wiki, remove if no proof
 Attack nearby enemies if target has palisade and can't reach enemy(in attack nearby if bound logic)
 Steal is stealing Bone Chip over ice spikes with aura steal
-Mobs are really bad at casting buffs while roaming...why? Do they not have 100% chance of casting buffing magic on every roam cast and try to cast other stuff?
-JA distances for players (Like steps/flourishes/steal/mug/despoil/shield bash/weapon bash/etc) Model size + melee range()
 QD recast on some items(COR Relic?) to make QD ~30s cd
 1: Tomahawk, check JP wiki, and code what it says, otherwise it should just set a mobs UDMGMAGIC / DMGMAGIC / DMGMAGIC II to 0 
 2: or in magicdmgtaken(C++) if tomahawk, its 0 resist
@@ -199,6 +207,7 @@ Pet speed matching player speed crashed the server when zoning from a dungeon to
 Party all mobs together? Or can't do this because then ALL mobs will link with eachother? So just party mobs in assaults? Or just specific ones? Add a mob_mod to add to party togetheR?
 Give all the 280 skill WS an add effect like Agheha has defense down
 When I casted with lac disabled my shock spikes was higher potency than my shock spikes gear? (BLU)
+Why does 16887907 not spawn on it's own? Fomor BLM
 Cover https://www.bg-wiki.com/ffxi/Cover missing the CE/VE transfer and 10% Loss thing too I think
 Does magic cover work?
 BRD Relic
@@ -214,7 +223,6 @@ Cait Sith / Siren
 Mobs should be able to buff allies in combat too with my new changes
 Mobs should -na/erase allies that are in combat while being in combat with my new changes
 Mobs should buff/heal allies that are in combat while being out of combat
-Mobs shouldn't go underground mid casting
 RAID:
 Absorb logic for  what nuke to select (target having absoreb mod)
 Seigan mods like +DEF +VIT + PDT +TPEVA(probably this one) while seigan is active. Maybe on SAM relic pants?
@@ -254,7 +262,7 @@ Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e
 Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva/ramuh/etc only) specific items
 NEED A RAMUH SPECIFIC ITEM!!
 SiR ring. +Enfeebling magic duration items. +SC damage gear, nice for "Weaker" WS like spiral hell / cross reaper which you only use to SC with
-Resist gear options! Tank ranged(gun? bow? xbow?/ammo!
+Resist gear options (preferably with HP/def)! Tank ranged(gun? bow? xbow?/ammo!
 
 Higher level beetles at the south goblin Oasis in Eastern Altepa?
 Lower level beetles away from Revelation Rock in middle of Western Altepa
@@ -263,6 +271,8 @@ Lower level beetles away from Revelation Rock in middle of Western Altepa
 2: Player JA's(reduce DNC steps range in sql after) / player ws / player RA should also be based on targets modelsize
 
 SpendCost() fix for mob skills
+Can make custom status effects then when a mob has them make an addon do animations/ui/text
+Double level restriction msg when entering level restriction zones/content
 Add RUN and GEO (Check LSB - get their proper rune C++ code)
 Save / Conserve TP work? It's on mob moves but I don't think its on trusts. Need to add a new function TakeMobSkillDamage copying TakeWeaponSkillDamage and add PAttacker->addTP(std::max((PAttacker->getMod(Mod::SAVETP)), standbyTp));
 Randomize conquest control
@@ -276,6 +286,7 @@ Windurst medals NPCs(Bastoks might be done? can copy)
 Buff conquest gear + campaign gear
 https://ffxiclopedia.fandom.com/wiki/Cobra_Unit_Robe_Set
 Buff Bad Enkidu Pieces, Bad Oracle Pieces, Ares Set, Skadi Set, Yigit Set
+Add SetMobFamily() lua binding and add it to Cyranuce when he changes right below SetGenericNMStats(mob)
 Buff immortal's sash
 
 

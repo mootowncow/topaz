@@ -106,15 +106,15 @@ INSERT INTO `fishing_fish` VALUES (4306,'Giant Donko',0,50,17,14,8,44,148,1,0,25
 INSERT INTO `fishing_fish` VALUES (5475,'Gigant Octopus',0,80,2,4,9,88,167,1,0,255,255,0,0,0,0,1,100,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4474,'Gigant Squid',0,91,34,2,4,79,172,1,0,255,255,0,0,0,0,1,100,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4427,'Gold Carp',0,56,18,10,14,1,1,0,0,255,255,0,0,0,0,1,200,0,'',0);
-INSERT INTO `fishing_fish` VALUES (4383,'Gold Lobster',0,46,35,10,2,1,1,0,0,255,255,1,0,0,0,1,200,0,'',0);
+INSERT INTO `fishing_fish` VALUES (4383,'Gold Lobster',0,46,35,4,2,1,1,0,0,255,255,1,0,0,0,1,200,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4500,'Greedie',0,14,10,7,14,1,1,0,1,255,255,0,0,0,0,1,600,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4304,'Grimmonite',0,90,31,4,4,57,144,1,0,255,255,0,0,0,0,1,450,0,'',0);
-INSERT INTO `fishing_fish` VALUES (4480,'Gugru Tuna',0,41,16,2,2,39,121,1,1,255,255,16,0,0,0,1,450,0,'',0);
+INSERT INTO `fishing_fish` VALUES (4480,'Gugru Tuna',0,41,16,4,5,39,121,1,1,255,255,16,0,0,0,1,450,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5127,'Gugrusaurus',90,140,39,6,5,149,423,1,1,255,255,0,1,7,0,1,200,1977,'',0);
 INSERT INTO `fishing_fish` VALUES (5132,'Gurnard',0,16,14,11,9,1,1,0,0,255,255,0,0,0,0,1,550,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5449,'Hamsi',0,9,21,11,6,1,1,0,0,255,255,1,0,0,0,3,600,0,'',0);
 INSERT INTO `fishing_fish` VALUES (2341,'Hydrogauge',0,7,25,13,2,1,1,0,0,6,25,0,0,0,1,1,1000,0,'',0);
-INSERT INTO `fishing_fish` VALUES (4470,'Icefish',0,49,24,11,7,1,1,0,0,255,255,0,0,0,0,3,400,0,'',0);
+INSERT INTO `fishing_fish` VALUES (4470,'Icefish',0,49,24,5,1,1,1,0,0,255,255,0,0,0,0,3,400,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5453,'Istakoz',0,46,35,4,3,1,1,0,0,255,255,0,0,0,0,1,200,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5136,'Istavrit',0,37,19,11,5,1,1,1,0,255,255,0,0,0,0,1,400,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5456,'Istiridye',0,53,27,13,2,1,1,0,0,255,255,0,0,0,0,1,550,0,'',0);
@@ -129,7 +129,7 @@ INSERT INTO `fishing_fish` VALUES (2216,'Lamp Marimo',0,0,10,13,2,1,1,0,0,255,25
 INSERT INTO `fishing_fish` VALUES (5129,'Lik',90,140,48,2,14,185,465,1,0,255,255,0,1,8,0,1,300,1977,'',0);
 INSERT INTO `fishing_fish` VALUES (4315,'Lungfish',0,31,15,10,14,1,1,0,0,255,255,0,0,0,0,1,400,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5468,'Matsya',90,110,40,1,1,163,331,1,0,255,255,0,1,0,0,1,100,0,'',0);
-INSERT INTO `fishing_fish` VALUES (5467,'Megalodon',0,87,34,10,11,446,625,1,0,255,255,0,0,0,0,1,100,0,'',0);
+INSERT INTO `fishing_fish` VALUES (5467,'Megalodon',0,87,34,2,1,446,625,1,0,255,255,0,0,0,0,1,100,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5454,'Mercanbaligi',0,86,31,4,3,1,1,0,0,255,255,0,0,0,0,1,450,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5330, 'Mithra Snare', 0, 1, 1, 3, 2, 1, 1, 0, 0, 4, 90, 0, 0, 0, 1, 1, 0, 0, '', 0);
 INSERT INTO `fishing_fish` VALUES (4401,'Moat Carp',0,11,11,10,9,1,1,0,0,255,255,0,0,0,0,1,650,0,'',0);
@@ -161,7 +161,7 @@ INSERT INTO `fishing_fish` VALUES (14117,'Rusty Leggings',0,7,26,13,2,1,1,0,0,25
 INSERT INTO `fishing_fish` VALUES (16655,'Rusty Pick',0,7,15,13,2,1,1,0,0,255,255,8,0,0,1,1,150,0,'',0);
 INSERT INTO `fishing_fish` VALUES (14242,'Rusty Subligar',0,5,22,13,2,1,1,0,0,255,255,8,0,0,1,1,650,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4305,'Ryugu Titan',90,150,48,1,15,214,485,1,1,255,255,0,1,0,0,1,200,0,'',0);
-INSERT INTO `fishing_fish` VALUES (4291,'Sandfish',0,50,36,3,10,1,1,0,0,255,255,1,0,0,0,3,400,0,'',0);
+INSERT INTO `fishing_fish` VALUES (4291,'Sandfish',0,50,36,3,5,1,1,0,0,255,255,1,0,0,0,3,400,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5459,'Sazanbaligi',0,56,18,10,14,1,1,0,0,255,255,0,0,0,0,1,200,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4475,'Sea Zombie',90,100,39,3,15,79,192,1,1,255,255,0,1,0,0,1,100,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4484,'Shall Shell',0,53,27,13,2,1,1,0,0,255,255,0,0,0,0,1,550,0,'',0); -- was 650
