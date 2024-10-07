@@ -24,9 +24,9 @@ function onMobWeaponSkill(target, mob, skill)
             pod:spawn()
             pod:updateEnmity(players[random])
         else
-            local NearbyEntities = mob:getNearbyEntities(10)
-            if NearbyEntities and #NearbyEntities > 0 then
-                local randomTarget = NearbyEntities[math.random(1, #NearbyEntities)]
+            local NearbyPlayers = mob:getPlayersInRange(50)
+            if NearbyPlayers and #NearbyPlayers > 0 then
+                local randomTarget = NearbyPlayers[math.random(1, #NearbyPlayers)]
                 if randomTarget:isAlive() then
                     pod:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
                     pod:spawn()
