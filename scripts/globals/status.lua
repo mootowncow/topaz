@@ -1965,14 +1965,14 @@ tpz.mod =
     SDT_LIGHT        = 974,
     SDT_DARK         = 975,
 
-    SDT_FIRE_RANK    = 1378,
-    SDT_ICE_RANK     = 1379,
-    SDT_WIND_RANK    = 1380,
-    SDT_EARTH_RANK   = 1381,
-    SDT_THUNDER_RANK = 1382,
-    SDT_WATER_RANK   = 1383,
-    SDT_LIGHT_RANK   = 1384,
-    SDT_DARK_RANK    = 1385,
+    SDT_FIRE_RANK    = 1379,
+    SDT_ICE_RANK     = 1380,
+    SDT_WIND_RANK    = 1381,
+    SDT_EARTH_RANK   = 1382,
+    SDT_THUNDER_RANK = 1383,
+    SDT_WATER_RANK   = 1384,
+    SDT_LIGHT_RANK   = 1385,
+    SDT_DARK_RANK    = 1386,
 
     EEM_AMNESIA             = 1280,
     EEM_VIRUS               = 1281,
@@ -2107,7 +2107,7 @@ tpz.mod =
     AURA_RADIUS             = 1377, -- Increases the range of indi auras. Flat amount. (1 = +1 range, 10 = +10 range)
     NINJUTSU_CASTING_TIME   = 1378, -- Reduces Ninjutsu Casting Time by percentage (e.g. mod value -10 = -10% cast time)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1386 NEXT
+    -- 1387 NEXT
 }
 
 tpz.latent =

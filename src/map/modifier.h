@@ -703,7 +703,7 @@ enum class Mod
     SPIKES_DMG                = 344, // stores the base damage of the spikes before reductions
     SPIKES_MACC               = 1311,// Increases Spikes magical accuracy
 
-    TP_BONUS                  = 345, //
+    TP_BONUS                  = 345, // TP Bonus (Weapon slot is determined in CalculateWeaponSkillTP. Might need another TP bonus for magian weapons since the gun works for MH
     SAVETP                    = 880, // SAVETP Effect for Miser's Roll / ATMA / Hagakure.
     CONSERVE_TP               = 944, // Conserve TP trait, random chance between 10 and 200 TP
 
@@ -1015,14 +1015,14 @@ enum class Mod
     SDT_LIGHT        = 974,
     SDT_DARK         = 975,
 
-    SDT_FIRE_RANK    = 1378,
-    SDT_ICE_RANK     = 1379,
-    SDT_WIND_RANK    = 1380,
-    SDT_EARTH_RANK   = 1381,
-    SDT_THUNDER_RANK = 1382,
-    SDT_WATER_RANK   = 1383,
-    SDT_LIGHT_RANK   = 1384,
-    SDT_DARK_RANK    = 1385,
+    SDT_FIRE_RANK    = 1379,
+    SDT_ICE_RANK     = 1380,
+    SDT_WIND_RANK    = 1381,
+    SDT_EARTH_RANK   = 1382,
+    SDT_THUNDER_RANK = 1383,
+    SDT_WATER_RANK   = 1384,
+    SDT_LIGHT_RANK   = 1385,
+    SDT_DARK_RANK    = 1386,
 
     EEM_AMNESIA = 1280,
     EEM_VIRUS = 1281,
@@ -1082,7 +1082,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1386 NEXT
+    // 1387 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it
