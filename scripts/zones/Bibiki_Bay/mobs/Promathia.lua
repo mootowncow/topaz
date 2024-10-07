@@ -10,6 +10,7 @@ function onMobSpawn(mob)
 end
 
 function onMobFight(mob, target)
+    tpz.raid.onMobFight(mob)
 end
 
 function onSpellPrecast(mob, spell)

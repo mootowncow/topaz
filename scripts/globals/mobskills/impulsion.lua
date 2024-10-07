@@ -19,11 +19,11 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local hp = mob:getHPP()
     local multiplier = 2.75
-    local duration = 15
+    local duration = 5
 
     if (hp < 60) then
         multiplier = 5.5
-        duration = 30
+        duration = 10
     end
 
     local dmgmod = math.floor(mob:getMainLvl() * multiplier)

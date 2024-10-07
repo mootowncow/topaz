@@ -24,14 +24,14 @@ function onMobWeaponSkill(target, mob, skill)
             pod:spawn()
             pod:updateEnmity(players[random])
         else
-            local NearbyEntities = mob:getNearbyEntities(30)
+            local NearbyEntities = mob:getNearbyEntities(10)
             if NearbyEntities and #NearbyEntities > 0 then
                 local randomTarget = NearbyEntities[math.random(1, #NearbyEntities)]
                 if randomTarget:isAlive() then
+                    pod:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
+                    pod:spawn()
+                    ApplyConfrontation(mob, pod)
                     if (randomTarget:getAllegiance() ~= mob:getAllegiance()) then
-                        pod:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
-                        pod:spawn()
-                        ApplyConfrontation(mob, pod)
                         pod:updateEnmity(randomTarget)
                     end
                 end
