@@ -265,6 +265,19 @@ void CGambitsContainer::Tick(time_point tick)
             // clang-format on
             return count > 1;
         }
+        else if (predicate.target == G_TARGET::CASTS_SPELLS)
+        {
+            auto result = false;
+            static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+            {
+                if (isValidMember(PMember) && CheckTrigger(PMember, predicate) && HasSpells(PMember))
+                {
+                    result = true;
+                }
+            });
+            return result;
+        }
+
 
         // Fallthrough
         return false;
@@ -391,6 +404,16 @@ void CGambitsContainer::Tick(time_point tick)
                         }
                     });
                 // clang-format on
+            }
+            else if (gambit.predicates[0].target == G_TARGET::CASTS_SPELLS)
+            {
+                static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+                {
+                    if (isValidMember(target, PMember) && CheckTrigger(PMember, gambit.predicates[0]) && HasSpells(PMember))
+                    {
+                        target = PMember;
+                    }
+                });
             }
 
             if (!target)
@@ -1507,22 +1530,6 @@ bool CGambitsContainer::TryTrustSkill()
         return hasWHM;
     }
 
-    // Sneak Attack will land
-    bool CGambitsContainer::CanSneakAttack()
-    {
-        bool canSA = false;
-        auto PTarget = POwner->GetBattleTarget();
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT))
-        {
-            canSA = true;
-        }
-        if (behind(POwner->loc.p, PTarget->loc.p, 64))
-        {
-            canSA = true;
-        }
-        return canSA;
-    }
-
     bool CGambitsContainer::ShouldProtectra()
     {
         auto memberMissingProtectra = 0;
@@ -1573,6 +1580,22 @@ bool CGambitsContainer::TryTrustSkill()
         return false;
     }
 
+    // Sneak Attack will land
+    bool CGambitsContainer::CanSneakAttack()
+    {
+        bool canSA = false;
+        auto PTarget = POwner->GetBattleTarget();
+        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT))
+        {
+            canSA = true;
+        }
+        if (behind(POwner->loc.p, PTarget->loc.p, 64))
+        {
+            canSA = true;
+        }
+        return canSA;
+    }
+
     bool CGambitsContainer::IsStunImmune(CBattleEntity* trigger_target)
     {
         if (trigger_target->getMod(Mod::EEM_STUN) <= 5)
@@ -1588,4 +1611,44 @@ bool CGambitsContainer::TryTrustSkill()
         return false;
     }
 
+    bool CGambitsContainer::HasSpells(CBattleEntity* PEntity)
+    {
+        // Check main job
+        switch (PEntity->GetMJob())
+        {
+            case JOB_WHM:
+            case JOB_BLM:
+            case JOB_RDM:
+            case JOB_PLD:
+            case JOB_DRK:
+            case JOB_BRD:
+            case JOB_SMN:
+            case JOB_BLU:
+            case JOB_SCH:
+            case JOB_GEO:
+            case JOB_NIN:
+            case JOB_RUN:
+                return true;
+        }
+
+        // Check sub job
+        switch (PEntity->GetSJob())
+        {
+            case JOB_WHM:
+            case JOB_BLM:
+            case JOB_RDM:
+            case JOB_PLD:
+            case JOB_DRK:
+            case JOB_BRD:
+            case JOB_SMN:
+            case JOB_BLU:
+            case JOB_SCH:
+            case JOB_GEO:
+            case JOB_NIN:
+            case JOB_RUN:
+                return true;
+        }
+
+        return false;
+    }
 } // namespace gambits

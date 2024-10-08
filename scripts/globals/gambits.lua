@@ -23,6 +23,7 @@ ai.target =
     CURILLA         = 9, -- Special case for Rainemard
     PARTY_DEAD      = 10,
     PARTY_MULTI     = 11,
+    CASTS_SPELLS    = 12,
 }
 ai.t = ai.target
 

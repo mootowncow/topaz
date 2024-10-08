@@ -61,6 +61,7 @@ enum class G_TARGET : uint16
     CURILLA         = 9, // Special case for Rainemard
     PARTY_DEAD      = 10,
     PARTY_MULTI     = 11,
+    CASTS_SPELLS    = 12,
 };
 
 enum class G_CONDITION : uint16
@@ -253,7 +254,7 @@ private:
     bool ShouldShellra();
     bool CanSneakAttack();
     bool IsStunImmune(CBattleEntity* trigger_target);
-
+    bool HasSpells(CBattleEntity* PEntity);
     CTrustEntity* POwner;
     time_point m_lastAction;
     std::vector<Gambit_t> gambits;
