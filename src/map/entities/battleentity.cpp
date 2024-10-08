@@ -2302,9 +2302,13 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
             battleutils::HandleAfflatusMiseryAccuracyBonus(this);
         }
 
+        bool isBlocked = actionTarget.reaction == REACTION_BLOCK;
         if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
         {
-            battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()], attack.GetDamage());
+            if (!isBlocked)
+            {
+                battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()], attack.GetDamage());
+            }
             battleutils::HandleSpikesDamage(this, PTarget, &actionTarget, attack.GetDamage());
 
             uint8 enspell = (uint8)this->getMod(Mod::ENSPELL);
@@ -2323,7 +2327,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
             }
 
             // Add listener
-            if (enspell)
+            if (enspell && !isBlocked)
             {
                 {
                     PTarget->PAI->EventHandler.triggerListener("EN_SPIKES_HIT", this, PTarget, enspell);
