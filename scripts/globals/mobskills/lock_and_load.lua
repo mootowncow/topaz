@@ -34,6 +34,6 @@ function onMobWeaponSkill(target, mob, skill)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, info.hitslanded)
 
     target:takeDamage(dmg, mob, tpz.attackType.RANGED, tpz.damageType.RANGED)
-    MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, 1, 3, 90)
+    MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, 15, 3, 90)
     return dmg
 end
