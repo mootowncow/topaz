@@ -131,6 +131,9 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Kupipi don't blindna casters, don't silena  melee unless they have a sj to cast. Needs special logic for both
+Koru /WHM and Kupi's -na logic. Add -nas to his spell list(has to be /sj level? w/e aldo did)
+Adelheid stun needs to be /SJ level like aldo
 Movement logic if can't see allies then reposition / warp (like can't see enemy logic)
 Don't melee WS or use DNC JA's(IsMeleeAbility()?) into perfect dodge/invincible, don't cast magic into elemental sforzo 
 Only use level60+ WS if level 60+
@@ -151,7 +154,7 @@ If one is CCed sometimes none of them will follow out of combat because of how t
 Scaling food based on level / KI
 if (state.IsRapidShot()) made to work for trusts in CTrustEntity::OnRangedAttack
 Elivira 75 gear
-TP_BONUS mod working on trusts/mobs/lua search "tp"
+TP_BONUS mod Might need to just use CalculateWeaponSkillTP in battleutils and edit it to work for trusts then delete from everywhere "tp" is
 mob:setTrustTPSkillSettings(ai.tp.OPENER Opener not work properly?
 Rapp Harness + haste subligar for thf/dnc trusts
 Trusts shouldn't play their special animation/sound effect after being summoned. Need to probably set them to normal animation after spawn like other stuff??
@@ -167,6 +170,9 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Finishing isStatusImmune() (summon.lua) and use it everywhere I used getNoEffectMsg(). Then test it!
+Edit HELM quests to take away old +skill weapons when giving new
+countdown() GM command. Add countdown(900) to boat rides on zone
 Dusk Mask(+1). Remove enhancing replace with something else.
 Dusk Jerkin(+1). Remove RACC replace with something else. Update LAC sets that use for RACC
 Three Eyed Fish with 100 fishing and Lu's on GM
@@ -184,6 +190,7 @@ Ghrahs can go to 99% HP after being swapped to humanoid or spider due to max hp 
 All lvl90+ mobs need absurd vit, like +150 vit mod
 Party mobs together in assaults/Salvage like Dynamis
 Hundred Fists lasts 45s in dynamis-xarca
+Boats nearing use logic from silver sea (there's another function there not used for selbina/mhaura/pirates)
 
 
 
@@ -229,6 +236,7 @@ Seigan mods like +DEF +VIT + PDT +TPEVA(probably this one) while seigan is activ
 
 Rank6-10 bastok/sandy
 What is player:countdown(60)?!
+What is the stuff below countdown() in lua_Basentity?
 
 
 Voidwalker:
@@ -256,6 +264,7 @@ Add more lockstyle gear that's missing to places and modelID's if needed
 2: 577 body for PLD?
 3: Mirke Wardecors for ???
 4: Iratsume Happi
+5: Skirmish / Delve / Legion(Abjurations) gear
 Can get TP on spirits within start function and set as a local var? can be tp wiped mid ws ;/
 
 Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
@@ -263,6 +272,7 @@ Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/
 NEED A RAMUH SPECIFIC ITEM!!
 SiR ring. +Enfeebling magic duration items. +SC damage gear, nice for "Weaker" WS like spiral hell / cross reaper which you only use to SC with
 Resist gear options (preferably with HP/def)! Tank ranged(gun? bow? xbow?/ammo!
+High ACC mainhand only sword (PLD/WAR/DRK only, maybe Achamoths sword?)
 
 Higher level beetles at the south goblin Oasis in Eastern Altepa?
 Lower level beetles away from Revelation Rock in middle of Western Altepa
