@@ -17,7 +17,7 @@ end
 function onPetAbility(target, pet, skill, summoner)
     local effect = tpz.effect.HASTE
     local power = 1530 -- Haste
-    if summoner:getMainJob() >= 75 then
+    if summoner:getMainLvl() >= 75 then
         power = 3007 -- Haste II
     end
     local duration = 600

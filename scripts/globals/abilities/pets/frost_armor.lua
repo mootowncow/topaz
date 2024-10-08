@@ -22,7 +22,7 @@ function onPetAbility(target, pet, skill, summoner)
     local bonus = 0
     local effect2 = tpz.effect.REFRESH
     local power2 = 3 -- Refresh
-    if summoner:getMainJob() >= 75 then
+    if summoner:getMainLvl() >= 75 then
         power2 = 6 -- Refresh II
     end
     local tick2 = 3
