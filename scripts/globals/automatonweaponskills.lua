@@ -733,11 +733,7 @@ end
 
 function AutoStatusEffectWeaponSkill(auto, target, effect, power, duration, params, bonus)
 
-    if
-        target:hasStatusEffect(tpz.effect.FEALTY) or
-        target:hasStatusEffect(tpz.effect.ELEMENTAL_SFORZO) or
-        getNoEffectMsg(auto, target, effect, params)
-    then
+    if isNoEffectMsg(auto, target, effect, params) then
 	    return tpz.msg.basic.SKILL_NO_EFFECT
     end
 

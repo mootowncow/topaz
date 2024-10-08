@@ -623,7 +623,7 @@ end
 
 function AvatarStatusEffectBP(avatar, target, effect, power, duration, params, bonus)
 
-    if isStatusImmune(avatar, target, effect, params)
+    if isNoEffectMsg(avatar, target, effect, params)
     then
 	    return tpz.msg.basic.SKILL_NO_EFFECT
     end

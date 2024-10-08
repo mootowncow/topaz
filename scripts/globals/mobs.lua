@@ -578,12 +578,14 @@ tpz.mob.onAddEffect = function(mob, target, damage, effect, params)
     if ae then
         local chance = params.chance or ae.chance or 100
 
+        if isNoEffectMsg(mob, target, ae.eff, params) then
+            return 
+        end
 
         -- target:PrintToPlayer(string.format("Chance: %i", chance)) -- DEBUG
 
         -- Shield blocks and Fealty stop additonal effects
-        if math.random(100) <= chance and math.random()*100 > target:getBlockRate(mob) and
-        not target:hasStatusEffect(tpz.effect.FEALTY) then 
+        if math.random(100) <= chance and math.random()*100 > target:getBlockRate(mob) then 
 
             -- STATUS EFFECT
             if ae.applyEffect then

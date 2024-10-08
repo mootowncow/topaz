@@ -1181,11 +1181,7 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isG
     MobRemoveEffects(target)
     target:addEnmity(mob, 1, 320)
 
-    if target:hasStatusEffect(tpz.effect.FEALTY) then
-	    return tpz.msg.basic.SKILL_MISS
-    end
-
-    if getNoEffectMsg(mob, target, typeEffect, params) then
+    if isNoEffectMsg(mob, target, typeEffect, params) then
         return tpz.msg.basic.SKILL_NO_EFFECT -- Should this be SKILL_MISS?
     end
 
@@ -1256,11 +1252,7 @@ function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, 
     MobRemoveEffects(target)
     target:addEnmity(mob, 1, 320)
 
-    if target:hasStatusEffect(tpz.effect.FEALTY) then
-	    return tpz.msg.basic.SKILL_MISS
-    end
-
-    if getNoEffectMsg(mob, target, typeEffect, params) then
+    if isNoEffectMsg(mob, target, typeEffect, params) then
         return tpz.msg.basic.SKILL_NO_EFFECT -- Should this be SKILL_MISS?
     end
 

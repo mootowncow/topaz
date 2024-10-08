@@ -1096,7 +1096,7 @@ function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, p
     local skill = spell:getSkillType()
     local spellGroup = spell:getSpellGroup()
 
-    if getNoEffectMsg(caster, target, effect, params) then
+    if isNoEffectMsg(caster, target, effect, params) then
         return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
     end
 

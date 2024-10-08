@@ -62,7 +62,7 @@ INSERT INTO `status_effects` VALUES (14,'charm',8388640,0,0,2,0,0,7,0,1); -- rea
 INSERT INTO `status_effects` VALUES (15,'doom',8388640,0,0,2,0,0,8,1,1);
 INSERT INTO `status_effects` VALUES (16,'amnesia',8388640,0,0,2,0,0,1,1,1);
 INSERT INTO `status_effects` VALUES (17,'charm',8388640,0,0,2,0,0,7,0,1);
-INSERT INTO `status_effects` VALUES (18,'gradual_petrification',8389152,7,0,2,0,0,4,1,0);
+INSERT INTO `status_effects` VALUES (18,'gradual_petrification',8389152,7,0,2,0,0,4,1,1);
 INSERT INTO `status_effects` VALUES (19,'sleep',8388656,2,0,1,0,0,8,1,1);
 INSERT INTO `status_effects` VALUES (20,'curse',8392736,9,0,2,0,0,8,1,1);
 INSERT INTO `status_effects` VALUES (21,'addle',8405026,0,0,2,0,0,1,1,0);

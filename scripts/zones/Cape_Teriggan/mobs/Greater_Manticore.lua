@@ -13,6 +13,7 @@ require("scripts/globals/utils")
 require("scripts/globals/raid")
 -----------------------------------
 function onMobInitialize(mob)
+    mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
 end
 
 function onMobSpawn(mob)
@@ -53,6 +54,10 @@ function onMobWeaponSkillPrepare(mob, target)
 end
 
 function onMobWeaponSkill(target, mob, skill)
+end
+
+function onAdditionalEffect(mob, target, damage)
+    return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.TERROR, {chance = 100, duration = 5})
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

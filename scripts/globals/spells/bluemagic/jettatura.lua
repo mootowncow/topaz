@@ -44,6 +44,11 @@ function onSpellCast(caster, target, spell)
         return params.effect
     end
 
+    if isNoEffectMsg(caster, target, params.effect, params) then
+            spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+        return params.effect
+    end
+
     if BlueTryEnfeeble(caster, target, spell, 1, power, 0, duration, params) then
         spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
     else

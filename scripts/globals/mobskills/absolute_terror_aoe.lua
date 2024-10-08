@@ -25,7 +25,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.TERROR
     local power = 1
-    local duration = 20 
+    local duration = 5 
 
     skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, power, 0, duration))
     return typeEffect

@@ -3056,6 +3056,10 @@ function getAdditionalEffectStatusResist(player, target, effect, element, bonus)
         { Effect = tpz.effect.CHARM,                    Immunity = { tpz.immunity.CHARM } },
     }
 
+    if isNoEffectMsg(player, target, effect, params) then
+        return 1/16
+    end
+
     local resist = applyResistanceAddEffect(player, target, element, bonus, effect)
 
     -- Check for resistance traits 
@@ -3123,6 +3127,10 @@ function TryApplyAdditionalEffect(player, target, effect, element, power, tick, 
 
     local resist = getAdditionalEffectStatusResist(player, target, effect, element, bonus)
     duration = math.floor(duration * resist)
+
+    if isNoEffectMsg(player, target, effect, params) then
+        return 
+    end
 
     -- Check for subpower
     if (subpower == nil) then
@@ -3201,7 +3209,7 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
     local skill = spell:getSkillType()
     local spellGroup = spell:getSpellGroup()
 
-    if getNoEffectMsg(caster, target, effect, params) then
+    if isNoEffectMsg(caster, target, effect, params) then
         return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
     end
 
@@ -3743,23 +3751,22 @@ function AreaOfEffectResistance(target, spell, dmg)
     return dmg
 end
 
-function getNoEffectMsg(caster, target, effect, params)
+function shouldApplyTerrorPetrify(caster, target, effect, params)
     if
-        (typeEffect == tpz.effect.PETRIFICATION) and target:hasStatusEffect(tpz.effect.TERROR) or
-        (typeEffect == tpz.effect.TERROR) and target:hasStatusEffect(tpz.effect.PETRIFICATION)
+        (effect == tpz.effect.GRADUAL_PETRIFICATION) and target:hasStatusEffect(tpz.effect.TERROR) or
+        (effect == tpz.effect.GRADUAL_PETRIFICATION) and target:hasStatusEffect(tpz.effect.PETRIFICATION) or
+        (effect == tpz.effect.PETRIFICATION) and target:hasStatusEffect(tpz.effect.TERROR) or
+        (effect == tpz.effect.TERROR) and target:hasStatusEffect(tpz.effect.PETRIFICATION) or
+        (effect == tpz.effect.TERROR) and target:hasStatusEffect(tpz.effect.TERROR)
     then
-        return true
+        return false
     end
 
-    return false
+    return true
 end
 
-function isStatusImmune(caster, target, effect, params)
-    if
-        target:hasStatusEffect(tpz.effect.FEALTY) or
-        target:hasStatusEffect(tpz.effect.ELEMENTAL_SFORZO) or
-        getNoEffectMsg(player, target, effect, params)
-    then
+function isNoEffectMsg(caster, target, effect, params)
+    if target:hasStatusEffect(tpz.effect.FEALTY) or not shouldApplyTerrorPetrify(player, target, effect, params) then
         return true
     end
 
