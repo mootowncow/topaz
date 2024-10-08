@@ -29,40 +29,40 @@ tpz.helm.ZoneData =
     -- zoneID, skill up chabnce, zone skill cap
     {
         -- Logging
-        { tpz.zone.CARPENTERS_LANDING, 10, 40 },
-        { tpz.zone.LUFAISE_MEADOWS, 10, 40 },
-        { tpz.zone.MISAREAUX_COAST, 10, 40 },
+        { tpz.zone.CARPENTERS_LANDING, 100, 40 },
+        { tpz.zone.LUFAISE_MEADOWS, 100, 40 },
+        { tpz.zone.MISAREAUX_COAST, 100, 40 },
         { tpz.zone.MAMOOK, 1, 100 },
         { tpz.zone.CAEDARVA_MIRE, 1, 100 },
-        { tpz.zone.EAST_RONFAURE_S, 5, 60 },
-        { tpz.zone.JUGNER_FOREST_S, 5, 80 },
-        { tpz.zone.FORT_KARUGO_NARUGO_S, 5, 80 },
-        { tpz.zone.EAST_RONFAURE, 10, 20 },
-        { tpz.zone.JUGNER_FOREST, 5, 60 },
-        { tpz.zone.BUBURIMU_PENINSULA, 5, 60 },
-        { tpz.zone.YUHTUNGA_JUNGLE, 10, 40 },
-        { tpz.zone.YHOATOR_JUNGLE, 5, 60 },
-        { tpz.zone.GHELSBA_OUTPOST, 10, 40 },
+        { tpz.zone.EAST_RONFAURE_S, 50, 60 },
+        { tpz.zone.JUGNER_FOREST_S, 1, 80 },
+        { tpz.zone.FORT_KARUGO_NARUGO_S, 1, 80 },
+        { tpz.zone.EAST_RONFAURE, 100, 20 },
+        { tpz.zone.JUGNER_FOREST, 50, 60 },
+        { tpz.zone.BUBURIMU_PENINSULA, 50, 60 },
+        { tpz.zone.YUHTUNGA_JUNGLE, 100, 40 },
+        { tpz.zone.YHOATOR_JUNGLE, 50, 60 },
+        { tpz.zone.GHELSBA_OUTPOST, 100, 40 },
         -- Mining
-        { tpz.zone.OLDTON_MOVALPOLOS, 5, 60 },
-        { tpz.zone.NEWTON_MOVALPOLOS, 5, 80 },
-        { tpz.zone.MOUNT_ZHAYOLM, 5, 80 },
+        { tpz.zone.OLDTON_MOVALPOLOS, 50, 60 },
+        { tpz.zone.NEWTON_MOVALPOLOS, 1, 80 },
+        { tpz.zone.MOUNT_ZHAYOLM, 1, 80 },
         { tpz.zone.HALVUNG, 1, 100 },
-        { tpz.zone.NORTH_GUSTABERG_S, 10, 40 },
-        { tpz.zone.YUGHOTT_GROTTO, 10, 40 },
-        { tpz.zone.PALBOROUGH_MINES, 10, 40 },
-        { tpz.zone.ZERUHN_MINES, 10, 20 },
-        { tpz.zone.GUSGEN_MINES, 5, 60 },
+        { tpz.zone.NORTH_GUSTABERG_S, 100, 40 },
+        { tpz.zone.YUGHOTT_GROTTO, 100, 40 },
+        { tpz.zone.PALBOROUGH_MINES, 100, 40 },
+        { tpz.zone.ZERUHN_MINES, 100, 20 },
+        { tpz.zone.GUSGEN_MINES, 50, 60 },
         { tpz.zone.IFRITS_CAULDRON, 1, 100 },
         -- Harvesting
         { tpz.zone.WAJAOM_WOODLANDS, 1, 100 },
         { tpz.zone.BHAFLAU_THICKETS, 1, 100 },
-        { tpz.zone.GRAUBERG_S, 5, 80 },
-        { tpz.zone.WEST_SARUTABARUTA_S, 5, 60 },
-        { tpz.zone.WEST_SARUTABARUTA, 10, 20 },
-        { tpz.zone.YUHTUNGA_JUNGLE, 10, 40 },
-        { tpz.zone.YHOATOR_JUNGLE, 10, 40 },
-        { tpz.zone.GIDDEUS, 10, 40 },
+        { tpz.zone.GRAUBERG_S, 1, 80 },
+        { tpz.zone.WEST_SARUTABARUTA_S, 50, 60 },
+        { tpz.zone.WEST_SARUTABARUTA, 100, 20 },
+        { tpz.zone.YUHTUNGA_JUNGLE, 100, 40 },
+        { tpz.zone.YHOATOR_JUNGLE, 100, 40 },
+        { tpz.zone.GIDDEUS, 100, 40 },
         { tpz.zone.ABYSSEA_GRAUBERG, 1, 100 },
     }
 
@@ -1462,19 +1462,19 @@ local function TrySkillUpHELM(player, helmType, zoneId)
 
     if (helmType == tpz.helm.type.MINING) and (miningSkill < 100) then
         local chance = GetHelmSKillUpChance(zoneId, miningSkill)
-        if math.random(100) <= chance then
+        if math.random(1000) <= chance then
             player:setCharVar("MiningSkill", miningSkill + 1)
             player:PrintToPlayer("Your skill in mining has increased to " .. miningSkill +1, 6, 0)
         end
     elseif (helmType == tpz.helm.type.LOGGING) and (loggingSkill < 100) then
         local chance = GetHelmSKillUpChance(zoneId, loggingSkill)
-        if math.random(100) <= chance then
+        if math.random(1000) <= chance then
             player:setCharVar("LoggingSkill", loggingSkill + 1)
             player:PrintToPlayer("Your skill in logging has increased to " .. loggingSkill +1, 6, 0)
         end
     elseif (helmType == tpz.helm.type.HARVESTING) and (harvestingSkill < 100) then
         local chance = GetHelmSKillUpChance(zoneId, harvestingSkill)
-        if math.random(100) <= chance then
+        if math.random(1000) <= chance then
             player:setCharVar("HarvestingSkill", harvestingSkill + 1)
             player:PrintToPlayer("Your skill in logging has increased to " .. harvestingSkill +1, 6, 0)
         end

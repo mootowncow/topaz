@@ -23,6 +23,7 @@ function onTrade(player, npc, trade)
     elseif (miningQuestAccepted == 2) and
     npcUtil.tradeHasExactly(trade, { {tpz.items.CHUNK_OF_SILVER_ORE, 25}, {tpz.items.CHUNK_OF_GOLD_ORE, 10}, {tpz.items.CHUNK_OF_PLATINUM_ORE, 3} }) then
         if npcUtil.giveItem(player, tpz.items.INITIATES_PICKAXE) then
+            player:delItem(tpz.items.AMATEURS_PICKAXE, 1)
             player:setCharVar("MiningQuestsCompleted", 2)
             player:PrintToPlayer("This should help you out nicely.",0,"Drangord")
             player:tradeComplete()
@@ -30,6 +31,7 @@ function onTrade(player, npc, trade)
     elseif (miningQuestAccepted == 3) and
     npcUtil.tradeHasExactly(trade, { {tpz.items.IGNEOUS_ROCK, 99}, {tpz.items.GOBLIN_DIE, 99} }) then
         if npcUtil.giveItem(player, tpz.items.APPRENTICES_PICKAXE) then
+            player:delItem(tpz.items.INITIATES_PICKAXE, 1)
             player:setCharVar("MiningQuestsCompleted", 3)
             player:PrintToPlayer("This should help you out nicely.",0,"Drangord")
             player:tradeComplete()
@@ -37,6 +39,7 @@ function onTrade(player, npc, trade)
     elseif (miningQuestAccepted == 4) and
     npcUtil.tradeHasExactly(trade, { {tpz.items.CHUNK_OF_ALUMINUM_ORE, 50}, {tpz.items.HANDFUL_OF_IRON_SAND, 50}, {tpz.items.PINCH_OF_SULFUR, 50} }) then
         if npcUtil.giveItem(player, tpz.items.VETERANS_PICKAXE) then
+            player:delItem(tpz.items.APPRENTICES_PICKAXE, 1)
             player:setCharVar("MiningQuestsCompleted", 4)
             player:PrintToPlayer("This should help you out nicely.",0,"Drangord")
             player:tradeComplete()
@@ -44,6 +47,7 @@ function onTrade(player, npc, trade)
     elseif (miningQuestAccepted == 5) and
     npcUtil.tradeHasExactly(trade, { {tpz.items.CHUNK_OF_LUMINIUM_ORE, 25}, {tpz.items.CHUNK_OF_ORICHALCUM_ORE, 25}, {tpz.items.CHUNK_OF_ADAMAN_ORE, 25} }) then
         if npcUtil.giveItem(player, tpz.items.FORSETIS_PICKAXE) then
+            player:delItem(tpz.items.VETERANS_PICKAXE, 1)
             player:setCharVar("MiningQuestsCompleted", 5)
             player:PrintToPlayer("This should help you out nicely.",0,"Drangord")
             player:tradeComplete()
