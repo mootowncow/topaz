@@ -63,7 +63,7 @@ function onUseAbility(player, target, ability)
         not target:hasStatusEffect(tpz.effect.STUN) and
         (stunEEM > 5)
     then
-        target:addStatusEffect(tpz.effect.STUN, 1, 0, 4)
+        target:addStatusEffect(tpz.effect.STUN, 1, 0, 3)
     end
 
     -- Highlanders Target hidden effect

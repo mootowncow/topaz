@@ -18,7 +18,7 @@ end
 function onUseAbility(player, target, ability)
     -- Stun rate
     if (math.random(1, 100) < 99) then
-        target:addStatusEffect(tpz.effect.STUN, 1, 0, 6)
+        target:addStatusEffect(tpz.effect.STUN, 1, 0, 3)
     end
 
     -- Applying Plague based on merit level.
