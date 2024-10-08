@@ -19,6 +19,14 @@ function onUseAbility(player, target, ability)
     local skill = player:getWeaponSkillType(tpz.slot.MAIN)
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.EARTH, bonusAcc, tpz.effect.NONE, skill)
 
+    if
+        target:hasStatusEffect(tpz.effect.FEALTY) or
+        target:hasStatusEffect(tpz.effect.ELEMENTAL_SFORZO) or
+        getNoEffectMsg(player, target, effect, params)
+    then
+        return ability:setMsg(tpz.msg.basic.JA_NO_EFFECT_2)
+    end
+
     -- Half duration on NMs
     if target:isNM() then
         duration = duration * 0.5

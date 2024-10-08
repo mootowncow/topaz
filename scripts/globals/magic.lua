@@ -3201,6 +3201,10 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
     local skill = spell:getSkillType()
     local spellGroup = spell:getSpellGroup()
 
+    if getNoEffectMsg(caster, target, effect, params) then
+        return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+    end
+
     -- Check for subpower
     if (subpower == nil) then
         subpower = 0
@@ -3737,6 +3741,32 @@ function AreaOfEffectResistance(target, spell, dmg)
     dmg = dmg * areaOfEffectMultiplier
 
     return dmg
+end
+
+function getNoEffectMsg(caster, target, effect, params)
+    if
+        (typeEffect == tpz.effect.PETRIFICATION) and target:hasStatusEffect(tpz.effect.TERROR) or
+        (typeEffect == tpz.effect.TERROR) and target:hasStatusEffect(tpz.effect.PETRIFICATION)
+    then
+        return true
+    end
+
+    return false
+end
+
+function isStatusImmune(caster, target, effect, params)
+    if
+        target:hasStatusEffect(tpz.effect.FEALTY) or
+        target:hasStatusEffect(tpz.effect.ELEMENTAL_SFORZO) or
+        getNoEffectMsg(player, target, effect, params)
+    then
+        return true
+    end
+
+    -- TODO: Immunity checks here too
+    -- TODO: Dimishing returns check too?
+
+    return false
 end
 
 -- Output magic hit rate for all levels

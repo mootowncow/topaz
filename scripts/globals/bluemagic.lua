@@ -1096,6 +1096,10 @@ function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, p
     local skill = spell:getSkillType()
     local spellGroup = spell:getSpellGroup()
 
+    if getNoEffectMsg(caster, target, effect, params) then
+        return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+    end
+
     -- Check for immunity
     local hasImmunity = false
     for _, immunityEntry in pairs(immunityMap) do

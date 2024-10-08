@@ -1185,6 +1185,10 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isG
 	    return tpz.msg.basic.SKILL_MISS
     end
 
+    if getNoEffectMsg(mob, target, typeEffect, params) then
+        return tpz.msg.basic.SKILL_NO_EFFECT -- Should this be SKILL_MISS?
+    end
+
     if (typeEffect == nil) then
         return 0
     end
@@ -1254,6 +1258,10 @@ function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, 
 
     if target:hasStatusEffect(tpz.effect.FEALTY) then
 	    return tpz.msg.basic.SKILL_MISS
+    end
+
+    if getNoEffectMsg(mob, target, typeEffect, params) then
+        return tpz.msg.basic.SKILL_NO_EFFECT -- Should this be SKILL_MISS?
     end
 
     if (typeEffect == nil) then

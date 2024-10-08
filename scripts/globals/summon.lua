@@ -623,7 +623,8 @@ end
 
 function AvatarStatusEffectBP(avatar, target, effect, power, duration, params, bonus)
 
-    if target:hasStatusEffect(tpz.effect.FEALTY) or target:hasStatusEffect(tpz.effect.ELEMENTAL_SFORZO) then
+    if isStatusImmune(avatar, target, effect, params)
+    then
 	    return tpz.msg.basic.SKILL_NO_EFFECT
     end
 
