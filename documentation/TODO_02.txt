@@ -131,9 +131,6 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Kupipi don't blindna casters, don't silena  melee unless they have a sj to cast. Needs special logic for both
-Koru /WHM and Kupi's -na logic. Add -nas to his spell list(has to be /sj level? w/e aldo did)
-Adelheid stun needs to be /SJ level like aldo
 Movement logic if can't see allies then reposition / warp (like can't see enemy logic)
 Don't melee WS or use DNC JA's(IsMeleeAbility()?) into perfect dodge/invincible, don't cast magic into elemental sforzo 
 Only use level60+ WS if level 60+
@@ -154,6 +151,8 @@ If one is CCed sometimes none of them will follow out of combat because of how t
 Scaling food based on level / KI
 if (state.IsRapidShot()) made to work for trusts in CTrustEntity::OnRangedAttack
 Elivira 75 gear
+1: UI with a bar that is a server wide community quest to globally server buff trusts individually. Takes craft mats / drops? I.e. +1% int after filling up exp bar for entire server
+2: Needs custom packet + addon(for UI)
 TP_BONUS mod Might need to just use CalculateWeaponSkillTP in battleutils and edit it to work for trusts then delete from everywhere "tp" is
 mob:setTrustTPSkillSettings(ai.tp.OPENER Opener not work properly?
 Rapp Harness + haste subligar for thf/dnc trusts
