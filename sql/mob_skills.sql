@@ -1493,7 +1493,7 @@ INSERT INTO `mob_skills` VALUES (1544,1139,'touchdown_bahamut',1,15.0,2000,1500,
 INSERT INTO `mob_skills` VALUES (1545,1135,'sweeping_flail',1,50.0,2000,1500,4,8,0,7,0,0,0);
 INSERT INTO `mob_skills` VALUES (1546,1140,'prodigious_spike',0,15.0,2000,1500,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1547,1141,'impulsion',2,10.0,2000,1500,4,8,0,7,0,0,0);
-INSERT INTO `mob_skills` VALUES (1548,1143,'absolute_terror',1,15.0,2000,1500,4,8,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1548,1143,'absolute_terror_aoe',1,15.0,2000,1500,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1549,1142,'horrible_roar',1,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1550,1294,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1551,1136,'megaflare',2,10.0,6000,1500,4,10,0,0,0,0,0);
