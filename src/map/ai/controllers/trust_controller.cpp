@@ -114,7 +114,7 @@ void CTrustController::Tick(time_point tick)
         this->Despawn();
     }
 
-    // Match owners speed
+    // Match owners speed +10
     uint8 mastersSpeed = PMaster->GetSpeed();
     uint8 trustsSpeed = POwner->speed;
     if (PMaster->isMounted())

@@ -46,22 +46,24 @@ void CPetController::Tick(time_point tick)
         return;
     }
 
-    //// Match owners speed
-    //uint8 mastersSpeed = PMaster->GetSpeed();
-    //uint8 trustsSpeed = PPet->speed;
-    //if (PMaster->isMounted())
-    //{
-    //    PPet->speed = 100;
-    //}
-    //else
-    //{
-    //    PPet->speed = std::clamp(mastersSpeed + 10, 50, 255); // 50 Minimum 255 max
-    //}
-
     if (PPet->shouldDespawn(tick))
     {
         petutils::DespawnPet(PPet->PMaster);
         return;
+    }
+
+    // Match owners speed +10
+    if (!PMaster->isDead() && PPet->isAlive())
+    {
+        uint8 mastersSpeed = PMaster->GetSpeed();
+        if (PMaster->isMounted())
+        {
+            PPet->speed = 100;
+        }
+        else
+        {
+            PPet->speed = std::clamp(mastersSpeed + 10, 50, 255); // 50 Minimum 255 max
+        }
     }
     CMobController::Tick(tick);
 }
