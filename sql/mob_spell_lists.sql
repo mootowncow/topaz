@@ -3095,6 +3095,14 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,1,3,255);           
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,2,14,255);          -- Cure II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,3,26,255);          -- Cure III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,4,48,255);          -- Cure IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,14,12,255);         -- Poisona
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,15,18,255);         -- Paralyna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,16,28,255);         -- Blindna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,17,38,255);         -- Silena
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,18,78,255);         -- Stona
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,19,68,255);         -- Viruna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,20,58,255);         -- Cursna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,143,64,255);        -- Erase
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,23,1,255);          -- Dia
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,24,31,255);         -- Dia II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,25,75,255);         -- Dia III
