@@ -21,7 +21,7 @@ function onMobWeaponSkill(target, mob, skill)
 
     MobStatusEffectMove(mob, target, typeEffect, 2550, 1, 300)
 
-    if (dispel == 0) then
+    if (dispel == tpz.effect.NONE) then
         -- no effect
         skill:setMsg(tpz.msg.basic.SKILL_MISS) -- no effect
     else

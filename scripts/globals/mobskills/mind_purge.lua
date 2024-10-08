@@ -21,7 +21,7 @@ function onMobWeaponSkill(target, mob, skill)
     local dispel =  MobFullDispelMove(mob, target, skill, tpz.effectFlag.DISPELABLE, tpz.effectFlag.FOOD)
     local msg -- to be set later
 
-    if (dispel == 0) then
+    if (dispel == tpz.effect.NONE) then
         msg = tpz.msg.basic.SKILL_MISS -- no effect
     else
         msg = tpz.msg.basic.DISAPPEAR_NUM
