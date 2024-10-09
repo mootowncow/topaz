@@ -18,7 +18,7 @@ function onSpellCast(caster, target, spell)
     local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
     duration = calculateDurationForLvl(duration, 60, target:getMainLvl())
 
-    local power = 5 + math.floor(enhskill / 15)
+    local power = math.floor(enhskill / 30)
 
     if target:addStatusEffect(effect, power, 0, duration) then
         spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
