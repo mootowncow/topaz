@@ -876,6 +876,11 @@ function takeAbilityDamage(defender, attacker, params, primary, finaldmg, attack
         -- no abilities that use ability message can miss (the rest use ws messages)
     end
 
+    local element = damageType - 5 -- This will match spell_data.lua's elements index
+
+    -- Handle Null
+    finaldmg = utils.CheckForNull(attacker, defender, attackType, element, finaldmg)
+
     -- Handle positional PDT
     if attackType == tpz.attackType.PHYSICAL or attackType == tpz.attackType.RANGED then
         finaldmg = utils.HandlePositionalPDT(attacker, defender, finaldmg)
@@ -888,7 +893,6 @@ function takeAbilityDamage(defender, attacker, params, primary, finaldmg, attack
 
     --handling absorb
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.BREATH then
-        local element = damageType - 5 -- This will match spell_data.lua's elements index
         if (damageType > 5 and damageType < 14) then -- Anything below 5 and above 13 isn't an element and can't be absorbed
             finaldmg = isAbsorbed(defender, finaldmg, element)
         end

@@ -62,6 +62,7 @@ function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams)
                 -- Calculate magical bonuses and reductions
                 local magicdmg = addBonusesAbility(attacker, wsParams.ele, target, finaldmg, wsParams)
                 magicdmg = magicdmg * applyResistanceAbility(attacker, target, wsParams.ele, wsParams.skill, bonusacc)
+                magicdmg = utils.CheckForNull(attacker, target, tpz.attackType.MAGICAL, wsParams.ele, magicdmg)
                 magicdmg = target:magicDmgTaken(magicdmg, wsParams.ele)
                 magicdmg = adjustForTarget(target, magicdmg, wsParams.ele)
                 -- Add HP if absorbed
@@ -433,21 +434,9 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
     attacker:delStatusEffectSilent(tpz.effect.BUILDING_FLOURISH)
 	attacker:delStatusEffectSilent(tpz.effect.CONSUME_MANA)
 
-    --[[
-    -- Calculate reductions
-    if not wsParams.formless then
-        finaldmg = target:physicalDmgTaken(finaldmg, attack.damageType)
-        if (attack.weaponType == tpz.skill.HAND_TO_HAND) then
-            finaldmg = finaldmg * target:getMod(tpz.mod.HTHRES) / 1000
-        elseif (attack.weaponType == tpz.skill.DAGGER or attack.weaponType == tpz.skill.POLEARM) then
-            finaldmg = finaldmg * target:getMod(tpz.mod.PIERCERES) / 1000
-        elseif (attack.weaponType == tpz.skill.CLUB or attack.weaponType == tpz.skill.STAFF) then
-            finaldmg = finaldmg * target:getMod(tpz.mod.IMPACTRES) / 1000
-        else
-            finaldmg = finaldmg * target:getMod(tpz.mod.SLASHRES) / 1000
-        end
-    end
-    --]]
+    -- Handle Null
+    finaldmg = utils.CheckForNull(attacker, target, tpz.attackType.PHYSICAL, tpz.magic.ele.NONE, finaldmg)
+
     local hthres = target:getMod(tpz.mod.HTHRES)
     local pierceres = target:getMod(tpz.mod.PIERCERES)
     local impactres = target:getMod(tpz.mod.IMPACTRES)
@@ -609,6 +598,9 @@ function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, prima
     calcParams = calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcParams, true)
     local finaldmg = calcParams.finalDmg
 
+    -- Handle Null
+    finaldmg = utils.CheckForNull(attacker, target, tpz.attackType.RANGED, tpz.magic.ele.NONE, finaldmg)
+
     -- Calculate reductions
     finaldmg = target:rangedDmgTaken(finaldmg)
     local rangedres = target:getMod(tpz.mod.RANGEDRES)
@@ -750,6 +742,9 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
     dmg = dmg * ((100 + bonusdmg)/100) -- Apply our "all hits" WS dmg bonuses
     dmg = dmg + ((dmg * attacker:getMod(tpz.mod.ALL_WSDMG_FIRST_HIT))/100) -- Add in our "first hit" WS dmg bonus
     dmg = dmg + ((dmg * attacker:getMod(tpz.mod.ELEMENTAL_WSDMG))/100) -- Add in our "elemental damage" WS dmg bonus
+
+    -- Handle Null
+    dmg = utils.CheckForNull(attacker, target, tpz.attackType.MAGICAL, wsParams.ele, dmg)
 
     -- Handle Positional MDT
     if attacker:isInfront(target, 90) and target:hasStatusEffect(tpz.effect.MAGIC_SHIELD) then -- Front

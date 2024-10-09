@@ -309,11 +309,12 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
             local bonusMacc = 0
             local magicdmg = addBonusesAbility(mob, element, target, finaldmg, paramshybrid)
             local resist = applyPlayerResistance(mob, effect, target, mob:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT), bonusMacc, element)
-            --printf("resist %u", resist * 100)
+            --printf("resist %f", resist)
             --printf("magicdmg before resist %u", magicdmg)
             magicdmg = magicdmg * resist
             -- Hybrid hits are only HALF a physical hits damage
             magicdmg = magicdmg / 2
+            magicdmg = utils.CheckForNull(mob, target, tpz.attackType.MAGICAL, element, magicdmg)
             --printf("magicdmg after resist %u", magicdmg)
             magicdmg = target:magicDmgTaken(magicdmg, element)
             -- Handle absorb
@@ -898,7 +899,7 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     local element = damageType - 5
 
     -- Handle Null
-    dmg = utils.CheckForNull(attacker, defender, attackType, element, dmg)
+    dmg = utils.CheckForNull(mob, target, attackType, element, dmg)
 
     -- Handle damage type resistances
     if (params.IGNORE_DAMAGE_REDUCTION == nil) then -- TODO: Doesn't work on phys because its params_phys

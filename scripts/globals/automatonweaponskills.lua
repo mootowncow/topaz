@@ -350,6 +350,8 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
                 magicdmg = magicdmg * resist
                 -- Hybrid hits are only HALF a physical hits damage
                 magicdmg = magicdmg / 2
+                -- Handle Null
+                magicdmg = utils.CheckForNull(auto, target, tpz.attackType.MAGICAL, tpz.magic.ele.FIRE, magicdmg)
                 --printf("magicdmg after resist %u", magicdmg)
                 magicdmg = target:magicDmgTaken(magicdmg)
                 -- Handle absorb
@@ -541,6 +543,9 @@ function AutoPhysicalFinalAdjustments(dmg, auto, skill, target, attackType, dama
         dmg = 0
     end
 
+    -- Handle Null
+    dmg = utils.CheckForNull(auto, target, attackType, tpz.magic.ele.NONE, dmg)
+
     -- set message to damage
     -- this is for AoE because its only set once
     if (dmg > 0) then
@@ -681,6 +686,9 @@ function AutoMagicalFinalAdjustments(dmg, auto, skill, target, attackType, eleme
     -- Check for shadows
     dmg = getAutoShadowAbsorb(dmg, 1, target, skill, params)
     if dmg == 0 then return 0 end
+
+    -- Handle Null
+    dmg = utils.CheckForNull(auto, target, attackType, element, dmg)
 
     --printf("dmg before circle %u", dmg)
     dmg = dmg * HandleCircleEffects(auto, target)

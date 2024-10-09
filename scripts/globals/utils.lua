@@ -1358,7 +1358,10 @@ function utils.CheckForNull(attacker, defender, attackType, element, dmg)
     end
 
     if (elementNullMod ~= tpz.mod.NONE) then
-        if math.random(1, 100) <= defender:getMod(elementNullMod) then
+        if
+            defender:getMod(elementNullMod) > 0 and
+            math.random(1, 100) <= defender:getMod(elementNullMod)
+        then
             dmg = 0
         end
     end

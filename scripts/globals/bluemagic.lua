@@ -664,7 +664,10 @@ end
 function BlueFinalAdjustments(caster, target, spell, dmg, params)
     local attackType = params.attackType or tpz.attackType.NONE
     local damageType = params.damageType or tpz.damageType.NONE
-    local element = damageType - 5
+    local element = spell:getElement()
+
+    -- Handle Null
+    dmg = utils.CheckForNull(caster, target, attackType, element, dmg)
 
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, spell, dmg)
@@ -681,7 +684,6 @@ function BlueFinalAdjustments(caster, target, spell, dmg, params)
 
     -- Handle Absorb
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.BREATH or attackType == tpz.attackType.SPECIAL then
-        local element = spell:getElement()
         dmg = adjustForTarget(target, dmg, element)
 
         local magicDefense = getElementalDamageReduction(target, element) -- percentage DR to elements

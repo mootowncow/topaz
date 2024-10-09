@@ -265,6 +265,8 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
                 magicdmg = magicdmg * resist
                 -- Hybrid hits are only HALF a physical hits damage
                 magicdmg = magicdmg / 2
+                -- Handle Null
+                magicdmg = utils.CheckForNull(avatar, target, tpz.attackType.MAGICAL, tpz.magic.ele.FIRE, magicdmg)
                 --printf("magicdmg after resist %u", magicdmg)
                 magicdmg = target:magicDmgTaken(magicdmg, tpz.magic.ele.FIRE) -- Only hybrid BP is fire for now
                 -- Handle absorb
@@ -441,6 +443,9 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
         return 0
     end
 
+    -- Handle Null
+    dmg = utils.CheckForNull(avatar, target, attackType, tpz.magic.ele.NONE, dmg)
+
     -- set message to damage
     -- this is for AoE because its only set once
     if (dmg > 0) then
@@ -572,6 +577,9 @@ function AvatarMagicalFinalAdjustments(dmg, avatar, skill, target, attackType, e
     -- Check for shadows
     dmg = getAvatarShadowAbsorb(dmg, 1, target, skill, params)
     if dmg == 0 then return 0 end
+
+    -- Handle Null
+    dmg = utils.CheckForNull(avatar, target, attackType, element, dmg)
 
     --printf("dmg before circle %u", dmg)
     dmg = dmg * HandleCircleEffects(avatar, target)
