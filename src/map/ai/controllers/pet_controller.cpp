@@ -56,13 +56,16 @@ void CPetController::Tick(time_point tick)
     if (!PMaster->isDead() && PPet->isAlive())
     {
         uint8 mastersSpeed = PMaster->GetSpeed();
-        if (PMaster->isMounted())
+        if (mastersSpeed > 0)
         {
-            PPet->speed = 100;
-        }
-        else
-        {
-            PPet->speed = std::clamp(mastersSpeed + 10, 50, 255); // 50 Minimum 255 max
+            if (PMaster->isMounted())
+            {
+                PPet->speed = 100;
+            }
+            else
+            {
+                PPet->speed = std::clamp(mastersSpeed + 10, 50, 255); // 50 Minimum 255 max
+            }
         }
     }
     CMobController::Tick(tick);
