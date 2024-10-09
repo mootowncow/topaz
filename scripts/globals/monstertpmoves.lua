@@ -761,6 +761,11 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
         params = {}
     end
 
+    if (attackType == tpz.attackType.PHYSICAL) then
+        mob:delStatusEffectSilent(tpz.effect.SNEAK_ATTACK)
+        mob:delStatusEffectSilent(tpz.effect.TRICK_ATTACK)
+    end
+
     target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
 
     -- physical attack missed, skip rest
@@ -891,6 +896,10 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     dmg = AreaOfEffectResistance(target, skill, dmg)
 
     local element = damageType - 5
+
+    -- Handle Null
+    dmg = utils.CheckForNull(attacker, defender, attackType, element, dmg)
+
     -- Handle damage type resistances
     if (params.IGNORE_DAMAGE_REDUCTION == nil) then -- TODO: Doesn't work on phys because its params_phys
         if attackType == tpz.attackType.PHYSICAL then
@@ -973,11 +982,6 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
         end
 
         target:handleAfflatusMiseryDamage(dmg)
-    end
-
-    if (attackType == tpz.attackType.PHYSICAL) then
-        mob:delStatusEffectSilent(tpz.effect.SNEAK_ATTACK)
-        mob:delStatusEffectSilent(tpz.effect.TRICK_ATTACK)
     end
 
     return dmg
