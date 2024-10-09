@@ -37,6 +37,7 @@ function onSpellCast(caster, target, spell)
         spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
         dmg = 0
     else
+        HandleDrkRelicHelm(caster)
         spell:setMsg(tpz.msg.basic.MAGIC_ABSORB_TP)
 
         dmg = dmg * ((100 + caster:getMod(tpz.mod.AUGMENTS_ABSORB)) / 100)

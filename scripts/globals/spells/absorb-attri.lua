@@ -25,6 +25,7 @@ function onSpellCast(caster, target, spell)
 
     -- Check if the spell landed..
     if resist >= 0.5 then
+        HandleDrkRelicHelm(caster)
         effectsToSteal = effectsToSteal +1
     end
 
