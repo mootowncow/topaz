@@ -54,6 +54,7 @@ https://ffxiclopedia.fandom.com/wiki/A_Reputation_in_Ruins doors should shut onc
 Doors around that area are supposed to open when players are nearby and close when aren't I think
 
 Retail:
+AoEing spikes packet for animation on other targets
 Rampart undispellable? (Fight a mob with endispel?)
 Hurricane Wing duration short?
 Omega Hyper pulse animation(all animations?). Can he use on 4 legs?
