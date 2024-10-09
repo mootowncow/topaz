@@ -3637,57 +3637,55 @@ end
 function calculateDuration(duration, magicSkill, spellGroup, caster, target, useComposure)
     local casterJob = caster:getMainJob()
 
-    if caster:isPC() then
-        if magicSkill == tpz.skill.ENHANCING_MAGIC then -- Enhancing Magic
-            -- Gear mods
-            duration = duration + duration * caster:getMod(tpz.mod.ENH_MAGIC_DURATION) / 100
+    if magicSkill == tpz.skill.ENHANCING_MAGIC then -- Enhancing Magic
+        -- Gear mods
+        duration = duration + duration * caster:getMod(tpz.mod.ENH_MAGIC_DURATION) / 100
 
-            -- prior according to bg-wiki
-            if casterJob == tpz.job.RDM then
-                duration = duration + caster:getMerit(tpz.merit.ENHANCING_MAGIC_DURATION) + caster:getJobPointLevel(tpz.jp.ENHANCING_DURATION)
-            end
-
-            -- Default is true
-            useComposure = useComposure or (useComposure == nil and true)
-
-            -- Composure
-            if useComposure and caster:hasStatusEffect(tpz.effect.COMPOSURE) and caster:getID() == target:getID() then
-                duration = duration * 3
-            end
-
-            -- Perpetuance
-            if caster:hasStatusEffect(tpz.effect.PERPETUANCE) and spellGroup == tpz.magic.spellGroup.WHITE then
-                duration  = duration * 2
-            end
-        elseif magicSkill == tpz.skill.ENFEEBLING_MAGIC then -- Enfeebling Magic
-            -- Gear mods
-            duration = duration + duration * caster:getMod(tpz.mod.ENFEEB_MAGIC_DURATION) / 100
-
-            if caster:hasStatusEffect(tpz.effect.SABOTEUR) then
-                if target:isNM() then
-                    duration = duration * 1.25
-                else
-                    duration = duration * 2
-                end
-            end
-            -- After Saboteur according to bg-wiki
-            if casterJob == tpz.job.RDM then
-                -- RDM Merit: Enfeebling Magic Duration
-                duration = duration + caster:getMerit(tpz.merit.ENFEEBLING_MAGIC_DURATION)
-
-                -- RDM Job Point: Enfeebling Magic Duration
-                duration = duration + caster:getJobPointLevel(tpz.jp.ENFEEBLE_DURATION)
-
-                -- RDM Job Point: Stymie effect
-                if caster:hasStatusEffect(tpz.effect.STYMIE) then
-                    local stymieJpBonus = (1 + caster:getJobPointLevel(tpz.jp.STYMIE_EFFECT) / 100)
-                    duration = duration * 3
-                    duration = duration * stymieJpBonus
-                end
-            end
-        elseif magicSkill == tpz.skill.DARK_MAGIC then
-            duration = duration * (1 + (caster:getMod(tpz.mod.DARK_MAGIC_DURATION) / 100))
+        -- prior according to bg-wiki
+        if casterJob == tpz.job.RDM then
+            duration = duration + caster:getMerit(tpz.merit.ENHANCING_MAGIC_DURATION) + caster:getJobPointLevel(tpz.jp.ENHANCING_DURATION)
         end
+
+        -- Default is true
+        useComposure = useComposure or (useComposure == nil and true)
+
+        -- Composure
+        if useComposure and caster:hasStatusEffect(tpz.effect.COMPOSURE) and caster:getID() == target:getID() then
+            duration = duration * 3
+        end
+
+        -- Perpetuance
+        if caster:hasStatusEffect(tpz.effect.PERPETUANCE) and spellGroup == tpz.magic.spellGroup.WHITE then
+            duration  = duration * 2
+        end
+    elseif magicSkill == tpz.skill.ENFEEBLING_MAGIC then -- Enfeebling Magic
+        -- Gear mods
+        duration = duration + duration * caster:getMod(tpz.mod.ENFEEB_MAGIC_DURATION) / 100
+
+        if caster:hasStatusEffect(tpz.effect.SABOTEUR) then
+            if target:isNM() then
+                duration = duration * 1.25
+            else
+                duration = duration * 2
+            end
+        end
+        -- After Saboteur according to bg-wiki
+        if casterJob == tpz.job.RDM then
+            -- RDM Merit: Enfeebling Magic Duration
+            duration = duration + caster:getMerit(tpz.merit.ENFEEBLING_MAGIC_DURATION)
+
+            -- RDM Job Point: Enfeebling Magic Duration
+            duration = duration + caster:getJobPointLevel(tpz.jp.ENFEEBLE_DURATION)
+
+            -- RDM Job Point: Stymie effect
+            if caster:hasStatusEffect(tpz.effect.STYMIE) then
+                local stymieJpBonus = (1 + caster:getJobPointLevel(tpz.jp.STYMIE_EFFECT) / 100)
+                duration = duration * 3
+                duration = duration * stymieJpBonus
+            end
+        end
+    elseif magicSkill == tpz.skill.DARK_MAGIC then
+        duration = duration * (1 + (caster:getMod(tpz.mod.DARK_MAGIC_DURATION) / 100))
     end
 
     return math.floor(duration)
