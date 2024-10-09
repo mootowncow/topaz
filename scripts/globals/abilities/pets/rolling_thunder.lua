@@ -14,7 +14,7 @@ end
 
 function onPetAbility(target, pet, skill, summoner)
     local effect = tpz.effect.POTENCY
-    local power = math.floor(pet:getMainLvl() / 5) -- 15% at 75
+    local power = 5
     local duration = 180
     local bonus = 0
 
