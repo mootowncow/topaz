@@ -1319,20 +1319,47 @@ function utils.ShouldRemoveStoneskin(target, newPower)
     return false
 end
 
-function utils.CheckForNull(attacker, defender, attackType, dmg)
+function utils.CheckForNull(attacker, defender, attackType, element, dmg)
+    local nullList = {
+        { Element = tpz.magic.ele.FIRE,         NullMod = tpz.mod.FIRE_NULL    },
+        { Element = tpz.magic.ele.ICE,          NullMod = tpz.mod.ICE_NULL     },
+        { Element = tpz.magic.ele.WIND,         NullMod = tpz.mod.WIND_NULL    },
+        { Element = tpz.magic.ele.EARTH,        NullMod = tpz.mod.EARTH_NULL   },
+        { Element = tpz.magic.ele.LIGHTNING,    NullMod = tpz.mod.LTNG_NULL    },
+        { Element = tpz.magic.ele.WATER,        NullMod = tpz.mod.WATER_NULL   },
+        { Element = tpz.magic.ele.LIGHT,        NullMod = tpz.mod.LIGHT_NULL   },
+        { Element = tpz.magic.ele.DARK,         NullMod = tpz.mod.DARK_NULL    },
+    }
+
+    -- Check for physical or ranged attack nullification
     if (attackType == tpz.attackType.PHYSICAL) or (attackType == tpz.attackType.RANGED) then
         if
-            target:getMod(tpz.mod.MAGIC_NULL) > 0 and
-            math.random(1, 100) <= target:getMod(tpz.mod.NULL_PHYSICAL_DAMAGE)
+            defender:getMod(tpz.mod.NULL_PHYSICAL_DAMAGE) > 0 and
+            math.random(1, 100) <= defender:getMod(tpz.mod.NULL_PHYSICAL_DAMAGE)
         then
-            dmg =  0
+            dmg = 0
         end
-    else if (attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.BREATH) then
+    -- Check for magical or breath attack nullification
+    elseif (attackType == tpz.attackType.MAGICAL) or (attackType == tpz.attackType.BREATH) then
         if
-            target:getMod(tpz.mod.MAGIC_NULL) > 0 and
-            math.random(1, 100) <= target:getMod(tpz.mod.MAGIC_NULL)
+            defender:getMod(tpz.mod.MAGIC_NULL) > 0 and
+            math.random(1, 100) <= defender:getMod(tpz.mod.MAGIC_NULL)
         then
-            dmg =  0
+            dmg = 0
+        end
+    end
+
+    -- Check for elemental nullification
+    local elementNullMod = tpz.mod.NONE
+    for _, elementData in pairs(nullList) do
+        if (element == elementData.Element) then
+            elementNullMod = elementData.NullMod
+        end
+    end
+
+    if (elementNullMod ~= tpz.mod.NONE) then
+        if math.random(1, 100) <= defender:getMod(elementNullMod) then
+            dmg = 0
         end
     end
 
