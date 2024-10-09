@@ -1318,3 +1318,23 @@ function utils.ShouldRemoveStoneskin(target, newPower)
 
     return false
 end
+
+function utils.CheckForNull(attacker, defender, attackType, dmg)
+    if (attackType == tpz.attackType.PHYSICAL) or (attackType == tpz.attackType.RANGED) then
+        if
+            target:getMod(tpz.mod.MAGIC_NULL) > 0 and
+            math.random(1, 100) <= target:getMod(tpz.mod.NULL_PHYSICAL_DAMAGE)
+        then
+            dmg =  0
+        end
+    else if (attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.BREATH) then
+        if
+            target:getMod(tpz.mod.MAGIC_NULL) > 0 and
+            math.random(1, 100) <= target:getMod(tpz.mod.MAGIC_NULL)
+        then
+            dmg =  0
+        end
+    end
+
+    return dmg
+end
