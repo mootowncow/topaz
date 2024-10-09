@@ -25,6 +25,7 @@ function onSpellCast(caster, target, spell)
 
     local duration = 3 * (1 + (skill / 11))
     local base = math.floor((math.floor(0.67 * caster:getMainLvl())/10)*(37 + math.floor(0.67*dINT)))
+    base = math.floor(base * 0.25)
     local params = {}
     params.diff = nil
     params.attribute = tpz.mod.INT
