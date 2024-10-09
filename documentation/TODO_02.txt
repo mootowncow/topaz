@@ -131,6 +131,9 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Tune Aldo's WS to be equal to a THF's (Caranage - > evis) (Inquitious Stab - > Mandalic Stab) (Lock and Load - > Shark Bite)
+Trusts melee closer
+Don't Declump if currently highest enmity
 Movement logic if can't see allies then reposition / warp (like can't see enemy logic)
 Don't melee WS or use DNC JA's(IsMeleeAbility()?) into perfect dodge/invincible, don't cast magic into elemental sforzo 
 Only use level60+ WS if level 60+
@@ -169,6 +172,13 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Nerf Kaustra by 75%
+Lots of Kindred Thieves are 75-77 by 70-71 mobs? By A2 spawns
+Kindred's Wyverns level (higher than the DRGS)
+Composure AoE RDM buffs and make duration of the buffs on RDM (i.e. 3x with composure active)
+RDM enspells back to 3m duration with composure active
+Cap Storms duration at 30m
+Add utils.CheckForNull(attacker, defender, attackType, dmg) to weaponskills/monstertpmoves/summon/bluemagic/automatonweaponskills
 Dusk Mask(+1). Remove enhancing replace with something else.
 Dusk Jerkin(+1). Remove RACC replace with something else. Update LAC sets that use for RACC
 Three Eyed Fish with 100 fishing and Lu's on GM
@@ -244,6 +254,7 @@ Relic / Mythic weapon revamp
 Other salvage NMs
 WOE
 Hunts
+All crafts 100 on 1 char but SJ's cap at 65 for synthing
 GOV Elite training!
 Sky tatters system for augmenting sky gear
 HNM's that need Water / Wind / Thunder / Dark resist sets
@@ -432,6 +443,9 @@ Mob AOE moves you can dodge that aoe around them / directional / conal and get t
 TryProcTH needs level 15+ job check(maybe 75?)
 Add Cura-III to the new cure magic.lua function
 Does WS not remove invis/sneak?
+
+Merit / JP Camps:
+"Moon" gate in Ro'Maeve Weapons
 
 ~~~~~~~~~~~~~~~~~~~~Relic Weapons Revamp~~~~~~~~~~~~~~~~~~~~
 
