@@ -288,7 +288,7 @@ void CTrustController::DoCombatTick(time_point tick)
                             // Check if target is within range to follow path
                             float attack_range = POwner->GetMeleeRange() + PTarget->m_ModelSize;
 
-                            if (currentDistanceToTarget > attack_range - 0.5f && POwner->PAI->CanFollowPath())
+                            if (currentDistanceToTarget > attack_range - 1.0f && POwner->PAI->CanFollowPath())
                             {
                                 if (!POwner->PAI->PathFind->IsFollowingPath() ||
                                     distanceSquared(POwner->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10 * 10)
