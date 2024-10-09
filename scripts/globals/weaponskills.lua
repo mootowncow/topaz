@@ -437,6 +437,9 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
     -- Handle Null
     finaldmg = utils.CheckForNull(attacker, target, tpz.attackType.PHYSICAL, tpz.magic.ele.NONE, finaldmg)
 
+    -- Handle Ecosystem Bonus
+    finaldmg = utils.HandleEcosystemBonus(attacker, target, finaldmg)
+
     local hthres = target:getMod(tpz.mod.HTHRES)
     local pierceres = target:getMod(tpz.mod.PIERCERES)
     local impactres = target:getMod(tpz.mod.IMPACTRES)
@@ -473,34 +476,6 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
         end
     end
 
-        -- Circle Effects
-    if target:isMob() and finaldmg > 0 then
-        local eco = target:getSystem()
-        local circlemult = 100
-        local mod = 0
-        
-        if     eco == 1  then mod = 1226
-        elseif eco == 2  then mod = 1228
-        elseif eco == 3  then mod = 1232
-        elseif eco == 6  then mod = 1230
-        elseif eco == 8  then mod = 1225
-        elseif eco == 9  then mod = 1234
-        elseif eco == 10 then mod = 1233
-        elseif eco == 14 then mod = 1227
-        elseif eco == 16 then mod = 1238
-        elseif eco == 15 then mod = 1237
-        elseif eco == 17 then mod = 1229
-        elseif eco == 19 then mod = 1231
-        elseif eco == 20 then mod = 1224
-        end
-        
-        if mod > 0 then
-            circlemult = 100 + attacker:getMod(mod)
-        end
-        
-        finaldmg = math.floor(finaldmg * circlemult / 100)
-    end
-    
     if wsParams.useAutoTPFormula == nil or wsParams.useAutoTPFormula == false then
         finaldmg = finaldmg * WEAPON_SKILL_POWER * 1.0 -- Add server bonus
     end
@@ -600,6 +575,9 @@ function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, prima
 
     -- Handle Null
     finaldmg = utils.CheckForNull(attacker, target, tpz.attackType.RANGED, tpz.magic.ele.NONE, finaldmg)
+
+    -- Handle Ecosystem Bonus
+    finaldmg = utils.HandleEcosystemBonus(attacker, target, finaldmg)
 
     -- Calculate reductions
     finaldmg = target:rangedDmgTaken(finaldmg)
@@ -742,6 +720,9 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
     dmg = dmg * ((100 + bonusdmg)/100) -- Apply our "all hits" WS dmg bonuses
     dmg = dmg + ((dmg * attacker:getMod(tpz.mod.ALL_WSDMG_FIRST_HIT))/100) -- Add in our "first hit" WS dmg bonus
     dmg = dmg + ((dmg * attacker:getMod(tpz.mod.ELEMENTAL_WSDMG))/100) -- Add in our "elemental damage" WS dmg bonus
+
+    -- Handle Ecosystem Bonus
+    dmg = utils.HandleEcosystemBonus(attacker, target, dmg)
 
     -- Handle Null
     dmg = utils.CheckForNull(attacker, target, tpz.attackType.MAGICAL, wsParams.ele, dmg)

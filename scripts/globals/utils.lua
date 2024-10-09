@@ -726,6 +726,38 @@ function utils.HandleWeaponResist(target, damageType)
     return weaponResist
 end
 
+function utils.HandleEcosystemBonus(attacker, defender, dmg)
+    -- Circle Effects
+    if defender:isMob() and dmg > 0 then
+        local eco = defender:getSystem()
+        local circlemult = 100
+        local mod = 0
+        
+        if     eco == 1  then mod = 1226
+        elseif eco == 2  then mod = 1228
+        elseif eco == 3  then mod = 1232
+        elseif eco == 6  then mod = 1230
+        elseif eco == 8  then mod = 1225
+        elseif eco == 9  then mod = 1234
+        elseif eco == 10 then mod = 1233
+        elseif eco == 14 then mod = 1227
+        elseif eco == 16 then mod = 1238
+        elseif eco == 15 then mod = 1237
+        elseif eco == 17 then mod = 1229
+        elseif eco == 19 then mod = 1231
+        elseif eco == 20 then mod = 1224
+        end
+        
+        if mod > 0 then
+            circlemult = 100 + attacker:getMod(mod)
+        end
+        
+        dmg = math.floor(dmg * circlemult / 100)
+    end
+
+    return dmg
+end
+
 function utils.HandlePositionalPDT(attacker, target, dmg)
     if attacker:isInfront(target, 90) and target:hasStatusEffect(tpz.effect.PHYSICAL_SHIELD) then -- Front
         if target:getStatusEffect(tpz.effect.PHYSICAL_SHIELD):getPower() == 3 then
