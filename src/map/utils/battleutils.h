@@ -235,6 +235,7 @@ namespace battleutils
     CBattleEntity*      getAvailableTrickAttackChar(CBattleEntity* taUser, CBattleEntity* PMob);
 
     bool                HasNinjaTool(CBattleEntity* PEntity, CSpell* PSpell, bool ConsumeTool);
+    bool                HasNativeEnhancing(CBattleEntity* PEntity);
 
     float               GetCharmChance(CBattleEntity* PCharmer, CBattleEntity* PTarget, bool includeCharmAffinityAndChanceMods = true);
     bool                TryCharm(CBattleEntity* PCharmer, CBattleEntity* PVictim);

@@ -71,8 +71,8 @@ CREATE TABLE IF NOT EXISTS `skill_ranks` (
 -- 12 = G
 
 INSERT INTO `skill_ranks` VALUES (1, 'hand2hand', 9, 1, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 3, 5, 0, 0, 0);
-INSERT INTO `skill_ranks` VALUES (2, 'dagger', 5, 0, 0, 9, 2, 1, 8, 7, 4, 2, 5, 10, 6, 10, 10, 0, 3, 3, 2, 5, 8, 0);
-INSERT INTO `skill_ranks` VALUES (3, 'sword', 4, 0, 0, 0, 2, 3, 1, 5, 10, 3, 4, 6, 7, 8, 0, 1, 5, 3, 9, 0, 0, 2);
+INSERT INTO `skill_ranks` VALUES (2, 'dagger', 5, 0, 0, 9, 4, 1, 8, 7, 4, 2, 5, 10, 6, 10, 10, 0, 3, 3, 2, 5, 8, 0);
+INSERT INTO `skill_ranks` VALUES (3, 'sword', 4, 0, 0, 0, 4, 3, 1, 5, 10, 3, 4, 6, 7, 8, 0, 1, 5, 3, 9, 0, 0, 2);
 INSERT INTO `skill_ranks` VALUES (4, 'great sword', 3, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
 INSERT INTO `skill_ranks` VALUES (5, 'axe', 2, 0, 0, 0, 0, 0, 0, 5, 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5);
 INSERT INTO `skill_ranks` VALUES (6, 'great axe', 1, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4);
@@ -80,7 +80,7 @@ INSERT INTO `skill_ranks` VALUES (7, 'scythe', 3, 0, 0, 10, 0, 0, 0, 1, 4, 0, 0,
 INSERT INTO `skill_ranks` VALUES (8, 'polearm', 3, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 5, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO `skill_ranks` VALUES (9, 'katana', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO `skill_ranks` VALUES (10, 'great katana', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO `skill_ranks` VALUES (11, 'club', 3, 6, 2, 6, 3, 4, 2, 8, 9, 9, 10, 10, 10, 10, 6, 5, 0, 9, 0, 6, 3, 8);
+INSERT INTO `skill_ranks` VALUES (11, 'club', 3, 6, 2, 6, 9, 4, 2, 8, 9, 9, 10, 10, 10, 10, 6, 5, 0, 9, 0, 6, 3, 8);
 INSERT INTO `skill_ranks` VALUES (12, 'staff', 3, 4, 6, 5, 0, 0, 2, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 0, 0, 6, 6, 0);
 INSERT INTO `skill_ranks` VALUES (25, 'archery', 9, 0, 0, 0, 9, 8, 0, 0, 2, 0, 1, 6, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO `skill_ranks` VALUES (26, 'marksmanship', 9, 0, 0, 0, 0, 6, 0, 10, 0, 0, 1, 0, 7, 0, 0, 0, 4, 0, 0, 0, 0, 0);

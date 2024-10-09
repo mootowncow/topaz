@@ -667,8 +667,7 @@ namespace battleutils
         return p;
     }
 
-    float getMagicHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 skillType, ELEMENT element, int SDT, float percentBonus,
-                          float magicaccbonus)
+    float getMagicHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 skillType, ELEMENT element, int SDT, float percentBonus, float magicaccbonus)
     {
         float casterLvl = PAttacker->GetMLevel();
         // printf("casterLvl: %f\n", casterLvl);
@@ -1122,6 +1121,10 @@ namespace battleutils
             dBonus -= 0.25f;
         // printf("\nDayWeather Bonus %f\n", dBonus);
         uint32 enspellMaccBonus = PAttacker->getMod(Mod::ENSPELL_MACC) + 30;
+        if (!HasNativeEnhancing(PAttacker))
+        {
+            enspellMaccBonus += battleutils::GetMaxSkill(SKILL_GREAT_AXE, JOB_WAR, PAttacker->GetMLevel()); // A+ Skill
+        }
         //printf("Element in enspell: %u\n", element);
         if (element +1 == ELEMENT_LIGHT) // Enlight
         {
@@ -1178,10 +1181,11 @@ namespace battleutils
         ELEMENT element = ELEMENT_NONE;
         float damage = Action->spikesParam;
         float magicDefense = 1.0f;
-        uint32 spikesMaccBonus = PAttacker->getMod(Mod::SPIKES_MACC) + 30;
-        // int16 intStat = PDefender->INT();
-        // int16 mattStat = PDefender->getMod(Mod::MATT);
-
+        uint32 spikesMaccBonus = PDefender->getMod(Mod::SPIKES_MACC) + 30;
+        if (!HasNativeEnhancing(PDefender))
+        {
+            spikesMaccBonus += battleutils::GetMaxSkill(SKILL_GREAT_AXE, JOB_WAR, PDefender->GetMLevel()); // A+ Skill
+        }
         switch (static_cast<SPIKES>(Action->spikesEffect))
         {
             case SPIKE_BLAZE:
@@ -1657,7 +1661,11 @@ namespace battleutils
     {
         float resist = 1.0f;
         ELEMENT element = ELEMENT_NONE;
-        uint32 spikesMaccBonus = PAttacker->getMod(Mod::SPIKES_MACC) + 30;
+        uint32 spikesMaccBonus = PDefender->getMod(Mod::SPIKES_MACC) + 30;
+        if (!HasNativeEnhancing(PDefender))
+        {
+            spikesMaccBonus += battleutils::GetMaxSkill(SKILL_GREAT_AXE, JOB_WAR, PDefender->GetMLevel()); // A+ Skill
+        }
         //printf("Spikes resist before getMagicResist %f \n", resist);
         switch (Action->spikesEffect)
         {
@@ -5279,6 +5287,37 @@ namespace battleutils
         return true;
     }
 
+    bool HasNativeEnhancing(CBattleEntity* PEntity)
+    {
+        JOBTYPE mJob = PEntity->GetMJob();
+        JOBTYPE sJob = PEntity->GetSJob();
+
+        switch (mJob)
+        {
+            case JOB_WHM:
+            case JOB_RDM:
+            case JOB_PLD:
+            case JOB_SCH:
+            case JOB_GEO: 
+                return true;
+            default:
+                break;
+        }
+
+        switch (sJob)
+        {
+            case JOB_WHM:
+            case JOB_RDM:
+            case JOB_PLD:
+            case JOB_SCH:
+            case JOB_GEO: 
+                return true;
+            default:
+                break;
+        }
+
+        return false;
+    }
 
     /*
         pass result of worldAngle(anchorEntity, firstEntity) instead of calculating everytime to allow TA to be more efficient
@@ -6802,6 +6841,12 @@ namespace battleutils
         // Majesty turns the Cure and Protect spell families into AoE when active
         if (PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_MAJESTY) &&
             (PSpell->getSpellFamily() == SPELLFAMILY_CURE || PSpell->getSpellFamily() == SPELLFAMILY_PROTECT))
+        {
+            return SPELLAOE_RADIAL;
+        }
+
+        // Composure allows most enhancing magic spells to be made AOE
+        if (PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_COMPOSURE) && PSpell->isComposureAOE())
         {
             return SPELLAOE_RADIAL;
         }

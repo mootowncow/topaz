@@ -202,6 +202,37 @@ bool CSpell::canHitShadow()
     return m_ID != SpellID::Meteor_II && canTargetEnemy();
 }
 
+bool CSpell::isComposureAOE()
+{
+    bool shouldAOE = false;
+
+    switch (m_spellFamily)
+    {
+        case SPELLFAMILY_PROTECT:
+        case SPELLFAMILY_SHELL:
+        case SPELLFAMILY_HASTE:
+        case SPELLFAMILY_ELE_BAR:
+        case SPELLFAMILY_STATUS_BAR:
+        case SPELLFAMILY_ENFIRE:
+        case SPELLFAMILY_ENBLIZZARD:
+        case SPELLFAMILY_ENAERO:
+        case SPELLFAMILY_ENSTONE:
+        case SPELLFAMILY_ENTHUNDER:
+        case SPELLFAMILY_ENWATER:
+        case SPELLFAMILY_REGEN:
+        case SPELLFAMILY_REFRESH:
+        case SPELLFAMILY_SPIKES:
+        case SPELLFAMILY_GAIN:
+        case SPELLFAMILY_TEMPER:
+            shouldAOE = true;
+            break;
+        default:
+            break;
+    }
+
+    return shouldAOE;
+}
+
 bool CSpell::dealsDamage()
 {
     //damage or drain hp

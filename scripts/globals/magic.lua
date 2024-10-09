@@ -368,21 +368,11 @@ function doEnspell(caster, target, spell, effect)
     local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
 
     -- Calculate potency
-    local enhancingSkill = target:getSkillLevel(tpz.skill.ENHANCING_MAGIC)
+    local enhancingSkill = caster:getSkillLevel(tpz.skill.ENHANCING_MAGIC)
+    local potency = 3 + math.floor(6 * enhancingSkill / 100)
 
-    local potency
-
-    if enhancingSkill < 150 then
-        potency = math.floor(math.sqrt(enhancingSkill)) - 1
-    elseif enhancingSkill < 500 then
-        potency = math.floor(enhancingSkill / 10) + 5
-    else
-        potency = 45 * math.floor(enhancingSkill / 500)
-    end
-
-    -- Composure increases Enspell duration to 1 hour
-    if caster:hasStatusEffect(tpz.effect.COMPOSURE) then
-        duration = 3600
+    if enhancingSkill > 200 then
+        potency = 5 + math.floor(5 * enhancingSkill / 100)
     end
 
     -- Afflatus Misery doubles the potency of enspells
@@ -3650,7 +3640,7 @@ function calculateDuration(duration, magicSkill, spellGroup, caster, target, use
         useComposure = useComposure or (useComposure == nil and true)
 
         -- Composure
-        if useComposure and caster:hasStatusEffect(tpz.effect.COMPOSURE) and caster:getID() == target:getID() then
+        if useComposure and caster:hasStatusEffect(tpz.effect.COMPOSURE) then
             duration = duration * 3
         end
 

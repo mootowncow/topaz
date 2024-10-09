@@ -1054,6 +1054,7 @@ public:
     bool        isNonDamaging(); // is a non-damaging spell (i.e. blind/flash) used for logic
     bool        isNa(); // is a -na spell
     bool        canHitShadow(); // check if spell ignores shadows
+    bool        isComposureAOE(); // check if spell should be AOEd with composure active
 
     void        setRadius(float radius);
     void        setTotalTargets(uint16 total);
