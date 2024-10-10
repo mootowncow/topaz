@@ -3907,7 +3907,6 @@ namespace battleutils
     float GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus)
     {
         uint16 attack = PAttacker->ATT();
-        ShowDebug("Attack before flat bonus %u\n", attack);
         // Bonus attack currently only from footwork
         if (bonusAttPercent >= 1) 
         {
@@ -3915,7 +3914,6 @@ namespace battleutils
         }
 
         attack += flatAttBonus;
-        ShowDebug("Attack after flat bonus %u\n", attack);
         // Wholly possible for DEF to be near 0 with the amount of debuffs/effects now.
         uint16 defense = PDefender->DEF();
         if (defense == 0)
