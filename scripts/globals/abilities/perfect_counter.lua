@@ -14,9 +14,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    if player:isPC() then
-        player:addStatusEffect(tpz.effect.PERFECT_COUNTER, 2, 0, 3)
-    else
-        player:addStatusEffect(tpz.effect.PERFECT_COUNTER, 2, 0, 30)
-    end
+    player:addStatusEffect(tpz.effect.PERFECT_COUNTER, 2, 0, 30)
 end
