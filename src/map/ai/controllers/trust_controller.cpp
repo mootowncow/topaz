@@ -376,6 +376,12 @@ void CTrustController::DoRoamTick(time_point tick)
         POwner->PAI->Internal_Engage(PMaster->GetBattleTargetID());
     }
 
+    // Unable to move due to hard CC (Sleep, stun, terror, etc)
+    if (POwner->StatusEffectContainer->HasPreventActionEffect(false) || POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BIND))
+    {
+        return;
+    }
+
     uint8 currentPartyPos = GetPartyPosition();
     CBattleEntity* PFollowTarget = (GetPartyPosition() > 0) ? (CBattleEntity*)PMaster->PTrusts.at(currentPartyPos - 1) : POwner->PMaster;
     float currentDistance = distance(POwner->loc.p, PFollowTarget->loc.p);
