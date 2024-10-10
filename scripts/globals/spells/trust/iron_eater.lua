@@ -24,7 +24,7 @@ function onMobSpawn(mob)
         [tpz.magic.spell.NAJI] = tpz.trust.message_offset.TEAMWORK_1,
     })
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0,
+    mob:addSimpleGambit(ai.t.MASTER, ai.c.HPP_LT, 50,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.PROVOKE)
 
     if mob:getMainLvl() >= 70 then
@@ -34,9 +34,6 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.RESTRAINT)
-
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.BLOOD_RAGE,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.BLOOD_RAGE)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.BERSERK, ai.r.JA, ai.s.SPECIFIC, tpz.ja.BERSERK)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.AGGRESSOR, ai.r.JA, ai.s.SPECIFIC, tpz.ja.AGGRESSOR)

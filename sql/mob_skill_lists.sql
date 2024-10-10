@@ -3740,10 +3740,8 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Shikaree_Z',1030,118); -- Skewer
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Shikaree_Z',1030,119); -- Wheeling Thrust
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Shikaree_Z',1030,120); -- Impulse Drive
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Cherukiki',1031,0);
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,80); -- Shield Break
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,83); -- Armor Break
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,85); -- Weapon Break
-INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,88); -- Steel Cyclone
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,82); -- Sturmwind
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,86); -- Raging Rush
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gessho',1033,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gadalar',1034,100); -- Spinning Scythe
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gadalar',1034,101); -- Vorpal Scythe
