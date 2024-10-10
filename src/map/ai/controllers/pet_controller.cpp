@@ -56,7 +56,7 @@ void CPetController::Tick(time_point tick)
     if (!PMaster->isDead() && PPet->isAlive())
     {
         uint8 mastersSpeed = PMaster->GetSpeed();
-        if (mastersSpeed > 0)
+        if (PPet->speed > 0)
         {
             if (PMaster->isMounted())
             {

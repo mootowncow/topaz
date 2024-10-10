@@ -116,8 +116,7 @@ void CTrustController::Tick(time_point tick)
 
     // Match owners speed +10
     uint8 mastersSpeed = PMaster->GetSpeed();
-    uint8 trustsSpeed = POwner->speed;
-    if (mastersSpeed > 0)
+    if (POwner->speed > 0)
     {
         if (PMaster->isMounted())
         {
