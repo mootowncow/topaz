@@ -132,7 +132,7 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 Trusts:
 Don't move/path if someone needs to be be cured. Check if has healing spells and then if a party member is below 75% HP don't mnove?
-Trusts melee closer
+POtherTrust stuff is what makes trusts follow eachother in CTrustController::DoRoamTick()
 Don't Declump if currently highest enmity
 Movement logic if can't see allies then reposition / warp (like can't see enemy logic)
 Don't melee WS or use DNC JA's(IsMeleeAbility()?) into perfect dodge/invincible, don't cast magic into elemental sforzo 
@@ -173,10 +173,8 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Test trusts / pets being bound that they dont ignore it if master isn't bound
-utils.EcoSystem dmg bonus to  takeAbilityDamage() and AbilityFinalAdjustments()
-Null to AbilityFinalAdjustments()
-Being paralyzed/intimidated/interrupted by dmg(TryInterrupt()) should reset mobs cast timer. Maybe any interrupt? OOR, sleep, lullaby, etc too?
+Change MinimumDelay -= (uint16)(MinimumDelay * 0.6); to be 0.8 no matter what or else JA haste etc does nothing
+Perfect counter 30s duration again(or w/e retial is)
 Dusk Mask(+1). Remove enhancing replace with something else.
 Dusk Jerkin(+1). Remove RACC replace with something else. Update LAC sets that use for RACC
 Three Eyed Fish with 100 fishing and Lu's on GM
