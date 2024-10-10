@@ -426,17 +426,11 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
         }
         WeaponDelay = (uint16)(WeaponDelay * ((100.0f + getMod(Mod::DELAYP)) / 100.0f));
 
-        // Global delay reduction cap of "about 60%" being enforced, and 80% for Hundred Fists
+        // Global delay reduction cap of "about 80%" being enforced
         // This should be enforced on -delay equipment, martial arts, dual wield, and haste, hence MinimumDelay * 0.2.
         // TODO: Could be converted to value/1024 if the exact cap is ever determined.
-        if (StatusEffectContainer->HasStatusEffect(EFFECT_HUNDRED_FISTS))
-        {
-            MinimumDelay -= (uint16)(MinimumDelay * 0.8);
-        }
-        else
-        {
-            MinimumDelay -= (uint16)(MinimumDelay * 0.6);
-        }
+        MinimumDelay -= (uint16)(MinimumDelay * 0.8);
+
         WeaponDelay = (WeaponDelay < MinimumDelay) ? MinimumDelay : WeaponDelay;
         //ShowDebug("[%s] weapon delay is... %i \n", this->name, WeaponDelay);
     }
