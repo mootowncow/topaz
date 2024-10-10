@@ -94,7 +94,6 @@ public:
     bool                        CheckAnticipated();
     bool                        IsCountered();
     bool                        CheckCounter();
-    void                        CheckPerfectCounterReset(); // If a player, reset the cooldown of perfect counter on a successful counter if counterstance is active
     bool                        ShouldPerfectCounterPersist(); // Calculates the chance Perfect Counter persists after counteirng, based on VIT
     bool                        IsCovered();            // Returns the covered flag.
     bool                        CheckCover();           // Sets the covered flag and returns it.
