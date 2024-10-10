@@ -3663,6 +3663,7 @@ namespace battleutils
 
             hitrate = std::clamp(hitrate, 20, maxHitRate);
         }
+        //ShowDebug("hitrate %i\n", hitrate)
         return static_cast<uint8>(hitrate);
     }
     uint8 GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender)

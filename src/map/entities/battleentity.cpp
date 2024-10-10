@@ -2126,36 +2126,18 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         // Calculate attack bonus for Counterstance Effect Job Points
                         // Needs verification, as there appears to be conflicting information regarding an attack bonus based on DEX
                         // vs a base damage increase.
-                        float csJpDmgBonus = 0;
-                        if (PTarget->objtype == TYPE_PC && PTarget->GetMJob() == JOB_MNK &&
-                            PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_COUNTERSTANCE))
+                        float attBonus = 1.0f;
+                        if (auto* PChar = dynamic_cast<CCharEntity*>(PTarget);
+                            PChar && PChar->GetMJob() == JOB_MNK && PChar->StatusEffectContainer->HasStatusEffect(EFFECT_COUNTERSTANCE))
                         {
-                            auto* PChar = static_cast<CCharEntity*>(PTarget);
                             uint8 csJpModifier = PChar->PJobPoints->GetJobPointValue(JP_COUNTERSTANCE_EFFECT) * 2;
-                            uint16 targetDex = PTarget->DEX();
+                            uint16 targetDex = PChar->DEX();
 
-                            csJpDmgBonus = ((static_cast<float>(targetDex) / 100) * csJpModifier);
+                            attBonus = ((static_cast<float>(targetDex) / 100) * csJpModifier);
                         }
 
-                        float DamageRatio = battleutils::GetDamageRatio(PTarget, this, attack.IsCritical(), 0.f, 0);
-                        auto damage = 0;
-
-                        auto targ_weapon = dynamic_cast<CItemWeapon*>(PTarget->m_Weapons[SLOT_MAIN]);
-                        bool isHandToHandWeapon = (targ_weapon && targ_weapon->getSkillType() == SKILL_HAND_TO_HAND);
-                        bool isMnkMob = (PTarget->objtype == TYPE_MOB && PTarget->GetMJob() == JOB_MNK);
-
-                        // If the target is a mob or monk using hand-to-hand
-                        if (isHandToHandWeapon || isMnkMob)
-                        {
-                            int8 mobH2HDamage = PTarget->GetMLevel() + 2;
-                            damage = (int32)((std::floor((mobH2HDamage + battleutils::GetFSTR(PTarget, this, SLOT_MAIN)) * 0.9f) / 2) * DamageRatio);
-                        }
-                        else
-                        {
-                            damage = (int32)((PTarget->GetMainWeaponDmg() + naturalh2hDMG + battleutils::GetFSTR(PTarget, this, SLOT_MAIN) + csJpDmgBonus) *
-                                             DamageRatio);
-                        }
-
+                        float DamageRatio = battleutils::GetDamageRatio(PTarget, this, attack.IsCritical(), attBonus, 0);
+                        auto damage = (int32)((PTarget->GetMainWeaponDmg() + naturalh2hDMG + battleutils::GetFSTR(PTarget, this, SLOT_MAIN)) * DamageRatio);
 
                         // Reduce counter damage if footwork is active to 50% for balancing reasons
                         if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))

@@ -112,6 +112,13 @@ void CAttack::SetCritical(bool value)
             {
                 attBonus = footworkEffect->GetSubPower() / 256.f; // Mod is out of 256
             }
+            if (m_attacker->objtype == TYPE_PC)
+            {
+                if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_attacker))
+                {
+                    flatAttBonus = PChar->PJobPoints->GetJobPointValue(JP_KICK_ATTACKS_EFFECT) *2;
+                }
+            }
         }
         else if (m_attackType == PHYSICAL_ATTACK_TYPE::DOUBLE)
         {
@@ -298,7 +305,15 @@ uint8 CAttack::GetHitRate()
 {
     if (m_attackType == PHYSICAL_ATTACK_TYPE::KICK)
     {
-        m_hitRate = battleutils::GetHitRate(m_attacker, m_victim, 2);
+        uint8 jpAccBonus = 0;
+        if (m_attacker->objtype == TYPE_PC)
+        {
+            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_attacker))
+            {
+                jpAccBonus += PChar->PJobPoints->GetJobPointValue(JP_KICK_ATTACKS_EFFECT);
+            }
+        }
+        m_hitRate = battleutils::GetHitRate(m_attacker, m_victim, 2, jpAccBonus);
     }
     else if (m_attackType == PHYSICAL_ATTACK_TYPE::DAKEN)
     {
@@ -459,7 +474,10 @@ bool CAttack::CheckCounter()
         // Perfect Counter only counters hits that normal counter misses, always critical, can counter 1-3 times before wearing
         m_isCountered = true;
         m_isCritical = true;
-        m_victim->StatusEffectContainer->DelStatusEffectSilent(EFFECT_PERFECT_COUNTER);
+        if (!ShouldPerfectCounterPersist())
+        {
+            m_victim->StatusEffectContainer->DelStatusEffectSilent(EFFECT_PERFECT_COUNTER);
+        }
         CheckPerfectCounterReset();
     }
     return m_isCountered;
@@ -485,6 +503,29 @@ void CAttack::CheckPerfectCounterReset()
             PChar->pushPacket(new CCharRecastPacket(PChar));
         }
     }
+}
+
+bool CAttack::ShouldPerfectCounterPersist()
+{
+    auto persistChance = 0;
+    auto vit = m_victim->VIT();
+    auto vitContribution = 10;
+    if (m_victim->objtype == TYPE_PC)
+    {
+        if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_victim))
+        {
+            vitContribution += PChar->PJobPoints->GetJobPointValue(JP_PERFECT_COUNTER_EFFECT);
+        }
+    }
+    persistChance = vit * vitContribution / 100;
+    persistChance = std::min(persistChance, 30);
+
+    if (tpzrand::GetRandomNumber(100) >= persistChance)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 
@@ -516,10 +557,6 @@ bool CAttack::CheckCover()
 ************************************************************************/
 void CAttack::ProcessDamage()
 {
-    if (m_attackType == PHYSICAL_ATTACK_TYPE::DOUBLE)
-    {
-        //Somehow recalculate m_damageRatio adding the +20 attack from DOUBLE_ATTACK_EFFECT (JP)
-    }
     // Sneak attack.
     if (m_attacker->GetMJob() == JOB_THF &&
         m_isFirstSwing &&
