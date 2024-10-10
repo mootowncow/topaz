@@ -52,6 +52,7 @@
 #include "../weapon_skill.h"
 #include "../lua/luautils.cpp"
 #include "../job_points.h"
+#include "../ai/controllers/mob_controller.h"
 
 CBattleEntity::CBattleEntity()
 {
@@ -1873,6 +1874,18 @@ void CBattleEntity::OnCastInterrupted(CMagicState& state, action_t& action, MSGB
         actionTarget.messageID = 0;
         actionTarget.animation = 0;
         actionTarget.param = static_cast<uint16>(PSpell->getID());
+
+        if (this->objtype == TYPE_MOB)
+        {
+            if (CMobEntity* PMob = dynamic_cast<CMobEntity*>(this))
+            {
+                CMobController* mobController = dynamic_cast<CMobController*>(PAI->GetController());
+                if (mobController)
+                {
+                    mobController->OnCastStopped(state, action);
+                }
+            }
+        }
 
         if (blockedCast)
         {

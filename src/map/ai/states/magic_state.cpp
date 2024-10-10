@@ -33,6 +33,7 @@
 #include "../../packets/message_basic.h"
 #include "../../../common/utils.h"
 #include "../../job_points.h"
+#include "../../ai/controllers/mob_controller.h"
 
 CMagicState::CMagicState(CBattleEntity* PEntity, uint16 targid, SpellID spellid, uint8 flags) :
     CState(PEntity, targid),
@@ -218,6 +219,22 @@ bool CMagicState::Update(time_point tick)
             m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
             m_PEntity->PAI->EventHandler.triggerListener("MAGIC_PARALYZED", m_PEntity, m_PSpell.get());
 
+            CMagicState& state = *this;
+            if (m_PEntity && m_PEntity->PAI)
+            {
+                if (m_PEntity->objtype == TYPE_MOB)
+                {
+                    if (CMobEntity* PMob = dynamic_cast<CMobEntity*>(m_PEntity))
+                    {
+                        CMobController* mobController = dynamic_cast<CMobController*>(m_PEntity->PAI->GetController());
+                        if (mobController)
+                        {
+                            mobController->OnCastStopped(state, action);
+                        }
+                    }
+                }
+            }
+
             Complete();
             return false;
         }
@@ -244,6 +261,22 @@ bool CMagicState::Update(time_point tick)
             actionTarget.param = 0; // sometimes 1?
             m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
             m_PEntity->PAI->EventHandler.triggerListener("MAGIC_PARALYZED", m_PEntity, m_PSpell.get());
+
+            CMagicState& state = *this;
+            if (m_PEntity && m_PEntity->PAI)
+            {
+                if (m_PEntity->objtype == TYPE_MOB)
+                {
+                    if (CMobEntity* PMob = dynamic_cast<CMobEntity*>(m_PEntity))
+                    {
+                        CMobController* mobController = dynamic_cast<CMobController*>(m_PEntity->PAI->GetController());
+                        if (mobController)
+                        {
+                            mobController->OnCastStopped(state, action);
+                        }
+                    }
+                }
+            }
 
             Complete();
             return false;
