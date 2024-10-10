@@ -30,6 +30,7 @@
 #include "packets/char_recast.h"
 #include "packets/char_skills.h"
 #include "recast_container.h"
+#include "job_points.h"
 
 #include <math.h>
 
@@ -90,7 +91,7 @@ bool CAttack::IsCritical()
 
 /************************************************************************
 *																		*
-*  Sets the critical flag.												*
+*  Sets the critical flag. Also calculates m_damageRato                 *
 *																		*
 ************************************************************************/
 void CAttack::SetCritical(bool value)
@@ -104,6 +105,7 @@ void CAttack::SetCritical(bool value)
     else
     {
         float attBonus = 0.f;
+        uint16 flatAttBonus = 0;
         if (m_attackType == PHYSICAL_ATTACK_TYPE::KICK)
         {
             if (CStatusEffect* footworkEffect = m_attacker->StatusEffectContainer->GetStatusEffect(EFFECT_FOOTWORK))
@@ -111,8 +113,18 @@ void CAttack::SetCritical(bool value)
                 attBonus = footworkEffect->GetSubPower() / 256.f; // Mod is out of 256
             }
         }
+        else if (m_attackType == PHYSICAL_ATTACK_TYPE::DOUBLE)
+        {
+            if (m_attacker->objtype == TYPE_PC)
+            {
+                if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_attacker))
+                {
+                    flatAttBonus = PChar->PJobPoints->GetJobPointValue(JP_DOUBLE_ATTACK_EFFECT);
+                }
+            }
+        }
 
-        m_damageRatio = battleutils::GetDamageRatio(m_attacker, m_victim, m_isCritical, attBonus);
+        m_damageRatio = battleutils::GetDamageRatio(m_attacker, m_victim, m_isCritical, attBonus, flatAttBonus);
     }
 }
 
@@ -504,6 +516,10 @@ bool CAttack::CheckCover()
 ************************************************************************/
 void CAttack::ProcessDamage()
 {
+    if (m_attackType == PHYSICAL_ATTACK_TYPE::DOUBLE)
+    {
+        //Somehow recalculate m_damageRatio adding the +20 attack from DOUBLE_ATTACK_EFFECT (JP)
+    }
     // Sneak attack.
     if (m_attacker->GetMJob() == JOB_THF &&
         m_isFirstSwing &&

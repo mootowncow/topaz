@@ -2124,7 +2124,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                             csJpDmgBonus = ((static_cast<float>(targetDex) / 100) * csJpModifier);
                         }
 
-                        float DamageRatio = battleutils::GetDamageRatio(PTarget, this, attack.IsCritical(), 0.f);
+                        float DamageRatio = battleutils::GetDamageRatio(PTarget, this, attack.IsCritical(), 0.f, 0);
                         auto damage = 0;
 
                         auto targ_weapon = dynamic_cast<CItemWeapon*>(PTarget->m_Weapons[SLOT_MAIN]);

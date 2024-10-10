@@ -1304,51 +1304,70 @@ namespace battleutils
 
         // Handle Retaliation
         if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_RETALIATION) && PDefender->PAI->IsEngaged() &&
-            4 + battleutils::GetHitRate(PDefender, PAttacker) / 2 > tpzrand::GetRandomNumber(100) && facing(PDefender->loc.p, PAttacker->loc.p, 64) &&
-            !PDefender->StatusEffectContainer->HasPreventActionEffect(false))
+            facing(PDefender->loc.p, PAttacker->loc.p, 64) && !PDefender->StatusEffectContainer->HasPreventActionEffect(false))
         {
-            // Retaliation rate is based on player acc vs mob evasion. Missed retaliations do not even display in log.
-            // Other theories exist but were not proven or reliably tested (I have to assume too many things to even consider JP translations about weapon
-            // delay), this at least has data to back it up.
-            // https://web.archive.org/web/20141228105335/http://www.bluegartr.com/threads/120193-Retaliation-Testing?s=7a6221e10ffdfaa6a7f5e8f0387f787d&p=4620727&viewfull=1#post4620727
-            Action->reaction = REACTION_HIT;
-            Action->spikesEffect = SUBEFFECT_COUNTER;
+            // Calculate the base retaliation chance
+            auto chance = 4 + battleutils::GetHitRate(PDefender, PAttacker);
 
-            if (battleutils::IsAbsorbByShadow(PAttacker, PDefender)) // Struck a shadow
+            // Add Retaliation JP bonus if the defender is a player
+            if (PDefender->objtype == TYPE_PC)
             {
-                Action->spikesMessage = MSGBASIC_SPIKES_SHADOW_ABSORB;
+                chance += static_cast<CCharEntity*>(PDefender)->PJobPoints->GetJobPointValue(JP_RETALIATION_EFFECT);
             }
-            else // Struck the target
+
+            // Divide the chance by 2 to get the final retaliation chance
+            chance /= 2;
+
+            // Check if the retaliation occurs based on the calculated chance
+            if (chance > tpzrand::GetRandomNumber(100))
             {
-                if (PDefender->objtype == TYPE_PC)
+                // Retaliation is successful
+                Action->reaction = REACTION_HIT;
+                Action->spikesEffect = SUBEFFECT_COUNTER;
+
+                // Check if the hit was absorbed by shadows
+                if (battleutils::IsAbsorbByShadow(PAttacker, PDefender))
                 {
-                    // Check for skillup
-                    uint8 skilltype = 0;
-                    if (auto weapon = dynamic_cast<CItemWeapon*>(PDefender->m_Weapons[SLOT_MAIN]))
-                    {
-                        skilltype = weapon->getSkillType();
-                    }
-                    charutils::TrySkillUP((CCharEntity*)PDefender, (SKILLTYPE)skilltype, PAttacker->GetMLevel(), false);
+                    Action->spikesMessage = MSGBASIC_SPIKES_SHADOW_ABSORB;
                 }
+                else
+                {
+                    // Hit the target, handle skillup if defender is a player
+                    if (PDefender->objtype == TYPE_PC)
+                    {
+                        // Check for main hand weapon skill type
+                        uint8 skilltype = 0;
+                        if (auto weapon = dynamic_cast<CItemWeapon*>(PDefender->m_Weapons[SLOT_MAIN]))
+                        {
+                            skilltype = weapon->getSkillType();
+                        }
+                        charutils::TrySkillUP(static_cast<CCharEntity*>(PDefender), (SKILLTYPE)skilltype, PAttacker->GetMLevel(), false);
+                    }
 
-                // Check if crit
-                bool crit = battleutils::GetCritHitRate(PDefender, PAttacker, true) > tpzrand::GetRandomNumber(100);
+                    // Check for critical hit
+                    bool crit = battleutils::GetCritHitRate(PDefender, PAttacker, true) > tpzrand::GetRandomNumber(100);
 
-                // Dmg math.
-                float DamageRatio = GetDamageRatio(PDefender, PAttacker, crit, 1.f);
-                uint16 dmg = (uint32)((PDefender->GetMainWeaponDmg() + battleutils::GetFSTR(PDefender, PAttacker, SLOT_MAIN)) * DamageRatio);
-                dmg = attackutils::CheckForDamageMultiplier(((CCharEntity*)PDefender), dynamic_cast<CItemWeapon*>(PDefender->m_Weapons[SLOT_MAIN]), dmg,
-                                                            PHYSICAL_ATTACK_TYPE::NORMAL, SLOT_MAIN);
-                uint16 bonus = dmg * (PDefender->getMod(Mod::RETALIATION) / 100);
-                dmg = dmg + bonus;
+                    // Calculate damage based on weapon stats and modifiers
+                    float DamageRatio = GetDamageRatio(PDefender, PAttacker, crit, 1.f, 0);
+                    uint16 dmg = static_cast<uint32>((PDefender->GetMainWeaponDmg() + battleutils::GetFSTR(PDefender, PAttacker, SLOT_MAIN)) * DamageRatio);
 
-                // FINISH HIM! dun dun dun
-                // TP and stoneskin are handled inside TakePhysicalDamage
-                Action->spikesMessage = MSGBASIC_SPIKES_RETAL;
-                Action->spikesParam =
-                    battleutils::TakePhysicalDamage(PDefender, PAttacker, PHYSICAL_ATTACK_TYPE::NORMAL, dmg, false, SLOT_MAIN, 1, nullptr, true, true, true);
+                    // Apply damage multiplier modifiers if any
+                    dmg =
+                        attackutils::CheckForDamageMultiplier(static_cast<CCharEntity*>(PDefender), dynamic_cast<CItemWeapon*>(PDefender->m_Weapons[SLOT_MAIN]),
+                                                              dmg, PHYSICAL_ATTACK_TYPE::NORMAL, SLOT_MAIN);
+
+                    // Apply Retaliation bonus modifier
+                    uint16 bonus = dmg * (PDefender->getMod(Mod::RETALIATION) / 100);
+                    dmg += bonus;
+
+                    // Apply the damage and handle TP and stoneskin
+                    Action->spikesMessage = MSGBASIC_SPIKES_RETAL;
+                    Action->spikesParam = battleutils::TakePhysicalDamage(PDefender, PAttacker, PHYSICAL_ATTACK_TYPE::NORMAL, dmg, false, SLOT_MAIN, 1, nullptr,
+                                                                          true, true, true);
+                }
             }
         }
+
 
         // Handle spikes from spells or auto-spikes (scripted) effects
         else if (Action->spikesEffect > 0)
@@ -3885,15 +3904,18 @@ namespace battleutils
     *                                                                       *
     ************************************************************************/
 
-    float GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent)
+    float GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus)
     {
         uint16 attack = PAttacker->ATT();
+        ShowDebug("Attack before flat bonus %u\n", attack);
         // Bonus attack currently only from footwork
         if (bonusAttPercent >= 1) 
         {
             attack = static_cast<uint16>(attack * bonusAttPercent);
         }
 
+        attack += flatAttBonus;
+        ShowDebug("Attack after flat bonus %u\n", attack);
         // Wholly possible for DEF to be near 0 with the amount of debuffs/effects now.
         uint16 defense = PDefender->DEF();
         if (defense == 0)
@@ -5768,7 +5790,7 @@ namespace battleutils
                     if (PAttacker->objtype == TYPE_PC)
                         AttMultiplerPercent = PAttacker->getMod(Mod::JUMP_ATT_BONUS) / 100.f;
 
-                    float DamageRatio = battleutils::GetDamageRatio(PAttacker, PVictim, false, AttMultiplerPercent);
+                    float DamageRatio = battleutils::GetDamageRatio(PAttacker, PVictim, false, AttMultiplerPercent, 0);
                     damageForRound = (uint16)((PAttacker->GetMainWeaponDmg() + battleutils::GetFSTR(PAttacker, PVictim, SLOT_MAIN)) * DamageRatio);
 
                     // bonus applies to jump only, not high jump
