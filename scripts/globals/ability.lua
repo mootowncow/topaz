@@ -791,6 +791,9 @@ function AbilityFinalAdjustments(dmg, mob, skill, target, skilltype, damagetype,
         return 0
     end
 
+    -- Handle Ecosystem Bonus
+    dmg = utils.HandleEcosystemBonus(mob, target, dmg)
+
     --handle pd
     if ((target:hasStatusEffect(tpz.effect.PERFECT_DODGE) or target:hasStatusEffect(tpz.effect.TOO_HIGH) )
             and skilltype == tpz.attackType.PHYSICAL) then
@@ -828,6 +831,9 @@ function AbilityFinalAdjustments(dmg, mob, skill, target, skilltype, damagetype,
     dmg = AreaOfEffectResistance(target, skill, dmg)
 
     local element = damagetype - 5
+
+    -- Handle Null
+    dmg = utils.CheckForNull(mob, target, skilltype, element, dmg)
 
     if (skilltype == tpz.attackType.PHYSICAL) then
         dmg = target:physicalDmgTaken(dmg, damagetype)
@@ -875,6 +881,9 @@ function takeAbilityDamage(defender, attacker, params, primary, finaldmg, attack
     else
         -- no abilities that use ability message can miss (the rest use ws messages)
     end
+
+    -- Handle Ecosystem Bonus
+    finaldmg = utils.HandleEcosystemBonus(attacker, defender, finaldmg)
 
     local element = damageType - 5 -- This will match spell_data.lua's elements index
 
