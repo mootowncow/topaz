@@ -1403,3 +1403,22 @@ function utils.CheckForNull(attacker, defender, attackType, element, dmg)
 
     return dmg
 end
+
+function utils.AddDynamicMod(entity, modType, modValue)
+    -- Retrieve the current applied mod value using a local variable
+    local currentModValue = entity:getLocalVar("Mod_" .. modType)
+
+    -- Only add the mod if the new value is different
+    if currentModValue ~= modValue then
+        -- If a mod was previously applied, remove the old mod
+        if currentModValue ~= 0 then
+            entity:delMod(modType, currentModValue)
+        end
+        
+        -- Apply the new mod value
+        entity:addMod(modType, modValue)
+        
+        -- Store the new applied value as a local variable
+        entity:setLocalVar("Mod_" .. modType, modValue)
+    end
+end
