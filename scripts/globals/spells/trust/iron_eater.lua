@@ -44,6 +44,7 @@ function onMobSpawn(mob)
 
     if mob:getMainLvl() >= 60 then
         mob:addSimpleGambit(ai.t.SELF, ai.c.TP_LT, 400, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MEDITATE)
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.RETALIATION, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RETALIATION)
     end
 
     tpz.trust.onMobSpawn(mob)
