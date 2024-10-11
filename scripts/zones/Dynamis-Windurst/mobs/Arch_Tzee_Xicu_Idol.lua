@@ -27,7 +27,7 @@ function onMobFight(mob, target)
     tpz.mix.jobSpecial.config(mob, {
         specials =
         {
-            {id = tpz.jsa.MANA_FONT, cooldown = 60, hpp = 90},
+            {id = tpz.jsa.MANAFONT, cooldown = 60, hpp = 90},
         },
     })
 end
