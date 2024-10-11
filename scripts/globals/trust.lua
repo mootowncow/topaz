@@ -75,6 +75,8 @@ local modByMobName =
     ['valaineral'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
         mob:addMod(tpz.mod.MPP, 20)
+        mob:addMod(tpz.mod.ATTP, 15)
+        mob:addMod(tpz.mod.RATTP, 15)
         mob:addMod(tpz.mod.DMG, -8)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
         mob:addMod(tpz.mod.REFRESH, 3)
@@ -125,6 +127,8 @@ local modByMobName =
 
     ['tenzen'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
+        mob:addMod(tpz.mod.ATTP, 15)
+        mob:addMod(tpz.mod.RATTP, 15)
         mob:addMod(tpz.mod.STORETP, 10)
         mob:addMod(tpz.mod.ZANSHIN, 5)
         mob:addMod(tpz.mod.ALL_WSDMG_FIRST_HIT, 19)
@@ -135,6 +139,8 @@ local modByMobName =
 
     ['iron_eater'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
+        mob:addMod(tpz.mod.ATTP, 15)
+        mob:addMod(tpz.mod.RATTP, 15)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.DOUBLE_ATTACK, 5)
         mob:addMod(tpz.mod.STORETP, 25)
@@ -146,6 +152,8 @@ local modByMobName =
 
     ['lhe_lhangavo'] = function(mob)
         mob:addMod(tpz.mod.HPP, 30)
+        mob:addMod(tpz.mod.ATTP, 15)
+        mob:addMod(tpz.mod.RATTP, 15)
         mob:addMod(tpz.mod.COUNTER, 5)
         mob:addMod(tpz.mod.KICK_ATTACK_RATE, 5)
         mob:addMod(tpz.mod.ACC, 30)
@@ -158,7 +166,8 @@ local modByMobName =
     ['shikaree_z'] = function(mob)
         mob:addMod(tpz.mod.HPP, -10)
         mob:addMod(tpz.mod.MPP, 100)
-        mob:addMod(tpz.mod.ATTP, 15)
+        mob:addMod(tpz.mod.ATTP, 30)
+        mob:addMod(tpz.mod.RATTP, 15)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.CRITHITRATE, 4)
         mob:addMod(tpz.mod.JUMP_TP_BONUS, 450)
@@ -172,6 +181,8 @@ local modByMobName =
 
     ['zeid'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
+        mob:addMod(tpz.mod.ATTP, 15)
+        mob:addMod(tpz.mod.RATTP, 15)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddHeavyMeleeAccuracyGear(mob)
         AddArtifactGear(mob)
@@ -179,6 +190,8 @@ local modByMobName =
 
     ['aldo'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
+        mob:addMod(tpz.mod.ATTP, 15)
+        mob:addMod(tpz.mod.RATTP, 15)
         mob:addMod(tpz.mod.TRIPLE_ATTACK, 5)
         mob:addMod(tpz.mod.DUAL_WIELD, 5)
         mob:addMod(tpz.mod.CRIT_DMG_INCREASE, 8)
@@ -190,6 +203,8 @@ local modByMobName =
 
     ['uka_totlihn'] = function(mob)
         mob:addMod(tpz.mod.HPP, 25)
+        mob:addMod(tpz.mod.ATTP, 15)
+        mob:addMod(tpz.mod.RATTP, 15)
         mob:addMod(tpz.mod.MEVA, 50)
         mob:addMod(tpz.mod.TPEVA, 25)
         mob:addMod(tpz.mod.CHR, 12)
