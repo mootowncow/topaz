@@ -198,6 +198,7 @@ https://github.com/LandSandBoat/server/commit/2dd7c97c35508fe5a8c0a8ff78cd05fee7
 Weapon STR stuff (Already did I think?)
 https://github.com/LandSandBoat/server/commit/d930fbb0b83311a80ee4b88ef1063822f2d2eb4e
 
+Buff magic crits, add to items in some new content
 Banish "resistance" reducton to magic? I don't see proof - check JP wiki, remove if no proof
 Attack nearby enemies if target has palisade and can't reach enemy(in attack nearby if bound logic)
 Steal is stealing Bone Chip over ice spikes with aura steal
