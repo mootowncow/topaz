@@ -8,6 +8,7 @@ mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
 function onMobSpawn(mob)
 	mob:setDamage(125)
+    mob:setMod(tpz.mod.DEFP, 12)
     mob:setMod(tpz.mod.MDEF, 40)
     mob:setMod(tpz.mod.UDMGMAGIC, 13)
     mob:setMod(tpz.mod.REGAIN, 50)
@@ -41,9 +42,11 @@ function onMobEngaged(mob)
 end
 
 function onMobFight(mob, target)
-    local HPP = mob:getHPP()
 	local AddleTime = mob:getLocalVar("AddleTime")
 	local BattleTime = mob:getBattleTime()
+    local HPP = mob:getHPP()
+    local Defp = (100 - HPP) -- 1% for every 1% missing HP
+    local UFastCast = (100 - HPP) / 2 --1% for every 2% missing HP
 
 	if mob:hasStatusEffect(tpz.effect.BLAZE_SPIKES) == false then
 		mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 25, 0, 7200)
@@ -51,14 +54,8 @@ function onMobFight(mob, target)
         effect1:unsetFlag(tpz.effectFlag.DISPELABLE)
 	end
 
-    -- UFACAST scales by 1% for every 2% missing HP
-    local UFAcastMod = (100 - HPP) / 2
-    -- DEFP scales by 1% for every 1% missing HP
-    local DefPMod = 12 + (100 - HPP)
-
-    -- Apply the modifiers to the mob
-    mob:setMod(tpz.mod.UFASTCAST, UFAcastMod)
-    mob:setMod(tpz.mod.DEFP, DefPMod)
+    utils.AddDynamicMod(mob, tpz.mod.UFASTCAST, UFastCast)
+    utils.AddDynamicMod(mob, tpz.mod.DEFP, Defp)
 
 	if mob:getHPP() <= 50 then
 		if AddleTime == 0 then
