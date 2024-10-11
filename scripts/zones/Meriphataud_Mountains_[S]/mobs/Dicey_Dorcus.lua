@@ -22,6 +22,7 @@ local auraParams = {
 }
 function onMobSpawn(mob)
     tpz.moblinmazemongers.MobMods(mob)
+    mob:setModelSize(4)
     mob:setLocalVar("[rage]timer", 7200) -- 2 hrs
     tpz.mix.jobSpecial.config(mob, {
         specials =

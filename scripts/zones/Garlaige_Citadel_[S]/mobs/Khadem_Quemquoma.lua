@@ -9,6 +9,7 @@ require("scripts/globals/status")
 -----------------------------------
 function onMobSpawn(mob)
     mob:SetMagicCastingEnabled(false)
+    mob:setModelSize(4)
     mob:setLocalVar("hellScissors", 0)
     tpz.annm.NMMods(mob) 
 end
