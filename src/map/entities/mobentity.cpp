@@ -1104,6 +1104,12 @@ void CMobEntity::Spawn()
         }
     }
 
+    // Don't instant cast if a pet that was just summoned
+    if (PMaster)
+    {
+        setMobMod(MOBMOD_MAGIC_DELAY, 5);
+    }
+
     this->health.tp = 0;
     m_DespawnTimer = time_point::min();
     PAI->EventHandler.triggerListener("SPAWN", this);
