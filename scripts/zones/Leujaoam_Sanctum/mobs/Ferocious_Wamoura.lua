@@ -4,6 +4,7 @@
 -----------------------------------
 require("scripts/globals/mobs")
 local ID = require("scripts/zones/Leujaoam_Sanctum/IDs")
+mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
 function onMobSpawn(mob)
 	mob:setDamage(125)
@@ -15,6 +16,12 @@ function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
     mob:setMobMod(tpz.mobMod.NO_AGGRO, 1)
 	mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 20)
+    tpz.mix.jobSpecial.config(mob, {
+        specials =
+        {
+            {id = tpz.jsa.MANAFONT, hpp = 25},
+        },
+    })
 end
 
 function onMobRoam(mob)
@@ -34,14 +41,24 @@ function onMobEngaged(mob)
 end
 
 function onMobFight(mob, target)
+    local HPP = mob:getHPP()
 	local AddleTime = mob:getLocalVar("AddleTime")
 	local BattleTime = mob:getBattleTime()
 
 	if mob:hasStatusEffect(tpz.effect.BLAZE_SPIKES) == false then
 		mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 25, 0, 7200)
-            local effect1 = mob:getStatusEffect(tpz.effect.BLAZE_SPIKES)
-            effect1:unsetFlag(tpz.effectFlag.DISPELABLE)
+        local effect1 = mob:getStatusEffect(tpz.effect.BLAZE_SPIKES)
+        effect1:unsetFlag(tpz.effectFlag.DISPELABLE)
 	end
+
+    -- UFACAST scales by 1% for every 2% missing HP
+    local UFAcastMod = (100 - HPP) / 2
+    -- DEFP scales by 1% for every 1% missing HP
+    local DefPMod = 12 + (100 - HPP)
+
+    -- Apply the modifiers to the mob
+    mob:setMod(tpz.mod.UFASTCAST, UFAcastMod)
+    mob:setMod(tpz.mod.DEFP, DefPMod)
 
 	if mob:getHPP() <= 50 then
 		if AddleTime == 0 then
@@ -51,8 +68,9 @@ function onMobFight(mob, target)
 			mob:setLocalVar("AddleTime", BattleTime + 180)
 		end
 	end
+
 	if mob:getHPP() <= 25 then
-        mob:setMod(tpz.mod.REGAIN, 500)
+        mob:setMod(tpz.mod.REGAIN, 100)
     end
 end
 
@@ -65,8 +83,10 @@ function onSpellPrecast(mob, spell)
 end
 
 function onMobWeaponSkillPrepare(mob, target)
-    if mob:getHPP() < 66 then
+    if mob:getHPP() > 51 then
         return 1956 -- Fire Break
+    else
+        return math.random(1951, 1955) -- Normal Wamoura TP moves
     end
 end
 
