@@ -713,10 +713,6 @@ function applyResistanceAbility(player, target, element, skill, bonus)
     local p = getMagicHitRate(player, target, skill, element, SDT, 0, bonus, params)
     local res = getMagicResist(p)
 
-    if target:hasStatusEffect(tpz.effect.FEALTY) then
-        return 1/16
-    end
-
     if SDT <= 5 then -- SDT tier .05 makes you lose ALL coin flips
         res = 1/8
     end

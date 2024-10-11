@@ -1423,8 +1423,10 @@ function getAutoResist(auto, effect, target, diff, bonus, element)
     local softcap = 10
     local SDT = getElementalSDT(element, target)
 
-    if target:hasStatusEffect(tpz.effect.FEALTY) or target:hasStatusEffect(tpz.effect.ELEMENTAL_SFORZO) then
-        return 1/8
+    if effect ~= nil then
+        if target:hasStatusEffect(tpz.effect.FEALTY) then
+            return 1/16
+        end
     end
 
     if effect ~= nil and math.random() < getEffectResistanceTraitChance(auto, target, effect) then
