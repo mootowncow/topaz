@@ -131,9 +131,6 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-All trusts except Elivira(?) need a global +ATTP and +RATTP mod of ~10-20%
-Don't Declump if currently highest enmity
-Still need to get closer to enemies for melee(Am I changing the wrong logic for that? Not the melee logic maybe...do prints and test)
 Iron Eater Sturmwind only skill list until level 60(Raging Rush level? Check) then Raging Rush + King's Justice skill list
 Trists with crit WS (I.e. Iron Eater and Aldo) need more dex or a special mod to buff their crit rate (tpz.mod.DEX_DURING_WS) during WS / TP moves
 2h Trusts (Iron Eater, Tenzen, Zeid, Shikaree Z) need 2% DA mod level 60+
@@ -174,15 +171,9 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Final Leujoam Sanctum assault boss (Wamouracampa) harder. Fire Break only 51-100%. Firaga only < 25%. Manafont at 25%. Gain UFASTCAST and DEFP as HP lowers
-MobEntity::OnSpawn() If PMaster then add a casting delay of ~5s
-getAutoResist and getAvatarResist need elemental sforzo removed. and fealty should only be checked if effect isn't nil
-Don't reduce enspell dmg by phalanx (needed in mobs.lua too?  and weapon eneffect procs in magic.lua?)
-Increase Serket (Past one too) model size
-Elemental Sforzo should just be magic null mod +100 added/removed for it's efect
-Aerns should summon animation BST and Wyvern pets not just poof out of nowhere
-Aern' Euvhi need Euvhi mixin(in all zones)
 ALL HELM msgs gold? Like normal crafting skill up msgs. ALso for "due to your skill in x" msgs. If too low level to HELM, red msg?
+Inner Strength do something for JP
+Readd the MDEF based on barspell element to all magic logic. I think it's in monstertpmoves somewhere unused in a function. And affalatus solace adds +5
 Smn pet gifts
 https://github.com/LandSandBoat/server/commit/04595b03ce5b00ec9e4d64a573f31e8c2a8c549c
 Dusk Mask(+1). Remove enhancing replace with something else.
