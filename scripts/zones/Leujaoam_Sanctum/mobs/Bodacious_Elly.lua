@@ -49,7 +49,7 @@ function onMobFight(mob, target)
         end
 		mob:setLocalVar("Message", BattleTime + 30)
     end
-    mob:addListener("SKILLCHAIN_TAKE", "ELLY_TAKE_DAMAGE", function(mob)
+    mob:addListener("SKILLCHAIN_TAKE", "ELLY_TAKE_SC", function(mob)
         mob:setMod(tpz.mod.UDMGMAGIC, 100)
         mob:setMod(tpz.mod.UDMGBREATH, 100)
         mob:setMod(tpz.mod.SDT_FIRE, 150)
@@ -75,14 +75,15 @@ function onMobFight(mob, target)
     end)
     mob:addListener("TAKE_DAMAGE", "ELLY_TAKE_DAMAGE", function(mob, amount, attacker, attackType, damageType)
         if damageType == tpz.damageType.FIRE and amount >= 2000  then
-            if MessageTwo == 0 then
-                mob:weaknessTrigger(0)
-                local zonePlayers = mob:getZone():getPlayers()
-                for _, zonePlayer in pairs(zonePlayers) do
-                    zonePlayer:PrintToPlayer("The ice surrounding Elly has melted away!",0,"Bodacious Elly")
-                end
-		        mob:setLocalVar("MessageTwo", 1)
+            mob:removeListener("ELLY_TAKE_DAMAGE")
+        if MessageTwo == 0 then
+            mob:weaknessTrigger(0)
+            local zonePlayers = mob:getZone():getPlayers()
+            for _, zonePlayer in pairs(zonePlayers) do
+                zonePlayer:PrintToPlayer("The ice surrounding Elly has melted away!",0,"Bodacious Elly")
             end
+		    mob:setLocalVar("MessageTwo", 1)
+        end
             mob:setMod(tpz.mod.REGEN, 0)
         end
     end)
