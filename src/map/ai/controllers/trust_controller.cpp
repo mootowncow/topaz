@@ -295,7 +295,7 @@ void CTrustController::DoCombatTick(time_point tick)
                                 if (!POwner->PAI->PathFind->IsFollowingPath() ||
                                     distanceSquared(POwner->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10 * 10)
                                 {
-                                    POwner->PAI->PathFind->PathInRange(PTarget->loc.p, attack_range - 0.5f, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                                    POwner->PAI->PathFind->PathInRange(PTarget->loc.p, attack_range - 1.0f, PATHFLAG_WALLHACK | PATHFLAG_RUN);
                                 }
                                 POwner->PAI->PathFind->FollowPath();
 
@@ -446,6 +446,12 @@ void CTrustController::Declump(CCharEntity * PMaster, CBattleEntity * PTarget)
     TracyZoneScoped;
 
     if (POwner->StatusEffectContainer->HasStatusEffect({ EFFECT_SNEAK_ATTACK, EFFECT_TRICK_ATTACK }))
+    {
+        return;
+    }
+
+    // Don't declump if currently tanking (Top enmity)
+    if (PTarget && GetTopEnmity() == POwner)
     {
         return;
     }
