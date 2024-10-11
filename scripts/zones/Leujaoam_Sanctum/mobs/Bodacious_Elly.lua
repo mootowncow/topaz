@@ -75,7 +75,6 @@ function onMobFight(mob, target)
     end)
     mob:addListener("TAKE_DAMAGE", "ELLY_TAKE_DAMAGE", function(mob, amount, attacker, attackType, damageType)
         if damageType == tpz.damageType.FIRE and amount >= 2000  then
-            mob:removeListener("ELLY_TAKE_DAMAGE")
         if MessageTwo == 0 then
             mob:weaknessTrigger(0)
             local zonePlayers = mob:getZone():getPlayers()
