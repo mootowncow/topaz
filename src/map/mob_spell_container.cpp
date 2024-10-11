@@ -1241,7 +1241,7 @@ bool CMobSpellContainer::IsImmune(CBattleEntity* PTarget, SpellID spellId)
             }
         }
 
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_ELEMENTAL_SFORZO))
+        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_FEALTY))
         {
             return true;
         }
