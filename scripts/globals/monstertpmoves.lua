@@ -523,7 +523,7 @@ function MobMagicalMove(mob, target, skill, damage, element, dmgmod, tpeffect, i
     local weatherBonus = getMobWeatherDayBonus(mob, element)
 
     -- get magic attack bonus
-    local magicAttkBonus = getMobMAB(mob, target)
+    local magicAttkBonus = getMobMAB(mob, target, element)
 
     -- Do the formula!
     local finaldmg = 0
@@ -574,7 +574,7 @@ function MobNeedlesMagicalMove(mob, target, skill, damage, element, tpeffect)
     local weatherBonus = getMobWeatherDayBonus(mob, element)
 
     -- get magic attack bonus
-    local magicAttkBonus = getMobMAB(mob, target)
+    local magicAttkBonus = getMobMAB(mob, target, element)
 
     -- Do the formula!
     finaldmg = math.floor(damage * magicBurstBonus * resist * weatherBonus * magicAttkBonus)
@@ -636,74 +636,6 @@ function applyPlayerResistance(mob, effect, target, diff, bonus, element)
     --print(string.format("resist was %f",resist))
 
     return resist
-end
-
-function mobAddBonuses(caster, spell, target, dmg, ele)
-
-    local magicDefense = getElementalDamageReduction(target, ele)
-    dmg = math.floor(dmg * magicDefense)
-
-    dayWeatherBonus = 1.00
-    local dayElement = VanadielDayElement() -1
-
-    if caster:getWeather() == tpz.magic.singleWeatherStrong[ele] then
-        if math.random() < 0.33 then
-            dayWeatherBonus = dayWeatherBonus + 0.10
-        end
-    elseif caster:getWeather() == tpz.magic.singleWeatherWeak[ele] then
-        if math.random() < 0.33 then
-            dayWeatherBonus = dayWeatherBonus - 0.10
-        end
-    elseif caster:getWeather() == tpz.magic.doubleWeatherStrong[ele] then
-        if math.random() < 0.33 then
-            dayWeatherBonus = dayWeatherBonus + 0.25
-        end
-    elseif caster:getWeather() == tpz.magic.doubleWeatherWeak[ele] then
-        if math.random() < 0.33 then
-            dayWeatherBonus = dayWeatherBonus - 0.25
-        end
-    end
-
-    if dayElement == tpz.magic.dayStrong[ele] then
-        if math.random() < 0.33 then
-            dayWeatherBonus = dayWeatherBonus + 0.10
-        end
-    elseif dayElement == tpz.magic.dayWeak[ele] then
-        if math.random() < 0.33 then
-            dayWeatherBonus = dayWeatherBonus - 0.10
-        end
-    end
-
-    if dayWeatherBonus > 1.35 then
-        dayWeatherBonus = 1.35
-    end
-
-    dmg = math.floor(dmg * dayWeatherBonus)
-
-    local mdefBarBonus = 0
-    if
-        ele >= tpz.magic.element.FIRE and
-        ele <= tpz.magic.element.WATER and
-        target:hasStatusEffect(tpz.magic.barSpell[ele])
-    then -- bar- spell magic defense bonus
-        mdefBarBonus = target:getStatusEffect(tpz.magic.barSpell[ele]):getSubPower()
-    end
-    mab = (100 + caster:getMod(tpz.mod.MATT)) / (100 + target:getMod(tpz.mod.MDEF) + mdefBarBonus)
-
-    dmg = math.floor(dmg * mab)
-
-    magicDmgMod = (256 + target:getMod(tpz.mod.DMGMAGIC)) / 256
-
-    dmg = math.floor(dmg * magicDmgMod)
-
-    -- print(affinityBonus)
-    -- print(speciesReduction)
-    -- print(dayWeatherBonus)
-    -- print(burst)
-    -- print(mab)
-    -- print(magicDmgMod)
-
-    return dmg
 end
 
 -- Calculates breath damage
@@ -2196,13 +2128,13 @@ function getMobDStat(statmod, mob, target)
     return dSTat
 end
 
-function getMobMAB(mob, target)
-    -- Get magic attack bonus
+function getMobMAB(mob, target, element)
     local mab = 100 + mob:getMod(tpz.mod.MATT)
-    --printf("mab %i", mab)
-    -- Get targets mdef
     local mdef = 100 + target:getMod(tpz.mod.MDEF)
-    --printf("mdef %i", mdef)
+
+    -- Add barspell element MDB bonus
+    mdef = mdef + getBarspellElementalMDB(mob, target, element)
+
     -- Get dmg bonus from MAB / MDB
     local magicAttkBonus = mab / mdef
     --printf("magicAttkBonus %i", magicAttkBonus * 100)
