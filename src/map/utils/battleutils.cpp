@@ -1156,7 +1156,6 @@ namespace battleutils
         // printf("\nEnspell damage after magic defense mod = %i \n", damage);
         if (damage > 0)
         {
-            damage = std::max(damage - PDefender->getMod(Mod::PHALANX), 0);
             damage = battleutils::HandleMagicStoneskin(PDefender, damage);
             int16 magicSS = PDefender->getMod(Mod::MAGIC_SS);
             if (!magicSS)

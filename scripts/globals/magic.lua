@@ -1275,14 +1275,12 @@ function finalMagicAdjustments(caster, target, spell, dmg)
     return dmg
  end
 
- -- Used only for weapon additional effects that haven't been converted to the new functions
 function finalMagicNonSpellAdjustments(caster, target, ele, dmg)
     --Handles target's HP adjustment and returns SIGNED dmg (negative values on absorb)
 
     dmg = target:magicDmgTaken(dmg, ele)
 
     if (dmg > 0) then
-        dmg = dmg - target:getMod(tpz.mod.PHALANX)
         dmg = utils.clamp(dmg, 0, 99999)
     end
 
