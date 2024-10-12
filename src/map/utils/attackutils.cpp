@@ -149,7 +149,6 @@ namespace attackutils
         {
             return damage;
         }
-        ShowDebug("Checking CheckForDamageMultiplier\n");
         uint32 originalDamage = damage;
         int16 occ_do_triple_dmg = 0;
         int16 occ_do_double_dmg = 0;
