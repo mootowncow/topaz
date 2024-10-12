@@ -400,14 +400,14 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     {
         rangedWeapon->setDamage(finalDamage * 3);
         rangedWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
-        rangedWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
+        rangedWeapon->setBaseDelay(600 / 60); // Elivira - Gun
     }
 
     if (auto* ammoWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_AMMO]))
     {
         ammoWeapon->setDamage(finalDamage);
         ammoWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
-        ammoWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
+        ammoWeapon->setBaseDelay(240 / 60); // Elivira - Bullet
     }
 
     if (trustData->m_Family == 971) 
