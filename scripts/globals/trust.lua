@@ -131,7 +131,6 @@ local modByMobName =
         mob:addMod(tpz.mod.RATTP, 15)
         mob:addMod(tpz.mod.STORETP, 10)
         mob:addMod(tpz.mod.ZANSHIN, 5)
-        mob:addMod(tpz.mod.ALL_WSDMG_FIRST_HIT, 19)
         mob:addMod(tpz.mod.SAVETP, 400)
         AddFarEasternAccuracyGear(mob)
         AddArtifactGear(mob)
