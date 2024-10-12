@@ -143,13 +143,13 @@ namespace attackutils
     *  Handles damage multiplier, relic weapons etc.                        *
     *                                                                       *
     ************************************************************************/
-    uint32 CheckForDamageMultiplier(CCharEntity* PChar, CItemWeapon* PWeapon, uint32 damage, PHYSICAL_ATTACK_TYPE attackType, uint8 weaponSlot)
+    uint32 CheckForDamageMultiplier(CBattleEntity* PAttacker, CItemWeapon* PWeapon, uint32 damage, PHYSICAL_ATTACK_TYPE attackType, uint8 weaponSlot)
     {
         if (PWeapon == nullptr)
         {
             return damage;
         }
-
+        ShowDebug("Checking CheckForDamageMultiplier\n");
         uint32 originalDamage = damage;
         int16 occ_do_triple_dmg = 0;
         int16 occ_do_double_dmg = 0;
@@ -158,22 +158,27 @@ namespace attackutils
         {
             case PHYSICAL_ATTACK_TYPE::RANGED:
             case PHYSICAL_ATTACK_TYPE::RAPID_SHOT:
-                occ_do_triple_dmg = PChar->getMod(Mod::REM_OCC_DO_TRIPLE_DMG_RANGED) / 10;
-                occ_do_double_dmg = PChar->getMod(Mod::REM_OCC_DO_DOUBLE_DMG_RANGED) / 10;
+                occ_do_triple_dmg = PAttacker->getMod(Mod::REM_OCC_DO_TRIPLE_DMG_RANGED) / 10;
+                occ_do_double_dmg = PAttacker->getMod(Mod::REM_OCC_DO_DOUBLE_DMG_RANGED) / 10;
                 break;
             case PHYSICAL_ATTACK_TYPE::NORMAL:
                 if (weaponSlot == SLOT_MAIN) // Only applies to mainhand
                 {
-                    occ_do_triple_dmg = PChar->getMod(Mod::REM_OCC_DO_TRIPLE_DMG) / 10;
-                    occ_do_double_dmg = PChar->getMod(Mod::REM_OCC_DO_DOUBLE_DMG) / 10;
+                    occ_do_triple_dmg = PAttacker->getMod(Mod::REM_OCC_DO_TRIPLE_DMG) / 10;
+                    occ_do_double_dmg = PAttacker->getMod(Mod::REM_OCC_DO_DOUBLE_DMG) / 10;
                 }
                 break;
             default:
                 break;
         }
+        float occ_extra_dmg = PAttacker->getMod(Mod::OCC_DO_EXTRA_DMG) / 100.f;
+        int16 occ_extra_dmg_chance = PAttacker->getMod(Mod::EXTRA_DMG_CHANCE) / 10.f;
 
-        float occ_extra_dmg = battleutils::GetScaledItemModifier(PChar, PWeapon, Mod::OCC_DO_EXTRA_DMG) / 100.f;
-        int16 occ_extra_dmg_chance = battleutils::GetScaledItemModifier(PChar, PWeapon, Mod::EXTRA_DMG_CHANCE) / 10;
+        if (PAttacker->objtype == TYPE_PC)
+        {
+            occ_extra_dmg = battleutils::GetScaledItemModifier(PAttacker, PWeapon, Mod::OCC_DO_EXTRA_DMG) / 100.f;
+            occ_extra_dmg_chance = battleutils::GetScaledItemModifier(PAttacker, PWeapon, Mod::EXTRA_DMG_CHANCE) / 10;
+        }
 
         if (occ_extra_dmg > 3.f && occ_extra_dmg_chance > 0 && tpzrand::GetRandomNumber(100) <= occ_extra_dmg_chance)
         {
@@ -198,11 +203,11 @@ namespace attackutils
 
         switch (attackType)
         {
-            case PHYSICAL_ATTACK_TYPE::ZANSHIN:	    if (tpzrand::GetRandomNumber(100) < PChar->getMod(Mod::ZANSHIN_DOUBLE_DAMAGE))		return originalDamage * 2;
-            case PHYSICAL_ATTACK_TYPE::TRIPLE:		if (tpzrand::GetRandomNumber(100) < PChar->getMod(Mod::TA_TRIPLE_DAMAGE))			return originalDamage * 3;
-            case PHYSICAL_ATTACK_TYPE::DOUBLE:		if (tpzrand::GetRandomNumber(100) < PChar->getMod(Mod::DA_DOUBLE_DAMAGE))			return originalDamage * 2;
-            case PHYSICAL_ATTACK_TYPE::RAPID_SHOT:	if (tpzrand::GetRandomNumber(100) < PChar->getMod(Mod::RAPID_SHOT_DOUBLE_DAMAGE))	return originalDamage * 2;
-            case PHYSICAL_ATTACK_TYPE::SAMBA:		if (tpzrand::GetRandomNumber(100) < PChar->getMod(Mod::SAMBA_DOUBLE_DAMAGE))		    return originalDamage * 2;
+            case PHYSICAL_ATTACK_TYPE::ZANSHIN:	    if (tpzrand::GetRandomNumber(100) < PAttacker->getMod(Mod::ZANSHIN_DOUBLE_DAMAGE))		return originalDamage * 2;
+            case PHYSICAL_ATTACK_TYPE::TRIPLE:		if (tpzrand::GetRandomNumber(100) < PAttacker->getMod(Mod::TA_TRIPLE_DAMAGE))			return originalDamage * 3;
+            case PHYSICAL_ATTACK_TYPE::DOUBLE:		if (tpzrand::GetRandomNumber(100) < PAttacker->getMod(Mod::DA_DOUBLE_DAMAGE))			return originalDamage * 2;
+            case PHYSICAL_ATTACK_TYPE::RAPID_SHOT:	if (tpzrand::GetRandomNumber(100) < PAttacker->getMod(Mod::RAPID_SHOT_DOUBLE_DAMAGE))	return originalDamage * 2;
+            case PHYSICAL_ATTACK_TYPE::SAMBA:		if (tpzrand::GetRandomNumber(100) < PAttacker->getMod(Mod::SAMBA_DOUBLE_DAMAGE))		return originalDamage * 2;
             default: break;
         }
         return originalDamage;
