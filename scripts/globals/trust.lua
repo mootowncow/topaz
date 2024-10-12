@@ -214,10 +214,12 @@ local modByMobName =
 
     ['elivira'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
-        mob:addMod(tpz.mod.DMGAOE, -25)
         mob:addMod(tpz.mod.RACC, 30)
         mob:addMod(tpz.mod.STORETP, 130)
         mob:addMod(tpz.mod.ENMITY, -15)
+        mob:addMod(tpz.mod.DMGAOE, -25)
+        mob:setMobMod(tpz.mobMod.RANGED_DELAY, 600)
+        mob:setMobMod(tpz.mobMod.AMMO_DELAY, 240)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddRangedAccuracyGear(mob)
         AddArtifactGear(mob)

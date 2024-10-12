@@ -3209,6 +3209,8 @@ tpz.mobMod =
     TP_USE              = 112, -- Amount of TP mob will use a TP move at(i.e 1500)
     FRIENDLY_FIRE       = 113, -- Can target friendly mobs offensive
     TRUST_DISTANCE      = 114, -- Trust distancing AI
+    RANGED_DELAY        = 115, -- Trust ranged weapon delay
+    AMMO_DELAY          = 116, -- Trust ranged ammo delay
 }
 
 ------------------------------------

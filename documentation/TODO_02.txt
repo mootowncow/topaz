@@ -131,6 +131,8 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+if (state.IsRapidShot()) made to work for trusts in CTrustEntity::OnRangedAttack
+if PAmmo delay part to add the ammo delay?
 Iron Eater Sturmwind only skill list until level 60(Raging Rush level? Check) then Raging Rush + King's Justice skill list
 Trists with crit WS (I.e. Iron Eater and Aldo) need more dex or a special mod to buff their crit rate (tpz.mod.DEX_DURING_WS) during WS / TP moves
 2h Trusts (Iron Eater, Tenzen, Zeid, Shikaree Z) need 2% DA mod level 60+
@@ -153,7 +155,6 @@ Can't summon trusts in "Trial by X" avatar BCNM's
 Audit zonemisc tpz.zoneMisc.TRUST
 If one is CCed sometimes none of them will follow out of combat because of how they pay in a line? This means onRoam pathing
 Scaling food based on level / KI
-if (state.IsRapidShot()) made to work for trusts in CTrustEntity::OnRangedAttack
 Elivira 75 gear
 1: UI with a bar that is a server wide community quest to globally server buff trusts individually. Takes craft mats / drops? I.e. +1% int after filling up exp bar for entire server
 2: Needs custom packet + addon(for UI)
