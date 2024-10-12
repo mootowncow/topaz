@@ -3809,3 +3809,4 @@ INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 280); -- [16011] Lyc. Earri
 INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 281); -- [16011] Lyc. Earring: Status Effect Active(281) - Double Attack 5
 INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 282); -- [16011] Lyc. Earring: Status Effect Active(282) - Double Attack 5
 INSERT INTO `item_latents` VALUES(14764, 25, 3, 13, 198); -- [14764] Minuet Earring: Status Effect Active(198) - ACC 3
+INSERT INTO `item_latents` VALUES(15773, 384, 400, 58, 1); -- [15773] Imperial Ring: In Assault(1) - HASTE_GEAR 400

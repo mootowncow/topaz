@@ -18943,9 +18943,6 @@ INSERT INTO `item_mods` VALUES (15772,12,2);
 INSERT INTO `item_mods` VALUES (15772,13,2);
 INSERT INTO `item_mods` VALUES (15772,14,2);
 INSERT INTO `item_mods` VALUES (15772,245,3);
-INSERT INTO `item_mods` VALUES (15773,167,4); -- (Imperial Ring) 4% Haste
-INSERT INTO `item_mods` VALUES (15773,25,-10); -- (Imperial Ring) -10 Acc
-INSERT INTO `item_mods` VALUES (15773,26,-10); -- (Imperial Ring) -10 RAcc
 INSERT INTO `item_mods` VALUES (15774,25,10); -- (Storm Ring) +10 Acc
 INSERT INTO `item_mods` VALUES (15774,160,5); -- (Storm Ring) Damage Taken +5%
 INSERT INTO `item_mods` VALUES (15775,1,5); -- (Unfettered Ring )
