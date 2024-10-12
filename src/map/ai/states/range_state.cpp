@@ -150,7 +150,10 @@ bool CRangeState::Update(time_point tick)
     {
         if (tick > GetEntryTime() + m_aimTime + m_returnWeaponDelay)
         {
-            ((CCharEntity*)m_PEntity)->m_LastRangedAttackTime = GetEntryTime() + m_aimTime + m_returnWeaponDelay;
+            if (m_PEntity->objtype == TYPE_PC || m_PEntity->objtype == TYPE_TRUST)
+            {
+                m_PEntity->m_LastRangedAttackTime = GetEntryTime() + m_aimTime + m_returnWeaponDelay;
+            }
             return true;
         }
     }
@@ -215,7 +218,7 @@ bool CRangeState::CanUseRangedAttack(CBattleEntity* PTarget, bool isEndOfAttack)
         m_errorMsg = std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget, 0, 0, MSGBASIC_CANNOT_SEE);
         return false;
     }
-    if (distance(m_PEntity->loc.p, PTarget->loc.p) > 25) // changed from 25. Determines max range mob can run before interrupting ranged attack once it begins
+    if (distance(m_PEntity->loc.p, PTarget->loc.p) > 25) // Determines max range mob can run before interrupting ranged attack once it begins
     {
         m_errorMsg = std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget, 0, 0, MSGBASIC_TOO_FAR_AWAY);
         return false;
@@ -233,11 +236,13 @@ bool CRangeState::CanUseRangedAttack(CBattleEntity* PTarget, bool isEndOfAttack)
     }
 
     // There is a slight cooldown on ranged attacks after the previous shot
-    // TODO: Add to trusts
-    if (m_PEntity->objtype == TYPE_PC && m_PEntity->PAI->getTick() - ((CCharEntity*)m_PEntity)->m_LastRangedAttackTime < m_freePhaseTime)
+    if (m_PEntity->objtype == TYPE_PC || m_PEntity->objtype == TYPE_TRUST)
     {
-        m_errorMsg = std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget, 0, 0, MSGBASIC_WAIT_LONGER);
-        return false;
+        if (m_PEntity->PAI->getTick() - m_PEntity->m_LastRangedAttackTime < m_freePhaseTime)
+        {
+            m_errorMsg = std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget, 0, 0, MSGBASIC_WAIT_LONGER);
+            return false;
+        }
     }
 
     return true;

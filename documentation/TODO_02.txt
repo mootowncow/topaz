@@ -135,7 +135,6 @@ Iron Eater Sturmwind only skill list until level 60(Raging Rush level? Check) th
 Trists with crit WS (I.e. Iron Eater and Aldo) need more dex or a special mod to buff their crit rate (tpz.mod.DEX_DURING_WS) during WS / TP moves
 2h Trusts (Iron Eater, Tenzen, Zeid, Shikaree Z) need 2% DA mod level 60+
 Trusts can still get the bug players used to get on WSing as a target dies then losing all TP Add WS state stuff PCs to mobskill state
-CRangeState::CanUseRangedAttack add bottom part to trusts (There is a slight cooldown on ranged attacks after the previous shot) and remove m_LastRangedAttackTime from CTrustController::RangedAttack
 Don't move/path if someone needs to be be cured. Check if has healing spells and then if a party member is below 75% HP don't mnove?
 POtherTrust stuff is what makes trusts follow eachother in CTrustController::DoRoamTick()
 Movement logic if can't see allies then reposition / warp (like can't see enemy logic)
