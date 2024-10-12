@@ -24,7 +24,7 @@ function onMobSpawn(mob)
         [tpz.magic.spell.NAJI] = tpz.trust.message_offset.TEAMWORK_1,
     })
 
-    mob:addSimpleGambit(ai.t.MASTER, ai.c.HPP_LT, 50,
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.PROVOKE)
 
     if mob:getMainLvl() >= 70 then
