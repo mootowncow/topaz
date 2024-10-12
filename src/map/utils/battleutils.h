@@ -148,7 +148,7 @@ namespace battleutils
     uint8           CheckMobMultiHits(CBattleEntity* PEntity);
 
     int16           GetSnapshotReduction(CBattleEntity* battleEntity, int16 delay);
-    int32           GetRangedAttackBonuses(CBattleEntity* battleEntity);
+    int32           GetRangedAttackBonuses(CBattleEntity* battleEntity); // Nothing here yet
     int32           GetRangedAccuracyBonuses(CBattleEntity* battleEntity);
 
     uint8           GetSkillRank(SKILLTYPE SkillID, JOBTYPE JobID);
