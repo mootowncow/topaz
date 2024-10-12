@@ -852,6 +852,7 @@ uint8 CStatusEffectContainer::EraseAllStatusEffect()
             count++;
         }
     }
+    m_POwner->extDataUpdateFlag = true;
     return count;
 }
 
@@ -938,6 +939,7 @@ uint8 CStatusEffectContainer::RemoveAllNegativeEffects()
             count++;
         }
     }
+    m_POwner->extDataUpdateFlag = true;
     return count;
 }
 
@@ -967,6 +969,7 @@ EFFECT CStatusEffectContainer::DispelStatusEffect(EFFECTFLAG flag)
         RemoveStatusEffect(dispelableList.at(rndIdx), true);
         return result;
     }
+    m_POwner->extDataUpdateFlag = true;
     return EFFECT_NONE;
 }
 
@@ -987,6 +990,7 @@ uint8 CStatusEffectContainer::DispelAllStatusEffect(EFFECTFLAG flag)
             count++;
         }
     }
+    m_POwner->extDataUpdateFlag = true;
     return count;
 }
 
@@ -1392,6 +1396,7 @@ CStatusEffect* CStatusEffectContainer::StealStatusEffect(EFFECTFLAG flag)
                                                       oldEffect->GetDuration() / 1000, oldEffect->GetSubID(), oldEffect->GetSubPower(), oldEffect->GetTier());
 
         RemoveStatusEffect(oldEffect, true);
+        m_POwner->extDataUpdateFlag = true;
 
         return EffectCopy;
     }
