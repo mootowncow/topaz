@@ -131,8 +131,10 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Iron Eater Sturmwind only skill list until level 60(Raging Rush level? Check) then Raging Rush + King's Justice skill list
-Trists with crit WS (I.e. Iron Eater and Aldo) need more dex or a special mod to buff their crit rate (tpz.mod.DEX_DURING_WS) during WS / TP moves
+Shikaree Z jumps have usually high miss rates
+Valaineral Prot / Shell himself maybe only set gambits if no WHM in party?
+Sylvie entrust geo-regen not barrier
+Sylvie protectra/shellra(Prob needs spells in sql)
 2h Trusts (Iron Eater, Tenzen, Zeid, Shikaree Z) need 2% DA mod level 60+
 Trusts can still get the bug players used to get on WSing as a target dies then losing all TP Add WS state stuff PCs to mobskill state
 CRangeState::CanUseRangedAttack add bottom part to trusts (There is a slight cooldown on ranged attacks after the previous shot) and remove m_LastRangedAttackTime from CTrustController::RangedAttack
@@ -171,9 +173,21 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Text GIL_MAX on one of the NMs I changed so it won't cap gil
+Nerf Haste II to 20%? (And hastega and animating wail)
+DAGI for monstertpmoves (Copy from weaponskills). Also need for automaton/summon/BLU?. Can probably just add it to getMobDexCritRate() functions and add an arg thats IsRanged
+Remove Swordplay from COR
+Revert Inquartata from COR
+Revert COR sword/dagger skill to era(Did I even change it?)
+Why does plague have 100% land rate on a mob with -95% virus? Plague should also use virus EEM or is its element/effect wrong? (BLU delta thrust add effect)
+Does COR roll buff capacity points? It should
+HELM legendary weapon quests, obscene amounts of rare logs/ores/etc
+BLU killer circle traits nerfed (Dmg part)
+Mobs that spawn like PSU, are invisible then once you come near they spawn. For salvage / Assaults. Also another tier of assaults meant for 6 man (end with a boss of a toau only family mob like Marid)
+mob TP moves only add TP to target if its phys/ranged
+Headbutt did 0 dmg on a miss and not the normal BLU miss msg? Deltathrust works properly
 ALL HELM msgs gold? Like normal crafting skill up msgs. ALso for "due to your skill in x" msgs. If too low level to HELM, red msg?
 Inner Strength do something for JP
-Readd the MDEF based on barspell element to all magic logic. I think it's in monstertpmoves somewhere unused in a function. And affalatus solace adds +5
 Smn pet gifts
 https://github.com/LandSandBoat/server/commit/04595b03ce5b00ec9e4d64a573f31e8c2a8c549c
 Dusk Mask(+1). Remove enhancing replace with something else.
