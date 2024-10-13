@@ -275,7 +275,10 @@ inline int32 CLuaBaseEntity::messageText(lua_State* L)
         }
         else
         { // broadcast in range
-            m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE, new CMessageTextPacket(PTarget, messageID, showName, mode));
+            if (m_PBaseEntity && m_PBaseEntity->loc.zone)
+            {
+                m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE, new CMessageTextPacket(PTarget, messageID, showName, mode));
+            }
         }
     }
     return 0;
