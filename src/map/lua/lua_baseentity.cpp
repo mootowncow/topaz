@@ -267,13 +267,16 @@ inline int32 CLuaBaseEntity::messageText(lua_State* L)
         mode = (uint8)lua_tointeger(L, 4);
     }
 
-    if (m_PBaseEntity->objtype == TYPE_PC)
+    if (m_PBaseEntity)
     {
-        ((CCharEntity*)m_PBaseEntity)->pushPacket(new CMessageTextPacket(PTarget, messageID, showName, mode));
-    }
-    else
-    {//broadcast in range
-        m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE, new CMessageTextPacket(PTarget, messageID, showName, mode));
+        if (m_PBaseEntity->objtype == TYPE_PC)
+        {
+            ((CCharEntity*)m_PBaseEntity)->pushPacket(new CMessageTextPacket(PTarget, messageID, showName, mode));
+        }
+        else
+        { // broadcast in range
+            m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE, new CMessageTextPacket(PTarget, messageID, showName, mode));
+        }
     }
     return 0;
 }
