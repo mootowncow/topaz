@@ -9,7 +9,7 @@ require("scripts/globals/status")
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
     mob:setMod(tpz.mod.CRITHITRATE, 50)
-    mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
     tpz.mix.jobSpecial.config(mob, {
         specials =
         {

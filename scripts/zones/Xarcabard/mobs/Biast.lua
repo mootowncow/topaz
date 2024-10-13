@@ -26,7 +26,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.SDT_FIRE, 50)
     mob:setMod(tpz.mod.SDT_ICE, 85)
     mob:setMod(tpz.mod.REFRESH, 300)
-    mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
     mob:setMobMod(tpz.mobMod.GIL_MAX, 6000) 
     mob:setMobMod(tpz.mobMod.GIL_BONUS, 0)
 end

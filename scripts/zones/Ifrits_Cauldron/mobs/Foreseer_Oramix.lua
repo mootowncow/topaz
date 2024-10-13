@@ -13,7 +13,7 @@ function onMobSpawn(mob)
     mob:addMod(tpz.mod.ACC, 50) 
     mob:addMod(tpz.mod.EVA, 50)
     mob:addMod(tpz.mod.REGEN, 100)
-    mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
     mob:addImmunity(tpz.immunity.SLEEP)
     mob:addImmunity(tpz.immunity.STUN)
 end

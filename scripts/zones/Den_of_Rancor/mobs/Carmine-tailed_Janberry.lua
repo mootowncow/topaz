@@ -9,7 +9,7 @@ mixins =
 -----------------------------------
 function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.SKILL_LIST, 243)
-    mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
 end
 
 function onMobFight(mob, target)
