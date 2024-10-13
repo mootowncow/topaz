@@ -1896,7 +1896,11 @@ end
 
 function getMobDexCritRate(mob, target)
     -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
-    local dDex = mob:getStat(tpz.mod.DEX) - target:getStat(tpz.mod.AGI)
+    local DEX = mob:getStat(tpz.mod.DEX)
+    if mob:isTrust() then
+        DEX = DEX + mob:getMod(tpz.mod.DEX_DURING_WS)
+    end
+    local dDex = DEX - target:getStat(tpz.mod.AGI)
     local dDexAbs = math.abs(dDex)
 
     local sign = 1
@@ -2065,11 +2069,27 @@ function isBlocked(mob, target)
 end
 
 function getMobWSC(mob, params_phys)
-    wsc = (mob:getStat(tpz.mod.STR) * params_phys.str_wsc + mob:getStat(tpz.mod.DEX) * params_phys.dex_wsc +
-        mob:getStat(tpz.mod.VIT) * params_phys.vit_wsc + mob:getStat(tpz.mod.AGI) * params_phys.agi_wsc +
-        mob:getStat(tpz.mod.INT) * params_phys.int_wsc + mob:getStat(tpz.mod.MND) * params_phys.mnd_wsc +
-        mob:getStat(tpz.mod.CHR) * params_phys.chr_wsc)
-        --printf("wsc: %u", wsc)
+    local wsc = 0
+
+    if mob:isTrust() then
+        wsc = (mob:getStat(tpz.mod.STR) + mob:getMod(tpz.mod.STR_DURING_WS)) * params_phys.str_wsc +
+              (mob:getStat(tpz.mod.DEX) + mob:getMod(tpz.mod.DEX_DURING_WS)) * params_phys.dex_wsc +
+              (mob:getStat(tpz.mod.VIT) + mob:getMod(tpz.mod.VIT_DURING_WS)) * params_phys.vit_wsc +
+              (mob:getStat(tpz.mod.AGI) + mob:getMod(tpz.mod.AGI_DURING_WS)) * params_phys.agi_wsc +
+              (mob:getStat(tpz.mod.INT) + mob:getMod(tpz.mod.INT_DURING_WS)) * params_phys.int_wsc +
+              (mob:getStat(tpz.mod.MND) + mob:getMod(tpz.mod.MND_DURING_WS)) * params_phys.mnd_wsc +
+              (mob:getStat(tpz.mod.CHR) + mob:getMod(tpz.mod.CHR_DURING_WS)) * params_phys.chr_wsc
+    else
+        wsc = (mob:getStat(tpz.mod.STR) * params_phys.str_wsc + 
+               mob:getStat(tpz.mod.DEX) * params_phys.dex_wsc +
+               mob:getStat(tpz.mod.VIT) * params_phys.vit_wsc + 
+               mob:getStat(tpz.mod.AGI) * params_phys.agi_wsc +
+               mob:getStat(tpz.mod.INT) * params_phys.int_wsc + 
+               mob:getStat(tpz.mod.MND) * params_phys.mnd_wsc +
+               mob:getStat(tpz.mod.CHR) * params_phys.chr_wsc)
+    end
+
+    --printf("wsc: %u", wsc)
     return wsc
 end
 

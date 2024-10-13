@@ -2106,8 +2106,15 @@ tpz.mod =
     DIVINE_EMBLEM_BONUS     = 1375, -- Enmity bonus on divine emblem.
     AURA_RADIUS             = 1377, -- Increases the range of indi auras. Flat amount. (1 = +1 range, 10 = +10 range)
     NINJUTSU_CASTING_TIME   = 1378, -- Reduces Ninjutsu Casting Time by percentage (e.g. mod value -10 = -10% cast time)
+    STR_DURING_WS           = 1387, -- Bonus STR during WS only
+    DEX_DURING_WS           = 1388, -- Bonus DEX during WS only
+    VIT_DURING_WS           = 1389, -- Bonus VIT during WS only
+    AGI_DURING_WS           = 1390, -- Bonus AGI during WS only
+    INT_DURING_WS           = 1391, -- Bonus INT during WS only
+    MND_DURING_WS           = 1392, -- Bonus MND during WS only
+    CHR_DURING_WS           = 1393, -- Bonus CHR during WS only
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1387 NEXT
+    -- 1394 NEXT
 }
 
 tpz.latent =
