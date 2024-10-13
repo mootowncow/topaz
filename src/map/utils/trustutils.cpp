@@ -681,10 +681,21 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
         // Special case for Zeid II and others who only have Lv3+ skills
         bool onlyHasLv3Skillchains = canFormLv3Skillchain && controller->m_GambitsContainer->tp_skills.empty();
 
-        // Check for high-level weapon skills and level 60+ requirement
-        if ((!canFormLv3Skillchain || PTrust->GetMLevel() >= 60 || onlyHasLv3Skillchains) && (PTrust->GetMLevel() >= 60 || !IsHighLevelWS(skill_id)))
+        // If level 60+, only use high level WS
+        if (PTrust->GetMLevel() >= 60)
         {
-            controller->m_GambitsContainer->tp_skills.emplace_back(skill);
+            if (canFormLv3Skillchain || IsHighLevelWS(skill_id))
+            {
+                controller->m_GambitsContainer->tp_skills.emplace_back(skill);
+            }
+        }
+        else // Use low level weaponskills
+        {
+            // Check for high-level weapon skills and level 60+ requirement
+            if ((!canFormLv3Skillchain || PTrust->GetMLevel() >= 60 || onlyHasLv3Skillchains) && (PTrust->GetMLevel() >= 60 || !IsHighLevelWS(skill_id)))
+            {
+                controller->m_GambitsContainer->tp_skills.emplace_back(skill);
+            }
         }
     }
 }
@@ -830,62 +841,82 @@ void BuildingTrustSkillsTable(CTrustEntity* PTrust)
     }
 }
 
-    bool IsHighLevelWS(uint16 skill_id)
+bool IsHighLevelWS(uint16 skill_id)
+{
+    switch (skill_id)
     {
-        return skill_id == 3469 || skill_id == 212 || skill_id == 3285;
+        case WS_RAGING_FISTS:
+        case WS_DANCING_EDGE:
+        case WS_VORPAL_BLADE:
+        case WS_SICKLE_MOON:
+        case WS_RAMPAGE:
+        case WS_RAGING_RUSH:
+        case WS_GUILLOTINE:
+        case WS_PENTA_THRUST:
+        case WS_BLADE_JIN:
+        case WS_TACHI_YUKIKAZE:
+        case WS_SIDEWINDER:
+        case WS_SLUG_SHOT:
+        case 3285: // CHOREOGRAPHED_CARNAGE
+        case 3469: // TWIRLING_DERVISH
+            return true;
+        default:
+            break;
     }
+    return false;
+}
 
-    int GetEvasionRankForJob(uint8 job)
+int GetEvasionRankForJob(uint8 job)
+{
+    switch (job)
     {
-        switch (job)
-        {
-            case JOB_WAR:
-                return 7;
-            case JOB_MNK:
-                return 3;
-            case JOB_WHM:
-                return 10;
-            case JOB_BLM:
-                return 10;
-            case JOB_RDM:
-                return 9;
-            case JOB_THF:
-                return 1;
-            case JOB_PLD:
-                return 7;
-            case JOB_DRK:
-                return 7;
-            case JOB_BST:
-                return 2;
-            case JOB_BRD:
-                return 9;
-            case JOB_RNG:
-                return 10;
-            case JOB_SAM:
-                return 3;
-            case JOB_NIN:
-                return 2;
-            case JOB_DRG:
-                return 4;
-            case JOB_SMN:
-                return 10;
-            case JOB_BLU:
-                return 8;
-            case JOB_COR:
-                return 9;
-            case JOB_PUP:
-                return 4;
-            case JOB_DNC:
-                return 3;
-            case JOB_SCH:
-                return 10;
-            case JOB_GEO:
-                return 9;
-            case JOB_RUN:
-                return 3;
-            default:
-                return 7; // Default to C rank if no Job. Shouldn't happen.
-        }
+        case JOB_WAR:
+            return 7;
+        case JOB_MNK:
+            return 3;
+        case JOB_WHM:
+            return 10;
+        case JOB_BLM:
+            return 10;
+        case JOB_RDM:
+            return 9;
+        case JOB_THF:
+            return 1;
+        case JOB_PLD:
+            return 7;
+        case JOB_DRK:
+            return 7;
+        case JOB_BST:
+            return 2;
+        case JOB_BRD:
+            return 9;
+        case JOB_RNG:
+            return 10;
+        case JOB_SAM:
+            return 3;
+        case JOB_NIN:
+            return 2;
+        case JOB_DRG:
+            return 4;
+        case JOB_SMN:
+            return 10;
+        case JOB_BLU:
+            return 8;
+        case JOB_COR:
+            return 9;
+        case JOB_PUP:
+            return 4;
+        case JOB_DNC:
+            return 3;
+        case JOB_SCH:
+            return 10;
+        case JOB_GEO:
+            return 9;
+        case JOB_RUN:
+            return 3;
+        default:
+            return 7; // Default to C rank if no Job. Shouldn't happen.
     }
+}
 
 }; // namespace trustutils
