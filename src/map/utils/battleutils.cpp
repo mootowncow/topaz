@@ -6858,9 +6858,6 @@ namespace battleutils
 
     uint8 GetSpellAoEType(CBattleEntity* PCaster, CSpell* PSpell)
     {
-        // This won't set a spell to AOE if it's not normaly AOE if the AOE SQL column for AOE is set to 0
-        // Need to add a new entry to enum SPELLAOE and then add it to the AOE column for each spell you want to be AOE
-        
         // Majesty turns the Cure and Protect spell families into AoE when active
         if (PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_MAJESTY) &&
             (PSpell->getSpellFamily() == SPELLFAMILY_CURE || PSpell->getSpellFamily() == SPELLFAMILY_PROTECT))
