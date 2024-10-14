@@ -252,14 +252,16 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     if attacker:getMainJob() == tpz.job.THF then
         -- Add DEX/AGI bonus to first hit if THF main and valid Sneak/Trick Attack
         if calcParams.sneakApplicable then
+            local sneakAttackBonus = attacker:getJobPointLevel(tpz.jp.SNEAK_ATTACK_EFFECT)  -- 1% per job point
             finaldmg = finaldmg +
                         (attacker:getStat(tpz.mod.DEX) * (1 + attacker:getMod(tpz.mod.SNEAK_ATK_DEX)/100) * calcParams.pdif) *
-                        ((100+(attacker:getMod(tpz.mod.AUGMENTS_SA)))/100)
+                        ((100 + attacker:getMod(tpz.mod.AUGMENTS_SA) + sneakAttackBonus)/100)
         end
         if calcParams.trickApplicable then
+            local trickAttackBonus = attacker:getJobPointLevel(tpz.jp.TRICK_ATTACK_EFFECT)  -- 1% per job point
             finaldmg = finaldmg +
                         (attacker:getStat(tpz.mod.AGI) * (1 + attacker:getMod(tpz.mod.TRICK_ATK_AGI)/100) * calcParams.pdif) *
-                        ((100+(attacker:getMod(tpz.mod.AUGMENTS_TA)))/100)
+                        ((100 + attacker:getMod(tpz.mod.AUGMENTS_TA) + trickAttackBonus)/100)
         end
     end
 

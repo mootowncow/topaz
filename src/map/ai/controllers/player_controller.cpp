@@ -1175,6 +1175,11 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     recast -= (PChar->PJobPoints->GetJobPointValue(JP_EMNITY_DOUSE_RECAST) * 2);
                 }
 
+                if (PAbility->getID() == ABILITY_STEAL)
+                {
+                    recast -= (PChar->PJobPoints->GetJobPointValue(JP_STEAL_RECAST) * 2);
+                }
+
                 PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), recast);
             }
             PChar->pushPacket(new CCharRecastPacket(PChar));

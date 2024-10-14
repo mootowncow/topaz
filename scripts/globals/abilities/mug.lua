@@ -25,8 +25,6 @@ function onUseAbility(player, target, ability, action)
     end
 
     local mugChance = 90 + thfLevel - target:getMainLvl()
-    local dex = player:getStat(tpz.mod.DEX)
-    local agi = player:getStat(tpz.mod.AGI)
 
     if (target:isMob() and math.random(100) < mugChance and target:getMobMod(tpz.mobMod.MUG_GIL) > 0) then
         local purse = target:getMobMod(tpz.mobMod.MUG_GIL)
@@ -56,8 +54,13 @@ function onUseAbility(player, target, ability, action)
     end
 
     -- Deal damage based on DEX + AGI
-    local dmg = (dex + agi) * 5
-    target:takeDamage(dmg, player, tpz.attackType.SPECIAL, tpz.damageType.NONE)
+    local jpValue = player:getJobPointLevel(tpz.jp.MUG_EFFECT) * 5
+    local dex = player:getStat(tpz.mod.DEX)
+    local agi = player:getStat(tpz.mod.AGI)
+    local dmg = (dex + agi) * jpValue
+    if (dmg > 0) then
+        target:takeDamage(dmg, player, tpz.attackType.SPECIAL, tpz.damageType.NONE)
+    end
 
     -- Recover for amount dealt
     if ((player:getMaxHP() - player:getHP()) < dmg) then
