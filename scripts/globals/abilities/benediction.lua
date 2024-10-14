@@ -16,6 +16,7 @@ end
 function onUseAbility(player, target, ability)
     -- To Do: Benediction can remove Charm only while in Assault Mission Lamia No.13
     local removables = utils.GetRemovableEffects()
+    local jpMPRecovery = player:getJobPointLevel(tpz.jp.BENEDICTION_EFFECT) / 100
 
     for i, effect in ipairs(removables) do
         if (target:hasStatusEffect(effect)) then
@@ -36,6 +37,7 @@ function onUseAbility(player, target, ability)
     end
 
     player:updateEnmityFromCure(target, heal)
+    player:addMP(player:getMaxMP() * jpMPRecovery)
     target:addHP(heal)
     target:wakeUp()
 

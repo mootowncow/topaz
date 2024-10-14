@@ -375,8 +375,10 @@ function doEnspell(caster, target, spell, effect)
         potency = 5 + math.floor(5 * enhancingSkill / 100)
     end
 
-    -- Afflatus Misery doubles the potency of enspells
+    -- Afflatus Misery bonuses
     if caster:hasStatusEffect(tpz.effect.AFFLATUS_MISERY) then
+        local jpLevel = caster:getJobPointLevel(tpz.jp.AFFLATUS_MISERY_EFFECT)
+        potency = potency + jpLevel
         potency = potency * 2
     end
 
@@ -399,6 +401,7 @@ function getCurePower(caster, isBlueMagic)
     local power = math.floor(MND/2) + math.floor(VIT/4) + skill
     return power
 end
+
 function getCurePowerOld(caster)
     local MND = caster:getStat(tpz.mod.MND)
     local VIT = caster:getStat(tpz.mod.VIT)
@@ -406,9 +409,11 @@ function getCurePowerOld(caster)
     local power = ((3 * MND) + VIT + (3 * math.floor(skill/5)))
     return power
 end
+
 function getBaseCure(power, divisor, constant, basepower)
     return ((power - basepower) / divisor) + constant
 end
+
 function getBaseCureOld(power, divisor, constant)
     return (power / 2) / divisor + constant
 end
@@ -417,6 +422,9 @@ function getCureFinal(caster, spell, basecure, minCure, isBlueMagic)
     if basecure < minCure then
         basecure = minCure
     end
+
+    -- Add cure potency base mod
+    basecure = basecure + caster:getMod(tpz.mod.CURE_POTENCY_BASE)
 
     local curePot = math.min(caster:getMod(tpz.mod.CURE_POTENCY), 50) / 100 -- caps at 50%
     local curePotII = math.min(caster:getMod(tpz.mod.CURE_POTENCY_II), 30) / 100 -- caps at 30%
@@ -2102,6 +2110,7 @@ function JobPointsMacc(caster, target, spell)
         }
     end
 
+    --printf("JP MACC Bonus: %d", jpMaccBonus)
     return jpMaccBonus
 end
 
@@ -2470,6 +2479,10 @@ function doDivineBanishNuke(caster, target, spell, params)
     
     if caster:isPC() then
         params.dmg = params.dmg + caster:getMerit(tpz.merit.BANISH_EFFECT)
+    end
+
+    if caster:hasStatusEffect(tpz.effect.AFFLATUS_MISERY) then
+        params.dmg = params.dmg + caster:getJobPointLevel(tpz.jp.AFFLATUS_MISERY_EFFECT) *2
     end
 
     --calculate raw damage
@@ -3657,6 +3670,15 @@ function calculateDuration(duration, magicSkill, spellGroup, caster, target, use
     end
 
     return math.floor(duration)
+end
+
+function getRegenDurationBonuses(caster, target)
+    local bonus = 0
+    bonus = bonus + caster:getMod(tpz.mod.REGEN_DURATION)
+    bonus = bonus + caster:getJobPointLevel(tpz.jp.REGEN_DURATION) * 3
+
+    --printf("Regen bonus %d", bonus)
+    return bonus
 end
 
 function calculatePotency(basePotency, magicSkill, caster, target)

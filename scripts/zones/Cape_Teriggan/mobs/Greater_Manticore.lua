@@ -47,6 +47,9 @@ function onMobFight(mob, target)
             mob:setMobMod(tpz.mobMod.FIXATE, entityId)
         end
     end
+    --local enmityList = mob:getEnmityList()
+    --printEnmityList(enmityList)
+    --print(target:getShortID())
 end
 
 

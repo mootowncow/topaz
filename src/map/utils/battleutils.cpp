@@ -5497,9 +5497,14 @@ namespace battleutils
                 {
                     PCurrentMob->PEnmityContainer->UpdateEnmityFromCure(PSource, PTarget->GetMLevel(), amount, (amount == 65535)); // true for "cure v"
                 }
+                else if (PCurrentMob->m_HiPCLvl > 0 && (PTarget->objtype == TYPE_PET || PTarget->objtype == TYPE_TRUST))
+                {
+                    PCurrentMob->PEnmityContainer->UpdateEnmityFromCure(PSource, PTarget->GetMLevel(), amount, (amount == 65535)); // true for "cure v"
+                }
             }
         }
     }
+
 
     // Generate enmity for all targets in range
     void GenerateInRangeEnmity(CBattleEntity* PSource, int16 CE, int16 VE)
@@ -6537,6 +6542,12 @@ namespace battleutils
             // This is used to re-adjust Mod::ACC when the effect wears off
 
             uint16 accBonus = PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_AFFLATUS_MISERY)->GetSubPower();
+
+            // Add JP bonus
+            if (PAttacker->objtype == TYPE_PC)
+            {
+                accBonus += static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(JP_AFFLATUS_MISERY_EFFECT);
+            }
 
             // Per BGWiki, this bonus is thought to cap at +30
             if (accBonus < 30) {

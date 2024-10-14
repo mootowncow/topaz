@@ -67,6 +67,7 @@ enum class Mod
     ENMITY                    = 27, // Enmity
     ENMITY_II                 = 1376,// Enmity II
     ENMITY_LOSS_REDUCTION     = 427, // Reduces Enmity lost when taking damage
+    CURE_ENMITY_REDUCTION     = 1387, // Reduces Enmity generated from cure spells
 
     MATT                      = 28, // Magic Attack
     MDEF                      = 29, // Magic Defense
@@ -758,6 +759,7 @@ enum class Mod
     REGEN_DOWN                = 404, // poison
     CURE_POTENCY              = 374, // % cure potency | bonus from gear is capped at 50
     CURE_POTENCY_II           = 260, // % cure potency II | bonus from gear is capped at 30
+    CURE_POTENCY_BASE         = 1388, // Flat amount of healing added to cures (Before percent bonuses)
     CURE_POTENCY_RCVD         = 375, // % potency of received cure | healer's roll, some items have this
     RANGED_DMG_RATING         = 376, // adds damage rating to ranged weapon
     MAIN_DMG_RANK             = 377, // adds weapon rank to main weapon http://wiki.bluegartr.com/bg/Weapon_Rank
@@ -1082,7 +1084,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1387 NEXT
+    // 1389 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it
