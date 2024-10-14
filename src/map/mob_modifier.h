@@ -129,6 +129,8 @@ enum MOBMODIFIER : int
     MOBMOD_TP_USE              = 112, // TP mob will use a TP move at(i.e 1500)
     MOBMOD_FRIENDLY_FIRE       = 113, // Can target friendly mobs offensively
     MOBMOD_TRUST_DISTANCE      = 114, // Trust distancing AI
+    MOBMOD_RANGED_DELAY        = 115, // Trust ranged weapon delay
+    MOBMOD_AMMO_DELAY          = 116, // Trust ranged ammo delay
 };
 
 #endif

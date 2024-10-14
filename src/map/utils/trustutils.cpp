@@ -398,13 +398,16 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
 
     if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_RANGED]))
     {
+        auto rangedWepDelay = 540;
         rangedWeapon->setDamage(finalDamage * 3);
-        rangedWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
+        rangedWeapon->setDelay((rangedWepDelay * 1000) / 60);
         rangedWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
     }
 
     if (auto* ammoWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_AMMO]))
     {
+        auto rangedAmmoDelay = 90;
+
         ammoWeapon->setDamage(finalDamage);
         ammoWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
         ammoWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);

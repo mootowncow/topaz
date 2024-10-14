@@ -137,7 +137,6 @@ Sylvie entrust geo-regen not barrier
 Sylvie protectra/shellra(Prob needs spells in sql)
 2h Trusts (Iron Eater, Tenzen, Zeid, Shikaree Z) need 2% DA mod level 60+
 Trusts can still get the bug players used to get on WSing as a target dies then losing all TP Add WS state stuff PCs to mobskill state
-CRangeState::CanUseRangedAttack add bottom part to trusts (There is a slight cooldown on ranged attacks after the previous shot) and remove m_LastRangedAttackTime from CTrustController::RangedAttack
 Don't move/path if someone needs to be be cured. Check if has healing spells and then if a party member is below 75% HP don't mnove?
 POtherTrust stuff is what makes trusts follow eachother in CTrustController::DoRoamTick()
 Movement logic if can't see allies then reposition / warp (like can't see enemy logic)
@@ -156,7 +155,6 @@ Can't summon trusts in "Trial by X" avatar BCNM's
 Audit zonemisc tpz.zoneMisc.TRUST
 If one is CCed sometimes none of them will follow out of combat because of how they pay in a line? This means onRoam pathing
 Scaling food based on level / KI
-if (state.IsRapidShot()) made to work for trusts in CTrustEntity::OnRangedAttack
 Elivira 75 gear
 1: UI with a bar that is a server wide community quest to globally server buff trusts individually. Takes craft mats / drops? I.e. +1% int after filling up exp bar for entire server
 2: Needs custom packet + addon(for UI)

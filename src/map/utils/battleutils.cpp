@@ -7425,19 +7425,8 @@ namespace battleutils
     ************************************************************************/
     int32 GetRangedAttackBonuses(CBattleEntity* battleEntity)
     {
-        if (battleEntity->objtype != TYPE_PC)
-        {
-            return 0;
-        }
-
         int32 bonus = 0;
-
-        // Reduction from velocity shot mod
-        if (battleEntity->StatusEffectContainer->HasStatusEffect(EFFECT_VELOCITY_SHOT))
-        {
-            bonus += battleEntity->getMod(Mod::VELOCITY_RATT_BONUS);
-        }
-
+        // Nothing here yet
         return bonus;
     }
 
@@ -7449,11 +7438,6 @@ namespace battleutils
     ************************************************************************/
     int32 GetRangedAccuracyBonuses(CBattleEntity* battleEntity)
     {
-        if (battleEntity->objtype != TYPE_PC)
-        {
-            return 0;
-        }
-
         int32 bonus = 0;
 
         // Bonus from barrage mod
@@ -7461,7 +7445,6 @@ namespace battleutils
         {
             bonus += battleEntity->getMod(Mod::BARRAGE_ACC);
         }
-
         return bonus;
     }
 
