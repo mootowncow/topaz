@@ -6538,6 +6538,12 @@ namespace battleutils
 
             uint16 accBonus = PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_AFFLATUS_MISERY)->GetSubPower();
 
+            // Add JP bonus
+            if (PAttacker->objtype == TYPE_PC)
+            {
+                accBonus += static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(AFFLATUS_MISERY_EFFECT);
+            }
+
             // Per BGWiki, this bonus is thought to cap at +30
             if (accBonus < 30) {
                 accBonus = accBonus + 10;

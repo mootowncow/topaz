@@ -375,8 +375,10 @@ function doEnspell(caster, target, spell, effect)
         potency = 5 + math.floor(5 * enhancingSkill / 100)
     end
 
-    -- Afflatus Misery doubles the potency of enspells
+    -- Afflatus Misery bonuses
     if caster:hasStatusEffect(tpz.effect.AFFLATUS_MISERY) then
+        local jpLevel = caster:getJobPointLevel(tpz.jp.AFFLATUS_MISERY_EFFECT)
+        potency = potency + jpLevel
         potency = potency * 2
     end
 
@@ -417,6 +419,9 @@ function getCureFinal(caster, spell, basecure, minCure, isBlueMagic)
     if basecure < minCure then
         basecure = minCure
     end
+
+    -- Add cure potency base mod
+    basecure = basecure + caster:getMod(tpz.mod.CURE_POTENCY_BASE)
 
     local curePot = math.min(caster:getMod(tpz.mod.CURE_POTENCY), 50) / 100 -- caps at 50%
     local curePotII = math.min(caster:getMod(tpz.mod.CURE_POTENCY_II), 30) / 100 -- caps at 30%
@@ -2486,6 +2491,9 @@ function doDivineBanishNuke(caster, target, spell, params)
     
     if caster:isPC() then
         params.dmg = params.dmg + caster:getMerit(tpz.merit.BANISH_EFFECT)
+        if caster:hasStatusEffect(tpz.effect.AFFLATUS_MISERY) then
+            params.dmg = params.dmg + caster:getJobPointLevel(tpz.jp.AFFLATUS_MISERY_EFFECT) *2
+        end
     end
 
     --calculate raw damage

@@ -2106,8 +2106,10 @@ tpz.mod =
     DIVINE_EMBLEM_BONUS     = 1375, -- Enmity bonus on divine emblem.
     AURA_RADIUS             = 1377, -- Increases the range of indi auras. Flat amount. (1 = +1 range, 10 = +10 range)
     NINJUTSU_CASTING_TIME   = 1378, -- Reduces Ninjutsu Casting Time by percentage (e.g. mod value -10 = -10% cast time)
+    CURE_ENMITY_REDUCTION   = 1387, -- Reduces Enmity generated from cure spells
+    CURE_POTENCY_BASE       = 1388, -- Flat amount of healing added to cures (Before percent bonuses)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1387 NEXT
+    -- 1389 NEXT
 }
 
 tpz.latent =
