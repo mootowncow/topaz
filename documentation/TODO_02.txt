@@ -131,10 +131,10 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-if (state.IsRapidShot()) made to work for trusts in CTrustEntity::OnRangedAttack
-if PAmmo delay part to add the ammo delay?
-Iron Eater Sturmwind only skill list until level 60(Raging Rush level? Check) then Raging Rush + King's Justice skill list
-Trists with crit WS (I.e. Iron Eater and Aldo) need more dex or a special mod to buff their crit rate (tpz.mod.DEX_DURING_WS) during WS / TP moves
+Shikaree Z jumps have usually high miss rates
+Valaineral Prot / Shell himself maybe only set gambits if no WHM in party?
+Sylvie entrust geo-regen not barrier
+Sylvie protectra/shellra(Prob needs spells in sql)
 2h Trusts (Iron Eater, Tenzen, Zeid, Shikaree Z) need 2% DA mod level 60+
 Trusts can still get the bug players used to get on WSing as a target dies then losing all TP Add WS state stuff PCs to mobskill state
 Don't move/path if someone needs to be be cured. Check if has healing spells and then if a party member is below 75% HP don't mnove?
