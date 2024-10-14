@@ -1120,11 +1120,27 @@ function getSpellEnmityBonus(caster, target, spell)
     local enmityBonus = 1
     local skill = spell:getSkillType()
 
-    -- divine emblem Enmity bonus
+    -- Divine Emblem Enmity bonus
     if (skill == tpz.skill.DIVINE_MAGIC or skill == tpz.skill.HEALING_MAGIC) then
         if (caster:hasStatusEffect(tpz.effect.DIVINE_EMBLEM)) then
             enmityBonus = enmityBonus + (0.5 + (caster:getMod(tpz.mod.DIVINE_EMBLEM_BONUS) / 100))
         end
+    end
+
+    -- BLM JP Elemental Seal enmity reduction
+    if (caster:getMainJob() == tpz.job.BLM and skill == tpz.skill.ELEMENTAL_MAGIC) then
+        if caster:hasStatusEffect(tpz.effect.ELEMENTAL_SEAL) then
+            local esJpReduction = caster:getJobPointLevel(tpz.jp.MAGIC_BURST_EMNITY_BONUS) * 3
+            enmityBonus = enmityBonus - (esJpReduction / 100)
+        end
+    end
+
+    local params = {}
+    local burst = calculateMagicBurst(caster, spell, target, params)
+
+    -- Magic Burst enmity bonuses and reductions
+    if (burst > 1.0) then
+        enmityBonus = enmityBonus - (caster:getJobPointLevel(tpz.jp.MAGIC_BURST_EMNITY_BONUS) / 100)
     end
 
     -- printf("Enmity bonus: %f", enmityBonus)
@@ -1342,7 +1358,9 @@ function calculateMagicBurst(caster, spell, target, params)
     modburst = modburst + (caster:getMod(tpz.mod.MAG_BURST_BONUS) / 100)
 
     -- BLM AM2 magic burst bonus merits
-    modburst = modburst + (params.AMIIburstBonus / 100)
+    if (params.AMIIburstBonus ~= nil) then
+        modburst = modburst + (params.AMIIburstBonus / 100)
+    end
 
     -- BLM Job Point: Magic Burst Damage
     modburst = modburst + (caster:getJobPointLevel(tpz.jp.MAGIC_BURST_DMG_BONUS) / 100)
@@ -2269,6 +2287,7 @@ function doElementalNuke(caster, spell, target, spellParams)
     local resistBonus = spellParams.resistBonus
     -- https://www.bluegartr.com/threads/134257-Status-resistance-and-other-miscellaneous-JP-insights
     local spellId = spell:getID()
+
     -- BLM Job Point: Magic Damage Bonus
     if (caster:getMainJob() == tpz.job.BLM) and caster:isPC() then
         DMGMod = DMGMod + caster:getJobPointLevel(tpz.jp.MAGIC_DMG_BONUS)

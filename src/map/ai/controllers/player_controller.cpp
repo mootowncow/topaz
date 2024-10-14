@@ -39,6 +39,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../weapon_skill.h"
 #include "../../roe.h"
 #include "../../utils/petutils.h"
+#include "../../job_points.h"
 
 CPlayerController::CPlayerController(CCharEntity* _PChar) :
     CController(_PChar)
@@ -1167,6 +1168,11 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 if (PAbility->isQuickDraw())
                 {
                     recast -= std::min<int16>(PChar->getMod(Mod::QUICK_DRAW_RECAST), 25);
+                }
+
+                if (PAbility->getID() == ABILITY_ENMITY_DOUSE)
+                {
+                    recast -= (PChar->PJobPoints->GetJobPointValue(JP_EMNITY_DOUSE_RECAST) * 2);
                 }
 
                 PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), recast);
