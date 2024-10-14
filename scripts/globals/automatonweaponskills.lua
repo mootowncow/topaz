@@ -503,7 +503,7 @@ function AutoMagicalWeaponSkill(auto, target, skill, element, params, statmod, b
     -- get weather
     local weatherBonus = getAutoWeatherBonus(auto, element)
     -- get magic attack bonus
-    local magicAttkBonus = getAutoMAB(auto, target)
+    local magicAttkBonus = getAutoMAB(auto, target, element)
 
     -- Do the formula!
     local finaldmg = 0
@@ -1403,13 +1403,13 @@ function getAutoDStat(statmod, auto, target)
     return dSTat
 end
 
-function getAutoMAB(auto, target)
-    -- Get magic attack bonus
+function getAutoMAB(auto, target, element)
     local mab = 100 + auto:getMod(tpz.mod.MATT)
-    --printf("mab %i", mab)
-    -- Get targets mdef
     local mdef = 100 + target:getMod(tpz.mod.MDEF)
-    --printf("mdef %i", mdef)
+
+    -- Add barspell element MDB bonus
+    mdef = mdef + getBarspellElementalMDB(auto, target, element)
+
     -- Get dmg bonus from MAB / MDB
     local magicAttkBonus = mab / mdef
     --printf("magicAttkBonus %i", magicAttkBonus * 100)

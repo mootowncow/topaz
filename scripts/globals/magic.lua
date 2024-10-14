@@ -1483,14 +1483,6 @@ function addBonuses(caster, spell, target, dmg, params)
            mab = mab + ( 10 + caster:getMod(tpz.mod.MAGIC_CRIT_DMG_INCREASE ) )
         end
 
-        local mdefBarBonus = 0
-        if (ele >= tpz.magic.element.FIRE and ele <= tpz.magic.element.WATER) then
-            mab = mab + caster:getMerit(blmMerit[ele])
-            if (target:hasStatusEffect(tpz.magic.barSpell[ele])) then -- bar- spell magic defense bonus
-                mdefBarBonus = target:getStatusEffect(tpz.magic.barSpell[ele]):getSubPower()
-            end
-        end
-
         if caster:isPC() then
             if (casterJob == tpz.job.RDM) then
                 mab = mab + caster:getJobPointLevel(tpz.jp.RDM_MAGIC_ATK_BONUS)
@@ -1499,7 +1491,7 @@ function addBonuses(caster, spell, target, dmg, params)
             end
         end
 
-        mabbonus = (100 + mab) / (100 + target:getMod(tpz.mod.MDEF) + mdefBarBonus)
+        mabbonus = (100 + mab) / (100 + target:getMod(tpz.mod.MDEF) + getBarspellElementalMDB(caster, target, ele))
     end
 
     if (mabbonus < 0) then
@@ -1635,19 +1627,11 @@ function addBonusesAbility(caster, ele, target, dmg, params)
     dmg = math.floor(dmg * dayWeatherBonus)
 
     local mab = 1
-    local mdefBarBonus = 0
-    if
-        ele >= tpz.magic.element.FIRE and
-        ele <= tpz.magic.element.WATER and
-        target:hasStatusEffect(tpz.magic.barSpell[ele])
-    then -- bar- spell magic defense bonus
-        mdefBarBonus = target:getStatusEffect(tpz.magic.barSpell[ele]):getSubPower()
-    end
 
     if (params ~= nil and params.bonusmab ~= nil and params.includemab == true) then
         mab = (100 + caster:getMod(tpz.mod.MATT) + params.bonusmab) / (100 + target:getMod(tpz.mod.MDEF) + mdefBarBonus)
     elseif (params == nil or (params ~= nil and params.includemab == true)) then
-        mab = (100 + caster:getMod(tpz.mod.MATT)) / (100 + target:getMod(tpz.mod.MDEF) + mdefBarBonus)
+        mab = (100 + caster:getMod(tpz.mod.MATT)) / (100 + target:getMod(tpz.mod.MDEF) + getBarspellElementalMDB(caster, target, ele))
     end
 
     if (mab < 0) then
@@ -3756,6 +3740,17 @@ function isNoEffectMsg(caster, target, effect, params)
     -- TODO: Dimishing returns check too?
 
     return false
+end
+
+function getBarspellElementalMDB(caster, target, element)
+    local mdefBarBonus = 0
+    if (element >= tpz.magic.element.FIRE and element <= tpz.magic.element.WATER) then
+        if (target:hasStatusEffect(tpz.magic.barSpell[element])) then -- bar- spell magic defense bonus
+            mdefBarBonus = target:getStatusEffect(tpz.magic.barSpell[element]):getSubPower()
+        end
+    end
+
+    return mdefBarBonus
 end
 
 -- Output magic hit rate for all levels
