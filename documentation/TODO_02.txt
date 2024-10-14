@@ -173,12 +173,32 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Text GIL_MAX on one of the NMs I changed so it won't cap gil
-Nerf Haste II to 20%? (And hastega and animating wail)
-DAGI for monstertpmoves (Copy from weaponskills). Also need for automaton/summon/BLU?. Can probably just add it to getMobDexCritRate() functions and add an arg thats IsRanged
+Sealed shrine ZM17 mission stuff missing from gilgamesh and ruan gardens or w/e
+    elseif (ZilartMission == tpz.mission.id.zilart.THE_SEALED_SHRINE) then
+        player:startEvent(172)
+Shield / Weapon / Blade bash should count as phys and get absorbed by phys absorb (Need to add check to their files)
+Serket / Roc model size too small?
+Za'Dha Adamantking modelsize too big? (WOTG - The Buried God)
+Avatar(And automaton?) phys dmg ignoring positional? Autos too?
+
+SCNM:
+Coinbiter Cjaknokk used all TP moves but should only be using Shoulder Charge...
+Coinbiter Cjaknokk also casts waaay too often?
+Shatterskull Mipppdapp wep dmg too high(MNK). Check other MNK NMs in all strongholds(mostly yagudo)
+Put everyone on enmity table on engage(zone wide aggro). Don't allow super tanking
+Blifnix Oilycheeks mines (and all mob mines) should detect hostile eneities (pets/trusts/allys) and not just players
+Di'Zho Spongeshell bugged enmity if you heal him? It caps your enmtiy? Or an SC being absorbed does?
+Mu'Nhi Thimbletail runs forever and never stops running? Keeps going out of bounds ;/ Is his pathing logic messed up now? Also set a circle of bounds for him to stay inside of / run around in
+All "WOTG" qwuadavs have the wrong animation for Ore Lob
+Trading Quadav Charm to the gate breaks the item and gets it stuck "locked"
+
+COR:
 Remove Swordplay from COR
 Revert Inquartata from COR
 Revert COR sword/dagger skill to era(Did I even change it?)
+
+Nerf Haste II to 20%? (And hastega and animating wail)
+DAGI for monstertpmoves (Copy from weaponskills). Also need for automaton/summon/BLU?. Can probably just add it to getMobDexCritRate() functions and add an arg thats IsRanged
 Why does plague have 100% land rate on a mob with -95% virus? Plague should also use virus EEM or is its element/effect wrong? (BLU delta thrust add effect)
 Does COR roll buff capacity points? It should
 HELM legendary weapon quests, obscene amounts of rare logs/ores/etc
