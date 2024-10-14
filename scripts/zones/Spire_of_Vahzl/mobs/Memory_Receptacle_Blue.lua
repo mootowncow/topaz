@@ -10,12 +10,14 @@ require("scripts/globals/magic")
 -----------------------------------
 
 function onMobSpawn(mob)
-    mob:addMod(tpz.mod.ATTP, 10)
-    mob:addMod(tpz.mod.DEFP, 20) 
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+    mob:setMobMod(tpz.mobMod.DONT_FOLLOW_TARGET, 1)
+    mob:SetAutoAttackEnabled(false)
+    mob:speed(0)
 end
 
 function onMobFight(mob, target)
+    local rotationTimer = mob:getLocalVar("rotationTimer")
     if mob:getTP() > 0 then
         mob:setTP(0)
     end
@@ -28,5 +30,4 @@ function onMobDeath(mob, player, isKiller, noKiller)
     Add:spawn()
     Add:updateEnmity(player)
     Red:delStatusEffectSilent(tpz.effect.ARROW_SHIELD)
-    printf("Delete status - Arrow Shield");
 end
