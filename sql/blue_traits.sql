@@ -25,10 +25,10 @@ CREATE TABLE `blue_traits` (
 -- Records 
 -- ----------------------------
 INSERT INTO `blue_traits` VALUES (1, 2, 32, 230, 8); -- Beast Killer
-INSERT INTO `blue_traits` VALUES (1, 2, 32, 1230, 8); -- Beast Killer
+INSERT INTO `blue_traits` VALUES (1, 2, 32, 1230, 5); -- Beast Killer
 INSERT INTO `blue_traits` VALUES (2, 2, 9, 370, 1); -- Auto Regen
 INSERT INTO `blue_traits` VALUES (3, 2, 35, 227, 8); -- Lizard Killer
-INSERT INTO `blue_traits` VALUES (3, 2, 35, 1227, 8); -- Lizard Killer
+INSERT INTO `blue_traits` VALUES (3, 2, 35, 1227, 5); -- Lizard Killer
 INSERT INTO `blue_traits` VALUES (4, 2, 24, 71, 3); -- Clear Mind
 INSERT INTO `blue_traits` VALUES (4, 4, 24, 71, 6); -- Clear Mind II
 INSERT INTO `blue_traits` VALUES (4, 6, 24, 71, 9); -- Clear Mind III
@@ -40,7 +40,7 @@ INSERT INTO `blue_traits` VALUES (6, 4, 5, 28, 24); -- Magic Attack Bonus II
 INSERT INTO `blue_traits` VALUES (6, 6, 5, 28, 28); -- Magic Attack Bonus III
 INSERT INTO `blue_traits` VALUES (6, 8, 5, 28, 32); -- Magic Attack Bonus IV
 INSERT INTO `blue_traits` VALUES (7, 2, 39, 231, 8); -- Undead Killer
-INSERT INTO `blue_traits` VALUES (7, 2, 39, 1231, 8); -- Undead Killer
+INSERT INTO `blue_traits` VALUES (7, 2, 39, 1231, 5); -- Undead Killer
 INSERT INTO `blue_traits` VALUES (8, 2, 3, 23, 10); -- Attack Bonus
 INSERT INTO `blue_traits` VALUES (8, 2, 3, 24, 10); -- Attack Bonus
 INSERT INTO `blue_traits` VALUES (8, 4, 3, 23, 22); -- Attack Bonus II
@@ -59,7 +59,7 @@ INSERT INTO `blue_traits` VALUES (11, 4, 4, 1321, 22); -- Defense Bonus II
 INSERT INTO `blue_traits` VALUES (11, 6, 4, 1321, 35); -- Defense Bonus III
 INSERT INTO `blue_traits` VALUES (11, 8, 4, 1321, 48); -- Defense Bonus IV
 INSERT INTO `blue_traits` VALUES (12, 2, 33, 229, 8); -- Plantoid Killer
-INSERT INTO `blue_traits` VALUES (12, 2, 33, 1229, 8); -- Plantoid Killer
+INSERT INTO `blue_traits` VALUES (12, 2, 33, 1229, 5); -- Plantoid Killer
 INSERT INTO `blue_traits` VALUES (13, 2, 6, 29, 10);    -- Magic Defense Bonus
 INSERT INTO `blue_traits` VALUES (13, 4, 6, 29, 12);    -- Magic Defense Bonus II 
 INSERT INTO `blue_traits` VALUES (13, 6, 6, 29, 14);    -- Magic Defense Bonus III
