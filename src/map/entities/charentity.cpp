@@ -1605,6 +1605,11 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast -= std::min<int16>(getMod(Mod::QUICK_DRAW_RECAST), 25);
         }
 
+        if (PAbility->getID() == ABILITY_ENMITY_DOUSE)
+        {
+            action.recast -= (PJobPoints->GetJobPointValue(JP_EMNITY_DOUSE_RECAST) * 2);
+        }
+
         if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR)
         {
             action.recast -= getMod(Mod::ONE_HOUR_RECAST);
