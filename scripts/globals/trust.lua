@@ -884,6 +884,7 @@ function AddDuringWSMods(mob, type)
             mob:addMod(tpz.mod.STR_DURING_WS, 30)
             mob:addMod(tpz.mod.AGI_DURING_WS, 10)
         elseif (type == 'Caster') then
+            -- TODO
         end
     end
 end
@@ -974,7 +975,7 @@ function AddFoodBonuses(mob)
     local job = mob:getMainJob()
     local master = mob:getMaster()
 
-    if (job ~= tpz.job.PLD) then
+    if (job ~= tpz.job.PLD) then -- Ranged / Melee
         if mobLevel >= 1 and mobLevel < 75 then
             mob:addMod(tpz.mod.STR, 5)
             mob:addMod(tpz.mod.AGI, 1)
@@ -993,13 +994,13 @@ function AddFoodBonuses(mob)
             mob:addMod(tpz.mod.FOOD_RACC_CAP, 72)
             mob:addMod(tpz.mod.SLEEPRESTRAIT, 1)
         end
-    elseif (job == tpz.job.BLM) or (job == tpz.job.SCH) then
+    elseif (job == tpz.job.BLM) or (job == tpz.job.SCH) then -- Casters
         mob:addMod(tpz.mod.MP, 25)
         mob:addMod(tpz.mod.CHR, -2)
         mob:addMod(tpz.mod.INT, 2)
         mob:addMod(tpz.mod.FOOD_MACCP, 21)
         mob:addMod(tpz.mod.FOOD_MACC_CAP, 10)
-    else
+    else -- Tank
         if mobLevel >= 1 and mobLevel < 75 then
             mob:addMod(tpz.mod.STR, 5)
             mob:addMod(tpz.mod.AGI, 1)

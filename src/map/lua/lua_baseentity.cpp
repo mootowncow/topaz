@@ -16693,20 +16693,8 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                               {
                                   if (PMob)
                                   {
-                                      int16 tp = PMob->health.tp;
-                                      if (PMob->objtype == TYPE_MOB && PMob->allegiance == ALLEGIANCE_PLAYER) // NPCs
-                                      {
-                                          // Add Fencer TP Bonus
-                                          CMobEntity* PMobAttacker = static_cast<CMobEntity*>(PMob);
-                                          CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PMobAttacker->m_Weapons[SLOT_MAIN]);
-                                          if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
-                                          {
-                                              if (!PMobAttacker->m_dualWield)
-                                              {
-                                                tp += PMobAttacker->getMod(Mod::FENCER_TP_BONUS);
-                                              }
-                                          }
-                                      }
+                                      int16 tp = battleutils::CalculateWeaponSkillTP(PMob, 0, PMob->health.tp);
+
                                       tp = std::min(static_cast<int>(tp), 3000);
                                       PMob->SetLocalVar("tp", tp);
                                   }
