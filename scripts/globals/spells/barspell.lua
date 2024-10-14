@@ -23,6 +23,7 @@ function calculateBarspellPower(caster, enhanceSkill)
         --power = 40 + math.floor(enhanceSkill * 0.2)
         power = 40 + math.floor(enhanceSkill / 5)
     end
+
     return power + meritBonus + jobPointBonus + equipBonus
 end
 

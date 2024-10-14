@@ -237,7 +237,7 @@ void CEnmityContainer::UpdateEnmityFromCure(CBattleEntity* PEntity, uint8 level,
     int32 VE = 0;
     float bonus = CalculateEnmityBonus(PEntity);
     float tranquilHeartReduction = 1.f - battleutils::HandleTranquilHeart(PEntity);
-    float cureEnmityReduction = 1.f - (PEntity->getMod(Mod::CURE_ENMITY_REDUCTION) / 100);
+    float cureEnmityReduction = 1.f - (PEntity->getMod(Mod::CURE_ENMITY_REDUCTION) / 100.0f);
 
     if (isCureV)
     {

@@ -5497,9 +5497,14 @@ namespace battleutils
                 {
                     PCurrentMob->PEnmityContainer->UpdateEnmityFromCure(PSource, PTarget->GetMLevel(), amount, (amount == 65535)); // true for "cure v"
                 }
+                else if (PCurrentMob->m_HiPCLvl > 0 && (PTarget->objtype == TYPE_PET || PTarget->objtype == TYPE_TRUST))
+                {
+                    PCurrentMob->PEnmityContainer->UpdateEnmityFromCure(PSource, PTarget->GetMLevel(), amount, (amount == 65535)); // true for "cure v"
+                }
             }
         }
     }
+
 
     // Generate enmity for all targets in range
     void GenerateInRangeEnmity(CBattleEntity* PSource, int16 CE, int16 VE)

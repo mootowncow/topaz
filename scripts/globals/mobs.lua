@@ -1210,3 +1210,24 @@ function ApplyConfrontation(mob, entity)
         entity:addStatusEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
     end
 end
+
+function printEnmityList(enmityList)
+    if enmityList then
+        for i = 1, #enmityList do
+            local target = enmityList[i]
+            if target then
+                print("Target " .. i .. ":")
+                print("  Entity ID: " .. tostring(target.entity:getID()))  -- global identifier unique on the server (i.e. ID used in mob_spawn_points.sql)
+                print("  Short Entity ID: " .. tostring(target.entity:getShortID()))  -- local identifier unique to the zone (i.e. 1920)
+                print("  Entity: " .. tostring(target.entity))
+                print("  CE: " .. target.ce)
+                print("  VE: " .. target.ve)
+                print("  Active: " .. tostring(target.active))
+                print("  Tameable: " .. tostring(target.tameable))
+            end
+        end
+    else
+        print("No enmity list available.")
+    end
+end
+
