@@ -6541,7 +6541,7 @@ namespace battleutils
             // Add JP bonus
             if (PAttacker->objtype == TYPE_PC)
             {
-                accBonus += static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(AFFLATUS_MISERY_EFFECT);
+                accBonus += static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(JP_AFFLATUS_MISERY_EFFECT);
             }
 
             // Per BGWiki, this bonus is thought to cap at +30
