@@ -176,6 +176,7 @@ Sealed shrine ZM17 mission stuff missing from gilgamesh and ruan gardens or w/e
         player:startEvent(172)
 Shield / Weapon / Blade bash should count as phys and get absorbed by phys absorb (Need to add check to their files)
 Serket / Roc / Simurgh model size too small?
+Aspid and adamantoise model size too small by like 2 model sizes for aspid. They both need different sizes
 Za'Dha Adamantking modelsize too big? (WOTG - The Buried God)
 Avatar(And automaton?) phys dmg ignoring positional? Autos too?
 
