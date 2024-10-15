@@ -104,10 +104,9 @@ function onUseAbility(player, target, ability)
     -- printf("damge %d, ratio: %f, pdif: %d\n", damage, ratio, pdif)
     damage = damage * (pdif / 1000)
 
-    -- Check for Invincible
-    if target:hasStatusEffect(tpz.effect.INVINCIBLE) then
-        damage = 0
-    end
+    -- Apply reductions
+    damage = utils.HandlePositionalPDT(mob, target, damage)
+    damage = target:physicalDmgTaken(damage, tpz.damageType.BLUNT)
 
     -- Check for phalanx + stoneskin
     if (damage > 0) then

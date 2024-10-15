@@ -14,5 +14,8 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    local jpValue = player:getJobPointLevel(tpz.jp.INVINCIBLE_EFFECT) * 100
+
+    ability:setVE(ability:getVE() + jpValue)
     player:addStatusEffect(tpz.effect.INVINCIBLE, 1, 0, 30)
 end

@@ -19,8 +19,12 @@ function onUseAbility(player, target, ability)
     if player:isPC() then
         shieldSize = player:getShieldSize()
     end
-    local jpValue    = 1 + (player:getJobPointLevel(tpz.jp.INTERVENE_EFFECT) / 100)
+    local jpValue    = 1 + ((player:getJobPointLevel(tpz.jp.INTERVENE_EFFECT) * 2) / 100)
     local damage     = math.floor(player:getMainLvl() * 3.36)
+
+    if not player:isPC() then
+        shieldSize = player:getMobMod(tpz.mobMod.BLOCK)
+    end
 
     if shieldSize == 2 then
         damage = 13 + damage
@@ -48,13 +52,11 @@ function onUseAbility(player, target, ability)
     -- printf("damge %d, ratio: %f, pdif: %d\n", damage, ratio, pdif)
     damage = damage * (pdif / 1000)
 
-    -- Check for Invincible
-    if target:hasStatusEffect(tpz.effect.INVINCIBLE) then
-        damage = 0
-    end
+    -- Apply reductions
+    damage = utils.HandlePositionalPDT(mob, target, damage)
+    damage = target:physicalDmgTaken(damage, tpz.damageType.BLUNT)
 
     -- Check for phalanx + stoneskin
-
     if (damage > 0) then
         damage = damage - target:getMod(tpz.mod.PHALANX)
         local attackType = tpz.attackType.PHYSICAL

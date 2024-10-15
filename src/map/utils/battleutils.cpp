@@ -6755,6 +6755,60 @@ namespace battleutils
         return damage;
     }
 
+    int32 HandleCircleDamageReduction(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage)
+    {
+        if (m_victim->objtype != TYPE_PC && m_damage > 0)
+        {
+            uint16 circlemult = 100;
+
+            switch (m_victim->m_EcoSystem)
+            {
+                case SYSTEM_AMORPH:
+                    circlemult += m_attacker->getMod(Mod::AMORPH_CIRCLE);
+                    break;
+                case SYSTEM_AQUAN:
+                    circlemult += m_attacker->getMod(Mod::AQUAN_CIRCLE);
+                    break;
+                case SYSTEM_ARCANA:
+                    circlemult += m_attacker->getMod(Mod::ARCANA_CIRCLE);
+                    break;
+                case SYSTEM_BEAST:
+                    circlemult += m_attacker->getMod(Mod::BEAST_CIRCLE);
+                    break;
+                case SYSTEM_BIRD:
+                    circlemult += m_attacker->getMod(Mod::BIRD_CIRCLE);
+                    break;
+                case SYSTEM_DEMON:
+                    circlemult += m_attacker->getMod(Mod::DEMON_CIRCLE);
+                    break;
+                case SYSTEM_DRAGON:
+                    circlemult += m_attacker->getMod(Mod::DRAGON_CIRCLE);
+                    break;
+                case SYSTEM_LIZARD:
+                    circlemult += m_attacker->getMod(Mod::LIZARD_CIRCLE);
+                    break;
+                case SYSTEM_LUMINION:
+                    circlemult += m_attacker->getMod(Mod::LUMINION_CIRCLE);
+                    break;
+                case SYSTEM_LUMORIAN:
+                    circlemult += m_attacker->getMod(Mod::LUMORIAN_CIRCLE);
+                    break;
+                case SYSTEM_PLANTOID:
+                    circlemult += m_attacker->getMod(Mod::PLANTOID_CIRCLE);
+                    break;
+                case SYSTEM_UNDEAD:
+                    circlemult += m_attacker->getMod(Mod::UNDEAD_CIRCLE);
+                    break;
+                case SYSTEM_VERMIN:
+                    circlemult += m_attacker->getMod(Mod::VERMIN_CIRCLE);
+                    break;
+                default:
+                    break;
+            }
+            m_damage = m_damage * circlemult / 100;
+        }
+    }
+
     int32 HandlePositionalPDT(CBattleEntity* PDefender, int32 damage)
     {
         auto PAttacker = PDefender->GetBattleTarget();
