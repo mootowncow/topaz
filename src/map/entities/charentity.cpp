@@ -1610,6 +1610,11 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast -= (PJobPoints->GetJobPointValue(JP_EMNITY_DOUSE_RECAST) * 2);
         }
 
+        if (PAbility->getID() == ABILITY_STEAL)
+        {
+            action.recast -= (PJobPoints->GetJobPointValue(JP_STEAL_RECAST) * 2);
+        }
+
         if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR)
         {
             action.recast -= getMod(Mod::ONE_HOUR_RECAST);

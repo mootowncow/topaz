@@ -3287,8 +3287,18 @@ namespace battleutils
                     }
                 }
 
+                uint32 conspiratorBonus = 0;
+                // Conspirator Subtle Blow bonus. Calculated at time of attack. No effect if attacker is currently the top enmity for their target
+                if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_CONSPIRATOR))
+                {
+                    if (!battleutils::IsTopEnmity(PAttacker, PDefender))
+                    {
+                        conspiratorBonus += 15;
+                    }
+                }
+
                 //account for attacker's subtle blow which reduces the baseTP gain for the defender
-                float sBlow1 = std::clamp((float)(PAttacker->getMod(Mod::SUBTLE_BLOW) + sBlowMerit), -50.0f, 50.0f);
+                float sBlow1 = std::clamp((float)(PAttacker->getMod(Mod::SUBTLE_BLOW) + sBlowMerit + conspiratorBonus), -50.0f, 50.0f);
                 float sBlow2 = std::clamp((float)PAttacker->getMod(Mod::SUBTLE_BLOW_II), -50.0f, 50.0f);
                 float sBlowMult = ((100.0f - std::clamp((float)(sBlow1 + sBlow2), -75.0f, 75.0f)) / 100.0f);
 
@@ -3437,8 +3447,18 @@ namespace battleutils
                 }
             }
 
+            uint32 conspiratorBonus = 0;
+            // Conspirator Subtle Blow bonus. Calculated at time of attack. No effect if attacker is currently the top enmity for their target
+            if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_CONSPIRATOR))
+            {
+                if (!battleutils::IsTopEnmity(PAttacker, PDefender))
+                {
+                    conspiratorBonus += 15;
+                }
+            }
+
             //account for attacker's subtle blow which reduces the baseTP gain for the defender
-            float sBlow1 = std::clamp((float)(PAttacker->getMod(Mod::SUBTLE_BLOW) + sBlowMerit), -50.0f, 50.0f);
+            float sBlow1 = std::clamp((float)(PAttacker->getMod(Mod::SUBTLE_BLOW) + sBlowMerit + conspiratorBonus), -50.0f, 50.0f);
             float sBlow2 = std::clamp((float)PAttacker->getMod(Mod::SUBTLE_BLOW_II), -50.0f, 50.0f);
             float sBlowMult = ((100.0f - std::clamp((float)(sBlow1 + sBlow2), -75.0f, 75.0f)) / 100.0f);
 
@@ -3662,7 +3682,7 @@ namespace battleutils
 
             hitrate = std::clamp(hitrate, 20, maxHitRate);
         }
-        //ShowDebug("hitrate %i\n", hitrate)
+        //ShowDebug("[%s] hitrate %i\n", PAttacker->name, hitrate);
         return static_cast<uint8>(hitrate);
     }
     uint8 GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender)
@@ -8317,6 +8337,7 @@ namespace battleutils
         if (absorbedMP > 0)
             PDefender->addMP(absorbedMP);
     }
+
     void HandlePlayerAbilityUsed(CBattleEntity* PSource, CAbility* PAbility, action_t* action)
     {
         TPZ_DEBUG_BREAK_IF(PSource == nullptr);
@@ -8349,5 +8370,18 @@ namespace battleutils
                 }
             }
         }
+    }
+
+    bool IsTopEnmity(CBattleEntity* PAttacker, CBattleEntity* PDefender)
+    {
+        if (PDefender->objtype == TYPE_MOB)
+        if (auto PMob = dynamic_cast<CMobEntity*>(PAttacker->GetBattleTarget()))
+        {
+            if (PMob->PEnmityContainer->GetHighestEnmity() == PAttacker)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 };

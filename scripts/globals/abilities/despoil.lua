@@ -73,6 +73,7 @@ function onUseAbility(player, target, ability, action)
     local despoilMod = player:getMod(tpz.mod.DESPOIL)
     -- 50% base chance
     local despoilChance = 50 + despoilMod + level - target:getMainLvl() -- Same math as Steal
+    local fail = false
 
     despoilChance = utils.clamp(despoilChance, 5, 50) -- Cap at 50% chance
 
@@ -96,9 +97,26 @@ function onUseAbility(player, target, ability, action)
     else
         action:animation(target:getID(), 182)
         ability:setMsg(tpz.msg.basic.STEAL_FAIL) -- Failed
-        return 0
+        fail = true
     end
 
-    return stolen
+    local jpValue = player:getJobPointLevel(tpz.jp.DESPOIL_EFFECT) * 2
+    local tpStolen = target:getTP() * (jpValue / 100)
+
+    if ((target:getTP()) < tpStolen) then
+        tpStolen = target:getTP()
+    end
+
+    player:addTP(tpStolen)
+    target:addTP(-tpStolen)
+
+    if fail and (tpStolen > 0) then
+        action:animation(target:getID(), 184)
+        action:additionalEffect(target:getID(),tpz.subEffect.TP_DRAIN)
+        ability:setMsg(tpz.msg.basic.ADD_EFFECT_TP_DRAIN)
+        return tpStolen
+    else
+        return stolen
+    end
 end
 

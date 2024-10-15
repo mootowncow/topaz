@@ -249,6 +249,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     finaldmg = finaldmg + hitdmg
 
     -- Have to calculate added bonus for SA/TA here since it is done outside of the fTP multiplier
+    -- JP is automatically added to the SA/TA effect as SNEAK_ATK_DEX and TRICK_ATK_AGI mods
     if attacker:getMainJob() == tpz.job.THF then
         -- Add DEX/AGI bonus to first hit if THF main and valid Sneak/Trick Attack
         if calcParams.sneakApplicable then
@@ -944,18 +945,22 @@ function getHitRate(attacker, target, capHitRate, firsthit, bonus)
         bonus = 0
     end
 
-    if target:isPC() then
-        if (attacker:hasStatusEffect(tpz.effect.INNIN) and attacker:isBehind(target, 90)) then -- Innin acc boost if attacker is behind target
-            bonus = bonus + (attacker:getStatusEffect(tpz.effect.INNIN):getPower() + attacker:getJobPointLevel(tpz.jp.INNIN_EFFECT))
-        end
-        if (target:hasStatusEffect(tpz.effect.YONIN) and attacker:isFacing(target, 90)) then -- Yonin evasion boost if attacker is facing target
-            bonus = bonus - (target:getStatusEffect(tpz.effect.YONIN):getPower() + target:getJobPointLevel(tpz.jp.YONIN_EFFECT))
-        end
+    if (attacker:hasStatusEffect(tpz.effect.INNIN) and attacker:isBehind(target, 90)) then -- Innin acc boost if attacker is behind target
+        bonus = bonus + (attacker:getStatusEffect(tpz.effect.INNIN):getPower() + attacker:getJobPointLevel(tpz.jp.INNIN_EFFECT))
+    end
+    if (target:hasStatusEffect(tpz.effect.YONIN) and attacker:isFacing(target, 90)) then -- Yonin evasion boost if attacker is facing target
+        bonus = bonus - (target:getStatusEffect(tpz.effect.YONIN):getPower() + target:getJobPointLevel(tpz.jp.YONIN_EFFECT))
+    end
 
-        if attacker:hasTrait(tpz.trait.AMBUSH) then
-            if target:hasStatusEffect(tpz.effect.DOUBT) or attacker:isBehind(target, 90) then --TRAIT_AMBUSH
-                bonus = bonus + attacker:getMerit(tpz.merit.AMBUSH)
-            end
+    if attacker:hasTrait(tpz.trait.AMBUSH) then
+        if target:hasStatusEffect(tpz.effect.DOUBT) or attacker:isBehind(target, 90) then --TRAIT_AMBUSH
+            bonus = bonus + attacker:getMerit(tpz.merit.AMBUSH)
+        end
+    end
+
+    if attacker:hasStatusEffect(tpz.effect.CONSPIRATOR) then
+        if not attacker:isTopEnmity(target) then
+            bonus = bonus + 10
         end
     end
 
@@ -1072,8 +1077,16 @@ function cMeleeRatio(attacker, defender, params, ignoredDef, tp)
     if flourisheffect ~= nil and flourisheffect:getPower() > 1 then
         attacker:addMod(tpz.mod.ATTP, 25 + flourisheffect:getSubPower() / 2)
     end
+
+    local conspiratorBonus = 0
+    if attacker:hasStatusEffect(tpz.effect.CONSPIRATOR) then
+        if not attacker:isTopEnmity(defender) then
+            conspiratorBonus = attacker:getMod(tpz.mod.AUGMENTS_CONSPIRATOR)
+        end
+    end
+
     local atkmulti = fTP(tp, params.atk100, params.atk200, params.atk300)
-    local cratio = (attacker:getStat(tpz.mod.ATT) * atkmulti) / (defender:getStat(tpz.mod.DEF) - ignoredDef)
+    local cratio = ((attacker:getStat(tpz.mod.ATT) + conspiratorBonus) * atkmulti) / (defender:getStat(tpz.mod.DEF) - ignoredDef)
     cratio = utils.clamp(cratio, 0, 2.25)
     if flourisheffect ~= nil and flourisheffect:getPower() > 1 then
         attacker:delMod(tpz.mod.ATTP, 25 + flourisheffect:getSubPower() / 2)
