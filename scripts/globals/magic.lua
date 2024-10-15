@@ -1284,7 +1284,7 @@ function finalMagicAdjustments(caster, target, spell, dmg)
             if (dmg > 0) then
                 if (target:getObjType() ~= tpz.objType.PC) then
                     local tpGiven = utils.CalculateSpellTPGiven(caster, target)
-                    -- printf("TP given: %d", tpGiven)
+                    --printf("TP given: %d", tpGiven)
                     target:addTP(tpGiven)
                 end
             end

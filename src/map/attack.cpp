@@ -33,6 +33,7 @@
 #include "job_points.h"
 
 #include <math.h>
+#include "ai/controllers/trust_controller.h"
 
 /************************************************************************
 *																		*
@@ -128,6 +129,25 @@ void CAttack::SetCritical(bool value)
                 {
                     flatAttBonus = PChar->PJobPoints->GetJobPointValue(JP_DOUBLE_ATTACK_EFFECT);
                 }
+            }
+        }
+        else if (m_attackType == PHYSICAL_ATTACK_TYPE::TRIPLE)
+        {
+            if (m_attacker->objtype == TYPE_PC)
+            {
+                if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_attacker))
+                {
+                    flatAttBonus = PChar->PJobPoints->GetJobPointValue(JP_TRIPLE_ATTACK_EFFECT);
+                }
+            }
+        }
+
+        // Conspirator ATT bonus. Calculated at time of attack. No effect if attacker is currently the top enmity for their target
+        if (m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_CONSPIRATOR))
+        {
+            if (!battleutils::IsTopEnmity(m_attacker, m_victim))
+            {
+                flatAttBonus += m_attacker->getMod(Mod::AUGMENTS_CONSPIRATOR);
             }
         }
 
@@ -303,6 +323,20 @@ uint16 CAttack::GetAnimationID()
 ************************************************************************/
 uint8 CAttack::GetHitRate()
 {
+    uint8 accBonus = 0;
+
+    // Conspirator ACC bonus. Calculated at time of attack. No effect if attacker is currently the top enmity for their target
+    if (m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_CONSPIRATOR))
+    {
+        if (!battleutils::IsTopEnmity(m_attacker, m_victim))
+        {
+            accBonus += 10;
+            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_attacker))
+            {
+                accBonus += PChar->PJobPoints->GetJobPointValue(JP_CONSPIRATOR_EFFECT);
+            }
+        }
+    }
     if (m_attackType == PHYSICAL_ATTACK_TYPE::KICK)
     {
         uint8 jpAccBonus = 0;
@@ -313,7 +347,7 @@ uint8 CAttack::GetHitRate()
                 jpAccBonus += PChar->PJobPoints->GetJobPointValue(JP_KICK_ATTACKS_EFFECT);
             }
         }
-        m_hitRate = battleutils::GetHitRate(m_attacker, m_victim, 2, jpAccBonus);
+        m_hitRate = battleutils::GetHitRate(m_attacker, m_victim, 2, jpAccBonus + accBonus);
     }
     else if (m_attackType == PHYSICAL_ATTACK_TYPE::DAKEN)
     {
@@ -323,11 +357,12 @@ uint8 CAttack::GetHitRate()
     {
         if (m_attackType == PHYSICAL_ATTACK_TYPE::ZANSHIN)
         {
-            m_hitRate = battleutils::GetHitRate(m_attacker, m_victim, 0, (uint8)35);
+            accBonus += 35;
+            m_hitRate = battleutils::GetHitRate(m_attacker, m_victim, 0, accBonus);
         }
         else
         {
-            m_hitRate = battleutils::GetHitRate(m_attacker, m_victim, 0);
+            m_hitRate = battleutils::GetHitRate(m_attacker, m_victim, 0, accBonus);
         }
 
         // Deciding this here because SA/TA wears on attack, before the 2nd+ hits go off.
@@ -340,11 +375,12 @@ uint8 CAttack::GetHitRate()
     {
         if (m_attackType == PHYSICAL_ATTACK_TYPE::ZANSHIN)
         {
-            m_hitRate = battleutils::GetHitRate(m_attacker, m_victim, 1, (uint8)35);
+            accBonus += 35;
+            m_hitRate = battleutils::GetHitRate(m_attacker, m_victim, 1, accBonus);
         }
         else
         {
-            m_hitRate = battleutils::GetHitRate(m_attacker, m_victim, 1);
+            m_hitRate = battleutils::GetHitRate(m_attacker, m_victim, 1, accBonus);
         }
     }
     return m_hitRate;
@@ -531,20 +567,15 @@ bool CAttack::CheckCover()
 void CAttack::ProcessDamage()
 {
     // Sneak attack.
-    if (m_attacker->GetMJob() == JOB_THF &&
-        m_isFirstSwing &&
-        m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK) &&
-        ((abs(m_victim->loc.p.rotation - m_attacker->loc.p.rotation) < 23) ||
-            m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE) ||
-            m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT)))
+    if (m_attacker->GetMJob() == JOB_THF && m_isFirstSwing && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK) &&
+        ((abs(m_victim->loc.p.rotation - m_attacker->loc.p.rotation) < 23) || m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE) ||
+         m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT)))
     {
         m_trickAttackDamage += m_attacker->DEX() * (1 + m_attacker->getMod(Mod::SNEAK_ATK_DEX) / 100);
     }
 
     // Trick attack.
-    if (m_attacker->GetMJob() == JOB_THF &&
-        m_isFirstSwing &&
-        m_attackRound->GetTAEntity() != nullptr)
+    if (m_attacker->GetMJob() == JOB_THF && m_isFirstSwing && m_attackRound->GetTAEntity() != nullptr)
     {
         m_trickAttackDamage += m_attacker->AGI() * (1 + m_attacker->getMod(Mod::TRICK_ATK_AGI) / 100);
     }

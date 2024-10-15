@@ -16185,7 +16185,28 @@ int32 CLuaBaseEntity::deaggroAll(lua_State* L)
     return 1;
 }
 
+/************************************************************************
+ *  Function: isTopEnmity
+ *  Purpose : Returns if the player is top enmity
+ *  Example : if player:isTopEnmity(mob)
+ *  Notes   :
+ ************************************************************************/
 
+int32 CLuaBaseEntity::isTopEnmity(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isuserdata(L, 1));
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+
+    lua_pushboolean(L, battleutils::IsTopEnmity(PAttacker, PDefender));
+    return 1;
+}
 
 /************************************************************************
 *  Function: getBehaviour()
@@ -17837,6 +17858,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delRoamFlag),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,deaggroPlayer),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,deaggroAll),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,isTopEnmity),
 
 
 

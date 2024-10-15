@@ -50,7 +50,6 @@ function onUseAbility(player, target, ability, action)
         end
     else
         fail = true
-        ability:setMsg(tpz.msg.basic.JA_RECOVERS_HP)
     end
 
     -- Deal damage based on DEX + AGI
@@ -74,9 +73,10 @@ function onUseAbility(player, target, ability, action)
 
     player:addHP(dmg)
 
-    if fail then
+    if fail and (dmg > 0) then
         action:animation(target:getID(), 184)
         action:additionalEffect(target:getID(),tpz.subEffect.HP_DRAIN)
+        ability:setMsg(tpz.msg.basic.JA_RECOVERS_HP)
         return dmg
     else
         return gil

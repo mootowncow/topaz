@@ -110,9 +110,10 @@ function onUseAbility(player, target, ability, action)
     player:addTP(tpStolen)
     target:addTP(-tpStolen)
 
-    if fail then
+    if fail and (tpStolen > 0) then
         action:animation(target:getID(), 184)
         action:additionalEffect(target:getID(),tpz.subEffect.TP_DRAIN)
+        ability:setMsg(tpz.msg.basic.ADD_EFFECT_TP_DRAIN)
         return tpStolen
     else
         return stolen
