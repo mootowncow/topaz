@@ -13,7 +13,7 @@ require("scripts/globals/status")
 require("scripts/globals/mobs")
 -----------------------------------
 function onMobSpawn(mob)
-    mob:setMod(tpz.mod.EEM_DARK_SLEEP, 30)
+    mob:setMod(tpz.mod.EEM_DARK_SLEEP, 25)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 180)
 end
