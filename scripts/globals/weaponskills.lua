@@ -960,7 +960,10 @@ function getHitRate(attacker, target, capHitRate, firsthit, bonus)
 
     if attacker:hasStatusEffect(tpz.effect.CONSPIRATOR) then
         if not attacker:isTopEnmity(target) then
-            bonus = bonus + 10
+            local conspirator = attacker:getStatusEffect(tpz.effect.CONSPIRATOR) -- Building Flourish gives +25% Attack at 2+ Finishing Moves
+            if (conspirator ~= nil) then
+                bonus = bonus + conspirator:getPower()
+            end
         end
     end
 

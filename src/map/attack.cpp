@@ -330,13 +330,14 @@ uint8 CAttack::GetHitRate()
     {
         if (!battleutils::IsTopEnmity(m_attacker, m_victim))
         {
-            accBonus += 10;
-            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_attacker))
+            CStatusEffect* PEffect = m_attacker->StatusEffectContainer->GetStatusEffect(EFFECT_CONSPIRATOR);
+            if (PEffect)
             {
-                accBonus += PChar->PJobPoints->GetJobPointValue(JP_CONSPIRATOR_EFFECT);
+                accBonus += PEffect->GetPower();
             }
         }
     }
+
     if (m_attackType == PHYSICAL_ATTACK_TYPE::KICK)
     {
         uint8 jpAccBonus = 0;
