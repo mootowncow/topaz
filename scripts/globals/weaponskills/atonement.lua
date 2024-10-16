@@ -135,15 +135,19 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         dmg = math.floor(dmg * (1 + utils.clamp(target:getMod(tpz.mod.DMGSPIRITS), -100, 100) / 100))
         --printf("dmg after mod %i", dmg)
 
+        -- Check for null
+        dmg = utils.CheckForNull(player, target, tpz.attackType.BREATH, tpz.magic.ele.NONE, dmg)
+
         -- Check for absorb. Converts damage to HP.
-        if (dmg > 0 and math.random(0, 99) < target:getMod(tpz.mod.MAGIC_ABSORB)) or
-        (dmg > 0 and math.random(0, 99) < target:getMod(tpz.mod.ABSORB_DMG_CHANCE)) then
-            damage = -dmg
-        else
-            damage = target:breathDmgTaken(dmg)
-            -- handling rampart(magic) stoneskin
-            damage = utils.rampartstoneskin(target, dmg)
+        if (dmg > 0) then
+            local magicAbsorbChance = target:getMod(tpz.mod.MAGIC_ABSORB)
+            local absorbDmgChance = target:getMod(tpz.mod.ABSORB_DMG_CHANCE)
+    
+            if math.random(0, 99) < magicAbsorbChance or math.random(0, 99) < absorbDmgChance then
+                damage = -dmg
+            end
         end
+
         damage = damage * WEAPON_SKILL_POWER
         calcParams.finalDmg = damage
 
@@ -153,6 +157,15 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
             else
                 calcParams.tpHitsLanded = 1
             end
+
+            -- Reduce by BDT if no DMGSPIRITS mod
+            if (target:getMod(tpz.mod.DMGSPIRITS) == 0) then
+                damage = target:breathDmgTaken(damage)
+            end
+
+            -- Handling rampart(magic) stoneskin
+            damage = utils.rampartstoneskin(target, damage)
+
             -- Atonement always yields the a TP return of a 2 hit WS (unless it does 0 damage), because if one hit lands, both hits do.
             calcParams.extraHitsLanded = 1
 
