@@ -33,18 +33,37 @@ g_mixins.families.mine = function(mob)
         mob:hideName(true)
         mob:untargetable(true)
         mob:hideHP(true)
+
+        local nearbyEntityCheck = mob:getLocalVar("nearbyEntityCheck")
+        if os.time() >= nearbyEntityCheck then
+            mob:setLocalVar("nearbyEntityCheck", os.time() + 3)
+            local NearbyEntities = mob:getNearbyEntities(5)
+            if NearbyEntities == nil then return end
+            if NearbyEntities then
+                for _,entity in pairs(NearbyEntities) do
+                    if (entity:getAllegiance() ~= mob:getAllegiance()) then
+                        mob:setStatus(tpz.status.UPDATE)
+	                    mob:useMobAbility(1838, entity) -- mine_blast
+                    end
+                end
+            end
+        end
     end)
 
 
     mob:addListener("COMBAT_TICK", "MINE_CTICK", function(mob)
-        local nearbyplayerCheck = mob:getLocalVar("nearbyplayerCheck")
-        if os.time() >= nearbyplayerCheck then
-            mob:setLocalVar("nearbyplayerCheck", os.time() + 3)
-            local nearbyPlayers = mob:getPlayersInRange(5)
-            if nearbyPlayers == nil then return end
-            if nearbyPlayers then
-                mob:setStatus(tpz.status.UPDATE)
-	            mob:useMobAbility(1838) -- mine_blast
+        local nearbyEntityCheck = mob:getLocalVar("nearbyEntityCheck")
+        if os.time() >= nearbyEntityCheck then
+            mob:setLocalVar("nearbyEntityCheck", os.time() + 3)
+            local NearbyEntities = mob:getNearbyEntities(5)
+            if NearbyEntities == nil then return end
+            if NearbyEntities then
+                for _,entity in pairs(NearbyEntities) do
+                    if (entity:getAllegiance() ~= mob:getAllegiance()) then
+                        mob:setStatus(tpz.status.UPDATE)
+	                    mob:useMobAbility(1838, entity) -- mine_blast
+                    end
+                end
             end
         end
     end)

@@ -33,12 +33,13 @@ function onMobSpawn(mob)
 end
 
 function onMobEngaged(mob, target)
-    mob:setLocalVar("vialTime", os.time() + 60)
+    mob:setLocalVar("tubeTime", os.time() + 60)
 end
 
 function onMobFight(mob, target)
     local runAwayTimer = mob:getLocalVar("runAwayTimer")
-    local vialTime = mob:getLocalVar("vialTime")
+    local tubeTime = mob:getLocalVar("tubeTime")
+    local tube = GetMobByID(mob:getID() + math.random(3))
 
     -- Does not Ore Toss in melee range
     if mob:checkDistance(target) <= 5 then
@@ -50,7 +51,7 @@ function onMobFight(mob, target)
     -- Runs away to ~23.5 yalms then runs back to ~13.5 if you run to him, but if you chase again after he won't run away again for a while
     if mob:checkDistance(target) <= 5 and (os.time() >= runAwayTimer) then
         mob:SetMobAbilityEnabled(false)
-		mob:pathTo(target:getXPos() + 24, target:getYPos(), target:getZPos() +24)
+		--mob:pathTo(target:getXPos() + 24, target:getYPos(), target:getZPos() +24)
         mob:setLocalVar("runAwayTimer", os.time() + math.random(30, 45))
         mob:timer(5000, function(mob)
 		    mob:SetMobAbilityEnabled(true)
@@ -58,24 +59,10 @@ function onMobFight(mob, target)
 	end
 
     -- Summons a random tube that uses a random TP move then despawns.
-    if os.time() >= vialTime then 
-        mob:setLocalVar("vialTime", os.time() + getVialTimer(mob))
-        local vial = GetMobByID(mob:getID() + math.random(3))
-        if not vial:isSpawned() then
-            local enmityList = mob:getEnmityList()
-            for _, enmity in ipairs(enmityList) do
-                if enmityList and #enmityList > 0 then
-                    local randomTarget = enmityList[math.random(1,#enmityList)];
-                    entityId = randomTarget.entity:getID();
-                    if (entityId > 10000) then -- ID is a mob(pet) then
-                        vialTarget = GetMobByID(entityId)
-                    else
-                        vialTarget = GetPlayerByID(entityId)
-                    end
-                    vial:setSpawn(GetPlayerByID(vialTarget):getXPos(), GetPlayerByID(vialTarget):getYPos(), GetPlayerByID(vialTarget):getZPos())
-                    utils.spawnPetInBattle(mob, vial)
-                end
-            end
+    if os.time() >= tubeTime then
+        if not tube:isSpawned() then
+            mob:setLocalVar("tubeTime", os.time() + math.random(30, 60))
+            utils.spawnPetInBattle(mob, tube, true, false, true)
         end
     end
 end

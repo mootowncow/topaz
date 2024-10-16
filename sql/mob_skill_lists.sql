@@ -2801,7 +2801,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,38); -- Circle Blade
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,40); -- Vorpal Blade
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,41); -- Swift Blade
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,2278); -- Glory Slash
-INSERT INTO `mob_skill_lists` VALUES ('Shouldercharge_Only',1205,2264);
+INSERT INTO `mob_skill_lists` VALUES ('Shouldercharge_Only',1205,2264); -- Shoulder Charge Only
 INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1206,733); -- Jump
 INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1206,1064); -- Jump (Long cast time)
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2193); -- zephyr_arrow
