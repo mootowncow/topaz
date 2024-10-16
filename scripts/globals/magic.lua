@@ -1216,6 +1216,9 @@ function finalMagicAdjustments(caster, target, spell, dmg)
         dmg = math.floor(dmg * circlemult / 100)
     end
 
+    -- Handle circle DR
+    dmg = utils.HandleCircleDamageReduction(caster, target, dmg)
+
     -- Handle Scarlet Delirium
     dmg = utils.ScarletDeliriumBonus(caster, dmg)
 
@@ -1297,6 +1300,9 @@ function finalMagicAdjustments(caster, target, spell, dmg)
 
 function finalMagicNonSpellAdjustments(caster, target, ele, dmg)
     --Handles target's HP adjustment and returns SIGNED dmg (negative values on absorb)
+
+    -- Handle Circle DR
+    dmg = utils.HandleCircleDamageReduction(caster, target, dmg)
 
     dmg = target:magicDmgTaken(dmg, ele)
 
@@ -2476,6 +2482,8 @@ function doNuke(caster, target, spell, params)
         spell:getSpellFamily() == tpz.magic.spellFamily.HOLY)
     then
         if caster:hasStatusEffect(tpz.effect.DIVINE_EMBLEM) then
+            local jpBonus = caster:getJobPointLevel(tpz.jp.DIVINE_EMBLEM_EFFECT) * 2
+            dmg = dmg + jpBonus
             dmg = dmg * (1 + caster:getSkillLevel(tpz.skill.DIVINE_MAGIC) / 300)
         end
     end
@@ -2519,6 +2527,8 @@ function doDivineBanishNuke(caster, target, spell, params)
 
     -- divine emblem damage bonus
     if caster:hasStatusEffect(tpz.effect.DIVINE_EMBLEM) then
+        local jpBonus = caster:getJobPointLevel(tpz.jp.DIVINE_EMBLEM_EFFECT) * 2
+        dmg = dmg + jpBonus
         dmg = dmg * (1 + caster:getSkillLevel(tpz.skill.DIVINE_MAGIC) / 300)
     end    
 

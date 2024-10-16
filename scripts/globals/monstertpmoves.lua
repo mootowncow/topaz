@@ -833,6 +833,10 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     -- Handle Null
     dmg = utils.CheckForNull(mob, target, attackType, element, dmg)
 
+
+    -- Handle Circle DR
+    dmg = utils.HandleCircleDamageReduction(mob, target, dmg)
+
     -- Handle damage type resistances
     if (params.IGNORE_DAMAGE_REDUCTION == nil) then -- TODO: Doesn't work on phys because its params_phys
         if attackType == tpz.attackType.PHYSICAL then

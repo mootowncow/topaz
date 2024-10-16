@@ -642,7 +642,7 @@ void CAttack::ProcessDamage()
         m_damage += (int32)(m_damage * ((100 + (m_attacker->getMod(Mod::AUGMENTS_TA))) / 100.0f));
     }
 
-        // Circle Effects
+    // Circle Effects
     if (m_victim->objtype != TYPE_PC && m_damage > 0)
     {
         uint16 circlemult = 100;

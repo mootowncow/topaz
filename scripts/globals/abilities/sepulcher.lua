@@ -14,5 +14,8 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    target:addStatusEffect(tpz.effect.SEPULCHER, 7, 0, 180)
+    local jpValue  = player:getJobPointLevel(tpz.jp.SEPULCHER_DURATION)
+    local duration = 180 + jpValue
+
+    target:addStatusEffect(tpz.effect.SEPULCHER, 7, 0, duration)
 end

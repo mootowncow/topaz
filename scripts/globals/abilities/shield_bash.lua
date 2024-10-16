@@ -24,7 +24,7 @@ function onUseAbility(player, target, ability)
     end
 
     local shieldSize = player:getShieldSize()
-    local jpValue    = player:getJobPointLevel(tpz.jp.SHIELD_BASH_EFFECT)
+    local jpValue    = player:getJobPointLevel(tpz.jp.SHIELD_BASH_EFFECT) * 10
     local damage = 0
     local chance = 99
     local stunEEM = target:getMod(tpz.mod.EEM_STUN)
@@ -47,7 +47,7 @@ function onUseAbility(player, target, ability)
         damage = 90 + damage
     end
 
-    damage = damage + (player:getMod(tpz.mod.SHIELD_BASH) + (jpValue * 10))
+    damage = damage + (player:getMod(tpz.mod.SHIELD_BASH) + jpValue)
 
     -- Main job factors
     if player:getMainJob() ~= tpz.job.PLD then
@@ -104,10 +104,9 @@ function onUseAbility(player, target, ability)
     -- printf("damge %d, ratio: %f, pdif: %d\n", damage, ratio, pdif)
     damage = damage * (pdif / 1000)
 
-    -- Check for Invincible
-    if target:hasStatusEffect(tpz.effect.INVINCIBLE) then
-        damage = 0
-    end
+    -- Apply reductions
+    damage = utils.HandlePositionalPDT(player, target, damage)
+    damage = target:physicalDmgTaken(damage, tpz.damageType.BLUNT)
 
     -- Check for phalanx + stoneskin
     if (damage > 0) then

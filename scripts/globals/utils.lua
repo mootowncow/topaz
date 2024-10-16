@@ -758,6 +758,39 @@ function utils.HandleEcosystemBonus(attacker, defender, dmg)
     return dmg
 end
 
+function utils.HandleCircleDamageReduction(attacker, defender, dmg)
+    -- Circle damage reduction
+    if attacker:isMob() and dmg > 0 then
+        local eco = attacker:getSystem()
+        local circlemult = 100
+        local mod = 0
+
+        if     eco == tpz.eco.AMORPH   then mod = tpz.mod.AMORPH_CIRCLE_DR
+        elseif eco == tpz.eco.AQUAN    then mod = tpz.mod.AQUAN_CIRCLE_DR
+        elseif eco == tpz.eco.ARCANA   then mod = tpz.mod.ARCANA_CIRCLE_DR
+        elseif eco == tpz.eco.BEAST    then mod = tpz.mod.BEAST_CIRCLE_DR
+        elseif eco == tpz.eco.BIRD     then mod = tpz.mod.BIRD_CIRCLE_DR
+        elseif eco == tpz.eco.DEMON    then mod = tpz.mod.DEMON_CIRCLE_DR
+        elseif eco == tpz.eco.DRAGON   then mod = tpz.mod.DRAGON_CIRCLE_DR
+        elseif eco == tpz.eco.LIZARD   then mod = tpz.mod.LIZARD_CIRCLE_DR
+        elseif eco == tpz.eco.LUMINION then mod = tpz.mod.LUMINION_CIRCLE_DR
+        elseif eco == tpz.eco.LUMORIAN then mod = tpz.mod.LUMORIAN_CIRCLE_DR
+        elseif eco == tpz.eco.PLANTOID then mod = tpz.mod.PLANTOID_CIRCLE_DR
+        elseif eco == tpz.eco.UNDEAD   then mod = tpz.mod.UNDEAD_CIRCLE_DR
+        elseif eco == tpz.eco.VERMIN   then mod = tpz.mod.VERMIN_CIRCLE_DR
+        end
+
+        if mod > 0 then
+            circlemult = 100 - defender:getMod(mod)
+        end
+
+        dmg = math.floor(dmg * circlemult / 100)
+    end
+
+    return dmg
+end
+
+
 function utils.HandlePositionalPDT(attacker, target, dmg)
     if attacker:isInfront(target, 90) and target:hasStatusEffect(tpz.effect.PHYSICAL_SHIELD) then -- Front
         if target:getStatusEffect(tpz.effect.PHYSICAL_SHIELD):getPower() == 3 then

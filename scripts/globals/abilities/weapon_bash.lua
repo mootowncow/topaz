@@ -59,13 +59,11 @@ function onUseAbility(player, target, ability)
 
     damage = (base + gearMod + jpValue)  * pdif
 
-    -- Check for Invincible
-    if target:hasStatusEffect(tpz.effect.INVINCIBLE) then
-        damage = 0
-    end
+    -- Apply reductions
+    damage = utils.HandlePositionalPDT(player, target, damage)
+    damage = target:physicalDmgTaken(damage, tpz.damageType.BLUNT)
 
     -- Check for phalanx + stoneskin
-
     if (damage > 0) then
         local attackType = tpz.attackType.PHYSICAL
         damage = damage - target:getMod(tpz.mod.PHALANX)
