@@ -2826,6 +2826,19 @@ namespace battleutils
             // int8 blockRate = (int8)std::clamp((int32)((base + (int32)skillmodifier) * blockRateMod), 5, (shieldSize == 6 ? 100 : std::max<int32>((int32)(65 * blockRateMod), 100)));
             // ShowDebug(CL_CYAN "GetBlockRate: %i\n" CL_RESET, blockRate);
             int32 baseValue = base + (int32)skillmodifier;
+
+            // Add Palisade JP bonus to the base block rate
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PALISADE))
+            {
+                if (PDefender->objtype == TYPE_PC)
+                {
+                    if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PDefender))
+                    {
+                        baseValue += PChar->PJobPoints->GetJobPointValue(JP_PALISADE_EFFECT);
+                    }
+                }
+            }
+
             int32 adjustedValue = static_cast<int32>(baseValue * blockRateMod);
 
             // Reprisal increases block rate by 50% of your current block rate
@@ -3047,6 +3060,8 @@ namespace battleutils
                 }
                 damage = (int32)((float)damage * resmult);
             }
+
+            damage = HandleCircleDamageReduction(PAttacker, PDefender, damage);
 
             if (isBlocked)
             {
@@ -3347,6 +3362,8 @@ namespace battleutils
     {
         auto weapon = GetEntityWeapon(PAttacker, (SLOTTYPE)slot);
         bool isRanged = (slot == SLOT_AMMO || slot == SLOT_RANGED);
+
+        damage = HandleCircleDamageReduction(PAttacker, PDefender, damage);
 
         if (damage > 0)
         {
@@ -5085,7 +5102,8 @@ namespace battleutils
         // Add weather day bonus
         damage = (int32)(damage * dBonus);
         // ShowDebug("WeatherDayDamage: %u\n,", damage);
-        damage = SkillchainDmgTaken(PDefender, damage, appliedEle);  
+        damage = SkillchainDmgTaken(PDefender, damage, appliedEle);
+        damage = HandleCircleDamageReduction(PAttacker, PDefender, damage);
         if (damage > 0)
         {
             damage = std::max(damage - PDefender->getMod(Mod::PHALANX), 0);
@@ -6757,122 +6775,131 @@ namespace battleutils
 
     int32 HandleCircleDamageReduction(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage)
     {
-        if (m_victim->objtype != TYPE_PC && m_damage > 0)
+        if (PAttacker->objtype != TYPE_PC && damage > 0)
         {
             uint16 circlemult = 100;
 
-            switch (m_victim->m_EcoSystem)
+            switch (PAttacker->m_EcoSystem)
             {
                 case SYSTEM_AMORPH:
-                    circlemult += m_attacker->getMod(Mod::AMORPH_CIRCLE);
+                    circlemult -= PDefender->getMod(Mod::AMORPH_CIRCLE_DR);
                     break;
                 case SYSTEM_AQUAN:
-                    circlemult += m_attacker->getMod(Mod::AQUAN_CIRCLE);
+                    circlemult -= PDefender->getMod(Mod::AQUAN_CIRCLE_DR);
                     break;
                 case SYSTEM_ARCANA:
-                    circlemult += m_attacker->getMod(Mod::ARCANA_CIRCLE);
+                    circlemult -= PDefender->getMod(Mod::ARCANA_CIRCLE_DR);
                     break;
                 case SYSTEM_BEAST:
-                    circlemult += m_attacker->getMod(Mod::BEAST_CIRCLE);
+                    circlemult -= PDefender->getMod(Mod::BEAST_CIRCLE_DR);
                     break;
                 case SYSTEM_BIRD:
-                    circlemult += m_attacker->getMod(Mod::BIRD_CIRCLE);
+                    circlemult -= PDefender->getMod(Mod::BIRD_CIRCLE_DR);
                     break;
                 case SYSTEM_DEMON:
-                    circlemult += m_attacker->getMod(Mod::DEMON_CIRCLE);
+                    circlemult -= PDefender->getMod(Mod::DEMON_CIRCLE_DR);
                     break;
                 case SYSTEM_DRAGON:
-                    circlemult += m_attacker->getMod(Mod::DRAGON_CIRCLE);
+                    circlemult -= PDefender->getMod(Mod::DRAGON_CIRCLE_DR);
                     break;
                 case SYSTEM_LIZARD:
-                    circlemult += m_attacker->getMod(Mod::LIZARD_CIRCLE);
+                    circlemult -= PDefender->getMod(Mod::LIZARD_CIRCLE_DR);
                     break;
                 case SYSTEM_LUMINION:
-                    circlemult += m_attacker->getMod(Mod::LUMINION_CIRCLE);
+                    circlemult -= PDefender->getMod(Mod::LUMINION_CIRCLE_DR);
                     break;
                 case SYSTEM_LUMORIAN:
-                    circlemult += m_attacker->getMod(Mod::LUMORIAN_CIRCLE);
+                    circlemult -= PDefender->getMod(Mod::LUMORIAN_CIRCLE_DR);
                     break;
                 case SYSTEM_PLANTOID:
-                    circlemult += m_attacker->getMod(Mod::PLANTOID_CIRCLE);
+                    circlemult -= PDefender->getMod(Mod::PLANTOID_CIRCLE_DR);
                     break;
                 case SYSTEM_UNDEAD:
-                    circlemult += m_attacker->getMod(Mod::UNDEAD_CIRCLE);
+                    circlemult -= PDefender->getMod(Mod::UNDEAD_CIRCLE_DR);
                     break;
                 case SYSTEM_VERMIN:
-                    circlemult += m_attacker->getMod(Mod::VERMIN_CIRCLE);
+                    circlemult -= PDefender->getMod(Mod::VERMIN_CIRCLE_DR);
                     break;
                 default:
                     break;
             }
-            m_damage = m_damage * circlemult / 100;
+
+            circlemult = std::max(static_cast<int>(circlemult), 0);
+
+            damage = damage * circlemult / 100;
+
         }
+
+        return damage;
     }
 
     int32 HandlePositionalPDT(CBattleEntity* PDefender, int32 damage)
     {
         auto PAttacker = PDefender->GetBattleTarget();
-        // Handle frontal PDT
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
+        if (PAttacker)
         {
-            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 3)
+            // Handle frontal PDT
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
             {
-                resist = 0;
+                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+                float resist = 1.0f;
+                if (power == 3)
+                {
+                    resist = 0;
+                }
+                damage = (int32)(damage * resist);
             }
-            damage = (int32)(damage * resist);
-        }
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
-        {
-            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 5)
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
             {
-                resist = 0.25f;
+                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+                float resist = 1.0f;
+                if (power == 5)
+                {
+                    resist = 0.25f;
+                }
+                damage = (int32)(damage * resist);
             }
-            damage = (int32)(damage * resist);
-        }
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
-        {
-            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 6)
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
             {
-                resist = 0.5f;
+                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+                float resist = 1.0f;
+                if (power == 6)
+                {
+                    resist = 0.5f;
+                }
+                damage = (int32)(damage * resist);
             }
-            damage = (int32)(damage * resist);
-        }
-        // Handle behind PDT
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
-        {
-            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 4)
+            // Handle behind PDT
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
             {
-                resist = 0;
+                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+                float resist = 1.0f;
+                if (power == 4)
+                {
+                    resist = 0;
+                }
+                damage = (int32)(damage * resist);
             }
-            damage = (int32)(damage * resist);
-        }
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
-        {
-            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 7)
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
             {
-                resist = 0.25f;
+                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+                float resist = 1.0f;
+                if (power == 7)
+                {
+                    resist = 0.25f;
+                }
+                damage = (int32)(damage * resist);
             }
-            damage = (int32)(damage * resist);
-        }
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
-        {
-            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 8)
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
             {
-                resist = 0.5f;
+                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+                float resist = 1.0f;
+                if (power == 8)
+                {
+                    resist = 0.5f;
+                }
+                damage = (int32)(damage * resist);
             }
-            damage = (int32)(damage * resist);
         }
         return damage;
     }

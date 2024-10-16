@@ -14,6 +14,9 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    local damageIncrease = 10
+    local damageReduction = 5 + player:getJobPointLevel(tpz.jp.HOLY_CIRCLE_EFFECT)
     local duration = 180 + player:getMod(tpz.mod.HOLY_CIRCLE_DURATION)
-    target:addStatusEffect(tpz.effect.HOLY_CIRCLE, 15, 0, duration)
+
+    target:addStatusEffect(tpz.effect.HOLY_CIRCLE, damageIncrease, 0, duration, 0, damageReduction, 0)
 end
