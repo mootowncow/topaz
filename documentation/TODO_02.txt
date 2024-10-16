@@ -131,6 +131,7 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
+Uka Healing Waltz waltzable flag stuff (Master -> Tank - > party)
 Shikaree Z jumps have usually high miss rates
 Valaineral Prot / Shell himself maybe only set gambits if no WHM in party?
 Sylvie entrust geo-regen not barrier
@@ -171,14 +172,18 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+THF Conspirator ACC needs to be added to the effects power (10 base + JP bonus) then the acc bonus gotten everywhere via the effects power(C++ and lua)
 Sealed shrine ZM17 mission stuff missing from gilgamesh and ruan gardens or w/e
     elseif (ZilartMission == tpz.mission.id.zilart.THE_SEALED_SHRINE) then
         player:startEvent(172)
-Shield / Weapon / Blade bash should count as phys and get absorbed by phys absorb (Need to add check to their files)
 Serket / Roc / Simurgh model size too small?
 Aspid and adamantoise model size too small by like 2 model sizes for aspid. They both need different sizes
 Za'Dha Adamantking modelsize too big? (WOTG - The Buried God)
 Avatar(And automaton?) phys dmg ignoring positional? Autos too?
+Dynamis Xarcabard Kindred SMN should summon avatars and astral flow(not elementals). Requires two mixins I think? Also remove spell list
+Nerf circle JA's to 5%
+Tomahawk just reduce all the added up resists in magicdmgtaken by spdef mod
+Shikaree Z and X don't aggro
 
 SCNM:
 Coinbiter Cjaknokk used all TP moves but should only be using Shoulder Charge...
@@ -272,7 +277,7 @@ Check all immunities with mobdb
 
 +++ FINISH JP FIRST BEFORE ANYTHING +++
 Finish Zilartian Weapons (Blatherix). Need mods / aftermath and WS testing
-Odin / Alex RAID (Drop their BCNM gear + Einherjar odin gear)
+RAID T2. 16 allies per boss. Odin / Alex + WOTG + Abyssea(Shinryu, Lilith, Spitewardens, etc too!) NMs (Drop their BCNM gear + Einherjar odin gear).
 KS99's (Add new spell drops to every KS99, like Migawari/Full Cure/Comet/Meteor/Gain)
 60-80 inventory expansions from COP HNMS
 Relic / Mythic weapon revamp
@@ -302,13 +307,16 @@ Add more lockstyle gear that's missing to places and modelID's if needed
 5: Skirmish / Delve / Legion(Abjurations) gear
 Can get TP on spirits within start function and set as a local var? can be tp wiped mid ws ;/
 
-Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
-Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva/ramuh/etc only) specific items
-NEED A RAMUH SPECIFIC ITEM!!
-SiR ring. +Enfeebling magic duration items. +SC damage gear, nice for "Weaker" WS like spiral hell / cross reaper which you only use to SC with
-Resist gear options (preferably with HP/def)! Tank ranged(gun? bow? xbow?/ammo!
-High ACC mainhand only sword (PLD/WAR/DRK only, maybe Achamoths sword?)
-Mainhand Dagger with TH +1
+Gear Stats:
+    Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
+    Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva/ramuh/etc only) specific items
+    NEED A RAMUH SPECIFIC ITEM!!
+    SiR ring. +Enfeebling magic duration items. +SC damage gear, nice for "Weaker" WS like spiral hell / cross reaper which you only use to SC with
+    Resist gear options (preferably with HP/def)! Tank ranged(gun? bow? xbow?/ammo!
+    High ACC mainhand only sword (PLD/WAR/DRK only, maybe Achamoths sword?)
+    Mainhand Dagger with TH +1
+    +Shield Barrier
+    +Shield Def. Bonus (How is this coded to work? Is it just 1% block DR? Maybe change it because my custom Shield Barrier does what this does)
 
 Higher level beetles at the south goblin Oasis in Eastern Altepa?
 Lower level beetles away from Revelation Rock in middle of Western Altepa
