@@ -11,7 +11,13 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    MobBuffMove(mob, tpz.effect.HUNDRED_FISTS, 1, 0, 30)
+    local duration = 30
+    local zoneId = mob:getZoneID()
+    if (zoneId == tpz.zone.DYNAMIS_XARCABARD) then
+        duration = 45
+    end
+
+    MobBuffMove(mob, tpz.effect.HUNDRED_FISTS, 1, 0, duration)
     skill:setMsg(tpz.msg.basic.USES)
 
     return tpz.effect.HUNDRED_FISTS
