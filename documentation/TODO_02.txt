@@ -172,25 +172,12 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-THF Conspirator ACC needs to be added to the effects power (10 base + JP bonus) then the acc bonus gotten everywhere via the effects power(C++ and lua)
-Sealed shrine ZM17 mission stuff missing from gilgamesh and ruan gardens or w/e
-    elseif (ZilartMission == tpz.mission.id.zilart.THE_SEALED_SHRINE) then
-        player:startEvent(172)
-Serket / Roc / Simurgh model size too small?
-Aspid and adamantoise model size too small by like 2 model sizes for aspid. They both need different sizes
 Za'Dha Adamantking modelsize too big? (WOTG - The Buried God)
 Avatar(And automaton?) phys dmg ignoring positional? Autos too?
-Dynamis Xarcabard Kindred SMN should summon avatars and astral flow(not elementals). Requires two mixins I think? Also remove spell list
-Nerf circle JA's to 5%
 Tomahawk just reduce all the added up resists in magicdmgtaken by spdef mod
 Shikaree Z and X don't aggro
 
 SCNM:
-Coinbiter Cjaknokk used all TP moves but should only be using Shoulder Charge...
-Coinbiter Cjaknokk also casts waaay too often?
-Shatterskull Mipppdapp wep dmg too high(MNK). Check other MNK NMs in all strongholds(mostly yagudo)
-Put everyone on enmity table on engage(zone wide aggro). Don't allow super tanking
-Blifnix Oilycheeks mines (and all mob mines) should detect hostile eneities (pets/trusts/allys) and not just players
 Di'Zho Spongeshell bugged enmity if you heal him? It caps your enmtiy? Or an SC being absorbed does?
 Mu'Nhi Thimbletail runs forever and never stops running? Keeps going out of bounds ;/ Is his pathing logic messed up now? Also set a circle of bounds for him to stay inside of / run around in
 All "WOTG" Quadavs have the wrong animation for Ore Lob
