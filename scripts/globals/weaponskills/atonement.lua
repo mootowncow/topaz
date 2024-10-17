@@ -145,11 +145,10 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     
             if math.random(0, 99) < magicAbsorbChance or math.random(0, 99) < absorbDmgChance then
                 damage = -dmg
+            else
+                damage = dmg
             end
         end
-
-        damage = damage * WEAPON_SKILL_POWER
-        calcParams.finalDmg = damage
 
         if damage > 0 then
             if player:getOffhandDmg() > 0 then
@@ -162,10 +161,8 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
             if (target:getMod(tpz.mod.DMGSPIRITS) == 0) then
                 damage = target:breathDmgTaken(damage)
             end
-
             -- Handling rampart(magic) stoneskin
             damage = utils.rampartstoneskin(target, damage)
-
             -- Atonement always yields the a TP return of a 2 hit WS (unless it does 0 damage), because if one hit lands, both hits do.
             calcParams.extraHitsLanded = 1
 
@@ -175,8 +172,10 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
             action:messageID(target:getID(), tpz.msg.basic.SKILL_NO_EFFECT)
         end
 
+        damage = damage * WEAPON_SKILL_POWER
+        calcParams.finalDmg = damage
+
         damage = takeWeaponskillDamage(target, player, params, primary, attack, calcParams, action)
     end
-
     return calcParams.tpHitsLanded, calcParams.extraHitsLanded, calcParams.criticalHit, damage
 end
