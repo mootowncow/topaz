@@ -267,6 +267,11 @@ inline int32 CLuaBaseEntity::messageText(lua_State* L)
         mode = (uint8)lua_tointeger(L, 4);
     }
 
+    if (!PTarget)
+    {
+        return 0;
+    }
+
     if (m_PBaseEntity)
     {
         if (m_PBaseEntity->objtype == TYPE_PC)

@@ -18,7 +18,7 @@ function onTrigger(player, npc)
         local door = GetNPCByID(DoorID)
 
         for i = DoorID, DoorID+4, 1 do
-            GetNPCByID(i):openDoor(60)
+            GetNPCByID(i):openDoor(40)
         end
 
         local zonePlayers = player:getZone():getPlayers()
@@ -26,7 +26,7 @@ function onTrigger(player, npc)
             -- send gate opening text to each player in zone
             zonePlayer:messageText(zonePlayer, ID.text.FIRST_GATE_OPENING, 5)
 
-            door:timer(1000 * 60, function(door)
+            door:timer(1000 * 40, function(door)
                 -- send gate closing text to each player in zone
                 zonePlayer:messageText(zonePlayer, ID.text.FIRST_GATE_CLOSING, 5)
             end)
