@@ -569,6 +569,7 @@ void CStatusEffectContainer::DeleteStatusEffects()
             PChar->PLatentEffectContainer->CheckLatentsRollSong();
         }
         m_POwner->UpdateHealth();
+        m_POwner->extDataUpdateFlag = true;
     }
 }
 
