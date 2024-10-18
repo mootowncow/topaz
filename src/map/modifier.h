@@ -67,6 +67,7 @@ enum class Mod
     ENMITY                    = 27, // Enmity
     ENMITY_II                 = 1376,// Enmity II
     ENMITY_LOSS_REDUCTION     = 427, // Reduces Enmity lost when taking damage
+    CURE_ENMITY_REDUCTION     = 1387, // Reduces Enmity generated from cure spells
 
     MATT                      = 28, // Magic Attack
     MDEF                      = 29, // Magic Defense
@@ -972,13 +973,13 @@ enum class Mod
     WS_CHR_BONUS              = 985, // % bonus to chr_wsc.
 
     // Bonus attributes during WS only (Used by Trusts)
-    STR_DURING_WS            = 1387,// Bonus STR during WS only
-    DEX_DURING_WS            = 1388,// Bonus DEX during WS only
-    VIT_DURING_WS            = 1389,// Bonus VIT during WS only
-    AGI_DURING_WS            = 1390,// Bonus AGI during WS only
-    INT_DURING_WS            = 1391,// Bonus INT during WS only
-    MND_DURING_WS            = 1392,// Bonus MND during WS only
-    CHR_DURING_WS            = 1393,// Bonus CHR during WS only
+    STR_DURING_WS            = 1389,// Bonus STR during WS only
+    DEX_DURING_WS            = 1390,// Bonus DEX during WS only
+    VIT_DURING_WS            = 1391,// Bonus VIT during WS only
+    AGI_DURING_WS            = 1392,// Bonus AGI during WS only
+    INT_DURING_WS            = 1393,// Bonus INT during WS only
+    MND_DURING_WS            = 1394, // Bonus MND during WS only
+    CHR_DURING_WS            = 1395, // Bonus CHR during WS only
 
     EXPERIENCE_RETAINED       = 914, // Experience points retained upon death (this is a percentage)
     CAPACITY_BONUS            = 915, // Capacity point bonus granted
@@ -1091,7 +1092,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1394 NEXT
+    // 1396 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it
