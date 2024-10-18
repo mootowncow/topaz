@@ -13,10 +13,15 @@ require("scripts/globals/monstertpmoves")
 local ID = require("scripts/zones/Grand_Palace_of_HuXzoi/IDs")
 ---------------------------------------------
 function onMobSkillCheck(target,mob,skill)
-    if not GetMobByID() == ID.mob.JAILER_OF_TEMPERANCE or mob:AnimationSub() > 1 then
+    printf("Is temperance")
+    if mob:getID() == ID.mob.JAILER_OF_TEMPERANCE then
+        printf("Is temperance")
+        return 0
+    end
+    if mob:AnimationSub() > 1 then
         return 1
     end
-    if not GetMobByID() == ID.mob.JAILER_OF_TEMPERANCE or mob:AnimationSub() == 2 or mob:AnimationSub() == 3 then
+    if mob:AnimationSub() == 2 or mob:AnimationSub() == 3 then
         return 1
     end
     return 0
