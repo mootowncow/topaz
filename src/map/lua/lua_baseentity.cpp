@@ -267,13 +267,24 @@ inline int32 CLuaBaseEntity::messageText(lua_State* L)
         mode = (uint8)lua_tointeger(L, 4);
     }
 
-    if (m_PBaseEntity->objtype == TYPE_PC)
+    if (!PTarget)
     {
-        ((CCharEntity*)m_PBaseEntity)->pushPacket(new CMessageTextPacket(PTarget, messageID, showName, mode));
+        return 0;
     }
-    else
-    {//broadcast in range
-        m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE, new CMessageTextPacket(PTarget, messageID, showName, mode));
+
+    if (m_PBaseEntity)
+    {
+        if (m_PBaseEntity->objtype == TYPE_PC)
+        {
+            ((CCharEntity*)m_PBaseEntity)->pushPacket(new CMessageTextPacket(PTarget, messageID, showName, mode));
+        }
+        else
+        { // broadcast in range
+            if (m_PBaseEntity && m_PBaseEntity->loc.zone)
+            {
+                m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE, new CMessageTextPacket(PTarget, messageID, showName, mode));
+            }
+        }
     }
     return 0;
 }
@@ -16179,7 +16190,28 @@ int32 CLuaBaseEntity::deaggroAll(lua_State* L)
     return 1;
 }
 
+/************************************************************************
+ *  Function: isTopEnmity
+ *  Purpose : Returns if the player is top enmity
+ *  Example : if player:isTopEnmity(mob)
+ *  Notes   :
+ ************************************************************************/
 
+int32 CLuaBaseEntity::isTopEnmity(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isuserdata(L, 1));
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+
+    lua_pushboolean(L, battleutils::IsTopEnmity(PAttacker, PDefender));
+    return 1;
+}
 
 /************************************************************************
 *  Function: getBehaviour()
@@ -17819,6 +17851,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delRoamFlag),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,deaggroPlayer),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,deaggroAll),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,isTopEnmity),
 
 
 

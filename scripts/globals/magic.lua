@@ -375,8 +375,10 @@ function doEnspell(caster, target, spell, effect)
         potency = 5 + math.floor(5 * enhancingSkill / 100)
     end
 
-    -- Afflatus Misery doubles the potency of enspells
+    -- Afflatus Misery bonuses
     if caster:hasStatusEffect(tpz.effect.AFFLATUS_MISERY) then
+        local jpLevel = caster:getJobPointLevel(tpz.jp.AFFLATUS_MISERY_EFFECT)
+        potency = potency + jpLevel
         potency = potency * 2
     end
 
@@ -399,6 +401,7 @@ function getCurePower(caster, isBlueMagic)
     local power = math.floor(MND/2) + math.floor(VIT/4) + skill
     return power
 end
+
 function getCurePowerOld(caster)
     local MND = caster:getStat(tpz.mod.MND)
     local VIT = caster:getStat(tpz.mod.VIT)
@@ -406,9 +409,11 @@ function getCurePowerOld(caster)
     local power = ((3 * MND) + VIT + (3 * math.floor(skill/5)))
     return power
 end
+
 function getBaseCure(power, divisor, constant, basepower)
     return ((power - basepower) / divisor) + constant
 end
+
 function getBaseCureOld(power, divisor, constant)
     return (power / 2) / divisor + constant
 end
@@ -417,6 +422,9 @@ function getCureFinal(caster, spell, basecure, minCure, isBlueMagic)
     if basecure < minCure then
         basecure = minCure
     end
+
+    -- Add cure potency base mod
+    basecure = basecure + caster:getMod(tpz.mod.CURE_POTENCY_BASE)
 
     local curePot = math.min(caster:getMod(tpz.mod.CURE_POTENCY), 50) / 100 -- caps at 50%
     local curePotII = math.min(caster:getMod(tpz.mod.CURE_POTENCY_II), 30) / 100 -- caps at 30%
@@ -1112,11 +1120,27 @@ function getSpellEnmityBonus(caster, target, spell)
     local enmityBonus = 1
     local skill = spell:getSkillType()
 
-    -- divine emblem Enmity bonus
+    -- Divine Emblem Enmity bonus
     if (skill == tpz.skill.DIVINE_MAGIC or skill == tpz.skill.HEALING_MAGIC) then
         if (caster:hasStatusEffect(tpz.effect.DIVINE_EMBLEM)) then
             enmityBonus = enmityBonus + (0.5 + (caster:getMod(tpz.mod.DIVINE_EMBLEM_BONUS) / 100))
         end
+    end
+
+    -- BLM JP Elemental Seal enmity reduction
+    if (caster:getMainJob() == tpz.job.BLM and skill == tpz.skill.ELEMENTAL_MAGIC) then
+        if caster:hasStatusEffect(tpz.effect.ELEMENTAL_SEAL) then
+            local esJpReduction = caster:getJobPointLevel(tpz.jp.MAGIC_BURST_EMNITY_BONUS) * 3
+            enmityBonus = enmityBonus - (esJpReduction / 100)
+        end
+    end
+
+    local params = {}
+    local burst = calculateMagicBurst(caster, spell, target, params)
+
+    -- Magic Burst enmity bonuses and reductions
+    if (burst > 1.0) then
+        enmityBonus = enmityBonus - (caster:getJobPointLevel(tpz.jp.MAGIC_BURST_EMNITY_BONUS) / 100)
     end
 
     -- printf("Enmity bonus: %f", enmityBonus)
@@ -1192,6 +1216,9 @@ function finalMagicAdjustments(caster, target, spell, dmg)
         dmg = math.floor(dmg * circlemult / 100)
     end
 
+    -- Handle circle DR
+    dmg = utils.HandleCircleDamageReduction(caster, target, dmg)
+
     -- Handle Scarlet Delirium
     dmg = utils.ScarletDeliriumBonus(caster, dmg)
 
@@ -1260,7 +1287,7 @@ function finalMagicAdjustments(caster, target, spell, dmg)
             if (dmg > 0) then
                 if (target:getObjType() ~= tpz.objType.PC) then
                     local tpGiven = utils.CalculateSpellTPGiven(caster, target)
-                    -- printf("TP given: %d", tpGiven)
+                    --printf("TP given: %d", tpGiven)
                     target:addTP(tpGiven)
                 end
             end
@@ -1273,6 +1300,9 @@ function finalMagicAdjustments(caster, target, spell, dmg)
 
 function finalMagicNonSpellAdjustments(caster, target, ele, dmg)
     --Handles target's HP adjustment and returns SIGNED dmg (negative values on absorb)
+
+    -- Handle Circle DR
+    dmg = utils.HandleCircleDamageReduction(caster, target, dmg)
 
     dmg = target:magicDmgTaken(dmg, ele)
 
@@ -1334,7 +1364,9 @@ function calculateMagicBurst(caster, spell, target, params)
     modburst = modburst + (caster:getMod(tpz.mod.MAG_BURST_BONUS) / 100)
 
     -- BLM AM2 magic burst bonus merits
-    modburst = modburst + (params.AMIIburstBonus / 100)
+    if (params.AMIIburstBonus ~= nil) then
+        modburst = modburst + (params.AMIIburstBonus / 100)
+    end
 
     -- BLM Job Point: Magic Burst Damage
     modburst = modburst + (caster:getJobPointLevel(tpz.jp.MAGIC_BURST_DMG_BONUS) / 100)
@@ -1483,14 +1515,6 @@ function addBonuses(caster, spell, target, dmg, params)
            mab = mab + ( 10 + caster:getMod(tpz.mod.MAGIC_CRIT_DMG_INCREASE ) )
         end
 
-        local mdefBarBonus = 0
-        if (ele >= tpz.magic.element.FIRE and ele <= tpz.magic.element.WATER) then
-            mab = mab + caster:getMerit(blmMerit[ele])
-            if (target:hasStatusEffect(tpz.magic.barSpell[ele])) then -- bar- spell magic defense bonus
-                mdefBarBonus = target:getStatusEffect(tpz.magic.barSpell[ele]):getSubPower()
-            end
-        end
-
         if caster:isPC() then
             if (casterJob == tpz.job.RDM) then
                 mab = mab + caster:getJobPointLevel(tpz.jp.RDM_MAGIC_ATK_BONUS)
@@ -1499,7 +1523,7 @@ function addBonuses(caster, spell, target, dmg, params)
             end
         end
 
-        mabbonus = (100 + mab) / (100 + target:getMod(tpz.mod.MDEF) + mdefBarBonus)
+        mabbonus = (100 + mab) / (100 + target:getMod(tpz.mod.MDEF) + getBarspellElementalMDB(caster, target, ele))
     end
 
     if (mabbonus < 0) then
@@ -1635,19 +1659,11 @@ function addBonusesAbility(caster, ele, target, dmg, params)
     dmg = math.floor(dmg * dayWeatherBonus)
 
     local mab = 1
-    local mdefBarBonus = 0
-    if
-        ele >= tpz.magic.element.FIRE and
-        ele <= tpz.magic.element.WATER and
-        target:hasStatusEffect(tpz.magic.barSpell[ele])
-    then -- bar- spell magic defense bonus
-        mdefBarBonus = target:getStatusEffect(tpz.magic.barSpell[ele]):getSubPower()
-    end
 
     if (params ~= nil and params.bonusmab ~= nil and params.includemab == true) then
         mab = (100 + caster:getMod(tpz.mod.MATT) + params.bonusmab) / (100 + target:getMod(tpz.mod.MDEF) + mdefBarBonus)
     elseif (params == nil or (params ~= nil and params.includemab == true)) then
-        mab = (100 + caster:getMod(tpz.mod.MATT)) / (100 + target:getMod(tpz.mod.MDEF) + mdefBarBonus)
+        mab = (100 + caster:getMod(tpz.mod.MATT)) / (100 + target:getMod(tpz.mod.MDEF) + getBarspellElementalMDB(caster, target, ele))
     end
 
     if (mab < 0) then
@@ -2118,6 +2134,7 @@ function JobPointsMacc(caster, target, spell)
         }
     end
 
+    --printf("JP MACC Bonus: %d", jpMaccBonus)
     return jpMaccBonus
 end
 
@@ -2276,6 +2293,7 @@ function doElementalNuke(caster, spell, target, spellParams)
     local resistBonus = spellParams.resistBonus
     -- https://www.bluegartr.com/threads/134257-Status-resistance-and-other-miscellaneous-JP-insights
     local spellId = spell:getID()
+
     -- BLM Job Point: Magic Damage Bonus
     if (caster:getMainJob() == tpz.job.BLM) and caster:isPC() then
         DMGMod = DMGMod + caster:getJobPointLevel(tpz.jp.MAGIC_DMG_BONUS)
@@ -2464,6 +2482,8 @@ function doNuke(caster, target, spell, params)
         spell:getSpellFamily() == tpz.magic.spellFamily.HOLY)
     then
         if caster:hasStatusEffect(tpz.effect.DIVINE_EMBLEM) then
+            local jpBonus = caster:getJobPointLevel(tpz.jp.DIVINE_EMBLEM_EFFECT) * 2
+            dmg = dmg + jpBonus
             dmg = dmg * (1 + caster:getSkillLevel(tpz.skill.DIVINE_MAGIC) / 300)
         end
     end
@@ -2488,6 +2508,10 @@ function doDivineBanishNuke(caster, target, spell, params)
         params.dmg = params.dmg + caster:getMerit(tpz.merit.BANISH_EFFECT)
     end
 
+    if caster:hasStatusEffect(tpz.effect.AFFLATUS_MISERY) then
+        params.dmg = params.dmg + caster:getJobPointLevel(tpz.jp.AFFLATUS_MISERY_EFFECT) *2
+    end
+
     --calculate raw damage
     local dmg = calculateMagicDamage(caster, target, spell, params)
 
@@ -2503,6 +2527,8 @@ function doDivineBanishNuke(caster, target, spell, params)
 
     -- divine emblem damage bonus
     if caster:hasStatusEffect(tpz.effect.DIVINE_EMBLEM) then
+        local jpBonus = caster:getJobPointLevel(tpz.jp.DIVINE_EMBLEM_EFFECT) * 2
+        dmg = dmg + jpBonus
         dmg = dmg * (1 + caster:getSkillLevel(tpz.skill.DIVINE_MAGIC) / 300)
     end    
 
@@ -3675,6 +3701,15 @@ function calculateDuration(duration, magicSkill, spellGroup, caster, target, use
     return math.floor(duration)
 end
 
+function getRegenDurationBonuses(caster, target)
+    local bonus = 0
+    bonus = bonus + caster:getMod(tpz.mod.REGEN_DURATION)
+    bonus = bonus + caster:getJobPointLevel(tpz.jp.REGEN_DURATION) * 3
+
+    --printf("Regen bonus %d", bonus)
+    return bonus
+end
+
 function calculatePotency(basePotency, magicSkill, caster, target)
     if (magicSkill ~= tpz.skill.ENFEEBLING_MAGIC) then
         return basePotency
@@ -3756,6 +3791,17 @@ function isNoEffectMsg(caster, target, effect, params)
     -- TODO: Dimishing returns check too?
 
     return false
+end
+
+function getBarspellElementalMDB(caster, target, element)
+    local mdefBarBonus = 0
+    if (element >= tpz.magic.element.FIRE and element <= tpz.magic.element.WATER) then
+        if (target:hasStatusEffect(tpz.magic.barSpell[element])) then -- bar- spell magic defense bonus
+            mdefBarBonus = target:getStatusEffect(tpz.magic.barSpell[element]):getSubPower()
+        end
+    end
+
+    return mdefBarBonus
 end
 
 -- Output magic hit rate for all levels

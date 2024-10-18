@@ -20,7 +20,7 @@ function onSpellCast(caster, target, spell)
         hp = hp + caster:getMod(tpz.mod.LIGHT_ARTS_REGEN) -- bonus hp from light arts
     end
 
-    local duration = calculateDuration(60 + caster:getMod(tpz.mod.REGEN_DURATION), spell:getSkillType(), spell:getSpellGroup(), caster, target)
+    local duration = calculateDuration(60 + getRegenDurationBonuses(caster, target), spell:getSkillType(), spell:getSpellGroup(), caster, target)
     duration = calculateDurationForLvl(duration, 37, target:getMainLvl())
 
     if target:addStatusEffect(tpz.effect.REGEN, hp, 3, duration) then

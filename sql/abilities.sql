@@ -329,7 +329,7 @@ INSERT INTO `abilities` VALUES (273,'manawell',4,40,1,300,35,100,0,252,2000,0,6,
 INSERT INTO `abilities` VALUES (274,'saboteur',5,83,1,300,36,0,0,258,2000,0,6,20.0,0,1,80,0,0,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (275,'spontaneity',4,25,3,300,37,0,0,259,2000,0,6,20.0,0,1,80,0,0,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (276,'conspirator',6,75,1,300,40,441,421,237,2000,0,6,14.0,1,1,80,0,4,'ABYSSEA',0);		-- changed to level 55 1m cd
-INSERT INTO `abilities` VALUES (277,'sepulcher',7,87,4,300,41,100,0,253,2000,0,6,12.0,0,1,80,0,0,NULL,0); -- needs animation
+INSERT INTO `abilities` VALUES (277,'sepulcher',7,50,4,180,41,100,0,253,2000,0,6,12.0,0,1,80,0,0,NULL,0); -- needs animation
 INSERT INTO `abilities` VALUES (278,'palisade',7,75,1,300,42,0,0,253,2000,0,6,20.0,1,1,80,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (279,'arcane_crest',8,50,4,180,43,100,0,250,2000,0,6,20.0,0,1,80,0,0,NULL,0); -- needs animation
 INSERT INTO `abilities` VALUES (280,'scarlet_delirium',8,70,1,90,44,100,0,250,2000,0,6,20.0,0,1,80,0,0,NULL,0);
@@ -410,7 +410,7 @@ INSERT INTO `abilities` VALUES (363,'Unda',22,5,1,5,10,100,0,296,2000,0,6,20.0,0
 INSERT INTO `abilities` VALUES (364,'Lux',22,5,1,5,10,100,0,297,2000,0,6,20.0,0,80,320,0,0,'SOA',0);
 INSERT INTO `abilities` VALUES (365,'Tenebrae',22,5,1,5,10,100,0,298,2000,0,6,20.0,0,80,320,0,0,'SOA',0);
 -- INSERT INTO `abilities` VALUES (366,'Vallation',22,10,1,180,23,668,0,0,2000,0,15,0.0,0,450,900,1794,0,'SOA',0); -- check merit
-INSERT INTO `abilities` VALUES (367,'Swordplay',17,50,1,300,24,667,0,299,2000,0,6,20.0,0,160,320,0,0,'SOA',0);
+INSERT INTO `abilities` VALUES (367,'Swordplay',22,50,1,300,24,667,0,299,2000,0,6,20.0,0,160,320,0,0,'SOA',0);
 -- INSERT INTO `abilities` VALUES (368,'Lunge',22,25,4,180,25,110,0,8,2000,0,15,4.0,0,0,0,1796,0,'SOA',0); -- check merit
 -- INSERT INTO `abilities` VALUES (369,'Pflug',22,40,1,180,59,671,0,1,2000,0,15,0.0,0,450,900,1798,0,'SOA',0); -- check merit
 INSERT INTO `abilities` VALUES (370,'Embolden',22,60,1,600,72,100,0,300,2000,0,6,0.0,0,160,320,0,0,'SOA',0);

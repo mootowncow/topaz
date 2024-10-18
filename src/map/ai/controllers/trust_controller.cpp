@@ -596,23 +596,13 @@ bool CTrustController::RangedAttack(uint16 targid)
 {
     TracyZoneScoped;
 
-    duration rangedDelay = 8s;
-    // This doesn't seem to work since trustutils divides the delay by 60 when it sets the delay
-    // 8s base delay on all ranged is fine
-    // // TODO: Snapshot / Flurry
-    //if (CItemWeapon* PRange = dynamic_cast<CItemWeapon*>(POwner->m_Weapons[SLOT_RANGED]))
-    //{
-    //    rangedDelay = std::chrono::milliseconds(PRange->getDelay());
-    //}
-
-    if (m_Tick - m_LastRangedAttackTime > rangedDelay && !m_InTransit && m_Tick > m_LastRepositionTime)
+    if (!m_InTransit && m_Tick > m_LastRepositionTime)
     {
         FaceTarget(PTarget->targid);
         if (POwner->PAI->CanChangeState() && POwner->PAI->Internal_RangedAttack(targid))
         {
-            m_LastRangedAttackTime = m_Tick;
+            return true;
         }
-        return true;
     }
     return false;
 }

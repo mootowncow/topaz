@@ -7,7 +7,7 @@ mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
 function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.SKILL_LIST, 6015)
-    mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
     mob:setModelId(1301) -- Sahagin (Dragoon)
     mob:setUnkillable(true)
 end

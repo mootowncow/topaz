@@ -28,7 +28,7 @@ end
 function onMobSpawn(mob)
     mob:setDamage(50)
     mob:setMod(tpz.mod.REFRESH, 300)
-    mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
     mob:addImmunity(tpz.immunity.SLEEP)
     mob:addImmunity(tpz.immunity.GRAVITY)
     mob:addImmunity(tpz.immunity.BIND)

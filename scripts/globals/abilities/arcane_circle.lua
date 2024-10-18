@@ -13,6 +13,9 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    local damageIncrease = 10
+    local damageReduction = 5 + player:getJobPointLevel(tpz.jp.ARCANE_CIRCLE_EFFECT)
     local duration = 180 + player:getMod(tpz.mod.ARCANE_CIRCLE_DURATION)
-    target:addStatusEffect(tpz.effect.ARCANE_CIRCLE, 15, 0, duration)
+
+    target:addStatusEffect(tpz.effect.ARCANE_CIRCLE, damageIncrease, 0, duration, 0, damageReduction, 0)
 end

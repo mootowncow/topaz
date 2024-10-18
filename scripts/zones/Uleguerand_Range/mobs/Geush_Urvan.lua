@@ -15,7 +15,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.REFRESH, 40)
     mob:setMod(tpz.mod.MOVE, 12)
     mob:SetMobSkillAttack(6079) -- Knockback on auto-attacks
-    mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
 end
     
 

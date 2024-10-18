@@ -989,6 +989,7 @@ public:
     CBattleEntity*  PLastAttacker;
     time_point      LastAttacked;
     uint8           m_outOfLosAutoAttacks;     // How many times the entity failed to auto due to the target being out of LOS
+    time_point      m_LastRangedAttackTime;
 
     std::unique_ptr<CStatusEffectContainer> StatusEffectContainer;
     std::unique_ptr<CRecastContainer> PRecastContainer;

@@ -7,10 +7,12 @@ require("scripts/globals/status")
 -----------------------------------
 
 function onEffectGain(target, effect)
+    local jpValue = target:getJobPointLevel(tpz.jp.SENTINEL_EFFECT)
     target:addMod(tpz.mod.UDMGPHYS, -effect:getPower())
     target:addMod(tpz.mod.UDMGRANGE, -effect:getPower())
     target:addMod(tpz.mod.ENMITY, 100)
     target:addMod(tpz.mod.ENMITY_LOSS_REDUCTION, effect:getSubPower())
+    target:addMod(tpz.mod.ENMITY_II, jpValue)
 end
 
 function onEffectTick(target, effect)
@@ -32,8 +34,10 @@ function onEffectTick(target, effect)
 end
 
 function onEffectLose(target, effect)
+    local jpValue = target:getJobPointLevel(tpz.jp.SENTINEL_EFFECT)
     target:delMod(tpz.mod.UDMGPHYS, -effect:getPower())
     target:delMod(tpz.mod.UDMGRANGE, -effect:getPower())
     target:delMod(tpz.mod.ENMITY, 100)
     target:delMod(tpz.mod.ENMITY_LOSS_REDUCTION, effect:getSubPower())
+    target:delMod(tpz.mod.ENMITY_II, jpValue)
 end

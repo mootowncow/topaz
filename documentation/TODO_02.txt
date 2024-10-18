@@ -131,11 +131,13 @@ CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
 
 Trusts:
-Iron Eater Sturmwind only skill list until level 60(Raging Rush level? Check) then Raging Rush + King's Justice skill list
-Trists with crit WS (I.e. Iron Eater and Aldo) need more dex or a special mod to buff their crit rate (tpz.mod.DEX_DURING_WS) during WS / TP moves
+Uka Healing Waltz waltzable flag stuff (Master -> Tank - > party)
+Shikaree Z jumps have usually high miss rates
+Valaineral Prot / Shell himself maybe only set gambits if no WHM in party?
+Sylvie entrust geo-regen not barrier
+Sylvie protectra/shellra(Prob needs spells in sql)
 2h Trusts (Iron Eater, Tenzen, Zeid, Shikaree Z) need 2% DA mod level 60+
 Trusts can still get the bug players used to get on WSing as a target dies then losing all TP Add WS state stuff PCs to mobskill state
-CRangeState::CanUseRangedAttack add bottom part to trusts (There is a slight cooldown on ranged attacks after the previous shot) and remove m_LastRangedAttackTime from CTrustController::RangedAttack
 Don't move/path if someone needs to be be cured. Check if has healing spells and then if a party member is below 75% HP don't mnove?
 POtherTrust stuff is what makes trusts follow eachother in CTrustController::DoRoamTick()
 Movement logic if can't see allies then reposition / warp (like can't see enemy logic)
@@ -154,7 +156,6 @@ Can't summon trusts in "Trial by X" avatar BCNM's
 Audit zonemisc tpz.zoneMisc.TRUST
 If one is CCed sometimes none of them will follow out of combat because of how they pay in a line? This means onRoam pathing
 Scaling food based on level / KI
-if (state.IsRapidShot()) made to work for trusts in CTrustEntity::OnRangedAttack
 Elivira 75 gear
 1: UI with a bar that is a server wide community quest to globally server buff trusts individually. Takes craft mats / drops? I.e. +1% int after filling up exp bar for entire server
 2: Needs custom packet + addon(for UI)
@@ -171,9 +172,28 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Za'Dha Adamantking modelsize too big? (WOTG - The Buried God)
+Avatar(And automaton?) phys dmg ignoring positional? Autos too?
+Tomahawk just reduce all the added up resists in magicdmgtaken by spdef mod
+Shikaree Z and X don't aggro
+
+SCNM:
+Di'Zho Spongeshell bugged enmity if you heal him? It caps your enmtiy? Or an SC being absorbed does?
+Mu'Nhi Thimbletail runs forever and never stops running? Keeps going out of bounds ;/ Is his pathing logic messed up now? Also set a circle of bounds for him to stay inside of / run around in
+All "WOTG" Quadavs have the wrong animation for Ore Lob
+Trading Quadav Charm to the gate breaks the item and gets it stuck "locked"
+
+Nerf Haste II to 20%? (And hastega and animating wail)
+DAGI for monstertpmoves (Copy from weaponskills). Also need for automaton/summon/BLU?. Can probably just add it to getMobDexCritRate() functions and add an arg thats IsRanged
+Why does plague have 100% land rate on a mob with -95% virus? Plague should also use virus EEM or is its element/effect wrong? (BLU delta thrust add effect)
+Does COR roll buff capacity points? It should
+HELM legendary weapon quests, obscene amounts of rare logs/ores/etc
+BLU killer circle traits nerfed (Dmg part)
+Mobs that spawn like PSU, are invisible then once you come near they spawn. For salvage / Assaults. Also another tier of assaults meant for 6 man (end with a boss of a toau only family mob like Marid)
+mob TP moves only add TP to target if its phys/ranged
+Headbutt did 0 dmg on a miss and not the normal BLU miss msg? Deltathrust works properly
 ALL HELM msgs gold? Like normal crafting skill up msgs. ALso for "due to your skill in x" msgs. If too low level to HELM, red msg?
 Inner Strength do something for JP
-Readd the MDEF based on barspell element to all magic logic. I think it's in monstertpmoves somewhere unused in a function. And affalatus solace adds +5
 Smn pet gifts
 https://github.com/LandSandBoat/server/commit/04595b03ce5b00ec9e4d64a573f31e8c2a8c549c
 Dusk Mask(+1). Remove enhancing replace with something else.
@@ -244,7 +264,7 @@ Check all immunities with mobdb
 
 +++ FINISH JP FIRST BEFORE ANYTHING +++
 Finish Zilartian Weapons (Blatherix). Need mods / aftermath and WS testing
-Odin / Alex RAID (Drop their BCNM gear + Einherjar odin gear)
+RAID T2. 16 allies per boss. Odin / Alex + WOTG + Abyssea(Shinryu, Lilith, Spitewardens, etc too!) NMs (Drop their BCNM gear + Einherjar odin gear).
 KS99's (Add new spell drops to every KS99, like Migawari/Full Cure/Comet/Meteor/Gain)
 60-80 inventory expansions from COP HNMS
 Relic / Mythic weapon revamp
@@ -274,13 +294,16 @@ Add more lockstyle gear that's missing to places and modelID's if needed
 5: Skirmish / Delve / Legion(Abjurations) gear
 Can get TP on spirits within start function and set as a local var? can be tp wiped mid ws ;/
 
-Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
-Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva/ramuh/etc only) specific items
-NEED A RAMUH SPECIFIC ITEM!!
-SiR ring. +Enfeebling magic duration items. +SC damage gear, nice for "Weaker" WS like spiral hell / cross reaper which you only use to SC with
-Resist gear options (preferably with HP/def)! Tank ranged(gun? bow? xbow?/ammo!
-High ACC mainhand only sword (PLD/WAR/DRK only, maybe Achamoths sword?)
-Mainhand Dagger with TH +1
+Gear Stats:
+    Hybrid items (i.e. eva + haste), or more weird stat combinations in general (i.e acc + macc gear, attack + MAB, etc). more ELE WSD gear for non-rdm too!
+    Blood boon / -perp cost / +Ele siphon gear. +SMN skill gear. Pet +Rattk/RAcc/DA/Store TP/Crit/BP damage/MACC/MAB. Avatar (shiva/ramuh/etc only) specific items
+    NEED A RAMUH SPECIFIC ITEM!!
+    SiR ring. +Enfeebling magic duration items. +SC damage gear, nice for "Weaker" WS like spiral hell / cross reaper which you only use to SC with
+    Resist gear options (preferably with HP/def)! Tank ranged(gun? bow? xbow?/ammo!
+    High ACC mainhand only sword (PLD/WAR/DRK only, maybe Achamoths sword?)
+    Mainhand Dagger with TH +1
+    +Shield Barrier
+    +Shield Def. Bonus (How is this coded to work? Is it just 1% block DR? Maybe change it because my custom Shield Barrier does what this does)
 
 Higher level beetles at the south goblin Oasis in Eastern Altepa?
 Lower level beetles away from Revelation Rock in middle of Western Altepa

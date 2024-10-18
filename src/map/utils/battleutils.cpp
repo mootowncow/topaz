@@ -2826,6 +2826,19 @@ namespace battleutils
             // int8 blockRate = (int8)std::clamp((int32)((base + (int32)skillmodifier) * blockRateMod), 5, (shieldSize == 6 ? 100 : std::max<int32>((int32)(65 * blockRateMod), 100)));
             // ShowDebug(CL_CYAN "GetBlockRate: %i\n" CL_RESET, blockRate);
             int32 baseValue = base + (int32)skillmodifier;
+
+            // Add Palisade JP bonus to the base block rate
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PALISADE))
+            {
+                if (PDefender->objtype == TYPE_PC)
+                {
+                    if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PDefender))
+                    {
+                        baseValue += PChar->PJobPoints->GetJobPointValue(JP_PALISADE_EFFECT);
+                    }
+                }
+            }
+
             int32 adjustedValue = static_cast<int32>(baseValue * blockRateMod);
 
             // Reprisal increases block rate by 50% of your current block rate
@@ -3047,6 +3060,8 @@ namespace battleutils
                 }
                 damage = (int32)((float)damage * resmult);
             }
+
+            damage = HandleCircleDamageReduction(PAttacker, PDefender, damage);
 
             if (isBlocked)
             {
@@ -3287,8 +3302,18 @@ namespace battleutils
                     }
                 }
 
+                uint32 conspiratorBonus = 0;
+                // Conspirator Subtle Blow bonus. Calculated at time of attack. No effect if attacker is currently the top enmity for their target
+                if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_CONSPIRATOR))
+                {
+                    if (!battleutils::IsTopEnmity(PAttacker, PDefender))
+                    {
+                        conspiratorBonus += 15;
+                    }
+                }
+
                 //account for attacker's subtle blow which reduces the baseTP gain for the defender
-                float sBlow1 = std::clamp((float)(PAttacker->getMod(Mod::SUBTLE_BLOW) + sBlowMerit), -50.0f, 50.0f);
+                float sBlow1 = std::clamp((float)(PAttacker->getMod(Mod::SUBTLE_BLOW) + sBlowMerit + conspiratorBonus), -50.0f, 50.0f);
                 float sBlow2 = std::clamp((float)PAttacker->getMod(Mod::SUBTLE_BLOW_II), -50.0f, 50.0f);
                 float sBlowMult = ((100.0f - std::clamp((float)(sBlow1 + sBlow2), -75.0f, 75.0f)) / 100.0f);
 
@@ -3337,6 +3362,8 @@ namespace battleutils
     {
         auto weapon = GetEntityWeapon(PAttacker, (SLOTTYPE)slot);
         bool isRanged = (slot == SLOT_AMMO || slot == SLOT_RANGED);
+
+        damage = HandleCircleDamageReduction(PAttacker, PDefender, damage);
 
         if (damage > 0)
         {
@@ -3437,8 +3464,18 @@ namespace battleutils
                 }
             }
 
+            uint32 conspiratorBonus = 0;
+            // Conspirator Subtle Blow bonus. Calculated at time of attack. No effect if attacker is currently the top enmity for their target
+            if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_CONSPIRATOR))
+            {
+                if (!battleutils::IsTopEnmity(PAttacker, PDefender))
+                {
+                    conspiratorBonus += 15;
+                }
+            }
+
             //account for attacker's subtle blow which reduces the baseTP gain for the defender
-            float sBlow1 = std::clamp((float)(PAttacker->getMod(Mod::SUBTLE_BLOW) + sBlowMerit), -50.0f, 50.0f);
+            float sBlow1 = std::clamp((float)(PAttacker->getMod(Mod::SUBTLE_BLOW) + sBlowMerit + conspiratorBonus), -50.0f, 50.0f);
             float sBlow2 = std::clamp((float)PAttacker->getMod(Mod::SUBTLE_BLOW_II), -50.0f, 50.0f);
             float sBlowMult = ((100.0f - std::clamp((float)(sBlow1 + sBlow2), -75.0f, 75.0f)) / 100.0f);
 
@@ -3662,7 +3699,7 @@ namespace battleutils
 
             hitrate = std::clamp(hitrate, 20, maxHitRate);
         }
-        //ShowDebug("hitrate %i\n", hitrate)
+        //ShowDebug("[%s] hitrate %i\n", PAttacker->name, hitrate);
         return static_cast<uint8>(hitrate);
     }
     uint8 GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender)
@@ -5065,7 +5102,8 @@ namespace battleutils
         // Add weather day bonus
         damage = (int32)(damage * dBonus);
         // ShowDebug("WeatherDayDamage: %u\n,", damage);
-        damage = SkillchainDmgTaken(PDefender, damage, appliedEle);  
+        damage = SkillchainDmgTaken(PDefender, damage, appliedEle);
+        damage = HandleCircleDamageReduction(PAttacker, PDefender, damage);
         if (damage > 0)
         {
             damage = std::max(damage - PDefender->getMod(Mod::PHALANX), 0);
@@ -5497,9 +5535,14 @@ namespace battleutils
                 {
                     PCurrentMob->PEnmityContainer->UpdateEnmityFromCure(PSource, PTarget->GetMLevel(), amount, (amount == 65535)); // true for "cure v"
                 }
+                else if (PCurrentMob->m_HiPCLvl > 0 && (PTarget->objtype == TYPE_PET || PTarget->objtype == TYPE_TRUST))
+                {
+                    PCurrentMob->PEnmityContainer->UpdateEnmityFromCure(PSource, PTarget->GetMLevel(), amount, (amount == 65535)); // true for "cure v"
+                }
             }
         }
     }
+
 
     // Generate enmity for all targets in range
     void GenerateInRangeEnmity(CBattleEntity* PSource, int16 CE, int16 VE)
@@ -6538,6 +6581,12 @@ namespace battleutils
 
             uint16 accBonus = PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_AFFLATUS_MISERY)->GetSubPower();
 
+            // Add JP bonus
+            if (PAttacker->objtype == TYPE_PC)
+            {
+                accBonus += static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(JP_AFFLATUS_MISERY_EFFECT);
+            }
+
             // Per BGWiki, this bonus is thought to cap at +30
             if (accBonus < 30) {
                 accBonus = accBonus + 10;
@@ -6724,70 +6773,133 @@ namespace battleutils
         return damage;
     }
 
+    int32 HandleCircleDamageReduction(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage)
+    {
+        if (PAttacker->objtype != TYPE_PC && damage > 0)
+        {
+            uint16 circlemult = 100;
+
+            switch (PAttacker->m_EcoSystem)
+            {
+                case SYSTEM_AMORPH:
+                    circlemult -= PDefender->getMod(Mod::AMORPH_CIRCLE_DR);
+                    break;
+                case SYSTEM_AQUAN:
+                    circlemult -= PDefender->getMod(Mod::AQUAN_CIRCLE_DR);
+                    break;
+                case SYSTEM_ARCANA:
+                    circlemult -= PDefender->getMod(Mod::ARCANA_CIRCLE_DR);
+                    break;
+                case SYSTEM_BEAST:
+                    circlemult -= PDefender->getMod(Mod::BEAST_CIRCLE_DR);
+                    break;
+                case SYSTEM_BIRD:
+                    circlemult -= PDefender->getMod(Mod::BIRD_CIRCLE_DR);
+                    break;
+                case SYSTEM_DEMON:
+                    circlemult -= PDefender->getMod(Mod::DEMON_CIRCLE_DR);
+                    break;
+                case SYSTEM_DRAGON:
+                    circlemult -= PDefender->getMod(Mod::DRAGON_CIRCLE_DR);
+                    break;
+                case SYSTEM_LIZARD:
+                    circlemult -= PDefender->getMod(Mod::LIZARD_CIRCLE_DR);
+                    break;
+                case SYSTEM_LUMINION:
+                    circlemult -= PDefender->getMod(Mod::LUMINION_CIRCLE_DR);
+                    break;
+                case SYSTEM_LUMORIAN:
+                    circlemult -= PDefender->getMod(Mod::LUMORIAN_CIRCLE_DR);
+                    break;
+                case SYSTEM_PLANTOID:
+                    circlemult -= PDefender->getMod(Mod::PLANTOID_CIRCLE_DR);
+                    break;
+                case SYSTEM_UNDEAD:
+                    circlemult -= PDefender->getMod(Mod::UNDEAD_CIRCLE_DR);
+                    break;
+                case SYSTEM_VERMIN:
+                    circlemult -= PDefender->getMod(Mod::VERMIN_CIRCLE_DR);
+                    break;
+                default:
+                    break;
+            }
+
+            circlemult = std::max(static_cast<int>(circlemult), 0);
+
+            damage = damage * circlemult / 100;
+
+        }
+
+        return damage;
+    }
+
     int32 HandlePositionalPDT(CBattleEntity* PDefender, int32 damage)
     {
         auto PAttacker = PDefender->GetBattleTarget();
-        // Handle frontal PDT
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
+        if (PAttacker)
         {
-            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 3)
+            // Handle frontal PDT
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
             {
-                resist = 0;
+                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+                float resist = 1.0f;
+                if (power == 3)
+                {
+                    resist = 0;
+                }
+                damage = (int32)(damage * resist);
             }
-            damage = (int32)(damage * resist);
-        }
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
-        {
-            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 5)
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
             {
-                resist = 0.25f;
+                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+                float resist = 1.0f;
+                if (power == 5)
+                {
+                    resist = 0.25f;
+                }
+                damage = (int32)(damage * resist);
             }
-            damage = (int32)(damage * resist);
-        }
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
-        {
-            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 6)
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
             {
-                resist = 0.5f;
+                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+                float resist = 1.0f;
+                if (power == 6)
+                {
+                    resist = 0.5f;
+                }
+                damage = (int32)(damage * resist);
             }
-            damage = (int32)(damage * resist);
-        }
-        // Handle behind PDT
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
-        {
-            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 4)
+            // Handle behind PDT
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
             {
-                resist = 0;
+                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+                float resist = 1.0f;
+                if (power == 4)
+                {
+                    resist = 0;
+                }
+                damage = (int32)(damage * resist);
             }
-            damage = (int32)(damage * resist);
-        }
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
-        {
-            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 7)
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
             {
-                resist = 0.25f;
+                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+                float resist = 1.0f;
+                if (power == 7)
+                {
+                    resist = 0.25f;
+                }
+                damage = (int32)(damage * resist);
             }
-            damage = (int32)(damage * resist);
-        }
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
-        {
-            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 8)
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
             {
-                resist = 0.5f;
+                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+                float resist = 1.0f;
+                if (power == 8)
+                {
+                    resist = 0.5f;
+                }
+                damage = (int32)(damage * resist);
             }
-            damage = (int32)(damage * resist);
         }
         return damage;
     }
@@ -6858,6 +6970,9 @@ namespace battleutils
 
     uint8 GetSpellAoEType(CBattleEntity* PCaster, CSpell* PSpell)
     {
+        // This won't set a spell to AOE if it's not normaly AOE if the AOE SQL column for AOE is set to 0
+        // Need to add a new entry to enum SPELLAOE and then add it to the AOE column for each spell you want to be AOE
+        
         // Majesty turns the Cure and Protect spell families into AoE when active
         if (PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_MAJESTY) &&
             (PSpell->getSpellFamily() == SPELLFAMILY_CURE || PSpell->getSpellFamily() == SPELLFAMILY_PROTECT))
@@ -7422,19 +7537,8 @@ namespace battleutils
     ************************************************************************/
     int32 GetRangedAttackBonuses(CBattleEntity* battleEntity)
     {
-        if (battleEntity->objtype != TYPE_PC)
-        {
-            return 0;
-        }
-
         int32 bonus = 0;
-
-        // Reduction from velocity shot mod
-        if (battleEntity->StatusEffectContainer->HasStatusEffect(EFFECT_VELOCITY_SHOT))
-        {
-            bonus += battleEntity->getMod(Mod::VELOCITY_RATT_BONUS);
-        }
-
+        // Nothing here yet
         return bonus;
     }
 
@@ -7446,11 +7550,6 @@ namespace battleutils
     ************************************************************************/
     int32 GetRangedAccuracyBonuses(CBattleEntity* battleEntity)
     {
-        if (battleEntity->objtype != TYPE_PC)
-        {
-            return 0;
-        }
-
         int32 bonus = 0;
 
         // Bonus from barrage mod
@@ -7458,7 +7557,6 @@ namespace battleutils
         {
             bonus += battleEntity->getMod(Mod::BARRAGE_ACC);
         }
-
         return bonus;
     }
 
@@ -8333,6 +8431,7 @@ namespace battleutils
         if (absorbedMP > 0)
             PDefender->addMP(absorbedMP);
     }
+
     void HandlePlayerAbilityUsed(CBattleEntity* PSource, CAbility* PAbility, action_t* action)
     {
         TPZ_DEBUG_BREAK_IF(PSource == nullptr);
@@ -8365,5 +8464,18 @@ namespace battleutils
                 }
             }
         }
+    }
+
+    bool IsTopEnmity(CBattleEntity* PAttacker, CBattleEntity* PDefender)
+    {
+        if (PDefender->objtype == TYPE_MOB)
+        if (auto PMob = dynamic_cast<CMobEntity*>(PAttacker->GetBattleTarget()))
+        {
+            if (PMob->PEnmityContainer->GetHighestEnmity() == PAttacker)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 };

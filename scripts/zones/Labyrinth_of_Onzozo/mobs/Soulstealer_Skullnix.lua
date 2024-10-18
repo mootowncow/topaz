@@ -16,7 +16,7 @@ function onMobSpawn(mob)
     mob:addMod(tpz.mod.ACC, 100) 
     mob:addMod(tpz.mod.EVA, 50)
     mob:setMod(tpz.mod.TRIPLE_ATTACK, 50)
-    mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

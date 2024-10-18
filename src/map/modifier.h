@@ -65,7 +65,7 @@ enum class Mod
     TWOHAND_ACC = 219, // Same as ACC, but only active when using a two handed weapon (e.g. Hasso)
 
     ENMITY                    = 27, // Enmity
-    ENMITY_II                 = 1376,// Enmity II
+    ENMITY_II                 = 1376,// Enmity II (Special Enmity Bonus on BG Wiki)
     ENMITY_LOSS_REDUCTION     = 427, // Reduces Enmity lost when taking damage
     CURE_ENMITY_REDUCTION     = 1387, // Reduces Enmity generated from cure spells
 
@@ -759,6 +759,7 @@ enum class Mod
     REGEN_DOWN                = 404, // poison
     CURE_POTENCY              = 374, // % cure potency | bonus from gear is capped at 50
     CURE_POTENCY_II           = 260, // % cure potency II | bonus from gear is capped at 30
+    CURE_POTENCY_BASE         = 1388, // Flat amount of healing added to cures (Before percent bonuses)
     CURE_POTENCY_RCVD         = 375, // % potency of received cure | healer's roll, some items have this
     CURE_POTENCY_BASE         = 1388, //Flat amount of healing added to cures(Before percent bonuses)
     RANGED_DMG_RATING         = 376, // adds damage rating to ranged weapon
@@ -885,7 +886,7 @@ enum class Mod
     AUGMENTS_ASSASSINS_CHARGE = 886, // Gives Assassin's Charge +1% Critical Hit Rate per merit level
     AUGMENTS_AMBUSH           = 887, // Gives +1% Triple Attack per merit level when Ambush conditions are met
     AUGMENTS_AURA_STEAL       = 889, // 20% chance of 2 effects to be dispelled or stolen per merit level
-    AUGMENTS_CONSPIRATOR      = 912, // Applies Conspirator benefits to player at the top of the hate list
+    AUGMENTS_CONSPIRATOR      = 912, // Grants an attack bonus equal to the accuracy bonus, must be worn.
     ENHANCES_REFRESH          = 529, // "Enhances Refresh" adds +1 per modifier to spell's tick result.
     REFRESH_DURATION          = 1312, // Increased refresh duration (in seconds)
     NO_SPELL_MP_DEPLETION     = 530, // % to not deplete MP on spellcast.
@@ -1065,21 +1066,39 @@ enum class Mod
     FRONTAL_PDT = 1188,
     BEHIND_PDT = 1189,
 
-    VERMIN_CIRCLE = 1224,
-    BIRD_CIRCLE = 1225,
-    AMORPH_CIRCLE = 1226,
-    LIZARD_CIRCLE = 1227,
-    AQUAN_CIRCLE = 1228,
-    PLANTOID_CIRCLE = 1229,
-    BEAST_CIRCLE = 1230,
-    UNDEAD_CIRCLE = 1231,
-    ARCANA_CIRCLE = 1232,
-    DRAGON_CIRCLE = 1233,
-    DEMON_CIRCLE = 1234,
-    EMPTY_CIRCLE = 1235,
-    HUMANOID_CIRCLE = 1236,
-    LUMORIAN_CIRCLE = 1237,
-    LUMINION_CIRCLE = 1238,
+    VERMIN_CIRCLE        = 1224,
+    BIRD_CIRCLE          = 1225,
+    AMORPH_CIRCLE        = 1226,
+    LIZARD_CIRCLE        = 1227,
+    AQUAN_CIRCLE         = 1228,
+    PLANTOID_CIRCLE      = 1229,
+    BEAST_CIRCLE         = 1230,
+    UNDEAD_CIRCLE        = 1231,
+    ARCANA_CIRCLE        = 1232,
+    DRAGON_CIRCLE        = 1233,
+    DEMON_CIRCLE         = 1234,
+    EMPTY_CIRCLE         = 1235,
+    HUMANOID_CIRCLE      = 1236,
+    LUMORIAN_CIRCLE      = 1237,
+    LUMINION_CIRCLE      = 1238,
+
+    VERMIN_CIRCLE_DR     = 1389,
+    BIRD_CIRCLE_DR       = 1390,
+    AMORPH_CIRCLE_DR     = 1391,
+    LIZARD_CIRCLE_DR     = 1392,
+    AQUAN_CIRCLE_DR      = 1393,
+    PLANTOID_CIRCLE_DR   = 1394,
+    BEAST_CIRCLE_DR      = 1395,
+    UNDEAD_CIRCLE_DR     = 1396,
+    ARCANA_CIRCLE_DR     = 1397,
+    DRAGON_CIRCLE_DR     = 1398,
+    DEMON_CIRCLE_DR      = 1399,
+    EMPTY_CIRCLE_DR      = 1400,
+    HUMANOID_CIRCLE_DR   = 1401,
+    LUMORIAN_CIRCLE_DR   = 1402,
+    LUMINION_CIRCLE_DR   = 1403,
+
+
 
     // Forced land rate, never resists. 1 = true 0 = false
     DIVINE_NEVER_MISS = 1295,   
@@ -1093,7 +1112,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1410 NEXT
+    // 1411 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

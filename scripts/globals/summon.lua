@@ -411,7 +411,7 @@ function AvatarMagicalBP(avatar, target, skill, element, params, statmod, bonus)
     -- get weather
     local weatherBonus = getAvatarWeatherBonus(avatar, element)
     -- get magic attack bonus
-    local magicAttkBonus = getAvatarMAB(avatar, target)
+    local magicAttkBonus = getAvatarMAB(avatar, target, element)
     -- Do the formula!
     local finaldmg = getAvatarMagicalDamage(avatarLevel, WSC, ftp, dStat, magicBurstBonus, resist, weatherBonus, magicAttkBonus)
 
@@ -1307,13 +1307,13 @@ function getAvatarDStat(statmod, avatar, target)
     return dSTat
 end
 
-function getAvatarMAB(avatar, target)
-    -- Get magic attack bonus
+function getAvatarMAB(avatar, target, element)
     local mab = 100 + avatar:getMod(tpz.mod.MATT)
-    --printf("mab %i", mab)
-    -- Get targets mdef
     local mdef = 100 + target:getMod(tpz.mod.MDEF)
-    --printf("mdef %i", mdef)
+
+    -- Add barspell element MDB bonus
+    mdef = mdef + getBarspellElementalMDB(avatar, target, element)
+
     -- Get dmg bonus from MAB / MDB
     local magicAttkBonus = mab / mdef
     --printf("magicAttkBonus %i", magicAttkBonus * 100)

@@ -42,7 +42,7 @@ function onMobFight(mob, target)
     if Revives >= Lives then
         mob:setMobMod(tpz.mobMod.EXP_BONUS, 0)
         mob:setMobMod(tpz.mobMod.NO_DROPS, 0)
-        mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+        mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
         mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
     else
         mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)

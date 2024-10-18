@@ -18,9 +18,8 @@ function onUseAbility(player, target, ability)
     local power       = (90 + player:getMod(tpz.mod.SENTINEL_EFFECT))
     local guardian    = player:getMerit(tpz.merit.GUARDIAN)
     local enhGuardian = player:getMod(tpz.mod.ENHANCES_GUARDIAN) * (guardian / 19) -- TODO(mod missing)
-    local jpValue     = player:getJobPointLevel(tpz.jp.SENTINEL_EFFECT)
     local duration    = 30 + enhGuardian
 
     -- Sent as positive power because UINTs, man.
-    player:addStatusEffect(tpz.effect.SENTINEL, power, 3, duration, 0, guardian + jpValue)
+    player:addStatusEffect(tpz.effect.SENTINEL, power, 3, duration, 0, guardian)
 end

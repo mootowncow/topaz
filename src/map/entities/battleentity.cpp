@@ -458,6 +458,29 @@ int16 CBattleEntity::GetRangedWeaponDelay(bool tp)
             delay = ((PRange->getDelay() * 60) / 1000);
         }
     }
+    else if (this->objtype == TYPE_TRUST)
+    {
+        if (PRange != nullptr && PRange->getDamage() != 0)
+        {
+            if (CTrustEntity* PTrust = dynamic_cast<CTrustEntity*>(this))
+            {
+                if (PTrust->getMobMod(MOBMOD_RANGED_DELAY) > 0)
+                {
+                    auto rangedDelay = (PTrust->getMobMod(MOBMOD_RANGED_DELAY) * 1000) / 60;
+
+                    delay = ((rangedDelay * 60) / 1000);
+                }
+                else
+                {
+                    delay = ((PRange->getDelay() * 60) / 1000);
+                }
+            }
+            else
+            {
+                delay = ((PRange->getDelay() * 60) / 1000); // Just incase, shouldn't happen
+            }
+        }
+    }
     else
     {
         if (PRange != nullptr && PRange->getDamage() != 0)
@@ -475,8 +498,33 @@ int16 CBattleEntity::GetRangedWeaponDelay(bool tp)
     }
     else if (PAmmo)
     {
-        delay += PAmmo->getDelay() / 2;
+        if (this->objtype == TYPE_TRUST)
+        {
+            if (CTrustEntity* PTrust = dynamic_cast<CTrustEntity*>(this))
+            {
+                if (PTrust->getMobMod(MOBMOD_AMMO_DELAY) > 0)
+                {
+                    auto ammoDelay = (PTrust->getMobMod(MOBMOD_AMMO_DELAY) * 1000) / 60;
+
+                    delay += ammoDelay / 2;
+                }
+                else
+                {
+                    delay += PAmmo->getDelay() / 2;
+                }
+            }
+            else
+            {
+                delay += PAmmo->getDelay() / 2; // Just incase, shouldn't happen
+            }
+        }
+        else
+        {
+            delay += PAmmo->getDelay() / 2;
+        }
     }
+
+    //ShowDebug("[%s] Ranged delay: %i\n", this->name, delay);
     return delay;
 }
 

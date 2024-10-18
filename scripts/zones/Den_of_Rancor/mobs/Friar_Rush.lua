@@ -18,7 +18,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.UFASTCAST, 75)
     mob:setMod(tpz.mod.REFRESH, 400)
     mob:setMod(tpz.mod.SILENCERESTRAIT, 75)
-    mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
 end
 
 function onMobInitialize(mob)

@@ -148,7 +148,7 @@ namespace battleutils
     uint8           CheckMobMultiHits(CBattleEntity* PEntity);
 
     int16           GetSnapshotReduction(CBattleEntity* battleEntity, int16 delay);
-    int32           GetRangedAttackBonuses(CBattleEntity* battleEntity);
+    int32           GetRangedAttackBonuses(CBattleEntity* battleEntity); // Nothing here yet
     int32           GetRangedAccuracyBonuses(CBattleEntity* battleEntity);
 
     uint8           GetSkillRank(SKILLTYPE SkillID, JOBTYPE JobID);
@@ -277,6 +277,7 @@ namespace battleutils
     int32               HandleStoneskin(CBattleEntity* PDefender, int32 damage, ATTACKTYPE attackType);
     int32               HandleMagicStoneskin(CBattleEntity* PDefender, int32 damage);
     int32               HandleFanDance(CBattleEntity* PDefender, int32 damage);
+    int32               HandleCircleDamageReduction(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage);
     int32               HandlePositionalPDT(CBattleEntity* PDefender, int32 damage);
 
     // stores damage for afflatus misery if active
@@ -318,6 +319,7 @@ namespace battleutils
     CBattleEntity*      GetCoverAbilityUser(CBattleEntity* PCoverAbilityTarget, CBattleEntity* PMob);
     bool                IsMagicCovered(CCharEntity* PCoverAbilityUser);
     void                ConvertDmgToMP(CBattleEntity* PDefender, int32 damage, bool IsCovered);
+    bool                IsTopEnmity(CBattleEntity* PAttacker, CBattleEntity* PDefender);
 
     void                HandlePlayerAbilityUsed(CBattleEntity* PSource, CAbility* PAbility, action_t* action);
     };

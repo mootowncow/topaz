@@ -11,7 +11,7 @@ function onMobSpawn(mob)
     mob:addMod(tpz.mod.ACC, 50) 
     mob:addMod(tpz.mod.EVA, 20)
     mob:setMobMod(tpz.mobMod.SKILL_LIST, 6011)
-    mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
 end
 
 function onMobFight(mob, target)

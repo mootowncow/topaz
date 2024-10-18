@@ -18,7 +18,7 @@ function onMobSpawn(mob)
     mob:addMod(tpz.mod.EVA, 15)
     mob:setMod(tpz.mod.REFRESH, 400)
     mob:setLocalVar("[rage]timer", 1200) -- 20 minutes
-    mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

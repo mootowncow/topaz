@@ -77,9 +77,6 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.MPP_LT, 25,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.CHIVALRY)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.REPRISAL, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.REPRISAL)
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.ENLIGHT, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ENLIGHT)
-
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.HPP_LT, 75,
                         ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
 
@@ -87,6 +84,12 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS,tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.CURE)
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS,tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.CURE)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.REPRISAL, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.REPRISAL)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.ENLIGHT, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ENLIGHT)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SHELL, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spellFamily.SHELL)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.PROTECT, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spellFamily.PROTECT)
 
     tpz.trust.onMobSpawn(mob)
 end

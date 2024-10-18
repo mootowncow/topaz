@@ -19,7 +19,7 @@ function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.SPECIAL_SKILL, 0)
     mob:setMobMod(tpz.mobMod.SPECIAL_COOL, 16)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
-    mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
     tpz.mix.jobSpecial.config(mob, {
         specials =
         {

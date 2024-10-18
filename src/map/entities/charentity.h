@@ -402,7 +402,6 @@ public:
     bool              m_EquipSwap;					// true if equipment was recently changed
     bool              m_EffectsChanged;
     time_point        m_LastSynthTime;
-    time_point        m_LastRangedAttackTime;
     time_point        m_LastPlayerDataSave;         // time between last player data save
     time_point        m_LastPartyReload;            // time between last party reload
 

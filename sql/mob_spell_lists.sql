@@ -2771,6 +2771,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,4,55,255);        -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,112,37,255);      -- Flash
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,97,61,255);       -- Reprisal
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,310,55,255);      -- Enlight
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,50,60,255);       -- Shell III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral',322,46,70,255);       -- Protect IV
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Joachim',323,1,2,255);            -- Cure
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Joachim',323,2,22,255);           -- Cure II

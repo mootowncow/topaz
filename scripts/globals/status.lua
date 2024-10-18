@@ -1343,7 +1343,7 @@ tpz.mod =
     MAGIC_CRIT_DMG_INCREASE         = 563,
     HASTE_MAGIC                     = 167,
     SPELLINTERRUPT                  = 168,
-    MOVE_SPEED_OVERIDE              = 169, -- Modifier used to overide regular speed caps. (GM speed and Feast of Sword…
+    MOVE_SPEED_OVERIDE              = 169, -- Modifier used to overide regular speed caps. (GM speed and Feast of SwordÂ…
     MOVE_SPEED_STACKABLE            = 75, -- Gear movement speed penalties, flee bonus, etc.
     MOVE_SPEED_GEAR_BONUS           = 76, -- Gear movement speed bonuses. DOES NOT STACK with each other, only highest applies.
     MOVE_SPEED_WEIGHT_PENALTY       = 77, -- For Gravity and curse.
@@ -2025,6 +2025,22 @@ tpz.mod =
     LUMORIAN_CIRCLE         = 1237,
     LUMINION_CIRCLE         = 1238,
 
+    VERMIN_CIRCLE_DR        = 1389,
+    BIRD_CIRCLE_DR          = 1390,
+    AMORPH_CIRCLE_DR        = 1391,
+    LIZARD_CIRCLE_DR        = 1392,
+    AQUAN_CIRCLE_DR         = 1393,
+    PLANTOID_CIRCLE_DR      = 1394,
+    BEAST_CIRCLE_DR         = 1395,
+    UNDEAD_CIRCLE_DR        = 1396,
+    ARCANA_CIRCLE_DR        = 1397,
+    DRAGON_CIRCLE_DR        = 1398,
+    DEMON_CIRCLE_DR         = 1399,
+    EMPTY_CIRCLE_DR         = 1400,
+    HUMANOID_CIRCLE_DR      = 1401,
+    LUMORIAN_CIRCLE_DR      = 1402,
+    LUMINION_CIRCLE_DR      = 1403,
+
     -- Forced land rate, never resists. 1 = true 0 = false
     DIVINE_NEVER_MISS       = 1295,   
     ENFEEBLE_NEVER_MISS     = 1296, 
@@ -2116,7 +2132,7 @@ tpz.mod =
     MND_DURING_WS           = 1409, -- Bonus MND during WS only
     CHR_DURING_WS           = 1410, -- Bonus CHR during WS only
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1410 NEXT
+    -- 1411 NEXT
 }
 
 tpz.latent =
@@ -3218,6 +3234,8 @@ tpz.mobMod =
     TP_USE              = 112, -- Amount of TP mob will use a TP move at(i.e 1500)
     FRIENDLY_FIRE       = 113, -- Can target friendly mobs offensive
     TRUST_DISTANCE      = 114, -- Trust distancing AI
+    RANGED_DELAY        = 115, -- Trust ranged weapon delay
+    AMMO_DELAY          = 116, -- Trust ranged ammo delay
 }
 
 ------------------------------------

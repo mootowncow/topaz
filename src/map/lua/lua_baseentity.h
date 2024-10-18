@@ -784,6 +784,7 @@ public:
     int32 delRoamFlag(lua_State* L);
     int32 deaggroPlayer(lua_State* L);
     int32 deaggroAll(lua_State* L);
+    int32 isTopEnmity(lua_State* L);
 };
 
 #endif

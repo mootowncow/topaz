@@ -10,7 +10,7 @@ local ID = require("scripts/zones/Bearclaw_Pinnacle/IDs")
 -----------------------------------
 
 function onMobSpawn(mob)
-    mob:setMod(tpz.mod.EEM_DARK_SLEEP, 30)
+    mob:setMod(tpz.mod.EEM_DARK_SLEEP, 25)
     mob:setMod(tpz.mod.EEM_LIGHT_SLEEP, 5)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)

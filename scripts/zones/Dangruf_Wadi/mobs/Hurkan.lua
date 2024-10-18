@@ -14,7 +14,7 @@ end
 function onMobSpawn(mob)
     mob:setDamage(90)
     mob:SetMobSkillAttack(6138)
-    mob:setMobMod(tpz.mobMod.GIL_MIN, 6000)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
 end
 
 function onMobEngaged(mob, target)
