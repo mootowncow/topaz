@@ -158,6 +158,7 @@ if (state.IsRapidShot()) made to work for trusts in CTrustEntity::OnRangedAttack
 Elivira 75 gear
 1: UI with a bar that is a server wide community quest to globally server buff trusts individually. Takes craft mats / drops? I.e. +1% int after filling up exp bar for entire server
 2: Needs custom packet + addon(for UI)
+TP_BONUS mod Might need to just use CalculateWeaponSkillTP in battleutils and edit it to work for trusts then delete from everywhere "tp" is
 mob:setTrustTPSkillSettings(ai.tp.OPENER Opener not work properly?
 Rapp Harness + haste subligar for thf/dnc trusts
 Trusts shouldn't play their special animation/sound effect after being summoned. Need to probably set them to normal animation after spawn like other stuff??
