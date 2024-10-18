@@ -241,13 +241,19 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
             CritTPBonus = 0.05
 			CritTPBonus = CritTPBonus + BLUGetCritTPModifier(caster:getTP())
             CritTPBonus = CritTPBonus + target:getMod(tpz.mod.ENEMYCRITRATE)/100
+
+            -- Apply Yonin bonus
+            if target:hasStatusEffect(tpz.effect.YONIN) and caster:isFacing(target, 23) then
+                CritTPBonus = CritTPBonus - (target:getStatusEffect(tpz.effect.YONIN):getPower() / 100)
+            end
+
             -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
             CritTPBonus = math.max(CritTPBonus, 0.01)
             -- caster:PrintToPlayer(string.format("native physical spell crit rate was %d", CritTPBonus*100))
 		end
 	end
 
-    -- Ranged spells alawys have a chance to crit
+    -- Ranged spells always have a chance to crit
     if isRanged then -- Ranged uses dAGI
         local nativecrit = 0.05
         local dAGI = (caster:getStat(tpz.mod.AGI) - target:getStat(tpz.mod.AGI))
@@ -256,11 +262,16 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
             nativecrit = nativecrit + math.floor(dAGI/10)/100 -- no known cap
             nativecrit = nativecrit + caster:getMod(tpz.mod.CRITHITRATE)/100 + caster:getMerit(tpz.merit.CRIT_HIT_RATE)/100
                                 + target:getMod(tpz.mod.ENEMYCRITRATE)/100  - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)/100
-            -- caster:PrintToPlayer(string.format("native ranged spell crit rate was %d", nativecrit*100))
+        end
+
+        -- Apply Yonin bonus
+        if target:hasStatusEffect(tpz.effect.YONIN) and caster:isFacing(target, 23) then
+            nativecrit = nativecrit - (target:getStatusEffect(tpz.effect.YONIN):getPower() / 100)
         end
 
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
         nativecrit = math.max(nativecrit, 0.01)
+
         if math.random() < nativecrit then
             SpellCritPdifModifier = 1.25 + ((caster:getMod(tpz.mod.CRIT_DMG_INCREASE) / 100) - (target:getMod(tpz.mod.CRIT_DEF_BONUS) / 100)) -- It crit!
             --caster:PrintToPlayer(string.format("Your ramged spell Crit!"))
@@ -1034,6 +1045,10 @@ function BlueGetHitRate(attacker, target, capHitRate, params)
 
     local acc = attacker:getACC() + bonusAcc + AccTPBonus + attacker:getMerit(tpz.merit.PHYSICAL_POTENCY) -- https://www.bluegartr.com/threads/37619-Blue-Mage-Best-thread-ever?p=2097460&viewfull=1#post2097460 
     local eva = target:getEVA()
+
+    if (target:hasStatusEffect(tpz.effect.YONIN) and attacker:isFacing(target, 23)) then -- Yonin evasion boost if attacker is facing target
+        eva = eva + (target:getStatusEffect(tpz.effect.YONIN):getPower() + target:getJobPointLevel(tpz.jp.YONIN_EFFECT))
+    end
 
     if (attacker:getMainLvl() > target:getMainLvl()) then -- acc bonus!
         acc = acc + ((attacker:getMainLvl()-target:getMainLvl())*4)
