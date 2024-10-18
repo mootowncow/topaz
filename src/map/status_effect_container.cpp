@@ -476,9 +476,9 @@ bool CStatusEffectContainer::AddStatusEffect(CStatusEffect* PStatusEffect, bool 
         }
         m_POwner->PAI->EventHandler.triggerListener("EFFECT_GAIN", m_POwner, PStatusEffect);
 
-        m_POwner->extDataUpdateFlag = true;
-
         m_POwner->addModifiers(&PStatusEffect->modList);
+
+        m_POwner->extDataUpdateFlag = true;
 
         if (PStatusEffect->GetStatusID() >= EFFECT_FIRE_MANEUVER &&
             PStatusEffect->GetStatusID() <= EFFECT_DARK_MANEUVER &&
@@ -591,11 +591,13 @@ void CStatusEffectContainer::RemoveStatusEffect(CStatusEffect* PStatusEffect, bo
             charutils::BuildingCharWeaponSkills(PChar);
             PChar->pushPacket(new CCharAbilitiesPacket(PChar));
         }
+
         m_POwner->PAI->EventHandler.triggerListener("EFFECT_LOSE", m_POwner, PStatusEffect);
+
+        m_POwner->delModifiers(&PStatusEffect->modList);
 
         m_POwner->extDataUpdateFlag = true;
 
-        m_POwner->delModifiers(&PStatusEffect->modList);
         if (m_POwner->objtype == TYPE_PC)
         {
             CCharEntity* PChar = (CCharEntity*)m_POwner;
@@ -852,7 +854,6 @@ uint8 CStatusEffectContainer::EraseAllStatusEffect()
             count++;
         }
     }
-    m_POwner->extDataUpdateFlag = true;
     return count;
 }
 
@@ -939,7 +940,6 @@ uint8 CStatusEffectContainer::RemoveAllNegativeEffects()
             count++;
         }
     }
-    m_POwner->extDataUpdateFlag = true;
     return count;
 }
 
@@ -969,7 +969,6 @@ EFFECT CStatusEffectContainer::DispelStatusEffect(EFFECTFLAG flag)
         RemoveStatusEffect(dispelableList.at(rndIdx), true);
         return result;
     }
-    m_POwner->extDataUpdateFlag = true;
     return EFFECT_NONE;
 }
 
@@ -990,7 +989,6 @@ uint8 CStatusEffectContainer::DispelAllStatusEffect(EFFECTFLAG flag)
             count++;
         }
     }
-    m_POwner->extDataUpdateFlag = true;
     return count;
 }
 
@@ -1396,7 +1394,6 @@ CStatusEffect* CStatusEffectContainer::StealStatusEffect(EFFECTFLAG flag)
                                                       oldEffect->GetDuration() / 1000, oldEffect->GetSubID(), oldEffect->GetSubPower(), oldEffect->GetTier());
 
         RemoveStatusEffect(oldEffect, true);
-        m_POwner->extDataUpdateFlag = true;
 
         return EffectCopy;
     }
