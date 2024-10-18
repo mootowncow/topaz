@@ -974,13 +974,13 @@ enum class Mod
     WS_CHR_BONUS              = 985, // % bonus to chr_wsc.
 
     // Bonus attributes during WS only (Used by Trusts)
-    STR_DURING_WS            = 1389,// Bonus STR during WS only
-    DEX_DURING_WS            = 1390,// Bonus DEX during WS only
-    VIT_DURING_WS            = 1391,// Bonus VIT during WS only
-    AGI_DURING_WS            = 1392,// Bonus AGI during WS only
-    INT_DURING_WS            = 1393,// Bonus INT during WS only
-    MND_DURING_WS            = 1394, // Bonus MND during WS only
-    CHR_DURING_WS            = 1395, // Bonus CHR during WS only
+    STR_DURING_WS           = 1404,// Bonus STR during WS only
+    DEX_DURING_WS           = 1405,// Bonus DEX during WS only
+    VIT_DURING_WS           = 1406,// Bonus VIT during WS only
+    AGI_DURING_WS           = 1407,// Bonus AGI during WS only
+    INT_DURING_WS           = 1408,// Bonus INT during WS only
+    MND_DURING_WS           = 1409,// Bonus MND during WS only
+    CHR_DURING_WS           = 1410,// Bonus CHR during WS only
 
     EXPERIENCE_RETAINED       = 914, // Experience points retained upon death (this is a percentage)
     CAPACITY_BONUS            = 915, // Capacity point bonus granted
@@ -1093,7 +1093,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1396 NEXT
+    // 1410 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it
