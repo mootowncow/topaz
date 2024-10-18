@@ -409,6 +409,7 @@ tpz.trust.spawn = function(caster, spell)
 end
 
 tpz.trust.onMobSpawn = function(mob)
+    local type = GetTypeByJob(mob)
     local mobName = mob:getName()
     local mods = modByMobName[mobName]
 
@@ -416,6 +417,7 @@ tpz.trust.onMobSpawn = function(mob)
         mods(mob)
     end
 
+    AddDuringWSMods(mob, type)
     AddFoodBonuses(mob)
 end
 
@@ -870,6 +872,65 @@ function AddMNKBelts(mob)
     end
 end
 
+function AddDuringWSMods(mob, type)
+    if mob:getMainLvl() >= 75 then
+        if (type == 'Heavy') then
+            mob:addMod(tpz.mod.STR_DURING_WS, 20)
+            mob:addMod(tpz.mod.DEX_DURING_WS, 40)
+        elseif (type == 'Light') then
+            mob:addMod(tpz.mod.STR_DURING_WS, 15)
+            mob:addMod(tpz.mod.DEX_DURING_WS, 25)
+        elseif (type == 'Far Eastern') then
+            mob:addMod(tpz.mod.STR_DURING_WS, 20)
+            mob:addMod(tpz.mod.DEX_DURING_WS, 40)
+        elseif (type == 'Ranged') then
+            mob:addMod(tpz.mod.STR_DURING_WS, 30)
+            mob:addMod(tpz.mod.AGI_DURING_WS, 10)
+        elseif (type == 'Caster') then
+            -- TODO
+        end
+    end
+end
+
+function GetTypeByJob(mob)
+    local jobTypes = {
+        { Job = tpz.job.WAR, Type = 'Heavy'         },
+        { Job = tpz.job.MNK, Type = 'Far Eastern'   },
+        { Job = tpz.job.WHM, Type = 'Caster'        },
+        { Job = tpz.job.BLM, Type = 'Caster'        },
+        { Job = tpz.job.RDM, Type = 'Caster'        },
+        { Job = tpz.job.THF, Type = 'Light'         },
+        { Job = tpz.job.PLD, Type = 'Heavy'         },
+        { Job = tpz.job.DRK, Type = 'Heavy'         },
+        { Job = tpz.job.BST, Type = 'Heavy'         },
+        { Job = tpz.job.BRD, Type = 'Light'         },
+        { Job = tpz.job.RNG, Type = 'Ranged'        },
+        { Job = tpz.job.SAM, Type = 'Far Eastern'   },
+        { Job = tpz.job.NIN, Type = 'Far Eastern'   },
+        { Job = tpz.job.DRG, Type = 'Heavy'         },
+        { Job = tpz.job.SMN, Type = 'Caster'        },
+        { Job = tpz.job.BLU, Type = 'Light'         },
+        { Job = tpz.job.COR, Type = 'Light'         },
+        { Job = tpz.job.PUP, Type = 'Far Eastern'   },
+        { Job = tpz.job.DNC, Type = 'Light'         },
+        { Job = tpz.job.SCH, Type = 'Caster'        },
+        { Job = tpz.job.GEO, Type = 'Caster'        },
+        { Job = tpz.job.RUN, Type = 'Light'         }
+    }
+    
+    local mobType = 'Light'
+
+    for _, jobInfo in pairs(jobTypes) do
+        if (mob:getMainJob() == jobInfo.Job) then
+            mobType = jobInfo.Type
+        end
+    end
+
+    return mobType
+end
+
+
+
 function AddElementalStaves(mob, tier)
     local dmgMods = {
         tpz.mod.FIRE_AFFINITY_DMG,
@@ -917,7 +978,7 @@ function AddFoodBonuses(mob)
     local job = mob:getMainJob()
     local master = mob:getMaster()
 
-    if (job ~= tpz.job.PLD) then
+    if (job ~= tpz.job.PLD) then -- Ranged / Melee
         if mobLevel >= 1 and mobLevel < 75 then
             mob:addMod(tpz.mod.STR, 5)
             mob:addMod(tpz.mod.AGI, 1)
@@ -936,13 +997,13 @@ function AddFoodBonuses(mob)
             mob:addMod(tpz.mod.FOOD_RACC_CAP, 72)
             mob:addMod(tpz.mod.SLEEPRESTRAIT, 1)
         end
-    elseif (job == tpz.job.BLM) or (job == tpz.job.SCH) then
+    elseif (job == tpz.job.BLM) or (job == tpz.job.SCH) then -- Casters
         mob:addMod(tpz.mod.MP, 25)
         mob:addMod(tpz.mod.CHR, -2)
         mob:addMod(tpz.mod.INT, 2)
         mob:addMod(tpz.mod.FOOD_MACCP, 21)
         mob:addMod(tpz.mod.FOOD_MACC_CAP, 10)
-    else
+    else -- Tank
         if mobLevel >= 1 and mobLevel < 75 then
             mob:addMod(tpz.mod.STR, 5)
             mob:addMod(tpz.mod.AGI, 1)

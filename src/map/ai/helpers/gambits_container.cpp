@@ -1380,17 +1380,8 @@ bool CGambitsContainer::TryTrustSkill()
 
             if (currentDistance <= (static_cast<float>(PWeaponSkill->getRange())))
             {
-                int16 tp = POwner->health.tp;
-                // Add Fencer TP Bonus
-                CTrustEntity* PTrust = static_cast<CTrustEntity*>(POwner);
-                CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]);
-                if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
-                {
-                    if (!PTrust->m_dualWield)
-                    {
-                        tp += PTrust->getMod(Mod::FENCER_TP_BONUS);
-                    }
-                }
+                int16 tp = battleutils::CalculateWeaponSkillTP(POwner, PWeaponSkill, POwner->health.tp);
+
                 tp = std::min(static_cast<int>(tp), 3000);
                 POwner->SetLocalVar("tp", tp);
                 controller->WeaponSkill(target->targid, PWeaponSkill->getID());
@@ -1446,17 +1437,8 @@ bool CGambitsContainer::TryTrustSkill()
 
             if (currentDistance <= (skill->getDistance()))
             {
-                int16 tp = POwner->health.tp;
-                // Add Fencer TP Bonus
-                CTrustEntity* PTrust = static_cast<CTrustEntity*>(POwner);
-                CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]);
-                if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
-                {
-                    if (!PTrust->m_dualWield)
-                    {
-                        tp += PTrust->getMod(Mod::FENCER_TP_BONUS);
-                    }
-                }
+                int16 tp = battleutils::CalculateWeaponSkillTP(POwner, 0, POwner->health.tp);
+
                 tp = std::min(static_cast<int>(tp), 3000);
                 POwner->SetLocalVar("tp", tp);
 

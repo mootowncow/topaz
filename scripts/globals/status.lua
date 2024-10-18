@@ -1343,7 +1343,7 @@ tpz.mod =
     MAGIC_CRIT_DMG_INCREASE         = 563,
     HASTE_MAGIC                     = 167,
     SPELLINTERRUPT                  = 168,
-    MOVE_SPEED_OVERIDE              = 169, -- Modifier used to overide regular speed caps. (GM speed and Feast of Sword…
+    MOVE_SPEED_OVERIDE              = 169, -- Modifier used to overide regular speed caps. (GM speed and Feast of SwordÂ…
     MOVE_SPEED_STACKABLE            = 75, -- Gear movement speed penalties, flee bonus, etc.
     MOVE_SPEED_GEAR_BONUS           = 76, -- Gear movement speed bonuses. DOES NOT STACK with each other, only highest applies.
     MOVE_SPEED_WEIGHT_PENALTY       = 77, -- For Gravity and curse.
@@ -2123,9 +2123,16 @@ tpz.mod =
     AURA_RADIUS             = 1377, -- Increases the range of indi auras. Flat amount. (1 = +1 range, 10 = +10 range)
     NINJUTSU_CASTING_TIME   = 1378, -- Reduces Ninjutsu Casting Time by percentage (e.g. mod value -10 = -10% cast time)
     CURE_ENMITY_REDUCTION   = 1387, -- Reduces Enmity generated from cure spells
-    CURE_POTENCY_BASE       = 1388, -- Flat amount of healing added to cures (Before percent bonuses)
+    CURE_POTENCY_BASE       = 1388, -- Flat amount of healing added to cures(Before percent bonuses)
+    STR_DURING_WS           = 1404, -- Bonus STR during WS only
+    DEX_DURING_WS           = 1405, -- Bonus DEX during WS only
+    VIT_DURING_WS           = 1406, -- Bonus VIT during WS only
+    AGI_DURING_WS           = 1407, -- Bonus AGI during WS only
+    INT_DURING_WS           = 1408, -- Bonus INT during WS only
+    MND_DURING_WS           = 1409, -- Bonus MND during WS only
+    CHR_DURING_WS           = 1410, -- Bonus CHR during WS only
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1404 NEXT
+    -- 1411 NEXT
 }
 
 tpz.latent =

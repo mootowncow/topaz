@@ -143,11 +143,26 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
         wsParams.chr_wsc = wsParams.chr_wsc + (attacker:getMod(tpz.mod.WS_CHR_BONUS) / 100)
     end
 
-    local wsMods = calcParams.fSTR +
-        (attacker:getStat(tpz.mod.STR) * wsParams.str_wsc + attacker:getStat(tpz.mod.DEX) * wsParams.dex_wsc +
-         attacker:getStat(tpz.mod.VIT) * wsParams.vit_wsc + attacker:getStat(tpz.mod.AGI) * wsParams.agi_wsc +
-         attacker:getStat(tpz.mod.INT) * wsParams.int_wsc + attacker:getStat(tpz.mod.MND) * wsParams.mnd_wsc +
-         attacker:getStat(tpz.mod.CHR) * wsParams.chr_wsc) * calcParams.alpha
+    local wsMods = 0
+    if attacker:isTrust() then
+        wsMods = calcParams.fSTR +
+            (attacker:getStat(tpz.mod.STR) + attacker:getMod(tpz.mod.STR_DURING_WS)) * wsParams.str_wsc +
+            (attacker:getStat(tpz.mod.DEX) + attacker:getMod(tpz.mod.DEX_DURING_WS)) * wsParams.dex_wsc +
+            (attacker:getStat(tpz.mod.VIT) + attacker:getMod(tpz.mod.VIT_DURING_WS)) * wsParams.vit_wsc +
+            (attacker:getStat(tpz.mod.AGI) + attacker:getMod(tpz.mod.AGI_DURING_WS)) * wsParams.agi_wsc +
+            (attacker:getStat(tpz.mod.INT) + attacker:getMod(tpz.mod.INT_DURING_WS)) * wsParams.int_wsc +
+            (attacker:getStat(tpz.mod.MND) + attacker:getMod(tpz.mod.MND_DURING_WS)) * wsParams.mnd_wsc +
+            (attacker:getStat(tpz.mod.CHR) + attacker:getMod(tpz.mod.CHR_DURING_WS)) * wsParams.chr_wsc * calcParams.alpha
+    else
+        wsMods = calcParams.fSTR +
+            (attacker:getStat(tpz.mod.STR) * wsParams.str_wsc +
+            attacker:getStat(tpz.mod.DEX) * wsParams.dex_wsc +
+            attacker:getStat(tpz.mod.VIT) * wsParams.vit_wsc +
+            attacker:getStat(tpz.mod.AGI) * wsParams.agi_wsc +
+            attacker:getStat(tpz.mod.INT) * wsParams.int_wsc +
+            attacker:getStat(tpz.mod.MND) * wsParams.mnd_wsc +
+            attacker:getStat(tpz.mod.CHR) * wsParams.chr_wsc) * calcParams.alpha
+    end
     local mainBase = calcParams.weaponDamage[1] + wsMods + calcParams.bonusWSmods
 
     -- Calculate fTP multiplier
@@ -168,15 +183,21 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
 
         -- Add on native crit hit rate (guesstimated, it actually follows an exponential curve)
         if isRanged then -- Ranged uses dAGI
-            local dAGI = (attacker:getStat(tpz.mod.AGI) - target:getStat(tpz.mod.AGI))
+            local AGI = attacker:getStat(tpz.mod.AGI)
+            if attacker:isTrust() then
+                AGI = AGI + attacker:getMod(tpz.mod.AGI_DURING_WS)
+            end
+            local dAGI = (AGI - target:getStat(tpz.mod.AGI))
             if dAGI > 0 then
                 nativecrit = nativecrit + math.floor(dAGI/10)/100 -- no known cap
-                --attacker:PrintToPlayer(string.format("native ranged crit rate was %d", nativecrit*100))
             end
          else
-            local dDEX = (attacker:getStat(tpz.mod.DEX) - target:getStat(tpz.mod.AGI))
-            nativecrit = nativecrit + getDexCritBonus(dDEX)
-            --attacker:PrintToPlayer(string.format("native melee crit rate was %d", nativecrit*100))
+             local DEX = attacker:getStat(tpz.mod.DEX)
+             if attacker:isTrust() then
+                DEX = DEX + attacker:getMod(tpz.mod.DEX_DURING_WS)
+             end
+             local dDEX = (DEX - target:getStat(tpz.mod.AGI))
+             nativecrit = nativecrit + getDexCritBonus(dDEX)
         end
         -- Always minimum 5% native crit
         if nativecrit < 0.05 then
@@ -397,9 +418,13 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
         ['weaponType'] = attacker:getWeaponSkillType(tpz.slot.MAIN),
         ['damageType'] = attacker:getWeaponDamageType(tpz.slot.MAIN)
     }
+    local STR = attacker:getStat(tpz.mod.STR)
+    if attacker:isTrust() then
+        STR = STR + attacker:getMod(tpz.mod.STR_DURING_WS)
+    end
     local calcParams = {}
     calcParams.weaponDamage = getMeleeDmg(attacker, attack.weaponType, wsParams.kick)
-    calcParams.fSTR = fSTR(attacker:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT), attacker:getWeaponDmgRank())
+    calcParams.fSTR = fSTR(STR, target:getStat(tpz.mod.VIT), attacker:getWeaponDmgRank())
     calcParams.cratio = cratio
     calcParams.ccritratio = ccritratio
     calcParams.accStat = attacker:getACC()
@@ -543,10 +568,14 @@ function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, prima
         ['weaponType'] = attacker:getWeaponSkillType(tpz.slot.RANGED),
         ['damageType'] = attacker:getWeaponDamageType(tpz.slot.RANGED)
     }
+    local STR = attacker:getStat(tpz.mod.STR)
+    if attacker:isTrust() then
+        STR = STR + attacker:getMod(tpz.mod.STR_DURING_WS)
+    end
     local calcParams =
     {
         weaponDamage = {attacker:getRangedDmg()},
-        fSTR = fSTR2(attacker:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT), attacker:getRangedDmgRank()),
+        fSTR = fSTR2(STR, target:getStat(tpz.mod.VIT), attacker:getRangedDmgRank()),
         cratio = cratio,
         ccritratio = ccritratio,
         accStat = attacker:getRACC(),

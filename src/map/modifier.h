@@ -761,6 +761,7 @@ enum class Mod
     CURE_POTENCY_II           = 260, // % cure potency II | bonus from gear is capped at 30
     CURE_POTENCY_BASE         = 1388, // Flat amount of healing added to cures (Before percent bonuses)
     CURE_POTENCY_RCVD         = 375, // % potency of received cure | healer's roll, some items have this
+    CURE_POTENCY_BASE         = 1388, //Flat amount of healing added to cures(Before percent bonuses)
     RANGED_DMG_RATING         = 376, // adds damage rating to ranged weapon
     MAIN_DMG_RANK             = 377, // adds weapon rank to main weapon http://wiki.bluegartr.com/bg/Weapon_Rank
     SUB_DMG_RANK              = 378, // adds weapon rank to sub weapon
@@ -973,6 +974,15 @@ enum class Mod
     WS_MND_BONUS              = 984, // % bonus to mnd_wsc.
     WS_CHR_BONUS              = 985, // % bonus to chr_wsc.
 
+    // Bonus attributes during WS only (Used by Trusts)
+    STR_DURING_WS           = 1404,// Bonus STR during WS only
+    DEX_DURING_WS           = 1405,// Bonus DEX during WS only
+    VIT_DURING_WS           = 1406,// Bonus VIT during WS only
+    AGI_DURING_WS           = 1407,// Bonus AGI during WS only
+    INT_DURING_WS           = 1408,// Bonus INT during WS only
+    MND_DURING_WS           = 1409,// Bonus MND during WS only
+    CHR_DURING_WS           = 1410,// Bonus CHR during WS only
+
     EXPERIENCE_RETAINED       = 914, // Experience points retained upon death (this is a percentage)
     CAPACITY_BONUS            = 915, // Capacity point bonus granted
     CONQUEST_BONUS            = 933, // Conquest points bonus granted (percentage)
@@ -1102,7 +1112,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1404 NEXT
+    // 1411 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

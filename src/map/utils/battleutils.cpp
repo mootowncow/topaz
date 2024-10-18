@@ -3762,7 +3762,7 @@ namespace battleutils
                     //ShowDebug("Adding fencer crit hit rate PLAYER\n", PAttacker->name);
                 }
             }
-            else if (PAttacker->objtype == TYPE_MOB && PAttacker->allegiance == ALLEGIANCE_PLAYER) // NPCs
+            if (PAttacker->objtype == TYPE_TRUST || (PAttacker->objtype == TYPE_MOB && PAttacker->allegiance == ALLEGIANCE_PLAYER)) // NPCs / Trusts
             {
                 // Add Fencer crit hit rate
                 CMobEntity* PMobAttacker = static_cast<CMobEntity*>(PAttacker);
@@ -8153,6 +8153,19 @@ namespace battleutils
                     (!PSub || PSub->getSkillType() == SKILL_NONE || PEntity->m_Weapons[SLOT_SUB]->IsShield()))
                 {
                     tp += PEntity->getMod(Mod::FENCER_TP_BONUS);
+                }
+            }
+        }
+        else if (PEntity->objtype == TYPE_TRUST || (PEntity->objtype == TYPE_MOB && PEntity->allegiance == ALLEGIANCE_PLAYER)) // NPCs / Trusts
+        {
+            // Add Fencer TP Bonus
+            CMobEntity* PMobAttacker = static_cast<CMobEntity*>(PEntity);
+            CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PMobAttacker->m_Weapons[SLOT_MAIN]);
+            if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
+            {
+                if (!PMobAttacker->m_dualWield)
+                {
+                    tp += PMobAttacker->getMod(Mod::FENCER_TP_BONUS);
                 }
             }
         }
