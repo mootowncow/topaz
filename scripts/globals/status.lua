@@ -2107,6 +2107,7 @@ tpz.mod =
     AURA_RADIUS             = 1377, -- Increases the range of indi auras. Flat amount. (1 = +1 range, 10 = +10 range)
     NINJUTSU_CASTING_TIME   = 1378, -- Reduces Ninjutsu Casting Time by percentage (e.g. mod value -10 = -10% cast time)
     CURE_ENMITY_REDUCTION   = 1387, -- Reduces Enmity generated from cure spells
+    CURE_POTENCY_BASE       = 1388, -- Flat amount of healing added to cures(Before percent bonuses)
     STR_DURING_WS           = 1389, --  Bonus STR during WS only
     DEX_DURING_WS           = 1390, --  Bonus DEX during WS only
     VIT_DURING_WS           = 1391, --  Bonus VIT during WS only
