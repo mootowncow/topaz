@@ -1600,7 +1600,7 @@ INSERT INTO `item_latents` VALUES(15126, 14, 8, 11, 0);
 -- -------------------------------------------------------
 -- Koga Hakama
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(15129, 68, 10, 26, 1);    -- Nighttime: EVA +10
+INSERT INTO `item_latents` VALUES(15129, 1, 50, 13, 420); -- [15129] Koga Hakama: Status Effect Active(420) - DEF 50
 
 INSERT INTO `item_latents` VALUES(15132, 63, 10, 13, 56);  -- WAR AF2 Feet Reduces defense penalty by 10% if Berserk Active
 
@@ -1865,7 +1865,7 @@ INSERT INTO `item_latents` VALUES(15589, 14, 8, 11, 0);
 -- -------------------------------------------------------
 -- Koga Hakama +1
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(15592, 68, 12, 26, 2);    -- Dusk - Dawn: EVA +12
+INSERT INTO `item_latents` VALUES(15592, 1, 55, 13, 420); -- [15592] Kog. Hakama +1: Status Effect Active(420) - DEF 55
 
 INSERT INTO `item_latents` VALUES(15665, 63, 10, 13, 56);  -- WAR AF2 +1 Feet Reduces defense penalty by 10% if Berserk Active
 
@@ -3810,3 +3810,5 @@ INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 281); -- [16011] Lyc. Earri
 INSERT INTO `item_latents` VALUES(16011, 288, 5, 13, 282); -- [16011] Lyc. Earring: Status Effect Active(282) - Double Attack 5
 INSERT INTO `item_latents` VALUES(14764, 25, 3, 13, 198); -- [14764] Minuet Earring: Status Effect Active(198) - ACC 3
 INSERT INTO `item_latents` VALUES(15773, 384, 400, 58, 1); -- [15773] Imperial Ring: In Assault(1) - HASTE_GEAR 400
+INSERT INTO `item_latents` VALUES(15099, 1, 50, 13, 420); -- [15099] Koga Chainmail: Status Effect Active(420) - DEF 50
+INSERT INTO `item_latents` VALUES(14512, 1, 55, 13, 420); -- [14512] Kog. Chainmail +1: Status Effect Active(420) - DEF 55

@@ -945,10 +945,10 @@ function getHitRate(attacker, target, capHitRate, firsthit, bonus)
         bonus = 0
     end
 
-    if (attacker:hasStatusEffect(tpz.effect.INNIN) and attacker:isBehind(target, 90)) then -- Innin acc boost if attacker is behind target
+    if (attacker:hasStatusEffect(tpz.effect.INNIN) and attacker:isBehind(target, 23)) then -- Innin acc boost if attacker is behind target
         bonus = bonus + (attacker:getStatusEffect(tpz.effect.INNIN):getPower() + attacker:getJobPointLevel(tpz.jp.INNIN_EFFECT))
     end
-    if (target:hasStatusEffect(tpz.effect.YONIN) and attacker:isFacing(target, 90)) then -- Yonin evasion boost if attacker is facing target
+    if (target:hasStatusEffect(tpz.effect.YONIN) and attacker:isFacing(target, 23)) then -- Yonin evasion boost if attacker is facing target
         bonus = bonus - (target:getStatusEffect(tpz.effect.YONIN):getPower() + target:getJobPointLevel(tpz.jp.YONIN_EFFECT))
     end
 

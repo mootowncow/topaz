@@ -100,20 +100,15 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         acc = mob:getRACC()
     end
     local eva = target:getEVA()
-    if target:isPC() then
-        if (target:hasStatusEffect(tpz.effect.YONIN) and mob:isFacing(target, 23)) then -- Yonin evasion boost if mob is facing target
-            eva = eva + (target:getStatusEffect(tpz.effect.YONIN):getPower() + target:getJobPointLevel(tpz.jp.YONIN_EFFECT))
-        end
+
+    if (target:hasStatusEffect(tpz.effect.YONIN) and mob:isFacing(target, 23)) then -- Yonin evasion boost if mob is facing target
+        eva = eva + (target:getStatusEffect(tpz.effect.YONIN):getPower() + target:getJobPointLevel(tpz.jp.YONIN_EFFECT))
     end
 
     --apply WSC
     local WSC = getMobWSC(mob, params_phys)
     --printf("WSC %u", WSC)
-    local withoutws = mob:getWeaponDmg() + fSTR
-    if (tpeffect == TP_RANGED) then
-        withoutws = mob:getRangedDmg() + fSTR
-    end
-    --printf("dmg without wsc %u", withoutws)
+
     local base = mob:getWeaponDmg() + WSC + fSTR
     if (tpeffect == TP_RANGED) then
         base = mob:getRangedDmg() + WSC + fSTR
@@ -207,12 +202,17 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         -- Apply fencer bonus (NPCs only)
         critRate = critRate + getMobFencerCritBonus(mob)
 
+        -- Apply Yonin bonus
+        if target:hasStatusEffect(tpz.effect.YONIN) and mob:isFacing(target, 23) then
+            critRate = critRate - (target:getStatusEffect(tpz.effect.YONIN):getPower())
+        end
+
         critRate = critRate / 100
         critRate = utils.clamp(critRate, minCritRate, maxCritRate)
     else
         critRate = 0  -- Cannot crit unless TP_CRIT_VARIES
     end
-    -- printf("final crit %d", critRate * 100)
+    --printf("final crit %d", critRate * 100)
 
     local maxRatio, minRatio = utils.GetMeleeRatio(mob, ratio)
 
