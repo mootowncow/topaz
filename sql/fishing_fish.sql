@@ -78,7 +78,7 @@ INSERT INTO `fishing_fish` VALUES (5474,'Ca Cuong',0,73,16,12,6,12,1,0,0,255,255
 INSERT INTO `fishing_fish` VALUES (5465,'Caedarva Frog',0,30,17,6,13,1,1,0,0,255,255,0,0,0,0,1,350,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4309,'Cave Cherax',90,130,36,7,4,118,232,1,0,255,255,0,1,0,0,1,150,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4379,'Cheval Salmon',0,21,21,7,7,1,1,0,0,255,255,0,0,0,0,1,400,0,'',0);
-INSERT INTO `fishing_fish` VALUES (4443,'Cobalt Jellyfish',0,5,28,13,0,1,1,0,0,255,255,0,0,0,1,1,750,0,'',0);
+INSERT INTO `fishing_fish` VALUES (4443,'Cobalt Jellyfish',0,5,28,13,0,1,1,0,0,255,255,0,0,0,0,1,500,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5128,'Cone Calamary',0,48,40,10,5,1,1,0,0,255,255,1,0,0,0,3,800,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4515,'Copper Frog',0,16,22,8,4,1,1,0,0,255,255,0,0,0,0,1,600,0,'',0);
 INSERT INTO `fishing_fish` VALUES (13454,'Copper ring',0,3,40,13,2,1,1,0,0,255,255,1,0,0,1,1,100,0,'',0);
@@ -155,16 +155,16 @@ INSERT INTO `fishing_fish` VALUES (4514,'Quus',0,19,12,7,11,1,1,0,0,255,255,0,0,
 INSERT INTO `fishing_fish` VALUES (4402,'Red Terrapin',0,53,28,8,5,1,1,0,0,255,255,0,0,0,0,1,300,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5135,'Rhinochimera',0,65,25,4,4,19,40,1,0,255,255,0,0,0,0,1,250,0,'',0);
 INSERT INTO `fishing_fish` VALUES (90,'Rusty Bucket',0,1,19,13,2,1,1,0,0,255,255,9,0,0,1,1,650,0,'',0);
-INSERT INTO `fishing_fish` VALUES (12522,'Rusty Cap',0,30,38,13,2,1,1,0,0,255,255,9,0,0,1,1,200,0,'',0);
-INSERT INTO `fishing_fish` VALUES (16606,'Rusty Greatsword',0,7,15,13,2,1,1,0,0,255,255,8,0,0,1,1,100,0,'',0);
+INSERT INTO `fishing_fish` VALUES (12522,'Rusty Cap',0,30,38,5,2,1,1,0,0,255,255,9,0,0,1,1,200,0,'',0);
+INSERT INTO `fishing_fish` VALUES (16606,'Rusty Greatsword',0,7,15,2,2,1,1,0,0,255,255,8,0,0,1,1,100,0,'',0);
 INSERT INTO `fishing_fish` VALUES (14117,'Rusty Leggings',0,7,26,13,2,1,1,0,0,255,255,9,0,0,1,1,650,0,'',0);
-INSERT INTO `fishing_fish` VALUES (16655,'Rusty Pick',0,7,15,13,2,1,1,0,0,255,255,8,0,0,1,1,150,0,'',0);
+INSERT INTO `fishing_fish` VALUES (16655,'Rusty Pick',0,7,15,2,2,1,1,0,0,255,255,8,0,0,1,1,150,0,'',0);
 INSERT INTO `fishing_fish` VALUES (14242,'Rusty Subligar',0,5,22,13,2,1,1,0,0,255,255,8,0,0,1,1,650,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4305,'Ryugu Titan',90,150,48,1,15,214,485,1,1,255,255,0,1,0,0,1,200,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4291,'Sandfish',0,50,36,3,5,1,1,0,0,255,255,1,0,0,0,3,400,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5459,'Sazanbaligi',0,56,18,10,14,1,1,0,0,255,255,0,0,0,0,1,200,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4475,'Sea Zombie',90,100,39,3,15,79,192,1,1,255,255,0,1,0,0,1,100,0,'',0);
-INSERT INTO `fishing_fish` VALUES (4484,'Shall Shell',0,53,27,13,2,1,1,0,0,255,255,0,0,0,0,1,550,0,'',0); -- was 650
+INSERT INTO `fishing_fish` VALUES (4484,'Shall Shell',0,53,27,4,2,1,1,0,0,255,255,0,0,0,0,1,550,0,'',0); -- was 650
 INSERT INTO `fishing_fish` VALUES (4354,'Shining Trout',0,37,16,3,3,1,1,0,0,255,255,0,0,0,0,1,350,0,'',0);
 INSERT INTO `fishing_fish` VALUES (13456,'Silver Ring',0,7,40,13,2,1,1,0,0,255,255,1,0,0,1,1,100,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4451,'Silver Shark',0,76,35,1,1,1,1,0,0,255,255,0,0,0,0,1,250,0,'',0);
@@ -179,7 +179,7 @@ INSERT INTO `fishing_fish` VALUES (4476,'Titanictus',90,101,35,3,12,79,209,1,1,2
 INSERT INTO `fishing_fish` VALUES (4426,'Tricolored Carp',0,27,19,12,12,1,1,0,0,255,255,0,0,0,0,1,350,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4319,'Tricorn',90,100,25,11,9,109,181,1,0,255,255,0,1,0,0,1,150,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4317,'Trilobite',0,59,27,5,6,1,1,0,1,255,255,0,0,0,0,1,350,0,'',0);
-INSERT INTO `fishing_fish` VALUES (5466,'Trumpet Shell',0,63,15,10,5,1,1,0,0,255,255,0,0,0,0,1,400,0,'',0);
+INSERT INTO `fishing_fish` VALUES (5466,'Trumpet Shell',0,63,4,3,4,1,1,0,0,255,255,0,0,0,0,1,400,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5137,'Turnabaligi',0,96,15,7,12,75,174,1,0,255,255,16,0,0,0,1,450,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5452,'Uskumru',0,55,24,4,1,1,1,0,0,255,255,0,0,0,0,1,450,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5141,'Veydal Wrasse',0,35,18,11,5,50,124,1,0,255,255,0,0,0,0,1,400,0,'',0);

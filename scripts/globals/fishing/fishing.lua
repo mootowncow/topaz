@@ -327,7 +327,7 @@ function calcChanceToHook(fishingSkill, fish, rod, moonModifier, hourModifier, l
 
 
     -- Penalty for using a Robber / Rogue Rig
-    if (lure.id == 17398) or (lure.id == 17002) or (lure.id == 17399) then
+    if (lure.id == 17398) or (lure.id == 17002) then
         if (fish.name ~= 'Shall Shell') then
             ChanceToHook = 1
         end
@@ -338,6 +338,7 @@ function calcChanceToHook(fishingSkill, fish, rod, moonModifier, hourModifier, l
     if (lure.id == 17399) then
     end
 
+    -- printf("Fish: %s", fish.name)
     -- printf("ChanceToHook final %d", ChanceToHook)
     return math.max(1, ChanceToHook)
 end

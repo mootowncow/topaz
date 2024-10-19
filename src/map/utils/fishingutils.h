@@ -403,6 +403,7 @@ namespace fishingutils
     fishingarea_t *GetFishingArea(CCharEntity* PChar);
     void StartFishing(CCharEntity* PChar);
     void FishingAction(CCharEntity* PChar, FISHACTION action, uint16 stamina, uint32 special);
+    static bool isItemFish(uint32 catchid);
 };
 
 #endif
