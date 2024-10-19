@@ -57,9 +57,6 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_JA, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.VIOLENT_FLOURISH)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.VIOLENT_FLOURISH)
 
-    -- Ecosystem check to swap to Haste samba if the target is undead
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.IS_ECOSYSTEM, tpz.ecosystem.UNDEAD, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASTE_SAMBA)
-
     -- Healing logic
     mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 66, ai.r.JA, ai.s.HIGHEST_WALTZ, tpz.ja.CURING_WALTZ)
 
@@ -67,8 +64,15 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.JA, ai.s.LOWEST_WALTZ, tpz.ja.CURING_WALTZ)
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.LULLABY, ai.r.JA, ai.s.LOWEST_WALTZ, tpz.ja.CURING_WALTZ)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NO_SAMBA, 0, ai.r.JA, ai.s.BEST_SAMBA, tpz.ja.DRAIN_SAMBA)
+    mob:addSimpleGambit(ai.t.MASTER, ai.c.STATUS_FLAG, tpz.effectFlag.WALTZABLE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HEALING_WALTZ)
+    mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.STATUS_FLAG, tpz.effectFlag.WALTZABLE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HEALING_WALTZ)
+    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS_FLAG, tpz.effectFlag.WALTZABLE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HEALING_WALTZ)
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS_FLAG, tpz.effectFlag.WALTZABLE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HEALING_WALTZ)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NO_SAMBA, 0, ai.r.JA, ai.s.BEST_SAMBA, tpz.ja.DRAIN_SAMBA)
+
+    -- Ecosystem check to swap to Haste samba if the target is undead
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.IS_ECOSYSTEM, tpz.ecosystem.UNDEAD, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASTE_SAMBA)
 
     -- TP use and return
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.FINISHING_MOVE_5, ai.r.JA, ai.s.SPECIFIC, tpz.ja.REVERSE_FLOURISH, 60)
