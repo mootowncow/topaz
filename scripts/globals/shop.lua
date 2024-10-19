@@ -302,10 +302,10 @@ tpz.shop =
                 5416,   18333,      tpz.ki.RHAPSODY_IN_MAUVE,   -- Steel Bullet Pouch
                 -- 5822,    9680,      tpz.ki.RHAPSODY_IN_WHITE,   -- Dweomer Bullet Pouch
                 -- 5823,    9900,      tpz.ki.RHAPSODY_IN_WHITE,   -- Oberon Bullet Pouch
-                6299,     400,      tpz.ki.RHAPSODY_IN_WHITE,   -- Shuriken Pouch
-                6297,     500,      tpz.ki.RHAPSODY_IN_WHITE,   -- Juji Shuriken Pouch
-                6298,     600,      tpz.ki.RHAPSODY_IN_WHITE,   -- Manji Shuriken Pouch
-                6302,     700,      tpz.ki.RHAPSODY_IN_AZURE,   -- Fuma Shuriken Pouch
+                6299,     2871,     tpz.ki.RHAPSODY_IN_WHITE,   -- Shuriken Pouch
+                6297,     5148,     tpz.ki.RHAPSODY_IN_WHITE,   -- Juji Shuriken Pouch
+                6298,     7048,     tpz.ki.RHAPSODY_IN_WHITE,   -- Manji Shuriken Pouch
+                6302,     8676,     tpz.ki.RHAPSODY_IN_AZURE,   -- Fuma Shuriken Pouch
                 -- 6303,    1000,      tpz.ki.RHAPSODY_IN_MAUVE,   -- Iga Shuriken Pouch
                 5870,    10000,     tpz.ki.RHAPSODY_IN_WHITE,   -- Trump Card Case
                 1022,    3643,      tpz.ki.RHAPSODY_IN_AZURE,   -- Thief's Tools
