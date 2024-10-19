@@ -18461,14 +18461,16 @@ INSERT INTO `item_basic` VALUES (21921,0,'kaja_katana','kaja_katana',1,63552,0,1
 INSERT INTO `item_basic` VALUES (21922,0,'gokotai','gokotai',1,63552,0,1,0);
 INSERT INTO `item_basic` VALUES (21923,0,'azalas_kunai','azalas_kunai',1,63552,0,0,0);
 INSERT INTO `item_basic` VALUES (21924,0,'debahocho_+1','debahocho_+1',1,2080,9,0,0);
-INSERT INTO `item_basic` VALUES (21925,0,'amateurs_pickaxe','amateurs_pickaxe',1,63552,0,0,0);
-INSERT INTO `item_basic` VALUES (21926,0,'initiates_pickaxe','initiates_pickaxe',1,63552,0,0,0);
-INSERT INTO `item_basic` VALUES (21927,0,'apprentices_pickaxe','apprentices_pickaxe',1,63552,0,0,0);
-INSERT INTO `item_basic` VALUES (21928,0,'veterans_pickaxe','veterans_pickaxe',1,63552,0,0,0);
-INSERT INTO `item_basic` VALUES (21929,0,'forsetis_pickaxe','forsetis_pickaxe',1,63552,0,0,0);
-INSERT INTO `item_basic` VALUES (21930,0,'amateurs_hatchet','amateurs_hatchet',1,63552,0,0,0);
-INSERT INTO `item_basic` VALUES (21931,0,'initiates_hatchet','initiates_hatchet',1,63552,0,0,0);
-INSERT INTO `item_basic` VALUES (21932,0,'apprentices_hatchet','apprentices_hatchet',1,63552,0,0,0);
+INSERT INTO `item_basic` VALUES (21925,0,'amateurs_pickaxe','amateurs_pickaxe',1,63552,0,1,0);
+INSERT INTO `item_basic` VALUES (21926,0,'initiates_pickaxe','initiates_pickaxe',1,63552,0,1,0);
+INSERT INTO `item_basic` VALUES (21927,0,'apprentices_pickaxe','apprentices_pickaxe',1,63552,0,1,0);
+INSERT INTO `item_basic` VALUES (21928,0,'veterans_pickaxe','veterans_pickaxe',1,63552,0,1,0);
+INSERT INTO `item_basic` VALUES (21929,0,'forsetis_pickaxe','forsetis_pickaxe',1,63552,0,1,0);
+INSERT INTO `item_basic` VALUES (21930,0,'amateurs_hatchet','amateurs_hatchet',1,63552,0,1,0);
+INSERT INTO `item_basic` VALUES (21931,0,'initiates_hatchet','initiates_hatchet',1,63552,0,1,0);
+INSERT INTO `item_basic` VALUES (21932,0,'apprentices_hatchet','apprentices_hatchet',1,63552,0,1,0);
+INSERT INTO `item_basic` VALUES (21933,0,'veterans_hatchet','veterans_hatchet',1,63552,0,1,0);
+INSERT INTO `item_basic` VALUES (21934,0,'ullrs_hatchet','ullrs_hatchet',1,63552,0,1,0);
 
 -- INSERT INTO `item_basic` VALUES (21928,0,'genshitanto','genshitanto',1,63552,0,1,0);
 -- INSERT INTO `item_basic` VALUES (21929,0,'dokoku','dokoku',1,63552,0,1,0);
@@ -18476,10 +18478,8 @@ INSERT INTO `item_basic` VALUES (21932,0,'apprentices_hatchet','apprentices_hatc
 -- INSERT INTO `item_basic` VALUES (21931,0,'dokoku','dokoku',1,63552,0,1,0);
 -- INSERT INTO `item_basic` VALUES (21932,0,'dokoku','dokoku',1,63552,0,1,0);
 
-INSERT INTO `item_basic` VALUES (21933,0,'veterans_hatchet','veterans_hatchet',1,63552,0,0,0);
-INSERT INTO `item_basic` VALUES (21934,0,'ullrs_hatchet','ullrs_hatchet',1,63552,0,0,0);
-INSERT INTO `item_basic` VALUES (21954,0,'amanomurakumo','amanomurakumo',1,63552,0,0,0);
-INSERT INTO `item_basic` VALUES (21955,0,'kogarasumaru','kogarasumaru',1,63552,0,0,0);
+INSERT INTO `item_basic` VALUES (21954,0,'amanomurakumo','amanomurakumo',1,63552,0,1,0);
+INSERT INTO `item_basic` VALUES (21955,0,'kogarasumaru','kogarasumaru',1,63552,0,1,0);
 INSERT INTO `item_basic` VALUES (21956,0,'masamune','masamune',1,63552,0,0,0);
 INSERT INTO `item_basic` VALUES (21960,0,'ashijiro_no_tachi','ashijiro_no_tachi',1,2084,10,0,0);
 INSERT INTO `item_basic` VALUES (21961,0,'ashijiro_no_tachi_+1','ashi._no_tachi_+1',1,2080,10,0,0);
