@@ -29,6 +29,8 @@ fishing.bait =
 {
     DRILL_CALAMARY      = 17006,
     DWARF_PUGIL         = 17007,
+    ROGUE_RIG           = 17398,
+    ROBBER_RIG          = 17002,
 }
 
 fishing.rings =

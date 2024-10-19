@@ -292,13 +292,16 @@ function calcLuckyTiming(player, fishingSkill, fishLevel, fishSizeType, rodSizeT
     return LuckyTiming
 end
 
-function calcChanceToHook(fishingSkill, fish, rod, moonModifier, hourModifier)
+function calcChanceToHook(fishingSkill, fish, rod, moonModifier, hourModifier, lure)
+    -- Debugging: Print the entire fish table
+    --print("Fish table contents:")
+    --printTable(fish)
 
     local ChanceToHook = FishTablePoolWeight
 
     -- Add Lure Bonus (max 50)
     ChanceToHook = ChanceToHook + (5 * fish.lurePower)
-
+    printf("Fish: %s", fish.name)
     -- Subtract Moon Penalty (max 10)
     ChanceToHook = ChanceToHook - math.min(10, math.floor(10 * (moonModifier - 1)))
 
@@ -322,6 +325,20 @@ function calcChanceToHook(fishingSkill, fish, rod, moonModifier, hourModifier)
         ChanceToHook = ChanceToHook - math.min(10, math.floor(5 * moonModifier)) -- small rod catching big, more effect
     end
 
+
+    -- Penalty for using a Robber / Rogue Rig
+    if (lure.id == 17398) or (lure.id == 17002) or (lure.id == 17399) then
+        if (fish.name ~= 'Shall Shell') then
+            ChanceToHook = 1
+        end
+    end
+
+    -- Penalty for using a Sabiki Ring
+    -- TODO: Only works on small fish you can catch multiple of
+    if (lure.id == 17399) then
+    end
+
+    printf("ChanceToHook final %d", ChanceToHook)
     return math.max(1, ChanceToHook)
 end
 
@@ -567,7 +584,7 @@ function calcSense(fishingSkill, catchSkill, catchType, catchSizeType, rodDurabi
     return Sense
 end
 
-function createFishItemPool(player, fishingSkill, fishlist, rod, moonModifier)
+function createFishItemPool(player, fishingSkill, fishlist, rod, moonModifier, lure)
     local FishPool = {}
     local ItemPool = {}
     local FishPoolWeight = 0
@@ -585,7 +602,7 @@ function createFishItemPool(player, fishingSkill, fishlist, rod, moonModifier)
                     local HourModifier = getHourModifier(TropicalFish)
 
                     if fish.reqKeyItem == 0 or fish.reqKeyItem > 0 and player:hasKeyItem(fish.reqKeyItem) then
-                        local ChanceToHook = calcChanceToHook(fishingSkill, fish, rod, moonModifier, HourModifier)
+                        local ChanceToHook = calcChanceToHook(fishingSkill, fish, rod, moonModifier, HourModifier, lure)
                         FishItem["weight"] = ChanceToHook
                         FishPoolWeight = FishPoolWeight + ChanceToHook
                         table.insert(FishPool, FishItem)
@@ -755,7 +772,7 @@ function onFishingCheck(player, fishskilllevel, rod, fishlist, moblist, lure, ar
     -- Get Fish and Item Lists
 
     if fishlist ~= nil and #fishlist > 0 then
-        FishPool, ItemPool, FishPoolWeight, ItemWeightQuestBonus = createFishItemPool(player, FishingSkill, fishlist, rod, MoonModifier)
+        FishPool, ItemPool, FishPoolWeight, ItemWeightQuestBonus = createFishItemPool(player, FishingSkill, fishlist, rod, MoonModifier, lure)
     end
 
     -- Get Mob List
