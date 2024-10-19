@@ -150,6 +150,7 @@ namespace luautils
     int32 DespawnMob(lua_State*);                                               // Despawn (Fade Out) Mob By Id
     int32 GetPlayerByName(lua_State*);                                          // Gets Player ref from a name supplied
     int32 GetPlayerByID(lua_State*);                                            // Gets Player ref from an Id supplied
+    int32 GetEntityByID(lua_State*);                                            // Gets Player ref from an Id supplied
     int32 GetMagianTrial(lua_State*);
     int32 GetMagianTrialsWithParent(lua_State* L);
     int32 GetMobAction(lua_State*);                                             // Get Mobs current action

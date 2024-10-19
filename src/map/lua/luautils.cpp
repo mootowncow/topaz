@@ -124,6 +124,7 @@ namespace luautils
         lua_register(LuaHandle, "DespawnMob", luautils::DespawnMob);
         lua_register(LuaHandle, "GetPlayerByName", luautils::GetPlayerByName);
         lua_register(LuaHandle, "GetPlayerByID", luautils::GetPlayerByID);
+        lua_register(LuaHandle, "GetEntityByID", luautils::GetEntityByID);
         lua_register(LuaHandle, "GetMobAction", luautils::GetMobAction);
         lua_register(LuaHandle, "JstMidnight", luautils::JstMidnight);
         lua_register(LuaHandle, "GetMagianTrial", luautils::GetMagianTrial);
@@ -1121,6 +1122,50 @@ namespace luautils
         lua_pushnil(L);
         return 1;
     }
+
+    int32 GetEntityByID(lua_State* L)
+    {
+        TracyZoneScoped;
+
+        if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
+        {
+            uint32 entityId = (uint32)lua_tointeger(L, 1);
+            CInstance* PInstance = nullptr;
+
+            // Check for instance in the second argument
+            if (!lua_isnil(L, 2) && lua_isuserdata(L, 2))
+            {
+                CLuaInstance* PLuaInstance = Lunar<CLuaInstance>::check(L, 2);
+                PInstance = PLuaInstance->GetInstance();
+            }
+
+
+            CBaseEntity* PEntity{ nullptr };
+
+            if (PInstance)
+            {
+                PEntity = PInstance->GetEntity(entityId & 0xFFF, TYPE_MOB | TYPE_PET | TYPE_NPC | TYPE_TRUST);
+            }
+            else
+            {
+                PEntity = zoneutils::GetEntity(entityId, TYPE_MOB | TYPE_PET | TYPE_NPC | TYPE_TRUST);
+            }
+
+            if (PEntity != nullptr)
+            {
+                lua_getglobal(L, CLuaBaseEntity::className);
+                lua_pushstring(L, "new");
+                lua_gettable(L, -2);
+                lua_insert(L, -2);
+                lua_pushlightuserdata(L, (void*)PEntity);
+                lua_pcall(L, 2, 1, 0);
+                return 1;
+            }
+        }
+        lua_pushnil(L);
+        return 1;
+    }
+
 
         /*******************************************************************************
      *                                                                              *
