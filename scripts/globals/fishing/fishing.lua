@@ -301,7 +301,7 @@ function calcChanceToHook(fishingSkill, fish, rod, moonModifier, hourModifier, l
 
     -- Add Lure Bonus (max 50)
     ChanceToHook = ChanceToHook + (5 * fish.lurePower)
-    printf("Fish: %s", fish.name)
+
     -- Subtract Moon Penalty (max 10)
     ChanceToHook = ChanceToHook - math.min(10, math.floor(10 * (moonModifier - 1)))
 
@@ -338,7 +338,7 @@ function calcChanceToHook(fishingSkill, fish, rod, moonModifier, hourModifier, l
     if (lure.id == 17399) then
     end
 
-    printf("ChanceToHook final %d", ChanceToHook)
+    -- printf("ChanceToHook final %d", ChanceToHook)
     return math.max(1, ChanceToHook)
 end
 
