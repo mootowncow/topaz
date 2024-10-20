@@ -228,7 +228,7 @@ local function checkUpgrade(player, mob, nextKeyItem)
         local zoneTextTable  = zones[mob:getZoneID()].text
         local currentKeyItem = mob:getLocalVar("[VoidWalker]PopedWith")
         local rand           = math.random(1, 10)
-
+        printf("Random upgrade roll was %d", rand)
         if rand == 5 then -- 10% chance of upgrading
             if player:hasKeyItem(currentKeyItem) then
                 player:delKeyItem(currentKeyItem)
@@ -1231,6 +1231,7 @@ tpz.voidwalker.onMobDeath = function(mob, player, isKiller, keyItem)
                 outOfParty and
                 not playerpoped:hasKeyItem(keyItem)
             then
+                printf("Checking upgrade")
                 checkUpgrade(playerpoped, mob, keyItem)
             end
         end
@@ -1239,6 +1240,7 @@ tpz.voidwalker.onMobDeath = function(mob, player, isKiller, keyItem)
             player:hasKeyItem(popkeyitem) and
             not player:hasKeyItem(keyItem)
         then
+            printf("Checking upgrade")
             checkUpgrade(player, mob, keyItem)
         end
 
