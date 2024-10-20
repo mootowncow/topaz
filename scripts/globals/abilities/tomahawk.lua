@@ -1,7 +1,7 @@
 -----------------------------------
 -- Ability: Tomahawk
 -- Recast Time: 0:01:00
--- Duration: 0:00:30 (+0:00:15 for each merit, cap is 0:00:50)
+-- Duration: 0:00:30 (+0:00:15 for each merit, cap is 0:01:30)
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -16,6 +16,9 @@ function onUseAbility(player,target,ability)
     -- special defense down 50%
     if target:getMod(tpz.mod.SPDEF_DOWN) == 0 then
         local duration = 25 + player:getMerit(tpz.merit.TOMAHAWK)
+        if (player:getName() == 'iron_eater') then
+            duration = 90
+        end
         target:queue(0, function(target)
             target:addMod(tpz.mod.SPDEF_DOWN,50)
         end)
