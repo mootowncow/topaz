@@ -110,7 +110,9 @@ CInstance* CInstanceLoader::LoadInstance(CInstance* instance)
 		mob_pools.familyid, name_prefix, entityFlags, animationsub, \
 		(mob_family_system.HP / 100), (mob_family_system.MP / 100), hasSpellScript, spellList, ATT, ACC, mob_groups.poolid, \
 		allegiance, namevis, aggro, mob_pools.skill_list_id, mob_pools.true_detection, detects, \
-		mob_family_system.charmable \
+		mob_family_system.charmable, \
+        Amnesia, Virus, Silence, Gravity, Stun, LightSleep, Charm, Paralyze, Bind, Slow, Petrify, Terror, Poison, Darksleep, Blind, \
+        mob_pools.shieldSize \
 		FROM instance_entities INNER JOIN mob_spawn_points ON instance_entities.id = mob_spawn_points.mobid \
         INNER JOIN mob_groups ON mob_groups.groupid = mob_spawn_points.groupid and mob_groups.zoneid=((mob_spawn_points.mobid>>12)&0xFFF) \
 		INNER JOIN mob_pools ON mob_groups.poolid = mob_pools.poolid \
@@ -184,15 +186,6 @@ CInstance* CInstanceLoader::LoadInstance(CInstance* instance)
             PMob->setModifier(Mod::HTHRES, (uint16)(Sql_GetFloatData(SqlInstanceHandle, 37) * 1000));
             PMob->setModifier(Mod::IMPACTRES, (uint16)(Sql_GetFloatData(SqlInstanceHandle, 38) * 1000));
 
-            //PMob->setModifier(Mod::FIRERES, (int16)((Sql_GetFloatData(SqlInstanceHandle, 39) - 1) * -100)); // These are stored as floating percentages
-            //PMob->setModifier(Mod::ICERES, (int16)((Sql_GetFloatData(SqlInstanceHandle, 40) - 1) * -100)); // and need to be adjusted into modifier units.
-            //PMob->setModifier(Mod::WINDRES, (int16)((Sql_GetFloatData(SqlInstanceHandle, 41) - 1) * -100)); // Higher RES = lower damage.
-            //PMob->setModifier(Mod::EARTHRES, (int16)((Sql_GetFloatData(SqlInstanceHandle, 42) - 1) * -100)); // Negatives signify lower resist chance.
-            //PMob->setModifier(Mod::THUNDERRES, (int16)((Sql_GetFloatData(SqlInstanceHandle, 43) - 1) * -100)); // Positives signify increased resist chance.
-            //PMob->setModifier(Mod::WATERRES, (int16)((Sql_GetFloatData(SqlInstanceHandle, 44) - 1) * -100));
-            //PMob->setModifier(Mod::LIGHTRES, (int16)((Sql_GetFloatData(SqlInstanceHandle, 45) - 1) * -100));
-            //PMob->setModifier(Mod::DARKRES, (int16)((Sql_GetFloatData(SqlInstanceHandle, 46) - 1) * -100));
-
             PMob->setModifier(Mod::SDT_FIRE, (int16)(Sql_GetFloatData(SqlInstanceHandle, 39) * 100)); // These are stored as floating percentages
             PMob->setModifier(Mod::SDT_ICE, (int16)(Sql_GetFloatData(SqlInstanceHandle, 40) * 100));
             PMob->setModifier(Mod::SDT_WIND, (int16)(Sql_GetFloatData(SqlInstanceHandle, 41) * 100));
@@ -240,6 +233,24 @@ CInstance* CInstanceLoader::LoadInstance(CInstance* instance)
             PMob->m_Detects = Sql_GetUIntData(SqlInstanceHandle, 64);
 
             PMob->setMobMod(MOBMOD_CHARMABLE, Sql_GetUIntData(SqlInstanceHandle, 65));
+
+            PMob->setModifier(Mod::EEM_AMNESIA, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 66))); // These are stored as floating percentages
+            PMob->setModifier(Mod::EEM_VIRUS, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 67)));
+            PMob->setModifier(Mod::EEM_SILENCE, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 68)));
+            PMob->setModifier(Mod::EEM_GRAVITY, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 69)));
+            PMob->setModifier(Mod::EEM_STUN, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 70)));
+            PMob->setModifier(Mod::EEM_LIGHT_SLEEP, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 71)));
+            PMob->setModifier(Mod::EEM_CHARM, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 72)));
+            PMob->setModifier(Mod::EEM_PARALYZE, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 73)));
+            PMob->setModifier(Mod::EEM_BIND, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 74)));
+            PMob->setModifier(Mod::EEM_SLOW, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 75)));
+            PMob->setModifier(Mod::EEM_PETRIFY, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 76)));
+            PMob->setModifier(Mod::EEM_TERROR, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 77)));
+            PMob->setModifier(Mod::EEM_POISON, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 78)));
+            PMob->setModifier(Mod::EEM_DARK_SLEEP, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 79)));
+            PMob->setModifier(Mod::EEM_BLIND, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 80)));
+
+            PMob->setMobMod(MOBMOD_BLOCK, Sql_GetUIntData(SqlInstanceHandle, 81)); // TODO: Probably turn into a member(m_shieldSize)
 
             // Overwrite base family charmables depending on mob type. Disallowed mobs which should be charmable
             // can be set in mob_spawn_mods or in their onInitialize
