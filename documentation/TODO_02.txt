@@ -182,7 +182,6 @@ Ferocious Wamouras addle undispellable
 Reduce COR parry skill rank to retail rank
 Pixies shouldn't blood aggro
 MDT augments also give equal BDT
-Delta Thrust plague lands on Ferocious Wamoura? Why? From queries?
 No Absorb items mods should stack
 Za'Dha Adamantking modelsize too big? (WOTG - The Buried God)
 Avatar(And automaton?) phys dmg ignoring positional? Autos too?
@@ -197,10 +196,8 @@ Trading Quadav Charm to the gate breaks the item and gets it stuck "locked"
 
 Nerf Haste II to 20%? (And hastega and animating wail)
 DAGI for monstertpmoves (Copy from weaponskills). Also need for automaton/summon/BLU?. Can probably just add it to getMobDexCritRate() functions and add an arg thats IsRanged
-Why does plague have 100% land rate on a mob with -95% virus? Plague should also use virus EEM or is its element/effect wrong? (BLU delta thrust add effect)
 Does COR roll buff capacity points? It should
 HELM legendary weapon quests, obscene amounts of rare logs/ores/etc
-BLU killer circle traits nerfed (Dmg part)
 Mobs that spawn like PSU, are invisible then once you come near they spawn. For salvage / Assaults. Also another tier of assaults meant for 6 man (end with a boss of a toau only family mob like Marid)
 mob TP moves only add TP to target if its phys/ranged
 Headbutt did 0 dmg on a miss and not the normal BLU miss msg? Deltathrust works properly
