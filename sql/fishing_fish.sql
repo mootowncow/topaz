@@ -139,8 +139,8 @@ INSERT INTO `fishing_fish` VALUES (4462,'Monke-Onke',0,51,17,11,9,49,115,1,0,255
 INSERT INTO `fishing_fish` VALUES (5121,'Moorish Idol',0,26,18,6,11,1,1,0,1,255,255,0,0,0,0,1,300,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5462,'Morinabaligi',0,94,36,4,13,1,1,0,0,255,255,0,0,0,0,1,450,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5126,'Muddy Siredon',0,18,23,12,11,1,1,0,0,255,255,0,0,0,0,1,550,0,'',0);
-INSERT INTO `fishing_fish` VALUES (16451,'Mythril Dagger',0,7,15,13,2,1,1,0,0,255,255,0,0,0,1,1,50,0,'',0);
-INSERT INTO `fishing_fish` VALUES (16537,'Mythril Sword',0,7,15,13,2,1,1,0,0,255,255,0,0,0,1,1,50,0,'',0);
+INSERT INTO `fishing_fish` VALUES (16451,'Mythril Dagger',90,7,15,13,2,1,1,0,0,255,255,0,0,0,1,1,50,0,'',0);
+INSERT INTO `fishing_fish` VALUES (16537,'Mythril Sword',95,7,15,13,2,1,1,0,0,255,255,0,0,0,1,1,50,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4361,'Nebimonite',0,27,23,9,5,1,1,0,1,255,255,0,0,0,0,1,450,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4485,'Noble Lady',0,66,30,3,5,1,1,0,1,255,255,0,0,0,0,1,500,0,'',0);
 INSERT INTO `fishing_fish` VALUES (1135,'Norg Shell',0,7,15,13,2,1,1,0,0,255,255,0,0,0,1,1,100,0,'',0);
