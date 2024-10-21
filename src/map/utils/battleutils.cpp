@@ -6384,14 +6384,14 @@ namespace battleutils
         float resist = 1.0f + floor( 256.0f * ( PDefender->getMod(Mod::UDMGBREATH) / 100.0f )  ) / 256.0f;
         resist = std::max<float>(resist, 0);
         ShowDebug("Resist before SPDEF down %f\n", resist);
-        resist += (((float)(PDefender->getMod(Mod::SPDEF_DOWN))) / 100.0f); // Change to addition
+        resist += (((float)(PDefender->getMod(Mod::SPDEF_DOWN))) / 100.0f);
         ShowDebug("Resist after SPDEF down %f\n", resist);
         damage = (int32)(damage * resist);
 
         resist = 1.0f + ( floor( 256.0f * ( PDefender->getMod(Mod::DMGBREATH) / 100.0f ) ) / 256.0f )
                       + ( floor( 256.0f * ( PDefender->getMod(Mod::DMG)       / 100.0f ) ) / 256.0f );
         ShowDebug("Resist before SPDEF down %f\n", resist);
-        resist += (((float)(PDefender->getMod(Mod::SPDEF_DOWN))) / 100.0f); // Change to addition
+        resist += (((float)(PDefender->getMod(Mod::SPDEF_DOWN))) / 100.0f);
         ShowDebug("Resist after SPDEF down %f\n", resist);
         resist = std::max<float>(resist, 0.5f); // Only floor at 0.5f, no ceiling
         damage = (int32)(damage * resist);
@@ -6433,7 +6433,7 @@ namespace battleutils
         float resist = 1.f + PDefender->getMod(Mod::UDMGMAGIC) / 100.f;
         resist = std::max(resist, 0.f);
         ShowDebug("Resist before SPDEF down %f\n", resist);
-        resist += (((float)(PDefender->getMod(Mod::SPDEF_DOWN))) / 100.0f); // Change to addition
+        resist += (((float)(PDefender->getMod(Mod::SPDEF_DOWN))) / 100.0f);
         ShowDebug("Resist after SPDEF down %f\n", resist);
         damage = (int32)(damage * resist);
 
@@ -6441,7 +6441,7 @@ namespace battleutils
         resist = std::max(resist, 0.5f);
         resist += PDefender->getMod(Mod::DMGMAGIC_II) / 100.f;
         ShowDebug("Resist before SPDEF down %f\n", resist);
-        resist += (((float)(PDefender->getMod(Mod::SPDEF_DOWN))) / 100.0f); // Change to addition
+        resist += (((float)(PDefender->getMod(Mod::SPDEF_DOWN))) / 100.0f);
         ShowDebug("Resist after SPDEF down %f\n", resist);
         resist = std::max(resist, 0.125f); // Total cap with MDT-% II included is 87.5%
         damage = (int32)(damage * resist);
