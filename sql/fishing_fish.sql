@@ -155,11 +155,11 @@ INSERT INTO `fishing_fish` VALUES (4514,'Quus',0,19,12,7,11,1,1,0,0,255,255,0,0,
 INSERT INTO `fishing_fish` VALUES (4402,'Red Terrapin',0,53,28,8,5,1,1,0,0,255,255,0,0,0,0,1,300,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5135,'Rhinochimera',0,65,25,4,4,19,40,1,0,255,255,0,0,0,0,1,250,0,'',0);
 INSERT INTO `fishing_fish` VALUES (90,'Rusty Bucket',0,1,19,13,2,1,1,0,0,255,255,9,0,0,1,1,650,0,'',0);
-INSERT INTO `fishing_fish` VALUES (12522,'Rusty Cap',0,30,38,5,2,1,1,0,0,255,255,9,0,0,1,1,200,0,'',0);
-INSERT INTO `fishing_fish` VALUES (16606,'Rusty Greatsword',0,7,15,2,2,1,1,0,0,255,255,8,0,0,1,1,100,0,'',0);
-INSERT INTO `fishing_fish` VALUES (14117,'Rusty Leggings',0,7,26,13,2,1,1,0,0,255,255,9,0,0,1,1,650,0,'',0);
-INSERT INTO `fishing_fish` VALUES (16655,'Rusty Pick',0,7,15,2,2,1,1,0,0,255,255,8,0,0,1,1,150,0,'',0);
-INSERT INTO `fishing_fish` VALUES (14242,'Rusty Subligar',0,5,22,13,2,1,1,0,0,255,255,8,0,0,1,1,650,0,'',0);
+INSERT INTO `fishing_fish` VALUES (12522,'Rusty Cap',45,30,38,5,2,1,1,0,0,255,255,9,0,0,1,1,200,0,'',0);
+INSERT INTO `fishing_fish` VALUES (16606,'Rusty Greatsword',75,7,15,2,2,1,1,0,0,255,255,8,0,0,1,1,100,0,'',0);
+INSERT INTO `fishing_fish` VALUES (14117,'Rusty Leggings',12,7,26,13,2,1,1,0,0,255,255,9,0,0,1,1,650,0,'',0);
+INSERT INTO `fishing_fish` VALUES (16655,'Rusty Pick',65,7,15,2,2,1,1,0,0,255,255,8,0,0,1,1,150,0,'',0);
+INSERT INTO `fishing_fish` VALUES (14242,'Rusty Subligar',22,5,22,13,2,1,1,0,0,255,255,8,0,0,1,1,650,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4305,'Ryugu Titan',90,150,48,1,15,214,485,1,1,255,255,0,1,0,0,1,200,0,'',0);
 INSERT INTO `fishing_fish` VALUES (4291,'Sandfish',0,50,36,3,5,1,1,0,0,255,255,1,0,0,0,3,400,0,'',0);
 INSERT INTO `fishing_fish` VALUES (5459,'Sazanbaligi',0,56,18,10,14,1,1,0,0,255,255,0,0,0,0,1,200,0,'',0);
