@@ -373,7 +373,7 @@ INSERT INTO `abilities` VALUES (326,'subtle_sorcery',4,60,1,300,75,0,0,274,2000,
 INSERT INTO `abilities` VALUES (327,'stymie',5,75,1,600,254,100,0,275,2000,0,6,20.0,0,1,80,0,0,'SOA',0);
 INSERT INTO `abilities` VALUES (328,'larceny',6,1,4,7200,0,153,0,182,2000,0,3,5.4,0,1,300,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (329,'intervene',7,96,4,7200,254,100,0,277,2000,0,6,4.0,0,0,340,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (330,'soul_enslavement',8,96,1,7200,254,100,0,278,2000,0,6,0.0,0,0,0,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (330,'soul_enslavement',8,75,1,7200,254,100,0,278,2000,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (331,'unleash',9,96,1,7200,254,100,0,279,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (332,'clarion_call',10,96,1,7200,254,100,0,280,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (333,'overkill',11,96,1,7200,254,100,0,281,2000,0,6,0.0,0,0,0,0,0,NULL,0);

@@ -29,8 +29,11 @@ function onSpellCast(caster, target, spell)
         effectsToSteal = effectsToSteal +1
     end
 
+    -- Increase the number of statuses absorbed by Absorb-Attri by 1 per 10 points.
+    local jpBonus = caster:getJobPointLevel(tpz.jp.NETHER_VOID_EFFECT)
+    effectsToSteal = effectsToSteal + math.floor(jpBonus / 10)
+
     -- Nether void adds additional dispels
-    -- TODO: JP Adds even more dispels to Nether Void!
     if caster:hasStatusEffect(tpz.effect.NETHER_VOID) then
         resist = applyResistanceEffect(caster, target, spell, params)
         if resist >= 0.5 then

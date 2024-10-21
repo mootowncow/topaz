@@ -1488,6 +1488,7 @@ namespace battleutils
                             {
                                 Action->spikesParam = 0;
                             }
+
                             // Does not work on undead
                             if (PAttacker->objtype == TYPE_MOB)
                             {
@@ -1902,6 +1903,7 @@ namespace battleutils
                 case ENSPELL_BLOOD_WEAPON:
                 case ENSPELL_DRAIN_SAMBA:
                 case ENSPELL_ASPIR_SAMBA:
+                case ENSPELL_SOUL_ENSLAVEMENT:
                     element = ELEMENT_DARK;
                     break;
                 default:
@@ -1967,7 +1969,48 @@ namespace battleutils
                     absorbed += (int32)floor(absorbed * 0.02f * static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(JP_BLOOD_WEAPON_EFFECT));
                 }
 
-                Action->addEffectParam = PAttacker->addHP(absorbed);
+                // Reduced by Shell / Phalanx
+                // https://www.bg-wiki.com/ffxi/Blood_Weapon
+
+                absorbed = MagicDmgTaken(PDefender, absorbed, (ELEMENT)(ELEMENT_DARK));
+                // Does not work on undead
+                if (PDefender->objtype == TYPE_MOB && PDefender->m_EcoSystem == SYSTEM_UNDEAD)
+                {
+                    Action->addEffectParam = 0;
+                }
+                else
+                {
+                    Action->addEffectParam = PAttacker->addHP(absorbed);
+                }
+
+                if (PChar != nullptr)
+                {
+                    PChar->updatemask |= UPDATE_HP;
+                }
+            }
+            else if (enspell == ENSPELL_SOUL_ENSLAVEMENT)
+            {
+                Action->additionalEffect = SUBEFFECT_TP_DRAIN;
+                Action->addEffectMessage = 165;
+
+                // Increase TP Absorbed by 1% per JP
+                int32 absorbed = Action->param;
+                if (PAttacker->objtype == TYPE_PC)
+                {
+                    absorbed += (int32)floor(absorbed * 0.01f * static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(JP_SOUL_ENSLAVEMENT_EFFECT));
+                }
+
+                // Does not work on undead
+                if (PDefender->objtype == TYPE_MOB && PDefender->m_EcoSystem == SYSTEM_UNDEAD)
+                {
+                    Action->addEffectParam = 0; 
+                }
+                else
+                {
+                    // Removes TP from the attacker
+                    PDefender->addTP(-absorbed);
+                    Action->addEffectParam = PAttacker->addTP(absorbed);
+                }
 
                 if (PChar != nullptr)
                 {
