@@ -776,8 +776,17 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
         float scarletDmgBonus = (float)amount / (float)GetMaxHP();
         scarletDmgBonus = scarletDmgBonus / 2.0f;
         scarletDmgBonus *= 100.0f;
+        auto duration = 90;
 
-        this->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SCARLET_DELIRIUM_1, EFFECT_SCARLET_DELIRIUM_1, scarletDmgBonus, 0, 90));
+        if (this->objtype == TYPE_PC)
+        {
+            if (auto* PChar = dynamic_cast<CCharEntity*>(this))
+            {
+                duration += PChar->PJobPoints->GetJobPointValue(JP_SCARLET_DLRIUM_DURATION);
+            }
+        }
+
+        this->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SCARLET_DELIRIUM_1, EFFECT_SCARLET_DELIRIUM_1, scarletDmgBonus, 0, duration));
     }
     // Damage always breaks petrify on mobs, but not players or NPCs(trusts, campaign helpers, charmed mobs, etc)
     if (this->objtype == TYPE_MOB && !this->isCharmed)

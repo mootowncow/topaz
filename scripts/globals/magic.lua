@@ -3613,9 +3613,10 @@ function getAbsorbSpellPower(caster)
     local gearBonus = 1 + (caster:getMod(tpz.mod.AUGMENTS_ABSORB) / 100)
     local liberatorBonus = 1 + (caster:getMod(tpz.mod.AUGMENTS_ABSORB_II) / 100)
     local netherVoidBonus = 1
+    local jpBonus = (caster:getJobPointLevel(tpz.jp.NETHER_VOID_EFFECT) * 2) / 100
 
     if caster:hasStatusEffect(tpz.effect.NETHER_VOID) then
-        netherVoidBonus = 1.5
+        netherVoidBonus = 1.5 + jpBonus
     end
 
     local totalPower = math.floor(math.floor(basePower * (gearBonus) * liberatorBonus) * netherVoidBonus)
