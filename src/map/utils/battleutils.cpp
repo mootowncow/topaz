@@ -6381,13 +6381,28 @@ namespace battleutils
                           Mod::LTNG_ABSORB, Mod::WATER_ABSORB, Mod::LIGHT_ABSORB, Mod::DARK_ABSORB };
         Mod nullarray[8] = { Mod::FIRE_NULL, Mod::ICE_NULL, Mod::WIND_NULL, Mod::EARTH_NULL, Mod::LTNG_NULL, Mod::WATER_NULL, Mod::LIGHT_NULL, Mod::DARK_NULL };
 
-        float resist = 1.0f + floor( 256.0f * ( PDefender->getMod(Mod::UDMGBREATH) / 100.0f )  ) / 256.0f;
+        float resist = 1.0f + floor(256.0f * (PDefender->getMod(Mod::UDMGBREATH) / 100.0f)) / 256.0f;
+        float spdefDown = PDefender->getMod(Mod::SPDEF_DOWN) / 100.0f;
+
         resist = std::max<float>(resist, 0);
+
+        if (resist < 1.0f)
+        {
+            // Apply SPDEF_DOWN logic to further reduce resistance
+            resist = 1.0f - ((1.0f - resist) * (1.0f - spdefDown));
+        }
+
         damage = (int32)(damage * resist);
 
-        resist = 1.0f + ( floor( 256.0f * ( PDefender->getMod(Mod::DMGBREATH) / 100.0f ) ) / 256.0f )
-                      + ( floor( 256.0f * ( PDefender->getMod(Mod::DMG)       / 100.0f ) ) / 256.0f );
-        resist = std::max<float>(resist, 0.5f); // Only floor at 0.5f, no ceiling
+        resist = 1.0f + (floor(256.0f * (PDefender->getMod(Mod::DMGBREATH) / 100.0f)) / 256.0f) + (floor(256.0f * (PDefender->getMod(Mod::DMG) / 100.0f)) / 256.0f);
+        resist = std::max<float>(resist, 0.5f); // Only floor at 0.5f
+
+        if (resist < 1.0f)
+        {
+            // Apply SPDEF_DOWN again to the second resist check
+            resist = 1.0f - ((1.0f - resist) * (1.0f - spdefDown));
+        }
+
         damage = (int32)(damage * resist);
 
         if (damage > 0 && PDefender->objtype == TYPE_PET && PDefender->getMod(Mod::AUTO_STEAM_JACKET) > 1)
@@ -6396,6 +6411,7 @@ namespace battleutils
         if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::ABSORB_DMG_CHANCE) ||
             (element && tpzrand::GetRandomNumber(100) < PDefender->getMod(absorb[element - 1])) ||
             tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_ABSORB))
+        {
             if (PDefender->getMod(Mod::MAGIC_ABSORB) > 100)
             {
                 damage = -damage * (PDefender->getMod(Mod::MAGIC_ABSORB) / 100);
@@ -6404,9 +6420,12 @@ namespace battleutils
             {
                 damage = -damage;
             }
+        }
         else if ((element && tpzrand::GetRandomNumber(100) < PDefender->getMod(nullarray[element - 1])) ||
                  tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_NULL))
+        {
             damage = 0;
+        }
         else
         {
             damage = HandleSevereDamage(PDefender, damage, false);
@@ -6414,7 +6433,7 @@ namespace battleutils
             if (absorbedMP > 0)
                 PDefender->addMP(absorbedMP);
         }
-        // ShowDebug(CL_CYAN"BreathDmgTaken: Element = %d\n" CL_RESET, element);
+
         return damage;
     }
 
@@ -6424,14 +6443,30 @@ namespace battleutils
                           Mod::LTNG_ABSORB, Mod::WATER_ABSORB, Mod::LIGHT_ABSORB, Mod::DARK_ABSORB };
         Mod nullarray[8] = { Mod::FIRE_NULL, Mod::ICE_NULL, Mod::WIND_NULL, Mod::EARTH_NULL, Mod::LTNG_NULL, Mod::WATER_NULL, Mod::LIGHT_NULL, Mod::DARK_NULL };
 
-        float resist = 1.f + PDefender->getMod(Mod::UDMGMAGIC) / 100.f;
+        float resist = 1.0f + PDefender->getMod(Mod::UDMGMAGIC) / 100.0f;
+        float spdefDown = PDefender->getMod(Mod::SPDEF_DOWN) / 100.0f;
+
         resist = std::max(resist, 0.f);
+
+        if (resist < 1.0f)
+        {
+            // Apply SPDEF_DOWN logic to further reduce resistance
+            resist = 1.0f - ((1.0f - resist) * (1.0f - spdefDown));
+        }
+
         damage = (int32)(damage * resist);
 
-        resist = 1.f + PDefender->getMod(Mod::DMGMAGIC) / 100.f + PDefender->getMod(Mod::DMG) / 100.f;
-        resist = std::max(resist, 0.5f);
-        resist += PDefender->getMod(Mod::DMGMAGIC_II) / 100.f;
-        resist = std::max(resist, 0.125f); // Total cap with MDT-% II included is 87.5%
+        resist = 1.0f + PDefender->getMod(Mod::DMGMAGIC) / 100.0f + PDefender->getMod(Mod::DMG) / 100.0f;
+        resist = std::max(resist, 0.5f); // Floor resist at 50%
+        resist += PDefender->getMod(Mod::DMGMAGIC_II) / 100.0f;
+
+        if (resist < 1.0f)
+        {
+            // Apply SPDEF_DOWN again
+            resist = 1.0f - ((1.0f - resist) * (1.0f - spdefDown));
+        }
+
+        resist = std::max(resist, 0.125f); // Cap at 87.5% max reduction
         damage = (int32)(damage * resist);
 
         if (damage > 0 && PDefender->objtype == TYPE_PET && PDefender->getMod(Mod::AUTO_STEAM_JACKET) > 1)
@@ -6440,6 +6475,7 @@ namespace battleutils
         if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::ABSORB_DMG_CHANCE) ||
             (element && tpzrand::GetRandomNumber(100) < PDefender->getMod(absorb[element - 1])) ||
             tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_ABSORB))
+        {
             if (PDefender->getMod(Mod::MAGIC_ABSORB) > 100)
             {
                 damage = -damage * (PDefender->getMod(Mod::MAGIC_ABSORB) / 100);
@@ -6448,9 +6484,12 @@ namespace battleutils
             {
                 damage = -damage;
             }
+        }
         else if ((element && tpzrand::GetRandomNumber(100) < PDefender->getMod(nullarray[element - 1])) ||
                  tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_NULL))
+        {
             damage = 0;
+        }
         else
         {
             damage = HandleSevereDamage(PDefender, damage, false);
@@ -6459,7 +6498,6 @@ namespace battleutils
                 PDefender->addMP(absorbedMP);
         }
 
-        //ShowDebug(CL_CYAN"MagicDmgTaken: Element = %d\n" CL_RESET, element);
         return damage;
     }
 
