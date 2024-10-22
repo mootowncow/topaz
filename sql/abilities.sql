@@ -336,7 +336,7 @@ INSERT INTO `abilities` VALUES (280,'scarlet_delirium',8,70,1,90,44,100,0,250,20
 INSERT INTO `abilities` VALUES (281,'spur',9,30,1,300,45,100,0,255,2000,0,6,20.0,1,0,0,0,4,NULL,0);
 INSERT INTO `abilities` VALUES (282,'run_wild',9,20,1,30,46,100,0,247,2000,0,6,20.0,1,0,0,0,4,NULL,0);
 INSERT INTO `abilities` VALUES (283,'tenuto',10,83,1,5,47,0,0,257,2000,0,6,20.0,0,0,0,0,0,'ABYSSEA',0);
-INSERT INTO `abilities` VALUES (284,'marcato',10,95,1,600,48,0,0,251,2000,0,6,20.0,0,0,0,0,0,'ABYSSEA',0);
+INSERT INTO `abilities` VALUES (284,'marcato',10,70,1,600,48,0,0,251,2000,0,6,20.0,0,0,0,0,0,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (285,'bounty_shot',11,87,4,60,51,100,0,261,2000,0,6,20.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (286,'decoy_shot',11,15,1,60,52,100,0,261,2000,0,6,20.0,0,0,0,0,0,NULL,0); -- needs animation
 INSERT INTO `abilities` VALUES (287,'hamanoha',12,65,4,90,53,100,0,249,2000,0,6,12.0,0,0,0,0,4,NULL,0);
@@ -372,10 +372,10 @@ INSERT INTO `abilities` VALUES (325,'asylum',3,70,1,60,254,100,0,273,2000,0,6,10
 INSERT INTO `abilities` VALUES (326,'subtle_sorcery',4,60,1,300,75,0,0,274,2000,0,6,0.0,0,0,0,0,4,NULL,0);
 INSERT INTO `abilities` VALUES (327,'stymie',5,75,1,600,254,100,0,275,2000,0,6,20.0,0,1,80,0,0,'SOA',0);
 INSERT INTO `abilities` VALUES (328,'larceny',6,1,4,7200,0,153,0,182,2000,0,3,5.4,0,1,300,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (329,'intervene',7,96,4,7200,254,100,0,277,2000,0,6,4.0,0,0,340,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (329,'intervene',7,75,4,7200,254,100,0,277,2000,0,6,4.0,0,0,340,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (330,'soul_enslavement',8,75,1,7200,254,100,0,278,2000,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (331,'unleash',9,96,1,7200,254,100,0,279,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
-INSERT INTO `abilities` VALUES (332,'clarion_call',10,96,1,7200,254,100,0,280,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
+INSERT INTO `abilities` VALUES (332,'clarion_call',10,75,1,7200,254,100,0,280,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (333,'overkill',11,96,1,7200,254,100,0,281,2000,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (334,'yaegasumi',12,75,1,90,254,100,0,282,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (335,'mikage',13,75,1,300,254,0,0,283,2000,0,6,0.0,0,1,80,0,0,'SOA',0);
