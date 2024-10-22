@@ -880,11 +880,24 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
 
     dmg = math.floor(dmg * dmgTPmod)
 
-    -- Handle TPEVA mod
-    if math.random(100) <= target:getMod(tpz.mod.TPEVA) then
+    -- Handle TPEVA mod (Does not work on auto-attcks or RA)
+    if (skill:getFlag() ~= tpz.mobSkillFlag.SPECIAL and skill:getFlag() ~= tpz.mobSkillFlag.REPLACE_ATTACK) then
+        if math.random(100) <= target:getMod(tpz.mod.TPEVA) then
 
-        skill:setMsg(tpz.msg.basic.MISS)
-        return 0
+            if target:isPC() and target:hasStatusEffect(tpz.effect.YAEGASUMI) then
+                local yaegasumiWSD = target:getCharVar("YaegasumiWSD")
+                if (yaegasumiWSD < 60) then -- Caps at 60% WSD https://www.bg-wiki.com/ffxi/Yaegasumi
+                    target:setCharVar("YaegasumiWSD", yaegasumiWSD + 20)
+                end
+
+                local jpBonus = target:getJobPointLevel(tpz.jp.YAEGASUMI_EFFECT) * 30
+                local tpAdded = 500 + jpBonus
+                target:addTP(tpAdded)
+            end
+
+            skill:setMsg(tpz.msg.basic.MISS)
+            return 0
+        end
     end
 
     -- Not being absorbed

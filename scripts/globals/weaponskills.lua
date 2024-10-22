@@ -381,6 +381,10 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
         --printf("Specific WS dmg increase %u", bonusdmg)
     end
 
+    if attacker:isPC() then
+        bonusdmg = bonusdmg + attacker:getCharVar("YaegasumiWSD")
+    end
+
     finaldmg = finaldmg * ((100 + bonusdmg)/100) -- Apply our "all hits" WS dmg bonuses
     finaldmg = finaldmg + firstHitBonus -- Finally add in our "first hit" WS dmg bonus from before
 
@@ -744,6 +748,10 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
     if (attacker:getMod(tpz.mod.WEAPONSKILL_DAMAGE_BASE + wsID) > 0) then -- For specific WS
         bonusdmg = bonusdmg + attacker:getMod(tpz.mod.WEAPONSKILL_DAMAGE_BASE + wsID)
         --printf("Specific WS dmg increase %u", bonusdmg)
+    end
+
+    if attacker:isPC() then
+        bonusdmg = bonusdmg + attacker:getCharVar("YaegasumiWSD")
     end
 
     -- Add in bonusdmg

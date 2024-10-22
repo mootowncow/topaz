@@ -20,5 +20,5 @@ function onEffectLose(target, effect)
     local jpValue = target:getJobPointLevel(tpz.jp.HAGAKURE_EFFECT) * 10
 
     target:delMod(tpz.mod.SAVETP, 400)
-    target:addMod(tpz.mod.TP_BONUS, 1000 + jpValue)
+    target:delMod(tpz.mod.TP_BONUS, 1000 + jpValue)
 end
