@@ -218,9 +218,6 @@ Party mobs together in assaults/Salvage like Dynamis
 Hundred Fists lasts 45s in dynamis-xarca
 Boats nearing use logic from silver sea (there's another function there not used for selbina/mhaura/pirates)
 
-FSTR2 for throwing weapons 
-https://github.com/LandSandBoat/server/commit/2dd7c97c35508fe5a8c0a8ff78cd05fee7070a6f#diff-dea0a7c8d005d1e7507dcb2370aff3a46df84ab53d87ba50beeab376c3082621R3050
-
 Weapon STR stuff (Already did I think?)
 https://github.com/LandSandBoat/server/commit/d930fbb0b83311a80ee4b88ef1063822f2d2eb4e
 
