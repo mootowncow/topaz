@@ -223,10 +223,7 @@ https://github.com/LandSandBoat/server/commit/d930fbb0b83311a80ee4b88ef1063822f2
 
 Buff magic crits, add to items in some new content
 Banish "resistance" reducton to magic? I don't see proof - check JP wiki, remove if no proof
-Attack nearby enemies if target has palisade and can't reach enemy(in attack nearby if bound logic)
 Steal is stealing Bone Chip over ice spikes with aura steal
-1: Tomahawk, check JP wiki, and code what it says, otherwise it should just set a mobs UDMGMAGIC / DMGMAGIC / DMGMAGIC II to 0 
-2: or in magicdmgtaken(C++) if tomahawk, its 0 resist
 Move a T1 of mid path and right path to Mamool / Trolls to make them worth meriting on
 Kerutoto gave me waking dreams(repeat), I killed diabolos, came back, gave me waking dreams  again, and then let me turn in my diabolos kill
 Party all mobs together? Or can't do this because then ALL mobs will link with eachother? So just party mobs in assaults? Or just specific ones? Add a mob_mod to add to party togetheR?
