@@ -162,6 +162,14 @@ inline int32 CLuaMobSkill::getDistance(lua_State* L) // Range of the skill
     return 1;
 }
 
+inline int32 CLuaMobSkill::getFlag(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaMobSkill == nullptr);
+
+    lua_pushinteger(L, m_PLuaMobSkill->getFlag());
+    return 1;
+}
+
 /*************************************************************************
 
             get the TP for calculations
@@ -298,6 +306,7 @@ Lunar<CLuaMobSkill>::Register_t CLuaMobSkill::methods[] =
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setAoe),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setDistance),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setFlag),
+    LUNAR_DECLARE_METHOD(CLuaMobSkill,getFlag),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setAnimationTime),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setActivationTime),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setValidTargets),

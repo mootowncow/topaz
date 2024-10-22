@@ -141,6 +141,16 @@ void CAttack::SetCritical(bool value)
                 }
             }
         }
+        else if (m_attackType == PHYSICAL_ATTACK_TYPE::ZANSHIN)
+        {
+            if (m_attacker->objtype == TYPE_PC)
+            {
+                if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_attacker))
+                {
+                    flatAttBonus = PChar->PJobPoints->GetJobPointValue(JP_ZANSHIN_EFFECT) * 2;
+                }
+            }
+        }
 
         // Conspirator ATT bonus. Calculated at time of attack. No effect if attacker is currently the top enmity for their target
         if (m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_CONSPIRATOR))
@@ -151,6 +161,7 @@ void CAttack::SetCritical(bool value)
             }
         }
 
+        //ShowDebug("[%s] flatAttBonus %u\n", m_attacker->name, flatAttBonus);
         m_damageRatio = battleutils::GetDamageRatio(m_attacker, m_victim, m_isCritical, attBonus, flatAttBonus);
     }
 }
