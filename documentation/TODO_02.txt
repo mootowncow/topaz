@@ -171,7 +171,6 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Don't overwrite Flash effect on WS (flash nova and Uriel Blade)
 On East Ronfaure these should be pugils(says that in DATs) INSERT INTO `mob_groups` VALUES (44,1038,101,'Ding_Bats',330,2,82,0,0,4,5,0); --  higher lvl group
 One of the Thiazi or a Bialozar should have higher HP and open vortex, it should be random and not set in stone. Make all Same HP in mob_groups.sql and use max_hp_boost effect to give more HP. Make sure to heal after giving HP
 17191137 should be Enchanted Bones and is pugil. Did I mess up all the groups for "high level spawns"?
@@ -184,7 +183,6 @@ MDT augments also give equal BDT
 No Absorb items mods should stack
 Za'Dha Adamantking modelsize too big? (WOTG - The Buried God)
 Avatar(And automaton?) phys dmg ignoring positional? Autos too?
-Tomahawk just reduce all the added up resists in magicdmgtaken by spdef mod
 Shikaree Z and X don't aggro
 
 SCNM:
