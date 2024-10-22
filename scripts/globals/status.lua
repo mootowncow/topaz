@@ -3236,6 +3236,7 @@ tpz.mobMod =
     TRUST_DISTANCE      = 114, -- Trust distancing AI
     RANGED_DELAY        = 115, -- Trust ranged weapon delay
     AMMO_DELAY          = 116, -- Trust ranged ammo delay
+    CAPACITY_BONUS      = 117, -- bonus capacity points (bonus / 100) negative values reduce capacity points.
 }
 
 ------------------------------------

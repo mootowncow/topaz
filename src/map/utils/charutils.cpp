@@ -4095,6 +4095,12 @@ namespace charutils
                     {
                         chainActive = true;
 
+                        if (PMob->getMobMod(MOBMOD_CAPACITY_BONUS))
+                        {
+                            const float monsterbonus = 1.f + PMob->getMobMod(MOBMOD_CAPACITY_BONUS) / 100.f;
+                            capacityPoints *= monsterbonus;
+                        }
+
                         // TODO: Needs verification, pulled from:
                         // https://www.bluegartr.com/threads/120445-Job-Points-discussion?p=6138288&viewfull=1#post6138288 Assumption: Chain0 is no bonus,
                         // Chains 10+ capped at 1.5 value, f(chain) = 1 + 0.05 * chain

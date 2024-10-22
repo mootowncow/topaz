@@ -692,6 +692,7 @@ INSERT INTO `mob_family_system` VALUES (632,'Vanguards_Hecteyes',1,'Amorph',1,40
 INSERT INTO `mob_family_system` VALUES (635,'Ultima',18,'Unclassified',2,40,100,120,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1.15,1,1,1,0,3,0,100,	100,	100,	100,	115,	100,	100,	100,	100,	100,	100,	100,	100,	5,	5);
 INSERT INTO `mob_family_system` VALUES (636,'GiantBird-NM',8,'Bird',2,40,130,120,3,3,3,3,3,3,3,1,2,1,3,0.75,1.25,1,0.75,0.85,1.5,0.5,0.85,0.85,0.85,0.85,0.85,7,1,1,85,	85,	50,	50,	85,	5,	85,	150,	150,	85,	85,	85,	85,	85,	85);
 INSERT INTO `mob_family_system` VALUES (637,'Aspidochelone',14,'Lizard',3,30,120,90,2,4,1,4,1,1,1,1,2,1,3,1,1,1,1,0.50,1.3,0.50,0.05,0.05,0.05,0.50,0.50,4,2,0, 50,	50,	50,	50,	5,	50,	50,	130,	130,	5,	5,	5,	5,	50,	50);
+INSERT INTO `mob_family_system` VALUES (638,'Champion_Crawler',20,'Vermin',1,40,100,120,4,4,3,5,4,4,4,1,5,1,3,0.5,0.5,0.5,0.5,1.3,1.5,1.3,1,1.5,1.3,1,1.5,4,2,1,130,	130,	130,	130,	150,	100,	100,	150,	150,	100,	100,	100,	130,	150,	150);
 
 -- Mythic Weapon Fights (Custom)
 INSERT INTO `mob_family_system` VALUES (887,'Cyranuce',13,'Humanoid',0,50,100,120,1,3,3,7,7,7,3,1,3,1,3,1,1,1,1,1,1,1,1,1,1,1,1,0,2,0,50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50);
@@ -781,7 +782,7 @@ INSERT INTO `mob_family_system` VALUES (971,'Aldo-RAID',13,'Humanoid',0,40,90,11
 INSERT INTO `mob_family_system` VALUES (972,'Maximilian-RAID',13,'Humanoid',0,40,90,110,3,3,2,3,2,2,3,1,3,1,3,1,1,1,1,1,1,1,1,1,1,1,1,3,1,0,100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100); 
 
 -- 22,50,96,111,317-318,405,411-434,439-443, 598 available for use
--- NEXT: 638
+-- NEXT: 639
 -- NEXT Custom: 973
 
   -- `familyid` smallint(4) unsigned NOT NULL,
