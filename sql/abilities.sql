@@ -310,7 +310,7 @@ INSERT INTO `abilities` VALUES (253,'perfect_counter',2,30,1,60,22,100,0,221,200
 INSERT INTO `abilities` VALUES (254,'mana_wall',4,70,1,600,39,0,0,222,2000,0,6,20.0,0,1,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (255,'divine_emblem',7,65,1,180,80,100,0,222,2000,0,6,20.0,0,1,80,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (256,'nether_void',8,60,1,180,91,100,0,224,2000,0,6,20.0,0,1,80,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (257,'double_shot',11,79,1,180,126,0,0,225,2000,0,6,20.0,0,1,80,0,0,'ABYSSEA',0);
+INSERT INTO `abilities` VALUES (257,'double_shot',11,70,1,180,126,0,0,225,2000,0,6,20.0,0,1,80,0,0,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (258,'sengikori',12,25,1,90,141,0,0,226,2000,0,6,30.0,1,1,80,0,4,NULL,0);
 INSERT INTO `abilities` VALUES (259,'futae',13,50,1,60,148,0,0,227,2000,0,6,20.0,0,1,0,0,0,'ABYSSEA',0);		-- level 50, 60 second cooldown
 INSERT INTO `abilities` VALUES (260,'spirit_jump',14,77,4,60,166,100,0,228,2000,0,6,20.0,0,1,80,1218,0,NULL,0);
@@ -376,7 +376,7 @@ INSERT INTO `abilities` VALUES (329,'intervene',7,75,4,7200,254,100,0,277,2000,0
 INSERT INTO `abilities` VALUES (330,'soul_enslavement',8,75,1,7200,254,100,0,278,2000,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (331,'unleash',9,96,1,7200,254,100,0,279,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (332,'clarion_call',10,75,1,7200,254,100,0,280,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
-INSERT INTO `abilities` VALUES (333,'overkill',11,96,1,7200,254,100,0,281,2000,0,6,0.0,0,0,0,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (333,'overkill',11,75,1,7200,254,100,0,281,2000,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (334,'yaegasumi',12,75,1,90,254,100,0,282,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (335,'mikage',13,75,1,300,254,0,0,283,2000,0,6,0.0,0,1,80,0,0,'SOA',0);
 INSERT INTO `abilities` VALUES (336,'fly_high',14,1,1,7200,254,0,0,284,2000,0,6,0.0,0,0,0,0,0,NULL,0); 
