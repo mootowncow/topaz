@@ -196,7 +196,24 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local minCritRate = 0.01 -- 1%
     -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
 
-    local critRate = baseCritRate + getMobDexCritRate(mob, target) + mob:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE)
+    local critHitRateMods = mob:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE) - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)
+    local critRate = baseCritRate + getMobDexCritRate(mob, target) + critHitRateMods
+
+    if (tpeffect == TP_RANGED) then -- TODO: Doesn't work because TP_RANGED and TP_CRIT_VARIES are same arg in function
+        local AGI = mob:getStat(tpz.mod.AGI)
+    
+        if mob:isTrust() then
+            AGI = AGI + mob:getMod(tpz.mod.AGI_DURING_WS)
+        end
+
+        local dAGI = (AGI - target:getStat(tpz.mod.AGI))
+
+        if dAGI > 0 then
+            critRate = baseCritRate + math.floor(dAGI / 10) / 100
+        end
+    end
+
+
     --printf("ddex critRate %u", critRate)
     --printf("critRate before param %i", critRate)
     if tpeffect == TP_CRIT_VARIES then
@@ -216,7 +233,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     else
         critRate = 0  -- Cannot crit unless TP_CRIT_VARIES
     end
-    --printf("final crit %d", critRate * 100)
+    --printf("final crit %f", critRate)
 
     local maxRatio, minRatio = utils.GetMeleeRatio(mob, ratio)
 

@@ -238,9 +238,10 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
 		end
 
         if params.CritTPModifier then --Check if "Chance of critical strike varies with TP"
+            local critHitRateMods = target:getMod(tpz.mod.ENEMYCRITRATE)/ 100 - target:getMerit(tpz.merit.ENEMY_CRIT_RATE) / 100
             CritTPBonus = 0.05
 			CritTPBonus = CritTPBonus + BLUGetCritTPModifier(caster:getTP())
-            CritTPBonus = CritTPBonus + target:getMod(tpz.mod.ENEMYCRITRATE)/100
+            CritTPBonus = CritTPBonus + critHitRateMods
 
             -- Apply Yonin bonus
             if target:hasStatusEffect(tpz.effect.YONIN) and caster:isFacing(target, 23) then
