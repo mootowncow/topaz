@@ -77,7 +77,7 @@ INSERT INTO `skill_ranks` VALUES (4, 'great sword', 3, 0, 0, 0, 0, 0, 2, 2, 0, 0
 INSERT INTO `skill_ranks` VALUES (5, 'axe', 2, 0, 0, 0, 0, 0, 0, 5, 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5);
 INSERT INTO `skill_ranks` VALUES (6, 'great axe', 1, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4);
 INSERT INTO `skill_ranks` VALUES (7, 'scythe', 3, 0, 0, 10, 0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO `skill_ranks` VALUES (8, 'polearm', 3, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 5, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO `skill_ranks` VALUES (8, 'polearm', 3, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 5, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO `skill_ranks` VALUES (9, 'katana', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO `skill_ranks` VALUES (10, 'great katana', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO `skill_ranks` VALUES (11, 'club', 3, 6, 2, 6, 9, 4, 2, 8, 9, 9, 10, 10, 10, 10, 6, 5, 0, 9, 0, 6, 3, 8);
