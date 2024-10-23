@@ -52,6 +52,12 @@ function onUseAbility(player, target, ability, action)
     params.atk300 = atkmulti
     params.bonusTP = player:getMod(tpz.mod.JUMP_TP_BONUS)
     params.hitsHigh = true
+    params.flatAttackBonus = player:getJobPointLevel(tpz.jp.JUMP_EFFECT) * 3
+
+    if player:hasStatusEffect(tpz.effect.FLY_HIGH) then
+        local jpBonus = player:getJobPointLevel(tpz.jp.FLY_HIGH_EFFECT) * 5
+        params.flatAttackBonus = params.flatAttackBonus + jpBonus
+    end
 
     local taChar = player:getTrickAttackChar(target)
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, 0, params, 0, action, true, taChar)

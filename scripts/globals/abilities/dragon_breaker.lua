@@ -14,7 +14,9 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    target:addStatusEffect(tpz.effect.DRAGON_BREAKER, 14, 0, 180)
+    local jpValue  = player:getJobPointLevel(tpz.jp.DRAGON_BREAKER_DURATION)
+    local duration = 180 + jpValue
+    target:addStatusEffect(tpz.effect.DRAGON_BREAKER, 14, 0, duration)
 
     return tpz.effect.DRAGON_BREAKER
 end

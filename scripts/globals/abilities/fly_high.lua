@@ -14,8 +14,7 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local jumps = { 158, 159, 160, 166, 167 } -- Needs to be recast ID like 167 etc
-    -- TODO:
+    local jumps = { 158, 159, 160, 166, 167 }
     for _, jumpIds in pairs(jumps) do
         player:resetRecast(tpz.recast.ABILITY, jumpIds)
     end
