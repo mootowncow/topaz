@@ -15,7 +15,10 @@ end
 
 function onUseAbility(player, target, ability)
     local pet = player:getPet()
-    player:addStatusEffect(tpz.effect.AVATAR_S_FAVOR, 0, 0, 60)
-    pet:addStatusEffect(tpz.effect.AVATAR_S_FAVOR, 0, 0, 60)
+    local jpValue = player:getJobPointLevel(tpz.jp.AVATARS_FAVOR_EFFECT) * 3
+    local duration = 60 + jpValue
+
+    player:addStatusEffect(tpz.effect.AVATAR_S_FAVOR, 0, 0, duration)
+    pet:addStatusEffect(tpz.effect.AVATAR_S_FAVOR, 0, 0, duration)
     return tpz.effect.AVATAR_S_FAVOR
 end

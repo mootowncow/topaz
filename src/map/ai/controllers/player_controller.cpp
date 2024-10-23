@@ -1148,6 +1148,12 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                         recast = 45;
                         recast -= std::min<int16>(PChar->getMod(Mod::BP_DELAY), 15);
                         recast -= std::min<int16>(PChar->getMod(Mod::BP_DELAY_II), 15);
+
+                        // Astral Conduit halves all BP recasts (bypasses normal BP delay cap)
+                        if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_ASTRAL_CONDUIT))
+                        {
+                            recast /= 2;
+                        }
                     }
                 }
 

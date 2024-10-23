@@ -415,6 +415,9 @@ function AvatarMagicalBP(avatar, target, skill, element, params, statmod, bonus)
     -- Do the formula!
     local finaldmg = getAvatarMagicalDamage(avatarLevel, WSC, ftp, dStat, magicBurstBonus, resist, weatherBonus, magicAttkBonus)
 
+    -- handle flat magic DAMAGE
+    finaldmg = finaldmg + avatar:getMod(tpz.mod.MAGIC_DAMAGE)
+
     --handling phalanx
     finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
 
@@ -543,7 +546,7 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
     end
 
     -- Calculate Blood Pact Damage before stoneskin
-    dmg = dmg + dmg * avatar:getMod(tpz.mod.BP_DAMAGE) / 100
+    dmg = math.floor(dmg * (1 + avatar:getMod(tpz.mod.BP_DAMAGE) / 100))
 
     --dmg = utils.rampartstoneskin(target, dmg)  --Unneeded?
     -- handling normal stoneskin
@@ -587,7 +590,7 @@ function AvatarMagicalFinalAdjustments(dmg, avatar, skill, target, attackType, e
     dmg = dmg * HandlePositionalMDT(avatar, target)
 
     -- Calculate Blood Pact Damage before stoneskin
-    dmg = dmg + dmg * avatar:getMod(tpz.mod.BP_DAMAGE) / 100
+    dmg = math.floor(dmg * (1 + avatar:getMod(tpz.mod.BP_DAMAGE) / 100))
 
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, skill, dmg)
@@ -764,6 +767,13 @@ function AvatarBuffBP(avatar, target, skill, effect, power, tick, duration, para
     end
 
     duration = duration + bonus
+
+    local summoner = avatar:getMaster()
+    -- Add Astral Conduit JP duration bonus
+    if (summoner:hasStatusEffect(tpz.effect.ASTRAL_CONDUIT)) then
+        local jpBonus = 1 + summoner:getJobPointLevel(tpz.jp.ASTRAL_CONDUIT_EFFECT) / 100
+        duration = math.floor(duration * jpBonus)
+    end
 
     giveAvatarTP(avatar)
     target:delStatusEffectSilent(effect)
