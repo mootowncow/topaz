@@ -2470,6 +2470,8 @@ function doNuke(caster, target, spell, params)
         end
         -- boost with Futae
         if (caster:hasStatusEffect(tpz.effect.FUTAE)) then
+            local jpBonus = caster:getJobPointLevel(tpz.jp.FUTAE_EFFECT) * 5
+            dmg = dmg + jpBonus
             dmg = math.floor(dmg * 1.50)
             caster:delStatusEffectSilent(tpz.effect.FUTAE)
         end

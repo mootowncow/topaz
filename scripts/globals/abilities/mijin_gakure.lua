@@ -18,8 +18,11 @@ function onUseAbility(player, target, ability)
 
     local dmg = (player:getHP() * 0.8) + (player:getMainLvl() / 0.5)
     local resist = applyPlayerResistance(player, nil, target, player:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT), 0, tpz.magic.ele.NONE)
+    local jpBonus = 1 + (player:getJobPointLevel(tpz.jp.MIJIN_GAKURE_EFFECT) * 3 / 100)
 
-    dmg = dmg * resist
+    dmg = math.floor(dmg * jpBonus)
+
+    dmg = math.floor(dmg * resist)
 
     dmg = target:magicDmgTaken(dmg, tpz.magic.ele.NONE)
 

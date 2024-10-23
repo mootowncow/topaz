@@ -1048,7 +1048,7 @@ function BlueGetHitRate(attacker, target, capHitRate, params)
     local eva = target:getEVA()
 
     if (target:hasStatusEffect(tpz.effect.YONIN) and attacker:isFacing(target, 23)) then -- Yonin evasion boost if attacker is facing target
-        eva = eva + (target:getStatusEffect(tpz.effect.YONIN):getPower() + target:getJobPointLevel(tpz.jp.YONIN_EFFECT))
+        eva = eva + (target:getStatusEffect(tpz.effect.YONIN):getPower() + (target:getJobPointLevel(tpz.jp.YONIN_EFFECT) * 2))
     end
 
     if (attacker:getMainLvl() > target:getMainLvl()) then -- acc bonus!

@@ -240,6 +240,23 @@ bool CAttack::CheckParried()
         if (attackutils::IsParried(m_attacker, m_victim))
         {
             m_isParried = true;
+
+            // Check for counter chance from NIN Tactical Parry JP
+            if (m_victim->objtype == TYPE_PC)
+            {
+                if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_victim))
+                {
+                    if (tpzrand::GetRandomNumber(100) < PChar->PJobPoints->GetJobPointValue(JP_TACTICAL_PARRY_EFFECT))
+                    {
+                        if (!m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
+                        {
+                            m_isParried = false;
+                            m_isCountered = true;
+                            m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false));
+                        }
+                    }
+                }
+            }
         }
     }
     return m_isParried;
