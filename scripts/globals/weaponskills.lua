@@ -1118,15 +1118,21 @@ function cMeleeRatio(attacker, defender, params, ignoredDef, tp)
         attacker:addMod(tpz.mod.ATTP, 25 + flourisheffect:getSubPower() / 2)
     end
 
-    local conspiratorBonus = 0
+    local flatAttackBonus = 0
+
+    if (params.flatAttackBonus ~= nil) then
+        flatAttackBonus = params.flatAttackBonus
+    end
+
+    -- Conspirator Flat Attack
     if attacker:hasStatusEffect(tpz.effect.CONSPIRATOR) then
         if not attacker:isTopEnmity(defender) then
-            conspiratorBonus = attacker:getMod(tpz.mod.AUGMENTS_CONSPIRATOR)
+            flatAttackBonus = flatAttackBonus + attacker:getMod(tpz.mod.AUGMENTS_CONSPIRATOR)
         end
     end
 
     local atkmulti = fTP(tp, params.atk100, params.atk200, params.atk300)
-    local cratio = ((attacker:getStat(tpz.mod.ATT) + conspiratorBonus) * atkmulti) / (defender:getStat(tpz.mod.DEF) - ignoredDef)
+    local cratio = ((attacker:getStat(tpz.mod.ATT) + flatAttackBonus) * atkmulti) / (defender:getStat(tpz.mod.DEF) - ignoredDef)
     cratio = utils.clamp(cratio, 0, 2.25)
     if flourisheffect ~= nil and flourisheffect:getPower() > 1 then
         attacker:delMod(tpz.mod.ATTP, 25 + flourisheffect:getSubPower() / 2)

@@ -372,7 +372,7 @@ function onMobDeath(mob, player)
     local numLevelUps = mob:getLocalVar("level_Ups")
     local wyvernBonusDA = master:getMod(tpz.mod.WYVERN_ATTRIBUTE_DA)
     if numLevelUps ~= 0 then
-        master:delMod(tpz.mod.ATTP, 4 * numLevelUps)
+        master:delMod(tpz.mod.ATTP, 2 * numLevelUps)
         master:delMod(tpz.mod.DEFP, 4 * numLevelUps)
         master:delMod(tpz.mod.DOUBLE_ATTACK, wyvernBonusDA * numLevelUps)
         -- Delete JP bonuses

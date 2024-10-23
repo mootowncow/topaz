@@ -129,19 +129,21 @@ function onUseAbility(player, target, ability)
         local currentExp = 200 + merits
         local wyvernBonusDA = player:getMod(tpz.mod.WYVERN_ATTRIBUTE_DA)
         local numLevelUps  = math.floor((prev_exp + currentExp) / 200) - math.floor(prev_exp / 200)
-        if numLevelUps  ~= 0 then
-            -- wyvern levelled up
-            pet:addMod(tpz.mod.ACC, 6 * numLevelUps)
-            pet:addMod(tpz.mod.HPP, 6 * numLevelUps)
-            pet:addMod(tpz.mod.ATTP, 5 * numLevelUps)
-            pet:setHP(pet:getMaxHP())
-            player:messageBasic(tpz.msg.basic.STATUS_INCREASED, 0, 0, pet, false)
-            player:addMod(tpz.mod.ATTP, 2 * numLevelUps)
-            player:addMod(tpz.mod.DEFP, 4 * numLevelUps)
-            player:addMod(tpz.mod.DOUBLE_ATTACK, wyvernBonusDA * numLevelUps)
+        if (pet:getLocalVar("wyvern_exp") < 1000) then -- Cannot level more than 5 times, aka 1k exp total
+            if numLevelUps  ~= 0 then
+                -- wyvern levelled up
+                pet:addMod(tpz.mod.ACC, 6 * numLevelUps)
+                pet:addMod(tpz.mod.HPP, 6 * numLevelUps)
+                pet:addMod(tpz.mod.ATTP, 5 * numLevelUps)
+                pet:setHP(pet:getMaxHP())
+                player:messageBasic(tpz.msg.basic.STATUS_INCREASED, 0, 0, pet, false)
+                player:addMod(tpz.mod.ATTP, 2 * numLevelUps)
+                player:addMod(tpz.mod.DEFP, 4 * numLevelUps)
+                player:addMod(tpz.mod.DOUBLE_ATTACK, wyvernBonusDA * numLevelUps)
+            end
+            pet:setLocalVar("wyvern_exp", prev_exp + currentExp)
+            pet:setLocalVar("level_Ups", pet:getLocalVar("level_Ups") + numLevelUps)
         end
-        pet:setLocalVar("wyvern_exp", prev_exp + currentExp)
-        pet:setLocalVar("level_Ups", pet:getLocalVar("level_Ups") + numLevelUps)
     end
 
     pet:addHP(healPet) --add the hp to pet
