@@ -1564,6 +1564,12 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 action.recast = 45;
                 action.recast -= std::min<int16>(getMod(Mod::BP_DELAY), 15);
                 action.recast -= std::min<int16>(getMod(Mod::BP_DELAY_II), 15);
+
+                // Astral Conduit halves all BP recasts (bypasses normal BP delay cap)
+                if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ASTRAL_CONDUIT))
+                {
+                    action.recast /= 2;
+                }
             }
         }
         // TODO: DNC recast stuff
