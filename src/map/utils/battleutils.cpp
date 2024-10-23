@@ -6649,8 +6649,18 @@ namespace battleutils
     void HandleIssekiganEnmityBonus(CBattleEntity* PDefender, CBattleEntity* PAttacker) {
         if (PAttacker->objtype == TYPE_MOB &&
              PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_ISSEKIGAN)) {
-            // Issekigan is Known to Grant 300 CE per parry, but unknown how it effects VE (per bgwiki). So VE is left alone for now.
-            static_cast<CMobEntity*>(PAttacker)->PEnmityContainer->UpdateEnmity(PDefender, 300, 0, false, false);
+            // Issekigan is Known to Grant 300 CE per parry and only grants VE with JP.
+            int32 CE = 300;
+            int32 VE = 0;
+            if (PDefender->objtype == TYPE_PC)
+            {
+                if (auto* PChar = static_cast<CCharEntity*>(PDefender))
+                {
+                    int32 jpBonus = PChar->PJobPoints->GetJobPointValue(JP_ISSEKIGAN_EFFECT) * 10;
+                    VE += jpBonus;
+                }
+            }
+            static_cast<CMobEntity*>(PAttacker)->PEnmityContainer->UpdateEnmity(PDefender, CE, VE, false, false);
         }
     }
 
@@ -7926,6 +7936,13 @@ namespace battleutils
         else if (PSpell->getSpellGroup() == SPELLGROUP_NINJUTSU)
         {
             uint16 ninjutsuCasting = PEntity->getMod(Mod::NINJUTSU_CASTING_TIME);
+            if (PEntity->objtype == TYPE_PC)
+            {
+                if (auto* PChar = static_cast<CCharEntity*>(PEntity))
+                {
+                    ninjutsuCasting += PChar->PJobPoints->GetJobPointValue(JP_NINJITSU_CAST_TIME_BONUS);
+                }
+            }
             cast = (uint32)(cast * (1.0f - ((ninjutsuCasting > 50 ? 50 : ninjutsuCasting) / 100.0f)));
         }
         else if (PSpell->getSpellGroup() == SPELLGROUP_BLUE)
