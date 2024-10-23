@@ -25,25 +25,18 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local typeEffect = tpz.effect.STONESKIN
+    local effect = tpz.effect.STONESKIN
     local blueskill = caster:getSkillLevel(tpz.skill.BLUE_MAGIC)
     local power = utils.clamp(((blueskill)/3) *2, 0, 250)
     local duration = 300
-
-    if (caster:hasStatusEffect(tpz.effect.DIFFUSION)) then
-        local diffMerit = caster:getMerit(tpz.merit.DIFFUSION)
-
-        if (diffMerit > 0) then
-            duration = duration + (duration/100)* diffMerit
-        end
-
-        caster:delStatusEffectSilent(tpz.effect.DIFFUSION)
-    end
+    local tick = 0
+    local subid = 0
+    local subpower = 0
+    local tier = 0
+    local bonus = 0
+    local params = {}
 
     power = utils.ApplyStoneskinBonuses(caster, power)
 
-    utils.ShouldRemoveStoneskin(target, power)
-    target:addStatusEffect(typeEffect, power, 0, duration, 0, 0, 2)
-
-    return typeEffect
+    return BlueBuffSpell(caster, target, spell, effect, power, tick, duration, subid, subpower, tier, params, bonus)
 end

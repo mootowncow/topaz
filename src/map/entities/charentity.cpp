@@ -1110,7 +1110,22 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
                             }
                         }
 
+                        // Handle Chain Affinity JP bonus
+                        uint16 jpValue = 0;
+                        if (this->objtype == TYPE_PC)
+                        {
+                            if (auto* PChar = dynamic_cast<CCharEntity*>(this))
+                            {
+                                jpValue = PChar->PJobPoints->GetJobPointValue(JP_CHAIN_AFFINITY_EFFECT);
+                                this->addModifier(Mod::SKILLCHAINDMG, jpValue);
+                            }
+                        }
+
+                        this->addModifier(Mod::SKILLCHAINDMG, jpValue);
+
                         uint16 skillChainDamage = battleutils::TakeSkillchainDamage(static_cast<CBattleEntity*>(this), PTarget, actionTarget.param, nullptr);
+
+                        this->delModifier(Mod::SKILLCHAINDMG, jpValue);
 
                         actionTarget.addEffectParam = skillChainDamage;
                         actionTarget.addEffectMessage = 287 + effect;

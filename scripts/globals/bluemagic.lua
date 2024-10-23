@@ -546,6 +546,8 @@ function BlueMagicalSpell(caster, target, spell, params, statMod)
     local ST = BlueGetWsc(caster, params) -- According to Wiki ST is the same as WSC, essentially Blue mage spells that are magical use the dmg formula of Magical type Weapon skills
 
     if (caster:hasStatusEffect(tpz.effect.BURST_AFFINITY)) then
+        local jpBonus = caster:getJobPointLevel(tpz.jp.BURST_AFFINITY_BONUS) * 2
+        d = d + jpBonus
         ST = ST * 2
     end
 
@@ -630,10 +632,11 @@ function BlueMagicalSpell(caster, target, spell, params, statMod)
         dmg = dmg * ConvergenceBonus
 	end
 
-    -- Handle Unbridle gear mod
+    -- Handle Unbridled damage bonuses
     if (spell:getRequirements() == tpz.magic.req.UNBRIDLED_LEARNING) then
         if caster:hasStatusEffect(tpz.effect.UNBRIDLED_LEARNING) or caster:hasStatusEffect(tpz.effect.UNBRIDLED_WISDOM) then
-            dmg = math.floor(dmg * (1 + caster:getMod(tpz.mod.UNBRIDLED_DAMAGE) / 100)) 
+            dmg = math.floor(dmg * (1 + caster:getMod(tpz.mod.UNBRIDLED_DAMAGE) / 100))
+            dmg = math.floor(dmg * (1 + caster:getJobPointLevel(tpz.jp.UNBRIDLED_LRN_EFFECT) / 100)) 
         end
     end
 
@@ -680,6 +683,9 @@ function BlueFinalAdjustments(caster, target, spell, dmg, params)
 
     -- Handle Null
     dmg = utils.CheckForNull(caster, target, attackType, element, dmg)
+
+    -- Add Azure Lore JP Bonus
+    dmg = dmg + caster:getJobPointLevel(tpz.jp.AZURE_LORE_EFFECT)
 
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, spell, dmg)
@@ -840,6 +846,37 @@ function BlueBreathSpell(caster, target, spell, params, hppercent)
     --printf("Correlation bonus: %i", correlation)
     --printf("final dmg %i", dmg)
     return dmg
+end
+
+function BlueBuffSpell(caster, target, spell, effect, power, tick, duration, subid, subpower, tier, params, bonus)
+    -- Add Unbridled JP duration bonus
+    if (spell:getRequirements() == tpz.magic.req.UNBRIDLED_LEARNING) then
+        if caster:hasStatusEffect(tpz.effect.UNBRIDLED_LEARNING) or caster:hasStatusEffect(tpz.effect.UNBRIDLED_WISDOM) then
+            duration = math.floor(duration * (1 + caster:getMod(tpz.mod.UNBRIDLED_DURATION) / 100))
+            duration = math.floor(duration * (1 + caster:getJobPointLevel(tpz.jp.UNBRIDLED_LRN_EFFECT_II) / 100))
+        end
+    end
+
+    if caster:hasStatusEffect(tpz.effect.DIFFUSION) then
+        local diffMerit = caster:getMerit(tpz.merit.DIFFUSION)
+
+        if (diffMerit > 0) then
+            duration = duration + (duration/100)* diffMerit
+        end
+    end
+
+    caster:delStatusEffectSilent(tpz.effect.DIFFUSION)
+
+    if canOverwrite(target, effect, power) then
+        target:delStatusEffectSilent(effect)
+    end
+
+    if not target:addStatusEffect(effect, power, tick, duration, subid, subpower, tier) then
+        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+    else
+        spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
+    end
+    return effect
 end
 
 ------------------------------
@@ -1220,9 +1257,9 @@ function BlueTryPhysStun(caster, target, spell, resist, params)
             target:addStatusEffect(typeEffect, 1, 0, duration)
             AddDimishingReturns(caster, target, spell, typeEffect)
         end
-    end
 
-    spell:setMsg(tpz.msg.basic.MAGIC_DMG)
+        spell:setMsg(tpz.msg.basic.MAGIC_DMG)
+    end
 end
 
 -- Function to stagger duration of effects by using the resistance to change the value

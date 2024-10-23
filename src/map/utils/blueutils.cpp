@@ -40,6 +40,7 @@
 #include "../spell.h"
 #include "../blue_spell.h"
 #include "../blue_trait.h"
+#include "../job_points.h"
 
 namespace blueutils
 {
@@ -297,8 +298,12 @@ uint8 GetTotalBlueMagicPoints(CCharEntity* PChar)
         uint8 points = ((level - 1)/10)*5 + 10;
         if (level >= 75)
         {
-            points = points + PChar->PMeritPoints->GetMeritValue(MERIT_ASSIMILATION, PChar);
+            points += PChar->PMeritPoints->GetMeritValue(MERIT_ASSIMILATION, PChar);
         }
+
+        points += PChar->PJobPoints->GetJobPointValue(JP_BLUE_MAGIC_POINT_BONUS);
+        points += PChar->getMod(Mod::BLUE_POINTS);
+
         return points;
     }
 }

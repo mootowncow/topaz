@@ -40,7 +40,7 @@ function onSpellCast(caster, target, spell)
     -- Removes attack downs
     target:delStatusEffectSilent(tpz.effect.ATTACK_DOWN)
 
-    if (target:addStatusEffect(typeEffect, power, 1, duration) == false) then
+    if not target:addStatusEffect(typeEffect, power, 1, duration) == false then
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
     end
 

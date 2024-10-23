@@ -24,23 +24,18 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
+    local effect = tpz.effect.PROTECT
+    local effect2 = tpz.effect.SHELL
+    local power = 60
+    local power2 = 24
     local duration = 300
+    local tick = 0
+    local subid = 0
+    local subpower = 0
+    local tier = 0
+    local bonus = 0
+    local params = {}
 
-    if (caster:hasStatusEffect(tpz.effect.DIFFUSION)) then
-        local diffMerit = caster:getMerit(tpz.merit.DIFFUSION)
-
-        if (diffMerit > 0) then
-            duration = duration + (duration/100)* diffMerit
-        end
-
-        caster:delStatusEffectSilent(tpz.effect.DIFFUSION)
-    end
-
-    -- Apply unbridled duration mod
-    duration = math.floor(duration * (1 + caster:getMod(tpz.mod.UNBRIDLED_DURATION) / 100))
-
-    target:addStatusEffect(tpz.effect.PROTECT, 60, 0, duration)
-    target:addStatusEffect(tpz.effect.SHELL, 24, 0, duration)
-
-    return tpz.effect.PROTECT
+    BlueBuffSpell(caster, target, spell, effect2, power2, tick, duration, subid, subpower, tier, params, bonus)
+    return BlueBuffSpell(caster, target, spell, effect, power, tick, duration, subid, subpower, tier, params, bonus)
 end
