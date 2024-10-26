@@ -29,22 +29,23 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     params.crit100 = 0.0 params.crit200 = 0.0 params.crit300 = 0.0
     params.canCrit = false
     params.acc100 = 0.0 params.acc200 = 0.0 params.acc300 = 0.0
-    params.atk100 = 1; params.atk200 = 1; params.atk300 = 1
+    params.atk100 = 2; params.atk200 = 2; params.atk300 = 2
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-	if damage > 0 then player:trySkillUp(target, tpz.skill.CLUB, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
-
 
     -- Apply aftermath
     tpz.aftermath.addStatusEffect(player, tp, tpz.slot.MAIN, tpz.aftermath.type.RELIC)
 
-    if damage > 0 then
-        if not target:hasStatusEffect(tpz.effect.EVASION_DOWN) then
-            local duration = tp / 1000 * 20 * applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, 0)
-            target:addStatusEffect(tpz.effect.EVASION_DOWN, 32, 0, duration)
-        end
+    local bonus = 100
+    local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, bonus, tpz.effect.EVASION_DOWN)
+    if (damage > 0 and not target:hasStatusEffect(tpz.effect.EVASION_DOWN) and resist >= 0.5) then
+        local duration = tp / 1000 * 20 * resist
+        target:delStatusEffect(tpz.effect.EVASION_BOOST)
+        target:addStatusEffect(tpz.effect.EVASION_DOWN, 32, 0, duration)
     end
+
+	if damage > 0 then player:trySkillUp(target, tpz.skill.CLUB, tpHits+extraHits) end
+	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
 end

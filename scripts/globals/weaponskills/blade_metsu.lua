@@ -22,11 +22,11 @@ require("scripts/globals/weaponskills")
 
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local params = {}
-    params.numHits = 1
-    params.ftp100 = 4 params.ftp200 = 4 params.ftp300 = 4
-    params.str_wsc = 0.0 params.dex_wsc = 0.6 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0 params.mnd_wsc = 0.0 params.chr_wsc = 0.0
-    params.crit100 = 0.0 params.crit200 = 0.0 params.crit300 = 0.0
-    params.canCrit = false
+    params.numHits = 3
+    params.ftp100 = 1 params.ftp200 = 1 params.ftp300 = 1.
+    params.str_wsc = 0.0 params.dex_wsc = 0.8 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0 params.mnd_wsc = 0.0 params.chr_wsc = 0.0
+    params.crit100 = 0.15 params.crit200 = 0.25 params.crit300 = 0.40
+    params.canCrit = true
     params.acc100 = 0.0 params.acc200 = 0.0 params.acc300 = 0.0
     params.atk100 = 1; params.atk200 = 1; params.atk300 = 1
 
@@ -41,10 +41,12 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
     if damage > 0 then
         if not target:hasStatusEffect(tpz.effect.PARALYSIS) then
-            local duration = 60 * applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, 0, tpz.effect.PARALYSIS)
-            target:addStatusEffect(tpz.effect.PARALYSIS, 10, 0, duration)
+            local bonus = 100
+            local duration = 60 * applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, 100, tpz.effect.PARALYSIS)
+            target:addStatusEffect(tpz.effect.PARALYSIS, 25, 0, duration)
         end
     end
+
 	if damage > 0 then player:trySkillUp(target, tpz.skill.KATANA, tpHits+extraHits) end
 	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
 
