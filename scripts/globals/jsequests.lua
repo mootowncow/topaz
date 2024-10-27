@@ -37,6 +37,7 @@ tpz.jsequest.onTrigger = function(player, npc, job)
     local stage = player:getCharVar("[JSEQUEST" .. job .. "]")
     local currentMerits = player:getMeritCount()
     local totalMeritsGiven = player:getCharVar("[JSEQUEST" .. job .. "Merits]")
+    local meritsRemaining = 300 - player:getCharVar("[JSEQUEST" .. job .. "Merits]")
     local npcName = npc:getName()
     local isCorrectJob = player:getMainJob() == job
     local isLevelCapped = player:getMainLvl() >= 75
@@ -53,7 +54,12 @@ tpz.jsequest.onTrigger = function(player, npc, job)
                 player:setCharVar("[JSEQUEST" .. job .. "]", 1)
                 player:PrintToPlayer("To show your mastery in your job, please bring me a " .. itemOneName .. " and a ".. itemTwoName .. ".", 0, npcName)
             end
-            return
+        elseif (stage == 1) then
+            player:PrintToPlayer("You are on stage 1. I require " .. itemOneName .. " and a ".. itemTwoName .. ".", 0, npcName)
+        elseif (stage == 2) then
+            player:PrintToPlayer("You are on stage 2. I still require " .. meritsRemaining .. " merit points.", 0, npcName)
+        elseif (stage == 3) then
+            player:PrintToPlayer("You are on stage 3. I require 5 Star Sapphires, 50 Scintillant Ingots, 50 Amph. Leather, 10 Divine Lumber", 0, npcName)
         end
     end
 end
@@ -66,35 +72,38 @@ tpz.jsequest.onTrade = function(player, npc, trade, job)
     local isCorrectJob = player:getMainJob() == job
     local isLevelCapped = player:getMainLvl() >= 75
 
-    if npcUtil.tradeHasExactly(trade, { questItems[job].items[1], questItems[job].items[2] }) then
-        if isCorrectJob and isLevelCapped then
-            if (stage == 1) then
+    if isCorrectJob and isLevelCapped then
+        if (stage == 1) then
+            if npcUtil.tradeHasExactly(trade, { questItems[job].items[1], questItems[job].items[2] }) then
                 player:setCharVar("[JSEQUEST" .. job .. "]", 2)
                 player:PrintToPlayer("Fantastic job, now please bring me 300 merit points.", 0, npcName)
-            elseif (stage == 2) then
-                local meritsToAdd = currentMerits + totalMeritsGiven
-                if meritsToAdd < 300 then
-                    player:setMerits(0)
-                    player:setCharVar("[JSEQUEST" .. job .. "Merits]", meritsToAdd)
-                    player:setCharVar("[JSEQUEST" .. job .. "]", 3)
-                    player:PrintToPlayer("You've gathered enough merit points!", 0, npcName)
-                    player:PrintToPlayer("Now please bring me 25 imperial ingots", 0, npcName)
-                else
-                    local requiredMerits = 300 - totalMeritsGiven
+            end
+        elseif (stage == 2) then
+            local meritsToAdd = currentMerits + totalMeritsGiven
+            if meritsToAdd < 300 then
+                player:setMerits(0)
+                player:setCharVar("[JSEQUEST" .. job .. "Merits]", meritsToAdd)
+                player:setCharVar("[JSEQUEST" .. job .. "]", 3)
+                player:PrintToPlayer("You've gathered enough merit points!", 0, npcName)
+                player:PrintToPlayer("Now please bring me 25 imperial ingots", 0, npcName)
+            else
+                local requiredMerits = 300 - totalMeritsGiven
                     
-                    if currentMerits >= requiredMerits then
-                        player:delMerits(requiredMerits)
-                    else
-                        player:delMerits(currentMerits)
-                    end
-
-                    player:setCharVar("[JSEQUEST" .. job .. "Merits]", 300)
-                    player:setCharVar("[JSEQUEST" .. job .. "]", 3)
-                    player:PrintToPlayer("You've gathered enough merit points!", 0, npcName)
-                    player:PrintToPlayer("Now please bring me 5 Star Sapphires, 50 Scintillant Ingots, 50 Amph. Leather, 10 Divine Logs", 0, npcName)
+                if currentMerits >= requiredMerits then
+                    player:delMerits(requiredMerits)
+                else
+                    player:delMerits(currentMerits)
                 end
-            elseif (stage == 3) then
+
+                player:setCharVar("[JSEQUEST" .. job .. "Merits]", 300)
+                player:setCharVar("[JSEQUEST" .. job .. "]", 3)
+                player:PrintToPlayer("You've gathered enough merit points!", 0, npcName)
+                player:PrintToPlayer("Now please bring me 5 Star Sapphires, 50 Scintillant Ingots, 50 Amph. Leather, 10 Divine Lumber", 0, npcName)
+            end
+        elseif (stage == 3) then
+            if npcUtil.tradeHasExactly(trade, { { tpz.items.STAR_SAPPHIRE, 5 }, { tpz.items.SCINTILLANT_INGOT, 50 }, { tpz.items.SQUARE_OF_AMPHIPTERE_LEATHER, 50 }, { tpz.items.PIECE_OF_DIVINE_LUMBER, 10 }  }) then
                 player:PrintToPlayer("You have done well, here is your reward", 0, npcName)
+                player:setCharVar("[JSEQUEST" .. job .. "]", 4)
                 npcUtil.giveItem(player, questItems[job].reward[1])
             end
         end
