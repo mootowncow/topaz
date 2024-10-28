@@ -23,26 +23,15 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local typeEffect = tpz.effect.ATTACK_BOOST
+    local effect = tpz.effect.ATTACK_BOOST
     local power = 15
     local duration = 180
+    local tick = 0
+    local subid = 0
+    local subpower = 0
+    local tier = 0
+    local bonus = 0
+    local params = {}
 
-    if (caster:hasStatusEffect(tpz.effect.DIFFUSION)) then
-        local diffMerit = caster:getMerit(tpz.merit.DIFFUSION)
-
-        if (diffMerit > 0) then
-            duration = duration + (duration/100)* diffMerit
-        end
-
-        caster:delStatusEffectSilent(tpz.effect.DIFFUSION)
-    end
-
-    -- Removes attack downs
-    target:delStatusEffectSilent(tpz.effect.ATTACK_DOWN)
-
-    if not target:addStatusEffect(typeEffect, power, 1, duration) == false then
-        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-    end
-
-    return typeEffect
+    BlueBuffSpell(caster, target, spell, effect, power, tick, duration, subid, subpower, tier, params, bonus)
 end

@@ -21,26 +21,15 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local typeEffect = tpz.effect.BLINK
+    local effect = tpz.effect.BLINK
     local skill = caster:getSkillLevel(tpz.skill.BLUE_MAGIC)
-    -- 300 skill = 8 shadows
-    local numShadows = 2 + math.floor(skill / 50)
+    local numShadows = 2 + math.floor(skill / 50) -- 300 skill = 8 shadows
     local duration = 300
+    local subid = 0
     local procChance = 75
+    local tier = 0
+    local bonus = 0
+    local params = {}
 
-    if (caster:hasStatusEffect(tpz.effect.DIFFUSION)) then
-        local diffMerit = caster:getMerit(tpz.merit.DIFFUSION)
-
-        if (diffMerit > 0) then
-            duration = duration + (duration/100)* diffMerit
-        end
-
-        caster:delStatusEffectSilent(tpz.effect.DIFFUSION)
-    end
-
-    if (target:addStatusEffect(typeEffect, numShadows, 0, duration, 0, procChance, 0) == false) then
-        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-    end
-
-    return typeEffect
+    return BlueBuffSpell(caster, target, spell, effect, numShadows, tick, duration, subid, procChance, tier, params, bonus)
 end

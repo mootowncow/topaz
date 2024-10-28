@@ -840,6 +840,7 @@ namespace charutils
         CalculateStats(PChar);
         blueutils::LoadSetSpells(PChar);
         puppetutils::LoadAutomaton(PChar);
+        jobpointutils::RefreshGiftMods(PChar);
         BuildingCharSkillsTable(PChar);
         BuildingCharAbilityTable(PChar);
         BuildingCharTraitsTable(PChar);
@@ -1369,6 +1370,7 @@ namespace charutils
 
     void UpdateSubJob(CCharEntity* PChar)
     {
+        jobpointutils::RefreshGiftMods(PChar);
         charutils::BuildingCharSkillsTable(PChar);
         charutils::CalculateStats(PChar);
         charutils::CheckValidEquipment(PChar);
@@ -4272,6 +4274,7 @@ namespace charutils
                     PChar->SetSLevel(PChar->jobs.job[PChar->GetSJob()]);
                 }
 
+                jobpointutils::RefreshGiftMods(PChar);
                 BuildingCharSkillsTable(PChar);
                 CalculateStats(PChar);
                 CheckValidEquipment(PChar);
@@ -4486,6 +4489,7 @@ namespace charutils
                     PChar->SetMLevel(PChar->jobs.job[PChar->GetMJob()]);
                     PChar->SetSLevel(PChar->jobs.job[PChar->GetSJob()]);
 
+                    jobpointutils::RefreshGiftMods(PChar);
                     BuildingCharSkillsTable(PChar);
                     CalculateStats(PChar);
                     BuildingCharAbilityTable(PChar);

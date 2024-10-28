@@ -155,14 +155,16 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
     local chainAffinity = caster:getStatusEffect(tpz.effect.CHAIN_AFFINITY)
     local azureLore = caster:getStatusEffect(tpz.effect.AZURE_LORE)
     local efflux = caster:getStatusEffect(tpz.effect.EFFLUX)
-    local affluxBonus = caster:getMod(tpz.effect.EFFLUX_BONUS)
+    local effluxModBonus = caster:getMod(tpz.effect.EFFLUX_BONUS)
+    local effluxJpBonus = caster:getJobPointLevel(tpz.jp.EFFLUX_EFFECT) * 10
     local tp = 0
     local effluxTP = 0
 
     -- Efflux treats all spells like they're 1k TP
     if (efflux ~= nil) then
         local effluxMultiplier = 1 + caster:getMod(tpz.effect.EFFLUX_BONUS) / 100
-        tp = math.floor((1000 + affluxBonus) * effluxMultiplier)
+        tp = math.floor((1000 + effluxModBonus) * effluxMultiplier)
+        tp = tp + effluxJpBonus
         -- Efflux also increases the base damage of the spell it is used with by 50% (x 1.5)
         -- https://www.bg-wiki.com/ffxi/Efflux
         bonusWSC = bonusWSC + 0.5
