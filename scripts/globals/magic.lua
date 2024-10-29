@@ -690,7 +690,12 @@ function applyResistanceEffect(caster, target, spell, params) -- says "effect" b
         end
     end
 
-    -- Apply "Status EfFect" Magic Accuracy Mod
+    -- Apply BLU Additional effect MACC JP Bonus
+    if (params.skillType == tpz.skill.BLUE_MAGIC) then
+        magicaccbonus = magicaccbonus + caster:getJobPointLevel(tpz.jp.BLUE_PHYS_AE_ACC_BONUS)
+    end
+
+    -- Apply "Status Effect" Magic Accuracy Mod
     magicaccbonus = magicaccbonus + caster:getMod(tpz.mod.STATUS_EFFECT_MACC)
 
     local p = getMagicHitRate(caster, target, skill, element, SDT, percentBonus, magicaccbonus, params)
@@ -2065,7 +2070,7 @@ function getDstatBonus(softcap, diff)
     return dstatMaccBonus
 end
 
--- Magic Accuracy from Job Points.
+-- Magic Accuracy from Merits / Job Points.
 function JobPointsMacc(caster, target, spell)
     local skill = spell:getSkillType()
     local spellGroup = spell:getSpellGroup()
@@ -2115,9 +2120,10 @@ function JobPointsMacc(caster, target, spell)
             end,
 
             [tpz.job.BLU] = function()
-                -- BLU MACC merits - nuke acc is handled in bluemagic.lua
+                -- BLU MACC merits and JP - nuke acc is handled in bluemagic.lua
                 if skill == tpz.skill.BLUE_MAGIC then
                     jpMaccBonus = caster:getMerit(tpz.merit.MAGICAL_ACCURACY)
+                    jpMaccBonus = jpMaccBonus + caster:getJobPointLevel(tpz.jp.BLU_MAGIC_ACC_BONUS)
                 end
             end,
 

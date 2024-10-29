@@ -40,6 +40,7 @@
 #include "../spell.h"
 #include "../blue_spell.h"
 #include "../blue_trait.h"
+#include "../job_points.h"
 
 namespace blueutils
 {
@@ -297,7 +298,9 @@ uint8 GetTotalBlueMagicPoints(CCharEntity* PChar)
         uint8 points = ((level - 1)/10)*5 + 10;
         if (level >= 75)
         {
-            points = points + PChar->PMeritPoints->GetMeritValue(MERIT_ASSIMILATION, PChar);
+            points += PChar->getMod(Mod::BLUE_POINTS);
+            points += PChar->PMeritPoints->GetMeritValue(MERIT_ASSIMILATION, PChar);
+            points += PChar->PJobPoints->GetJobPointValue(JP_BLUE_MAGIC_POINT_BONUS);
         }
         return points;
     }
@@ -430,22 +433,21 @@ void CalculateTraits(CCharEntity* PChar)
     for (std::map<uint8, uint8>::iterator iter = points.begin(); iter != points.end(); iter++)
     {
         uint8 category = iter->first;
-        uint8 totalWeight = iter->second;
+        uint8 totalWeight = iter->second; // Points contributing to total set points needed to unlock the tier of the trait
 
-	    for (uint8 i = 0; i <  PTraitsList->size(); ++i)
-	    {
+        for (uint8 i = 0; i < PTraitsList->size(); ++i)
+        {
             if (PTraitsList->at(i)->getLevel() == 0)
             {
-		        CBlueTrait* PTrait = (CBlueTrait*)PTraitsList->at(i);
+                CBlueTrait* PTrait = (CBlueTrait*)PTraitsList->at(i);
 
                 if (PTrait && PTrait->getCategory() == category)
                 {
-
                     bool add = true;
 
                     for (uint8 j = 0; j < PChar->TraitList.size(); ++j)
-	                {
-		                CTrait* PExistingTrait = PChar->TraitList.at(j);
+                    {
+                        CTrait* PExistingTrait = PChar->TraitList.at(j);
 
                         if (PExistingTrait->getID() == PTrait->getID())
                         {
@@ -458,7 +460,7 @@ void CalculateTraits(CCharEntity* PChar)
                             {
                                 PChar->delModifier(PExistingTrait->getMod(), PExistingTrait->getValue());
                                 charutils::delTrait(PChar, PExistingTrait->getID());
-                                PChar->TraitList.erase(PChar->TraitList.begin()+j);
+                                PChar->TraitList.erase(PChar->TraitList.begin() + j);
                                 break;
                             }
                             else if (PExistingTrait->getRank() > PTrait->getRank())
@@ -477,9 +479,18 @@ void CalculateTraits(CCharEntity* PChar)
                         }
                     }
 
-                    if (totalWeight >= PTrait->getPoints() && add)
+                    // Only add BLUE_JOB_TRAIT_BONUS if totalWeight is >= 1
+                    uint8 jpGiftTraitBonus = PChar->getMod(Mod::BLUE_JOB_TRAIT_BONUS) *2; // Is the *2 needed?
+                    uint8 effectiveTotalWeight = totalWeight;
+                    if (totalWeight >= 2) // Should this be >= 1?
                     {
-			            charutils::addTrait(PChar, PTrait->getID());
+                        effectiveTotalWeight += jpGiftTraitBonus;
+                    }
+
+                    auto pointsRequired = PTrait->getPoints();
+                    if (effectiveTotalWeight >= PTrait->getPoints() && add)
+                    {
+                        charutils::addTrait(PChar, PTrait->getID());
 
                         PChar->TraitList.push_back(PTrait);
                         PChar->addModifier(PTrait->getMod(), PTrait->getValue());
@@ -487,9 +498,8 @@ void CalculateTraits(CCharEntity* PChar)
                         break;
                     }
                 }
-	        }
+            }
         }
     }
 }
-
 }

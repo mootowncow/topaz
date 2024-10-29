@@ -2131,8 +2131,9 @@ tpz.mod =
     INT_DURING_WS           = 1408, -- Bonus INT during WS only
     MND_DURING_WS           = 1409, -- Bonus MND during WS only
     CHR_DURING_WS           = 1410, -- Bonus CHR during WS only
+    BLUE_JOB_TRAIT_BONUS    = 1411, -- Job traits tier +1(JP Gift)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1411 NEXT
+    -- 1412 NEXT
 }
 
 tpz.latent =

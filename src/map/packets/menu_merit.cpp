@@ -46,11 +46,8 @@ CMenuMeritPacket::CMenuMeritPacket(CCharEntity* PChar)
 
         if (PChar->GetMLevel() >= 75)
         {
+            bluePointBonus += PChar->getMod(Mod::BLUE_POINTS);
             bluePointBonus += PChar->PMeritPoints->GetMeritValue(MERIT_ASSIMILATION, PChar);
-        }
-        // TODO: JP
-        if (PChar->GetMLevel() >= 99)
-        {
             bluePointBonus += PChar->PJobPoints->GetJobPointValue(JP_BLUE_MAGIC_POINT_BONUS);
         }
 

@@ -46,6 +46,7 @@
 #include "packets/party_effects.h"
 #include "packets/party_member_update.h"
 #include "packets/message_basic.h"
+#include "packets/menu_jobpoints.h"
 
 //should have brace-or-equal initializers when MSVC supports it
 struct CParty::partyInfo_t
@@ -1171,6 +1172,7 @@ void CParty::RefreshSync()
             charutils::ApplyAllEquipMods(member);
 
             blueutils::ValidateBlueSpells(member);
+            jobpointutils::RefreshGiftMods(member);
             charutils::BuildingCharSkillsTable(member);
             charutils::CalculateStats(member);
             charutils::BuildingCharTraitsTable(member);
