@@ -477,13 +477,15 @@ void CalculateTraits(CCharEntity* PChar)
                     }
 
                     // Only add BLUE_JOB_TRAIT_BONUS if totalWeight is >= 1
-                    uint8 jpGiftTraitBonus = PChar->getMod(Mod::BLUE_JOB_TRAIT_BONUS);
+                    uint8 jpGiftTraitBonus = PChar->getMod(Mod::BLUE_JOB_TRAIT_BONUS) *2; // Is the *2 needed?
                     uint8 effectiveTotalWeight = totalWeight;
-                    if (totalWeight >= 1)
+                    if (totalWeight >= 2) // Should this be >= 1?
                     {
                         ShowDebug("Weight is enough to add trait, effective weight: %u\n", effectiveTotalWeight);
                         effectiveTotalWeight += jpGiftTraitBonus;
                     }
+                    auto pointsRequired = PTrait->getPoints();
+                    ShowDebug("points required: %u\n", pointsRequired);
 
                     if (effectiveTotalWeight >= PTrait->getPoints() && add)
                     {
