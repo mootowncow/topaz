@@ -432,20 +432,19 @@ void CalculateTraits(CCharEntity* PChar)
         uint8 category = iter->first;
         uint8 totalWeight = iter->second; // Points contributing to total set points needed to unlock the tier of the trait
 
-	    for (uint8 i = 0; i <  PTraitsList->size(); ++i)
-	    {
+        for (uint8 i = 0; i < PTraitsList->size(); ++i)
+        {
             if (PTraitsList->at(i)->getLevel() == 0)
             {
-		        CBlueTrait* PTrait = (CBlueTrait*)PTraitsList->at(i);
+                CBlueTrait* PTrait = (CBlueTrait*)PTraitsList->at(i);
 
                 if (PTrait && PTrait->getCategory() == category)
                 {
-
                     bool add = true;
 
                     for (uint8 j = 0; j < PChar->TraitList.size(); ++j)
-	                {
-		                CTrait* PExistingTrait = PChar->TraitList.at(j);
+                    {
+                        CTrait* PExistingTrait = PChar->TraitList.at(j);
 
                         if (PExistingTrait->getID() == PTrait->getID())
                         {
@@ -458,7 +457,7 @@ void CalculateTraits(CCharEntity* PChar)
                             {
                                 PChar->delModifier(PExistingTrait->getMod(), PExistingTrait->getValue());
                                 charutils::delTrait(PChar, PExistingTrait->getID());
-                                PChar->TraitList.erase(PChar->TraitList.begin()+j);
+                                PChar->TraitList.erase(PChar->TraitList.begin() + j);
                                 break;
                             }
                             else if (PExistingTrait->getRank() > PTrait->getRank())
@@ -477,11 +476,19 @@ void CalculateTraits(CCharEntity* PChar)
                         }
                     }
 
-                    auto jpGiftTraitBonus = PChar->getMod(Mod::BLUE_JOB_TRAIT_BONUS);
-                    totalWeight += jpGiftTraitBonus;
-                    if (totalWeight >= PTrait->getPoints() && add)
+                    // Only add BLUE_JOB_TRAIT_BONUS if totalWeight is >= 1
+                    uint8 jpGiftTraitBonus = PChar->getMod(Mod::BLUE_JOB_TRAIT_BONUS);
+                    uint8 effectiveTotalWeight = totalWeight;
+                    if (totalWeight >= 1)
                     {
-			            charutils::addTrait(PChar, PTrait->getID());
+                        ShowDebug("Weight is enough to add trait, effective weight: %u\n", effectiveTotalWeight);
+                        effectiveTotalWeight += jpGiftTraitBonus;
+                    }
+
+                    if (effectiveTotalWeight >= PTrait->getPoints() && add)
+                    {
+                        ShowDebug("effectiveTotalWeight >= getPoints, effective weight: %u\n", effectiveTotalWeight);
+                        charutils::addTrait(PChar, PTrait->getID());
 
                         PChar->TraitList.push_back(PTrait);
                         PChar->addModifier(PTrait->getMod(), PTrait->getValue());
@@ -489,9 +496,8 @@ void CalculateTraits(CCharEntity* PChar)
                         break;
                     }
                 }
-	        }
+            }
         }
     }
 }
-
 }
