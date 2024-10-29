@@ -382,7 +382,7 @@ INSERT INTO `abilities` VALUES (335,'mikage',13,75,1,300,254,0,0,283,2000,0,6,0.
 INSERT INTO `abilities` VALUES (336,'fly_high',14,1,1,7200,254,0,0,284,2000,0,6,0.0,0,0,0,0,0,NULL,0); 
 INSERT INTO `abilities` VALUES (337,'astral_conduit',15,75,1,7200,254,0,0,285,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (338,'unbridled_wisdom',16,75,1,7200,254,100,0,286,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
-INSERT INTO `abilities` VALUES (339,'cutting_cards',17,96,2,7200,254,0,0,287,2000,0,6,8.0,0,0,0,0,0,NULL,0); -- check animation
+INSERT INTO `abilities` VALUES (339,'cutting_cards',17,75,2,7200,254,0,0,287,2000,0,6,8.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (340,'heady_artifice',18,60,1,60,254,0,0,288,2000,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (341,'gran_pas',19,96,1,7200,254,0,0,289,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (342,'caper_emissarius',20,96,2,7200,254,0,0,290,2000,0,6,8.0,0,0,0,0,0,NULL,0); -- check animation

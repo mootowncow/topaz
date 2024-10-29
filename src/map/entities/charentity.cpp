@@ -1635,6 +1635,15 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast -= (PJobPoints->GetJobPointValue(JP_STEAL_RECAST) * 2);
         }
 
+        if (PAbility->getID() == ABILITY_WILD_CARD)
+        {
+            auto resetChance = this->PJobPoints->GetJobPointValue(JP_WILD_CARD_EFFECT);
+            if (charutils::GetCharVar(this, "corsairRollTotal") >= 5 && tpzrand::GetRandomNumber(100) < resetChance)
+            {
+                action.recast = 0;
+            }
+        }
+
         if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR)
         {
             action.recast -= getMod(Mod::ONE_HOUR_RECAST);

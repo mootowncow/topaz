@@ -12725,6 +12725,27 @@ inline int32 CLuaBaseEntity::doWildCard(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: doCuttingCards()
+ *  Purpose : Executes the Cutting Cards two hour for a COR
+ *  Example : caster:doCuttingCards(target,total)
+ *  Notes   : Calls the DoCuttingCardsToEntity member of battleutils
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::doCuttingCards(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isuserdata(L, 1));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
+
+    CLuaBaseEntity* PEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+    battleutils::DoCuttingCardsToEntity(static_cast<CCharEntity*>(m_PBaseEntity), static_cast<CCharEntity*>(PEntity->m_PBaseEntity), (uint8)lua_tointeger(L, 2));
+
+    return 0;
+}
+
+/************************************************************************
  *  Function: doRandomDeal()
  *  Purpose : Executes the Wild Card two hour for a COR
  *  Example : caster:doRandomDeal(target,total)
@@ -13111,17 +13132,9 @@ inline int32 CLuaBaseEntity::getRACC(lua_State *L)
         return 0;
     }
     CBattleEntity* PEntity = (CBattleEntity*)m_PBaseEntity;
+    uint16 RACC = PEntity->RACC(0, 0); // (skill = 0, bonusSkill = 0)
 
-    int skill = PEntity->GetSkill(weapon->getSkillType());
-    int acc = skill;
-    if (skill > 200) {
-        acc = (int)(200 + (skill - 200) * 0.9);
-    }
-    acc += PEntity->getMod(Mod::RACC);
-    acc += PEntity->AGI() / 2;
-    acc = acc + std::min<int16>(((100 + PEntity->getMod(Mod::FOOD_RACCP)) * acc / 100), PEntity->getMod(Mod::FOOD_RACC_CAP));
-
-    lua_pushinteger(L, acc);
+    lua_pushinteger(L, RACC);
     return 1;
 }
 
@@ -13142,6 +13155,30 @@ inline int32 CLuaBaseEntity::getRATT(lua_State *L)
     if (weapon == nullptr)
     {
         ShowDebug(CL_CYAN"lua::getRATT weapon in ranged slot is NULL!\n" CL_RESET);
+        return 0;
+    }
+
+    lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->RATT(weapon->getSkillType(), weapon->getILvlSkill()));
+    return 1;
+}
+
+/************************************************************************
+ *  Function: calculateSweetSpotAttack()
+ *  Purpose : Returns the Ranged Attack value of an equipped Ranged weapon
+ *  Example : player:getRATT()
+ *  Notes   : Calculates attack using  battleutils CalculateSweetSpotAttack(PAttacker, PDefender,rAttack)
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::calculateSweetSpotAttack(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    auto weapon = dynamic_cast<CItemWeapon*>(((CBattleEntity*)m_PBaseEntity)->m_Weapons[SLOT_RANGED]);
+
+    if (weapon == nullptr)
+    {
+        ShowDebug(CL_CYAN "lua::getRATT weapon in ranged slot is NULL!\n" CL_RESET);
         return 0;
     }
 
@@ -17693,6 +17730,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,fold),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,doWildCard),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,doCuttingCards),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,doRandomDeal),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addCorsairRoll),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasCorsairEffect),
@@ -17713,6 +17751,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEVA),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRACC),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRATT),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,calculateSweetSpotAttack),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getILvlMacc),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isSpellAoE),

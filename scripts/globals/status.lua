@@ -1774,6 +1774,7 @@ tpz.mod =
     SCAVENGE_EFFECT                 = 312, --
     DIA_DOT                         = 313, -- Increases the DoT damage of Dia
     SHARPSHOT                       = 314, -- Sharpshot accuracy bonus
+    TRUE_SHOT_EFFECT                = 1053,-- True Shot Ranged Damage increase (percent)
     AUGMENTS_ABSORB                 = 1274, -- Direct Absorb spell increase (percentage based)
     ENH_DRAIN_ASPIR                 = 315, -- % damage boost to Drain and Aspir
     SNEAK_ATK_DEX                   = 1368, -- % DEX boost to Sneak Attack (if gear mod, needs to be equipped on hit)

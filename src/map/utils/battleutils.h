@@ -209,6 +209,7 @@ namespace battleutils
 
     bool                TryInterruptSpell(CBattleEntity* PAttacker, CBattleEntity* PDefender, CSpell* PSpell);
     float               GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical);
+    uint16              CalculateSweetSpotAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint16 rAttack);
     void                HandleRangedAdditionalEffect(CCharEntity* PAttacker, CBattleEntity* PDefender, apAction_t* Action);
     uint16              CalculateSpikeDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, uint16 damageTaken);
     bool                HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, int32 damage);
@@ -298,6 +299,7 @@ namespace battleutils
     bool                DrawIn(CBattleEntity* PEntity, CMobEntity* PMob, float offset);
     void                ResetAllAbilitiesToMaxRecast(CCharEntity* PTarget, bool resetTwoHours = false);
     void                DoWildCardToEntity(CCharEntity* PCaster, CCharEntity* PTarget, uint8 roll);
+    void                DoCuttingCardsToEntity(CCharEntity* PCaster, CCharEntity* PTarget, uint8 roll);
     bool                DoRandomDealToEntity(CCharEntity* PChar, CCharEntity* PTarget);
     void                AddTraits(CBattleEntity* PEntity, TraitList_t* TraitList, uint8 level);
     void                DelTraits(CBattleEntity* PEntity, TraitList_t* TraitList, uint8 level);

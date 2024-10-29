@@ -63,6 +63,7 @@ When a status effect is gained twice on a player. It can do one or more of the f
 #include "utils/petutils.h"
 #include "utils/puppetutils.h"
 #include "utils/battleutils.h"
+#include "job_points.h"
 
 /************************************************************************
 *                                                                       *
@@ -1144,11 +1145,23 @@ bool CStatusEffectContainer::ApplyCorsairEffect(CStatusEffect* PStatusEffect, ui
                     {
                         if (!CheckForElevenRoll())
                         {
-                            uint16 duration = 300;
-                            duration -= bustDuration;
-                            CStatusEffect* bustEffect = new CStatusEffect(EFFECT_BUST, EFFECT_BUST, PStatusEffect->GetPower(),
-                                0, duration, PStatusEffect->GetTier(), PStatusEffect->GetStatusID());
-                            AddStatusEffect(bustEffect, true);
+                            auto bustEvasion = 0;
+                            if (m_POwner->objtype == TYPE_PC)
+                            {
+                                if (auto* PChar = static_cast<CCharEntity*>(m_POwner))
+                                {
+                                    bustEvasion += PChar->PJobPoints->GetJobPointValue(JP_BUST_EVASION);
+                                }
+                            }
+
+                            if (tpzrand::GetRandomNumber(100) >= bustEvasion)
+                            {
+                                uint16 duration = 300;
+                                duration -= bustDuration;
+                                CStatusEffect* bustEffect = new CStatusEffect(EFFECT_BUST, EFFECT_BUST, PStatusEffect->GetPower(), 0, duration,
+                                                                              PStatusEffect->GetTier(), PStatusEffect->GetStatusID());
+                                AddStatusEffect(bustEffect, true);
+                            }
                             DelStatusEffectSilent(EFFECT_DOUBLE_UP_CHANCE);
                         }
                     }

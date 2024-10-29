@@ -2504,6 +2504,8 @@ namespace battleutils
             //printf("Your ranged attack is... %u\n", rAttack);
         }
 
+        rAttack = CalculateSweetSpotAttack(PAttacker, PDefender, rAttack);
+
         //get ratio (2.5 pDIF cap RAs)
         float ratio = (float)rAttack / (float)PDefender->DEF();
 
@@ -2557,6 +2559,116 @@ namespace battleutils
         //ShowDebug("PDif after crit: %f\n", pdif);
         return pdif;
     }
+
+    uint16 CalculateSweetSpotAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint16 rAttack)
+    {
+        float sweetSpotMultiplier = 1.0f;
+        float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
+        uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
+        uint8 rangedType = 0;
+        float optimalRangeBonus = 1.0f + (1 + PAttacker->getMod(Mod::TRUE_SHOT_EFFECT) / 100);
+        uint8 flatAttackBonus = 0;
+
+        if (PAttacker->objtype == TYPE_PC)
+        {
+            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
+            {
+                auto jpValue = PChar->PJobPoints->GetJobPointValue(JP_OPTIMAL_RANGE_BONUS) * 2;
+                flatAttackBonus += jpValue;
+            }
+        }
+
+        if (PAttacker->objtype == TYPE_PC)
+        {
+            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
+            {
+                CItemWeapon* ammo = (CItemWeapon*)PChar->getEquip(SLOT_SUB);
+                if (ammo)
+                {
+                    rangedType = ammo->getSubSkillType();
+                }
+            }
+        }
+        else
+        {
+            if (auto* ammo = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]))
+            {
+                if (ammo)
+                {
+                    rangedType = ammo->getSubSkillType();
+                }
+            }
+        }
+
+        // TODO: Shortbow and Xbow should be different https://wiki.ffo.jp/html/9286.html
+        switch (rangedType)
+        {
+            case SUBSKILL_SHURIKEN:
+                if (distanceToTarget <= meleeRange)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    sweetSpotMultiplier = 1.0f - ((distanceToTarget - meleeRange) * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier); //
+                }
+                break;
+            case SUBSKILL_GUN:
+                if (distanceToTarget >= 5.0f && distanceToTarget <= 6.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 5.0f) ? (5.0f - distanceToTarget) : (distanceToTarget - 6.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            case SUBSKILL_XBO:
+                if (distanceToTarget >= 6.0f && distanceToTarget <= 10.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 6.0f) ? (6.0f - distanceToTarget) : (distanceToTarget - 10.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            case SUBSKILL_LONGB:
+                if (distanceToTarget >= 8.0f && distanceToTarget <= 11.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 8.0f) ? (8.0f - distanceToTarget) : (distanceToTarget - 11.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            default:
+                sweetSpotMultiplier = 1.0f;
+                break;
+        }
+
+        if (sweetSpotMultiplier == 1.0f)
+        {
+            sweetSpotMultiplier *= optimalRangeBonus;
+        }
+
+        rAttack += flatAttackBonus;
+        ShowDebug("distance flatAttackBonus %i\n", flatAttackBonus);
+        rAttack *= sweetSpotMultiplier;
+
+        ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
+        ShowDebug("pdif after sweet spot multiplier %i\n", rAttack);
+        return rAttack;
+    }
+
 
     int16 CalculateBaseTP(int delay){
         int16 x = 1;
@@ -7451,11 +7563,48 @@ namespace battleutils
         }
     }
 
-        /************************************************************************
-     *                                                                       *
-     *   Does the random deal effect to a specific character (reset ability) *
-     *                                                                       *
-     ************************************************************************/
+    /************************************************************************
+    *                                                                       *
+    *   Does the cutting cards effect to a specific character               *
+    *                                                                       *
+    ************************************************************************/
+    void DoCuttingCardsToEntity(CCharEntity* PCaster, CCharEntity* PTarget, uint8 roll)
+    {
+        int recastReduction = 0;
+        switch (roll)
+        {
+            case 1: recastReduction = 5; break;
+            case 2: recastReduction = 10; break;
+            case 3: recastReduction = 20; break;
+            case 4: recastReduction = 30; break;
+            case 5: recastReduction = 40; break;
+            case 6: recastReduction = 50; break;
+        }
+
+        // Add JP Bonus
+        recastReduction += PCaster->PJobPoints->GetJobPointValue(JP_CUTTING_CARDS_EFFECT);
+
+        RecastList_t* abilityRecasts = PTarget->PRecastContainer->GetRecastList(RECAST_ABILITY);
+
+        for (auto& recast : *abilityRecasts)
+        {
+            // Check if the recast is for level 1 or level 96 SP abilities
+            if (recast.ID == ABILITYRECAST_TWO_HOUR || recast.ID == ABILITYRECAST_TWO_HOUR_TWO)
+            {
+                // Calculate the reduced recast time
+                int reducedRecast = recast.RecastTime * (100 - recastReduction) / 100;
+
+                // Ensure recast time does not go negative
+                recast.RecastTime = std::max(0, reducedRecast);
+            }
+        }
+    }
+
+    /************************************************************************
+    *                                                                       *
+    *   Does the random deal effect to a specific character (reset ability) *
+    *                                                                       *
+    ************************************************************************/
     bool DoRandomDealToEntity(CCharEntity* PChar, CCharEntity* PTarget)
     {
         std::vector<uint16> resetCandidateList;
@@ -7495,6 +7644,10 @@ namespace battleutils
         uint8 loadedDeckChance = 50 + loadedDeck;
         uint8 resetTwoChance = std::min<int8>(PChar->getMod(Mod::RANDOM_DEAL_BONUS), 50);
 
+        // JP Two reset chance
+        uint8 jpValue = PChar->PJobPoints->GetJobPointValue(JP_RANDOM_DEAL_EFFECT) * 2;
+        uint8 jpTwoResetChance = jpValue;
+
         if (loadedDeck > 0) // Loaded Deck Merit Version
         {
             if (activeCooldownList.size() > 1)
@@ -7513,6 +7666,13 @@ namespace battleutils
                 {
                     PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, activeCooldownList.at(1));
                 }
+
+                // Reset 2 abilities from JP
+                if (activeCooldownList.size() > 1 && jpTwoResetChance >= tpzrand::GetRandomNumber(100))
+                {
+                    PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, activeCooldownList.at(1));
+                }
+
                 if (PChar != PTarget)
                 {
                     // Update target's recast state; caster's will be handled in CCharEntity::OnAbility.
@@ -7541,6 +7701,12 @@ namespace battleutils
                 PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, resetCandidateList.at(1));
             }
 
+            // Reset 2 abilities from JP
+            if (resetCandidateList.size() > 1 && activeCooldownList.size() > 1 && jpTwoResetChance >= tpzrand::GetRandomNumber(100))
+            {
+                PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, resetCandidateList.at(1));
+            }
+
             if (PChar != PTarget && PTarget->objtype == TYPE_PC)
             {
                 // Update target's recast state; caster's will be handled in CCharEntity::OnAbility.
@@ -7552,10 +7718,10 @@ namespace battleutils
     }
 
     /************************************************************************
-     *                                                                       *
-     *    Sets all abilities to their maximum recast timer.                 *
-     *                                                                       *
-     ************************************************************************/
+    *                                                                       *
+    *    Sets all abilities to their maximum recast timer.                  *
+    *                                                                       *
+    ************************************************************************/
     void ResetAllAbilitiesToMaxRecast(CCharEntity* PChar, bool resetTwoHour)
     {
         // Reset main job abilities
@@ -7648,6 +7814,15 @@ namespace battleutils
         if (battleEntity->StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE))
         {
             bonus += battleEntity->getMod(Mod::BARRAGE_ACC);
+        }
+
+        // Bonus from COR JP
+        if (battleEntity->objtype == TYPE_PC)
+        {
+            if (auto* PChar = static_cast<CCharEntity*>(battleEntity))
+            {
+                bonus += PChar->PJobPoints->GetJobPointValue(JP_COR_RANGED_ACC_BONUS);
+            }
         }
         return bonus;
     }
