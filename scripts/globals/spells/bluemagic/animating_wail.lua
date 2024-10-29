@@ -13,6 +13,8 @@
 --
 -- Combos: Dual Wield
 -----------------------------------------
+require("scripts/globals/bluemagic")
+require("scripts/globals/magic")
 require("scripts/globals/status")
 require("scripts/globals/msg")
 -----------------------------------------

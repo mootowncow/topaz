@@ -37,6 +37,7 @@ function onSpellCast(caster, target, spell)
     local params = {}
 
     power = utils.ApplyStoneskinBonuses(caster, power)
+    utils.ShouldRemoveStoneskin(target, power)
 
     return BlueBuffSpell(caster, target, spell, effect, power, tick, duration, subid, subpower, tier, params, bonus)
 end

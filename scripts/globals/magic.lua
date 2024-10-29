@@ -692,10 +692,10 @@ function applyResistanceEffect(caster, target, spell, params) -- says "effect" b
 
     -- Apply BLU Additional effect MACC JP Bonus
     if (params.skillType == tpz.skill.BLUE_MAGIC) then
-        maccBonus = maccBonus + caster:getJobPointLevel(tpz.jp.BLUE_PHYS_AE_ACC_BONUS)
+        magicaccbonus = magicaccbonus + caster:getJobPointLevel(tpz.jp.BLUE_PHYS_AE_ACC_BONUS)
     end
 
-    -- Apply "Status EfFect" Magic Accuracy Mod
+    -- Apply "Status Effect" Magic Accuracy Mod
     magicaccbonus = magicaccbonus + caster:getMod(tpz.mod.STATUS_EFFECT_MACC)
 
     local p = getMagicHitRate(caster, target, skill, element, SDT, percentBonus, magicaccbonus, params)

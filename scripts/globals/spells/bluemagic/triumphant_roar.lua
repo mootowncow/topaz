@@ -33,5 +33,5 @@ function onSpellCast(caster, target, spell)
     local bonus = 0
     local params = {}
 
-    BlueBuffSpell(caster, target, spell, effect, power, tick, duration, subid, subpower, tier, params, bonus)
+    return BlueBuffSpell(caster, target, spell, effect, power, tick, duration, subid, subpower, tier, params, bonus)
 end

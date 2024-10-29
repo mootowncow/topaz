@@ -24,7 +24,7 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local typeEffect = tpz.effect.PHALANX
+    local effect = tpz.effect.PHALANX
     local power = 23
     local duration = 300
     local tick = 0

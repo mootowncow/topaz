@@ -40,6 +40,7 @@
 #include "../spell.h"
 #include "../blue_spell.h"
 #include "../blue_trait.h"
+#include "../job_points.h"
 
 namespace blueutils
 {
@@ -297,7 +298,9 @@ uint8 GetTotalBlueMagicPoints(CCharEntity* PChar)
         uint8 points = ((level - 1)/10)*5 + 10;
         if (level >= 75)
         {
-            points = points + PChar->PMeritPoints->GetMeritValue(MERIT_ASSIMILATION, PChar);
+            points += PChar->getMod(Mod::BLUE_POINTS);
+            points += PChar->PMeritPoints->GetMeritValue(MERIT_ASSIMILATION, PChar);
+            points += PChar->PJobPoints->GetJobPointValue(JP_BLUE_MAGIC_POINT_BONUS);
         }
         return points;
     }
@@ -481,15 +484,12 @@ void CalculateTraits(CCharEntity* PChar)
                     uint8 effectiveTotalWeight = totalWeight;
                     if (totalWeight >= 2) // Should this be >= 1?
                     {
-                        ShowDebug("Weight is enough to add trait, effective weight: %u\n", effectiveTotalWeight);
                         effectiveTotalWeight += jpGiftTraitBonus;
                     }
-                    auto pointsRequired = PTrait->getPoints();
-                    ShowDebug("points required: %u\n", pointsRequired);
 
+                    auto pointsRequired = PTrait->getPoints();
                     if (effectiveTotalWeight >= PTrait->getPoints() && add)
                     {
-                        ShowDebug("effectiveTotalWeight >= getPoints, effective weight: %u\n", effectiveTotalWeight);
                         charutils::addTrait(PChar, PTrait->getID());
 
                         PChar->TraitList.push_back(PTrait);

@@ -1117,7 +1117,6 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
                             if (auto* PChar = dynamic_cast<CCharEntity*>(this))
                             {
                                 jpValue = PChar->PJobPoints->GetJobPointValue(JP_CHAIN_AFFINITY_EFFECT);
-                                this->addModifier(Mod::SKILLCHAINDMG, jpValue);
                             }
                         }
 

@@ -13,6 +13,7 @@
 --
 -- Combos: None
 -----------------------------------------
+require("scripts/globals/bluemagic")
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/magic")
@@ -26,7 +27,7 @@ end
 function onSpellCast(caster, target, spell)
     local effect = tpz.effect.REFRESH
     local power = 3 + caster:getMod(tpz.mod.ENHANCES_REFRESH)
-    local tick = 0
+    local tick = 3
     local duration = 300 + target:getMod(tpz.mod.REFRESH_DURATION)
     local subid = 0
     local subpower = 0
@@ -34,5 +35,5 @@ function onSpellCast(caster, target, spell)
     local bonus = 0
     local params = {}
 
-    return BlueBuffSpell(caster, target, spell, effect, power, tick, duration, subid, subpower, tier, params, bonus
+    return BlueBuffSpell(caster, target, spell, effect, power, tick, duration, subid, subpower, tier, params, bonus)
 end

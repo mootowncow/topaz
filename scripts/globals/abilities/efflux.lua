@@ -14,5 +14,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    player:addStatusEffect(tpz.effect.EFFLUX, 16, 1, 60)
+    player:addStatusEffect(tpz.effect.EFFLUX, 16, 0, 60)
 end

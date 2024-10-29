@@ -23,7 +23,7 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local effect = tpz.effect.DEFENSE_BOOST
+    local effect = tpz.effect.ISSEKIGAN
     local power = 50
     local duration = 60
     local tick = 0

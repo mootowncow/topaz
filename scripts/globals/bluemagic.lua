@@ -164,9 +164,11 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
     if (efflux ~= nil) then
         local effluxMultiplier = 1 + caster:getMod(tpz.effect.EFFLUX_BONUS) / 100
         tp = math.floor((1000 + effluxModBonus) * effluxMultiplier)
+
+        -- Add JP bonus
         tp = tp + effluxJpBonus
-        -- Efflux also increases the base damage of the spell it is used with by 50% (x 1.5)
-        -- https://www.bg-wiki.com/ffxi/Efflux
+
+        -- Efflux also increases the base damage of the spell it is used with by 50% (x 1.5) https://www.bg-wiki.com/ffxi/Efflux
         bonusWSC = bonusWSC + 0.5
     end
 
@@ -549,7 +551,7 @@ function BlueMagicalSpell(caster, target, spell, params, statMod)
 
     if (caster:hasStatusEffect(tpz.effect.BURST_AFFINITY)) then
         local jpBonus = caster:getJobPointLevel(tpz.jp.BURST_AFFINITY_BONUS) * 2
-        d = d + jpBonus
+        D = D + jpBonus
         ST = ST * 2
     end
 
@@ -634,14 +636,6 @@ function BlueMagicalSpell(caster, target, spell, params, statMod)
         dmg = dmg * ConvergenceBonus
 	end
 
-    -- Handle Unbridled damage bonuses
-    if (spell:getRequirements() == tpz.magic.req.UNBRIDLED_LEARNING) then
-        if caster:hasStatusEffect(tpz.effect.UNBRIDLED_LEARNING) or caster:hasStatusEffect(tpz.effect.UNBRIDLED_WISDOM) then
-            dmg = math.floor(dmg * (1 + caster:getMod(tpz.mod.UNBRIDLED_DAMAGE) / 100))
-            dmg = math.floor(dmg * (1 + caster:getJobPointLevel(tpz.jp.UNBRIDLED_LRN_EFFECT) / 100)) 
-        end
-    end
-
     -- Handle Positional MDT
     if caster:isInfront(target, 90) and target:hasStatusEffect(tpz.effect.MAGIC_SHIELD) then -- Front
         if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() == 3 then
@@ -686,8 +680,20 @@ function BlueFinalAdjustments(caster, target, spell, dmg, params)
     -- Handle Null
     dmg = utils.CheckForNull(caster, target, attackType, element, dmg)
 
-    -- Add Azure Lore JP Bonus
-    dmg = dmg + caster:getJobPointLevel(tpz.jp.AZURE_LORE_EFFECT)
+    -- Add Azure Lore JP Bonus to physical spells
+    if (dmg > 0) then
+        if attackType == tpz.attackType.PHYSICAL or attackType == tpz.attackType.RANGED then
+            dmg = dmg + caster:getJobPointLevel(tpz.jp.AZURE_LORE_EFFECT)
+        end
+    end
+
+    -- Handle Unbridled damage bonuses
+    if (spell:getRequirements() == tpz.magic.req.UNBRIDLED_LEARNING) then
+        if caster:hasStatusEffect(tpz.effect.UNBRIDLED_LEARNING) or caster:hasStatusEffect(tpz.effect.UNBRIDLED_WISDOM) then
+            dmg = math.floor(dmg * (1 + caster:getMod(tpz.mod.UNBRIDLED_DAMAGE) / 100))
+            dmg = math.floor(dmg * (1 + caster:getJobPointLevel(tpz.jp.UNBRIDLED_LRN_EFFECT) / 100))
+        end
+    end
 
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, spell, dmg)
