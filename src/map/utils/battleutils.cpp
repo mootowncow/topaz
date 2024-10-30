@@ -2565,14 +2565,12 @@ namespace battleutils
         {
             sweetSpotMultiplier *= optimalRangeBonus;
             acc += flatAccBonus;
-            ShowDebug("[%s] distance flatAccBonus %i\n", PAttacker->name, flatAccBonus);
         }
 
-        ShowDebug("[%s] accuracy before sweet spot multiplier %i\n", PAttacker->name, acc);
         acc *= sweetSpotMultiplier;
 
-        ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
-        ShowDebug("[%s] accuracy after sweet spot multiplier %i\n", PAttacker->name, acc);
+        //ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
+        //ShowDebug("[%s] accuracy after sweet spot multiplier %i\n", PAttacker->name, acc);
         return acc;
     }
 
@@ -2777,14 +2775,12 @@ namespace battleutils
         {
             sweetSpotMultiplier *= optimalRangeBonus;
             rAttack += flatAttackBonus;
-            ShowDebug("[%s] distance flatAttackBonus %i\n", PAttacker->name, flatAttackBonus);
         }
 
-        ShowDebug("[%s] attack before sweet spot multiplier %i\n", PAttacker->name, rAttack);
         rAttack *= sweetSpotMultiplier;
 
-        ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
-        ShowDebug("[%s] attack after sweet spot multiplier %i\n", PAttacker->name, rAttack);
+        //ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
+        //ShowDebug("[%s] attack after sweet spot multiplier %i\n", PAttacker->name, rAttack);
         return rAttack;
     }
 
