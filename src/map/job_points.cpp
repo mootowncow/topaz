@@ -248,7 +248,7 @@ void RefreshGiftMods(CCharEntity* PChar)
     if (current_gifts->empty() != true)
     {
         PChar->delModifiers(current_gifts);
-        ShowDebug("Clearing current gifts");
+        //ShowDebug("Clearing current gifts");
         current_gifts->clear();
     }
 
@@ -258,7 +258,7 @@ void RefreshGiftMods(CCharEntity* PChar)
             break;
 
         current_gifts->push_back(CModifier(static_cast<Mod>(gift.modid), gift.value));
-        ShowDebug("Current JP: %d, Gift: %d %d %d\n", totalJpSpent, gift.jp_needed, gift.modid, gift.value);
+        //ShowDebug("Current JP: %d, Gift: %d %d %d\n", totalJpSpent, gift.jp_needed, gift.modid, gift.value);
     }
 
     PChar->addModifiers(current_gifts);

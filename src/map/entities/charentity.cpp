@@ -1922,7 +1922,14 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
     actionTarget_t& actionTarget = actionList.getNewActionTarget();
     actionTarget.reaction = REACTION_HIT;		//0x10
     actionTarget.speceffect = SPECEFFECT_HIT;		//0x60 (SPECEFFECT_HIT + SPECEFFECT_RECOIL)
-    actionTarget.messageID = 352;
+    if (battleutils::IsInRangedSweetSpot(this, PTarget))
+    {
+        actionTarget.messageID = MSGBASIC_RANGED_TRUE;
+    }
+    else
+    {
+        actionTarget.messageID = MSGBASIC_RANGED_HIT;
+    }
 
     CItemWeapon* PItem = (CItemWeapon*)this->getEquip(SLOT_RANGED);
     CItemWeapon* PAmmo = (CItemWeapon*)this->getEquip(SLOT_AMMO);
@@ -2018,7 +2025,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
             damage = 0;
             actionTarget.reaction = REACTION_EVADE;
             actionTarget.speceffect = SPECEFFECT_NONE;
-            actionTarget.messageID = 354;
+            actionTarget.messageID = MSGBASIC_RANGED_MISS;
             hitCount = i; // end barrage, shot missed
         }
 
@@ -2056,7 +2063,14 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         // any misses with barrage cause remaing shots to miss, meaning we must check Action.reaction
         if (actionTarget.reaction == REACTION_EVADE && (this->StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE)))
         {
-            actionTarget.messageID = 352;
+            if (battleutils::IsInRangedSweetSpot(this, PTarget))
+            {
+                actionTarget.messageID = MSGBASIC_RANGED_TRUE;
+            }
+            else
+            {
+                actionTarget.messageID = MSGBASIC_RANGED_HIT;
+            }
             actionTarget.reaction = REACTION_HIT;
             actionTarget.speceffect = SPECEFFECT_CRITICAL_HIT;
         }
@@ -2071,7 +2085,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         if (actionTarget.param < 0)
         {
             actionTarget.param = -(actionTarget.param);
-            actionTarget.messageID = 382;
+            actionTarget.messageID = MSGBASIC_RANGED_ABSORBED_DMG;
         }
 
         // Handle frontal PDT

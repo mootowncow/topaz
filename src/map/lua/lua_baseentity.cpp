@@ -13108,7 +13108,7 @@ inline int32 CLuaBaseEntity::getEVA(lua_State *L)
 *  Function: getRACC()
 *  Purpose : Calculates and returns the Ranged Accuracy of a Weapon euipped in the Ranged slot
 *  Example : player:getRACC()
-*  Notes   : To Do: The calculation is already a public member of battleentity, shouldn't have two calculations, just call (CBattleEntity*)m_PBaseEntity)->RACC and return result
+*  Notes   : 
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::getRACC(lua_State *L)
@@ -13122,10 +13122,8 @@ inline int32 CLuaBaseEntity::getRACC(lua_State *L)
         ShowDebug(CL_CYAN"lua::getRACC weapon in ranged slot is NULL!\n" CL_RESET);
         return 0;
     }
-    CBattleEntity* PEntity = (CBattleEntity*)m_PBaseEntity;
-    uint16 RACC = PEntity->RACC(0, 0); // (skill = 0, bonusSkill = 0)
 
-    lua_pushinteger(L, RACC);
+    lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->RACC(weapon->getSkillType(), weapon->getILvlSkill()));
     return 1;
 }
 
@@ -13145,14 +13143,14 @@ inline int32 CLuaBaseEntity::calculateSweetSpotAccuracy(lua_State* L)
 
     CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
     CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
-    uint8 hitrate = 0;
+    uint16 acc = 0;
 
     if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
     {
-        hitrate = (uint8)lua_tointeger(L, 2);
+        acc = (uint16)lua_tointeger(L, 2);
     }
 
-    lua_pushinteger(L, battleutils::CalculateSweetSpotAccuracy(PAttacker, PDefender, hitrate));
+    lua_pushinteger(L, battleutils::CalculateSweetSpotAccuracy(PAttacker, PDefender, acc));
     return 1;
 }
 
@@ -13196,14 +13194,14 @@ inline int32 CLuaBaseEntity::calculateSweetSpotAttack(lua_State* L)
 
     CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
     CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
-    uint8 ratt = 0;
+    uint16 rAttack = 0;
 
     if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
     {
-        ratt = (uint8)lua_tointeger(L, 2);
+        rAttack = (uint16)lua_tointeger(L, 2);
     }
 
-    lua_pushinteger(L, battleutils::CalculateSweetSpotAttack(PAttacker, PDefender, ratt));
+    lua_pushinteger(L, battleutils::CalculateSweetSpotAttack(PAttacker, PDefender, rAttack));
     return 1;
 }
 

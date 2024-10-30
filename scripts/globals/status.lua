@@ -2898,7 +2898,7 @@ tpz.jp =
     RANDOM_DEAL_EFFECT       = jpCategory.COR + 0x06, --X 2 abil random deal +2%
     COR_RANGED_ACC_BONUS     = jpCategory.COR + 0x07, --X r.acc +1
     TRIPLE_SHOT_EFFECT       = jpCategory.COR + 0x08, --+ triple shot chance +1%
-    OPTIMAL_RANGE_BONUS      = jpCategory.COR + 0x09, --X sweet spot dmg +1
+    OPTIMAL_RANGE_BONUS      = jpCategory.COR + 0x09, --X sweet spot ranged attack +2
 
     --PUP
     OVERDRIVE_EFFECT         = jpCategory.PUP + 0x00, --+ all pet attr. +5

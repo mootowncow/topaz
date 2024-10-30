@@ -150,6 +150,7 @@ namespace battleutils
     int16           GetSnapshotReduction(CBattleEntity* battleEntity, int16 delay);
     int32           GetRangedAttackBonuses(CBattleEntity* battleEntity); // Nothing here yet
     int32           GetRangedAccuracyBonuses(CBattleEntity* battleEntity);
+    bool            IsInRangedSweetSpot(CBattleEntity* PAttacker, CBattleEntity* PDefender);
 
     uint8           GetSkillRank(SKILLTYPE SkillID, JOBTYPE JobID);
     uint16          GetMaxSkill(SKILLTYPE SkillID, JOBTYPE JobID, uint8 level);
@@ -218,7 +219,7 @@ namespace battleutils
     void                HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, bool isFirstSwing, CItemWeapon* weapon, int32 damage);
     uint8               GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage);
     uint8               GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage, int8 accBonus);
-    uint16              CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int hitrate);
+    uint16              CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int acc);
     int32               CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element);
 
     int16               GetEnmityModDamage(int16 level);

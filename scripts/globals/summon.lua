@@ -193,9 +193,8 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
 
         if attackType == tpz.attackType.RANGED then
             local rAttack = avatar:getRATT()
-            rAttack = avatar:calculateSweetSpotAttack(defender, rAttack)
-            rAttack =  rAttack * attackMod
-            ratio = (rAttack / (target:getStat(tpz.mod.DEF) - ignoredDef))
+            rAttack = avatar:calculateSweetSpotAttack(target, rAttack)
+            ratio = rAttack / target:getStat(tpz.mod.DEF)
         end
         local cRatio = ratio
 

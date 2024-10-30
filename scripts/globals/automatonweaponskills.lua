@@ -273,8 +273,8 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
 
         -- Ranged attack WeaponSkills use Rattack
         if attackType == tpz.attackType.RANGED then
-            local rAttack = attacker:getRATT()
-            rAttack = attacker:calculateSweetSpotAttack(defender, rAttack)
+            local rAttack = auto:getRATT()
+            rAttack = auto:calculateSweetSpotAttack(target, rAttack)
             rAttack =  rAttack * attackMod
             ratio = (rAttack / (target:getStat(tpz.mod.DEF) - ignoredDef))
             --printf("Ranged Attack: %i", attack)

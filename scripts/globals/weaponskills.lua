@@ -1062,6 +1062,8 @@ function getRangedHitRate(attacker, target, slugwinder, bonus)
 
     acc = acc + bonus
 
+    acc = attacker:calculateSweetSpotAccuracy(target, acc)
+
     local hitrate = 75
 
     if attacker:getMainLvl() > target:getMainLvl() then
@@ -1069,8 +1071,6 @@ function getRangedHitRate(attacker, target, slugwinder, bonus)
     else
         hitrate = hitrate + math.floor(((acc - eva) / 2) - (2 * (target:getMainLvl() - attacker:getMainLvl())))
     end
-
-    hitrate = attacker:calculateSweetSpotAccuracy(target, hitrate)
 
     hitrate = hitrate / 100
 
@@ -1081,6 +1081,7 @@ function getRangedHitRate(attacker, target, slugwinder, bonus)
         hitrate = utils.clamp(hitrate, 0.2, 0.99)
     end
 
+    --printf("Hit rate %f", hitrate)
     return hitrate
 end
 

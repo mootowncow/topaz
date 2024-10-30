@@ -2445,12 +2445,12 @@ namespace battleutils
         // Add any specific accuracy bonus, e.g. Daken RAcc +100
         acc += accBonus;
 
+        acc = CalculateSweetSpotAccuracy(PAttacker, PDefender, acc);
+
         int eva = PDefender->EVA();
         hitrate = hitrate + (acc - eva) / 2 + (PAttacker->GetMLevel() - PDefender->GetMLevel()) * 2;
 
-        hitrate = CalculateSweetSpotAccuracy(PAttacker, PDefender, hitrate);
-
-        // ShowDebug("Ranged accuracy: %d\n", acc);
+        //ShowDebug("[%s] Ranged accuracy: %d\n", PAttacker->name, acc);
 
         if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SHARPSHOT))
         {
@@ -2467,7 +2467,7 @@ namespace battleutils
         return GetRangedHitRate(PAttacker, PDefender, isBarrage, 0);
     }
 
-    uint16 CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int hitrate)
+    uint16 CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int acc)
     {
         float sweetSpotMultiplier = 1.0f;
         float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
@@ -2480,28 +2480,23 @@ namespace battleutils
         {
             if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
             {
-                CItemWeapon* ammo = (CItemWeapon*)PChar->getEquip(SLOT_SUB);
-                if (ammo)
+                CItemWeapon* rangedWeapon = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
+                if (rangedWeapon)
                 {
-                    rangedType = ammo->getSubSkillType();
+                    rangedType = rangedWeapon->getSubSkillType();
                 }
             }
         }
         else
         {
-            if (auto* ammo = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]))
-            {
-                if (ammo)
-                {
-                    rangedType = ammo->getSubSkillType();
-                }
-            }
+            rangedType = SUBSKILL_THROWN;
         }
 
-        // TODO: Shortbow and Xbow should be different https://wiki.ffo.jp/html/9286.html
+        // https://wiki.ffo.jp/html/9286.html
         switch (rangedType)
         {
             case SUBSKILL_SHURIKEN:
+            case SUBSKILL_THROWN:
                 if (distanceToTarget <= meleeRange)
                 {
                     sweetSpotMultiplier = 1.0f;
@@ -2513,6 +2508,7 @@ namespace battleutils
                 }
                 break;
             case SUBSKILL_GUN:
+            case SUBSKILL_CNN:
                 if (distanceToTarget >= 5.0f && distanceToTarget <= 6.0f)
                 {
                     sweetSpotMultiplier = 1.0f;
@@ -2524,8 +2520,20 @@ namespace battleutils
                     sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
                 }
                 break;
+            case SUBSKILL_SHORTBOW:
+                if (distanceToTarget >= 6.0f && distanceToTarget <= 8.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 8.0f) ? (8.0f - distanceToTarget) : (distanceToTarget - 11.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
             case SUBSKILL_XBO:
-                if (distanceToTarget >= 6.0f && distanceToTarget <= 10.0f)
+                if (distanceToTarget >= 7.0f && distanceToTarget <= 10.0f)
                 {
                     sweetSpotMultiplier = 1.0f;
                 }
@@ -2556,15 +2564,16 @@ namespace battleutils
         if (sweetSpotMultiplier == 1.0f)
         {
             sweetSpotMultiplier *= optimalRangeBonus;
+            acc += flatAccBonus;
+            ShowDebug("[%s] distance flatAccBonus %i\n", PAttacker->name, flatAccBonus);
         }
 
-        hitrate += flatAccBonus;
-        ShowDebug("distance flatAccBonus %i\n", flatAccBonus);
-        hitrate *= sweetSpotMultiplier;
+        ShowDebug("[%s] accuracy before sweet spot multiplier %i\n", PAttacker->name, acc);
+        acc *= sweetSpotMultiplier;
 
         ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
-        ShowDebug("pdif after sweet spot multiplier %i\n", hitrate);
-        return hitrate;
+        ShowDebug("[%s] accuracy after sweet spot multiplier %i\n", PAttacker->name, acc);
+        return acc;
     }
 
     float GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical)
@@ -2667,7 +2676,7 @@ namespace battleutils
         float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
         uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
         uint8 rangedType = 0;
-        float optimalRangeBonus = 1.0f + (1 + PAttacker->getMod(Mod::TRUE_SHOT_EFFECT) / 100);
+        float optimalRangeBonus = 1.0f + (PAttacker->getMod(Mod::TRUE_SHOT_EFFECT) / 100.0f);
         uint8 flatAttackBonus = 0;
 
         if (PAttacker->objtype == TYPE_PC)
@@ -2683,28 +2692,23 @@ namespace battleutils
         {
             if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
             {
-                CItemWeapon* ammo = (CItemWeapon*)PChar->getEquip(SLOT_SUB);
-                if (ammo)
+                CItemWeapon* rangedWeapon = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
+                if (rangedWeapon)
                 {
-                    rangedType = ammo->getSubSkillType();
+                    rangedType = rangedWeapon->getSubSkillType();
                 }
             }
         }
         else
         {
-            if (auto* ammo = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]))
-            {
-                if (ammo)
-                {
-                    rangedType = ammo->getSubSkillType();
-                }
-            }
+            rangedType = SUBSKILL_THROWN;
         }
 
-        // TODO: Shortbow and Xbow should be different https://wiki.ffo.jp/html/9286.html
+        // https://wiki.ffo.jp/html/9286.html
         switch (rangedType)
         {
             case SUBSKILL_SHURIKEN:
+            case SUBSKILL_THROWN:
                 if (distanceToTarget <= meleeRange)
                 {
                     sweetSpotMultiplier = 1.0f;
@@ -2716,6 +2720,7 @@ namespace battleutils
                 }
                 break;
             case SUBSKILL_GUN:
+            case SUBSKILL_CNN:
                 if (distanceToTarget >= 5.0f && distanceToTarget <= 6.0f)
                 {
                     sweetSpotMultiplier = 1.0f;
@@ -2727,8 +2732,20 @@ namespace battleutils
                     sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
                 }
                 break;
+            case SUBSKILL_SHORTBOW:
+                if (distanceToTarget >= 6.0f && distanceToTarget <= 8.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 8.0f) ? (8.0f - distanceToTarget) : (distanceToTarget - 11.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
             case SUBSKILL_XBO:
-                if (distanceToTarget >= 6.0f && distanceToTarget <= 10.0f)
+                if (distanceToTarget >= 7.0f && distanceToTarget <= 10.0f)
                 {
                     sweetSpotMultiplier = 1.0f;
                 }
@@ -2759,14 +2776,15 @@ namespace battleutils
         if (sweetSpotMultiplier == 1.0f)
         {
             sweetSpotMultiplier *= optimalRangeBonus;
+            rAttack += flatAttackBonus;
+            ShowDebug("[%s] distance flatAttackBonus %i\n", PAttacker->name, flatAttackBonus);
         }
 
-        rAttack += flatAttackBonus;
-        ShowDebug("distance flatAttackBonus %i\n", flatAttackBonus);
+        ShowDebug("[%s] attack before sweet spot multiplier %i\n", PAttacker->name, rAttack);
         rAttack *= sweetSpotMultiplier;
 
         ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
-        ShowDebug("pdif after sweet spot multiplier %i\n", rAttack);
+        ShowDebug("[%s] attack after sweet spot multiplier %i\n", PAttacker->name, rAttack);
         return rAttack;
     }
 
@@ -7925,6 +7943,71 @@ namespace battleutils
             }
         }
         return bonus;
+    }
+
+    bool IsInRangedSweetSpot(CBattleEntity* PAttacker, CBattleEntity* PDefender)
+    {
+        float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
+        uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
+        uint8 rangedType = 0;
+
+        if (PAttacker->objtype == TYPE_PC)
+        {
+            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
+            {
+                CItemWeapon* rangedWeapon = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
+                if (rangedWeapon)
+                {
+                    rangedType = rangedWeapon->getSubSkillType();
+                }
+            }
+        }
+        else
+        {
+            rangedType = SUBSKILL_THROWN;
+        }
+
+        // https://wiki.ffo.jp/html/9286.html
+        switch (rangedType)
+        {
+            case SUBSKILL_SHURIKEN:
+            case SUBSKILL_THROWN:
+                if (distanceToTarget <= meleeRange)
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_GUN:
+            case SUBSKILL_CNN:
+                if (distanceToTarget >= 5.0f && distanceToTarget <= 6.0f)
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_SHORTBOW:
+                if (distanceToTarget >= 6.0f && distanceToTarget <= 8.0f)
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_XBO:
+                if (distanceToTarget >= 7.0f && distanceToTarget <= 10.0f)
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_LONGBOW:
+                if (distanceToTarget >= 8.0f && distanceToTarget <= 11.0f)
+                {
+                    return true;
+                }
+                break;
+            default: // Shouldn't happen
+                return false;
+                break;
+        }
+
+        return false;
     }
 
     void AddTraits(CBattleEntity* PEntity, TraitList_t* traitList, uint8 level)
