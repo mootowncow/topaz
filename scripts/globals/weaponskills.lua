@@ -1232,6 +1232,9 @@ end
 function cRangedRatio(attacker, defender, params, ignoredDef, tp)
 
     local atkmulti = fTP(tp, params.atk100, params.atk200, params.atk300)
+    local rAttack = attacker:getRATT()
+    rAttack = attacker:calculateSweetSpotAttack(defender, rAttack)
+
     local cratio = attacker:getRATT() / (defender:getStat(tpz.mod.DEF) - ignoredDef)
 
     local levelcor = 0

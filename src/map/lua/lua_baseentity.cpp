@@ -2150,15 +2150,6 @@ inline int32 CLuaBaseEntity::clearPath(lua_State* L)
 }
 
 /************************************************************************
-*  Function: checkDistance()
-*  Purpose : Returns the yalm distance between entities
-*  Example1: if player:checkDistance(target) <= 25 then
-*  Example2: if player:checkDistance(pos) <= 25 then
-*  Example3: if player:checkDistance(posX, posY, PosZ) <= 25 then
-*  Notes   : Example1 is an entity, the others are coordinate point inputs
-************************************************************************/
-
-/************************************************************************
  *  Function: checkDistance()
  *  Purpose : Returns the yalm distance between entities
  *  Example1: if player:checkDistance(target) <= 25 then
@@ -13165,8 +13156,8 @@ inline int32 CLuaBaseEntity::getRATT(lua_State *L)
 /************************************************************************
  *  Function: calculateSweetSpotAttack()
  *  Purpose : Returns the Ranged Attack value of an equipped Ranged weapon
- *  Example : player:getRATT()
- *  Notes   : Calculates attack using  battleutils CalculateSweetSpotAttack(PAttacker, PDefender,rAttack)
+ *  Example : attacker:calculateSweetSpotAttack(defender, ratt)
+ *  Notes   : Calculates attack using battleutils CalculateSweetSpotAttack(PAttacker, PDefender,rAttack)
  ************************************************************************/
 
 inline int32 CLuaBaseEntity::calculateSweetSpotAttack(lua_State* L)
@@ -13174,15 +13165,18 @@ inline int32 CLuaBaseEntity::calculateSweetSpotAttack(lua_State* L)
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
 
-    auto weapon = dynamic_cast<CItemWeapon*>(((CBattleEntity*)m_PBaseEntity)->m_Weapons[SLOT_RANGED]);
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
 
-    if (weapon == nullptr)
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+    uint8 ratt = 0;
+
+    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
     {
-        ShowDebug(CL_CYAN "lua::getRATT weapon in ranged slot is NULL!\n" CL_RESET);
-        return 0;
+        ratt = (uint8)lua_tointeger(L, 2);
     }
 
-    lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->RATT(weapon->getSkillType(), weapon->getILvlSkill()));
+    lua_pushinteger(L, battleutils::CalculateSweetSpotAttack(PAttacker, PDefender, ratt));
     return 1;
 }
 

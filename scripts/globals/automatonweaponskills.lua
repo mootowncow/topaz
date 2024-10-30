@@ -272,8 +272,10 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
 
         -- Ranged attack WeaponSkills use Rattack
         if attackType == tpz.attackType.RANGED then
-            local attack = auto:getRATT() * attackMod
-            ratio = (attack / (target:getStat(tpz.mod.DEF) - ignoredDef))
+            local rAttack = attacker:getRATT()
+            rAttack = attacker:calculateSweetSpotAttack(defender, rAttack)
+            rAttack =  rAttack * attackMod
+            ratio = (rAttack / (target:getStat(tpz.mod.DEF) - ignoredDef))
             --printf("Ranged Attack: %i", attack)
             --printf("Ratio after ignored def %i", ratio*100)
         end
@@ -281,13 +283,13 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         local cRatio = ratio
         local levelcor = 0
         --printf("CRatio before correction: %i", cRatio*100)
+
         -- Apply level correction
         if auto:getMainLvl() < target:getMainLvl() then
             levelcor = 0.05 * (target:getMainLvl() - auto:getMainLvl())
         end
 
         cRatio = cRatio - levelcor
-
 
         -- PDif caps at 2.0 for non-crits on melee, 2.5 for ranged
         if attackType == tpz.attackType.PHYSICAL then

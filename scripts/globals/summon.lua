@@ -184,13 +184,17 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
         -- https://www.bg-wiki.com/bg/PDIF
         -- https://www.bluegartr.com/threads/127523-pDIF-Changes-(Feb.-10th-2016)
         local ratio = 0
+
         -- Ranged attack BPs use Rattack
         if attackType == tpz.attackType.PHYSICAL then
             ratio = avatar:getStat(tpz.mod.ATT) / target:getStat(tpz.mod.DEF)
         end
 
         if attackType == tpz.attackType.RANGED then
-            ratio = avatar:getRATT() / target:getStat(tpz.mod.DEF)
+            local rAttack = avatar:getRATT()
+            rAttack = avatar:calculateSweetSpotAttack(defender, rAttack)
+            rAttack =  rAttack * attackMod
+            ratio = (rAttack / (target:getStat(tpz.mod.DEF) - ignoredDef))
         end
         local cRatio = ratio
 
