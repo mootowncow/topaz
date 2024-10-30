@@ -68,6 +68,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
 
     if attackType == tpz.attackType.RANGED then
         acc = auto:getRACC()
+        acc = auto:calculateSweetSpotAccuracy(target, acc)
     end
     -- printf("Accuracy before level correction: %i", acc)
     acc = acc + TPAccBonus

@@ -2448,6 +2448,8 @@ namespace battleutils
         int eva = PDefender->EVA();
         hitrate = hitrate + (acc - eva) / 2 + (PAttacker->GetMLevel() - PDefender->GetMLevel()) * 2;
 
+        hitrate = CalculateSweetSpotAccuracy(PAttacker, PDefender, hitrate);
+
         // ShowDebug("Ranged accuracy: %d\n", acc);
 
         if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SHARPSHOT))
@@ -2465,7 +2467,106 @@ namespace battleutils
         return GetRangedHitRate(PAttacker, PDefender, isBarrage, 0);
     }
 
-    //todo: need to penalise attacker's RangedAttack depending on distance from mob. (% decrease)
+    uint16 CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int hitrate)
+    {
+        float sweetSpotMultiplier = 1.0f;
+        float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
+        uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
+        uint8 rangedType = 0;
+        float optimalRangeBonus = 1.0f;
+        uint8 flatAccBonus = 0;
+
+        if (PAttacker->objtype == TYPE_PC)
+        {
+            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
+            {
+                CItemWeapon* ammo = (CItemWeapon*)PChar->getEquip(SLOT_SUB);
+                if (ammo)
+                {
+                    rangedType = ammo->getSubSkillType();
+                }
+            }
+        }
+        else
+        {
+            if (auto* ammo = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]))
+            {
+                if (ammo)
+                {
+                    rangedType = ammo->getSubSkillType();
+                }
+            }
+        }
+
+        // TODO: Shortbow and Xbow should be different https://wiki.ffo.jp/html/9286.html
+        switch (rangedType)
+        {
+            case SUBSKILL_SHURIKEN:
+                if (distanceToTarget <= meleeRange)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    sweetSpotMultiplier = 1.0f - ((distanceToTarget - meleeRange) * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier); //
+                }
+                break;
+            case SUBSKILL_GUN:
+                if (distanceToTarget >= 5.0f && distanceToTarget <= 6.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 5.0f) ? (5.0f - distanceToTarget) : (distanceToTarget - 6.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            case SUBSKILL_XBO:
+                if (distanceToTarget >= 6.0f && distanceToTarget <= 10.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 6.0f) ? (6.0f - distanceToTarget) : (distanceToTarget - 10.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            case SUBSKILL_LONGBOW:
+                if (distanceToTarget >= 8.0f && distanceToTarget <= 11.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 8.0f) ? (8.0f - distanceToTarget) : (distanceToTarget - 11.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            default:
+                sweetSpotMultiplier = 1.0f;
+                break;
+        }
+
+        if (sweetSpotMultiplier == 1.0f)
+        {
+            sweetSpotMultiplier *= optimalRangeBonus;
+        }
+
+        hitrate += flatAccBonus;
+        ShowDebug("distance flatAccBonus %i\n", flatAccBonus);
+        hitrate *= sweetSpotMultiplier;
+
+        ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
+        ShowDebug("pdif after sweet spot multiplier %i\n", hitrate);
+        return hitrate;
+    }
+
     float GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical)
     {
         //get ranged attack value
@@ -2638,7 +2739,7 @@ namespace battleutils
                     sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
                 }
                 break;
-            case SUBSKILL_LONGB:
+            case SUBSKILL_LONGBOW:
                 if (distanceToTarget >= 8.0f && distanceToTarget <= 11.0f)
                 {
                     sweetSpotMultiplier = 1.0f;
@@ -2668,7 +2769,6 @@ namespace battleutils
         ShowDebug("pdif after sweet spot multiplier %i\n", rAttack);
         return rAttack;
     }
-
 
     int16 CalculateBaseTP(int delay){
         int16 x = 1;

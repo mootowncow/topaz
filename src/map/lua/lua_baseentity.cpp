@@ -13130,6 +13130,33 @@ inline int32 CLuaBaseEntity::getRACC(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: calculateSweetSpotAccuracy()
+ *  Purpose : Returns the Ranged Accuracy value of an equipped Ranged weapon
+ *  Example : attacker:CalculateSweetSpotAccuracy(defender, racc)
+ *  Notes   : Calculates ranged accuracy using battleutils CalculateSweetSpotAccuracy(PAttacker, PDefender, hitrate)
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::calculateSweetSpotAccuracy(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+    uint8 hitrate = 0;
+
+    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+    {
+        hitrate = (uint8)lua_tointeger(L, 2);
+    }
+
+    lua_pushinteger(L, battleutils::CalculateSweetSpotAccuracy(PAttacker, PDefender, hitrate));
+    return 1;
+}
+
+/************************************************************************
 *  Function: getRATT()
 *  Purpose : Returns the Ranged Attack value of an equipped Ranged weapon
 *  Example : player:getRATT()
@@ -13157,7 +13184,7 @@ inline int32 CLuaBaseEntity::getRATT(lua_State *L)
  *  Function: calculateSweetSpotAttack()
  *  Purpose : Returns the Ranged Attack value of an equipped Ranged weapon
  *  Example : attacker:calculateSweetSpotAttack(defender, ratt)
- *  Notes   : Calculates attack using battleutils CalculateSweetSpotAttack(PAttacker, PDefender,rAttack)
+ *  Notes   : Calculates attack using battleutils CalculateSweetSpotAttack(PAttacker, PDefender, rAttack)
  ************************************************************************/
 
 inline int32 CLuaBaseEntity::calculateSweetSpotAttack(lua_State* L)
@@ -17746,6 +17773,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRACC),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRATT),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,calculateSweetSpotAttack),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,calculateSweetSpotAccuracy),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getILvlMacc),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isSpellAoE),

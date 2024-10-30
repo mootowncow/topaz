@@ -48,6 +48,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
 
     if attackType == tpz.attackType.RANGED then
         acc = avatar:getRACC() + getSummoningSkillOverCap(avatar)
+        acc = avatar:calculateSweetSpotAccuracy(target, acc)
     end
     --print("%i", acc)
     acc = acc + TPAccBonus

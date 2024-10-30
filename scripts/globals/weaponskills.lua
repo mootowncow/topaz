@@ -1069,6 +1069,9 @@ function getRangedHitRate(attacker, target, slugwinder, bonus)
     else
         hitrate = hitrate + math.floor(((acc - eva) / 2) - (2 * (target:getMainLvl() - attacker:getMainLvl())))
     end
+
+    hitrate = attacker:calculateSweetSpotAccuracy(target, hitrate)
+
     hitrate = hitrate / 100
 
     -- Slugwinder caps at 95% hit rate, rest cap at 99%
