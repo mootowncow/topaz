@@ -151,6 +151,7 @@ namespace battleutils
     int32           GetRangedAttackBonuses(CBattleEntity* battleEntity); // Nothing here yet
     int32           GetRangedAccuracyBonuses(CBattleEntity* battleEntity);
     bool            IsInRangedSweetSpot(CBattleEntity* PAttacker, CBattleEntity* PDefender);
+    bool            IsCloseToRangedSweetSpot(CBattleEntity* PAttacker, CBattleEntity* PDefender);
 
     uint8           GetSkillRank(SKILLTYPE SkillID, JOBTYPE JobID);
     uint16          GetMaxSkill(SKILLTYPE SkillID, JOBTYPE JobID, uint8 level);

@@ -1926,10 +1926,15 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
     {
         actionTarget.messageID = MSGBASIC_RANGED_TRUE;
     }
+    else if (battleutils::IsCloseToRangedSweetSpot(this, PTarget))
+    {
+        actionTarget.messageID = MSGBASIC_RANGED_SQUARELY;
+    }
     else
     {
         actionTarget.messageID = MSGBASIC_RANGED_HIT;
     }
+
 
     CItemWeapon* PItem = (CItemWeapon*)this->getEquip(SLOT_RANGED);
     CItemWeapon* PAmmo = (CItemWeapon*)this->getEquip(SLOT_AMMO);
@@ -1987,7 +1992,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
                 if (isCritical)
                 {
                     actionTarget.speceffect = SPECEFFECT_CRITICAL_HIT;
-                    actionTarget.messageID = 353;
+                    actionTarget.messageID = MSGBASIC_RANGED_CRIT;
 
                     luautils::OnCriticalHit(PTarget, this);
                 }
@@ -2063,16 +2068,20 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         // any misses with barrage cause remaing shots to miss, meaning we must check Action.reaction
         if (actionTarget.reaction == REACTION_EVADE && (this->StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE)))
         {
+            actionTarget.reaction = REACTION_HIT;
+            actionTarget.speceffect = SPECEFFECT_CRITICAL_HIT;
             if (battleutils::IsInRangedSweetSpot(this, PTarget))
             {
                 actionTarget.messageID = MSGBASIC_RANGED_TRUE;
+            }
+            else if (battleutils::IsCloseToRangedSweetSpot(this, PTarget))
+            {
+                actionTarget.messageID = MSGBASIC_RANGED_SQUARELY;
             }
             else
             {
                 actionTarget.messageID = MSGBASIC_RANGED_HIT;
             }
-            actionTarget.reaction = REACTION_HIT;
-            actionTarget.speceffect = SPECEFFECT_CRITICAL_HIT;
         }
 
         actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);

@@ -158,8 +158,9 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_CANNOT_SEE				= 217, // You cannot see <target>. 
 	MSGBASIC_MOVE_AND_INTERRUPT		= 218, // You move and interrupt your aim.
     MSGBASIC_RANGED_HIT             = 352, // The <player>'s ranged attack hits <target> for .. points of damage.
-    MSGBASIC_RANGED_ABSORBED_DMG    = 382, // The<player>'s ranged attack hits <target>. <target> recovers .. hit points!
+    MSGBASIC_RANGED_CRIT            = 353, // The <player>'s ranged attack scores a critical hit! <target> takes .. points of damage.
     MSGBASIC_RANGED_MISS            = 354, // The<player>'s ranged attack misses.
+    MSGBASIC_RANGED_ABSORBED_DMG    = 382, // The<player>'s ranged attack hits <target>. <target> recovers .. hit points!
     MSGBASIC_RANGED_SQUARELY        = 576, //The <player>'s ranged attack hits <target> squarely for .. points of damage! (Near sweet spot)
     MSGBASIC_RANGED_TRUE            = 577, //The< player>'s ranged attack strikes true, pummeling <target> for .. points of damage! (In sweet spot)
 	// Charm 

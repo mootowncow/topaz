@@ -2472,7 +2472,7 @@ namespace battleutils
         float sweetSpotMultiplier = 1.0f;
         float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
         uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
-        uint8 rangedType = 0;
+        uint8 rangedType = 6;
         float optimalRangeBonus = 1.0f;
         uint8 flatAccBonus = 0;
 
@@ -2563,8 +2563,8 @@ namespace battleutils
 
         acc *= sweetSpotMultiplier;
 
-        ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
-        ShowDebug("[%s] accuracy after sweet spot multiplier %i\n", PAttacker->name, acc);
+        //ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
+        //ShowDebug("[%s] accuracy after sweet spot multiplier %i\n", PAttacker->name, acc);
         return acc;
     }
 
@@ -2667,7 +2667,7 @@ namespace battleutils
         float sweetSpotMultiplier = 1.0f;
         float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
         uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
-        uint8 rangedType = 0;
+        uint8 rangedType = 6;
         float optimalRangeBonus = 1.0f + (PAttacker->getMod(Mod::TRUE_SHOT_EFFECT) / 100.0f);
         uint8 flatAttackBonus = 0;
 
@@ -2767,8 +2767,8 @@ namespace battleutils
 
         rAttack *= sweetSpotMultiplier;
 
-        ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
-        ShowDebug("[%s] attack after sweet spot multiplier %i\n", PAttacker->name, rAttack);
+        //ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
+        //ShowDebug("[%s] attack after sweet spot multiplier %i\n", PAttacker->name, rAttack);
         return rAttack;
     }
 
@@ -7976,6 +7976,59 @@ namespace battleutils
                 }
                 break;
             default: // Shouldn't happen
+                return false;
+                break;
+        }
+
+        return false;
+    }
+
+    bool IsCloseToRangedSweetSpot(CBattleEntity* PAttacker, CBattleEntity* PDefender)
+    {
+        float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
+        uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
+        uint8 rangedType = 6;
+
+        if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_RANGED]))
+        {
+            rangedType = rangedWeapon->getSubSkillType();
+        }
+
+        switch (rangedType)
+        {
+            case SUBSKILL_SHURIKEN:
+            case SUBSKILL_THROWN:
+                if (distanceToTarget > meleeRange && distanceToTarget <= meleeRange + 2.0f)
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_GUN:
+            case SUBSKILL_CNN:
+                if ((distanceToTarget >= 3.0f && distanceToTarget < 5.0f) || (distanceToTarget > 6.0f && distanceToTarget <= 8.0f))
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_SHORTBOW:
+                if ((distanceToTarget >= 4.0f && distanceToTarget < 6.0f) || (distanceToTarget > 8.0f && distanceToTarget <= 10.0f))
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_XBO:
+                if ((distanceToTarget >= 5.0f && distanceToTarget < 7.0f) || (distanceToTarget > 10.0f && distanceToTarget <= 12.0f))
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_LONGBOW:
+                if ((distanceToTarget >= 6.0f && distanceToTarget < 8.0f) || (distanceToTarget > 11.0f && distanceToTarget <= 13.0f))
+                {
+                    return true;
+                }
+                break;
+            default:
                 return false;
                 break;
         }
