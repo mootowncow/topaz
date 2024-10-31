@@ -13131,7 +13131,7 @@ inline int32 CLuaBaseEntity::getRACC(lua_State *L)
  *  Function: calculateSweetSpotAccuracy()
  *  Purpose : Returns the Ranged Accuracy value of an equipped Ranged weapon
  *  Example : attacker:CalculateSweetSpotAccuracy(defender, racc)
- *  Notes   : Calculates ranged accuracy using battleutils CalculateSweetSpotAccuracy(PAttacker, PDefender, hitrate)
+ *  Notes   : Calculates ranged accuracy using battleutils CalculateSweetSpotAccuracy(PAttacker, PDefender, acc, isBluSpell)
  ************************************************************************/
 
 inline int32 CLuaBaseEntity::calculateSweetSpotAccuracy(lua_State* L)
@@ -13144,13 +13144,19 @@ inline int32 CLuaBaseEntity::calculateSweetSpotAccuracy(lua_State* L)
     CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
     CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
     uint16 acc = 0;
+    bool isBluSpell = false;
 
     if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
     {
         acc = (uint16)lua_tointeger(L, 2);
     }
 
-    lua_pushinteger(L, battleutils::CalculateSweetSpotAccuracy(PAttacker, PDefender, acc));
+    if (!lua_isnil(L, 3) && lua_isboolean(L, 3))
+    {
+        isBluSpell = lua_toboolean(L, 3);
+    }
+
+    lua_pushinteger(L, battleutils::CalculateSweetSpotAccuracy(PAttacker, PDefender, acc, isBluSpell));
     return 1;
 }
 
@@ -13182,7 +13188,7 @@ inline int32 CLuaBaseEntity::getRATT(lua_State *L)
  *  Function: calculateSweetSpotAttack()
  *  Purpose : Returns the Ranged Attack value of an equipped Ranged weapon
  *  Example : attacker:calculateSweetSpotAttack(defender, ratt)
- *  Notes   : Calculates attack using battleutils CalculateSweetSpotAttack(PAttacker, PDefender, rAttack)
+ *  Notes   : Calculates attack using battleutils CalculateSweetSpotAttack(PAttacker, PDefender, rAttack, isBluSpell)
  ************************************************************************/
 
 inline int32 CLuaBaseEntity::calculateSweetSpotAttack(lua_State* L)
@@ -13195,13 +13201,19 @@ inline int32 CLuaBaseEntity::calculateSweetSpotAttack(lua_State* L)
     CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
     CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
     uint16 rAttack = 0;
+    bool isBluSpell = false;
 
     if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
     {
         rAttack = (uint16)lua_tointeger(L, 2);
     }
 
-    lua_pushinteger(L, battleutils::CalculateSweetSpotAttack(PAttacker, PDefender, rAttack));
+    if (!lua_isnil(L, 3) && lua_isboolean(L, 3))
+    {
+        isBluSpell = lua_toboolean(L, 3);
+    }
+
+    lua_pushinteger(L, battleutils::CalculateSweetSpotAttack(PAttacker, PDefender, rAttack, isBluSpell));
     return 1;
 }
 

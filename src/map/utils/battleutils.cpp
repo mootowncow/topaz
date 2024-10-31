@@ -2467,7 +2467,7 @@ namespace battleutils
         return GetRangedHitRate(PAttacker, PDefender, isBarrage, 0);
     }
 
-    uint16 CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int acc)
+    uint16 CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int acc, bool isBluSpell)
     {
         float sweetSpotMultiplier = 1.0f;
         float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
@@ -2488,6 +2488,11 @@ namespace battleutils
             }
         }
         else
+        {
+            rangedType = SUBSKILL_THROWN;
+        }
+
+        if (isBluSpell)
         {
             rangedType = SUBSKILL_THROWN;
         }
@@ -2569,8 +2574,8 @@ namespace battleutils
 
         acc *= sweetSpotMultiplier;
 
-        //ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
-        //ShowDebug("[%s] accuracy after sweet spot multiplier %i\n", PAttacker->name, acc);
+        ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
+        ShowDebug("[%s] accuracy after sweet spot multiplier %i\n", PAttacker->name, acc);
         return acc;
     }
 
@@ -2668,7 +2673,7 @@ namespace battleutils
         return pdif;
     }
 
-    uint16 CalculateSweetSpotAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint16 rAttack)
+    uint16 CalculateSweetSpotAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint16 rAttack, bool isBluSpell)
     {
         float sweetSpotMultiplier = 1.0f;
         float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
@@ -2681,23 +2686,21 @@ namespace battleutils
         {
             if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
             {
-                auto jpValue = PChar->PJobPoints->GetJobPointValue(JP_OPTIMAL_RANGE_BONUS) * 2;
-                flatAttackBonus += jpValue;
-            }
-        }
-
-        if (PAttacker->objtype == TYPE_PC)
-        {
-            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
-            {
                 CItemWeapon* rangedWeapon = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
                 if (rangedWeapon)
                 {
                     rangedType = rangedWeapon->getSubSkillType();
                 }
+                auto jpValue = PChar->PJobPoints->GetJobPointValue(JP_OPTIMAL_RANGE_BONUS) * 2;
+                flatAttackBonus += jpValue;
             }
         }
         else
+        {
+            rangedType = SUBSKILL_THROWN;
+        }
+
+        if (isBluSpell)
         {
             rangedType = SUBSKILL_THROWN;
         }
@@ -2779,8 +2782,8 @@ namespace battleutils
 
         rAttack *= sweetSpotMultiplier;
 
-        //ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
-        //ShowDebug("[%s] attack after sweet spot multiplier %i\n", PAttacker->name, rAttack);
+        ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
+        ShowDebug("[%s] attack after sweet spot multiplier %i\n", PAttacker->name, rAttack);
         return rAttack;
     }
 

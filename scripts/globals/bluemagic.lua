@@ -339,6 +339,12 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
     local physPotency = 1 + ((caster:getMerit(tpz.merit.PHYSICAL_POTENCY) / 100))
     bluAttack = math.floor(bluAttack * physPotency)
     -- printf("Attack after potency merits.. %d", bluAttack)
+
+    if isRanged then
+        local isBluSpell = true
+        bluAttack = caster:calculateSweetSpotAttack(target, bluAttack, isBluSpell)
+    end
+
     -- print(params.offcratiomod)
     local cratio = BluecRatio(params.offcratiomod / target:getStat(tpz.mod.DEF), caster:getMainLvl(), target:getMainLvl())
     local rangedcratio = BluecRangedRatio(params.offcratiomod / target:getStat(tpz.mod.DEF), caster:getMainLvl(), target:getMainLvl())
@@ -1076,6 +1082,7 @@ function BlueGetHitRate(attacker, target, capHitRate, params)
     local AccTPBonus = 0
 	local tp = attacker:getTP() + attacker:getMerit(tpz.merit.ENCHAINMENT)
     local chainAffinity = attacker:getStatusEffect(tpz.effect.CHAIN_AFFINITY)
+    local isRanged = params.attackType == tpz.attackType.RANGED
 
     if (chainAffinity ~= nil) then
 		if params.AccTPModifier or (params.tpmod == TPMOD_ACC) then -- Check if "Accuracy varies with TP"
@@ -1100,6 +1107,11 @@ function BlueGetHitRate(attacker, target, capHitRate, params)
         acc = acc + ((attacker:getMainLvl()-target:getMainLvl())*4)
     elseif (attacker:getMainLvl() < target:getMainLvl()) then -- acc penalty :(
         acc = acc - ((target:getMainLvl()-attacker:getMainLvl())*4)
+    end
+
+    if isRanged then
+        local isBluSpell = true
+        acc = attacker:calculateSweetSpotAccuracy(target, acc, isBluSpell)
     end
 
     local hitdiff = 0
