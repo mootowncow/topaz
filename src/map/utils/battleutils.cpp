@@ -2476,20 +2476,9 @@ namespace battleutils
         float optimalRangeBonus = 1.0f;
         uint8 flatAccBonus = 0;
 
-        if (PAttacker->objtype == TYPE_PC)
+        if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_RANGED]))
         {
-            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
-            {
-                CItemWeapon* rangedWeapon = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
-                if (rangedWeapon)
-                {
-                    rangedType = rangedWeapon->getSubSkillType();
-                }
-            }
-        }
-        else
-        {
-            rangedType = SUBSKILL_THROWN;
+            rangedType = rangedWeapon->getSubSkillType();
         }
 
         if (isBluSpell)
@@ -2532,7 +2521,7 @@ namespace battleutils
                 }
                 else
                 {
-                    float distanceFromSweetSpot = (distanceToTarget < 8.0f) ? (8.0f - distanceToTarget) : (distanceToTarget - 11.0f);
+                    float distanceFromSweetSpot = (distanceToTarget < 6.0f) ? (6.0f - distanceToTarget) : (distanceToTarget - 8.0f);
                     sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
                     sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
                 }
@@ -2544,7 +2533,7 @@ namespace battleutils
                 }
                 else
                 {
-                    float distanceFromSweetSpot = (distanceToTarget < 6.0f) ? (6.0f - distanceToTarget) : (distanceToTarget - 10.0f);
+                    float distanceFromSweetSpot = (distanceToTarget < 7.0f) ? (7.0f - distanceToTarget) : (distanceToTarget - 10.0f);
                     sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
                     sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
                 }
@@ -2682,27 +2671,23 @@ namespace battleutils
         float optimalRangeBonus = 1.0f + (PAttacker->getMod(Mod::TRUE_SHOT_EFFECT) / 100.0f);
         uint8 flatAttackBonus = 0;
 
-        if (PAttacker->objtype == TYPE_PC)
+        if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_RANGED]))
         {
-            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
-            {
-                CItemWeapon* rangedWeapon = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
-                if (rangedWeapon)
-                {
-                    rangedType = rangedWeapon->getSubSkillType();
-                }
-                auto jpValue = PChar->PJobPoints->GetJobPointValue(JP_OPTIMAL_RANGE_BONUS) * 2;
-                flatAttackBonus += jpValue;
-            }
-        }
-        else
-        {
-            rangedType = SUBSKILL_THROWN;
+            rangedType = rangedWeapon->getSubSkillType();
         }
 
         if (isBluSpell)
         {
             rangedType = SUBSKILL_THROWN;
+        }
+
+        if (PAttacker->objtype == TYPE_PC)
+        {
+            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
+            {
+                auto jpValue = PChar->PJobPoints->GetJobPointValue(JP_OPTIMAL_RANGE_BONUS) * 2;
+                flatAttackBonus += jpValue;
+            }
         }
 
         // https://wiki.ffo.jp/html/9286.html
@@ -2740,7 +2725,7 @@ namespace battleutils
                 }
                 else
                 {
-                    float distanceFromSweetSpot = (distanceToTarget < 8.0f) ? (8.0f - distanceToTarget) : (distanceToTarget - 11.0f);
+                    float distanceFromSweetSpot = (distanceToTarget < 6.0f) ? (6.0f - distanceToTarget) : (distanceToTarget - 8.0f);
                     sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
                     sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
                 }
@@ -2752,7 +2737,7 @@ namespace battleutils
                 }
                 else
                 {
-                    float distanceFromSweetSpot = (distanceToTarget < 6.0f) ? (6.0f - distanceToTarget) : (distanceToTarget - 10.0f);
+                    float distanceFromSweetSpot = (distanceToTarget < 7.0f) ? (7.0f - distanceToTarget) : (distanceToTarget - 10.0f);
                     sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
                     sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
                 }
@@ -7950,20 +7935,9 @@ namespace battleutils
         uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
         uint8 rangedType = 0;
 
-        if (PAttacker->objtype == TYPE_PC)
+        if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_RANGED]))
         {
-            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
-            {
-                CItemWeapon* rangedWeapon = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
-                if (rangedWeapon)
-                {
-                    rangedType = rangedWeapon->getSubSkillType();
-                }
-            }
-        }
-        else
-        {
-            rangedType = SUBSKILL_THROWN;
+            rangedType = rangedWeapon->getSubSkillType();
         }
 
         // https://wiki.ffo.jp/html/9286.html

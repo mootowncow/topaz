@@ -112,7 +112,7 @@ CInstance* CInstanceLoader::LoadInstance(CInstance* instance)
 		allegiance, namevis, aggro, mob_pools.skill_list_id, mob_pools.true_detection, detects, \
 		mob_family_system.charmable, \
         Amnesia, Virus, Silence, Gravity, Stun, LightSleep, Charm, Paralyze, Bind, Slow, Petrify, Terror, Poison, Darksleep, Blind, \
-        mob_pools.shieldSize \
+        mob_pools.shieldSize, mob_pools.rangedSkill \
 		FROM instance_entities INNER JOIN mob_spawn_points ON instance_entities.id = mob_spawn_points.mobid \
         INNER JOIN mob_groups ON mob_groups.groupid = mob_spawn_points.groupid and mob_groups.zoneid=((mob_spawn_points.mobid>>12)&0xFFF) \
 		INNER JOIN mob_pools ON mob_groups.poolid = mob_pools.poolid \
@@ -251,6 +251,7 @@ CInstance* CInstanceLoader::LoadInstance(CInstance* instance)
             PMob->setModifier(Mod::EEM_BLIND, (uint8)(Sql_GetUIntData(SqlInstanceHandle, 80)));
 
             PMob->setMobMod(MOBMOD_BLOCK, Sql_GetUIntData(SqlInstanceHandle, 81)); // TODO: Probably turn into a member(m_shieldSize)
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setSubSkillType(Sql_GetIntData(SqlInstanceHandle, 82));
 
             // Overwrite base family charmables depending on mob type. Disallowed mobs which should be charmable
             // can be set in mob_spawn_mods or in their onInitialize
