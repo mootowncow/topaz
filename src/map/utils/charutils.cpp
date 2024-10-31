@@ -2023,7 +2023,7 @@ namespace charutils
                         {
                             // Check if the weapon and ammo are compatible as shortbow or longbow.
                             bool isBowCompatible =
-                                (ammo->getSubSkillType() == SUBSKILL_SHORTBOW) &&
+                                (ammo->getSubSkillType() == SUBSKILL_ARROW) &&
                                 (((CItemWeapon*)PItem)->getSubSkillType() == SUBSKILL_SHORTBOW || ((CItemWeapon*)PItem)->getSubSkillType() == SUBSKILL_LONGBOW);
 
                             // Only unequip if skill types or sub-skill types do not match and it's not a compatible bow setup.
@@ -2048,7 +2048,7 @@ namespace charutils
                         if ((weapon != nullptr) && weapon->isType(ITEM_WEAPON))
                         {
                             // Check if the weapon is either shortbow or longbow, and ammo is shortbow.
-                            bool isBowCompatible = (((CItemWeapon*)PItem)->getSubSkillType() == SUBSKILL_SHORTBOW) &&
+                            bool isBowCompatible = (((CItemWeapon*)PItem)->getSubSkillType() == SUBSKILL_ARROW) &&
                                                    (weapon->getSubSkillType() == SUBSKILL_SHORTBOW || weapon->getSubSkillType() == SUBSKILL_LONGBOW);
 
                             // Only unequip if skill types or sub-skill types do not match and it's not a compatible bow setup.
