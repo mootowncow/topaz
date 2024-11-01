@@ -12984,6 +12984,58 @@ inline int32 CLuaBaseEntity::addBurden(lua_State* L)
 }
 
 /************************************************************************
+ *  Function: reduceBurden()
+ *  Purpose : Reduces individual burden values based on percentage decrease
+ *  Example : master:reduceBurden(50, 20)
+ *  Notes   : Used by Cooldown ability, optional arg is static decrease
+ *            after percentage is applied.
+ ************************************************************************/
+inline int32 CLuaBaseEntity::reduceBurden(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    auto* PEntity = static_cast<CCharEntity*>(m_PBaseEntity);
+    auto* PAutomaton = dynamic_cast<CAutomatonEntity*>(PEntity->PPet);
+
+    if (!PAutomaton)
+    {
+        return 0;
+    }
+
+    float percentReduction = 0;
+    uint8 intReduction = 0;
+
+    if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
+    {
+        percentReduction = lua_tointeger(L, 1);
+    }
+
+    if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
+    {
+        intReduction = lua_tointeger(L, 2);
+    }
+
+    std::array<uint8, 8> burden = PAutomaton->getBurden();
+    int totalReduction = 0; // To keep track of the total reduction amount
+
+    for (int i = 0; i < 8; i++)
+    {
+        float reducedBurden = burden[i] * (1 - (percentReduction / 100.0)) - intReduction;
+        burden[i] = static_cast<uint8>(std::max(0.0f, reducedBurden)); // Ensure burden doesn't go below 0
+        totalReduction += (burden[i] < burden[i] * (1 - (percentReduction / 100.0)) ? (burden[i] * (1 - (percentReduction / 100.0)) - burden[i])
+                                                                                    : 0); // Calculate the actual reduction for logging
+    }
+
+    ShowDebug("Reducing burden by %f percent and %u flat.\n", percentReduction, intReduction);
+
+    PAutomaton->setBurdenArray(burden);
+    return 0;
+}
+
+
+/************************************************************************
  *  Function: isExceedingElementalCapacity()
  *  Purpose : Checks if the automaton elemental capacity is being exceeded.
  *  Example : if master:isExceedingElementalCapacity() then
@@ -17777,6 +17829,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,uncharm),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addBurden),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,reduceBurden),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setStatDebilitation),
 
     // Damage Calculation

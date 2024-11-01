@@ -7706,8 +7706,7 @@ namespace battleutils
                     // Load the new recast time on the target's ability recast list
                     PTarget->PRecastContainer->Load(RECAST_ABILITY, recastId, reducedRecastTime);
                 
-                    //ShowDebug("Reduced recast for ability ID %d on %s: %d (original was %d)\n",
-                              recastId, PTarget->name, reducedRecastTime, originalRecastTime);
+                    //ShowDebug("Reduced recast for ability ID %d on %s: %d (original was %d)\n", recastId, PTarget->name, reducedRecastTime, originalRecastTime);
                 }
             }
         }
@@ -7932,7 +7931,6 @@ namespace battleutils
         }
 
         // Bonus from COR JP
-        printf("RACC before JP %i", bonus);
         if (battleEntity->objtype == TYPE_PC)
         {
             if (auto* PChar = static_cast<CCharEntity*>(battleEntity))
@@ -7940,7 +7938,8 @@ namespace battleutils
                 bonus += PChar->PJobPoints->GetJobPointValue(JP_COR_RANGED_ACC_BONUS);
             }
         }
-        printf("RACC after JP %i", bonus);
+
+        printf("RACC Bonus %i\n", bonus);
         return bonus;
     }
 
