@@ -1367,7 +1367,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                 {
                     uint16 recycleChance =
                         getMod(Mod::RECYCLE) + PMeritPoints->GetMeritValue(MERIT_RECYCLE, this) + this->PJobPoints->GetJobPointValue(JP_AMMO_CONSUMPTION);
-                    ShowDebug("recycleChance %u\n", recycleChance);
+
                     if (StatusEffectContainer->HasStatusEffect(EFFECT_UNLIMITED_SHOT))
                     {
                         StatusEffectContainer->DelStatusEffectSilent(EFFECT_UNLIMITED_SHOT);

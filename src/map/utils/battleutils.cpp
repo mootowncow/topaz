@@ -7672,6 +7672,9 @@ namespace battleutils
     ************************************************************************/
     void DoCuttingCardsToEntity(CCharEntity* PCaster, CCharEntity* PTarget, uint8 roll)
     {
+        if (!PTarget) return;
+
+        // Determine the recast reduction based on the roll
         int recastReduction = 0;
         switch (roll)
         {
@@ -7683,32 +7686,29 @@ namespace battleutils
             case 6: recastReduction = 50; break;
         }
 
-        // Add JP Bonus
-        ShowDebug("recastReduction before cutting cards %u\n", recastReduction);
+        // Add JP bonus from Cutting Cards Effect
         recastReduction += PCaster->PJobPoints->GetJobPointValue(JP_CUTTING_CARDS_EFFECT);
-        ShowDebug("recastReduction after cutting cards %u\n", recastReduction);
+        //ShowDebug("Total recast reduction after JP bonus: %d\n", recastReduction);
 
-        RecastList_t* abilityRecasts = PTarget->PRecastContainer->GetRecastList(RECAST_ABILITY);
-        ShowDebug("Ability recast list size: %d\n", abilityRecasts->size());
-        ShowDebug("Caster: %s, Target: %s\n", PCaster->name, PTarget->name);
-
-        // Print each recast ID and RecastTime in the target's recast list
-        for (const auto& recast : *abilityRecasts)
+        // Get the target's abilities and apply the recast reduction to two-hour abilities
+        auto TargetAbilitiesList = ability::GetAbilities(PTarget->GetMJob());
+        for (CAbility* PAbility : TargetAbilitiesList)
         {
-            ShowDebug("Initial Target Recast ID: %d, RecastTime: %d\n", recast.ID, recast.RecastTime);
-        }
-
-        // Apply the recast reduction
-        for (auto& recast : *abilityRecasts)
-        {
-            if (recast.ID == ABILITYRECAST_TWO_HOUR || recast.ID == ABILITYRECAST_TWO_HOUR_TWO)
+            if (PAbility != nullptr)
             {
-                ShowDebug("Applying reduction to Recast ID %d with initial RecastTime: %d\n", recast.ID, recast.RecastTime);
+                uint16 recastId = PAbility->getRecastId();
+                if (recastId == ABILITYRECAST_TWO_HOUR || recastId == ABILITYRECAST_TWO_HOUR_TWO)
+                {
+                    // Calculate the reduced recast time
+                    uint32 originalRecastTime = PAbility->getRecastTime();
+                    uint32 reducedRecastTime = originalRecastTime * (100 - recastReduction) / 100;
 
-                int reducedRecast = recast.RecastTime * (100 - recastReduction) / 100;
-                recast.RecastTime = std::max(0, reducedRecast);
-
-                ShowDebug("Recast ID %d has new RecastTime: %d\n", recast.ID, recast.RecastTime);
+                    // Load the new recast time on the target's ability recast list
+                    PTarget->PRecastContainer->Load(RECAST_ABILITY, recastId, reducedRecastTime);
+                
+                    //ShowDebug("Reduced recast for ability ID %d on %s: %d (original was %d)\n",
+                              recastId, PTarget->name, reducedRecastTime, originalRecastTime);
+                }
             }
         }
     }

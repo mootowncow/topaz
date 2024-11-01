@@ -12730,9 +12730,12 @@ inline int32 CLuaBaseEntity::doCuttingCards(lua_State* L)
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isuserdata(L, 1));
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
 
-    CLuaBaseEntity* PEntity = Lunar<CLuaBaseEntity>::check(L, 1);
-    battleutils::DoCuttingCardsToEntity(static_cast<CCharEntity*>(m_PBaseEntity), static_cast<CCharEntity*>(PEntity->m_PBaseEntity), (uint8)lua_tointeger(L, 2));
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
 
+    CCharEntity* PCaster = (CCharEntity*)m_PBaseEntity;
+    CCharEntity* PTarget = (CCharEntity*)PLuaBaseEntity->GetBaseEntity();
+
+    battleutils::DoCuttingCardsToEntity(PCaster, PTarget, (uint8)lua_tointeger(L, 2));
     return 0;
 }
 

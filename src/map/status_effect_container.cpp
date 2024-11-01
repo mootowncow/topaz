@@ -1145,17 +1145,17 @@ bool CStatusEffectContainer::ApplyCorsairEffect(CStatusEffect* PStatusEffect, ui
                     {
                         if (!CheckForElevenRoll())
                         {
-                            auto bustEvasion = 0;
+                            uint16 bustEvasion = 0;
+                            uint16 randomChance = tpzrand::GetRandomNumber(100);
                             if (m_POwner->objtype == TYPE_PC)
                             {
                                 if (auto* PChar = static_cast<CCharEntity*>(m_POwner))
                                 {
-                                    ShowDebug("Bust evasion proc%\n");
                                     bustEvasion += PChar->PJobPoints->GetJobPointValue(JP_BUST_EVASION);
                                 }
                             }
 
-                            if (tpzrand::GetRandomNumber(100) >= bustEvasion)
+                            if (randomChance >= bustEvasion)
                             {
                                 uint16 duration = 300;
                                 duration -= bustDuration;
