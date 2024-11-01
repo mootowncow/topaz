@@ -58,6 +58,7 @@ function applyRoll(caster, target, ability, action, total)
     elseif (caster:getSubJob() == tpz.job.COR and caster:getSubLvl() < target:getMainLvl()) then
         effectpower = effectpower * (caster:getSubLvl() / target:getMainLvl())
     end
+    printf("Duration %d", duration)
     if (target:addCorsairRoll(caster:getMainJob(), caster:getMerit(tpz.merit.BUST_DURATION), tpz.effect.CHAOS_ROLL, effectpower, 0, duration, caster:getID(), total, tpz.mod.ATTP) == false) then
         ability:setMsg(tpz.msg.basic.ROLL_MAIN_FAIL)
     elseif total > 11 then

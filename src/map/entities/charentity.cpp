@@ -1367,7 +1367,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                 {
                     uint16 recycleChance =
                         getMod(Mod::RECYCLE) + PMeritPoints->GetMeritValue(MERIT_RECYCLE, this) + this->PJobPoints->GetJobPointValue(JP_AMMO_CONSUMPTION);
-
+                    ShowDebug("recycleChance %u\n", recycleChance);
                     if (StatusEffectContainer->HasStatusEffect(EFFECT_UNLIMITED_SHOT))
                     {
                         StatusEffectContainer->DelStatusEffectSilent(EFFECT_UNLIMITED_SHOT);
@@ -1620,7 +1620,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
         // There is an overall cap of -25 seconds for a 35 second recast
         // https://www.bg-wiki.com/ffxi/Quick_Draw
-        if ( PAbility->isQuickDraw())
+        if (PAbility->isQuickDraw())
         {
             action.recast -= std::min<int16>(getMod(Mod::QUICK_DRAW_RECAST), 25);
         }
@@ -1633,15 +1633,6 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         if (PAbility->getID() == ABILITY_STEAL)
         {
             action.recast -= (PJobPoints->GetJobPointValue(JP_STEAL_RECAST) * 2);
-        }
-
-        if (PAbility->getID() == ABILITY_WILD_CARD)
-        {
-            auto resetChance = this->PJobPoints->GetJobPointValue(JP_WILD_CARD_EFFECT);
-            if (charutils::GetCharVar(this, "corsairRollTotal") >= 5 && tpzrand::GetRandomNumber(100) < resetChance)
-            {
-                action.recast = 0;
-            }
         }
 
         if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR)
@@ -1854,6 +1845,17 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         }
 
         battleutils::HandlePlayerAbilityUsed(this, PAbility, &action);
+
+        if (PAbility->getID() == ABILITY_WILD_CARD)
+        {
+            auto resetChance = PJobPoints->GetJobPointValue(JP_WILD_CARD_EFFECT);
+            auto corRollTotal = this->GetLocalVar("corsairRollTotal");
+            auto randValue = tpzrand::GetRandomNumber(100);
+            if (this->GetLocalVar("corsairRollTotal") >= 5 && randValue < resetChance)
+            {
+                action.recast = 0;
+            }
+        }
 
         PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), action.recast);
 

@@ -1150,6 +1150,7 @@ bool CStatusEffectContainer::ApplyCorsairEffect(CStatusEffect* PStatusEffect, ui
                             {
                                 if (auto* PChar = static_cast<CCharEntity*>(m_POwner))
                                 {
+                                    ShowDebug("Bust evasion proc%\n");
                                     bustEvasion += PChar->PJobPoints->GetJobPointValue(JP_BUST_EVASION);
                                 }
                             }

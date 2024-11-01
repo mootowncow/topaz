@@ -7684,20 +7684,31 @@ namespace battleutils
         }
 
         // Add JP Bonus
+        ShowDebug("recastReduction before cutting cards %u\n", recastReduction);
         recastReduction += PCaster->PJobPoints->GetJobPointValue(JP_CUTTING_CARDS_EFFECT);
+        ShowDebug("recastReduction after cutting cards %u\n", recastReduction);
 
         RecastList_t* abilityRecasts = PTarget->PRecastContainer->GetRecastList(RECAST_ABILITY);
+        ShowDebug("Ability recast list size: %d\n", abilityRecasts->size());
+        ShowDebug("Caster: %s, Target: %s\n", PCaster->name, PTarget->name);
 
+        // Print each recast ID and RecastTime in the target's recast list
+        for (const auto& recast : *abilityRecasts)
+        {
+            ShowDebug("Initial Target Recast ID: %d, RecastTime: %d\n", recast.ID, recast.RecastTime);
+        }
+
+        // Apply the recast reduction
         for (auto& recast : *abilityRecasts)
         {
-            // Check if the recast is for level 1 or level 96 SP abilities
             if (recast.ID == ABILITYRECAST_TWO_HOUR || recast.ID == ABILITYRECAST_TWO_HOUR_TWO)
             {
-                // Calculate the reduced recast time
-                int reducedRecast = recast.RecastTime * (100 - recastReduction) / 100;
+                ShowDebug("Applying reduction to Recast ID %d with initial RecastTime: %d\n", recast.ID, recast.RecastTime);
 
-                // Ensure recast time does not go negative
+                int reducedRecast = recast.RecastTime * (100 - recastReduction) / 100;
                 recast.RecastTime = std::max(0, reducedRecast);
+
+                ShowDebug("Recast ID %d has new RecastTime: %d\n", recast.ID, recast.RecastTime);
             }
         }
     }
@@ -7772,6 +7783,7 @@ namespace battleutils
                 // Reset 2 abilities from JP
                 if (activeCooldownList.size() > 1 && jpTwoResetChance >= tpzrand::GetRandomNumber(100))
                 {
+                    ShowDebug("Random deal JP proc!\n");
                     PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, activeCooldownList.at(1));
                 }
 
@@ -7806,6 +7818,7 @@ namespace battleutils
             // Reset 2 abilities from JP
             if (resetCandidateList.size() > 1 && activeCooldownList.size() > 1 && jpTwoResetChance >= tpzrand::GetRandomNumber(100))
             {
+                ShowDebug("Random deal JP proc!\n");
                 PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, resetCandidateList.at(1));
             }
 
@@ -7919,6 +7932,7 @@ namespace battleutils
         }
 
         // Bonus from COR JP
+        printf("RACC before JP %i", bonus);
         if (battleEntity->objtype == TYPE_PC)
         {
             if (auto* PChar = static_cast<CCharEntity*>(battleEntity))
@@ -7926,6 +7940,7 @@ namespace battleutils
                 bonus += PChar->PJobPoints->GetJobPointValue(JP_COR_RANGED_ACC_BONUS);
             }
         }
+        printf("RACC after JP %i", bonus);
         return bonus;
     }
 
