@@ -18,9 +18,9 @@ function onEffectGain(target, effect)
         local head = pet:getAutomatonHead()
         local jpValue = target:getJobPointLevel(tpz.jp.HEADY_ARTIFICE_EFFECT)
         local headJpBonuses = {
-            { Head = tpz.heads.HARLEQUIN,         Mod = tpz.mod.ACC,                Power = 2,  }
-            { Head = tpz.heads.SHARPSHOT,         Mod = tpz.mod.RATT,               Power = 3,  }
-            { Head = tpz.heads.STORMWAKER,        Mod = tpz.mod.MAGIC_DAMAGE,       Power = 2,  }
+            { Head = tpz.heads.HARLEQUIN,         Mod = tpz.mod.ACC,                Power = 2,  },
+            { Head = tpz.heads.SHARPSHOT,         Mod = tpz.mod.RATT,               Power = 3,  },
+            { Head = tpz.heads.STORMWAKER,        Mod = tpz.mod.MAGIC_DAMAGE,       Power = 2,  },
             { Head = tpz.heads.SPIRITREAVER,      Mod = tpz.mod.MAGIC_DAMAGE,       Power = 5,  }
         }
 
@@ -46,8 +46,8 @@ function onEffectLose(target, effect)
         local head = pet:getAutomatonHead()
         local jpValue = target:getJobPointLevel(tpz.jp.HEADY_ARTIFICE_EFFECT)
         local headJpBonuses = {
-            { Head = tpz.heads.HARLEQUIN,         Mod = tpz.mod.ACC,                Power = 2,  }
-            { Head = tpz.heads.SHARPSHOT,         Mod = tpz.mod.RATT,               Power = 3,  }
+            { Head = tpz.heads.HARLEQUIN,         Mod = tpz.mod.ACC,                Power = 2,  },
+            { Head = tpz.heads.SHARPSHOT,         Mod = tpz.mod.RATT,               Power = 3,  },
             { Head = tpz.heads.STORMWAKER,        Mod = tpz.mod.MAGIC_DAMAGE,       Power = 2,  }
             { Head = tpz.heads.SPIRITREAVER,      Mod = tpz.mod.MAGIC_DAMAGE,       Power = 5,  }
         }
