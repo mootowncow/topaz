@@ -2150,15 +2150,6 @@ inline int32 CLuaBaseEntity::clearPath(lua_State* L)
 }
 
 /************************************************************************
-*  Function: checkDistance()
-*  Purpose : Returns the yalm distance between entities
-*  Example1: if player:checkDistance(target) <= 25 then
-*  Example2: if player:checkDistance(pos) <= 25 then
-*  Example3: if player:checkDistance(posX, posY, PosZ) <= 25 then
-*  Notes   : Example1 is an entity, the others are coordinate point inputs
-************************************************************************/
-
-/************************************************************************
  *  Function: checkDistance()
  *  Purpose : Returns the yalm distance between entities
  *  Example1: if player:checkDistance(target) <= 25 then
@@ -12725,6 +12716,30 @@ inline int32 CLuaBaseEntity::doWildCard(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: doCuttingCards()
+ *  Purpose : Executes the Cutting Cards two hour for a COR
+ *  Example : caster:doCuttingCards(target,total)
+ *  Notes   : Calls the DoCuttingCardsToEntity member of battleutils
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::doCuttingCards(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isuserdata(L, 1));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CCharEntity* PCaster = (CCharEntity*)m_PBaseEntity;
+    CCharEntity* PTarget = (CCharEntity*)PLuaBaseEntity->GetBaseEntity();
+
+    battleutils::DoCuttingCardsToEntity(PCaster, PTarget, (uint8)lua_tointeger(L, 2));
+    return 0;
+}
+
+/************************************************************************
  *  Function: doRandomDeal()
  *  Purpose : Executes the Wild Card two hour for a COR
  *  Example : caster:doRandomDeal(target,total)
@@ -13096,7 +13111,7 @@ inline int32 CLuaBaseEntity::getEVA(lua_State *L)
 *  Function: getRACC()
 *  Purpose : Calculates and returns the Ranged Accuracy of a Weapon euipped in the Ranged slot
 *  Example : player:getRACC()
-*  Notes   : To Do: The calculation is already a public member of battleentity, shouldn't have two calculations, just call (CBattleEntity*)m_PBaseEntity)->RACC and return result
+*  Notes   : 
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::getRACC(lua_State *L)
@@ -13110,18 +13125,41 @@ inline int32 CLuaBaseEntity::getRACC(lua_State *L)
         ShowDebug(CL_CYAN"lua::getRACC weapon in ranged slot is NULL!\n" CL_RESET);
         return 0;
     }
-    CBattleEntity* PEntity = (CBattleEntity*)m_PBaseEntity;
 
-    int skill = PEntity->GetSkill(weapon->getSkillType());
-    int acc = skill;
-    if (skill > 200) {
-        acc = (int)(200 + (skill - 200) * 0.9);
+    lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->RACC(weapon->getSkillType(), weapon->getILvlSkill()));
+    return 1;
+}
+
+/************************************************************************
+ *  Function: calculateSweetSpotAccuracy()
+ *  Purpose : Returns the Ranged Accuracy value of an equipped Ranged weapon
+ *  Example : attacker:CalculateSweetSpotAccuracy(defender, racc)
+ *  Notes   : Calculates ranged accuracy using battleutils CalculateSweetSpotAccuracy(PAttacker, PDefender, acc, isBluSpell)
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::calculateSweetSpotAccuracy(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+    uint16 acc = 0;
+    bool isBluSpell = false;
+
+    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+    {
+        acc = (uint16)lua_tointeger(L, 2);
     }
-    acc += PEntity->getMod(Mod::RACC);
-    acc += PEntity->AGI() / 2;
-    acc = acc + std::min<int16>(((100 + PEntity->getMod(Mod::FOOD_RACCP)) * acc / 100), PEntity->getMod(Mod::FOOD_RACC_CAP));
 
-    lua_pushinteger(L, acc);
+    if (!lua_isnil(L, 3) && lua_isboolean(L, 3))
+    {
+        isBluSpell = lua_toboolean(L, 3);
+    }
+
+    lua_pushinteger(L, battleutils::CalculateSweetSpotAccuracy(PAttacker, PDefender, acc, isBluSpell));
     return 1;
 }
 
@@ -13146,6 +13184,39 @@ inline int32 CLuaBaseEntity::getRATT(lua_State *L)
     }
 
     lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->RATT(weapon->getSkillType(), weapon->getILvlSkill()));
+    return 1;
+}
+
+/************************************************************************
+ *  Function: calculateSweetSpotAttack()
+ *  Purpose : Returns the Ranged Attack value of an equipped Ranged weapon
+ *  Example : attacker:calculateSweetSpotAttack(defender, ratt)
+ *  Notes   : Calculates attack using battleutils CalculateSweetSpotAttack(PAttacker, PDefender, rAttack, isBluSpell)
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::calculateSweetSpotAttack(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+    uint16 rAttack = 0;
+    bool isBluSpell = false;
+
+    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+    {
+        rAttack = (uint16)lua_tointeger(L, 2);
+    }
+
+    if (!lua_isnil(L, 3) && lua_isboolean(L, 3))
+    {
+        isBluSpell = lua_toboolean(L, 3);
+    }
+
+    lua_pushinteger(L, battleutils::CalculateSweetSpotAttack(PAttacker, PDefender, rAttack, isBluSpell));
     return 1;
 }
 
@@ -17693,6 +17764,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,fold),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,doWildCard),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,doCuttingCards),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,doRandomDeal),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addCorsairRoll),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasCorsairEffect),
@@ -17713,6 +17785,8 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEVA),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRACC),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRATT),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,calculateSweetSpotAttack),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,calculateSweetSpotAccuracy),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getILvlMacc),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isSpellAoE),

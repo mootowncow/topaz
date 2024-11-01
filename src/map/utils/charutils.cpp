@@ -2018,11 +2018,18 @@ namespace charutils
                 {
                     if (PItem->isType(ITEM_WEAPON))
                     {
-                        CItemWeapon* weapon = (CItemWeapon*)PChar->getEquip(SLOT_AMMO);
-                        if ((weapon != nullptr) && weapon->isType(ITEM_WEAPON))
+                        CItemWeapon* ammo = (CItemWeapon*)PChar->getEquip(SLOT_AMMO);
+                        if ((ammo != nullptr) && ammo->isType(ITEM_WEAPON))
                         {
-                            if (((CItemWeapon*)PItem)->getSkillType() != weapon->getSkillType() ||
-                                ((CItemWeapon*)PItem)->getSubSkillType() != weapon->getSubSkillType())
+                            // Check if the weapon and ammo are compatible as shortbow or longbow.
+                            bool isBowCompatible =
+                                (ammo->getSubSkillType() == SUBSKILL_ARROW) &&
+                                (((CItemWeapon*)PItem)->getSubSkillType() == SUBSKILL_SHORTBOW || ((CItemWeapon*)PItem)->getSubSkillType() == SUBSKILL_LONGBOW);
+
+                            // Only unequip if skill types or sub-skill types do not match and it's not a compatible bow setup.
+                            if ((((CItemWeapon*)PItem)->getSkillType() != ammo->getSkillType() ||
+                                 ((CItemWeapon*)PItem)->getSubSkillType() != ammo->getSubSkillType()) &&
+                                !isBowCompatible)
                             {
                                 UnequipItem(PChar, SLOT_AMMO, false);
                             }
@@ -2040,8 +2047,14 @@ namespace charutils
                         CItemWeapon* weapon = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
                         if ((weapon != nullptr) && weapon->isType(ITEM_WEAPON))
                         {
-                            if (((CItemWeapon*)PItem)->getSkillType() != weapon->getSkillType() ||
-                                ((CItemWeapon*)PItem)->getSubSkillType() != weapon->getSubSkillType())
+                            // Check if the weapon is either shortbow or longbow, and ammo is shortbow.
+                            bool isBowCompatible = (((CItemWeapon*)PItem)->getSubSkillType() == SUBSKILL_ARROW) &&
+                                                   (weapon->getSubSkillType() == SUBSKILL_SHORTBOW || weapon->getSubSkillType() == SUBSKILL_LONGBOW);
+
+                            // Only unequip if skill types or sub-skill types do not match and it's not a compatible bow setup.
+                            if ((((CItemWeapon*)PItem)->getSkillType() != weapon->getSkillType() ||
+                                 ((CItemWeapon*)PItem)->getSubSkillType() != weapon->getSubSkillType()) &&
+                                !isBowCompatible)
                             {
                                 UnequipItem(PChar, SLOT_RANGED, false);
                             }

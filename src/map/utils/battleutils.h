@@ -150,6 +150,8 @@ namespace battleutils
     int16           GetSnapshotReduction(CBattleEntity* battleEntity, int16 delay);
     int32           GetRangedAttackBonuses(CBattleEntity* battleEntity); // Nothing here yet
     int32           GetRangedAccuracyBonuses(CBattleEntity* battleEntity);
+    bool            IsInRangedSweetSpot(CBattleEntity* PAttacker, CBattleEntity* PDefender);
+    bool            IsCloseToRangedSweetSpot(CBattleEntity* PAttacker, CBattleEntity* PDefender);
 
     uint8           GetSkillRank(SKILLTYPE SkillID, JOBTYPE JobID);
     uint16          GetMaxSkill(SKILLTYPE SkillID, JOBTYPE JobID, uint8 level);
@@ -209,6 +211,7 @@ namespace battleutils
 
     bool                TryInterruptSpell(CBattleEntity* PAttacker, CBattleEntity* PDefender, CSpell* PSpell);
     float               GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical);
+    uint16              CalculateSweetSpotAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint16 rAttack, bool isBluSpell = false);
     void                HandleRangedAdditionalEffect(CCharEntity* PAttacker, CBattleEntity* PDefender, apAction_t* Action);
     uint16              CalculateSpikeDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, uint16 damageTaken);
     bool                HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, int32 damage);
@@ -217,6 +220,7 @@ namespace battleutils
     void                HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, bool isFirstSwing, CItemWeapon* weapon, int32 damage);
     uint8               GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage);
     uint8               GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage, int8 accBonus);
+    uint16              CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int acc, bool isBluSpell = false);
     int32               CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element);
 
     int16               GetEnmityModDamage(int16 level);
@@ -298,6 +302,7 @@ namespace battleutils
     bool                DrawIn(CBattleEntity* PEntity, CMobEntity* PMob, float offset);
     void                ResetAllAbilitiesToMaxRecast(CCharEntity* PTarget, bool resetTwoHours = false);
     void                DoWildCardToEntity(CCharEntity* PCaster, CCharEntity* PTarget, uint8 roll);
+    void                DoCuttingCardsToEntity(CCharEntity* PCaster, CCharEntity* PTarget, uint8 roll);
     bool                DoRandomDealToEntity(CCharEntity* PChar, CCharEntity* PTarget);
     void                AddTraits(CBattleEntity* PEntity, TraitList_t* TraitList, uint8 level);
     void                DelTraits(CBattleEntity* PEntity, TraitList_t* TraitList, uint8 level);

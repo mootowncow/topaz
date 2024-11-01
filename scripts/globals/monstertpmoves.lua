@@ -102,6 +102,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local acc = mob:getACC()
     if (tpeffect == TP_RANGED) then
         acc = mob:getRACC()
+        acc = mob:calculateSweetSpotAccuracy(target, acc)
     end
     local eva = target:getEVA()
 
@@ -146,8 +147,11 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     --work out and cap ratio
     if (offcratiomod == nil) then -- default to attack. Pretty much every physical mobskill will use this, Cannonball being the exception.
         local attk = mob:getStat(tpz.mod.ATT)
-        offcratiomod = mob:getStat(tpz.mod.ATT) * (1 + (attackBonus / 100))
-        -- print ("Nothing passed, defaulting to attack")
+        if (tpeffect == TP_RANGED) then
+           attk = mob:getRATT()
+           attk = mob:calculateSweetSpotAttack(target, attk)
+        end
+        offcratiomod = attk * (1 + (attackBonus / 100))
     end
     local ratio = offcratiomod/target:getStat(tpz.mod.DEF)
     --printf("Ratio before ignore defense applied %u", ratio*100)

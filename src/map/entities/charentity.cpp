@@ -1620,7 +1620,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
         // There is an overall cap of -25 seconds for a 35 second recast
         // https://www.bg-wiki.com/ffxi/Quick_Draw
-        if ( PAbility->isQuickDraw())
+        if (PAbility->isQuickDraw())
         {
             action.recast -= std::min<int16>(getMod(Mod::QUICK_DRAW_RECAST), 25);
         }
@@ -1846,6 +1846,17 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
         battleutils::HandlePlayerAbilityUsed(this, PAbility, &action);
 
+        if (PAbility->getID() == ABILITY_WILD_CARD)
+        {
+            auto resetChance = PJobPoints->GetJobPointValue(JP_WILD_CARD_EFFECT);
+            auto corRollTotal = this->GetLocalVar("corsairRollTotal");
+            auto randValue = tpzrand::GetRandomNumber(100);
+            if (this->GetLocalVar("corsairRollTotal") >= 5 && randValue < resetChance)
+            {
+                action.recast = 0;
+            }
+        }
+
         PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), action.recast);
 
         uint16 recastID = PAbility->getRecastId();
@@ -1913,7 +1924,19 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
     actionTarget_t& actionTarget = actionList.getNewActionTarget();
     actionTarget.reaction = REACTION_HIT;		//0x10
     actionTarget.speceffect = SPECEFFECT_HIT;		//0x60 (SPECEFFECT_HIT + SPECEFFECT_RECOIL)
-    actionTarget.messageID = 352;
+    if (battleutils::IsInRangedSweetSpot(this, PTarget))
+    {
+        actionTarget.messageID = MSGBASIC_RANGED_TRUE;
+    }
+    else if (battleutils::IsCloseToRangedSweetSpot(this, PTarget))
+    {
+        actionTarget.messageID = MSGBASIC_RANGED_SQUARELY;
+    }
+    else
+    {
+        actionTarget.messageID = MSGBASIC_RANGED_HIT;
+    }
+
 
     CItemWeapon* PItem = (CItemWeapon*)this->getEquip(SLOT_RANGED);
     CItemWeapon* PAmmo = (CItemWeapon*)this->getEquip(SLOT_AMMO);
@@ -1971,7 +1994,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
                 if (isCritical)
                 {
                     actionTarget.speceffect = SPECEFFECT_CRITICAL_HIT;
-                    actionTarget.messageID = 353;
+                    actionTarget.messageID = MSGBASIC_RANGED_CRIT;
 
                     luautils::OnCriticalHit(PTarget, this);
                 }
@@ -2009,7 +2032,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
             damage = 0;
             actionTarget.reaction = REACTION_EVADE;
             actionTarget.speceffect = SPECEFFECT_NONE;
-            actionTarget.messageID = 354;
+            actionTarget.messageID = MSGBASIC_RANGED_MISS;
             hitCount = i; // end barrage, shot missed
         }
 
@@ -2047,9 +2070,20 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         // any misses with barrage cause remaing shots to miss, meaning we must check Action.reaction
         if (actionTarget.reaction == REACTION_EVADE && (this->StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE)))
         {
-            actionTarget.messageID = 352;
             actionTarget.reaction = REACTION_HIT;
             actionTarget.speceffect = SPECEFFECT_CRITICAL_HIT;
+            if (battleutils::IsInRangedSweetSpot(this, PTarget))
+            {
+                actionTarget.messageID = MSGBASIC_RANGED_TRUE;
+            }
+            else if (battleutils::IsCloseToRangedSweetSpot(this, PTarget))
+            {
+                actionTarget.messageID = MSGBASIC_RANGED_SQUARELY;
+            }
+            else
+            {
+                actionTarget.messageID = MSGBASIC_RANGED_HIT;
+            }
         }
 
         actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);
@@ -2062,7 +2096,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         if (actionTarget.param < 0)
         {
             actionTarget.param = -(actionTarget.param);
-            actionTarget.messageID = 382;
+            actionTarget.messageID = MSGBASIC_RANGED_ABSORBED_DMG;
         }
 
         // Handle frontal PDT

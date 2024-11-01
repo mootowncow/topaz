@@ -583,6 +583,7 @@ public:
 
     int32 fold(lua_State*);
     int32 doWildCard(lua_State*);
+    int32 doCuttingCards(lua_State*);
     int32 doRandomDeal(lua_State*);
     int32 addCorsairRoll(lua_State*);          // Adds corsair roll effect
     int32 hasCorsairEffect(lua_State*);
@@ -603,6 +604,8 @@ public:
     int32 getEVA(lua_State*);                   // Get total EVA
     int32 getRACC(lua_State*);                  // Get total r.acc
     int32 getRATT(lua_State*);                  // Get total r.attack
+    int32 calculateSweetSpotAttack(lua_State*); // Calculates ranged attack using battleutils CalculateSweetSpotAttack(PAttacker, PDefender, rAttack)
+    int32 calculateSweetSpotAccuracy(lua_State*); // Calculates ranged accuracy using battleutils CalculateSweetSpotAttack(PAttacker, PDefender, hitrate)
     int32 getILvlMacc(lua_State *L);
     int32 isSpellAoE(lua_State* L);
 

@@ -1062,6 +1062,8 @@ function getRangedHitRate(attacker, target, slugwinder, bonus)
 
     acc = acc + bonus
 
+    acc = attacker:calculateSweetSpotAccuracy(target, acc)
+
     local hitrate = 75
 
     if attacker:getMainLvl() > target:getMainLvl() then
@@ -1069,6 +1071,7 @@ function getRangedHitRate(attacker, target, slugwinder, bonus)
     else
         hitrate = hitrate + math.floor(((acc - eva) / 2) - (2 * (target:getMainLvl() - attacker:getMainLvl())))
     end
+
     hitrate = hitrate / 100
 
     -- Slugwinder caps at 95% hit rate, rest cap at 99%
@@ -1078,6 +1081,7 @@ function getRangedHitRate(attacker, target, slugwinder, bonus)
         hitrate = utils.clamp(hitrate, 0.2, 0.99)
     end
 
+    --printf("Hit rate %f", hitrate)
     return hitrate
 end
 
@@ -1232,6 +1236,9 @@ end
 function cRangedRatio(attacker, defender, params, ignoredDef, tp)
 
     local atkmulti = fTP(tp, params.atk100, params.atk200, params.atk300)
+    local rAttack = attacker:getRATT()
+    rAttack = attacker:calculateSweetSpotAttack(defender, rAttack)
+
     local cratio = attacker:getRATT() / (defender:getStat(tpz.mod.DEF) - ignoredDef)
 
     local levelcor = 0

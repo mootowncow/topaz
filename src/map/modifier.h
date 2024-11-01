@@ -504,6 +504,7 @@ enum class Mod
     SHADOW_BIND_EXT           = 425, // Extends the time of shadowbind
     SCAVENGE_EFFECT           = 312, //
     SHARPSHOT                 = 314, //
+    TRUE_SHOT_EFFECT          = 1053,// True Shot Ranged attack power increase inside sweet spot (percent)
 
     // Samurai
     WARDING_CIRCLE_DURATION   = 95,  // Warding Circle extended duration in seconds

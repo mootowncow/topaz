@@ -1774,6 +1774,7 @@ tpz.mod =
     SCAVENGE_EFFECT                 = 312, --
     DIA_DOT                         = 313, -- Increases the DoT damage of Dia
     SHARPSHOT                       = 314, -- Sharpshot accuracy bonus
+    TRUE_SHOT_EFFECT                = 1053,-- True Shot Ranged attack power increase inside sweet spot (percent)
     AUGMENTS_ABSORB                 = 1274, -- Direct Absorb spell increase (percentage based)
     ENH_DRAIN_ASPIR                 = 315, -- % damage boost to Drain and Aspir
     SNEAK_ATK_DEX                   = 1368, -- % DEX boost to Sneak Attack (if gear mod, needs to be equipped on hit)
@@ -2897,7 +2898,7 @@ tpz.jp =
     RANDOM_DEAL_EFFECT       = jpCategory.COR + 0x06, --X 2 abil random deal +2%
     COR_RANGED_ACC_BONUS     = jpCategory.COR + 0x07, --X r.acc +1
     TRIPLE_SHOT_EFFECT       = jpCategory.COR + 0x08, --+ triple shot chance +1%
-    OPTIMAL_RANGE_BONUS      = jpCategory.COR + 0x09, --X sweet spot dmg +1
+    OPTIMAL_RANGE_BONUS      = jpCategory.COR + 0x09, --X sweet spot ranged attack +2
 
     --PUP
     OVERDRIVE_EFFECT         = jpCategory.PUP + 0x00, --+ all pet attr. +5
