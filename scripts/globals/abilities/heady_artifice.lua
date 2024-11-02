@@ -14,18 +14,19 @@ end
 
 function onUseAbility(player, target, ability)
     local pet = player:getPet()
+    local mob = pet:getTarget()
     local head = pet:getAutomatonHead()
     local jpValue = player:getJobPointLevel(tpz.jp.HEADY_ARTIFICE_EFFECT)
 
     if (head == tpz.heads.VALOREDGE) then
-        target:addEnmity(pet, 100 * jpValue, 0)
+        printf("jpValue: %d", jpValue * 100)
+        mob:addEnmity(pet, 10 * jpValue, 0)
     elseif (head == tpz.heads.SOULSOOTHER) then
-        local mpToAdd = pet:getMaxMP() * (jpValue / 100)
-        printf("mpToAdd %d", mpToAdd)
+        local mpToAdd = math.floor(pet:getMaxMP() * (jpValue / 100))
+        printf("mpToAdd %f", mpToAdd)
         pet:addMP(mpToAdd)
     end
 
     pet:addStatusEffect(tpz.effect.INVINCIBLE, 1, 0, 5)
     pet:addStatusEffect(tpz.effect.ELEMENTAL_SFORZO, 1, 0, 5)
 end
-

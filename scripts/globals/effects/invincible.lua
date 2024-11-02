@@ -4,7 +4,6 @@
 --
 -----------------------------------
 require("scripts/globals/status")
-require("scripts/globals/pets")
 -----------------------------------
 
 function onEffectGain(target, effect)
@@ -13,20 +12,20 @@ function onEffectGain(target, effect)
 
     -- Handle Heady Artifice (PUP)
     local master = target:getMaster()
-    if (master:getMainJob() == tpz.job.PUP) then
-        local pet = target:getPet()
-        local head = pet:getAutomatonHead()
-        local jpValue = target:getJobPointLevel(tpz.jp.HEADY_ARTIFICE_EFFECT)
+    if master:getMainJob() == tpz.job.PUP then
+        local head = target:getAutomatonHead()
+        local jpValue = master:getJobPointLevel(tpz.jp.HEADY_ARTIFICE_EFFECT)
         local headJpBonuses = {
             { Head = tpz.heads.HARLEQUIN,         Mod = tpz.mod.ACC,                Power = 2,  },
             { Head = tpz.heads.SHARPSHOT,         Mod = tpz.mod.RATT,               Power = 3,  },
             { Head = tpz.heads.STORMWAKER,        Mod = tpz.mod.MAGIC_DAMAGE,       Power = 2,  },
             { Head = tpz.heads.SPIRITREAVER,      Mod = tpz.mod.MAGIC_DAMAGE,       Power = 5,  }
         }
-
+        print(string.format("head: %d, jpValue: %d", head, jpValue))
         for _, jpBuffs in pairs(headJpBonuses) do
             if (head == jpBuffs.Head) then
-                target:addMod(tpz.mod.jpBuffs.Mod, jpBuffs.Power * jpValue)
+                print(string.format("jpBuffs.Head: %d, jpBuffs.Mod: %d, jpBuffs.Power: %d", jpBuffs.Head, jpBuffs.Mod, jpBuffs.Power))
+                target:addMod(jpBuffs.Mod, jpBuffs.Power * jpValue)
             end
         end
     end
@@ -41,20 +40,19 @@ function onEffectLose(target, effect)
 
     -- Handle Heady Artifice (PUP)
     local master = target:getMaster()
-    if (master:getMainJob() == tpz.job.PUP) then
-        local pet = target:getPet()
-        local head = pet:getAutomatonHead()
-        local jpValue = target:getJobPointLevel(tpz.jp.HEADY_ARTIFICE_EFFECT)
+    if master:getMainJob() == tpz.job.PUP then
+        local head = target:getAutomatonHead()
+        local jpValue = master:getJobPointLevel(tpz.jp.HEADY_ARTIFICE_EFFECT)
         local headJpBonuses = {
             { Head = tpz.heads.HARLEQUIN,         Mod = tpz.mod.ACC,                Power = 2,  },
             { Head = tpz.heads.SHARPSHOT,         Mod = tpz.mod.RATT,               Power = 3,  },
-            { Head = tpz.heads.STORMWAKER,        Mod = tpz.mod.MAGIC_DAMAGE,       Power = 2,  }
+            { Head = tpz.heads.STORMWAKER,        Mod = tpz.mod.MAGIC_DAMAGE,       Power = 2,  },
             { Head = tpz.heads.SPIRITREAVER,      Mod = tpz.mod.MAGIC_DAMAGE,       Power = 5,  }
         }
 
         for _, jpBuffs in pairs(headJpBonuses) do
             if (head == jpBuffs.Head) then
-                target:delMod(tpz.mod.jpBuffs.Mod, jpBuffs.Power * jpValue)
+                target:delMod(jpBuffs.Mod, jpBuffs.Power * jpValue)
             end
         end
     end
