@@ -21,10 +21,9 @@ function onEffectGain(target, effect)
             { Head = tpz.heads.STORMWAKER,        Mod = tpz.mod.MAGIC_DAMAGE,       Power = 2,  },
             { Head = tpz.heads.SPIRITREAVER,      Mod = tpz.mod.MAGIC_DAMAGE,       Power = 5,  }
         }
-        print(string.format("head: %d, jpValue: %d", head, jpValue))
+
         for _, jpBuffs in pairs(headJpBonuses) do
             if (head == jpBuffs.Head) then
-                print(string.format("jpBuffs.Head: %d, jpBuffs.Mod: %d, jpBuffs.Power: %d", jpBuffs.Head, jpBuffs.Mod, jpBuffs.Power))
                 target:addMod(jpBuffs.Mod, jpBuffs.Power * jpValue)
             end
         end

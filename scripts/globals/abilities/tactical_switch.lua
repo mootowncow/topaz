@@ -14,7 +14,7 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local jpValue = player:getJobPointLevel(tpz.jp.REPAIR_EFFECT) * 20
+    local jpValue = player:getJobPointLevel(tpz.jp.TACTICAL_SWITCH_BONUS) * 20
     local buffTable = {
         { Maneuver = tpz.effect.FIRE_MANEUVER,      Effect = tpz.effect.MULTI_STRIKES,   Power = 100 },
         { Maneuver = tpz.effect.ICE_MANEUVER,       Effect = tpz.effect.MAGIC_ATK_BOOST, Power = 30  },

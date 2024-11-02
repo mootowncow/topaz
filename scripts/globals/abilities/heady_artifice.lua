@@ -19,11 +19,9 @@ function onUseAbility(player, target, ability)
     local jpValue = player:getJobPointLevel(tpz.jp.HEADY_ARTIFICE_EFFECT)
 
     if (head == tpz.heads.VALOREDGE) then
-        printf("jpValue: %d", jpValue * 100)
         mob:addEnmity(pet, 10 * jpValue, 0)
     elseif (head == tpz.heads.SOULSOOTHER) then
         local mpToAdd = math.floor(pet:getMaxMP() * (jpValue / 100))
-        printf("mpToAdd %f", mpToAdd)
         pet:addMP(mpToAdd)
     end
 

@@ -128,7 +128,6 @@ function onUseAbility(player, target, ability)
     -- Apply regen
     pet:delStatusEffect(tpz.effect.REGEN)
     pet:addStatusEffect(tpz.effect.REGEN, regenAmount, 3, regenTime) -- 3 = tick, each 3 seconds.
-    printf("jpMpRecovery %d", jpMpRecovery)
     pet:addMP(jpMpRecovery * jpValue)
     player:removeAmmo()
     player:updateEnmityFromCure(pet, totalHealing)

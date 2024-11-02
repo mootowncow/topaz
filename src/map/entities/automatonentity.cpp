@@ -125,7 +125,6 @@ auto CAutomatonEntity::getBurden() -> std::array<uint8, 8>
 
 void CAutomatonEntity::setAllBurden(uint8 burden)
 {
-    ShowDebug("Setting all burden to %u\n", burden);
     m_Burden.fill(burden);
 }
 

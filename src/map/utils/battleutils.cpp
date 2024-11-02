@@ -7939,7 +7939,7 @@ namespace battleutils
             }
         }
 
-        printf("RACC Bonus %i\n", bonus);
+        //printf("RACC Bonus %i\n", bonus);
         return bonus;
     }
 
