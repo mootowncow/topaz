@@ -789,12 +789,6 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
         this->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SCARLET_DELIRIUM_1, EFFECT_SCARLET_DELIRIUM_1, scarletDmgBonus, 0, duration));
     }
 
-    // Add general damage multiplier
-    if (!isDOT)
-    {
-        amount = battleutils::HandleExtraDamageMultipliers(attacker, amount);
-    }
-
     // Damage always breaks petrify on mobs, but not players or NPCs(trusts, campaign helpers, charmed mobs, etc)
     if (this->objtype == TYPE_MOB && !this->isCharmed)
     {
@@ -2197,6 +2191,9 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         float DamageRatio = battleutils::GetDamageRatio(PTarget, this, attack.IsCritical(), attBonus, 0);
                         auto damage = (int32)((PTarget->GetMainWeaponDmg() + naturalh2hDMG + battleutils::GetFSTR(PTarget, this, SLOT_MAIN)) * DamageRatio);
 
+                        // Add extra damage multipliers
+                        damage = battleutils::HandleExtraDamageMultipliers(PTarget, damage);
+
                         // Reduce counter damage if footwork is active to 50% for balancing reasons
                         if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
                         {
@@ -2284,6 +2281,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
 
                 // Process damage.
+                //
                 attack.ProcessDamage();
 
                 // Try shield block

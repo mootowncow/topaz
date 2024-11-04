@@ -7245,7 +7245,7 @@ namespace battleutils
     int32 HandleExtraDamageMultipliers(CBattleEntity* PAttacker, int32 damage)
     {
         // Grand Pa's JP multiplier
-        if (PAttacker->objtype == TYPE_PC)
+        if (PAttacker->objtype == TYPE_PC && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_GRAND_PAS))
         {
             if (auto* PChar = static_cast<CCharEntity*>(PAttacker))
             {
@@ -7719,8 +7719,7 @@ namespace battleutils
                     // Load the new recast time on the target's ability recast list
                     PTarget->PRecastContainer->Load(RECAST_ABILITY, recastId, reducedRecastTime);
                 
-                    //ShowDebug("Reduced recast for ability ID %d on %s: %d (original was %d)\n",
-                              recastId, PTarget->name, reducedRecastTime, originalRecastTime);
+                    //ShowDebug("Reduced recast for ability ID %d on %s: %d (original was %d)\n", recastId, PTarget->name, reducedRecastTime, originalRecastTime);
                 }
             }
         }

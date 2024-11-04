@@ -364,7 +364,8 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     -- Check for Building Flourish WSD bonus
     local flourisheffect = attacker:getStatusEffect(tpz.effect.BUILDING_FLOURISH)
     if flourisheffect ~= nil and flourisheffect:getPower() > 2 then -- Building Flourish gives +25% WSD at 3+ FM"s"
-        attacker:addMod(tpz.mod.ALL_WSDMG_ALL_HITS, 25)
+        local jpValue = attacker:getJobPointLevel(tpz.jp.FLOURISH_II_EFFECT)
+        attacker:addMod(tpz.mod.ALL_WSDMG_ALL_HITS, jpValue)
     end
     local bonusdmg = attacker:getMod(tpz.mod.ALL_WSDMG_ALL_HITS) -- For any WS
 
@@ -374,8 +375,10 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
 
     -- Remove Building Flourish WSD effect
     if flourisheffect ~= nil and flourisheffect:getPower() > 2 then
-        attacker:delMod(tpz.mod.ALL_WSDMG_ALL_HITS, 25)
+        local jpValue = attacker:getJobPointLevel(tpz.jp.FLOURISH_II_EFFECT)
+        attacker:delMod(tpz.mod.ALL_WSDMG_ALL_HITS, jpValue)
     end
+
     if (attacker:getMod(tpz.mod.WEAPONSKILL_DAMAGE_BASE + wsID) > 0) then -- For specific WS
         bonusdmg = bonusdmg + attacker:getMod(tpz.mod.WEAPONSKILL_DAMAGE_BASE + wsID)
         --printf("Specific WS dmg increase %u", bonusdmg)
@@ -544,6 +547,8 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
 
     -- Handle Scarlet Delirium
     finaldmg = utils.ScarletDeliriumBonus(attacker, finaldmg)
+
+    finaldmg = utils.HandleExtraDamageMultipliers(attacker, finaldmg)
 
     finaldmg = finaldmg * WEAPON_SKILL_POWER -- Add server bonus
     calcParams.finalDmg = finaldmg
@@ -791,6 +796,8 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
 
     -- Handle Scarlet Delirium
     dmg = utils.ScarletDeliriumBonus(attacker, dmg)
+
+    dmg = utils.HandleExtraDamageMultipliers(attacker, dmg)
 
     dmg = dmg * WEAPON_SKILL_POWER -- Add server bonus
 

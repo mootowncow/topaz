@@ -663,7 +663,8 @@ enum class Mod
     WALTZ_DELAY               = 497, // Waltz Ability Delay modifier (-1 mod is -1 second)
     SAMBA_PDURATION           = 498, // Samba percent duration bonus
     REVERSE_FLOURISH_EFFECT   = 836, // Reverse Flourish effect in tenths of squared term multiplier
-    WALTZ_COST                = 139, // Reduce Waltz cost 
+    WALTZ_COST                = 139, // Reduce Waltz cost
+    WALTZ_COST_PERCENT        = 1412,// Reduce Waltz cost (In percents)
     STEP_COST                 = 140, // Reduce step cost
 
     // Scholar
@@ -1113,7 +1114,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1412 NEXT
+    // 1413 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it
