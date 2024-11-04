@@ -24,6 +24,8 @@ function onUseAbility(player, target, ability)
     local pet = player:getPet()
     local petCurrentHP = pet:getHP()
     local petMaxHP = pet:getMaxHP()
+    local jpMpRecovery = 0
+    local jpValue = player:getJobPointLevel(tpz.jp.REPAIR_EFFECT)
 
     -- Need to start to calculate the HP to restore to the pet.
     -- Please note that I used this as base for the calculations:
@@ -34,21 +36,25 @@ function onUseAbility(player, target, ability)
             regenAmount = 10
             totalHealing = petMaxHP * 0.1
             regenTime = 30
+            jpMpRecovery = 5
             end,
         [18732] = function (x) -- Automaton Oil + 1
             regenAmount = 20
             totalHealing = petMaxHP * 0.2
             regenTime = 60
+            jpMpRecovery = 10
             end,
         [18733] = function (x) -- Automaton Oil + 2
             regenAmount = 30
             totalHealing = petMaxHP * 0.3
             regenTime = 90
+            jpMpRecovery = 15
             end,
         [19185] = function (x) -- Automaton Oil + 3
             regenAmount = 40
             totalHealing = petMaxHP * 0.4
             regenTime = 120
+            jpMpRecovery = 20
             end,
     }
 
@@ -122,6 +128,7 @@ function onUseAbility(player, target, ability)
     -- Apply regen
     pet:delStatusEffect(tpz.effect.REGEN)
     pet:addStatusEffect(tpz.effect.REGEN, regenAmount, 3, regenTime) -- 3 = tick, each 3 seconds.
+    pet:addMP(jpMpRecovery * jpValue)
     player:removeAmmo()
     player:updateEnmityFromCure(pet, totalHealing)
     player:delStatusEffect(tpz.effect.LUX)

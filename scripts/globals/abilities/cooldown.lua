@@ -13,5 +13,8 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    local jpValue = player:getJobPointLevel(tpz.jp.COOLDOWN_EFFECT)
+
+    player:reduceBurden(50, jpValue)
     player:addStatusEffect(tpz.effect.LUX, 1, 0, 30)
 end

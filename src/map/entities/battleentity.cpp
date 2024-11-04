@@ -338,14 +338,23 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
         WeaponDelay = weapon->getDelay() - getMod(Mod::DELAY);
         if (weapon->isHandToHand())
         {
-            WeaponDelay -= getMod(Mod::MARTIAL_ARTS) * 1000 / 60;
+            auto martialArtsBonus = getMod(Mod::MARTIAL_ARTS);
+            if (this->objtype == TYPE_PC)
+            {
+                if (auto* PChar = dynamic_cast<CCharEntity*>(this))
+                {
+                    auto jpValue = PChar->PJobPoints->GetJobPointValue(JP_PUP_MARTIAL_ARTS_EFFECT) * 2;
+                    martialArtsBonus += jpValue;
+                }
+            }
+
+            WeaponDelay -= martialArtsBonus * 1000 / 60;
         }
         if (StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
         {
             WeaponDelay = WeaponDelay * 2;
         }
-        else if (auto subweapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]); subweapon && subweapon->getDmgType() > 0 &&
-            subweapon->getDmgType() < 4)
+        else if (auto subweapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]); subweapon && subweapon->getDmgType() > 0 && subweapon->getDmgType() < 4)
         {
             MinimumDelay += subweapon->getDelay();
             WeaponDelay += subweapon->getDelay();

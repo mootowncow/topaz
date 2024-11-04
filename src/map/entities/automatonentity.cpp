@@ -118,9 +118,19 @@ void CAutomatonEntity::burdenTick()
     }
 }
 
-void CAutomatonEntity::setInitialBurden()
+auto CAutomatonEntity::getBurden() -> std::array<uint8, 8>
 {
-    m_Burden.fill(30);
+    return m_Burden;
+}
+
+void CAutomatonEntity::setAllBurden(uint8 burden)
+{
+    m_Burden.fill(burden);
+}
+
+void CAutomatonEntity::setBurdenArray(std::array<uint8, 8> burdenArray)
+{
+    m_Burden = burdenArray;
 }
 
 // Function to get the element name based on the element value

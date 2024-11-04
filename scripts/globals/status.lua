@@ -1613,7 +1613,7 @@ tpz.mod =
     REGEN_DOWN                      = 404, -- poison
     REFRESH_DOWN                    = 405, -- plague, reduce mp
     REGAIN_DOWN                     = 406, -- plague, reduce tp
-    MAGIC_DAMAGE                    = 311, --  Magic damage added directly to the spell's base damage
+    MAGIC_DAMAGE                    = 311, -- Magic damage added directly to the spell's base damage
 
     -- Gear set modifiers
     DA_DOUBLE_DAMAGE                = 408, -- Double attack's double damage chance %.
@@ -2905,7 +2905,7 @@ tpz.jp =
     HEADY_ARTIFICE_EFFECT    = jpCategory.PUP + 0x02, --X increase head effects (see wiki)
     AUTOMATON_HP_MP_BONUS    = jpCategory.PUP + 0x01, --+ pet hp+10, mp+5
     ACTIVATE_EFFECT          = jpCategory.PUP + 0x03, --+ burden -1
-    REPAIR_EFFECT            = jpCategory.PUP + 0x04, --O mp hot based on oil (see wiki)
+    REPAIR_EFFECT            = jpCategory.PUP + 0x04, --O MP Recovery based on oil (see wiki)
     DEUS_EX_AUTOMATA_RECAST  = jpCategory.PUP + 0x05, --+ recast -1s
     TACTICAL_SWITCH_BONUS    = jpCategory.PUP + 0x06, --X tp +20
     COOLDOWN_EFFECT          = jpCategory.PUP + 0x07, --O burden -1
