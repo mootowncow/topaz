@@ -788,6 +788,13 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
 
         this->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SCARLET_DELIRIUM_1, EFFECT_SCARLET_DELIRIUM_1, scarletDmgBonus, 0, duration));
     }
+
+    // Add general damage multiplier
+    if (!isDOT)
+    {
+        amount = battleutils::HandleExtraDamageMultipliers(attacker, amount);
+    }
+
     // Damage always breaks petrify on mobs, but not players or NPCs(trusts, campaign helpers, charmed mobs, etc)
     if (this->objtype == TYPE_MOB && !this->isCharmed)
     {

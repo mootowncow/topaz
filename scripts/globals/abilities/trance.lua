@@ -15,6 +15,7 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    local jpValue = 100 * player:getJobPointLevel(tpz.jp.TRANCE_EFFECT)
     player:addStatusEffect(tpz.effect.TRANCE, 1, 0, 60)
-    player:addTP(100 * player:getJobPointLevel(tpz.jp.TRANCE_EFFECT))
+    player:addTP(jpValue)
 end

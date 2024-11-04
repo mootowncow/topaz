@@ -62,6 +62,10 @@ function onUseAbility(player, target, ability)
         cure = (vit+chr)*0.175+270
     end
 
+    -- Apply JP bonus
+    local jpValue = player:getJobPointLevel(tpz.jp.WALTZ_POTENCY_BONUS) * 2
+    cure = cure + jpValue
+
     -- Apply waltz modifiers
     cure = math.floor(cure * (1.0 + (player:getMod(tpz.mod.WALTZ_POTENTCY)/100)))
 

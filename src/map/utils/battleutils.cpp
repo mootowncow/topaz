@@ -7242,7 +7242,20 @@ namespace battleutils
         return damage;
     }
 
+    int32 HandleExtraDamageMultipliers(CBattleEntity* PAttacker, int32 damage)
+    {
+        // Grand Pa's JP multiplier
+        if (PAttacker->objtype == TYPE_PC)
+        {
+            if (auto* PChar = static_cast<CCharEntity*>(PAttacker))
+            {
+                float grandPasJpBonus = 1.0f + (PChar->PJobPoints->GetJobPointValue(JP_GRAND_PAS_EFFECT) / 100.0f);
+                damage *= grandPasJpBonus;
+            }
+        }
 
+        return damage;
+    }
 
     /************************************************************************
     *                                                                       *
@@ -7933,8 +7946,7 @@ namespace battleutils
 
         // Bonus from COR JP
         printf("RACC before JP %i", bonus);
-        if (battleEntity->objtype == TYPE_PC)
-        {
+        if (battleEntity->objtype == TYPE_PC)        {
             if (auto* PChar = static_cast<CCharEntity*>(battleEntity))
             {
                 bonus += PChar->PJobPoints->GetJobPointValue(JP_COR_RANGED_ACC_BONUS);
