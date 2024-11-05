@@ -1069,12 +1069,15 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
         // Check for finishing moves
         if (PAbility->isFlourish())
         {
-            if (!PChar->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_FINISHING_MOVE))
+            // If neither EFFECTFLAG_FINISHING_MOVE nor EFFECT_GRAND_PAS is active, show message and return false
+            if (!(PChar->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_FINISHING_MOVE) ||
+                  PChar->StatusEffectContainer->HasStatusEffect(EFFECT_GRAND_PAS)))
             {
                 PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NO_FINISHINGMOVES));
                 return false;
             }
         }
+
 
         // Check for paraylze
         if (battleutils::IsParalyzed(PChar))

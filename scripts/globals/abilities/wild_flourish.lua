@@ -36,6 +36,14 @@ function onUseAbility(player, target, ability, action)
 
     target:addStatusEffectEx(tpz.effect.CHAINBOUND, 0, 1, 0, 10, 0, 1)
 
+    local jpValue = player:getJobPointLevel(tpz.jp.FLOURISH_II_EFFECT)
+    player:queue(0, function(player)
+        player:addMod(tpz.mod.SKILLCHAINDMG, jpValue)
+    end)
+    player:queue(10*1000, function(player)
+        player:delMod(tpz.mod.SKILLCHAINDMG, jpValue)
+    end)
+
     action:animation(target:getID(), getFlourishAnimation(player:getWeaponSkillType(tpz.slot.MAIN)))
     action:speceffect(target:getID(), 1)
     return 0

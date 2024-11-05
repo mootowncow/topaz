@@ -20,7 +20,7 @@ function onUseAbility(player, target, ability)
     local STM = 0.5 + (0.1 * player:getMod(tpz.mod.REVERSE_FLOURISH_EFFECT))
 
     local Merits = player:getMerit(tpz.merit.REVERSE_FLOURISH_EFFECT)
-    local jpValue = player:getJobPointLevel(tpz.jp.FLOURISH_II_EFFECT) / 10
+    local jpValue = player:getJobPointLevel(tpz.jp.FLOURISH_II_EFFECT) * 2 / 10
 
     if (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_1)) then
         TPGain = (9.5 + jpValue) * 1 + STM * 1 ^ 2 + Merits

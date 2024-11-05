@@ -7242,7 +7242,20 @@ namespace battleutils
         return damage;
     }
 
+    int32 HandleExtraDamageMultipliers(CBattleEntity* PAttacker, int32 damage)
+    {
+        // Grand Pa's JP multiplier
+        if (PAttacker->objtype == TYPE_PC && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_GRAND_PAS))
+        {
+            if (auto* PChar = static_cast<CCharEntity*>(PAttacker))
+            {
+                float grandPasJpBonus = 1.0f + (PChar->PJobPoints->GetJobPointValue(JP_GRAND_PAS_EFFECT) / 100.0f);
+                damage *= grandPasJpBonus;
+            }
+        }
 
+        return damage;
+    }
 
     /************************************************************************
     *                                                                       *

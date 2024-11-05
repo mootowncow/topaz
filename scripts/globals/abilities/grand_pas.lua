@@ -15,5 +15,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    target:addStatusEffect(tpz.effect.GRAND_PAS, 19, 1, 30)
+    target:addStatusEffect(tpz.effect.GRAND_PAS, 1, 0, 30)
 end
