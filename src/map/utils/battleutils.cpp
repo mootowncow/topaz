@@ -8272,12 +8272,24 @@ namespace battleutils
             if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_ALACRITY))
             {
                 uint16 bonus = 0;
-                //Only apply Alacrity/celerity mod if the spell element matches the weather.
+                // Only apply Alacrity/Celerity mod if the spell element matches the weather.
                 if (battleutils::WeatherMatchesElement(battleutils::GetWeather(PEntity, false), PSpell->getElement()))
                 {
                     bonus = PEntity->getMod(Mod::ALACRITY_CELERITY_EFFECT);
                 }
-                cast -= (uint32)(base * ((100 - (50 + bonus)) / 100.0f));
+
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (auto* PChar = static_cast<CCharEntity*>(PEntity))
+                    {
+                        bonus += PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_II);
+                    }
+                }
+
+                // Calculate the reduction factor based on bonus
+                float reductionFactor = (100 - (50 + bonus)) / 100.0f;
+                cast = static_cast<uint32>(base * reductionFactor);
+
                 applyArts = false;
             }
             else if (applyArts)
@@ -8298,12 +8310,24 @@ namespace battleutils
             if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_CELERITY))
             {
                 uint16 bonus = 0;
-                //Only apply Alacrity/celerity mod if the spell element matches the weather.
+                // Only apply Alacrity/Celerity mod if the spell element matches the weather.
                 if (battleutils::WeatherMatchesElement(battleutils::GetWeather(PEntity, false), PSpell->getElement()))
                 {
                     bonus = PEntity->getMod(Mod::ALACRITY_CELERITY_EFFECT);
                 }
-                cast -= (uint32)(base * ((100 - (50 + bonus)) / 100.0f));
+
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (auto* PChar = static_cast<CCharEntity*>(PEntity))
+                    {
+                        bonus += PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_II);
+                    }
+                }
+
+                // Calculate the reduction factor based on bonus
+                float reductionFactor = (100 - (50 + bonus)) / 100.0f;
+                cast = static_cast<uint32>(base * reductionFactor);
+
                 applyArts = false;
             }
             else if (applyArts)
@@ -8529,6 +8553,18 @@ namespace battleutils
                 {
                     recast *= 3;
                 }
+
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PEntity))
+                    {
+                        int jpValue = PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_IV);
+                        double reductionFactor = 1.0 - (0.02 * jpValue);
+
+                        recast = static_cast<int32>(recast * reductionFactor);
+                    }
+                }
+
                 applyArts = false;
             }
             if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_ALACRITY))
@@ -8539,8 +8575,16 @@ namespace battleutils
                 {
                     bonus = PEntity->getMod(Mod::ALACRITY_CELERITY_EFFECT);
                 }
-                recast = (int32)(recast * ((50 - bonus) / 100.0f));
 
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (auto* PChar = static_cast<CCharEntity*>(PEntity))
+                    {
+                        bonus += PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_II);
+                    }
+                }
+
+                recast = (int32)(recast * ((50 - bonus) / 100.0f));
                 applyArts = false;
             }
             if (applyArts)
@@ -8568,8 +8612,21 @@ namespace battleutils
                 {
                     recast *= 3;
                 }
+
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PEntity))
+                    {
+                        int jpValue = PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_IV);
+                        double reductionFactor = 1.0 - (0.02 * jpValue);
+
+                        recast = static_cast<int32>(recast * reductionFactor);
+                    }
+                }
+
                 applyArts = false;
             }
+
             if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_CELERITY))
             {
                 uint16 bonus = 0;
@@ -8578,8 +8635,16 @@ namespace battleutils
                 {
                     bonus = PEntity->getMod(Mod::ALACRITY_CELERITY_EFFECT);
                 }
-                recast = (int32)(recast * ((50 - bonus) / 100.0f));
 
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (auto* PChar = static_cast<CCharEntity*>(PEntity))
+                    {
+                        bonus += PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_II);
+                    }
+                }
+
+                recast = (int32)(recast * ((50 - bonus) / 100.0f));
                 applyArts = false;
             }
             if (applyArts)

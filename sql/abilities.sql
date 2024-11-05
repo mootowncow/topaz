@@ -261,7 +261,7 @@ INSERT INTO `abilities` VALUES (206,'reverse_flourish',19,40,1,30,222,452,0,182,
 INSERT INTO `abilities` VALUES (207,'violent_flourish',19,45,4,20,221,522,0,26,2000,0,14,5.4,0,1,0,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (208,'building_flourish',19,50,1,10,222,0,0,183,2000,0,6,20.0,0,1,0,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (209,'wild_flourish',19,60,4,20,222,529,0,26,2000,0,14,5.4,0,1,0,0,0,'WOTG',0);
-INSERT INTO `abilities` VALUES (210,'tabula_rasa',20,0,1,1200,254,0,0,190,2000,0,6,20.0,0,1,300,0,0,'WOTG',0);
+INSERT INTO `abilities` VALUES (210,'tabula_rasa',20,0,1,1200,75,0,0,190,2000,0,6,20.0,0,1,300,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (211,'light_arts',20,10,1,60,228,0,0,171,2000,0,6,20.0,0,1,80,1600,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (212,'dark_arts',20,10,1,60,232,0,0,176,2000,0,6,20.0,0,1,80,1600,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (213,'flourishes_ii',19,40,1,0,222,0,0,0,2000,0,6,20.0,0,0,0,0,0,'WOTG',0);
@@ -385,7 +385,7 @@ INSERT INTO `abilities` VALUES (338,'unbridled_wisdom',16,75,1,7200,254,100,0,28
 INSERT INTO `abilities` VALUES (339,'cutting_cards',17,75,3,7200,254,0,0,287,2000,0,6,8.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (340,'heady_artifice',18,60,1,60,254,0,0,288,2000,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (341,'grand_pas',19,75,1,7200,254,0,0,289,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
-INSERT INTO `abilities` VALUES (342,'caper_emissarius',20,96,2,7200,254,0,0,290,2000,0,6,8.0,0,0,0,0,0,NULL,0); -- check animation
+INSERT INTO `abilities` VALUES (342,'caper_emissarius',20,75,2,7200,254,0,0,290,2000,0,6,8.0,0,0,0,0,0,NULL,0); -- check animation
 INSERT INTO `abilities` VALUES (343,'bolster',21,1,1,7200,0,0,0,303,2000,0,6,0.0,0,1,300,0,0,'SOA',0); -- check animation
 -- INSERT INTO `abilities` VALUES (344,'swipe',22,25,4,90,241,0,0,302,2000,0,6,4.0,0,80,320,0,0,'SOA',0); -- check animation 15 cat
 INSERT INTO `abilities` VALUES (345,'full_circle',21,5,1,10,1,0,0,94,2000,0,6,0.0,0,1,300,0,0,'SOA',0);

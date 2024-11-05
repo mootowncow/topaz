@@ -1537,9 +1537,20 @@ function addBonuses(caster, spell, target, dmg, params)
 
     dmg = math.floor(dmg * mabbonus)
 
-    if (caster:hasStatusEffect(tpz.effect.EBULLIENCE)) then
-        dmg = dmg * (1.2 + caster:getMod(tpz.mod.EBULLIENCE_AMOUNT)/100)
-        caster:delStatusEffectSilent(tpz.effect.EBULLIENCE)
+    if spell:getSkillType() == tpz.skill.ELEMENTAL_MAGIC or spell:getSkillType() == tpz.skill.DARK_MAGIC then
+        if (caster:hasStatusEffect(tpz.effect.EBULLIENCE)) then
+            local jpValue = caster:getJobPointLevel(tpz.jp.STRATEGEM_EFFECT_III) * 2
+            dmg = dmg + jpValue
+            dmg = dmg * (1.2 + caster:getMod(tpz.mod.EBULLIENCE_AMOUNT)/100)
+            caster:delStatusEffectSilent(tpz.effect.EBULLIENCE)
+        end
+    elseif spell:getSkillType() == tpz.skill.DIVINE_MAGIC then
+        if (caster:hasStatusEffect(tpz.effect.RAPTURE)) then
+            local jpValue = caster:getJobPointLevel(tpz.jp.STRATEGEM_EFFECT_III) * 2
+            dmg = dmg + jpValue
+            dmg = dmg * (1.5 + caster:getMod(tpz.mod.RAPTURE_AMOUNT)/100)
+            caster:delStatusEffectSilent(tpz.effect.RAPTURE)
+        end
     end
 
     dmg = math.floor(dmg)
@@ -1741,10 +1752,9 @@ function getHelixDuration(caster)
         duration = 90
     end
 
-    if caster:hasStatusEffect(tpz.effect.DARK_ARTS) then
-        local jpValue = caster:getJobPointLevel(tpz.jp.DARK_ARTS_EFFECT)
-
-        duration = duration + (3 * jpValue)
+    if caster:hasStatusEffect(tpz.effect.DARK_ARTS) or caster:hasStatusEffect(tpz.effect.ADDENDUM_BLACK) then
+        local jpValue = caster:getJobPointLevel(tpz.jp.DARK_ARTS_EFFECT) * 3
+        duration = duration + jpValue
     end
 
     return duration
@@ -2129,8 +2139,8 @@ function JobPointsMacc(caster, target, spell)
 
             [tpz.job.SCH] = function()
                 if
-                    (spellGroup == tpz.magic.spellGroup.WHITE and caster:hasStatusEffect(tpz.effect.PARSIMONY)) or
-                    (spellGroup == tpz.magic.spellGroup.BLACK and caster:hasStatusEffect(tpz.effect.PENURY))
+                    (spellGroup == tpz.magic.spellGroup.WHITE and caster:hasStatusEffect(tpz.effect.PENURY)) or
+                    (spellGroup == tpz.magic.spellGroup.BLACK and caster:hasStatusEffect(tpz.effect.PARSIMONY))
                 then
                     local jpValue = caster:getJobPointLevel(tpz.jp.STRATEGEM_EFFECT_I)
 
@@ -3714,6 +3724,11 @@ function getRegenDurationBonuses(caster, target)
     local bonus = 0
     bonus = bonus + caster:getMod(tpz.mod.REGEN_DURATION)
     bonus = bonus + caster:getJobPointLevel(tpz.jp.REGEN_DURATION) * 3
+
+    if caster:hasStatusEffect(tpz.effect.LIGHT_ARTS) or caster:hasStatusEffect(tpz.effect.ADDENDUM_WHITE) then
+        local jpValue = caster:getJobPointLevel(tpz.jp.LIGHT_ARTS_EFFECT) * 3
+        bonus = bonus + jpValue
+    end
 
     --printf("Regen bonus %d", bonus)
     return bonus

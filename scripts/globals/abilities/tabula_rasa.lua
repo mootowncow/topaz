@@ -26,7 +26,6 @@ function onUseAbility(player, target, ability)
     end
 
     local jpValue = player:getJobPointLevel(tpz.jp.TABULA_RASA_EFFECT)
-
     if jpValue > 0 then
         player:addMP(player:getMaxMP() * 0.02 * jpValue)
     end

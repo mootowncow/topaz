@@ -16,5 +16,14 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    party:transferEnmity(player, 99, 20.6)
+
+    local jpValue = player:getJobPointLevel(tpz.jp.CAPER_EMMISSARIUS_EFFECT)
+    if jpValue > 0 then
+        target:addHP(target:getMaxHP() * 0.02 * jpValue)
+    end
+
+    local party = player:getPartyWithTrusts()
+    for _, member in ipairs(party) do
+        member:transferEnmity(target, 99, 20.6)
+    end
 end
