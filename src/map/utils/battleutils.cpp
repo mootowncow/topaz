@@ -8263,6 +8263,13 @@ namespace battleutils
                 if (battleutils::WeatherMatchesElement(battleutils::GetWeather(PEntity, false), PSpell->getElement()))
                 {
                     bonus = PEntity->getMod(Mod::ALACRITY_CELERITY_EFFECT);
+                    if (PEntity->objtype == TYPE_PC)
+                    {
+                        if (auto* PChar = static_cast<CCharEntity*>(PEntity))
+                        {
+                            bonus += PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_II);
+                        }
+                    }
                 }
                 cast -= (uint32)(base * ((100 - (50 + bonus)) / 100.0f));
                 applyArts = false;
@@ -8289,6 +8296,13 @@ namespace battleutils
                 if (battleutils::WeatherMatchesElement(battleutils::GetWeather(PEntity, false), PSpell->getElement()))
                 {
                     bonus = PEntity->getMod(Mod::ALACRITY_CELERITY_EFFECT);
+                    if (PEntity->objtype == TYPE_PC)
+                    {
+                        if (auto* PChar = static_cast<CCharEntity*>(PEntity))
+                        {
+                            bonus += PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_II);
+                        }
+                    }
                 }
                 cast -= (uint32)(base * ((100 - (50 + bonus)) / 100.0f));
                 applyArts = false;
