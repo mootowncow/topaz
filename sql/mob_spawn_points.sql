@@ -19870,25 +19870,25 @@ INSERT INTO `mob_spawn_points` VALUES (17117188,'Bloodsucker','Bloodsucker',4,0,
 INSERT INTO `mob_spawn_points` VALUES (17117189,'Bloodsucker','Bloodsucker',4,0,50,0,0);
 -- Fishing End
 INSERT INTO `mob_spawn_points` VALUES (17117190,'Duriumshell','Duriumshell',5,-50.152,-31.975,246.623,65);
--- INSERT INTO `mob_spawn_points` VALUES (17117191,'Duriumshell','Duriumshell',5,-59.628,-31.595,242.53,32);
+INSERT INTO `mob_spawn_points` VALUES (17117191,'Duriumshell','Duriumshell',5,-59.628,-31.595,242.53,32);
 INSERT INTO `mob_spawn_points` VALUES (17117192,'Duriumshell','Duriumshell',5,-56.735,-31.563,247.918,236);
--- INSERT INTO `mob_spawn_points` VALUES (17117193,'Duriumshell','Duriumshell',5,-39.529,-32.131,270.237,8);
+INSERT INTO `mob_spawn_points` VALUES (17117193,'Duriumshell','Duriumshell',5,-39.529,-32.131,270.237,8);
 INSERT INTO `mob_spawn_points` VALUES (17117194,'Duriumshell','Duriumshell',5,-27.421,-31.807,261.741,137);
--- INSERT INTO `mob_spawn_points` VALUES (17117195,'Duriumshell','Duriumshell',5,-27.28,-32.56,270.397,9);
+INSERT INTO `mob_spawn_points` VALUES (17117195,'Duriumshell','Duriumshell',5,-27.28,-32.56,270.397,9);
 INSERT INTO `mob_spawn_points` VALUES (17117196,'Duriumshell','Duriumshell',5,-32.615,-31.92,274.477,229);
--- INSERT INTO `mob_spawn_points` VALUES (17117197,'Duriumshell','Duriumshell',5,-23.24,-31.487,243.874,252);
+INSERT INTO `mob_spawn_points` VALUES (17117197,'Duriumshell','Duriumshell',5,-23.24,-31.487,243.874,252);
 INSERT INTO `mob_spawn_points` VALUES (17117198,'Duriumshell','Duriumshell',5,-38.159,-32.381,243.54,38);
--- INSERT INTO `mob_spawn_points` VALUES (17117199,'Duriumshell','Duriumshell',5,-22.753,-31.344,244.878,33);
+INSERT INTO `mob_spawn_points` VALUES (17117199,'Duriumshell','Duriumshell',5,-22.753,-31.344,244.878,33);
 INSERT INTO `mob_spawn_points` VALUES (17117200,'Duriumshell','Duriumshell',5,4.147,-31.581,258.785,167);
--- INSERT INTO `mob_spawn_points` VALUES (17117201,'Duriumshell','Duriumshell',5,-14.024,-32.022,238.785,55);
+INSERT INTO `mob_spawn_points` VALUES (17117201,'Duriumshell','Duriumshell',5,-14.024,-32.022,238.785,55);
 INSERT INTO `mob_spawn_points` VALUES (17117202,'Duriumshell','Duriumshell',5,5.642,-32.108,248.788,74);
--- INSERT INTO `mob_spawn_points` VALUES (17117203,'Duriumshell','Duriumshell',5,-11.675,-32.161,237.234,109);
+INSERT INTO `mob_spawn_points` VALUES (17117203,'Duriumshell','Duriumshell',5,-11.675,-32.161,237.234,109);
 INSERT INTO `mob_spawn_points` VALUES (17117204,'Duriumshell','Duriumshell',5,3.653,-31.745,261.127,247);
--- INSERT INTO `mob_spawn_points` VALUES (17117205,'Duriumshell','Duriumshell',5,11.317,-32.091,276.632,46);
+INSERT INTO `mob_spawn_points` VALUES (17117205,'Duriumshell','Duriumshell',5,11.317,-32.091,276.632,46);
 INSERT INTO `mob_spawn_points` VALUES (17117206,'Duriumshell','Duriumshell',5,4.844,-32.089,267.366,107);
--- INSERT INTO `mob_spawn_points` VALUES (17117207,'Duriumshell','Duriumshell',5,11.875,-32.068,268.015,204);
+INSERT INTO `mob_spawn_points` VALUES (17117207,'Duriumshell','Duriumshell',5,11.875,-32.068,268.015,204);
 INSERT INTO `mob_spawn_points` VALUES (17117208,'Duriumshell','Duriumshell',5,36.853,-32.505,278.418,237);
--- INSERT INTO `mob_spawn_points` VALUES (17117209,'Duriumshell','Duriumshell',5,21.898,-32.022,267.237,110);
+INSERT INTO `mob_spawn_points` VALUES (17117209,'Duriumshell','Duriumshell',5,21.898,-32.022,267.237,110);
 INSERT INTO `mob_spawn_points` VALUES (17117210,'Fierce_Smilodon','Fierce Smilodon',6,193.697,-32.318,278.806,129);
 -- INSERT INTO `mob_spawn_points` VALUES (17117211,'Fierce_Smilodon','Fierce Smilodon',6,192.231,-32.064,270.397,228);
 INSERT INTO `mob_spawn_points` VALUES (17117212,'Fierce_Smilodon','Fierce Smilodon',6,171.724,-31.923,240.550,97);
@@ -26889,15 +26889,15 @@ INSERT INTO `mob_spawn_points` VALUES (17178700,'Tabar_Beak','Tabar Beak',6,201.
 -- INSERT INTO `mob_spawn_points` VALUES (17178701,'Tabar_Beak','Tabar Beak',6,256.237,40.06,353.202,8);
 -- Gouger Beetle Camp Start
 INSERT INTO `mob_spawn_points` VALUES (17178702,'Gouger_Beetle','Gouger Beetle',8,231,40,337,10);
--- INSERT INTO `mob_spawn_points` VALUES (17178703,'Gouger_Beetle','Gouger Beetle',8,244,40,350,14);
+INSERT INTO `mob_spawn_points` VALUES (17178703,'Gouger_Beetle','Gouger Beetle',8,244,40,350,14);
 INSERT INTO `mob_spawn_points` VALUES (17178704,'Gouger_Beetle','Gouger Beetle',8,268,40,364,3);
--- INSERT INTO `mob_spawn_points` VALUES (17178705,'Gouger_Beetle','Gouger Beetle',8,269,40,333,120);
+INSERT INTO `mob_spawn_points` VALUES (17178705,'Gouger_Beetle','Gouger Beetle',8,269,40,333,120);
 INSERT INTO `mob_spawn_points` VALUES (17178706,'Gouger_Beetle','Gouger Beetle',8,276,40,303,73);
--- INSERT INTO `mob_spawn_points` VALUES (17178707,'Gouger_Beetle','Gouger Beetle',8,284,40,281,231);
+INSERT INTO `mob_spawn_points` VALUES (17178707,'Gouger_Beetle','Gouger Beetle',8,284,40,281,231);
 INSERT INTO `mob_spawn_points` VALUES (17178708,'Gouger_Beetle','Gouger Beetle',8,305,40,290,200);
--- INSERT INTO `mob_spawn_points` VALUES (17178709,'Gouger_Beetle','Gouger Beetle',8,312,40,316,175);
+INSERT INTO `mob_spawn_points` VALUES (17178709,'Gouger_Beetle','Gouger Beetle',8,312,40,316,175);
 INSERT INTO `mob_spawn_points` VALUES (17178710,'Gouger_Beetle','Gouger Beetle',8,307,40,338,216);
--- INSERT INTO `mob_spawn_points` VALUES (17178711,'Gouger_Beetle','Gouger Beetle',8,337,40,341,38);
+INSERT INTO `mob_spawn_points` VALUES (17178711,'Gouger_Beetle','Gouger Beetle',8,337,40,341,38);
 INSERT INTO `mob_spawn_points` VALUES (17178712,'Midnight_Wings','Midnight Wings',4,211.112,32.003,237.251,179);
 -- INSERT INTO `mob_spawn_points` VALUES (17178713,'Midnight_Wings','Midnight Wings',4,242.878,31.828,235.117,231);
 INSERT INTO `mob_spawn_points` VALUES (17178714,'Moon_Bat','Moon Bat',5,221.798,31.789,254.002,3);
@@ -26905,21 +26905,21 @@ INSERT INTO `mob_spawn_points` VALUES (17178714,'Moon_Bat','Moon Bat',5,221.798,
 INSERT INTO `mob_spawn_points` VALUES (17178716,'Diving_Beetle','Diving Beetle',2,250.864,31.445,197.075,204);
 -- INSERT INTO `mob_spawn_points` VALUES (17178717,'Sauromugue_Skink','Sauromugue Skink',9,297.232,34.052,224.496,32);
 INSERT INTO `mob_spawn_points` VALUES (17178718,'Sauromugue_Skink','Sauromugue Skink',9,322.435,32.989,227.182,226);
--- INSERT INTO `mob_spawn_points` VALUES (17178719,'Gouger_Beetle','Gouger Beetle',8,362,40,324,66);
+INSERT INTO `mob_spawn_points` VALUES (17178719,'Gouger_Beetle','Gouger Beetle',8,362,40,324,66);
 INSERT INTO `mob_spawn_points` VALUES (17178720,'Gouger_Beetle','Gouger Beetle',8,379,38,305,218);
--- INSERT INTO `mob_spawn_points` VALUES (17178721,'Gouger_Beetle','Gouger Beetle',8,405,38,321,189);
+INSERT INTO `mob_spawn_points` VALUES (17178721,'Gouger_Beetle','Gouger Beetle',8,405,38,321,189);
 INSERT INTO `mob_spawn_points` VALUES (17178722,'Gouger_Beetle','Gouger Beetle',8,399,40,345,187);
--- INSERT INTO `mob_spawn_points` VALUES (17178723,'Gouger_Beetle','Gouger Beetle',8,408,40,363,29);
+INSERT INTO `mob_spawn_points` VALUES (17178723,'Gouger_Beetle','Gouger Beetle',8,408,40,363,29);
 INSERT INTO `mob_spawn_points` VALUES (17178724,'Gouger_Beetle','Gouger Beetle',8,426,40,352,20);
--- INSERT INTO `mob_spawn_points` VALUES (17178725,'Gouger_Beetle','Gouger Beetle',8,444,39,346,219);
+INSERT INTO `mob_spawn_points` VALUES (17178725,'Gouger_Beetle','Gouger Beetle',8,444,39,346,219);
 INSERT INTO `mob_spawn_points` VALUES (17178726,'Gouger_Beetle','Gouger Beetle',8,458,40,366,26);
--- INSERT INTO `mob_spawn_points` VALUES (17178727,'Gouger_Beetle','Gouger Beetle',8,479,39,351,93);
+INSERT INTO `mob_spawn_points` VALUES (17178727,'Gouger_Beetle','Gouger Beetle',8,479,39,351,93);
 INSERT INTO `mob_spawn_points` VALUES (17178728,'Gouger_Beetle','Gouger Beetle',8,413,38,309,169);
--- INSERT INTO `mob_spawn_points` VALUES (17178729,'Gouger_Beetle','Gouger Beetle',8,358,34,294,122);
+INSERT INTO `mob_spawn_points` VALUES (17178729,'Gouger_Beetle','Gouger Beetle',8,358,34,294,122);
 INSERT INTO `mob_spawn_points` VALUES (17178730,'Gouger_Beetle','Gouger Beetle',8,339,35,271,90);
--- INSERT INTO `mob_spawn_points` VALUES (17178731,'Gouger_Beetle','Gouger Beetle',8,313,33,250,55);
+INSERT INTO `mob_spawn_points` VALUES (17178731,'Gouger_Beetle','Gouger Beetle',8,313,33,250,55);
 INSERT INTO `mob_spawn_points` VALUES (17178732,'Gouger_Beetle','Gouger Beetle',8,315,40,314,196);
--- INSERT INTO `mob_spawn_points` VALUES (17178733,'Gouger_Beetle','Gouger Beetle',8,286,39,327,34);
+INSERT INTO `mob_spawn_points` VALUES (17178733,'Gouger_Beetle','Gouger Beetle',8,286,39,327,34);
 INSERT INTO `mob_spawn_points` VALUES (17178734,'Goblin_Toxophilite','Goblin Toxophilite',41,305.842,39.926,306.625,94); 
 INSERT INTO `mob_spawn_points` VALUES (17178735,'Goblin_Mine','Goblin Mine',42,282.415,31.775,255.789,57); 
 INSERT INTO `mob_spawn_points` VALUES (17178736,'Goblin_Toxophilite','Goblin Toxophilite',10,322.398,15.533,-5.355,89); -- Not part of Gouger Beetle Camp
@@ -26939,9 +26939,9 @@ INSERT INTO `mob_spawn_points` VALUES (17178748,'Goblin_Flagman','Goblin Flagman
 INSERT INTO `mob_spawn_points` VALUES (17178750,'Goblin_Flagman','Goblin Flagman',43,280.647,39.654,324.470,73); -- Gouger Beetle Camp
 -- Gouger Beetle Camp End
 INSERT INTO `mob_spawn_points` VALUES (17178751,'Gouger_Beetle','Gouger Beetle',8,146,39,314,243);
--- INSERT INTO `mob_spawn_points` VALUES (17178752,'Gouger_Beetle','Gouger Beetle',8,166,40,321,51);
+INSERT INTO `mob_spawn_points` VALUES (17178752,'Gouger_Beetle','Gouger Beetle',8,166,40,321,51);
 INSERT INTO `mob_spawn_points` VALUES (17178753,'Gouger_Beetle','Gouger Beetle',8,172,38,302,216);
--- INSERT INTO `mob_spawn_points` VALUES (17178754,'Gouger_Beetle','Gouger Beetle',8,210,38,302,206);
+INSERT INTO `mob_spawn_points` VALUES (17178754,'Gouger_Beetle','Gouger Beetle',8,210,38,302,206);
 INSERT INTO `mob_spawn_points` VALUES (17178755,'Gouger_Beetle','Gouger Beetle',8,223,40,329,215);
 -- INSERT INTO `mob_spawn_points` VALUES (17178756,'Midnight_Wings','Midnight Wings',4,330.373,31.721,163.084,106);
 INSERT INTO `mob_spawn_points` VALUES (17178757,'Midnight_Wings','Midnight Wings',4,347.725,33.653,192.129,82);
@@ -44146,6 +44146,32 @@ INSERT INTO `mob_spawn_points` VALUES (17338963,'Kaiser_Behemoth','Kaiser Behemo
 INSERT INTO `mob_spawn_points` VALUES (17338964,'Ferreous_Coffin','Ferreous Coffin',0,0,0,0,0);
 INSERT INTO `mob_spawn_points` VALUES (17338965,'Lewenhart','Lewenhart',0,0,0,0,0);
 INSERT INTO `mob_spawn_points` VALUES (17338966,'Auroral_Alicorn','Auroral Alicorn',0,0,0,0,0);
+
+-- Starts at J-7 Tunnel (Top north)
+INSERT INTO `mob_spawn_points` VALUES (17339267,'Frozen_Ghoul','Frozen Ghoul',44,582.57,-7.96,297.39,199);
+INSERT INTO `mob_spawn_points` VALUES (17339268,'Frozen_Ghoul','Frozen Ghoul',45,580.34,-9.50,279.18,199);
+INSERT INTO `mob_spawn_points` VALUES (17339269,'Frozen_Ghoul','Frozen Ghoul',44,578.31,-7.97,262.75,199);
+INSERT INTO `mob_spawn_points` VALUES (17339270,'Frozen_Ghoul','Frozen Ghoul',45,579.57,-10.00,247.15,199);
+INSERT INTO `mob_spawn_points` VALUES (17339271,'Frozen_Ghoul','Frozen Ghoul',44,579.82,-9.28,235.20,199);
+INSERT INTO `mob_spawn_points` VALUES (17339272,'Frozen_Ghoul','Frozen Ghoul',45,577.57,-9.41,224.13,199);
+INSERT INTO `mob_spawn_points` VALUES (17339273,'Frozen_Ghoul','Frozen Ghoul',44,566.62,-9.34,221.53,199);
+INSERT INTO `mob_spawn_points` VALUES (17339274,'Frozen_Ghoul','Frozen Ghoul',45,555.11,-9.50,219.98,199);
+INSERT INTO `mob_spawn_points` VALUES (17339275,'Frozen_Ghoul','Frozen Ghoul',44,543.11,-9.06,219.80,199);
+INSERT INTO `mob_spawn_points` VALUES (17339276,'Frozen_Ghoul','Frozen Ghoul',45,528.25,-7.75,219.39,199);
+INSERT INTO `mob_spawn_points` VALUES (17339277,'Frozen_Ghoul','Frozen Ghoul',44,515.71,-7.77,219.09,199);
+INSERT INTO `mob_spawn_points` VALUES (17339278,'Frozen_Ghoul','Frozen Ghoul',45,506.12,-8.03,214.29,199);
+INSERT INTO `mob_spawn_points` VALUES (17339279,'Frozen_Ghoul','Frozen Ghoul',44,500.90,-7.77,203.23,199);
+INSERT INTO `mob_spawn_points` VALUES (17339280,'Frozen_Ghoul','Frozen Ghoul',45,499.69,-7.73,194.32,199);
+INSERT INTO `mob_spawn_points` VALUES (17339281,'Frozen_Ghoul','Frozen Ghoul',44,499.14,-8.08,182.20,199);
+INSERT INTO `mob_spawn_points` VALUES (17339282,'Frozen_Ghoul','Frozen Ghoul',45,499.60,-9.43,171.50,199);
+INSERT INTO `mob_spawn_points` VALUES (17339283,'Frozen_Ghoul','Frozen Ghoul',44,499.80,-9.50,159.91,199);
+INSERT INTO `mob_spawn_points` VALUES (17339284,'Frozen_Ghoul','Frozen Ghoul',45,500.02,-9.39,147.74,199);
+INSERT INTO `mob_spawn_points` VALUES (17339285,'Frozen_Ghoul','Frozen Ghoul',44,497.54,-7.89,135.41,199);
+INSERT INTO `mob_spawn_points` VALUES (17339286,'Frozen_Ghoul','Frozen Ghoul',45,498.85,-7.79,122.99,199);
+INSERT INTO `mob_spawn_points` VALUES (17339287,'Frozen_Ghoul','Frozen Ghoul',44,499.50,-8.14,109.05,199);
+INSERT INTO `mob_spawn_points` VALUES (17339288,'Frozen_Ghoul','Frozen Ghoul',45,497.55,-8.00,98.41,199);
+INSERT INTO `mob_spawn_points` VALUES (17339289,'Frozen_Ghoul','Frozen Ghoul',45,489.25,-8.03,89.49,199);
+
 
 -- ------------------------------------------------------------
 -- Castle Zvahl Baileys [S] (Zone 138)

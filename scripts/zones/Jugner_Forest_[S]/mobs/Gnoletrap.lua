@@ -1,10 +1,16 @@
 -----------------------------------
 -- Area: Jugner Forest [S]
 --  Mob: Gnoletrap
+-- Note: JP camp
 -----------------------------------
 local ID = require("scripts/zones/Jugner_Forest_[S]/IDs")
 require("scripts/globals/mobs")
 -----------------------------------
+function onMobInitialize(mob)
+    mob:setMobMod(tpz.mobMod.CAPACITY_BONUS, 100)
+end
+
+
 function onMobSpawn(mob)
     -- 5% chance to fulll restore MP/HP or party members at 1% HP(basically death)
     if (math.random(100) <= 5) then

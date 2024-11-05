@@ -1,6 +1,6 @@
 -----------------------------------
--- Area: Vunkerl Inlet [S]
---  Mob: Duriumshell
+-- Area: Batallia Downs [S]
+--  Mob: Tsetse Fly
 -- Note: JP camp
 -----------------------------------
 require("scripts/globals/mobs")
