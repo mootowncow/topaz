@@ -1754,7 +1754,7 @@ function getHelixDuration(caster)
 
     if caster:hasStatusEffect(tpz.effect.DARK_ARTS) or caster:hasStatusEffect(tpz.effect.ADDENDUM_BLACK) then
         local jpValue = caster:getJobPointLevel(tpz.jp.DARK_ARTS_EFFECT) * 3
-        bonus = bonus + jpValue
+        duration = duration + jpValue
     end
 
     return duration
@@ -2139,8 +2139,8 @@ function JobPointsMacc(caster, target, spell)
 
             [tpz.job.SCH] = function()
                 if
-                    (spellGroup == tpz.magic.spellGroup.WHITE and caster:hasStatusEffect(tpz.effect.PARSIMONY)) or
-                    (spellGroup == tpz.magic.spellGroup.BLACK and caster:hasStatusEffect(tpz.effect.PENURY))
+                    (spellGroup == tpz.magic.spellGroup.WHITE and caster:hasStatusEffect(tpz.effect.PENURY)) or
+                    (spellGroup == tpz.magic.spellGroup.BLACK and caster:hasStatusEffect(tpz.effect.PARSIMONY))
                 then
                     local jpValue = caster:getJobPointLevel(tpz.jp.STRATEGEM_EFFECT_I)
 

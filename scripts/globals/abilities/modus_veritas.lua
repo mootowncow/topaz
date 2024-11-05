@@ -32,9 +32,13 @@ function onUseAbility(player, target, ability)
             local helixPower = helix:getPower() * 2
             local duration = helix:getDuration()
             local remaining = math.floor(helix:getTimeRemaining() / 1000) -- from milliseconds
+            local jpValue = player:getJobPointLevel(tpz.jp.MODUS_VERITAS_EFFECT) * 3
+
             -- print(string.format("helix original dot stats: %i, duration: %i, remaining: %i", helixPower / 2, duration, remaining))
             duration = (duration-remaining) + math.floor(remaining * durationMultiplier)
+            helixPower = helixPower + jpValue
             -- print(string.format("helix new dot stats: %i, remaining: %i", helixPower, duration))
+
             helix:setSubPower(mvPower)
             helix:setPower(helixPower)
             helix:setDuration(duration * 1000) -- back to milliseconds
