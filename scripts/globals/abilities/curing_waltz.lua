@@ -35,7 +35,7 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local baseWaltzCost = 200 - player:getMod(tpz.mod.WALTZ_COST) 
+    local baseWaltzCost = ability:getTPCost() - player:getMod(tpz.mod.WALTZ_COST) 
     local waltzCostReduction = player:getMod(tpz.mod.WALTZ_COST_PERCENT) / 100 
 
     local waltzCost = baseWaltzCost * (1 - waltzCostReduction)  

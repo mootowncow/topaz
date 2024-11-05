@@ -35,7 +35,11 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local waltzCost = 800 - player:getMod(tpz.mod.WALTZ_COST)
+    local baseWaltzCost = ability:getTPCost() - player:getMod(tpz.mod.WALTZ_COST) 
+    local waltzCostReduction = player:getMod(tpz.mod.WALTZ_COST_PERCENT) / 100 
+
+    local waltzCost = baseWaltzCost * (1 - waltzCostReduction)
+
     -- Only remove TP if the player doesn't have Trance.
     if not player:hasStatusEffect(tpz.effect.TRANCE) then
         player:delTP(waltzCost)
