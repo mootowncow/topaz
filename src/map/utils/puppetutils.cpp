@@ -30,6 +30,7 @@
 #include "../entities/automatonentity.h"
 #include "../packets/char_job_extra.h"
 #include "../packets/message_basic.h"
+#include "../job_points.h"
 
 namespace puppetutils
 {
@@ -104,9 +105,8 @@ void LoadAutomaton(CCharEntity* PChar)
                 if (tempEquip.Attachments[i] != 198 && tempEquip.Attachments[i] != 206)
                     setAttachment(PChar, i, tempEquip.Attachments[i]);
 
-            //TODO: PUP burden stuff
             // Set burden based on JP
-            //PChar->PAutomaton->setAllBurden(30 - PChar->PJobPoints->GetJobPointValue(JP_ACTIVATE_EFFECT));
+            PChar->PAutomaton->setAllBurden(30 - PChar->PJobPoints->GetJobPointValue(JP_ACTIVATE_EFFECT));
 
             PChar->PAutomaton->UpdateHealth();
             PChar->PAutomaton->health.hp = PChar->PAutomaton->GetMaxHP();

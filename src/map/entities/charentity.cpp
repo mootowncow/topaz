@@ -1556,16 +1556,23 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast = PAbility->getRecastTime() - PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SNEAK_ATTACK_RECAST, this);
         }
 
-        if (PAbility->getID() == ABILITY_LIGHT_ARTS || PAbility->getID() == ABILITY_DARK_ARTS || PAbility->getRecastId() == 231) //stratagems
+        auto deactivateJpValue = PJobPoints->GetJobPointValue(JP_DEACTIVATE_EFFECT);
+        float minHpPercentage = std::max(0.0f, 100.0f - deactivateJpValue);
+        if (PAbility->getID() == ABILITY_LIGHT_ARTS || PAbility->getID() == ABILITY_DARK_ARTS || PAbility->getRecastId() == 231) // stratagems
         {
             if (this->StatusEffectContainer->HasStatusEffect(EFFECT_TABULA_RASA))
                 action.recast = 0;
         }
-        else if (PAbility->getID() == ABILITY_DEACTIVATE && PAutomaton && PAutomaton->health.hp == PAutomaton->GetMaxHP())
+        else if (PAbility->getID() == ABILITY_DEACTIVATE && PAutomaton)
         {
-            CAbility* PAbility = ability::GetAbility(ABILITY_ACTIVATE);
-            if (PAbility)
-                PRecastContainer->Del(RECAST_ABILITY, PAbility->getRecastId());
+            // Calculate the minimum required HP for DEACTIVATE based on JP value
+            float requiredHp = PAutomaton->GetMaxHP() * (minHpPercentage / 100.0f);
+            if (PAutomaton->health.hp >= requiredHp) // Check if the current HP is above the required threshold
+            {
+                CAbility* PActivateAbility = ability::GetAbility(ABILITY_ACTIVATE);
+                if (PActivateAbility)
+                    PRecastContainer->Del(RECAST_ABILITY, PActivateAbility->getRecastId());
+            }
         }
         else if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
         {
@@ -1633,6 +1640,11 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         if (PAbility->getID() == ABILITY_STEAL)
         {
             action.recast -= (PJobPoints->GetJobPointValue(JP_STEAL_RECAST) * 2);
+        }
+
+        if (PAbility->getID() == ABILITY_DEUX_EX_AUTOMATA)
+        {
+            action.recast -= (PJobPoints->GetJobPointValue(JP_DEUS_EX_AUTOMATA_RECAST) * 10);
         }
 
         if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR)

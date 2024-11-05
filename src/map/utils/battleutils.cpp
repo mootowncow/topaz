@@ -7944,14 +7944,15 @@ namespace battleutils
         }
 
         // Bonus from COR JP
-        printf("RACC before JP %i", bonus);
-        if (battleEntity->objtype == TYPE_PC)        {
+        if (battleEntity->objtype == TYPE_PC)
+        {
             if (auto* PChar = static_cast<CCharEntity*>(battleEntity))
             {
                 bonus += PChar->PJobPoints->GetJobPointValue(JP_COR_RANGED_ACC_BONUS);
             }
         }
-        printf("RACC after JP %i", bonus);
+
+        //printf("RACC Bonus %i\n", bonus);
         return bonus;
     }
 
