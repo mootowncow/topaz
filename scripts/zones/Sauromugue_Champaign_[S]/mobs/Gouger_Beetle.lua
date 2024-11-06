@@ -1,18 +1,18 @@
 -----------------------------------
--- Area: Jugner Forest [S]
---  Mob: Gnoletrap
+-- Area: Sauromugue_Champaign [S]
+--  Mob: Gouger Beetle
 -- Note: JP camp
 -----------------------------------
-local ID = require("scripts/zones/Jugner_Forest_[S]/IDs")
-require("scripts/globals/mobs")
+require("scripts/globals/status")
 -----------------------------------
 function onMobInitialize(mob)
+    mob:setMod(tpz.mod.DMGMAGIC, 25)
     mob:setMobMod(tpz.mobMod.CAPACITY_BONUS, 100)
 end
 
 function onMobSpawn(mob)
     -- 5% chance to fulll restore MP/HP or party members at 1% HP(basically death)
-    if (math.random(100) <= 50) then
+    if (math.random(100) <= 5) then
         mob:setLocalVar("restoreProc", 1)
     end
 end
@@ -33,7 +33,4 @@ function onMobFight(mob, target)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
-end
-
-function onMobDespawn(mob)
 end
