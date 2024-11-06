@@ -6,7 +6,7 @@
 require("scripts/globals/status")
 -----------------------------------
 function onMobInitialize(mob)
-    mob:setMobMod(tpz.mobMod.DMGMAGIC, 25)
+    mob:setMod(tpz.mod.DMGMAGIC, 25)
     mob:setMobMod(tpz.mobMod.CAPACITY_BONUS, 100)
 end
 

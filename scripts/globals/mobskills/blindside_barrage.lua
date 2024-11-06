@@ -13,7 +13,6 @@ require("scripts/globals/status")
 function onMobSkillCheck(target, mob, skill)
     local zone = mob:getZoneID()
     local expansion = GetZoneByExpansion(zone)
-    print(expansion)
     if (expansion == 'COP') or (expansion == 'TOAU') or (expansion == 'WOTG') then
         return 0
     end
