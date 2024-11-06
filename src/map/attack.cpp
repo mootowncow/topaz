@@ -445,6 +445,7 @@ bool CAttack::CheckAnticipated()
 
     // Starts at 100% proc rate, decaying by 10% every 3 seconds until 10%.
     uint16 anticipateChance = effect->GetPower();
+    uint16 anticipates = effect->GetSubPower();
     bool hasSeigan = m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN, 0);
 
     // Always anticipate the attack if TE is active
@@ -455,8 +456,15 @@ bool CAttack::CheckAnticipated()
         // Now decide whether to remove TE or keep it based on Seigan and random roll
         if (!hasSeigan)
         {
-            // If no Seigan, remove TE immediately after anticipating
-            m_victim->StatusEffectContainer->DelStatusEffectSilent(EFFECT_THIRD_EYE);
+            if (anticipates > 1)
+            {
+                effect->SetSubPower(anticipates - 1);
+            }
+            else
+            {
+                // Only 1 anticipate left, remove TE after anticipation
+                m_victim->StatusEffectContainer->DelStatusEffectSilent(EFFECT_THIRD_EYE);
+            }
         }
         else
         {
@@ -469,7 +477,7 @@ bool CAttack::CheckAnticipated()
         }
 
         // Check for counter chance (still happens only if Seigan is active)
-        if (hasSeigan && tpzrand::GetRandomNumber(100) < 25 + m_victim->getMod(Mod::THIRD_EYE_COUNTER_RATE))
+        if (hasSeigan && tpzrand::GetRandomNumber(100) < 25 + m_victim->getMod(Mod::THIRD_EYE_COUNTER_RATE) + m_victim->getMod(Mod::HASSO_SEIGAN_GIFT))
         {
             if (!m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
             {

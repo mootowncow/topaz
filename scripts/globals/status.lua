@@ -1457,8 +1457,9 @@ tpz.mod =
     DOUBLE_ATTACK                   = 288,
     SUBTLE_BLOW                     = 289,
     SUBTLE_BLOW_II                  = 1009, -- Subtle Blow II Effect (Cap 50%) Total Effect (SB + SB_II cap 75%)
-    ENF_MAG_POTENCY                 = 290, -- Increases Enfeebling magic potency %
+    ENF_MAG_POTENCY                 = 290,  -- Increases Enfeebling magic potency %
     COUNTER                         = 291,
+    COUNTER_DAMAGE                  = 1047, -- Increases Damage from Counter Attacks (Percent)
     KICK_ATTACK_RATE                = 292,
     AFFLATUS_SOLACE                 = 293,
     AFFLATUS_MISERY                 = 294,
@@ -1756,6 +1757,8 @@ tpz.mod =
     RETALIATION                     = 414, -- Increases damage of Retaliation hits
     THIRD_EYE_COUNTER_RATE          = 508, -- Adds counter to 3rd eye anticipates & if using Seigan counter rate is increased by 15%
     THIRD_EYE_ANTICIPATE_RATE       = 839, -- Adds anticipate rate in percents
+    THIRD_EYE_ANTICIPATES           = 1055,-- Bonus Third Eye Anticipates (count)
+    HASSO_SEIGAN_GIFT               = 1056,-- +Hasso: +Zanshin chance. Seigan: +Counter chance (1200 SAM JP Gift)
     TP_BOOST_WHEN_DMGD              = 1239,-- Bonus 30-100 TP gained when taking damage. Modifier = percent chance of proccing
 
     CLAMMING_IMPROVED_RESULTS       = 509, --
@@ -1775,6 +1778,7 @@ tpz.mod =
     DIA_DOT                         = 313, -- Increases the DoT damage of Dia
     SHARPSHOT                       = 314, -- Sharpshot accuracy bonus
     TRUE_SHOT_EFFECT                = 1053,-- True Shot Ranged attack power increase inside sweet spot (percent)
+    DEAD_AIM_EFFECT                 = 1054,-- Critical damage increase to ranged attacks in percents (does not effect ranged WS)
     AUGMENTS_ABSORB                 = 1274, -- Direct Absorb spell increase (percentage based)
     ENH_DRAIN_ASPIR                 = 315, -- % damage boost to Drain and Aspir
     SNEAK_ATK_DEX                   = 1368, -- % DEX boost to Sneak Attack (if gear mod, needs to be equipped on hit)
@@ -1914,6 +1918,7 @@ tpz.mod =
     -- Other
     CURE2MP_PERCENT                 = 860, -- Converts % of "Cure" amount to MP
     DIVINE_BENISON                  = 910, -- Adds fast cast and enmity reduction to -Na spells (includes Erase). Enmity reduction is half of the fast cast amount
+    REGEN_BONUS                     = 989, -- Increases the amount of HP restored by Regen (JP Gifts bonus)
     SAVETP                          = 880, -- SAVETP Effect for Miser's Roll / ATMA / Hagakure.
     CONSERVE_TP                     = 944, -- Conserve TP trait, random chance between 10 and 200 TP
     INQUARTATA                      = 1012, -- increases parry rate by a flat %.
@@ -2063,7 +2068,8 @@ tpz.mod =
     LOGGING_SKILL           = 1314, -- Adds Logging Skill
     MINING_SKILL            = 1315, -- Adds Mining Skill
     PROTECT_SHELL_EFFECT    = 1316, -- Enhances the effect of "Protect" and "Shell". Target with mod only.
-    DIGGING_SKILL_GAIN_RATE = 1317,  -- Chocobo digging skill up gain increase
+    ENHANCES_PROT_RCVD      = 1050, -- Enhances Protect received in percents (PLD JP Gift)
+    DIGGING_SKILL_GAIN_RATE = 1317, -- Chocobo digging skill up gain increase
     HARVESTING_SKILL        = 1318, -- Adds Harvesting Skill
     EXCAVATION_SKILL        = 1319, -- Adds Excavation Skill
     PHALANX_RECIEVED        = 1320, -- Phalanx effect received.
@@ -2134,8 +2140,9 @@ tpz.mod =
     CHR_DURING_WS           = 1410, -- Bonus CHR during WS only
     BLUE_JOB_TRAIT_BONUS    = 1411, -- Job traits tier +1(JP Gift)
     WALTZ_COST_PERCENT      = 1412, -- Reduce Waltz cost (In percents)
+    BLUE_WSC_BONUS          = 1413, -- WSC bonus to spells(JP Gift)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1413 NEXT
+    -- 1414 NEXT
 }
 
 tpz.latent =

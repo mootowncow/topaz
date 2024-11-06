@@ -36,7 +36,7 @@ function onEffectGain(target, effect)
     end
 
     -- Apply protect mod
-    local protShellMod = target:getMod(tpz.mod.PROTECT_SHELL_EFFECT)
+    local protShellMod = target:getMod(tpz.mod.PROTECT_SHELL_EFFECT) + target:getMod(tpz.mod.ENHANCES_PROT_RCVD)
     power = math.floor(power * (1 + (protShellMod / 10))) -- Percent
 
     if (power == 9653) then
@@ -61,7 +61,7 @@ function onEffectLose(target, effect)
     end
 
     -- Apply protect mod
-    local protShellMod = target:getMod(tpz.mod.PROTECT_SHELL_EFFECT)
+    local protShellMod = target:getMod(tpz.mod.PROTECT_SHELL_EFFECT) + target:getMod(tpz.mod.ENHANCES_PROT_RCVD)
     power = math.floor(power * (1 + (protShellMod / 10))) -- Percent
 
     if (power == 9653) then

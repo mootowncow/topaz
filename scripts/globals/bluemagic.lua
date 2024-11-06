@@ -898,12 +898,20 @@ end
 ------------------------------
 
 function BlueGetWsc(attacker, params)
-    wsc = (attacker:getStat(tpz.mod.STR) * params.str_wsc + attacker:getStat(tpz.mod.DEX) * params.dex_wsc +
-         attacker:getStat(tpz.mod.VIT) * params.vit_wsc + attacker:getStat(tpz.mod.AGI) * params.agi_wsc +
-         attacker:getStat(tpz.mod.INT) * params.int_wsc + attacker:getStat(tpz.mod.MND) * params.mnd_wsc +
-         attacker:getStat(tpz.mod.CHR) * params.chr_wsc) * BlueGetAlpha(attacker:getMainLvl())
+    local blue_wsc_bonus = attacker:getMod(tpz.mod.BLUE_WSC_BONUS)
+    
+    wsc = (attacker:getStat(tpz.mod.STR) * (params.str_wsc + blue_wsc_bonus) +
+           attacker:getStat(tpz.mod.DEX) * (params.dex_wsc + blue_wsc_bonus) +
+           attacker:getStat(tpz.mod.VIT) * (params.vit_wsc + blue_wsc_bonus) +
+           attacker:getStat(tpz.mod.AGI) * (params.agi_wsc + blue_wsc_bonus) +
+           attacker:getStat(tpz.mod.INT) * (params.int_wsc + blue_wsc_bonus) +
+           attacker:getStat(tpz.mod.MND) * (params.mnd_wsc + blue_wsc_bonus) +
+           attacker:getStat(tpz.mod.CHR) * (params.chr_wsc + blue_wsc_bonus)) 
+           * BlueGetAlpha(attacker:getMainLvl())
+           
     return wsc
 end
+
 
 -- Given the raw ratio value (atk/def) and levels, returns the cRatio (min then max)
 function BluecRatio(ratio, atk_lvl, def_lvl)

@@ -3724,6 +3724,7 @@ function getRegenDurationBonuses(caster, target)
     local bonus = 0
     bonus = bonus + caster:getMod(tpz.mod.REGEN_DURATION)
     bonus = bonus + caster:getJobPointLevel(tpz.jp.REGEN_DURATION) * 3
+    bonus = bonus + caster:getMod(tpz.mod.REGEN_BONUS) -- JP Gift
 
     if caster:hasStatusEffect(tpz.effect.LIGHT_ARTS) or caster:hasStatusEffect(tpz.effect.ADDENDUM_WHITE) then
         local jpValue = caster:getJobPointLevel(tpz.jp.LIGHT_ARTS_EFFECT) * 3

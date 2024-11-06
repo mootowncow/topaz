@@ -374,6 +374,7 @@ enum class Mod
     SUBTLE_BLOW               = 289, // How much TP to reduce.
     SUBTLE_BLOW_II            = 1009,// Subtle Blow II Effect (Cap 50%) Total Effect (SB + SB_II cap 75%)
     COUNTER                   = 291, // Percent chance to counter
+    COUNTER_DAMAGE            = 1047,// Increases Damage from Counter Attacks (Percent)
     KICK_ATTACK_RATE          = 292, // Percent chance to kick
     PERFECT_COUNTER_ATT       = 428, // TODO: Raises weapon damage by 20 when countering while under the Perfect Counter effect. This also affects Weapon Rank (though not if fighting barehanded).
     FOOTWORK_ATT_BONUS        = 429, // Raises the attack bonus of Footwork. (Tantra Gaiters +2 raise 25/256 to 38/256)
@@ -390,6 +391,9 @@ enum class Mod
     CURE2MP_PERCENT           = 860, // Converts % of "Cure" amount to MP
     DIVINE_BENISON            = 910, // Adds fast cast and enmity reduction to -Na spells (includes Erase). Enmity reduction is half of the fast cast amount
     PROTECT_SHELL_EFFECT      = 1316,// Enhances the effect of "Protect" and "Shell". Target with mod only.
+    ENHANCES_PROT_RCVD        = 1050,// Enhances Protect received in percents (PLD JP Gift)
+    REGEN_BONUS               = 989, // Increases the amount of HP restored by Regen
+
     // Black Mage
     CLEAR_MIND                = 295, // Used in conjunction with HEALMP to increase amount between tics
     CONSERVE_MP               = 296, // Percent chance
@@ -505,6 +509,7 @@ enum class Mod
     SCAVENGE_EFFECT           = 312, //
     SHARPSHOT                 = 314, //
     TRUE_SHOT_EFFECT          = 1053,// True Shot Ranged attack power increase inside sweet spot (percent)
+    DEAD_AIM_EFFECT           = 1054,// Critical damage increase to ranged attacks in percents (does not effect ranged WS)
 
     // Samurai
     WARDING_CIRCLE_DURATION   = 95,  // Warding Circle extended duration in seconds
@@ -512,6 +517,8 @@ enum class Mod
     ZANSHIN                   = 306, // Zanshin percent chance
     THIRD_EYE_COUNTER_RATE    = 508, // Adds counter to 3rd eye anticipates & if using Seigan counter rate is increased by 15%
     THIRD_EYE_ANTICIPATE_RATE = 839, // Adds anticipate rate in percents
+    THIRD_EYE_ANTICIPATES     = 1055,// Bonus Third Eye Anticipates (count)
+    HASSO_SEIGAN_GIFT         = 1056,// +Hasso: +Zanshin chance. Seigan: +Counter chance (1200 SAM JP Gift)
     HASSO_HASTE               = 1361,// Increases the JA haste bonus of Hasso. 10000 base, 375 = 3.75%
 
     // Ninja
@@ -584,6 +591,7 @@ enum class Mod
     BLU_ATT                   = 1356,// Modifier to BLU phys attack
     BLU_ATTP                  = 1357,// Modifier to BLU phys attack (in percents)
     BLUE_JOB_TRAIT_BONUS      = 1411,//Job traits tier +1(JP Gift)
+    BLUE_WSC_BONUS            = 1413,//WSC bonus to spells(JP Gift)
 
     // Corsair
     TRIPLE_SHOT_RATE          = 987, // The rate that triple shot can proc. Without this, the default is 40%.
@@ -1114,7 +1122,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1413 NEXT
+    // 1414 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it
