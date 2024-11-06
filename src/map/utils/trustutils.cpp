@@ -109,6 +109,7 @@ struct Trust_t
     int16 darkres;
 
     int16 shieldSize;
+    uint8 rangedSkill;
 };
 
 std::vector<Trust_t*> g_PTrustList;
@@ -176,7 +177,7 @@ void BuildTrust(uint32 TrustID)
                 mob_family_system.Wind, mob_family_system.Earth, \
                 mob_family_system.Lightning, mob_family_system.Water, \
                 mob_family_system.Light, mob_family_system.Dark, \
-                mob_pools.shieldSize \
+                mob_pools.shieldSize, mob_pools.rangedSkill \
                 FROM spell_list, mob_pools, mob_family_system WHERE spell_list.spellid = %u \
                 AND (spell_list.spellid+5000) = mob_pools.poolid AND mob_pools.familyid = mob_family_system.familyid ORDER BY spell_list.spellid";
 
@@ -245,6 +246,7 @@ void BuildTrust(uint32 TrustID)
             trust->lightres = (uint16)((Sql_GetFloatData(SqlHandle, 41) - 1) * -100);
             trust->darkres = (uint16)((Sql_GetFloatData(SqlHandle, 42) - 1) * -100);
             trust->shieldSize = (uint16)(Sql_GetUIntData(SqlHandle, 43)); // TODO: Probably turn into a member(m_shieldSize)
+            trust->rangedSkill = (uint16)(Sql_GetUIntData(SqlHandle, 44));
 
             g_PTrustList.push_back(trust);
         }
@@ -398,6 +400,8 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
 
     if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_RANGED]))
     {
+        rangedWeapon->setSubSkillType(trustData->rangedSkill);
+
         auto rangedWepDelay = 540;
         rangedWeapon->setDamage(finalDamage * 3);
         rangedWeapon->setDelay((rangedWepDelay * 1000) / 60);

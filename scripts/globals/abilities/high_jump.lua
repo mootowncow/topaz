@@ -33,6 +33,12 @@ function onUseAbility(player, target, ability, action)
     params.bonusTP = player:getMod(tpz.mod.JUMP_TP_BONUS)
     params.targetTPMult = 0
     params.hitsHigh = true
+    params.flatAttackBonus = (player:getJobPointLevel(tpz.jp.JUMP_EFFECT) * 3) + (player:getJobPointLevel(tpz.jp.HIGH_JUMP_EFFECT) * 3)
+
+    if player:hasStatusEffect(tpz.effect.FLY_HIGH) then
+        local jpBonus = player:getJobPointLevel(tpz.jp.FLY_HIGH_EFFECT) * 5
+        params.flatAttackBonus = params.flatAttackBonus + jpBonus
+    end
 
     if (target:isMob()) then
         local enmityShed = 50

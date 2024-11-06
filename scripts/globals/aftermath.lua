@@ -62,17 +62,17 @@ tpz.aftermath.effects =
     -----------------------------------
     -- Tier 1 Relic
     -----------------------------------
-    [1]  = { mods = { tpz.mod.SUBTLE_BLOW, 10 }, duration = getTier1RelicDuration }, -- Spharai
-    [2]  = { mods = { tpz.mod.CRITHITRATE, 5 }, duration = getTier1RelicDuration }, -- Mandau
-    [3]  = { mods = { tpz.mod.REGEN, 10 }, duration = getTier1RelicDuration }, -- Excalibur
-    [4]  = { mods = { tpz.mod.CRITHITRATE, 5 }, duration = getTier1RelicDuration }, -- Ragnarok
-    [5]  = { mods = { tpz.mod.ATTP, 10 }, duration = getTier1RelicDuration }, -- Guttler
+    [1]  = { mods = { tpz.mod.GUARD_PERCENT, 25 }, duration = getTier1RelicDuration }, -- Spharai
+    [2]  = { mods = { tpz.mod.DMG, -20 }, duration = getTier1RelicDuration }, -- Mandau
+    [3]  = { mods = { tpz.mod.ATTP, 25, tpz.mod.RATTP, 25 }, duration = getTier1RelicDuration }, -- Excalibur
+    [4]  = { mods = { tpz.mod.ATTP, 25, tpz.mod.RATTP, 25 }, duration = getTier1RelicDuration }, -- Ragnarok
+    [5]  = { mods = { tpz.mod.REGEN, 30 }, duration = getTier1RelicDuration, includePets = true }, -- Guttler
     [6]  = { mods = { tpz.mod.DMG, -20 }, duration = getTier1RelicDuration }, -- Bravura
     [7]  = { mods = { tpz.mod.HASTE_GEAR, 1000 }, duration = getTier1RelicDuration }, -- Apocalypse
-    [8]  = { mods = { tpz.mod.SPIKES, tpz.subEffect.SHOCK_SPIKES, tpz.mod.SPIKES_DMG, 10 }, duration = getTier1RelicDuration }, -- Gungnir
-    [9]  = { mods = { tpz.mod.SUBTLE_BLOW, 10 }, duration = getTier1RelicDuration }, -- Kikoku
-    [10] = { mods = { tpz.mod.STORETP, 7 }, duration = getTier1RelicDuration }, -- Amanomurakumo
-    [11] = { mods = { tpz.mod.ACC, 20 }, duration = getTier1RelicDuration }, -- Mjollnir
+    [8]  = { mods = { tpz.mod.DOUBLE_ATTACK, 10 }, duration = getTier1RelicDuration }, -- Gungnir
+    [9]  = { mods = { tpz.mod.CRITHITRATE, 15 }, duration = getTier1RelicDuration }, -- Kikoku
+    [10] = { mods = { tpz.mod.TP_BONUS, 1000 }, duration = getTier1RelicDuration }, -- Amanomurakumo
+    [11] = { mods = { tpz.mod.ENH_MAGIC_DURATION, 100 }, duration = getTier1RelicDuration }, -- Mjollnir
     [12] = { mods = { tpz.mod.REFRESH, 8 }, duration = getTier1RelicDuration }, -- Claustrum
     [13] = { mods = { tpz.mod.RACC, 20 }, duration = getTier1RelicDuration }, -- Yoichinoyumi
     [14] = { mods = { tpz.mod.ENMITY, -20 }, duration = getTier1RelicDuration }, -- Annihilator
@@ -80,17 +80,17 @@ tpz.aftermath.effects =
     -----------------------------------
     -- Tier 2 Relic
     -----------------------------------
-    [15] = { mods = { tpz.mod.SUBTLE_BLOW, 10, tpz.mod.KICK_ATTACK, 15 }, duration = getTier2RelicDuration }, -- Spharai
-    [16] = { mods = { tpz.mod.CRITHITRATE, 5, tpz.mod.CRIT_DMG_INCREASE, 5 }, duration = getTier2RelicDuration }, -- Mandau
-    [17] = { mods = { tpz.mod.REGEN, 30, tpz.mod.REFRESH, 3 }, duration = getTier2RelicDuration }, -- Excalibur
-    [18] = { mods = { tpz.mod.CRITHITRATE, 10, tpz.mod.ACC, 15 }, duration = getTier2RelicDuration }, -- Ragnarok
-    [19] = { mods = { tpz.mod.ATTP, 10 }, duration = getTier2RelicDuration, includePets = true }, -- Guttler
+    [15] = { mods = { tpz.mod.GUARD_PERCENT, 25, tpz.mod.KICK_ATTACK, 15 }, duration = getTier2RelicDuration }, -- Spharai
+    [16] = { mods = { tpz.mod.DMG, -20, tpz.mod.CRIT_DMG_INCREASE, 5 }, duration = getTier2RelicDuration }, -- Mandau
+    [17] = { mods = { tpz.mod.ATTP, 25, tpz.mod.RATTP, 25, tpz.mod.REFRESH, 3 }, duration = getTier2RelicDuration }, -- Excalibur
+    [18] = { mods = { tpz.mod.ATTP, 25, tpz.mod.RATTP, 25, tpz.mod.ACC, 15 }, duration = getTier2RelicDuration }, -- Ragnarok
+    [19] = { mods = { tpz.mod.REGEN, 30 }, duration = getTier2RelicDuration, includePets = true }, -- Guttler
     [20] = { mods = { tpz.mod.DMG, -20, tpz.mod.REGEN, 15 }, duration = getTier2RelicDuration }, -- Bravura
     [21] = { mods = { tpz.mod.HASTE_ABILITY, 1000, tpz.mod.ACC, 15 }, duration = getTier2RelicDuration }, -- Apocalypse
-    [22] = { mods = { tpz.mod.SPIKES, tpz.subEffect.SHOCK_SPIKES, tpz.mod.SPIKES_DMG, 10, tpz.mod.ATTP, 5, tpz.mod.DOUBLE_ATTACK, 5 }, duration = getTier2RelicDuration }, -- Gungir
-    [23] = { mods = { tpz.mod.SUBTLE_BLOW, 10, tpz.mod.ATTP, 10 }, duration = getTier2RelicDuration }, -- Kikoku
-    [24] = { mods = { tpz.mod.STORETP, 10, tpz.mod.ZANSHIN, 10 }, duration = getTier2RelicDuration }, -- Amanomurakumo
-    [25] = { mods = { tpz.mod.ACC, 20, tpz.mod.MACC, 20, tpz.mod.REFRESH, 5 }, duration = getTier2RelicDuration }, -- Mjollnir
+    [22] = { mods = { tpz.mod.DOUBLE_ATTACK, 10, tpz.mod.ATTP, 5, tpz.mod.DOUBLE_ATTACK, 5 }, duration = getTier2RelicDuration }, -- Gungir
+    [23] = { mods = { tpz.mod.SUBTLE_BLOW_II, 10, tpz.mod.CRITHITRATE, 15 }, duration = getTier2RelicDuration }, -- Kikoku
+    [24] = { mods = { tpz.mod.TP_BONUS, 1000, tpz.mod.ZANSHIN, 10 }, duration = getTier2RelicDuration }, -- Amanomurakumo
+    [25] = { mods = { tpz.mod.ENH_MAGIC_DURATION, 100, tpz.mod.MACC, 20, tpz.mod.REFRESH, 5 }, duration = getTier2RelicDuration }, -- Mjollnir
     [26] = { mods = { tpz.mod.REFRESH, 15, tpz.mod.DMG, -20 }, duration = getTier2RelicDuration }, -- Claustrum
     [27] = { mods = { tpz.mod.RACC, 30, tpz.mod.SNAP_SHOT, 5 }, duration = getTier2RelicDuration }, -- Yoichinoyumi
     [28] = { mods = { tpz.mod.ENMITY, -25, tpz.mod.RATTP, 10 }, duration = getTier2RelicDuration }, -- Annihilator

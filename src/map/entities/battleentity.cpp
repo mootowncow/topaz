@@ -338,14 +338,23 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
         WeaponDelay = weapon->getDelay() - getMod(Mod::DELAY);
         if (weapon->isHandToHand())
         {
-            WeaponDelay -= getMod(Mod::MARTIAL_ARTS) * 1000 / 60;
+            auto martialArtsBonus = getMod(Mod::MARTIAL_ARTS);
+            if (this->objtype == TYPE_PC)
+            {
+                if (auto* PChar = dynamic_cast<CCharEntity*>(this))
+                {
+                    auto jpValue = PChar->PJobPoints->GetJobPointValue(JP_PUP_MARTIAL_ARTS_EFFECT) * 2;
+                    martialArtsBonus += jpValue;
+                }
+            }
+
+            WeaponDelay -= martialArtsBonus * 1000 / 60;
         }
         if (StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
         {
             WeaponDelay = WeaponDelay * 2;
         }
-        else if (auto subweapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]); subweapon && subweapon->getDmgType() > 0 &&
-            subweapon->getDmgType() < 4)
+        else if (auto subweapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]); subweapon && subweapon->getDmgType() > 0 && subweapon->getDmgType() < 4)
         {
             MinimumDelay += subweapon->getDelay();
             WeaponDelay += subweapon->getDelay();
@@ -390,7 +399,7 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
         if (!tp)
         {
             // Cap haste at appropriate levels.
-            int16 hasteMagic = std::clamp<int16>(getMod(Mod::HASTE_MAGIC), -10000, 3500); // 35% cap -- handle 100% slow for weakness
+            int16 hasteMagic = std::clamp<int16>(getMod(Mod::HASTE_MAGIC), -10000, 4375); // 43.75% cap -- handle 100% slow for weakness
             int16 hasteAbility = std::clamp<int16>(getMod(Mod::HASTE_ABILITY), -2500, 2500); // 25% cap
             int16 hasteGear = std::clamp<int16>(getMod(Mod::HASTE_GEAR), -2500, 2500); // 25%
 
@@ -788,6 +797,7 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
 
         this->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SCARLET_DELIRIUM_1, EFFECT_SCARLET_DELIRIUM_1, scarletDmgBonus, 0, duration));
     }
+
     // Damage always breaks petrify on mobs, but not players or NPCs(trusts, campaign helpers, charmed mobs, etc)
     if (this->objtype == TYPE_MOB && !this->isCharmed)
     {
@@ -2190,6 +2200,9 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         float DamageRatio = battleutils::GetDamageRatio(PTarget, this, attack.IsCritical(), attBonus, 0);
                         auto damage = (int32)((PTarget->GetMainWeaponDmg() + naturalh2hDMG + battleutils::GetFSTR(PTarget, this, SLOT_MAIN)) * DamageRatio);
 
+                        // Add extra damage multipliers
+                        damage = battleutils::HandleExtraDamageMultipliers(PTarget, damage);
+
                         // Reduce counter damage if footwork is active to 50% for balancing reasons
                         if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
                         {
@@ -2277,6 +2290,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
 
                 // Process damage.
+                //
                 attack.ProcessDamage();
 
                 // Try shield block

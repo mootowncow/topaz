@@ -41,7 +41,6 @@ CAutomatonController::CAutomatonController(CAutomatonEntity* PPet)
     : CPetController(PPet)
     , PAutomaton(PPet)
 {
-    PPet->setInitialBurden();
     setCooldowns();
     if (isRanged())
     {

@@ -1613,7 +1613,7 @@ tpz.mod =
     REGEN_DOWN                      = 404, -- poison
     REFRESH_DOWN                    = 405, -- plague, reduce mp
     REGAIN_DOWN                     = 406, -- plague, reduce tp
-    MAGIC_DAMAGE                    = 311, --  Magic damage added directly to the spell's base damage
+    MAGIC_DAMAGE                    = 311, -- Magic damage added directly to the spell's base damage
 
     -- Gear set modifiers
     DA_DOUBLE_DAMAGE                = 408, -- Double attack's double damage chance %.
@@ -1774,6 +1774,7 @@ tpz.mod =
     SCAVENGE_EFFECT                 = 312, --
     DIA_DOT                         = 313, -- Increases the DoT damage of Dia
     SHARPSHOT                       = 314, -- Sharpshot accuracy bonus
+    TRUE_SHOT_EFFECT                = 1053,-- True Shot Ranged attack power increase inside sweet spot (percent)
     AUGMENTS_ABSORB                 = 1274, -- Direct Absorb spell increase (percentage based)
     ENH_DRAIN_ASPIR                 = 315, -- % damage boost to Drain and Aspir
     SNEAK_ATK_DEX                   = 1368, -- % DEX boost to Sneak Attack (if gear mod, needs to be equipped on hit)
@@ -2131,8 +2132,10 @@ tpz.mod =
     INT_DURING_WS           = 1408, -- Bonus INT during WS only
     MND_DURING_WS           = 1409, -- Bonus MND during WS only
     CHR_DURING_WS           = 1410, -- Bonus CHR during WS only
+    BLUE_JOB_TRAIT_BONUS    = 1411, -- Job traits tier +1(JP Gift)
+    WALTZ_COST_PERCENT      = 1412, -- Reduce Waltz cost (In percents)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1411 NEXT
+    -- 1413 NEXT
 }
 
 tpz.latent =
@@ -2896,14 +2899,14 @@ tpz.jp =
     RANDOM_DEAL_EFFECT       = jpCategory.COR + 0x06, --X 2 abil random deal +2%
     COR_RANGED_ACC_BONUS     = jpCategory.COR + 0x07, --X r.acc +1
     TRIPLE_SHOT_EFFECT       = jpCategory.COR + 0x08, --+ triple shot chance +1%
-    OPTIMAL_RANGE_BONUS      = jpCategory.COR + 0x09, --X sweet spot dmg +1
+    OPTIMAL_RANGE_BONUS      = jpCategory.COR + 0x09, --X sweet spot ranged attack +2
 
     --PUP
     OVERDRIVE_EFFECT         = jpCategory.PUP + 0x00, --+ all pet attr. +5
     HEADY_ARTIFICE_EFFECT    = jpCategory.PUP + 0x02, --X increase head effects (see wiki)
     AUTOMATON_HP_MP_BONUS    = jpCategory.PUP + 0x01, --+ pet hp+10, mp+5
     ACTIVATE_EFFECT          = jpCategory.PUP + 0x03, --+ burden -1
-    REPAIR_EFFECT            = jpCategory.PUP + 0x04, --O mp hot based on oil (see wiki)
+    REPAIR_EFFECT            = jpCategory.PUP + 0x04, --O MP Recovery based on oil (see wiki)
     DEUS_EX_AUTOMATA_RECAST  = jpCategory.PUP + 0x05, --+ recast -1s
     TACTICAL_SWITCH_BONUS    = jpCategory.PUP + 0x06, --X tp +20
     COOLDOWN_EFFECT          = jpCategory.PUP + 0x07, --O burden -1

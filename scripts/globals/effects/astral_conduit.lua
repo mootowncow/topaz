@@ -4,14 +4,16 @@
 --     
 -----------------------------------
 function onEffectGain(target, effect)
-    target:addMod(tpz.mod.BP_DELAY, 99)
-    target:addMod(tpz.mod.MPP, 100)
+    local jpValue = target:getJobPointLevel(tpz.jp.ASTRAL_CONDUIT_EFFECT)
+
+    target:addPetMod(tpz.mod.BP_DAMAGE, jpValue)
 end
 
 function onEffectTick(target, effect)
 end
 
 function onEffectLose(target, effect)
-    target:delMod(tpz.mod.BP_DELAY, 99)
-    target:delMod(tpz.mod.MPP, 100)
+    local jpValue = target:getJobPointLevel(tpz.jp.ASTRAL_CONDUIT_EFFECT)
+
+    target:delPetMod(tpz.mod.BP_DAMAGE, jpValue)
 end

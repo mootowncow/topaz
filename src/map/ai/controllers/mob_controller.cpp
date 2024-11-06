@@ -1271,7 +1271,7 @@ void CMobController::HandleEnmity()
     // TODO: do jug pets do this?
     if (PMob->objtype == TYPE_MOB && PTarget && PMob->StatusEffectContainer && PMob->PAI->IsCurrentState<CAttackState>())
     {
-        if (PMob->StatusEffectContainer->HasStatusEffect(EFFECT_BIND) || PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PALISADE))
+        if (PMob->StatusEffectContainer->HasStatusEffect(EFFECT_BIND) || (PTarget && PTarget->StatusEffectContainer && PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PALISADE)))
         {
             // ShowDebug("Mob is bound and in Attack State.\n");
             CBattleEntity* PNewTarget = nullptr;

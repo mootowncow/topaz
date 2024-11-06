@@ -51,6 +51,7 @@ function onSpellCast(caster, target, spell)
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
     params.effect = tpz.effect.MAGIC_DEF_DOWN
+    params.bonus = 125
     BlueTryEnfeeble(caster, target, spell, 1, 30, 0, 90, params)
 
     return damage

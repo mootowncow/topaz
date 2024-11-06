@@ -504,6 +504,7 @@ enum class Mod
     SHADOW_BIND_EXT           = 425, // Extends the time of shadowbind
     SCAVENGE_EFFECT           = 312, //
     SHARPSHOT                 = 314, //
+    TRUE_SHOT_EFFECT          = 1053,// True Shot Ranged attack power increase inside sweet spot (percent)
 
     // Samurai
     WARDING_CIRCLE_DURATION   = 95,  // Warding Circle extended duration in seconds
@@ -582,6 +583,7 @@ enum class Mod
     UNBRIDLED_DURATION        = 1327,// Bonus duration to Unbridled Learning spells, in percents
     BLU_ATT                   = 1356,// Modifier to BLU phys attack
     BLU_ATTP                  = 1357,// Modifier to BLU phys attack (in percents)
+    BLUE_JOB_TRAIT_BONUS      = 1411,//Job traits tier +1(JP Gift)
 
     // Corsair
     TRIPLE_SHOT_RATE          = 987, // The rate that triple shot can proc. Without this, the default is 40%.
@@ -661,7 +663,8 @@ enum class Mod
     WALTZ_DELAY               = 497, // Waltz Ability Delay modifier (-1 mod is -1 second)
     SAMBA_PDURATION           = 498, // Samba percent duration bonus
     REVERSE_FLOURISH_EFFECT   = 836, // Reverse Flourish effect in tenths of squared term multiplier
-    WALTZ_COST                = 139, // Reduce Waltz cost 
+    WALTZ_COST                = 139, // Reduce Waltz cost
+    WALTZ_COST_PERCENT        = 1412,// Reduce Waltz cost (In percents)
     STEP_COST                 = 140, // Reduce step cost
 
     // Scholar
@@ -1111,7 +1114,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1411 NEXT
+    // 1413 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

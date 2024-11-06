@@ -7,15 +7,12 @@ require("scripts/globals/magic")
 require("scripts/globals/msg")
 require("scripts/globals/status")
 -----------------------------------
-
 function onAdditionalEffect(player, target, damage)
-    local chance = 10
-
-    if math.random(100) <= chance and applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, 0) > 0.5 then
-        target:delStatusEffectSilent(tpz.effect.DEFENSE_BOOST)
-        target:addStatusEffect(tpz.effect.DEFENSE_DOWN, 17, 0, 60) -- Power and duration needs verification
-        return tpz.subEffect.DEFENSE_DOWN, tpz.msg.basic.ADD_EFFECT_STATUS, tpz.effect.DEFENSE_DOWN
-    end
-
-    return 0, 0, 0
-end
+    local chance = CalculateAdditionalEffectChance(player, 10)
+    local power = 17
+    local duration = 60
+    local subpower = 0
+    local tier = 1
+    local bonus = 100
+    return TryApplyAdditionalEffect(player, target, tpz.effect.DEFENSE_DOWN, tpz.magic.ele.WIND, power, tick, duration, subpower, tier, chance, bonus)
+ end

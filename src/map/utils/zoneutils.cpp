@@ -367,7 +367,7 @@ void LoadMOBList()
             allegiance, namevis, aggro, roamflag, mob_pools.skill_list_id, mob_pools.true_detection, mob_family_system.detects, \
             mob_family_system.charmable, \
             Amnesia, Virus, Silence, Gravity, Stun, LightSleep, Charm, Paralyze, Bind, Slow, Petrify, Terror, Poison, Darksleep, Blind, \
-            mob_pools.shieldSize \
+            mob_pools.shieldSize, mob_pools.rangedSkill \
             FROM mob_groups INNER JOIN mob_pools ON mob_groups.poolid = mob_pools.poolid \
             INNER JOIN mob_spawn_points ON mob_groups.groupid = mob_spawn_points.groupid \
             INNER JOIN mob_family_system ON mob_pools.familyid = mob_family_system.familyid \
@@ -530,6 +530,7 @@ void LoadMOBList()
                 PMob->setModifier(Mod::EEM_BLIND, (uint8)(Sql_GetUIntData(SqlHandle, 82)));
 
                 PMob->setMobMod(MOBMOD_BLOCK, Sql_GetUIntData(SqlHandle, 83)); // TODO: Probably turn into a member(m_shieldSize)
+                ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setSubSkillType(Sql_GetIntData(SqlHandle, 84));
 
                 // Overwrite base family charmables depending on mob type. Disallowed mobs which should be charmable
                 // can be set in mob_spawn_mods or in their onInitialize

@@ -1461,3 +1461,13 @@ function utils.AddDynamicMod(entity, modType, modValue)
         entity:setLocalVar("Mod_" .. modType, modValue)
     end
 end
+
+function utils.HandleExtraDamageMultipliers(attacker, damage)
+    -- Grand Pa's multiplier
+    if (attacker:hasStatusEffect(tpz.effect.GRAND_PAS)) then
+        local grandPasJpBonus = 1 + (attacker:getJobPointLevel(tpz.jp.GRAND_PAS_EFFECT) / 100)
+        damage = math.floor(damage * grandPasJpBonus)
+    end
+
+    return damage
+end

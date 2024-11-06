@@ -2150,15 +2150,6 @@ inline int32 CLuaBaseEntity::clearPath(lua_State* L)
 }
 
 /************************************************************************
-*  Function: checkDistance()
-*  Purpose : Returns the yalm distance between entities
-*  Example1: if player:checkDistance(target) <= 25 then
-*  Example2: if player:checkDistance(pos) <= 25 then
-*  Example3: if player:checkDistance(posX, posY, PosZ) <= 25 then
-*  Notes   : Example1 is an entity, the others are coordinate point inputs
-************************************************************************/
-
-/************************************************************************
  *  Function: checkDistance()
  *  Purpose : Returns the yalm distance between entities
  *  Example1: if player:checkDistance(target) <= 25 then
@@ -5992,6 +5983,7 @@ inline int32 CLuaBaseEntity::changeJob(lua_State *L)
     puppetutils::LoadAutomaton(PChar);
     charutils::SetStyleLock(PChar, false);
     luautils::CheckForGearSet(PChar); // check for gear set on gear change
+    jobpointutils::RefreshGiftMods(PChar);
     charutils::BuildingCharSkillsTable(PChar);
     charutils::CalculateStats(PChar);
     charutils::CheckValidEquipment(PChar);
@@ -6212,6 +6204,7 @@ inline int32 CLuaBaseEntity::setLevel(lua_State *L)
         blueutils::ValidateBlueSpells(PChar);
         charutils::CalculateStats(PChar);
         charutils::CheckValidEquipment(PChar);
+        jobpointutils::RefreshGiftMods(PChar);
         charutils::BuildingCharSkillsTable(PChar);
         charutils::BuildingCharAbilityTable(PChar);
         charutils::BuildingCharTraitsTable(PChar);
@@ -6260,6 +6253,7 @@ inline int32 CLuaBaseEntity::setsLevel(lua_State *L)
     PChar->jobs.exp[PChar->GetSJob()] = charutils::GetExpNEXTLevel(PChar->jobs.job[PChar->GetSJob()]) - 1;
 
     charutils::SetStyleLock(PChar, false);
+    jobpointutils::RefreshGiftMods(PChar);
     charutils::BuildingCharSkillsTable(PChar);
     charutils::CalculateStats(PChar);
     charutils::CheckValidEquipment(PChar);
@@ -6356,6 +6350,7 @@ inline int32 CLuaBaseEntity::levelRestriction(lua_State* L)
             if (PChar->status != STATUS_DISAPPEAR)
             {
                 blueutils::ValidateBlueSpells(PChar);
+                jobpointutils::RefreshGiftMods(PChar);
                 charutils::BuildingCharSkillsTable(PChar);
                 charutils::CalculateStats(PChar);
                 charutils::BuildingCharTraitsTable(PChar);
@@ -9376,6 +9371,7 @@ inline int32 CLuaBaseEntity::setSkillLevel(lua_State *L)
     PChar->RealSkills.skill[SkillID] = SkillAmount;
     PChar->WorkingSkills.skill[SkillID] = (SkillAmount / 10) * 0x20 + PChar->WorkingSkills.rank[SkillID];
 
+    jobpointutils::RefreshGiftMods(PChar);
     charutils::BuildingCharSkillsTable(PChar);
     charutils::CheckWeaponSkill(PChar, SkillID);
     charutils::SaveCharSkills(PChar, SkillID);
@@ -9448,6 +9444,7 @@ inline int32 CLuaBaseEntity::setSkillRank(lua_State *L)
     PChar->RealSkills.rank[skillID] = newrank;
     //PChar->RealSkills.skill[skillID] += 1;
 
+    jobpointutils::RefreshGiftMods(PChar);
     charutils::BuildingCharSkillsTable(PChar);
     charutils::SaveCharSkills(PChar, skillID);
     PChar->pushPacket(new CCharSkillsPacket(PChar));
@@ -11557,6 +11554,7 @@ int32 CLuaBaseEntity::recalculateStats(lua_State* L)
     if (m_PBaseEntity->objtype == TYPE_PC)
     {
         auto PChar {static_cast<CCharEntity*>(m_PBaseEntity)};
+        jobpointutils::RefreshGiftMods(PChar);
         charutils::BuildingCharSkillsTable(PChar);
         charutils::CalculateStats(PChar);
         charutils::CheckValidEquipment(PChar);
@@ -12718,6 +12716,30 @@ inline int32 CLuaBaseEntity::doWildCard(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: doCuttingCards()
+ *  Purpose : Executes the Cutting Cards two hour for a COR
+ *  Example : caster:doCuttingCards(target,total)
+ *  Notes   : Calls the DoCuttingCardsToEntity member of battleutils
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::doCuttingCards(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isuserdata(L, 1));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CCharEntity* PCaster = (CCharEntity*)m_PBaseEntity;
+    CCharEntity* PTarget = (CCharEntity*)PLuaBaseEntity->GetBaseEntity();
+
+    battleutils::DoCuttingCardsToEntity(PCaster, PTarget, (uint8)lua_tointeger(L, 2));
+    return 0;
+}
+
+/************************************************************************
  *  Function: doRandomDeal()
  *  Purpose : Executes the Wild Card two hour for a COR
  *  Example : caster:doRandomDeal(target,total)
@@ -12962,6 +12984,58 @@ inline int32 CLuaBaseEntity::addBurden(lua_State* L)
 }
 
 /************************************************************************
+ *  Function: reduceBurden()
+ *  Purpose : Reduces individual burden values based on percentage decrease
+ *  Example : master:reduceBurden(50, 20)
+ *  Notes   : Used by Cooldown ability, optional arg is static decrease
+ *            after percentage is applied.
+ ************************************************************************/
+inline int32 CLuaBaseEntity::reduceBurden(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    auto* PEntity = static_cast<CCharEntity*>(m_PBaseEntity);
+    auto* PAutomaton = dynamic_cast<CAutomatonEntity*>(PEntity->PPet);
+
+    if (!PAutomaton)
+    {
+        return 0;
+    }
+
+    float percentReduction = 0;
+    uint8 intReduction = 0;
+
+    if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
+    {
+        percentReduction = lua_tointeger(L, 1);
+    }
+
+    if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
+    {
+        intReduction = lua_tointeger(L, 2);
+    }
+
+    std::array<uint8, 8> burden = PAutomaton->getBurden();
+    int totalReduction = 0; // To keep track of the total reduction amount
+
+    for (int i = 0; i < 8; i++)
+    {
+        float reducedBurden = burden[i] * (1 - (percentReduction / 100.0)) - intReduction;
+        burden[i] = static_cast<uint8>(std::max(0.0f, reducedBurden)); // Ensure burden doesn't go below 0
+        totalReduction += (burden[i] < burden[i] * (1 - (percentReduction / 100.0)) ? (burden[i] * (1 - (percentReduction / 100.0)) - burden[i])
+                                                                                    : 0); // Calculate the actual reduction for logging
+    }
+
+    ShowDebug("Reducing burden by %f percent and %u flat.\n", percentReduction, intReduction);
+
+    PAutomaton->setBurdenArray(burden);
+    return 0;
+}
+
+
+/************************************************************************
  *  Function: isExceedingElementalCapacity()
  *  Purpose : Checks if the automaton elemental capacity is being exceeded.
  *  Example : if master:isExceedingElementalCapacity() then
@@ -13089,7 +13163,7 @@ inline int32 CLuaBaseEntity::getEVA(lua_State *L)
 *  Function: getRACC()
 *  Purpose : Calculates and returns the Ranged Accuracy of a Weapon euipped in the Ranged slot
 *  Example : player:getRACC()
-*  Notes   : To Do: The calculation is already a public member of battleentity, shouldn't have two calculations, just call (CBattleEntity*)m_PBaseEntity)->RACC and return result
+*  Notes   : 
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::getRACC(lua_State *L)
@@ -13103,18 +13177,41 @@ inline int32 CLuaBaseEntity::getRACC(lua_State *L)
         ShowDebug(CL_CYAN"lua::getRACC weapon in ranged slot is NULL!\n" CL_RESET);
         return 0;
     }
-    CBattleEntity* PEntity = (CBattleEntity*)m_PBaseEntity;
 
-    int skill = PEntity->GetSkill(weapon->getSkillType());
-    int acc = skill;
-    if (skill > 200) {
-        acc = (int)(200 + (skill - 200) * 0.9);
+    lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->RACC(weapon->getSkillType(), weapon->getILvlSkill()));
+    return 1;
+}
+
+/************************************************************************
+ *  Function: calculateSweetSpotAccuracy()
+ *  Purpose : Returns the Ranged Accuracy value of an equipped Ranged weapon
+ *  Example : attacker:CalculateSweetSpotAccuracy(defender, racc)
+ *  Notes   : Calculates ranged accuracy using battleutils CalculateSweetSpotAccuracy(PAttacker, PDefender, acc, isBluSpell)
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::calculateSweetSpotAccuracy(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+    uint16 acc = 0;
+    bool isBluSpell = false;
+
+    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+    {
+        acc = (uint16)lua_tointeger(L, 2);
     }
-    acc += PEntity->getMod(Mod::RACC);
-    acc += PEntity->AGI() / 2;
-    acc = acc + std::min<int16>(((100 + PEntity->getMod(Mod::FOOD_RACCP)) * acc / 100), PEntity->getMod(Mod::FOOD_RACC_CAP));
 
-    lua_pushinteger(L, acc);
+    if (!lua_isnil(L, 3) && lua_isboolean(L, 3))
+    {
+        isBluSpell = lua_toboolean(L, 3);
+    }
+
+    lua_pushinteger(L, battleutils::CalculateSweetSpotAccuracy(PAttacker, PDefender, acc, isBluSpell));
     return 1;
 }
 
@@ -13139,6 +13236,39 @@ inline int32 CLuaBaseEntity::getRATT(lua_State *L)
     }
 
     lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->RATT(weapon->getSkillType(), weapon->getILvlSkill()));
+    return 1;
+}
+
+/************************************************************************
+ *  Function: calculateSweetSpotAttack()
+ *  Purpose : Returns the Ranged Attack value of an equipped Ranged weapon
+ *  Example : attacker:calculateSweetSpotAttack(defender, ratt)
+ *  Notes   : Calculates attack using battleutils CalculateSweetSpotAttack(PAttacker, PDefender, rAttack, isBluSpell)
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::calculateSweetSpotAttack(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+    uint16 rAttack = 0;
+    bool isBluSpell = false;
+
+    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+    {
+        rAttack = (uint16)lua_tointeger(L, 2);
+    }
+
+    if (!lua_isnil(L, 3) && lua_isboolean(L, 3))
+    {
+        isBluSpell = lua_toboolean(L, 3);
+    }
+
+    lua_pushinteger(L, battleutils::CalculateSweetSpotAttack(PAttacker, PDefender, rAttack, isBluSpell));
     return 1;
 }
 
@@ -17686,6 +17816,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,fold),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,doWildCard),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,doCuttingCards),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,doRandomDeal),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addCorsairRoll),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasCorsairEffect),
@@ -17698,6 +17829,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,uncharm),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addBurden),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,reduceBurden),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setStatDebilitation),
 
     // Damage Calculation
@@ -17706,6 +17838,8 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEVA),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRACC),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRATT),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,calculateSweetSpotAttack),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,calculateSweetSpotAccuracy),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getILvlMacc),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isSpellAoE),

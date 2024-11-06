@@ -67,6 +67,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "packets/basic.h"
 #include "packets/char_update.h"
 #include "message.h"
+#include "job_points.h"
 
 #ifdef TRACY_ENABLE
 void* operator new(std::size_t count)
@@ -249,6 +250,7 @@ int32 do_init(int32 argc, char** argv)
     petutils::LoadPetList();
     trustutils::LoadTrustList();
     mobutils::LoadCustomMods();
+    jobpointutils::LoadGifts();
     daily::LoadDailyItems();
     roeutils::init();
 

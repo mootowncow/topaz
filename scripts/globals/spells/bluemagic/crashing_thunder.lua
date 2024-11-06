@@ -61,8 +61,5 @@ function onSpellCast(caster, target, spell)
 
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
-    params.effect = tpz.effect.PLAGUE
-    BlueTryEnfeeble(caster, target, spell, 1, 5, 3, 60, params)
-
     return damage
 end

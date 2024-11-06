@@ -19,7 +19,7 @@ end
 function onUseAbility(player, target, ability, action)
     -- Only remove TP if the player doesn't have Trance.
     if not player:hasStatusEffect(tpz.effect.TRANCE) then
-        player:delTP(50)
+        player:delTP(ability:getTPCost())
     end
 
     local hit = 1

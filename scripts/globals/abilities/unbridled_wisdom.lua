@@ -14,5 +14,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    target:addStatusEffect(tpz.effect.UNBRIDLED_WISDOM, 16, 1, 30)
+    target:addStatusEffect(tpz.effect.UNBRIDLED_WISDOM, 16, 0, 30)
 end

@@ -341,7 +341,19 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
     actionTarget_t& actionTarget = actionList.getNewActionTarget();
     actionTarget.reaction = REACTION_HIT;		//0x10
     actionTarget.speceffect = SPECEFFECT_HIT;		//0x60 (SPECEFFECT_HIT + SPECEFFECT_RECOIL)
-    actionTarget.messageID = 352;
+    if (battleutils::IsInRangedSweetSpot(this, PTarget))
+    {
+        actionTarget.messageID = MSGBASIC_RANGED_TRUE;
+    }
+    else if (battleutils::IsCloseToRangedSweetSpot(this, PTarget))
+    {
+        actionTarget.messageID = MSGBASIC_RANGED_SQUARELY;
+    }
+    else
+    {
+        actionTarget.messageID = MSGBASIC_RANGED_HIT;
+    }
+
 
     /*
     CItemWeapon* PItem = (CItemWeapon*)this->getEquip(SLOT_RANGED);
@@ -419,7 +431,7 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
                 if (isCritical)
                 {
                     actionTarget.speceffect = SPECEFFECT_CRITICAL_HIT;
-                    actionTarget.messageID = 353;
+                    actionTarget.messageID = MSGBASIC_RANGED_CRIT;
                 }
 
                 // at least 1 hit occured
@@ -446,7 +458,7 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
             damage = 0;
             actionTarget.reaction = REACTION_EVADE;
             actionTarget.speceffect = SPECEFFECT_NONE;
-            actionTarget.messageID = 354;
+            actionTarget.messageID = MSGBASIC_RANGED_MISS;
             hitCount = i; // end barrage, shot missed
         }
         /*
@@ -489,9 +501,20 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
         // any misses with barrage cause remaing shots to miss, meaning we must check Action.reaction
         if (actionTarget.reaction == REACTION_EVADE && (this->StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE)))
         {
-            actionTarget.messageID = 352;
             actionTarget.reaction = REACTION_HIT;
             actionTarget.speceffect = SPECEFFECT_CRITICAL_HIT;
+            if (battleutils::IsInRangedSweetSpot(this, PTarget))
+            {
+                actionTarget.messageID = MSGBASIC_RANGED_TRUE;
+            }
+            else if (battleutils::IsCloseToRangedSweetSpot(this, PTarget))
+            {
+                actionTarget.messageID = MSGBASIC_RANGED_SQUARELY;
+            }
+            else
+            {
+                actionTarget.messageID = MSGBASIC_RANGED_HIT;
+            }
         }
 
         actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);

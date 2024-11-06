@@ -13,7 +13,7 @@ function onAdditionalEffect(player, target, damage)
     local duration = 60
     local subpower = 0
     local tier = 1
-    local bonus = 0
+    local bonus = 100
     return TryApplyAdditionalEffect(player, target, tpz.effect.ATTACK_DOWN, tpz.magic.ele.WATER, power, tick, duration, subpower, tier, chance, bonus)
  end
 
