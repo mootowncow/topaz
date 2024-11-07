@@ -541,6 +541,7 @@ namespace petutils
         if (PMob->PMaster != nullptr)
         {
             jpBonus = PMob->PMaster->getMod(Mod::PET_ATTR_BONUS);
+            PMob->addModifier(Mod::TP_BONUS, PMob->PMaster->getMod(Mod::PET_TP_BONUS));
         }
 
         PMob->stats.STR = (uint16)((fSTR + mSTR) * 0.9f) + jpBonus;

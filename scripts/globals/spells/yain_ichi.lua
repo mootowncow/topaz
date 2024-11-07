@@ -12,7 +12,7 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local duration = 300 * (1 + (caster:getMod(tpz.mod.NINJUTSU_DURATION) / 100))
+    local duration = calculateDuration(300, spell:getSkillType(), spell:getSpellGroup(), caster, target)
 
     caster:delStatusEffectSilent(tpz.effect.ENMITY_BOOST)
     caster:addStatusEffect(tpz.effect.PAX, 15, 0, duration)

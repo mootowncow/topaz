@@ -892,7 +892,7 @@ INSERT INTO `job_point_gifts` VALUES (14, 55, 915, 9, 'DRG_Capacity Point Bonus'
 INSERT INTO `job_point_gifts` VALUES (14, 60, 30, 5, 'DRG_Magic Accuracy Bonus');
 INSERT INTO `job_point_gifts` VALUES (14, 80, 421, 2, 'DRG_Critical Damage Bonus');
 INSERT INTO `job_point_gifts` VALUES (14, 95, 915, 11, 'DRG_Capacity Point Bonus');
-INSERT INTO `job_point_gifts` VALUES (14, 100, 1056, 1, 'DRG_Wyvern Attribute Increase Effect');
+INSERT INTO `job_point_gifts` VALUES (14, 100, 1333, 1, 'DRG_Wyvern Attribute Increase Effect');
 INSERT INTO `job_point_gifts` VALUES (14, 5, 997, 1, 'DRG_Superior 2');
 INSERT INTO `job_point_gifts` VALUES (14, 125, 991, 10, 'DRG_Wyvern Phys. Acc. and Eva. Bonus');
 INSERT INTO `job_point_gifts` VALUES (14, 145, 915, 13, 'DRG_Capacity Point Bonus');
@@ -931,7 +931,7 @@ INSERT INTO `job_point_gifts` VALUES (14, 1045, 915, 31, 'DRG_Capacity Point Bon
 INSERT INTO `job_point_gifts` VALUES (14, 1050, 991, 20, 'DRG_Wyvern Phys. Acc. and Eva. Bonus');
 INSERT INTO `job_point_gifts` VALUES (14, 1125, 993, 20, 'DRG_Wyvern Mag. Acc. and Eva. Bonus');
 INSERT INTO `job_point_gifts` VALUES (14, 1195, 915, 33, 'DRG_Capacity Point Bonus');
-INSERT INTO `job_point_gifts` VALUES (14, 1200, 1056, 2, 'DRG_Wyvern Attribute Increase Effect');
+INSERT INTO `job_point_gifts` VALUES (14, 1200, 1333, 2, 'DRG_Wyvern Attribute Increase Effect');
 INSERT INTO `job_point_gifts` VALUES (14, 1200, 997, 1, 'DRG_Superior 4');
 INSERT INTO `job_point_gifts` VALUES (14, 1280, 1, 25, 'DRG_Physical Defense Bonus');
 INSERT INTO `job_point_gifts` VALUES (14, 1355, 915, 35, 'DRG_Capacity Point Bonus');
@@ -979,7 +979,7 @@ INSERT INTO `job_point_gifts` VALUES (15, 450, 993, 15, 'SMN_Avatar/Spirit Mac. 
 INSERT INTO `job_point_gifts` VALUES (15, 500, 117, 8, 'SMN_Summoning Magic Skill Bonus');
 INSERT INTO `job_point_gifts` VALUES (15, 500, 997, 1, 'SMN_Superior 3');
 INSERT INTO `job_point_gifts` VALUES (15, 545, 915, 23, 'SMN_Capacity Point Bonus');
-INSERT INTO `job_point_gifts` VALUES (15, 550, 958, 1, 'SMN_Avatar\'s Favor Effect');
+INSERT INTO `job_point_gifts` VALUES (15, 550, 958, 10, 'SMN_Avatar\'s Favor Effect');
 INSERT INTO `job_point_gifts` VALUES (15, 605, 29, 6, 'SMN_Magic Defense Bonus');
 INSERT INTO `job_point_gifts` VALUES (15, 655, 915, 25, 'SMN_Capacity Point Bonus');
 INSERT INTO `job_point_gifts` VALUES (15, 660, 31, 6, 'SMN_Magic Evasion Bonus');

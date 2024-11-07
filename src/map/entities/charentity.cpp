@@ -1647,6 +1647,11 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast -= (PJobPoints->GetJobPointValue(JP_DEUS_EX_AUTOMATA_RECAST) * 10);
         }
 
+        if (PAbility->getID() == ABILITY_RESTORING_BREATH || PAbility->getID() == ABILITY_SMITING_BREATH)
+        {
+            action.recast -= getMod(Mod::DRAGOON_BREATH_RECAST);
+        }
+
         if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR || PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR_TWO)
         {
             action.recast -= getMod(Mod::ONE_HOUR_RECAST) * 100;

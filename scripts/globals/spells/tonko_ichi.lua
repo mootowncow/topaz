@@ -12,7 +12,7 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local duration = 420 * (1 + (caster:getMod(tpz.mod.NINJUTSU_DURATION) / 100))
+    local duration = calculateDuration(420, spell:getSkillType(), spell:getSpellGroup(), caster, target)
 
     if (not target:hasStatusEffect(tpz.effect.INVISIBLE)) then
         target:addStatusEffect(tpz.effect.INVISIBLE, 0, 10, math.floor(duration * SNEAK_INVIS_DURATION_MULTIPLIER))

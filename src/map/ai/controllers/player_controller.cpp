@@ -1203,6 +1203,11 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     recast -= (PChar->PJobPoints->GetJobPointValue(JP_DEUS_EX_AUTOMATA_RECAST) * 10);
                 }
 
+                if (PAbility->getID() == ABILITY_RESTORING_BREATH || PAbility->getID() == ABILITY_SMITING_BREATH)
+                {
+                    recast -= PChar->getMod(Mod::DRAGOON_BREATH_RECAST);
+                }
+
                 PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), recast);
             }
             PChar->pushPacket(new CCharRecastPacket(PChar));

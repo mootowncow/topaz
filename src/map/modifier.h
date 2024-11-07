@@ -569,6 +569,7 @@ enum class Mod
     BP_DAMAGE                 = 126, // Blood Pact: Rage Damage increase percentage
     BP_BURST_DAMAGE           = 1257, // Blood Pact: Rage magic burst damage increase percentage.
     BLOOD_BOON                = 913, // Occasionally cuts down MP cost of Blood Pact abilities. Does not affect abilities that require Astral Flow.
+    AVATAR_FAVOR_BONUS        = 1414,// Increases the effect of avatars favor (percent)
     // Absorb dmg to MP (Evoker's Bracers, Lyft Claymore, etc)
     FIRE_ABSORB_TO_MP          = 1459,  // Occasionally absorbs fire elemental damage to MP, in percents
     ICE_ABSORB_TO_MP           = 1460,  // Occasionally absorbs ice elemental damage to MP, in percents
@@ -1122,7 +1123,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1414 NEXT
+    // 1415 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

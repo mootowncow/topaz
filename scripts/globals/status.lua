@@ -2141,8 +2141,9 @@ tpz.mod =
     BLUE_JOB_TRAIT_BONUS    = 1411, -- Job traits tier +1(JP Gift)
     WALTZ_COST_PERCENT      = 1412, -- Reduce Waltz cost (In percents)
     BLUE_WSC_BONUS          = 1413, -- WSC bonus to spells(JP Gift)
+    AVATAR_FAVOR_BONUS      = 1414, -- Increases the effect of avatars favor (percent)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1414 NEXT
+    -- 1415 NEXT
 }
 
 tpz.latent =

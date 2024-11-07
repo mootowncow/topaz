@@ -3666,7 +3666,7 @@ end
 function calculateDuration(duration, magicSkill, spellGroup, caster, target, useComposure)
     local casterJob = caster:getMainJob()
 
-    if magicSkill == tpz.skill.ENHANCING_MAGIC then -- Enhancing Magic
+    if magicSkill == tpz.skill.ENHANCING_MAGIC then
         -- Gear mods
         duration = duration + duration * caster:getMod(tpz.mod.ENH_MAGIC_DURATION) / 100
 
@@ -3687,7 +3687,7 @@ function calculateDuration(duration, magicSkill, spellGroup, caster, target, use
         if caster:hasStatusEffect(tpz.effect.PERPETUANCE) and spellGroup == tpz.magic.spellGroup.WHITE then
             duration  = duration * 2
         end
-    elseif magicSkill == tpz.skill.ENFEEBLING_MAGIC then -- Enfeebling Magic
+    elseif magicSkill == tpz.skill.ENFEEBLING_MAGIC then 
         -- Gear mods
         duration = duration + duration * caster:getMod(tpz.mod.ENFEEB_MAGIC_DURATION) / 100
 
@@ -3715,6 +3715,8 @@ function calculateDuration(duration, magicSkill, spellGroup, caster, target, use
         end
     elseif magicSkill == tpz.skill.DARK_MAGIC then
         duration = duration * (1 + (caster:getMod(tpz.mod.DARK_MAGIC_DURATION) / 100))
+    elseif magicSkill == tpz.skill.NINJUTSU then
+        duration = duration * (1 + (caster:getMod(tpz.mod.NINJUTSU_DURATION) / 100))
     end
 
     return math.floor(duration)
