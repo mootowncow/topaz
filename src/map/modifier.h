@@ -363,10 +363,11 @@ enum class Mod
     BERSERK_DURATION          = 954, // Berserk Duration
     AGGRESSOR_DURATION        = 955, // Aggressor Duration
     DEFENDER_DURATION         = 956, // Defender Duration
-    DEFENDER_POTENCY          = 1304, // Increases defender defense bonus, in percents
-    RETALIATION               = 414,  // Increases damage of Retaliation hits
-    BLOOD_RAGE_POTENCY        = 1308, // Increases Blood Rage healing received bonus, in percents
+    DEFENDER_POTENCY          = 1304,// Increases defender defense bonus, in percents
+    RETALIATION               = 414, // Increases damage of Retaliation hits
+    BLOOD_RAGE_POTENCY        = 1308,// Increases Blood Rage healing received bonus, in percents
     ENHANCES_RESTRAINT        = 988, // Enhances "Restraint" effect/"Restraint" + (Increases the damage bonus of Restraint by XXX%)
+
     // Monk
     BOOST_EFFECT              = 97,  // Boost power in tenths
     CHAKRA_MULT               = 123, // Chakra multiplier increase (from gear)
@@ -659,8 +660,10 @@ enum class Mod
     AUTO_EQUALIZER            = 941, // Reduces damage received according to damage taken
     AUTO_PERFORMANCE_BOOST    = 942, // Increases the performance of other attachments by a percentage
     AUTO_ANALYZER             = 943, // Causes the Automaton to mitigate damage from a special attack a number of times
+    AUTO_ELEM_CAPACITY        = 1415,// Increases the automaton's elemental capacity for attachments
     AUTO_LVL_BONUS            = 1349,// Automaton: Lv.+ (Increases Automatons's base level above 99
     TRANQUIL_HEART            = 1369,// Grants the bonuses based on currently summoned Automaton
+
     // Dancer
     FINISHING_MOVES           = 333, // Tracks # of finishing moves
     SAMBA_DURATION            = 490, // Samba duration bonus
@@ -675,6 +678,7 @@ enum class Mod
     WALTZ_COST                = 139, // Reduce Waltz cost
     WALTZ_COST_PERCENT        = 1412,// Reduce Waltz cost (In percents)
     STEP_COST                 = 140, // Reduce step cost
+    MAX_FINISHING_MOVES       = 1416,// Increases the maximum number of finishing moves that may be stored
 
     // Scholar
     BLACK_MAGIC_COST          = 393, // MP cost for black magic (light/dark arts)
@@ -695,6 +699,7 @@ enum class Mod
     STORMSURGE_EFFECT         = 400, //
     SUBLIMATION_BONUS         = 401, //
     GRIMOIRE_SPELLCASTING     = 489, // "Grimoire: Reduces spellcasting time" bonus
+    STRATAGEM_RECAST          = 1417,// Reduces the recast time of stratagems (seconds)
 
     // Geo
     CARDINAL_CHANT            = 1001,
@@ -1123,7 +1128,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1415 NEXT
+    // 1418 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

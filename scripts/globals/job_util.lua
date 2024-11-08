@@ -101,3 +101,43 @@ function jobUtil.CalculateQd(player, target, ability, element, action, params)
 
     return dmg
 end
+
+function jobUtil.HandleFinishingMoves(player, daze)
+    -- Get the maximum finishing move cap from the player's mod.
+    local maxFinishingMoves = player:getMod(tpz.mod.MAX_FINISHING_MOVES)
+    local maxCap = 5 + maxFinishingMoves -- Default cap is 5, increased by the mod.
+
+    -- Check for the highest finishing move effect the player currently has.
+    local currentFinishingMove = 0
+
+    -- Check for the current finishing move level, including FINISHING_MOVE_6.
+    if player:hasStatusEffect(tpz.effect.FINISHING_MOVE_6) then
+        currentFinishingMove = player:getStatusEffect(tpz.effect.FINISHING_MOVE_6):getPower() -- Get the power representing the number of moves.
+        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_6)
+    else
+        -- Check from highest to lowest for FINISHING_MOVE_1 to FINISHING_MOVE_5.
+        for i = tpz.effect.FINISHING_MOVE_5, tpz.effect.FINISHING_MOVE_1, -1 do
+            if player:hasStatusEffect(i) then
+                currentFinishingMove = i - tpz.effect.FINISHING_MOVE_1 + 1 -- Convert to numerical count (1-5).
+                player:delStatusEffectSilent(i)
+                break
+            end
+        end
+    end
+
+    -- Determine the new finishing move count.
+    local newFinishingMoveCount = currentFinishingMove + daze
+
+    -- Cap the new count at the calculated maximum (default 5, or higher if modified).
+    if newFinishingMoveCount > maxCap then
+        newFinishingMoveCount = maxCap
+    end
+
+    -- Apply the appropriate effect based on the new count.
+    if newFinishingMoveCount <= 5 then
+        player:addStatusEffect(tpz.effect.FINISHING_MOVE_1 + (newFinishingMoveCount - 1), 1, 0, 7200)
+    else
+        -- Use FINISHING_MOVE_6 with power representing 6-9 moves.
+        player:addStatusEffect(tpz.effect.FINISHING_MOVE_6, newFinishingMoveCount, 0, 7200)
+    end
+end

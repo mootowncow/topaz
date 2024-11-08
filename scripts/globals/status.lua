@@ -2142,8 +2142,11 @@ tpz.mod =
     WALTZ_COST_PERCENT      = 1412, -- Reduce Waltz cost (In percents)
     BLUE_WSC_BONUS          = 1413, -- WSC bonus to spells(JP Gift)
     AVATAR_FAVOR_BONUS      = 1414, -- Increases the effect of avatars favor (percent)
+    AUTO_ELEM_CAPACITY      = 1415, -- Increases the automaton's elemental capacity for attachments
+    MAX_FINISHING_MOVES     = 1416, -- Increases the maximum number of finishing moves that may be stored
+    STRATAGEM_RECAST        = 1417, -- Reduces the recast time of stratagems (seconds)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1415 NEXT
+    -- 1418 NEXT
 }
 
 tpz.latent =

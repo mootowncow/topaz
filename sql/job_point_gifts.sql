@@ -1113,7 +1113,7 @@ INSERT INTO `job_point_gifts` VALUES (17, 450, 305, 2, 'COR_Reduced Ammunition C
 INSERT INTO `job_point_gifts` VALUES (17, 500, 997, 1, 'COR_Superior 3');
 INSERT INTO `job_point_gifts` VALUES (17, 500, 1053, 2, 'COR_True Shot Effect');
 INSERT INTO `job_point_gifts` VALUES (17, 545, 915, 23, 'COR_Capacity Point Bonus');
-INSERT INTO `job_point_gifts` VALUES (17, 550, 1060, 10, 'COR_Quick Draw Delay');
+INSERT INTO `job_point_gifts` VALUES (17, 550, 1374, 10, 'COR_Quick Draw Delay');
 INSERT INTO `job_point_gifts` VALUES (17, 605, 1, 6, 'COR_Physical Defense Bonus');
 INSERT INTO `job_point_gifts` VALUES (17, 655, 915, 25, 'COR_Capacity Point Bonus');
 INSERT INTO `job_point_gifts` VALUES (17, 660, 23, 10, 'COR_Attack Bonus');
@@ -1160,7 +1160,7 @@ INSERT INTO `job_point_gifts` VALUES (18, 55, 915, 9, 'PUP_Capacity Point Bonus'
 INSERT INTO `job_point_gifts` VALUES (18, 60, 990, 15, 'PUP_Automaton Physical Attack and Defense Bonus');
 INSERT INTO `job_point_gifts` VALUES (18, 80, 991, 10, 'PUP_Automaton Physical Accuracy and Physical Evasion Bonus');
 INSERT INTO `job_point_gifts` VALUES (18, 95, 915, 11, 'PUP_Capacity Point Bonus');
-INSERT INTO `job_point_gifts` VALUES (18, 100, 987, 2, 'PUP_Automaton Elemental Capacity Bonus');
+INSERT INTO `job_point_gifts` VALUES (18, 100, 1415, 2, 'PUP_Automaton Elemental Capacity Bonus');
 INSERT INTO `job_point_gifts` VALUES (18, 100, 997, 1, 'PUP_Superior 2');
 INSERT INTO `job_point_gifts` VALUES (18, 125, 992, 5, 'PUP_Automaton Mag. Atk. and Def. Bonus');
 INSERT INTO `job_point_gifts` VALUES (18, 145, 915, 13, 'PUP_Capacity Point Bonus');
@@ -1200,7 +1200,7 @@ INSERT INTO `job_point_gifts` VALUES (18, 1050, 992, 10, 'PUP_Automation Mag. At
 INSERT INTO `job_point_gifts` VALUES (18, 1125, 993, 20, 'PUP_Automation Mag. Acc. and Eva. Bonus');
 INSERT INTO `job_point_gifts` VALUES (18, 1195, 915, 33, 'PUP_Capacity Point Bonus');
 INSERT INTO `job_point_gifts` VALUES (18, 1200, 997, 1, 'PUP_Superior 4');
-INSERT INTO `job_point_gifts` VALUES (18, 1200, 987, 2, 'PUP_Automation Elemental Capacity Bonus');
+INSERT INTO `job_point_gifts` VALUES (18, 1200, 1415, 2, 'PUP_Automation Elemental Capacity Bonus');
 INSERT INTO `job_point_gifts` VALUES (18, 1280, 23, 15, 'PUP_Attack Bonus');
 INSERT INTO `job_point_gifts` VALUES (18, 1280, 24, 15, 'PUP_Ranged Attack Bonus');
 INSERT INTO `job_point_gifts` VALUES (18, 1355, 915, 35, 'PUP_Capacity Point Bonus');
@@ -1230,7 +1230,7 @@ INSERT INTO `job_point_gifts` VALUES (19, 60, 30, 5, 'DNC_Magic Accuracy Bonus')
 INSERT INTO `job_point_gifts` VALUES (19, 80, 289, 3, 'DNC_"Subtle Blow" Effect Bonus');
 INSERT INTO `job_point_gifts` VALUES (19, 95, 915, 11, 'DNC_Capacity Point Bonus');
 INSERT INTO `job_point_gifts` VALUES (19, 100, 997, 1, 'DNC_Superior 2');
-INSERT INTO `job_point_gifts` VALUES (19, 100, 988, 2, 'DNC_Maximum Finishing Moves Bonus');
+INSERT INTO `job_point_gifts` VALUES (19, 100, 1416, 2, 'DNC_Maximum Finishing Moves Bonus');
 INSERT INTO `job_point_gifts` VALUES (19, 125, 421, 2, 'DNC_Critical Damage Bonus');
 INSERT INTO `job_point_gifts` VALUES (19, 145, 915, 13, 'DNC_Capacity Point Bonus');
 INSERT INTO `job_point_gifts` VALUES (19, 150, 174, 2, 'DNC_Skillchain Bonus');
@@ -1269,7 +1269,7 @@ INSERT INTO `job_point_gifts` VALUES (19, 1050, 421, 2, 'DNC_Critical Damage Bon
 INSERT INTO `job_point_gifts` VALUES (19, 1125, 174, 2, 'DNC_Skillchain Bonus');
 INSERT INTO `job_point_gifts` VALUES (19, 1195, 915, 33, 'DNC_Capacity Point Bonus');
 INSERT INTO `job_point_gifts` VALUES (19, 1200, 997, 1, 'DNC_Superior 4');
-INSERT INTO `job_point_gifts` VALUES (19, 1200, 988, 2, 'DNC_Maximum Finishing Moves Bonus');
+INSERT INTO `job_point_gifts` VALUES (19, 1200, 1416, 2, 'DNC_Maximum Finishing Moves Bonus');
 INSERT INTO `job_point_gifts` VALUES (19, 1280, 1, 15, 'DNC_Physical Defense Bonus');
 INSERT INTO `job_point_gifts` VALUES (19, 1355, 915, 35, 'DNC_Capacity Point Bonus');
 INSERT INTO `job_point_gifts` VALUES (19, 1360, 23, 15, 'DNC_Attack Bonus');
@@ -1315,7 +1315,7 @@ INSERT INTO `job_point_gifts` VALUES (20, 450, 112, 8, 'SCH_Healing Magic Skill 
 INSERT INTO `job_point_gifts` VALUES (20, 500, 997, 1, 'SCH_Superior 3');
 INSERT INTO `job_point_gifts` VALUES (20, 500, 487, 3, 'SCH_Magic Burst Damage Bonus');
 INSERT INTO `job_point_gifts` VALUES (20, 545, 915, 23, 'SCH_Capacity Point Bonus');
-INSERT INTO `job_point_gifts` VALUES (20, 550, 987, 15, 'SCH_Stratagem Recast Time');
+INSERT INTO `job_point_gifts` VALUES (20, 550, 1417, 15, 'SCH_Stratagem Recast Time');
 INSERT INTO `job_point_gifts` VALUES (20, 605, 29, 6, 'SCH_Magic Defense Bonus');
 INSERT INTO `job_point_gifts` VALUES (20, 655, 915, 25, 'SCH_Capacity Point Bonus');
 INSERT INTO `job_point_gifts` VALUES (20, 660, 28, 10, 'SCH_Magic Attack Bonus');

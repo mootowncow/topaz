@@ -92,6 +92,9 @@ void LoadAutomaton(CCharEntity* PChar)
                     PChar->PAutomaton->m_ElementEquip[i] = 0;
             }
 
+            // Add the elemental bonus before we set the head and frame
+            PChar->PAutomaton->setElementalCapacityBonus(PChar->getMod(Mod::AUTO_ELEM_CAPACITY));
+
             setHead(PChar,tempEquip.Head);
             setFrame(PChar, tempEquip.Frame);
             LoadAutomatonStats(PChar);

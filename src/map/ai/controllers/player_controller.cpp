@@ -1109,6 +1109,11 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     recast = charge->chargeTime * PAbility->getRecastTime() - PChar->PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SIC_RECAST, PChar);
                 }
 
+                if (PAbility->isStratagem())
+                {
+                    recast = charge->chargeTime * PAbility->getRecastTime() - PChar->getMod(Mod::STRATAGEM_RECAST);
+                }
+
                 // Halve Chakra cooldown if the player has Boost
                 if (PAbility->getID() == ABILITY_CHAKRA)
                 {
