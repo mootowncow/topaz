@@ -3641,6 +3641,20 @@ function getAbsorbSpellPower(caster)
     return totalPower
 end
 
+function getRegenPotency(caster, target, base)
+    local power = math.ceil(base * (1 + 0.01 * caster:getMod(tpz.mod.REGEN_MULTIPLIER)))
+    power = power + caster:getMerit(tpz.merit.REGEN_EFFECT) -- bonus hp from merits
+
+    if caster:getMainJob() == tpz.job.SCH then
+        power = power + caster:getMod(tpz.mod.LIGHT_ARTS_REGEN) -- bonus hp from light arts
+    end
+
+    power = power + caster:getMod(tpz.mod.REGEN_BONUS) -- JP Gift
+
+    --printf("Regen power %d", power)
+    return power
+end
+
 function calculateDurationForLvl(duration, spellLvl, targetLvl)
     if (targetLvl < spellLvl) then
         return duration * targetLvl / spellLvl

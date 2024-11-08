@@ -1661,7 +1661,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         {
             if (PAbility->getRecastTime() == 7200) // Only lower the recast of "Real" 2 hour abilities
             {
-                action.recast -= getMod(Mod::ONE_HOUR_RECAST) * 100;
+                action.recast -= getMod(Mod::ONE_HOUR_RECAST) * 60; // Adjust recast by 1 minute (60 seconds) per mod value
             }
         }
 

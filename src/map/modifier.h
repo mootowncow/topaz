@@ -429,7 +429,7 @@ enum class Mod
     GILFINDER                 = 897, // Gilfinder, duh
     TP_GAIN_ON_EVADE          = 1305,// Gain TP upon a successful evade
     TH_MAX                    = 1364,// Max TH level the entity can play. THF job gifts.
-    TH_PROC_CHANCE            = 1365,// Bonus proc chance to Treasure Hunter procs. THF job gifts.
+    TH_PROC_CHANCE            = 1365,// Bonus proc chance to Treasure Hunter procs. THF job gifts. (i.e. 23 makes TH proc * 1.23%)
 
     // Paladin
     HOLY_CIRCLE_DURATION      = 857, // Holy Circle extended duration in seconds
