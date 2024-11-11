@@ -477,7 +477,11 @@ bool CAttack::CheckAnticipated()
         }
 
         // Check for counter chance (still happens only if Seigan is active)
-        if (hasSeigan && tpzrand::GetRandomNumber(100) < 25 + m_victim->getMod(Mod::THIRD_EYE_COUNTER_RATE) + m_victim->getMod(Mod::HASSO_SEIGAN_GIFT))
+        // Base chance is 25% https://www.bg-wiki.com/ffxi/Seigan
+        uint16 counterChance = 25;
+        counterChance += m_victim->getMod(Mod::THIRD_EYE_COUNTER_RATE); // Add Mod
+
+        if (hasSeigan && tpzrand::GetRandomNumber(100) < counterChance)
         {
             if (!m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
             {

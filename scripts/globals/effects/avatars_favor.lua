@@ -6,8 +6,13 @@
 require("scripts/globals/status")
 
 function onEffectGain(target, effect)
-    local modBonus = 1 + (target:getMod(tpz.mod.AVATAR_FAVOR_BONUS) / 100)
+    local master = target:getMaster()
+    local modBonus = 1
+    if master then
+        modBonus = modBonus + (master:getMod(tpz.mod.AVATAR_FAVOR_BONUS) / 100)
+    end
 
+    printf("Mod bonus %f", modBonus)
     if not target:isPC() then
         target:setLocalVar("avatarsFavor", 1)
         target:addMod(tpz.mod.HASTE_MAGIC, 1500 * modBonus)
@@ -25,8 +30,13 @@ function onEffectTick(target, effect)
 end
 
 function onEffectLose(target, effect)
-    local modBonus = 1 + (target:getMod(tpz.mod.AVATAR_FAVOR_BONUS) / 100)
+    local master = target:getMaster()
+    local modBonus = 1
+    if master then
+        modBonus = modBonus + (master:getMod(tpz.mod.AVATAR_FAVOR_BONUS) / 100)
+    end
 
+    printf("Mod bonus %f", modBonus)
     if not target:isPC() then
         if target:getLocalVar("avatarsFavor") ~= 0 then
             target:setLocalVar("avatarsFavor", 0)
