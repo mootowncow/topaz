@@ -1109,6 +1109,11 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     recast = charge->chargeTime * PAbility->getRecastTime() - PChar->PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SIC_RECAST, PChar);
                 }
 
+                if (PAbility->isStratagem())
+                {
+                    recast = charge->chargeTime * PAbility->getRecastTime() - PChar->getMod(Mod::STRATAGEM_RECAST);
+                }
+
                 // Halve Chakra cooldown if the player has Boost
                 if (PAbility->getID() == ABILITY_CHAKRA)
                 {
@@ -1201,6 +1206,11 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 if (PAbility->getID() == ABILITY_DEUX_EX_AUTOMATA)
                 {
                     recast -= (PChar->PJobPoints->GetJobPointValue(JP_DEUS_EX_AUTOMATA_RECAST) * 10);
+                }
+
+                if (PAbility->getID() == ABILITY_RESTORING_BREATH || PAbility->getID() == ABILITY_SMITING_BREATH)
+                {
+                    recast -= PChar->getMod(Mod::DRAGOON_BREATH_RECAST);
                 }
 
                 PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), recast);

@@ -503,7 +503,6 @@ namespace petutils
             {
                 if (PMaster->GetMJob() == JOBTYPE::JOB_BST)
                 {
-
                     CCharEntity* PChar = static_cast<CCharEntity*>(PMaster);
                     uint16 jpValue = PChar->PJobPoints->GetJobPointValue(JP_PET_ACC_BONUS);
                     PMob->addModifier(Mod::ACC, PChar->PJobPoints->GetJobPointValue(JP_PET_ACC_BONUS));
@@ -538,9 +537,11 @@ namespace petutils
 
         // Add JP gift bonuses
         uint16 jpBonus = 0;
-        if (PMob->PMaster != nullptr)
+        uint16 giftTPBonus = 0;
+        if (PMaster != nullptr)
         {
-            jpBonus = PMob->PMaster->getMod(Mod::PET_ATTR_BONUS);
+            jpBonus = PMaster->getMod(Mod::PET_ATTR_BONUS);
+            giftTPBonus = PMaster->getMod(Mod::PET_TP_BONUS);
         }
 
         PMob->stats.STR = (uint16)((fSTR + mSTR) * 0.9f) + jpBonus;
@@ -550,6 +551,7 @@ namespace petutils
         PMob->stats.INT = (uint16)((fINT + mINT) * 0.9f) + jpBonus;
         PMob->stats.MND = (uint16)((fMND + mMND) * 0.9f) + jpBonus;
         PMob->stats.CHR = (uint16)((fCHR + mCHR) * 0.9f) + jpBonus;
+        PMob->addModifier(Mod::TP_BONUS, giftTPBonus);
 
     }
 
@@ -1499,6 +1501,7 @@ namespace petutils
     void SpawnPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
     {
         TPZ_DEBUG_BREAK_IF(PMaster->PPet != nullptr);
+
         if (PMaster->objtype == TYPE_PC && (PetID == PETID_HARLEQUINFRAME || PetID == PETID_VALOREDGEFRAME || PetID == PETID_SHARPSHOTFRAME || PetID == PETID_STORMWAKERFRAME))
         {
             puppetutils::LoadAutomaton(static_cast<CCharEntity*>(PMaster));

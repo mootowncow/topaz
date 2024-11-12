@@ -1536,6 +1536,11 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast = charge->chargeTime * PAbility->getRecastTime() - PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SIC_RECAST, this);
         }
 
+        if (PAbility->isStratagem())
+        {
+            action.recast = charge->chargeTime * PAbility->getRecastTime() - getMod(Mod::STRATAGEM_RECAST);
+        }
+
         // Halve Chakra cooldown if the player has Boost
         if (PAbility->getID() == ABILITY_CHAKRA)
         {
@@ -1647,9 +1652,17 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast -= (PJobPoints->GetJobPointValue(JP_DEUS_EX_AUTOMATA_RECAST) * 10);
         }
 
-        if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR)
+        if (PAbility->getID() == ABILITY_RESTORING_BREATH || PAbility->getID() == ABILITY_SMITING_BREATH)
         {
-            action.recast -= getMod(Mod::ONE_HOUR_RECAST);
+            action.recast -= getMod(Mod::DRAGOON_BREATH_RECAST);
+        }
+
+        if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR || PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR_TWO)
+        {
+            if (PAbility->getRecastTime() == 7200) // Only lower the recast of "Real" 2 hour abilities
+            {
+                action.recast -= getMod(Mod::ONE_HOUR_RECAST) * 60; // Adjust recast by 1 minute (60 seconds) per mod value
+            }
         }
 
         // For testing

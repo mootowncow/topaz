@@ -13,8 +13,6 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    target:delStatusEffectSilent(tpz.effect.AQUAVEIL)
-
     -- duration is said to be based on enhancing skill with max 5 minutes, but I could find no
     -- tests that quantify the relationship so I'm using 5 minutes for now.
     local duration = calculateDuration(900, spell:getSkillType(), spell:getSpellGroup(), caster, target)
@@ -26,6 +24,7 @@ function onSpellCast(caster, target, spell)
 
     power = math.max(power, 1) -- this shouldn't happen but it's probably best to prevent someone from accidentally underflowing the counter...
 
+    target:delStatusEffectSilent(tpz.effect.AQUAVEIL)
     target:addStatusEffect(tpz.effect.AQUAVEIL, power, 0, duration)
     spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
 

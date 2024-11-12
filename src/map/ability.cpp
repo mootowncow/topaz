@@ -82,7 +82,6 @@ bool CAbility::isPetCommand()
             getID() == ABILITY_RETRIEVE);
 }
 
-
 bool CAbility::isReadyMove()
 {
     return getID() >= ABILITY_FOOT_KICK && getID() <= ABILITY_NIHILITY_SONG;
@@ -131,6 +130,13 @@ bool CAbility::isFlourish()
             getID() == ABILITY_CLIMACTIC_FLOURISH ||
            getID() == ABILITY_STRIKING_FLOURISH ||
             getID() == ABILITY_TERNARY_FLOURISH;
+}
+
+bool CAbility::isStratagem()
+{
+    return getID() >= ABILITY_PENURY && getID() <= ABILITY_MANIFESTATION ||
+           getID() >= ABILITY_ALTRUISM && getID() <= ABILITY_EQUANIMITY ||
+        getID() == ABILITY_PERPETUANCE || getID() == ABILITY_IMMANENCE;
 }
 
 bool CAbility::isAoE()

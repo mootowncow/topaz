@@ -3641,6 +3641,20 @@ function getAbsorbSpellPower(caster)
     return totalPower
 end
 
+function getRegenPotency(caster, target, base)
+    local power = math.ceil(base * (1 + 0.01 * caster:getMod(tpz.mod.REGEN_MULTIPLIER)))
+    power = power + caster:getMerit(tpz.merit.REGEN_EFFECT) -- bonus hp from merits
+
+    if caster:getMainJob() == tpz.job.SCH then
+        power = power + caster:getMod(tpz.mod.LIGHT_ARTS_REGEN) -- bonus hp from light arts
+    end
+
+    power = power + caster:getMod(tpz.mod.REGEN_BONUS) -- JP Gift
+
+    --printf("Regen power %d", power)
+    return power
+end
+
 function calculateDurationForLvl(duration, spellLvl, targetLvl)
     if (targetLvl < spellLvl) then
         return duration * targetLvl / spellLvl
@@ -3666,7 +3680,7 @@ end
 function calculateDuration(duration, magicSkill, spellGroup, caster, target, useComposure)
     local casterJob = caster:getMainJob()
 
-    if magicSkill == tpz.skill.ENHANCING_MAGIC then -- Enhancing Magic
+    if magicSkill == tpz.skill.ENHANCING_MAGIC then
         -- Gear mods
         duration = duration + duration * caster:getMod(tpz.mod.ENH_MAGIC_DURATION) / 100
 
@@ -3687,7 +3701,7 @@ function calculateDuration(duration, magicSkill, spellGroup, caster, target, use
         if caster:hasStatusEffect(tpz.effect.PERPETUANCE) and spellGroup == tpz.magic.spellGroup.WHITE then
             duration  = duration * 2
         end
-    elseif magicSkill == tpz.skill.ENFEEBLING_MAGIC then -- Enfeebling Magic
+    elseif magicSkill == tpz.skill.ENFEEBLING_MAGIC then 
         -- Gear mods
         duration = duration + duration * caster:getMod(tpz.mod.ENFEEB_MAGIC_DURATION) / 100
 
@@ -3715,6 +3729,8 @@ function calculateDuration(duration, magicSkill, spellGroup, caster, target, use
         end
     elseif magicSkill == tpz.skill.DARK_MAGIC then
         duration = duration * (1 + (caster:getMod(tpz.mod.DARK_MAGIC_DURATION) / 100))
+    elseif magicSkill == tpz.skill.NINJUTSU then
+        duration = duration * (1 + (caster:getMod(tpz.mod.NINJUTSU_DURATION) / 100))
     end
 
     return math.floor(duration)
@@ -3724,6 +3740,7 @@ function getRegenDurationBonuses(caster, target)
     local bonus = 0
     bonus = bonus + caster:getMod(tpz.mod.REGEN_DURATION)
     bonus = bonus + caster:getJobPointLevel(tpz.jp.REGEN_DURATION) * 3
+    bonus = bonus + caster:getMod(tpz.mod.REGEN_BONUS) -- JP Gift
 
     if caster:hasStatusEffect(tpz.effect.LIGHT_ARTS) or caster:hasStatusEffect(tpz.effect.ADDENDUM_WHITE) then
         local jpValue = caster:getJobPointLevel(tpz.jp.LIGHT_ARTS_EFFECT) * 3

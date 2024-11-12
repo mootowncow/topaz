@@ -2652,12 +2652,18 @@ namespace battleutils
 
         if (isCritical)
         {
-            pdif *= 1.25;
+            // Calculate the base critical hit multiplier combined with Dead Aim
+            float baseCritMultiplier = 1.25f * (1.0f + PAttacker->getMod(Mod::DEAD_AIM_EFFECT) / 100.0f);
+            pdif *= baseCritMultiplier;
 
-            int16 criticaldamage = PAttacker->getMod(Mod::CRIT_DMG_INCREASE) + PAttacker->getMod(Mod::RANGED_CRIT_DMG_INCREASE) - PDefender->getMod(Mod::CRIT_DEF_BONUS);
+            // Apply additional critical damage modifiers, adjusted for defender's critical defense
+            int16 critDamageMods = PAttacker->getMod(Mod::CRIT_DMG_INCREASE) + PAttacker->getMod(Mod::RANGED_CRIT_DMG_INCREASE);
+            int16 criticaldamage = critDamageMods - PDefender->getMod(Mod::CRIT_DEF_BONUS);
             criticaldamage = std::clamp<int16>(criticaldamage, 0, 100);
+
             pdif *= ((100 + criticaldamage) / 100.0f);
         }
+
         //ShowDebug("PDif after crit: %f\n", pdif);
         return pdif;
     }
@@ -8689,6 +8695,11 @@ namespace battleutils
     {
         //apply TP Bonus
         int16 tp = spentTP + PEntity->getMod(Mod::TP_BONUS);
+
+        if (PEntity->objtype == TYPE_PET || (PEntity->objtype == TYPE_MOB && PEntity->isCharmed))
+        {
+            tp += PEntity->getMod(Mod::PET_TP_BONUS);
+        }
 
         if (PEntity->objtype == TYPE_PC)
         {

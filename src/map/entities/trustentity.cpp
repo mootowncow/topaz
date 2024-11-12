@@ -228,11 +228,6 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
                 action.recast = 0;
         }
 
-        if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR)
-        {
-            action.recast -= getMod(Mod::ONE_HOUR_RECAST);
-        }
-
         if (PAbility->isAoE())
         {
             PAI->TargetFind->reset();

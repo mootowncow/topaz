@@ -12,6 +12,7 @@
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/job_util")
 require("scripts/globals/msg")
 -----------------------------------
 
@@ -20,24 +21,14 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    local maxConsumed = 3
+    local finishingMoves = jobUtil.getFinishingMoveCount(player)
 
-    if (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_1)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_1)
-        player:addStatusEffect(tpz.effect.BUILDING_FLOURISH, 1, 0, 60, 0, player:getMerit(tpz.merit.BUILDING_FLOURISH_EFFECT))
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_2)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_2)
-        player:addStatusEffect(tpz.effect.BUILDING_FLOURISH, 2, 0, 60, 0, player:getMerit(tpz.merit.BUILDING_FLOURISH_EFFECT))
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_3)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_3)
-        player:addStatusEffect(tpz.effect.BUILDING_FLOURISH, 3, 0, 60, 0, player:getMerit(tpz.merit.BUILDING_FLOURISH_EFFECT))
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_4)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_4)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_1, 1, 0, 7200)
-        player:addStatusEffect(tpz.effect.BUILDING_FLOURISH, 3, 0, 60, 0, player:getMerit(tpz.merit.BUILDING_FLOURISH_EFFECT))
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_5)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_5)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_2, 1, 0, 7200)
-        player:addStatusEffect(tpz.effect.BUILDING_FLOURISH, 3, 0, 60, 0, player:getMerit(tpz.merit.BUILDING_FLOURISH_EFFECT))
+    if (finishingMoves > 0) then
+        local actualConsumed = jobUtil.consumeFinishingMoves(player, maxConsumed)
+
+        if (actualConsumed > 0) then
+            player:addStatusEffect(tpz.effect.BUILDING_FLOURISH, actualConsumed, 0, 60, 0, player:getMerit(tpz.merit.BUILDING_FLOURISH_EFFECT))
+        end
     end
-
 end

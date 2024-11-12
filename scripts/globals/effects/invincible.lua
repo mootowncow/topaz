@@ -12,7 +12,7 @@ function onEffectGain(target, effect)
 
     -- Handle Heady Artifice (PUP)
     local master = target:getMaster()
-    if master:getMainJob() == tpz.job.PUP then
+    if master and master:getMainJob() == tpz.job.PUP then
         local head = target:getAutomatonHead()
         local jpValue = master:getJobPointLevel(tpz.jp.HEADY_ARTIFICE_EFFECT)
         local headJpBonuses = {
@@ -39,7 +39,7 @@ function onEffectLose(target, effect)
 
     -- Handle Heady Artifice (PUP)
     local master = target:getMaster()
-    if master:getMainJob() == tpz.job.PUP then
+    if master and master:getMainJob() == tpz.job.PUP then
         local head = target:getAutomatonHead()
         local jpValue = master:getJobPointLevel(tpz.jp.HEADY_ARTIFICE_EFFECT)
         local headJpBonuses = {

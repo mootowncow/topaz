@@ -9,6 +9,7 @@
 require("scripts/globals/weaponskills")
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/job_util")
 require("scripts/globals/msg")
 -----------------------------------
 
@@ -146,30 +147,7 @@ function onUseAbility(player, target, ability, action)
             end
         end
 
-        if (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_1)) then
-            player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_1)
-            player:addStatusEffect(tpz.effect.FINISHING_MOVE_1+daze, 1, 0, 7200)
-
-        elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_2)) then
-            player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_2)
-            player:addStatusEffect(tpz.effect.FINISHING_MOVE_2+daze, 1, 0, 7200)
-
-        elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_3)) then
-            player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_3)
-            if (daze > 2) then
-                daze = 2
-            end
-            player:addStatusEffect(tpz.effect.FINISHING_MOVE_3+daze, 1, 0, 7200)
-
-        elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_4)) then
-            player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_4)
-            player:addStatusEffect(tpz.effect.FINISHING_MOVE_5, 1, 0, 7200)
-        elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_5)) then
-
-        else
-            player:addStatusEffect(tpz.effect.FINISHING_MOVE_1 - 1 + daze, 1, 0, 7200)
-        end
-
+        jobUtil.HandleFinishingMoves(player, daze)
     else
         ability:setMsg(tpz.msg.basic.JA_MISS)
     end

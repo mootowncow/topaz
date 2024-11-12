@@ -620,7 +620,7 @@ INSERT INTO `status_effects` VALUES (584,'entrust',32,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (585,'costume',32,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (586,'curing_conduit',32,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (587,'tp_bonus',32,0,0,0,0,0,0,0,0);
-INSERT INTO `status_effects` VALUES (588,'finishing_move',288,0,0,0,0,0,0,0,0);
+INSERT INTO `status_effects` VALUES (588,'finishing_move',134218016,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (589,'firestorm_ii',297,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (590,'hailstorm_ii',297,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (591,'windstorm_ii',297,0,0,0,0,0,0,0,0);

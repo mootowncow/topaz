@@ -2200,6 +2200,8 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         float DamageRatio = battleutils::GetDamageRatio(PTarget, this, attack.IsCritical(), attBonus, 0);
                         auto damage = (int32)((PTarget->GetMainWeaponDmg() + naturalh2hDMG + battleutils::GetFSTR(PTarget, this, SLOT_MAIN)) * DamageRatio);
 
+                        damage *= (1.0f + PTarget->getMod(Mod::COUNTER_DAMAGE) / 100.0f);
+
                         // Add extra damage multipliers
                         damage = battleutils::HandleExtraDamageMultipliers(PTarget, damage);
 
@@ -2405,11 +2407,18 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
         if (attack.IsFirstSwing() && attackRound.GetAttackSwingCount() == 1)
         {
             uint16 zanshinChance = this->getMod(Mod::ZANSHIN) + battleutils::GetMeritValue(this, MERIT_ZASHIN_ATTACK_RATE);
+            uint16 zanHassoChance = this->getMod(Mod::HASSO_SEIGAN_GIFT);
             zanshinChance = std::clamp<uint16>(zanshinChance, 0, 100);
-            //zanshin may only proc on a missed/guarded/countered swing or as SAM main with hasso up (at 25% of the base zanshin rate)
+            zanHassoChance = std::clamp<uint16>(zanHassoChance, 0, 100);
+
+            //zanshin may only proc on a missed/guarded/countered swing
             if (((actionTarget.reaction == REACTION_EVADE || actionTarget.reaction == REACTION_GUARD ||
-                  actionTarget.spikesEffect == SUBEFFECT_COUNTER) && tpzrand::GetRandomNumber(100) < zanshinChance) ||
-                (GetMJob() == JOB_BLM && this->StatusEffectContainer->HasStatusEffect(EFFECT_HASSO) && tpzrand::GetRandomNumber(100) < (zanshinChance / 4)))
+                  actionTarget.spikesEffect == SUBEFFECT_COUNTER) && tpzrand::GetRandomNumber(100) < zanshinChance))
+            {
+                attack.SetAttackType(PHYSICAL_ATTACK_TYPE::ZANSHIN);
+                attack.SetAsFirstSwing(false);
+            }
+            else if (this->StatusEffectContainer->HasStatusEffect(EFFECT_HASSO) && tpzrand::GetRandomNumber(100) < zanHassoChance) // Zanhasso proc
             {
                 attack.SetAttackType(PHYSICAL_ATTACK_TYPE::ZANSHIN);
                 attack.SetAsFirstSwing(false);
