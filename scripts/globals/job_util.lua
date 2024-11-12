@@ -141,3 +141,50 @@ function jobUtil.HandleFinishingMoves(player, daze)
         player:addStatusEffect(tpz.effect.FINISHING_MOVE_6, newFinishingMoveCount, 0, 7200)
     end
 end
+
+function jobUtil.getFinishingMoveCount(player)
+    local finishingMoves = 0
+
+    -- Check if the player has FINISHING_MOVE_6 and get its power if true.
+    if player:hasStatusEffect(tpz.effect.FINISHING_MOVE_6) then
+        finishingMoves =  player:getStatusEffect(tpz.effect.FINISHING_MOVE_6):getPower()
+    end
+
+    -- Otherwise, check from FINISHING_MOVE_5 down to FINISHING_MOVE_1.
+    for i = tpz.effect.FINISHING_MOVE_5, tpz.effect.FINISHING_MOVE_1, -1 do
+        if player:hasStatusEffect(i) then
+            finishingMoves =  i - tpz.effect.FINISHING_MOVE_1 + 1 -- Convert effect ID to numerical count.
+        end
+    end
+
+    --printf("Finishing moves: %d", finishingMoves)
+    return finishingMoves
+end
+
+function jobUtil.consumeFinishingMoves(player, movesToConsume)
+    local currentFinishingMoveCount = jobUtil.getFinishingMoveCount(player)
+
+    -- If current moves are less than what's needed, consume all that are available.
+    local actualConsumed = math.min(currentFinishingMoveCount, movesToConsume)
+
+    -- Remove all finishing moves before updating after
+    for i = tpz.effect.FINISHING_MOVE_5, tpz.effect.FINISHING_MOVE_1, -1 do
+        player:delStatusEffectSilent(i)
+    end
+    player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_6)
+
+    -- Readd finishing moves based on how many consumed
+    local newFinishingMoveCount = currentFinishingMoveCount - actualConsumed
+
+    if (newFinishingMoveCount > 0) then
+        if (newFinishingMoveCount <= 5) then
+            player:addStatusEffect(tpz.effect.FINISHING_MOVE_1 + (newFinishingMoveCount - 1), 1, 0, 7200)
+        else
+            player:addStatusEffect(tpz.effect.FINISHING_MOVE_6, newFinishingMoveCount, 0, 7200)
+        end
+    end
+
+    --printf("Number of finishing moves consumed: %d", actualConsumed)
+    return actualConsumed
+end
+

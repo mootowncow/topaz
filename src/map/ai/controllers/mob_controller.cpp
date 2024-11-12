@@ -1269,41 +1269,45 @@ void CMobController::HandleEnmity()
     // Bind / Palisade special case
     // Target the closest person
     // TODO: do jug pets do this?
-    if (PMob->objtype == TYPE_MOB && PTarget && PMob->StatusEffectContainer && PMob->PAI->IsCurrentState<CAttackState>())
+    try
     {
-        if (PMob->StatusEffectContainer && PMob->StatusEffectContainer->HasStatusEffect(EFFECT_BIND) || (PTarget && PTarget->StatusEffectContainer && PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PALISADE)))
+        if (PMob->objtype == TYPE_MOB && PTarget && PMob->StatusEffectContainer && PMob->PAI->IsCurrentState<CAttackState>())
         {
-            // ShowDebug("Mob is bound and in Attack State.\n");
-            CBattleEntity* PNewTarget = nullptr;
-            std::unique_ptr<CBasicPacket> m_errorMsg; // Ignored
-
-            // Check if the current target is out of range and if there is enmity
-            if (!PMob->CanAttack(PTarget, m_errorMsg))
+            if ((PMob->StatusEffectContainer && PMob->StatusEffectContainer->HasStatusEffect(EFFECT_BIND)) ||
+                (PTarget && PTarget->StatusEffectContainer && PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PALISADE)))
             {
-                // ShowDebug("Current target is out of range or cannot be attacked. Looking for a new target.\n");
+                CBattleEntity* PNewTarget = nullptr;
+                std::unique_ptr<CBasicPacket> m_errorMsg; // Ignored
 
-                PMob->PAI->TargetFind->reset();
-                PMob->PAI->TargetFind->findWithinArea(PTarget, AOERADIUS_ATTACKER, 7.0f);
-
-                // ShowDebug("Found targets in melee range.\n");
-
-                // If there are targets within melee range, select a random one
-                if (!PMob->PAI->TargetFind->m_targets.empty())
+                // Check if the current target is out of range and if there is enmity
+                if (!PMob->CanAttack(PTarget, m_errorMsg))
                 {
-                    int targetIndex = tpzrand::GetRandomNumber(PMob->PAI->TargetFind->m_targets.size());
-                    PNewTarget = PMob->PAI->TargetFind->m_targets[targetIndex];
+                    PMob->PAI->TargetFind->reset();
+                    PMob->PAI->TargetFind->findWithinArea(PTarget, AOERADIUS_ATTACKER, 7.0f);
 
-                    // ShowDebug("Randomly selected target: %s at index %d\n", PNewTarget->GetName(), targetIndex);
+                    // If there are targets within melee range, select a random one
+                    if (!PMob->PAI->TargetFind->m_targets.empty())
+                    {
+                        int targetIndex = tpzrand::GetRandomNumber(PMob->PAI->TargetFind->m_targets.size());
+                        PNewTarget = PMob->PAI->TargetFind->m_targets[targetIndex];
+                    }
+                }
+
+                if (PNewTarget)
+                {
+                    ChangeTarget(PNewTarget->targid);
+                    FaceTarget(PNewTarget->targid);
                 }
             }
-
-            if (PNewTarget)
-            {
-                // ShowDebug("Changing target to: %s\n", PNewTarget->name);
-                ChangeTarget(PNewTarget->targid);
-                FaceTarget(PNewTarget->targid);
-            }
         }
+    }
+    catch (const std::exception& e)
+    {
+        // Do nothing if an exception occurs
+    }
+    catch (...)
+    {
+        // Catch any other types of exceptions (e.g., non-standard C++ exceptions)
     }
 }
 
