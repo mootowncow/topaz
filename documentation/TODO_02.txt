@@ -171,20 +171,19 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Dead aim mod should be 1013 and it should be coded into mob tp moves, bluemagic and weaponskills.lua
 On East Ronfaure these should be pugils(says that in DATs) INSERT INTO `mob_groups` VALUES (44,1038,101,'Ding_Bats',330,2,82,0,0,4,5,0); --  higher lvl group
 One of the Thiazi or a Bialozar should have higher HP and open vortex, it should be random and not set in stone. Make all Same HP in mob_groups.sql and use max_hp_boost effect to give more HP. Make sure to heal after giving HP
 17191137 should be Enchanted Bones and is pugil. Did I mess up all the groups for "high level spawns"?
 17784999 should be visible(model missing?) and at G-8 https://www.bg-wiki.com/ffxi/Mewk_Chorosap
 Buff Headsman Ring to 7/7 
 Ferocious Wamouras addle undispellable
-Reduce COR parry skill rank to retail rank
 Pixies shouldn't blood aggro
 MDT augments also give equal BDT
 No Absorb items mods should stack
 Za'Dha Adamantking modelsize too big? (WOTG - The Buried God)
 Avatar(And automaton?) phys dmg ignoring positional? Autos too?
 Shikaree Z and X don't aggro
+su1 ???. su2 on accs(neck/cape for now) su3 on armor, su4 weapons
 
 SCNM:
 Di'Zho Spongeshell bugged enmity if you heal him? It caps your enmtiy? Or an SC being absorbed does?
@@ -192,13 +191,11 @@ Mu'Nhi Thimbletail runs forever and never stops running? Keeps going out of boun
 All "WOTG" Quadavs have the wrong animation for Ore Lob
 Trading Quadav Charm to the gate breaks the item and gets it stuck "locked"
 
-Nerf Haste II to 20%? (And hastega and animating wail)
 DAGI for monstertpmoves (Copy from weaponskills). Also need for automaton/summon/BLU?. Can probably just add it to getMobDexCritRate() functions and add an arg thats IsRanged
 Does COR roll buff capacity points? It should
 HELM legendary weapon quests, obscene amounts of rare logs/ores/etc
 Mobs that spawn like PSU, are invisible then once you come near they spawn. For salvage / Assaults. Also another tier of assaults meant for 6 man (end with a boss of a toau only family mob like Marid)
 mob TP moves only add TP to target if its phys/ranged
-Headbutt did 0 dmg on a miss and not the normal BLU miss msg? Deltathrust works properly
 ALL HELM msgs gold? Like normal crafting skill up msgs. ALso for "due to your skill in x" msgs. If too low level to HELM, red msg?
 Inner Strength do something for JP
 Smn pet gifts
