@@ -6,9 +6,11 @@
 require("scripts/globals/settings")
 require("scripts/globals/quests")
 require("scripts/globals/utils")
+require("scripts/globals/trust_progression")
 -----------------------------------
 
 function onTrade(player, npc, trade)
+    tpz.trustProgression.onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
@@ -18,6 +20,7 @@ function onTrigger(player, npc)
     else
         player:startEvent(10034) -- Standard dialog
     end
+    tpz.trustProgression.onTrigger(player, npc)
 end
 
 -- 10031  10032  10033  10034  10039  10041  10044  10042  10048  10045  10047  10071  10053  10049

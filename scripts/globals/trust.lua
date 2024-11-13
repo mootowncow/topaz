@@ -470,12 +470,6 @@ tpz.trust.dumpMessagePages = function(mob)
     end
 end
 
-tpz.trust.onTrigger = function(player, npc)
-end
-
-tpz.trust.onTrade = function(player, npc)
-end
-
 function AddRefreshGear(mob)
     local mobLevel = mob:getMainLvl()
     local master = mob:getMaster()
