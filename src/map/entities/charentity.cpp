@@ -40,6 +40,7 @@
 #include "../packets/menu_raisetractor.h"
 #include "../packets/message_special.h"
 #include "../packets/message_system.h"
+#include "../packets/trust_progression.h"
 
 #include "../ai/ai_container.h"
 #include "../ai/controllers/player_controller.h"
@@ -811,6 +812,16 @@ void CCharEntity::Tick(time_point tick)
             PParty->ReloadParty();
         }
         m_LastPartyReload = tick + std::chrono::milliseconds(10000);
+    }
+
+    if (trustProgressUpdateFlag && loc.zone)
+    {
+        ShowDebug("Pushing trust progression packet\n");
+        // Send update packet for custom data..
+        loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CTrustProgressionPacket(this));
+
+        // Clear flag..
+        trustProgressUpdateFlag = false;
     }
 
     if (m_moghouseID != 0)

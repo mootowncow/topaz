@@ -1534,6 +1534,7 @@ void SmallPacket0x036(map_session_data_t* session, CCharEntity* PChar, CBasicPac
 
         //PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
         luautils::OnTrade(PChar, PNpc);
+        PChar->trustProgressUpdateFlag = true;
         PChar->TradeContainer->unreserveUnconfirmed();
     }
     return;

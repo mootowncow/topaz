@@ -9,6 +9,7 @@ class CBattleEntity;
 class CMobEntity;
 class CTrustEntity;
 class CPetEntity;
+class CCharEntity;
 
 class CTrustProgressionPacket : public CBasicPacket
 {
