@@ -71,6 +71,16 @@ local rovKIBattlefieldIDs = set{
 -- TODO: RUN LB5
 }
 
+local trustProgressionData = {
+    melee   = GetServerVariable("[Trust]Melee"),
+    ranged  = GetServerVariable("[Trust]Ranged"),
+    tank    = GetServerVariable("[Trust]Tank"),
+    caster  = GetServerVariable("[Trust]Caster"),
+    healer  = GetServerVariable("[Trust]Healer"),
+    support = GetServerVariable("[Trust]Support")
+}
+
+
 local modByMobName =
 {
     ['valaineral'] = function(mob)
@@ -975,8 +985,28 @@ function AddFoodBonuses(mob)
     local mobLevel = mob:getMainLvl()
     local job = mob:getMainJob()
     local master = mob:getMaster()
+    local isMelee = (job ~= tpz.job.WHM) and (job ~= tpz.job.RDM) and (job ~= tpz.job.PLD) and (job ~= tpz.job.RNG)
 
-    if (job ~= tpz.job.PLD) then -- Ranged / Melee
+    if isMelee then
+        if mobLevel >= 1 and mobLevel < 75 then
+            mob:addMod(tpz.mod.STR, 5)
+            mob:addMod(tpz.mod.AGI, 1)
+            mob:addMod(tpz.mod.INT, -2)
+            mob:addMod(tpz.mod.FOOD_ATTP, 22)
+            mob:addMod(tpz.mod.FOOD_ATT_CAP, 60)
+            mob:addMod(tpz.mod.FOOD_RATTP, 22)
+            mob:addMod(tpz.mod.FOOD_RATT_CAP, 60)
+        elseif mobLevel >= 75 then
+            mob:addMod(tpz.mod.HP, 20)
+            mob:addMod(tpz.mod.STR, 5)
+            mob:addMod(tpz.mod.DEX, 6)
+            mob:addMod(tpz.mod.FOOD_ACCP, 15)
+            mob:addMod(tpz.mod.FOOD_ACC_CAP, 72)
+            mob:addMod(tpz.mod.FOOD_RACCP, 15)
+            mob:addMod(tpz.mod.FOOD_RACC_CAP, 72)
+            mob:addMod(tpz.mod.SLEEPRESTRAIT, 1)
+        end
+    elseif (job == tpz.job.RNG) -- Ranged
         if mobLevel >= 1 and mobLevel < 75 then
             mob:addMod(tpz.mod.STR, 5)
             mob:addMod(tpz.mod.AGI, 1)
@@ -1001,6 +1031,7 @@ function AddFoodBonuses(mob)
         mob:addMod(tpz.mod.INT, 2)
         mob:addMod(tpz.mod.FOOD_MACCP, 21)
         mob:addMod(tpz.mod.FOOD_MACC_CAP, 10)
+    elseif (job == tpz.job.WHM) -- Healer
     else -- Tank
         if mobLevel >= 1 and mobLevel < 75 then
             mob:addMod(tpz.mod.STR, 5)
@@ -1020,4 +1051,47 @@ function AddFoodBonuses(mob)
             mob:addMod(tpz.mod.HPHEAL, 1)
         end
     end
+end
+
+function AddLevelUpBonuses(mob)
+    local mobLevel = mob:getMainLvl()
+    local job = mob:getMainJob()
+    local master = mob:getMaster()
+    local isMelee = (job ~= tpz.job.WHM) and (job ~= tpz.job.RDM) and (job ~= tpz.job.PLD) and (job ~= tpz.job.RNG)
+    local isCaster = (job) == tpz.job.BLM) or (job == tpz.job.SCH)
+    local isSupport = (job == tpz.job.COR) or (job == tpz.job.BRD) or (job == tpz.job.GEO)
+
+    -- Apply role-based level up bonuses
+    if isMelee then
+        GetLevelUpBonuses(mob, 'Melee')
+    elseif (job == tpz.job.RNG) then  -- Ranged
+        GetLevelUpBonuses(mob, 'Ranged')
+    elseif isCaster then
+        GetLevelUpBonuses(mob, 'Caster')
+    elseif (job == tpz.job.WHM) then  -- Healers
+        GetLevelUpBonuses(mob, 'Healer')
+    elseif isSupport then
+        GetLevelUpBonuses(mob, 'Support')
+    else  -- Tank
+        GetLevelUpBonuses(mob, 'Tank')
+    end
+end
+
+function GetLevelUpBonuses(mob, role)
+    -- Get the level from the Trust progression data
+    local level = trustProgressionData[role]
+
+    -- Ensure level doesn't exceed the cap of 25
+    level = utils.clamp(level, 0, 25)
+
+    -- Calculate which set of bonuses to apply based on the level range
+    -- Example: Level 1-5 maps to Level 1 bonuses, Level 6-10 maps to Level 1 again, etc.
+    local levelIndex = math.ceil(level / 5)  -- Determine the "tier" of the level
+    local bonusLevel = "Lvl" .. (level % 5 == 0 and 5 or level % 5)  -- This will give Lvl1, Lvl2, Lvl3, etc., but resets every 5 levels
+
+    -- Get the levelBonus data for that role and tier
+    local levelBonus = levelBonuses[role][bonusLevel]
+
+    -- Apply the mod to the mob
+    mob:addMod(levelBonus.Mod, levelBonus.Power)
 end

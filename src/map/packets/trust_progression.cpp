@@ -35,7 +35,7 @@
 CTrustProgressionPacket::CTrustProgressionPacket(CBattleEntity* PEntity)
 {
     this->type = 0xFE;
-    this->size = 0x18;
+    this->size = 0x1C / 2;
 
     const char* query = "SELECT \
                     (SELECT value FROM server_variables WHERE name = '[Trust]Melee'), \

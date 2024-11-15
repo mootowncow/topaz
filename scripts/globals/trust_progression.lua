@@ -104,6 +104,51 @@ local trustProgData = {
     }
 }
 
+local levelBonuses = {
+    ['Melee'] = {
+        ['Lvl1'] = { Mod = tpz.mod.ATT,           Power = 10  },
+        ['Lvl2'] = { Mod = tpz.mod.ACC,           Power = 55  },
+        ['Lvl3'] = { Mod = tpz.mod.STR,           Power = 3   },
+        ['Lvl4'] = { Mod = tpz.mod.STR_DURING_WS, Power = 6   },
+        ['Lvl5'] = { Mod = tpz.mod.HASTE_GEAR,    Power = 500 },
+    },
+    ['Ranged'] = {
+        ['Lvl1'] = { Mod = tpz.mod.RATT,          Power = 10  },
+        ['Lvl2'] = { Mod = tpz.mod.RACC,          Power = 5   },
+        ['Lvl3'] = { Mod = tpz.mod.STR,           Power = 3   },
+        ['Lvl4'] = { Mod = tpz.mod.STR_DURING_WS, Power = 6   },
+        ['Lvl5'] = { Mod = tpz.mod.SNAP_SHOT,     Power = 500 },
+    },
+    ['Tank'] = {
+        ['Lvl1'] = { Mod = tpz.mod.HP,            Power = 25  },
+        ['Lvl2'] = { Mod = tpz.mod.DEF,           Power = 15  },
+        ['Lvl3'] = { Mod = tpz.mod.VIT,           Power = 10  },
+        ['Lvl4'] = { Mod = tpz.mod.ENMITY,        Power = 5   },
+        ['Lvl5'] = { Mod = tpz.mod.DMG,           Power = -2  },
+    },
+    ['Caster'] = {
+        ['Lvl1'] = { Mod = tpz.mod.INT,           Power = 2   },
+        ['Lvl2'] = { Mod = tpz.mod.FASTCAST,      Power = 2   },
+        ['Lvl3'] = { Mod = tpz.mod.MATT,          Power = 4   },
+        ['Lvl4'] = { Mod = tpz.mod.CONSERVE_MP,   Power = 5   },
+        ['Lvl5'] = { Mod = tpz.mod.MACC,          Power = 5   },
+    },
+    ['Healer'] = {
+        ['Lvl1'] = { Mod = tpz.mod.MP,            Power = 35  },
+        ['Lvl2'] = { Mod = tpz.mod.ENMITY,        Power = -3  },
+        ['Lvl3'] = { Mod = tpz.mod.FASTCAST,      Power = 4   },
+        ['Lvl4'] = { Mod = tpz.mod.CURE_POTENCY,  Power = 4   },
+        ['Lvl5'] = { Mod = tpz.mod.REFRESH,       Power = 1   },
+    },
+    ['Support'] = { -- TODO: Maybe special instead of support? Like +TH + DA etc?
+        ['Lvl1'] = { Mod = tpz.mod.RATT,          Power = 10  },
+        ['Lvl2'] = { Mod = tpz.mod.RACC,          Power = 5   },
+        ['Lvl3'] = { Mod = tpz.mod.STR,           Power = 2   },
+        ['Lvl4'] = { Mod = tpz.mod.HASTE_GEAR,    Power = 200 },
+        ['Lvl5'] = { Mod = tpz.mod.HASTE_GEAR,    Power = 200 },
+    },
+}
+
 tpz.trustProgression.onTrigger = function(player, npc)
 end
 
@@ -113,6 +158,12 @@ tpz.trustProgression.onTrade = function(player, npc, trade)
     local totalContribution = 0
     local role = nil
     local roleFound = false
+
+    -- Only accept 1 stack of items at a time
+    if trade:getSlotCount() > 1 then
+        player:PrintToPlayer("You can only trade 1 stack of items at a time.")
+        return
+    end
 
     -- Create a flag to ensure only one role's items are traded at a time
     local roleMatched = nil
@@ -124,7 +175,7 @@ tpz.trustProgression.onTrade = function(player, npc, trade)
             local itemContributionValue = itemData.contribution
 
             -- Check if the current item from trustProgData.items is present in the trade
-            if npcUtil.tradeHasExactly(trade, itemId) then
+            if npcUtil.tradeHas(trade, itemId) then
                 -- Check if a different role's item was already traded
                 if roleMatched and roleMatched ~= roleData.var then
                     player:PrintToPlayer("You can only trade items for one role at a time.")
@@ -157,4 +208,20 @@ tpz.trustProgression.onTrade = function(player, npc, trade)
     totalContribution = currentContribution + tradedContribution
     SetServerVariable(roleMatched, totalContribution)
     player:PrintToPlayer(roleMatched .. " contribution was " .. currentContribution .. ", contribution is now " .. totalContribution)
+
+    local currentLvl = math.floor(currentContribution / 100)
+    local newLvl = math.floor(totalContribution / 100)
+    if newLvl >  currentLvl then
+        TrustProgressLevelUpMessage(player, roleMatched, totalContribution)
+    end
+end
+
+function TrustProgressLevelUpMessage(player, role, totalContribution)
+    local roleLvl = totalContribution / 100
+    local nearbyPlayers = mob:getPlayersInRange(auraParams.radius)
+    if nearbyPlayers ~= nil then 
+        for _,v in ipairs(nearbyPlayers) do
+            nearbyPlayers:PrintToPlayer(role .. " has increased to level " .. roleLvl .. "!" , tpz.msg.textColor.HIDDEN, none)
+        end
+    end
 end
