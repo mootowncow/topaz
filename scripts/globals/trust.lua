@@ -8,6 +8,7 @@ require("scripts/globals/msg")
 require("scripts/globals/roe")
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/trust_progression")
 ---------------------------------------------------------
 local ATTP_RATTP_BOOST = 20
 
@@ -72,12 +73,12 @@ local rovKIBattlefieldIDs = set{
 }
 
 local trustProgressionData = {
-    melee   = GetServerVariable("[Trust]Melee"),
-    ranged  = GetServerVariable("[Trust]Ranged"),
-    tank    = GetServerVariable("[Trust]Tank"),
-    caster  = GetServerVariable("[Trust]Caster"),
-    healer  = GetServerVariable("[Trust]Healer"),
-    support = GetServerVariable("[Trust]Support")
+    ['Melee']   = GetServerVariable("[Trust]Melee"),
+    ['Ranged']  = GetServerVariable("[Trust]Ranged"),
+    ['Tank']    = GetServerVariable("[Trust]Tank"),
+    ['Caster']  = GetServerVariable("[Trust]Caster"),
+    ['Healer']  = GetServerVariable("[Trust]Healer"),
+    ['Support'] = GetServerVariable("[Trust]Support")
 }
 
 
@@ -429,6 +430,7 @@ tpz.trust.onMobSpawn = function(mob)
 
     AddDuringWSMods(mob, type)
     AddFoodBonuses(mob)
+    AddTrustProgressionBonuses(mob)
 end
 
 -- page_offset is: (summon_message_id - 1) / 100
@@ -1053,7 +1055,7 @@ function AddFoodBonuses(mob)
     end
 end
 
-function AddLevelUpBonuses(mob)
+function AddTrustProgressionBonuses(mob)
     local mobLevel = mob:getMainLvl()
     local job = mob:getMainJob()
     local master = mob:getMaster()
@@ -1063,35 +1065,88 @@ function AddLevelUpBonuses(mob)
 
     -- Apply role-based level up bonuses
     if isMelee then
-        GetLevelUpBonuses(mob, 'Melee')
+        GetTrustProgressionBonuses(mob, 'Melee')
     elseif (job == tpz.job.RNG) then  -- Ranged
-        GetLevelUpBonuses(mob, 'Ranged')
+        GetTrustProgressionBonuses(mob, 'Ranged')
     elseif isCaster then
-        GetLevelUpBonuses(mob, 'Caster')
+        GetTrustProgressionBonuses(mob, 'Caster')
     elseif (job == tpz.job.WHM) then  -- Healers
-        GetLevelUpBonuses(mob, 'Healer')
+        GetTrustProgressionBonuses(mob, 'Healer')
     elseif isSupport then
-        GetLevelUpBonuses(mob, 'Support')
+        GetTrustProgressionBonuses(mob, 'Support')
     else  -- Tank
-        GetLevelUpBonuses(mob, 'Tank')
+        GetTrustProgressionBonuses(mob, 'Tank')
     end
 end
 
-function GetLevelUpBonuses(mob, role)
-    -- Get the level from the Trust progression data
-    local level = trustProgressionData[role]
 
+function GetTrustProgressionBonuses(mob, role)
+    local levelBonuses = {
+        ['Melee'] = {
+            ['Lvl1'] = { Mod = tpz.mod.ATT,           Power = 10  },
+            ['Lvl2'] = { Mod = tpz.mod.ACC,           Power = 55  },
+            ['Lvl3'] = { Mod = tpz.mod.STORETP,       Power = 3   },
+            ['Lvl4'] = { Mod = tpz.mod.STR_DURING_WS, Power = 6   },
+            ['Lvl5'] = { Mod = tpz.mod.HASTE_GEAR,    Power = 500 },
+        },
+        ['Ranged'] = {
+            ['Lvl1'] = { Mod = tpz.mod.RATT,          Power = 10  },
+            ['Lvl2'] = { Mod = tpz.mod.RACC,          Power = 5   },
+            ['Lvl3'] = { Mod = tpz.mod.STORETP,       Power = 3   },
+            ['Lvl4'] = { Mod = tpz.mod.STR_DURING_WS, Power = 6   },
+            ['Lvl5'] = { Mod = tpz.mod.SNAP_SHOT,     Power = 500 },
+        },
+        ['Tank'] = {
+            ['Lvl1'] = { Mod = tpz.mod.HP,            Power = 25  },
+            ['Lvl2'] = { Mod = tpz.mod.VIT,           Power = 15  },
+            ['Lvl3'] = { Mod = tpz.mod.ENEMYCRITRATE, Power = -1  },
+            ['Lvl4'] = { Mod = tpz.mod.ENMITY,        Power = 5   },
+            ['Lvl5'] = { Mod = tpz.mod.DMG,           Power = -2  },
+        },
+        ['Caster'] = {
+            ['Lvl1'] = { Mod = tpz.mod.INT,           Power = 2   },
+            ['Lvl2'] = { Mod = tpz.mod.FASTCAST,      Power = 2   },
+            ['Lvl3'] = { Mod = tpz.mod.MATT,          Power = 4   },
+            ['Lvl4'] = { Mod = tpz.mod.CONSERVE_MP,   Power = 5   },
+            ['Lvl5'] = { Mod = tpz.mod.MACC,          Power = 5   },
+        },
+        ['Healer'] = {
+            ['Lvl1'] = { Mod = tpz.mod.MP,            Power = 35  },
+            ['Lvl2'] = { Mod = tpz.mod.ENMITY,        Power = -3  },
+            ['Lvl3'] = { Mod = tpz.mod.FASTCAST,      Power = 4   },
+            ['Lvl4'] = { Mod = tpz.mod.CURE_POTENCY,  Power = 4   },
+            ['Lvl5'] = { Mod = tpz.mod.REFRESH,       Power = 1   },
+        },
+        ['Support'] = { -- TODO: Maybe special instead of support? Like +TH + DA etc?
+            ['Lvl1'] = { Mod = tpz.mod.RATT,          Power = 10  },
+            ['Lvl2'] = { Mod = tpz.mod.RACC,          Power = 5   },
+            ['Lvl3'] = { Mod = tpz.mod.STR,           Power = 2   },
+            ['Lvl4'] = { Mod = tpz.mod.HASTE_GEAR,    Power = 200 },
+            ['Lvl5'] = { Mod = tpz.mod.HASTE_GEAR,    Power = 200 },
+        },
+    }
+
+    -- Get the level from the Trust progression data
+    local level = trustProgressionData[role] / 100
+    level = math.floor(level)  -- Get the integer level (floor to avoid fractions)
+    
     -- Ensure level doesn't exceed the cap of 25
     level = utils.clamp(level, 0, 25)
 
-    -- Calculate which set of bonuses to apply based on the level range
-    -- Example: Level 1-5 maps to Level 1 bonuses, Level 6-10 maps to Level 1 again, etc.
-    local levelIndex = math.ceil(level / 5)  -- Determine the "tier" of the level
-    local bonusLevel = "Lvl" .. (level % 5 == 0 and 5 or level % 5)  -- This will give Lvl1, Lvl2, Lvl3, etc., but resets every 5 levels
+    -- Loop through levels 1 to the current level
+    for currentLevel = 1, level do
+        -- Wrap around the level bonuses every 5 levels (Lvl1 to Lvl5)
+        local bonusLevel = "Lvl" .. (currentLevel % 5 == 0 and 5 or currentLevel % 5)
 
-    -- Get the levelBonus data for that role and tier
-    local levelBonus = levelBonuses[role][bonusLevel]
-
-    -- Apply the mod to the mob
-    mob:addMod(levelBonus.Mod, levelBonus.Power)
+        -- Get the levelBonus data for that role and level
+        local levelBonus = levelBonuses[role][bonusLevel]
+        
+        -- Print the bonus for debugging
+        print(string.format("Applying bonus for %s at %s: %s +%d", role, bonusLevel, levelBonus.Mod, levelBonus.Power))
+        
+        -- Apply the mod to the mob
+        mob:addMod(levelBonus.Mod, levelBonus.Power)
+    end
 end
+
+
