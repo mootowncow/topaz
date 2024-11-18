@@ -17,8 +17,6 @@ tpz.trustProgression = tpz.trustProgression or {}
 local trustProgData = {
     ['Melee'] = {
         items = {
-            { id = tpz.items.COPPER_INGOT, contribution = 1 },
-            { id = tpz.items.BRONZE_INGOT, contribution = 1 },
             { id = tpz.items.BRASS_INGOT, contribution = 1 },
             { id = tpz.items.IRON_INGOT, contribution = 2 },
             { id = tpz.items.STEEL_INGOT, contribution = 2 },
@@ -30,17 +28,9 @@ local trustProgData = {
     },
     ['Ranged'] = {
         items = {
-            { id = tpz.items.PIECE_OF_ARROWWOOD_LUMBER, contribution = 1 },
-            { id = tpz.items.PIECE_OF_LAUAN_LUMBER, contribution = 1 },
-            { id = tpz.items.PIECE_OF_ELM_LUMBER, contribution = 1 },
-            { id = tpz.items.PIECE_OF_MAPLE_LUMBER, contribution = 1 },
             { id = tpz.items.PIECE_OF_BEECH_LUMBER, contribution = 1 },
             { id = tpz.items.PIECE_OF_CHESTNUT_LUMBER, contribution = 2 },
-            { id = tpz.items.PIECE_OF_WALNUT_LUMBER, contribution = 2 },
-            { id = tpz.items.PIECE_OF_WILLOW_LUMBER, contribution = 2 },
-            { id = tpz.items.PIECE_OF_YEW_LUMBER, contribution = 2 },
             { id = tpz.items.PIECE_OF_HOLLY_LUMBER, contribution = 2 },
-            { id = tpz.items.PIECE_OF_ASH_LUMBER, contribution = 2 },
             { id = tpz.items.PIECE_OF_OAK_LUMBER, contribution = 3 },
             { id = tpz.items.PIECE_OF_MAHOGANY_LUMBER, contribution = 3 },
             { id = tpz.items.PIECE_OF_ROSEWOOD_LUMBER, contribution = 3 },
@@ -52,8 +42,7 @@ local trustProgData = {
     },
     ['Tank'] = {
         items = {
-            { id = tpz.items.SQUARE_OF_SHEEP_LEATHER, contribution = 1 },
-            { id = tpz.items.SQUARE_OF_DHALMEL_LEATHER, contribution = 2 },
+            { id = tpz.items.SQUARE_OF_DHALMEL_LEATHER, contribution = 1 },
             { id = tpz.items.SQUARE_OF_RAM_LEATHER, contribution = 2 },
             { id = tpz.items.SQUARE_OF_BLACK_TIGER_LEATHER, contribution = 2 },
             { id = tpz.items.SQUARE_OF_SMILODON_LEATHER, contribution = 2 },
@@ -68,9 +57,7 @@ local trustProgData = {
     },
     ['Caster'] = {
         items = {
-            { id = tpz.items.SQUARE_OF_GRASS_CLOTH, contribution = 1 },
-            { id = tpz.items.SQUARE_OF_COTTON_CLOTH, contribution = 1 },
-            { id = tpz.items.SQUARE_OF_LINEN_CLOTH, contribution = 2 },
+            { id = tpz.items.SQUARE_OF_LINEN_CLOTH, contribution = 1 },
             { id = tpz.items.SQUARE_OF_WOOL_CLOTH, contribution = 2 },
             { id = tpz.items.SQUARE_OF_VELVET_CLOTH, contribution = 2 },
             { id = tpz.items.SQUARE_OF_SILK_CLOTH, contribution = 3 },
@@ -108,21 +95,21 @@ local levelBonuses = {
     ['Melee'] = {
         ['Lvl1'] = { Mod = tpz.mod.ATT,           Power = 10  },
         ['Lvl2'] = { Mod = tpz.mod.ACC,           Power = 55  },
-        ['Lvl3'] = { Mod = tpz.mod.STR,           Power = 3   },
+        ['Lvl3'] = { Mod = tpz.mod.STORETP,       Power = 3   },
         ['Lvl4'] = { Mod = tpz.mod.STR_DURING_WS, Power = 6   },
         ['Lvl5'] = { Mod = tpz.mod.HASTE_GEAR,    Power = 500 },
     },
     ['Ranged'] = {
         ['Lvl1'] = { Mod = tpz.mod.RATT,          Power = 10  },
         ['Lvl2'] = { Mod = tpz.mod.RACC,          Power = 5   },
-        ['Lvl3'] = { Mod = tpz.mod.STR,           Power = 3   },
+        ['Lvl3'] = { Mod = tpz.mod.STORETP,       Power = 3   },
         ['Lvl4'] = { Mod = tpz.mod.STR_DURING_WS, Power = 6   },
         ['Lvl5'] = { Mod = tpz.mod.SNAP_SHOT,     Power = 500 },
     },
     ['Tank'] = {
         ['Lvl1'] = { Mod = tpz.mod.HP,            Power = 25  },
-        ['Lvl2'] = { Mod = tpz.mod.DEF,           Power = 15  },
-        ['Lvl3'] = { Mod = tpz.mod.VIT,           Power = 10  },
+        ['Lvl2'] = { Mod = tpz.mod.VIT,           Power = 15  },
+        ['Lvl3'] = { Mod = tpz.mod.ENEMYCRITRATE, Power = -1  },
         ['Lvl4'] = { Mod = tpz.mod.ENMITY,        Power = 5   },
         ['Lvl5'] = { Mod = tpz.mod.DMG,           Power = -2  },
     },
@@ -201,8 +188,9 @@ tpz.trustProgression.onTrade = function(player, npc, trade)
         return
     end
 
-    -- Complete the trade if all items are valid
     player:tradeComplete()
+    player:trustProgressUpdateFlag()
+
 
     -- Now, 'roleMatched' will contain the appropriate role string for the traded items
     totalContribution = currentContribution + tradedContribution

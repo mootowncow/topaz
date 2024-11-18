@@ -1006,7 +1006,7 @@ function AddFoodBonuses(mob)
             mob:addMod(tpz.mod.FOOD_RACC_CAP, 72)
             mob:addMod(tpz.mod.SLEEPRESTRAIT, 1)
         end
-    elseif (job == tpz.job.RNG) -- Ranged
+    elseif (job == tpz.job.RNG) then -- Ranged
         if mobLevel >= 1 and mobLevel < 75 then
             mob:addMod(tpz.mod.STR, 5)
             mob:addMod(tpz.mod.AGI, 1)
@@ -1031,7 +1031,7 @@ function AddFoodBonuses(mob)
         mob:addMod(tpz.mod.INT, 2)
         mob:addMod(tpz.mod.FOOD_MACCP, 21)
         mob:addMod(tpz.mod.FOOD_MACC_CAP, 10)
-    elseif (job == tpz.job.WHM) -- Healer
+    elseif (job == tpz.job.WHM) then -- Healer
     else -- Tank
         if mobLevel >= 1 and mobLevel < 75 then
             mob:addMod(tpz.mod.STR, 5)
@@ -1058,7 +1058,7 @@ function AddLevelUpBonuses(mob)
     local job = mob:getMainJob()
     local master = mob:getMaster()
     local isMelee = (job ~= tpz.job.WHM) and (job ~= tpz.job.RDM) and (job ~= tpz.job.PLD) and (job ~= tpz.job.RNG)
-    local isCaster = (job) == tpz.job.BLM) or (job == tpz.job.SCH)
+    local isCaster = (job == tpz.job.BLM) or (job == tpz.job.SCH)
     local isSupport = (job == tpz.job.COR) or (job == tpz.job.BRD) or (job == tpz.job.GEO)
 
     -- Apply role-based level up bonuses

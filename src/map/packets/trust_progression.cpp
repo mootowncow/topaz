@@ -48,11 +48,6 @@ CTrustProgressionPacket::CTrustProgressionPacket(CBattleEntity* PEntity)
     int ret = Sql_Query(SqlHandle, query);
     if (ret != SQL_ERROR && Sql_NextRow(SqlHandle) == SQL_SUCCESS)
     {
-        auto trustMelee = Sql_GetIntData(SqlHandle, 0);
-        auto trustRanged = Sql_GetIntData(SqlHandle, 1);
-        ShowDebug("Trust melee is %i\n", trustMelee);
-        ShowDebug("Trust ranged is %i\n", trustRanged);
-
         ref<uint32>(0x04) = Sql_GetIntData(SqlHandle, 0); // [Trust]Melee
         ref<uint32>(0x08) = Sql_GetIntData(SqlHandle, 1); // [Trust]Ranged
         ref<uint32>(0x0C) = Sql_GetIntData(SqlHandle, 2); // [Trust]Tank
