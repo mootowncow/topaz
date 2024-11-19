@@ -1059,13 +1059,13 @@ function AddTrustProgressionBonuses(mob)
     local mobLevel = mob:getMainLvl()
     local job = mob:getMainJob()
     local master = mob:getMaster()
-    local isMelee = (job ~= tpz.job.WHM) and (job ~= tpz.job.RDM) and (job ~= tpz.job.PLD) and (job ~= tpz.job.RNG)
+    local isTank = (job == tpz.job.PLD) or (job == tpz.job.NIN) or (job == tpz.job.RUN)
     local isCaster = (job == tpz.job.BLM) or (job == tpz.job.SCH)
     local isSupport = (job == tpz.job.COR) or (job == tpz.job.BRD) or (job == tpz.job.GEO)
 
     -- Apply role-based level up bonuses
-    if isMelee then
-        GetTrustProgressionBonuses(mob, 'Melee')
+    if isTank then
+        GetTrustProgressionBonuses(mob, 'Tank')
     elseif (job == tpz.job.RNG) then  -- Ranged
         GetTrustProgressionBonuses(mob, 'Ranged')
     elseif isCaster then
@@ -1074,8 +1074,8 @@ function AddTrustProgressionBonuses(mob)
         GetTrustProgressionBonuses(mob, 'Healer')
     elseif isSupport then
         GetTrustProgressionBonuses(mob, 'Support')
-    else  -- Tank
-        GetTrustProgressionBonuses(mob, 'Tank')
+    else
+        GetTrustProgressionBonuses(mob, 'Melee')
     end
 end
 
@@ -1117,35 +1117,36 @@ function GetTrustProgressionBonuses(mob, role)
             ['Lvl4'] = { Mod = tpz.mod.CURE_POTENCY,  Power = 4   },
             ['Lvl5'] = { Mod = tpz.mod.REFRESH,       Power = 1   },
         },
-        ['Support'] = { -- TODO: Maybe special instead of support? Like +TH + DA etc?
-            ['Lvl1'] = { Mod = tpz.mod.RATT,          Power = 10  },
-            ['Lvl2'] = { Mod = tpz.mod.RACC,          Power = 5   },
-            ['Lvl3'] = { Mod = tpz.mod.STR,           Power = 2   },
-            ['Lvl4'] = { Mod = tpz.mod.HASTE_GEAR,    Power = 200 },
-            ['Lvl5'] = { Mod = tpz.mod.HASTE_GEAR,    Power = 200 },
+        ['Support'] = {
+            ['Lvl1'] = { Mod = tpz.mod.SINGING,       Power = 5   },
+            ['Lvl2'] = { Mod = tpz.mod.ACC,           Power = 10  },
+            ['Lvl3'] = { Mod = tpz.mod.REGAIN,        Power = 5   },
+            ['Lvl4'] = { Mod = tpz.mod.GEOMANCY,      Power = 5   },
+            ['Lvl5'] = { Mod = tpz.mod.SONG_SPELLCASTING_TIME,    Power = 5 },
         },
     }
 
     -- Get the level from the Trust progression data
     local level = trustProgressionData[role] / 100
     level = math.floor(level)  -- Get the integer level (floor to avoid fractions)
-    
+
     -- Ensure level doesn't exceed the cap of 25
     level = utils.clamp(level, 0, 25)
 
-    -- Loop through levels 1 to the current level
+    -- Loop through every level from 1 to the current level
     for currentLevel = 1, level do
         -- Wrap around the level bonuses every 5 levels (Lvl1 to Lvl5)
-        local bonusLevel = "Lvl" .. (currentLevel % 5 == 0 and 5 or currentLevel % 5)
+        local bonusLevel = "Lvl" .. ((currentLevel - 1) % 5 + 1)  -- Map level to Lvl1-Lvl5
 
         -- Get the levelBonus data for that role and level
         local levelBonus = levelBonuses[role][bonusLevel]
-        
-        -- Print the bonus for debugging
-        print(string.format("Applying bonus for %s at %s: %s +%d", role, bonusLevel, levelBonus.Mod, levelBonus.Power))
-        
-        -- Apply the mod to the mob
-        mob:addMod(levelBonus.Mod, levelBonus.Power)
+
+        if levelBonus then
+            -- print(string.format("Applying bonus for %s at level %d (%s): %s +%d", role, currentLevel, bonusLevel, levelBonus.Mod, levelBonus.Power))
+
+            -- Apply the mod to the mob
+            mob:addMod(levelBonus.Mod, levelBonus.Power)
+        end
     end
 end
 

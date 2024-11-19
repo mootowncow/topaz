@@ -68,13 +68,13 @@ local trustProgData = {
     ['Healer'] = {
         items = {
             { id = tpz.items.FLASK_OF_POISON_POTION, contribution = 1 },
-            { id = tpz.items.FLASK_OF_VENOM_POTION, contribution = 1 },
-            { id = tpz.items.FLASK_OF_PARALYZE_POTION, contribution = 1 },
             { id = tpz.items.FLASK_OF_SLEEPING_POTION, contribution = 1 },
             { id = tpz.items.FLASK_OF_SILENCING_POTION, contribution = 1 },
             { id = tpz.items.FLASK_OF_BLINDING_POTION, contribution = 1 },
             { id = tpz.items.FLASK_OF_VITRIOL, contribution = 1 },
-            { id = tpz.items.JAR_OF_FIRESAND, contribution = 2 }
+            { id = tpz.items.JAR_OF_FIRESAND, contribution = 2 },
+            { id = tpz.items.FLASK_OF_VENOM_POTION, contribution = 3 },
+            { id = tpz.items.FLASK_OF_PARALYZE_POTION, contribution = 4 },
         },
         var = '[Trust]Healer'
     },
@@ -92,6 +92,7 @@ local trustProgData = {
 }
 
 tpz.trustProgression.onTrigger = function(player, npc)
+    player:trustProgressUpdateFlag()
 end
 
 tpz.trustProgression.onTrade = function(player, npc, trade)
@@ -154,17 +155,17 @@ tpz.trustProgression.onTrade = function(player, npc, trade)
 
     local currentLvl = math.floor(currentContribution / 100)
     local newLvl = math.floor(totalContribution / 100)
-    if newLvl >  currentLvl then
+    if (newLvl >  currentLvl) and (currentLvl <= 25) then
         TrustProgressLevelUpMessage(player, roleMatched, totalContribution)
     end
 end
 
 function TrustProgressLevelUpMessage(player, role, totalContribution)
-    local roleLvl = totalContribution / 100
-    local nearbyPlayers = mob:getPlayersInRange(auraParams.radius)
+    local roleLvl = math.floor(totalContribution / 100)
+    local nearbyPlayers = player:getPlayersInRange(500)
     if nearbyPlayers ~= nil then 
-        for _,v in ipairs(nearbyPlayers) do
-            nearbyPlayers:PrintToPlayer(role .. " has increased to level " .. roleLvl .. "!" , tpz.msg.textColor.HIDDEN, none)
+        for _,players in ipairs(nearbyPlayers) do
+            players:PrintToPlayer(role .. " has increased to level " .. roleLvl .. "!" , tpz.msg.textColor.HIDDEN, none)
         end
     end
 end
