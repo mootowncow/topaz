@@ -1010,7 +1010,7 @@ function utils.getDropRate(mob, base)
     return dropChance
 end
 
-function utils.spawnPetInBattle(mob, pet, aggro, randomizeTarget, setSpawn)
+function utils.spawnPetInBattle(mob, pet, aggro, randomizeTarget, setSpawn, spawnOnTarget)
     mob:entityAnimationPacket("casm")
     mob:SetAutoAttackEnabled(false)
     mob:SetMagicCastingEnabled(false)
@@ -1020,6 +1020,24 @@ function utils.spawnPetInBattle(mob, pet, aggro, randomizeTarget, setSpawn)
         mob:SetAutoAttackEnabled(true)
         mob:SetMagicCastingEnabled(true)
         mob:SetMobAbilityEnabled(true)
+
+        -- Spawn on a random target
+        if (spawnOnTarget ~= nil) then
+            local NearbyEntities = mob:getNearbyEntities(50)
+            if NearbyEntities and #NearbyEntities > 0 then
+                local randomTarget = NearbyEntities[math.random(1, #NearbyEntities)]
+                if randomTarget:isAlive() then
+                    pet:setSpawn(randomTarget:getXPos(), randomTarget:getYPos(), randomTarget:getZPos())
+                    pet:spawn()
+                    if (randomTarget:getAllegiance() ~= mob:getAllegiance()) then
+                        pet:updateEnmity(randomTarget)
+                    end
+                end
+            end
+
+            return
+        end
+
         if (setSpawn ~= nil) then
             pet:setSpawn(mob:getXPos() + math.random(0, 2), mob:getYPos(), mob:getZPos() + math.random(0, 2))
         end
@@ -1465,6 +1483,91 @@ function utils.AddDynamicMod(entity, modType, modValue)
         -- Store the new applied value as a local variable
         entity:setLocalVar("Mod_" .. modType, modValue)
     end
+end
+
+--[[ Example using below function
+function onMobFight(mob, target)
+    local runAwayTimer = mob:getLocalVar("runAwayTimer")
+    local tubeTime = mob:getLocalVar("tubeTime")
+    local tube = GetMobByID(mob:getID() + math.random(3))
+
+    -- Define the bounding box coordinates
+    local boxMinX, boxMaxX = 100, 200  -- Replace with your desired min/max X coordinates
+    local boxMinZ, boxMaxZ = 100, 200  -- Replace with your desired min/max Z coordinates
+
+    -- Does not Ore Toss in melee range
+    if mob:checkDistance(target) <= 5 then
+        mob:setMobMod(tpz.mobMod.SPECIAL_SKILL, 0)
+    else
+        mob:setMobMod(tpz.mobMod.SPECIAL_SKILL, 1123)
+    end
+
+    -- Modify the mob's behavior to stay within bounds
+    if mob:checkDistance(target) <= 5 and (os.time() >= runAwayTimer) then
+        mob:SetMobAbilityEnabled(false)
+    
+        -- Movement bounds polygon (the larger area)
+        local movementPolygon = {
+            { X=238.943649, Y=-3.000000, Z=138.118073 },
+            { X=289.866425, Y=-3.000000, Z=134.102936 },
+            { X=289.804840, Y=-3.000000, Z=104.017960 },
+            { X=240.730835, Y=-3.080084, Z=97.255013 }
+        }
+
+        -- Rock polygon (the area to avoid)
+        local rockPolygon = {
+            { X=283.009644, Y=-3.000000, Z=134.833832 },
+            { X=291.786774, Y=-3.000000, Z=109.745445 },
+            { X=261.349823, Y=-3.000000, Z=98.111229 },
+            { X=251.451859, Y=-3.253008, Z=124.825729 }
+        }
+
+        -- Generate a valid random position
+        local newX, newZ
+        repeat
+            -- Generate a random position within bounds
+            newX = target:getXPos() + math.random(-24, 24)
+            newZ = target:getZPos() + math.random(-24, 24)
+
+            -- Check if the position is inside the movement polygon and outside the rock polygon
+        until utils.pointInPolygon({ X = newX, Z = newZ }, movementPolygon) and 
+              not utils.pointInPolygon({ X = newX, Z = newZ }, rockPolygon)
+
+        -- Path the mob to the valid position
+        mob:pathTo(newX, target:getYPos(), newZ)
+
+        -- mob:setLocalVar("runAwayTimer", os.time() + math.random(30, 45))
+        mob:setLocalVar("runAwayTimer", os.time() + 5)
+        mob:timer(5000, function(mob)
+            mob:SetMobAbilityEnabled(true)
+        end)
+    end
+
+    -- Summons a random tube that uses a random TP move then despawns.
+    if os.time() >= tubeTime then
+        if not tube:isSpawned() then
+            mob:setLocalVar("tubeTime", os.time() + math.random(30, 60))
+            utils.spawnPetInBattle(mob, tube, true, false, true)
+        end
+    end
+end
+]]
+
+function utils.pointInPolygon(point, polygon)
+    -- Check if a point is inside a polygon
+    local x, z = point.X, point.Z
+    local inside = false
+    local n = #polygon
+    for i = 1, n do
+        local j = (i % n) + 1
+        local xi, zi = polygon[i].X, polygon[i].Z
+        local xj, zj = polygon[j].X, polygon[j].Z
+        local intersect = ((zi > z) ~= (zj > z)) and (x < (xj - xi) * (z - zi) / (zj - zi) + xi)
+        if intersect then
+            inside = not inside
+        end
+    end
+    return inside
 end
 
 function utils.HandleExtraDamageMultipliers(attacker, damage)

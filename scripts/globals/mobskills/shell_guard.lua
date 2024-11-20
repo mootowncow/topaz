@@ -9,7 +9,7 @@ require("scripts/globals/mobs")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    CheckQuadavModel(mob, skill, 2116, 358)
+    CheckQuadavModel(mob, skill, 2116, 358, 1560)
 	if mob:hasStatusEffect(tpz.effect.DEFENSE_BOOST) then
 		return 1
 	end

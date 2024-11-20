@@ -22,14 +22,34 @@ function onMobSpawn(mob)
     mob:SetAutoAttackEnabled(false)
 end
 
+function onMobRoam(mob)
+    local nearbyEntityCheck = mob:getLocalVar("nearbyEntityCheck")
+    if os.time() >= nearbyEntityCheck then
+        mob:setLocalVar("nearbyEntityCheck", os.time() + 3)
+        local NearbyEntities = mob:getNearbyEntities(5)
+        if NearbyEntities == nil then return end
+        if NearbyEntities then
+            for _,entity in pairs(NearbyEntities) do
+                if (entity:getAllegiance() ~= mob:getAllegiance()) then
+	                mob:useMobAbility(2366, entity) -- mine_blast
+                end
+            end
+        end
+    end
+end
+
 function onMobFight(mob, target)
-    local nearbyplayerCheck = mob:getLocalVar("nearbyplayerCheck")
-    if os.time() >= nearbyplayerCheck then
-        mob:setLocalVar("nearbyplayerCheck", os.time() + 3)
-        local nearbyPlayers = mob:getPlayersInRange(5)
-        if nearbyPlayers == nil then return end
-        if nearbyPlayers then
-	        mob:useMobAbility(2366) -- mine_blast
+    local nearbyEntityCheck = mob:getLocalVar("nearbyEntityCheck")
+    if os.time() >= nearbyEntityCheck then
+        mob:setLocalVar("nearbyEntityCheck", os.time() + 3)
+        local NearbyEntities = mob:getNearbyEntities(5)
+        if NearbyEntities == nil then return end
+        if NearbyEntities then
+            for _,entity in pairs(NearbyEntities) do
+                if (entity:getAllegiance() ~= mob:getAllegiance()) then
+	                mob:useMobAbility(2366, entity) -- mine_blast
+                end
+            end
         end
     end
 end

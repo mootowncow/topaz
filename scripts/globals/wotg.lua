@@ -17,7 +17,7 @@ tpz.wotg = tpz.wotg or {}
 
 tpz.wotg.NMMods = function(mob)
     if mob:getMainJob() == tpz.job.MNK then
-        mob:setDamage(70)
+        mob:setDamage(35)
     else
 	    mob:setDamage(140)
     end

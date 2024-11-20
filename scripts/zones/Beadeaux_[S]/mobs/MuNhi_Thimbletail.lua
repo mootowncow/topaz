@@ -33,12 +33,15 @@ function onMobSpawn(mob)
 end
 
 function onMobEngaged(mob, target)
-    mob:setLocalVar("vialTime", os.time() + 60)
+    mob:setLocalVar("tubeTime", os.time() + 60)
+    mob:setLocalVar("pathIndex", 1)
 end
 
 function onMobFight(mob, target)
+    local tubeTime = mob:getLocalVar("tubeTime")
     local runAwayTimer = mob:getLocalVar("runAwayTimer")
-    local vialTime = mob:getLocalVar("vialTime")
+    local pathIndex = mob:getLocalVar("pathIndex")
+    local tube = GetMobByID(mob:getID() + math.random(3))
 
     -- Does not Ore Toss in melee range
     if mob:checkDistance(target) <= 5 then
@@ -47,35 +50,62 @@ function onMobFight(mob, target)
         mob:setMobMod(tpz.mobMod.SPECIAL_SKILL, 1123)
     end
 
-    -- Runs away to ~23.5 yalms then runs back to ~13.5 if you run to him, but if you chase again after he won't run away again for a while
+    -- Run away pathing logic
+    -- If the mob is in range and the run away timer has expired
     if mob:checkDistance(target) <= 5 and (os.time() >= runAwayTimer) then
         mob:SetMobAbilityEnabled(false)
-		mob:pathTo(target:getXPos() + 24, target:getYPos(), target:getZPos() +24)
+
+        -- Path points for running away
+        local pathPoints = {
+            { X=247.491745, Y=-3.070058, Z=86.589287 },
+            { X=231.316696, Y=-3.000000, Z=128.621414 }
+        }
+
+        -- Get the current path point based on the pathIndex
+        local currentPath = pathPoints[pathIndex]
+
+        -- Ensure the currentPath is valid
+        if currentPath then
+            -- print("Moving to path point: X=" .. currentPath.X .. ", Z=" .. currentPath.Z)
+
+            -- Path the mob to the current path point
+            mob:pathTo(currentPath.X, mob:getYPos(), currentPath.Z)
+
+            -- Toggle the pathIndex between 1 and 2 for the next run
+            if pathIndex == 1 then
+                mob:setLocalVar("pathIndex", 2)  -- Set to 2 for the next path
+            else
+                mob:setLocalVar("pathIndex", 1)  -- Set to 1 for the next path
+            end
+        end
+
+        mob:setLocalVar("runningAway", 1)  -- Mark that the mob is running away
+
+        -- Set the cooldown timer for the next run away behavior
         mob:setLocalVar("runAwayTimer", os.time() + math.random(30, 45))
+
+        -- Re-enable mob abilities after 10 seconds
         mob:timer(5000, function(mob)
-		    mob:SetMobAbilityEnabled(true)
+            mob:setLocalVar("runningAway", 0)  -- Reset running away flag after 10 seconds
+            mob:SetMobAbilityEnabled(true)
         end)
-	end
+    end
+
+    local isRunningAway = mob:getLocalVar("runningAway")
+    -- Path to the target if distance is greater than 13.5 and mob is not running away
+    if mob:checkDistance(target) > 13.5 and isRunningAway == 0 then
+        -- Path the mob towards the target
+        mob:pathTo(target:getXPos(), mob:getYPos(), target:getZPos())
+    elseif mob:checkDistance(target) <= 13.5 and isRunningAway == 0 then
+        -- Stop pathing towards the target once within 13.5
+        mob:clearPath()  -- Call clearPath() to stop the mob's movement, but only if it's not running away
+    end
 
     -- Summons a random tube that uses a random TP move then despawns.
-    if os.time() >= vialTime then 
-        mob:setLocalVar("vialTime", os.time() + getVialTimer(mob))
-        local vial = GetMobByID(mob:getID() + math.random(3))
-        if not vial:isSpawned() then
-            local enmityList = mob:getEnmityList()
-            for _, enmity in ipairs(enmityList) do
-                if enmityList and #enmityList > 0 then
-                    local randomTarget = enmityList[math.random(1,#enmityList)];
-                    entityId = randomTarget.entity:getID();
-                    if (entityId > 10000) then -- ID is a mob(pet) then
-                        vialTarget = GetMobByID(entityId)
-                    else
-                        vialTarget = GetPlayerByID(entityId)
-                    end
-                    vial:setSpawn(GetPlayerByID(vialTarget):getXPos(), GetPlayerByID(vialTarget):getYPos(), GetPlayerByID(vialTarget):getZPos())
-                    utils.spawnPetInBattle(mob, vial)
-                end
-            end
+    if os.time() >= tubeTime and mob:checkDistance(target) <= 20.00 and isRunningAway == 0 then
+        if not tube:isSpawned() then
+            mob:setLocalVar("tubeTime", os.time() + math.random(30, 60))
+            utils.spawnPetInBattle(mob, tube, true, false, false, true)
         end
     end
 end

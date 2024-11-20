@@ -37,7 +37,7 @@ function onMobFight(mob, target)
             local currentMine = GetMobByID(firstMineID + minesplaced)
             currentMine:spawn()
             currentMine:setPos(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 3))
-            currentMine:addStatusEffect(tpz.effect.STUN, 1, 0, 10)
+            currentMine:addStatusEffect(tpz.effect.STUN, 1, 0, 5)
             currentMine:updateEnmity(target)
             minesplaced = minesplaced +1
         end

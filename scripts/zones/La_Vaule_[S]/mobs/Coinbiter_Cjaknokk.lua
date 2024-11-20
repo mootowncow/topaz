@@ -15,7 +15,7 @@ mixins = {require("scripts/mixins/job_special")}
 function onMobSpawn(mob)
     tpz.wotg.NMMods(mob)
     mob:setMod(tpz.mod.REGAIN, 1000)
-    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 3)
+    mob:setMobMod(tpz.mobMod.SKILL_LIST, 1205)
 end
 
 function onMobEngaged(mob)
