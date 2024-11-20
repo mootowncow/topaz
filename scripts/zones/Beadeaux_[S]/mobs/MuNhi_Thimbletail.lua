@@ -105,7 +105,7 @@ function onMobFight(mob, target)
     if os.time() >= tubeTime and mob:checkDistance(target) <= 20.00 and isRunningAway == 0 then
         if not tube:isSpawned() then
             mob:setLocalVar("tubeTime", os.time() + math.random(30, 60))
-            utils.spawnPetInBattle(mob, tube, true, false, true)
+            utils.spawnPetInBattle(mob, tube, true, false, false, true)
         end
     end
 end
