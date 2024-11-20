@@ -1469,3 +1469,20 @@ function utils.AddDynamicMod(entity, modType, modValue)
         entity:setLocalVar("Mod_" .. modType, modValue)
     end
 end
+
+function utils.pointInPolygon(point, polygon)
+    -- Check if a point is inside a polygon
+    local x, z = point.X, point.Z
+    local inside = false
+    local n = #polygon
+    for i = 1, n do
+        local j = (i % n) + 1
+        local xi, zi = polygon[i].X, polygon[i].Z
+        local xj, zj = polygon[j].X, polygon[j].Z
+        local intersect = ((zi > z) ~= (zj > z)) and (x < (xj - xi) * (z - zi) / (zj - zi) + xi)
+        if intersect then
+            inside = not inside
+        end
+    end
+    return inside
+end
