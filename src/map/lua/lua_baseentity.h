@@ -789,6 +789,7 @@ public:
     int32 deaggroPlayer(lua_State* L);
     int32 deaggroAll(lua_State* L);
     int32 isTopEnmity(lua_State* L);
+    int32 trustProgressUpdateFlag(lua_State* L);
 };
 
 #endif

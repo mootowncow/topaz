@@ -17276,6 +17276,25 @@ inline int32 CLuaBaseEntity::setSuperJump(lua_State* L)
     return 1;
 }
 
+/************************************************************************
+ *  Function: trustProgressUpdateFlag()
+ *  Purpose : Forces a trustprogression packet to be sent
+ *  Example : player:trustProgressUpdateFlag()
+ *  Notes   :
+ ************************************************************************/
+int32 CLuaBaseEntity::trustProgressUpdateFlag(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    if (auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity))
+    {
+        PChar->trustProgressUpdateFlag = true;
+    }
+
+    return 0;
+}
+
 
 //=======================================================//
 
@@ -18025,6 +18044,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,TryProcTH),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getPlayerRegionInZone),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateToEntireZone),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,trustProgressUpdateFlag),
 
     {nullptr,nullptr}
 };
