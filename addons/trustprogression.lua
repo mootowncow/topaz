@@ -188,7 +188,8 @@ local default_settings = T{
                 { name = "Wool Cloth", contribution = 2 },
                 { name = "Velvet Cloth", contribution = 2 },
                 { name = "Silk Cloth", contribution = 3 },
-                { name = "Rainbow Cloth", contribution = 4 }
+                { name = "Gold Thread", contribution = 3 },
+                { name = "Rainbow Cloth", contribution = 4 },
             },
             ['Healer'] = {
                 { name = "Poison Potion", contribution = 1 },

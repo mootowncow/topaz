@@ -61,6 +61,7 @@ local trustProgData = {
             { id = tpz.items.SQUARE_OF_WOOL_CLOTH, contribution = 2 },
             { id = tpz.items.SQUARE_OF_VELVET_CLOTH, contribution = 2 },
             { id = tpz.items.SQUARE_OF_SILK_CLOTH, contribution = 3 },
+            { id = tpz.items.SPOOL_OF_GOLD_THREAD, contribution = 3 },
             { id = tpz.items.SQUARE_OF_RAINBOW_CLOTH, contribution = 4 }
         },
         var = '[Trust]Caster'
