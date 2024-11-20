@@ -175,7 +175,6 @@ One of the Thiazi or a Bialozar should have higher HP and open vortex, it should
 17784999 should be visible(model missing?) and at G-8 https://www.bg-wiki.com/ffxi/Mewk_Chorosap
 Buff Headsman Ring to 7/7 
 Ferocious Wamouras addle undispellable
-Pixies shouldn't blood aggro
 MDT augments also give equal BDT
 No Absorb items mods should stack
 Za'Dha Adamantking modelsize too big? (WOTG - The Buried God)

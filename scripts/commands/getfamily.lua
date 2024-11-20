@@ -12,7 +12,7 @@ cmdprops =
 function onTrigger(player)
     local targ = player:getCursorTarget()
     if (targ ~= nil) then
-        player:PrintToPlayer(string.format("%s's pool is: %u ", targ:getName(), targ:getFamily()))
+        player:PrintToPlayer(string.format("%s's family is: %u ", targ:getName(), targ:getFamily()))
     else
         player:PrintToPlayer("Must select a target using in game cursor first.")
     end
