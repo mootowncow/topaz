@@ -13,7 +13,7 @@ require("scripts/globals/mobs")
 ---------------------------------------------
 function onMobSkillCheck(target, mob, skill)
     if mob:getSystem() == 7 then -- Quadavs
-        CheckQuadavModel(mob, skill, 2116, 356)
+        CheckQuadavModel(mob, skill, 2116, 356, 1558)
     end
     return 0
 end

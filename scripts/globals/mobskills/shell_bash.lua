@@ -10,7 +10,7 @@ require("scripts/globals/mobs")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    CheckQuadavModel(mob, skill, 2116, 357)
+    CheckQuadavModel(mob, skill, 2116, 357, 1559)
     return 0
 end
 
