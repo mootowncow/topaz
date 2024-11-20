@@ -633,21 +633,8 @@ bool CMobController::MobSkill(int wsList)
         {
             if (currentDistance <= PMobSkill->getDistance())
             {
-                // Set var for use in monstertpmoves.lua TP scaling
-                int16 tp = PMob->health.tp;
-                if (PMob->objtype == TYPE_MOB && PMob->allegiance == ALLEGIANCE_PLAYER) // NPCs
-                {
-                    // Add Fencer TP Bonus
-                    CMobEntity* PMobAttacker = static_cast<CMobEntity*>(PMob);
-                    CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PMobAttacker->m_Weapons[SLOT_MAIN]);
-                    if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
-                    {
-                        if (!PMobAttacker->m_dualWield)
-                        {
-                            tp += PMobAttacker->getMod(Mod::FENCER_TP_BONUS);
-                        }
-                    }
-                }
+                int16 tp = battleutils::CalculateWeaponSkillTP(PMob, 0, PMob->health.tp);
+
                 tp = std::min(static_cast<int>(tp), 3000);
                 PMob->SetLocalVar("tp", tp);
                 // Set message for "Player" and Fomor TP moves, and Prishe/Tenzen TP moves
@@ -1279,42 +1266,48 @@ void CMobController::HandleEnmity()
         }
     }
 
-    // Bind special case
+    // Bind / Palisade special case
     // Target the closest person
     // TODO: do jug pets do this?
-    if (PMob->objtype == TYPE_MOB && PMob->StatusEffectContainer && PMob->StatusEffectContainer->HasStatusEffect(EFFECT_BIND) &&
-        PMob->PAI->IsCurrentState<CAttackState>())
+    try
     {
-        //ShowDebug("Mob is bound and in Attack State.\n");
-        CBattleEntity* PNewTarget = nullptr;
-        std::unique_ptr<CBasicPacket> m_errorMsg; // Ignored
-
-        // Check if the current target is out of range and if there is enmity
-        if (PTarget && !PMob->CanAttack(PTarget, m_errorMsg))
+        if (PMob->objtype == TYPE_MOB && PTarget && PMob->StatusEffectContainer && PMob->PAI->IsCurrentState<CAttackState>())
         {
-            //ShowDebug("Current target is out of range or cannot be attacked. Looking for a new target.\n");
-
-            PMob->PAI->TargetFind->reset();
-            PMob->PAI->TargetFind->findWithinArea(PTarget, AOERADIUS_ATTACKER, 7.0f);
-
-            //ShowDebug("Found targets in melee range.\n");
-
-            // If there are targets within melee range, select a random one
-            if (!PMob->PAI->TargetFind->m_targets.empty())
+            if ((PMob->StatusEffectContainer && PMob->StatusEffectContainer->HasStatusEffect(EFFECT_BIND)) ||
+                (PTarget && PTarget->StatusEffectContainer && PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PALISADE)))
             {
-                int targetIndex = tpzrand::GetRandomNumber(PMob->PAI->TargetFind->m_targets.size());
-                PNewTarget = PMob->PAI->TargetFind->m_targets[targetIndex];
+                CBattleEntity* PNewTarget = nullptr;
+                std::unique_ptr<CBasicPacket> m_errorMsg; // Ignored
 
-                //ShowDebug("Randomly selected target: %s at index %d\n", PNewTarget->GetName(), targetIndex);
+                // Check if the current target is out of range and if there is enmity
+                if (!PMob->CanAttack(PTarget, m_errorMsg))
+                {
+                    PMob->PAI->TargetFind->reset();
+                    PMob->PAI->TargetFind->findWithinArea(PTarget, AOERADIUS_ATTACKER, 7.0f);
+
+                    // If there are targets within melee range, select a random one
+                    if (!PMob->PAI->TargetFind->m_targets.empty())
+                    {
+                        int targetIndex = tpzrand::GetRandomNumber(PMob->PAI->TargetFind->m_targets.size());
+                        PNewTarget = PMob->PAI->TargetFind->m_targets[targetIndex];
+                    }
+                }
+
+                if (PNewTarget)
+                {
+                    ChangeTarget(PNewTarget->targid);
+                    FaceTarget(PNewTarget->targid);
+                }
             }
         }
-
-        if (PNewTarget)
-        {
-            //ShowDebug("Changing target to: %s\n", PNewTarget->name);
-            ChangeTarget(PNewTarget->targid);
-            FaceTarget(PNewTarget->targid);
-        }
+    }
+    catch (const std::exception& e)
+    {
+        // Do nothing if an exception occurs
+    }
+    catch (...)
+    {
+        // Catch any other types of exceptions (e.g., non-standard C++ exceptions)
     }
 }
 

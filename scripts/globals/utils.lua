@@ -266,6 +266,7 @@ function utils.thirdeye(attacker, target)
     end
 
     local anticipateChance = thirdEye:getPower()
+    local anticipates = thirdEye:getSubPower()
     -- printf("anticipateChance: %d", anticipateChance)
 
     if
@@ -278,8 +279,12 @@ function utils.thirdeye(attacker, target)
         
         -- Now check if Seigan is active for TE persistence
         if not hasSeigan then
-            -- No Seigan: remove TE after anticipation
-            target:delStatusEffectSilent(tpz.effect.THIRD_EYE)
+            if (anticipates > 1) then
+                thirdEye:setSubPower(anticipates - 1)
+            else
+                -- Only 1 anticipate left, remove TE after anticipation
+                target:delStatusEffectSilent(tpz.effect.THIRD_EYE)
+            end
         else
             -- Seigan active: roll to see if TE persists
             if math.random(100) > anticipateChance then
@@ -1563,4 +1568,14 @@ function utils.pointInPolygon(point, polygon)
         end
     end
     return inside
+end
+
+function utils.HandleExtraDamageMultipliers(attacker, damage)
+    -- Grand Pa's multiplier
+    if (attacker:hasStatusEffect(tpz.effect.GRAND_PAS)) then
+        local grandPasJpBonus = 1 + (attacker:getJobPointLevel(tpz.jp.GRAND_PAS_EFFECT) / 100)
+        damage = math.floor(damage * grandPasJpBonus)
+    end
+
+    return damage
 end

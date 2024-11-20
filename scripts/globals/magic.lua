@@ -690,7 +690,12 @@ function applyResistanceEffect(caster, target, spell, params) -- says "effect" b
         end
     end
 
-    -- Apply "Status EfFect" Magic Accuracy Mod
+    -- Apply BLU Additional effect MACC JP Bonus
+    if (params.skillType == tpz.skill.BLUE_MAGIC) then
+        magicaccbonus = magicaccbonus + caster:getJobPointLevel(tpz.jp.BLUE_PHYS_AE_ACC_BONUS)
+    end
+
+    -- Apply "Status Effect" Magic Accuracy Mod
     magicaccbonus = magicaccbonus + caster:getMod(tpz.mod.STATUS_EFFECT_MACC)
 
     local p = getMagicHitRate(caster, target, skill, element, SDT, percentBonus, magicaccbonus, params)
@@ -1532,9 +1537,20 @@ function addBonuses(caster, spell, target, dmg, params)
 
     dmg = math.floor(dmg * mabbonus)
 
-    if (caster:hasStatusEffect(tpz.effect.EBULLIENCE)) then
-        dmg = dmg * (1.2 + caster:getMod(tpz.mod.EBULLIENCE_AMOUNT)/100)
-        caster:delStatusEffectSilent(tpz.effect.EBULLIENCE)
+    if spell:getSkillType() == tpz.skill.ELEMENTAL_MAGIC or spell:getSkillType() == tpz.skill.DARK_MAGIC then
+        if (caster:hasStatusEffect(tpz.effect.EBULLIENCE)) then
+            local jpValue = caster:getJobPointLevel(tpz.jp.STRATEGEM_EFFECT_III) * 2
+            dmg = dmg + jpValue
+            dmg = dmg * (1.2 + caster:getMod(tpz.mod.EBULLIENCE_AMOUNT)/100)
+            caster:delStatusEffectSilent(tpz.effect.EBULLIENCE)
+        end
+    elseif spell:getSkillType() == tpz.skill.DIVINE_MAGIC then
+        if (caster:hasStatusEffect(tpz.effect.RAPTURE)) then
+            local jpValue = caster:getJobPointLevel(tpz.jp.STRATEGEM_EFFECT_III) * 2
+            dmg = dmg + jpValue
+            dmg = dmg * (1.5 + caster:getMod(tpz.mod.RAPTURE_AMOUNT)/100)
+            caster:delStatusEffectSilent(tpz.effect.RAPTURE)
+        end
     end
 
     dmg = math.floor(dmg)
@@ -1736,10 +1752,9 @@ function getHelixDuration(caster)
         duration = 90
     end
 
-    if caster:hasStatusEffect(tpz.effect.DARK_ARTS) then
-        local jpValue = caster:getJobPointLevel(tpz.jp.DARK_ARTS_EFFECT)
-
-        duration = duration + (3 * jpValue)
+    if caster:hasStatusEffect(tpz.effect.DARK_ARTS) or caster:hasStatusEffect(tpz.effect.ADDENDUM_BLACK) then
+        local jpValue = caster:getJobPointLevel(tpz.jp.DARK_ARTS_EFFECT) * 3
+        duration = duration + jpValue
     end
 
     return duration
@@ -2065,7 +2080,7 @@ function getDstatBonus(softcap, diff)
     return dstatMaccBonus
 end
 
--- Magic Accuracy from Job Points.
+-- Magic Accuracy from Merits / Job Points.
 function JobPointsMacc(caster, target, spell)
     local skill = spell:getSkillType()
     local spellGroup = spell:getSpellGroup()
@@ -2115,16 +2130,17 @@ function JobPointsMacc(caster, target, spell)
             end,
 
             [tpz.job.BLU] = function()
-                -- BLU MACC merits - nuke acc is handled in bluemagic.lua
+                -- BLU MACC merits and JP - nuke acc is handled in bluemagic.lua
                 if skill == tpz.skill.BLUE_MAGIC then
                     jpMaccBonus = caster:getMerit(tpz.merit.MAGICAL_ACCURACY)
+                    jpMaccBonus = jpMaccBonus + caster:getJobPointLevel(tpz.jp.BLU_MAGIC_ACC_BONUS)
                 end
             end,
 
             [tpz.job.SCH] = function()
                 if
-                    (spellGroup == tpz.magic.spellGroup.WHITE and caster:hasStatusEffect(tpz.effect.PARSIMONY)) or
-                    (spellGroup == tpz.magic.spellGroup.BLACK and caster:hasStatusEffect(tpz.effect.PENURY))
+                    (spellGroup == tpz.magic.spellGroup.WHITE and caster:hasStatusEffect(tpz.effect.PENURY)) or
+                    (spellGroup == tpz.magic.spellGroup.BLACK and caster:hasStatusEffect(tpz.effect.PARSIMONY))
                 then
                     local jpValue = caster:getJobPointLevel(tpz.jp.STRATEGEM_EFFECT_I)
 
@@ -2470,6 +2486,8 @@ function doNuke(caster, target, spell, params)
         end
         -- boost with Futae
         if (caster:hasStatusEffect(tpz.effect.FUTAE)) then
+            local jpBonus = caster:getJobPointLevel(tpz.jp.FUTAE_EFFECT) * 5
+            dmg = dmg + jpBonus
             dmg = math.floor(dmg * 1.50)
             caster:delStatusEffectSilent(tpz.effect.FUTAE)
         end
@@ -3613,13 +3631,28 @@ function getAbsorbSpellPower(caster)
     local gearBonus = 1 + (caster:getMod(tpz.mod.AUGMENTS_ABSORB) / 100)
     local liberatorBonus = 1 + (caster:getMod(tpz.mod.AUGMENTS_ABSORB_II) / 100)
     local netherVoidBonus = 1
+    local jpBonus = (caster:getJobPointLevel(tpz.jp.NETHER_VOID_EFFECT) * 2) / 100
 
     if caster:hasStatusEffect(tpz.effect.NETHER_VOID) then
-        netherVoidBonus = 1.5
+        netherVoidBonus = 1.5 + jpBonus
     end
 
     local totalPower = math.floor(math.floor(basePower * (gearBonus) * liberatorBonus) * netherVoidBonus)
     return totalPower
+end
+
+function getRegenPotency(caster, target, base)
+    local power = math.ceil(base * (1 + 0.01 * caster:getMod(tpz.mod.REGEN_MULTIPLIER)))
+    power = power + caster:getMerit(tpz.merit.REGEN_EFFECT) -- bonus hp from merits
+
+    if caster:getMainJob() == tpz.job.SCH then
+        power = power + caster:getMod(tpz.mod.LIGHT_ARTS_REGEN) -- bonus hp from light arts
+    end
+
+    power = power + caster:getMod(tpz.mod.REGEN_BONUS) -- JP Gift
+
+    --printf("Regen power %d", power)
+    return power
 end
 
 function calculateDurationForLvl(duration, spellLvl, targetLvl)
@@ -3647,7 +3680,7 @@ end
 function calculateDuration(duration, magicSkill, spellGroup, caster, target, useComposure)
     local casterJob = caster:getMainJob()
 
-    if magicSkill == tpz.skill.ENHANCING_MAGIC then -- Enhancing Magic
+    if magicSkill == tpz.skill.ENHANCING_MAGIC then
         -- Gear mods
         duration = duration + duration * caster:getMod(tpz.mod.ENH_MAGIC_DURATION) / 100
 
@@ -3668,7 +3701,7 @@ function calculateDuration(duration, magicSkill, spellGroup, caster, target, use
         if caster:hasStatusEffect(tpz.effect.PERPETUANCE) and spellGroup == tpz.magic.spellGroup.WHITE then
             duration  = duration * 2
         end
-    elseif magicSkill == tpz.skill.ENFEEBLING_MAGIC then -- Enfeebling Magic
+    elseif magicSkill == tpz.skill.ENFEEBLING_MAGIC then 
         -- Gear mods
         duration = duration + duration * caster:getMod(tpz.mod.ENFEEB_MAGIC_DURATION) / 100
 
@@ -3696,6 +3729,8 @@ function calculateDuration(duration, magicSkill, spellGroup, caster, target, use
         end
     elseif magicSkill == tpz.skill.DARK_MAGIC then
         duration = duration * (1 + (caster:getMod(tpz.mod.DARK_MAGIC_DURATION) / 100))
+    elseif magicSkill == tpz.skill.NINJUTSU then
+        duration = duration * (1 + (caster:getMod(tpz.mod.NINJUTSU_DURATION) / 100))
     end
 
     return math.floor(duration)
@@ -3705,6 +3740,12 @@ function getRegenDurationBonuses(caster, target)
     local bonus = 0
     bonus = bonus + caster:getMod(tpz.mod.REGEN_DURATION)
     bonus = bonus + caster:getJobPointLevel(tpz.jp.REGEN_DURATION) * 3
+    bonus = bonus + caster:getMod(tpz.mod.REGEN_BONUS) -- JP Gift
+
+    if caster:hasStatusEffect(tpz.effect.LIGHT_ARTS) or caster:hasStatusEffect(tpz.effect.ADDENDUM_WHITE) then
+        local jpValue = caster:getJobPointLevel(tpz.jp.LIGHT_ARTS_EFFECT) * 3
+        bonus = bonus + jpValue
+    end
 
     --printf("Regen bonus %d", bonus)
     return bonus

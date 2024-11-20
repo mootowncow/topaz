@@ -24,31 +24,21 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local duration = 300
-    local durationTwo = 900
+    local effect = tpz.effect.AQUAVEIL
+    local effect2 = tpz.effect.ATTACK_BOOST
+    local effect3 = tpz.effect.MAGIC_ATK_BOOST
+    local power = 20
     local aquaveilPower = 10 + caster:getMod(tpz.mod.AQUAVEIL_COUNT)
+    local duration = 300
+    local aquaveilDuration = 900
+    local tick = 0
+    local subid = 0
+    local subpower = 0
+    local tier = 0
+    local bonus = 0
+    local params = {}
 
-    if (caster:hasStatusEffect(tpz.effect.DIFFUSION)) then
-        local diffMerit = caster:getMerit(tpz.merit.DIFFUSION)
-
-        if (diffMerit > 0) then
-            duration = duration + (duration/100)* diffMerit
-            durationTwo = durationTwo + (durationTwo/100)* diffMerit
-        end
-
-        caster:delStatusEffectSilent(tpz.effect.DIFFUSION)
-    end
-
-    -- Apply unbridled duration mod
-    duration = math.floor(duration * (1 + caster:getMod(tpz.mod.UNBRIDLED_DURATION) / 100))
-    durationTwo = math.floor(durationTwo * (1 + caster:getMod(tpz.mod.UNBRIDLED_DURATION) / 100))
-
-    target:delStatusEffectSilent(tpz.effect.AQUAVEIL)
-
-    target:addStatusEffect(tpz.effect.ATTACK_BOOST, 20, 0, duration)
-    target:addStatusEffect(tpz.effect.MAGIC_ATK_BOOST, 20, 0, duration)
-    target:addStatusEffect(tpz.effect.AQUAVEIL, aquaveilPower, 0, durationTwo)
-    spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
-
-    return tpz.effect.AQUAVEIL
+    BlueBuffSpell(caster, target, spell, effect2, power, tick, duration, subid, subpower, tier, params, bonus)
+    BlueBuffSpell(caster, target, spell, effect3, power, tick, duration, subid, subpower, tier, params, bonus)
+    return BlueBuffSpell(caster, target, spell, effect, aquaveilPower, tick, aquaveilDuration, subid, subpower, tier, params, bonus)
 end

@@ -3,6 +3,8 @@
 --
 --
 -----------------------------------
+require("scripts/globals/status")
+-----------------------------------
 
 function onEffectGain(target, effect)
     local jpValue = target:getJobPointLevel(tpz.jp.BARRAGE_EFFECT) * 3

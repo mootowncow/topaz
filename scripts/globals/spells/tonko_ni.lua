@@ -12,8 +12,10 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
+    local duration = calculateDuration(540, spell:getSkillType(), spell:getSpellGroup(), caster, target)
+
     if (target:hasStatusEffect(tpz.effect.INVISIBLE) == false) then
-        target:addStatusEffect(tpz.effect.INVISIBLE, 0, 10, math.floor(540 * SNEAK_INVIS_DURATION_MULTIPLIER))
+        target:addStatusEffect(tpz.effect.INVISIBLE, 0, 10, math.floor(duration * SNEAK_INVIS_DURATION_MULTIPLIER))
         spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
     else
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT) -- no tpz.effect.

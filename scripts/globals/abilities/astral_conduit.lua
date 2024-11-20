@@ -1,6 +1,7 @@
 -----------------------------------
 -- Ability: Astral Conduit
--- Description: Reduces Blood Pact recast times.
+-- Description: Fully restores MP, resets blood pact recast timers, and reduces blood pact recasts by 50%
+-- Note: Bypasses normal BP timer reduction cap
 -- Obtained: SMN Level 96
 -- Recast Time: 01:00:00
 -- Duration: 00:00:30
@@ -14,5 +15,8 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    player:addStatusEffect(tpz.effect.ASTRAL_CONDUIT, 15, 1, 30)
+    player:setMP(player:getMaxMP())
+    player:resetRecast(tpz.recast.ABILITY, 173)
+    player:resetRecast(tpz.recast.ABILITY, 174)
+    player:addStatusEffect(tpz.effect.ASTRAL_CONDUIT, 1, 0, 30)
 end

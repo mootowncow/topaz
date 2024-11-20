@@ -8,6 +8,7 @@
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/job_util")
 require("scripts/globals/msg")
 -----------------------------------
 function onAbilityCheck(player, target, ability)

@@ -77,8 +77,13 @@ public:
     uint8 getElementMax(uint8 element);
     uint8 getElementCapacity(uint8 element);
 
+    uint8 getElementalCapacityBonus();
+    void setElementalCapacityBonus(uint8 bonus);
+
     void burdenTick();
-    void setInitialBurden();
+    auto getBurden() -> std::array<uint8, 8>;
+    void setAllBurden(uint8 burden);
+    void setBurdenArray(std::array<uint8, 8> burdenArray);
     uint8 addBurden(uint8 element, int8 burden);
 
     void PostTick() override;
@@ -93,6 +98,7 @@ public:
 
 private:
     std::array<uint8, 8> m_Burden {};
+    uint8                m_elementalCapacityBonus = 0;
 };
 
 #endif

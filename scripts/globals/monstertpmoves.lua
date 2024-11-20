@@ -85,12 +85,16 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     --get fSTR
     local weaponDmg = mob:getWeaponDmg()
-    local fSTR = getMobFSTR(weaponDmg, mob:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))
+    local STR = mob:getStat(tpz.mod.STR)
+    if mob:isTrust() then
+        STR = STR + mob:getMod(tpz.mod.STR_DURING_WS)
+    end
+    local fSTR = getMobFSTR(weaponDmg, STR, target:getStat(tpz.mod.VIT))
 
     if (tpeffect == TP_RANGED) then
         isRanged = true
         weaponDmg = mob:getRangedDmg()
-        fSTR = getMobFSTR2(weaponDmg, mob:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))
+        fSTR = getMobFSTR2(weaponDmg, STR, target:getStat(tpz.mod.VIT))
     end
 
     local lvluser = mob:getMainLvl()
@@ -98,22 +102,18 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local acc = mob:getACC()
     if (tpeffect == TP_RANGED) then
         acc = mob:getRACC()
+        acc = mob:calculateSweetSpotAccuracy(target, acc)
     end
     local eva = target:getEVA()
-    if target:isPC() then
-        if (target:hasStatusEffect(tpz.effect.YONIN) and mob:isFacing(target, 23)) then -- Yonin evasion boost if mob is facing target
-            eva = eva + (target:getStatusEffect(tpz.effect.YONIN):getPower() + target:getJobPointLevel(tpz.jp.YONIN_EFFECT))
-        end
+
+    if (target:hasStatusEffect(tpz.effect.YONIN) and mob:isFacing(target, 23)) then -- Yonin evasion boost if mob is facing target
+        eva = eva + (target:getStatusEffect(tpz.effect.YONIN):getPower() + (target:getJobPointLevel(tpz.jp.YONIN_EFFECT) * 2))
     end
 
     --apply WSC
     local WSC = getMobWSC(mob, params_phys)
     --printf("WSC %u", WSC)
-    local withoutws = mob:getWeaponDmg() + fSTR
-    if (tpeffect == TP_RANGED) then
-        withoutws = mob:getRangedDmg() + fSTR
-    end
-    --printf("dmg without wsc %u", withoutws)
+
     local base = mob:getWeaponDmg() + WSC + fSTR
     if (tpeffect == TP_RANGED) then
         base = mob:getRangedDmg() + WSC + fSTR
@@ -147,8 +147,11 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     --work out and cap ratio
     if (offcratiomod == nil) then -- default to attack. Pretty much every physical mobskill will use this, Cannonball being the exception.
         local attk = mob:getStat(tpz.mod.ATT)
-        offcratiomod = mob:getStat(tpz.mod.ATT) * (1 + (attackBonus / 100))
-        -- print ("Nothing passed, defaulting to attack")
+        if (tpeffect == TP_RANGED) then
+           attk = mob:getRATT()
+           attk = mob:calculateSweetSpotAttack(target, attk)
+        end
+        offcratiomod = attk * (1 + (attackBonus / 100))
     end
     local ratio = offcratiomod/target:getStat(tpz.mod.DEF)
     --printf("Ratio before ignore defense applied %u", ratio*100)
@@ -197,7 +200,24 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local minCritRate = 0.01 -- 1%
     -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
 
-    local critRate = baseCritRate + getMobDexCritRate(mob, target) + mob:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE)
+    local critHitRateMods = mob:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE) - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)
+    local critRate = baseCritRate + getMobDexCritRate(mob, target) + critHitRateMods
+
+    if (tpeffect == TP_RANGED) then -- TODO: Doesn't work because TP_RANGED and TP_CRIT_VARIES are same arg in function
+        local AGI = mob:getStat(tpz.mod.AGI)
+    
+        if mob:isTrust() then
+            AGI = AGI + mob:getMod(tpz.mod.AGI_DURING_WS)
+        end
+
+        local dAGI = (AGI - target:getStat(tpz.mod.AGI))
+
+        if dAGI > 0 then
+            critRate = baseCritRate + math.floor(dAGI / 10) / 100
+        end
+    end
+
+
     --printf("ddex critRate %u", critRate)
     --printf("critRate before param %i", critRate)
     if tpeffect == TP_CRIT_VARIES then
@@ -207,12 +227,17 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         -- Apply fencer bonus (NPCs only)
         critRate = critRate + getMobFencerCritBonus(mob)
 
+        -- Apply Yonin bonus
+        if target:hasStatusEffect(tpz.effect.YONIN) and mob:isFacing(target, 23) then
+            critRate = critRate - (target:getStatusEffect(tpz.effect.YONIN):getPower())
+        end
+
         critRate = critRate / 100
         critRate = utils.clamp(critRate, minCritRate, maxCritRate)
     else
         critRate = 0  -- Cannot crit unless TP_CRIT_VARIES
     end
-    -- printf("final crit %d", critRate * 100)
+    --printf("final crit %f", critRate)
 
     local maxRatio, minRatio = utils.GetMeleeRatio(mob, ratio)
 
@@ -859,11 +884,24 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
 
     dmg = math.floor(dmg * dmgTPmod)
 
-    -- Handle TPEVA mod
-    if math.random(100) <= target:getMod(tpz.mod.TPEVA) then
+    -- Handle TPEVA mod (Does not work on auto-attcks or RA)
+    if (skill:getFlag() ~= tpz.mobSkillFlag.SPECIAL and skill:getFlag() ~= tpz.mobSkillFlag.REPLACE_ATTACK) then
+        if math.random(100) <= target:getMod(tpz.mod.TPEVA) then
 
-        skill:setMsg(tpz.msg.basic.MISS)
-        return 0
+            if target:isPC() and target:hasStatusEffect(tpz.effect.YAEGASUMI) then
+                local yaegasumiWSD = target:getCharVar("YaegasumiWSD")
+                if (yaegasumiWSD < 60) then -- Caps at 60% WSD https://www.bg-wiki.com/ffxi/Yaegasumi
+                    target:setCharVar("YaegasumiWSD", yaegasumiWSD + 20)
+                end
+
+                local jpBonus = target:getJobPointLevel(tpz.jp.YAEGASUMI_EFFECT) * 30
+                local tpAdded = 500 + jpBonus
+                target:addTP(tpAdded)
+            end
+
+            skill:setMsg(tpz.msg.basic.MISS)
+            return 0
+        end
     end
 
     -- Not being absorbed
@@ -1832,7 +1870,11 @@ end
 
 function getMobDexCritRate(mob, target)
     -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
-    local dDex = mob:getStat(tpz.mod.DEX) - target:getStat(tpz.mod.AGI)
+    local DEX = mob:getStat(tpz.mod.DEX)
+    if mob:isTrust() then
+        DEX = DEX + mob:getMod(tpz.mod.DEX_DURING_WS)
+    end
+    local dDex = DEX - target:getStat(tpz.mod.AGI)
     local dDexAbs = math.abs(dDex)
 
     local sign = 1
@@ -2001,11 +2043,27 @@ function isBlocked(mob, target)
 end
 
 function getMobWSC(mob, params_phys)
-    wsc = (mob:getStat(tpz.mod.STR) * params_phys.str_wsc + mob:getStat(tpz.mod.DEX) * params_phys.dex_wsc +
-        mob:getStat(tpz.mod.VIT) * params_phys.vit_wsc + mob:getStat(tpz.mod.AGI) * params_phys.agi_wsc +
-        mob:getStat(tpz.mod.INT) * params_phys.int_wsc + mob:getStat(tpz.mod.MND) * params_phys.mnd_wsc +
-        mob:getStat(tpz.mod.CHR) * params_phys.chr_wsc)
-        --printf("wsc: %u", wsc)
+    local wsc = 0
+
+    if mob:isTrust() then
+        wsc = (mob:getStat(tpz.mod.STR) + mob:getMod(tpz.mod.STR_DURING_WS)) * params_phys.str_wsc +
+              (mob:getStat(tpz.mod.DEX) + mob:getMod(tpz.mod.DEX_DURING_WS)) * params_phys.dex_wsc +
+              (mob:getStat(tpz.mod.VIT) + mob:getMod(tpz.mod.VIT_DURING_WS)) * params_phys.vit_wsc +
+              (mob:getStat(tpz.mod.AGI) + mob:getMod(tpz.mod.AGI_DURING_WS)) * params_phys.agi_wsc +
+              (mob:getStat(tpz.mod.INT) + mob:getMod(tpz.mod.INT_DURING_WS)) * params_phys.int_wsc +
+              (mob:getStat(tpz.mod.MND) + mob:getMod(tpz.mod.MND_DURING_WS)) * params_phys.mnd_wsc +
+              (mob:getStat(tpz.mod.CHR) + mob:getMod(tpz.mod.CHR_DURING_WS)) * params_phys.chr_wsc
+    else
+        wsc = (mob:getStat(tpz.mod.STR) * params_phys.str_wsc + 
+               mob:getStat(tpz.mod.DEX) * params_phys.dex_wsc +
+               mob:getStat(tpz.mod.VIT) * params_phys.vit_wsc + 
+               mob:getStat(tpz.mod.AGI) * params_phys.agi_wsc +
+               mob:getStat(tpz.mod.INT) * params_phys.int_wsc + 
+               mob:getStat(tpz.mod.MND) * params_phys.mnd_wsc +
+               mob:getStat(tpz.mod.CHR) * params_phys.chr_wsc)
+    end
+
+    --printf("wsc: %u", wsc)
     return wsc
 end
 

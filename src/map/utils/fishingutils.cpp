@@ -799,10 +799,24 @@ namespace fishingutils
         switch (response->catchtype)
         {
         case FISHINGCATCHTYPE_SMALLFISH:
-            PChar->pushPacket(new CMessageTextPacket(PChar, MessageOffset + FISHMESSAGEOFFSET_HOOKED_SMALL_FISH));
+            if (isItemFish(response->catchid))
+            {
+                PChar->pushPacket(new CMessageTextPacket(PChar, MessageOffset + FISHMESSAGEOFFSET_HOOKED_ITEM));
+            }
+            else
+            {
+                PChar->pushPacket(new CMessageTextPacket(PChar, MessageOffset + FISHMESSAGEOFFSET_HOOKED_SMALL_FISH));
+            }
             break;
         case FISHINGCATCHTYPE_BIGFISH:
-            PChar->pushPacket(new CMessageTextPacket(PChar, MessageOffset + FISHMESSAGEOFFSET_HOOKED_LARGE_FISH));
+            if (isItemFish(response->catchid))
+            {
+                PChar->pushPacket(new CMessageTextPacket(PChar, MessageOffset + FISHMESSAGEOFFSET_HOOKED_ITEM));
+            }
+            else
+            {
+                PChar->pushPacket(new CMessageTextPacket(PChar, MessageOffset + FISHMESSAGEOFFSET_HOOKED_LARGE_FISH));
+            }
             break;
         case FISHINGCATCHTYPE_ITEM:
             PChar->pushPacket(new CMessageTextPacket(PChar, MessageOffset + FISHMESSAGEOFFSET_HOOKED_ITEM));
@@ -1387,6 +1401,23 @@ namespace fishingutils
 
         PChar->pushPacket(new CCharUpdatePacket(PChar));
         PChar->pushPacket(new CCharSyncPacket(PChar));
+    }
+
+    static bool isItemFish(uint32 catchid)
+    {
+        switch (catchid)
+        {
+            case 4443:
+            case 4484:
+            case 5128:
+            case 5131:
+            case 5466:
+            case 5949:
+                return true;
+            default:
+                break;
+        }
+        return false;
     }
 
 

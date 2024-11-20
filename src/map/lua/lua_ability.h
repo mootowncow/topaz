@@ -54,6 +54,7 @@ public:
     int32 getPrimaryTargetID(lua_State*);
     int32 getCE(lua_State*);
     int32 getVE(lua_State*);
+    int32 getTPCost(lua_State*);
     int32 setMsg(lua_State*);
     int32 setAnimation(lua_State*);
     int32 setRecast(lua_State*);

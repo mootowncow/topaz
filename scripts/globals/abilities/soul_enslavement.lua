@@ -14,5 +14,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    player:addStatusEffect(tpz.effect.SOUL_ENSLAVEMENT, 8, 1, 30)
+    player:addStatusEffect(tpz.effect.SOUL_ENSLAVEMENT, 1, 0, 30)
 end

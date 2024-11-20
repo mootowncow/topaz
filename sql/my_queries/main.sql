@@ -32,4 +32,29 @@ UPDATE tpzdb . mob_pools SET cmbDmgMult = 50 WHERE familyid = 3 AND mJob = 13;
 UPDATE tpzdb . mob_pools SET cmbSkill = 1 WHERE familyid = 176 AND mJob = 13;
 UPDATE tpzdb . mob_pools SET cmbDelay = 360 WHERE familyid = 176 AND mJob = 13;
 UPDATE tpzdb . mob_pools SET cmbDmgMult = 50 WHERE familyid = 176 AND mJob = 13;
+UPDATE tpzdb . mob_pools SET rangedSkill = 0 WHERE familyid = 133 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 0 WHERE familyid = 327 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 0 WHERE familyid = 946 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 126 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 127 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 128 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 129 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 130 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 328 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 0 WHERE familyid = 597 AND mJob = 17;
+UPDATE tpzdb . mob_pools SET rangedSkill = 0 WHERE familyid = 928 AND mJob = 17;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 200 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 201 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 202 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 337 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 942 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 955 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 1 WHERE familyid = 115 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 1 WHERE familyid = 359 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 509 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 221 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 222 AND mJob = 11;
+UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 223 AND mJob = 11;
+
+
 

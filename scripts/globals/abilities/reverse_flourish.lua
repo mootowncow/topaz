@@ -7,6 +7,7 @@
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/job_util")
 require("scripts/globals/msg")
 -----------------------------------
 
@@ -15,37 +16,24 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-
     local TPGain = 0
     local STM = 0.5 + (0.1 * player:getMod(tpz.mod.REVERSE_FLOURISH_EFFECT))
-
     local Merits = player:getMerit(tpz.merit.REVERSE_FLOURISH_EFFECT)
-    local jpValue = player:getJobPointLevel(tpz.jp.FLOURISH_II_EFFECT) / 10
+    local jpValue = player:getJobPointLevel(tpz.jp.FLOURISH_II_EFFECT) * 2 / 10
+    local maxConsumed = 5
+    local finishingMoves = jobUtil.getFinishingMoveCount(player)
 
-    if (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_1)) then
-        TPGain = (9.5 + jpValue) * 1 + STM * 1 ^ 2 + Merits
+    if (finishingMoves > 0) then
+        local actualConsumed = jobUtil.consumeFinishingMoves(player, maxConsumed)
+        
+        if (actualConsumed > 0) then
+            TPGain = (9.5 + jpValue) * actualConsumed + STM * actualConsumed ^ 2 + Merits
+        end
 
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_2)) then
-        TPGain = (9.5 + jpValue) * 2 + STM * 2 ^ 2 + Merits
+        TPGain = TPGain * 10
 
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_3)) then
-        TPGain = (9.5 + jpValue) * 3 + STM * 3 ^ 2 + Merits
+        player:addTP(TPGain)
 
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_4)) then
-        TPGain = (9.5 + jpValue) * 4 + STM * 4 ^ 2 + Merits
-
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_5)) then
-        TPGain = (9.5 + jpValue) * 5 + STM * 5 ^ 2 + Merits
+        return TPGain
     end
-
-    TPGain = TPGain * 10
-
-    player:addTP(TPGain)
-    player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_1)
-    player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_2)
-    player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_3)
-    player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_4)
-    player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_5)
-
-    return TPGain
 end

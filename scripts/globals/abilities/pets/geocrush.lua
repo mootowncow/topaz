@@ -27,8 +27,8 @@ function onPetAbility(target, pet, skill)
     params.chr_wsc = 0.0
     params.IGNORES_SHADOWS = true
 
-    local effect = tpz.effect.CRIT_HIT_EVASION_DOWN
-    local power = 10
+    local effect = tpz.effect.ACCURACY_DOWN
+    local power = 30
     local duration = 60
     local bonus = 0
 

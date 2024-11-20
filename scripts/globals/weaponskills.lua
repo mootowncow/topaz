@@ -143,11 +143,26 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
         wsParams.chr_wsc = wsParams.chr_wsc + (attacker:getMod(tpz.mod.WS_CHR_BONUS) / 100)
     end
 
-    local wsMods = calcParams.fSTR +
-        (attacker:getStat(tpz.mod.STR) * wsParams.str_wsc + attacker:getStat(tpz.mod.DEX) * wsParams.dex_wsc +
-         attacker:getStat(tpz.mod.VIT) * wsParams.vit_wsc + attacker:getStat(tpz.mod.AGI) * wsParams.agi_wsc +
-         attacker:getStat(tpz.mod.INT) * wsParams.int_wsc + attacker:getStat(tpz.mod.MND) * wsParams.mnd_wsc +
-         attacker:getStat(tpz.mod.CHR) * wsParams.chr_wsc) * calcParams.alpha
+    local wsMods = 0
+    if attacker:isTrust() then
+        wsMods = calcParams.fSTR +
+            (attacker:getStat(tpz.mod.STR) + attacker:getMod(tpz.mod.STR_DURING_WS)) * wsParams.str_wsc +
+            (attacker:getStat(tpz.mod.DEX) + attacker:getMod(tpz.mod.DEX_DURING_WS)) * wsParams.dex_wsc +
+            (attacker:getStat(tpz.mod.VIT) + attacker:getMod(tpz.mod.VIT_DURING_WS)) * wsParams.vit_wsc +
+            (attacker:getStat(tpz.mod.AGI) + attacker:getMod(tpz.mod.AGI_DURING_WS)) * wsParams.agi_wsc +
+            (attacker:getStat(tpz.mod.INT) + attacker:getMod(tpz.mod.INT_DURING_WS)) * wsParams.int_wsc +
+            (attacker:getStat(tpz.mod.MND) + attacker:getMod(tpz.mod.MND_DURING_WS)) * wsParams.mnd_wsc +
+            (attacker:getStat(tpz.mod.CHR) + attacker:getMod(tpz.mod.CHR_DURING_WS)) * wsParams.chr_wsc * calcParams.alpha
+    else
+        wsMods = calcParams.fSTR +
+            (attacker:getStat(tpz.mod.STR) * wsParams.str_wsc +
+            attacker:getStat(tpz.mod.DEX) * wsParams.dex_wsc +
+            attacker:getStat(tpz.mod.VIT) * wsParams.vit_wsc +
+            attacker:getStat(tpz.mod.AGI) * wsParams.agi_wsc +
+            attacker:getStat(tpz.mod.INT) * wsParams.int_wsc +
+            attacker:getStat(tpz.mod.MND) * wsParams.mnd_wsc +
+            attacker:getStat(tpz.mod.CHR) * wsParams.chr_wsc) * calcParams.alpha
+    end
     local mainBase = calcParams.weaponDamage[1] + wsMods + calcParams.bonusWSmods
 
     -- Calculate fTP multiplier
@@ -168,15 +183,21 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
 
         -- Add on native crit hit rate (guesstimated, it actually follows an exponential curve)
         if isRanged then -- Ranged uses dAGI
-            local dAGI = (attacker:getStat(tpz.mod.AGI) - target:getStat(tpz.mod.AGI))
+            local AGI = attacker:getStat(tpz.mod.AGI)
+            if attacker:isTrust() then
+                AGI = AGI + attacker:getMod(tpz.mod.AGI_DURING_WS)
+            end
+            local dAGI = (AGI - target:getStat(tpz.mod.AGI))
             if dAGI > 0 then
                 nativecrit = nativecrit + math.floor(dAGI/10)/100 -- no known cap
-                --attacker:PrintToPlayer(string.format("native ranged crit rate was %d", nativecrit*100))
             end
          else
-            local dDEX = (attacker:getStat(tpz.mod.DEX) - target:getStat(tpz.mod.AGI))
-            nativecrit = nativecrit + getDexCritBonus(dDEX)
-            --attacker:PrintToPlayer(string.format("native melee crit rate was %d", nativecrit*100))
+             local DEX = attacker:getStat(tpz.mod.DEX)
+             if attacker:isTrust() then
+                DEX = DEX + attacker:getMod(tpz.mod.DEX_DURING_WS)
+             end
+             local dDEX = (DEX - target:getStat(tpz.mod.AGI))
+             nativecrit = nativecrit + getDexCritBonus(dDEX)
         end
         -- Always minimum 5% native crit
         if nativecrit < 0.05 then
@@ -343,7 +364,8 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     -- Check for Building Flourish WSD bonus
     local flourisheffect = attacker:getStatusEffect(tpz.effect.BUILDING_FLOURISH)
     if flourisheffect ~= nil and flourisheffect:getPower() > 2 then -- Building Flourish gives +25% WSD at 3+ FM"s"
-        attacker:addMod(tpz.mod.ALL_WSDMG_ALL_HITS, 25)
+        local jpValue = attacker:getJobPointLevel(tpz.jp.FLOURISH_II_EFFECT)
+        attacker:addMod(tpz.mod.ALL_WSDMG_ALL_HITS, jpValue)
     end
     local bonusdmg = attacker:getMod(tpz.mod.ALL_WSDMG_ALL_HITS) -- For any WS
 
@@ -353,11 +375,17 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
 
     -- Remove Building Flourish WSD effect
     if flourisheffect ~= nil and flourisheffect:getPower() > 2 then
-        attacker:delMod(tpz.mod.ALL_WSDMG_ALL_HITS, 25)
+        local jpValue = attacker:getJobPointLevel(tpz.jp.FLOURISH_II_EFFECT)
+        attacker:delMod(tpz.mod.ALL_WSDMG_ALL_HITS, jpValue)
     end
+
     if (attacker:getMod(tpz.mod.WEAPONSKILL_DAMAGE_BASE + wsID) > 0) then -- For specific WS
         bonusdmg = bonusdmg + attacker:getMod(tpz.mod.WEAPONSKILL_DAMAGE_BASE + wsID)
         --printf("Specific WS dmg increase %u", bonusdmg)
+    end
+
+    if attacker:isPC() then
+        bonusdmg = bonusdmg + attacker:getCharVar("YaegasumiWSD")
     end
 
     finaldmg = finaldmg * ((100 + bonusdmg)/100) -- Apply our "all hits" WS dmg bonuses
@@ -397,9 +425,13 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
         ['weaponType'] = attacker:getWeaponSkillType(tpz.slot.MAIN),
         ['damageType'] = attacker:getWeaponDamageType(tpz.slot.MAIN)
     }
+    local STR = attacker:getStat(tpz.mod.STR)
+    if attacker:isTrust() then
+        STR = STR + attacker:getMod(tpz.mod.STR_DURING_WS)
+    end
     local calcParams = {}
     calcParams.weaponDamage = getMeleeDmg(attacker, attack.weaponType, wsParams.kick)
-    calcParams.fSTR = fSTR(attacker:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT), attacker:getWeaponDmgRank())
+    calcParams.fSTR = fSTR(STR, target:getStat(tpz.mod.VIT), attacker:getWeaponDmgRank())
     calcParams.cratio = cratio
     calcParams.ccritratio = ccritratio
     calcParams.accStat = attacker:getACC()
@@ -516,6 +548,8 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
     -- Handle Scarlet Delirium
     finaldmg = utils.ScarletDeliriumBonus(attacker, finaldmg)
 
+    finaldmg = utils.HandleExtraDamageMultipliers(attacker, finaldmg)
+
     finaldmg = finaldmg * WEAPON_SKILL_POWER -- Add server bonus
     calcParams.finalDmg = finaldmg
     finaldmg = utils.clamp(finaldmg, -99999, 99999)
@@ -543,10 +577,14 @@ function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, prima
         ['weaponType'] = attacker:getWeaponSkillType(tpz.slot.RANGED),
         ['damageType'] = attacker:getWeaponDamageType(tpz.slot.RANGED)
     }
+    local STR = attacker:getStat(tpz.mod.STR)
+    if attacker:isTrust() then
+        STR = STR + attacker:getMod(tpz.mod.STR_DURING_WS)
+    end
     local calcParams =
     {
         weaponDamage = {attacker:getRangedDmg()},
-        fSTR = fSTR2(attacker:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT), attacker:getRangedDmgRank()),
+        fSTR = fSTR2(STR, target:getStat(tpz.mod.VIT), attacker:getRangedDmgRank()),
         cratio = cratio,
         ccritratio = ccritratio,
         accStat = attacker:getRACC(),
@@ -717,6 +755,10 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
         --printf("Specific WS dmg increase %u", bonusdmg)
     end
 
+    if attacker:isPC() then
+        bonusdmg = bonusdmg + attacker:getCharVar("YaegasumiWSD")
+    end
+
     -- Add in bonusdmg
     dmg = dmg * ((100 + bonusdmg)/100) -- Apply our "all hits" WS dmg bonuses
     dmg = dmg + ((dmg * attacker:getMod(tpz.mod.ALL_WSDMG_FIRST_HIT))/100) -- Add in our "first hit" WS dmg bonus
@@ -754,6 +796,8 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
 
     -- Handle Scarlet Delirium
     dmg = utils.ScarletDeliriumBonus(attacker, dmg)
+
+    dmg = utils.HandleExtraDamageMultipliers(attacker, dmg)
 
     dmg = dmg * WEAPON_SKILL_POWER -- Add server bonus
 
@@ -945,11 +989,11 @@ function getHitRate(attacker, target, capHitRate, firsthit, bonus)
         bonus = 0
     end
 
-    if (attacker:hasStatusEffect(tpz.effect.INNIN) and attacker:isBehind(target, 90)) then -- Innin acc boost if attacker is behind target
+    if (attacker:hasStatusEffect(tpz.effect.INNIN) and attacker:isBehind(target, 23)) then -- Innin acc boost if attacker is behind target
         bonus = bonus + (attacker:getStatusEffect(tpz.effect.INNIN):getPower() + attacker:getJobPointLevel(tpz.jp.INNIN_EFFECT))
     end
-    if (target:hasStatusEffect(tpz.effect.YONIN) and attacker:isFacing(target, 90)) then -- Yonin evasion boost if attacker is facing target
-        bonus = bonus - (target:getStatusEffect(tpz.effect.YONIN):getPower() + target:getJobPointLevel(tpz.jp.YONIN_EFFECT))
+    if (target:hasStatusEffect(tpz.effect.YONIN) and attacker:isFacing(target, 23)) then -- Yonin evasion boost if attacker is facing target
+        bonus = bonus - (target:getStatusEffect(tpz.effect.YONIN):getPower() + (target:getJobPointLevel(tpz.jp.YONIN_EFFECT) * 2))
     end
 
     if attacker:hasTrait(tpz.trait.AMBUSH) then
@@ -1025,6 +1069,8 @@ function getRangedHitRate(attacker, target, slugwinder, bonus)
 
     acc = acc + bonus
 
+    acc = attacker:calculateSweetSpotAccuracy(target, acc)
+
     local hitrate = 75
 
     if attacker:getMainLvl() > target:getMainLvl() then
@@ -1032,6 +1078,7 @@ function getRangedHitRate(attacker, target, slugwinder, bonus)
     else
         hitrate = hitrate + math.floor(((acc - eva) / 2) - (2 * (target:getMainLvl() - attacker:getMainLvl())))
     end
+
     hitrate = hitrate / 100
 
     -- Slugwinder caps at 95% hit rate, rest cap at 99%
@@ -1041,6 +1088,7 @@ function getRangedHitRate(attacker, target, slugwinder, bonus)
         hitrate = utils.clamp(hitrate, 0.2, 0.99)
     end
 
+    --printf("Hit rate %f", hitrate)
     return hitrate
 end
 
@@ -1081,15 +1129,21 @@ function cMeleeRatio(attacker, defender, params, ignoredDef, tp)
         attacker:addMod(tpz.mod.ATTP, 25 + flourisheffect:getSubPower() / 2)
     end
 
-    local conspiratorBonus = 0
+    local flatAttackBonus = 0
+
+    if (params.flatAttackBonus ~= nil) then
+        flatAttackBonus = params.flatAttackBonus
+    end
+
+    -- Conspirator Flat Attack
     if attacker:hasStatusEffect(tpz.effect.CONSPIRATOR) then
         if not attacker:isTopEnmity(defender) then
-            conspiratorBonus = attacker:getMod(tpz.mod.AUGMENTS_CONSPIRATOR)
+            flatAttackBonus = flatAttackBonus + attacker:getMod(tpz.mod.AUGMENTS_CONSPIRATOR)
         end
     end
 
     local atkmulti = fTP(tp, params.atk100, params.atk200, params.atk300)
-    local cratio = ((attacker:getStat(tpz.mod.ATT) + conspiratorBonus) * atkmulti) / (defender:getStat(tpz.mod.DEF) - ignoredDef)
+    local cratio = ((attacker:getStat(tpz.mod.ATT) + flatAttackBonus) * atkmulti) / (defender:getStat(tpz.mod.DEF) - ignoredDef)
     cratio = utils.clamp(cratio, 0, 2.25)
     if flourisheffect ~= nil and flourisheffect:getPower() > 1 then
         attacker:delMod(tpz.mod.ATTP, 25 + flourisheffect:getSubPower() / 2)
@@ -1189,6 +1243,9 @@ end
 function cRangedRatio(attacker, defender, params, ignoredDef, tp)
 
     local atkmulti = fTP(tp, params.atk100, params.atk200, params.atk300)
+    local rAttack = attacker:getRATT()
+    rAttack = attacker:calculateSweetSpotAttack(defender, rAttack)
+
     local cratio = attacker:getRATT() / (defender:getStat(tpz.mod.DEF) - ignoredDef)
 
     local levelcor = 0

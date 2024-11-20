@@ -42,6 +42,12 @@ function onMobSpawn(mob)
         mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASSO)
     end
 
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.RESISTS_DMGTYPE, tpz.mod.SLASHRES, ai.r.JA, ai.s.SPECIFIC, tpz.ja.TOMAHAWK)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.RESISTS_DMGTYPE, tpz.mod.PIERCERES, ai.r.JA, ai.s.SPECIFIC, tpz.ja.TOMAHAWK)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.RESISTS_DMGTYPE, tpz.mod.IMPACTRES, ai.r.JA, ai.s.SPECIFIC, tpz.ja.TOMAHAWK)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.RESISTS_DMGTYPE, tpz.mod.HTHRES, ai.r.JA, ai.s.SPECIFIC, tpz.ja.TOMAHAWK)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.RESISTS_DMGTYPE, tpz.mod.RANGEDRES, ai.r.JA, ai.s.SPECIFIC, tpz.ja.TOMAHAWK)
+
     if mob:getMainLvl() >= 60 then
         mob:addSimpleGambit(ai.t.SELF, ai.c.TP_LT, 400, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MEDITATE)
         mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.RETALIATION, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RETALIATION)

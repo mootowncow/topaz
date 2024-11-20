@@ -24,7 +24,10 @@ function onUseAbility(player, target, ability, action)
         action:animation(target:getID(), action:animation(target:getID()) + 1)
     end
 
-    local duration = 30 + player:getMod(tpz.mod.SHADOW_BIND_EXT) + player:getJobPointLevel(tpz.jp.SHADOWBIND_DURATION)
+    local duration = 30 + player:getMod(tpz.mod.SHADOW_BIND_EXT)
+
+    duration = duration + player:getJobPointLevel(tpz.jp.SHADOWBIND_DURATION)
+
     local recycleChance = player:getMod(tpz.mod.RECYCLE) + player:getMerit(tpz.merit.RECYCLE)
     if (player:hasStatusEffect(tpz.effect.UNLIMITED_SHOT)) then
         player:delStatusEffectSilent(tpz.effect.UNLIMITED_SHOT)

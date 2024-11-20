@@ -35,7 +35,11 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local waltzCost = 200 - player:getMod(tpz.mod.WALTZ_COST)
+    local baseWaltzCost = ability:getTPCost() - player:getMod(tpz.mod.WALTZ_COST) 
+    local waltzCostReduction = player:getMod(tpz.mod.WALTZ_COST_PERCENT) / 100 
+
+    local waltzCost = baseWaltzCost * (1 - waltzCostReduction)  
+
     -- Only remove TP if the player doesn't have Trance.
     if not player:hasStatusEffect(tpz.effect.TRANCE) then
         player:delTP(waltzCost)
@@ -53,8 +57,6 @@ function onUseAbility(player, target, ability)
     local sjob = player:getSubJob()
     local cure = 0
 
-
-
     --Performing sj mj check.
     if mjob == tpz.job.DNC then
         cure = (vit+chr)*0.25+60
@@ -63,6 +65,10 @@ function onUseAbility(player, target, ability)
     if sjob == tpz.job.DNC then
         cure = (vit+chr)*0.125+60
     end
+
+    -- Apply JP bonus
+    local jpValue = player:getJobPointLevel(tpz.jp.WALTZ_POTENCY_BONUS) * 2
+    cure = cure + jpValue
 
     -- apply waltz modifiers
     cure = math.floor(cure * (1.0 + (player:getMod(tpz.mod.WALTZ_POTENTCY)/100)))

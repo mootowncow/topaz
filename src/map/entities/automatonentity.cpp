@@ -107,6 +107,27 @@ uint8 CAutomatonEntity::getElementCapacity(uint8 element)
     return m_ElementEquip[element];
 }
 
+uint8 CAutomatonEntity::getElementalCapacityBonus()
+{
+    return m_elementalCapacityBonus;
+}
+
+void CAutomatonEntity::setElementalCapacityBonus(uint8 bonus)
+{
+    if (bonus == m_elementalCapacityBonus)
+    {
+        return;
+    }
+
+    int8 difference = static_cast<int8>(bonus) - m_elementalCapacityBonus;
+    for (size_t i = 0; i < m_ElementMax.size(); ++i)
+    {
+        m_ElementMax[i] += difference;
+    }
+
+    m_elementalCapacityBonus = bonus;
+}
+
 void CAutomatonEntity::burdenTick()
 {
     for (auto&& burden : m_Burden)
@@ -118,9 +139,19 @@ void CAutomatonEntity::burdenTick()
     }
 }
 
-void CAutomatonEntity::setInitialBurden()
+auto CAutomatonEntity::getBurden() -> std::array<uint8, 8>
 {
-    m_Burden.fill(30);
+    return m_Burden;
+}
+
+void CAutomatonEntity::setAllBurden(uint8 burden)
+{
+    m_Burden.fill(burden);
+}
+
+void CAutomatonEntity::setBurdenArray(std::array<uint8, 8> burdenArray)
+{
+    m_Burden = burdenArray;
 }
 
 // Function to get the element name based on the element value

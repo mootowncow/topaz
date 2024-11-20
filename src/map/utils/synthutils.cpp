@@ -368,11 +368,11 @@ uint8 calcSynthResult(CCharEntity* PChar)
             random = tpzrand::GetRandomNumber(0, 16);
 
             if (random == 0)
-                result = SYNTHESIS_HQ3;
+                result = SYNTHESIS_HQ3; // 6.25%
             else if (random < 4)
-                result = SYNTHESIS_HQ2;
+                result = SYNTHESIS_HQ2; // 18.75%
             else
-                result = SYNTHESIS_HQ;
+                result = SYNTHESIS_HQ; // 75%
 
         }
         else

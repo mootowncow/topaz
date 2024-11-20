@@ -55,10 +55,13 @@ function onUseAbility(player, target, ability)
     local cratio, ccritratio = cMeleeRatio(player, target, params, 0, 0)
     local pdif = generatePdif (cratio[1], cratio[2], true)
     local gearMod = player:getMod(tpz.mod.WEAPON_BASH)
-    local jpValue = target:getJobPointLevel(tpz.jp.WEAPON_BASH_EFFECT)
+    local jpValue = player:getJobPointLevel(tpz.jp.WEAPON_BASH_EFFECT) * 10
 
-    damage = (base + gearMod + jpValue)  * pdif
+    damage = (base + gearMod)
 
+    damage = damage + jpValue
+
+    damage = damage * pdif
     -- Apply reductions
     damage = utils.HandlePositionalPDT(player, target, damage)
     damage = target:physicalDmgTaken(damage, tpz.damageType.BLUNT)

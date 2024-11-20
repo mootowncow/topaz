@@ -840,6 +840,7 @@ namespace charutils
         CalculateStats(PChar);
         blueutils::LoadSetSpells(PChar);
         puppetutils::LoadAutomaton(PChar);
+        jobpointutils::RefreshGiftMods(PChar);
         BuildingCharSkillsTable(PChar);
         BuildingCharAbilityTable(PChar);
         BuildingCharTraitsTable(PChar);
@@ -1369,6 +1370,7 @@ namespace charutils
 
     void UpdateSubJob(CCharEntity* PChar)
     {
+        jobpointutils::RefreshGiftMods(PChar);
         charutils::BuildingCharSkillsTable(PChar);
         charutils::CalculateStats(PChar);
         charutils::CheckValidEquipment(PChar);
@@ -2016,11 +2018,18 @@ namespace charutils
                 {
                     if (PItem->isType(ITEM_WEAPON))
                     {
-                        CItemWeapon* weapon = (CItemWeapon*)PChar->getEquip(SLOT_AMMO);
-                        if ((weapon != nullptr) && weapon->isType(ITEM_WEAPON))
+                        CItemWeapon* ammo = (CItemWeapon*)PChar->getEquip(SLOT_AMMO);
+                        if ((ammo != nullptr) && ammo->isType(ITEM_WEAPON))
                         {
-                            if (((CItemWeapon*)PItem)->getSkillType() != weapon->getSkillType() ||
-                                ((CItemWeapon*)PItem)->getSubSkillType() != weapon->getSubSkillType())
+                            // Check if the weapon and ammo are compatible as shortbow or longbow.
+                            bool isBowCompatible =
+                                (ammo->getSubSkillType() == SUBSKILL_ARROW) &&
+                                (((CItemWeapon*)PItem)->getSubSkillType() == SUBSKILL_SHORTBOW || ((CItemWeapon*)PItem)->getSubSkillType() == SUBSKILL_LONGBOW);
+
+                            // Only unequip if skill types or sub-skill types do not match and it's not a compatible bow setup.
+                            if ((((CItemWeapon*)PItem)->getSkillType() != ammo->getSkillType() ||
+                                 ((CItemWeapon*)PItem)->getSubSkillType() != ammo->getSubSkillType()) &&
+                                !isBowCompatible)
                             {
                                 UnequipItem(PChar, SLOT_AMMO, false);
                             }
@@ -2038,8 +2047,14 @@ namespace charutils
                         CItemWeapon* weapon = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
                         if ((weapon != nullptr) && weapon->isType(ITEM_WEAPON))
                         {
-                            if (((CItemWeapon*)PItem)->getSkillType() != weapon->getSkillType() ||
-                                ((CItemWeapon*)PItem)->getSubSkillType() != weapon->getSubSkillType())
+                            // Check if the weapon is either shortbow or longbow, and ammo is shortbow.
+                            bool isBowCompatible = (((CItemWeapon*)PItem)->getSubSkillType() == SUBSKILL_ARROW) &&
+                                                   (weapon->getSubSkillType() == SUBSKILL_SHORTBOW || weapon->getSubSkillType() == SUBSKILL_LONGBOW);
+
+                            // Only unequip if skill types or sub-skill types do not match and it's not a compatible bow setup.
+                            if ((((CItemWeapon*)PItem)->getSkillType() != weapon->getSkillType() ||
+                                 ((CItemWeapon*)PItem)->getSubSkillType() != weapon->getSubSkillType()) &&
+                                !isBowCompatible)
                             {
                                 UnequipItem(PChar, SLOT_RANGED, false);
                             }
@@ -4095,6 +4110,12 @@ namespace charutils
                     {
                         chainActive = true;
 
+                        if (PMob->getMobMod(MOBMOD_CAPACITY_BONUS))
+                        {
+                            const float monsterbonus = 1.f + PMob->getMobMod(MOBMOD_CAPACITY_BONUS) / 100.f;
+                            capacityPoints *= monsterbonus;
+                        }
+
                         // TODO: Needs verification, pulled from:
                         // https://www.bluegartr.com/threads/120445-Job-Points-discussion?p=6138288&viewfull=1#post6138288 Assumption: Chain0 is no bonus,
                         // Chains 10+ capped at 1.5 value, f(chain) = 1 + 0.05 * chain
@@ -4272,6 +4293,7 @@ namespace charutils
                     PChar->SetSLevel(PChar->jobs.job[PChar->GetSJob()]);
                 }
 
+                jobpointutils::RefreshGiftMods(PChar);
                 BuildingCharSkillsTable(PChar);
                 CalculateStats(PChar);
                 CheckValidEquipment(PChar);
@@ -4486,6 +4508,7 @@ namespace charutils
                     PChar->SetMLevel(PChar->jobs.job[PChar->GetMJob()]);
                     PChar->SetSLevel(PChar->jobs.job[PChar->GetSJob()]);
 
+                    jobpointutils::RefreshGiftMods(PChar);
                     BuildingCharSkillsTable(PChar);
                     CalculateStats(PChar);
                     BuildingCharAbilityTable(PChar);

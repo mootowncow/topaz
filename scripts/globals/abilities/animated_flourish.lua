@@ -7,6 +7,7 @@
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/job_util")
 require("scripts/globals/msg")
 -----------------------------------
 
@@ -16,28 +17,16 @@ end
 
 function onUseAbility(player, target, ability)
     local jpValue = player:getJobPointLevel(tpz.jp.FLOURISH_I_EFFECT) * 10
+    local maxConsumed = 2
 
-    if (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_1)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_1)
-        target:addEnmity(player, 0, 1000 + jpValue)
-    --Add extra enmity if 2 finishing moves are used
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_2)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_2)
-        target:addEnmity(player, 0, 1500 + jpValue)
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_3)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_3)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_1, 1, 0, 7200)
-        target:addEnmity(player, 0, 1500 + jpValue)
+    local finishingMoves = jobUtil.getFinishingMoveCount(player)
 
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_4)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_4)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_2, 1, 0, 7200)
-        target:addEnmity(player, 0, 1500 + jpValue)
-
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_5)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_5)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_3, 1, 0, 7200)
-        target:addEnmity(player, 0, 1500 + jpValue)
+    if (finishingMoves > 0) then
+        local actualConsumed = jobUtil.consumeFinishingMoves(player, maxConsumed)
+        
+        if (actualConsumed > 0) then
+            local enmityValue = (actualConsumed == 1) and 1000 or 1500
+            target:addEnmity(player, 0, enmityValue + jpValue)
+        end
     end
 end
-

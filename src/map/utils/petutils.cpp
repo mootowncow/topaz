@@ -503,7 +503,6 @@ namespace petutils
             {
                 if (PMaster->GetMJob() == JOBTYPE::JOB_BST)
                 {
-
                     CCharEntity* PChar = static_cast<CCharEntity*>(PMaster);
                     uint16 jpValue = PChar->PJobPoints->GetJobPointValue(JP_PET_ACC_BONUS);
                     PMob->addModifier(Mod::ACC, PChar->PJobPoints->GetJobPointValue(JP_PET_ACC_BONUS));
@@ -538,9 +537,11 @@ namespace petutils
 
         // Add JP gift bonuses
         uint16 jpBonus = 0;
-        if (PMob->PMaster != nullptr)
+        uint16 giftTPBonus = 0;
+        if (PMaster != nullptr)
         {
-            jpBonus = PMob->PMaster->getMod(Mod::PET_ATTR_BONUS);
+            jpBonus = PMaster->getMod(Mod::PET_ATTR_BONUS);
+            giftTPBonus = PMaster->getMod(Mod::PET_TP_BONUS);
         }
 
         PMob->stats.STR = (uint16)((fSTR + mSTR) * 0.9f) + jpBonus;
@@ -550,6 +551,7 @@ namespace petutils
         PMob->stats.INT = (uint16)((fINT + mINT) * 0.9f) + jpBonus;
         PMob->stats.MND = (uint16)((fMND + mMND) * 0.9f) + jpBonus;
         PMob->stats.CHR = (uint16)((fCHR + mCHR) * 0.9f) + jpBonus;
+        PMob->addModifier(Mod::TP_BONUS, giftTPBonus);
 
     }
 
@@ -1094,20 +1096,26 @@ namespace petutils
             }
         }
 
-        // Stats from "masters" gear/merits
+        // Stats from "masters" gear/merits/jp
         if (PMaster->objtype == TYPE_PC)
         {
-            CCharEntity* PChar = static_cast<CCharEntity*>(PMaster);
-            PPet->addModifier(Mod::MATT, PChar->PMeritPoints->GetMeritValue(MERIT_AVATAR_MAGICAL_ATTACK, PChar));
-            PPet->addModifier(Mod::ATT, PChar->PMeritPoints->GetMeritValue(MERIT_AVATAR_PHYSICAL_ATTACK, PChar));
-            PPet->addModifier(Mod::MACC, PChar->PMeritPoints->GetMeritValue(MERIT_AVATAR_MAGICAL_ACCURACY, PChar));
-            PPet->addModifier(Mod::ACC, PChar->PMeritPoints->GetMeritValue(MERIT_AVATAR_PHYSICAL_ACCURACY, PChar));
+            if (CCharEntity* PChar = static_cast<CCharEntity*>(PMaster))
+            {
+                PPet->addModifier(Mod::ATT, PChar->PMeritPoints->GetMeritValue(MERIT_AVATAR_PHYSICAL_ATTACK, PChar));
+                PPet->addModifier(Mod::RATT, PChar->PMeritPoints->GetMeritValue(MERIT_AVATAR_PHYSICAL_ATTACK, PChar));
+                PPet->addModifier(Mod::ACC, PChar->PMeritPoints->GetMeritValue(MERIT_AVATAR_PHYSICAL_ACCURACY, PChar));
+                PPet->addModifier(Mod::RACC, PChar->PMeritPoints->GetMeritValue(MERIT_AVATAR_PHYSICAL_ACCURACY, PChar));
+                PPet->addModifier(Mod::MATT, PChar->PMeritPoints->GetMeritValue(MERIT_AVATAR_MAGICAL_ATTACK, PChar));
+                PPet->addModifier(Mod::MACC, PChar->PMeritPoints->GetMeritValue(MERIT_AVATAR_MAGICAL_ACCURACY, PChar));
 
-            PPet->addModifier(Mod::ACC, PChar->PJobPoints->GetJobPointValue(JP_SUMMON_ACC_BONUS));
-            PPet->addModifier(Mod::MACC, PChar->PJobPoints->GetJobPointValue(JP_SUMMON_MAGIC_ACC_BONUS));
-            PPet->addModifier(Mod::ATT, PChar->PJobPoints->GetJobPointValue(JP_SUMMON_PHYS_ATK_BONUS) * 2);
-            PPet->addModifier(Mod::MAGIC_DAMAGE, PChar->PJobPoints->GetJobPointValue(JP_SUMMON_MAGIC_DMG_BONUS) * 5);
-            PPet->addModifier(Mod::BP_DAMAGE, PChar->PJobPoints->GetJobPointValue(JP_BLOOD_PACT_DMG_BONUS) * 3);
+                PPet->addModifier(Mod::ATT, PChar->PJobPoints->GetJobPointValue(JP_SUMMON_PHYS_ATK_BONUS) * 2);
+                PPet->addModifier(Mod::RATT, PChar->PJobPoints->GetJobPointValue(JP_SUMMON_PHYS_ATK_BONUS) * 2);
+                PPet->addModifier(Mod::ACC, PChar->PJobPoints->GetJobPointValue(JP_SUMMON_ACC_BONUS));
+                PPet->addModifier(Mod::RACC, PChar->PJobPoints->GetJobPointValue(JP_SUMMON_ACC_BONUS));
+                PPet->addModifier(Mod::MACC, PChar->PJobPoints->GetJobPointValue(JP_SUMMON_MAGIC_ACC_BONUS));
+                PPet->addModifier(Mod::MAGIC_DAMAGE, PChar->PJobPoints->GetJobPointValue(JP_SUMMON_MAGIC_DMG_BONUS) * 5);
+                PPet->addModifier(Mod::BP_DAMAGE, PChar->PJobPoints->GetJobPointValue(JP_BLOOD_PACT_DMG_BONUS) * 3);
+            }
         }
 
         PMaster->addModifier(Mod::AVATAR_PERPETUATION, PerpetuationCost(petID, PPet->GetMLevel()));
@@ -1289,14 +1297,14 @@ namespace petutils
         if (PPetData != nullptr)
         {
             WeaponDelay = PPetData->cmbDelay;
+            PPet->health.maxmp = (int16)(15.2 * pow(PPet->GetMLevel(), 1.1075) * PPetData->MPscale);
         }
 
         CAutomatonEntity* PAutomaton = (CAutomatonEntity*)PPet;
         switch (PAutomaton->getFrame())
         {
             default: // case FRAME_HARLEQUIN:
-                PPet->SetMJob(JOB_WAR);
-                PPet->SetSJob(JOB_RDM);
+                PPet->SetMJob(JOB_RDM);
 
                 // Apply pet delay mod / job point reduction bonus
                 if (PMaster->objtype == TYPE_PC)
@@ -1317,7 +1325,6 @@ namespace petutils
                 break;
             case FRAME_VALOREDGE:
                 PPet->SetMJob(JOB_WAR);
-                PPet->SetSJob(JOB_WAR);
 
                 // Apply pet delay mod / job point reduction bonus
                 if (PMaster->objtype == TYPE_PC)
@@ -1343,7 +1350,6 @@ namespace petutils
                 break;
             case FRAME_SHARPSHOT:
                 PPet->SetMJob(JOB_RNG);
-                PPet->SetSJob(JOB_RNG);
 
                 // Apply pet delay mod / job point reduction bonus
                 if (PMaster->objtype == TYPE_PC)
@@ -1379,7 +1385,6 @@ namespace petutils
                 break;
             case FRAME_STORMWAKER:
                 PPet->SetMJob(JOB_RDM);
-                PPet->SetSJob(JOB_RDM);
 
                 // Apply pet delay mod / job point reduction bonus
                 if (PMaster->objtype == TYPE_PC)
@@ -1402,12 +1407,36 @@ namespace petutils
                 PPet->addModifier(Mod::DMGBREATH, -25);
                 break;
         }
+
+        switch (PAutomaton->getHead())
+        {
+            case HEAD_HARLEQUIN:
+                PPet->SetSJob(JOB_RDM);
+                break;
+            case HEAD_VALOREDGE:
+                PPet->SetSJob(JOB_WAR);
+                break;
+            case HEAD_SHARPSHOT:
+                PPet->SetSJob(JOB_RNG);
+                break;
+            case HEAD_STORMWAKER:
+                PPet->SetSJob(JOB_RDM);
+                break;
+            case HEAD_SOULSOOTHER:
+                PPet->SetSJob(JOB_WHM);
+                break;
+            case HEAD_SPIRITREAVER:
+                PPet->SetSJob(JOB_BLM);
+                break;
+            default:
+                break;
+        }
+
         // TEMP: should be MLevel when unsummoned, and PUP level when summoned
         uint8 mLvl = PMaster->GetMLevel();
         // TODO: ILvl
         // uint8 iLvl = std::clamp(charutils::getMainhandItemLevel(static_cast<CCharEntity*>(PMaster)) - 99, 0, 20);
         // PPet->SetMLevel(mLvl + iLvl + PMaster->getMod(Mod::AUTO_LVL_BONUS));
-
         if (PMaster->GetMJob() == JOB_PUP)
         {
             PPet->SetMLevel(mLvl + PMaster->getMod(Mod::AUTO_LVL_BONUS));
@@ -1472,6 +1501,7 @@ namespace petutils
     void SpawnPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
     {
         TPZ_DEBUG_BREAK_IF(PMaster->PPet != nullptr);
+
         if (PMaster->objtype == TYPE_PC && (PetID == PETID_HARLEQUINFRAME || PetID == PETID_VALOREDGEFRAME || PetID == PETID_SHARPSHOTFRAME || PetID == PETID_STORMWAKERFRAME))
         {
             puppetutils::LoadAutomaton(static_cast<CCharEntity*>(PMaster));
@@ -1697,6 +1727,25 @@ namespace petutils
         PPet->setModifier(Mod::EEM_POISON, PPetData->eempoison);
         PPet->setModifier(Mod::EEM_DARK_SLEEP, PPetData->eemdarksleep);
         PPet->setModifier(Mod::EEM_BLIND, PPetData->eemblind);
+
+        uint8 lvl = PPet->GetMLevel();
+        switch (PPet->GetMJob())
+        {
+            case JOB_PLD:
+            case JOB_WHM:
+            case JOB_BLM:
+            case JOB_RDM:
+            case JOB_DRK:
+            case JOB_BLU:
+            case JOB_SCH:
+            case JOB_GEO:
+            case JOB_RUN:
+                PPet->health.maxmp = (int16)(15.2 * pow(lvl, 1.1075) * PPetData->MPscale);
+                break;
+            default:
+                break;
+        }
+
         //ShowDebug("%s (%s) is summoning a pet petID(%s) \n", PMaster->GetName(), PMaster->id, PetID);
         if (PetID < 0)
         {
@@ -1713,7 +1762,6 @@ namespace petutils
         if (PetID >= PETID_HARLEQUINFRAME && PetID <= PETID_STORMWAKERFRAME)
         {
             CPetEntity* PPetEnt = (CPetEntity*)PPet;
-
             CalculateAutomatonStats(PMaster, PPetEnt);
         }
 
@@ -2186,6 +2234,25 @@ namespace petutils
         PPet->m_Element = PPetData->m_Element;
         PPet->m_PetID = PPetData->PetID;
         PPet->setMobMod(MOBMOD_BLOCK, PPetData->shieldSize); // TODO: Probably turn into a member(m_shieldSize)
+
+        uint8 lvl = PPet->GetMLevel();
+        switch (PPet->GetMJob())
+        {
+            case JOB_PLD:
+            case JOB_WHM:
+            case JOB_BLM:
+            case JOB_RDM:
+            case JOB_DRK:
+            case JOB_BLU:
+            case JOB_SCH:
+            case JOB_GEO:
+            case JOB_RUN:
+                PPet->health.maxmp = (int16)(15.2 * pow(lvl, 1.1075) * PPetData->MPscale);
+                break;
+            default:
+                break;
+        }
+
         // add special mob mods
 
         // this only has to be added once

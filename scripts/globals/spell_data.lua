@@ -122,7 +122,8 @@ tpz.magic.enspell =
     AUSPICE = 19,
     DRAIN_SAMBA = 20,
     ASPIR_SAMBA = 21,
-    HASTE_SAMBA = 22
+    HASTE_SAMBA = 22,
+    SOUL_ENSLAVEMENT = 23
 }
 
 tpz.magic.spikes =

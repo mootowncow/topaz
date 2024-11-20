@@ -1069,12 +1069,15 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
         // Check for finishing moves
         if (PAbility->isFlourish())
         {
-            if (!PChar->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_FINISHING_MOVE))
+            // If neither EFFECTFLAG_FINISHING_MOVE nor EFFECT_GRAND_PAS is active, show message and return false
+            if (!(PChar->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_FINISHING_MOVE) ||
+                  PChar->StatusEffectContainer->HasStatusEffect(EFFECT_GRAND_PAS)))
             {
                 PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NO_FINISHINGMOVES));
                 return false;
             }
         }
+
 
         // Check for paraylze
         if (battleutils::IsParalyzed(PChar))
@@ -1106,6 +1109,11 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     recast = charge->chargeTime * PAbility->getRecastTime() - PChar->PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SIC_RECAST, PChar);
                 }
 
+                if (PAbility->isStratagem())
+                {
+                    recast = charge->chargeTime * PAbility->getRecastTime() - PChar->getMod(Mod::STRATAGEM_RECAST);
+                }
+
                 // Halve Chakra cooldown if the player has Boost
                 if (PAbility->getID() == ABILITY_CHAKRA)
                 {
@@ -1126,16 +1134,25 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     recast = PAbility->getRecastTime() - PChar->PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SNEAK_ATTACK_RECAST, PChar);
                 }
 
+                auto deactivateJpValue = PChar->PJobPoints->GetJobPointValue(JP_DEACTIVATE_EFFECT);
+                float minHpPercentage = std::max(0.0f, 100.0f - deactivateJpValue);
                 if (PAbility->getID() == ABILITY_LIGHT_ARTS || PAbility->getID() == ABILITY_DARK_ARTS || PAbility->getRecastId() == 231) // stratagems
                 {
                     if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_TABULA_RASA))
                         recast = 0;
                 }
-                else if (PAbility->getID() == ABILITY_DEACTIVATE && PChar->PAutomaton && PChar->PAutomaton->health.hp == PChar->PAutomaton->GetMaxHP())
+                else if (PAbility->getID() == ABILITY_DEACTIVATE && PChar->PAutomaton)
                 {
-                    CAbility* PAbility = ability::GetAbility(ABILITY_ACTIVATE);
-                    if (PAbility)
-                        PChar->PRecastContainer->Del(RECAST_ABILITY, PAbility->getRecastId());
+                    // Calculate the minimum required HP for DEACTIVATE based on JP value
+                    float requiredHp = PChar->PAutomaton->GetMaxHP() * (minHpPercentage / 100.0f);
+                    if (PChar->PAutomaton->health.hp >= requiredHp) // Check if the current HP is above the required threshold
+                    {
+                        CAbility* PActivateAbility = ability::GetAbility(ABILITY_ACTIVATE);
+                        if (PActivateAbility)
+                        {
+                            PChar->PRecastContainer->Del(RECAST_ABILITY, PActivateAbility->getRecastId());
+                        }
+                    }
                 }
                 else if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
                 {
@@ -1148,6 +1165,12 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                         recast = 45;
                         recast -= std::min<int16>(PChar->getMod(Mod::BP_DELAY), 15);
                         recast -= std::min<int16>(PChar->getMod(Mod::BP_DELAY_II), 15);
+
+                        // Astral Conduit halves all BP recasts (bypasses normal BP delay cap)
+                        if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_ASTRAL_CONDUIT))
+                        {
+                            recast /= 2;
+                        }
                     }
                 }
 
@@ -1178,6 +1201,16 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 if (PAbility->getID() == ABILITY_STEAL)
                 {
                     recast -= (PChar->PJobPoints->GetJobPointValue(JP_STEAL_RECAST) * 2);
+                }
+
+                if (PAbility->getID() == ABILITY_DEUX_EX_AUTOMATA)
+                {
+                    recast -= (PChar->PJobPoints->GetJobPointValue(JP_DEUS_EX_AUTOMATA_RECAST) * 10);
+                }
+
+                if (PAbility->getID() == ABILITY_RESTORING_BREATH || PAbility->getID() == ABILITY_SMITING_BREATH)
+                {
+                    recast -= PChar->getMod(Mod::DRAGOON_BREATH_RECAST);
                 }
 
                 PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), recast);

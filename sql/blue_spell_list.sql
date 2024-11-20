@@ -162,10 +162,10 @@ INSERT INTO `blue_spell_list` VALUES ('677','1230','3','24','1','2','4'); -- Emp
 INSERT INTO `blue_spell_list` VALUES ('677','1275','3','24','1','2','4'); -- Empty Thrash
 -- INSERT INTO `blue_spell_list` VALUES ('678','301','3','6','1','0','0'); -- Dream Flower
 INSERT INTO `blue_spell_list` VALUES ('679','1255','3','18','2','0','0'); -- Occultation
-INSERT INTO `blue_spell_list` VALUES ('680','483','4','28','2','0','0'); -- Charged Whisker
+INSERT INTO `blue_spell_list` VALUES ('680','483','4','28','1','0','0'); -- Charged Whisker
 -- INSERT INTO `blue_spell_list` VALUES ('681','1245','5','14','4','0','0'); -- Winds of Promyvion
 INSERT INTO `blue_spell_list` VALUES ('682','2154','2','25','2','3','6'); -- Delta Thrust
-INSERT INTO `blue_spell_list` VALUES ('683','920','4','28','2','0','0'); -- Everyones Grudge
+INSERT INTO `blue_spell_list` VALUES ('683','920','4','28','1','0','0'); -- Everyones Grudge
 -- INSERT INTO `blue_spell_list` VALUES ('684','2431','4','27','1','0','0'); -- Reaving Wind
 -- INSERT INTO `blue_spell_list` VALUES ('685','1703','3','15','1','0','0'); -- Barrier Tusk
 -- INSERT INTO `blue_spell_list` VALUES ('686','502','4','25','1','0','0'); -- Mortal Ray

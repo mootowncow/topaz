@@ -13,12 +13,11 @@ local ID = require("scripts/zones/Grand_Palace_of_HuXzoi/IDs")
 ---------------------------------------------
 function onMobSkillCheck(target,mob,skill)
     -- Rarely used Optic Induration. Only charge if not an NM and in normal mode (no bars or rings)
-    if mob:AnimationSub() > 1 then
-        return 1
-    end
     if mob:getLocalVar("charge_count") > 0 then
         return 0
-    elseif GetMobByID() == ID.mob.JAILER_OF_TEMPERANCE or mob:AnimationSub() > 1 then
+    elseif mob:getID() == ID.mob.JAILER_OF_TEMPERANCE then
+        return 1
+    elseif mob:AnimationSub() > 1 then
         return 1
     end
     return 0

@@ -35,8 +35,8 @@ function onUseAbility(player, target, ability, action)
     -- Job Point Bonus Damage
     local jpValue = (1 + (player:getJobPointLevel(tpz.jp.EAGLE_EYE_SHOT_EFFECT) * 3) / 100)
 
-	damage = damage * jpValue
-	
+	damage = math.floor(damage * jpValue)
+
     -- Set the message id ourselves
     if (tpHits + extraHits > 0) then
         action:messageID(target:getID(), tpz.msg.basic.JA_DAMAGE)

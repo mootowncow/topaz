@@ -266,6 +266,12 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
                 baseMobHP = BaseHP + (std::min(mLvl, (uint8)5) - 1) * (JobScale + raceScale - 1) + RI +
                             mLvlIf * (std::min(mLvl, (uint8)30) - 5) * (2 * (JobScale + raceScale) + std::min(mLvl, (uint8)30) - 6) / 2 +
                             mLvlIf30 * ((mLvl - 30) * (63 + ScaleXHP) + (mLvl - 31) * (JobScale + raceScale));
+
+                // Level 71+ mobs have 20% more HP (Due to power creep via custom job buffs)
+                if (mLvl >= 71)
+                {
+                    baseMobHP = static_cast<uint32>(baseMobHP * 1.2);
+                }
             }
 
             // 50+ = 1 hp sjstats

@@ -721,6 +721,7 @@ public:
     bool        isWaltz();
     bool        isStep();
     bool        isFlourish();
+    bool        isStratagem();
     bool        isAoE();
     bool        isConal();
 

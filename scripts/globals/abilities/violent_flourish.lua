@@ -9,36 +9,23 @@
 require("scripts/globals/weaponskills")
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/job_util")
 require("scripts/globals/magic")
 require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
-    if (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_1)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_1)
-        return 0, 0
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_2)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_2)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_1, 1, 0, 7200)
-        return 0, 0
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_3)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_3)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_2, 1, 0, 7200)
-        return 0, 0
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_4)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_4)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_3, 1, 0, 7200)
-        return 0, 0
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_5)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_5)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_4, 1, 0, 7200)
-        return 0, 0
-    else
-        return 0, 0
-    end
+    return 0, 0
 end
 
 function onUseAbility(player, target, ability, action)
+    -- Consume finishing moves
+    local maxConsumed = 1
+    local finishingMoves = jobUtil.getFinishingMoveCount(player)
+    if (finishingMoves > 0) then
+        local actualConsumed = jobUtil.consumeFinishingMoves(player, maxConsumed)
+    end
+
     local hit = 4
     --get fstr
     local fstr = fSTR(player:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT), player:getWeaponDmgRank())

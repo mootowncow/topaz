@@ -141,6 +141,16 @@ void CAttack::SetCritical(bool value)
                 }
             }
         }
+        else if (m_attackType == PHYSICAL_ATTACK_TYPE::ZANSHIN)
+        {
+            if (m_attacker->objtype == TYPE_PC)
+            {
+                if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_attacker))
+                {
+                    flatAttBonus = PChar->PJobPoints->GetJobPointValue(JP_ZANSHIN_EFFECT) * 2;
+                }
+            }
+        }
 
         // Conspirator ATT bonus. Calculated at time of attack. No effect if attacker is currently the top enmity for their target
         if (m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_CONSPIRATOR))
@@ -151,6 +161,7 @@ void CAttack::SetCritical(bool value)
             }
         }
 
+        //ShowDebug("[%s] flatAttBonus %u\n", m_attacker->name, flatAttBonus);
         m_damageRatio = battleutils::GetDamageRatio(m_attacker, m_victim, m_isCritical, attBonus, flatAttBonus);
     }
 }
@@ -229,6 +240,23 @@ bool CAttack::CheckParried()
         if (attackutils::IsParried(m_attacker, m_victim))
         {
             m_isParried = true;
+
+            // Check for counter chance from NIN Tactical Parry JP
+            if (m_victim->objtype == TYPE_PC)
+            {
+                if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_victim))
+                {
+                    if (tpzrand::GetRandomNumber(100) < PChar->PJobPoints->GetJobPointValue(JP_TACTICAL_PARRY_EFFECT))
+                    {
+                        if (!m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
+                        {
+                            m_isParried = false;
+                            m_isCountered = true;
+                            m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false));
+                        }
+                    }
+                }
+            }
         }
     }
     return m_isParried;
@@ -417,6 +445,7 @@ bool CAttack::CheckAnticipated()
 
     // Starts at 100% proc rate, decaying by 10% every 3 seconds until 10%.
     uint16 anticipateChance = effect->GetPower();
+    uint16 anticipates = effect->GetSubPower();
     bool hasSeigan = m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN, 0);
 
     // Always anticipate the attack if TE is active
@@ -427,8 +456,15 @@ bool CAttack::CheckAnticipated()
         // Now decide whether to remove TE or keep it based on Seigan and random roll
         if (!hasSeigan)
         {
-            // If no Seigan, remove TE immediately after anticipating
-            m_victim->StatusEffectContainer->DelStatusEffectSilent(EFFECT_THIRD_EYE);
+            if (anticipates > 1)
+            {
+                effect->SetSubPower(anticipates - 1);
+            }
+            else
+            {
+                // Only 1 anticipate left, remove TE after anticipation
+                m_victim->StatusEffectContainer->DelStatusEffectSilent(EFFECT_THIRD_EYE);
+            }
         }
         else
         {
@@ -441,7 +477,11 @@ bool CAttack::CheckAnticipated()
         }
 
         // Check for counter chance (still happens only if Seigan is active)
-        if (hasSeigan && tpzrand::GetRandomNumber(100) < 25 + m_victim->getMod(Mod::THIRD_EYE_COUNTER_RATE))
+        // Base chance is 25% https://www.bg-wiki.com/ffxi/Seigan
+        uint16 counterChance = 25;
+        counterChance += m_victim->getMod(Mod::THIRD_EYE_COUNTER_RATE); // Add Mod
+
+        if (hasSeigan && tpzrand::GetRandomNumber(100) < counterChance)
         {
             if (!m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
             {
@@ -620,6 +660,9 @@ void CAttack::ProcessDamage()
     {
         m_damage = battleutils::doConsumeManaEffect((CCharEntity*)m_attacker, m_damage);
     }
+
+    // Extra damage multipliers
+    m_damage = battleutils::HandleExtraDamageMultipliers(m_attacker, m_damage);
 
     // Set attack type to Samba if the attack type is normal.  Don't overwrite other types.  Used for Samba double damage.
     if (m_attackType == PHYSICAL_ATTACK_TYPE::NORMAL && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_DRAIN_SAMBA))

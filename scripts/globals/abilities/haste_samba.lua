@@ -17,7 +17,7 @@ end
 function onUseAbility(player, target, ability)
     -- Only remove TP if the player doesn't have Trance.
     if not player:hasStatusEffect(tpz.effect.TRANCE) then
-        player:delTP(170)
+        player:delTP(ability:getTPCost())
     end
 
     local duration = 90 + player:getMod(tpz.mod.SAMBA_DURATION) + (player:getJobPointLevel(tpz.jp.SAMBA_DURATION) * 2)

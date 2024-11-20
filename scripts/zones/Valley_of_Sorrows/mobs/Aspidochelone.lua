@@ -26,6 +26,7 @@ function onMobSpawn(mob)
     if LandKingSystem_NQ > 0 or LandKingSystem_HQ > 0 then
         GetNPCByID(ID.npc.ADAMANTOISE_QM):setStatus(tpz.status.DISAPPEAR)
     end
+    mob:setBehaviour(bit.band(mob:getBehaviour(), bit.bnot(tpz.behavior.NO_TURN))) -- Disable no turn
     mob:setLocalVar("[rage]timer", 3600) -- 60 minutes
 end
 
@@ -34,6 +35,7 @@ function onMobRoam(mob)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
     mob:SetAutoAttackEnabled(true)
     mob:SetMobAbilityEnabled(true)
+    mob:setBehaviour(bit.band(mob:getBehaviour(), bit.bnot(tpz.behavior.NO_TURN))) -- Disable no turn
 end
 
 function onMobInitialize(mob)
@@ -67,20 +69,22 @@ function onMobFight(mob, target)
         mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
         mob:SetAutoAttackEnabled(false)
         mob:SetMobAbilityEnabled(false)
+        mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN)) -- Enable no turn
         mob:setLocalVar("Shell", 2)
         mob:addListener("TAKE_DAMAGE", "URAGNITE_TAKE_DAMAGE", function(mob, amount, attacker, attackType, damageType)
-        if amount >= 1500  then
-            mob:removeListener("URAGNITE_TAKE_DAMAGE")
-        mob:setMod(tpz.mod.REGEN, 0)
-        mob:setMod(tpz.mod.UDMGPHYS, 0)
-        mob:setMod(tpz.mod.UDMGRANGE, 0)
-        mob:AnimationSub(0)
-        mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
-        mob:SetAutoAttackEnabled(true)
-        mob:SetMobAbilityEnabled(true)
-        mob:setLocalVar("Shell", 0)
-        end
-    end)
+            if amount >= 1500  then
+                mob:removeListener("URAGNITE_TAKE_DAMAGE")
+            mob:setMod(tpz.mod.REGEN, 0)
+            mob:setMod(tpz.mod.UDMGPHYS, 0)
+            mob:setMod(tpz.mod.UDMGRANGE, 0)
+            mob:AnimationSub(0)
+            mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
+            mob:SetAutoAttackEnabled(true)
+            mob:SetMobAbilityEnabled(true)
+            mob:setBehaviour(bit.band(mob:getBehaviour(), bit.bnot(tpz.behavior.NO_TURN))) -- Disable no turn
+            mob:setLocalVar("Shell", 0)
+            end
+        end)
     end
 end
 

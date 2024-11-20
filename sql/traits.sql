@@ -170,11 +170,6 @@ INSERT INTO `traits` VALUES (7,'max hp boost',2,75,5,2,240,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (7,'max hp boost',2,96,6,2,300,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (7,'max hp boost',7,45,1,2,30,'SOA',0);
 INSERT INTO `traits` VALUES (7,'max hp boost',7,85,2,2,60,'SOA',0);
-INSERT INTO `traits` VALUES (7,'max hp boost',13,40,1,2,30,'SOA',0);
-INSERT INTO `traits` VALUES (7,'max hp boost',13,50,2,2,60,'SOA',0);
-INSERT INTO `traits` VALUES (7,'max hp boost',13,60,3,2,120,'SOA',0);
-INSERT INTO `traits` VALUES (7,'max hp boost',13,75,4,2,180,'SOA',0);
-INSERT INTO `traits` VALUES (7,'max hp boost',13,99,5,2,240,'SOA',0);
 INSERT INTO `traits` VALUES (7,'max hp boost',22,20,1,2,30,'SOA',0);
 INSERT INTO `traits` VALUES (7,'max hp boost',22,40,2,2,60,'SOA',0);
 INSERT INTO `traits` VALUES (7,'max hp boost',22,60,3,2,120,'SOA',0);
@@ -689,12 +684,12 @@ INSERT INTO `traits` VALUES (112,'elemental celerity',4,90,5,901,30,'ABYSSEA',0)
 INSERT INTO `traits` VALUES (112,'elemental celerity',21,80,1,901,10,'SOA',0);
 INSERT INTO `traits` VALUES (112,'elemental celerity',21,80,2,901,15,'SOA',0); -- level needs to be verified
 INSERT INTO `traits` VALUES (112,'elemental celerity',21,95,3,901,20,'SOA',0); -- level needs to be verified (there's possibly a 4th tier)
-INSERT INTO `traits` VALUES (113,'dead aim',11,50,1,964,5,'SOA',0);
-INSERT INTO `traits` VALUES (113,'dead aim',11,60,2,964,7,'SOA',0);
-INSERT INTO `traits` VALUES (113,'dead aim',11,70,3,964,9,'SOA',0);
-INSERT INTO `traits` VALUES (113,'dead aim',11,80,4,964,35,'SOA',0);
-INSERT INTO `traits` VALUES (113,'dead aim',11,90,5,964,40,'SOA',0);
-INSERT INTO `traits` VALUES (113,'dead aim',11,99,6,964,45,'SOA',0);
+INSERT INTO `traits` VALUES (113,'dead aim',11,50,1,1054,5,'SOA',0);
+INSERT INTO `traits` VALUES (113,'dead aim',11,60,2,1054,7,'SOA',0);
+INSERT INTO `traits` VALUES (113,'dead aim',11,70,3,1054,9,'SOA',0);
+INSERT INTO `traits` VALUES (113,'dead aim',11,80,4,1054,35,'SOA',0);
+INSERT INTO `traits` VALUES (113,'dead aim',11,90,5,1054,40,'SOA',0);
+INSERT INTO `traits` VALUES (113,'dead aim',11,99,6,1054,45,'SOA',0);
 INSERT INTO `traits` VALUES (118,'tranquil heart',18,75,6,1369,10,'SOA',0);
 INSERT INTO `traits` VALUES (115,'stalwart soul',8,45,1,907,15,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (115,'stalwart soul',8,60,2,907,30,'ABYSSEA',0);

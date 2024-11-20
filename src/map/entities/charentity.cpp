@@ -40,6 +40,7 @@
 #include "../packets/menu_raisetractor.h"
 #include "../packets/message_special.h"
 #include "../packets/message_system.h"
+#include "../packets/trust_progression.h"
 
 #include "../ai/ai_container.h"
 #include "../ai/controllers/player_controller.h"
@@ -813,6 +814,16 @@ void CCharEntity::Tick(time_point tick)
         m_LastPartyReload = tick + std::chrono::milliseconds(10000);
     }
 
+    if (trustProgressUpdateFlag && loc.zone)
+    {
+        ShowDebug("Pushing trust progression packet\n");
+        // Send update packet for custom data..
+        loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CTrustProgressionPacket(this));
+
+        // Clear flag..
+        trustProgressUpdateFlag = false;
+    }
+
     if (m_moghouseID != 0)
     {
         gardenutils::UpdateGardening(this, true);
@@ -1110,7 +1121,21 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
                             }
                         }
 
+                        // Handle Chain Affinity JP bonus
+                        uint16 jpValue = 0;
+                        if (this->objtype == TYPE_PC)
+                        {
+                            if (auto* PChar = dynamic_cast<CCharEntity*>(this))
+                            {
+                                jpValue = PChar->PJobPoints->GetJobPointValue(JP_CHAIN_AFFINITY_EFFECT);
+                            }
+                        }
+
+                        this->addModifier(Mod::SKILLCHAINDMG, jpValue);
+
                         uint16 skillChainDamage = battleutils::TakeSkillchainDamage(static_cast<CBattleEntity*>(this), PTarget, actionTarget.param, nullptr);
+
+                        this->delModifier(Mod::SKILLCHAINDMG, jpValue);
 
                         actionTarget.addEffectParam = skillChainDamage;
                         actionTarget.addEffectMessage = 287 + effect;
@@ -1522,6 +1547,11 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast = charge->chargeTime * PAbility->getRecastTime() - PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SIC_RECAST, this);
         }
 
+        if (PAbility->isStratagem())
+        {
+            action.recast = charge->chargeTime * PAbility->getRecastTime() - getMod(Mod::STRATAGEM_RECAST);
+        }
+
         // Halve Chakra cooldown if the player has Boost
         if (PAbility->getID() == ABILITY_CHAKRA)
         {
@@ -1542,16 +1572,23 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast = PAbility->getRecastTime() - PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SNEAK_ATTACK_RECAST, this);
         }
 
-        if (PAbility->getID() == ABILITY_LIGHT_ARTS || PAbility->getID() == ABILITY_DARK_ARTS || PAbility->getRecastId() == 231) //stratagems
+        auto deactivateJpValue = PJobPoints->GetJobPointValue(JP_DEACTIVATE_EFFECT);
+        float minHpPercentage = std::max(0.0f, 100.0f - deactivateJpValue);
+        if (PAbility->getID() == ABILITY_LIGHT_ARTS || PAbility->getID() == ABILITY_DARK_ARTS || PAbility->getRecastId() == 231) // stratagems
         {
             if (this->StatusEffectContainer->HasStatusEffect(EFFECT_TABULA_RASA))
                 action.recast = 0;
         }
-        else if (PAbility->getID() == ABILITY_DEACTIVATE && PAutomaton && PAutomaton->health.hp == PAutomaton->GetMaxHP())
+        else if (PAbility->getID() == ABILITY_DEACTIVATE && PAutomaton)
         {
-            CAbility* PAbility = ability::GetAbility(ABILITY_ACTIVATE);
-            if (PAbility)
-                PRecastContainer->Del(RECAST_ABILITY, PAbility->getRecastId());
+            // Calculate the minimum required HP for DEACTIVATE based on JP value
+            float requiredHp = PAutomaton->GetMaxHP() * (minHpPercentage / 100.0f);
+            if (PAutomaton->health.hp >= requiredHp) // Check if the current HP is above the required threshold
+            {
+                CAbility* PActivateAbility = ability::GetAbility(ABILITY_ACTIVATE);
+                if (PActivateAbility)
+                    PRecastContainer->Del(RECAST_ABILITY, PActivateAbility->getRecastId());
+            }
         }
         else if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
         {
@@ -1564,6 +1601,12 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 action.recast = 45;
                 action.recast -= std::min<int16>(getMod(Mod::BP_DELAY), 15);
                 action.recast -= std::min<int16>(getMod(Mod::BP_DELAY_II), 15);
+
+                // Astral Conduit halves all BP recasts (bypasses normal BP delay cap)
+                if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ASTRAL_CONDUIT))
+                {
+                    action.recast /= 2;
+                }
             }
         }
         // TODO: DNC recast stuff
@@ -1600,7 +1643,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
         // There is an overall cap of -25 seconds for a 35 second recast
         // https://www.bg-wiki.com/ffxi/Quick_Draw
-        if ( PAbility->isQuickDraw())
+        if (PAbility->isQuickDraw())
         {
             action.recast -= std::min<int16>(getMod(Mod::QUICK_DRAW_RECAST), 25);
         }
@@ -1615,9 +1658,22 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast -= (PJobPoints->GetJobPointValue(JP_STEAL_RECAST) * 2);
         }
 
-        if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR)
+        if (PAbility->getID() == ABILITY_DEUX_EX_AUTOMATA)
         {
-            action.recast -= getMod(Mod::ONE_HOUR_RECAST);
+            action.recast -= (PJobPoints->GetJobPointValue(JP_DEUS_EX_AUTOMATA_RECAST) * 10);
+        }
+
+        if (PAbility->getID() == ABILITY_RESTORING_BREATH || PAbility->getID() == ABILITY_SMITING_BREATH)
+        {
+            action.recast -= getMod(Mod::DRAGOON_BREATH_RECAST);
+        }
+
+        if (PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR || PAbility->getRecastId() == ABILITYRECAST_TWO_HOUR_TWO)
+        {
+            if (PAbility->getRecastTime() == 7200) // Only lower the recast of "Real" 2 hour abilities
+            {
+                action.recast -= getMod(Mod::ONE_HOUR_RECAST) * 60; // Adjust recast by 1 minute (60 seconds) per mod value
+            }
         }
 
         // For testing
@@ -1826,6 +1882,17 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
         battleutils::HandlePlayerAbilityUsed(this, PAbility, &action);
 
+        if (PAbility->getID() == ABILITY_WILD_CARD)
+        {
+            auto resetChance = PJobPoints->GetJobPointValue(JP_WILD_CARD_EFFECT);
+            auto corRollTotal = this->GetLocalVar("corsairRollTotal");
+            auto randValue = tpzrand::GetRandomNumber(100);
+            if (this->GetLocalVar("corsairRollTotal") >= 5 && randValue < resetChance)
+            {
+                action.recast = 0;
+            }
+        }
+
         PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), action.recast);
 
         uint16 recastID = PAbility->getRecastId();
@@ -1893,7 +1960,19 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
     actionTarget_t& actionTarget = actionList.getNewActionTarget();
     actionTarget.reaction = REACTION_HIT;		//0x10
     actionTarget.speceffect = SPECEFFECT_HIT;		//0x60 (SPECEFFECT_HIT + SPECEFFECT_RECOIL)
-    actionTarget.messageID = 352;
+    if (battleutils::IsInRangedSweetSpot(this, PTarget))
+    {
+        actionTarget.messageID = MSGBASIC_RANGED_TRUE;
+    }
+    else if (battleutils::IsCloseToRangedSweetSpot(this, PTarget))
+    {
+        actionTarget.messageID = MSGBASIC_RANGED_SQUARELY;
+    }
+    else
+    {
+        actionTarget.messageID = MSGBASIC_RANGED_HIT;
+    }
+
 
     CItemWeapon* PItem = (CItemWeapon*)this->getEquip(SLOT_RANGED);
     CItemWeapon* PAmmo = (CItemWeapon*)this->getEquip(SLOT_AMMO);
@@ -1951,7 +2030,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
                 if (isCritical)
                 {
                     actionTarget.speceffect = SPECEFFECT_CRITICAL_HIT;
-                    actionTarget.messageID = 353;
+                    actionTarget.messageID = MSGBASIC_RANGED_CRIT;
 
                     luautils::OnCriticalHit(PTarget, this);
                 }
@@ -1989,7 +2068,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
             damage = 0;
             actionTarget.reaction = REACTION_EVADE;
             actionTarget.speceffect = SPECEFFECT_NONE;
-            actionTarget.messageID = 354;
+            actionTarget.messageID = MSGBASIC_RANGED_MISS;
             hitCount = i; // end barrage, shot missed
         }
 
@@ -2027,9 +2106,20 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         // any misses with barrage cause remaing shots to miss, meaning we must check Action.reaction
         if (actionTarget.reaction == REACTION_EVADE && (this->StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE)))
         {
-            actionTarget.messageID = 352;
             actionTarget.reaction = REACTION_HIT;
             actionTarget.speceffect = SPECEFFECT_CRITICAL_HIT;
+            if (battleutils::IsInRangedSweetSpot(this, PTarget))
+            {
+                actionTarget.messageID = MSGBASIC_RANGED_TRUE;
+            }
+            else if (battleutils::IsCloseToRangedSweetSpot(this, PTarget))
+            {
+                actionTarget.messageID = MSGBASIC_RANGED_SQUARELY;
+            }
+            else
+            {
+                actionTarget.messageID = MSGBASIC_RANGED_HIT;
+            }
         }
 
         actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);
@@ -2042,7 +2132,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         if (actionTarget.param < 0)
         {
             actionTarget.param = -(actionTarget.param);
-            actionTarget.messageID = 382;
+            actionTarget.messageID = MSGBASIC_RANGED_ABSORBED_DMG;
         }
 
         // Handle frontal PDT
@@ -2135,9 +2225,18 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
     }
     battleutils::ClaimMob(PTarget, this);
     battleutils::RemoveAmmo(this, ammoConsumed);
+
     // only remove detectables and NOT camouflage
-    if (!StatusEffectContainer->HasStatusEffect(EFFECT_CAMOUFLAGE))
+    if (this->StatusEffectContainer->HasStatusEffect(EFFECT_CAMOUFLAGE))
+    {
+        StatusEffectContainer->DelStatusEffect(EFFECT_SNEAK);
+        StatusEffectContainer->DelStatusEffect(EFFECT_INVISIBLE);
+        StatusEffectContainer->DelStatusEffect(EFFECT_DEODORIZE);
+    }
+    else
+    {
         StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    }
 
 
     // Safety check to not get locked in cutscene status

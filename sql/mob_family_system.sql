@@ -57,21 +57,21 @@ CREATE TABLE `mob_family_system` (
   `Element` float NOT NULL DEFAULT '0',
   `detects` smallint(5) NOT NULL DEFAULT '0',
   `charmable` tinyint(2) NOT NULL DEFAULT '0',
-  `Amnesia` float NOT NULL DEFAULT '1',
-  `Virus` float NOT NULL DEFAULT '1',
-  `Silence` float NOT NULL DEFAULT '1',
-  `Gravity` float NOT NULL DEFAULT '1',
-  `Stun` float NOT NULL DEFAULT '1',
-  `LightSleep` float NOT NULL DEFAULT '1',
-  `Charm` float NOT NULL DEFAULT '1',
-  `Paralyze` float NOT NULL DEFAULT '1',
-  `Bind` float NOT NULL DEFAULT '1',
-  `Slow` float NOT NULL DEFAULT '1',
-  `Petrify` float NOT NULL DEFAULT '1',
-  `Terror` float NOT NULL DEFAULT '1',
-  `Poison` float NOT NULL DEFAULT '1',
-  `DarkSleep` float NOT NULL DEFAULT '1',
-  `Blind` float NOT NULL DEFAULT '1',
+  `Amnesia` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `Virus` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `Silence` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `Gravity` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `Stun` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `LightSleep` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `Charm` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `Paralyze` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `Bind` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `Slow` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `Petrify` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `Terror` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `Poison` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `DarkSleep` smallint(4) unsigned NOT NULL DEFAULT '1',
+  `Blind` smallint(4) unsigned NOT NULL DEFAULT '1',
 
   PRIMARY KEY (`familyid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=128;
@@ -273,7 +273,7 @@ INSERT INTO `mob_family_system` VALUES (191,'Orobon',2,'Aquan',1,60,125,90,1,4,2
 INSERT INTO `mob_family_system` VALUES (192,'Peiste',14,'Lizard',1,60,100,100,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,0.7,1,0.6,1,1,6,1,1,100,	100,	100,	100,	100,	100,	100,	100,	100,	70,	70,	70,	60,	100,	30);
 INSERT INTO `mob_family_system` VALUES (193,'PetWyvern',10,'Dragon',1,40,120,120,7,7,3,3,3,3,3,7,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,70,	70,	70,	70,	70,	70,	70,	70,	70,	70,	70,	70,	70,	70,	70); -- player
 INSERT INTO `mob_family_system` VALUES (194,'Phuabo',15,'Luminian',2,60,100,100,1,1,4,1,2,3,3,1,3,1,3,1,1,1,1,1.3,1.3,1.3,1.3,1.3,0.5,0.85,1.3,0,2,0,130,	130,	130,	130,	130,	85,	85,	130,	130,	130,	130,	130,	50,	130,	130);
-INSERT INTO `mob_family_system` VALUES (195,'Pixie',11,'Elemental',0,60,100,100,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,0.85,0.85,0.05,0.85,0.85,0.85,0.2,0.85,3,5,0,60,	60,	5,	5,	60,	15,	15,	60,	60,	60,	60,	60,	60,	60,	60);
+INSERT INTO `mob_family_system` VALUES (195,'Pixie',11,'Elemental',0,60,100,100,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,0.85,0.85,0.05,0.85,0.85,0.85,0.2,0.85,3,3,0,60,	60,	5,	5,	60,	15,	15,	60,	60,	60,	60,	60,	60,	60,	60);
 INSERT INTO `mob_family_system` VALUES (196,'Poroggo',7,'Beastmen',0,60,125,140,5,5,5,1,6,3,1,3,1,3,1,1,1,1,1,1,0.7,1,0.85,1.15,0.2,0.3,1,6,2,0,100,	100,	100,	100,	115,	30,	30,	70,	70,	85,	85,	85,	20,	100,	100);
 INSERT INTO `mob_family_system` VALUES (197,'Pugil',2,'Aquan',1,40,100,100,4,4,4,3,4,4,5,1,3,1,3,1,1,1,1,1.3,1.5,1.3,1.3,1.5,0.3,1.3,1.3,6,2,1,130,	130,	130,	130,	150,	130,	130,	150,	150,	130,	130,	130,	50,	130,	130);
 INSERT INTO `mob_family_system` VALUES (198,'Puk',10,'Dragon',0,60,125,100,5,2,5,2,2,3,5,1,3,1,4,1,1.125,1,1,1,1.15,0.05,1,1,1,1,1,3,3,1,115,	115,	5,	5,	100,	115,	115,	130,	130,	115,	115,	115,	115,	115,	115);
@@ -692,6 +692,9 @@ INSERT INTO `mob_family_system` VALUES (632,'Vanguards_Hecteyes',1,'Amorph',1,40
 INSERT INTO `mob_family_system` VALUES (635,'Ultima',18,'Unclassified',2,40,100,120,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1.15,1,1,1,0,3,0,100,	100,	100,	100,	115,	100,	100,	100,	100,	100,	100,	100,	100,	5,	5);
 INSERT INTO `mob_family_system` VALUES (636,'GiantBird-NM',8,'Bird',2,40,130,120,3,3,3,3,3,3,3,1,2,1,3,0.75,1.25,1,0.75,0.85,1.5,0.5,0.85,0.85,0.85,0.85,0.85,7,1,1,85,	85,	50,	50,	85,	5,	85,	150,	150,	85,	85,	85,	85,	85,	85);
 INSERT INTO `mob_family_system` VALUES (637,'Aspidochelone',14,'Lizard',3,30,120,90,2,4,1,4,1,1,1,1,2,1,3,1,1,1,1,0.50,1.3,0.50,0.05,0.05,0.05,0.50,0.50,4,2,0, 50,	50,	50,	50,	5,	50,	50,	130,	130,	5,	5,	5,	5,	50,	50);
+INSERT INTO `mob_family_system` VALUES (638,'Champion_Crawler',20,'Vermin',1,40,100,120,4,4,3,5,4,4,4,1,5,1,3,0.75,0.75,0.75,0.75,1.3,1.5,1.3,1,1.5,1.3,1,1.5,4,2,1,130,	130,	130,	130,	150,	100,	100,	150,	150,	100,	100,	100,	130,	150,	150);
+INSERT INTO `mob_family_system` VALUES (639,'Gouger_Beetle',20,'Vermin',1,40,100,110,3,3,2,5,5,5,5,1,3,1,3,0.75,0.75,0.75,0.75,1,1.5,1,1,1,1,1,1,4,257,1,100,	100,	100,	100,	100,	150,	150,	150,	150,	100,	100,	100,	100,	100,	100);	-- changed hp from 117
+INSERT INTO `mob_family_system` VALUES (640,'Gnoletrap',17,'Plantoid',0,40,100,90,4,4,4,4,4,4,4,1,3,1,3,1.15,0.875,1,1,1.50,1.15,0.6,1,1,0.6,0.6,1.15,3,2,1,150,	150,	60,	60,	100,	60,	60,	115,	115,	100,	100,	100,	60,	115,	115);
 
 -- Mythic Weapon Fights (Custom)
 INSERT INTO `mob_family_system` VALUES (887,'Cyranuce',13,'Humanoid',0,50,100,120,1,3,3,7,7,7,3,1,3,1,3,1,1,1,1,1,1,1,1,1,1,1,1,0,2,0,50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50);
@@ -743,9 +746,9 @@ INSERT INTO `mob_family_system` VALUES (938,'Elemental-Ice',11,'Elemental',0,40,
 INSERT INTO `mob_family_system` VALUES (939,'Elemental-Light',11,'Elemental',0,40,100,120,3,3,4,4,5,4,4,1,3,1,5,0.25,0.25,0.25,0.25,1,1,1,1,1,1,0.05,1.5,7,35,0,100,	100,	100,	100,	100,	5,	5,	100,	100,	100,	100,	100,	100,	150,	150);
 INSERT INTO `mob_family_system` VALUES (940,'Elemental-Lightning',11,'Elemental',0,40,100,120,3,3,5,4,4,4,4,1,3,1,5,0.25,0.25,0.25,0.25,1,1,1,1.5,0.05,0.05,1,1,5,35,0,100,	100,	100,	100,	5,	100,	100,	100,	100,	150,	150,	150,	5,	100,	100);	
 INSERT INTO `mob_family_system` VALUES (941,'Elemental-Water',11,'Elemental',0,40,100,120,3,3,4,4,5,4,4,1,3,1,5,0.25,0.25,0.25,0.25,0.05,1,1,1,1.5,0.05,1,1,6,35,0,5,	5,	100,	100,	150,	100,	100,	100,	100,	100,	100,	100,	5,	100,	100);
-INSERT INTO `mob_family_system` VALUES (942,'Quadav-WOTG',7,'Beastmen',1,68,125,110,3,3,1,4,3,5,5,1,1,1,1,0.75,0.75,1.10,1.25,0.3,0.7,0.7,0.7,1,0.1,0.7,0.7,6,258,0,50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50);
+INSERT INTO `mob_family_system` VALUES (942,'Quadav-WOTG',7,'Beastmen',1,68,125,110,3,3,1,4,3,5,5,1,1,1,1,0.875,0.875,1.10,1.25,0.3,0.7,0.7,0.7,1,0.1,0.7,0.7,6,258,0,50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50);
 INSERT INTO `mob_family_system` VALUES (943,'Yagudo-WOTG',7,'Beastmen',0,68,125,120,3,3,3,1,4,5,3,1,1,1,1,0.75,1.25,0.75,0.75,0.7,1,0.1,0.3,0.7,0.7,0.7,0.7,3,1,0,50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50);
-INSERT INTO `mob_family_system` VALUES (944,'Orc-WOTG',7,'Beastmen',1,68,105,125,1,3,4,4,7,4,3,1,1,1,1,0.5,0.5,0.5,0.5,0.1,0.3,0.7,0.7,0.7,1,0.7,0.7,1,257,0,50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50);
+INSERT INTO `mob_family_system` VALUES (944,'Orc-WOTG',7,'Beastmen',1,68,105,125,1,3,4,4,7,4,3,1,1,1,1,0.75,0.75,0.75,0.75,0.1,0.3,0.7,0.7,0.7,1,0.7,0.7,1,257,0,50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50);
 INSERT INTO `mob_family_system` VALUES (945,'OrcishWarmachine-WOTG',7,'Beastmen',1,68,125,100,1,4,4,3,6,5,3,1,1,1,1,1,1,1,1,0.5,0.7,1,1,1,1.15,1,1,1,257,0,50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50);
 INSERT INTO `mob_family_system` VALUES (946,'Goblin-WOTG',7,'Beastmen',0,68,125,120,3,3,5,3,4,4,4,1,1,1,1,1,1,1,1,0.7,0.7,0.7,0.7,0.7,0.7,1.3,0.1,1,1,0,50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50); 
 INSERT INTO `mob_family_system` VALUES (947,'Funguar-ElectrumCap',17,'Plantoid',0,68,125,110,3,4,4,4,5,4,4,1,1,1,1,1,1,1,1,0.7,0.7,0.7,0.7,0.7,0.1,1.3,0.1,8,2,1,70,	70,	70,	70,	70,	85,	85,	70,	70,	70,	70,	70,	40,	50,	50);
@@ -781,7 +784,7 @@ INSERT INTO `mob_family_system` VALUES (971,'Aldo-RAID',13,'Humanoid',0,40,90,11
 INSERT INTO `mob_family_system` VALUES (972,'Maximilian-RAID',13,'Humanoid',0,40,90,110,3,3,2,3,2,2,3,1,3,1,3,1,1,1,1,1,1,1,1,1,1,1,1,3,1,0,100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100); 
 
 -- 22,50,96,111,317-318,405,411-434,439-443, 598 available for use
--- NEXT: 638
+-- NEXT: 641
 -- NEXT Custom: 973
 
   -- `familyid` smallint(4) unsigned NOT NULL,

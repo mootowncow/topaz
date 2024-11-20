@@ -24,33 +24,17 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local typeEffectOne = tpz.effect.ACCURACY_BOOST
-    local typeEffectTwo = tpz.effect.EVASION_BOOST
+    local effect = tpz.effect.ACCURACY_BOOST
+    local effect2 = tpz.effect.EVASION_BOOST
     local power = 20
     local duration = 300
-    local returnEffect = typeEffectOne
+    local tick = 0
+    local subid = 0
+    local subpower = 0
+    local tier = 0
+    local bonus = 0
+    local params = {}
 
-    if (caster:hasStatusEffect(tpz.effect.DIFFUSION)) then
-        local diffMerit = caster:getMerit(tpz.merit.DIFFUSION)
-
-        if (diffMerit > 0) then
-            duration = duration + (duration/100)* diffMerit
-        end
-
-        caster:delStatusEffectSilent(tpz.effect.DIFFUSION)
-    end
-
-    if (target:addStatusEffect(typeEffectOne, power, 0, duration) == false and target:addStatusEffect(typeEffectTwo, power, 0, duration) == false) then -- both statuses fail to apply
-        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-    elseif (target:addStatusEffect(typeEffectOne, power, 0, duration) == false) then -- the first status fails to apply
-        target:addStatusEffect(typeEffectTwo, power, 0, duration)
-        spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
-        returnEffect = typeEffectTwo
-    else
-        target:addStatusEffect(typeEffectOne, power, 0, duration)
-        target:addStatusEffect(typeEffectTwo, power, 0, duration)
-        spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
-    end
-
-    return returnEffect
+    BlueBuffSpell(caster, target, spell, effect2, power, tick, duration, subid, subpower, tier, params, bonus)
+    return BlueBuffSpell(caster, target, spell, effect, power, tick, duration, subid, subpower, tier, params, bonus)
 end

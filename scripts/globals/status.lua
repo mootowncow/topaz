@@ -1343,7 +1343,7 @@ tpz.mod =
     MAGIC_CRIT_DMG_INCREASE         = 563,
     HASTE_MAGIC                     = 167,
     SPELLINTERRUPT                  = 168,
-    MOVE_SPEED_OVERIDE              = 169, -- Modifier used to overide regular speed caps. (GM speed and Feast of Sword…
+    MOVE_SPEED_OVERIDE              = 169, -- Modifier used to overide regular speed caps. (GM speed and Feast of SwordÂ…
     MOVE_SPEED_STACKABLE            = 75, -- Gear movement speed penalties, flee bonus, etc.
     MOVE_SPEED_GEAR_BONUS           = 76, -- Gear movement speed bonuses. DOES NOT STACK with each other, only highest applies.
     MOVE_SPEED_WEIGHT_PENALTY       = 77, -- For Gravity and curse.
@@ -1457,8 +1457,9 @@ tpz.mod =
     DOUBLE_ATTACK                   = 288,
     SUBTLE_BLOW                     = 289,
     SUBTLE_BLOW_II                  = 1009, -- Subtle Blow II Effect (Cap 50%) Total Effect (SB + SB_II cap 75%)
-    ENF_MAG_POTENCY                 = 290, -- Increases Enfeebling magic potency %
+    ENF_MAG_POTENCY                 = 290,  -- Increases Enfeebling magic potency %
     COUNTER                         = 291,
+    COUNTER_DAMAGE                  = 1047, -- Increases Damage from Counter Attacks (Percent)
     KICK_ATTACK_RATE                = 292,
     AFFLATUS_SOLACE                 = 293,
     AFFLATUS_MISERY                 = 294,
@@ -1613,7 +1614,7 @@ tpz.mod =
     REGEN_DOWN                      = 404, -- poison
     REFRESH_DOWN                    = 405, -- plague, reduce mp
     REGAIN_DOWN                     = 406, -- plague, reduce tp
-    MAGIC_DAMAGE                    = 311, --  Magic damage added directly to the spell's base damage
+    MAGIC_DAMAGE                    = 311, -- Magic damage added directly to the spell's base damage
 
     -- Gear set modifiers
     DA_DOUBLE_DAMAGE                = 408, -- Double attack's double damage chance %.
@@ -1756,6 +1757,8 @@ tpz.mod =
     RETALIATION                     = 414, -- Increases damage of Retaliation hits
     THIRD_EYE_COUNTER_RATE          = 508, -- Adds counter to 3rd eye anticipates & if using Seigan counter rate is increased by 15%
     THIRD_EYE_ANTICIPATE_RATE       = 839, -- Adds anticipate rate in percents
+    THIRD_EYE_ANTICIPATES           = 1055,-- Bonus Third Eye Anticipates (count)
+    HASSO_SEIGAN_GIFT               = 1056,-- +Hasso: +Zanshin chance. Seigan: +Counter chance (1200 SAM JP Gift)
     TP_BOOST_WHEN_DMGD              = 1239,-- Bonus 30-100 TP gained when taking damage. Modifier = percent chance of proccing
 
     CLAMMING_IMPROVED_RESULTS       = 509, --
@@ -1774,6 +1777,8 @@ tpz.mod =
     SCAVENGE_EFFECT                 = 312, --
     DIA_DOT                         = 313, -- Increases the DoT damage of Dia
     SHARPSHOT                       = 314, -- Sharpshot accuracy bonus
+    TRUE_SHOT_EFFECT                = 1053,-- True Shot Ranged attack power increase inside sweet spot (percent)
+    DEAD_AIM_EFFECT                 = 1054,-- Critical damage increase to ranged attacks in percents (does not effect ranged WS)
     AUGMENTS_ABSORB                 = 1274, -- Direct Absorb spell increase (percentage based)
     ENH_DRAIN_ASPIR                 = 315, -- % damage boost to Drain and Aspir
     SNEAK_ATK_DEX                   = 1368, -- % DEX boost to Sneak Attack (if gear mod, needs to be equipped on hit)
@@ -1913,6 +1918,7 @@ tpz.mod =
     -- Other
     CURE2MP_PERCENT                 = 860, -- Converts % of "Cure" amount to MP
     DIVINE_BENISON                  = 910, -- Adds fast cast and enmity reduction to -Na spells (includes Erase). Enmity reduction is half of the fast cast amount
+    REGEN_BONUS                     = 989, -- Increases the amount of HP restored by Regen (JP Gifts bonus)
     SAVETP                          = 880, -- SAVETP Effect for Miser's Roll / ATMA / Hagakure.
     CONSERVE_TP                     = 944, -- Conserve TP trait, random chance between 10 and 200 TP
     INQUARTATA                      = 1012, -- increases parry rate by a flat %.
@@ -2062,7 +2068,8 @@ tpz.mod =
     LOGGING_SKILL           = 1314, -- Adds Logging Skill
     MINING_SKILL            = 1315, -- Adds Mining Skill
     PROTECT_SHELL_EFFECT    = 1316, -- Enhances the effect of "Protect" and "Shell". Target with mod only.
-    DIGGING_SKILL_GAIN_RATE = 1317,  -- Chocobo digging skill up gain increase
+    ENHANCES_PROT_RCVD      = 1050, -- Enhances Protect received in percents (PLD JP Gift)
+    DIGGING_SKILL_GAIN_RATE = 1317, -- Chocobo digging skill up gain increase
     HARVESTING_SKILL        = 1318, -- Adds Harvesting Skill
     EXCAVATION_SKILL        = 1319, -- Adds Excavation Skill
     PHALANX_RECIEVED        = 1320, -- Phalanx effect received.
@@ -2123,9 +2130,23 @@ tpz.mod =
     AURA_RADIUS             = 1377, -- Increases the range of indi auras. Flat amount. (1 = +1 range, 10 = +10 range)
     NINJUTSU_CASTING_TIME   = 1378, -- Reduces Ninjutsu Casting Time by percentage (e.g. mod value -10 = -10% cast time)
     CURE_ENMITY_REDUCTION   = 1387, -- Reduces Enmity generated from cure spells
-    CURE_POTENCY_BASE       = 1388, -- Flat amount of healing added to cures (Before percent bonuses)
+    CURE_POTENCY_BASE       = 1388, -- Flat amount of healing added to cures(Before percent bonuses)
+    STR_DURING_WS           = 1404, -- Bonus STR during WS only
+    DEX_DURING_WS           = 1405, -- Bonus DEX during WS only
+    VIT_DURING_WS           = 1406, -- Bonus VIT during WS only
+    AGI_DURING_WS           = 1407, -- Bonus AGI during WS only
+    INT_DURING_WS           = 1408, -- Bonus INT during WS only
+    MND_DURING_WS           = 1409, -- Bonus MND during WS only
+    CHR_DURING_WS           = 1410, -- Bonus CHR during WS only
+    BLUE_JOB_TRAIT_BONUS    = 1411, -- Job traits tier +1(JP Gift)
+    WALTZ_COST_PERCENT      = 1412, -- Reduce Waltz cost (In percents)
+    BLUE_WSC_BONUS          = 1413, -- WSC bonus to spells(JP Gift)
+    AVATAR_FAVOR_BONUS      = 1414, -- Increases the effect of avatars favor (percent)
+    AUTO_ELEM_CAPACITY      = 1415, -- Increases the automaton's elemental capacity for attachments
+    MAX_FINISHING_MOVES     = 1416, -- Increases the maximum number of finishing moves that may be stored
+    STRATAGEM_RECAST        = 1417, -- Reduces the recast time of stratagems (seconds)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1404 NEXT
+    -- 1418 NEXT
 }
 
 tpz.latent =
@@ -2889,14 +2910,14 @@ tpz.jp =
     RANDOM_DEAL_EFFECT       = jpCategory.COR + 0x06, --X 2 abil random deal +2%
     COR_RANGED_ACC_BONUS     = jpCategory.COR + 0x07, --X r.acc +1
     TRIPLE_SHOT_EFFECT       = jpCategory.COR + 0x08, --+ triple shot chance +1%
-    OPTIMAL_RANGE_BONUS      = jpCategory.COR + 0x09, --X sweet spot dmg +1
+    OPTIMAL_RANGE_BONUS      = jpCategory.COR + 0x09, --X sweet spot ranged attack +2
 
     --PUP
     OVERDRIVE_EFFECT         = jpCategory.PUP + 0x00, --+ all pet attr. +5
     HEADY_ARTIFICE_EFFECT    = jpCategory.PUP + 0x02, --X increase head effects (see wiki)
     AUTOMATON_HP_MP_BONUS    = jpCategory.PUP + 0x01, --+ pet hp+10, mp+5
     ACTIVATE_EFFECT          = jpCategory.PUP + 0x03, --+ burden -1
-    REPAIR_EFFECT            = jpCategory.PUP + 0x04, --O mp hot based on oil (see wiki)
+    REPAIR_EFFECT            = jpCategory.PUP + 0x04, --O MP Recovery based on oil (see wiki)
     DEUS_EX_AUTOMATA_RECAST  = jpCategory.PUP + 0x05, --+ recast -1s
     TACTICAL_SWITCH_BONUS    = jpCategory.PUP + 0x06, --X tp +20
     COOLDOWN_EFFECT          = jpCategory.PUP + 0x07, --O burden -1
@@ -3229,6 +3250,7 @@ tpz.mobMod =
     TRUST_DISTANCE      = 114, -- Trust distancing AI
     RANGED_DELAY        = 115, -- Trust ranged weapon delay
     AMMO_DELAY          = 116, -- Trust ranged ammo delay
+    CAPACITY_BONUS      = 117, -- bonus capacity points (bonus / 100) negative values reduce capacity points.
 }
 
 ------------------------------------

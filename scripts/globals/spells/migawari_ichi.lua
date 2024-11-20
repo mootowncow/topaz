@@ -23,6 +23,8 @@ function onSpellCast(caster, target, spell)
     local effect = tpz.effect.MIGAWARI
     local ninjutsu = target:getSkillLevel(tpz.skill.NINJUTSU)
     local negationThreshold = math.floor(100 * ((ninjutsu / 5) / 100))
-    caster:addStatusEffect(effect, negationThreshold, 0, 60, 0, 100)
+    local duration = calculateDuration(60, spell:getSkillType(), spell:getSpellGroup(), caster, target)
+
+    caster:addStatusEffect(effect, negationThreshold, 0, duration, 0, 100)
     return effect
 end

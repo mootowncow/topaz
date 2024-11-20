@@ -21,22 +21,26 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local params = {}
     params.numHits = 1
     params.ftp100 = 3 params.ftp200 = 3 params.ftp300 = 3
-    params.str_wsc = 0.0 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.6 params.int_wsc = 0.0 params.mnd_wsc = 0.0 params.chr_wsc = 0.0
+    params.str_wsc = 0.8 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0 params.mnd_wsc = 0.0 params.chr_wsc = 0.0
     params.crit100 = 0.0 params.crit200 = 0.0 params.crit300 = 0.0
     params.canCrit = false
     params.acc100 = 0.0 params.acc200 = 0.0 params.acc300 = 0.0
     params.atk100 = 1; params.atk200 = 1; params.atk300 = 1
+	params.ignoresDef = true
+    params.ignored100 = 0.66
+    params.ignored200 = 0.66
+    params.ignored300 = 0.66
 
     if USE_ADOULIN_WEAPON_SKILL_CHANGES then
         params.dex_wsc = 0.8 params.agi_wsc = 0.0
     end
 
     -- Apply aftermath
-   tpz.aftermath.addStatusEffect(player, tp, tpz.slot.MAIN, tpz.aftermath.type.RELIC)
+    tpz.aftermath.addStatusEffect(player, tp, tpz.slot.MAIN, tpz.aftermath.type.RELIC)
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-	if damage > 0 then player:trySkillUp(target, tpz.skill.POLEARM, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+    if damage > 0 then player:trySkillUp(target, tpz.skill.POLEARM, tpHits+extraHits) end
+    if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
 
 
     return tpHits, extraHits, criticalHit, damage

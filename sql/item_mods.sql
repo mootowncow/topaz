@@ -16666,9 +16666,10 @@ INSERT INTO `item_mods` VALUES (15128,2,35); -- HP 35
 INSERT INTO `item_mods` VALUES (15128,27,4); -- ENMITY 4
 INSERT INTO `item_mods` VALUES (15128,508,15); -- THIRD_EYE_COUNTER_RATE 15
 INSERT INTO `item_mods` VALUES (15128,10,7); -- VIT 7
-INSERT INTO `item_mods` VALUES (15129,1,31);
-INSERT INTO `item_mods` VALUES (15129,2,40);
-INSERT INTO `item_mods` VALUES (15129,259,5);
+INSERT INTO `item_mods` VALUES (15129,1,31); -- DEF 31
+INSERT INTO `item_mods` VALUES (15129,2,40); -- HP 40
+INSERT INTO `item_mods` VALUES (15129,259,5); -- DUAL_WIELD 5
+INSERT INTO `item_mods` VALUES (15129,25,10); -- ACC 10
 INSERT INTO `item_mods` VALUES (15130,1,32);
 INSERT INTO `item_mods` VALUES (15130,2,13);
 INSERT INTO `item_mods` VALUES (15130,9,5);
@@ -18226,9 +18227,10 @@ INSERT INTO `item_mods` VALUES (15591,2,37); -- HP 37
 INSERT INTO `item_mods` VALUES (15591,27,5); -- ENMITY 5
 INSERT INTO `item_mods` VALUES (15591,508,15); -- THIRD_EYE_COUNTER_RATE 15
 INSERT INTO `item_mods` VALUES (15591,10,8); -- VIT 8
-INSERT INTO `item_mods` VALUES (15592,1,32);
-INSERT INTO `item_mods` VALUES (15592,2,40);
-INSERT INTO `item_mods` VALUES (15592,259,5);
+INSERT INTO `item_mods` VALUES (15592,1,32); -- DEF 32
+INSERT INTO `item_mods` VALUES (15592,2,40); -- HP 40
+INSERT INTO `item_mods` VALUES (15592,259,5); -- DUAL_WIELD 5
+INSERT INTO `item_mods` VALUES (15592,25,12); -- ACC 12
 INSERT INTO `item_mods` VALUES (15593,1,33);
 INSERT INTO `item_mods` VALUES (15593,2,13);
 INSERT INTO `item_mods` VALUES (15593,9,6);
@@ -22841,12 +22843,13 @@ INSERT INTO `item_mods` VALUES (18257,228,10); -- AQUAN_KILLER 10% Intimidate
 INSERT INTO `item_mods` VALUES (18257,1228,10); -- AQUAN_CIRCLE 10% damage increase vs Aquans
 INSERT INTO `item_mods` VALUES (18263,256,1); -- Stage 4 Spharai - Aftermath
 INSERT INTO `item_mods` VALUES (18263,356,10); -- Final Heaven
-INSERT INTO `item_mods` VALUES (18264,23,20); -- Spharai LV75 - ATT +20
-INSERT INTO `item_mods` VALUES (18264,256,1); -- Aftermath
-INSERT INTO `item_mods` VALUES (18264,291,5); -- Counter +5
-INSERT INTO `item_mods` VALUES (18264,355,10); -- Final Heaven
-INSERT INTO `item_mods` VALUES (18264,506,50); -- Extra DMG Chance 5%
-INSERT INTO `item_mods` VALUES (18264,507,300); -- Extra DMG X3
+INSERT INTO `item_mods` VALUES (18264,23,20); -- ATT 20
+INSERT INTO `item_mods` VALUES (18264,256,1); -- AFTERMATH 1
+INSERT INTO `item_mods` VALUES (18264,291,5); -- COUNTER 5
+INSERT INTO `item_mods` VALUES (18264,355,10); -- ADDS_WEAPONSKILL 10
+INSERT INTO `item_mods` VALUES (18264,506,50); -- EXTRA_DMG_CHANCE 50
+INSERT INTO `item_mods` VALUES (18264,507,300); -- OCC_DO_EXTRA_DMG 300
+INSERT INTO `item_mods` VALUES (18264,25,20); -- ACC 20
 INSERT INTO `item_mods` VALUES (18265,23,25); -- Spharai LV80 - ATT +25
 INSERT INTO `item_mods` VALUES (18265,256,1); -- Aftermath
 INSERT INTO `item_mods` VALUES (18265,291,7); -- Counter +7
@@ -22855,12 +22858,12 @@ INSERT INTO `item_mods` VALUES (18265,506,50); -- Extra DMG Chance 5%
 INSERT INTO `item_mods` VALUES (18265,507,300); -- Extra DMG X3
 INSERT INTO `item_mods` VALUES (18269,256,2); -- Stage 4 Mandau - Aftermath
 INSERT INTO `item_mods` VALUES (18269,356,26); -- Mercy Stroke
-INSERT INTO `item_mods` VALUES (18270,23,20); -- Mandau LV75 - ATT +20
-INSERT INTO `item_mods` VALUES (18270,256,2); -- Aftermath
-INSERT INTO `item_mods` VALUES (18270,355,26); -- Mercy Stroke
-INSERT INTO `item_mods` VALUES (18270,431,1); -- Additional Effect - scripts\globals\items\mandau.lua
-INSERT INTO `item_mods` VALUES (18270,506,50); -- Extra DMG Chance 5%
-INSERT INTO `item_mods` VALUES (18270,507,300); -- Extra DMG X3
+INSERT INTO `item_mods` VALUES (18270,256,2); -- AFTERMATH 2
+INSERT INTO `item_mods` VALUES (18270,355,26); -- ADDS_WEAPONSKILL 26
+INSERT INTO `item_mods` VALUES (18270,506,50); -- EXTRA_DMG_CHANCE 50
+INSERT INTO `item_mods` VALUES (18270,507,300); -- OCC_DO_EXTRA_DMG 300
+INSERT INTO `item_mods` VALUES (18270,2,250); -- HP 250
+INSERT INTO `item_mods` VALUES (18270,25,20); -- ACC 20
 INSERT INTO `item_mods` VALUES (18271,23,25); -- Mandau LV80 - ATT +25
 INSERT INTO `item_mods` VALUES (18271,256,2); -- Aftermath
 INSERT INTO `item_mods` VALUES (18271,355,26); -- Mercy Stroke
@@ -22869,12 +22872,13 @@ INSERT INTO `item_mods` VALUES (18271,506,50); -- Extra DMG Chance 5%
 INSERT INTO `item_mods` VALUES (18271,507,300); -- Extra DMG X3
 INSERT INTO `item_mods` VALUES (18275,256,3); -- Stage 4 Excalibur - Aftermath
 INSERT INTO `item_mods` VALUES (18275,356,43); -- Knights of Round
-INSERT INTO `item_mods` VALUES (18276,23,20); -- Excalibur LV75 - ATT +20
-INSERT INTO `item_mods` VALUES (18276,256,3); -- Aftermath
-INSERT INTO `item_mods` VALUES (18276,355,43); -- Knights of the Round
-INSERT INTO `item_mods` VALUES (18276,431,1); -- Additional Effect - scripts\globals\items\excalibur.lua
-INSERT INTO `item_mods` VALUES (18276,506,50); -- Extra DMG Chance 5%
-INSERT INTO `item_mods` VALUES (18276,507,300); -- Extra DMG X3
+INSERT INTO `item_mods` VALUES (18276,23,20); -- ATT 20
+INSERT INTO `item_mods` VALUES (18276,256,3); -- AFTERMATH 3
+INSERT INTO `item_mods` VALUES (18276,355,43); -- ADDS_WEAPONSKILL 43
+INSERT INTO `item_mods` VALUES (18276,431,1); -- ADDITIONAL_EFFECT 1
+INSERT INTO `item_mods` VALUES (18276,506,50); -- EXTRA_DMG_CHANCE 50
+INSERT INTO `item_mods` VALUES (18276,507,300); -- OCC_DO_EXTRA_DMG 300
+INSERT INTO `item_mods` VALUES (18276,25,20); -- ACC 20
 INSERT INTO `item_mods` VALUES (18277,23,25); -- Excalibur LV80 - ATT +25
 INSERT INTO `item_mods` VALUES (18277,256,3); -- Aftermath
 INSERT INTO `item_mods` VALUES (18277,355,43); -- Knights of the Round
@@ -22883,12 +22887,14 @@ INSERT INTO `item_mods` VALUES (18277,506,50); -- Extra DMG Chance 5%
 INSERT INTO `item_mods` VALUES (18277,507,300); -- Extra DMG X3
 INSERT INTO `item_mods` VALUES (18281,256,4); -- Stage 4 Ragnarok - Aftermath
 INSERT INTO `item_mods` VALUES (18281,356,57); -- Scourge
-INSERT INTO `item_mods` VALUES (18282,25,20); -- Ragnarok LV75 - ACC +20
-INSERT INTO `item_mods` VALUES (18282,165,5); -- Crit Rate +5%
-INSERT INTO `item_mods` VALUES (18282,256,4); -- Aftermath
-INSERT INTO `item_mods` VALUES (18282,355,57); -- Scourge
-INSERT INTO `item_mods` VALUES (18282,506,50); -- Extra DMG Chance 5%
-INSERT INTO `item_mods` VALUES (18282,507,250); -- Extra DMG X2.5
+INSERT INTO `item_mods` VALUES (18282,25,20); -- ACC 20
+INSERT INTO `item_mods` VALUES (18282,165,5); -- CRITHITRATE 5
+INSERT INTO `item_mods` VALUES (18282,256,4); -- AFTERMATH 4
+INSERT INTO `item_mods` VALUES (18282,355,57); -- ADDS_WEAPONSKILL 57
+INSERT INTO `item_mods` VALUES (18282,506,50); -- EXTRA_DMG_CHANCE 50
+INSERT INTO `item_mods` VALUES (18282,507,250); -- OCC_DO_EXTRA_DMG 250
+INSERT INTO `item_mods` VALUES (18282,23,20); -- ATT 20
+INSERT INTO `item_mods` VALUES (18282,1012,10); -- INQUARTATA 10
 INSERT INTO `item_mods` VALUES (18283,25,25); -- Ragnarok LV80 - ACC +25
 INSERT INTO `item_mods` VALUES (18283,165,7); -- Crit Rate +7%
 INSERT INTO `item_mods` VALUES (18283,256,4); -- Aftermath
@@ -22897,12 +22903,12 @@ INSERT INTO `item_mods` VALUES (18283,506,50); -- Extra DMG Chance 5%
 INSERT INTO `item_mods` VALUES (18283,507,250); -- Extra DMG X2.5
 INSERT INTO `item_mods` VALUES (18287,256,5); -- Stage 4 Guttler - Aftermath
 INSERT INTO `item_mods` VALUES (18287,356,73); -- Onslaught
-INSERT INTO `item_mods` VALUES (18288,23,20); -- Guttler LV75 - ATT +20
-INSERT INTO `item_mods` VALUES (18288,256,5); -- Aftermath
-INSERT INTO `item_mods` VALUES (18288,355,73); -- Onslaught
-INSERT INTO `item_mods` VALUES (18288,431,1); -- Additional Effect - scripts\globals\items\guttler.lua
-INSERT INTO `item_mods` VALUES (18288,506,50); -- Extra DMG Chance 5%
-INSERT INTO `item_mods` VALUES (18288,507,250); -- Extra DMG X2.5
+INSERT INTO `item_mods` VALUES (18288,256,5); -- AFTERMATH 5
+INSERT INTO `item_mods` VALUES (18288,355,73); -- ADDS_WEAPONSKILL 73
+INSERT INTO `item_mods` VALUES (18288,506,50); -- EXTRA_DMG_CHANCE 50
+INSERT INTO `item_mods` VALUES (18288,507,250); -- OCC_DO_EXTRA_DMG 250
+INSERT INTO `item_mods` VALUES (18288,25,20); -- ACC 20
+INSERT INTO `item_mods` VALUES (18288,109,50); -- SHIELD 50
 INSERT INTO `item_mods` VALUES (18289,23,25); -- Guttler LV80 - ATT +25
 INSERT INTO `item_mods` VALUES (18289,256,5); -- Aftermath
 INSERT INTO `item_mods` VALUES (18289,355,73); -- Onslaught
@@ -22953,12 +22959,14 @@ INSERT INTO `item_mods` VALUES (18307,506,50); -- Extra DMG Chance 5%
 INSERT INTO `item_mods` VALUES (18307,507,200); -- Extra DMG X2
 INSERT INTO `item_mods` VALUES (18311,256,9); -- Stage 4 Kikoku - Aftermath
 INSERT INTO `item_mods` VALUES (18311,356,137); -- Blade: Metsu
-INSERT INTO `item_mods` VALUES (18312,23,20); -- Kikoku LV75 - ATT +20
-INSERT INTO `item_mods` VALUES (18312,256,9); -- Aftermath
-INSERT INTO `item_mods` VALUES (18312,355,137); -- Blade: Metsu
-INSERT INTO `item_mods` VALUES (18312,431,1); -- Additional Effect - scripts\globals\items\kikoku.lua
-INSERT INTO `item_mods` VALUES (18312,506,50); -- Extra DMG Chance 5%
-INSERT INTO `item_mods` VALUES (18312,507,300); -- Extra DMG X3
+INSERT INTO `item_mods` VALUES (18312,23,20); -- ATT 20
+INSERT INTO `item_mods` VALUES (18312,256,9); -- AFTERMATH 9
+INSERT INTO `item_mods` VALUES (18312,355,137); -- ADDS_WEAPONSKILL 137
+INSERT INTO `item_mods` VALUES (18312,506,50); -- EXTRA_DMG_CHANCE 50
+INSERT INTO `item_mods` VALUES (18312,507,300); -- OCC_DO_EXTRA_DMG 300
+INSERT INTO `item_mods` VALUES (18312,25,20); -- ACC 20
+INSERT INTO `item_mods` VALUES (18312,30,10); -- MACC 10
+INSERT INTO `item_mods` VALUES (18312,28,10); -- MATT 10
 INSERT INTO `item_mods` VALUES (18313,23,25); -- Kikoku LV80 - ATT +25
 INSERT INTO `item_mods` VALUES (18313,256,9); -- Aftermath
 INSERT INTO `item_mods` VALUES (18313,355,137); -- Blade: Metsu
@@ -22981,12 +22989,13 @@ INSERT INTO `item_mods` VALUES (18319,506,50); -- Extra DMG Chance 5%
 INSERT INTO `item_mods` VALUES (18319,507,250); -- Extra DMG X2.5
 INSERT INTO `item_mods` VALUES (18323,256,12); -- Stage 4 Mjollnir - Aftermath
 INSERT INTO `item_mods` VALUES (18323,356,170); -- Randgrith
-INSERT INTO `item_mods` VALUES (18324,23,20); -- Mjollnir LV75 - ATT +20
-INSERT INTO `item_mods` VALUES (18324,256,11); -- Aftermath
-INSERT INTO `item_mods` VALUES (18324,355,170); -- Randgrith
-INSERT INTO `item_mods` VALUES (18324,431,1); -- Additional Effect - scripts\globals\items\mjollnir.lua
-INSERT INTO `item_mods` VALUES (18324,506,50); -- Extra DMG Chance 5%
-INSERT INTO `item_mods` VALUES (18324,507,300); -- Extra DMG X3
+INSERT INTO `item_mods` VALUES (18324,23,20); -- ATT 20
+INSERT INTO `item_mods` VALUES (18324,256,11); -- AFTERMATH 11
+INSERT INTO `item_mods` VALUES (18324,355,170); -- ADDS_WEAPONSKILL 170
+INSERT INTO `item_mods` VALUES (18324,506,50); -- EXTRA_DMG_CHANCE 50
+INSERT INTO `item_mods` VALUES (18324,507,300); -- OCC_DO_EXTRA_DMG 300
+INSERT INTO `item_mods` VALUES (18324,25,20); -- ACC 20
+INSERT INTO `item_mods` VALUES (18324,369,2); -- REFRESH 2
 INSERT INTO `item_mods` VALUES (18325,23,25); -- Mjollnir LV80 - ATT +25
 INSERT INTO `item_mods` VALUES (18325,256,11); -- Aftermath
 INSERT INTO `item_mods` VALUES (18325,355,170); -- Randgrith
@@ -22995,12 +23004,37 @@ INSERT INTO `item_mods` VALUES (18325,506,50); -- Extra DMG Chance 5%
 INSERT INTO `item_mods` VALUES (18325,507,300); -- Extra DMG X3
 INSERT INTO `item_mods` VALUES (18329,256,12); -- Stage 4 Caustrum - Aftermath
 INSERT INTO `item_mods` VALUES (18329,356,185); -- Gates of Tartarus
-INSERT INTO `item_mods` VALUES (18330,25,20); -- Claustrum LV75 - ACC +20
-INSERT INTO `item_mods` VALUES (18330,256,12); -- Aftermath
-INSERT INTO `item_mods` VALUES (18330,355,185); -- Gate of Tartarus
-INSERT INTO `item_mods` VALUES (18330,431,1); -- Additional Effect - scripts\globals\items\claustrum.lua
-INSERT INTO `item_mods` VALUES (18330,506,50); -- Extra DMG Chance 5%
-INSERT INTO `item_mods` VALUES (18330,507,250); -- Extra DMG X2.5
+INSERT INTO `item_mods` VALUES (18330,25,20); -- ACC 20
+INSERT INTO `item_mods` VALUES (18330,256,12); -- AFTERMATH 12
+INSERT INTO `item_mods` VALUES (18330,355,185); -- ADDS_WEAPONSKILL 185
+INSERT INTO `item_mods` VALUES (18330,431,1); -- ADDITIONAL_EFFECT 1
+INSERT INTO `item_mods` VALUES (18330,506,50); -- EXTRA_DMG_CHANCE 50
+INSERT INTO `item_mods` VALUES (18330,507,250); -- OCC_DO_EXTRA_DMG 250
+INSERT INTO `item_mods` VALUES (18330,1348,1); -- AVATAR_LVL_BONUS 1
+INSERT INTO `item_mods` VALUES (18330,547,3); -- EARTH_AFFINITY_ACC 3
+INSERT INTO `item_mods` VALUES (18330,350,3); -- EARTH_AFFINITY_DMG 3
+INSERT INTO `item_mods` VALUES (18330,556,-3); -- EARTH_AFFINITY_PERP -3
+INSERT INTO `item_mods` VALUES (18330,558,-3); -- WATER_AFFINITY_PERP -3
+INSERT INTO `item_mods` VALUES (18330,352,3); -- WATER_AFFINITY_DMG 3
+INSERT INTO `item_mods` VALUES (18330,549,3); -- WATER_AFFINITY_ACC 3
+INSERT INTO `item_mods` VALUES (18330,349,3); -- WIND_AFFINITY_DMG 3
+INSERT INTO `item_mods` VALUES (18330,546,3); -- WIND_AFFINITY_ACC 3
+INSERT INTO `item_mods` VALUES (18330,555,-3); -- WIND_AFFINITY_PERP -3
+INSERT INTO `item_mods` VALUES (18330,544,3); -- FIRE_AFFINITY_ACC 3
+INSERT INTO `item_mods` VALUES (18330,347,3); -- FIRE_AFFINITY_DMG 3
+INSERT INTO `item_mods` VALUES (18330,553,-3); -- FIRE_AFFINITY_PERP -3
+INSERT INTO `item_mods` VALUES (18330,545,3); -- ICE_AFFINITY_ACC 3
+INSERT INTO `item_mods` VALUES (18330,348,3); -- ICE_AFFINITY_DMG 3
+INSERT INTO `item_mods` VALUES (18330,554,-3); -- ICE_AFFINITY_PERP -3
+INSERT INTO `item_mods` VALUES (18330,548,3); -- THUNDER_AFFINITY_ACC 3
+INSERT INTO `item_mods` VALUES (18330,351,3); -- THUNDER_AFFINITY_DMG 3
+INSERT INTO `item_mods` VALUES (18330,557,-3); -- THUNDER_AFFINITY_PERP -3
+INSERT INTO `item_mods` VALUES (18330,550,3); -- LIGHT_AFFINITY_ACC 3
+INSERT INTO `item_mods` VALUES (18330,353,3); -- LIGHT_AFFINITY_DMG 3
+INSERT INTO `item_mods` VALUES (18330,559,-3); -- LIGHT_AFFINITY_PERP -3
+INSERT INTO `item_mods` VALUES (18330,551,3); -- DARK_AFFINITY_ACC 3
+INSERT INTO `item_mods` VALUES (18330,354,3); -- DARK_AFFINITY_DMG 3
+INSERT INTO `item_mods` VALUES (18330,560,-3); -- DARK_AFFINITY_PERP -3
 INSERT INTO `item_mods` VALUES (18331,25,25); -- Claustrum LV80 - ACC +25
 INSERT INTO `item_mods` VALUES (18331,256,12); -- Aftermath
 INSERT INTO `item_mods` VALUES (18331,355,185); -- Gate of Tartarus

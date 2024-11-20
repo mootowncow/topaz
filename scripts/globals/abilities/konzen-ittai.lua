@@ -48,6 +48,16 @@ function onUseAbility(player, target, ability, action)
     else
         anim = 36
     end
+
+    local duration = 10
+    local jpBonus = player:getJobPointLevel(tpz.jp.KONZEN_ITTAI_EFFECT)
+    target:queue(0, function(target)
+        target:addMod(tpz.mod.DMGSC, jpBonus)
+    end)
+    target:queue(duration*1000, function(target)
+        target:delMod(tpz.mod.DMGSC, jpBonus)
+    end)
+
     action:animation(target:getID(), anim)
     action:speceffect(target:getID(), 1)
     return 0

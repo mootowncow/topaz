@@ -155,16 +155,20 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
     local chainAffinity = caster:getStatusEffect(tpz.effect.CHAIN_AFFINITY)
     local azureLore = caster:getStatusEffect(tpz.effect.AZURE_LORE)
     local efflux = caster:getStatusEffect(tpz.effect.EFFLUX)
-    local affluxBonus = caster:getMod(tpz.effect.EFFLUX_BONUS)
+    local effluxModBonus = caster:getMod(tpz.effect.EFFLUX_BONUS)
+    local effluxJpBonus = caster:getJobPointLevel(tpz.jp.EFFLUX_EFFECT) * 10
     local tp = 0
     local effluxTP = 0
 
     -- Efflux treats all spells like they're 1k TP
     if (efflux ~= nil) then
         local effluxMultiplier = 1 + caster:getMod(tpz.effect.EFFLUX_BONUS) / 100
-        tp = math.floor((1000 + affluxBonus) * effluxMultiplier)
-        -- Efflux also increases the base damage of the spell it is used with by 50% (x 1.5)
-        -- https://www.bg-wiki.com/ffxi/Efflux
+        tp = math.floor((1000 + effluxModBonus) * effluxMultiplier)
+
+        -- Add JP bonus
+        tp = tp + effluxJpBonus
+
+        -- Efflux also increases the base damage of the spell it is used with by 50% (x 1.5) https://www.bg-wiki.com/ffxi/Efflux
         bonusWSC = bonusWSC + 0.5
     end
 
@@ -238,16 +242,23 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
 		end
 
         if params.CritTPModifier then --Check if "Chance of critical strike varies with TP"
+            local critHitRateMods = target:getMod(tpz.mod.ENEMYCRITRATE)/ 100 - target:getMerit(tpz.merit.ENEMY_CRIT_RATE) / 100
             CritTPBonus = 0.05
 			CritTPBonus = CritTPBonus + BLUGetCritTPModifier(caster:getTP())
-            CritTPBonus = CritTPBonus + target:getMod(tpz.mod.ENEMYCRITRATE)/100
+            CritTPBonus = CritTPBonus + critHitRateMods
+
+            -- Apply Yonin bonus
+            if target:hasStatusEffect(tpz.effect.YONIN) and caster:isFacing(target, 23) then
+                CritTPBonus = CritTPBonus - (target:getStatusEffect(tpz.effect.YONIN):getPower() / 100)
+            end
+
             -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
             CritTPBonus = math.max(CritTPBonus, 0.01)
             -- caster:PrintToPlayer(string.format("native physical spell crit rate was %d", CritTPBonus*100))
 		end
 	end
 
-    -- Ranged spells alawys have a chance to crit
+    -- Ranged spells always have a chance to crit
     if isRanged then -- Ranged uses dAGI
         local nativecrit = 0.05
         local dAGI = (caster:getStat(tpz.mod.AGI) - target:getStat(tpz.mod.AGI))
@@ -256,11 +267,16 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
             nativecrit = nativecrit + math.floor(dAGI/10)/100 -- no known cap
             nativecrit = nativecrit + caster:getMod(tpz.mod.CRITHITRATE)/100 + caster:getMerit(tpz.merit.CRIT_HIT_RATE)/100
                                 + target:getMod(tpz.mod.ENEMYCRITRATE)/100  - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)/100
-            -- caster:PrintToPlayer(string.format("native ranged spell crit rate was %d", nativecrit*100))
+        end
+
+        -- Apply Yonin bonus
+        if target:hasStatusEffect(tpz.effect.YONIN) and caster:isFacing(target, 23) then
+            nativecrit = nativecrit - (target:getStatusEffect(tpz.effect.YONIN):getPower() / 100)
         end
 
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
         nativecrit = math.max(nativecrit, 0.01)
+
         if math.random() < nativecrit then
             SpellCritPdifModifier = 1.25 + ((caster:getMod(tpz.mod.CRIT_DMG_INCREASE) / 100) - (target:getMod(tpz.mod.CRIT_DEF_BONUS) / 100)) -- It crit!
             --caster:PrintToPlayer(string.format("Your ramged spell Crit!"))
@@ -323,6 +339,12 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
     local physPotency = 1 + ((caster:getMerit(tpz.merit.PHYSICAL_POTENCY) / 100))
     bluAttack = math.floor(bluAttack * physPotency)
     -- printf("Attack after potency merits.. %d", bluAttack)
+
+    if isRanged then
+        local isBluSpell = true
+        bluAttack = caster:calculateSweetSpotAttack(target, bluAttack, isBluSpell)
+    end
+
     -- print(params.offcratiomod)
     local cratio = BluecRatio(params.offcratiomod / target:getStat(tpz.mod.DEF), caster:getMainLvl(), target:getMainLvl())
     local rangedcratio = BluecRangedRatio(params.offcratiomod / target:getStat(tpz.mod.DEF), caster:getMainLvl(), target:getMainLvl())
@@ -532,8 +554,11 @@ function BlueMagicalSpell(caster, target, spell, params, statMod)
     end
 
     local ST = BlueGetWsc(caster, params) -- According to Wiki ST is the same as WSC, essentially Blue mage spells that are magical use the dmg formula of Magical type Weapon skills
+    -- print("ST val is ".. ST)
 
     if (caster:hasStatusEffect(tpz.effect.BURST_AFFINITY)) then
+        local jpBonus = caster:getJobPointLevel(tpz.jp.BURST_AFFINITY_BONUS) * 2
+        D = D + jpBonus
         ST = ST * 2
     end
 
@@ -618,13 +643,6 @@ function BlueMagicalSpell(caster, target, spell, params, statMod)
         dmg = dmg * ConvergenceBonus
 	end
 
-    -- Handle Unbridle gear mod
-    if (spell:getRequirements() == tpz.magic.req.UNBRIDLED_LEARNING) then
-        if caster:hasStatusEffect(tpz.effect.UNBRIDLED_LEARNING) or caster:hasStatusEffect(tpz.effect.UNBRIDLED_WISDOM) then
-            dmg = math.floor(dmg * (1 + caster:getMod(tpz.mod.UNBRIDLED_DAMAGE) / 100)) 
-        end
-    end
-
     -- Handle Positional MDT
     if caster:isInfront(target, 90) and target:hasStatusEffect(tpz.effect.MAGIC_SHIELD) then -- Front
         if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() == 3 then
@@ -668,6 +686,21 @@ function BlueFinalAdjustments(caster, target, spell, dmg, params)
 
     -- Handle Null
     dmg = utils.CheckForNull(caster, target, attackType, element, dmg)
+
+    -- Add Azure Lore JP Bonus to physical spells
+    if (dmg > 0) then
+        if attackType == tpz.attackType.PHYSICAL or attackType == tpz.attackType.RANGED then
+            dmg = dmg + caster:getJobPointLevel(tpz.jp.AZURE_LORE_EFFECT)
+        end
+    end
+
+    -- Handle Unbridled damage bonuses
+    if (spell:getRequirements() == tpz.magic.req.UNBRIDLED_LEARNING) then
+        if caster:hasStatusEffect(tpz.effect.UNBRIDLED_LEARNING) or caster:hasStatusEffect(tpz.effect.UNBRIDLED_WISDOM) then
+            dmg = math.floor(dmg * (1 + caster:getMod(tpz.mod.UNBRIDLED_DAMAGE) / 100))
+            dmg = math.floor(dmg * (1 + caster:getJobPointLevel(tpz.jp.UNBRIDLED_LRN_EFFECT) / 100))
+        end
+    end
 
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, spell, dmg)
@@ -830,17 +863,56 @@ function BlueBreathSpell(caster, target, spell, params, hppercent)
     return dmg
 end
 
+function BlueBuffSpell(caster, target, spell, effect, power, tick, duration, subid, subpower, tier, params, bonus)
+    -- Add Unbridled JP duration bonus
+    if (spell:getRequirements() == tpz.magic.req.UNBRIDLED_LEARNING) then
+        if caster:hasStatusEffect(tpz.effect.UNBRIDLED_LEARNING) or caster:hasStatusEffect(tpz.effect.UNBRIDLED_WISDOM) then
+            duration = math.floor(duration * (1 + caster:getMod(tpz.mod.UNBRIDLED_DURATION) / 100))
+            duration = math.floor(duration * (1 + caster:getJobPointLevel(tpz.jp.UNBRIDLED_LRN_EFFECT_II) / 100))
+        end
+    end
+
+    if caster:hasStatusEffect(tpz.effect.DIFFUSION) then
+        local diffMerit = caster:getMerit(tpz.merit.DIFFUSION)
+
+        if (diffMerit > 0) then
+            duration = duration + (duration/100)* diffMerit
+        end
+    end
+
+    caster:delStatusEffectSilent(tpz.effect.DIFFUSION)
+
+    if canOverwrite(target, effect, power) then
+        target:delStatusEffectSilent(effect)
+    end
+
+    if not target:addStatusEffect(effect, power, tick, duration, subid, subpower, tier) then
+        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+    else
+        spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
+    end
+    return effect
+end
+
 ------------------------------
 -- Utility functions below ---
 ------------------------------
 
 function BlueGetWsc(attacker, params)
-    wsc = (attacker:getStat(tpz.mod.STR) * params.str_wsc + attacker:getStat(tpz.mod.DEX) * params.dex_wsc +
-         attacker:getStat(tpz.mod.VIT) * params.vit_wsc + attacker:getStat(tpz.mod.AGI) * params.agi_wsc +
-         attacker:getStat(tpz.mod.INT) * params.int_wsc + attacker:getStat(tpz.mod.MND) * params.mnd_wsc +
-         attacker:getStat(tpz.mod.CHR) * params.chr_wsc) * BlueGetAlpha(attacker:getMainLvl())
+    local blue_wsc_bonus = attacker:getMod(tpz.mod.BLUE_WSC_BONUS) / 100
+    
+    wsc = (attacker:getStat(tpz.mod.STR) * (params.str_wsc + blue_wsc_bonus) +
+           attacker:getStat(tpz.mod.DEX) * (params.dex_wsc + blue_wsc_bonus) +
+           attacker:getStat(tpz.mod.VIT) * (params.vit_wsc + blue_wsc_bonus) +
+           attacker:getStat(tpz.mod.AGI) * (params.agi_wsc + blue_wsc_bonus) +
+           attacker:getStat(tpz.mod.INT) * (params.int_wsc + blue_wsc_bonus) +
+           attacker:getStat(tpz.mod.MND) * (params.mnd_wsc + blue_wsc_bonus) +
+           attacker:getStat(tpz.mod.CHR) * (params.chr_wsc + blue_wsc_bonus)) 
+           * BlueGetAlpha(attacker:getMainLvl())
+           
     return wsc
 end
+
 
 -- Given the raw ratio value (atk/def) and levels, returns the cRatio (min then max)
 function BluecRatio(ratio, atk_lvl, def_lvl)
@@ -1019,6 +1091,7 @@ function BlueGetHitRate(attacker, target, capHitRate, params)
     local AccTPBonus = 0
 	local tp = attacker:getTP() + attacker:getMerit(tpz.merit.ENCHAINMENT)
     local chainAffinity = attacker:getStatusEffect(tpz.effect.CHAIN_AFFINITY)
+    local isRanged = params.attackType == tpz.attackType.RANGED
 
     if (chainAffinity ~= nil) then
 		if params.AccTPModifier or (params.tpmod == TPMOD_ACC) then -- Check if "Accuracy varies with TP"
@@ -1035,10 +1108,19 @@ function BlueGetHitRate(attacker, target, capHitRate, params)
     local acc = attacker:getACC() + bonusAcc + AccTPBonus + attacker:getMerit(tpz.merit.PHYSICAL_POTENCY) -- https://www.bluegartr.com/threads/37619-Blue-Mage-Best-thread-ever?p=2097460&viewfull=1#post2097460 
     local eva = target:getEVA()
 
+    if (target:hasStatusEffect(tpz.effect.YONIN) and attacker:isFacing(target, 23)) then -- Yonin evasion boost if attacker is facing target
+        eva = eva + (target:getStatusEffect(tpz.effect.YONIN):getPower() + (target:getJobPointLevel(tpz.jp.YONIN_EFFECT) * 2))
+    end
+
     if (attacker:getMainLvl() > target:getMainLvl()) then -- acc bonus!
         acc = acc + ((attacker:getMainLvl()-target:getMainLvl())*4)
     elseif (attacker:getMainLvl() < target:getMainLvl()) then -- acc penalty :(
         acc = acc - ((target:getMainLvl()-attacker:getMainLvl())*4)
+    end
+
+    if isRanged then
+        local isBluSpell = true
+        acc = attacker:calculateSweetSpotAccuracy(target, acc, isBluSpell)
     end
 
     local hitdiff = 0
@@ -1204,9 +1286,9 @@ function BlueTryPhysStun(caster, target, spell, resist, params)
             target:addStatusEffect(typeEffect, 1, 0, duration)
             AddDimishingReturns(caster, target, spell, typeEffect)
         end
-    end
 
-    spell:setMsg(tpz.msg.basic.MAGIC_DMG)
+        spell:setMsg(tpz.msg.basic.MAGIC_DMG)
+    end
 end
 
 -- Function to stagger duration of effects by using the resistance to change the value

@@ -367,7 +367,7 @@ void LoadMOBList()
             allegiance, namevis, aggro, roamflag, mob_pools.skill_list_id, mob_pools.true_detection, mob_family_system.detects, \
             mob_family_system.charmable, \
             Amnesia, Virus, Silence, Gravity, Stun, LightSleep, Charm, Paralyze, Bind, Slow, Petrify, Terror, Poison, Darksleep, Blind, \
-            mob_pools.shieldSize \
+            mob_pools.shieldSize, mob_pools.rangedSkill \
             FROM mob_groups INNER JOIN mob_pools ON mob_groups.poolid = mob_pools.poolid \
             INNER JOIN mob_spawn_points ON mob_groups.groupid = mob_spawn_points.groupid \
             INNER JOIN mob_family_system ON mob_pools.familyid = mob_family_system.familyid \
@@ -457,15 +457,6 @@ void LoadMOBList()
                 PMob->setModifier(Mod::HTHRES, (uint16)(Sql_GetFloatData(SqlHandle, 38) * 1000));
                 PMob->setModifier(Mod::IMPACTRES, (uint16)(Sql_GetFloatData(SqlHandle, 39) * 1000));
 
-                //PMob->setModifier(Mod::FIRERES, (int16)((Sql_GetFloatData(SqlHandle, 40) - 1) * -100)); // These are stored as floating percentages
-                //PMob->setModifier(Mod::ICERES, (int16)((Sql_GetFloatData(SqlHandle, 41) - 1) * -100)); // and need to be adjusted into modifier units.
-                //PMob->setModifier(Mod::WINDRES, (int16)((Sql_GetFloatData(SqlHandle, 42) - 1) * -100)); // Higher RES = lower damage.
-                //PMob->setModifier(Mod::EARTHRES, (int16)((Sql_GetFloatData(SqlHandle, 43) - 1) * -100)); // Negatives signify lower resist chance.
-                //PMob->setModifier(Mod::THUNDERRES, (int16)((Sql_GetFloatData(SqlHandle, 44) - 1) * -100)); // Positives signify increased resist chance.
-                //PMob->setModifier(Mod::WATERRES, (int16)((Sql_GetFloatData(SqlHandle, 45) - 1) * -100));
-                //PMob->setModifier(Mod::LIGHTRES, (int16)((Sql_GetFloatData(SqlHandle, 46) - 1) * -100));
-                //PMob->setModifier(Mod::DARKRES, (int16)((Sql_GetFloatData(SqlHandle, 47) - 1) * -100));
-
                 PMob->setModifier(Mod::SDT_FIRE, (int16)(Sql_GetFloatData(SqlHandle, 40) * 100)); // These are stored as floating percentages
                 PMob->setModifier(Mod::SDT_ICE, (int16)(Sql_GetFloatData(SqlHandle, 41) * 100));
                 PMob->setModifier(Mod::SDT_WIND, (int16)(Sql_GetFloatData(SqlHandle, 42) * 100));
@@ -537,7 +528,9 @@ void LoadMOBList()
                 PMob->setModifier(Mod::EEM_POISON, (uint8)(Sql_GetUIntData(SqlHandle, 80)));
                 PMob->setModifier(Mod::EEM_DARK_SLEEP, (uint8)(Sql_GetUIntData(SqlHandle, 81)));
                 PMob->setModifier(Mod::EEM_BLIND, (uint8)(Sql_GetUIntData(SqlHandle, 82)));
+
                 PMob->setMobMod(MOBMOD_BLOCK, Sql_GetUIntData(SqlHandle, 83)); // TODO: Probably turn into a member(m_shieldSize)
+                ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setSubSkillType(Sql_GetIntData(SqlHandle, 84));
 
                 // Overwrite base family charmables depending on mob type. Disallowed mobs which should be charmable
                 // can be set in mob_spawn_mods or in their onInitialize

@@ -363,10 +363,11 @@ enum class Mod
     BERSERK_DURATION          = 954, // Berserk Duration
     AGGRESSOR_DURATION        = 955, // Aggressor Duration
     DEFENDER_DURATION         = 956, // Defender Duration
-    DEFENDER_POTENCY          = 1304, // Increases defender defense bonus, in percents
-    RETALIATION               = 414,  // Increases damage of Retaliation hits
-    BLOOD_RAGE_POTENCY        = 1308, // Increases Blood Rage healing received bonus, in percents
+    DEFENDER_POTENCY          = 1304,// Increases defender defense bonus, in percents
+    RETALIATION               = 414, // Increases damage of Retaliation hits
+    BLOOD_RAGE_POTENCY        = 1308,// Increases Blood Rage healing received bonus, in percents
     ENHANCES_RESTRAINT        = 988, // Enhances "Restraint" effect/"Restraint" + (Increases the damage bonus of Restraint by XXX%)
+
     // Monk
     BOOST_EFFECT              = 97,  // Boost power in tenths
     CHAKRA_MULT               = 123, // Chakra multiplier increase (from gear)
@@ -374,6 +375,7 @@ enum class Mod
     SUBTLE_BLOW               = 289, // How much TP to reduce.
     SUBTLE_BLOW_II            = 1009,// Subtle Blow II Effect (Cap 50%) Total Effect (SB + SB_II cap 75%)
     COUNTER                   = 291, // Percent chance to counter
+    COUNTER_DAMAGE            = 1047,// Increases Damage from Counter Attacks (Percent)
     KICK_ATTACK_RATE          = 292, // Percent chance to kick
     PERFECT_COUNTER_ATT       = 428, // TODO: Raises weapon damage by 20 when countering while under the Perfect Counter effect. This also affects Weapon Rank (though not if fighting barehanded).
     FOOTWORK_ATT_BONUS        = 429, // Raises the attack bonus of Footwork. (Tantra Gaiters +2 raise 25/256 to 38/256)
@@ -390,6 +392,9 @@ enum class Mod
     CURE2MP_PERCENT           = 860, // Converts % of "Cure" amount to MP
     DIVINE_BENISON            = 910, // Adds fast cast and enmity reduction to -Na spells (includes Erase). Enmity reduction is half of the fast cast amount
     PROTECT_SHELL_EFFECT      = 1316,// Enhances the effect of "Protect" and "Shell". Target with mod only.
+    ENHANCES_PROT_RCVD        = 1050,// Enhances Protect received in percents (PLD JP Gift)
+    REGEN_BONUS               = 989, // Increases the amount of HP restored by Regen
+
     // Black Mage
     CLEAR_MIND                = 295, // Used in conjunction with HEALMP to increase amount between tics
     CONSERVE_MP               = 296, // Percent chance
@@ -424,7 +429,7 @@ enum class Mod
     GILFINDER                 = 897, // Gilfinder, duh
     TP_GAIN_ON_EVADE          = 1305,// Gain TP upon a successful evade
     TH_MAX                    = 1364,// Max TH level the entity can play. THF job gifts.
-    TH_PROC_CHANCE            = 1365,// Bonus proc chance to Treasure Hunter procs. THF job gifts.
+    TH_PROC_CHANCE            = 1365,// Bonus proc chance to Treasure Hunter procs. THF job gifts. (i.e. 23 makes TH proc * 1.23%)
 
     // Paladin
     HOLY_CIRCLE_DURATION      = 857, // Holy Circle extended duration in seconds
@@ -504,6 +509,8 @@ enum class Mod
     SHADOW_BIND_EXT           = 425, // Extends the time of shadowbind
     SCAVENGE_EFFECT           = 312, //
     SHARPSHOT                 = 314, //
+    TRUE_SHOT_EFFECT          = 1053,// True Shot Ranged attack power increase inside sweet spot (percent)
+    DEAD_AIM_EFFECT           = 1054,// Critical damage increase to ranged attacks in percents (does not effect ranged WS)
 
     // Samurai
     WARDING_CIRCLE_DURATION   = 95,  // Warding Circle extended duration in seconds
@@ -511,6 +518,8 @@ enum class Mod
     ZANSHIN                   = 306, // Zanshin percent chance
     THIRD_EYE_COUNTER_RATE    = 508, // Adds counter to 3rd eye anticipates & if using Seigan counter rate is increased by 15%
     THIRD_EYE_ANTICIPATE_RATE = 839, // Adds anticipate rate in percents
+    THIRD_EYE_ANTICIPATES     = 1055,// Bonus Third Eye Anticipates (count)
+    HASSO_SEIGAN_GIFT         = 1056,// +Hasso: +Zanshin chance. Seigan: +Counter chance (1200 SAM JP Gift)
     HASSO_HASTE               = 1361,// Increases the JA haste bonus of Hasso. 10000 base, 375 = 3.75%
 
     // Ninja
@@ -561,6 +570,7 @@ enum class Mod
     BP_DAMAGE                 = 126, // Blood Pact: Rage Damage increase percentage
     BP_BURST_DAMAGE           = 1257, // Blood Pact: Rage magic burst damage increase percentage.
     BLOOD_BOON                = 913, // Occasionally cuts down MP cost of Blood Pact abilities. Does not affect abilities that require Astral Flow.
+    AVATAR_FAVOR_BONUS        = 1414,// Increases the effect of avatars favor (percent)
     // Absorb dmg to MP (Evoker's Bracers, Lyft Claymore, etc)
     FIRE_ABSORB_TO_MP          = 1459,  // Occasionally absorbs fire elemental damage to MP, in percents
     ICE_ABSORB_TO_MP           = 1460,  // Occasionally absorbs ice elemental damage to MP, in percents
@@ -582,6 +592,8 @@ enum class Mod
     UNBRIDLED_DURATION        = 1327,// Bonus duration to Unbridled Learning spells, in percents
     BLU_ATT                   = 1356,// Modifier to BLU phys attack
     BLU_ATTP                  = 1357,// Modifier to BLU phys attack (in percents)
+    BLUE_JOB_TRAIT_BONUS      = 1411,//Job traits tier +1(JP Gift)
+    BLUE_WSC_BONUS            = 1413,//WSC bonus to spells(JP Gift)
 
     // Corsair
     TRIPLE_SHOT_RATE          = 987, // The rate that triple shot can proc. Without this, the default is 40%.
@@ -648,8 +660,10 @@ enum class Mod
     AUTO_EQUALIZER            = 941, // Reduces damage received according to damage taken
     AUTO_PERFORMANCE_BOOST    = 942, // Increases the performance of other attachments by a percentage
     AUTO_ANALYZER             = 943, // Causes the Automaton to mitigate damage from a special attack a number of times
+    AUTO_ELEM_CAPACITY        = 1415,// Increases the automaton's elemental capacity for attachments
     AUTO_LVL_BONUS            = 1349,// Automaton: Lv.+ (Increases Automatons's base level above 99
     TRANQUIL_HEART            = 1369,// Grants the bonuses based on currently summoned Automaton
+
     // Dancer
     FINISHING_MOVES           = 333, // Tracks # of finishing moves
     SAMBA_DURATION            = 490, // Samba duration bonus
@@ -661,8 +675,10 @@ enum class Mod
     WALTZ_DELAY               = 497, // Waltz Ability Delay modifier (-1 mod is -1 second)
     SAMBA_PDURATION           = 498, // Samba percent duration bonus
     REVERSE_FLOURISH_EFFECT   = 836, // Reverse Flourish effect in tenths of squared term multiplier
-    WALTZ_COST                = 139, // Reduce Waltz cost 
+    WALTZ_COST                = 139, // Reduce Waltz cost
+    WALTZ_COST_PERCENT        = 1412,// Reduce Waltz cost (In percents)
     STEP_COST                 = 140, // Reduce step cost
+    MAX_FINISHING_MOVES       = 1416,// Increases the maximum number of finishing moves that may be stored
 
     // Scholar
     BLACK_MAGIC_COST          = 393, // MP cost for black magic (light/dark arts)
@@ -683,6 +699,7 @@ enum class Mod
     STORMSURGE_EFFECT         = 400, //
     SUBLIMATION_BONUS         = 401, //
     GRIMOIRE_SPELLCASTING     = 489, // "Grimoire: Reduces spellcasting time" bonus
+    STRATAGEM_RECAST          = 1417,// Reduces the recast time of stratagems (seconds)
 
     // Geo
     CARDINAL_CHANT            = 1001,
@@ -759,7 +776,7 @@ enum class Mod
     REGEN_DOWN                = 404, // poison
     CURE_POTENCY              = 374, // % cure potency | bonus from gear is capped at 50
     CURE_POTENCY_II           = 260, // % cure potency II | bonus from gear is capped at 30
-    CURE_POTENCY_BASE         = 1388, // Flat amount of healing added to cures (Before percent bonuses)
+    CURE_POTENCY_BASE         = 1388,// Flat amount of healing added to cures (Before percent bonuses)
     CURE_POTENCY_RCVD         = 375, // % potency of received cure | healer's roll, some items have this
     RANGED_DMG_RATING         = 376, // adds damage rating to ranged weapon
     MAIN_DMG_RANK             = 377, // adds weapon rank to main weapon http://wiki.bluegartr.com/bg/Weapon_Rank
@@ -973,6 +990,15 @@ enum class Mod
     WS_MND_BONUS              = 984, // % bonus to mnd_wsc.
     WS_CHR_BONUS              = 985, // % bonus to chr_wsc.
 
+    // Bonus attributes during WS only (Used by Trusts)
+    STR_DURING_WS           = 1404,// Bonus STR during WS only
+    DEX_DURING_WS           = 1405,// Bonus DEX during WS only
+    VIT_DURING_WS           = 1406,// Bonus VIT during WS only
+    AGI_DURING_WS           = 1407,// Bonus AGI during WS only
+    INT_DURING_WS           = 1408,// Bonus INT during WS only
+    MND_DURING_WS           = 1409,// Bonus MND during WS only
+    CHR_DURING_WS           = 1410,// Bonus CHR during WS only
+
     EXPERIENCE_RETAINED       = 914, // Experience points retained upon death (this is a percentage)
     CAPACITY_BONUS            = 915, // Capacity point bonus granted
     CONQUEST_BONUS            = 933, // Conquest points bonus granted (percentage)
@@ -1102,7 +1128,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1404 NEXT
+    // 1418 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

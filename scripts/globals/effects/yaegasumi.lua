@@ -12,4 +12,5 @@ end
 
 function onEffectLose(target, effect)
     target:delMod(tpz.mod.TPEVA, -effect:getPower())
+    target:setCharVar("YaegasumiWSD", 0)
 end

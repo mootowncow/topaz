@@ -63,6 +63,7 @@ When a status effect is gained twice on a player. It can do one or more of the f
 #include "utils/petutils.h"
 #include "utils/puppetutils.h"
 #include "utils/battleutils.h"
+#include "job_points.h"
 
 /************************************************************************
 *                                                                       *
@@ -476,9 +477,9 @@ bool CStatusEffectContainer::AddStatusEffect(CStatusEffect* PStatusEffect, bool 
         }
         m_POwner->PAI->EventHandler.triggerListener("EFFECT_GAIN", m_POwner, PStatusEffect);
 
-        m_POwner->extDataUpdateFlag = true;
-
         m_POwner->addModifiers(&PStatusEffect->modList);
+
+        m_POwner->extDataUpdateFlag = true;
 
         if (PStatusEffect->GetStatusID() >= EFFECT_FIRE_MANEUVER &&
             PStatusEffect->GetStatusID() <= EFFECT_DARK_MANEUVER &&
@@ -569,6 +570,7 @@ void CStatusEffectContainer::DeleteStatusEffects()
             PChar->PLatentEffectContainer->CheckLatentsRollSong();
         }
         m_POwner->UpdateHealth();
+        m_POwner->extDataUpdateFlag = true;
     }
 }
 
@@ -591,11 +593,13 @@ void CStatusEffectContainer::RemoveStatusEffect(CStatusEffect* PStatusEffect, bo
             charutils::BuildingCharWeaponSkills(PChar);
             PChar->pushPacket(new CCharAbilitiesPacket(PChar));
         }
+
         m_POwner->PAI->EventHandler.triggerListener("EFFECT_LOSE", m_POwner, PStatusEffect);
+
+        m_POwner->delModifiers(&PStatusEffect->modList);
 
         m_POwner->extDataUpdateFlag = true;
 
-        m_POwner->delModifiers(&PStatusEffect->modList);
         if (m_POwner->objtype == TYPE_PC)
         {
             CCharEntity* PChar = (CCharEntity*)m_POwner;
@@ -852,7 +856,6 @@ uint8 CStatusEffectContainer::EraseAllStatusEffect()
             count++;
         }
     }
-    m_POwner->extDataUpdateFlag = true;
     return count;
 }
 
@@ -939,7 +942,6 @@ uint8 CStatusEffectContainer::RemoveAllNegativeEffects()
             count++;
         }
     }
-    m_POwner->extDataUpdateFlag = true;
     return count;
 }
 
@@ -969,7 +971,6 @@ EFFECT CStatusEffectContainer::DispelStatusEffect(EFFECTFLAG flag)
         RemoveStatusEffect(dispelableList.at(rndIdx), true);
         return result;
     }
-    m_POwner->extDataUpdateFlag = true;
     return EFFECT_NONE;
 }
 
@@ -990,7 +991,6 @@ uint8 CStatusEffectContainer::DispelAllStatusEffect(EFFECTFLAG flag)
             count++;
         }
     }
-    m_POwner->extDataUpdateFlag = true;
     return count;
 }
 
@@ -1145,11 +1145,24 @@ bool CStatusEffectContainer::ApplyCorsairEffect(CStatusEffect* PStatusEffect, ui
                     {
                         if (!CheckForElevenRoll())
                         {
-                            uint16 duration = 300;
-                            duration -= bustDuration;
-                            CStatusEffect* bustEffect = new CStatusEffect(EFFECT_BUST, EFFECT_BUST, PStatusEffect->GetPower(),
-                                0, duration, PStatusEffect->GetTier(), PStatusEffect->GetStatusID());
-                            AddStatusEffect(bustEffect, true);
+                            uint16 bustEvasion = 0;
+                            uint16 randomChance = tpzrand::GetRandomNumber(100);
+                            if (m_POwner->objtype == TYPE_PC)
+                            {
+                                if (auto* PChar = static_cast<CCharEntity*>(m_POwner))
+                                {
+                                    bustEvasion += PChar->PJobPoints->GetJobPointValue(JP_BUST_EVASION);
+                                }
+                            }
+
+                            if (randomChance >= bustEvasion)
+                            {
+                                uint16 duration = 300;
+                                duration -= bustDuration;
+                                CStatusEffect* bustEffect = new CStatusEffect(EFFECT_BUST, EFFECT_BUST, PStatusEffect->GetPower(), 0, duration,
+                                                                              PStatusEffect->GetTier(), PStatusEffect->GetStatusID());
+                                AddStatusEffect(bustEffect, true);
+                            }
                             DelStatusEffectSilent(EFFECT_DOUBLE_UP_CHANCE);
                         }
                     }
@@ -1396,7 +1409,6 @@ CStatusEffect* CStatusEffectContainer::StealStatusEffect(EFFECTFLAG flag)
                                                       oldEffect->GetDuration() / 1000, oldEffect->GetSubID(), oldEffect->GetSubPower(), oldEffect->GetTier());
 
         RemoveStatusEffect(oldEffect, true);
-        m_POwner->extDataUpdateFlag = true;
 
         return EffectCopy;
     }

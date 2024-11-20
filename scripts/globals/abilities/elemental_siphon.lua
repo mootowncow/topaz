@@ -37,6 +37,10 @@ function onUseAbility(player,target,ability)
     -- Custom x3 multiplier
     basePower = basePower * 3
 
+    -- Add JP bonus
+    local jpValue = player:getJobPointLevel(tpz.jp.ELEMENTAL_SIPHON_EFFECT) * 3
+    basePower = basePower + jpValue
+
     local weatherDayBonus = 1
     local dayElement = VanadielDayElement() -1
     local weather = player:getWeather()

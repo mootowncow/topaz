@@ -9,6 +9,7 @@
 require("scripts/globals/weaponskills")
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/job_util")
 require("scripts/globals/msg")
 -----------------------------------
 function onAbilityCheck(player, target, ability)
@@ -16,17 +17,11 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability, action)
-    if (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_2)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_2)
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_3)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_3)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_1, 1, 0, 7200)
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_4)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_4)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_2, 1, 0, 7200)
-    elseif (player:hasStatusEffect(tpz.effect.FINISHING_MOVE_5)) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_5)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_3, 1, 0, 7200)
+    -- Consume finishing moves
+    local maxConsumed = 2
+    local finishingMoves = jobUtil.getFinishingMoveCount(player)
+    if (finishingMoves > 0) then
+        local actualConsumed = jobUtil.consumeFinishingMoves(player, maxConsumed)
     end
 
     if (target:hasStatusEffect(tpz.effect.CHAINBOUND, 0) or target:hasStatusEffect(tpz.effect.SKILLCHAIN, 0)) then
@@ -35,6 +30,14 @@ function onUseAbility(player, target, ability, action)
     end
 
     target:addStatusEffectEx(tpz.effect.CHAINBOUND, 0, 1, 0, 10, 0, 1)
+
+    local jpValue = player:getJobPointLevel(tpz.jp.FLOURISH_II_EFFECT)
+    player:queue(0, function(player)
+        player:addMod(tpz.mod.SKILLCHAINDMG, jpValue)
+    end)
+    player:queue(10*1000, function(player)
+        player:delMod(tpz.mod.SKILLCHAINDMG, jpValue)
+    end)
 
     action:animation(target:getID(), getFlourishAnimation(player:getWeaponSkillType(tpz.slot.MAIN)))
     action:speceffect(target:getID(), 1)

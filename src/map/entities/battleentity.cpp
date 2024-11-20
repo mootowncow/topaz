@@ -338,14 +338,23 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
         WeaponDelay = weapon->getDelay() - getMod(Mod::DELAY);
         if (weapon->isHandToHand())
         {
-            WeaponDelay -= getMod(Mod::MARTIAL_ARTS) * 1000 / 60;
+            auto martialArtsBonus = getMod(Mod::MARTIAL_ARTS);
+            if (this->objtype == TYPE_PC)
+            {
+                if (auto* PChar = dynamic_cast<CCharEntity*>(this))
+                {
+                    auto jpValue = PChar->PJobPoints->GetJobPointValue(JP_PUP_MARTIAL_ARTS_EFFECT) * 2;
+                    martialArtsBonus += jpValue;
+                }
+            }
+
+            WeaponDelay -= martialArtsBonus * 1000 / 60;
         }
         if (StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
         {
             WeaponDelay = WeaponDelay * 2;
         }
-        else if (auto subweapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]); subweapon && subweapon->getDmgType() > 0 &&
-            subweapon->getDmgType() < 4)
+        else if (auto subweapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]); subweapon && subweapon->getDmgType() > 0 && subweapon->getDmgType() < 4)
         {
             MinimumDelay += subweapon->getDelay();
             WeaponDelay += subweapon->getDelay();
@@ -390,7 +399,7 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
         if (!tp)
         {
             // Cap haste at appropriate levels.
-            int16 hasteMagic = std::clamp<int16>(getMod(Mod::HASTE_MAGIC), -10000, 3500); // 35% cap -- handle 100% slow for weakness
+            int16 hasteMagic = std::clamp<int16>(getMod(Mod::HASTE_MAGIC), -10000, 4375); // 43.75% cap -- handle 100% slow for weakness
             int16 hasteAbility = std::clamp<int16>(getMod(Mod::HASTE_ABILITY), -2500, 2500); // 25% cap
             int16 hasteGear = std::clamp<int16>(getMod(Mod::HASTE_GEAR), -2500, 2500); // 25%
 
@@ -776,9 +785,19 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
         float scarletDmgBonus = (float)amount / (float)GetMaxHP();
         scarletDmgBonus = scarletDmgBonus / 2.0f;
         scarletDmgBonus *= 100.0f;
+        auto duration = 90;
 
-        this->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SCARLET_DELIRIUM_1, EFFECT_SCARLET_DELIRIUM_1, scarletDmgBonus, 0, 90));
+        if (this->objtype == TYPE_PC)
+        {
+            if (auto* PChar = dynamic_cast<CCharEntity*>(this))
+            {
+                duration += PChar->PJobPoints->GetJobPointValue(JP_SCARLET_DLRIUM_DURATION);
+            }
+        }
+
+        this->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SCARLET_DELIRIUM_1, EFFECT_SCARLET_DELIRIUM_1, scarletDmgBonus, 0, duration));
     }
+
     // Damage always breaks petrify on mobs, but not players or NPCs(trusts, campaign helpers, charmed mobs, etc)
     if (this->objtype == TYPE_MOB && !this->isCharmed)
     {
@@ -2181,6 +2200,11 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         float DamageRatio = battleutils::GetDamageRatio(PTarget, this, attack.IsCritical(), attBonus, 0);
                         auto damage = (int32)((PTarget->GetMainWeaponDmg() + naturalh2hDMG + battleutils::GetFSTR(PTarget, this, SLOT_MAIN)) * DamageRatio);
 
+                        damage *= (1.0f + PTarget->getMod(Mod::COUNTER_DAMAGE) / 100.0f);
+
+                        // Add extra damage multipliers
+                        damage = battleutils::HandleExtraDamageMultipliers(PTarget, damage);
+
                         // Reduce counter damage if footwork is active to 50% for balancing reasons
                         if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
                         {
@@ -2268,6 +2292,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
 
                 // Process damage.
+                //
                 attack.ProcessDamage();
 
                 // Try shield block
@@ -2382,11 +2407,18 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
         if (attack.IsFirstSwing() && attackRound.GetAttackSwingCount() == 1)
         {
             uint16 zanshinChance = this->getMod(Mod::ZANSHIN) + battleutils::GetMeritValue(this, MERIT_ZASHIN_ATTACK_RATE);
+            uint16 zanHassoChance = this->getMod(Mod::HASSO_SEIGAN_GIFT);
             zanshinChance = std::clamp<uint16>(zanshinChance, 0, 100);
-            //zanshin may only proc on a missed/guarded/countered swing or as SAM main with hasso up (at 25% of the base zanshin rate)
+            zanHassoChance = std::clamp<uint16>(zanHassoChance, 0, 100);
+
+            //zanshin may only proc on a missed/guarded/countered swing
             if (((actionTarget.reaction == REACTION_EVADE || actionTarget.reaction == REACTION_GUARD ||
-                  actionTarget.spikesEffect == SUBEFFECT_COUNTER) && tpzrand::GetRandomNumber(100) < zanshinChance) ||
-                (GetMJob() == JOB_BLM && this->StatusEffectContainer->HasStatusEffect(EFFECT_HASSO) && tpzrand::GetRandomNumber(100) < (zanshinChance / 4)))
+                  actionTarget.spikesEffect == SUBEFFECT_COUNTER) && tpzrand::GetRandomNumber(100) < zanshinChance))
+            {
+                attack.SetAttackType(PHYSICAL_ATTACK_TYPE::ZANSHIN);
+                attack.SetAsFirstSwing(false);
+            }
+            else if (this->StatusEffectContainer->HasStatusEffect(EFFECT_HASSO) && tpzrand::GetRandomNumber(100) < zanHassoChance) // Zanhasso proc
             {
                 attack.SetAttackType(PHYSICAL_ATTACK_TYPE::ZANSHIN);
                 attack.SetAsFirstSwing(false);

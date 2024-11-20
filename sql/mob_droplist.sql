@@ -4196,7 +4196,7 @@ INSERT INTO `mob_droplist` VALUES (776,0,0,1000,4110,5);
 INSERT INTO `mob_droplist` VALUES (776,0,0,1000,4111,5);
 INSERT INTO `mob_droplist` VALUES (777,4,0,1000,1819,0); -- (Eo'ghrah) Luminion chip - Despoil
 INSERT INTO `mob_droplist` VALUES (777,0,0,1000,1819,240); -- Luminion chip
-INSERT INTO `mob_droplist` VALUES (777,0,0,1000,1872,150); -- Ghrah M chip
+INSERT INTO `mob_droplist` VALUES (777,0,0,1000,1872,100); -- Ghrah M chip
 INSERT INTO `mob_droplist` VALUES (777,0,0,1000,4104,0);
 INSERT INTO `mob_droplist` VALUES (777,0,0,1000,4105,0);
 INSERT INTO `mob_droplist` VALUES (777,0,0,1000,4106,0);

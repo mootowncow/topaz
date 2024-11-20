@@ -1488,6 +1488,7 @@ namespace battleutils
                             {
                                 Action->spikesParam = 0;
                             }
+
                             // Does not work on undead
                             if (PAttacker->objtype == TYPE_MOB)
                             {
@@ -1902,6 +1903,7 @@ namespace battleutils
                 case ENSPELL_BLOOD_WEAPON:
                 case ENSPELL_DRAIN_SAMBA:
                 case ENSPELL_ASPIR_SAMBA:
+                case ENSPELL_SOUL_ENSLAVEMENT:
                     element = ELEMENT_DARK;
                     break;
                 default:
@@ -1967,7 +1969,48 @@ namespace battleutils
                     absorbed += (int32)floor(absorbed * 0.02f * static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(JP_BLOOD_WEAPON_EFFECT));
                 }
 
-                Action->addEffectParam = PAttacker->addHP(absorbed);
+                // Reduced by Shell / Phalanx
+                // https://www.bg-wiki.com/ffxi/Blood_Weapon
+
+                absorbed = MagicDmgTaken(PDefender, absorbed, (ELEMENT)(ELEMENT_DARK));
+                // Does not work on undead
+                if (PDefender->objtype == TYPE_MOB && PDefender->m_EcoSystem == SYSTEM_UNDEAD)
+                {
+                    Action->addEffectParam = 0;
+                }
+                else
+                {
+                    Action->addEffectParam = PAttacker->addHP(absorbed);
+                }
+
+                if (PChar != nullptr)
+                {
+                    PChar->updatemask |= UPDATE_HP;
+                }
+            }
+            else if (enspell == ENSPELL_SOUL_ENSLAVEMENT)
+            {
+                Action->additionalEffect = SUBEFFECT_TP_DRAIN;
+                Action->addEffectMessage = 165;
+
+                // Increase TP Absorbed by 1% per JP
+                int32 absorbed = Action->param;
+                if (PAttacker->objtype == TYPE_PC)
+                {
+                    absorbed += (int32)floor(absorbed * 0.01f * static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(JP_SOUL_ENSLAVEMENT_EFFECT));
+                }
+
+                // Does not work on undead
+                if (PDefender->objtype == TYPE_MOB && PDefender->m_EcoSystem == SYSTEM_UNDEAD)
+                {
+                    Action->addEffectParam = 0; 
+                }
+                else
+                {
+                    // Removes TP from the attacker
+                    PDefender->addTP(-absorbed);
+                    Action->addEffectParam = PAttacker->addTP(absorbed);
+                }
 
                 if (PChar != nullptr)
                 {
@@ -2402,10 +2445,12 @@ namespace battleutils
         // Add any specific accuracy bonus, e.g. Daken RAcc +100
         acc += accBonus;
 
+        acc = CalculateSweetSpotAccuracy(PAttacker, PDefender, acc);
+
         int eva = PDefender->EVA();
         hitrate = hitrate + (acc - eva) / 2 + (PAttacker->GetMLevel() - PDefender->GetMLevel()) * 2;
 
-        // ShowDebug("Ranged accuracy: %d\n", acc);
+        //ShowDebug("[%s] Ranged accuracy: %d\n", PAttacker->name, acc);
 
         if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SHARPSHOT))
         {
@@ -2422,7 +2467,107 @@ namespace battleutils
         return GetRangedHitRate(PAttacker, PDefender, isBarrage, 0);
     }
 
-    //todo: need to penalise attacker's RangedAttack depending on distance from mob. (% decrease)
+    uint16 CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int acc, bool isBluSpell)
+    {
+        float sweetSpotMultiplier = 1.0f;
+        float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
+        uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
+        uint8 rangedType = 6;
+        float optimalRangeBonus = 1.0f;
+        uint8 flatAccBonus = 0;
+
+        if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_RANGED]))
+        {
+            rangedType = rangedWeapon->getSubSkillType();
+        }
+
+        if (isBluSpell)
+        {
+            rangedType = SUBSKILL_THROWN;
+        }
+
+        // https://wiki.ffo.jp/html/9286.html
+        switch (rangedType)
+        {
+            case SUBSKILL_SHURIKEN:
+            case SUBSKILL_THROWN:
+                if (distanceToTarget <= meleeRange)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    sweetSpotMultiplier = 1.0f - ((distanceToTarget - meleeRange) * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier); //
+                }
+                break;
+            case SUBSKILL_GUN:
+            case SUBSKILL_CNN:
+                if (distanceToTarget >= 5.0f && distanceToTarget <= 6.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 5.0f) ? (5.0f - distanceToTarget) : (distanceToTarget - 6.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            case SUBSKILL_SHORTBOW:
+                if (distanceToTarget >= 6.0f && distanceToTarget <= 8.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 6.0f) ? (6.0f - distanceToTarget) : (distanceToTarget - 8.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            case SUBSKILL_XBO:
+                if (distanceToTarget >= 7.0f && distanceToTarget <= 10.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 7.0f) ? (7.0f - distanceToTarget) : (distanceToTarget - 10.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            case SUBSKILL_LONGBOW:
+                if (distanceToTarget >= 8.0f && distanceToTarget <= 11.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 8.0f) ? (8.0f - distanceToTarget) : (distanceToTarget - 11.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            default:
+                sweetSpotMultiplier = 1.0f;
+                break;
+        }
+
+        if (sweetSpotMultiplier == 1.0f)
+        {
+            sweetSpotMultiplier *= optimalRangeBonus;
+            acc += flatAccBonus;
+        }
+
+        acc *= sweetSpotMultiplier;
+
+        //ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
+        //ShowDebug("[%s] accuracy after sweet spot multiplier %i\n", PAttacker->name, acc);
+        return acc;
+    }
+
     float GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical)
     {
         //get ranged attack value
@@ -2460,6 +2605,8 @@ namespace battleutils
             rAttack = battleutils::GetMaxSkill(SKILL_ARCHERY, JOB_RNG, PAttacker->GetMLevel());
             //printf("Your ranged attack is... %u\n", rAttack);
         }
+
+        rAttack = CalculateSweetSpotAttack(PAttacker, PDefender, rAttack);
 
         //get ratio (2.5 pDIF cap RAs)
         float ratio = (float)rAttack / (float)PDefender->DEF();
@@ -2505,14 +2652,130 @@ namespace battleutils
 
         if (isCritical)
         {
-            pdif *= 1.25;
+            // Calculate the base critical hit multiplier combined with Dead Aim
+            float baseCritMultiplier = 1.25f * (1.0f + PAttacker->getMod(Mod::DEAD_AIM_EFFECT) / 100.0f);
+            pdif *= baseCritMultiplier;
 
-            int16 criticaldamage = PAttacker->getMod(Mod::CRIT_DMG_INCREASE) + PAttacker->getMod(Mod::RANGED_CRIT_DMG_INCREASE) - PDefender->getMod(Mod::CRIT_DEF_BONUS);
+            // Apply additional critical damage modifiers, adjusted for defender's critical defense
+            int16 critDamageMods = PAttacker->getMod(Mod::CRIT_DMG_INCREASE) + PAttacker->getMod(Mod::RANGED_CRIT_DMG_INCREASE);
+            int16 criticaldamage = critDamageMods - PDefender->getMod(Mod::CRIT_DEF_BONUS);
             criticaldamage = std::clamp<int16>(criticaldamage, 0, 100);
+
             pdif *= ((100 + criticaldamage) / 100.0f);
         }
+
         //ShowDebug("PDif after crit: %f\n", pdif);
         return pdif;
+    }
+
+    uint16 CalculateSweetSpotAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint16 rAttack, bool isBluSpell)
+    {
+        float sweetSpotMultiplier = 1.0f;
+        float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
+        uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
+        uint8 rangedType = 6;
+        float optimalRangeBonus = 1.0f + (PAttacker->getMod(Mod::TRUE_SHOT_EFFECT) / 100.0f);
+        uint8 flatAttackBonus = 0;
+
+        if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_RANGED]))
+        {
+            rangedType = rangedWeapon->getSubSkillType();
+        }
+
+        if (isBluSpell)
+        {
+            rangedType = SUBSKILL_THROWN;
+        }
+
+        if (PAttacker->objtype == TYPE_PC)
+        {
+            if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
+            {
+                auto jpValue = PChar->PJobPoints->GetJobPointValue(JP_OPTIMAL_RANGE_BONUS) * 2;
+                flatAttackBonus += jpValue;
+            }
+        }
+
+        // https://wiki.ffo.jp/html/9286.html
+        switch (rangedType)
+        {
+            case SUBSKILL_SHURIKEN:
+            case SUBSKILL_THROWN:
+                if (distanceToTarget <= meleeRange)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    sweetSpotMultiplier = 1.0f - ((distanceToTarget - meleeRange) * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier); //
+                }
+                break;
+            case SUBSKILL_GUN:
+            case SUBSKILL_CNN:
+                if (distanceToTarget >= 5.0f && distanceToTarget <= 6.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 5.0f) ? (5.0f - distanceToTarget) : (distanceToTarget - 6.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            case SUBSKILL_SHORTBOW:
+                if (distanceToTarget >= 6.0f && distanceToTarget <= 8.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 6.0f) ? (6.0f - distanceToTarget) : (distanceToTarget - 8.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            case SUBSKILL_XBO:
+                if (distanceToTarget >= 7.0f && distanceToTarget <= 10.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 7.0f) ? (7.0f - distanceToTarget) : (distanceToTarget - 10.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            case SUBSKILL_LONGBOW:
+                if (distanceToTarget >= 8.0f && distanceToTarget <= 11.0f)
+                {
+                    sweetSpotMultiplier = 1.0f;
+                }
+                else
+                {
+                    float distanceFromSweetSpot = (distanceToTarget < 8.0f) ? (8.0f - distanceToTarget) : (distanceToTarget - 11.0f);
+                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                }
+                break;
+            default:
+                sweetSpotMultiplier = 1.0f;
+                break;
+        }
+
+        if (sweetSpotMultiplier == 1.0f)
+        {
+            sweetSpotMultiplier *= optimalRangeBonus;
+            rAttack += flatAttackBonus;
+        }
+
+        rAttack *= sweetSpotMultiplier;
+
+        //ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
+        //ShowDebug("[%s] attack after sweet spot multiplier %i\n", PAttacker->name, rAttack);
+        return rAttack;
     }
 
     int16 CalculateBaseTP(int delay){
@@ -3762,7 +4025,7 @@ namespace battleutils
                     //ShowDebug("Adding fencer crit hit rate PLAYER\n", PAttacker->name);
                 }
             }
-            else if (PAttacker->objtype == TYPE_MOB && PAttacker->allegiance == ALLEGIANCE_PLAYER) // NPCs
+            if (PAttacker->objtype == TYPE_TRUST || (PAttacker->objtype == TYPE_MOB && PAttacker->allegiance == ALLEGIANCE_PLAYER)) // NPCs / Trusts
             {
                 // Add Fencer crit hit rate
                 CMobEntity* PMobAttacker = static_cast<CMobEntity*>(PAttacker);
@@ -4212,7 +4475,8 @@ namespace battleutils
         else {
             fstr = static_cast<int32>((dif + 13) / 2);
         }
-        if (SlotID == SLOT_RANGED)
+
+        if (SlotID == SLOT_RANGED || SlotID == SLOT_AMMO)
         {
             rank = PAttacker->GetRangedWeaponRank();
             // Different caps than melee weapons
@@ -6338,13 +6602,28 @@ namespace battleutils
                           Mod::LTNG_ABSORB, Mod::WATER_ABSORB, Mod::LIGHT_ABSORB, Mod::DARK_ABSORB };
         Mod nullarray[8] = { Mod::FIRE_NULL, Mod::ICE_NULL, Mod::WIND_NULL, Mod::EARTH_NULL, Mod::LTNG_NULL, Mod::WATER_NULL, Mod::LIGHT_NULL, Mod::DARK_NULL };
 
-        float resist = 1.0f + floor( 256.0f * ( PDefender->getMod(Mod::UDMGBREATH) / 100.0f )  ) / 256.0f;
+        float resist = 1.0f + floor(256.0f * (PDefender->getMod(Mod::UDMGBREATH) / 100.0f)) / 256.0f;
+        float spdefDown = PDefender->getMod(Mod::SPDEF_DOWN) / 100.0f;
+
         resist = std::max<float>(resist, 0);
+
+        if (resist < 1.0f)
+        {
+            // Apply SPDEF_DOWN logic to further reduce resistance
+            resist = 1.0f - ((1.0f - resist) * (1.0f - spdefDown));
+        }
+
         damage = (int32)(damage * resist);
 
-        resist = 1.0f + ( floor( 256.0f * ( PDefender->getMod(Mod::DMGBREATH) / 100.0f ) ) / 256.0f )
-                      + ( floor( 256.0f * ( PDefender->getMod(Mod::DMG)       / 100.0f ) ) / 256.0f );
-        resist = std::max<float>(resist, 0.5f); // Only floor at 0.5f, no ceiling
+        resist = 1.0f + (floor(256.0f * (PDefender->getMod(Mod::DMGBREATH) / 100.0f)) / 256.0f) + (floor(256.0f * (PDefender->getMod(Mod::DMG) / 100.0f)) / 256.0f);
+        resist = std::max<float>(resist, 0.5f); // Only floor at 0.5f
+
+        if (resist < 1.0f)
+        {
+            // Apply SPDEF_DOWN again to the second resist check
+            resist = 1.0f - ((1.0f - resist) * (1.0f - spdefDown));
+        }
+
         damage = (int32)(damage * resist);
 
         if (damage > 0 && PDefender->objtype == TYPE_PET && PDefender->getMod(Mod::AUTO_STEAM_JACKET) > 1)
@@ -6353,6 +6632,7 @@ namespace battleutils
         if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::ABSORB_DMG_CHANCE) ||
             (element && tpzrand::GetRandomNumber(100) < PDefender->getMod(absorb[element - 1])) ||
             tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_ABSORB))
+        {
             if (PDefender->getMod(Mod::MAGIC_ABSORB) > 100)
             {
                 damage = -damage * (PDefender->getMod(Mod::MAGIC_ABSORB) / 100);
@@ -6361,9 +6641,12 @@ namespace battleutils
             {
                 damage = -damage;
             }
+        }
         else if ((element && tpzrand::GetRandomNumber(100) < PDefender->getMod(nullarray[element - 1])) ||
                  tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_NULL))
+        {
             damage = 0;
+        }
         else
         {
             damage = HandleSevereDamage(PDefender, damage, false);
@@ -6371,7 +6654,7 @@ namespace battleutils
             if (absorbedMP > 0)
                 PDefender->addMP(absorbedMP);
         }
-        // ShowDebug(CL_CYAN"BreathDmgTaken: Element = %d\n" CL_RESET, element);
+
         return damage;
     }
 
@@ -6381,14 +6664,30 @@ namespace battleutils
                           Mod::LTNG_ABSORB, Mod::WATER_ABSORB, Mod::LIGHT_ABSORB, Mod::DARK_ABSORB };
         Mod nullarray[8] = { Mod::FIRE_NULL, Mod::ICE_NULL, Mod::WIND_NULL, Mod::EARTH_NULL, Mod::LTNG_NULL, Mod::WATER_NULL, Mod::LIGHT_NULL, Mod::DARK_NULL };
 
-        float resist = 1.f + PDefender->getMod(Mod::UDMGMAGIC) / 100.f;
+        float resist = 1.0f + PDefender->getMod(Mod::UDMGMAGIC) / 100.0f;
+        float spdefDown = PDefender->getMod(Mod::SPDEF_DOWN) / 100.0f;
+
         resist = std::max(resist, 0.f);
+
+        if (resist < 1.0f)
+        {
+            // Apply SPDEF_DOWN logic to further reduce resistance
+            resist = 1.0f - ((1.0f - resist) * (1.0f - spdefDown));
+        }
+
         damage = (int32)(damage * resist);
 
-        resist = 1.f + PDefender->getMod(Mod::DMGMAGIC) / 100.f + PDefender->getMod(Mod::DMG) / 100.f;
-        resist = std::max(resist, 0.5f);
-        resist += PDefender->getMod(Mod::DMGMAGIC_II) / 100.f;
-        resist = std::max(resist, 0.125f); // Total cap with MDT-% II included is 87.5%
+        resist = 1.0f + PDefender->getMod(Mod::DMGMAGIC) / 100.0f + PDefender->getMod(Mod::DMG) / 100.0f;
+        resist = std::max(resist, 0.5f); // Floor resist at 50%
+        resist += PDefender->getMod(Mod::DMGMAGIC_II) / 100.0f;
+
+        if (resist < 1.0f)
+        {
+            // Apply SPDEF_DOWN again
+            resist = 1.0f - ((1.0f - resist) * (1.0f - spdefDown));
+        }
+
+        resist = std::max(resist, 0.125f); // Cap at 87.5% max reduction
         damage = (int32)(damage * resist);
 
         if (damage > 0 && PDefender->objtype == TYPE_PET && PDefender->getMod(Mod::AUTO_STEAM_JACKET) > 1)
@@ -6397,6 +6696,7 @@ namespace battleutils
         if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::ABSORB_DMG_CHANCE) ||
             (element && tpzrand::GetRandomNumber(100) < PDefender->getMod(absorb[element - 1])) ||
             tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_ABSORB))
+        {
             if (PDefender->getMod(Mod::MAGIC_ABSORB) > 100)
             {
                 damage = -damage * (PDefender->getMod(Mod::MAGIC_ABSORB) / 100);
@@ -6405,9 +6705,12 @@ namespace battleutils
             {
                 damage = -damage;
             }
+        }
         else if ((element && tpzrand::GetRandomNumber(100) < PDefender->getMod(nullarray[element - 1])) ||
                  tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_NULL))
+        {
             damage = 0;
+        }
         else
         {
             damage = HandleSevereDamage(PDefender, damage, false);
@@ -6416,7 +6719,6 @@ namespace battleutils
                 PDefender->addMP(absorbedMP);
         }
 
-        //ShowDebug(CL_CYAN"MagicDmgTaken: Element = %d\n" CL_RESET, element);
         return damage;
     }
 
@@ -6567,8 +6869,18 @@ namespace battleutils
     void HandleIssekiganEnmityBonus(CBattleEntity* PDefender, CBattleEntity* PAttacker) {
         if (PAttacker->objtype == TYPE_MOB &&
              PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_ISSEKIGAN)) {
-            // Issekigan is Known to Grant 300 CE per parry, but unknown how it effects VE (per bgwiki). So VE is left alone for now.
-            static_cast<CMobEntity*>(PAttacker)->PEnmityContainer->UpdateEnmity(PDefender, 300, 0, false, false);
+            // Issekigan is Known to Grant 300 CE per parry and only grants VE with JP.
+            int32 CE = 300;
+            int32 VE = 0;
+            if (PDefender->objtype == TYPE_PC)
+            {
+                if (auto* PChar = static_cast<CCharEntity*>(PDefender))
+                {
+                    int32 jpBonus = PChar->PJobPoints->GetJobPointValue(JP_ISSEKIGAN_EFFECT) * 10;
+                    VE += jpBonus;
+                }
+            }
+            static_cast<CMobEntity*>(PAttacker)->PEnmityContainer->UpdateEnmity(PDefender, CE, VE, false, false);
         }
     }
 
@@ -6936,7 +7248,20 @@ namespace battleutils
         return damage;
     }
 
+    int32 HandleExtraDamageMultipliers(CBattleEntity* PAttacker, int32 damage)
+    {
+        // Grand Pa's JP multiplier
+        if (PAttacker->objtype == TYPE_PC && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_GRAND_PAS))
+        {
+            if (auto* PChar = static_cast<CCharEntity*>(PAttacker))
+            {
+                float grandPasJpBonus = 1.0f + (PChar->PJobPoints->GetJobPointValue(JP_GRAND_PAS_EFFECT) / 100.0f);
+                damage *= grandPasJpBonus;
+            }
+        }
 
+        return damage;
+    }
 
     /************************************************************************
     *                                                                       *
@@ -7359,11 +7684,58 @@ namespace battleutils
         }
     }
 
-        /************************************************************************
-     *                                                                       *
-     *   Does the random deal effect to a specific character (reset ability) *
-     *                                                                       *
-     ************************************************************************/
+    /************************************************************************
+    *                                                                       *
+    *   Does the cutting cards effect to a specific character               *
+    *                                                                       *
+    ************************************************************************/
+    void DoCuttingCardsToEntity(CCharEntity* PCaster, CCharEntity* PTarget, uint8 roll)
+    {
+        if (!PTarget) return;
+
+        // Determine the recast reduction based on the roll
+        int recastReduction = 0;
+        switch (roll)
+        {
+            case 1: recastReduction = 5; break;
+            case 2: recastReduction = 10; break;
+            case 3: recastReduction = 20; break;
+            case 4: recastReduction = 30; break;
+            case 5: recastReduction = 40; break;
+            case 6: recastReduction = 50; break;
+        }
+
+        // Add JP bonus from Cutting Cards Effect
+        recastReduction += PCaster->PJobPoints->GetJobPointValue(JP_CUTTING_CARDS_EFFECT);
+        //ShowDebug("Total recast reduction after JP bonus: %d\n", recastReduction);
+
+        // Get the target's abilities and apply the recast reduction to two-hour abilities
+        auto TargetAbilitiesList = ability::GetAbilities(PTarget->GetMJob());
+        for (CAbility* PAbility : TargetAbilitiesList)
+        {
+            if (PAbility != nullptr)
+            {
+                uint16 recastId = PAbility->getRecastId();
+                if (recastId == ABILITYRECAST_TWO_HOUR || recastId == ABILITYRECAST_TWO_HOUR_TWO)
+                {
+                    // Calculate the reduced recast time
+                    uint32 originalRecastTime = PAbility->getRecastTime();
+                    uint32 reducedRecastTime = originalRecastTime * (100 - recastReduction) / 100;
+
+                    // Load the new recast time on the target's ability recast list
+                    PTarget->PRecastContainer->Load(RECAST_ABILITY, recastId, reducedRecastTime);
+                
+                    //ShowDebug("Reduced recast for ability ID %d on %s: %d (original was %d)\n", recastId, PTarget->name, reducedRecastTime, originalRecastTime);
+                }
+            }
+        }
+    }
+
+    /************************************************************************
+    *                                                                       *
+    *   Does the random deal effect to a specific character (reset ability) *
+    *                                                                       *
+    ************************************************************************/
     bool DoRandomDealToEntity(CCharEntity* PChar, CCharEntity* PTarget)
     {
         std::vector<uint16> resetCandidateList;
@@ -7403,6 +7775,10 @@ namespace battleutils
         uint8 loadedDeckChance = 50 + loadedDeck;
         uint8 resetTwoChance = std::min<int8>(PChar->getMod(Mod::RANDOM_DEAL_BONUS), 50);
 
+        // JP Two reset chance
+        uint8 jpValue = PChar->PJobPoints->GetJobPointValue(JP_RANDOM_DEAL_EFFECT) * 2;
+        uint8 jpTwoResetChance = jpValue;
+
         if (loadedDeck > 0) // Loaded Deck Merit Version
         {
             if (activeCooldownList.size() > 1)
@@ -7421,6 +7797,14 @@ namespace battleutils
                 {
                     PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, activeCooldownList.at(1));
                 }
+
+                // Reset 2 abilities from JP
+                if (activeCooldownList.size() > 1 && jpTwoResetChance >= tpzrand::GetRandomNumber(100))
+                {
+                    ShowDebug("Random deal JP proc!\n");
+                    PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, activeCooldownList.at(1));
+                }
+
                 if (PChar != PTarget)
                 {
                     // Update target's recast state; caster's will be handled in CCharEntity::OnAbility.
@@ -7449,6 +7833,13 @@ namespace battleutils
                 PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, resetCandidateList.at(1));
             }
 
+            // Reset 2 abilities from JP
+            if (resetCandidateList.size() > 1 && activeCooldownList.size() > 1 && jpTwoResetChance >= tpzrand::GetRandomNumber(100))
+            {
+                ShowDebug("Random deal JP proc!\n");
+                PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, resetCandidateList.at(1));
+            }
+
             if (PChar != PTarget && PTarget->objtype == TYPE_PC)
             {
                 // Update target's recast state; caster's will be handled in CCharEntity::OnAbility.
@@ -7460,10 +7851,10 @@ namespace battleutils
     }
 
     /************************************************************************
-     *                                                                       *
-     *    Sets all abilities to their maximum recast timer.                 *
-     *                                                                       *
-     ************************************************************************/
+    *                                                                       *
+    *    Sets all abilities to their maximum recast timer.                  *
+    *                                                                       *
+    ************************************************************************/
     void ResetAllAbilitiesToMaxRecast(CCharEntity* PChar, bool resetTwoHour)
     {
         // Reset main job abilities
@@ -7557,7 +7948,125 @@ namespace battleutils
         {
             bonus += battleEntity->getMod(Mod::BARRAGE_ACC);
         }
+
+        // Bonus from COR JP
+        if (battleEntity->objtype == TYPE_PC)
+        {
+            if (auto* PChar = static_cast<CCharEntity*>(battleEntity))
+            {
+                bonus += PChar->PJobPoints->GetJobPointValue(JP_COR_RANGED_ACC_BONUS);
+            }
+        }
+
+        //printf("RACC Bonus %i\n", bonus);
         return bonus;
+    }
+
+    bool IsInRangedSweetSpot(CBattleEntity* PAttacker, CBattleEntity* PDefender)
+    {
+        float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
+        uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
+        uint8 rangedType = 0;
+
+        if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_RANGED]))
+        {
+            rangedType = rangedWeapon->getSubSkillType();
+        }
+
+        // https://wiki.ffo.jp/html/9286.html
+        switch (rangedType)
+        {
+            case SUBSKILL_SHURIKEN:
+            case SUBSKILL_THROWN:
+                if (distanceToTarget <= meleeRange)
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_GUN:
+            case SUBSKILL_CNN:
+                if (distanceToTarget >= 5.0f && distanceToTarget <= 6.0f)
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_SHORTBOW:
+                if (distanceToTarget >= 6.0f && distanceToTarget <= 8.0f)
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_XBO:
+                if (distanceToTarget >= 7.0f && distanceToTarget <= 10.0f)
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_LONGBOW:
+                if (distanceToTarget >= 8.0f && distanceToTarget <= 11.0f)
+                {
+                    return true;
+                }
+                break;
+            default: // Shouldn't happen
+                return false;
+                break;
+        }
+
+        return false;
+    }
+
+    bool IsCloseToRangedSweetSpot(CBattleEntity* PAttacker, CBattleEntity* PDefender)
+    {
+        float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
+        uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
+        uint8 rangedType = 6;
+
+        if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_RANGED]))
+        {
+            rangedType = rangedWeapon->getSubSkillType();
+        }
+
+        switch (rangedType)
+        {
+            case SUBSKILL_SHURIKEN:
+            case SUBSKILL_THROWN:
+                if (distanceToTarget > meleeRange && distanceToTarget <= meleeRange + 2.0f)
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_GUN:
+            case SUBSKILL_CNN:
+                if ((distanceToTarget >= 3.0f && distanceToTarget < 5.0f) || (distanceToTarget > 6.0f && distanceToTarget <= 8.0f))
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_SHORTBOW:
+                if ((distanceToTarget >= 4.0f && distanceToTarget < 6.0f) || (distanceToTarget > 8.0f && distanceToTarget <= 10.0f))
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_XBO:
+                if ((distanceToTarget >= 5.0f && distanceToTarget < 7.0f) || (distanceToTarget > 10.0f && distanceToTarget <= 12.0f))
+                {
+                    return true;
+                }
+                break;
+            case SUBSKILL_LONGBOW:
+                if ((distanceToTarget >= 6.0f && distanceToTarget < 8.0f) || (distanceToTarget > 11.0f && distanceToTarget <= 13.0f))
+                {
+                    return true;
+                }
+                break;
+            default:
+                return false;
+                break;
+        }
+
+        return false;
     }
 
     void AddTraits(CBattleEntity* PEntity, TraitList_t* traitList, uint8 level)
@@ -7769,12 +8278,24 @@ namespace battleutils
             if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_ALACRITY))
             {
                 uint16 bonus = 0;
-                //Only apply Alacrity/celerity mod if the spell element matches the weather.
+                // Only apply Alacrity/Celerity mod if the spell element matches the weather.
                 if (battleutils::WeatherMatchesElement(battleutils::GetWeather(PEntity, false), PSpell->getElement()))
                 {
                     bonus = PEntity->getMod(Mod::ALACRITY_CELERITY_EFFECT);
                 }
-                cast -= (uint32)(base * ((100 - (50 + bonus)) / 100.0f));
+
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (auto* PChar = static_cast<CCharEntity*>(PEntity))
+                    {
+                        bonus += PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_II);
+                    }
+                }
+
+                // Calculate the reduction factor based on bonus
+                float reductionFactor = (100 - (50 + bonus)) / 100.0f;
+                cast = static_cast<uint32>(base * reductionFactor);
+
                 applyArts = false;
             }
             else if (applyArts)
@@ -7795,12 +8316,24 @@ namespace battleutils
             if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_CELERITY))
             {
                 uint16 bonus = 0;
-                //Only apply Alacrity/celerity mod if the spell element matches the weather.
+                // Only apply Alacrity/Celerity mod if the spell element matches the weather.
                 if (battleutils::WeatherMatchesElement(battleutils::GetWeather(PEntity, false), PSpell->getElement()))
                 {
                     bonus = PEntity->getMod(Mod::ALACRITY_CELERITY_EFFECT);
                 }
-                cast -= (uint32)(base * ((100 - (50 + bonus)) / 100.0f));
+
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (auto* PChar = static_cast<CCharEntity*>(PEntity))
+                    {
+                        bonus += PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_II);
+                    }
+                }
+
+                // Calculate the reduction factor based on bonus
+                float reductionFactor = (100 - (50 + bonus)) / 100.0f;
+                cast = static_cast<uint32>(base * reductionFactor);
+
                 applyArts = false;
             }
             else if (applyArts)
@@ -7844,6 +8377,13 @@ namespace battleutils
         else if (PSpell->getSpellGroup() == SPELLGROUP_NINJUTSU)
         {
             uint16 ninjutsuCasting = PEntity->getMod(Mod::NINJUTSU_CASTING_TIME);
+            if (PEntity->objtype == TYPE_PC)
+            {
+                if (auto* PChar = static_cast<CCharEntity*>(PEntity))
+                {
+                    ninjutsuCasting += PChar->PJobPoints->GetJobPointValue(JP_NINJITSU_CAST_TIME_BONUS);
+                }
+            }
             cast = (uint32)(cast * (1.0f - ((ninjutsuCasting > 50 ? 50 : ninjutsuCasting) / 100.0f)));
         }
         else if (PSpell->getSpellGroup() == SPELLGROUP_BLUE)
@@ -8019,6 +8559,18 @@ namespace battleutils
                 {
                     recast *= 3;
                 }
+
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PEntity))
+                    {
+                        int jpValue = PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_IV);
+                        double reductionFactor = 1.0 - (0.02 * jpValue);
+
+                        recast = static_cast<int32>(recast * reductionFactor);
+                    }
+                }
+
                 applyArts = false;
             }
             if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_ALACRITY))
@@ -8029,8 +8581,16 @@ namespace battleutils
                 {
                     bonus = PEntity->getMod(Mod::ALACRITY_CELERITY_EFFECT);
                 }
-                recast = (int32)(recast * ((50 - bonus) / 100.0f));
 
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (auto* PChar = static_cast<CCharEntity*>(PEntity))
+                    {
+                        bonus += PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_II);
+                    }
+                }
+
+                recast = (int32)(recast * ((50 - bonus) / 100.0f));
                 applyArts = false;
             }
             if (applyArts)
@@ -8058,8 +8618,21 @@ namespace battleutils
                 {
                     recast *= 3;
                 }
+
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PEntity))
+                    {
+                        int jpValue = PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_IV);
+                        double reductionFactor = 1.0 - (0.02 * jpValue);
+
+                        recast = static_cast<int32>(recast * reductionFactor);
+                    }
+                }
+
                 applyArts = false;
             }
+
             if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_CELERITY))
             {
                 uint16 bonus = 0;
@@ -8068,8 +8641,16 @@ namespace battleutils
                 {
                     bonus = PEntity->getMod(Mod::ALACRITY_CELERITY_EFFECT);
                 }
-                recast = (int32)(recast * ((50 - bonus) / 100.0f));
 
+                if (PEntity->objtype == TYPE_PC)
+                {
+                    if (auto* PChar = static_cast<CCharEntity*>(PEntity))
+                    {
+                        bonus += PChar->PJobPoints->GetJobPointValue(JP_STRATEGEM_EFFECT_II);
+                    }
+                }
+
+                recast = (int32)(recast * ((50 - bonus) / 100.0f));
                 applyArts = false;
             }
             if (applyArts)
@@ -8115,6 +8696,11 @@ namespace battleutils
         //apply TP Bonus
         int16 tp = spentTP + PEntity->getMod(Mod::TP_BONUS);
 
+        if (PEntity->objtype == TYPE_PET || (PEntity->objtype == TYPE_MOB && PEntity->isCharmed))
+        {
+            tp += PEntity->getMod(Mod::PET_TP_BONUS);
+        }
+
         if (PEntity->objtype == TYPE_PC)
         {
             auto PChar = static_cast<CCharEntity*>(PEntity);
@@ -8153,6 +8739,19 @@ namespace battleutils
                     (!PSub || PSub->getSkillType() == SKILL_NONE || PEntity->m_Weapons[SLOT_SUB]->IsShield()))
                 {
                     tp += PEntity->getMod(Mod::FENCER_TP_BONUS);
+                }
+            }
+        }
+        else if (PEntity->objtype == TYPE_TRUST || (PEntity->objtype == TYPE_MOB && PEntity->allegiance == ALLEGIANCE_PLAYER)) // NPCs / Trusts
+        {
+            // Add Fencer TP Bonus
+            CMobEntity* PMobAttacker = static_cast<CMobEntity*>(PEntity);
+            CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(PMobAttacker->m_Weapons[SLOT_MAIN]);
+            if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand())
+            {
+                if (!PMobAttacker->m_dualWield)
+                {
+                    tp += PMobAttacker->getMod(Mod::FENCER_TP_BONUS);
                 }
             }
         }
