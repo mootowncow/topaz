@@ -28,8 +28,8 @@
 
 #include "../entities/battleentity.h"
 #include "../entities/mobentity.h"
-#include "../entities/trustentity.h"
 #include "../entities/petentity.h"
+#include "../entities/trustentity.h"
 #include "../status_effect_container.h"
 
 #define MAX_STATUS_EFFECTS 16
@@ -37,18 +37,19 @@
 CMobExtDataPacket::CMobExtDataPacket(CBattleEntity* PEntity)
 {
     this->type = 0xFF;
-    this->size = 0x06;
+    this->size = 0x08; // add 2 to this, because it's doubled..
 
-    ref<uint32>(0x04) = PEntity->id;
-    ref<uint16_t>(0x08) = PEntity->targid;
+    ref<uint32>(0x04) = 1; // Packet subtype 1
+    ref<uint32>(0x08) = PEntity->id;
+    ref<uint16_t>(0x0C) = PEntity->targid;
 
     if (PEntity->objtype == TYPE_MOB)
     {
-        ref<int16_t>(0x0A) = ((CMobEntity*)PEntity)->m_THLvl;
+        ref<int16_t>(0x0E) = ((CMobEntity*)PEntity)->m_THLvl;
     }
     else
     {
-        ref<int16_t>(0x0A) = 0;
+        ref<int16_t>(0x0E) = 0;
     }
 
     auto effectCount = 0;
@@ -57,7 +58,7 @@ CMobExtDataPacket::CMobExtDataPacket(CBattleEntity* PEntity)
         {
             if (effectCount < MAX_STATUS_EFFECTS)
             {
-                auto offset = 0x0C + (effectCount * 8);
+                auto offset = 0x10 + (effectCount * 8);
                 ref<uint16_t>(offset) = PEffect->GetStatusID();
                 ref<uint16_t>(offset + 2) = PEffect->GetPower();
 
@@ -71,10 +72,10 @@ CMobExtDataPacket::CMobExtDataPacket(CBattleEntity* PEntity)
 }
 
 // To add Flags...
-//#define MAX_STATUS_EFFECTS 16
-//#define EFFECT_SIZE 12
+// #define MAX_STATUS_EFFECTS 16
+// #define EFFECT_SIZE 12
 //
-//CMobExtDataPacket::CMobExtDataPacket(CBattleEntity* PEntity)
+// CMobExtDataPacket::CMobExtDataPacket(CBattleEntity* PEntity)
 //{
 //    this->type = 0xFF;
 //    this->size = 0x06;
