@@ -183,13 +183,8 @@ Shikaree Z and X don't aggro
 su1 ???. su2 on accs(neck/cape for now) su3 on armor, su4 weapons
 
 SCNM:
-Di'Zho Spongeshell bugged enmity if you heal him? It caps your enmtiy? Or an SC being absorbed does?
-Mu'Nhi Thimbletail runs forever and never stops running? Keeps going out of bounds ;/ Is his pathing logic messed up now? Also set a circle of bounds for him to stay inside of / run around in
-All "WOTG" Quadavs have the wrong animation for Ore Lob
-Trading Quadav Charm to the gate breaks the item and gets it stuck "locked"
 
 DAGI for monstertpmoves (Copy from weaponskills). Also need for automaton/summon/BLU?. Can probably just add it to getMobDexCritRate() functions and add an arg thats IsRanged
-Does COR roll buff capacity points? It should
 HELM legendary weapon quests, obscene amounts of rare logs/ores/etc
 Mobs that spawn like PSU, are invisible then once you come near they spawn. For salvage / Assaults. Also another tier of assaults meant for 6 man (end with a boss of a toau only family mob like Marid)
 mob TP moves only add TP to target if its phys/ranged

@@ -11,6 +11,7 @@ require("scripts/globals/npc_util")
 require("scripts/globals/quests")
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/msg")
 require("scripts/globals/zone")
 -----------------------------------
 
@@ -1464,19 +1465,19 @@ local function TrySkillUpHELM(player, helmType, zoneId)
         local chance = GetHelmSKillUpChance(zoneId, miningSkill)
         if math.random(1000) <= chance then
             player:setCharVar("MiningSkill", miningSkill + 1)
-            player:PrintToPlayer("Your skill in mining has increased to " .. miningSkill +1, 6, 0)
+            player:PrintToPlayer("Your skill in mining has increased to " .. miningSkill +1 .. ".", tpz.msg.textColor.GOLD, 0)
         end
     elseif (helmType == tpz.helm.type.LOGGING) and (loggingSkill < 100) then
         local chance = GetHelmSKillUpChance(zoneId, loggingSkill)
         if math.random(1000) <= chance then
             player:setCharVar("LoggingSkill", loggingSkill + 1)
-            player:PrintToPlayer("Your skill in logging has increased to " .. loggingSkill +1, 6, 0)
+            player:PrintToPlayer("Your skill in logging has increased to " .. loggingSkill +1, tpz.msg.textColor.GOLD, 0)
         end
     elseif (helmType == tpz.helm.type.HARVESTING) and (harvestingSkill < 100) then
         local chance = GetHelmSKillUpChance(zoneId, harvestingSkill)
         if math.random(1000) <= chance then
             player:setCharVar("HarvestingSkill", harvestingSkill + 1)
-            player:PrintToPlayer("Your skill in logging has increased to " .. harvestingSkill +1, 6, 0)
+            player:PrintToPlayer("Your skill in logging has increased to " .. harvestingSkill +1, tpz.msg.textColor.GOLD, 0)
         end
     end
 end
