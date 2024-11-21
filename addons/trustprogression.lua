@@ -199,7 +199,7 @@ local default_settings = T{
                 { name = "Vitriol", contribution = 1 },
                 { name = "Firesand", contribution = 2 },
                 { name = "Venom Potion", contribution = 3 },
-                { name = "Paralysis Potion", contribution = 4 },
+                { name = "Paralyze Potion", contribution = 4 },
             },
             ['Support'] = {
                 { name = "Shell Powder", contribution = 1 },

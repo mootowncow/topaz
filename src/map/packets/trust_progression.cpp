@@ -34,8 +34,10 @@
 
 CTrustProgressionPacket::CTrustProgressionPacket(CBattleEntity* PEntity)
 {
-    this->type = 0xFE;
-    this->size = 0x1C / 2;
+    this->type = 0xFF;
+    this->size = 0x20 / 2;
+
+    ref<uint32>(0x04) = 2; // Packet subtype 2
 
     const char* query = "SELECT \
                     (SELECT value FROM server_variables WHERE name = '[Trust]Melee'), \
@@ -48,11 +50,11 @@ CTrustProgressionPacket::CTrustProgressionPacket(CBattleEntity* PEntity)
     int ret = Sql_Query(SqlHandle, query);
     if (ret != SQL_ERROR && Sql_NextRow(SqlHandle) == SQL_SUCCESS)
     {
-        ref<uint32>(0x04) = Sql_GetIntData(SqlHandle, 0); // [Trust]Melee
-        ref<uint32>(0x08) = Sql_GetIntData(SqlHandle, 1); // [Trust]Ranged
-        ref<uint32>(0x0C) = Sql_GetIntData(SqlHandle, 2); // [Trust]Tank
-        ref<uint32>(0x10) = Sql_GetIntData(SqlHandle, 3); // [Trust]Caster
-        ref<uint32>(0x14) = Sql_GetIntData(SqlHandle, 4); // [Trust]Healer
-        ref<uint32>(0x18) = Sql_GetIntData(SqlHandle, 5); // [Trust]Support
+        ref<uint32>(0x08) = Sql_GetIntData(SqlHandle, 0); // [Trust]Melee (offset adjusted from 0x04 to 0x08)
+        ref<uint32>(0x0C) = Sql_GetIntData(SqlHandle, 1); // [Trust]Ranged (offset adjusted from 0x08 to 0x0C)
+        ref<uint32>(0x10) = Sql_GetIntData(SqlHandle, 2); // [Trust]Tank   (offset adjusted from 0x0C to 0x10)
+        ref<uint32>(0x14) = Sql_GetIntData(SqlHandle, 3); // [Trust]Caster (offset adjusted from 0x10 to 0x14)
+        ref<uint32>(0x18) = Sql_GetIntData(SqlHandle, 4); // [Trust]Healer (offset adjusted from 0x14 to 0x18)
+        ref<uint32>(0x1C) = Sql_GetIntData(SqlHandle, 5); // [Trust]Support (offset adjusted from 0x18 to 0x1C)
     }
 }
