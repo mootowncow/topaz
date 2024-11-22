@@ -182,15 +182,11 @@ Avatar(And automaton?) phys dmg ignoring positional? Autos too?
 Shikaree Z and X don't aggro
 su1 ???. su2 on accs(neck/cape for now) su3 on armor, su4 weapons
 
-SCNM:
-
-DAGI for monstertpmoves (Copy from weaponskills). Also need for automaton/summon/BLU?. Can probably just add it to getMobDexCritRate() functions and add an arg thats IsRanged
 HELM legendary weapon quests, obscene amounts of rare logs/ores/etc
 Mobs that spawn like PSU, are invisible then once you come near they spawn. For salvage / Assaults. Also another tier of assaults meant for 6 man (end with a boss of a toau only family mob like Marid)
 mob TP moves only add TP to target if its phys/ranged
-ALL HELM msgs gold? Like normal crafting skill up msgs. ALso for "due to your skill in x" msgs. If too low level to HELM, red msg?
 Inner Strength do something for JP
-Smn pet gifts
+
 https://github.com/LandSandBoat/server/commit/04595b03ce5b00ec9e4d64a573f31e8c2a8c549c
 Dusk Mask(+1). Remove enhancing replace with something else.
 Dusk Jerkin(+1). Remove RACC replace with something else. Update LAC sets that use for RACC
@@ -212,7 +208,6 @@ Weapon STR stuff (Already did I think?)
 https://github.com/LandSandBoat/server/commit/d930fbb0b83311a80ee4b88ef1063822f2d2eb4e
 
 Buff magic crits, add to items in some new content
-Banish "resistance" reducton to magic? I don't see proof - check JP wiki, remove if no proof
 Steal is stealing Bone Chip over ice spikes with aura steal
 Move a T1 of mid path and right path to Mamool / Trolls to make them worth meriting on
 Kerutoto gave me waking dreams(repeat), I killed diabolos, came back, gave me waking dreams  again, and then let me turn in my diabolos kill
@@ -252,7 +247,6 @@ Voidwalker:
 https://discord.com/channels/443544205206355968/1129045297302097942/1129109467062096033 Vids of captures
 Check all immunities with mobdb
 
-+++ FINISH JP FIRST BEFORE ANYTHING +++
 Finish Zilartian Weapons (Blatherix). Need mods / aftermath and WS testing
 RAID T2. 16 allies per boss. Odin / Alex + WOTG + Abyssea(Shinryu, Lilith, Spitewardens, etc too!) NMs (Drop their BCNM gear + Einherjar odin gear).
 KS99's (Add new spell drops to every KS99, like Migawari/Full Cure/Comet/Meteor/Gain)

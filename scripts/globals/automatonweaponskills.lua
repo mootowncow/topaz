@@ -201,6 +201,22 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
 
         local critRate = baseCritRate + getDexCritRate(auto, target) + auto:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE)
+
+        if attackType == tpz.attackType.RANGED then
+            local AGI = mob:getStat(tpz.mod.AGI)
+    
+            if mob:isTrust() then
+                AGI = AGI + mob:getMod(tpz.mod.AGI_DURING_WS)
+            end
+
+            local dAGI = (AGI - target:getStat(tpz.mod.AGI))
+
+            if dAGI > 0 then
+                critRate = baseCritRate + math.floor(dAGI / 10) / 100
+                baseCritRate = baseCritRate + critHitRateMods
+            end
+        end
+
         --printf("critRate before param %i", critRate)
         if (tpEffect == TP_CRIT_VARIES) then
             critRate = critRate + AutoCritTPModifier(tp)
@@ -212,7 +228,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         else
             critRate = 0  -- Cannot crit unless crit param
         end
-        -- printf("Final crit %d", critRate * 100)
+        --printf("Final crit %d", critRate * 100)
 
         local weaponDmg = auto:getWeaponDmg()
         if attackType == tpz.attackType.RANGED then

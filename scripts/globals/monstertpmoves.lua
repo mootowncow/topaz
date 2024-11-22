@@ -43,16 +43,17 @@ TP_MACC_BONUS = 1
 TP_MAB_BONUS = 2
 TP_DMG_BONUS = 3
 TP_RANGED = 4
-TP_AUTO_ATTACK = 5
-TP_IGNORE_DEFENSE = 6
-TP_IGNORE_MACC = 7
+TP_RANGED_CRIT = 5
+TP_AUTO_ATTACK = 6
+TP_IGNORE_DEFENSE = 7
+TP_IGNORE_MACC = 8
 
 BOMB_TOSS_HPP = 1
 
 function MobRangedMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, params_phys)
     -- All formula changes for being ranged are handled in MobPhysicalMove via the TP_RANGED param
     -- A MOVE WILL NOT BE CONSIDERED RANGED IF YOU DON'T SET THE tpeffect to TP_RANGED!
-    return MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, TP_RANGED, params_phys)
+    return MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, params_phys)
 end
 
 -- PHYSICAL MOVE FUNCTION
@@ -80,7 +81,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local returninfo = {}
     local name = mob:getName()
     local isRanged = false
-    -- get TP
+    local canCrit = (tpeffect == TP_CRIT_VARIES) or (tpeffect == TP_RANGED_CRIT)
     local tp = mob:getLocalVar("tp")
 
     --get fSTR
@@ -91,7 +92,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     end
     local fSTR = getMobFSTR(weaponDmg, STR, target:getStat(tpz.mod.VIT))
 
-    if (tpeffect == TP_RANGED) then
+    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
         isRanged = true
         weaponDmg = mob:getRangedDmg()
         fSTR = getMobFSTR2(weaponDmg, STR, target:getStat(tpz.mod.VIT))
@@ -100,7 +101,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local lvluser = mob:getMainLvl()
     local lvltarget = target:getMainLvl()
     local acc = mob:getACC()
-    if (tpeffect == TP_RANGED) then
+    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
         acc = mob:getRACC()
         acc = mob:calculateSweetSpotAccuracy(target, acc)
     end
@@ -115,7 +116,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     --printf("WSC %u", WSC)
 
     local base = mob:getWeaponDmg() + WSC + fSTR
-    if (tpeffect == TP_RANGED) then
+    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
         base = mob:getRangedDmg() + WSC + fSTR
     end
     --printf("dmg WITH wsc %u", base)
@@ -147,7 +148,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     --work out and cap ratio
     if (offcratiomod == nil) then -- default to attack. Pretty much every physical mobskill will use this, Cannonball being the exception.
         local attk = mob:getStat(tpz.mod.ATT)
-        if (tpeffect == TP_RANGED) then
+        if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
            attk = mob:getRATT()
            attk = mob:calculateSweetSpotAttack(target, attk)
         end
@@ -165,14 +166,14 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     ratio = ratio + lvldiff * 0.05
 
-    if (tpeffect == TP_RANGED) then
+    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
         ratio = utils.clamp(ratio, 0, 2.5)
     else
         ratio = utils.clamp(ratio, 0, 2)
     end
 
     -- Add Acc varies with TP to 3+ hit TP moves
-    if (tpeffect ~= TP_CRIT_VARIES) and (numberofhits > 2) then
+    if not canCrit and (numberofhits > 2) then
         acc = acc + MobAccTPModifier(tp)
     end
 
@@ -203,7 +204,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local critHitRateMods = mob:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE) - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)
     local critRate = baseCritRate + getMobDexCritRate(mob, target) + critHitRateMods
 
-    if (tpeffect == TP_RANGED) then -- TODO: Doesn't work because TP_RANGED and TP_CRIT_VARIES are same arg in function
+    if (tpeffect == TP_RANGED_CRIT) then
         local AGI = mob:getStat(tpz.mod.AGI)
     
         if mob:isTrust() then
@@ -214,13 +215,14 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
         if dAGI > 0 then
             critRate = baseCritRate + math.floor(dAGI / 10) / 100
+            baseCritRate = baseCritRate + critHitRateMods
         end
     end
 
 
     --printf("ddex critRate %u", critRate)
-    --printf("critRate before param %i", critRate)
-    if tpeffect == TP_CRIT_VARIES then
+    --printf("critRate before param %f", critRate)
+    if canCrit then
 
         critRate = critRate + MobCritTPModifier(tp)
 
@@ -235,13 +237,14 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         critRate = critRate / 100
         critRate = utils.clamp(critRate, minCritRate, maxCritRate)
     else
-        critRate = 0  -- Cannot crit unless TP_CRIT_VARIES
+        critRate = 0  -- Cannot crit unless canCrit
     end
-    --printf("final crit %f", critRate)
+
+    --printf("final crit %f", critRate*100)
 
     local maxRatio, minRatio = utils.GetMeleeRatio(mob, ratio)
 
-    if (tpeffect == TP_RANGED) then
+    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
         maxRatio, minRatio = utils.GetRangedRatio(mob, ratio)
     end
 
@@ -450,7 +453,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     finaldmg = finaldmg + souleaterBonus(mob, hitslanded)
 
     -- Add TP scaling if not a crit TP move
-    if (tpeffect ~= TP_CRIT_VARIES) and (tpeffect ~= TP_AUTO_ATTACK) and (numberofhits <= 2) then
+    if (not canCrit) and (tpeffect ~= TP_AUTO_ATTACK) and (numberofhits <= 2) then
         finaldmg = math.floor(finaldmg * MobDmgTPModifier(tp))
     end
 

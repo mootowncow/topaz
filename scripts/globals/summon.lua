@@ -164,6 +164,22 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
 
         local critRate = baseCritRate + getDexCritRate(avatar, target) + avatar:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE)
+
+        if attackType == tpz.attackType.RANGED then
+            local AGI = mob:getStat(tpz.mod.AGI)
+    
+            if mob:isTrust() then
+                AGI = AGI + mob:getMod(tpz.mod.AGI_DURING_WS)
+            end
+
+            local dAGI = (AGI - target:getStat(tpz.mod.AGI))
+
+            if dAGI > 0 then
+                critRate = baseCritRate + math.floor(dAGI / 10) / 100
+                baseCritRate = baseCritRate + critHitRateMods
+            end
+        end
+
         -- printf("TP effect %u", tpeffect)
         --printf("critRate before param %i", critRate)
         if tpeffect == TP_CRIT_VARIES then
@@ -186,11 +202,11 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
         -- https://www.bluegartr.com/threads/127523-pDIF-Changes-(Feb.-10th-2016)
         local ratio = 0
 
-        -- Ranged attack BPs use Rattack
         if attackType == tpz.attackType.PHYSICAL then
             ratio = avatar:getStat(tpz.mod.ATT) / target:getStat(tpz.mod.DEF)
         end
 
+        -- Ranged attack BPs use Rattack
         if attackType == tpz.attackType.RANGED then
             local rAttack = avatar:getRATT()
             rAttack = avatar:calculateSweetSpotAttack(target, rAttack)
