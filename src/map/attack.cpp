@@ -162,7 +162,15 @@ void CAttack::SetCritical(bool value)
         }
 
         //ShowDebug("[%s] flatAttBonus %u\n", m_attacker->name, flatAttBonus);
-        m_damageRatio = battleutils::GetDamageRatio(m_attacker, m_victim, m_isCritical, attBonus, flatAttBonus);
+        SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
+        if (slot == SLOT_MAIN)
+        {
+            m_damageRatio = battleutils::GetDamageRatio(m_attacker, m_victim, m_isCritical, attBonus, flatAttBonus, SLOT_MAIN);
+        }
+        else if (slot == SLOT_SUB)
+        {
+            m_damageRatio = battleutils::GetDamageRatio(m_attacker, m_victim, m_isCritical, attBonus, flatAttBonus, SLOT_SUB);
+        }
     }
 }
 

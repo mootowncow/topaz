@@ -190,7 +190,7 @@ namespace battleutils
     uint8               GetBlockRate(CBattleEntity* PAttacker, CBattleEntity* PDefender);
     uint8               GetParryRate(CBattleEntity* PAttacker, CBattleEntity* PDefender);
     uint8               GetGuardRate(CBattleEntity* PAttacker, CBattleEntity* PDefender);
-    float               GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus);
+    float               GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus, SLOTTYPE slot);
 
     int16               getSDTRank(CBattleEntity* PDefender, ELEMENT element, int16 SDT);
     float               GetSDTMultiplier(float tier);

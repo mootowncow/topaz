@@ -13110,7 +13110,7 @@ inline int32 CLuaBaseEntity::getStat(lua_State *L)
         case Mod::INT:  lua_pushinteger(L, PEntity->INT()); break;
         case Mod::MND:  lua_pushinteger(L, PEntity->MND()); break;
         case Mod::CHR:  lua_pushinteger(L, PEntity->CHR()); break;
-        case Mod::ATT:  lua_pushinteger(L, PEntity->ATT()); break;
+        case Mod::ATT:  lua_pushinteger(L, PEntity->ATT(SLOT_MAIN)); break;
         case Mod::DEF:  lua_pushinteger(L, PEntity->DEF()); break;
         case Mod::EVA:  lua_pushinteger(L, PEntity->EVA()); break;
         // TODO: support getStat for ACC/RACC/RATT
@@ -13496,7 +13496,7 @@ inline int32 CLuaBaseEntity::getMeleeHitDamage(lua_State *L)
 
     if (tpzrand::GetRandomNumber(100) < hitrate)
     {
-        float DamageRatio = battleutils::GetDamageRatio(PAttacker, PDefender, false, 0.f, 0);
+        float DamageRatio = battleutils::GetDamageRatio(PAttacker, PDefender, false, 0.f, 0, SLOT_MAIN);
         int damage = (uint16)((PAttacker->GetMainWeaponDmg() + battleutils::GetFSTR(PAttacker, PDefender, SLOT_MAIN)) * DamageRatio);
         lua_pushinteger(L, damage);
         return 1;

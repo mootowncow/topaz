@@ -853,13 +853,14 @@ uint16 CBattleEntity::CHR()
     return std::clamp(stats.CHR + m_modStat[Mod::CHR], 0, 999);
 }
 
-uint16 CBattleEntity::ATT()
+uint16 CBattleEntity::ATT(SLOTTYPE slot)
 {
     TracyZoneScoped;
     // TODO: consider which weapon!
     int32 ATT = 8 + m_modStat[Mod::ATT];
     auto ATTP = m_modStat[Mod::ATTP];
     auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]);
+    // https://www.bg-wiki.com/ffxi/Strength - Using July 9th 2013
     if (weapon && weapon->isTwoHanded())
     {
         ATT += (STR() * 3) / 4;
@@ -868,9 +869,13 @@ uint16 CBattleEntity::ATT()
     {
         ATT += (STR() * 5) / 8;
     }
-    else
+    else if (slot == SLOT_MAIN) // 1-handed weapon in main slot.
     {
         ATT += (STR() * 3) / 4;
+    }
+    else // 1-handed weapon in sub slot.
+    {
+        ATT += STR() / 2;
     }
     if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENDARK))
     {
@@ -907,6 +912,7 @@ uint16 CBattleEntity::RATT(uint8 skill, uint16 bonusSkill)
 
     // make sure to not use fishing skill
     uint16 baseSkill = skill == SKILL_FISHING ? 0 : GetSkill(skill);
+    // https://www.bg-wiki.com/ffxi/Strength - Using July 9th 2013
     int32 RATT = 8 + baseSkill + bonusSkill + m_modStat[Mod::RATT] + battleutils::GetRangedAttackBonuses(this) + (STR() * 3) / 4;
     // use max to prevent any underflow
     return std::max(0, RATT + (RATT * m_modStat[Mod::RATTP] / 100) + std::min<int16>((RATT * m_modStat[Mod::FOOD_RATTP] / 100), m_modStat[Mod::FOOD_RATT_CAP]));
@@ -2197,7 +2203,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                             attBonus = ((static_cast<float>(targetDex) / 100) * csJpModifier);
                         }
 
-                        float DamageRatio = battleutils::GetDamageRatio(PTarget, this, attack.IsCritical(), attBonus, 0);
+                        float DamageRatio = battleutils::GetDamageRatio(PTarget, this, attack.IsCritical(), attBonus, 0, SLOT_MAIN);
                         auto damage = (int32)((PTarget->GetMainWeaponDmg() + naturalh2hDMG + battleutils::GetFSTR(PTarget, this, SLOT_MAIN)) * DamageRatio);
 
                         damage *= (1.0f + PTarget->getMod(Mod::COUNTER_DAMAGE) / 100.0f);

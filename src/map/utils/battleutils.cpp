@@ -1347,7 +1347,7 @@ namespace battleutils
                     bool crit = battleutils::GetCritHitRate(PDefender, PAttacker, true) > tpzrand::GetRandomNumber(100);
 
                     // Calculate damage based on weapon stats and modifiers
-                    float DamageRatio = GetDamageRatio(PDefender, PAttacker, crit, 1.f, 0);
+                    float DamageRatio = GetDamageRatio(PDefender, PAttacker, crit, 1.f, 0, SLOT_MAIN);
                     uint16 dmg = static_cast<uint32>((PDefender->GetMainWeaponDmg() + battleutils::GetFSTR(PDefender, PAttacker, SLOT_MAIN)) * DamageRatio);
 
                     // Apply damage multiplier modifiers if any
@@ -4204,9 +4204,9 @@ namespace battleutils
     *                                                                       *
     ************************************************************************/
 
-    float GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus)
+    float GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus, SLOTTYPE slot)
     {
-        uint16 attack = PAttacker->ATT();
+        uint16 attack = PAttacker->ATT(slot);
         // Bonus attack currently only from footwork
         if (bonusAttPercent >= 1) 
         {
@@ -4317,13 +4317,12 @@ namespace battleutils
 
         auto targ_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_MAIN]);
 
-        // Default for 1H is 3.25
-        //float maxRatio = 3.25f;
+        // Default for 1H is 2.0
         float maxRatio = 2.00f;
 
         if (attackerType == TYPE_MOB || attackerType == TYPE_PET)
         {
-            // Mobs and pets cap at 4.25 regardless of crit so no need to bother with crits for the max
+            // Mobs and pets cap at 2.0 
             maxRatio = 2.0f;
         }
         else
@@ -6095,7 +6094,7 @@ namespace battleutils
                     if (PAttacker->objtype == TYPE_PC)
                         AttMultiplerPercent = PAttacker->getMod(Mod::JUMP_ATT_BONUS) / 100.f;
 
-                    float DamageRatio = battleutils::GetDamageRatio(PAttacker, PVictim, false, AttMultiplerPercent, 0);
+                    float DamageRatio = battleutils::GetDamageRatio(PAttacker, PVictim, false, AttMultiplerPercent, 0, SLOT_MAIN);
                     damageForRound = (uint16)((PAttacker->GetMainWeaponDmg() + battleutils::GetFSTR(PAttacker, PVictim, SLOT_MAIN)) * DamageRatio);
 
                     // bonus applies to jump only, not high jump
