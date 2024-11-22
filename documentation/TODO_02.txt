@@ -201,7 +201,6 @@ Crackle MDEF down has "No Effect" if the target has MDEF up. Maybe all MDEF down
 Ghrahs can go to 99% HP after being swapped to humanoid or spider due to max hp boot trait, add healing/updatepacket to AddTrait and DelTrait lua bindings
 All lvl90+ mobs need absurd vit, like +150 vit mod
 Party mobs together in assaults/Salvage like Dynamis
-Hundred Fists lasts 45s in dynamis-xarca
 Boats nearing use logic from silver sea (there's another function there not used for selbina/mhaura/pirates)
 
 Weapon STR stuff (Already did I think?)
