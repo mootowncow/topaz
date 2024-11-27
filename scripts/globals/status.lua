@@ -3463,6 +3463,19 @@ tpz.skill =
     -- MAX_SKILLTYPE = 64
 }
 
+--[[TODO:
+enum SUBSKILLTYPE
+{
+    SUBSKILL_XBO = 0,
+    SUBSKILL_GUN = 1,
+    SUBSKILL_CNN = 2, // Culverin
+    SUBSKILL_SHURIKEN = 3,
+    SUBSKILL_SHORTBOW = 4,
+    SUBSKILL_LONGBOW = 5,
+    SUBSKILL_THROWN = 6,
+    SUBSKILL_ARROW = 7,
+    }
+    ]]--
 ------------------------------------
 -- Craft Skill Ranks
 ------------------------------------
