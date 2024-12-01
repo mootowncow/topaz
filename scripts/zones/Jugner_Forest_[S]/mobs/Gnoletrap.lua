@@ -7,7 +7,7 @@ local ID = require("scripts/zones/Jugner_Forest_[S]/IDs")
 require("scripts/globals/mobs")
 -----------------------------------
 function onMobInitialize(mob)
-    mob:setMobMod(tpz.mobMod.CAPACITY_BONUS, 100)
+    mob:setMobMod(tpz.mobMod.CAPACITY_BONUS, 200)
 end
 
 function onMobSpawn(mob)
@@ -50,6 +50,7 @@ function onMobFight(mob, target)
 		mob:setMod(tpz.mod.REGEN, 0)
         mob:setMod(tpz.mod.REGAIN, 0)
 	end
+    mob:setMobMod(tpz.mobMod.CAPACITY_BONUS, 200)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
