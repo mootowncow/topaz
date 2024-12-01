@@ -17,6 +17,9 @@ function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.PARALYSIS
 
     skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 50, 0, 300))
+    if mob:getName() == 'Gnoletrap' then
+        MobDispelMove(mob, target, skill, tpz.magic.ele.DARK, tpz.effectFlag.DISPELABLE)
+    end
 
     return typeEffect
 end
