@@ -4106,15 +4106,15 @@ namespace charutils
                     // https://ffxiclopedia.fandom.com/wiki/Job_Points#Capacity_Points
                     capacityPoints = 0.0089 * std::pow(levelDiff, 3) + 0.0533 * std::pow(levelDiff, 2) + 3.7439 * levelDiff + 89.7;
 
+                    if (PMob->getMobMod(MOBMOD_CAPACITY_BONUS))
+                    {
+                        const float monsterbonus = 1.f + PMob->getMobMod(MOBMOD_CAPACITY_BONUS) / 100.f;
+                        capacityPoints *= monsterbonus;
+                    }
+
                     if (PMember->capacityChain.chainTime > gettick() || PMember->capacityChain.chainTime == 0)
                     {
                         chainActive = true;
-
-                        if (PMob->getMobMod(MOBMOD_CAPACITY_BONUS))
-                        {
-                            const float monsterbonus = 1.f + PMob->getMobMod(MOBMOD_CAPACITY_BONUS) / 100.f;
-                            capacityPoints *= monsterbonus;
-                        }
 
                         // TODO: Needs verification, pulled from:
                         // https://www.bluegartr.com/threads/120445-Job-Points-discussion?p=6138288&viewfull=1#post6138288 Assumption: Chain0 is no bonus,
