@@ -15,6 +15,7 @@ function onMobSpawn(mob)
     if (math.random(100) <= 5) then
         mob:setLocalVar("restoreProc", 1)
     end
+    SetJPMobStats(mob)
 end
 
 function onMobFight(mob, target)
