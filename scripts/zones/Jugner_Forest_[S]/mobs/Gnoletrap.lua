@@ -15,6 +15,16 @@ function onMobSpawn(mob)
     if (math.random(100) <= 5) then
         mob:setLocalVar("restoreProc", 1)
     end
+
+    -- Regen + Regain during Water weather
+	if mob:getWeather() == tpz.weather.RAIN or mob:getWeather() == tpz.weather.SQUALL then
+		mob:setMod(tpz.mod.REGEN, 30)
+        mob:setMod(tpz.mod.REGAIN, 100)
+	else
+		mob:setMod(tpz.mod.REGEN, 0)
+        mob:setMod(tpz.mod.REGAIN, 0)
+	end
+
     SetJPMobStats(mob)
 end
 
