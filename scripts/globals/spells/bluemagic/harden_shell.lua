@@ -1,6 +1,6 @@
 -----------------------------------------
 -- Spell: Harden Shell
--- Grants Protect V and Shell V
+-- Grants Perfect Defense
 -- Spell cost: 10 MP
 -- Monster Type: Vermin
 -- Spell Type: Magical (Earth)
@@ -24,18 +24,15 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local effect = tpz.effect.PROTECT
-    local effect2 = tpz.effect.SHELL
-    local power = 60
-    local power2 = 24
-    local duration = 300
-    local tick = 0
+    local effect = tpz.effect.PERFECT_DEFENSE
+    local power = 100
+    local duration = 60
+    local tick = 3
     local subid = 0
     local subpower = 0
     local tier = 0
     local bonus = 0
     local params = {}
 
-    BlueBuffSpell(caster, target, spell, effect2, power2, tick, duration, subid, subpower, tier, params, bonus)
     return BlueBuffSpell(caster, target, spell, effect, power, tick, duration, subid, subpower, tier, params, bonus)
 end

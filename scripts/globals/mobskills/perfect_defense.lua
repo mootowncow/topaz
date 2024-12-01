@@ -22,7 +22,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    MobBuffMove(mob, tpz.effect.PERFECT_DEFENSE, 1, 0, skill:getParam())
+    MobBuffMove(mob, tpz.effect.PERFECT_DEFENSE, 100, 0, skill:getParam())
 
     skill:setMsg(tpz.msg.basic.USES)
     return tpz.effect.PERFECT_DEFENSE

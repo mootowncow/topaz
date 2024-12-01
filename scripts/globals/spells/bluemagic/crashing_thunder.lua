@@ -1,6 +1,7 @@
 -----------------------------------------
 -- Spell: Crashing Thunder
 -- Deals lightning damage to enemies within range.
+-- Additional effect: Converts damage done to MP
 -- Spell cost: 36 MP
 -- Monster Type: Vermin
 -- Spell Type: Magical (Water)
@@ -60,6 +61,10 @@ function onSpellCast(caster, target, spell)
 	end
 
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
+
+    if (damage > 0) then
+		caster:addMP(damage)
+    end
 
     return damage
 end

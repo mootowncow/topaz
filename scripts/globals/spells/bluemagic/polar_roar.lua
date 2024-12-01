@@ -1,6 +1,7 @@
 -----------------------------------------
 -- Spell: Polar Roar
--- Deals Ice damage to enemies within range. Additional Effect: Bind
+-- Deals Ice damage to enemies within range.
+-- Additional Effect: Magic Attack Down and Magic Accuracy Down
 -- Spell cost: 36 MP
 -- Monster Type: Vermin
 -- Spell Type: Magical (Ice)
@@ -61,9 +62,14 @@ function onSpellCast(caster, target, spell)
 
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
-    params.effect = tpz.effect.BIND
+    params.effect = tpz.effect.MAGIC_ATK_DOWN
     params.bonus = 125
-    BlueTryEnfeeble(caster, target, spell, 1, 1, 0, GetBindDuration(), params)
+    local power = 25
+    local duration = 120
+    BlueTryEnfeeble(caster, target, spell, 1, power, 0, duration, params)
+
+    params.effect = tpz.effect.MAGIC_ACC_DOWN
+    BlueTryEnfeeble(caster, target, spell, 1, power, 0, duration, params)
 
     return damage
 end

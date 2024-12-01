@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `mob_skills` (
   `mob_prepare_time` smallint(4) unsigned NOT NULL DEFAULT '1000',
   `mob_valid_targets` smallint(4) unsigned NOT NULL DEFAULT '4',
   `mob_skill_flag` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `mob_skill_param` smallint(5) NOT NULL DEFAULT '0',
+  `mob_skill_param` smallint(5) NOT NULL DEFAULT '0', -- Used for Perfect Defense only?
   `knockback` tinyint(1) NOT NULL DEFAULT '0',
   `primary_sc` tinyint(4) NOT NULL DEFAULT '0',
   `secondary_sc` tinyint(4) NOT NULL DEFAULT '0',
