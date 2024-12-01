@@ -1,8 +1,9 @@
 -----------------------------------
--- West Sarutabaruta [S]
---  Mob: Hispid Rarab
+-- Area: Xarcabard [S]
+--  Mob: Frozen Ghoul
 -- Note: JP camp
 -----------------------------------
+require("scripts/globals/mobs")
 require("scripts/globals/status")
 -----------------------------------
 function onMobInitialize(mob)
@@ -34,3 +35,4 @@ end
 
 function onMobDeath(mob, player, isKiller, noKiller)
 end
+

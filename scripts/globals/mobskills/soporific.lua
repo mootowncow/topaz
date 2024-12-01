@@ -15,6 +15,8 @@ function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.SLEEP_II
 
     skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 1, 0, 90))
-
+    if mob:getName() == 'Gnoletrap' then
+        mob:resetEnmity(target)
+    end
     return tpz.effect.SLEEP_I
 end
