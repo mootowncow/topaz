@@ -45,12 +45,11 @@ function onMobFight(mob, target)
     -- Regen + Regain during Water weather
 	if mob:getWeather() == tpz.weather.RAIN or mob:getWeather() == tpz.weather.SQUALL then
 		mob:setMod(tpz.mod.REGEN, 30)
-        mob:setMod(tpz.mod.REGAIN, 100)
+        mob:setMod(tpz.mod.REGAIN, 50)
 	else
 		mob:setMod(tpz.mod.REGEN, 0)
         mob:setMod(tpz.mod.REGAIN, 0)
 	end
-    mob:setMobMod(tpz.mobMod.CAPACITY_BONUS, 200)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
