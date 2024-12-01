@@ -7,7 +7,7 @@ require("scripts/globals/mobs")
 require("scripts/globals/status")
 -----------------------------------
 function onMobInitialize(mob)
-    mob:setMobMod(tpz.mobMod.CAPACITY_BONUS, 100)
+    mob:setMobMod(tpz.mobMod.CAPACITY_BONUS, 200)
 end
 
 function onMobSpawn(mob)
@@ -15,6 +15,8 @@ function onMobSpawn(mob)
     if (math.random(100) <= 5) then
         mob:setLocalVar("restoreProc", 1)
     end
+
+    SetJPMobStats(mob)
 end
 
 function onMobFight(mob, target)
@@ -27,7 +29,6 @@ function onMobFight(mob, target)
     if (mob:getHPP() < 2) and (restoreProc == 1) then
         if (mob:checkDistance(target) <= 30) then
             mob:useMobAbility(math.random(1124, 1125)) -- Heal MP or HP
-            mob:setLocalVar("restoreProc", 0)
         end
     end
 end

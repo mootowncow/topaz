@@ -38,7 +38,6 @@ function onMobFight(mob, target)
     if (mob:getHPP() < 2) and (restoreProc == 1) then
         if (mob:checkDistance(target) <= 30) then
             mob:useMobAbility(math.random(1124, 1125)) -- Heal MP or HP
-            mob:setLocalVar("restoreProc", 0)
         end
     end
 

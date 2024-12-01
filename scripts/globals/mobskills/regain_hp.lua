@@ -19,6 +19,7 @@ function onMobWeaponSkill(target, mob, skill)
     target:wakeUp()
     mob:setUnkillable(false)
     mob:setHP(0)
+    mob:setLocalVar("restoreProc", 0)
 
     return hp
 end
