@@ -31,6 +31,15 @@ function onMobFight(mob, target)
             mob:setLocalVar("restoreProc", 0)
         end
     end
+
+    -- Regen + Regain during Water weather
+	if mob:getWeather() == tpz.weather.RAIN or mob:getWeather() == tpz.weather.SQUALL then
+		mob:setMod(tpz.mod.REGEN, 30)
+        mob:setMod(tpz.mod.REGAIN, 100)
+	else
+		mob:setMod(tpz.mod.REGEN, 0)
+        mob:setMod(tpz.mod.REGAIN, 0)
+	end
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
