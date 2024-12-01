@@ -16,7 +16,6 @@ function onMobWeaponSkill(target, mob, skill)
     if mob:getName() == 'Gnoletrap' then
         local dmgmod = MobHPBasedMove(mob, target, 0.125, 1, tpz.magic.ele.EARTH, 500)
         local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.EARTH, MOBPARAM_IGNORE_SHADOWS)
-        print(string.format("dmgmod %d:, dmg: %d", dmgmod, dmg))
         target:takeDamage(dmg, mob, tpz.attackType.BREATH, tpz.damageType.EARTH)
         MobStatusEffectMove(mob, target, tpz.effect.SLOW, 3550, 0, 300)
         return dmg
