@@ -5,12 +5,23 @@
 require("scripts/globals/hunts")
 require("scripts/globals/status")
 require("scripts/globals/mobs")
+mixins ={require("scripts/mixins/job_special")}
 -----------------------------------
+function onMobInitialize(mob)
+    mob:setMobMod(tpz.mobMod.DRAW_IN, 1)
+end
 
 function onMobSpawn(mob)
-	mob:setMod(tpz.mod.MAIN_DMG_RATING, 25)
-	mob:setMod(tpz.mod.DEFP, 25) 
-    mob:setMod(tpz.mod.DOUBLE_ATTACK, 50)
+	mob:setDamage(140)
+    mob:setMod(tpz.mod.ATTP, 25)
+    mob:addMod(tpz.mod.DEFP, 25) 
+    mob:addMod(tpz.mod.EVA, 15)
+    tpz.mix.jobSpecial.config(mob, {
+        specials =
+        {
+            {id = tpz.jsa.MANAFONT, cooldown = 300, hpp = 50},
+        },
+    })
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

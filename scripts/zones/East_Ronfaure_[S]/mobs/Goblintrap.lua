@@ -6,17 +6,24 @@
 -----------------------------------
 require("scripts/globals/hunts")
 require("scripts/globals/status")
+require("scripts/globals/mobs")
+mixins ={require("scripts/mixins/job_special")}
 -----------------------------------
+function onMobInitialize(mob)
+    mob:setMobMod(tpz.mobMod.DRAW_IN, 1)
+end
 
 function onMobInitialize(mob)
-    mob:addMod(tpz.mod.ATTP, 25)
+	mob:setDamage(140)
+    mob:setMod(tpz.mod.ATTP, 25)
     mob:addMod(tpz.mod.DEFP, 25) 
-    mob:addMod(tpz.mod.ACC, 25)
-    mob:setMod(tpz.mod.REFRESH, 400)
-	mob:setMod(tpz.mod.SLEEPRESTRAIT, 100)
-	mob:setMod(tpz.mod.LULLABYRESTRAIT, 100)
-	mob:setMod(tpz.mod.BINDRESTRAIT, 100)
-	mob:setMod(tpz.mod.GRAVITYRESTRAIT, 100)
+    mob:addMod(tpz.mod.EVA, 15)
+    tpz.mix.jobSpecial.config(mob, {
+        specials =
+        {
+            {id = tpz.jsa.MANAFONT, cooldown = 300, hpp = 50},
+        },
+    })
 end
 
 

@@ -6,18 +6,17 @@ mixins = {require("scripts/mixins/rage")}
 require("scripts/globals/status")
 require("scripts/globals/titles")
 -----------------------------------
-
 function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.DRAW_IN, 1)
 end
 
 function onMobSpawn(mob)
-	mob:setDamage(100)
-    mob:setMod(tpz.mod.ATTP, 50)
-    mob:addMod(tpz.mod.DEFP, 50) 
+	mob:setDamage(140)
+    mob:setMod(tpz.mod.ATTP, 25)
+    mob:addMod(tpz.mod.DEFP, 25) 
     mob:addMod(tpz.mod.EVA, 15)
     mob:setMod(tpz.mod.REFRESH, 400)
-    mob:setLocalVar("[rage]timer", 1200) -- 20 minutes
+    mob:setLocalVar("[rage]timer", 3600) -- 60 minutes
     mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
 end
 
