@@ -3596,6 +3596,9 @@ function GetBindDuration()
     local z0 = math.sqrt(-2 * math.log(math.random())) * math.cos(2 * math.pi * math.random())
     local duration = utils.clamp(math.floor(30 + z0 * 12), 1, duration)
 
+    -- Bind spells duration has a floor of 5 seconds if not fully resisted.
+    duration = utils.clamp(duration, 5, duration)
+
     return duration
 end
 
