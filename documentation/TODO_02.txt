@@ -171,6 +171,9 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
+Add more kindred summoners in ule range also make every kindred RNG on what it repops as( do in lua, make it a function) Will need to add a ton of new mobID entries to do this. 
+increase forgotten mobs levels to 81-83
+code https://ffxiclopedia.fandom.com/wiki/Magnotaur
 Bind spells duration has a floor of 5 seconds if not fully resisted. https://github.com/LandSandBoat/server/commit/d82036b320da8f0a224e1ca7db63b8aa83a95e71
 One of the Thiazi or a Bialozar should have higher HP and open vortex, it should be random and not set in stone. Make all Same HP in mob_groups.sql and use max_hp_boost effect to give more HP. Make sure to heal after giving HP
 17784999 should be visible(model missing?) and at G-8 https://www.bg-wiki.com/ffxi/Mewk_Chorosap
