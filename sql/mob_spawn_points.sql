@@ -901,13 +901,13 @@ INSERT INTO `mob_spawn_points` VALUES (16797870,'Nightmare_Bats','Nightmare Bats
 INSERT INTO `mob_spawn_points` VALUES (16797871,'Smolenkos','Smolenkos',31,273.307,-100.552,507.797,61);
 --INSERT INTO `mob_spawn_points` VALUES (16797872,'Smolenkos','Smolenkos',31,276.474,-100.379,484.996,7);
 INSERT INTO `mob_spawn_points` VALUES (16797873,'Kindred_Warrior','Kindred Warrior',32,277.815,-100.458,486.140,48);
---INSERT INTO `mob_spawn_points` VALUES (16797874,'Kindred_Black_Mage','Kindred Black Mage',33,281.389,-100.531,514.173,143);
+INSERT INTO `mob_spawn_points` VALUES (16797874,'Kindred_Black_Mage','Kindred Black Mage',33,281.389,-100.531,514.173,143);
 INSERT INTO `mob_spawn_points` VALUES (16797875,'Kindred_Dark_Knight','Kindred Dark Knight',34,272.791,-101.033,524.051,206);
 INSERT INTO `mob_spawn_points` VALUES (16797876,'Kindred_Summoner','Kindred Summoner',35,213.914,-111.167,439.505,97);
 INSERT INTO `mob_spawn_points` VALUES (16797877,'Demons_Elemental','Demon\'s Elemental',26,215.397,-110.515,440.499,96);
 INSERT INTO `mob_spawn_points` VALUES (16797878,'Molech','Molech',36,271.975,-100.146,483.511,180);
 INSERT INTO `mob_spawn_points` VALUES (16797879,'Smolenkos','Smolenkos',31,172.556,-108.325,527.943,35);
---INSERT INTO `mob_spawn_points` VALUES (16797880,'Kindred_Warrior','Kindred Warrior',32,107.259,-124.899,451.867,229);
+INSERT INTO `mob_spawn_points` VALUES (16797880,'Kindred_Warrior','Kindred Warrior',32,107.259,-124.899,451.867,229);
 INSERT INTO `mob_spawn_points` VALUES (16797881,'Kindred_Black_Mage','Kindred Black Mage',33,168.806,-116.149,469.273,252);
 INSERT INTO `mob_spawn_points` VALUES (16797882,'Kindred_Dark_Knight','Kindred Dark Knight',34,158.802,-108.886,554.365,59);
 INSERT INTO `mob_spawn_points` VALUES (16797883,'Kindred_Summoner','Kindred Summoner',35,178.961,-108.671,512.615,244);
@@ -916,10 +916,10 @@ INSERT INTO `mob_spawn_points` VALUES (16797885,'Molech','Molech',36,149.880,-11
 --INSERT INTO `mob_spawn_points` VALUES (16797886,'Molech','Molech',36,171.436,-108.246,547.735,96);
 INSERT INTO `mob_spawn_points` VALUES (16797887,'Smolenkos','Smolenkos',31,46.421,-139.813,445.555,204);
 INSERT INTO `mob_spawn_points` VALUES (16797888,'Kindred_Warrior','Kindred Warrior',32,40.365,-139.429,422.582,227);
---INSERT INTO `mob_spawn_points` VALUES (16797889,'Kindred_Black_Mage','Kindred Black Mage',33,50.970,-139.635,451.540,113);
+INSERT INTO `mob_spawn_points` VALUES (16797889,'Kindred_Black_Mage','Kindred Black Mage',33,50.970,-139.635,451.540,113);
 INSERT INTO `mob_spawn_points` VALUES (16797890,'Kindred_Dark_Knight','Kindred Dark Knight',34,52.548,-138.279,484.352,240);
---INSERT INTO `mob_spawn_points` VALUES (16797891,'Kindred_Summoner','Kindred Summoner',35,24.673,-139.854,473.095,233);
---INSERT INTO `mob_spawn_points` VALUES (16797892,'Demons_Elemental','Demon\'s Elemental',26,23.723,-140.130,471.580,216);
+INSERT INTO `mob_spawn_points` VALUES (16797891,'Kindred_Summoner','Kindred Summoner',35,24.673,-139.854,473.095,233);
+INSERT INTO `mob_spawn_points` VALUES (16797892,'Demons_Elemental','Demon\'s Elemental',26,23.723,-140.130,471.580,216);
 INSERT INTO `mob_spawn_points` VALUES (16797893,'Molech','Molech',36,-1.589,-140.258,490.778,107);
 INSERT INTO `mob_spawn_points` VALUES (16797894,'Agloolik','Agloolik',37,207.788,-107.932,538.208,128);
 INSERT INTO `mob_spawn_points` VALUES (16797895,'Ice_Elemental','Ice Elemental',51,193.317,-108.464,550.629,120);
@@ -952,15 +952,15 @@ INSERT INTO `mob_spawn_points` VALUES (16797921,'Smolenkos','Smolenkos',31,-274.
 INSERT INTO `mob_spawn_points` VALUES (16797922,'Kindred_Warrior','Kindred Warrior',32,-279.497,-155.705,257.889,126);
 INSERT INTO `mob_spawn_points` VALUES (16797923,'Kindred_Black_Mage','Kindred Black Mage',33,-314.958,-156.455,326.964,211);
 INSERT INTO `mob_spawn_points` VALUES (16797924,'Kindred_Dark_Knight','Kindred Dark Knight',34,-245.346,-159.834,259.293,126);
---INSERT INTO `mob_spawn_points` VALUES (16797925,'Kindred_Summoner','Kindred Summoner',35,-321.340,-156.555,318.210,147);
---INSERT INTO `mob_spawn_points` VALUES (16797926,'Demons_Elemental','Demon\'s Elemental',26,-319.014,-156.543,316.705,149);
+INSERT INTO `mob_spawn_points` VALUES (16797925,'Kindred_Summoner','Kindred Summoner',35,-321.340,-156.555,318.210,147);
+INSERT INTO `mob_spawn_points` VALUES (16797926,'Demons_Elemental','Demon\'s Elemental',26,-319.014,-156.543,316.705,149);
 INSERT INTO `mob_spawn_points` VALUES (16797927,'Molech','Molech',36,-325.891,-156.327,308.462,79);
 INSERT INTO `mob_spawn_points` VALUES (16797928,'Agloolik','Agloolik',37,-274.852,-156.556,242.671,34);
--- INSERT INTO `mob_spawn_points` VALUES (16797929,'Kindred_Warrior','Kindred Warrior',32,-211.055,-176.173,241.733,238);	-- kindred
+INSERT INTO `mob_spawn_points` VALUES (16797929,'Kindred_Warrior','Kindred Warrior',32,-211.055,-176.173,241.733,238);	-- kindred
 -- --INSERT INTO `mob_spawn_points` VALUES (16797930,'Scowlenkos','Scowlenkos',38,-211.345,-176.162,248.672,111);
--- INSERT INTO `mob_spawn_points` VALUES (16797931,'Kindred_Black_Mage','Kindred Black_Mage',33,-246.867,-176.689,235.343,246);	-- kindred
+INSERT INTO `mob_spawn_points` VALUES (16797931,'Kindred_Black_Mage','Kindred Black_Mage',33,-246.867,-176.689,235.343,246);	-- kindred
 -- --INSERT INTO `mob_spawn_points` VALUES (16797932,'Scowlenkos','Scowlenkos',38,-219.802,-176.708,227.899,220);
--- INSERT INTO `mob_spawn_points` VALUES (16797933,'Kindred_Dark_Knight','Kindred Dark_Knight',34,-189.447,-175.899,249.095,125);	-- kindred
+INSERT INTO `mob_spawn_points` VALUES (16797933,'Kindred_Dark_Knight','Kindred Dark_Knight',34,-189.447,-175.899,249.095,125);	-- kindred
 -- --INSERT INTO `mob_spawn_points` VALUES (16797934,'Scowlenkos','Scowlenkos',38,-190.592,-176.498,233.904,159);
 -- INSERT INTO `mob_spawn_points` VALUES (16797935,'Smolenkos','Smolenkos',31,-165.662,-176.342,246.352,186);	-- Smolenkos
 -- --INSERT INTO `mob_spawn_points` VALUES (16797936,'Scowlenkos','Scowlenkos',38,-211.986,-176.145,319.695,136);
@@ -980,16 +980,16 @@ INSERT INTO `mob_spawn_points` VALUES (16797928,'Agloolik','Agloolik',37,-274.85
 -- --INSERT INTO `mob_spawn_points` VALUES (16797950,'Scowlenkos','Scowlenkos',38,-202.564,-176.362,349.726,95);
 -- INSERT INTO `mob_spawn_points` VALUES (16797951,'Scowlenkos','Scowlenkos',33,-215.411,-176.540,353.735,111); -- Kindred_Black_Mage
 -- --INSERT INTO `mob_spawn_points` VALUES (16797952,'Scowlenkos','Scowlenkos',38,-210.480,-184.205,392.781,28);
--- INSERT INTO `mob_spawn_points` VALUES (16797953,'Kindred_Warrior','Kindred Warrior',32,-209.462,-184.301,394.345,59);	-- kindred
+INSERT INTO `mob_spawn_points` VALUES (16797953,'Kindred_Warrior','Kindred Warrior',32,-209.462,-184.301,394.345,59);	-- kindred
 -- --INSERT INTO `mob_spawn_points` VALUES (16797954,'Scowlenkos','Scowlenkos',38,-156.502,-183.041,388.075,0);
 -- INSERT INTO `mob_spawn_points` VALUES (16797955,'Molech','Molech',36,-195.860,-182.139,384.379,128);	-- kindred
 INSERT INTO `mob_spawn_points` VALUES (16797956,'Kindred_Warrior','Kindred Warrior',32,-233.757,-183.792,460.413,153);
 INSERT INTO `mob_spawn_points` VALUES (16797957,'Kindred_Black_Mage','Kindred Black Mage',33,-255.852,-185.128,455.816,234);
 INSERT INTO `mob_spawn_points` VALUES (16797958,'Kindred_Dark_Knight','Kindred Dark Knight',34,-325.888,-176.594,438.288,249);
---INSERT INTO `mob_spawn_points` VALUES (16797959,'Kindred_Summoner','Kindred Summoner',35,-320.546,-175.690,460.255,230);
---INSERT INTO `mob_spawn_points` VALUES (16797960,'Demons_Elemental','Demon\'s Elemental',26,-321.843,-175.891,458.892,223);
+INSERT INTO `mob_spawn_points` VALUES (16797959,'Kindred_Summoner','Kindred Summoner',35,-320.546,-175.690,460.255,230);
+INSERT INTO `mob_spawn_points` VALUES (16797960,'Demons_Elemental','Demon\'s Elemental',26,-321.843,-175.891,458.892,223);
 INSERT INTO `mob_spawn_points` VALUES (16797961,'Kindred_Warrior','Kindred Warrior',32,-213.047,-184.192,441.758,41);
---INSERT INTO `mob_spawn_points` VALUES (16797962,'Kindred_Black_Mage','Kindred Black Mage',33,-259.136,-181.871,469.004,154);
+INSERT INTO `mob_spawn_points` VALUES (16797962,'Kindred_Black_Mage','Kindred Black Mage',33,-259.136,-181.871,469.004,154);
 INSERT INTO `mob_spawn_points` VALUES (16797963,'Kindred_Dark_Knight','Kindred Dark Knight',34,-243.390,-183.970,451.803,228);
 INSERT INTO `mob_spawn_points` VALUES (16797964,'Kindred_Summoner','Kindred Summoner',35,-292.724,-176.966,478.492,22);
 INSERT INTO `mob_spawn_points` VALUES (16797965,'Demons_Elemental','Demon\'s Elemental',26,-294.439,-176.677,482.843,59);
