@@ -1238,3 +1238,26 @@ function printEnmityList(enmityList)
     end
 end
 
+-- Refer to Kindred_Warrior.lua for example usage
+-- TODO: Initial spawns, or despawn everything but the initial mob(or randomize which initial mob stays spawned after server load from pool)
+function ChooseRandomSpawn(mob, spawns)
+    local mobID = mob:getID()
+    local spawnPool = spawns[mobID]
+
+    if not spawnPool then
+        -- printf("No spawn pool found for mobID: %d", mobID)
+        return
+    end
+
+    local selected = spawnPool[math.random(#spawnPool)]
+    -- printf("Mob selected for respawn!")
+    -- printf("MobId: %d", selected)
+
+    for _, id in ipairs(spawnPool) do
+        local poolMob = GetMobByID(id)
+        if poolMob then
+            DisallowRespawn(poolMob:getID(), id ~= selected)
+            GetMobByID(poolMob:getID()):setRespawnTime(30)
+        end
+    end
+end
