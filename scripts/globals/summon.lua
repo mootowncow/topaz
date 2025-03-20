@@ -568,6 +568,9 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
     -- Calculate Blood Pact Damage before stoneskin
     dmg = math.floor(dmg * (1 + avatar:getMod(tpz.mod.BP_DAMAGE) / 100))
 
+    -- Handle pet damage percent mod
+    dmg = math.floor(dmg * (1 + avatar:getMod(tpz.mod.PET_DAMAGEP) / 100))
+
     --dmg = utils.rampartstoneskin(target, dmg)  --Unneeded?
     -- handling normal stoneskin
     dmg = utils.stoneskin(target, dmg, attackType)
@@ -611,6 +614,9 @@ function AvatarMagicalFinalAdjustments(dmg, avatar, skill, target, attackType, e
 
     -- Calculate Blood Pact Damage before stoneskin
     dmg = math.floor(dmg * (1 + avatar:getMod(tpz.mod.BP_DAMAGE) / 100))
+
+    -- Handle pet damage percent mod
+    dmg = math.floor(dmg * (1 + avatar:getMod(tpz.mod.PET_DAMAGEP) / 100))
 
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, skill, dmg)

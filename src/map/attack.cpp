@@ -745,6 +745,12 @@ void CAttack::ProcessDamage()
         m_damage = m_damage * circlemult / 100;
     }
 
+    // Pet damage mods
+    if (m_attacker->objtype == TYPE_PET)
+    {
+        m_damage = m_damage * (100 + m_attacker->getMod(Mod::PET_DAMAGEP)) / 100;
+    }
+
     // Handle frontal PDT
     if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(m_attacker->loc.p, m_victim->loc.p, 64))
     {

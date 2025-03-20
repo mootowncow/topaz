@@ -1579,3 +1579,15 @@ function utils.HandleExtraDamageMultipliers(attacker, damage)
 
     return damage
 end
+
+function utils.SetModWithDuration(target, modId, power, duration)
+    -- Add the mod
+    target:queue(0, function(target)
+        target:setMod(modId, power)
+    end)
+
+    -- Remove the mod after the duration ends
+    target:queue(duration*1000, function(target)
+        target:setMod(modId,0)
+    end)
+end
