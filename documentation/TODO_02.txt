@@ -129,6 +129,12 @@ Convert set bonuses to SQL
 Bonus MACC / blu params/dmg type/etc columns in spells sql
 CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
+TODAY:
+    AH stuff
+    Craft meat mithkabobs (Need NQs)
+    Drain pipe extension
+    File taxes
+
 
 Trusts:
 Shikaree Z jumps have usually high miss rates
@@ -171,10 +177,11 @@ Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
 **** NOW ***
-Add more kindred summoners in ule range also make every kindred RNG on what it repops as( do in lua, make it a function) Will need to add a ton of new mobID entries to do this. 
-increase forgotten mobs levels to 81-83
+Divine Seal shouldn't be removed from using a -na unless WHM main job(check bg/jp wiki)
+Give all the 280 skill WS an add effect like Agheha has defense down
 code https://ffxiclopedia.fandom.com/wiki/Magnotaur
-Bind spells duration has a floor of 5 seconds if not fully resisted. https://github.com/LandSandBoat/server/commit/d82036b320da8f0a224e1ca7db63b8aa83a95e71
+Promy ENM's, especially Vahzl(and update rewards)
+Double red msg in level capped zones
 One of the Thiazi or a Bialozar should have higher HP and open vortex, it should be random and not set in stone. Make all Same HP in mob_groups.sql and use max_hp_boost effect to give more HP. Make sure to heal after giving HP
 17784999 should be visible(model missing?) and at G-8 https://www.bg-wiki.com/ffxi/Mewk_Chorosap
 Buff Headsman Ring to 7/7 
@@ -215,7 +222,6 @@ Steal is stealing Bone Chip over ice spikes with aura steal
 Move a T1 of mid path and right path to Mamool / Trolls to make them worth meriting on
 Kerutoto gave me waking dreams(repeat), I killed diabolos, came back, gave me waking dreams  again, and then let me turn in my diabolos kill
 Party all mobs together? Or can't do this because then ALL mobs will link with eachother? So just party mobs in assaults? Or just specific ones? Add a mob_mod to add to party togetheR?
-Give all the 280 skill WS an add effect like Agheha has defense down
 When I casted with lac disabled my shock spikes was higher potency than my shock spikes gear? (BLU)
 Why does 16887907 not spawn on it's own? Fomor BLM
 Cover https://www.bg-wiki.com/ffxi/Cover missing the CE/VE transfer and 10% Loss thing too I think
