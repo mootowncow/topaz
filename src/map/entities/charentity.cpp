@@ -1192,11 +1192,13 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
             }
         }
     }
-    // Remove Divine seal if the spell is a healing spell or Stoneskin
-    if (PSpell->isHeal() || PSpell->getID() == SpellID::Stoneskin)
+
+    // Remove Divine Seal if the spell is a healing spell, Stoneskin or Na while having Divine Veil trait
+    if ((PSpell->isCure() || PSpell->getID() == SpellID::Stoneskin || (PSpell->isNa() && hasTrait(TRAIT_DIVINE_VEIL))))
     {
         StatusEffectContainer->DelStatusEffectSilent(EFFECT_DIVINE_SEAL);
     }
+
 
     // Remove Elemental Seal if the spell is black magic, blue magic, ninjitsu, a song, or a divine spell
     if (PSpell->getSpellGroup() >= SPELLGROUP_SONG && PSpell->getSpellGroup() <= SPELLGROUP_NINJUTSU ||
