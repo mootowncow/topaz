@@ -14,7 +14,7 @@ require("scripts/globals/status")
 require("scripts/globals/settings")
 require("scripts/globals/weaponskills")
 -----------------------------------
-
+-- TODO: Nether Blast style damage, only reduced by MDT or w/e and always does same damage never resists
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     local params = {}

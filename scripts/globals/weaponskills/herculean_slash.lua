@@ -2,7 +2,7 @@
 -- Herculean Slash
 -- Great Sword weapon skill
 -- Skill Level: 280
--- Paralyzes target. Duration of effect varies with TP.
+-- Deals ice damage. Additional effect: Dispels 3 status effefts on the target.
 -- Aligned with the Snow Gorget, Thunder Gorget & Breeze Gorget.
 -- Aligned with the Snow Belt, Thunder Belt & Breeze Belt.
 -- Element: Ice
@@ -37,12 +37,12 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 	
 
     local effect = tpz.effect.PARALYSIS
-    local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, 100, tpz.effect.PARALYSIS)
-    local duration = (tp/1000 * 60) * resist
-    local power = 25
+    local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.DARK, 100, tpz.effect.NONE)
 
-    if (damage > 0 and not target:hasStatusEffect(effect) and resist >= 0.5) then
-        target:addStatusEffect(effect, power, 3, duration)
+    if (damage > 0 and resist >= 0.5) then
+        target:dispelStatusEffect()
+        target:dispelStatusEffect()
+        target:dispelStatusEffect()
     end
 
     return tpHits, extraHits, criticalHit, damage

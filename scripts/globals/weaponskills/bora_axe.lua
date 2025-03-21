@@ -2,8 +2,7 @@
 -- Bora Axe
 -- Axe weapon skill
 -- Skill level: 280
--- Delivers a single-hit ranged attack at a maximum distance of 15.7'. Chance of binding varies with TP
--- Bind doesn't always break from hitting mob.
+-- Delivers a single-hit ranged attack at a maximum distance of 15.7'. Additonal effect: Increases pet damage
 -- This Weapon Skill's first hit params.ftp is duplicated for all additional hits
 -- Not natively available to RNG
 -- Aligned with the ?? Gorget.
@@ -51,7 +50,6 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         local pet = player:getPet()
         if pet and (pet:getMod(tpz.mod.PET_DAMAGEP) < 25) then
             local duration2 = 30 + (math.max(tp - 1000, 0) * 0.015) -- 30, 45, 60
-            printf("duration %d", duration2)
             utils.SetModWithDuration(pet, tpz.mod.PET_DAMAGEP, 25, duration2)
         end
     end

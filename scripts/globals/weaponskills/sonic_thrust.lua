@@ -2,7 +2,7 @@
 -- Sonic Thrust
 -- Polearm weapon skill
 -- Skill Level: 280
--- Delivers an area attack. Damage varies with TP.
+-- Delivers a conal attack. Damage varies with TP.
 -- Will stack with Sneak Attack.
 -- Element: None
 -- Modifiers: STR:40%  DEX:40%

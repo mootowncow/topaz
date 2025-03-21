@@ -33,6 +33,14 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     end
 
     local damage, criticalHit, tpHits, extraHits = doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
+	local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, 0)
+    if damage > 0 and resist >= 0.5 then
+        local duration = (tp/1000 * 30) + 60
+        local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, params.bonusmacc, tpz.effect.CHOKE)
+        if not target:hasStatusEffect(tpz.effect.CHOKE) and not target:hasStatusEffect(tpz.effect.FROST) then
+            target:addStatusEffect(tpz.effect.CHOKE, 33, 3, duration * resist)
+        end
+	end
 	if damage > 0 then player:trySkillUp(target, tpz.skill.DAGGER, tpHits+extraHits) end
 	
 
