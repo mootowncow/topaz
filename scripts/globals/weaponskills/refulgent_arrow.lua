@@ -2,7 +2,7 @@
 -- Refulgent Arrow
 -- Archery weapon skill
 -- Skill level: 280
--- Delivers a twofold attack. Damage varies with TP. (Only 1 hit)
+-- Delivers a magical attack that deals Light damage. Unresistable.
 -- Aligned with the Aqua Gorget & Light Gorget.
 -- Aligned with the Aqua Belt & Light Belt.
 -- Element: None
@@ -14,24 +14,28 @@ require("scripts/globals/status")
 require("scripts/globals/settings")
 require("scripts/globals/weaponskills")
 -----------------------------------
--- TODO: Nether Blast style damage, only reduced by MDT or w/e and always does same damage never resists
+
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
-
     local params = {}
-    params.numHits = 1
-    params.ftp100 = 3.0 params.ftp200 = 4.25 params.ftp300 = 5.0
-    params.str_wsc = 0.16 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.25 params.int_wsc = 0.0 params.mnd_wsc = 0.0 params.chr_wsc = 0.0
-    params.crit100 = 0.0 params.crit200 = 0.0 params.crit300 = 0.0
-    params.canCrit = false
-    params.acc100 = 0.0 params.acc200= 0.0 params.acc300= 0.0
-    params.atk100 = 1; params.atk200 = 1; params.atk300 = 1
+    params.ftp100 = 2.0 params.ftp200 = 2.1 params.ftp300 = 2.3
+    params.str_wsc = 0.0 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.5 params.int_wsc = 0.0
+    params.mnd_wsc = 0.0 params.chr_wsc = 0.0
+    params.ele = tpz.magic.ele.LIGHT
+    params.skill = tpz.skill.ARCHERY
+    params.includemab = true
+    params.noResist = true
+	params.enmityMult = 0.5
+    params.bonusmacc = 100
 
-    if (USE_ADOULIN_WEAPON_SKILL_CHANGES == true) then
-        params.ftp100 = 3 params.ftp200 = 4.25 params.ftp300 = 7
-        params.str_wsc = 0.6
+    if USE_ADOULIN_WEAPON_SKILL_CHANGES then
+        params.ftp200 = 6.7 params.ftp300 = 10.0
+        params.agi_wsc = 1.0
     end
 
-    local damage, criticalHit, tpHits, extraHits = doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
+    -- Apply Aftermath
+    tpz.aftermath.addStatusEffect(player, tp, tpz.slot.RANGED, tpz.aftermath.type.MYTHIC)
+
+    local damage, criticalHit, tpHits, extraHits = doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
 	if damage > 0 then player:trySkillUp(target, tpz.skill.ARCHERY, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
