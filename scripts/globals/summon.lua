@@ -163,15 +163,11 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
         local minCritRate = 0.01 -- 1%
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
 
-        local critRate = baseCritRate + getDexCritRate(avatar, target) + avatar:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE)
+        local critHitRateMods = avatar:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE) - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)
+        local critRate = baseCritRate + getDexCritRate(avatar, target) + critHitRateMods
 
         if attackType == tpz.attackType.RANGED then
-            local AGI = mob:getStat(tpz.mod.AGI)
-    
-            if mob:isTrust() then
-                AGI = AGI + mob:getMod(tpz.mod.AGI_DURING_WS)
-            end
-
+            local AGI = avatar:getStat(tpz.mod.AGI)
             local dAGI = (AGI - target:getStat(tpz.mod.AGI))
 
             if dAGI > 0 then
@@ -568,6 +564,9 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
     -- Calculate Blood Pact Damage before stoneskin
     dmg = math.floor(dmg * (1 + avatar:getMod(tpz.mod.BP_DAMAGE) / 100))
 
+    -- Handle pet damage percent mod
+    dmg = math.floor(dmg * (1 + avatar:getMod(tpz.mod.PET_DAMAGEP) / 100))
+
     --dmg = utils.rampartstoneskin(target, dmg)  --Unneeded?
     -- handling normal stoneskin
     dmg = utils.stoneskin(target, dmg, attackType)
@@ -611,6 +610,9 @@ function AvatarMagicalFinalAdjustments(dmg, avatar, skill, target, attackType, e
 
     -- Calculate Blood Pact Damage before stoneskin
     dmg = math.floor(dmg * (1 + avatar:getMod(tpz.mod.BP_DAMAGE) / 100))
+
+    -- Handle pet damage percent mod
+    dmg = math.floor(dmg * (1 + avatar:getMod(tpz.mod.PET_DAMAGEP) / 100))
 
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, skill, dmg)

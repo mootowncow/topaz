@@ -1005,7 +1005,7 @@ enum class Mod
     CONQUEST_REGION_BONUS     = 934, // Increases the influence points awarded to the player's nation when receiving conquest points
     CAMPAIGN_BONUS            = 935, // Increases the evaluation for allied forces by percentage
 
-    // Pet Modifiers (Job Point Gifts)
+    // Pet Modifiers (Job Point Gifts and custom)
     PET_ATK_DEF             = 990, // Increases pet physical attack, ranged attack, and physical defense
     PET_ACC                 = 1351,// Increases pets accuracy
     PET_ACC_EVA             = 991, // Increases pet physical accuracy, ranged accuracy, and evasion
@@ -1015,6 +1015,7 @@ enum class Mod
     PET_ATTR_BONUS          = 994, // Increases pet attributes
     PET_TP_BONUS            = 995, // Increases pet TP bonus
     PET_DELAY               = 1352,// Reduces pets delay(in percents)
+    PET_DAMAGEP             = 1418, // % damage increase done by pets.
 
     ONE_HOUR_RECAST         = 996, // Decreases the recast time of one-hour abilities by n minutes.
     SUPERIOR_LEVEL          = 997, // SU0..5
@@ -1128,7 +1129,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1418 NEXT
+    // 1419 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

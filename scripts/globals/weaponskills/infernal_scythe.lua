@@ -2,7 +2,7 @@
 -- Infernal Scythe
 -- Scythe weapon skill
 -- Skill Level: 280
--- Deals darkness elemental damage and lowers target's attack. Duration of effect varies with TP.
+-- Deals darkness elemental damage and burns target.
 -- Attack Down effect is -25% attack.
 -- Aligned with the Shadow Gorget & Aqua Gorget.
 -- Aligned with the Shadow Belt & Aqua Belt.
@@ -32,15 +32,15 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     end
 
     local damage, criticalHit, tpHits, extraHits = doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
+	local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.FIRE, 0)
+    if damage > 0 and resist >= 0.5 then
+        local duration = (tp/1000 * 30) + 60
+        local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.FIRE, params.bonusmacc, tpz.effect.BURN)
+        if not target:hasStatusEffect(tpz.effect.BURN) and not target:hasStatusEffect(tpz.effect.DROWN) then
+            target:addStatusEffect(tpz.effect.BURN, 33, 3, duration * resist)
+        end
+	end
 	if damage > 0 then player:trySkillUp(target, tpz.skill.SCYTHE, tpHits+extraHits) end
-	
-   
-	local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WATER, 100, tpz.effect.ATTACK_DOWN)
-	if (damage > 0 and not target:hasStatusEffect(tpz.effect.ATTACK_DOWN) and resist >= 0.5) then
-        local duration =  (tp/1000 * 180)
-        target:delStatusEffect(tpz.effect.ATTACK_BOOST)
-        target:addStatusEffect(tpz.effect.ATTACK_DOWN, 25, 0, duration * resist)
-    end
-	
+
     return tpHits, extraHits, criticalHit, damage
 end

@@ -803,7 +803,11 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
 
     -- Calculate magical bonuses and reductions
     dmg = addBonusesAbility(attacker, wsParams.ele, target, dmg, wsParams)
-    dmg = dmg * applyResistanceAbility(attacker, target, wsParams.ele, wsParams.skill, bonusacc)
+
+    if (wsParams.noResist == nil) then
+        dmg = dmg * applyResistanceAbility(attacker, target, wsParams.ele, wsParams.skill, bonusacc)
+    end
+
     dmg = target:magicDmgTaken(dmg, wsParams.ele)
 
     -- handling absorb

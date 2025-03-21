@@ -200,15 +200,11 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         local minCritRate = 0.01 -- 1%
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
 
-        local critRate = baseCritRate + getDexCritRate(auto, target) + auto:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE)
+        local critHitRateMods = auto:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE) - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)
+        local critRate = baseCritRate + getDexCritRate(auto, target) + critHitRateMods
 
         if attackType == tpz.attackType.RANGED then
-            local AGI = mob:getStat(tpz.mod.AGI)
-    
-            if mob:isTrust() then
-                AGI = AGI + mob:getMod(tpz.mod.AGI_DURING_WS)
-            end
-
+            local AGI = auto:getStat(tpz.mod.AGI)
             local dAGI = (AGI - target:getStat(tpz.mod.AGI))
 
             if dAGI > 0 then
@@ -467,6 +463,9 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         finaldmg = math.floor(finaldmg * truesightBonus)
     end
 
+    -- Handle pet damage percent mod
+    finaldmg = math.floor(finaldmg * ((100 + auto:getMod(tpz.mod.PET_DAMAGEP)) / 100))
+
     if (finaldmg == 0) then -- Full parries and full miss
         skill:setMsg(tpz.msg.basic.SKILL_MISS)
     end
@@ -533,6 +532,9 @@ function AutoMagicalWeaponSkill(auto, target, skill, element, params, statmod, b
     else
         finaldmg = finaldmg + getAutoMagicalDamage(autoLevel, WSC, ftp, dStat, magicBurstBonus, resist, weatherBonus, magicAttkBonus)
     end
+
+    -- Handle pet damage percent mod
+    finaldmg = math.floor(finaldmg * ((100 + auto:getMod(tpz.mod.PET_DAMAGEP)) / 100))
 
     --handling phalanx
     finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
