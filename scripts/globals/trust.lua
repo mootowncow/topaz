@@ -92,12 +92,12 @@ local modByMobName =
         mob:addMod(tpz.mod.DMG, -8)
         mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
         mob:addMod(tpz.mod.ENMITY, 30)
-        mob:addMod(tpz.mod.CURE_POTENCY, 50)
-        mob:addMod(tpz.mod.ELEMENTAL_WSDMG, 50)
         if mob:getMainLvl() >= 75 then
             mob:addMod(tpz.mod.DMGPHYS, -33)
             mob:addMod(tpz.mod.DMGBREATH, -33)
             mob:addMod(tpz.mod.REFRESH, 3)
+            mob:addMod(tpz.mod.CURE_POTENCY, 50)
+            mob:addMod(tpz.mod.ELEMENTAL_WSDMG, 50)
         end
         AddHeavyMeleeAccuracyGear(mob)
         AddShieldBonuses(mob)
