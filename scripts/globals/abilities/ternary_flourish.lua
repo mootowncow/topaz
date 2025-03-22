@@ -16,22 +16,21 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    if player:hasStatusEffect(tpz.effect.FINISHING_MOVE_1) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_3)
-        target:addStatusEffect(tpz.effect.TERNARY_FLOURISH, 3, 0, 180)
-    elseif player:hasStatusEffect(tpz.effect.FINISHING_MOVE_3) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_2)
-        target:addStatusEffect(tpz.effect.TERNARY_FLOURISH, 6, 0, 180)
-    elseif player:hasStatusEffect(tpz.effect.FINISHING_MOVE_3) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_3)
-        target:addStatusEffect(tpz.effect.TERNARY_FLOURISH, 9, 0, 180)
-    elseif player:hasStatusEffect(tpz.effect.FINISHING_MOVE_4) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_4)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_1, 1, 0, 7200)
-        target:addStatusEffect(tpz.effect.TERNARY_FLOURISH, 12, 0, 180)
-    elseif player:hasStatusEffect(tpz.effect.FINISHING_MOVE_5) then
-        player:delStatusEffectSilent(tpz.effect.FINISHING_MOVE_5)
-        player:addStatusEffect(tpz.effect.FINISHING_MOVE_2, 1, 0, 7200)
-        target:addStatusEffect(tpz.effect.TERNARY_FLOURISH, 15, 0, 180)
+    local potency = 0;
+
+    if (player:getID() == target:getID()) then
+        local maxConsumed = 5
+        local finishingMoves = jobUtil.getFinishingMoveCount(player)
+        if (finishingMoves > 0) then
+            local actualConsumed = jobUtil.consumeFinishingMoves(player, maxConsumed)
+            potency = actualConsumed * 3
+        end
+        player:setLocalVar("AOE_Ternary_Potency", potency);
+    else
+        potency = player:getLocalVar("AOE_Ternary_Potency");
+    end
+
+    if potency > 0 then
+        target:addStatusEffect(tpz.effect.TERNARY_FLOURISH, potency, 0, 180)
     end
 end

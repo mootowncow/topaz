@@ -16,15 +16,21 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local maxConsumed = 5
-    local finishingMoves = jobUtil.getFinishingMoveCount(player)
+    local potency = 0;
 
-    if (finishingMoves > 0) then
-        local actualConsumed = jobUtil.consumeFinishingMoves(player, maxConsumed)
-        local storeTPAmount = actualConsumed * 5
-
-        if (actualConsumed > 0) then
-            player:addStatusEffect(tpz.effect.STRIKING_FLOURISH, storeTPAmount, 0, 180)
+    if (player:getID() == target:getID()) then
+        local maxConsumed = 5
+        local finishingMoves = jobUtil.getFinishingMoveCount(player)
+        if (finishingMoves > 0) then
+            local actualConsumed = jobUtil.consumeFinishingMoves(player, maxConsumed)
+            potency = actualConsumed * 5
         end
+        player:setLocalVar("AOE_Striking_Potency", potency);
+    else
+        potency = player:getLocalVar("AOE_Striking_Potency");
+    end
+
+    if potency > 0 then
+        target:addStatusEffect(tpz.effect.STRIKING_FLOURISH, potency, 0, 180)
     end
 end
