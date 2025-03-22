@@ -3447,7 +3447,7 @@ namespace battleutils
                         else
                         {
                             bool removeMagicShield = true;
-                            uint16 shieldPower = 200 + (PAttacker->CHR());
+                            uint16 shieldPower = 50 + (PAttacker->GetMLevel() * 2) + (PAttacker->CHR());
 
                             if (taChar->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
                             {
@@ -5430,7 +5430,7 @@ namespace battleutils
                 if (taChar != nullptr)
                 {
                     bool removeMagicShield = true;
-                    uint16 shieldPower = 200 + (PAttacker->CHR());
+                    uint16 shieldPower = 50 + (PAttacker->GetMLevel() * 2 ) + (PAttacker->CHR());
 
                     if (taChar->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
                     {
