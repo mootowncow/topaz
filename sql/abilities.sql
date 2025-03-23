@@ -235,12 +235,12 @@ INSERT INTO `abilities` VALUES (180,'ventriloquy',18,75,4,60,212,0,0,170,2000,0,
 INSERT INTO `abilities` VALUES (181,'trance',19,0,1,7200,0,0,0,184,2000,0,6,20.0,0,1,300,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (182,'sambas',19,5,1,0,216,0,0,0,2000,0,14,20.0,0,0,0,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (183,'waltzes',19,15,1,0,217,0,0,0,2000,0,14,20.0,0,0,0,0,0,'WOTG',0);
-INSERT INTO `abilities` VALUES (184,'drain_samba',19,5,1,60,216,100,0,0,2000,0,14,20.0,0,1,300,0,0,'WOTG',50);
-INSERT INTO `abilities` VALUES (185,'drain_samba_ii',19,35,1,60,216,100,0,1,2000,0,14,20.0,0,1,300,0,0,'WOTG',120);
-INSERT INTO `abilities` VALUES (186,'drain_samba_iii',19,65,1,60,216,100,0,2,2000,0,14,20.0,0,1,300,0,0,'WOTG',200);
-INSERT INTO `abilities` VALUES (187,'aspir_samba',19,25,1,60,216,100,0,3,2000,0,14,20.0,0,1,300,0,0,'WOTG',50);
-INSERT INTO `abilities` VALUES (188,'aspir_samba_ii',19,60,1,60,216,100,0,4,2000,0,14,20.0,0,1,300,0,0,'WOTG',120);
-INSERT INTO `abilities` VALUES (189,'haste_samba',19,45,1,60,216,100,0,5,2000,0,14,20.0,0,1,300,0,0,'WOTG',170);
+INSERT INTO `abilities` VALUES (184,'drain_samba',19,5,1,60,216,100,0,0,2000,0,14,20.0,0,1,300,0,0,'WOTG',100);
+INSERT INTO `abilities` VALUES (185,'drain_samba_ii',19,35,1,60,216,100,0,1,2000,0,14,20.0,0,1,300,0,0,'WOTG',250);
+INSERT INTO `abilities` VALUES (186,'drain_samba_iii',19,65,1,60,216,100,0,2,2000,0,14,20.0,0,1,300,0,0,'WOTG',400);
+INSERT INTO `abilities` VALUES (187,'aspir_samba',19,25,1,60,216,100,0,3,2000,0,14,20.0,0,1,300,0,0,'WOTG',150);
+INSERT INTO `abilities` VALUES (188,'aspir_samba_ii',19,60,1,60,216,100,0,4,2000,0,14,20.0,0,1,300,0,0,'WOTG',250);
+INSERT INTO `abilities` VALUES (189,'haste_samba',19,45,1,60,216,100,0,5,2000,0,14,20.0,0,1,300,0,0,'WOTG',350);
 INSERT INTO `abilities` VALUES (190,'curing_waltz',19,15,27,6,217,102,0,6,2000,0,14,20.0,0,0,0,0,0,'WOTG',200);
 INSERT INTO `abilities` VALUES (191,'curing_waltz_ii',19,30,27,8,217,102,0,7,2000,0,14,20.0,0,0,0,0,0,'WOTG',350);
 INSERT INTO `abilities` VALUES (192,'curing_waltz_iii',19,45,27,10,217,102,0,8,2000,0,14,20.0,0,0,0,0,0,'WOTG',500);
@@ -252,9 +252,9 @@ INSERT INTO `abilities` VALUES (197,'chocobo_jig',19,55,1,60,218,126,0,13,2000,0
 INSERT INTO `abilities` VALUES (198,'jigs',19,25,1,0,218,0,0,0,2000,0,14,20.0,0,0,0,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (199,'steps',19,20,1,0,220,0,0,0,2000,0,14,20.0,0,0,0,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (200,'flourishes_i',19,20,1,0,0,221,0,0,2000,0,14,20.0,0,0,0,0,0,'WOTG',0);
-INSERT INTO `abilities` VALUES (201,'quickstep',19,20,4,15,220,519,0,17,2000,0,14,5.4,0,1,0,0,0,'WOTG',50);
-INSERT INTO `abilities` VALUES (202,'box_step',19,30,4,15,220,520,0,16,2000,0,14,5.4,0,1,0,0,0,'WOTG',50);
-INSERT INTO `abilities` VALUES (203,'stutter_step',19,40,4,15,220,521,0,16,2000,0,14,5.4,0,1,0,0,0,'WOTG',50);
+INSERT INTO `abilities` VALUES (201,'quickstep',19,20,4,15,220,519,0,17,2000,0,14,5.4,0,1,0,0,0,'WOTG',100);
+INSERT INTO `abilities` VALUES (202,'box_step',19,30,4,15,220,520,0,16,2000,0,14,5.4,0,1,0,0,0,'WOTG',100);
+INSERT INTO `abilities` VALUES (203,'stutter_step',19,40,4,15,220,521,0,16,2000,0,14,5.4,0,1,0,0,0,'WOTG',100);
 INSERT INTO `abilities` VALUES (204,'animated_flourish',19,20,4,30,221,119,0,181,2000,0,6,17.6,0,1,0,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (205,'desperate_flourish',19,30,4,20,221,127,0,26,2000,0,14,5.4,0,1,0,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (206,'reverse_flourish',19,40,1,30,222,452,0,182,2000,0,6,20.0,0,1,0,0,0,'WOTG',0);
@@ -356,7 +356,7 @@ INSERT INTO `abilities` VALUES (305,'avengers_roll',17,75,1,60,193,420,0,266,200
 INSERT INTO `abilities` VALUES (309,'cooldown',18,70,1,120,114,0,0,264,2000,0,6,11.2,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (310,'deus_ex_automata',18,5,1,1800,115,0,0,83,2000,0,6,20.0,0,1,80,0,0,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (311,'curing_waltz_v',19,87,27,14,217,102,0,35,2000,0,14,20.0,0,0,0,0,0,'ABYSSEA',800);
-INSERT INTO `abilities` VALUES (312,'feather_step',19,83,4,15,220,591,0,17,2000,0,14,5.4,0,1,0,0,0,NULL,50);
+INSERT INTO `abilities` VALUES (312,'feather_step',19,83,4,15,220,591,0,17,2000,0,14,5.4,0,1,0,0,0,NULL,100);
 INSERT INTO `abilities` VALUES (313,'striking_flourish',19,60,1,90,226,100,0,243,2000,0,6,20.0,1,1,80,0,0,NULL,0); -- check animation/message1
 INSERT INTO `abilities` VALUES (314,'ternary_flourish',19,70,1,90,226,100,0,260,2000,0,6,20.0,1,1,80,0,0,NULL,0); -- check animation/message1
 INSERT INTO `abilities` VALUES (316,'perpetuance',20,65,1,1,231,100,0,244,2000,0,6,0.0,0,1,80,0,16,'ABYSSEA',0);
