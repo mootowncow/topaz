@@ -2365,7 +2365,6 @@ INSERT INTO `item_latents` VALUES(17212, 26, 25, 37, 4);
 INSERT INTO `item_latents` VALUES(17269, 24, 8, 53, 0);     -- RATT +8 in areas outside own nation's control
 INSERT INTO `item_latents` VALUES(17270, 24, 9, 53, 0);     -- RATT +9 in areas outside own nation's control
 
-INSERT INTO `item_latents` VALUES(17275, 165, 6, 47, 0);
 INSERT INTO `item_latents` VALUES(17275, 376, 13, 47, 0);
 -- -------------------------------------------------------
 -- Rune Arrow
@@ -2395,7 +2394,7 @@ INSERT INTO `item_latents` VALUES(17447, 5, 20, 53, 0);     -- MP +20 in areas o
 INSERT INTO `item_latents` VALUES(17448, 13, 1, 53, 0);     -- MND +1 in areas outside own nation's control
 INSERT INTO `item_latents` VALUES(17449, 13, 2, 53, 0);     -- MND +2 in areas outside own nation's control
 
-INSERT INTO `item_latents` VALUES(17451, 165, 6, 47, 0);
+INSERT INTO `item_latents` VALUES(17451, 1419, 6, 47, 0);
 INSERT INTO `item_latents` VALUES(17451, 366, 18, 47, 0);
 INSERT INTO `item_latents` VALUES(17456, 2, -10, 47, 0);
 INSERT INTO `item_latents` VALUES(17456, 5, -10, 47, 0);
@@ -2431,7 +2430,7 @@ INSERT INTO `item_latents` VALUES(17502, 14, 4, 53, 0);     -- CHR +4 in areas o
 INSERT INTO `item_latents` VALUES(17507, 2, -20, 47, 0);
 INSERT INTO `item_latents` VALUES(17507, 57, -10, 47, 0);
 INSERT INTO `item_latents` VALUES(17507, 59, -10, 47, 0);
-INSERT INTO `item_latents` VALUES(17509, 165, 6, 47, 0);
+INSERT INTO `item_latents` VALUES(17509, 1419, 6, 47, 0);
 INSERT INTO `item_latents` VALUES(17509, 366, 13, 47, 0);
 INSERT INTO `item_latents` VALUES(17527, 2, -10, 47, 0);
 INSERT INTO `item_latents` VALUES(17527, 5, -10, 47, 0);
@@ -2451,7 +2450,7 @@ INSERT INTO `item_latents` VALUES(17581, 111, 13, 31, 0);   -- Mighty Pole Divin
 INSERT INTO `item_latents` VALUES(17581, 115, 13, 31, 0);   -- Mighty Pole Elemental magic skill +13 Windsday
 INSERT INTO `item_latents` VALUES(17581, 111, 13, 52, 3);   -- Mighty Pole Divine magic skill +13 in Wind Weather
 INSERT INTO `item_latents` VALUES(17581, 115, 13, 52, 3);   -- Mighty Pole Elemental magic skill +13 in Wind Weather
-INSERT INTO `item_latents` VALUES(17589, 165, 6, 47, 0);
+INSERT INTO `item_latents` VALUES(17589, 1419, 6, 47, 0);
 INSERT INTO `item_latents` VALUES(17589, 366, 13, 47, 0);
 INSERT INTO `item_latents` VALUES(17590, 25, 10, 49, 4468); -- Primate Staff (pamamas)
 INSERT INTO `item_latents` VALUES(17590, 25, 10, 49, 4596); -- (wild pamamas)
@@ -2544,7 +2543,7 @@ INSERT INTO `item_latents` VALUES(17681, 5, 20, 53, 0);     -- MP +20 in areas o
 INSERT INTO `item_latents` VALUES(17697, 56, 15, 31, 0);    -- [Element: Wind]+15
 INSERT INTO `item_latents` VALUES(17697, 366, 8, 31, 0);    -- Mighty Talwar DMG+8 on Windsday
 INSERT INTO `item_latents` VALUES(17697, 366, 8, 52, 3);    -- Mighty Talwar DMG+8 in Wind Weather
-INSERT INTO `item_latents` VALUES(17699, 165, 6, 47, 0);
+INSERT INTO `item_latents` VALUES(17699, 1419, 6, 47, 0);
 INSERT INTO `item_latents` VALUES(17699, 366, 16, 47, 0);
 
 -- -------------------------------------------------------
@@ -2594,7 +2593,7 @@ INSERT INTO `item_latents` VALUES(17788, 27, 1, 32, 0);     -- Enmity +1
 INSERT INTO `item_latents` VALUES(17791, 54, 15, 28, 0);    -- [Element: Fire]+15
 INSERT INTO `item_latents` VALUES(17791, 366, 7, 28, 0);    -- Rai Kunimitsu DMG+7 on Firesday
 INSERT INTO `item_latents` VALUES(17791, 366, 7, 52, 1);    -- Rai Kunimitsu DMG+7 in Fire Weather
-INSERT INTO `item_latents` VALUES(17793, 165, 6, 47, 0);
+INSERT INTO `item_latents` VALUES(17793, 1419, 6, 47, 0);
 INSERT INTO `item_latents` VALUES(17793, 366, 13, 47, 0);
 INSERT INTO `item_latents` VALUES(17804, 25, 7, 59, 6);     -- Ushikirimaru - Vs. beasts: Accuracy+7
 
@@ -2614,7 +2613,7 @@ INSERT INTO `item_latents` VALUES(17815, 61, -10, 47, 0);
 INSERT INTO `item_latents` VALUES(17824, 54, 15, 28, 0);    -- [Element: Fire]+15
 INSERT INTO `item_latents` VALUES(17824, 366, 10, 28, 0);   -- Nukemaru DMG+10 on Firesday
 INSERT INTO `item_latents` VALUES(17824, 366, 10, 52, 1);   -- Nukemaru DMG+10 in Fire Weather
-INSERT INTO `item_latents` VALUES(17827, 165, 6, 47, 0);
+INSERT INTO `item_latents` VALUES(17827, 1419, 6, 47, 0);
 INSERT INTO `item_latents` VALUES(17827, 366, 19, 47, 0);
 INSERT INTO `item_latents` VALUES(17831, 369, 1, 13, 2);
 INSERT INTO `item_latents` VALUES(17831, 370, 1, 13, 19);
@@ -2638,7 +2637,7 @@ INSERT INTO `item_latents` VALUES(17933, 58, -10, 47, 0);
 INSERT INTO `item_latents` VALUES(17941, 56, 15, 31, 0);    -- [Element: Wind]+15
 INSERT INTO `item_latents` VALUES(17941, 366, 5, 31, 0);    -- Mighty Pick DMG+5 on Windsday
 INSERT INTO `item_latents` VALUES(17941, 366, 5, 52, 3);    -- Mighty Pick DMG+5 in Wind Weather
-INSERT INTO `item_latents` VALUES(17944, 165, 6, 47, 0);
+INSERT INTO `item_latents` VALUES(17944, 1419, 6, 47, 0);
 INSERT INTO `item_latents` VALUES(17944, 366, 17, 47, 0);
 
 -- -------------------------------------------------------
@@ -2713,7 +2712,7 @@ INSERT INTO `item_latents` VALUES(17991, 5, 16, 53, 0);     -- MP +16 in areas o
 INSERT INTO `item_latents` VALUES(18000, 56, 15, 31, 0);    -- [Element: Wind]+15
 INSERT INTO `item_latents` VALUES(18000, 366, 10, 31, 0);   -- Mighty Knife DMG+10 on Windsday
 INSERT INTO `item_latents` VALUES(18000, 366, 10, 52, 3);   -- Mighty Knife DMG+10 in Wind Weather
-INSERT INTO `item_latents` VALUES(18005, 165, 6, 47, 0);
+INSERT INTO `item_latents` VALUES(18005, 1419, 6, 47, 0);
 INSERT INTO `item_latents` VALUES(18005, 366, 17, 47, 0);
 
 -- -------------------------------------------------------
@@ -2737,7 +2736,7 @@ INSERT INTO `item_latents` VALUES(18037, 5, 12, 53, 0);     -- MP +12 in areas o
 INSERT INTO `item_latents` VALUES(18049, 56, 15, 31, 0);    -- [Element: Wind]+15
 INSERT INTO `item_latents` VALUES(18049, 366, 8, 31, 0);    -- Mighty Zaghnal DMG+8 on Windsday
 INSERT INTO `item_latents` VALUES(18049, 366, 8, 52, 3);    -- Mighty Zaghnal DMG+8 in Wind Weather
-INSERT INTO `item_latents` VALUES(18053, 165, 6, 47, 0);
+INSERT INTO `item_latents` VALUES(18053, 1419, 6, 47, 0);
 INSERT INTO `item_latents` VALUES(18053, 366, 18, 47, 0);
 
 -- -------------------------------------------------------
@@ -2778,7 +2777,7 @@ INSERT INTO `item_latents` VALUES(18084, 369, -3, 56, 0);   -- Rune Halberd -3MP
 INSERT INTO `item_latents` VALUES(18091, 54, 15, 28, 0);    -- [Element: Fire]+15
 INSERT INTO `item_latents` VALUES(18091, 366, 12, 28, 0);   -- Mighty Lance DMG+12 on Firesday
 INSERT INTO `item_latents` VALUES(18091, 366, 12, 52, 1);   -- Mighty Lance DMG+12 in Fire Weather
-INSERT INTO `item_latents` VALUES(18097, 165, 6, 47, 0);
+INSERT INTO `item_latents` VALUES(18097, 1419, 6, 47, 0);
 INSERT INTO `item_latents` VALUES(18097, 366, 13, 47, 0);
 
 -- -------------------------------------------------------
@@ -2828,7 +2827,7 @@ INSERT INTO `item_latents` VALUES(18206, 384, 900, 56, 0);  -- Rune Chopper +9% 
 INSERT INTO `item_latents` VALUES(18213, 54, 15, 28, 0);    -- [Element: Fire]+15
 INSERT INTO `item_latents` VALUES(18213, 366, 10, 28, 0);   -- Mighty Axe DMG+10 on Firesday
 INSERT INTO `item_latents` VALUES(18213, 366, 10, 52, 1);   -- Mighty Axe DMG+10 in Fire Weather
-INSERT INTO `item_latents` VALUES(18217, 165, 6, 47, 0);
+INSERT INTO `item_latents` VALUES(18217, 1419, 6, 47, 0);
 INSERT INTO `item_latents` VALUES(18217, 366, 16, 47, 0);
 INSERT INTO `item_latents` VALUES(18256, 23, 1, 25, 0);     -- Orphic Egg, ATT+1 song/roll active
 INSERT INTO `item_latents` VALUES(18256, 25, 1, 25, 0);     -- Orphic Egg, ACC+1 song/roll active
@@ -3036,7 +3035,7 @@ INSERT INTO `item_latents` VALUES(18364, 366, 2, 58, 0);    -- Pahluwan Katars d
 INSERT INTO `item_latents` VALUES(18374, 54, 15, 28, 0);    -- [Element: Fire]+15
 INSERT INTO `item_latents` VALUES(18374, 366, 9, 28, 0);    -- Mighty Sword DMG+9 on Firesday
 INSERT INTO `item_latents` VALUES(18374, 366, 9, 52, 1);    -- Mighty Sword DMG+9 in Fire Weather
-INSERT INTO `item_latents` VALUES(18378, 165, 6, 47, 0);
+INSERT INTO `item_latents` VALUES(18378, 1419, 6, 47, 0);
 INSERT INTO `item_latents` VALUES(18378, 366, 13, 47, 0);
 INSERT INTO `item_latents` VALUES(18387, 25, 5, 58, 0);     -- acc +5
 INSERT INTO `item_latents` VALUES(18387, 366, 3, 58, 0);    -- Djinnbringer dmg +3

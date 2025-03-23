@@ -2146,8 +2146,9 @@ tpz.mod =
     MAX_FINISHING_MOVES     = 1416, -- Increases the maximum number of finishing moves that may be stored
     STRATAGEM_RECAST        = 1417, -- Reduces the recast time of stratagems (seconds)
     PET_DAMAGEP             = 1418, -- % damage increase done by pets
+    CRITHITRATE_SLOT        = 1419, -- Crit rate only applied by attacks in this weapon slot. i.e. Senjuionrikio
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1419 NEXT
+    -- 1420 NEXT
 }
 
 tpz.latent =

@@ -237,6 +237,19 @@ void CItemEquipment::addLatent(LATENT ConditionsID, uint16 ConditionsValue, Mod 
     latentList.push_back(latent);
 }
 
+int16 CItemEquipment::getLatent(Mod mod)
+{
+    for (uint16 i = 0; i < latentList.size(); ++i)
+    {
+        if (latentList.at(i).ModValue == mod)
+        {
+            return latentList.at(i).ModPower;
+        }
+    }
+    return 0;
+}
+
+
 /************************************************************************
 *                                                                       *
 *                                                                       *

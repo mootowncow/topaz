@@ -1344,7 +1344,7 @@ namespace battleutils
                     }
 
                     // Check for critical hit
-                    bool crit = battleutils::GetCritHitRate(PDefender, PAttacker, true) > tpzrand::GetRandomNumber(100);
+                    bool crit = battleutils::GetCritHitRate(PDefender, PAttacker, true, SLOT_MAIN) > tpzrand::GetRandomNumber(100);
 
                     // Calculate damage based on weapon stats and modifiers
                     float DamageRatio = GetDamageRatio(PDefender, PAttacker, crit, 1.f, 0, SLOT_MAIN);
@@ -3984,7 +3984,7 @@ namespace battleutils
     *                                                                       *
     ************************************************************************/
 
-    uint8 GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack)
+    uint8 GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot)
     {
         int32 crithitrate = 5;
         if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIGHTY_STRIKES, 0) ||
@@ -4077,6 +4077,16 @@ namespace battleutils
             //ShowDebug("[%s] crit rate after dDex is... %i \n", PAttacker->name, crithitrate);
             crithitrate += PAttacker->getMod(Mod::CRITHITRATE);
             crithitrate += PDefender->getMod(Mod::ENEMYCRITRATE);
+
+            if (PAttacker->objtype & TYPE_PC)
+            {
+                auto* weapon = dynamic_cast<CItemWeapon*>(static_cast<CCharEntity*>(PAttacker)->getEquip(weaponSlot));
+                if (weapon && weapon->getLatent(Mod::CRITHITRATE_SLOT) > 0)
+                {
+                    crithitrate += weapon->getLatent(Mod::CRITHITRATE_SLOT);
+                }
+            }
+
             // Crits floor at 1%
             // https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
             crithitrate = std::clamp(crithitrate, 1, 100);
@@ -4123,7 +4133,7 @@ namespace battleutils
         return std::min(critRate, static_cast<int32>(15));
     }
 
-    uint8 GetRangedCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack)
+    uint8 GetRangedCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot)
     {
         int32 crithitrate = 5;
         if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIGHTY_STRIKES, 0) ||
@@ -4173,8 +4183,21 @@ namespace battleutils
             //printf("Your crit rate after dAgi is... %i \n", crithitrate);
             crithitrate += PAttacker->getMod(Mod::CRITHITRATE);
             crithitrate += PDefender->getMod(Mod::ENEMYCRITRATE);
-            crithitrate = std::clamp(crithitrate, 5, 100);
+
+            if (PAttacker->objtype & TYPE_PC)
+            {
+                auto* weapon = dynamic_cast<CItemWeapon*>(static_cast<CCharEntity*>(PAttacker)->getEquip(weaponSlot));
+                if (weapon && weapon->getLatent(Mod::CRITHITRATE_SLOT) > 0)
+                {
+                    crithitrate += weapon->getLatent(Mod::CRITHITRATE_SLOT);
+                }
+            }
+
+            // Crits floor at 1%
+            // https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
+            crithitrate = std::clamp(crithitrate, 1, 100);
         }
+        //ShowDebug("[%s] ranged crit rate is %u\n", PAttacker->name, crithitrate);
         return (uint8)crithitrate;
     }
 

@@ -2236,7 +2236,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
             else
             {
                 // Set this attack's critical flag.
-                attack.SetCritical(tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(this, PTarget, !attack.IsFirstSwing()));
+                attack.SetCritical(tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(this, PTarget, !attack.IsFirstSwing(), static_cast<SLOTTYPE>(attack.GetWeaponSlot())));
                 if (tredecim && ((CCharEntity*)this)->m_hitCounter > 12)
                 {
                     ((CCharEntity*)this)->m_hitCounter = 0;

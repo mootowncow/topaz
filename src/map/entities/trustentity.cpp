@@ -420,7 +420,7 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
             }
             else
             {
-                bool isCritical = tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(this, PTarget, true);
+                bool isCritical = tpzrand::GetRandomNumber(100) < battleutils::GetRangedCritHitRate(this, PTarget, true, SLOT_RANGED);
                 float pdif = battleutils::GetRangedDamageRatio(this, PTarget, isCritical);
 
                 if (isCritical)

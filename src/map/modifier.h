@@ -1115,6 +1115,8 @@ enum class Mod
     LUMORIAN_CIRCLE_DR   = 1402,
     LUMINION_CIRCLE_DR   = 1403,
 
+    CRITHITRATE_SLOT     = 1419,//Crit rate only applied by attacks in this weapon slot. i.e. Senjuionrikio
+
 
 
     // Forced land rate, never resists. 1 = true 0 = false
@@ -1129,7 +1131,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1419 NEXT
+    // 1420 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

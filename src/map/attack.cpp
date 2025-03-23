@@ -258,9 +258,10 @@ bool CAttack::CheckParried()
                     {
                         if (!m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
                         {
+                            SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
                             m_isParried = false;
                             m_isCountered = true;
-                            m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false));
+                            m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false, slot));
                         }
                     }
                 }
@@ -493,8 +494,9 @@ bool CAttack::CheckAnticipated()
         {
             if (!m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
             {
+                SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
                 m_isCountered = true;
-                m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false));
+                m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false, slot));
             }
         }
 
@@ -547,8 +549,9 @@ bool CAttack::CheckCounter()
         facing(m_victim->loc.p, m_attacker->loc.p, 40) &&
         tpzrand::GetRandomNumber(100) < battleutils::GetHitRate(m_victim, m_attacker))
     {
+        SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
         m_isCountered = true;
-        m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false));
+        m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false, slot));
     }
     else if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_COUNTER) && facing(m_victim->loc.p, m_attacker->loc.p, 40))
     {
