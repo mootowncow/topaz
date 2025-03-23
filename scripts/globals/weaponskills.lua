@@ -887,6 +887,25 @@ function takeWeaponskillDamage(defender, attacker, wsParams, primaryMsg, attack,
         local enmityMult = wsParams.enmityMult or 1
         defender:updateEnmityFromDamage(enmityEntity, finaldmg * enmityMult)
     end
+
+    -- Gain a Stoneskin + Magic Stoneskin
+    if wsResults.taChar then
+        local removeMagicShield = true
+        local shieldPower = 50 + (attacker:getMainLvl() * 2) + attacker:getStat(tpz.mod.CHR)
+        if enmityEntity:hasStatusEffect(tpz.effect.MAGIC_SHIELD) then
+            local effect = enmityEntity:getStatusEffect(tpz.effect.MAGIC_SHIELD)
+            local effectPower = effect:getPower()
+            if (effectPower < 100) then -- Isn't an absorb shield magic shield effect
+                removeMagicShield = false -- So don't remove it
+            end
+        end
+        if removeMagicShield then
+            enmityEntity:delStatusEffectSilent(tpz.effect.MAGIC_SHIELD)
+        end
+        utils.ShouldRemoveStoneskin(enmityEntity, shieldPower)
+        enmityEntity:addStatusEffect(tpz.effect.STONESKIN, shieldPower, 0, 60)
+        enmityEntity:addStatusEffect(tpz.effect.MAGIC_SHIELD, shieldPower, 0, 60)
+    end
     return finaldmg
 end
 
