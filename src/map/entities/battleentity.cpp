@@ -1449,18 +1449,15 @@ int16 CBattleEntity::getMaxGearMod(Mod modID)
         if (PItem && (PItem->isType(ITEM_EQUIPMENT) || PItem->isType(ITEM_WEAPON)))
         {
             uint16 modValue = PItem->getModifier(modID);
-            if (modValue > maxModValue)
+            uint16 latentValue = PItem->getLatent(modID);
+
+            // Take the higher of base mod or latent mod from this item
+            uint16 itemMax = std::max(modValue, latentValue);
+            if (itemMax > maxModValue)
             {
-                maxModValue = modValue;
+                maxModValue = itemMax;
             }
         }
-    }
-
-    // Check latent mods directly applied to the player
-    uint16 latentModValue = PChar->getMod(modID);
-    if (latentModValue > maxModValue)
-    {
-        maxModValue = latentModValue;
     }
 
     maxModValue = std::min(maxModValue, static_cast<uint16>(25));
