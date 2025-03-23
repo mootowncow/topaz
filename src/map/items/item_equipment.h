@@ -79,6 +79,7 @@ public:
 	uint16	getRemoveSlotId();
     uint8   getShieldAbsorption();
 	int16	getModifier(Mod mod);
+    int16   getLatent(Mod mod);
     uint8   getSlotType();
     uint16  getAugment(uint8 slot);
 	uint16  getTrialNumber();
