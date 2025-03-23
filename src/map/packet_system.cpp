@@ -523,9 +523,6 @@ void SmallPacket0x011(map_session_data_t* const PSession, CCharEntity* const PCh
             PChar->pushPacket(new CEquipPacket(PChar->equip[i], i, PChar->equipLoc[i]));
         }
     }
-
-    PChar->PAI->QueueAction(queueAction_t(4000ms, false, zoneutils::AfterZoneIn));
-
     // todo: kill player til theyre dead and bsod
     const char* fmtQuery = "SELECT version_mismatch FROM accounts_sessions WHERE charid = %u";
     int32 ret = Sql_Query(SqlHandle, fmtQuery, PChar->id);
