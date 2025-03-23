@@ -816,7 +816,6 @@ void CCharEntity::Tick(time_point tick)
 
     if (trustProgressUpdateFlag && loc.zone)
     {
-        ShowDebug("Pushing trust progression packet\n");
         // Send update packet for custom data..
         loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CTrustProgressionPacket(this));
 
