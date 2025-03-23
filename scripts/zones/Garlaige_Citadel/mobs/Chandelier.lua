@@ -13,6 +13,7 @@ function onMobSpawn(mob)
     mob:addMod(tpz.mod.ATTP, 200)
     mob:addMod(tpz.mod.ACC, 30) 
     mob:addMod(tpz.mod.EVA, 30)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
 end
 
 function onMobSpawn(mob)
