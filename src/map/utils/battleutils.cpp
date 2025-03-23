@@ -4272,7 +4272,7 @@ namespace battleutils
         if (shouldApplyLevelCorrection)
         {
             // Players only get penalties
-            if (attackerType == TYPE_PC)
+            if (attackerType == TYPE_PC || attackerType == TYPE_TRUST)
             {
                 if (attackerLvl < defenderLvl)
                 {
