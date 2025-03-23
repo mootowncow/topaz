@@ -1,13 +1,14 @@
 -----------------------------------
--- Ability: Chocobo jig ii
--- Increases Grants nearby allies haste.
+-- Ability: Chocobo jig II
+-- Grants nearby allies Quickening and Haste II.
 -- Obtained: Dancer Level 70
 -- TP Required: 0
 -- Recast Time: 1:00
 -- Duration: 3:00
 -----------------------------------
- require("scripts/globals/settings")
+require("scripts/globals/settings")
 require("scripts/globals/status")
+-----------------------------------
 
 function onAbilityCheck(player, target, ability)
     return 0, 0
@@ -21,6 +22,6 @@ function onUseAbility(player, target, ability)
 	local gearBonus =  baseDuration * (gear / 100)
     local finalDuration = baseDuration + gearBonus
 
-    player:addStatusEffect(effect, power, 0, finalDuration)
-    return effect -- TODO: Change spell msg
+    target:addStatusEffect(tpz.effect.QUICKENING, 20, 0, finalDuration)
+    target:addStatusEffect(effect, power, 0, finalDuration)
 end

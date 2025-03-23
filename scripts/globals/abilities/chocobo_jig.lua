@@ -1,12 +1,11 @@
 -----------------------------------
 -- Ability: Chocobo jig
--- Increases Movement Speed.
+-- Grants nearby allies Quickening and Haste.
 -- Obtained: Dancer Level 55
 -- TP Required: 0
 -- Recast Time: 1:00
 -- Duration: 2:00
 -----------------------------------
-
 require("scripts/globals/settings")
 require("scripts/globals/status")
 -----------------------------------
@@ -19,9 +18,9 @@ function onUseAbility(player, target, ability)
     local duration = 120 + player:getJobPointLevel(tpz.jp.JIG_DURATION)
 	local gear = player:getMod(tpz.mod.JIG_DURATION)
 	local gearbonus =  duration * (gear / 100)
-	local finalduration = duration + gearbonus
+	local finalDuration = duration + gearbonus
 
-
-	player:addStatusEffect(tpz.effect.QUICKENING, 20, 0, finalduration)
+	target:addStatusEffect(tpz.effect.QUICKENING, 20, 0, finalDuration)
+    target:addStatusEffect(tpz.effect.HASTE, 1465, 0, finalDuration)
 end
 

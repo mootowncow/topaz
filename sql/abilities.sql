@@ -248,7 +248,7 @@ INSERT INTO `abilities` VALUES (193,'curing_waltz_iv',19,70,27,12,217,102,0,9,20
 INSERT INTO `abilities` VALUES (194,'healing_waltz',19,35,27,8,215,123,0,10,2000,0,14,20.0,0,1,300,0,0,'WOTG',200);
 INSERT INTO `abilities` VALUES (195,'divine_waltz',19,25,27,13,225,102,0,11,2000,0,14,10.0,1,0,0,0,0,'WOTG',400);
 INSERT INTO `abilities` VALUES (196,'spectral_jig',19,25,1,30,218,532,0,12,2000,0,14,20.0,0,1,300,0,0,'WOTG',0);
-INSERT INTO `abilities` VALUES (197,'chocobo_jig',19,55,1,60,218,126,0,13,2000,0,14,20.0,0,1,300,0,0,'WOTG',0);
+INSERT INTO `abilities` VALUES (197,'chocobo_jig',19,55,1,60,218,126,0,13,2000,0,14,20.0,1,1,300,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (198,'jigs',19,25,1,0,218,0,0,0,2000,0,14,20.0,0,0,0,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (199,'steps',19,20,1,0,220,0,0,0,2000,0,14,20.0,0,0,0,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (200,'flourishes_i',19,20,1,0,0,221,0,0,2000,0,14,20.0,0,0,0,0,0,'WOTG',0);
@@ -424,7 +424,7 @@ INSERT INTO `abilities` VALUES (377,'widened_compass',21,96,1,7200,130,100,0,276
 -- INSERT INTO `abilities` VALUES (378,'odyllic_subterfuge',22,96,4,7200,131,0,0,10,2000,0,15,8.0,15,1,318,0,0,NULL,0); -- check 6 or 15 animation
 INSERT INTO `abilities` VALUES (379,'Ward',22,1,1,0,142,0,0,0,2000,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (380,'Effusion',22,1,1,0,143,0,0,0,2000,0,6,0.0,0,0,0,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (381,'chocobo_jig_ii',19,60,1,60,218,126,0,13,2000,0,14,0.0,1,1,300,0,0,'SOA',0);
+INSERT INTO `abilities` VALUES (381,'chocobo_jig_ii',19,60,1,60,218,126,0,13,2000,0,14,20.0,1,1,300,0,0,'SOA',0);
 -- INSERT INTO `abilities` VALUES (382,'relinquish',23,1,1,60,253,0,0,0,0,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (383,'vivacious_pulse',22,65,1,60,242,102,0,327,2000,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (384,'contradance',19,50,1,300,229,0,0,81,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
