@@ -13422,7 +13422,7 @@ INSERT INTO `item_equipment` VALUES (27763,'weather._corona',99,106,3850780,356,
 INSERT INTO `item_equipment` VALUES (27764,'founders_corona',99,119,10433,357,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (27765,'chocobo_masque',1,0,4194303,353,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (27766,'ukuxkaj_cap',75,0,2593842,330,0,0,16,0,0);
-INSERT INTO `item_equipment` VALUES (27767,'buremte_hat',99,115,1589788,352,0,0,16,0,0);
+INSERT INTO `item_equipment` VALUES (27767,'buremte_hat',75,115,1589788,352,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (27768,'cizin_helm',99,113,8385,274,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (27769,'otronif_mask',99,113,137218,247,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (27770,'iuitl_headgear',99,113,2458912,256,0,0,16,0,0);
