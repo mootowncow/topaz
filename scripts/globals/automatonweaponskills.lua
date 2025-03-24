@@ -1537,14 +1537,8 @@ function getAutoMagicHitRate(auto, target, skillType, element, SDT, percentBonus
     end
 
     -- Callculate base magic evasion. F for players C for everything else
-    local baseMagiceva
+    local baseMagiceva = getBaseMEVA(target)
 
-    if target:isPC() then
-        baseMagiceva = math.floor(utils.getSkillLvl(12, target:getMainLvl())) -- 171 for a level 75 player
-    else
-        baseMagiceva = math.floor(utils.getSkillLvl(7, target:getMainLvl()))
-    end
-    -- printf("Base MEVA: %s", baseMagiceva)
     -- apply SDT
     local tier = getSDTRank(target, element, SDT)
     local multiplier = getSDTMultiplier(tier)

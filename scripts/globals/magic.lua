@@ -850,14 +850,8 @@ function getMagicHitRate(caster, target, skillType, element, SDT, percentBonus, 
     -- 10% tier auto floors your hit rate, 5% auto fails
 
     -- Callculate base magic evasion. F for players C for everything else
-    local baseMagiceva
+    local baseMagiceva = getBaseMEVA(target)
 
-    if target:isPC() then
-        baseMagiceva = math.floor(utils.getSkillLvl(12, target:getMainLvl())) -- 171 for a level 75 player
-    else
-        baseMagiceva = math.floor(utils.getSkillLvl(7, target:getMainLvl()))
-    end
-    -- printf("Base MEVA: %s", baseMagiceva)
     -- apply SDT
     local tier = getSDTRank(target, element, SDT)
     local multiplier = getSDTMultiplier(tier)
@@ -951,6 +945,18 @@ function getMagicResist(magicHitRate)
     -- printf("Resist: %s", resist)
 
     return resist
+end
+
+function getBaseMEVA(target)
+    local baseMeva = 0
+    if target:isPC() or target:isTrust() then
+        baseMeva = math.floor(utils.getSkillLvl(12, target:getMainLvl())) -- 171 for a level 75 player
+    else
+        baseMeva = math.floor(utils.getSkillLvl(7, target:getMainLvl()))
+    end
+
+    --printf("Base MEVA: %s", baseMeva)
+    return baseMeva
 end
 
 function getEffectResistanceTraitChance(caster, target, effect)

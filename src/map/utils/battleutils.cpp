@@ -704,7 +704,7 @@ namespace battleutils
         float baseMeva = static_cast<float>(battleutils::GetMaxSkill(SKILL_EVASION, JOB_PLD, PDefender->GetMLevel()));
         //printf("baseMeva before SDT %f\n", baseMeva);
         Mod resistarray[8] = { Mod::FIRERES, Mod::ICERES, Mod::WINDRES, Mod::EARTHRES, Mod::THUNDERRES, Mod::WATERRES, Mod::LIGHTRES, Mod::DARKRES };
-        if (PDefender->objtype == TYPE_PC)
+        if (PDefender->objtype == TYPE_PC || PDefender->objtype == TYPE_TRUST)
         {
             baseMeva = static_cast<float>(GetPlayerMeva(PDefender));
         }
