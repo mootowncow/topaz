@@ -374,7 +374,7 @@ INSERT INTO `traits` VALUES (49,'resist poison',11,60,3,1241,20,NULL,0);
 INSERT INTO `traits` VALUES (49,'resist poison',11,81,4,1241,25,NULL,0);
 INSERT INTO `traits` VALUES (50,'resist paralyze',8,20,1,1242,10,NULL,0);
 INSERT INTO `traits` VALUES (50,'resist paralyze',8,40,2,1242,15,NULL,0);
-INSERT INTO `traits` VALUES (50,'resist paralyze',8,50,3,1242,20,NULL,0);
+INSERT INTO `traits` VALUES (50,'resist paralyze',8,60,3,1242,20,NULL,0);
 INSERT INTO `traits` VALUES (50,'resist paralyze',8,75,4,1242,25,NULL,0);
 INSERT INTO `traits` VALUES (50,'resist paralyze',8,81,5,1242,30,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (50,'resist paralyze',17,5,1,1242,10,'TOAU',0);
