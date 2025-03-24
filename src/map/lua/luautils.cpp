@@ -4618,7 +4618,7 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
                 if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
                 {
                     PMob->m_AllowRespawn = !lua_toboolean(L, 2);
-                    //ShowDebug(CL_RED"DisallowRespawn: Mob <%u> DisallowRespawn is now <%s>.\n" CL_RESET, mobid, PMob->m_AllowRespawn ? "true" : "false");
+                    ShowDebug(CL_RED"DisallowRespawn: Mob <%u> DisallowRespawn is now <%s>.\n" CL_RESET, mobid, PMob->m_AllowRespawn ? "true" : "false");
                     return 0;
                 }
                 else
