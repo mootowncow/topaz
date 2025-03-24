@@ -6044,15 +6044,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 361, 1, 255); -- 
 INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 366, 1, 255); -- Graviga
 INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 274, 1, 255); -- Sleepga II
 
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral_Hi-Lvl',544,3,30,255);        -- Cure III
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral_Hi-Lvl',544,4,55,255);        -- Cure IV
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral_Hi-Lvl',544,112,37,255);      -- Flash
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral_Hi-Lvl',544,97,61,255);       -- Reprisal
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral_Hi-Lvl',544,310,55,255);      -- Enlight
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral_Hi-Lvl',544,50,60,255);       -- Shell III
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Valaineral_Hi-Lvl',544,46,70,255);       -- Protect IV
-
--- NEXT 545
+-- NEXT 544
 -- NEXT 1022
 -- NEXT 2086(Custom)
 

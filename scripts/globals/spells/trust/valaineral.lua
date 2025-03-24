@@ -91,11 +91,6 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SHELL, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spellFamily.SHELL)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.PROTECT, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spellFamily.PROTECT)
 
-    -- Don't cast Cure and Cure II once Cure III is learned
-    if mob:getMainLvl() >= 30 then
-        mob:setSpellList(544)
-    end
-
     tpz.trust.onMobSpawn(mob)
 end
 
