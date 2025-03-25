@@ -12,12 +12,25 @@ require("scripts/globals/status")
 -----------------------------------
 
 function onInitialize(zone)
+    local circleRadius = 10
+
     zone:registerRegion(1,  -21.469, 27,  -24.255,  -18.723, 32,  -19.877) -- 40 cap (H-8 Tower)
     zone:registerRegion(2,  337.376, 27,  -19.836,  342.340, 32,  -16.055) -- 50 cap area (J-8 Tower)
     zone:registerRegion(3,   95.659, 42, -302.390,   99.973, 48, -297.744) -- 60 cap area (H-10 Tower)
     zone:registerRegion(4, -384.452, 26,  257.961, -379.945, 32,  262.558) -- Uncapped area 1 (F-7 Tower)
     zone:registerRegion(5, -302.493, 42, -179.995, -297.386, 48, -176.078) -- Uncapped area 2 (G-9 Tower)
     zone:registerRegion(6,  299.847, 42,  257.716,  303.824, 48,  262.391) -- Uncapped area 3 (I-7 Tower)
+    zone:registerRegion(7, -298.399, circleRadius, -230.000, 0, 0, 0) -- automatic opening doors when player nearby
+    zone:registerRegion(8, -298.399, circleRadius, -210.000, 0, 0, 0) -- automatic opening doors when player nearby
+    zone:registerRegion(9, -298.399, circleRadius, -230.000, 0, 0, 0) -- automatic opening doors when player nearby
+    zone:registerRegion(10, -350.000, circleRadius, -178.399, 0, 0, 0) -- automatic opening doors when player nearby
+    zone:registerRegion(11, -330.000, circleRadius, -178.399, 0, 0, 0) -- automatic opening doors when player nearby
+    zone:registerRegion(12, -350.000, circleRadius, -178.399, 0, 0, 0) -- automatic opening doors when player nearby
+    zone:registerRegion(13, -381.599, circleRadius, -210.000, 0, 0, 0) -- automatic opening doors when player nearby
+    zone:registerRegion(14, -381.599, circleRadius, -230.000, 0, 0, 0) -- automatic opening doors when player nearby
+    zone:registerRegion(15, -350.000, circleRadius, -261.600, 0, 0, 0) -- automatic opening doors when player nearby
+    zone:registerRegion(16, -330.000, circleRadius, -261.600, 0, 0, 0) -- automatic opening doors when player nearby
+    zone:registerRegion(17, -298.399, circleRadius, -210.000, 0, 0, 0) -- automatic opening doors when player nearby
 
     tpz.treasure.initZone(zone)
 end
@@ -71,24 +84,44 @@ function afterZoneIn(player)
 end
 
 function onRegionEnter(player, region)
-    player:startEvent(19 + region:GetRegionID())
+    local RegionID = region:GetRegionID()
+
+    local doors = {
+        [7]  = 16814489,
+        [8]  = 16814490,
+        [9]  = 16814491,
+        [10] = 16814492,
+        [11] = 16814493,
+        [12] = 16814494,
+        [13] = 16814495,
+        [14] = 16814496,
+        [15] = 16814497,
+        [16] = 16814498,
+        [17] = 16814499
+    }
+
+    -- Get the corresponding door for the region the player entered
+    local doorId = doors[RegionID]
+
+    if doorId then
+        local door = GetNPCByID(doorId)
+        if door and (door:getAnimation() == tpz.anim.CLOSE_DOOR) then
+            door:setAnimation(tpz.anim.OPEN_DOOR)
+            door:timer(1000 * 30, function(door) -- Stay open for 30s
+                door:setAnimation(tpz.anim.CLOSE_DOOR)
+            end)
+        end
+    end
+
+    if (RegionID < 7) then -- Any RegionID above 7 is an automatic opening door
+        player:startEvent(19 + RegionID)
+    end
 end
 
 function onRegionLeave(player, region)
 end
 
 function onGameHour(zone)
-    local hour = VanadielHour()
-    -- Open / Close randomly every hour
-    if VanadielHour() % 2 == 0 then 
-        for v = 16814489, 16814498, 1 do
-            GetNPCByID(v):setAnimation(tpz.anim.OPEN_DOOR)
-        end
-    elseif VanadielHour() % 2 == 1 then
-        for v = 16814489, 16814498, 1 do
-            GetNPCByID(v):setAnimation(tpz.anim.CLOSE_DOOR)
-        end
-    end
 end
 
 function onEventUpdate(player, csid, option)

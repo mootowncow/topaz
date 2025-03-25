@@ -63,7 +63,8 @@ CLuaZone::CLuaZone(CZone* PZone)
 *                                                                       *
 *  Регистрируем активную область в зоне                                 *
 *  Формат входных данных: RegionID, x1, y1, z1, x2, y2, z2              *
-*                                                                       *
+*  If final 3 args are 0, it is a circle                                *
+*  If it is a circle, y1(2nd arg) is radius of circle.                  *
 ************************************************************************/
 
 inline int32 CLuaZone::registerRegion(lua_State *L)
