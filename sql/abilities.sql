@@ -424,7 +424,7 @@ INSERT INTO `abilities` VALUES (377,'widened_compass',21,96,1,7200,130,100,0,276
 -- INSERT INTO `abilities` VALUES (378,'odyllic_subterfuge',22,96,4,7200,131,0,0,10,2000,0,15,8.0,15,1,318,0,0,NULL,0); -- check 6 or 15 animation
 INSERT INTO `abilities` VALUES (379,'Ward',22,1,1,0,142,0,0,0,2000,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (380,'Effusion',22,1,1,0,143,0,0,0,2000,0,6,0.0,0,0,0,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (381,'chocobo_jig_ii',19,60,1,60,218,126,0,13,2000,0,14,20.0,1,1,300,0,0,'SOA',0);
+INSERT INTO `abilities` VALUES (381,'chocobo_jig_ii',19,75,1,60,218,126,0,13,2000,0,14,20.0,1,1,300,0,0,'SOA',0);
 -- INSERT INTO `abilities` VALUES (382,'relinquish',23,1,1,60,253,0,0,0,0,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (383,'vivacious_pulse',22,65,1,60,242,102,0,327,2000,0,6,0.0,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (384,'contradance',19,50,1,300,229,0,0,81,2000,0,6,0.0,0,0,0,0,0,NULL,0); -- check animation
