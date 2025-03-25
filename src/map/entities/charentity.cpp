@@ -814,15 +814,6 @@ void CCharEntity::Tick(time_point tick)
         m_LastPartyReload = tick + std::chrono::milliseconds(10000);
     }
 
-    if (trustProgressUpdateFlag && loc.zone)
-    {
-        // Send update packet for custom data..
-        loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CTrustProgressionPacket(this));
-
-        // Clear flag..
-        trustProgressUpdateFlag = false;
-    }
-
     if (m_moghouseID != 0)
     {
         gardenutils::UpdateGardening(this, true);
@@ -879,6 +870,14 @@ void CCharEntity::PostTick()
                     static_cast<CCharEntity*>(PEntity)->pushPacket(new CCharHealthPacket(this));
                 }
             });
+        }
+        if (trustProgressUpdateFlag && loc.zone)
+        {
+            // Send update packet for custom data..
+            loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CTrustProgressionPacket(this));
+
+            // Clear flag..
+            trustProgressUpdateFlag = false;
         }
         // Do not send an update packet when only the position has change
         if (updatemask ^ UPDATE_POS)
