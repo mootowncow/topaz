@@ -32,5 +32,7 @@ function onUseAbility(player, target, ability)
 
     if potency > 0 then
         target:addStatusEffect(tpz.effect.STRIKING_FLOURISH, potency, 0, 180)
+    else
+        printf("Potency was null or 0")
     end
 end
