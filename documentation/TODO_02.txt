@@ -129,12 +129,6 @@ Convert set bonuses to SQL
 Bonus MACC / blu params/dmg type/etc columns in spells sql
 CE/VE sql columns in mob_skill.sql for mob enfeeble moves
 
-TODAY:
-    AH stuff
-    Craft meat mithkabobs (Need NQs)
-    Drain pipe extension
-    File taxes
-
 
 Trusts:
 Shikaree Z jumps have usually high miss rates
@@ -176,12 +170,6 @@ Valaineral Prot / Shell himself maybe only set gambits if no WHM in party?
 Add quests / NM drops to give them stat boosts / gear boosts (Maybe per specific archetype?). Retail KI: https://www.bg-wiki.com/ffxi/Filled_memory_gem 
 Just say its "upgraded" everytime a new bonus is added. REQUIRED for "JP camps"
 
-**** NOW ***
-Divine Seal shouldn't be removed from using a -na unless WHM main job(check bg/jp wiki)
-Give all the 280 skill WS an add effect like Agheha has defense down
-code https://ffxiclopedia.fandom.com/wiki/Magnotaur
-Promy ENM's, especially Vahzl(and update rewards)
-Double red msg in level capped zones
 One of the Thiazi or a Bialozar should have higher HP and open vortex, it should be random and not set in stone. Make all Same HP in mob_groups.sql and use max_hp_boost effect to give more HP. Make sure to heal after giving HP
 17784999 should be visible(model missing?) and at G-8 https://www.bg-wiki.com/ffxi/Mewk_Chorosap
 Buff Headsman Ring to 7/7 
