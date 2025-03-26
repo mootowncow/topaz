@@ -170,7 +170,6 @@ local function generateWave()
     return wave
 end
 
-local counter = 1;
 local function randomEventWaves(player)
     local mobFamily = {
         Scorpids = { 17478169, 17478170, 17478171, 17478172, 17478173, 17478174, 17478175, 17478176, 17478177, 17478178 },
@@ -181,9 +180,7 @@ local function randomEventWaves(player)
         Flies = { 17478219, 17478220, 17478221, 17478222, 17478223, 17478224, 17478225, 17478226, 17478227, 17478228 },
         Peistes = { 17478229, 17478230, 17478231, 17478232, 17478233, 17478234, 17478235, 17478236, 17478237, 17478238 }
     }
-    counter = counter + 1;
-    printf("Counter: %d", counter)
-    --[[
+
      -- Generate multiple waves (1 to 5 waves)
     local waves = {}
     local numWaves = math.random(1, 5)  -- Random number of waves between 1 and 5
@@ -201,7 +198,6 @@ local function randomEventWaves(player)
             print("Spawned Mob ID:", mobID)
         end
     end
-]]
 end
 
 local function randomEventDefense(player)
@@ -222,9 +218,9 @@ local eventList = {
 
 tpz.wotg.RandomEvent = function(player, spawnChance)
     randomEventWaves(player)
-   -- if math.random(100) <= spawnChance then
-     --   eventList[math.random(#eventList)](player)
-    --end
+   if math.random(100) <= spawnChance then
+    eventList[math.random(#eventList)](player)
+   end
 end
 
 --[[    local zone = player:getZone()
