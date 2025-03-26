@@ -11773,6 +11773,14 @@ INSERT INTO `mob_groups` VALUES (22,1749,171,'Goldcap',0,128,0,20000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (23,632,171,'Cap_Chomper',0,128,0,0,0,81,81,0);
 INSERT INTO `mob_groups` VALUES (24,4699,171,'Nympha_Eunomia',0,128,0,0,0,95,96,0);
 INSERT INTO `mob_groups` VALUES (25,4700,171,'Kalos_Eunomia',0,128,0,0,0,97,98,0);
+-- Dungeon Events
+INSERT INTO `mob_groups` VALUES (26,6331,171,'Doom_Scorpion',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (27,1195,171,'Electrumcap',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (28,6308,171,'Wespe',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (29,6357,171,'Witch_Hazel',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (30,6319,171,'Processionaire',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (31,2953,171,'Ogrefly',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (32,4238,171,'Virulent_Peiste',0,128,0,0,0,81,81,0);
 
 INSERT INTO `mob_groups` VALUES (8865,1,171,'1st_Gold_Musketeer',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (8866,2,171,'1st_Iron_Musketeer',0,0,0,0,0,0,0,0);
