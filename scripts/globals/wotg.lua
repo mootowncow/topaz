@@ -11,7 +11,10 @@ require("scripts/globals/zone")
 require("scripts/globals/items")
 require("scripts/globals/keyitems")
 -----------------------------------
-
+-- TODO:
+-- Meta Progress properly going to 100% and Spawning
+-- cooldown of 3m or something on entering a region so multiple players cant RNG spawn
+-- tpz.wotg.RandomEvent need the forced spawn removed (randomEventWaves(player)) and should only spawn at 10% of time
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
 
@@ -169,14 +172,32 @@ local function pickRandomKey(t)
     return keys[math.random(1, #keys)]
 end
 
-local function generateWave()
+local function generateWave(player, usedMobs)
     local wave = {}
-    local waveSize = math.random(1, 5)  
-        
+    local waveSize = math.random(1, 5)
+    local zone = player:getZone()
+    local wavesMsg = zone:getLocalVar("wavesMsg")
+    
     for i = 1, waveSize do
         local family = pickRandomKey(mobFamily)  
         local mobID = pickRandom(mobFamily[family])  
+
+        -- Ensure the mobID hasn't been used in previous waves
+        while usedMobs[mobID] do
+            mobID = pickRandom(mobFamily[family])  -- Pick a new mobID if it's already used
+        end
+        
+        -- Add the mobID to the usedMobs tracker and the wave
+        usedMobs[mobID] = true
         table.insert(wave, mobID)
+        
+        -- Print the current mobID of the mobs in the current wave
+        print("Current mobID in wave " .. currentWave .. ": " .. mobID)
+    end
+
+    if (wavesMsg == 0) then
+        utils.MessageParty(player, 'CODE: Waves START', 0xD, none)
+        zone:setLocalVar("wavesMsg", 1)
     end
 
     return wave
@@ -188,8 +209,10 @@ local function randomEventWaves(player)
     local numWaves = math.random(1, 5)
     local zone = player:getZone()
     
+    local usedMobs = {}  -- Table to track mobs already used
+    
     for i = 1, numWaves do
-        local wave = generateWave()  
+        local wave = generateWave(player, usedMobs)  -- Pass the usedMobs tracker to each wave
         table.insert(waves, wave)  
     end
 
@@ -207,12 +230,17 @@ end
 local function randomEventSpecial(player)
 end
 
+local function ClearMsgVars(zone)
+    zone:setLocalVar("wavesMsg", 0)
+end
+
 local function RandomEventComplete(player)
     local zone = player:getZone()
     local metaProgress = zone:getLocalVar("metaProgress")
     if metaProgress < 100 then
         zone:setLocalVar("metaProgress", math.min(metaProgress + 10, 100))
         utils.MessageParty(player, 'Meta progress: ' .. metaProgress .. '%', 0xD, none)
+        ClearMsgVars(zone)
     end
 end
 
@@ -249,15 +277,18 @@ tpz.wotg.spawnWave = function(player, waveIndex)
         print("Spawning Mob ID:", mobID)
         local mob = GetMobByID(mobID)
         if not mob:isSpawned() then
-            mob:setSpawn(mob:getXPos(), mob:getYPos(), mob:getZPos())
+            mob:setSpawn(player:getXPos(), player:getYPos(), player:getZPos())
             SpawnMob(mobID)
             mob:updateEnmity(player)
+            mob:addStatusEffect(tpz.effect.TERROR, 1, 0, 3)
         end
     end
 
     -- Set wave size as a local variable in the zone
     zone:setLocalVar("waveActive", 1)
     zone:setLocalVar("waveSize", waveSize)
+    zone:setLocalVar("eventCompleted", 0)
+    utils.MessageParty(player, 'Enemies appear around you!', 0xD, none)
 end
 
 tpz.wotg.progressCheck = function(player, zone)
@@ -265,20 +296,28 @@ tpz.wotg.progressCheck = function(player, zone)
     local waveProgress = zone:getLocalVar("waveProgress")
     local waveSize = zone:getLocalVar("waveSize")
     local maxWaves = zone:getLocalVar("maxWaves")
+    local eventCompleted = zone:getLocalVar("eventCompleted")
 
     -- Print the current wave details for debugging
-    print("Current Wave: " .. currentWave)
-    print("Wave Progress: " .. waveProgress)
-    print("Wave Size: " .. waveSize)
-    print("Max Waves: " .. maxWaves)
+    local debugTimer = zone:getLocalVar("debugTimer")
+    if (os.time() >= debugTimer) then
+        print(string.format("Wave: %d, Progress: %d, Size: %d, Max Waves: %d", currentWave, waveProgress, waveSize, maxWaves))
+        zone:setLocalVar("debugTimer", os.time() + 10)
+    end
 
-    if (waveProgress >= waveSize) then
+    if (waveSize > 0) and (waveProgress >= waveSize) then
         if (currentWave +1 <= maxWaves) then
+            printf("Increasing wave by 1")
             zone:setLocalVar("wave", currentWave +1)
-        else -- All waves were spawned, no event no longer active
-            RandomEventComplete(player)
-            zone:setLocalVar("eventActive", 0)
             zone:setLocalVar("waveActive", 0)
+        else
+            -- All waves completed, end the event
+            if (eventCompleted == 0) then
+                RandomEventComplete(player)
+                zone:setLocalVar("eventActive", 0)
+                zone:setLocalVar("waveActive", 0)
+                zone:setLocalVar("eventCompleted", 1)
+            end
         end
     end
 end

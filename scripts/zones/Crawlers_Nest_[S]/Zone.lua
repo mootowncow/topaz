@@ -37,11 +37,11 @@ function OnZoneTick(player, zone)
         Special = 4
     }
 
-    tpz.wotg.progressCheck(player, zone)
-     
+
     if (eventActive == events.Waves) and (waveActive == 0) then
         tpz.wotg.spawnWave(player, currentWave)
     end
+    tpz.wotg.progressCheck(player, zone)
 end
 
 function onZoneIn(player, prevZone)
