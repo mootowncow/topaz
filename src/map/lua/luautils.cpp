@@ -3507,6 +3507,41 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
         return 0;
     }
 
+    int32 OnZoneTick(CCharEntity* PChar, uint16 ZoneID)
+    {
+        std::string filename;
+        CZone* PZone = zoneutils::GetZone(ZoneID);
+        if (PChar->PInstance)
+        {
+            filename =
+                std::string("scripts/zones/") + (const char*)PChar->loc.zone->GetName() + "/instances/" + (const char*)PChar->PInstance->GetName() + ".lua";
+        }
+        else
+        {
+            filename = std::string("scripts/zones/") + (const char*)PChar->loc.zone->GetName() + "/Zone.lua";
+        }
+
+        if (prepFile((int8*)filename.c_str(), "OnZoneTick"))
+        {
+            return -1;
+        }
+
+        CLuaBaseEntity LuaBaseEntity(PChar);
+        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaBaseEntity);
+
+        CLuaZone LuaZone(PZone);
+        Lunar<CLuaZone>::push(LuaHandle, &LuaZone);
+
+        if (lua_pcall(LuaHandle, 2, 0, 0))
+        {
+            ShowError("luautils::OnZoneTick: %s\n", lua_tostring(LuaHandle, -1));
+            lua_pop(LuaHandle, 1);
+            return -1;
+        }
+
+        return 0;
+    }
+
     /************************************************************************
     *   OnGameDayAutomatisation()                                           *
     *   used for creating action of npc every game day                      *

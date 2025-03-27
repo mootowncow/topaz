@@ -1304,9 +1304,6 @@ void CZoneEntities::ZoneServer(time_point tick, bool check_trigger_areas)
     TracyZoneScoped;
     TracyZoneString(m_zone->GetName());
 
-    // luautils::OnZoneTick(this->m_zone);
-    // Can't add :(
-
     std::vector<CMobEntity*> aggroableMobs;
     EntityList_t::iterator it = m_mobList.begin();
     while (it != m_mobList.end())
@@ -1524,6 +1521,7 @@ void CZoneEntities::ZoneServer(time_point tick, bool check_trigger_areas)
             if (check_trigger_areas)
             {
                 m_zone->CheckRegions(PChar);
+                luautils::OnZoneTick(PChar, this->m_zone->GetID());
             }
         }
     }

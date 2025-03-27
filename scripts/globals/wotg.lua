@@ -145,6 +145,8 @@ tpz.wotg.MagianT4 = function(mob, player, isKiller, noKiller)
     end
 end
 
+local waves = {}
+local currentWave = 1
 local mobFamily = {
     Scorpids = { 17478169, 17478170, 17478171, 17478172, 17478173, 17478174, 17478175, 17478176, 17478177, 17478178 },
     Funguars = { 17478179, 17478180, 17478181, 17478182, 17478183, 17478184, 17478185, 17478186, 17478187, 17478188 },
@@ -155,25 +157,25 @@ local mobFamily = {
     Peistes = { 17478229, 17478230, 17478231, 17478232, 17478233, 17478234, 17478235, 17478236, 17478237, 17478238 }
 }
 
--- Pick a random mob 
 local function pickRandom(t)
     return t[math.random(1, #t)]
 end
 
--- Generate a single wave with mobs from the family
+local function pickRandomKey(t)
+    local keys = {}
+    for key in pairs(t) do
+        table.insert(keys, key)
+    end
+    return keys[math.random(1, #keys)]
+end
+
 local function generateWave()
     local wave = {}
-    local waveSize = math.random(1, 5)  -- Random wave size between 1 and 5
+    local waveSize = math.random(1, 5)  
         
-    -- Generate a random wave
     for i = 1, waveSize do
-        -- Randomly select a mob family
-        local family = pickRandom(mobFamily)  -- Pick a random family
-            
-        -- Pick a random mob ID from the chosen family and add it to the wave
-        local mobID = pickRandom(mobFamily[family])  -- Pick a random mob from the family
-            
-        -- Add the mob ID to the wave
+        local family = pickRandomKey(mobFamily)  
+        local mobID = pickRandom(mobFamily[family])  
         table.insert(wave, mobID)
     end
 
@@ -181,23 +183,19 @@ local function generateWave()
 end
 
 local function randomEventWaves(player)
-    -- Generate multiple waves (1 to 5 waves)
-    local waves = {}
-    local numWaves = math.random(1, 5)  -- Random number of waves between 1 and 5
+    waves = {} -- Reset waves for a new event
+    currentWave = 1  -- Reset wave tracker
+    local numWaves = math.random(1, 5)
+    local zone = player:getZone()
     
-    -- Generate the waves
     for i = 1, numWaves do
-        local wave = generateWave()  -- Generate a single wave
-        table.insert(waves, wave)  -- Add the wave to the list of waves
+        local wave = generateWave()  
+        table.insert(waves, wave)  
     end
 
-    -- Prints the generated waves
-    for waveIndex, wave in ipairs(waves) do
-        print("Wave " .. waveIndex .. ":")
-        for _, mobID in ipairs(wave) do
-            print("Spawned Mob ID:", mobID)
-        end
-    end
+    zone:setLocalVar("eventActive", 1)
+    zone:setLocalVar("wave", 1)
+    zone:setLocalVar("maxWaves", numWaves)
 end
 
 local function randomEventDefense(player)
@@ -209,6 +207,15 @@ end
 local function randomEventSpecial(player)
 end
 
+local function RandomEventComplete(player)
+    local zone = player:getZone()
+    local metaProgress = zone:getLocalVar("metaProgress")
+    if metaProgress < 100 then
+        zone:setLocalVar("metaProgress", math.min(metaProgress + 10, 100))
+        utils.MessageParty(player, 'Meta progress: ' .. metaProgress .. '%', 0xD, none)
+    end
+end
+
 local eventList = {
     [1] = randomEventWaves,
     [2] = randomEventDefense,
@@ -217,10 +224,71 @@ local eventList = {
 }
 
 tpz.wotg.RandomEvent = function(player, spawnChance)
-    randomEventWaves(player)
-   if math.random(100) <= spawnChance then
-    eventList[math.random(#eventList)](player)
-   end
+    local zone = player:getZone()
+    randomEventWaves(player) -- TODO: Remove after done testing
+    if (math.random(100) <= spawnChance) and (zone:getLocalVar("eventActive") == 0) then
+        eventList[math.random(#eventList)](player)
+    end
+end
+
+tpz.wotg.spawnWave = function(player, waveIndex)
+    local zone = player:getZone()
+    if waveIndex < 1 or waveIndex > #waves then
+        print("Invalid wave index: " .. waveIndex)
+        return
+    end
+
+    local wave = waves[waveIndex]
+    local waveSize = #wave  -- Get the number of mobs in this wave
+    print("Spawning Wave " .. waveIndex)
+
+    -- Reset wave progress for the new wave
+    zone:setLocalVar("waveProgress", 0)
+
+    for _, mobID in ipairs(wave) do
+        print("Spawning Mob ID:", mobID)
+        local mob = GetMobByID(mobID)
+        if not mob:isSpawned() then
+            mob:setSpawn(mob:getXPos(), mob:getYPos(), mob:getZPos())
+            SpawnMob(mobID)
+            mob:updateEnmity(player)
+        end
+    end
+
+    -- Set wave size as a local variable in the zone
+    zone:setLocalVar("waveActive", 1)
+    zone:setLocalVar("waveSize", waveSize)
+end
+
+tpz.wotg.progressCheck = function(player, zone)
+    local currentWave = zone:getLocalVar("wave")
+    local waveProgress = zone:getLocalVar("waveProgress")
+    local waveSize = zone:getLocalVar("waveSize")
+    local maxWaves = zone:getLocalVar("maxWaves")
+
+    -- Print the current wave details for debugging
+    print("Current Wave: " .. currentWave)
+    print("Wave Progress: " .. waveProgress)
+    print("Wave Size: " .. waveSize)
+    print("Max Waves: " .. maxWaves)
+
+    if (waveProgress >= waveSize) then
+        if (currentWave +1 <= maxWaves) then
+            zone:setLocalVar("wave", currentWave +1)
+        else -- All waves were spawned, no event no longer active
+            RandomEventComplete(player)
+            zone:setLocalVar("eventActive", 0)
+            zone:setLocalVar("waveActive", 0)
+        end
+    end
+end
+
+tpz.wotg.WaveonMobDeath = function(mob)
+    local zone = mob:getZone()
+    local waveProgress = zone:getLocalVar("waveProgress")
+
+    printf("Mob dead, incrimenting wave progress by 1")
+    zone:setLocalVar("waveProgress", waveProgress +1)
 end
 
 --[[    local zone = player:getZone()

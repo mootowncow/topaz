@@ -25,6 +25,25 @@ function onInitialize(zone)
     zone:registerRegion(12, 46.562725, largeCircleRadius, 365.081757, 0, 0, 0) -- Random event spawn circle
 end
 
+function OnZoneTick(player, zone)
+    local currentWave = zone:getLocalVar("wave")
+    local maxWaves = zone:getLocalVar("maxWaves")
+    local eventActive = zone:getLocalVar("eventActive", 1)
+    local waveActive = zone:getLocalVar("waveActive")
+    local events = {
+        Waves = 1,
+        Defense = 2,
+        Boss = 3,
+        Special = 4
+    }
+
+    tpz.wotg.progressCheck(player, zone)
+     
+    if (eventActive == events.Waves) and (waveActive == 0) then
+        tpz.wotg.spawnWave(player, currentWave)
+    end
+end
+
 function onZoneIn(player, prevZone)
     local cs = -1
     if (player:getXPos() == 0 and player:getYPos() == 0 and player:getZPos() == 0) then
