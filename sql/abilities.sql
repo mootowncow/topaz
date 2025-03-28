@@ -317,7 +317,7 @@ INSERT INTO `abilities` VALUES (260,'spirit_jump',14,77,4,60,166,100,0,228,2000,
 INSERT INTO `abilities` VALUES (261,'presto',19,75,1,300,236,100,0,229,2000,0,6,20.0,0,1,80,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (262,'divine_waltz_ii',19,55,27,20,225,102,0,34,2000,0,14,10.0,1,0,0,0,0,NULL,800);
 INSERT INTO `abilities` VALUES (263,'flourishes_iii',19,60,1,0,226,0,0,0,2000,0,14,20.0,0,0,0,0,0,NULL,0);
-INSERT INTO `abilities` VALUES (264,'climactic_flourish',19,75,1,90,226,100,0,230,2000,0,6,20.0,1,1,80,0,0,NULL,0);
+INSERT INTO `abilities` VALUES (264,'climactic_flourish',19,70,1,90,226,100,0,230,2000,0,6,20.0,1,1,80,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (265,'libra',20,76,4,60,237,100,0,231,2000,0,6,11.2,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (266,'tactical_switch',18,40,1,90,213,100,0,228,2000,0,6,11.2,0,0,0,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (267,'blood_rage',1,50,1,30,11,441,421,239,2000,0,6,13.0,0,180,1280,0,0,NULL,0);  
@@ -357,8 +357,8 @@ INSERT INTO `abilities` VALUES (309,'cooldown',18,70,1,120,114,0,0,264,2000,0,6,
 INSERT INTO `abilities` VALUES (310,'deus_ex_automata',18,5,1,1800,115,0,0,83,2000,0,6,20.0,0,1,80,0,0,'ABYSSEA',0);
 INSERT INTO `abilities` VALUES (311,'curing_waltz_v',19,87,27,14,217,102,0,35,2000,0,14,20.0,0,0,0,0,0,'ABYSSEA',800);
 INSERT INTO `abilities` VALUES (312,'feather_step',19,83,4,15,220,591,0,17,2000,0,14,5.4,0,1,0,0,0,NULL,100);
-INSERT INTO `abilities` VALUES (313,'striking_flourish',19,60,1,90,226,100,0,243,2000,0,6,20.0,1,1,80,0,0,NULL,0); -- check animation/message1
-INSERT INTO `abilities` VALUES (314,'ternary_flourish',19,70,1,90,226,100,0,260,2000,0,6,20.0,1,1,80,0,0,NULL,0); -- check animation/message1
+INSERT INTO `abilities` VALUES (313,'striking_flourish',19,75,1,90,226,100,0,243,2000,0,6,20.0,1,1,80,0,0,NULL,0); -- check animation/message1
+INSERT INTO `abilities` VALUES (314,'ternary_flourish',19,60,1,90,226,100,0,260,2000,0,6,20.0,1,1,80,0,0,NULL,0); -- check animation/message1
 INSERT INTO `abilities` VALUES (316,'perpetuance',20,65,1,1,231,100,0,244,2000,0,6,0.0,0,1,80,0,16,'ABYSSEA',0);
 -- INSERT INTO `abilities` VALUES (317,'immanence',20,87,1,1,231,100,0,245,2000,0,6,0.0,0,1,80,0,0,NULL,0);
 INSERT INTO `abilities` VALUES (318,'smiting_breath',14,40,4,60,238,100,0,94,2000,0,6,8.0,0,1,80,0,0,NULL,0);

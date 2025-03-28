@@ -1,6 +1,6 @@
 -----------------------------------
 -- Ability: Striking Flourish
--- Description: Grants +5 store TP per finishing move consumed to nearby allies.
+-- Description: Grants +5% chance to deal double damage per finishing move consumed to nearby allies.
 -- Obtained: DNC Level 89
 -- Recast Time: 00:01:30 (Flourishes III)
 -- Duration: 00:03:00
@@ -31,7 +31,7 @@ function onUseAbility(player, target, ability)
     end
 
     if potency > 0 then
-        target:addStatusEffect(tpz.effect.STRIKING_FLOURISH, potency, 0, 180)
+        target:addStatusEffect(tpz.effect.STRIKING_FLOURISH, potency, 0, 180, 0, 200, 0)
     else
         printf("Potency was null or 0")
     end
