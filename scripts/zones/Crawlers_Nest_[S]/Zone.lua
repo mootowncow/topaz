@@ -30,15 +30,8 @@ function OnZoneTick(player, zone)
     local maxWaves = zone:getLocalVar("maxWaves")
     local eventActive = zone:getLocalVar("eventActive", 1)
     local waveActive = zone:getLocalVar("waveActive")
-    local events = {
-        Waves = 1,
-        Defense = 2,
-        Boss = 3,
-        Special = 4
-    }
 
-
-    if (eventActive == events.Waves) and (waveActive == 0) then
+    if (eventActive == tpz.wotg.events.Waves) and (waveActive == 0) then
         tpz.wotg.spawnWave(player, currentWave)
     end
     tpz.wotg.progressCheck(player, zone)
@@ -54,10 +47,16 @@ end
 
 function onRegionEnter(player, region)
     local regionID = region:GetRegionID()
+    local zone = player:getZone()
+    local regionEnterDelay = zone:getLocalVar("regionEnterDelay")
+    local spawnChance = 10
+
     if (regionID >= 1 and regionID <= 12) then
         print("Player entered a random event region")
-        local spawnChance = 10
-        tpz.wotg.RandomEvent(player, spawnChance)
+        if (os.time() >= regionEnterDelay) then
+            zone:setLocalVar("regionEnterDelay", os.time() + 10)
+            tpz.wotg.RandomEvent(player, spawnChance)
+        end
     end
 end
 

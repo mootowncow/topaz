@@ -3138,7 +3138,8 @@ tpz.procEffect =
     RANGED          = 5,
     SKILLCHAIN      = 6,
     MAGIC_BURST     = 7,
-    SPIRITS_DAMAGE  = 8  -- Spirits Within / Formless Strikes
+    SPIRITS_DAMAGE  = 8,  -- Spirits Within / Formless Strikes
+    NONE            = 255 -- No increased damage taken
 }
 
 ------------------------------------
@@ -3388,7 +3389,7 @@ tpz.jobSpecialAbility =
     -- TABULA_RASA          = 2358,
     TABULA_RASA          = 2261,
     -- TABULA_RASA          = 2358,
-    -- ELEMENTAL_SFORZO     = 3265,
+    ELEMENTAL_SFORZO     = 3265,
     -- ELEMENTAL_SFORZO     = 3479,
     BOLSTER              = 3482,
     CHARM                = 710,

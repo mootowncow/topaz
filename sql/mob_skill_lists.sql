@@ -2813,6 +2813,12 @@ INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2195); -- spring_bre
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2196); -- summer_breeze
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2197); -- autumn_breeze
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2198); -- winter_breeze
+INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2163); -- Seedspray
+INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2164); -- Viscid Emission
+INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2165); -- Rotten Stench
+INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2166); -- Floral Bouquet
+INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2167); -- Bloody Caress
+INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2169); -- Soothing Aroma
 
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
@@ -4914,6 +4920,13 @@ INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,169); -- black_hal
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,250); -- carnal_nightmare
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,252); -- dancing_chains
 
--- Next available ID: 1208
--- Next custom ID: 6153
+INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2178); -- sudden_lunge
+INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2179); -- noisome_powder
+INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2180); -- nepenthean_hum
+INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2181); -- spiral_spin
+INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2182); -- spiral_burst 
+INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2933); -- searing_effulgence 
+
+-- Next available ID: 1209
+-- Next custom ID: 6154
 

@@ -52331,6 +52331,13 @@ INSERT INTO `mob_spawn_points` VALUES (17478235, 'Angry_Peiste', 'Angry Peiste',
 INSERT INTO `mob_spawn_points` VALUES (17478236, 'Angry_Peiste', 'Angry Peiste', 32, 0, 50, 0, 0);
 INSERT INTO `mob_spawn_points` VALUES (17478237, 'Angry_Peiste', 'Angry Peiste', 32, 0, 50, 0, 0);
 INSERT INTO `mob_spawn_points` VALUES (17478238, 'Angry_Peiste', 'Angry Peiste', 32, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17478239, 'Selket', 'Selket', 33, 0, 50, 0, 0); -- Scorpion
+INSERT INTO `mob_spawn_points` VALUES (17478240, 'Witchweed', 'Witchweed', 34, 0, 50, 0, 0); -- Rafflesia
+INSERT INTO `mob_spawn_points` VALUES (17478241, 'Sciaridae', 'Sciaridae', 35, 0, 50, 0, 0); -- Gnat
+INSERT INTO `mob_spawn_points` VALUES (17478242, 'Coccineus', 'Coccineus', 36, 0, 50, 0, 0); -- Ladybug
+INSERT INTO `mob_spawn_points` VALUES (17478243, 'Gastropoda', 'Gastropoda', 37, 0, 50, 0, 0); -- Slug
+INSERT INTO `mob_spawn_points` VALUES (17478244, 'Wadjet', 'Wadjet', 38, 0, 50, 0, 0); -- Peiste
+INSERT INTO `mob_spawn_points` VALUES (17478245, 'Honey_Wespe', 'Honey Wespe', 39, 0, 50, 0, 0); -- Eaten by Witchweed
 
 
 INSERT INTO `mob_spawn_points` VALUES (17477736,'Bartholomaus','Bartholomaus',0,0,0,0,196);

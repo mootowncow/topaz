@@ -149,6 +149,8 @@ tpz.mob.additionalEffect = {
     BUFF_DRAIN            = 32,
     PETRIFY_ENMITY_RESET  = 33,
     POISON_OVERWRITE      = 34,
+    TAINT                 = 35, -- Undispellable Poison
+    HAUNT                 = 36 -- Undispellable Curse 
 }
 tpz.mob.ae = tpz.mob.additionalEffect
 
@@ -557,6 +559,20 @@ local additionalEffects =
         mod = tpz.mod.INT,
         bonusAbilityParams = {bonusmab = 0, includemab = false},
         code = function(mob, target, power) mob:stealStatusEffect(target) end,
+    },
+    [tpz.mob.ae.TAINT] =
+    {
+        chance = 100,
+        ele = tpz.magic.ele.WATER,
+        sub = tpz.subEffect.POISON,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.TAINT,
+        power = 15,
+        duration = 30,
+        minDuration = 1,
+        maxDuration = 30,
+        tick = 3,
     },
 }
 

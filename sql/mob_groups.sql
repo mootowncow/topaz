@@ -11774,13 +11774,24 @@ INSERT INTO `mob_groups` VALUES (23,632,171,'Cap_Chomper',0,128,0,0,0,81,81,0);
 INSERT INTO `mob_groups` VALUES (24,4699,171,'Nympha_Eunomia',0,128,0,0,0,95,96,0);
 INSERT INTO `mob_groups` VALUES (25,4700,171,'Kalos_Eunomia',0,128,0,0,0,97,98,0);
 -- Dungeon Events
-INSERT INTO `mob_groups` VALUES (26,6331,171,'Doom_Scorpion',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (27,1195,171,'Electrumcap',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (28,6308,171,'Wespe',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (29,6357,171,'Witch_Hazel',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (30,6319,171,'Processionaire',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (31,2953,171,'Ogrefly',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (32,4238,171,'Virulent_Peiste',0,128,0,0,0,81,81,0);
+
+-- Waves
+INSERT INTO `mob_groups` VALUES (26,6331,171,'Angry_Scorpion',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (27,1195,171,'Angry_Funguar',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (28,6308,171,'Angry_Wespe',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (29,6357,171,'Angry_Sapling',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (30,6319,171,'Angry_Crawler',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (31,2953,171,'Angry_Fly',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (32,4238,171,'Angry_Peiste',0,128,0,0,0,81,81,0);
+
+-- Bosses
+INSERT INTO `mob_groups` VALUES (33,9128,171,'Selket',0,128,0,35000,0,85,85,0); -- Scorpion
+INSERT INTO `mob_groups` VALUES (34,9129,171,'Witchweed',0,128,0,35000,0,85,85,0); -- Rafflesia
+INSERT INTO `mob_groups` VALUES (35,9130,171,'Sciaridae',0,128,0,35000,0,85,85,0); -- Gnat
+INSERT INTO `mob_groups` VALUES (36,9131,171,'Coccineus',0,128,0,35000,0,85,85,0); -- Ladybug
+INSERT INTO `mob_groups` VALUES (37,9132,171,'Gastropoda',0,128,0,35000,0,85,85,0); -- Slug
+INSERT INTO `mob_groups` VALUES (38,9133,171,'Wadjet',0,128,0,35000,0,85,85,0); -- Peiste
+INSERT INTO `mob_groups` VALUES (39,6308,171,'Honey_Wespe',0,128,0,0,0,85,85,0); -- Eaten by Witchweed
 
 INSERT INTO `mob_groups` VALUES (8865,1,171,'1st_Gold_Musketeer',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (8866,2,171,'1st_Iron_Musketeer',0,0,0,0,0,0,0,0);

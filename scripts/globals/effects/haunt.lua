@@ -11,6 +11,8 @@ function onEffectGain(target, effect)
     target:addMod(tpz.mod.HPP, -effect:getPower())
     target:addMod(tpz.mod.MPP, -effect:getPower())
     target:addMod(tpz.mod.MOVE_SPEED_STACKABLE, -effect:getPower())
+    local haunt = target:getStatusEffect(effect)
+    haunt:unsetFlag(tpz.effectFlag.DISPELABLE)
 end
 
 function onEffectTick(target, effect)

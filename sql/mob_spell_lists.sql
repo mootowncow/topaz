@@ -6044,7 +6044,13 @@ INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 361, 1, 255); -- 
 INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 366, 1, 255); -- Graviga
 INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 274, 1, 255); -- Sleepga II
 
--- NEXT 544
+INSERT INTO `mob_spell_lists` VALUES('Coccineus', 544, 167, 1, 255); -- Thunder IV
+INSERT INTO `mob_spell_lists` VALUES('Coccineus', 544, 196, 1, 255); -- Thundaga III
+INSERT INTO `mob_spell_lists` VALUES('Coccineus', 544, 252, 1, 255); -- Stun
+INSERT INTO `mob_spell_lists` VALUES ('Coccineus',544,356,76,255); -- paralyga
+INSERT INTO `mob_spell_lists` VALUES ('Coccineus', 544, 361, 1, 255); -- Blindga
+
+-- NEXT 545
 -- NEXT 1022
 -- NEXT 2086(Custom)
 

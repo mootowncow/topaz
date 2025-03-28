@@ -5,9 +5,13 @@
 require("scripts/globals/wotg")
 ------------------------------
 function onMobSpawn(mob)
-    mob:setMobMod(tpz.mobMod.CHECK_AS_NM, 1)
+    tpz.wotg.onMobSpawn(mob)
+end
+
+function onMobFight(mob, target)
+    tpz.wotg.onMobFight(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
-    tpz.wotg.onMobDeath(mob, player, tpz.wotg.events.Waves)
+    tpz.wotg.onMobDeath(mob, player, tpz.wotg.events.Boss)
 end
