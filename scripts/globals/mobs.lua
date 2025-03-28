@@ -489,7 +489,7 @@ local additionalEffects =
     {
         chance = 100,
         ele = tpz.magic.ele.WIND,
-        sub = tpz.subEffect.WEIGHT,
+        sub = tpz.subEffect.GRAVITY,
         msg = tpz.msg.basic.ADD_EFFECT_STATUS,
         applyEffect = true,
         eff = tpz.effect.WEIGHT,
