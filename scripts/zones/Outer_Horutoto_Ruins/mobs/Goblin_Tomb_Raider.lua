@@ -55,7 +55,7 @@ function onMobFight(mob, target)
         GuardSix:updateEnmity(target)
         GuardSeven:updateEnmity(target)
         GuardEight:updateEnmity(target)
-        mob:setLocalVar("BombTime", battletime + math.random(180, 300))
+        mob:setLocalVar("BombTime", battletime + math.random(90, 120))
     end
 end
 
