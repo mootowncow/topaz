@@ -14402,7 +14402,7 @@ INSERT INTO `item_basic` VALUES (17089,0,'holly_staff','holly_staff',1,2084,12,0
 INSERT INTO `item_basic` VALUES (17090,0,'elm_staff','elm_staff',1,2084,12,0,616);
 INSERT INTO `item_basic` VALUES (17091,0,'oak_staff','oak_staff',1,2084,12,0,1218);
 INSERT INTO `item_basic` VALUES (17092,0,'mahogany_staff','mahogany_staff',1,2084,12,0,2356);
-INSERT INTO `item_basic` VALUES (17093,0,'rune_staff','rune_staff',1,2052,12,0,10383);
+INSERT INTO `item_basic` VALUES (17093,0,'rune_staff','rune_staff',1,2052,12,0,12000);
 INSERT INTO `item_basic` VALUES (17094,0,'wise_wizards_staff','wis.wiz._staff',1,2052,12,0,8158);
 INSERT INTO `item_basic` VALUES (17095,0,'ash_pole','ash_pole',1,2084,12,0,107);
 INSERT INTO `item_basic` VALUES (17096,0,'holly_pole','holly_pole',1,2084,12,0,431);
@@ -15387,7 +15387,7 @@ INSERT INTO `item_basic` VALUES (18080,0,'spark_fork','spark_fork',1,2084,8,0,75
 INSERT INTO `item_basic` VALUES (18081,0,'spark_fork_+1','spark_fork_+1',1,2080,8,0,9402);
 INSERT INTO `item_basic` VALUES (18082,0,'barchha','barchha',1,2084,8,0,6505);
 INSERT INTO `item_basic` VALUES (18083,0,'barchha_+1','barchha_+1',1,2080,8,0,8131);
-INSERT INTO `item_basic` VALUES (18084,0,'rune_halberd','rune_halberd',1,2052,8,0,1200);
+INSERT INTO `item_basic` VALUES (18084,0,'rune_halberd','rune_halberd',1,2052,8,0,12000);
 INSERT INTO `item_basic` VALUES (18085,0,'platoon_lance','platoon_lance',1,2052,8,0,1100);
 INSERT INTO `item_basic` VALUES (18086,0,'behourd_lance','behourd_lance',1,34820,8,0,2000);
 INSERT INTO `item_basic` VALUES (18087,0,'schwarz_lance','schwarz_lance',1,34820,8,0,5657);
@@ -18199,7 +18199,7 @@ INSERT INTO `item_basic` VALUES (21554,0,'arasy_knife','arasy_knife',1,2084,2,0,
 INSERT INTO `item_basic` VALUES (21555,0,'arasy_knife_+1','arasy_knife_+1',1,2080,2,0,0);
 INSERT INTO `item_basic` VALUES (21556,0,'beryllium_kris','beryllium_kris',1,2084,2,0,0);
 INSERT INTO `item_basic` VALUES (21557,0,'beryllium_kris_+1','beryllium_kris_+1',1,2080,2,0,0);
-INSERT INTO `item_basic` VALUES (21558,0,'rune_kris','rune_kris',1,2052,2,0,0);
+INSERT INTO `item_basic` VALUES (21558,0,'rune_kris','rune_kris',1,2052,2,0,12000);
 INSERT INTO `item_basic` VALUES (21559,0,'raetic_kris','raetic_kris',1,2080,2,0,0);
 INSERT INTO `item_basic` VALUES (21560,0,'raetic_kris_+1','raetic_kris_+1',1,2080,2,0,0);
 INSERT INTO `item_basic` VALUES (21561,0,'tokko_knife','tokko_knife',1,63552,0,1,0);
@@ -18277,7 +18277,7 @@ INSERT INTO `item_basic` VALUES (21657,0,'dyrnwyn_+1','dyrnwyn_+1',1,2080,4,0,0)
 INSERT INTO `item_basic` VALUES (21658,0,'brave_blade_ii','brave_blade_ii',1,63568,0,1,0);
 INSERT INTO `item_basic` VALUES (21659,0,'beryllium_sword','beryllium_sword',1,2084,4,0,0);
 INSERT INTO `item_basic` VALUES (21660,0,'beryllium_sword_+1','bery._sword_+1',1,2080,4,0,0);
-INSERT INTO `item_basic` VALUES (21661,0,'rune_algol','rune_algol',1,2052,4,0,0);
+INSERT INTO `item_basic` VALUES (21661,0,'rune_algol','rune_algol',1,2052,4,0,12000);
 INSERT INTO `item_basic` VALUES (21662,0,'raetic_algol','raetic_algol',1,2080,4,0,0);
 INSERT INTO `item_basic` VALUES (21663,0,'raetic_algol_+1','raetic_algol_+1',1,2080,4,0,0);
 INSERT INTO `item_basic` VALUES (21664,0,'zantetsuken_x','zantetsuken_x',1,63552,0,0,0);
