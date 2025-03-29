@@ -5916,14 +5916,14 @@ namespace battleutils
         return damage;
     }
 
-    uint16 doConsumeManaEffect(CCharEntity* m_PChar, uint32 damage)
+    uint16 doConsumeManaEffect(CBattleEntity* PEntity, uint32 damage)
     {
-        if (m_PChar->StatusEffectContainer->HasStatusEffect(EFFECT_CONSUME_MANA))
+        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_CONSUME_MANA))
         {
             // Add 2 damage for every 10 MP
-            damage += (uint32)((m_PChar->health.mp / 10) * 2);
-            m_PChar->health.mp = 0; // Set MP to 0 after consuming it
-            m_PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_CONSUME_MANA);
+            damage += (uint32)((PEntity->health.mp / 10) * 2);
+            PEntity->health.mp = 0; // Set MP to 0 after consuming it
+            PEntity->StatusEffectContainer->DelStatusEffectSilent(EFFECT_CONSUME_MANA);
         }
         return damage;
     }
