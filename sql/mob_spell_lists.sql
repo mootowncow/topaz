@@ -5962,6 +5962,32 @@ INSERT INTO `mob_spell_lists` VALUES ('Moblin_Billionaire',2085,260,32,255);
 INSERT INTO `mob_spell_lists` VALUES ('Moblin_Billionaire',2085,473,1,255); -- Refresh II
 INSERT INTO `mob_spell_lists` VALUES ('Moblin_Billionaire',2085,879,1,255); -- Inundation
 
+INSERT INTO `mob_spell_lists` VALUES('Sozu_Rogberry-100',2086,175,1,255); -- Firaga II
+INSERT INTO `mob_spell_lists` VALUES('Sozu_Rogberry-100', 2086, 180, 1, 255); -- Blizzaga II
+INSERT INTO `mob_spell_lists` VALUES('Sozu_Rogberry-100', 2086, 185, 1, 255); -- Aeroga II
+INSERT INTO `mob_spell_lists` VALUES('Sozu_Rogberry-100', 2086, 190 , 1, 255); -- Stonega II
+INSERT INTO `mob_spell_lists` VALUES('Sozu_Rogberry-100', 2086, 195, 1, 255); -- Thundaga II
+INSERT INTO `mob_spell_lists` VALUES('Sozu_Rogberry-100', 2086, 200, 1, 255); -- Waterga II
+
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-50', 2087, 176, 1, 255); -- Firaga III
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-50', 2087, 181, 1, 255); -- Blizzaga III
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-50', 2087, 186, 1, 255); -- Aeroga III
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-50', 2087, 191, 1, 255); -- Stonega III
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-50', 2087, 196, 1, 255); -- Thundaga III
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-50', 2087, 201, 1, 255); -- Waterga III
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-50', 2087, 359, 1, 255); -- Silencega
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-50', 2087, 356, 1, 255); -- Paralyga
+
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-25', 2088, 176, 1, 255); -- Firaga III
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-25', 2088, 181, 1, 255); -- Blizzaga III
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-25', 2088, 186, 1, 255); -- Aeroga III
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-25', 2088, 191, 1, 255); -- Stonega III
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-25', 2088, 196, 1, 255); -- Thundaga III
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-25', 2088, 201, 1, 255); -- Waterga III
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-25', 2088,365,1,255); -- breakga
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-25', 2088, 359, 1, 255); -- Silencega
+INSERT INTO `mob_spell_lists` VALUES ('Sozu_Rogberry-25', 2088, 356, 1, 255); -- Paralyga
+
 INSERT INTO `mob_spell_lists` VALUES('Ulbrecht-Fire', 533, 281, 1, 255); -- Pyrohelix
 INSERT INTO `mob_spell_lists` VALUES('Ulbrecht-Fire', 533, 146, 1, 255); -- Fire III
 INSERT INTO `mob_spell_lists` VALUES('Ulbrecht-Fire', 533, 147, 1, 255); -- Fire IV
@@ -6046,7 +6072,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 274, 1, 255); -- 
 
 -- NEXT 544
 -- NEXT 1022
--- NEXT 2086(Custom)
+-- NEXT 2089(Custom)
 
 
 
