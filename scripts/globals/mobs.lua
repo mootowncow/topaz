@@ -824,9 +824,9 @@ function TickMobAura(mob, target, auraParams)
         local auraTick = mob:getLocalVar("auraTick" .. auraParams.auraNumber)
         if os.time() >= auraTick then
             mob:setLocalVar("auraTick" .. auraParams.auraNumber, os.time() + 3)
-            local nearbyPlayers = mob:getPlayersInRange(auraParams.radius)
-            if nearbyPlayers ~= nil then 
-                for _,v in ipairs(nearbyPlayers) do
+            local nearbyEnemies = mob:getNearbyEntities(auraParams.radius)
+            if nearbyEnemies ~= nil then 
+                for _,v in pairs(nearbyEnemies) do
                     v:delStatusEffectSilent(auraParams.effect)
                     v:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
                     local buffEffect = v:getStatusEffect(auraParams.effect)
@@ -851,9 +851,9 @@ function TickDamageAura(mob, target, radius, dmg, attackType, damageType, tick)
 
     if os.time() >= DmgAuraTick then
         mob:setLocalVar("DmgAuraTick", os.time() + tick)
-        local nearbyPlayers = mob:getPlayersInRange(radius)
-        if nearbyPlayers ~= nil then 
-            for _,v in ipairs(nearbyPlayers) do
+        local nearbyEnemies = mob:getNearbyEntities(radius)
+        if nearbyEnemies ~= nil then 
+            for _,v in pairs(nearbyEnemies) do
                 if (attackType == tpz.attackType.MAGICAL) or (attackType == tpz.attackType.SPECIAL) then
                     dmg = v:magicDmgTaken(dmg, element)
                 elseif (attackType == tpz.attackType.BREATH) then
