@@ -1,6 +1,7 @@
 -----------------------------------
 -- Area: Rolanberry Fields (110)
 --  HNM: Simurgh
+--  !gotoid 17228242
 -----------------------------------
 mixins =
 {
@@ -38,6 +39,25 @@ function onMobSpawn(mob)
             },
         },
     })
+end
+
+function onMobWeaponSkillPrepare(mob, target)
+    -- Has a higher chance of using Stormwind at lower HP
+    if mob:getHPP() < 20 then
+        if math.random() < 0.50 then
+            return tpz.mob.skills.STORMWIND
+        end
+    end
+end
+
+function onMobWeaponSkill(target, mob, skill)
+    -- Stormwind applies a 10s terror and grants Mighty Strikes for 10s
+    if (skill:getID() == tpz.mob.skills.STORMWIND) then
+        target:addStatusEffect(tpz.effect.TERROR, 1, 0, 10)
+        if not mob:hasStatusEffect(tpz.effect.MIGHTY_STRIKES) then
+            mob:addStatusEffect(tpz.effect.MIGHTY_STRIKES, 1, 0, 10)
+        end
+    end
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

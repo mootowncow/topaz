@@ -1,6 +1,7 @@
 -----------------------------------
 -- Area: Sauromugue Champaign (120)
 --  HNM: Roc
+--  !gotoid 17269106
 -----------------------------------
 mixins =
 {
@@ -22,6 +23,12 @@ function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
     mob:setMobMod(tpz.mobMod.MUG_GIL, 1000)
     mob:setLocalVar("[rage]timer", 3600) -- 60 minutes
+    mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
+
+	mob:addStatusEffect(tpz.effect.CLOD_SPIKES, 15, 0, 0)
+    local clodSpikes = mob:getStatusEffect(tpz.effect.CLOD_SPIKES)
+    clodSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
+
     tpz.mix.jobSpecial.config(mob, {
         specials =
         {
@@ -41,11 +48,15 @@ function onMobSpawn(mob)
     })
 end
 
-function onMobDeath(mob, player, isKiller, noKiller)
-    player:addTitle(tpz.title.ROC_STAR)
+function onAdditionalEffect(mob, target, damage)
+    return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.ENSTONE, {chance = 100, power = math.random(100, 150)})
 end
 
 function onMobDespawn(mob)
     UpdateNMSpawnPoint(mob:getID())
     mob:setRespawnTime(math.random(36000, 43200)) -- 11 to 12 hours
+end
+
+function onMobDeath(mob, player, isKiller, noKiller)
+    player:addTitle(tpz.title.ROC_STAR)
 end

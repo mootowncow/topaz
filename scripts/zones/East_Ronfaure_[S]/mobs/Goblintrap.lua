@@ -1,8 +1,8 @@
 -----------------------------------
 -- Area: East Ronfaure [S]
 --  Mob: Goblintrap
--- Note: Goblintrap NM
--- !pos 168 0 -440 81
+-- Note: Soporific is a nightmare "deep sleep"
+-- !gotoid 17109296
 -----------------------------------
 require("scripts/globals/hunts")
 require("scripts/globals/status")
@@ -13,11 +13,14 @@ function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.DRAW_IN, 1)
 end
 
-function onMobInitialize(mob)
+function onMobSpawn(mob)
 	mob:setDamage(140)
     mob:setMod(tpz.mod.ATTP, 25)
+    mob:setMod(tpz.mod.DARK_ABSORB, 100)
     mob:addMod(tpz.mod.DEFP, 25) 
     mob:addMod(tpz.mod.EVA, 15)
+    mob:addImmunity(tpz.immunity.SILENCE) 
+
     tpz.mix.jobSpecial.config(mob, {
         specials =
         {
@@ -26,6 +29,20 @@ function onMobInitialize(mob)
     })
 end
 
+function onMobFight(mob, target)
+    local hp = mob:getHPP()
+    local auraParams = {
+        radius = 20,
+        effect = tpz.effect.BIO,
+        power = 15,
+        duration = 60,
+        auraNumber = 1
+    }
+
+    -- 20 yard range 15/tick Bio Aura
+    TickMobAura(mob, target, auraParams)
+    AddMobAura(mob, target, auraParams)
+end
 
 function onMobDeath(mob, player, isKiller, noKiller)
     tpz.hunts.checkHunt(mob, player, 481)

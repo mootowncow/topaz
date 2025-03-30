@@ -82,7 +82,7 @@ function onMobFight(mob, target)
 end
 
 function onMobWeaponSkillPrepare(mob, target)
-    -- Has a higher chance of using ritual bind at lower HP
+    -- Has a higher chance of using Ritual Bind at lower HP
     if mob:getHPP() < 20 then
         if math.random() < 0.50 then
             return tpz.mob.skills.RITUAL_BIND
