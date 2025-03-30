@@ -14,6 +14,9 @@ function onMobSkillCheck(target, mob, skill)
         if mob:hasStatusEffect(tpz.effect.CONFRONTATION) then
             skill:setAoe(1)
             skill:setDistance(50)
+        else
+            skill:setAoe(0)
+            skill:setDistance(15)
         end
     end
     return 0
