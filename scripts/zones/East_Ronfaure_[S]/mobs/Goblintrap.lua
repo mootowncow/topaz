@@ -19,12 +19,13 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.DARK_ABSORB, 100)
     mob:addMod(tpz.mod.DEFP, 25) 
     mob:addMod(tpz.mod.EVA, 15)
+    mob:setMobMod(tpz.mobMod.GA_CHANCE, 70)
     mob:addImmunity(tpz.immunity.SILENCE) 
 
     tpz.mix.jobSpecial.config(mob, {
         specials =
         {
-            {id = tpz.jsa.MANAFONT, cooldown = 300, hpp = 50},
+            {id = tpz.jsa.MANAFONT, cooldown = 120, hpp = 50},
         },
     })
 end
@@ -34,14 +35,23 @@ function onMobFight(mob, target)
     local auraParams = {
         radius = 20,
         effect = tpz.effect.BIO,
-        power = 15,
+        power = 20,
         duration = 60,
         auraNumber = 1
     }
 
-    -- 20 yard range 15/tick Bio Aura
+    -- 20 yard range 20/tick Bio Aura
     TickMobAura(mob, target, auraParams)
     AddMobAura(mob, target, auraParams)
+end
+
+function onMobWeaponSkillPrepare(mob, target)
+    -- Has a higher chance of using Soporific at lower HP
+    if mob:getHPP() < 50 then
+        if math.random() < 0.50 then
+            return tpz.mob.skills.SOPORIFIC
+        end
+    end
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

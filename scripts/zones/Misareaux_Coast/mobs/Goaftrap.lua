@@ -18,14 +18,8 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.WIND_ABSORB, 100)
     mob:addMod(tpz.mod.DEFP, 25) 
     mob:addMod(tpz.mod.EVA, 15)
+    mob:setMobMod(tpz.mobMod.GA_CHANCE, 70)
     mob:addImmunity(tpz.immunity.SILENCE) 
-
-    tpz.mix.jobSpecial.config(mob, {
-        specials =
-        {
-            {id = tpz.jsa.MANAFONT, cooldown = 300, hpp = 50},
-        },
-    })
 end
 
 function onMobFight(mob, target)
@@ -44,6 +38,28 @@ function onMobFight(mob, target)
     local spell = mob:getLocalVar("COPY_SPELL")
     local reflectTargetId = mob:getLocalVar("reflectTargetId")
     local reflectTarget
+    local currentHP = mob:getHPP()
+    local phaseData = {
+        { HP = 20,     Var = 'manafont_20'   },
+        { HP = 40,     Var = 'manafont_40'   },
+        { HP = 60,     Var = 'manafont_60'   },
+        { HP = 80,     Var = 'manafont_80'   },
+    }
+
+    -- Uses Manafont every 20%
+    for _, phase in ipairs(phaseData) do
+        if (currentHP <= phase.HP) and (mob:getLocalVar(phase.Var) == 0) then
+            if
+                not IsMobBusy(mob) and
+                not mob:hasPreventActionEffect() and
+                not mob:hasStatusEffect(tpz.effect.MANAFONT)
+            then
+                mob:setLocalVar(phase.Var, 1)
+                mob:useMobAbility(tpz.jsa.MANAFONT)
+                break
+            end
+        end
+    end
 
     if (reflectTargetId > 10000) then -- ID is a mob (pet)
         reflectTarget = GetMobByID(reflectTargetId)

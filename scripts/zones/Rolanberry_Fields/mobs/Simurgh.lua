@@ -15,8 +15,9 @@ function onMobInitialize(mob)
 end
 
 function onMobSpawn(mob)
-	mob:setDamage(140)
+	mob:setDamage(200)
     mob:setMod(tpz.mod.ATTP, 25)
+    mob:setMod(tpz.mod.DOUBLE_ATTACK, 50)
     mob:addMod(tpz.mod.DEFP, 25) 
     mob:addMod(tpz.mod.EVA, 60)
     mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
@@ -43,7 +44,7 @@ end
 
 function onMobWeaponSkillPrepare(mob, target)
     -- Has a higher chance of using Stormwind at lower HP
-    if mob:getHPP() < 20 then
+    if mob:getHPP() < 50 then
         if math.random() < 0.50 then
             return tpz.mob.skills.STORMWIND
         end

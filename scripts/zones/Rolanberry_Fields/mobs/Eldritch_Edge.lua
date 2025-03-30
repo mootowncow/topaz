@@ -28,7 +28,7 @@ function onMobFight(mob, target)
         { HP = 80,     Var = 'hundredFists_80'   },
     }
 
-    -- Uses Hundred Fists every 10%
+    -- Uses Hundred Fists every 20%
     for _, phase in ipairs(phaseData) do
         if (currentHP <= phase.HP) and (mob:getLocalVar(phase.Var) == 0) then
             if
