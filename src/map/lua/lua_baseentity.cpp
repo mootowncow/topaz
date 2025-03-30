@@ -8952,6 +8952,11 @@ inline int32 CLuaBaseEntity::takeDamage(lua_State *L)
 
         PDefender->takeDamage(damage, PAttacker, attackType, damageType);
 
+        if (!PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DEEPSLEEP))
+        {
+            wakeUp = false;
+        }
+
         if (wakeUp)
         {
             PDefender->StatusEffectContainer->WakeUp();

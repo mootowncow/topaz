@@ -3432,6 +3432,12 @@ namespace battleutils
         {
             PDefender->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DAMAGE, true);
 
+            // Check for Nightmare "deep sleep"
+            if (!PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DEEPSLEEP))
+            {
+                PDefender->StatusEffectContainer->WakeUp();
+            }
+
             // Check for bind breaking
             BindBreakCheck(PAttacker, PDefender);
 
@@ -3653,6 +3659,12 @@ namespace battleutils
         {
             PDefender->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DAMAGE, true);
 
+            // Check for Nightmare "deep sleep"
+            if (!PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DEEPSLEEP))
+            {
+                PDefender->StatusEffectContainer->WakeUp();
+            }
+
             // Check for bind breaking
             BindBreakCheck(PAttacker, PDefender);
 
@@ -3796,6 +3808,13 @@ namespace battleutils
         if (PSpell->canTargetEnemy() && damage > 0 && PSpell->dealsDamage())
         {
             PDefender->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DAMAGE, true);
+
+            // Check for Nightmare "deep sleep"
+            if (!PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DEEPSLEEP))
+            {
+                PDefender->StatusEffectContainer->WakeUp();
+            }
+
             // Check for bind breaking
             BindBreakCheck(PAttacker, PDefender);
 
