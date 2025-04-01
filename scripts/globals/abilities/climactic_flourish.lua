@@ -1,6 +1,6 @@
 -----------------------------------
 -- Ability: Climactic Flourish
--- Description: Grants +5% double attack per finishing move consumed to nearby allies.
+-- Description: Grants +3% critical hit rate per finishing move consumed to nearby allies.
 -- Obtained: DNC Level 80
 -- Recast Time: 00:01:30 (Flourishes III)
 -- Duration: 00:03:00
@@ -23,7 +23,7 @@ function onUseAbility(player, target, ability)
         local finishingMoves = jobUtil.getFinishingMoveCount(player)
         if (finishingMoves > 0) then
             local actualConsumed = jobUtil.consumeFinishingMoves(player, maxConsumed)
-            potency = actualConsumed * 5
+            potency = actualConsumed * 3
         end
         player:setLocalVar("AOE_Climactic_Potency", potency);
     else

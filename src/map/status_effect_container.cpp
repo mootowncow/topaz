@@ -53,6 +53,7 @@ When a status effect is gained twice on a player. It can do one or more of the f
 #include "entities/charentity.h"
 #include "entities/automatonentity.h"
 #include "entities/mobentity.h"
+#include "entities/trustentity.h"
 #include "utils/itemutils.h"
 #include "enmity_container.h"
 #include "map.h"
@@ -1748,9 +1749,10 @@ void CStatusEffectContainer::HandleAura(CStatusEffect* PStatusEffect)
 
     if (PEntity->objtype == TYPE_PC)
     {
+        auto* PChar = static_cast<CCharEntity*>(PEntity);
         if (auraTarget == AURATARGET_ALLIES)
         {
-            PEntity->ForParty([&](CBattleEntity* PMember) {
+             PChar->ForPartyWithTrusts([&](CBattleEntity* PMember) {
                 if (PMember != nullptr && PEntity->loc.zone->GetID() == PMember->loc.zone->GetID() && distance(m_POwner->loc.p, PMember->loc.p) <= aura_range && !PMember->isDead())
                 {
                     CStatusEffect* PEffect = new CStatusEffect(

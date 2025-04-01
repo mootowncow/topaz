@@ -173,12 +173,6 @@ namespace attackutils
         float occ_extra_dmg = PAttacker->getMod(Mod::OCC_DO_EXTRA_DMG) / 100.f;
         int16 occ_extra_dmg_chance = PAttacker->getMod(Mod::EXTRA_DMG_CHANCE) / 10.f;
 
-        if (PAttacker->objtype == TYPE_PC)
-        {
-            occ_extra_dmg = battleutils::GetScaledItemModifier(PAttacker, PWeapon, Mod::OCC_DO_EXTRA_DMG) / 100.f;
-            occ_extra_dmg_chance = battleutils::GetScaledItemModifier(PAttacker, PWeapon, Mod::EXTRA_DMG_CHANCE) / 10;
-        }
-
         if (occ_extra_dmg > 3.f && occ_extra_dmg_chance > 0 && tpzrand::GetRandomNumber(100) <= occ_extra_dmg_chance)
         {
             return (uint32)(damage * occ_extra_dmg);
@@ -197,6 +191,7 @@ namespace attackutils
         }
         else if (occ_extra_dmg > 0 && occ_extra_dmg_chance > 0 && tpzrand::GetRandomNumber(100) <= occ_extra_dmg_chance)
         {
+            //ShowDebug("Double damage proc for %s\n", PAttacker->GetName());
             return (uint32)(damage * occ_extra_dmg);
         }
 

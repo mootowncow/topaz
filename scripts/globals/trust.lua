@@ -10,8 +10,6 @@ require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/trust_progression")
 ---------------------------------------------------------
-local ATTP_RATTP_BOOST = 20
-
 tpz = tpz or {}
 tpz.trust = tpz.trust or {}
 
@@ -46,6 +44,7 @@ tpz.trust.message_offset =
 }
 
 local MAX_MESSAGE_PAGE = 120
+local ATTP_RATTP_BOOST = 20
 
 local rovKIBattlefieldIDs = set{
     5,    -- Shattering Stars (WAR LB5)

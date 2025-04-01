@@ -11202,7 +11202,7 @@ INSERT INTO `mob_groups` VALUES (32,1995,159,'Hover_Tank',330,0,1331,0,0,64,67,0
 INSERT INTO `mob_groups` VALUES (33,1341,159,'Fire_Elemental',330,4,831,0,0,65,68,0);
 INSERT INTO `mob_groups` VALUES (34,2101,159,'Iron_Maiden',330,0,1377,0,0,64,68,0);
 INSERT INTO `mob_groups` VALUES (35,1362,159,'Flauros',3600,0,844,8500,0,59,60,0);
-INSERT INTO `mob_groups` VALUES (36,3712,159,'Sozu_Rogberry',0,128,2298,8500,0,65,66,0);
+INSERT INTO `mob_groups` VALUES (36,3712,159,'Sozu_Rogberry',0,128,2298,35000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (37,3871,159,'Temple_Bee',330,0,167,0,0,60,63,0);
 INSERT INTO `mob_groups` VALUES (38,4309,159,'Water_Elemental',330,4,2629,0,0,61,64,0);
 INSERT INTO `mob_groups` VALUES (39,740,159,'Cleuvarion_M_Resoaix',0,128,0,5300,0,63,63,0);

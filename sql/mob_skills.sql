@@ -2353,7 +2353,7 @@ INSERT INTO `mob_skills` VALUES (2389,1452,'lethal_triclip',1,15.0,2000,1500,4,0
 INSERT INTO `mob_skills` VALUES (2390,1663,'accursed_armor',0,7.0,2000,1000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2391,1664,'amnesic_blast',4,10.0,2000,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2392,1665,'oppressive_glare',0,7.0,2000,1500,1,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (2393,2137,'ritual_bind',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2393,1666,'ritual_bind',0,7.0,2000,3500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2394,2138,'moribund_hack',1,10.0,2000,2500,4,0,0,0,0,0,0); -- Animaiton ID was 2138
 -- INSERT INTO `mob_skills` VALUES (2395,2139,'mine_blast',1,20.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2396,2140,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);

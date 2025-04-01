@@ -17,6 +17,9 @@ function onMobSkillCheck(target, mob, skill)
     if isCassie or isVivian then
         skill:setAoe(1)
         skill:setDistance(50)
+    else
+        skill:setAoe(2)
+        skill:setDistance(15)
     end
 
     return 0
