@@ -18,5 +18,10 @@ function onUseAbility(player, target, ability)
     local jpValue = player:getJobPointLevel(tpz.jp.PALISADE_EFFECT)
     power = power + jpValue
 
-    target:addStatusEffect(tpz.effect.PALISADE, power, 0, 60)
+    -- Custom AoE Palisade that stops mobs from moving if cast by a player, otherwise retail accurate Palisade
+    if player:isPC() then
+        target:addStatusEffect(tpz.effect.PALISADE, power, 0, 60, 0, 1, 0)
+    else
+        player:addStatusEffect(tpz.effect.PALISADE, power, 0, 60)
+    end
 end
