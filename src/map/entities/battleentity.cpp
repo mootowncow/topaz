@@ -2305,9 +2305,45 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                     actionTarget.messageID = MSGBASIC_SHIELD_BLOCK;
                 }
 
+                // Check for Enspell
+                bool isBlocked = actionTarget.reaction == REACTION_BLOCK;
+                if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
+                {
+                    if (!isBlocked)
+                    {
+                        battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
+                                                   attack.GetDamage());
+                    }
+                    battleutils::HandleSpikesDamage(this, PTarget, &actionTarget, attack.GetDamage());
+
+                    uint8 enspell = (uint8)this->getMod(Mod::ENSPELL);
+
+                    // Try to proc TH
+                    if (attack.IsFirstSwing() && this->objtype == TYPE_PC)
+                    {
+                        bool highProcRate = false;
+                        CCharEntity* PChar = (CCharEntity*)this;
+                        if (PChar->m_sneakTrickActive)
+                        {
+                            highProcRate = true;
+                        }
+
+                        charutils::TryProcTH(PChar, (CMobEntity*)PTarget, &actionTarget, highProcRate);
+                    }
+
+                    // Add listener
+                    if (enspell && !isBlocked)
+                    {
+                        {
+                            PTarget->PAI->EventHandler.triggerListener("EN_SPIKES_HIT", this, PTarget, enspell);
+                        }
+                    }
+                }
+
                 // Check damage if the attack actually hit and wasn't absorbed by shadows, countered, parried, etc
                 if (actionTarget.reaction == REACTION_HIT || actionTarget.reaction == REACTION_BLOCK || actionTarget.reaction == REACTION_GUARD)
                 {
+                    // Damage target
                     actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, attack.GetAttackType(), attack.GetDamage(), attack.IsBlocked(), attack.GetWeaponSlot(), 1, attackRound.GetTAEntity(), true, true, attack.IsCountered(), attack.IsCovered(), POriginalTarget);
 
                     if (actionTarget.param < 0)
@@ -2365,39 +2401,6 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
             // Check & Handle Afflatus Misery Accuracy Bonus
             battleutils::HandleAfflatusMiseryAccuracyBonus(this);
-        }
-
-        bool isBlocked = actionTarget.reaction == REACTION_BLOCK;
-        if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
-        {
-            if (!isBlocked)
-            {
-                battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()], attack.GetDamage());
-            }
-            battleutils::HandleSpikesDamage(this, PTarget, &actionTarget, attack.GetDamage());
-
-            uint8 enspell = (uint8)this->getMod(Mod::ENSPELL);
-
-             // Try to proc TH
-            if (attack.IsFirstSwing() && this->objtype == TYPE_PC)
-            {
-                bool highProcRate = false;
-                CCharEntity* PChar = (CCharEntity*)this;
-                if (PChar->m_sneakTrickActive)
-                {
-                    highProcRate = true;
-                }
-
-                charutils::TryProcTH(PChar, (CMobEntity*)PTarget, &actionTarget, highProcRate);
-            }
-
-            // Add listener
-            if (enspell && !isBlocked)
-            {
-                {
-                    PTarget->PAI->EventHandler.triggerListener("EN_SPIKES_HIT", this, PTarget, enspell);
-                }
-            }
         }
 
         if (actionTarget.speceffect == SPECEFFECT_HIT && actionTarget.param > 0)
