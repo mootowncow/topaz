@@ -3091,13 +3091,21 @@ namespace battleutils
             int32 baseValue = base + (int32)skillmodifier;
 
             // Add Palisade JP bonus to the base block rate
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PALISADE))
+            auto PEffect = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PALISADE);
+            if (PEffect)
             {
                 if (PDefender->objtype == TYPE_PC)
                 {
                     if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PDefender))
                     {
                         baseValue += PChar->PJobPoints->GetJobPointValue(JP_PALISADE_EFFECT);
+                    }
+                }
+                else
+                {
+                    if (PEffect->GetSubPower() == 0) // Palisade cast by non-Player
+                    {
+                        baseValue += 30;
                     }
                 }
             }

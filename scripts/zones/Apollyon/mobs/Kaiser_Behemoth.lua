@@ -6,6 +6,7 @@ require("scripts/globals/status")
 require("scripts/globals/magic")
 require("scripts/globals/pathfind")
 local ID = require("scripts/zones/Apollyon/IDs")
+-----------------------------------
 local flags = tpz.path.flag.NONE
 local path =
 {
@@ -32,6 +33,13 @@ function onMobFight(mob, target)
 		mob:castSpell(218) -- MEteor
 		mob:setLocalVar("MeteorTime", BattleTime + 70)
 	end
+
+    -- Bandaid until navmesh in Limbus is better
+    if tpz.path.CheckIfStuck(mob) then
+        if (mob:checkDistance(target) >= 10) then
+            mob:setPos(target:getXPos(), target:getYPos(), target:getZPos())
+        end
+    end
 end
 
 function onMobRoam(mob)

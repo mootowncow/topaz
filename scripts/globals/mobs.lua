@@ -841,13 +841,15 @@ function TickMobAura(mob, target, auraParams)
         if os.time() >= auraTick then
             mob:setLocalVar("auraTick" .. auraParams.auraNumber, os.time() + 3)
             local nearbyEnemies = mob:getNearbyEntities(auraParams.radius)
-            if nearbyEnemies ~= nil then 
+            if (nearbyEnemies ~= nil) then 
                 for _,v in pairs(nearbyEnemies) do
-                    v:delStatusEffectSilent(auraParams.effect)
-                    v:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
-                    local buffEffect = v:getStatusEffect(auraParams.effect)
-                    buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
-                    buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                    if (v:getID() ~= mob:getID()) then
+                        v:delStatusEffectSilent(auraParams.effect)
+                        v:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
+                        local buffEffect = v:getStatusEffect(auraParams.effect)
+                        buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
+                        buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                    end
                 end
             end
         end
@@ -868,18 +870,20 @@ function TickDamageAura(mob, target, radius, dmg, attackType, damageType, tick)
     if os.time() >= DmgAuraTick then
         mob:setLocalVar("DmgAuraTick", os.time() + tick)
         local nearbyEnemies = mob:getNearbyEntities(radius)
-        if nearbyEnemies ~= nil then 
+        if (nearbyEnemies ~= nil )then 
             for _,v in pairs(nearbyEnemies) do
-                if (attackType == tpz.attackType.MAGICAL) or (attackType == tpz.attackType.SPECIAL) then
-                    dmg = v:magicDmgTaken(dmg, element)
-                elseif (attackType == tpz.attackType.BREATH) then
-                    dmg = v:breathDmgTaken(dmg, element)
-                elseif (attackType == tpz.attackType.RANGED) then
-                    dmg = v:rangedDmgTaken(dmg)
-                elseif (attackType == tpz.attackType.PHYSICAL) then
-                    dmg = v:physicalDmgTaken(dmg, damageType)
+                if (v:getID() ~= mob:getID()) then
+                    if (attackType == tpz.attackType.MAGICAL) or (attackType == tpz.attackType.SPECIAL) then
+                        dmg = v:magicDmgTaken(dmg, element)
+                    elseif (attackType == tpz.attackType.BREATH) then
+                        dmg = v:breathDmgTaken(dmg, element)
+                    elseif (attackType == tpz.attackType.RANGED) then
+                        dmg = v:rangedDmgTaken(dmg)
+                    elseif (attackType == tpz.attackType.PHYSICAL) then
+                        dmg = v:physicalDmgTaken(dmg, damageType)
+                    end
+                    v:takeDamage(dmg, mob, attackType, damageType)
                 end
-                v:takeDamage(dmg, mob, attackType, damageType)
             end
         end
     end

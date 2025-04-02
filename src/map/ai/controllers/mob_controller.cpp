@@ -1138,9 +1138,15 @@ void CMobController::Move()
             else if (CanMoveForward(currentDistance))
             {
                 // Do not move if current target has Palisade on and is < 12 yards away
-                if (PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PALISADE) && currentDistance <= 15)
+                auto PEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PALISADE);
+                if (PEffect && currentDistance <= 15)
                 {
-                    return;
+                    bool shouldStopMovement = PEffect->GetSubPower();
+
+                    if (shouldStopMovement)
+                    {
+                        return;
+                    }
                 }
                 if (!PMob->PAI->PathFind->IsFollowingPath() || distanceSquared(PMob->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10)
                 {
