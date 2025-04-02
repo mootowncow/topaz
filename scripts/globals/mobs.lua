@@ -419,7 +419,8 @@ local additionalEffects =
         ele = tpz.magic.ele.DARK,
         sub = tpz.subEffect.TP_DRAIN,
         msg = tpz.msg.basic.ADD_EFFECT_TP_DRAIN,
-        mod = tpz.mod.INT,
+        mod = tpz.mod.NONE,
+        noDamage = true,
         bonusAbilityParams = {bonusmab = 0, includemab = false},
         code = function(mob, target, power) local tp = math.min(power, target:getTP()) target:delTP(tp) mob:addTP(tp) end,
     },
@@ -644,7 +645,11 @@ tpz.mob.onAddEffect = function(mob, target, damage, effect, params)
                 power = addBonusesAbility(mob, ae.ele, target, power, ae.bonusAbilityParams)
                 power = power * applyResistanceAddEffect(mob, target, ae.ele, 0)
                 power = adjustForTarget(target, power, ae.ele)
-                power = finalMagicNonSpellAdjustments(mob, target, ae.ele, power)
+
+                -- Currently only used for TP_DRAIN
+                if (ae.noDamage ~= true) then
+                    power = finalMagicNonSpellAdjustments(mob, target, ae.ele, power)
+                end
 
                 -- target:PrintToPlayer(string.format("Adjusted Power: %f", power)) -- DEBUG
 
@@ -655,6 +660,12 @@ tpz.mob.onAddEffect = function(mob, target, damage, effect, params)
                         message = ae.negMsg
                     else
                         power = 0
+                    end
+                end
+
+                if (ae.sub == tpz.subEffect.TP_DRAIN) then
+                    if ((target:getTP()) < power) then
+                        power = target:getTP()
                     end
                 end
 
