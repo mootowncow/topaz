@@ -15,5 +15,9 @@ end
 
 function onUseAbility(player, target, ability)
     player:addStatusEffect(tpz.effect.FAN_DANCE, 90, 0, 300)
-    player:addStatusEffect(tpz.effect.AQUAVEIL, 5, 0, 300)
+
+    -- Don't overwrite an equal or better Aquaveil
+    if canOverwrite(player, tpz.effect.AQUAVEIL, 5) then
+        player:addStatusEffect(tpz.effect.AQUAVEIL, 5, 0, 300)
+    end
 end
