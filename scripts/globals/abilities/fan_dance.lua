@@ -15,4 +15,5 @@ end
 
 function onUseAbility(player, target, ability)
     player:addStatusEffect(tpz.effect.FAN_DANCE, 90, 0, 300)
+    player:addStatusEffect(tpz.effect.AQUAVEIL, 5, 0, 300)
 end

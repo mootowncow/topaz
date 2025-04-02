@@ -24,6 +24,14 @@ function onEffectGain(target, effect)
 end
 
 function onEffectTick(target, effect)
+   local power = effect:getPower()
+   local decayby = 0
+   -- Double attack rate decays until 20% then stays there
+   if (power > 20) then
+        decayby = 3
+        effect:setPower(power-decayby)
+        target:delMod(tpz.mod.DOUBLE_ATTACK, decayby)
+    end
 end
 
 function onEffectLose(target, effect)
