@@ -149,6 +149,8 @@ tpz.mob.additionalEffect = {
     BUFF_DRAIN            = 32,
     PETRIFY_ENMITY_RESET  = 33,
     POISON_OVERWRITE      = 34,
+    TAINT                 = 35, -- Undispellable Poison
+    HAUNT                 = 36 -- Undispellable Curse 
 }
 tpz.mob.ae = tpz.mob.additionalEffect
 
@@ -419,8 +421,7 @@ local additionalEffects =
         ele = tpz.magic.ele.DARK,
         sub = tpz.subEffect.TP_DRAIN,
         msg = tpz.msg.basic.ADD_EFFECT_TP_DRAIN,
-        mod = tpz.mod.NONE,
-        noDamage = true,
+        mod = tpz.mod.INT,
         bonusAbilityParams = {bonusmab = 0, includemab = false},
         code = function(mob, target, power) local tp = math.min(power, target:getTP()) target:delTP(tp) mob:addTP(tp) end,
     },
@@ -559,6 +560,20 @@ local additionalEffects =
         bonusAbilityParams = {bonusmab = 0, includemab = false},
         code = function(mob, target, power) mob:stealStatusEffect(target) end,
     },
+    [tpz.mob.ae.TAINT] =
+    {
+        chance = 100,
+        ele = tpz.magic.ele.WATER,
+        sub = tpz.subEffect.POISON,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.TAINT,
+        power = 15,
+        duration = 30,
+        minDuration = 1,
+        maxDuration = 30,
+        tick = 3,
+    },
 }
 
 --[[
@@ -645,11 +660,7 @@ tpz.mob.onAddEffect = function(mob, target, damage, effect, params)
                 power = addBonusesAbility(mob, ae.ele, target, power, ae.bonusAbilityParams)
                 power = power * applyResistanceAddEffect(mob, target, ae.ele, 0)
                 power = adjustForTarget(target, power, ae.ele)
-
-                -- Currently only used for TP_DRAIN
-                if (ae.noDamage ~= true) then
-                    power = finalMagicNonSpellAdjustments(mob, target, ae.ele, power)
-                end
+                power = finalMagicNonSpellAdjustments(mob, target, ae.ele, power)
 
                 -- target:PrintToPlayer(string.format("Adjusted Power: %f", power)) -- DEBUG
 
@@ -660,12 +671,6 @@ tpz.mob.onAddEffect = function(mob, target, damage, effect, params)
                         message = ae.negMsg
                     else
                         power = 0
-                    end
-                end
-
-                if (ae.sub == tpz.subEffect.TP_DRAIN) then
-                    if ((target:getTP()) < power) then
-                        power = target:getTP()
                     end
                 end
 
@@ -836,13 +841,15 @@ function TickMobAura(mob, target, auraParams)
         if os.time() >= auraTick then
             mob:setLocalVar("auraTick" .. auraParams.auraNumber, os.time() + 3)
             local nearbyEnemies = mob:getNearbyEntities(auraParams.radius)
-            if nearbyEnemies ~= nil then 
+            if (nearbyEnemies ~= nil) then 
                 for _,v in pairs(nearbyEnemies) do
-                    v:delStatusEffectSilent(auraParams.effect)
-                    v:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
-                    local buffEffect = v:getStatusEffect(auraParams.effect)
-                    buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
-                    buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                    if (v:getID() ~= mob:getID()) then
+                        v:delStatusEffectSilent(auraParams.effect)
+                        v:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
+                        local buffEffect = v:getStatusEffect(auraParams.effect)
+                        buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
+                        buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                    end
                 end
             end
         end
@@ -863,18 +870,20 @@ function TickDamageAura(mob, target, radius, dmg, attackType, damageType, tick)
     if os.time() >= DmgAuraTick then
         mob:setLocalVar("DmgAuraTick", os.time() + tick)
         local nearbyEnemies = mob:getNearbyEntities(radius)
-        if nearbyEnemies ~= nil then 
+        if (nearbyEnemies ~= nil )then 
             for _,v in pairs(nearbyEnemies) do
-                if (attackType == tpz.attackType.MAGICAL) or (attackType == tpz.attackType.SPECIAL) then
-                    dmg = v:magicDmgTaken(dmg, element)
-                elseif (attackType == tpz.attackType.BREATH) then
-                    dmg = v:breathDmgTaken(dmg, element)
-                elseif (attackType == tpz.attackType.RANGED) then
-                    dmg = v:rangedDmgTaken(dmg)
-                elseif (attackType == tpz.attackType.PHYSICAL) then
-                    dmg = v:physicalDmgTaken(dmg, damageType)
+                if (v:getID() ~= mob:getID()) then
+                    if (attackType == tpz.attackType.MAGICAL) or (attackType == tpz.attackType.SPECIAL) then
+                        dmg = v:magicDmgTaken(dmg, element)
+                    elseif (attackType == tpz.attackType.BREATH) then
+                        dmg = v:breathDmgTaken(dmg, element)
+                    elseif (attackType == tpz.attackType.RANGED) then
+                        dmg = v:rangedDmgTaken(dmg)
+                    elseif (attackType == tpz.attackType.PHYSICAL) then
+                        dmg = v:physicalDmgTaken(dmg, damageType)
+                    end
+                    v:takeDamage(dmg, mob, attackType, damageType)
                 end
-                v:takeDamage(dmg, mob, attackType, damageType)
             end
         end
     end
