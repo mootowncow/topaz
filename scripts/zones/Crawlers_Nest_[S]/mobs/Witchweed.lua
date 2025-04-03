@@ -13,5 +13,5 @@ function onMobFight(mob, target)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
-    tpz.wotg.onMobDeath(mob, player, tpz.wotg.events.Boss)
+    tpz.wotg.onMobDeath(mob, player, isKiller, noKiller, tpz.wotg.events.Boss)
 end

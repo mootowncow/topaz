@@ -9,5 +9,5 @@ function onMobSpawn(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
-    tpz.wotg.onMobDeath(mob, player, tpz.wotg.events.Waves)
+    tpz.wotg.onMobDeath(mob, player, isKiller, noKiller, tpz.wotg.events.Waves)
 end

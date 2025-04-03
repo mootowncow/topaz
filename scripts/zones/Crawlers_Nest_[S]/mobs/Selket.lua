@@ -3,6 +3,7 @@
 --   NM: Abatwa
 ------------------------------
 require("scripts/globals/wotg")
+mixins = {require("scripts/mixins/job_special")}
 ------------------------------
 function onMobSpawn(mob)
     tpz.wotg.onMobSpawn(mob)
@@ -17,5 +18,5 @@ function onAdditionalEffect(mob, target, damage)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
-    tpz.wotg.onMobDeath(mob, player, tpz.wotg.events.Boss)
+    tpz.wotg.onMobDeath(mob, player, isKiller, noKiller, tpz.wotg.events.Boss)
 end

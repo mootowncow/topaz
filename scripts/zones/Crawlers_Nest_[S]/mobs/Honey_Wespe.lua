@@ -18,17 +18,7 @@ function onMobFight(mob, target)
 end
  
 function onMobDeath(mob, player, isKiller, noKiller)
-    local witchweed = GetMobByID(17478240)
-    local level = witchweed:getMainLvl()
-
-    -- Level up Witchweed on death
-    witchweed:setLocalVar("beeTimer", os.time() + 45)
-    witchweed:useMobAbility(tpz.mob.skills.LEVEL_UP, witchweed)
-    witchweed:setMobLevel(level +1)
-
-    -- Mods and Mobmods are cleared on leveling up, need to readd them
-    tpz.wotg.onMobSpawn(witchweed)
-    witchweed:setMobMod(tpz.mobMod.SKILL_LIST, 1208)
+    tpz.wotg.onMobDeath(mob, player, isKiller, noKiller)
 end
 
 function onMobDespawn(mob)

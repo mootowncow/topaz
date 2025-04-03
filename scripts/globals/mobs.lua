@@ -150,7 +150,8 @@ tpz.mob.additionalEffect = {
     PETRIFY_ENMITY_RESET  = 33,
     POISON_OVERWRITE      = 34,
     TAINT                 = 35, -- Undispellable Poison
-    HAUNT                 = 36 -- Undispellable Curse 
+    HAUNT                 = 36, -- Undispellable Curse
+    ADDLE                 = 37
 }
 tpz.mob.ae = tpz.mob.additionalEffect
 
@@ -574,6 +575,34 @@ local additionalEffects =
         maxDuration = 30,
         tick = 3,
     },
+    [tpz.mob.ae.HAUNT] =
+    {
+        chance = 100,
+        ele = tpz.magic.ele.DARK,
+        sub = tpz.subEffect.CURSE,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.HAUNT,
+        power = 50,
+        duration = 30,
+        minDuration = 1,
+        maxduration = 30,
+    },
+    [tpz.mob.ae.ADDLE] =
+    {
+        chance = 100,
+        ele = tpz.magic.ele.WATER,
+        sub = tpz.subEffect.PLAGUE,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.ADDLE,
+        power = 2500,
+        subPower = 2500,
+        duration = 60,
+        minDuration = 1,
+        maxDuration = 30,
+        tick = 3,
+    },
 }
 
 --[[
@@ -617,6 +646,7 @@ tpz.mob.onAddEffect = function(mob, target, damage, effect, params)
 
                 if (resist >= 0.5) and not target:hasStatusEffect(ae.eff) then
                     local power = params.power or ae.power or 0
+                    local subPower = params.subPower or ae.subPower or 0
                     local tick = ae.tick or 0
                     local duration = params.duration or ae.duration
 
@@ -628,7 +658,7 @@ tpz.mob.onAddEffect = function(mob, target, damage, effect, params)
 
                     duration = duration * resist
 
-                    target:addStatusEffect(ae.eff, power, tick, duration)
+                    target:addStatusEffect(ae.eff, power, tick, duration, 0, subPower, 0)
 
                     if params.code then
                         params.code(mob, target, power)
@@ -844,11 +874,15 @@ function TickMobAura(mob, target, auraParams)
             if (nearbyEnemies ~= nil) then 
                 for _,v in pairs(nearbyEnemies) do
                     if (v:getID() ~= mob:getID()) then
-                        v:delStatusEffectSilent(auraParams.effect)
-                        v:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
-                        local buffEffect = v:getStatusEffect(auraParams.effect)
-                        buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
-                        buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                        if auraParams.Corrupt then
+                            CorruptBuffs(mob, v, auraParams.power)
+                        else
+                            v:delStatusEffectSilent(auraParams.effect)
+                            v:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
+                            local buffEffect = v:getStatusEffect(auraParams.effect)
+                            buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
+                            buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                        end
                     end
                 end
             end

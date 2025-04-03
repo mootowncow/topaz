@@ -16,6 +16,7 @@ require("scripts/globals/keyitems")
 -- tpz.wotg.RandomEvent need the forced spawn removed (randomEventWaves(player)) and should only spawn at 10% of time
 --  weather related event (during weather only)
 --  undead related event (night only)
+-- regions to be set where an event can pop (like 5 up at a time?) then reset once an event is active
 -- rewards (dynamis type currency / literal currency in currency menu? craft mats? trade ins to a vendor for items?)
 -- mobFamily table based on zone or passable arg (zone prob easier? the first key could be zone name via tpz enum?)
 -- meta boss based on zone, can use a table like mobFamily and first key can be zone name via tpz enum
@@ -298,7 +299,7 @@ local modByMobName =
     ['Witchweed'] = function(mob)
         mob:setDamage(150)
         mob:setMod(tpz.mod.MDEF, 60)
-        witchweed:setMobMod(tpz.mobMod.SKILL_LIST, 207)
+        mob:setMobMod(tpz.mobMod.SKILL_LIST, 207)
         mob:setMobMod(tpz.mobMod.FRIENDLY_FIRE, 1)
     end,
 
@@ -317,7 +318,7 @@ local modByMobName =
 
     ['Sciaridae'] = function(mob)
         mob:setDamage(75)
-        mob:setMod(tpz.mod.TRIPLE_ATTACK, 25)
+        mob:setMod(tpz.mod.TRIPLE_ATTACK, 50)
         mob:setMod(tpz.mod.MDEF, 60)
         mob:addMod(tpz.mod.EVA, 50)
 
@@ -335,6 +336,7 @@ local modByMobName =
         mob:setDamage(150)
         mob:setMod(tpz.mod.MDEF, 60)
         mob:setMod(tpz.mod.LTNG_ABSORB, 100)
+
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
@@ -344,8 +346,16 @@ local modByMobName =
     end,
 
     ['Gastropoda'] = function(mob)
-        mob:setDamage(150)
-        mob:setMod(tpz.mod.MDEF, 60)
+        mob:setDamage(125)
+        mob:setMod(tpz.mod.MDEF, 24)
+        mob:setMod(tpz.mod.UDMGPHYS, -25)
+
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.MEIKYO_SHISUI, cooldown = 90, hpp = 90},
+            },
+        })
     end,
 
     ['Wadjet'] = function(mob)
@@ -373,7 +383,7 @@ local mixinByMobName =
 
 local mobFightByMobName =
 {
-    ['Selket'] = function(mob)
+    ['Selket'] = function(mob, target)
         local maxHP = mob:getMaxHP()
         local currentHP = mob:getHP()
         local hpPercent = (currentHP / maxHP) * 100
@@ -395,7 +405,7 @@ local mobFightByMobName =
         mob:setDelay(newDelay)
     end,
 
-    ['Witchweed'] = function(mob)
+    ['Witchweed'] = function(mob, target)
         local bee = GetMobByID(17478245)
 	    local beeTimer = mob:getLocalVar("beeTimer")
         -- Spawns a bee next to it that it will attack until the bee is dead.
@@ -421,7 +431,7 @@ local mobFightByMobName =
         end
     end,
 
-    ['Honey_Wespe'] = function(mob)
+    ['Honey_Wespe'] = function(mob, target)
         local Allegiance = mob:getAllegiance()
         local witchweed = GetMobByID(17478240)
         local pos = witchweed:getPos()
@@ -430,10 +440,10 @@ local mobFightByMobName =
         end
     end,
 
-    ['Sciaridae'] = function(mob)
+    ['Sciaridae'] = function(mob, target)
     end,
 
-    ['Coccineus'] = function(mob)
+    ['Coccineus'] = function(mob, target)
         -- 1k+ Earth damage magic bursts procs (silence) and removes Chainspell
         mob:addListener("SPELL_DMG_TAKEN", "COCCINEUS_SPELL_DMG_TAKEN", function(mob, caster, spell, amount, msg)
             local element = spell:getElement()
@@ -448,7 +458,52 @@ local mobFightByMobName =
         end)
     end,
 
-    ['Gastropoda'] = function(mob)
+    ['Gastropoda'] = function(mob, target)
+        local auraParams = {
+            radius = 10,
+            corrupt = true,
+            power = 1,
+            duration = 30,
+            auraNumber = 1
+        }
+
+        local sdtWeaknesses = {
+            [1] = tpz.mod.SDT_EARTH,
+            [2] = tpz.mod.SDT_WATER,
+            [3] = tpz.mod.SDT_WIND,
+            [4] = tpz.mod.SDT_FIRE,
+            [5] = tpz.mod.SDT_ICE,
+            [6] = tpz.mod.SDT_THUNDER,
+        }
+
+        local defaultSDT = 20
+        local highSDT = 100
+        local battleTime = mob:getBattleTime()
+        local resChangeTimer = mob:getLocalVar("resChangeTimer")
+        local resistance = mob:getLocalVar("resistance")
+
+        if (resChangeTimer == 0) then
+            mob:setLocalVar("resChangeTimer", math.random(60, 90))
+        end
+
+        if (battleTime >= resChangeTimer) then
+            mob:setLocalVar("resChangeTimer", battleTime + math.random(60, 90))
+            mob:setLocalVar("resistance", math.random(6))
+        end
+
+        -- Rotates elemental resistances every 60-90s
+        if sdtWeaknesses[resistance] then
+            for _, mod in ipairs({
+                tpz.mod.SDT_FIRE, tpz.mod.SDT_ICE, tpz.mod.SDT_WIND, tpz.mod.SDT_EARTH,
+                tpz.mod.SDT_THUNDER, tpz.mod.SDT_WATER, tpz.mod.SDT_LIGHT, tpz.mod.SDT_DARK
+            }) do
+                mob:setMod(mod, (mod == sdtWeaknesses[resistance]) and highSDT or defaultSDT)
+            end
+        end
+
+        -- Corrupts a buff on nearby players every 3 seconds
+        AddMobAura(mob, target, auraParams)
+        TickMobAura(mob, target, auraParams)
     end,
 
     ['Wadjet'] = function(mob, target)
@@ -496,6 +551,25 @@ local mobFightByMobName =
     end,
 }
 
+local mobDeathByMobName =
+{
+    ['Honey_Wespe'] = function(mob, player, isKiller, noKiller)
+        local witchweed = GetMobByID(17478240)
+        local level = witchweed:getMainLvl()
+
+        if (player == nil) then -- Was killed by Witchweed and not a player
+            -- Level up Witchweed on death
+            witchweed:setLocalVar("beeTimer", os.time() + 45)
+            witchweed:useMobAbility(tpz.mob.skills.LEVEL_UP, witchweed)
+            witchweed:setMobLevel(level +1)
+
+            -- Mods and Mobmods are cleared on leveling up, need to readd them
+            tpz.wotg.onMobSpawn(witchweed)
+            witchweed:setMobMod(tpz.mobMod.SKILL_LIST, 1208)
+            end
+    end,
+}
+
 tpz.wotg.onMobSpawn = function(mob)
     mob:setDamage(150)
     mob:setMod(tpz.mod.ATTP, 25)
@@ -533,6 +607,24 @@ tpz.wotg.onMobFight = function(mob, target)
 
     if mobFight then
         mobFight(mob, target)
+    end
+end
+
+tpz.wotg.onMobDeath = function (mob, player, isKiller, noKiller, event)
+    local mobName  = mob:getName()
+    local mobDeath = mobDeathByMobName[mobName]
+
+    if mobDeath then
+        mobDeath(mob, player, isKiller, noKiller)
+    end
+
+    if (event ~= nil) then
+        for eventName, eventID in pairs(tpz.wotg.events) do
+            if event == eventID and eventOnMobDeath[eventName] then
+                eventOnMobDeath[eventName](mob, player)
+                return
+            end
+        end
     end
 end
 
@@ -639,15 +731,6 @@ function eventOnMobDeath.Boss(mob, player)
         zone:setLocalVar("metaProgress", math.min(metaProgress + 5, 100))
         utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', 0xD, nil)
         ClearMsgVars(zone)
-    end
-end
-
-tpz.wotg.onMobDeath = function(mob, player, event) -- TODO: Might not work. Renamed events to tpz.wotg.Events and made global and stuff
-    for eventName, eventID in pairs(tpz.wotg.events) do
-        if event == eventID and eventOnMobDeath[eventName] then
-            eventOnMobDeath[eventName](mob, player)
-            return
-        end
     end
 end
 

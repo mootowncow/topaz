@@ -4927,6 +4927,11 @@ INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2181); -- spiral_spin
 INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2182); -- spiral_burst 
 INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2933); -- searing_effulgence 
 
+INSERT INTO `mob_skill_lists` VALUES ('Gastropoda',6154,2183); -- fuscous_ooze
+INSERT INTO `mob_skill_lists` VALUES ('Gastropoda',6154,2184); -- purulent_ooze
+INSERT INTO `mob_skill_lists` VALUES ('Gastropoda',6154,2185); -- corrosive_ooze
+INSERT INTO `mob_skill_lists` VALUES ('Gastropoda',6154,2186); -- Mucilaginous Ooze -- (60 seconds of encumbrance)
+
 -- Next available ID: 1209
--- Next custom ID: 6154
+-- Next custom ID: 6155
 
