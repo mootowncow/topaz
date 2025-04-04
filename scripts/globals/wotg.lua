@@ -20,6 +20,7 @@ require("scripts/globals/keyitems")
 -- rewards (dynamis type currency / literal currency in currency menu? craft mats? trade ins to a vendor for items?)
 -- mobFamily table based on zone or passable arg (zone prob easier? the first key could be zone name via tpz enum?)
 -- meta boss based on zone, can use a table like mobFamily and first key can be zone name via tpz enum
+-- Bosses made max model size
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
 
@@ -314,6 +315,10 @@ local modByMobName =
         mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
         mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
         mob:setMobMod(tpz.mobMod.CHECK_AS_NM, 1)
+        mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
+        mob:SetAutoAttackEnabled(false)
+        mob:SetMagicCastingEnabled(false)
+        mob:SetMobAbilityEnabled(false)
     end,
 
     ['Sciaridae'] = function(mob)
@@ -334,7 +339,7 @@ local modByMobName =
 
     ['Coccineus'] = function(mob)
         mob:setDamage(150)
-        mob:setMod(tpz.mod.MDEF, 60)
+        mob:setMod(tpz.mod.MDEF, 24)
         mob:setMod(tpz.mod.LTNG_ABSORB, 100)
 
         tpz.mix.jobSpecial.config(mob, {
@@ -408,8 +413,10 @@ local mobFightByMobName =
     ['Witchweed'] = function(mob, target)
         local bee = GetMobByID(17478245)
 	    local beeTimer = mob:getLocalVar("beeTimer")
-        -- Spawns a bee next to it that it will attack until the bee is dead.
-        -- If the bee dies, levels up and gains access to AoE charm
+        local beeEatTimer = mob:getLocalVar("beeEatTimer")
+
+        -- Spawns a bee next to it, after a certain amount of time will consume the bee then level up
+        -- If the bee dies in this fashion, levels up and gains access to AoE charm
         if not bee:isSpawned() then
             if (beeTimer == 0) then
                 mob:setLocalVar("beeTimer", os.time() + 15)
@@ -417,18 +424,46 @@ local mobFightByMobName =
                 bee:setSpawn(mob:getXPos() + math.random(2, 5), mob:getYPos(), mob:getZPos() + math.random(1, 3))
                 utils.spawnPetInBattle(mob, bee)
                 mob:setLocalVar("beeTimer", os.time() + 60)
+                mob:setLocalVar("beeEatTimer", os.time() + 30)
             end
         end
 
-        -- Does not attack or cast while the bee is alive
-        if bee:isAlive() and (mob:checkDistance(bee) <= 5) then
-            mob:SetAutoAttackEnabled(false)
-            mob:SetMagicCastingEnabled(false)
+        -- "Eats" the bee after a certain amount of time
+        if (beeEatTimer == 0) then
+            mob:setLocalVar("beeEatTimer", os.time() + 45)
+        elseif
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect() and
+            (os.time() >= beeEatTimer) and
+            bee:isAlive() and
+            (mob:checkDistance(bee) <= 5)
+        then
             mob:useMobAbility(tpz.mob.skills.BLOODY_CARESS, bee)
-        else
-            mob:SetAutoAttackEnabled(true)
-            mob:SetMagicCastingEnabled(true)
+            mob:setLocalVar("beeEatTimer", os.time() + 60)
         end
+
+        -- Handle Bloody Caress being interrupted
+        mob:addListener("WEAPONSKILL_STATE_INTERRUPTED", "URD_WS_INTERRUPTED", function(mob, skillID)
+            if (skillID == tpz.mob.skills.BLOODY_CARESS) then
+                mob:setLocalVar("beeEatTimer", os.time() + 1)
+            end
+        end)
+
+        -- "Consuming" the Bee
+        mob:addListener("WEAPONSKILL_STATE_EXIT", "WITCHWEED_MOBSKILL_FINISHED", function(mob, skillID)
+            if (skillID == tpz.mob.skills.BLOODY_CARESS) then
+                local level = mob:getMainLvl()
+                local bee = GetMobByID(17478245)
+                if bee:isAlive() then
+                    bee:setHP(0)
+                    mob:useMobAbility(tpz.mob.skills.LEVEL_UP, mob)
+                    mob:setMobLevel(level +1)
+                    -- Mods and Mobmods are cleared on leveling up, need to readd them
+                    tpz.wotg.onMobSpawn(mob)
+                    mob:setMobMod(tpz.mobMod.SKILL_LIST, 1208)
+                end
+            end
+        end)
     end,
 
     ['Honey_Wespe'] = function(mob, target)
@@ -444,7 +479,7 @@ local mobFightByMobName =
     end,
 
     ['Coccineus'] = function(mob, target)
-        -- 1k+ Earth damage magic bursts procs (silence) and removes Chainspell
+        -- While chainspell is active: 1k+ Earth damage magic bursts procs (silence) and removes Chainspell
         mob:addListener("SPELL_DMG_TAKEN", "COCCINEUS_SPELL_DMG_TAKEN", function(mob, caster, spell, amount, msg)
             local element = spell:getElement()
 
@@ -555,18 +590,7 @@ local mobDeathByMobName =
 {
     ['Honey_Wespe'] = function(mob, player, isKiller, noKiller)
         local witchweed = GetMobByID(17478240)
-        local level = witchweed:getMainLvl()
-
-        if (player == nil) then -- Was killed by Witchweed and not a player
-            -- Level up Witchweed on death
-            witchweed:setLocalVar("beeTimer", os.time() + 45)
-            witchweed:useMobAbility(tpz.mob.skills.LEVEL_UP, witchweed)
-            witchweed:setMobLevel(level +1)
-
-            -- Mods and Mobmods are cleared on leveling up, need to readd them
-            tpz.wotg.onMobSpawn(witchweed)
-            witchweed:setMobMod(tpz.mobMod.SKILL_LIST, 1208)
-            end
+        witchweed:setLocalVar("beeTimer", os.time() + 45)
     end,
 }
 

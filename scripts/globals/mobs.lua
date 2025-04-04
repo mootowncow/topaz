@@ -873,15 +873,17 @@ function TickMobAura(mob, target, auraParams)
             local nearbyEnemies = mob:getNearbyEntities(auraParams.radius)
             if (nearbyEnemies ~= nil) then 
                 for _,v in pairs(nearbyEnemies) do
-                    if (v:getID() ~= mob:getID()) then
-                        if auraParams.Corrupt then
+                    if not v:isNPC() and (v:getID() ~= mob:getID()) then
+                        if auraParams.corrupt then
                             CorruptBuffs(mob, v, auraParams.power)
                         else
-                            v:delStatusEffectSilent(auraParams.effect)
-                            v:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
-                            local buffEffect = v:getStatusEffect(auraParams.effect)
-                            buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
-                            buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                            if auraParams.effect then
+                                v:delStatusEffectSilent(auraParams.effect)
+                                v:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
+                                local buffEffect = v:getStatusEffect(auraParams.effect)
+                                buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
+                                buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                            end
                         end
                     end
                 end
@@ -904,9 +906,9 @@ function TickDamageAura(mob, target, radius, dmg, attackType, damageType, tick)
     if os.time() >= DmgAuraTick then
         mob:setLocalVar("DmgAuraTick", os.time() + tick)
         local nearbyEnemies = mob:getNearbyEntities(radius)
-        if (nearbyEnemies ~= nil )then 
+        if (nearbyEnemies ~= nil) then 
             for _,v in pairs(nearbyEnemies) do
-                if (v:getID() ~= mob:getID()) then
+                if not v:isNPC() and (v:getID() ~= mob:getID()) then
                     if (attackType == tpz.attackType.MAGICAL) or (attackType == tpz.attackType.SPECIAL) then
                         dmg = v:magicDmgTaken(dmg, element)
                     elseif (attackType == tpz.attackType.BREATH) then
@@ -1196,6 +1198,20 @@ function CorruptBuffs(mob, target, amount)
         { tpz.effect.INTENSION, tpz.effect.MAGIC_ACC_DOWN },
         { tpz.effect.MAGIC_DEF_BOOST, tpz.effect.MAGIC_DEF_DOWN },
         { tpz.effect.MAGIC_EVASION_BOOST_II, tpz.effect.MAGIC_EVASION_DOWN },
+        { tpz.effect.MARCH, tpz.effect.ELEGY },
+        { tpz.effect.PAEON, tpz.effect.REQUIEM },
+        { tpz.effect.CAROL, tpz.effect.THRENODY },
+    }
+
+    local carolMap = {
+        tpz.mod.FIRERES,                         
+        tpz.mod.ICERES,                         
+        tpz.mod.WINDRES,                         
+        tpz.mod.EARTHRES,                        
+        tpz.mod.THUNDERRES,                      
+        tpz.mod.WATERRES,                        
+        tpz.mod.LIGHTRES,
+        tpz.mod.DARKRES,
     }
 
     local randomList = {};
@@ -1212,15 +1228,27 @@ function CorruptBuffs(mob, target, amount)
     local corruptCount = 0
     -- Corrupt as many buffs as specified in the amount arg
     for _, buff in ipairs(randomList) do
-        if target:hasStatusEffect(buff[1]) then
+        if buff[1] and target:hasStatusEffect(buff[1]) then
             local currentBuff = target:getStatusEffect(buff[1])
             local power = currentBuff:getPower()
             local tick = currentBuff:getTick() / 1000
             local duration = math.ceil((currentBuff:getTimeRemaining())/1000)
+            local subId = 0
+            local subPower = currentBuff:getSubPower() -- Used for Carols / Threnodies
 
-            target:delStatusEffectSilent(buff[1])
-            target:addStatusEffect(buff[2], power, tick, duration)
-            corruptCount = corruptCount + 1
+            if (buff[1] == tpz.effect.CAROL) then
+                if subPower >= 1 and subPower <= 8 then
+                    subPower = carolMap[subPower] -- Convert Carols subpower (1-8) to Threnodies subpower (FIRERES-LIGHTRES)
+                    power = -power -- Threnodies are MINUS resistance
+                end
+            end
+
+            if (duration > 0) then -- Don't corrupt infinite duration buffs / auras
+                target:delStatusEffectSilent(buff[1])
+                target:delStatusEffectSilent(buff[2])
+                target:addStatusEffect(buff[2], power, tick, duration, subId, subPower)
+                corruptCount = corruptCount + 1
+            end
             if (corruptCount == amount) then
                 break;
             end

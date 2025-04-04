@@ -9,7 +9,7 @@ function onMobSpawn(mob)
 end
 
 function onMobFight(mob, target)
-    tpz.wotg.onMobFight(mob)
+    tpz.wotg.onMobFight(mob, target)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

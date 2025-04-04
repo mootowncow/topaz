@@ -20,7 +20,7 @@ function onMobSkillCheck(target, mob, skill)
             return 0
         end
     end
-    if mob:isNM()
+    if mob:isNM() then
         return 0
     end
     return 1

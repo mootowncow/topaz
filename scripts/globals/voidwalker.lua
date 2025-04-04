@@ -868,7 +868,7 @@ local mixinByMobName =
                 mob:setMod(tpz.mod.UDMGBREATH, 0)
             end
         end)
-        mob:addListener("WEAPONSKILL_STATE_EXIT", "YILBEGAN_MOBSKILL_FINISHED", function(mob)
+        mob:addListener("WEAPONSKILL_STATE_EXIT", "YILBEGAN_MOBSKILL_FINISHED", function(mob, skillID)
             if (animationSub == wingState.UP) then
                 mob:setMod(tpz.mod.UDMGPHYS, 0)
                 mob:setMod(tpz.mod.UDMGRANGE, 0)

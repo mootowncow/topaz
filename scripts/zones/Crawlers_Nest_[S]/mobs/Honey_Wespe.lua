@@ -14,7 +14,7 @@ function onMobRoam(mob, target)
 end
 
 function onMobFight(mob, target)
-    tpz.wotg.onMobFight(mob)
+    tpz.wotg.onMobFight(mob, target)
 end
  
 function onMobDeath(mob, player, isKiller, noKiller)
