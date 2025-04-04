@@ -15,3 +15,7 @@ end
 function onMobDeath(mob, player, isKiller, noKiller)
     tpz.wotg.onMobDeath(mob, player, isKiller, noKiller, tpz.wotg.events.Boss)
 end
+
+function onMobDespawn(mob)
+    tpz.wotg.onMobDespawn(mob)
+end

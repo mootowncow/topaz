@@ -284,6 +284,7 @@ local modByMobName =
         mob:setDelay(4000)
         mob:addMod(tpz.mod.REGAIN, 50)
         mob:setMod(tpz.mod.MDEF, 60)
+        mob:setModelSize(3)
         -- Perma undispellable Ice Spikes
         mob:addStatusEffect(tpz.effect.CLOD_SPIKES, 25, 0, 0)
         local clodSpikes = mob:getStatusEffect(tpz.effect.CLOD_SPIKES)
@@ -368,6 +369,7 @@ local modByMobName =
         mob:setMod(tpz.mod.MDEF, 60)
         mob:setMod(tpz.mod.EEM_TERROR, 5)
         mob:AnimationSub(1) -- Gaze petrification
+        mob:setModelSize(3)
     end,
 }
 
@@ -545,31 +547,35 @@ local mobFightByMobName =
         local animationSub = mob:AnimationSub()
         mob:AnimationSub(1) -- Perma gaze petrification (unless procced)
 
-        if target:hasStatusEffect(tpz.effect.FEALTY) then -- Fealty blocks all status effects
-		    return
-	    end
-		if animationSub == 1 then
-			if (target:isFacing(mob)) then
-				if target:hasStatusEffect(tpz.effect.BLINDNESS) then --Can't gaze debuff them if they can't see!
-					return
-				end
-                if not target:hasStatusEffect(tpz.effect.PETRIFICATION) then
-				    target:addStatusEffect(tpz.effect.PETRIFICATION, 1, 0, 5)
+		if (animationSub == 1) then
+            local nearbyEnemies = mob:getNearbyEntities(15)
+            if (nearbyEnemies ~= nil) then 
+                for _,v in pairs(nearbyEnemies) do
+                    if
+                        mob:isFacing(v) and
+                        v:isFacing(mob) and
+                        not v:isNPC() and
+                        not v:hasStatusEffect(tpz.effect.FEALTY) and
+                        not v:hasStatusEffect(tpz.effect.BLINDNESS) and
+                        (v:getID() ~= mob:getID())
+                    then
+                        v:delStatusEffectSilent(tpz.effect.PETRIFICATION)
+                        v:addStatusEffect(tpz.effect.PETRIFICATION, 1, 0, 5)
+                    end
                 end
-			end
-		end
-
-    -- 1k+ Fire damage magic bursts procs (terror) and removes gaze petrification
-    mob:addListener("SPELL_DMG_TAKEN", "WADJET_SPELL_DMG_TAKEN", function(mob, caster, spell, amount, msg)
-        local element = spell:getElement()
-
-        if (element == tpz.magic.ele.FIRE) and (amount >= 1000) then
-            if (msg == tpz.msg.basic.MAGIC_BURST_BLACK) or (msg == tpz.msg.MAGIC_BURST_BREATH) then
-                local duration = 60
-                BreakMob(mob, caster, tpz.procEffect.NONE, duration, tpz.procType.TERROR)
-            end
+		    end
         end
-    end)
+        -- 1k+ Fire damage magic bursts procs (terror) and removes gaze petrification
+        mob:addListener("SPELL_DMG_TAKEN", "WADJET_SPELL_DMG_TAKEN", function(mob, caster, spell, amount, msg)
+            local element = spell:getElement()
+
+            if (element == tpz.magic.ele.FIRE) and (amount >= 1000) then
+                if (msg == tpz.msg.basic.MAGIC_BURST_BLACK) or (msg == tpz.msg.MAGIC_BURST_BREATH) then
+                    local duration = 60
+                    BreakMob(mob, caster, tpz.procEffect.NONE, duration, tpz.procType.TERROR)
+                end
+            end
+        end)
 
         -- Gaze petrification is removed while terrored
         if mob:hasStatusEffect(tpz.effect.TERROR) then
@@ -588,9 +594,22 @@ local mobFightByMobName =
 
 local mobDeathByMobName =
 {
+    ['Witchweed'] = function(mob)
+        local bee = 17478245
+        DespawnMob(bee)
+    end,
+
     ['Honey_Wespe'] = function(mob, player, isKiller, noKiller)
         local witchweed = GetMobByID(17478240)
         witchweed:setLocalVar("beeTimer", os.time() + 45)
+    end,
+}
+
+local mobDespawnByMobName =
+{
+    ['Witchweed'] = function(mob)
+        local bee = 17478245
+        DespawnMob(bee)
     end,
 }
 
@@ -634,6 +653,36 @@ tpz.wotg.onMobFight = function(mob, target)
     end
 end
 
+local eventOnMobDeath = {}
+function eventOnMobDeath.Waves(mob, player)
+    local zone = mob:getZone()
+    local waveProgress = zone:getLocalVar("waveProgress")
+
+    -- printf("Mob dead, incrementing wave progress by 1")
+    zone:setLocalVar("waveProgress", waveProgress + 1)
+end
+
+function eventOnMobDeath.Boss(mob, player)
+    if not player then return end
+
+    local zone = player:getZone()
+    local metaProgress = zone:getLocalVar("metaProgress")
+
+    if metaProgress < 100 then
+        zone:setLocalVar("metaProgress", math.min(metaProgress + 5, 100))
+        utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', 0xD, nil)
+        ClearMsgVars(zone)
+    end
+end
+
+tpz.wotg.WaveonMobDeath = function(mob)
+    local zone = mob:getZone()
+    local waveProgress = zone:getLocalVar("waveProgress")
+
+    -- printf("Mob dead, incrimenting wave progress by 1")
+    zone:setLocalVar("waveProgress", waveProgress +1)
+end
+
 tpz.wotg.onMobDeath = function (mob, player, isKiller, noKiller, event)
     local mobName  = mob:getName()
     local mobDeath = mobDeathByMobName[mobName]
@@ -649,6 +698,15 @@ tpz.wotg.onMobDeath = function (mob, player, isKiller, noKiller, event)
                 return
             end
         end
+    end
+end
+
+tpz.wotg.onMobDespawn = function (mob)
+    local mobName  = mob:getName()
+    local mobDespawn = mobDespawnByMobName[mobName]
+
+    if mobDespawn then
+        mobDespawn(mob)
     end
 end
 
@@ -734,35 +792,4 @@ tpz.wotg.progressCheck = function(player, zone)
     if (metaProgress >= 100) then
         SpawnMetaBoss(player, zone)
     end
-end
-
-local eventOnMobDeath = {}
-function eventOnMobDeath.Waves(mob, player)
-    local zone = mob:getZone()
-    local waveProgress = zone:getLocalVar("waveProgress")
-
-    -- printf("Mob dead, incrementing wave progress by 1")
-    zone:setLocalVar("waveProgress", waveProgress + 1)
-end
-
-function eventOnMobDeath.Boss(mob, player)
-    if not player then return end
-
-    local zone = player:getZone()
-    local metaProgress = zone:getLocalVar("metaProgress")
-
-    if metaProgress < 100 then
-        zone:setLocalVar("metaProgress", math.min(metaProgress + 5, 100))
-        utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', 0xD, nil)
-        ClearMsgVars(zone)
-    end
-end
-
-
-tpz.wotg.WaveonMobDeath = function(mob)
-    local zone = mob:getZone()
-    local waveProgress = zone:getLocalVar("waveProgress")
-
-    -- printf("Mob dead, incrimenting wave progress by 1")
-    zone:setLocalVar("waveProgress", waveProgress +1)
 end
