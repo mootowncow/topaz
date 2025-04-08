@@ -1756,6 +1756,7 @@ namespace luautils
 
         uint32 retVal = (!lua_isnil(LuaHandle, -1) && lua_isnumber(LuaHandle, -1) ? (int32)lua_tonumber(LuaHandle, -1) : 0);
         lua_pop(LuaHandle, 1);
+        PNpc->PAI->EventHandler.triggerListener("TRIGGER", PChar, PNpc);
         return retVal;
     }
 

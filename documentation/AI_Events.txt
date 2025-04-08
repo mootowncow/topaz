@@ -1,5 +1,7 @@
 States/Actions
 
+TRIGGER (On Trigger) - Player, NPC
+
 ABILITY_START - Entity, Ability
 ABILITY_USE - Entity, Target, Ability, action
 ABILITY_STATE_EXIT - Entity, Ability

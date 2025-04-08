@@ -16,20 +16,60 @@ require("scripts/globals/keyitems")
 -- tpz.wotg.RandomEvent need the forced spawn removed (randomEventWaves(player)) and should only spawn at 10% of time
 --  weather related event (during weather only)
 --  undead related event (night only)
--- regions to be set where an event can pop (like 5 up at a time?) then reset once an event is active
 -- rewards (dynamis type currency / literal currency in currency menu? craft mats? trade ins to a vendor for items?)
--- mobFamily table based on zone or passable arg (zone prob easier? the first key could be zone name via tpz enum?)
 -- meta boss based on zone, can use a table like mobFamily and first key can be zone name via tpz enum
--- Bosses made max model size
+-- Mimics that are "Traps" that spawn enemies then give loot after
+-- Boss death needs to check tpz.wotg.progressCheck and zone:setLocalVar("eventCompleted", 1) and add to meta progress(?)
+-- Check if waves works properly still, I changed the var to set to tpz.wotg.events.Waves instead of 1
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
 
+tpz.wotg.regionsData = {
+    [tpz.zone.CRAWLERS_NEST_S] = {
+        amount = 12
+    }
+}
+
+-- These two tables need to match
 tpz.wotg.events = {
     Waves = 1,
     Defense = 2,
     Boss = 3,
-    Special = 4
+    Mimic = 4,
+    Special = 5
 }
+-- These two tables need to match
+local eventList = {
+    [1] = randomEventWaves,
+    [2] = randomEventDefense,
+    [3] = randomEventBoss,
+    [4] = randomEventMimic,
+    [5] = randomEventSpecial,
+}
+
+local mobFamily = {
+    [tpz.zone.CRAWLERS_NEST_S] = {
+        Scorpids = { 17478169, 17478170, 17478171, 17478172, 17478173, 17478174, 17478175, 17478176, 17478177, 17478178 },
+        Funguars = { 17478179, 17478180, 17478181, 17478182, 17478183, 17478184, 17478185, 17478186, 17478187, 17478188 },
+        Wespe = { 17478189, 17478190, 17478191, 17478192, 17478193, 17478194, 17478195, 17478196, 17478197, 17478198 },
+        Saplings = { 17478199, 17478200, 17478201, 17478202, 17478203, 17478204, 17478205, 17478206, 17478207, 17478208 },
+        Crawlers = { 17478209, 17478210, 17478211, 17478212, 17478213, 17478214, 17478215, 17478216, 17478217, 17478218 },
+        Flies = { 17478219, 17478220, 17478221, 17478222, 17478223, 17478224, 17478225, 17478226, 17478227, 17478228 },
+        Peistes = { 17478229, 17478230, 17478231, 17478232, 17478233, 17478234, 17478235, 17478236, 17478237, 17478238 }
+    }
+}
+
+local bosses = {
+    -- Scorpion(Gold), Rafflesia, Gnat, Ladybug, Slug, Peiste
+    [tpz.zone.CRAWLERS_NEST_S] = { 17478239, 17478240, 17478241, 17478242, 17478243, 17478244 },
+}
+
+local metaBosses = {
+    [tpz.zone.CRAWLERS_NEST_S] = { 17477708 }, -- Lugh
+}
+
+local waves = {}
+local currentWave = 1
 
 tpz.wotg.NMMods = function(mob)
     if mob:getMainJob() == tpz.job.MNK then
@@ -161,27 +201,54 @@ tpz.wotg.MagianT4 = function(mob, player, isKiller, noKiller)
     end
 end
 
-local waves = {}
-local currentWave = 1
-local mobFamily = {
-    [tpz.zone.CRAWLERS_NEST_S] = {
-        Scorpids = { 17478169, 17478170, 17478171, 17478172, 17478173, 17478174, 17478175, 17478176, 17478177, 17478178 },
-        Funguars = { 17478179, 17478180, 17478181, 17478182, 17478183, 17478184, 17478185, 17478186, 17478187, 17478188 },
-        Wespe = { 17478189, 17478190, 17478191, 17478192, 17478193, 17478194, 17478195, 17478196, 17478197, 17478198 },
-        Saplings = { 17478199, 17478200, 17478201, 17478202, 17478203, 17478204, 17478205, 17478206, 17478207, 17478208 },
-        Crawlers = { 17478209, 17478210, 17478211, 17478212, 17478213, 17478214, 17478215, 17478216, 17478217, 17478218 },
-        Flies = { 17478219, 17478220, 17478221, 17478222, 17478223, 17478224, 17478225, 17478226, 17478227, 17478228 },
-        Peistes = { 17478229, 17478230, 17478231, 17478232, 17478233, 17478234, 17478235, 17478236, 17478237, 17478238 }
-    }
-}
+local function generateActiveRegions(zone)
+    local zoneId = zone:getID()
+    local regionsAmount = tpz.wotg.regionsData[zoneId].amount
+    local regionsGenerated = regionsAmount / 4 -- 25% of total regions active at once
+    tpz.wotg.activeRegions[zoneId] = {}
 
-local bosses = {
-    -- Scorpion(Gold), Rafflesia, Gnat, Ladybug, Slug, Peiste
-    [tpz.zone.CRAWLERS_NEST_S] = { 17478239, 17478240, 17478241, 17478242, 17478243, 17478244 },
-}
-local metaBosses = {
-    [tpz.zone.CRAWLERS_NEST_S] = { 17477708 }, -- Lugh
-}
+    -- Build a list of all possible region IDs (1 to regionsAmount)
+    local availableRegions = {}
+    for i = 1, regionsAmount do
+        table.insert(availableRegions, i)
+    end
+
+    -- Shuffle the availableRegions list (so that duplicates can never be picked)
+    for i = #availableRegions, 2, -1 do
+        local j = math.random(i)
+        availableRegions[i], availableRegions[j] = availableRegions[j], availableRegions[i]
+    end
+
+    -- Select the first N shuffled regions (all unique regions)
+    for i = 1, math.min(regionsGenerated, regionsAmount) do
+        table.insert(tpz.wotg.activeRegions[zoneId], availableRegions[i])
+    end
+
+    local activeRegions = tpz.wotg.getActiveRegions(zoneId)
+    printf("Generating active regions")
+    if activeRegions then
+        print("Active regions for zone " .. zoneId .. ":")
+        for i, regionID in ipairs(activeRegions) do
+            print("Region " .. i .. ": " .. regionID)
+        end
+    else
+        print("No active regions found for zone " .. zoneId)
+    end
+end
+
+local function ProgressMeta(player, zone)
+    local metaProgress = zone:getLocalVar("metaProgress")
+    if metaProgress < 100 then
+        zone:setLocalVar("metaProgress", math.min(metaProgress + 5, 100))
+        utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', 0xD, none)
+        generateActiveRegions(zone)
+    end
+end
+
+local function ClearMsgVars(zone)
+    zone:setLocalVar("wavesMsg", 0)
+    zone:setLocalVar("bossMsg", 0)
+end
 
 local function pickRandom(t)
     return t[math.random(1, #t)]
@@ -246,7 +313,7 @@ local function randomEventWaves(player)
         table.insert(waves, wave)  
     end
 
-    zone:setLocalVar("eventActive", 1)
+    zone:setLocalVar("eventActive", tpz.wotg.events.Waves)
     zone:setLocalVar("wave", 1)
     zone:setLocalVar("maxWaves", numWaves)
 end
@@ -255,23 +322,50 @@ local function randomEventDefense(player)
 end
 
 local function randomEventBoss(player)
+    local zone = player:getZone()
+    local zoneId = player:getZoneID()
+    local bossMsg = zone:getLocalVar("bossMsg")
+
+    if not mobFamily[zoneId] then
+        print("No bosses defined for zone ID: " .. zoneId)
+        return
+    end
+
+    local bossList = bosses[zoneId]
+    local bossID = bossList[math.random(#bossList)]
+
+    player:queue(5000, function(player) -- 5s wait before spawning a boss
+        local posOffset = 0.5
+        local boss = GetMobByID(bossID)
+        if not boss:isSpawned() then
+            boss:setSpawn(player:getXPos() + posOffset, player:getYPos(), player:getZPos() + posOffset)
+            SpawnMob(bossID)
+            boss:updateEnmity(player)
+            boss:updateClaim(player)
+            boss:addStatusEffect(tpz.effect.TERROR, 1, 0, 3)
+            posOffset = posOffset + 0.5
+        end
+        utils.MessageParty(player, 'A ferocious enemy appears!', 0xD, none)
+    end)
+
+    if (bossMsg == 0) then
+        utils.MessageParty(player, 'CODE: Boss START', 0xD, none)
+        zone:setLocalVar("bossMsg", 1)
+    end
+    zone:setLocalVar("eventActive", tpz.wotg.events.Boss)
 end
+
+local function randomEventMimic(player)
+end
+
 
 local function randomEventSpecial(player)
 end
 
-local function ClearMsgVars(zone)
-    zone:setLocalVar("wavesMsg", 0)
-end
-
 local function RandomEventComplete(player)
     local zone = player:getZone()
-    local metaProgress = zone:getLocalVar("metaProgress")
-    if metaProgress < 100 then
-        zone:setLocalVar("metaProgress", math.min(metaProgress + 5, 100))
-        utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', 0xD, none)
-        ClearMsgVars(zone)
-    end
+    ProgressMeta(player, zone)
+    ClearMsgVars(zone)
 end
 
 local function SpawnMetaBoss(player, zone)
@@ -663,16 +757,10 @@ function eventOnMobDeath.Waves(mob, player)
 end
 
 function eventOnMobDeath.Boss(mob, player)
-    if not player then return end
-
     local zone = player:getZone()
-    local metaProgress = zone:getLocalVar("metaProgress")
-
-    if metaProgress < 100 then
-        zone:setLocalVar("metaProgress", math.min(metaProgress + 5, 100))
-        utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', 0xD, nil)
-        ClearMsgVars(zone)
-    end
+    zone:setLocalVar("eventActive", 0)
+    ProgressMeta(player, zone)
+    ClearMsgVars(zone)
 end
 
 tpz.wotg.WaveonMobDeath = function(mob)
@@ -710,20 +798,19 @@ tpz.wotg.onMobDespawn = function (mob)
     end
 end
 
+tpz.wotg.activeRegions = {}
+tpz.wotg.onInitialize = function(zone)
+    generateActiveRegions(zone)
+end
 
-local eventList = {
-    [1] = randomEventWaves,
-    [2] = randomEventDefense,
-    [3] = randomEventBoss,
-    [4] = randomEventSpecial,
-}
+tpz.wotg.getActiveRegions = function(zone)
+    return tpz.wotg.activeRegions[zone]
+end
 
-tpz.wotg.RandomEvent = function(player, spawnChance)
+tpz.wotg.RandomEvent = function(player)
     local zone = player:getZone()
-    randomEventWaves(player) -- TODO: Remove after done testing
-    if (math.random(100) <= spawnChance) and (zone:getLocalVar("eventActive") == 0) then
-        eventList[math.random(#eventList)](player)
-    end
+    randomEventBoss(player) -- TODO: Remove after done testing
+    -- eventList[math.random(#eventList)](player) -- TODO: Uncomment after testing
 end
 
 tpz.wotg.spawnWave = function(player, waveIndex)
@@ -735,27 +822,32 @@ tpz.wotg.spawnWave = function(player, waveIndex)
 
     local wave = waves[waveIndex]
     local waveSize = #wave  -- Get the number of mobs in this wave
-    print("Spawning Wave " .. waveIndex)
 
-    -- Reset wave progress for the new wave
+    -- Reset wave progress for the new wave 
     zone:setLocalVar("waveProgress", 0)
 
-    for _, mobID in ipairs(wave) do
-        print("Spawning Mob ID:", mobID)
-        local mob = GetMobByID(mobID)
-        if not mob:isSpawned() then
-            mob:setSpawn(player:getXPos(), player:getYPos(), player:getZPos())
-            SpawnMob(mobID)
-            mob:updateEnmity(player)
-            mob:addStatusEffect(tpz.effect.TERROR, 1, 0, 3)
+    player:queue(5000, function(player) -- 5s wait before spawning a wave
+        local posOffset = 0
+        for _, mobID in ipairs(wave) do
+            print("Spawning Mob ID:", mobID)
+            local mob = GetMobByID(mobID)
+            if not mob:isSpawned() then
+                mob:setSpawn(player:getXPos() + posOffset, player:getYPos(), player:getZPos() + posOffset)
+                SpawnMob(mobID)
+                mob:updateEnmity(player)
+                mob:updateClaim(player)
+                mob:addStatusEffect(tpz.effect.TERROR, 1, 0, 3)
+                posOffset = posOffset + 0.5
+            end
         end
-    end
+        print("Spawning Wave " .. waveIndex)
+        utils.MessageParty(player, 'Enemies appear around you!', 0xD, none)
+    end)
 
     -- Set wave size as a local variable in the zone
     zone:setLocalVar("waveActive", 1)
     zone:setLocalVar("waveSize", waveSize)
     zone:setLocalVar("eventCompleted", 0)
-    utils.MessageParty(player, 'Enemies appear around you!', 0xD, none)
 end
 
 tpz.wotg.progressCheck = function(player, zone)

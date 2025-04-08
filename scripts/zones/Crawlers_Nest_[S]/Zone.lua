@@ -23,6 +23,8 @@ function onInitialize(zone)
     zone:registerRegion(10, -18.022476, normalCircleRadius, 141.868866, 0, 0, 0) -- Random event spawn circle
     zone:registerRegion(11, 58.191879, normalCircleRadius, 260.211212, 0, 0, 0) -- Random event spawn circle
     zone:registerRegion(12, 46.562725, largeCircleRadius, 365.081757, 0, 0, 0) -- Random event spawn circle
+
+    tpz.wotg.onInitialize(zone)
 end
 
 function OnZoneTick(player, zone)
@@ -48,14 +50,21 @@ end
 function onRegionEnter(player, region)
     local regionID = region:GetRegionID()
     local zone = player:getZone()
+    local zoneId = zone:getID()
     local regionEnterDelay = zone:getLocalVar("regionEnterDelay")
     local spawnChance = 10
+    local activeRegions = tpz.wotg.getActiveRegions(zoneId)
 
-    if (regionID >= 1 and regionID <= 12) then
-        print("Player entered a random event region")
-        if (os.time() >= regionEnterDelay) then
-            zone:setLocalVar("regionEnterDelay", os.time() + 10)
-            tpz.wotg.RandomEvent(player, spawnChance)
+    if activeRegions then
+        for _, activeRegionID in ipairs(activeRegions) do
+            if (regionID == activeRegionID) then
+                print("Player entered a random event region")
+                if (os.time() >= regionEnterDelay) then
+                    zone:setLocalVar("regionEnterDelay", os.time() + 10)
+                    tpz.wotg.RandomEvent(player)
+                end
+                break
+            end
         end
     end
 end

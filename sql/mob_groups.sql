@@ -11793,6 +11793,9 @@ INSERT INTO `mob_groups` VALUES (37,9132,171,'Gastropoda',0,128,0,35000,0,85,85,
 INSERT INTO `mob_groups` VALUES (38,9133,171,'Wadjet',0,128,0,35000,0,85,85,0); -- Peiste
 INSERT INTO `mob_groups` VALUES (39,6308,171,'Honey_Wespe',0,128,0,0,0,85,85,0); -- Eaten by Witchweed
 
+-- Mimic
+INSERT INTO `mob_groups` VALUES (40,2664,171,'Mimic',0,128,0,0,0,85,85,0);
+
 INSERT INTO `mob_groups` VALUES (8865,1,171,'1st_Gold_Musketeer',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (8866,2,171,'1st_Iron_Musketeer',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (8867,3,171,'1st_Legionnaire',0,0,0,0,0,0,0,0);

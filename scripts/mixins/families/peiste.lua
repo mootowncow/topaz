@@ -9,7 +9,7 @@ g_mixins = g_mixins or {}
 -- 1 = Yellow Eyes(Grim Glower)
 -- 2 = Blue Eyes(Opporessive Glare)
 
-g_mixins.peiste = function(mob)
+g_mixins.families.peiste = function(mob)
 
     mob:addListener("COMBAT_TICK", "PEISTE_CTICK", function(mob)
 		local swapTimeGlower = mob:getLocalVar("swapTimeGlower")
@@ -52,4 +52,4 @@ g_mixins.peiste = function(mob)
 
 end
 
-return g_mixins.peiste
+return g_mixins.families.peiste

@@ -52338,6 +52338,7 @@ INSERT INTO `mob_spawn_points` VALUES (17478242, 'Coccineus', 'Coccineus', 36, 0
 INSERT INTO `mob_spawn_points` VALUES (17478243, 'Gastropoda', 'Gastropoda', 37, 0, 50, 0, 0); -- Slug
 INSERT INTO `mob_spawn_points` VALUES (17478244, 'Wadjet', 'Wadjet', 38, 0, 50, 0, 0); -- Peiste
 INSERT INTO `mob_spawn_points` VALUES (17478245, 'Honey_Wespe', 'Honey Wespe', 39, 0, 50, 0, 0); -- Eaten by Witchweed
+INSERT INTO `mob_spawn_points` VALUES (17478246, 'Mimic', 'Mimic', 40, 0, 50, 0, 0);
 
 
 INSERT INTO `mob_spawn_points` VALUES (17477736,'Bartholomaus','Bartholomaus',0,0,0,0,196);
