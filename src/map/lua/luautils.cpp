@@ -954,6 +954,45 @@ namespace luautils
                 {
                     if (!PMob->PAI->IsSpawned())
                     {
+                        position_t tryPos = PMob->m_SpawnPoint;
+
+                        if (!PMob->PAI->PathFind->ValidPosition(tryPos))
+                        {
+                            bool foundValid = false;
+                            const int maxAttempts = 16; // check every 22.5 degrees
+                            const float offsetStep = 1.0f;
+                            const float maxOffset = 5.0f;
+
+                            ShowDebug(CL_CYAN "spawn(): %u <%s> position is not valid. Attempting to find a valid position\n" CL_RESET, PMob->id,
+                                      PMob->GetName());
+
+                            for (float offset = offsetStep; offset <= maxOffset && !foundValid; offset += offsetStep)
+                            {
+                                for (int i = 0; i < maxAttempts; ++i)
+                                {
+                                    float angle = (2.0f * M_PI) * (i / (float)maxAttempts);
+                                    tryPos = nearPosition(PMob->m_SpawnPoint, offset, angle);
+
+                                    if (PMob->PAI->PathFind->ValidPosition(tryPos))
+                                    {
+                                        foundValid = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (foundValid)
+                            {
+                                PMob->m_SpawnPoint = tryPos;
+                            }
+                            else
+                            {
+                                ShowDebug(CL_CYAN "SpawnMob: %u <%s> failed to find valid spawn position after checking nearby points.\n" CL_RESET, PMob->id,
+                                          PMob->GetName());
+                                return 0;
+                            }
+                        }
+
                         PMob->Spawn();
                     }
                     else
