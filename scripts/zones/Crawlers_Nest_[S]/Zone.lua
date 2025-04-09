@@ -6,7 +6,6 @@
 local ID = require("scripts/zones/Crawlers_Nest_[S]/IDs")
 require("scripts/globals/wotg")
 -----------------------------------
-
 function onInitialize(zone)
     local normalCircleRadius = 10
     local largeCircleRadius = 20

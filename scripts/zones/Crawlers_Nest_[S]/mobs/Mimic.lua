@@ -15,4 +15,5 @@ function onMobEngaged(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
+    tpz.wotg.onMobDeath(mob, player, isKiller, noKiller, tpz.wotg.events.Mimic)
 end

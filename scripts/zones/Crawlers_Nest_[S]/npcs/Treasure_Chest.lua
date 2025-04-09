@@ -5,10 +5,11 @@
 require("scripts/globals/wotg")
 mixins = {require("scripts/mixins/treasure_chests")}
 -----------------------------------
-function onTrade(player,npc,trade)
+function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
+    tpz.wotg.distributeChestLoot(player, npc)
 end
 
 function onEventUpdate(player, csid, option)

@@ -18,6 +18,7 @@ zones[tpz.zone.GARLAIGE_CITADEL_S] =
         LOGIN_CAMPAIGN_UNDERWAY = 7000, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
         LOGIN_NUMBER            = 7001, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         LYCOPODIUM_ENTRANCED    = 7056, -- The lycopodium is entranced by a sparkling light...
+        OBTAINED_TEMP_ITEM      = 7134, -- Obtained temporary item: a <item>
         COMMON_SENSE_SURVIVAL   = 8879, -- It appears that you have arrived at a new survival guide provided by the Servicemen's Mutual Aid Network. Common sense dictates that you should now be able to teleport here from similar tomes throughout the world.
         ANNM_TREASURE_APPEARED  = 7998, -- A treasure box has/Treasure boxes have appeared! The treasure will disappear after three minutes have elapsed or when the time limit for this battlefield expires, whichever comes first.
     },

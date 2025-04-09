@@ -236,6 +236,69 @@ local function generateActiveRegions(zone)
     end
 end
 
+local function GiveTempItems(player, amount)
+    local ID = zones[player:getZoneID()]
+    local tempsData = {
+        -- HP Restoration
+        tpz.items.LUCID_POTION_I, tpz.items.LUCID_POTION_II, tpz.items.LUCID_POTION_III,
+        tpz.items.DUSTY_POTION, tpz.items.FLASK_OF_HEALING_MIST, tpz.items.FLASK_OF_HEALING_POWDER,
+
+        -- MP Restoration
+        tpz.items.LUCID_ETHER_I, tpz.items.LUCID_ETHER_II, tpz.items.LUCID_ETHER_III,
+        tpz.items.DUSTY_ETHER, tpz.items.FLASK_OF_MANA_MIST, tpz.items.PINCH_OF_MANA_POWDER,
+
+        -- Elixirs
+        tpz.items.LUCID_ELIXIR_I, tpz.items.LUCID_ELIXIR_II, tpz.items.DUSTY_ELIXIR,
+
+        -- Pet Items
+        tpz.items.HEALING_SALVE_I, tpz.items.HEALING_SALVE_II,
+        tpz.items.CLEAR_SALVE_I, tpz.items.LUCID_ELIXIR_II,
+
+        -- Temporary boosts
+        tpz.items.BOTTLE_OF_BODY_BOOST, tpz.items.BOTTLE_OF_MANA_BOOST,
+        tpz.items.BOTTLE_OF_STALWARTS_TONIC, tpz.items.BOTTLE_OF_STALWARTS_GAMBIR,
+        tpz.items.BOTTLE_OF_ASCETICS_TONIC, tpz.items.BOTTLE_OF_ASCETICS_GAMBIR,
+        tpz.items.BOTTLE_OF_CHAMPIONS_TONIC, tpz.items.BOTTLE_OF_CHAMPIONS_GAMBIR,
+        tpz.items.BOTTLE_OF_FANATICS_DRINK, tpz.items.BOTTLE_OF_FOOLS_DRINK,
+        tpz.items.BOTTLE_OF_FANATICS_TONIC, tpz.items.BOTTLE_OF_FOOLS_TONIC,
+        tpz.items.PINCH_OF_FANATICS_POWDER, tpz.items.PINCH_OF_FOOLS_POWDER,
+        tpz.items.BOTTLE_OF_BERSERKERS_DRINK, tpz.items.BOTTLE_OF_SWIFTSHOT_DRINK,
+        tpz.items.BOTTLE_OF_BERSERKERS_TONIC, tpz.items.BOTTLE_OF_SWIFTSHOT_TONIC,
+        tpz.items.BOTTLE_OF_BARBARIANS_DRINK, tpz.items.BOTTLE_OF_FIGHTERS_DRINK, tpz.items.BOTTLE_OF_ORACLES_DRINK,
+        tpz.items.BOTTLE_OF_ASSASSINS_DRINK, tpz.items.BOTTLE_OF_SPYS_DRINK, tpz.items.BOTTLE_OF_BRAVERS_DRINK,
+        tpz.items.BOTTLE_OF_SOLDIERS_DRINK, tpz.items.BOTTLE_OF_CHAMPIONS_DRINK, tpz.items.BOTTLE_OF_MONARCHS_DRINK,
+        tpz.items.BOTTLE_OF_GNOSTICS_DRINK, tpz.items.BOTTLE_OF_CLERICS_DRINK, tpz.items.BOTTLE_OF_SHEPHERDS_DRINK,
+        tpz.items.BOTTLE_OF_SPRINTERS_DRINK, tpz.items.BOTTLE_OF_VICARS_DRINK,
+
+        -- TP
+        tpz.items.DAEDALUS_WING, tpz.items.PAIR_OF_LUCID_WINGS_I, tpz.items.PAIR_OF_LUCID_WINGS_II,
+        tpz.items.DUSTY_WING,
+
+        -- Reraise
+        tpz.items.DUSTY_SCROLL_OF_RERAISE
+    }
+
+    local tempsGiven = 0
+    local addedItems = {} -- This is used to make sure multiple of the same item isn't added
+
+    while tempsGiven < amount do
+        local randomIndex = math.random(#tempsData)
+        
+        -- Check if item has already been added
+        local randomItem = tempsData[randomIndex]
+        if randomItem then
+            -- Proceed with adding item
+            player:addTempItem(randomItem)
+            player:messageName(ID.text.OBTAINED_TEMP_ITEM, player, randomItem, 0, 0, 0, nil)
+            addedItems[randomItem] = true
+            tempsGiven = tempsGiven + 1
+        else
+            -- Handle unexpected case if necessary
+            printf("wotg\\GiveTempItems: randomItem is nil")
+        end
+    end
+end
+
 local function ProgressMeta(player, zone)
     local metaProgress = zone:getLocalVar("metaProgress")
     if metaProgress < 100 then
@@ -247,7 +310,6 @@ end
 
 local function ClearMsgVars(zone)
     zone:setLocalVar("wavesMsg", 0)
-    zone:setLocalVar("bossMsg", 0)
 end
 
 local function pickRandom(t)
@@ -334,11 +396,12 @@ local function randomEventBoss(player)
     local bossList = bosses[zoneId]
     local bossID = bossList[math.random(#bossList)]
 
+    local xPos, yPos, zPos = player:getXPos(), player:getYPos(), player:getZPos()
+    local posOffset = 0.5
     player:queue(5000, function(player) -- 5s wait before spawning a boss
-        local posOffset = 0.5
         local boss = GetMobByID(bossID)
         if not boss:isSpawned() then
-            boss:setSpawn(player:getXPos() + posOffset, player:getYPos(), player:getZPos() + posOffset)
+            boss:setSpawn(xPos + posOffset, yPos, zPos + posOffset)
             SpawnMob(bossID)
             boss:updateEnmity(player)
             boss:updateClaim(player)
@@ -348,22 +411,39 @@ local function randomEventBoss(player)
         utils.MessageParty(player, 'A ferocious enemy appears!', 0xD, none)
     end)
 
-    if (bossMsg == 0) then
-        utils.MessageParty(player, 'CODE: Boss START', 0xD, none)
-        zone:setLocalVar("bossMsg", 1)
-    end
+    utils.MessageParty(player, 'CODE: Boss START', 0xD, none)
     zone:setLocalVar("eventActive", tpz.wotg.events.Boss)
 end
 
 local function randomEventMimic(player)
-end
+    local zone = player:getZone()
+    local mimic, treasureChest = 17478246, 17478247
+    local chestId = math.random(mimic, treasureChest) -- Either spawn a mimic or treasure chest
+    local chest = GetEntityByID(chestId)
 
+    local xPos, yPos, zPos, zRot = player:getXPos(), player:getYPos(), player:getZPos(), player:getRotPos()
+    local posOffset = 0.5
+    player:queue(5000, function(player) 
+        if not chest:isSpawned() then
+            chest:setSpawn(xPos + posOffset, yPos, zPos + posOffset)
+            chest:spawn()
+            if (chestId == treasureChest) then
+                chest:setPos(xPos + posOffset, yPos, zPos + posOffset, zRot)
+                chest:setStatus(tpz.status.NORMAL)
+            end
+        end
+    end)
+    utils.MessageParty(player, 'A peculiar chest appears!', 0xD, none)
+    zone:setLocalVar("eventActive", tpz.wotg.events.Mimic)
+end
 
 local function randomEventSpecial(player)
 end
 
 local function RandomEventComplete(player)
     local zone = player:getZone()
+    local amount = math.random(1, 3)
+    GiveTempItems(player, amount)
     ProgressMeta(player, zone)
     ClearMsgVars(zone)
 end
@@ -758,9 +838,20 @@ end
 
 function eventOnMobDeath.Boss(mob, player)
     local zone = player:getZone()
-    zone:setLocalVar("eventActive", 0)
+    local amount = math.random(2, 4)
+    GiveTempItems(player, amount)
     ProgressMeta(player, zone)
     ClearMsgVars(zone)
+    zone:setLocalVar("eventActive", 0)
+end
+
+function eventOnMobDeath.Mimic(mob, player)
+    local zone = player:getZone()
+    local amount = math.random(3, 5)
+    GiveTempItems(player, amount)
+    ProgressMeta(player, zone)
+    ClearMsgVars(zone)
+    zone:setLocalVar("eventActive", 0)
 end
 
 tpz.wotg.WaveonMobDeath = function(mob)
@@ -809,7 +900,7 @@ end
 
 tpz.wotg.RandomEvent = function(player)
     local zone = player:getZone()
-    randomEventBoss(player) -- TODO: Remove after done testing
+    randomEventMimic(player) -- TODO: Remove after done testing
     -- eventList[math.random(#eventList)](player) -- TODO: Uncomment after testing
 end
 
@@ -826,13 +917,14 @@ tpz.wotg.spawnWave = function(player, waveIndex)
     -- Reset wave progress for the new wave 
     zone:setLocalVar("waveProgress", 0)
 
+    local xPos, yPos, zPos = player:getXPos(), player:getYPos(), player:getZPos()
+    local posOffset = 0
     player:queue(5000, function(player) -- 5s wait before spawning a wave
-        local posOffset = 0
         for _, mobID in ipairs(wave) do
             print("Spawning Mob ID:", mobID)
             local mob = GetMobByID(mobID)
             if not mob:isSpawned() then
-                mob:setSpawn(player:getXPos() + posOffset, player:getYPos(), player:getZPos() + posOffset)
+                mob:setSpawn(xPos + posOffset, yPos, zPos + posOffset)
                 SpawnMob(mobID)
                 mob:updateEnmity(player)
                 mob:updateClaim(player)
@@ -848,6 +940,28 @@ tpz.wotg.spawnWave = function(player, waveIndex)
     zone:setLocalVar("waveActive", 1)
     zone:setLocalVar("waveSize", waveSize)
     zone:setLocalVar("eventCompleted", 0)
+end
+
+tpz.wotg.distributeChestLoot = function(player, chest)
+    local zone = player:getZone()
+    local chestLooted = chest:getLocalVar("looted")
+    if (chestLooted == 0) then
+        local amount = math.random(3, 5)
+        for _, member in pairs(player:getAlliance()) do
+            GiveTempItems(member, amount)
+        end
+        chest:setLocalVar("looted", 1)
+
+        zone:setLocalVar("eventActive", 0)
+        ProgressMeta(player, zone)
+        ClearMsgVars(zone)
+
+        -- Despawn chest after 30 seconds
+        chest:queue(30000, function(chest)
+            chest:AnimationSub(0)
+            chest:setStatus(tpz.status.DISAPPEAR)
+        end)
+    end
 end
 
 tpz.wotg.progressCheck = function(player, zone)

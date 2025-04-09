@@ -12,17 +12,18 @@ tpz.mix.treasure_chests = tpz.mix.treasure_chests or {}
 
 g_mixins = g_mixins or {}
 
-g_mixins.treasure_chests = function(player, npc)
-    mob:addListener("TRIGGER", "TREASURE_CHEST_TRIGGER", function(player, npc)
+g_mixins.treasure_chests = function(npc)
+    npc:addListener("TRIGGER", "TREASURE_CHEST_TRIGGER", function(player, npc)
         npc:entityAnimationPacket("open")
         npc:setLocalVar("open", 1)
         npc:timer(15000, function(npc)
-        npc:entityAnimationPacket("kesu")
+            npc:entityAnimationPacket("kesu")
         end)
         npc:timer(16000, function(npc)
-        npc:setStatus(tpz.status.DISAPPEAR)
-        npc:timer(500, function(mob)
-        npc:setLocalVar("open", 0)
+            npc:setStatus(tpz.status.DISAPPEAR)
+            npc:timer(500, function(mob)
+                npc:setLocalVar("open", 0)
+            end)
         end)
     end)
 end
