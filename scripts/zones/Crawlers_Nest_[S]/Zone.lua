@@ -60,6 +60,7 @@ function onRegionEnter(player, region)
                 print("Player entered a random event region")
                 if (os.time() >= regionEnterDelay) then
                     zone:setLocalVar("regionEnterDelay", os.time() + 10)
+                    zone:setLocalVar("lastRegion", regionID)
                     tpz.wotg.RandomEvent(player)
                 end
                 break

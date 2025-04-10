@@ -4,6 +4,7 @@
 --
 -----------------------------------
 require("scripts/globals/settings")
+require("scripts/globals/mobs")
 require("scripts/globals/msg")
 require("scripts/globals/utils")
 require("scripts/globals/status")
@@ -16,11 +17,17 @@ require("scripts/globals/keyitems")
 -- tpz.wotg.RandomEvent need the forced spawn removed (randomEventWaves(player)) and should only spawn at 10% of time
 --  weather related event (during weather only)
 --  undead related event (night only)
--- rewards (dynamis type currency / literal currency in currency menu? craft mats? trade ins to a vendor for items?)
+-- augmented items from events, fomor bosses drop their "Finished" synthesized weapons with augments
 -- meta boss based on zone, can use a table like mobFamily and first key can be zone name via tpz enum
 -- Mimics that are "Traps" that spawn enemies then give loot after
 -- Boss death needs to check tpz.wotg.progressCheck and zone:setLocalVar("eventCompleted", 1) and add to meta progress(?)
 -- Check if waves works properly still, I changed the var to set to tpz.wotg.events.Waves instead of 1
+-- test temps with more players
+-- events can spawn in same place x2 in a row, fix
+-- elite/champion packs on waves/defense? can have positive auras buffing other mobs in wave or debuffing players
+-- logic for mob despawning maybe? despawn event/mobs after inactive for 5m?
+-- Angry Scorpion and Wadjet (NM) needs hell scissors and high prio on using
+-- some items in the temp items list are typod, nil, or something. check all of them compared to items.lua
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
 
@@ -32,11 +39,11 @@ tpz.wotg.regionsData = {
 
 -- These two tables need to match
 tpz.wotg.events = {
-    Waves = 1,
-    Defense = 2,
-    Boss = 3,
-    Mimic = 4,
-    Special = 5
+    Waves       = 1,
+    Defense     = 2,
+    Boss        = 3,
+    Mimic       = 4,
+    Special     = 5
 }
 -- These two tables need to match
 local eventList = {
@@ -205,22 +212,25 @@ local function generateActiveRegions(zone)
     local zoneId = zone:getID()
     local regionsAmount = tpz.wotg.regionsData[zoneId].amount
     local regionsGenerated = regionsAmount / 4 -- 25% of total regions active at once
+    local lastRegion = zone:getLocalVar("lastRegion")
     tpz.wotg.activeRegions[zoneId] = {}
 
-    -- Build a list of all possible region IDs (1 to regionsAmount)
+    -- Build a list of region IDs excluding the lastRegion
     local availableRegions = {}
     for i = 1, regionsAmount do
-        table.insert(availableRegions, i)
+        if i ~= lastRegion then
+            table.insert(availableRegions, i)
+        end
     end
 
-    -- Shuffle the availableRegions list (so that duplicates can never be picked)
+    -- Shuffle the availableRegions list (this ensures same region won't be picked multiple times)
     for i = #availableRegions, 2, -1 do
         local j = math.random(i)
         availableRegions[i], availableRegions[j] = availableRegions[j], availableRegions[i]
     end
 
-    -- Select the first N shuffled regions (all unique regions)
-    for i = 1, math.min(regionsGenerated, regionsAmount) do
+    -- Select the first N shuffled regions
+    for i = 1, math.min(regionsGenerated, #availableRegions) do
         table.insert(tpz.wotg.activeRegions[zoneId], availableRegions[i])
     end
 
@@ -294,7 +304,7 @@ local function GiveTempItems(player, amount)
             tempsGiven = tempsGiven + 1
         else
             -- Handle unexpected case if necessary
-            printf("wotg\\GiveTempItems: randomItem is nil")
+            printf("GiveTempItems: randomItem is nil")
         end
     end
 end
@@ -306,10 +316,18 @@ local function ProgressMeta(player, zone)
         utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', 0xD, none)
         generateActiveRegions(zone)
     end
-end
+ end
 
 local function ClearMsgVars(zone)
     zone:setLocalVar("wavesMsg", 0)
+end
+
+local function generateMob(mob)
+    local mobTypeData = {
+       { Type = 'Normal',    Chance = 80 },
+       { Type = 'Champion',  Chance = 10 },
+       { Type = 'Elite',     Chance = 10 },
+    }
 end
 
 local function pickRandom(t)
@@ -443,7 +461,9 @@ end
 local function RandomEventComplete(player)
     local zone = player:getZone()
     local amount = math.random(1, 3)
-    GiveTempItems(player, amount)
+    for _, member in pairs(player:getAlliance()) do
+        GiveTempItems(member, amount)
+    end
     ProgressMeta(player, zone)
     ClearMsgVars(zone)
 end
@@ -766,6 +786,33 @@ local mobFightByMobName =
     end,
 }
 
+local mobWSPrepareByMobName =
+{
+    ['Angry_Scorpion'] = function(mob, target)
+        -- Prefer using Hell Scissors over other TP moves
+        local roll = math.random()
+        printf("roll %d", roll*100)
+        if roll < 0.50 then
+            printf("Using hell scissors")
+            return tpz.mob.skills.HELL_SCISSORS
+        else
+            return math.random(tpz.mob.skills.NUMBING_BREATH, tpz.mob.skills.SHARP_STRIKE)
+        end
+    end,
+
+    ['Selket'] = function(mob, target)
+        -- Prefer using Hell Scissors over other TP moves
+        local roll = math.random()
+        printf("roll %d", roll*100)
+        if roll < 0.50 then
+            printf("Using hell scissors")
+            return tpz.mob.skills.HELL_SCISSORS
+        else
+            return math.random(tpz.mob.skills.NUMBING_BREATH, tpz.mob.skills.SHARP_STRIKE)
+        end
+    end,
+}
+
 local mobDeathByMobName =
 {
     ['Witchweed'] = function(mob)
@@ -827,8 +874,18 @@ tpz.wotg.onMobFight = function(mob, target)
     end
 end
 
+tpz.wotg.onMobWeaponSkillPrepare = function(mob, target)
+    local mobName  = mob:getName()
+    local mobWSPrepare = mobWSPrepareByMobName[mobName]
+
+
+    if mobWSPrepare then
+        return mobWSPrepare(mob, target)
+    end
+end
+
 local eventOnMobDeath = {}
-function eventOnMobDeath.Waves(mob, player)
+function eventOnMobDeath.Waves(mob, player, isKiller, noKille)
     local zone = mob:getZone()
     local waveProgress = zone:getLocalVar("waveProgress")
 
@@ -836,22 +893,26 @@ function eventOnMobDeath.Waves(mob, player)
     zone:setLocalVar("waveProgress", waveProgress + 1)
 end
 
-function eventOnMobDeath.Boss(mob, player)
+function eventOnMobDeath.Boss(mob, player, isKiller, noKiller)
     local zone = player:getZone()
     local amount = math.random(2, 4)
     GiveTempItems(player, amount)
-    ProgressMeta(player, zone)
     ClearMsgVars(zone)
     zone:setLocalVar("eventActive", 0)
+    if isKiller or noKiller then
+        ProgressMeta(player, zone)
+    end
 end
 
-function eventOnMobDeath.Mimic(mob, player)
+function eventOnMobDeath.Mimic(mob, player, isKiller, noKille)
     local zone = player:getZone()
     local amount = math.random(3, 5)
     GiveTempItems(player, amount)
-    ProgressMeta(player, zone)
     ClearMsgVars(zone)
     zone:setLocalVar("eventActive", 0)
+    if isKiller or noKiller then
+        ProgressMeta(player, zone)
+    end
 end
 
 tpz.wotg.WaveonMobDeath = function(mob)
@@ -873,7 +934,7 @@ tpz.wotg.onMobDeath = function (mob, player, isKiller, noKiller, event)
     if (event ~= nil) then
         for eventName, eventID in pairs(tpz.wotg.events) do
             if event == eventID and eventOnMobDeath[eventName] then
-                eventOnMobDeath[eventName](mob, player)
+                eventOnMobDeath[eventName](mob, player, isKiller, noKiller)
                 return
             end
         end

@@ -11776,7 +11776,7 @@ INSERT INTO `mob_groups` VALUES (25,4700,171,'Kalos_Eunomia',0,128,0,0,0,97,98,0
 -- Dungeon Events
 
 -- Waves
-INSERT INTO `mob_groups` VALUES (26,6331,171,'Angry_Scorpion',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (26,9134,171,'Angry_Scorpion',0,128,0,0,0,81,81,0);
 INSERT INTO `mob_groups` VALUES (27,1195,171,'Angry_Funguar',0,128,0,0,0,81,81,0);
 INSERT INTO `mob_groups` VALUES (28,6308,171,'Angry_Wespe',0,128,0,0,0,81,81,0);
 INSERT INTO `mob_groups` VALUES (29,6357,171,'Angry_Sapling',0,128,0,0,0,81,81,0);

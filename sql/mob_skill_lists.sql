@@ -4932,6 +4932,16 @@ INSERT INTO `mob_skill_lists` VALUES ('Gastropoda',6154,2184); -- purulent_ooze
 INSERT INTO `mob_skill_lists` VALUES ('Gastropoda',6154,2185); -- corrosive_ooze
 INSERT INTO `mob_skill_lists` VALUES ('Gastropoda',6154,2186); -- Mucilaginous Ooze -- (60 seconds of encumbrance)
 
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,348);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,349);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,350);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,351);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,353);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,354);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,355);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,356);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,2221); -- hell scissors
+
 -- Next available ID: 1209
 -- Next custom ID: 6155
 

@@ -13,6 +13,10 @@ function onMobFight(mob, target)
     tpz.wotg.onMobFight(mob, target)
 end
 
+function onMobWeaponSkillPrepare(mob, target)
+    return tpz.wotg.onMobWeaponSkillPrepare(mob, target)
+end
+
 function onAdditionalEffect(mob, target, damage)
     return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.TAINT, {chance = 100})
 end
