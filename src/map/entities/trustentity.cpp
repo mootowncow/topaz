@@ -128,6 +128,12 @@ void CTrustEntity::Die()
         PAI->GetController()->SetMagicCastingEnabled(true);
         PAI->GetController()->SetWeaponSkillEnabled(true);
     }
+
+    // Add Listener
+    if (PLastAttacker)
+    {
+        PLastAttacker->PAI->EventHandler.triggerListener("PLAYER_DEATH", PLastAttacker, this);
+    }
     
     ((CCharEntity*)PMaster)->RemoveTrust(this);
     CBattleEntity::Die();

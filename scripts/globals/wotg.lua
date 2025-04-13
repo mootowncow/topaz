@@ -32,7 +32,7 @@ require("scripts/globals/keyitems")
 -- has to be able to AOE it onto other mobs so needs to be in family somehow...or just hard code AOEing it on spellcast
 -- Fomors (Lugh etc) detect magic AND sound
 -- Test if Witchweed properly levels up still (even if you stun it after bee dies)
--- Lugh levels up on player death
+-- Make sure Lugh levels up on heat breath / exuviation
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
 
@@ -497,6 +497,22 @@ local function RandomEventComplete(player)
 end
 
 local function SpawnMetaBoss(player, zone)
+    local xPos, yPos, zPos = player:getXPos(), player:getYPos(), player:getZPos()
+    local posOffset = 0
+    player:queue(5000, function(player) -- 5s wait before spawning a wave
+        for _, mobID in ipairs(wave) do
+            print("Spawning Mob ID:", mobID)
+            local mob = GetMobByID(mobID)
+            if not mob:isSpawned() then
+                mob:setSpawn(xPos + posOffset, yPos, zPos + posOffset)
+                SpawnMob(mobID)
+                mob:updateEnmity(player)
+                mob:updateClaim(player)
+                mob:addStatusEffect(tpz.effect.TERROR, 1, 0, 3)
+                posOffset = posOffset + 0.5
+            end
+        end
+    utils.MessageParty(player, 'Enemies appear around you!', 0xD, none)
 end
 
 local modByMobName =
@@ -540,7 +556,6 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.CHARM)
         mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
-        mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
         mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
         mob:setMobMod(tpz.mobMod.CHECK_AS_NM, 1)
         mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
@@ -600,14 +615,15 @@ local modByMobName =
     end,
 
     ['Lugh'] = function(mob)
-        mob:setDamage(150)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.EVA, 25)
         mob:addMod(tpz.mod.MDEF, 24)
         mob:setMod(tpz.mod.VIT, 175)
         mob:setMod(tpz.mod.REGEN, 25)
-        mob:setMod(tpz.mod.DOUBLE_ATTACK, 50)
-        mob:setMod(tpz.mod.FIRE_ABSORB_SC, 100)
+        mob:setMod(tpz.mod.DOUBLE_ATTACK, 100)
+        mob:setMod(tpz.mod.FIRE_ABSORB, 100)
+        mob:addImmunity(tpz.immunity.SILENCE)
+        mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
 
     tpz.mix.jobSpecial.config(mob, {
@@ -850,8 +866,7 @@ local mobFightByMobName =
     end,
 
     ['Lugh'] = function(mob, target)
-        -- TODO: Does this still work if the spell is interrupted?
-        -- Levels up when a player dies, on successful Heat Breath casts and Fire elemental weapon skills
+        -- Levels up when a player/trust dies, on successful Heat Breath / Exuviation casts
         local lvlUp = mob:getLocalVar("lvlUp")
         if
             (lvlUp > 0) and
@@ -865,15 +880,14 @@ local mobFightByMobName =
             tpz.wotg.onMobSpawn(mob)
             mob:setLocalVar("lvlUp", 0)
         end
+
         mob:addListener("MAGIC_STATE_EXIT", "LUGH_MAGIC_STATE_EXIT", function(mob, spell)
-            if (spell:getID() == tpz.magic.spell.HEAT_BREATH) then
+            if (spell:getID() == tpz.magic.spell.HEAT_BREATH) or (spell:getID() == tpz.magic.spell.EXUVIATION) then
                 mob:setLocalVar("lvlUp", 1)
             end
         end)
-        mob:addListener("WEAPONSKILL_STATE_EXIT", "LUGH_STATE_EXIT", function(mob, skill)
-            if (skill == tpz.mob.skills.BURNING_BLADE or skill == tpz.mob.skills.RED_LOTUS_BLADE) then
-                mob:setLocalVar("lvlUp", 1)
-            end
+        mob:addListener("PLAYER_DEATH", "LUGH_PLAYER_DEATH", function(mob, player)
+            mob:setLocalVar("lvlUp", 1)
         end)
     end,
 }

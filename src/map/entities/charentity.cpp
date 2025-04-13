@@ -2708,6 +2708,7 @@ void CCharEntity::Die()
         float retainPercent = std::clamp(map_config.exp_retain + getMod(Mod::EXPERIENCE_RETAINED) / 100.0f, 0.0f, 1.0f);
         charutils::DelExperiencePoints(this, retainPercent, 0);
     }
+
     // Add Listener
     if (PLastAttacker)
     {

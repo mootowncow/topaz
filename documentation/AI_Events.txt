@@ -34,6 +34,7 @@ SPAWN - Entity
 DESPAWN - Entity
 DEATH_DAMAGE - target, damage, attacker, attackType, damageType
 DEATH - Entity, Killer
+PLAYER_DEATH - Killer, player (Also detects trust deaths)
 ENGAGE - Entity, Target
 DISENGAGE - Entity
 MOB_PATH - mob, target
