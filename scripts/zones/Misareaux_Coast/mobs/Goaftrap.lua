@@ -16,10 +16,14 @@ function onMobSpawn(mob)
 	mob:setDamage(140)
     mob:setMod(tpz.mod.ATTP, 25)
     mob:setMod(tpz.mod.WIND_ABSORB, 100)
-    mob:addMod(tpz.mod.DEFP, 25) 
-    mob:addMod(tpz.mod.EVA, 15)
+    mob:addMod(tpz.mod.DEFP, 35)
+    mob:addMod(tpz.mod.VIT, 25) 
+    mob:addMod(tpz.mod.EVA, 25)
+    mob:addMod(tpz.mod.MDEF, 60)
+    mob:addMod(tpz.mod.SPELLINTERRUPT, 300)
     mob:setMobMod(tpz.mobMod.GA_CHANCE, 70)
-    mob:addImmunity(tpz.immunity.SILENCE) 
+    mob:addImmunity(tpz.immunity.SILENCE)
+    mob:addImmunity(tpz.immunity.PARALYZE)
 end
 
 function onMobFight(mob, target)
@@ -73,7 +77,12 @@ function onMobFight(mob, target)
     end
 
     -- Mimics spells back onto the caster
-    if (spell > 0 and not IsMobBusy(mob) and not mob:hasPreventActionEffect()) then
+    if
+        (spell > 0) and
+        not IsMobBusy(mob) and
+        not mob:hasPreventActionEffect() and
+        not mob:hasStatusEffect(tpz.effect.MANAFONT)
+    then
         if (delay >= 3) then
             mob:castSpell(spell, reflectTarget)
             mob:setLocalVar("COPY_SPELL", 0)
@@ -82,6 +91,16 @@ function onMobFight(mob, target)
             mob:setLocalVar("delay", delay+1)
         end
     end
+
+    -- Gains undispellable ice spikes while casting
+    mob:addListener("MAGIC_START", "GOAFTRAP_MAGIC_START", function(mob, spell)
+	    mob:addStatusEffect(tpz.effect.ICE_SPIKES, 15, 0, 0)
+        local iceSpikes = mob:getStatusEffect(tpz.effect.ICE_SPIKES)
+        iceSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
+    end)
+    mob:addListener("MAGIC_STATE_EXIT", "GOAFTRAP_MAGIC_STATE_EXIT", function(mob, spell)
+        mob:delStatusEffectSilent(tpz.effect.ICE_SPIKES)
+    end)
 
     -- Casts faster as HP decreases
     utils.AddDynamicMod(mob, tpz.mod.UFASTCAST, UFastCast)
@@ -100,6 +119,10 @@ function onMagicHit(caster, target, spell)
     end
 
     return 1
+end
+
+function onMobDisengage(mob)
+    mob:delStatusEffectSilent(tpz.effect.ICE_SPIKES)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
