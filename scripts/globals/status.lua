@@ -2147,8 +2147,16 @@ tpz.mod =
     STRATAGEM_RECAST        = 1417, -- Reduces the recast time of stratagems (seconds)
     PET_DAMAGEP             = 1418, -- % damage increase done by pets
     CRITHITRATE_SLOT        = 1419, -- Crit rate only applied by attacks in this weapon slot. i.e. Senjuionrikio
+    FIRE_ABSORB_SC          = 1420, -- Occasionally absorbs SC fire elemental damage, in percents
+    ICE_ABSORB_SC           = 1421, -- Occasionally absorbs SC ice elemental damage, in percents
+    WIND_ABSORB_SC          = 1422, -- Occasionally absorbs SC wind elemental damage, in percents
+    EARTH_ABSORB_SC         = 1423, -- Occasionally absorbs SC earth elemental damage, in percents
+    LTNG_ABSORB_SC          = 1424, -- Occasionally absorbs SC thunder elemental damage, in percents
+    WATER_ABSORB_SC         = 1425, -- Occasionally absorbs SC water elemental damage, in percents
+    LIGHT_ABSORB_SC         = 1426, -- Occasionally absorbs SC light elemental damage, in percents
+    DARK_ABSORB_SC          = 1427, -- Occasionally absorbs SC dark elemental damage, in percents
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1420 NEXT
+    -- 1428 NEXT
 }
 
 tpz.latent =

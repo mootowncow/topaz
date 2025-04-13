@@ -6070,13 +6070,22 @@ INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 361, 1, 255); -- 
 INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 366, 1, 255); -- Graviga
 INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 274, 1, 255); -- Sleepga II
 
-INSERT INTO `mob_spell_lists` VALUES('Coccineus', 544, 167, 1, 255); -- Thunder IV
-INSERT INTO `mob_spell_lists` VALUES('Coccineus', 544, 196, 1, 255); -- Thundaga III
-INSERT INTO `mob_spell_lists` VALUES('Coccineus', 544, 252, 1, 255); -- Stun
+INSERT INTO `mob_spell_lists` VALUES ('Coccineus', 544, 167, 1, 255); -- Thunder IV
+INSERT INTO `mob_spell_lists` VALUES ('Coccineus', 544, 196, 1, 255); -- Thundaga III
+INSERT INTO `mob_spell_lists` VALUES ('Coccineus', 544, 252, 1, 255); -- Stun
 INSERT INTO `mob_spell_lists` VALUES ('Coccineus',544,356,76,255); -- paralyga
 INSERT INTO `mob_spell_lists` VALUES ('Coccineus', 544, 361, 1, 255); -- Blindga
 
--- NEXT 545
+--  (Lowing, Heat Breath, Exuviation and Refueling), Blaze Spikes, Firaga III, Fire IV and Flare.
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 588, 1, 255); -- Lowing
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 591, 1, 255); -- Heat Breath
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 645, 1, 255); -- Exuviation
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 530, 1, 255); -- Refueling
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 249, 1, 255); -- Blaze Spikes
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 175, 1, 255); -- Firaga II
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 147, 1, 255); -- Fire IV
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 204, 1, 255); -- Flare
+-- NEXT 546
 -- NEXT 1022
 -- NEXT 2089(Custom)
 

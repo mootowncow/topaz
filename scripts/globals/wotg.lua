@@ -18,6 +18,7 @@ require("scripts/globals/keyitems")
 --  weather related event (during weather only)
 --  undead related event (night only)
 -- augmented items from events, fomor bosses drop their "Finished" synthesized weapons with augments
+-- OR drop runes (the things from hunts) from all events and they go into the weapons fomor bosses weapons
 -- meta boss based on zone, can use a table like mobFamily and first key can be zone name via tpz enum
 -- Mimics that are "Traps" that spawn enemies then give loot after
 -- Boss death needs to check tpz.wotg.progressCheck and zone:setLocalVar("eventCompleted", 1) and add to meta progress(?)
@@ -26,8 +27,12 @@ require("scripts/globals/keyitems")
 -- events can spawn in same place x2 in a row, fix
 -- elite/champion packs on waves/defense? can have positive auras buffing other mobs in wave or debuffing players
 -- logic for mob despawning maybe? despawn event/mobs after inactive for 5m?
--- Angry Scorpion and Wadjet (NM) needs hell scissors and high prio on using
--- some items in the temp items list are typod, nil, or something. check all of them compared to items.lua
+-- some NM to reflect spell casts, and some NM (scorpion?) to counter WS with a TP move onto that player
+-- give one of the trash mobs hastega (make it II effect) regenga IV, etc
+-- has to be able to AOE it onto other mobs so needs to be in family somehow...or just hard code AOEing it on spellcast
+-- Fomors (Lugh etc) detect magic AND sound
+-- Test if Witchweed properly levels up still (even if you stun it after bee dies)
+-- Lugh levels up on player death
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
 
@@ -248,63 +253,86 @@ end
 
 local function GiveTempItems(player, amount)
     local ID = zones[player:getZoneID()]
+
     local tempsData = {
-        -- HP Restoration
-        tpz.items.LUCID_POTION_I, tpz.items.LUCID_POTION_II, tpz.items.LUCID_POTION_III,
-        tpz.items.DUSTY_POTION, tpz.items.FLASK_OF_HEALING_MIST, tpz.items.FLASK_OF_HEALING_POWDER,
+        Potion = {
+            tpz.items.LUCID_POTION_I, tpz.items.LUCID_POTION_II, tpz.items.LUCID_POTION_III,
+            tpz.items.DUSTY_POTION, tpz.items.FLASK_OF_HEALING_MIST, tpz.items.FLASK_OF_HEALING_POWDER
+        },
 
-        -- MP Restoration
-        tpz.items.LUCID_ETHER_I, tpz.items.LUCID_ETHER_II, tpz.items.LUCID_ETHER_III,
-        tpz.items.DUSTY_ETHER, tpz.items.FLASK_OF_MANA_MIST, tpz.items.PINCH_OF_MANA_POWDER,
+        Ether = { 
+            tpz.items.LUCID_ETHER_I, tpz.items.LUCID_ETHER_II, tpz.items.LUCID_ETHER_III,
+            tpz.items.DUSTY_ETHER, tpz.items.FLASK_OF_MANA_MIST, tpz.items.PINCH_OF_MANA_POWDER
+        },
 
-        -- Elixirs
-        tpz.items.LUCID_ELIXIR_I, tpz.items.LUCID_ELIXIR_II, tpz.items.DUSTY_ELIXIR,
+        Elixir = {
+            tpz.items.LUCID_ELIXIR_I, tpz.items.LUCID_ELIXIR_II, tpz.items.DUSTY_ELIXIR
+        },
 
-        -- Pet Items
-        tpz.items.HEALING_SALVE_I, tpz.items.HEALING_SALVE_II,
-        tpz.items.CLEAR_SALVE_I, tpz.items.LUCID_ELIXIR_II,
+        Pet = {
+            tpz.items.TUBE_OF_HEALING_SALVE_I, tpz.items.TUBE_OF_HEALING_SALVE_II,
+            tpz.items.TUBE_OF_CLEAR_SALVE_I, tpz.items.TUBE_OF_CLEAR_SALVE_II
+        },
 
-        -- Temporary boosts
-        tpz.items.BOTTLE_OF_BODY_BOOST, tpz.items.BOTTLE_OF_MANA_BOOST,
-        tpz.items.BOTTLE_OF_STALWARTS_TONIC, tpz.items.BOTTLE_OF_STALWARTS_GAMBIR,
-        tpz.items.BOTTLE_OF_ASCETICS_TONIC, tpz.items.BOTTLE_OF_ASCETICS_GAMBIR,
-        tpz.items.BOTTLE_OF_CHAMPIONS_TONIC, tpz.items.BOTTLE_OF_CHAMPIONS_GAMBIR,
-        tpz.items.BOTTLE_OF_FANATICS_DRINK, tpz.items.BOTTLE_OF_FOOLS_DRINK,
-        tpz.items.BOTTLE_OF_FANATICS_TONIC, tpz.items.BOTTLE_OF_FOOLS_TONIC,
-        tpz.items.PINCH_OF_FANATICS_POWDER, tpz.items.PINCH_OF_FOOLS_POWDER,
-        tpz.items.BOTTLE_OF_BERSERKERS_DRINK, tpz.items.BOTTLE_OF_SWIFTSHOT_DRINK,
-        tpz.items.BOTTLE_OF_BERSERKERS_TONIC, tpz.items.BOTTLE_OF_SWIFTSHOT_TONIC,
-        tpz.items.BOTTLE_OF_BARBARIANS_DRINK, tpz.items.BOTTLE_OF_FIGHTERS_DRINK, tpz.items.BOTTLE_OF_ORACLES_DRINK,
-        tpz.items.BOTTLE_OF_ASSASSINS_DRINK, tpz.items.BOTTLE_OF_SPYS_DRINK, tpz.items.BOTTLE_OF_BRAVERS_DRINK,
-        tpz.items.BOTTLE_OF_SOLDIERS_DRINK, tpz.items.BOTTLE_OF_CHAMPIONS_DRINK, tpz.items.BOTTLE_OF_MONARCHS_DRINK,
-        tpz.items.BOTTLE_OF_GNOSTICS_DRINK, tpz.items.BOTTLE_OF_CLERICS_DRINK, tpz.items.BOTTLE_OF_SHEPHERDS_DRINK,
-        tpz.items.BOTTLE_OF_SPRINTERS_DRINK, tpz.items.BOTTLE_OF_VICARS_DRINK,
+        Boosts = {
+            tpz.items.BOTTLE_OF_BODY_BOOST, tpz.items.BOTTLE_OF_MANA_BOOST,
+        },
 
-        -- TP
-        tpz.items.DAEDALUS_WING, tpz.items.PAIR_OF_LUCID_WINGS_I, tpz.items.PAIR_OF_LUCID_WINGS_II,
-        tpz.items.DUSTY_WING,
+        Drinks = {
+            tpz.items.BOTTLE_OF_STALWARTS_TONIC, tpz.items.BOTTLE_OF_STALWARTS_GAMBIR,
+            tpz.items.BOTTLE_OF_ASCETICS_TONIC, tpz.items.BOTTLE_OF_ASCETICS_GAMBIR,
+            tpz.items.BOTTLE_OF_CHAMPIONS_TONIC, tpz.items.BOTTLE_OF_CHAMPIONS_GAMBIR,
+            tpz.items.BOTTLE_OF_FANATICS_DRINK, tpz.items.BOTTLE_OF_FOOLS_DRINK,
+            tpz.items.BOTTLE_OF_FANATICS_TONIC, tpz.items.BOTTLE_OF_FOOLS_TONIC,
+            tpz.items.PINCH_OF_FANATICS_POWDER, tpz.items.PINCH_OF_FOOLS_POWDER,
+            tpz.items.BOTTLE_OF_BERSERKERS_DRINK, tpz.items.BOTTLE_OF_SWIFTSHOT_DRINK,
+            tpz.items.BOTTLE_OF_BERSERKERS_TONIC, tpz.items.BOTTLE_OF_SWIFTSHOT_TONIC,
+            tpz.items.BOTTLE_OF_BARBARIANS_DRINK, tpz.items.BOTTLE_OF_FIGHTERS_DRINK, tpz.items.BOTTLE_OF_ORACLES_DRINK,
+            tpz.items.BOTTLE_OF_ASSASSINS_DRINK, tpz.items.BOTTLE_OF_SPYS_DRINK, tpz.items.BOTTLE_OF_BRAVERS_DRINK,
+            tpz.items.BOTTLE_OF_SOLDIERS_DRINK, tpz.items.BOTTLE_OF_CHAMPIONS_DRINK, tpz.items.BOTTLE_OF_MONARCHS_DRINK,
+            tpz.items.BOTTLE_OF_GNOSTICS_DRINK, tpz.items.BOTTLE_OF_CLERICS_DRINK, tpz.items.BOTTLE_OF_SHEPHERDS_DRINK,
+            tpz.items.BOTTLE_OF_SPRINTERS_DRINK, tpz.items.BOTTLE_OF_VICARS_DRINK
+        },
 
-        -- Reraise
-        tpz.items.DUSTY_SCROLL_OF_RERAISE
+        Wings = {
+            tpz.items.DAEDALUS_WING, tpz.items.PAIR_OF_LUCID_WINGS_I, tpz.items.PAIR_OF_LUCID_WINGS_II,
+            tpz.items.DUSTY_WING
+        },
+
+        Reraise = {
+            tpz.items.DUSTY_SCROLL_OF_RERAISE
+        }
     }
 
-    local tempsGiven = 0
-    local addedItems = {} -- This is used to make sure multiple of the same item isn't added
+    local mainJob = player:getMainJob()
+    local isPetJob =
+    mainJob == tpz.job.BST or
+    mainJob == tpz.job.SMN or
+    mainJob == tpz.job.PUP
 
-    while tempsGiven < amount do
-        local randomIndex = math.random(#tempsData)
-        
-        -- Check if item has already been added
-        local randomItem = tempsData[randomIndex]
-        if randomItem then
-            -- Proceed with adding item
-            player:addTempItem(randomItem)
-            player:messageName(ID.text.OBTAINED_TEMP_ITEM, player, randomItem, 0, 0, 0, nil)
-            addedItems[randomItem] = true
-            tempsGiven = tempsGiven + 1
-        else
-            -- Handle unexpected case if necessary
-            printf("GiveTempItems: randomItem is nil")
+    -- Build the pool of temps
+    local tempPool = {}
+    for category, temps in pairs(tempsData) do
+        if (category ~= "Pet") or isPetJob then
+            for _, temp in ipairs(temps) do
+                table.insert(tempPool, temp)
+            end
+        end
+    end
+
+    -- Give temp items
+    local tempsGiven = 0
+    local addedItems = {}
+    while (tempsGiven < amount) do
+        local randomItem = tempPool[math.random(#tempPool)]
+
+        if randomItem and not addedItems[randomItem] then
+            if not player:hasItem(randomItem) then
+                player:addTempItem(randomItem)
+                player:messageName(ID.text.OBTAINED_TEMP_ITEM, player, randomItem, 0, 0, 0, nil)
+                addedItems[randomItem] = true
+                tempsGiven = tempsGiven + 1
+            end
         end
     end
 end
@@ -505,6 +533,11 @@ local modByMobName =
         if witchweed:isAlive() then
             mob:pathTo(pos.x, pos.y, pos.z)
         end
+        mob:addImmunity(tpz.immunity.SLEEP)
+        mob:addImmunity(tpz.immunity.GRAVITY)
+        mob:addImmunity(tpz.immunity.BIND)
+        mob:addImmunity(tpz.immunity.TERROR)
+        mob:addImmunity(tpz.immunity.CHARM)
         mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
         mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
@@ -565,6 +598,25 @@ local modByMobName =
         mob:AnimationSub(1) -- Gaze petrification
         mob:setModelSize(3)
     end,
+
+    ['Lugh'] = function(mob)
+        mob:setDamage(150)
+        mob:addMod(tpz.mod.DEFP, 25)
+        mob:addMod(tpz.mod.EVA, 25)
+        mob:addMod(tpz.mod.MDEF, 24)
+        mob:setMod(tpz.mod.VIT, 175)
+        mob:setMod(tpz.mod.REGEN, 25)
+        mob:setMod(tpz.mod.DOUBLE_ATTACK, 50)
+        mob:setMod(tpz.mod.FIRE_ABSORB_SC, 100)
+        mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
+
+    tpz.mix.jobSpecial.config(mob, {
+        specials =
+        {
+            {id = tpz.jsa.MIGHTY_STRIKES, hpp = 50},
+        },
+    })
+    end,
 }
 
 local mobRoamByMobName =
@@ -610,9 +662,10 @@ local mobFightByMobName =
         local bee = GetMobByID(17478245)
 	    local beeTimer = mob:getLocalVar("beeTimer")
         local beeEatTimer = mob:getLocalVar("beeEatTimer")
+        local lvlUp = mob:getLocalVar("lvlUp")
 
         -- Spawns a bee next to it, after a certain amount of time will consume the bee then level up
-        -- If the bee dies in this fashion, levels up and gains access to AoE charm
+        -- If the bee dies in this fashion, levels up and gains access to Soothing Aroma (AOE Charm)
         if not bee:isSpawned() then
             if (beeTimer == 0) then
                 mob:setLocalVar("beeTimer", os.time() + 15)
@@ -638,6 +691,21 @@ local mobFightByMobName =
             mob:setLocalVar("beeEatTimer", os.time() + 60)
         end
 
+        -- "Eating" the bee levels up Witchweed and gains access to Soothing Aroma (AOE Charm)
+        if
+            (lvlUp > 0) and
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect()
+        then
+            local level = mob:getMainLvl()
+            mob:useMobAbility(tpz.mob.skills.LEVEL_UP, mob)
+            mob:setMobLevel(level +1)
+            -- Mods and Mobmods are cleared on leveling up, need to readd them
+            tpz.wotg.onMobSpawn(mob)
+            mob:setMobMod(tpz.mobMod.SKILL_LIST, 1208)
+            mob:setLocalVar("lvlUp", 0)
+        end
+
         -- Handle Bloody Caress being interrupted
         mob:addListener("WEAPONSKILL_STATE_INTERRUPTED", "URD_WS_INTERRUPTED", function(mob, skillID)
             if (skillID == tpz.mob.skills.BLOODY_CARESS) then
@@ -652,11 +720,7 @@ local mobFightByMobName =
                 local bee = GetMobByID(17478245)
                 if bee:isAlive() then
                     bee:setHP(0)
-                    mob:useMobAbility(tpz.mob.skills.LEVEL_UP, mob)
-                    mob:setMobLevel(level +1)
-                    -- Mods and Mobmods are cleared on leveling up, need to readd them
-                    tpz.wotg.onMobSpawn(mob)
-                    mob:setMobMod(tpz.mobMod.SKILL_LIST, 1208)
+                    mob:setLocalVar("lvlUp", 1)
                 end
             end
         end)
@@ -784,6 +848,34 @@ local mobFightByMobName =
             mob:resetEnmity(target)
         end)
     end,
+
+    ['Lugh'] = function(mob, target)
+        -- TODO: Does this still work if the spell is interrupted?
+        -- Levels up when a player dies, on successful Heat Breath casts and Fire elemental weapon skills
+        local lvlUp = mob:getLocalVar("lvlUp")
+        if
+            (lvlUp > 0) and
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect()
+        then
+            local level = mob:getMainLvl()
+            mob:useMobAbility(tpz.mob.skills.LEVEL_UP, mob)
+            mob:setMobLevel(level +1)
+            -- Mods and Mobmods are cleared on leveling up, need to readd them
+            tpz.wotg.onMobSpawn(mob)
+            mob:setLocalVar("lvlUp", 0)
+        end
+        mob:addListener("MAGIC_STATE_EXIT", "LUGH_MAGIC_STATE_EXIT", function(mob, spell)
+            if (spell:getID() == tpz.magic.spell.HEAT_BREATH) then
+                mob:setLocalVar("lvlUp", 1)
+            end
+        end)
+        mob:addListener("WEAPONSKILL_STATE_EXIT", "LUGH_STATE_EXIT", function(mob, skill)
+            if (skill == tpz.mob.skills.BURNING_BLADE or skill == tpz.mob.skills.RED_LOTUS_BLADE) then
+                mob:setLocalVar("lvlUp", 1)
+            end
+        end)
+    end,
 }
 
 local mobWSPrepareByMobName =
@@ -791,9 +883,7 @@ local mobWSPrepareByMobName =
     ['Angry_Scorpion'] = function(mob, target)
         -- Prefer using Hell Scissors over other TP moves
         local roll = math.random()
-        printf("roll %d", roll*100)
         if roll < 0.50 then
-            printf("Using hell scissors")
             return tpz.mob.skills.HELL_SCISSORS
         else
             return math.random(tpz.mob.skills.NUMBING_BREATH, tpz.mob.skills.SHARP_STRIKE)
@@ -803,13 +893,14 @@ local mobWSPrepareByMobName =
     ['Selket'] = function(mob, target)
         -- Prefer using Hell Scissors over other TP moves
         local roll = math.random()
-        printf("roll %d", roll*100)
         if roll < 0.50 then
-            printf("Using hell scissors")
             return tpz.mob.skills.HELL_SCISSORS
         else
             return math.random(tpz.mob.skills.NUMBING_BREATH, tpz.mob.skills.SHARP_STRIKE)
         end
+    end,
+
+    ['Lugh'] = function(mob, target)
     end,
 }
 

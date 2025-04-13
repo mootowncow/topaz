@@ -6676,7 +6676,9 @@ namespace battleutils
         damage = (int32)(damage * resist);
 
         if (damage > 0 && PDefender->objtype == TYPE_PET && PDefender->getMod(Mod::AUTO_STEAM_JACKET) > 1)
+        {
             damage = HandleSteamJacket(PDefender, damage, element);
+        }
 
         if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::ABSORB_DMG_CHANCE) ||
             (element && tpzrand::GetRandomNumber(100) < PDefender->getMod(absorb[element - 1])) ||
@@ -6740,7 +6742,9 @@ namespace battleutils
         damage = (int32)(damage * resist);
 
         if (damage > 0 && PDefender->objtype == TYPE_PET && PDefender->getMod(Mod::AUTO_STEAM_JACKET) > 1)
+        {
             damage = HandleSteamJacket(PDefender, damage, element);
+        }
 
         if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::ABSORB_DMG_CHANCE) ||
             (element && tpzrand::GetRandomNumber(100) < PDefender->getMod(absorb[element - 1])) ||
@@ -6813,6 +6817,8 @@ namespace battleutils
     {
         Mod absorb[8] = { Mod::FIRE_ABSORB, Mod::ICE_ABSORB,   Mod::WIND_ABSORB,  Mod::EARTH_ABSORB,
                           Mod::LTNG_ABSORB, Mod::WATER_ABSORB, Mod::LIGHT_ABSORB, Mod::DARK_ABSORB };
+        Mod absorbSc[8] = { Mod::FIRE_ABSORB_SC, Mod::ICE_ABSORB_SC,   Mod::WIND_ABSORB_SC,  Mod::EARTH_ABSORB_SC,
+                          Mod::LTNG_ABSORB_SC, Mod::WATER_ABSORB_SC, Mod::LIGHT_ABSORB_SC, Mod::DARK_ABSORB_SC };
         Mod nullarray[8] = { Mod::FIRE_NULL, Mod::ICE_NULL, Mod::WIND_NULL, Mod::EARTH_NULL, Mod::LTNG_NULL, Mod::WATER_NULL, Mod::LIGHT_NULL, Mod::DARK_NULL };
 
         // Does not take bonus dmg from +MDT/DT+ like MagicDmgTaken does
@@ -6827,11 +6833,16 @@ namespace battleutils
         damage = (int32)(damage * resist);
 
         if (damage > 0 && PDefender->objtype == TYPE_PET && PDefender->getMod(Mod::AUTO_STEAM_JACKET) > 1)
+        {
             damage = HandleSteamJacket(PDefender, damage, element);
+        }
 
+        // Handle absorb
         if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::ABSORB_DMG_CHANCE) ||
             (element && tpzrand::GetRandomNumber(100) < PDefender->getMod(absorb[element - 1])) ||
+            (element && tpzrand::GetRandomNumber(100) < PDefender->getMod(absorbSc[element - 1])) ||
             tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_ABSORB))
+        {
             if (PDefender->getMod(Mod::MAGIC_ABSORB) > 100)
             {
                 damage = -damage * (PDefender->getMod(Mod::MAGIC_ABSORB) / 100);
@@ -6840,9 +6851,12 @@ namespace battleutils
             {
                 damage = -damage;
             }
+        }
         else if ((element && tpzrand::GetRandomNumber(100) < PDefender->getMod(nullarray[element - 1])) ||
                  tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_NULL))
+        {
             damage = 0;
+        }
         else
         {
             damage = HandleSevereDamage(PDefender, damage, false);

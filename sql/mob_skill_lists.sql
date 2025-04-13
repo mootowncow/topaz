@@ -4942,6 +4942,25 @@ INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,355);
 INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,356);
 INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,2221); -- hell scissors
 
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,32); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,33); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,34); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,35); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,36); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,37); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,38); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,39); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,40); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,41); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,42); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,247); -- foxfire
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,249); -- netherspikes
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,250); -- carnal_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,251); -- aegis_schism
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,252); -- dancing_chains
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,253); -- barbed_crescent
+
+
 -- Next available ID: 1209
--- Next custom ID: 6155
+-- Next custom ID: 6157
 

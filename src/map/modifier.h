@@ -571,15 +571,6 @@ enum class Mod
     BP_BURST_DAMAGE           = 1257, // Blood Pact: Rage magic burst damage increase percentage.
     BLOOD_BOON                = 913, // Occasionally cuts down MP cost of Blood Pact abilities. Does not affect abilities that require Astral Flow.
     AVATAR_FAVOR_BONUS        = 1414,// Increases the effect of avatars favor (percent)
-    // Absorb dmg to MP (Evoker's Bracers, Lyft Claymore, etc)
-    FIRE_ABSORB_TO_MP          = 1459,  // Occasionally absorbs fire elemental damage to MP, in percents
-    ICE_ABSORB_TO_MP           = 1460,  // Occasionally absorbs ice elemental damage to MP, in percents
-    WIND_ABSORB_TO_MP          = 1461,  // Occasionally absorbs wind elemental damage to MP, in percents
-    EARTH_ABSORB_TO_MP         = 1462,  // Occasionally absorbs earth elemental damage to MP, in percents
-    LTNG_ABSORB_TO_MP          = 1463,  // Occasionally absorbs thunder elemental damage to MP, in percents
-    WATER_ABSORB_TO_MP         = 1464,  // Occasionally absorbs water elemental damage to MP, in percents
-    LIGHT_ABSORB_TO_MP         = 1465,  // Occasionally absorbs light elemental damage to MP, in percents
-    DARK_ABSORB_TO_MP          = 1466,  // Occasionally absorbs dark elemental damage to MP, in percents
 
     // Blue Mage
     BLUE_POINTS               = 309, // Tracks extra blue points
@@ -819,6 +810,26 @@ enum class Mod
     WATER_ABSORB              = 464, // Occasionally absorbs water elemental damage, in percents
     LIGHT_ABSORB              = 465, // Occasionally absorbs light elemental damage, in percents
     DARK_ABSORB               = 466, // Occasionally absorbs dark elemental damage, in percents
+
+    // Absorb dmg to MP (Evoker's Bracers, Lyft Claymore, etc)
+    FIRE_ABSORB_TO_MP         = 1459, // Occasionally absorbs fire elemental damage to MP, in percents
+    ICE_ABSORB_TO_MP          = 1460, // Occasionally absorbs ice elemental damage to MP, in percents
+    WIND_ABSORB_TO_MP         = 1461, // Occasionally absorbs wind elemental damage to MP, in percents
+    EARTH_ABSORB_TO_MP        = 1462, // Occasionally absorbs earth elemental damage to MP, in percents
+    LTNG_ABSORB_TO_MP         = 1463, // Occasionally absorbs thunder elemental damage to MP, in percents
+    WATER_ABSORB_TO_MP        = 1464, // Occasionally absorbs water elemental damage to MP, in percents
+    LIGHT_ABSORB_TO_MP        = 1465, // Occasionally absorbs light elemental damage to MP, in percents
+    DARK_ABSORB_TO_MP         = 1466, // Occasionally absorbs dark elemental damage to MP, in percents
+
+    // Elemental absorb for skillchains only
+    FIRE_ABSORB_SC            = 1420, // Occasionally absorbs SC fire elemental damage, in percents
+    ICE_ABSORB_SC             = 1421, // Occasionally absorbs SC ice elemental damage, in percents
+    WIND_ABSORB_SC            = 1422, // Occasionally absorbs SC wind elemental damage, in percents
+    EARTH_ABSORB_SC           = 1423, // Occasionally absorbs SC earth elemental damage, in percents
+    LTNG_ABSORB_SC            = 1424, // Occasionally absorbs SC thunder elemental damage, in percents
+    WATER_ABSORB_SC           = 1425, // Occasionally absorbs SC water elemental damage, in percents
+    LIGHT_ABSORB_SC           = 1426, // Occasionally absorbs SC light elemental damage, in percents
+    DARK_ABSORB_SC            = 1427, // Occasionally absorbs SC dark elemental damage, in percents
 
     // Elemental Null Chance
     FIRE_NULL                 = 467, //
@@ -1131,7 +1142,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1420 NEXT
+    // 1428 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

@@ -11765,7 +11765,7 @@ INSERT INTO `mob_groups` VALUES (14,6240,171,'Brass_Quadav',960,0,354,0,0,66,69,
 INSERT INTO `mob_groups` VALUES (15,3464,171,'Sapphirine_Quadav',960,0,2161,0,0,66,69,0);
 INSERT INTO `mob_groups` VALUES (16,6331,171,'Doom_Scorpion',960,0,113,0,0,71,74,0);
 INSERT INTO `mob_groups` VALUES (17,6319,171,'Processionaire',960,0,2023,0,0,69,71,0);
-INSERT INTO `mob_groups` VALUES (18,4696,171,'Lugh',0,128,0,0,5000,80,82,0);
+INSERT INTO `mob_groups` VALUES (18,4696,171,'Lugh',0,128,0,35000,0,90,90,0);
 INSERT INTO `mob_groups` VALUES (19,4309,171,'Water_Elemental',960,4,2629,0,0,75,75,0);
 INSERT INTO `mob_groups` VALUES (20,3276,171,'Quadav_Transporter',0,128,0,0,0,50,50,0);
 INSERT INTO `mob_groups` VALUES (21,3274,171,'Quadav_Guard',0,128,0,0,0,75,75,0);
@@ -11776,21 +11776,21 @@ INSERT INTO `mob_groups` VALUES (25,4700,171,'Kalos_Eunomia',0,128,0,0,0,97,98,0
 -- Dungeon Events
 
 -- Waves
-INSERT INTO `mob_groups` VALUES (26,9134,171,'Angry_Scorpion',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (27,1195,171,'Angry_Funguar',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (28,6308,171,'Angry_Wespe',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (29,6357,171,'Angry_Sapling',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (30,6319,171,'Angry_Crawler',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (31,2953,171,'Angry_Fly',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (32,4238,171,'Angry_Peiste',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (26,9134,171,'Angry_Scorpion',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (27,1195,171,'Angry_Funguar',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (28,6308,171,'Angry_Wespe',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (29,6357,171,'Angry_Sapling',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (30,6319,171,'Angry_Crawler',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (31,2953,171,'Angry_Fly',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (32,4238,171,'Angry_Peiste',0,128,0,0,0,85,85,0);
 
 -- Bosses
-INSERT INTO `mob_groups` VALUES (33,9128,171,'Selket',0,128,0,35000,0,85,85,0); -- Scorpion
-INSERT INTO `mob_groups` VALUES (34,9129,171,'Witchweed',0,128,0,35000,0,85,85,0); -- Rafflesia
-INSERT INTO `mob_groups` VALUES (35,9130,171,'Sciaridae',0,128,0,35000,0,85,85,0); -- Gnat
-INSERT INTO `mob_groups` VALUES (36,9131,171,'Coccineus',0,128,0,35000,0,85,85,0); -- Ladybug
-INSERT INTO `mob_groups` VALUES (37,9132,171,'Gastropoda',0,128,0,35000,0,85,85,0); -- Slug
-INSERT INTO `mob_groups` VALUES (38,9133,171,'Wadjet',0,128,0,35000,0,85,85,0); -- Peiste
+INSERT INTO `mob_groups` VALUES (33,9128,171,'Selket',0,128,0,35000,0,88,88,0); -- Scorpion
+INSERT INTO `mob_groups` VALUES (34,9129,171,'Witchweed',0,128,0,35000,0,88,88,0); -- Rafflesia
+INSERT INTO `mob_groups` VALUES (35,9130,171,'Sciaridae',0,128,0,35000,0,88,88,0); -- Gnat
+INSERT INTO `mob_groups` VALUES (36,9131,171,'Coccineus',0,128,0,35000,0,88,88,0); -- Ladybug
+INSERT INTO `mob_groups` VALUES (37,9132,171,'Gastropoda',0,128,0,35000,0,88,88,0); -- Slug
+INSERT INTO `mob_groups` VALUES (38,9133,171,'Wadjet',0,128,0,35000,0,88,88,0); -- Peiste
 INSERT INTO `mob_groups` VALUES (39,6308,171,'Honey_Wespe',0,128,0,0,0,85,85,0); -- Eaten by Witchweed
 
 -- Mimic

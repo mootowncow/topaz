@@ -673,13 +673,13 @@ local mixinByMobName =
            if spell:getID() == 186 then -- Aeroga III
                 if (mob:getLocalVar("forcedSomersault") == 0) then
                     mob:setLocalVar("forcedSomersault", 1)
-                    mob:useMobAbility(3938) -- Somersault that doesn't consume TP'
+                    mob:useMobAbility(3938) -- Somersault that doesn't consume TP
                 end
             end
         end)
 
         mob:addListener("WEAPONSKILL_USE", "FARRUCA_FLY_WS_USE", function(mob, target, skill)
-            if (skill == 3938) then -- To ensure it won't Somersault a million times in a row'
+            if (skill == 3938) then -- To ensure it won't Somersault a million times in a row
                 mob:setLocalVar("forcedSomersault", 0)
             end
         end)
