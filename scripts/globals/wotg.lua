@@ -77,7 +77,7 @@ local bosses = {
 }
 
 local metaBosses = {
-    [tpz.zone.CRAWLERS_NEST_S] = { 17477708 }, -- Lugh
+    [tpz.zone.CRAWLERS_NEST_S] = { Id = 17477708, Pos = 'E-7' }, -- Lugh
 }
 
 local waves = {}
@@ -497,22 +497,28 @@ local function RandomEventComplete(player)
 end
 
 local function SpawnMetaBoss(player, zone)
-    local xPos, yPos, zPos = player:getXPos(), player:getYPos(), player:getZPos()
-    local posOffset = 0
-    player:queue(5000, function(player) -- 5s wait before spawning a wave
-        for _, mobID in ipairs(wave) do
-            print("Spawning Mob ID:", mobID)
-            local mob = GetMobByID(mobID)
-            if not mob:isSpawned() then
-                mob:setSpawn(xPos + posOffset, yPos, zPos + posOffset)
-                SpawnMob(mobID)
-                mob:updateEnmity(player)
-                mob:updateClaim(player)
-                mob:addStatusEffect(tpz.effect.TERROR, 1, 0, 3)
-                posOffset = posOffset + 0.5
-            end
+    local zoneId = player:getZoneID()
+    local bossData = metaBosses[zoneId]
+    -- TODO: Spams has spawned, doesnt spawn him
+    -- Need to set eventActive and add entry for metaBoss
+
+    if not bossData then
+        printf("SpawnMetaBoss: No meta boss found.")
+        return
+    end
+
+    player:queue(5000, function(player) -- 5s wait before spawning
+        local bossId = bossData.Id
+        local spawnPos = bossData.Pos
+        local boss = GetMobByID(bossId)
+        local mobName = MobName(boss)
+
+        if not boss:isSpawned() then
+            SpawnMob(bossId)
         end
-    utils.MessageParty(player, 'Enemies appear around you!', 0xD, none)
+
+        utils.MessageParty(player, mobName .. " has spawned at " .. spawnPos .. "!", 0xD, nil)
+    end)
 end
 
 local modByMobName =

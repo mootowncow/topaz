@@ -6082,7 +6082,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 591, 1, 255); -- Heat Breath
 INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 645, 1, 255); -- Exuviation
 INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 530, 1, 255); -- Refueling
 INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 249, 1, 255); -- Blaze Spikes
-INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 175, 1, 255); -- Firaga II
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 176, 1, 255); -- Firaga III
 INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 147, 1, 255); -- Fire IV
 INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 204, 1, 255); -- Flare
 -- NEXT 546
