@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
--- func: setzonevar
--- desc: Sets the a zone var.
+-- func: getzonevar
+-- desc: Gets a zone var.
 ---------------------------------------------------------------------------------------------------
 
 cmdprops =
@@ -14,16 +14,13 @@ function error(player, msg)
     player:PrintToPlayer("!setzonevar <var> <number>")
 end
 
-function onTrigger(player, var, varNum)
+function onTrigger(player, var)
     local zone = player:getZone()
 
     if (var == nil) then
         error(player, "You must enter a var name")
-    elseif (varNum == nil) then
-        error(player, "You must enter a var amount")
     end
 
-    zone:setLocalVar(var, varNum)
     local zoneVar = zone:getLocalVar(var)
-    player:PrintToPlayer(string.format("Current zone local var set to %i.", zoneVar))
+    player:PrintToPlayer(string.format("Current zone local var [%s] is %i.", var, zoneVar))
  end

@@ -13,6 +13,31 @@ require("scripts/globals/music")
 tpz = tpz or {}
 
 ------------------------------------
+-- Entity flags
+------------------------------------
+tpz.entityFlags =
+{
+    NONE                = 0,        -- No flags set
+    UNKNOWN_1           = 1,        -- No immediately observable impact
+    SIZE_SMALL          = 2,        -- Small model size
+    SIZE_MEDIUM         = 4,        -- Medim model size
+    SIZE_LARGE          = 6,        -- Biggest model size
+    UNKNOWN_8           = 8,        -- Possibly hides name?
+    UNKNOWN_16          = 16,       -- No obvious impact
+    CALL_FOR_HELP       = 32,       -- Displays call for help icon
+    POL_AWAY_SYMBOL     = 64,       -- Displays "POL away" icon
+    UNKNOWN_128         = 128,      -- No obvious impact
+    HIDE_HP_BAR         = 256,      -- Hides mob's HP bar
+    UNKNOWN_512         = 512,      -- No obvious impact
+    UNKNOWN_1024        = 1024,     -- No obvious impact
+    UNTARGETABLE        = 2048,     -- Mob cannot be targeted
+    UNKNOWN_4096        = 4096,     -- No obvious impact
+    UNKNOWN_8192        = 8192,     -- No obvious impact
+    UNKNOWN_16384       = 16384,    -- No obvious impact
+    UNKNOWN_32768       = 32768,    -- No obvious impact
+}
+
+------------------------------------
 -- Mob skill flags
 ------------------------------------
 
@@ -2155,8 +2180,9 @@ tpz.mod =
     WATER_ABSORB_SC         = 1425, -- Occasionally absorbs SC water elemental damage, in percents
     LIGHT_ABSORB_SC         = 1426, -- Occasionally absorbs SC light elemental damage, in percents
     DARK_ABSORB_SC          = 1427, -- Occasionally absorbs SC dark elemental damage, in percents
+    PAST_DUNGEON_MASTER     = 1428, -- Increased number augments on items from WotG dungeons
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1428 NEXT
+    -- 1429 NEXT
 }
 
 tpz.latent =

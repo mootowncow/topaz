@@ -1522,8 +1522,8 @@ function addBonuses(caster, spell, target, dmg, params)
         end
 
         local mab_crit = caster:getMod(tpz.mod.MAGIC_CRITHITRATE)
-        if ( math.random(1, 100) < mab_crit ) then
-           mab = mab + ( 10 + caster:getMod(tpz.mod.MAGIC_CRIT_DMG_INCREASE ) )
+        if (math.random(1, 100) < mab_crit) then
+           mab = mab + (50 + caster:getMod(tpz.mod.MAGIC_CRIT_DMG_INCREASE))
         end
 
         if caster:isPC() then
@@ -1542,6 +1542,12 @@ function addBonuses(caster, spell, target, dmg, params)
     end
 
     dmg = math.floor(dmg * mabbonus)
+
+    local magicCrit = caster:getMod(tpz.mod.MAGIC_CRITHITRATE)
+    local magicCritDmg = 1.5 + (caster:getMod(tpz.mod.MAGIC_CRIT_DMG_INCREASE) / 100)
+    if (math.random(1, 100) < magicCrit) then
+        dmg = math.floor(dmg * magicCritDmg)
+    end
 
     if spell:getSkillType() == tpz.skill.ELEMENTAL_MAGIC or spell:getSkillType() == tpz.skill.DARK_MAGIC then
         if (caster:hasStatusEffect(tpz.effect.EBULLIENCE)) then

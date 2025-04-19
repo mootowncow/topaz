@@ -700,8 +700,8 @@ public:
 
     int32 getModelSize(lua_State *L);       // Gets model size
     int32 setModelSize(lua_State* L);       // Sets model size
-    int32 setMobFlags(lua_State*);          // Used to manipulate the mob's flags for testing.
-    int32 getMobFlags(lua_State*);
+    int32 setEntityFlags(lua_State*);       // Used to manipulate the mob's entity flags for testing.
+    int32 getEntityFlags(lua_State*);
 
     int32 spawn(lua_State* L);
     int32 isSpawned(lua_State*);

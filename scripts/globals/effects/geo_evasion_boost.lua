@@ -1,19 +1,18 @@
 -----------------------------------
 --
---tpz.effect.MAGIC_EVASION_BOOST_II
---
+-- tpz.effect.GEO_EVASION_BOOST
 --
 -----------------------------------
 require("scripts/globals/status")
 -----------------------------------
 
 function onEffectGain(target, effect)
-    target:addMod(tpz.mod.MEVA, effect:getPower())
+    target:addMod(tpz.mod.EVA, effect:getPower())
 end
 
 function onEffectTick(target, effect)
 end
 
 function onEffectLose(target, effect)
-    target:delMod(tpz.mod.MEVA, effect:getPower())
+    target:delMod(tpz.mod.EVA, effect:getPower())
 end

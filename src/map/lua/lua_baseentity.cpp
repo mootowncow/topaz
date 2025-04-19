@@ -15121,13 +15121,13 @@ inline int32 CLuaBaseEntity::setModelSize(lua_State* L)
 }
 
 /************************************************************************
-*  Function: setMobFlags()
-*  Purpose : Manually set Mob flags
-*  Example : Not in use in scripts
-*  Notes   : Currently only used through !setmobflags command
+*  Function: setEntityFlags()
+*  Purpose : Manually set entity flags
+*  Example : mob:setEntityFlags(tpz.entityFlags.SIZE_LARGE)
+*  Notes   : 
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::setMobFlags(lua_State* L)
+inline int32 CLuaBaseEntity::setEntityFlags(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
@@ -15181,12 +15181,12 @@ inline int32 CLuaBaseEntity::setMobFlags(lua_State* L)
 }
 
 /************************************************************************
-*  Function: getMobFlags()
-*  Purpose : Get Mob flags
-*  Example : Not in use in scripts
-*  Notes   : Currently only used through !getMobFlags command
+*  Function: getEntityFlags()
+*  Purpose : Get Entity flags
+*  Example : mob:getEntityFlags
+*  Notes   : 
 ************************************************************************/
-inline int32 CLuaBaseEntity::getMobFlags(lua_State* L)
+inline int32 CLuaBaseEntity::getEntityFlags(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
@@ -17959,8 +17959,8 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getModelSize),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setModelSize),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMobFlags),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMobFlags),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEntityFlags),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEntityFlags),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,spawn),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isSpawned),

@@ -331,6 +331,8 @@ local function getSkillLevelIndex(level)
         rangeId = 80
     elseif level <= 99 then
         rangeId = 90
+    else
+        rangeId = 99
     end
 
     return rangeId
@@ -934,15 +936,15 @@ function utils.MessageParty(player, msg, textcolor, sender)
     end
 
     local party = player:getParty()
-    if player:isPet() then
+    if player:isTrust() or player:isPet() then
         party = player:getMaster():getParty()
     end
 
     --Text color: default(name shown) - 0, gold - 0x1F, green - 0x1C, blue - 0xF, white(no sender name) - 0xD
-    if (party ~= nil) then
-        for _,v in ipairs(party) do
-            if v:isPC() then
-                v:PrintToPlayer(msg, textcolor, sender)
+    if party then
+        for _, member in ipairs(party) do
+            if member:isPC() then
+                member:PrintToPlayer(msg, textcolor, sender)
             end
         end
     end
@@ -954,12 +956,12 @@ function utils.ShowTextParty(player, textId)
     end
 
     local party = player:getParty()
-    if player:isPet() then
+    if player:isTrust() or player:isPet() then
         party = player:getMaster():getParty()
     end
 
     --Text color: default(name shown) - 0, gold - 0x1F, green - 0x1C, blue - 0xF, white(no sender name) - 0xD
-    if (party ~= nil) then
+    if party then
         for _,v in ipairs(party) do
             if v:isPC() then
                 v:showText(npc, textId)
@@ -1590,4 +1592,17 @@ function utils.SetModWithDuration(target, modId, power, duration)
     target:queue(duration*1000, function(target)
         target:setMod(modId,0)
     end)
+end
+
+function utils.GetAugmentName()
+    local reverseAugments = {}
+    for k, v in pairs(tpz.augments) do
+        reverseAugments[v] = k 
+    end
+    return reverseAugments
+end
+
+-- Function to capitalize the first letter and make the rest lowercase
+function utils.PunctuateString(word)
+    return word:sub(1, 1):upper() .. word:sub(2):lower()
 end

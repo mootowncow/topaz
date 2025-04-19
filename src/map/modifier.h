@@ -1127,6 +1127,7 @@ enum class Mod
     LUMINION_CIRCLE_DR   = 1403,
 
     CRITHITRATE_SLOT     = 1419,//Crit rate only applied by attacks in this weapon slot. i.e. Senjuionrikio
+    PAST_DUNGEON_MASTER  = 1428,//Increased number augments on items from WotG dungeons
 
 
 
@@ -1142,7 +1143,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1428 NEXT
+    // 1429 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

@@ -872,18 +872,63 @@ function TickMobAura(mob, target, auraParams)
             mob:setLocalVar("auraTick" .. auraParams.auraNumber, os.time() + 3)
             local nearbyEnemies = mob:getNearbyEntities(auraParams.radius)
             if (nearbyEnemies ~= nil) then 
-                for _,v in pairs(nearbyEnemies) do
-                    if not v:isNPC() and (v:getID() ~= mob:getID()) then
+                for _, enemy in pairs(nearbyEnemies) do
+                     if not enemy:isNPC() and (enemy:getAllegiance() ~= mob:getAllegiance()) then
                         if auraParams.corrupt then
-                            CorruptBuffs(mob, v, auraParams.power)
+                            CorruptBuffs(mob, enemy, auraParams.power)
                         else
                             if auraParams.effect then
-                                v:delStatusEffectSilent(auraParams.effect)
-                                v:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
-                                local buffEffect = v:getStatusEffect(auraParams.effect)
+                                enemy:delStatusEffectSilent(auraParams.effect)
+                                enemy:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
+                                local buffEffect = enemy:getStatusEffect(auraParams.effect)
                                 buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
                                 buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
                             end
+                        end
+                    end
+                end
+            end
+        end
+        -- print(string.format("TickMobAura Radius: %d, Effect: %d, Power: %d, Duration: %d, AuraNumber: %d", auraParams.radius, auraParams.effect, auraParams.power, auraParams.duration, auraParams.auraNumber))
+    else
+        -- Reset aura var to 0 once it's duration ends
+        if (auraParams ~= nil) then
+            DelMobAura(mob, target, auraParams)
+        end
+    end
+end
+
+function TickMobBuffAura(mob, target, auraParams)
+    if (auraParams == nil) then
+        return
+    end
+
+    if (auraParams.auraNumber == nil) then
+        auraParams.auraNumber = 1
+    end
+
+    if (auraParams.subpower == nil) then
+        auraParams.subpower = 0
+    end
+
+    local auraDuration = mob:getLocalVar("auraDuration" .. auraParams.auraNumber)
+    local tick = 3
+    local duration = 6
+
+    if os.time() <= auraDuration then
+        local auraTick = mob:getLocalVar("auraTick" .. auraParams.auraNumber)
+        if os.time() >= auraTick then
+            mob:setLocalVar("auraTick" .. auraParams.auraNumber, os.time() + 3)
+            local nearbyAllies = mob:getNearbyEntities(10)
+            if (nearbyAllies ~= nil) then 
+                for _, ally in pairs(nearbyAllies) do
+                    if not ally:isNPC() and (ally:getAllegiance() ~= mob:getAllegiance()) then
+                        if auraParams.effect then
+                            ally:delStatusEffectSilent(auraParams.effect)
+                            ally:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
+                            local buffEffect = enemy:getStatusEffect(auraParams.effect)
+                            buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
+                            buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
                         end
                     end
                 end

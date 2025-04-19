@@ -1,4 +1,4 @@
------------------------------------
+﻿-----------------------------------
 --
 --  WotG utilities
 --
@@ -19,20 +19,26 @@ require("scripts/globals/keyitems")
 --  undead related event (night only)
 -- augmented items from events, fomor bosses drop their "Finished" synthesized weapons with augments
 -- OR drop runes (the things from hunts) from all events and they go into the weapons fomor bosses weapons
--- meta boss based on zone, can use a table like mobFamily and first key can be zone name via tpz enum
--- Mimics that are "Traps" that spawn enemies then give loot after
--- Boss death needs to check tpz.wotg.progressCheck and zone:setLocalVar("eventCompleted", 1) and add to meta progress(?)
--- Check if waves works properly still, I changed the var to set to tpz.wotg.events.Waves instead of 1
--- test temps with more players
--- events can spawn in same place x2 in a row, fix
 -- elite/champion packs on waves/defense? can have positive auras buffing other mobs in wave or debuffing players
 -- logic for mob despawning maybe? despawn event/mobs after inactive for 5m?
 -- some NM to reflect spell casts, and some NM (scorpion?) to counter WS with a TP move onto that player
 -- give one of the trash mobs hastega (make it II effect) regenga IV, etc
 -- has to be able to AOE it onto other mobs so needs to be in family somehow...or just hard code AOEing it on spellcast
 -- Fomors (Lugh etc) detect magic AND sound
--- Test if Witchweed properly levels up still (even if you stun it after bee dies)
--- Make sure Lugh levels up on heat breath / exuviation
+-- Delete tpz.wotg.WaveonMobDeath?
+-- Zone wide damage in certain areas like undispellable poison etc
+-- Test setEntityFlags
+-- Test elite champ etc mobs with auras
+-- Add a way to re-add +augment mod incase of DC
+-- Test values given by augments with prints
+-- Test SAVETP mod
+-- Test if mob OFFENSIVE auras still work (TickMobAura) and don't AOE onto other nearby mobs
+--[[
+This shouldn't happen:
+Should not be a value "too low", i assume it rolled 1? and then value 0?
+[18/Apr] [15:19:52][LUA Script] Skipped augment: 323 (value rolled too low)
+[18/Apr] [15:19:52][LUA Script] Added augment for Shiyotest - Item: White slacks, Augment: Enhance Value 2 (max augments: 2)
+]]
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
 
@@ -42,13 +48,20 @@ tpz.wotg.regionsData = {
     }
 }
 
+tpz.wotg.mobTypes = {
+    Normal     = 1,
+    Champion   = 2,
+    Elite      = 3,
+}
+
 -- These two tables need to match
 tpz.wotg.events = {
     Waves       = 1,
     Defense     = 2,
     Boss        = 3,
     Mimic       = 4,
-    Special     = 5
+    Special     = 5,
+    MetaBoss    = 6
 }
 -- These two tables need to match
 local eventList = {
@@ -57,6 +70,7 @@ local eventList = {
     [3] = randomEventBoss,
     [4] = randomEventMimic,
     [5] = randomEventSpecial,
+    [5] = randomEventMetaBoss,
 }
 
 local mobFamily = {
@@ -80,8 +94,481 @@ local metaBosses = {
     [tpz.zone.CRAWLERS_NEST_S] = { Id = 17477708, Pos = 'E-7' }, -- Lugh
 }
 
-local waves = {}
-local currentWave = 1
+local augments = {
+    [tpz.zone.CRAWLERS_NEST_S] = {
+        [tpz.items.WHITE_CLOAK] =
+        {
+            {
+                stat = tpz.augments.MATT, 
+                minimum = 4,
+                maximum = 9
+            },
+            {
+                stat = tpz.augments.ELEM, 
+                minimum = 3,
+                maximum = 7
+            },
+            {
+                stat = tpz.augments.CONSERVE_MP, 
+                minimum = 1,
+                maximum = 3
+            },
+            {
+                stat = tpz.augments.MAGIC_CRITHITRATE, 
+                minimum = 3,
+                maximum = 5
+            },
+            {
+                stat = tpz.augments.INT, 
+                minimum = 1,
+                maximum = 3
+            },
+        },
+        [tpz.items.BLACK_MITTS] =
+        {
+            {
+                stat = tpz.augments.MND, 
+                minimum = 4,
+                maximum = 7
+            },
+            {
+                stat = tpz.augments.ENFEEBLE, 
+                minimum = 1,
+                maximum = 5
+            },
+            {
+                stat = tpz.augments.MP, 
+                minimum = 5,
+                maximum = 25
+            },
+            {
+                stat = tpz.augments.CONSERVE_MP, 
+                minimum = 1,
+                maximum = 2
+            },
+            {
+                stat = tpz.augments.MACC, 
+                minimum = 1,
+                maximum = 3
+            },
+        },
+        [tpz.items.WHITE_SLACKS] =
+        {
+            {
+                stat = tpz.augments.ENH_MAGIC_DURATION, 
+                minimum = 4,
+                maximum = 10
+            },
+            {
+                stat = tpz.augments.MP, 
+                minimum = 5,
+                maximum = 25
+            },
+            {
+                stat = tpz.augments.ENHANCE, 
+                minimum = 1,
+                maximum = 5
+            },
+            {
+                stat = tpz.augments.CONSERVE_MP, 
+                minimum = 1,
+                maximum = 2
+            },
+            {
+                stat = tpz.augments.CURE_SPELLCASTING_TIME_MINUS, 
+                minimum = 1,
+                maximum = 2
+            },
+        },
+        [tpz.items.MOCCASINS] =
+        {
+            {
+                stat = tpz.augments.MAGIC_BURST_DMG, 
+                minimum = 3,
+                maximum = 6
+            },
+            {
+                stat = tpz.augments.MACC, 
+                minimum = 3,
+                maximum = 6
+            },
+            {
+                stat = tpz.augments.MP, 
+                minimum = 5,
+                maximum = 25
+            },
+            {
+                stat = tpz.augments.MAGIC_CRITHITRATE, 
+                minimum = 1,
+                maximum = 2
+            },
+            {
+                stat = tpz.augments.INT, 
+                minimum = 1,
+                maximum = 3
+            },
+        }
+    },
+
+    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
+        [tpz.items.WOOL_CAP] =
+        {
+            {
+                stat = tpz.augments.PET_DT, 
+                minimum = 2,
+                maximum = 5
+            },
+            {
+                stat = tpz.augments.PET_STR, 
+                minimum = 1,
+                maximum = 3
+            },
+            {
+                stat = tpz.augments.PET_ACC_RACC, 
+                minimum = 2,
+                maximum = 6
+            },
+            {
+                stat = tpz.augments.MP, 
+                minimum = 10,
+                maximum = 20
+            },
+            {
+                stat = tpz.augments.PET_DOUBLE_ATTACK, 
+                minimum = 1,
+                maximum = 2
+            },
+        },
+        [tpz.items.WOOL_GAMBISON] =
+        {
+            {
+                stat = tpz.augments.EVA, 
+                minimum = 7,
+                maximum = 11
+            },
+            {
+                stat = tpz.augments.VIT, 
+                minimum = 5,
+                maximum = 12
+            },
+            {
+                stat = tpz.augments.DEF, 
+                minimum = 15,
+                maximum = 35
+            },
+            {
+                stat = tpz.augments.HP, 
+                minimum = 15,
+                maximum = 30
+            },
+            {
+                stat = tpz.augments.PDT, 
+                minimum = 2,
+                maximum = 4
+            },
+        },
+        [tpz.items.WOOL_BRACERS] =
+        {
+            {
+                stat = tpz.augments.EVA, 
+                minimum = 7,
+                maximum = 15
+            },
+            {
+                stat = tpz.augments.ACC, 
+                minimum = 1,
+                maximum = 6
+            },
+            {
+                stat = tpz.augments.HP, 
+                minimum = 10,
+                maximum = 20
+            },
+            {
+                stat = tpz.augments.SUBTLE_BLOW, 
+                minimum = 1,
+                maximum = 3
+            },
+            {
+                stat = tpz.augments.COUNTER, 
+                minimum = 1,
+                maximum = 5
+            },
+        },
+        [tpz.items.WOOL_HOSE] =
+        {
+            {
+                stat = tpz.augments.SNAP_SHOT, 
+                minimum = 2,
+                maximum = 5
+            },
+            {
+                stat = tpz.augments.STR, 
+                minimum = 1,
+                maximum = 3
+            },
+            {
+                stat = tpz.augments.AGI, 
+                minimum = 1,
+                maximum = 3
+            },
+            {
+                stat = tpz.augments.HP, 
+                minimum = 10,
+                maximum = 25
+            },
+            {
+                stat = tpz.augments.MARKSMANSHIP, 
+                minimum = 1,
+                maximum = 5
+            },
+        },
+        [tpz.items.WOOL_SOCKS] =
+        {
+            {
+                stat = tpz.augments.SKILLCHAINDMG, 
+                minimum = 4,
+                maximum = 7
+            },
+            {
+                stat = tpz.augments.ATT, 
+                minimum = 1,
+                maximum = 5
+            },
+            {
+                stat = tpz.augments.STORETP, 
+                minimum = 1,
+                maximum = 3
+            },
+            {
+                stat = tpz.augments.HP, 
+                minimum = 10,
+                maximum = 20
+            },
+            {
+                stat = tpz.augments.STR, 
+                minimum = 1,
+                maximum = 4
+            },
+        }
+    },
+
+    [tpz.zone.GARLAIGE_CITADEL_S] = {
+        [tpz.items.ALUMINE_SALADE] =
+        {
+            {
+                stat = tpz.augments.DUAL_WIELD, 
+                minimum = 1,
+                maximum = 5
+            },
+            {
+                stat = tpz.augments.DEF, 
+                minimum = 15,
+                maximum = 35
+            },
+            {
+                stat = tpz.augments.ICERES, 
+                minimum = 10,
+                maximum = 20
+            },
+            {
+                stat = tpz.augments.HP, 
+                minimum = 10,
+                maximum = 20
+            },
+            {
+                stat = tpz.augments.KATANA, 
+                minimum = 1,
+                maximum = 5
+            },
+        },
+        [tpz.items.ALUMINE_HAUBERT] =
+        {
+            {
+                stat = tpz.augments.ENHANCE, 
+                minimum = 6,
+                maximum = 12
+            },
+            {
+                stat = tpz.augments.HP, 
+                minimum = 15,
+                maximum = 35
+            },
+            {
+                stat = tpz.augments.WINDRES, 
+                minimum = 15,
+                maximum = 30
+            },
+            {
+                stat = tpz.augments.DEF, 
+                minimum = 15,
+                maximum = 35
+            },
+            {
+                stat = tpz.augments.SPELLINTERRUPT, 
+                minimum = 9,
+                maximum = 15
+            },
+        },
+        [tpz.items.ALUMINE_MOUFLES] =
+        {
+            {
+                stat = tpz.augments.PET_HASTE, 
+                minimum = 2,
+                maximum = 5
+            },
+            {
+                stat = tpz.augments.PET_DEF, 
+                minimum = 2,
+                maximum = 5
+            },
+            {
+                stat = tpz.augments.PET_ATTK_RATTK, 
+                minimum = 15,
+                maximum = 35
+            },
+            {
+                stat = tpz.augments.PET_ACC_RACC, 
+                minimum = 2,
+                maximum = 5
+            },
+            {
+                stat = tpz.augments.SIC_READY_CDR, 
+                minimum = 2,
+                maximum = 5
+            },
+        },
+        [tpz.items.ALUMINE_BRAYETTES] =
+        {
+            {
+                stat = tpz.augments.SHIELD, 
+                minimum = 7,
+                maximum = 12
+            },
+            {
+                stat = tpz.augments.EARTHRES, 
+                minimum = 10,
+                maximum = 20
+            },
+            {
+                stat = tpz.augments.HP, 
+                minimum = 15,
+                maximum = 25
+            },
+            {
+                stat = tpz.augments.DEF, 
+                minimum = 15,
+                maximum = 35
+            },
+            {
+                stat = tpz.augments.ENMITY, 
+                minimum = 3,
+                maximum = 7
+            },
+        },
+        [tpz.items.ALUMINE_SOLERETS] =
+        {
+            {
+                stat = tpz.augments.DT, 
+                minimum = 2,
+                maximum = 5
+            },
+            {
+                stat = tpz.augments.DARKRES, 
+                minimum = 10,
+                maximum = 20
+            },
+            {
+                stat = tpz.augments.DEF, 
+                minimum = 15,
+                maximum = 35
+            },
+            {
+                stat = tpz.augments.HP, 
+                minimum = 15,
+                maximum = 25
+            },
+            {
+                stat = tpz.augments.ENMITY, 
+                minimum = 3,
+                maximum = 7
+            },
+        }
+    }
+}
+
+local function shuffle(tbl)
+    for i = #tbl, 2, -1 do
+        local j = math.random(i)
+        tbl[i], tbl[j] = tbl[j], tbl[i]
+    end
+end
+
+local function GenerateAugments(player, chance)
+    -- Roll a chance (1-100). Only proceed if the roll is within the success threshold.
+    local roll = math.random(100)
+    printf("Augment roll: %d (needed <= %d)", roll, chance)
+    if roll > chance then
+        return
+    end
+
+    local ID = zones[player:getZoneID()]
+    local zoneAugments = augments[player:getZoneID()]
+    if not zoneAugments then return end
+
+    -- Get a random item key from this zone
+    local itemList = {}
+    for itemId in pairs(zoneAugments) do
+        table.insert(itemList, itemId)
+    end
+
+    local item = itemList[math.random(#itemList)]
+    local augmentOptions = zoneAugments[item]
+
+    if not augmentOptions then
+        printf("GenerateAugments: No augment options found for item %d", item)
+        return
+    end
+
+    for _, member in pairs(player:getAlliance()) do
+        local augments = {}
+        local augmentIndex = 1
+        local maxAugments = 1 + member:getMod(tpz.mod.PAST_DUNGEON_MASTER)
+
+        local shuffled = {}
+        for i = 1, #augmentOptions do
+            shuffled[i] = augmentOptions[i]
+        end
+        shuffle(shuffled)
+
+        for i = 1, math.min(maxAugments, #shuffled) do
+            local augment = shuffled[i]
+            local value = math.random(augment.minimum, augment.maximum)
+            value = value - 1 -- Values start at 0. i.e. 1 value on an augment is equal to 2, 0 is equal to 1. 
+            if value then
+                augments[augmentIndex] = augment.stat
+                augments[augmentIndex + 1] = value
+                local augmentNames = utils.GetAugmentName()
+                local statName = augmentNames[augment.stat]
+                statName = utils.PunctuateString(statName)
+                local itemdata = GetItem(item)
+                local itemName = string.gsub(itemdata:getName(), '_', ' ');
+                itemName = utils.PunctuateString(itemName)
+                printf("Added augment for %s - Item: %s, Augment: %s Value %d (max augments: %d)", member:getName(), itemName, statName, value+1, maxAugments)
+                augmentIndex = augmentIndex + 2
+            else
+                printf("Skipped augment: %s (value invalid)", tostring(augment.stat))
+            end
+            if augmentIndex > 10 then
+                printf("Reached augment cap")
+                break
+            end
+        end
+
+        member:addItem(item, 1, augments[1], augments[2], augments[3], augments[4], augments[5], augments[6], augments[7], augments[8], augments[9], augments[10])
+        member:messageSpecial(ID.text.ITEM_OBTAINED, item)
+    end
+end
 
 tpz.wotg.NMMods = function(mob)
     if mob:getMainJob() == tpz.job.MNK then
@@ -339,23 +826,118 @@ end
 
 local function ProgressMeta(player, zone)
     local metaProgress = zone:getLocalVar("metaProgress")
-    if metaProgress < 100 then
+    if (metaProgress < 100) then
         zone:setLocalVar("metaProgress", math.min(metaProgress + 5, 100))
-        utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', 0xD, none)
+        utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, none)
         generateActiveRegions(zone)
     end
  end
+
+ local function AddAugmentMod(player)
+    local party = player:getParty()
+    if player then
+        if player:isTrust() or player:isPet() then
+            party = player:getMaster():getParty()
+        end
+    end
+
+    if party then
+        for _, member in ipairs(party) do
+            if member:isPC() then
+                local augmentModPower = member:getMod(tpz.mod.PAST_DUNGEON_MASTER) or 0
+                member:PrintToPlayer("You will now gain more augments on your items! (Amount: " .. augmentModPower .. ", max 5)", tpz.msg.textColor.HIDDEN, none)
+            end
+        end
+    end
+end
 
 local function ClearMsgVars(zone)
     zone:setLocalVar("wavesMsg", 0)
 end
 
-local function generateMob(mob)
+local function GetMobType(mob)
+    return mob:getLocalVar("wotgMobType")
+end
+
+local function PickMobType(options)
     local mobTypeData = {
-       { Type = 'Normal',    Chance = 80 },
-       { Type = 'Champion',  Chance = 10 },
-       { Type = 'Elite',     Chance = 10 },
+       { Type = tpz.wotg.mobTypes.Normal,    Chance = 80 },
+       { Type = tpz.wotg.mobTypes.Champion,  Chance = 10 },
+       { Type = tpz.wotg.mobTypes.Elite,     Chance = 10 },
     }
+    local totalWeight = 0
+    for _, entry in ipairs(options) do
+        totalWeight = totalWeight + entry.Chance
+    end
+
+    local roll = math.random(1, totalWeight)
+    local runningSum = 0
+
+    for _, entry in ipairs(options) do
+        runningSum = runningSum + entry.Chance
+        if roll <= runningSum then
+            mob:setLocalVar("wotgMobType", entry.Type)
+            return entry.Type
+        end
+    end
+end
+
+local function GetmobTypeByName()
+    local reverseMobTypes = {}
+    for k, v in pairs(tpz.wotg.mobTypes) do
+        reverseMobTypes[v] = k 
+    end
+    return reverseMobTypes
+end
+
+local mobTypeData = {
+    [tpz.wotg.mobTypes.Elite] = function(mob)
+        PickMobAura(mob)
+        mob:setEntityFlags(tpz.entityFlags.SIZE_UP_1 | tpz.entityFlags.SIZE_LARGE)
+    end,
+
+    [tpz.wotg.mobTypes.Champion] = function(mob)
+        mob:setMod(tpz.mod.ATTP, 33)
+        mob:setMod(tpz.mod.DEFP, 33)
+        mob:setMod(tpz.mod.ACC, 20)
+        mob:setMod(tpz.mod.EVA, 20)
+    end,
+}
+
+local PrintMobTypeGeneration(mob)
+    local mobType = PickMobType(mobTypeData)
+    local mobTypeNames = GetmobTypeByName()
+    local typeName = augmentNames[augment.stat]
+    typeName = utils.PunctuateString(typeName)
+    local mobName = MobName(GetMobByID(mob))
+    local mobId = mob:getID()
+    printf("Mob Type Generated: %s[%d]: %s", mobName, mobId, typeName)
+end
+
+local function GenerateMob(mob)
+    local mobType = GetMobType(mob)
+    local mobTypeData = mobTypeData[mobType]
+
+    if mobTypeData then
+        mobTypeData(mob)
+    end
+
+    PrintMobTypeGeneration(mob) -- TODO: Remove later
+end
+
+local function PickMobAura(mob)
+    local auras = {
+        { Effect = tpz.effect.GEO_ATTACK_BOOST,         Power = 33 },
+        { Effect = tpz.effect.GEO_DEFENSE_BOOST,        Power = 33 },
+        { Effect = tpz.effect.GEO_ACCURACY_BOOST,       Power = 50 },
+        { Effect = tpz.effect.GEO_EVASION_BOOST,        Power = 50 },
+        { Effect = tpz.effect.GEO_MAGIC_DEF_BOOST,      Power = 24 },
+        { Effect = tpz.effect.GEO_MAGIC_EVASION_BOOST,  Power = 30 },
+    }
+
+    local selectedAura = auras[math.random(#auras)]
+    mob:setLocalVar("wotgAuraEffect", selectedAura.Effect)
+    mob:setLocalVar("wotgAuraPower", selectedAura.Power)
 end
 
 local function pickRandom(t)
@@ -370,6 +952,8 @@ local function pickRandomKey(t)
     return keys[math.random(1, #keys)]
 end
 
+local waves = {}
+local currentWave = 1
 local function generateWave(player, usedMobs)
     local wave = {}
     local waveSize = math.random(1, 5)
@@ -401,7 +985,7 @@ local function generateWave(player, usedMobs)
     end
 
     if (wavesMsg == 0) then
-        utils.MessageParty(player, 'CODE: Waves START', 0xD, none)
+        utils.MessageParty(player, 'CODE: Waves START', tpz.msg.textColor.HIDDEN, none)
         zone:setLocalVar("wavesMsg", 1)
     end
 
@@ -454,10 +1038,10 @@ local function randomEventBoss(player)
             boss:addStatusEffect(tpz.effect.TERROR, 1, 0, 3)
             posOffset = posOffset + 0.5
         end
-        utils.MessageParty(player, 'A ferocious enemy appears!', 0xD, none)
+        utils.MessageParty(player, 'A ferocious enemy appears!', tpz.msg.textColor.HIDDEN, none)
     end)
 
-    utils.MessageParty(player, 'CODE: Boss START', 0xD, none)
+    utils.MessageParty(player, 'CODE: Boss START', tpz.msg.textColor.HIDDEN, none)
     zone:setLocalVar("eventActive", tpz.wotg.events.Boss)
 end
 
@@ -479,7 +1063,7 @@ local function randomEventMimic(player)
             end
         end
     end)
-    utils.MessageParty(player, 'A peculiar chest appears!', 0xD, none)
+    utils.MessageParty(player, 'A peculiar chest appears!', tpz.msg.textColor.HIDDEN, none)
     zone:setLocalVar("eventActive", tpz.wotg.events.Mimic)
 end
 
@@ -491,6 +1075,8 @@ local function RandomEventComplete(player)
     local amount = math.random(1, 3)
     for _, member in pairs(player:getAlliance()) do
         GiveTempItems(member, amount)
+        local chance = 25
+        GenerateAugments(member, chance)
     end
     ProgressMeta(player, zone)
     ClearMsgVars(zone)
@@ -499,26 +1085,30 @@ end
 local function SpawnMetaBoss(player, zone)
     local zoneId = player:getZoneID()
     local bossData = metaBosses[zoneId]
+    local eventActive = zone:getLocalVar("eventActive")
     -- TODO: Spams has spawned, doesnt spawn him
     -- Need to set eventActive and add entry for metaBoss
-
     if not bossData then
         printf("SpawnMetaBoss: No meta boss found.")
         return
     end
 
-    player:queue(5000, function(player) -- 5s wait before spawning
-        local bossId = bossData.Id
+    if (eventActive > 0) then
+        return
+    end
+
+    player:queue(30000, function(player) -- 30s wait before spawning
+        local metaBossId = bossData.Id
         local spawnPos = bossData.Pos
-        local boss = GetMobByID(bossId)
-        local mobName = MobName(boss)
+        local metaBoss = GetMobByID(metaBossId)
+        local metaBossName = MobName(metaBoss)
 
         if not boss:isSpawned() then
-            SpawnMob(bossId)
+            SpawnMob(metaBossId)
+            utils.MessageParty(player, metaBossName .. " has spawned at " .. spawnPos .. "!", tpz.msg.textColor.HIDDEN, nil)
         end
-
-        utils.MessageParty(player, mobName .. " has spawned at " .. spawnPos .. "!", 0xD, nil)
     end)
+    zone:setLocalVar("eventActive", tpz.wotg.events.MetaBoss)
 end
 
 local modByMobName =
@@ -896,6 +1486,15 @@ local mobFightByMobName =
             mob:setLocalVar("lvlUp", 1)
         end)
     end,
+
+    ['Coarse'] = function(mob, target)
+    end,
+
+    ['Hound'] = function(mob, target)
+    end,
+
+    ['Vampyr'] = function(mob, target)
+    end,
 }
 
 local mobWSPrepareByMobName =
@@ -983,6 +1582,18 @@ tpz.wotg.onMobFight = function(mob, target)
     if mobFight then
         mobFight(mob, target)
     end
+
+    if (GetMobType(mob) == tpz.wotg.mobTypes.Elite) then
+        local auraParams = {
+            radius = 10,
+            effect = mob:getLocalVar("wotgAuraEffect"),
+            power = mob:getLocalVar("wotgAuraPower"),
+            duration = 30,
+            auraNumber = 1
+        }
+        AddMobAura(mob, target, auraParams)
+        TickMobBuffAura(mob, target, auraParams)
+    end
 end
 
 tpz.wotg.onMobWeaponSkillPrepare = function(mob, target)
@@ -1009,10 +1620,12 @@ function eventOnMobDeath.Boss(mob, player, isKiller, noKiller)
     local amount = math.random(2, 4)
     GiveTempItems(player, amount)
     ClearMsgVars(zone)
-    zone:setLocalVar("eventActive", 0)
     if isKiller or noKiller then
         ProgressMeta(player, zone)
+        local chance = 100
+        GenerateAugments(player, chance)
     end
+    zone:setLocalVar("eventActive", 0)
 end
 
 function eventOnMobDeath.Mimic(mob, player, isKiller, noKille)
@@ -1020,18 +1633,28 @@ function eventOnMobDeath.Mimic(mob, player, isKiller, noKille)
     local amount = math.random(3, 5)
     GiveTempItems(player, amount)
     ClearMsgVars(zone)
-    zone:setLocalVar("eventActive", 0)
     if isKiller or noKiller then
         ProgressMeta(player, zone)
+        local chance = 100
+        GenerateAugments(player, chance)
     end
+    zone:setLocalVar("eventActive", 0)
 end
 
-tpz.wotg.WaveonMobDeath = function(mob)
-    local zone = mob:getZone()
-    local waveProgress = zone:getLocalVar("waveProgress")
-
-    -- printf("Mob dead, incrimenting wave progress by 1")
-    zone:setLocalVar("waveProgress", waveProgress +1)
+function eventOnMobDeath.MetaBoss(mob, player, isKiller, noKiller)
+    local zone = player:getZone()
+    if isKiller or noKiller then
+        local chance = 100
+        GenerateAugments(player, chance)
+        -- Increased number augments on items, removed by zoning
+        for _, member in pairs(player:getAlliance()) do
+            member:addMod(tpz.mod.PAST_DUNGEON_MASTER, 1)
+        end
+        AddAugmentMod(player)
+        zone:setLocalVar("metaProgress", 0)
+        zone:setLocalVar("eventActive", 0)
+        utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, none)
+        end
 end
 
 tpz.wotg.onMobDeath = function (mob, player, isKiller, noKiller, event)
@@ -1072,7 +1695,7 @@ end
 
 tpz.wotg.RandomEvent = function(player)
     local zone = player:getZone()
-    randomEventMimic(player) -- TODO: Remove after done testing
+    randomEventBoss(player) -- TODO: Remove after done testing
     -- eventList[math.random(#eventList)](player) -- TODO: Uncomment after testing
 end
 
@@ -1096,6 +1719,7 @@ tpz.wotg.spawnWave = function(player, waveIndex)
             print("Spawning Mob ID:", mobID)
             local mob = GetMobByID(mobID)
             if not mob:isSpawned() then
+                GenerateMob(mob)
                 mob:setSpawn(xPos + posOffset, yPos, zPos + posOffset)
                 SpawnMob(mobID)
                 mob:updateEnmity(player)
@@ -1105,7 +1729,7 @@ tpz.wotg.spawnWave = function(player, waveIndex)
             end
         end
         print("Spawning Wave " .. waveIndex)
-        utils.MessageParty(player, 'Enemies appear around you!', 0xD, none)
+        utils.MessageParty(player, 'Enemies appear around you!', tpz.msg.textColor.HIDDEN, none)
     end)
 
     -- Set wave size as a local variable in the zone

@@ -1,7 +1,6 @@
 -----------------------------------
 --
---tpz.effect.MAGIC_EVASION_BOOST_II
---
+--tpz.effect.GEO_MAGIC_EVASION_BOOST
 --
 -----------------------------------
 require("scripts/globals/status")
