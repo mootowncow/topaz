@@ -14180,7 +14180,7 @@ INSERT INTO `item_equipment` VALUES (28544,'yacuruna_ring',99,0,4194303,0,0,0,24
 INSERT INTO `item_equipment` VALUES (28545,'yacuruna_ring_+1',99,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (28546,'capacity_ring',99,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (28547,'merirosvo_ring',99,0,65536,0,0,0,24576,0,0);
-INSERT INTO `item_equipment` VALUES (28548,'barataria_ring',99,0,65536,0,0,0,24576,0,0);
+INSERT INTO `item_equipment` VALUES (28548,'barataria_ring',75,0,65536,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (28549,'enlivened_ring',99,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (28550,'vehemence_ring',99,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (28551,'longshot_ring',99,0,4194303,0,0,0,24576,0,0);

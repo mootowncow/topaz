@@ -45,23 +45,35 @@ function onMobFight(mob, target)
 	local ShieldBroken = mob:getLocalVar("ShieldBroken")
     local AnimationSub = mob:AnimationSub()
 	local BattleTime = mob:getBattleTime()
+    local immortalShield = mob:getLocalVar("immortalShield")
+
     -- Uses Immortal shield every 20% HP
     if mob:getHPP() < 80 and Phase == 0 then
-		mob:useMobAbility(1965) -- Immortal Shield
         mob:setLocalVar("Phase", 1)
+        mob:setLocalVar("immortalShield", 1)
 	end
     if mob:getHPP() < 60 and Phase == 1 then
-		mob:useMobAbility(1965) -- Immortal Shield
         mob:setLocalVar("Phase", 2)
+        mob:setLocalVar("immortalShield", 1)
 	end
     if mob:getHPP() < 40 and Phase == 2 then
-		mob:useMobAbility(1965) -- Immortal Shield
         mob:setLocalVar("Phase", 3)
+        mob:setLocalVar("immortalShield", 1)
 	end
     if mob:getHPP() < 20 and Phase == 3 then
-		mob:useMobAbility(1965) -- Immortal Shield
         mob:setLocalVar("Phase", 4)
+        mob:setLocalVar("immortalShield", 1)
 	end
+
+    if
+        (immortalShield == 1) and
+        not IsMobBusy(mob) and
+        not mob:hasPreventActionEffect()
+    then
+        mob:useMobAbility(tpz.mob.skills.IMMORTAL_SHIELD)
+        mob:setLocalVar("immortalShield", 0)
+    end
+
     -- While his shields are up physical damage taken is GREATLY reduced.
     if AnimationSub > 0 then
         if AnimationSub == 2 then
@@ -101,11 +113,18 @@ function onMobFight(mob, target)
             end
         end
     end
+
+    -- Handle Immortal Shield being interrupted
+    mob:addListener("WEAPONSKILL_STATE_INTERRUPTED", "MAHLJ_WS_INTERRUPTED", function(mob, skill)
+        if (skill == tpz.mob.skills.IMMORTAL_SHIELD) then
+            mob:setLocalVar("immortalShield", 1)
+        end
+    end)
 end
 
 function onMobWeaponSkill(target, mob, skill)
     -- Gain floating shields after usnig Immortal Shields
-    if skill:getID() == 1965 then -- Immortal Shield
+    if (skill:getID() == tpz.mob.skills.IMMORTAL_SHIELD) then
         mob:AnimationSub(2)
     end
 end

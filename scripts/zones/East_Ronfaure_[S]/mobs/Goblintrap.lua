@@ -17,10 +17,14 @@ function onMobSpawn(mob)
 	mob:setDamage(140)
     mob:setMod(tpz.mod.ATTP, 25)
     mob:setMod(tpz.mod.DARK_ABSORB, 100)
-    mob:addMod(tpz.mod.DEFP, 25) 
-    mob:addMod(tpz.mod.EVA, 15)
+    mob:addMod(tpz.mod.DEFP, 35)
+    mob:addMod(tpz.mod.VIT, 25)
+    mob:addMod(tpz.mod.EVA, 25)
+    mob:addMod(tpz.mod.MDEF, 60)
+    mob:addMod(tpz.mod.SPELLINTERRUPT, 300)
     mob:setMobMod(tpz.mobMod.GA_CHANCE, 70)
-    mob:addImmunity(tpz.immunity.SILENCE) 
+    mob:addImmunity(tpz.immunity.SILENCE)
+    mob:addImmunity(tpz.immunity.PARALYZE)
 
     tpz.mix.jobSpecial.config(mob, {
         specials =
@@ -35,12 +39,21 @@ function onMobFight(mob, target)
     local auraParams = {
         radius = 20,
         effect = tpz.effect.BIO,
-        power = 20,
+        power = 30,
         duration = 60,
         auraNumber = 1
     }
 
-    -- 20 yard range 20/tick Bio Aura
+    -- Absorbs physical damage while readying TP moves
+    mob:addListener("WEAPONSKILL_STATE_ENTER", "GOBLINTRAP_WS_STATE_ENTER", function(mob, skillID)
+        mob:setMod(tpz.mod.PHYS_ABSORB, 100)
+    end)
+
+    mob:addListener("WEAPONSKILL_STATE_EXIT", "GOBLINTRAP_MOBSKILL_FINISHED", function(mob)
+        mob:setMod(tpz.mod.PHYS_ABSORB, 0)
+    end)
+
+    -- 20 yard range 30/tick Bio Aura
     TickMobAura(mob, target, auraParams)
     AddMobAura(mob, target, auraParams)
 end
@@ -52,6 +65,10 @@ function onMobWeaponSkillPrepare(mob, target)
             return tpz.mob.skills.SOPORIFIC
         end
     end
+end
+
+function onMobDisengage(mob)
+    mob:setMod(tpz.mod.PHYS_ABSORB, 0)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
