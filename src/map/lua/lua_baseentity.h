@@ -727,6 +727,8 @@ public:
     int32 setDamage(lua_State*);              // sets a mobs weapon damage
     int32 hasSpellList(lua_State*);
     int32 setSpellList(lua_State*);
+    int32 addSpellListEntry(lua_State*);      // Adds a spell to the mobs current spell list
+    int32 delSpelllistEntry(lua_State*);      // Removes a spell to the mobs current spell list
     int32 SetAutoAttackEnabled(lua_State*);   // halts/resumes auto attack of entity
     int32 SetMagicCastingEnabled(lua_State*); // halt/resumes casting magic
     int32 SetMobAbilityEnabled(lua_State*);   // halt/resumes mob skills

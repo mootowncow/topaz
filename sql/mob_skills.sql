@@ -2786,7 +2786,7 @@ INSERT INTO `mob_skills` VALUES (2813,2557,'dunur_strike',4,15.0,2000,1500,4,0,0
 -- INSERT INTO `mob_skills` VALUES (2822,2566,'eldritch_wind',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2823,1986,'rhinowrecker',4,15.0,2000,1500,4,0,0,5,11,1,0); -- Animation ID was 2567
 -- INSERT INTO `mob_skills` VALUES (2824,2568,'cloudscourge',0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (2825,2569,'louring_skies',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2825,2569,'louring_skies',1,20.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2826,1992,'exponential_burst',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2827,2571,'sudden_lunge',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2828,911,'jettatura',4,7,2000,3000,4,0,0,0,0,0,0);

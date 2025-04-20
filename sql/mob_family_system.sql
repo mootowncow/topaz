@@ -783,11 +783,13 @@ INSERT INTO `mob_family_system` VALUES (970,'Goldcap',17,'Plantoid',0,68,125,110
 INSERT INTO `mob_family_system` VALUES (971,'Aldo-RAID',13,'Humanoid',0,40,90,110,3,3,2,3,2,2,3,1,3,1,3,1,1,1,1,1,1,1,1,1,1,1,1,3,1,0,100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100); 
 INSERT INTO `mob_family_system` VALUES (972,'Maximilian-RAID',13,'Humanoid',0,40,90,110,3,3,2,3,2,2,3,1,3,1,3,1,1,1,1,1,1,1,1,1,1,1,1,3,1,0,100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100); 
 
+-- WotG Dungeons
 INSERT INTO `mob_family_system` VALUES (973,'Coccineus',20,'Vermin',0,60,100,100,3,3,3,3,3,3,3,1,1,1,1,1,1.125,1,1,0.3,0.2,0.2,1.3,0.1,0.3,0.3,0.3,3,257,1,100,	100,	30,	30,	100,	100,	100,	130,	130,	70,	70,	70,	100,	100,	100);	
+INSERT INTO `mob_family_system` VALUES (974,'Hound_of_Balthazar',19,'Undead',1,40,100,120,3,3,4,4,4,4,4,1,4,1,4,1.25,0.85,0.85,0.85,0.05,0.05,0.3,0.3,0.3,1.3,1.3,0.05,8,6,0,50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50,	50);
 
 -- 22,50,96,111,317-318,405,411-434,439-443, 598 available for use
 -- NEXT: 641
--- NEXT Custom: 974
+-- NEXT Custom: 975
 
   -- `familyid` smallint(4) unsigned NOT NULL,
   -- `family` tinytext,

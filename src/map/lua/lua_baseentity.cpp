@@ -15700,6 +15700,36 @@ inline int32 CLuaBaseEntity::setSpellList(lua_State* L)
     return 0;
 }
 
+inline int CLuaBaseEntity::addSpellListEntry(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    auto PEntity = dynamic_cast<CMobEntity*>(m_PBaseEntity);
+    if (PEntity == nullptr || PEntity->SpellContainer == nullptr)
+        return 0;
+
+    SpellID spellId = static_cast<SpellID>(lua_tointeger(L, 1));
+    PEntity->SpellContainer->AddSpell(spellId);
+    return 0;
+}
+
+inline int CLuaBaseEntity::delSpelllistEntry(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    auto PEntity = dynamic_cast<CMobEntity*>(m_PBaseEntity);
+    if (PEntity == nullptr || PEntity->SpellContainer == nullptr)
+        return 0;
+
+    SpellID spellId = static_cast<SpellID>(lua_tointeger(L, 1));
+    PEntity->SpellContainer->RemoveSpell(spellId);
+    return 0;
+}
+
 /************************************************************************
 *  Function: SetAutoAttackEnabled()
 *  Purpose : Enables/disabled auto-attack for a Mob
@@ -17985,6 +18015,8 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setDamage),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasSpellList),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setSpellList),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,addSpellListEntry),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,delSpelllistEntry),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,SetAutoAttackEnabled),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,SetMagicCastingEnabled),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,SetMobAbilityEnabled),

@@ -26,7 +26,8 @@ require("scripts/globals/keyitems")
 -- has to be able to AOE it onto other mobs so needs to be in family somehow...or just hard code AOEing it on spellcast
 -- Fomors (Lugh etc) detect magic AND sound
 -- Delete tpz.wotg.WaveonMobDeath?
--- Zone wide damage in certain areas like undispellable poison etc
+-- Zone wide damage in certain areas like undispellable poison etc. Environmental effects
+-- Traps?
 -- Test setEntityFlags
 -- Test elite champ etc mobs with auras
 -- Add a way to re-add +augment mod incase of DC
@@ -893,7 +894,7 @@ end
 local mobTypeData = {
     [tpz.wotg.mobTypes.Elite] = function(mob)
         PickMobAura(mob)
-        mob:setEntityFlags(tpz.entityFlags.SIZE_UP_1 | tpz.entityFlags.SIZE_LARGE)
+        mob:setEntityFlags(tpz.entityFlags.SIZE_LARGE)
     end,
 
     [tpz.wotg.mobTypes.Champion] = function(mob)
@@ -904,7 +905,7 @@ local mobTypeData = {
     end,
 }
 
-local PrintMobTypeGeneration(mob)
+local function PrintMobTypeGeneration(mob)
     local mobType = PickMobType(mobTypeData)
     local mobTypeNames = GetmobTypeByName()
     local typeName = augmentNames[augment.stat]
@@ -1229,6 +1230,21 @@ local modByMobName =
         },
     })
     end,
+
+    ['Coarse'] = function(mob)
+    end,
+
+    ['Hound_of_Balthazar'] = function(mob)
+        mob:setDamage(100)
+        mob:setMod(tpz.mod.DOUBLE_ATTACK, 100)
+        mob:setMod(tpz.mod.FIRE_ABSORB, 100)
+    end,
+
+    ['Vampyr'] = function(mob)
+    end,
+
+    ['Corpselight'] = function(mob)
+    end,
 }
 
 local mobRoamByMobName =
@@ -1488,12 +1504,69 @@ local mobFightByMobName =
     end,
 
     ['Coarse'] = function(mob, target)
+        -- Gains undispellable shock spikes while casting
+        mob:addListener("MAGIC_START", "GOAFTRAP_MAGIC_START", function(mob, spell)
+	        mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 15, 0, 0)
+            local shockSpikes = mob:getStatusEffect(tpz.effect.SHOCK_SPIKES)
+            shockSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
+        end)
+        mob:addListener("MAGIC_STATE_EXIT", "GOAFTRAP_MAGIC_STATE_EXIT", function(mob, spell)
+            mob:delStatusEffectSilent(tpz.effect.SHOCK_SPIKES)
+        end)
+
+        -- Absorbs physical damage while readying TP moves
+        mob:addListener("WEAPONSKILL_STATE_ENTER", "GOBLINTRAP_WS_STATE_ENTER", function(mob, skillID)
+            mob:setMod(tpz.mod.PHYS_ABSORB, 100)
+        end)
+
+        mob:addListener("WEAPONSKILL_STATE_EXIT", "GOBLINTRAP_MOBSKILL_FINISHED", function(mob)
+            mob:setMod(tpz.mod.PHYS_ABSORB, 0)
+        end)
     end,
 
-    ['Hound'] = function(mob, target)
+    ['Hound_of_Balthazar'] = function(mob, target)
+        local auraParams = {
+            radius = 20,
+            effect = tpz.effect.PLAGUE,
+            power = 3,
+            duration = 3,
+            auraNumber = 1
+        }
+
+        -- Only uses an enhanced version of Poison and Methane breath that can deal up to 1250 damage
+        -- Enfire for 80-125
+
+        -- 1k+ Water magic bursts remove Plague aura for 60 seconds and applies Amnesia for 15 seconds
+        mob:addListener("SPELL_DMG_TAKEN", "HoB_SPELL_DMG_TAKEN", function(mob, caster, spell, amount, msg)
+            local element = spell:getElement()
+
+            if (element == tpz.magic.ele.WATER) and (amount >= 1000) then
+                if (msg == tpz.msg.basic.MAGIC_BURST_BLACK) or (msg == tpz.msg.MAGIC_BURST_BREATH) then
+                    local duration = 15
+                    BreakMob(mob, caster, tpz.procEffect.NONE, duration, tpz.procType.AMNESIA)
+                    mob:setLocalVar("procced", os.time() + 60)
+                end
+            end
+        end)
+
+        -- 20 yard range 30/tick Plague aura
+        if (os.time() >= mob:getLocalVar("procced")) then
+            AddMobAura(mob, target, auraParams)
+            TickMobAura(mob, target, auraParams)
+        end
     end,
 
     ['Vampyr'] = function(mob, target)
+    end,
+
+    ['Corpselight'] = function(mob, target)
+        -- 100% proc 100 damage endrain
+        -- Quick cast mod (5-10%)
+        -- 100% Spell interrupt resist mod
+        -- Family EEM 5 silence
+        -- Casts Addle (AOE) Blizzard IV Blizzaga III Graviga Bindga Silencega Slowga Sleepga II Breakga Dispelga
+        -- Uses Death below 20% HP
+        -- Uses Louring Skies: AoE magical damage (20 yalms), Paralyze(66%), and Bind
     end,
 }
 
@@ -1502,7 +1575,7 @@ local mobWSPrepareByMobName =
     ['Angry_Scorpion'] = function(mob, target)
         -- Prefer using Hell Scissors over other TP moves
         local roll = math.random()
-        if roll < 0.50 then
+        if (roll < 0.50) then
             return tpz.mob.skills.HELL_SCISSORS
         else
             return math.random(tpz.mob.skills.NUMBING_BREATH, tpz.mob.skills.SHARP_STRIKE)
@@ -1512,7 +1585,7 @@ local mobWSPrepareByMobName =
     ['Selket'] = function(mob, target)
         -- Prefer using Hell Scissors over other TP moves
         local roll = math.random()
-        if roll < 0.50 then
+        if (roll < 0.50) then
             return tpz.mob.skills.HELL_SCISSORS
         else
             return math.random(tpz.mob.skills.NUMBING_BREATH, tpz.mob.skills.SHARP_STRIKE)

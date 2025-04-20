@@ -4960,7 +4960,10 @@ INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,251); -- aegis_schism
 INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,252); -- dancing_chains
 INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,253); -- barbed_crescent
 
+INSERT INTO `mob_skill_lists` VALUES ('HoundOfBalthazar',6157,466); -- poison_breath_hound
+INSERT INTO `mob_skill_lists` VALUES ('HoundOfBalthazar',6157,470); -- methane_breath
+
 
 -- Next available ID: 1209
--- Next custom ID: 6157
+-- Next custom ID: 6158
 
