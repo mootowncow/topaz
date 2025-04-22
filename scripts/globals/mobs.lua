@@ -922,11 +922,11 @@ function TickMobBuffAura(mob, target, auraParams)
             local nearbyAllies = mob:getNearbyEntities(10)
             if (nearbyAllies ~= nil) then 
                 for _, ally in pairs(nearbyAllies) do
-                    if not ally:isNPC() and (ally:getAllegiance() ~= mob:getAllegiance()) then
+                    if not ally:isNPC() and (ally:getAllegiance() == mob:getAllegiance()) then
                         if auraParams.effect then
                             ally:delStatusEffectSilent(auraParams.effect)
                             ally:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
-                            local buffEffect = enemy:getStatusEffect(auraParams.effect)
+                            local buffEffect = ally:getStatusEffect(auraParams.effect)
                             buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
                             buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
                         end

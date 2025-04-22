@@ -34,12 +34,7 @@ require("scripts/globals/keyitems")
 -- Test values given by augments with prints
 -- Test SAVETP mod
 -- Test if mob OFFENSIVE auras still work (TickMobAura) and don't AOE onto other nearby mobs
---[[
-This shouldn't happen:
-Should not be a value "too low", i assume it rolled 1? and then value 0?
-[18/Apr] [15:19:52][LUA Script] Skipped augment: 323 (value rolled too low)
-[18/Apr] [15:19:52][LUA Script] Added augment for Shiyotest - Item: White slacks, Augment: Enhance Value 2 (max augments: 2)
-]]
+
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
 
@@ -508,8 +503,11 @@ end
 local function GenerateAugments(player, chance)
     -- Roll a chance (1-100). Only proceed if the roll is within the success threshold.
     local roll = math.random(100)
-    printf("Augment roll: %d (needed <= %d)", roll, chance)
     if roll > chance then
+        return
+    end
+
+    if not player then
         return
     end
 
@@ -860,12 +858,7 @@ local function GetMobType(mob)
     return mob:getLocalVar("wotgMobType")
 end
 
-local function PickMobType(options)
-    local mobTypeData = {
-       { Type = tpz.wotg.mobTypes.Normal,    Chance = 80 },
-       { Type = tpz.wotg.mobTypes.Champion,  Chance = 10 },
-       { Type = tpz.wotg.mobTypes.Elite,     Chance = 10 },
-    }
+local function PickMobType(mob, options)
     local totalWeight = 0
     for _, entry in ipairs(options) do
         totalWeight = totalWeight + entry.Chance
@@ -877,53 +870,17 @@ local function PickMobType(options)
     for _, entry in ipairs(options) do
         runningSum = runningSum + entry.Chance
         if roll <= runningSum then
-            mob:setLocalVar("wotgMobType", entry.Type)
             return entry.Type
         end
     end
 end
 
 local function GetmobTypeByName()
-    local reverseMobTypes = {}
+    local reverse = {}
     for k, v in pairs(tpz.wotg.mobTypes) do
-        reverseMobTypes[v] = k 
+        reverse[v] = k
     end
-    return reverseMobTypes
-end
-
-local mobTypeData = {
-    [tpz.wotg.mobTypes.Elite] = function(mob)
-        PickMobAura(mob)
-        mob:setEntityFlags(tpz.entityFlags.SIZE_LARGE)
-    end,
-
-    [tpz.wotg.mobTypes.Champion] = function(mob)
-        mob:setMod(tpz.mod.ATTP, 33)
-        mob:setMod(tpz.mod.DEFP, 33)
-        mob:setMod(tpz.mod.ACC, 20)
-        mob:setMod(tpz.mod.EVA, 20)
-    end,
-}
-
-local function PrintMobTypeGeneration(mob)
-    local mobType = PickMobType(mobTypeData)
-    local mobTypeNames = GetmobTypeByName()
-    local typeName = augmentNames[augment.stat]
-    typeName = utils.PunctuateString(typeName)
-    local mobName = MobName(GetMobByID(mob))
-    local mobId = mob:getID()
-    printf("Mob Type Generated: %s[%d]: %s", mobName, mobId, typeName)
-end
-
-local function GenerateMob(mob)
-    local mobType = GetMobType(mob)
-    local mobTypeData = mobTypeData[mobType]
-
-    if mobTypeData then
-        mobTypeData(mob)
-    end
-
-    PrintMobTypeGeneration(mob) -- TODO: Remove later
+    return reverse
 end
 
 local function PickMobAura(mob)
@@ -939,6 +896,84 @@ local function PickMobAura(mob)
     local selectedAura = auras[math.random(#auras)]
     mob:setLocalVar("wotgAuraEffect", selectedAura.Effect)
     mob:setLocalVar("wotgAuraPower", selectedAura.Power)
+end
+
+local mobTypeSpawn  = {
+    [tpz.wotg.mobTypes.Champion] = function(player, mob)
+        mob:setMod(tpz.mod.ATTP, 33)
+        mob:setMod(tpz.mod.DEFP, 33)
+        mob:setMod(tpz.mod.ACC, 20)
+        mob:setMod(tpz.mod.EVA, 20)
+        mob:addStatusEffect(tpz.effect.MAX_HP_BOOST, 25, 0, 0)
+        mob:setHPP(100)
+    end,
+
+    [tpz.wotg.mobTypes.Elite] = function(player, mob)
+        mob:setMod(tpz.mod.ATTP, 33)
+        mob:setMod(tpz.mod.DEFP, 33)
+        mob:setMod(tpz.mod.ACC, 20)
+        mob:setMod(tpz.mod.EVA, 20)
+        mob:addStatusEffect(tpz.effect.MAX_HP_BOOST, 50, 0, 0)
+        mob:setHPP(100)
+        PickMobAura(mob)
+        player:setEntityFlags(tpz.entityFlags.SIZE_LARGE, mob:getID())
+    end,
+}
+
+local mobTypeDeath = {
+    [tpz.wotg.mobTypes.Champion] = function(player, mob)
+        if (math.random(100) > 25) then
+            for _, member in pairs(player:getAlliance()) do
+                local amount = 1
+                GiveTempItems(member, amount)
+            end
+        end
+        local chance = 1
+        GenerateAugments(player, chance)
+    end,
+
+    [tpz.wotg.mobTypes.Elite] = function(player, mob)
+        for _, member in pairs(player:getAlliance()) do
+            for _, member in pairs(player:getAlliance()) do
+                local amount = 1
+                GiveTempItems(member, amount)
+            end
+        end
+        local chance = 5
+        GenerateAugments(player, chance)
+    end,
+}
+
+local function PrintMobTypeGeneration(mob)
+    local mobType = GetMobType(mob) -- Reads the var you just set
+    local mobTypeNames = GetmobTypeByName()
+    local typeName = mobTypeNames[mobType] or "Unknown"
+    typeName = utils.PunctuateString(typeName)
+    local mobName = mob:getName()
+    local mobId = mob:getID()
+    printf("Mob Type Generated: %s [%d]: %s", mobName, mobId, typeName)
+end
+
+
+local function GenerateMob(player, mob)
+    local typeData = {
+        { Type = tpz.wotg.mobTypes.Normal,   Chance = 10 },
+        { Type = tpz.wotg.mobTypes.Champion, Chance = 40 },
+        { Type = tpz.wotg.mobTypes.Elite,    Chance = 40 },
+    }
+
+    local mobType = PickMobType(mob, typeData)
+    local mobId = mob:getID()
+    SpawnMob(mobId)
+    mob:setLocalVar("wotgMobType", mobType)
+
+
+    local spawnTypeHandler = mobTypeSpawn[mobType]
+    if spawnTypeHandler then
+        spawnTypeHandler(player, mob)
+    end
+
+    PrintMobTypeGeneration(mob) -- for debugging
 end
 
 local function pickRandom(t)
@@ -957,7 +992,7 @@ local waves = {}
 local currentWave = 1
 local function generateWave(player, usedMobs)
     local wave = {}
-    local waveSize = math.random(1, 5)
+    local waveSize = math.random(2, 5)
     local zone = player:getZone()
     local zoneId = player:getZoneID()
     local wavesMsg = zone:getLocalVar("wavesMsg")
@@ -1525,6 +1560,7 @@ local mobFightByMobName =
     end,
 
     ['Hound_of_Balthazar'] = function(mob, target)
+        local procDuration = mob:getLocalVar("procDuration")
         local auraParams = {
             radius = 20,
             effect = tpz.effect.PLAGUE,
@@ -1550,13 +1586,20 @@ local mobFightByMobName =
         end)
 
         -- 20 yard range 30/tick Plague aura
-        if (os.time() >= mob:getLocalVar("procced")) then
+        if (os.time() >= procDuration) then
             AddMobAura(mob, target, auraParams)
             TickMobAura(mob, target, auraParams)
         end
     end,
 
     ['Vampyr'] = function(mob, target)
+        -- SMN. summons a red bat add that is not killed fast will charm a nearby player and bat costume them
+        -- astral flow summons 3 bats
+    end,
+
+    ['Vampyr_Bat'] = function(mob, target)
+        -- SMN. summons a red bat add that is not killed fast will charm a nearby player and bat costume them
+        -- astral flow summons 3 bats
     end,
 
     ['Corpselight'] = function(mob, target)
@@ -1664,6 +1707,7 @@ tpz.wotg.onMobFight = function(mob, target)
             duration = 30,
             auraNumber = 1
         }
+
         AddMobAura(mob, target, auraParams)
         TickMobBuffAura(mob, target, auraParams)
     end
@@ -1680,9 +1724,17 @@ tpz.wotg.onMobWeaponSkillPrepare = function(mob, target)
 end
 
 local eventOnMobDeath = {}
-function eventOnMobDeath.Waves(mob, player, isKiller, noKille)
+function eventOnMobDeath.Waves(mob, player, isKiller, noKiller)
     local zone = mob:getZone()
     local waveProgress = zone:getLocalVar("waveProgress")
+    local mobType = GetMobType(mob)
+    local deathTypeHandler = mobTypeDeath[mobType]
+
+    if isKiller or noKiller then
+        if deathTypeHandler then
+            deathTypeHandler(player, mob)
+        end
+    end
 
     -- printf("Mob dead, incrementing wave progress by 1")
     zone:setLocalVar("waveProgress", waveProgress + 1)
@@ -1768,7 +1820,7 @@ end
 
 tpz.wotg.RandomEvent = function(player)
     local zone = player:getZone()
-    randomEventBoss(player) -- TODO: Remove after done testing
+    randomEventWaves(player) -- TODO: Remove after done testing
     -- eventList[math.random(#eventList)](player) -- TODO: Uncomment after testing
 end
 
@@ -1792,9 +1844,8 @@ tpz.wotg.spawnWave = function(player, waveIndex)
             print("Spawning Mob ID:", mobID)
             local mob = GetMobByID(mobID)
             if not mob:isSpawned() then
-                GenerateMob(mob)
                 mob:setSpawn(xPos + posOffset, yPos, zPos + posOffset)
-                SpawnMob(mobID)
+                GenerateMob(player, mob)
                 mob:updateEnmity(player)
                 mob:updateClaim(player)
                 mob:addStatusEffect(tpz.effect.TERROR, 1, 0, 3)

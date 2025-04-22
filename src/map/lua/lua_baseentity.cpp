@@ -8853,6 +8853,35 @@ inline int32 CLuaBaseEntity::setHP(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: setHPP()
+ *  Purpose : Sets the Hit Points percent of an Entity
+ *  Example : player:setHPP(75)
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::setHPP(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    ((CBattleEntity*)m_PBaseEntity)->health.hp = 0;
+
+    auto percent = static_cast<int32>(lua_tointeger(L, 1));
+    auto maxHP = ((CBattleEntity*)m_PBaseEntity)->GetMaxHP();
+
+    auto value = static_cast<int32>(std::ceil(maxHP * (percent / 100.0)));
+
+    ((CBattleEntity*)m_PBaseEntity)->addHP(value);
+    m_PBaseEntity->updatemask |= UPDATE_HP;
+
+    if (value == 0)
+        ((CBattleEntity*)m_PBaseEntity)->PLastAttacker = nullptr;
+
+    return 0;
+}
+
+/************************************************************************
 *  Function: restoreHP()
 *  Purpose : Restores the Hit Points of an Entity by a specified amount
 *  Example : player:restoreHP(1000)
@@ -9089,6 +9118,7 @@ inline int32 CLuaBaseEntity::addMP(lua_State *L)
     }
 
     int32 result = ((CBattleEntity*)m_PBaseEntity)->addMP((int32)lua_tointeger(L, 1));
+    m_PBaseEntity->updatemask |= UPDATE_HP;
 
     lua_pushinteger(L, result);
     return 1;
@@ -9111,6 +9141,36 @@ inline int32 CLuaBaseEntity::setMP(lua_State *L)
     ((CBattleEntity*)m_PBaseEntity)->health.mp = 0;
     int32 value = (int32)(lua_tointeger(L, 1) - ((CBattleEntity*)m_PBaseEntity)->health.mp);
     ((CBattleEntity*)m_PBaseEntity)->addMP(value);
+    m_PBaseEntity->updatemask |= UPDATE_HP;
+
+    return 0;
+}
+
+/************************************************************************
+ *  Function: setMPP()
+ *  Purpose : Sets the Mana Points percent of an Entity
+ *  Example : player:setMPP(75)
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::setMPP(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    ((CBattleEntity*)m_PBaseEntity)->health.mp = 0;
+
+    auto percent = static_cast<int32>(lua_tointeger(L, 1));
+    auto maxMP = ((CBattleEntity*)m_PBaseEntity)->GetMaxMP();
+
+    auto value = static_cast<int32>(std::ceil(maxMP * (percent / 100.0)));
+
+    ((CBattleEntity*)m_PBaseEntity)->addMP(value);
+    m_PBaseEntity->updatemask |= UPDATE_HP;
+
+    if (value == 0)
+        ((CBattleEntity*)m_PBaseEntity)->PLastAttacker = nullptr;
 
     return 0;
 }
@@ -9132,6 +9192,7 @@ inline int32 CLuaBaseEntity::restoreMP(lua_State *L)
     if (m_PBaseEntity->animation != ANIMATION_DEATH)
     {
         int32 result = ((CBattleEntity*)m_PBaseEntity)->addMP((int32)lua_tointeger(L, 1));
+        m_PBaseEntity->updatemask |= UPDATE_HP;
 
         lua_pushinteger(L, result);
         return 1;
@@ -9154,6 +9215,7 @@ inline int32 CLuaBaseEntity::delMP(lua_State *L)
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
     ((CBattleEntity*)m_PBaseEntity)->addMP((int32)(-lua_tointeger(L, 1)));
+    m_PBaseEntity->updatemask |= UPDATE_HP;
 
     return 0;
 }
@@ -15123,7 +15185,7 @@ inline int32 CLuaBaseEntity::setModelSize(lua_State* L)
 /************************************************************************
 *  Function: setEntityFlags()
 *  Purpose : Manually set entity flags
-*  Example : mob:setEntityFlags(tpz.entityFlags.SIZE_LARGE)
+*  Example : mob:setEntityFlags(tpz.entityFlags.SIZE_LARGE, 16797766)
 *  Notes   : 
 ************************************************************************/
 
@@ -15163,7 +15225,8 @@ inline int32 CLuaBaseEntity::setEntityFlags(lua_State* L)
 
         if (PTarget == nullptr)
         {
-            ShowError("Must target a monster to use for setMobFlags \n");
+            ShowError("Must target a monster to use for setMobFlags \n"); // Did this error when trying to set entityflags for a mob with lua binding.
+            // Arg2 has to be mobId? player:setEntityFlags(tpz.entityFlags.SIZE_LARGE, 16797766) ?
             return 0;
         }
         else if (PTarget->objtype != TYPE_MOB)
@@ -17685,6 +17748,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getBaseHP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addHP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setHP),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setHPP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,restoreHP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delHP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,takeDamage),
@@ -17696,6 +17760,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getBaseMP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addMP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMP),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMPP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,restoreMP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delMP),
 

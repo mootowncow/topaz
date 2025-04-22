@@ -37,5 +37,5 @@ function onTrigger(player, arg1, arg2)
         return
     end
 
-    targ:setEntityFlags(entityFlags)
+    player:setEntityFlags(entityFlags, targ:getID())
 end
