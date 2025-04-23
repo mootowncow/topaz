@@ -151,7 +151,9 @@ tpz.mob.additionalEffect = {
     POISON_OVERWRITE      = 34,
     TAINT                 = 35, -- Undispellable Poison
     HAUNT                 = 36, -- Undispellable Curse
-    ADDLE                 = 37
+    ADDLE                 = 37,
+    MAX_HP_DOWN           = 38,
+    MAX_MP_DOWN           = 39
 }
 tpz.mob.ae = tpz.mob.additionalEffect
 
@@ -601,7 +603,32 @@ local additionalEffects =
         duration = 60,
         minDuration = 1,
         maxDuration = 30,
-        tick = 3,
+    },
+    [tpz.mob.ae.MAX_HP_DOWN] =
+    {
+        chance = 100,
+        ele = tpz.magic.ele.DARK,
+        sub = tpz.subEffect.CURSE,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.MAX_HP_DOWN,
+        power = 25,
+        duration = 30,
+        minDuration = 1,
+        maxduration = 30,
+    },
+    [tpz.mob.ae.MAX_MP_DOWN] =
+    {
+        chance = 100,
+        ele = tpz.magic.ele.LIGHT,
+        sub = tpz.subEffect.CURSE,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.MAX_MP_DOWN,
+        power = 25,
+        duration = 30,
+        minDuration = 1,
+        maxduration = 30,
     },
 }
 

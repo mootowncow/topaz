@@ -31,6 +31,8 @@
 
 #include "../entities/battleentity.h"
 
+extern std::unordered_map<uint16, std::vector<uint16>> g_PMobSkillLists;
+
 
 class CAbility;
 class CItemWeapon;
@@ -161,7 +163,7 @@ namespace battleutils
     CMobSkill*      GetMobSkill(uint16 SkillID);
 
     const std::list<CWeaponSkill*>& GetWeaponSkills(uint8 skill);
-    const std::vector<uint16>& GetMobSkillList(uint16 ListID);
+    std::vector<uint16>& GetMobSkillList(uint16 listId);
 
     void                FreeWeaponSkillsList();
     void                FreeMobSkillList();

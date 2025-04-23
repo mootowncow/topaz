@@ -42,7 +42,7 @@ enum MOBMODIFIER : int
     MOBMOD_LINK_RADIUS         = 11, // link radius
     MOBMOD_DRAW_IN             = 12, // 1 - player draw in, 2 - alliance draw in -- only add as a spawn mod!
     MOBMOD_SEVERE_SPELL_CHANCE = 13, // % chance to use a severe spell like death or impact
-    MOBMOD_SKILL_LIST          = 14, // uses given mob skill list
+    MOBMOD_SKILL_LIST          = 14, // uses given mob skill list. Set in mob_pools.sql on initialize, but can be edited via this mob mod
     MOBMOD_MUG_GIL             = 15, // amount gil carried for mugging
     // 16 Available for use
     MOBMOD_NO_DESPAWN          = 17, // do not despawn when too far from spawn. Gob Diggers have this.
@@ -55,7 +55,7 @@ enum MOBMODIFIER : int
     MOBMOD_GRADUAL_RAGE        = 24, // (!) TODO: NOT YET IMPLEMENTED -- gradually rages
     MOBMOD_BUILD_RESIST        = 25, // (!) TODO: NOT YET IMPLEMENTED -- builds resistance to given effects
     MOBMOD_SUPERLINK           = 26, // super link group. Only use this in mob_spawn_mods / scripts!
-    MOBMOD_SPELL_LIST          = 27, // set spell list
+    MOBMOD_SPELL_LIST          = 27, // set spell list. 
     MOBMOD_EXP_BONUS           = 28, // bonus exp (bonus / 100) negative values reduce exp.
     MOBMOD_ASSIST              = 29, // mobs will assist me
     MOBMOD_SPECIAL_SKILL       = 30, // give special skill

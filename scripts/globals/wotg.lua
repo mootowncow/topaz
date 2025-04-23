@@ -34,13 +34,48 @@ require("scripts/globals/keyitems")
 -- Test values given by augments with prints
 -- Test SAVETP mod
 -- Test if mob OFFENSIVE auras still work (TickMobAura) and don't AOE onto other nearby mobs
+-- Convert all zone.lua  onRegionEnter(player, region) logic to tpz.wotg functions? Add tpz.wotg.HandleEnvironmentalDamage(player, region) to it too
 
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
 
 tpz.wotg.regionsData = {
     [tpz.zone.CRAWLERS_NEST_S] = {
-        amount = 12
+        amount = 12,
+        environmental = {
+            { Region = 13,
+                Effect = tpz.effect.POISON,
+                Power = 50,
+                Tick = 3,
+                Duration = 30,
+                Msg = 'toxic'
+            },
+            { Region = 14,
+                Effect = tpz.effect.SLOW,
+                Power = 2500,
+                Tick = 0,
+                Duration = 30,
+                Msg = 'time-warped'
+            },
+            { Region = 15,
+                Effect = tpz.effect.CURSE,
+                Power = 25,
+                Tick = 0,
+                Duration = 30,
+                Msg = 'hexed'
+            },
+            { Region = 16,
+                Effect = tpz.effect.PARALYSIS,
+                Power = 45,
+                Tick = 0,
+                Duration = 30,
+                Msg = 'freezing'
+            },
+        }
+    },
+    [tpz.zone.GARLAIGE_CITADEL_S] = {
+    },
+    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
     }
 }
 
@@ -945,7 +980,7 @@ local mobTypeDeath = {
 }
 
 local function PrintMobTypeGeneration(mob)
-    local mobType = GetMobType(mob) -- Reads the var you just set
+    local mobType = GetMobType(mob)
     local mobTypeNames = GetmobTypeByName()
     local typeName = mobTypeNames[mobType] or "Unknown"
     typeName = utils.PunctuateString(typeName)
@@ -953,7 +988,6 @@ local function PrintMobTypeGeneration(mob)
     local mobId = mob:getID()
     printf("Mob Type Generated: %s [%d]: %s", mobName, mobId, typeName)
 end
-
 
 local function GenerateMob(player, mob)
     local typeData = {
@@ -1280,6 +1314,15 @@ local modByMobName =
 
     ['Corpselight'] = function(mob)
     end,
+
+    ['Dvergr'] = function(mob)
+    end,
+
+    ['Tauri'] = function(mob)
+    end,
+
+    ['Gargouille'] = function(mob)
+    end,
 }
 
 local mobRoamByMobName =
@@ -1594,15 +1637,22 @@ local mobFightByMobName =
 
     ['Vampyr'] = function(mob, target)
         -- SMN. summons a red bat add that is not killed fast will charm a nearby player and bat costume them
-        -- astral flow summons 3 bats
+        -- Astral flow summons 3 bats
+        -- 1250 DEF, 200 VIT
+        -- Double Cast (NYI)
+        -- Aeroga IV, SIlencega, Graviga
+        -- Perma Gale Spikes (Silence)
+        -- Absorbs wind damage
+        -- No MDT/MDB/MEVA family bonuses
     end,
 
     ['Vampyr_Bat'] = function(mob, target)
-        -- SMN. summons a red bat add that is not killed fast will charm a nearby player and bat costume them
+        -- SMN/DRK. summons a red bat add that is not killed fast will charm a nearby player and bat costume them
         -- astral flow summons 3 bats
     end,
 
     ['Corpselight'] = function(mob, target)
+        -- DRK/DRK
         -- 100% proc 100 damage endrain
         -- Quick cast mod (5-10%)
         -- 100% Spell interrupt resist mod
@@ -1610,6 +1660,35 @@ local mobFightByMobName =
         -- Casts Addle (AOE) Blizzard IV Blizzaga III Graviga Bindga Silencega Slowga Sleepga II Breakga Dispelga
         -- Uses Death below 20% HP
         -- Uses Louring Skies: AoE magical damage (20 yalms), Paralyze(66%), and Bind
+        -- "Weak" to Fire (70%), "strong" to ice (20%), rest 50%
+        -- No MDT/MDB family bonuses
+    end,
+
+    ['Dvergr'] = function(mob, target)
+        -- WAR/DRK
+        -- Uses Cackle - > Hellsnap -> T3 -ga (interrupting does not stop this combo)
+        -- Two Corpselights connected to him, left one heals, right one -ga enfeebles players. Killing both forces a respawn of both, killing 1 does not
+        -- Access to Thundris Shriek below 25%. 500+ damage, 50% para, 1m of humanoid killer
+        -- "Weak" to earth (70%), "strong" to dark (15%), rest 30%
+        -- No MDT/MDB family bonuses
+        -- -75% ranged damage taken
+    end,
+
+    ['Tauri'] = function(mob, target)
+        -- SAM/SAM
+        -- Does not use H2H, no Kick Attack (Change weapon/delay in mob pool)
+        -- Access to Apocalyptic Ray (Conal Doom)
+        -- Perma Curse Spikes (-25%)
+        -- En-Max HP down (-25%)
+        -- Every 10%, uses Meikyo Shisui and Apoc Ray x3
+    end,
+
+    ['Gargouille'] = function(mob, target)
+        -- Alternates between flying / standing
+        -- "Fly High" wyrm effect and 250/tick regain while flying.
+        -- Only uses Dark Mist while flying (500+ damage)
+        -- Stone forms every 20% HP, which is a full erase and grants him 500 damage spikes and 3000 magic SS. Immune to physical damage.
+        -- Stone form is removed by breaking the magical stoneskin effect
     end,
 }
 
@@ -1917,5 +1996,52 @@ tpz.wotg.progressCheck = function(player, zone)
 
     if (metaProgress >= 100) then
         SpawnMetaBoss(player, zone)
+    end
+end
+
+tpz.wotg.onRegionEnter = function(player, region)
+    local zone = player:getZone()
+    local zoneId = zone:getID()
+    local activeRegions = tpz.wotg.getActiveRegions(zoneId)
+    local zoneData = tpz.wotg.regionsData[zoneId]
+    local regionID = region:GetRegionID()
+    local regionEnterDelay = zone:getLocalVar("regionEnterDelay")
+    local spawnChance = 10
+
+    if not zoneData then
+        return
+    end
+
+    -- Event related regions
+    if activeRegions then
+        for _, activeRegionID in ipairs(activeRegions) do
+            if (regionID == activeRegionID) then
+                print("Player entered a random event region")
+                if (os.time() >= regionEnterDelay) then
+                    zone:setLocalVar("regionEnterDelay", os.time() + 10)
+                    zone:setLocalVar("lastRegion", regionID)
+                    tpz.wotg.RandomEvent(player)
+                end
+                break
+            end
+        end
+    end
+
+    if not zoneData.environmental then
+        return
+    end
+
+    -- Environmental related regions
+    for _, environmentalData in ipairs(zoneData.environmental) do
+        if (environmentalData.Region == region) then
+            if not player:hasStatusEffect(environmentalData.Effect) then
+                player:PrintToPlayer("The room is " .. environmentalData.msg .. "!", 0xD, none)
+                player:addStatusEffect(environmentalData.Effect, environmentalData.Power, environmentalData.Tick, environmentalData.Duration)
+                local effect = player:getStatusEffect(environmentalData.Effect)
+                if (effect ~= nil) then
+                    effect:unsetFlag(tpz.effectFlag.WALTZABLE)
+                end
+            end
+        end
     end
 end

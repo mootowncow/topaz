@@ -49,6 +49,7 @@
 #include "../message.h"
 #include "../mob_modifier.h"
 #include "../mobskill.h"
+#include "../mob_spell_list.h"
 #include "../mob_spell_container.h"
 #include "../notoriety_container.h"
 #include "../recast_container.h"
@@ -15728,6 +15729,33 @@ inline int32 CLuaBaseEntity::setDamage(lua_State* L)
 }
 
 /************************************************************************
+ *  Function: getSpellList()
+ *  Purpose : Returns the mobs current spell list Id
+ *  Example : mob:getSpellList()
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getSpellList(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
+
+    auto PMob = static_cast<CMobEntity*>(m_PBaseEntity);
+
+    // Push the address / pointer value of the spell list container if it exists
+    if (PMob->m_SpellListContainer)
+    {
+        lua_pushinteger(L, PMob->m_SpellListContainer->GetID()); // assuming you add an ID field to CMobSpellList
+    }
+    else
+    {
+        lua_pushnil(L);
+    }
+    return 1;
+}
+
+
+/************************************************************************
 *  Function: hasSpellList()
 *  Purpose : Returns true if a Mob has spells to cast
 *  Example : if (mob:hasSpellList()) then
@@ -16440,6 +16468,94 @@ int32 CLuaBaseEntity::isTopEnmity(lua_State* L)
     lua_pushboolean(L, battleutils::IsTopEnmity(PAttacker, PDefender));
     return 1;
 }
+
+// TODO Description
+inline int32 CLuaBaseEntity::getSkillList(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    if (m_PBaseEntity->objtype != TYPE_MOB)
+    {
+        lua_pushinteger(L, 0);
+        return 1;
+    }
+
+    CMobEntity* PMob = (CMobEntity*)m_PBaseEntity;
+    auto wsList = PMob->getMobMod(MOBMOD_SKILL_LIST);
+
+    if (wsList)
+    {
+        lua_pushinteger(L, wsList);
+        return 1;
+    }
+
+    lua_pushinteger(L, 0);
+    return 1;
+}
+
+/************************************************************************
+ *  Function: addSkillListEntry
+ *  Purpose : Adds a mob skill to the mobs current mob skill list
+ *  Example : if mob:addSkillListEntry(tpz.mob.skills.VAMPIRIC_LASH)
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::addSkillListEntry(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    if (m_PBaseEntity->objtype != TYPE_MOB)
+    {
+        return 0;
+    }
+
+    CMobEntity* PMob = (CMobEntity*)m_PBaseEntity;
+    auto wsList = PMob->getMobMod(MOBMOD_SKILL_LIST);
+
+    auto& skillList = battleutils::GetMobSkillList(wsList);
+    uint16 skillId = (uint16)luaL_checkinteger(L, 1);
+    skillList.insert(skillList.begin(), skillId);
+
+    return 0;
+}
+
+// TODO Description
+inline int32 CLuaBaseEntity::delSkillListEntry(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    if (m_PBaseEntity->objtype != TYPE_MOB)
+    {
+        return 0;
+    }
+
+    CMobEntity* PMob = (CMobEntity*)m_PBaseEntity;
+    auto wsList = PMob->getMobMod(MOBMOD_SKILL_LIST);
+
+    auto& skillList = battleutils::GetMobSkillList(wsList);
+    uint16 skillId = (uint16)luaL_checkinteger(L, 1);
+    skillList.erase(std::remove(skillList.begin(), skillList.end(), skillId), skillList.end());
+
+    return 0;
+}
+
+// TODO Description, arg should be skillList Id
+inline int32 CLuaBaseEntity::clearSkillList(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    if (m_PBaseEntity->objtype != TYPE_MOB)
+    {
+        return 0;
+    }
+
+    uint16 listId = (uint16)luaL_checkinteger(L, 1);
+
+    g_PMobSkillLists[listId].clear();
+
+    return 0;
+}
+
 
 /************************************************************************
 *  Function: getBehaviour()
@@ -18078,6 +18194,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRangedDelay),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setDelay),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setDamage),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getSpellList),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasSpellList),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setSpellList),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addSpellListEntry),
@@ -18107,6 +18224,10 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,deaggroPlayer),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,deaggroAll),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isTopEnmity),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getSkillList),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,addSkillListEntry),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,delSkillListEntry),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,clearSkillList),
 
 
 

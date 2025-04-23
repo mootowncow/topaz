@@ -47,26 +47,7 @@ function onZoneIn(player, prevZone)
 end
 
 function onRegionEnter(player, region)
-    local regionID = region:GetRegionID()
-    local zone = player:getZone()
-    local zoneId = zone:getID()
-    local regionEnterDelay = zone:getLocalVar("regionEnterDelay")
-    local spawnChance = 10
-    local activeRegions = tpz.wotg.getActiveRegions(zoneId)
-
-    if activeRegions then
-        for _, activeRegionID in ipairs(activeRegions) do
-            if (regionID == activeRegionID) then
-                print("Player entered a random event region")
-                if (os.time() >= regionEnterDelay) then
-                    zone:setLocalVar("regionEnterDelay", os.time() + 10)
-                    zone:setLocalVar("lastRegion", regionID)
-                    tpz.wotg.RandomEvent(player)
-                end
-                break
-            end
-        end
-    end
+    tpz.wotg.onRegionEnter(player, region)
 end
 
 function onEventUpdate(player, csid, option)

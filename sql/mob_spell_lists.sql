@@ -6076,7 +6076,6 @@ INSERT INTO `mob_spell_lists` VALUES ('Coccineus', 544, 252, 1, 255); -- Stun
 INSERT INTO `mob_spell_lists` VALUES ('Coccineus',544,356,76,255); -- paralyga
 INSERT INTO `mob_spell_lists` VALUES ('Coccineus', 544, 361, 1, 255); -- Blindga
 
---  (Lowing, Heat Breath, Exuviation and Refueling), Blaze Spikes, Firaga III, Fire IV and Flare.
 INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 588, 1, 255); -- Lowing
 INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 591, 1, 255); -- Heat Breath
 INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 645, 1, 255); -- Exuviation
@@ -6085,6 +6084,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 249, 1, 255); -- Blaze Spikes
 INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 176, 1, 255); -- Firaga III
 INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 147, 1, 255); -- Fire IV
 INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 204, 1, 255); -- Flare
+
 -- NEXT 546
 -- NEXT 1022
 -- NEXT 2089(Custom)

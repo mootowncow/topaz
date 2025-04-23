@@ -727,6 +727,7 @@ public:
     int32 getRangedDelay(lua_State*);         // gets a players ranged weapon delay
     int32 setDelay(lua_State*);               // sets a mobs weapon delay
     int32 setDamage(lua_State*);              // sets a mobs weapon damage
+    int32 getSpellList(lua_State*);
     int32 hasSpellList(lua_State*);
     int32 setSpellList(lua_State*);
     int32 addSpellListEntry(lua_State*);      // Adds a spell to the mobs current spell list
@@ -793,6 +794,10 @@ public:
     int32 deaggroPlayer(lua_State* L);
     int32 deaggroAll(lua_State* L);
     int32 isTopEnmity(lua_State* L);
+    int32 getSkillList(lua_State* L);
+    int32 addSkillListEntry(lua_State* L);
+    int32 delSkillListEntry(lua_State* L);
+    int32 clearSkillList(lua_State* L);
     int32 trustProgressUpdateFlag(lua_State* L);
 };
 

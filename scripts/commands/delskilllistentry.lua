@@ -1,9 +1,8 @@
-
 ---------------------------------------------------------------------------------------------------
--- func: addspelllistentry
--- desc: Adds a spell to the targets spell list
+-- func: delmobskilllistentry
+-- desc: Deletes a spell to the targets spell list
 ---------------------------------------------------------------------------------------------------
-require("scripts/globals/spell_data")
+require("scripts/globals/mobs")
 require("scripts/globals/utils")
 ---------------------------------------------------------------------------------------------------
 
@@ -15,27 +14,21 @@ cmdprops =
 
 function error(player, msg)
     player:PrintToPlayer(msg)
-    player:PrintToPlayer("!addspelllistentry {mob} <spell>")
+    player:PrintToPlayer("!delmobskilllistentry {mob} <skill>")
 end
 
 function onTrigger(player, arg1, arg2)
     local targ
-    local spell
+    local skill
 
     if (arg2 == nil) then
         -- player did not provide npcId.  Shift arguments by one.
         targ = player:getCursorTarget()
-        spell = arg1
+        skill = arg1
     else
-        -- player provided npcId and spell.
+        -- player provided npcId and skill.
         targ = GetMobByID(tonumber(arg1))
-        spell = arg2
-    end
-
-    spell = tonumber(spell) or tpz.magic.spell[string.upper(spell)]
-    if (spell == nil) then
-        error(player, "Invalid spell.")
-        return
+        skill = arg2
     end
 
     -- validate target
@@ -44,9 +37,14 @@ function onTrigger(player, arg1, arg2)
         return
     end
 
+    skill = tonumber(skill) or tpz.mob.skills[string.upper(skill)]
+    if (skill == nil) then
+        error(player, "Invalid skill.")
+        return
+    end
 
-    targ:addSpellListEntry(spell)
-    local spellName = string.gsub(arg1, '_', ' ')
-    spellName = utils.PunctuateString(spellName)
-    player:PrintToPlayer(string.format("Added spell (%s) to [%d] %s's spell list [%i].", spellName, targ:getID(), MobName(targ), targ:getSpellList()))
+    targ:delSkillListEntry(skill)
+    local skillName = string.gsub(arg1, '_', ' ')
+    skillName = utils.PunctuateString(skillName)
+    player:PrintToPlayer(string.format("Deleted skill (%s) from [%d] %s's skill list [%i].", skillName, targ:getID(), MobName(targ), targ:getSkillList()))
 end

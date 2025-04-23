@@ -1000,7 +1000,7 @@ namespace battleutils
     *                                                                       *
     ************************************************************************/
 
-    const std::vector<uint16>& GetMobSkillList(uint16 ListID)
+    std::vector<uint16>& GetMobSkillList(uint16 ListID)
     {
         return g_PMobSkillLists[ListID];
     }
