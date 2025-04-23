@@ -1639,11 +1639,11 @@ local mobFightByMobName =
         -- SMN. summons a red bat add that is not killed fast will charm a nearby player and bat costume them
         -- Astral flow summons 3 bats
         -- 1250 DEF, 200 VIT
-        -- Double Cast (NYI)
         -- Aeroga IV, SIlencega, Graviga
         -- Perma Gale Spikes (Silence)
         -- Absorbs wind damage
         -- No MDT/MDB/MEVA family bonuses
+        -- 500+ Cure MB's procs
     end,
 
     ['Vampyr_Bat'] = function(mob, target)
@@ -1666,6 +1666,7 @@ local mobFightByMobName =
 
     ['Dvergr'] = function(mob, target)
         -- WAR/DRK
+        -- Double Cast (25%)
         -- Uses Cackle - > Hellsnap -> T3 -ga (interrupting does not stop this combo)
         -- Two Corpselights connected to him, left one heals, right one -ga enfeebles players. Killing both forces a respawn of both, killing 1 does not
         -- Access to Thundris Shriek below 25%. 500+ damage, 50% para, 1m of humanoid killer

@@ -256,6 +256,7 @@ enum class Mod
     SKILLCHAINDMG             = 175, // Damage bonus applied to skill chain damage.  Modifier from gear (multiplicative after effect/traits)
     MAX_SWINGS                = 978, // Max swings for "Occasionally attacks X times"
     ADDITIONAL_SWING_CHANCE   = 979, // Chance that allows for an additional swing despite of multiple hits, mostly for Amood weapons
+    DOUBLE_CAST               = 1429,// Chance to cast a spell twice in a row
 
     MAGIC_DAMAGE             = 311, // Magic damage added directly to the spell's base damage
 
@@ -1143,7 +1144,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1429 NEXT
+    // 1430 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

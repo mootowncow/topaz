@@ -15754,7 +15754,6 @@ inline int32 CLuaBaseEntity::getSpellList(lua_State* L)
     return 1;
 }
 
-
 /************************************************************************
 *  Function: hasSpellList()
 *  Purpose : Returns true if a Mob has spells to cast

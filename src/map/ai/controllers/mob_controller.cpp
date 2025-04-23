@@ -780,6 +780,7 @@ bool CMobController::TryCastSpell()
         if (chosenSpellId && currentDistance <= 20.4)
         {
             PMob->PRecastContainer->Del(RECAST_MAGIC, static_cast<uint16>(chosenSpellId.value()));
+            auto doubleCastChance = PMob->getMod(Mod::DOUBLE_CAST);
             CastSpell(chosenSpellId.value());
             return true;
         }
@@ -1026,6 +1027,13 @@ void CMobController::FaceTarget(uint16 targid)
     {
         return;
     }
+
+    // Don't face allies when casting on them
+    if (PTarget && PMob->allegiance == PTarget->allegiance)
+    {
+        return;
+    }
+
 
     CBaseEntity* targ = PTarget;
     if (targid != 0 && ((targ && targid != targ->targid ) || !targ))

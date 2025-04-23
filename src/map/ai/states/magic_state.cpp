@@ -315,6 +315,22 @@ bool CMagicState::Update(time_point tick)
             PTarget->PAI->EventHandler.triggerListener("MAGIC_TAKE", PTarget, m_PEntity, m_PSpell.get(), &action);
         }
 
+        // Handle Double Cast logic
+        if (!m_interrupted && tpzrand::GetRandomNumber(100) < m_PEntity->getMod(Mod::DOUBLE_CAST))
+        {
+            // Trigger a second cast immediately on same target
+            action_t doubleAction;
+
+            m_PEntity->PAI->EventHandler.triggerListener("MAGIC_MID", m_PEntity, PTarget, m_PSpell.get());
+            m_PEntity->OnCastFinished(*this, doubleAction);
+            m_PEntity->PAI->EventHandler.triggerListener("MAGIC_USE", m_PEntity, PTarget, m_PSpell.get(), &doubleAction);
+            PTarget->PAI->EventHandler.triggerListener("MAGIC_TAKE", PTarget, m_PEntity, m_PSpell.get(), &doubleAction);
+
+            m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(doubleAction));
+            //ShowDebug("[%s] -> Double cast proc!\n", m_PEntity->name);
+            // Don't Complete() here — will be handled by main cast's complete
+        }
+
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
             
         Complete();
