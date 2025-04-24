@@ -1028,12 +1028,6 @@ void CMobController::FaceTarget(uint16 targid)
         return;
     }
 
-    // Don't face allies when casting on them
-    if (PTarget && PMob->allegiance == PTarget->allegiance)
-    {
-        return;
-    }
-
 
     CBaseEntity* targ = PTarget;
     if (targid != 0 && ((targ && targid != targ->targid ) || !targ))
@@ -1042,6 +1036,12 @@ void CMobController::FaceTarget(uint16 targid)
     }
     if (!(PMob->m_Behaviour & BEHAVIOUR_NO_TURN) && targ)
     {
+        // Don't face allies when casting on them
+        if (targ && PMob->allegiance == targ->allegiance)
+        {
+            return;
+        }
+
         PMob->PAI->PathFind->LookAt(targ->loc.p);
     }
 }
