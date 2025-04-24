@@ -1520,8 +1520,8 @@ void CZoneEntities::ZoneServer(time_point tick, bool check_trigger_areas)
             PChar->PTreasurePool->CheckItems(tick);
             if (check_trigger_areas)
             {
-                m_zone->CheckRegions(PChar);
-                luautils::OnZoneTick(PChar, this->m_zone->GetID());
+                CRegion* PRegion = m_zone->CheckRegions(PChar);
+                luautils::OnZoneTick(PChar, m_zone->GetID(), PRegion);
             }
         }
     }

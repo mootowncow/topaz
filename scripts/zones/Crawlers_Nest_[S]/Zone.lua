@@ -22,11 +22,15 @@ function onInitialize(zone)
     zone:registerRegion(10, -18.022476, normalCircleRadius, 141.868866, 0, 0, 0) -- Random event spawn circle
     zone:registerRegion(11, 58.191879, normalCircleRadius, 260.211212, 0, 0, 0) -- Random event spawn circle
     zone:registerRegion(12, 46.562725, largeCircleRadius, 365.081757, 0, 0, 0) -- Random event spawn circle
+    zone:registerRegion(13, -219.01, extremelyLargeCircleRadius, 215.91, 0, 0, 0)
+    zone:registerRegion(14, 0.6, largeCircleRadius, 279.77, 0, 0, 0)
+    zone:registerRegion(15, -135.51, extremelyLargeCircleRadius, 359.12, 0, 0, 0)
+    zone:registerRegion(16, 38.52, largeCircleRadius, 361.40, 0, 0, 0)
 
     tpz.wotg.onInitialize(zone)
 end
 
-function OnZoneTick(player, zone)
+function OnZoneTick(player, zone, region)
     local currentWave = zone:getLocalVar("wave")
     local maxWaves = zone:getLocalVar("maxWaves")
     local eventActive = zone:getLocalVar("eventActive", 1)
@@ -35,7 +39,8 @@ function OnZoneTick(player, zone)
     if (eventActive == tpz.wotg.events.Waves) and (waveActive == 0) then
         tpz.wotg.spawnWave(player, currentWave)
     end
-    tpz.wotg.progressCheck(player, zone)
+
+    tpz.wotg.onZoneTick(player, zone, region)
 end
 
 function onZoneIn(player, prevZone)

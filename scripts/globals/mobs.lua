@@ -1013,6 +1013,11 @@ function BreakMob(mob, target, power, duration, proc)
     mobName = string.gsub(mobName, '_', ' ');
 
     if os.time() >= BreakDuration then
+        local party = target:getParty()
+        if target:isTrust() or target:isPet() then
+            party = target:getMaster():getParty()
+        end
+
         mob:setLocalVar("BreakDuration", os.time() + duration)
         if proc ~= nil then
             mob:weaknessTrigger(proc)
@@ -1024,14 +1029,15 @@ function BreakMob(mob, target, power, duration, proc)
         elseif (proc == 2) or (proc == 3)  then -- Red and White !!
             mob:addStatusEffect(tpz.effect.TERROR, 0, 0, duration)
         end
-        if (target:getParty() ~= nil) then
-            local party = target:getParty()
+
+        if party then
             for _, players in pairs(party) do
                 players:PrintToPlayer("Your attack devastates the " .. mobName .. "!", 0xD, none)
             end
         else
             target:PrintToPlayer("Your attack devastates the " .. mobName .. "!", 0xD, none)
         end
+
         mob:addStatusEffectEx(tpz.effect.INCREASED_DAMAGE_TAKEN, tpz.effect.INCREASED_DAMAGE_TAKEN, power, 0, duration)
     end
 end
@@ -1042,10 +1048,15 @@ function MessageGroup(mob, target, msg, textcolor, sender)
     end
 
     local party = target:getParty()
+    if target:isTrust() or target:isPet() then
+        party = target:getMaster():getParty()
+    end
 
     --Text color: gold - 0x1F, green - 0x1C, blue - 0xF, white(no sender name) - 0xD
-    for _, partyMember in pairs(party) do
-        partyMember:PrintToPlayer(msg, textcolor, sender)
+    if party then
+        for _, partyMember in pairs(party) do
+            partyMember:PrintToPlayer(msg, textcolor, sender)
+        end
     end
 end
 
@@ -1056,14 +1067,20 @@ function OnDeathMessage(mob, player, isKiller, noKiller, msg, textcolor, sender)
 end
 
 function PeriodicMessage(mob, target, msg, textcolor, sender, timer)
-    local party = target:getParty()
     local msgTimer = mob:getLocalVar("msgTimer")
+    local party = target:getParty()
+    if target:isTrust() or target:isPet() then
+        party = target:getMaster():getParty()
+    end
 
     --Text color: default(name shown) - 0, gold - 0x1F, green - 0x1C, blue - 0xF, white(no sender name) - 0xD
     if os.time() >= msgTimer then
         mob:setLocalVar("msgTimer", os.time() + timer)
-        for _, players in pairs(party) do
-            players:PrintToPlayer(msg, textcolor, sender)
+
+        if party then
+            for _, players in pairs(party) do
+                players:PrintToPlayer(msg, textcolor, sender)
+            end
         end
     end
 end

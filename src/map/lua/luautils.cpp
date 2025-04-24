@@ -3527,7 +3527,7 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
         return 0;
     }
 
-    int32 OnZoneTick(CCharEntity* PChar, uint16 ZoneID)
+    int32 OnZoneTick(CCharEntity* PChar, uint16 ZoneID, CRegion* PRegion)
     {
         std::string filename;
         CZone* PZone = zoneutils::GetZone(ZoneID);
@@ -3552,7 +3552,18 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
         CLuaZone LuaZone(PZone);
         Lunar<CLuaZone>::push(LuaHandle, &LuaZone);
 
-        if (lua_pcall(LuaHandle, 2, 0, 0))
+        if (PRegion)
+        {
+            CLuaRegion LuaRegion(PRegion);
+            Lunar<CLuaRegion>::push(LuaHandle, &LuaRegion);
+        }
+        else
+        {
+            lua_pushnil(LuaHandle);
+        }
+
+
+        if (lua_pcall(LuaHandle, 3, 0, 0))
         {
             ShowError("luautils::OnZoneTick: %s\n", lua_tostring(LuaHandle, -1));
             lua_pop(LuaHandle, 1);

@@ -34,8 +34,8 @@ require("scripts/globals/keyitems")
 -- Test values given by augments with prints
 -- Test SAVETP mod
 -- Test if mob OFFENSIVE auras still work (TickMobAura) and don't AOE onto other nearby mobs
--- Convert all zone.lua  onRegionEnter(player, region) logic to tpz.wotg functions? Add tpz.wotg.HandleEnvironmentalDamage(player, region) to it too
-
+-- Environmental regions should work on trusts
+-- Test if BreakMob still works and works if a trust breaks the mob
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
 
@@ -52,13 +52,16 @@ tpz.wotg.regionsData = {
             },
             { Region = 14,
                 Effect = tpz.effect.SLOW,
+                Effect2 = tpz.effect.WEIGHT,
                 Power = 2500,
+                Power2 = 1200,
                 Tick = 0,
+                Tick2 = 0,
                 Duration = 30,
                 Msg = 'time-warped'
             },
             { Region = 15,
-                Effect = tpz.effect.CURSE,
+                Effect = tpz.effect.CURSE_I,
                 Power = 25,
                 Tick = 0,
                 Duration = 30,
@@ -991,9 +994,9 @@ end
 
 local function GenerateMob(player, mob)
     local typeData = {
-        { Type = tpz.wotg.mobTypes.Normal,   Chance = 10 },
-        { Type = tpz.wotg.mobTypes.Champion, Chance = 40 },
-        { Type = tpz.wotg.mobTypes.Elite,    Chance = 40 },
+        { Type = tpz.wotg.mobTypes.Normal,   Chance = 80 },
+        { Type = tpz.wotg.mobTypes.Champion, Chance = 10 },
+        { Type = tpz.wotg.mobTypes.Elite,    Chance = 10 },
     }
 
     local mobType = PickMobType(mob, typeData)
@@ -1026,7 +1029,7 @@ local waves = {}
 local currentWave = 1
 local function generateWave(player, usedMobs)
     local wave = {}
-    local waveSize = math.random(2, 5)
+    local waveSize = math.random(1, 5)
     local zone = player:getZone()
     local zoneId = player:getZoneID()
     local wavesMsg = zone:getLocalVar("wavesMsg")
@@ -1065,7 +1068,7 @@ end
 local function randomEventWaves(player)
     waves = {} -- Reset waves for a new event
     currentWave = 1  -- Reset wave tracker
-    local numWaves = math.random(1, 5)
+    local numWaves = math.random(2, 5)
     local zone = player:getZone()
     
     local usedMobs = {}  -- Table to track mobs already used
@@ -1189,7 +1192,7 @@ local modByMobName =
         mob:addMod(tpz.mod.REGAIN, 50)
         mob:setMod(tpz.mod.MDEF, 60)
         mob:setModelSize(3)
-        -- Perma undispellable Ice Spikes
+        -- Perma undispellable Clod Spikes
         mob:addStatusEffect(tpz.effect.CLOD_SPIKES, 25, 0, 0)
         local clodSpikes = mob:getStatusEffect(tpz.effect.CLOD_SPIKES)
         clodSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
@@ -1310,12 +1313,21 @@ local modByMobName =
     end,
 
     ['Vampyr'] = function(mob)
+        mob:setMod(tpz.mod.DEF, 1200)
+        mob:setMod(tpz.mod.VIT, 150)
+        mob:setMod(tpz.mod.WIND_ABSORB, 100)
+        -- Perma undispellable Gale Spikes
+        mob:addStatusEffect(tpz.effect.GALE_SPIKES, 25, 0, 0)
+        local galeSpikes = mob:getStatusEffect(tpz.effect.GALE_SPIKES)
+        galeSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
     end,
 
     ['Corpselight'] = function(mob)
+        mob:addMod(tpz.mod.QUICK_MAGIC, 10)
     end,
 
     ['Dvergr'] = function(mob)
+        mob:addMod(tpz.mod.DOUBLE_CAST, 20)
     end,
 
     ['Tauri'] = function(mob)
@@ -1636,26 +1648,18 @@ local mobFightByMobName =
     end,
 
     ['Vampyr'] = function(mob, target)
-        -- SMN. summons a red bat add that is not killed fast will charm a nearby player and bat costume them
+        -- SMN/DRK. summons a red bat add that is not killed fast will charm a nearby player and bat costume them
         -- Astral flow summons 3 bats
-        -- 1250 DEF, 200 VIT
-        -- Aeroga IV, SIlencega, Graviga
-        -- Perma Gale Spikes (Silence)
-        -- Absorbs wind damage
-        -- No MDT/MDB/MEVA family bonuses
+        -- Aeroga IV, Silencega, Graviga
         -- 500+ Cure MB's procs
     end,
 
     ['Vampyr_Bat'] = function(mob, target)
-        -- SMN/DRK. summons a red bat add that is not killed fast will charm a nearby player and bat costume them
-        -- astral flow summons 3 bats
     end,
 
     ['Corpselight'] = function(mob, target)
         -- DRK/DRK
         -- 100% proc 100 damage endrain
-        -- Quick cast mod (5-10%)
-        -- 100% Spell interrupt resist mod
         -- Family EEM 5 silence
         -- Casts Addle (AOE) Blizzard IV Blizzaga III Graviga Bindga Silencega Slowga Sleepga II Breakga Dispelga
         -- Uses Death below 20% HP
@@ -1742,6 +1746,7 @@ local mobDespawnByMobName =
 
 tpz.wotg.onMobSpawn = function(mob)
     mob:setDamage(150)
+    mob:addMod(tpz.mod.SPELLINTERRUPT, 300)
     mob:setMod(tpz.mod.ATTP, 25)
     mob:setMod(tpz.mod.DEFP, 25)
     mob:setMod(tpz.mod.EEM_SILENCE, 5)
@@ -1964,7 +1969,7 @@ tpz.wotg.distributeChestLoot = function(player, chest)
     end
 end
 
-tpz.wotg.progressCheck = function(player, zone)
+tpz.wotg.onZoneTick = function(player, zone, region)
     local currentWave = zone:getLocalVar("wave")
     local waveProgress = zone:getLocalVar("waveProgress")
     local waveSize = zone:getLocalVar("waveSize")
@@ -1972,6 +1977,7 @@ tpz.wotg.progressCheck = function(player, zone)
     local eventCompleted = zone:getLocalVar("eventCompleted")
     local metaProgress = zone:getLocalVar("metaProgress")
 
+    -- Progress check logic
     -- Print the current wave details for debugging
     local debugTimer = zone:getLocalVar("debugTimer")
     if (os.time() >= debugTimer) then
@@ -1998,20 +2004,56 @@ tpz.wotg.progressCheck = function(player, zone)
     if (metaProgress >= 100) then
         SpawnMetaBoss(player, zone)
     end
+
+    -- Environmental region logic
+    if not region then
+        return
+    end
+
+    local zoneId = zone:getID()
+    local activeRegions = tpz.wotg.getActiveRegions(zoneId)
+    local zoneData = tpz.wotg.regionsData[zoneId]
+    local regionID = region:GetRegionID()
+
+    if not zoneData.environmental then
+        return
+    end
+
+    for _, environmentalData in ipairs(zoneData.environmental) do
+        if (environmentalData.Region == regionID) then
+            if not player:hasStatusEffect(environmentalData.Effect) then
+                local party = player:getPartyWithTrusts()
+                if party then
+                    for _, member in ipairs(party) do
+                        if environmentalData.Effect then
+                            member:addStatusEffect(environmentalData.Effect, environmentalData.Power, environmentalData.Tick, environmentalData.Duration)
+                            local effect = member:getStatusEffect(environmentalData.Effect)
+                            if (effect ~= nil) then
+                                effect:unsetFlag(tpz.effectFlag.WALTZABLE)
+                            end
+                        end
+                        if environmentalData.Effect2 then
+                            member:addStatusEffect(environmentalData.Effect2, environmentalData.Power2, environmentalData.Tick2, environmentalData.Duration)
+                            local effect = member:getStatusEffect(environmentalData.Effect2)
+                            if (effect ~= nil) then
+                                effect:unsetFlag(tpz.effectFlag.WALTZABLE)
+                            end
+                        end
+                    end
+                end
+                player:PrintToPlayer("The room is " .. environmentalData.Msg .. "!", 0xD, none)
+            end
+        end
+    end
 end
 
 tpz.wotg.onRegionEnter = function(player, region)
     local zone = player:getZone()
     local zoneId = zone:getID()
     local activeRegions = tpz.wotg.getActiveRegions(zoneId)
-    local zoneData = tpz.wotg.regionsData[zoneId]
     local regionID = region:GetRegionID()
     local regionEnterDelay = zone:getLocalVar("regionEnterDelay")
     local spawnChance = 10
-
-    if not zoneData then
-        return
-    end
 
     -- Event related regions
     if activeRegions then
@@ -2024,24 +2066,6 @@ tpz.wotg.onRegionEnter = function(player, region)
                     tpz.wotg.RandomEvent(player)
                 end
                 break
-            end
-        end
-    end
-
-    if not zoneData.environmental then
-        return
-    end
-
-    -- Environmental related regions
-    for _, environmentalData in ipairs(zoneData.environmental) do
-        if (environmentalData.Region == region) then
-            if not player:hasStatusEffect(environmentalData.Effect) then
-                player:PrintToPlayer("The room is " .. environmentalData.msg .. "!", 0xD, none)
-                player:addStatusEffect(environmentalData.Effect, environmentalData.Power, environmentalData.Tick, environmentalData.Duration)
-                local effect = player:getStatusEffect(environmentalData.Effect)
-                if (effect ~= nil) then
-                    effect:unsetFlag(tpz.effectFlag.WALTZABLE)
-                end
             end
         end
     end

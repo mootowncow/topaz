@@ -183,7 +183,7 @@ namespace luautils
     uint8 GetSettingsVariable(const char* variable);                            // Gets a Variable Value from Settings.lua
     bool IsContentEnabled(const char* content);                                 // Check if the content is enabled in settings.lua
 
-    int32 OnZoneTick(CCharEntity* PChar, uint16 ZoneID);
+    int32 OnZoneTick(CCharEntity* PChar, uint16 ZoneID, CRegion* PRegion);
     int32 OnGameDay(CZone* PZone);                                              // Automatic action of NPC every game day
     int32 OnGameHour(CZone* PZone);                                             // Automatic action of NPC every game hour
     int32 OnZoneWeatherChange(uint16 ZoneID, uint8 weather);
