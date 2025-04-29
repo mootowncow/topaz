@@ -275,6 +275,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
                 paramshybrid.includemab = true
                 local bonusMacc = 0
                 local magicdmg = addBonusesAbility(avatar, tpz.magic.ele.FIRE, target, finaldmg, paramshybrid)
+                local rawDmg = magicdmg
                 local resist = getAvatarResist(avatar, effect, target, avatar:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT), bonusMacc, tpz.magic.ele.FIRE)
                 --printf("resist %u", resist * 100)
                 --printf("magicdmg before resist %u", magicdmg)
@@ -284,7 +285,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
                 -- Handle Null
                 magicdmg = utils.CheckForNull(avatar, target, tpz.attackType.MAGICAL, tpz.magic.ele.FIRE, magicdmg)
                 --printf("magicdmg after resist %u", magicdmg)
-                magicdmg = target:magicDmgTaken(magicdmg, tpz.magic.ele.FIRE) -- Only hybrid BP is fire for now
+                magicdmg = target:magicDmgTaken(magicdmg, tpz.magic.ele.FIRE, rawDmg) -- Only hybrid BP is fire for now
                 -- Handle absorb
                 magicdmg = adjustForTarget(target, magicdmg, tpz.magic.ele.FIRE)
                 -- Handle percentage DR to elements
@@ -502,6 +503,9 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
         return 0
     end
 
+    -- Track raw damage
+    local rawDmg = dmg
+
     -- handle elemental resistence
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.BREATH then
         if target:isMob() and (target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0)) then
@@ -537,9 +541,9 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
     local element = damageType - 5
     -- Check for MDT/PDT/RDT/BDT/MDB
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.SPECIAL then
-        dmg = target:magicDmgTaken(dmg, element)
+        dmg = target:magicDmgTaken(dmg, element, rawDmg)
     elseif attackType == tpz.attackType.BREATH then
-        dmg = target:breathDmgTaken(dmg, element)
+        dmg = target:breathDmgTaken(dmg, element, rawDmg)
     elseif attackType == tpz.attackType.RANGED then
         dmg = target:rangedDmgTaken(dmg)
     elseif attackType == tpz.attackType.PHYSICAL then
@@ -614,13 +618,16 @@ function AvatarMagicalFinalAdjustments(dmg, avatar, skill, target, attackType, e
     -- Handle pet damage percent mod
     dmg = math.floor(dmg * (1 + avatar:getMod(tpz.mod.PET_DAMAGEP) / 100))
 
+    -- Track raw damage
+    local rawDmg = dmg
+
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, skill, dmg)
 
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.SPECIAL then
-        dmg = target:magicDmgTaken(dmg, element)
+        dmg = target:magicDmgTaken(dmg, element, rawDmg)
     elseif attackType == tpz.attackType.BREATH then
-        dmg = target:breathDmgTaken(dmg, element)
+        dmg = target:breathDmgTaken(dmg, element, rawDmg)
     end
 
     -- Handle absorb

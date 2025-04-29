@@ -1126,6 +1126,10 @@ namespace battleutils
             enspellMaccBonus += battleutils::GetMaxSkill(SKILL_GREAT_AXE, JOB_WAR, PAttacker->GetMLevel()); // A+ Skill
         }
         //printf("Element in enspell: %u\n", element);
+
+        // Track raw damage
+        auto rawDmg = damage;
+
         if (element +1 == ELEMENT_LIGHT) // Enlight
         {
             damage = static_cast<int32>(static_cast<float>(damage) * ApplyResistance(PAttacker, PDefender, static_cast<ELEMENT>(element + 1), SKILL_DIVINE_MAGIC, 0, static_cast<float>(enspellMaccBonus)));
@@ -1147,7 +1151,7 @@ namespace battleutils
         }
         damage = static_cast<int32>(static_cast<float>(damage) * dBonus);
         //damage = MagicDmgTaken(PDefender, damage, (ELEMENT)(element + 1));
-        damage = MagicDmgTaken(PDefender, damage, (ELEMENT)(element +1));
+        damage = MagicDmgTaken(PDefender, damage, (ELEMENT)(element + 1), rawDmg);
         // printf("\nElement before enspell damage = %i \n", element);
         // apply elemental damage reduction
         float magicDefense = 1.0f;
@@ -1179,6 +1183,7 @@ namespace battleutils
     {
         ELEMENT element = ELEMENT_NONE;
         float damage = Action->spikesParam;
+        auto rawDmg = damage;
         float magicDefense = 1.0f;
         uint32 spikesMaccBonus = PDefender->getMod(Mod::SPIKES_MACC) + 30;
         if (!HasNativeEnhancing(PDefender))
@@ -1267,7 +1272,7 @@ namespace battleutils
                 break;
         }
 
-        damage = MagicDmgTaken(PAttacker, damage, element); // apply MDT/MDT2/DT, (TODO: liement) to whoever is taking damage
+        damage = MagicDmgTaken(PAttacker, damage, element, rawDmg); // apply MDT/MDT2/DT, (TODO: liement) to whoever is taking damage
 
         if (damage < 0) // apply heal message
         {
@@ -1972,7 +1977,7 @@ namespace battleutils
                 // Reduced by Shell / Phalanx
                 // https://www.bg-wiki.com/ffxi/Blood_Weapon
 
-                absorbed = MagicDmgTaken(PDefender, absorbed, (ELEMENT)(ELEMENT_DARK));
+                absorbed = MagicDmgTaken(PDefender, absorbed, (ELEMENT)(ELEMENT_DARK), absorbed);
                 // Does not work on undead
                 if (PDefender->objtype == TYPE_MOB && PDefender->m_EcoSystem == SYSTEM_UNDEAD)
                 {
@@ -3256,7 +3261,7 @@ namespace battleutils
             damage = (int32)(damage * (1.f + (DMGSPIRITS / 100.f)));
             // TODO: chance to 'resist'
 
-            damage = BreathDmgTaken(PDefender, damage, ELEMENT_NONE);
+            damage = BreathDmgTaken(PDefender, damage, ELEMENT_NONE, baseDamage);
         }
         else
         {
@@ -6645,7 +6650,7 @@ namespace battleutils
         PChar->PClaimedMob = nullptr;
     }
 
-    int32 BreathDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element)
+    int32 BreathDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage)
     {
         Mod absorb[8] = { Mod::FIRE_ABSORB, Mod::ICE_ABSORB,   Mod::WIND_ABSORB,  Mod::EARTH_ABSORB,
                           Mod::LTNG_ABSORB, Mod::WATER_ABSORB, Mod::LIGHT_ABSORB, Mod::DARK_ABSORB };
@@ -6684,10 +6689,12 @@ namespace battleutils
         {
             if (PDefender->getMod(Mod::MAGIC_ABSORB) > 100)
             {
+                damage = rawDamage; // Absorbed damage is unresisted/unmitigated damage
                 damage = -damage * (PDefender->getMod(Mod::MAGIC_ABSORB) / 100);
             }
             else
             {
+                damage = rawDamage; // Absorbed damage is unresisted/unmitigated damage
                 damage = -damage;
             }
         }
@@ -6707,7 +6714,7 @@ namespace battleutils
         return damage;
     }
 
-    int32 MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element)
+    int32 MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage)
     {
         Mod absorb[8] = { Mod::FIRE_ABSORB, Mod::ICE_ABSORB,   Mod::WIND_ABSORB,  Mod::EARTH_ABSORB,
                           Mod::LTNG_ABSORB, Mod::WATER_ABSORB, Mod::LIGHT_ABSORB, Mod::DARK_ABSORB };
@@ -6748,10 +6755,12 @@ namespace battleutils
         {
             if (PDefender->getMod(Mod::MAGIC_ABSORB) > 100)
             {
+                damage = rawDamage; // Absorbed damage is unresisted/unmitigated damage
                 damage = -damage * (PDefender->getMod(Mod::MAGIC_ABSORB) / 100);
             }
             else
             {
+                damage = rawDamage; // Absorbed damage is unresisted/unmitigated damage
                 damage = -damage;
             }
         }
@@ -8387,7 +8396,7 @@ namespace battleutils
             }
             else if (applyArts)
             {
-                if (PEntity->StatusEffectContainer->HasStatusEffect({EFFECT_LIGHT_ARTS, EFFECT_ADDENDUM_WHITE}))
+                if (PEntity->StatusEffectContainer->HasStatusEffect({ EFFECT_LIGHT_ARTS, EFFECT_ADDENDUM_WHITE }))
                 {
                     // Add any "Grimoire: Reduces spellcasting time" bonuses
                     cast = (uint32)(cast * (1.0f + (PEntity->getMod(Mod::WHITE_MAGIC_CAST) + PEntity->getMod(Mod::GRIMOIRE_SPELLCASTING)) / 100.0f));
