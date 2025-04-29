@@ -702,13 +702,16 @@ function BlueFinalAdjustments(caster, target, spell, dmg, params)
         end
     end
 
+    -- Track raw damage
+    local rawDmg = dmg
+
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, spell, dmg)
 
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.SPECIAL then
-        dmg = target:magicDmgTaken(dmg, element)
+        dmg = target:magicDmgTaken(dmg, element, rawDmg)
     elseif attackType == tpz.attackType.BREATH then
-        dmg = target:breathDmgTaken(dmg, element)
+        dmg = target:breathDmgTaken(dmg, element, rawDmg)
     elseif attackType == tpz.attackType.RANGED then
         dmg = target:rangedDmgTaken(dmg)
     elseif attackType == tpz.attackType.PHYSICAL then

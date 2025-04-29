@@ -61,9 +61,10 @@ function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams)
             if calcParams.hybridHit then
                 -- Calculate magical bonuses and reductions
                 local magicdmg = addBonusesAbility(attacker, wsParams.ele, target, finaldmg, wsParams)
+                local rawDmg = magicdmg
                 magicdmg = magicdmg * applyResistanceAbility(attacker, target, wsParams.ele, wsParams.skill, bonusacc)
                 magicdmg = utils.CheckForNull(attacker, target, tpz.attackType.MAGICAL, wsParams.ele, magicdmg)
-                magicdmg = target:magicDmgTaken(magicdmg, wsParams.ele)
+                magicdmg = target:magicDmgTaken(magicdmg, wsParams.ele, rawDmg)
                 magicdmg = adjustForTarget(target, magicdmg, wsParams.ele)
                 -- Add HP if absorbed
                 if (magicdmg < 0) then
@@ -767,6 +768,9 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
     -- Handle Ecosystem Bonus
     dmg = utils.HandleEcosystemBonus(attacker, target, dmg)
 
+    -- Track raw damage
+    local rawDmg = dmg
+
     -- Handle Null
     dmg = utils.CheckForNull(attacker, target, tpz.attackType.MAGICAL, wsParams.ele, dmg)
 
@@ -808,7 +812,7 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
         dmg = dmg * applyResistanceAbility(attacker, target, wsParams.ele, wsParams.skill, bonusacc)
     end
 
-    dmg = target:magicDmgTaken(dmg, wsParams.ele)
+    dmg = target:magicDmgTaken(dmg, wsParams.ele, rawDmg)
 
     -- handling absorb
     if (wsParams.ele ~= 0) then -- Non-elemental damage cannot be absorbed

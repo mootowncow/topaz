@@ -359,6 +359,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
                 paramshybrid.includemab = true
                 local bonusMacc = 0
                 local magicdmg = addBonusesAbility(auto, tpz.magic.ele.FIRE, target, finaldmg, paramshybrid)
+                local rawDmg = magicdmg
                 local resist = getAutoResist(auto, effect, target, auto:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT), bonusMacc, tpz.magic.ele.FIRE)
                 --printf("resist %u", resist * 100)
                 --printf("magicdmg before resist %u", magicdmg)
@@ -368,7 +369,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
                 -- Handle Null
                 magicdmg = utils.CheckForNull(auto, target, tpz.attackType.MAGICAL, tpz.magic.ele.FIRE, magicdmg)
                 --printf("magicdmg after resist %u", magicdmg)
-                magicdmg = target:magicDmgTaken(magicdmg)
+                magicdmg = target:magicDmgTaken(magicdmg, tpz.magic.ele.FIRE, rawDmg)
                 -- Handle absorb
                 magicdmg = adjustForTarget(target, magicdmg, tpz.magic.ele.FIRE)
                 -- Handle percentage DR to elements
@@ -628,18 +629,21 @@ function AutoPhysicalFinalAdjustments(dmg, auto, skill, target, attackType, dama
         end
     end
 
+    -- Track raw damage
+    local rawDmg = dmg
+
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, skill, dmg)
 
     local element = damageType - 5
     -- Check for MDT/PDT/RDT/BDT/MDB
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.SPECIAL then
-        dmg = target:magicDmgTaken(dmg, element)
+        dmg = target:magicDmgTaken(dmg, element, rawDmg)
 	    if (dmg > 0) then
             auto:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
         end
     elseif attackType == tpz.attackType.BREATH then
-        dmg = target:breathDmgTaken(dmg, element)
+        dmg = target:breathDmgTaken(dmg, element, rawDmg)
 	    if (dmg > 0) then
             auto:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
         end
@@ -716,13 +720,16 @@ function AutoMagicalFinalAdjustments(dmg, auto, skill, target, attackType, eleme
     --printf("dmg after circle %u", dmg)
     dmg = dmg * HandlePositionalMDT(auto, target)
 
+    -- Track raw damage
+    local rawDmg = dmg
+
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, skill, dmg)
 
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.SPECIAL then
-        dmg = target:magicDmgTaken(dmg, element)
+        dmg = target:magicDmgTaken(dmg, element, rawDmg)
     elseif attackType == tpz.attackType.BREATH then
-        dmg = target:breathDmgTaken(dmg, element)
+        dmg = target:breathDmgTaken(dmg, element, rawDmg)
     end
 
 	if (dmg > 0) then

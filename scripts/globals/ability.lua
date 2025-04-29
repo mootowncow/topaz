@@ -827,6 +827,9 @@ function AbilityFinalAdjustments(dmg, mob, skill, target, skilltype, damagetype,
         return 0
     end
 
+    -- Track raw damage
+    local rawDmg = dmg
+
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, skill, dmg)
 
@@ -838,9 +841,9 @@ function AbilityFinalAdjustments(dmg, mob, skill, target, skilltype, damagetype,
     if (skilltype == tpz.attackType.PHYSICAL) then
         dmg = target:physicalDmgTaken(dmg, damagetype)
     elseif (skilltype == tpz.attackType.MAGICAL) then
-        dmg = target:magicDmgTaken(dmg, element)
+        dmg = target:magicDmgTaken(dmg, element, rawDmg)
     elseif (skilltype == tpz.attackType.BREATH) then
-        dmg = target:breathDmgTaken(dmg, element)
+        dmg = target:breathDmgTaken(dmg, element, rawDmg)
     elseif (skilltype == tpz.attackType.RANGED) then
         dmg = target:rangedDmgTaken(dmg)
     end
