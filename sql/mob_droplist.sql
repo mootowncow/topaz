@@ -17824,6 +17824,14 @@ INSERT INTO `mob_droplist` VALUES (6128,1,8,240,28575,250);     -- Cho'j Band
 INSERT INTO `mob_droplist` VALUES (6128,1,8,240,28385,250);     -- Atzintli Necklace
 INSERT INTO `mob_droplist` VALUES (6128,1,8,240,21384,250);     -- Kalboron Stone
 
+-- Lugh
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2858,1000); -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2858,240); -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2858,150); -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2859,240); -- Cobalt Ore
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,11410,100); -- Setantas Ledelsens
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,17765,50); -- Concordia
+
 ---------------------Dynamis---------------------
 
 -- Bastok
@@ -18389,7 +18397,7 @@ INSERT INTO `mob_droplist` VALUES (9060,0,0,1000,1719,50); -- Harajnite Shell
 -- free 22, 1665, 2331
 -- free 3170 - 3176
 -- NEXT: 3231
--- NEXT: 6129
+-- NEXT: 6130
 
 
 

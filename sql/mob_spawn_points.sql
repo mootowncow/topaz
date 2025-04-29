@@ -52260,7 +52260,7 @@ INSERT INTO `mob_spawn_points` VALUES (17477733,'Cap_Chomper','Cap Chomper',23,0
 INSERT INTO `mob_spawn_points` VALUES (17477734,'Cap_Chomper','Cap Chomper',23,0,50,0,0);
 INSERT INTO `mob_spawn_points` VALUES (17477735,'Cap_Chomper','Cap Chomper',23,0,50,0,0);
 
--- Dungeon events
+-- WotG Dungeon events
 INSERT INTO `mob_spawn_points` VALUES (17478169, 'Angry_Scorpion', 'Angry Scorpion', 26, 0, 50, 0, 0);
 INSERT INTO `mob_spawn_points` VALUES (17478170, 'Angry_Scorpion', 'Angry Scorpion', 26, 0, 50, 0, 0);
 INSERT INTO `mob_spawn_points` VALUES (17478171, 'Angry_Scorpion', 'Angry Scorpion', 26, 0, 50, 0, 0);
@@ -53729,6 +53729,82 @@ INSERT INTO `mob_spawn_points` VALUES (17494282,'Dhoul','Dhoul',27,0,50,0,0);
 INSERT INTO `mob_spawn_points` VALUES (17494283,'Dhoul','Dhoul',27,0,50,0,0);
 INSERT INTO `mob_spawn_points` VALUES (17494284,'Dhoul','Dhoul',27,0,50,0,0);
 INSERT INTO `mob_spawn_points` VALUES (17494285,'Dhoul','Dhoul',27,0,50,0,0);
+
+-- WotG Dungeon events
+INSERT INTO `mob_spawn_points` VALUES (17494789, 'Terror_Skeleton', 'Terror Skeleton', 31, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494790, 'Terror_Skeleton', 'Terror Skeleton', 31, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494791, 'Terror_Skeleton', 'Terror Skeleton', 31, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494792, 'Terror_Skeleton', 'Terror Skeleton', 31, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494793, 'Terror_Skeleton', 'Terror Skeleton', 31, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494794, 'Terror_Skeleton', 'Terror Skeleton', 31, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494795, 'Terror_Skeleton', 'Terror Skeleton', 31, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494796, 'Terror_Skeleton', 'Terror Skeleton', 31, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494797, 'Terror_Skeleton', 'Terror Skeleton', 31, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494798, 'Terror_Skeleton', 'Terror Skeleton', 31, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494799, 'Terror_Ghost', 'Terror Ghost', 32, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494800, 'Terror_Ghost', 'Terror Ghost', 32, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494801, 'Terror_Ghost', 'Terror Ghost', 32, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494802, 'Terror_Ghost', 'Terror Ghost', 32, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494803, 'Terror_Ghost', 'Terror Ghost', 32, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494804, 'Terror_Ghost', 'Terror Ghost', 32, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494805, 'Terror_Ghost', 'Terror Ghost', 32, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494806, 'Terror_Ghost', 'Terror Ghost', 32, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494807, 'Terror_Ghost', 'Terror Ghost', 32, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494808, 'Terror_Ghost', 'Terror Ghost', 32, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494809, 'Terror_Hound', 'Terror Hound', 33, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494810, 'Terror_Hound', 'Terror Hound', 33, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494811, 'Terror_Hound', 'Terror Hound', 33, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494812, 'Terror_Hound', 'Terror Hound', 33, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494813, 'Terror_Hound', 'Terror Hound', 33, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494814, 'Terror_Hound', 'Terror Hound', 33, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494815, 'Terror_Hound', 'Terror Hound', 33, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494816, 'Terror_Hound', 'Terror Hound', 33, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494817, 'Terror_Hound', 'Terror Hound', 33, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494818, 'Terror_Hound', 'Terror Hound', 33, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494819, 'Terror_Doomed', 'Terror Doomed', 34, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494820, 'Terror_Doomed', 'Terror Doomed', 34, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494821, 'Terror_Doomed', 'Terror Doomed', 34, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494822, 'Terror_Doomed', 'Terror Doomed', 34, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494823, 'Terror_Doomed', 'Terror Doomed', 34, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494824, 'Terror_Doomed', 'Terror Doomed', 34, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494825, 'Terror_Doomed', 'Terror Doomed', 34, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494826, 'Terror_Doomed', 'Terror Doomed', 34, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494827, 'Terror_Doomed', 'Terror Doomed', 34, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494828, 'Terror_Doomed', 'Terror Doomed', 34, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494829, 'Terror_Corse', 'Terror Corse', 35, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494830, 'Terror_Corse', 'Terror Corse', 35, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494831, 'Terror_Corse', 'Terror Corse', 35, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494832, 'Terror_Corse', 'Terror Corse', 35, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494833, 'Terror_Corse', 'Terror Corse', 35, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494834, 'Terror_Corse', 'Terror Corse', 35, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494835, 'Terror_Corse', 'Terror Corse', 35, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494836, 'Terror_Corse', 'Terror Corse', 35, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494837, 'Terror_Corse', 'Terror Corse', 35, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494838, 'Terror_Corse', 'Terror Corse', 35, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494839, 'Terror_Corpselight', 'Terror Corpselight', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494840, 'Terror_Corpselight', 'Terror Corpselight', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494841, 'Terror_Corpselight', 'Terror Corpselight', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494842, 'Terror_Corpselight', 'Terror Corpselight', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494843, 'Terror_Corpselight', 'Terror Corpselight', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494844, 'Terror_Corpselight', 'Terror Corpselight', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494845, 'Terror_Corpselight', 'Terror Corpselight', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494846, 'Terror_Corpselight', 'Terror Corpselight', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494847, 'Terror_Corpselight', 'Terror Corpselight', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494848, 'Terror_Corpselight', 'Terror Corpselight', 36, 0, 50, 0, 0);
+
+INSERT INTO `mob_spawn_points` VALUES (17494849, 'Hound_of_Balthazar', 'Hound of Balthazar', 37, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494850, 'Duke_Xavier', 'Duke Xavier', 38, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494851, 'Duke_Xaviers_Bat', 'Duke Xaviers Bat', 39, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494852, 'Duke_Xaviers_Bat', 'Duke Xaviers Bat', 39, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494853, 'Duke_Xaviers_Bat', 'Duke Xaviers Bat', 39, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494854, 'Tezcatli', 'Tezcatli', 40, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494855, 'Klagmuhme', 'Klagmuhme', 41, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494856, 'Knecht', 'Knecht', 42, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494857, 'Velfegor', 'Velfegor', 43, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494858, 'Kernunnos', 'Kernunnos', 44, 0, 50, 0, 0);
+
+INSERT INTO `mob_spawn_points` VALUES (17494859, 'Mimic', 'Mimic', 45, 0, 50, 0, 0);
+
 INSERT INTO `mob_spawn_points` VALUES (17494286,'Valaineral_R_Davilles','Valaineral R Davilles',0,0,0,0,155);
 INSERT INTO `mob_spawn_points` VALUES (17494287,'Royal_Guard','Royal Guard',0,0,0,0,175);
 INSERT INTO `mob_spawn_points` VALUES (17494288,'Royal_Guard','Royal Guard',0,0,0,0,29);

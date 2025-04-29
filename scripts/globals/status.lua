@@ -2182,8 +2182,9 @@ tpz.mod =
     DARK_ABSORB_SC          = 1427, -- Occasionally absorbs SC dark elemental damage, in percents
     PAST_DUNGEON_MASTER     = 1428, -- Increased number augments on items from WotG dungeons
     DOUBLE_CAST             = 1429, -- Chance to cast a spell twice in a row
+    ENH_CASTING_TIME        = 1431, -- Reduces Enhancing Magic casting time by percentage (e.g. mod value -10 = -10% cast time)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1430 NEXT
+    -- 1431 NEXT
 }
 
 tpz.latent =

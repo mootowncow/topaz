@@ -6085,6 +6085,8 @@ INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 176, 1, 255); -- Firaga III
 INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 147, 1, 255); -- Fire IV
 INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 204, 1, 255); -- Flare
 
+-- Aeroga IV, Silencega, Graviga
+
 -- NEXT 546
 -- NEXT 1022
 -- NEXT 2089(Custom)

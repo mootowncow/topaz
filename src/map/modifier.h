@@ -414,6 +414,7 @@ enum class Mod
     ENH_MAGIC_DURATION        = 890, // Enhancing Magic Duration increase %
     ENHANCES_SABOTEUR         = 297, // Increases Saboteur Potency %
     ENHANCES_IMMUNOBREAK      = 1359,// Causes Immunobreak to increase by 2 Tiers
+    ENH_CASTING_TIME           = 1430,//Reduces Enhancing Magic casting time by percentage (e.g. mod value -10 = -10% cast time)
 
     // Thief
     FLEE_DURATION             = 93,  // Flee duration in seconds
@@ -454,7 +455,7 @@ enum class Mod
     STALWART_SOUL             = 907, // Reduces damage taken from Souleater
     DREAD_SPIKES_EFFECT       = 1328,// Percent increase to total HP drain for Dread Spikes
     ENHANCES_BLOOD_WEAPON     = 1329,// Enhances "Blood Weapon" effect (increases Blood Weapon's duration in seconds)
-    DARK_MAGIC_CAST           = 1330,// Reduces Dark Magic Casting Time by percentage (e.g. mod value -10 = -10% cast time)
+    DARK_MAGIC_CAST           = 1330,// Reduces Dark Magic casting time by percentage (e.g. mod value -10 = -10% cast time)
     DARK_MAGIC_DURATION       = 1331,// Increases Dark Magic spell durations by percentage (e.g. mod value 10 = +10% duration)
     ENHANCES_DARK_SEAL        = 1332,// Enhances "Dark Seal" effect (Increases Dark Magic spell durations by 10% per Dark Seal merit while Dark Seal active)
 
@@ -530,7 +531,7 @@ enum class Mod
     NIN_NUKE_BONUS            = 522, // magic attack bonus for NIN nukes
     DAKEN                     = 911, // chance to throw a shuriken without consuming it
     NINJUTSU_DURATION         = 1323,// Increases the effect duration of ninjutsu (in percents)
-    NINJUTSU_CASTING_TIME     = 1378,// Reduces Ninjutsu Casting Time by percentage (e.g. mod value -10 = -10% cast time)
+    NINJUTSU_CASTING_TIME     = 1378,// Reduces Ninjutsu casting time by percentage (e.g. mod value -10 = -10% cast time)
 
     // Dragoon
     ANCIENT_CIRCLE_DURATION   = 859, // Ancient Circle extended duration in seconds
@@ -1144,7 +1145,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1430 NEXT
+    // 1431 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

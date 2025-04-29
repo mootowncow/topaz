@@ -34,8 +34,10 @@ require("scripts/globals/keyitems")
 -- Test values given by augments with prints
 -- Test SAVETP mod
 -- Test if mob OFFENSIVE auras still work (TickMobAura) and don't AOE onto other nearby mobs
--- Environmental regions should work on trusts
 -- Test if BreakMob still works and works if a trust breaks the mob
+-- Concordia etc weapon stats (Maybe make for jobs that normally don't use that weapon as a main wep?)
+-- Test spell crit
+-- Should marine Mayhem be (If this attack puts targets HP below 50%, then insta kill)?
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
 
@@ -1303,16 +1305,13 @@ local modByMobName =
     })
     end,
 
-    ['Coarse'] = function(mob)
-    end,
-
     ['Hound_of_Balthazar'] = function(mob)
         mob:setDamage(100)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 100)
         mob:setMod(tpz.mod.FIRE_ABSORB, 100)
     end,
 
-    ['Vampyr'] = function(mob)
+    ['Duke_Xavier'] = function(mob) -- Vampyr
         mob:setMod(tpz.mod.DEF, 1200)
         mob:setMod(tpz.mod.VIT, 150)
         mob:setMod(tpz.mod.WIND_ABSORB, 100)
@@ -1322,19 +1321,35 @@ local modByMobName =
         galeSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
     end,
 
-    ['Corpselight'] = function(mob)
+    ['Duke_Xaviers_Bat'] = function(mob)
+    end,
+
+    ['Tezcatli'] = function(mob)
+    end,
+
+    ['Klagmuhme'] = function(mob) -- Corpselight
         mob:addMod(tpz.mod.QUICK_MAGIC, 10)
     end,
 
-    ['Dvergr'] = function(mob)
+    ['Knecht'] = function(mob) -- Dvergr
         mob:addMod(tpz.mod.DOUBLE_CAST, 20)
+        mob:setMod(tpz.mod.RANGEDRES, 250)
     end,
 
-    ['Tauri'] = function(mob)
+    ['Velfegor'] = function(mob) -- Tauri
     end,
 
-    ['Gargouille'] = function(mob)
+    ['Kernunnos'] = function(mob) -- Gargouille
     end,
+
+    -- Pixie
+    -- Lynx
+    -- Djinn
+    -- Cockatrice
+    -- Bugard
+    -- Ram
+    -- Opo-opo
+    -- Uragnites
 }
 
 local mobRoamByMobName =
@@ -1593,27 +1608,6 @@ local mobFightByMobName =
         end)
     end,
 
-    ['Coarse'] = function(mob, target)
-        -- Gains undispellable shock spikes while casting
-        mob:addListener("MAGIC_START", "GOAFTRAP_MAGIC_START", function(mob, spell)
-	        mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 15, 0, 0)
-            local shockSpikes = mob:getStatusEffect(tpz.effect.SHOCK_SPIKES)
-            shockSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
-        end)
-        mob:addListener("MAGIC_STATE_EXIT", "GOAFTRAP_MAGIC_STATE_EXIT", function(mob, spell)
-            mob:delStatusEffectSilent(tpz.effect.SHOCK_SPIKES)
-        end)
-
-        -- Absorbs physical damage while readying TP moves
-        mob:addListener("WEAPONSKILL_STATE_ENTER", "GOBLINTRAP_WS_STATE_ENTER", function(mob, skillID)
-            mob:setMod(tpz.mod.PHYS_ABSORB, 100)
-        end)
-
-        mob:addListener("WEAPONSKILL_STATE_EXIT", "GOBLINTRAP_MOBSKILL_FINISHED", function(mob)
-            mob:setMod(tpz.mod.PHYS_ABSORB, 0)
-        end)
-    end,
-
     ['Hound_of_Balthazar'] = function(mob, target)
         local procDuration = mob:getLocalVar("procDuration")
         local auraParams = {
@@ -1624,7 +1618,6 @@ local mobFightByMobName =
             auraNumber = 1
         }
 
-        -- Only uses an enhanced version of Poison and Methane breath that can deal up to 1250 damage
         -- Enfire for 80-125
 
         -- 1k+ Water magic bursts remove Plague aura for 60 seconds and applies Amnesia for 15 seconds
@@ -1647,28 +1640,61 @@ local mobFightByMobName =
         end
     end,
 
-    ['Vampyr'] = function(mob, target)
+    ['Duke_Xavier'] = function(mob, target)
         -- SMN/DRK. summons a red bat add that is not killed fast will charm a nearby player and bat costume them
         -- Astral flow summons 3 bats
-        -- Aeroga IV, Silencega, Graviga
+        -- Enhancing magic casting time -100%
         -- 500+ Cure MB's procs
+
+        -- 500+ Cure magic bursts procs Amnesia for 60 seconds
+        mob:addListener("SPELL_DMG_TAKEN", "HoB_SPELL_DMG_TAKEN", function(mob, caster, spell, amount, msg)
+            local spellFamily = spell:getSpellFamily()
+
+            if (spellFamily == tpz.magic.spellFamily.CURE) and (amount >= 500) then
+                if (msg == tpz.msg.basic.MAGIC_BURST_BLACK) or (msg == tpz.msg.MAGIC_BURST_BREATH) then
+                    local duration = 60
+                    BreakMob(mob, caster, tpz.procEffect.NONE, duration, tpz.procType.AMNESIA)
+                    mob:setLocalVar("procced", os.time() + 60)
+                end
+            end
+        end)
     end,
 
-    ['Vampyr_Bat'] = function(mob, target)
+    ['Duke_Xaviers_Bat'] = function(mob, target)
     end,
 
-    ['Corpselight'] = function(mob, target)
+    ['Tezcatli'] = function(mob, target)
+        -- Gains undispellable shock spikes while casting
+        mob:addListener("MAGIC_START", "GOAFTRAP_MAGIC_START", function(mob, spell)
+	        mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 15, 0, 0)
+            local shockSpikes = mob:getStatusEffect(tpz.effect.SHOCK_SPIKES)
+            shockSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
+        end)
+        mob:addListener("MAGIC_STATE_EXIT", "GOAFTRAP_MAGIC_STATE_EXIT", function(mob, spell)
+            mob:delStatusEffectSilent(tpz.effect.SHOCK_SPIKES)
+        end)
+
+        -- Absorbs physical damage while readying TP moves
+        mob:addListener("WEAPONSKILL_STATE_ENTER", "GOBLINTRAP_WS_STATE_ENTER", function(mob, skillID)
+            mob:setMod(tpz.mod.PHYS_ABSORB, 100)
+        end)
+
+        mob:addListener("WEAPONSKILL_STATE_EXIT", "GOBLINTRAP_MOBSKILL_FINISHED", function(mob)
+            mob:setMod(tpz.mod.PHYS_ABSORB, 0)
+        end)
+    end,
+
+    ['Klagmuhme'] = function(mob, target)
         -- DRK/DRK
         -- 100% proc 100 damage endrain
         -- Family EEM 5 silence
         -- Casts Addle (AOE) Blizzard IV Blizzaga III Graviga Bindga Silencega Slowga Sleepga II Breakga Dispelga
         -- Uses Death below 20% HP
         -- Uses Louring Skies: AoE magical damage (20 yalms), Paralyze(66%), and Bind
-        -- "Weak" to Fire (70%), "strong" to ice (20%), rest 50%
         -- No MDT/MDB family bonuses
     end,
 
-    ['Dvergr'] = function(mob, target)
+    ['Knecht'] = function(mob, target)
         -- WAR/DRK
         -- Double Cast (25%)
         -- Uses Cackle - > Hellsnap -> T3 -ga (interrupting does not stop this combo)
@@ -1679,7 +1705,7 @@ local mobFightByMobName =
         -- -75% ranged damage taken
     end,
 
-    ['Tauri'] = function(mob, target)
+    ['Velfegor'] = function(mob, target)
         -- SAM/SAM
         -- Does not use H2H, no Kick Attack (Change weapon/delay in mob pool)
         -- Access to Apocalyptic Ray (Conal Doom)
@@ -1688,13 +1714,49 @@ local mobFightByMobName =
         -- Every 10%, uses Meikyo Shisui and Apoc Ray x3
     end,
 
-    ['Gargouille'] = function(mob, target)
+    ['Kernunnos'] = function(mob, target)
         -- Alternates between flying / standing
         -- "Fly High" wyrm effect and 250/tick regain while flying.
         -- Only uses Dark Mist while flying (500+ damage)
         -- Stone forms every 20% HP, which is a full erase and grants him 500 damage spikes and 3000 magic SS. Immune to physical damage.
         -- Stone form is removed by breaking the magical stoneskin effect
+        -- AoE Absorb-TP, Absorb-Attribute, Drain II, Aspir II, Stun, single target Dread Spikes
     end,
+
+    -- Pixie
+        -- DRK/DRK
+
+    -- Lynx
+        -- Charged whisker grants undispellable shock spikes, enthunder, and pulsing AoE thunder damage aura
+        -- Aura removed by magic bursting 1k+ earth damage
+
+    -- Djinn (Djinn mixin)
+        -- DRK/DRK
+        -- Casts storm on self then absorbs that element, SDT is changed to be weak to it's weakness and casts spells/enfeebles of that element
+
+    -- Cockatrice
+        -- WAR/DRK
+        -- No SJ aura
+        -- Contagion Transfer - AoE status transfers from the mob to all players within range.
+        -- Sound Vacuum 10' AoE(not conal) mute.
+        -- Enhancing magic casting time -100%
+        -- Breakga, Stoneskin, Rasp, Stone IV, Stonega III
+
+    -- Bugard
+        -- THF/DRK
+        -- Perma perfect dodge
+        -- Nightmare Bugard moves
+        -- Tyrant Tusk (If this attack puts targets HP below 50%, then insta kill)
+
+    -- Ram
+        -- WAR/SAM
+        -- Keeps mighty strikes up at all times(uses it, isn't just a perma buff)
+        -- Reduced move speed (40? 30?)
+        -- NO_DR mob mod
+
+    -- Opo-opo
+        -- Uses Vacant Gaze, dispels up to 3 effects
+    -- Uragnites
 }
 
 local mobWSPrepareByMobName =

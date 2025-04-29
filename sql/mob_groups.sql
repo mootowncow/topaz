@@ -11765,7 +11765,7 @@ INSERT INTO `mob_groups` VALUES (14,6240,171,'Brass_Quadav',960,0,354,0,0,66,69,
 INSERT INTO `mob_groups` VALUES (15,3464,171,'Sapphirine_Quadav',960,0,2161,0,0,66,69,0);
 INSERT INTO `mob_groups` VALUES (16,6331,171,'Doom_Scorpion',960,0,113,0,0,71,74,0);
 INSERT INTO `mob_groups` VALUES (17,6319,171,'Processionaire',960,0,2023,0,0,69,71,0);
-INSERT INTO `mob_groups` VALUES (18,4696,171,'Lugh',0,128,0,35000,0,90,90,0);
+INSERT INTO `mob_groups` VALUES (18,4696,171,'Lugh',0,128,6129,35000,0,90,90,0);
 INSERT INTO `mob_groups` VALUES (19,4309,171,'Water_Elemental',960,4,2629,0,0,75,75,0);
 INSERT INTO `mob_groups` VALUES (20,3276,171,'Quadav_Transporter',0,128,0,0,0,50,50,0);
 INSERT INTO `mob_groups` VALUES (21,3274,171,'Quadav_Guard',0,128,0,0,0,75,75,0);
@@ -11773,6 +11773,7 @@ INSERT INTO `mob_groups` VALUES (22,1749,171,'Goldcap',0,128,0,20000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (23,632,171,'Cap_Chomper',0,128,0,0,0,81,81,0);
 INSERT INTO `mob_groups` VALUES (24,4699,171,'Nympha_Eunomia',0,128,0,0,0,95,96,0);
 INSERT INTO `mob_groups` VALUES (25,4700,171,'Kalos_Eunomia',0,128,0,0,0,97,98,0);
+
 -- Dungeon Events
 
 -- Waves
@@ -12029,6 +12030,29 @@ INSERT INTO `mob_groups` VALUES (27,1026,175,'Dhoul',0,128,0,0,0,81,81,0);
 INSERT INTO `mob_groups` VALUES (28,5178,175,'Giltine',0,128,0,0,20000,94,95,0);
 INSERT INTO `mob_groups` VALUES (29,0,175,'Ethniu',0,128,0,0,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (30,0,175,'Tethra',0,128,0,0,0,80,80,0);
+
+-- Dungeon Events
+
+-- Waves
+INSERT INTO `mob_groups` VALUES (31,9134,175,'Terror_Skeleton',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (32,1195,175,'Terror_Ghost',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (33,6308,175,'Terror_Hound',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (34,6357,175,'Terror_Doomed',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (35,6319,175,'Terror_Corse',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (36,2953,175,'Terror_Corpselight',0,128,0,0,0,85,85,0);
+
+-- Bosses
+INSERT INTO `mob_groups` VALUES (37,9135,175,'Hound_of_Balthazar',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (38,9135,175,'Duke_Xavier',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (39,9086,175,'Duke_Xaviers_Bat',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (40,9135,175,'Tezcatli',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (41,9135,175,'Klagmuhme',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (42,9135,175,'Knecht',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (43,9135,175,'Velfegor',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (44,9135,175,'Kernunnos',0,128,0,0,0,85,85,0);
+
+-- Mimic
+INSERT INTO `mob_groups` VALUES (45,2664,175,'Mimic',0,128,0,0,0,85,85,0);
 
 INSERT INTO `mob_groups` VALUES (9053,18,175,'Abenzio',1,0,0,0,0,1,1,0);
 INSERT INTO `mob_groups` VALUES (9054,37,175,'Achtelle',1,0,0,0,0,1,1,0);
