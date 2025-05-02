@@ -1977,6 +1977,7 @@ tpz.wotg.onMobSpawn = function(mob)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
+    mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
 
     local mobName = mob:getName()
     local mods = modByMobName[mobName]

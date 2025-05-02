@@ -65,7 +65,7 @@ enum MOBMODIFIER : int
     MOBMOD_MAGIC_COOL          = 34, // cool down for magic
     MOBMOD_STANDBACK_COOL      = 35, // reduction to cool down time for standing back (casting spell / RA while not in melee range)
     MOBMOD_ROAM_COOL           = 36, // cool down time in seconds after roaming
-    MOBMOD_ALWAYS_AGGRO        = 37, // aggro regardless of level. Spheroids
+    MOBMOD_ALWAYS_AGGRO        = 37, // aggro regardless of level.
     MOBMOD_NO_DROPS            = 38, // If set monster cannot drop any items, not even seals.
     MOBMOD_SHARE_POS           = 39, // share a pos with another mob (eald'narche exoplates)
     MOBMOD_TELEPORT_CD         = 40, // cooldown for teleport abilities (tarutaru AA, angra mainyu, eald'narche)

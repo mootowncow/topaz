@@ -2732,7 +2732,7 @@ INSERT INTO `mob_skills` VALUES (2767,1936,'crepuscule_blade',4,10.0,2000,2000,4
 -- INSERT INTO `mob_skills` VALUES (2768,2512,'deathly_glare',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2769,2513,'blighted_bouquet',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2770,1944,'booming_bombination',1,15.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (2771,2515,'gush_o_goo',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2771,1945,'gush_o_goo',1,10.0,2000,3000,4,0,0,0,0,0,0); -- Encumberance(1m) / Bind (over 1m) 
 -- INSERT INTO `mob_skills` VALUES (2772,2516,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2773,1704,'reaving_wind_knockback',1,10.0,0,0,4,66,0,5,0,0,0); -- Reaving Wind Knockback Aura
 -- INSERT INTO `mob_skills` VALUES (2774,1951,'flank_opening',0,7.0,2000,1500,4,0,0,0,0,0,0);
