@@ -2,6 +2,13 @@
 -- Area: Garlaige Citadel (200)
 --   NM: Skewer Sam
 -----------------------------------
+require("scripts/globals/status")
+-----------------------------------
+
+function onMobSpawn(mob)
+    SetGenericNMStats(mob)
+    mob:setMobMod(tpz.mobMod.ALWAYS_AGGRO, 1)
+end
 
 function onMobDeath(mob, player, isKiller, noKiller)
 end
