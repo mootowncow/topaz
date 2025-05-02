@@ -88,7 +88,7 @@ enum SPIKES
     SPIKE_CLOD = 8,
     SPIKE_DELUGE = 9,
     SPIKE_GLINT = 10,
-    SPIKE_DAMAGE = 10,
+    SPIKE_DAMAGE = 11,
     RETALIATION = 63
 };
 
