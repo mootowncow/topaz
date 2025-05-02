@@ -986,7 +986,7 @@ INSERT INTO `item_usable` VALUES (5142,'serving_of_bison_steak',1,1,28,0,0,0,0,0
 INSERT INTO `item_usable` VALUES (5143,'serving_of_goblin_stir-fry',1,1,24,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5144,'serving_of_crimson_jelly',1,1,0,26,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5145,'plate_of_fish_and_chips',1,1,25,0,0,0,0,0,0,0);
-INSERT INTO `item_usable` VALUES (5146,'hedgehog_pie',1,1,26,0,0,0,0,0,0,0);
+INSERT INTO `item_usable` VALUES (5146,'hedgehog_pie',1,1,28,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5147,'cone_of_snoll_gelato',1,1,28,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5148,'plate_of_squid_sushi',1,1,25,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5149,'plate_of_sole_sushi',1,1,25,0,0,0,0,0,0,0);
@@ -996,7 +996,7 @@ INSERT INTO `item_usable` VALUES (5152,'slice_of_buffalo_meat',1,1,28,0,0,0,0,0,
 INSERT INTO `item_usable` VALUES (5153,'plate_of_fatty_tuna_sushi',1,1,25,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5154,'tavnazian_sheep_liver',1,1,28,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5155,'cone_of_sub-zero_gelato',1,1,24,0,0,0,0,0,0,0);
-INSERT INTO `item_usable` VALUES (5156,'porcupine_pie',1,1,26,0,0,0,0,0,0,0);
+INSERT INTO `item_usable` VALUES (5156,'porcupine_pie',1,1,28,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5157,'serving_of_marbled_steak',1,1,28,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5158,'serving_of_vermillion_jelly',1,1,26,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5159,'plate_of_friture_de_la_misareaux',1,1,26,0,0,0,0,0,0,0);
