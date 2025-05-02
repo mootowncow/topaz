@@ -1441,6 +1441,9 @@ namespace battleutils
                 case SPIKE_CURSE:
                     element = ELEMENT_DARK;
                     break;
+                case SPIKE_DAMAGE:
+                    element = ELEMENT_NONE;
+                    break;
                 default:
                     break;
             }
@@ -1696,12 +1699,17 @@ namespace battleutils
             case SUBEFFECT_CURSE_SPIKES:
             {
                 element = ELEMENT_DARK;
+                auto cursePower = PDefender->getMod(Mod::SPIKES_DMG);
+                if (cursePower == 0)
+                {
+                    cursePower = 25;
+                }
                 resist = static_cast<float>(ApplyResistanceEffect(PDefender, PAttacker, EFFECT_CURSE, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
                 // printf("Spikes resist after getMagicResist %f \n", resist);
                 if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_CURSE) == false &&
                     tpzrand::GetRandomNumber(100) > GetEffectResistanceTraitChance(PDefender, PAttacker, EFFECT_CURSE))
                 {
-                    PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_CURSE, EFFECT_CURSE, 25, 0, (uint32)(30 * (float)resist)));
+                    PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_CURSE, EFFECT_CURSE, cursePower, 0, (uint32)(30 * (float)resist)));
                 }
                 break;
             }
@@ -8462,6 +8470,11 @@ namespace battleutils
         {
             uint16 blueCasting = PEntity->getMod(Mod::BLUE_SPELLCASTING_TIME);
             cast = (uint32)(cast * (1.0f - ((blueCasting > 50 ? 50 : blueCasting) / 100.0f)));
+        }
+        else if (PSpell->getSkillType() == SKILLTYPE::SKILL_ENHANCING_MAGIC)
+        {
+            uint16 enhCasting = PEntity->getMod(Mod::ENH_CASTING_TIME);
+            cast = (uint32)(cast * (1.0f - ((enhCasting > 50 ? 50 : enhCasting) / 100.0f)));
         }
 
         int16 fastCast = std::clamp<int16>(PEntity->getMod(Mod::FASTCAST), -100, 50);

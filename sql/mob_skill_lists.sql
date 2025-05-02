@@ -3226,7 +3226,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Tejas_post50',876,913); -- inferno
 INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,530); -- Memento_Mori
 INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,531); -- Silence_Seal
 INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,533); -- danse macambre
-INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,1326); -- final retrobution
+INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,1326); -- final retribution
 INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,1329); -- gala mancabre
 INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,2638); -- hadal summons
 INSERT INTO `mob_skill_lists` VALUES ('Ulhuadshi',878,2187); -- dustvoid
@@ -4963,7 +4963,17 @@ INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,253); -- barbed_crescent
 INSERT INTO `mob_skill_lists` VALUES ('HoundOfBalthazar',6157,466); -- poison_breath_hound
 INSERT INTO `mob_skill_lists` VALUES ('HoundOfBalthazar',6157,470); -- methane_breath
 
+INSERT INTO `mob_skill_lists` VALUES ('Klagmuhme',6158,2511); -- Corpse Breath
+INSERT INTO `mob_skill_lists` VALUES ('Klagmuhme',6158,2825); -- Louring Skies
+
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,498); -- triclip
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,499); -- back swish
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,500); -- mow
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,501); -- frightful roar
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,502); -- mortal ray
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,503); -- unblessed armor
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,1360); -- apocalyptic ray
 
 -- Next available ID: 1209
--- Next custom ID: 6158
+-- Next custom ID: 6159
 

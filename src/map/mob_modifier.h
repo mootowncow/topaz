@@ -57,7 +57,7 @@ enum MOBMODIFIER : int
     MOBMOD_SUPERLINK           = 26, // super link group. Only use this in mob_spawn_mods / scripts!
     MOBMOD_SPELL_LIST          = 27, // set spell list. 
     MOBMOD_EXP_BONUS           = 28, // bonus exp (bonus / 100) negative values reduce exp.
-    MOBMOD_ASSIST              = 29, // mobs will assist me
+    MOBMOD_ASSIST              = 29, // mobs will assist me. Forces mob to link with arg. Mob->setMobMod(MOBMOD_SUPERLINK, targid);
     MOBMOD_SPECIAL_SKILL       = 30, // give special skill
     MOBMOD_ROAM_DISTANCE       = 31, // distance allowed to roam from spawn
     // 32 Available for use
@@ -132,6 +132,7 @@ enum MOBMODIFIER : int
     MOBMOD_RANGED_DELAY        = 115, // Trust ranged weapon delay
     MOBMOD_AMMO_DELAY          = 116, // Trust ranged ammo delay
     MOBMOD_CAPACITY_BONUS      = 117, // bonus capacity points (bonus / 100) negative values reduce capacity points.
+    MOBMOD_CUSTOMLINK          = 118, // Force linking with other mobs with same power of this mod (i.e. 99 power mobs will all link together). Also parties mobs for buffs/heals
 };
 
 #endif

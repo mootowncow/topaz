@@ -371,6 +371,7 @@ tpz.subEffect =
     CLOD_SPIKES         = 8,   -- Earth damage + Slow.
     DELUGE_SPIKES       = 9,   -- Water damage + Poison https://ffxiclopedia.fandom.com/wiki/Aqua_Spikes
     DEATH_SPIKES        = 10,  -- yes really: http://www.ffxiah.com/item/26944/
+    DAMAGE_SPIKES       = 11,  -- non-elemental damage
     COUNTER             = 63, -- Also used by Retaliation
     -- There are no spikes effect animations beyond 63. Some effects share subeffect/animations.
     -- "Damage Spikes" use the Blaze Spikes animation even though they are different status.
@@ -3290,6 +3291,7 @@ tpz.mobMod =
     RANGED_DELAY        = 115, -- Trust ranged weapon delay
     AMMO_DELAY          = 116, -- Trust ranged ammo delay
     CAPACITY_BONUS      = 117, -- bonus capacity points (bonus / 100) negative values reduce capacity points.
+    CUSTOMLINK          = 118, -- Force linking with other mobs with same power of this mod (i.e. 99 power mobs will all link together). Also parties mobs for buffs/heals
 }
 
 ------------------------------------

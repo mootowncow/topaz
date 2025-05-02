@@ -854,7 +854,7 @@ void CMobController::CastSpell(SpellID spellid)
         {
             PCastTarget = PMob;
 
-            // only buff other targets if i'm roaming
+            // only buff other targets if i'm roaming and they are in my party
             if ((PSpell->getValidTarget() & TARGET_PLAYER_PARTY) && !PMob->PAI->IsEngaged())
             {
                 // chance to target my master
@@ -874,7 +874,7 @@ void CMobController::CastSpell(SpellID spellid)
                         // randomly select a target
                         PCastTarget = PMob->PAI->TargetFind->m_targets[tpzrand::GetRandomNumber(PMob->PAI->TargetFind->m_targets.size())];
 
-                        // only target if are on same action
+                        // only target if are also engaged
                         if (PMob->PAI->IsEngaged() == PCastTarget->PAI->IsEngaged())
                         {
                             PCastTarget = PMob;

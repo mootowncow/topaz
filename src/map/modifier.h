@@ -414,7 +414,7 @@ enum class Mod
     ENH_MAGIC_DURATION        = 890, // Enhancing Magic Duration increase %
     ENHANCES_SABOTEUR         = 297, // Increases Saboteur Potency %
     ENHANCES_IMMUNOBREAK      = 1359,// Causes Immunobreak to increase by 2 Tiers
-    ENH_CASTING_TIME           = 1430,//Reduces Enhancing Magic casting time by percentage (e.g. mod value -10 = -10% cast time)
+    ENH_CASTING_TIME          = 1430,//Reduces Enhancing Magic casting time by percentage (e.g. mod value -10 = -10% cast time)
 
     // Thief
     FLEE_DURATION             = 93,  // Flee duration in seconds

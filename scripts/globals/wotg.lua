@@ -38,6 +38,9 @@ require("scripts/globals/keyitems")
 -- Concordia etc weapon stats (Maybe make for jobs that normally don't use that weapon as a main wep?)
 -- Test spell crit
 -- Should marine Mayhem be (If this attack puts targets HP below 50%, then insta kill)?
+-- Mobs that res eachother?
+-- Trusts need to use holy waters when doomed
+-- Make sure all spikes still work properly
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
 
@@ -1189,7 +1192,6 @@ end
 local modByMobName =
 {
     ['Selket'] = function(mob)
-        mob:setDamage(150)
         mob:setDelay(4000)
         mob:addMod(tpz.mod.REGAIN, 50)
         mob:setMod(tpz.mod.MDEF, 60)
@@ -1208,7 +1210,6 @@ local modByMobName =
     end,
 
     ['Witchweed'] = function(mob)
-        mob:setDamage(150)
         mob:setMod(tpz.mod.MDEF, 60)
         mob:setMobMod(tpz.mobMod.SKILL_LIST, 207)
         mob:setMobMod(tpz.mobMod.FRIENDLY_FIRE, 1)
@@ -1252,7 +1253,6 @@ local modByMobName =
     end,
 
     ['Coccineus'] = function(mob)
-        mob:setDamage(150)
         mob:setMod(tpz.mod.MDEF, 24)
         mob:setMod(tpz.mod.LTNG_ABSORB, 100)
 
@@ -1278,7 +1278,6 @@ local modByMobName =
     end,
 
     ['Wadjet'] = function(mob)
-        mob:setDamage(150)
         mob:setMod(tpz.mod.MDEF, 60)
         mob:setMod(tpz.mod.EEM_TERROR, 5)
         mob:AnimationSub(1) -- Gaze petrification
@@ -1300,7 +1299,7 @@ local modByMobName =
     tpz.mix.jobSpecial.config(mob, {
         specials =
         {
-            {id = tpz.jsa.MIGHTY_STRIKES, hpp = 50},
+            {id = tpz.jsa.MIGHTY_STRIKES, hpp = math.random(10, 50)},
         },
     })
     end,
@@ -1312,44 +1311,83 @@ local modByMobName =
     end,
 
     ['Duke_Xavier'] = function(mob) -- Vampyr
+        mob:setDamage(90)
         mob:setMod(tpz.mod.DEF, 1200)
         mob:setMod(tpz.mod.VIT, 150)
         mob:setMod(tpz.mod.WIND_ABSORB, 100)
+        mob:setMod(tpz.mod.ENH_CASTING_TIME, 50)
         -- Perma undispellable Gale Spikes
         mob:addStatusEffect(tpz.effect.GALE_SPIKES, 25, 0, 0)
         local galeSpikes = mob:getStatusEffect(tpz.effect.GALE_SPIKES)
         galeSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
+
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.ASTRAL_FLOW, hpp = math.random(10, 50)},
+            },
+        })
     end,
 
     ['Duke_Xaviers_Bat'] = function(mob)
+        local NearbyPlayers = mob:getPlayersInRange(50)
+
+        -- Fixates onto a random nearby player (NOT TRUST)
+        if NearbyPlayers then
+            for _, player in ipairs(NearbyPlayers) do
+                mob:setMobMod(tpz.mobMod.FIXATE, player:getShortID())
+            end
+        end
     end,
 
-    ['Tezcatli'] = function(mob)
+    ['Tezcatli'] = function(mob) -- Corse
+        mob:setMobMod(tpz.mobMod.SEVERE_SPELL_CHANCE, 25)
     end,
 
     ['Klagmuhme'] = function(mob) -- Corpselight
         mob:addMod(tpz.mod.QUICK_MAGIC, 10)
+        mob:setMobMod(tpz.mobMod.SEVERE_SPELL_CHANCE, 25)
     end,
 
     ['Knecht'] = function(mob) -- Dvergr
+        local partyWithCorpseLights = 19235
         mob:addMod(tpz.mod.DOUBLE_CAST, 20)
         mob:setMod(tpz.mod.RANGEDRES, 250)
+        mob:setMobMod(tpz.mobMod.CUSTOMLINK, partyWithCorpseLights)
+    end,
+
+    ['Knechts_Corpselight'] = function(mob, target)
+        local partyWithKnecht = 19235
+        mob:setMobMod(tpz.mobMod.CUSTOMLINK, partyWithKnecht)
+        mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
+        mob:SetAutoAttackEnabled(false)
+        mob:SetMagicCastingEnabled(false)
+        mob:SetMobAbilityEnabled(false)
     end,
 
     ['Velfegor'] = function(mob) -- Tauri
+        -- Perma undispellable Curse Spikes
+        mob:addMod(tpz.mod.SPIKES, tpz.subEffect.CURSE_SPIKES)
     end,
 
     ['Kernunnos'] = function(mob) -- Gargouille
     end,
 
-    -- Pixie
+    ['Ethniu'] = function(mob)
+    end,
+
+    ['Tethra'] = function(mob)
+    end,
+
     -- Lynx
     -- Djinn
     -- Cockatrice
     -- Bugard
     -- Ram
     -- Opo-opo
-    -- Uragnites
+    -- Urganite
+    -- Gnole
+    -- Smilodon
 }
 
 local mobRoamByMobName =
@@ -1618,8 +1656,6 @@ local mobFightByMobName =
             auraNumber = 1
         }
 
-        -- Enfire for 80-125
-
         -- 1k+ Water magic bursts remove Plague aura for 60 seconds and applies Amnesia for 15 seconds
         mob:addListener("SPELL_DMG_TAKEN", "HoB_SPELL_DMG_TAKEN", function(mob, caster, spell, amount, msg)
             local element = spell:getElement()
@@ -1642,12 +1678,9 @@ local mobFightByMobName =
 
     ['Duke_Xavier'] = function(mob, target)
         -- SMN/DRK. summons a red bat add that is not killed fast will charm a nearby player and bat costume them
-        -- Astral flow summons 3 bats
-        -- Enhancing magic casting time -100%
-        -- 500+ Cure MB's procs
 
         -- 500+ Cure magic bursts procs Amnesia for 60 seconds
-        mob:addListener("SPELL_DMG_TAKEN", "HoB_SPELL_DMG_TAKEN", function(mob, caster, spell, amount, msg)
+        mob:addListener("SPELL_DMG_TAKEN", "XAVIER_SPELL_DMG_TAKEN", function(mob, caster, spell, amount, msg)
             local spellFamily = spell:getSpellFamily()
 
             if (spellFamily == tpz.magic.spellFamily.CURE) and (amount >= 500) then
@@ -1658,12 +1691,39 @@ local mobFightByMobName =
                 end
             end
         end)
+
+        -- Astral flow summons 3 bats
+        mob:addListener("WEAPONSKILL_STATE_EXIT", "XAVIER_MOBSKILL_FINISHED", function(mob, skillID)
+            if (skillID == tpz.jsa.ASTRAL_FLOW) then
+                for xavierBat = mob:getID()+1, mob:getID()+3 do
+                    local bat = GetMobByID(xavierBat)
+                    if bat then
+                        bat:setSpawn(mob:getXPos() + math.random(2, 5), mob:getYPos(), mob:getZPos() + math.random(1, 3))
+                        utils.spawnPetInBattle(mob, bat)
+                    end
+                end
+            end
+        end)
     end,
 
     ['Duke_Xaviers_Bat'] = function(mob, target)
+        local battleTime = mob:getBattleTime()
+
+        -- Charms a target player (NOT TRUST) after 30 seconds of being in combat
+        if (battleTime >= 30) then
+            mob:useMobAbility(tpz.jsa.CHARM)
+        end
     end,
 
     ['Tezcatli'] = function(mob, target)
+        -- Casts: Paralyga, Dispelga, Firaga III, Blizzaga III, Comet (Below 50%)
+        local hpp = mob:getHPP()
+        if (hpp < 50) then
+            mob:addSpellListEntry(tpz.magic.spell.COMET)
+        else
+            mob:delSpelllistEntry(tpz.magic.spell.COMET)
+        end
+
         -- Gains undispellable shock spikes while casting
         mob:addListener("MAGIC_START", "GOAFTRAP_MAGIC_START", function(mob, spell)
 	        mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 15, 0, 0)
@@ -1685,33 +1745,117 @@ local mobFightByMobName =
     end,
 
     ['Klagmuhme'] = function(mob, target)
-        -- DRK/DRK
-        -- 100% proc 100 damage endrain
-        -- Family EEM 5 silence
-        -- Casts Addle (AOE) Blizzard IV Blizzaga III Graviga Bindga Silencega Slowga Sleepga II Breakga Dispelga
+        local hpp = mob:getHPP()
+
         -- Uses Death below 20% HP
-        -- Uses Louring Skies: AoE magical damage (20 yalms), Paralyze(66%), and Bind
-        -- No MDT/MDB family bonuses
+        if (hpp < 20) then
+            mob:addSpellListEntry(tpz.magic.spell.DEATH)
+        else
+            mob:delSpelllistEntry(tpz.magic.spell.DEATH)
+        end
     end,
 
     ['Knecht'] = function(mob, target)
         -- WAR/DRK
         -- Double Cast (25%)
-        -- Uses Cackle - > Hellsnap -> T3 -ga (interrupting does not stop this combo)
+        -- Uses Cackle - > Hellsnap -> -ga (interrupting does not stop this combo)
         -- Two Corpselights connected to him, left one heals, right one -ga enfeebles players. Killing both forces a respawn of both, killing 1 does not
         -- Access to Thundris Shriek below 25%. 500+ damage, 50% para, 1m of humanoid killer
-        -- "Weak" to earth (70%), "strong" to dark (15%), rest 30%
-        -- No MDT/MDB family bonuses
-        -- -75% ranged damage taken
+        local hpp = mob:getHPP()
+        local lastHPP = mob:getLocalVar("last_spelllist_hpp")
+        local spellListData = {
+            {
+                HP = 75,
+                Spells = {
+                    tpz.magic.spell.FIRAGA, tpz.magic.spell.BLIZZAGA, tpz.magic.spell.AEROGA,
+                    tpz.magic.spell.STONEGA, tpz.magic.spell.THUNDAGA, tpz.magic.spell.WATERGA
+                }
+            },
+            {
+                HP = 25,
+                Spells = {
+                    tpz.magic.spell.FIRAGA_II, tpz.magic.spell.BLIZZAGA_II, tpz.magic.spell.AEROGA_II,
+                    tpz.magic.spell.STONEGA_II, tpz.magic.spell.THUNDAGA_II, tpz.magic.spell.WATERGA_II
+                }
+            },
+            {
+                HP = 0,
+                Spells = {
+                    tpz.magic.spell.FIRAGA_III, tpz.magic.spell.BLIZZAGA_III, tpz.magic.spell.AEROGA_III,
+                    tpz.magic.spell.STONEGA_III, tpz.magic.spell.THUNDAGA_III, tpz.magic.spell.WATERGA_III
+                }
+            }
+        }
+
+        -- Casts stronger spells as HP decreases
+        -- 100-74% HP T1 -ga, 51-74 T2 -ga, 0-24 T3 -ga
+        -- Only check to update spell list if mob HP was increased or decreased
+        if (hpp ~= lastHPP) then
+            -- Update stored HPP
+            mob:setLocalVar("last_spelllist_hpp", hpp)
+
+            -- Clear and rebuild spell list based on HP%
+            mob:clearSpellList()
+
+            for _, spellList in ipairs(spellListData) do
+                if (hpp >= spellList.HP) then
+                    for _, spellId in ipairs(spellList.Spells) do
+                        mob:addSpellListEntry(spellId)
+                    end
+                    break -- Very important
+                end
+            end
+        end
+    end,
+
+    ['Knechts_Corpselight'] = function(mob, target)
+        local isHealer = (mob:getMainJob() == tpz.job.WHM)
+        local isDebuffer = (mob:getMainJob() == tpz.job.RDM)
+        local knecht = GetMobByID(17494856)
+
+        -- Healer is always positioned to the left of Knecht, and debuffer to the right
+        if knecht then
+            local x, y, z = knecht:getPos()
+            if isHealer then
+                mob:setPos(x - 2, y, z)
+            elseif isDebuffer then
+                mob:setPos(x + 2, y, z)
+            end
+        end
+
+        -- Always assist Knecht
+        mob:setMobMod(tpz.mobMod.SHARE_TARGET, knecht:getShortID())
     end,
 
     ['Velfegor'] = function(mob, target)
-        -- SAM/SAM
-        -- Does not use H2H, no Kick Attack (Change weapon/delay in mob pool)
         -- Access to Apocalyptic Ray (Conal Doom)
-        -- Perma Curse Spikes (-25%)
-        -- En-Max HP down (-25%)
-        -- Every 10%, uses Meikyo Shisui and Apoc Ray x3
+        local currentHP = mob:getHPP()
+        local phaseData = {
+            { HP = 10,     Var = 'meikyoShisui_10'   },
+            { HP = 20,     Var = 'meikyoShisui_20'   },
+            { HP = 30,     Var = 'meikyoShisui_30'   },
+            { HP = 40,     Var = 'meikyoShisui_40'   },
+            { HP = 50,     Var = 'meikyoShisui_50'   },
+            { HP = 60,     Var = 'meikyoShisui_60'   },
+            { HP = 70,     Var = 'meikyoShisui_70'   },
+            { HP = 80,     Var = 'meikyoShisui_80'   },
+            { HP = 90,     Var = 'meikyoShisui_90'   },
+        }
+
+        -- Every 10%, uses Meikyo Shisui and Apoc Ray x
+        for _, phase in ipairs(phaseData) do
+            if (currentHP <= phase.HP) and (mob:getLocalVar(phase.Var) == 0) then
+                if
+                    not IsMobBusy(mob) and
+                    not mob:hasPreventActionEffect() and
+                    not mob:hasStatusEffect(tpz.effect.MEIKYO_SHISUI)
+                then
+                    mob:setLocalVar(phase.Var, 1)
+                    mob:useMobAbility(tpz.jsa.MEIKYO_SHISUI)
+                    break
+                end
+            end
+        end
     end,
 
     ['Kernunnos'] = function(mob, target)
@@ -1723,8 +1867,11 @@ local mobFightByMobName =
         -- AoE Absorb-TP, Absorb-Attribute, Drain II, Aspir II, Stun, single target Dread Spikes
     end,
 
-    -- Pixie
-        -- DRK/DRK
+    ['Ethniu'] = function(mob, target)
+    end,
+
+    ['Tethra'] = function(mob, target)
+    end,
 
     -- Lynx
         -- Charged whisker grants undispellable shock spikes, enthunder, and pulsing AoE thunder damage aura
@@ -1739,7 +1886,7 @@ local mobFightByMobName =
         -- No SJ aura
         -- Contagion Transfer - AoE status transfers from the mob to all players within range.
         -- Sound Vacuum 10' AoE(not conal) mute.
-        -- Enhancing magic casting time -100%
+        -- Enhancing magic casting time -50%
         -- Breakga, Stoneskin, Rasp, Stone IV, Stonega III
 
     -- Bugard
@@ -1755,8 +1902,20 @@ local mobFightByMobName =
         -- NO_DR mob mod
 
     -- Opo-opo
+        -- Doesn't auto and keeps distance (15.5 yalms). Stone Throw JA auto
+        -- Claw Storm is also AOE Bio
+        -- Magic Fruit 3.5s cast time
         -- Uses Vacant Gaze, dispels up to 3 effects
-    -- Uragnites
+        -- Vicious Claw "Throat Stab" + Enmity reset
+
+    -- Urganite
+        -- Casts Holy II, Banishga III, Banish IV, Flash(AOE)
+    -- Gnole
+        -- Gnole mixin
+        -- In "2 legs" mode, takes normal magical damage and has 100% counter and guard rate
+        -- In "4 legs" mode, takes -95% magic damage, casts spells, and cannot counter or guard
+
+    -- Smilodon
 }
 
 local mobWSPrepareByMobName =
@@ -1781,7 +1940,10 @@ local mobWSPrepareByMobName =
         end
     end,
 
-    ['Lugh'] = function(mob, target)
+    ['Velfegor'] = function(mob, target)
+        if mob:hasStatusEffect(tpz.effect.MEIKYO_SHISUI) then
+            return tpz.mob.skills.APOCALYPTIC_RAY
+        end
     end,
 }
 

@@ -53802,8 +53802,10 @@ INSERT INTO `mob_spawn_points` VALUES (17494855, 'Klagmuhme', 'Klagmuhme', 41, 0
 INSERT INTO `mob_spawn_points` VALUES (17494856, 'Knecht', 'Knecht', 42, 0, 50, 0, 0);
 INSERT INTO `mob_spawn_points` VALUES (17494857, 'Velfegor', 'Velfegor', 43, 0, 50, 0, 0);
 INSERT INTO `mob_spawn_points` VALUES (17494858, 'Kernunnos', 'Kernunnos', 44, 0, 50, 0, 0);
-
 INSERT INTO `mob_spawn_points` VALUES (17494859, 'Mimic', 'Mimic', 45, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494861, 'Knechts_Corpselight', 'Knechts_Corpselight-Healer', 46, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17494862, 'Knechts_Corpselight', 'Knechts_Corpselight-Debuffer', 47, 0, 50, 0, 0);
+
 
 INSERT INTO `mob_spawn_points` VALUES (17494286,'Valaineral_R_Davilles','Valaineral R Davilles',0,0,0,0,155);
 INSERT INTO `mob_spawn_points` VALUES (17494287,'Royal_Guard','Royal Guard',0,0,0,0,175);
