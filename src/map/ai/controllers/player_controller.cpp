@@ -468,7 +468,30 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 }
                 else if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SABER_DANCE))
                 {
-                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA2));
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_STATUS_PREVENTS_USING));
+                    return false;
+                }
+                break;
+            }
+
+            case ABILITY_DRAIN_SAMBA:
+            case ABILITY_DRAIN_SAMBA_II:
+            case ABILITY_DRAIN_SAMBA_III:
+            case ABILITY_ASPIR_SAMBA:
+            case ABILITY_ASPIR_SAMBA_II:
+            case ABILITY_HASTE_SAMBA:
+            {
+                // TODO: Might need instance logic? It's in lua utils for GetEntity stuff like DespawnMob
+                CBattleEntity* PTarget = (CBattleEntity*)(PChar->GetEntity(targid));
+                if (PTarget && PTarget->GetHPP() == 0)
+                {
+                    // TODO: Not sure why this says "You cannot attack that target", try with // command
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG));
+                    return false;
+                }
+                else if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_FAN_DANCE))
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_STATUS_PREVENTS_USING));
                     return false;
                 }
                 break;
