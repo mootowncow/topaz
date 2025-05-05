@@ -82,6 +82,7 @@ public:
 
     uint8 GetEffectsCount(EFFECT ID);                        // получаем количество эффектов с указанным id
     uint8 GetLowestFreeSlot(); // returns the lowest free slot for songs/rolls
+    void  SendWearOffMessage(CStatusEffect* PStatusEffect, bool silent);
     uint16 GetTotalMinneBonus();
 
     bool ApplyCorsairEffect(CStatusEffect* PStatusEffect, uint8 maxRolls, uint8 bustDuration);
