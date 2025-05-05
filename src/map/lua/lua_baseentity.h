@@ -564,6 +564,7 @@ public:
     int32 hasStatusEffect(lua_State*);         // Checks to see if character has specified effect
     int32 hasStatusEffectByFlag(lua_State*);   // Checks to see if a character has an effect with the specified flag
     int32 countEffect(lua_State*);             // Gets the number of effects of a specific type on the player
+    int32 setEffectUndispellable(lua_State*); // Makes the status effect undispellable (i.e. poison)
 
     int32 delStatusEffect(lua_State*);         // Removes Status Effect
     int32 delStatusEffectsByFlag(lua_State*);  // Removes Status Effects by Flag

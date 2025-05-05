@@ -27,8 +27,6 @@ require("scripts/globals/keyitems")
 -- Fomors (Lugh etc) detect magic AND sound
 -- Delete tpz.wotg.WaveonMobDeath?
 -- Zone wide damage in certain areas like undispellable poison etc. Environmental effects
--- Traps?
--- Test setEntityFlags
 -- Test elite champ etc mobs with auras
 -- Add a way to re-add +augment mod incase of DC
 -- Test values given by augments with prints
@@ -41,6 +39,22 @@ require("scripts/globals/keyitems")
 -- Mobs that res eachother?
 -- Trusts need to use holy waters when doomed
 -- Make sure all spikes still work properly
+-- Fomors (Lugh etc) special mobmod to ignore enmity and only focus whatever did newest CE/VE? read bg wiki page for tethra/etniu
+-- Mechanics like abyssea for killing mobs? atmas to collect? stat boosts for clearing every zone boss? meta progression? 1 attribute boost per bos?
+-- Store augment buff in one of the atma or stat buffs.
+-- Titles to fomors
+-- Earth bosses gain stoneskin (undispellable) after using TP moves
+-- Wind bosses gain blink (undispellable) after using TP moves
+-- Dark bosses ga magic stoneskin (undispellable) after using TP moves
+-- Light bosses gain regain (undispellable) after using TP moves
+-- Add ranged eva mod, give to some bosses
+-- Add magic crit def mod, give to some bosses
+-- Add magic crit hit rate reduction mod, give to some bosses
+-- Add magic crit to some bosses
+-- Knechts_Corpselight move logic onMobRoam too
+-- Arg for setlevel and calcmobstate to heal the mob (false for these NMs)
+-- Change text color for messages
+
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
 
@@ -1916,6 +1930,8 @@ local mobFightByMobName =
         -- In "4 legs" mode, takes -95% magic damage, casts spells, and cannot counter or guard
 
     -- Smilodon
+        -- Cures self with Cure V Curaga IV, buffs self with Haste II Temper etc
+        -- Fixates on random target every 60-90s
 }
 
 local mobWSPrepareByMobName =

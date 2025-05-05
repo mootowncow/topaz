@@ -36647,9 +36647,9 @@ INSERT INTO `mob_spawn_points` VALUES (17256916,'Prickly_Sheep','Prickly Sheep',
 INSERT INTO `mob_spawn_points` VALUES (17256917,'Prickly_Sheep','Prickly Sheep',48,1,1,1,0);
 INSERT INTO `mob_spawn_points` VALUES (17256918,'Prickly_Sheep','Prickly Sheep',48,1,1,1,0);
 --
-INSERT INTO `mob_spawn_points` VALUES (17256919,'Smierc','Smierc',42,0,0,0,0);
-INSERT INTO `mob_spawn_points` VALUES (17256920,'Smierc','Smierc',42,0,0,0,0);
-INSERT INTO `mob_spawn_points` VALUES (17256921,'Smierc','Smierc',42,0,0,0,0);
+INSERT INTO `mob_spawn_points` VALUES (17256919,'Smierc','Smierc',36,0,0,0,0);
+INSERT INTO `mob_spawn_points` VALUES (17256920,'Smierc','Smierc',36,0,0,0,0);
+INSERT INTO `mob_spawn_points` VALUES (17256921,'Smierc','Smierc',36,0,0,0,0);
 
 -- ------------------------------------------------------------
 -- Buburimu Peninsula (Zone 118)

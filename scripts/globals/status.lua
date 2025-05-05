@@ -1366,7 +1366,9 @@ tpz.mod =
     ENEMYCRITRATE                   = 1256,
     CRIT_DEF_BONUS                  = 908, -- Reduces crit hit damage
     MAGIC_CRITHITRATE               = 562,
+    MAGIC_ENEMYCRITRATE             = 1432, -- Raises chance enemy will magic crit
     MAGIC_CRIT_DMG_INCREASE         = 563,
+    MAGIC_CRIT_DEF_BONUS            = 1431, -- Reduces magic crit hit damage
     HASTE_MAGIC                     = 167,
     SPELLINTERRUPT                  = 168,
     MOVE_SPEED_OVERIDE              = 169, -- Modifier used to overide regular speed caps. (GM speed and Feast of Sword
@@ -2185,7 +2187,7 @@ tpz.mod =
     DOUBLE_CAST             = 1429, -- Chance to cast a spell twice in a row
     ENH_CASTING_TIME        = 1431, -- Reduces Enhancing Magic casting time by percentage (e.g. mod value -10 = -10% cast time)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1431 NEXT
+    -- 1433 NEXT
 }
 
 tpz.latent =

@@ -12610,6 +12610,25 @@ inline int32 CLuaBaseEntity::stealStatusEffect(lua_State *L)
     return 1;
 }
 
+inline int32 CLuaBaseEntity::setEffectUndispellable(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    // Get the effect ID passed from Lua
+    uint32 effectID = lua_tointeger(L, 1);
+
+    // Retrieve the effect from the entity
+    CStatusEffect* effect = ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->GetStatusEffect((EFFECT)effectID);
+    if (effect)
+    {
+        // Unset the flags for DISPELABLE and WALTZABLE
+        effect->UnsetFlag(EFFECTFLAG_DISPELABLE | EFFECTFLAG_WALTZABLE);
+    }
+
+    return 0;
+}
+
 /************************************************************************
 *  Function: addMod()
 *  Purpose : Adds a Mod to the Entity
@@ -18048,6 +18067,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasStatusEffect),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasStatusEffectByFlag),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,countEffect),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEffectUndispellable),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffect),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffectsByFlag),

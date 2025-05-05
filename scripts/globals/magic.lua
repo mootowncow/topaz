@@ -1521,11 +1521,6 @@ function addBonuses(caster, spell, target, dmg, params)
             mab = mab + caster:getMerit(tpz.merit.NIN_MAGIC_BONUS)
         end
 
-        local mab_crit = caster:getMod(tpz.mod.MAGIC_CRITHITRATE)
-        if (math.random(1, 100) < mab_crit) then
-           mab = mab + (50 + caster:getMod(tpz.mod.MAGIC_CRIT_DMG_INCREASE))
-        end
-
         if caster:isPC() then
             if (casterJob == tpz.job.RDM) then
                 mab = mab + caster:getJobPointLevel(tpz.jp.RDM_MAGIC_ATK_BONUS)
@@ -1540,13 +1535,13 @@ function addBonuses(caster, spell, target, dmg, params)
     if (mabbonus < 0) then
         mabbonus = 0
     end
-
     dmg = math.floor(dmg * mabbonus)
 
-    local magicCrit = caster:getMod(tpz.mod.MAGIC_CRITHITRATE)
-    local magicCritDmg = 1.5 + (caster:getMod(tpz.mod.MAGIC_CRIT_DMG_INCREASE) / 100)
-    if (math.random(1, 100) < magicCrit) then
-        dmg = math.floor(dmg * magicCritDmg)
+    -- Spell Crit
+    local critHitRate = caster:getMod(tpz.mod.MAGIC_CRITHITRATE) + target:getMod(tpz.mod.MAGIC_ENEMYCRITRATE)
+    local magicCritDmgIncrease = 1.5 + ((caster:getMod(tpz.mod.MAGIC_CRIT_DMG_INCREASE) - target:getMod(tpz.mod.MAGIC_CRIT_DEF_BONUS)) / 100)
+    if (math.random(1, 100) < critHitRate) then
+        dmg = math.floor(dmg * magicCritDmgIncrease)
     end
 
     if spell:getSkillType() == tpz.skill.ELEMENTAL_MAGIC or spell:getSkillType() == tpz.skill.DARK_MAGIC then

@@ -223,7 +223,9 @@ enum class Mod
     ENEMYCRITRATE             = 1256, // Raises chance enemy will crit
     CRIT_DEF_BONUS            = 908, // Reduces crit hit damage
     MAGIC_CRITHITRATE         = 562, // Raises chance to magic crit
+    MAGIC_ENEMYCRITRATE       = 1432,// Raises chance enemy will magic crit
     MAGIC_CRIT_DMG_INCREASE   = 563, // Raises damage done when criting with magic
+    MAGIC_CRIT_DEF_BONUS      = 1431,// Reduces magic crit hit damage
 
     FENCER_TP_BONUS           = 903, // TP Bonus to weapon skills from Fencer Trait (+1 gear mod is +100 for +100 TP bonus)
     FENCER_CRITHITRATE        = 904, // Increased Crit chance from Fencer Trait (+1 gear mod is +1 for 1% crit)
@@ -1145,7 +1147,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1431 NEXT
+    // 1433 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it
