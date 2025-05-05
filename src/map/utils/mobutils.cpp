@@ -1203,32 +1203,30 @@ void SetupLimbusMob(CMobEntity* PMob)
 {
     uint8 mLvl = PMob->GetMLevel();
     // Bonus stats for difficulty
-    if (mLvl >= 81)
+    if (mLvl >= 85)
     {
         if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
         {
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(150);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(175);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
         PMob->addModifier(Mod::DEFP, 25);
         PMob->addModifier(Mod::ACC, 15);
         PMob->addModifier(Mod::EVA, 15);
-        PMob->addModifier(Mod::MDEF, 40);
         PMob->addModifier(Mod::UDMGMAGIC, -13);
     }
     else
     {
         if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
         {
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(120);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(150);
         }
 
-        PMob->addModifier(Mod::ATTP, 25);
-        PMob->addModifier(Mod::DEFP, 25);
-        PMob->addModifier(Mod::ACC, 20);
+        PMob->addModifier(Mod::ATTP, 33);
+        PMob->addModifier(Mod::DEFP, 33);
+        PMob->addModifier(Mod::ACC, 30);
         PMob->addModifier(Mod::EVA, 20);
-        PMob->addModifier(Mod::MDEF, 20);
     }
 
     // No gil drops or exp
