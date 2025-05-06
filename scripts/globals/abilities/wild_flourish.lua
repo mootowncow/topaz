@@ -24,6 +24,11 @@ function onUseAbility(player, target, ability, action)
         local actualConsumed = jobUtil.consumeFinishingMoves(player, maxConsumed)
     end
 
+    -- Check for shadows
+    if TryShadowsAbsorb(target, ability) then
+        return 1
+    end
+
     if (target:hasStatusEffect(tpz.effect.CHAINBOUND, 0) or target:hasStatusEffect(tpz.effect.SKILLCHAIN, 0)) then
         target:delStatusEffectSilent(tpz.effect.CHAINBOUND)
         target:delStatusEffectSilent(tpz.effect.SKILLCHAIN)

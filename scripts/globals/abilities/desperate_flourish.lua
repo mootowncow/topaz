@@ -12,6 +12,7 @@ require("scripts/globals/status")
 require("scripts/globals/job_util")
 require("scripts/globals/magic")
 require("scripts/globals/msg")
+require("scripts/globals/ability")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
@@ -24,6 +25,11 @@ function onUseAbility(player, target, ability, action)
     local finishingMoves = jobUtil.getFinishingMoveCount(player)
     if (finishingMoves > 0) then
         local actualConsumed = jobUtil.consumeFinishingMoves(player, maxConsumed)
+    end
+
+    -- Check for shadows
+    if TryShadowsAbsorb(target, ability) then
+        return 1
     end
 
     --get fstr
