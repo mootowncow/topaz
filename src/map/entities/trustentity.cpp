@@ -42,6 +42,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../mob_spell_container.h"
 #include "../status_effect_container.h"
 #include "../attack.h"
+#include "../utils/charutils.h"
 
 CTrustEntity::CTrustEntity(CCharEntity* PChar)
 {
@@ -632,6 +633,7 @@ void CTrustEntity::OnCastFinished(CMagicState& state, action_t& action)
     auto PSpell = state.GetSpell();
 
     PRecastContainer->Add(RECAST_MAGIC, static_cast<uint16>(PSpell->getID()), action.recast);
+    charutils::RemoveStratagems(this, PSpell);
 
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
     if (PTarget->isDead())

@@ -1184,6 +1184,81 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             return (trigger_target->health.maxhp - trigger_target->health.hp) >= (int16)predicate.condition_arg;
             break;
         }
+        case G_CONDITION::MANI_SLEEPGA:
+        {
+            if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_MANIFESTATION))
+            {
+                return false;
+            }
+
+            float radius = 10.0f;
+            POwner->PAI->TargetFind->reset();
+            POwner->PAI->TargetFind->findWithinArea(trigger_target, AOERADIUS_TARGET, radius);
+
+            for (CBattleEntity* PTarget : POwner->PAI->TargetFind->m_targets)
+            {
+                // Is a target NOT the main target not asleep, then return true
+                if (PTarget != trigger_target &&
+                    !PTarget->getMod(Mod::REGEN_DOWN) &&
+                    !PTarget->getMod(Mod::EEM_DARK_SLEEP) <= 5 &&
+                    !PTarget->hasImmunity(IMMUNITY_SLEEP) &&
+                    !PTarget->hasImmunity(IMMUNITY_DARK_SLEEP) &&
+                    PTarget->PAI->IsEngaged() &&
+                    !PTarget->StatusEffectContainer->IsAsleep())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+            break;
+        }
+        case G_CONDITION::SLEEPGA:
+        {
+            auto Mjob = POwner->GetMJob();
+
+            switch (Mjob)
+            {
+                case JOB_BLM:
+                case JOB_RDM:
+                case JOB_BRD:
+                case JOB_GEO:
+                {
+                    float radius = 10.0f;
+                    POwner->PAI->TargetFind->reset();
+                    POwner->PAI->TargetFind->findWithinArea(trigger_target, AOERADIUS_TARGET, radius);
+
+                    for (CBattleEntity* PTarget : POwner->PAI->TargetFind->m_targets)
+                    {
+                        // Is a target NOT the main target not asleep, then return true
+                        if (PTarget != trigger_target &&
+                            !PTarget->getMod(Mod::REGEN_DOWN) &&
+                            !PTarget->getMod(Mod::EEM_DARK_SLEEP) <= 5 &&
+                            !PTarget->hasImmunity(IMMUNITY_SLEEP) &&
+                            !PTarget->hasImmunity(IMMUNITY_DARK_SLEEP) &&
+                            PTarget->PAI->IsEngaged() &&
+                            !PTarget->StatusEffectContainer->IsAsleep())
+                        {
+                            return true;
+                        }
+                    }
+                    break;
+                }
+                case JOB_SCH:
+                {
+                    if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_MANIFESTATION))
+                    {
+                        return true;
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+
+            return false;
+            break;
+        }
         default: { return false;  break; }
     }
 }

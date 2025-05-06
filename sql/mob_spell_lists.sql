@@ -3362,6 +3362,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,285,32,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,245,21,255);         -- Drain
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,247,36,255);         -- Aspir
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,163,79,255);         -- Stone V
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,253,30,255);         -- Sleep
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,259,65,255);         -- Sleep II
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Amchuchu',382,43,20,255);          -- Protect
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Amchuchu',382,44,40,255);          -- Protect II
