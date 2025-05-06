@@ -1808,7 +1808,6 @@ tpz.annm.NMMods = function(mob)
 end
 
 tpz.annm.PetMods = function(mob)
-tpz.annm.PetMods = function(mob)
     mob:setMod(tpz.mod.MDEF, 70)
     mob:setMod(tpz.mod.UDMGMAGIC, -13)
     for v = 1280, 1294 do
