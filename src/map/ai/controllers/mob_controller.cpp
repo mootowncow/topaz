@@ -1285,7 +1285,8 @@ void CMobController::HandleEnmity()
     // TODO: do jug pets do this?
     try
     {
-        if (PMob->objtype == TYPE_MOB && PTarget && PMob->StatusEffectContainer && PMob->PAI->IsCurrentState<CAttackState>())
+        if (PMob->objtype == TYPE_MOB && PTarget && PMob->StatusEffectContainer && PMob->PAI->IsCurrentState<CAttackState>() &&
+            PTarget->status != STATUS_SHUTDOWN && PTarget->status != STATUS_DISAPPEAR && PTarget->health.maxhp != 0)
         {
             if ((PMob->StatusEffectContainer && PMob->StatusEffectContainer->HasStatusEffect(EFFECT_BIND)) ||
                 (PTarget && PTarget->StatusEffectContainer && PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PALISADE)))
