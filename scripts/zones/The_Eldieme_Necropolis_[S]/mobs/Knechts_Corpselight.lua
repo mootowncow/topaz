@@ -8,6 +8,10 @@ function onMobSpawn(mob)
     tpz.wotg.onMobSpawn(mob)
 end
 
+function onMobRoam(mob, target)
+    tpz.wotg.onMobRoam(mob)
+end
+
 function onMobFight(mob, target)
     tpz.wotg.onMobFight(mob, target)
 end

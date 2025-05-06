@@ -6143,7 +6143,12 @@ INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Debuffer', 551, 366, 
 INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Debuffer', 551, 274, 1, 255); -- Sleepga II
 INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Debuffer', 551, 365, 1, 255); -- Breakga
 
-
+INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 275, 1, 255); -- Absorb-TP
+INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 243, 1, 255); -- Absorb-Attri
+INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 246, 1, 255); -- Drain II
+INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 248, 1, 255); -- Aspir II
+INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 252, 1, 255); -- Stun
+INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 277, 1, 255); -- Dread Spikes
 
 -- NEXT 546
 -- NEXT 1022

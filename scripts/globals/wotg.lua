@@ -1413,6 +1413,25 @@ local mobRoamByMobName =
             mob:pathTo(pos.x, pos.y, pos.z)
         end
     end,
+
+    ['Knechts_Corpselight'] = function(mob)
+        local isHealer = (mob:getMainJob() == tpz.job.WHM)
+        local isDebuffer = (mob:getMainJob() == tpz.job.RDM)
+        local knecht = GetMobByID(17494856)
+
+        -- Healer is always positioned to the left of Knecht, and debuffer to the right
+        if knecht then
+            local x, y, z = knecht:getPos()
+            if isHealer then
+                mob:setPos(x - 2, y, z)
+            elseif isDebuffer then
+                mob:setPos(x + 2, y, z)
+            end
+        end
+
+        -- Always assist Knecht
+        mob:setMobMod(tpz.mobMod.SHARE_TARGET, knecht:getShortID())
+    end,
 }
 
 local mixinByMobName =
@@ -1873,12 +1892,89 @@ local mobFightByMobName =
     end,
 
     ['Kernunnos'] = function(mob, target)
+        local animation = {
+            FLYING      = 1,
+            GROUNDED    = 2,
+            STONEFORM   = 3
+        }
+        local skillList = {
+            tpz.mob.skills.TRIUMPHANT_ROAR,
+            tpz.mob.skills.TERROR_EYE,
+            tpz.mob.skills.BLOODY_CLAW
+
+        }
+        local phaseData = {
+            { HP = 20,     Var = 'stoneform_20'   },
+            { HP = 40,     Var = 'stoneform_40'   },
+            { HP = 60,     Var = 'stoneform_60'   },
+            { HP = 80,     Var = 'stoneform_80'   },
+        }
+        local animationSub = mob:AnimationSub()
+        local changeTime = mob:getLocalVar("changeTime")
+        local battleTime = mob:getBattleTime()
+        local currentHP = mob:getHPP()
+
         -- Alternates between flying / standing
-        -- "Fly High" wyrm effect and 250/tick regain while flying.
-        -- Only uses Dark Mist while flying (500+ damage)
-        -- Stone forms every 20% HP, which is a full erase and grants him 500 damage spikes and 3000 magic SS. Immune to physical damage.
-        -- Stone form is removed by breaking the magical stoneskin effect
-        -- AoE Absorb-TP, Absorb-Attribute, Drain II, Aspir II, Stun, single target Dread Spikes
+        if (changeTime == 0) then
+            mob:setLocalVar("changeTime", math.random(60, 90))
+        end
+
+        if
+            (battleTime >= changeTime) and
+                (animationSub ~= animation.STONEFORM) and
+                not IsMobBusy(mob) and
+                not mob:hasPreventActionEffect()
+        then
+            if (animationSub == animation.FLYING) then
+                mob:AnimationSub(animation.GROUNDED)
+            else
+                mob:AnimationSub(animation.FLYING)
+            end
+
+            mob:clearSkillList()
+            mob:setLocalVar("changeTime", battleTime + math.random(60, 90))
+            animationSub = mob:AnimationSub()
+        end
+
+        -- Every 20% Stone forms which is a full erase and grants him 500 damage spikes and 3000 magic SS. Immune to physical damage.
+        -- Removed by breaking the magical stoneskin effect
+        for _, phase in ipairs(phaseData) do
+            if (currentHP <= phase.HP) and (mob:getLocalVar(phase.Var) == 0) then
+                if
+                    not IsMobBusy(mob) and
+                    not mob:hasPreventActionEffect()
+                then
+                    mob:setLocalVar(phase.Var, 1)
+                    mob:removeAllNegativeEffects()
+                    mob:AnimationSub(animation.FLYING)
+                    mob:setMod(tpz.mod.MAGIC_SS, 3000)
+                    break
+                end
+            end
+        end
+
+        -- "Too High" wyrm effect and 250/tick regain while flying.
+        -- Only uses Shadow Burst while flying (500+ damage)
+        if (animationSub == animation.FLYING) then
+            mob:addStatusEffectEx(tpz.effect.TOO_HIGH, 0, 1, 0, 0)
+            mob:addSkillListEntry(tpz.mob.skills.SHADOW_BURST)
+            mob:setMod(tpz.mod.REGAIN, 250)
+            mob:setMod(tpz.mod.UDMGPHYS, -100)
+        elseif (animationSub == animation.STONEFORM) then
+            mob:addStatusEffect(tpz.effect.DAMAGE_SPIKES, 500, 0, 1)
+            mob:setMod(tpz.mod.REGAIN, 0)
+            mob:setMod(tpz.mod.UDMGPHYS, 0)
+            if (mob:getMod(tpz.mod.MAGIC_SS) == 0) then
+                mob:setLocalVar("changeTime", battleTime + math.random(60, 90))
+                mob:AnimationSub(math.random(animation.FLYING, animation.GROUNDED))
+            end
+        else
+            for _, skills in ipairs (skillList) do
+                mob:addSkillListEntry(skills)
+            end
+            mob:setMod(tpz.mod.REGAIN, 0)
+            mob:setMod(tpz.mod.UDMGPHYS, 0)
+        end
     end,
 
     ['Ethniu'] = function(mob, target)
@@ -1932,6 +2028,28 @@ local mobFightByMobName =
     -- Smilodon
         -- Cures self with Cure V Curaga IV, buffs self with Haste II Temper etc
         -- Fixates on random target every 60-90s
+}
+
+local mobSpellPrecastByMobName =
+{
+        ['Kernunnos'] = function(mob, spell)
+            local aoeSpellList = {
+            tpz.magic.spell.ABSORB_TP,
+            tpz.magic.spell.ABSORB_ATTRI,
+            tpz.magic.spell.DRAIN_II,
+            tpz.magic.spell.ASPIR_II,
+            tpz.magic.spell.STUN,
+        }
+        -- AoE Absorb-TP, Absorb-Attribute, Drain II, Aspir II and  Stun
+        for _, spellId in pairs (aoeSpellList) do
+            if (spell:getID() == spellId) then
+                spell:setAoE(tpz.magic.aoe.RADIAL)
+                spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
+                spell:setRadius(10)
+                break
+	        end
+        end
+    end,
 }
 
 local mobWSPrepareByMobName =
@@ -2036,6 +2154,15 @@ tpz.wotg.onMobFight = function(mob, target)
 
         AddMobAura(mob, target, auraParams)
         TickMobBuffAura(mob, target, auraParams)
+    end
+end
+
+tpz.wotg.onSpellPrecast = function(mob, spell)
+    local mobName  = mob:getName()
+    local mobSpellPrecast = mobSpellPrecastByMobName[mobName]
+
+    if mobSpellPrecast then
+        mobSpellPrecast(mob, spell)
     end
 end
 

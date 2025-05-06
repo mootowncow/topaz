@@ -16576,7 +16576,7 @@ inline int32 CLuaBaseEntity::delSkillListEntry(lua_State* L)
     return 0;
 }
 
-// TODO Description, arg should be skillList Id
+// TODO Description. If arg1 isn't nil then use that for skilllist Id
 inline int32 CLuaBaseEntity::clearSkillList(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
@@ -16586,13 +16586,18 @@ inline int32 CLuaBaseEntity::clearSkillList(lua_State* L)
         return 0;
     }
 
-    uint16 listId = (uint16)luaL_checkinteger(L, 1);
+    CMobEntity* PMob = (CMobEntity*)m_PBaseEntity;
+    auto wsList = PMob->getMobMod(MOBMOD_SKILL_LIST);
 
-    g_PMobSkillLists[listId].clear();
+    if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
+    {
+        wsList = (uint16)luaL_checkinteger(L, 1);
+    }
+
+    g_PMobSkillLists[wsList].clear();
 
     return 0;
 }
-
 
 /************************************************************************
 *  Function: getBehaviour()

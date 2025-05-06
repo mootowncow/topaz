@@ -16,6 +16,7 @@ function onAdditionalEffect(mob, target, damage)
 end
 
 function onSpellPrecast(mob, spell)
+    tpz.wotg.onSpellPrecast(mob, target)
 end
 
 function onMobWeaponSkillPrepare(mob, target)

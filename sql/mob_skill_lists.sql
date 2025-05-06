@@ -4974,6 +4974,10 @@ INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,502); -- mortal ray
 INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,503); -- unblessed armor
 INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,1360); -- apocalyptic ray
 
+INSERT INTO `mob_skill_lists` VALUES ('Kernunnos',6160,2423); -- Triumphant_roar
+INSERT INTO `mob_skill_lists` VALUES ('Kernunnos',6160,2424); -- Terror_eye
+INSERT INTO `mob_skill_lists` VALUES ('Kernunnos',6160,2425); -- Bloody_claw
+
 -- Next available ID: 1209
 -- Next custom ID: 6159
 
