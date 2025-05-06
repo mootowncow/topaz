@@ -58,9 +58,19 @@ g_mixins.dynamis_beastmen = function(mob)
 
     mob:addListener("ABILITY_TAKE", "DYNAMIS_ABILITY_PROC_CHECK", function(mob, user, ability, action)
         local abilityID = ability:getID()
+        local abilityMsg = ability:getMsg()
+        local tryProc = true
+
+        local validProc = 
+            abilityID ~= tpz.ja.FIGHT and
+            abilityID ~= tpz.ja.SIC and
+            abilityID ~= tpz.ja.ASSAULT and
+            abilityID ~= tpz.ja.DEPLOY and
+            abilityMsg ~= tpz.msg.basic.JA_MISS and
+            abilityMsg ~= tpz.msg.basic.SHADOW_ABSORB
 
         -- Pet assault JA's shouldn't proc
-        if (abilityID ~= 69 and abilityID ~= 72 and abilityID ~= 88 and abilityID ~= 138) then
+        if validProc then
             if procjobs[mob:getMainJob()] == "ja" and math.random(0, 99) < 20 and mob:getLocalVar("dynamis_proc") == 0 then
                 dynamis.procMonster(mob, user)
             end
