@@ -29,6 +29,11 @@ function onUseAbility(player, target, ability, action)
         return 1
     end
 
+    -- Check for PD
+    if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
+        return ability:setMsg(tpz.msg.basic.JA_MISS)
+    end
+
     if (target:hasStatusEffect(tpz.effect.CHAINBOUND, 0) or target:hasStatusEffect(tpz.effect.SKILLCHAIN, 0)) then
         target:delStatusEffectSilent(tpz.effect.CHAINBOUND)
         target:delStatusEffectSilent(tpz.effect.SKILLCHAIN)

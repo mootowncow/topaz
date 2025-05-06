@@ -29,6 +29,11 @@ function onUseAbility(player, target, ability, action)
         return 1
     end
 
+    -- Check for PD
+    if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
+        return ability:setMsg(tpz.msg.basic.JA_MISS)
+    end
+
     local hit = 3
     local effect = 1
     local jpValue = player:getJobPointLevel(tpz.jp.STEP_DURATION)
