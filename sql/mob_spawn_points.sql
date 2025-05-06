@@ -53550,8 +53550,8 @@ INSERT INTO `mob_spawn_points` VALUES (17494102,'Goblin_Freesword','Goblin Frees
 INSERT INTO `mob_spawn_points` VALUES (17494104,'Goblin_Corpsman','Goblin Corpsman',16,267.758,-24.5,298.801,190);
 -- INSERT INTO `mob_spawn_points` VALUES (17494105,'Goblin_Freesword','Goblin Freesword',14,260.074,-24.5,294.583,186);
 INSERT INTO `mob_spawn_points` VALUES (17494106,'Goblin_Blastmaster','Goblin Blastmaster',15,259.128,-23.708,259.871,145);
--- INSERT INTO `mob_spawn_points` VALUES (17494107,'Goblin_Pioneer','Goblin Pioneer',17,191.065,-16.465,298.859,130);
--- INSERT INTO `mob_spawn_points` VALUES (17494108,'Goblin_Mine','Goblin Mine',18,220.677,-16.506,328.835,71);
+INSERT INTO `mob_spawn_points` VALUES (17494107,'Goblin_Pioneer','Goblin Pioneer',17,191.065,-16.465,298.859,130);
+INSERT INTO `mob_spawn_points` VALUES (17494108,'Goblin_Mine','Goblin Mine',18,220.677,-16.506,328.835,71);
 INSERT INTO `mob_spawn_points` VALUES (17494109,'War_Smilodon','War Smilodon',19,260.822,-24.087,237.592,191);
 -- INSERT INTO `mob_spawn_points` VALUES (17494110,'War_Smilodon','War Smilodon',19,303.813,-21.178,218.781,122);
 INSERT INTO `mob_spawn_points` VALUES (17494111,'War_Smilodon','War Smilodon',19,320.706,-24.146,219.385,5);

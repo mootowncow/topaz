@@ -6152,6 +6152,9 @@ INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 248, 1, 255); -- Aspir I
 INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 252, 1, 255); -- Stun
 INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 277, 1, 255); -- Dread Spikes
 
+-- Casts Aero IV, Aeroga III, Tornado, Graviga, Silencega, Zephyr Mantle, Frightful Roar, and Hecatomb Wave. 
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 275, 1, 255); -- Absorb-TP
+
 -- NEXT 546
 -- NEXT 1022
 -- NEXT 2089(Custom)

@@ -54,6 +54,7 @@ require("scripts/globals/keyitems")
 -- Knechts_Corpselight move logic onMobRoam too
 -- Arg for setlevel and calcmobstate to heal the mob (false for these NMs)
 -- Change text color for messages
+-- Eldieme Goblin Pioneer lays mines/patrols (one by ethniu)
 
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
@@ -1310,12 +1311,12 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
 
-    tpz.mix.jobSpecial.config(mob, {
-        specials =
-        {
-            {id = tpz.jsa.MIGHTY_STRIKES, hpp = math.random(10, 50)},
-        },
-    })
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 300, hpp = 35},
+            },
+        })
     end,
 
     ['Hound_of_Balthazar'] = function(mob)
@@ -1388,6 +1389,21 @@ local modByMobName =
     end,
 
     ['Ethniu'] = function(mob)
+        mob:addMod(tpz.mod.DEFP, 25)
+        mob:addMod(tpz.mod.MDEF, 24)
+        mob:setMod(tpz.mod.VIT, 175)
+        mob:setMod(tpz.mod.REGEN, 25)
+        mob:setMod(tpz.mod.WIND_ABSORB, 100)
+        mob:addImmunity(tpz.immunity.SILENCE)
+        mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
+
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.PERFECT_DODGE, cooldown = 300, hpp = 35},
+            },
+        })
     end,
 
     ['Tethra'] = function(mob)
@@ -1978,6 +1994,29 @@ local mobFightByMobName =
     end,
 
     ['Ethniu'] = function(mob, target)
+        -- Levels up on successful Elemental / Enfeebling casts
+        -- Only levels up 10 times max
+        local lvlUp = mob:getLocalVar("lvlUp")
+        local level = mob:getMainLvl()
+        if
+            (lvlUp > 0) and
+            (level < 90) and
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect()
+        then
+            mob:useMobAbility(tpz.mob.skills.LEVEL_UP, mob)
+            mob:setMobLevel(level +1)
+            -- Mods and Mobmods are cleared on leveling up, need to readd them
+            tpz.wotg.onMobSpawn(mob)
+            mob:setLocalVar("lvlUp", 0)
+        end
+
+        mob:addListener("MAGIC_STATE_EXIT", "LUGH_MAGIC_STATE_EXIT", function(mob, spell)
+            local skill = spell:getSkillType()
+            if (skill == tpz.skill.ELEMENTAL_MAGIC) or (skill == tpz.skill.ENFEEBLING_MAGIC) then
+                mob:setLocalVar("lvlUp", 1)
+            end
+        end)
     end,
 
     ['Tethra'] = function(mob, target)
