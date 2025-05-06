@@ -3745,7 +3745,11 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Shikaree_Z',1030,120); -- Impulse D
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Cherukiki',1031,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,82); -- Sturmwind
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Iron_Eater',1032,86); -- Raging Rush
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gessho',1033,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gessho',1033,3256); -- Hane fubuki
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gessho',1033,3257); -- Shibaraku
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gessho',1033,3258); -- Shiko No Mitate
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gessho',1033,3259); -- Happobarai
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gessho',1033,3260); -- Rinpyotosha
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gadalar',1034,100); -- Spinning Scythe
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gadalar',1034,101); -- Vorpal Scythe
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Gadalar',1034,104); -- Spiral Hell

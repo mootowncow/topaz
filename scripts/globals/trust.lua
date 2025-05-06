@@ -103,6 +103,20 @@ local modByMobName =
         AddArtifactGear(mob)
     end,
 
+    ['gessho'] = function(mob)
+        mob:addMod(tpz.mod.HPP, 20)
+        mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
+        mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
+        mob:addMod(tpz.mod.EVA, 35)
+        mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
+        mob:addMod(tpz.mod.ENMITY, 30)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.DMGBREATH, -33)
+        end
+        AddFarEasternAccuracyGear(mob)
+        AddArtifactGear(mob)
+    end,
+
     ['adelheid'] = function(mob)
         mob:addMod(tpz.mod.MPP, 40)
         mob:addMod(tpz.mod.DMGAOE, -33)
@@ -228,7 +242,7 @@ local modByMobName =
         mob:addMod(tpz.mod.RACC, 30)
         mob:addMod(tpz.mod.STORETP, 130)
         mob:addMod(tpz.mod.ENMITY, -15)
-        mob:addMod(tpz.mod.DMGAOE, -25)
+        mob:addMod(tpz.mod.DMGAOE, -33)
         mob:setMobMod(tpz.mobMod.RANGED_DELAY, 600)
         mob:setMobMod(tpz.mobMod.AMMO_DELAY, 240)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)

@@ -688,10 +688,10 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
         // Special case for Zeid II and others who only have Lv3+ skills
         bool onlyHasLv3Skillchains = canFormLv3Skillchain && controller->m_GambitsContainer->tp_skills.empty();
 
-        // If level 60+, only use high level WS
+        // If level 60+, only use high level WS and buff WS
         if (PTrust->GetMLevel() >= 60)
         {
-            if (canFormLv3Skillchain || IsHighLevelWS(skill_id))
+            if (canFormLv3Skillchain || IsHighLevelWS(skill_id) || IsBuffWS(skill_id))
             {
                 controller->m_GambitsContainer->tp_skills.emplace_back(skill);
             }
@@ -870,6 +870,18 @@ bool IsHighLevelWS(uint16 skill_id)
         default:
             break;
     }
+    return false;
+}
+
+bool IsBuffWS(uint16 skill_id)
+{
+    CMobSkill* skill = battleutils::GetMobSkill(skill_id);
+
+    if (skill->getValidTargets() == TARGET_SELF)
+    {
+        return true;
+    }
+
     return false;
 }
 

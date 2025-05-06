@@ -36,12 +36,10 @@ function onMobSpawn(mob)
 
     if mob:getMainLvl() >= 75 then
         mob:addSimpleGambit(ai.t.MELEE, ai.c.NOT_STATUS, tpz.effect.HASTE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.HASTE_II)
-        mob:addSimpleGambit(ai.t.MASTER, ai.c.REFRESH, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.REFRESH_II)
-        mob:addSimpleGambit(ai.t.CASTER, ai.c.REFRESH, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.REFRESH_II)
+        mob:addSimpleGambit(ai.t.WANTS_REFRESH, ai.c.REFRESH, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.REFRESH_II)
     else
         mob:addSimpleGambit(ai.t.MELEE, ai.c.NOT_STATUS, tpz.effect.HASTE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.HASTE)
-        mob:addSimpleGambit(ai.t.MASTER, ai.c.REFRESH, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.REFRESH)
-        mob:addSimpleGambit(ai.t.CASTER, ai.c.REFRESH, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.REFRESH)
+        mob:addSimpleGambit(ai.t.WANTS_REFRESH, ai.c.REFRESH, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.REFRESH)
     end
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS_FLAG, tpz.effectFlag.DISPELABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.DISPEL)

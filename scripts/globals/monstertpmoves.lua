@@ -1413,7 +1413,7 @@ function MobBuffMove(mob, typeEffect, power, tick, duration)
     return tpz.msg.basic.SKILL_MISS
 end
 
--- Adds a buff to the move with subpower
+-- Adds a buff to the mob with subpower
 function MobBuffMoveSub(mob, typeEffect, power, tick, duration, subid, subpower, tier)
 
     -- Add TP scaling

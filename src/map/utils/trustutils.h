@@ -15,6 +15,7 @@ namespace trustutils
     void FreeTrustList();
     int  GetEvasionRankForJob(uint8 job);
     bool IsHighLevelWS(uint16 skill_id);
+    bool IsBuffWS(uint16 skill_id);
 
     void SpawnTrust(CCharEntity* PMaster, uint32 TrustID);
 
