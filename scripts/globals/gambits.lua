@@ -23,7 +23,7 @@ ai.target =
     CURILLA         = 9, -- Special case for Rainemard
     PARTY_DEAD      = 10,
     PARTY_MULTI     = 11,
-    CASTS_SPELLS    = 12,
+    CASTS_SPELLS    = 12
 }
 ai.t = ai.target
 
@@ -66,6 +66,8 @@ ai.condition =
     CAN_DRAIN          = 33, -- Arg is MP% to cast
     CAN_ASPIR          = 34, -- Arg is MP% to cast
     REFRESH            = 35,
+    MANI_SLEEPGA       = 36,
+    SLEEPGA            = 37,
 }
 ai.c = ai.condition
 
