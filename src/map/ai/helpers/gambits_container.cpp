@@ -277,6 +277,18 @@ void CGambitsContainer::Tick(time_point tick)
             });
             return result;
         }
+        else if (predicate.target == G_TARGET::WANTS_REFRESH)
+        {
+            auto result = false;
+            static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+            {
+                if (isValidMember(PMember) && CheckTrigger(PMember, predicate) && refresh_jobs.find(PMember->GetMJob()) != refresh_jobs.end())
+                {
+                    result = true;
+                }
+            });
+            return result;
+        }
 
 
         // Fallthrough
@@ -410,6 +422,16 @@ void CGambitsContainer::Tick(time_point tick)
                 static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
                 {
                     if (isValidMember(target, PMember) && CheckTrigger(PMember, gambit.predicates[0]) && HasSpells(PMember))
+                    {
+                        target = PMember;
+                    }
+                });
+            }
+            else if (gambit.predicates[0].target == G_TARGET::WANTS_REFRESH)
+            {
+                static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+                {
+                    if (isValidMember(target, PMember) && CheckTrigger(PMember, gambit.predicates[0]) && refresh_jobs.find(PMember->GetMJob()) != refresh_jobs.end())
                     {
                         target = PMember;
                     }
@@ -1243,42 +1265,62 @@ bool CGambitsContainer::TryTrustSkill()
                 chosen_skill = tpzrand::GetRandomElement(tp_skills);
                 break;
             }
-            case G_SELECT::HIGHEST: // Form the best possible skillchain
+            case G_SELECT::HIGHEST:
             {
                 auto PSCEffect = target->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
 
                 if (!PSCEffect) // Opener
                 {
-                    // TODO: This relies on the skills being passed in in some kind of correct order...
-                    // Probably best to do this another way
-                    chosen_skill = tp_skills.at(tp_skills.size() - 1);
+                    chosen_skill = tpzrand::GetRandomElement(tp_skills);
                     break;
                 }
 
                 // Closer
-                for (auto& skill : tp_skills)
+                std::vector<TrustSkill_t> best_skills;
+                SKILLCHAIN_ELEMENT best_chain = SC_NONE;
+
+                for (const auto& skill : tp_skills)
                 {
+                    // Skip skills without SC properties
+                    if (skill.primary == SC_NONE && skill.secondary == SC_NONE && skill.tertiary == SC_NONE)
+                        continue;
+
                     std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
                     if (uint16 power = PSCEffect->GetPower())
                     {
                         resonanceProperties.push_back((SKILLCHAIN_ELEMENT)(power & 0xF));
-                        resonanceProperties.push_back((SKILLCHAIN_ELEMENT)(power >> 4 & 0xF));
+                        resonanceProperties.push_back((SKILLCHAIN_ELEMENT)((power >> 4) & 0xF));
                         resonanceProperties.push_back((SKILLCHAIN_ELEMENT)(power >> 8));
                     }
 
-                    std::list<SKILLCHAIN_ELEMENT> skillProperties;
-                    skillProperties.push_back((SKILLCHAIN_ELEMENT)skill.primary);
-                    skillProperties.push_back((SKILLCHAIN_ELEMENT)skill.secondary);
-                    skillProperties.push_back((SKILLCHAIN_ELEMENT)skill.tertiary);
-                    if (SKILLCHAIN_ELEMENT possible_skillchain = battleutils::FormSkillchain(resonanceProperties, skillProperties); possible_skillchain != SC_NONE)
+                    std::list<SKILLCHAIN_ELEMENT> skillProperties = { (SKILLCHAIN_ELEMENT)skill.primary, (SKILLCHAIN_ELEMENT)skill.secondary,
+                                                                      (SKILLCHAIN_ELEMENT)skill.tertiary };
+
+                    if (SKILLCHAIN_ELEMENT possible_chain = battleutils::FormSkillchain(resonanceProperties, skillProperties); possible_chain != SC_NONE)
                     {
-                        if (possible_skillchain >= chosen_skillchain)
+                        if (possible_chain > best_chain)
                         {
-                            chosen_skill = skill;
-                            chosen_skillchain = possible_skillchain;
+                            best_skills.clear();
+                            best_skills.push_back(skill);
+                            best_chain = possible_chain;
+                        }
+                        else if (possible_chain == best_chain)
+                        {
+                            best_skills.push_back(skill);
                         }
                     }
                 }
+
+                if (!best_skills.empty())
+                {
+                    chosen_skill = tpzrand::GetRandomElement(best_skills);
+                }
+                else
+                {
+                    // No closers possible — pick a random WS
+                    chosen_skill = tpzrand::GetRandomElement(tp_skills);
+                }
+
                 break;
             }
             case G_SELECT::SPECIAL_AYAME:

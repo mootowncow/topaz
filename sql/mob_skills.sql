@@ -3217,11 +3217,11 @@ INSERT INTO `mob_skills` VALUES (3252,262,'bisection',0,7.0,2000,1500,4,0,0,0,0,
 INSERT INTO `mob_skills` VALUES (3253,2311,'leaden_salute',0,15.5,2000,1500,4,0,0,0,9,1,0);
 INSERT INTO `mob_skills` VALUES (3254,2312,'akimbo_shot',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3255,2313,'grisly_horizon',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3256,361,'hane_fubuki',1,18.0,2000,1000,4,0,0,0,0,0,0); -- Gessho
-INSERT INTO `mob_skills` VALUES (3257,1299,'shibaraku',1,15.0,2000,1500,4,0,0,7,0,0,0);
-INSERT INTO `mob_skills` VALUES (3258,363,'shiko_no_mitate',0,7.0,2000,1500,1,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3259,364,'happobarai',1,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3260,354,'rinpyotosha',1,20.0,2000,1500,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3256,361,'hane_fubuki_trust',1,18.0,2000,1000,4,0,0,0,1,0,0); -- Gessho (Trust)
+INSERT INTO `mob_skills` VALUES (3257,1299,'shibaraku_trust',1,10.0,2000,1500,4,0,0,7,14,9,0);
+INSERT INTO `mob_skills` VALUES (3258,363,'shiko_no_mitate_trust',0,7.0,2000,1500,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3259,364,'happobarai_trust',1,10.0,2000,1500,4,0,0,0,5,8,0);
+INSERT INTO `mob_skills` VALUES (3260,354,'rinpyotosha_trust',1,20.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3261,335,'bomb_toss_trust',0,7.0,2000,1500,4,0,0,0,3,6,0);
 INSERT INTO `mob_skills` VALUES (3262,334,'goblin_rush_trust',0,7.0,2000,1500,4,0,0,0,11,8,0);
 -- INSERT INTO `mob_skills` VALUES (3263,3007,'bear_killer',0,7.0,2000,1500,4,0,0,0,0,0,0);

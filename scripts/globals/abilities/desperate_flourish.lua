@@ -12,6 +12,7 @@ require("scripts/globals/status")
 require("scripts/globals/job_util")
 require("scripts/globals/magic")
 require("scripts/globals/msg")
+require("scripts/globals/ability")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
@@ -24,6 +25,16 @@ function onUseAbility(player, target, ability, action)
     local finishingMoves = jobUtil.getFinishingMoveCount(player)
     if (finishingMoves > 0) then
         local actualConsumed = jobUtil.consumeFinishingMoves(player, maxConsumed)
+    end
+
+    -- Check for shadows
+    if TryShadowsAbsorb(target, ability) then
+        return 1
+    end
+
+    -- Check for PD
+    if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
+        return ability:setMsg(tpz.msg.basic.JA_MISS)
     end
 
     --get fstr
@@ -66,15 +77,23 @@ function onUseAbility(player, target, ability, action)
 
         if resist >= 0.5 then
             if target:hasStatusEffect(tpz.effect.WEIGHT) then
+                -- Apply reductions
+                local damageType = player:getWeaponDamageType(tpz.slot.MAIN)
+                dmg = utils.HandlePositionalPDT(player, target, dmg)
+                dmg = target:physicalDmgTaken(dmg, damageType)
                 dmg = dmg - target:getMod(tpz.mod.PHALANX)
                 dmg = utils.stoneskin(target, dmg, attackType)
-                 target:takeDamage(dmg, player, tpz.attackType.PHYSICAL, player:getWeaponDamageType(tpz.slot.MAIN))
+                target:takeDamage(dmg, player, tpz.attackType.PHYSICAL, player:getWeaponDamageType(tpz.slot.MAIN))
                 target:updateEnmityFromDamage(player, dmg)
                 action:animation(target:getID(), getFlourishAnimation(player:getWeaponSkillType(tpz.slot.MAIN)))
                 action:speceffect(target:getID(), hit)
                 ability:setMsg(tpz.msg.basic.JA_NO_EFFECT)
                 return 0
             else
+                -- Apply reductions
+                local damageType = player:getWeaponDamageType(tpz.slot.MAIN)
+                dmg = utils.HandlePositionalPDT(player, target, dmg)
+                dmg = target:physicalDmgTaken(dmg, damageType)
                 dmg = dmg - target:getMod(tpz.mod.PHALANX)
                 dmg = utils.stoneskin(target, dmg, attackType)
                 target:takeDamage(dmg, player, tpz.attackType.PHYSICAL, player:getWeaponDamageType(tpz.slot.MAIN))
@@ -86,6 +105,10 @@ function onUseAbility(player, target, ability, action)
                 return tpz.effect.WEIGHT
             end
         else
+            -- Apply reductions
+            local damageType = player:getWeaponDamageType(tpz.slot.MAIN)
+            dmg = utils.HandlePositionalPDT(player, target, dmg)
+            dmg = target:physicalDmgTaken(dmg, damageType)
             dmg = dmg - target:getMod(tpz.mod.PHALANX)
             dmg = utils.stoneskin(target, dmg, attackType)
             target:takeDamage(dmg, player, tpz.attackType.PHYSICAL, player:getWeaponDamageType(tpz.slot.MAIN))

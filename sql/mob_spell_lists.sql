@@ -2871,10 +2871,12 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Cherukiki',328,477,86,255);       -
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,338,12,255);          -- Utsusemi: Ichi
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,339,37,255);          -- Utsusemi: Ni
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,340,75,255);          -- Utsusemi: San
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,344,23,255);          -- Hojo: Ichi
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,345,48,255);          -- Hojo: Ni
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,347,19,255);          -- Kurayami: Ichi
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,348,44,255);          -- Kurayami: Ni
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,510,75,255);          -- Migawari: Ichi
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gadalar',331,174,28,255);         -- Firaga
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gadalar',331,175,53,255);         -- Firaga II

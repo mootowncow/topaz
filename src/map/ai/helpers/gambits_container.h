@@ -62,6 +62,7 @@ enum class G_TARGET : uint16
     PARTY_DEAD      = 10,
     PARTY_MULTI     = 11,
     CASTS_SPELLS    = 12,
+    WANTS_REFRESH   = 13
 };
 
 enum class G_CONDITION : uint16
@@ -284,6 +285,20 @@ private:
         JOB_SMN,
         JOB_SCH,
         JOB_GEO,
+    };
+
+    std::set<JOBTYPE> refresh_jobs =
+    {
+        JOB_WHM,
+        JOB_BLM,
+        JOB_RDM,
+        JOB_PLD,
+        JOB_DRK,
+        JOB_SMN,
+        JOB_BLU,
+        JOB_SCH,
+        JOB_GEO,
+        JOB_RUN,
     };
 };
 

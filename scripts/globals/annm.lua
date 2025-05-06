@@ -1779,13 +1779,13 @@ tpz.annm.PopNM = function(player, npc)
 end
 
 tpz.annm.NMMods = function(mob)
-	mob:setDamage(125)
+	mob:setDamage(140)
     mob:addMod(tpz.mod.ATTP, 25)
     mob:addMod(tpz.mod.DEFP, 25) 
     mob:addMod(tpz.mod.ACC, 25) 
     mob:addMod(tpz.mod.EVA, 25)
-    mob:setMod(tpz.mod.REGAIN, 25)
-    mob:setMod(tpz.mod.MDEF, 13)
+    mob:setMod(tpz.mod.REGAIN, 150)
+    mob:setMod(tpz.mod.MDEF, 70)
     mob:setMod(tpz.mod.UDMGMAGIC, -13)
     mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 20)
     mob:setMod(tpz.mod.SKILLCHAINDMG, 50)
@@ -1804,16 +1804,13 @@ tpz.annm.NMMods = function(mob)
     mob:addImmunity(tpz.immunity.PETRIFY)
 
     -- Removed once adds are dead
-    mob:SetAutoAttackEnabled(false)
-    mob:SetMagicCastingEnabled(false)
-    mob:SetMobAbilityEnabled(false)
-    mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
-    mob:hideName(true)
-    mob:untargetable(true)
     mob:setUnkillable(true)
 end
 
 tpz.annm.PetMods = function(mob)
+tpz.annm.PetMods = function(mob)
+    mob:setMod(tpz.mod.MDEF, 70)
+    mob:setMod(tpz.mod.UDMGMAGIC, -13)
     for v = 1280, 1294 do
         mob:setMod(v, 150)
     end
@@ -1855,12 +1852,6 @@ tpz.annm.PetShield = function(mob, addsIDstart, addsIDend)
         end
     end
 
-    mob:SetAutoAttackEnabled(true)
-    mob:SetMagicCastingEnabled(true)
-    mob:SetMobAbilityEnabled(true)
-    mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
-    mob:hideName(false)
-    mob:untargetable(false)
     mob:setUnkillable(false)
 
     return false

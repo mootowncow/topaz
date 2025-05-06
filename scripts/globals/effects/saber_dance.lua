@@ -20,7 +20,7 @@ function onEffectGain(target, effect)
     target:addMod(tpz.mod.DOUBLE_ATTACK, effect:getPower())
     target:addMod(tpz.mod.KICK_DMG, effect:getPower())
 
-    target:delStatusEffect(tpz.effect.FAN_DANCE)
+    target:delStatusEffectSilent(tpz.effect.FAN_DANCE)
 end
 
 function onEffectTick(target, effect)

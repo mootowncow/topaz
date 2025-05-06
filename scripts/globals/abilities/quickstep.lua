@@ -11,6 +11,7 @@ require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/job_util")
 require("scripts/globals/msg")
+require("scripts/globals/ability")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
@@ -21,6 +22,16 @@ function onUseAbility(player, target, ability, action)
     -- Only remove TP if the player doesn't have Trance.
     if not player:hasStatusEffect(tpz.effect.TRANCE) then
         player:delTP(ability:getTPCost())
+    end
+
+    -- Check for shadows
+    if TryShadowsAbsorb(target, ability) then
+        return 1
+    end
+
+    -- Check for PD
+    if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
+        return ability:setMsg(tpz.msg.basic.JA_MISS)
     end
 
     local hit = 1

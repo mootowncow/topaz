@@ -577,76 +577,64 @@ void CStatusEffectContainer::DeleteStatusEffects()
 
 void CStatusEffectContainer::RemoveStatusEffect(CStatusEffect* PStatusEffect, bool silent)
 {
-    if (!PStatusEffect->deleted)
+    if (PStatusEffect->deleted)
+        return;
+
+    // Puppet Maneuver detach check
+    if (PStatusEffect->GetStatusID() >= EFFECT_FIRE_MANEUVER && PStatusEffect->GetStatusID() <= EFFECT_DARK_MANEUVER && m_POwner->objtype == TYPE_PC)
     {
-        if (PStatusEffect->GetStatusID() >= EFFECT_FIRE_MANEUVER &&
-            PStatusEffect->GetStatusID() <= EFFECT_DARK_MANEUVER &&
-            m_POwner->objtype == TYPE_PC)
-        {
-            puppetutils::CheckAttachmentsForManeuver((CCharEntity*)m_POwner, PStatusEffect->GetStatusID(), false);
-        }
-        PStatusEffect->deleted = true;
-        luautils::OnEffectLose(m_POwner, PStatusEffect);
-        if (m_POwner->objtype == TYPE_PC)
-        {
-            CCharEntity* PChar = (CCharEntity*)m_POwner;
-            charutils::BuildingCharSkillsTable(PChar);
-            charutils::BuildingCharWeaponSkills(PChar);
-            PChar->pushPacket(new CCharAbilitiesPacket(PChar));
-        }
-
-        m_POwner->PAI->EventHandler.triggerListener("EFFECT_LOSE", m_POwner, PStatusEffect);
-
-        m_POwner->delModifiers(&PStatusEffect->modList);
-
-        m_POwner->extDataUpdateFlag = true;
-
-        if (m_POwner->objtype == TYPE_PC)
-        {
-            CCharEntity* PChar = (CCharEntity*)m_POwner;
-
-            if (PStatusEffect->GetIcon() != 0)
-            {
-                if (!silent && (PStatusEffect->GetFlag() & EFFECTFLAG_NO_LOSS_MESSAGE) == 0 && !m_POwner->isDead())
-                {
-                    if (PStatusEffect->GetStatusID() >= EFFECT_WEAKNESS && PStatusEffect->GetStatusID() <= EFFECT_PLAGUE ||
-                        PStatusEffect->GetStatusID() == EFFECT_ENCUMBRANCE || PStatusEffect->GetStatusID() == EFFECT_ENCUMBRANCE_II ||
-                        PStatusEffect->GetStatusID() == EFFECT_MUDDLE || PStatusEffect->GetStatusID() == EFFECT_TAINT ||
-                        PStatusEffect->GetStatusID() == EFFECT_HAUNT)
-                    {
-                        m_POwner->loc.zone->PushPacket(m_POwner, CHAR_INRANGE_SELF,
-                                                       new CMessageBasicPacket(m_POwner, m_POwner, PStatusEffect->GetIcon(), 0, MSGBASIC_STATUS_NO_LONGER));
-                    }
-                    else
-                    {
-                        m_POwner->loc.zone->PushPacket(m_POwner, CHAR_INRANGE_SELF,
-                                                       new CMessageBasicPacket(m_POwner, m_POwner, PStatusEffect->GetIcon(), 0, MSGBASIC_STATUS_WEARS_OFF));
-                    }
-                }
-            }
-        }
-        else
-        {
-            if (!silent && PStatusEffect->GetIcon() != 0 && ((PStatusEffect->GetFlag() & EFFECTFLAG_NO_LOSS_MESSAGE) == 0) && !m_POwner->isDead())
-            {
-                if (PStatusEffect->GetStatusID() >= EFFECT_WEAKNESS && PStatusEffect->GetStatusID() <= EFFECT_PLAGUE ||
-                    PStatusEffect->GetStatusID() ==  EFFECT_ENCUMBRANCE || PStatusEffect->GetStatusID() ==  EFFECT_ENCUMBRANCE_II ||
-                    PStatusEffect->GetStatusID() == EFFECT_MUDDLE || PStatusEffect->GetStatusID() == EFFECT_TAINT ||
-                    PStatusEffect->GetStatusID() == EFFECT_HAUNT)
-                {
-                    m_POwner->loc.zone->PushPacket(m_POwner, CHAR_INRANGE_SELF,
-                                                   new CMessageBasicPacket(m_POwner, m_POwner, PStatusEffect->GetIcon(), 0, MSGBASIC_STATUS_NO_LONGER));
-                }
-                else
-                {
-                    m_POwner->loc.zone->PushPacket(m_POwner, CHAR_INRANGE_SELF,
-                                                   new CMessageBasicPacket(m_POwner, m_POwner, PStatusEffect->GetIcon(), 0, MSGBASIC_STATUS_WEARS_OFF));
-                }
-            }
-        }
+        puppetutils::CheckAttachmentsForManeuver((CCharEntity*)m_POwner, PStatusEffect->GetStatusID(), false);
     }
+
+    PStatusEffect->deleted = true;
+    luautils::OnEffectLose(m_POwner, PStatusEffect);
+
+    // If player: rebuild skill tables and push ability packet
+    if (m_POwner->objtype == TYPE_PC)
+    {
+        CCharEntity* PChar = (CCharEntity*)m_POwner;
+        charutils::BuildingCharSkillsTable(PChar);
+        charutils::BuildingCharWeaponSkills(PChar);
+        PChar->pushPacket(new CCharAbilitiesPacket(PChar));
+    }
+
+    // Event listeners
+    m_POwner->PAI->EventHandler.triggerListener("EFFECT_LOSE", m_POwner, PStatusEffect);
+
+    // Remove mod list
+    m_POwner->delModifiers(&PStatusEffect->modList);
+
+    // Mark for update
+    m_POwner->extDataUpdateFlag = true;
+
+    // Send status wear off message
+    SendWearOffMessage(PStatusEffect, silent);
 }
 
+static const std::unordered_set<uint16> noLongerMsgEffects = {
+    EFFECT_WEAKNESS,      EFFECT_SLEEP,    EFFECT_POISON, EFFECT_PARALYSIS,  EFFECT_BLINDNESS, EFFECT_SILENCE,
+    EFFECT_PETRIFICATION, EFFECT_DISEASE,  EFFECT_CURSE,  EFFECT_STUN,       EFFECT_BIND,      EFFECT_WEIGHT,
+    EFFECT_SLOW,          EFFECT_CHARM,    EFFECT_DOOM,   EFFECT_AMNESIA,    EFFECT_CHARM_II,  EFFECT_GRADUAL_PETRIFICATION,
+    EFFECT_SLEEP_II,      EFFECT_CURSE_II, EFFECT_ADDLE,  EFFECT_INTIMIDATE, EFFECT_KAUSTRA,   EFFECT_TERROR,
+    EFFECT_MUTE,          EFFECT_BANE,     EFFECT_PLAGUE, EFFECT_ENCUMBRANCE, EFFECT_ENCUMBRANCE_II, EFFECT_MUDDLE,
+    EFFECT_TAINT,         EFFECT_HAUNT,    EFFECT_QUICKENING
+};
+
+void CStatusEffectContainer::SendWearOffMessage(CStatusEffect* PStatusEffect, bool silent)
+{
+    if (PStatusEffect->GetIcon() == 0 || silent || (PStatusEffect->GetFlag() & EFFECTFLAG_NO_LOSS_MESSAGE) || m_POwner->isDead())
+        return;
+
+    uint16 messageID = MSGBASIC_STATUS_WEARS_OFF;
+    auto statusID = PStatusEffect->GetStatusID();
+
+    if (noLongerMsgEffects.count(statusID))
+    {
+        messageID = MSGBASIC_STATUS_NO_LONGER;
+    }
+
+    m_POwner->loc.zone->PushPacket(m_POwner, CHAR_INRANGE_SELF, new CMessageBasicPacket(m_POwner, m_POwner, PStatusEffect->GetIcon(), 0, messageID));
+}
 
 /************************************************************************
 *                                                                       *

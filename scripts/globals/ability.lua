@@ -938,3 +938,15 @@ function takeAbilityDamage(defender, attacker, params, primary, finaldmg, attack
     -- printf("Final damage %d", finaldmg)
     return finaldmg
 end
+
+function TryShadowsAbsorb(target, ability)
+    local shadowsToCheck = 1
+    shadowsToCheck = utils.takeShadows(target, shadowsToCheck, shadowsToCheck)
+
+    if (shadowsToCheck == 0) then
+        ability:setMsg(tpz.msg.basic.SHADOW_ABSORB)
+        return true
+    end
+
+    return false
+end
