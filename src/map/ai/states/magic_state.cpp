@@ -34,6 +34,7 @@
 #include "../../../common/utils.h"
 #include "../../job_points.h"
 #include "../../ai/controllers/mob_controller.h"
+#include "../../utils/mobutils.h"
 
 CMagicState::CMagicState(CBattleEntity* PEntity, uint16 targid, SpellID spellid, uint8 flags) :
     CState(PEntity, targid),
@@ -316,6 +317,7 @@ bool CMagicState::Update(time_point tick)
         }
 
         // Handle Double Cast logic
+        bool isDoubleCasted = false;
         if (!m_interrupted && tpzrand::GetRandomNumber(100) < m_PEntity->getMod(Mod::DOUBLE_CAST))
         {
             // Trigger a second cast immediately on same target
@@ -325,6 +327,7 @@ bool CMagicState::Update(time_point tick)
             m_PEntity->OnCastFinished(*this, doubleAction);
             m_PEntity->PAI->EventHandler.triggerListener("MAGIC_USE", m_PEntity, PTarget, m_PSpell.get(), &doubleAction);
             PTarget->PAI->EventHandler.triggerListener("MAGIC_TAKE", PTarget, m_PEntity, m_PSpell.get(), &doubleAction);
+            isDoubleCasted = true;
 
             m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(doubleAction));
             //ShowDebug("[%s] -> Double cast proc!\n", m_PEntity->name);
@@ -332,6 +335,10 @@ bool CMagicState::Update(time_point tick)
         }
 
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+        if (isDoubleCasted)
+        {
+            mobutils::WeaknessTrigger(m_PEntity, WeaknessType::WHITE);
+        }
             
         Complete();
     }
