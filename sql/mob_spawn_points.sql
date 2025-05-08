@@ -53656,7 +53656,7 @@ INSERT INTO `mob_spawn_points` VALUES (17494208,'Ignis_Djinn','Ignis Djinn',2,26
 INSERT INTO `mob_spawn_points` VALUES (17494210,'Ignis_Djinn','Ignis Djinn',2,113.345,8.468,-78.573,253);
 -- INSERT INTO `mob_spawn_points` VALUES (17494211,'Ignis_Djinn','Ignis Djinn',2,124.918,8.5,-77.407,35);
 INSERT INTO `mob_spawn_points` VALUES (17494212,'Ignis_Djinn','Ignis Djinn',2,125.228,8.5,-85.724,193);
-INSERT INTO `mob_spawn_points` VALUES (17494213,'Tethra','Tethra',30,0,0,0,0);
+INSERT INTO `mob_spawn_points` VALUES (17494213,'Tethra','Tethra',30,117.558,9.000,-80.396,0);
 INSERT INTO `mob_spawn_points` VALUES (17494214,'Ignis_Djinn','Ignis Djinn',2,120.322,8.499,-83.217,132);
 -- INSERT INTO `mob_spawn_points` VALUES (17494215,'Ignis_Djinn','Ignis Djinn',2,113.189,8.480,-77.8,255);
 INSERT INTO `mob_spawn_points` VALUES (17494216,'Ignis_Djinn','Ignis Djinn',2,119.961,8.498,-76.667,84);

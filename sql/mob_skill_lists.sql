@@ -4982,6 +4982,24 @@ INSERT INTO `mob_skill_lists` VALUES ('Kernunnos',6160,2423); -- Triumphant_roar
 INSERT INTO `mob_skill_lists` VALUES ('Kernunnos',6160,2424); -- Terror_eye
 INSERT INTO `mob_skill_lists` VALUES ('Kernunnos',6160,2425); -- Bloody_claw
 
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,19); -- Gust Slash
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,20); -- Cyclone
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,25); -- Evisceration
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,247); -- foxfire
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,249); -- netherspikes
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,250); -- carnal_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,251); -- aegis_schism
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,252); -- dancing_chains
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,253); -- barbed_crescent
+
+-- earthcrusher, retribution, rock crusher
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,248); -- grim_halo
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,249); -- netherspikes
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,250); -- carnal_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,251); -- aegis_schism
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,252); -- dancing_chains
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,253); -- barbed_crescent
+
 -- Next available ID: 1209
 -- Next custom ID: 6159
 

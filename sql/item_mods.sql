@@ -17195,11 +17195,11 @@ INSERT INTO `item_mods` VALUES (15246,3,5);
 INSERT INTO `item_mods` VALUES (15246,8,6);
 INSERT INTO `item_mods` VALUES (15246,27,-4);
 INSERT INTO `item_mods` VALUES (15246,289,6);
-INSERT INTO `item_mods` VALUES (15247,1,25);      -- Cleric's Cap +1: DEF 25
-INSERT INTO `item_mods` VALUES (15247,5,25);      -- MP +25
-INSERT INTO `item_mods` VALUES (15247,10,5);      -- VIT +5
-INSERT INTO `item_mods` VALUES (15247,27,-5);     -- Enmity -5
-INSERT INTO `item_mods` VALUES (15247,244,2);     -- Enhances Resist Silence effect
+INSERT INTO `item_mods` VALUES (15247,1,25); -- DEF 25
+INSERT INTO `item_mods` VALUES (15247,5,25); -- MP 25
+INSERT INTO `item_mods` VALUES (15247,10,5); -- VIT 5
+INSERT INTO `item_mods` VALUES (15247,27,-5); -- ENMITY -5
+INSERT INTO `item_mods` VALUES (15247,1244,6); -- SILENCERESTRAIT 6
 INSERT INTO `item_mods` VALUES (15248,1,24);
 INSERT INTO `item_mods` VALUES (15248,5,29);
 INSERT INTO `item_mods` VALUES (15248,27,-3);

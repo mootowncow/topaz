@@ -59,8 +59,6 @@ g_mixins.dynamis_beastmen = function(mob)
     mob:addListener("ABILITY_TAKE", "DYNAMIS_ABILITY_PROC_CHECK", function(mob, user, ability, action)
         local abilityID = ability:getID()
         local abilityMsg = ability:getMsg()
-        local tryProc = true
-
         local validProc = 
             abilityID ~= tpz.ja.FIGHT and
             abilityID ~= tpz.ja.SIC and

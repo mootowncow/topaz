@@ -6154,8 +6154,17 @@ INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 248, 1, 255); -- Aspir I
 INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 252, 1, 255); -- Stun
 INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 277, 1, 255); -- Dread Spikes
 
--- Casts Aero IV, Aeroga III, Tornado, Graviga, Silencega, Zephyr Mantle, Frightful Roar, and Hecatomb Wave. 
-INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 275, 1, 255); -- Absorb-TP
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 157, 1, 255); -- Aero IV
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 186, 1, 255); -- Aeroga III
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 208, 1, 255); -- Tornado
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 366, 1, 255); -- Graviga
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 359, 1, 255); -- Silencega
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 647, 1, 255); -- Zephyr Mantle
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 561, 1, 255); -- Frightful Roar
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 563, 1, 255); -- Hecatomb Wave
+
+-- Sandspin, filamented hold, magnetite cloud, Stone IV, Stonega III, quake, slowga, breakga
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 563, 1, 255); -- Hecatomb Wave
 
 -- NEXT 546
 -- NEXT 1022

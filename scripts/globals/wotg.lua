@@ -55,6 +55,12 @@ require("scripts/globals/keyitems")
 -- Arg for setlevel and calcmobstate to heal the mob (false for these NMs)
 -- Change text color for messages
 -- Eldieme Goblin Pioneer lays mines/patrols (one by ethniu)
+-- add mobmod for ISHUMANOID then add it to isHuman() check
+-- Lugh needs a new family, weak to water, resists everything else
+-- Ethniu needs a new family, weak to ice, resists everything else
+-- Tethra needs a new family, weak to wind, resists everything else
+-- fomor all true sight/sound
+-- bosses and metaBosses tables needs eldieme and garlaige
 
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
@@ -99,6 +105,7 @@ tpz.wotg.regionsData = {
     [tpz.zone.GARLAIGE_CITADEL_S] = {
     },
     [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
+        amount = 15,
     }
 }
 
@@ -136,12 +143,24 @@ local mobFamily = {
         Crawlers = { 17478209, 17478210, 17478211, 17478212, 17478213, 17478214, 17478215, 17478216, 17478217, 17478218 },
         Flies = { 17478219, 17478220, 17478221, 17478222, 17478223, 17478224, 17478225, 17478226, 17478227, 17478228 },
         Peistes = { 17478229, 17478230, 17478231, 17478232, 17478233, 17478234, 17478235, 17478236, 17478237, 17478238 }
-    }
+    },
+    [tpz.zone.GARLAIGE_CITADEL_S] = {
+    },
+    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
+        Skeletons = { 17499999, 17500000, 17500001, 17500002, 17500003, 17500004, 17500005, 17500006, 17500007, 17500008 },
+        Ghosts    = { 17500009, 17500010, 17500011, 17500012, 17500013, 17500014, 17500015, 17500016, 17500017, 17500018 },
+        Hounds    = { 17500019, 17500020, 17500021, 17500022, 17500023, 17500024, 17500025, 17500026, 17500027, 17500028 },
+        Doomed = { 17494819, 17494820, 17494821, 17494822, 17494823, 17494824, 17494825, 17494826, 17494827, 17494828 },
+        Corse = { 17494829, 17494830, 17494831, 17494832, 17494833, 17494834, 17494835, 17494836, 17494837, 17494838 },
+        Corpselight = { 17494839, 17494840, 17494841, 17494842, 17494843, 17494844, 17494845, 17494846, 17494847, 17494848 },
+    },
 }
 
 local bosses = {
     -- Scorpion(Gold), Rafflesia, Gnat, Ladybug, Slug, Peiste
     [tpz.zone.CRAWLERS_NEST_S] = { 17478239, 17478240, 17478241, 17478242, 17478243, 17478244 },
+    [tpz.zone.GARLAIGE_CITADEL_S] = { },
+    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = { },
 }
 
 local metaBosses = {
@@ -1300,6 +1319,7 @@ local modByMobName =
     end,
 
     ['Lugh'] = function(mob)
+        mob:setDamage(90)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.EVA, 25)
         mob:addMod(tpz.mod.MDEF, 24)
@@ -1308,7 +1328,11 @@ local modByMobName =
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 100)
         mob:setMod(tpz.mod.FIRE_ABSORB, 100)
         mob:addImmunity(tpz.immunity.SILENCE)
-        mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:addImmunity(tpz.immunity.BIND)
+        mob:addImmunity(tpz.immunity.GRAVITY)
+        mob:addImmunity(tpz.immunity.PETRIFY)
+        mob:addImmunity(tpz.immunity.SLOW)
+        mob:addImmunity(tpz.immunity.BLIND)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
 
         tpz.mix.jobSpecial.config(mob, {
@@ -1389,13 +1413,18 @@ local modByMobName =
     end,
 
     ['Ethniu'] = function(mob)
+        mob:setDamage(90)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.MDEF, 24)
         mob:setMod(tpz.mod.VIT, 175)
         mob:setMod(tpz.mod.REGEN, 25)
         mob:setMod(tpz.mod.WIND_ABSORB, 100)
         mob:addImmunity(tpz.immunity.SILENCE)
-        mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:addImmunity(tpz.immunity.BIND)
+        mob:addImmunity(tpz.immunity.GRAVITY)
+        mob:addImmunity(tpz.immunity.PETRIFY)
+        mob:addImmunity(tpz.immunity.SLOW)
+        mob:addImmunity(tpz.immunity.BLIND)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
 
         tpz.mix.jobSpecial.config(mob, {
@@ -1407,6 +1436,26 @@ local modByMobName =
     end,
 
     ['Tethra'] = function(mob)
+        mob:addMod(tpz.mod.DEFP, 25)
+        mob:addMod(tpz.mod.MDEF, 24)
+        mob:setMod(tpz.mod.VIT, 175)
+        mob:setMod(tpz.mod.REGEN, 25)
+        mob:setMod(tpz.mod.EARTH_ABSORB, 100)
+        mob:addImmunity(tpz.immunity.SILENCE)
+        mob:addImmunity(tpz.immunity.BIND)
+        mob:addImmunity(tpz.immunity.GRAVITY)
+        mob:addImmunity(tpz.immunity.PETRIFY)
+        mob:addImmunity(tpz.immunity.SLOW)
+        mob:addImmunity(tpz.immunity.BLIND)
+        mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
+
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.MANAFONT, cooldown = 300, hpp = 35},
+            },
+        })
     end,
 
     -- Lynx
@@ -1519,7 +1568,7 @@ local mobFightByMobName =
         then
             local level = mob:getMainLvl()
             mob:useMobAbility(tpz.mob.skills.LEVEL_UP, mob)
-            mob:setMobLevel(level +1)
+            mob:setMobLevel(level +1, false)
             -- Mods and Mobmods are cleared on leveling up, need to readd them
             tpz.wotg.onMobSpawn(mob)
             mob:setMobMod(tpz.mobMod.SKILL_LIST, 1208)
@@ -1670,7 +1719,6 @@ local mobFightByMobName =
     end,
 
     ['Lugh'] = function(mob, target)
-        -- Levels up when a player/trust dies, on successful Heat Breath / Exuviation casts
         local lvlUp = mob:getLocalVar("lvlUp")
         if
             (lvlUp > 0) and
@@ -1679,12 +1727,13 @@ local mobFightByMobName =
         then
             local level = mob:getMainLvl()
             mob:useMobAbility(tpz.mob.skills.LEVEL_UP, mob)
-            mob:setMobLevel(level +1)
+            mob:setMobLevel(level +1, false)
             -- Mods and Mobmods are cleared on leveling up, need to readd them
             tpz.wotg.onMobSpawn(mob)
             mob:setLocalVar("lvlUp", 0)
         end
 
+        -- Levels up when a player/trust dies, on successful Heat Breath / Exuviation casts
         mob:addListener("MAGIC_STATE_EXIT", "LUGH_MAGIC_STATE_EXIT", function(mob, spell)
             if (spell:getID() == tpz.magic.spell.HEAT_BREATH) or (spell:getID() == tpz.magic.spell.EXUVIATION) then
                 mob:setLocalVar("lvlUp", 1)
@@ -1774,12 +1823,12 @@ local mobFightByMobName =
         end
 
         -- Gains undispellable shock spikes while casting
-        mob:addListener("MAGIC_START", "GOAFTRAP_MAGIC_START", function(mob, spell)
+        mob:addListener("MAGIC_START", "TAZCATLI_MAGIC_START", function(mob, spell)
 	        mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 15, 0, 0)
             local shockSpikes = mob:getStatusEffect(tpz.effect.SHOCK_SPIKES)
             shockSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
         end)
-        mob:addListener("MAGIC_STATE_EXIT", "GOAFTRAP_MAGIC_STATE_EXIT", function(mob, spell)
+        mob:addListener("MAGIC_STATE_EXIT", "TAZCATLI_MAGIC_STATE_EXIT", function(mob, spell)
             mob:delStatusEffectSilent(tpz.effect.SHOCK_SPIKES)
         end)
 
@@ -1994,7 +2043,6 @@ local mobFightByMobName =
     end,
 
     ['Ethniu'] = function(mob, target)
-        -- Levels up on successful Elemental / Enfeebling casts
         -- Only levels up 10 times max
         local lvlUp = mob:getLocalVar("lvlUp")
         local level = mob:getMainLvl()
@@ -2005,13 +2053,37 @@ local mobFightByMobName =
             not mob:hasPreventActionEffect()
         then
             mob:useMobAbility(tpz.mob.skills.LEVEL_UP, mob)
-            mob:setMobLevel(level +1)
+            mob:setMobLevel(level +1, false)
             -- Mods and Mobmods are cleared on leveling up, need to readd them
             tpz.wotg.onMobSpawn(mob)
             mob:setLocalVar("lvlUp", 0)
         end
 
-        mob:addListener("MAGIC_STATE_EXIT", "LUGH_MAGIC_STATE_EXIT", function(mob, spell)
+        -- Gains an invisible silence aura (~20') during Perfect Dodge.
+        -- Gains an enhanced rate of Triple Attack rate during Perfect Dodge.
+        -- Does not cast or use TP moves during Perfect Dodge.
+        if mob:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
+            local auraParams = {
+                radius = 20,
+                effect = tpz.effect.SILENCE,
+                power = 1,
+                duration = 30,
+                auraNumber = 1
+            }
+
+            mob:setMod(tpz.mod.TRIPLE_ATTACK, 100)
+            mob:SetMagicCastingEnabled(false)
+            mob:SetMobAbilityEnabled(false)
+            AddMobAura(mob, target, auraParams)
+            TickMobBuffAura(mob, target, auraParams)
+        else
+            mob:setMod(tpz.mod.TRIPLE_ATTACK, 5)
+            mob:SetMagicCastingEnabled(true)
+            mob:SetMobAbilityEnabled(true)
+        end
+
+        -- Levels up on successful Elemental / Enfeebling casts
+        mob:addListener("MAGIC_STATE_EXIT", "ETHNIU_MAGIC_STATE_EXIT", function(mob, spell)
             local skill = spell:getSkillType()
             if (skill == tpz.skill.ELEMENTAL_MAGIC) or (skill == tpz.skill.ENFEEBLING_MAGIC) then
                 mob:setLocalVar("lvlUp", 1)
@@ -2020,6 +2092,76 @@ local mobFightByMobName =
     end,
 
     ['Tethra'] = function(mob, target)
+        local lvlUp = mob:getLocalVar("lvlUp")
+        if
+            (lvlUp > 0) and
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect()
+        then
+            local level = mob:getMainLvl()
+            mob:useMobAbility(tpz.mob.skills.LEVEL_UP, mob)
+            mob:setMobLevel(level +1, false)
+            -- Mods and Mobmods are cleared on leveling up, need to readd them
+            tpz.wotg.onMobSpawn(mob)
+            mob:setLocalVar("lvlUp", 0)
+        end
+
+        -- Offensive JA's level him up if he is NOT casting.
+        -- Offensive JA's and magic reset it's hate on everyone but the person who used the JA
+        mob:addListener("ABILITY_TAKE", "TETHRA_ABILITY_PROC_CHECK", function(mob, user, ability, action)
+            local abilityMsg = ability:getMsg()
+            local act = mob:getCurrentAction()
+        local validProc =
+            abilityMsg ~= tpz.msg.basic.JA_MISS and
+            abilityMsg ~= tpz.msg.basic.SHADOW_ABSORB and
+            act ~= tpz.act.MAGIC_START and
+            act ~= tpz.act.MAGIC_CASTING and
+            act ~= tpz.act.MAGIC_FINISH and
+            mob:getTarget():getShortID() ~= user:getShortID() and
+            not mob:hasPreventActionEffect()
+
+            -- Pet assault JA's shouldn't proc
+            if validProc then
+                local enmityList = mob:getEnmityList()
+                if enmityList then
+                    for _, enmity in ipairs(enmityList) do
+                        if (user:getID() ~= enmity.entity:getID()) then
+                            mob:resetEnmity(enmity.entity)
+                        end
+                    end
+                end
+                mob:setLocalVar("lvlUp", 1)
+            end
+        end)
+
+        -- Offensive JA's and magic reset it's hate on everyone but the person who used the JA
+        -- Counters magic casts with Stone IV onto it's current target ONLY IF HATE IS SWAPPED OFF.
+        -- I.e. if a pld tanking it uses flash it won't counter
+        mob:addListener("MAGIC_TAKE", "ETHRA_MAGIC_TAKE", function(mob, caster, spell)
+           if
+                mob:getTarget():getShortID() ~= caster:getShortID() and
+                not IsMobBusy(mob) and
+                not mob:hasPreventActionEffect()
+           then
+                local enmityList = mob:getEnmityList()
+                if enmityList then
+                    for _, enmity in ipairs(enmityList) do
+                        if (caster:getID() ~= enmity.entity:getID()) then
+                            mob:resetEnmity(enmity.entity)
+                        end
+                    end
+                end
+                mob:castSpell(tpz.magic.spell.STONE_IV)
+           end
+        end)
+
+        -- Absorbs magic damage while casting
+        mob:addListener("MAGIC_START", "TETHRA_MAGIC_START", function(mob, spell)
+            mob:setMod(tpz.mod.MAGIC_ABSORB, 100)
+        end)
+        mob:addListener("MAGIC_STATE_EXIT", "TETHRA_MAGIC_STATE_EXIT", function(mob, spell)
+            mob:setMod(tpz.mod.MAGIC_ABSORB, 0)
+        end)
     end,
 
     -- Lynx
@@ -2071,13 +2213,13 @@ local mobFightByMobName =
 
 local mobSpellPrecastByMobName =
 {
-        ['Kernunnos'] = function(mob, spell)
-            local aoeSpellList = {
-            tpz.magic.spell.ABSORB_TP,
-            tpz.magic.spell.ABSORB_ATTRI,
-            tpz.magic.spell.DRAIN_II,
-            tpz.magic.spell.ASPIR_II,
-            tpz.magic.spell.STUN,
+    ['Kernunnos'] = function(mob, spell)
+        local aoeSpellList = {
+        tpz.magic.spell.ABSORB_TP,
+        tpz.magic.spell.ABSORB_ATTRI,
+        tpz.magic.spell.DRAIN_II,
+        tpz.magic.spell.ASPIR_II,
+        tpz.magic.spell.STUN,
         }
         -- AoE Absorb-TP, Absorb-Attribute, Drain II, Aspir II and  Stun
         for _, spellId in pairs (aoeSpellList) do
@@ -2087,6 +2229,17 @@ local mobSpellPrecastByMobName =
                 spell:setRadius(10)
                 break
 	        end
+        end
+    end,
+
+    ['Tethra'] = function(mob, spell)
+        -- Quake is AOE during Manafont
+        if mob:hasStatusEffect(tpz.effect.MANAFONT) then
+            if (spell:getID() == tpz.magic.spell.QUAKE) then
+                spell:setAoE(tpz.magic.aoe.RADIAL)
+                spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
+                spell:setRadius(10)
+            end
         end
     end,
 }
@@ -2312,8 +2465,8 @@ end
 
 tpz.wotg.RandomEvent = function(player)
     local zone = player:getZone()
-    randomEventWaves(player) -- TODO: Remove after done testing
-    -- eventList[math.random(#eventList)](player) -- TODO: Uncomment after testing
+    --randomEventWaves(player) -- TODO: Remove after done testing
+    eventList[math.random(#eventList)](player) -- TODO: Does this work?
 end
 
 tpz.wotg.spawnWave = function(player, waveIndex)

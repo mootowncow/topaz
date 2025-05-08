@@ -6624,7 +6624,7 @@ INSERT INTO `mob_groups` VALUES (32,816,96,'Count_Murmur',1,0,0,0,0,1,1,0);
 INSERT INTO `mob_groups` VALUES (33,3846,96,'Tartalo',1,0,0,0,0,1,1,0);
 INSERT INTO `mob_groups` VALUES (34,2308,96,'Laa_Vaqu_the_Sutler',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (35,3149,96,'Pixiebane',1,0,0,0,0,1,1,0);
-INSERT INTO `mob_groups` VALUES (36,4708,96,'Kalasutrax',0,128,0,0,9999,96,98,0);
+INSERT INTO `mob_groups` VALUES (36,4708,96,'Kalasutrax',0,128,0,0,9999,115,115,0);
 INSERT INTO `mob_groups` VALUES (37,0,96,'Kayeel-Payeel',0,128,0,0,0,70,70,0);
 INSERT INTO `mob_groups` VALUES (38,0,96,'Ice_Fiend',0,128,0,0,0,70,70,0);
 INSERT INTO `mob_groups` VALUES (39,0,96,'Thunder_Fiend',0,128,0,0,0,70,70,0);
@@ -7540,7 +7540,7 @@ INSERT INTO `mob_groups` VALUES(63, 379, 103, 'Beach_Monk', 0, 128, 0, 450, 0, 2
 INSERT INTO `mob_groups` VALUES(64, 1915, 103, 'Heike_Crab', 0, 128, 0, 450, 0, 20, 20, 0);
 INSERT INTO `mob_groups` VALUES (65,3148,103,'Pixie',0,128,2001,0,0,51,54,0);
 INSERT INTO `mob_groups` VALUES (66,479,103,'Blue_Bascinet',1,0,0,0,0,1,1,0);
-INSERT INTO `mob_groups` VALUES (67,4693,103,'Ig-Alima',0,128,0,0,9999,115,115,0);
+INSERT INTO `mob_groups` VALUES (67,4693,103,'Ig-Alima',0,128,0,0,9999,120,120,0);
 INSERT INTO `mob_groups` VALUES (68,1642,103,'Goblin_Bounty_Hunter',0,0,1030,0,0,17,20,0);
 INSERT INTO `mob_groups` VALUES (69,5733,103,'Snipper',0,128,0,0,0,18,20,0); -- added higher lvl group
 INSERT INTO `mob_groups` VALUES (70,380,103,'Beach_Pugil',0,128,0,0,0,23,24,0); -- added higher lvl group
@@ -8179,7 +8179,7 @@ INSERT INTO `mob_groups` VALUES (45,1566,111,'Gigas_Hillrazer',0,128,0,0,0,40,45
 INSERT INTO `mob_groups` VALUES (46,1556,111,'Gigas_Clearcutter',0,128,0,0,0,40,45,0);
 INSERT INTO `mob_groups` VALUES (47,1576,111,'Gigas_Overseer',0,128,0,0,0,45,45,0);
 INSERT INTO `mob_groups` VALUES (48,3159,111,'Plumbago',1,0,0,0,0,1,1,0);
-INSERT INTO `mob_groups` VALUES (49,4708,111,'Kalasutrax',0,128,0,0,9999,96,98,0);
+INSERT INTO `mob_groups` VALUES (49,4708,111,'Kalasutrax',0,128,0,0,9999,115,115,0); -- Doesn't belong here?
 INSERT INTO `mob_groups` VALUES (50,6549,111,'Ghast',330,0,953,0,0,40,40,0);
 -- Voidwalker
 INSERT INTO `mob_groups` VALUES (51,6842,111,'Gorehound',300,0,0,5200,0,80,80,0);
@@ -8654,7 +8654,7 @@ INSERT INTO `mob_groups` VALUES (49,1710,118,'Goblin_Shaman',0,128,0,0,0,30,35,0
 INSERT INTO `mob_groups` VALUES (50,1672,118,'Goblin_Guide',0,128,0,0,0,35,35,0);
 INSERT INTO `mob_groups` VALUES (51,3148,118,'Pixie',0,128,2001,0,0,51,54,0);
 INSERT INTO `mob_groups` VALUES (52,2213,118,'Ketos',1,0,0,0,0,1,1,0);
-INSERT INTO `mob_groups` VALUES (53,4734,118,'Botulus_Rex',0,128,0,0,9999,94,95,0);
+INSERT INTO `mob_groups` VALUES (53,4734,118,'Botulus_Rex',0,128,0,0,9999,120,120,0);
 INSERT INTO `mob_groups` VALUES (54,1642,118,'Goblin_Bounty_Hunter',0,0,1030,0,0,17,20,0);
 INSERT INTO `mob_groups` VALUES (55,5344,118,'Backoo',0,128,3140,4000,0,37,37,0);
 INSERT INTO `mob_groups` VALUES (56,5733,118,'Snipper',0,128,0,0,0,20,22,0); -- added higher lvl group
@@ -12028,8 +12028,8 @@ INSERT INTO `mob_groups` VALUES (25,3018,175,'Orcish_Guard',0,128,0,0,0,60,60,0)
 INSERT INTO `mob_groups` VALUES (26,1200,175,'Ellylldan',0,128,0,20000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (27,1026,175,'Dhoul',0,128,0,0,0,81,81,0);
 INSERT INTO `mob_groups` VALUES (28,5178,175,'Giltine',0,128,0,0,20000,94,95,0);
-INSERT INTO `mob_groups` VALUES (29,6868,175,'Ethniu',0,128,0,0,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (30,0,175,'Tethra',0,128,0,0,0,80,80,0);
+INSERT INTO `mob_groups` VALUES (29,6868,175,'Ethniu',0,128,0,35000,0,80,80,0);
+INSERT INTO `mob_groups` VALUES (30,6869,175,'Tethra',0,128,0,35000,0,90,90,0);
 
 -- Dungeon Events
 
@@ -14000,7 +14000,7 @@ INSERT INTO `mob_groups` VALUES (28,1913,218,'Hedjedjet',0,0,1289,0,0,105,105,0)
 INSERT INTO `mob_groups` VALUES (29,859,218,'Cuijatender',0,0,546,0,0,105,105,0);
 INSERT INTO `mob_groups` VALUES (30,2096,218,'Ironclad_Smiter',0,128,1373,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (31,2432,218,'Long-Barreled_Chariot',0,0,1532,0,0,100,100,0);
-INSERT INTO `mob_groups` VALUES (32,102,218,'Amarok',0,128,56,0,0,0,0,0);
+INSERT INTO `mob_groups` VALUES (32,102,218,'Amarok',0,128,56,0,0,96,96,0);
 INSERT INTO `mob_groups` VALUES (33,1908,218,'Hazhdiha',0,0,1286,0,0,100,100,0);
 INSERT INTO `mob_groups` VALUES (34,3071,218,'Ouzelum',0,0,1963,0,0,100,100,0);
 INSERT INTO `mob_groups` VALUES (35,3589,218,'Shaula',0,128,2233,0,0,0,0,0);

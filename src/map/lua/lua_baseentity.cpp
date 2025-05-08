@@ -14954,14 +14954,21 @@ inline int32 CLuaBaseEntity::setMobLevel(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
-
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    auto recover = true;
 
     if (auto PMob = dynamic_cast<CMobEntity*>(m_PBaseEntity))
     {
         PMob->SetMLevel((uint8)lua_tointeger(L, 1));
         PMob->SetSLevel((uint8)lua_tointeger(L, 1));
-        mobutils::CalculateMobStats(PMob, true);
+
+        if (lua_isboolean(L, 2))
+        {
+            recover = lua_toboolean(L, 2);
+        }
+
+        mobutils::CalculateMobStats(PMob, recover);
         mobutils::GetAvailableSpells(PMob);
     }
 

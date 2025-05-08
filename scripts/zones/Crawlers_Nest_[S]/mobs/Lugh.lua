@@ -19,7 +19,19 @@ function onMobWeaponSkillPrepare(mob, target)
 end
 
 function onAdditionalEffect(mob, target, damage)
-    return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.PLAGUE, {chance = 100})
+    local enspellData = {
+        { Effect = tpz.mob.ae.ENFIRE,  Chance = 25, Power = 100 },
+        { Effect = tpz.mob.ae.PLAGUE, Chance = 25, Power = 1, Duration = 30 },
+    }
+
+    -- Pick one effect at random
+    local selected = enspellData[math.random(#enspellData)]
+
+    return tpz.mob.onAddEffect(mob, target, damage, selected.Effect, {
+        chance   = selected.Chance,
+        power    = selected.Power,
+        duration = selected.Duration or 0
+    })
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
