@@ -780,7 +780,6 @@ bool CMobController::TryCastSpell()
         if (chosenSpellId && currentDistance <= 20.4)
         {
             PMob->PRecastContainer->Del(RECAST_MAGIC, static_cast<uint16>(chosenSpellId.value()));
-            auto doubleCastChance = PMob->getMod(Mod::DOUBLE_CAST);
             CastSpell(chosenSpellId.value());
             return true;
         }
@@ -1906,16 +1905,41 @@ bool CMobController::IsSpellReady(float currentDistance)
     TracyZoneScoped;
     int32 bonusTime = 0;
 
+
     if (PMob->m_forceCast)
     {
+        // Reset recast of a random spell so a spell can be force recasted
+        std::vector<SpellID> spellList = PMob->SpellContainer->GetAllSpells();
+        if (!spellList.empty())
+        {
+            SpellID randomSpell = spellList.at(tpzrand::GetRandomNumber(spellList.size()));
+            PMob->PRecastContainer->Del(RECAST_MAGIC, static_cast<uint16>(randomSpell));
+        }
+
         return true;
     }
 
-    if (PMob->StatusEffectContainer->HasStatusEffect({EFFECT_CHAINSPELL, EFFECT_MANAFONT, EFFECT_AZURE_LORE, EFFECT_TABULA_RASA}))
+    // Check if spell container exists and has spells
+    if (PMob->SpellContainer && PMob->SpellContainer->HasSpells())
+    {
+        for (auto spellId : PMob->SpellContainer->GetAllSpells())
+        {
+            if (!PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(spellId)))
+            {
+                return m_Tick >= m_NextMagicTime;
+            }
+        }
+
+        // No spells are currently off cooldown
+        return false;
+    }
+
+    if (PMob->StatusEffectContainer->HasStatusEffect({ EFFECT_CHAINSPELL, EFFECT_MANAFONT, EFFECT_AZURE_LORE, EFFECT_TABULA_RASA }))
     {
         return true;
     }
 
+    // No spells at all, fallback to timer check
     return m_Tick >= m_NextMagicTime;
 }
 

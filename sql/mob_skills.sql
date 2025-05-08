@@ -154,7 +154,7 @@ INSERT INTO `mob_skills` VALUES (168,84,'hexa_strike',0,7.0,2000,0,4,0,0,0,11,0,
 INSERT INTO `mob_skills` VALUES (169,85,'black_halo',0,7.0,2000,0,4,0,0,0,12,2,0);
 INSERT INTO `mob_skills` VALUES (176,136,'heavy_swing',0,5.0,2000,0,4,0,0,0,8,0,0);
 INSERT INTO `mob_skills` VALUES (177,137,'rock_crusher',0,5.0,2000,0,4,0,0,0,8,0,0); -- 177 animation for tethra?
-INSERT INTO `mob_skills` VALUES (178,138,'earth_crusher',1,5.0,2000,0,4,0,0,0,6,8,0); -- 178 annimation for tethra?
+INSERT INTO `mob_skills` VALUES (178,138,'earth_crusher',1,10.0,2000,0,4,0,0,0,6,8,0); -- 178 annimation for tethra?
 INSERT INTO `mob_skills` VALUES (179,139,'starburst',0,5.0,2000,0,4,0,0,0,2,5,0);
 INSERT INTO `mob_skills` VALUES (180,140,'sunburst',0,5.0,2000,0,4,0,0,0,2,5,0);
 INSERT INTO `mob_skills` VALUES (181,141,'shell_crusher',0,5.0,2000,0,4,0,0,0,6,0,0);
@@ -2599,7 +2599,7 @@ INSERT INTO `mob_skills` VALUES (2634,1810,'interference',1,18.0,2000,3000,4,0,0
 INSERT INTO `mob_skills` VALUES (2635,1811,'dark_arrivisme',1,18.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2636,1812,'banneret_charge',1,15.0,2000,2000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2637,1813,'besiegers_bane',1,18.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2638,2382,'hadal_summons',4,10.0,2000,1500,4,0,0,0,0,0,0); -- AnimationId was 2382
+INSERT INTO `mob_skills` VALUES (2638,1834,'hadal_summons',1,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2639,1835,'mayhem_lantern',1,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2640,1828,'ruinous_scythe',1,10.0,2000,2000,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2641,2385,'psyche_suction',0,7.0,2000,1500,4,0,0,0,0,0,0);

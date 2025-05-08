@@ -4993,6 +4993,9 @@ INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,252); -- dancing_chains
 INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,253); -- barbed_crescent
 
 -- earthcrusher, retribution, rock crusher
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,177); -- rock_crusher
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,178); -- earth_crusher
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,184); -- retribution
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,248); -- grim_halo
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,249); -- netherspikes
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,250); -- carnal_nightmare

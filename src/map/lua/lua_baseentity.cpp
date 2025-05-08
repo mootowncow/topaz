@@ -15848,6 +15848,7 @@ inline int CLuaBaseEntity::delSpelllistEntry(lua_State* L)
         return 0;
 
     SpellID spellId = static_cast<SpellID>(lua_tointeger(L, 1));
+
     PEntity->SpellContainer->RemoveSpell(spellId);
     return 0;
 }
@@ -15863,6 +15864,72 @@ inline int CLuaBaseEntity::clearSpellList(lua_State* L)
 
     PEntity->SpellContainer->ClearSpells();
     return 0;
+}
+
+/************************************************************************
+ *  Function: isAutoAttackEnabled()
+ *  Purpose : Returns whether auto-attack is enabled for a Mob
+ *  Example : if mob:isAutoAttackEnabled() then ...
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::isAutoAttackEnabled(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    if (m_PBaseEntity->PAI && m_PBaseEntity->PAI->GetController())
+    {
+        lua_pushboolean(L, m_PBaseEntity->PAI->GetController()->IsAutoAttackEnabled());
+    }
+    else
+    {
+        lua_pushboolean(L, false);
+    }
+
+    return 1;
+}
+
+/************************************************************************
+ *  Function: isMagicCastingEnabled()
+ *  Purpose : Returns whether magic casting is enabled for a Mob
+ *  Example : if mob:isMagicCastingEnabled() then ...
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::isMagicCastingEnabled(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    if (m_PBaseEntity->PAI && m_PBaseEntity->PAI->GetController())
+    {
+        lua_pushboolean(L, m_PBaseEntity->PAI->GetController()->IsMagicCastingEnabled());
+    }
+    else
+    {
+        lua_pushboolean(L, false);
+    }
+
+    return 1;
+}
+
+/************************************************************************
+ *  Function: isMobAbilityEnabled()
+ *  Purpose : Returns whether mob special abilities are enabled
+ *  Example : if mob:isMobAbilityEnabled() then ...
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::isMobAbilityEnabled(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    if (m_PBaseEntity->PAI && m_PBaseEntity->PAI->GetController())
+    {
+        lua_pushboolean(L, m_PBaseEntity->PAI->GetController()->IsWeaponSkillEnabled());
+    }
+    else
+    {
+        lua_pushboolean(L, false);
+    }
+
+    return 1;
 }
 
 /************************************************************************
@@ -18250,6 +18317,9 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addSpellListEntry),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delSpelllistEntry),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,clearSpellList),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,isAutoAttackEnabled),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,isMagicCastingEnabled),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,isMobAbilityEnabled),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,SetAutoAttackEnabled),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,SetMagicCastingEnabled),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,SetMobAbilityEnabled),

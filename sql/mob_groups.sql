@@ -12034,25 +12034,26 @@ INSERT INTO `mob_groups` VALUES (30,6869,175,'Tethra',0,128,0,35000,0,90,90,0);
 -- Dungeon Events
 
 -- Waves
-INSERT INTO `mob_groups` VALUES (31,9134,175,'Terror_Skeleton',0,128,0,0,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (32,1195,175,'Terror_Ghost',0,128,0,0,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (33,6308,175,'Terror_Hound',0,128,0,0,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (34,6357,175,'Terror_Doomed',0,128,0,0,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (35,6319,175,'Terror_Corse',0,128,0,0,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (36,2953,175,'Terror_Corpselight',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (31,3647,175,'Terror_Skeleton_WAR',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (32,3646,175,'Terror_Skeleton_BLM',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (33,338,175,'Terror_Ghost',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (34,3497,175,'Terror_Hound',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (35,6483,175,'Terror_Doomed',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (36,801,175,'Terror_Corse',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (37,763,175,'Terror_Corpselight',0,128,0,0,0,85,85,0);
 
 -- Bosses
-INSERT INTO `mob_groups` VALUES (37,9135,175,'Hound_of_Balthazar',0,128,0,35000,0,88,88,0);
-INSERT INTO `mob_groups` VALUES (38,9135,175,'Duke_Xavier',0,128,0,35000,0,88,88,0);
-INSERT INTO `mob_groups` VALUES (39,9086,175,'Duke_Xaviers_Bat',0,128,0,0,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (40,9135,175,'Tezcatli',0,128,0,35000,0,88,88,0);
-INSERT INTO `mob_groups` VALUES (41,9135,175,'Klagmuhme',0,128,0,35000,0,88,88,0);
-INSERT INTO `mob_groups` VALUES (42,9135,175,'Knecht',0,128,0,35000,0,88,88,0);
-INSERT INTO `mob_groups` VALUES (43,9135,175,'Velfegor',0,128,0,35000,0,88,88,0);
-INSERT INTO `mob_groups` VALUES (44,9135,175,'Kernunnos',0,128,0,0,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (45,2664,175,'Mimic',0,128,0,0,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (46,9142,175,'Knechts_Corpselight-Healer',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (47,9143,175,'Knechts_Corpselight-Debuffer',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (38,9135,175,'Hound_of_Balthazar',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (39,9136,175,'Duke_Xavier',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (40,6423,175,'Duke_Xaviers_Bat',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (41,9137,175,'Tezcatli',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (42,9138,175,'Klagmuhme',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (43,9139,175,'Knecht',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (44,9140,175,'Velfegor',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (45,9141,175,'Kernunnos',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (46,2664,175,'Mimic',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (47,9142,175,'Knechts_Corpselight-Healer',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (48,9143,175,'Knechts_Corpselight-Debuffer',0,128,0,0,0,81,81,0);
 
 
 INSERT INTO `mob_groups` VALUES (9053,18,175,'Abenzio',1,0,0,0,0,1,1,0);

@@ -3202,7 +3202,7 @@ tpz.mobMod =
     SUBLINK             = 10, -- sub link group
     LINK_RADIUS         = 11, -- link radius
     DRAW_IN             = 12, -- 1 - player draw in, 2 - alliance draw in -- only add as a spawn mod!
-    SEVERE_SPELL_CHANCE = 13, -- % chance to use a severe spell like death or impact
+    SEVERE_CHANCE       = 13, -- % chance to use a severe spell like death or impact
     SKILL_LIST          = 14, -- uses given mob skill list
     MUG_GIL             = 15, -- amount gil carried for mugging
     -- 16 Available for use

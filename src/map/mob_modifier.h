@@ -41,7 +41,7 @@ enum MOBMODIFIER : int
     MOBMOD_SUBLINK             = 10, // sub link group
     MOBMOD_LINK_RADIUS         = 11, // link radius
     MOBMOD_DRAW_IN             = 12, // 1 - player draw in, 2 - alliance draw in -- only add as a spawn mod!
-    MOBMOD_SEVERE_SPELL_CHANCE = 13, // % chance to use a severe spell like death or impact
+    MOBMOD_SEVERE_CHANCE       = 13, // % chance to use a severe spell like death or impact
     MOBMOD_SKILL_LIST          = 14, // uses given mob skill list. Set in mob_pools.sql on initialize, but can be edited via this mob mod
     MOBMOD_MUG_GIL             = 15, // amount gil carried for mugging
     // 16 Available for use

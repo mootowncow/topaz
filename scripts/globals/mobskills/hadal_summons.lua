@@ -1,7 +1,7 @@
 ---------------------------------------------
 --  Hadal Summons
 --
---  Description: Deals severe Fire damage to enemies in a cone. 
+--  Description: Deals Fire damage to enemies in a 10' AOE'. 
 --  Additional effect: Burn
 --  Type:  Magical
 --
@@ -21,7 +21,7 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.BURN
-    local power = 40
+    local power = 10
     local dmgmod = mob:getMainLvl() * 8 + getMobDStat(INT_BASED, mob, target)
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.FIRE, MOBPARAM_WIPE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.FIRE)

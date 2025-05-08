@@ -734,6 +734,9 @@ public:
     int32 addSpellListEntry(lua_State*);      // Adds a spell to the mobs current spell list
     int32 delSpelllistEntry(lua_State*);      // Removes a spell to the mobs current spell list
     int32 clearSpellList(lua_State*);         // Fully clears the mobs current spell list
+    int32 isAutoAttackEnabled(lua_State*);    // Returns true / false if autoattack is enabled or not
+    int32 isMagicCastingEnabled(lua_State*);    // Returns true / false if casting is enabled or not
+    int32 isMobAbilityEnabled(lua_State*);    // Returns true / false if mob skills is enabled or not
     int32 SetAutoAttackEnabled(lua_State*);   // halts/resumes auto attack of entity
     int32 SetMagicCastingEnabled(lua_State*); // halt/resumes casting magic
     int32 SetMobAbilityEnabled(lua_State*);   // halt/resumes mob skills

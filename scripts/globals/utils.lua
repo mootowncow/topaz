@@ -1012,53 +1012,60 @@ function utils.getDropRate(mob, base)
     return dropChance
 end
 
-function utils.spawnPetInBattle(mob, pet, aggro, randomizeTarget, setSpawn, spawnOnTarget)
+function utils.spawnPetInBattle(mob, pets, aggro, randomizeTarget, setSpawn, spawnOnTarget)
     mob:entityAnimationPacket("casm")
     mob:SetAutoAttackEnabled(false)
     mob:SetMagicCastingEnabled(false)
     mob:SetMobAbilityEnabled(false)
+
     mob:timer(3000, function(mob)
         mob:entityAnimationPacket("shsm")
         mob:SetAutoAttackEnabled(true)
         mob:SetMagicCastingEnabled(true)
         mob:SetMobAbilityEnabled(true)
 
-        -- Spawn on a random target
-        if (spawnOnTarget ~= nil) then
-            local NearbyEntities = mob:getNearbyEntities(50)
-            if NearbyEntities and #NearbyEntities > 0 then
-                local randomTarget = NearbyEntities[math.random(1, #NearbyEntities)]
-                if randomTarget:isAlive() then
-                    pet:setSpawn(randomTarget:getXPos(), randomTarget:getYPos(), randomTarget:getZPos())
-                    pet:spawn()
-                    if (randomTarget:getAllegiance() ~= mob:getAllegiance()) then
-                        pet:updateEnmity(randomTarget)
-                    end
-                end
-            end
-
-            return
+        -- Ensure pets is a table, even if it's a single mob
+        if type(pets) ~= "table" then
+            pets = { pets }
         end
 
-        if (setSpawn ~= nil) then
-            pet:setSpawn(mob:getXPos() + math.random(0, 2), mob:getYPos(), mob:getZPos() + math.random(0, 2))
-        end
-        pet:spawn()
-        if (aggro ~= nil) then
-            if (randomizeTarget ~= nil) then
-                local enmityList = mob:getEnmityList()
-                if enmityList and #enmityList > 0 then
-                local randomTarget = enmityList[math.random(1, #enmityList)]
-                local entityId = randomTarget.entity:getID()
-        
-                    if (entityId > 10000) then -- ID is a mob (pet)
-                        pet:updateEnmity(GetMobByID(entityId))
-                    else
-                        pet:updateEnmity(GetPlayerByID(entityId))
+        for _, pet in ipairs(pets) do
+            if (spawnOnTarget ~= nil) then
+                local NearbyEntities = mob:getNearbyEntities(50)
+                if NearbyEntities and #NearbyEntities > 0 then
+                    local randomTarget = NearbyEntities[math.random(1, #NearbyEntities)]
+                    if randomTarget:isAlive() then
+                        pet:setSpawn(randomTarget:getXPos(), randomTarget:getYPos(), randomTarget:getZPos())
+                        pet:spawn()
+                        if (randomTarget:getAllegiance() ~= mob:getAllegiance()) then
+                            pet:updateEnmity(randomTarget)
+                        end
                     end
                 end
             else
-                pet:updateEnmity(mob:getTarget())
+                if (setSpawn ~= nil) then
+                    pet:setSpawn(mob:getXPos() + math.random(0, 2), mob:getYPos(), mob:getZPos() + math.random(0, 2))
+                end
+
+                pet:spawn()
+
+                if (aggro ~= nil) then
+                    if (randomizeTarget ~= nil) then
+                        local enmityList = mob:getEnmityList()
+                        if enmityList and #enmityList > 0 then
+                            local randomTarget = enmityList[math.random(1, #enmityList)]
+                            local entityId = randomTarget.entity:getID()
+
+                            if (entityId > 10000) then -- mob
+                                pet:updateEnmity(GetMobByID(entityId))
+                            else -- player
+                                pet:updateEnmity(GetPlayerByID(entityId))
+                            end
+                        end
+                    else
+                        pet:updateEnmity(mob:getTarget())
+                    end
+                end
             end
         end
     end)

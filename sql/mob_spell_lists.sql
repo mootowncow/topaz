@@ -6102,7 +6102,6 @@ INSERT INTO `mob_spell_lists` VALUES ('Tezcatli', 547, 176, 1, 255); -- Firaga I
 INSERT INTO `mob_spell_lists` VALUES ('Tezcatli', 547, 360, 1, 255); -- Dispelga
 INSERT INTO `mob_spell_lists` VALUES ('Tezcatli', 547, 274, 1, 255); -- Sleepga II
 INSERT INTO `mob_spell_lists` VALUES ('Tezcatli', 547, 356, 1, 255); -- Paralyga
-INSERT INTO `mob_spell_lists` VALUES ('Tezcatli', 547, 219, 1, 255); -- Comet (Below 50%)
 
 INSERT INTO `mob_spell_lists` VALUES ('Klagmuhme', 548, 152, 1, 255); -- Blizzard IV
 INSERT INTO `mob_spell_lists` VALUES ('Klagmuhme', 548, 181, 1, 255); -- Blizzaga III
@@ -6163,8 +6162,14 @@ INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 647, 1, 255); -- Zephyr Man
 INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 561, 1, 255); -- Frightful Roar
 INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 563, 1, 255); -- Hecatomb Wave
 
--- Sandspin, filamented hold, magnetite cloud, Stone IV, Stonega III, quake, slowga, breakga
-INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 563, 1, 255); -- Hecatomb Wave
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 162, 1, 255); -- Stone IV
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 191, 1, 255); -- Stonega III
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 210, 1, 255); -- Quake
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 357, 1, 255); -- Slowga
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 365, 1, 255); -- Breakga
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 524, 1, 255); -- Sandspin
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 548, 1, 255); -- Filamented Hold
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 555, 1, 255); -- Magnetite Cloud
 
 -- NEXT 546
 -- NEXT 1022

@@ -61,6 +61,12 @@ require("scripts/globals/keyitems")
 -- Tethra needs a new family, weak to wind, resists everything else
 -- fomor all true sight/sound
 -- bosses and metaBosses tables needs eldieme and garlaige
+-- Code or remove randomEventDefense from both tables
+-- environmental for eldieme and garlaige
+-- Why is onRegionEnter = function(player, region) being spammed for eldieme? (Maybe just for region #1?)
+-- Eldieme bosses size 6
+-- Eldieme Bosses impossible to gauge
+-- Mob pets need to despawn on their death/despawn
 
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
@@ -147,9 +153,9 @@ local mobFamily = {
     [tpz.zone.GARLAIGE_CITADEL_S] = {
     },
     [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
-        Skeletons = { 17499999, 17500000, 17500001, 17500002, 17500003, 17500004, 17500005, 17500006, 17500007, 17500008 },
-        Ghosts    = { 17500009, 17500010, 17500011, 17500012, 17500013, 17500014, 17500015, 17500016, 17500017, 17500018 },
-        Hounds    = { 17500019, 17500020, 17500021, 17500022, 17500023, 17500024, 17500025, 17500026, 17500027, 17500028 },
+        Skeletons = { 17494789, 17494790, 17494791, 17494792, 17494793, 17494794, 17494795, 17494796, 17494797, 17494798 },
+        Ghosts    = { 17494799, 17494800, 17494801, 17494802, 17494803, 17494804, 17494805, 17494806, 17494807, 17494808 },
+        Hounds    = { 17494809, 17494810, 17494811, 17494812, 17494813, 17494814, 17494815, 17494816, 17494817, 17494818 },
         Doomed = { 17494819, 17494820, 17494821, 17494822, 17494823, 17494824, 17494825, 17494826, 17494827, 17494828 },
         Corse = { 17494829, 17494830, 17494831, 17494832, 17494833, 17494834, 17494835, 17494836, 17494837, 17494838 },
         Corpselight = { 17494839, 17494840, 17494841, 17494842, 17494843, 17494844, 17494845, 17494846, 17494847, 17494848 },
@@ -159,12 +165,14 @@ local mobFamily = {
 local bosses = {
     -- Scorpion(Gold), Rafflesia, Gnat, Ladybug, Slug, Peiste
     [tpz.zone.CRAWLERS_NEST_S] = { 17478239, 17478240, 17478241, 17478242, 17478243, 17478244 },
-    [tpz.zone.GARLAIGE_CITADEL_S] = { },
+    [tpz.zone.GARLAIGE_CITADEL_S] = { 17494849, 17494850, 17494854, 17494855,  17494856, 17494857, 17494858 },
     [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = { },
 }
 
 local metaBosses = {
-    [tpz.zone.CRAWLERS_NEST_S] = { Id = 17477708, Pos = 'E-7' }, -- Lugh
+    [tpz.zone.CRAWLERS_NEST_S] = { Name = 'Lugh',       Id = 17477708, Pos = 'E-7' },
+    [tpz.zone.CRAWLERS_NEST_S] = { Name = 'Ethniu',     Id = 17494093, Pos = 'K-7' },
+    [tpz.zone.CRAWLERS_NEST_S] = { Name = 'Tethra',     Id = 17494213, Pos = 'K-12' },
 }
 
 local augments = {
@@ -630,13 +638,13 @@ local function GenerateAugments(player, chance)
                 local itemdata = GetItem(item)
                 local itemName = string.gsub(itemdata:getName(), '_', ' ');
                 itemName = utils.PunctuateString(itemName)
-                printf("Added augment for %s - Item: %s, Augment: %s Value %d (max augments: %d)", member:getName(), itemName, statName, value+1, maxAugments)
+                --printf("Added augment for %s - Item: %s, Augment: %s Value %d (max augments: %d)", member:getName(), itemName, statName, value+1, maxAugments)
                 augmentIndex = augmentIndex + 2
             else
                 printf("Skipped augment: %s (value invalid)", tostring(augment.stat))
             end
             if augmentIndex > 10 then
-                printf("Reached augment cap")
+                --printf("Reached augment cap")
                 break
             end
         end
@@ -1350,11 +1358,12 @@ local modByMobName =
     end,
 
     ['Duke_Xavier'] = function(mob) -- Vampyr
-        mob:setDamage(90)
+        mob:setDamage(20)
         mob:setMod(tpz.mod.DEF, 1200)
         mob:setMod(tpz.mod.VIT, 150)
         mob:setMod(tpz.mod.WIND_ABSORB, 100)
         mob:setMod(tpz.mod.ENH_CASTING_TIME, 50)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
         -- Perma undispellable Gale Spikes
         mob:addStatusEffect(tpz.effect.GALE_SPIKES, 25, 0, 0)
         local galeSpikes = mob:getStatusEffect(tpz.effect.GALE_SPIKES)
@@ -1380,16 +1389,19 @@ local modByMobName =
     end,
 
     ['Tezcatli'] = function(mob) -- Corse
-        mob:setMobMod(tpz.mobMod.SEVERE_SPELL_CHANCE, 25)
+    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
+        mob:setMobMod(tpz.mobMod.SEVERE_CHANCE, 25)
     end,
 
     ['Klagmuhme'] = function(mob) -- Corpselight
         mob:addMod(tpz.mod.QUICK_MAGIC, 10)
-        mob:setMobMod(tpz.mobMod.SEVERE_SPELL_CHANCE, 25)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
+        mob:setMobMod(tpz.mobMod.SEVERE_CHANCE, 25)
     end,
 
     ['Knecht'] = function(mob) -- Dvergr
         local partyWithCorpseLights = 19235
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
         mob:addMod(tpz.mod.DOUBLE_CAST, 20)
         mob:setMod(tpz.mod.RANGEDRES, 250)
         mob:setMobMod(tpz.mobMod.CUSTOMLINK, partyWithCorpseLights)
@@ -1397,10 +1409,10 @@ local modByMobName =
 
     ['Knechts_Corpselight'] = function(mob, target)
         local partyWithKnecht = 19235
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 10)
         mob:setMobMod(tpz.mobMod.CUSTOMLINK, partyWithKnecht)
         mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
         mob:SetAutoAttackEnabled(false)
-        mob:SetMagicCastingEnabled(false)
         mob:SetMobAbilityEnabled(false)
     end,
 
@@ -1485,12 +1497,24 @@ local mobRoamByMobName =
         local knecht = GetMobByID(17494856)
 
         -- Healer is always positioned to the left of Knecht, and debuffer to the right
-        if knecht then
-            local x, y, z = knecht:getPos()
-            if isHealer then
-                mob:setPos(x - 2, y, z)
-            elseif isDebuffer then
-                mob:setPos(x + 2, y, z)
+        if
+            knecht and
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect()
+        then
+            local pos = knecht:getPos()
+            local rot = knecht:getRotPos() * (2 * math.pi / 256)
+
+            local distance = 2
+
+            if isDebuffer then
+                local offsetX = math.cos(rot + math.pi / 2) * distance
+                local offsetZ = math.sin(rot + math.pi / 2) * distance
+                mob:setPos(pos.x + offsetX, pos.y, pos.z + offsetZ)
+            elseif isHealer then
+                local offsetX = math.cos(rot - math.pi / 2) * distance
+                local offsetZ = math.sin(rot - math.pi / 2) * distance
+                mob:setPos(pos.x + offsetX, pos.y, pos.z + offsetZ)
             end
         end
 
@@ -1775,7 +1799,38 @@ local mobFightByMobName =
     end,
 
     ['Duke_Xavier'] = function(mob, target)
-        -- SMN/DRK. summons a red bat add that is not killed fast will charm a nearby player and bat costume them
+        local timedBat = GetMobByID(17494851)
+        local batIsRoaming = GetMobAction(17494851) == tpz.act.ROAMING
+	    local batTimer = mob:getLocalVar("batTimer")
+
+        -- Summons a red bat add that is not killed fast will charm a nearby player and bat costume them
+        if
+            not timedBat:isSpawned() and
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect() and
+            not mob:hasStatusEffect(tpz.effect.ASTRAL_FLOW)
+        then
+            if (batTimer == 0) then
+                mob:setLocalVar("batTimer", os.time() + 45)
+            elseif (os.time() >= batTimer) then
+                timedBat:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 2))
+                utils.spawnPetInBattle(mob, timedBat)
+                mob:setLocalVar("batTimer", os.time() + 90)
+            end
+        end
+
+        for xavierBat = mob:getID() + 1, mob:getID() + 3 do
+            local bat = GetMobByID(xavierBat)
+            if bat and bat:isSpawned() and GetMobAction(xavierBat) == tpz.act.ROAMING then
+                local NearbyPlayers = mob:getPlayersInRange(50)
+                if NearbyPlayers and #NearbyPlayers > 0 then
+                    local randomTarget = NearbyPlayers[math.random(1, #NearbyPlayers)]
+                    if randomTarget:isAlive() and randomTarget:getAllegiance() ~= mob:getAllegiance() then
+                        bat:updateEnmity(randomTarget)
+                    end
+                end
+            end
+        end
 
         -- 500+ Cure magic bursts procs Amnesia for 60 seconds
         mob:addListener("SPELL_DMG_TAKEN", "XAVIER_SPELL_DMG_TAKEN", function(mob, caster, spell, amount, msg)
@@ -1796,8 +1851,8 @@ local mobFightByMobName =
                 for xavierBat = mob:getID()+1, mob:getID()+3 do
                     local bat = GetMobByID(xavierBat)
                     if bat then
-                        bat:setSpawn(mob:getXPos() + math.random(2, 5), mob:getYPos(), mob:getZPos() + math.random(1, 3))
-                        utils.spawnPetInBattle(mob, bat)
+                        bat:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 2))
+                        bat:spawn()
                     end
                 end
             end
@@ -1814,8 +1869,9 @@ local mobFightByMobName =
     end,
 
     ['Tezcatli'] = function(mob, target)
-        -- Casts: Paralyga, Dispelga, Firaga III, Blizzaga III, Comet (Below 50%)
         local hpp = mob:getHPP()
+
+        -- Casts: Paralyga, Dispelga, Firaga III, Blizzaga III, Comet (Below 50%)
         if (hpp < 50) then
             mob:addSpellListEntry(tpz.magic.spell.COMET)
         else
@@ -1856,9 +1912,6 @@ local mobFightByMobName =
     ['Knecht'] = function(mob, target)
         -- WAR/DRK
         -- Double Cast (25%)
-        -- Uses Cackle - > Hellsnap -> -ga (interrupting does not stop this combo)
-        -- Two Corpselights connected to him, left one heals, right one -ga enfeebles players. Killing both forces a respawn of both, killing 1 does not
-        -- Access to Thundris Shriek below 25%. 500+ damage, 50% para, 1m of humanoid killer
         local hpp = mob:getHPP()
         local lastHPP = mob:getLocalVar("last_spelllist_hpp")
         local spellListData = {
@@ -1885,6 +1938,16 @@ local mobFightByMobName =
             }
         }
 
+        -- Two Corpselights connected to him, left one heals, right one -ga enfeebles players. Killing both forces a respawn of both, killing 1 does not
+        local healer = GetMobByID(17494861)
+        local debuffer = GetMobByID(17494862)
+
+        if not healer:isSpawned() and not debuffer:isSpawned() and mob:isAutoAttackEnabled() then
+            healer:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 2))
+            debuffer:setSpawn(mob:getXPos() + math.random(1, 3), mob:getYPos(), mob:getZPos() + math.random(1, 2))
+            utils.spawnPetInBattle(mob, { healer, debuffer })
+        end
+
         -- Casts stronger spells as HP decreases
         -- 100-74% HP T1 -ga, 51-74 T2 -ga, 0-24 T3 -ga
         -- Only check to update spell list if mob HP was increased or decreased
@@ -1904,6 +1967,13 @@ local mobFightByMobName =
                 end
             end
         end
+
+        -- Access to Thundris Shriek below 25%. 500+ damage, 50% para, 1m of humanoid killer
+        if (hpp < 25) then
+            mob:addSkillListEntry(tpz.mob.skills.THUNDRIS_SHRIEK)
+        else
+            mob:delSkillListEntry(tpz.mob.skills.THUNDRIS_SHRIEK)
+        end
     end,
 
     ['Knechts_Corpselight'] = function(mob, target)
@@ -1912,12 +1982,24 @@ local mobFightByMobName =
         local knecht = GetMobByID(17494856)
 
         -- Healer is always positioned to the left of Knecht, and debuffer to the right
-        if knecht then
-            local x, y, z = knecht:getPos()
-            if isHealer then
-                mob:setPos(x - 2, y, z)
-            elseif isDebuffer then
-                mob:setPos(x + 2, y, z)
+        if
+            knecht and
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect()
+        then
+            local pos = knecht:getPos()
+            local rot = knecht:getRotPos() * (2 * math.pi / 256)
+
+            local distance = 2
+
+            if isDebuffer then
+                local offsetX = math.cos(rot + math.pi / 2) * distance
+                local offsetZ = math.sin(rot + math.pi / 2) * distance
+                mob:setPos(pos.x + offsetX, pos.y, pos.z + offsetZ)
+            elseif isHealer then
+                local offsetX = math.cos(rot - math.pi / 2) * distance
+                local offsetZ = math.sin(rot - math.pi / 2) * distance
+                mob:setPos(pos.x + offsetX, pos.y, pos.z + offsetZ)
             end
         end
 
@@ -2213,6 +2295,11 @@ local mobFightByMobName =
 
 local mobSpellPrecastByMobName =
 {
+    ['Knechts_Corpselight'] = function(mob, spell)
+        spell:setAoE(tpz.magic.aoe.RADIAL)
+        spell:setRadius(10)
+    end,
+
     ['Kernunnos'] = function(mob, spell)
         local aoeSpellList = {
         tpz.magic.spell.ABSORB_TP,
@@ -2284,6 +2371,17 @@ local mobDeathByMobName =
         local witchweed = GetMobByID(17478240)
         witchweed:setLocalVar("beeTimer", os.time() + 45)
     end,
+
+    ['Duke_Xavier'] = function(mob)
+        for xavierBat = mob:getID() + 1, mob:getID() + 3 do
+            DespawnMob(xavierBat)
+        end
+    end,
+
+    ['Knecht'] = function(mob)
+        DespawnMob(17494861)
+        DespawnMob(17494862)
+    end,
 }
 
 local mobDespawnByMobName =
@@ -2291,6 +2389,17 @@ local mobDespawnByMobName =
     ['Witchweed'] = function(mob)
         local bee = 17478245
         DespawnMob(bee)
+    end,
+
+    ['Duke_Xavier'] = function(mob)
+        for xavierBat = mob:getID() + 1, mob:getID() + 3 do
+            DespawnMob(xavierBat)
+        end
+    end,
+
+    ['Knecht'] = function(mob)
+        DespawnMob(17494861)
+        DespawnMob(17494862)
     end,
 }
 
@@ -2465,8 +2574,8 @@ end
 
 tpz.wotg.RandomEvent = function(player)
     local zone = player:getZone()
-    --randomEventWaves(player) -- TODO: Remove after done testing
-    eventList[math.random(#eventList)](player) -- TODO: Does this work?
+    randomEventWaves(player) -- TODO: Remove after done testing
+    --eventList[math.random(#eventList)](player) -- TODO: Does this work?
 end
 
 tpz.wotg.spawnWave = function(player, waveIndex)
