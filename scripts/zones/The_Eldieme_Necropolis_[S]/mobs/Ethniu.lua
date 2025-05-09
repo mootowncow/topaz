@@ -4,6 +4,8 @@
 ------------------------------
 require("scripts/globals/wotg")
 require("scripts/globals/hunts")
+mixins = {require("scripts/mixins/job_special")}
+
 ------------------------------
 function onMobSpawn(mob)
     tpz.wotg.onMobSpawn(mob)
@@ -41,6 +43,6 @@ function onMobWeaponSkillPrepare(mob, target)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
-    tpz.wotg.onMobDeath(mob, player, isKiller, noKiller, tpz.wotg.events.Boss)
+    tpz.wotg.onMobDeath(mob, player, isKiller, noKiller, tpz.wotg.events.MetaBoss)
     tpz.hunts.checkHunt(mob, player, 497)
 end

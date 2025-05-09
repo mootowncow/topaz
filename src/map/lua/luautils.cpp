@@ -2554,7 +2554,7 @@ namespace luautils
     {
         TPZ_DEBUG_BREAK_IF(PSpell == nullptr);
 
-        PTarget->PAI->EventHandler.triggerListener("MAGIC_TAKE", PTarget, PCaster, PSpell);
+        PTarget->PAI->EventHandler.triggerListener("SPELL_DMG_TAKEN", PTarget, PCaster, PSpell);
 
         lua_prepscript("scripts/zones/%s/mobs/%s.lua", PTarget->loc.zone->GetName(), PTarget->GetName());
 

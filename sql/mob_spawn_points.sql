@@ -53536,7 +53536,7 @@ INSERT INTO `mob_spawn_points` VALUES (17494089,'Gazer','Gazer',13,299.180,-29.3
 -- INSERT INTO `mob_spawn_points` VALUES (17494090,'Gazer','Gazer',13,306.146,-32.5,264.107,31);
 INSERT INTO `mob_spawn_points` VALUES (17494091,'Gazer','Gazer',13,144.323,-15.838,275.198,95);
 -- INSERT INTO `mob_spawn_points` VALUES (17494092,'Gazer','Gazer',13,152.131,-15.508,274.145,234);
-INSERT INTO `mob_spawn_points` VALUES (17494093,'Ethniu','Ethniu',29,160.64,15,280.12,0);
+INSERT INTO `mob_spawn_points` VALUES (17494093,'Ethniu','Ethniu',29,160.64,-15,280.12,0);
 INSERT INTO `mob_spawn_points` VALUES (17494094,'Gazer','Gazer',13,172.433,-16.016,285.993,195);
 -- INSERT INTO `mob_spawn_points` VALUES (17494095,'Gazer','Gazer',13,164.515,-15.466,271.294,65);
 INSERT INTO `mob_spawn_points` VALUES (17494096,'Goblin_Freesword','Goblin Freesword',14,160.107,-15.5,280.199,231);

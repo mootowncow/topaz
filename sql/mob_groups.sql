@@ -13923,7 +13923,7 @@ INSERT INTO `mob_groups` VALUES (27,2178,217,'Kadraeth_the_Hatespawn',0,128,1422
 INSERT INTO `mob_groups` VALUES (28,3314,217,'Rakshas',0,128,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (29,3547,217,'Seps',0,128,2200,0,0,85,87,0);
 INSERT INTO `mob_groups` VALUES (30,4392,217,'Xan',0,128,2681,0,0,85,87,0);
-INSERT INTO `mob_groups` VALUES (31,712,217,'Chhir_Batti',0,128,464,0,0,85,87,0);
+INSERT INTO `mob_groups` VALUES (31,712,217,'Chhir_Batti',0,128,464,0,0,90,90,0);
 INSERT INTO `mob_groups` VALUES (32,245,217,'Armillaria',0,128,170,0,0,82,85,0);
 INSERT INTO `mob_groups` VALUES (33,3101,217,'Pascerpot',0,128,0,0,0,90,90,0);
 INSERT INTO `mob_groups` VALUES (34,1629,217,'Gnawtooth_Gary',0,128,1009,0,0,85,87,0);

@@ -19,7 +19,6 @@ MAGIC_START - Entity, Spell, action
 MAGIC_MID - Entity, Target, Spell
 MAGIC_USE - Entity, Target, Spell, action
 MAGIC_STATE_EXIT - Entity, Spell
-MAGIC_TAKE - Target, Entity, Spell, action
 SPELL_DMG_TAKEN - Target, Entity, Spell, amount, message
 MAGIC_HIT - caster, target, spell -- Hit and was not absorbed by a shadow
 EN_SPIKES_HIT - attacker, target, enspellID (enum ENSPELL in battleutils.h)

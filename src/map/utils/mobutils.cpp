@@ -229,7 +229,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     uint8 mJobGrade; // main jobs grade
     uint8 sJobGrade; // subjobs grade
 
-    if (recover == true)
+    if (recover)
     {
         if (PMob->HPmodifier == 0)
         {
@@ -651,10 +651,13 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     }
 
     // Max [HP/MP] Boost traits
-    PMob->UpdateHealth();
-    PMob->health.tp = 0;
-    PMob->health.hp = PMob->GetMaxHP();
-    PMob->health.mp = PMob->GetMaxMP();
+    if (recover)
+    {
+        PMob->UpdateHealth();
+        PMob->health.tp = 0;
+        PMob->health.hp = PMob->GetMaxHP();
+        PMob->health.mp = PMob->GetMaxMP();
+    }
 
     SetupJob(PMob);
     SetupRoaming(PMob);

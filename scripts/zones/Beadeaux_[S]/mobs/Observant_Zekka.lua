@@ -67,7 +67,7 @@ end
 
 function MagicCounter(mob, target)
     local spellToMimic = mob:getLocalVar("[zekka]spellToMimic")
-    mob:addListener("MAGIC_TAKE", "ZEKKA_MIMIC_MAGIC_TAKE", function(target, caster, spell)
+    mob:addListener("SPELL_DMG_TAKEN", "ZEKKA_MIMIC_SPELL_DMG_TAKEN", function(target, caster, spell)
         if
             spell:tookEffect() and
             (caster:isPC() or caster:isPet()) and

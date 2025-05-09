@@ -1031,7 +1031,7 @@ local mobFightByMobName =
             end
         end)
 
-        mob:addListener("MAGIC_TAKE", "EREBUS_MAGIC_TAKE", function(target, caster, spell)
+        mob:addListener("SPELL_DMG_TAKEN", "EREBUS_SPELL_DMG_TAKEN", function(target, caster, spell)
             if
                 spell:tookEffect() and
                 (caster:isPC() or caster:isPet()) and

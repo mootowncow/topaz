@@ -15027,7 +15027,7 @@ inline int32 CLuaBaseEntity::updateAttachments(lua_State* L)
 /************************************************************************
 *  Function: setMobLevel()
 *  Purpose : Updates the monsters level and recalculates stats
-*  Example : mob:setMobLevel(125)
+*  Example : mob:setMobLevel(125, false)
 *  Notes   : CalculateStats will refill mobs hp/mp as well
 *  !!! WARNING! CLEARS ALL MODS AND MOBMODS !!!
 ************************************************************************/

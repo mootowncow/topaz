@@ -113,7 +113,7 @@ tpz.wotg.regionsData = {
     [tpz.zone.GARLAIGE_CITADEL_S] = {
     },
     [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
-        amount = 15,
+        amount = 14,
     }
 }
 
@@ -1038,7 +1038,7 @@ local function PrintMobTypeGeneration(mob)
     typeName = utils.PunctuateString(typeName)
     local mobName = mob:getName()
     local mobId = mob:getID()
-    printf("Mob Type Generated: %s [%d]: %s", mobName, mobId, typeName)
+    --printf("Mob Type Generated: %s [%d]: %s", mobName, mobId, typeName)
 end
 
 local function GenerateMob(player, mob)
@@ -2040,8 +2040,6 @@ local mobFightByMobName =
     end,
 
     ['Kernunnos'] = function(mob, target)
-        -- Can only go from grounded <-> stoneform
-        -- Can only go from grounded <-> flying
         local animation = {
             GROUNDED    = 0,
             FLYING      = 1,
@@ -2060,12 +2058,55 @@ local mobFightByMobName =
             { HP = 80,     Var = 'stoneform_80'   },
         }
         local changeTime = mob:getLocalVar("changeTime")
+        local waitTimer = mob:getLocalVar("waitTimer")
         local battleTime = mob:getBattleTime()
         local currentHP = mob:getHPP()
 
+        -- "Too High" wyrm effect and 250/tick regain while flying.
+        -- Only uses Shadow Burst while flying (500+ damage)
+        if (mob:AnimationSub() == animation.FLYING) then
+            mob:SetAutoAttackEnabled(true)
+            mob:SetMagicCastingEnabled(true)
+            mob:SetMobAbilityEnabled(true)
+            mob:addStatusEffectEx(tpz.effect.TOO_HIGH, 0, 0, 0, 1)
+            mob:addSkillListEntry(math.random(tpz.mob.skills.DARK_ORB, tpz.mob.skills.DARK_MIST))
+            mob:setMod(tpz.mod.REGAIN, 250)
+        elseif (mob:AnimationSub() == animation.STONEFORM) then
+            mob:SetAutoAttackEnabled(false)
+            mob:SetMagicCastingEnabled(false)
+            mob:SetMobAbilityEnabled(false)
+            mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
+            mob:addStatusEffect(tpz.effect.DAMAGE_SPIKES, 500, 0, 1)
+            mob:setMod(tpz.mod.REGAIN, 0)
+            mob:setMod(tpz.mod.UDMGPHYS, -100)
+            mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN)) -- Disable no turn
+        elseif (mob:AnimationSub() == animation.GROUNDED) then
+            mob:setMod(tpz.mod.REGAIN, 0)
+            for _, skills in ipairs (skillList) do
+                mob:addSkillListEntry(skills)
+            end
+        end
+
+        if (os.time() <= waitTimer) then
+            return
+        end
+
         -- Alternates between flying / standing
         if (changeTime == 0) then
-            mob:setLocalVar("changeTime", math.random(60, 90))
+            mob:setLocalVar("changeTime", math.random(20, 30))
+        end
+
+        if (mob:AnimationSub() == animation.STONEFORM) and not mob:hasStatusEffect(tpz.effect.MAGIC_SHIELD) then
+            mob:setLocalVar("changeTime", battleTime + math.random(60, 90))
+            mob:SetAutoAttackEnabled(true)
+            mob:SetMagicCastingEnabled(true)
+            mob:SetMobAbilityEnabled(true)
+            mob:setMod(tpz.mod.UDMGPHYS, 0)
+            mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
+            mob:AnimationSub(animation.GROUNDED)
+            mob:setBehaviour(bit.band(mob:getBehaviour(), bit.bnot(tpz.behavior.NO_TURN))) -- Enable no turn
+            mob:setLocalVar("waitTimer", os.time() + 5)
+            return
         end
 
         if
@@ -2075,15 +2116,15 @@ local mobFightByMobName =
                 not mob:hasPreventActionEffect()
         then
             if (mob:AnimationSub() == animation.FLYING) then
-                printf("Changing to grounded")
                 mob:AnimationSub(animation.GROUNDED)
             else
-                printf("Changing to flying")
                 mob:AnimationSub(animation.FLYING)
             end
 
             mob:clearSkillList()
-            mob:setLocalVar("changeTime", battleTime + math.random(60, 90))
+            mob:setLocalVar("changeTime", battleTime + math.random(20, 30))
+            mob:setLocalVar("waitTimer", os.time() + 5)
+            return
         end
 
         -- Every 20% Stone forms which is a full erase and grants him 500 damage spikes and 3000 magic SS. Immune to physical damage.
@@ -2097,55 +2138,19 @@ local mobFightByMobName =
                 then
                     mob:setLocalVar(phase.Var, 1)
                     mob:removeAllNegativeEffects()
-                    mob:AnimationSub(animation.FLYING)
-                    mob:setMod(tpz.mod.MAGIC_SS, 3000)
-                    printf("Stoneform")
+                    mob:AnimationSub(animation.STONEFORM)
+                    mob:addStatusEffect(tpz.effect.MAGIC_SHIELD, 3000, 3, 0)
+                    mob:setLocalVar("waitTimer", os.time() + 5)
                     break
                 end
-            end
-        end
-
-        -- "Too High" wyrm effect and 250/tick regain while flying.
-        -- Only uses Shadow Burst while flying (500+ damage)
-        if (mob:AnimationSub() == animation.FLYING) then
-            mob:SetAutoAttackEnabled(true)
-            mob:SetMagicCastingEnabled(true)
-            mob:SetMobAbilityEnabled(true)
-            mob:addStatusEffectEx(tpz.effect.TOO_HIGH, 0, 1, 0, 0)
-            mob:addSkillListEntry(tpz.mob.skills.SHADOW_BURST)
-            mob:setMod(tpz.mod.REGAIN, 250)
-        elseif (mob:AnimationSub() == animation.STONEFORM) then
-            mob:SetAutoAttackEnabled(false)
-            mob:SetMagicCastingEnabled(false)
-            mob:SetMobAbilityEnabled(false)
-            mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
-            mob:addStatusEffect(tpz.effect.DAMAGE_SPIKES, 500, 0, 1)
-            mob:setMod(tpz.mod.REGAIN, 0)
-            mob:setMod(tpz.mod.UDMGPHYS, -100)
-            mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN)) -- Disable no turn
-            if (mob:getMod(tpz.mod.MAGIC_SS) == 0) then
-                mob:setLocalVar("changeTime", battleTime + math.random(60, 90))
-                printf("Removing stoneform and going to grounded")
-                mob:SetAutoAttackEnabled(true)
-                mob:SetMagicCastingEnabled(true)
-                mob:SetMobAbilityEnabled(true)
-                mob:setMod(tpz.mod.UDMGPHYS, 0)
-                mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
-                mob:AnimationSub(animation.GROUNDED)
-                mob:setBehaviour(bit.band(mob:getBehaviour(), bit.bnot(tpz.behavior.NO_TURN))) -- Enable no turn
-            end
-        elseif (mob:AnimationSub() == animation.GROUNDED) then
-            mob:setMod(tpz.mod.REGAIN, 0)
-            for _, skills in ipairs (skillList) do
-                mob:addSkillListEntry(skills)
             end
         end
     end,
 
     ['Ethniu'] = function(mob, target)
-        -- Only levels up 10 times max
         local lvlUp = mob:getLocalVar("lvlUp")
         local level = mob:getMainLvl()
+        -- Only levels up 10 times max
         if
             (lvlUp > 0) and
             (level < 90) and
@@ -2175,7 +2180,7 @@ local mobFightByMobName =
             mob:SetMagicCastingEnabled(false)
             mob:SetMobAbilityEnabled(false)
             AddMobAura(mob, target, auraParams)
-            TickMobBuffAura(mob, target, auraParams)
+            TickMobAura(mob, target, auraParams)
         else
             mob:setMod(tpz.mod.TRIPLE_ATTACK, 5)
             mob:SetMagicCastingEnabled(true)
@@ -2208,7 +2213,7 @@ local mobFightByMobName =
 
         -- Offensive JA's level him up if he is NOT casting.
         -- Offensive JA's and magic reset it's hate on everyone but the person who used the JA
-        mob:addListener("ABILITY_TAKE", "TETHRA_ABILITY_PROC_CHECK", function(mob, user, ability, action)
+        mob:addListener("ABILITY_TAKE", "TETHRA_ABILITY_TAKE", function(mob, user, ability, action)
             local abilityMsg = ability:getMsg()
             local act = mob:getCurrentAction()
         local validProc =
@@ -2237,7 +2242,7 @@ local mobFightByMobName =
         -- Offensive JA's and magic reset it's hate on everyone but the person who used the JA
         -- Counters magic casts with Stone IV onto it's current target ONLY IF HATE IS SWAPPED OFF.
         -- I.e. if a pld tanking it uses flash it won't counter
-        mob:addListener("MAGIC_TAKE", "ETHRA_MAGIC_TAKE", function(mob, caster, spell)
+        mob:addListener("SPELL_DMG_TAKEN", "ETHRA_SPELL_DMG_TAKEN", function(mob, caster, spell)
            if
                 mob:getTarget():getShortID() ~= caster:getShortID() and
                 not IsMobBusy(mob) and
