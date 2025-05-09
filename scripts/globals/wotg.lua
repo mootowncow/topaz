@@ -2008,7 +2008,6 @@ local mobFightByMobName =
     end,
 
     ['Velfegor'] = function(mob, target)
-        -- Access to Apocalyptic Ray (Conal Doom)
         local currentHP = mob:getHPP()
         local phaseData = {
             { HP = 10,     Var = 'meikyoShisui_10'   },
@@ -2022,7 +2021,7 @@ local mobFightByMobName =
             { HP = 90,     Var = 'meikyoShisui_90'   },
         }
 
-        -- Every 10%, uses Meikyo Shisui and Apoc Ray x
+        -- Every 10%, uses Meikyo Shisui and Apocalyptic Ray x3
         for _, phase in ipairs(phaseData) do
             if (currentHP <= phase.HP) and (mob:getLocalVar(phase.Var) == 0) then
                 if

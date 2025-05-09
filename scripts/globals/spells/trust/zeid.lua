@@ -27,6 +27,8 @@ function onMobSpawn(mob)
     })
     ]]
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
+
     -- Stun all the things!
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0,
                         ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)

@@ -46,7 +46,7 @@ CItemState::CItemState(CBattleEntity* PEntity, uint16 targid, uint8 loc, uint16 
     m_location(loc),
     m_slot(slotid)
 {
-    if (m_PEntity && m_PEntity->objtype == TYPE_MOB)
+    if (m_PEntity && (m_PEntity->objtype == TYPE_MOB || m_PEntity->objtype == TYPE_TRUST))
     {
         CItem* PItem = itemutils::GetItem(slotid);
 
@@ -307,7 +307,7 @@ void CItemState::FinishItem(action_t& action)
             CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_PEntity);
             PChar->OnItemFinish(*this, action);
         }
-        else if(m_PEntity->objtype == TYPE_MOB)
+        else if (m_PEntity->objtype == TYPE_MOB || m_PEntity->objtype == TYPE_TRUST)
         {
             CMobEntity* PMob = dynamic_cast<CMobEntity*>(m_PEntity);
             PMob->OnItemFinish(*this, action);

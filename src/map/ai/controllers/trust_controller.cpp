@@ -683,9 +683,9 @@ CBattleEntity* CTrustController::GetTopEnmity()
     TracyZoneScoped;
 
     CBattleEntity* PEntity = nullptr;
-    if (auto PMob = dynamic_cast<CMobEntity*>(POwner->PMaster->GetBattleTarget()))
+    if (auto PTrust = dynamic_cast<CMobEntity*>(POwner->PMaster->GetBattleTarget()))
     {
-        return PMob->PEnmityContainer->GetHighestEnmity();
+        return PTrust->PEnmityContainer->GetHighestEnmity();
     }
     return PEntity;
 }
@@ -703,4 +703,18 @@ uint8 CTrustController::GetPartyPosition()
         }
     }
     return 0;
+}
+
+bool CTrustController::UseItem(uint16 targid, uint8 loc, uint16 slotid)
+{
+    auto PTrust = static_cast<CMobEntity*>(POwner);
+    if (PTrust->PAI->CanChangeState())
+    {
+        if (PTrust->StatusEffectContainer->HasStatusEffect(EFFECT_MUDDLE))
+        {
+            return false;
+        }
+        return PTrust->PAI->Internal_UseItem(targid, loc, slotid);
+    }
+    return false;
 }

@@ -16970,7 +16970,7 @@ inline int32 CLuaBaseEntity::useJobAbility(lua_State* L)
 
 /************************************************************************
  *  Function: useItem()
- *  Purpose : Instruct a Mob to use a specified item
+ *  Purpose : Instruct a Mob or trust to use a specified item
  *  Example : mob:useItem(tpz.items.FLASK_OF_ECHO_DROPS)
  *  Notes   : Inserts directly into queue stack with 0ms delay
  ************************************************************************/

@@ -19,6 +19,8 @@ function onSpellCast(caster, target, spell)
 end
 
 function onMobSpawn(mob)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
+
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.COPY_IMAGE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.UTSUSEMI)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MIGAWARI, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.MIGAWARI_ICHI)
 
