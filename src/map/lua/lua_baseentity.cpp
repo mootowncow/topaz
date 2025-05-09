@@ -13165,6 +13165,47 @@ inline int32 CLuaBaseEntity::getEVA(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: getCritHitRate()
+ *  Purpose : Returns the critical hit rate of an Entity against another entity
+ *  Example : attacker:getCritHitRate(target, true, tpz.slot.MAIN)
+ *  Notes   : Uses GetCritHitRate() in battletuils for calculation
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getCritHitRate(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+    SLOTTYPE weaponSlot = SLOT_MAIN;
+    bool ignoreSneakTrickAttack = true;
+    bool isWeaponSkill = false;
+
+    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+    {
+        ignoreSneakTrickAttack = lua_toboolean(L, 2);
+    }
+
+    if (!lua_isnil(L, 3) && lua_isboolean(L, 3))
+    {
+        weaponSlot = (SLOTTYPE)lua_tointeger(L, 3);
+    }
+
+    if (!lua_isnil(L, 4) && lua_isboolean(L, 4))
+    {
+        isWeaponSkill = lua_toboolean(L, 4);
+    }
+
+    uint16 critHitRate = battleutils::GetCritHitRate(PAttacker, PDefender, ignoreSneakTrickAttack, weaponSlot, isWeaponSkill);
+
+    lua_pushinteger(L, critHitRate);
+    return 1;
+}
+
+/************************************************************************
 *  Function: getRACC()
 *  Purpose : Calculates and returns the Ranged Accuracy of a Weapon euipped in the Ranged slot
 *  Example : player:getRACC()
@@ -13188,9 +13229,74 @@ inline int32 CLuaBaseEntity::getRACC(lua_State *L)
 }
 
 /************************************************************************
+*  Function: getRATT()
+*  Purpose : Returns the Ranged Attack value of an equipped Ranged weapon
+*  Example : player:getRATT()
+*  Notes   : Calls the RATT member function of CBattleEntity for calculation
+************************************************************************/
+
+inline int32 CLuaBaseEntity::getRATT(lua_State *L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    auto weapon = dynamic_cast<CItemWeapon*>(((CBattleEntity*)m_PBaseEntity)->m_Weapons[SLOT_RANGED]);
+
+    if (weapon == nullptr)
+    {
+        ShowDebug(CL_CYAN"lua::getRATT weapon in ranged slot is NULL!\n" CL_RESET);
+        return 0;
+    }
+
+    lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->RATT(weapon->getSkillType(), weapon->getILvlSkill()));
+    return 1;
+}
+
+/************************************************************************
+ *  Function: getRangedCritHitRate()
+ *  Purpose : Returns the ranged critical hit rate of an Entity against another entity
+ *  Example : attacker:getRangedCritHitRate(target, true, tpz.slot.RANGED)
+ *  Notes   : Uses GetRangedCritHitRate() in battletuils for calculation
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getRangedCritHitRate(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+    SLOTTYPE weaponSlot = SLOT_SUB;
+    bool ignoreSneakTrickAttack = true;
+    bool isWeaponSkill = false;
+
+    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+    {
+        ignoreSneakTrickAttack = lua_toboolean(L, 2);
+    }
+
+    if (!lua_isnil(L, 3) && lua_isboolean(L, 3))
+    {
+        weaponSlot = (SLOTTYPE)lua_tointeger(L, 3);
+    }
+
+    if (!lua_isnil(L, 4) && lua_isboolean(L, 4))
+    {
+        isWeaponSkill = lua_toboolean(L, 4);
+    }
+
+    uint16 critHitRate = battleutils::GetRangedCritHitRate(PAttacker, PDefender, ignoreSneakTrickAttack, weaponSlot, isWeaponSkill);
+
+    lua_pushinteger(L, critHitRate);
+    return 1;
+}
+
+/************************************************************************
  *  Function: calculateSweetSpotAccuracy()
  *  Purpose : Returns the Ranged Accuracy value of an equipped Ranged weapon
- *  Example : attacker:CalculateSweetSpotAccuracy(defender, racc)
+ *  Example : attacker:CalculateSweetSpotAccuracy(defender, racc, false)
  *  Notes   : Calculates ranged accuracy using battleutils CalculateSweetSpotAccuracy(PAttacker, PDefender, acc, isBluSpell)
  ************************************************************************/
 
@@ -13221,33 +13327,9 @@ inline int32 CLuaBaseEntity::calculateSweetSpotAccuracy(lua_State* L)
 }
 
 /************************************************************************
-*  Function: getRATT()
-*  Purpose : Returns the Ranged Attack value of an equipped Ranged weapon
-*  Example : player:getRATT()
-*  Notes   : Calls the RATT member function of CBattleEntity for calculation
-************************************************************************/
-
-inline int32 CLuaBaseEntity::getRATT(lua_State *L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
-
-    auto weapon = dynamic_cast<CItemWeapon*>(((CBattleEntity*)m_PBaseEntity)->m_Weapons[SLOT_RANGED]);
-
-    if (weapon == nullptr)
-    {
-        ShowDebug(CL_CYAN"lua::getRATT weapon in ranged slot is NULL!\n" CL_RESET);
-        return 0;
-    }
-
-    lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->RATT(weapon->getSkillType(), weapon->getILvlSkill()));
-    return 1;
-}
-
-/************************************************************************
  *  Function: calculateSweetSpotAttack()
  *  Purpose : Returns the Ranged Attack value of an equipped Ranged weapon
- *  Example : attacker:calculateSweetSpotAttack(defender, ratt)
+ *  Example : attacker:calculateSweetSpotAttack(defender, ratt, false)
  *  Notes   : Calculates attack using battleutils CalculateSweetSpotAttack(PAttacker, PDefender, rAttack, isBluSpell)
  ************************************************************************/
 
@@ -17860,8 +17942,10 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getStat),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getACC),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEVA),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getCritHitRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRACC),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRATT),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRangedCritHitRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,calculateSweetSpotAttack),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,calculateSweetSpotAccuracy),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getILvlMacc),
