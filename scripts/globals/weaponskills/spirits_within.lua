@@ -105,6 +105,8 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     -- Check for null
     WSC = utils.CheckForNull(player, target, tpz.attackType.BREATH, tpz.magic.ele.NONE, WSC)
 
+    damage = WSC
+
     if (damage > 0) then
         if (player:getOffhandDmg() > 0) then
             calcParams.tpHitsLanded = 2
@@ -116,7 +118,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         if (target:getMod(tpz.mod.DMGSPIRITS) == 0) then
             damage = target:breathDmgTaken(damage, tpz.magic.ele.NONE, damage)
         end
-        -- Handling rampart(magic) stoneskin
+        -- Handling rampart (magic)stoneskin
         damage = utils.rampartstoneskin(target, damage)
         player:trySkillUp(target, tpz.skill.SWORD, tpHitsLanded)
         target:tryInterruptSpell(player, tpHitsLanded)
