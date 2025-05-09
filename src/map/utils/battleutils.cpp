@@ -4024,7 +4024,7 @@ namespace battleutils
     *                                                                       *
     ************************************************************************/
 
-    uint8 GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot)
+    uint8 GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot, bool isWeaponSkill)
     {
         int32 crithitrate = 5;
         if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIGHTY_STRIKES, 0) ||
@@ -4113,7 +4113,7 @@ namespace battleutils
 
             // ShowDebug("Crit rate mod after Innin/Yonin: %d\n", crithitrate);
             //ShowDebug("Your crit rate before dDex is... %i \n", crithitrate);
-            crithitrate += GetDexCritBonus(PAttacker, PDefender);
+            crithitrate += GetDexCritBonus(PAttacker, PDefender, isWeaponSkill);
             //ShowDebug("[%s] crit rate after dDex is... %i \n", PAttacker->name, crithitrate);
             crithitrate += PAttacker->getMod(Mod::CRITHITRATE);
             crithitrate += PDefender->getMod(Mod::ENEMYCRITRATE);
@@ -4135,12 +4135,16 @@ namespace battleutils
         return (uint8)crithitrate;
     }
 
-    int8 GetDexCritBonus(CBattleEntity* PAttacker, CBattleEntity* PDefender)
+    int8 GetDexCritBonus(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isWeaponSkill)
     {
         // https://www.bg-wiki.com/bg/Critical_Hit_Rate
-        int32 attackerdex = PAttacker->DEX();
+        int32 attackerDex = PAttacker->DEX();
+        if (isWeaponSkill && PAttacker->objtype == TYPE_TRUST)
+        {
+            attackerDex += PAttacker->getMod(Mod::DEX_DURING_WS);
+        }
         int32 defenderagi = PDefender->AGI();
-        int32 dDex = attackerdex - defenderagi;
+        int32 dDex = attackerDex - defenderagi;
 
         // Default to +0 crit rate for a delta of 0-6
         int32 critRate = 0;
@@ -4173,7 +4177,7 @@ namespace battleutils
         return std::min(critRate, static_cast<int32>(15));
     }
 
-    uint8 GetRangedCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot)
+    uint8 GetRangedCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot, bool isWeaponSkill)
     {
         int32 crithitrate = 5;
         if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIGHTY_STRIKES, 0) ||
@@ -4219,7 +4223,7 @@ namespace battleutils
 
             // ShowDebug("Crit rate mod after Innin/Yonin: %d\n", crithitrate);
             //printf("Your crit rate before dAgi is... %i \n", crithitrate);
-            crithitrate += GetAgiCritBonus(PAttacker, PDefender);
+            crithitrate += GetAgiCritBonus(PAttacker, PDefender, isWeaponSkill);
             //printf("Your crit rate after dAgi is... %i \n", crithitrate);
             crithitrate += PAttacker->getMod(Mod::CRITHITRATE);
             crithitrate += PDefender->getMod(Mod::ENEMYCRITRATE);
@@ -4241,12 +4245,16 @@ namespace battleutils
         return (uint8)crithitrate;
     }
 
-    int8 GetAgiCritBonus(CBattleEntity* PAttacker, CBattleEntity* PDefender)
+    int8 GetAgiCritBonus(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isWeaponSkill)
     {
         // https://www.bg-wiki.com/bg/Critical_Hit_Rate
-        int32 attackeragi = PAttacker->AGI();
+        int32 attackerAgi = PAttacker->AGI();
+        if (isWeaponSkill && PAttacker->objtype == TYPE_TRUST)
+        {
+            attackerAgi += PAttacker->getMod(Mod::AGI_DURING_WS);
+        }
         int32 defenderagi = PDefender->AGI();
-        int32 dAgi = attackeragi - defenderagi;
+        int32 dAgi = attackerAgi - defenderagi;
 
         // Default to +0 crit rate for a delta of 0-6
         int32 critRate = 0;

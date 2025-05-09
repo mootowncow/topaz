@@ -173,7 +173,15 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     local critRate = 0
 
     if (wsParams.canCrit) then
-        local nativecrit = 0.05
+        -- TODO: Add logic to calculate offhand hit for any hit that's done offhand
+        local nativecrit = attacker:getCritHitRate(target, true, tpz.slot.MAIN, true)
+
+        if isRanged then -- Ranged uses dAGI
+            nativecrit = attacker:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
+        end
+
+        nativecrit = nativecrit / 100
+
         critrate = fTP(tp, wsParams.crit100, wsParams.crit200, wsParams.crit300)
 
         if calcParams.flourishEffect then
@@ -182,38 +190,8 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
             end
         end
 
-        -- Add on native crit hit rate (guesstimated, it actually follows an exponential curve)
-        if isRanged then -- Ranged uses dAGI
-            local AGI = attacker:getStat(tpz.mod.AGI)
-            if attacker:isTrust() then
-                AGI = AGI + attacker:getMod(tpz.mod.AGI_DURING_WS)
-            end
-            local dAGI = (AGI - target:getStat(tpz.mod.AGI))
-            if dAGI > 0 then
-                nativecrit = nativecrit + math.floor(dAGI/10)/100 -- no known cap
-            end
-         else
-             local DEX = attacker:getStat(tpz.mod.DEX)
-             if attacker:isTrust() then
-                DEX = DEX + attacker:getMod(tpz.mod.DEX_DURING_WS)
-             end
-             local dDEX = (DEX - target:getStat(tpz.mod.AGI))
-             nativecrit = nativecrit + getDexCritBonus(dDEX)
-        end
-        -- Always minimum 5% native crit
-        if nativecrit < 0.05 then
-            nativecrit = 0.05
-        end
-
-        local fencerBonus = calcParams.fencerBonus or 0
-        nativecrit = nativecrit + attacker:getMod(tpz.mod.CRITHITRATE)/100 + attacker:getMerit(tpz.merit.CRIT_HIT_RATE)/100
-                                + fencerBonus + target:getMod(tpz.mod.ENEMYCRITRATE)/100  - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)/100
-
-        -- Innin critical boost when attacker is behind target
-        if (attacker:hasStatusEffect(tpz.effect.INNIN) and attacker:isBehind(target, 90)) then
-            nativecrit = nativecrit + attacker:getStatusEffect(tpz.effect.INNIN):getPower()
-        end
-
+        -- printf("native crit %f", nativecrit)
+        -- printf("varies with tp crit %f", critrate)
         critrate = critrate + nativecrit
 
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
@@ -223,7 +201,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     end
 
     calcParams.critRate = critrate
-    --printf("WS crit rate is %u", critrate*100)
+    --printf("WS crit rate is %f", critrate)
 
     -- Start the WS
     local hitdmg = 0
