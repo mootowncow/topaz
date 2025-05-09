@@ -373,10 +373,12 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
         // 2H Weapons should deal more damage
         if (mainWeapon->isTwoHanded())
         {
-            finalDamage = finalDamage * 2;
+            mainWeapon->setDamage(finalDamage * 2);
         }
-
-        mainWeapon->setDamage(finalDamage);
+        else
+        {
+            mainWeapon->setDamage(finalDamage);
+        }
 
         // 1h weapons should be faster
         if (!mainWeapon->isTwoHanded() && !mainWeapon->isHandToHand())
@@ -412,12 +414,22 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     {
         auto rangedAmmoDelay = 90;
 
-        ammoWeapon->setDamage(finalDamage);
+        // Shurikens have 2H weapon damage
+        if (PTrust->GetMJob() == JOB_NIN)
+        {
+            ammoWeapon->setDamage(finalDamage * 2);
+            finalDamage *= 2;
+        }
+        else
+        {
+            ammoWeapon->setDamage(finalDamage);
+        }
         ammoWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
         ammoWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
     }
 
-    if (trustData->m_Family == 971) 
+    // TODO: Why can't this be set in mob pool mods like mobs?
+    if (trustData->m_Family == 971 || trustData->m_Family == 5918) 
     {
         PTrust->m_dualWield = true;
     }
