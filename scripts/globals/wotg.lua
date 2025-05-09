@@ -67,6 +67,8 @@ require("scripts/globals/keyitems")
 -- Eldieme bosses size 6
 -- Eldieme Bosses impossible to gauge
 -- Mob pets need to despawn on their death/despawn
+-- Kernunnos add a delay after changing animationsub before changing to another
+-- Needs to finish the "landing" animation from air before it can become stoneformed
 
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
@@ -2038,10 +2040,12 @@ local mobFightByMobName =
     end,
 
     ['Kernunnos'] = function(mob, target)
+        -- Can only go from grounded <-> stoneform
+        -- Can only go from grounded <-> flying
         local animation = {
+            GROUNDED    = 0,
             FLYING      = 1,
-            GROUNDED    = 2,
-            STONEFORM   = 3
+            STONEFORM   = 2
         }
         local skillList = {
             tpz.mob.skills.TRIUMPHANT_ROAR,
@@ -2055,7 +2059,6 @@ local mobFightByMobName =
             { HP = 60,     Var = 'stoneform_60'   },
             { HP = 80,     Var = 'stoneform_80'   },
         }
-        local animationSub = mob:AnimationSub()
         local changeTime = mob:getLocalVar("changeTime")
         local battleTime = mob:getBattleTime()
         local currentHP = mob:getHPP()
@@ -2067,19 +2070,20 @@ local mobFightByMobName =
 
         if
             (battleTime >= changeTime) and
-                (animationSub ~= animation.STONEFORM) and
+                (mob:AnimationSub() ~= animation.STONEFORM) and
                 not IsMobBusy(mob) and
                 not mob:hasPreventActionEffect()
         then
-            if (animationSub == animation.FLYING) then
+            if (mob:AnimationSub() == animation.FLYING) then
+                printf("Changing to grounded")
                 mob:AnimationSub(animation.GROUNDED)
             else
+                printf("Changing to flying")
                 mob:AnimationSub(animation.FLYING)
             end
 
             mob:clearSkillList()
             mob:setLocalVar("changeTime", battleTime + math.random(60, 90))
-            animationSub = mob:AnimationSub()
         end
 
         -- Every 20% Stone forms which is a full erase and grants him 500 damage spikes and 3000 magic SS. Immune to physical damage.
@@ -2087,6 +2091,7 @@ local mobFightByMobName =
         for _, phase in ipairs(phaseData) do
             if (currentHP <= phase.HP) and (mob:getLocalVar(phase.Var) == 0) then
                 if
+                    (mob:AnimationSub() == animation.GROUNDED) and
                     not IsMobBusy(mob) and
                     not mob:hasPreventActionEffect()
                 then
@@ -2094,6 +2099,7 @@ local mobFightByMobName =
                     mob:removeAllNegativeEffects()
                     mob:AnimationSub(animation.FLYING)
                     mob:setMod(tpz.mod.MAGIC_SS, 3000)
+                    printf("Stoneform")
                     break
                 end
             end
@@ -2101,25 +2107,38 @@ local mobFightByMobName =
 
         -- "Too High" wyrm effect and 250/tick regain while flying.
         -- Only uses Shadow Burst while flying (500+ damage)
-        if (animationSub == animation.FLYING) then
+        if (mob:AnimationSub() == animation.FLYING) then
+            mob:SetAutoAttackEnabled(true)
+            mob:SetMagicCastingEnabled(true)
+            mob:SetMobAbilityEnabled(true)
             mob:addStatusEffectEx(tpz.effect.TOO_HIGH, 0, 1, 0, 0)
             mob:addSkillListEntry(tpz.mob.skills.SHADOW_BURST)
             mob:setMod(tpz.mod.REGAIN, 250)
-            mob:setMod(tpz.mod.UDMGPHYS, -100)
-        elseif (animationSub == animation.STONEFORM) then
+        elseif (mob:AnimationSub() == animation.STONEFORM) then
+            mob:SetAutoAttackEnabled(false)
+            mob:SetMagicCastingEnabled(false)
+            mob:SetMobAbilityEnabled(false)
+            mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
             mob:addStatusEffect(tpz.effect.DAMAGE_SPIKES, 500, 0, 1)
             mob:setMod(tpz.mod.REGAIN, 0)
-            mob:setMod(tpz.mod.UDMGPHYS, 0)
+            mob:setMod(tpz.mod.UDMGPHYS, -100)
+            mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN)) -- Disable no turn
             if (mob:getMod(tpz.mod.MAGIC_SS) == 0) then
                 mob:setLocalVar("changeTime", battleTime + math.random(60, 90))
-                mob:AnimationSub(math.random(animation.FLYING, animation.GROUNDED))
+                printf("Removing stoneform and going to grounded")
+                mob:SetAutoAttackEnabled(true)
+                mob:SetMagicCastingEnabled(true)
+                mob:SetMobAbilityEnabled(true)
+                mob:setMod(tpz.mod.UDMGPHYS, 0)
+                mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
+                mob:AnimationSub(animation.GROUNDED)
+                mob:setBehaviour(bit.band(mob:getBehaviour(), bit.bnot(tpz.behavior.NO_TURN))) -- Enable no turn
             end
-        else
+        elseif (mob:AnimationSub() == animation.GROUNDED) then
+            mob:setMod(tpz.mod.REGAIN, 0)
             for _, skills in ipairs (skillList) do
                 mob:addSkillListEntry(skills)
             end
-            mob:setMod(tpz.mod.REGAIN, 0)
-            mob:setMod(tpz.mod.UDMGPHYS, 0)
         end
     end,
 

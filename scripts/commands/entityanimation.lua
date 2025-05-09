@@ -37,5 +37,10 @@ function onTrigger(player, arg1, arg2)
         return
     end
 
+    if (animationId == nil)
+        error(player, "You must either enter a valid interger (0-999)")
+        return
+    end
+
     targ:entityAnimationPacket(animationId)
 end
