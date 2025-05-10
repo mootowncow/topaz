@@ -178,7 +178,9 @@ void CTrustController::DoCombatTick(time_point tick)
 
     if (PTarget)
     {
-        if (POwner->PAI->CanFollowPath() && POwner->speed > 0)
+        if (POwner->PAI->CanFollowPath() &&
+            POwner->speed > 0 &&
+            !POwner->StatusEffectContainer->HasPreventActionEffect())
         {
             // Path close to the enemy if unable to see the enemy.
             if (!POwner->CanSeeTarget(PTarget))

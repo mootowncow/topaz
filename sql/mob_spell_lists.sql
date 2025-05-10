@@ -2877,6 +2877,24 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,345,48,255);          -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,347,19,255);          -- Kurayami: Ichi
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,348,44,255);          -- Kurayami: Ni
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,510,75,255);          -- Migawari: Ichi
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,320,15,39);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,321,40,74);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,322,75,255); -- katon_san
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,323,15,39);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,324,40,74);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,325,75,255); -- hyoton_san
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,326,15,39);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,327,40,74);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,328,75,255); -- huton_san
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,329,15,39);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,330,40,74);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,331,75,255); -- doton_san
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,332,15,39);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,333,40,74);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,334,75,255); -- raiton_san
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,335,15,39);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,336,40,74);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,337,75,255); -- suiton_san
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gadalar',331,174,28,255);         -- Firaga
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gadalar',331,175,53,255);         -- Firaga II
