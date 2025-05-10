@@ -45,7 +45,6 @@ INSERT INTO `mob_pool_mods` VALUES (9007,44,1,1); -- Nagi(Custom)
 INSERT INTO `mob_pool_mods` VALUES (1386,44,1,1); -- Fomor Ninja
 INSERT INTO `mob_pool_mods` VALUES (5857,44,1,1); -- Hoar-knuckled Rimberry
 INSERT INTO `mob_pool_mods` VALUES (9006,44,1,1); -- Lilisette
-INSERT INTO `mob_pool_mods` VALUES (6868,44,1,1); -- Ethniu
 
 
 INSERT INTO `mob_pool_mods` VALUES (60,370,20,0);
