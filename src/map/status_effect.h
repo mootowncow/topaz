@@ -772,6 +772,7 @@ public:
 
     uint32  GetTickTime();
     uint32  GetDuration();
+    uint32  GetTimeRemaining() const;
     int  GetElapsedTickCount();
     time_point  GetStartTime();
     CBattleEntity* GetOwner();

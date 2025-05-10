@@ -477,7 +477,7 @@ void CAttackRound::CreateDakenAttack()
                     {
                         daken += PChar->PMeritPoints->GetMeritValue(MERIT_NINJA_TOOL_EXPERTISE, PChar) / 5;
                     }
-                    // printf("Daken proc rate: %u\n", daken);
+                    // ShowDebug("Daken proc rate: %u\n", daken);
                     if (tpzrand::GetRandomNumber(100) < daken || hasSangeActive)
                     {
                         AddAttackSwing(PHYSICAL_ATTACK_TYPE::DAKEN, RIGHTATTACK, 1);
@@ -496,9 +496,22 @@ void CAttackRound::CreateDakenAttack()
             {
                 auto hasSangeActive = m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SANGE);
                 uint16 daken = m_attacker->getMod(Mod::DAKEN);
-                //printf("Daken proc rate: %u\n", daken);
+                //ShowDebug("Daken proc rate: %u\n", daken);
                 if (tpzrand::GetRandomNumber(100) < daken || hasSangeActive)
                 {
+                    AddAttackSwing(PHYSICAL_ATTACK_TYPE::DAKEN, RIGHTATTACK, 1);
+                }
+            }
+        }
+        else if (m_attacker->objtype == TYPE_TRUST)
+        {
+            {
+                auto hasSangeActive = m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SANGE);
+                uint16 daken = m_attacker->getMod(Mod::DAKEN);
+                //ShowDebug("[%s] Daken proc rate: %u\n", m_attacker->name, daken);
+                if (tpzrand::GetRandomNumber(100) < daken || hasSangeActive)
+                {
+                    //ShowDebug("[%s] Daken proc!\n", m_attacker->name);
                     AddAttackSwing(PHYSICAL_ATTACK_TYPE::DAKEN, RIGHTATTACK, 1);
                 }
             }

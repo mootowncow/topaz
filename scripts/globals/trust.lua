@@ -10,6 +10,7 @@ require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/trust_progression")
 ---------------------------------------------------------
+-- Dual wield needs to be set in trustutils::LoadTrust()
 tpz = tpz or {}
 tpz.trust = tpz.trust or {}
 

@@ -620,25 +620,87 @@ void CGambitsContainer::Tick(time_point tick)
                         resonanceProperties.push_back((SKILLCHAIN_ELEMENT)(power >> 8));
                     }
 
+                    bool found = false;
                     std::optional<SpellID> spell_id;
+
+                    // Try to pick a nuke that the target is weak to AND will skillchain
                     for (auto& resonance_element : resonanceProperties)
                     {
-                        for (auto& chain_element : battleutils::GetSkillchainMagicElement(resonance_element))
+                        const auto& sc_elements = battleutils::GetSkillchainMagicElement(resonance_element);
+
+                        for (auto& chain_element : sc_elements)
                         {
-                            // TODO: SpellContianer->GetBestByElement(ELEMENT)
-                            // NOTE: Iterating this list in reverse guarantees finding the best match
-                            for (size_t i = POwner->SpellContainer->m_damageList.size(); i > 0 ; --i)
+                            // Iterate through damage list in reverse order
+                            for (size_t i = POwner->SpellContainer->m_damageList.size(); i > 0; --i)
                             {
-                                auto spell = POwner->SpellContainer->m_damageList[i-1];
-                                auto spell_element = spell::GetSpell(spell)->getElement();
-                                if (spell_element == chain_element)
+                                auto spell = POwner->SpellContainer->m_damageList[i - 1];
+                                auto spell_data = spell::GetSpell(spell);
+                                auto spell_element = spell_data->getElement();
+                                auto spell_cast_time = spell_data->getCastTime();
+                                auto time_remaining = PSCEffect->GetTimeRemaining();
+
+                                // Check if the spell matches the chain element and the target's weakness
+                                if (spell_element == chain_element &&
+                                    spell_cast_time <= time_remaining &&
+                                    POwner->SpellContainer->GetAvailable(spell) &&
+                                    spell_element == battleutils::GetTargetWeakness(target, true)) // Matching the element weakness
                                 {
                                     spell_id = spell;
-                                    break;
+                                    found = true;
+                                    break; // Exit inner loop if we find a matching spell
                                 }
                             }
+
+                            // If found, no need to continue further iterations
+                            if (found)
+                                break;
+                        }
+
+                        // If found, exit the outer loop as well
+                        if (found)
+                            break;
+                    }
+
+                    // Pick a random nuke that can still skillchain
+                    if (!found)
+                    {
+                        for (auto& resonance_element : resonanceProperties)
+                        {
+                            const auto& sc_elements = battleutils::GetSkillchainMagicElement(resonance_element);
+
+                            for (auto& chain_element : sc_elements)
+                            {
+                                // Iterate through damage list in reverse order
+                                for (size_t i = POwner->SpellContainer->m_damageList.size(); i > 0; --i)
+                                {
+                                    auto spell = POwner->SpellContainer->m_damageList[i - 1];
+                                    auto spell_data = spell::GetSpell(spell);
+                                    auto spell_element = spell_data->getElement();
+                                    auto spell_cast_time = spell_data->getCastTime();
+                                    auto time_remaining = PSCEffect->GetTimeRemaining();
+
+                                    // Check if the spell matches the chain element and the target's weakness
+                                    if (spell_element == chain_element &&
+                                        spell_cast_time <= time_remaining &&
+                                        POwner->SpellContainer->GetAvailable(spell))
+                                    {
+                                        spell_id = spell;
+                                        found = true;
+                                        break; // Exit inner loop if we find a matching spell
+                                    }
+                                }
+
+                                // If found, no need to continue further iterations
+                                if (found)
+                                    break;
+                            }
+
+                            // If found, exit the outer loop as well
+                            if (found)
+                                break;
                         }
                     }
+
 
                     if (spell_id.has_value())
                     {

@@ -5130,7 +5130,7 @@ namespace battleutils
 
                     { Mod::SDT_FIRE_RANK, Mod::SDT_WIND_RANK, Mod::SDT_THUNDER_RANK, Mod::SDT_LIGHT_RANK }, // SC_LIGHT
                     { Mod::SDT_ICE_RANK, Mod::SDT_EARTH_RANK, Mod::SDT_WATER_RANK, Mod::SDT_DARK_RANK },    // SC_DARKNESS
-                    { Mod::SDT_FIRE_RANK, Mod::SDT_WIND_RANK, Mod::SDT_THUNDER_RANK, Mod::SDT_LIGHT_RANK }, // SC_LIGHT
+                    { Mod::SDT_FIRE_RANK, Mod::SDT_WIND_RANK, Mod::SDT_THUNDER_RANK, Mod::SDT_LIGHT_RANK }, // SC_LIGHT_II
                     { Mod::SDT_ICE_RANK, Mod::SDT_EARTH_RANK, Mod::SDT_WATER_RANK, Mod::SDT_DARK_RANK },    // SC_DARKNESS_II
                 };
 
@@ -5317,8 +5317,8 @@ namespace battleutils
 
             { SC_LIGHT, { ELEMENT_LIGHT, ELEMENT_FIRE, ELEMENT_WIND, ELEMENT_THUNDER } },
             { SC_DARKNESS, { ELEMENT_DARK, ELEMENT_EARTH, ELEMENT_WATER, ELEMENT_ICE } },
-            { SC_LIGHT_II, { ELEMENT_LIGHT } },
-            { SC_DARKNESS_II, { ELEMENT_DARK } }
+            { SC_LIGHT_II, { ELEMENT_LIGHT, ELEMENT_FIRE, ELEMENT_WIND, ELEMENT_THUNDER } },
+            { SC_DARKNESS_II, { ELEMENT_DARK, ELEMENT_EARTH, ELEMENT_WATER, ELEMENT_ICE } }
         };
 
         return resonanceToElement.at(skillchain);
@@ -9120,5 +9120,35 @@ namespace battleutils
             }
         }
         return false;
+    }
+
+    ELEMENT GetTargetWeakness(CBattleEntity* PEntity, bool excludeLightDark)
+    {
+        // Look up what the target has the _highest resistance to_:
+        std::vector<int16> resistances
+        {
+            PEntity->getMod(Mod::SDT_FIRE),
+            PEntity->getMod(Mod::SDT_ICE),
+            PEntity->getMod(Mod::SDT_WIND),
+            PEntity->getMod(Mod::SDT_EARTH),
+            PEntity->getMod(Mod::SDT_THUNDER),
+            PEntity->getMod(Mod::SDT_WATER),
+            PEntity->getMod(Mod::SDT_LIGHT),
+            PEntity->getMod(Mod::SDT_DARK),
+        };
+
+        // If Light and Dark should be excluded, set their values to a very low number (so they are not considered)
+        if (excludeLightDark)
+        {
+            // Set Light and Dark to an extremely low value to exclude them from consideration
+            resistances[6] = std::numeric_limits<int16>::lowest();  // SDT_LIGHT
+            resistances[7] = std::numeric_limits<int16>::lowest();  // SDT_DARK
+        }
+
+        // Find the index of the highest resistance (most resistant element)
+        std::size_t strongestIndex = std::distance(resistances.begin(), std::max_element(resistances.begin(), resistances.end()));
+
+        // Return the corresponding element based on the index (adjusted to match ELEMENT values)
+        return (ELEMENT)(strongestIndex + 1);  // +1 because ELEMENT_NONE is usually 0, and the others start from 1
     }
 };
