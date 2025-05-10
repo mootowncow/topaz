@@ -109,6 +109,18 @@ uint32 CStatusEffect::GetDuration()
 	return m_Duration;
 }
 
+uint32 CStatusEffect::GetTimeRemaining() const
+{
+    auto now = server_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_StartTime).count();
+
+    if (elapsed >= m_Duration)
+        return 0;
+
+    return m_Duration - elapsed;
+}
+
+
 int CStatusEffect::GetElapsedTickCount()
 {
     return m_tickCount;

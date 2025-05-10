@@ -2877,6 +2877,24 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,345,48,255);          -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,347,19,255);          -- Kurayami: Ichi
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,348,44,255);          -- Kurayami: Ni
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,510,75,255);          -- Migawari: Ichi
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,320,15,39);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,321,40,74);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,322,75,255); -- katon_san
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,323,15,39);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,324,40,74);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,325,75,255); -- hyoton_san
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,326,15,39);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,327,40,74);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,328,75,255); -- huton_san
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,329,15,39);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,330,40,74);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,331,75,255); -- doton_san
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,332,15,39);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,333,40,74);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,334,75,255); -- raiton_san
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,335,15,39);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,336,40,74);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,337,75,255); -- suiton_san
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gadalar',331,174,28,255);         -- Firaga
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gadalar',331,175,53,255);         -- Firaga II
@@ -6074,7 +6092,104 @@ INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 361, 1, 255); -- 
 INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 366, 1, 255); -- Graviga
 INSERT INTO `mob_spell_lists` VALUES ('Shadow_Lord-Raid', 543, 274, 1, 255); -- Sleepga II
 
--- NEXT 544
+INSERT INTO `mob_spell_lists` VALUES ('Coccineus', 544, 167, 1, 255); -- Thunder IV
+INSERT INTO `mob_spell_lists` VALUES ('Coccineus', 544, 196, 1, 255); -- Thundaga III
+INSERT INTO `mob_spell_lists` VALUES ('Coccineus', 544, 252, 1, 255); -- Stun
+INSERT INTO `mob_spell_lists` VALUES ('Coccineus',544,356,76,255); -- paralyga
+INSERT INTO `mob_spell_lists` VALUES ('Coccineus', 544, 361, 1, 255); -- Blindga
+
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 588, 1, 255); -- Lowing
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 591, 1, 255); -- Heat Breath
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 645, 1, 255); -- Exuviation
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 530, 1, 255); -- Refueling
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 249, 1, 255); -- Blaze Spikes
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 176, 1, 255); -- Firaga III
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 147, 1, 255); -- Fire IV
+INSERT INTO `mob_spell_lists` VALUES ('Lugh', 545, 204, 1, 255); -- Flare
+
+INSERT INTO `mob_spell_lists` VALUES ('Duke_Xavier',546,157,72,94); -- Aero IV
+INSERT INTO `mob_spell_lists` VALUES ('Duke_Xavier',546,186,1,255); -- Aeroga III
+INSERT INTO `mob_spell_lists` VALUES ('Duke_Xavier',546,237,1,255); -- Choke
+INSERT INTO `mob_spell_lists` VALUES ('Duke_Xavier',546,359,1,255); -- Silencega
+INSERT INTO `mob_spell_lists` VALUES ('Duke_Xavier',546,366,1,255); -- Graviga
+INSERT INTO `mob_spell_lists` VALUES ('Duke_Xavier',546,53,1,255); -- Blink
+INSERT INTO `mob_spell_lists` VALUES ('Duke_Xavier',546,511,1,255); -- Haste II
+
+INSERT INTO `mob_spell_lists` VALUES ('Tezcatli', 547, 181, 1, 255); -- Blizzaga III
+INSERT INTO `mob_spell_lists` VALUES ('Tezcatli', 547, 176, 1, 255); -- Firaga III
+INSERT INTO `mob_spell_lists` VALUES ('Tezcatli', 547, 360, 1, 255); -- Dispelga
+INSERT INTO `mob_spell_lists` VALUES ('Tezcatli', 547, 274, 1, 255); -- Sleepga II
+INSERT INTO `mob_spell_lists` VALUES ('Tezcatli', 547, 356, 1, 255); -- Paralyga
+
+INSERT INTO `mob_spell_lists` VALUES ('Klagmuhme', 548, 152, 1, 255); -- Blizzard IV
+INSERT INTO `mob_spell_lists` VALUES ('Klagmuhme', 548, 181, 1, 255); -- Blizzaga III
+INSERT INTO `mob_spell_lists` VALUES ('Klagmuhme', 548, 286, 1, 255); -- Addle
+INSERT INTO `mob_spell_lists` VALUES ('Klagmuhme', 548, 359, 1, 255); -- Silencega
+INSERT INTO `mob_spell_lists` VALUES ('Klagmuhme', 548, 366, 1, 255); -- Graviga
+INSERT INTO `mob_spell_lists` VALUES ('Klagmuhme', 548, 362, 1, 255); -- Bindga
+INSERT INTO `mob_spell_lists` VALUES ('Klagmuhme', 548, 357, 1, 255); -- Slowga
+INSERT INTO `mob_spell_lists` VALUES ('Klagmuhme', 548, 274, 1, 255); -- Sleepga II
+INSERT INTO `mob_spell_lists` VALUES ('Klagmuhme', 548, 365, 1, 255); -- Breakga
+INSERT INTO `mob_spell_lists` VALUES ('Klagmuhme', 548, 360, 1, 255); -- Dispelga
+
+INSERT INTO `mob_spell_lists` VALUES ('Knecht', 549, 174, 1, 255); -- Firaga
+INSERT INTO `mob_spell_lists` VALUES ('Knecht', 549, 179, 1, 255); -- Blizzaga
+INSERT INTO `mob_spell_lists` VALUES ('Knecht', 549, 184, 1, 255); -- Aeroga
+INSERT INTO `mob_spell_lists` VALUES ('Knecht', 549, 189, 1, 255); -- Stonega
+INSERT INTO `mob_spell_lists` VALUES ('Knecht', 549, 194, 1, 255); -- Thundaga
+INSERT INTO `mob_spell_lists` VALUES ('Knecht', 549, 199, 1, 255); -- Waterga
+
+
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Healer', 550, 5, 1, 255); -- Cure V
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Healer', 550, 10, 1, 255); -- Curaga IV
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Healer', 550, 477, 1, 255); -- Regen IV
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Healer', 550, 143, 1, 255); -- Erase
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Healer', 550, 14, 1, 255); -- Poisona
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Healer', 550, 15, 1, 255); -- Paralyna
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Healer', 550, 16, 1, 255); -- Blindna
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Healer', 550, 17, 1, 255); -- Silena
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Healer', 550, 18, 1, 255); -- Stona
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Healer', 550, 19, 1, 255); -- Viruna
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Healer', 550, 20, 1, 255); -- Cursna
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Healer', 550, 129, 1, 255); -- Protectra V
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Healer', 550, 134, 1, 255); -- Shellra V
+
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Debuffer', 551, 360, 1, 255); -- Dispelga
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Debuffer', 551, 227, 1, 255); -- Poisonga III
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Debuffer', 551, 356, 1, 255); -- Paralyga
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Debuffer', 551, 357, 1, 255); -- Slowga
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Debuffer', 551, 362, 1, 255); -- Bindga
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Debuffer', 551, 361, 1, 255); -- Blindga
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Debuffer', 551, 366, 1, 255); -- Graviga
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Debuffer', 551, 274, 1, 255); -- Sleepga II
+INSERT INTO `mob_spell_lists` VALUES ('Knechts_Corpselight-Debuffer', 551, 365, 1, 255); -- Breakga
+
+INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 275, 1, 255); -- Absorb-TP
+INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 243, 1, 255); -- Absorb-Attri
+INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 246, 1, 255); -- Drain II
+INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 248, 1, 255); -- Aspir II
+INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 252, 1, 255); -- Stun
+INSERT INTO `mob_spell_lists` VALUES ('Kernunnos', 552, 277, 1, 255); -- Dread Spikes
+
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 157, 1, 255); -- Aero IV
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 186, 1, 255); -- Aeroga III
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 208, 1, 255); -- Tornado
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 366, 1, 255); -- Graviga
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 359, 1, 255); -- Silencega
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 647, 1, 255); -- Zephyr Mantle
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 561, 1, 255); -- Frightful Roar
+INSERT INTO `mob_spell_lists` VALUES ('Ethniu', 553, 563, 1, 255); -- Hecatomb Wave
+
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 162, 1, 255); -- Stone IV
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 191, 1, 255); -- Stonega III
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 210, 1, 255); -- Quake
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 357, 1, 255); -- Slowga
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 365, 1, 255); -- Breakga
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 524, 1, 255); -- Sandspin
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 548, 1, 255); -- Filamented Hold
+INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 555, 1, 255); -- Magnetite Cloud
+
+-- NEXT 546
 -- NEXT 1022
 -- NEXT 2089(Custom)
 
