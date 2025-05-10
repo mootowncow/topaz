@@ -7493,7 +7493,7 @@ INSERT INTO `item_equipment` VALUES (17761,'oberons_rapier',75,0,16,187,0,0,3,0,
 INSERT INTO `item_equipment` VALUES (17762,'erlkings_sword',75,0,64,275,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17763,'erlkings_blade',75,0,32768,260,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17764,'trainee_sword',1,0,4194303,253,0,0,3,0,0);
-INSERT INTO `item_equipment` VALUES (17765,'concordia',75,0,35009,460,0,0,3,0,0);
+INSERT INTO `item_equipment` VALUES (17765,'concordia',75,0,2506401,460,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17766,'lyft_scimitar',73,0,2130113,255,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17767,'chipped_scimitar',75,0,35009,256,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17768,'yoto_+1',46,0,4096,310,0,0,3,0,0);
@@ -8316,7 +8316,7 @@ INSERT INTO `item_equipment` VALUES (18599,'pestle',15,0,1590047,296,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (18600,'cavers_shovel',1,0,4194303,455,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (18601,'fay_crozier',75,0,16384,324,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (18602,'fay_staff',75,0,524288,294,0,0,1,0,0);
-INSERT INTO `item_equipment` VALUES (18603,'majestas',75,0,1589790,462,0,0,1,0,0);
+INSERT INTO `item_equipment` VALUES (18603,'majestas',75,0,8259,462,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (18604,'astaroth_cane',27,0,1590047,290,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (18605,'melampus_staff',29,0,1590047,289,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (18606,'passaddhi_staff',39,0,1590047,292,0,0,1,0,0);
@@ -8815,7 +8815,7 @@ INSERT INTO `item_equipment` VALUES (19114,'galkan_dagger',49,0,1605625,168,0,0,
 INSERT INTO `item_equipment` VALUES (19115,'fane_baselard',75,0,32,168,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (19116,'dweomer_knife',75,0,512,158,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (19117,'ogre_jambiya',75,0,262144,409,0,0,3,0,0);
-INSERT INTO `item_equipment` VALUES (19118,'machismo',75,0,464688,459,0,0,3,0,0);
+INSERT INTO `item_equipment` VALUES (19118,'machismo',75,0,672841,459,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (19119,'ranging_knife',24,0,474849,180,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (19120,'avis',57,0,474849,410,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (19121,'sleight_kukri',62,0,262144,174,0,0,3,0,0);

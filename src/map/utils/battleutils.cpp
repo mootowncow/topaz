@@ -4285,6 +4285,7 @@ namespace battleutils
         }
 
         attack += flatAttBonus;
+
         // Wholly possible for DEF to be near 0 with the amount of debuffs/effects now.
         uint16 defense = PDefender->DEF();
         if (defense == 0)
@@ -4292,7 +4293,6 @@ namespace battleutils
             defense = 1;
         }
 
-        
         ENTITYTYPE attackerType = PAttacker->objtype;
 
         uint8 attackerLvl = PAttacker->GetMLevel();
@@ -4310,6 +4310,17 @@ namespace battleutils
                 ignoredDef = (defense * ignoredDef) / 100;
 
             }
+        }
+
+        // Concordia's attacks have a 5% chance of ignoring 100% of the targets defense when in the mainhand
+        auto concordia = 17765;
+        if (slot == SLOT_MAIN &&
+            attackerType == TYPE_PC &&
+            ((CCharEntity*)PAttacker)->getEquip(SLOT_MAIN) &&
+            (((CCharEntity*)PAttacker)->getEquip(SLOT_MAIN))->getID() == concordia &&
+            tpzrand::GetRandomNumber(100) < 5)
+        {
+            ignoredDef = defense;
         }
       
         // https://www.bg-wiki.com/bg/PDIF
@@ -6668,10 +6679,6 @@ namespace battleutils
 
     int32 BreathDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage)
     {
-        Mod absorb[8] = { Mod::FIRE_ABSORB, Mod::ICE_ABSORB,   Mod::WIND_ABSORB,  Mod::EARTH_ABSORB,
-                          Mod::LTNG_ABSORB, Mod::WATER_ABSORB, Mod::LIGHT_ABSORB, Mod::DARK_ABSORB };
-        Mod nullarray[8] = { Mod::FIRE_NULL, Mod::ICE_NULL, Mod::WIND_NULL, Mod::EARTH_NULL, Mod::LTNG_NULL, Mod::WATER_NULL, Mod::LIGHT_NULL, Mod::DARK_NULL };
-
         float resist = 1.0f + floor(256.0f * (PDefender->getMod(Mod::UDMGBREATH) / 100.0f)) / 256.0f;
         float spdefDown = PDefender->getMod(Mod::SPDEF_DOWN) / 100.0f;
 
@@ -6701,32 +6708,14 @@ namespace battleutils
             damage = HandleSteamJacket(PDefender, damage, element);
         }
 
-        if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::ABSORB_DMG_CHANCE) ||
-            (element && tpzrand::GetRandomNumber(100) < PDefender->getMod(absorb[element - 1])) ||
-            tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_ABSORB))
+        damage = HandleElementalAbsorb(PDefender, damage, element, rawDamage);
+        damage = HandleElementalNull(PDefender, damage, element, rawDamage);
+        damage = HandleSevereDamage(PDefender, damage, false);
+
+        int16 absorbedMP = (int16)(damage * PDefender->getMod(Mod::ABSORB_DMG_TO_MP) / 100);
+        if (absorbedMP > 0)
         {
-            if (PDefender->getMod(Mod::MAGIC_ABSORB) > 100)
-            {
-                damage = rawDamage; // Absorbed damage is unresisted/unmitigated damage
-                damage = -damage * (PDefender->getMod(Mod::MAGIC_ABSORB) / 100);
-            }
-            else
-            {
-                damage = rawDamage; // Absorbed damage is unresisted/unmitigated damage
-                damage = -damage;
-            }
-        }
-        else if ((element && tpzrand::GetRandomNumber(100) < PDefender->getMod(nullarray[element - 1])) ||
-                 tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_NULL))
-        {
-            damage = 0;
-        }
-        else
-        {
-            damage = HandleSevereDamage(PDefender, damage, false);
-            int16 absorbedMP = (int16)(damage * PDefender->getMod(Mod::ABSORB_DMG_TO_MP) / 100);
-            if (absorbedMP > 0)
-                PDefender->addMP(absorbedMP);
+            PDefender->addMP(absorbedMP);
         }
 
         return damage;
@@ -6734,10 +6723,6 @@ namespace battleutils
 
     int32 MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage)
     {
-        Mod absorb[8] = { Mod::FIRE_ABSORB, Mod::ICE_ABSORB,   Mod::WIND_ABSORB,  Mod::EARTH_ABSORB,
-                          Mod::LTNG_ABSORB, Mod::WATER_ABSORB, Mod::LIGHT_ABSORB, Mod::DARK_ABSORB };
-        Mod nullarray[8] = { Mod::FIRE_NULL, Mod::ICE_NULL, Mod::WIND_NULL, Mod::EARTH_NULL, Mod::LTNG_NULL, Mod::WATER_NULL, Mod::LIGHT_NULL, Mod::DARK_NULL };
-
         float resist = 1.0f + PDefender->getMod(Mod::UDMGMAGIC) / 100.0f;
         float spdefDown = PDefender->getMod(Mod::SPDEF_DOWN) / 100.0f;
 
@@ -6769,70 +6754,14 @@ namespace battleutils
             damage = HandleSteamJacket(PDefender, damage, element);
         }
 
-        if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::ABSORB_DMG_CHANCE) ||
-            (element && tpzrand::GetRandomNumber(100) < PDefender->getMod(absorb[element - 1])) ||
-            tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_ABSORB))
+        damage = HandleElementalAbsorb(PDefender, damage, element, rawDamage);
+        damage = HandleElementalNull(PDefender, damage, element, rawDamage);
+        damage = HandleSevereDamage(PDefender, damage, false);
+
+        int16 absorbedMP = (int16)(damage * PDefender->getMod(Mod::ABSORB_DMG_TO_MP) / 100);
+        if (absorbedMP > 0)
         {
-            if (PDefender->getMod(Mod::MAGIC_ABSORB) > 100)
-            {
-                damage = rawDamage; // Absorbed damage is unresisted/unmitigated damage
-                damage = -damage * (PDefender->getMod(Mod::MAGIC_ABSORB) / 100);
-            }
-            else
-            {
-                damage = rawDamage; // Absorbed damage is unresisted/unmitigated damage
-                damage = -damage;
-            }
-        }
-        else if ((element && tpzrand::GetRandomNumber(100) < PDefender->getMod(nullarray[element - 1])) ||
-                 tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_NULL))
-        {
-            damage = 0;
-        }
-        else
-        {
-            damage = HandleSevereDamage(PDefender, damage, false);
-            int16 absorbedMP = (int16)(damage * PDefender->getMod(Mod::ABSORB_DMG_TO_MP) / 100);
-            if (absorbedMP > 0)
-                PDefender->addMP(absorbedMP);
-        }
-
-        return damage;
-    }
-
-    int32 PhysicalDmgTaken(CBattleEntity* PDefender, int32 damage, int16 damageType, bool IsCovered)
-    {
-        float resist = 1.f + PDefender->getMod(Mod::UDMGPHYS) / 100.f;
-        resist = std::max(resist, 0.f);
-        damage = (int32)(damage * resist);
-
-        resist = 1.f + PDefender->getMod(Mod::DMGPHYS) / 100.f + PDefender->getMod(Mod::DMG) / 100.f;
-        resist = std::max(resist, 0.5f); // PDT caps at -50%
-        resist += PDefender->getMod(Mod::DMGPHYS_II) / 100.f; // Add Burtgang reduction after 50% cap. Extends cap to -68%
-        damage = (int32)(damage * resist);
-
-        if (damage > 0 && PDefender->objtype == TYPE_PET && PDefender->getMod(Mod::AUTO_EQUALIZER) > 0)
-            damage -= (int32)(damage / float(PDefender->GetMaxHP()) * (PDefender->getMod(Mod::AUTO_EQUALIZER) / 100.0f) * 100);
-
-        if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::ABSORB_DMG_CHANCE) ||
-            tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::PHYS_ABSORB))
-            if (PDefender->getMod(Mod::PHYS_ABSORB) > 100)
-            {
-                damage = -damage * (PDefender->getMod(Mod::PHYS_ABSORB) / 100);
-            }
-            else
-            {
-                damage = -damage;
-            }
-        else if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::NULL_PHYSICAL_DAMAGE))
-            damage = 0;
-        else
-        {
-            damage = HandleSevereDamage(PDefender, damage, true);
-            
-            ConvertDmgToMP(PDefender, damage, IsCovered);
-
-            damage = HandleFanDance(PDefender, damage);
+            PDefender->addMP(absorbedMP);
         }
 
         return damage;
@@ -6894,6 +6823,29 @@ namespace battleutils
         return damage;
     }
 
+    int32 PhysicalDmgTaken(CBattleEntity* PDefender, int32 damage, int16 damageType, bool IsCovered)
+    {
+        float resist = 1.f + PDefender->getMod(Mod::UDMGPHYS) / 100.f;
+        resist = std::max(resist, 0.f);
+        damage = (int32)(damage * resist);
+
+        resist = 1.f + PDefender->getMod(Mod::DMGPHYS) / 100.f + PDefender->getMod(Mod::DMG) / 100.f;
+        resist = std::max(resist, 0.5f); // PDT caps at -50%
+        resist += PDefender->getMod(Mod::DMGPHYS_II) / 100.f; // Add Burtgang reduction after 50% cap. Extends cap to -68%
+        damage = (int32)(damage * resist);
+
+        if (damage > 0 && PDefender->objtype == TYPE_PET && PDefender->getMod(Mod::AUTO_EQUALIZER) > 0)
+            damage -= (int32)(damage / float(PDefender->GetMaxHP()) * (PDefender->getMod(Mod::AUTO_EQUALIZER) / 100.0f) * 100);
+
+        damage = HandlePhysicalAbsorb(PDefender, damage);
+        damage = HandlePhysicalNull(PDefender, damage);
+        damage = HandleSevereDamage(PDefender, damage, true);
+        ConvertDmgToMP(PDefender, damage, IsCovered);
+        damage = HandleFanDance(PDefender, damage);
+
+        return damage;
+    }
+
     int32 RangedDmgTaken(CBattleEntity* PDefender, int32 damage, int16 damageType, bool IsCovered)
     {
         float resist = 1.0f + PDefender->getMod(Mod::UDMGRANGE) / 100.f;
@@ -6911,26 +6863,11 @@ namespace battleutils
             damage -= (int32)(damage / float(PDefender->GetMaxHP()) * (PDefender->getMod(Mod::AUTO_EQUALIZER) / 100.0f));
         }
 
-        if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::ABSORB_DMG_CHANCE) ||
-            tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::PHYS_ABSORB))
-            if (PDefender->getMod(Mod::PHYS_ABSORB) > 100)
-            {
-                damage = -damage * (PDefender->getMod(Mod::PHYS_ABSORB) / 100);
-            }
-            else
-            {
-                damage = -damage;
-            }
-        else if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::NULL_PHYSICAL_DAMAGE))
-            damage = 0;
-        else
-        {
-            damage = HandleSevereDamage(PDefender, damage, true);
-
-            ConvertDmgToMP(PDefender, damage, IsCovered);
-
-            damage = HandleFanDance(PDefender, damage);
-        }
+        damage = HandlePhysicalAbsorb(PDefender, damage);
+        damage = HandlePhysicalNull(PDefender, damage);
+        damage = HandleSevereDamage(PDefender, damage, true);
+        ConvertDmgToMP(PDefender, damage, IsCovered);
+        damage = HandleFanDance(PDefender, damage);
 
         return damage;
     }
@@ -7141,15 +7078,150 @@ namespace battleutils
         return damage;
     }
 
-    int32 HandleSevereDamage(CBattleEntity* PDefender, int32 damage, bool isPhysical) {
-        damage = HandleSevereDamageEffect(PDefender, EFFECT_MIGAWARI, damage, true);
-        // In the future, handle other Severe Damage Effects like Earthen Armor here
-
-        if (isPhysical && PDefender->objtype == TYPE_PET && PDefender->getMod(Mod::AUTO_SCHURZEN) != 0 && damage >= PDefender->health.hp &&
-            ((CPetEntity*)PDefender)->PMaster->StatusEffectContainer->GetEffectsCount(EFFECT_EARTH_MANEUVER) >= 1)
+    int32 HandleSevereDamage(CBattleEntity* PDefender, int32 damage, bool isPhysical)
+    {
+        if (damage > 0)
         {
-            damage = PDefender->health.hp - 1;
-            ((CPetEntity*)PDefender)->PMaster->StatusEffectContainer->DelStatusEffectSilent(EFFECT_EARTH_MANEUVER);
+            damage = HandleSevereDamageEffect(PDefender, EFFECT_MIGAWARI, damage, true);
+            // In the future, handle other Severe Damage Effects like Earthen Armor here
+
+            if (isPhysical && PDefender->objtype == TYPE_PET && PDefender->getMod(Mod::AUTO_SCHURZEN) != 0 && damage >= PDefender->health.hp &&
+                ((CPetEntity*)PDefender)->PMaster->StatusEffectContainer->GetEffectsCount(EFFECT_EARTH_MANEUVER) >= 1)
+            {
+                damage = PDefender->health.hp - 1;
+                ((CPetEntity*)PDefender)->PMaster->StatusEffectContainer->DelStatusEffectSilent(EFFECT_EARTH_MANEUVER);
+            }
+        }
+
+        return damage;
+    }
+
+    int32 HandleElementalAbsorb(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage)
+    {
+        Mod absorb[8] = { Mod::FIRE_ABSORB, Mod::ICE_ABSORB,   Mod::WIND_ABSORB,  Mod::EARTH_ABSORB,
+                          Mod::LTNG_ABSORB, Mod::WATER_ABSORB, Mod::LIGHT_ABSORB, Mod::DARK_ABSORB };
+
+        if (PDefender->objtype == TYPE_PC)
+        {
+            if (tpzrand::GetRandomNumber(100) < PDefender->getMaxGearMod(Mod::ABSORB_DMG_CHANCE) ||
+                (element && tpzrand::GetRandomNumber(100) < PDefender->getMaxGearMod(absorb[element - 1])) ||
+                tpzrand::GetRandomNumber(100) < PDefender->getMaxGearMod(Mod::MAGIC_ABSORB))
+            {
+                if (PDefender->getMaxGearMod(Mod::MAGIC_ABSORB) > 100)
+                {
+                    damage = rawDamage; // Absorbed damage is unresisted/unmitigated damage
+                    damage = -damage * (PDefender->getMaxGearMod(Mod::MAGIC_ABSORB) / 100);
+                }
+                else
+                {
+                    damage = rawDamage; // Absorbed damage is unresisted/unmitigated damage
+                    damage = -damage;
+                }
+            }
+        }
+        else
+        {
+            if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::ABSORB_DMG_CHANCE) ||
+                (element && tpzrand::GetRandomNumber(100) < PDefender->getMod(absorb[element - 1])) ||
+                tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_ABSORB))
+            {
+                if (PDefender->getMod(Mod::MAGIC_ABSORB) > 100)
+                {
+                    damage = rawDamage; // Absorbed damage is unresisted/unmitigated damage
+                    damage = -damage * (PDefender->getMod(Mod::MAGIC_ABSORB) / 100);
+                }
+                else
+                {
+                    damage = rawDamage; // Absorbed damage is unresisted/unmitigated damage
+                    damage = -damage;
+                }
+            }
+        }
+
+        return damage;
+    }
+
+    int32 HandleElementalNull(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage)
+    {
+        if (damage > 0)
+        {
+            Mod nullarray[8] = { Mod::FIRE_NULL, Mod::ICE_NULL,   Mod::WIND_NULL,  Mod::EARTH_NULL,
+                                 Mod::LTNG_NULL, Mod::WATER_NULL, Mod::LIGHT_NULL, Mod::DARK_NULL };
+
+            if (PDefender->objtype == TYPE_PC)
+            {
+                if ((element && tpzrand::GetRandomNumber(100) < PDefender->getMaxGearMod(nullarray[element - 1])) ||
+                    tpzrand::GetRandomNumber(100) < PDefender->getMaxGearMod(Mod::MAGIC_NULL))
+                {
+                    damage = 0;
+                }
+            }
+            else
+            {
+                if ((element && tpzrand::GetRandomNumber(100) < PDefender->getMod(nullarray[element - 1])) ||
+                    tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::MAGIC_NULL))
+                {
+                    damage = 0;
+                }
+            }
+        }
+
+        return damage;
+    }
+
+    int32 HandlePhysicalAbsorb(CBattleEntity* PDefender, int32 damage)
+    {
+        if (PDefender->objtype == TYPE_PC)
+        {
+            if (tpzrand::GetRandomNumber(100) < PDefender->getMaxGearMod(Mod::ABSORB_DMG_CHANCE) ||
+                tpzrand::GetRandomNumber(100) < PDefender->getMaxGearMod(Mod::PHYS_ABSORB))
+            {
+                if (PDefender->getMaxGearMod(Mod::PHYS_ABSORB) > 100)
+                {
+                    damage = -damage * (PDefender->getMaxGearMod(Mod::PHYS_ABSORB) / 100);
+                }
+                else
+                {
+                    damage = -damage;
+                }
+            }
+        }
+        else
+        {
+            if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::ABSORB_DMG_CHANCE) ||
+                tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::PHYS_ABSORB))
+            {
+                if (PDefender->getMod(Mod::PHYS_ABSORB) > 100)
+                {
+                    damage = -damage * (PDefender->getMod(Mod::PHYS_ABSORB) / 100);
+                }
+                else
+                {
+                    damage = -damage;
+                }
+            }
+        }
+        return damage;
+    }
+
+    int32 HandlePhysicalNull(CBattleEntity* PDefender, int32 damage)
+    {
+        if (damage > 0)
+        {
+            if (PDefender->objtype == TYPE_PC)
+            {
+                if (tpzrand::GetRandomNumber(100) < PDefender->getMaxGearMod(Mod::NULL_PHYSICAL_DAMAGE))
+                {
+                    damage = 0;
+                }
+            }
+            else
+            {
+                if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::NULL_PHYSICAL_DAMAGE))
+                {
+                    damage = 0;
+                }
+            }
         }
 
         return damage;
@@ -7157,17 +7229,19 @@ namespace battleutils
 
     int32 HandleFanDance(CBattleEntity* PDefender, int32 damage)
     {
-        // Handle Fan Dance
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_FAN_DANCE))
+        if (damage > 0)
         {
-
-            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_FAN_DANCE)->GetPower();
-            float resist = 1.0f - (power / 100.0f);
-            damage = (int32)(damage * resist);
-            if (power > 20)
+            // Handle Fan Dance
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_FAN_DANCE))
             {
-                // reduce fan dance effectiveness by 10% each hit, to a min of 20%
-                PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_FAN_DANCE)->SetPower(power - 10);
+                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_FAN_DANCE)->GetPower();
+                float resist = 1.0f - (power / 100.0f);
+                damage = (int32)(damage * resist);
+                if (power > 20)
+                {
+                    // reduce fan dance effectiveness by 10% each hit, to a min of 20%
+                    PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_FAN_DANCE)->SetPower(power - 10);
+                }
             }
         }
         return damage;
@@ -9094,21 +9168,24 @@ namespace battleutils
     {
         double dmgToMPMods = 0.0;
 
-        //If attack was covered, get cover ability user's COVER_TO_MP mod
-        if (IsCovered)
-            dmgToMPMods += PDefender->getMod(Mod::COVER_TO_MP);
+        if (damage > 0)
+        {
+            // If attack was covered, get cover ability user's COVER_TO_MP mod
+            if (IsCovered)
+                dmgToMPMods += PDefender->getMod(Mod::COVER_TO_MP);
 
-        //Get ABSORB_DMG_TO_MP mod
-        dmgToMPMods += PDefender->getMod(Mod::ABSORB_DMG_TO_MP);
+            // Get ABSORB_DMG_TO_MP mod
+            dmgToMPMods += PDefender->getMod(Mod::ABSORB_DMG_TO_MP);
 
-        //Get ABSORB_PHYSDMG_TO_MP mod
-        dmgToMPMods += PDefender->getMod(Mod::ABSORB_PHYSDMG_TO_MP);
+            // Get ABSORB_PHYSDMG_TO_MP mod
+            dmgToMPMods += PDefender->getMod(Mod::ABSORB_PHYSDMG_TO_MP);
 
-        //Calculate final absorbed MP
-        int16 absorbedMP = static_cast<int16>(damage * (dmgToMPMods / 100.0));
+            // Calculate final absorbed MP
+            int16 absorbedMP = static_cast<int16>(damage * (dmgToMPMods / 100.0));
 
-        if (absorbedMP > 0)
-            PDefender->addMP(absorbedMP);
+            if (absorbedMP > 0)
+                PDefender->addMP(absorbedMP);
+        }
     }
 
     void HandlePlayerAbilityUsed(CBattleEntity* PSource, CAbility* PAbility, action_t* action)

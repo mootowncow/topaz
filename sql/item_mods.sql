@@ -15041,7 +15041,7 @@ INSERT INTO `item_mods` VALUES (14644,1347,5);       -- Enfeebling Magic Dration
 INSERT INTO `item_mods` VALUES (14645,5,30);
 INSERT INTO `item_mods` VALUES (14645,60,-30);
 INSERT INTO `item_mods` VALUES (14646,255,5);     -- Shadow Ring: Enhances resistance against Death +5 ?
-INSERT INTO `item_mods` VALUES (14646,476,13);    -- Occasionally annuls magic damage taken +13%
+INSERT INTO `item_mods` VALUES (14646,476,12);    -- Occasionally annuls magic damage taken +12%
 INSERT INTO `item_mods` VALUES (14649,58,20);
 INSERT INTO `item_mods` VALUES (14650,1,2);
 INSERT INTO `item_mods` VALUES (14650,26,6);
@@ -52967,3 +52967,14 @@ INSERT INTO `item_mods` VALUES (18958,1272,30); -- ELEMENTAL_WSDMG 30
 INSERT INTO `item_mods` VALUES (18508,661,30); -- FELL_CLEAVE 30
 INSERT INTO `item_mods` VALUES (19234,28,20); -- MATT 20
 INSERT INTO `item_mods` VALUES (19306,87,20); -- POLEARM 20
+INSERT INTO `item_mods` VALUES (17765,82,20); -- SWORD 20
+INSERT INTO `item_mods` VALUES (17765,165,5); -- CRITHITRATE 5
+INSERT INTO `item_mods` VALUES (17765,73,10); -- STORETP 10
+INSERT INTO `item_mods` VALUES (17765,355,40); -- ADDS_WEAPONSKILL 40
+INSERT INTO `item_mods` VALUES (19118,81,20); -- DAGGER 20
+INSERT INTO `item_mods` VALUES (19118,30,15); -- MACC 15
+INSERT INTO `item_mods` VALUES (19118,355,25); -- ADDS_WEAPONSKILL 25
+INSERT INTO `item_mods` VALUES (18603,91,20); -- STAFF 20
+INSERT INTO `item_mods` VALUES (18603,165,5); -- CRITHITRATE 5
+INSERT INTO `item_mods` VALUES (18603,73,10); -- STORETP 10
+INSERT INTO `item_mods` VALUES (18603,475,20); -- MAGIC_ABSORB 20

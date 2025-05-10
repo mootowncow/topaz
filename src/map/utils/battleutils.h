@@ -287,6 +287,10 @@ namespace battleutils
     int32               HandleCircleDamageReduction(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage);
     int32               HandlePositionalPDT(CBattleEntity* PDefender, int32 damage);
     int32               HandleExtraDamageMultipliers(CBattleEntity* PAttacker, int32 damage);
+    int32               HandleElementalAbsorb(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage);
+    int32               HandleElementalNull(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage);
+    int32               HandlePhysicalAbsorb(CBattleEntity* PDefender, int32 damage);
+    int32               HandlePhysicalNull(CBattleEntity* PDefender, int32 damage);
 
     // stores damage for afflatus misery if active
     void                HandleAfflatusMiseryDamage(CBattleEntity* PDefender, int32 damage);

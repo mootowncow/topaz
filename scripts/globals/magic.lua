@@ -2307,7 +2307,7 @@ end
 
 function doElementalNuke(caster, spell, target, spellParams)
     local DMG = 0
-    local DMGMod = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+    local DMGMod = CalculateMagicDamageMod(caster)
     local skillType = spellParams.skillType
     local dINT = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)
     local V = 0
@@ -2353,7 +2353,7 @@ function doElementalNuke(caster, spell, target, spellParams)
         end
 
     else
-        local mDMG = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+        local mDMG = CalculateMagicDamageMod(caster)
         --[[
                 Calculate base damage:
                 D = mDMG + V + (dINT × M)
@@ -2471,7 +2471,7 @@ function doNuke(caster, target, spell, params)
     if (spell:getSkillType() == tpz.skill.NINJUTSU) then
         if (caster:getMainJob() == tpz.job.NIN) then -- NIN main gets a bonus to their ninjutsu nukes
             local ninSkillBonus = 100
-            local DMGMod = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+            local DMGMod = CalculateMagicDamageMod(caster)
 
             -- NIN Job Point: Elemental Ninjutsu Effect
             if caster:isPC() then
@@ -2546,7 +2546,7 @@ function doDivineBanishNuke(caster, target, spell, params)
     local dmg = calculateMagicDamage(caster, target, spell, params)
 
     -- Add magic damage mod 
-    local DMGMod = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+    local DMGMod = CalculateMagicDamageMod(caster)
     dmg = dmg + DMGMod
 
     --get resist multiplier (1x if no resist)
@@ -3865,6 +3865,17 @@ function getBarspellElementalMDB(caster, target, element)
     end
 
     return mdefBarBonus
+end
+
+function CalculateMagicDamageMod(caster)
+    local magicDamage = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+    local mainHand = caster:getEquipID(tpz.slot.MAIN)
+
+    if (mainHand == tpz.items.MACHISMO) then
+        magicDamage = magicDamage + math.floor(caster:getTP() / 10)
+    end
+
+    return magicDamage
 end
 
 -- Output magic hit rate for all levels
