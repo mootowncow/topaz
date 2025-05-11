@@ -163,11 +163,19 @@ struct UnlockedAttachments_t
     uint32 attachments[8];
 };
 
+enum class GearModType : uint8
+{
+    Normal,
+    Pet
+};
+
 struct GearSetMod_t
 {
-    uint8	modNameId;
-    Mod  	modId;
-    uint16	modValue;
+    uint8 modNameId;
+    Mod modId;
+    uint16 modValue;
+    GearModType modType;
+    PetModType petModType; // only valid if modType == Pet
 };
 
 enum CHAR_SUBSTATE

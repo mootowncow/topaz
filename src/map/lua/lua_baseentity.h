@@ -225,6 +225,7 @@ public:
 
     int32 hasGearSetMod(lua_State*);         // Checks if character already has a gear set mod
     int32 addGearSetMod(lua_State*);         // Sets the characters gear set mod
+    int32 addPetGearSetMod(lua_State*);         // Sets the characters pet gear set mod
     int32 clearGearSetMods(lua_State*);      // Clears a characters gear set mods
 
     int32 getStorageItem(lua_State*);        // returns item object player:getStorageItem(containerid, slotid, equipslotid)

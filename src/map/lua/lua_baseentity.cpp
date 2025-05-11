@@ -4859,11 +4859,10 @@ inline int32 CLuaBaseEntity::hasGearSetMod(lua_State *L)
 *  Notes   : Used exclusively in scripts/globals/gear_sets.lua
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::addGearSetMod(lua_State *L)
+inline int32 CLuaBaseEntity::addGearSetMod(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
-
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 3) || !lua_isnumber(L, 3));
@@ -4872,14 +4871,13 @@ inline int32 CLuaBaseEntity::addGearSetMod(lua_State *L)
     gearSetMod.modNameId = (uint8)lua_tonumber(L, 1);
     gearSetMod.modId = static_cast<Mod>(lua_tointeger(L, 2));
     gearSetMod.modValue = (uint16)lua_tonumber(L, 3);
+    gearSetMod.modType = GearModType::Normal;
 
     CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
 
-    for (uint8 i = 0; i < PChar->m_GearSetMods.size(); ++i)
+    for (auto& existingMod : PChar->m_GearSetMods)
     {
-        GearSetMod_t exsistingMod = PChar->m_GearSetMods.at(i);
-
-        if (gearSetMod.modNameId == exsistingMod.modNameId)
+        if (gearSetMod.modNameId == existingMod.modNameId)
         {
             lua_pushnil(L);
             return 1;
@@ -4894,24 +4892,72 @@ inline int32 CLuaBaseEntity::addGearSetMod(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: addPetGearSetMod()
+ *  Purpose : Need to research functionality more to provide description
+ *  Example :  player:addPetGearSetMod(gearset.id + i, modId, modValue + addSetBonus)
+ *  Notes   : Used exclusively in scripts/globals/gear_sets.lua
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::addPetGearSetMod(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 3) || !lua_isnumber(L, 3));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 4) || !lua_isnumber(L, 4));
+
+    GearSetMod_t gearSetMod;
+    gearSetMod.modNameId = (uint8)lua_tonumber(L, 1);
+    gearSetMod.modId = static_cast<Mod>(lua_tointeger(L, 2));
+    gearSetMod.petModType = (PetModType)(uint16)lua_tonumber(L, 3);
+    gearSetMod.modValue = (uint16)lua_tonumber(L, 4);
+    gearSetMod.modType = GearModType::Pet;
+
+    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
+
+    for (auto& existingMod : PChar->m_GearSetMods)
+    {
+        if (gearSetMod.modNameId == existingMod.modNameId)
+        {
+            lua_pushnil(L);
+            return 1;
+        }
+    }
+
+    PChar->m_GearSetMods.push_back(gearSetMod);
+    PChar->addPetModifier(gearSetMod.modId, gearSetMod.petModType, gearSetMod.modValue);
+
+    lua_pushnil(L);
+    return 1;
+}
+
+/************************************************************************
 *  Function: clearGearSetMods()
 *  Purpose : Clears all mods the player has from gear sets
 *  Example : player:clearGearSetMods()
 *  Notes   :
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::clearGearSetMods(lua_State *L)
+inline int32 CLuaBaseEntity::clearGearSetMods(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
 
     CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
 
-    for (uint8 i = 0; i < PChar->m_GearSetMods.size(); ++i)
+    for (auto& gearSetMod : PChar->m_GearSetMods)
     {
-        GearSetMod_t gearSetMod = PChar->m_GearSetMods.at(i);
-        PChar->delModifier(gearSetMod.modId, gearSetMod.modValue);
+        if (gearSetMod.modType == GearModType::Pet)
+        {
+            PChar->delPetModifier(gearSetMod.modId, gearSetMod.petModType, gearSetMod.modValue);
+        }
+        else
+        {
+            PChar->delModifier(gearSetMod.modId, gearSetMod.modValue);
+        }
     }
+
     PChar->m_GearSetMods.clear();
 
     lua_pushnil(L);
@@ -17892,6 +17938,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasGearSetMod),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addGearSetMod),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,addPetGearSetMod),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,clearGearSetMods),
 
     // Storing

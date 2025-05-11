@@ -1542,7 +1542,6 @@ void CBattleEntity::applyPetModifiers(CPetEntity* PPet)
     }
 }
 
-
 void CBattleEntity::removePetModifiers(CPetEntity* PPet)
 {
     for (auto modtype : m_petMod)
