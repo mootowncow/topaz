@@ -4591,6 +4591,12 @@ namespace charutils
 
     void SaveCharPosition(CCharEntity* PChar)
     {
+        if (PChar->status == STATUS_DISAPPEAR)
+
+        {
+            return;
+        }
+
         const char* Query =
             "UPDATE chars "
             "SET "
