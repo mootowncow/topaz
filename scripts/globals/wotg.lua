@@ -13,18 +13,13 @@ require("scripts/globals/items")
 require("scripts/globals/keyitems")
 -----------------------------------
 -- TODO:
--- Meta progress increase based on event done (i.e. bosses give 10%, waves give 5%)
 -- tpz.wotg.RandomEvent need the forced spawn removed (randomEventWaves(player)) and should only spawn at 10% of time
 --  weather related event (during weather only)
 --  undead related event (night only)
--- augmented items from events, fomor bosses drop their "Finished" synthesized weapons with augments
--- OR drop runes (the things from hunts) from all events and they go into the weapons fomor bosses weapons
--- elite/champion packs on waves/defense? can have positive auras buffing other mobs in wave or debuffing players
 -- logic for mob despawning maybe? despawn event/mobs after inactive for 5m?
 -- some NM to reflect spell casts, and some NM (scorpion?) to counter WS with a TP move onto that player
 -- give one of the trash mobs hastega (make it II effect) regenga IV, etc
 -- has to be able to AOE it onto other mobs so needs to be in family somehow...or just hard code AOEing it on spellcast
--- Fomors (Lugh etc) detect magic AND sound
 -- Delete tpz.wotg.WaveonMobDeath?
 -- Zone wide damage in certain areas like undispellable poison etc. Environmental effects
 -- Test elite champ etc mobs with auras
@@ -33,15 +28,11 @@ require("scripts/globals/keyitems")
 -- Test SAVETP mod
 -- Test if mob OFFENSIVE auras still work (TickMobAura) and don't AOE onto other nearby mobs
 -- Test if BreakMob still works and works if a trust breaks the mob
--- Concordia etc weapon stats (Maybe make for jobs that normally don't use that weapon as a main wep?)
--- Test spell crit
--- Should marine Mayhem be (If this attack puts targets HP below 50%, then insta kill)?
 -- Mobs that res eachother?
--- Trusts need to use holy waters when doomed
 -- Make sure all spikes still work properly
 -- Fomors (Lugh etc) special mobmod to ignore enmity and only focus whatever did newest CE/VE? read bg wiki page for tethra/etniu
 -- Mechanics like abyssea for killing mobs? atmas to collect? stat boosts for clearing every zone boss? meta progression? 1 attribute boost per bos?
--- Store augment buff in one of the atma or stat buffs.
+-- Store augment buff in one of the atma or stat buffs or the abyssea buff itself.
 -- Titles to fomors
 -- Earth bosses gain stoneskin (undispellable) after using TP moves
 -- Wind bosses gain blink (undispellable) after using TP moves
@@ -59,16 +50,10 @@ require("scripts/globals/keyitems")
 -- Lugh needs a new family, weak to water, resists everything else
 -- Ethniu needs a new family, weak to ice, resists everything else
 -- Tethra needs a new family, weak to wind, resists everything else
--- fomor all true sight/sound
+-- fomor all true sight/sound/magic
 -- bosses and metaBosses tables needs eldieme and garlaige
 -- Code or remove randomEventDefense from both tables
 -- environmental for eldieme and garlaige
--- Why is onRegionEnter = function(player, region) being spammed for eldieme? (Maybe just for region #1?)
--- Eldieme bosses size 6
--- Eldieme Bosses impossible to gauge
--- Mob pets need to despawn on their death/despawn
--- Kernunnos add a delay after changing animationsub before changing to another
--- Needs to finish the "landing" animation from air before it can become stoneformed
 
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
@@ -82,6 +67,7 @@ tpz.wotg.regionsData = {
                 Power = 50,
                 Tick = 3,
                 Duration = 30,
+                SubPower = 0,
                 Msg = 'toxic'
             },
             { Region = 14,
@@ -92,6 +78,7 @@ tpz.wotg.regionsData = {
                 Tick = 0,
                 Tick2 = 0,
                 Duration = 30,
+                SubPower = 0,
                 Msg = 'time-warped'
             },
             { Region = 15,
@@ -99,6 +86,7 @@ tpz.wotg.regionsData = {
                 Power = 25,
                 Tick = 0,
                 Duration = 30,
+                SubPower = 0,
                 Msg = 'hexed'
             },
             { Region = 16,
@@ -106,6 +94,7 @@ tpz.wotg.regionsData = {
                 Power = 45,
                 Tick = 0,
                 Duration = 30,
+                SubPower = 0,
                 Msg = 'freezing'
             },
         }
@@ -114,6 +103,40 @@ tpz.wotg.regionsData = {
     },
     [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
         amount = 14,
+        environmental = {
+            { Region = 5,
+                Effect = tpz.effect.MUTE,
+                Power = 1,
+                Tick = 0,
+                Duration = 30,
+                SubPower = 0,
+                Msg = 'devoid of oxygen'
+            },
+            { Region = 7,
+                Effect = tpz.effect.BLINDNESS,
+                Power = 255,
+                Tick = 0,
+                Duration = 30,
+                SubPower = 0,
+                Msg = 'pitch black'
+            },
+            { Region = 9,
+                Effect = tpz.effect.AMNESIA,
+                Power = 1,
+                Tick = 0,
+                Duration = 30,
+                SubPower = 0,
+                Msg = 'confusing'
+            },
+            { Region = 11,
+                Effect = tpz.effect.DROWN,
+                Power = 89,
+                Tick = 3,
+                Duration = 30,
+                SubPower = 50,
+                Msg = 'suffocating'
+            },
+        }
     }
 }
 
@@ -1344,6 +1367,7 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.BLIND)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
+        mob:setMobMod(tpz.mobMod.HUMANOID, 1)
 
         tpz.mix.jobSpecial.config(mob, {
             specials =
@@ -1440,6 +1464,7 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.BLIND)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
+        mob:setMobMod(tpz.mobMod.HUMANOID, 1)
 
         tpz.mix.jobSpecial.config(mob, {
             specials =
@@ -1463,6 +1488,7 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.BLIND)
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
+        mob:setMobMod(tpz.mobMod.HUMANOID, 1)
 
         tpz.mix.jobSpecial.config(mob, {
             specials =
@@ -2718,14 +2744,14 @@ tpz.wotg.onZoneTick = function(player, zone, region)
                 if party then
                     for _, member in ipairs(party) do
                         if environmentalData.Effect then
-                            member:addStatusEffect(environmentalData.Effect, environmentalData.Power, environmentalData.Tick, environmentalData.Duration)
+                            member:addStatusEffect(environmentalData.Effect, environmentalData.Power, environmentalData.Tick, environmentalData.Duration, 0, environmentalData.SubPower)
                             local effect = member:getStatusEffect(environmentalData.Effect)
                             if (effect ~= nil) then
                                 effect:unsetFlag(tpz.effectFlag.WALTZABLE)
                             end
                         end
                         if environmentalData.Effect2 then
-                            member:addStatusEffect(environmentalData.Effect2, environmentalData.Power2, environmentalData.Tick2, environmentalData.Duration)
+                            member:addStatusEffect(environmentalData.Effect2, environmentalData.Power2, environmentalData.Tick2, environmentalData.Duration, 0, environmentalData.SubPower)
                             local effect = member:getStatusEffect(environmentalData.Effect2)
                             if (effect ~= nil) then
                                 effect:unsetFlag(tpz.effectFlag.WALTZABLE)

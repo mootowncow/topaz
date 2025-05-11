@@ -12028,8 +12028,8 @@ INSERT INTO `mob_groups` VALUES (25,3018,175,'Orcish_Guard',0,128,0,0,0,60,60,0)
 INSERT INTO `mob_groups` VALUES (26,1200,175,'Ellylldan',0,128,0,20000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (27,1026,175,'Dhoul',0,128,0,0,0,81,81,0);
 INSERT INTO `mob_groups` VALUES (28,5178,175,'Giltine',0,128,0,0,20000,94,95,0);
-INSERT INTO `mob_groups` VALUES (29,6868,175,'Ethniu',0,128,0,35000,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (30,6869,175,'Tethra',0,128,0,35000,0,90,90,0);
+INSERT INTO `mob_groups` VALUES (29,6868,175,'Ethniu',0,128,6130,35000,0,80,80,0);
+INSERT INTO `mob_groups` VALUES (30,6869,175,'Tethra',0,128,6131,35000,0,90,90,0);
 
 -- Dungeon Events
 

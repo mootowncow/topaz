@@ -3294,6 +3294,7 @@ tpz.mobMod =
     AMMO_DELAY          = 116, -- Trust ranged ammo delay
     CAPACITY_BONUS      = 117, -- bonus capacity points (bonus / 100) negative values reduce capacity points.
     CUSTOMLINK          = 118, -- Force linking with other mobs with same power of this mod (i.e. 99 power mobs will all link together). Also parties mobs for buffs/heals
+    HUMANOID            = 119, -- Considered humanoid, but does NOT change the mobs family. used for CMobEntity::IsHumanoid()
 }
 
 ------------------------------------

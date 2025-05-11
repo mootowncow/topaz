@@ -17825,12 +17825,28 @@ INSERT INTO `mob_droplist` VALUES (6128,1,8,240,28385,250);     -- Atzintli Neck
 INSERT INTO `mob_droplist` VALUES (6128,1,8,240,21384,250);     -- Kalboron Stone
 
 -- Lugh
-INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2858,1000); -- Wolfram Steel
-INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2858,240); -- Wolfram Steel
-INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2858,150); -- Wolfram Steel
-INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2859,240); -- Cobalt Ore
-INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,11410,100); -- Setantas Ledelsens
-INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,17765,50); -- Concordia
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2858,1000);    -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2858,240);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2858,150);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2859,240);     -- Cobalt Ore
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,11410,100);    -- Setantas Ledelsens
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,17765,50);     -- Concordia
+
+-- Ethniu
+INSERT INTO `mob_droplist` VALUES (6130,0,0,1000,2858,1000);    -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6130,0,0,1000,2858,240);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6130,0,0,1000,2858,150);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6130,0,0,1000,2859,240);     -- Cobalt Ore
+INSERT INTO `mob_droplist` VALUES (6130,0,0,1000,16376,100);    -- Bahram Cuisses
+INSERT INTO `mob_droplist` VALUES (6130,0,0,1000,19118,50);     -- Machismo
+
+-- Tethra
+INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,2858,1000);    -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,2858,240);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,2858,150);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,2859,240);     -- Cobalt Ore
+INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,16302,100);    -- Bloodbead Gorget
+INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,18603,50);     -- Majestas
 
 ---------------------Dynamis---------------------
 
