@@ -11,6 +11,7 @@ require("scripts/globals/status")
 require("scripts/globals/zone")
 require("scripts/globals/items")
 require("scripts/globals/keyitems")
+require("scripts/globals/titles")
 -----------------------------------
 -- TODO:
 -- tpz.wotg.RandomEvent need the forced spawn removed (randomEventWaves(player)) and should only spawn at 10% of time
@@ -33,7 +34,6 @@ require("scripts/globals/keyitems")
 -- Fomors (Lugh etc) special mobmod to ignore enmity and only focus whatever did newest CE/VE? read bg wiki page for tethra/etniu
 -- Mechanics like abyssea for killing mobs? atmas to collect? stat boosts for clearing every zone boss? meta progression? 1 attribute boost per bos?
 -- Store augment buff in one of the atma or stat buffs or the abyssea buff itself.
--- Titles to fomors
 -- Earth bosses gain stoneskin (undispellable) after using TP moves
 -- Wind bosses gain blink (undispellable) after using TP moves
 -- Dark bosses ga magic stoneskin (undispellable) after using TP moves
@@ -42,18 +42,11 @@ require("scripts/globals/keyitems")
 -- Add magic crit def mod, give to some bosses
 -- Add magic crit hit rate reduction mod, give to some bosses
 -- Add magic crit to some bosses
--- Knechts_Corpselight move logic onMobRoam too
--- Arg for setlevel and calcmobstate to heal the mob (false for these NMs)
--- Change text color for messages
 -- Eldieme Goblin Pioneer lays mines/patrols (one by ethniu)
--- add mobmod for ISHUMANOID then add it to isHuman() check
--- Lugh needs a new family, weak to water, resists everything else
--- Ethniu needs a new family, weak to ice, resists everything else
--- Tethra needs a new family, weak to wind, resists everything else
--- fomor all true sight/sound/magic
 -- bosses and metaBosses tables needs eldieme and garlaige
 -- Code or remove randomEventDefense from both tables
 -- environmental for eldieme and garlaige
+-- test all regions and environmentals in eldieme
 
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
@@ -195,11 +188,15 @@ local bosses = {
 }
 
 local metaBosses = {
-    [tpz.zone.CRAWLERS_NEST_S] = { Name = 'Lugh',       Id = 17477708, Pos = 'E-7' },
-    [tpz.zone.CRAWLERS_NEST_S] = { Name = 'Ethniu',     Id = 17494093, Pos = 'K-7' },
-    [tpz.zone.CRAWLERS_NEST_S] = { Name = 'Tethra',     Id = 17494213, Pos = 'K-12' },
+    [tpz.zone.CRAWLERS_NEST_S] = {
+        { Name = 'Lugh', Id = 17477708, Pos = 'E-7', Title = tpz.title.LUGH_EXORCIST },
+    },
+    [tpz.zone.GARLAIGE_CITADEL_S] = {
+        { Name = 'Ethniu', Id = 17494093, Pos = 'K-7', Title = tpz.title.ETHNIU_EXORCIST },
+        { Name = 'Tethra', Id = 17494213, Pos = 'K-12', Title = tpz.title.TETHRA_EXORCIST },
+    },
+    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {}, -- tpz.title.ELATHA_EXORCIST, tpz.title.BUARAINECH_EXORCIST
 }
-
 local augments = {
     [tpz.zone.CRAWLERS_NEST_S] = {
         [tpz.items.WHITE_CLOAK] =
@@ -1243,16 +1240,25 @@ local function SpawnMetaBoss(player, zone)
     end
 
     player:queue(30000, function(player) -- 30s wait before spawning
-        local metaBossId = bossData.Id
-        local spawnPos = bossData.Pos
+        if #bossData == 0 then
+            return -- shouldn't happen
+        end
+
+        -- pick a random boss from the list
+        local randomIndex = math.random(1, #bossData)
+        local boss = bossData[randomIndex]
+
+        local metaBossId = boss.Id
+        local spawnPos = boss.Pos
         local metaBoss = GetMobByID(metaBossId)
         local metaBossName = MobName(metaBoss)
 
-        if not boss:isSpawned() then
+        if not metaBoss:isSpawned() then
             SpawnMob(metaBossId)
             utils.MessageParty(player, metaBossName .. " has spawned at " .. spawnPos .. "!", tpz.msg.textColor.HIDDEN, nil)
         end
     end)
+
     zone:setLocalVar("eventActive", tpz.wotg.events.MetaBoss)
 end
 
@@ -2344,6 +2350,22 @@ local mobFightByMobName =
 
 local mobSpellPrecastByMobName =
 {
+    ['Hound_of_Balthazar'] = function(mob, spell)
+        local aoeSpellList = {
+            tpz.magic.spell.ADDLE,
+        }
+
+        -- AoE Addle
+        for _, spellId in pairs (aoeSpellList) do
+            if (spell:getID() == spellId) then
+                spell:setAoE(tpz.magic.aoe.RADIAL)
+                spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
+                spell:setRadius(10)
+                break
+	        end
+        end
+    end,
+
     ['Knechts_Corpselight'] = function(mob, spell)
         spell:setAoE(tpz.magic.aoe.RADIAL)
         spell:setRadius(10)
@@ -2351,11 +2373,11 @@ local mobSpellPrecastByMobName =
 
     ['Kernunnos'] = function(mob, spell)
         local aoeSpellList = {
-        tpz.magic.spell.ABSORB_TP,
-        tpz.magic.spell.ABSORB_ATTRI,
-        tpz.magic.spell.DRAIN_II,
-        tpz.magic.spell.ASPIR_II,
-        tpz.magic.spell.STUN,
+            tpz.magic.spell.ABSORB_TP,
+            tpz.magic.spell.ABSORB_ATTRI,
+            tpz.magic.spell.DRAIN_II,
+            tpz.magic.spell.ASPIR_II,
+            tpz.magic.spell.STUN,
         }
         -- AoE Absorb-TP, Absorb-Attribute, Drain II, Aspir II and  Stun
         for _, spellId in pairs (aoeSpellList) do
@@ -2571,18 +2593,32 @@ end
 
 function eventOnMobDeath.MetaBoss(mob, player, isKiller, noKiller)
     local zone = player:getZone()
+    local zoneId = zone:getID()
+    local bossData = metaBosses[zoneId]
+
+    if bossData == nil then
+        return -- no meta bosses for this zone
+    end
+
     if isKiller or noKiller then
         local chance = 100
         GenerateAugments(player, chance)
-        -- Increased number augments on items, removed by zoning
+
         for _, member in pairs(player:getAlliance()) do
             member:addMod(tpz.mod.PAST_DUNGEON_MASTER, 1)
         end
+
         AddAugmentMod(player)
         zone:setLocalVar("metaProgress", 0)
         zone:setLocalVar("eventActive", 0)
-        utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, none)
+        utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, nil)
+    end
+
+    for _, boss in pairs(bossData) do
+        if mob:getID() == boss.Id then
+            player:addTitle(boss.Title)
         end
+    end
 end
 
 tpz.wotg.onMobDeath = function (mob, player, isKiller, noKiller, event)
