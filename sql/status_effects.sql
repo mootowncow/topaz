@@ -119,7 +119,7 @@ INSERT INTO `status_effects` VALUES (73,'barrage',545,73,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (74,'holy_circle',41,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (75,'arcane_circle',41,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (76,'hide',3429,0,0,0,0,0,0,0,0);
-INSERT INTO `status_effects` VALUES (77,'camouflage',3429,0,0,0,0,0,0,0,0);
+INSERT INTO `status_effects` VALUES (77,'camouflage',357,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (78,'divine_seal',545,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (79,'elemental_seal',545,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (80,'str_boost',553,0,136,0,0,0,1,0,0);

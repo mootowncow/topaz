@@ -20296,7 +20296,7 @@ INSERT INTO `item_basic` VALUES (26359,0,'orpheuss_sash','orpheuss_sash',1,34820
 INSERT INTO `item_basic` VALUES (26360,0,'gerdr_belt','gerdr_belt',1,2080,23,0,0);
 INSERT INTO `item_basic` VALUES (26361,0,'gerdr_belt_+1','gerdr_belt_+1',1,2080,23,0,0);
 INSERT INTO `item_basic` VALUES (26400,0,'culminus','culminus',1,63572,0,1,0);
-INSERT INTO `item_basic` VALUES (26401,0,'forfend','forfend',1,63568,0,0,0);
+INSERT INTO `item_basic` VALUES (26401,0,'forfend','forfend',1,63568,0,1,0);
 INSERT INTO `item_basic` VALUES (26402,0,'forfend_+1','forfend_+1',1,63569,0,0,0);
 INSERT INTO `item_basic` VALUES (26403,0,'srivatsa','srivatsa',1,63552,0,0,0);
 INSERT INTO `item_basic` VALUES (26406,0,'kupo_shield','kupo_shield',1,63552,0,0,0);
