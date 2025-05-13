@@ -13882,7 +13882,7 @@ INSERT INTO `mob_groups` VALUES (34,1629,217,'Gnawtooth_Gary',0,128,1009,0,0,85,
 INSERT INTO `mob_groups` VALUES (35,572,217,'Bukhis',0,128,382,0,0,85,87,0);
 INSERT INTO `mob_groups` VALUES (36,3528,217,'Sedna',0,128,2190,0,0,85,87,0);
 INSERT INTO `mob_groups` VALUES (37,1140,217,'Durinn',0,128,722,0,0,85,87,0);
-INSERT INTO `mob_groups` VALUES (38,2194,217,'Karkadann',0,128,1424,0,0,85,87,0);
+INSERT INTO `mob_groups` VALUES (38,2194,217,'Karkadann',0,128,1424,0,0,95,95,0);
 INSERT INTO `mob_groups` VALUES (39,3632,217,'Sippoy',0,0,2257,0,0,95,95,0);
 INSERT INTO `mob_groups` VALUES (40,2092,217,'Ironclad_Executioner',0,0,0,0,0,95,95,0);
 INSERT INTO `mob_groups` VALUES (41,2440,217,'Lord_Varney',0,0,1537,0,0,90,90,0);
