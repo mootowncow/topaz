@@ -13211,9 +13211,9 @@ inline int32 CLuaBaseEntity::getDamageRatio(lua_State* L)
         ignoredDefense = lua_tointeger(L, 6);
     }
 
-    float pDIF = battleutils::GetDamageRatio(PAttacker, PDefender, isCritical, bonusAttPercent, flatAttBonus, weaponSlot, ignoredDefense);
+    float pDif = battleutils::GetDamageRatio(PAttacker, PDefender, isCritical, bonusAttPercent, flatAttBonus, weaponSlot, ignoredDefense);
 
-    lua_pushnumber(L, pDIF);
+    lua_pushnumber(L, pDif);
     return 1;
 }
 
@@ -13334,9 +13334,9 @@ inline int32 CLuaBaseEntity::getRangedDamageRatio(lua_State* L)
         ignoredDefense = lua_tointeger(L, 3);
     }
 
-    float pdIF = battleutils::GetRangedDamageRatio(PAttacker, PDefender, isCritical, ignoredDefense);
+    float pDif = battleutils::GetRangedDamageRatio(PAttacker, PDefender, isCritical, ignoredDefense);
 
-    lua_pushnumber(L, pdIF);
+    lua_pushnumber(L, pDif);
     return 1;
 }
 
