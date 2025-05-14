@@ -43,7 +43,7 @@ function onUseAbility(player, target, ability)
     damage = damage * pdif
 
     -- Apply reductions
-    damage = utils.HandlePositionalPDT(mob, target, damage)
+    damage = utils.HandlePositionalPDT(player, target, damage)
     damage = target:physicalDmgTaken(damage, tpz.damageType.BLUNT)
 
     -- Check for phalanx + stoneskin

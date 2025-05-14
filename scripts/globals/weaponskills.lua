@@ -30,6 +30,7 @@ function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams)
             criticalHit = (wsParams.canCrit and critChance <= calcParams.critRate)
             forcedCrit = calcParams.forcedFirstCrit or calcParams.mightyStrikesApplicable
 
+            -- Calculate crit and get pdIF
             if criticalHit then
                 TryBreakMob(target)
                 calcParams.criticalHit = true
@@ -385,14 +386,6 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
         flatAttackBonus = wsParams.flatAttackBonus
     end
 
-    -- Conspirator Flat Attack
-    if attacker:hasStatusEffect(tpz.effect.CONSPIRATOR) then
-        if not attacker:isTopEnmity(target) then
-            local conspiratorBonus = attacker:getMod(tpz.mod.AUGMENTS_CONSPIRATOR)
-            flatAttackBonus = flatAttackBonus + conspiratorBonus
-        end
-    end
-
     -- Calculate ignore defense
     if wsParams.ignoresDef then
         ignoredDef = calculatedIgnoredDef(tp, target:getStat(tpz.mod.DEF), wsParams.ignored100, wsParams.ignored200, wsParams.ignored300)
@@ -548,11 +541,28 @@ end
 function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, primaryMsg)
 
     -- Determine cratio and ccritratio
+    local bonusAttPercent = 0
+    local flatAttackBonus = 0
     local ignoredDef = 0
-    if (wsParams.ignoresDef == not nil and wsParams.ignoresDef == true) then
+
+    -- fTP bonus
+    local ftpBonus = fTP(tp, wsParams.atk100, wsParams.atk200, wsParams.atk300)
+
+    bonusAttPercent = bonusAttPercent + ftpBonus
+
+    -- Calculate flatAttackBonus
+    if (wsParams.flatAttackBonus ~= nil) then
+        flatAttackBonus = wsParams.flatAttackBonus
+    end
+
+    -- Calculate ignore defense
+    if wsParams.ignoresDef then
         ignoredDef = calculatedIgnoredDef(tp, target:getStat(tpz.mod.DEF), wsParams.ignored100, wsParams.ignored200, wsParams.ignored300)
     end
-    local cratio, ccritratio = cRangedRatio(attacker, target, wsParams, ignoredDef, tp)
+
+    -- Get final damage ratios
+    local cratio = attacker:getRangedDamageRatio(target, false, ignoredDef)
+    local ccritratio = attacker:getRangedDamageRatio(target, true, ignoredDef)
 
     -- Set up conditions and params used for calculating weaponskill damage
     local gorgetBeltFTP, gorgetBeltAcc = handleWSGorgetBelt(attacker)

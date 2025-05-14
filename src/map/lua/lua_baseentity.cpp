@@ -13186,7 +13186,6 @@ inline int32 CLuaBaseEntity::getDamageRatio(lua_State* L)
     SLOTTYPE weaponSlot = SLOT_MAIN;
     uint16 ignoredDefense = 0;
 
-    // TODO: check && lua_isX for this and both crit gbindings
     if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
     {
         isCritical = lua_toboolean(L, 2);
@@ -13317,9 +13316,6 @@ inline int32 CLuaBaseEntity::getRangedDamageRatio(lua_State* L)
     CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
     CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
     bool isCritical = false;
-    float bonusAttPercent = 0.0;
-    uint16 flatAttBonus = 0;
-    SLOTTYPE weaponSlot = SLOT_MAIN;
     uint16 ignoredDefense = 0;
 
     // TODO: check && lua_isX for this and both crit gbindings
@@ -13330,27 +13326,12 @@ inline int32 CLuaBaseEntity::getRangedDamageRatio(lua_State* L)
 
     if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
     {
-        bonusAttPercent = (float)lua_tonumber(L, 3);
+        ignoredDefense = lua_tointeger(L, 3);
     }
 
-    if (!lua_isnil(L, 4) && lua_isnumber(L, 4))
-    {
-        flatAttBonus = lua_tointeger(L, 4);
-    }
+    float pdIF = battleutils::GetRangedDamageRatio(PAttacker, PDefender, isCritical, ignoredDefense);
 
-    if (!lua_isnil(L, 5) && lua_isnumber(L, 5))
-    {
-        weaponSlot = (SLOTTYPE)lua_tointeger(L, 5);
-    }
-
-    if (!lua_isnil(L, 6) && lua_isnumber(L, 6))
-    {
-        ignoredDefense = lua_tointeger(L, 6);
-    }
-
-    //float pdIF = battleutils::GetRangedDamageRatio(PAttacker, PDefender, isCritical, bonusAttPercent, flatAttBonus, weaponSlot, ignoredDefense);
-    float pDIF = 0;
-    lua_pushnumber(L, pDIF);
+    lua_pushnumber(L, pdIF);
     return 1;
 }
 
