@@ -31,7 +31,7 @@ function onMobWeaponSkill(target, mob, skill)
     params_phys.int_wsc = 0.2
     params_phys.mnd_wsc = 0.0
     params_phys.chr_wsc = 0.0
-    params_phys.attack_boost = 50
+    params_phys.attack_boost = 1.5
     local info = MobPhysicalMove(mob, target, skill, numhits, accmod, dmgmod, TP_CRIT_VARIES, params_phys)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.RANGED, tpz.damageType.BLUNT, info.hitslanded)
     if (mob:getPool() == 9004) then -- The Big One

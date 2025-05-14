@@ -13305,7 +13305,12 @@ inline int32 CLuaBaseEntity::getRATT(lua_State *L)
     return 1;
 }
 
-
+/************************************************************************
+ *  Function: getRangedDamageRatio()
+ *  Purpose : Returns the critical hit rate of an Entity against another entity
+ *  Example : attacker:getRangedDamageRatio(target, false, ignoredDef)
+ *  Notes   : Uses GetRangedDamageRatio() in battletuils for calculation
+ ************************************************************************/
 inline int32 CLuaBaseEntity::getRangedDamageRatio(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);

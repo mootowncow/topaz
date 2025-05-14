@@ -28,7 +28,7 @@ function onMobWeaponSkill(target, mob, skill)
     params_phys.int_wsc = 0.2
     params_phys.mnd_wsc = 0.0
     params_phys.chr_wsc = 0.0
-    params_phys.attack_boost = 50
+    params_phys.attack_boost = 1.5
     local info = MobRangedMove(mob, target, skill, numhits, accmod, dmgmod, TP_RANGED, params_phys)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, info.hitslanded)
 

@@ -173,12 +173,11 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     --printf("final crit %f", critRate*100)
 
-    --Applying pDIF
     local pdif = 0
     local ignoredDef = 0
     local ignoredDefMod = 0
     local bonusAttPercent = 0
-    local flatAttackBonus= 0
+    local flatAttackBonus = 0
 
     -- Calculate bonus attack percent
     if params_phys.attack_boost then
@@ -224,18 +223,16 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     -- Set block rate to 0 for now
     mob:setLocalVar("isBlocked", 0)
 
-    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
-        pdif = mob:getRangedDamageRatio(target, false, ignoredDef)
-    else
-        pdif = mob:getDamageRatio(target, false, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
-    end
+    pdif = GenerateMobPdif(mob, target, tpeffect, false, bonusAttPercent, flatAttackBonus, ignoredDef)
 
-    -- printf("[%s] Pdif is %f", name, pdif)
+    --printf("[%s] Pdif is %f", name, pdif)
     if ((chance*100) <= firstHitChance) then
         if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
+            pdif = GenerateMobPdif(mob, target, tpeffect, true, bonusAttPercent, flatAttackBonus, ignoredDef)
             if target:isMob() then
                 TryBreakMob(target)
             end
+            --printf("[%s] CRIT! Pdif is %f", name, pdif)
         end
 
         -- Guard / Parry / Block check for non-ranged TP moves
@@ -321,18 +318,15 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
         if ((chance*100)<=hitrate) then --it hit
             -- Generate random pdif
-            if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
-                pdif = mob:getRangedDamageRatio(target, false, ignoredDef)
-            else
-                pdif = mob:getDamageRatio(target, false, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
-            end
-
+            pdif = GenerateMobPdif(mob, target, tpeffect, false, bonusAttPercent, flatAttackBonus, ignoredDef)
+            --printf("[%s] Pdif is %f", name, pdif)
             if isCrit(mob, critRate, params_phys) then
+                pdif = GenerateMobPdif(mob, target, tpeffect, true, bonusAttPercent, flatAttackBonus, ignoredDef)
                 if target:isMob() then
                     TryBreakMob(target)
                 end
             end
-
+            --printf("[%s] CRIT! Pdif is %f", name, pdif)
             -- Guard / Parry / Block check for non-ranged TP moves
             if (tpeffect ~= TP_RANGED) then
                 if math.random()*100 < target:getGuardRate(mob) then -- Try to guard
@@ -2310,6 +2304,18 @@ function MobRemoveEffects(target)
     target:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
     target:delStatusEffectSilent(tpz.effect.QUICKENING)
     target:delStatusEffectSilent(tpz.effect.MAZURKA)
+end
+
+function GenerateMobPdif(mob, target, tpeffect, isCrit, bonusAttPercent, flatAttackBonus, ignoredDef)
+    local generatedPdif = 0
+
+    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
+        generatedPdif = mob:getRangedDamageRatio(target, isCrit, ignoredDef)
+    else
+        generatedPdif = mob:getDamageRatio(target, isCrit, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
+    end
+
+    return generatedPdif
 end
 
 function MobDmgTPModifier(tp)

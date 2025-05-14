@@ -32,7 +32,7 @@ function onMobWeaponSkill(target, mob, skill)
     params_phys.int_wsc = 0.0
     params_phys.mnd_wsc = 0.0
     params_phys.chr_wsc = 0.0
-    params_phys.attack_boost = 100
+    params_phys.attack_boost = 2.0
     local info = MobPhysicalMove(mob, target, skill, numhits, accmod, dmgmod, TP_NO_EFFECT, params_phys)
     local shadows = info.hitslanded
 
