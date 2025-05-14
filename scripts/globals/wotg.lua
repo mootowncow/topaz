@@ -1512,7 +1512,7 @@ local modByMobName =
     -- Opo-opo
     -- Urganite
     -- Gnole
-    -- Smilodon
+    -- Smilodon (Use model 0x0000C80800000000000000000000000000000000)
 }
 
 local mobRoamByMobName =
@@ -2343,7 +2343,7 @@ local mobFightByMobName =
         -- In "2 legs" mode, takes normal magical damage and has 100% counter and guard rate
         -- In "4 legs" mode, takes -95% magic damage, casts spells, and cannot counter or guard
 
-    -- Smilodon
+    -- Smilodon (Use model 0x0000C80800000000000000000000000000000000)
         -- Cures self with Cure V Curaga IV, buffs self with Haste II Temper etc
         -- Fixates on random target every 60-90s
 }
