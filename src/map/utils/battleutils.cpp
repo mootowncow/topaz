@@ -2568,7 +2568,7 @@ namespace battleutils
         return acc;
     }
 
-    float GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical)
+    float GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, uint16 ignoredDefense)
     {
         //get ranged attack value
         uint16 rAttack = 1;
@@ -4262,7 +4262,7 @@ namespace battleutils
     *                                                                       *
     ************************************************************************/
 
-    float GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus, SLOTTYPE slot)
+    float GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus, SLOTTYPE slot, uint16 ignoredDefense)
     {
         uint16 attack = PAttacker->ATT(slot);
         // Bonus attack currently only from footwork
@@ -4272,21 +4272,19 @@ namespace battleutils
         }
 
         attack += flatAttBonus;
+
         // Wholly possible for DEF to be near 0 with the amount of debuffs/effects now.
         uint16 defense = PDefender->DEF();
         if (defense == 0)
         {
             defense = 1;
         }
-
         
         ENTITYTYPE attackerType = PAttacker->objtype;
-
         uint8 attackerLvl = PAttacker->GetMLevel();
         uint8 defenderLvl = PDefender->GetMLevel();
 
-        uint16 ignoredDef = 0;
-        uint16 ignoredDefMod = 0;
+        uint16 ignoredDef = ignoredDefense;
         // Check for Attuner (PUP)
         // 15/30/45/60% ignored based on currently active manuevers
         if (attackerType == TYPE_PET)

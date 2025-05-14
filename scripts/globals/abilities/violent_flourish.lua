@@ -60,7 +60,10 @@ function onUseAbility(player, target, ability, action)
     if (isSneakValid and not player:isBehind(target)) then
         isSneakValid = false
     end
-    local pdif = generatePdif (cratio[1], cratio[2], true)
+
+    local bonusAttPercent, flatAttackBonus, ignoredDef = 0
+    local isCritical = false
+    local pdif = player:getDamageRatio(target, isCritical, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
     local accBonus = 100 -- https://www.bg-wiki.com/ffxi/Violent_Flourish
     local hitrate = getHitRate(player, target, true, true, accBonus)
 
