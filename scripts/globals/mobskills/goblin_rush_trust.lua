@@ -27,7 +27,7 @@ function onMobWeaponSkill(target, mob, skill)
     params_phys.int_wsc = 0.0
     params_phys.mnd_wsc = 0.0
     params_phys.chr_wsc = 0.0
-    params_phys.attack_boost = 133
+    params_phys.attack_boost = 1.33
     local info = MobPhysicalMove(mob, target, skill, numhits, accmod, dmgmod, TP_ATK_VARIES, params_phys, 2, 3)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING, info.hitslanded)
 

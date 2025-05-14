@@ -13165,6 +13165,59 @@ inline int32 CLuaBaseEntity::getEVA(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: getDamageRatio()
+ *  Purpose : Returns the critical hit rate of an Entity against another entity
+ *  Example : attacker:getDamageRatio(target, false, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
+ *  Notes   : Uses GetDamageRatio() in battletuils for calculation
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getDamageRatio(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+    bool isCritical = false;
+    float bonusAttPercent = 0.0;
+    uint16 flatAttBonus = 0;
+    SLOTTYPE weaponSlot = SLOT_MAIN;
+    uint16 ignoredDefense = 0;
+
+    if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
+    {
+        isCritical = lua_toboolean(L, 2);
+    }
+
+    if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
+    {
+        bonusAttPercent = (float)lua_tonumber(L, 3);
+    }
+
+    if (!lua_isnil(L, 4) && lua_isnumber(L, 4))
+    {
+        flatAttBonus = lua_tointeger(L, 4);
+    }
+
+    if (!lua_isnil(L, 5) && lua_isnumber(L, 5))
+    {
+        weaponSlot = (SLOTTYPE)lua_tointeger(L, 5);
+    }
+
+    if (!lua_isnil(L, 6) && lua_isnumber(L, 6))
+    {
+        ignoredDefense = lua_tointeger(L, 6);
+    }
+
+    float pDif = battleutils::GetDamageRatio(PAttacker, PDefender, isCritical, bonusAttPercent, flatAttBonus, weaponSlot, ignoredDefense);
+
+    lua_pushnumber(L, pDif);
+    return 1;
+}
+
+/************************************************************************
  *  Function: getCritHitRate()
  *  Purpose : Returns the critical hit rate of an Entity against another entity
  *  Example : attacker:getCritHitRate(target, true, tpz.slot.MAIN)
@@ -13184,12 +13237,12 @@ inline int32 CLuaBaseEntity::getCritHitRate(lua_State* L)
     bool ignoreSneakTrickAttack = true;
     bool isWeaponSkill = false;
 
-    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+    if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
     {
         ignoreSneakTrickAttack = lua_toboolean(L, 2);
     }
 
-    if (!lua_isnil(L, 3) && lua_isboolean(L, 3))
+    if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
     {
         weaponSlot = (SLOTTYPE)lua_tointeger(L, 3);
     }
@@ -13253,6 +13306,41 @@ inline int32 CLuaBaseEntity::getRATT(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: getRangedDamageRatio()
+ *  Purpose : Returns the critical hit rate of an Entity against another entity
+ *  Example : attacker:getRangedDamageRatio(target, false, ignoredDef)
+ *  Notes   : Uses GetRangedDamageRatio() in battletuils for calculation
+ ************************************************************************/
+inline int32 CLuaBaseEntity::getRangedDamageRatio(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+    bool isCritical = false;
+    uint16 ignoredDefense = 0;
+
+    // TODO: check && lua_isX for this and both crit gbindings
+    if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
+    {
+        isCritical = lua_toboolean(L, 2);
+    }
+
+    if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
+    {
+        ignoredDefense = lua_tointeger(L, 3);
+    }
+
+    float pDif = battleutils::GetRangedDamageRatio(PAttacker, PDefender, isCritical, ignoredDefense);
+
+    lua_pushnumber(L, pDif);
+    return 1;
+}
+
+/************************************************************************
  *  Function: getRangedCritHitRate()
  *  Purpose : Returns the ranged critical hit rate of an Entity against another entity
  *  Example : attacker:getRangedCritHitRate(target, true, tpz.slot.RANGED)
@@ -13272,12 +13360,12 @@ inline int32 CLuaBaseEntity::getRangedCritHitRate(lua_State* L)
     bool ignoreSneakTrickAttack = true;
     bool isWeaponSkill = false;
 
-    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+    if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
     {
         ignoreSneakTrickAttack = lua_toboolean(L, 2);
     }
 
-    if (!lua_isnil(L, 3) && lua_isboolean(L, 3))
+    if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
     {
         weaponSlot = (SLOTTYPE)lua_tointeger(L, 3);
     }
@@ -17942,10 +18030,12 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getStat),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getACC),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEVA),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getDamageRatio),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getCritHitRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRACC),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRATT),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRangedCritHitRate),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRangedDamageRatio),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,calculateSweetSpotAttack),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,calculateSweetSpotAccuracy),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getILvlMacc),

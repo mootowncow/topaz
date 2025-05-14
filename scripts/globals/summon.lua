@@ -102,6 +102,12 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
     hitrateSubsequent = utils.clamp(hitrateSubsequent, minHitRate, maxHitRate)
     hitrateFirst = utils.clamp(hitrateFirst, minHitRate, maxHitRate)
 
+    local pDif = 0
+    local ignoredDef = 0
+    local ignoredDefMod = 0
+    local bonusAttPercent = 0
+    local flatAttackBonus = 0
+
     -- Compute hits first so we can exit early
     local firstHitLanded = false
     local bonusHits = 0
@@ -156,29 +162,19 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
         skill:setMsg(tpz.msg.basic.SKILL_MISS)
     else
         -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
-        -- Crit rate has a base of 5% and no cap, 0-100% are valid
-        -- Dex contribution to crit rate is capped and works in tiers
-        local baseCritRate = 20
+        -- Crit rate has a base of 15% and no cap, 0-100% are valid
+        local baseCritRate = 15 + avatar:getCritHitRate(target, true, tpz.slot.MAIN, true)
         local maxCritRate = 1 -- 100%
         local minCritRate = 0.01 -- 1%
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
 
-        local critHitRateMods = avatar:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE) - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)
-        local critRate = baseCritRate + getDexCritRate(avatar, target) + critHitRateMods
-
-        if attackType == tpz.attackType.RANGED then
-            local AGI = avatar:getStat(tpz.mod.AGI)
-            local dAGI = (AGI - target:getStat(tpz.mod.AGI))
-
-            if dAGI > 0 then
-                critRate = baseCritRate + math.floor(dAGI / 10) / 100
-                baseCritRate = baseCritRate + critHitRateMods
-            end
+        if (attackType == tpz.attackType.RANGED) then
+            critRate = 15 + avatar:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
         end
 
         -- printf("TP effect %u", tpeffect)
         --printf("critRate before param %i", critRate)
-        if tpeffect == TP_CRIT_VARIES then
+        if (tpeffect == TP_CRIT_VARIES) then
             critRate = critRate + AvatarCritTPModifier(tp)
 
             --printf("critRate after param %i", critRate)
@@ -188,80 +184,34 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
         else
             critRate = 0  -- Cannot crit unless crit param
         end
-        -- printf("Final crit %d", critRate * 100)
+        --printf("Final crit %d", critRate * 100)
 
         local weaponDmg = avatar:getWeaponDmg()
         local fSTR = getAvatarFSTR(weaponDmg, avatar:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))
         local WSC = getAvatarWSC(avatar, params)
 
-        -- https://www.bg-wiki.com/bg/PDIF
-        -- https://www.bluegartr.com/threads/127523-pDIF-Changes-(Feb.-10th-2016)
-        local ratio = 0
-
-        if attackType == tpz.attackType.PHYSICAL then
-            ratio = avatar:getStat(tpz.mod.ATT) / target:getStat(tpz.mod.DEF)
-        end
-
-        -- Ranged attack BPs use Rattack
-        if attackType == tpz.attackType.RANGED then
-            local rAttack = avatar:getRATT()
-            rAttack = avatar:calculateSweetSpotAttack(target, rAttack)
-            ratio = rAttack / target:getStat(tpz.mod.DEF)
-        end
-        local cRatio = ratio
-
-        if shouldApplyLevelCorrection then
-            -- Mobs, Avatars and pets only get bonuses, no penalties (or they are calculated differently)
-            if levelDiff > 0 then
-                local correction = levelDiff * 0.05;
-                local cappedCorrection = math.min(correction, 1.9)
-                cRatio = cRatio + cappedCorrection
-            end
-        end
-
-        -- PDif caps at 2.0 for non-crits on melee, 2.5 for ranged
-        if attackType == tpz.attackType.PHYSICAL then
-            if cRatio > 2 then cRatio = 2 end
-        end
-
-        if attackType == tpz.attackType.RANGED then
-            if cRatio > 2.5 then cRatio = 2.5 end
-        end
-
         --Everything past this point is randomly computed per hit
-
         numHitsProcessed = 0
 
-        local critAttackBonus = 1 + ((avatar:getMod(tpz.mod.CRIT_DMG_INCREASE) - target:getMod(tpz.mod.CRIT_DEF_BONUS)) / 100)
-
         if firstHitLanded then
-            local wRatio = cRatio
-            -- get a random ratio from min and max
-            local qRatio = getRandRatio(wRatio)
-            --Final pDif is qRatio randomized with a 1-1.05 multiplier
-            local pDif = qRatio * (1 + (math.random() * 0.05))
+            -- https://www.bg-wiki.com/bg/PDIF
+            -- https://www.bluegartr.com/threads/127523-pDIF-Changes-(Feb.-10th-2016)
+            -- Generate random pDif
+            pDif = GenerateAvatarPdif(avatar, target, attackType, false, bonusAttPercent, flatAttackBonus, ignoredDef)
+
             local isCrit = math.random() < critRate
             local isGuarded = math.random()*100 < target:getGuardRate(avatar)
             local isBlocked = math.random()*100 < target:getBlockRate(avatar)
             local isParried = math.random()*100 < target:getParryRate(avatar)
+
             if isCrit then
+                pDif = GenerateAvatarPdif(avatar, target, attackType, true, bonusAttPercent, flatAttackBonus, ignoredDef)
                 TryBreakMob(target)
-                -- Ranged crits are pdif * 1.25
-                if attackType == tpz.attackType.RANGED then
-                    pDif = pDif * 1.25
-                else
-                   pDif = pDif + 1
-                end
-                pDif = pDif * critAttackBonus
             end
 
             if avatar:isInfront(target, 90) and isGuarded then
-                wRatio = wRatio - 1
+                pDif = pDif - 1
             end
-
-            -- PDif caps at 3.15 for crits
-            if pDif > 3.15 then pDif = 3.15 end
-            --printf("pdif first hit %u", pDif * 100)
 
             finaldmg = avatarHitDmg(weaponDmg, fSTR, WSC, pDif) * ftp
             --printf("%i", finaldmg)
@@ -321,36 +271,26 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
 
         while numHitsProcessed < numHitsLanded do
             if (target:getHP() <= finaldmg) then break end -- Stop adding hits if target would die before calculating other hits
-            local wRatio = cRatio
-            -- get a random ratio from min and max
-            local qRatio = getRandRatio(wRatio)
-            --Final pDif is qRatio randomized with a 1-1.05 multiplier
-            local pDif = qRatio * (1 + (math.random() * 0.05))
+
+            pDif = GenerateAvatarPdif(avatar, target, attackType, false, bonusAttPercent, flatAttackBonus, ignoredDef)
+
             local isCrit = math.random() < critRate
             local isGuarded = math.random()*100 < target:getGuardRate(avatar)
             local isBlocked = math.random()*100 < target:getBlockRate(avatar)
             local isParried = math.random()*100 < target:getParryRate(avatar)
+
             if isCrit then
+                pDif = GenerateAvatarPdif(avatar, target, attackType, true, bonusAttPercent, flatAttackBonus, ignoredDef)
                 TryBreakMob(target)
-                -- Ranged crits are pdif * 1.25
-                if attackType == tpz.attackType.RANGED then
-                    pDif = pDif * 1.25
-                else
-                   pDif = pDif + 1
-                end
-                pDif = pDif * critAttackBonus
             end
 
             if avatar:isInfront(target, 90) and isGuarded then
-                wRatio = wRatio - 1
+                pDif = pDif - 1
             end
-
-            -- PDif caps at 3.15 for crits
-            if pDif > 3.15 then pDif = 3.15 end
 
             local multiHitDmg = avatarHitDmg(weaponDmg, fSTR, WSC, pDif)
 
-            if attackType ~= tpz.attackType.RANGED then
+            if (attackType ~= tpz.attackType.RANGED) then
                 -- Check if mob blocked us
                 if avatar:isInfront(target, 90) and isBlocked then
                     multiHitDmg = target:getBlockedDamage(avatarHitDmg(weaponDmg, fSTR, WSC, pDif))
@@ -361,7 +301,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
                 end
             end
             --printf("multiHitDmg %u", multiHitDmg)
-            --printf("pdif multihits %u", pDif * 100)
+            --printf("pDif multihits %u", pDif * 100)
             if params.multiHitFtp == nil then ftp = 1 end -- Not fTP transfer
 
             finaldmg = finaldmg + multiHitDmg * ftp
@@ -371,7 +311,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
             numHitsProcessed = numHitsProcessed + 1
         end
         -- apply ftp bonus
-        if tpeffect == TP_DMG_BONUS then
+        if (tpeffect == TP_DMG_BONUS )then
             local dmgbonus = AvatarDmgTPModifier(tp)
             --printf("%i", dmgbonus * 100)
             finaldmg = finaldmg * dmgbonus
@@ -1610,10 +1550,21 @@ function getAvatarMagicBurstBonus(avatar, target, skill, element)
     return burst
 end
 
-
 function getAvatarMagicalDamage(avatarLevel, WSC, ftp, dStat, magicBurstBonus, resist, weatherBonus, magicAttkBonus)
     -- Formula is ((Lvl+2 + WSC) x fTP + dstat) x Magic Burst bonus x resist x dayweather bonus x  MAB/MDB x mdt
     return math.floor(((avatarLevel+2 + WSC) * ftp + dStat) * magicBurstBonus * resist * weatherBonus * magicAttkBonus)
+end
+
+function GenerateAvatarPdif(avatar, target, attackType, isCrit, bonusAttPercent, flatAttackBonus, ignoredDef)
+    local generatedPdif = 0
+
+    if (attackType == tpz.attackType.RANGED) then
+        generatedPdif = avatar:getRangedDamageRatio(target, isCrit, ignoredDef)
+    else
+        generatedPdif = avatar:getDamageRatio(target, isCrit, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
+    end
+
+    return generatedPdif
 end
 
 function getSummoningSkillOverCap(avatar)

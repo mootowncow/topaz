@@ -88,21 +88,11 @@ function onUseAbility(player, target, ability)
         target:dispelStatusEffect()
     end
 
-    -- Randomize damage
-    local ratio = player:getStat(tpz.mod.ATT)/target:getStat(tpz.mod.DEF)
+    local bonusAttPercent, flatAttackBonus, ignoredDef = 0
+    local isCritical = false
+    local pdif = player:getDamageRatio(target, isCritical, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
 
-    if ratio > 1.3 then
-        ratio = 1.3
-    end
-
-    if ratio < 0.2 then
-        ratio = 0.2
-    end
-
-    local pdif = math.random(ratio * 0.8 * 1000, ratio * 1.2 * 1000)
-
-    -- printf("damge %d, ratio: %f, pdif: %d\n", damage, ratio, pdif)
-    damage = damage * (pdif / 1000)
+    damage = damage * pdif
 
     -- Apply reductions
     damage = utils.HandlePositionalPDT(player, target, damage)

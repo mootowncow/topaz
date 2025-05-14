@@ -52,8 +52,11 @@ function onUseAbility(player, target, ability)
     local weaponDamage = player:getWeaponDmg()
     -- Calculating and applying Weapon Bash damage
     local base = weaponDamage + fstr
-    local cratio, ccritratio = cMeleeRatio(player, target, params, 0, 0)
-    local pdif = generatePdif (cratio[1], cratio[2], true)
+
+    local bonusAttPercent, flatAttackBonus, ignoredDef = 0
+    local isCritical = false
+    local pdif = player:getDamageRatio(target, isCritical, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
+
     local gearMod = player:getMod(tpz.mod.WEAPON_BASH)
     local jpValue = player:getJobPointLevel(tpz.jp.WEAPON_BASH_EFFECT) * 10
 
