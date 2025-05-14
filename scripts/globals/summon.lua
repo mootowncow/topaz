@@ -168,9 +168,6 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
         local minCritRate = 0.01 -- 1%
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
 
-        local critHitRateMods = avatar:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE) - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)
-        local critRate = baseCritRate + getDexCritRate(avatar, target) + critHitRateMods
-
         if (attackType == tpz.attackType.RANGED) then
             critRate = 15 + avatar:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
         end
@@ -209,9 +206,11 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
 
             if isCrit then
                 pDif = GenerateAvatarPdif(avatar, target, attackType, true, bonusAttPercent, flatAttackBonus, ignoredDef)
-                if target:isMob() then
-                    TryBreakMob(target)
-                end
+                TryBreakMob(target)
+            end
+
+            if avatar:isInfront(target, 90) and isGuarded then
+                pDif = pDif - 1
             end
 
             finaldmg = avatarHitDmg(weaponDmg, fSTR, WSC, pDif) * ftp
@@ -282,9 +281,11 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
 
             if isCrit then
                 pDif = GenerateAvatarPdif(avatar, target, attackType, true, bonusAttPercent, flatAttackBonus, ignoredDef)
-                if target:isMob() then
-                    TryBreakMob(target)
-                end
+                TryBreakMob(target)
+            end
+
+            if avatar:isInfront(target, 90) and isGuarded then
+                pDif = pDif - 1
             end
 
             local multiHitDmg = avatarHitDmg(weaponDmg, fSTR, WSC, pDif)
@@ -1565,7 +1566,6 @@ function GenerateAvatarPdif(avatar, target, attackType, isCrit, bonusAttPercent,
 
     return generatedPdif
 end
-
 
 function getSummoningSkillOverCap(avatar)
     local summoner = avatar:getMaster()

@@ -195,7 +195,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     if (ignoredDefMod > 0) then
         -- printf("Ignore def modifier %u", ignoredDefMod*100)
-        ignoredDef = target:getStat(tpz.mod.DEF) * ignoredDefMod
+        ignoredDef = math.floor(target:getStat(tpz.mod.DEF) * ignoredDefMod)
         -- printf("Amount of defense ignored final %u", ignoredDef)
     end
 
@@ -229,9 +229,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     if ((chance*100) <= firstHitChance) then
         if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
             pdif = GenerateMobPdif(mob, target, tpeffect, true, bonusAttPercent, flatAttackBonus, ignoredDef)
-            if target:isMob() then
-                TryBreakMob(target)
-            end
+            TryBreakMob(target)
             --printf("[%s] CRIT! Pdif is %f", name, pdif)
         end
 
@@ -322,9 +320,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
             --printf("[%s] Pdif is %f", name, pdif)
             if isCrit(mob, critRate, params_phys) then
                 pdif = GenerateMobPdif(mob, target, tpeffect, true, bonusAttPercent, flatAttackBonus, ignoredDef)
-                if target:isMob() then
-                    TryBreakMob(target)
-                end
+                TryBreakMob(target)
             end
             --printf("[%s] CRIT! Pdif is %f", name, pdif)
             -- Guard / Parry / Block check for non-ranged TP moves

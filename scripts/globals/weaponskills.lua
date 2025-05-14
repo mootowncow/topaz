@@ -1734,6 +1734,8 @@ function getDexCritBonus(dDEX)
 end
 
 function TryBreakMob(target)
+    if not target:isMob() then return end
+
     local animationSub = target:AnimationSub()
     if (GetMobFamily(target) == 'Troll') or (GetMobFamily(target) == 'Mamool') or (GetMobFamily(target) == 'Lamiae') or (GetMobFamily(target) == 'Merrow') then
         if math.random(100) <= target:getLocalVar("BreakChance") then
