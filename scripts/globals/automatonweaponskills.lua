@@ -66,7 +66,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         acc = auto:getACC()
     end
 
-    if attackType == tpz.attackType.RANGED then
+    if (attackType == tpz.attackType.RANGED) then
         acc = auto:getRACC()
         acc = auto:calculateSweetSpotAccuracy(target, acc)
     end
@@ -139,6 +139,12 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
     hitrateSubsequent = utils.clamp(hitrateSubsequent, minHitRate, maxHitRate)
     hitrateFirst = utils.clamp(hitrateFirst, minHitRate, maxHitRate)
 
+    local pDif = 0
+    local ignoredDef = 0
+    local ignoredDefMod = 0
+    local bonusAttPercent = 0
+    local flatAttackBonus = 0
+
     -- Compute hits first so we can exit early
     local firstHitLanded = false
     local bonusHits = 0
@@ -195,22 +201,12 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
         -- Crit rate has a base of 5% and no cap, 0-100% are valid
         -- Dex contribution to crit rate is capped and works in tiers
-        local baseCritRate = 20
+        local baseCritRate = auto:getCritHitRate(target, true, tpz.slot.MAIN, true)
         local maxCritRate = 1 -- 100%
         local minCritRate = 0.01 -- 1%
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
-
-        local critHitRateMods = auto:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE) - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)
-        local critRate = baseCritRate + getDexCritRate(auto, target) + critHitRateMods
-
-        if attackType == tpz.attackType.RANGED then
-            local AGI = auto:getStat(tpz.mod.AGI)
-            local dAGI = (AGI - target:getStat(tpz.mod.AGI))
-
-            if dAGI > 0 then
-                critRate = baseCritRate + math.floor(dAGI / 10) / 100
-                baseCritRate = baseCritRate + critHitRateMods
-            end
+        if (attackType == tpz.attackType.RANGED) then
+            critRate = 15 + auto:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
         end
 
         --printf("critRate before param %i", critRate)
@@ -227,7 +223,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         --printf("Final crit %d", critRate * 100)
 
         local weaponDmg = auto:getWeaponDmg()
-        if attackType == tpz.attackType.RANGED then
+        if (attackType == tpz.attackType.RANGED )then
             weaponDmg = auto:getRangedDmg()
         end
         local fSTR = getAutoFSTR(weaponDmg, auto:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))
@@ -235,117 +231,47 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
 
         -- https://www.bg-wiki.com/bg/PDIF
         -- https://www.bluegartr.com/threads/127523-pDIF-Changes-(Feb.-10th-2016)
-        local ignoredDef = 0
-        local ignoredDefMod = 0
-        local attunerBonus = 0
+
+        -- Calculate bonusAttPercent
+        -- Check for +% Attack mod
+        if params.attkMod then
+            bonusAttPercent = params.attkMod
+        end
+
         --if (TP_IGNORE_DEF ~= nil) then
             -- TODO: no 1k/2k/3k param for ignored def
             -- ignoredDef = calculatedIgnoredDef(tp, target:getStat(tpz.mod.DEF), wsParams.ignored100, wsParams.ignored200, wsParams.ignored300)
         --end
 
-        local ratio = 0
-        local attackMod = 1
-
-        -- Check for Ignore Defense mod
-        if (params.ignoreDefMod ~= nil) then
-            ignoredDefMod = params.ignoreDefMod
+        -- Calculate ignored defense
+        if params.ignoreDefMod then
+            ignoredDefMod = params.ignoreDefMod / 100
         end
 
-        -- Check for +% Attack mod
-        if (params.attkMod ~= nil) then
-            attackMod = params.attkMod
+        if (ignoredDefMod > 0) then
+            -- printf("Ignore def modifier %u", ignoredDefMod*100)
+            ignoredDef = math.floor(target:getStat(tpz.mod.DEF) * ignoredDefMod)
         end
 
-        -- Check for Attuner (PUP)
-        -- 15/30/45/60% ignored based on currently active manuevers
-        if (auto:getMainLvl() < target:getMainLvl()) and (auto:getLocalVar("attuner") > 0) then
-            attunerBonus = auto:getLocalVar("attunerBonus")
-        end
-
-        -- All additional ignore defense bonuses are multiplicative with Attuner, not additive
-        if (ignoredDefMod > 0) or (attunerBonus > 0) then
-            if (attunerBonus > 0) then
-                ignoredDef = attunerBonus * (1 + (ignoredDefMod / 100))
-            else
-                ignoredDef = ignoredDefMod
-            end
-            -- printf("Ignored def percent %i", ignoredDef)
-            ignoredDef = target:getStat(tpz.mod.DEF) * ignoredDef
-            utils.clamp(ignoredDef, 0, 100)
-            ignoredDef = ignoredDef / 100
-            -- printf("Ignored def total %i", ignoredDef)
-        end
-
-        if attackType == tpz.attackType.PHYSICAL then
-            local attack = auto:getStat(tpz.mod.ATT) * attackMod
-            --printf("Phys Attack: %i", attack)
-            ratio = (attack / (target:getStat(tpz.mod.DEF) - ignoredDef))
-            --printf("Ratio after ignored def %i", ratio*100)
-        end
-
-        -- Ranged attack WeaponSkills use Rattack
-        if attackType == tpz.attackType.RANGED then
-            local rAttack = auto:getRATT()
-            rAttack = auto:calculateSweetSpotAttack(target, rAttack)
-            rAttack =  rAttack * attackMod
-            ratio = (rAttack / (target:getStat(tpz.mod.DEF) - ignoredDef))
-            --printf("Ranged Attack: %i", attack)
-            --printf("Ratio after ignored def %i", ratio*100)
-        end
-
-        local cRatio = ratio
-        local levelcor = 0
-        --printf("CRatio before correction: %i", cRatio*100)
-
-        -- Apply level correction
-        if auto:getMainLvl() < target:getMainLvl() then
-            levelcor = 0.05 * (target:getMainLvl() - auto:getMainLvl())
-        end
-
-        cRatio = cRatio - levelcor
-
-        -- PDif caps at 2.0 for non-crits on melee, 2.5 for ranged
-        if attackType == tpz.attackType.PHYSICAL then
-            if cRatio > 2 then cRatio = 2 end
-        end
-
-        if attackType == tpz.attackType.RANGED then
-            if cRatio > 2.5 then cRatio = 2.5 end
-        end
-        --printf("CRatio after correction: %i", cRatio*100)
         --Everything past this point is randomly computed per hit
-
         numHitsProcessed = 0
 
-        local critAttackBonus = 1 + ((auto:getMod(tpz.mod.CRIT_DMG_INCREASE) - target:getMod(tpz.mod.CRIT_DEF_BONUS)) / 100)
-
         if firstHitLanded then
-            local wRatio = cRatio
-            -- get a random ratio from min and max
-            local qRatio = getRandRatio(wRatio)
-            --Final pDif is qRatio randomized with a 1-1.05 multiplier
-            local pDif = qRatio * (1 + (math.random() * 0.05))
+            -- Generate random pDif
+            pDif = GenerateAutoPdif(auto, target, attackType, false, bonusAttPercent, flatAttackBonus, ignoredDef)
+
             local isCrit = math.random() < critRate
             local isGuarded = math.random()*100 < target:getGuardRate(auto)
             local isBlocked = math.random()*100 < target:getBlockRate(auto)
             local isParried = math.random()*100 < target:getParryRate(auto)
             if isCrit then
+                pDif = GenerateAutoPdif(auto, target, attackType, true, bonusAttPercent, flatAttackBonus, ignoredDef)
                 TryBreakMob(target)
-                -- Ranged crits are pdif * 1.25
-                if attackType == tpz.attackType.RANGED then
-                    pDif = pDif * 1.25
-                else
-                   pDif = pDif + 1
-                end
-                pDif = pDif * critAttackBonus
             end
 
             if auto:isInfront(target, 90) and isGuarded then
-                wRatio = wRatio - 1
+                pDif = pDif - 1
             end
-
-            -- PDif caps at 3.15 for crits
-            if pDif > 3.15 then pDif = 3.15 end
 
             finaldmg = autoHitDmg(weaponDmg, fSTR, WSC, pDif) * ftp
             --printf("%i", finaldmg)
@@ -406,32 +332,22 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
 
         while numHitsProcessed < numHitsLanded do
             if (target:getHP() <= finaldmg) then break end -- Stop adding hits if target would die before calculating other hits
-            local wRatio = cRatio
-            -- get a random ratio from min and max
-            local qRatio = getRandRatio(wRatio)
-            --Final pDif is qRatio randomized with a 1-1.05 multiplier
-            local pDif = qRatio * (1 + (math.random() * 0.05))
+
+            -- Generate random pDif
+            pDif = GenerateAutoPdif(auto, target, attackType, false, bonusAttPercent, flatAttackBonus, ignoredDef)
+
             local isCrit = math.random() < critRate
             local isGuarded = math.random()*100 < target:getGuardRate(auto)
             local isBlocked = math.random()*100 < target:getBlockRate(auto)
             local isParried = math.random()*100 < target:getParryRate(auto)
             if isCrit then
+                pDif = GenerateAutoPdif(auto, target, attackType, true, bonusAttPercent, flatAttackBonus, ignoredDef)
                 TryBreakMob(target)
-                -- Ranged crits are pdif * 1.25
-                if attackType == tpz.attackType.RANGED then
-                    pDif = pDif * 1.25
-                else
-                   pDif = pDif + 1
-                end
-                pDif = pDif * critAttackBonus
             end
 
             if auto:isInfront(target, 90) and isGuarded then
-                wRatio = wRatio - 1
+                pDif = pDif - 1
             end
-
-            -- PDif caps at 3.15 for crits
-            if pDif > 3.15 then pDif = 3.15 end
 
             local multiHitDmg = autoHitDmg(weaponDmg, fSTR, WSC, pDif)
 
@@ -1735,6 +1651,18 @@ function AutoCannibalBlade(auto, WSC, ftp, dStat, resist, weatherBonus, magicAtt
     end
 
     return cannibalDmg
+end
+
+function GenerateAutoPdif(auto, target, attackType, isCrit, bonusAttPercent, flatAttackBonus, ignoredDef)
+    local generatedPdif = 0
+
+    if (attackType == tpz.attackType.RANGED) then
+        generatedPdif = auto:getRangedDamageRatio(target, isCrit, ignoredDef)
+    else
+        generatedPdif = auto:getDamageRatio(target, isCrit, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
+    end
+
+    return generatedPdif
 end
 
 function getAutoTP(player)

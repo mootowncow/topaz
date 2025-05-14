@@ -2581,7 +2581,7 @@ namespace battleutils
         return acc;
     }
 
-    float GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical)
+    float GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, uint16 ignoredDefense)
     {
         //get ranged attack value
         uint16 rAttack = 1;
@@ -2622,7 +2622,13 @@ namespace battleutils
         rAttack = CalculateSweetSpotAttack(PAttacker, PDefender, rAttack);
 
         //get ratio (2.5 pDIF cap RAs)
-        float ratio = (float)rAttack / (float)PDefender->DEF();
+        uint16 defense = PDefender->DEF();
+        if (defense == 0)
+        {
+            defense = 1;
+        }
+
+        float ratio = (static_cast<float>(rAttack)) / ((static_cast<float>(defense) - ignoredDefense));
 
         ratio = std::clamp<float>(ratio, 0, 2.5);
 
@@ -4275,10 +4281,19 @@ namespace battleutils
     *                                                                       *
     ************************************************************************/
 
-    float GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus, SLOTTYPE slot)
+    float GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus, SLOTTYPE slot, uint16 ignoredDefense)
     {
+        // Conspirator ATT bonus. Calculated at time of attack. No effect if attacker is currently the top enmity for their target
+        if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_CONSPIRATOR))
+        {
+            if (!battleutils::IsTopEnmity(PAttacker, PDefender))
+            {
+                flatAttBonus += PAttacker->getMod(Mod::AUGMENTS_CONSPIRATOR);
+            }
+        }
+
         uint16 attack = PAttacker->ATT(slot);
-        // Bonus attack currently only from footwork
+
         if (bonusAttPercent >= 1) 
         {
             attack = static_cast<uint16>(attack * bonusAttPercent);
@@ -4292,14 +4307,12 @@ namespace battleutils
         {
             defense = 1;
         }
-
+        
         ENTITYTYPE attackerType = PAttacker->objtype;
-
         uint8 attackerLvl = PAttacker->GetMLevel();
         uint8 defenderLvl = PDefender->GetMLevel();
 
-        uint16 ignoredDef = 0;
-        uint16 ignoredDefMod = 0;
+        uint16 ignoredDef = ignoredDefense;
         // Check for Attuner (PUP)
         // 15/30/45/60% ignored based on currently active manuevers
         if (attackerType == TYPE_PET)

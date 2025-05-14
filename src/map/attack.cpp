@@ -152,15 +152,6 @@ void CAttack::SetCritical(bool value)
             }
         }
 
-        // Conspirator ATT bonus. Calculated at time of attack. No effect if attacker is currently the top enmity for their target
-        if (m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_CONSPIRATOR))
-        {
-            if (!battleutils::IsTopEnmity(m_attacker, m_victim))
-            {
-                flatAttBonus += m_attacker->getMod(Mod::AUGMENTS_CONSPIRATOR);
-            }
-        }
-
         //ShowDebug("[%s] flatAttBonus %u\n", m_attacker->name, flatAttBonus);
         SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
         if (slot == SLOT_MAIN)

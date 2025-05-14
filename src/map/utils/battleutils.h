@@ -193,7 +193,7 @@ namespace battleutils
     uint8               GetBlockRate(CBattleEntity* PAttacker, CBattleEntity* PDefender);
     uint8               GetParryRate(CBattleEntity* PAttacker, CBattleEntity* PDefender);
     uint8               GetGuardRate(CBattleEntity* PAttacker, CBattleEntity* PDefender);
-    float               GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus, SLOTTYPE slot);
+    float               GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus, SLOTTYPE slot, uint16 ignoredDefense = 0);
 
     int16               getSDTRank(CBattleEntity* PDefender, ELEMENT element, int16 SDT);
     float               GetSDTMultiplier(float tier);
@@ -213,7 +213,7 @@ namespace battleutils
     int32               TakeSpellDamage(CBattleEntity* PDefender, CCharEntity* PAttacker, CSpell* PSpell, int32 damage, ATTACKTYPE attackType, DAMAGETYPE damageType);
 
     bool                TryInterruptSpell(CBattleEntity* PAttacker, CBattleEntity* PDefender, CSpell* PSpell);
-    float               GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical);
+    float               GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, uint16 ignoredDefense = 0);
     uint16              CalculateSweetSpotAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint16 rAttack, bool isBluSpell = false);
     void                HandleRangedAdditionalEffect(CCharEntity* PAttacker, CBattleEntity* PDefender, apAction_t* Action);
     uint16              CalculateSpikeDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, uint16 damageTaken);
