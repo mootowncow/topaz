@@ -206,7 +206,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         local minCritRate = 0.01 -- 1%
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
         if (attackType == tpz.attackType.RANGED) then
-            critRate = 15 + auto:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
+            critRate = auto:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
         end
 
         --printf("critRate before param %i", critRate)
