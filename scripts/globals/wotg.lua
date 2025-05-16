@@ -1730,26 +1730,30 @@ local mobFightByMobName =
 
     ['Wadjet'] = function(mob, target)
         local animationSub = mob:AnimationSub()
-        mob:AnimationSub(1) -- Perma gaze petrification (unless procced)
 
 		if (animationSub == 1) then
-            local nearbyEnemies = mob:getNearbyEntities(15)
-            if (nearbyEnemies ~= nil) then 
-                for _,v in pairs(nearbyEnemies) do
-                    if
-                        mob:isFacing(v) and
-                        v:isFacing(mob) and
-                        not v:isNPC() and
-                        not v:hasStatusEffect(tpz.effect.FEALTY) and
-                        not v:hasStatusEffect(tpz.effect.BLINDNESS) and
-                        (v:getID() ~= mob:getID())
-                    then
-                        v:delStatusEffectSilent(tpz.effect.PETRIFICATION)
-                        v:addStatusEffect(tpz.effect.PETRIFICATION, 1, 0, 5)
+            local gazeTick = mob:getLocalVar("gazeTick")
+            if (os.time() >= gazeTick) then
+                local nearbyEnemies = mob:getNearbyEntities(15)
+                if (nearbyEnemies ~= nil) then 
+                    for _,v in pairs(nearbyEnemies) do
+                        if
+                            mob:isFacing(v) and
+                            v:isFacing(mob) and
+                            not v:isNPC() and
+                            not v:hasStatusEffect(tpz.effect.FEALTY) and
+                            not v:hasStatusEffect(tpz.effect.BLINDNESS) and
+                            (v:getID() ~= mob:getID())
+                        then
+                            v:delStatusEffectSilent(tpz.effect.PETRIFICATION)
+                            v:addStatusEffect(tpz.effect.PETRIFICATION, 1, 0, 3)
+                        end
                     end
-                end
-		    end
+		        end
+                mob:setLocalVar("gazeTick", os.time() +3)
+            end
         end
+
         -- 1k+ Fire damage magic bursts procs (terror) and removes gaze petrification
         mob:addListener("SPELL_DMG_TAKEN", "WADJET_SPELL_DMG_TAKEN", function(mob, caster, spell, amount, msg)
             local element = spell:getElement()
@@ -1762,8 +1766,9 @@ local mobFightByMobName =
             end
         end)
 
-        -- Gaze petrification is removed while terrored
-        if mob:hasStatusEffect(tpz.effect.TERROR) then
+        -- Perma gaze petrification (unless procced)
+        -- Gaze petrification is removed while terrored or Blinded
+        if mob:hasStatusEffect(tpz.effect.TERROR) or mob:hasStatusEffect(tpz.effect.BLINDNESS) then
             mob:AnimationSub(0)
         else
             mob:AnimationSub(1)
