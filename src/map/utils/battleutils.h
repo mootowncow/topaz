@@ -180,10 +180,10 @@ namespace battleutils
 
     int32               GetBluAttack(CBattleEntity* PAttacker);
     int32               GetFSTR(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 SlotID);
-    uint8               GetHitRateEx(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 offsetAccuracy);
+    uint8               GetHitRateEx(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 accBonus, bool isBluSpell = false);
     uint8               GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender);
     uint8               GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber);
-    uint8               GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 offsetAccuracy);
+    uint8               GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 accBonus);
     uint8               GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot, bool isWeaponSkill = false, bool isBluSpell = false);
     uint8               GetRangedCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot, bool isWeaponSkill = false, bool isBluSpell = false);
     int8                GetDexCritBonus(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isWeaponSkill = false);
@@ -220,7 +220,7 @@ namespace battleutils
     void                HandleSpikesStatusEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action);
     void                HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, bool isFirstSwing, CItemWeapon* weapon, int32 damage);
     uint8               GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage);
-    uint8               GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage, int8 accBonus);
+    uint8               GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage, int8 accBonus, bool isBluSpell = false);
     uint16              CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int acc, bool isBluSpell = false);
     int32               CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element);
 

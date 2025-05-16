@@ -261,7 +261,7 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
         critRate = utils.clamp(critRate, minCritRate, maxCritRate)
     end
 
-    printf("Crit chance: %f", critRate)
+    --printf("Crit chance: %f", critRate)
 
     -- Calculate base attack bonus
     local baseAttkBonus = params.attkbonus
@@ -287,6 +287,10 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
         correlation = GetMonsterCorrelation(params.eco,GetTargetEcosystem(target))
     end
 
+    -- Calculate accuracy bonus
+    local accBonus = 30 -- BLU phys spells get a flat 30 ACC bonus
+    local attackNumber = 0 -- attackNumber: 0=main, 1=sub, 2=kick 
+
     -- Add correlation ACC bonus
     if (correlation > 0 and params.bonus ~= nil) then
         params.bonus = params.bonus + 25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
@@ -294,7 +298,27 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
         params.bonus = params.bonus - 25 
     end
 
-    local hitrate = BlueGetHitRate(caster, target, true, params)
+
+    if (chainAffinity ~= nil) then
+		if params.AccTPModifier or (params.tpmod == TPMOD_ACC) then -- Check if "Accuracy varies with TP"
+			accBonus = accBonus + BLUGetAccTPModifier(caster:getTP())
+            -- printf("AccTPBonus %d", AccTPBonus)
+		end
+	end
+
+    local bonusAcc = 30 -- BLU phys spells get a flat 30 ACC bonus
+    if (params.bonus ~= nil) then
+        accBonus = accBonus + params.bonus
+    end
+
+    accBonus = accBonus + caster:getMerit(tpz.merit.PHYSICAL_POTENCY) -- https://www.bluegartr.com/threads/37619-Blue-Mage-Best-thread-ever?p=2097460&viewfull=1#post2097460 
+    local hitrate = caster:getHitRate(target, attackNumber, accBonus, true)
+
+    if isRanged then
+        hitrate = caster:getRangedHitRate(target, false, accBonus, true)
+    end
+
+    hitrate = hitrate / 100
     -- print("Hit rate "..hitrate)
     -- print("pdifmin "..cratio[1].." pdifmax "..cratio[2])
 
@@ -1013,67 +1037,6 @@ function BluefSTR2(dSTR)
     end
 
     return fSTR2
-end
-
-function BlueGetHitRate(attacker, target, capHitRate, params)
-    local AccTPBonus = 0
-	local tp = attacker:getTP() + attacker:getMerit(tpz.merit.ENCHAINMENT)
-    local chainAffinity = attacker:getStatusEffect(tpz.effect.CHAIN_AFFINITY)
-    local isRanged = params.attackType == tpz.attackType.RANGED
-
-    if (chainAffinity ~= nil) then
-		if params.AccTPModifier or (params.tpmod == TPMOD_ACC) then -- Check if "Accuracy varies with TP"
-			AccTPBonus = BLUGetAccTPModifier(attacker:getTP())
-            -- printf("AccTPBonus %d", AccTPBonus)
-		end
-	end
-
-    local bonusAcc = 30 -- BLU phys spells get a flat 30 ACC bonus
-    if (params.bonus ~= nil) then
-        bonusAcc = bonusAcc + params.bonus
-    end
-
-    local acc = attacker:getACC() + bonusAcc + AccTPBonus + attacker:getMerit(tpz.merit.PHYSICAL_POTENCY) -- https://www.bluegartr.com/threads/37619-Blue-Mage-Best-thread-ever?p=2097460&viewfull=1#post2097460 
-    local eva = target:getEVA()
-
-    if (target:hasStatusEffect(tpz.effect.YONIN) and attacker:isFacing(target, 23)) then -- Yonin evasion boost if attacker is facing target
-        eva = eva + (target:getStatusEffect(tpz.effect.YONIN):getPower() + (target:getJobPointLevel(tpz.jp.YONIN_EFFECT) * 2))
-    end
-
-    if (attacker:getMainLvl() > target:getMainLvl()) then -- acc bonus!
-        acc = acc + ((attacker:getMainLvl()-target:getMainLvl())*4)
-    elseif (attacker:getMainLvl() < target:getMainLvl()) then -- acc penalty :(
-        acc = acc - ((target:getMainLvl()-attacker:getMainLvl())*4)
-    end
-
-    if isRanged then
-        local isBluSpell = true
-        acc = attacker:calculateSweetSpotAccuracy(target, acc, isBluSpell)
-    end
-
-    local hitdiff = 0
-    local hitrate = 75
-    if (acc>eva) then
-        hitdiff = (acc-eva)/2
-    end
-    if (eva>acc) then
-        hitdiff = ((-1)*(eva-acc))/2
-    end
-
-    hitrate = hitrate+hitdiff
-    hitrate = hitrate/100
-
-
-    -- Applying hitrate caps
-    if (capHitRate) then -- this isn't capped for when acc varies with tp, as more penalties are due
-        if (hitrate>0.99) then
-            hitrate = 0.99
-        end
-        if (hitrate<0.2) then
-            hitrate = 0.2
-        end
-    end
-    return hitrate
 end
 
 function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, params)

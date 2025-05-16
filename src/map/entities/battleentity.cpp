@@ -918,29 +918,49 @@ uint16 CBattleEntity::RATT(uint8 skill, uint16 bonusSkill)
     return std::max(0, RATT + (RATT * m_modStat[Mod::RATTP] / 100) + std::min<int16>((RATT * m_modStat[Mod::FOOD_RATTP] / 100), m_modStat[Mod::FOOD_RATT_CAP]));
 }
 
-uint16 CBattleEntity::RACC(uint8 skill, uint16 bonusSkill)
+uint16 CBattleEntity::RACC(uint8 skill, uint16 bonusSkill, bool isBluSpell)
 {
     auto PWeakness = StatusEffectContainer->GetStatusEffect(EFFECT_WEAKNESS);
     if (PWeakness && PWeakness->GetPower() >= 2)
     {
         return 0;
     }
+
     // make sure to not use fishing skill
     uint16 baseSkill = skill == SKILL_FISHING ? 0 : GetSkill(skill);
+    uint16 iLvlSkill = 0; // TODO
+
+    if (isBluSpell)
+    {
+        auto PMainWeapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]);
+        if (PMainWeapon)
+        {
+            skill = PMainWeapon->getSkillType();
+            iLvlSkill = PMainWeapon->getILvlSkill();
+            if (skill == SKILL_NONE && GetSkill(SKILL_HAND_TO_HAND) > 0)
+                skill = SKILL_HAND_TO_HAND;
+
+            baseSkill = GetSkill(skill);
+        }
+    }
+
     uint16 skill_level = baseSkill + bonusSkill;
     int16 RACC = skill_level;
+
     if (skill_level > 200)
     {
         RACC = (int16)(200 + (skill_level - 200) * 0.9);   
     }
+
     RACC += getMod(Mod::RACC);
     RACC += battleutils::GetRangedAccuracyBonuses(this);
     RACC += (AGI() * 3) / 4;
+
     // use max to prevent underflow
     return std::max(0, RACC + std::min<int16>(((100 + getMod(Mod::FOOD_RACCP) * RACC) / 100), getMod(Mod::FOOD_RACC_CAP)));
 }
 
-uint16 CBattleEntity::ACC(int8 attackNumber, int8 offsetAccuracy)
+uint16 CBattleEntity::ACC(int8 attackNumber, int8 bonusAcc, bool isBluSpell)
 {
     if (this->objtype & TYPE_PC) {
         uint8 skill = 0;
@@ -994,9 +1014,9 @@ uint16 CBattleEntity::ACC(int8 attackNumber, int8 offsetAccuracy)
         {
             ACC += (int16)(DEX() * 0.75);
         }
-        ACC = (ACC + m_modStat[Mod::ACC] + offsetAccuracy);
+        ACC = (ACC + m_modStat[Mod::ACC] + bonusAcc);
 
-        if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT))
+        if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT) && !isBluSpell)
         {
             ACC += this->getMod(Mod::ENSPELL_DMG);
         }
@@ -1012,9 +1032,9 @@ uint16 CBattleEntity::ACC(int8 attackNumber, int8 offsetAccuracy)
         int16 ACC = this->GetSkill(SKILL_AUTOMATON_MELEE);
         ACC = (ACC > 200 ? (int16)(((ACC - 200) * 0.9) + 200) : ACC);
         ACC += (int16)(DEX() * 0.5);
-        ACC += m_modStat[Mod::ACC] + offsetAccuracy;
+        ACC += m_modStat[Mod::ACC] + bonusAcc;
 
-        if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT))
+        if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT) && !isBluSpell)
         {
             ACC += this->getMod(Mod::ENSPELL_DMG);
         }
@@ -1026,7 +1046,7 @@ uint16 CBattleEntity::ACC(int8 attackNumber, int8 offsetAccuracy)
     {
         int16 ACC = m_modStat[Mod::ACC];
 
-        if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT))
+        if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT) && !isBluSpell)
         {
             ACC += this->getMod(Mod::ENSPELL_DMG);
         }
