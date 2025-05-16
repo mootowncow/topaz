@@ -178,19 +178,20 @@ namespace battleutils
     bool                IsAbsorbByShadow(CBattleEntity* PDefender, CBattleEntity* PAttacker);
     bool                IsIntimidated(CBattleEntity* PAttacker, CBattleEntity* PDefender);
 
+    int32               GetBluAttack(CBattleEntity* PAttacker);
     int32               GetFSTR(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 SlotID);
     uint8               GetHitRateEx(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 offsetAccuracy);
     uint8               GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender);
     uint8               GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber);
     uint8               GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 offsetAccuracy);
-    uint8               GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot, bool isWeaponSkill = false);
-    uint8               GetRangedCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot, bool isWeaponSkill = false);
+    uint8               GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot, bool isWeaponSkill = false, bool isBluSpell = false);
+    uint8               GetRangedCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot, bool isWeaponSkill = false, bool isBluSpell = false);
     int8                GetDexCritBonus(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isWeaponSkill = false);
     int8                GetAgiCritBonus(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isWeaponSkill = false);
     uint8               GetBlockRate(CBattleEntity* PAttacker, CBattleEntity* PDefender);
     uint8               GetParryRate(CBattleEntity* PAttacker, CBattleEntity* PDefender);
     uint8               GetGuardRate(CBattleEntity* PAttacker, CBattleEntity* PDefender);
-    float               GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus, SLOTTYPE slot, uint16 ignoredDefense = 0);
+    float               GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus, SLOTTYPE slot, uint16 ignoredDefense = 0, bool isBluSpell = false);
 
     int16               getSDTRank(CBattleEntity* PDefender, ELEMENT element, int16 SDT);
     float               GetSDTMultiplier(float tier);
@@ -210,7 +211,7 @@ namespace battleutils
     int32               TakeSpellDamage(CBattleEntity* PDefender, CCharEntity* PAttacker, CSpell* PSpell, int32 damage, ATTACKTYPE attackType, DAMAGETYPE damageType);
 
     bool                TryInterruptSpell(CBattleEntity* PAttacker, CBattleEntity* PDefender, CSpell* PSpell);
-    float               GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, uint16 ignoredDefense = 0);
+    float               GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, uint16 ignoredDefense = 0, bool isBluSpell = false);
     uint16              CalculateSweetSpotAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint16 rAttack, bool isBluSpell = false);
     void                HandleRangedAdditionalEffect(CCharEntity* PAttacker, CBattleEntity* PDefender, apAction_t* Action);
     uint16              CalculateSpikeDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, uint16 damageTaken);

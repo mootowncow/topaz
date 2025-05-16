@@ -341,7 +341,11 @@ void CZoneEntities::TransportDepart(uint16 boundary, uint16 zone)
                 if (deleteStart != std::string::npos && deleteEnd != std::string::npos)
                     PCurrentChar->m_event.Script.replace(deleteStart, deleteEnd - deleteStart, "Zone");
             }
-            luautils::OnTransportEvent(PCurrentChar, zone);
+
+            if (PCurrentChar->status != STATUS_CUTSCENE_ONLY)
+            {
+                luautils::OnTransportEvent(PCurrentChar, zone);
+            }
         }
 
     }
