@@ -5,6 +5,7 @@
 -----------------------------------
 local ID = require("scripts/zones/PsoXja/IDs")
 require("scripts/globals/status")
+mixins = {require("scripts/mixins/families/mimic")}
 -----------------------------------
 function onMobSpawn(mob)
 	mob:setMobMod(tpz.mobMod.SOUND_RANGE, 5)
