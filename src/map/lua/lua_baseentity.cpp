@@ -18029,10 +18029,12 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     // Damage Calculation
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getStat),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getACC),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getHitRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEVA),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getDamageRatio),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getCritHitRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRACC),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRangedHitRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRATT),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRangedCritHitRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRangedDamageRatio),
