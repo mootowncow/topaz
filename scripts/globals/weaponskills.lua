@@ -150,7 +150,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
 
     if (wsParams.canCrit) then
         -- TODO: Add logic to calculate offhand hit for any hit that's done offhand
-        local nativecrit = attacker:getCritHitRate(target, true, tpz.slot.MAIN, true)
+        local nativecrit = attacker:getCritHitRate(target, false, tpz.slot.MAIN, true)
 
         if isRanged then -- Ranged uses dAGI
             nativecrit = attacker:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)

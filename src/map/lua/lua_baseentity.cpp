@@ -13313,6 +13313,7 @@ inline int32 CLuaBaseEntity::getDamageRatio(lua_State* L)
     uint16 flatAttBonus = 0;
     SLOTTYPE weaponSlot = SLOT_MAIN;
     uint16 ignoredDefense = 0;
+    bool isBluSpell = false;
 
     if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
     {
@@ -13339,7 +13340,13 @@ inline int32 CLuaBaseEntity::getDamageRatio(lua_State* L)
         ignoredDefense = lua_tointeger(L, 6);
     }
 
-    float pDif = battleutils::GetDamageRatio(PAttacker, PDefender, isCritical, bonusAttPercent, flatAttBonus, weaponSlot, ignoredDefense);
+    if (!lua_isnil(L, 7) && lua_isboolean(L, 7))
+    {
+        isBluSpell = lua_toboolean(L, 7);
+    }
+
+
+    float pDif = battleutils::GetDamageRatio(PAttacker, PDefender, isCritical, bonusAttPercent, flatAttBonus, weaponSlot, ignoredDefense, isBluSpell);
 
     lua_pushnumber(L, pDif);
     return 1;
@@ -13364,6 +13371,7 @@ inline int32 CLuaBaseEntity::getCritHitRate(lua_State* L)
     SLOTTYPE weaponSlot = SLOT_MAIN;
     bool ignoreSneakTrickAttack = true;
     bool isWeaponSkill = false;
+    bool isBluSpell = false;
 
     if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
     {
@@ -13380,7 +13388,12 @@ inline int32 CLuaBaseEntity::getCritHitRate(lua_State* L)
         isWeaponSkill = lua_toboolean(L, 4);
     }
 
-    uint16 critHitRate = battleutils::GetCritHitRate(PAttacker, PDefender, ignoreSneakTrickAttack, weaponSlot, isWeaponSkill);
+    if (!lua_isnil(L, 5) && lua_isboolean(L, 5))
+    {
+        isBluSpell = lua_toboolean(L, 5);
+    }
+
+    uint16 critHitRate = battleutils::GetCritHitRate(PAttacker, PDefender, ignoreSneakTrickAttack, weaponSlot, isWeaponSkill, isBluSpell);
 
     lua_pushinteger(L, critHitRate);
     return 1;
@@ -13450,6 +13463,7 @@ inline int32 CLuaBaseEntity::getRangedDamageRatio(lua_State* L)
     CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
     bool isCritical = false;
     uint16 ignoredDefense = 0;
+    bool isBluSpell = false;
 
     // TODO: check && lua_isX for this and both crit gbindings
     if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
@@ -13462,7 +13476,13 @@ inline int32 CLuaBaseEntity::getRangedDamageRatio(lua_State* L)
         ignoredDefense = lua_tointeger(L, 3);
     }
 
-    float pDif = battleutils::GetRangedDamageRatio(PAttacker, PDefender, isCritical, ignoredDefense);
+    if (!lua_isnil(L, 4) && lua_isboolean(L, 4))
+    {
+        isBluSpell = lua_toboolean(L, 4);
+    }
+
+
+    float pDif = battleutils::GetRangedDamageRatio(PAttacker, PDefender, isCritical, ignoredDefense, isBluSpell);
 
     lua_pushnumber(L, pDif);
     return 1;
@@ -13487,6 +13507,7 @@ inline int32 CLuaBaseEntity::getRangedCritHitRate(lua_State* L)
     SLOTTYPE weaponSlot = SLOT_SUB;
     bool ignoreSneakTrickAttack = true;
     bool isWeaponSkill = false;
+    bool isBluSpell = false;
 
     if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
     {
@@ -13503,7 +13524,12 @@ inline int32 CLuaBaseEntity::getRangedCritHitRate(lua_State* L)
         isWeaponSkill = lua_toboolean(L, 4);
     }
 
-    uint16 critHitRate = battleutils::GetRangedCritHitRate(PAttacker, PDefender, ignoreSneakTrickAttack, weaponSlot, isWeaponSkill);
+    if (!lua_isnil(L, 5) && lua_isboolean(L, 5))
+    {
+        isBluSpell = lua_toboolean(L, 5);
+    }
+
+    uint16 critHitRate = battleutils::GetRangedCritHitRate(PAttacker, PDefender, ignoreSneakTrickAttack, weaponSlot, isWeaponSkill, isBluSpell);
 
     lua_pushinteger(L, critHitRate);
     return 1;

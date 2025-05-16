@@ -201,12 +201,12 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
         -- Crit rate has a base of 5% and no cap, 0-100% are valid
         -- Dex contribution to crit rate is capped and works in tiers
-        local baseCritRate = auto:getCritHitRate(target, true, tpz.slot.MAIN, true)
+        local critRate = auto:getCritHitRate(target, true, tpz.slot.MAIN, true)
         local maxCritRate = 1 -- 100%
         local minCritRate = 0.01 -- 1%
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
         if (attackType == tpz.attackType.RANGED) then
-            critRate = 15 + auto:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
+            critRate = auto:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
         end
 
         --printf("critRate before param %i", critRate)
@@ -223,7 +223,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         --printf("Final crit %d", critRate * 100)
 
         local weaponDmg = auto:getWeaponDmg()
-        if (attackType == tpz.attackType.RANGED) then
+        if (attackType == tpz.attackType.RANGED )then
             weaponDmg = auto:getRangedDmg()
         end
         local fSTR = getAutoFSTR(weaponDmg, auto:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))

@@ -228,126 +228,58 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
 	end
 
     local DmgTPBonus = 1
-	local AttkTPBonus =  1
+    local bonusAttPercent = 0
+    local flatAttackBonus = 0
+    local ignoredDef = 0
 	local AttkTPModifier = 0
-	local CritTPBonus =  0
-	local SpellCritPdifModifier = 0
+    local critRate = 0
+    local maxCritRate = 1 -- 100%
+    local minCritRate = 0.01 -- 1%
 
+    -- Calculate crit rate
+    -- Ranged spells alway have a chance to crit
+    if isRanged then 
+        critRate = caster:getRangedCritHitRate(target, true, tpz.slot.RANGED, false, true)
+    end
 
-    if (chainAffinity ~= nil) then
-
+    if chainAffinity then
 		if params.AttkTPModifier or (params.tpmod == TPMOD_ATTACK) then --Check if "Attack varies with TP"
 			AttkTPModifier =  BLUGetAttkTPModifier(caster:getTP())
             -- printf("Attack TP Bonus mod %d", AttkTPModifier*100)
 		end
 
         if params.CritTPModifier then --Check if "Chance of critical strike varies with TP"
-            local critHitRateMods = target:getMod(tpz.mod.ENEMYCRITRATE)/ 100 - target:getMerit(tpz.merit.ENEMY_CRIT_RATE) / 100
-            CritTPBonus = 0.05
-			CritTPBonus = CritTPBonus + BLUGetCritTPModifier(caster:getTP())
-            CritTPBonus = CritTPBonus + critHitRateMods
-
-            -- Apply Yonin bonus
-            if target:hasStatusEffect(tpz.effect.YONIN) and caster:isFacing(target, 23) then
-                CritTPBonus = CritTPBonus - (target:getStatusEffect(tpz.effect.YONIN):getPower() / 100)
+            if not isRanged then 
+                critRate = caster:getCritHitRate(target, true, tpz.slot.MAIN, false, true)
             end
-
-            -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
-            CritTPBonus = math.max(CritTPBonus, 0.01)
-            -- caster:PrintToPlayer(string.format("native physical spell crit rate was %d", CritTPBonus*100))
+			critRate = critRate + BLUGetCritTPModifier(caster:getTP())
 		end
 	end
 
-    -- Ranged spells always have a chance to crit
-    if isRanged then -- Ranged uses dAGI
-        local nativecrit = 0.05
-        local dAGI = (caster:getStat(tpz.mod.AGI) - target:getStat(tpz.mod.AGI))
-        SpellCritPdifModifier = 1
-        if dAGI > 0 then
-            nativecrit = nativecrit + math.floor(dAGI/10)/100 -- no known cap
-            nativecrit = nativecrit + caster:getMod(tpz.mod.CRITHITRATE)/100 + caster:getMerit(tpz.merit.CRIT_HIT_RATE)/100
-                                + target:getMod(tpz.mod.ENEMYCRITRATE)/100  - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)/100
-        end
-
-        -- Apply Yonin bonus
-        if target:hasStatusEffect(tpz.effect.YONIN) and caster:isFacing(target, 23) then
-            nativecrit = nativecrit - (target:getStatusEffect(tpz.effect.YONIN):getPower() / 100)
-        end
-
-        -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
-        nativecrit = math.max(nativecrit, 0.01)
-
-        if math.random() < nativecrit then
-            SpellCritPdifModifier = 1.25 + ((caster:getMod(tpz.mod.CRIT_DMG_INCREASE) / 100) - (target:getMod(tpz.mod.CRIT_DEF_BONUS) / 100)) -- It crit!
-            --caster:PrintToPlayer(string.format("Your ramged spell Crit!"))
-        end
-        -- Non-ranged spells require CA and "Chance to crit varies with TP" mod to have a chance to crit.
-    elseif CritTPBonus > 0 then
-        if math.random() < CritTPBonus then
-            SpellCritPdifModifier = 1 + ((caster:getMod(tpz.mod.CRIT_DMG_INCREASE) / 100) - (target:getMod(tpz.mod.CRIT_DEF_BONUS) / 100)) -- It crit!
-            --caster:PrintToPlayer(string.format("Your physical spell Crit!"))
-        end
-	else
-		SpellCritPdifModifier = 0 -- It didn't crit
+    if (critRate > 0) then
+        critRate = critRate / 100
+        critRate = utils.clamp(critRate, minCritRate, maxCritRate)
     end
-	
-	if caster:hasStatusEffect(tpz.effect.SNEAK_ATTACK) and spell:isAoE() == 0 and params.attackType ~= tpz.attackType.RANGED and caster:isBehind(target) then -- Has sneak attack
-		SpellCritPdifModifier = 1 + ((caster:getMod(tpz.mod.CRIT_DMG_INCREASE) / 100) - (target:getMod(tpz.mod.CRIT_DEF_BONUS) / 100))
-	end
 
-    if (params.guaranteedCrit ~= nil) then -- 100% crit crit,only used for Heavy Strike ATM
-        SpellCritPdifModifier = 1 + ((caster:getMod(tpz.mod.CRIT_DMG_INCREASE) / 100) - (target:getMod(tpz.mod.CRIT_DEF_BONUS) / 100))
+    printf("Crit chance: %f", critRate)
+
+    -- Calculate base attack bonus
+    local baseAttkBonus = params.attkbonus
+    if baseAttkBonus == 0 then
+        baseAttkBonus = 1.0
     end
-	
-	local BluAttkModifier = params.attkbonus + AttkTPModifier --End multiplier attack bonuses to bluAttack
-	if BluAttkModifier == 0 then --Don't want to multiply by 0 in bluAttack forrmula
-		BluAttkModifier = 1
-	end
+
+    bonusAttPercent = baseAttkBonus + AttkTPModifier
+
+    -- Add Physical Potency merits
+    local physPotency = (caster:getMerit(tpz.merit.PHYSICAL_POTENCY) / 100)
+    bonusAttPercent = bonusAttPercent + physPotency
+
     -- printf("Attack Bonus + TP Bonus mod %d", BluAttkModifier*100)
-
-    -- Base attack from BLU skill
-	local bluAttack = caster:getSkillLevel(tpz.skill.BLUE_MAGIC)  + 8
-    --printf("Attack after Skill.. %d", bluAttack)
-
-    -- Add STR
-    bluAttack = bluAttack + math.floor(caster:getStat(tpz.mod.STR) * 0.75)
-    -- printf("Attack after STR.. %d", bluAttack)
-
-    -- Add BLU Attack mod
-    bluAttack = bluAttack + caster:getMod(tpz.mod.BLU_ATT)
-    -- printf("Attack after BLU attack mod.. %d", bluAttack)
-
-    -- Add Minuets
-    if caster:hasStatusEffect(tpz.effect.MINUET) then
-        local minuets = caster:getStatusEffect(tpz.effect.MINUET)
-        bluAttack = bluAttack + minuets:getPower()
-        -- printf("Attack after minuets.. %d", bluAttack)
-    end
-
-    -- Add +BLU Attack %(percentage)
-    bluAttack = math.floor(bluAttack * (1 + caster:getMod(tpz.mod.BLU_ATTP) / 100))
-    -- printf("Attack after BLU attack percent.. %d", bluAttack)
-
-    -- Add attack from TP bonus and attack bonus on specific BLU spells
-    bluAttack = math.floor(bluAttack * BluAttkModifier)
     -- printf("Attack after TP bonus.. %d", bluAttack)
     if (params.offcratiomod == nil) then -- default to attack. Pretty much every physical spell will use this, Cannonball being the exception.
         params.offcratiomod = bluAttack
     end
-
-    -- Add Physical Potency merits https://www.bg-wiki.com/ffxi/Merit_Points#Blue_Mage
-    local physPotency = 1 + ((caster:getMerit(tpz.merit.PHYSICAL_POTENCY) / 100))
-    bluAttack = math.floor(bluAttack * physPotency)
-    -- printf("Attack after potency merits.. %d", bluAttack)
-
-    if isRanged then
-        local isBluSpell = true
-        bluAttack = caster:calculateSweetSpotAttack(target, bluAttack, isBluSpell)
-    end
-
-    -- print(params.offcratiomod)
-    local cratio = BluecRatio(params.offcratiomod / target:getStat(tpz.mod.DEF), caster:getMainLvl(), target:getMainLvl())
-    local rangedcratio = BluecRangedRatio(params.offcratiomod / target:getStat(tpz.mod.DEF), caster:getMainLvl(), target:getMainLvl())
 
     -- Get ecosystem
     local correlation = 0
@@ -378,27 +310,25 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
         local chance = math.random()
         if (chance <= hitrate) then -- it hit
 
-            -- Generate a random pDIF between min and max
-            local pdif = 1
+            -- Generate random pDif
+            local pDif = caster:getDamageRatio(target, false, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef, true)
             if isRanged then
-                pdif = math.random((rangedcratio[1]*1000), (rangedcratio[2]*1000))
-                pdif = pdif/1000 * SpellCritPdifModifier
-                -- 2.5 pDIF cap for ranged
-                if pdif > 2.5 then pdif = 2.5 end
-                --printf("Ranged pdif: %s", pdif)
-            else
-                pdif = math.random((cratio[1]*1000), (cratio[2]*1000))
-                pdif = pdif/1000 + SpellCritPdifModifier
-                -- 2.0 pDIF cap
-                if pdif > 2.0 then pdif = 2.0 end
-                --printf("Melee pdif: %s", pdif)
+                pDif = caster:getRangedDamageRatio(target, false, ignoredDef, true)
             end
+
+            if BluIsCrit(caster, target, critRate, params) then
+                pDif = caster:getDamageRatio(target, true, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef, true)
+                if isRanged then
+                    pDif = caster:getRangedDamageRatio(target, true, ignoredDef, true)
+                end
+            end
+
 
             -- Apply it to our final D
             if (hitsdone == 0) then -- only the first hit benefits from multiplier
-                finaldmg = finaldmg + (finalD * pdif)
+                finaldmg = finaldmg + (finalD * pDif)
             else
-                finaldmg = finaldmg + ((math.floor(D + fStr + WSC)) * pdif) -- same as finalD but without multiplier (it should be 1.0)
+                finaldmg = finaldmg + ((math.floor(D + fStr + WSC)) * pDif) -- same as finalD but without multiplier (it should be 1.0)
             end
 
             --handling phalanx
@@ -408,8 +338,6 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
         end
 
         hitsdone = hitsdone + 1
-        -- TODO: Test if this is required on retail
-        -- target:tryInterruptSpell(caster, 1)
     end
 
     -- Check for shadows
@@ -1033,7 +961,7 @@ function BLUGetAttkTPModifier(tp)
 end
 
 function BLUGetCritTPModifier(tp)
-  return ((tp / 3000) * 100) / 100
+  return ((tp / 3000) * 100)
 end
 
 function BLUGetAccTPModifier(tp)
@@ -1500,6 +1428,26 @@ function BlueHandleCorrelationMACC(caster, target, spell, params, bonus, correla
     end
 
     return bonusMACC
+end
+
+function BluIsCrit(caster, target, critRate, params)
+    if math.random() < critRate then
+        return true
+    end
+
+    if params.guaranteedCrit then
+        return true
+    end
+
+    if
+        caster:hasStatusEffect(tpz.effect.SNEAK_ATTACK) and spell:isAoE() == 0 and
+        params.attackType ~= tpz.attackType.RANGED and
+        caster:isBehind(target)
+    then
+        return true
+    end
+
+    return false
 end
 
 -- obtains alpha, used for working out WSC
