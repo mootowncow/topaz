@@ -88,8 +88,9 @@ struct TransportZone_Town
 
 struct TransportZone_Voyage : Transport_Time
 {
-    CZone* voyageZone;
+    CZone* PZone;
     uint8 state;
+    bool nearingMsgSeen = false;
 };
 
 struct Elevator_t

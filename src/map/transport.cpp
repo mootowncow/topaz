@@ -34,6 +34,7 @@
 #include "../common/timer.h"
 #include "packets/event.h"
 #include "packets/entity_update.h"
+#include "packets/message_special.h"
 #include <cstdlib>
 
 std::unique_ptr<CTransportHandler> CTransportHandler::_instance;
@@ -207,10 +208,10 @@ void CTransportHandler::InitializeTransport()
 
             TransportZone_Voyage voyageZone;
 
-            voyageZone.voyageZone = nullptr;
-            voyageZone.voyageZone = zoneutils::GetZone((uint8)Sql_GetUIntData(SqlHandle, 0));
+            voyageZone.PZone = nullptr;
+            voyageZone.PZone = zoneutils::GetZone((uint8)Sql_GetUIntData(SqlHandle, 0));
 
-            if (voyageZone.voyageZone != nullptr && voyageZone.voyageZone->GetID() > 0)
+            if (voyageZone.PZone != nullptr && voyageZone.PZone->GetID() > 0)
             {
                 voyageZone.timeOffset = (uint16)Sql_GetIntData(SqlHandle, 1);
                 voyageZone.timeInterval = (uint16)Sql_GetIntData(SqlHandle, 2);
@@ -336,20 +337,30 @@ void CTransportHandler::TransportTimer()
 
         int16 tripTime = tripVanaMins * 2.4;
 
-        zoneIterator->voyageZone->PEventHandler->triggerListener("TRANSPORTZONE_UPDATE", zoneIterator->voyageZone, tripTime);
+        zoneIterator->PZone->PEventHandler->triggerListener("TRANSPORTZONE_UPDATE", zoneIterator->PZone, tripTime);
 
         if (zoneIterator->state == STATE_TRANSPORTZONE_VOYAGE)
         {
+            if (shipTimerOffset < zoneIterator->timeVoyageStart && tripTime >= 840) // 14 minutes
+            {
+                auto NEARING_MSG = 7333;
+                if (!zoneIterator->nearingMsgSeen)
+                {
+                    zoneIterator->PZone->ForEachChar([&](CCharEntity* PChar) { PChar->pushPacket(new CMessageSpecialPacket(PChar, NEARING_MSG, 0, 0, 0, 0)); });
+                    zoneIterator->nearingMsgSeen = true;
+                }
+            }
+
             // Zone them out 10 Van minutes before the boat reaches the dock
             if (shipTimerOffset < zoneIterator->timeVoyageStart && shipTimerOffset > zoneIterator->timeArriveDock - 10)
             {
                 zoneIterator->state = STATE_TRANSPORTZONE_EVICT;
-                zoneIterator->voyageZone->PEventHandler->triggerListener("TRANSPORTZONE_END", zoneIterator->voyageZone);
+                zoneIterator->PZone->PEventHandler->triggerListener("TRANSPORTZONE_END", zoneIterator->PZone);
             }
         }
         else if (zoneIterator->state == STATE_TRANSPORTZONE_EVICT)
         {
-            zoneIterator->voyageZone->TransportDepart(0, zoneIterator->voyageZone->GetID());
+            zoneIterator->PZone->TransportDepart(0, zoneIterator->PZone->GetID());
             zoneIterator->state = STATE_TRANSPORTZONE_WAIT;
         }
         else if (zoneIterator->state == STATE_TRANSPORTZONE_WAIT)
@@ -366,7 +377,8 @@ void CTransportHandler::TransportTimer()
             if (shipTimerOffset > zoneIterator->timeVoyageStart)
             {
                 zoneIterator->state = STATE_TRANSPORTZONE_VOYAGE;
-                zoneIterator->voyageZone->PEventHandler->triggerListener("TRANSPORTZONE_START", zoneIterator->voyageZone);
+                zoneIterator->PZone->PEventHandler->triggerListener("TRANSPORTZONE_START", zoneIterator->PZone);
+                zoneIterator->nearingMsgSeen = false;
             }
         }
         else if (zoneIterator->state == STATE_TRANSPORTZONE_INIT)
@@ -374,16 +386,16 @@ void CTransportHandler::TransportTimer()
             if (shipTimerOffset < zoneIterator->timeVoyageStart)
             {
                 zoneIterator->state = STATE_TRANSPORTZONE_EVICT;
-                zoneIterator->voyageZone->PEventHandler->triggerListener("TRANSPORTZONE_END", zoneIterator->voyageZone);
+                zoneIterator->PZone->PEventHandler->triggerListener("TRANSPORTZONE_END", zoneIterator->PZone);
             }
             else
             {
                 zoneIterator->state = STATE_TRANSPORTZONE_VOYAGE;
-                zoneIterator->voyageZone->PEventHandler->triggerListener("TRANSPORTZONE_START", zoneIterator->voyageZone);
+                zoneIterator->PZone->PEventHandler->triggerListener("TRANSPORTZONE_START", zoneIterator->PZone);
             }
         }
         else
-            ShowError("Unexpected state reached for travel zone %d\n", zoneIterator->voyageZone->GetID());
+            ShowError("Unexpected state reached for travel zone %d\n", zoneIterator->PZone->GetID());
     }
 
 

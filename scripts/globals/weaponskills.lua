@@ -23,58 +23,37 @@ function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams)
     local finaldmg = 0
 
     local missChance = math.random()
-    -- printf("hit rate %i", calcParams.hitRate*100)
-    if ((missChance <= calcParams.hitRate) -- See if we hit the target
-    or calcParams.guaranteedHit)
+    if ((missChance <= calcParams.hitRate) or calcParams.guaranteedHit)
     and not calcParams.mustMiss then
         if not shadowAbsorb(target) then
-            critChance = math.random() -- See if we land a critical hit
+            critChance = math.random()
             criticalHit = (wsParams.canCrit and critChance <= calcParams.critRate)
             forcedCrit = calcParams.forcedFirstCrit or calcParams.mightyStrikesApplicable
-            -- Crit pDIF caps at 3.0
-            -- https://ffxiclopedia.fandom.com/wiki/Level_Correction_Function_and_pDIF?oldid=332209
+
+            -- Calculate crit and get pdIF
             if criticalHit then
                 TryBreakMob(target)
                 calcParams.criticalHit = true
-                calcParams.pdif = utils.clamp(generatePdif (calcParams.ccritratio[1], calcParams.ccritratio[2], true) +1, 0, 3.0) + ((attacker:getMod(tpz.mod.CRIT_DMG_INCREASE) / 100) - (target:getMod(tpz.mod.CRIT_DEF_BONUS) / 100))
+                calcParams.pdif = calcParams.ccritratio
             elseif forcedCrit then
                 TryBreakMob(target)
                 calcParams.criticalHit = true
-                calcParams.pdif = utils.clamp(generatePdif (calcParams.ccritratio[1], calcParams.ccritratio[2], true) +1, 0, 3.0) + ((attacker:getMod(tpz.mod.CRIT_DMG_INCREASE) / 100) - (target:getMod(tpz.mod.CRIT_DEF_BONUS) / 100))
+                calcParams.pdif = calcParams.ccritratio
             else
-                calcParams.pdif = generatePdif (calcParams.cratio[1], calcParams.cratio[2], true)
+                calcParams.pdif = calcParams.cratio
             end
-            -- Check if mob guards us
+
             if attacker:isInfront(target, 90) and math.random()*100 < target:getGuardRate(attacker) then
-                calcParams.pdif = calcParams.pdif -1
-                if calcParams.pdif < 0.25 then -- Guard reduction caps at 0.25
+                calcParams.pdif = calcParams.pdif - 1
+                if calcParams.pdif < 0.25 then
                     calcParams.pdif = 0.25
                 end
-                --attacker:PrintToPlayer("The monster guarded your WS!")
             end
-            --printf("[%s] pDIF is %f", attacker:getName(), calcParams.pdif)
 
             finaldmg = dmg * calcParams.pdif
 
-            --print("%u", finaldmg)
-            -- Duplicate the first hit with an added magical component for hybrid WSes
             if calcParams.hybridHit then
-                -- Calculate magical bonuses and reductions
-                local magicdmg = addBonusesAbility(attacker, wsParams.ele, target, finaldmg, wsParams)
-                magicdmg = magicdmg * applyResistanceAbility(attacker, target, wsParams.ele, wsParams.skill, bonusacc)
-                magicdmg = utils.CheckForNull(attacker, target, tpz.attackType.MAGICAL, wsParams.ele, magicdmg)
-                magicdmg = target:magicDmgTaken(magicdmg, wsParams.ele)
-                magicdmg = adjustForTarget(target, magicdmg, wsParams.ele)
-                -- Add HP if absorbed
-                if (magicdmg < 0) then
-                    magicdmg = (target:addHP(-magicdmg))
-                else
-                    --handling rampart stoneskin
-                    magicdmg = utils.rampartstoneskin(target, magicdmg)
-                end
-
-                finaldmg = finaldmg + magicdmg
-                --print("%u", finaldmg)
+                -- Hybrid WS magical component logic here if you want to print too
             end
 
             calcParams.hitsLanded = calcParams.hitsLanded + 1
@@ -83,10 +62,8 @@ function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams)
         end
     end
 
-    -- Check if mob blocks us
     if attacker:isInfront(target, 90) and math.random()*100 < target:getBlockRate(attacker) then
         finaldmg = target:getBlockedDamage(finaldmg)
-        --attacker:PrintToPlayer("The monster blocked your weapon skill!")
     end
 
     return finaldmg, calcParams
@@ -173,7 +150,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
 
     if (wsParams.canCrit) then
         -- TODO: Add logic to calculate offhand hit for any hit that's done offhand
-        local nativecrit = attacker:getCritHitRate(target, true, tpz.slot.MAIN, true)
+        local nativecrit = attacker:getCritHitRate(target, false, tpz.slot.MAIN, true)
 
         if isRanged then -- Ranged uses dAGI
             nativecrit = attacker:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
@@ -388,11 +365,35 @@ end
 function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, primaryMsg, taChar)
 
     -- Determine cratio and ccritratio
+    local bonusAttPercent = 0
+    local flatAttackBonus = 0
     local ignoredDef = 0
-    if (wsParams.ignoresDef == not nil and wsParams.ignoresDef == true) then
+
+    -- Calculate bonusAttPercent
+    local flourisheffect = attacker:getStatusEffect(tpz.effect.BUILDING_FLOURISH) -- Building Flourish gives +25% Attack at 2+ Finishing Moves
+    if flourisheffect ~= nil and flourisheffect:getPower() > 1 then
+        bonusAttPercent = 25 + flourisheffect:getSubPower() / 2
+        bonusAttPercent = bonusAttPercent / 100
+    end
+
+    -- fTP bonus
+    local ftpBonus = fTP(tp, wsParams.atk100, wsParams.atk200, wsParams.atk300)
+
+    bonusAttPercent = bonusAttPercent + ftpBonus
+
+    -- Calculate flatAttackBonus
+    if (wsParams.flatAttackBonus ~= nil) then
+        flatAttackBonus = wsParams.flatAttackBonus
+    end
+
+    -- Calculate ignore defense
+    if wsParams.ignoresDef then
         ignoredDef = calculatedIgnoredDef(tp, target:getStat(tpz.mod.DEF), wsParams.ignored100, wsParams.ignored200, wsParams.ignored300)
     end
-    local cratio, ccritratio = cMeleeRatio(attacker, target, wsParams, ignoredDef, tp)
+
+    -- Get final damage ratios
+    local cratio = attacker:getDamageRatio(target, false, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
+    local ccritratio = attacker:getDamageRatio(target, true, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
 
     -- Set up conditions and wsParams used for calculating weaponskill damage
     local gorgetBeltFTP, gorgetBeltAcc = handleWSGorgetBelt(attacker)
@@ -540,11 +541,28 @@ end
 function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, primaryMsg)
 
     -- Determine cratio and ccritratio
+    local bonusAttPercent = 0
+    local flatAttackBonus = 0
     local ignoredDef = 0
-    if (wsParams.ignoresDef == not nil and wsParams.ignoresDef == true) then
+
+    -- fTP bonus
+    local ftpBonus = fTP(tp, wsParams.atk100, wsParams.atk200, wsParams.atk300)
+
+    bonusAttPercent = bonusAttPercent + ftpBonus
+
+    -- Calculate flatAttackBonus
+    if (wsParams.flatAttackBonus ~= nil) then
+        flatAttackBonus = wsParams.flatAttackBonus
+    end
+
+    -- Calculate ignore defense
+    if wsParams.ignoresDef then
         ignoredDef = calculatedIgnoredDef(tp, target:getStat(tpz.mod.DEF), wsParams.ignored100, wsParams.ignored200, wsParams.ignored300)
     end
-    local cratio, ccritratio = cRangedRatio(attacker, target, wsParams, ignoredDef, tp)
+
+    -- Get final damage ratios
+    local cratio = attacker:getRangedDamageRatio(target, false, ignoredDef)
+    local ccritratio = attacker:getRangedDamageRatio(target, true, ignoredDef)
 
     -- Set up conditions and params used for calculating weaponskill damage
     local gorgetBeltFTP, gorgetBeltAcc = handleWSGorgetBelt(attacker)
@@ -1716,6 +1734,8 @@ function getDexCritBonus(dDEX)
 end
 
 function TryBreakMob(target)
+    if not target:isMob() then return end
+
     local animationSub = target:AnimationSub()
     if (GetMobFamily(target) == 'Troll') or (GetMobFamily(target) == 'Mamool') or (GetMobFamily(target) == 'Lamiae') or (GetMobFamily(target) == 'Merrow') then
         if math.random(100) <= target:getLocalVar("BreakChance") then

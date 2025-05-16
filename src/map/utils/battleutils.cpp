@@ -2568,12 +2568,16 @@ namespace battleutils
         return acc;
     }
 
-    float GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical)
+    float GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, uint16 ignoredDefense, bool isBluSpell)
     {
         //get ranged attack value
         uint16 rAttack = 1;
 
-        if (PAttacker->objtype == TYPE_PC)
+        if (isBluSpell)
+        {
+            rAttack = GetBluAttack(PAttacker);
+        }
+        else if (PAttacker->objtype == TYPE_PC)
         {
             CCharEntity* PChar = (CCharEntity*)PAttacker;
             CItemWeapon* PItem = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
@@ -2609,7 +2613,13 @@ namespace battleutils
         rAttack = CalculateSweetSpotAttack(PAttacker, PDefender, rAttack);
 
         //get ratio (2.5 pDIF cap RAs)
-        float ratio = (float)rAttack / (float)PDefender->DEF();
+        uint16 defense = PDefender->DEF();
+        if (defense == 0)
+        {
+            defense = 1;
+        }
+
+        float ratio = (static_cast<float>(rAttack)) / ((static_cast<float>(defense) - ignoredDefense));
 
         ratio = std::clamp<float>(ratio, 0, 2.5);
 
@@ -4011,9 +4021,31 @@ namespace battleutils
     *                                                                       *
     ************************************************************************/
 
-    uint8 GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot, bool isWeaponSkill)
+    uint8 GetCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot, bool isWeaponSkill, bool isBluSpell)
     {
         int32 crithitrate = 5;
+
+        // Calculate BLU spell crit rate
+        if (isBluSpell)
+        {
+            // Check for Yonin enemy crit rate reduction while in front of target
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_YONIN) && infront(PDefender->loc.p, PAttacker->loc.p, 64))
+            {
+                crithitrate -= PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_YONIN)->GetPower();
+            }
+
+            crithitrate += GetDexCritBonus(PAttacker, PDefender, isWeaponSkill);
+            crithitrate += PDefender->getMod(Mod::ENEMYCRITRATE);
+
+            // Crits floor at 1%
+            // https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
+            crithitrate = std::clamp(crithitrate, 1, 100);
+
+            // ShowDebug("[%s] crit rate is %u\n", PAttacker->name, crithitrate);
+            return (uint8)crithitrate;
+        }
+
+        // Calculate all other melee crit rate
         if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIGHTY_STRIKES, 0) ||
             PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIGHTY_STRIKES)) {
             return 100;
@@ -4092,6 +4124,7 @@ namespace battleutils
             {
                 crithitrate += PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_INNIN)->GetSubPower();
             }
+
             // Check for Yonin enemy crit rate reduction while in front of target
             if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_YONIN) && infront(PDefender->loc.p, PAttacker->loc.p, 64))
             {
@@ -4164,9 +4197,30 @@ namespace battleutils
         return std::min(critRate, static_cast<int32>(15));
     }
 
-    uint8 GetRangedCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot, bool isWeaponSkill)
+    uint8 GetRangedCritHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool ignoreSneakTrickAttack, SLOTTYPE weaponSlot, bool isWeaponSkill, bool isBluSpell)
     {
         int32 crithitrate = 5;
+        // Calculate BLU spell crit rate
+        if (isBluSpell)
+        {
+            // Check for Yonin enemy crit rate reduction while in front of target
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_YONIN) && infront(PDefender->loc.p, PAttacker->loc.p, 64))
+            {
+                crithitrate -= PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_YONIN)->GetPower();
+            }
+
+            crithitrate += GetAgiCritBonus(PAttacker, PDefender, isWeaponSkill);
+            crithitrate += PDefender->getMod(Mod::ENEMYCRITRATE);
+
+            // Crits floor at 1%
+            // https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
+            crithitrate = std::clamp(crithitrate, 1, 100);
+
+            // ShowDebug("[%s] ranged crit rate is %u\n", PAttacker->name, crithitrate);
+            return (uint8)crithitrate;
+        }
+
+        // Calculate all other ranged crit rate
         if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIGHTY_STRIKES, 0) ||
             PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIGHTY_STRIKES))
         {
@@ -4262,31 +4316,43 @@ namespace battleutils
     *                                                                       *
     ************************************************************************/
 
-    float GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus, SLOTTYPE slot)
+    float GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, float bonusAttPercent, uint16 flatAttBonus, SLOTTYPE slot, uint16 ignoredDefense, bool isBluSpell)
     {
+        // Conspirator ATT bonus. Calculated at time of attack. No effect if attacker is currently the top enmity for their target
+        if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_CONSPIRATOR))
+        {
+            if (!battleutils::IsTopEnmity(PAttacker, PDefender))
+            {
+                flatAttBonus += PAttacker->getMod(Mod::AUGMENTS_CONSPIRATOR);
+            }
+        }
+
         uint16 attack = PAttacker->ATT(slot);
-        // Bonus attack currently only from footwork
+
+        if (isBluSpell)
+        {
+            attack = GetBluAttack(PAttacker);
+        }
+
         if (bonusAttPercent >= 1) 
         {
             attack = static_cast<uint16>(attack * bonusAttPercent);
         }
 
         attack += flatAttBonus;
+
         // Wholly possible for DEF to be near 0 with the amount of debuffs/effects now.
         uint16 defense = PDefender->DEF();
         if (defense == 0)
         {
             defense = 1;
         }
-
         
         ENTITYTYPE attackerType = PAttacker->objtype;
-
         uint8 attackerLvl = PAttacker->GetMLevel();
         uint8 defenderLvl = PDefender->GetMLevel();
 
-        uint16 ignoredDef = 0;
-        uint16 ignoredDefMod = 0;
+        uint16 ignoredDef = ignoredDefense;
         // Check for Attuner (PUP)
         // 15/30/45/60% ignored based on currently active manuevers
         if (attackerType == TYPE_PET)
@@ -4381,7 +4447,11 @@ namespace battleutils
         if (attackerType == TYPE_MOB || attackerType == TYPE_PET)
         {
             // Mobs and pets cap at 2.0 
-            maxRatio = 2.0f;
+            maxRatio = 2.00f;
+        }
+        else if (isBluSpell)
+        {
+            maxRatio = 2.00f;
         }
         else
         {
@@ -4483,6 +4553,28 @@ namespace battleutils
         //ShowDebug("PDif: %f\n", pDIF);
         return pDIF;
     }
+
+     /************************************************************************
+     *   Formula for Blue Magic Attack                                       *
+     ************************************************************************/
+
+    int32 GetBluAttack(CBattleEntity* PAttacker)
+    {
+        auto skill = PAttacker->GetSkill(SKILL_BLUE_MAGIC);
+        auto STR = (PAttacker->STR() * 75) / 100;
+        auto attMod = PAttacker->getMod(Mod::BLU_ATT);
+        auto attpMod = PAttacker->getMod(Mod::BLU_ATTP);
+        auto minuetAtt = PAttacker->StatusEffectContainer->GetTotalSongBonus(EFFECT_MINUET);
+        auto bluAttack = skill + 8;
+
+        bluAttack += STR;
+        bluAttack += attMod;
+        bluAttack += minuetAtt;
+        bluAttack = (bluAttack * (100 + attpMod)) / 100;
+
+        return bluAttack;
+    }
+
 
     /************************************************************************
     *   Formula for Strength                                                *

@@ -124,57 +124,14 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         base = 1
     end
 
-    local ignoredDef = 0
-    local ignoredDefMod = 0
-    local attackBonus = 0
-
-    if (params_phys.attack_boost ~= nil) then
-        attackBonus = params_phys.attack_boost
+    -- Add Acc varies with TP to 3+ hit TP moves
+    if not canCrit and (numberofhits > 2) then
+        acc = acc + MobAccTPModifier(tp)
     end
-
-    -- Ignore def mod
-    if (tpeffect == TP_IGNORE_DEFENSE) then
-        ignoredDefMod = MobIgnoreDefenseModifier(tp) / 100
-    end
-    if (params_phys.ignoreDefMod ~= nil) then
-        ignoredDefMod = params_phys.ignoreDefMod / 100
-    end
-    if (ignoredDefMod > 0) then
-        -- printf("Ignore def modifier %u", ignoredDefMod*100)
-        ignoredDef = target:getStat(tpz.mod.DEF) * ignoredDefMod
-        -- printf("Amount of defense ignored final %u", ignoredDef)
-    end
-
-    --work out and cap ratio
-    if (offcratiomod == nil) then -- default to attack. Pretty much every physical mobskill will use this, Cannonball being the exception.
-        local attk = mob:getStat(tpz.mod.ATT)
-        if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
-           attk = mob:getRATT()
-           attk = mob:calculateSweetSpotAttack(target, attk)
-        end
-        offcratiomod = attk * (1 + (attackBonus / 100))
-    end
-    local ratio = offcratiomod/target:getStat(tpz.mod.DEF)
-    --printf("Ratio before ignore defense applied %u", ratio*100)
-    ratio = (offcratiomod / utils.clamp((target:getStat(tpz.mod.DEF) - ignoredDef), 0, 9999))
-    --printf("Ratio after ignore defense applied %u", ratio*100)
 
     local lvldiff = lvluser - lvltarget
     if lvldiff < 0 then
         lvldiff = 0
-    end
-
-    ratio = ratio + lvldiff * 0.05
-
-    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
-        ratio = utils.clamp(ratio, 0, 2.5)
-    else
-        ratio = utils.clamp(ratio, 0, 2)
-    end
-
-    -- Add Acc varies with TP to 3+ hit TP moves
-    if not canCrit and (numberofhits > 2) then
-        acc = acc + MobAccTPModifier(tp)
     end
 
     --work out hit rate for mobs (bias towards them)
@@ -195,45 +152,19 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
     -- Crit rate has a base of 5% and no cap, 0-100% are valid
-    -- Dex contribution to crit rate is capped and works in tiers
-    local baseCritRate = 5
+    local critRate = mob:getCritHitRate(target, false, tpz.slot.MAIN, true)
     local maxCritRate = 1 -- 100%
     local minCritRate = 0.01 -- 1%
     -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
 
-    local critHitRateMods = mob:getMod(tpz.mod.CRITHITRATE) + target:getMod(tpz.mod.ENEMYCRITRATE) - target:getMerit(tpz.merit.ENEMY_CRIT_RATE)
-    local critRate = baseCritRate + getMobDexCritRate(mob, target) + critHitRateMods
-
     if (tpeffect == TP_RANGED_CRIT) then
-        local AGI = mob:getStat(tpz.mod.AGI)
-    
-        if mob:isTrust() then
-            AGI = AGI + mob:getMod(tpz.mod.AGI_DURING_WS)
-        end
-
-        local dAGI = (AGI - target:getStat(tpz.mod.AGI))
-
-        if dAGI > 0 then
-            critRate = baseCritRate + math.floor(dAGI / 10) / 100
-            baseCritRate = baseCritRate + critHitRateMods
-        end
+        critRate = mob:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
     end
-
 
     --printf("ddex critRate %u", critRate)
     --printf("critRate before param %f", critRate)
     if canCrit then
-
         critRate = critRate + MobCritTPModifier(tp)
-
-        -- Apply fencer bonus (NPCs only)
-        critRate = critRate + getMobFencerCritBonus(mob)
-
-        -- Apply Yonin bonus
-        if target:hasStatusEffect(tpz.effect.YONIN) and mob:isFacing(target, 23) then
-            critRate = critRate - (target:getStatusEffect(tpz.effect.YONIN):getPower())
-        end
-
         critRate = critRate / 100
         critRate = utils.clamp(critRate, minCritRate, maxCritRate)
     else
@@ -242,14 +173,31 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     --printf("final crit %f", critRate*100)
 
-    local maxRatio, minRatio = utils.GetMeleeRatio(mob, ratio)
+    local pdif = 0
+    local ignoredDef = 0
+    local ignoredDefMod = 0
+    local bonusAttPercent = 0
+    local flatAttackBonus = 0
 
-    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
-        maxRatio, minRatio = utils.GetRangedRatio(mob, ratio)
+    -- Calculate bonus attack percent
+    if params_phys.attack_boost then
+        bonusAttPercent = params_phys.attack_boost
     end
 
-    --Applying pDIF
-    local pdif = 0
+    -- Calculate defense ignored
+    if (tpeffect == TP_IGNORE_DEFENSE) then
+        ignoredDefMod = MobIgnoreDefenseModifier(tp) / 100
+    end
+
+    if params_phys.ignoreDefMod then
+        ignoredDefMod = params_phys.ignoreDefMod / 100
+    end
+
+    if (ignoredDefMod > 0) then
+        -- printf("Ignore def modifier %u", ignoredDefMod*100)
+        ignoredDef = math.floor(target:getStat(tpz.mod.DEF) * ignoredDefMod)
+        -- printf("Amount of defense ignored final %u", ignoredDef)
+    end
 
     -- start the hits
     local hitchance = math.random()
@@ -272,35 +220,17 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         firstHitChance = 100
     end
 
-    local critAttackBonus = 1 + ((mob:getMod(tpz.mod.CRIT_DMG_INCREASE) - target:getMod(tpz.mod.CRIT_DEF_BONUS)) / 100)
-
     -- Set block rate to 0 for now
-    mob:setLocalVar("isBlocked", 0) 
+    mob:setLocalVar("isBlocked", 0)
 
-    -- Generate pDIF
-    local qRatio = math.random(minRatio * 1000, maxRatio * 1000) / 1000
-    local randomFactor = (math.random() * 0.05) + 1
-    pdif = qRatio * randomFactor
-    -- printf("[%s] Pdif is %f", name, pdif)
+    pdif = GenerateMobPdif(mob, target, tpeffect, false, bonusAttPercent, flatAttackBonus, ignoredDef)
+
+    --printf("[%s] Pdif is %f", name, pdif)
     if ((chance*100) <= firstHitChance) then
         if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
-            if target:isMob() then
-                TryBreakMob(target)
-            end
-            -- Ranged crits are pdif * 1.25
-            if (tpeffect==TP_RANGED) then
-                pdif = pdif * 1.25
-            else
-                pdif = pdif + 1
-            end
-
-            -- Crits cap at pdIF cap * 1.05
-            local critPdifCap = GetMaxWeaponPdif(mob) * 1.05
-            pdif = utils.clamp(pdif, 0, critPdifCap)
-            --printf("%s Pdif after critting is %f", name, pdif)
-
-            -- Apply crit dmg increase
-            pdif = pdif * critAttackBonus
+            pdif = GenerateMobPdif(mob, target, tpeffect, true, bonusAttPercent, flatAttackBonus, ignoredDef)
+            TryBreakMob(target)
+            --printf("[%s] CRIT! Pdif is %f", name, pdif)
         end
 
         -- Guard / Parry / Block check for non-ranged TP moves
@@ -385,31 +315,14 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         chance = math.random()
 
         if ((chance*100)<=hitrate) then --it hit
-            -- Generate random pDIF
-            qRatio = math.random(minRatio * 1000, maxRatio * 1000) / 1000
-            randomFactor = (math.random() * 0.05) + 1
-            pdif = qRatio * randomFactor
-
+            -- Generate random pdif
+            pdif = GenerateMobPdif(mob, target, tpeffect, false, bonusAttPercent, flatAttackBonus, ignoredDef)
+            --printf("[%s] Pdif is %f", name, pdif)
             if isCrit(mob, critRate, params_phys) then
-                if target:isMob() then
-                    TryBreakMob(target)
-                end
-                -- Ranged crits are pdif * 1.25
-                if (tpeffect==TP_RANGED) then
-                    pdif = pdif * 1.25
-                else
-                    pdif = pdif + 1
-                end
-
-                -- Crits cap at pdIF cap * 1.05
-                local critPdifCap = GetMaxWeaponPdif(mob) * 1.05
-                pdif = utils.clamp(pdif, 0, critPdifCap)
-                --printf("%s Pdif after critting is %f", name, pdif)
-
-                -- Apply crit dmg increase
-                pdif = pdif * critAttackBonus
+                pdif = GenerateMobPdif(mob, target, tpeffect, true, bonusAttPercent, flatAttackBonus, ignoredDef)
+                TryBreakMob(target)
             end
-
+            --printf("[%s] CRIT! Pdif is %f", name, pdif)
             -- Guard / Parry / Block check for non-ranged TP moves
             if (tpeffect ~= TP_RANGED) then
                 if math.random()*100 < target:getGuardRate(mob) then -- Try to guard
@@ -2004,7 +1917,7 @@ function getMobFSTR2(weaponDmg, mobStr, targetVit)
 end
 
 function isCrit(mob, critRate, params)
-    if (params.ALWAYS_CRIT ~= nil) then
+    if params.ALWAYS_CRIT then
         return true
     end
 
@@ -2387,6 +2300,18 @@ function MobRemoveEffects(target)
     target:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
     target:delStatusEffectSilent(tpz.effect.QUICKENING)
     target:delStatusEffectSilent(tpz.effect.MAZURKA)
+end
+
+function GenerateMobPdif(mob, target, tpeffect, isCrit, bonusAttPercent, flatAttackBonus, ignoredDef)
+    local generatedPdif = 0
+
+    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
+        generatedPdif = mob:getRangedDamageRatio(target, isCrit, ignoredDef)
+    else
+        generatedPdif = mob:getDamageRatio(target, isCrit, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
+    end
+
+    return generatedPdif
 end
 
 function MobDmgTPModifier(tp)
