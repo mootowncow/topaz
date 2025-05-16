@@ -163,7 +163,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
     else
         -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
         -- Crit rate has a base of 15% and no cap, 0-100% are valid
-        local baseCritRate = 15 + avatar:getCritHitRate(target, true, tpz.slot.MAIN, true)
+        local critRate = 15 + avatar:getCritHitRate(target, true, tpz.slot.MAIN, true)
         local maxCritRate = 1 -- 100%
         local minCritRate = 0.01 -- 1%
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
