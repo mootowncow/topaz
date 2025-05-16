@@ -84,6 +84,7 @@ public:
     uint8 GetLowestFreeSlot(); // returns the lowest free slot for songs/rolls
     void  SendWearOffMessage(CStatusEffect* PStatusEffect, bool silent);
     uint16 GetTotalMinneBonus();
+    uint16 GetTotalSongBonus(EFFECT SongEffect);
 
     bool ApplyCorsairEffect(CStatusEffect* PStatusEffect, uint8 maxRolls, uint8 bustDuration);
     bool CheckForElevenRoll();
