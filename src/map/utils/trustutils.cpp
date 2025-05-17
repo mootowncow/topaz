@@ -835,7 +835,7 @@ void BuildingTrustSkillsTable(CTrustEntity* PTrust)
         }
     }
 
-    // Melee
+    // Cap melee skills based on job rank (skill_ranks.sql)
     for (int i = SKILL_HAND_TO_HAND; i <= SKILL_STAFF; i++)
     {
         uint16 maxSkill = battleutils::GetMaxSkill((SKILLTYPE)i, mLvl > 99 ? 99 : mLvl);
@@ -847,7 +847,7 @@ void BuildingTrustSkillsTable(CTrustEntity* PTrust)
         }
     }
 
-    // Ranged
+    // Cap ranged skills based on job rank (skill_ranks.sql)
     for (int i = SKILL_ARCHERY; i <= SKILL_THROWING; i++)
     {
         uint16 maxSkill = battleutils::GetMaxSkill((SKILLTYPE)i, mLvl > 99 ? 99 : mLvl);
