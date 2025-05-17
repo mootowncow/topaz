@@ -606,10 +606,12 @@ public:
     // Damage Calculation
     int32 getStat(lua_State*);                  // STR,DEX,VIT,AGI,INT,MND,CHR,ATT,DEF
     int32 getACC(lua_State*);                   // Get total ACC
+    int32 getHitRate(lua_State*);               // Get hit rate vs a target
     int32 getEVA(lua_State*);                   // Get total EVA
     int32 getDamageRatio(lua_State*);           // Get pDIF vs a target
     int32 getCritHitRate(lua_State*);           // Get total critical hit rate vs a target
     int32 getRACC(lua_State*);                  // Get total r.acc
+    int32 getRangedHitRate(lua_State*);         // Get ranged hit rate vs a target
     int32 getRATT(lua_State*);                  // Get total r.attack
     int32 getRangedDamageRatio(lua_State*);     // Get ranged pdIF vs a target
     int32 getRangedCritHitRate(lua_State*);     // Get total ranged critical hit rate vs a target

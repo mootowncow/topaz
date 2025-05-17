@@ -806,10 +806,10 @@ public:
     uint16          CHR();
     uint16          DEF();
     uint16          ATT(SLOTTYPE slot);
-    uint16			ACC(int8 attackNumber, int8 offsetAccuracy);
+    uint16			ACC(int8 attackNumber, int8 bonusAcc, bool isBluSpell = false);
     uint16          EVA();
     uint16          RATT(uint8 skill, uint16 bonusSkill = 0);
-    uint16          RACC(uint8 skill, uint16 bonusSkill = 0);
+    uint16          RACC(uint8 skill, uint16 bonusSkill = 0, bool isBluSpell = false);
 
     uint8           GetSpeed();
 

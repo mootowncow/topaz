@@ -90,6 +90,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     if mob:isTrust() then
         STR = STR + mob:getMod(tpz.mod.STR_DURING_WS)
     end
+
     local fSTR = getMobFSTR(weaponDmg, STR, target:getStat(tpz.mod.VIT))
 
     if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
@@ -100,23 +101,14 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     local lvluser = mob:getMainLvl()
     local lvltarget = target:getMainLvl()
-    local acc = mob:getACC()
-    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
-        acc = mob:getRACC()
-        acc = mob:calculateSweetSpotAccuracy(target, acc)
-    end
-    local eva = target:getEVA()
-
-    if (target:hasStatusEffect(tpz.effect.YONIN) and mob:isFacing(target, 23)) then -- Yonin evasion boost if mob is facing target
-        eva = eva + (target:getStatusEffect(tpz.effect.YONIN):getPower() + (target:getJobPointLevel(tpz.jp.YONIN_EFFECT) * 2))
-    end
+    
 
     --apply WSC
     local WSC = getMobWSC(mob, params_phys)
     --printf("WSC %u", WSC)
 
     local base = mob:getWeaponDmg() + WSC + fSTR
-    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
+    if isRanged then
         base = mob:getRangedDmg() + WSC + fSTR
     end
     --printf("dmg WITH wsc %u", base)
@@ -124,21 +116,30 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         base = 1
     end
 
-    -- Add Acc varies with TP to 3+ hit TP moves
-    if not canCrit and (numberofhits > 2) then
-        acc = acc + MobAccTPModifier(tp)
-    end
-
     local lvldiff = lvluser - lvltarget
     if lvldiff < 0 then
         lvldiff = 0
     end
 
-    --work out hit rate for mobs (bias towards them)
-    local hitrate = (acc*accmod) - eva + (lvldiff*2) + 75
+    local attackNumber = 0
+    -- Calculate accBonus
+    local accBonus = 0
 
-    -- printf("acc: %f, eva: %f, hitrate: %f", acc, eva, hitrate)
-    hitrate = utils.clamp(hitrate, 20, 95)
+    -- Add Acc varies with TP to 3+ hit TP moves
+    if not canCrit and (numberofhits > 2) then
+        accBonus = accBonus + MobAccTPModifier(tp)
+    end
+
+    -- Get hit rate
+    local hitrate = mob:getHitRate(target, attackNumber, accBonus, false)
+    local maxHitRate = 100
+    local minHitRate = 20
+
+    if isRanged then
+        hitrate = mob:getRangedHitRate(target, false, accBonus, false)
+    end
+
+    hitrate = utils.clamp(hitrate, minHitRate, maxHitRate)
 
     --work out the base damage for a single hit
     local hitdamage = base + lvldiff
@@ -213,7 +214,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         firstHitChance = hitrate
     end
 
-    firstHitChance = utils.clamp(firstHitChance, 20, 100)
+    firstHitChance = utils.clamp(firstHitChance, minHitRate, maxHitRate)
 
     -- Sneak and Trick attack force 100% hit rate on the first attack
     if isSneakAttack(mob, target) or isTrickAttack(mob, target) then
