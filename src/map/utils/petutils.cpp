@@ -151,6 +151,7 @@ struct Pet_t
     uint16 eemblind;
 
     uint16 shieldSize;
+    uint16 rangedSkill;
 
 };
 
@@ -201,7 +202,7 @@ namespace petutils
                 Slash, Pierce, H2H, Impact, \
                 Fire, Ice, Wind, Earth, Lightning, Water, Light, Dark, \
                 Amnesia, Virus, Silence, Gravity, Stun, LightSleep, Charm, Paralyze, Bind, Slow, Petrify, Terror, Poison, Darksleep, Blind, \
-                cmbDelay, name_prefix, mob_pools.skill_list_id, mob_pools.shieldSize \
+                cmbDelay, name_prefix, mob_pools.skill_list_id, mob_pools.shieldSize, mob_pools.rangedSkill \
                 FROM pet_list, mob_pools, mob_family_system \
                 WHERE pet_list.poolid = mob_pools.poolid AND mob_pools.familyid = mob_family_system.familyid";
 
@@ -299,6 +300,7 @@ namespace petutils
                 Pet->name_prefix = (uint8)Sql_GetUIntData(SqlHandle, 56);
                 Pet->m_MobSkillList = (uint16)Sql_GetUIntData(SqlHandle, 57);
                 Pet->shieldSize = Sql_GetUIntData(SqlHandle, 58);
+                Pet->rangedSkill = Sql_GetUIntData(SqlHandle, 59);
 
                 g_PPetList.push_back(Pet);
             }
@@ -1072,14 +1074,26 @@ namespace petutils
         PPet->setModifier(Mod::ATT, 2 * battleutils::GetMaxSkill(SKILL_CLUB, JOB_WHM, PPet->GetMLevel()));
         PPet->setModifier(Mod::RATT, 2 * battleutils::GetMaxSkill(SKILL_CLUB, JOB_WHM, PPet->GetMLevel()));
         PPet->setModifier(Mod::ACC, battleutils::GetMaxSkill(SKILL_HEALING_MAGIC, JOB_WHM, PPet->GetMLevel()));
-        PPet->setModifier(Mod::RACC, battleutils::GetMaxSkill(SKILL_HEALING_MAGIC, JOB_WHM, PPet->GetMLevel()));
+        // RACC is handled in  GetRangedHitRate -> RACC via adding combat skills later
         // Set C evasion and def
         PPet->setModifier(Mod::EVA, battleutils::GetMaxSkill(SKILL_ENFEEBLING_MAGIC, JOB_WHM, PPet->GetMLevel()));
         PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(SKILL_ENFEEBLING_MAGIC, JOB_WHM, PPet->GetMLevel()));
-        // cap all magic skills so they play nice with spell scripts
+
+
+        // Cap all weapon skills for Avatars(A+)
+        for (int i = SKILL_HAND_TO_HAND; i <= SKILL_THROWING; i++)
+        {
+            uint16 maxSkill = battleutils::GetMaxSkill(SKILL_ENFEEBLING_MAGIC, JOB_RDM, PPet->GetMLevel());
+            if (maxSkill != 0)
+            {
+                PPet->WorkingSkills.skill[i] = maxSkill;
+            }
+        }
+
+        // Cap all magic skills for Avatars(A+)
         for (int i = SKILL_DIVINE_MAGIC; i <= SKILL_BLUE_MAGIC; i++)
         {
-            uint16 maxSkill = battleutils::GetMaxSkill((SKILLTYPE)i, PPet->GetMJob(), PPet->GetMLevel());
+            uint16 maxSkill = battleutils::GetMaxSkill(SKILL_ENFEEBLING_MAGIC, JOB_RDM, PPet->GetMLevel());
             if (maxSkill != 0)
             {
                 PPet->WorkingSkills.skill[i] = maxSkill;
@@ -1087,7 +1101,7 @@ namespace petutils
             else // if the mob is WAR/BLM and can cast spell
             {
                 // set skill as high as main level, so their spells won't get resisted
-                uint16 maxSubSkill = battleutils::GetMaxSkill((SKILLTYPE)i, PPet->GetSJob(), PPet->GetMLevel());
+                uint16 maxSubSkill = battleutils::GetMaxSkill(SKILL_ENFEEBLING_MAGIC, JOB_RDM, PPet->GetMLevel());
 
                 if (maxSubSkill != 0)
                 {
@@ -2234,6 +2248,7 @@ namespace petutils
         PPet->m_Element = PPetData->m_Element;
         PPet->m_PetID = PPetData->PetID;
         PPet->setMobMod(MOBMOD_BLOCK, PPetData->shieldSize); // TODO: Probably turn into a member(m_shieldSize)
+        ((CItemWeapon*)PPet->m_Weapons[SLOT_RANGED])->setSubSkillType(PPetData->rangedSkill);
 
         uint8 lvl = PPet->GetMLevel();
         switch (PPet->GetMJob())

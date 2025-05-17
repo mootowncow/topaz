@@ -342,6 +342,8 @@ namespace battleutils
         }
         return g_SkillTable[std::clamp<uint8>(level, 0, maxLevel)][g_SkillRanks[SkillID][JobID]];
     }
+
+    //Based on job rank(skill_ranks.sql)
     uint16 GetMaxSkill(uint8 rank, uint8 level)
     {
         auto maxLevel = static_cast<uint8>(g_SkillTable.size() - 1);
@@ -2424,7 +2426,8 @@ namespace battleutils
         {
             acc = PAttacker->RACC(SKILL_AUTOMATON_RANGED);
         }
-        else if (PAttacker->objtype == TYPE_MOB || PAttacker->objtype == TYPE_TRUST)
+        else if (PAttacker->objtype == TYPE_MOB || PAttacker->objtype == TYPE_TRUST ||
+                 (PAttacker->objtype == TYPE_PET && ((CPetEntity*)PAttacker)->getPetType() == PETTYPE_AVATAR))
         {
             auto archery_acc = PAttacker->RACC(SKILL_ARCHERY);
             auto marksmanship_acc = PAttacker->RACC(SKILL_MARKSMANSHIP);
@@ -2450,7 +2453,6 @@ namespace battleutils
 
         // Add any specific accuracy bonus, e.g. Daken RAcc +100
         acc += accBonus;
-
         acc = CalculateSweetSpotAccuracy(PAttacker, PDefender, acc, isBluSpell);
 
         int eva = PDefender->EVA();
@@ -2461,11 +2463,11 @@ namespace battleutils
         if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SHARPSHOT) && !isBluSpell)
         {
             uint8 finalhitrate = std::clamp(hitrate, 20, 99);
-            ShowDebug("[%s] ranged hitrate with sharpshot %i\n", PAttacker->name, finalhitrate);
+            //ShowDebug("[%s] ranged hitrate with sharpshot %i\n", PAttacker->name, finalhitrate);
             return finalhitrate;
         }
         uint8 finalhitrate = std::clamp(hitrate, 20, 95);
-        ShowDebug("[%s] ranged hitrate %i\n", PAttacker->name, finalhitrate);
+        //ShowDebug("[%s] ranged hitrate %i\n", PAttacker->name, finalhitrate);
         return finalhitrate;
     }
 
@@ -2505,7 +2507,7 @@ namespace battleutils
                 else
                 {
                     sweetSpotMultiplier = 1.0f - ((distanceToTarget - meleeRange) * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier); //
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
                 }
                 break;
             case SUBSKILL_GUN:
@@ -4009,6 +4011,11 @@ namespace battleutils
                 maxHitRate = 95;
             }
 
+            if (PAttacker->objtype == TYPE_MOB || PAttacker->objtype == TYPE_PET)
+            {
+                maxHitRate = 95;
+            }
+
             if (isBluSpell)
             {
                 maxHitRate = 99;
@@ -4016,7 +4023,7 @@ namespace battleutils
 
             hitrate = std::clamp(hitrate, 20, maxHitRate);
         }
-        ShowDebug("[%s] melee hitrate %i\n", PAttacker->name, hitrate);
+        //ShowDebug("[%s] melee hitrate %i\n", PAttacker->name, hitrate);
         return static_cast<uint8>(hitrate);
     }
     uint8 GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender)

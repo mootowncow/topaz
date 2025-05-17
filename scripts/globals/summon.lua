@@ -30,77 +30,35 @@ TP_CRIT_VARIES = 3
 function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, tpeffect, params)
     local returninfo = {}
 
-    -- I have never read a limit on accuracy bonus from summoning skill which can currently go far past 200 over cap
-    -- current retail is over +250 skill so I am removing the cap, my SMN is at 695 total skill
     local tp = avatar:getTP()
     local summoner = avatar:getMaster()
     --printf("tp %i", tp)
-    local acc = 0
-    local TPAccBonus = 0
-    if tpeffect == TP_ACC_BONUS then
-        TPAccBonus = AvatarAccTPModifier(tp)
-        --printf("%i", TPAccBonus)
-    end
-    -- Ranged attack BPs use Racc
-    if attackType == tpz.attackType.PHYSICAL then
-        acc = avatar:getACC() + getSummoningSkillOverCap(avatar) 
+
+    local attackNumber = 0
+    -- Calculate accBonus
+    local accBonus = getSummoningSkillOverCap(avatar)
+
+    -- Add "Accuracy varies with TP." mod
+    if (tpeffect == TP_ACC_BONUS) then
+        accBonus = accBonus + AvatarAccTPModifier(tp)
     end
 
-    if attackType == tpz.attackType.RANGED then
-        acc = avatar:getRACC() + getSummoningSkillOverCap(avatar)
-        acc = avatar:calculateSweetSpotAccuracy(target, acc)
-    end
-    --print("%i", acc)
-    acc = acc + TPAccBonus
-    local eva = target:getEVA()
-    --print("%i", acc)
-
-    -- Level correction does not happen in Adoulin zones, Legion, or zones in Escha/Reisenjima
-    -- https://www.bg-wiki.com/bg/PDIF#Level_Correction_Function_.28cRatio.29
-    local zoneId = avatar:getZone():getID()
-
-    local shouldApplyLevelCorrection = (zoneId < 256) and not (zoneId == 183)
-    
-    -- https://forum.square-enix.com/ffxi/threads/45365?p=534537#post534537
-    -- https://www.bg-wiki.com/bg/Hit_Rate
-    -- https://www.bluegartr.com/threads/114636-Monster-Avatar-Pet-damage
-    -- As of December 10th 2015 pet hit rate caps at 99% (familiars, wyverns, avatars and automatons)
-    -- increased from 95%
-    local maxHitRate = 0.99
+    local hitRate = avatar:getHitRate(target, attackNumber, accBonus, false)
+    local maxHitRate = 0.95
     local minHitRate = 0.2
 
-    -- Hit Rate (%) = 75 + floor( (Accuracy - Evasion)/2 ) + 2*(dLVL)
-    -- For Avatars negative penalties for level correction seem to be ignored for attack and likely for accuracy,
-    -- bonuses cap at level diff of 38 based on this testing: 
-    -- https://www.bluegartr.com/threads/114636-Monster-Avatar-Pet-damage
-    -- If there are penalties they seem to be applied differently similarly to monsters.
-    local baseHitRate = 75
-    -- First hit gets a +100 ACC bonus which translates to +50 hit
-    local firstHitAccBonus = 50
-    local hitrateFirst = 0
-    local hitrateSubsequent = 0
-    -- Max level diff is 38
-    local levelDiff = math.min(avatar:getMainLvl() - target:getMainLvl(), 38)
-    -- Only bonuses are applied for avatar level correction
-    local levelCorrection = 0
-    if shouldApplyLevelCorrection then
-        if levelDiff > 0 then
-            levelCorrection = math.max((levelDiff*2), 0)
-        end
+    -- Ranged attack BPs use Racc
+    if (attackType == tpz.attackType.RANGED) then
+        hitRate = avatar:getRangedHitRate(target, false, accBonus, false)
     end
-    -- Delta acc / 2 for hit rate
-    local dAcc = math.floor((acc - eva)/2)
-    
-    -- Normal hits computed first
-    hitrateSubsequent = baseHitRate + dAcc + levelCorrection
     -- First hit gets bonus hit rate
-    hitrateFirst = hitrateSubsequent + firstHitAccBonus
+    local firstHitChance = hitRate +50 -- +50% hit rate aka +100 acc
 
-    hitrateSubsequent = hitrateSubsequent / 100
-    hitrateFirst = hitrateFirst / 100
+    firstHitChance = firstHitChance / 100
+    hitRate = hitRate / 100
+    firstHitChance = utils.clamp(firstHitChance, minHitRate, maxHitRate)
+    hitRate = utils.clamp(hitRate, minHitRate, maxHitRate)
 
-    hitrateSubsequent = utils.clamp(hitrateSubsequent, minHitRate, maxHitRate)
-    hitrateFirst = utils.clamp(hitrateFirst, minHitRate, maxHitRate)
 
     local pDif = 0
     local ignoredDef = 0
@@ -119,7 +77,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
     local shadowsFullyAbsorbed = 0
     local finaldmg = 0
 
-    if math.random() < hitrateFirst then
+    if math.random() < firstHitChance then
         firstHitLanded = true
         numHitsLanded = numHitsLanded + 1
     end
@@ -131,7 +89,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
 
     -- Ranged attacks can't multihit from qa/ta/da procs
 
-    if attackType ~= tpz.attackType.RANGED then
+    if (attackType ~= tpz.attackType.RANGED) then
         if math.random() < quadRate then
             bonusHits = bonusHits + 3
         elseif math.random() < tripleRate then
@@ -150,7 +108,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
     end
 
     while numHitsProcessed < numberofhits do
-        if math.random() < hitrateSubsequent then
+        if math.random() < hitRate then
             numHitsLanded = numHitsLanded + 1
         end
         numHitsProcessed = numHitsProcessed + 1

@@ -298,7 +298,6 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
         params.bonus = params.bonus - 25 
     end
 
-
     if (chainAffinity ~= nil) then
 		if params.AccTPModifier or (params.tpmod == TPMOD_ACC) then -- Check if "Accuracy varies with TP"
 			accBonus = accBonus + BLUGetAccTPModifier(caster:getTP())
@@ -312,6 +311,8 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
     end
 
     accBonus = accBonus + caster:getMerit(tpz.merit.PHYSICAL_POTENCY) -- https://www.bluegartr.com/threads/37619-Blue-Mage-Best-thread-ever?p=2097460&viewfull=1#post2097460 
+
+    -- Get hit rate
     local hitrate = caster:getHitRate(target, attackNumber, accBonus, true)
 
     if isRanged then

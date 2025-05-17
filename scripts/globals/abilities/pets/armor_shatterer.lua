@@ -28,6 +28,7 @@ function onPetAbility(target, pet, skill)
     params.chr_wsc = 0.0
     params.attkMod = 1.25
 
+    local tp = pet:getLocalVar("TP")
     local effect = tpz.effect.DEFENSE_DOWN
     local power = 15
     local duration = 90
@@ -35,7 +36,7 @@ function onPetAbility(target, pet, skill)
 
     local damage = AutoPhysicalWeaponSkill(pet, target, skill, tpz.attackType.RANGED, numhits, TP_EFFECT_DURATION, params)
     dmg = AutoPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, damage.hitslanded, params)
-    AutoPhysicalStatusEffectWeaponSkill(pet, target, skill, effect, power, duration, params, bonus)
+    AutoPhysicalStatusEffectWeaponSkill(pet, target, skill, effect, power, duration, numberofhits, TP_EFFECT_DURATION, params, bonus, tp)
 
     return dmg
 end

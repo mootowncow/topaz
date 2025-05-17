@@ -1031,7 +1031,7 @@ uint16 CBattleEntity::ACC(int8 attackNumber, int8 bonusAcc, bool isBluSpell)
     {
         int16 ACC = this->GetSkill(SKILL_AUTOMATON_MELEE);
         ACC = (ACC > 200 ? (int16)(((ACC - 200) * 0.9) + 200) : ACC);
-        ACC += (int16)(DEX() * 0.5);
+        ACC += (int16)(DEX() * 0.75);
         ACC += m_modStat[Mod::ACC] + bonusAcc;
 
         if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT) && !isBluSpell)
@@ -1045,6 +1045,8 @@ uint16 CBattleEntity::ACC(int8 attackNumber, int8 bonusAcc, bool isBluSpell)
     else
     {
         int16 ACC = m_modStat[Mod::ACC];
+        ACC += (int16)(DEX() * 0.75);
+        ACC += +bonusAcc;
 
         if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT) && !isBluSpell)
         {
