@@ -54,6 +54,13 @@ CRangeState::CRangeState(CBattleEntity* PEntity, uint16 targid) :
     auto delay = m_PEntity->GetRangedWeaponDelay(false);
     delay = battleutils::GetSnapshotReduction(m_PEntity, delay);
 
+    // Reduction from Overkill
+    // https://www.bluegartr.com/threads/116145-Ranged-Delay-Snapshot-and-Stuff?p=5953337&viewfull=1#post5953337
+    if (m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_OVERKILL))
+    {
+        delay = delay *= 0.5;
+    }
+
     if (m_PEntity->hasTrait(TRAIT_RAPID_SHOT))
     {
         auto chance{ m_PEntity->getMod(Mod::RAPID_SHOT) };
