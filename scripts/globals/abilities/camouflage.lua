@@ -1,6 +1,6 @@
 -----------------------------------
 -- Ability: Camouflage
--- Become hidden from enemies.
+-- Increases your evasion and magic evasion.
 -- Obtained: Ranger Level 20
 -- Recast Time: 5:00
 -- Duration: Random
@@ -14,6 +14,6 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local duration = math.random(30, 60) * (1 + 0.01 * player:getMod(tpz.mod.CAMOUFLAGE_DURATION))
-    player:addStatusEffect(tpz.effect.CAMOUFLAGE, 1 , 0, math.floor(duration * SNEAK_INVIS_DURATION_MULTIPLIER))
+    local duration = 60 * (1 + 0.01 * player:getMod(tpz.mod.CAMOUFLAGE_DURATION))
+    player:addStatusEffect(tpz.effect.CAMOUFLAGE, 1 , 0, duration)
 end

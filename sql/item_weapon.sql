@@ -2228,7 +2228,7 @@ INSERT INTO `item_weapon` VALUES (18599,'pestle',12,0,0,0,0,3,1,366,11,0);
 INSERT INTO `item_weapon` VALUES (18600,'cavers_shovel',12,0,0,0,0,3,1,402,1,0);
 INSERT INTO `item_weapon` VALUES (18601,'fay_crozier',12,0,0,0,0,3,1,366,50,0);
 INSERT INTO `item_weapon` VALUES (18602,'fay_staff',12,0,0,0,0,3,1,402,54,0);
-INSERT INTO `item_weapon` VALUES (18603,'majestas',12,0,0,0,0,3,1,412,42,0);
+INSERT INTO `item_weapon` VALUES (18603,'majestas',12,0,0,0,0,3,1,412,75,0);
 INSERT INTO `item_weapon` VALUES (18604,'astaroth_cane',12,0,0,0,0,3,1,366,14,0);
 INSERT INTO `item_weapon` VALUES (18605,'melampus_staff',12,0,0,0,0,3,1,366,16,0);
 INSERT INTO `item_weapon` VALUES (18606,'passaddhi_staff',12,0,0,0,0,3,1,366,15,0);
