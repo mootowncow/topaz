@@ -342,6 +342,8 @@ namespace battleutils
         }
         return g_SkillTable[std::clamp<uint8>(level, 0, maxLevel)][g_SkillRanks[SkillID][JobID]];
     }
+
+    //Based on job rank(skill_ranks.sql)
     uint16 GetMaxSkill(uint8 rank, uint8 level)
     {
         auto maxLevel = static_cast<uint8>(g_SkillTable.size() - 1);
@@ -2383,13 +2385,13 @@ namespace battleutils
             }*/
     }
 
-    uint8 GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage, int8 accBonus)
+    uint8 GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage, int8 accBonus, bool isBluSpell)
     {
         int acc = 0;
         int hitrate = 75;
 
         // Check to see if distance is greater than 25 and force hitrate to be 0
-        if (distance(PAttacker->loc.p, PDefender->loc.p) > 25)
+        if (distance(PAttacker->loc.p, PDefender->loc.p) > 25 && !isBluSpell)
         {
             return 0;
         }
@@ -2411,7 +2413,7 @@ namespace battleutils
             }
 
             //Check For Ambush Merit - Ranged
-            if ((charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_AMBUSH)))
+            if ((charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_AMBUSH)) && !isBluSpell)
             {
                 if (behind(PAttacker->loc.p, PDefender->loc.p, 64) || PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT))
                 {
@@ -2424,7 +2426,8 @@ namespace battleutils
         {
             acc = PAttacker->RACC(SKILL_AUTOMATON_RANGED);
         }
-        else if (PAttacker->objtype == TYPE_MOB || PAttacker->objtype == TYPE_TRUST)
+        else if (PAttacker->objtype == TYPE_MOB || PAttacker->objtype == TYPE_TRUST ||
+                 (PAttacker->objtype == TYPE_PET && ((CPetEntity*)PAttacker)->getPetType() == PETTYPE_AVATAR))
         {
             auto archery_acc = PAttacker->RACC(SKILL_ARCHERY);
             auto marksmanship_acc = PAttacker->RACC(SKILL_MARKSMANSHIP);
@@ -2432,6 +2435,12 @@ namespace battleutils
 
             acc = std::max({ archery_acc, marksmanship_acc, throwing_acc });
         }
+
+        if (isBluSpell)
+        {
+            acc = PAttacker->RACC(SKILL_NONE, 0, isBluSpell);
+        }
+
         // Check for Yonin evasion bonus while in front of target
         if (PDefender->objtype == TYPE_PC)
         {
@@ -2444,21 +2453,21 @@ namespace battleutils
 
         // Add any specific accuracy bonus, e.g. Daken RAcc +100
         acc += accBonus;
-
-        acc = CalculateSweetSpotAccuracy(PAttacker, PDefender, acc);
+        acc = CalculateSweetSpotAccuracy(PAttacker, PDefender, acc, isBluSpell);
 
         int eva = PDefender->EVA();
         hitrate = hitrate + (acc - eva) / 2 + (PAttacker->GetMLevel() - PDefender->GetMLevel()) * 2;
 
         //ShowDebug("[%s] Ranged accuracy: %d\n", PAttacker->name, acc);
 
-        if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SHARPSHOT))
+        if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SHARPSHOT) && !isBluSpell)
         {
             uint8 finalhitrate = std::clamp(hitrate, 20, 99);
-            //printf("Your hit rate with sharpshot is.. %i \n", finalhitrate);
+            //ShowDebug("[%s] ranged hitrate with sharpshot %i\n", PAttacker->name, finalhitrate);
             return finalhitrate;
         }
         uint8 finalhitrate = std::clamp(hitrate, 20, 95);
+        //ShowDebug("[%s] ranged hitrate %i\n", PAttacker->name, finalhitrate);
         return finalhitrate;
     }
 
@@ -2498,7 +2507,7 @@ namespace battleutils
                 else
                 {
                     sweetSpotMultiplier = 1.0f - ((distanceToTarget - meleeRange) * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier); //
+                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
                 }
                 break;
             case SUBSKILL_GUN:
@@ -3854,7 +3863,7 @@ namespace battleutils
     *                                                                       *
     ************************************************************************/
 
-    uint8 GetHitRateEx(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 offsetAccuracy) //subWeaponAttack is for calculating acc of dual wielded sub weapon
+    uint8 GetHitRateEx(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 accBonus, bool isBluSpell) //subWeaponAttack is for calculating acc of dual wielded sub weapon
     {
         int32 hitrate = 75;
 
@@ -3866,44 +3875,55 @@ namespace battleutils
         }
         else
         {
-            // ShowDebug("Accuracy mod before direction checks: %d\n", offsetAccuracy);
-            // Check For Ambush Merit - Melee
-            if (PAttacker->objtype == TYPE_PC && (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_AMBUSH)))
+            // ShowDebug("Accuracy mod before direction checks: %d\n", accBonus);
+
+            if (!isBluSpell)
             {
-                if (behind(PAttacker->loc.p, PDefender->loc.p, 64) || PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT))
+                // Check For Ambush Merit - Melee
+                if (PAttacker->objtype == TYPE_PC && (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_AMBUSH)))
                 {
-                    offsetAccuracy += ((CCharEntity*)PAttacker)->PMeritPoints->GetMeritValue(MERIT_AMBUSH, (CCharEntity*)PAttacker);
+                    if (behind(PAttacker->loc.p, PDefender->loc.p, 64) || PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT))
+                    {
+                        accBonus += ((CCharEntity*)PAttacker)->PMeritPoints->GetMeritValue(MERIT_AMBUSH, (CCharEntity*)PAttacker);
+                    }
+                }
+
+                // Check for Closed Position merit on attacker for additional accuracy and that attacker and defender are facing each other
+                if (PAttacker->objtype == TYPE_PC && (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_CLOSED_POSITION)) &&
+                    (infront(PAttacker->loc.p, PDefender->loc.p, 64) && facing(PAttacker->loc.p, PDefender->loc.p, 64)))
+                {
+                    accBonus += ((CCharEntity*)PAttacker)->PMeritPoints->GetMeritValue(MERIT_CLOSED_POSITION, (CCharEntity*)PAttacker);
+                }
+
+                // Check for Closed Position merit on defender for additional evasion and that attacker and defender are facing each other
+                if (PDefender->objtype == TYPE_PC && (charutils::hasTrait((CCharEntity*)PDefender, TRAIT_CLOSED_POSITION)) &&
+                    (infront(PDefender->loc.p, PAttacker->loc.p, 64) && facing(PDefender->loc.p, PAttacker->loc.p, 64)))
+                {
+                    accBonus -= ((CCharEntity*)PDefender)->PMeritPoints->GetMeritValue(MERIT_CLOSED_POSITION, (CCharEntity*)PDefender);
+                }
+
+                // Check for Innin accuracy bonus from behind target
+                if (PAttacker->objtype == TYPE_PC)
+                {
+                    if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_INNIN) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
+                    {
+                        auto* PChar = static_cast<CCharEntity*>(PAttacker);
+                        accBonus +=
+                            PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_INNIN)->GetPower() + PChar->PJobPoints->GetJobPointValue(JP_INNIN_EFFECT);
+                    }
                 }
             }
-            // Check for Closed Position merit on attacker for additional accuracy and that attacker and defender are facing each other
-            if (PAttacker->objtype == TYPE_PC && (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_CLOSED_POSITION)) && (infront(PAttacker->loc.p, PDefender->loc.p, 64) && facing(PAttacker->loc.p, PDefender->loc.p, 64)))
-            {
-                offsetAccuracy += ((CCharEntity*)PAttacker)->PMeritPoints->GetMeritValue(MERIT_CLOSED_POSITION, (CCharEntity*)PAttacker);
-            }
-            // Check for Closed Position merit on defender for additional evasion and that attacker and defender are facing each other
-            if (PDefender->objtype == TYPE_PC && (charutils::hasTrait((CCharEntity*)PDefender, TRAIT_CLOSED_POSITION)) && (infront(PDefender->loc.p, PAttacker->loc.p, 64) && facing(PDefender->loc.p, PAttacker->loc.p, 64)))
-            {
-                offsetAccuracy -= ((CCharEntity*)PDefender)->PMeritPoints->GetMeritValue(MERIT_CLOSED_POSITION, (CCharEntity*)PDefender);
-            }
-            // Check for Innin accuracy bonus from behind target
-            if (PAttacker->objtype == TYPE_PC)
-            {
-                if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_INNIN) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
-                {
-                    auto* PChar = static_cast<CCharEntity*>(PAttacker);
-                    offsetAccuracy += PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_INNIN)->GetPower() + PChar->PJobPoints->GetJobPointValue(JP_INNIN_EFFECT);
-                }
-            }
+
             // Check for Yonin evasion bonus while in front of target
             if (PDefender->objtype == TYPE_PC)
             {
                 if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_YONIN) && infront(PDefender->loc.p, PAttacker->loc.p, 64))
                 {
                     auto* PChar = static_cast<CCharEntity*>(PDefender);
-                    offsetAccuracy -= PChar->StatusEffectContainer->GetStatusEffect(EFFECT_YONIN)->GetPower() + PChar->PJobPoints->GetJobPointValue(JP_YONIN_EFFECT) * 2;
+                    accBonus -= PChar->StatusEffectContainer->GetStatusEffect(EFFECT_YONIN)->GetPower() + PChar->PJobPoints->GetJobPointValue(JP_YONIN_EFFECT) * 2;
                 }
             }
-            // ShowDebug("Accuracy mod after direction checks: %d\n", offsetAccuracy);
+            // ShowDebug("Accuracy mod after direction checks: %d\n", accBonus);
 
 
             // Hit Rate (%) = 75 + floor( (Accuracy - Evasion)/2 ) + 2*(dLVL)
@@ -3914,13 +3934,7 @@ namespace battleutils
             // Floor because hitrate can only be integer values
             // https://www.bluegartr.com/threads/68786-Dexterity-s-impact-on-critical-hits?p=3209015&viewfull=1#post3209015
 
-            uint16 attackerAcc = PAttacker->ACC(attackNumber, offsetAccuracy);
-
-            // Enlight gives an ACC bonus not a hit rate bonus, ACC bonus is equal to damage dealt
-            if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT))
-            {
-                attackerAcc += PAttacker->getMod(Mod::ENSPELL_DMG);
-            }
+            uint16 attackerAcc = PAttacker->ACC(attackNumber, accBonus);
 
             hitrate += static_cast<int32>(std::floor((attackerAcc - PDefender->EVA()) / 2));
 
@@ -3997,9 +4011,19 @@ namespace battleutils
                 maxHitRate = 95;
             }
 
+            if (PAttacker->objtype == TYPE_MOB || PAttacker->objtype == TYPE_PET)
+            {
+                maxHitRate = 95;
+            }
+
+            if (isBluSpell)
+            {
+                maxHitRate = 99;
+            }
+
             hitrate = std::clamp(hitrate, 20, maxHitRate);
         }
-        //ShowDebug("[%s] hitrate %i\n", PAttacker->name, hitrate);
+        //ShowDebug("[%s] melee hitrate %i\n", PAttacker->name, hitrate);
         return static_cast<uint8>(hitrate);
     }
     uint8 GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender)
@@ -4010,9 +4034,9 @@ namespace battleutils
     {
         return GetHitRateEx(PAttacker, PDefender, attackNumber, 0);
     }
-    uint8 GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 offsetAccuracy)
+    uint8 GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 accBonus)
     {
-        return GetHitRateEx(PAttacker, PDefender, attackNumber, offsetAccuracy);
+        return GetHitRateEx(PAttacker, PDefender, attackNumber, accBonus);
     }
 
     /************************************************************************

@@ -33,55 +33,20 @@ TP_EFFECT_DURATION  = 5
 --params.MAGIC_MORTAR
 --params.CANNIBAL_BLADE
 
-function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, tpEffect, params)
+function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, tpeffect, params)
     local returninfo = {}
 
-    -- I have never read a limit on accuracy bonus from summoning skill which can currently go far past 200 over cap
-    -- current retail is over +250 skill so I am removing the cap, my SMN is at 695 total skill
     local master = auto:getMaster()
     local tp = auto:getLocalVar("TP")
 
     local jas =
-    {1944, 1945, 1946, 1947, 1948, 1949, 2021, 2068, 2745, 2746, 2747, 3485}
+    { 1944, 1945, 1946, 1947, 1948, 1949, 2021, 2068, 2745, 2746, 2747, 3485 }
 
     for _, skillId in pairs(jas) do
         if (skill:getID() == skillId) then
             tp = 1000
         end
     end
-    -- printf("TP: %i", tp)
-    -- printf("tp %i", tp)
-    local acc = 0
-    local TPAccBonus = 0
-
-    if (params.accBonus ~= nil) then
-        TPAccBonus = params.accBonus
-    end
-    if (tpEffect) == TP_ACC_BONUS then
-        TPAccBonus = TPAccBonus + AutoAccTPModifier(tp)
-        --printf("%i", TPAccBonus)
-    end
-    -- Ranged attack WeaponSkills use Racc
-    if attackType == tpz.attackType.PHYSICAL then
-        acc = auto:getACC()
-    end
-
-    if (attackType == tpz.attackType.RANGED) then
-        acc = auto:getRACC()
-        acc = auto:calculateSweetSpotAccuracy(target, acc)
-    end
-    -- printf("Accuracy before level correction: %i", acc)
-    acc = acc + TPAccBonus
-
-    -- Apply level correction
-    if (auto:getMainLvl() > target:getMainLvl()) then -- acc bonus!
-        acc = acc + ((auto:getMainLvl() - target:getMainLvl())*4)
-    elseif (auto:getMainLvl() < target:getMainLvl()) then -- acc penalty :(
-        acc = acc - ((target:getMainLvl() - auto:getMainLvl())*4)
-    end
-
-    local eva = target:getEVA()
-    -- printf("Acc after level correction: %i", acc)
 
     -- Applying fTP multiplier
     local bonusfTP = 0
@@ -92,52 +57,38 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
 
     ftp = ftp + bonusfTP
 
-    -- Level correction does not happen in Adoulin zones, Legion, or zones in Escha/Reisenjima
-    -- https://www.bg-wiki.com/bg/PDIF#Level_Correction_Function_.28cRatio.29
-    local zoneId = auto:getZone():getID()
+    local attackNumber = 0
+    -- Calculate accBonus
+    local accBonus = 0
 
-    local shouldApplyLevelCorrection = (zoneId < 256) and not (zoneId == 183)
-    
-    -- https://forum.square-enix.com/ffxi/threads/45365?p=534537#post534537
-    -- https://www.bg-wiki.com/bg/Hit_Rate
-    -- https://www.bluegartr.com/threads/114636-Monster-Avatar-Pet-damage
-    -- As of December 10th 2015 pet hit rate caps at 99% (familiars, wyverns, avatars and automatons)
-    -- increased from 95%
-    local maxHitRate = 0.99
+    -- Add "Accuracy varies with TP." mod
+    if (tpeffect == TP_ACC_BONUS) then
+        accBonus = accBonus + AutoAccTPModifier(tp)
+    end
+
+    local hitRate = auto:getHitRate(target, attackNumber, accBonus, false)
+    local maxHitRate = 0.95
     local minHitRate = 0.2
 
-    -- Hit Rate (%) = 75 + floor( (Accuracy - Evasion)/2 ) + 2*(dLVL)
-    -- For Avatars negative penalties for level correction seem to be ignored for attack and likely for accuracy,
-    -- bonuses cap at level diff of 38 based on this testing: 
-    -- https://www.bluegartr.com/threads/114636-Monster-Avatar-Pet-damage
-    -- If there are penalties they seem to be applied differently similarly to monsters.
-    local baseHitRate = 75
-    -- First hit gets a +100 ACC bonus which translates to +50 hit
-    local firstHitAccBonus = 50
-    local hitrateFirst = 0
-    local hitrateSubsequent = 0
-    -- Max level diff is 38
-    local levelDiff = math.min(auto:getMainLvl() - target:getMainLvl(), 38)
-    -- Only bonuses are applied for avatar level correction
-    local levelCorrection = 0
-    if shouldApplyLevelCorrection then
-        if levelDiff > 0 then
-            levelCorrection = math.max((levelDiff*2), 0)
-        end
+    -- Ranged attack BPs use Racc
+    if (attackType == tpz.attackType.RANGED) then
+        hitRate = auto:getRangedHitRate(target, false, accBonus, false)
     end
-    -- Delta acc / 2 for hit rate
-    local dAcc = math.floor((acc - eva)/2)
-    
-    -- Normal hits computed first
-    hitrateSubsequent = baseHitRate + dAcc + levelCorrection
+
     -- First hit gets bonus hit rate
-    hitrateFirst = hitrateSubsequent + firstHitAccBonus
+    local firstHitChance = hitRate +50 -- +50% hit rate aka +100 acc
 
-    hitrateSubsequent = hitrateSubsequent / 100
-    hitrateFirst = hitrateFirst / 100
+    firstHitChance = firstHitChance / 100
+    hitRate = hitRate / 100
 
-    hitrateSubsequent = utils.clamp(hitrateSubsequent, minHitRate, maxHitRate)
-    hitrateFirst = utils.clamp(hitrateFirst, minHitRate, maxHitRate)
+    firstHitChance = utils.clamp(firstHitChance, minHitRate, maxHitRate)
+    hitRate = utils.clamp(hitRate, minHitRate, maxHitRate)
+
+    local pDif = 0
+    local ignoredDef = 0
+    local ignoredDefMod = 0
+    local bonusAttPercent = 0
+    local flatAttackBonus = 0
 
     local pDif = 0
     local ignoredDef = 0
@@ -156,7 +107,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
     local shadowsFullyAbsorbed = 0
     local finaldmg = 0
 
-    if math.random() < hitrateFirst then
+    if math.random() < firstHitChance then
         firstHitLanded = true
         numHitsLanded = numHitsLanded + 1
     end
@@ -187,7 +138,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
     end
 
     while numHitsProcessed < numberofhits do
-        if math.random() < hitrateSubsequent then
+        if math.random() < hitRate then
             numHitsLanded = numHitsLanded + 1
         end
         numHitsProcessed = numHitsProcessed + 1
@@ -210,7 +161,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         end
 
         --printf("critRate before param %i", critRate)
-        if (tpEffect == TP_CRIT_VARIES) then
+        if (tpeffect == TP_CRIT_VARIES) then
             critRate = critRate + AutoCritTPModifier(tp)
 
             --printf("critRate after param %i", critRate)
@@ -676,14 +627,13 @@ function AutoMagicalFinalAdjustments(dmg, auto, skill, target, attackType, eleme
     return dmg
 end
 
-function AutoStatusEffectWeaponSkill(auto, target, effect, power, duration, params, bonus)
+function AutoStatusEffectWeaponSkill(auto, target, effect, power, duration, numberofhits, tpeffect, params, bonus, tp)
 
     if isNoEffectMsg(auto, target, effect, params) then
 	    return tpz.msg.basic.SKILL_NO_EFFECT
     end
 
     local maccBonus = bonus
-    local tp = auto:getLocalVar("TP")
 
     if (target:canGainStatusEffect(effect, power)) then
         local statmod = tpz.mod.INT
@@ -707,9 +657,8 @@ function AutoStatusEffectWeaponSkill(auto, target, effect, power, duration, para
             -- Reduce duration by resist percentage
             local totalDuration = duration * resist
             duration = CheckDiminishingReturns(auto, target, effect, duration)
-            --printf("totalDuration %i", totalDuration)
 
-            if (TP_EFFECT_DURATION ~= nil) then
+            if (tpeffect == TP_EFFECT_DURATION) then
                 totalDuration = math.floor(totalDuration * AutoEnfeebleDurationTPModifier(tp))
             end
 
@@ -732,80 +681,12 @@ function AutoStatusEffectWeaponSkill(auto, target, effect, power, duration, para
 end
 
 -- similar to status effect move except, this will not land if the attack missed
-function AutoPhysicalStatusEffectWeaponSkill(auto, target, skill, effect, power, duration, params, bonus)
+function AutoPhysicalStatusEffectWeaponSkill(auto, target, skill, effect, power, duration, numberofhits, tpeffect, params, bonus, tp)
     if (AutoPhysicalHit(skill)) then -- TODO: Shield block like monstertpmoves.lua
-        return AutoStatusEffectWeaponSkill(auto, target, effect, power, duration, params, bonus)
+        return AutoStatusEffectWeaponSkill(auto, target, effect, power, duration, numberofhits, tpeffect, params, bonus, tp)
     end
 
     return tpz.msg.basic.SKILL_MISS
-end
-
-function AutoDrainAttribute(auto, target, effect, power, duration, params, bonus)
-    local positive = nil
-    if (effect == tpz.effect.STR_DOWN) then
-        positive = tpz.effect.STR_BOOST
-    elseif (effect == tpz.effect.DEX_DOWN) then
-        positive = tpz.effect.DEX_BOOST
-    elseif (effect == tpz.effect.AGI_DOWN) then
-        positive = tpz.effect.AGI_BOOST
-    elseif (effect == tpz.effect.VIT_DOWN) then
-        positive = tpz.effect.VIT_BOOST
-    elseif (effect == tpz.effect.MND_DOWN) then
-        positive = tpz.effect.MND_BOOST
-    elseif (effect == tpz.effect.INT_DOWN) then
-        positive = tpz.effect.INT_BOOST
-    elseif (effect == tpz.effect.CHR_DOWN) then
-        positive = tpz.effect.CHR_BOOST
-    end
-
-    if (positive ~= nil) then
-        local results = AutoStatusEffectWeaponSkill(auto, target, effect, power, duration, params, bonus)
-
-        if (results == tpz.msg.basic.SKILL_ENFEEB_IS) then
-            auto:addStatusEffect(positive, power, 15, duration)
-
-            giveAutoTP(auto)
-            return tpz.msg.basic.ATTR_DRAINED
-        end
-
-        giveAutoTP(auto)
-        return tpz.msg.basic.SKILL_MISS
-    end
-
-    giveAutoTP(auto)
-    return tpz.msg.basic.SKILL_NO_EFFECT
-end
-
-function AutoDrainMultipleAttributes(auto, target, power, count, duration, params, bonus)
-    local attributes = {};
-    local currIndex = 1;
-    while (currIndex <= count) do
-      local newAttr = math.random(136, 142)  -- STR down to CHR down
-      for _, attr in pairs(attributes) do
-        if (attr == newAttr) then
-          newAttr = -1;
-        end
-      end
-      if (newAttr ~= -1) then
-        attributes[currIndex] = newAttr;
-        currIndex = currIndex + 1;
-      end
-    end
-
-    local msg = tpz.msg.basic.SKILL_MISS;
-    
-    for i = 1,count,1 do
-      local newMsg = AutoDrainAttribute(auto, target, attributes[i], power, duration, params, bonus)
-      if (newMsg == tpz.msg.basic.ATTR_DRAINED) then
-        msg = newMsg;
-      elseif (msg == tpz.msg.basic.SKILL_MISS) then
-        msg = newMsg;
-      end
-    end
-
-    giveAutoTP(auto)
-
-    return msg;
 end
 
 function AutoBuffWeaponSkill(auto, target, skill, effect, power, tick, duration, params, bonus)

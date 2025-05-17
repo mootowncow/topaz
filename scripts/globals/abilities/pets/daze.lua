@@ -28,6 +28,7 @@ function onPetAbility(target, pet, skill)
     params.chr_wsc = 0.0
     params.accBonus = 50
 
+    local tp = pet:getLocalVar("TP")
     local effect = tpz.effect.STUN
     local power = 1
     local duration = 12
@@ -35,7 +36,7 @@ function onPetAbility(target, pet, skill)
 
     local damage = AutoPhysicalWeaponSkill(pet, target, skill, tpz.attackType.RANGED, numhits, TP_DMG_BONUS, params)
     dmg = AutoPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, damage.hitslanded, params)
-    AutoPhysicalStatusEffectWeaponSkill(pet, target, skill, effect, power, duration, params, bonus)
+    AutoPhysicalStatusEffectWeaponSkill(pet, target, skill, effect, power, duration, numberofhits, TP_DMG_BONUS, params, bonus, tp)
 
     return dmg
 end

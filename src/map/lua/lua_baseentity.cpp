@@ -13147,6 +13147,48 @@ inline int32 CLuaBaseEntity::getACC(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: getHitRate()
+ *  Purpose : Returns the hit rate of an Entity against another entity
+ *  Example : attacker:getHitRate(target, attackNumber, accBonus, false)
+ *  Notes   : Uses GetHitRateEx() in battletuils for calculation.
+ *  Notes2   : attackNumber: 0=main, 1=sub, 2=kick 
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getHitRate(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+    uint8 attackNumber = 0; // attackNumber: 0=main, 1=sub, 2=kick 
+    int8 accBonus = 0;
+    bool isBluSpell = false;
+
+    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+    {
+        attackNumber = lua_tointeger(L, 2);
+    }
+
+    if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
+    {
+        accBonus = lua_tointeger(L, 3);
+    }
+
+    if (!lua_isnil(L, 4) && lua_isboolean(L, 4))
+    {
+        isBluSpell = lua_toboolean(L, 4);
+    }
+
+    uint8 hitRate = battleutils::GetHitRateEx(PAttacker, PDefender, attackNumber, accBonus, isBluSpell);
+
+    lua_pushinteger(L, hitRate);
+    return 1;
+}
+
+/************************************************************************
 *  Function: getEVA()
 *  Purpose : Returns the Evasion of an Entity
 *  Example : player:getEVA()
@@ -13291,6 +13333,47 @@ inline int32 CLuaBaseEntity::getRACC(lua_State *L)
     }
 
     lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->RACC(weapon->getSkillType(), weapon->getILvlSkill()));
+    return 1;
+}
+
+/************************************************************************
+ *  Function: getRangedHitRate()
+ *  Purpose : Returns the hit rate of an Entity against another entity
+ *  Example : attacker:getHitRate(target, false, accBonus, false)
+ *  Notes   : Uses GetRangedHitRate() in battletuils for calculation
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getRangedHitRate(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+    bool isBarrage = false;
+    int8 accBonus = 0;
+    bool isBluSpell = false;
+
+    if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
+    {
+        isBarrage = lua_toboolean(L, 2);
+    }
+
+    if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
+    {
+        accBonus = lua_tointeger(L, 3);
+    }
+
+    if (!lua_isnil(L, 4) && lua_isboolean(L, 4))
+    {
+        isBluSpell = lua_toboolean(L, 4);
+    }
+
+    uint8 hitRate = battleutils::GetRangedHitRate(PAttacker, PDefender, isBarrage, accBonus, isBluSpell);
+
+    lua_pushinteger(L, hitRate);
     return 1;
 }
 
@@ -18055,10 +18138,12 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     // Damage Calculation
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getStat),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getACC),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getHitRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEVA),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getDamageRatio),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getCritHitRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRACC),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRangedHitRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRATT),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRangedCritHitRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRangedDamageRatio),
