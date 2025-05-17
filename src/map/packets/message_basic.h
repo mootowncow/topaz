@@ -80,7 +80,9 @@ enum MSGBASIC_ID : uint16
     MSGBASIC_STATUS_PREVENTS_USING  = 569, // Your current status prevents you from using that ability.
 
     // Enspell
+    MSGBASIC_ADD_EFFECT_STATUS      = 160, // Additional effect : <Status Effect>.
     MSGBASIC_ENSPELL_DMG            = 163,  // Additional effect: 0 points of damage.
+    MSGBASIC_ADD_EFFECT_TP_DRAIN    = 165, // Additional effect: <number> TP drained from <target>.
     MSGBASIC_ENSPELL_HEAL           = 384, // Additional effect: <target> recovers 0 HP.
 
     // Spikes
