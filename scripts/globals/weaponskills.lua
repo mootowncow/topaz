@@ -203,6 +203,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     local hitdmg = 0
     local finaldmg = 0
     local attackNumber = 0
+    local totalHits = 0
     calcParams.hitsLanded = 0
     calcParams.shadowsAbsorbed = 0
 
@@ -246,6 +247,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     hitdmg, calcParams = getSingleHitDamage(attacker, target, dmg, wsParams, calcParams)
 
     finaldmg = finaldmg + hitdmg
+    totalHits = 1
 
     -- Have to calculate added bonus for SA/TA here since it is done outside of the fTP multiplier
     -- JP is automatically added to the SA/TA effect as SNEAK_ATK_DEX and TRICK_ATK_AGI mods
@@ -309,6 +311,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
         finaldmg = finaldmg + hitdmg
         --handling phalanx
         finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
+        totalHits = totalHits + 1
     end
 
     calcParams.guaranteedHit = false -- Accuracy bonus from SA/TA applies only to first main and offhand hit
@@ -323,23 +326,28 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
 
     -- Calculate MH extra hits
     while (mainhandHitsDone < mainhandHits) do -- numHits is hits in the base WS _and_ DA/TA/QA procs during those hits
+        if (totalHits >= 8) then break end -- WS cap at 8 hits max
         hitdmg, calcParams = getSingleHitDamage(attacker, target, dmg, wsParams, calcParams)
         if (target:getHP() <= finaldmg) then break end -- Stop adding hits if target would die before calculating other hits
         finaldmg = finaldmg + hitdmg
         --handling phalanx
         finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
         mainhandHitsDone = mainhandHitsDone + 1
+        totalHits = totalHits +1
     end
 
     -- Calculate offhand extra hits
     while (offHandHitsDone < offhandHits) do -- numHits is hits in the base WS _and_ DA/TA/QA procs during those hits
+        if (totalHits >= 8) then break end -- WS cap at 8 hits max
         hitdmg, calcParams = getSingleHitDamage(attacker, target, dmg, wsParams, calcParams, true)
         if (target:getHP() <= finaldmg) then break end -- Stop adding hits if target would die before calculating other hits
         finaldmg = finaldmg + hitdmg
         --handling phalanx
         finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
         offHandHitsDone = offHandHitsDone + 1
+        totalHits = totalHits +1
     end
+    --printf("Total hits %d", totalHits)
     calcParams.extraHitsLanded = calcParams.hitsLanded -- What is this used for?
 
     -- Apply Souleater bonus
@@ -466,7 +474,7 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
     calcParams.guaranteedHit = calcParams.sneakApplicable or calcParams.trickApplicable
     calcParams.mightyStrikesApplicable = attacker:hasStatusEffect(tpz.effect.MIGHTY_STRIKES)
     calcParams.forcedFirstCrit = calcParams.sneakApplicable or calcParams.assassinApplicable
-    calcParams.extraOffhandHit = attacker:isDualWielding() or attacker:isWeaponHandToHand()
+    calcParams.extraOffhandHit = attacker:isDualWielding()
     calcParams.hybridHit = wsParams.hybridWS
     calcParams.flourishEffect = attacker:getStatusEffect(tpz.effect.BUILDING_FLOURISH)
     calcParams.fencerBonus = fencerBonus(attacker)
@@ -1503,18 +1511,24 @@ function getMultiAttacks(attacker, target, numHits, isRanged)
     end
 
     -- QA/TA/DA can only proc on the first hit of each weapon
+    -- H2H gets two chances but doesn't calculate the second as an offhand hit
+    if attacker:isWeaponHandToHand() then
+        mainhandChance = 2
+    end
 
     -- Calculate mainhand multihit
-    if math.random() < quadRate then
-        mainhandHits = mainhandHits + 3
-    elseif math.random() < tripleRate then
-        mainhandHits = mainhandHits + 2
-    elseif math.random() < doubleRate then
-        mainhandHits = mainhandHits + 1
-    elseif (math.random() < oaThriceRate) then
-        mainhandHits = mainhandHits + 2
-    elseif (math.random() < oaTwiceRate) then
-        mainhandHits = mainhandHits + 1
+    for i = 1, mainhandChance, 1 do
+        if math.random() < quadRate then
+            mainhandHits = mainhandHits + 3
+        elseif math.random() < tripleRate then
+            mainhandHits = mainhandHits + 2
+        elseif math.random() < doubleRate then
+            mainhandHits = mainhandHits + 1
+        elseif (math.random() < oaThriceRate) then
+            mainhandHits = mainhandHits + 2
+        elseif (math.random() < oaTwiceRate) then
+            mainhandHits = mainhandHits + 1
+        end
     end
 
     -- Assassins Charge / Warriors charge always proc on the first hit, then are removed
@@ -1527,7 +1541,7 @@ function getMultiAttacks(attacker, target, numHits, isRanged)
     quadRate = attacker:getMod(tpz.mod.QUAD_ATTACK)/100
 
     -- Calculate offhand multihit
-    if attacker:isDualWielding() or attacker:isWeaponHandToHand() then
+    if attacker:isDualWielding() then
         if math.random() < quadRate then
             offhandHits = offhandHits + 3
         elseif math.random() < tripleRate then
@@ -1553,23 +1567,10 @@ function getMultiAttacks(attacker, target, numHits, isRanged)
             offhandHits = offhandOAX - 1
         end
     end
-    
-    local ret1 = numHits + mainhandHits
 
-    -- 8 hits total cap on WS
-    if (ret1 > 8) then
+    mainhandHits = mainhandHits + numHits
 
-        -- Make sure the offhand hit still exists if applicable
-        if attacker:isDualWielding() or attacker:isWeaponHandToHand() then
-            ret1 = 7
-            offhandHits = 1
-        else
-            ret1 = 8
-            offhandHits = 0
-        end
-    end
-    
-    return ret1, offhandHits
+    return mainhandHits, offhandHits
 end
 
 function generatePdif (cratiomin, cratiomax, melee)
