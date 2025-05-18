@@ -53,7 +53,9 @@ function onUseAbility(player, target, ability)
     -- Calculating and applying Weapon Bash damage
     local base = weaponDamage + fstr
 
-    local bonusAttPercent, flatAttackBonus, ignoredDef = 0
+    local bonusAttPercent = 0
+    local flatAttackBonus = 0
+    local ignoredDef = 0
     local isCritical = false
     local pdif = player:getDamageRatio(target, isCritical, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
 
