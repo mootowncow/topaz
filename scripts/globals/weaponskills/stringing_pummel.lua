@@ -19,7 +19,7 @@ require("scripts/globals/weaponskills")
 
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local params = {}
-    params.numHits = 6
+    params.numHits = 5
     params.ftp100 = 0.75 params.ftp200 = 0.75 params.ftp300 = 0.75
     params.str_wsc = 0.32 params.dex_wsc = 0.0 params.vit_wsc = 0.32 params.agi_wsc = 0.0 params.int_wsc = 0.0
     params.mnd_wsc = 0.0 params.chr_wsc = 0.0

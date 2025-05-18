@@ -13294,7 +13294,7 @@ inline int32 CLuaBaseEntity::getCritHitRate(lua_State* L)
 
     if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
     {
-        weaponSlot = (SLOTTYPE)lua_tointeger(L, 3);
+        weaponSlot = (SLOTTYPE)lua_tonumber(L, 3);
     }
 
     if (!lua_isnil(L, 4) && lua_isboolean(L, 4))

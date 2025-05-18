@@ -17,30 +17,43 @@ require("scripts/globals/job_util")
 require("scripts/globals/msg")
 
 -- Function to calculate if a hit in a WS misses, criticals, and the respective damage done
-function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams)
+function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams, isOffhand)
     local criticalHit = false
     local pdif = 0
     local finaldmg = 0
 
+    local hitRate = calcParams.hitRate
     local missChance = math.random()
-    if ((missChance <= calcParams.hitRate) or calcParams.guaranteedHit)
+
+    if (isOffhand) then
+        hitRate = calcParams.hitRateOffhand
+    end
+
+    if ((missChance <= hitRate) or calcParams.guaranteedHit)
     and not calcParams.mustMiss then
         if not shadowAbsorb(target) then
             critChance = math.random()
             criticalHit = (wsParams.canCrit and critChance <= calcParams.critRate)
+            criticalHitOffhand = (wsParams.canCrit and critChance <= calcParams.critRateOffhand)
             forcedCrit = calcParams.forcedFirstCrit or calcParams.mightyStrikesApplicable
 
             -- Calculate crit and get pdIF
-            if criticalHit then
-                TryBreakMob(target)
-                calcParams.criticalHit = true
-                calcParams.pdif = calcParams.ccritratio
-            elseif forcedCrit then
-                TryBreakMob(target)
-                calcParams.criticalHit = true
-                calcParams.pdif = calcParams.ccritratio
+            if (isOffhand) then
+                if criticalHitOffhand or forcedCrit then
+                    TryBreakMob(target)
+                    calcParams.criticalHit = true
+                    calcParams.pdif = calcParams.ccritratioOffhand
+                else
+                    calcParams.pdif = calcParams.cratioOffhand
+                end
             else
-                calcParams.pdif = calcParams.cratio
+                if criticalHit or forcedCrit then
+                    TryBreakMob(target)
+                    calcParams.criticalHit = true
+                    calcParams.pdif = calcParams.ccritratio
+                else
+                    calcParams.pdif = calcParams.cratio
+                end
             end
 
             if attacker:isInfront(target, 90) and math.random()*100 < target:getGuardRate(attacker) then
@@ -147,18 +160,21 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
 
     -- Calculate critrates
     local critRate = 0
+    local critRateOffhand = 0
 
     if (wsParams.canCrit) then
-        -- TODO: Add logic to calculate offhand hit for any hit that's done offhand
         local nativecrit = attacker:getCritHitRate(target, false, tpz.slot.MAIN, true)
+        local nativecritOffhand = attacker:getCritHitRate(target, false, tpz.slot.SUB, true)
 
         if isRanged then -- Ranged uses dAGI
             nativecrit = attacker:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
         end
 
         nativecrit = nativecrit / 100
+        nativecritOffhand = nativecritOffhand / 100
 
         critrate = fTP(tp, wsParams.crit100, wsParams.crit200, wsParams.crit300)
+        critRateOffhand = fTP(tp, wsParams.crit100, wsParams.crit200, wsParams.crit300)
 
         if calcParams.flourishEffect then
             if calcParams.flourishEffect:getPower() > 2 then -- Building Flourish gives +25% crit at 3 Finishing Moves
@@ -169,45 +185,52 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
         -- printf("native crit %f", nativecrit)
         -- printf("varies with tp crit %f", critrate)
         critrate = critrate + nativecrit
+        critRateOffhand = critRateOffhand + nativecritOffhand
 
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
         critrate = math.max(critrate, 0.01)
+        critRateOffhand = math.max(critRateOffhand, 0.01)
     else
         critrate = 0
+        critRateOffhand = 0
     end
 
     calcParams.critRate = critrate
+    calcParams.critRateOffhand = critRateOffhand
     --printf("WS crit rate is %f", critrate)
 
     -- Start the WS
     local hitdmg = 0
     local finaldmg = 0
+    local attackNumber = 0
     calcParams.hitsLanded = 0
     calcParams.shadowsAbsorbed = 0
 
     -- Calculate the damage from the first hit
     local dmg = mainBase * ftp
-    local bonusAcc = calcParams.bonusAcc
+    local accBonus = calcParams.bonusAcc
     -- Apply Accuracy varies with TP accuracy bonus
     if (wsParams.accuracyVariesWithTP ~= nil) then
         if (wsParams.accPenalty ~= nil) then -- Used for Slugwinder and Truestrike
-            bonusAcc = calcParams.bonusAcc + (AccTPModifier(tp) - 40)
+            accBonus = calcParams.bonusAcc + (AccTPModifier(tp) - 40)
         else
-            bonusAcc = calcParams.bonusAcc + AccTPModifier(tp)
+            accBonus = calcParams.bonusAcc + AccTPModifier(tp)
         end
     end
 
     if isRanged then
        if (wsID == 196) or (wsID == 212) then -- Slugwinder
-            calcParams.hitRate = getRangedHitRate(attacker, target, true, bonusAcc)
+            calcParams.hitRate = attacker:getRangedHitRate(target, false, accBonus, false)
        else
-            calcParams.hitRate = getRangedHitRate(attacker, target, false, bonusAcc + 100)
+            calcParams.hitRate = attacker:getRangedHitRate(target, false, accBonus +100, false)
         end
     else
-        if (wsID == 0) then -- Jumps shoulnd't  get an accuracy bonus or have 99% ACC Cap
-            calcParams.hitRate =  getHitRate(attacker, target, true, false, 0)
+        if (wsID == 0) then -- Jumps shouldn't  get an accuracy bonus or have 99% ACC Cap
+            calcParams.hitRate =  attacker:getHitRate(target, attackNumber, 0, false)
+            calcParams.hitRateOffhand =  attacker:getHitRate(target, 1, 0, false)
         else
-            calcParams.hitRate =  getHitRate(attacker, target, true, true, bonusAcc + 100)
+            calcParams.hitRate =  attacker:getHitRate(target, attackNumber, accBonus + 100, false)
+            calcParams.hitRateOffhand =  attacker:getHitRate(target, 1, 0, false)
         end
     end
 
@@ -268,9 +291,10 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
 
     -- Reset accuracy to normal(no +100 acc on offhand or multihit attacks)
     if isRanged then
-        calcParams.hitRate = getRangedHitRate(attacker, target, false, bonusAcc)
+        calcParams.hitRate = attacker:getRangedHitRate(target, false, accBonus, false)
     else
-        calcParams.hitRate = getHitRate(attacker, target, true, false, bonusAcc)
+        calcParams.hitRate = attacker:getHitRate(target, attackNumber, bonusAcc, false)
+        calcParams.hitRateOffhand =  attacker:getHitRate(target, 1, 0, false)
     end
 
     -- Target is dead, don't do anymore hits
@@ -281,7 +305,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     -- Do the extra hit for our offhand if applicable
     if calcParams.extraOffhandHit then
         local offhandDmg = (calcParams.weaponDamage[2] + wsMods) * ftp
-        hitdmg, calcParams = getSingleHitDamage(attacker, target, offhandDmg, wsParams, calcParams)
+        hitdmg, calcParams = getSingleHitDamage(attacker, target, offhandDmg, wsParams, calcParams, true)
         finaldmg = finaldmg + hitdmg
         --handling phalanx
         finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
@@ -293,17 +317,30 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
 
     -- Calculate additional hits if a multiHit WS (or we're supposed to get a DA/TA/QA proc from main hit)
     dmg = mainBase + 1.0            -- changed additional hits to +1.0 ftp
-    local hitsDone = 1
-    local numHits = getMultiAttacks(attacker, target, wsParams.numHits, isRanged)
-    while (hitsDone < numHits) do -- numHits is hits in the base WS _and_ DA/TA/QA procs during those hits
+    local mainhandHitsDone = 1
+    local offHandHitsDone = 1
+    local mainhandHits, offhandHits = getMultiAttacks(attacker, target, wsParams.numHits, isRanged)
+
+    -- Calculate MH extra hits
+    while (mainhandHitsDone < mainhandHits) do -- numHits is hits in the base WS _and_ DA/TA/QA procs during those hits
         hitdmg, calcParams = getSingleHitDamage(attacker, target, dmg, wsParams, calcParams)
         if (target:getHP() <= finaldmg) then break end -- Stop adding hits if target would die before calculating other hits
         finaldmg = finaldmg + hitdmg
         --handling phalanx
         finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
-        hitsDone = hitsDone + 1
+        mainhandHitsDone = mainhandHitsDone + 1
     end
-    calcParams.extraHitsLanded = calcParams.hitsLanded
+
+    -- Calculate offhand extra hits
+    while (offHandHitsDone < offhandHits) do -- numHits is hits in the base WS _and_ DA/TA/QA procs during those hits
+        hitdmg, calcParams = getSingleHitDamage(attacker, target, dmg, wsParams, calcParams, true)
+        if (target:getHP() <= finaldmg) then break end -- Stop adding hits if target would die before calculating other hits
+        finaldmg = finaldmg + hitdmg
+        --handling phalanx
+        finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
+        offHandHitsDone = offHandHitsDone + 1
+    end
+    calcParams.extraHitsLanded = calcParams.hitsLanded -- What is this used for?
 
     -- Apply Souleater bonus
     if calcParams.melee then -- souleaterBonus() checks for the effect inside itself
@@ -368,6 +405,7 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
     local bonusAttPercent = 0
     local flatAttackBonus = 0
     local ignoredDef = 0
+    local attackNumber = 0
 
     -- Calculate bonusAttPercent
     local flourisheffect = attacker:getStatusEffect(tpz.effect.BUILDING_FLOURISH) -- Building Flourish gives +25% Attack at 2+ Finishing Moves
@@ -413,6 +451,8 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
     calcParams.fSTR = fSTR(STR, target:getStat(tpz.mod.VIT), attacker:getWeaponDmgRank())
     calcParams.cratio = cratio
     calcParams.ccritratio = ccritratio
+    calcParams.cratioOffhand = attacker:getDamageRatio(target, false, bonusAttPercent, flatAttackBonus, tpz.slot.SUB, ignoredDef)
+    calcParams.ccritratioOffhand = attacker:getDamageRatio(target, true, bonusAttPercent, flatAttackBonus, tpz.slot.SUB, ignoredDef)
     calcParams.accStat = attacker:getACC()
     calcParams.melee = true
     calcParams.mustMiss = target:hasStatusEffect(tpz.effect.PERFECT_DODGE) or
@@ -426,7 +466,7 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
     calcParams.guaranteedHit = calcParams.sneakApplicable or calcParams.trickApplicable
     calcParams.mightyStrikesApplicable = attacker:hasStatusEffect(tpz.effect.MIGHTY_STRIKES)
     calcParams.forcedFirstCrit = calcParams.sneakApplicable or calcParams.assassinApplicable
-    calcParams.extraOffhandHit = attacker:isDualWielding()
+    calcParams.extraOffhandHit = attacker:isDualWielding() or attacker:isWeaponHandToHand()
     calcParams.hybridHit = wsParams.hybridWS
     calcParams.flourishEffect = attacker:getStatusEffect(tpz.effect.BUILDING_FLOURISH)
     calcParams.fencerBonus = fencerBonus(attacker)
@@ -434,7 +474,8 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
     calcParams.bonusfTP = gorgetBeltFTP or 0
     calcParams.bonusAcc = (gorgetBeltAcc or 0) + attacker:getMod(tpz.mod.WSACC)
     calcParams.bonusWSmods = wsParams.bonusWSmods or 0
-    calcParams.hitRate = getHitRate(attacker, target, true, false, calcParams.bonusAcc)
+    calcParams.hitRate = attacker:getHitRate(target, attackNumber, calcParams.bonusAcc, false)
+    calcParams.hitRateOffhand =  attacker:getHitRate(target, 1, 0, false)
 
     -- Send our wsParams off to calculate our raw WS damage, hits landed, and shadows absorbed
     calcParams = calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcParams, false)
@@ -1441,13 +1482,18 @@ function getAlpha(level)
 end
 
 function getMultiAttacks(attacker, target, numHits, isRanged)
-    local bonusHits = 0
-    local multiChances = 1
+    local mainhandHits = 0
+    local offhandHits = 0
+    local mainhandChance = 1
     local doubleRate = (attacker:getMod(tpz.mod.DOUBLE_ATTACK) + attacker:getMerit(tpz.merit.DOUBLE_ATTACK_RATE))/100
     local tripleRate = (attacker:getMod(tpz.mod.TRIPLE_ATTACK) + attacker:getMerit(tpz.merit.TRIPLE_ATTACK_RATE))/100
     local quadRate = attacker:getMod(tpz.mod.QUAD_ATTACK)/100
     local oaThriceRate = attacker:getMod(tpz.mod.MYTHIC_OCC_ATT_THRICE)/100
     local oaTwiceRate = attacker:getMod(tpz.mod.MYTHIC_OCC_ATT_TWICE)/100
+
+    if isRanged then
+        return 0, 0
+    end
 
     -- Add Ambush Augments to Triple Attack
     if attacker:hasTrait(tpz.trait.AMBUSH) then
@@ -1455,103 +1501,75 @@ function getMultiAttacks(attacker, target, numHits, isRanged)
             tripleRate = tripleRate + attacker:getMerit(tpz.merit.AMBUSH) / 3 -- Value of Ambush is 3 per mert, augment gives +1 Triple Attack per merit
         end
     end
-    --[[
-    -- QA/TA/DA can only proc on the first hit of each weapon or each fist
-    if (attacker:getOffhandDmg() > 0 or attacker:getWeaponSkillType(tpz.slot.MAIN) == tpz.skill.HAND_TO_HAND) then
-        multiChances = 2
+
+    -- QA/TA/DA can only proc on the first hit of each weapon
+
+    -- Calculate mainhand multihit
+    if math.random() < quadRate then
+        mainhandHits = mainhandHits + 3
+    elseif math.random() < tripleRate then
+        mainhandHits = mainhandHits + 2
+    elseif math.random() < doubleRate then
+        mainhandHits = mainhandHits + 1
+    elseif (math.random() < oaThriceRate) then
+        mainhandHits = mainhandHits + 2
+    elseif (math.random() < oaTwiceRate) then
+        mainhandHits = mainhandHits + 1
     end
 
-    for i = 1, multiChances, 1 do
-        if math.random() < quadRate then
-            bonusHits = bonusHits + 3
-        elseif math.random() < tripleRate then
-            bonusHits = bonusHits + 2
-        elseif math.random() < doubleRate then
-            bonusHits = bonusHits + 1
-        elseif (i == 1 and math.random() < oaThriceRate) then -- Can only proc on first hit
-            bonusHits = bonusHits + 2
-        elseif (i == 1 and math.random() < oaTwiceRate) then -- Can only proc on first hit
-            bonusHits = bonusHits + 1
-        end
-        if (i == 1) then
-            attacker:delStatusEffect(tpz.effect.ASSASSINS_CHARGE)
-            attacker:delStatusEffect(tpz.effect.WARRIOR_S_CHARGE)
+    -- Assassins Charge / Warriors charge always proc on the first hit, then are removed
+    attacker:delStatusEffectSilent(tpz.effect.ASSASSINS_CHARGE)
+    attacker:delStatusEffectSilent(tpz.effect.WARRIOR_S_CHARGE)
 
-            -- recalculate DA/TA/QA rate
-            doubleRate = (attacker:getMod(tpz.mod.DOUBLE_ATTACK) + attacker:getMerit(tpz.merit.DOUBLE_ATTACK_RATE))/100
-            tripleRate = (attacker:getMod(tpz.mod.TRIPLE_ATTACK) + attacker:getMerit(tpz.merit.TRIPLE_ATTACK_RATE))/100
-            quadRate = attacker:getMod(tpz.mod.QUAD_ATTACK)/100
-        end
-    end
+    -- recalculate DA/TA/QA rate
+    doubleRate = (attacker:getMod(tpz.mod.DOUBLE_ATTACK) + attacker:getMerit(tpz.merit.DOUBLE_ATTACK_RATE))/100
+    tripleRate = (attacker:getMod(tpz.mod.TRIPLE_ATTACK) + attacker:getMerit(tpz.merit.TRIPLE_ATTACK_RATE))/100
+    quadRate = attacker:getMod(tpz.mod.QUAD_ATTACK)/100
 
-    if ((numHits + bonusHits ) > 8) then
-        return 8
-    end
-    return numHits + bonusHits
-end
-]]--
-    -- QA/TA/DA can only proc on the first hit of each weapon or each fist
+    -- Calculate offhand multihit
     if attacker:isDualWielding() or attacker:isWeaponHandToHand() then
-        if not isRanged then
-            multiChances = 2
-        end
-    end
-
-    
-    if isRanged then
-        bonusHits = 0
-        multiChances = 0
-        doubleRate = 0
-        tripleRate = 0
-        quadRate = 0
-        oaThriceRate = 0
-        oaTwiceRate = 0
-        offHandHits = 0
-    end
-
-    for i = 1, multiChances, 1 do
         if math.random() < quadRate then
-            bonusHits = bonusHits + 3
+            offhandHits = offhandHits + 3
         elseif math.random() < tripleRate then
-            bonusHits = bonusHits + 2
+            offhandHits = offhandHits + 2
         elseif math.random() < doubleRate then
-            bonusHits = bonusHits + 1
-        elseif (i == 1 and math.random() < oaThriceRate) then -- Can only proc on first hit
-            bonusHits = bonusHits + 2
-        elseif (i == 1 and math.random() < oaTwiceRate) then -- Can only proc on first hit
-            bonusHits = bonusHits + 1
-        end
-        if (i == 1) then
-            attacker:delStatusEffectSilent(tpz.effect.ASSASSINS_CHARGE)
-            attacker:delStatusEffectSilent(tpz.effect.WARRIOR_S_CHARGE)
-
-            -- recalculate DA/TA/QA rate
-            doubleRate = (attacker:getMod(tpz.mod.DOUBLE_ATTACK) + attacker:getMerit(tpz.merit.DOUBLE_ATTACK_RATE))/100
-            tripleRate = (attacker:getMod(tpz.mod.TRIPLE_ATTACK) + attacker:getMerit(tpz.merit.TRIPLE_ATTACK_RATE))/100
-            quadRate = attacker:getMod(tpz.mod.QUAD_ATTACK)/100
+            offhandHits = offhandHits + 1
+        elseif (math.random() < oaThriceRate) then
+            offhandHits = offhandHits + 2
+        elseif (math.random() < oaTwiceRate) then
+            offhandHits = offhandHits + 1
         end
     end
-    
-    -- for Jump, now check multihit weapons if we have no bonushits
-    if attacker:isPC() and useOAXTimes ~= nil and useOAXTimes == true and bonusHits == 0 then
+
+    -- for Jump, now check multihit weapons if we have no mainhandHits
+    if attacker:isPC() and useOAXTimes ~= nil and useOAXTimes == true and mainhandHits == 0 then
         local mhandOAX = attacker:getOAXTimes(0)
         local offhandOAX = attacker:getOAXTimes(1)
         
         if mhandOAX > 0 then
-            bonusHits = bonusHits + mhandOAX - 1
+            mainhandHits = mainhandHits + mhandOAX - 1
         end
         if offhandOAX > 0 then
-            offHandHits = offhandOAX - 1
+            offhandHits = offhandOAX - 1
         end
     end
     
-    local ret1 = numHits + bonusHits
-    
+    local ret1 = numHits + mainhandHits
+
+    -- 8 hits total cap on WS
     if (ret1 > 8) then
-        ret1 = 8
+
+        -- Make sure the offhand hit still exists if applicable
+        if attacker:isDualWielding() or attacker:isWeaponHandToHand() then
+            ret1 = 7
+            offhandHits = 1
+        else
+            ret1 = 8
+            offhandHits = 0
+        end
     end
     
-    return ret1, offHandHits
+    return ret1, offhandHits
 end
 
 function generatePdif (cratiomin, cratiomax, melee)

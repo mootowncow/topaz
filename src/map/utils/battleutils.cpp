@@ -1908,9 +1908,6 @@ namespace battleutils
                 case ENSPELL_SOUL_ENSLAVEMENT:
                     element = ELEMENT_DARK;
                     break;
-                case ENSPELL_TAINT:
-                    element = ELEMENT_WATER;
-                    break;
                 default:
                     break;
             }
@@ -1996,7 +1993,7 @@ namespace battleutils
             else if (enspell == ENSPELL_SOUL_ENSLAVEMENT)
             {
                 Action->additionalEffect = SUBEFFECT_TP_DRAIN;
-                Action->addEffectMessage = MSGBASIC_ADD_EFFECT_TP_DRAIN;
+                Action->addEffectMessage = 165;
 
                 // Increase TP Absorbed by 1% per JP
                 int32 absorbed = Action->param;
@@ -2035,22 +2032,8 @@ namespace battleutils
                 // Handle Negative damage
                 if (Action->addEffectParam < 0)
                 {
-                    Action->addEffectParam = Action->addEffectParam;
-                    Action->addEffectMessage = MSGBASIC_ADD_EFFECT_STATUS;
-                }
-            }
-            else if (enspell == ENSPELL_TAINT)
-            {
-                Action->additionalEffect = SUBEFFECT_POISON;
-                Action->addEffectMessage = MSGBASIC_ADD_EFFECT_STATUS;
-                Action->addEffectParam = EFFECT_TAINT;
-                float resist = static_cast<float>(ApplyResistanceEffect(PDefender, PDefender, EFFECT_TAINT, element, SKILL_ENHANCING_MAGIC, 0, 0));
-                auto power = PAttacker->getMod(Mod::ENSPELL);
-
-                if (resist >= 0.5f && !PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_TAINT) &&
-                    tpzrand::GetRandomNumber(100) > GetEffectResistanceTraitChance(PDefender, PDefender, EFFECT_TAINT))
-                {
-                    PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_TAINT, EFFECT_TAINT, power, 3, (uint32)(30 * (float)resist)));
+                    Action->addEffectParam = -Action->addEffectParam;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
                 }
             }
         }
