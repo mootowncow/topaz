@@ -58,6 +58,7 @@ public:
     bool isBstPet();
 	uint8 m_Element;
 	uint32 m_PetID;
+    uint32 m_bloodPactAbilityId;
     std::string GetScriptName();
 
     WYVERNTYPE getWyvernType();

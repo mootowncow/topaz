@@ -323,6 +323,7 @@ void CPetEntity::loadPetZoningInfo()
     }
 }
 
+// Pet JA's/skills (i.e. avatar blood pacts) are handled in CMobEntity::OnMobSkillFinished
 void CPetEntity::OnAbility(CAbilityState& state, action_t& action)
 {
     auto PAbility = state.GetAbility();

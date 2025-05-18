@@ -1517,7 +1517,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
 void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 {
     auto PAbility = state.GetAbility();
-    auto success = true;
+    bool success = true;
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
     uint16 targets = static_cast<uint16>(PAI->TargetFind->m_targets.size());
     std::unique_ptr<CBasicPacket> errMsg;
@@ -1775,10 +1775,21 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 }
                 else
                 {
+                    // Tell pet to use mob skill
                     if (PPetTarget > 0 && PAbility->getMobSkillID() > 0)
                     {
                         int16 tp = PPet->health.tp;
                         PPet->SetLocalVar("tp", tp);
+                        if (PPet->objtype == TYPE_PET)
+                        {
+                            auto PAvatar = dynamic_cast<CPetEntity*>(PPet);
+                            if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
+                            {
+                                uint32 bloodPactAbilityId = PAbility->getID();
+                                PAvatar->m_bloodPactAbilityId = PAbility->getID();
+                            }
+                        }
+
                         PPet->PAI->MobSkill(PPetTarget, PAbility->getMobSkillID());
                     }
                 }
@@ -1853,6 +1864,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
 
         // Interrupted
+        // TODO: Does nothing? No longer needed?
         if (!success)
         {
             actionList_t& actionList = action.getNewActionList();

@@ -70,6 +70,17 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
         actionTarget.animation = 0;
         actionTarget.param = m_PSkill->getID();
         actionTarget.messageID = 43;
+
+        bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
+
+        if (isPlayerPet)
+        {
+            auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);
+            if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
+            {
+                actionTarget.animation = ACTION_BLOODPACT_START;
+            }
+        }
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE, new CActionPacket(action));
     }
     m_PEntity->PAI->EventHandler.triggerListener("WEAPONSKILL_STATE_ENTER", m_PEntity, m_PSkill->getID());
