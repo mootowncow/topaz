@@ -20,7 +20,7 @@ function onUseAbility(player, target, ability, action)
     local damage     = 0
     local shieldSkillMultiplier = player:getSkillLevel(tpz.skill.SHIELD) / 100
     local shieldSize = player:getShieldSize()
-    local strModifier = player:getStat(tpz.mod.STR)
+    local strModifier = player:getStat(tpz.mod.STR) * 2
 
     if not player:isPC() then
         shieldSize = player:getMobMod(tpz.mobMod.BLOCK)
