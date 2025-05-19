@@ -7,20 +7,20 @@
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
     return 0, 0
 end
 
-function onUseAbility(player, target, ability)
-    -- TODO: Retail testing to determine damage
-    local shieldSize = tpz.shieldSize.KITE
-    if player:isPC() then
-        shieldSize = player:getShieldSize()
-    end
+function onUseAbility(player, target, ability, action)
+    -- TODO: Retail testing to determine real damage formula
     local jpValue    = 1 + ((player:getJobPointLevel(tpz.jp.INTERVENE_EFFECT) * 2) / 100)
-    local damage     = math.floor(player:getMainLvl() * 3.36)
+    local damage     = 0
+    local shieldSkillMultiplier = player:getSkillLevel(tpz.skill.SHIELD) / 100
+    local shieldSize = player:getShieldSize()
+    local strModifier = player:getStat(tpz.mod.STR)
 
     if not player:isPC() then
         shieldSize = player:getMobMod(tpz.mobMod.BLOCK)
@@ -34,7 +34,8 @@ function onUseAbility(player, target, ability)
         damage = 67 + damage
     end
 
-    damage = damage * jpValue
+    damage = damage + strModifier
+    damage = math.floor((damage * shieldSkillMultiplier) * jpValue)
 
     local bonusAttPercent = 0
     local flatAttackBonus = 0
@@ -56,6 +57,8 @@ function onUseAbility(player, target, ability)
     end
 
     target:addStatusEffect(tpz.effect.INTERVENE, 1, 0, 30)
+    action:reaction(target:getID(), 24)
+    ability:setMsg(tpz.msg.basic.JA_DAMAGE)
 
     return damage
 end

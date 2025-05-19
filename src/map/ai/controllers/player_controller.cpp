@@ -984,6 +984,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             }
 
             case ABILITY_SHIELD_BASH:
+            case ABILITY_INTERVENE:
             {
                 if (PChar->getShieldSize() == SHIELDSIZE_NONE)
                 {

@@ -42,7 +42,7 @@ function onUseAbility(player, target, ability)
     elseif shieldSize == 2 then
         damage = 38 + damage
     elseif shieldSize == 3 then
-        damage = 65 + damage
+        damage = 67 + damage
     elseif shieldSize == 4 then
         damage = 90 + damage
     end
