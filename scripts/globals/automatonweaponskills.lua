@@ -149,6 +149,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         local critRate = auto:getCritHitRate(target, true, tpz.slot.MAIN, true)
         local maxCritRate = 1 -- 100%
         local minCritRate = 0.01 -- 1%
+
         -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
         if (attackType == tpz.attackType.RANGED) then
             critRate = auto:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
@@ -168,10 +169,15 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         --printf("Final crit %d", critRate * 100)
 
         local weaponDmg = auto:getWeaponDmg()
-        if (attackType == tpz.attackType.RANGED )then
+        if (attackType == tpz.attackType.RANGED) then
             weaponDmg = auto:getRangedDmg()
         end
-        local fSTR = getAutoFSTR(weaponDmg, auto:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))
+        local fSTR = auto:getFSTR(target, tpz.slot.MAIN, false, false)
+
+        if (attackType == tpz.attackType.RANGED) then
+            fSTR = auto:getFSTR(target, tpz.slot.RANGED, false, false)
+        end
+
         local WSC = getAutoWSC(auto, params)
 
         -- https://www.bg-wiki.com/bg/PDIF

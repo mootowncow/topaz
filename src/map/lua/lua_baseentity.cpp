@@ -13128,6 +13128,47 @@ inline int32 CLuaBaseEntity::getStat(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: getFSTR()
+ *  Purpose : Returns the critical hit rate of an Entity against another entity
+ *  Example : attacker:getFSTR(target, tpz.slot.MAIN)
+ *  Notes   : Uses GetFSTR() in battletuils for calculation
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getFSTR(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    CBattleEntity* PAttacker = (CBattleEntity*)m_PBaseEntity;
+    CBattleEntity* PDefender = (CBattleEntity*)PLuaBaseEntity->GetBaseEntity();
+    SLOTTYPE weaponSlot = SLOT_MAIN;
+    bool isWeaponSkill = false;
+    bool isBluSpell = false;
+
+    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+    {
+        weaponSlot = (SLOTTYPE)lua_tointeger(L, 2);
+    }
+
+    if (!lua_isnil(L, 3) && lua_isboolean(L, 3))
+    {
+        isWeaponSkill = lua_toboolean(L, 3);
+    }
+
+    if (!lua_isnil(L, 4) && lua_isboolean(L, 4))
+    {
+        isBluSpell = lua_toboolean(L, 4);
+    }
+
+    float fSTR = battleutils::GetFSTR(PAttacker, PDefender, weaponSlot, isWeaponSkill, isBluSpell);
+
+    lua_pushnumber(L, fSTR);
+    return 1;
+}
+
+/************************************************************************
 *  Function: getACC()
 *  Purpose : Returns the  Accuracy of an Entity
 *  Example : player:getACC()
@@ -18137,6 +18178,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     // Damage Calculation
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getStat),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getFSTR),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getACC),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getHitRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEVA),

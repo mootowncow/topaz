@@ -1500,7 +1500,6 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             continue;
         }
 
-
         if (objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() != PETTYPE_JUG_PET)
         {
             if(static_cast<CPetEntity*>(this)->getPetType() == PETTYPE_AVATAR || static_cast<CPetEntity*>(this)->getPetType() == PETTYPE_WYVERN)
