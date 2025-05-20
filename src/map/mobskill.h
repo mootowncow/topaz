@@ -31,11 +31,12 @@ enum SKILLFLAG
     SKILLFLAG_JOB_ABILITY       = 0x001, // 1
     SKILLFLAG_TWO_HOUR          = 0x002, // 2
     // Special skill (ranged attack / call beast)
-    SKILLFLAG_SPECIAL           = 0x004, // 4
+    SKILLFLAG_SPECIAL           = 0x004, // 4 Currently only used for Ranged Attacks? (/ra)
     SKILLFLAG_HIT_ALL           = 0x008, // 8
     SKILLFLAG_REPLACE_ATTACK    = 0x010, // 16 To turn off "Readies .." or "Readies skill#650360 message" Use skill:setMsg(tpz.msg.basic.HIT_DMG) in the skills lua file
     SKILLFLAG_DRAW_IN           = 0x020, // 32
-    SKILLFLAG_ALWAYS_KNOCK_BACK = 0x040  // 64
+    SKILLFLAG_ALWAYS_KNOCK_BACK = 0x040, // 64
+    SKILLFLAG_MAGIC_SKILL       = 0x080 // 128 Magical skill / blood pact
 };
 
 #define MAX_MOBSKILL_ID	4262
@@ -54,6 +55,7 @@ public:
     bool        isJobAbility() const;
     bool        isTwoHour() const;
     bool        isSpecial() const;
+    bool        isMagicAttack() const;
     bool        alwaysKnockback() const;
     bool        isAttackReplacement() const;
     bool        isTpSkill() const;

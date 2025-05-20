@@ -34,7 +34,8 @@ public:
 
     CMobSkill* GetSkill();
 
-    int16 GetSpentTP() { return m_spentTP; }
+    int16 GetSpentTP() { return m_spent; }
+
 protected:
     virtual bool CanChangeState() override { return false; }
     virtual bool CanFollowPath() override { return false; }
@@ -48,7 +49,7 @@ private:
     std::unique_ptr<CMobSkill> m_PSkill;
     time_point m_finishTime;
     duration m_castTime;
-    int16 m_spentTP;
+    int16 m_spent;
 };
 
 #endif

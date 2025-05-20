@@ -9233,6 +9233,41 @@ inline int32 CLuaBaseEntity::delTP(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: getSpentTP()
+ *  Purpose : Return entities last spent TP.
+ *  Example : local TP = mob:getSpentTP()
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getSpentTP(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+
+    if (auto* PMob = dynamic_cast<CMobEntity*>(m_PBaseEntity))
+    {
+        if (auto* PState = dynamic_cast<CMobSkillState*>(PMob->PAI->GetCurrentState()))
+        {
+            lua_pushinteger(L, PState->GetSpentTP());
+            return 1;
+        }
+    }
+
+    if (auto* PPet = dynamic_cast<CPetEntity*>(m_PBaseEntity))
+    {
+        if (auto* PState = dynamic_cast<CMobSkillState*>(PPet->PAI->GetCurrentState()))
+        {
+            lua_pushinteger(L, PState->GetSpentTP());
+            return 1;
+        }
+    }
+
+    lua_pushnil(L);
+    return 1;
+}
+
+/************************************************************************
 *  Function: updateHealth()
 *  Purpose : Forces a health update for an Entity
 *  Example : target:updateHealth()
@@ -17142,7 +17177,6 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                                       int16 tp = battleutils::CalculateWeaponSkillTP(PMob, 0, PMob->health.tp);
 
                                       tp = std::min(static_cast<int>(tp), 3000);
-                                      PMob->SetLocalVar("tp", tp);
                                   }
                                   else
                                   {
@@ -17952,6 +17986,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addTP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setTP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delTP),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getSpentTP),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateHealth),
 

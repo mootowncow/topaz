@@ -22,11 +22,12 @@ tpz.mobSkillFlag =
     JOB_ABILITY       = 0x001, -- 1
     TWO_HOUR          = 0x002, -- 2
     -- Special skill (ranged attack / call beast)
-    SPECIAL           = 0x004, -- 4
+    SPECIAL           = 0x004, -- 4 Currently only used for Ranged Attacks? (/ra)
     HIT_ALL           = 0x008, -- 8
     REPLACE_ATTACK    = 0x010, -- 16 To turn off "Readies .." or "Readies skill#650360 message" Use skill:setMsg(tpz.msg.basic.HIT_DMG) in the skills lua file
     DRAW_IN           = 0x020, -- 32
-    ALWAYS_KNOCK_BACK = 0x040  -- 64
+    ALWAYS_KNOCK_BACK = 0x040,  -- 64
+    MAGIC_SKILL       = 0x080 -- 128 Magical skill  / Blood pact
 }
 
 ------------------------------------

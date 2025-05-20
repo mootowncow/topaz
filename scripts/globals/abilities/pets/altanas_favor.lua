@@ -21,18 +21,18 @@ function onPetAbility(target, pet, skill)
     params.NO_TP_CONSUMPTION = true
 
     if not target:isPC() then
-        skill:setMsg(tpz.msg.basic.SKILL_NO_EFFECT)
+        skill:setMsg(tpz.msg.basic.JA_NO_EFFECT_2)
         return 0
     end
     
-    skill:setMsg(tpz.msg.basic.SKILL_GAIN_EFFECT)
+    skill:setMsg(tpz.msg.basic.JA_GAINS_EFFFECT)
     
     if target:isDead() then
         target:sendRaise(4)
         skill:setMsg(tpz.msg.basic.NONE)
     else
         AvatarBuffBP(pet, target, skill, effect, power, tick, duration, params, bonus)
-        skill:setMsg(tpz.msg.basic.SKILL_NO_EFFECT)
+        skill:setMsg(tpz.msg.basic.JA_NO_EFFECT_2)
     end
     
     pet:getMaster():setMP(0)

@@ -17,9 +17,9 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
 
-    local dmgmod = MobHPBasedMove(mob, target, 0.10, 1, tpz.magic.ele.WATER, 900)
+    local dmgmod = MobHPBasedMove(mob, target, skill, 0.10, 1, tpz.magic.ele.WATER, 900)
     if mob:getPool() == 9056 then -- Vishap(Assault - Lebros Cavern)
-        dmgmod = MobHPBasedMove(mob, target, 0.10, 1, tpz.magic.ele.WATER, 400)
+        dmgmod = MobHPBasedMove(mob, target, skill, 0.10, 1, tpz.magic.ele.WATER, 400)
     end
 
     local typeEffect = tpz.effect.POISON

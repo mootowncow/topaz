@@ -37,7 +37,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
     local returninfo = {}
 
     local master = auto:getMaster()
-    local tp = auto:getLocalVar("TP")
+    local tp = auto:getSpentTP()
 
     local jas =
     { 1944, 1945, 1946, 1947, 1948, 1949, 2021, 2068, 2745, 2746, 2747, 3485 }
@@ -341,7 +341,7 @@ end
 function AutoMagicalWeaponSkill(auto, target, skill, element, params, statmod, bonus)
     -- Formula is ((Lvl+2 + WSC) x fTP + dstat) x Magic Burst bonus x resist x day / weather bonus x  MAB/MDB x mdt
     -- MDT is handled in AutoMagicalFinalAdjustments
-
+    skill:setFlag(tpz.mobSkillFlag.MAGIC_SKILL)
     local resist = 1
     if bonus == nil then bonus = 0 end -- bonus macc
 
@@ -359,7 +359,7 @@ function AutoMagicalWeaponSkill(auto, target, skill, element, params, statmod, b
     local WSC = getAutoWSC(auto, params)
 
     -- get ftp
-    local tp = auto:getLocalVar("TP")
+    local tp = auto:getSpentTP()
     local multiplier = params.multiplier
     local tp150 = params.tp150
     local tp300 = params.tp300
@@ -558,7 +558,6 @@ function AutoPhysicalFinalAdjustments(dmg, auto, skill, target, attackType, dama
     auto:delStatusEffectSilent(tpz.effect.BOOST)
     if (skill:getID() ~= 1944) then -- Shield Bash
         auto:setLocalVar("TP", 0)
-        auto:setTP(0)
     end
     return dmg
 end
@@ -613,7 +612,6 @@ function AutoMagicalFinalAdjustments(dmg, auto, skill, target, attackType, eleme
     end
     target:updateEnmityFromDamage(auto, dmg)
     target:handleAfflatusMiseryDamage(dmg)
-    auto:setTP(0)
     if params.NO_TP_CONSUMPTION == true then
         giveAutoTP(auto)
     end
@@ -1534,12 +1532,9 @@ function GenerateAutoPdif(auto, target, attackType, isCrit, bonusAttPercent, fla
 end
 
 function getAutoTP(player)
-    local auto = player:getPet()
-	local currentTP = auto:getTP()
-	auto:setLocalVar("TP", currentTP)
+    -- No longer used
 end
 
 function giveAutoTP(auto)
-    local tp = auto:getLocalVar("TP")
-    auto:setTP(tp)
+    -- No longer used
 end

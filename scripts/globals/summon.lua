@@ -30,9 +30,8 @@ TP_CRIT_VARIES = 3
 function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, tpeffect, params)
     local returninfo = {}
 
-    local tp = avatar:getTP()
     local summoner = avatar:getMaster()
-    --printf("tp %i", tp)
+    local tp = avatar:getSpentTP()
 
     local attackNumber = 0
     -- Calculate accBonus
@@ -292,6 +291,8 @@ function AvatarMagicalBP(avatar, target, skill, element, params, statmod, bonus)
     -- Formula is ((Lvl+2 + WSC) x fTP + dstat) x Magic Burst bonus x resist x day / weather bonus x  MAB/MDB x mdt
     -- MDT is handled in AvatarMagicalFinalAdjustments
 
+    skill:setFlag(tpz.mobSkillFlag.MAGIC_SKILL)
+
     local resist = 1
     if bonus == nil then bonus = 0 end -- bonus macc
 
@@ -495,7 +496,6 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
     target:tryInterruptSpell(avatar, numberofhits)
     avatar:delStatusEffectSilent(tpz.effect.BOOST)
     avatar:setLocalVar("TP", 0)
-    avatar:setTP(0)
     return dmg
 end
 
@@ -551,7 +551,6 @@ function AvatarMagicalFinalAdjustments(dmg, avatar, skill, target, attackType, e
     end
     target:updateEnmityFromDamage(avatar, dmg)
     target:handleAfflatusMiseryDamage(dmg)
-    avatar:setTP(0)
     if params.NO_TP_CONSUMPTION == true then
         giveAvatarTP(avatar)
     end
@@ -1540,14 +1539,11 @@ function getSummoningSkillOverCap(avatar)
 end
 
 function getAvatarTP(player)
-    local Avatar = player:getPet()
-	local CurrentTP = Avatar:getTP()
-	Avatar:setLocalVar("TP", CurrentTP)
+    -- No longer used
 end
 
 function giveAvatarTP(avatar)
-    local tp = avatar:getLocalVar("TP")
-    avatar:setTP(tp)
+    -- No longer used
 end
 
 function checkForAvatarResistBonus(player, item)

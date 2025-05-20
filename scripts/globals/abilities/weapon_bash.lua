@@ -18,7 +18,8 @@ return 0, 0
 end
 
 function onUseAbility(player, target, ability)
-
+    -- TODO: Resist check (Has 255 MACC bonus?)
+    -- Remove pdif, randomize damage (1-5% variance)
     -- Check for PD
     if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
         return ability:setMsg(tpz.msg.basic.JA_MISS)

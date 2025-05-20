@@ -1338,6 +1338,8 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 {
     auto PSkill = state.GetSkill();
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    int16 tp = state.GetSpentTP();
+    tp = battleutils::CalculateWeaponSkillTP(this, 0, tp);
 
     static_cast<CMobController*>(PAI->GetController())->TapDeaggroTime();
 
@@ -1511,11 +1513,13 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
                     target.animation = PSkill->getPetAnimationID() - 1; // cait sith level ? holy pet animations shifted by 1 from mob animations
 
             }
+            // This needs to be changed to look up by ability ID (the players ability) and not mobskill ID for the file to use, and to get animation etc
+            // PSkill also needs to be changed to PAvatar->m_bloodPactAbilityId;
             target.param = luautils::OnPetAbility(PTarget, this, PSkill, PMaster, &action);
         }
         else
         {
-            target.param = luautils::OnMobWeaponSkill(PTarget, this, PSkill, &action);
+            target.param = luautils::OnMobWeaponSkill(PTarget, this, PSkill, &action, tp);
         }
         if (msg == 0)
         {
@@ -1538,8 +1542,23 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         else
         {
             target.reaction = REACTION_HIT;
+
+            static const std::unordered_set<uint16> excludedMsgs {
+                MSGBASIC_USES,
+                MSGBASIC_SKILL_GAIN_EFFECT,
+                MSGBASIC_SELF_HEAL,
+                MSGBASIC_SKILL_ENFEEB_IS,
+                MSGBASIC_JA_RECOVERS_HP,
+                MSGBASIC_JA_ENFEEB_IS,
+                MSGBASIC_JA_GAINS_EFFFECT,
+                MSGBASIC_JA_NO_EFFECT_2
+            };
             // Don't add TP if the TP move is a two hour, buff, heal, or enfeeble.
-            if (msg != MSGBASIC_USES && msg != MSGBASIC_SKILL_GAIN_EFFECT && msg != MSGBASIC_SELF_HEAL && msg != MSGBASIC_SKILL_ENFEEB_IS)
+            // TODO: Magical blood pact...
+            if (excludedMsgs.find(msg) == excludedMsgs.end() &&
+                !PSkill->isTwoHour() &&
+                !PSkill->isJobAbility() &&
+                !PSkill->isMagicAttack())
             {
                 int16 delay = this->GetWeaponDelay(true);
                 float ratio = 1.0f;

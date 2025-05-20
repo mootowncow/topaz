@@ -94,7 +94,7 @@ CMobSkill* CMobSkillState::GetSkill()
 void CMobSkillState::SpendCost()
 {
     auto tp = 0;
-    // Don't remove TP if a TP "auto-attack" skill
+    // Don't remove TP if a TP "auto-attack", Two Hour or "special" skill
     if (m_PSkill->isTpSkill())
     {
         if (m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_MEIKYO_SHISUI))
@@ -116,7 +116,7 @@ void CMobSkillState::SpendCost()
             m_PEntity->addTP(tpzrand::GetRandomNumber(10, 200));
         }
     }
-    m_spentTP = tp;
+    m_spent = tp;
 }
 
 bool CMobSkillState::Update(time_point tick)
@@ -128,14 +128,15 @@ bool CMobSkillState::Update(time_point tick)
         {
             SpendCost();
         }
+
         action_t action;
         m_PEntity->OnMobSkillFinished(*this, action);
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
         auto PTarget{ GetTarget() };
         if (PTarget != nullptr)
         {
-            m_PEntity->PAI->EventHandler.triggerListener("WEAPONSKILL_USE", m_PEntity, PTarget, m_PSkill->getID(), m_spentTP, &action);
-            PTarget->PAI->EventHandler.triggerListener("WEAPONSKILL_TAKE", PTarget, m_PEntity, m_PSkill->getID(), m_spentTP, &action);
+            m_PEntity->PAI->EventHandler.triggerListener("WEAPONSKILL_USE", m_PEntity, PTarget, m_PSkill->getID(), m_spent, &action);
+            PTarget->PAI->EventHandler.triggerListener("WEAPONSKILL_TAKE", PTarget, m_PEntity, m_PSkill->getID(), m_spent, &action);
             auto delay = std::chrono::milliseconds(m_PSkill->getAnimationTime());
             m_finishTime = tick + delay;
             Complete();

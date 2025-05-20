@@ -1768,7 +1768,6 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 if (PAbility->getID() == ABILITY_LEVEL_QUESTION_HOLY)
                 {
                     int16 tp = PPet->health.tp;
-                    PPet->SetLocalVar("tp", tp);
                     // ShowDebug("doing qm holy...\n");
                     PPet->PAI->MobSkill(PPetTarget, tpzrand::GetRandomNumber((uint16)2452, (uint16)2458));
                     PPet->PAI->MobSkill(PPetTarget, tpzrand::GetRandomNumber((uint16)2452, (uint16)2458)); // GetRandomNumber never returns the max value
@@ -1779,7 +1778,6 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                     if (PPetTarget > 0 && PAbility->getMobSkillID() > 0)
                     {
                         int16 tp = PPet->health.tp;
-                        PPet->SetLocalVar("tp", tp);
                         if (PPet->objtype == TYPE_PET)
                         {
                             auto PAvatar = dynamic_cast<CPetEntity*>(PPet);

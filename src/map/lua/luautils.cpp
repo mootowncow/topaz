@@ -3668,7 +3668,7 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
     *                                                                       *
     ************************************************************************/
 
-    int32 OnMobWeaponSkill(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill, action_t* action)
+    int32 OnMobWeaponSkill(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill, action_t* action, uint16 tp)
     {
         lua_prepscript("scripts/zones/%s/mobs/%s.lua", PMob->loc.zone->GetName(), PMob->GetName());
 
@@ -3686,7 +3686,9 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
             CLuaAction LuaAction(action);
             Lunar<CLuaAction>::push(LuaHandle, &LuaAction);
 
-            if (lua_pcall(LuaHandle, 4, 0, 0))
+            lua_pushnumber(LuaHandle, tp);
+
+            if (lua_pcall(LuaHandle, 5, 0, 0))
             {
                 ShowError("luautils::onMobWeaponSkill: %s\n", lua_tostring(LuaHandle, -1));
                 lua_pop(LuaHandle, 1);
@@ -3701,12 +3703,16 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
         }
         CLuaBaseEntity LuaBaseEntity(PTarget);
         Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaBaseEntity);
+
         CLuaBaseEntity LuaMobEntity(PMob);
         Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMobEntity);
+
         CLuaMobSkill LuaMobSkill(PMobSkill);
         Lunar<CLuaMobSkill>::push(LuaHandle, &LuaMobSkill);
 
-        if (lua_pcall(LuaHandle, 3, 1, 0))
+        lua_pushnumber(LuaHandle, tp);
+
+        if (lua_pcall(LuaHandle, 4, 1, 0))
         {
             ShowError("luautils::onMobWeaponSkill: %s\n", lua_tostring(LuaHandle, -1));
             lua_pop(LuaHandle, 1);
