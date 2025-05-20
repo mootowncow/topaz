@@ -1338,6 +1338,9 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 {
     auto PSkill = state.GetSkill();
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    int16 tp = state.GetSpentTP();
+    ShowDebug("tp: %i\n", tp);
+    tp = battleutils::CalculateWeaponSkillTP(this, 0, tp);
 
     static_cast<CMobController*>(PAI->GetController())->TapDeaggroTime();
 
@@ -1515,7 +1518,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         }
         else
         {
-            target.param = luautils::OnMobWeaponSkill(PTarget, this, PSkill, &action);
+            target.param = luautils::OnMobWeaponSkill(PTarget, this, PSkill, &action, tp);
         }
         if (msg == 0)
         {

@@ -116,7 +116,7 @@ void CMobSkillState::SpendCost()
             m_PEntity->addTP(tpzrand::GetRandomNumber(10, 200));
         }
     }
-    m_spentTP = tp;
+    m_spent = tp;
 }
 
 bool CMobSkillState::Update(time_point tick)
@@ -134,8 +134,8 @@ bool CMobSkillState::Update(time_point tick)
         auto PTarget{ GetTarget() };
         if (PTarget != nullptr)
         {
-            m_PEntity->PAI->EventHandler.triggerListener("WEAPONSKILL_USE", m_PEntity, PTarget, m_PSkill->getID(), m_spentTP, &action);
-            PTarget->PAI->EventHandler.triggerListener("WEAPONSKILL_TAKE", PTarget, m_PEntity, m_PSkill->getID(), m_spentTP, &action);
+            m_PEntity->PAI->EventHandler.triggerListener("WEAPONSKILL_USE", m_PEntity, PTarget, m_PSkill->getID(), m_spent, &action);
+            PTarget->PAI->EventHandler.triggerListener("WEAPONSKILL_TAKE", PTarget, m_PEntity, m_PSkill->getID(), m_spent, &action);
             auto delay = std::chrono::milliseconds(m_PSkill->getAnimationTime());
             m_finishTime = tick + delay;
             Complete();
