@@ -72,8 +72,8 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_OUT_OF_RANGE_UNABLE_CAST	= 313, // Out of range unable to cast 
 	MSGBASIC_CANNOT_ATTACK_TARGET	= 446, // You cannot attack that target 
 	MSGBASIC_NEEDS_2H_WEAPON		= 307, // That action requires a two-handed weapon. 
-	MSGBASIC_USES_BUT_MISSES		= 324, // The <player> uses .. but misses <target>. 
-	MSGBASIC_CANT_BE_USED_IN_AREA	= 316, // That action cannot be used in this area. 
+	MSGBASIC_USES_BUT_MISSES		= 324, // The <player> uses .. but misses <target>.
+    MSGBASIC_CANT_BE_USED_IN_AREA	= 316, // That action cannot be used in this area. 
 	MSGBASIC_REQUIRES_SHIELD		= 199, // That action requires a shield.
     MSGBASIC_REQUIRES_COMBAT        = 525, // .. can only be performed during battle.
     MSGBASIC_JA_MISS                = 158, // <user> uses <ability>, but misses. (no name included)
@@ -129,7 +129,12 @@ enum MSGBASIC_ID : uint16
     MSGBASIC_SKILL_GAIN_EFFECT      = 186, // Buff mob TP move buff.                    
     MSGBASIC_SELF_HEAL              = 238, // Healing mob TP move. 
     MSGBASIC_SKILL_ENFEEB_IS        = 242, // Enfeebling mob TP move. 
-    MSGBASIC_SKILL_MISS             = 188, // Mob TP move miss / resist message. 
+    MSGBASIC_SKILL_MISS             = 188, // Mob TP move miss / resist message.
+    // Blood Pacts
+    MSGBASIC_JA_RECOVERS_HP = 102,    // The <player> uses .. <target> recovers .. HP.
+    MSGBASIC_JA_ENFEEB_IS = 127,      // <user> uses <ability>. <target> is <status>.
+    MSGBASIC_JA_GAINS_EFFFECT = 319,  // The <uses> uses <ability <target> gains the effect of <status>.
+    MSGBASIC_JA_NO_EFFECT_2 = 323,    // <user> uses <ability>. No effect on <target>. (2 line msg)
 	// Weaponskills
     MSGBASIC_READIES_WS             = 43,  // ${actor} readies ${weapon_skill}.
     MSGBASIC_UNABLE_TO_USE_WS       = 89,  // Unable to use weaponskill. 

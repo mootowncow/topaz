@@ -28,7 +28,7 @@ function onPetAbility(target, pet, skill)
     -- Check that Cait Sith is facing the mob
     if not target:isFacing(pet) or target:hasStatusEffect(tpz.effect.BLINDNESS) then
         giveAvatarTP(pet)
-        skill:setMsg(tpz.msg.basic.SKILL_NO_EFFECT)
+        skill:setMsg(tpz.msg.basic.JA_NO_EFFECT_2)
         return effect
     end
 

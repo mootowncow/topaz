@@ -21,7 +21,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local dmgmod = MobHPBasedMove(mob, target, 0.25, 1, tpz.magic.ele.NONE, 900)
+    local dmgmod = MobHPBasedMove(mob, target, skill, 0.25, 1, tpz.magic.ele.NONE, 900)
 
     dmgmod = utils.conalDamageAdjustment(mob, target, skill, dmgmod, 0.50)
 

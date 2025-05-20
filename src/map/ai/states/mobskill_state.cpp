@@ -128,10 +128,7 @@ bool CMobSkillState::Update(time_point tick)
         {
             SpendCost();
         }
-        else
-        {
-            ShowDebug("SpentCost() did not run because this was a TwoHour or JobAbility\n");
-        }
+
         action_t action;
         m_PEntity->OnMobSkillFinished(*this, action);
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));

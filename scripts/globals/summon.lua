@@ -32,7 +32,6 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
 
     local summoner = avatar:getMaster()
     local tp = avatar:getSpentTP()
-    printf("TP in AvatarPhysicalBP: %d", tp)
 
     local attackNumber = 0
     -- Calculate accBonus
@@ -291,6 +290,8 @@ end
 function AvatarMagicalBP(avatar, target, skill, element, params, statmod, bonus)
     -- Formula is ((Lvl+2 + WSC) x fTP + dstat) x Magic Burst bonus x resist x day / weather bonus x  MAB/MDB x mdt
     -- MDT is handled in AvatarMagicalFinalAdjustments
+
+    skill:setFlag(tpz.mobSkillFlag.MAGIC_SKILL)
 
     local resist = 1
     if bonus == nil then bonus = 0 end -- bonus macc
@@ -1538,9 +1539,7 @@ function getSummoningSkillOverCap(avatar)
 end
 
 function getAvatarTP(player)
-    local Avatar = player:getPet()
-	local CurrentTP = Avatar:getTP()
-	Avatar:setLocalVar("TP", CurrentTP)
+    -- No longer used
 end
 
 function giveAvatarTP(avatar)

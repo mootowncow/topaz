@@ -30,7 +30,7 @@ function onMobWeaponSkill(target, mob, skill)
         cap = 600
     end
 
-    local dmgmod = MobHPBasedMove(mob, target, 0.0625, 1, tpz.magic.ele.WATER, cap)
+    local dmgmod = MobHPBasedMove(mob, target, skill, 0.0625, 1, tpz.magic.ele.WATER, cap)
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.WATER, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.BREATH, tpz.damageType.WATER)
     MobStatusEffectMove(mob, target, typeEffect, power, tick, 300)

@@ -38,8 +38,6 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
 
     local master = auto:getMaster()
     local tp = auto:getSpentTP()
-    printf("TP in AutoPhysicalWeaponSkill: %d", tp)
-
 
     local jas =
     { 1944, 1945, 1946, 1947, 1948, 1949, 2021, 2068, 2745, 2746, 2747, 3485 }
@@ -343,7 +341,7 @@ end
 function AutoMagicalWeaponSkill(auto, target, skill, element, params, statmod, bonus)
     -- Formula is ((Lvl+2 + WSC) x fTP + dstat) x Magic Burst bonus x resist x day / weather bonus x  MAB/MDB x mdt
     -- MDT is handled in AutoMagicalFinalAdjustments
-
+    skill:setFlag(tpz.mobSkillFlag.MAGIC_SKILL)
     local resist = 1
     if bonus == nil then bonus = 0 end -- bonus macc
 
@@ -1534,9 +1532,7 @@ function GenerateAutoPdif(auto, target, attackType, isCrit, bonusAttPercent, fla
 end
 
 function getAutoTP(player)
-    local auto = player:getPet()
-	local currentTP = auto:getTP()
-	auto:setLocalVar("TP", currentTP)
+    -- No longer used
 end
 
 function giveAutoTP(auto)

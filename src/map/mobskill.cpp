@@ -104,6 +104,12 @@ bool CMobSkill::isSpecial() const
     return m_Flag & SKILLFLAG_SPECIAL;
 }
 
+bool CMobSkill::isMagicAttack() const
+{
+    // means it is a magic skill / blood pact
+    return m_Flag & SKILLFLAG_MAGIC_SKILL;
+}
+
 bool CMobSkill::alwaysKnockback() const
 {
     // This skill will knock back even on misses / shadow absorb
