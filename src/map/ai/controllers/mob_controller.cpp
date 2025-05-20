@@ -636,8 +636,7 @@ bool CMobController::MobSkill(int wsList)
                 int16 tp = battleutils::CalculateWeaponSkillTP(PMob, 0, PMob->health.tp);
 
                 tp = std::min(static_cast<int>(tp), 3000);
-                PMob->SetLocalVar("tp", tp);
-                // Set message for "Player" and Fomor TP moves, and Prishe/Tenzen TP moves
+                // Set message for "Player" zand Fomor TP moves, and Prishe/Tenzen TP moves
                 if (PMobSkill->isReadiesException())
                 {
                     PMob->loc.zone->PushPacket(PMob, CHAR_INRANGE, new CMessageBasicPacket(PMob, PTarget, 0, PMobSkill->getID(), MSGBASIC_READIES_WS));

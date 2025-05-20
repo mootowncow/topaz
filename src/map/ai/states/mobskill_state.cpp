@@ -94,7 +94,7 @@ CMobSkill* CMobSkillState::GetSkill()
 void CMobSkillState::SpendCost()
 {
     auto tp = 0;
-    // Don't remove TP if a TP "auto-attack" skill
+    // Don't remove TP if a TP "auto-attack", Two Hour or "special" skill
     if (m_PSkill->isTpSkill())
     {
         if (m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_MEIKYO_SHISUI))
@@ -127,6 +127,10 @@ bool CMobSkillState::Update(time_point tick)
         if (!m_PSkill->isTwoHour() && !m_PSkill->isJobAbility())
         {
             SpendCost();
+        }
+        else
+        {
+            ShowDebug("SpentCost() did not run because this was a TwoHour or JobAbility\n");
         }
         action_t action;
         m_PEntity->OnMobSkillFinished(*this, action);

@@ -95,7 +95,7 @@ bool CMobSkill::isAttackReplacement() const
 
 bool CMobSkill::isTpSkill() const
 {
-    return !isSpecial() && !isAttackReplacement();
+    return !isSpecial() && !isAttackReplacement() && !isTwoHour();
 }
 
 bool CMobSkill::isSpecial() const

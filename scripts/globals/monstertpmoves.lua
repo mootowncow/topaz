@@ -82,7 +82,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local name = mob:getName()
     local isRanged = false
     local canCrit = (tpeffect == TP_CRIT_VARIES) or (tpeffect == TP_RANGED_CRIT)
-    local tp = mob:getLocalVar("tp")
+    local tp = mob:getSpentTP()
 
     --get fSTR
     local weaponDmg = mob:getWeaponDmg()
@@ -476,7 +476,7 @@ function MobMagicalMove(mob, target, skill, damage, element, dmgmod, tpeffect, i
     end
 
     -- Add TP scaling if not a high fTP skill(mainly 2 hours / Mijin Gakure / special attacks)
-    local tp = mob:getLocalVar("tp")
+    local tp = mob:getSpentTP()
     if (tpeffect ~= TP_AUTO_ATTACK) and (dmgmod <= 7) then
         finaldmg = math.floor(finaldmg * MobDmgTPModifier(tp))
     end
@@ -1125,7 +1125,7 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isG
             duration = CheckDiminishingReturns(mob, target, typeEffect, duration)
 
             -- add TP scaling
-            local tp = mob:getLocalVar("tp")
+            local tp = mob:getSpentTP()
             -- Doom and Gradual Petrification duration shouldn't scale or it makes it weaker
             if (typeEffect ~= tpz.effect.DOOM) and (typeEffect ~= tpz.effect.GRADUAL_PETRIFICATION) then
                 totalDuration = math.floor(totalDuration * MobEnfeebleDurationTPModifier(typeEffect, tp))
@@ -1193,7 +1193,7 @@ function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, 
             local totalDuration = duration * resist
 
             -- add TP scaling
-            local tp = mob:getLocalVar("tp")
+            local tp = mob:getSpentTP()
             -- Doom and Gradual Petrification duration shouldn't scale or it makes it weaker
             if (typeEffect ~= tpz.effect.DOOM) and (typeEffect ~= tpz.effect.GRADUAL_PETRIFICATION) then
                 totalDuration = math.floor(totalDuration * MobEnfeebleDurationTPModifier(typeEffect, tp))
@@ -1239,7 +1239,7 @@ function MobHasteOverwriteSlowMove(mob, target, power, tick, duration, subid, su
             local totalDuration = duration * resist
 
             -- add TP scaling
-            local tp = mob:getLocalVar("tp")
+            local tp = mob:getSpentTP()
 
             target:delStatusEffectSilent(tpz.effect.HASTE)
             target:addStatusEffect(typeEffect, power, tick, totalDuration, subid, subpower, tier)
@@ -1309,7 +1309,7 @@ end
 function MobBuffMove(mob, typeEffect, power, tick, duration)
 
     -- Add TP scaling
-    local tp = mob:getLocalVar("tp")
+    local tp = mob:getSpentTP()
     local finalDuration = duration
     if not IsNonScalingBuff(typeEffect) then
         finalDuration =  math.floor(finalDuration * MobBuffDurationTPModifier(tp))
@@ -1331,7 +1331,7 @@ end
 function MobBuffMoveSub(mob, typeEffect, power, tick, duration, subid, subpower, tier)
 
     -- Add TP scaling
-    local tp = mob:getLocalVar("tp")
+    local tp = mob:getSpentTP()
     local finalDuration = duration
     if not IsNonScalingBuff(typeEffect) then
         finalDuration =  math.floor(finalDuration * MobBuffDurationTPModifier(tp))

@@ -30,9 +30,9 @@ TP_CRIT_VARIES = 3
 function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, tpeffect, params)
     local returninfo = {}
 
-    local tp = avatar:getTP()
     local summoner = avatar:getMaster()
-    --printf("tp %i", tp)
+    local tp = avatar:getSpentTP()
+    printf("TP in AvatarPhysicalBP: %d", tp)
 
     local attackNumber = 0
     -- Calculate accBonus
@@ -495,7 +495,6 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
     target:tryInterruptSpell(avatar, numberofhits)
     avatar:delStatusEffectSilent(tpz.effect.BOOST)
     avatar:setLocalVar("TP", 0)
-    avatar:setTP(0)
     return dmg
 end
 
@@ -551,7 +550,6 @@ function AvatarMagicalFinalAdjustments(dmg, avatar, skill, target, attackType, e
     end
     target:updateEnmityFromDamage(avatar, dmg)
     target:handleAfflatusMiseryDamage(dmg)
-    avatar:setTP(0)
     if params.NO_TP_CONSUMPTION == true then
         giveAvatarTP(avatar)
     end
@@ -1546,8 +1544,7 @@ function getAvatarTP(player)
 end
 
 function giveAvatarTP(avatar)
-    local tp = avatar:getLocalVar("TP")
-    avatar:setTP(tp)
+    -- No longer used
 end
 
 function checkForAvatarResistBonus(player, item)
