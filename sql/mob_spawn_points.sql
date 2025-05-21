@@ -67445,6 +67445,7 @@ INSERT INTO `mob_spawn_points` VALUES (17854858,'Yumcaxs_Watchman','Yumcax\'s Wa
 INSERT INTO `mob_spawn_points` VALUES (17859044,'Ashrakk','Ashrakk',0,38,0.299,-416,96);
 -- assist player
 INSERT INTO `mob_spawn_points` VALUES (17859045,'Morimar','Morimar',0,20,0.532,-432,224);
+-- INSERT INTO `mob_spawn_points` VALUES (17859288,'Siren Prime','Siren Prime',0,20,0.532,-432,224);
 -- end
 INSERT INTO `mob_spawn_points` VALUES (17859046,'Hell-spawned_Orthrus','Hell-spawned Orthrus',0,29.732,0.445,-420.089,84);
 

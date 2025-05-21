@@ -532,6 +532,7 @@ INSERT INTO `status_effects` VALUES (491,'inner_strength',544,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (492,'asylum',544,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (493,'subtle_sorcery',544,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (494,'stymie',544,0,0,0,0,0,0,0,0);
+INSERT INTO `status_effects` VALUES (495,'macro_test',4194560,0,0,0,0,0,1,0,0);
 INSERT INTO `status_effects` VALUES (496,'intervene',544,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (497,'soul_enslavement',544,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (498,'unleash',544,0,0,0,0,0,0,0,0);
