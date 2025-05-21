@@ -833,7 +833,7 @@ INSERT INTO `mob_skills` VALUES (889,595,'lightning_armor',1,10.0,612,3000,1,4,0
 INSERT INTO `mob_skills` VALUES (890,596,'thunder_iv',0,10.0,613,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (891,597,'chaotic_strike',0,10.0,614,3000,4,0,0,0,12,1,0); -- Fragmentation (12) / Transfixion (1)
 INSERT INTO `mob_skills` VALUES (892,598,'thunderstorm',0,10.0,615,3000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (893,599,'judgment_bolt',1,30.0,616,0,4,2,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (893,599,'judgment_bolt',1,30.0,616,0,4,2,0,0,0,0,2);
 INSERT INTO `mob_skills` VALUES (894,621,'healing_breath_i',0,10.0,2000,2000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (895,622,'healing_breath_ii',0,10.0,2000,2000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (896,623,'healing_breath_iii',0,10.0,2000,2000,1,0,0,0,0,0,0);

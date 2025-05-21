@@ -147,7 +147,8 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_ALREADY_HAS_A_PET		= 315, // The <player> already has a pet. 
 	MSGBASIC_NO_EFFECT_ON_PET		= 336, // No effect on that pet. 
 	MSGBASIC_NO_JUG_PET_ITEM		= 337, // You do not have the necessary item equipped to call a beast. 
-	MSGBASIC_MUST_HAVE_FOOD			= 347, // You must have pet food equipped to use that command. 
+	MSGBASIC_MUST_HAVE_FOOD			= 347, // You must have pet food equipped to use that command.
+    MSGBASIC_JA_MISS_2              = 324, // <user> uses <ability>, but misses <target>. (includes target name)
 	MSGBASIC_PET_CANNOT_DO_ACTION	= 574, // <player>'s pet is currently unable to perform that action. 
 	MSGBASIC_PET_NOT_ENOUGH_TP		= 575, // <player>'s pet does not have enough TP to perform that action. 
 	// Items 

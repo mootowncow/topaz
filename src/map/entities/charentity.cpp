@@ -1705,8 +1705,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 auto PPetTarget = PTarget->targid;
                 if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
                 {
-                    // Blood Pact mp cost stored in animation ID
-                    float mpCost = PAbility->getAnimationID();
+                    float mpCost = PAbility->getMPCost();
 
                     if (StatusEffectContainer->HasStatusEffect(EFFECT_APOGEE))
                     {

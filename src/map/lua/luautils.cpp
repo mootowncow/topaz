@@ -3986,6 +3986,53 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
         return retVal;
     }
 
+    int32 OnPetAbility(CBaseEntity* PTarget, CBaseEntity* PMob, CAbility* PAbility, CBaseEntity* PMobMaster, action_t* action)
+    {
+        lua_prepscript("scripts/globals/abilities/pets/%s.lua", PAbility->getName());
+
+        if (prepFile(File, "onPetAbility"))
+        {
+            return 0;
+        }
+
+        CLuaBaseEntity LuaBaseEntity(PTarget);
+        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaBaseEntity);
+
+        CLuaBaseEntity LuaMobEntity(PMob);
+        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMobEntity);
+
+        CLuaAbility LuaAbility(PAbility);
+        Lunar<CLuaAbility>::push(LuaHandle, &LuaAbility);
+
+        CLuaBaseEntity LuaMasterEntity(PMobMaster);
+        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMasterEntity);
+
+        CLuaAction LuaAction(action);
+        Lunar<CLuaAction>::push(LuaHandle, &LuaAction);
+
+        if (lua_pcall(LuaHandle, 5, 1, 0))
+        {
+            ShowError("luautils::onPetAbility: %s\n", lua_tostring(LuaHandle, -1));
+            lua_pop(LuaHandle, 1);
+            return 0;
+        }
+
+        // Bloodpact Skillups
+        if (PMob->objtype == TYPE_PET && map_config.skillup_bloodpact)
+        {
+            CPetEntity* PPet = (CPetEntity*)PMob;
+            if (PPet->getPetType() == PETTYPE_AVATAR && PPet->PMaster->objtype == TYPE_PC)
+            {
+                CCharEntity* PMaster = (CCharEntity*)PPet->PMaster;
+                if (PMaster->GetMJob() == JOB_SMN) charutils::TrySkillUP(PMaster, SKILL_SUMMONING_MAGIC, PMaster->GetMLevel(), true);
+            }
+        }
+
+        uint32 retVal = (!lua_isnil(LuaHandle, -1) && lua_isnumber(LuaHandle, -1) ? (int32)lua_tonumber(LuaHandle, -1) : 0);
+        lua_pop(LuaHandle, 1);
+        return retVal;
+    }
+
     /************************************************************************
     *                                                                       *
     *                                                                       *

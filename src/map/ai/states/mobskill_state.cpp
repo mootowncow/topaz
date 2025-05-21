@@ -22,6 +22,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "mobskill_state.h"
 #include "../ai_container.h"
 #include "../../entities/mobentity.h"
+#include "../../entities/petentity.h"
 #include "../../packets/action.h"
 #include "../../utils/battleutils.h"
 #include "../../mobskill.h"
@@ -130,7 +131,21 @@ bool CMobSkillState::Update(time_point tick)
         }
 
         action_t action;
-        m_PEntity->OnMobSkillFinished(*this, action);
+
+        // If Avatar / Wyvern
+        bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
+
+        if (isPlayerPet)
+        {
+            if (auto PPet = dynamic_cast<CPetEntity*>(m_PEntity))
+            {
+                PPet->OnPlayerPetSkillFinished(*this, action);
+            }
+        }
+        else
+        {
+            m_PEntity->OnMobSkillFinished(*this, action);
+        }
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
         auto PTarget{ GetTarget() };
         if (PTarget != nullptr)
