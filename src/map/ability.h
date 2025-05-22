@@ -801,6 +801,7 @@ public:
     void        setSecondarySkillchain(uint8 skillchain);
     void        setTertiarySkillchain(uint8 skillchain);
     void        setFlag(uint8 flag);
+    void        addFlag(uint8 flag);
 
     const int8* getName();
     void        setName(int8* name);

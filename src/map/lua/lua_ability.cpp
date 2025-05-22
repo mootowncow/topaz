@@ -205,6 +205,15 @@ inline int32 CLuaAbility::setFlag(lua_State* L)
     return 0;
 }
 
+inline int32 CLuaAbility::addFlag(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaAbility == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, -1) || !lua_isnumber(L, -1));
+
+    m_PLuaAbility->addFlag(lua_tointeger(L, -1));
+    return 0;
+}
+
 inline int32 CLuaAbility::hasMissMsg(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PLuaAbility == nullptr);
@@ -241,6 +250,7 @@ Lunar<CLuaAbility>::Register_t CLuaAbility::methods[] =
     LUNAR_DECLARE_METHOD(CLuaAbility,setVE),
     LUNAR_DECLARE_METHOD(CLuaAbility,setRange),
     LUNAR_DECLARE_METHOD(CLuaAbility,setFlag),
+    LUNAR_DECLARE_METHOD(CLuaAbility,addFlag),
     LUNAR_DECLARE_METHOD(CLuaAbility,hasMissMsg),
     {nullptr,nullptr}
 };
