@@ -459,17 +459,17 @@ INSERT INTO `abilities` VALUES (524,'level_X_holy',15,75,4,60,173,0,0,164,2000,0
 INSERT INTO `abilities` VALUES (525,'raise_ii',15,15,35,60,174,0,0,169,2000,0,6,18.0,0,1,60,0,0,NULL,0,160,0,0,0,0); -- TODO: Animation Id
 INSERT INTO `abilities` VALUES (526,'reraise_ii',15,30,3,60,174,0,0,160,2000,0,6,18.0,0,1,60,0,0,NULL,0,80,0,0,0,0);
 INSERT INTO `abilities` VALUES (527,'altanas_favor',15,1,1,60,174,0,0,170,2000,0,6,18.0,0,1,60,0,2,NULL,0,0,0,0,0,2);
-INSERT INTO `abilities` VALUES (528,'moonlit_charge',15,5,4,60,173,0,0,17,2000,0,6,18.0,0,1,60,0,0,NULL,0,17,0,0,0,0); -- TODO: Animation Id
-INSERT INTO `abilities` VALUES (529,'crescent_fang',15,10,4,60,173,0,0,19,2000,0,6,18.0,0,1,60,0,0,NULL,0,19,0,0,0,0); -- TODO: Animation Id
-INSERT INTO `abilities` VALUES (530,'lunar_cry',15,21,4,60,174,0,0,41,2000,0,6,18.0,0,1,60,0,0,NULL,0,41,0,0,0,0); -- TODO: Animation Id
-INSERT INTO `abilities` VALUES (531,'lunar_roar',15,32,4,60,174,0,0,27,2000,0,6,18.0,0,1,60,0,0,NULL,0,27,0,0,0,0); -- TODO: Animation Id
-INSERT INTO `abilities` VALUES (532,'ecliptic_growl',15,43,1,60,174,0,0,46,2000,0,6,18.0,0,1,60,0,0,NULL,0,46,0,0,0,0); -- TODO: Animation Id
-INSERT INTO `abilities` VALUES (533,'ecliptic_howl',15,54,1,60,174,0,0,57,2000,0,6,18.0,0,1,60,0,0,NULL,0,57,0,0,0,0); -- TODO: Animation Id
-INSERT INTO `abilities` VALUES (534,'eclipse_bite',15,65,4,60,173,0,0,109,2000,0,6,18.0,0,1,60,0,0,NULL,0,109,0,0,0,0); -- TODO: Animation Id
-INSERT INTO `abilities` VALUES (536,'howling_moon',15,1,4,60,173,0,0,0,2000,0,6,18.0,1,1,60,0,2,NULL,0,0,0,0,0,2); -- TODO: Animation Id
--- INSERT INTO `abilities` VALUES (537,'lunar_bay',22,1,1,0,300,0,0,???,2000,0,6,20.0,0,450,900,0,0,NULL,0,0,0,0,0,0); -- TODO: Animation Id
--- INSERT INTO `abilities` VALUES (538,'heavenward_howl',22,1,1,0,300,0,0,???,2000,0,6,20.0,0,450,900,0,0,NULL,0,0,0,0,0,0); -- TODO: Animation Id
--- INSERT INTO `abilities` VALUES (539,'impact',22,1,1,0,300,0,0,???,2000,0,6,20.0,0,450,900,0,0,NULL,0,0,0,0,0,0); -- TODO: Animation Id
+INSERT INTO `abilities` VALUES (528,'moonlit_charge',15,5,4,60,173,0,0,16,2000,0,6,18.0,0,1,60,0,0,NULL,0,17,0,0,0,0); -- TODO: Animation Id
+INSERT INTO `abilities` VALUES (529,'crescent_fang',15,10,4,60,173,0,0,17,2000,0,6,18.0,0,1,60,0,0,NULL,0,19,0,0,0,0); -- TODO: Animation Id
+INSERT INTO `abilities` VALUES (530,'lunar_cry',15,21,4,60,174,0,0,18,2000,0,6,18.0,0,1,60,0,0,NULL,0,41,0,0,0,0); -- TODO: Animation Id
+INSERT INTO `abilities` VALUES (531,'lunar_roar',15,32,4,60,174,0,0,20,2000,0,6,18.0,0,1,60,0,0,NULL,0,27,0,0,0,0); -- TODO: Animation Id
+INSERT INTO `abilities` VALUES (532,'ecliptic_growl',15,43,1,60,174,0,0,19,2000,0,6,18.0,0,1,60,0,0,NULL,0,46,0,0,0,0); -- TODO: Animation Id
+INSERT INTO `abilities` VALUES (533,'ecliptic_howl',15,54,1,60,174,0,0,22,2000,0,6,18.0,0,1,60,0,0,NULL,0,57,0,0,0,0); -- TODO: Animation Id
+INSERT INTO `abilities` VALUES (534,'eclipse_bite',15,65,4,60,173,0,0,21,2000,0,6,18.0,0,1,60,0,0,NULL,0,109,0,0,0,0); -- TODO: Animation Id
+INSERT INTO `abilities` VALUES (536,'howling_moon',15,1,4,60,173,0,0,24,2000,0,6,18.0,1,1,60,0,2,NULL,0,0,0,0,0,2); -- TODO: Animation Id
+-- INSERT INTO `abilities` VALUES (537,'lunar_bay',22,1,1,0,300,0,0,25,2000,0,6,20.0,0,450,900,0,0,NULL,0,0,0,0,0,0); -- TODO: Animation Id
+-- INSERT INTO `abilities` VALUES (538,'heavenward_howl',22,1,1,0,300,0,0,26,2000,0,6,20.0,0,450,900,0,0,NULL,0,0,0,0,0,0); -- TODO: Animation Id
+-- INSERT INTO `abilities` VALUES (539,'impact',22,1,1,0,300,0,0,27,2000,0,6,20.0,0,450,900,0,0,NULL,0,0,0,0,0,0); -- TODO: Animation Id
 INSERT INTO `abilities` VALUES (544,'punch',15,1,4,60,173,0,0,32,2000,0,6,18.0,0,1,60,0,0,NULL,0,9,3,0,0,0);
 INSERT INTO `abilities` VALUES (545,'fire_ii',15,10,4,60,173,0,0,33,2000,0,6,18.0,0,1,60,0,0,NULL,0,24,0,0,0,0);
 INSERT INTO `abilities` VALUES (546,'burning_strike',15,23,4,60,173,0,0,34,2000,0,6,18.0,0,1,60,0,0,NULL,0,48,8,0,0,0);
