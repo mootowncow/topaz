@@ -15,7 +15,7 @@ function onMobSkillCheck(target, mob, skill)
     local raogrimm = mob:getPool() == 9011
     -- Don't consume TP if Raogrimm
     if raogrimm then
-        skill:setFlag(2)
+        addFlag:setFlag(2)
     end
     return 0
 end

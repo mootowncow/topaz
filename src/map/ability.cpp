@@ -371,7 +371,6 @@ void CAbility::addFlag(uint8 flag)
     m_Flag |= flag;
 }
 
-
 bool CAbility::hasMissMsg() const
 {
     switch (m_message)
@@ -384,7 +383,6 @@ bool CAbility::hasMissMsg() const
     }
     return false;
 }
-
 
 void CAbility::setValidTarget(uint16 validTarget)
 {

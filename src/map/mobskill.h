@@ -91,6 +91,7 @@ public:
     void        setAoe(uint8 aoe);
     void        setDistance(float distance);
     void        setFlag(uint8 flag);
+    void        addFlag(uint8 flag);
     void        setAnimationTime(uint16 AnimationTime);
     void        setActivationTime(uint16 ActivationTime);
     void        setMsg(uint16 msg);

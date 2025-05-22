@@ -167,6 +167,11 @@ void CMobSkill::setFlag(uint8 flag)
     m_Flag = flag;
 }
 
+void CMobSkill::addFlag(uint8 flag)
+{
+    m_Flag |= flag;
+}
+
 void CMobSkill::setTP(int16 tp)
 {
     m_TP = tp;
