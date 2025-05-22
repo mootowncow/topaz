@@ -26,6 +26,7 @@
 #include "../../common/cbasetypes.h"
 #include "../../common/mmo.h"
 
+// Additional pets are added in pet_list.sql
 enum PETID
 {
     PETID_FIRESPIRIT         = 0,

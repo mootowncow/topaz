@@ -27,8 +27,8 @@ tpz.pet.type =
 
 -----------------------------------
 --  Pet IDs
+-- Additional pets are added in pet_list.sql
 -----------------------------------
-
 tpz.pet.id =
 {
     --  Summoner

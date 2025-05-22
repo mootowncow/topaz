@@ -525,7 +525,7 @@ void CPetEntity::OnPlayerPetSkillFinished(CMobSkillState& state, action_t& actio
                 MSGBASIC_JA_NO_EFFECT_2
             };
             // Don't add TP if the TP move is a two hour, buff, heal, or enfeeble.
-            if (excludedMsgs.find(msg) == excludedMsgs.end() && !PSkill->isTwoHour() && !PSkill->isJobAbility() && !PSkill->isMagicAttack())
+            if (excludedMsgs.find(msg) == excludedMsgs.end() && !PSkill->isTwoHour() && !PSkill->isMagicAttack())
             {
                 int16 delay = this->GetWeaponDelay(true);
                 float ratio = 1.0f;

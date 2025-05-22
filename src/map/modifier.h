@@ -1199,6 +1199,7 @@ enum class PetModType
     Adventuring_fellow = 29,
     Chocobo = 30,
     Luopan = 31,
+    Siren = 32,
 };
 
 class CPetModifier : public CModifier

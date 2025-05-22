@@ -2884,6 +2884,7 @@ namespace charutils
                         {
                             addPetAbility(PChar, PAbility->getID() - ABILITY_HEALING_RUBY);
                         }
+                        addPetAbility(PChar, ABILITY_REGAL_GASH - ABILITY_HEALING_RUBY);
                     }
                     else if (PetID == PETID_SIREN)
                     {

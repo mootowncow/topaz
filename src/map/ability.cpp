@@ -150,32 +150,10 @@ bool CAbility::isConal()
     return false;
 }
 
-bool CAbility::isJobAbility() const
-{
-    // flag means this skill is mob job ability
-    return m_Flag & ABILITYFLAG_JOB_ABILITY;
-}
-
 bool CAbility::isTwoHour() const
 {
     // flag means this skill is a real two hour
     return m_Flag & ABILITYFLAG_TWO_HOUR;
-}
-
-bool CAbility::isAttackReplacement() const
-{
-    return m_Flag & ABILITYFLAG_REPLACE_ATTACK;
-}
-
-bool CAbility::isTpSkill() const
-{
-    return !isSpecial() && !isAttackReplacement() && !isTwoHour();
-}
-
-bool CAbility::isSpecial() const
-{
-    // means it is a ranged attack or call beast, etc..
-    return m_Flag & ABILITYFLAG_SPECIAL;
 }
 
 bool CAbility::isMagicAttack() const

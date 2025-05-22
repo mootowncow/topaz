@@ -31,15 +31,9 @@
 enum ABILITYFLAG
 {
     ABILITYFLAG_NONE              = 0x000,
-    ABILITYFLAG_JOB_ABILITY       = 0x001, // 1
+    ABILITYFLAG_PET_ABILITY       = 0x001, // 1 Is a pet ability
     ABILITYFLAG_TWO_HOUR          = 0x002, // 2
-    // Special skill (ranged attack / call beast)
-    ABILITYFLAG_SPECIAL           = 0x004, // 4 Currently only used for Ranged Attacks? (/ra)
-    ABILITYFLAG_HIT_ALL           = 0x008, // 8
-    ABILITYFLAG_REPLACE_ATTACK    = 0x010, // 16 To turn off "Readies .." or "Readies skill#650360 message" Use skill:setMsg(tpz.msg.basic.HIT_DMG) in the skills lua file
-    ABILITYFLAG_DRAW_IN           = 0x020, // 32
-    ABILITYFLAG_PET_ABILITY       = 0x040, // 64
-    ABILITYFLAG_MAGIC_SKILL       = 0x080 // 128 Magical skill / blood pact
+    ABILITYFLAG_MAGIC_SKILL       = 0x004  // 4 Magical skill / blood pact
 };
 
 enum ADDTYPE
@@ -739,13 +733,10 @@ public:
     bool        isStratagem();
     bool        isAoE();
     bool        isConal();
-    bool        isJobAbility() const;
     bool        isTwoHour() const;
-    bool        isSpecial() const;
     bool        isMagicAttack() const;
     bool        alwaysKnockback() const;
     bool        isAttackReplacement() const;
-    bool        isTpSkill() const;
 
     uint16      getID();
     uint16      getMobSkillID();
