@@ -392,9 +392,6 @@ void CPetEntity::OnPlayerPetSkillFinished(CMobSkillState& state, action_t& actio
 
     static_cast<CMobController*>(PAI->GetController())->TapDeaggroTime();
 
-    // store the skill used
-    m_UsedSkillIds[PSkill->getID()] = GetMLevel();
-
     PAI->TargetFind->reset();
 
     float distance = PSkill->getRange();

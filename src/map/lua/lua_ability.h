@@ -62,6 +62,7 @@ public:
     int32 setVE(lua_State*);
     int32 setRange(lua_State*);
     int32 setFlag(lua_State*);
+    int32 addFlag(lua_State*);
     int32 hasMissMsg(lua_State*);
 };
 

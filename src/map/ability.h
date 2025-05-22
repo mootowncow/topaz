@@ -38,7 +38,7 @@ enum ABILITYFLAG
     ABILITYFLAG_HIT_ALL           = 0x008, // 8
     ABILITYFLAG_REPLACE_ATTACK    = 0x010, // 16 To turn off "Readies .." or "Readies skill#650360 message" Use skill:setMsg(tpz.msg.basic.HIT_DMG) in the skills lua file
     ABILITYFLAG_DRAW_IN           = 0x020, // 32
-    ABILITYFLAG_ALWAYS_KNOCK_BACK = 0x040, // 64
+    ABILITYFLAG_PET_ABILITY       = 0x040, // 64
     ABILITYFLAG_MAGIC_SKILL       = 0x080 // 128 Magical skill / blood pact
 };
 
@@ -801,6 +801,7 @@ public:
     void        setSecondarySkillchain(uint8 skillchain);
     void        setTertiarySkillchain(uint8 skillchain);
     void        setFlag(uint8 flag);
+    void        addFlag(uint8 flag);
 
     const int8* getName();
     void        setName(int8* name);

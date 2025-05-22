@@ -366,6 +366,12 @@ void CAbility::setFlag(uint8 flag)
     m_Flag = flag;
 }
 
+void CAbility::addFlag(uint8 flag)
+{
+    m_Flag |= flag;
+}
+
+
 bool CAbility::hasMissMsg() const
 {
     switch (m_message)

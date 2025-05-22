@@ -34,8 +34,8 @@
 enum MSGBASIC_ID : uint16
 {
     MSGBASIC_NONE                   = 0, // Display nothing 
-	MSGBASIC_DEFEATS_TARG			= 6, // The <player> defeats <target>. 
-    MSGBASIC_SELF_HEAL_SECONDARY    = 263,// <target recovers <amount> HP | Used for Curaga
+	MSGBASIC_DEFEATS_TARG			= 6, // The <player> defeats <target>.
+    MSGBASIC_MOB_READIES            = 43,// Mob TP move start msg
     MSGBASIC_HIT_ABSORBS_HP         = 373,//The<player> hits<target>.<target>recovers..hit points !
     MSGBASIC_MISS                   = 15, // The <entity> misses <target>.
     MSGBASIC_DODGE                  = 32, // <target> dodges the attack.
@@ -150,7 +150,8 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_MUST_HAVE_FOOD			= 347, // You must have pet food equipped to use that command.
     MSGBASIC_JA_MISS_2              = 324, // <user> uses <ability>, but misses <target>. (includes target name)
 	MSGBASIC_PET_CANNOT_DO_ACTION	= 574, // <player>'s pet is currently unable to perform that action. 
-	MSGBASIC_PET_NOT_ENOUGH_TP		= 575, // <player>'s pet does not have enough TP to perform that action. 
+	MSGBASIC_PET_NOT_ENOUGH_TP		= 575, // <player>'s pet does not have enough TP to perform that action.
+    MSGBASIC_PET_WS                 = 326, // <player>'s pet readies ${weapon_skill}.
 	// Items 
     MSGBASIC_ITEM_UNABLE_TO_USE     = 55,  // Unable to use item. 
     MSGBASIC_ITEM_UNABLE_TO_USE_2   = 56,  // Unable to use item. 

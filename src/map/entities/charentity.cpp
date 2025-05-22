@@ -1764,29 +1764,27 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                         }
                     }
                 }
-                if (PAbility->getID() == ABILITY_LEVEL_QUESTION_HOLY)
+
+                // Tell pet to use mob skill
+                if (PAbility->getFlag() & ABILITYFLAG_PET_ABILITY)
                 {
-                    int16 tp = PPet->health.tp;
-                    // ShowDebug("doing qm holy...\n");
-                    PPet->PAI->MobSkill(PPetTarget, tpzrand::GetRandomNumber((uint16)2452, (uint16)2458));
-                    PPet->PAI->MobSkill(PPetTarget, tpzrand::GetRandomNumber((uint16)2452, (uint16)2458)); // GetRandomNumber never returns the max value
+                    if (PPet->objtype == TYPE_PET)
+                    {
+                        auto PAvatar = dynamic_cast<CPetEntity*>(PPet);
+                        if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
+                        {
+                            uint32 bloodPactAbilityId = PAbility->getID();
+                            PAvatar->m_bloodPactAbilityId = PAbility->getID();
+                            PPet->PAI->MobSkill(PPetTarget, PAbility->getID());
+                        }
+                    }
                 }
                 else
                 {
-                    // Tell pet to use mob skill
-                    if (PPetTarget > 0 && PAbility->getMobSkillID() > 0)
+                    // Tell wyvern to use a mob skill
+                    // TODO: Fix wyvern to not need this!
+                    if (PPetTarget > 0 && PAbility->getMobSkillID())
                     {
-                        int16 tp = PPet->health.tp;
-                        if (PPet->objtype == TYPE_PET)
-                        {
-                            auto PAvatar = dynamic_cast<CPetEntity*>(PPet);
-                            if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
-                            {
-                                uint32 bloodPactAbilityId = PAbility->getID();
-                                PAvatar->m_bloodPactAbilityId = PAbility->getID();
-                            }
-                        }
-
                         PPet->PAI->MobSkill(PPetTarget, PAbility->getMobSkillID());
                     }
                 }

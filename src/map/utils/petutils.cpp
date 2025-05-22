@@ -1048,6 +1048,7 @@ namespace petutils
                 PPet->m_Element = 0; // Water is 0 ElementID for some reason
                 break;
             case PETID_GARUDA:
+            case PETID_SIREN:
                 PPet->addModifier(Mod::EVA, 50);
                 break;
             case PETID_SHIVA:

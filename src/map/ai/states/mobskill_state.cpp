@@ -70,7 +70,7 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
         actionTarget.speceffect = SPECEFFECT_NONE;
         actionTarget.animation = 0;
         actionTarget.param = m_PSkill->getID();
-        actionTarget.messageID = 43;
+        actionTarget.messageID = MSGBASIC_READIES_WS;
 
         bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
 
@@ -79,6 +79,7 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
             auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);
             if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
             {
+                actionTarget.messageID = MSGBASIC_PET_WS;
                 actionTarget.animation = ACTION_BLOODPACT_START;
             }
         }
