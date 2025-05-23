@@ -85,6 +85,30 @@ bool CPetEntity::isBstPet()
   return getPetType() == PETTYPE_JUG_PET || objtype == TYPE_MOB;
 }
 
+bool CPetEntity::isAvatar()
+{
+    switch (m_PetID)
+    {
+        case PETID_CARBUNCLE:
+        case PETID_FENRIR:
+        case PETID_IFRIT:
+        case PETID_TITAN:
+        case PETID_LEVIATHAN:
+        case PETID_GARUDA:
+        case PETID_SHIVA:
+        case PETID_RAMUH:
+        case PETID_DIABOLOS:
+        case PETID_ALEXANDER:
+        case PETID_ODIN:
+        case PETID_ATOMOS:
+        case PETID_CAIT_SITH:
+        case PETID_SIREN:
+            return true;
+    }
+
+    return false;
+}
+
 int32 CPetEntity::getJugSpawnTime()
 {
   TPZ_DEBUG_BREAK_IF(m_PetType != PETTYPE_JUG_PET)
@@ -493,6 +517,14 @@ void CPetEntity::OnPlayerPetSkillFinished(CMobSkillState& state, action_t& actio
             target.speceffect = SPECEFFECT_NONE;
             target.messageID = 188; // skill miss
             continue;
+        }
+
+        // Handle Level ? Holy (Cait Sith)
+        if (PSkill->getID() == ABILITY_LEVEL_QUESTION_HOLY)
+        {
+            auto diceRoll = tpzrand::GetRandomNumber(6);
+            this->SetLocalVar("Level?HolyRoll", diceRoll);
+            target.animation = PSkill->getAnimationID() + diceRoll;
         }
 
         target.param = luautils::OnPetAbility(PTarget, this, PSkill, PMaster, &action);

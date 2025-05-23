@@ -1867,6 +1867,7 @@ namespace battleutils
             {
                 case ENSPELL_I_FIRE:
                 case ENSPELL_II_FIRE:
+                case ENSPELL_INFERNO_HOWL:
                     element = ELEMENT_FIRE;
                     resistDownEle = (uint16)Mod::WATERRES;
                     break;
@@ -1877,6 +1878,7 @@ namespace battleutils
                     break;
                 case ENSPELL_I_WIND:
                 case ENSPELL_II_WIND:
+                case ENSPELL_KATABATIC_BLADES:
                     element = ELEMENT_WIND;
                     resistDownEle = (uint16)Mod::ICERES;
                     break;
@@ -1893,6 +1895,7 @@ namespace battleutils
                     break;
                 case ENSPELL_I_WATER:
                 case ENSPELL_II_WATER:
+                case ENSPELL_TAINT:
                     element = ELEMENT_WATER;
                     resistDownEle = (uint16)Mod::THUNDERRES;
                     break;
@@ -1907,9 +1910,6 @@ namespace battleutils
                 case ENSPELL_ASPIR_SAMBA:
                 case ENSPELL_SOUL_ENSLAVEMENT:
                     element = ELEMENT_DARK;
-                    break;
-                case ENSPELL_TAINT:
-                    element = ELEMENT_WATER;
                     break;
                 default:
                     break;
@@ -9062,6 +9062,7 @@ namespace battleutils
         {
             case ENSPELL_I_FIRE:
             case ENSPELL_II_FIRE:
+            case ENSPELL_INFERNO_HOWL:
                 return DAMAGE_FIRE;
             case ENSPELL_I_ICE:
             case ENSPELL_II_ICE:
@@ -9074,12 +9075,14 @@ namespace battleutils
             //  return DAMAGE_FIRE;
             case ENSPELL_I_WIND:
             case ENSPELL_II_WIND:
+            case ENSPELL_KATABATIC_BLADES:
                 return DAMAGE_WIND;
             case ENSPELL_I_EARTH:
             case ENSPELL_II_EARTH:
                 return DAMAGE_EARTH;
             case ENSPELL_I_THUNDER:
             case ENSPELL_II_THUNDER:
+            case ENSPELL_ROLLING_THUNDER:
                 return DAMAGE_LIGHTNING;
             case ENSPELL_I_WATER:
             case ENSPELL_II_WATER:

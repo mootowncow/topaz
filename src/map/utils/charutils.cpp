@@ -2855,11 +2855,15 @@ namespace charutils
             {
                 CAbility* PAbility = AbilitiesList.at(i);
 
-                if (PPet->GetMLevel() >= PAbility->getLevel() && PetID >= 8 && PetID <= 20 && CheckAbilityAddtype(PChar, PAbility))
+                if (PPet->GetMLevel() >= PAbility->getLevel() && PPet->isAvatar() && CheckAbilityAddtype(PChar, PAbility))
                 {
                     if (PetID == PETID_CARBUNCLE)
                     {
                         if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_SOOTHING_RUBY)
+                        {
+                            addPetAbility(PChar, PAbility->getID() - ABILITY_HEALING_RUBY);
+                        }
+                        if (PAbility->getID() == ABILITY_PACIFYING_RUBY)
                         {
                             addPetAbility(PChar, PAbility->getID() - ABILITY_HEALING_RUBY);
                         }
@@ -2884,13 +2888,18 @@ namespace charutils
                         {
                             addPetAbility(PChar, PAbility->getID() - ABILITY_HEALING_RUBY);
                         }
-                        addPetAbility(PChar, ABILITY_REGAL_GASH - ABILITY_HEALING_RUBY);
+                        if (PAbility->getID() == ABILITY_REGAL_GASH)
+                        {
+                            addPetAbility(PChar, PAbility->getID() - ABILITY_HEALING_RUBY);
+                        }
                     }
                     else if (PetID == PETID_SIREN)
                     {
-                        if (PAbility->getID() > ABILITY_CLARSACH_CALL && PAbility->getID() < ABILITY_HYSTERIC_ASSAULT)
+                        if (PAbility->getID() >= ABILITY_CLARSACH_CALL && PAbility->getID() <= ABILITY_HYSTERIC_ASSAULT)
                         {
-                            addPetAbility(PChar, PAbility->getID() - ABILITY_HEALING_RUBY);
+                            uint16 sirenAbilltyPacketOffset = 0x1C0;
+                            uint16 sirenAbilityPacketBit = (PAbility->getID() - ABILITY_CLARSACH_CALL) + sirenAbilltyPacketOffset;
+                            addPetAbility(PChar, sirenAbilityPacketBit);
                         }
                     }
                 }

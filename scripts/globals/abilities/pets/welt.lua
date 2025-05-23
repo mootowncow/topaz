@@ -1,5 +1,5 @@
 ---------------------------------------------------
--- Regal Gash
+-- Welt
 ---------------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -12,8 +12,8 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onPetAbility(target, pet, skill)
-    local numhits = 8
-    local ftp = 1.0
+    local numhits = 1
+    local ftp = 2.0
     local params = {}
     params.str_wsc = 0.0
     params.dex_wsc = 0.3

@@ -16,10 +16,13 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onPetAbility(target, pet, skill)
+    -- Handled in Core CPetEntity::OnPlayerPetSkillFinished
+    -- Damage done based on dice roll
+    local diceRoll = pet:getLocalVar("Level?HolyRoll")
     local params = {}
-    params.multiplier = 2.0
-    params.tp150 = 2.5
-    params.tp300 = 3.0
+    params.multiplier = 2.0 + diceRoll
+    params.tp150 = 2.5 + diceRoll
+    params.tp300 = 3.0 + diceRoll
     params.str_wsc = 0.0
     params.dex_wsc = 0.0
     params.vit_wsc = 0.0
@@ -27,12 +30,9 @@ function onPetAbility(target, pet, skill)
     params.int_wsc = 0.3
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
-    printf("Test2")
-    local holyLvl = math.random(0, 6)
+
     local damage = AvatarMagicalBP(pet, target, skill, tpz.magic.ele.LIGHT, params, MND_BASED, 0)
     dmg = AvatarMagicalFinalAdjustments(damage, pet, skill, target, tpz.attackType.MAGICAL, tpz.magic.ele.LIGHT, params)
-    -- Animation is 164 - 169
-    skill:setAnimation(164 + holyLvl)
 
     return dmg
 end

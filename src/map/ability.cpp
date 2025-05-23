@@ -84,7 +84,9 @@ bool CAbility::isPetCommand()
 
 bool CAbility::isReadyMove()
 {
-    return getID() >= ABILITY_FOOT_KICK && getID() <= ABILITY_NIHILITY_SONG;
+    return (getID() >= ABILITY_FOOT_KICK && getID() <= ABILITY_NIHILITY_SONG)
+        && getID() != ABILITY_PACIFYING_RUBY
+        && getID() != ABILITY_REGAL_GASH;
 }
 
 bool CAbility::isQuickDraw()

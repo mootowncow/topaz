@@ -427,6 +427,7 @@ enum ABILITY
     ABILITY_MAJESTY            = 394,
     ABILITY_HOVER_SHOT         = 395,
 
+    // Carbuncle
     ABILITY_HEALING_RUBY       = 512,
     ABILITY_POISON_NAILS       = 513,
     ABILITY_SHINING_RUBY       = 514,
@@ -436,6 +437,8 @@ enum ABILITY
     ABILITY_SEARING_LIGHT      = 518,
     ABILITY_HOLY_MIST          = 519,
     ABILITY_SOOTHING_RUBY      = 520,
+
+    // Cait Sith
     ABILITY_REGAL_SCRATCH      = 521,
     ABILITY_MEWING_LULLABY     = 522,
     ABILITY_EARIE_EYE          = 523,
@@ -443,6 +446,8 @@ enum ABILITY
     ABILITY_RAISE_II           = 525,
     ABILITY_RERAISE_II         = 526,
     ABILITY_ALTANAS_FAVOR      = 527,
+
+    // Fenrir
     ABILITY_MOONLIT_CHARGE     = 528,
     ABILITY_CRESCENT_FANG      = 529,
     ABILITY_LUNAR_CRY          = 530,
@@ -450,12 +455,12 @@ enum ABILITY
     ABILITY_ECLIPTIC_GROWL     = 532,
     ABILITY_ECLIPTIC_HOWL      = 533,
     ABILITY_ECLIPSE_BITE       = 534,
-
     ABILITY_HOWLING_MOON       = 536,
     ABILITY_LUNAR_BAY          = 537,
     ABILITY_HEAVENWARD_HOWL    = 538,
     ABILITY_IMPACT             = 539,
 
+    // Ifrit
     ABILITY_PUNCH              = 544,
     ABILITY_FIRE_II            = 545,
     ABILITY_BURNING_STRIKE     = 546,
@@ -468,6 +473,7 @@ enum ABILITY
     ABILITY_INFERNO_HOWL       = 553,
     ABILITY_CONFLAG_STRIKE     = 554,
 
+    // Titan
     ABILITY_ROCK_THROW         = 560,
     ABILITY_STONE_II           = 561,
     ABILITY_ROCK_BUSTER        = 562,
@@ -480,6 +486,7 @@ enum ABILITY
     ABILITY_EARTHEN_ARMOR      = 569,
     ABILITY_CRAG_THROW         = 570,
 
+    // Leviathan
     ABILITY_BARRACUDA_DIVE     = 576,
     ABILITY_WATER_II           = 577,
     ABILITY_TAIL_WHIP          = 578,
@@ -492,6 +499,7 @@ enum ABILITY
     ABILITY_TIDAL_ROAR         = 585,
     ABILITY_SOOTHING_CURRENT   = 586,
 
+    // Garuda
     ABILITY_CLAW               = 592,
     ABILITY_AERO_II            = 593,
     ABILITY_WHISPERING_WIND    = 594,
@@ -504,6 +512,7 @@ enum ABILITY
     ABILITY_FLEET_WIND         = 601,
     ABILITY_HASTEGA_II         = 602,
 
+    // Shiva
     ABILITY_AXE_KICK           = 608,
     ABILITY_BLIZZARD_II        = 609,
     ABILITY_FROST_ARMOR        = 610,
@@ -516,6 +525,7 @@ enum ABILITY
     ABILITY_DIAMOND_STORM      = 617,
     ABILITY_CRYSTAL_BLESSING   = 618,
 
+    // Ramuh
     ABILITY_SHOCK_STRIKE       = 624,
     ABILITY_THUNDER_II         = 625,
     ABILITY_ROLLING_THUNDER    = 626,
@@ -544,7 +554,9 @@ enum ABILITY
     ABILITY_SUPER_CLIMB        = 652,
     ABILITY_REMOVE_CURSE       = 653,
     ABILITY_REMOVE_DISEASE     = 654,
-    ABILITY_CAMISADO           = 656,
+
+    // Diabolos
+    ABILITY_CAMISADO           = 656, // Unused
     ABILITY_SOMNOLENCE         = 657,
     ABILITY_NIGHTMARE          = 658,
     ABILITY_ULTIMATE_TERROR    = 659,
@@ -556,10 +568,18 @@ enum ABILITY
     ABILITY_NIGHT_TERROR       = 665,
     ABILITY_PAVOR_NOCTURNUS    = 666,
     ABILITY_BLINDSIDE          = 667,
+
+    // Atomos
     ABILITY_DECONSTRUCTION     = 668,
     ABILITY_CHRONOSHIFT        = 669,
+
+     //Odin
     ABILITY_ZANTETSUKEN        = 670,
+
+    // Alexander
     ABILITY_PERFECT_DEFENSE    = 671,
+
+    // Jug Pets
     ABILITY_FOOT_KICK          = 672,
     ABILITY_DUST_CLOUD         = 673,
     ABILITY_WHIRL_CLAWS        = 674,
@@ -627,10 +647,8 @@ enum ABILITY
     ABILITY_SUDDEN_LUNGE       = 736,
     ABILITY_SPIRAL_SPIN        = 737,
     ABILITY_NOISOME_POWDER     = 738,
-
     ABILITY_ACID_MIST          = 740,
     ABILITY_TP_DRAINKISS       = 741,
-
     ABILITY_SCYTHE_TAIL        = 743,
     ABILITY_RIPPER_FANG        = 744,
     ABILITY_CHOMP_RUSH         = 745,
@@ -661,14 +679,18 @@ enum ABILITY
     ABILITY_NECTAROUS_DELUGE   = 770,
     ABILITY_NEPENTHIC_PLUNGE   = 771,
     ABILITY_SOMERSAULT         = 772,
+
     ABILITY_PACIFYING_RUBY     = 773,
+
     ABILITY_FOUL_WATERS        = 774,
     ABILITY_PESTILENT_PLUME    = 775,
     ABILITY_PECKING_FLURRY     = 776,
     ABILITY_SICKLE_SLASH       = 777,
     ABILITY_ACID_SPRAY         = 778,
     ABILITY_SPIDER_WEB         = 779,
+
     ABILITY_REGAL_GASH         = 780,
+
     ABILITY_INFECTED_LEECH     = 781,
     ABILITY_GLOOM_SPRAY        = 782,
     ABILITY_DISEMBOWEL         = 786,
@@ -683,6 +705,7 @@ enum ABILITY
     ABILITY_HOOF_VOLLEY        = 797,
     ABILITY_NIHILITY_SONG      = 798,
 
+    // Siren
     ABILITY_CLARSACH_CALL      = 960,
     ABILITY_WELT               = 961,
     ABILITY_KATABATIC_BLADES   = 962,

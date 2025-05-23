@@ -79,6 +79,7 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
             auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);
             if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
             {
+                actionTarget.param = PAvatar->m_bloodPactAbilityId;
                 actionTarget.messageID = MSGBASIC_PET_WS;
                 actionTarget.animation = ACTION_BLOODPACT_START;
             }

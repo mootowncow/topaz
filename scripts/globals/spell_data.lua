@@ -118,13 +118,16 @@ tpz.magic.enspell =
     II_LIGHT = 15,
     II_DARK = 16,
     BLOOD_WEAPON = 17,
-    ROLLING_THUNDER = 18,
+    -- 18 free
     AUSPICE = 19,
     DRAIN_SAMBA = 20,
     ASPIR_SAMBA = 21,
     HASTE_SAMBA = 22,
     SOUL_ENSLAVEMENT = 23,
-    TAINT = 24
+    TAINT = 24,
+    ROLLING_THUNDER = 25,
+    INFERNO_HOWL = 26,
+    KATABATIC_BLADES = 27
 }
 
 tpz.magic.spikes =

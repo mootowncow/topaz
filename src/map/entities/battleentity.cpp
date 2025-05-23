@@ -1652,6 +1652,21 @@ bool CBattleEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
         return true;
     }
 
+    if ((targetFlags & TARGET_PLAYER_PARTY) && (allegiance == PInitiator->allegiance))
+    {
+        if ((PParty && PInitiator->PParty && PParty == PInitiator->PParty) || (!PParty && !PInitiator->PParty) || // both solo
+            (this == PInitiator->PPet) || (PInitiator == this->PMaster))
+        {
+            return true;
+        }
+    }
+
+
+    if (objtype == TYPE_PET && (targetFlags & TARGET_EXCLUDE_PETS))
+    {
+        return true;
+    }
+
     return false;
 }
 

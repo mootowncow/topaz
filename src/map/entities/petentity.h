@@ -56,6 +56,7 @@ public:
     int32       getJugDuration();             // duration of this jug pet in seconds
     void        setJugDuration(int32 seconds); // sets the duration of this jug pet in seconds
     bool isBstPet();
+    bool isAvatar();
 	uint8 m_Element;
 	uint32 m_PetID;
     uint32 m_bloodPactAbilityId;

@@ -1681,6 +1681,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         {
             action.recast = 0;
         }
+        uint16 mobSkillId = 885;
 
         action.id = this->id;
         action.actiontype = PAbility->getActionType();
@@ -1702,7 +1703,8 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 actionTarget.param = 0;
                 actionTarget.messageID = 0;
 
-                auto PPetTarget = PTarget->targid;
+                uint16 PPetTarget = this->m_TargID;
+
                 if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
                 {
                     float mpCost = PAbility->getMPCost();
@@ -1734,26 +1736,38 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
                     if (validTarget & TARGET_SELF)
                     {
-                        PPetTarget = PPet->targid;
-
+                        PPetTarget = this->PPet->targid;
+                        ShowDebug("Target self\n");
+                        mobSkillId = 887;
                         // Check if it also includes TARGET_PLAYER_PARTY
                         if (validTarget & TARGET_PLAYER_PARTY)
                         {
-                            PPetTarget = PTarget->targid;
+                            mobSkillId = 906;
+                            ShowDebug("Target self AND party\n");
+                            PPetTarget = this->m_TargID;
                         }
                     }
                     else if (validTarget & TARGET_PLAYER_PARTY)
                     {
+                        mobSkillId = 906;
                         // If only TARGET_PLAYER_PARTY is set
-                        PPetTarget = PTarget->targid;
+                        ShowDebug("Target party\n");
+                        PPetTarget = this->m_TargID;
+                    }
+                    else if (validTarget & TARGET_ENEMY)
+                    {
+                        // If only TARGET_ENEMY is set
+                        ShowDebug("Target enemy\n");
+                        PPetTarget = this->m_TargID;
                     }
 
                 }
                 else
                 {
                     auto PMobSkill = battleutils::GetMobSkill(PAbility->getMobSkillID());
-                    if (PMobSkill)
+                    if (PMobSkill && !(PAbility->getFlag() & ABILITYFLAG_PET_ABILITY))
                     {
+                        ShowDebug("Trying to do mobskill target logic\n");
                         if (PMobSkill->getValidTargets() & TARGET_ENEMY)
                         {
                             PPetTarget = PPet->GetBattleTargetID();
@@ -1768,6 +1782,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 // Tell pet to use mob skill
                 if (PAbility->getFlag() & ABILITYFLAG_PET_ABILITY)
                 {
+                    ShowDebug("Pet ability\n");
                     if (PPet->objtype == TYPE_PET)
                     {
                         auto PAvatar = dynamic_cast<CPetEntity*>(PPet);
@@ -1775,14 +1790,16 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                         {
                             uint32 bloodPactAbilityId = PAbility->getID();
                             PAvatar->m_bloodPactAbilityId = PAbility->getID();
-                            PPet->PAI->MobSkill(PPetTarget, PAbility->getID());
+                            PPet->PAI->MobSkill(PPetTarget, mobSkillId);
                         }
                     }
                 }
-                else
+                else 
                 {
-                    // Tell wyvern to use a mob skill
+                    ShowDebug("NOT A PET ABILITY\n");
+                    // Tell wyvern / Jug pets to use a mob skill
                     // TODO: Fix wyvern to not need this!
+                    // DO NOT DELETE THIS LOGIC
                     if (PPetTarget > 0 && PAbility->getMobSkillID())
                     {
                         PPet->PAI->MobSkill(PPetTarget, PAbility->getMobSkillID());
@@ -2654,6 +2671,14 @@ CBattleEntity* CCharEntity::IsValidTarget(uint16 targid, uint16 validTargetFlags
             errMsg = std::make_unique<CMessageSystemPacket>(0, 0, 225);
             // Interaction was blocked
             static_cast<CCharEntity*>(PTarget)->pushPacket(new CMessageSystemPacket(0, 0, 226));
+        }
+        else if (PTarget->objtype == TYPE_TRUST && validTargetFlags & TARGET_EXCLUDE_TRUSTS)
+        {
+            errMsg = std::make_unique<CMessageBasicPacket>(this, this, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG);
+        }
+        else if (PTarget->objtype == TYPE_PET && validTargetFlags & TARGET_EXCLUDE_PETS)
+        {
+            errMsg = std::make_unique<CMessageBasicPacket>(this, this, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG);
         }
         else if (static_cast<CCharEntity*>(this)->IsMobOwner(PTarget))
         {
