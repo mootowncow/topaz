@@ -222,7 +222,7 @@ namespace battleutils
     uint8               GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage);
     uint8               GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage, int8 accBonus, bool isBluSpell = false);
     uint16              CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int acc, bool isBluSpell = false);
-    int32               CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element);
+    int32               CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element, uint8 enspell);
 
     int16               GetEnmityModDamage(int16 level);
     int16               GetEnmityModCure(int16 level);

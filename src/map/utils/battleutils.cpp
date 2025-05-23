@@ -1007,7 +1007,7 @@ namespace battleutils
         return g_PMobSkillLists[ListID];
     }
 
-    int32 CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element)
+    int32 CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element, uint8 enspell)
     {
         int32 damage = 0;
 
@@ -1128,11 +1128,11 @@ namespace battleutils
             enspellMaccBonus += battleutils::GetMaxSkill(SKILL_GREAT_AXE, JOB_WAR, PAttacker->GetMLevel()); // A+ Skill
         }
         //printf("Element in enspell: %u\n", element);
-        if (element +1 == ELEMENT_LIGHT) // Enlight
+        if (enspell == ELEMENT_LIGHT) // Enlight
         {
             damage = static_cast<int32>(static_cast<float>(damage) * ApplyResistance(PAttacker, PDefender, static_cast<ELEMENT>(element + 1), SKILL_DIVINE_MAGIC, 0, static_cast<float>(enspellMaccBonus)));
         }
-        else if (element +1 == ELEMENT_DARK) // Endark
+        else if (enspell == ELEMENT_DARK) // Endark
         {
             if (PAttacker->GetMJob() == JOB_NIN) // Ninja Endark
             {
@@ -1142,6 +1142,12 @@ namespace battleutils
             {
                 damage = static_cast<int32>(static_cast<float>(damage) * ApplyResistance(PAttacker, PDefender, static_cast<ELEMENT>(element + 1), SKILL_DARK_MAGIC, 0, static_cast<float>(enspellMaccBonus)));
             }
+        }
+        else if (enspell >= ENSPELL_ROLLING_THUNDER && enspell <= ENSPELL_KATABATIC_BLADES)
+        {
+            auto targ_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_MAIN]);
+            auto mhCombatSkill = targ_weapon->getSkillType();
+            damage = static_cast<int32>(static_cast<float>(damage) * ApplyResistance(PAttacker, PDefender, static_cast<ELEMENT>(element + 1), mhCombatSkill, 0, static_cast<float>(enspellMaccBonus)));
         }
         else
         {
@@ -1920,7 +1926,7 @@ namespace battleutils
                 Action->additionalEffect = enspell_subeffects[enspell - 1];
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
-                    CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 1);
+                    CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 1, enspell);
                 // printf("\nElement inside T1 enspell call = %i \n", element);
                 PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
                 // Handle Negative damage
@@ -1935,7 +1941,7 @@ namespace battleutils
                 Action->additionalEffect = enspell_subeffects[enspell - 9];
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
-                    CalculateEnspellDamage(PAttacker, PDefender, 2, enspell - 9);
+                    CalculateEnspellDamage(PAttacker, PDefender, 2, enspell - 9, enspell);
 
                 // Add -30 element resist down effect based on the enspell for 15 seconds
                 ((CBattleEntity*)PDefender)->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_NINJUTSU_ELE_DEBUFF, 0, 30, 0, 10, 0, resistDownEle, 0, false));
@@ -1952,7 +1958,35 @@ namespace battleutils
                 Action->additionalEffect = enspell_subeffects[enspell -1];
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
-                    CalculateEnspellDamage(PAttacker, PDefender, 3, enspell -1);
+                    CalculateEnspellDamage(PAttacker, PDefender, 3, enspell -1, enspell);
+
+                PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
+                // Handle Negative damage
+                if (Action->addEffectParam < 0)
+                {
+                    Action->addEffectParam = -Action->addEffectParam;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
+                }
+            }
+            else if (enspell >= ENSPELL_ROLLING_THUNDER && enspell <= ENSPELL_KATABATIC_BLADES)
+            {
+                switch (enspell)
+                {
+                    case ENSPELL_ROLLING_THUNDER:
+                        Action->additionalEffect = SUBEFFECT_LIGHTNING_DAMAGE;
+                        break;
+                    case ENSPELL_INFERNO_HOWL:
+                        Action->additionalEffect = SUBEFFECT_FIRE_DAMAGE;
+                        break;
+                    case ENSPELL_KATABATIC_BLADES:
+                        Action->additionalEffect = SUBEFFECT_WIND_DAMAGE;
+                        break;
+                    default:
+                        break;
+                }
+
+                Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
+                Action->addEffectParam = CalculateEnspellDamage(PAttacker, PDefender, 3, enspell - 1, enspell);
 
                 PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
                 // Handle Negative damage
@@ -2027,7 +2061,7 @@ namespace battleutils
                 Action->additionalEffect = SUBEFFECT_LIGHT_DAMAGE;
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
-                    CalculateEnspellDamage(PAttacker, PDefender, 1, ELEMENT_LIGHT -1);
+                    CalculateEnspellDamage(PAttacker, PDefender, 1, ELEMENT_LIGHT -1, enspell);
 
                 PDefender->takeDamage(Action->addEffectParam,
                                                          PAttacker, ATTACK_MAGICAL,

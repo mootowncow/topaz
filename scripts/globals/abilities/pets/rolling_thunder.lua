@@ -19,5 +19,6 @@ function onPetAbility(target, pet, skill, summoner)
     local bonus = 0
 
     AvatarBuffBP(pet, target, skill, effect, power, tick, duration, params, bonus)
+    AvatarBuffBP(pet, target, skill, tpz.effect.ENTHUNDER, 6592, tick, duration, params, bonus)
     return effect
 end
