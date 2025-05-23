@@ -316,6 +316,7 @@ Lunar<CLuaMobSkill>::Register_t CLuaMobSkill::methods[] =
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setAoe),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setDistance),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setFlag),
+    LUNAR_DECLARE_METHOD(CLuaMobSkill,getFlag),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,addFlag),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setAnimationTime),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setActivationTime),

@@ -81,7 +81,9 @@ enum MSGBASIC_ID : uint16
 
     // Enspell
     MSGBASIC_ADD_EFFECT_STATUS      = 160, // Additional effect : <Status Effect>.
-    MSGBASIC_ENSPELL_DMG            = 163,  // Additional effect: 0 points of damage.
+    MSGBASIC_ENSPELL_HP_DRAIN       = 161, // Additional effect: 0 HP drained from <target>.
+    MSGBASIC_ENSPELL_MP_DRAIN       = 162, // Additional effect: 0 MP drained from <target>.
+    MSGBASIC_ENSPELL_DMG            = 163, // Additional effect: 0 points of damage.
     MSGBASIC_ADD_EFFECT_TP_DRAIN    = 165, // Additional effect: <number> TP drained from <target>.
     MSGBASIC_ENSPELL_HEAL           = 384, // Additional effect: <target> recovers 0 HP.
 

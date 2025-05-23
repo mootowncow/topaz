@@ -4,6 +4,7 @@
 --
 -----------------------------------
 require("scripts/globals/status")
+require("scripts/globals/spell_data")
 -----------------------------------
 
 function onEffectGain(target, effect)

@@ -1,28 +1,22 @@
 ---------------------------------------------------
--- Level ?(1) Holy
--- 0 TP: 2.0
--- 1500 TP: 2.5
--- 3000 TP: 3.0
+-- Conflag Strike
 ---------------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/summon")
+require("scripts/globals/magic")
 
 ---------------------------------------------------
 
 function onAbilityCheck(player, target, ability)
-    getAvatarTP(player)
     return 0, 0
 end
 
 function onPetAbility(target, pet, skill)
-    -- Handled in Core CPetEntity::OnPlayerPetSkillFinished
-    -- Damage done based on dice roll
-    local diceRoll = pet:getLocalVar("Level?HolyRoll")
     local params = {}
-    params.multiplier = 2.0 + diceRoll
-    params.tp150 = 2.5 + diceRoll
-    params.tp300 = 3.0 + diceRoll
+    params.multiplier = 5
+    params.tp150 = 7
+    params.tp300 = 9
     params.str_wsc = 0.0
     params.dex_wsc = 0.0
     params.vit_wsc = 0.0
@@ -32,13 +26,17 @@ function onPetAbility(target, pet, skill)
     params.chr_wsc = 0.0
 
     local effect = tpz.effect.MAGIC_DEF_DOWN
-    local power = 12
+    local power = 30
     local duration = 60
+    local subid = 0
+    local subpower = 63
+    local tier = 0
     local bonus = 0
+    params.DOT = true
 
-    local damage = AvatarMagicalBP(pet, target, skill, tpz.magic.ele.LIGHT, params, MND_BASED, 0)
-    dmg = AvatarMagicalFinalAdjustments(damage, pet, skill, target, tpz.attackType.MAGICAL, tpz.magic.ele.LIGHT, params)
-    AvatarStatusEffectBP(pet, target, effect, power, duration, params, bonus)
+    local damage = AvatarMagicalBP(pet, target, skill, tpz.magic.ele.FIRE, params, INT_BASED, 0)
+    dmg = AvatarMagicalFinalAdjustments(damage, pet, skill, target, tpz.attackType.BREATH, tpz.magic.ele.FIRE, params)
+    AvatarStatusEffectBPSub(avatar, target, effect, power, duration, subid, subpower, tier, params, bonus)
 
     return dmg
 end

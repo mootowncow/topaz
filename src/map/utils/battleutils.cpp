@@ -1007,7 +1007,7 @@ namespace battleutils
         return g_PMobSkillLists[ListID];
     }
 
-    int32 CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element, uint8 enspell)
+    int32 CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element, uint8 enspell, actionTarget_t* Action, int32 finaldamage)
     {
         int32 damage = 0;
 
@@ -1149,6 +1149,19 @@ namespace battleutils
             auto mhCombatSkill = targ_weapon->getSkillType();
             damage = static_cast<int32>(static_cast<float>(damage) * ApplyResistance(PAttacker, PDefender, static_cast<ELEMENT>(element + 1), mhCombatSkill, 0, static_cast<float>(enspellMaccBonus)));
         }
+        else if (enspell >= ENSPELL_HEAVENWARD_HOWL_DRAIN && enspell <= ENSPELL_ASPIR)
+        {
+            auto targ_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_MAIN]);
+            auto mhCombatSkill = targ_weapon->getSkillType();
+            int32 wepDamage = finaldamage;
+            int32 drainPercent = PAttacker->getMod(Mod::ENSPELL_DMG);
+            int32 enspellDrainPercent = wepDamage * drainPercent;
+
+            damage = floor(enspellDrainPercent /= 100);
+            float resistance = ApplyResistance(PAttacker, PDefender, static_cast<ELEMENT>(element + 1), mhCombatSkill, 0, static_cast<float>(enspellMaccBonus));
+            damage = static_cast<int32>(static_cast<float>(damage) * resistance);
+        }
+
         else
         {
             damage = static_cast<int32>(static_cast<float>(damage) * ApplyResistance(PAttacker, PDefender, static_cast<ELEMENT>(element + 1), SKILL_ENHANCING_MAGIC, 0, static_cast<float>(enspellMaccBonus)));
@@ -1799,7 +1812,7 @@ namespace battleutils
         {
             PChar = (CCharEntity*)PAttacker;
         }
-
+        ShowDebug("Final damage HandleEnspell %i\n", finaldamage);
         Action->additionalEffect = SUBEFFECT_NONE;
         Action->addEffectMessage = 0;
         Action->addEffectParam = 0;
@@ -1915,6 +1928,10 @@ namespace battleutils
                 case ENSPELL_DRAIN_SAMBA:
                 case ENSPELL_ASPIR_SAMBA:
                 case ENSPELL_SOUL_ENSLAVEMENT:
+                case ENSPELL_HEAVENWARD_HOWL_DRAIN:
+                case ENSPELL_HEAVENWARD_HOWL_ASPIR:
+                case ENSPELL_DRAIN:
+                case ENSPELL_ASPIR:
                     element = ELEMENT_DARK;
                     break;
                 default:
@@ -1926,7 +1943,7 @@ namespace battleutils
                 Action->additionalEffect = enspell_subeffects[enspell - 1];
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
-                    CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 1, enspell);
+                    CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 1, enspell, Action, finaldamage);
                 // printf("\nElement inside T1 enspell call = %i \n", element);
                 PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
                 // Handle Negative damage
@@ -1941,7 +1958,7 @@ namespace battleutils
                 Action->additionalEffect = enspell_subeffects[enspell - 9];
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
-                    CalculateEnspellDamage(PAttacker, PDefender, 2, enspell - 9, enspell);
+                    CalculateEnspellDamage(PAttacker, PDefender, 2, enspell - 9, enspell, Action, finaldamage);
 
                 // Add -30 element resist down effect based on the enspell for 15 seconds
                 ((CBattleEntity*)PDefender)->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_NINJUTSU_ELE_DEBUFF, 0, 30, 0, 10, 0, resistDownEle, 0, false));
@@ -1958,7 +1975,7 @@ namespace battleutils
                 Action->additionalEffect = enspell_subeffects[enspell -1];
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
-                    CalculateEnspellDamage(PAttacker, PDefender, 3, enspell -1, enspell);
+                    CalculateEnspellDamage(PAttacker, PDefender, 3, enspell -1, enspell, Action, finaldamage);
 
                 PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
                 // Handle Negative damage
@@ -1986,7 +2003,7 @@ namespace battleutils
                 }
 
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
-                Action->addEffectParam = CalculateEnspellDamage(PAttacker, PDefender, 3, enspell - 1, enspell);
+                Action->addEffectParam = CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 1, enspell, Action, finaldamage);
 
                 PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
                 // Handle Negative damage
@@ -1999,7 +2016,7 @@ namespace battleutils
             else if (enspell == ENSPELL_BLOOD_WEAPON)
             {
                 Action->additionalEffect = SUBEFFECT_HP_DRAIN;
-                Action->addEffectMessage = 161;
+                Action->addEffectMessage = MSGBASIC_ENSPELL_HP_DRAIN;
 
                 // Increase HP Absorbed by 2% per JP
                 int32 absorbed = Action->param;
@@ -2061,7 +2078,7 @@ namespace battleutils
                 Action->additionalEffect = SUBEFFECT_LIGHT_DAMAGE;
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
-                    CalculateEnspellDamage(PAttacker, PDefender, 1, ELEMENT_LIGHT -1, enspell);
+                    CalculateEnspellDamage(PAttacker, PDefender, 1, ELEMENT_LIGHT -1, enspell, Action, finaldamage);
 
                 PDefender->takeDamage(Action->addEffectParam,
                                                          PAttacker, ATTACK_MAGICAL,
@@ -2085,6 +2102,70 @@ namespace battleutils
                     tpzrand::GetRandomNumber(100) > GetEffectResistanceTraitChance(PDefender, PDefender, EFFECT_TAINT))
                 {
                     PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_TAINT, EFFECT_TAINT, power, 3, (uint32)(30 * (float)resist)));
+                }
+            }
+            else if (enspell == ENSPELL_HEAVENWARD_HOWL_DRAIN || enspell == ENSPELL_DRAIN)
+            {
+                Action->additionalEffect = SUBEFFECT_HP_DRAIN;
+                Action->addEffectMessage = MSGBASIC_ENSPELL_HP_DRAIN;
+                Action->addEffectParam = CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 9, enspell, Action, finaldamage);
+
+                // Does not work on undead
+                if (PDefender->objtype == TYPE_MOB && PDefender->m_EcoSystem == SYSTEM_UNDEAD)
+                {
+                    Action->additionalEffect = SUBEFFECT_NONE;
+                    Action->addEffectMessage = MSGBASIC_NONE;
+                    Action->addEffectParam = 0;
+                }
+                else
+                {
+                    PAttacker->addHP(Action->addEffectParam);
+                }
+
+                PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
+
+                // Handle Negative damage
+                if (Action->addEffectParam < 0)
+                {
+                    Action->addEffectParam = -Action->addEffectParam;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
+                }
+
+                if (PChar != nullptr)
+                {
+                    PChar->updatemask |= UPDATE_HP;
+                }
+            }
+            else if (enspell == ENSPELL_HEAVENWARD_HOWL_ASPIR || enspell == ENSPELL_ASPIR)
+            {
+                Action->additionalEffect = SUBEFFECT_MP_DRAIN;
+                Action->addEffectMessage = MSGBASIC_ENSPELL_MP_DRAIN;
+                Action->addEffectParam = CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 9, enspell, Action, finaldamage);
+
+                // Does not work on undead
+                if (PDefender->objtype == TYPE_MOB && PDefender->m_EcoSystem == SYSTEM_UNDEAD)
+                {
+                    Action->additionalEffect = SUBEFFECT_NONE;
+                    Action->addEffectMessage = MSGBASIC_NONE;
+                    Action->addEffectParam = 0;
+                }
+                else
+                {
+                    PAttacker->addMP(Action->addEffectParam);
+                }
+
+                PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
+
+                // Handle Negative damage
+                if (Action->addEffectParam < 0)
+                {
+                    Action->addEffectParam = -Action->addEffectParam;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
+                }
+
+                if (PChar != nullptr)
+                {
+                    PChar->updatemask |= UPDATE_HP;
                 }
             }
         }
@@ -2205,7 +2286,7 @@ namespace battleutils
                     }
 
                     Action->additionalEffect = SUBEFFECT_HP_DRAIN;
-                    Action->addEffectMessage = 161;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_HP_DRAIN;
                     Action->addEffectParam = Samba;
 
                     PAttacker->addHP(Samba); // does not do any additional damage to targets HP, only heals the attacker
@@ -2234,7 +2315,7 @@ namespace battleutils
                     }
 
                     Action->additionalEffect = SUBEFFECT_MP_DRAIN;
-                    Action->addEffectMessage = 162;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_MP_DRAIN;
 
                     int16 mpDrained = PDefender->addMP(-Samba);
 
@@ -7276,8 +7357,10 @@ namespace battleutils
         return damage;
     }
 
-    int32 HandleSevereDamage(CBattleEntity* PDefender, int32 damage, bool isPhysical) {
+    int32 HandleSevereDamage(CBattleEntity* PDefender, int32 damage, bool isPhysical)
+    {
         damage = HandleSevereDamageEffect(PDefender, EFFECT_MIGAWARI, damage, true);
+        damage = HandleSevereDamageEffect(PDefender, EFFECT_EARTHEN_ARMOR, damage, true);
         // In the future, handle other Severe Damage Effects like Earthen Armor here
 
         if (isPhysical && PDefender->objtype == TYPE_PET && PDefender->getMod(Mod::AUTO_SCHURZEN) != 0 && damage >= PDefender->health.hp &&
@@ -7453,8 +7536,13 @@ namespace battleutils
             //ShowDebug(CL_CYAN"HandleSevereDamageEffect: Severe Damage Occurred! Damage = %d, Threshold = %f, Damage Threshold = %f\n" CL_RESET, damage, threshold, damageThreshold);
 
             // Severe Damage is when the Attack's Damage Exceeds a Certain Threshold
-            if (damage > damageThreshold) {
+            if (damage > damageThreshold)
+            {
                 uint16 severeReduction = PDefender->StatusEffectContainer->GetStatusEffect(effect)->GetSubPower();
+                if (effect == EFFECT_EARTHEN_ARMOR)
+                {
+                    severeReduction = 45;
+                }
                 severeReduction = std::clamp((100 - severeReduction), 0, 100) / 100;
                 damage = damage * severeReduction;
 
@@ -9101,12 +9189,6 @@ namespace battleutils
             case ENSPELL_I_ICE:
             case ENSPELL_II_ICE:
                 return DAMAGE_ICE;
-            //case ENSPELL_I_ICE:
-            // case ENSPELL_II_ICE:
-            //  return DAMAGE_ICE;
-            //case ENSPELL_I_FIRE:
-            // case ENSPELL_II_FIRE:
-            //  return DAMAGE_FIRE;
             case ENSPELL_I_WIND:
             case ENSPELL_II_WIND:
             case ENSPELL_KATABATIC_BLADES:
@@ -9126,6 +9208,10 @@ namespace battleutils
                 return DAMAGE_LIGHT;
             case ENSPELL_I_DARK:
             case ENSPELL_II_DARK:
+            case ENSPELL_HEAVENWARD_HOWL_DRAIN:
+            case ENSPELL_HEAVENWARD_HOWL_ASPIR:
+            case ENSPELL_DRAIN:
+            case ENSPELL_ASPIR:
                 return DAMAGE_DARK;
             default:
                 return DAMAGE_NONE;

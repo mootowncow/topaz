@@ -15,6 +15,12 @@ TP_DMG_BONUS = 1
 TP_ACC_BONUS = 2
 TP_CRIT_VARIES = 3
 
+summonerStatusCure =
+{
+    NA = 1,
+    ERASE = 2
+}
+
 -- params
 -- phys only
 --params.multiHitFtp
@@ -591,10 +597,61 @@ function AvatarStatusEffectBP(avatar, target, effect, power, duration, params, b
             duration = CheckDiminishingReturns(avatar, target, effect, duration)
 
             --printf("totalDuration %i", totalDuration)
-            if params.DOT then -- Used for Nightmare / Shining Ruby
+            if params.DOT then
                 target:addStatusEffect(effect, power, 3, totalDuration)
             else
                 target:addStatusEffect(effect, power, 0, totalDuration)
+            end
+
+            AddDimishingReturns(avatar, target, nil, effect)
+            giveAvatarTP(avatar)
+            return tpz.msg.basic.JA_ENFEEB_IS
+        end
+
+        giveAvatarTP(avatar)
+        return tpz.msg.basic.JA_MISS_2 -- resist !
+    end
+    giveAvatarTP(avatar)
+    return tpz.msg.basic.JA_NO_EFFECT_2 -- no effect
+end
+
+function AvatarStatusEffectBPSub(avatar, target, effect, power, duration, subid, subpower, tier, params, bonus)
+
+    if isNoEffectMsg(avatar, target, effect, params)
+    then
+	    return tpz.msg.basic.JA_NO_EFFECT_2
+    end
+
+    local maccBonus = bonus
+
+    if (target:canGainStatusEffect(effect, power)) then
+        local statmod = tpz.mod.INT
+        local element = avatar:getStatusEffectElement(effect)
+
+        if params.ELEMENT_OVERRIDE ~= nil then
+            element = params.ELEMENT_OVERRIDE
+        end
+
+        local resist = getAvatarResist(avatar, effect, target, avatar:getStat(statmod)-target:getStat(statmod), maccBonus, element)
+
+        -- Doom and Gradual Petrification can't have a lower duration from resisting
+        if (resist < 1) then
+            if (effect == tpz.effect.DOOM) or (effect == tpz.effect.GRADUAL_PETRIFICATION) then
+                giveAvatarTP(avatar)
+                return tpz.msg.basic.JA_MISS_2 -- resist !
+            end
+        end
+        --printf("resist %i", resist * 100)
+        if (resist >= 0.50) then
+            -- Reduce duration by resist percentage
+            local totalDuration = duration * resist
+            duration = CheckDiminishingReturns(avatar, target, effect, duration)
+
+            --printf("totalDuration %i", totalDuration)
+            if params.DOT then
+                target:addStatusEffect(effect, power, 3, totalDuration, subid, subpower, tier)
+            else
+                target:addStatusEffect(effect, power, 0, totalDuration, subid, subpower, tier)
             end
 
             AddDimishingReturns(avatar, target, nil, effect)
@@ -746,34 +803,52 @@ function AvatarBuffMultipleEffects(avatar, target, skill, power, count, tick, du
     giveAvatarTP(avatar)
 end
 
-function AvatarHealBP(avatar, target, skill, healmodifier, statuscure)
-
+function AvatarHealBP(avatar, target, skill, healmodifier, cureFlag, amount)
     local avatarLevel = avatar:getMainLvl()
     local avatarHP = avatar:getMaxHP()
     local targetHP = target:getHP()
     local targetMaxHP = target:getMaxHP()
+    local statusRemovedMax = amount or 1
 
-    heal = avatarHP * healmodifier
+    local heal = avatarHP * healmodifier
 
-    if (targetHP+heal > targetMaxHP) then
+    if (targetHP + heal > targetMaxHP) then
         heal = targetMaxHP - targetHP
     end
 
     local removables =
     {
         tpz.effect.POISON, tpz.effect.PARALYSIS, tpz.effect.BLINDNESS, tpz.effect.SILENCE, tpz.effect.PETRIFICATION,
-        tpz.effect.DISEASE, tpz.effect.PLAGUE, 
+        tpz.effect.DISEASE, tpz.effect.PLAGUE,
     }
 
-    if statuscure == true then
-        for i, effect in ipairs(removables) do
-            if (target:hasStatusEffect(effect)) then
-                target:delStatusEffect(effect)
+    if (cureFlag == summonerStatusCure.NA) then
+        local removedCount = 0
+        while (removedCount < statusRemovedMax) do
+            local removedOne = false
+            for _, effect in ipairs(removables) do
+                if (target:hasStatusEffect(effect)) then
+                    target:delStatusEffect(effect)
+                    removedCount = removedCount + 1
+                    removedOne = true
+                    break -- remove one per iteration
+                end
             end
+            if not removedOne then
+                break -- nothing left to remove
+            end
+        end
+    elseif (cureFlag == summonerStatusCure.ERASE) then
+        local removedCount = 0
+        while (removedCount < statusRemovedMax) do
+            local removedEffect = target:eraseStatusEffect()
+            if removedEffect == tpz.effect.NONE then
+                break -- no more erasable effects
+            end
+            removedCount = removedCount + 1
         end
     end
 
-    giveAvatarTP(avatar)
     target:wakeUp()
     target:addHP(heal)
     skill:setMsg(tpz.msg.basic.JA_RECOVERS_HP)
