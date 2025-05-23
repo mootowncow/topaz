@@ -1705,7 +1705,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
                 uint16 PPetTarget = this->m_TargID;
 
-                if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
+                if (PAbility->isPetAbility())
                 {
                     float mpCost = PAbility->getMPCost();
 
@@ -1736,6 +1736,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
                     if (validTarget & TARGET_SELF)
                     {
+                        ShowDebug("Valid Target\n");
                         PPetTarget = this->PPet->targid;
                         ShowDebug("Target self\n");
                         mobSkillId = 887;
