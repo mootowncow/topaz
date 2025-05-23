@@ -2348,8 +2348,6 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 {
                     if (!isBlocked)
                     {
-                        int32 wepDamage = attack.GetDamage();
-                        ShowDebug("Attack round weapon damage: %i\n", wepDamage);
                         battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
                                                    attack.GetDamage());
                     }

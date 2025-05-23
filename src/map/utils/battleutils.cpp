@@ -1812,7 +1812,7 @@ namespace battleutils
         {
             PChar = (CCharEntity*)PAttacker;
         }
-        ShowDebug("Final damage HandleEnspell %i\n", finaldamage);
+
         Action->additionalEffect = SUBEFFECT_NONE;
         Action->addEffectMessage = 0;
         Action->addEffectParam = 0;
