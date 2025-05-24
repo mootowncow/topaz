@@ -1703,7 +1703,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 actionTarget.param = 0;
                 actionTarget.messageID = 0;
 
-                uint16 PPetTarget = this->m_TargID;
+                uint16 PPetTarget = PAbility->getTarget()->targid;
 
                 if (PAbility->isPetAbility())
                 {
@@ -1734,32 +1734,36 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
                     uint16 validTarget = PAbility->getValidTarget();
 
-                    if (validTarget & TARGET_SELF)
+                    // TARGET_PLAYER_PARTY is set. Will detect from left to right so lowest number enum gets detected first (Self - 1)
+                    // In order to set target for TARGET_SELF and TARGET_PLAYER_PARTY (3) to pick TARGET_PLAYER_PARTY first it has to
+                    // come first in the if elseif
+                    // Alternatively, this would fix it:
+                    // if ((validTarget & (TARGET_PLAYER_PARTY | TARGET_SELF)) == 3)
+                    // Should be if BOTH TARGET_PLAYER_PARTY and TARGET_SELFlf (3)
+                    if (validTarget & TARGET_PLAYER_PARTY)
+                    {
+                        PPetTarget = PAbility->getTarget()->targid;
+                        mobSkillId = 906;
+                        ShowDebug("Target party\n");
+                    }
+                    else if (validTarget & TARGET_SELF) // TARGET_SELF is set
                     {
                         ShowDebug("Valid Target\n");
-                        PPetTarget = this->PPet->targid;
                         ShowDebug("Target self\n");
+                        PPetTarget = PPet->targid;
                         mobSkillId = 887;
-                        // Check if it also includes TARGET_PLAYER_PARTY
-                        if (validTarget & TARGET_PLAYER_PARTY)
-                        {
-                            mobSkillId = 906;
-                            ShowDebug("Target self AND party\n");
-                            PPetTarget = this->m_TargID;
-                        }
                     }
-                    else if (validTarget & TARGET_PLAYER_PARTY)
+                    else if (validTarget & TARGET_ENEMY) // TARGET_ENEMY is set
                     {
-                        mobSkillId = 906;
-                        // If only TARGET_PLAYER_PARTY is set
-                        ShowDebug("Target party\n");
-                        PPetTarget = this->m_TargID;
-                    }
-                    else if (validTarget & TARGET_ENEMY)
-                    {
-                        // If only TARGET_ENEMY is set
                         ShowDebug("Target enemy\n");
-                        PPetTarget = this->m_TargID;
+                        PPetTarget = PAbility->getTarget()->targid;
+                        mobSkillId = 885;
+                    }
+
+                    if (validTarget & TARGET_PLAYER_DEAD) // TARGET_PLAYER_DEAD is set
+                    {
+                        ShowDebug("Target dead player\n");
+                        mobSkillId = 2460;
                     }
 
                 }
@@ -1779,7 +1783,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                         }
                     }
                 }
-
+                ShowDebug("Target: %u", PPetTarget);
                 // Tell pet to use mob skill
                 if (PAbility->getFlag() & ABILITYFLAG_PET_ABILITY)
                 {
@@ -2664,6 +2668,11 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
 CBattleEntity* CCharEntity::IsValidTarget(uint16 targid, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg)
 {
     auto PTarget = CBattleEntity::IsValidTarget(targid, validTargetFlags, errMsg);
+    if (PTarget->isAlive() && (validTargetFlags & TARGET_PLAYER_DEAD))
+    {
+        errMsg = std::make_unique<CMessageBasicPacket>(this, this, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG);
+        return nullptr;
+    }
     if (PTarget)
     {
         if (PTarget->objtype == TYPE_PC && charutils::IsAidBlocked(this, static_cast<CCharEntity*>(PTarget)))

@@ -135,6 +135,7 @@ bool CAbilityState::CanUseAbility()
         auto PTarget = GetTarget();
         if (PChar->IsValidTarget(PTarget->targid, PAbility->getValidTarget(), errMsg))
         {
+            PAbility->setTarget(PTarget);
             if (PChar != PTarget)
             {
                 float jaRange = PAbility->getRange();

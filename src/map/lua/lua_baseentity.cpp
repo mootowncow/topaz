@@ -11818,6 +11818,51 @@ inline int32 CLuaBaseEntity::lowerEnmity(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: lowerAllEnmity()
+ *  Purpose : Reduces a players enmity by a percentage against all targets on their enmity list
+ *  Example : player:lowerEnmity(45)
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::lowerAllEnmity(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    uint8 percent = static_cast<uint8>(lua_tointeger(L, 1));
+
+    // Get zone from entity
+    auto zone = zoneutils::GetZone(m_PBaseEntity->getZone());
+    if (zone == nullptr)
+    {
+        return 0;
+    }
+
+    // Cast CBaseEntity* to CBattleEntity*
+    CBattleEntity* PTarget = dynamic_cast<CBattleEntity*>(m_PBaseEntity);
+    if (!PTarget)
+    {
+        return 0; // failed cast, safe exit
+    }
+
+    zone->ForEachMob(
+    [PTarget, percent](CMobEntity* mob)
+    {
+        if (mob && mob->PEnmityContainer)
+        {
+            if (mob->PEnmityContainer->HasEnmity(PTarget))
+            {
+                mob->PEnmityContainer->LowerEnmityByPercent(PTarget, percent, nullptr);
+            }
+        }
+    });
+
+
+    return 0;
+}
+
+/************************************************************************
 *  Function: updateEnmity()
 *  Purpose : Unlike updateClaim(), this function only causes a mob to fight the target
 *  Example : SpawnMob(17330334):updateEnmity(target)
@@ -18114,6 +18159,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setVE),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addEnmity),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,lowerEnmity),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,lowerAllEnmity),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateEnmity),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,transferEnmity),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateEnmityFromDamage),

@@ -870,7 +870,9 @@ function AvatarHealBP(avatar, target, skill, healmodifier, cureFlag, amount)
         heal = targetMaxHP - targetHP
     end
 
-    AvatarStatusCureBP(avatar, target, skill, cureFlag, amount)
+    if cureFlag then
+        AvatarStatusCureBP(avatar, target, skill, cureFlag, amount)
+    end
 
     target:wakeUp()
     target:addHP(heal)

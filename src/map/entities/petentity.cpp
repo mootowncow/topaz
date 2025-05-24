@@ -427,6 +427,11 @@ void CPetEntity::OnPlayerPetSkillFinished(CMobSkillState& state, action_t& actio
         findFlags |= FINDFLAGS_PET;
     }
 
+    if (PSkill->getValidTarget() & TARGET_PLAYER_DEAD)
+    {
+        findFlags |= FINDFLAGS_DEAD;
+    }
+
     action.id = id;
     action.actiontype = ACTION_PET_MOBABILITY_FINISH;
     action.actionid = PSkill->getID();

@@ -770,6 +770,7 @@ public:
     duration    getCastTime();
     float       getRange();
     uint8       getAOE();
+    CBaseEntity* getTarget() const;
     uint16      getValidTarget();
     uint16      getTotalTargets() const;
     uint32      getPrimaryTargetID() const;
@@ -798,6 +799,7 @@ public:
     void        setCastTime(duration time);
     void        setRange(float range);
     void        setAOE(uint8 aoe);
+    void        setTarget(CBaseEntity* target);
     void        setValidTarget(uint16 validTarget);
     void        setTotalTargets(uint16 targets);
     void        setPrimaryTargetID(uint32 targid);
@@ -834,6 +836,7 @@ private:
     duration    m_castTime;
     float       m_range;
     uint8       m_aoe;
+    CBaseEntity* m_target {nullptr};
     uint16      m_validTarget;
     uint16      m_addType;
     uint16      m_message;

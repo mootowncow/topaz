@@ -364,6 +364,11 @@ bool CAbility::hasMissMsg() const
     return false;
 }
 
+void CAbility::setTarget(CBaseEntity* target)
+{
+    m_target = target;
+}
+
 void CAbility::setValidTarget(uint16 validTarget)
 {
     m_validTarget = validTarget;
@@ -377,6 +382,11 @@ void CAbility::setTotalTargets(uint16 targets)
 void CAbility::setPrimaryTargetID(uint32 targid)
 {
     m_PrimaryTargetID = targid;
+}
+
+CBaseEntity* CAbility::getTarget() const
+{
+    return m_target;
 }
 
 uint16 CAbility::getValidTarget()
