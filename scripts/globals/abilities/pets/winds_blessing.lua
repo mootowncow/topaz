@@ -1,5 +1,5 @@
 ---------------------------------------------
--- Hastega
+-- Wind's Blessing
 -- Grants 15% haste allies in range.
 ---------------------------------------------
 require("scripts/globals/summon")

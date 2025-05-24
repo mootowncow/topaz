@@ -13,5 +13,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onPetAbility(target, pet, skill)
-    return AvatarHealBP(pet, target, skill, 0.18, summonerStatusCure.ERASE)
+    return AvatarHealBP(pet, target, skill, 0.18, bit.bor(tpz.smn.statusCureFlags.NA, tpz.smn.statusCureFlags.ERASE))
 end

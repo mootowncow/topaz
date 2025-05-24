@@ -1905,7 +1905,7 @@ namespace petutils
     {
         int16 cost = 0;
         // Elementals
-        if (id >= 0 && id <= 7)
+        if (id >= PETID_FIRESPIRIT && id <= PETID_DARKSPIRIT)
         {
             if (level < 10)
                 cost = 1;
@@ -1935,7 +1935,7 @@ namespace petutils
                 cost = 15;
         }
         // Carbuncle and Cait Sith
-        else if (id == 8 || id == 20)
+        else if (id == PETID_CARBUNCLE || id == PETID_CAIT_SITH)
         {
             if (level < 10)
                 cost = 1;
@@ -1961,7 +1961,7 @@ namespace petutils
                 cost = 11;
         }
         // Fenrir
-        else if (id == 9)
+        else if (id == PETID_FENRIR)
         {
             if (level < 8)
                 cost = 1;
@@ -1991,7 +1991,7 @@ namespace petutils
                 cost = 13;
         }
         // Celestials
-        else if (id <= 16)
+        else if (id <= PETID_DIABOLOS || id == PETID_SIREN)
         {
             if (level < 10)
                 cost = 1;

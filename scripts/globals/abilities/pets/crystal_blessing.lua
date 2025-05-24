@@ -1,6 +1,6 @@
 ---------------------------------------------
--- Hastega
--- Grants 15% haste allies in range.
+-- Crystal Blessing
+-- Grants 250 TP Bonus allies in range.
 ---------------------------------------------
 require("scripts/globals/summon")
 require("scripts/globals/settings")
@@ -14,8 +14,8 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onPetAbility(target, pet, skill, summoner)
-    local effect = tpz.effect.HASTE
-    local power = 1530 -- Haste
+    local effect = tpz.effect.TP_BONUS
+    local power = 250
     local duration = 600
     local bonus = 0
 

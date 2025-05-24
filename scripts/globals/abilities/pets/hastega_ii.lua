@@ -1,6 +1,6 @@
 ---------------------------------------------
--- Hastega
--- Grants 15% haste allies in range.
+-- Hastega II
+-- Grants 30% haste allies in range.
 ---------------------------------------------
 require("scripts/globals/summon")
 require("scripts/globals/settings")
@@ -15,7 +15,7 @@ end
 
 function onPetAbility(target, pet, skill, summoner)
     local effect = tpz.effect.HASTE
-    local power = 1530 -- Haste
+    local power = 3007 -- Haste
     local duration = 600
     local bonus = 0
 

@@ -1,12 +1,12 @@
 ---------------------------------------------------------------------------------------------------
--- func: useJA
--- desc: Tells the target mob to use specificed job ability.
+-- func: useBP
+-- desc: Use a Blood Pact ability on current target
 ---------------------------------------------------------------------------------------------------
 require("scripts/globals/ability")
 
 cmdprops =
 {
-    permission = 1,
+    permission = 0,
     parameters = "ss"
 }
 
@@ -18,10 +18,6 @@ end
 function onTrigger(player, jobAbility, self)
     local targ = player:getCursorTarget()
     
-    if targ == nil or (not targ:isMob() and not targ:isPet() and not targ:isPC()) then
-        error(player, "you must select a target monster with the cursor first")
-    else
-        
         jobAbility = tonumber(jobAbility) or tpz.jobAbility[string.upper(jobAbility)]
         
         if (jobAbility == nil) then
@@ -29,11 +25,6 @@ function onTrigger(player, jobAbility, self)
             return
         end
         
-        if (self == nil) then
-            targ:useJobAbility(jobAbility)
-        else
-            targ:useJobAbility(jobAbility, targ)
-        end
-    end
+    player:useJobAbility(jobAbility, targ)
 end
 

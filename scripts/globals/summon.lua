@@ -10,15 +10,18 @@ require("scripts/globals/monstertpmoves")
 -- Thanks to JP testing for all fTP values and damage formulas!
 -- https://w.atwiki.jp/bartlett3/pages/329.html 
 
+tpz = tpz or {}
+tpz.smn = tpz.smn or {}
+
 -- tpeffects
 TP_DMG_BONUS = 1
 TP_ACC_BONUS = 2
 TP_CRIT_VARIES = 3
 
-summonerStatusCure =
+tpz.smn.statusCureFlags =
 {
-    NA = 1,
-    ERASE = 2
+    NA    = 0x01,
+    ERASE = 0x02,
 }
 
 -- params
@@ -32,7 +35,7 @@ summonerStatusCure =
 --params.AVATAR_WIPE_SHADOWS
 --params.DOT
 --params.ELEMENT_OVERRIDE
-
+local bit = require("bit")
 function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, tpeffect, params)
     local returninfo = {}
 
@@ -743,6 +746,59 @@ function AvatarDrainMultipleAttributes(avatar, target, power, count, duration, p
     return msg;
 end
 
+function AvatarAbsorbStatusEffectBloodPact(avatar, target, params, bonus, amount)
+    local msg = tpz.msg.basic.JA_NO_EFFECT_2
+
+    if isNoEffectMsg(avatar, target, effect, params) then
+        return msg
+    end
+
+    local maccBonus = bonus
+
+    if target:canGainStatusEffect(effect, power) then
+        local statmod = tpz.mod.INT
+        local element = avatar:getStatusEffectElement(effect)
+
+        if params.ELEMENT_OVERRIDE ~= nil then
+            element = params.ELEMENT_OVERRIDE
+        end
+
+        local absorbAttempts = 0
+        local amountAbsorbed = 0
+        local maxAttempts = amount * 3  -- safety cap to avoid infinite loop
+
+        while (absorbAttempts < maxAttempts and amountAbsorbed < amount) do
+            local resist = getAvatarResist(
+                avatar, effect, target,
+                avatar:getStat(statmod) - target:getStat(statmod),
+                maccBonus, element
+            )
+            --printf("resist: %.2f\n", resist)
+
+            if resist >= 0.50 then
+                if avatar:stealStatusEffect(target) then
+                    amountAbsorbed = amountAbsorbed + 1
+                else
+                    break -- no more effects left to steal
+                end
+            end
+
+            absorbAttempts = absorbAttempts + 1
+        end
+
+
+        if amountAbsorbed > 0 then
+            msg = tpz.msg.basic.JA_ENFEEB_IS -- TODO: Msg
+        else
+            msg = tpz.msg.basic.JA_MISS_2
+        end
+    else
+        msg = tpz.msg.basic.JA_NO_EFFECT_2
+    end
+
+    return msg
+end
+
 function AvatarBuffBP(avatar, target, skill, effect, power, tick, duration, params, bonus)
     -- Only increase duration of buff moves longer than 90s via summoning magic skill
     if duration > 129 then
@@ -808,52 +864,62 @@ function AvatarHealBP(avatar, target, skill, healmodifier, cureFlag, amount)
     local avatarHP = avatar:getMaxHP()
     local targetHP = target:getHP()
     local targetMaxHP = target:getMaxHP()
-    local statusRemovedMax = amount or 1
 
     local heal = avatarHP * healmodifier
-
     if (targetHP + heal > targetMaxHP) then
         heal = targetMaxHP - targetHP
     end
 
-    local removables =
-    {
-        tpz.effect.POISON, tpz.effect.PARALYSIS, tpz.effect.BLINDNESS, tpz.effect.SILENCE, tpz.effect.PETRIFICATION,
-        tpz.effect.DISEASE, tpz.effect.PLAGUE,
-    }
-
-    if (cureFlag == summonerStatusCure.NA) then
-        local removedCount = 0
-        while (removedCount < statusRemovedMax) do
-            local removedOne = false
-            for _, effect in ipairs(removables) do
-                if (target:hasStatusEffect(effect)) then
-                    target:delStatusEffect(effect)
-                    removedCount = removedCount + 1
-                    removedOne = true
-                    break -- remove one per iteration
-                end
-            end
-            if not removedOne then
-                break -- nothing left to remove
-            end
-        end
-    elseif (cureFlag == summonerStatusCure.ERASE) then
-        local removedCount = 0
-        while (removedCount < statusRemovedMax) do
-            local removedEffect = target:eraseStatusEffect()
-            if removedEffect == tpz.effect.NONE then
-                break -- no more erasable effects
-            end
-            removedCount = removedCount + 1
-        end
-    end
+    AvatarStatusCureBP(avatar, target, skill, cureFlag, amount)
 
     target:wakeUp()
     target:addHP(heal)
     skill:setMsg(tpz.msg.basic.JA_RECOVERS_HP)
 
     return heal
+end
+
+function AvatarStatusCureBP(avatar, target, skill, cureFlag, amount)
+    local effectsRemoved = 0
+    local statusRemovedMax = amount or 1
+
+    local removables = {
+        tpz.effect.POISON, tpz.effect.PARALYSIS, tpz.effect.BLINDNESS, tpz.effect.SILENCE, tpz.effect.PETRIFICATION,
+        tpz.effect.DISEASE, tpz.effect.PLAGUE,
+    }
+
+    -- Remove NA-type effects
+    if bit.band(cureFlag, tpz.smn.statusCureFlags.NA) ~= 0 then
+        while effectsRemoved < statusRemovedMax do
+            local removedOne = false
+            for _, effect in ipairs(removables) do
+                if target:hasStatusEffect(effect) then
+                    target:delStatusEffect(effect)
+                    effectsRemoved = effectsRemoved + 1
+                    removedOne = true
+                    break
+                end
+            end
+            if not removedOne then
+                break
+            end
+        end
+    end
+
+    -- Remove Erasable effects
+    if bit.band(cureFlag, tpz.smn.statusCureFlags.ERASE) ~= 0 then
+        while effectsRemoved < statusRemovedMax do
+            local removedEffect = target:eraseStatusEffect()
+            if removedEffect == tpz.effect.NONE then
+                break
+            end
+            effectsRemoved = effectsRemoved + 1
+        end
+    end
+
+    skill:setMsg(tpz.msg.basic.JA_ERASE)
+
+    return effectsRemoved
 end
 
 -- returns true if mob attack hit

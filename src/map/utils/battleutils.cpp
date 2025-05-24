@@ -6145,9 +6145,6 @@ namespace battleutils
         }
     }
 
-    
-
-
     /************************************************************************
     *                                                                       *
     *   Transfer Enmity (used with ACCOMPLICE & COLLABORATOR ability type)  *
@@ -6164,8 +6161,6 @@ namespace battleutils
 
         ((CMobEntity*)PMob)->PEnmityContainer->LowerEnmityByPercent(PHateGiver, percentToTransfer, PHateReceiver);
     }
-
-
 
     /************************************************************************
     *                                                                       *

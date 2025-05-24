@@ -1,6 +1,6 @@
 ---------------------------------------------
--- Hastega
--- Grants 15% haste allies in range.
+-- Fleet Wind
+-- Grants 20% quickening allies in range.
 ---------------------------------------------
 require("scripts/globals/summon")
 require("scripts/globals/settings")
@@ -14,8 +14,8 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onPetAbility(target, pet, skill, summoner)
-    local effect = tpz.effect.HASTE
-    local power = 1530 -- Haste
+    local effect = tpz.effect.QUICKENING
+    local power = 20
     local duration = 600
     local bonus = 0
 

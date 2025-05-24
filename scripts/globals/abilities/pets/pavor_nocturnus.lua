@@ -1,11 +1,10 @@
 ---------------------------------------------
--- Hastega
--- Grants 15% haste allies in range.
+-- Pavor Nocturnus
+-- Absorbs 2 status effect from the target
 ---------------------------------------------
 require("scripts/globals/summon")
 require("scripts/globals/settings")
 require("scripts/globals/status")
-require("scripts/globals/utils")
 require("scripts/globals/msg")
 ---------------------------------------------
 
@@ -13,12 +12,11 @@ function onAbilityCheck(player, target, ability)
     return 0, 0
 end
 
-function onPetAbility(target, pet, skill, summoner)
-    local effect = tpz.effect.HASTE
-    local power = 1530 -- Haste
-    local duration = 600
-    local bonus = 0
+function onPetAbility(target, pet, skill)
+    local params = {}
+    local bonus = 255
+    local amount = 2
 
-    AvatarBuffBP(pet, target, skill, effect, power, tick, duration, params, bonus)
+    skill:setMsg(AvatarAbsorbStatusEffectBloodPact(avatar, target, params, bonus, amount))
     return effect
 end

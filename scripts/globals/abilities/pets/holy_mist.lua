@@ -1,8 +1,8 @@
 ---------------------------------------------------
--- Meteorite
--- 0 TP: 3.5
--- 1500 TP: 4
--- 3000 TP: 4.25
+-- Holy Mist
+-- 0 TP: 4.5
+-- 1500 TP: 5.25
+-- 3000 TP: 6.0
 ---------------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -17,9 +17,9 @@ end
 
 function onPetAbility(target, pet, skill)
     local params = {}
-    params.multiplier = 3.5
-    params.tp150 = 4
-    params.tp300 = 4.25
+    params.multiplier = 4.5
+    params.tp150 = 5.25
+    params.tp300 = 6.0
     params.str_wsc = 0.0
     params.dex_wsc = 0.0
     params.vit_wsc = 0.0
