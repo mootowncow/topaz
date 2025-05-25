@@ -1744,25 +1744,20 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                     {
                         PPetTarget = PAbility->getTarget()->targid;
                         mobSkillId = 906;
-                        ShowDebug("Target party\n");
                     }
                     else if (validTarget & TARGET_SELF) // TARGET_SELF is set
                     {
-                        ShowDebug("Valid Target\n");
-                        ShowDebug("Target self\n");
                         PPetTarget = PPet->targid;
                         mobSkillId = 887;
                     }
                     else if (validTarget & TARGET_ENEMY) // TARGET_ENEMY is set
                     {
-                        ShowDebug("Target enemy\n");
                         PPetTarget = PAbility->getTarget()->targid;
                         mobSkillId = 885;
                     }
 
                     if (validTarget & TARGET_PLAYER_DEAD) // TARGET_PLAYER_DEAD is set
                     {
-                        ShowDebug("Target dead player\n");
                         mobSkillId = 2460;
                     }
 
@@ -1772,7 +1767,6 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                     auto PMobSkill = battleutils::GetMobSkill(PAbility->getMobSkillID());
                     if (PMobSkill && !(PAbility->getFlag() & ABILITYFLAG_PET_ABILITY))
                     {
-                        ShowDebug("Trying to do mobskill target logic\n");
                         if (PMobSkill->getValidTargets() & TARGET_ENEMY)
                         {
                             PPetTarget = PPet->GetBattleTargetID();
@@ -1787,7 +1781,6 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 // Tell pet to use mob skill
                 if (PAbility->getFlag() & ABILITYFLAG_PET_ABILITY)
                 {
-                    ShowDebug("Pet ability\n");
                     if (PPet->objtype == TYPE_PET)
                     {
                         auto PAvatar = dynamic_cast<CPetEntity*>(PPet);
@@ -1808,7 +1801,6 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 }
                 else 
                 {
-                    ShowDebug("NOT A PET ABILITY\n");
                     // Tell wyvern / Jug pets to use a mob skill
                     // TODO: Fix wyvern to not need this!
                     // DO NOT DELETE THIS LOGIC
