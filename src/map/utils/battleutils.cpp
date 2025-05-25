@@ -2154,15 +2154,6 @@ namespace battleutils
                     PAttacker->addMP(Action->addEffectParam);
                 }
 
-                PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
-
-                // Handle Negative damage
-                if (Action->addEffectParam < 0)
-                {
-                    Action->addEffectParam = -Action->addEffectParam;
-                    Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
-                }
-
                 if (PChar != nullptr)
                 {
                     PChar->updatemask |= UPDATE_HP;
