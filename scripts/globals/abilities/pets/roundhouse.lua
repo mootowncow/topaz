@@ -13,7 +13,7 @@ end
 
 function onPetAbility(target, pet, skill)
     local numhits = 1
-    local ftp = 2.0
+    local ftp = 3.0
     local params = {}
     params.str_wsc = 0.0
     params.dex_wsc = 0.3
@@ -23,8 +23,8 @@ function onPetAbility(target, pet, skill)
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
 
-    local damage = AvatarPhysicalBP(pet, target, skill, tpz.attackType.PHYSICAL, numhits, ftp, TP_ACC_BONUS, params)
-    dmg = AvatarPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING, damage.hitslanded, params)
+    local damage = AvatarPhysicalBP(pet, target, skill, tpz.attackType.PHYSICAL, numhits, ftp, TP_DMG_BONUS, params)
+    dmg = AvatarPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.BLUNT, damage.hitslanded, params)
 
     return dmg
 end

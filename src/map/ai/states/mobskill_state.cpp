@@ -55,6 +55,17 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
 
     m_castTime = std::chrono::milliseconds(m_PSkill->getActivationTime());
 
+    bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
+
+    if (isPlayerPet)
+    {
+        auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);
+        if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
+        {
+            m_castTime = std::chrono::milliseconds(PAvatar->m_bloodPactActivationTime);
+        }
+    }
+
     if (m_castTime > 0s)
     {
         action_t action;
@@ -71,8 +82,6 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
         actionTarget.animation = 0;
         actionTarget.param = m_PSkill->getID();
         actionTarget.messageID = MSGBASIC_READIES_WS;
-
-        bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
 
         if (isPlayerPet)
         {

@@ -1,5 +1,6 @@
 ---------------------------------------------------
 -- Regal Scratch
+-- Piercing
 ---------------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -24,7 +25,7 @@ function onPetAbility(target, pet, skill)
     params.chr_wsc = 0.0
 
     local damage = AvatarPhysicalBP(pet, target, skill, tpz.attackType.PHYSICAL, numhits, ftp, TP_ACC_BONUS, params)
-    dmg = AvatarPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING, damage.hitslanded, params)
+    dmg = AvatarPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.PIERCING, damage.hitslanded, params)
 
     return dmg
 end

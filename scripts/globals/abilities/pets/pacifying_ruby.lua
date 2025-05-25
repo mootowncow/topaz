@@ -15,4 +15,7 @@ end
 
 function onPetAbility(target, pet, skill)
     target:lowerAllEnmity(25)
+
+    skill:setMsg(tpz.msg.basic.JA_ENMITY_REDUCED)
+    return 0
 end

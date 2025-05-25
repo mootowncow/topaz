@@ -1,6 +1,5 @@
 ---------------------------------------------
 -- Wind's Blessing
--- Grants 15% haste allies in range.
 ---------------------------------------------
 require("scripts/globals/summon")
 require("scripts/globals/settings")
@@ -14,9 +13,9 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onPetAbility(target, pet, skill, summoner)
-    local effect = tpz.effect.HASTE
-    local power = 1530 -- Haste
-    local duration = 600
+    local effect = tpz.effect.WINDS_BLESSING
+    local power = math.floor(pet:getStat(tpz.mod.MND) / 5)
+    local duration = 100
     local bonus = 0
 
     AvatarBuffBP(pet, target, skill, effect, power, tick, duration, params, bonus)

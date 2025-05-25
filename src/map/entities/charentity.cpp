@@ -1783,7 +1783,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                         }
                     }
                 }
-                ShowDebug("Target: %u", PPetTarget);
+
                 // Tell pet to use mob skill
                 if (PAbility->getFlag() & ABILITYFLAG_PET_ABILITY)
                 {
@@ -1795,6 +1795,13 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                         {
                             uint32 bloodPactAbilityId = PAbility->getID();
                             PAvatar->m_bloodPactAbilityId = PAbility->getID();
+                            PAvatar->m_bloodPactActivationTime = 4000;
+
+                            // Shock Squall is .5s activation time
+                            if (PAbility->getID() == ABILITY_SHOCK_SQUALL)
+                            {
+                                PAvatar->m_bloodPactActivationTime = 500;
+                            }
                             PPet->PAI->MobSkill(PPetTarget, mobSkillId);
                         }
                     }

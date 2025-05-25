@@ -14,4 +14,10 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onPetAbility(target, pet, skill)
+    local amount = 6
+    local cureFlag = bit.bor(tpz.smn.statusCureFlags.NA, tpz.smn.statusCureFlags.ERASE)
+
+    local effectsRemoved = AvatarStatusCureBP(pet, target, skill, cureFlag, amount)
+
+    return effectsRemoved
 end

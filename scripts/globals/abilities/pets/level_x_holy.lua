@@ -30,11 +30,12 @@ function onPetAbility(target, pet, skill)
     params.int_wsc = 0.3
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
+    params.DOT = true
 
-    local effect = tpz.effect.MAGIC_DEF_DOWN
-    local power = 12
-    local duration = 60
-    local bonus = 0
+    local effect = tpz.effect.FLASH
+    local power = 300
+    local duration = 12
+    local bonus = 256
 
     local damage = AvatarMagicalBP(pet, target, skill, tpz.magic.ele.LIGHT, params, MND_BASED, 0)
     dmg = AvatarMagicalFinalAdjustments(damage, pet, skill, target, tpz.attackType.MAGICAL, tpz.magic.ele.LIGHT, params)

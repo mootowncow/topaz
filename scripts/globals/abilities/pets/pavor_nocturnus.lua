@@ -16,7 +16,7 @@ function onPetAbility(target, pet, skill)
     local params = {}
     local bonus = 255
     local amount = 2
-
-    skill:setMsg(AvatarAbsorbStatusEffectBloodPact(avatar, target, params, bonus, amount))
-    return effect
+    -- TODO: Msg
+    skill:setMsg(AvatarAbsorbStatusEffectBloodPact(pet, target, params, bonus, amount))
+    return 0
 end

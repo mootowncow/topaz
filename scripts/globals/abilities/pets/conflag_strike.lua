@@ -25,7 +25,7 @@ function onPetAbility(target, pet, skill)
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
 
-    local effect = tpz.effect.MAGIC_DEF_DOWN
+    local effect = tpz.effect.BURN
     local power = 30
     local duration = 60
     local subid = 0
@@ -36,7 +36,7 @@ function onPetAbility(target, pet, skill)
 
     local damage = AvatarMagicalBP(pet, target, skill, tpz.magic.ele.FIRE, params, INT_BASED, 0)
     dmg = AvatarMagicalFinalAdjustments(damage, pet, skill, target, tpz.attackType.BREATH, tpz.magic.ele.FIRE, params)
-    AvatarStatusEffectBPSub(avatar, target, effect, power, duration, subid, subpower, tier, params, bonus)
+    AvatarStatusEffectBPSub(pet, target, effect, power, duration, subid, subpower, tier, params, bonus)
 
     return dmg
 end

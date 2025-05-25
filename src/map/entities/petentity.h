@@ -60,6 +60,7 @@ public:
 	uint8 m_Element;
 	uint32 m_PetID;
     uint32 m_bloodPactAbilityId;
+    uint32 m_bloodPactActivationTime;
     std::string GetScriptName();
 
     WYVERNTYPE getWyvernType();

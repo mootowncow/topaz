@@ -17,6 +17,7 @@ tpz.smn = tpz.smn or {}
 TP_DMG_BONUS = 1
 TP_ACC_BONUS = 2
 TP_CRIT_VARIES = 3
+TP_CONVERT_TO_HP = 4
 
 tpz.smn.statusCureFlags =
 {
@@ -276,12 +277,19 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
 
             numHitsProcessed = numHitsProcessed + 1
         end
+
         -- apply ftp bonus
-        if (tpeffect == TP_DMG_BONUS )then
+        if (tpeffect == TP_DMG_BONUS) then
             local dmgbonus = AvatarDmgTPModifier(tp)
             --printf("%i", dmgbonus * 100)
             finaldmg = finaldmg * dmgbonus
             --printf("%i", finaldmg)
+        end
+
+        if (tpeffect == TP_CONVERT_TO_HP) then
+            local tpMod = ((15 + AvavatarConvertDmgToHPModifier(tp)) / 100) -- 15% base, then another 15-45% based on TP
+            local healAmount = math.floor(finaldmg * tpMod)
+            avatar:addHP(healAmount)
         end
     end
 
@@ -746,6 +754,35 @@ function AvatarDrainMultipleAttributes(avatar, target, power, count, duration, p
     return msg;
 end
 
+function AvatarDispelMove(avatar, target, skill, element, param1, param2)
+    -- No dispel messag eon retail...
+    local statmod = tpz.mod.INT
+    local dStat = avatar:getStat(statmod)-target:getStat(statmod)
+    local effect = tpz.effect.NONE
+    local bonusMacc = 175
+
+    local resist = getAvatarResist(avatar, effect, target, dStat, bonusMacc, element)
+
+    -- Check for dispel resistance trait
+	if math.random(100) < target:getMod(tpz.mod.DISPELRESTRAIT) then
+        return tpz.effect.NONE
+    end
+
+	if (resist >= 0.5) then
+		if target:hasStatusEffect(tpz.effect.FEALTY) then
+		    return tpz.effect.NONE
+		else
+            if (param2 ~= nil) then
+                return target:dispelStatusEffect(bit.bor(param1, param2))
+            else
+                return target:dispelStatusEffect(bit.bor(param1))
+            end
+        end
+	else
+	    return tpz.effect.NONE
+	end
+end
+
 function AvatarAbsorbStatusEffectBloodPact(avatar, target, params, bonus, amount)
     local msg = tpz.msg.basic.JA_NO_EFFECT_2
 
@@ -788,7 +825,7 @@ function AvatarAbsorbStatusEffectBloodPact(avatar, target, params, bonus, amount
 
 
         if amountAbsorbed > 0 then
-            msg = tpz.msg.basic.JA_ENFEEB_IS -- TODO: Msg
+            msg = tpz.msg.basic.NONE -- TODO: Msg
         else
             msg = tpz.msg.basic.JA_MISS_2
         end
@@ -884,7 +921,7 @@ end
 function AvatarStatusCureBP(avatar, target, skill, cureFlag, amount)
     local effectsRemoved = 0
     local statusRemovedMax = amount or 1
-
+    local effectIdRemoved = 0 -- Stores the effect for the return message
     local removables = {
         tpz.effect.POISON, tpz.effect.PARALYSIS, tpz.effect.BLINDNESS, tpz.effect.SILENCE, tpz.effect.PETRIFICATION,
         tpz.effect.DISEASE, tpz.effect.PLAGUE,
@@ -897,6 +934,7 @@ function AvatarStatusCureBP(avatar, target, skill, cureFlag, amount)
             for _, effect in ipairs(removables) do
                 if target:hasStatusEffect(effect) then
                     target:delStatusEffect(effect)
+                    effectIdRemoved = effect -- Store the effect for the return message
                     effectsRemoved = effectsRemoved + 1
                     removedOne = true
                     break
@@ -915,13 +953,18 @@ function AvatarStatusCureBP(avatar, target, skill, cureFlag, amount)
             if removedEffect == tpz.effect.NONE then
                 break
             end
+            effectIdRemoved = removedEffect -- Store the effect for the return message
             effectsRemoved = effectsRemoved + 1
         end
     end
 
-    skill:setMsg(tpz.msg.basic.JA_ERASE)
+    if (effectsRemoved > 0) then
+        skill:setMsg(tpz.msg.basic.JA_REMOVE_EFFECT_2) -- TODO: Msg
+    else
+        skill:setMsg(tpz.msg.basic.NO_EFFECT)
+    end
 
-    return effectsRemoved
+    return effectIdRemoved
 end
 
 -- returns true if mob attack hit
@@ -940,6 +983,10 @@ function AvatarAccTPModifier(tp)
 end
 
 function AvatarCritTPModifier(tp)
+    return (15+ ((tp - 1000) * 0.015)) -- 15, 30, 45
+end
+
+function AvavatarConvertDmgToHPModifier(tp)
     return (15+ ((tp - 1000) * 0.015)) -- 15, 30, 45
 end
 
