@@ -273,7 +273,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Bugbear',59,361); -- earth_shock
 INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2448);
 INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2449);
 INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2450);
-INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2451);
 INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2452);
 INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2453);
 INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2454);

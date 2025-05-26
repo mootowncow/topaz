@@ -17,9 +17,9 @@ end
 
 function onPetAbility(target, pet, skill)
     local params = {}
-    params.multiplier = 4.5
-    params.tp150 = 5.25
-    params.tp300 = 6.0
+    params.multiplier = 8.203125
+    params.tp150 = 9.203125
+    params.tp300 = 10.703125
     params.str_wsc = 0.0
     params.dex_wsc = 0.0
     params.vit_wsc = 0.0

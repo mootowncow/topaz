@@ -512,6 +512,11 @@ inline int32 CLuaBaseEntity::messageSpecial(lua_State *L)
 
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
+    if (m_PBaseEntity->objtype != TYPE_PC)
+    {
+        return 0;
+    }
+
     uint16 messageID = (uint16)lua_tointeger(L, 1);
 
     uint32 param0 = 0;
@@ -9978,16 +9983,16 @@ inline int32 CLuaBaseEntity::getParty(lua_State* L)
     lua_createtable(L, size, 0);
     int i = 1;
     ((CBattleEntity*)m_PBaseEntity)->ForParty([&L, &i](CBattleEntity* member)
-    {
-        lua_getglobal(L, CLuaBaseEntity::className);
-        lua_pushstring(L, "new");
-        lua_gettable(L, -2);
-        lua_insert(L, -2);
-        lua_pushlightuserdata(L, (void*)member);
-        lua_pcall(L, 2, 1, 0);
+        {
+            lua_getglobal(L, CLuaBaseEntity::className);
+            lua_pushstring(L, "new");
+            lua_gettable(L, -2);
+            lua_insert(L, -2);
+            lua_pushlightuserdata(L, (void*)member);
+            lua_pcall(L, 2, 1, 0);
 
-        lua_rawseti(L, -2, i++);
-    });
+            lua_rawseti(L, -2, i++);
+        });
 
     return 1;
 }
@@ -10002,6 +10007,11 @@ inline int32 CLuaBaseEntity::getParty(lua_State* L)
 inline int32 CLuaBaseEntity::getPartyWithTrusts(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    if (m_PBaseEntity->objtype != TYPE_PC)
+    {
+            return 0;
+    }
 
     CParty* party = ((CCharEntity*)m_PBaseEntity)->PParty;
 

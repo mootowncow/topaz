@@ -450,7 +450,7 @@ INSERT INTO `abilities` VALUES (515,'glittering_ruby',15,44,1,60,174,0,0,3,2000,
 INSERT INTO `abilities` VALUES (516,'meteorite',15,55,4,60,173,0,0,4,2000,0,6,20.0,0,1,60,0,0,NULL,0,108,0,0,0,1);
 INSERT INTO `abilities` VALUES (517,'healing_ruby_ii',15,65,1,60,174,0,0,5,2000,0,6,20.0,1,1,60,0,0,NULL,0,124,0,0,0,1);
 INSERT INTO `abilities` VALUES (518,'searing_light',15,1,4,60,173,0,0,6,2000,0,6,15.0,1,1,60,0,2,NULL,0,0,0,0,0,3);
-INSERT INTO `abilities` VALUES (519,'holy_mist',15,75,1,60,173,0,0,7,2000,0,6,20.0,0,1,60,0,0,NULL,0,152,0,0,0,1);
+INSERT INTO `abilities` VALUES (519,'holy_mist',15,75,4,60,173,0,0,7,2000,0,6,20.0,0,1,60,0,0,NULL,0,152,0,0,0,1);
 INSERT INTO `abilities` VALUES (520,'soothing_ruby',15,70,1,60,174,0,0,8,2000,0,6,20.0,1,1,60,0,0,NULL,0,74,0,0,0,1);
 INSERT INTO `abilities` VALUES (521,'regal_scratch',15,1,4,60,173,0,0,161,2000,0,6,5.0,0,1,60,0,0,NULL,0,5,0,0,0,1);
 INSERT INTO `abilities` VALUES (522,'mewing_lullaby',15,25,4,60,174,0,0,162,2000,0,6,10.0,1,1,60,0,0,NULL,0,61,0,0,0,1);

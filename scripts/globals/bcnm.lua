@@ -435,7 +435,7 @@ local battlefields = {
      -- { 0,    ?,    0},   -- When Wills Collide (WOTG46)
      -- { 1,  385,    0},   -- Maiden of the Dusk (WOTG51)
     { 2,    388,    0},   -- Champion of the Dawn (Quest)
-     -- { 3,    ?,    0},   -- A Forbidden Reunion (Quest)
+    --{ 3,    ?,    0},   -- A Forbidden Reunion (Quest)
     },
 
     [tpz.zone.CLOISTER_OF_GALES] =

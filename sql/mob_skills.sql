@@ -2411,13 +2411,13 @@ INSERT INTO `mob_skills` VALUES (2447,1717,'vivifying_waltz',1,18.0,2000,1000,4,
 INSERT INTO `mob_skills` VALUES (2448,1686,'regal_scratch',1,7.0,2000,3000,4,0,0,0,4,0,0); -- Scission (4) -- TODO: Animation IDs should be the MP cost of the blood pacts?
 INSERT INTO `mob_skills` VALUES (2449,1687,'mewing_lullaby',1,7.0,2000,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2450, 1688, 'eerie_eye', 4, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2451, 1689, 'divine_favor', 1, 18.0, 2000, 3000, 1, 2, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2452, 1690, 'level-1-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2453, 1691, 'level-2-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2454, 1692, 'level-3-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2455, 1693, 'level-4-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2456, 1694, 'level-5-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2457, 1695, 'level-6-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2451, 1689, 'divine_favor', 1, 5.0, 2000, 3000, 1, 2, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2452, 1690, 'level-1-holy', 1, 15.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2453, 1691, 'level-2-holy', 1, 15.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2454, 1692, 'level-3-holy', 1, 15.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2455, 1693, 'level-4-holy', 1, 15.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2456, 1694, 'level-5-holy', 1, 15.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2457, 1695, 'level-6-holy', 1, 15.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
 -- INSERT INTO `mob_skills` VALUES (2458,2202,'soul_vacuum',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2459,2203,'soul_infusion',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2460, 1696, 'raise_ii', 0, 18.0, 2000, 1000, 34, 4, 0, 0, 0, 0, 0); -- Cottus used after killing a trust??

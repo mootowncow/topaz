@@ -1790,8 +1790,9 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                             PAvatar->m_bloodPactAbilityId = PAbility->getID();
                             PAvatar->m_bloodPactActivationTime = 4000;
 
-                            // Shock Squall is .5s activation time
-                            if (PAbility->getID() == ABILITY_SHOCK_SQUALL)
+                            // Shock Squall, Raise II and Reraise II have .5s activation time
+                            auto abilityId = PAbility->getID();
+                            if (abilityId == ABILITY_SHOCK_SQUALL || abilityId == ABILITY_RAISE_II || abilityId == ABILITY_RERAISE_II)
                             {
                                 PAvatar->m_bloodPactActivationTime = 500;
                             }
@@ -2667,11 +2668,6 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
 CBattleEntity* CCharEntity::IsValidTarget(uint16 targid, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg)
 {
     auto PTarget = CBattleEntity::IsValidTarget(targid, validTargetFlags, errMsg);
-    if (PTarget->isAlive() && (validTargetFlags & TARGET_PLAYER_DEAD))
-    {
-        errMsg = std::make_unique<CMessageBasicPacket>(this, this, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG);
-        return nullptr;
-    }
     if (PTarget)
     {
         if (PTarget->objtype == TYPE_PC && charutils::IsAidBlocked(this, static_cast<CCharEntity*>(PTarget)))

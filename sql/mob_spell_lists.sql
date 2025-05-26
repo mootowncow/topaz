@@ -6189,7 +6189,26 @@ INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 524, 1, 255); -- Sandspin
 INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 548, 1, 255); -- Filamented Hold
 INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 555, 1, 255); -- Magnetite Cloud
 
--- NEXT 546
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 147, 1, 255); -- Fire IV
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 152, 1, 255); -- Blizzard IV
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 157, 1, 255); -- Aero IV
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 162, 1, 255); -- Stone IV
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 167, 1, 255); -- Thunder IV
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 172, 1, 255); -- Water IV
+
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 176, 1, 255); -- Firaga III
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 181, 1, 255); -- Blizzaga III
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 186, 1, 255); -- Aeroga III
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 191, 1, 255); -- Stonega III
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 196, 1, 255); -- Thundaga III
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 201, 1, 255); -- Waterga III
+
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 56, 1, 255); -- Slow
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 254, 1, 255); -- Blind
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 58, 1, 255); -- Paralyze
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 59, 1, 255); -- Silence
+
+-- NEXT 561
 -- NEXT 1022
 -- NEXT 2089(Custom)
 
