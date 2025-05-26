@@ -148,14 +148,14 @@ bool CMobSkillState::Update(time_point tick)
 
         if (isPlayerPet)
         {
-            if (auto PPet = dynamic_cast<CPetEntity*>(m_PEntity))
+            auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);
+            if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
             {
-                PPet->OnPlayerPetSkillFinished(*this, action);
+                PAvatar->OnPlayerPetSkillFinished(*this, action);
             }
         }
         else
         {
-            ShowDebug("OnMobSkillFinished\n");
             m_PEntity->OnMobSkillFinished(*this, action);
         }
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
