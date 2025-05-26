@@ -30,7 +30,7 @@ function onPetAbility(target, pet, skill)
     local bonus = 100
 
     local damage = AvatarPhysicalBP(pet, target, skill, tpz.attackType.PHYSICAL, numhits, ftp, TP_ACC_BONUS, params)
-    dmg = AvatarPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.PIERCING, damage.hitslanded, params)
+    dmg = AvatarPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING, damage.hitslanded, params)
     AvatarPhysicalStatusEffectBP(pet, target, skill, effect, power, duration, params, bonus)
 
     return dmg
