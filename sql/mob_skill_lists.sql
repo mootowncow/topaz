@@ -4917,6 +4917,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,169); -- black_hal
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,250); -- carnal_nightmare
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,252); -- dancing_chains
 
+
 -- Next available ID: 1208
 -- Next custom ID: 6153
 
