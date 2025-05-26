@@ -17,7 +17,7 @@ function onMobWeaponSkill(target, mob, skill)
         typeEffect = tpz.effect.SILENCE
     end
 
-    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 1, 0, 300))
+    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 1, 0, 30))
 
     return typeEffect
 end
