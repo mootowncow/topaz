@@ -185,7 +185,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             if (PAbility->isPetAbility())
             {
                 // Blood pact MP costs are stored under animation ID
-                if (PChar->health.mp < PAbility->getAnimationID())
+                if (PChar->health.mp < PAbility->getMPCost())
                 {
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
                     return false;

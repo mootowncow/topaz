@@ -1681,6 +1681,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         {
             action.recast = 0;
         }
+        uint16 mobSkillId = 885;
 
         action.id = this->id;
         action.actiontype = PAbility->getActionType();
@@ -1702,11 +1703,11 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 actionTarget.param = 0;
                 actionTarget.messageID = 0;
 
-                auto PPetTarget = PTarget->targid;
-                if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
+                uint16 PPetTarget = PAbility->getTarget()->targid;
+
+                if (PAbility->isPetAbility())
                 {
-                    // Blood Pact mp cost stored in animation ID
-                    float mpCost = PAbility->getAnimationID();
+                    float mpCost = PAbility->getMPCost();
 
                     if (StatusEffectContainer->HasStatusEffect(EFFECT_APOGEE))
                     {
@@ -1733,27 +1734,38 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
                     uint16 validTarget = PAbility->getValidTarget();
 
-                    if (validTarget & TARGET_SELF)
+                    // TARGET_PLAYER_PARTY is set. Will detect from left to right so lowest number enum gets detected first (Self - 1)
+                    // In order to set target for TARGET_SELF and TARGET_PLAYER_PARTY (3) to pick TARGET_PLAYER_PARTY first it has to
+                    // come first in the if elseif
+                    // Alternatively, this would fix it:
+                    // if ((validTarget & (TARGET_PLAYER_PARTY | TARGET_SELF)) == 3)
+                    // Should be if BOTH TARGET_PLAYER_PARTY and TARGET_SELFlf (3)
+                    if (validTarget & TARGET_PLAYER_PARTY)
+                    {
+                        PPetTarget = PAbility->getTarget()->targid;
+                        mobSkillId = 906;
+                    }
+                    else if (validTarget & TARGET_SELF) // TARGET_SELF is set
                     {
                         PPetTarget = PPet->targid;
-
-                        // Check if it also includes TARGET_PLAYER_PARTY
-                        if (validTarget & TARGET_PLAYER_PARTY)
-                        {
-                            PPetTarget = PTarget->targid;
-                        }
+                        mobSkillId = 887;
                     }
-                    else if (validTarget & TARGET_PLAYER_PARTY)
+                    else if (validTarget & TARGET_ENEMY) // TARGET_ENEMY is set
                     {
-                        // If only TARGET_PLAYER_PARTY is set
-                        PPetTarget = PTarget->targid;
+                        PPetTarget = PAbility->getTarget()->targid;
+                        mobSkillId = 885;
+                    }
+
+                    if (validTarget & TARGET_PLAYER_DEAD) // TARGET_PLAYER_DEAD is set
+                    {
+                        mobSkillId = 2460;
                     }
 
                 }
                 else
                 {
                     auto PMobSkill = battleutils::GetMobSkill(PAbility->getMobSkillID());
-                    if (PMobSkill)
+                    if (PMobSkill && !(PAbility->getFlag() & ABILITYFLAG_PET_ABILITY))
                     {
                         if (PMobSkill->getValidTargets() & TARGET_ENEMY)
                         {
@@ -1765,29 +1777,36 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                         }
                     }
                 }
-                if (PAbility->getID() == ABILITY_LEVEL_QUESTION_HOLY)
-                {
-                    int16 tp = PPet->health.tp;
-                    // ShowDebug("doing qm holy...\n");
-                    PPet->PAI->MobSkill(PPetTarget, tpzrand::GetRandomNumber((uint16)2452, (uint16)2458));
-                    PPet->PAI->MobSkill(PPetTarget, tpzrand::GetRandomNumber((uint16)2452, (uint16)2458)); // GetRandomNumber never returns the max value
-                }
-                else
-                {
-                    // Tell pet to use mob skill
-                    if (PPetTarget > 0 && PAbility->getMobSkillID() > 0)
-                    {
-                        int16 tp = PPet->health.tp;
-                        if (PPet->objtype == TYPE_PET)
-                        {
-                            auto PAvatar = dynamic_cast<CPetEntity*>(PPet);
-                            if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
-                            {
-                                uint32 bloodPactAbilityId = PAbility->getID();
-                                PAvatar->m_bloodPactAbilityId = PAbility->getID();
-                            }
-                        }
 
+                // Tell pet to use mob skill
+                if (PAbility->getFlag() & ABILITYFLAG_PET_ABILITY)
+                {
+                    if (PPet->objtype == TYPE_PET)
+                    {
+                        auto PAvatar = dynamic_cast<CPetEntity*>(PPet);
+                        if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
+                        {
+                            uint32 bloodPactAbilityId = PAbility->getID();
+                            PAvatar->m_bloodPactAbilityId = PAbility->getID();
+                            PAvatar->m_bloodPactActivationTime = 4000;
+
+                            // Shock Squall, Raise II and Reraise II have .5s activation time
+                            auto abilityId = PAbility->getID();
+                            if (abilityId == ABILITY_SHOCK_SQUALL || abilityId == ABILITY_RAISE_II || abilityId == ABILITY_RERAISE_II)
+                            {
+                                PAvatar->m_bloodPactActivationTime = 500;
+                            }
+                            PPet->PAI->MobSkill(PPetTarget, mobSkillId);
+                        }
+                    }
+                }
+                else 
+                {
+                    // Tell wyvern / Jug pets to use a mob skill
+                    // TODO: Fix wyvern to not need this!
+                    // DO NOT DELETE THIS LOGIC
+                    if (PPetTarget > 0 && PAbility->getMobSkillID())
+                    {
                         PPet->PAI->MobSkill(PPetTarget, PAbility->getMobSkillID());
                     }
                 }
@@ -2657,6 +2676,14 @@ CBattleEntity* CCharEntity::IsValidTarget(uint16 targid, uint16 validTargetFlags
             errMsg = std::make_unique<CMessageSystemPacket>(0, 0, 225);
             // Interaction was blocked
             static_cast<CCharEntity*>(PTarget)->pushPacket(new CMessageSystemPacket(0, 0, 226));
+        }
+        else if (PTarget->objtype == TYPE_TRUST && validTargetFlags & TARGET_EXCLUDE_TRUSTS)
+        {
+            errMsg = std::make_unique<CMessageBasicPacket>(this, this, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG);
+        }
+        else if (PTarget->objtype == TYPE_PET && validTargetFlags & TARGET_EXCLUDE_PETS)
+        {
+            errMsg = std::make_unique<CMessageBasicPacket>(this, this, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG);
         }
         else if (static_cast<CCharEntity*>(this)->IsMobOwner(PTarget))
         {

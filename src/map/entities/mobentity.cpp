@@ -1554,7 +1554,6 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
                 MSGBASIC_JA_NO_EFFECT_2
             };
             // Don't add TP if the TP move is a two hour, buff, heal, or enfeeble.
-            // TODO: Magical blood pact...
             if (excludedMsgs.find(msg) == excludedMsgs.end() &&
                 !PSkill->isTwoHour() &&
                 !PSkill->isJobAbility() &&

@@ -544,6 +544,7 @@ public:
     int32 setVE(lua_State*);                   //sets current VE the mob has towards the player
     int32 addEnmity(lua_State*);               // Add specified amount of enmity (target, CE, VE)
     int32 lowerEnmity(lua_State*);             //lower enmity to player for specificed mob
+    int32 lowerAllEnmity(lua_State*);          // lower enmity for a player against ALL mobs in the zone by a percent
     int32 updateEnmity(lua_State*);            // Adds Enmity to player for specified mob
     int32 transferEnmity(lua_State*);
     int32 updateEnmityFromDamage(lua_State*);  // Adds Enmity to player for specified mob for the damage specified

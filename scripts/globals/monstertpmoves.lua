@@ -423,7 +423,7 @@ end
 
 function MobMagicalMove(mob, target, skill, damage, element, dmgmod, tpeffect, ignoremacc, params)
     returninfo = {}
-    skill:setFlag(tpz.mobSkillFlag.MAGIC_SKILL)
+    skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
     -- Params NYI
     -- Initialize params if it is nil
     if (params == nil) then
@@ -503,7 +503,7 @@ end
 
 function MobNeedlesMagicalMove(mob, target, skill, damage, element, tpeffect)
     returninfo = {}
-    skill:setFlag(tpz.mobSkillFlag.MAGIC_SKILL)
+    skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
     local resist = 1
     local statmod = INT_BASED
     local dStat = getMobDStat(statmod, mob, target)
@@ -591,7 +591,7 @@ function MobHPBasedMove(mob, target, skill, percent, base, element, cap, isSuici
     local mobHP = mob:getHP() 
     local resist = 1
     local bonus = 0
-    skill:setFlag(tpz.mobSkillFlag.MAGIC_SKILL)
+    skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
 
     -- Used for mob suicide moves
     -- Needed or else additional targets beyond first will take 0 damage

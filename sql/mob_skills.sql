@@ -833,7 +833,7 @@ INSERT INTO `mob_skills` VALUES (889,595,'lightning_armor',1,10.0,612,3000,1,4,0
 INSERT INTO `mob_skills` VALUES (890,596,'thunder_iv',0,10.0,613,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (891,597,'chaotic_strike',0,10.0,614,3000,4,0,0,0,12,1,0); -- Fragmentation (12) / Transfixion (1)
 INSERT INTO `mob_skills` VALUES (892,598,'thunderstorm',0,10.0,615,3000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (893,599,'judgment_bolt',1,30.0,616,0,4,2,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (893,599,'judgment_bolt',1,30.0,616,0,4,2,0,0,0,0,2);
 INSERT INTO `mob_skills` VALUES (894,621,'healing_breath_i',0,10.0,2000,2000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (895,622,'healing_breath_ii',0,10.0,2000,2000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (896,623,'healing_breath_iii',0,10.0,2000,2000,1,0,0,0,0,0,0);
@@ -846,7 +846,7 @@ INSERT INTO `mob_skills` VALUES (902,629,'pet_gust_breath',0,10.0,2000,1500,4,0,
 INSERT INTO `mob_skills` VALUES (903,630,'pet_sand_breath',0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (904,631,'pet_lightning_breath',0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (905,632,'pet_hydro_breath',0,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (906,605,'healing_ruby',0,10.0,496,3000,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (906,605,'healing_ruby',0,10.0,496,3000,3,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (907,606,'poison_nails',0,10.0,497,3000,4,0,0,0,1,0,0); -- Transfixion (1)
 INSERT INTO `mob_skills` VALUES (908,607,'shining_ruby',1,10.0,498,3000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (909,608,'glittering_ruby',1,10.0,499,3000,1,0,0,0,0,0,0);
@@ -2411,13 +2411,13 @@ INSERT INTO `mob_skills` VALUES (2447,1717,'vivifying_waltz',1,18.0,2000,1000,4,
 INSERT INTO `mob_skills` VALUES (2448,1686,'regal_scratch',1,7.0,2000,3000,4,0,0,0,4,0,0); -- Scission (4) -- TODO: Animation IDs should be the MP cost of the blood pacts?
 INSERT INTO `mob_skills` VALUES (2449,1687,'mewing_lullaby',1,7.0,2000,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2450, 1688, 'eerie_eye', 4, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2451, 1689, 'divine_favor', 1, 18.0, 2000, 3000, 1, 2, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2452, 1690, 'level-1-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2453, 1691, 'level-2-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2454, 1692, 'level-3-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2455, 1693, 'level-4-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2456, 1694, 'level-5-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
-INSERT INTO `mob_skills` VALUES (2457, 1695, 'level-6-holy', 1, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2451, 1689, 'divine_favor', 1, 5.0, 2000, 3000, 1, 2, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2452, 1690, 'level-1-holy', 1, 15.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2453, 1691, 'level-2-holy', 1, 15.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2454, 1692, 'level-3-holy', 1, 15.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2455, 1693, 'level-4-holy', 1, 15.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2456, 1694, 'level-5-holy', 1, 15.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `mob_skills` VALUES (2457, 1695, 'level-6-holy', 1, 15.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
 -- INSERT INTO `mob_skills` VALUES (2458,2202,'soul_vacuum',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2459,2203,'soul_infusion',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2460, 1696, 'raise_ii', 0, 18.0, 2000, 1000, 34, 4, 0, 0, 0, 0, 0); -- Cottus used after killing a trust??
@@ -2700,8 +2700,8 @@ INSERT INTO `mob_skills` VALUES (2735,2479,'searing_tempest',1,30.0,2000,3500,4,
 -- INSERT INTO `mob_skills` VALUES (2736,2480,'blinding_fulgor',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2737,1887,'spectral_floe',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2738,1888,'scouring_spate',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2739,1889,'anvil_lightning',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2740,1890,'silent_storm',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2739,1889,'anvil_lightning',1,10.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2740,1890,'silent_storm',1,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2741,2485,'entomb',1,10.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2742,2486,'tenebral_crush',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2743,1509,'string_shredder',0,7.0,2000,1,4,0,324,0,10,4,0);
@@ -3469,14 +3469,14 @@ INSERT INTO `mob_skills` VALUES (3503,3247,'justicebreaker',0,7.0,2000,0,4,0,0,0
 -- INSERT INTO `mob_skills` VALUES (3505,3249,'geotic_spin',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3506,3250,'hellfire_arrow',4,7.0,2000,1500,4,0,0,1,0,0,0);
 INSERT INTO `mob_skills` VALUES (3507,3251,'incensed_pummel',0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (3508,3252,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (3509,3253,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (3510,3254,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3511,451,'lunatic_voice',4,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3512,452,'sonic_buffet',1,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3513,453,'entice',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3514,455,'hysteric_assault',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3515,454,'clarsach_call',1,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3508,2496,'siren_auto_one',0,4.0,0,0,4,16,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3509,2497,'siren_auto_two',0,4.0,0,0,4,16,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3510,2498,'siren_auto_three',0,4.0,0,0,4,16,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3511,2499,'lunatic_voice',1,10.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3512,2500,'sonic_buffet',4,10.0,2000,1500,4,0,0,4,0,0,0);
+INSERT INTO `mob_skills` VALUES (3513,2501,'entice',4,10.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3514,2503,'hysteric_assault',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3515,2502,'clarsach_call',1,30.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3516,2509,'infected_leech',4,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3517,2510,'gloom_spray',4,10.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3518,3262,'bloody_mist',0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -4046,6 +4046,11 @@ INSERT INTO `mob_skills` VALUES (3993,441,'sucker_punch',0,7.0,2000,1500,4,0,0,0
 -- INSERT INTO `mob_skills` VALUES (4078,3822,'#2286',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (4079,3823,'#2287',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (4080,3824,'#2288',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (4227,2595,'bitter_elegy',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (4228,2596,'tornado_II',0,10.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (4229,2499,'lunatic_voice',1,10.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (4230,2503,'hysteric_assault',0,7.0,2000,1500,4,0,0,0,0,0,0);
+
 INSERT INTO `mob_skills` VALUES (4232,549,'potion',0,21.0,2000,100,16,4,0,0,0,0,0); -- Trust: Monberaux
 INSERT INTO `mob_skills` VALUES (4234,550,'x-potion',0,21.0,2000,100,16,4,0,0,0,0,0); -- Doesn't have a script?
 INSERT INTO `mob_skills` VALUES (4235,2598,'hyper-potion',0,21.0,2000,100,16,4,0,0,0,0,0); -- verified

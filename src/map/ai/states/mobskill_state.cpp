@@ -22,6 +22,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "mobskill_state.h"
 #include "../ai_container.h"
 #include "../../entities/mobentity.h"
+#include "../../entities/petentity.h"
 #include "../../packets/action.h"
 #include "../../utils/battleutils.h"
 #include "../../mobskill.h"
@@ -54,6 +55,17 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
 
     m_castTime = std::chrono::milliseconds(m_PSkill->getActivationTime());
 
+    bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
+
+    if (isPlayerPet)
+    {
+        auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);
+        if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
+        {
+            m_castTime = std::chrono::milliseconds(PAvatar->m_bloodPactActivationTime);
+        }
+    }
+
     if (m_castTime > 0s)
     {
         action_t action;
@@ -69,15 +81,15 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
         actionTarget.speceffect = SPECEFFECT_NONE;
         actionTarget.animation = 0;
         actionTarget.param = m_PSkill->getID();
-        actionTarget.messageID = 43;
-
-        bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
+        actionTarget.messageID = MSGBASIC_READIES_WS;
 
         if (isPlayerPet)
         {
             auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);
             if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
             {
+                actionTarget.param = PAvatar->m_bloodPactAbilityId;
+                actionTarget.messageID = MSGBASIC_PET_WS;
                 actionTarget.animation = ACTION_BLOODPACT_START;
             }
         }
@@ -130,7 +142,22 @@ bool CMobSkillState::Update(time_point tick)
         }
 
         action_t action;
-        m_PEntity->OnMobSkillFinished(*this, action);
+
+        // If Avatar / Wyvern
+        bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
+
+        if (isPlayerPet)
+        {
+            auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);
+            if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
+            {
+                PAvatar->OnPlayerPetSkillFinished(*this, action);
+            }
+        }
+        else
+        {
+            m_PEntity->OnMobSkillFinished(*this, action);
+        }
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
         auto PTarget{ GetTarget() };
         if (PTarget != nullptr)

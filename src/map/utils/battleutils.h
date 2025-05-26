@@ -61,17 +61,21 @@ enum ENSPELL
     ENSPELL_II_LIGHT = 15,
     ENSPELL_II_DARK = 16,
     ENSPELL_BLOOD_WEAPON = 17,
-    //ENSPELL_AUSPICE = 18,
-    //ENSPELL_DRAIN_SAMBA = 19,
-    //ENSPELL_ASPIR_SAMBA = 20,
-    //ENSPELL_HASTE_SAMBA = 21
-    ENSPELL_ROLLING_THUNDER = 18,
+    // 18 free
     ENSPELL_AUSPICE = 19,
     ENSPELL_DRAIN_SAMBA = 20,
     ENSPELL_ASPIR_SAMBA = 21,
     ENSPELL_HASTE_SAMBA = 22,
     ENSPELL_SOUL_ENSLAVEMENT = 23,
-    ENSPELL_TAINT = 24
+    ENSPELL_TAINT = 24,
+    ENSPELL_ROLLING_THUNDER = 25,
+    ENSPELL_INFERNO_HOWL = 26,
+    ENSPELL_KATABATIC_BLADES = 27,
+    ENSPELL_HEAVENWARD_HOWL_DRAIN = 28,
+    ENSPELL_HEAVENWARD_HOWL_ASPIR = 29,
+    ENSPELL_DRAIN = 30,
+    ENSPELL_ASPIR = 31
+
 };
 
 enum SPIKES
@@ -219,11 +223,11 @@ namespace battleutils
     bool                HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, int32 damage);
     bool                HandleSpikesEquip(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, uint8 damage, SUBEFFECT spikesType, uint8 chance);
     void                HandleSpikesStatusEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action);
-    void                HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, bool isFirstSwing, CItemWeapon* weapon, int32 damage);
+    void                HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, bool isFirstSwing, CItemWeapon* weapon, int32 finalDamge);
     uint8               GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage);
     uint8               GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage, int8 accBonus, bool isBluSpell = false);
     uint16              CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int acc, bool isBluSpell = false);
-    int32               CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element);
+    int32               CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element, uint8 enspell, actionTarget_t* Action, int32 finaldamage);
 
     int16               GetEnmityModDamage(int16 level);
     int16               GetEnmityModCure(int16 level);

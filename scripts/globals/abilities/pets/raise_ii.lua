@@ -20,5 +20,5 @@ function onPetAbility(target, pet, skill, summoner)
         target:sendRaise(2)
     end
 
-    return 2 -- TODO: Incorrect return
+    return 0
 end

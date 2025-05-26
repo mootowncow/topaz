@@ -1048,6 +1048,7 @@ namespace petutils
                 PPet->m_Element = 0; // Water is 0 ElementID for some reason
                 break;
             case PETID_GARUDA:
+            case PETID_SIREN:
                 PPet->addModifier(Mod::EVA, 50);
                 break;
             case PETID_SHIVA:
@@ -1516,6 +1517,7 @@ namespace petutils
     {
         TPZ_DEBUG_BREAK_IF(PMaster->PPet != nullptr);
 
+        // Additional pets are added in pet_list.sql
         if (PMaster->objtype == TYPE_PC && (PetID == PETID_HARLEQUINFRAME || PetID == PETID_VALOREDGEFRAME || PetID == PETID_SHARPSHOTFRAME || PetID == PETID_STORMWAKERFRAME))
         {
             puppetutils::LoadAutomaton(static_cast<CCharEntity*>(PMaster));
@@ -1903,7 +1905,7 @@ namespace petutils
     {
         int16 cost = 0;
         // Elementals
-        if (id >= 0 && id <= 7)
+        if (id >= PETID_FIRESPIRIT && id <= PETID_DARKSPIRIT)
         {
             if (level < 10)
                 cost = 1;
@@ -1933,7 +1935,7 @@ namespace petutils
                 cost = 15;
         }
         // Carbuncle and Cait Sith
-        else if (id == 8 || id == 20)
+        else if (id == PETID_CARBUNCLE || id == PETID_CAIT_SITH)
         {
             if (level < 10)
                 cost = 1;
@@ -1959,7 +1961,7 @@ namespace petutils
                 cost = 11;
         }
         // Fenrir
-        else if (id == 9)
+        else if (id == PETID_FENRIR)
         {
             if (level < 8)
                 cost = 1;
@@ -1989,7 +1991,7 @@ namespace petutils
                 cost = 13;
         }
         // Celestials
-        else if (id <= 16)
+        else if (id <= PETID_DIABOLOS || id == PETID_SIREN)
         {
             if (level < 10)
                 cost = 1;
@@ -2089,6 +2091,7 @@ namespace petutils
         TPZ_DEBUG_BREAK_IF(PMaster == nullptr);
         TPZ_DEBUG_BREAK_IF(PetID >= MAX_PETID);
 
+        // Additional pets are added in pet_list.sql
         Pet_t* PPetData = *std::find_if(g_PPetList.begin(), g_PPetList.end(), [PetID](Pet_t* t) { return t->PetID == PetID; });
     
         if (PMaster->GetMJob() != JOB_DRG && PetID == PETID_WYVERN)
@@ -2103,7 +2106,7 @@ namespace petutils
 
         PETTYPE petType = PETTYPE_JUG_PET;
 
-        if (PetID <= PETID_CAIT_SITH)
+        if (PetID <= PETID_CAIT_SITH || PetID == PETID_SIREN)
         {
             petType = PETTYPE_AVATAR;
         }
@@ -2450,6 +2453,10 @@ namespace petutils
                 return true;
             }
             if (petmod == PetModType::Luopan && PPetEntity->m_PetID == PETID_LUOPAN)
+            {
+                return true;
+            }
+            if (petmod == PetModType::Siren && PPetEntity->m_PetID == PETID_SIREN)
             {
                 return true;
             }
