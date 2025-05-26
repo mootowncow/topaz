@@ -6325,7 +6325,7 @@ namespace charutils
             return;
         }
 
-        if (PChar->GetMLevel() < 75)
+        if (PChar->GetMLevel() < 15)
         {
             return;
         }
