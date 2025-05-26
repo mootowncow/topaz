@@ -46,4 +46,8 @@ function onEventUpdate(player, csid, option, extras)
 end
 
 function onEventFinish(player, csid, option)
+    if csid == 65 then
+        player:addKeyItem(tpz.ki.FISTFUL_OF_FAMILIAR_SOIL)
+        player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.FISTFUL_OF_FAMILIAR_SOIL)
+    end
 end
