@@ -38,7 +38,7 @@ enum SKILLFLAG
     SKILLFLAG_MAGIC_SKILL       = 0x080 // 128 Magical skill / blood pact
 };
 
-#define MAX_MOBSKILL_ID	4262
+#define MAX_MOBSKILL_ID	9999
 
 class CMobSkill
 {

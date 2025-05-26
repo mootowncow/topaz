@@ -5,6 +5,8 @@
 -----------------------------------
 local ID = require("scripts/zones/Walk_of_Echoes/IDs")
 require("scripts/globals/quests")
+require("scripts/globals/battlefield")
+-----------------------------------
 
 function onTrade(player, npc, trade)
 end

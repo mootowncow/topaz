@@ -1345,6 +1345,8 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
     // store the skill used
     m_UsedSkillIds[PSkill->getID()] = GetMLevel();
+    uint16 PSkillId = PSkill->getID();
+    ShowDebug("PSkillId %u", PSkillId);
 
     PAI->TargetFind->reset();
 

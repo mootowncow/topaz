@@ -155,6 +155,7 @@ bool CMobSkillState::Update(time_point tick)
         }
         else
         {
+            ShowDebug("OnMobSkillFinished\n");
             m_PEntity->OnMobSkillFinished(*this, action);
         }
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));

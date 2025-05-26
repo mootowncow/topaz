@@ -12368,7 +12368,7 @@ INSERT INTO `mob_groups` VALUES (55,1414,182,'Fourth_Spitewarden',0,128,0,0,0,83
 INSERT INTO `mob_groups` VALUES (56,2316,182,'Lady_Lilith',0,128,0,0,0,81,82,0);
 INSERT INTO `mob_groups` VALUES (57,2416,182,'Lilith_Ascendant',0,128,0,0,0,83,84,0);
 INSERT INTO `mob_groups` VALUES (58,1197,182,'Elemental_Gyves',0,128,0,0,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (59,609,182,'Cait_Sith_Ceithir',0,128,0,35000,9999,80,80,0);
+INSERT INTO `mob_groups` VALUES (59,609,182,'Cait_Sith_Ceithir',0,128,0,35000,9999,83,83,0);
 INSERT INTO `mob_groups` VALUES (60,5463,182,'GloomTalon',0,128,0,0,0,125,125,0);
 INSERT INTO `mob_groups` VALUES (61,5464,182,'GloomScale',0,128,0,0,0,125,125,0);
 
@@ -14361,7 +14361,7 @@ INSERT INTO `mob_groups` VALUES (35,4926,263,'Yumcax',0,0,0,0,999,107,115,0);
 -- ------------------------------------------------------------
 -- Yorcia_Weald [U] (Zone 264)
 -- ------------------------------------------------------------
--- Siren Prime
+INSERT INTO `mob_groups` VALUES (1,6170,264,'Siren_Prime',0,128,0,35000,0,83,83,0);
 
 -- ------------------------------------------------------------
 -- Morimar_Basalt_Fields (Zone 265)

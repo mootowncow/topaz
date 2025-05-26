@@ -3469,9 +3469,9 @@ INSERT INTO `mob_skills` VALUES (3503,3247,'justicebreaker',0,7.0,2000,0,4,0,0,0
 -- INSERT INTO `mob_skills` VALUES (3505,3249,'geotic_spin',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3506,3250,'hellfire_arrow',4,7.0,2000,1500,4,0,0,1,0,0,0);
 INSERT INTO `mob_skills` VALUES (3507,3251,'incensed_pummel',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3508,2496,'siren_auto_one',0,4.0,0,0,4,16,0,3,0,0,0);
-INSERT INTO `mob_skills` VALUES (3509,2497,'siren_auto_two',0,4.0,0,0,4,16,0,3,0,0,0);
-INSERT INTO `mob_skills` VALUES (3510,2498,'siren_auto_three',0,4.0,0,0,4,16,0,3,0,0,0);
+INSERT INTO `mob_skills` VALUES (3508,2496,'siren_auto_one',0,4.0,0,0,4,16,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3509,2497,'siren_auto_two',0,4.0,0,0,4,16,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3510,2498,'siren_auto_three',0,4.0,0,0,4,16,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3511,2499,'lunatic_voice',1,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3512,2500,'sonic_buffet',4,10.0,2000,1500,4,0,0,4,0,0,0);
 INSERT INTO `mob_skills` VALUES (3513,2501,'entice',4,10.0,2000,1500,4,0,0,0,0,0,0);
@@ -4046,9 +4046,11 @@ INSERT INTO `mob_skills` VALUES (3993,441,'sucker_punch',0,7.0,2000,1500,4,0,0,0
 -- INSERT INTO `mob_skills` VALUES (4078,3822,'#2286',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (4079,3823,'#2287',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (4080,3824,'#2288',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4228,2596,'lunatic_voice',1,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (4229,2499,'tornado_II',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (4227,2595,'bitter_elegy',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (4228,2596,'tornado_II',0,10.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (4229,2499,'lunatic_voice',1,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (4230,2503,'hysteric_assault',0,7.0,2000,1500,4,0,0,0,0,0,0);
+
 INSERT INTO `mob_skills` VALUES (4232,549,'potion',0,21.0,2000,100,16,4,0,0,0,0,0); -- Trust: Monberaux
 INSERT INTO `mob_skills` VALUES (4234,550,'x-potion',0,21.0,2000,100,16,4,0,0,0,0,0); -- Doesn't have a script?
 INSERT INTO `mob_skills` VALUES (4235,2598,'hyper-potion',0,21.0,2000,100,16,4,0,0,0,0,0); -- verified

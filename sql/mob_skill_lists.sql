@@ -4917,6 +4917,17 @@ INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,169); -- black_hal
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,250); -- carnal_nightmare
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,252); -- dancing_chains
 
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren-Autoattacks',6172,3508); -- autoattack 1
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren-Autoattacks',6172,3509); -- autoattack 2
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren-Autoattacks',6172,3510); -- autoattack 3
+
+
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,3512); -- sonic_buffet
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,3513); -- entice
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,4227); -- bitter_elegy
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,4228); -- tornado_II
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,4229); -- lunatic_voice
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,4230); -- hysteric_assault
 
 -- Next available ID: 1208
 -- Next custom ID: 6153

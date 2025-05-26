@@ -1,5 +1,5 @@
 ---------------------------------------------------
--- Lunatic Voice
+-- Bitter Elegy
 ---------------------------------------------
 require("scripts/globals/magic")
 require("scripts/globals/monstertpmoves")
@@ -12,12 +12,9 @@ function onMobSkillCheck(target,mob,skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local typeEffect = tpz.effect.MUTE
-    if mob:getName() == 'Siren_Prime' then
-        typeEffect = tpz.effect.SILENCE
-    end
+    local typeEffect = tpz.effect.ELEGY
 
-    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 1, 0, 300))
+    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 5000, 0, 90))
 
     return typeEffect
 end
