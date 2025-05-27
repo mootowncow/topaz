@@ -505,7 +505,7 @@ function AutoPhysicalFinalAdjustments(dmg, auto, skill, target, attackType, dama
 	    if (dmg > 0) then
             master:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
         end
-    elseif attackType == tpz.attackType.RANGED then
+    elseif attackType == tpz.attackType.RANGED and skill:getID() ~= 1949 then -- Skill 1949 is "Ranged Attack" and handled in C++
         dmg = target:rangedDmgTaken(dmg)
 	    if (dmg > 0) then
             master:trySkillUp(target, tpz.skill.AUTOMATON_RANGED, numberofhits)
