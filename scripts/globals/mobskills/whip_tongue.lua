@@ -18,7 +18,9 @@ function onMobSkillCheck(target, mob, skill)
     local raogrimm = mob:getPool() == 9088
     -- Don't consume TP if Verrottendes Fleisch
     if verrottendes_Fleisch then
-        addFlag:setFlag(2)
+        skill:addFlag(tpz.mobSkillFlag.TWO_HOUR)
+    else
+        skill:delFlag(tpz.mobSkillFlag.TWO_HOUR)
     end
     return 0
 end

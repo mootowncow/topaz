@@ -60,8 +60,9 @@ public:
     int32 setAoe(lua_State*);
     int32 setDistance(lua_State*);
     int32 setFlag(lua_State*);
-    int32 addFlag(lua_State*);
     int32 getFlag(lua_State*);
+    int32 addFlag(lua_State*);
+    int32 delFlag(lua_State*);
     int32 setAnimationTime(lua_State*);
     int32 setActivationTime(lua_State*);
     int32 setValidTargets(lua_State*);

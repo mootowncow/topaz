@@ -249,6 +249,17 @@ inline int32 CLuaMobSkill::addFlag(lua_State* L)
     return 0;
 }
 
+inline int32 CLuaMobSkill::delFlag(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaMobSkill == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    m_PLuaMobSkill->delFlag((uint8)lua_tointeger(L, 1));
+
+    return 0;
+}
+
+
 inline int32 CLuaMobSkill::setAnimationTime(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PLuaMobSkill == nullptr);
@@ -318,6 +329,7 @@ Lunar<CLuaMobSkill>::Register_t CLuaMobSkill::methods[] =
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setFlag),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,getFlag),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,addFlag),
+    LUNAR_DECLARE_METHOD(CLuaMobSkill,delFlag),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setAnimationTime),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setActivationTime),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setValidTargets),
