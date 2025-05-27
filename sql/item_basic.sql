@@ -1538,7 +1538,7 @@ INSERT INTO `item_basic` VALUES (1648,0,'dark_anima','dark_anima',99,4100,44,1,0
 INSERT INTO `item_basic` VALUES (1649,0,'scarlet_stone','scarlet_stone',99,4,39,0,205);
 INSERT INTO `item_basic` VALUES (1650,0,'kopparnickel_ore','kopparnickel_ore',99,4,38,0,200);
 INSERT INTO `item_basic` VALUES (1651,0,'moblin_thread','moblin_thread',99,4,40,0,204);
-INSERT INTO `item_basic` VALUES (1652,0,'rice_vinegar','rice_vinegar',99,4,59,0,175);
+INSERT INTO `item_basic` VALUES (1652,0,'rice_vinegar','rice_vinegar',99,4,59,0,30);
 INSERT INTO `item_basic` VALUES (1653,0,'demon_pen','demon_pen',1,57428,0,0,700);
 INSERT INTO `item_basic` VALUES (1654,0,'igneous_rock','igneous_rock',99,4,38,0,180);
 INSERT INTO `item_basic` VALUES (1655,0,'leather_pouch','leather_pouch',1,4,41,0,181);
