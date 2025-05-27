@@ -1590,7 +1590,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                     PRecastContainer->Del(RECAST_ABILITY, PActivateAbility->getRecastId());
             }
         }
-        else if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
+        else if (PAbility->isBloodPact())
         {
             if (this->StatusEffectContainer->HasStatusEffect(EFFECT_APOGEE))
             {
@@ -1743,22 +1743,34 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                     if (validTarget & TARGET_PLAYER_PARTY)
                     {
                         PPetTarget = PAbility->getTarget()->targid;
-                        mobSkillId = 906;
+                        if (PAbility->isBloodPact())
+                        {
+                            mobSkillId = 906;
+                        }
                     }
                     else if (validTarget & TARGET_SELF) // TARGET_SELF is set
                     {
                         PPetTarget = PPet->targid;
-                        mobSkillId = 887;
+                        if (PAbility->isBloodPact())
+                        {
+                            mobSkillId = 887;
+                        }
                     }
                     else if (validTarget & TARGET_ENEMY) // TARGET_ENEMY is set
                     {
                         PPetTarget = PAbility->getTarget()->targid;
-                        mobSkillId = 885;
+                        if (PAbility->isBloodPact())
+                        {
+                            mobSkillId = 885;
+                        }
                     }
 
                     if (validTarget & TARGET_PLAYER_DEAD) // TARGET_PLAYER_DEAD is set
                     {
-                        mobSkillId = 2460;
+                        if (PAbility->isBloodPact())
+                        {
+                            mobSkillId = 2460;
+                        }
                     }
 
                 }

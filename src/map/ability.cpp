@@ -82,6 +82,21 @@ bool CAbility::isPetCommand()
             getID() == ABILITY_RETRIEVE);
 }
 
+bool CAbility::isBloodPact()
+{
+    uint16 id = getID();
+
+    if ((id >= ABILITY_HEALING_RUBY && id <= ABILITY_PERFECT_DEFENSE) ||
+        (id >= ABILITY_CLARSACH_CALL && id <= ABILITY_HYSTERIC_ASSAULT) ||
+        id == ABILITY_PACIFYING_RUBY || id == ABILITY_REGAL_GASH)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+
 bool CAbility::isReadyMove()
 {
     return (getID() >= ABILITY_FOOT_KICK && getID() <= ABILITY_NIHILITY_SONG)

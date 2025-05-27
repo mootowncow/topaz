@@ -747,6 +747,7 @@ public:
     bool        isMeleeAbility();
     bool        isPetAbility();
     bool        isPetCommand();
+    bool        isBloodPact();
     bool        isReadyMove();
     bool        isQuickDraw();
     bool        isBuffedByInnerStrength();

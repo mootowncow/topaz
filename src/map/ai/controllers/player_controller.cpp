@@ -1178,7 +1178,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                         }
                     }
                 }
-                else if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
+                else if (PAbility->isBloodPact())
                 {
                     if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_APOGEE))
                     {
