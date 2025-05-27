@@ -26,6 +26,7 @@ zones[tpz.zone.WALK_OF_ECHOES] =
         CAIT_TAUNT2             = 7769, -- Maybe I'm not playing fair, but a little stickiness can go a long way! Let's see how long you stay standing!
         CAIT_LOWHP              = 7770, -- Playtime's over! Time for the grand finale! Bring down the curtain!Show me what you're made of, Champion
         CAIT_DEAD               = 7771, -- Well...done
+        CAITSITH_UNLOCKED       = 8124, -- You have gained the ability to summon Cait Sith!
 
     },
     mob =

@@ -70,7 +70,7 @@ function onEventFinish(player, csid, option)
                 player:messageSpecial(ID.text.GIL_OBTAINED, GIL_RATE*10000) -- Gil
             elseif (option == 5) then
                 player:addSpell(307) -- Cait Sith Spell
-                player:messageSpecial(ID.text.IFRIT_UNLOCKED, 0, 0, 0)
+                player:messageSpecial(ID.text.CAITSITH_UNLOCKED, 0, 0, 0)
             elseif item > 0 then
                 player:addItem(item)
                 player:messageSpecial(ID.text.ITEM_OBTAINED, item) -- Item
