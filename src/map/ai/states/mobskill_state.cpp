@@ -64,6 +64,10 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
         {
             m_castTime = std::chrono::milliseconds(PAvatar->m_bloodPactActivationTime);
         }
+        else
+        {
+            m_castTime = std::chrono::milliseconds(m_PSkill->getActivationTime());
+        }
     }
 
     if (m_castTime > 0s)
@@ -88,9 +92,15 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
             auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);
             if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
             {
+                actionTarget.animation = ACTION_BLOODPACT_START;
                 actionTarget.param = PAvatar->m_bloodPactAbilityId;
                 actionTarget.messageID = MSGBASIC_PET_WS;
-                actionTarget.animation = ACTION_BLOODPACT_START;
+            }
+            else
+            {
+                actionTarget.animation = 0;
+                actionTarget.param = m_PSkill->getID();
+                actionTarget.messageID = MSGBASIC_READIES_WS;
             }
         }
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE, new CActionPacket(action));
@@ -152,6 +162,10 @@ bool CMobSkillState::Update(time_point tick)
             if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
             {
                 PAvatar->OnPlayerPetSkillFinished(*this, action);
+            }
+            else
+            {
+                m_PEntity->OnMobSkillFinished(*this, action);
             }
         }
         else

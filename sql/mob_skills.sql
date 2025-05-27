@@ -2408,7 +2408,7 @@ INSERT INTO `mob_skills` VALUES (2444,1712,'dancers_fury',0,7.0,2000,1000,4,0,0,
 INSERT INTO `mob_skills` VALUES (2445,1713,'whirling_edge',0,7.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2446,1716,'rousing_samba',0,7.0,2000,1000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2447,1717,'vivifying_waltz',1,18.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2448,1686,'regal_scratch',1,7.0,2000,3000,4,0,0,0,4,0,0); -- Scission (4) -- TODO: Animation IDs should be the MP cost of the blood pacts?
+INSERT INTO `mob_skills` VALUES (2448,1686,'regal_scratch',0,7.0,2000,3000,4,0,0,0,4,0,0); -- Scission (4) -- TODO: Animation IDs should be the MP cost of the blood pacts?
 INSERT INTO `mob_skills` VALUES (2449,1687,'mewing_lullaby',1,7.0,2000,3000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2450, 1688, 'eerie_eye', 4, 10.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
 INSERT INTO `mob_skills` VALUES (2451, 1689, 'divine_favor', 1, 5.0, 2000, 3000, 1, 2, 0, 0, 0, 0, 0);
