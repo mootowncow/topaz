@@ -56,23 +56,6 @@ function MobRangedMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffec
     return MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, params_phys)
 end
 
--- PHYSICAL MOVE FUNCTION
--- Call this on every physical move!
--- accmod is a linear multiplier for accuracy (1 default)
--- dmgmod is a linear multiplier for damage (1 default)
--- tpeffect is an enum which can be one of:
--- 0 TP_ACC_VARIES
--- 1 TP_ATK_VARIES
--- 2 TP_DMG_VARIES
--- 3 TP_CRIT_VARIES
--- 4 TP_RANGED Used for ranged attacks
--- 5 TP_AUTO_ATTACK -- Used for "auto-attack"" skills ONLY
--- 6 TP_IGNORE_DEFENSE
--- mtp100/200/300 are the three values for 100% TP, 200% TP, 300% TP just like weaponskills.lua
--- if TP_ACC_VARIES -> three values are acc %s (1.0 is 100% acc, 0.8 is 80% acc, 1.2 is 120% acc)
--- if TP_ATK_VARIES -> three values are attack multiplier (1.5x 0.5x etc)
--- if TP_DMG_VARIES -> three values are
-
 -- HYBRID MOVES:
 -- params_phys.hybrid = true
 -- params_phys.hybridElement = (i.e. tpz.magic.ele.WIND) **REQUIRED**
