@@ -1930,10 +1930,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     }
     if ((!(PSpell->isHeal()) || PSpell->tookEffect()) && PActionTarget->isAlive())
     {
-        if (objtype != TYPE_PET)
-        {
-            battleutils::ClaimMob(PActionTarget, this);
-        }
+        battleutils::ClaimMob(PActionTarget, this);
     }
 
     if (PSpell->getRequirements() & SPELLREQ_UNBRIDLED_LEARNING)

@@ -493,26 +493,27 @@ function AutoPhysicalFinalAdjustments(dmg, auto, skill, target, attackType, dama
     dmg = AreaOfEffectResistance(target, skill, dmg)
 
     local element = damageType - 5
+    local master = auto:getMaster()
     -- Check for MDT/PDT/RDT/BDT/MDB
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.SPECIAL then
         dmg = target:magicDmgTaken(dmg, element)
 	    if (dmg > 0) then
-            auto:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
+            master:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
         end
     elseif attackType == tpz.attackType.BREATH then
         dmg = target:breathDmgTaken(dmg, element)
 	    if (dmg > 0) then
-            auto:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
+            master:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
         end
     elseif attackType == tpz.attackType.RANGED then
         dmg = target:rangedDmgTaken(dmg)
 	    if (dmg > 0) then
-            auto:trySkillUp(target, tpz.skill.AUTOMATON_RANGED, numberofhits)
+            master:trySkillUp(target, tpz.skill.AUTOMATON_RANGED, numberofhits)
         end
     elseif attackType == tpz.attackType.PHYSICAL then
         dmg = target:physicalDmgTaken(dmg, damageType)
 	    if (dmg > 0) then
-            auto:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
+            master:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
         end
     end
 
