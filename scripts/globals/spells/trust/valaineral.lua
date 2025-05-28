@@ -33,14 +33,18 @@ function onMobSpawn(mob)
     ]]
     tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.SPAWN)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_SPECIFIC, tpz.magic.spell.METEOR, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_SPECIFIC, tpz.magic.spell.DEATH, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.DETECT_MIJIN, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
+    if mob:getMainLvl() >= 75 then
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_SPECIFIC, tpz.magic.spell.METEOR, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_SPECIFIC, tpz.magic.spell.DEATH, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.DETECT_MIJIN, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
+    end
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.MANAFONT, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.CHAINSPELL, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.ASTRAL_FLOW, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.TABULA_RASA,ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
+    if mob:getMainLvl() >= 62 then
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.MANAFONT, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.CHAINSPELL, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.ASTRAL_FLOW, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.TABULA_RASA,ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
+    end
 
     if mob:getMainLvl() >= 15 then
         mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0,
