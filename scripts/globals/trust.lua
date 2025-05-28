@@ -1073,9 +1073,15 @@ function AddTrustProgressionBonuses(mob)
     local mobLevel = mob:getMainLvl()
     local job = mob:getMainJob()
     local master = mob:getMaster()
+    local mobLevel = mob:getMainLvl()
     local isTank = (job == tpz.job.PLD) or (job == tpz.job.NIN) or (job == tpz.job.RUN)
     local isCaster = (job == tpz.job.BLM) or (job == tpz.job.SCH)
     local isSupport = (job == tpz.job.COR) or (job == tpz.job.BRD) or (job == tpz.job.GEO)
+
+    -- Only applicable on level 75 trusts
+    if mobLevel < 75 then
+        return
+    end
 
     -- Apply role-based level up bonuses
     if isTank then
@@ -1098,7 +1104,7 @@ function GetTrustProgressionBonuses(mob, role)
     local levelBonuses = {
         ['Melee'] = {
             ['Lvl1'] = { Mod = tpz.mod.ATT,           Power = 10  },
-            ['Lvl2'] = { Mod = tpz.mod.ACC,           Power = 55  },
+            ['Lvl2'] = { Mod = tpz.mod.ACC,           Power = 5   },
             ['Lvl3'] = { Mod = tpz.mod.STORETP,       Power = 3   },
             ['Lvl4'] = { Mod = tpz.mod.STR_DURING_WS, Power = 6   },
             ['Lvl5'] = { Mod = tpz.mod.HASTE_GEAR,    Power = 500 },
