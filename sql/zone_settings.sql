@@ -310,7 +310,7 @@ INSERT INTO `zone_settings` VALUES (260,2,'127.0.0.1',54230,'Yahse_Hunting_Groun
 INSERT INTO `zone_settings` VALUES (261,2,'127.0.0.1',54230,'Ceizak_Battlegrounds',60,60,57,57,0,0.00,6300,16);
 INSERT INTO `zone_settings` VALUES (262,2,'127.0.0.1',54230,'Foret_de_Hennetiel',60,60,57,57,0,0.00,6300,16);
 INSERT INTO `zone_settings` VALUES (263,2,'127.0.0.1',54230,'Yorcia_Weald',61,61,57,57,0,0.00,6300,16);
-INSERT INTO `zone_settings` VALUES (264,2,'127.0.0.1',54230,'Yorcia_Weald_U',62,62,62,62,0,0.00,6298,16); -- Should be zoneType 6
+INSERT INTO `zone_settings` VALUES (264,6,'127.0.0.1',54230,'Yorcia_Weald_U',62,62,62,62,0,0.00,6298,16);
 INSERT INTO `zone_settings` VALUES (265,2,'127.0.0.1',54230,'Morimar_Basalt_Fields',60,60,57,57,0,0.00,6300,16);
 INSERT INTO `zone_settings` VALUES (266,2,'127.0.0.1',54230,'Marjami_Ravine',60,60,57,57,0,0.00,6300,16);
 INSERT INTO `zone_settings` VALUES (267,2,'127.0.0.1',54230,'Kamihr_Drifts',72,72,57,57,0,0.00,6300,16);

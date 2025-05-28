@@ -13,6 +13,10 @@ end
 
 function onZoneIn(player, prevZone)
     local cs = -1
+    -- WINGSCUSTOM: cait sith avatar quest available when currently-implemented WOTG missions are completed
+    -- This needs to be changed as more missions are implemented
+    local highestMission = {tpz.mission.id.wotg.PURPLE_THE_NEW_BLACK, "PURPLE_THE_NEW_BLACK"}
+    local caitSithAvailable = player:hasCompletedMission(WOTG, highestMission[1])
 
     if
         player:getXPos() == 0 and
@@ -23,11 +27,28 @@ function onZoneIn(player, prevZone)
     end
 
     if player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.CHAMPION_OF_THE_DAWN) == QUEST_AVAILABLE then
-        cs = 15
-    elseif player:getCharVar("TrialByCait_Won") == 1 then -- Incase of a DC when picking reward
-        cs = 18
-    elseif player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.A_FORBIDDEN_REUNION) == QUEST_AVAILABLE then
-        cs = 123
+        if caitSithAvailable then
+            cs = 15
+        else
+            -- give message once fully loaded in
+            player:timer(3000, function(player)
+                player:PrintToPlayer(string.format("Please complete the highest implemented WotG mission (%s) to flag Champion of the Dawn",string.gsub(string.lower(highestMission[2]),"_"," ")))
+            end)
+        end
+    else
+        if player:getCharVar("TrialByCait_Won") == 1 then
+            cs = 18
+--            player:timer(3000, function(player)
+--                numitem = 0
+--
+--                if (player:hasItem(28454)) then numitem = numitem + 2; end  -- nesanica_belt
+--                if (player:hasItem(28567)) then numitem = numitem + 4; end  -- nesanica_ring
+--                if (player:hasItem(28382)) then numitem = numitem + 6; end  -- nesanica_torque
+--
+--
+--                player:startEvent(18, 0, 0, 0, 0, numitem)
+--            end)
+        end
     end
 
     return cs
@@ -56,6 +77,7 @@ function onEventFinish(player, csid, option)
     if csid == 15 then
         player:addQuest(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.CHAMPION_OF_THE_DAWN)
     elseif csid == 18 then
+        print(option)
         local item = 0
         if (option == 1) then item = 28454      -- nesanica_belt
         elseif (option == 2) then item = 28567  -- nesanica_ring
@@ -70,13 +92,13 @@ function onEventFinish(player, csid, option)
                 player:messageSpecial(ID.text.GIL_OBTAINED, GIL_RATE*10000) -- Gil
             elseif (option == 5) then
                 player:addSpell(307) -- Cait Sith Spell
-                player:messageSpecial(ID.text.CAITSITH_UNLOCKED, 0, 0, 0)
+                player:messageSpecial(ID.text.IFRIT_UNLOCKED, 0, 0, 0)
             elseif item > 0 then
                 player:addItem(item)
                 player:messageSpecial(ID.text.ITEM_OBTAINED, item) -- Item
             end
             player:setCharVar("TrialByCait_Won", 0)
-            player:setCharVar("TrialByCaitSeenCS", 0)
+            player:setCharVar("TrialByCait_date", os.date("%j")) -- %M for next minute, %j for next day
             -- ?? player:addFame(blah, 30)
             if player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.CHAMPION_OF_THE_DAWN) == QUEST_COMPLETED then
                 player:completeQuest(CRYSTAL_WAR, tpz.quest.id.crystalWar.THE_DAWN_ALSO_RISES)
@@ -84,7 +106,5 @@ function onEventFinish(player, csid, option)
                 player:completeQuest(CRYSTAL_WAR, tpz.quest.id.crystalWar.CHAMPION_OF_THE_DAWN)
             end
         end
-    elseif csid == 123 then
-        player:addQuest(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.A_FORBIDDEN_REUNION)
     end
 end

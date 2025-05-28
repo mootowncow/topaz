@@ -363,17 +363,8 @@ bool CBattlefield::InsertEntity(CBaseEntity* PEntity, bool enter, BATTLEFIELDMOB
         PEntity->PBattlefield = this;
     // mob, initiator or ally
     if (entity && !entity->StatusEffectContainer->GetStatusEffect(EFFECT_BATTLEFIELD))
-    {
-        entity->StatusEffectContainer->AddStatusEffect(
-            new CStatusEffect(EFFECT_BATTLEFIELD, EFFECT_BATTLEFIELD, this->GetID(), 0, 0, m_Initiator.id, this->GetArea()), true);
-
-        // Also add battlefield status to pets
-        if (entity->PPet)
-        {
-            entity->PPet->StatusEffectContainer->AddStatusEffect(
-                new CStatusEffect(EFFECT_BATTLEFIELD, EFFECT_BATTLEFIELD, this->GetID(), 0, 0, m_Initiator.id, this->GetArea()), true);
-        }
-    }
+        entity->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_BATTLEFIELD, EFFECT_BATTLEFIELD, this->GetID(),
+            0, 0, m_Initiator.id, this->GetArea()), true);
 
     return true;
 }
@@ -546,13 +537,6 @@ bool CBattlefield::RemoveEntity(CBaseEntity* PEntity, uint8 leavecode)
     if (auto PBattleEntity = dynamic_cast<CBattleEntity*>(PEntity))
     {
         PBattleEntity->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_CONFRONTATION, true);
-
-        // Also remove off pets
-        if (PBattleEntity->PPet)
-        {
-            PBattleEntity->PPet->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_CONFRONTATION, true);
-        }
-
         PBattleEntity->StatusEffectContainer->DelStatusEffectSilent(EFFECT_LEVEL_RESTRICTION);
         ClearEnmityForEntity(PBattleEntity);
     }

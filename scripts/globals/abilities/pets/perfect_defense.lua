@@ -23,7 +23,7 @@ function onPetAbility(target, pet, skill, master)
     end
     target:delStatusEffectSilent(tpz.effect.PERFECT_DEFENSE)
     target:addStatusEffect(tpz.effect.PERFECT_DEFENSE, power, 3, duration)
-    skill:setMsg(tpz.msg.basic.JA_GAINS_EFFFECT)
+    skill:setMsg(tpz.msg.basic.SKILL_GAIN_EFFECT)
     master:setMP(0)
     return tpz.effect.PERFECT_DEFENSE
 end

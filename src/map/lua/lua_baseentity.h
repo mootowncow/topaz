@@ -413,7 +413,6 @@ public:
     int32 addTP(lua_State*);                // Modify tp of Entity +/-
     int32 setTP(lua_State*);                // Set tp of Entity to value
     int32 delTP(lua_State*);                // Subtract tp of Entity
-    int32 getSpentTP(lua_State*);           // Get an entities last spent TP
 
     int32 updateHealth(lua_State* L);
 
@@ -547,7 +546,6 @@ public:
     int32 setVE(lua_State*);                   //sets current VE the mob has towards the player
     int32 addEnmity(lua_State*);               // Add specified amount of enmity (target, CE, VE)
     int32 lowerEnmity(lua_State*);             //lower enmity to player for specificed mob
-    int32 lowerAllEnmity(lua_State*);          // lower enmity for a player against ALL mobs in the zone by a percent
     int32 updateEnmity(lua_State*);            // Adds Enmity to player for specified mob
     int32 transferEnmity(lua_State*);
     int32 updateEnmityFromDamage(lua_State*);  // Adds Enmity to player for specified mob for the damage specified

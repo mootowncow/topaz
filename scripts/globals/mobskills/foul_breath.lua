@@ -19,7 +19,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local dmgmod = MobHPBasedMove(mob, target, skill, 0.20, 1, tpz.magic.ele.FIRE, 700)
+    local dmgmod = MobHPBasedMove(mob, target, 0.20, 1, tpz.magic.ele.FIRE, 700)
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.FIRE, MOBPARAM_IGNORE_SHADOWS)
 
     local typeEffect = tpz.effect.DISEASE

@@ -513,11 +513,6 @@ inline int32 CLuaBaseEntity::messageSpecial(lua_State *L)
 
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
-    if (m_PBaseEntity->objtype != TYPE_PC)
-    {
-        return 0;
-    }
-
     uint16 messageID = (uint16)lua_tointeger(L, 1);
 
     uint32 param0 = 0;
@@ -9347,41 +9342,6 @@ inline int32 CLuaBaseEntity::delTP(lua_State *L)
 }
 
 /************************************************************************
- *  Function: getSpentTP()
- *  Purpose : Return entities last spent TP.
- *  Example : local TP = mob:getSpentTP()
- *  Notes   :
- ************************************************************************/
-
-inline int32 CLuaBaseEntity::getSpentTP(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
-
-
-    if (auto* PMob = dynamic_cast<CMobEntity*>(m_PBaseEntity))
-    {
-        if (auto* PState = dynamic_cast<CMobSkillState*>(PMob->PAI->GetCurrentState()))
-        {
-            lua_pushinteger(L, PState->GetSpentTP());
-            return 1;
-        }
-    }
-
-    if (auto* PPet = dynamic_cast<CPetEntity*>(m_PBaseEntity))
-    {
-        if (auto* PState = dynamic_cast<CMobSkillState*>(PPet->PAI->GetCurrentState()))
-        {
-            lua_pushinteger(L, PState->GetSpentTP());
-            return 1;
-        }
-    }
-
-    lua_pushnil(L);
-    return 1;
-}
-
-/************************************************************************
 *  Function: updateHealth()
 *  Purpose : Forces a health update for an Entity
 *  Example : target:updateHealth()
@@ -10092,16 +10052,16 @@ inline int32 CLuaBaseEntity::getParty(lua_State* L)
     lua_createtable(L, size, 0);
     int i = 1;
     ((CBattleEntity*)m_PBaseEntity)->ForParty([&L, &i](CBattleEntity* member)
-        {
-            lua_getglobal(L, CLuaBaseEntity::className);
-            lua_pushstring(L, "new");
-            lua_gettable(L, -2);
-            lua_insert(L, -2);
-            lua_pushlightuserdata(L, (void*)member);
-            lua_pcall(L, 2, 1, 0);
+    {
+        lua_getglobal(L, CLuaBaseEntity::className);
+        lua_pushstring(L, "new");
+        lua_gettable(L, -2);
+        lua_insert(L, -2);
+        lua_pushlightuserdata(L, (void*)member);
+        lua_pcall(L, 2, 1, 0);
 
-            lua_rawseti(L, -2, i++);
-        });
+        lua_rawseti(L, -2, i++);
+    });
 
     return 1;
 }
@@ -10116,11 +10076,6 @@ inline int32 CLuaBaseEntity::getParty(lua_State* L)
 inline int32 CLuaBaseEntity::getPartyWithTrusts(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
-
-    if (m_PBaseEntity->objtype != TYPE_PC)
-    {
-            return 0;
-    }
 
     CParty* party = ((CCharEntity*)m_PBaseEntity)->PParty;
 
@@ -11937,51 +11892,6 @@ inline int32 CLuaBaseEntity::lowerEnmity(lua_State *L)
 }
 
 /************************************************************************
- *  Function: lowerAllEnmity()
- *  Purpose : Reduces a players enmity by a percentage against all targets on their enmity list
- *  Example : player:lowerEnmity(45)
- *  Notes   :
- ************************************************************************/
-
-inline int32 CLuaBaseEntity::lowerAllEnmity(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
-
-    uint8 percent = static_cast<uint8>(lua_tointeger(L, 1));
-
-    // Get zone from entity
-    auto zone = zoneutils::GetZone(m_PBaseEntity->getZone());
-    if (zone == nullptr)
-    {
-        return 0;
-    }
-
-    // Cast CBaseEntity* to CBattleEntity*
-    CBattleEntity* PTarget = dynamic_cast<CBattleEntity*>(m_PBaseEntity);
-    if (!PTarget)
-    {
-        return 0; // failed cast, safe exit
-    }
-
-    zone->ForEachMob(
-    [PTarget, percent](CMobEntity* mob)
-    {
-        if (mob && mob->PEnmityContainer)
-        {
-            if (mob->PEnmityContainer->HasEnmity(PTarget))
-            {
-                mob->PEnmityContainer->LowerEnmityByPercent(PTarget, percent, nullptr);
-            }
-        }
-    });
-
-
-    return 0;
-}
-
-/************************************************************************
 *  Function: updateEnmity()
 *  Purpose : Unlike updateClaim(), this function only causes a mob to fight the target
 *  Example : SpawnMob(17330334):updateEnmity(target)
@@ -13512,7 +13422,7 @@ inline int32 CLuaBaseEntity::getCritHitRate(lua_State* L)
 
     if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
     {
-        weaponSlot = (SLOTTYPE)lua_tonumber(L, 3);
+        weaponSlot = (SLOTTYPE)lua_tointeger(L, 3);
     }
 
     if (!lua_isnil(L, 4) && lua_isboolean(L, 4))
@@ -17603,6 +17513,7 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                                       int16 tp = battleutils::CalculateWeaponSkillTP(PMob, 0, PMob->health.tp);
 
                                       tp = std::min(static_cast<int>(tp), 3000);
+                                      PMob->SetLocalVar("tp", tp);
                                   }
                                   else
                                   {
@@ -18415,7 +18326,6 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addTP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setTP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delTP),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getSpentTP),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateHealth),
 
@@ -18543,7 +18453,6 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setVE),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addEnmity),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,lowerEnmity),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,lowerAllEnmity),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateEnmity),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,transferEnmity),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateEnmityFromDamage),

@@ -83,12 +83,6 @@ void CEnmityContainer::Clear(uint32 EntityID)
     m_tameable = true;
 }
 
-bool CEnmityContainer::HasEnmity(CBattleEntity* PEntity)
-{
-    return m_EnmityList.find(PEntity->id) != m_EnmityList.end();
-}
-
-
 void CEnmityContainer::LogoutReset(uint32 EntityID)
 {
     if (const auto& enmity_obj = m_EnmityList.find(EntityID); enmity_obj != m_EnmityList.end())

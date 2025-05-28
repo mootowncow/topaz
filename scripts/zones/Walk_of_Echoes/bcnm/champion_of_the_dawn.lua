@@ -8,10 +8,11 @@
 require("scripts/globals/battlefield")
 require("scripts/globals/quests")
 require("scripts/globals/titles")
-local ID = require("scripts/zones/Walk_of_Echoes/IDs")
+local ID = require("scripts/zones/Jugner_Forest_[S]/IDs")
 -----------------------------------
+
 function onBattlefieldTick(battlefield, tick)
-    tpz.battlefield.onBattlefieldTick(battlefield, tick)
+     tpz.battlefield.onBattlefieldTick(battlefield, tick)
 end
 
 function onBattlefieldInitialise(battlefield)
@@ -21,6 +22,11 @@ function onBattlefieldRegister(player, battlefield)
 end
 
 function onBattlefieldEnter(player, battlefield)
+    player:delKeyItem(tpz.ki.BREATH_OF_DAWN1)
+    player:delKeyItem(tpz.ki.BREATH_OF_DAWN2)
+    player:delKeyItem(tpz.ki.BREATH_OF_DAWN3)
+    player:messageSpecial(ID.text.KEYITEM_OBTAINED + 1, tpz.ki.BREATH_OF_DAWN1)
+    player:setCharVar("TrialByCaitSeenCS", 0) -- reset fight availability until after jst midnight
 end
 
 function onBattlefieldLeave(player, battlefield, leavecode)
@@ -39,15 +45,10 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 32001 then
-        if player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.THE_DAWN_ALSO_RISES) > QUEST_AVAILABLE or
+        if player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.THE_DAWN_ALSO_RISES) > QUEST_ACCEPTED or
             player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.CHAMPION_OF_THE_DAWN) > QUEST_AVAILABLE then
-            printf("Fight successful")
-            -- Fight successful and quest active
-            player:setCharVar("TrialByCait_Won", 1)
-            for breathOfDawn = tpz.ki.BREATH_OF_DAWN1, tpz.ki.BREATH_OF_DAWN3 do
-                player:delKeyItem(breathOfDawn)
-                player:messageSpecial(ID.text.KEYITEM_LOST, breathOfDawn)
-            end
+                -- Fight successful and quest active
+                player:setCharVar("TrialByCait_Won", 1)
         end
         player:addTitle(tpz.title.LIGHT_OF_DAWN)
         -- clear black screen

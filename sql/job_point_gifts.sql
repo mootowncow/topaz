@@ -959,7 +959,7 @@ INSERT INTO `job_point_gifts` VALUES (15, 55, 915, 9, 'SMN_Capacity Point Bonus'
 INSERT INTO `job_point_gifts` VALUES (15, 60, 991, 10, 'SMN_Avatar/Spirit Phys. Acc. & Eva. Bonus');
 INSERT INTO `job_point_gifts` VALUES (15, 80, 992, 5, 'SMN_Avatar/Spirit Mag. Atk. & Def. Bonus');
 INSERT INTO `job_point_gifts` VALUES (15, 95, 915, 11, 'SMN_Capacity Point Bonus');
-INSERT INTO `job_point_gifts` VALUES (15, 100, 541, 5, 'SMN_Blood Pact Recast Time');
+INSERT INTO `job_point_gifts` VALUES (15, 100, 357, 5, 'SMN_Blood Pact Recast Time');
 INSERT INTO `job_point_gifts` VALUES (15, 100, 997, 1, 'SMN_Superior 2');
 INSERT INTO `job_point_gifts` VALUES (15, 125, 993, 10, 'SMN_Spirit/Avatar Mag. Acc. & Eva. Bonus');
 INSERT INTO `job_point_gifts` VALUES (15, 145, 915, 13, 'SMN_Capacity Point Bonus');
@@ -994,7 +994,7 @@ INSERT INTO `job_point_gifts` VALUES (15, 1045, 915, 31, 'SMN_Capacity Point Bon
 INSERT INTO `job_point_gifts` VALUES (15, 1050, 993, 20, 'SMN_Avatar/Spirit Mag. Acc. & Eva. Bonus');
 INSERT INTO `job_point_gifts` VALUES (15, 1125, 117, 10, 'SMN_Summoning Magic Skill Bonus');
 INSERT INTO `job_point_gifts` VALUES (15, 1195, 915, 33, 'SMN_Capacity Point Bonus');
-INSERT INTO `job_point_gifts` VALUES (15, 1200, 541, 5, 'SMN_Blood Pact Recast Time');
+INSERT INTO `job_point_gifts` VALUES (15, 1200, 357, 5, 'SMN_Blood Pact Recast Time');
 INSERT INTO `job_point_gifts` VALUES (15, 1200, 997, 1, 'SMN_Superior 4');
 INSERT INTO `job_point_gifts` VALUES (15, 1280, 29, 8, 'SMN_Magic Defense Bonus');
 INSERT INTO `job_point_gifts` VALUES (15, 1355, 915, 35, 'SMN_Capacity Point Bonus');

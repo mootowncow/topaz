@@ -185,7 +185,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             if (PAbility->isPetAbility())
             {
                 // Blood pact MP costs are stored under animation ID
-                if (PChar->health.mp < PAbility->getMPCost())
+                if (PChar->health.mp < PAbility->getAnimationID())
                 {
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
                     return false;
@@ -984,7 +984,6 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             }
 
             case ABILITY_SHIELD_BASH:
-            case ABILITY_INTERVENE:
             {
                 if (PChar->getShieldSize() == SHIELDSIZE_NONE)
                 {
@@ -1178,7 +1177,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                         }
                     }
                 }
-                else if (PAbility->isBloodPact())
+                else if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
                 {
                     if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_APOGEE))
                     {

@@ -34,8 +34,8 @@
 enum MSGBASIC_ID : uint16
 {
     MSGBASIC_NONE                   = 0, // Display nothing 
-	MSGBASIC_DEFEATS_TARG			= 6, // The <player> defeats <target>.
-    MSGBASIC_MOB_READIES            = 43,// Mob TP move start msg
+	MSGBASIC_DEFEATS_TARG			= 6, // The <player> defeats <target>. 
+    MSGBASIC_SELF_HEAL_SECONDARY    = 263,// <target recovers <amount> HP | Used for Curaga
     MSGBASIC_HIT_ABSORBS_HP         = 373,//The<player> hits<target>.<target>recovers..hit points !
     MSGBASIC_MISS                   = 15, // The <entity> misses <target>.
     MSGBASIC_DODGE                  = 32, // <target> dodges the attack.
@@ -72,19 +72,15 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_OUT_OF_RANGE_UNABLE_CAST	= 313, // Out of range unable to cast 
 	MSGBASIC_CANNOT_ATTACK_TARGET	= 446, // You cannot attack that target 
 	MSGBASIC_NEEDS_2H_WEAPON		= 307, // That action requires a two-handed weapon. 
-	MSGBASIC_USES_BUT_MISSES		= 324, // The <player> uses .. but misses <target>.
-    MSGBASIC_CANT_BE_USED_IN_AREA	= 316, // That action cannot be used in this area. 
+	MSGBASIC_USES_BUT_MISSES		= 324, // The <player> uses .. but misses <target>. 
+	MSGBASIC_CANT_BE_USED_IN_AREA	= 316, // That action cannot be used in this area. 
 	MSGBASIC_REQUIRES_SHIELD		= 199, // That action requires a shield.
     MSGBASIC_REQUIRES_COMBAT        = 525, // .. can only be performed during battle.
     MSGBASIC_JA_MISS                = 158, // <user> uses <ability>, but misses. (no name included)
     MSGBASIC_STATUS_PREVENTS_USING  = 569, // Your current status prevents you from using that ability.
 
     // Enspell
-    MSGBASIC_ADD_EFFECT_STATUS      = 160, // Additional effect : <Status Effect>.
-    MSGBASIC_ENSPELL_HP_DRAIN       = 161, // Additional effect: 0 HP drained from <target>.
-    MSGBASIC_ENSPELL_MP_DRAIN       = 162, // Additional effect: 0 MP drained from <target>.
-    MSGBASIC_ENSPELL_DMG            = 163, // Additional effect: 0 points of damage.
-    MSGBASIC_ADD_EFFECT_TP_DRAIN    = 165, // Additional effect: <number> TP drained from <target>.
+    MSGBASIC_ENSPELL_DMG            = 163,  // Additional effect: 0 points of damage.
     MSGBASIC_ENSPELL_HEAL           = 384, // Additional effect: <target> recovers 0 HP.
 
     // Spikes
@@ -131,12 +127,7 @@ enum MSGBASIC_ID : uint16
     MSGBASIC_SKILL_GAIN_EFFECT      = 186, // Buff mob TP move buff.                    
     MSGBASIC_SELF_HEAL              = 238, // Healing mob TP move. 
     MSGBASIC_SKILL_ENFEEB_IS        = 242, // Enfeebling mob TP move. 
-    MSGBASIC_SKILL_MISS             = 188, // Mob TP move miss / resist message.
-    // Blood Pacts
-    MSGBASIC_JA_RECOVERS_HP = 102,    // The <player> uses .. <target> recovers .. HP.
-    MSGBASIC_JA_ENFEEB_IS = 127,      // <user> uses <ability>. <target> is <status>.
-    MSGBASIC_JA_GAINS_EFFFECT = 319,  // The <uses> uses <ability <target> gains the effect of <status>.
-    MSGBASIC_JA_NO_EFFECT_2 = 323,    // <user> uses <ability>. No effect on <target>. (2 line msg)
+    MSGBASIC_SKILL_MISS             = 188, // Mob TP move miss / resist message. 
 	// Weaponskills
     MSGBASIC_READIES_WS             = 43,  // ${actor} readies ${weapon_skill}.
     MSGBASIC_UNABLE_TO_USE_WS       = 89,  // Unable to use weaponskill. 
@@ -149,11 +140,9 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_ALREADY_HAS_A_PET		= 315, // The <player> already has a pet. 
 	MSGBASIC_NO_EFFECT_ON_PET		= 336, // No effect on that pet. 
 	MSGBASIC_NO_JUG_PET_ITEM		= 337, // You do not have the necessary item equipped to call a beast. 
-	MSGBASIC_MUST_HAVE_FOOD			= 347, // You must have pet food equipped to use that command.
-    MSGBASIC_JA_MISS_2              = 324, // <user> uses <ability>, but misses <target>. (includes target name)
+	MSGBASIC_MUST_HAVE_FOOD			= 347, // You must have pet food equipped to use that command. 
 	MSGBASIC_PET_CANNOT_DO_ACTION	= 574, // <player>'s pet is currently unable to perform that action. 
-	MSGBASIC_PET_NOT_ENOUGH_TP		= 575, // <player>'s pet does not have enough TP to perform that action.
-    MSGBASIC_PET_WS                 = 326, // <player>'s pet readies ${weapon_skill}.
+	MSGBASIC_PET_NOT_ENOUGH_TP		= 575, // <player>'s pet does not have enough TP to perform that action. 
 	// Items 
     MSGBASIC_ITEM_UNABLE_TO_USE     = 55,  // Unable to use item. 
     MSGBASIC_ITEM_UNABLE_TO_USE_2   = 56,  // Unable to use item. 

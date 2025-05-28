@@ -4,7 +4,6 @@
 --
 -----------------------------------
 require("scripts/globals/status")
------------------------------------
 function onEffectGain(target, effect)
     local jpValue = target:getJobPointLevel(tpz.jp.VELOCITY_SHOT_EFFECT) * 2
 

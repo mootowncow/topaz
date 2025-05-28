@@ -16,7 +16,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local dmgmod = MobHPBasedMove(mob, target, skill, 0.10, 1, tpz.magic.ele.LIGHTNING, 1250)
+    local dmgmod = MobHPBasedMove(mob, target, 0.10, 1, tpz.magic.ele.LIGHTNING, 1250)
     dmgmod = utils.conalDamageAdjustment(mob, target, skill, dmgmod, 0.50)
 
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.LIGHTNING, MOBPARAM_IGNORE_SHADOWS)

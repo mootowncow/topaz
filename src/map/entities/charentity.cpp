@@ -1517,7 +1517,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
 void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 {
     auto PAbility = state.GetAbility();
-    bool success = true;
+    auto success = true;
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
     uint16 targets = static_cast<uint16>(PAI->TargetFind->m_targets.size());
     std::unique_ptr<CBasicPacket> errMsg;
@@ -1590,7 +1590,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                     PRecastContainer->Del(RECAST_ABILITY, PActivateAbility->getRecastId());
             }
         }
-        else if (PAbility->isBloodPact())
+        else if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
         {
             if (this->StatusEffectContainer->HasStatusEffect(EFFECT_APOGEE))
             {
@@ -1681,7 +1681,6 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         {
             action.recast = 0;
         }
-        uint16 mobSkillId = 885;
 
         action.id = this->id;
         action.actiontype = PAbility->getActionType();
@@ -1703,11 +1702,11 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 actionTarget.param = 0;
                 actionTarget.messageID = 0;
 
-                uint16 PPetTarget = PAbility->getTarget()->targid;
-
-                if (PAbility->isPetAbility())
+                auto PPetTarget = PTarget->targid;
+                if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
                 {
-                    float mpCost = PAbility->getMPCost();
+                    // Blood Pact mp cost stored in animation ID
+                    float mpCost = PAbility->getAnimationID();
 
                     if (StatusEffectContainer->HasStatusEffect(EFFECT_APOGEE))
                     {
@@ -1734,50 +1733,27 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
                     uint16 validTarget = PAbility->getValidTarget();
 
-                    // TARGET_PLAYER_PARTY is set. Will detect from left to right so lowest number enum gets detected first (Self - 1)
-                    // In order to set target for TARGET_SELF and TARGET_PLAYER_PARTY (3) to pick TARGET_PLAYER_PARTY first it has to
-                    // come first in the if elseif
-                    // Alternatively, this would fix it:
-                    // if ((validTarget & (TARGET_PLAYER_PARTY | TARGET_SELF)) == 3)
-                    // Should be if BOTH TARGET_PLAYER_PARTY and TARGET_SELFlf (3)
-                    if (validTarget & TARGET_PLAYER_PARTY)
-                    {
-                        PPetTarget = PAbility->getTarget()->targid;
-                        if (PAbility->isBloodPact())
-                        {
-                            mobSkillId = 906;
-                        }
-                    }
-                    else if (validTarget & TARGET_SELF) // TARGET_SELF is set
+                    if (validTarget & TARGET_SELF)
                     {
                         PPetTarget = PPet->targid;
-                        if (PAbility->isBloodPact())
-                        {
-                            mobSkillId = 887;
-                        }
-                    }
-                    else if (validTarget & TARGET_ENEMY) // TARGET_ENEMY is set
-                    {
-                        PPetTarget = PAbility->getTarget()->targid;
-                        if (PAbility->isBloodPact())
-                        {
-                            mobSkillId = 885;
-                        }
-                    }
 
-                    if (validTarget & TARGET_PLAYER_DEAD) // TARGET_PLAYER_DEAD is set
-                    {
-                        if (PAbility->isBloodPact())
+                        // Check if it also includes TARGET_PLAYER_PARTY
+                        if (validTarget & TARGET_PLAYER_PARTY)
                         {
-                            mobSkillId = 2460;
+                            PPetTarget = PTarget->targid;
                         }
+                    }
+                    else if (validTarget & TARGET_PLAYER_PARTY)
+                    {
+                        // If only TARGET_PLAYER_PARTY is set
+                        PPetTarget = PTarget->targid;
                     }
 
                 }
                 else
                 {
                     auto PMobSkill = battleutils::GetMobSkill(PAbility->getMobSkillID());
-                    if (PMobSkill && !(PAbility->getFlag() & ABILITYFLAG_PET_ABILITY))
+                    if (PMobSkill)
                     {
                         if (PMobSkill->getValidTargets() & TARGET_ENEMY)
                         {
@@ -1789,36 +1765,20 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                         }
                     }
                 }
-
-                // Tell pet to use mob skill
-                if (PAbility->getFlag() & ABILITYFLAG_PET_ABILITY)
+                if (PAbility->getID() == ABILITY_LEVEL_QUESTION_HOLY)
                 {
-                    if (PPet->objtype == TYPE_PET)
-                    {
-                        auto PAvatar = dynamic_cast<CPetEntity*>(PPet);
-                        if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
-                        {
-                            uint32 bloodPactAbilityId = PAbility->getID();
-                            PAvatar->m_bloodPactAbilityId = PAbility->getID();
-                            PAvatar->m_bloodPactActivationTime = 4000;
-
-                            // Shock Squall, Raise II and Reraise II have .5s activation time
-                            auto abilityId = PAbility->getID();
-                            if (abilityId == ABILITY_SHOCK_SQUALL || abilityId == ABILITY_RAISE_II || abilityId == ABILITY_RERAISE_II)
-                            {
-                                PAvatar->m_bloodPactActivationTime = 500;
-                            }
-                            PPet->PAI->MobSkill(PPetTarget, mobSkillId);
-                        }
-                    }
+                    int16 tp = PPet->health.tp;
+                    PPet->SetLocalVar("tp", tp);
+                    // ShowDebug("doing qm holy...\n");
+                    PPet->PAI->MobSkill(PPetTarget, tpzrand::GetRandomNumber((uint16)2452, (uint16)2458));
+                    PPet->PAI->MobSkill(PPetTarget, tpzrand::GetRandomNumber((uint16)2452, (uint16)2458)); // GetRandomNumber never returns the max value
                 }
-                else 
+                else
                 {
-                    // Tell wyvern / Jug pets to use a mob skill
-                    // TODO: Fix wyvern to not need this!
-                    // DO NOT DELETE THIS LOGIC
-                    if (PPetTarget > 0 && PAbility->getMobSkillID())
+                    if (PPetTarget > 0 && PAbility->getMobSkillID() > 0)
                     {
+                        int16 tp = PPet->health.tp;
+                        PPet->SetLocalVar("tp", tp);
                         PPet->PAI->MobSkill(PPetTarget, PAbility->getMobSkillID());
                     }
                 }
@@ -1893,7 +1853,6 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
 
         // Interrupted
-        // TODO: Does nothing? No longer needed?
         if (!success)
         {
             actionList_t& actionList = action.getNewActionList();
@@ -2267,7 +2226,18 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
     battleutils::ClaimMob(PTarget, this);
     battleutils::RemoveAmmo(this, ammoConsumed);
 
-    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    // only remove detectables and NOT camouflage
+    if (this->StatusEffectContainer->HasStatusEffect(EFFECT_CAMOUFLAGE))
+    {
+        StatusEffectContainer->DelStatusEffect(EFFECT_SNEAK);
+        StatusEffectContainer->DelStatusEffect(EFFECT_INVISIBLE);
+        StatusEffectContainer->DelStatusEffect(EFFECT_DEODORIZE);
+    }
+    else
+    {
+        StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    }
+
 
     // Safety check to not get locked in cutscene status
     if (this->status == STATUS_CUTSCENE_ONLY || this->m_Substate == CHAR_SUBSTATE::SUBSTATE_IN_CS)
@@ -2688,14 +2658,6 @@ CBattleEntity* CCharEntity::IsValidTarget(uint16 targid, uint16 validTargetFlags
             errMsg = std::make_unique<CMessageSystemPacket>(0, 0, 225);
             // Interaction was blocked
             static_cast<CCharEntity*>(PTarget)->pushPacket(new CMessageSystemPacket(0, 0, 226));
-        }
-        else if (PTarget->objtype == TYPE_TRUST && validTargetFlags & TARGET_EXCLUDE_TRUSTS)
-        {
-            errMsg = std::make_unique<CMessageBasicPacket>(this, this, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG);
-        }
-        else if (PTarget->objtype == TYPE_PET && validTargetFlags & TARGET_EXCLUDE_PETS)
-        {
-            errMsg = std::make_unique<CMessageBasicPacket>(this, this, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG);
         }
         else if (static_cast<CCharEntity*>(this)->IsMobOwner(PTarget))
         {

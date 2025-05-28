@@ -1,5 +1,8 @@
 ---------------------------------------------------
--- Hysteric Assault
+-- Level ?(6) Holy
+-- 0 TP: 7.0
+-- 1500 TP: 7.5
+-- 3000 TP: 8.0
 ---------------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -8,24 +11,25 @@ require("scripts/globals/summon")
 ---------------------------------------------------
 
 function onAbilityCheck(player, target, ability)
+    getAvatarTP(player)
     return 0, 0
 end
 
 function onPetAbility(target, pet, skill)
-    local numhits = 3
-    local ftp = 3.898437
     local params = {}
+    params.multiplier = 7.0
+    params.tp150 = 7.5
+    params.tp300 = 8.0
     params.str_wsc = 0.0
-    params.dex_wsc = 0.3
+    params.dex_wsc = 0.0
     params.vit_wsc = 0.0
     params.agi_wsc = 0.0
     params.int_wsc = 0.3
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
 
-    local damage = AvatarPhysicalBP(pet, target, skill, tpz.attackType.PHYSICAL, numhits, ftp, TP_CONVERT_TO_HP, params)
-    dmg = AvatarPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.PIERCING, damage.hitslanded, params)
+    local damage = AvatarMagicalBP(pet, target, skill, tpz.magic.ele.LIGHT, params, MND_BASED, 0)
+    dmg = AvatarMagicalFinalAdjustments(damage, pet, skill, target, tpz.attackType.MAGICAL, tpz.magic.ele.LIGHT, params)
 
-    skill:setMsg(tpz.msg.basic.JA_DRAIN_HP)
     return dmg
 end

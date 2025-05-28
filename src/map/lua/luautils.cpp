@@ -3734,7 +3734,7 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
     *                                                                       *
     ************************************************************************/
 
-    int32 OnMobWeaponSkill(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill, action_t* action, uint16 tp)
+    int32 OnMobWeaponSkill(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill, action_t* action)
     {
         lua_prepscript("scripts/zones/%s/mobs/%s.lua", PMob->loc.zone->GetName(), PMob->GetName());
 
@@ -3752,9 +3752,7 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
             CLuaAction LuaAction(action);
             Lunar<CLuaAction>::push(LuaHandle, &LuaAction);
 
-            lua_pushnumber(LuaHandle, tp);
-
-            if (lua_pcall(LuaHandle, 5, 0, 0))
+            if (lua_pcall(LuaHandle, 4, 0, 0))
             {
                 ShowError("luautils::onMobWeaponSkill: %s\n", lua_tostring(LuaHandle, -1));
                 lua_pop(LuaHandle, 1);
@@ -3769,16 +3767,12 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
         }
         CLuaBaseEntity LuaBaseEntity(PTarget);
         Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaBaseEntity);
-
         CLuaBaseEntity LuaMobEntity(PMob);
         Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMobEntity);
-
         CLuaMobSkill LuaMobSkill(PMobSkill);
         Lunar<CLuaMobSkill>::push(LuaHandle, &LuaMobSkill);
 
-        lua_pushnumber(LuaHandle, tp);
-
-        if (lua_pcall(LuaHandle, 4, 1, 0))
+        if (lua_pcall(LuaHandle, 3, 1, 0))
         {
             ShowError("luautils::onMobWeaponSkill: %s\n", lua_tostring(LuaHandle, -1));
             lua_pop(LuaHandle, 1);
@@ -4022,55 +4016,6 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
 
         CLuaMobSkill LuaMobSkill(PMobSkill);
         Lunar<CLuaMobSkill>::push(LuaHandle, &LuaMobSkill);
-
-        CLuaBaseEntity LuaMasterEntity(PMobMaster);
-        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMasterEntity);
-
-        CLuaAction LuaAction(action);
-        Lunar<CLuaAction>::push(LuaHandle, &LuaAction);
-
-        if (lua_pcall(LuaHandle, 5, 1, 0))
-        {
-            ShowError("luautils::onPetAbility: %s\n", lua_tostring(LuaHandle, -1));
-            lua_pop(LuaHandle, 1);
-            return 0;
-        }
-
-        // Bloodpact Skillups
-        if (PMob->objtype == TYPE_PET && map_config.skillup_bloodpact)
-        {
-            CPetEntity* PPet = (CPetEntity*)PMob;
-            if (PPet->getPetType() == PETTYPE_AVATAR && PPet->PMaster->objtype == TYPE_PC)
-            {
-                CCharEntity* PMaster = (CCharEntity*)PPet->PMaster;
-                if (PMaster->GetMJob() == JOB_SMN) charutils::TrySkillUP(PMaster, SKILL_SUMMONING_MAGIC, PMaster->GetMLevel(), true);
-            }
-        }
-
-        uint32 retVal = (!lua_isnil(LuaHandle, -1) && lua_isnumber(LuaHandle, -1) ? (int32)lua_tonumber(LuaHandle, -1) : 0);
-        lua_pop(LuaHandle, 1);
-        return retVal;
-    }
-
-    int32 OnPetAbility(CBaseEntity* PTarget, CBaseEntity* PMob, CAbility* PAbility, CBaseEntity* PMobMaster, action_t* action)
-    {
-        ShowDebug("OnPetAbility: Loading pet ability script for: %s\n", PAbility->getName());
-
-        lua_prepscript("scripts/globals/abilities/pets/%s.lua", PAbility->getName());
-
-        if (prepFile(File, "onPetAbility"))
-        {
-            return 0;
-        }
-
-        CLuaBaseEntity LuaBaseEntity(PTarget);
-        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaBaseEntity);
-
-        CLuaBaseEntity LuaMobEntity(PMob);
-        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMobEntity);
-
-        CLuaAbility LuaAbility(PAbility);
-        Lunar<CLuaAbility>::push(LuaHandle, &LuaAbility);
 
         CLuaBaseEntity LuaMasterEntity(PMobMaster);
         Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMasterEntity);

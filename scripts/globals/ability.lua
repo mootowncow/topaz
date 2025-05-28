@@ -390,9 +390,8 @@ tpz.jobAbility =
     CROOKED_CARDS      = 392,
     SPIRIT_BOND        = 393,
     MAJESTY            = 394,
-    HOVER_SHOT         = 395,
 
-    -- NONE       = 396 - 511
+    -- NONE       = 395 - 511
 
     HEALING_RUBY       = 512,
     POISON_NAILS       = 513,

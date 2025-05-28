@@ -10,20 +10,10 @@ require("scripts/globals/monstertpmoves")
 -- Thanks to JP testing for all fTP values and damage formulas!
 -- https://w.atwiki.jp/bartlett3/pages/329.html 
 
-tpz = tpz or {}
-tpz.smn = tpz.smn or {}
-
 -- tpeffects
 TP_DMG_BONUS = 1
 TP_ACC_BONUS = 2
 TP_CRIT_VARIES = 3
-TP_CONVERT_TO_HP = 4
-
-tpz.smn.statusCureFlags =
-{
-    NA    = 0x01,
-    ERASE = 0x02,
-}
 
 -- params
 -- phys only
@@ -36,12 +26,13 @@ tpz.smn.statusCureFlags =
 --params.AVATAR_WIPE_SHADOWS
 --params.DOT
 --params.ELEMENT_OVERRIDE
-local bit = require("bit")
+
 function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, tpeffect, params)
     local returninfo = {}
 
+    local tp = avatar:getTP()
     local summoner = avatar:getMaster()
-    local tp = avatar:getSpentTP()
+    --printf("tp %i", tp)
 
     local attackNumber = 0
     -- Calculate accBonus
@@ -68,6 +59,12 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
     firstHitChance = utils.clamp(firstHitChance, minHitRate, maxHitRate)
     hitRate = utils.clamp(hitRate, minHitRate, maxHitRate)
 
+
+    local pDif = 0
+    local ignoredDef = 0
+    local ignoredDefMod = 0
+    local bonusAttPercent = 0
+    local flatAttackBonus = 0
 
     local pDif = 0
     local ignoredDef = 0
@@ -126,7 +123,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
     if numHitsLanded == 0 and shadowsFullyAbsorbed == 0 then
         -- Missed everything we can exit early
         finaldmg = 0
-        skill:setMsg(tpz.msg.basic.JA_MISS_2)
+        skill:setMsg(tpz.msg.basic.SKILL_MISS)
     else
         -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
         -- Crit rate has a base of 15% and no cap, 0-100% are valid
@@ -278,24 +275,17 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
 
             numHitsProcessed = numHitsProcessed + 1
         end
-
         -- apply ftp bonus
-        if (tpeffect == TP_DMG_BONUS) then
+        if (tpeffect == TP_DMG_BONUS )then
             local dmgbonus = AvatarDmgTPModifier(tp)
             --printf("%i", dmgbonus * 100)
             finaldmg = finaldmg * dmgbonus
             --printf("%i", finaldmg)
         end
-
-        if (tpeffect == TP_CONVERT_TO_HP) then
-            local tpMod = ((15 + AvavatarConvertDmgToHPModifier(tp)) / 100) -- 15% base, then another 15-45% based on TP
-            local healAmount = math.floor(finaldmg * tpMod)
-            avatar:addHP(healAmount)
-        end
     end
 
     if (finaldmg == 0) then -- Full parries and full miss
-        skill:setMsg(tpz.msg.basic.JA_MISS_2)
+        skill:setMsg(tpz.msg.basic.SKILL_MISS)
     end
 
     --printf("finaldmg %i", finaldmg)
@@ -308,8 +298,6 @@ end
 function AvatarMagicalBP(avatar, target, skill, element, params, statmod, bonus)
     -- Formula is ((Lvl+2 + WSC) x fTP + dstat) x Magic Burst bonus x resist x day / weather bonus x  MAB/MDB x mdt
     -- MDT is handled in AvatarMagicalFinalAdjustments
-
-    skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
 
     local resist = 1
     if bonus == nil then bonus = 0 end -- bonus macc
@@ -348,12 +336,6 @@ function AvatarMagicalBP(avatar, target, skill, element, params, statmod, bonus)
     -- Do the formula!
     local finaldmg = getAvatarMagicalDamage(avatarLevel, WSC, ftp, dStat, magicBurstBonus, resist, weatherBonus, magicAttkBonus)
 
-    -- set message to damage
-    -- this is for AoE because its only set once
-    if (finaldmg > 0) then
-        skill:setMsg(tpz.msg.basic.USES_JA_TAKE_DAMAGE)
-    end
-
     -- handle flat magic DAMAGE
     finaldmg = finaldmg + avatar:getMod(tpz.mod.MAGIC_DAMAGE)
 
@@ -391,9 +373,8 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
     -- set message to damage
     -- this is for AoE because its only set once
     if (dmg > 0) then
-        skill:setMsg(tpz.msg.basic.USES_JA_TAKE_DAMAGE)
+        skill:setMsg(tpz.msg.basic.DAMAGE)
     end
-
     -- Shadows logic
     --printf("numhits %u", numberofhits)
     dmg = getAvatarShadowAbsorb(dmg, numberofhits, target, skill, params)
@@ -409,13 +390,13 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
             if prevAnt == 0 then
                 -- 100% proc
                 teye:setPower(1)
-                skill:setMsg(tpz.msg.basic.JA_MISS_2)
+                skill:setMsg(tpz.msg.basic.ANTICIPATE)
                 return 0
             end
             if math.random() * 10 < 8 - prevAnt then
                 -- anticipated!
                 teye:setPower(prevAnt + 1)
-                skill:setMsg(tpz.msg.basic.JA_MISS_2)
+                skill:setMsg(tpz.msg.basic.ANTICIPATE)
                 return 0
             end
             target:delStatusEffect(tpz.effect.THIRD_EYE)
@@ -452,7 +433,7 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
     -- handle pd
     if attackType == tpz.attackType.PHYSICAL then
         if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) or target:hasStatusEffect(tpz.effect.TOO_HIGH)then
-            skill:setMsg(tpz.msg.basic.JA_MISS_2)
+            skill:setMsg(tpz.msg.basic.SKILL_MISS)
             return 0
         end
     end
@@ -505,7 +486,7 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
     -- Add HP if absorbed
     if (dmg < 0) then
         dmg = target:addHP(-dmg)
-        skill:setMsg(tpz.msg.basic.JA_RECOVERS_HP)
+        skill:setMsg(tpz.msg.basic.SKILL_RECOVERS_HP)
     else
 	    target:takeDamage(dmg, avatar, attackType, damageType)
     end
@@ -517,6 +498,7 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
     target:tryInterruptSpell(avatar, numberofhits)
     avatar:delStatusEffectSilent(tpz.effect.BOOST)
     avatar:setLocalVar("TP", 0)
+    avatar:setTP(0)
     return dmg
 end
 
@@ -566,7 +548,7 @@ function AvatarMagicalFinalAdjustments(dmg, avatar, skill, target, attackType, e
     if (dmg < 0) then
         dmg = (target:addHP(-dmg))
         --printf("dmg %d", dmg)
-        skill:setMsg(tpz.msg.basic.JA_RECOVERS_HP)
+        skill:setMsg(tpz.msg.basic.SKILL_RECOVERS_HP)
     else
         -- Handling rampart stoneskin + normal stoneskin
         dmg = utils.rampartstoneskin(target, dmg)
@@ -575,6 +557,7 @@ function AvatarMagicalFinalAdjustments(dmg, avatar, skill, target, attackType, e
     end
     target:updateEnmityFromDamage(avatar, dmg)
     target:handleAfflatusMiseryDamage(dmg)
+    avatar:setTP(0)
     if params.NO_TP_CONSUMPTION == true then
         giveAvatarTP(avatar)
     end
@@ -586,7 +569,7 @@ function AvatarStatusEffectBP(avatar, target, effect, power, duration, params, b
 
     if isNoEffectMsg(avatar, target, effect, params)
     then
-	    return tpz.msg.basic.JA_NO_EFFECT_2
+	    return tpz.msg.basic.SKILL_NO_EFFECT
     end
 
     local maccBonus = bonus
@@ -605,7 +588,7 @@ function AvatarStatusEffectBP(avatar, target, effect, power, duration, params, b
         if (resist < 1) then
             if (effect == tpz.effect.DOOM) or (effect == tpz.effect.GRADUAL_PETRIFICATION) then
                 giveAvatarTP(avatar)
-                return tpz.msg.basic.JA_MISS_2 -- resist !
+                return tpz.msg.basic.SKILL_MISS -- resist !
             end
         end
         --printf("resist %i", resist * 100)
@@ -615,7 +598,7 @@ function AvatarStatusEffectBP(avatar, target, effect, power, duration, params, b
             duration = CheckDiminishingReturns(avatar, target, effect, duration)
 
             --printf("totalDuration %i", totalDuration)
-            if params.DOT then
+            if params.DOT then -- Used for Nightmare / Shining Ruby
                 target:addStatusEffect(effect, power, 3, totalDuration)
             else
                 target:addStatusEffect(effect, power, 0, totalDuration)
@@ -623,65 +606,14 @@ function AvatarStatusEffectBP(avatar, target, effect, power, duration, params, b
 
             AddDimishingReturns(avatar, target, nil, effect)
             giveAvatarTP(avatar)
-            return tpz.msg.basic.JA_ENFEEB_IS
+            return tpz.msg.basic.SKILL_ENFEEB_IS
         end
 
         giveAvatarTP(avatar)
-        return tpz.msg.basic.JA_MISS_2 -- resist !
+        return tpz.msg.basic.SKILL_MISS -- resist !
     end
     giveAvatarTP(avatar)
-    return tpz.msg.basic.JA_NO_EFFECT_2 -- no effect
-end
-
-function AvatarStatusEffectBPSub(avatar, target, effect, power, duration, subid, subpower, tier, params, bonus)
-
-    if isNoEffectMsg(avatar, target, effect, params)
-    then
-	    return tpz.msg.basic.JA_NO_EFFECT_2
-    end
-
-    local maccBonus = bonus
-
-    if (target:canGainStatusEffect(effect, power)) then
-        local statmod = tpz.mod.INT
-        local element = avatar:getStatusEffectElement(effect)
-
-        if params.ELEMENT_OVERRIDE ~= nil then
-            element = params.ELEMENT_OVERRIDE
-        end
-
-        local resist = getAvatarResist(avatar, effect, target, avatar:getStat(statmod)-target:getStat(statmod), maccBonus, element)
-
-        -- Doom and Gradual Petrification can't have a lower duration from resisting
-        if (resist < 1) then
-            if (effect == tpz.effect.DOOM) or (effect == tpz.effect.GRADUAL_PETRIFICATION) then
-                giveAvatarTP(avatar)
-                return tpz.msg.basic.JA_MISS_2 -- resist !
-            end
-        end
-        --printf("resist %i", resist * 100)
-        if (resist >= 0.50) then
-            -- Reduce duration by resist percentage
-            local totalDuration = duration * resist
-            duration = CheckDiminishingReturns(avatar, target, effect, duration)
-
-            --printf("totalDuration %i", totalDuration)
-            if params.DOT then
-                target:addStatusEffect(effect, power, 3, totalDuration, subid, subpower, tier)
-            else
-                target:addStatusEffect(effect, power, 0, totalDuration, subid, subpower, tier)
-            end
-
-            AddDimishingReturns(avatar, target, nil, effect)
-            giveAvatarTP(avatar)
-            return tpz.msg.basic.JA_ENFEEB_IS
-        end
-
-        giveAvatarTP(avatar)
-        return tpz.msg.basic.JA_MISS_2 -- resist !
-    end
-    giveAvatarTP(avatar)
-    return tpz.msg.basic.JA_NO_EFFECT_2 -- no effect
+    return tpz.msg.basic.SKILL_NO_EFFECT -- no effect
 end
 
 -- similar to status effect move except, this will not land if the attack missed
@@ -690,7 +622,7 @@ function AvatarPhysicalStatusEffectBP(avatar, target, skill, effect, power, dura
         return AvatarStatusEffectBP(avatar, target, effect, power, duration, params, bonus)
     end
 
-    return tpz.msg.basic.JA_MISS_2
+    return tpz.msg.basic.SKILL_MISS
 end
 
 function AvatarDrainAttribute(avatar, target, effect, power, duration, params, bonus)
@@ -714,7 +646,7 @@ function AvatarDrainAttribute(avatar, target, effect, power, duration, params, b
     if (positive ~= nil) then
         local results = AvatarStatusEffectBP(avatar, target, effect, power, duration, params, bonus)
 
-        if (results == tpz.msg.basic.JA_ENFEEB_IS) then
+        if (results == tpz.msg.basic.SKILL_ENFEEB_IS) then
             avatar:addStatusEffect(positive, power, 15, duration)
 
             giveAvatarTP(avatar)
@@ -722,11 +654,11 @@ function AvatarDrainAttribute(avatar, target, effect, power, duration, params, b
         end
 
         giveAvatarTP(avatar)
-        return tpz.msg.basic.JA_MISS_2
+        return tpz.msg.basic.SKILL_MISS
     end
 
     giveAvatarTP(avatar)
-    return tpz.msg.basic.JA_NO_EFFECT_2
+    return tpz.msg.basic.SKILL_NO_EFFECT
 end
 
 function AvatarDrainMultipleAttributes(avatar, target, power, count, duration, params, bonus)
@@ -745,13 +677,13 @@ function AvatarDrainMultipleAttributes(avatar, target, power, count, duration, p
       end
     end
 
-    local msg = tpz.msg.basic.JA_MISS_2;
+    local msg = tpz.msg.basic.SKILL_MISS;
     
     for i = 1,count,1 do
       local newMsg = AvatarDrainAttribute(avatar, target, attributes[i], power, duration, params, bonus)
       if (newMsg == tpz.msg.basic.ATTR_DRAINED) then
         msg = newMsg;
-      elseif (msg == tpz.msg.basic.JA_MISS_2) then
+      elseif (msg == tpz.msg.basic.SKILL_MISS) then
         msg = newMsg;
       end
     end
@@ -759,88 +691,6 @@ function AvatarDrainMultipleAttributes(avatar, target, power, count, duration, p
     giveAvatarTP(avatar)
 
     return msg;
-end
-
-function AvatarDispelMove(avatar, target, skill, element, param1, param2)
-    -- No dispel messag eon retail...
-    local statmod = tpz.mod.INT
-    local dStat = avatar:getStat(statmod)-target:getStat(statmod)
-    local effect = tpz.effect.NONE
-    local bonusMacc = 175
-
-    local resist = getAvatarResist(avatar, effect, target, dStat, bonusMacc, element)
-
-    -- Check for dispel resistance trait
-	if math.random(100) < target:getMod(tpz.mod.DISPELRESTRAIT) then
-        return tpz.effect.NONE
-    end
-
-	if (resist >= 0.5) then
-		if target:hasStatusEffect(tpz.effect.FEALTY) then
-		    return tpz.effect.NONE
-		else
-            if (param2 ~= nil) then
-                return target:dispelStatusEffect(bit.bor(param1, param2))
-            else
-                return target:dispelStatusEffect(bit.bor(param1))
-            end
-        end
-	else
-	    return tpz.effect.NONE
-	end
-end
-
-function AvatarAbsorbStatusEffectBloodPact(avatar, target, params, bonus, amount)
-    local msg = tpz.msg.basic.JA_NO_EFFECT_2
-
-    if isNoEffectMsg(avatar, target, effect, params) then
-        return msg
-    end
-
-    local maccBonus = bonus
-
-    if target:canGainStatusEffect(effect, power) then
-        local statmod = tpz.mod.INT
-        local element = avatar:getStatusEffectElement(effect)
-
-        if params.ELEMENT_OVERRIDE ~= nil then
-            element = params.ELEMENT_OVERRIDE
-        end
-
-        local absorbAttempts = 0
-        local amountAbsorbed = 0
-        local maxAttempts = amount * 3  -- safety cap to avoid infinite loop
-
-        while (absorbAttempts < maxAttempts and amountAbsorbed < amount) do
-            local resist = getAvatarResist(
-                avatar, effect, target,
-                avatar:getStat(statmod) - target:getStat(statmod),
-                maccBonus, element
-            )
-            --printf("resist: %.2f\n", resist)
-
-            if resist >= 0.50 then
-                if avatar:stealStatusEffect(target) then
-                    amountAbsorbed = amountAbsorbed + 1
-                else
-                    break -- no more effects left to steal
-                end
-            end
-
-            absorbAttempts = absorbAttempts + 1
-        end
-
-
-        if amountAbsorbed > 0 then
-            msg = tpz.msg.basic.NONE -- TODO: Msg
-        else
-            msg = tpz.msg.basic.JA_MISS_2
-        end
-    else
-        msg = tpz.msg.basic.JA_NO_EFFECT_2
-    end
-
-    return msg
 end
 
 function AvatarBuffBP(avatar, target, skill, effect, power, tick, duration, params, bonus)
@@ -861,7 +711,7 @@ function AvatarBuffBP(avatar, target, skill, effect, power, tick, duration, para
     giveAvatarTP(avatar)
     target:delStatusEffectSilent(effect)
     target:addStatusEffect(effect, power, tick, duration)
-    skill:setMsg(tpz.msg.basic.JA_GAINS_EFFFECT)
+    skill:setMsg(tpz.msg.basic.SKILL_GAIN_EFFECT)
 
     return effect
 end
@@ -903,75 +753,39 @@ function AvatarBuffMultipleEffects(avatar, target, skill, power, count, tick, du
     giveAvatarTP(avatar)
 end
 
-function AvatarHealBP(avatar, target, skill, healmodifier, cureFlag, amount)
+function AvatarHealBP(avatar, target, skill, healmodifier, statuscure)
+
     local avatarLevel = avatar:getMainLvl()
     local avatarHP = avatar:getMaxHP()
     local targetHP = target:getHP()
     local targetMaxHP = target:getMaxHP()
 
-    local heal = avatarHP * healmodifier
-    if (targetHP + heal > targetMaxHP) then
+    heal = avatarHP * healmodifier
+
+    if (targetHP+heal > targetMaxHP) then
         heal = targetMaxHP - targetHP
     end
 
-    if cureFlag then
-        AvatarStatusCureBP(avatar, target, skill, cureFlag, amount)
-    end
-
-    target:wakeUp()
-    target:addHP(heal)
-    skill:setMsg(tpz.msg.basic.JA_RECOVERS_HP)
-
-    return heal
-end
-
-function AvatarStatusCureBP(avatar, target, skill, cureFlag, amount)
-    local effectsRemoved = 0
-    local statusRemovedMax = amount or 1
-    local effectIdRemoved = 0 -- Stores the effect for the return message
-    local removables = {
+    local removables =
+    {
         tpz.effect.POISON, tpz.effect.PARALYSIS, tpz.effect.BLINDNESS, tpz.effect.SILENCE, tpz.effect.PETRIFICATION,
-        tpz.effect.DISEASE, tpz.effect.PLAGUE,
+        tpz.effect.DISEASE, tpz.effect.PLAGUE, 
     }
 
-    -- Remove NA-type effects
-    if bit.band(cureFlag, tpz.smn.statusCureFlags.NA) ~= 0 then
-        while effectsRemoved < statusRemovedMax do
-            local removedOne = false
-            for _, effect in ipairs(removables) do
-                if target:hasStatusEffect(effect) then
-                    target:delStatusEffect(effect)
-                    effectIdRemoved = effect -- Store the effect for the return message
-                    effectsRemoved = effectsRemoved + 1
-                    removedOne = true
-                    break
-                end
-            end
-            if not removedOne then
-                break
+    if statuscure == true then
+        for i, effect in ipairs(removables) do
+            if (target:hasStatusEffect(effect)) then
+                target:delStatusEffect(effect)
             end
         end
     end
 
-    -- Remove Erasable effects
-    if bit.band(cureFlag, tpz.smn.statusCureFlags.ERASE) ~= 0 then
-        while effectsRemoved < statusRemovedMax do
-            local removedEffect = target:eraseStatusEffect()
-            if removedEffect == tpz.effect.NONE then
-                break
-            end
-            effectIdRemoved = removedEffect -- Store the effect for the return message
-            effectsRemoved = effectsRemoved + 1
-        end
-    end
+    giveAvatarTP(avatar)
+    target:wakeUp()
+    target:addHP(heal)
+    skill:setMsg(tpz.msg.basic.SELF_HEAL)
 
-    if (effectsRemoved > 0) then
-        skill:setMsg(tpz.msg.basic.JA_REMOVE_EFFECT_2) -- TODO: Msg
-    else
-        skill:setMsg(tpz.msg.basic.NO_EFFECT)
-    end
-
-    return effectIdRemoved
+    return heal
 end
 
 -- returns true if mob attack hit
@@ -990,10 +804,6 @@ function AvatarAccTPModifier(tp)
 end
 
 function AvatarCritTPModifier(tp)
-    return (15+ ((tp - 1000) * 0.015)) -- 15, 30, 45
-end
-
-function AvavatarConvertDmgToHPModifier(tp)
     return (15+ ((tp - 1000) * 0.015)) -- 15, 30, 45
 end
 
@@ -1703,6 +1513,7 @@ function getAvatarMagicBurstBonus(avatar, target, skill, element)
     -- Multiply
     if (skillchainburst > 1) then
         burst = burst * modburst * skillchainburst
+        local spell = getSpell(147)
         skill:setMsg(tpz.msg.basic.MAGIC_BURST_JA)
     end
 
@@ -1736,11 +1547,14 @@ function getSummoningSkillOverCap(avatar)
 end
 
 function getAvatarTP(player)
-    -- No longer used
+    local Avatar = player:getPet()
+	local CurrentTP = Avatar:getTP()
+	Avatar:setLocalVar("TP", CurrentTP)
 end
 
 function giveAvatarTP(avatar)
-    -- No longer used
+    local tp = avatar:getLocalVar("TP")
+    avatar:setTP(tp)
 end
 
 function checkForAvatarResistBonus(player, item)

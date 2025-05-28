@@ -1,8 +1,8 @@
 ---------------------------------------------------
 -- Meteorite
--- 0 TP: 3.5
--- 1500 TP: 4
--- 3000 TP: 4.25
+-- 0 TP: 3.5 (5.375 at 75)
+-- 1500 TP: 4 (8.16 at 75)
+-- 3000 TP: 4.25 (10.5 at 75)
 ---------------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -16,10 +16,11 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onPetAbility(target, pet, skill)
+    local lvl = pet:getMainLvl()
     local params = {}
-    params.multiplier = 3.5
-    params.tp150 = 4
-    params.tp300 = 4.25
+    params.multiplier = 3.5 + (lvl / 40) 
+    params.tp150 = 4 + (lvl / 18) 
+    params.tp300 = 4.25 + (lvl / 12) 
     params.str_wsc = 0.0
     params.dex_wsc = 0.0
     params.vit_wsc = 0.0

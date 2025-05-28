@@ -16,7 +16,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local damage = MobHPBasedMove(mob, target, skill, 0.30, 1, tpz.magic.ele.ICE, 1250, true)
+    local damage = MobHPBasedMove(mob, target, 0.30, 1, tpz.magic.ele.ICE, 1250, true)
     local dmg = MobFinalAdjustments(damage, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.ICE, MOBPARAM_IGNORE_SHADOWS)
 
     local isSnollTzar = mob:getPool() == 3684

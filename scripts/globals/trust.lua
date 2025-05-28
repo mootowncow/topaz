@@ -338,9 +338,9 @@ tpz.trust.canCast = function(caster, spell, not_allowed_trust_ids)
     end
 
     -- Trusts only allowed in certain zones (Remove this for trusts everywhere)
-    --if not caster:canUseMisc(tpz.zoneMisc.TRUST) then
-      --  return tpz.msg.basic.TRUST_NO_CALL_AE
-    --end
+    if not caster:canUseMisc(tpz.zoneMisc.TRUST) then
+        return tpz.msg.basic.TRUST_NO_CALL_AE
+    end
 
     -- You can only summon trusts if you are the party leader or solo
     local leader = caster:getPartyLeader()
@@ -1074,15 +1074,9 @@ function AddTrustProgressionBonuses(mob)
     local mobLevel = mob:getMainLvl()
     local job = mob:getMainJob()
     local master = mob:getMaster()
-    local mobLevel = mob:getMainLvl()
     local isTank = (job == tpz.job.PLD) or (job == tpz.job.NIN) or (job == tpz.job.RUN)
     local isCaster = (job == tpz.job.BLM) or (job == tpz.job.SCH)
     local isSupport = (job == tpz.job.COR) or (job == tpz.job.BRD) or (job == tpz.job.GEO)
-
-    -- Only applicable on level 75 trusts
-    if mobLevel < 75 then
-        return
-    end
 
     -- Apply role-based level up bonuses
     if isTank then
@@ -1105,7 +1099,7 @@ function GetTrustProgressionBonuses(mob, role)
     local levelBonuses = {
         ['Melee'] = {
             ['Lvl1'] = { Mod = tpz.mod.ATT,           Power = 10  },
-            ['Lvl2'] = { Mod = tpz.mod.ACC,           Power = 5   },
+            ['Lvl2'] = { Mod = tpz.mod.ACC,           Power = 55  },
             ['Lvl3'] = { Mod = tpz.mod.STORETP,       Power = 3   },
             ['Lvl4'] = { Mod = tpz.mod.STR_DURING_WS, Power = 6   },
             ['Lvl5'] = { Mod = tpz.mod.HASTE_GEAR,    Power = 500 },

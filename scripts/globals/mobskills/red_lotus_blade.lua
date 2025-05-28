@@ -15,13 +15,13 @@ function onMobSkillCheck(target, mob, skill)
     return 0
 end
 
-function onMobWeaponSkill(target, mob, skill, tp)
+function onMobWeaponSkill(target, mob, skill)
     if (mob:getPool() == 4006) then -- Trion@QuBia_Arena only
         target:showText(mob, zones[tpz.zone.QUBIA_ARENA].text.RLB_LAND)
     elseif (mob:getPool() == 4249) then -- Volker@Throne_Room only
         target:showText(mob, zones[tpz.zone.THRONE_ROOM].text.FEEL_MY_PAIN)
     end
-    printf("TP in red lotus blade: %d", tp)
+
     local dmgmod = 3.0
     local info = MobMagicalMove(mob, target, skill, mob:getWeaponDmg()*3, tpz.magic.ele.FIRE, dmgmod, TP_DMG_BONUS, 1)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.FIRE, MOBPARAM_IGNORE_SHADOWS)

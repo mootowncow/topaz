@@ -593,7 +593,7 @@ enum class SpellID : uint16
     Dokumori_San            = 352,
     Tonko_Ichi              = 353,
     Tonko_Ni                = 354,
-    Siren                   = 355,
+    Tonko_San               = 355,
     Paralyga                = 356,
     Slowga                  = 357,
     Hastega                 = 358,

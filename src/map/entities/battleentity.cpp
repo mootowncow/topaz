@@ -1663,21 +1663,6 @@ bool CBattleEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
         return true;
     }
 
-    if ((targetFlags & TARGET_PLAYER_PARTY) && (allegiance == PInitiator->allegiance))
-    {
-        if ((PParty && PInitiator->PParty && PParty == PInitiator->PParty) || (!PParty && !PInitiator->PParty) || // both solo
-            (this == PInitiator->PPet) || (PInitiator == this->PMaster))
-        {
-            return true;
-        }
-    }
-
-
-    if (objtype == TYPE_PET && (targetFlags & TARGET_EXCLUDE_PETS))
-    {
-        return true;
-    }
-
     return false;
 }
 
@@ -1941,7 +1926,10 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     }
     if ((!(PSpell->isHeal()) || PSpell->tookEffect()) && PActionTarget->isAlive())
     {
-        battleutils::ClaimMob(PActionTarget, this);
+        if (objtype != TYPE_PET)
+        {
+            battleutils::ClaimMob(PActionTarget, this);
+        }
     }
 
     if (PSpell->getRequirements() & SPELLREQ_UNBRIDLED_LEARNING)

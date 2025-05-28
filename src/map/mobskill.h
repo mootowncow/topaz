@@ -30,15 +30,15 @@ enum SKILLFLAG
     SKILLFLAG_NONE              = 0x000,
     SKILLFLAG_JOB_ABILITY       = 0x001, // 1
     SKILLFLAG_TWO_HOUR          = 0x002, // 2
-    SKILLFLAG_SPECIAL           = 0x004, // 4  (/ra and call beast)
+    // Special skill (ranged attack / call beast)
+    SKILLFLAG_SPECIAL           = 0x004, // 4
     SKILLFLAG_HIT_ALL           = 0x008, // 8
     SKILLFLAG_REPLACE_ATTACK    = 0x010, // 16 To turn off "Readies .." or "Readies skill#650360 message" Use skill:setMsg(tpz.msg.basic.HIT_DMG) in the skills lua file
     SKILLFLAG_DRAW_IN           = 0x020, // 32
-    SKILLFLAG_ALWAYS_KNOCK_BACK = 0x040, // 64
-    SKILLFLAG_MAGIC_SKILL       = 0x080 // 128 Magical skill / blood pact
+    SKILLFLAG_ALWAYS_KNOCK_BACK = 0x040  // 64
 };
 
-#define MAX_MOBSKILL_ID	9999
+#define MAX_MOBSKILL_ID	4262
 
 class CMobSkill
 {
@@ -54,7 +54,6 @@ public:
     bool        isJobAbility() const;
     bool        isTwoHour() const;
     bool        isSpecial() const;
-    bool        isMagicAttack() const;
     bool        alwaysKnockback() const;
     bool        isAttackReplacement() const;
     bool        isTpSkill() const;
@@ -90,8 +89,6 @@ public:
     void        setAoe(uint8 aoe);
     void        setDistance(float distance);
     void        setFlag(uint8 flag);
-    void        addFlag(uint8 flag);
-    void        delFlag(uint8 flag);
     void        setAnimationTime(uint16 AnimationTime);
     void        setActivationTime(uint16 ActivationTime);
     void        setMsg(uint16 msg);

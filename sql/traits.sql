@@ -86,9 +86,6 @@ INSERT INTO `traits` VALUES (2,'evasion bonus',6,99,6,68,72,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (2,'evasion bonus',9,15,1,68,10,NULL,0);
 INSERT INTO `traits` VALUES (2,'evasion bonus',9,45,2,68,22,NULL,0);
 INSERT INTO `traits` VALUES (2,'evasion bonus',9,75,3,68,35,NULL,0);
-INSERT INTO `traits` VALUES (2,'evasion bonus',11,40,1,68,10,'WOTG',0);
-INSERT INTO `traits` VALUES (2,'evasion bonus',11,50,2,68,22,'WOTG',0);
-INSERT INTO `traits` VALUES (2,'evasion bonus',11,60,3,68,35,'WOTG',0);
 INSERT INTO `traits` VALUES (2,'evasion bonus',18,20,1,68,10,'TOAU',0);
 INSERT INTO `traits` VALUES (2,'evasion bonus',18,40,2,68,22,'TOAU',0);
 INSERT INTO `traits` VALUES (2,'evasion bonus',18,60,3,68,35,'TOAU',0);
@@ -331,8 +328,6 @@ INSERT INTO `traits` VALUES (25,'shield mastery',7,25,1,485,10,NULL,0);
 INSERT INTO `traits` VALUES (25,'shield mastery',7,50,2,485,20,NULL,0);
 INSERT INTO `traits` VALUES (25,'shield mastery',7,75,3,485,30,NULL,0);
 INSERT INTO `traits` VALUES (25,'shield mastery',7,96,4,485,40,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (25,'shield mastery',11,50,1,485,10,NULL,0);
-INSERT INTO `traits` VALUES (25,'shield mastery',11,75,2,485,20,NULL,0);
 INSERT INTO `traits` VALUES (32,'beast killer',9,10,1,230,8,NULL,0);
 INSERT INTO `traits` VALUES (32,'beast killer',9,70,1,1230,5,NULL,0);
 INSERT INTO `traits` VALUES (32,'beast killer',9,94,2,230,10,'ABYSSEA',0);
@@ -538,10 +533,6 @@ INSERT INTO `traits` VALUES (98,'crit. atk. bonus',13,70,3,421,11,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (99,'crit. def. bonus',7,99,4,908,14,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (99,'crit. def. bonus',10,98,1,908,5,'ABYSSEA',0);   -- Bard
 -- INSERT INTO `traits` VALUES (99,'crit. def. bonus',10,99,2,908,8,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',11,45,1,908,5,'ABYSSEA',0);   -- Ranger
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',11,55,2,908,8,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',11,65,3,908,11,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (99,'crit. def. bonus',11,75,4,908,14,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (99,'crit. def. bonus',14,98,1,908,5,'ABYSSEA',0);   -- Dragoon
 -- INSERT INTO `traits` VALUES (99,'crit. def. bonus',14,99,2,908,8,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (99,'crit. def. bonus',18,98,1,908,5,'ABYSSEA',0);   -- Puppetmaster
@@ -550,10 +541,8 @@ INSERT INTO `traits` VALUES (100,'tactical parry',1,30,1,486,20,'ABYSSEA',0); --
 INSERT INTO `traits` VALUES (100,'tactical parry',1,40,2,486,30,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (100,'tactical parry',1,50,3,486,40,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (100,'tactical parry',1,60,4,486,50,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (100,'tactical parry',8,88,1,486,20,'ABYSSEA',0); -- DRK
+INSERT INTO `traits` VALUES (100,'tactical parry',8,88,1,486,20,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (100,'tactical parry',8,98,2,486,30,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (100,'tactical parry',11,45,1,486,20,'ABYSSEA',0); -- RNG
-INSERT INTO `traits` VALUES (100,'tactical parry',11,70,2,486,30,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (100,'tactical parry',13,50,1,486,20,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (100,'tactical parry',13,65,2,486,30,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (100,'tactical parry',13,75,3,486,40,'ABYSSEA',0);
@@ -730,10 +719,7 @@ INSERT INTO `traits` VALUES (123,'daken',13,70,2,911,25,'SOA',0);
 INSERT INTO `traits` VALUES (123,'daken',13,80,3,911,30,'SOA',0);
 INSERT INTO `traits` VALUES (123,'daken',13,85,4,911,35,'SOA',0);
 INSERT INTO `traits` VALUES (123,'daken',13,95,5,911,40,'SOA',0);
-INSERT INTO `traits` VALUES (126,'magic eva. bonus',11,45,1,31,10,'SOA',0); -- RNG
-INSERT INTO `traits` VALUES (126,'magic eva. bonus',11,65,1,31,22,'SOA',0);
-INSERT INTO `traits` VALUES (126,'magic eva. bonus',11,75,1,31,35,'SOA',0);
-INSERT INTO `traits` VALUES (126,'magic eva. bonus',14,45,1,31,10,'SOA',0); -- DRG
+INSERT INTO `traits` VALUES (126,'magic eva. bonus',14,45,1,31,10,'SOA',0);
 INSERT INTO `traits` VALUES (126,'magic eva. bonus',14,60,1,31,22,'SOA',0);
 INSERT INTO `traits` VALUES (126,'magic eva. bonus',14,75,1,31,35,'SOA',0);
 INSERT INTO `traits` VALUES (127,'smite',1,97,1,898,25,'SOA',0);
@@ -757,18 +743,15 @@ INSERT INTO `traits` VALUES (134,'ws damage boost',14,75,4,840,16,'ROV',0);
 INSERT INTO `traits` VALUES (134,'ws damage boost',14,85,5,840,19,'ROV',0);
 INSERT INTO `traits` VALUES (134,'ws damage boost',14,95,6,840,21,'ROV',0);
 
-INSERT INTO `traits` VALUES (136,'shield barrier',1,30,1,1310,10,'ROV',0); -- WAR
+INSERT INTO `traits` VALUES (136,'shield barrier',1,30,1,1310,10,'ROV',0);
 INSERT INTO `traits` VALUES (136,'shield barrier',1,45,2,1310,15,'ROV',0);
 INSERT INTO `traits` VALUES (136,'shield barrier',1,60,3,1310,20,'ROV',0);
 INSERT INTO `traits` VALUES (136,'shield barrier',1,75,4,1310,25,'ROV',0);
-INSERT INTO `traits` VALUES (136,'shield barrier',8,30,1,1310,10,'ROV',0); -- DRK
+
+INSERT INTO `traits` VALUES (136,'shield barrier',8,30,1,1310,10,'ROV',0);
 INSERT INTO `traits` VALUES (136,'shield barrier',8,45,2,1310,15,'ROV',0);
 INSERT INTO `traits` VALUES (136,'shield barrier',8,60,3,1310,20,'ROV',0);
 INSERT INTO `traits` VALUES (136,'shield barrier',8,75,4,1310,25,'ROV',0);
-INSERT INTO `traits` VALUES (136,'shield barrier',11,45,1,1310,10,'ROV',0); -- RNG
-INSERT INTO `traits` VALUES (136,'shield barrier',11,55,2,1310,15,'ROV',0);
-INSERT INTO `traits` VALUES (136,'shield barrier',11,65,3,1310,20,'ROV',0);
-INSERT INTO `traits` VALUES (136,'shield barrier',11,75,4,1310,25,'ROV',0);
 
 /*!40000 ALTER TABLE `traits` ENABLE KEYS */;
 UNLOCK TABLES;

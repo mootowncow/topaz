@@ -71,9 +71,9 @@ CREATE TABLE IF NOT EXISTS `skill_ranks` (
 -- 12 = G
 
 INSERT INTO `skill_ranks` VALUES (1, 'hand2hand', 9, 1, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 3, 5, 0, 0, 0);
-INSERT INTO `skill_ranks` VALUES (2, 'dagger', 5, 0, 0, 9, 4, 1, 8, 7, 4, 2, 3, 10, 6, 10, 10, 0, 3, 3, 3, 5, 8, 0);
-INSERT INTO `skill_ranks` VALUES (3, 'sword', 4, 0, 0, 0, 4, 3, 1, 5, 10, 3, 3, 6, 7, 8, 0, 1, 5, 3, 9, 0, 0, 2);
-INSERT INTO `skill_ranks` VALUES (4, 'great sword', 3, 0, 0, 0, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+INSERT INTO `skill_ranks` VALUES (2, 'dagger', 5, 0, 0, 9, 4, 1, 8, 7, 4, 2, 5, 10, 6, 10, 10, 0, 3, 3, 3, 5, 8, 0);
+INSERT INTO `skill_ranks` VALUES (3, 'sword', 4, 0, 0, 0, 4, 3, 1, 5, 10, 3, 4, 6, 7, 8, 0, 1, 5, 3, 9, 0, 0, 2);
+INSERT INTO `skill_ranks` VALUES (4, 'great sword', 3, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
 INSERT INTO `skill_ranks` VALUES (5, 'axe', 2, 0, 0, 0, 0, 0, 0, 5, 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5);
 INSERT INTO `skill_ranks` VALUES (6, 'great axe', 1, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4);
 INSERT INTO `skill_ranks` VALUES (7, 'scythe', 3, 0, 0, 10, 0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -86,8 +86,8 @@ INSERT INTO `skill_ranks` VALUES (25, 'archery', 9, 0, 0, 0, 9, 8, 0, 0, 2, 0, 1
 INSERT INTO `skill_ranks` VALUES (26, 'marksmanship', 9, 0, 0, 0, 0, 6, 0, 10, 0, 0, 1, 0, 7, 0, 0, 0, 4, 0, 0, 0, 0, 0);
 INSERT INTO `skill_ranks` VALUES (27, 'throwing', 9, 10, 10, 9, 11, 1, 0, 0, 0, 10, 8, 6, 1, 0, 0, 0, 6, 6, 6, 9, 0, 0);
 INSERT INTO `skill_ranks` VALUES (28, 'guarding', 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0);
-INSERT INTO `skill_ranks` VALUES (29, 'evasion', 7, 3, 10, 10, 9, 1, 7, 7, 2, 9, 3, 3, 2, 4, 10, 8, 9, 4, 3, 10, 9, 3);
-INSERT INTO `skill_ranks` VALUES (30, 'shield', 2, 0, 1, 0, 11, 3, 1, 0, 2, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 12);
+INSERT INTO `skill_ranks` VALUES (29, 'evasion', 7, 3, 10, 10, 9, 1, 7, 7, 2, 9, 10, 3, 2, 4, 10, 8, 9, 4, 3, 10, 9, 3);
+INSERT INTO `skill_ranks` VALUES (30, 'shield', 2, 0, 1, 0, 11, 3, 1, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 12);
 INSERT INTO `skill_ranks` VALUES (31, 'parrying', 1, 10, 0, 0, 10, 2, 7, 10, 7, 10, 0, 2, 2, 5, 0, 9, 2, 9, 4, 10, 10, 1);
 INSERT INTO `skill_ranks` VALUES (32, 'divine', 0, 0, 2, 0, 10, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 4);
 INSERT INTO `skill_ranks` VALUES (33, 'healing', 0, 0, 1, 0, 8, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0);

@@ -2827,9 +2827,6 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,401,31,255);           -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,402,71,255);           -- Archers Prelude
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,419,29,255);           -- Advancing March
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,420,60,255);           -- Victory March
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,421,39,255);           -- Battlefield Elegy
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,422,59,255);           -- Carnage Elegy
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,462,33,255);           -- Magic Finale
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,470,82,255);           -- Sentinels Scherzo
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shikaree_Z',327,1,2,255);         -- Cure
@@ -6196,26 +6193,6 @@ INSERT INTO `mob_spell_lists` VALUES ('Hound_of_Balthazar',555,176,1,255); -- Fi
 INSERT INTO `mob_spell_lists` VALUES ('Hound_of_Balthazar',555,286,1,255); -- Addle
 
 -- NEXT 546
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 147, 1, 255); -- Fire IV
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 152, 1, 255); -- Blizzard IV
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 157, 1, 255); -- Aero IV
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 162, 1, 255); -- Stone IV
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 167, 1, 255); -- Thunder IV
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 172, 1, 255); -- Water IV
-
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 176, 1, 255); -- Firaga III
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 181, 1, 255); -- Blizzaga III
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 186, 1, 255); -- Aeroga III
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 191, 1, 255); -- Stonega III
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 196, 1, 255); -- Thundaga III
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 201, 1, 255); -- Waterga III
-
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 56, 1, 255); -- Slow
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 254, 1, 255); -- Blind
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 58, 1, 255); -- Paralyze
-INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 59, 1, 255); -- Silence
-
--- NEXT 561
 -- NEXT 1022
 -- NEXT 2089(Custom)
 

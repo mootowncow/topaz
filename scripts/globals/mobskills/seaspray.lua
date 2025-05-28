@@ -17,7 +17,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local dmgmod = MobHPBasedMove(mob, target, skill, 0.125, 1, tpz.magic.ele.WATER, 500)
+    local dmgmod = MobHPBasedMove(mob, target, 0.125, 1, tpz.magic.ele.WATER, 500)
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.WATER, MOBPARAM_IGNORE_SHADOWS)
 
     local typeEffect = tpz.effect.SLOW

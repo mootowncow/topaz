@@ -55,16 +55,19 @@ function onUseAbility(player, target, ability, action)
     end
 
     local base = weaponDamage + fstr
-    local bonusAttPercent = 0
-    local flatAttackBonus = 0
-    local ignoredDef = 0
+    local cratio, ccritratio = cMeleeRatio(player, target, params, 0, 0)
+    local isSneakValid = player:hasStatusEffect(tpz.effect.SNEAK_ATTACK)
+    if (isSneakValid and not player:isBehind(target)) then
+        isSneakValid = false
+    end
+
+    local bonusAttPercent, flatAttackBonus, ignoredDef = 0
     local isCritical = false
     local pdif = player:getDamageRatio(target, isCritical, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
-    local attackNumber = 0
     local accBonus = 100 -- https://www.bg-wiki.com/ffxi/Violent_Flourish
-    local hitrate = player:getHitRate(target, attackNumber, accBonus, false)
+    local hitrate = getHitRate(player, target, true, true, accBonus)
 
-    if (math.random() <= hitrate) then
+    if (math.random() <= hitrate or isSneakValid) then
         hit = 3
         dmg = base * pdif
 

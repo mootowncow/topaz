@@ -60,11 +60,6 @@ enum ACTIONTYPE : uint8
     ACTION_RAISE_MENU_SELECTION = 37
 };
 
-enum ACTIONANIMATION : uint8
-{
-    ACTION_BLOODPACT_START = 94
-};
-
 struct actionTarget_t
 {
     REACTION		  reaction;			    //  5 bits

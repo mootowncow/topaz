@@ -18,7 +18,7 @@ end
 function onTrigger(player, jobAbility, self)
     local targ = player:getCursorTarget()
     
-    if targ == nil or (not targ:isMob() and not targ:isPet() and not targ:isPC()) then
+    if targ == nil or (not targ:isMob() and not targ:isPet()) then
         error(player, "you must select a target monster with the cursor first")
     else
         

@@ -158,7 +158,7 @@ INSERT INTO `bcnm_info` VALUES (352,156,'fiat_lux','nobody',0,1800,1800,0,6,352,
 INSERT INTO `bcnm_info` VALUES (353,156,'darkness_descends','nobody',0,1800,1800,99,6,0,5,0);
 INSERT INTO `bcnm_info` VALUES (354,156,'bonds_of_mythril','nobody',0,1800,1800,0,18,0,5,0);
 INSERT INTO `bcnm_info` VALUES (385,182,'maiden_of_the_dusk','nobody',0,1800,1800,99,6,0,5,0);
-INSERT INTO `bcnm_info` VALUES (388,182,'champion_of_the_dawn','nobody',0,900,900,75,6,0,5,0);
+INSERT INTO `bcnm_info` VALUES (388,182,'champion_of_the_dawn','nobody',0,1800,1800,99,6,0,5,0);
 INSERT INTO `bcnm_info` VALUES (416,201,'trial_by_wind','nobody',0,1800,1800,0,6,0,5,0);
 INSERT INTO `bcnm_info` VALUES (417,201,'carbuncle_debacle','nobody',0,1800,1800,0,18,0,5,0);
 INSERT INTO `bcnm_info` VALUES (418,201,'trial-size_trial_by_wind','nobody',0,900,900,20,1,0,5,0);
