@@ -42,40 +42,46 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.ASTRAL_FLOW, ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.TABULA_RASA,ai.r.JA, ai.s.SPECIFIC, tpz.ja.RAMPART)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.SHIELD_BASH)
+    if mob:getMainLvl() >= 15 then
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.SHIELD_BASH)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_MS, 0,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.SHIELD_BASH)
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_MS, 0,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.SHIELD_BASH)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_JA, 0,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.SHIELD_BASH)
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_JA, 0,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.SHIELD_BASH)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.SHIELD_BASH)
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.SHIELD_BASH)
+    end
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.PROVOKE)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.DIVINE_EMBLEM,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.DIVINE_EMBLEM)
+    if mob:getMainLvl() >= 65 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.DIVINE_EMBLEM,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.DIVINE_EMBLEM)
+    end
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.FLASH,
                         ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.FLASH)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.DEFENDER,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.DEFENDER)
+    if mob:getMainLvl() >= 30 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.DEFENDER,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.DEFENDER)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SENTINEL,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.SENTINEL)
-
-    if mob:getMainLvl() >= 75 then
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SENTINEL,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.PALISADE)
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SENTINEL,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.SENTINEL)
     end
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.MPP_LT, 25,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.CHIVALRY)
+    if mob:getMainLvl() >= 75 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SENTINEL,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.PALISADE)
+
+        mob:addSimpleGambit(ai.t.SELF, ai.c.MPP_LT, 25,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.CHIVALRY)
+    end
 
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.HPP_LT, 75,
                         ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
