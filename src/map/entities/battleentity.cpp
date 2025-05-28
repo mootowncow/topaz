@@ -262,7 +262,7 @@ uint8 CBattleEntity::GetSpeed()
 
     if (objtype == TYPE_PC)
     {
-        gearBonus = static_cast<float>(getMaxGearMod(Mod::MOVE_SPEED_GEAR_BONUS)) / 100.0f;
+        gearBonus = static_cast<float>(getMaxGearMod(Mod::MOVE_SPEED_GEAR_BONUS, 25)) / 100.0f;
     }
 
     // Gravity and Curse. They seem additive to each other and the sum seems to be multiplicative.
@@ -1450,9 +1450,9 @@ int16 CBattleEntity::getMod(Mod modID)
 *                                                                       *
 *  Get the highest value of the specified modifier across all gear      *
 *  and latent effects                                                   *
-*                                                                       *
+*  Notes: Default modMax is 9999                                        *
 ************************************************************************/
-int16 CBattleEntity::getMaxGearMod(Mod modID)
+int16 CBattleEntity::getMaxGearMod(Mod modID, int16 modMax)
 {
     TracyZoneScoped;
     CCharEntity* PChar = dynamic_cast<CCharEntity*>(this);
@@ -1465,7 +1465,7 @@ int16 CBattleEntity::getMaxGearMod(Mod modID)
     }
 
     // Check equipment modifiers
-    for (uint8 i = 0; i < SLOT_BACK; ++i)
+    for (uint8 i = 0; i <= SLOT_BACK; ++i)
     {
         auto* PItem = PChar->getEquip((SLOTTYPE)i);
         if (PItem && (PItem->isType(ITEM_EQUIPMENT) || PItem->isType(ITEM_WEAPON)))
@@ -1482,11 +1482,23 @@ int16 CBattleEntity::getMaxGearMod(Mod modID)
         }
     }
 
-    maxModValue = std::min(maxModValue, static_cast<uint16>(25));
+    // Check Set bonus Mods
+    for (const auto& gearSetMod : PChar->m_GearSetMods)
+    {
+        if (gearSetMod.modId == modID)
+        {
+            if (gearSetMod.modValue > maxModValue)
+            {
+                maxModValue = gearSetMod.modValue;
+            }
+        }
+    }
 
+    maxModValue = std::min(maxModValue, static_cast<uint16>(modMax));
+
+    //ShowDebug("maxModValue %d\n", maxModValue);
     return maxModValue;
 }
-
 
 void CBattleEntity::addPetModifier(Mod type, PetModType petmod, int16 amount)
 {
@@ -1551,7 +1563,6 @@ void CBattleEntity::applyPetModifiers(CPetEntity* PPet)
         }
     }
 }
-
 
 void CBattleEntity::removePetModifiers(CPetEntity* PPet)
 {
@@ -2266,7 +2277,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
             }
             else
             {
-                // Set this attack's critical flag.
+                // Set this attack's critical flag. Also calculates m_damageRato (pDIF)
                 attack.SetCritical(tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(this, PTarget, !attack.IsFirstSwing(), static_cast<SLOTTYPE>(attack.GetWeaponSlot())));
                 if (tredecim && ((CCharEntity*)this)->m_hitCounter > 12)
                 {

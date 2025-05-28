@@ -14,7 +14,6 @@
 -----------------------------------------
 require("scripts/globals/bluemagic")
 require("scripts/globals/status")
-require("scripts/globals/magic")
 -----------------------------------------
 
 function onMagicCastingCheck(caster, target, spell)
@@ -23,6 +22,7 @@ end
 
 function onSpellCast(caster, target, spell)
     local params = {}
+    params.diff = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)
     local multi = 3.0
     if (caster:hasStatusEffect(tpz.effect.AZURE_LORE)) then
         multi = multi + 2.0

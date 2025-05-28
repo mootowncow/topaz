@@ -621,7 +621,7 @@ public:
     weatherVector_t m_WeatherVector;                                                // probability of occurrence of each type of weather
 
     virtual void    ZoneServer(time_point tick, bool check_regions);
-    void            CheckRegions(CCharEntity* PChar);
+    CRegion*        CheckRegions(CCharEntity* PChar);
 
     void            ResetLocalVars();
     uint32          GetLocalVar(const char* var);

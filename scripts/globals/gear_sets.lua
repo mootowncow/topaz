@@ -3,6 +3,7 @@
 -- Allows the use of gear sets with modifiers
 -----------------------------------
 require("scripts/globals/status")
+require("scripts/globals/pets")
 -----------------------------------
 
 local matchtype = {
@@ -308,12 +309,17 @@ function ApplyMod(player, gearset, matches)
             addSetBonus = mod[4]
         end
 
-        -- add bonus mods per piece
-        if (addMatches ~= 0 and addMatchValue ~= 0) then
-            modValue = modValue + (addMatchValue * addMatches)
+        -- if a pet mod
+        local isPetMod      = mod[5] or false
+        local petModType    = mod[6] or 0
+
+        -- Apply mod to player or pet based on isPetMod
+        if isPetMod then -- i.e. {id = 1, items = {16092, 14554, 14969, 15633, 15719},  matches = 5, matchType = matchtype.any, mods = {{tpz.mod.HASTE_GEAR, 500, 0, 0, true, tpz.pet.modType.AUTOMATON}} },    --  Usukane's set (5% Haste)
+            player:addPetGearSetMod(gearset.id + i, modId, petModType, modValue + addSetBonus)
+        else
+            player:addGearSetMod(gearset.id + i, modId, modValue + addSetBonus)
         end
-        -- printf("gearset: %u, mod: %u, value %u", gearset.id, modId, modValue + addSetBonus)
-        player:addGearSetMod(gearset.id + i, modId, modValue + addSetBonus)
+
         i = i + 1
     end
     -- print("Gear set! Mod applied: ModNameId:" .. modNameId .. " ModId:" .. modId .. " Value:" .. modValue .. "\n")
@@ -350,7 +356,7 @@ function HandleHipsterSet(player, gearset, matches)
         player:addGearSetMod(gearset.id + 1, tpz.mod.RACC, modValue)
         player:addGearSetMod(gearset.id + 2, tpz.mod.MACC, modValue)
         return
-    -- AF1 119 +2/+3 SMN Avatar:ACC/RACC/MACC (unimplemented)
+    -- AF1 119 +2/+3 SMN Avatar:ACC/RACC/MACC
     elseif (gearset.id == 175) then
         local modValue = 0
 
@@ -363,7 +369,9 @@ function HandleHipsterSet(player, gearset, matches)
         elseif (matches >= 5) then
             modValue = 60 -- 5 or more matches
         end
-        --Unimplemented method to add pet mods
+        player:addPetGearSetMod(gearset.id,  tpz.mod.ACC, tpz.pet.modType.AVATAR, modValue)
+        player:addPetGearSetMod(gearset.id + 1, tpz.mod.RACC, tpz.pet.modType.AVATAR, modValue)
+        player:addPetGearSetMod(gearset.id + 2, tpz.mod.MACC, tpz.pet.modType.AVATAR, modValue)
         return
     end
 end

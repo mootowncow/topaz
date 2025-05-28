@@ -150,7 +150,7 @@ namespace luautils
     int32 DespawnMob(lua_State*);                                               // Despawn (Fade Out) Mob By Id
     int32 GetPlayerByName(lua_State*);                                          // Gets Player ref from a name supplied
     int32 GetPlayerByID(lua_State*);                                            // Gets Player ref from an Id supplied
-    int32 GetEntityByID(lua_State*);                                            // Gets Player ref from an Id supplied
+    int32 GetEntityByID(lua_State*);                                            // Gets entity ref from an Id supplied
     int32 GetMagianTrial(lua_State*);
     int32 GetMagianTrialsWithParent(lua_State* L);
     int32 GetMobAction(lua_State*);                                             // Get Mobs current action
@@ -183,6 +183,7 @@ namespace luautils
     uint8 GetSettingsVariable(const char* variable);                            // Gets a Variable Value from Settings.lua
     bool IsContentEnabled(const char* content);                                 // Check if the content is enabled in settings.lua
 
+    int32 OnZoneTick(CCharEntity* PChar, uint16 ZoneID, CRegion* PRegion);
     int32 OnGameDay(CZone* PZone);                                              // Automatic action of NPC every game day
     int32 OnGameHour(CZone* PZone);                                             // Automatic action of NPC every game hour
     int32 OnZoneWeatherChange(uint16 ZoneID, uint8 weather);
@@ -231,7 +232,7 @@ namespace luautils
     int32 OnWeaponskillHit(CBattleEntity* PMob, CBaseEntity* PAttacker, uint16 PWeaponskill); // Triggered when Weaponskill strikes monster
 
     int32 OnMobInitialize(CBaseEntity* PMob);                                     // Used for passive trait
-    int32 ApplyMixins(CBaseEntity* PMob);
+    int32 ApplyMixins(CBaseEntity* PEntity);
     int32 ApplyZoneMixins(CBaseEntity* PMob);
     int32 OnMobSpawn(CBaseEntity* PMob);                                          // triggers on mob spawn
     int32 OnMobRoamAction(CBaseEntity* PMob);                                     // triggers when event mob is ready for a custom roam action

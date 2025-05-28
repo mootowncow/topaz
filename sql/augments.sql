@@ -88,7 +88,7 @@ INSERT INTO `augments` VALUES (53, 0, 168, -1, 0, 0); -- Spell interruption rate
 INSERT INTO `augments` VALUES (54, 0, 161, -1, 0, 0); -- Phys. dmg. taken -1%
 INSERT INTO `augments` VALUES (55, 0, 163, -1, 0, 0); -- Magic dmg. taken -1%
 INSERT INTO `augments` VALUES (56, 0, 162, -1, 0, 0); -- Breath dmg. taken -1%
-INSERT INTO `augments` VALUES (57, 0, 541, 1, 0, 0); -- Magic crit. hit rate+1
+INSERT INTO `augments` VALUES (57, 0, 562, 1, 0, 0); -- Magic crit. hit rate+1
 INSERT INTO `augments` VALUES (58, 0, 29, -1, 0, 0); -- Mag.Def.Bns.-1
 INSERT INTO `augments` VALUES (59, 0, 0, 0, 0, 0); -- Latent effect: Regain+1 (Do via Script: triggered with your current weapon drawn for 1 TP/tick.)
 INSERT INTO `augments` VALUES (60, 0, 0, 0, 0, 0); -- TODO: Auto-refresh +1
@@ -447,7 +447,7 @@ INSERT INTO `augments` VALUES (356, 0, 375, 1, 0, 0); -- Potency of Cure receive
 INSERT INTO `augments` VALUES (357, 0, 0, 0, 0, 0);
 INSERT INTO `augments` VALUES (358, 0, 0, 0, 0, 0);
 INSERT INTO `augments` VALUES (359, 0, 0, 0, 0, 0);
-INSERT INTO `augments` VALUES (360, 0, 0, 0, 0, 0); -- TODO: Save TP+10: Mod undefined as of yet so leaving blank.
+INSERT INTO `augments` VALUES (360, 0, 880, 10, 0, 0); -- Save TP+10
 INSERT INTO `augments` VALUES (361, 0, 0, 0, 0, 0);
 -- End unused block
 

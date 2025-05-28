@@ -5,6 +5,7 @@
 ---------------------------------------------------------------------------------------------------
 
 require("scripts/globals/status")
+require("scripts/globals/utils")
 
 cmdprops =
 {
@@ -73,12 +74,12 @@ function onTrigger(player, arg1, arg2)
         end
     end
 
-
+    local effectName = utils.PunctuateString(arg1)
     if (targ:getID() ~= player:getID()) then
-        player:PrintToPlayer(string.format("Removed effect %i from %s.", id, targ:getName()))
+        player:PrintToPlayer(string.format("Removed %s from %s.", effectName, targ:getName()))
         targ:delStatusEffect(id)
     else
-        player:PrintToPlayer(string.format("Removed effect %i from yourself.", id))
+        player:PrintToPlayer(string.format("Removed %s from yourself.", effectName))
         targ:delStatusEffect(id)
     end
 end

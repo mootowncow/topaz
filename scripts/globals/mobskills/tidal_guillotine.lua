@@ -4,7 +4,7 @@
 -- Magical
 -- Element: Water
 -- Conal
--- Additional effect: KO if targets HP is below 50%
+-- Additional effect: KO if targets HP is below 50% as of a result of this damage
 -- Notes: Only used below 50% HP
 ---------------------------------------------------
 

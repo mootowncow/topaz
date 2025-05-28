@@ -15,7 +15,7 @@ g_mixins.abyssea_nm = function(mob)
         mob:setLocalVar("abyssea_red_proc_count", 0)
         mob:setLocalVar("abyssea_yellow_proc_count", 0)
     end)
-    mob:addListener("MAGIC_TAKE", "ABYSSEA_MAGIC_PROC_CHECK", function(target, caster, spell)
+    mob:addListener("SPELL_DMG_TAKEN", "ABYSSEA_MAGIC_PROC_CHECK", function(target, caster, spell)
         if target:canChangeState() then
             if spell:getID() == target:getLocalVar("abyssea_magic_weak") then
                 --TODO: weakness trigger message

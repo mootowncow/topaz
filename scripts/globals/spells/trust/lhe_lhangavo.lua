@@ -20,6 +20,8 @@ end
 function onMobSpawn(mob)
     -- tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.SPAWN) TODO
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
+
     mob:addSimpleGambit(ai.t.MASTER, ai.c.HPP_LT, 50, ai.r.JA, ai.s.SPECIFIC, tpz.ja.PROVOKE)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.HPP_LT, 75, ai.r.JA, ai.s.SPECIFIC, tpz.ja.CHAKRA)

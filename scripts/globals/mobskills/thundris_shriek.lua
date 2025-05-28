@@ -13,12 +13,11 @@ require("scripts/globals/monstertpmoves")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    -- Normal Dvegr for learning  Bilgestorm
-    if (mob:getPool() == 9124) then
+    if (mob:getName() == 'Knecht') then
         return 0
     end
 
-  if(mob:getFamily() == 316) then
+  if (mob:getFamily() == 316) then
     local mobSkin = mob:getModelId()
 
     if (mobSkin == 1840) then
@@ -29,7 +28,7 @@ function onMobSkillCheck(target, mob, skill)
   end
 
 
-  if(mob:getFamily() == 91) then
+  if (mob:getFamily() == 91) then
     local mobSkin = mob:getModelId()
 
     if (mobSkin == 1839) then
@@ -64,7 +63,7 @@ function onMobWeaponSkill(target, mob, skill)
 
     target:takeDamage(dmg, mob, tpz.attackType.PHYSICAL, tpz.damageType.LIGHTNING)
     MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, 1, 0, 15)
-    MobBuffMove(mob, tpz.effect.PROWESS_KILLER, 25, 0, 60)
+    MobBuffMove(mob, tpz.effect.PROWESS_KILLER, 25, 0, 30)
 	if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then   target:tryInterruptSpell(mob, info.hitslanded) end
     return dmg
 end

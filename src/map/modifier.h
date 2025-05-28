@@ -223,7 +223,9 @@ enum class Mod
     ENEMYCRITRATE             = 1256, // Raises chance enemy will crit
     CRIT_DEF_BONUS            = 908, // Reduces crit hit damage
     MAGIC_CRITHITRATE         = 562, // Raises chance to magic crit
+    MAGIC_ENEMYCRITRATE       = 1432,// Raises chance enemy will magic crit
     MAGIC_CRIT_DMG_INCREASE   = 563, // Raises damage done when criting with magic
+    MAGIC_CRIT_DEF_BONUS      = 1431,// Reduces magic crit hit damage
 
     FENCER_TP_BONUS           = 903, // TP Bonus to weapon skills from Fencer Trait (+1 gear mod is +100 for +100 TP bonus)
     FENCER_CRITHITRATE        = 904, // Increased Crit chance from Fencer Trait (+1 gear mod is +1 for 1% crit)
@@ -256,6 +258,7 @@ enum class Mod
     SKILLCHAINDMG             = 175, // Damage bonus applied to skill chain damage.  Modifier from gear (multiplicative after effect/traits)
     MAX_SWINGS                = 978, // Max swings for "Occasionally attacks X times"
     ADDITIONAL_SWING_CHANCE   = 979, // Chance that allows for an additional swing despite of multiple hits, mostly for Amood weapons
+    DOUBLE_CAST               = 1429,// Chance to cast a spell twice in a row
 
     MAGIC_DAMAGE             = 311, // Magic damage added directly to the spell's base damage
 
@@ -413,6 +416,7 @@ enum class Mod
     ENH_MAGIC_DURATION        = 890, // Enhancing Magic Duration increase %
     ENHANCES_SABOTEUR         = 297, // Increases Saboteur Potency %
     ENHANCES_IMMUNOBREAK      = 1359,// Causes Immunobreak to increase by 2 Tiers
+    ENH_CASTING_TIME          = 1430,//Reduces Enhancing Magic casting time by percentage (e.g. mod value -10 = -10% cast time)
 
     // Thief
     FLEE_DURATION             = 93,  // Flee duration in seconds
@@ -453,7 +457,7 @@ enum class Mod
     STALWART_SOUL             = 907, // Reduces damage taken from Souleater
     DREAD_SPIKES_EFFECT       = 1328,// Percent increase to total HP drain for Dread Spikes
     ENHANCES_BLOOD_WEAPON     = 1329,// Enhances "Blood Weapon" effect (increases Blood Weapon's duration in seconds)
-    DARK_MAGIC_CAST           = 1330,// Reduces Dark Magic Casting Time by percentage (e.g. mod value -10 = -10% cast time)
+    DARK_MAGIC_CAST           = 1330,// Reduces Dark Magic casting time by percentage (e.g. mod value -10 = -10% cast time)
     DARK_MAGIC_DURATION       = 1331,// Increases Dark Magic spell durations by percentage (e.g. mod value 10 = +10% duration)
     ENHANCES_DARK_SEAL        = 1332,// Enhances "Dark Seal" effect (Increases Dark Magic spell durations by 10% per Dark Seal merit while Dark Seal active)
 
@@ -529,7 +533,7 @@ enum class Mod
     NIN_NUKE_BONUS            = 522, // magic attack bonus for NIN nukes
     DAKEN                     = 911, // chance to throw a shuriken without consuming it
     NINJUTSU_DURATION         = 1323,// Increases the effect duration of ninjutsu (in percents)
-    NINJUTSU_CASTING_TIME     = 1378,// Reduces Ninjutsu Casting Time by percentage (e.g. mod value -10 = -10% cast time)
+    NINJUTSU_CASTING_TIME     = 1378,// Reduces Ninjutsu casting time by percentage (e.g. mod value -10 = -10% cast time)
 
     // Dragoon
     ANCIENT_CIRCLE_DURATION   = 859, // Ancient Circle extended duration in seconds
@@ -571,15 +575,6 @@ enum class Mod
     BP_BURST_DAMAGE           = 1257, // Blood Pact: Rage magic burst damage increase percentage.
     BLOOD_BOON                = 913, // Occasionally cuts down MP cost of Blood Pact abilities. Does not affect abilities that require Astral Flow.
     AVATAR_FAVOR_BONUS        = 1414,// Increases the effect of avatars favor (percent)
-    // Absorb dmg to MP (Evoker's Bracers, Lyft Claymore, etc)
-    FIRE_ABSORB_TO_MP          = 1459,  // Occasionally absorbs fire elemental damage to MP, in percents
-    ICE_ABSORB_TO_MP           = 1460,  // Occasionally absorbs ice elemental damage to MP, in percents
-    WIND_ABSORB_TO_MP          = 1461,  // Occasionally absorbs wind elemental damage to MP, in percents
-    EARTH_ABSORB_TO_MP         = 1462,  // Occasionally absorbs earth elemental damage to MP, in percents
-    LTNG_ABSORB_TO_MP          = 1463,  // Occasionally absorbs thunder elemental damage to MP, in percents
-    WATER_ABSORB_TO_MP         = 1464,  // Occasionally absorbs water elemental damage to MP, in percents
-    LIGHT_ABSORB_TO_MP         = 1465,  // Occasionally absorbs light elemental damage to MP, in percents
-    DARK_ABSORB_TO_MP          = 1466,  // Occasionally absorbs dark elemental damage to MP, in percents
 
     // Blue Mage
     BLUE_POINTS               = 309, // Tracks extra blue points
@@ -819,6 +814,26 @@ enum class Mod
     WATER_ABSORB              = 464, // Occasionally absorbs water elemental damage, in percents
     LIGHT_ABSORB              = 465, // Occasionally absorbs light elemental damage, in percents
     DARK_ABSORB               = 466, // Occasionally absorbs dark elemental damage, in percents
+
+    // Absorb dmg to MP (Evoker's Bracers, Lyft Claymore, etc)
+    FIRE_ABSORB_TO_MP         = 1459, // Occasionally absorbs fire elemental damage to MP, in percents
+    ICE_ABSORB_TO_MP          = 1460, // Occasionally absorbs ice elemental damage to MP, in percents
+    WIND_ABSORB_TO_MP         = 1461, // Occasionally absorbs wind elemental damage to MP, in percents
+    EARTH_ABSORB_TO_MP        = 1462, // Occasionally absorbs earth elemental damage to MP, in percents
+    LTNG_ABSORB_TO_MP         = 1463, // Occasionally absorbs thunder elemental damage to MP, in percents
+    WATER_ABSORB_TO_MP        = 1464, // Occasionally absorbs water elemental damage to MP, in percents
+    LIGHT_ABSORB_TO_MP        = 1465, // Occasionally absorbs light elemental damage to MP, in percents
+    DARK_ABSORB_TO_MP         = 1466, // Occasionally absorbs dark elemental damage to MP, in percents
+
+    // Elemental absorb for skillchains only
+    FIRE_ABSORB_SC            = 1420, // Occasionally absorbs SC fire elemental damage, in percents
+    ICE_ABSORB_SC             = 1421, // Occasionally absorbs SC ice elemental damage, in percents
+    WIND_ABSORB_SC            = 1422, // Occasionally absorbs SC wind elemental damage, in percents
+    EARTH_ABSORB_SC           = 1423, // Occasionally absorbs SC earth elemental damage, in percents
+    LTNG_ABSORB_SC            = 1424, // Occasionally absorbs SC thunder elemental damage, in percents
+    WATER_ABSORB_SC           = 1425, // Occasionally absorbs SC water elemental damage, in percents
+    LIGHT_ABSORB_SC           = 1426, // Occasionally absorbs SC light elemental damage, in percents
+    DARK_ABSORB_SC            = 1427, // Occasionally absorbs SC dark elemental damage, in percents
 
     // Elemental Null Chance
     FIRE_NULL                 = 467, //
@@ -1116,6 +1131,7 @@ enum class Mod
     LUMINION_CIRCLE_DR   = 1403,
 
     CRITHITRATE_SLOT     = 1419,//Crit rate only applied by attacks in this weapon slot. i.e. Senjuionrikio
+    PAST_DUNGEON_MASTER  = 1428,//Increased number augments on items from WotG dungeons
 
 
 
@@ -1131,7 +1147,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1420 NEXT
+    // 1433 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

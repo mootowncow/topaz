@@ -69,6 +69,22 @@ const int PERSIST_CHECK_CHARACTERS = 20;
 } // namespace
 typedef std::pair<float, CCharEntity*> CharScorePair;
 
+static bool ShouldPartyMobs(CMobEntity* PMob, CMobEntity* PCurrentMob, bool forceLink)
+{
+    if (PCurrentMob->allegiance != PMob->allegiance)
+        return false;
+
+    if (forceLink)
+        return true;
+
+    int16 sublink = PMob->getMobMod(MOBMOD_SUBLINK);
+    int16 currentSublink = PCurrentMob->getMobMod(MOBMOD_SUBLINK);
+    int16 customLink = PMob->getMobMod(MOBMOD_CUSTOMLINK);
+    int16 currentCustomLink = PCurrentMob->getMobMod(MOBMOD_CUSTOMLINK);
+
+    return (PCurrentMob->m_Family == PMob->m_Family) || (sublink && sublink == currentSublink) || (customLink && customLink == currentCustomLink);
+}
+
 CZoneEntities::CZoneEntities(CZone* zone)
 {
     m_zone = zone;
@@ -243,7 +259,6 @@ void CZoneEntities::FindPartyForMob(CBaseEntity* PEntity)
 
     CMobEntity* PMob = (CMobEntity*)PEntity;
 
-    // force all mobs in a burning circle to link
     ZONETYPE zonetype = m_zone->GetType();
     bool forceLink = zonetype == ZONETYPE_DYNAMIS || zonetype == ZONETYPE_BATTLEFIELD || PMob->getMobMod(MOBMOD_SUPERLINK);
 
@@ -253,22 +268,21 @@ void CZoneEntities::FindPartyForMob(CBaseEntity* PEntity)
         {
             CMobEntity* PCurrentMob = (CMobEntity*)it->second;
 
-            if (!forceLink && !PCurrentMob->m_Link) continue;
+            if (!forceLink && !PCurrentMob->m_Link)
+                continue;
 
-            int16 sublink = PMob->getMobMod(MOBMOD_SUBLINK);
-
-            if (PCurrentMob->allegiance == PMob->allegiance &&
-                (forceLink ||
-                    PCurrentMob->m_Family == PMob->m_Family ||
-                    (sublink && sublink == PCurrentMob->getMobMod(MOBMOD_SUBLINK))))
+            if (ShouldPartyMobs(PMob, PCurrentMob, forceLink))
             {
-
                 if (PCurrentMob->PMaster == nullptr || PCurrentMob->PMaster->objtype == TYPE_MOB)
                 {
+                    if (PCurrentMob->PParty == nullptr)
+                        PCurrentMob->PParty = new CParty(PCurrentMob);
+
                     PCurrentMob->PParty->AddMember(PMob);
                     return;
                 }
             }
+
         }
         PMob->PParty = new CParty(PMob);
     }
@@ -277,6 +291,7 @@ void CZoneEntities::FindPartyForMob(CBaseEntity* PEntity)
     {
         MakeMobLinkWithFamily(PMob, PMob->getMobMod(MOBMOD_FAMILYLINK));
     }
+
     if (PMob->getMobMod(MOBMOD_ECOSYSTEMLINK))
     {
         MakeMobLinkWithEcoSystem(PMob, PMob->m_EcoSystem);
@@ -1308,9 +1323,6 @@ void CZoneEntities::ZoneServer(time_point tick, bool check_trigger_areas)
     TracyZoneScoped;
     TracyZoneString(m_zone->GetName());
 
-    // luautils::OnZoneTick(this->m_zone);
-    // Can't add :(
-
     std::vector<CMobEntity*> aggroableMobs;
     EntityList_t::iterator it = m_mobList.begin();
     while (it != m_mobList.end())
@@ -1527,7 +1539,8 @@ void CZoneEntities::ZoneServer(time_point tick, bool check_trigger_areas)
             PChar->PTreasurePool->CheckItems(tick);
             if (check_trigger_areas)
             {
-                m_zone->CheckRegions(PChar);
+                CRegion* PRegion = m_zone->CheckRegions(PChar);
+                luautils::OnZoneTick(PChar, m_zone->GetID(), PRegion);
             }
         }
     }

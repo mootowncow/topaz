@@ -1,6 +1,6 @@
 ---------------------------------------------
 -- Apocalyptic Ray
--- Only used by Eldertaur
+-- Only used by certain NM's
 -- Description: Inflicts Doom upon an enemy. This is not a gaze attack. Turing away will not prevent doom.
 -- Long cast time, easy to stun.
 -- Type: Magical (Dark)

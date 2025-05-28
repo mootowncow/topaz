@@ -47,7 +47,7 @@ g_mixins.dynamis_dreamland = function(mob)
         [4] = {single = 250, hundo = 50},
     }
 
-    mob:addListener("MAGIC_TAKE", "DYNAMIS_MAGIC_PROC_CHECK", function(target, caster, spell)
+    mob:addListener("SPELL_DMG_TAKEN", "DYNAMIS_MAGIC_PROC_CHECK", function(target, caster, spell)
         local currency = target:getLocalVar("dynamis_currency")
         local vana_hour = VanadielHour()
 

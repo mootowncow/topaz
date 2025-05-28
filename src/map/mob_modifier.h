@@ -41,8 +41,8 @@ enum MOBMODIFIER : int
     MOBMOD_SUBLINK             = 10, // sub link group
     MOBMOD_LINK_RADIUS         = 11, // link radius
     MOBMOD_DRAW_IN             = 12, // 1 - player draw in, 2 - alliance draw in -- only add as a spawn mod!
-    MOBMOD_SEVERE_SPELL_CHANCE = 13, // % chance to use a severe spell like death or impact
-    MOBMOD_SKILL_LIST          = 14, // uses given mob skill list
+    MOBMOD_SEVERE_CHANCE       = 13, // % chance to use a severe spell like death or impact
+    MOBMOD_SKILL_LIST          = 14, // uses given mob skill list. Set in mob_pools.sql on initialize, but can be edited via this mob mod
     MOBMOD_MUG_GIL             = 15, // amount gil carried for mugging
     // 16 Available for use
     MOBMOD_NO_DESPAWN          = 17, // do not despawn when too far from spawn. Gob Diggers have this.
@@ -55,9 +55,9 @@ enum MOBMODIFIER : int
     MOBMOD_GRADUAL_RAGE        = 24, // (!) TODO: NOT YET IMPLEMENTED -- gradually rages
     MOBMOD_BUILD_RESIST        = 25, // (!) TODO: NOT YET IMPLEMENTED -- builds resistance to given effects
     MOBMOD_SUPERLINK           = 26, // super link group. Only use this in mob_spawn_mods / scripts!
-    MOBMOD_SPELL_LIST          = 27, // set spell list
+    MOBMOD_SPELL_LIST          = 27, // set spell list. 
     MOBMOD_EXP_BONUS           = 28, // bonus exp (bonus / 100) negative values reduce exp.
-    MOBMOD_ASSIST              = 29, // mobs will assist me
+    MOBMOD_ASSIST              = 29, // mobs will assist me. Forces mob to link with arg. Mob->setMobMod(MOBMOD_SUPERLINK, targid);
     MOBMOD_SPECIAL_SKILL       = 30, // give special skill
     MOBMOD_ROAM_DISTANCE       = 31, // distance allowed to roam from spawn
     // 32 Available for use
@@ -65,7 +65,7 @@ enum MOBMODIFIER : int
     MOBMOD_MAGIC_COOL          = 34, // cool down for magic
     MOBMOD_STANDBACK_COOL      = 35, // reduction to cool down time for standing back (casting spell / RA while not in melee range)
     MOBMOD_ROAM_COOL           = 36, // cool down time in seconds after roaming
-    MOBMOD_ALWAYS_AGGRO        = 37, // aggro regardless of level. Spheroids
+    MOBMOD_ALWAYS_AGGRO        = 37, // aggro regardless of level.
     MOBMOD_NO_DROPS            = 38, // If set monster cannot drop any items, not even seals.
     MOBMOD_SHARE_POS           = 39, // share a pos with another mob (eald'narche exoplates)
     MOBMOD_TELEPORT_CD         = 40, // cooldown for teleport abilities (tarutaru AA, angra mainyu, eald'narche)
@@ -132,6 +132,8 @@ enum MOBMODIFIER : int
     MOBMOD_RANGED_DELAY        = 115, // Trust ranged weapon delay
     MOBMOD_AMMO_DELAY          = 116, // Trust ranged ammo delay
     MOBMOD_CAPACITY_BONUS      = 117, // bonus capacity points (bonus / 100) negative values reduce capacity points.
+    MOBMOD_CUSTOMLINK          = 118, // Force linking with other mobs with same power of this mod (i.e. 99 power mobs will all link together). Also parties mobs for buffs/heals
+    MOBMOD_HUMANOID            = 119, // Considered humanoid, but does NOT change the mobs family. used for CMobEntity::IsHumanoid()
 };
 
 #endif

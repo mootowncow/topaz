@@ -8,7 +8,6 @@
 require("scripts/globals/status")
 require("scripts/globals/mobs")
 require("scripts/globals/wotg")
-require("scripts/globals/wotg_strongholds")
 -----------------------------------
 
 function onMobSpawn(mob)

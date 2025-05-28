@@ -31,6 +31,8 @@
 
 #include "../entities/battleentity.h"
 
+extern std::unordered_map<uint16, std::vector<uint16>> g_PMobSkillLists;
+
 
 class CAbility;
 class CItemWeapon;
@@ -91,6 +93,7 @@ enum SPIKES
     SPIKE_CLOD = 8,
     SPIKE_DELUGE = 9,
     SPIKE_GLINT = 10,
+    SPIKE_DAMAGE = 11,
     RETALIATION = 63
 };
 
@@ -166,7 +169,7 @@ namespace battleutils
     CMobSkill*      GetMobSkill(uint16 SkillID);
 
     const std::list<CWeaponSkill*>& GetWeaponSkills(uint8 skill);
-    const std::vector<uint16>& GetMobSkillList(uint16 ListID);
+    std::vector<uint16>& GetMobSkillList(uint16 listId);
 
     void                FreeWeaponSkillsList();
     void                FreeMobSkillList();
@@ -267,8 +270,8 @@ namespace battleutils
     void                DirtyExp(CBattleEntity* PDefender, CBattleEntity* PAttacker);
     void                RelinquishClaim(CCharEntity* PDefender);
 
-    int32               BreathDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element);
-    int32               MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element);
+    int32               BreathDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage);
+    int32               MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage);
     int32               SkillchainDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element);
     int32               PhysicalDmgTaken(CBattleEntity* PDefender, int32 damage, int16 damageType, bool IsCovered = false);
     int32               RangedDmgTaken(CBattleEntity* PDefender, int32 damage, int16 damageType, bool IsCovered = false);
@@ -290,6 +293,10 @@ namespace battleutils
     int32               HandleCircleDamageReduction(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage);
     int32               HandlePositionalPDT(CBattleEntity* PDefender, int32 damage);
     int32               HandleExtraDamageMultipliers(CBattleEntity* PAttacker, int32 damage);
+    int32               HandleElementalAbsorb(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage);
+    int32               HandleElementalNull(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage);
+    int32               HandlePhysicalAbsorb(CBattleEntity* PDefender, int32 damage);
+    int32               HandlePhysicalNull(CBattleEntity* PDefender, int32 damage);
 
     // stores damage for afflatus misery if active
     void                HandleAfflatusMiseryDamage(CBattleEntity* PDefender, int32 damage);
