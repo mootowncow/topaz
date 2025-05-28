@@ -1200,21 +1200,33 @@ void CMobController::Move()
                     }
                 }
             }
+
+            if (currentDistance - PMob->m_ModelSize > PTarget->GetMeleeRange())
+            {
+                float adjustedDistance = currentDistance - PMob->m_ModelSize;
+                float meleeRange = PTarget->GetMeleeRange();
+
+                position_t new_pos{ PMob->loc.p.x, PTarget->loc.p.y, PMob->loc.p.z, 0, 0 };
+
+                float verticalPlaneDistance = distance(new_pos, PTarget->loc.p) - PMob->m_ModelSize;
+
+                if (verticalPlaneDistance <= meleeRange)
+                {
+                    PMob->PAI->PathFind->StepTo(new_pos);
+                    PMob->PAI->EventHandler.triggerListener("MOB_PATH", PMob, PTarget);
+                    FaceTarget();
+                }
+                else // This was a fix for automaton movement being wonky, maybe make it only if Player master, PPet, and Automaton PetID?
+                {
+                    // If vertical alignment step is not valid, try normal pathfind toward the target
+                    PMob->PAI->PathFind->StepTo(PTarget->loc.p);
+                    PMob->PAI->EventHandler.triggerListener("MOB_PATH", PMob, PTarget);
+                    FaceTarget();
+                }
+            }
             else
             {
-                if (currentDistance - PMob->m_ModelSize >
-                    PTarget->GetMeleeRange()) // if mob can't move forward and is out of melee range, but is in melee range if you eliminate the Y axis
-                                              // differential, then force the mob to move
-                {
-                    position_t new_pos{ PMob->loc.p.x, PTarget->loc.p.y, PMob->loc.p.z, 0, 0 };
-                    if (distance(new_pos, PTarget->loc.p) - PMob->m_ModelSize <= PTarget->GetMeleeRange())
-                    {
-                        PMob->PAI->PathFind->StepTo(new_pos);
-                        PMob->PAI->EventHandler.triggerListener("MOB_PATH", PMob, PTarget);
-                        FaceTarget(); // Ensure facing target when stepping to new position
-                    }
-                }
-                FaceTarget(); // Ensure facing target if no other conditions met
+                FaceTarget();
             }
         }
     }
