@@ -27,8 +27,8 @@ tpz.pet.type =
 
 -----------------------------------
 --  Pet IDs
+-- Additional pets are added in pet_list.sql
 -----------------------------------
-
 tpz.pet.id =
 {
     --  Summoner
@@ -151,9 +151,9 @@ tpz.pet.id =
     MOSQUITO = 122,  -- WETLANDS BROTH
     YOKO = 123,  -- HEAVENLY BROTH
     GLENN = 124,  -- WISPY BROTH
-    -- ID''s past 124 break the server
-    -- YELLOW_BEETLE = 125,  -- ZESTFUL SAP
-    -- SEFINA = 126,  -- GASSY SAP
+    YELLOW_BEETLE = 125,  -- ZESTFUL SAP
+    SEFINA = 126,  -- GASSY SAP
+    SIREN = 127,
 
     --  Dragoon
     WYVERN                = 48,

@@ -640,3 +640,5 @@ INSERT INTO `item_mods_pet` VALUES (20516,160,-10,3); -- Automaton: DMG -10
 INSERT INTO `item_mods_pet` VALUES (18771,28,20,3); -- Automaton: MATT 20
 INSERT INTO `item_mods_pet` VALUES (18771,30,20,3); -- Automaton: MACC 20
 INSERT INTO `item_mods_pet` VALUES (18288,160,-25,0); -- All: DMG -25
+INSERT INTO `item_mods_pet` VALUES (18330,28,30,1); -- Avatar: MATT 30
+INSERT INTO `item_mods_pet` VALUES (18330,30,15,1); -- Avatar: MACC 15

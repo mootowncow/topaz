@@ -135,9 +135,17 @@ bool CAbilityState::CanUseAbility()
         auto PTarget = GetTarget();
         if (PChar->IsValidTarget(PTarget->targid, PAbility->getValidTarget(), errMsg))
         {
+            PAbility->setTarget(PTarget);
             if (PChar != PTarget)
             {
                 float jaRange = PAbility->getRange();
+                float distanceToTarget = distance(PChar->loc.p, PTarget->loc.p);
+
+                if (PAbility->isPetAbility() && PChar->PPet)
+                {
+                    distanceToTarget = distance(PChar->PPet->loc.p, PTarget->loc.p);
+                }
+
                 if (PAbility->isMeleeAbility())
                 {
                     if (CBattleEntity* pBattleTarget = dynamic_cast<CBattleEntity*>(PTarget))
@@ -148,7 +156,7 @@ bool CAbilityState::CanUseAbility()
                         }
                     }
                 }
-                if (distance(PChar->loc.p, PTarget->loc.p) > jaRange)
+                if (distanceToTarget > jaRange)
                 {
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PTarget, 0, 0, MSGBASIC_TOO_FAR_AWAY));
                     return false;

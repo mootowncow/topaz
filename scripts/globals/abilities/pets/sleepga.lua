@@ -24,7 +24,7 @@ function onPetAbility(target, pet, skill)
     -- Can't overwrite any sleep
     if hasSleepT1Effect(target) then
         giveAvatarTP(pet)
-        skill:setMsg(tpz.msg.basic.SKILL_NO_EFFECT)
+        skill:setMsg(tpz.msg.basic.JA_NO_EFFECT_2)
         return effect
     end
 

@@ -576,6 +576,11 @@ CBattleEntity* CTargetFind::getValidTarget(uint16 actionTargetID, uint16 validTa
         return nullptr;
     }
 
+    if (!PTarget->isAlive() && (validTargetFlags & TARGET_PLAYER_DEAD))
+    {
+        return PTarget;
+    }
+
     if (validTargetFlags & TARGET_PET)
     {
         return m_PBattleEntity->PPet;

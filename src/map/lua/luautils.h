@@ -260,13 +260,14 @@ namespace luautils
     int32 OnBattlefieldRegister(CCharEntity* PChar, CBattlefield* PBattlefield);    // triggers when successfully registered a bcnm
     int32 OnBattlefieldDestroy(CBattlefield* PBattlefield);							// triggers when BCNM is destroyed
 
-    int32 OnMobWeaponSkill(CBaseEntity* PChar, CBaseEntity* PMob, CMobSkill* PMobSkill, action_t* action);                            // triggers when mob weapon skill is used
+    int32 OnMobWeaponSkill(CBaseEntity* PChar, CBaseEntity* PMob, CMobSkill* PMobSkill, action_t* action, uint16 tp); // triggers when mob weapon skill is used
 	uint16 OnMobWeaponSkillPrepare(CBaseEntity* PMob, CBaseEntity* PTarget); // triggers before mob weapon skill is used, scripts can pick a WS for us
     int32 OnMobSkillCheck(CBaseEntity* PChar, CBaseEntity* PMob, CMobSkill* PMobSkill);                             // triggers before mob weapon skill is used, returns 0 if the move is valid
     int32 OnMobAutomatonSkillCheck(CBaseEntity* PChar, CAutomatonEntity* PAutomaton, CMobSkill* PMobSkill);
 
     int32 OnAbilityCheck(CBaseEntity* PChar, CBaseEntity* PTarget, CAbility* PAbility, CBaseEntity** PMsgTarget);   // triggers when a player attempts to use a job ability or roll
-    int32 OnPetAbility(CBaseEntity* PPet, CBaseEntity* PMob, CMobSkill* PMobSkill, CBaseEntity* PPetMaster, action_t* action);      // triggers when pet uses an ability
+    int32 OnPetAbility(CBaseEntity* PTarget, CBaseEntity* PMob, CAbility* PAbility, CBaseEntity* PMobMaster, action_t* action); // Avatars / Wyvern
+    int32 OnPetAbility(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill, CBaseEntity* PMobMaster, action_t* action); // Automaton / Jugs
     std::tuple<int32, uint8, uint8> OnUseWeaponSkill(CBattleEntity* PUser, CBaseEntity* PMob, CWeaponSkill* wskill, uint16 tp, bool primary, action_t& action, CBattleEntity* taChar);// returns: damage, tphits landed, extra hits landed
     int32 OnUseAbility(CBattleEntity* PUser, CBattleEntity* PTarget, CAbility* PAbility, action_t* action);         // triggers when job ability is used
 

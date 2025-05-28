@@ -17,7 +17,7 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.TERROR
-    local dmgmod = MobHPBasedMove(mob, target, 0.125, 1, tpz.magic.ele.FIRE, 750)
+    local dmgmod = MobHPBasedMove(mob, target, skill, 0.125, 1, tpz.magic.ele.FIRE, 750)
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.FIRE, MOBPARAM_IGNORE_SHADOWS)
     MobBuffMove(mob, tpz.effect.DEFENSE_BOOST, 100, 0, 90)
     MobBuffMove(mob, tpz.effect.MAGIC_DEF_BOOST, 50, 0, 90)

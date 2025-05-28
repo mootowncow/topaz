@@ -1,11 +1,10 @@
 -----------------------------------
 -- Ability: Sharpshot
--- Increases ranged accuracy.
+-- Increases ranged accuracy and gives your melee attacks a chance to taint the target.
 -- Obtained: Ranger Level 1
 -- Recast Time: 5:00
 -- Duration: 1:00
 -----------------------------------
-
 require("scripts/globals/settings")
 require("scripts/globals/status")
 -----------------------------------

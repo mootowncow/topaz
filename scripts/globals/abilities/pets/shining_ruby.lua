@@ -14,7 +14,7 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onPetAbility(target, pet, skill, summoner)
-    local effect = tpz.effect.SHINING_RUBY
+    local effect = tpz.effect.CURING_CONDUIT
     local power = math.floor(pet:getMainLvl() / 5)
     local duration = 180
     local bonus = 0

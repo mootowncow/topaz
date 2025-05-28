@@ -243,6 +243,7 @@ bool CAIContainer::Internal_MobSkill(uint16 targid, uint16 wsid)
         return ChangeState<CMobSkillState>(entity, targid, wsid);
     return false;
 }
+
 // Adds delay to next weapon swing timer when called
 bool CAIContainer::Internal_Ability(uint16 targetid, uint16 abilityid)
 {

@@ -9,6 +9,7 @@ require("scripts/globals/status")
 function onEffectGain(target, effect)
     local jpValue = target:getJobPointLevel(tpz.jp.DOUBLE_SHOT_EFFECT)
 
+    target:addMod(tpz.mod.DOUBLE_ATTACK, 15)
     target:addMod(tpz.mod.DOUBLE_SHOT_RATE, effect:getPower() + jpValue)
 end
 
@@ -18,5 +19,6 @@ end
 function onEffectLose(target, effect)
     local jpValue = target:getJobPointLevel(tpz.jp.DOUBLE_SHOT_EFFECT)
 
+    target:delMod(tpz.mod.DOUBLE_ATTACK, 15)
     target:delMod(tpz.mod.DOUBLE_SHOT_RATE, effect:getPower() + jpValue)
 end

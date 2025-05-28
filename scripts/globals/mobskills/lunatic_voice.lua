@@ -13,8 +13,11 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.MUTE
+    if mob:getName() == 'Siren_Prime' then
+        typeEffect = tpz.effect.SILENCE
+    end
 
-    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 1, 0, 300))
+    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 1, 0, 30))
 
     return typeEffect
 end

@@ -42,17 +42,19 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0,
                         ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.WEAPON_BASH)
+    if mob:getMainLvl() >= 15 then
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.WEAPON_BASH)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_MS, 0,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.WEAPON_BASH)
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_MS, 0,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.WEAPON_BASH)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_JA, 0,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.WEAPON_BASH)
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_JA, 0,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.WEAPON_BASH)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.WEAPON_BASH)
+        mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.WEAPON_BASH)
+    end
 
     if mob:getMainLvl() >= 70 then
         mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.SEIGAN)
@@ -77,11 +79,15 @@ function onMobSpawn(mob)
     end
 
     -- Non-stun things
-    mob:addSimpleGambit(ai.t.SELF, ai.c.PT_HAS_WHM, 0,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.SOULEATER)
+    if mob:getMainLvl() >= 30 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.PT_HAS_WHM, 0,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.SOULEATER)
+    end
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.ALWAYS, 0,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.LAST_RESORT)
+    if mob:getMainLvl() >= 15 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.ALWAYS, 0,
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.LAST_RESORT)
+    end
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.ENDARK, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ENDARK)
 

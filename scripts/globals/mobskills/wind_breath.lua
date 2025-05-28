@@ -17,9 +17,9 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
 
-    local dmgmod = MobHPBasedMove(mob, target, 0.10, 1, tpz.magic.ele.WIND, 900)
+    local dmgmod = MobHPBasedMove(mob, target, skill, 0.10, 1, tpz.magic.ele.WIND, 900)
     if mob:getPool() == 9056 then -- Vishap(Assault - Lebros Cavern)
-        dmgmod = MobHPBasedMove(mob, target, 0.10, 1, tpz.magic.ele.WIND, 500)
+        dmgmod = MobHPBasedMove(mob, target, skill, 0.10, 1, tpz.magic.ele.WIND, 500)
     end
 
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.WIND, MOBPARAM_IGNORE_SHADOWS)

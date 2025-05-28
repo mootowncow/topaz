@@ -1,8 +1,8 @@
 ---------------------------------------------------
--- Level ?(5) Holy
--- 0 TP: 6.0
--- 1500 TP: 6.5
--- 3000 TP: 7.0
+-- Holy Mist
+-- 0 TP: 4.5
+-- 1500 TP: 5.25
+-- 3000 TP: 6.0
 ---------------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -17,9 +17,9 @@ end
 
 function onPetAbility(target, pet, skill)
     local params = {}
-    params.multiplier = 6.0
-    params.tp150 = 6.5
-    params.tp300 = 7.0
+    params.multiplier = 8.203125
+    params.tp150 = 9.203125
+    params.tp300 = 10.703125
     params.str_wsc = 0.0
     params.dex_wsc = 0.0
     params.vit_wsc = 0.0
@@ -28,7 +28,7 @@ function onPetAbility(target, pet, skill)
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
 
-    local damage = AvatarMagicalBP(pet, target, skill, tpz.magic.ele.LIGHT, params, MND_BASED, 0)
+    local damage = AvatarMagicalBP(pet, target, skill, tpz.magic.ele.LIGHT, params, INT_BASED, 0)
     dmg = AvatarMagicalFinalAdjustments(damage, pet, skill, target, tpz.attackType.MAGICAL, tpz.magic.ele.LIGHT, params)
 
     return dmg

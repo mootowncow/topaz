@@ -22,9 +22,9 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local dmgmod = MobHPBasedMove(mob, target, 0.10, 1, tpz.magic.ele.FIRE, 2000)
+    local dmgmod = MobHPBasedMove(mob, target, skill, 0.10, 1, tpz.magic.ele.FIRE, 2000)
     if (mob:getPool() == 883) then -- Cynoprosopi
-        dmgmod = MobHPBasedMove(mob, target, 0.10, 1, tpz.magic.ele.FIRE, 500)
+        dmgmod = MobHPBasedMove(mob, target, skill, 0.10, 1, tpz.magic.ele.FIRE, 500)
     end
     dmgmod = utils.conalDamageAdjustment(mob, target, skill, dmgmod, 0.50)
 

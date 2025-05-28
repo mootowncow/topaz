@@ -187,6 +187,8 @@ void CAutomatonController::DoCombatTick(time_point tick)
         return;
     }
 
+    Move();
+
     // Automatons only attempt actions in 3 second intervals (Reduced by the Tactical Processor)
     if (TryAction())
     {
@@ -216,7 +218,6 @@ void CAutomatonController::DoCombatTick(time_point tick)
             return;
         }
     }
-    Move();
 }
 
 void CAutomatonController::Move()
@@ -1443,7 +1444,7 @@ bool CAutomatonController::TryTPMove()
         {
             auto PSkill = battleutils::GetMobSkill(skillid);
             if (PSkill && PAutomaton->GetSkill(skilltype) > PSkill->getParam() && PSkill->getParam() != -1 &&
-                distance(PAutomaton->loc.p, PTarget->loc.p) < PSkill->getRadius())
+                distance(PAutomaton->loc.p, PTarget->loc.p) <= PSkill->getDistance())
             {
                 validSkills.push_back(PSkill);
             }
@@ -1514,7 +1515,7 @@ bool CAutomatonController::TryTPMove()
     return false;
 }
 
-bool CAutomatonController::TryRangedAttack() // TODO: Find the animation for its ranged attack
+bool CAutomatonController::TryRangedAttack()
 {
     if (PAutomaton->getFrame() == FRAME_SHARPSHOT)
     {

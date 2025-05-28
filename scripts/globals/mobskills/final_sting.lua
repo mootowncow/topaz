@@ -23,7 +23,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local damage = MobHPBasedMove(mob, target, 0.50, 1, tpz.magic.ele.LIGHT, 9999, true)
+    local damage = MobHPBasedMove(mob, target, skill, 0.50, 1, tpz.magic.ele.LIGHT, 9999, true)
     local dmg = MobFinalAdjustments(damage, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.LIGHT, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.LIGHT)
     mob:setHP(0)

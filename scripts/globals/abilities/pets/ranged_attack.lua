@@ -31,6 +31,7 @@ function onPetAbility(target, pet, skill)
 
     -- Check for Barrage Turbine attachment
     -- Like barrage, once an arrow misses, it stops trying to hit with other arrows
+    local master = pet:getMaster()
     local arrowCount = 1
     arrowCount = arrowCount + pet:getLocalVar("barrage_turbine")
 
@@ -54,11 +55,16 @@ function onPetAbility(target, pet, skill)
             end
         end
     end
-    --printf("Number of arrows: %i", numhits)
     damage.dmg = damage.dmg * numhits
     pet:setLocalVar("barrage_turbine", 0)
+    pet:delStatusEffectSilent(tpz.effect.BARRAGE)
 
     dmg = AutoPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, damage.hitslanded, params)
+
+    -- Try to skill up per number of arrows succesfully landed
+    if (dmg > 0) then
+        master:trySkillUp(target, tpz.skill.AUTOMATON_RANGED, numhits)
+    end
 
     return dmg
 end

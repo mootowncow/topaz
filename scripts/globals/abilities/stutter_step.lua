@@ -37,8 +37,10 @@ function onUseAbility(player, target, ability, action)
     local hit = 3
     local effect = 1
     local jpValue = player:getJobPointLevel(tpz.jp.STEP_DURATION)
+    local attackNumber = 0
+    local accBonus = 10 + player:getMod(tpz.mod.STEP_ACCURACY)
 
-    if math.random() <= getHitRate(player, target, true, true, 10 + player:getMod(tpz.mod.STEP_ACCURACY)) then
+    if math.random() <= player:getHitRate(target, attackNumber, accBonus, false) then
         hit = 7
         local mjob = player:getMainJob()
         local daze = 2 -- Dazes should always give at least 2 FM

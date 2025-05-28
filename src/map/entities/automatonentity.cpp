@@ -258,12 +258,6 @@ void CAutomatonEntity::OnMobSkillFinished(CMobSkillState& state, action_t& actio
 
     auto PSkill = state.GetSkill();
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
-
-    // Ranged attack skill up
-    if (PSkill->getID() == 1949 && !PSkill->hasMissMsg())
-    {
-        puppetutils::TrySkillUP(this, SKILL_AUTOMATON_RANGED, PTarget->GetMLevel());
-    }
 }
 
 void CAutomatonEntity::Spawn()

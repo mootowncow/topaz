@@ -24,7 +24,7 @@ function onMobWeaponSkill(target, mob, skill)
     end
     local typeEffect = tpz.effect.POISON
     local power = 1
-    local dmgmod = MobHPBasedMove(mob, target, percent, 1, tpz.magic.ele.WATER, cap)
+    local dmgmod = MobHPBasedMove(mob, target, skill, percent, 1, tpz.magic.ele.WATER, cap)
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.WATER, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.BREATH, tpz.damageType.WATER)
     MobStatusEffectMove(mob, target, typeEffect, power, 3, 90)

@@ -23,7 +23,7 @@ function onMobWeaponSkill(target, mob, skill)
 		MobStatusEffectMove(mob, target, typeEffect, 1, 0, 30)
     end
 
-    local dmgmod = MobHPBasedMove(mob, target, 0.10, 1, tpz.magic.ele.DARK, 350)
+    local dmgmod = MobHPBasedMove(mob, target, skill, 0.10, 1, tpz.magic.ele.DARK, 350)
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.DARK, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.BREATH, tpz.damageType.DARK)
 

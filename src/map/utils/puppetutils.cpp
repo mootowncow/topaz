@@ -516,20 +516,9 @@ void TrySkillUP(CAutomatonEntity* PAutomaton, SKILLTYPE SkillID, uint8 lvl)
 
         double random = tpzrand::GetRandomNumber(1.);
 
-        // Ranged(Sharpshot) and Magic(Stormwaker) have 70% max, melee has 24% max skill up chance
-        if (SkillID == SKILL_AUTOMATON_RANGED || SkillID == SKILL_AUTOMATON_MAGIC)
+        if (SkillUpChance > 0.70)
         {
-            if (SkillUpChance > 0.70)
-            {
-                SkillUpChance = 0.70;
-            }
-        }
-        else
-        {
-            if (SkillUpChance > 0.24)
-            {
-                SkillUpChance = 0.24;
-            }
+            SkillUpChance = 0.70;
         }
 
         SkillUpChance *= ((100.f + PAutomaton->getMod(Mod::COMBAT_SKILLUP_RATE)) / 100.f);

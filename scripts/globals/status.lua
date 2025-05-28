@@ -47,11 +47,12 @@ tpz.mobSkillFlag =
     JOB_ABILITY       = 0x001, -- 1
     TWO_HOUR          = 0x002, -- 2
     -- Special skill (ranged attack / call beast)
-    SPECIAL           = 0x004, -- 4
+    SPECIAL           = 0x004, -- 4 Currently only used for Ranged Attacks? (/ra)
     HIT_ALL           = 0x008, -- 8
     REPLACE_ATTACK    = 0x010, -- 16 To turn off "Readies .." or "Readies skill#650360 message" Use skill:setMsg(tpz.msg.basic.HIT_DMG) in the skills lua file
     DRAW_IN           = 0x020, -- 32
-    ALWAYS_KNOCK_BACK = 0x040  -- 64
+    ALWAYS_KNOCK_BACK = 0x040,  -- 64
+    MAGIC_SKILL       = 0x080 -- 128 Magical skill  / Blood pact
 }
 
 ------------------------------------
@@ -909,7 +910,7 @@ tpz.effect =
     ASYLUM                   = 492,
     SUBTLE_SORCERY           = 493,
     STYMIE                   = 494,
-    -- NONE                       = 495,
+    MACRO_TEST               = 495,
     INTERVENE                = 496,
     SOUL_ENSLAVEMENT         = 497,
     UNLEASH                  = 498,
@@ -1000,7 +1001,7 @@ tpz.effect =
     APOGEE                   = 583,
     ENTRUST                  = 584,
     COSTUME_II               = 585,
-    CURING_CONDUIT           = 586,
+    CURING_CONDUIT           = 586, -- +Healing recieved
     TP_BONUS                 = 587,
     FINISHING_MOVE_6         = 588,
     FIRESTORM_II             = 589,
@@ -1030,7 +1031,7 @@ tpz.effect =
     MAJESTY                  = 621,
     GUARD_BOOST              = 622,
     RAMPART                  = 623,
-    WINDS_BLESSING           = 624,
+    WINDS_BLESSING           = 624, -- MDT II
     SIRENS_FAVOR             = 625,
     NEGATE_SLEEP             = 626,
     MOBILIZATION             = 627,

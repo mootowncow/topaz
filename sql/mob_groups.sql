@@ -457,8 +457,8 @@ INSERT INTO `mob_groups` VALUES (67,2043,9,'Ice_Elemental',300,4,1347,0,0,84,86,
 INSERT INTO `mob_groups` VALUES (1,1027,10,'Diabolos',0,128,0,4500,5000,54,55,0);
 INSERT INTO `mob_groups` VALUES (2,5156,10,'Diremite',10,128,0,0,0,43,43,0);
 INSERT INTO `mob_groups` VALUES (3,3104,10,'Pasuk',0,128,0,6000,0,45,45,0);
-INSERT INTO `mob_groups` VALUES (4,5186,10,'Diabolos_Prime',0,128,3198,10000,0,82,82,0);
-INSERT INTO `mob_groups` VALUES (5,5157,10,'Diremite_Dominator',10,128,0,0,0,78,78,0);
+INSERT INTO `mob_groups` VALUES (4,5186,10,'Diabolos_Prime',0,128,3198,10000,0,83,83,0);
+INSERT INTO `mob_groups` VALUES (5,5157,10,'Diremite_Dominator',10,128,0,0,0,73,75,0);
 
 -- ------------------------------------------------------------
 -- Oldton_Movalpolos (Zone 11)
@@ -9764,7 +9764,7 @@ INSERT INTO `mob_groups` VALUES (13,1578,136,'Gigas_Pounder',300,0,984,0,0,80,82
 INSERT INTO `mob_groups` VALUES (14,1480,136,'Gawper',300,0,940,0,0,80,82,0);
 INSERT INTO `mob_groups` VALUES (15,1127,136,'Dryptotaur',300,0,713,0,0,79,81,0);
 INSERT INTO `mob_groups` VALUES (16,913,136,'Dark_Elemental',0,4,568,0,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (17,1462,136,'Gargouille',300,0,3230,0,0,78,81,0);
+INSERT INTO `mob_groups` VALUES (17,1462,136,'Gargouille',300,0,3230,0,0,79,82,0);
 INSERT INTO `mob_groups` VALUES (18,1616,136,'Glacial_Imp',300,0,1002,0,0,78,80,0);
 INSERT INTO `mob_groups` VALUES (19,5761,136,'GrandGoule',3600,0,3045,35000,0,90,90,0);
 INSERT INTO `mob_groups` VALUES (20,882,136,'Cyhiraeth',300,0,0,0,0,78,80,0);
@@ -12416,7 +12416,7 @@ INSERT INTO `mob_groups` VALUES (55,1414,182,'Fourth_Spitewarden',0,128,0,0,0,83
 INSERT INTO `mob_groups` VALUES (56,2316,182,'Lady_Lilith',0,128,0,0,0,81,82,0);
 INSERT INTO `mob_groups` VALUES (57,2416,182,'Lilith_Ascendant',0,128,0,0,0,83,84,0);
 INSERT INTO `mob_groups` VALUES (58,1197,182,'Elemental_Gyves',0,128,0,0,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (59,609,182,'Cait_Sith_Ceithir',0,128,0,0,9999,75,75,0);
+INSERT INTO `mob_groups` VALUES (59,609,182,'Cait_Sith_Ceithir',0,128,0,35000,9999,83,83,0);
 INSERT INTO `mob_groups` VALUES (60,5463,182,'GloomTalon',0,128,0,0,0,125,125,0);
 INSERT INTO `mob_groups` VALUES (61,5464,182,'GloomScale',0,128,0,0,0,125,125,0);
 
@@ -13930,7 +13930,7 @@ INSERT INTO `mob_groups` VALUES (34,1629,217,'Gnawtooth_Gary',0,128,1009,0,0,85,
 INSERT INTO `mob_groups` VALUES (35,572,217,'Bukhis',0,128,382,0,0,85,87,0);
 INSERT INTO `mob_groups` VALUES (36,3528,217,'Sedna',0,128,2190,0,0,85,87,0);
 INSERT INTO `mob_groups` VALUES (37,1140,217,'Durinn',0,128,722,0,0,85,87,0);
-INSERT INTO `mob_groups` VALUES (38,2194,217,'Karkadann',0,128,1424,0,0,85,87,0);
+INSERT INTO `mob_groups` VALUES (38,2194,217,'Karkadann',0,128,1424,0,0,95,95,0);
 INSERT INTO `mob_groups` VALUES (39,3632,217,'Sippoy',0,0,2257,0,0,95,95,0);
 INSERT INTO `mob_groups` VALUES (40,2092,217,'Ironclad_Executioner',0,0,0,0,0,95,95,0);
 INSERT INTO `mob_groups` VALUES (41,2440,217,'Lord_Varney',0,0,1537,0,0,90,90,0);
@@ -14405,6 +14405,11 @@ INSERT INTO `mob_groups` VALUES (32,4879,263,'Larkish_Opo-opo',300,0,0,0,0,107,1
 INSERT INTO `mob_groups` VALUES (33,4882,263,'Twitherym_Windstorm',300,0,0,0,0,107,109,0);
 INSERT INTO `mob_groups` VALUES (34,4881,263,'Uprooted_Sapling',300,0,0,0,0,107,109,0);
 INSERT INTO `mob_groups` VALUES (35,4926,263,'Yumcax',0,0,0,0,999,107,115,0);
+
+-- ------------------------------------------------------------
+-- Yorcia_Weald [U] (Zone 264)
+-- ------------------------------------------------------------
+INSERT INTO `mob_groups` VALUES (1,6170,264,'Siren_Prime',0,128,0,35000,0,83,83,0);
 
 -- ------------------------------------------------------------
 -- Morimar_Basalt_Fields (Zone 265)
