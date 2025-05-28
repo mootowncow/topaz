@@ -2827,6 +2827,9 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,401,31,255);           -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,402,71,255);           -- Archers Prelude
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,419,29,255);           -- Advancing March
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,420,60,255);           -- Victory March
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,421,39,255);           -- Battlefield Elegy
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,422,59,255);           -- Carnage Elegy
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,462,33,255);           -- Magic Finale
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,470,82,255);           -- Sentinels Scherzo
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shikaree_Z',327,1,2,255);         -- Cure
