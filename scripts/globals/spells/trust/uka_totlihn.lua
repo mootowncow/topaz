@@ -25,6 +25,8 @@ function onMobSpawn(mob)
     })
     ]]
 
+    tpz.trust.setUpFood(mob)
+
     -- Dynamic modifier that checks party member list on tick to apply synergy
     mob:addListener('COMBAT_TICK', 'UKA_TOTLIHN_CTICK', function(mobArg)
         local waltzPotencyBoost = 0

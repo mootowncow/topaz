@@ -25,6 +25,7 @@ function onMobSpawn(mob)
         [tpz.magic.spell.SHANTOTTO_II] = tpz.trust.message_offset.TEAMWORK_1,
         [tpz.magic.spell.AJIDO_MARUJIDO] = tpz.trust.message_offset.TEAMWORK_2,
     })
+    tpz.trust.setUpFood(mob)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
 

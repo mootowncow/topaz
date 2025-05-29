@@ -46,7 +46,7 @@ tpz.trust.message_offset =
 }
 
 local MAX_MESSAGE_PAGE = 120
-local ATTP_RATTP_BOOST = 20
+local ATTP_RATTP_BOOST = 15
 
 local rovKIBattlefieldIDs = set{
     5,    -- Shattering Stars (WAR LB5)
@@ -86,14 +86,14 @@ local trustProgressionData = {
 local modByMobName =
 {
     ['valaineral'] = function(mob)
-        mob:addMod(tpz.mod.HPP, 10)
-        mob:addMod(tpz.mod.MPP, 20)
         mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
         mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
-        mob:addMod(tpz.mod.DMG, -8)
-        mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
-        mob:addMod(tpz.mod.ENMITY, 30)
         if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.HPP, 10)
+            mob:addMod(tpz.mod.MPP, 20)
+            mob:addMod(tpz.mod.DMG, -8)
+            mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
+            mob:addMod(tpz.mod.ENMITY, 30)
             mob:addMod(tpz.mod.DMGPHYS, -33)
             mob:addMod(tpz.mod.DMGBREATH, -33)
             mob:addMod(tpz.mod.REFRESH, 3)
@@ -106,13 +106,13 @@ local modByMobName =
     end,
 
     ['gessho'] = function(mob)
-        mob:addMod(tpz.mod.HPP, 20)
         mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
         mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
-        mob:addMod(tpz.mod.EVA, 35)
-        mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
-        mob:addMod(tpz.mod.ENMITY, 30)
         if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.HPP, 20)
+            mob:addMod(tpz.mod.EVA, 35)
+            mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
+            mob:addMod(tpz.mod.ENMITY, 30)
             mob:addMod(tpz.mod.DMGBREATH, -33)
         end
         AddFarEasternAccuracyGear(mob)
@@ -444,8 +444,83 @@ tpz.trust.onMobSpawn = function(mob)
     end
 
     AddDuringWSMods(mob, type)
-    AddFoodBonuses(mob)
     AddTrustProgressionBonuses(mob)
+end
+
+tpz.trust.setUpFood = function(mob)
+    local job = mob:getMainJob()
+    local isTank = (job == tpz.job.PLD) or (job == tpz.job.NIN) or (job == tpz.job.RUN)
+    local isRanged = (job == tpz.job.RNG) or (job == tpz.job.COR)
+    local isCaster = (job == tpz.job.BLM) or (job == tpz.job.SCH)
+    local isSupport = (job == tpz.job.COR) or (job == tpz.job.BRD) or (job == tpz.job.GEO)
+    local role = 'Tank'
+
+    -- Apply role-based level up bonuses
+    if isTank then
+        role = 'Tank'
+    elseif isRanged then
+        role = 'Ranged'
+    elseif isCaster then
+        role = 'Caster'
+    elseif (job == tpz.job.WHM) then  -- Healers
+        role = 'Healer'
+    elseif isSupport then
+        role = 'Support'
+    else
+        role = 'Melee'
+    end
+
+    local foodData =
+    {
+        Tank = {
+            { Lvl = 1, Food = tpz.items.SAUSAGE },
+            { Lvl = 55, Food = tpz.items.PLATE_OF_DORADO_SUSHI },
+            { Lvl = 75, Food = tpz.items.TAVNAZIAN_TACO },
+        },
+
+        Melee = {
+            { Lvl = 1, Food = tpz.items.SAUSAGE },
+            { Lvl = 30, Food = tpz.items.DHALMEL_STEAK },
+            { Lvl = 55, Food = tpz.items.MARINARA_PIZZA },
+        },
+
+        Ranged = {
+            { Lvl = 1, Food = tpz.items.SAUSAGE },
+            { Lvl = 30, Food = tpz.items.SIS_KEBABI },
+            { Lvl = 55, Food = tpz.items.POT_AU_FEU },
+        },
+
+        Caster = {
+            { Lvl = 1, Food = tpz.items.MELON_PIE },
+            { Lvl = 75, Food = tpz.items.CREAM_PUFF },
+        },
+
+        Healer = {
+            { Lvl = 1, Food = tpz.items.COFFEECAKE_MUFFIN },
+        },
+
+        Support = {
+            { Lvl = 1, Food = tpz.items.PUMPKIN_PIE },
+        },
+    }
+
+    local mobLvl = mob:getMainLvl()
+    local selectedFood = nil
+
+    -- Pick highest food for trusts level
+    if foodData[role] then
+        for _, data in ipairs(foodData[role]) do
+            if mobLvl >= data.Lvl then
+                selectedFood = data.Food
+            else
+                break
+            end
+        end
+    end
+
+    if selectedFood then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.FOOD, ai.r.ITEM, ai.s.SPECIFIC, selectedFood)
+    end
 end
 
 -- page_offset is: (summon_message_id - 1) / 100
@@ -996,78 +1071,6 @@ function AddElementalStaves(mob, tier)
 
     -- Add cure potency
     mob:addMod(tpz.mod.CURE_POTENCY, 10)
-end
-
-function AddFoodBonuses(mob)
-    local mobLevel = mob:getMainLvl()
-    local job = mob:getMainJob()
-    local master = mob:getMaster()
-    local isMelee = (job ~= tpz.job.WHM) and (job ~= tpz.job.RDM) and (job ~= tpz.job.PLD) and (job ~= tpz.job.RNG)
-
-    if isMelee then
-        if mobLevel >= 1 and mobLevel < 75 then
-            mob:addMod(tpz.mod.STR, 5)
-            mob:addMod(tpz.mod.AGI, 1)
-            mob:addMod(tpz.mod.INT, -2)
-            mob:addMod(tpz.mod.FOOD_ATTP, 22)
-            mob:addMod(tpz.mod.FOOD_ATT_CAP, 60)
-            mob:addMod(tpz.mod.FOOD_RATTP, 22)
-            mob:addMod(tpz.mod.FOOD_RATT_CAP, 60)
-        elseif mobLevel >= 75 then
-            mob:addMod(tpz.mod.HP, 20)
-            mob:addMod(tpz.mod.STR, 5)
-            mob:addMod(tpz.mod.DEX, 6)
-            mob:addMod(tpz.mod.FOOD_ACCP, 15)
-            mob:addMod(tpz.mod.FOOD_ACC_CAP, 72)
-            mob:addMod(tpz.mod.FOOD_RACCP, 15)
-            mob:addMod(tpz.mod.FOOD_RACC_CAP, 72)
-            mob:addMod(tpz.mod.SLEEPRESTRAIT, 1)
-        end
-    elseif (job == tpz.job.RNG) then -- Ranged
-        if mobLevel >= 1 and mobLevel < 75 then
-            mob:addMod(tpz.mod.STR, 5)
-            mob:addMod(tpz.mod.AGI, 1)
-            mob:addMod(tpz.mod.INT, -2)
-            mob:addMod(tpz.mod.FOOD_ATTP, 22)
-            mob:addMod(tpz.mod.FOOD_ATT_CAP, 60)
-            mob:addMod(tpz.mod.FOOD_RATTP, 22)
-            mob:addMod(tpz.mod.FOOD_RATT_CAP, 60)
-        elseif mobLevel >= 75 then
-            mob:addMod(tpz.mod.HP, 20)
-            mob:addMod(tpz.mod.STR, 5)
-            mob:addMod(tpz.mod.DEX, 6)
-            mob:addMod(tpz.mod.FOOD_ACCP, 15)
-            mob:addMod(tpz.mod.FOOD_ACC_CAP, 72)
-            mob:addMod(tpz.mod.FOOD_RACCP, 15)
-            mob:addMod(tpz.mod.FOOD_RACC_CAP, 72)
-            mob:addMod(tpz.mod.SLEEPRESTRAIT, 1)
-        end
-    elseif (job == tpz.job.BLM) or (job == tpz.job.SCH) then -- Casters
-        mob:addMod(tpz.mod.MP, 25)
-        mob:addMod(tpz.mod.CHR, -2)
-        mob:addMod(tpz.mod.INT, 2)
-        mob:addMod(tpz.mod.FOOD_MACCP, 21)
-        mob:addMod(tpz.mod.FOOD_MACC_CAP, 10)
-    elseif (job == tpz.job.WHM) then -- Healer
-    else -- Tank
-        if mobLevel >= 1 and mobLevel < 75 then
-            mob:addMod(tpz.mod.STR, 5)
-            mob:addMod(tpz.mod.AGI, 1)
-            mob:addMod(tpz.mod.INT, -2)
-            mob:addMod(tpz.mod.FOOD_ATTP, 22)
-            mob:addMod(tpz.mod.FOOD_ATT_CAP, 60)
-            mob:addMod(tpz.mod.FOOD_RATTP, 22)
-            mob:addMod(tpz.mod.FOOD_RATT_CAP, 60)
-        elseif mobLevel >= 75 then
-            mob:addMod(tpz.mod.HP, 20)
-            mob:addMod(tpz.mod.DEX, 4)
-            mob:addMod(tpz.mod.AGI, 4)
-            mob:addMod(tpz.mod.VIT, 6)
-            mob:addMod(tpz.mod.FOOD_DEFP, 25)
-            mob:addMod(tpz.mod.FOOD_DEF_CAP, 150)
-            mob:addMod(tpz.mod.HPHEAL, 1)
-        end
-    end
 end
 
 function AddTrustProgressionBonuses(mob)

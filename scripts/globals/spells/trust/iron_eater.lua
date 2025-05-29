@@ -24,6 +24,8 @@ function onMobSpawn(mob)
         [tpz.magic.spell.NAJI] = tpz.trust.message_offset.TEAMWORK_1,
     })
 
+    tpz.trust.setUpFood(mob)
+
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
 
     mob:addSimpleGambit(ai.t.MASTER, ai.c.HPP_LT, 50,

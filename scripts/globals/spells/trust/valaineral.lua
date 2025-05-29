@@ -32,6 +32,7 @@ function onMobSpawn(mob)
         Summon (Formerly): Let the Royal Family’s blade be seared forever into their memories!
     ]]
     tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.SPAWN)
+    tpz.trust.setUpFood(mob)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
     
