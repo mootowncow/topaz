@@ -49,7 +49,6 @@
 #include "../message.h"
 #include "../mob_modifier.h"
 #include "../mobskill.h"
-#include "../mob_spell_list.h"
 #include "../mob_spell_container.h"
 #include "../notoriety_container.h"
 #include "../recast_container.h"
@@ -4864,10 +4863,11 @@ inline int32 CLuaBaseEntity::hasGearSetMod(lua_State *L)
 *  Notes   : Used exclusively in scripts/globals/gear_sets.lua
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::addGearSetMod(lua_State* L)
+inline int32 CLuaBaseEntity::addGearSetMod(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 3) || !lua_isnumber(L, 3));
@@ -4876,13 +4876,14 @@ inline int32 CLuaBaseEntity::addGearSetMod(lua_State* L)
     gearSetMod.modNameId = (uint8)lua_tonumber(L, 1);
     gearSetMod.modId = static_cast<Mod>(lua_tointeger(L, 2));
     gearSetMod.modValue = (uint16)lua_tonumber(L, 3);
-    gearSetMod.modType = GearModType::Normal;
 
     CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
 
-    for (auto& existingMod : PChar->m_GearSetMods)
+    for (uint8 i = 0; i < PChar->m_GearSetMods.size(); ++i)
     {
-        if (gearSetMod.modNameId == existingMod.modNameId)
+        GearSetMod_t exsistingMod = PChar->m_GearSetMods.at(i);
+
+        if (gearSetMod.modNameId == exsistingMod.modNameId)
         {
             lua_pushnil(L);
             return 1;
@@ -4897,72 +4898,24 @@ inline int32 CLuaBaseEntity::addGearSetMod(lua_State* L)
 }
 
 /************************************************************************
- *  Function: addPetGearSetMod()
- *  Purpose : Need to research functionality more to provide description
- *  Example :  player:addPetGearSetMod(gearset.id + i, modId, modValue + addSetBonus)
- *  Notes   : Used exclusively in scripts/globals/gear_sets.lua
- ************************************************************************/
-
-inline int32 CLuaBaseEntity::addPetGearSetMod(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 3) || !lua_isnumber(L, 3));
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 4) || !lua_isnumber(L, 4));
-
-    GearSetMod_t gearSetMod;
-    gearSetMod.modNameId = (uint8)lua_tonumber(L, 1);
-    gearSetMod.modId = static_cast<Mod>(lua_tointeger(L, 2));
-    gearSetMod.petModType = (PetModType)(uint16)lua_tonumber(L, 3);
-    gearSetMod.modValue = (uint16)lua_tonumber(L, 4);
-    gearSetMod.modType = GearModType::Pet;
-
-    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
-
-    for (auto& existingMod : PChar->m_GearSetMods)
-    {
-        if (gearSetMod.modNameId == existingMod.modNameId)
-        {
-            lua_pushnil(L);
-            return 1;
-        }
-    }
-
-    PChar->m_GearSetMods.push_back(gearSetMod);
-    PChar->addPetModifier(gearSetMod.modId, gearSetMod.petModType, gearSetMod.modValue);
-
-    lua_pushnil(L);
-    return 1;
-}
-
-/************************************************************************
 *  Function: clearGearSetMods()
 *  Purpose : Clears all mods the player has from gear sets
 *  Example : player:clearGearSetMods()
 *  Notes   :
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::clearGearSetMods(lua_State* L)
+inline int32 CLuaBaseEntity::clearGearSetMods(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
 
     CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
 
-    for (auto& gearSetMod : PChar->m_GearSetMods)
+    for (uint8 i = 0; i < PChar->m_GearSetMods.size(); ++i)
     {
-        if (gearSetMod.modType == GearModType::Pet)
-        {
-            PChar->delPetModifier(gearSetMod.modId, gearSetMod.petModType, gearSetMod.modValue);
-        }
-        else
-        {
-            PChar->delModifier(gearSetMod.modId, gearSetMod.modValue);
-        }
+        GearSetMod_t gearSetMod = PChar->m_GearSetMods.at(i);
+        PChar->delModifier(gearSetMod.modId, gearSetMod.modValue);
     }
-
     PChar->m_GearSetMods.clear();
 
     lua_pushnil(L);
@@ -8905,35 +8858,6 @@ inline int32 CLuaBaseEntity::setHP(lua_State *L)
 }
 
 /************************************************************************
- *  Function: setHPP()
- *  Purpose : Sets the Hit Points percent of an Entity
- *  Example : player:setHPP(75)
- *  Notes   :
- ************************************************************************/
-
-inline int32 CLuaBaseEntity::setHPP(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
-
-    ((CBattleEntity*)m_PBaseEntity)->health.hp = 0;
-
-    auto percent = static_cast<int32>(lua_tointeger(L, 1));
-    auto maxHP = ((CBattleEntity*)m_PBaseEntity)->GetMaxHP();
-
-    auto value = static_cast<int32>(std::ceil(maxHP * (percent / 100.0)));
-
-    ((CBattleEntity*)m_PBaseEntity)->addHP(value);
-    m_PBaseEntity->updatemask |= UPDATE_HP;
-
-    if (value == 0)
-        ((CBattleEntity*)m_PBaseEntity)->PLastAttacker = nullptr;
-
-    return 0;
-}
-
-/************************************************************************
 *  Function: restoreHP()
 *  Purpose : Restores the Hit Points of an Entity by a specified amount
 *  Example : player:restoreHP(1000)
@@ -9170,7 +9094,6 @@ inline int32 CLuaBaseEntity::addMP(lua_State *L)
     }
 
     int32 result = ((CBattleEntity*)m_PBaseEntity)->addMP((int32)lua_tointeger(L, 1));
-    m_PBaseEntity->updatemask |= UPDATE_HP;
 
     lua_pushinteger(L, result);
     return 1;
@@ -9193,36 +9116,6 @@ inline int32 CLuaBaseEntity::setMP(lua_State *L)
     ((CBattleEntity*)m_PBaseEntity)->health.mp = 0;
     int32 value = (int32)(lua_tointeger(L, 1) - ((CBattleEntity*)m_PBaseEntity)->health.mp);
     ((CBattleEntity*)m_PBaseEntity)->addMP(value);
-    m_PBaseEntity->updatemask |= UPDATE_HP;
-
-    return 0;
-}
-
-/************************************************************************
- *  Function: setMPP()
- *  Purpose : Sets the Mana Points percent of an Entity
- *  Example : player:setMPP(75)
- *  Notes   :
- ************************************************************************/
-
-inline int32 CLuaBaseEntity::setMPP(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
-
-    ((CBattleEntity*)m_PBaseEntity)->health.mp = 0;
-
-    auto percent = static_cast<int32>(lua_tointeger(L, 1));
-    auto maxMP = ((CBattleEntity*)m_PBaseEntity)->GetMaxMP();
-
-    auto value = static_cast<int32>(std::ceil(maxMP * (percent / 100.0)));
-
-    ((CBattleEntity*)m_PBaseEntity)->addMP(value);
-    m_PBaseEntity->updatemask |= UPDATE_HP;
-
-    if (value == 0)
-        ((CBattleEntity*)m_PBaseEntity)->PLastAttacker = nullptr;
 
     return 0;
 }
@@ -9244,7 +9137,6 @@ inline int32 CLuaBaseEntity::restoreMP(lua_State *L)
     if (m_PBaseEntity->animation != ANIMATION_DEATH)
     {
         int32 result = ((CBattleEntity*)m_PBaseEntity)->addMP((int32)lua_tointeger(L, 1));
-        m_PBaseEntity->updatemask |= UPDATE_HP;
 
         lua_pushinteger(L, result);
         return 1;
@@ -9267,7 +9159,6 @@ inline int32 CLuaBaseEntity::delMP(lua_State *L)
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
     ((CBattleEntity*)m_PBaseEntity)->addMP((int32)(-lua_tointeger(L, 1)));
-    m_PBaseEntity->updatemask |= UPDATE_HP;
 
     return 0;
 }
@@ -12746,25 +12637,6 @@ inline int32 CLuaBaseEntity::stealStatusEffect(lua_State *L)
     return 1;
 }
 
-inline int32 CLuaBaseEntity::setEffectUndispellable(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
-
-    // Get the effect ID passed from Lua
-    uint32 effectID = lua_tointeger(L, 1);
-
-    // Retrieve the effect from the entity
-    CStatusEffect* effect = ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->GetStatusEffect((EFFECT)effectID);
-    if (effect)
-    {
-        // Unset the flags for DISPELABLE and WALTZABLE
-        effect->UnsetFlag(EFFECTFLAG_DISPELABLE | EFFECTFLAG_WALTZABLE);
-    }
-
-    return 0;
-}
-
 /************************************************************************
 *  Function: addMod()
 *  Purpose : Adds a Mod to the Entity
@@ -13856,10 +13728,9 @@ inline int32 CLuaBaseEntity::magicDmgTaken(lua_State *L)
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
     if (!lua_isnil(L, 2) && lua_isnumber(L, 2) && lua_tointeger(L, 2) > 0 && lua_tointeger(L, 2) < 9)
-        lua_pushinteger(
-            L, battleutils::MagicDmgTaken((CBattleEntity*)m_PBaseEntity, (int32)lua_tointeger(L, 1), (ELEMENT)lua_tointeger(L, 2), (int32)lua_tointeger(L, 3)));
+        lua_pushinteger(L, battleutils::MagicDmgTaken((CBattleEntity*)m_PBaseEntity, (int32)lua_tointeger(L, 1), (ELEMENT)lua_tointeger(L, 2)));
     else
-        lua_pushinteger(L, battleutils::MagicDmgTaken((CBattleEntity*)m_PBaseEntity, (int32)lua_tointeger(L, 1), ELEMENT_NONE, (int32)lua_tointeger(L, 3)));
+        lua_pushinteger(L, battleutils::MagicDmgTaken((CBattleEntity*)m_PBaseEntity, (int32)lua_tointeger(L, 1), ELEMENT_NONE));
 
     return 1;
 }
@@ -13891,23 +13762,18 @@ inline int32 CLuaBaseEntity::rangedDmgTaken(lua_State *L)
 *  Notes   : Passes argument to BreathDmgTaken member of battleutils
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::breathDmgTaken(lua_State* L)
+inline int32 CLuaBaseEntity::breathDmgTaken(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
-    int32 damage = (int32)lua_tointeger(L, 1);
-    int32 element = ELEMENT_NONE;
-    int32 rawDmg = damage; // default rawDmg to damage
-
     if (!lua_isnil(L, 2) && lua_isnumber(L, 2) && lua_tointeger(L, 2) > 0 && lua_tointeger(L, 2) < 9)
-        element = (int32)lua_tointeger(L, 2);
+        lua_pushinteger(L, battleutils::BreathDmgTaken((CBattleEntity*)m_PBaseEntity, (int32)lua_tointeger(L, 1), (ELEMENT)lua_tointeger(L, 2)));
+    else
+        lua_pushinteger(L, battleutils::BreathDmgTaken((CBattleEntity*)m_PBaseEntity, (int32)lua_tointeger(L, 1), ELEMENT_NONE));
 
-    if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
-        rawDmg = (int32)lua_tointeger(L, 3);
-
-    lua_pushinteger(L, battleutils::BreathDmgTaken((CBattleEntity*)m_PBaseEntity, damage, (ELEMENT)element, rawDmg));
     return 1;
 }
 
@@ -15360,7 +15226,7 @@ inline int32 CLuaBaseEntity::updateAttachments(lua_State* L)
 /************************************************************************
 *  Function: setMobLevel()
 *  Purpose : Updates the monsters level and recalculates stats
-*  Example : mob:setMobLevel(125, false)
+*  Example : mob:setMobLevel(125)
 *  Notes   : CalculateStats will refill mobs hp/mp as well
 *  !!! WARNING! CLEARS ALL MODS AND MOBMODS !!!
 ************************************************************************/
@@ -15369,21 +15235,14 @@ inline int32 CLuaBaseEntity::setMobLevel(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
-    auto recover = true;
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
     if (auto PMob = dynamic_cast<CMobEntity*>(m_PBaseEntity))
     {
         PMob->SetMLevel((uint8)lua_tointeger(L, 1));
         PMob->SetSLevel((uint8)lua_tointeger(L, 1));
-
-        if (lua_isboolean(L, 2))
-        {
-            recover = lua_toboolean(L, 2);
-        }
-
-        mobutils::CalculateMobStats(PMob, recover);
+        mobutils::CalculateMobStats(PMob, true);
         mobutils::GetAvailableSpells(PMob);
     }
 
@@ -15631,13 +15490,13 @@ inline int32 CLuaBaseEntity::setModelSize(lua_State* L)
 }
 
 /************************************************************************
-*  Function: setEntityFlags()
-*  Purpose : Manually set entity flags
-*  Example : mob:setEntityFlags(tpz.entityFlags.SIZE_LARGE, 16797766)
-*  Notes   : 
+*  Function: setMobFlags()
+*  Purpose : Manually set Mob flags
+*  Example : Not in use in scripts
+*  Notes   : Currently only used through !setmobflags command
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::setEntityFlags(lua_State* L)
+inline int32 CLuaBaseEntity::setMobFlags(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
@@ -15673,8 +15532,7 @@ inline int32 CLuaBaseEntity::setEntityFlags(lua_State* L)
 
         if (PTarget == nullptr)
         {
-            ShowError("Must target a monster to use for setMobFlags \n"); // Did this error when trying to set entityflags for a mob with lua binding.
-            // Arg2 has to be mobId? player:setEntityFlags(tpz.entityFlags.SIZE_LARGE, 16797766) ?
+            ShowError("Must target a monster to use for setMobFlags \n");
             return 0;
         }
         else if (PTarget->objtype != TYPE_MOB)
@@ -15692,12 +15550,12 @@ inline int32 CLuaBaseEntity::setEntityFlags(lua_State* L)
 }
 
 /************************************************************************
-*  Function: getEntityFlags()
-*  Purpose : Get Entity flags
-*  Example : mob:getEntityFlags
-*  Notes   : 
+*  Function: getMobFlags()
+*  Purpose : Get Mob flags
+*  Example : Not in use in scripts
+*  Notes   : Currently only used through !getMobFlags command
 ************************************************************************/
-inline int32 CLuaBaseEntity::getEntityFlags(lua_State* L)
+inline int32 CLuaBaseEntity::getMobFlags(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
@@ -16176,32 +16034,6 @@ inline int32 CLuaBaseEntity::setDamage(lua_State* L)
 }
 
 /************************************************************************
- *  Function: getSpellList()
- *  Purpose : Returns the mobs current spell list Id
- *  Example : mob:getSpellList()
- *  Notes   :
- ************************************************************************/
-
-inline int32 CLuaBaseEntity::getSpellList(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
-
-    auto PMob = static_cast<CMobEntity*>(m_PBaseEntity);
-
-    // Push the address / pointer value of the spell list container if it exists
-    if (PMob->m_SpellListContainer)
-    {
-        lua_pushinteger(L, PMob->m_SpellListContainer->GetID()); // assuming you add an ID field to CMobSpellList
-    }
-    else
-    {
-        lua_pushnil(L);
-    }
-    return 1;
-}
-
-/************************************************************************
 *  Function: hasSpellList()
 *  Purpose : Returns true if a Mob has spells to cast
 *  Example : if (mob:hasSpellList()) then
@@ -16235,116 +16067,6 @@ inline int32 CLuaBaseEntity::setSpellList(lua_State* L)
     mobutils::SetSpellList(static_cast<CMobEntity *>(m_PBaseEntity), (uint16)lua_tonumber(L, 1));
 
     return 0;
-}
-
-inline int CLuaBaseEntity::addSpellListEntry(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB && m_PBaseEntity->objtype != TYPE_PET);
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
-
-    auto PEntity = dynamic_cast<CMobEntity*>(m_PBaseEntity);
-    if (PEntity == nullptr || PEntity->SpellContainer == nullptr)
-        return 0;
-
-    SpellID spellId = static_cast<SpellID>(lua_tointeger(L, 1));
-    PEntity->SpellContainer->AddSpell(spellId);
-    return 0;
-}
-
-inline int CLuaBaseEntity::delSpelllistEntry(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB && m_PBaseEntity->objtype != TYPE_PET);
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
-
-    auto PEntity = dynamic_cast<CMobEntity*>(m_PBaseEntity);
-    if (PEntity == nullptr || PEntity->SpellContainer == nullptr)
-        return 0;
-
-    SpellID spellId = static_cast<SpellID>(lua_tointeger(L, 1));
-
-    PEntity->SpellContainer->RemoveSpell(spellId);
-    return 0;
-}
-
-inline int CLuaBaseEntity::clearSpellList(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB && m_PBaseEntity->objtype != TYPE_PET);
-
-    auto PEntity = dynamic_cast<CMobEntity*>(m_PBaseEntity);
-    if (PEntity == nullptr || PEntity->SpellContainer == nullptr)
-        return 0;
-
-    PEntity->SpellContainer->ClearSpells();
-    return 0;
-}
-
-/************************************************************************
- *  Function: isAutoAttackEnabled()
- *  Purpose : Returns whether auto-attack is enabled for a Mob
- *  Example : if mob:isAutoAttackEnabled() then ...
- ************************************************************************/
-
-inline int32 CLuaBaseEntity::isAutoAttackEnabled(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-
-    if (m_PBaseEntity->PAI && m_PBaseEntity->PAI->GetController())
-    {
-        lua_pushboolean(L, m_PBaseEntity->PAI->GetController()->IsAutoAttackEnabled());
-    }
-    else
-    {
-        lua_pushboolean(L, false);
-    }
-
-    return 1;
-}
-
-/************************************************************************
- *  Function: isMagicCastingEnabled()
- *  Purpose : Returns whether magic casting is enabled for a Mob
- *  Example : if mob:isMagicCastingEnabled() then ...
- ************************************************************************/
-
-inline int32 CLuaBaseEntity::isMagicCastingEnabled(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-
-    if (m_PBaseEntity->PAI && m_PBaseEntity->PAI->GetController())
-    {
-        lua_pushboolean(L, m_PBaseEntity->PAI->GetController()->IsMagicCastingEnabled());
-    }
-    else
-    {
-        lua_pushboolean(L, false);
-    }
-
-    return 1;
-}
-
-/************************************************************************
- *  Function: isMobAbilityEnabled()
- *  Purpose : Returns whether mob special abilities are enabled
- *  Example : if mob:isMobAbilityEnabled() then ...
- ************************************************************************/
-
-inline int32 CLuaBaseEntity::isMobAbilityEnabled(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-
-    if (m_PBaseEntity->PAI && m_PBaseEntity->PAI->GetController())
-    {
-        lua_pushboolean(L, m_PBaseEntity->PAI->GetController()->IsWeaponSkillEnabled());
-    }
-    else
-    {
-        lua_pushboolean(L, false);
-    }
-
-    return 1;
 }
 
 /************************************************************************
@@ -16995,99 +16717,6 @@ int32 CLuaBaseEntity::isTopEnmity(lua_State* L)
     return 1;
 }
 
-// TODO Description
-inline int32 CLuaBaseEntity::getSkillList(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-
-    if (m_PBaseEntity->objtype != TYPE_MOB)
-    {
-        lua_pushinteger(L, 0);
-        return 1;
-    }
-
-    CMobEntity* PMob = (CMobEntity*)m_PBaseEntity;
-    auto wsList = PMob->getMobMod(MOBMOD_SKILL_LIST);
-
-    if (wsList)
-    {
-        lua_pushinteger(L, wsList);
-        return 1;
-    }
-
-    lua_pushinteger(L, 0);
-    return 1;
-}
-
-/************************************************************************
- *  Function: addSkillListEntry
- *  Purpose : Adds a mob skill to the mobs current mob skill list
- *  Example : if mob:addSkillListEntry(tpz.mob.skills.VAMPIRIC_LASH)
- *  Notes   :
- ************************************************************************/
-
-inline int32 CLuaBaseEntity::addSkillListEntry(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-
-    if (m_PBaseEntity->objtype != TYPE_MOB)
-    {
-        return 0;
-    }
-
-    CMobEntity* PMob = (CMobEntity*)m_PBaseEntity;
-    auto wsList = PMob->getMobMod(MOBMOD_SKILL_LIST);
-
-    auto& skillList = battleutils::GetMobSkillList(wsList);
-    uint16 skillId = (uint16)luaL_checkinteger(L, 1);
-    skillList.insert(skillList.begin(), skillId);
-
-    return 0;
-}
-
-// TODO Description
-inline int32 CLuaBaseEntity::delSkillListEntry(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-
-    if (m_PBaseEntity->objtype != TYPE_MOB)
-    {
-        return 0;
-    }
-
-    CMobEntity* PMob = (CMobEntity*)m_PBaseEntity;
-    auto wsList = PMob->getMobMod(MOBMOD_SKILL_LIST);
-
-    auto& skillList = battleutils::GetMobSkillList(wsList);
-    uint16 skillId = (uint16)luaL_checkinteger(L, 1);
-    skillList.erase(std::remove(skillList.begin(), skillList.end(), skillId), skillList.end());
-
-    return 0;
-}
-
-// TODO Description. If arg1 isn't nil then use that for skilllist Id
-inline int32 CLuaBaseEntity::clearSkillList(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-
-    if (m_PBaseEntity->objtype != TYPE_MOB)
-    {
-        return 0;
-    }
-
-    CMobEntity* PMob = (CMobEntity*)m_PBaseEntity;
-    auto wsList = PMob->getMobMod(MOBMOD_SKILL_LIST);
-
-    if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
-    {
-        wsList = (uint16)luaL_checkinteger(L, 1);
-    }
-
-    g_PMobSkillLists[wsList].clear();
-
-    return 0;
-}
-
 /************************************************************************
 *  Function: getBehaviour()
 *  Purpose : Returns the current Mob behavior
@@ -17385,7 +17014,7 @@ inline int32 CLuaBaseEntity::useJobAbility(lua_State* L)
 
 /************************************************************************
  *  Function: useItem()
- *  Purpose : Instruct a Mob or trust to use a specified item
+ *  Purpose : Instruct a Mob to use a specified item
  *  Example : mob:useItem(tpz.items.FLASK_OF_ECHO_DROPS)
  *  Notes   : Inserts directly into queue stack with 0ms delay
  ************************************************************************/
@@ -17662,7 +17291,7 @@ inline int32 CLuaBaseEntity::hasTPMoves(lua_State* L)
 inline int32 CLuaBaseEntity::weaknessTrigger(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC || m_PBaseEntity->objtype == TYPE_SHIP);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
     mobutils::WeaknessTrigger(m_PBaseEntity, (WeaknessType)lua_tointeger(L, 1));
@@ -18224,7 +17853,6 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasGearSetMod),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addGearSetMod),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,addPetGearSetMod),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,clearGearSetMods),
 
     // Storing
@@ -18395,7 +18023,6 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getBaseHP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addHP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setHP),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setHPP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,restoreHP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delHP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,takeDamage),
@@ -18407,7 +18034,6 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getBaseMP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addMP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMP),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMPP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,restoreMP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delMP),
 
@@ -18563,7 +18189,6 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasStatusEffect),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasStatusEffectByFlag),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,countEffect),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEffectUndispellable),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffect),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffectsByFlag),
@@ -18710,8 +18335,8 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getModelSize),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setModelSize),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEntityFlags),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEntityFlags),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMobFlags),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMobFlags),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,spawn),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isSpawned),
@@ -18734,15 +18359,8 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getRangedDelay),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setDelay),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setDamage),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getSpellList),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasSpellList),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setSpellList),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,addSpellListEntry),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,delSpelllistEntry),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,clearSpellList),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,isAutoAttackEnabled),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,isMagicCastingEnabled),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,isMobAbilityEnabled),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,SetAutoAttackEnabled),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,SetMagicCastingEnabled),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,SetMobAbilityEnabled),
@@ -18768,10 +18386,6 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,deaggroPlayer),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,deaggroAll),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isTopEnmity),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getSkillList),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,addSkillListEntry),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,delSkillListEntry),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,clearSkillList),
 
 
 

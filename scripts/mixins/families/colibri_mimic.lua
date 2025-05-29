@@ -19,7 +19,7 @@ g_mixins.families = g_mixins.families or {}
 
 g_mixins.families.colibri_mimic = function(mob)
 
-    mob:addListener("SPELL_DMG_TAKEN", "COLIBRI_MIMIC_SPELL_DMG_TAKEN", function(target, caster, spell)
+    mob:addListener("MAGIC_TAKE", "COLIBRI_MIMIC_MAGIC_TAKE", function(target, caster, spell)
         if
             not IsMobBusy(target) and
             target:AnimationSub() == 0 and

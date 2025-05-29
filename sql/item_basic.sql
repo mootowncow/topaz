@@ -10991,7 +10991,7 @@ INSERT INTO `item_basic` VALUES (13654,0,'desert_mantle_+1','desert_mantle_+1',1
 INSERT INTO `item_basic` VALUES (13655,0,'sand_mantle','sand_mantle',1,34820,26,0,8552);
 INSERT INTO `item_basic` VALUES (13656,0,'errant_cape','errant_cape',1,2084,26,0,9605);
 INSERT INTO `item_basic` VALUES (13657,0,'mahatma_cape','mahatma_cape',1,2080,26,0,9605);
-INSERT INTO `item_basic` VALUES (13658,0,'shadow_mantle','shadow_mantle',1,59476,0,1,13250);
+INSERT INTO `item_basic` VALUES (13658,0,'shadow_mantle','shadow_mantle',1,59476,0,0,13250);
 INSERT INTO `item_basic` VALUES (13659,0,'mercenary_mantle','mercen._mantle',1,34820,26,0,1350);
 INSERT INTO `item_basic` VALUES (13660,0,'wrestlers_mantle','wrestlers_mantle',1,34820,26,0,1350);
 INSERT INTO `item_basic` VALUES (13661,0,'healers_mantle','healers_mantle',1,34820,26,0,1350);
@@ -11979,7 +11979,7 @@ INSERT INTO `item_basic` VALUES (14642,0,'light_ring','light_ring',1,2084,25,0,4
 INSERT INTO `item_basic` VALUES (14643,0,'apollos_ring','apollos_ring',1,2052,25,0,0);
 INSERT INTO `item_basic` VALUES (14644,0,'dark_ring','dark_ring',1,2084,25,0,33800);
 INSERT INTO `item_basic` VALUES (14645,0,'plutos_ring','plutos_ring',1,2052,25,0,0);
-INSERT INTO `item_basic` VALUES (14646,0,'shadow_ring','shadow_ring',1,59508,0,1,14575);
+INSERT INTO `item_basic` VALUES (14646,0,'shadow_ring','shadow_ring',1,59508,0,0,14575);
 INSERT INTO `item_basic` VALUES (14647,0,'castors_ring','castors_ring',1,14432,0,1,0);
 INSERT INTO `item_basic` VALUES (14648,0,'polluxs_ring','polluxs_ring',1,14432,0,1,0);
 INSERT INTO `item_basic` VALUES (14649,0,'telluric_ring','telluric_ring',1,2052,25,0,2540);

@@ -86,7 +86,6 @@ bool CInstanceLoader::Check()
                 }
                 for (auto PNpc : instance->m_npcList)
                 {
-                    luautils::ApplyMixins(PNpc.second);
                     luautils::OnNpcSpawn(PNpc.second);
                 }
                 luautils::OnInstanceCreated(requester, instance);

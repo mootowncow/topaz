@@ -1167,7 +1167,7 @@ namespace luautils
     }
 
 
-     /*******************************************************************************
+        /*******************************************************************************
      *                                                                              *
      *  Returns data of Magian trials                                               *
      *  Will return a single table with keys matching the SQL table column          *
@@ -1756,10 +1756,6 @@ namespace luautils
 
         uint32 retVal = (!lua_isnil(LuaHandle, -1) && lua_isnumber(LuaHandle, -1) ? (int32)lua_tonumber(LuaHandle, -1) : 0);
         lua_pop(LuaHandle, 1);
-
-        // Add listener
-        PNpc->PAI->EventHandler.triggerListener("TRIGGER", PChar, PNpc);
-
         return retVal;
     }
 
@@ -2554,7 +2550,7 @@ namespace luautils
     {
         TPZ_DEBUG_BREAK_IF(PSpell == nullptr);
 
-        PTarget->PAI->EventHandler.triggerListener("SPELL_DMG_TAKEN", PTarget, PCaster, PSpell);
+        PTarget->PAI->EventHandler.triggerListener("MAGIC_TAKE", PTarget, PCaster, PSpell);
 
         lua_prepscript("scripts/zones/%s/mobs/%s.lua", PTarget->loc.zone->GetName(), PTarget->GetName());
 
@@ -2653,78 +2649,62 @@ namespace luautils
         return 0;
     }
 
-    int32 ApplyMixins(CBaseEntity* PEntity)
+    int32 ApplyMixins(CBaseEntity* PMob)
     {
         TPZ_DEBUG_BREAK_IF(PMob == nullptr);
 
-        auto filePath = "";
-        if (PEntity->objtype == TYPE_MOB)
+        if (PMob->objtype == TYPE_MOB)
         {
-            filePath = "scripts/zones/%s/mobs/%s.lua";
-        }
-        else if (PEntity->objtype == TYPE_NPC)
-        {
-            filePath = "scripts/zones/%s/npcs/%s.lua";
-        }
-        else
-        {
-            if (lua_pcall(LuaHandle, 1, 0, 0))
+            lua_prepscript("scripts/zones/%s/mobs/%s.lua", PMob->loc.zone->GetName(), PMob->GetName());
+
+            lua_pushnil(LuaHandle);
+            lua_setglobal(LuaHandle, "mixins");
+            lua_pushnil(LuaHandle);
+            lua_setglobal(LuaHandle, "mixinOptions");
+
+            //remove any previous definition of the global "mixins"
+
+            auto ret = luaL_loadfile(LuaHandle, (const char*)File);
+            if (ret)
             {
-                ShowError("luautils::ApplyMixins: [%s] is not a mob or NPC\n", PEntity->name);
                 lua_pop(LuaHandle, 1);
                 return -1;
             }
-        }
 
-        lua_prepscript(filePath, PEntity->loc.zone->GetName(), PEntity->GetName());
+            ret = lua_pcall(LuaHandle, 0, 0, 0);
+            if (ret)
+            {
+                ShowError("luautils::%s: %s\n", "applyMixins", lua_tostring(LuaHandle, -1));
+                lua_pop(LuaHandle, 1);
+                return -1;
+            }
 
-        lua_pushnil(LuaHandle);
-        lua_setglobal(LuaHandle, "mixins");
-        lua_pushnil(LuaHandle);
-        lua_setglobal(LuaHandle, "mixinOptions");
+            //get the function "applyMixins"
+            lua_getglobal(LuaHandle, "applyMixins");
+            if (lua_isnil(LuaHandle, -1))
+            {
+                lua_pop(LuaHandle, 1);
+                return -1;
+            }
 
-        // remove any previous definition of the global "mixins"
+            CLuaBaseEntity LuaMobEntity(PMob);
+            Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMobEntity);
 
-        auto ret = luaL_loadfile(LuaHandle, (const char*)File);
-        if (ret)
-        {
-            lua_pop(LuaHandle, 1);
-            return -1;
-        }
+            //get the parameter "mixins"
+            lua_getglobal(LuaHandle, "mixins");
+            if (lua_isnil(LuaHandle, -1))
+            {
+                lua_pop(LuaHandle, 3);
+                return -1;
+            }
+            //get the parameter "mixinOptions" (optional)
+            lua_getglobal(LuaHandle, "mixinOptions");
 
-        ret = lua_pcall(LuaHandle, 0, 0, 0);
-        if (ret)
-        {
-            ShowError("luautils::%s: %s\n", "applyMixins", lua_tostring(LuaHandle, -1));
-            lua_pop(LuaHandle, 1);
-            return -1;
-        }
-
-        // get the function "applyMixins"
-        lua_getglobal(LuaHandle, "applyMixins");
-        if (lua_isnil(LuaHandle, -1))
-        {
-            lua_pop(LuaHandle, 1);
-            return -1;
-        }
-
-        CLuaBaseEntity LuaMobEntity(PEntity);
-        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMobEntity);
-
-        // get the parameter "mixins"
-        lua_getglobal(LuaHandle, "mixins");
-        if (lua_isnil(LuaHandle, -1))
-        {
-            lua_pop(LuaHandle, 3);
-            return -1;
-        }
-        // get the parameter "mixinOptions" (optional)
-        lua_getglobal(LuaHandle, "mixinOptions");
-
-        if (lua_pcall(LuaHandle, 3, 0, 0))
-        {
-            ShowError("luautils::applyMixins: %s\n", lua_tostring(LuaHandle, -1));
-            lua_pop(LuaHandle, 1);
+            if (lua_pcall(LuaHandle, 3, 0, 0))
+            {
+                ShowError("luautils::applyMixins: %s\n", lua_tostring(LuaHandle, -1));
+                lua_pop(LuaHandle, 1);
+            }
         }
         return 0;
     }
@@ -3524,52 +3504,6 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
             lua_pop(LuaHandle, 1);
             return -1;
         }
-        return 0;
-    }
-
-    int32 OnZoneTick(CCharEntity* PChar, uint16 ZoneID, CRegion* PRegion)
-    {
-        std::string filename;
-        CZone* PZone = zoneutils::GetZone(ZoneID);
-        if (PChar->PInstance)
-        {
-            filename =
-                std::string("scripts/zones/") + (const char*)PChar->loc.zone->GetName() + "/instances/" + (const char*)PChar->PInstance->GetName() + ".lua";
-        }
-        else
-        {
-            filename = std::string("scripts/zones/") + (const char*)PChar->loc.zone->GetName() + "/Zone.lua";
-        }
-
-        if (prepFile((int8*)filename.c_str(), "OnZoneTick"))
-        {
-            return -1;
-        }
-
-        CLuaBaseEntity LuaBaseEntity(PChar);
-        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaBaseEntity);
-
-        CLuaZone LuaZone(PZone);
-        Lunar<CLuaZone>::push(LuaHandle, &LuaZone);
-
-        if (PRegion)
-        {
-            CLuaRegion LuaRegion(PRegion);
-            Lunar<CLuaRegion>::push(LuaHandle, &LuaRegion);
-        }
-        else
-        {
-            lua_pushnil(LuaHandle);
-        }
-
-
-        if (lua_pcall(LuaHandle, 3, 0, 0))
-        {
-            ShowError("luautils::OnZoneTick: %s\n", lua_tostring(LuaHandle, -1));
-            lua_pop(LuaHandle, 1);
-            return -1;
-        }
-
         return 0;
     }
 

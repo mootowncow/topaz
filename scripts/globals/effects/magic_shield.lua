@@ -30,15 +30,6 @@ function onEffectGain(target, effect)
     end
 end
 
-function onEffectTick(target, effect)
-   -- Handle Magic SS effect
-   if effect:getPower() > 100 then
-        if (target:getMod(tpz.mod.MAGIC_SS) == 0) then
-            target:delStatusEffect(tpz.effect.MAGIC_SHIELD)
-        end
-   end
-end
-
 function onEffectLose(target, effect)
     if effect:getPower() < 2 then
         target:delMod(tpz.mod.UDMGMAGIC, -101)

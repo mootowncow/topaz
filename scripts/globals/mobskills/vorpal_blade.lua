@@ -43,10 +43,6 @@ function onMobSkillCheck(target, mob, skill)
     if mob:getPool() == 1776 or mob:getPool() == 4468 then
         return 0
     end
-
-    if mob:getName() == 'Lugh' then
-        return 0
-    end
 	
     return 1
 end

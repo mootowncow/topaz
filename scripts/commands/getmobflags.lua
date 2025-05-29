@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------------------------------
--- func: getEntityFlags <optional MobID>
+-- func: getmobflags <optional MobID>
 -- desc: Used to get a mob's entity flags for testing.
 --       MUST either target a mob first or else specify a Mob ID.
 ---------------------------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ cmdprops =
 
 function error(player, msg)
     player:PrintToPlayer(msg)
-    player:PrintToPlayer("!getEntityFlags {mob ID}")
+    player:PrintToPlayer("!getmobflags {mob ID}")
 end
 
 function onTrigger(player, target)
@@ -33,6 +33,6 @@ function onTrigger(player, target)
     end
 
     -- set flags
-    local flags = targ:getEntityFlags()
+    local flags = targ:getMobFlags()
     player:PrintToPlayer(string.format("%s's flags: %u", targ:getName(), flags))
 end

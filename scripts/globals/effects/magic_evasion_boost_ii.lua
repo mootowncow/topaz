@@ -2,9 +2,6 @@
 --
 --tpz.effect.MAGIC_EVASION_BOOST_II
 --
---
------------------------------------
-require("scripts/globals/status")
 -----------------------------------
 
 function onEffectGain(target, effect)

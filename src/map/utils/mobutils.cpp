@@ -229,7 +229,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     uint8 mJobGrade; // main jobs grade
     uint8 sJobGrade; // subjobs grade
 
-    if (recover)
+    if (recover == true)
     {
         if (PMob->HPmodifier == 0)
         {
@@ -651,13 +651,10 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     }
 
     // Max [HP/MP] Boost traits
-    if (recover)
-    {
-        PMob->UpdateHealth();
-        PMob->health.tp = 0;
-        PMob->health.hp = PMob->GetMaxHP();
-        PMob->health.mp = PMob->GetMaxMP();
-    }
+    PMob->UpdateHealth();
+    PMob->health.tp = 0;
+    PMob->health.hp = PMob->GetMaxHP();
+    PMob->health.mp = PMob->GetMaxMP();
 
     SetupJob(PMob);
     SetupRoaming(PMob);
@@ -787,7 +784,7 @@ void SetupJob(CMobEntity* PMob)
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 20);
             PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
             PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 25);
-            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 10);
             break;
         case JOB_PLD:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -856,19 +853,19 @@ void SetupJob(CMobEntity* PMob)
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
             PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
             PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
-            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 10);
             break;
         case JOB_GEO:
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
             PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
             PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
-            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 10);
             break;
         case JOB_RUN:
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
             PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
             PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
-            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 10);
             break;
         default:
             break;
@@ -1515,7 +1512,7 @@ void GetAvailableSpells(CMobEntity* PMob) {
     PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 35);
     PMob->defaultMobMod(MOBMOD_GA_CHANCE, 35);
     PMob->defaultMobMod(MOBMOD_NA_CHANCE, 05);
-    PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 20);
+    PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 20);
     PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
     PMob->defaultMobMod(MOBMOD_HEAL_CHANCE, 40);
     PMob->defaultMobMod(MOBMOD_HP_HEAL_CHANCE, 40);
@@ -1976,7 +1973,7 @@ void WeaknessTrigger(CBaseEntity* PTarget, WeaknessType level)
     actionTarget_t& target = list.getNewActionTarget();
     target.animation = animationID;
     target.param = 2582;
-    PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE_SELF, new CActionPacket(action));
+    PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE, new CActionPacket(action));
 }
 
 }; // namespace mobutils

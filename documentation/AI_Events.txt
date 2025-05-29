@@ -1,7 +1,5 @@
 States/Actions
 
-TRIGGER (On Trigger) - Player, NPC
-
 ABILITY_START - Entity, Ability
 ABILITY_USE - Entity, Target, Ability, action
 ABILITY_STATE_EXIT - Entity, Ability
@@ -19,6 +17,7 @@ MAGIC_START - Entity, Spell, action
 MAGIC_MID - Entity, Target, Spell
 MAGIC_USE - Entity, Target, Spell, action
 MAGIC_STATE_EXIT - Entity, Spell
+MAGIC_TAKE - Target, Entity, Spell, action
 SPELL_DMG_TAKEN - Target, Entity, Spell, amount, message
 MAGIC_HIT - caster, target, spell -- Hit and was not absorbed by a shadow
 EN_SPIKES_HIT - attacker, target, enspellID (enum ENSPELL in battleutils.h)
@@ -33,7 +32,6 @@ SPAWN - Entity
 DESPAWN - Entity
 DEATH_DAMAGE - target, damage, attacker, attackType, damageType
 DEATH - Entity, Killer
-PLAYER_DEATH - Killer, player (Also detects trust deaths)
 ENGAGE - Entity, Target
 DISENGAGE - Entity
 MOB_PATH - mob, target

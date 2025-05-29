@@ -337,7 +337,6 @@ void LoadNPCList()
     {
         PZone->ForEachNpc([](CNpcEntity* PNpc)
         {
-            luautils::ApplyMixins(PNpc);
             luautils::OnNpcSpawn(PNpc);
         });
     });

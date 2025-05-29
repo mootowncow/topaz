@@ -95,12 +95,12 @@ function onMobFight(mob, target)
         --printf("setting immunity")
         mob:SetMagicCastingEnabled(false)
         mob:addImmunity(tpz.immunity.STUN) -- Can't be stunned during howl Phase
-        mob:useMobAbility(1892) -- First howl
+        mob:useMobAbility(1796) -- First howl
         mob:useMobAbility(1788) -- Ululation
         if hpp < 25 then -- Gains access to Gates of Hades in howl sequence bleow 25%
             mob:useMobAbility(1790) -- Gates of Hades
             mob:useMobAbility(1789) -- Magma Hoplon
-            mob:useMobAbility(1892) -- 2nd Howl
+            mob:useMobAbility(1796) -- 2nd Howl
             mob:SetMagicCastingEnabled(true)
             mob:timer(18000, function(mob) -- Final howl resets enmity on all players
 	            local zonePlayers = mob:getZone():getPlayers()
@@ -118,7 +118,7 @@ function onMobFight(mob, target)
             mob:SetMagicCastingEnabled(true)
 		    mob:castSpell(176) -- Firaga III
             mob:useMobAbility(1789) -- Magma Hoplon
-            mob:useMobAbility(1892) -- 2nd Howl
+            mob:useMobAbility(1796) -- 2nd Howl
             mob:timer(23000, function(mob) -- Final howl resets enmity on all players
 	            local zonePlayers = mob:getZone():getPlayers()
 	            for _, zonePlayer in pairs(zonePlayers) do

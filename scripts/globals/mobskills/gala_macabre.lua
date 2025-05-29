@@ -18,8 +18,19 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
+    local typeEffect = tpz.effect.CHARM_I
+    local power = 0
 
-    MobCharmMove(mob, target, skill, 0, 180)
+    if (not target:isPC()) then
+        skill:setMsg(tpz.msg.basic.SKILL_MISS)
+        return typeEffect
+    end
 
-    return tpz.effect.CHARM_I
+    local msg = MobStatusEffectMove(mob, target, typeEffect, power, 3, 300)
+    if (msg == tpz.msg.basic.SKILL_ENFEEB_IS) then
+        mob:charm(target)
+    end
+    skill:setMsg(msg)
+
+    return typeEffect
 end

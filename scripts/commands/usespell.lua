@@ -3,7 +3,7 @@
 -- desc: Tells the target mob to cast specificed spell on target or self.
 ---------------------------------------------------------------------------------------------------
 require("scripts/globals/spell_data")
----------------------------------------------------------------------------------------------------
+
 cmdprops =
 {
     permission = 1,

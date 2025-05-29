@@ -41,10 +41,8 @@ typedef struct
 class CMobSpellList
 {
 public:
-    CMobSpellList();
-    void SetID(uint16 id) { m_ID = id; }
-    uint16 GetID() const { return m_ID; }
 
+	CMobSpellList();
 
   void AddSpell(SpellID spellId, uint16 minLvl, uint16 maxLvl);
 
@@ -52,7 +50,7 @@ public:
   std::vector<MobSpell_t> m_spellList;
 
 private:
-    uint16 m_ID;
+
 };
 
 /************************************************************************

@@ -26,9 +26,10 @@ function onPetAbility(target, pet, skill)
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
     params.DOT = true
+    params.ELEMENT_OVERRIDE = tpz.magic.ele.DARK
 
-    local effect = tpz.effect.TAINT
-    local power = 25
+    local effect = tpz.effect.REGEN
+    local power = -25
     local duration = 120
     local bonus = 0
 

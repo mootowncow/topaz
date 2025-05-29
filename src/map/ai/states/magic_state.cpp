@@ -34,7 +34,6 @@
 #include "../../../common/utils.h"
 #include "../../job_points.h"
 #include "../../ai/controllers/mob_controller.h"
-#include "../../utils/mobutils.h"
 
 CMagicState::CMagicState(CBattleEntity* PEntity, uint16 targid, SpellID spellid, uint8 flags) :
     CState(PEntity, targid),
@@ -313,30 +312,10 @@ bool CMagicState::Update(time_point tick)
             m_PEntity->PAI->EventHandler.triggerListener("MAGIC_MID", m_PEntity, PTarget, m_PSpell.get()); // Ability to edit spells right before they actually cast
             m_PEntity->OnCastFinished(*this,action);
             m_PEntity->PAI->EventHandler.triggerListener("MAGIC_USE", m_PEntity, PTarget, m_PSpell.get(), &action);
-        }
-
-        // Handle Double Cast logic
-        bool isDoubleCasted = false;
-        if (!m_interrupted && tpzrand::GetRandomNumber(100) < m_PEntity->getMod(Mod::DOUBLE_CAST))
-        {
-            // Trigger a second cast immediately on same target
-            action_t doubleAction;
-
-            m_PEntity->PAI->EventHandler.triggerListener("MAGIC_MID", m_PEntity, PTarget, m_PSpell.get());
-            m_PEntity->OnCastFinished(*this, doubleAction);
-            m_PEntity->PAI->EventHandler.triggerListener("MAGIC_USE", m_PEntity, PTarget, m_PSpell.get(), &doubleAction);
-            isDoubleCasted = true;
-
-            m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(doubleAction));
-            //ShowDebug("[%s] -> Double cast proc!\n", m_PEntity->name);
-            // Don't Complete() here — will be handled by main cast's complete
+            PTarget->PAI->EventHandler.triggerListener("MAGIC_TAKE", PTarget, m_PEntity, m_PSpell.get(), &action);
         }
 
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
-        if (isDoubleCasted)
-        {
-            mobutils::WeaknessTrigger(m_PEntity, WeaknessType::WHITE);
-        }
             
         Complete();
     }

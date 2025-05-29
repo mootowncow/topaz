@@ -100,16 +100,6 @@ inline int32 CLuaZone::registerRegion(lua_State *L)
     return 1;
 }
 
-inline int32 CLuaZone::setLocalVar(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isstring(L, 1));
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
-
-    m_pLuaZone->SetLocalVar(lua_tostring(L, 1), (uint64_t)lua_tointeger(L, 2));
-    return 0;
-}
-
 /************************************************************************
 *                                                                       *
 *  Устанавливаем ограничение уровня для зоны                            *
@@ -193,33 +183,24 @@ inline int32 CLuaZone::getName(lua_State* L)
     return 1;
 }
 
-/************************************************************************
- *  Function: getWeather()
- *  Purpose : Returns the current weather status
- ************************************************************************/
-
-inline int32 CLuaZone::getWeather(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
-    WEATHER weather = m_pLuaZone->GetWeather();
-    lua_pushinteger(L, weather);
-    return 1;
-}
-
-inline int32 CLuaZone::getLocalVar(lua_State* L)
-{
-    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isstring(L, 1));
-
-    lua_pushinteger(L, (lua_Integer)m_pLuaZone->GetLocalVar(lua_tostring(L, 1)));
-    return 1;
-}
-
 inline int32 CLuaZone::battlefieldsFull(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
     int battlefieldId = lua_isnil(L, 1) ? -1 : (int)lua_tointeger(L, 1);
     lua_pushboolean(L, (int)(m_pLuaZone->m_BattlefieldHandler && m_pLuaZone->m_BattlefieldHandler->ReachedMaxCapacity(battlefieldId)));
+    return 1;
+}
+
+/************************************************************************
+*  Function: getWeather()
+*  Purpose : Returns the current weather status
+************************************************************************/
+
+inline int32 CLuaZone::getWeather(lua_State *L)
+{
+    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
+    WEATHER weather = m_pLuaZone->GetWeather();
+    lua_pushinteger(L, weather);
     return 1;
 }
 
@@ -297,7 +278,6 @@ Lunar<CLuaZone>::Register_t CLuaZone::methods[] =
 {
     LUNAR_DECLARE_METHOD(CLuaZone,registerRegion),
     LUNAR_DECLARE_METHOD(CLuaZone,levelRestriction),
-    LUNAR_DECLARE_METHOD(CLuaZone,setLocalVar),
     LUNAR_DECLARE_METHOD(CLuaZone,getPlayers),
     LUNAR_DECLARE_METHOD(CLuaZone,getID),
     LUNAR_DECLARE_METHOD(CLuaZone,getRegionID),
@@ -306,7 +286,6 @@ Lunar<CLuaZone>::Register_t CLuaZone::methods[] =
     LUNAR_DECLARE_METHOD(CLuaZone,getName),
     LUNAR_DECLARE_METHOD(CLuaZone,battlefieldsFull),
     LUNAR_DECLARE_METHOD(CLuaZone,getWeather),
-    LUNAR_DECLARE_METHOD(CLuaZone,getLocalVar),
     LUNAR_DECLARE_METHOD(CLuaZone,addListener),
     LUNAR_DECLARE_METHOD(CLuaZone,removeListener),
     LUNAR_DECLARE_METHOD(CLuaZone,triggerListener),

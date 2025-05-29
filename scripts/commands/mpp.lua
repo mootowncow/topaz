@@ -42,7 +42,10 @@ function onTrigger(player, mp, target)
 
     -- set mp
     if targ:isAlive() then
-        targ:setMPP(mp)
+        -- convert to percentage
+        mp = mp / 100
+        mp = math.floor(targ:getMaxMP() * mp)
+        targ:setMP(mp)
         if targ:getID() ~= player:getID() then
             player:PrintToPlayer(string.format("Set %s's MP to %i.", targ:getName(), targ:getMP()))
         end

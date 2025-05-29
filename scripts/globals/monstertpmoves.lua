@@ -250,7 +250,6 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
             paramshybrid.includemab = true
             local bonusMacc = 0
             local magicdmg = addBonusesAbility(mob, element, target, finaldmg, paramshybrid)
-            local rawmDmg = magicdmg
             local resist = applyPlayerResistance(mob, effect, target, mob:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT), bonusMacc, element)
             --printf("resist %f", resist)
             --printf("magicdmg before resist %u", magicdmg)
@@ -259,7 +258,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
             magicdmg = magicdmg / 2
             magicdmg = utils.CheckForNull(mob, target, tpz.attackType.MAGICAL, element, magicdmg)
             --printf("magicdmg after resist %u", magicdmg)
-            magicdmg = target:magicDmgTaken(magicdmg, element, rawmDmg)
+            magicdmg = target:magicDmgTaken(magicdmg, element)
             -- Handle absorb
             magicdmg = adjustForTarget(target, magicdmg, element)
             -- Add HP if absorbed
@@ -765,8 +764,6 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     -- Handle Null
     dmg = utils.CheckForNull(mob, target, attackType, element, dmg)
 
-    -- Track raw damage
-    local rawDmg = dmg
 
     -- Handle Circle DR
     dmg = utils.HandleCircleDamageReduction(mob, target, dmg)
@@ -778,10 +775,10 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
             dmg = target:physicalDmgTaken(dmg, damageType)
         elseif (attackType == tpz.attackType.MAGICAL) then
             dmg = utils.HandlePositionalMDT(mob, target, dmg)
-            dmg = target:magicDmgTaken(dmg, element, rawDmg)
+            dmg = target:magicDmgTaken(dmg, element)
         elseif (attackType == tpz.attackType.BREATH) then
             dmg = utils.HandlePositionalMDT(mob, target, dmg)
-            dmg = target:breathDmgTaken(dmg, element, rawDmg)
+            dmg = target:breathDmgTaken(dmg, element)
         elseif (attackType == tpz.attackType.RANGED) then
             dmg = utils.HandlePositionalPDT(mob, target, dmg)
             dmg = target:rangedDmgTaken(dmg)

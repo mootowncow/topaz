@@ -14,7 +14,6 @@ function onMobSpawn(mob)
     if amaranth:isAlive() then
         mob:pathTo(pos.x, pos.y, pos.z)
     end
-    mob:addImmunity(tpz.immunity.CHARM)
     mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -75)
     mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)

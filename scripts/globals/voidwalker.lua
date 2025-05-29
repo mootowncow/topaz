@@ -673,13 +673,13 @@ local mixinByMobName =
            if spell:getID() == 186 then -- Aeroga III
                 if (mob:getLocalVar("forcedSomersault") == 0) then
                     mob:setLocalVar("forcedSomersault", 1)
-                    mob:useMobAbility(3938) -- Somersault that doesn't consume TP
+                    mob:useMobAbility(3938) -- Somersault that doesn't consume TP'
                 end
             end
         end)
 
         mob:addListener("WEAPONSKILL_USE", "FARRUCA_FLY_WS_USE", function(mob, target, skill)
-            if (skill == 3938) then -- To ensure it won't Somersault a million times in a row
+            if (skill == 3938) then -- To ensure it won't Somersault a million times in a row'
                 mob:setLocalVar("forcedSomersault", 0)
             end
         end)
@@ -868,7 +868,7 @@ local mixinByMobName =
                 mob:setMod(tpz.mod.UDMGBREATH, 0)
             end
         end)
-        mob:addListener("WEAPONSKILL_STATE_EXIT", "YILBEGAN_MOBSKILL_FINISHED", function(mob, skillID)
+        mob:addListener("WEAPONSKILL_STATE_EXIT", "YILBEGAN_MOBSKILL_FINISHED", function(mob)
             if (animationSub == wingState.UP) then
                 mob:setMod(tpz.mod.UDMGPHYS, 0)
                 mob:setMod(tpz.mod.UDMGRANGE, 0)
@@ -1031,7 +1031,7 @@ local mobFightByMobName =
             end
         end)
 
-        mob:addListener("SPELL_DMG_TAKEN", "EREBUS_SPELL_DMG_TAKEN", function(target, caster, spell)
+        mob:addListener("MAGIC_TAKE", "EREBUS_MAGIC_TAKE", function(target, caster, spell)
             if
                 spell:tookEffect() and
                 (caster:isPC() or caster:isPet()) and

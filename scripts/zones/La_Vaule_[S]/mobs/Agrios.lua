@@ -8,6 +8,7 @@
 require("scripts/globals/status")
 require("scripts/globals/mobs")
 require("scripts/globals/wotg")
+require("scripts/globals/wotg_strongholds")
 -----------------------------------
 local wsList = {665, 666} -- Grand Slam, Power Attack
 local wsList2 = {665, 666, 2349} -- Grand Slam, Power Attack, Daunting Hurl
@@ -16,6 +17,7 @@ local wsList2 = {665, 666, 2349} -- Grand Slam, Power Attack, Daunting Hurl
 function onMobSpawn(mob)
     tpz.wotg.NMMods(mob)
 end
+
 
 function onMobFight(mob, target)
 end

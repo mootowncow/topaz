@@ -49,8 +49,6 @@
 #include "../../weapon_skill.h"
 #include "../../mob_modifier.h"
 #include "../../items/item_weapon.h"
-#include "../../item_container.h"
-#include "../../utils/itemutils.h"
 
 namespace gambits
 {
@@ -893,18 +891,6 @@ void CGambitsContainer::Tick(time_point tick)
                 if (action.select == G_SELECT::SPECIFIC)
                 {
                     //trustutils::SendTrustMessage(POwner, action.select_arg);
-                }
-            }
-            else if (action.reaction == G_REACTION::ITEM)
-            {
-                if (action.select == G_SELECT::SPECIFIC)
-                {
-                    CItem* item = itemutils::GetItem(action.select_arg);
-                    if (item)
-                    {
-                        uint16 itemID = item->getID();                              // Get the ID from the item
-                        controller->UseItem(target->targid, LOC_INVENTORY, itemID); // Pass the ID, not the object
-                    }
                 }
             }
 

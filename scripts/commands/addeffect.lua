@@ -88,10 +88,8 @@ function onTrigger(player, arg1, arg2, arg3, arg4, arg5, arg6)
     end
 
     -- add effect
-    local effectName = utils.PunctuateString(arg1)
     if (targ:addStatusEffect(id, power, 3, duration, subid, subPower)) then
         targ:messagePublic(280, targ, id, id)
-        player:PrintToPlayer(string.format("Added %s to %s.", effectName, targ:getName()))
     else
         targ:messagePublic(283, targ, id)
     end

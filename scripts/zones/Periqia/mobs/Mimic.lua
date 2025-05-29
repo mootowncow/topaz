@@ -3,7 +3,6 @@
 --  Mob: Mimic
 -----------------------------------
 local ID = require("scripts/zones/Periqia/IDs")
-mixins = {require("scripts/mixins/families/mimic")}
 -----------------------------------
 function onMobSpawn(mob)
     mob:hideName(true)

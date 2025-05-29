@@ -42,7 +42,7 @@ function onSpellPrecast(mob, spell)
     if spell:getID() == 252 then -- Stun
         spell:setAoE(tpz.magic.aoe.RADIAL)
         spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
-        spell:setRadius(15)
+        spell:setRadius(10)
 	end
 end
 

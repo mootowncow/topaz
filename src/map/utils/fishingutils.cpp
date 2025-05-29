@@ -754,7 +754,6 @@ namespace fishingutils
         PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CCaughtMonsterPacket(PChar, MessageOffset + FISHMESSAGEOFFSET_CATCH_CHEST));
 
         // Chest->status = STATUS_NORMAL;
-        luautils::ApplyMixins(static_cast<CBaseEntity*>(Chest));
         luautils::OnNpcSpawn(static_cast<CBaseEntity*>(Chest));
 
         return 1;

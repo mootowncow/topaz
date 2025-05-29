@@ -45,7 +45,7 @@ function onMobWeaponSkill(target, mob, skill)
         if bee:isAlive() then
             bee:setHP(0)
             amaranth:useMobAbility(tpz.mob.skills.LEVEL_UP, amaranth)
-            amaranth:setMobLevel(level +1, false)
+            amaranth:setMobLevel(level +1)
             -- Mods and Mobmods are cleared on leveling up, need to readd them
             tpz.annm.NMMods(mob)
             mob:setMobMod(tpz.mobMod.FRIENDLY_FIRE, 1)

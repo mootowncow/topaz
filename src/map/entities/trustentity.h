@@ -49,9 +49,8 @@ public:
 
     void OnCastFinished(CMagicState& state, action_t& action) override;
     virtual void OnCastInterrupted(CMagicState&, action_t&, MSGBASIC_ID msg, bool blockedCast) override;
-    void OnWeaponSkillFinished(CWeaponSkillState& state, action_t& action) override;
     void OnMobSkillFinished(CMobSkillState& state, action_t& action) override;
-    virtual void OnItemFinish(CItemState&, action_t&);
+    void OnWeaponSkillFinished(CWeaponSkillState& state, action_t& action) override;
 
     uint32 m_TrustID{};
 };

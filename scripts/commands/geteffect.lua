@@ -4,7 +4,6 @@
 ---------------------------------------------------------------------------------------------------
 require("scripts/globals/status")
 require("scripts/globals/teleports")
-require("scripts/globals/utils")
 
 cmdprops =
 {
@@ -53,10 +52,9 @@ function onTrigger(player, arg1)
         local subId = effect:getSubType()
         local subPower = effect:getSubPower()
         local tier = effect:getTier()
-        local effectName = utils.PunctuateString(arg1)
 
         if (targ ~= nil) then
-            player:PrintToPlayer(string.format("%s's %s power: %u, tick: %u, duration: %u, subId: %u, subPower: %u, tier: %u", targ:getName(), effectName, power, tick, duration, subId, subPower, tier))
+            player:PrintToPlayer(string.format("%s's %u power: %u, tick: %u, duration: %u, subId: %u, subPower: %u, tier: %u", targ:getName(), id, power, tick, duration, subId, subPower, tier))
         else
             player:PrintToPlayer("Must select a target using in game cursor first.")
         end

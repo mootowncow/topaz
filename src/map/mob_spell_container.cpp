@@ -109,7 +109,6 @@ void CMobSpellContainer::RemoveSpell(SpellID spellId)
     findAndRemove(m_debuffList, spellId);
     findAndRemove(m_healList, spellId);
     findAndRemove(m_naList, spellId);
-    findAndRemove(m_severeList, spellId);
 
     m_hasSpells = !(m_gaList.empty() && m_damageList.empty() && m_buffList.empty() && m_debuffList.empty() && m_healList.empty() && m_naList.empty());
 }
@@ -909,18 +908,6 @@ std::optional<SpellID> CMobSpellContainer::HelixWeakness(CBattleEntity* PMob, CB
     return std::nullopt;
 }
 
-std::vector<SpellID> CMobSpellContainer::GetAllSpells() const
-{
-    std::vector<SpellID> allSpells;
-    allSpells.insert(allSpells.end(), m_gaList.begin(), m_gaList.end());
-    allSpells.insert(allSpells.end(), m_damageList.begin(), m_damageList.end());
-    allSpells.insert(allSpells.end(), m_buffList.begin(), m_buffList.end());
-    allSpells.insert(allSpells.end(), m_debuffList.begin(), m_debuffList.end());
-    allSpells.insert(allSpells.end(), m_healList.begin(), m_healList.end());
-    allSpells.insert(allSpells.end(), m_naList.begin(), m_naList.end());
-    allSpells.insert(allSpells.end(), m_severeList.begin(), m_severeList.end());
-    return allSpells;
-}
 
 bool CMobSpellContainer::HasSpells() const
 {
@@ -960,12 +947,8 @@ std::optional<SpellID> CMobSpellContainer::GetAggroSpell()
 std::optional<SpellID> CMobSpellContainer::GetSpell()
 {
     // prioritize curing if health low enough
-    if (HasHealSpells() && m_PMob->GetHPP() <= m_PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) &&
-        tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_HEAL_CHANCE))
-    {
-        auto healSpell = GetHealSpell();
-        if (healSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(healSpell.value())))
-            return healSpell;
+    if(HasHealSpells() && m_PMob->GetHPP() <= m_PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_HEAL_CHANCE)){
+        return GetHealSpell();
     }
 
     // See if a nearby ally is low enough HP to cure
@@ -987,83 +970,62 @@ std::optional<SpellID> CMobSpellContainer::GetSpell()
             }
         }
 
-        if (PCureTarget != nullptr && PCureTarget->GetHPP() <= m_PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) &&
-            tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_HEAL_CHANCE))
+        if (PCureTarget != nullptr && PCureTarget->GetHPP() <= m_PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_HEAL_CHANCE))
         {
-            auto healSpell = GetHealSpell();
-            if (healSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(healSpell.value())))
-                return healSpell;
+            return GetHealSpell();
         }
     }
 
     // almost always use na if I can
-    if (HasNaSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_NA_CHANCE))
-    {
+    if(HasNaSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_NA_CHANCE)){
+        // will return -1 if no proper na spell exists
         auto naSpell = GetNaSpell();
-        if (naSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(naSpell.value())))
-        {
+        if(naSpell){
             return naSpell.value();
         }
     }
 
     // try something really destructive
-    if (HasSevereSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_SEVERE_CHANCE))
+    if (HasSevereSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_SEVERE_SPELL_CHANCE))
     {
-        auto severeSpell = GetSevereSpell();
-        if (severeSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(severeSpell.value())))
-            return severeSpell;
+        return GetSevereSpell();
     }
 
     // try ga spell
-    if (HasGaSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_GA_CHANCE))
-    {
-        auto gaSpell = GetGaSpell();
-        if (gaSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(gaSpell.value())))
-            return gaSpell;
+    if(HasGaSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_GA_CHANCE)){
+        return GetGaSpell();
     }
 
-    if (HasBuffSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_BUFF_CHANCE))
-    {
-        auto buffSpell = GetBuffSpell();
-        if (buffSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(buffSpell.value())))
-            return buffSpell;
+    if(HasBuffSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_BUFF_CHANCE)){
+        return GetBuffSpell();
     }
 
     // Grab whatever spell can be found
     // starting from damage spell
-    if (HasDamageSpells())
+    if(HasDamageSpells())
     {
-        auto damageSpell = GetDamageSpell();
-        if (damageSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(damageSpell.value())))
-            return damageSpell;
+        // try damage spell
+        return GetDamageSpell();
     }
 
     if (HasDebuffSpells())
     {
-        auto debuffSpell = GetDebuffSpell();
-        if (debuffSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(debuffSpell.value())))
-            return debuffSpell;
+        return GetDebuffSpell();
     }
 
-    if (HasBuffSpells())
+    if(HasBuffSpells())
     {
-        auto buffSpell = GetBuffSpell();
-        if (buffSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(buffSpell.value())))
-            return buffSpell;
+        return GetBuffSpell();
     }
 
-    if (HasGaSpells())
+    if(HasGaSpells())
     {
-        auto gaSpell = GetGaSpell();
-        if (gaSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(gaSpell.value())))
-            return gaSpell;
+        return GetGaSpell();
     }
 
-    if (HasHealSpells())
+    if(HasHealSpells())
     {
-        auto healSpell = GetHealSpell();
-        if (healSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(healSpell.value())))
-            return healSpell;
+        return GetHealSpell();
     }
 
     // Got no spells to use
