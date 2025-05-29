@@ -27,6 +27,8 @@ function onMobSpawn(mob)
     })
     ]]
 
+    tpz.trust.setUpFood(mob)
+
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
 
     -- Stun all the things!
