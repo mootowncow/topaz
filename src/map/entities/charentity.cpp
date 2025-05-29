@@ -1863,6 +1863,16 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 }
                 else
                 {
+                    // Store current burden for later - luautils::OnUseAbility() modifies burden on maneuver use
+                    uint8 burden = 0;
+                    if (PPet && PPet->objtype == TYPE_PET)
+                    {
+                        auto PAutomaton = static_cast<CAutomatonEntity*>(PPet);
+                        uint8 elementIndex = static_cast<uint8>(PAbility->getID() - ABILITY_FIRE_MANEUVER);
+
+                        burden = PAutomaton->getBurden()[elementIndex];
+                    }
+
                     int32 value = luautils::OnUseAbility(this, PTarget, PAbility, &action);
 
                     // If a script set messageID directly, use that;
@@ -1884,13 +1894,24 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                         actionTarget.param = -value;
                     }
 
+                    // Handle Maneuvers message
+                    if (PAbility->getID() >= ABILITY_FIRE_MANEUVER && PAbility->getID() <= ABILITY_DARK_MANEUVER)
+                    {
+                        auto msgId = MSGBASIC_BURDEN_PERCENT;
+                        if (StatusEffectContainer->HasStatusEffect(EFFECT_OVERLOAD))
+                        {
+                            msgId = MSGBASIC_OVERLOADED;
+                        }
+                        actionTarget.messageID = msgId;
+                        actionTarget.param = burden;
+                    }
+
                     state.ApplyEnmity();
                 }
 
                 first = false;
             }
         }
-
 
         // Interrupted
         // TODO: Does nothing? No longer needed?
@@ -1901,7 +1922,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
             actionTarget_t& actionTarget = actionList.getNewActionTarget();
             actionTarget.animation = 508;
-            actionTarget.messageID = 88;
+            actionTarget.messageID = MSGBASIC_UNABLE_TO_USE_JA2;
             action.actionid = 0;
             action.recast = 0;
 

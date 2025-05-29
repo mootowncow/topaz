@@ -339,7 +339,7 @@ INSERT INTO `status_effects` VALUES (295,'negate_amnesia',289,0,0,0,16,0,0,0,0);
 INSERT INTO `status_effects` VALUES (296,'negate_doom',289,0,0,0,15,0,0,0,0);
 INSERT INTO `status_effects` VALUES (297,'negate_poison',289,0,0,0,3,0,0,0,0);
 INSERT INTO `status_effects` VALUES (298,'crit_hit_evasion_down',8405026,0,0,0,0,0,4,0,1);
-INSERT INTO `status_effects` VALUES (299,'overload',544,0,0,0,0,0,0,0,0);
+INSERT INTO `status_effects` VALUES (299,'overload',32,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (300,'fire_maneuver',5243680,0,0,4,0,0,0,0,3000);
 INSERT INTO `status_effects` VALUES (301,'ice_maneuver',5243680,0,0,4,0,0,0,0,3000);
 INSERT INTO `status_effects` VALUES (302,'wind_maneuver',5243680,0,0,4,0,0,0,0,3000);

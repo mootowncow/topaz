@@ -237,6 +237,7 @@ tpz.msg.basic =
     STATUS_INCREASED       = 562, -- The status parameters of ${target} have increased.
     PET_CANNOT_DO_ACTION   = 574, -- <player>'s pet is currently unable to perform that action.
     PET_NOT_ENOUGH_TP      = 575, -- <player>'s pet does not have enough TP to perform that action.
+    BURDEN_PERCENT         = 798, -- <player>'s <maneuver> overload chance is <%>.
 
     -- Food
     IS_FULL                 = 246,  -- ${target} is full.

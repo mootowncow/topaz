@@ -154,6 +154,8 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_PET_CANNOT_DO_ACTION	= 574, // <player>'s pet is currently unable to perform that action. 
 	MSGBASIC_PET_NOT_ENOUGH_TP		= 575, // <player>'s pet does not have enough TP to perform that action.
     MSGBASIC_PET_WS                 = 326, // <player>'s pet readies ${weapon_skill}.
+    MSGBASIC_BURDEN_PERCENT         = 798, // <player>'s <maneuver> overload chance is <%>.
+    MSGBASIC_OVERLOADED             = 799, // <player's> <manuever> overloaded chance is <%>.
 	// Items 
     MSGBASIC_ITEM_UNABLE_TO_USE     = 55,  // Unable to use item. 
     MSGBASIC_ITEM_UNABLE_TO_USE_2   = 56,  // Unable to use item. 
