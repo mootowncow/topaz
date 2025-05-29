@@ -89,6 +89,7 @@
 #include "../entities/trustentity.h"
 
 #include "../packets/action.h"
+#include "../attack.h"
 #include "../packets/auction_house.h"
 #include "../packets/char.h"
 #include "../packets/char_abilities.h"
@@ -9382,6 +9383,91 @@ inline int32 CLuaBaseEntity::getSpentTP(lua_State* L)
 }
 
 /************************************************************************
+ *  Function: getTPToAttacker()
+ *  Purpose : Calculate how much TP to gain from a successful hit
+ *  Example : pet:getTPToAttacker(tpz.slot.RANGED, tpz.physicalAttackType.NORMAL, 1)
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getTPToAttacker(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    SLOTTYPE weaponSlot = SLOT_MAIN;
+    PHYSICAL_ATTACK_TYPE physicalAttackType = PHYSICAL_ATTACK_TYPE::NORMAL;
+    uint16 tpMultiplier = 1;
+
+    auto PAttacker = static_cast<CBattleEntity*>(m_PBaseEntity);
+
+    if (!PAttacker)
+    {
+        return 0;
+    }
+
+    if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
+    {
+        weaponSlot = (SLOTTYPE)lua_tointeger(L, 2);
+    }
+
+    if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
+    {
+        physicalAttackType = (PHYSICAL_ATTACK_TYPE)lua_tointeger(L, 3);
+    }
+
+    if (!lua_isnil(L, 4) && lua_isnumber(L, 4))
+    {
+        tpMultiplier = lua_tointeger(L, 4);
+    }
+
+
+    int16 baseTp = 0;
+    int16 tpToGain = 0;
+    auto weapon = battleutils::GetEntityWeapon(PAttacker, (SLOTTYPE)weaponSlot);
+
+    if ((weaponSlot == SLOT_RANGED || weaponSlot == SLOT_AMMO) && PAttacker->objtype == TYPE_PC)
+    {
+        int16 delay = PAttacker->GetRangedWeaponDelay(true);
+
+        baseTp = battleutils::CalculateBaseTP((delay * 120) / 1000);
+    }
+    else
+    {
+        int16 delay = PAttacker->GetWeaponDelay(true);
+        auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
+
+        if (sub_weapon && sub_weapon->getDmgType() > 0 && sub_weapon->getDmgType() < 4 && weapon->getSkillType() != SKILL_HAND_TO_HAND)
+        {
+            delay = delay / 2;
+        }
+
+        float ratio = 1.0f;
+
+        if (weapon->getSkillType() == SKILL_HAND_TO_HAND)
+            ratio = 2.0f;
+
+        baseTp = battleutils::CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
+    }
+
+    if (PAttacker->objtype == TYPE_PC && physicalAttackType == PHYSICAL_ATTACK_TYPE::ZANSHIN)
+    {
+        baseTp += ((CCharEntity*)PAttacker)->PMeritPoints->GetMeritValue(MERIT_IKISHOTEN, (CCharEntity*)PAttacker);
+    }
+
+    tpToGain = (int16)(tpMultiplier * (baseTp * (1.0f + 0.01f * (float)((PAttacker->getMod(Mod::STORETP) + battleutils::getStoreTPbonusFromMerit(PAttacker))))));
+
+    lua_pushinteger(L, tpToGain);
+
+    return 1;
+}
+
+inline int32 CLuaBaseEntity::getTPToVictim(lua_State* L)
+{
+    return 0;
+}
+
+/************************************************************************
 *  Function: updateHealth()
 *  Purpose : Forces a health update for an Entity
 *  Example : target:updateHealth()
@@ -18416,6 +18502,8 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setTP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delTP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getSpentTP),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getTPToAttacker),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getTPToVictim),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateHealth),
 

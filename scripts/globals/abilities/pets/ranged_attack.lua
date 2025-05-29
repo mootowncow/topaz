@@ -5,7 +5,7 @@ require("scripts/globals/status")
 require("scripts/globals/settings")
 require("scripts/globals/automatonweaponskills")
 require("scripts/globals/weaponskills")
-
+require("scripts/globals/utils")
 ---------------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
@@ -55,11 +55,24 @@ function onPetAbility(target, pet, skill)
             end
         end
     end
+
     damage.dmg = damage.dmg * numhits
     pet:setLocalVar("barrage_turbine", 0)
     pet:delStatusEffectSilent(tpz.effect.BARRAGE)
 
     dmg = AutoPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, damage.hitslanded, params)
+
+    local tpGained = pet:getTPToAttacker(tpz.slot.RANGED, tpz.physicalAttackType.NORMAL, 1) * numhits
+    local tpGiven = utils.CalcualteTPGiven(pet, target, true)
+
+    -- Add TP to self and give TP to target based on number of hits succesfully landed
+    if numhits > 1 then
+        -- First hit is calculated in automatically, additional hits are not
+        tpGiven = tpGiven * (numhits - 1)
+        --printf("Gained: %d, Given: %d", tpGained, tpGiven)
+        pet:addTP(tpGained)
+        target:addTP(tpGiven)
+    end
 
     -- Try to skill up per number of arrows succesfully landed
     if (dmg > 0) then

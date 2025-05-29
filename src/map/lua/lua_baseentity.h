@@ -414,6 +414,8 @@ public:
     int32 setTP(lua_State*);                // Set tp of Entity to value
     int32 delTP(lua_State*);                // Subtract tp of Entity
     int32 getSpentTP(lua_State*);           // Get an entities last spent TP
+    int32 getTPToAttacker(lua_State*);      // Calculate how much TP to gain from a successful hit
+    int32 getTPToVictim(lua_State*);        // Calculate how much TP to give to a target from a successful hit
 
     int32 updateHealth(lua_State* L);
 
