@@ -28,9 +28,9 @@
 
 
 CMobSpellList::CMobSpellList()
-{
-
-}
+ : m_ID(0)
+ {
+ }
 
 void CMobSpellList::AddSpell(SpellID spellId, uint16 minLvl, uint16 maxLvl)
 {
@@ -73,6 +73,7 @@ namespace mobSpellList
                 if (!PMobSpellList[pos])
                 {
                     PMobSpellList[pos] = new CMobSpellList();
+                    PMobSpellList[pos]->SetID(pos);
                 }
 
                 PMobSpellList[pos]->AddSpell(spellId, minLvl, maxLvl);

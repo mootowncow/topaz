@@ -33,6 +33,8 @@ function onMobSpawn(mob)
     ]]
     tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.SPAWN)
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
+    
     if mob:getMainLvl() >= 75 then
         mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_SPECIFIC, tpz.magic.spell.METEOR, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
         mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_SPECIFIC, tpz.magic.spell.DEATH, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)

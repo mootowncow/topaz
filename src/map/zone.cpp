@@ -1125,30 +1125,37 @@ void CZone::CharZoneOut(CCharEntity* PChar)
     }
 }
 
-void CZone::CheckRegions(CCharEntity* PChar)
+CRegion* CZone::CheckRegions(CCharEntity* PChar)
 {
     TracyZoneScoped;
     uint32 RegionID = 0;
+    CRegion* CurrentRegion = nullptr;
 
     for (regionList_t::const_iterator region = m_regionList.begin(); region != m_regionList.end(); ++region)
     {
         if ((*region)->isPointInside(PChar->loc.p))
         {
             RegionID = (*region)->GetRegionID();
+            CurrentRegion = *region;
 
-            if ((*region)->GetRegionID() != PChar->m_InsideRegionID)
+            if (RegionID != PChar->m_InsideRegionID)
             {
                 luautils::OnRegionEnter(PChar, *region);
             }
-            if (PChar->m_InsideRegionID == 0) break;
+            if (PChar->m_InsideRegionID == 0)
+                break;
         }
         else if ((*region)->GetRegionID() == PChar->m_InsideRegionID)
         {
             luautils::OnRegionLeave(PChar, *region);
         }
     }
+
     PChar->m_InsideRegionID = RegionID;
+
+    return CurrentRegion;
 }
+
 
 void CZone::ResetLocalVars()
 {

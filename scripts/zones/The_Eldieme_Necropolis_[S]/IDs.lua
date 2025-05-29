@@ -18,6 +18,7 @@ zones[tpz.zone.THE_ELDIEME_NECROPOLIS_S] =
         LOGIN_CAMPAIGN_UNDERWAY       = 7000, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
         LOGIN_NUMBER                  = 7001, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         LAYTON_SHOP_DIALOG            = 7103, -- Might you be a student of the same field as I? If that is the case, I might be able to provide you with the proper grimoires...at a price, of course.
+        OBTAINED_TEMP_ITEM            = 7114, -- Obtained temporary item: a <item>
         SARCOPHAGUS_SEALED            = 7597, -- It is a stone sarcophagus with the lid sealed tight. It cannot be opened.
         NAMES_CARVED_ON_STONE         = 7598, -- The names of the deceased in this area are carved upon the stone.
         YOU_CAN_NOW_BECOME_A_SCHOLAR  = 7712, -- You can now become a scholar!

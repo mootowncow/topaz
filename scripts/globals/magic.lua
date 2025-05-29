@@ -1184,7 +1184,7 @@ function handleAfflatusMisery(caster, spell, dmg)
     return dmg
 end
 
-function finalMagicAdjustments(caster, target, spell, dmg)
+function finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
     --Handles target's HP adjustment and returns UNSIGNED dmg (absorb message is set in this function)
 
     local skill = spell:getSkillType()
@@ -1267,7 +1267,7 @@ function finalMagicAdjustments(caster, target, spell, dmg)
     dmg = AreaOfEffectResistance(target, spell, dmg)
 
     local element = spell:getElement()
-    dmg = target:magicDmgTaken(dmg, element)
+    dmg = target:magicDmgTaken(dmg, element, rawDmg)
 
     if (dmg > 0) then
         if not (spell:getSpellFamily() == tpz.magic.spellFamily.ASPIR) then
@@ -1309,13 +1309,13 @@ function finalMagicAdjustments(caster, target, spell, dmg)
     return dmg
  end
 
-function finalMagicNonSpellAdjustments(caster, target, ele, dmg)
+function finalMagicNonSpellAdjustments(caster, target, ele, dmg, rawDmg)
     --Handles target's HP adjustment and returns SIGNED dmg (negative values on absorb)
 
     -- Handle Circle DR
     dmg = utils.HandleCircleDamageReduction(caster, target, dmg)
 
-    dmg = target:magicDmgTaken(dmg, ele)
+    dmg = target:magicDmgTaken(dmg, ele, rawDmg)
 
     if (dmg > 0) then
         dmg = utils.clamp(dmg, 0, 99999)
@@ -1521,11 +1521,6 @@ function addBonuses(caster, spell, target, dmg, params)
             mab = mab + caster:getMerit(tpz.merit.NIN_MAGIC_BONUS)
         end
 
-        local mab_crit = caster:getMod(tpz.mod.MAGIC_CRITHITRATE)
-        if ( math.random(1, 100) < mab_crit ) then
-           mab = mab + ( 10 + caster:getMod(tpz.mod.MAGIC_CRIT_DMG_INCREASE ) )
-        end
-
         if caster:isPC() then
             if (casterJob == tpz.job.RDM) then
                 mab = mab + caster:getJobPointLevel(tpz.jp.RDM_MAGIC_ATK_BONUS)
@@ -1540,8 +1535,14 @@ function addBonuses(caster, spell, target, dmg, params)
     if (mabbonus < 0) then
         mabbonus = 0
     end
-
     dmg = math.floor(dmg * mabbonus)
+
+    -- Spell Crit
+    local critHitRate = caster:getMod(tpz.mod.MAGIC_CRITHITRATE) + target:getMod(tpz.mod.MAGIC_ENEMYCRITRATE)
+    local magicCritDmgIncrease = 1.5 + ((caster:getMod(tpz.mod.MAGIC_CRIT_DMG_INCREASE) - target:getMod(tpz.mod.MAGIC_CRIT_DEF_BONUS)) / 100)
+    if (math.random(1, 100) < critHitRate) then
+        dmg = math.floor(dmg * magicCritDmgIncrease)
+    end
 
     if spell:getSkillType() == tpz.skill.ELEMENTAL_MAGIC or spell:getSkillType() == tpz.skill.DARK_MAGIC then
         if (caster:hasStatusEffect(tpz.effect.EBULLIENCE)) then
@@ -2306,7 +2307,7 @@ end
 
 function doElementalNuke(caster, spell, target, spellParams)
     local DMG = 0
-    local DMGMod = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+    local DMGMod = CalculateMagicDamageMod(caster)
     local skillType = spellParams.skillType
     local dINT = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)
     local V = 0
@@ -2352,7 +2353,7 @@ function doElementalNuke(caster, spell, target, spellParams)
         end
 
     else
-        local mDMG = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+        local mDMG = CalculateMagicDamageMod(caster)
         --[[
                 Calculate base damage:
                 D = mDMG + V + (dINT × M)
@@ -2410,26 +2411,27 @@ function doElementalNuke(caster, spell, target, spellParams)
         --print(string.format("MTDR was %.2f for numtargets %u",MTDR,spell:getTotalTargets()))
     end
     
-   -- if target:getMod(tpz.mod.MAGIC_STACKING_MDT) == 0 then
-   --     target:setMod(tpz.mod.MAGIC_STACKING_MDT,40)
-   --     target:queue(1100, function(target)
-   --         target:setMod(tpz.mod.MAGIC_STACKING_MDT,0)
-   --     end) 
-   -- else
-   --     DMG = DMG * target:getMod(tpz.mod.MAGIC_STACKING_MDT) / 100
-   -- end
-    
+    -- if target:getMod(tpz.mod.MAGIC_STACKING_MDT) == 0 then
+    --     target:setMod(tpz.mod.MAGIC_STACKING_MDT,40)
+    --     target:queue(1100, function(target)
+    --         target:setMod(tpz.mod.MAGIC_STACKING_MDT,0)
+    --     end) 
+    -- else
+    --     DMG = DMG * target:getMod(tpz.mod.MAGIC_STACKING_MDT) / 100
+    -- end
+
+    -- Track raw damage
+    local rawDmg = DMG
+    rawDmg = addBonuses(caster, spell, target, rawDmg, params)
+
     --get the resisted damage
     DMG = DMG * resist * MTDR
-
     --add on bonuses (staff/day/weather/jas/mab/etc all go in this function)
     DMG = addBonuses(caster, spell, target, DMG, spellParams)
-
     --add in target adjustment
     DMG = adjustForTarget(target, DMG, element)
-
     --add in final adjustments
-    DMG = finalMagicAdjustments(caster, target, spell, DMG)
+    DMG = finalMagicAdjustments(caster, target, spell, DMG, rawDmg)
 
     return DMG
 end
@@ -2469,7 +2471,7 @@ function doNuke(caster, target, spell, params)
     if (spell:getSkillType() == tpz.skill.NINJUTSU) then
         if (caster:getMainJob() == tpz.job.NIN) then -- NIN main gets a bonus to their ninjutsu nukes
             local ninSkillBonus = 100
-            local DMGMod = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+            local DMGMod = CalculateMagicDamageMod(caster)
 
             -- NIN Job Point: Elemental Ninjutsu Effect
             if caster:isPC() then
@@ -2512,6 +2514,10 @@ function doNuke(caster, target, spell, params)
         end
     end
 
+    -- Track raw damage
+    local rawDmg = dmg
+    rawDmg = addBonuses(caster, spell, target, rawDmg, params)
+
     --get the resisted damage
     dmg = dmg * resist
     --add on bonuses (staff/day/weather/jas/mab/etc all go in this function)
@@ -2519,7 +2525,7 @@ function doNuke(caster, target, spell, params)
     --add in target adjustment
     dmg = adjustForTarget(target, dmg, spell:getElement())
     --add in final adjustments
-    dmg = finalMagicAdjustments(caster, target, spell, dmg)
+    dmg = finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
     return dmg
 end
 
@@ -2540,12 +2546,16 @@ function doDivineBanishNuke(caster, target, spell, params)
     local dmg = calculateMagicDamage(caster, target, spell, params)
 
     -- Add magic damage mod 
-    local DMGMod = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+    local DMGMod = CalculateMagicDamageMod(caster)
     dmg = dmg + DMGMod
 
     --get resist multiplier (1x if no resist)
     local resist = applyResistance(caster, target, spell, params)
-	 
+
+    -- Track raw damage
+    local rawDmg = dmg
+    rawDmg = addBonuses(caster, spell, target, rawDmg, params)
+
     --get the resisted damage
     dmg = dmg * resist
 
@@ -2563,7 +2573,7 @@ function doDivineBanishNuke(caster, target, spell, params)
     --handling afflatus misery
     dmg = handleAfflatusMisery(caster, spell, dmg)
     --add in final adjustments
-    dmg = finalMagicAdjustments(caster, target, spell, dmg)
+    dmg = finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
     return dmg
 end
 
@@ -2945,29 +2955,31 @@ function doCure(caster, target, spell)
             end
         else
             if (target:isUndead()) then
-               spell:setMsg(tpz.msg.basic.MAGIC_DMG)
-               local params = {}
-               params.dmg = baseDmg
-               params.multiplier = offensiveMultiplier
-               params.skillType = tpz.skill.HEALING_MAGIC
-               params.attribute = tpz.mod.MND
-               params.hasMultipleTargetReduction = false
+                spell:setMsg(tpz.msg.basic.MAGIC_DMG)
+                local params = {}
+                params.dmg = baseDmg
+                params.multiplier = offensiveMultiplier
+                params.skillType = tpz.skill.HEALING_MAGIC
+                params.attribute = tpz.mod.MND
+                params.hasMultipleTargetReduction = false
 
-               local dmg = calculateMagicDamage(caster, target, spell, params)
-               local params = {}
-               params.diff = caster:getStat(tpz.mod.MND)-target:getStat(tpz.mod.MND)
-               params.attribute = tpz.mod.MND
-               params.skillType = tpz.skill.HEALING_MAGIC
-               params.bonus = 0
-               local resist = applyResistance(caster, target, spell, params)
-               dmg = dmg*resist
-               dmg = addBonuses(caster, spell, target, dmg)
-               dmg = adjustForTarget(target, dmg, spell:getElement())
-               dmg = finalMagicAdjustments(caster, target, spell, dmg)
-               final = dmg
-               -- printf(string.format("Cure resist: %f final damage: %d", resist, dmg))
-               target:takeDamage(final, caster, tpz.attackType.MAGICAL, tpz.damageType.LIGHT)
-               target:updateEnmityFromDamage(caster, final)
+                local dmg = calculateMagicDamage(caster, target, spell, params)
+                -- Track raw damage
+                local rawDmg = dmg
+                local params = {}
+                params.diff = caster:getStat(tpz.mod.MND)-target:getStat(tpz.mod.MND)
+                params.attribute = tpz.mod.MND
+                params.skillType = tpz.skill.HEALING_MAGIC
+                params.bonus = 0
+                local resist = applyResistance(caster, target, spell, params)
+                dmg = dmg*resist
+                dmg = addBonuses(caster, spell, target, dmg)
+                dmg = adjustForTarget(target, dmg, spell:getElement())
+                dmg = finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
+                final = dmg
+                -- printf(string.format("Cure resist: %f final damage: %d", resist, dmg))
+                target:takeDamage(final, caster, tpz.attackType.MAGICAL, tpz.damageType.LIGHT)
+                target:updateEnmityFromDamage(caster, final)
             elseif (caster:getObjType() == tpz.objType.PC) then
                 spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
             else
@@ -3022,6 +3034,7 @@ function doCure(caster, target, spell)
 end
 
 function doAdditionalEffectDamage(player, target, chance, dmg, dStat, incudeMAB, bonusMAB, element, maccBonus)
+    local rawDmg = dmg
     local resist = applyResistanceAddEffect(player, target, element, maccBonus, nil)
     local params = {}
     params.bonusmab = bonusMAB
@@ -3033,7 +3046,7 @@ function doAdditionalEffectDamage(player, target, chance, dmg, dStat, incudeMAB,
         dmg = addBonusesAbility(player, element, target, dmg, params)
         dmg = math.floor(dmg * resist)
         dmg = adjustForTarget(target, dmg, element)
-        dmg = finalMagicNonSpellAdjustments(player, target, element, dmg)
+        dmg = finalMagicNonSpellAdjustments(player, target, element, dmg, rawDmg)
     else
          return 0
     end
@@ -3852,6 +3865,17 @@ function getBarspellElementalMDB(caster, target, element)
     end
 
     return mdefBarBonus
+end
+
+function CalculateMagicDamageMod(caster)
+    local magicDamage = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+    local mainHand = caster:getEquipID(tpz.slot.MAIN)
+
+    if (mainHand == tpz.items.MACHISMO) then
+        magicDamage = magicDamage + math.floor(caster:getTP() / 10)
+    end
+
+    return magicDamage
 end
 
 -- Output magic hit rate for all levels

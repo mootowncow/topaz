@@ -73,7 +73,7 @@ tpz.aftermath.effects =
     [9]  = { mods = { tpz.mod.CRITHITRATE, 15 }, duration = getTier1RelicDuration }, -- Kikoku
     [10] = { mods = { tpz.mod.TP_BONUS, 1000 }, duration = getTier1RelicDuration }, -- Amanomurakumo
     [11] = { mods = { tpz.mod.ENH_MAGIC_DURATION, 100 }, duration = getTier1RelicDuration }, -- Mjollnir
-    [12] = { mods = { tpz.mod.REFRESH, 8 }, duration = getTier1RelicDuration }, -- Claustrum
+    [12] = { mods = { tpz.mod.DOUBLE_CAST, 20 }, duration = getTier1RelicDuration }, -- Claustrum
     [13] = { mods = { tpz.mod.RACC, 20 }, duration = getTier1RelicDuration }, -- Yoichinoyumi
     [14] = { mods = { tpz.mod.ENMITY, -20 }, duration = getTier1RelicDuration }, -- Annihilator
 

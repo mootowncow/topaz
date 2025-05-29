@@ -4,9 +4,43 @@
 --
 -----------------------------------
 local ID = require("scripts/zones/Crawlers_Nest_[S]/IDs")
+require("scripts/globals/wotg")
 -----------------------------------
-
 function onInitialize(zone)
+    local normalCircleRadius = 10
+    local largeCircleRadius = 20
+    local extremelyLargeCircleRadius = 25
+    zone:registerRegion(1, 61.583229, normalCircleRadius, 19.683287, 0, 0, 0) -- Random event spawn circle
+    zone:registerRegion(2, 60.794937, normalCircleRadius, 97.207321, 0, 0, 0) -- Random event spawn circle
+    zone:registerRegion(3, 41.173512, largeCircleRadius, 205.871521, 0, 0, 0) -- Random event spawn circle
+    zone:registerRegion(4, 0.202141, largeCircleRadius, 277.989471, 0, 0, 0) -- Random event spawn circle
+    zone:registerRegion(5, -85.401657, largeCircleRadius, 240.516739, 0, 0, 0) -- Random event spawn circle
+    zone:registerRegion(6, -135.130219, normalCircleRadius, 218.389618, 0, 0, 0) -- Random event spawn circle
+    zone:registerRegion(7, -102.547623, normalCircleRadius, 299.619873, 0, 0, 0) -- Random event spawn circle
+    zone:registerRegion(8, -136.894577, extremelyLargeCircleRadius, 364.278198, 0, 0, 0) -- Random event spawn circle
+    zone:registerRegion(9, -77.232605, largeCircleRadius, 81.779991, 0, 0, 0) -- Random event spawn circle
+    zone:registerRegion(10, -18.022476, normalCircleRadius, 141.868866, 0, 0, 0) -- Random event spawn circle
+    zone:registerRegion(11, 58.191879, normalCircleRadius, 260.211212, 0, 0, 0) -- Random event spawn circle
+    zone:registerRegion(12, 46.562725, largeCircleRadius, 365.081757, 0, 0, 0) -- Random event spawn circle
+    zone:registerRegion(13, -219.01, extremelyLargeCircleRadius, 215.91, 0, 0, 0)
+    zone:registerRegion(14, 0.6, largeCircleRadius, 279.77, 0, 0, 0)
+    zone:registerRegion(15, -135.51, extremelyLargeCircleRadius, 359.12, 0, 0, 0)
+    zone:registerRegion(16, 38.52, largeCircleRadius, 361.40, 0, 0, 0)
+
+    tpz.wotg.onInitialize(zone)
+end
+
+function OnZoneTick(player, zone, region)
+    local currentWave = zone:getLocalVar("wave")
+    local maxWaves = zone:getLocalVar("maxWaves")
+    local eventActive = zone:getLocalVar("eventActive", 1)
+    local waveActive = zone:getLocalVar("waveActive")
+
+    if (eventActive == tpz.wotg.events.Waves) and (waveActive == 0) then
+        tpz.wotg.spawnWave(player, currentWave)
+    end
+
+    tpz.wotg.onZoneTick(player, zone, region)
 end
 
 function onZoneIn(player, prevZone)
@@ -18,6 +52,7 @@ function onZoneIn(player, prevZone)
 end
 
 function onRegionEnter(player, region)
+    tpz.wotg.onRegionEnter(player, region)
 end
 
 function onEventUpdate(player, csid, option)

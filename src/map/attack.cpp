@@ -92,7 +92,7 @@ bool CAttack::IsCritical()
 
 /************************************************************************
 *																		*
-*  Sets the critical flag. Also calculates m_damageRato                 *
+*  Sets the critical flag. Also calculates m_damageRato (pDIF)          *
 *																		*
 ************************************************************************/
 void CAttack::SetCritical(bool value)

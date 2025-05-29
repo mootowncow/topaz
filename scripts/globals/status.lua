@@ -13,6 +13,31 @@ require("scripts/globals/music")
 tpz = tpz or {}
 
 ------------------------------------
+-- Entity flags
+------------------------------------
+tpz.entityFlags =
+{
+    NONE                = 0,        -- No flags set
+    UNKNOWN_1           = 1,        -- No immediately observable impact
+    SIZE_SMALL          = 2,        -- Small model size
+    SIZE_MEDIUM         = 4,        -- Medim model size
+    SIZE_LARGE          = 6,        -- Biggest model size
+    UNKNOWN_8           = 8,        -- Possibly hides name?
+    UNKNOWN_16          = 16,       -- No obvious impact
+    CALL_FOR_HELP       = 32,       -- Displays call for help icon
+    POL_AWAY_SYMBOL     = 64,       -- Displays "POL away" icon
+    UNKNOWN_128         = 128,      -- No obvious impact
+    HIDE_HP_BAR         = 256,      -- Hides mob's HP bar
+    UNKNOWN_512         = 512,      -- No obvious impact
+    UNKNOWN_1024        = 1024,     -- No obvious impact
+    UNTARGETABLE        = 2048,     -- Mob cannot be targeted
+    UNKNOWN_4096        = 4096,     -- No obvious impact
+    UNKNOWN_8192        = 8192,     -- No obvious impact
+    UNKNOWN_16384       = 16384,    -- No obvious impact
+    UNKNOWN_32768       = 32768,    -- No obvious impact
+}
+
+------------------------------------
 -- Mob skill flags
 ------------------------------------
 
@@ -347,6 +372,7 @@ tpz.subEffect =
     CLOD_SPIKES         = 8,   -- Earth damage + Slow.
     DELUGE_SPIKES       = 9,   -- Water damage + Poison https://ffxiclopedia.fandom.com/wiki/Aqua_Spikes
     DEATH_SPIKES        = 10,  -- yes really: http://www.ffxiah.com/item/26944/
+    DAMAGE_SPIKES       = 11,  -- non-elemental damage
     COUNTER             = 63, -- Also used by Retaliation
     -- There are no spikes effect animations beyond 63. Some effects share subeffect/animations.
     -- "Damage Spikes" use the Blaze Spikes animation even though they are different status.
@@ -1341,7 +1367,9 @@ tpz.mod =
     ENEMYCRITRATE                   = 1256,
     CRIT_DEF_BONUS                  = 908, -- Reduces crit hit damage
     MAGIC_CRITHITRATE               = 562,
+    MAGIC_ENEMYCRITRATE             = 1432, -- Raises chance enemy will magic crit
     MAGIC_CRIT_DMG_INCREASE         = 563,
+    MAGIC_CRIT_DEF_BONUS            = 1431, -- Reduces magic crit hit damage
     HASTE_MAGIC                     = 167,
     SPELLINTERRUPT                  = 168,
     MOVE_SPEED_OVERIDE              = 169, -- Modifier used to overide regular speed caps. (GM speed and Feast of Sword
@@ -2148,8 +2176,19 @@ tpz.mod =
     STRATAGEM_RECAST        = 1417, -- Reduces the recast time of stratagems (seconds)
     PET_DAMAGEP             = 1418, -- % damage increase done by pets
     CRITHITRATE_SLOT        = 1419, -- Crit rate only applied by attacks in this weapon slot. i.e. Senjuionrikio
+    FIRE_ABSORB_SC          = 1420, -- Occasionally absorbs SC fire elemental damage, in percents
+    ICE_ABSORB_SC           = 1421, -- Occasionally absorbs SC ice elemental damage, in percents
+    WIND_ABSORB_SC          = 1422, -- Occasionally absorbs SC wind elemental damage, in percents
+    EARTH_ABSORB_SC         = 1423, -- Occasionally absorbs SC earth elemental damage, in percents
+    LTNG_ABSORB_SC          = 1424, -- Occasionally absorbs SC thunder elemental damage, in percents
+    WATER_ABSORB_SC         = 1425, -- Occasionally absorbs SC water elemental damage, in percents
+    LIGHT_ABSORB_SC         = 1426, -- Occasionally absorbs SC light elemental damage, in percents
+    DARK_ABSORB_SC          = 1427, -- Occasionally absorbs SC dark elemental damage, in percents
+    PAST_DUNGEON_MASTER     = 1428, -- Increased number augments on items from WotG dungeons
+    DOUBLE_CAST             = 1429, -- Chance to cast a spell twice in a row
+    ENH_CASTING_TIME        = 1431, -- Reduces Enhancing Magic casting time by percentage (e.g. mod value -10 = -10% cast time)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1420 NEXT
+    -- 1433 NEXT
 }
 
 tpz.latent =
@@ -3139,7 +3178,8 @@ tpz.procEffect =
     RANGED          = 5,
     SKILLCHAIN      = 6,
     MAGIC_BURST     = 7,
-    SPIRITS_DAMAGE  = 8  -- Spirits Within / Formless Strikes
+    SPIRITS_DAMAGE  = 8,  -- Spirits Within / Formless Strikes
+    NONE            = 255 -- No increased damage taken
 }
 
 ------------------------------------
@@ -3163,7 +3203,7 @@ tpz.mobMod =
     SUBLINK             = 10, -- sub link group
     LINK_RADIUS         = 11, -- link radius
     DRAW_IN             = 12, -- 1 - player draw in, 2 - alliance draw in -- only add as a spawn mod!
-    SEVERE_SPELL_CHANCE = 13, -- % chance to use a severe spell like death or impact
+    SEVERE_CHANCE       = 13, -- % chance to use a severe spell like death or impact
     SKILL_LIST          = 14, -- uses given mob skill list
     MUG_GIL             = 15, -- amount gil carried for mugging
     -- 16 Available for use
@@ -3254,6 +3294,8 @@ tpz.mobMod =
     RANGED_DELAY        = 115, -- Trust ranged weapon delay
     AMMO_DELAY          = 116, -- Trust ranged ammo delay
     CAPACITY_BONUS      = 117, -- bonus capacity points (bonus / 100) negative values reduce capacity points.
+    CUSTOMLINK          = 118, -- Force linking with other mobs with same power of this mod (i.e. 99 power mobs will all link together). Also parties mobs for buffs/heals
+    HUMANOID            = 119, -- Considered humanoid, but does NOT change the mobs family. used for CMobEntity::IsHumanoid()
 }
 
 ------------------------------------
@@ -3389,7 +3431,7 @@ tpz.jobSpecialAbility =
     -- TABULA_RASA          = 2358,
     TABULA_RASA          = 2261,
     -- TABULA_RASA          = 2358,
-    -- ELEMENTAL_SFORZO     = 3265,
+    ELEMENTAL_SFORZO     = 3265,
     -- ELEMENTAL_SFORZO     = 3479,
     BOLSTER              = 3482,
     CHARM                = 710,

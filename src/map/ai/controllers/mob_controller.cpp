@@ -851,7 +851,7 @@ void CMobController::CastSpell(SpellID spellid)
         {
             PCastTarget = PMob;
 
-            // only buff other targets if i'm roaming
+            // only buff other targets if i'm roaming and they are in my party
             if ((PSpell->getValidTarget() & TARGET_PLAYER_PARTY) && !PMob->PAI->IsEngaged())
             {
                 // chance to target my master
@@ -871,7 +871,7 @@ void CMobController::CastSpell(SpellID spellid)
                         // randomly select a target
                         PCastTarget = PMob->PAI->TargetFind->m_targets[tpzrand::GetRandomNumber(PMob->PAI->TargetFind->m_targets.size())];
 
-                        // only target if are on same action
+                        // only target if are also engaged
                         if (PMob->PAI->IsEngaged() == PCastTarget->PAI->IsEngaged())
                         {
                             PCastTarget = PMob;
@@ -1025,6 +1025,7 @@ void CMobController::FaceTarget(uint16 targid)
         return;
     }
 
+
     CBaseEntity* targ = PTarget;
     if (targid != 0 && ((targ && targid != targ->targid ) || !targ))
     {
@@ -1032,6 +1033,12 @@ void CMobController::FaceTarget(uint16 targid)
     }
     if (!(PMob->m_Behaviour & BEHAVIOUR_NO_TURN) && targ)
     {
+        // Don't face allies when casting on them
+        if (targ && PMob->allegiance == targ->allegiance)
+        {
+            return;
+        }
+
         PMob->PAI->PathFind->LookAt(targ->loc.p);
     }
 }
@@ -1287,7 +1294,8 @@ void CMobController::HandleEnmity()
     // TODO: do jug pets do this?
     try
     {
-        if (PMob->objtype == TYPE_MOB && PTarget && PMob->StatusEffectContainer && PMob->PAI->IsCurrentState<CAttackState>())
+        if (PMob->objtype == TYPE_MOB && PTarget && PMob->StatusEffectContainer && PMob->PAI->IsCurrentState<CAttackState>() &&
+            PTarget->status != STATUS_SHUTDOWN && PTarget->status != STATUS_DISAPPEAR && PTarget->health.maxhp != 0)
         {
             if ((PMob->StatusEffectContainer && PMob->StatusEffectContainer->HasStatusEffect(EFFECT_BIND)) ||
                 (PTarget && PTarget->StatusEffectContainer && PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PALISADE)))
@@ -1907,16 +1915,41 @@ bool CMobController::IsSpellReady(float currentDistance)
     TracyZoneScoped;
     int32 bonusTime = 0;
 
+
     if (PMob->m_forceCast)
     {
+        // Reset recast of a random spell so a spell can be force recasted
+        std::vector<SpellID> spellList = PMob->SpellContainer->GetAllSpells();
+        if (!spellList.empty())
+        {
+            SpellID randomSpell = spellList.at(tpzrand::GetRandomNumber(spellList.size()));
+            PMob->PRecastContainer->Del(RECAST_MAGIC, static_cast<uint16>(randomSpell));
+        }
+
         return true;
     }
 
-    if (PMob->StatusEffectContainer->HasStatusEffect({EFFECT_CHAINSPELL, EFFECT_MANAFONT, EFFECT_AZURE_LORE, EFFECT_TABULA_RASA}))
+    // Check if spell container exists and has spells
+    if (PMob->SpellContainer && PMob->SpellContainer->HasSpells())
+    {
+        for (auto spellId : PMob->SpellContainer->GetAllSpells())
+        {
+            if (!PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(spellId)))
+            {
+                return m_Tick >= m_NextMagicTime;
+            }
+        }
+
+        // No spells are currently off cooldown
+        return false;
+    }
+
+    if (PMob->StatusEffectContainer->HasStatusEffect({ EFFECT_CHAINSPELL, EFFECT_MANAFONT, EFFECT_AZURE_LORE, EFFECT_TABULA_RASA }))
     {
         return true;
     }
 
+    // No spells at all, fallback to timer check
     return m_Tick >= m_NextMagicTime;
 }
 

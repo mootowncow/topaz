@@ -6212,6 +6212,10 @@ INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 58, 1, 255); -- Para
 INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 59, 1, 255); -- Silence
 
 -- NEXT 561
+INSERT INTO `mob_spell_lists` VALUES ('Hound_of_Balthazar',555,176,1,255); -- Firaga III
+INSERT INTO `mob_spell_lists` VALUES ('Hound_of_Balthazar',555,286,1,255); -- Addle
+
+-- NEXT 546
 -- NEXT 1022
 -- NEXT 2089(Custom)
 
