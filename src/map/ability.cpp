@@ -749,6 +749,22 @@ namespace ability
         return false;
     }
 
+    bool CanUseAbility(CBattleEntity* PUser, CAbility* PAbility)
+    {
+        if (PAbility != nullptr)
+        {
+            // Special case: Trusts at 75 can use merit abilities
+            if ((PAbility->getAddType() & ADDTYPE_MERIT) && PUser->objtype == TYPE_TRUST && PUser->GetMLevel() >= 75)
+            {
+                return true;
+            }
+
+            // Normal ability check
+            return CanLearnAbility(PUser, PAbility->getID());
+        }
+        return false;
+    }
+
     /************************************************************************
     *                                                                       *
     *  Get Abilities By JobID                                               *

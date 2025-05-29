@@ -72,6 +72,13 @@ void CGambitsContainer::AddGambit(Gambit_t gambit)
                 available = false;
             }
         }
+        else if (action.reaction == G_REACTION::JA && action.select == G_SELECT::SPECIFIC)
+        {
+            if (!ability::CanUseAbility(static_cast<CBattleEntity*>(POwner), ability::GetAbility(static_cast<uint16>(action.select_arg))))
+            {
+                available = false;
+            }
+        }
     }
     if (available)
     {

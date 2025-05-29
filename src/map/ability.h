@@ -871,6 +871,7 @@ namespace ability
 
     CAbility* GetTwoHourAbility(JOBTYPE JobID);
     bool CanLearnAbility(CBattleEntity* PUser, uint16 AbilityID);
+    bool CanUseAbility(CBattleEntity* PUser, CAbility* PAbility);
     Charge_t* GetCharge(CBattleEntity* PUser, uint16 chargeID);
     uint32 GetAbsorbMessage(uint32 message);
 
