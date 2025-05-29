@@ -39007,10 +39007,10 @@ INSERT INTO `mob_spawn_points` VALUES (17281220,'Young_Opo-opo','Young Opo-opo',
 INSERT INTO `mob_spawn_points` VALUES (17281222,'Young_Opo-opo','Young Opo-opo',11,-178.882,6.8,-91.047,127);
 --INSERT INTO `mob_spawn_points` VALUES (17281223,'Young_Opo-opo','Young Opo-opo',11,-178.333,8.190,-71.472,72);
 INSERT INTO `mob_spawn_points` VALUES (17281224,'Young_Opo-opo','Young Opo-opo',11,-16.387,8.121,-106.115,72);
---INSERT INTO `mob_spawn_points` VALUES (17281225,'Young_Opo-opo','Young Opo-opo',11,-15.509,8.586,-103.444,127);
+INSERT INTO `mob_spawn_points` VALUES (17281225,'Young_Opo-opo','Young Opo-opo',11,-15.509,8.586,-103.444,127);
 INSERT INTO `mob_spawn_points` VALUES (17281226,'Young_Opo-opo','Young Opo-opo',11,-21.796,8.164,-86.401,127);
 INSERT INTO `mob_spawn_points` VALUES (17281227,'Goblin_Furrier','Goblin Furrier',17,-21.894,8.141,-86.3,127);
---INSERT INTO `mob_spawn_points` VALUES (17281228,'Goblin_Furrier','Goblin Furrier',17,-16.804,7.956,-107.663,101);
+INSERT INTO `mob_spawn_points` VALUES (17281228,'Goblin_Furrier','Goblin Furrier',17,-16.804,7.956,-107.663,101);
 INSERT INTO `mob_spawn_points` VALUES (17281229,'Young_Opo-opo','Young Opo-opo',11,-149.077,6.794,-178.865,83);
 --INSERT INTO `mob_spawn_points` VALUES (17281230,'Young_Opo-opo','Young Opo-opo',11,-147.151,5.066,-147.326,127);
 INSERT INTO `mob_spawn_points` VALUES (17281231,'Death_Jacket','Death Jacket',10,-50.028,1.574,-179.579,88);
@@ -39018,11 +39018,11 @@ INSERT INTO `mob_spawn_points` VALUES (17281231,'Death_Jacket','Death Jacket',10
 INSERT INTO `mob_spawn_points` VALUES (17281233,'Young_Opo-opo','Young Opo-opo',11,-63.611,4.078,-181.443,127);
 --INSERT INTO `mob_spawn_points` VALUES (17281234,'Young_Opo-opo','Young Opo-opo',11,-53.608,2.488,-176.325,127);
 INSERT INTO `mob_spawn_points` VALUES (17281235,'Goblin_Furrier','Goblin Furrier',17,-69.943,2.144,-183.160,10);
---INSERT INTO `mob_spawn_points` VALUES (17281236,'Goblin_Furrier','Goblin Furrier',17,-87.126,0.036,-180.217,127);
+INSERT INTO `mob_spawn_points` VALUES (17281236,'Goblin_Furrier','Goblin Furrier',17,-87.126,0.036,-180.217,127);
 INSERT INTO `mob_spawn_points` VALUES (17281237,'Young_Opo-opo','Young Opo-opo',11,-63.869,8.767,-217.589,127);
---INSERT INTO `mob_spawn_points` VALUES (17281238,'Young_Opo-opo','Young Opo-opo',11,-59.793,9.399,-223.670,26);
+INSERT INTO `mob_spawn_points` VALUES (17281238,'Young_Opo-opo','Young Opo-opo',11,-59.793,9.399,-223.670,26);
 INSERT INTO `mob_spawn_points` VALUES (17281239,'Goblin_Furrier','Goblin Furrier',17,-63.782,8.459,-215.950,84);
---INSERT INTO `mob_spawn_points` VALUES (17281240,'Goblin_Furrier','Goblin Furrier',17,-66.655,8.314,-214.216,120);
+INSERT INTO `mob_spawn_points` VALUES (17281240,'Goblin_Furrier','Goblin Furrier',17,-66.655,8.314,-214.216,120);
 INSERT INTO `mob_spawn_points` VALUES (17281241,'Young_Opo-opo','Young Opo-opo',11,-130.251,-0.062,-319.091,127);
 --INSERT INTO `mob_spawn_points` VALUES (17281242,'Young_Opo-opo','Young Opo-opo',11,-220.520,-1.569,-406.892,107);
 INSERT INTO `mob_spawn_points` VALUES (17281243,'Goblin_Furrier','Goblin Furrier',17,-165.093,-0.379,-325.824,3);
@@ -39032,7 +39032,7 @@ INSERT INTO `mob_spawn_points` VALUES (17281246,'Young_Opo-opo','Young Opo-opo',
 --INSERT INTO `mob_spawn_points` VALUES (17281247,'Young_Opo-opo','Young Opo-opo',11,-160.167,0.1,-421.809,85);
 INSERT INTO `mob_spawn_points` VALUES (17281248,'Goblin_Furrier','Goblin Furrier',17,-201,0.135,-373,127);
 INSERT INTO `mob_spawn_points` VALUES (17281249,'Young_Opo-opo','Young Opo-opo',11,-276.550,-0.499,-359.470,36);
---INSERT INTO `mob_spawn_points` VALUES (17281250,'Young_Opo-opo','Young Opo-opo',11,-273.129,-0.341,-355.215,17);
+INSERT INTO `mob_spawn_points` VALUES (17281250,'Young_Opo-opo','Young Opo-opo',11,-273.129,-0.341,-355.215,17);
 INSERT INTO `mob_spawn_points` VALUES (17281251,'Goblin_Furrier','Goblin Furrier',17,-238.298,-0.420,-366.293,127);
 INSERT INTO `mob_spawn_points` VALUES (17281252,'Overgrown_Rose','Overgrown Rose',16,-279,-0.433,-378,51);
 INSERT INTO `mob_spawn_points` VALUES (17281253,'Young_Opo-opo','Young Opo-opo',11,-252.309,-0.071,-405.585,127);
