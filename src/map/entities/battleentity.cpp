@@ -50,6 +50,7 @@
 #include "../utils/petutils.h"
 #include "../utils/puppetutils.h"
 #include "../weapon_skill.h"
+#include "../latent_effect_container.h"
 #include "../lua/luautils.cpp"
 #include "../job_points.h"
 #include "../ai/controllers/mob_controller.h"
@@ -1464,17 +1465,33 @@ int16 CBattleEntity::getMaxGearMod(Mod modID, int16 modMax)
         return 0;
     }
 
-    // Check equipment modifiers
     for (uint8 i = 0; i <= SLOT_BACK; ++i)
     {
         auto* PItem = PChar->getEquip((SLOTTYPE)i);
         if (PItem && (PItem->isType(ITEM_EQUIPMENT) || PItem->isType(ITEM_WEAPON)))
         {
             uint16 modValue = PItem->getModifier(modID);
-            uint16 latentValue = PItem->getLatent(modID);
 
-            // Take the higher of base mod or latent mod from this item
-            uint16 itemMax = std::max(modValue, latentValue);
+            // Instead of blindly using latent mod from item, check if latent is active via container:
+            int16 latentValue = 0;
+            if (PChar->PLatentEffectContainer)
+            {
+                // For each latent in the item latentList matching modID, check if active
+                for (const auto& latent : PItem->latentList)
+                {
+                    if (latent.ModValue == modID)
+                    {
+                        // Check if the latent effect container has it active:
+                        if (PChar->PLatentEffectContainer->IsLatentActive(latent.ConditionsID, latent.ConditionsValue))
+                        {
+                            if (latent.ModPower > latentValue)
+                                latentValue = latent.ModPower;
+                        }
+                    }
+                }
+            }
+
+            uint16 itemMax = std::max(modValue, static_cast<uint16>(latentValue));
             if (itemMax > maxModValue)
             {
                 maxModValue = itemMax;
@@ -1495,8 +1512,6 @@ int16 CBattleEntity::getMaxGearMod(Mod modID, int16 modMax)
     }
 
     maxModValue = std::min(maxModValue, static_cast<uint16>(modMax));
-
-    //ShowDebug("maxModValue %d\n", maxModValue);
     return maxModValue;
 }
 

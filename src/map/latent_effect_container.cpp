@@ -665,6 +665,18 @@ void CLatentEffectContainer::CheckLatentsTargetChange()
     });
 }
 
+bool CLatentEffectContainer::IsLatentActive(LATENT conditionID, uint16 conditionValue)
+{
+    for (auto& latent : m_LatentEffectList)
+    {
+        if (latent.GetConditionsID() == conditionID && latent.GetConditionsValue() == conditionValue)
+        {
+            return latent.IsActivated();
+        }
+    }
+    return false;
+}
+
 // Process the latent effects container and apply a logic function responsible for
 // filtering the appropriate latents to be activated/deactivated and finally update
 // health post looping if at least one logic function returned true
