@@ -671,7 +671,7 @@ INSERT INTO `mob_droplist` VALUES (116,0,0,1000,16995,240);
 INSERT INTO `mob_droplist` VALUES (117,0,0,1000,644,50);
 INSERT INTO `mob_droplist` VALUES (117,2,0,1000,749,0);
 INSERT INTO `mob_droplist` VALUES (117,0,0,1000,1118,150);
-INSERT INTO `mob_droplist` VALUES (117,0,0,1000,1540,60);
+-- INSERT INTO `mob_droplist` VALUES (117,0,0,1000,1540,60); -- Garrison
 INSERT INTO `mob_droplist` VALUES (117,0,0,1000,16995,240);
 INSERT INTO `mob_droplist` VALUES (118,0,0,1000,645,1000); -- (Antican Consul) Chunk of darksteel ore
 INSERT INTO `mob_droplist` VALUES (118,0,0,1000,1118,1000); -- Antican pauldron
@@ -5050,7 +5050,7 @@ INSERT INTO `mob_droplist` VALUES (962,0,0,1000,880,240);
 INSERT INTO `mob_droplist` VALUES (962,0,0,1000,2776,0);	--Pumice Stone
 INSERT INTO `mob_droplist` VALUES (962,0,0,1000,4824,10);
 INSERT INTO `mob_droplist` VALUES (963,0,0,1000,560,150);
-INSERT INTO `mob_droplist` VALUES (964,0,0,1000,1538,80);
+-- INSERT INTO `mob_droplist` VALUES (964,0,0,1000,1538,80); -- garrison
 INSERT INTO `mob_droplist` VALUES (965,0,0,1000,846,50);
 INSERT INTO `mob_droplist` VALUES (965,0,0,1000,912,240);
 INSERT INTO `mob_droplist` VALUES (965,0,0,1000,925,13);
@@ -5070,7 +5070,7 @@ INSERT INTO `mob_droplist` VALUES (970,2,0,1000,864,0);
 INSERT INTO `mob_droplist` VALUES (970,0,0,1000,868,100);
 INSERT INTO `mob_droplist` VALUES (970,0,0,1000,1727,80);
 INSERT INTO `mob_droplist` VALUES (970,0,0,1000,4484,80);
-INSERT INTO `mob_droplist` VALUES (971,0,0,1000,1538,80);
+-- INSERT INTO `mob_droplist` VALUES (971,0,0,1000,1538,80);  -- garrison
 INSERT INTO `mob_droplist` VALUES (972,0,0,1000,896,240);
 INSERT INTO `mob_droplist` VALUES (972,0,0,1000,897,1000);
 INSERT INTO `mob_droplist` VALUES (972,4,0,1000,896,0); -- Scorpion Shell(Despoil)
