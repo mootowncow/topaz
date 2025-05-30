@@ -29,12 +29,11 @@ zones[tpz.zone.SHIP_BOUND_FOR_MHAURA_PIRATES] =
     {
         SEA_CREATURES =
         {
-            17711109,   -- Sea Monk 1
             17711110,   -- Sea Crab 1
             17711111,   -- Sea Crab 2
             17711112,   -- Sea Pugil 1
             17711113,   -- Sea Pugil 2
-            17711114,   -- Sea Monk 2
+            17711114,   -- Sea Monk 1
         },
         PHANTOM = 17711115,
         CROSSBONES =

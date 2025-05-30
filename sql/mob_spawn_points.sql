@@ -64817,7 +64817,8 @@ INSERT INTO `mob_spawn_points` VALUES (17707009,'Sea_Pugil','Sea Pugil',1,0,0,0,
 INSERT INTO `mob_spawn_points` VALUES (17707010,'Ocean_Crab','Ocean Crab',2,0,0,0,0);
 INSERT INTO `mob_spawn_points` VALUES (17707011,'Ocean_Pugil','Ocean Pugil',3,0,0,0,0);
 INSERT INTO `mob_spawn_points` VALUES (17707012,'Pirate_Pugil','Pirate Pugil',4,0,0,0,0);
-INSERT INTO `mob_spawn_points` VALUES (17707013,'Sea_Monk','Sea Monk',5,4.560,-7.160,17.430,227);
+INSERT INTO `mob_spawn_points` VALUES (17707013,'Sea_Monk','Sea Monk',5,0,0,0,0);
+
 INSERT INTO `mob_spawn_points` VALUES (17707014,'Sea_Crab','Sea Crab',6,1.698,-7.268,21.497,139);
 INSERT INTO `mob_spawn_points` VALUES (17707015,'Sea_Crab','Sea Crab',6,1.698,-7.268,21.497,139);
 INSERT INTO `mob_spawn_points` VALUES (17707016,'Sea_Pugil','Sea Pugil',1,-7.699,-7.663,7.549,0);
@@ -64840,7 +64841,8 @@ INSERT INTO `mob_spawn_points` VALUES (17711105,'Sea_Pugil','Sea Pugil',1,0,0,0,
 INSERT INTO `mob_spawn_points` VALUES (17711106,'Ocean_Crab','Ocean Crab',2,0,0,0,0);
 INSERT INTO `mob_spawn_points` VALUES (17711107,'Ocean_Pugil','Ocean Pugil',3,0,0,0,0);
 INSERT INTO `mob_spawn_points` VALUES (17711108,'Pirate_Pugil','Pirate Pugil',4,0,0,0,0);
-INSERT INTO `mob_spawn_points` VALUES (17711109,'Sea_Monk','Sea Monk',5,4.560,-7.160,17.600,228);
+INSERT INTO `mob_spawn_points` VALUES (17711109,'Sea_Monk','Sea Monk',5,0,0,0,0);
+
 INSERT INTO `mob_spawn_points` VALUES (17711110,'Sea_Crab','Sea Crab',6,4.560,-7.160,17.600,228);;
 INSERT INTO `mob_spawn_points` VALUES (17711111,'Sea_Crab','Sea Crab',6,4.560,-7.160,17.600,228);;
 INSERT INTO `mob_spawn_points` VALUES (17711112,'Sea_Pugil','Sea Pugil',1,4.560,-7.160,17.600,228);;
