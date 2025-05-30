@@ -32202,7 +32202,7 @@ INSERT INTO `mob_spawn_points` VALUES (17215884,'Rock_Lizard','Rock Lizard',54,-
 INSERT INTO `mob_spawn_points` VALUES (17215885,'Rock_Lizard','Rock Lizard',54,-327.621,31.526,-410.456,11);
 -- INSERT INTO `mob_spawn_points` VALUES (17215886,'Rock_Lizard','Rock Lizard',54,-376.273,32.776,-441.078,127);
 INSERT INTO `mob_spawn_points` VALUES (17215887,'Rock_Lizard','Rock Lizard',54,-322.871,30.052,-401.184,127);	--PH
-INSERT INTO `mob_spawn_points` VALUES (17215888,'Leaping_Lizzy','Leaping Lizzy',28,-339.499,29.731,-441.475,127);
+-- INSERT INTO `mob_spawn_points` VALUES (17215888,'Leaping_Lizzy','Leaping Lizzy',28,-339.499,29.731,-441.475,127);
 --INSERT INTO `mob_spawn_points` VALUES (17215889,'Walking_Sapling','Walking Sapling',55,-388.955,37.529,-383.622,127);
 INSERT INTO `mob_spawn_points` VALUES (17215890,'Walking_Sapling','Walking Sapling',55,-322.421,29.970,-383.104,99);
 --INSERT INTO `mob_spawn_points` VALUES (17215891,'Walking_Sapling','Walking Sapling',55,-319.987,31.544,-426.122,127);
@@ -32242,8 +32242,8 @@ INSERT INTO `mob_spawn_points` VALUES (17215924,'Land_Crab','Land Crab',45,-432.
 -- INSERT INTO `mob_spawn_points` VALUES (17215925,'Land_Crab','Land Crab',45,-432.457,40.634,-465.487,127);
 INSERT INTO `mob_spawn_points` VALUES (17215926,'Land_Crab','Land Crab',45,-489.722,43.341,-457.325,5);
 --INSERT INTO `mob_spawn_points` VALUES (17215927,'Land_Crab','Land Crab',45,-410.372,40.448,-448.121,40);
-INSERT INTO `mob_spawn_points` VALUES (17215928,'Goblin_Thug','Goblin Thug',13,-513.987,41.054,-453.395,0);
---INSERT INTO `mob_spawn_points` VALUES (17215929,'Goblin_Weaver','Goblin Weaver',16,-527.638,39.125,-511.567,127);
+INSERT INTO `mob_spawn_points` VALUES (17215928,'Goblin_Thug','Goblin Thug',50,-513.987,41.054,-453.395,0);
+INSERT INTO `mob_spawn_points` VALUES (17215929,'Goblin_Weaver','Goblin Weaver',52,-527.638,39.125,-511.567,127);
 INSERT INTO `mob_spawn_points` VALUES (17215930,'Shrapnel','Shrapnel',26,-519.726,40.06,-526.655,127);
 --INSERT INTO `mob_spawn_points` VALUES (17215931,'Maneating_Hornet','Maneating Hornet',47,-473.406,42.574,-381.102,58);
 INSERT INTO `mob_spawn_points` VALUES (17215932,'Maneating_Hornet','Maneating Hornet',47,-561.127,39.421,-394.850,67);
@@ -32259,8 +32259,8 @@ INSERT INTO `mob_spawn_points` VALUES (17215941,'Land_Crab','Land Crab',45,-482.
 --INSERT INTO `mob_spawn_points` VALUES (17215942,'Land_Crab','Land Crab',45,-512.666,40.151,-410.802,127);
 INSERT INTO `mob_spawn_points` VALUES (17215943,'Land_Crab','Land Crab',45,-485.681,43.334,-381.310,127);
 INSERT INTO `mob_spawn_points` VALUES (17215944,'Land_Crab','Land Crab',45,-506.210,39.782,-328.295,32);
-INSERT INTO `mob_spawn_points` VALUES (17215945,'Goblin_Thug','Goblin Thug',13,-521.799,39.445,-431.978,127);
-INSERT INTO `mob_spawn_points` VALUES (17215946,'Goblin_Weaver','Goblin Weaver',16,-476.069,40.148,-339.751,127);
+INSERT INTO `mob_spawn_points` VALUES (17215945,'Goblin_Thug','Goblin Thug',50,-521.799,39.445,-431.978,127);
+INSERT INTO `mob_spawn_points` VALUES (17215946,'Goblin_Weaver','Goblin Weaver',52,-476.069,40.148,-339.751,127);
 INSERT INTO `mob_spawn_points` VALUES (17215947,'Shrapnel','Shrapnel',26,-512.816,39.345,-366.324,127);
 INSERT INTO `mob_spawn_points` VALUES (17215948,'Goblin_Digger','Goblin Digger',29,295.555,-19.973,-515.608,127);
 INSERT INTO `mob_spawn_points` VALUES(17215949, 'Pixie', 'Pixie', 30, -384.378, 36.891, -457.405, 160);
@@ -39031,7 +39031,7 @@ INSERT INTO `mob_spawn_points` VALUES (17281245,'Goblin_Furrier','Goblin Furrier
 INSERT INTO `mob_spawn_points` VALUES (17281246,'Young_Opo-opo','Young Opo-opo',11,-198.621,0.1,-417.526,127);
 --INSERT INTO `mob_spawn_points` VALUES (17281247,'Young_Opo-opo','Young Opo-opo',11,-160.167,0.1,-421.809,85);
 INSERT INTO `mob_spawn_points` VALUES (17281248,'Goblin_Furrier','Goblin Furrier',17,-201,0.135,-373,127);
-INSERT INTO `mob_spawn_points` VALUES (17281249,'Young_Opo-opo','Young Opo-opo',11,-276.550,-0.499,-359.470,36);
+-- INSERT INTO `mob_spawn_points` VALUES (17281249,'Young_Opo-opo','Young Opo-opo',11,-276.550,-0.499,-359.470,36);
 INSERT INTO `mob_spawn_points` VALUES (17281250,'Young_Opo-opo','Young Opo-opo',11,-273.129,-0.341,-355.215,17);
 INSERT INTO `mob_spawn_points` VALUES (17281251,'Goblin_Furrier','Goblin Furrier',17,-238.298,-0.420,-366.293,127);
 INSERT INTO `mob_spawn_points` VALUES (17281252,'Overgrown_Rose','Overgrown Rose',16,-279,-0.433,-378,51);
