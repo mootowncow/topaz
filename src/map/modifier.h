@@ -451,7 +451,8 @@ enum class Mod
 
     // Dark Knight
     ARCANE_CIRCLE_DURATION    = 858, // Arcane Circle extended duration in seconds
-    SOULEATER_EFFECT          = 96,  // Souleater power in percents
+    SOULEATER_EFFECT          = 96,  // Souleater power in percents (+2 is 0.2 which makes it 12% (12% Cap))
+    // TODO: SOULEATER_EFFECT_II Brutality / Agwu's Scythe / Dacnomania / Souleater Augment bypasses cap and no known cap
     DESPERATE_BLOWS           = 906, // Adds ability haste to Last Resort
     LAST_RESORT_DURATION      = 1360,// Increases Last Resort duration (in seconds)
     STALWART_SOUL             = 907, // Reduces damage taken from Souleater

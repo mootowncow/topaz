@@ -12933,6 +12933,37 @@ inline int32 CLuaBaseEntity::delMod(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: getMaxGearMod()
+ *  Purpose : Returns the integer value of a specified Mod on the Entity
+ *  Example : player:getMaxGearMod(tpz.mod.SOULEATER_EFFECT, 12)
+ *  Notes   : Modmax default is 999
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getMaxGearMod(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    Mod mod = (Mod)0;
+    int16 modMax = 999;
+
+    if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
+    {
+        mod = (Mod)lua_tointeger(L, 1);
+    }
+
+    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+    {
+        modMax = lua_tointeger(L, 2);
+    }
+
+    lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->getMaxGearMod(mod, modMax));
+    return 1;
+}
+
+/************************************************************************
 *  Function: addLatent()
 *  Purpose : Adds the specified latent to the player
 *  Example : player:addLatent(tpz.latent.LATENT_HP_UNDER_PERCENT, 95, tpz.mod.REGEN, 1)
@@ -18667,6 +18698,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMod),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMod),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delMod),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMaxGearMod),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addLatent),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delLatent),

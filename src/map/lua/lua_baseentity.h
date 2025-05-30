@@ -585,6 +585,7 @@ public:
     int32 getMod(lua_State*);                  // Retrieves Modifier Value
     int32 setMod(lua_State*);                  // Sets Modifier Value
     int32 delMod(lua_State*);                  // Subtracts Modifier Value
+    int32 getMaxGearMod(lua_State*);           // Gets the highest value of the specified modifier across all gear set effects, and latent effects   
 
     int32 addLatent(lua_State*);               // Adds a latent effect
     int32 delLatent(lua_State*);               // Removes a latent effect

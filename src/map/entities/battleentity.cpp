@@ -1450,7 +1450,7 @@ int16 CBattleEntity::getMod(Mod modID)
 /************************************************************************
 *                                                                       *
 *  Get the highest value of the specified modifier across all gear      *
-*  and latent effects                                                   *
+*  set effects, and latent effects                                      *
 *  Notes: Default modMax is 9999                                        *
 ************************************************************************/
 int16 CBattleEntity::getMaxGearMod(Mod modID, int16 modMax)

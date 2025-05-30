@@ -979,7 +979,8 @@ function souleaterBonus(attacker, numhits)
         if attacker:getMainJob() ~= tpz.job.DRK then
             percent = percent / 2
         end
-        percent = percent + math.min(0.02, 0.01 * attacker:getMod(tpz.mod.SOULEATER_EFFECT))
+        local souleaterGearMod = attacker:getMaxGearMod(tpz.mod.SOULEATER_EFFECT, 2) -- +2 is 0.2 which makes it 12% (12% Cap)
+        percent = percent + math.min(0.02, 0.01 * souleaterGearMod)
         utils.clamp(percent, 0.01, 0.15) -- Caps at 15%
         local hitscounted = 0
         while (hitscounted < numhits) do

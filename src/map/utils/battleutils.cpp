@@ -6191,7 +6191,7 @@ namespace battleutils
             float drainPercent = 0.1f;
 
             //at most 2% bonus from gear
-            auto gearBonusPercent = PEntity->getMod(Mod::SOULEATER_EFFECT);
+            auto gearBonusPercent = PEntity->getMaxGearMod(Mod::SOULEATER_EFFECT, 2); // +2 is 0.2 which makes it 12% (12% Cap)
             drainPercent = drainPercent + std::min(0.02f, 0.01f * gearBonusPercent);
             drainPercent = std::clamp(drainPercent, 0.01f, 0.15f); // Caps at 15%
             auto stalwartSoul = std::clamp(PEntity->getMod(Mod::STALWART_SOUL)* 0.001f, 0.0f, 0.10f);
