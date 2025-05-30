@@ -145,43 +145,51 @@ bool CMobSkillState::Update(time_point tick)
 {
     if (tick > GetEntryTime() + m_castTime && !IsCompleted())
     {
-
-        if (!m_PSkill->isTwoHour() && !m_PSkill->isJobAbility())
-        {
-            SpendCost();
-        }
-
+        CBattleEntity* PTarget = dynamic_cast<CBattleEntity*>(GetTarget());
         action_t action;
-
-        // If Avatar / Wyvern
-        bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
-
-        if (isPlayerPet)
+        if (PTarget && PTarget->isAlive())
         {
-            auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);
-            if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
+            if (!m_PSkill->isTwoHour() && !m_PSkill->isJobAbility())
             {
-                PAvatar->OnPlayerPetSkillFinished(*this, action);
+                SpendCost();
+            }
+
+            // If Avatar / Wyvern
+            bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
+
+            if (isPlayerPet)
+            {
+                auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);
+                if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
+                {
+                    PAvatar->OnPlayerPetSkillFinished(*this, action);
+                }
+                else
+                {
+                    m_PEntity->OnMobSkillFinished(*this, action);
+                }
             }
             else
             {
                 m_PEntity->OnMobSkillFinished(*this, action);
             }
         }
-        else
+        else // Mob is dead before entity could finish mobskill, generate interrupt for WS
         {
-            m_PEntity->OnMobSkillFinished(*this, action);
+            // Could not reproduce on retail due to server tick rate, this entire block is assumed.
+            // Ideally, you would ready a WS then have the mob die to either a DoT or a JA like Quick Draw/Jump and dump the packet.
+            // To the best of our knowledge this would produce a similar-enough effect to cancel the WS animation
+            // Essentially, very similar to "too far away" and casting out of range spell cancellation, with no message.
+            action.actiontype = ACTION_MAGIC_FINISH;
+            action.actionid = 28787; // Some hardcoded magic for interrupts
+            actionList_t& actionList = action.getNewActionList();
         }
-        m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
-        auto PTarget{ GetTarget() };
-        if (PTarget != nullptr)
-        {
+            m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
             m_PEntity->PAI->EventHandler.triggerListener("WEAPONSKILL_USE", m_PEntity, PTarget, m_PSkill->getID(), m_spent, &action);
             PTarget->PAI->EventHandler.triggerListener("WEAPONSKILL_TAKE", PTarget, m_PEntity, m_PSkill->getID(), m_spent, &action);
             auto delay = std::chrono::milliseconds(m_PSkill->getAnimationTime());
             m_finishTime = tick + delay;
             Complete();
-        }
     }
     if (IsCompleted() && tick > m_finishTime)
     {

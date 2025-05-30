@@ -1638,10 +1638,12 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         {
             PTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
         }
-        if (PTarget->isDead())
+
+        if (!PTarget->isDead())
         {
             battleutils::ClaimMob(PTarget, this);
         }
+
         battleutils::DirtyExp(PTarget, this);
         if (PTarget->isDead() && PTarget->objtype == TYPE_MOB && this->objtype == TYPE_PET && this->PMaster->objtype == TYPE_PC)
         {
