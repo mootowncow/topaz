@@ -1884,7 +1884,20 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
                     // Display a generic message for the caster if no message is set.
                     if (first && actionTarget.messageID == 0)
+                    {
                         actionTarget.messageID = MSGBASIC_USES_JA;
+                    }
+
+                    // No action message list
+                    static const std::unordered_set<uint16> noMsgAbilities = {
+                        ABILITY_DEPLOY, ABILITY_RETRIEVE, ABILITY_ASSAULT, ABILITY_RETREAT, ABILITY_RELEASE, ABILITY_FIGHT,
+                        ABILITY_HEEL, ABILITY_LEAVE, ABILITY_STAY
+                    };
+
+                    if (noMsgAbilities.count(PAbility->getID()))
+                    {
+                        actionTarget.messageID = 0;
+                    }
 
                     actionTarget.param = value;
 
