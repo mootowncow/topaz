@@ -86,13 +86,13 @@ local trustProgressionData = {
 local modByMobName =
 {
     ['valaineral'] = function(mob)
-        mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
-        mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         if mob:getMainLvl() < 28 then
             mob:setMobMod(tpz.mobMod.BLOCK, 1)
         end
 
         if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
+            mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
             mob:addMod(tpz.mod.HPP, 10)
             mob:addMod(tpz.mod.MPP, 20)
             mob:addMod(tpz.mod.DMG, -8)
@@ -110,9 +110,9 @@ local modByMobName =
     end,
 
     ['gessho'] = function(mob)
-        mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
-        mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
+            mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
             mob:addMod(tpz.mod.HPP, 20)
             mob:addMod(tpz.mod.EVA, 35)
             mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
@@ -159,36 +159,42 @@ local modByMobName =
 
     ['tenzen'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
-        mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
-        mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         mob:addMod(tpz.mod.STORETP, 10)
         mob:addMod(tpz.mod.ZANSHIN, 5)
         mob:addMod(tpz.mod.SAVETP, 400)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
+            mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
+        end
         AddFarEasternAccuracyGear(mob)
         AddArtifactGear(mob)
     end,
 
     ['iron_eater'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
-        mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
-        mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.DOUBLE_ATTACK, 5)
         mob:addMod(tpz.mod.STORETP, 25)
         mob:addMod(tpz.mod.DA_DOUBLE_DAMAGE, 10)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
+            mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
+        end
         AddHeavyMeleeAccuracyGear(mob)
         AddArtifactGear(mob)
     end,
 
     ['lhe_lhangavo'] = function(mob)
         mob:addMod(tpz.mod.HPP, 30)
-        mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
-        mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         mob:addMod(tpz.mod.COUNTER, 5)
         mob:addMod(tpz.mod.KICK_ATTACK_RATE, 5)
         mob:addMod(tpz.mod.ACC, 30)
         mob:addMod(tpz.mod.DEX, 12)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
+            mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
+        end
         AddFarEasternAccuracyGear(mob)
         AddMNKBelts(mob)
         AddArtifactGear(mob)
@@ -197,8 +203,6 @@ local modByMobName =
     ['shikaree_z'] = function(mob)
         mob:addMod(tpz.mod.HPP, -10)
         mob:addMod(tpz.mod.MPP, 100)
-        mob:addMod(tpz.mod.ATTP, 30)
-        mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.CRITHITRATE, 4)
         mob:addMod(tpz.mod.JUMP_TP_BONUS, 450)
@@ -206,39 +210,49 @@ local modByMobName =
         mob:addMod(tpz.mod.HASTE_ABILITY, 1500)
         mob:addMod(tpz.mod.FASTCAST, 25)
         mob:addMod(tpz.mod.REFRESH, 4)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.ATTP, 30)
+            mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
+        end
         AddLightMeleeAccuracyGear(mob)
         AddArtifactGear(mob)
     end,
 
     ['zeid'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
-        mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
-        mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
+            mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
+        end
         AddHeavyMeleeAccuracyGear(mob)
         AddArtifactGear(mob)
     end,
 
     ['aldo'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
-        mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
-        mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         mob:addMod(tpz.mod.TRIPLE_ATTACK, 5)
         mob:addMod(tpz.mod.DUAL_WIELD, 5)
         mob:addMod(tpz.mod.CRIT_DMG_INCREASE, 8)
         mob:addMod(tpz.mod.EVA, 25)
         mob:addMod(tpz.mod.AGI, 12)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
+            mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
+        end
         AddLightMeleeAccuracyGear(mob)
         AddArtifactGear(mob)
     end,
 
     ['uka_totlihn'] = function(mob)
         mob:addMod(tpz.mod.HPP, 25)
-        mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
-        mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         mob:addMod(tpz.mod.MEVA, 50)
         mob:addMod(tpz.mod.TPEVA, 25)
         mob:addMod(tpz.mod.CHR, 12)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
+            mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
+        end
         AddLightMeleeAccuracyGear(mob)
         AddArtifactGear(mob)
     end,
