@@ -94,6 +94,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../entities/charentity.h"
 #include "../entities/petentity.h"
 #include "../entities/mobentity.h"
+#include "../entities/trustentity.h"
 #include "../entities/automatonentity.h"
 
 #include "battleutils.h"
@@ -3803,24 +3804,52 @@ namespace charutils
             }
         }
 
-        PChar->ForAlliance([&pcinzone, &PMob, &minlevel, &maxlevel](CBattleEntity* PMember) {
-            if (PMember->getZone() == PMob->getZone() && distance(PMember->loc.p, PMob->loc.p) < 100)
-            {
-                if (PMember->PPet != nullptr && PMember->PPet->GetMLevel() > maxlevel && PMember->PPet->objtype != TYPE_PET)
+        if (PChar->PParty && PChar->PParty->m_PAlliance != nullptr)
+        {
+            PChar->ForAlliance(
+                [&pcinzone, &PMob, &minlevel, &maxlevel](CBattleEntity* PMember)
                 {
-                    maxlevel = PMember->PPet->GetMLevel();
-                }
-                if (PMember->GetMLevel() > maxlevel)
+                    if (PMember->getZone() == PMob->getZone() && distance(PMember->loc.p, PMob->loc.p) < 100)
+                    {
+                        if (PMember->PPet != nullptr && PMember->PPet->GetMLevel() > maxlevel && PMember->PPet->objtype != TYPE_PET)
+                        {
+                            maxlevel = PMember->PPet->GetMLevel();
+                        }
+                        if (PMember->GetMLevel() > maxlevel)
+                        {
+                            maxlevel = PMember->GetMLevel();
+                        }
+                        else if (PMember->GetMLevel() < minlevel)
+                        {
+                            minlevel = PMember->GetMLevel();
+                        }
+                        pcinzone++;
+                    }
+                });
+        }
+        else
+        {
+            PChar->ForPartyWithTrusts(
+                [&pcinzone, &PMob, &minlevel, &maxlevel](CBattleEntity* PMember)
                 {
-                    maxlevel = PMember->GetMLevel();
-                }
-                else if (PMember->GetMLevel() < minlevel)
-                {
-                    minlevel = PMember->GetMLevel();
-                }
-                pcinzone++;
-            }
-        });
+                    if (PMember->getZone() == PMob->getZone() && distance(PMember->loc.p, PMob->loc.p) < 100)
+                    {
+                        if (PMember->PPet != nullptr && PMember->PPet->GetMLevel() > maxlevel && PMember->PPet->objtype != TYPE_PET)
+                        {
+                            maxlevel = PMember->PPet->GetMLevel();
+                        }
+                        if (PMember->GetMLevel() > maxlevel)
+                        {
+                            maxlevel = PMember->GetMLevel();
+                        }
+                        else if (PMember->GetMLevel() < minlevel)
+                        {
+                            minlevel = PMember->GetMLevel();
+                        }
+                        pcinzone++;
+                    }
+                });
+        }
         pcinzone = std::max(pcinzone, PMob->m_HiPartySize);
         maxlevel = std::max(maxlevel, PMob->m_HiPCLvl);
         PMob->m_HiPartySize = pcinzone;
