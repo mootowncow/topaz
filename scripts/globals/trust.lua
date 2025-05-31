@@ -88,6 +88,10 @@ local modByMobName =
     ['valaineral'] = function(mob)
         mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
         mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
+        if mob:getMainLvl() < 28 then
+            mob:setMobMod(tpz.mobMod.BLOCK, 1)
+        end
+
         if mob:getMainLvl() >= 75 then
             mob:addMod(tpz.mod.HPP, 10)
             mob:addMod(tpz.mod.MPP, 20)
