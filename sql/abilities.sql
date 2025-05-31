@@ -443,6 +443,7 @@ INSERT INTO `abilities` VALUES (391,'runeists_roll',17,70,1,60,193,420,0,329,200
 INSERT INTO `abilities` VALUES (392,'crooked_cards',17,95,1,600,96,100,0,335,2000,0,6,0.0,0,0,0,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (393,'spirit_bond',14,85,1,60,149,100,0,86,2000,0,6,18.0,0,0,0,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (394,'majesty',7,76,1,60,150,100,0,338,2000,0,6,0.0,1,0,340,0,0,NULL,0,0,0,0,0,0);
+INSERT INTO `abilities` VALUES (395,'hover_shot',11,45,1,60,151,100,0,339,2000,0,6,20.0,0,1,300,0,0,'WOTG',0);
 INSERT INTO `abilities` VALUES (512,'healing_ruby',15,1,3,60,174,0,0,0,2000,0,6,20.0,0,1,60,0,0,NULL,0,6,0,0,0,1);
 INSERT INTO `abilities` VALUES (513,'poison_nails',15,5,4,60,173,0,0,1,2000,0,6,5.0,0,1,60,0,0,NULL,0,11,0,0,0,1);
 INSERT INTO `abilities` VALUES (514,'shining_ruby',15,24,1,60,174,0,0,2,2000,0,6,20.0,1,1,60,0,0,NULL,0,44,0,0,0,1);
