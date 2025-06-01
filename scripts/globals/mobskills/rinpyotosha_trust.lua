@@ -20,7 +20,7 @@ function onMobWeaponSkill(target, mob, skill)
     local duration = 180
 
     local typeEffect = tpz.effect.ATTACK_BOOST
-    skill:setMsg(MobBuffMove(mob, typeEffect, power, 0, duration))
+    skill:setMsg(MobBuffMove(target, typeEffect, power, 0, duration))
 
     return typeEffect
 end

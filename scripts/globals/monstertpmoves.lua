@@ -1297,7 +1297,7 @@ end
 function MobBuffMove(mob, typeEffect, power, tick, duration)
 
     -- Add TP scaling
-    local tp = mob:getSpentTP()
+    local tp = mob:getSpentTP() or 0
     local finalDuration = duration
     if not IsNonScalingBuff(typeEffect) then
         finalDuration =  math.floor(finalDuration * MobBuffDurationTPModifier(tp))
