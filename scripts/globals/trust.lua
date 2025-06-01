@@ -480,7 +480,7 @@ tpz.trust.setUpFood = function(mob)
         role = 'Ranged'
     elseif isCaster then
         role = 'Caster'
-    elseif (job == tpz.job.WHM) then  -- Healers
+    elseif (job == tpz.job.WHM) or (job == tpz.job.RDM) then  -- Healers
         role = 'Healer'
     elseif isSupport then
         role = 'Support'
@@ -1112,7 +1112,7 @@ function AddTrustProgressionBonuses(mob)
         GetTrustProgressionBonuses(mob, 'Ranged')
     elseif isCaster then
         GetTrustProgressionBonuses(mob, 'Caster')
-    elseif (job == tpz.job.WHM) then  -- Healers
+    elseif (job == tpz.job.WHM) or (job == tpz.job.RDM) then  -- Healers
         GetTrustProgressionBonuses(mob, 'Healer')
     elseif isSupport then
         GetTrustProgressionBonuses(mob, 'Support')
