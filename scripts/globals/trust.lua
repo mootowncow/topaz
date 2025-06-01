@@ -514,7 +514,7 @@ tpz.trust.setUpFood = function(mob)
         },
 
         Healer = {
-            { Lvl = 1, Food = tpz.items.COFFEECAKE_MUFFIN },
+            { Lvl = 1, Food = tpz.items.CUP_OF_CHOCOMILK },
         },
 
         Support = {
