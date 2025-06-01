@@ -2093,9 +2093,8 @@ namespace battleutils
                 Action->addEffectParam =
                     CalculateEnspellDamage(PAttacker, PDefender, 1, ELEMENT_LIGHT -1, enspell, Action, finaldamage);
 
-                PDefender->takeDamage(Action->addEffectParam,
-                                                         PAttacker, ATTACK_MAGICAL,
-                                      GetEnspellDamageType((ENSPELL)enspell));
+                PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
+
                 // Handle Negative damage
                 if (Action->addEffectParam < 0)
                 {
@@ -2105,16 +2104,20 @@ namespace battleutils
             }
             else if (enspell == ENSPELL_TAINT)
             {
-                Action->additionalEffect = SUBEFFECT_POISON;
-                Action->addEffectMessage = MSGBASIC_ADD_EFFECT_STATUS;
-                Action->addEffectParam = EFFECT_TAINT;
-                float resist = static_cast<float>(ApplyResistanceEffect(PDefender, PDefender, EFFECT_TAINT, element, SKILL_ENHANCING_MAGIC, 0, 0));
-                auto power = PAttacker->getMod(Mod::ENSPELL);
-
-                if (resist >= 0.5f && !PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_TAINT) &&
-                    tpzrand::GetRandomNumber(100) > GetEffectResistanceTraitChance(PDefender, PDefender, EFFECT_TAINT))
+                if (!PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_TAINT))
                 {
-                    PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_TAINT, EFFECT_TAINT, power, 3, (uint32)(30 * (float)resist)));
+                    Action->additionalEffect = SUBEFFECT_POISON;
+                    Action->addEffectMessage = MSGBASIC_ADD_EFFECT_STATUS;
+                    Action->addEffectParam = EFFECT_TAINT;
+                    float resist = static_cast<float>(ApplyResistanceEffect(PDefender, PDefender, EFFECT_TAINT, element, SKILL_ENHANCING_MAGIC, 0, 0));
+                    auto power = PAttacker->getMod(Mod::ENSPELL);
+
+                    if (resist >= 0.5f && !PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_TAINT) &&
+                        tpzrand::GetRandomNumber(100) > GetEffectResistanceTraitChance(PDefender, PDefender, EFFECT_TAINT))
+                    {
+                        PDefender->StatusEffectContainer->AddStatusEffect(
+                            new CStatusEffect(EFFECT_TAINT, EFFECT_TAINT, power, 3, (uint32)(30 * (float)resist)));
+                    }
                 }
             }
             else if (enspell == ENSPELL_HEAVENWARD_HOWL_DRAIN || enspell == ENSPELL_DRAIN)

@@ -443,7 +443,7 @@ INSERT INTO `abilities` VALUES (391,'runeists_roll',17,70,1,60,193,420,0,329,200
 INSERT INTO `abilities` VALUES (392,'crooked_cards',17,95,1,600,96,100,0,335,2000,0,6,0.0,0,0,0,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (393,'spirit_bond',14,85,1,60,149,100,0,86,2000,0,6,18.0,0,0,0,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (394,'majesty',7,76,1,60,150,100,0,338,2000,0,6,0.0,1,0,340,0,0,NULL,0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (395,'hover_shot',11,45,1,60,151,100,0,339,2000,0,6,20.0,0,1,300,0,0,'WOTG',0);
+INSERT INTO `abilities` VALUES (395,'hover_shot',11,45,1,60,151,100,0,339,2000,0,6,20.0,0,1,300,0,0,'WOTG',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (512,'healing_ruby',15,1,3,60,174,0,0,0,2000,0,6,20.0,0,1,60,0,0,NULL,0,6,0,0,0,1);
 INSERT INTO `abilities` VALUES (513,'poison_nails',15,5,4,60,173,0,0,1,2000,0,6,5.0,0,1,60,0,0,NULL,0,11,0,0,0,1);
 INSERT INTO `abilities` VALUES (514,'shining_ruby',15,24,1,60,174,0,0,2,2000,0,6,20.0,1,1,60,0,0,NULL,0,44,0,0,0,1);
@@ -457,7 +457,7 @@ INSERT INTO `abilities` VALUES (521,'regal_scratch',15,1,4,60,173,0,0,161,2000,0
 INSERT INTO `abilities` VALUES (522,'mewing_lullaby',15,25,4,60,174,0,0,162,2000,0,6,10.0,1,1,60,0,0,NULL,0,61,0,0,0,1);
 INSERT INTO `abilities` VALUES (523,'eerie_eye',15,55,4,60,174,0,0,163,2000,0,6,5.0,0,1,60,0,0,NULL,0,134,0,0,0,1);
 INSERT INTO `abilities` VALUES (524,'level_x_holy',15,75,4,60,173,0,0,164,2000,0,6,10.0,1,1,60,0,0,NULL,0,235,0,0,0,1); -- animation 164-169
-INSERT INTO `abilities` VALUES (525,'raise_ii',15,15,34,60,174,0,0,170,2000,0,6,20.0,0,1,60,0,0,NULL,0,160,0,0,0,1); -- TODO: Animation Id
+INSERT INTO `abilities` VALUES (525,'raise_ii',15,15,34,60,174,0,0,170,2000,0,6,20.0,0,1,60,0,0,NULL,0,160,0,0,0,1);
 INSERT INTO `abilities` VALUES (526,'reraise_ii',15,30,6146,60,174,0,0,160,0,0,6,20.0,0,1,60,0,0,NULL,0,80,0,0,0,1);
 INSERT INTO `abilities` VALUES (527,'altanas_favor',15,1,1,60,174,0,0,170,2000,0,6,20.0,1,1,60,0,2,NULL,0,0,0,0,0,3);
 INSERT INTO `abilities` VALUES (528,'moonlit_charge',15,5,4,60,173,0,0,16,2000,0,6,5.0,0,1,60,0,0,NULL,0,17,0,0,0,1);
