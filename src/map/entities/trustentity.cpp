@@ -318,7 +318,7 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
             StatusEffectContainer->DelStatusEffectSilent(EFFECT_CONTRADANCE);
         }
 
-        PRecastContainer->Add(RECAST_ABILITY, action.actionid, action.recast);
+        PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), action.recast);
     }
 
     if (PTarget && PTarget->isDead())
