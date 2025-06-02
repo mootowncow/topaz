@@ -470,7 +470,8 @@ tpz.trust.setUpFood = function(mob)
     local isTank = (job == tpz.job.PLD) or (job == tpz.job.NIN) or (job == tpz.job.RUN)
     local isRanged = (job == tpz.job.RNG) or (job == tpz.job.COR)
     local isCaster = (job == tpz.job.BLM) or (job == tpz.job.SCH)
-    local isSupport = (job == tpz.job.COR) or (job == tpz.job.BRD) or (job == tpz.job.GEO)
+    local isSupport = (job == tpz.job.COR) or (job == tpz.job.BRD)
+    local isHealer = (job == tpz.job.WHM) or (job == tpz.job.RDM) or (job == tpz.job.GEO)
     local role = 'Tank'
 
     -- Apply role-based level up bonuses
@@ -480,7 +481,7 @@ tpz.trust.setUpFood = function(mob)
         role = 'Ranged'
     elseif isCaster then
         role = 'Caster'
-    elseif (job == tpz.job.WHM) or (job == tpz.job.RDM) then  -- Healers
+    elseif isHealer then
         role = 'Healer'
     elseif isSupport then
         role = 'Support'
