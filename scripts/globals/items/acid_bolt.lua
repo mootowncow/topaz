@@ -14,5 +14,5 @@ function onAdditionalEffect(player, target, damage)
     local subpower = 0
     local tier = 1
     local bonus = 0
-    return TryApplyAdditionalEffect(player, target, tpz.effect.DEFENSE_DOWN, tpz.magic.ele.WIND, power, tick, duration, subpower, tier, chance, bonus)
+    return TryApplyAdditionalEffect(player, target, tpz.effect.DEFENSE_DOWN, tpz.magic.ele.WIND, power, tick, duration, subpower, tier, chance, tpz.skill.MARKSMANSHIP, bonus)
  end
