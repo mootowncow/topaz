@@ -493,14 +493,15 @@ tpz.trust.setUpFood = function(mob)
     {
         Tank = {
             { Lvl = 1, Food = tpz.items.SAUSAGE },
-            { Lvl = 55, Food = tpz.items.PLATE_OF_DORADO_SUSHI },
+            { Lvl = 30, Food = tpz.items.DHALMEL_STEAK },
+            { Lvl = 50, Food = tpz.items.PLATE_OF_DORADO_SUSHI },
             { Lvl = 75, Food = tpz.items.TAVNAZIAN_TACO },
         },
 
         Melee = {
             { Lvl = 1, Food = tpz.items.SAUSAGE },
             { Lvl = 30, Food = tpz.items.DHALMEL_STEAK },
-            { Lvl = 55, Food = tpz.items.MARINARA_PIZZA },
+            { Lvl = 40, Food = tpz.items.MARINARA_PIZZA },
         },
 
         Ranged = {
