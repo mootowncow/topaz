@@ -171,13 +171,13 @@ local modByMobName =
     end,
 
     ['iron_eater'] = function(mob)
-        mob:addMod(tpz.mod.HPP, 10)
-        mob:addMod(tpz.mod.DEFP, 25)
-        mob:addMod(tpz.mod.DOUBLE_ATTACK, 5)
-        mob:addMod(tpz.mod.STORETP, 25)
-        mob:addMod(tpz.mod.DA_DOUBLE_DAMAGE, 10)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.HPP, 10)
+            mob:addMod(tpz.mod.DEFP, 25)
+            mob:addMod(tpz.mod.DOUBLE_ATTACK, 5)
+            mob:addMod(tpz.mod.STORETP, 25)
+            mob:addMod(tpz.mod.DA_DOUBLE_DAMAGE, 10)
             mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
             mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         end
