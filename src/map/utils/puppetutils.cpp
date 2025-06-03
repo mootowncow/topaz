@@ -309,6 +309,7 @@ void setAttachment(CCharEntity* PChar, uint8 slotId, uint8 attachment)
                 PAutomaton->UpdateHealth();
                 PAutomaton->health.hp = PAutomaton->GetMaxHP();
                 PAutomaton->health.mp = PAutomaton->GetMaxMP();
+                PChar->setPetZoningInfo();
             }
         }
     }
