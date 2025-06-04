@@ -10,7 +10,7 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAdditionalEffect(player, target, damage)
-    local dmg = doAdditionalEffectDamage(player, target, 100, 20, tpz.mod.MND, true, 0, tpz.magic.ele.LIGHT, tpz.skill.MARKSMANSHIP, 100)
+    local dmg = doAdditionalEffectDamage(player, target, 100, 0, tpz.mod.MND, true, 0, tpz.magic.ele.LIGHT, tpz.skill.MARKSMANSHIP, 100)
 
     if dmg == 0 then
         return 0, 0, 0

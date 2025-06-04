@@ -3036,13 +3036,15 @@ function doCure(caster, target, spell)
 end
 
 function doAdditionalEffectDamage(player, target, chance, dmg, statMod, incudeMAB, bonusMAB, element, skill, maccBonus)
+    -- statMod (INT MND etc) increases damage by 1 per 3 of the stat (i.e. 30 MND = +10 damage)
     local rawDmg = dmg
     local resist = applyResistanceAddEffect(player, target, element, maccBonus, tpz.effect.NONE, skill)
     local params = {}
     params.bonusmab = bonusMAB
     params.includemab = incudeMAB
+
     if math.random(100) <= chance then
-        dmg = dmg + player:getMod(statMod)
+        dmg = dmg + math.floor(player:getStat(statMod) / 3)
         dmg = addBonusesAbility(player, element, target, dmg, params)
         dmg = math.floor(dmg * resist)
         dmg = adjustForTarget(target, dmg, element)
