@@ -168,7 +168,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         --printf("Final crit %d", critRate * 100)
 
         local weaponDmg = auto:getWeaponDmg()
-        if (attackType == tpz.attackType.RANGED )then
+        if (attackType == tpz.attackType.RANGED) then
             weaponDmg = auto:getRangedDmg()
         end
         local fSTR = getAutoFSTR(weaponDmg, auto:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))

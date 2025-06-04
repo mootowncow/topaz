@@ -1302,7 +1302,7 @@ namespace petutils
         });
         // clang-format on
 
-        // weapon damage = (floor(automaton ranged skill * 0.11) * 3)
+        // melee weapon damage = (floor(automaton melee skill * 0.11) * 3)
         auto meleeSkill = PPet->GetSkill(SKILL_AUTOMATON_MELEE);
         auto rangedSkill = PPet->GetSkill(SKILL_AUTOMATON_RANGED);
         static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_MAIN])->setDamage((uint16)(floor(meleeSkill * 0.11) * 3));
@@ -1386,6 +1386,7 @@ namespace petutils
                     WeaponDelay *= (100 - (PMaster->getMod(Mod::PET_DELAY) + PChar->PJobPoints->GetJobPointValue(JP_PET_ATK_SPD_BONUS)));
                     WeaponDelay /= 100;
                 }
+                // ranged weapon damage = (floor(automaton melee skill * 0.11) * 3)
                 static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_RANGED])->setDamage((uint16)(floor(rangedSkill * 0.11) * 3));
                 ((CItemWeapon*)PPet->m_Weapons[SLOT_RANGED])->setDelay((uint16)(floor(1000.0 * (WeaponDelay / 60.0f))));
                 ((CItemWeapon*)PPet->m_Weapons[SLOT_RANGED])->setDmgType(DAMAGE_RANGED);
