@@ -71,6 +71,8 @@ private:
     void Declump(CCharEntity* PMaster, CBattleEntity* PTarget);
     void PathOutToDistance(CBattleEntity* PTarget, float amount);
 
+    bool TrustIsHealing();
+
     CBattleEntity* m_LastTopEnmity;
 
     time_point m_LastRepositionTime;

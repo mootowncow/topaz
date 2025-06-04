@@ -378,8 +378,29 @@ void CTrustController::DoRoamTick(time_point tick)
         POwner->PAI->Internal_Engage(PMaster->GetBattleTargetID());
     }
 
+    if (POwner->CanRest() && m_Tick - POwner->LastAttacked > m_tickDelays.at(0) && m_Tick - m_CombatEndTime > m_tickDelays.at(0) &&
+        m_Tick - m_LastHealTickTime > m_tickDelays.at(m_NumHealingTicks))
+    {
+        if (POwner->health.hp != POwner->health.maxhp || POwner->health.mp != POwner->health.maxmp)
+        {
+            // recover 3% HP & MP (Retail tested)
+            uint32 recoverHP = (uint32)(POwner->health.maxhp * 0.03);
+            uint32 recoverMP = (uint32)(POwner->health.maxmp * 0.03);
+            // POwner->addHP(recoverHP);
+            POwner->addMP(recoverMP);
+            m_LastHealTickTime = m_Tick;
+            POwner->updatemask |= UPDATE_HP;
+            m_NumHealingTicks = std::clamp(m_NumHealingTicks + 1, static_cast<std::size_t>(0U), m_tickDelays.size() - 1U);
+        }
+    }
+
     // Unable to move due to hard CC (Sleep, stun, terror, etc)
     if (POwner->StatusEffectContainer->HasPreventActionEffect(false) || POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BIND))
+    {
+        return;
+    }
+
+    if (TrustIsHealing())
     {
         return;
     }
@@ -423,22 +444,6 @@ void CTrustController::DoRoamTick(time_point tick)
         else if (POwner->GetSpeed() > 0)
         {
             POwner->PAI->PathFind->StepTo(PFollowTarget->loc.p, true);
-        }
-    }
-
-    if (POwner->CanRest() && m_Tick - POwner->LastAttacked > m_tickDelays.at(0) && m_Tick - m_CombatEndTime > m_tickDelays.at(0) &&
-        m_Tick - m_LastHealTickTime > m_tickDelays.at(m_NumHealingTicks))
-    {
-        if (POwner->health.hp != POwner->health.maxhp || POwner->health.mp != POwner->health.maxmp)
-        {
-            // recover 3% HP & MP (Retail tested)
-            uint32 recoverHP = (uint32)(POwner->health.maxhp * 0.03);
-            uint32 recoverMP = (uint32)(POwner->health.maxmp * 0.03);
-            //POwner->addHP(recoverHP);
-            POwner->addMP(recoverMP);
-            m_LastHealTickTime = m_Tick;
-            POwner->updatemask |= UPDATE_HP;
-            m_NumHealingTicks = std::clamp(m_NumHealingTicks + 1, static_cast<std::size_t>(0U), m_tickDelays.size() - 1U);
         }
     }
 }
@@ -570,6 +575,31 @@ void CTrustController::PathOutToDistance(CBattleEntity* PTarget, float amount)
         FaceTarget(PTarget->targid);
         m_InTransit = false;
     }
+}
+
+bool CTrustController::TrustIsHealing()
+{
+    bool isMasterHealing = (POwner->PMaster->animation == ANIMATION_HEALING);
+    bool isTrustHealing = (POwner->animation == ANIMATION_HEALING);
+
+    if (isMasterHealing && !isTrustHealing && !POwner->StatusEffectContainer->HasPreventActionEffect(false))
+    {
+        // animation down
+        POwner->animation = ANIMATION_HEALING;
+        POwner->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_HEALING, 0, 0, map_config.healing_tick_delay, 0));
+        POwner->updatemask |= UPDATE_HP;
+        return true;
+    }
+    else if (!isMasterHealing && isTrustHealing)
+    {
+        // animation up
+        POwner->animation = ANIMATION_NONE;
+        POwner->StatusEffectContainer->DelStatusEffect(EFFECT_HEALING);
+        POwner->updatemask |= UPDATE_HP;
+        return false;
+    }
+
+    return isMasterHealing;
 }
 
 bool CTrustController::Ability(uint16 targid, uint16 abilityid)
