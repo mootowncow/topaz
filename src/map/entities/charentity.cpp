@@ -2173,6 +2173,12 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
             }
         }
         totalDamage += damage;
+
+        // Stop adding hits if target would die before calculating other hits
+        if (PTarget->health.hp <= totalDamage)
+        {
+            break;
+        }
     }
 
     // if a hit did occur (even without barrage)
