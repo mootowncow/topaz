@@ -2961,11 +2961,6 @@ namespace battleutils
 
     bool TryInterruptSpell(CBattleEntity* PAttacker, CBattleEntity* PDefender, CSpell* PSpell)
     {
-        if (PDefender->objtype == TYPE_TRUST)
-        {
-            return false;
-        }
-
         // cannot interrupt when manafont is active
         if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_MANAFONT))
         {
@@ -2996,7 +2991,7 @@ namespace battleutils
         int diff = PAttacker->GetMLevel() - PDefender->GetMLevel();
 
         // If the defender is a player, and the attacker is higher level than the defender, then the difference is multiplid by 10 for a severe penalty of +10% chance per level
-        if (PDefender->objtype == TYPE_PC)
+        if (PDefender->objtype == TYPE_PC || PDefender->allegiance == ALLEGIANCE_PLAYER)
         {
             if (diff > 0)
             {
