@@ -7710,9 +7710,10 @@ namespace battleutils
         }
 
         // Composure allows most enhancing magic spells to be made AOE
+        // Disabled
         if (PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_COMPOSURE) && PSpell->isComposureAOE())
         {
-            return SPELLAOE_RADIAL;
+            //return SPELLAOE_RADIAL;
         }
 
         if (PSpell->getAOE() == SPELLAOE_RADIAL_ACCE) // Divine Veil goes here because -na spells have AoE w/ Accession

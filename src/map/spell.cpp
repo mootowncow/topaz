@@ -733,7 +733,7 @@ namespace spell
 
                 PSpell->setRange(static_cast<float>(Sql_GetIntData(SqlHandle, 23)) / 10);
 
-                if(PSpell->getAOE())
+                if (PSpell->getAOE())
                 {
                     // default radius
                     PSpell->setRadius(10);

@@ -226,7 +226,7 @@ enum SPELLAOE
     SPELLAOE_DIFFUSION      = 6,  //AOE when under Diffusion
     SPELLAOE_TABULA         = 7,  //AOE when under Tabula(Mob Only)
     SPELLAOE_PBAOE          = 8,  // Point blank AoE
-    SPELLAOE_COMPOSURE      = 9,  // AOE when under Composure 
+    SPELLAOE_COMPOSURE      = 9,  // AOE when under Composure (No longer implemented)
 };
 
 enum SPELLFLAG
