@@ -3776,8 +3776,11 @@ namespace battleutils
         else if (PDefender->objtype == TYPE_MOB)
             ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, 0);
 
-        if (PAttacker->objtype == TYPE_PC && !isRanged && !isCounter)
-            PAttacker->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK, true);
+        if (PAttacker->objtype == TYPE_PC && !isCounter)
+        {
+            PAttacker->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
+        }
+
         return damage;
 
     }
@@ -3925,10 +3928,7 @@ namespace battleutils
         else if (PDefender->objtype == TYPE_MOB)
             ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, 0);
 
-        if (!isRanged && attackType == ATTACK_PHYSICAL)
-        {
-            PAttacker->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK, true);
-        }
+        PAttacker->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
 
         // Apply TP
         if (!PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MEIKYO_SHISUI))

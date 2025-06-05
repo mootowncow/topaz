@@ -380,6 +380,10 @@ end
 
 function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, damageType, numberofhits, params)
 
+    avatar:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    avatar:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
+    avatar:delStatusEffectsByFlag(tpz.effectFlag.PHYS_ATTACK)
+
     -- physical attack missed, skip rest
     if (skill:hasMissMsg()) then 
         return 0
@@ -521,6 +525,9 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
 end
 
 function AvatarMagicalFinalAdjustments(dmg, avatar, skill, target, attackType, element, params)
+
+    avatar:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    avatar:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
 
     -- Check for shadows
     dmg = getAvatarShadowAbsorb(dmg, 1, target, skill, params)

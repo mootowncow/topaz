@@ -491,6 +491,8 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
 
     -- Delete statuses that may have been spent by the WS
     attacker:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.PHYS_ATTACK)
     attacker:delStatusEffectSilent(tpz.effect.SNEAK_ATTACK)
     attacker:delStatusEffectSilent(tpz.effect.BUILDING_FLOURISH)
 	attacker:delStatusEffectSilent(tpz.effect.CONSUME_MANA)
@@ -588,7 +590,6 @@ end
 -- Sets up the necessary calcParams for a ranged WS before passing it to calculateRawWSDmg. When the raw
 -- damage is returned, handles reductions based on target resistances and passes off to takeWeaponskillDamage.
 function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, primaryMsg)
-
     -- Determine cratio and ccritratio
     local bonusAttPercent = 0
     local flatAttackBonus = 0
@@ -699,6 +700,9 @@ function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, prima
 
     -- Handle Scarlet Delirium
     finaldmg = utils.ScarletDeliriumBonus(attacker, finaldmg)
+
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
 	
     finaldmg = finaldmg * WEAPON_SKILL_POWER * 1.00 -- Add server bonus
     calcParams.finalDmg = finaldmg
@@ -874,6 +878,9 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
         --handling rampart stoneskin
         dmg = utils.rampartstoneskin(target, dmg)
     end
+
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
 
     calcParams.finalDmg = dmg
     dmg = takeWeaponskillDamage(target, attacker, wsParams, primaryMsg, attack, calcParams, action)

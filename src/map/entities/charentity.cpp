@@ -2308,6 +2308,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
     battleutils::RemoveAmmo(this, ammoConsumed);
 
     StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
 
     // Safety check to not get locked in cutscene status
     if (this->status == STATUS_CUTSCENE_ONLY || this->m_Substate == CHAR_SUBSTATE::SUBSTATE_IN_CS)

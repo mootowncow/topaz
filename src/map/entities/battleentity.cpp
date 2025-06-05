@@ -2539,7 +2539,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
         PChar->m_sneakTrickActive = false;
     }
 
-    this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK | EFFECTFLAG_DETECTABLE);
+    this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK | EFFECTFLAG_DETECTABLE | EFFECTFLAG_PHYS_ATTACK);
 
     if (this->objtype == TYPE_TRUST) // Player pets / Player is done in mobentity/char entity but trust entity does not have an OnAttack override
     {

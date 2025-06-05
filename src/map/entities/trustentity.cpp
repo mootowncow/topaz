@@ -563,8 +563,9 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
     }
     battleutils::ClaimMob(PTarget, this);
     //battleutils::RemoveAmmo(this, ammoConsumed);
-    // only remove detectables
+
     StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
 
     if (PTarget && PTarget->isDead())
     {

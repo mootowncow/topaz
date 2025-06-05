@@ -622,12 +622,11 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
         params = {}
     end
 
-    if (attackType == tpz.attackType.PHYSICAL) then
-        mob:delStatusEffectSilent(tpz.effect.SNEAK_ATTACK)
-        mob:delStatusEffectSilent(tpz.effect.TRICK_ATTACK)
-    end
-
     target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+
+    mob:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    mob:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
+    mob:delStatusEffectsByFlag(tpz.effectFlag.PHYS_ATTACK)
 
     -- physical attack missed, skip rest
     if (skill:hasMissMsg()) then

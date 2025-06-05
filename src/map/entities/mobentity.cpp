@@ -1010,9 +1010,9 @@ void CMobEntity::OnRangedAttack(CRangeState& state, action_t& action)
         StatusEffectContainer->DelStatusEffect(EFFECT_BARRAGE, 0);
     }
     battleutils::ClaimMob(PTarget, this);
-    // only remove detectables and NOT camouflage
-    if (!StatusEffectContainer->HasStatusEffect(EFFECT_CAMOUFLAGE))
-        StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+
+    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
 
     if (hitOccured == false && PTarget->objtype == TYPE_MOB)
     {

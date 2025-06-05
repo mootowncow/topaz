@@ -1141,6 +1141,7 @@ tpz.effectFlag =
     AURA            = 0x4000000,
     FINISHING_MOVE  = 0x8000000,  -- Is a finishing move
     HIDE_TIMER      = 0x10000000, -- Sends "Always" in the packet, even though timer is tracked (used for geo bubbles / infinite duration buffs)
+    PHYS_ATTACK     = 0x20000000, -- disappears when damage is dealt (physical status effects only, i.e. sneak attack, assassins charge, etc)
 }
 
 ------------------------------------
