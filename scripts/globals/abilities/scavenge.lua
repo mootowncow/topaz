@@ -166,11 +166,20 @@ local items = {
         end
     else
 
-        local bonuses = (player:getMod(tpz.mod.SCAVENGE_EFFECT)  + player:getMerit(tpz.merit.SCAVENGE_EFFECT) ) / 100
-        local arrowsToReturn = math.floor(math.floor(player:getLocalVar("ArrowsUsed")  % 10000) * (player:getMainLvl() / 200 + bonuses))
+        local doubleChance = (player:getMod(tpz.mod.SCAVENGE_EFFECT) + player:getMerit(tpz.merit.SCAVENGE_EFFECT))
         local playerID = target:getID()
 
         player:addTempItem(result)
+
+        -- Double chance proc from scavenge mod gear + merits
+        if math.random(100) <= doubleChance then
+            local result2 = resultTable[math.random(#resultTable)]
+            local itemObject = GetItem(result2)
+            local itemName = string.gsub(itemObject:getName(), '_', ' ')
+            player:addTempItem(result2)
+            player:PrintToPlayer("Your skill in scavenging caused you to find [" .. itemName .. "] !", tpz.msg.textColor.GOLD, 0)
+        end
+
         action:messageID(playerID, 140) -- Player finds xxx item. xxx being returned itemID
         return result
     end
