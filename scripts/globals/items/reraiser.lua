@@ -14,5 +14,6 @@ function onItemUse(target)
     local duration = 3600
     target:delStatusEffectSilent(tpz.effect.RERAISE)
     target:addStatusEffect(tpz.effect.RERAISE, 1, 0, duration)
-    target:messageBasic(tpz.msg.basic.GAINS_EFFECT_OF_STATUS, tpz.effect.RERAISE)
+    target:messagePublic(tpz.msg.basic.GAINS_EFFECT_OF_ITEM, target, tpz.effect.RERAISE, tpz.effect.RERAISE)
+    target:setEffectUndispellable(tpz.effect.RERAISE)
 end
