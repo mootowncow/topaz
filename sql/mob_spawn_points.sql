@@ -11384,7 +11384,7 @@ INSERT INTO `mob_spawn_points` VALUES (16986288,'Aht_Urhgan_Attercop','Aht Urhga
 INSERT INTO `mob_spawn_points` VALUES (16986289,'Colorful_Treant','Colorful Treant',30,-403.315,-24.995,284.354,224);
 INSERT INTO `mob_spawn_points` VALUES (16986290,'Defoliate_Treant','Defoliate Treant',28,-395,-24,284,127);
 --INSERT INTO `mob_spawn_points` VALUES (16986291,'Wajaom_Tiger','Wajaom Tiger',19,-495,-10,58,127);
---INSERT INTO `mob_spawn_points` VALUES (16986292,'Wajaom_Tiger','Wajaom Tiger',19,-511,-8,43,127);
+INSERT INTO `mob_spawn_points` VALUES (16986292,'Wajaom_Tiger','Wajaom Tiger',19,-511,-8,43,127);
 INSERT INTO `mob_spawn_points` VALUES (16986293,'Defoliate_Treant','Defoliate Treant',28,-382,-26,293,127);
 --INSERT INTO `mob_spawn_points` VALUES (16986294,'Wajaom_Tiger','Wajaom Tiger',19,-533,-10,43,127);
 INSERT INTO `mob_spawn_points` VALUES (16986295,'Defoliate_Treant','Defoliate Treant',28,-402,-24,241,127);

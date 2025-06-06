@@ -635,7 +635,6 @@ namespace petutils
         // Расчет бонусных HP
         bonusStat = (mainLevelOver10 + mainLevelOver50andUnder60) * 2;
         PPet->health.maxhp = (int32)((raceStat + jobStat + bonusStat + sJobStat) * petStats->HPscale);
-        PPet->health.hp = PPet->health.maxhp;
 
         //Начало расчера MP
         raceStat = 0;
@@ -672,7 +671,11 @@ namespace petutils
         }
 
         PPet->health.maxmp = (int32)((raceStat + jobStat + sJobStat) * petStats->MPscale);
-        PPet->health.mp = PPet->health.maxmp;
+
+        PPet->UpdateHealth();
+        PPet->health.tp = 0;
+        PPet->health.hp = PPet->GetMaxHP();
+        PPet->health.mp = PPet->GetMaxMP();
 
         uint16 fSTR = GetBaseToRank(petStats->strRank, PPet->GetMLevel());
         uint16 fDEX = GetBaseToRank(petStats->dexRank, PPet->GetMLevel());
@@ -811,7 +814,6 @@ namespace petutils
         if (PPet->m_PetID == PETID_ODIN || PPet->m_PetID == PETID_ALEXANDER)
             bonusStat += 6800;
         PPet->health.maxhp = (int16)(raceStat + jobStat + bonusStat + sJobStat);
-        PPet->health.hp = PPet->health.maxhp;
 
         //Начало расчера MP
         raceStat = 0;
@@ -844,7 +846,12 @@ namespace petutils
         }
 
         PPet->health.maxmp = (int16)(raceStat + jobStat + sJobStat); // результат расчета MP
-        PPet->health.mp = PPet->health.maxmp;
+
+        PPet->UpdateHealth();
+        PPet->health.tp = 0;
+        PPet->health.hp = PPet->GetMaxHP();
+        PPet->health.mp = PPet->GetMaxMP();
+
         //add in evasion from skill
         int16 evaskill = PPet->GetSkill(SKILL_EVASION);
         int16 eva = evaskill;
@@ -1172,6 +1179,7 @@ namespace petutils
             PPet->SetMLevel(mLvl + PMaster->getMod(Mod::WYVERN_LVL_BONUS));
             PPet->SetSLevel(mLvl + PMaster->getMod(Mod::WYVERN_LVL_BONUS));
         }
+
         LoadAvatarStats(PPet); // TODO: LoadWyvernStats
         // follows PC calcs (w/o SJ)
 
@@ -1464,7 +1472,9 @@ namespace petutils
             PPet->SetMLevel(mLvl + PMaster->getMod(Mod::AUTO_LVL_BONUS));
             PPet->SetSLevel(mLvl + PMaster->getMod(Mod::AUTO_LVL_BONUS));
         }
+
         LoadAutomatonStats((CCharEntity*)PMaster, PPet, g_PPetList.at(petID)); // temp
+
         if (PMaster->objtype == TYPE_PC)
         {
             CCharEntity* PChar = (CCharEntity*)PMaster;
@@ -1497,7 +1507,10 @@ namespace petutils
             PPet->health.maxhp += (uint32)floor(PPet->health.maxhp * (0.03 * bolsterJPVal));
         }
 
-        PPet->health.hp = PPet->health.maxhp;
+        PPet->UpdateHealth();
+        PPet->health.tp = 0;
+        PPet->health.hp = PPet->GetMaxHP();
+        PPet->health.mp = PPet->GetMaxMP();
 
         // This sets the correct visual size for the luopan as pets currently
         // do not make use of the entity flags in the database

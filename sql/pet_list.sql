@@ -69,7 +69,7 @@ INSERT INTO `pet_list` VALUES (23, 'Crab Familiar', 4610, 23, 55, 1800, 0);
 INSERT INTO `pet_list` VALUES (24, 'Courier Carrie', 4611, 23, 75, 1800, 0);
 INSERT INTO `pet_list` VALUES (25, 'Homunculus', 4616, 23, 75, 3600, 0);
 INSERT INTO `pet_list` VALUES (26, 'Flytrap Familiar', 4619, 28, 40, 1800, 0);
-INSERT INTO `pet_list` VALUES (27, 'Tige rFamiliar', 4604, 28, 40, 1800, 0);
+INSERT INTO `pet_list` VALUES (27, 'Tiger Familiar', 4604, 28, 40, 1800, 0);
 INSERT INTO `pet_list` VALUES (28, 'Flowerpot Bill', 4602, 28, 40, 1800, 0);
 INSERT INTO `pet_list` VALUES (29, 'Eft Familiar', 4621, 33, 45, 1800, 0);
 INSERT INTO `pet_list` VALUES (30, 'Lizard Familiar', 4600, 33, 45, 1800, 0);

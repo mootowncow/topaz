@@ -6422,17 +6422,18 @@ inline int32 CLuaBaseEntity::levelRestriction(lua_State* L)
 
             if (PChar->PPet)
             {
-            if (PChar->PPet->objtype == TYPE_MOB)
+                CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
+
+                if (PChar->PPet->objtype == TYPE_MOB)
                 {
                     // Charmed mobs only detach if they are above the level restriction
                     if (PChar->PPet->GetMLevel() > NewMLevel)
                     {
                         petutils::DetachPet(PChar);
                     }
-                    return PChar->m_LevelRestriction;
+                    lua_pushinteger(L, PChar->m_LevelRestriction);
+                    return 1;
                 }
-
-                CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
 
                 // Preserve pet's HP and MP
                 int32 hp = PPet->health.hp;
@@ -6467,7 +6468,8 @@ inline int32 CLuaBaseEntity::levelRestriction(lua_State* L)
 
                                 PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_AUTO_EXCEEDS_CAPACITY));
                                 petutils::DespawnPet(PChar);
-                                return PChar->m_LevelRestriction;
+                                lua_pushinteger(L, PChar->m_LevelRestriction);
+                                return 1;
                             }
                         }
                         petutils::CalculateAutomatonStats(PChar, PPet);
@@ -6477,7 +6479,8 @@ inline int32 CLuaBaseEntity::levelRestriction(lua_State* L)
                         break;
                     default:
                         petutils::DespawnPet(PChar);
-                        return PChar->m_LevelRestriction;
+                        lua_pushinteger(L, PChar->m_LevelRestriction);
+                        return 1;
                 }
 
                 // Setup pet with master since traits, abilities and some status effects need to be reapplied
