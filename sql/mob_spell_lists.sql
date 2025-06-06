@@ -2643,6 +2643,9 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,49,37,255);           -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,50,57,255);           -- Shell III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,51,68,255);           -- Shell IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,143,32,255);          -- Erase
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,12,25,255);           -- Raise
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,13,56,255);           -- Raise II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,140,70,255);          -- Raise III
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Excenmille',311,1,5,255);         -- Cure
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Excenmille',311,2,17,255);        -- Cure II
@@ -3154,6 +3157,7 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,511,75,255);        
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,842,85,255);        -- Distract II
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,845,48,255);        -- Flurry
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,846,96,255);        -- Flurry II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,12,38,255);        -- Raise
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Pieuje_UC',365,1,1,255);           -- Cure
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Pieuje_UC',365,2,11,255);          -- Cure II
@@ -3385,6 +3389,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,247,36,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,163,79,255);         -- Stone V
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,253,30,255);         -- Sleep
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,259,65,255);         -- Sleep II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,12,35,255);          -- Raise
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,13,70,255);          -- Raise II
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Amchuchu',382,43,20,255);          -- Protect
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Amchuchu',382,44,40,255);          -- Protect II

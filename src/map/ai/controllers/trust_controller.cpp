@@ -27,6 +27,11 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../status_effect_container.h"
 #include "../../enmity_container.h"
 #include "../../ai/states/despawn_state.h"
+#include "../../ai/states/ability_state.h"
+#include "../../ai/states/mobskill_state.h"
+#include "../../ai/states/magic_state.h"
+#include "../../ai/states/range_state.h"
+#include "../../ai/states/weaponskill_state.h"
 #include "../../ai/helpers/gambits_container.h"
 #include "../../entities/charentity.h"
 #include "../../entities/trustentity.h"
@@ -401,6 +406,64 @@ void CTrustController::DoRoamTick(time_point tick)
     }
 
     if (TrustIsHealing())
+    {
+        return;
+    }
+
+    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
+        POwner->PAI->IsCurrentState<CRangeState>() ||
+        POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
+        POwner->PAI->IsCurrentState<CMobSkillState>())
+    {
+        return;
+    }
+
+    // Try to raise dead party members within 20 yalms
+    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
+    CCharEntity* PChar = static_cast<CCharEntity*>(POwner->PMaster);
+
+    if (!controller || !PChar)
+        return;
+
+    if (!POwner->PAI->CanChangeState())
+    {
+        return;
+    }
+
+    PChar->ForPartyWithTrusts(
+        [&](CBattleEntity* PMember)
+        {
+            if (!PMember->isDead())
+                return;
+
+            float distanceToMember = distance(POwner->loc.p, PMember->loc.p);
+            if (distanceToMember > 20.0f)
+                return;
+
+            // Check highest available Raise spell
+            SpellID raiseSpell = SpellID::NULLSPELL;
+
+            if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise_III))
+                raiseSpell = SpellID::Raise_III;
+            else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise_II))
+                raiseSpell = SpellID::Raise_II;
+            else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise))
+                raiseSpell = SpellID::Raise;
+
+            if (raiseSpell != SpellID::NULLSPELL)
+            {
+                controller->Cast(PMember->targid, raiseSpell);
+                return;
+            }
+        });
+
+
+    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
+        POwner->PAI->IsCurrentState<CRangeState>() ||
+        POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
+        POwner->PAI->IsCurrentState<CMobSkillState>())
     {
         return;
     }
