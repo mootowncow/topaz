@@ -22,11 +22,11 @@ function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams, isOffha
     local pdif = 0
     local finaldmg = 0
 
-    local hitRate = calcParams.hitRate
+    local hitRate = calcParams.hitRate / 100
     local missChance = math.random()
 
     if (isOffhand) then
-        hitRate = calcParams.hitRateOffhand
+        hitRate = calcParams.hitRateOffhand / 100
     end
 
     if ((missChance <= hitRate) or calcParams.guaranteedHit)
