@@ -1142,6 +1142,11 @@ void CParty::DisableSync()
 
 void CParty::RefreshSync()
 {
+    if (!m_PSyncTarget)
+    {
+        return;
+    }
+
     CCharEntity* sync = (CCharEntity*)m_PSyncTarget;
     uint8 syncLevel = sync->jobs.job[sync->GetMJob()];
     if (syncLevel < 10)
