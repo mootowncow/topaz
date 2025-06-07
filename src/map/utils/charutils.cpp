@@ -4365,7 +4365,7 @@ namespace charutils
 
                 if (PChar->PParty != nullptr)
                 {
-                    if (PChar->PParty->GetSyncTarget() == PChar)
+                    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_SYNC))
                     {
                         PChar->PParty->RefreshSync();
                     }
@@ -4569,7 +4569,10 @@ namespace charutils
 
                 if (PChar->PParty != nullptr)
                 {
-                    PChar->PParty->RefreshSync();
+                    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_SYNC))
+                    {
+                        PChar->PParty->RefreshSync();
+                    }
                     PChar->PParty->ReloadParty();
                 }
 
