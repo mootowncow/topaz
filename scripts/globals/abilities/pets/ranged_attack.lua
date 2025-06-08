@@ -44,10 +44,7 @@ function onPetAbility(target, pet, skill)
     if (arrowCount > 1) then
         local hitrate = getRangedHitRate(pet, target, true, 0)
         while numhits < arrowCount do
-            -- End early if mob will die
-            if target:getHP() < dmg then
-                break
-            end
+            -- TODO: End early if mob will die
             if (math.random() <= hitrate) then
                 numhits = numhits + 1
             else
@@ -62,16 +59,17 @@ function onPetAbility(target, pet, skill)
 
     dmg = AutoPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, damage.hitslanded, params)
 
-    local tpGained = pet:getTPToAttacker(tpz.slot.RANGED, tpz.physicalAttackType.NORMAL, 1) * numhits
-    local tpGiven = utils.CalcualteTPGiven(pet, target, true)
+    local tpGained = pet:getTPToAttacker(tpz.slot.RANGED, tpz.physicalAttackType.NORMAL, 1)
+    local tpGiven = pet:getTPToVictim(target, tpz.slot.RANGED, tpz.physicalAttackType.NORMAL, 1)
 
     -- Add TP to self and give TP to target based on number of hits succesfully landed
     if numhits > 1 then
         -- First hit is calculated in automatically, additional hits are not
+        tpGained = tpGained * (numhits - 1)
         tpGiven = tpGiven * (numhits - 1)
-        --printf("Gained: %d, Given: %d", tpGained, tpGiven)
         pet:addTP(tpGained)
         target:addTP(tpGiven)
+        --printf("Number of hits: %d, Gained: %d, Given: %d", numhits, tpGained, tpGiven)
     end
 
     -- Try to skill up per number of arrows succesfully landed
