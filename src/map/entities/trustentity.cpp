@@ -131,12 +131,17 @@ void CTrustEntity::Die()
         PAI->GetController()->SetWeaponSkillEnabled(true);
     }
 
-    // Add Listener
     if (PLastAttacker)
     {
+        loc.zone->PushPacket(this, CHAR_INRANGE, new CMessageBasicPacket(PLastAttacker, this, 0, 0, MSGBASIC_DEFEATS_TARG));
+        // Add Listener
         PLastAttacker->PAI->EventHandler.triggerListener("PLAYER_DEATH", PLastAttacker, this);
     }
-    
+    else
+    {
+        loc.zone->PushPacket(this, CHAR_INRANGE, new CMessageBasicPacket(this, this, 0, 0, MSGBASIC_FALLS_TO_GROUND));
+    }
+
     ((CCharEntity*)PMaster)->RemoveTrust(this);
     CBattleEntity::Die();
 }
