@@ -1200,9 +1200,9 @@ bool CAutomatonController::TryEnhance()
     CBattleEntity* PTemperTarget = nullptr;
 
     bool protect = false;
-    uint8 protectcount = 0;
+    int8 protectcount = 0;
     bool shell = false;
-    uint8 shellcount = 0;
+    int8 shellcount = 0;
     bool haste = false;
     bool stoneskin = false;
     bool phalanx = false;
@@ -1320,15 +1320,15 @@ bool CAutomatonController::TryEnhance()
     if (!PHasteTarget && !haste)
         PHasteTarget = PAutomaton;
 
-    size_t members = 0;
+    size_t members = 0; // start at 0
 
-    // Unknown whether it only applies buffs to other members if they have hate or if the Soulsoother head is needed
     if (PAutomaton->PMaster->PParty)
     {
-        members = PAutomaton->PMaster->PParty->members.size();
         static_cast<CCharEntity*>(PAutomaton->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember) {
             if (PMember->id != PAutomaton->PMaster->id && distance(PAutomaton->loc.p, PMember->loc.p) < 20)
             {
+                members++; // count this member in range!
+
                 protect = false;
                 shell = false;
                 haste = false;
@@ -1346,7 +1346,7 @@ bool CAutomatonController::TryEnhance()
                 }
                 else
                 {
-                    isEngaged = true; // Assume everyone is engaged if the target isn't a mob
+                    isEngaged = true;
                 }
 
                 PMember->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste, &temper](CStatusEffect* PStatus) {
@@ -1389,6 +1389,9 @@ bool CAutomatonController::TryEnhance()
             }
         });
     }
+
+    auto protectTotal = members - protectcount;
+    auto shellTotal = members - shellcount;
 
     // No info on how this spell worked
     if ((PProtectTarget && members - protectcount) >= 1)
