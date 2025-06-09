@@ -2188,8 +2188,11 @@ tpz.mod =
     PAST_DUNGEON_MASTER     = 1428, -- Increased number augments on items from WotG dungeons
     DOUBLE_CAST             = 1429, -- Chance to cast a spell twice in a row
     ENH_CASTING_TIME        = 1431, -- Reduces Enhancing Magic casting time by percentage (e.g. mod value -10 = -10% cast time)
+    AUTO_RANGED_DELAY       = 1433, -- Reduces the cooldown of your Automatons ranged attack (in seconds)
+    AUTO_ELEMENTAL_DELAY    = 1434, -- Reduces the cooldown of your Automatons elemental magic (in seconds)
+    AUTO_STANDBACK          = 1435, -- Tells your Automaton to stand back
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1433 NEXT
+    -- 1436 NEXT
 }
 
 tpz.latent =

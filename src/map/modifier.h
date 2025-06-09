@@ -659,6 +659,9 @@ enum class Mod
     AUTO_ELEM_CAPACITY        = 1415,// Increases the automaton's elemental capacity for attachments
     AUTO_LVL_BONUS            = 1349,// Automaton: Lv.+ (Increases Automatons's base level above 99
     TRANQUIL_HEART            = 1369,// Grants the bonuses based on currently summoned Automaton
+    AUTO_RANGED_DELAY         = 1433,// Reduces the cooldown of your Automatons ranged attack (in seconds)
+    AUTO_ELEMENTAL_DELAY      = 1434,// Reduces the cooldown of your Automatons elemental magic (in seconds)
+    AUTO_STANDBACK            = 1435,//Tells your Automaton to stand back
 
     // Dancer
     FINISHING_MOVES           = 333, // Tracks # of finishing moves
@@ -1148,7 +1151,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1433 NEXT
+    // 1436 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it
