@@ -2,9 +2,11 @@
 -- Area: Caedarva Mire
 --  Mob: Heraldic Imp
 -----------------------------------
+require("scripts/globals/status")
 mixins = {require("scripts/mixins/families/imp")}
 -----------------------------------
 function onMobSpawn(mob)
+	mob:setMod(tpz.mod.PIERCERES, 1000)
 	mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
 end
