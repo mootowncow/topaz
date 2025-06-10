@@ -2797,8 +2797,6 @@ void CCharEntity::Die()
 
 void CCharEntity::Die(duration _duration)
 {
-    this->ClearTrusts();
-
     m_deathSyncTime = server_clock::now() + death_update_frequency;
     PAI->ClearStateStack();
     PAI->Internal_Die(_duration);

@@ -81,7 +81,7 @@ void CMobSpellContainer::AddSpell(SpellID spellId)
         // na spell and erase
         m_naList.push_back(spellId);
     }
-    else if(spell->isHeal()){ // includes blue mage healing spells, wild carrot etc
+    else if(spell->isHeal()){ // includes raise spells and blue mage healing spells, wild carrot etc
    // add to healing
         m_healList.push_back(spellId);
 

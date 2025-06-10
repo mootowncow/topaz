@@ -152,8 +152,9 @@ void CTrustController::DoCombatTick(time_point tick)
     bool masterMeleeSwing = masterLastAttackTime > server_clock::now() - 1s;
     auto mastersLastTargetHit = PMaster->GetLocalVar("LastTargetHit");
     bool trustEngageCondition = PMaster->GetBattleTarget() && masterMeleeSwing && mastersLastTargetHit == PMaster->GetBattleTarget()->id;
+    bool masterWeakened = PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_WEAKNESS);
 
-    if (!POwner->PMaster->PAI->IsEngaged())
+    if (PMaster && !PMaster->PAI->IsEngaged() && PMaster->isAlive() && !masterWeakened)
     {
         POwner->PAI->Internal_Disengage();
         m_LastTopEnmity = nullptr;
@@ -162,9 +163,9 @@ void CTrustController::DoCombatTick(time_point tick)
         m_numberOfWarps = 0;
     }
 
-    if (POwner->PMaster->GetBattleTargetID() != POwner->GetBattleTargetID() && trustEngageCondition)
+    if (PMaster && PMaster->GetBattleTargetID() != POwner->GetBattleTargetID() && trustEngageCondition)
     {
-        POwner->PAI->Internal_ChangeTarget(POwner->PMaster->GetBattleTargetID());
+        POwner->PAI->Internal_ChangeTarget(PMaster->GetBattleTargetID());
         m_LastTopEnmity = nullptr;
         m_failedRepositionAttempts = 0;
         m_InTransit = false;
@@ -360,6 +361,54 @@ void CTrustController::DoCombatTick(time_point tick)
         if (!m_InTransit)
         {
             POwner->PAI->PathFind->FollowPath();
+
+            // Try to raise dead party members within 20 yalms
+            auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
+            CCharEntity* PChar = static_cast<CCharEntity*>(POwner->PMaster);
+
+            if (!controller || !PChar)
+                return;
+
+            if (!POwner->PAI->CanChangeState())
+            {
+                return;
+            }
+
+            PChar->ForPartyWithTrusts(
+                [&](CBattleEntity* PMember)
+                {
+                    if (!PMember->isDead())
+                        return;
+
+                    float distanceToMember = distance(POwner->loc.p, PMember->loc.p);
+                    if (distanceToMember > 20.0f)
+                        return;
+
+                    // Check highest available Raise spell
+                    SpellID raiseSpell = SpellID::NULLSPELL;
+
+                    if (POwner->GetMJob() != JOB_PLD)
+                    {
+                        if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise_III))
+                            raiseSpell = SpellID::Raise_III;
+                        else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise_II))
+                            raiseSpell = SpellID::Raise_II;
+                        else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise))
+                            raiseSpell = SpellID::Raise;
+
+                        if (raiseSpell != SpellID::NULLSPELL)
+                        {
+                            controller->Cast(PMember->targid, raiseSpell);
+                            return;
+                        }
+                    }
+                });
+
+            if (POwner->PAI->IsCurrentState<CAbilityState>() || POwner->PAI->IsCurrentState<CRangeState>() || POwner->PAI->IsCurrentState<CMagicState>() ||
+                POwner->PAI->IsCurrentState<CWeaponSkillState>() || POwner->PAI->IsCurrentState<CMobSkillState>())
+            {
+                return;
+            }
 
             m_GambitsContainer->Tick(tick);
 
