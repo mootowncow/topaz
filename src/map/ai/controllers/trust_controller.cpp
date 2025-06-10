@@ -362,54 +362,6 @@ void CTrustController::DoCombatTick(time_point tick)
         {
             POwner->PAI->PathFind->FollowPath();
 
-            // Try to raise dead party members within 20 yalms
-            auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
-            CCharEntity* PChar = static_cast<CCharEntity*>(POwner->PMaster);
-
-            if (!controller || !PChar)
-                return;
-
-            if (!POwner->PAI->CanChangeState())
-            {
-                return;
-            }
-
-            PChar->ForPartyWithTrusts(
-                [&](CBattleEntity* PMember)
-                {
-                    if (!PMember->isDead())
-                        return;
-
-                    float distanceToMember = distance(POwner->loc.p, PMember->loc.p);
-                    if (distanceToMember > 20.0f)
-                        return;
-
-                    // Check highest available Raise spell
-                    SpellID raiseSpell = SpellID::NULLSPELL;
-
-                    if (POwner->GetMJob() != JOB_PLD)
-                    {
-                        if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise_III))
-                            raiseSpell = SpellID::Raise_III;
-                        else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise_II))
-                            raiseSpell = SpellID::Raise_II;
-                        else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise))
-                            raiseSpell = SpellID::Raise;
-
-                        if (raiseSpell != SpellID::NULLSPELL)
-                        {
-                            controller->Cast(PMember->targid, raiseSpell);
-                            return;
-                        }
-                    }
-                });
-
-            if (POwner->PAI->IsCurrentState<CAbilityState>() || POwner->PAI->IsCurrentState<CRangeState>() || POwner->PAI->IsCurrentState<CMagicState>() ||
-                POwner->PAI->IsCurrentState<CWeaponSkillState>() || POwner->PAI->IsCurrentState<CMobSkillState>())
-            {
-                return;
-            }
-
             m_GambitsContainer->Tick(tick);
 
             POwner->PAI->EventHandler.triggerListener("COMBAT_TICK", POwner, POwner->PMaster, PTarget);
