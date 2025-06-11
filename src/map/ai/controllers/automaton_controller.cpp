@@ -42,10 +42,6 @@ CAutomatonController::CAutomatonController(CAutomatonEntity* PPet)
     , PAutomaton(PPet)
 {
     setCooldowns();
-    if (isRanged())
-    {
-        PAutomaton->m_Behaviour |= BEHAVIOUR_STANDBACK;
-    }
 }
 
 void CAutomatonController::setCooldowns()
@@ -224,13 +220,6 @@ void CAutomatonController::DoCombatTick(time_point tick)
 void CAutomatonController::Move()
 {
     float currentDistance = distanceSquared(PAutomaton->loc.p, PTarget->loc.p);
-    // Really weird logic...seems to remove standback if automaton is > 225 (15 yalms squared) then never turns it back on?
-    // It also spawns with standback set ON as a Sharpshot but then never turns it back on
-    if ((isRanged() && (currentDistance > 225)) || (PAutomaton->health.mp < 8 && PAutomaton->health.maxmp > 8))
-    {
-        PAutomaton->m_Behaviour &= ~BEHAVIOUR_STANDBACK;
-    }
-
     // Forcibly enable standback and stay 15 yards from target if the automaton has the AUTO_STANDBACK mod
     if (isRanged() && PAutomaton->getMod(Mod::AUTO_STANDBACK) && (currentDistance < 225))
     {
@@ -1586,10 +1575,6 @@ bool CAutomatonController::MobSkill(uint16 targid, uint16 wsid)
 bool CAutomatonController::Disengage()
 {
     PTarget = nullptr;
-    if (isRanged())
-    {
-        PAutomaton->m_Behaviour |= BEHAVIOUR_STANDBACK;
-    }
     return CMobController::Disengage();
 }
 
