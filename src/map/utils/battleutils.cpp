@@ -3486,6 +3486,7 @@ namespace battleutils
             }
 
             damage = HandleCircleDamageReduction(PAttacker, PDefender, damage);
+            damage = HandlePositionalPDT(PAttacker, PDefender, damage);
 
             if (isBlocked)
             {
@@ -7539,73 +7540,69 @@ namespace battleutils
         return damage;
     }
 
-    int32 HandlePositionalPDT(CBattleEntity* PDefender, int32 damage)
+    int32 HandlePositionalPDT(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage)
     {
-        auto PAttacker = PDefender->GetBattleTarget();
-        if (PAttacker)
+        // Handle frontal PDT
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
         {
-            // Handle frontal PDT
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
+            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 3)
             {
-                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-                float resist = 1.0f;
-                if (power == 3)
-                {
-                    resist = 0;
-                }
-                damage = (int32)(damage * resist);
+                resist = 0;
             }
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
+            damage = (int32)(damage * resist);
+        }
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
+        {
+            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 5)
             {
-                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-                float resist = 1.0f;
-                if (power == 5)
-                {
-                    resist = 0.25f;
-                }
-                damage = (int32)(damage * resist);
+                resist = 0.25f;
             }
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
+            damage = (int32)(damage * resist);
+        }
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
+        {
+            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 6)
             {
-                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-                float resist = 1.0f;
-                if (power == 6)
-                {
-                    resist = 0.5f;
-                }
-                damage = (int32)(damage * resist);
+                resist = 0.5f;
             }
-            // Handle behind PDT
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
+            damage = (int32)(damage * resist);
+        }
+        // Handle behind PDT
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
+        {
+            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 4)
             {
-                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-                float resist = 1.0f;
-                if (power == 4)
-                {
-                    resist = 0;
-                }
-                damage = (int32)(damage * resist);
+                resist = 0;
             }
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
+            damage = (int32)(damage * resist);
+        }
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
+        {
+            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 7)
             {
-                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-                float resist = 1.0f;
-                if (power == 7)
-                {
-                    resist = 0.25f;
-                }
-                damage = (int32)(damage * resist);
+                resist = 0.25f;
             }
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
+            damage = (int32)(damage * resist);
+        }
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
+        {
+            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 8)
             {
-                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-                float resist = 1.0f;
-                if (power == 8)
-                {
-                    resist = 0.5f;
-                }
-                damage = (int32)(damage * resist);
+                resist = 0.5f;
             }
+            damage = (int32)(damage * resist);
         }
         return damage;
     }
