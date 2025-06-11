@@ -317,7 +317,6 @@ tpz.subEffect =
 {
     -- ATTACKS
     FIRE_DAMAGE         = 1,   -- 110000        3
-    PLAGUE              = 1,   -- Same subeffect as FIRE_DAMAGE
     ICE_DAMAGE          = 2,   -- 1-01000       5
     WIND_DAMAGE         = 3,   -- 111000        7
     CHOKE               = 3,   -- Shares subeffect
@@ -341,7 +340,8 @@ tpz.subEffect =
     SILENCE             = 13,
     PETRIFY             = 14,
     PETRIFICATION       = 14,
-    BANE                = 15,
+    BANE                = 15,   -- Maybe has to be same as FIRE_DAMAGE?
+    PLAGUE              = 15,   -- Same subeffect as BANE (Maybe has to be FIRE_DAMAGE?)
     ADDLE               = 15,
     STUN                = 16,
     CURSE               = 17,

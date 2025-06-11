@@ -2224,12 +2224,45 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         if ((PAmmo != nullptr && battleutils::GetScaledItemModifier(this, PAmmo, Mod::ADDITIONAL_EFFECT) > 0) ||
             (PItem != nullptr && battleutils::GetScaledItemModifier(this, PItem, Mod::ADDITIONAL_EFFECT) > 0))
         {
+
+            uint32 addEffectDamage = 0;
+            SUBEFFECT subEffect = SUBEFFECT_NONE;
+            uint16 addEffectMessage = 0;
+            uint32 addEffectParam = 0;
+
             for (int i = 0; i < realHits; ++i)
             {
                 luautils::OnAdditionalEffect(this, PTarget, (PAmmo != nullptr ? PAmmo : PItem), &actionTarget, totalDamage);
-            }
-        }
 
+                // Record damage done for all damage/drain additional effects
+                if (actionTarget.additionalEffect <= SUBEFFECT_DARKNESS_DAMAGE ||
+                    (actionTarget.additionalEffect >= SUBEFFECT_HP_DRAIN && actionTarget.additionalEffect <= SUBEFFECT_TP_DRAIN))
+                {
+                    addEffectDamage += actionTarget.addEffectParam;
+                }
+                // Record status effect data
+                else
+                {
+                    subEffect = actionTarget.additionalEffect;
+                    addEffectMessage = actionTarget.addEffectMessage;
+                    addEffectParam = actionTarget.addEffectParam;
+                }
+            }
+
+            // Is a damage additional effect, so apply the added up damage to the packet
+            if (addEffectDamage > 0)
+            {
+                actionTarget.addEffectParam = addEffectDamage;
+            }
+            // Is a status effect additional effect, if it procced then apply the data for the packet
+            else
+            {
+                actionTarget.additionalEffect = subEffect;
+                actionTarget.addEffectMessage = addEffectMessage;
+                actionTarget.addEffectParam = addEffectParam;
+            }
+
+        }
     }
     else if (shadowsTaken > 0)
     {
