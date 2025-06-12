@@ -205,13 +205,13 @@ void CAutomatonController::DoCombatTick(time_point tick)
         {
             return;
         }
+        else if (TryAttachment())
+        {
+            return;
+        }
         else if (TryRangedAttack())
         {
             m_LastRangedTime = m_Tick;
-            return;
-        }
-        else if (TryAttachment())
-        {
             return;
         }
     }
