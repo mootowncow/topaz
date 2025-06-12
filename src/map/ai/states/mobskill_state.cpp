@@ -103,6 +103,7 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
                 actionTarget.messageID = MSGBASIC_READIES_WS;
             }
         }
+
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE, new CActionPacket(action));
     }
     m_PEntity->PAI->EventHandler.triggerListener("WEAPONSKILL_STATE_ENTER", m_PEntity, m_PSkill->getID());
@@ -147,22 +148,31 @@ bool CMobSkillState::Update(time_point tick)
     {
         CBattleEntity* PTarget = dynamic_cast<CBattleEntity*>(GetTarget());
         action_t action;
-        if (PTarget && PTarget->isAlive())
+
+        if (PTarget)
         {
-            if (!m_PSkill->isTwoHour() && !m_PSkill->isJobAbility())
-            {
-                SpendCost();
-            }
+            bool isDeadTargetAllowed = (m_PSkill->getValidTargets() & TARGET_PLAYER_DEAD) != 0;
 
-            // If Avatar / Wyvern
-            bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
-
-            if (isPlayerPet)
+            if (PTarget->isAlive() || isDeadTargetAllowed)
             {
-                auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);
-                if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
+                if (!m_PSkill->isTwoHour() && !m_PSkill->isJobAbility())
                 {
-                    PAvatar->OnPlayerPetSkillFinished(*this, action);
+                    SpendCost();
+                }
+
+                bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
+
+                if (isPlayerPet)
+                {
+                    auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);
+                    if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
+                    {
+                        PAvatar->OnPlayerPetSkillFinished(*this, action);
+                    }
+                    else
+                    {
+                        m_PEntity->OnMobSkillFinished(*this, action);
+                    }
                 }
                 else
                 {
@@ -171,26 +181,21 @@ bool CMobSkillState::Update(time_point tick)
             }
             else
             {
-                m_PEntity->OnMobSkillFinished(*this, action);
+                action.actiontype = ACTION_MAGIC_FINISH;
+                action.actionid = 28787;
+                actionList_t& actionList = action.getNewActionList();
             }
-        }
-        else // Mob is dead before entity could finish mobskill, generate interrupt for WS
-        {
-            // Could not reproduce on retail due to server tick rate, this entire block is assumed.
-            // Ideally, you would ready a WS then have the mob die to either a DoT or a JA like Quick Draw/Jump and dump the packet.
-            // To the best of our knowledge this would produce a similar-enough effect to cancel the WS animation
-            // Essentially, very similar to "too far away" and casting out of range spell cancellation, with no message.
-            action.actiontype = ACTION_MAGIC_FINISH;
-            action.actionid = 28787; // Some hardcoded magic for interrupts
-            actionList_t& actionList = action.getNewActionList();
-        }
+
             m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
             m_PEntity->PAI->EventHandler.triggerListener("WEAPONSKILL_USE", m_PEntity, PTarget, m_PSkill->getID(), m_spent, &action);
             PTarget->PAI->EventHandler.triggerListener("WEAPONSKILL_TAKE", PTarget, m_PEntity, m_PSkill->getID(), m_spent, &action);
-            auto delay = std::chrono::milliseconds(m_PSkill->getAnimationTime());
-            m_finishTime = tick + delay;
-            Complete();
+        }
+
+        auto delay = std::chrono::milliseconds(m_PSkill->getAnimationTime());
+        m_finishTime = tick + delay;
+        Complete();
     }
+
     if (IsCompleted() && tick > m_finishTime)
     {
         auto PTarget = GetTarget();
