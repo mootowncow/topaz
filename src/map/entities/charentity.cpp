@@ -1767,6 +1767,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
                     if (validTarget & TARGET_PLAYER_DEAD) // TARGET_PLAYER_DEAD is set
                     {
+                        PPetTarget = PAbility->getTarget()->targid;
                         if (PAbility->isBloodPact())
                         {
                             mobSkillId = 2460;
@@ -2779,6 +2780,7 @@ void CCharEntity::Die(duration _duration)
     // If player allegiance is not reset on death they will auto-homepoint
     allegiance = ALLEGIANCE_PLAYER;
 
+    // TODO: None of this works?? Reraise doesn't apply a mod..
     // reraise modifiers
     if (this->getMod(Mod::RERAISE_I) > 0)
         m_hasRaise = 1;

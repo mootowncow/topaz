@@ -458,7 +458,7 @@ INSERT INTO `abilities` VALUES (522,'mewing_lullaby',15,25,4,60,174,0,0,162,2000
 INSERT INTO `abilities` VALUES (523,'eerie_eye',15,55,4,60,174,0,0,163,2000,0,6,5.0,0,1,60,0,0,NULL,0,134,0,0,0,1);
 INSERT INTO `abilities` VALUES (524,'level_x_holy',15,75,4,60,173,0,0,164,2000,0,6,10.0,1,1,60,0,0,NULL,0,235,0,0,0,1); -- animation 164-169
 INSERT INTO `abilities` VALUES (525,'raise_ii',15,15,34,60,174,0,0,170,2000,0,6,20.0,0,1,60,0,0,NULL,0,160,0,0,0,1);
-INSERT INTO `abilities` VALUES (526,'reraise_ii',15,30,6146,60,174,0,0,160,0,0,6,20.0,0,1,60,0,0,NULL,0,80,0,0,0,1);
+INSERT INTO `abilities` VALUES (526,'reraise_ii',15,30,4098,60,174,0,0,160,0,0,6,20.0,0,1,60,0,0,NULL,0,80,0,0,0,1);
 INSERT INTO `abilities` VALUES (527,'altanas_favor',15,1,1,60,174,0,0,170,2000,0,6,20.0,1,1,60,0,2,NULL,0,0,0,0,0,3);
 INSERT INTO `abilities` VALUES (528,'moonlit_charge',15,5,4,60,173,0,0,16,2000,0,6,5.0,0,1,60,0,0,NULL,0,17,0,0,0,1);
 INSERT INTO `abilities` VALUES (529,'crescent_fang',15,10,4,60,173,0,0,17,2000,0,6,5.0,0,1,60,0,0,NULL,0,19,0,0,0,1);

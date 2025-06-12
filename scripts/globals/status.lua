@@ -3740,7 +3740,7 @@ tpz.animation =
     -- 63 through 72 are used with /sitchair
     -- 73 through 83 sitting on air (guessing future use for more chairs..)
     MOUNT                   = 85,
-    -- TRUST                = 90, -- This is the animation for a trust NPC spawning in.
+    TRUST                = 90, -- This is the animation for a trust NPC spawning in.
 }
 tpz.anim = tpz.animation
 

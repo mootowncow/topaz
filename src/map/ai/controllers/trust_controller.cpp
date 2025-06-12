@@ -114,9 +114,12 @@ void CTrustController::Tick(time_point tick)
         return;
     }
 
-    if (PMaster->isCharmed)
+    if (auto PTrust = dynamic_cast<CTrustEntity*>(POwner))
     {
-        this->Despawn();
+        if (PTrust->m_isDead)
+        {
+            return;
+        }
     }
 
     // Match owners speed +10
