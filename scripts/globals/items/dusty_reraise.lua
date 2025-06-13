@@ -17,6 +17,7 @@ function onItemUse(target)
 
     if (target:addStatusEffect(effect, power, 3, duration)) then
         target:messagePublic(tpz.msg.basic.GAINS_EFFECT_OF_ITEM, target, effect, effect)
+        target:setEffectUndispellable(tpz.effect.RERAISE)
     else
         target:messagePublic(tpz.msg.basic.NO_EFFECT, target, effect)
     end

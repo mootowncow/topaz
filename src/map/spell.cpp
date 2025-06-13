@@ -164,9 +164,9 @@ bool CSpell::hasMPCost()
 
 bool CSpell::isHeal()
 {
-    return ((getValidTarget() & TARGET_SELF) && getSkillType() == SKILL_HEALING_MAGIC) || m_ID == SpellID::Pollen || m_ID == SpellID::Wild_Carrot || m_ID == SpellID::Healing_Breeze || m_ID == SpellID::Magic_Fruit;
+    return ((getValidTarget() & TARGET_SELF) && getSkillType() == SKILL_HEALING_MAGIC) || m_ID == SpellID::Raise || m_ID == SpellID::Raise_II || m_ID == SpellID::Raise_III || m_ID == SpellID::Arise || m_ID == SpellID::Pollen ||
+           m_ID == SpellID::Wild_Carrot || m_ID == SpellID::Healing_Breeze || m_ID == SpellID::Magic_Fruit;
 }
-
 
 bool CSpell::isCure()
 {
@@ -733,7 +733,7 @@ namespace spell
 
                 PSpell->setRange(static_cast<float>(Sql_GetIntData(SqlHandle, 23)) / 10);
 
-                if(PSpell->getAOE())
+                if (PSpell->getAOE())
                 {
                     // default radius
                     PSpell->setRadius(10);

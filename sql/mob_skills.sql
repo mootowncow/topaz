@@ -1957,7 +1957,7 @@ INSERT INTO `mob_skills` VALUES (1990,1734,'ninja_roll',1,7.0,2000,1500,1,0,0,0,
 -- INSERT INTO `mob_skills` VALUES (1995,1739,'earth_maneuver',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1996,1740,'thunder_maneuver',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1997,1741,'water_maneuver',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1998,361,'hane_fubuki',0,7.0,2000,1500,4,0,0,0,0,0,0);     -- need correct animation & timings
+INSERT INTO `mob_skills` VALUES (1998,361,'hane_fubuki',0,25.0,2000,1500,4,0,0,0,0,0,0);     -- need correct animation & timings
 INSERT INTO `mob_skills` VALUES (1999,362,'hiden_sokyaku',0,7.0,2000,1500,4,0,0,5,0,0,0);   -- need correct animation & timings
 INSERT INTO `mob_skills` VALUES (2000,363,'shiko_no_mitate',0,7.0,2000,1500,1,0,0,0,0,0,0); -- need correct animation & timings
 INSERT INTO `mob_skills` VALUES (2001,364,'happobarai',1,10.0,2000,1500,4,0,0,0,0,0,0);      -- need correct animation & timings
@@ -2420,7 +2420,7 @@ INSERT INTO `mob_skills` VALUES (2456, 1694, 'level-5-holy', 1, 15.0, 2000, 3000
 INSERT INTO `mob_skills` VALUES (2457, 1695, 'level-6-holy', 1, 15.0, 2000, 3000, 4, 0, 0, 0, 0, 0, 0);
 -- INSERT INTO `mob_skills` VALUES (2458,2202,'soul_vacuum',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2459,2203,'soul_infusion',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2460, 1696, 'raise_ii', 0, 18.0, 2000, 1000, 34, 4, 0, 0, 0, 0, 0); -- Cottus used after killing a trust??
+INSERT INTO `mob_skills` VALUES (2460, 1696, 'raise_ii', 0, 18.0, 2000, 1000, 32, 4, 0, 0, 0, 0, 0); -- Cottus used after killing a trust??
 -- INSERT INTO `mob_skills` VALUES (2461,2205,'mog_bomb',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2462,2206,'mog_shrapnel',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2463,2207,'flowerpot',0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -3217,8 +3217,8 @@ INSERT INTO `mob_skills` VALUES (3252,262,'bisection',0,7.0,2000,1500,4,0,0,0,0,
 INSERT INTO `mob_skills` VALUES (3253,2311,'leaden_salute',0,15.5,2000,1500,4,0,0,0,9,1,0);
 INSERT INTO `mob_skills` VALUES (3254,2312,'akimbo_shot',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3255,2313,'grisly_horizon',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3256,361,'hane_fubuki_trust',1,18.0,2000,1000,4,0,0,0,1,0,0); -- Gessho (Trust)
-INSERT INTO `mob_skills` VALUES (3257,1299,'shibaraku_trust',1,10.0,2000,1500,4,0,0,7,14,9,0);
+INSERT INTO `mob_skills` VALUES (3256,361,'hane_fubuki_trust',0,25.0,2000,1000,4,0,0,0,1,0,0); -- Gessho (Trust)
+INSERT INTO `mob_skills` VALUES (3257,1299,'shibaraku_trust',1,10.0,2000,1500,4,0,0,0,14,9,0);
 INSERT INTO `mob_skills` VALUES (3258,363,'shiko_no_mitate_trust',0,7.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3259,364,'happobarai_trust',1,10.0,2000,1500,4,0,0,0,5,8,0);
 INSERT INTO `mob_skills` VALUES (3260,354,'rinpyotosha_trust',1,20.0,2000,1500,1,0,0,0,0,0,0);

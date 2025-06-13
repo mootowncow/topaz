@@ -56,6 +56,8 @@ CTrustEntity::CTrustEntity(CCharEntity* PChar)
     m_IsClaimable = false;
     namevis = 0;
     speed = 50;
+    m_hasReraise = 0;
+    m_isDead = false;
 
     m_modStat[Mod::SDT_FIRE] = 100;
     m_modStat[Mod::SDT_ICE] = 100;
@@ -83,6 +85,29 @@ CTrustEntity::CTrustEntity(CCharEntity* PChar)
     m_modStat[Mod::EEM_BLIND] = 100;
 
     PAI = std::make_unique<CAIContainer>(this, std::make_unique<CPathFind>(this), std::make_unique<CTrustController>(PChar, this), std::make_unique<CTargetFind>(this));
+}
+
+void CTrustEntity::Tick(time_point tick)
+{
+    TracyZoneScoped;
+    CBattleEntity::Tick(tick);
+    if (m_DeathTimestamp > 0 && tick >= m_deathSyncTime)
+    {
+        // Send an update packet at a regular interval to keep the player's death variables synced
+        updatemask |= UPDATE_STATUS;
+        m_deathSyncTime = tick + death_update_frequency;
+    }
+
+    if (m_isDead && m_hasReraise > 0)
+    {
+        OnRaise();
+    }
+
+    if (health.hp > 0)
+    {
+        m_isDead = false;
+        m_Behaviour &= ~BEHAVIOUR_RAISABLE;
+    }
 }
 
 void CTrustEntity::PostTick()
@@ -120,25 +145,37 @@ void CTrustEntity::FadeOut()
 
 void CTrustEntity::Die()
 {
-    luautils::OnMobDeath(this, nullptr);
-    PAI->ClearStateStack();
-    PAI->Internal_Die(0s);
-
-    if ((PAI != nullptr) && (PAI->GetController() != nullptr))
-    {    
-        PAI->GetController()->SetAutoAttackEnabled(true);
-        PAI->GetController()->SetMagicCastingEnabled(true);
-        PAI->GetController()->SetWeaponSkillEnabled(true);
-    }
-
-    // Add Listener
-    if (PLastAttacker)
+    if (!m_isDead)
     {
-        PLastAttacker->PAI->EventHandler.triggerListener("PLAYER_DEATH", PLastAttacker, this);
+        Die(death_duration);
+        luautils::OnMobDeath(this, nullptr);
+        PAI->ClearStateStack();
+        PAI->Internal_Die(0s);
+        SetDeathTimestamp((uint32)time(nullptr));
+
+        if ((PAI != nullptr) && (PAI->GetController() != nullptr))
+        {
+            PAI->GetController()->SetAutoAttackEnabled(true);
+            PAI->GetController()->SetMagicCastingEnabled(true);
+            PAI->GetController()->SetWeaponSkillEnabled(true);
+        }
+
+        if (PLastAttacker)
+        {
+            loc.zone->PushPacket(this, CHAR_INRANGE, new CMessageBasicPacket(PLastAttacker, this, 0, 0, MSGBASIC_DEFEATS_TARG));
+            // Add Listener
+            PLastAttacker->PAI->EventHandler.triggerListener("PLAYER_DEATH", PLastAttacker, this);
+        }
+        else
+        {
+            loc.zone->PushPacket(this, CHAR_INRANGE, new CMessageBasicPacket(this, this, 0, 0, MSGBASIC_FALLS_TO_GROUND));
+        }
+
+        m_isDead = true;
+
+        CBattleEntity::Die();
+        m_Behaviour |= BEHAVIOUR_RAISABLE;
     }
-    
-    ((CCharEntity*)PMaster)->RemoveTrust(this);
-    CBattleEntity::Die();
 }
 
 void CTrustEntity::Spawn()
@@ -318,7 +355,7 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
             StatusEffectContainer->DelStatusEffectSilent(EFFECT_CONTRADANCE);
         }
 
-        PRecastContainer->Add(RECAST_ABILITY, action.actionid, action.recast);
+        PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), action.recast);
     }
 
     if (PTarget && PTarget->isDead())
@@ -563,8 +600,9 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
     }
     battleutils::ClaimMob(PTarget, this);
     //battleutils::RemoveAmmo(this, ammoConsumed);
-    // only remove detectables
+
     StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
 
     if (PTarget && PTarget->isDead())
     {
@@ -825,6 +863,129 @@ void CTrustEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
         ((CMobEntity*)PTarget)->DoAutoTarget();
     }
+}
+
+void CTrustEntity::OnRaise()
+{
+    uint8 weaknessLvl = 1;
+    int weaknessDura = 0;
+    uint16 hpReturned = 1;
+
+    if (StatusEffectContainer->HasStatusEffect(EFFECT_WEAKNESS))
+    {
+        // double weakness!
+        weaknessLvl = 2;
+    }
+
+    // Add weakness effect (75% reduction in HP/MP) if not Mijin or GM command raise
+    if (GetLocalVar("MijinGakure") == 0 && GetLocalVar("GMRaise") == 0)
+    {
+        // Duration of Weakness varies with raise effect
+        switch (m_hasReraise)
+        {
+            case 1:
+                weaknessDura = 180;
+                hpReturned = GetMaxHP() * 0.1;
+                break;
+            case 2:
+                weaknessDura = 120;
+                hpReturned = GetMaxHP() * 0.25;
+                break;
+            case 3:
+                weaknessDura = 60;
+                hpReturned = GetMaxHP() * 0.50;
+                break;
+            case 4:
+            case 5:
+                weaknessDura = 30;
+                hpReturned = GetMaxHP();
+                break;
+            default:
+                weaknessDura = 180;
+                hpReturned = GetMaxHP() * 0.1;
+                break;
+        }
+    }
+
+    // Mijin Gakure used with MIJIN_RERAISE MOD
+    if (GetLocalVar("MijinGakure") != 0 && getMod(Mod::MIJIN_RERAISE) != 0)
+    {
+        hpReturned = (uint16)(GetMaxHP());
+    }
+    else if (GetLocalVar("GMRaise") != 0)
+    {
+        hpReturned = (uint16)(GetMaxHP());
+    }
+
+    CStatusEffect* PWeaknessEffect = new CStatusEffect(EFFECT_WEAKNESS, EFFECT_WEAKNESS, weaknessLvl, 0, weaknessDura);
+    StatusEffectContainer->AddStatusEffect(PWeaknessEffect);
+
+    addHP(((hpReturned < 1) ? 1 : hpReturned));
+    updatemask |= UPDATE_HP;
+
+    StatusEffectContainer->DelStatusEffect(EFFECT_RERAISE);
+    m_hasReraise = 0;
+    m_isDead = false;
+}
+
+void CTrustEntity::Die(duration _duration)
+{
+    if (StatusEffectContainer->HasStatusEffect(EFFECT_RERAISE))
+    {
+        CStatusEffect* reraise = StatusEffectContainer->GetStatusEffect(EFFECT_RERAISE, 0);
+        uint16 reraiseNumber = reraise->GetPower();
+        switch (reraiseNumber)
+        {
+            case 1:
+                m_hasReraise = 1;
+                break;
+            case 2:
+                m_hasReraise = 2;
+                break;
+            case 3:
+                m_hasReraise = 3;
+                break;
+            case 4:
+                m_hasReraise = 4;
+                break;
+            default:
+                m_hasReraise = 1;
+                break;
+        }
+    }
+    else if (StatusEffectContainer->HasStatusEffect(EFFECT_HYMNUS))
+    {
+        m_hasReraise = 1;
+    }
+
+    // MIJIN_RERAISE checks
+    if (m_hasReraise == 0 && this->getMod(Mod::MIJIN_RERAISE) > 0)
+        m_hasReraise = 1;
+
+    m_deathSyncTime = server_clock::now() + death_update_frequency;
+    PAI->ClearStateStack();
+    PAI->Internal_Die(_duration);
+
+    // If player allegiance is not reset on death they will auto-homepoint
+    allegiance = ALLEGIANCE_PLAYER;
+
+    CBattleEntity::Die();
+}
+
+void CTrustEntity::Raise()
+{
+    PAI->Internal_Raise();
+    SetDeathTimestamp(0);
+}
+
+void CTrustEntity::SetDeathTimestamp(uint32 timestamp)
+{
+    m_DeathTimestamp = timestamp;
+}
+
+int32 CTrustEntity::GetSecondsElapsedSinceDeath()
+{
+    return m_DeathTimestamp > 0 ? (uint32)time(nullptr) - m_DeathTimestamp : 0;
 }
 
 void CTrustEntity::OnItemFinish(CItemState& state, action_t& action)

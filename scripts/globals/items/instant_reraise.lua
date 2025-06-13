@@ -21,8 +21,12 @@ function onItemUse(target)
         else
             target:delStatusEffectSilent(tpz.effect.RERAISE)
             target:addStatusEffect(tpz.effect.RERAISE, power, 0, duration)
+            target:messagePublic(tpz.msg.basic.GAINS_EFFECT_OF_ITEM, target, tpz.effect.RERAISE, tpz.effect.RERAISE)
+            target:setEffectUndispellable(tpz.effect.RERAISE)
         end
     else
         target:addStatusEffect(tpz.effect.RERAISE, power, 0, duration)
+        target:messagePublic(tpz.msg.basic.GAINS_EFFECT_OF_ITEM, target, tpz.effect.RERAISE, tpz.effect.RERAISE)
+        target:setEffectUndispellable(tpz.effect.RERAISE)
     end
 end

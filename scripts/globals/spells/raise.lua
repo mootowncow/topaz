@@ -11,9 +11,13 @@ end
 
 function onSpellCast(caster, target, spell)
     if (target:isPC()) then
-        target:sendTractor(caster:getXPos(), caster:getYPos(), caster:getZPos(), target:getRotPos())
-        target:allowSendRaisePrompt()
-        target:addStatusEffect(tpz.effect.RERAISE, 1, 0, 3600)
+        if caster:isPC() then
+            target:sendTractor(caster:getXPos(), caster:getYPos(), caster:getZPos(), target:getRotPos())
+            target:allowSendRaisePrompt()
+            target:addStatusEffect(tpz.effect.RERAISE, 1, 0, 3600)
+        else
+            target:sendRaise(1)
+        end
     else
         if (target:getName() == "Prishe") then
             -- CoP 8-4 Prishe
@@ -21,6 +25,13 @@ function onSpellCast(caster, target, spell)
             target:entityAnimationPacket("sp00")
             target:addHP(target:getMaxHP())
             target:addMP(target:getMaxMP())
+        elseif target:isTrust() then
+            target:setHP(target:getMaxHP() * 0.1)
+            if target:hasStatusEffect(tpz.effect.WEAKNESS) then
+                target:addStatusEffect(tpz.effect.WEAKNESS, 2, 0, 180)
+            else
+                target:addStatusEffect(tpz.effect.WEAKNESS, 1, 0, 180)
+            end
         end
     end
     spell:setMsg(tpz.msg.basic.MAGIC_CASTS_ON)

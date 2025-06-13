@@ -4054,8 +4054,6 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
 
     int32 OnPetAbility(CBaseEntity* PTarget, CBaseEntity* PMob, CAbility* PAbility, CBaseEntity* PMobMaster, action_t* action)
     {
-        ShowDebug("OnPetAbility: Loading pet ability script for: %s\n", PAbility->getName());
-
         lua_prepscript("scripts/globals/abilities/pets/%s.lua", PAbility->getName());
 
         if (prepFile(File, "onPetAbility"))

@@ -16,14 +16,14 @@ end
 
 function onUseAbility(player, target, ability)
     local typeEffect = tpz.effect.BLINK
-    local numShadows = 4
+    local numShadows = 2
     local jpBonus = math.floor(player:getJobPointLevel(tpz.jp.DECOY_SHOT_EFFECT) / 5)
-    -- Create 8 Shadows of RNG main, 4 if not
+    -- Create 4 Shadows of RNG main, 2 if not
     if (player:getMainJob() == tpz.job.RNG) then
-        numShadows = 8
+        numShadows = 4
     end
 
-    -- Add 1 additonal shadow per 5 points in Decoy Shot Effect  JP
+    -- Add 1 additonal shadow per 5 points in Decoy Shot Effect JP
     numShadows = numShadows + jpBonus
 
     local duration = 300

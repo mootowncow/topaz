@@ -291,7 +291,7 @@ namespace battleutils
     int32               HandleMagicStoneskin(CBattleEntity* PDefender, int32 damage);
     int32               HandleFanDance(CBattleEntity* PDefender, int32 damage);
     int32               HandleCircleDamageReduction(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage);
-    int32               HandlePositionalPDT(CBattleEntity* PDefender, int32 damage);
+    int32               HandlePositionalPDT(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage);
     int32               HandleExtraDamageMultipliers(CBattleEntity* PAttacker, int32 damage);
     int32               HandleElementalAbsorb(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage);
     int32               HandleElementalNull(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage);

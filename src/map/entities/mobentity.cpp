@@ -916,6 +916,7 @@ void CMobEntity::OnRangedAttack(CRangeState& state, action_t& action)
                 actionTarget.messageID = MSGBASIC_RANGED_HIT;
             }
         }
+
         actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);
 
         // lower damage based on shadows taken
@@ -927,70 +928,6 @@ void CMobEntity::OnRangedAttack(CRangeState& state, action_t& action)
         {
             actionTarget.param = -(actionTarget.param);
             actionTarget.messageID = 382;
-        }
-
-        // Handle frontal PDT
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 3)
-            {
-                resist = 0;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 5)
-            {
-                resist = 0.25f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 6)
-            {
-                resist = 0.5f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-
-        // Handle Behind PDT
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 4)
-            {
-                resist = 0;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 7)
-            {
-                resist = 0.25f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 8)
-            {
-                resist = 0.5f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
         }
     }
     else if (shadowsTaken > 0)
@@ -1010,9 +947,9 @@ void CMobEntity::OnRangedAttack(CRangeState& state, action_t& action)
         StatusEffectContainer->DelStatusEffect(EFFECT_BARRAGE, 0);
     }
     battleutils::ClaimMob(PTarget, this);
-    // only remove detectables and NOT camouflage
-    if (!StatusEffectContainer->HasStatusEffect(EFFECT_CAMOUFLAGE))
-        StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+
+    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
 
     if (hitOccured == false && PTarget->objtype == TYPE_MOB)
     {

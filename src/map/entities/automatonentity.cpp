@@ -257,12 +257,12 @@ void CAutomatonEntity::Spawn()
     updatemask |= UPDATE_HP;
     PAI->Reset();
     PAI->EventHandler.triggerListener("SPAWN", this);
-    // Max [HP/MP] Boost mods
-    this->UpdateHealth();
-    this->health.hp = this->GetMaxHP();
-    this->health.mp = this->GetMaxMP();
     animation = ANIMATION_NONE;
     m_OwnerID.clean();
     HideName(false);
     luautils::OnMobSpawn(this);
+    // Max [HP/MP] Boost mods
+    this->UpdateHealth();
+    this->health.hp = this->GetMaxHP();
+    this->health.mp = this->GetMaxMP();
 }

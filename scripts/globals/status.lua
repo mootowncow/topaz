@@ -317,7 +317,6 @@ tpz.subEffect =
 {
     -- ATTACKS
     FIRE_DAMAGE         = 1,   -- 110000        3
-    PLAGUE              = 1,   -- Same subeffect as FIRE_DAMAGE
     ICE_DAMAGE          = 2,   -- 1-01000       5
     WIND_DAMAGE         = 3,   -- 111000        7
     CHOKE               = 3,   -- Shares subeffect
@@ -341,7 +340,8 @@ tpz.subEffect =
     SILENCE             = 13,
     PETRIFY             = 14,
     PETRIFICATION       = 14,
-    BANE                = 15,
+    BANE                = 15,   -- Maybe has to be same as FIRE_DAMAGE?
+    PLAGUE              = 15,   -- Same subeffect as BANE (Maybe has to be FIRE_DAMAGE?)
     ADDLE               = 15,
     STUN                = 16,
     CURSE               = 17,
@@ -1141,6 +1141,7 @@ tpz.effectFlag =
     AURA            = 0x4000000,
     FINISHING_MOVE  = 0x8000000,  -- Is a finishing move
     HIDE_TIMER      = 0x10000000, -- Sends "Always" in the packet, even though timer is tracked (used for geo bubbles / infinite duration buffs)
+    PHYS_ATTACK     = 0x20000000, -- disappears when damage is dealt (physical status effects only, i.e. sneak attack, assassins charge, etc)
 }
 
 ------------------------------------
@@ -2187,8 +2188,11 @@ tpz.mod =
     PAST_DUNGEON_MASTER     = 1428, -- Increased number augments on items from WotG dungeons
     DOUBLE_CAST             = 1429, -- Chance to cast a spell twice in a row
     ENH_CASTING_TIME        = 1431, -- Reduces Enhancing Magic casting time by percentage (e.g. mod value -10 = -10% cast time)
+    AUTO_RANGED_DELAY       = 1433, -- Reduces the cooldown of your Automatons ranged attack (in seconds)
+    AUTO_ELEMENTAL_DELAY    = 1434, -- Reduces the cooldown of your Automatons elemental magic (in seconds)
+    AUTO_STANDBACK          = 1435, -- Tells your Automaton to stand back
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1433 NEXT
+    -- 1436 NEXT
 }
 
 tpz.latent =
@@ -3736,7 +3740,7 @@ tpz.animation =
     -- 63 through 72 are used with /sitchair
     -- 73 through 83 sitting on air (guessing future use for more chairs..)
     MOUNT                   = 85,
-    -- TRUST                = 90, -- This is the animation for a trust NPC spawning in.
+    TRUST                = 90, -- This is the animation for a trust NPC spawning in.
 }
 tpz.anim = tpz.animation
 

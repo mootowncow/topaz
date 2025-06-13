@@ -8893,7 +8893,7 @@ INSERT INTO `item_equipment` VALUES (19192,'awildas_gun',84,0,65536,94,0,0,4,0,0
 INSERT INTO `item_equipment` VALUES (19193,'aeolus_arrow',83,0,1024,0,0,0,8,0,0);
 INSERT INTO `item_equipment` VALUES (19194,'vertex_bolt',83,0,1024,0,0,0,8,0,0);
 INSERT INTO `item_equipment` VALUES (19195,'antlion_arrow',80,0,7665,0,0,0,8,0,0);
-INSERT INTO `item_equipment` VALUES (19196,'darkling_bolt',76,0,1153,0,0,0,8,0,0);
+INSERT INTO `item_equipment` VALUES (19196,'darkling_bolt',75,0,1153,0,0,0,8,0,0);
 INSERT INTO `item_equipment` VALUES (19197,'fusion_bolt',79,0,1153,0,0,0,8,0,0);
 INSERT INTO `item_equipment` VALUES (19198,'dweomer_bullet',78,0,1024,0,0,0,8,0,0);
 INSERT INTO `item_equipment` VALUES (19199,'oberons_bullet',80,0,66560,0,0,0,8,0,0);

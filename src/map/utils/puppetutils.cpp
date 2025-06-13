@@ -275,6 +275,12 @@ void setAttachment(CCharEntity* PChar, uint8 slotId, uint8 attachment)
             }
             luautils::OnAttachmentEquip(PChar->PAutomaton, PAttachment);
             PChar->PAutomaton->setAttachment(slotId, attachment);
+
+            auto PAutomaton = PChar->PAutomaton;
+            // Max [HP/MP] Boost mods
+            PAutomaton->UpdateHealth();
+            PAutomaton->health.hp = PAutomaton->GetMaxHP();
+            PAutomaton->health.mp = PAutomaton->GetMaxMP();
         }
         else
         {
@@ -297,6 +303,13 @@ void setAttachment(CCharEntity* PChar, uint8 slotId, uint8 attachment)
                 }
                 luautils::OnAttachmentUnequip(PChar->PAutomaton, PAttachment);
                 PChar->PAutomaton->setAttachment(slotId, 0);
+
+                auto PAutomaton = PChar->PAutomaton;
+                // Max [HP/MP] Boost mods
+                PAutomaton->UpdateHealth();
+                PAutomaton->health.hp = PAutomaton->GetMaxHP();
+                PAutomaton->health.mp = PAutomaton->GetMaxMP();
+                PChar->setPetZoningInfo();
             }
         }
     }

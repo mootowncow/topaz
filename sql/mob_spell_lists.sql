@@ -2643,6 +2643,9 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,49,37,255);           -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,50,57,255);           -- Shell III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,51,68,255);           -- Shell IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,143,32,255);          -- Erase
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,12,25,255);           -- Raise
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,13,56,255);           -- Raise II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,140,70,255);          -- Raise III
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Excenmille',311,1,5,255);         -- Cure
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Excenmille',311,2,17,255);        -- Cure II
@@ -2831,6 +2834,18 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,421,39,255);           -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,422,59,255);           -- Carnage Elegy
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,462,33,255);           -- Magic Finale
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,470,82,255);           -- Sentinels Scherzo
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,1,2,255);            -- Cure
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,2,22,255);           -- Cure II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,3,42,255);           -- Cure III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,4,82,255);           -- Cure IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,14,12,255);          -- Poisona
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,15,18,255);          -- Paralyna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,16,28,255);          -- Blindna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,17,38,255);          -- Silena
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,18,78,255);          -- Stona
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,19,68,255);          -- Viruna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,20,58,255);          -- Cursna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,143,64,255);         -- Erase
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shikaree_Z',327,1,2,255);         -- Cure
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shikaree_Z',327,2,22,255);        -- Cure II
@@ -2875,9 +2890,9 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Cherukiki',328,477,86,255);       -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,338,12,255);          -- Utsusemi: Ichi
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,339,37,255);          -- Utsusemi: Ni
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,340,75,255);          -- Utsusemi: San
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,344,23,255);          -- Hojo: Ichi
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,344,23,47);           -- Hojo: Ichi
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,345,48,255);          -- Hojo: Ni
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,347,19,255);          -- Kurayami: Ichi
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,347,19,43);           -- Kurayami: Ichi
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,348,44,255);          -- Kurayami: Ni
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,510,75,255);          -- Migawari: Ichi
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,320,15,39);
@@ -3154,6 +3169,7 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,511,75,255);        
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,842,85,255);        -- Distract II
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,845,48,255);        -- Flurry
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,846,96,255);        -- Flurry II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,12,38,255);        -- Raise
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Pieuje_UC',365,1,1,255);           -- Cure
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Pieuje_UC',365,2,11,255);          -- Cure II
@@ -3385,6 +3401,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,247,36,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,163,79,255);         -- Stone V
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,253,30,255);         -- Sleep
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,259,65,255);         -- Sleep II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,12,35,255);          -- Raise
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,13,70,255);          -- Raise II
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Amchuchu',382,43,20,255);          -- Protect
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Amchuchu',382,44,40,255);          -- Protect II

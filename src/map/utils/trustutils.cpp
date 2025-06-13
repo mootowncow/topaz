@@ -388,6 +388,12 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
 
             mainWeapon->setDamage(finalDamage * multiplier);
         }
+        else if (mainWeapon->isHandToHand())
+        {
+            auto h2hSkill = PTrust->GetSkill(SKILL_HAND_TO_HAND);
+            auto levelDmgBonus = PTrust->GetMLevel() / 4;
+            damageMultiplier = 0.11f * h2hSkill + 3 + levelDmgBonus;
+        }
         else
         {
             mainWeapon->setDamage(finalDamage);
@@ -432,8 +438,8 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
         ammoWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
     }
 
-    // TODO: Why can't this be set in mob pool mods like mobs?
-    if (trustData->m_Family == 971 || trustData->m_Family == 5918) 
+    // TODO: Why can't this be set in mob pool mods like mobs? Is mob_pool_mods not applied to trusts?
+    if (trustData->m_Family == 971 || trustData->m_Family == 96) 
     {
         PTrust->m_dualWield = true;
     }

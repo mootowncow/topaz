@@ -760,6 +760,7 @@ function applyResistanceAddEffect(player, target, element, bonus, effect, skill)
     if (skill == tpz.skill.NONE) then
         skill = tpz.skill.HAND_TO_HAND
     end
+
     local p = getMagicHitRate(player, target, skill, element, SDT, 0, bonus, params)
 	local res = getMagicResist(p)
 
@@ -793,7 +794,7 @@ function applyResistanceAddEffect(player, target, element, bonus, effect, skill)
             end
         end
     end
-    -- printf("res was %f", res)
+    --printf("res was %f", res)
     return res
 end
 
@@ -863,13 +864,13 @@ function getMagicHitRate(caster, target, skillType, element, SDT, percentBonus, 
     -- printf("MEVA after +MEVA mod: %s", magiceva)
     -- add resist gear/mods(barspells etc)
     magiceva = magiceva + resMod
-    -- printf("MEVA after gear/barspells: %s", magiceva)
+    --printf("MEVA after gear/barspells: %s", magiceva)
     magicacc = math.floor(magicacc + bonusAcc)
 
     -- Add macc% from food
     local maccFood = magicacc * (caster:getMod(tpz.mod.FOOD_MACCP)/100)
     magicacc = math.floor(magicacc + utils.clamp(maccFood, 0, caster:getMod(tpz.mod.FOOD_MACC_CAP)))
-    -- printf("MACC: %s", magicacc)
+    --printf("MACC: %s", magicacc)
     
     return calculateMagicHitRate(target, magicacc, magiceva, element, percentBonus, caster:getMainLvl(), target:getMainLvl(), SDT)
 end
@@ -3034,16 +3035,16 @@ function doCure(caster, target, spell)
     return final
 end
 
-function doAdditionalEffectDamage(player, target, chance, dmg, dStat, incudeMAB, bonusMAB, element, maccBonus)
+function doAdditionalEffectDamage(player, target, chance, dmg, statMod, incudeMAB, bonusMAB, element, skill, maccBonus)
+    -- statMod (INT MND etc) increases damage by 1 per 3 of the stat (i.e. 30 MND = +10 damage)
     local rawDmg = dmg
-    local resist = applyResistanceAddEffect(player, target, element, maccBonus, nil)
+    local resist = applyResistanceAddEffect(player, target, element, maccBonus, tpz.effect.NONE, skill)
     local params = {}
     params.bonusmab = bonusMAB
     params.includemab = incudeMAB
+
     if math.random(100) <= chance then
-        if dStat ~= nil then
-            dmg = dmg + (player:getStat(dStat) - target:getStat(dStat))
-        end
+        dmg = dmg + math.floor(player:getStat(statMod) / 3)
         dmg = addBonusesAbility(player, element, target, dmg, params)
         dmg = math.floor(dmg * resist)
         dmg = adjustForTarget(target, dmg, element)
@@ -3056,7 +3057,7 @@ function doAdditionalEffectDamage(player, target, chance, dmg, dStat, incudeMAB,
     --printf("bonusMAB %i", bonusMAB)
     --printf("element %i", element)
     --printf("maccBonus %i", maccBonus)
-    --printf("dmg %i", dmg)
+    --printf("dmg final %i", dmg)
     return dmg
 end
 
@@ -3076,7 +3077,7 @@ function DeleteAmmoAdditionalEffect(player, dmg, ammo)
     end
 end
 
-function getAdditionalEffectStatusResist(player, target, effect, element, bonus)
+function getAdditionalEffectStatusResist(player, target, effect, element, skill, bonus)
     local immunityMap =
     {
         { Effect = tpz.effect.SLEEP_I,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
@@ -3108,7 +3109,7 @@ function getAdditionalEffectStatusResist(player, target, effect, element, bonus)
         return 1/16
     end
 
-    local resist = applyResistanceAddEffect(player, target, element, bonus, effect)
+    local resist = applyResistanceAddEffect(player, target, element, bonus, effect, skill)
 
     -- Check for resistance traits 
     if effect ~= nil and math.random() < getEffectResistanceTraitChance(player, target, effect) then
@@ -3135,7 +3136,7 @@ function getAdditionalEffectStatusResist(player, target, effect, element, bonus)
     return resist
 end
 
-function TryApplyAdditionalEffect(player, target, effect, element, power, tick, duration, subpower, tier, chance, bonus)
+function TryApplyAdditionalEffect(player, target, effect, element, power, tick, duration, subpower, tier, chance, skill, bonus)
     local effects =
     {
         { tpz.effect.SLEEP_I, tpz.subEffect.SLEEP },
@@ -3173,7 +3174,7 @@ function TryApplyAdditionalEffect(player, target, effect, element, power, tick, 
         { tpz.effect.KO, tpz.subEffect.DEATH },
     }
 
-    local resist = getAdditionalEffectStatusResist(player, target, effect, element, bonus)
+    local resist = getAdditionalEffectStatusResist(player, target, effect, element, skill, bonus)
     duration = math.floor(duration * resist)
 
     if isNoEffectMsg(player, target, effect, params) then

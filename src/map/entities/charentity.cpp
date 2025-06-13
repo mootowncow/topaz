@@ -1767,6 +1767,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
                     if (validTarget & TARGET_PLAYER_DEAD) // TARGET_PLAYER_DEAD is set
                     {
+                        PPetTarget = PAbility->getTarget()->targid;
                         if (PAbility->isBloodPact())
                         {
                             mobSkillId = 2460;
@@ -2173,6 +2174,12 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
             }
         }
         totalDamage += damage;
+
+        // Stop adding hits if target would die before calculating other hits
+        if (PTarget->health.hp <= totalDamage)
+        {
+            break;
+        }
     }
 
     // if a hit did occur (even without barrage)
@@ -2197,7 +2204,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
             }
         }
 
-        actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);
+       actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);
 
         // lower damage based on shadows taken
         if (shadowsTaken)
@@ -2210,78 +2217,53 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
             actionTarget.messageID = MSGBASIC_RANGED_ABSORBED_DMG;
         }
 
-        // Handle frontal PDT
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 3)
-            {
-                resist = 0;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 5)
-            {
-                resist = 0.25f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 6)
-            {
-                resist = 0.5f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-
-        // Handle Behind PDT
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 4)
-            {
-                resist = 0;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 7)
-            {
-                resist = 0.25f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 8)
-            {
-                resist = 0.5f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-
         //add additional effects
         //this should go AFTER damage taken
         //or else sleep effect won't work
         //battleutils::HandleRangedAdditionalEffect(this,PTarget,&Action);
         //TODO: move all hard coded additional effect ammo to scripts
         if ((PAmmo != nullptr && battleutils::GetScaledItemModifier(this, PAmmo, Mod::ADDITIONAL_EFFECT) > 0) ||
-            (PItem != nullptr && battleutils::GetScaledItemModifier(this, PItem, Mod::ADDITIONAL_EFFECT) > 0)) {}
-        luautils::OnAdditionalEffect(this, PTarget, (PAmmo != nullptr ? PAmmo : PItem), &actionTarget, totalDamage);
+            (PItem != nullptr && battleutils::GetScaledItemModifier(this, PItem, Mod::ADDITIONAL_EFFECT) > 0))
+        {
+
+            uint32 addEffectDamage = 0;
+            SUBEFFECT subEffect = SUBEFFECT_NONE;
+            uint16 addEffectMessage = 0;
+            uint32 addEffectParam = 0;
+
+            for (int i = 0; i < realHits; ++i)
+            {
+                luautils::OnAdditionalEffect(this, PTarget, (PAmmo != nullptr ? PAmmo : PItem), &actionTarget, totalDamage);
+
+                // Record damage done for all damage/drain additional effects
+                if (actionTarget.additionalEffect <= SUBEFFECT_DARKNESS_DAMAGE ||
+                    (actionTarget.additionalEffect >= SUBEFFECT_HP_DRAIN && actionTarget.additionalEffect <= SUBEFFECT_TP_DRAIN))
+                {
+                    addEffectDamage += actionTarget.addEffectParam;
+                }
+                // Record status effect data
+                else
+                {
+                    subEffect = actionTarget.additionalEffect;
+                    addEffectMessage = actionTarget.addEffectMessage;
+                    addEffectParam = actionTarget.addEffectParam;
+                }
+            }
+
+            // Is a damage additional effect, so apply the added up damage to the packet
+            if (addEffectDamage > 0)
+            {
+                actionTarget.addEffectParam = addEffectDamage;
+            }
+            // Is a status effect additional effect, if it procced then apply the data for the packet
+            else
+            {
+                actionTarget.additionalEffect = subEffect;
+                actionTarget.addEffectMessage = addEffectMessage;
+                actionTarget.addEffectParam = addEffectParam;
+            }
+
+        }
     }
     else if (shadowsTaken > 0)
     {
@@ -2302,6 +2284,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
     battleutils::RemoveAmmo(this, ammoConsumed);
 
     StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
 
     // Safety check to not get locked in cutscene status
     if (this->status == STATUS_CUTSCENE_ONLY || this->m_Substate == CHAR_SUBSTATE::SUBSTATE_IN_CS)
@@ -2790,8 +2773,6 @@ void CCharEntity::Die()
 
 void CCharEntity::Die(duration _duration)
 {
-    this->ClearTrusts();
-
     m_deathSyncTime = server_clock::now() + death_update_frequency;
     PAI->ClearStateStack();
     PAI->Internal_Die(_duration);
@@ -2799,6 +2780,7 @@ void CCharEntity::Die(duration _duration)
     // If player allegiance is not reset on death they will auto-homepoint
     allegiance = ALLEGIANCE_PLAYER;
 
+    // TODO: None of this works?? Reraise doesn't apply a mod..
     // reraise modifiers
     if (this->getMod(Mod::RERAISE_I) > 0)
         m_hasRaise = 1;

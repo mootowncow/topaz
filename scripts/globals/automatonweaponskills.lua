@@ -168,7 +168,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         --printf("Final crit %d", critRate * 100)
 
         local weaponDmg = auto:getWeaponDmg()
-        if (attackType == tpz.attackType.RANGED )then
+        if (attackType == tpz.attackType.RANGED) then
             weaponDmg = auto:getRangedDmg()
         end
         local fSTR = getAutoFSTR(weaponDmg, auto:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))
@@ -342,7 +342,12 @@ end
 function AutoMagicalWeaponSkill(auto, target, skill, element, params, statmod, bonus)
     -- Formula is ((Lvl+2 + WSC) x fTP + dstat) x Magic Burst bonus x resist x day / weather bonus x  MAB/MDB x mdt
     -- MDT is handled in AutoMagicalFinalAdjustments
+
+    auto:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    auto:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
+
     skill:setFlag(tpz.mobSkillFlag.MAGIC_SKILL)
+
     local resist = 1
     if bonus == nil then bonus = 0 end -- bonus macc
 
@@ -420,6 +425,10 @@ function AutoMagicalWeaponSkill(auto, target, skill, element, params, statmod, b
 end
 
 function AutoPhysicalFinalAdjustments(dmg, auto, skill, target, attackType, damageType, numberofhits, params)
+
+    auto:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    auto:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
+    auto:delStatusEffectsByFlag(tpz.effectFlag.PHYS_ATTACK)
 
     -- physical attack missed, skip rest
     if (skill:hasMissMsg()) then 

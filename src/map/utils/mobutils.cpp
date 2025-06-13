@@ -1757,7 +1757,7 @@ void AddCustomMods(CMobEntity* PMob)
     // find my families custom mods
     ModsList_t* PFamilyMods = GetMobFamilyMods(PMob->m_Family);
 
-    if(PFamilyMods != nullptr)
+    if (PFamilyMods != nullptr)
     {
         // add them
         for(std::vector<CModifier*>::iterator it = PFamilyMods->mods.begin(); it != PFamilyMods->mods.end() ; ++it)
@@ -1774,7 +1774,7 @@ void AddCustomMods(CMobEntity* PMob)
     // find my pools custom mods
     ModsList_t* PPoolMods = GetMobPoolMods(PMob->m_Pool);
 
-    if(PPoolMods != nullptr)
+    if (PPoolMods != nullptr)
     {
         // add them
         for(std::vector<CModifier*>::iterator it = PPoolMods->mods.begin(); it != PPoolMods->mods.end() ; ++it)
@@ -1791,7 +1791,7 @@ void AddCustomMods(CMobEntity* PMob)
     // find my pools custom mods
     ModsList_t* PSpawnMods = GetMobSpawnMods(PMob->id);
 
-    if(PSpawnMods != nullptr)
+    if (PSpawnMods != nullptr)
     {
         // add them
         for(std::vector<CModifier*>::iterator it = PSpawnMods->mods.begin(); it != PSpawnMods->mods.end() ; ++it)

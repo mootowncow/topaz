@@ -2093,9 +2093,8 @@ namespace battleutils
                 Action->addEffectParam =
                     CalculateEnspellDamage(PAttacker, PDefender, 1, ELEMENT_LIGHT -1, enspell, Action, finaldamage);
 
-                PDefender->takeDamage(Action->addEffectParam,
-                                                         PAttacker, ATTACK_MAGICAL,
-                                      GetEnspellDamageType((ENSPELL)enspell));
+                PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
+
                 // Handle Negative damage
                 if (Action->addEffectParam < 0)
                 {
@@ -2105,16 +2104,20 @@ namespace battleutils
             }
             else if (enspell == ENSPELL_TAINT)
             {
-                Action->additionalEffect = SUBEFFECT_POISON;
-                Action->addEffectMessage = MSGBASIC_ADD_EFFECT_STATUS;
-                Action->addEffectParam = EFFECT_TAINT;
-                float resist = static_cast<float>(ApplyResistanceEffect(PDefender, PDefender, EFFECT_TAINT, element, SKILL_ENHANCING_MAGIC, 0, 0));
-                auto power = PAttacker->getMod(Mod::ENSPELL);
-
-                if (resist >= 0.5f && !PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_TAINT) &&
-                    tpzrand::GetRandomNumber(100) > GetEffectResistanceTraitChance(PDefender, PDefender, EFFECT_TAINT))
+                if (!PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_TAINT))
                 {
-                    PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_TAINT, EFFECT_TAINT, power, 3, (uint32)(30 * (float)resist)));
+                    Action->additionalEffect = SUBEFFECT_POISON;
+                    Action->addEffectMessage = MSGBASIC_ADD_EFFECT_STATUS;
+                    Action->addEffectParam = EFFECT_TAINT;
+                    float resist = static_cast<float>(ApplyResistanceEffect(PDefender, PDefender, EFFECT_TAINT, element, SKILL_ENHANCING_MAGIC, 0, 0));
+                    auto power = PAttacker->getMod(Mod::ENSPELL);
+
+                    if (resist >= 0.5f && !PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_TAINT) &&
+                        tpzrand::GetRandomNumber(100) > GetEffectResistanceTraitChance(PDefender, PDefender, EFFECT_TAINT))
+                    {
+                        PDefender->StatusEffectContainer->AddStatusEffect(
+                            new CStatusEffect(EFFECT_TAINT, EFFECT_TAINT, power, 3, (uint32)(30 * (float)resist)));
+                    }
                 }
             }
             else if (enspell == ENSPELL_HEAVENWARD_HOWL_DRAIN || enspell == ENSPELL_DRAIN)
@@ -2958,11 +2961,6 @@ namespace battleutils
 
     bool TryInterruptSpell(CBattleEntity* PAttacker, CBattleEntity* PDefender, CSpell* PSpell)
     {
-        if (PDefender->objtype == TYPE_TRUST)
-        {
-            return false;
-        }
-
         // cannot interrupt when manafont is active
         if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_MANAFONT))
         {
@@ -2993,7 +2991,7 @@ namespace battleutils
         int diff = PAttacker->GetMLevel() - PDefender->GetMLevel();
 
         // If the defender is a player, and the attacker is higher level than the defender, then the difference is multiplid by 10 for a severe penalty of +10% chance per level
-        if (PDefender->objtype == TYPE_PC)
+        if (PDefender->objtype == TYPE_PC || PDefender->allegiance == ALLEGIANCE_PLAYER)
         {
             if (diff > 0)
             {
@@ -3488,6 +3486,7 @@ namespace battleutils
             }
 
             damage = HandleCircleDamageReduction(PAttacker, PDefender, damage);
+            damage = HandlePositionalPDT(PAttacker, PDefender, damage);
 
             if (isBlocked)
             {
@@ -3685,7 +3684,7 @@ namespace battleutils
 
             int16 baseTp = 0;
 
-            if ((slot == SLOT_RANGED || slot == SLOT_AMMO) && PAttacker->objtype == TYPE_PC)
+            if ((slot == SLOT_RANGED || slot == SLOT_AMMO) && PAttacker->objtype == TYPE_PC || PAttacker->allegiance == ALLEGIANCE_PLAYER)
             {
                 int16 delay = PAttacker->GetRangedWeaponDelay(true);
 
@@ -3778,8 +3777,11 @@ namespace battleutils
         else if (PDefender->objtype == TYPE_MOB)
             ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, 0);
 
-        if (PAttacker->objtype == TYPE_PC && !isRanged && !isCounter)
-            PAttacker->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK, true);
+        if (PAttacker->objtype == TYPE_PC && !isCounter)
+        {
+            PAttacker->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
+        }
+
         return damage;
 
     }
@@ -3927,10 +3929,7 @@ namespace battleutils
         else if (PDefender->objtype == TYPE_MOB)
             ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, 0);
 
-        if (!isRanged && attackType == ATTACK_PHYSICAL)
-        {
-            PAttacker->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK, true);
-        }
+        PAttacker->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
 
         // Apply TP
         if (!PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MEIKYO_SHISUI))
@@ -6612,8 +6611,6 @@ namespace battleutils
                 petutils::DespawnPet(PVictim);
             }
 
-            static_cast<CCharEntity*>(PVictim)->ClearTrusts();
-
             PVictim->PAI->SetController(std::make_unique<CPlayerCharmController>(static_cast<CCharEntity*>(PVictim)));
 
             battleutils::RelinquishClaim(static_cast<CCharEntity*>(PVictim));
@@ -7541,73 +7538,69 @@ namespace battleutils
         return damage;
     }
 
-    int32 HandlePositionalPDT(CBattleEntity* PDefender, int32 damage)
+    int32 HandlePositionalPDT(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage)
     {
-        auto PAttacker = PDefender->GetBattleTarget();
-        if (PAttacker)
+        // Handle frontal PDT
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
         {
-            // Handle frontal PDT
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
+            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 3)
             {
-                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-                float resist = 1.0f;
-                if (power == 3)
-                {
-                    resist = 0;
-                }
-                damage = (int32)(damage * resist);
+                resist = 0;
             }
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
+            damage = (int32)(damage * resist);
+        }
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
+        {
+            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 5)
             {
-                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-                float resist = 1.0f;
-                if (power == 5)
-                {
-                    resist = 0.25f;
-                }
-                damage = (int32)(damage * resist);
+                resist = 0.25f;
             }
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
+            damage = (int32)(damage * resist);
+        }
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(PAttacker->loc.p, PDefender->loc.p, 64))
+        {
+            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 6)
             {
-                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-                float resist = 1.0f;
-                if (power == 6)
-                {
-                    resist = 0.5f;
-                }
-                damage = (int32)(damage * resist);
+                resist = 0.5f;
             }
-            // Handle behind PDT
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
+            damage = (int32)(damage * resist);
+        }
+        // Handle behind PDT
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
+        {
+            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 4)
             {
-                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-                float resist = 1.0f;
-                if (power == 4)
-                {
-                    resist = 0;
-                }
-                damage = (int32)(damage * resist);
+                resist = 0;
             }
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
+            damage = (int32)(damage * resist);
+        }
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
+        {
+            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 7)
             {
-                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-                float resist = 1.0f;
-                if (power == 7)
-                {
-                    resist = 0.25f;
-                }
-                damage = (int32)(damage * resist);
+                resist = 0.25f;
             }
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
+            damage = (int32)(damage * resist);
+        }
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(PAttacker->loc.p, PDefender->loc.p, 64))
+        {
+            int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
+            float resist = 1.0f;
+            if (power == 8)
             {
-                int power = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-                float resist = 1.0f;
-                if (power == 8)
-                {
-                    resist = 0.5f;
-                }
-                damage = (int32)(damage * resist);
+                resist = 0.5f;
             }
+            damage = (int32)(damage * resist);
         }
         return damage;
     }
@@ -7707,9 +7700,10 @@ namespace battleutils
         }
 
         // Composure allows most enhancing magic spells to be made AOE
+        // Disabled
         if (PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_COMPOSURE) && PSpell->isComposureAOE())
         {
-            return SPELLAOE_RADIAL;
+            //return SPELLAOE_RADIAL;
         }
 
         if (PSpell->getAOE() == SPELLAOE_RADIAL_ACCE) // Divine Veil goes here because -na spells have AoE w/ Accession

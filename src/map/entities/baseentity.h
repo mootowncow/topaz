@@ -102,7 +102,7 @@ enum ANIMATIONTYPE
     ANIMATION_SITCHAIR_10 = 73,
     // 74 through 83 sitting on air (guessing future use for more chairs..)
     ANIMATION_MOUNT              = 85,
-    // ANIMATION_TRUST              = 90 // This is the animation for a trust NPC spawning in.
+    ANIMATION_TRUST              = 90 // This is the animation for a trust NPC spawning in.
 };
 
 enum MOUNTTYPE

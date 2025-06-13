@@ -35,7 +35,7 @@ function onTrigger(player, arg1, arg2)
         error(player, "You must either enter a valid npcID or target an NPC.")
         return
     end
-    if (not targ:isNPC()) then
+    if (not targ:isNPC() and not targ:isTrust()) then
         error(player, "Targeted entity is not an NPC.")
         return
     end

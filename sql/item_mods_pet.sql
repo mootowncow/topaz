@@ -82,8 +82,9 @@ INSERT INTO `item_mods_pet` VALUES (11388,28,5,3);      -- Pantin Babouches Auto
 INSERT INTO `item_mods_pet` VALUES (11389,28,5,3);      -- Ptn. Babouches +1 Automaton: "Magic Atk. Bonus"+5
 INSERT INTO `item_mods_pet` VALUES (11470,72,3,3);      -- Puppetry Taj +1 Automaton: HP recovered while healing +3
 INSERT INTO `item_mods_pet` VALUES (11470,71,3,3);      -- Automaton: MP recovered while healing +3
-INSERT INTO `item_mods_pet` VALUES (11471,370,1,3);     -- Pantin Taj  Automaton: Adds "Regen" effect
-INSERT INTO `item_mods_pet` VALUES (11472,370,1,3);     -- Pantin Taj +1 Automaton: Adds "Regen" effect
+INSERT INTO `item_mods_pet` VALUES (11471,28,5,3); -- Automaton: MATT 5
+INSERT INTO `item_mods_pet` VALUES (11472,28,5,3); -- Automaton: MATT 5
+INSERT INTO `item_mods_pet` VALUES (11472,30,3,3); -- Automaton: MACC 3
 INSERT INTO `item_mods_pet` VALUES (11497,384,500,0);   -- Spurrer Beret Pet: Haste+5%
 INSERT INTO `item_mods_pet` VALUES (11531,73,3,0);      -- Fidelity Mantle Pet: Store TP +3
 INSERT INTO `item_mods_pet` VALUES (11536,101,2,3);     -- Wyg. Klt. Mantle Automaton: Melee skill +2
@@ -116,7 +117,8 @@ INSERT INTO `item_mods_pet` VALUES (14405,72,65,2);     -- Wyvern: HP recovered 
 INSERT INTO `item_mods_pet` VALUES (14468,27,5,1);      -- Yinyang Robe Avatar: Pet: Enmity +5
 INSERT INTO `item_mods_pet` VALUES (14486,368,2,2);     -- Drachen Mail + 1 Adds "Regain" effect to wyvern +10
 INSERT INTO `item_mods_pet` VALUES (14514,165,4,1);     -- Smn. Doublet +1 Avatar: Critical Hit Rate +4%
-INSERT INTO `item_mods_pet` VALUES (14523,389,-5,4);    -- Pup. Tobe Automaton: Magic damage Taken -5%
+INSERT INTO `item_mods_pet` VALUES (14523,28,5,3); -- Automaton: MATT 5
+INSERT INTO `item_mods_pet` VALUES (14523,30,5,3); -- Automaton: MACC 5
 INSERT INTO `item_mods_pet` VALUES (14872,2,10,2);      -- Ostreger Mitts Wyvern: HP +10
 INSERT INTO `item_mods_pet` VALUES (14903,25,15,2);     -- Drn. Fng. Gnt. +1 Wyvern: Increases Accuracy +15
 INSERT INTO `item_mods_pet` VALUES (14904,27,-2,1);     -- Evk. Bracers +1 Avatar: Enmity -2

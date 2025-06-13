@@ -54,6 +54,13 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
 
+    -- Chocobo Jig (Haste / Haste II)
+    if mob:getMainLvl() >= 75 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.HASTE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.CHOCOBO_JIG_II)
+    else
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.HASTE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.CHOCOBO_JIG)
+    end
+
     -- Step Interactions:
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.LETHARGIC_DAZE_5, ai.r.JA, ai.s.SPECIFIC, tpz.ja.QUICKSTEP, 20)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.VIOLENT_FLOURISH)

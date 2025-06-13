@@ -1927,7 +1927,8 @@ void CStatusEffectContainer::TickRegen(time_point tick)
     TracyZoneScoped;
     TPZ_DEBUG_BREAK_IF(m_POwner == nullptr);
 
-    if (!m_POwner->isDead())
+    // Nothing ticks while in a cutscene
+    if (!m_POwner->isDead() && m_POwner->status != STATUS_CUTSCENE_ONLY)
     {
         CCharEntity* PChar = nullptr;
         if (m_POwner->objtype == TYPE_PC)

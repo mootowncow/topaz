@@ -262,6 +262,16 @@ void CPetEntity::Die()
     }
     
     luautils::OnMobDeath(this, nullptr);
+
+    if (PLastAttacker)
+    {
+        loc.zone->PushPacket(this, CHAR_INRANGE, new CMessageBasicPacket(PLastAttacker, this, 0, 0, MSGBASIC_DEFEATS_TARG));
+    }
+    else
+    {
+        loc.zone->PushPacket(this, CHAR_INRANGE, new CMessageBasicPacket(this, this, 0, 0, MSGBASIC_FALLS_TO_GROUND));
+    }
+
     CBattleEntity::Die();
     if (PMaster && PMaster->PPet == this && PMaster->objtype == TYPE_PC)
     {
