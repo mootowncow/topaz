@@ -158,11 +158,11 @@ local modByMobName =
     end,
 
     ['tenzen'] = function(mob)
-        mob:addMod(tpz.mod.HPP, 10)
-        mob:addMod(tpz.mod.STORETP, 10)
-        mob:addMod(tpz.mod.ZANSHIN, 5)
-        mob:addMod(tpz.mod.SAVETP, 400)
         if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.HPP, 10)
+            mob:addMod(tpz.mod.STORETP, 10)
+            mob:addMod(tpz.mod.ZANSHIN, 5)
+            mob:addMod(tpz.mod.SAVETP, 400)
             mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
             mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         end
@@ -186,12 +186,12 @@ local modByMobName =
     end,
 
     ['lhe_lhangavo'] = function(mob)
-        mob:addMod(tpz.mod.HPP, 30)
-        mob:addMod(tpz.mod.COUNTER, 5)
-        mob:addMod(tpz.mod.KICK_ATTACK_RATE, 5)
-        mob:addMod(tpz.mod.ACC, 30)
-        mob:addMod(tpz.mod.DEX, 12)
         if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.HPP, 30)
+            mob:addMod(tpz.mod.COUNTER, 5)
+            mob:addMod(tpz.mod.KICK_ATTACK_RATE, 5)
+            mob:addMod(tpz.mod.ACC, 30)
+            mob:addMod(tpz.mod.DEX, 12)
             mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
             mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         end
@@ -219,9 +219,9 @@ local modByMobName =
     end,
 
     ['zeid'] = function(mob)
-        mob:addMod(tpz.mod.HPP, 10)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.HPP, 10)
             mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
             mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         end
@@ -230,13 +230,10 @@ local modByMobName =
     end,
 
     ['aldo'] = function(mob)
-        mob:addMod(tpz.mod.HPP, 10)
-        mob:addMod(tpz.mod.TRIPLE_ATTACK, 5)
-        mob:addMod(tpz.mod.DUAL_WIELD, 5)
-        mob:addMod(tpz.mod.CRIT_DMG_INCREASE, 8)
-        mob:addMod(tpz.mod.EVA, 25)
-        mob:addMod(tpz.mod.AGI, 12)
         if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.HPP, 10)
+            mob:addMod(tpz.mod.EVA, 25)
+            mob:addMod(tpz.mod.AGI, 12)
             mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
             mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         end
@@ -245,11 +242,11 @@ local modByMobName =
     end,
 
     ['uka_totlihn'] = function(mob)
-        mob:addMod(tpz.mod.HPP, 25)
-        mob:addMod(tpz.mod.MEVA, 50)
-        mob:addMod(tpz.mod.TPEVA, 25)
-        mob:addMod(tpz.mod.CHR, 12)
         if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.HPP, 25)
+            mob:addMod(tpz.mod.MEVA, 50)
+            mob:addMod(tpz.mod.TPEVA, 25)
+            mob:addMod(tpz.mod.CHR, 12)
             mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
             mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         end

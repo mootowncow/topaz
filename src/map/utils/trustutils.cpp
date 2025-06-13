@@ -388,6 +388,12 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
 
             mainWeapon->setDamage(finalDamage * multiplier);
         }
+        else if (mainWeapon->isHandToHand())
+        {
+            auto h2hSkill = PTrust->GetSkill(SKILL_HAND_TO_HAND);
+            auto levelDmgBonus = PTrust->GetMLevel() / 4;
+            damageMultiplier = 0.11f * h2hSkill + 3 + levelDmgBonus;
+        }
         else
         {
             mainWeapon->setDamage(finalDamage);
