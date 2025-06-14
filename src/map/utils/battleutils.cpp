@@ -3684,7 +3684,7 @@ namespace battleutils
 
             int16 baseTp = 0;
 
-            if ((slot == SLOT_RANGED || slot == SLOT_AMMO) && PAttacker->objtype == TYPE_PC || PAttacker->allegiance == ALLEGIANCE_PLAYER)
+            if (isRanged && (PAttacker->objtype == TYPE_PC || PAttacker->allegiance == ALLEGIANCE_PLAYER))
             {
                 int16 delay = PAttacker->GetRangedWeaponDelay(true);
 
