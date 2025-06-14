@@ -11436,6 +11436,34 @@ INSERT INTO `mob_groups` VALUES (21,2216,164,'Khadem_Quemquoma',0,128,0,20000,0,
 INSERT INTO `mob_groups` VALUES (22,4340,164,'Wildfire',0,128,0,0,0,81,81,0);
 INSERT INTO `mob_groups` VALUES (23,5146,164,'Laidly_Laurence',0,128,0,0,9999,91,93,0);
 
+-- Dungeon Events
+
+-- Waves
+INSERT INTO `mob_groups` VALUES (24,5347,164,'Angry_Lynx',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (25,1072,164,'Angry_Djinn',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (26,4508,164,'Angry_Ziz',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (27,370,164,'Angry_Bugard',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (28,4804,164,'Angry_Ram',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (29,2963,164,'Angry_Opo-opo',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (30,4106,164,'Angry_Uragnite',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (31,947,164,'Angry_Gnole',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (32,1338,164,'Angry_Smilodon',0,128,0,0,0,85,85,0);
+
+
+-- Bosses
+INSERT INTO `mob_groups` VALUES (33,9135,164,'Hound_of_Balthazar',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (34,9136,164,'Duke_Xavier',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (35,6423,164,'Duke_Xaviers_Bat',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (36,9137,164,'Tezcatli',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (37,9138,164,'Klagmuhme',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (38,9139,164,'Knecht',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (39,9140,164,'Velfegor',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (40,9141,164,'Kernunnos',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (41,2664,164,'Mimic',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (42,9142,164,'Knechts_Corpselight-Healer',0,128,0,0,0,81,81,0);
+INSERT INTO `mob_groups` VALUES (43,9143,164,'Knechts_Corpselight-Debuffer',0,128,0,0,0,81,81,0);
+
+
 INSERT INTO `mob_groups` VALUES (8603,18,164,'Abenzio',1,0,0,0,0,1,1,0);
 INSERT INTO `mob_groups` VALUES (8604,37,164,'Achtelle',1,0,0,0,0,1,1,0);
 INSERT INTO `mob_groups` VALUES (8605,84,164,'Alfons',1,0,0,0,0,1,1,0);

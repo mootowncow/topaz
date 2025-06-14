@@ -233,7 +233,7 @@ enum class Mod
 
     SMITE                     = 898, // Raises attack when using H2H or 2H weapons (256 scale)
     TACTICAL_GUARD            = 899, // Tp increase when guarding
-    GUARD_PERCENT             = 976, // Guard Percent
+    GUARD_PERCENT             = 976, // Guard Percent. Increases guard rate and maximum guard rate. (in pecents, i.e 50 mod = 1.5x guard and MAX guard rate.
 
     HASTE_MAGIC               = 167, // Haste (and Slow) from magic - 10000 base, 375 = 3.75%
     HASTE_ABILITY             = 383, // Haste (and Slow) from abilities - 10000 base, 375 = 3.75%
