@@ -15,9 +15,9 @@ end
 function onPetAbility(target, pet, skill)
     local numhits = 1
     local params = {}
-    params.ftp100 = 3.0
-    params.ftp200 = 3.0
-    params.ftp300 = 3.0
+    params.ftp100 = 2.0
+    params.ftp200 = 2.0
+    params.ftp300 = 2.0
     params.str_wsc = 0.0
     params.dex_wsc = 0.0
     params.vit_wsc = 0.0
