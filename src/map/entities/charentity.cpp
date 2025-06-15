@@ -1391,6 +1391,23 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                 }
                 if (actionTarget.reaction == REACTION_HIT)
                 {
+                    bool cerberusBow = false;
+                    auto cerberusBowNQ = 18695;
+                    auto cerberusBowHQ = 18701;
+                    if (this->objtype == TYPE_PC)
+                    {
+                        CItemWeapon* ranged = dynamic_cast<CItemWeapon*>(((CCharEntity*)this)->getEquip(SLOT_RANGED));
+                        if (ranged && (ranged->getID() == cerberusBowNQ || ranged->getID() == cerberusBowHQ))
+                        {
+                            cerberusBow = true;
+                        }
+                    }
+
+                    if (cerberusBow)
+                    {
+                        battleutils::ReduceAbilityRecast(this, ABILITY_BARRAGE, 1);
+                    }
+
                     if (battleutils::GetScaledItemModifier(this, m_Weapons[damslot], Mod::ADDITIONAL_EFFECT))
                     {
                         actionTarget_t dummy;

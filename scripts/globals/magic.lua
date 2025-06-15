@@ -3221,6 +3221,11 @@ function TryApplyAdditionalEffect(player, target, effect, element, power, tick, 
             target:delStatusEffectSilent(tpz.effect.EVASION_BOOST)
         end
 
+        if (skill == tpz.skill.MARKSMANSHIP) then
+            local enhancesStatusBoltsMod = 1 + (player:getMod(tpz.mod.ENH_STATUS_BOLTS) / 100)
+            power = power *  enhancesStatusBoltsMod
+        end
+
         target:addStatusEffect(effect, power, tick, duration, 0, subpower, tier)
 
         return subeffect, tpz.msg.basic.ADD_EFFECT_STATUS, effect

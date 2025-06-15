@@ -21350,10 +21350,12 @@ INSERT INTO `item_mods` VALUES (17203,24,12);
 INSERT INTO `item_mods` VALUES (17203,26,4);
 INSERT INTO `item_mods` VALUES (17204,26,5);
 INSERT INTO `item_mods` VALUES (17205,11,2);
-INSERT INTO `item_mods` VALUES (17206,11,3);
-INSERT INTO `item_mods` VALUES (17206,26,3);
-INSERT INTO `item_mods` VALUES (17207,26,9);
-INSERT INTO `item_mods` VALUES (17207,379,13);
+INSERT INTO `item_mods` VALUES (17206,11,3); -- AGI 3
+INSERT INTO `item_mods` VALUES (17206,26,10); -- RACC 10
+INSERT INTO `item_mods` VALUES (17206,24,25); -- RATT 25
+INSERT INTO `item_mods` VALUES (17207,26,9); -- RACC 9
+INSERT INTO `item_mods` VALUES (17207,379,13); -- RANGED_DMG_RANK 13
+INSERT INTO `item_mods` VALUES (17207,24,20); -- RATT 20
 INSERT INTO `item_mods` VALUES (17209,345,1000);  -- Martial Bow: TP Bonus +1000
 INSERT INTO `item_mods` VALUES (17210,345,1000);  -- Martial Gun: TP Bonus +1000
 INSERT INTO `item_mods` VALUES (17211,24,4);
@@ -24721,8 +24723,8 @@ INSERT INTO `item_mods` VALUES (19202,23,4); -- ATT +4
 INSERT INTO `item_mods` VALUES (19203,14,3);
 INSERT INTO `item_mods` VALUES (19206,26,6);
 INSERT INTO `item_mods` VALUES (19207,26,8);
-INSERT INTO `item_mods` VALUES (19208,26,10);   -- Grand Crossbow Ranged Accuracy +10
-INSERT INTO `item_mods` VALUES (19208,30,15);   -- Magic Accuracy +15
+INSERT INTO `item_mods` VALUES (19208,26,25); -- RACC 25
+INSERT INTO `item_mods` VALUES (19208,30,25); -- MACC 25
 INSERT INTO `item_mods` VALUES (19209,11,25);     -- Molybdosis (iLvl 119): AGI +25
 INSERT INTO `item_mods` VALUES (19209,24,45);     -- Ranged Attack +45
 INSERT INTO `item_mods` VALUES (19209,28,30);     -- Magic Atk. Bonus +30
@@ -52960,7 +52962,8 @@ INSERT INTO `item_mods` VALUES (26412,466,25); -- DARK_ABSORB 25
 INSERT INTO `item_mods` VALUES (21452,1349,1); -- AUTO_LVL_BONUS 1
 INSERT INTO `item_mods` VALUES (21368,8,4); -- STR 4
 INSERT INTO `item_mods` VALUES (21368,9,4); -- DEX 4
-INSERT INTO `item_mods` VALUES (19233,105,25); -- MARKSMAN 25
+INSERT INTO `item_mods` VALUES (19233,105,25); -- MARKSMAN 25 (Lyft Crossbow)
+INSERT INTO `item_mods` VALUES (19233,1436,25); -- Enhances effect of status bolts +25%
 INSERT INTO `item_mods` VALUES (19125,1272,30); -- ELEMENTAL_WSDMG 30
 INSERT INTO `item_mods` VALUES (18453,2,75); -- HP 75
 INSERT INTO `item_mods` VALUES (18453,162,-10); -- DMGBREATH -10

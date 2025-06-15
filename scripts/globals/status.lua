@@ -2191,8 +2191,9 @@ tpz.mod =
     AUTO_RANGED_DELAY       = 1433, -- Reduces the cooldown of your Automatons ranged attack (in seconds)
     AUTO_ELEMENTAL_DELAY    = 1434, -- Reduces the cooldown of your Automatons elemental magic (in seconds)
     AUTO_STANDBACK          = 1435, -- Tells your Automaton to stand back
+    ENH_STATUS_BOLTS        = 1436, -- Enhances the additional effect of status bolts. i.e. acid bolts defense down (in percents)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1436 NEXT
+    -- 1437 NEXT
 }
 
 tpz.latent =
