@@ -31,6 +31,7 @@
 #include "../packets/char.h"
 #include "../packets/char_health.h"
 #include "../packets/char_update.h"
+#include "../packets/char_skills.h"
 #include "../packets/entity_update.h"
 #include "../packets/inventory_finish.h"
 #include "../packets/message_basic.h"
@@ -8287,6 +8288,26 @@ namespace battleutils
                     PChar->PRecastContainer->Load(RECAST_ABILITY, PAbility->getRecastId(), PAbility->getRecastTime());
                 }
             }
+        }
+    }
+
+    /************************************************************************
+     *                                                                       *
+     *    Reduced the recast of a single ability in seconds                  *
+     *                                                                       *
+     ************************************************************************/
+    void ReduceAbilityRecast(CCharEntity* PChar, uint16 abilityId, uint32 seconds)
+    {
+        CAbility* ability = ability::GetAbility(abilityId);
+        if (!ability)
+            return;
+
+        Recast_t* recast = PChar->PRecastContainer->GetRecast(RECAST_ABILITY, ability->getRecastId());
+        if (recast)
+        {
+            recast->TimeStamp -= seconds;
+            PChar->pushPacket(new CCharSkillsPacket(PChar));
+            PChar->pushPacket(new CCharRecastPacket(PChar));
         }
     }
 

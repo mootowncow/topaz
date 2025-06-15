@@ -1136,6 +1136,7 @@ enum class Mod
 
     CRITHITRATE_SLOT     = 1419,//Crit rate only applied by attacks in this weapon slot. i.e. Senjuionrikio
     PAST_DUNGEON_MASTER  = 1428,//Increased number augments on items from WotG dungeons
+    ENH_STATUS_BOLTS     = 1436,//Enhances the additional effect of status bolts. i.e. acid bolts defense down (in percents)
 
 
 
@@ -1151,7 +1152,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1436 NEXT
+    // 1437 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

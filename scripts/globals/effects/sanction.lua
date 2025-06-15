@@ -15,7 +15,7 @@ function onEffectGain(target, effect)
     elseif power == 3 then
         target:addMod(tpz.mod.FOOD_DURATION, 120)
     end
-    -- Gain +15% more EXP in besieged regiions if above level 55 and below 75
+    -- Gain +15% more EXP in besieged regions
     target:addLatent(tpz.latent.SANCTION_EXP_BONUS, 1, tpz.mod.EXP_BONUS, 15)
 end
 

@@ -3112,16 +3112,16 @@ INSERT INTO `item_latents` VALUES(18684, 366, 2, 58, 0);    -- Storm Zamburak dm
 -- -------------------------------------------------------
 -- Perdu Bow
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(18717, 24, 10, 6, 1000);  -- Ranged Attack+10 while TP <100%, changed to value on bg since it is different value than ffxicyclopedia
-INSERT INTO `item_latents` VALUES(18717, 26, 5, 6, 1000);   -- Ranged Accuracy+5 while TP <100%
-INSERT INTO `item_latents` VALUES(18717, 366, 4, 6, 1000);  -- DMG+4 while TP <100%
+INSERT INTO `item_latents` VALUES(18717, 24, 10, 6, 1000); -- [18717] Perdu Bow: TP Under(1000) - RATT 10
+INSERT INTO `item_latents` VALUES(18717, 26, 5, 6, 1000); -- [18717] Perdu Bow: TP Under(1000) - RACC 5
+INSERT INTO `item_latents` VALUES(18717, 376, 6, 6, 1000); -- [18717] Perdu Bow: TP Under(1000) - RANGED_DMG_RATING 6
 
 -- -------------------------------------------------------
 -- Perdu Crossbow
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(18718, 24, 10, 6, 1000);  -- Ranged Attack+10 while TP <100%
-INSERT INTO `item_latents` VALUES(18718, 26, 5, 6, 1000);   -- Ranged Accuracy+5 while TP <100%
-INSERT INTO `item_latents` VALUES(18718, 366, 4, 6, 1000);  -- DMG+4 while TP <100%
+INSERT INTO `item_latents` VALUES(18718, 24, 10, 6, 1000); -- [18718] Perdu Crossbow: TP Under(1000) - RATT 10
+INSERT INTO `item_latents` VALUES(18718, 26, 5, 6, 1000); -- [18718] Perdu Crossbow: TP Under(1000) - RACC 5
+INSERT INTO `item_latents` VALUES(18718, 376, 6, 6, 1000); -- [18718] Perdu Crossbow: TP Under(1000) - RANGED_DMG_RATING 6
 
 INSERT INTO `item_latents` VALUES(18741, 23, 10, 9, 4);
 
