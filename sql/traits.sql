@@ -700,7 +700,7 @@ INSERT INTO `traits` VALUES (113,'dead aim',11,70,3,1054,9,'SOA',0);
 INSERT INTO `traits` VALUES (113,'dead aim',11,97,4,1054,35,'SOA',0);
 INSERT INTO `traits` VALUES (113,'dead aim',11,98,5,1054,40,'SOA',0);
 INSERT INTO `traits` VALUES (113,'dead aim',11,99,6,1054,45,'SOA',0);
-INSERT INTO `traits` VALUES (118,'tranquil heart',18,75,6,1369,10,'SOA',0);
+INSERT INTO `traits` VALUES (114,'tranquil heart',18,75,6,1369,10,'SOA',0);
 INSERT INTO `traits` VALUES (115,'stalwart soul',8,45,1,907,15,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (115,'stalwart soul',8,60,2,907,30,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (115,'stalwart soul',8,75,3,907,40,'ABYSSEA',0);
