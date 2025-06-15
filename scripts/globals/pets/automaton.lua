@@ -42,9 +42,7 @@ function AddTranquilHeartBonus(mob)
                 master:recalculateSkillsTable()
             end
         elseif head == tpz.heads.SHARPSHOT then
-            master:addMod(tpz.mod.ATTP, 10)
-            master:addMod(tpz.mod.CRITHITRATE, 10)
-            master:addMod(tpz.mod.ALL_WSDMG_FIRST_HIT, 10)
+            master:addMod(tpz.mod.ACC, 25)
         elseif head == tpz.heads.STORMWAKER then
             master:addStatusEffectEx(tpz.effect.COLURE_ACTIVE, tpz.effect.COLURE_ACTIVE, 13, 3, 0, tpz.effect.MULTI_STRIKES, 10, tpz.auraTarget.ALLIES, tpz.effectFlag.AURA)
         elseif head == tpz.heads.SOULSOOTHER then
@@ -79,9 +77,7 @@ function DeleteTranquilHeartBonus(mob)
                 master:recalculateSkillsTable()
             end
         elseif head == tpz.heads.SHARPSHOT then
-            master:delMod(tpz.mod.ATTP, 10)
-            master:delMod(tpz.mod.CRITHITRATE, 10)
-            master:delMod(tpz.mod.ALL_WSDMG_FIRST_HIT, 10)
+            master:delMod(tpz.mod.ACC, 25)
         elseif head == tpz.heads.STORMWAKER then
             master:addStatusEffectEx(tpz.effect.COLURE_ACTIVE, tpz.effect.COLURE_ACTIVE, 13, 3, 0, tpz.effect.MULTI_STRIKES, 10, tpz.auraTarget.ALLIES, tpz.effectFlag.AURA)
         elseif head == tpz.heads.SOULSOOTHER then
