@@ -77,6 +77,8 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
             for requiredItemId, trials in pairs(trialData) do
                 if trade:hasItemQty(requiredItemId, 1) then
                     for tradeItem, trial in pairs(trials) do
+                        local currentTrial = trial.trial
+                        local previousTrial = trial.previousTrial
                         local numRequired = trial.numRequired
                         local rewardItem = trial.rewardItem.itemId
                         local itemAugments = trial.rewardItem.itemAugments
@@ -90,10 +92,19 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
                                 end
                             end
 
+                            if (previousTrial > 0) then
+                                local trialState = player:getCharVar("MagianTrial_"..previousTrial)
+                                if (trialState ~= tpz.magian.TRIAL_COMPLETED) then
+                                    player:PrintToPlayer("You have not completed the previous trial, kupo!" ,0,"Magian Moogle")
+                                    return 
+                                end
+                            end
+
                             if (tpz.magian.IsValidReward(player, npc, trade, rewardItem)) then
                                 player:addItem(rewardItem, 1, unpack(flatAugments))
                                 player:tradeComplete()
                                 player:messageSpecial(ID.text.MAGIAN_TRIAL_COMPLETE, rewardItem) -- TODO: Probably a CS
+                                player:setCharVar("MagianTrial_" .. currentTrial, tpz.magian.TRIAL_COMPLETED)
                                 return player:messageSpecial(ID.text.ITEM_OBTAINED, rewardItem)
                             else
                                 return player:messageSpecial(ID.text.MAGIAN_ALREADY_HAVE_ITEM, rewardItem)
