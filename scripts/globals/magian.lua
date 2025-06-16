@@ -1,5 +1,6 @@
 -----------------------------------
 -- Magian Trial Global
+-- !gotoid 17772782
 -----------------------------------
 local ID = require("scripts/zones/RuLude_Gardens/IDs")
 require('scripts/globals/magian_data')
