@@ -46,6 +46,8 @@ require("scripts/globals/titles")
 -- environmental for eldieme and garlaige
 -- Crawlers Nest [S] chest/coffer still work?
 -- randomEventMimic needs some logic (or wait / while isDead()?) to make sure it doesn't get "stuck" if mimic is in death state and another one is triggered
+-- Djinn mixin being ran twice? For dia only? Is TakeSpellDamage() being ran twice for all nukes, or just dia? Or is it the listener?
+-- Add Djinn mixin to NMs, search db by their familyId in pools
 
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
@@ -1544,6 +1546,7 @@ local modByMobName =
     end,
 
     ['Shedyet'] = function(mob)
+        mob:addStatusEffect(tpz.effect.PERFECT_DODGE)
     end,
 
     ['Khnum'] = function(mob)
@@ -2409,6 +2412,7 @@ local mobFightByMobName =
 
     ['Barqan'] = function(mob, target)
     -- Djinn (Djinn mixin)
+    -- Make Djinn mixin, add to all Djinns and this guy and the Djinn trash here 
         local buffCD = mob:getLocalVar("buffCD")
         local stormCD = mob:getLocalVar("stormCD")
         local battleTime = mob:getBattleTime()
@@ -2501,7 +2505,6 @@ local mobFightByMobName =
     -- Bugard
         -- THF/DRK
         -- Perma perfect dodge
-        mob:addStatusEffect(tpz.effect.PERFECT_DODGE)
         -- Nightmare Bugard moves
         -- Tyrant Tusk (If this attack puts targets HP below 50%, then insta kill)
     end,
@@ -2514,6 +2517,8 @@ local mobFightByMobName =
 
     ['Aegyptopithecus'] = function(mob, target)
     -- Opo-opo
+        -- RNG/WAR
+        -- Stand back, doesn't auto-attack, only uses ranged attacks (Stone Throw animation)
         -- Claw Storm is also AOE Bio
         -- Magic Fruit 3.5s cast time
         -- Uses Vacant Gaze, dispels up to 3 effects

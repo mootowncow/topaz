@@ -1,6 +1,6 @@
 -----------------------------------
--- Area: The Eldieme Necropolis [S] (175)
---  Mob: Ignis Djinn
+-- Area: Beaucedine_Glacier_[S]
+--  Mob: Fulminator
 -----------------------------------
 mixins = {require("scripts/mixins/families/djinn")}
 -- -----------------------------------

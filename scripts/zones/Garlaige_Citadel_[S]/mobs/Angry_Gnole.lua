@@ -3,6 +3,7 @@
 --   NM: Abatwa
 ------------------------------
 require("scripts/globals/wotg")
+mixins = { require("scripts/mixins/families/gnole") }
 ------------------------------
 function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.CHECK_AS_NM, 1)

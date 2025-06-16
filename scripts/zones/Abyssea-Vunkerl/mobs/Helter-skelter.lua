@@ -1,6 +1,6 @@
 -----------------------------------
--- Area: The Eldieme Necropolis [S] (175)
---  Mob: Ignis Djinn
+-- Area: Abyssea-Vunkerl
+--  Mob: Helter-skelter
 -----------------------------------
 mixins = {require("scripts/mixins/families/djinn")}
 -- -----------------------------------

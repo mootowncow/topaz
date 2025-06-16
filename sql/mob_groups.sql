@@ -4209,7 +4209,7 @@ INSERT INTO `mob_groups` VALUES (69,6747,79,'Vidhuwa_The_Wrathborn',7200,0,6020,
 INSERT INTO `mob_groups` VALUES (70,714,79,'Chigoe_Karakul',0,128,466,0,0,64,66,0);
 INSERT INTO `mob_groups` VALUES (71,6483,79,'Jnun_Exp_Camp',330,0,1408,0,0,75,77,0);
 INSERT INTO `mob_groups` VALUES (72,6636,79,'Heraldic_Imp_Exp_Camp',330,0,1302,0,0,80,81,0);
-INSERT INTO `mob_groups` VALUES (73,9123,79,'Lesser_Khimaira',330,0,0,0,0,82,83,0); -- G-7 Map2
+INSERT INTO `mob_groups` VALUES (73,9123,79,'Lesser_Khimaira',330,0,0,0,0,82,83,0); -- G-7 Map2 (Survival guide)
 INSERT INTO `mob_groups` VALUES (74,6636,79,'Heraldic_Imp',330,0,6117,0,0,80,81,0); --  Hediva Isle
 
 INSERT INTO `mob_groups` VALUES (2811,2810,79,'Nareema',0,128,0,0,0,0,0,0);

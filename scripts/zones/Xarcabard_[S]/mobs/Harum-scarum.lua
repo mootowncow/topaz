@@ -1,6 +1,6 @@
 -----------------------------------
--- Area: The Eldieme Necropolis [S] (175)
---  Mob: Ignis Djinn
+-- Area: Xarcabard_[S]
+--  Mob: Harum-scarum
 -----------------------------------
 mixins = {require("scripts/mixins/families/djinn")}
 -- -----------------------------------
