@@ -65,8 +65,7 @@ bool CAIEventHandler::listenerExists(const std::string& identifier)
         {
             if (event.identifier == identifier)
             {
-                ShowDebug("Listener already exists: %s\n", identifier.c_str());
-                return true;
+                return true; // Listener with this identifier already exists
             }
         }
     }
