@@ -13,6 +13,9 @@ require("scripts/globals/msg")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
+    if mob:hasStatusEffect(tpz.effect.MAGICAL_SHIELD) or mob:hasStatusEffect(tpz.effect.PHYSICAL_SHIELD) then
+        return 1
+    end
 
   if (mob:getFamily() == 316) then
     local mobSkin = mob:getModelId()
@@ -23,12 +26,12 @@ function onMobSkillCheck(target, mob, skill)
         return 1
     end
   end
-   -- TODO: Used only when second/left head is alive (animationsub 0 or 1)
-   if (mob:AnimationSub() < 1) then
-      return 0
-   else
-      return 1
-   end
+  -- TODO: Used only when second/left head is alive (animationsub 0 or 1)
+  if (mob:AnimationSub() < 1) then
+    return 0
+  else
+    return 1
+  end
 end
 
 function onMobWeaponSkill(target, mob, skill)
