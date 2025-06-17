@@ -4405,15 +4405,26 @@ namespace charutils
         {
             exp = (uint32)(exp * map_config.exp_rate);
         }
+
+        auto jobLevel = PChar->jobs.job[PChar->GetMJob()];
+
+        // Safety check due to a weird bug I can't figure out with trusts raising players
+        if (PChar->GetLocalVar("jobLevel") > 0)
+        {
+            jobLevel = PChar->GetLocalVar("jobLevel");
+            PChar->jobs.job[PChar->GetMJob()] = PChar->GetLocalVar("jobLevel");
+            PChar->SetLocalVar("jobLevel", 0);
+        }
+
         uint16 currentExp = PChar->jobs.exp[PChar->GetMJob()];
         bool onLimitMode = false;
 
         // Incase player de-levels to 74 on the field
-        if (PChar->MeritMode == true && PChar->jobs.job[PChar->GetMJob()] > 74 && expFromRaise == false)
+        if (PChar->MeritMode == true && jobLevel > 74 && expFromRaise == false)
             onLimitMode = true;
 
         //we check if the player is level capped and max exp..
-        if (PChar->jobs.job[PChar->GetMJob()] > 74 && PChar->jobs.job[PChar->GetMJob()] >= PChar->jobs.genkai && PChar->jobs.exp[PChar->GetMJob()] == GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]) - 1)
+        if (jobLevel > 74 && jobLevel >= PChar->jobs.genkai && PChar->jobs.exp[PChar->GetMJob()] == GetExpNEXTLevel(jobLevel) - 1)
             onLimitMode = true;
 
         // exp added from raise shouldn't display a message. Don't need a message for zero exp either
@@ -4424,7 +4435,7 @@ namespace charutils
             if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_RESTRICTION))
             {
                 // Reduce experience if the players job is higher level than the level cap restriction
-                if (PChar->StatusEffectContainer->GetStatusEffect(EFFECT_LEVEL_RESTRICTION)->GetPower() < PChar->jobs.job[PChar->GetMJob()])
+                if (PChar->StatusEffectContainer->GetStatusEffect(EFFECT_LEVEL_RESTRICTION)->GetPower() < jobLevel)
                 {
                     exp = (int32)(exp * 0.10f);
                     //printf("Experience after level penalty %i\n", exp);
@@ -4529,11 +4540,11 @@ namespace charutils
         PChar->PAI->EventHandler.triggerListener("EXPERIENCE_POINTS", PChar, exp);
 
         // Player levels up
-        if ((currentExp + exp) >= GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]) && !onLimitMode)
+        if ((currentExp + exp) >= GetExpNEXTLevel(jobLevel) && !onLimitMode)
         {
-            if (PChar->jobs.job[PChar->GetMJob()] >= PChar->jobs.genkai)
+            if (jobLevel >= PChar->jobs.genkai)
             {
-                PChar->jobs.exp[PChar->GetMJob()] = GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]) - 1;
+                PChar->jobs.exp[PChar->GetMJob()] = GetExpNEXTLevel(jobLevel) - 1;
                 if (PChar->PParty && PChar->PParty->GetSyncTarget() == PChar)
                 {
                     PChar->PParty->SetSyncTarget(nullptr, 556);
@@ -4541,17 +4552,17 @@ namespace charutils
             }
             else
             {
-                PChar->jobs.exp[PChar->GetMJob()] -= GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]);
-                if (PChar->jobs.exp[PChar->GetMJob()] >= GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()] + 1))
+                PChar->jobs.exp[PChar->GetMJob()] -= GetExpNEXTLevel(jobLevel);
+                if (PChar->jobs.exp[PChar->GetMJob()] >= GetExpNEXTLevel(jobLevel + 1))
                 {
-                    PChar->jobs.exp[PChar->GetMJob()] = GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()] + 1) - 1;
+                    PChar->jobs.exp[PChar->GetMJob()] = GetExpNEXTLevel(jobLevel + 1) - 1;
                 }
-                PChar->jobs.job[PChar->GetMJob()] += 1;
+                jobLevel += 1;
 
                 if (PChar->m_LevelRestriction == 0 ||
                     PChar->m_LevelRestriction > PChar->GetMLevel())
                 {
-                    PChar->SetMLevel(PChar->jobs.job[PChar->GetMJob()]);
+                    PChar->SetMLevel(jobLevel);
                     PChar->SetSLevel(PChar->jobs.job[PChar->GetSJob()]);
 
                     jobpointutils::RefreshGiftMods(PChar);
@@ -4595,7 +4606,7 @@ namespace charutils
                 PChar->pushPacket(new CCharJobExtraPacket(PChar, true));
                 PChar->pushPacket(new CCharSyncPacket(PChar));
 
-                PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CMessageCombatPacket(PChar, PMob, PChar->jobs.job[PChar->GetMJob()], 0, 9));
+                PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CMessageCombatPacket(PChar, PMob, jobLevel, 0, 9));
                 PChar->pushPacket(new CCharStatsPacket(PChar));
 
                 luautils::OnPlayerLevelUp(PChar);

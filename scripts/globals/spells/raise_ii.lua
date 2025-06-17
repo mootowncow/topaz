@@ -16,6 +16,7 @@ function onSpellCast(caster, target, spell)
             target:allowSendRaisePrompt()
             target:addStatusEffect(tpz.effect.RERAISE, 2, 0, 3600)
         else
+            target:setLocalVar("jobLevel", target:getJobLevel(target:getMainJob()))
             target:sendRaise(2)
         end
     else
