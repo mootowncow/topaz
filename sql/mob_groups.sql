@@ -3345,7 +3345,7 @@ INSERT INTO `mob_groups` VALUES (33,3089,68,'Pandemonium_Lamp',0,128,0,9000,0,77
 INSERT INTO `mob_groups` VALUES (34,717,68,'Chigre',0,128,467,15000,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (35,4668,68,'Morta',0,128,0,0,35000,95,95,0);
 INSERT INTO `mob_groups` VALUES (36,5187,68,'Ravishing_Rafflesia',0,128,0,0,0,76,78,0);
-INSERT INTO `mob_groups` VALUES (37,6582,68,'Vampyr',300,0,6028,0,0,82,83,0);
+INSERT INTO `mob_groups` VALUES (37,6582,68,'Vampyr',300,0,6028,0,0,82,83,0); -- Entrance 5
 INSERT INTO `mob_groups` VALUES (38,5334,68,'Mycoskulker_Popped',0,128,0,0,0,81,83,0);
 
 INSERT INTO `mob_groups` VALUES (2276,110,68,'Amnaf_blu',0,128,0,0,0,0,0,0);
