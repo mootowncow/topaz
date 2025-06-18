@@ -2033,7 +2033,10 @@ namespace battleutils
                 Action->addEffectMessage = MSGBASIC_ENSPELL_HP_DRAIN;
 
                 // Increase HP Absorbed by 2% per JP
-                int32 absorbed = Action->param;
+                // TODO:
+                // Blood weapon / Soul enslavement should be calculated AFTER TakePhysicalDamage and actionTarget.Param should be
+                // set then it should be used instead of finaldmg. other enspells should be calcualted BEFORE still
+                int32 absorbed = finaldamage;
                 if (PAttacker->objtype == TYPE_PC)
                 {
                     absorbed += (int32)floor(absorbed * 0.02f * static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(JP_BLOOD_WEAPON_EFFECT));
@@ -2064,7 +2067,10 @@ namespace battleutils
                 Action->addEffectMessage = MSGBASIC_ADD_EFFECT_TP_DRAIN;
 
                 // Increase TP Absorbed by 1% per JP
-                int32 absorbed = Action->param;
+                // TODO:
+                // Blood weapon / Soul enslavement should be calculated AFTER TakePhysicalDamage and actionTarget.Param should be
+                // set then it should be used instead of finaldmg. other enspells should be calcualted BEFORE still
+                int32 absorbed = finaldamage;
                 if (PAttacker->objtype == TYPE_PC)
                 {
                     absorbed += (int32)floor(absorbed * 0.01f * static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(JP_SOUL_ENSLAVEMENT_EFFECT));

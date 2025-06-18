@@ -2366,6 +2366,9 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 }
 
                 // Check for Enspell
+                // TODO:
+                // Blood weapon / Soul enslavement should be calculated AFTER TakePhysicalDamage and actionTarget.Param should be
+                // set then it should be used instead of finaldmg. other enspells should be calcualted BEFORE still
                 bool isBlocked = actionTarget.reaction == REACTION_BLOCK;
                 if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
                 {
