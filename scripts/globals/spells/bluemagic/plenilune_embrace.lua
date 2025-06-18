@@ -62,7 +62,16 @@ function onSpellCast(caster, target, spell)
     if (final > diff) then
         final = diff
     end
-    target:addHP(final)
-    caster:updateEnmityFromCure(target, final)
+
+    if target:hasStatusEffect(tpz.effect.CURSE_II) then
+		target:addHP(0)
+        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+	else
+		target:addHP(final)
+		target:wakeUp()
+		caster:updateEnmityFromCure(target, final)
+		spell:setMsg(tpz.msg.basic.MAGIC_RECOVERS_HP)
+	end
+
     return final
 end

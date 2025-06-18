@@ -2366,6 +2366,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 }
 
                 // Check for Enspell
+                // Enspells that are applied BEFORE damage calc
                 bool isBlocked = actionTarget.reaction == REACTION_BLOCK;
                 if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
                 {
@@ -2374,7 +2375,6 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
                                                    attack.GetDamage());
                     }
-                    battleutils::HandleSpikesDamage(this, PTarget, &actionTarget, attack.GetDamage());
 
                     uint8 enspell = (uint8)this->getMod(Mod::ENSPELL);
 
@@ -2411,6 +2411,18 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         actionTarget.param = -(actionTarget.param);
                         actionTarget.messageID = MSGBASIC_HIT_ABSORBS_HP;
                     }
+                }
+
+                // Enspells that are applied AFTER damage calc (i.e. blood weapon and soul enslavement)
+                // Spikes is also applied after damage calc (For retal, reprisal, reflect(damage spikes) spikes, etc
+                if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
+                {
+                    if (!isBlocked)
+                    {
+                        battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
+                                                   attack.GetDamage(), true);
+                    }
+                    battleutils::HandleSpikesDamage(this, PTarget, &actionTarget, attack.GetDamage());
                 }
             }
 
@@ -2543,7 +2555,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
     if (this->objtype == TYPE_TRUST) // Player pets / Player is done in mobentity/char entity but trust entity does not have an OnAttack override
     {
-        if (PTarget && PTarget->isDead())
+        if (PTarget && PTarget->isDead() && PTarget->objtype == TYPE_MOB)
         {
             ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
             ((CMobEntity*)PTarget)->DoAutoTarget();

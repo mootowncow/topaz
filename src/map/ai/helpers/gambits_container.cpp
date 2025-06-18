@@ -1651,7 +1651,10 @@ bool CGambitsContainer::TryTrustSkill()
                 }
             }
 
-            if (currentDistance <= (skill->getDistance()))
+            
+            int onSkillCheck = luautils::OnMobSkillCheck(target, POwner, skill);
+
+            if (onSkillCheck == 0 && currentDistance <= (skill->getDistance()))
             {
                 int16 tp = battleutils::CalculateWeaponSkillTP(POwner, 0, POwner->health.tp);
 

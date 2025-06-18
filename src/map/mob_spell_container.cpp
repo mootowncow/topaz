@@ -1231,10 +1231,19 @@ bool CMobSpellContainer::IsImmune(CBattleEntity* PTarget, SpellID spellId)
     const std::unordered_map<SpellID, SpellInfo> spellInfoMap = {
         { SpellID::Paralyze,           { EFFECT_PARALYSIS,  IMMUNITY_PARALYZE,   Mod::EEM_PARALYZE   } },
         { SpellID::Paralyze_II,        { EFFECT_PARALYSIS,  IMMUNITY_PARALYZE,   Mod::EEM_PARALYZE   } },
+        { SpellID::Jubaku_Ichi,        { EFFECT_PARALYSIS,  IMMUNITY_PARALYZE,   Mod::EEM_PARALYZE   } },
+        { SpellID::Jubaku_Ni,          { EFFECT_PARALYSIS,  IMMUNITY_PARALYZE,   Mod::EEM_PARALYZE   } },
+        { SpellID::Jubaku_San,         { EFFECT_PARALYSIS,  IMMUNITY_PARALYZE,   Mod::EEM_PARALYZE   } },
         { SpellID::Slow,               { EFFECT_SLOW,       IMMUNITY_SLOW,       Mod::EEM_SLOW       } },
         { SpellID::Slow_II,            { EFFECT_SLOW,       IMMUNITY_SLOW,       Mod::EEM_SLOW       } },
+        { SpellID::Hojo_Ichi,          { EFFECT_SLOW,       IMMUNITY_SLOW,       Mod::EEM_SLOW       } },
+        { SpellID::Hojo_Ni,            { EFFECT_SLOW,       IMMUNITY_SLOW,       Mod::EEM_SLOW       } },
+        { SpellID::Hojo_San,           { EFFECT_SLOW,       IMMUNITY_SLOW,       Mod::EEM_SLOW       } },
         { SpellID::Blind,              { EFFECT_BLINDNESS,  IMMUNITY_BLIND,      Mod::EEM_BLIND      } },
         { SpellID::Blind_II,           { EFFECT_BLINDNESS,  IMMUNITY_BLIND,      Mod::EEM_BLIND      } },
+        { SpellID::Kurayami_Ichi,      { EFFECT_BLINDNESS,  IMMUNITY_BLIND,      Mod::EEM_BLIND      } },
+        { SpellID::Kurayami_Ni,        { EFFECT_BLINDNESS,  IMMUNITY_BLIND,      Mod::EEM_BLIND      } },
+        { SpellID::Kurayami_San,       { EFFECT_BLINDNESS,  IMMUNITY_BLIND,      Mod::EEM_BLIND      } },
         { SpellID::Silence,            { EFFECT_SILENCE,    IMMUNITY_SILENCE,    Mod::EEM_SILENCE    } },
         { SpellID::Gravity,            { EFFECT_WEIGHT,     IMMUNITY_GRAVITY,    Mod::EEM_GRAVITY    } },
         { SpellID::Gravity_II,         { EFFECT_WEIGHT,     IMMUNITY_GRAVITY,    Mod::EEM_GRAVITY    } },
@@ -1265,57 +1274,70 @@ bool CMobSpellContainer::IsImmune(CBattleEntity* PTarget, SpellID spellId)
         SPELLFAMILY_SLOW
     };
 
-    // Check for magic immunity buffs
-    if (PTarget->objtype == TYPE_MOB)
+    auto spell = spell::GetSpell(spellId);
+
+    // Healing spells
+    if (spell->isHeal())
     {
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
-        {
-            CStatusEffect* magicShield = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_MAGIC_SHIELD, 0);
-            uint16 magicShieldPower = magicShield->GetPower();
-
-            if (magicShieldPower < 2)
-            {
-                return true;
-            }
-        }
-
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_FEALTY))
+        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_CURSE_II))
         {
             return true;
         }
-
-        // Check immunities
-        auto it = spellInfoMap.find(spellId);
-        if (it != spellInfoMap.end())
+    }
+    else // All other types of spells (Offensive enfeebles / nukes)
+    {
+        // Check for magic immunity buffs
+        if (PTarget->objtype == TYPE_MOB)
         {
-            const SpellInfo& spell = it->second;
-
-            // Check if hard immune
-            if (PTarget->hasImmunity(static_cast<uint32>(spell.immunity)))
+            if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
             {
-                return true;
-            }
+                CStatusEffect* magicShield = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_MAGIC_SHIELD, 0);
+                uint16 magicShieldPower = magicShield->GetPower();
 
-            // Check if immune due to EEM
-            if (PTarget->getMod(static_cast<Mod>(spell.eem)) <= 5)
-            {
-                return true;
-            }
-        }
-
-        // Check if mob has JA Autos
-        SpellID PSpell = static_cast<SpellID>(spellId);
-        auto spellData = spell::GetSpell(PSpell);
-
-        if (spellData)
-        {
-            SPELLFAMILY spellFamily = spellData->getSpellFamily();
-
-            if (jaAutosSpellFamilies.count(spellFamily))
-            {
-                if (((CMobEntity*)PTarget)->getMobMod(MOBMOD_ATTACK_SKILL_LIST) > 0)
+                if (magicShieldPower < 2)
                 {
                     return true;
+                }
+            }
+
+            if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_FEALTY))
+            {
+                return true;
+            }
+
+            // Check immunities
+            auto it = spellInfoMap.find(spellId);
+            if (it != spellInfoMap.end())
+            {
+                const SpellInfo& spell = it->second;
+
+                // Check if hard immune
+                if (PTarget->hasImmunity(static_cast<uint32>(spell.immunity)))
+                {
+                    return true;
+                }
+
+                // Check if immune due to EEM
+                if (PTarget->getMod(static_cast<Mod>(spell.eem)) <= 5)
+                {
+                    return true;
+                }
+            }
+
+            // Check if mob has JA Autos
+            SpellID PSpell = static_cast<SpellID>(spellId);
+            auto spellData = spell::GetSpell(PSpell);
+
+            if (spellData)
+            {
+                SPELLFAMILY spellFamily = spellData->getSpellFamily();
+
+                if (jaAutosSpellFamilies.count(spellFamily))
+                {
+                    if (((CMobEntity*)PTarget)->getMobMod(MOBMOD_ATTACK_SKILL_LIST) > 0)
+                    {
+                        return true;
+                    }
                 }
             }
         }

@@ -18409,6 +18409,7 @@ INSERT INTO `mob_droplist` VALUES (9059,0,0,1000,15702,240); -- Spagyric nails
 INSERT INTO `mob_droplist` VALUES (9059,0,0,1000,18419,240); -- Kugui
 INSERT INTO `mob_droplist` VALUES (9060,0,0,1000,1618,240); -- (Harajnite) Uragnite Shell
 INSERT INTO `mob_droplist` VALUES (9060,0,0,1000,1719,50); -- Harajnite Shell
+INSERT INTO `mob_droplist` VALUES (9061,0,0,1000,1009,50); -- Jack of Coins
 
 -- free 22, 1665, 2331
 -- free 3170 - 3176

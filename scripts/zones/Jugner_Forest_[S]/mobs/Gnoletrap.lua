@@ -5,6 +5,7 @@
 -----------------------------------
 local ID = require("scripts/zones/Jugner_Forest_[S]/IDs")
 require("scripts/globals/mobs")
+require("scripts/globals/status")
 -----------------------------------
 function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.CAPACITY_BONUS, 200)
