@@ -2366,9 +2366,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 }
 
                 // Check for Enspell
-                // TODO:
-                // Blood weapon / Soul enslavement should be calculated AFTER TakePhysicalDamage and actionTarget.Param should be
-                // set then it should be used instead of finaldmg. other enspells should be calcualted BEFORE still
+                // Enspells that are applied BEFORE damage calc
                 bool isBlocked = actionTarget.reaction == REACTION_BLOCK;
                 if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
                 {
@@ -2377,7 +2375,6 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
                                                    attack.GetDamage());
                     }
-                    battleutils::HandleSpikesDamage(this, PTarget, &actionTarget, attack.GetDamage());
 
                     uint8 enspell = (uint8)this->getMod(Mod::ENSPELL);
 
@@ -2414,6 +2411,18 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         actionTarget.param = -(actionTarget.param);
                         actionTarget.messageID = MSGBASIC_HIT_ABSORBS_HP;
                     }
+                }
+
+                // Enspells that are applied AFTER damage calc (i.e. blood weapon and soul enslavement)
+                // Spikes is also applied after damage calc (For retal, reprisal, reflect(damage spikes) spikes, etc
+                if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
+                {
+                    if (!isBlocked)
+                    {
+                        battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
+                                                   attack.GetDamage(), true);
+                    }
+                    battleutils::HandleSpikesDamage(this, PTarget, &actionTarget, attack.GetDamage());
                 }
             }
 
