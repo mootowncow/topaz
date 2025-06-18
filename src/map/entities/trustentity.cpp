@@ -358,7 +358,7 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
         PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), action.recast);
     }
 
-    if (PTarget && PTarget->isDead())
+    if (PTarget && PTarget->isDead() && PTarget->objtype == TYPE_MOB)
     {
         ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
         ((CMobEntity*)PTarget)->DoAutoTarget();
@@ -604,7 +604,7 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
     StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
     StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
 
-    if (PTarget && PTarget->isDead())
+    if (PTarget && PTarget->isDead() && PTarget->objtype == TYPE_MOB)
     {
         ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
         ((CMobEntity*)PTarget)->DoAutoTarget();
@@ -675,7 +675,7 @@ void CTrustEntity::OnCastFinished(CMagicState& state, action_t& action)
     charutils::RemoveStratagems(this, PSpell);
 
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
-    if (PTarget->isDead())
+    if (PTarget->isDead() && PTarget->objtype == TYPE_MOB)
     {
         ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
         ((CMobEntity*)PTarget)->DoAutoTarget();
@@ -846,7 +846,7 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
     }
 
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
-    if (PTarget->isDead())
+    if (PTarget->isDead() && PTarget->objtype == TYPE_MOB)
     {
         ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
         ((CMobEntity*)PTarget)->DoAutoTarget();
@@ -858,7 +858,7 @@ void CTrustEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     CMobEntity::OnMobSkillFinished(state, action);
 
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
-    if (PTarget->isDead())
+    if (PTarget->isDead() && PTarget->objtype == TYPE_MOB)
     {
         ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
         ((CMobEntity*)PTarget)->DoAutoTarget();

@@ -4407,15 +4407,6 @@ namespace charutils
         }
 
         auto jobLevel = PChar->jobs.job[PChar->GetMJob()];
-
-        // Safety check due to a weird bug I can't figure out with trusts raising players
-        if (PChar->GetLocalVar("jobLevel") > 0)
-        {
-            jobLevel = PChar->GetLocalVar("jobLevel");
-            PChar->jobs.job[PChar->GetMJob()] = PChar->GetLocalVar("jobLevel");
-            PChar->SetLocalVar("jobLevel", 0);
-        }
-
         uint16 currentExp = PChar->jobs.exp[PChar->GetMJob()];
         bool onLimitMode = false;
 

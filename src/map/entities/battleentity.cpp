@@ -2543,7 +2543,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
     if (this->objtype == TYPE_TRUST) // Player pets / Player is done in mobentity/char entity but trust entity does not have an OnAttack override
     {
-        if (PTarget && PTarget->isDead())
+        if (PTarget && PTarget->isDead() && PTarget->objtype == TYPE_MOB)
         {
             ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
             ((CMobEntity*)PTarget)->DoAutoTarget();
