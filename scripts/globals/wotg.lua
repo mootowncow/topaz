@@ -46,8 +46,6 @@ require("scripts/globals/titles")
 -- environmental for eldieme and garlaige
 -- Crawlers Nest [S] chest/coffer still work?
 -- randomEventMimic needs some logic (or wait / while isDead()?) to make sure it doesn't get "stuck" if mimic is in death state and another one is triggered
--- Djinn mixin being ran twice? For dia only? Is TakeSpellDamage() being ran twice for all nukes, or just dia? Or is it the listener?
--- Add Djinn mixin to NMs, search db by their familyId in pools
 
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
@@ -2411,8 +2409,7 @@ local mobFightByMobName =
     end,
 
     ['Barqan'] = function(mob, target)
-    -- Djinn (Djinn mixin)
-    -- Make Djinn mixin, add to all Djinns and this guy and the Djinn trash here 
+    -- Djinn
         local buffCD = mob:getLocalVar("buffCD")
         local stormCD = mob:getLocalVar("stormCD")
         local battleTime = mob:getBattleTime()
