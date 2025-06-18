@@ -1,6 +1,6 @@
 -----------------------------------
--- Area: Sauromugue_Champaign [S]
---  Mob: Gouger Beetle
+-- North Fort Karugo-Narugo [S]
+--  Mob: Ten of Hearts
 -- Note: JP camp
 -----------------------------------
 require("scripts/globals/status")

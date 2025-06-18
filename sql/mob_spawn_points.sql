@@ -25701,7 +25701,7 @@ INSERT INTO `mob_spawn_points` VALUES (17170639,'Goblin_Pioneer','Goblin Pioneer
 INSERT INTO `mob_spawn_points` VALUES (17170640,'Goblin_Mine','Goblin Mine',24,219.3,-47.2,-107.617,197);
 -- INSERT INTO `mob_spawn_points` VALUES (17170641,'Goblin_Pioneer','Goblin Pioneer',23,-282.369,-48.813,301.486,54);
 -- INSERT INTO `mob_spawn_points` VALUES (17170642,'Goblin_Mine','Goblin Mine',24,-314.005,-49.607,381.679,51);
-INSERT INTO `mob_spawn_points` VALUES (17170643,'Goblin_Pioneer','Goblin Pioneer',23,-237.255,-29.272,592.442,243);
+INSERT INTO `mob_spawn_points` VALUES (17170643,'Goblin_Pioneer','Goblin Pioneer',23,-81.72,-35.10,542.09,243);
 INSERT INTO `mob_spawn_points` VALUES (17170644,'Goblin_Mine','Goblin Mine',24,-193.992,-36.399,598.958,205);
 INSERT INTO `mob_spawn_points` VALUES (17170645,'War_Lynx','War Lynx',25,196.055,-36.392,78.259,3);
 INSERT INTO `mob_spawn_points` VALUES (17170646,'Yagudo_Transporter','Yagudo Transporter',26,0,0,0,0);
@@ -25728,6 +25728,16 @@ INSERT INTO `mob_spawn_points` VALUES (17170666,'Pixiebane','Pixiebane',35,0,0,0
 INSERT INTO `mob_spawn_points` VALUES (17171291,'Tipua','Tipua',141,437.2809,-8.9326,183.0303,0);
 INSERT INTO `mob_spawn_points` VALUES (17171292,'Roaming_Bee','Roaming Bee',142,437.2809,-8.9326,183.0303,0);
 
+INSERT INTO `mob_spawn_points` VALUES (17171293, 'Ten_of_Hearts', 'Ten of Hearts', 143, -290.18, -26.98, 634.94, 0);
+INSERT INTO `mob_spawn_points` VALUES (17171294, 'Ten_of_Hearts', 'Ten of Hearts', 143, -290.78, -26.77, 619.54, 0);
+INSERT INTO `mob_spawn_points` VALUES (17171295, 'Ten_of_Hearts', 'Ten of Hearts', 143, -282.22, -28.14, 595.52, 0);
+INSERT INTO `mob_spawn_points` VALUES (17171296, 'Ten_of_Hearts', 'Ten of Hearts', 143, -264.55, -27.26, 597.21, 0);
+INSERT INTO `mob_spawn_points` VALUES (17171297, 'Ten_of_Hearts', 'Ten of Hearts', 143, -261.45, -28.64, 612.54, 0);
+INSERT INTO `mob_spawn_points` VALUES (17171298, 'Ten_of_Hearts', 'Ten of Hearts', 143, -249.30, -28.64, 607.48, 0);
+INSERT INTO `mob_spawn_points` VALUES (17171299, 'Ten_of_Hearts', 'Ten of Hearts', 143, -247.01, -27.85, 598.81, 0);
+INSERT INTO `mob_spawn_points` VALUES (17171300, 'Ten_of_Hearts', 'Ten of Hearts', 143, -238.56, -28.00, 600.78, 0);
+INSERT INTO `mob_spawn_points` VALUES (17171301, 'Ten_of_Hearts', 'Ten of Hearts', 143, -221.25, -32.33, 600.64, 0);
+INSERT INTO `mob_spawn_points` VALUES (17171302, 'Ten_of_Hearts', 'Ten of Hearts', 143, -207.73, -35.64, 600.29, 0);
 
 INSERT INTO `mob_spawn_points` VALUES (17170667,'Kayeel-Payeel','Kayeel-Payeel',37,0,0,0,95);
 INSERT INTO `mob_spawn_points` VALUES (17170668,'Ice_Fiend','Ice Fiend',38,0,0,0,93);
