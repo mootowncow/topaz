@@ -30,6 +30,7 @@ function onMobFight(mob, target)
             mob:useMobAbility(math.random(1124, 1125)) -- Heal MP or HP
         end
     end
+    mob:setMobMod(tpz.mobMod.SKILL_LIST, 174)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
