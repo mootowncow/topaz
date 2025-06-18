@@ -567,6 +567,7 @@ void CParty::AddMember(uint32 id)
         ref<uint32>(data, 0) = m_PartyID;
         ref<uint32>(data, 4) = id;
         message::send(MSG_PT_RELOAD, data, sizeof data, nullptr);
+        ReloadParty();
 
         /*if (PChar->nameflags.flags & FLAG_INVITE)
         {

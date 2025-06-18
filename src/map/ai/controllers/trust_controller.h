@@ -72,6 +72,8 @@ private:
     void PathOutToDistance(CBattleEntity* PTarget, float amount);
 
     bool TrustIsHealing();
+    bool TryCastRaise();
+    bool TryCastUtsusemi();
 
     CBattleEntity* m_LastTopEnmity;
 

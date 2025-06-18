@@ -114,6 +114,7 @@ local modByMobName =
             mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
             mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
             mob:addMod(tpz.mod.HPP, 20)
+            mob:addMod(tpz.mod.ACC, 30)
             mob:addMod(tpz.mod.EVA, 35)
             mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
             mob:addMod(tpz.mod.ENMITY, 30)
@@ -464,7 +465,7 @@ end
 
 tpz.trust.setUpFood = function(mob)
     local job = mob:getMainJob()
-    local isTank = (job == tpz.job.PLD) or (job == tpz.job.NIN) or (job == tpz.job.RUN)
+    local isTank = (job == tpz.job.PLD) or (job == tpz.job.RUN)
     local isRanged = (job == tpz.job.RNG) or (job == tpz.job.COR)
     local isCaster = (job == tpz.job.BLM) or (job == tpz.job.SCH)
     local isSupport = (job == tpz.job.COR) or (job == tpz.job.BRD)
@@ -480,6 +481,8 @@ tpz.trust.setUpFood = function(mob)
         role = 'Caster'
     elseif isHealer then
         role = 'Healer'
+    elseif job == tpz.job.NIN then
+        role = 'Ninja'
     elseif isSupport then
         role = 'Support'
     else
@@ -518,6 +521,12 @@ tpz.trust.setUpFood = function(mob)
 
         Support = {
             { Lvl = 1, Food = tpz.items.PUMPKIN_PIE },
+        },
+
+        Ninja = {
+            { Lvl = 1, Food = tpz.items.SAUSAGE },
+            { Lvl = 30, Food = tpz.items.DHALMEL_STEAK },
+            { Lvl = 50, Food = tpz.items.PLATE_OF_DORADO_SUSHI },
         },
     }
 

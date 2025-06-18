@@ -191,6 +191,10 @@ void CTrustEntity::Spawn()
     this->health.hp = this->GetMaxHP();
     this->health.mp = this->GetMaxMP();
     ((CCharEntity*)PMaster)->pushPacket(new CTrustSyncPacket((CCharEntity*)PMaster, this));
+    if (PMaster && PMaster->PParty)
+    {
+        PMaster->PParty->ReloadParty();
+    }
 }
 
 void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
