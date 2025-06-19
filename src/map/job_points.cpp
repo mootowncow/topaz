@@ -21,6 +21,13 @@
 #include "job_points.h"
 #include "map.h"
 #include "packets/char_spells.h"
+#include "packets/char_update.h"
+#include "packets/char_stats.h"
+#include "packets/char_skills.h"
+#include "packets/char_recast.h"
+#include "packets/char_abilities.h"
+#include "packets/char_job_extra.h"
+#include "packets/char_sync.h"
 #include "utils/charutils.h"
 
 CJobPoints::CJobPoints(CCharEntity* PChar)
@@ -122,6 +129,23 @@ void CJobPoints::RaiseJobPoint(JOBPOINT_TYPE jp_type)
                   JobPointTypeIndex(job_point->id), job_point->value, job->job_points, job->job_points_spent, jp_PChar->id, job->jobid);
 
         jobpointutils::RefreshGiftMods(jp_PChar);
+        charutils::BuildingCharSkillsTable(jp_PChar);
+        charutils::CalculateStats(jp_PChar);
+        charutils::CheckValidEquipment(jp_PChar);
+        charutils::BuildingCharAbilityTable(jp_PChar);
+        charutils::BuildingCharTraitsTable(jp_PChar);
+
+        jp_PChar->UpdateHealth();
+        jp_PChar->addHP(jp_PChar->GetMaxHP());
+        jp_PChar->addMP(jp_PChar->GetMaxMP());
+        jp_PChar->pushPacket(new CCharUpdatePacket(jp_PChar));
+        jp_PChar->pushPacket(new CCharStatsPacket(jp_PChar));
+        jp_PChar->pushPacket(new CCharSkillsPacket(jp_PChar));
+        jp_PChar->pushPacket(new CCharRecastPacket(jp_PChar));
+        jp_PChar->pushPacket(new CCharAbilitiesPacket(jp_PChar));
+        jp_PChar->pushPacket(new CCharJobExtraPacket(jp_PChar, true));
+        jp_PChar->pushPacket(new CCharJobExtraPacket(jp_PChar, true));
+        jp_PChar->pushPacket(new CCharSyncPacket(jp_PChar));
     }
 }
 
