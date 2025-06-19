@@ -4405,31 +4405,30 @@ namespace charutils
         {
             exp = (uint32)(exp * map_config.exp_rate);
         }
-
-        auto jobLevel = PChar->jobs.job[PChar->GetMJob()];
         uint16 currentExp = PChar->jobs.exp[PChar->GetMJob()];
         bool onLimitMode = false;
 
         // Incase player de-levels to 74 on the field
-        if (PChar->MeritMode == true && jobLevel > 74 && expFromRaise == false)
+        if (PChar->MeritMode == true && PChar->jobs.job[PChar->GetMJob()] > 74 && expFromRaise == false)
             onLimitMode = true;
 
-        //we check if the player is level capped and max exp..
-        if (jobLevel > 74 && jobLevel >= PChar->jobs.genkai && PChar->jobs.exp[PChar->GetMJob()] == GetExpNEXTLevel(jobLevel) - 1)
+        // we check if the player is level capped and max exp..
+        if (PChar->jobs.job[PChar->GetMJob()] > 74 && PChar->jobs.job[PChar->GetMJob()] >= PChar->jobs.genkai &&
+            PChar->jobs.exp[PChar->GetMJob()] == GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]) - 1)
             onLimitMode = true;
 
         // exp added from raise shouldn't display a message. Don't need a message for zero exp either
         if (!expFromRaise && exp > 0)
         {
-            //printf("Experience before level penalty %i\n", exp);
-            // Check for level restriction(COP level capped zones)
+            // printf("Experience before level penalty %i\n", exp);
+            //  Check for level restriction(COP level capped zones)
             if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_RESTRICTION))
             {
                 // Reduce experience if the players job is higher level than the level cap restriction
-                if (PChar->StatusEffectContainer->GetStatusEffect(EFFECT_LEVEL_RESTRICTION)->GetPower() < jobLevel)
+                if (PChar->StatusEffectContainer->GetStatusEffect(EFFECT_LEVEL_RESTRICTION)->GetPower() < PChar->jobs.job[PChar->GetMJob()])
                 {
                     exp = (int32)(exp * 0.10f);
-                    //printf("Experience after level penalty %i\n", exp);
+                    // printf("Experience after level penalty %i\n", exp);
                 }
             }
             if (mobCheck >= EMobDifficulty::EvenMatch && isexpchain)
@@ -4465,7 +4464,7 @@ namespace charutils
 
         if (onLimitMode)
         {
-            //add limit points
+            // add limit points
             if (PChar->PMeritPoints->AddLimitPoints(exp))
             {
                 PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CMessageCombatPacket(PChar, PMob, PChar->PMeritPoints->GetMeritPoints(), 0, 50));
@@ -4473,7 +4472,7 @@ namespace charutils
         }
         else
         {
-            //add normal exp
+            // add normal exp
             PChar->jobs.exp[PChar->GetMJob()] += exp;
         }
 
@@ -4482,30 +4481,26 @@ namespace charutils
             REGIONTYPE region = PChar->loc.zone->GetRegionID();
 
             // Should this user be awarded conquest points..
-            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET) &&
-                (region >= REGION_RONFAURE && region <= REGION_JEUNO))
+            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET) && (region >= REGION_RONFAURE && region <= REGION_JEUNO))
             {
                 // Add influence for the players region..
                 conquest::AddConquestPoints(PChar, exp);
             }
 
             // Should this user be awarded imperial standing..
-            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SANCTION) &&
-                (region >= REGION_WEST_AHT_URHGAN && region <= REGION_ALZADAAL))
+            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SANCTION) && (region >= REGION_WEST_AHT_URHGAN && region <= REGION_ALZADAAL))
             {
                 charutils::AddPoints(PChar, "imperial_standing", (int32)(exp * 0.1f));
                 PChar->pushPacket(new CConquestPacket(PChar));
             }
-          
-		  // TEMPORARY: Until we have campaign implemented, allow players
+
+            // TEMPORARY: Until we have campaign implemented, allow players
             // to get allied notes by exping in past zones with sigil.
-            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGIL) &&
-                (region >= REGION_RONFAURE_FRONT && region <= REGION_VALDEAUNIA_FRONT))
+            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGIL) && (region >= REGION_RONFAURE_FRONT && region <= REGION_VALDEAUNIA_FRONT))
             {
                 charutils::AddPoints(PChar, "allied_notes", (int32)(exp * 0.1f));
                 PChar->pushPacket(new CConquestPacket(PChar));
             }
-
 
             // Cruor Drops in Abyssea zones.
             uint16 Pzone = PChar->getZone();
@@ -4517,7 +4512,7 @@ namespace charutils
 
                 if (TextID == 0)
                 {
-                    ShowWarning(CL_YELLOW"Failed to fetch Cruor Message ID for zone: %i\n" CL_RESET, Pzone);
+                    ShowWarning(CL_YELLOW "Failed to fetch Cruor Message ID for zone: %i\n" CL_RESET, Pzone);
                 }
 
                 if (Cruor >= 1)
@@ -4531,11 +4526,11 @@ namespace charutils
         PChar->PAI->EventHandler.triggerListener("EXPERIENCE_POINTS", PChar, exp);
 
         // Player levels up
-        if ((currentExp + exp) >= GetExpNEXTLevel(jobLevel) && !onLimitMode)
+        if ((currentExp + exp) >= GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]) && !onLimitMode)
         {
-            if (jobLevel >= PChar->jobs.genkai)
+            if (PChar->jobs.job[PChar->GetMJob()] >= PChar->jobs.genkai)
             {
-                PChar->jobs.exp[PChar->GetMJob()] = GetExpNEXTLevel(jobLevel) - 1;
+                PChar->jobs.exp[PChar->GetMJob()] = GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]) - 1;
                 if (PChar->PParty && PChar->PParty->GetSyncTarget() == PChar)
                 {
                     PChar->PParty->SetSyncTarget(nullptr, 556);
@@ -4543,17 +4538,16 @@ namespace charutils
             }
             else
             {
-                PChar->jobs.exp[PChar->GetMJob()] -= GetExpNEXTLevel(jobLevel);
-                if (PChar->jobs.exp[PChar->GetMJob()] >= GetExpNEXTLevel(jobLevel + 1))
+                PChar->jobs.exp[PChar->GetMJob()] -= GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]);
+                if (PChar->jobs.exp[PChar->GetMJob()] >= GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()] + 1))
                 {
-                    PChar->jobs.exp[PChar->GetMJob()] = GetExpNEXTLevel(jobLevel + 1) - 1;
+                    PChar->jobs.exp[PChar->GetMJob()] = GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()] + 1) - 1;
                 }
-                jobLevel += 1;
+                PChar->jobs.job[PChar->GetMJob()] += 1;
 
-                if (PChar->m_LevelRestriction == 0 ||
-                    PChar->m_LevelRestriction > PChar->GetMLevel())
+                if (PChar->m_LevelRestriction == 0 || PChar->m_LevelRestriction > PChar->GetMLevel())
                 {
-                    PChar->SetMLevel(jobLevel);
+                    PChar->SetMLevel(PChar->jobs.job[PChar->GetMJob()]);
                     PChar->SetSLevel(PChar->jobs.job[PChar->GetSJob()]);
 
                     jobpointutils::RefreshGiftMods(PChar);
@@ -4597,7 +4591,7 @@ namespace charutils
                 PChar->pushPacket(new CCharJobExtraPacket(PChar, true));
                 PChar->pushPacket(new CCharSyncPacket(PChar));
 
-                PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CMessageCombatPacket(PChar, PMob, jobLevel, 0, 9));
+                PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CMessageCombatPacket(PChar, PMob, PChar->jobs.job[PChar->GetMJob()], 0, 9));
                 PChar->pushPacket(new CCharStatsPacket(PChar));
 
                 luautils::OnPlayerLevelUp(PChar);
