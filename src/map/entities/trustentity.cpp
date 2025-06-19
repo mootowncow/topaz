@@ -180,11 +180,12 @@ void CTrustEntity::Die()
 
 void CTrustEntity::Spawn()
 {
-    //we need to skip CMobEntity's spawn because it calculates stats (and our stats are already calculated)
+    // we need to skip CMobEntity's spawn because it calculates stats (and our stats are already calculated)
     CBattleEntity::Spawn();
     PAI->EventHandler.triggerListener("SPAWN", this);
     luautils::OnMobSpawn(this);
     trustutils::BuildingTrustSkillsTable(this);
+    m_isDead = false;
     // Max [HP/MP] Boost mods
     this->UpdateHealth();
     this->health.tp = 0;
@@ -196,7 +197,6 @@ void CTrustEntity::Spawn()
         PMaster->PParty->ReloadParty();
     }
 }
-
 void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
 {
     auto* PAbility = state.GetAbility();
