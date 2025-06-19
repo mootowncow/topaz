@@ -868,13 +868,13 @@ tpz.effect =
     BEWILDERED_DAZE_3        = 450,
     BEWILDERED_DAZE_4        = 451,
     BEWILDERED_DAZE_5        = 452,
-    DIVINE_CARESS_I          = 453,
+    DIVINE_CARESS_I          = 453, -- Ability buff on caster
     SABOTEUR                 = 454,
     TENUTO                   = 455,
     SPUR                     = 456,
     EFFLUX                   = 457,
     EARTHEN_ARMOR            = 458,
-    DIVINE_CARESS_II         = 459,
+    DIVINE_CARESS_II         = 459, -- Effect immunity Buff granted by divine caress on target
     BLOOD_RAGE               = 460,
     IMPETUS                  = 461,
     CONSPIRATOR              = 462,
@@ -2192,8 +2192,9 @@ tpz.mod =
     AUTO_ELEMENTAL_DELAY    = 1434, -- Reduces the cooldown of your Automatons elemental magic (in seconds)
     AUTO_STANDBACK          = 1435, -- Tells your Automaton to stand back
     ENH_STATUS_BOLTS        = 1436, -- Enhances the additional effect of status bolts. i.e. acid bolts defense down (in percents)
+    ENH_DIVINE_CARESS       = 1437, -- Increases the amount of spells blocked by Divine Caress before it fades
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1437 NEXT
+    -- 1438 NEXT
 }
 
 tpz.latent =

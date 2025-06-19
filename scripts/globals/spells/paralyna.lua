@@ -11,11 +11,5 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    if (target:getStatusEffect(tpz.effect.PARALYSIS) ~= nil) then
-        target:delStatusEffectSilent(tpz.effect.PARALYSIS)
-        spell:setMsg(tpz.msg.basic.MAGIC_REMOVE_EFFECT)
-    else
-        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-    end
-    return tpz.effect.PARALYSIS
+    return doNaSpell(caster, target, spell)
 end

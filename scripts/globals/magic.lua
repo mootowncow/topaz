@@ -389,6 +389,76 @@ function doEnspell(caster, target, spell, effect)
     end
 end
 
+-- TODO: Cursna can remove bane AND doom in 1 cast?
+function doNaSpell(caster, target, spell)
+    local naSpellData =
+    {
+        { Spell = tpz.magic.spell.BLINDNA,     Effects = tpz.effect.BLINDNESS,                                        CheckUnremovable = true  },
+        { Spell = tpz.magic.spell.CURSNA,      Effects = { tpz.effect.DOOM, tpz.effect.CURSE_I, tpz.effect.BANE },    CheckUnremovable = false },
+        { Spell = tpz.magic.spell.PARALYNA,    Effects = tpz.effect.PARALYSIS,                                        CheckUnremovable = true  },
+        { Spell = tpz.magic.spell.POISONA,     Effects = tpz.effect.POISON,                                           CheckUnremovable = true  },
+        { Spell = tpz.magic.spell.SILENA,      Effects = tpz.effect.SILENCE,                                          CheckUnremovable = true  },
+        { Spell = tpz.magic.spell.STONA,       Effects = tpz.effect.PETRIFICATION,                                    CheckUnremovable = false },
+        { Spell = tpz.magic.spell.VIRUNA,      Effects = { tpz.effect.DISEASE, tpz.effect.PLAGUE },                   CheckUnremovable = true  },
+    }
+    local spellId = spell:getID()
+
+    for _, na in ipairs(naSpellData) do
+        if (spellId == na.Spell) then
+
+            -- Determine list of effects to check
+            local effects = na.Effects or { na.Effect }
+            if type(effects) ~= "table" then
+                effects = { effects }
+            end
+
+            -- Now loop over each effect for this spell
+            for _, effectId in ipairs(effects) do
+                if target:hasStatusEffect(effectId) then
+                    if (na.CheckUnremovable) then
+                        local effect = target:getStatusEffect(effectId)
+                        local effectFlags = effect:getFlag()
+                        if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) == 0) then
+                            return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+                        end
+                    end
+
+                    -- Handle Doom (special case)
+                    if (effectId == tpz.effect.DOOM) then
+                        local bonus = caster:getMod(tpz.mod.ENHANCES_CURSNA) + target:getMod(tpz.mod.ENHANCES_CURSNA_RCVD)
+                        local skill = caster:getSkillLevel(tpz.skill.HEALING_MAGIC) + caster:getMod(tpz.mod.HEALING)
+                        local power = (10 + math.floor(skill / 30)) + bonus
+
+                        if (power >= math.random(1, 100)) then
+                            target:delStatusEffectSilent(effectId)
+                            spell:setMsg(tpz.msg.basic.MAGIC_REMOVE_EFFECT)
+                            return effectId
+                        else
+                            return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+                        end
+                    end
+
+                    handleDivineCaress(caster, target, effectId)
+                    target:delStatusEffectSilent(effectId)
+                    spell:setMsg(tpz.msg.basic.MAGIC_REMOVE_EFFECT)
+                    return effectId
+                end
+            end
+        end
+    end
+
+    return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+end
+
+function handleDivineCaress(caster, target, effect)
+    local amountBlocked = 1 + caster:getMod(tpz.mod.ENH_DIVINE_CARESS)
+
+    if caster:hasStatusEffect(tpz.effect.DIVINE_CARESS_I) then
+        target:addStatusEffect(tpz.effect.DIVINE_CARESS_II, effect, 0, 180, 0, amountBlocked, 0)
+        caster:delStatusEffectSilent(tpz.effect.DIVINE_CARESS_I)
+    end
+end
+
 ---------------------------------
 --   getCurePower returns the caster's cure power
 --   getCureFinal returns the final cure amount
