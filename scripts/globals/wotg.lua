@@ -45,6 +45,7 @@ require("scripts/globals/titles")
 -- Code or remove randomEventDefense from both tables
 -- environmental for eldieme and garlaige
 -- Crawlers Nest [S] chest/coffer still work?
+-- Test DMG of djinn TP moves during day/night random times
 -- randomEventMimic needs some logic (or wait / while isDead()?) to make sure it doesn't get "stuck" if mimic is in death state and another one is triggered
 
 tpz = tpz or {}
