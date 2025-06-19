@@ -918,7 +918,7 @@ INSERT INTO `item_basic` VALUES (1005,0,'seven_of_coins','seven_of_coins',1,3277
 INSERT INTO `item_basic` VALUES (1006,0,'eight_of_coins','eight_of_coins',1,32772,36,0,308);
 INSERT INTO `item_basic` VALUES (1007,0,'nine_of_coins','nine_of_coins',1,32772,36,0,438);
 INSERT INTO `item_basic` VALUES (1008,0,'ten_of_coins','ten_of_coins',1,32772,36,0,589);
-INSERT INTO `item_basic` VALUES (1009,0,'jack_of_coins','jack_of_coins',1,4,36,0,750);
+INSERT INTO `item_basic` VALUES (1009,0,'jack_of_coins','jack_of_coins',99,4,36,0,750);
 INSERT INTO `item_basic` VALUES (1010,0,'queen_of_coins','queen_of_coins',1,32772,36,0,918);
 INSERT INTO `item_basic` VALUES (1011,0,'king_of_coins','king_of_coins',1,32772,36,0,1050);
 INSERT INTO `item_basic` VALUES (1012,0,'nue_fang','nue_fang',1,57428,0,0,1300);

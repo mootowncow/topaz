@@ -45,5 +45,7 @@ function onSpellCast(caster, target, spell)
     end
     caster:addHP(damage)
 
+    spell:setMsg(tpz.msg.basic.MAGIC_DRAIN_HP)
+
     return damage
 end

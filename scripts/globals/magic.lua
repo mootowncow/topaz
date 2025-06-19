@@ -3044,7 +3044,9 @@ function doAdditionalEffectDamage(player, target, chance, dmg, statMod, incudeMA
     params.includemab = incudeMAB
 
     if math.random(100) <= chance then
-        dmg = dmg + math.floor(player:getStat(statMod) / 3)
+        if (statMod) then
+            dmg = dmg + math.floor(player:getStat(statMod) / 3)
+        end
         dmg = addBonusesAbility(player, element, target, dmg, params)
         dmg = math.floor(dmg * resist)
         dmg = adjustForTarget(target, dmg, element)
