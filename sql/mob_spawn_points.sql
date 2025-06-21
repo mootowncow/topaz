@@ -11563,13 +11563,13 @@ INSERT INTO `mob_spawn_points` VALUES (16990624,'Vampyr','Vampyr',56,499,-10,227
 INSERT INTO `mob_spawn_points` VALUES (16990234,'Ameretat','Ameretat',13,324,-8,194,127);
 --INSERT INTO `mob_spawn_points` VALUES (16990235,'Ameretat','Ameretat',13,323,-7,231,127);
 INSERT INTO `mob_spawn_points` VALUES (16990236,'Wajaom_Tiger','Wajaom Tiger',14,281,-16,241,127);
---INSERT INTO `mob_spawn_points` VALUES (16990237,'Wajaom_Tiger','Wajaom Tiger',14,269,-18,259,127);
+INSERT INTO `mob_spawn_points` VALUES (16990237,'Wajaom_Tiger','Wajaom Tiger',14,269,-18,259,127);
 --INSERT INTO `mob_spawn_points` VALUES (16990238,'Lesser_Colibri','Lesser Colibri',7,335,-10,256,127);
 INSERT INTO `mob_spawn_points` VALUES (16990239,'Ameretat','Ameretat',13,298,-8,210,127);
 INSERT INTO `mob_spawn_points` VALUES (16990240,'Wajaom_Tiger','Wajaom Tiger',14,258,-18,251,127);
 --INSERT INTO `mob_spawn_points` VALUES (16990241,'Lesser_Colibri','Lesser Colibri',7,307,-10,184,127);
 INSERT INTO `mob_spawn_points` VALUES (16990242,'Wajaom_Tiger','Wajaom Tiger',14,265,-18,241,127);
---INSERT INTO `mob_spawn_points` VALUES (16990243,'Wajaom_Tiger','Wajaom Tiger',14,217,-17,299,127);
+INSERT INTO `mob_spawn_points` VALUES (16990243,'Wajaom_Tiger','Wajaom Tiger',14,217,-17,299,127);
 --INSERT INTO `mob_spawn_points` VALUES (16990244,'Lesser_Colibri','Lesser Colibri',7,279,-7,172,127);
 INSERT INTO `mob_spawn_points` VALUES (16990245,'Wajaom_Tiger','Wajaom Tiger',14,206,-18,299,127);
 INSERT INTO `mob_spawn_points` VALUES (16990625,'Vampyr','Vampyr',56,322,-10,24,127); --Vampyr
@@ -11804,6 +11804,8 @@ INSERT INTO `mob_spawn_points` VALUES (16990474,'Dea','Dea',55,-34,-32,481,221);
 INSERT INTO `mob_spawn_points` VALUES (16990629,'Lividroot_Amooshah','Lividroot Amooshah',57,334,-10,184,129);
 INSERT INTO `mob_spawn_points` VALUES (16990630,'Lividroot_Amooshah','Lividroot Amooshah',58,334,-10,184,129);
 INSERT INTO `mob_spawn_points` VALUES (16990631,'Lividroot_Amooshah','Lividroot Amooshah',59,334,-10,184,129);
+INSERT INTO `mob_spawn_points` VALUES (16990632, 'Wajaom_Tiger', 'Wajaom Tiger', 14, 335.84, -9.73, 233.75, 0);
+INSERT INTO `mob_spawn_points` VALUES (16990633, 'Wajaom_Tiger', 'Wajaom Tiger', 14, 328.37, -11.43, 266.39, 0);
 
 -- ------------------------------------------------------------
 -- Arrapago Reef (Zone 54)
@@ -18575,23 +18577,23 @@ INSERT INTO `mob_spawn_points` VALUES (17101097,'Lamia_Idolater','Lamia Idolater
 INSERT INTO `mob_spawn_points` VALUES (17101098,'Lamia_Idolater','Lamia Idolater',38,-542.428,-4.849,59.084,95);
 INSERT INTO `mob_spawn_points` VALUES (17101099,'Aynu-kaysey','Aynu-kaysey',44,-543.9,-7.282,45.774,155);
 INSERT INTO `mob_spawn_points` VALUES (17101100,'Vauxia_Fly','Vauxia Fly',45,-582.9,-6.006,-24.468,63);
---INSERT INTO `mob_spawn_points` VALUES (17101101,'Vauxia_Fly','Vauxia Fly',45,-573.4,-4.822,-13.538,186);
-INSERT INTO `mob_spawn_points` VALUES (17101102,'Vauxia_Fly','Vauxia Fly',19,-575.0,-5.659,-11.147,207);-- Imp
---INSERT INTO `mob_spawn_points` VALUES (17101103,'Vauxia_Fly','Vauxia Fly',45,-564.5,-2.167,-13.487,6);
+INSERT INTO `mob_spawn_points` VALUES (17101101,'Vauxia_Fly','Vauxia Fly',45,-573.4,-4.822,-13.538,186);
+INSERT INTO `mob_spawn_points` VALUES (17101102,'Vauxia_Fly','Vauxia Fly',45,-575.0,-5.659,-11.147,207);
+INSERT INTO `mob_spawn_points` VALUES (17101103,'Vauxia_Fly','Vauxia Fly',45,-564.5,-2.167,-13.487,6);
 INSERT INTO `mob_spawn_points` VALUES (17101104,'Vauxia_Fly','Vauxia Fly',45,-554.3,2.9079,-45.321,114);
---INSERT INTO `mob_spawn_points` VALUES (17101105,'Vauxia_Fly','Vauxia Fly',45,-556.4,3.1500,-44.845,41);
-INSERT INTO `mob_spawn_points` VALUES (17101106,'Vauxia_Fly','Vauxia Fly',19,-579.6,0.1650,-39.360,202);-- Imp
---INSERT INTO `mob_spawn_points` VALUES (17101107,'Vauxia_Fly','Vauxia Fly',45,-571.3,2.1840,-47.928,132);
-INSERT INTO `mob_spawn_points` VALUES (17101108,'Vauxia_Fly','Vauxia Fly',38,-567.3,2.9969,-45.797,232); -- Lamia Idolater
---INSERT INTO `mob_spawn_points` VALUES (17101109,'Vauxia_Fly','Vauxia Fly',45,-623.1,-0.312,-78.617,79);
+INSERT INTO `mob_spawn_points` VALUES (17101105,'Vauxia_Fly','Vauxia Fly',45,-556.4,3.1500,-44.845,41);
+INSERT INTO `mob_spawn_points` VALUES (17101106,'Vauxia_Fly','Vauxia Fly',45,-579.6,0.1650,-39.360,202);
+INSERT INTO `mob_spawn_points` VALUES (17101107,'Vauxia_Fly','Vauxia Fly',45,-571.3,2.1840,-47.928,132);
+INSERT INTO `mob_spawn_points` VALUES (17101108,'Vauxia_Fly','Vauxia Fly',45,-567.3,2.9969,-45.797,232);
+INSERT INTO `mob_spawn_points` VALUES (17101109,'Vauxia_Fly','Vauxia Fly',45,-623.1,-0.312,-78.617,79);
 INSERT INTO `mob_spawn_points` VALUES (17101110,'Vauxia_Fly','Vauxia Fly',45,-615.9,1.1219,-82.736,227);
---INSERT INTO `mob_spawn_points` VALUES (17101111,'Vauxia_Fly','Vauxia Fly',45,-593.4,1.8849,-72,218);
-INSERT INTO `mob_spawn_points` VALUES (17101112,'Vauxia_Fly','Vauxia Fly',38,-561.2,3.5190,-81.225,239); -- Lamia Idolater
---INSERT INTO `mob_spawn_points` VALUES (17101113,'Vauxia_Fly','Vauxia Fly',45,-568.6,2.6419,-89.797,0); 
-INSERT INTO `mob_spawn_points` VALUES (17101114,'Vauxia_Fly','Vauxia Fly',19,-563.5,1.0970,-96.334,85); -- Imp
---INSERT INTO `mob_spawn_points` VALUES (17101115,'Vauxia_Fly','Vauxia Fly',45,-590.5,2.3699,-107.33,37);
-INSERT INTO `mob_spawn_points` VALUES (17101116,'Vauxia_Fly','Vauxia Fly',38,-606.5,2.4760,-113.32,214); -- Lamia Idolater
---INSERT INTO `mob_spawn_points` VALUES (17101117,'Vauxia_Fly','Vauxia Fly',45,-610.4,1.8129,-117.13,110);
+INSERT INTO `mob_spawn_points` VALUES (17101111,'Vauxia_Fly','Vauxia Fly',45,-593.4,1.8849,-72,218);
+INSERT INTO `mob_spawn_points` VALUES (17101112,'Vauxia_Fly','Vauxia Fly',45,-561.2,3.5190,-81.225,239);
+INSERT INTO `mob_spawn_points` VALUES (17101113,'Vauxia_Fly','Vauxia Fly',45,-568.6,2.6419,-89.797,0); 
+INSERT INTO `mob_spawn_points` VALUES (17101114,'Vauxia_Fly','Vauxia Fly',45,-563.5,1.0970,-96.334,85);
+INSERT INTO `mob_spawn_points` VALUES (17101115,'Vauxia_Fly','Vauxia Fly',45,-590.5,2.3699,-107.33,37);
+INSERT INTO `mob_spawn_points` VALUES (17101116,'Vauxia_Fly','Vauxia Fly',45,-606.5,2.4760,-113.32,214);
+INSERT INTO `mob_spawn_points` VALUES (17101117,'Vauxia_Fly','Vauxia Fly',45,-610.4,1.8129,-117.13,110);
 INSERT INTO `mob_spawn_points` VALUES (17101118,'Lamia_Idolater','Lamia Idolater',38,-540.578,2.241,94.610,195);
 INSERT INTO `mob_spawn_points` VALUES (17101119,'Ephramadian_Shade','Ephramadian Shade',46,-693.6,-8.052,191.863,67);
 --INSERT INTO `mob_spawn_points` VALUES (17101120,'Ephramadian_Shade','Ephramadian Shade',31,-676.3,-5.578,234.160,54);
