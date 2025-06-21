@@ -3,8 +3,9 @@
 -- !gotoid 17772782
 -----------------------------------
 local ID = require("scripts/zones/RuLude_Gardens/IDs")
-require('scripts/globals/magian_data')
-require('scripts/globals/npc_util')
+require("scripts/globals/magian_data")
+require("scripts/globals/npc_util")
+require("scripts/globals/world")
 -----------------------------------
 tpz = tpz or {}
 tpz.magian = tpz.magian or {}
@@ -20,6 +21,101 @@ tpz.magian.moogle =
     BLUE    = 17772782,
     ORANGE  = 17772778,
     GREEN   = 17772784,
+}
+
+local trialConditions =
+{
+    ['Family'] = function(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
+        local mobFamily = mob:getFamily()
+        printf("[Magian] Mob family: %d. Trial requires families: %s", mobFamily, table.concat(trial.mob, ", "))
+
+        for _, familyId in ipairs(trial.mob) do
+            if (mobFamily == familyId) then
+                local kills = player:getCharVar("MagianKills_" .. trialNum) + 1
+                local remainingKills = trial.numRequired - kills 
+                player:setCharVar("MagianKills_" .. trialNum, kills)
+
+                printf("[Magian] Incremented kills for trial %d to %d", trialNum, kills)
+
+                if kills >= trial.numRequired then
+                    player:messageCombat(player, trialNum, 0, tpz.msg.combat.MAGIAN_TRIAL_COMPLETE)
+                    player:setCharVar("MagianTrial_" .. trialNum, tpz.magian.TRIAL_COMPLETED)
+                else
+                    player:messageCombat(player, trialNum, remainingKills, tpz.msg.combat.MAGIAN_TRIAL_PROGRESS)
+                end
+                break
+            end
+        end
+    end,
+
+    ['Pool'] = function(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
+        local mobPool = mob:getPool()
+        printf("[Magian] Mob pool: %d. Trial requires pools: %s", mobPool, table.concat(trial.mob, ", "))
+
+        for _, poolId in ipairs(trial.mob) do
+            if (mobPool == poolId) then
+                local kills = player:getCharVar("MagianKills_" .. trialNum) + 1
+                local remainingKills = trial.numRequired - kills
+                player:setCharVar("MagianKills_" .. trialNum, kills)
+
+                printf("[Magian] Incremented kills for trial %d to %d", trialNum, kills)
+
+                if kills >= trial.numRequired then
+                    player:messageCombat(player, trialNum, 0, tpz.msg.combat.MAGIAN_TRIAL_COMPLETE)
+                    player:setCharVar("MagianTrial_" .. trialNum, tpz.magian.TRIAL_COMPLETED)
+                else
+                    player:messageCombat(player, trialNum, remainingKills, tpz.msg.combat.MAGIAN_TRIAL_PROGRESS)
+                end
+                break
+            end
+        end
+    end,
+
+    ['Species'] = function(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
+        local species = mob:getSystem()
+    end,
+
+    ['Name'] = function(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
+        local name = mob:getName()
+    end,
+
+    ['DayWeather'] = function(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
+        local weather = player:getWeather()
+    end,
+
+    ['Elemental'] = function(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
+    end,
+
+    ['Enfeebled'] = function(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
+        local effect = trial.Effect
+        if mob:hasStatusEffect(trial.Effect) then
+            -- do stuff
+        end
+    end,
+
+    ['Effect'] = function(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
+        -- How to do this? Need a listener to applying effects...?
+        -- spell:takeEffect() somewhere for spells (where CE/VE is done) in C++
+        -- or in magic.lua bluemagic.lua TryApplyEffect / BLUTryApplyEffect?
+    end
+}
+
+local trialListeners =
+{
+    ['WeaponSkill'] = function(player, trialNum, trial)
+        player:addListener("WEAPONSKILL_USE", "MAGIAN_USE_WS", function(player, target, wsId)
+        end)
+    end,
+
+    ['WSDamage'] = function(player, trialNum, trial)
+        player:addListener("WEAPONSKILL_USE", "MAGIAN_WS_DAMAGE", function(player, target, wsId)
+        end)
+    end,
+
+    ['ExperiencePoints'] = function(player, trialNum, trial)
+        player:addListener("EXPERIENCE_POINTS", "MAGIAN_GAIN_EXP", function(player, exp)
+        end)
+    end
 }
 
 -- Builds the table of what trials to add when trading an item + starter item
@@ -38,9 +134,28 @@ tpz.magian.onGameIn = function()
         end
 
         -- Build startableTrials for Kills trials (no trade item)
-        if trial.mainItem and trial.type == 'Kills' then
+        if trial.mainItem and trial.type == 'Kills' and trial.previousTrial == 0 then
             tpz.magian.startableTrials[trial.mainItem] = tpz.magian.startableTrials[trial.mainItem] or {}
             tpz.magian.startableTrials[trial.mainItem][0] = trialNumber
+        end
+    end
+end
+
+tpz.magian.registerListeners = function(player)
+    -- Remove any existing Magian listeners for this player to avoid duplicates
+    player:removeListener("MAGIAN_USE_WS")
+    player:removeListener("MAGIAN_WS_DAMAGE")
+    player:removeListener("MAGIAN_GAIN_EXP")
+
+    local activeTrials = tpz.magian.getActiveMagianTrials(player)
+
+    for trialNum, data in pairs(activeTrials) do
+        local trial = tpz.magian.trialDataById[trialNum]
+        if trial and (trial.type == 'Kills') then
+            local listeners = trialListeners[trial.killType]
+            if listeners then
+                listeners(player, trialNum, trial)
+            end
         end
     end
 end
@@ -48,7 +163,7 @@ end
 tpz.magian.magianOnTrigger = function(player, npc, trade)
     local npc        = player:getEventTarget()
     local moogleData = magianMoogleInfo[npc:getName()]
-    local moogle = npc:getName()
+    local moogle     = npc:getName()
 
     if
         moogleData[1] and
@@ -85,27 +200,51 @@ tpz.magian.magianOnEventFinish = function(player, csid, option)
 end
 
 tpz.magian.magianOnTrade = function(player, npc, trade)
+    printf("[Magian] onTrade called for player %s", player:getName())
+
     if not player:hasKeyItem(tpz.ki.MAGIAN_TRIAL_LOG) then
+        printf("[Magian] Player missing Magian Trial Log KI.")
         return
     end
 
     if trade:getSlotCount() == 0 then
         player:messageSpecial(ID.text.FULL_INVENTORY_AFTER_TRADE)
+        printf("[Magian] Trade had no slots.")
         return
     end
 
     local tradedItem = trade:getItem()
-    if not tradedItem then return end
+    if not tradedItem then
+        printf("[Magian] No traded item found.")
+        return
+    end
 
     local mainItemId = tradedItem:getID()
     local currentTrial = tradedItem:getTrialNumber()
+    printf("[Magian] Item ID: %d, Trial Number: %d", mainItemId, currentTrial)
 
     -- Check if starting a new Items trial
     if tpz.magian.startableTrials[mainItemId] then
         for tradeItemId, trialNumber in pairs(tpz.magian.startableTrials[mainItemId]) do
             local trial = tpz.magian.trials[trialNumber]
+            printf("[Magian] Checking startable Items trial %d for mainItemId %d", trialNumber, mainItemId)
+
             if trial and trial.type == 'Items' then
+                -- Previous trial check
+                if trial.previousTrial > 0 and (player:getCharVar("MagianTrial_" .. trial.previousTrial) ~= tpz.magian.TRIAL_COMPLETED) then
+                    printf("[Magian] Previous trial %d not complete.", trial.previousTrial)
+                    player:PrintToPlayer("You have not completed the previous trial, kupo!", 0, "Magian Moogle")
+                    return true
+                end
+
+                -- Already completed trial check
+                if player:getCharVar("MagianTrial_" .. trialNumber) == tpz.magian.TRIAL_COMPLETED then
+                    printf("[Magian] Trial %d already completed, skipping.", trialNumber)
+                    goto continueItemTrialLoop
+                end
+
                 if npcUtil.tradeHas(trade, {mainItemId, tradeItemId}) and (currentTrial == 0) then
+                    printf("[Magian] Starting Items trial %d", trialNumber)
                     player:confirmTrade()
                     player:addItem(mainItemId, 1, 0, 0, 0, 0, 0, 0, 0, 0, trialNumber)
                     player:messageSpecial(ID.text.MAGIAN_TRIAL_STARTED, tpz.ki.MAGIAN_TRIAL_LOG)
@@ -113,20 +252,57 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
                     return
                 end
             end
+            ::continueItemTrialLoop::
         end
     end
 
-    -- Check if starting a new Kills trial (weapon only)
+    -- Check if starting a new Kills trial
     if tpz.magian.startableTrials[mainItemId] then
         for tradeItemId, trialNumber in pairs(tpz.magian.startableTrials[mainItemId]) do
             local trial = tpz.magian.trials[trialNumber]
+            printf("[Magian] Checking startable Kills trial %d for mainItemId %d", trialNumber, mainItemId)
+
             if trial and trial.type == 'Kills' then
+                -- Previous trial check
+                if trial.previousTrial > 0 and (player:getCharVar("MagianTrial_" .. trial.previousTrial) ~= tpz.magian.TRIAL_COMPLETED) then
+                    printf("[Magian] Previous trial %d not complete.", trial.previousTrial)
+                    player:PrintToPlayer("You have not completed the previous trial, kupo!", 0, "Magian Moogle")
+                    return true
+                end
+
+                -- Already completed trial check
+                if player:getCharVar("MagianTrial_" .. trialNumber) == tpz.magian.TRIAL_COMPLETED then
+                    printf("[Magian] Trial %d already completed, skipping.", trialNumber)
+                    goto continueKillsTrialLoop
+                end
+
                 if npcUtil.tradeHas(trade, {mainItemId}) and (currentTrial == 0) then
+                    printf("[Magian] Starting Kills trial %d", trialNumber)
                     player:confirmTrade()
                     player:addItem(mainItemId, 1, 0, 0, 0, 0, 0, 0, 0, 0, trialNumber)
                     player:messageSpecial(ID.text.MAGIAN_TRIAL_STARTED, tpz.ki.MAGIAN_TRIAL_LOG)
                     player:setCharVar("MagianTrial_" .. trialNumber, tpz.magian.TRIAL_ACCEPTED)
                     return
+                end
+            end
+            ::continueKillsTrialLoop::
+        end
+    end
+
+    -- Now, separately check for follow-up eligible Kills trials that are not in startableTrials
+    for trialNumber, trial in pairs(tpz.magian.trials) do
+        if trial.mainItem == mainItemId and trial.type == 'Kills' then
+            if trial.previousTrial > 0 and player:getCharVar("MagianTrial_" .. trial.previousTrial) == tpz.magian.TRIAL_COMPLETED then
+                if player:getCharVar("MagianTrial_" .. trialNumber) ~= tpz.magian.TRIAL_COMPLETED then
+                    printf("[Magian] Eligible for next trial %d after %d", trialNumber, trial.previousTrial)
+                    if npcUtil.tradeHas(trade, {mainItemId}) and (currentTrial == 0) then
+                        printf("[Magian] Starting follow-up Kills trial %d", trialNumber)
+                        player:confirmTrade()
+                        player:addItem(mainItemId, 1, 0, 0, 0, 0, 0, 0, 0, 0, trialNumber)
+                        player:messageSpecial(ID.text.MAGIAN_TRIAL_STARTED, tpz.ki.MAGIAN_TRIAL_LOG)
+                        player:setCharVar("MagianTrial_" .. trialNumber, tpz.magian.TRIAL_ACCEPTED)
+                        return
+                    end
                 end
             end
         end
@@ -134,21 +310,28 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
 
     -- If item has an active trial, attempt to process it
     if currentTrial > 0 then
+        printf("[Magian] Processing existing trial %d", currentTrial)
         local trial = tpz.magian.trialDataById[currentTrial]
         if trial then
             local handler = magianTrials[trial.type]
             local callWrapper = magianTrials.Call[trial.type]
             if handler and callWrapper then
+                printf("[Magian] Found handler for trial type %s", trial.type)
                 local handled = callWrapper(handler, player, npc, trade, trial, currentTrial)
-                if handled then return end
+                if handled then
+                    printf("[Magian] Trial %d handled successfully.", currentTrial)
+                    return
+                end
             end
         end
     end
 
-    -- Fallback message
+    -- Fallback messages
     if (currentTrial == 0) then
+        printf("[Magian] No trial found on item.")
         player:messageSpecial(ID.text.MAGIAN_NO_TRIAL)
     else
+        printf("[Magian] Trial %d is still active.", currentTrial)
         player:messageSpecial(ID.text.MAGIAN_TRIAL_ACTIVE)
     end
 end
@@ -163,7 +346,7 @@ tpz.magian.IsValidReward = function(player, npc, trade, rewardItem)
     return true
 end
 
-tpz.magian.checkMagianTrial = function (player, mob)
+tpz.magian.checkMagianTrial = function (player, mob, isKiller, isWeaponSkillKill)
     printf("[Magian] Checking Magian Trials for player %s", player:getName())
 
     local activeTrials = tpz.magian.getActiveMagianTrials(player)
@@ -172,33 +355,15 @@ tpz.magian.checkMagianTrial = function (player, mob)
     for trialNum, data in pairs(activeTrials) do
         printf("[Magian] Checking trial %d (itemId: %d in slot %d)", trialNum, data.itemId, data.slot)
         local trial = tpz.magian.trialDataById[trialNum]
-        if trial and trial.type == 'Kills' then
+        if trial and (trial.type == 'Kills') then
             printf("[Magian] Trial %d is a Kills trial of type %s", trialNum, trial.killType)
 
-            if trial.killType == 'Family' then
-                local mobFamily = mob:getFamily()
-                printf("[Magian] Mob family: %d. Trial requires families: %s", mobFamily, table.concat(trial.mob, ", "))
+            local conditions = trialConditions[trial.killType]
 
-                for _, familyId in ipairs(trial.mob) do
-                    if mobFamily == familyId then
-                        -- Increment progress
-                        local kills = player:getCharVar("MagianKills_" .. trialNum)
-                        kills = kills + 1
-                        local remainingKills = trial.numRequired - kills
-                        player:setCharVar("MagianKills_" .. trialNum, kills)
-
-                        printf("[Magian] Incremented kills for trial %d to %d", trialNum, kills)
-
-                        -- Check for completion
-                        if (kills >= trial.numRequired) then
-                            player:messageCombat(player, trialNum, 0, tpz.msg.combat.MAGIAN_TRIAL_COMPLETE)
-                            player:setCharVar("MagianTrial_" .. trialNum, tpz.magian.TRIAL_COMPLETED)
-                        else
-                            player:messageCombat(player, trialNum, remainingKills, tpz.msg.combat.MAGIAN_TRIAL_PROGRESS)
-                        end
-                        break
-                    end
-                end
+            if conditions then
+                conditions(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
+            else
+                printf("[Magian] No handler for killType: %s", trial.killType)
             end
         end
     end
@@ -222,7 +387,7 @@ tpz.magian.getActiveMagianTrials = function(player)
                 }
             end
         else
-            printf("[Magian] Slot %d is empty.", slot)
+            -- printf("[Magian] Slot %d is empty.", slot)
         end
     end
 
@@ -263,17 +428,21 @@ magianTrials.Items = function(player, npc, trade, trial, trialNumber)
 end
 
 magianTrials.Kills = function(player, npc, trade, trial, trialNumber)
-    -- Previous trial check
-    if trial.previousTrial > 0 and (player:getCharVar("MagianTrial_"..trial.previousTrial) ~= tpz.magian.TRIAL_COMPLETED) then
+    printf("[Magian] Processing Kills trial %d", trialNumber)
+
+    if trial.previousTrial > 0 and (player:getCharVar("MagianTrial_" .. trial.previousTrial) ~= tpz.magian.TRIAL_COMPLETED) then
+        printf("[Magian] Previous trial %d not complete.", trial.previousTrial)
         player:PrintToPlayer("You have not completed the previous trial, kupo!", 0, "Magian Moogle")
         return true
     end
 
-    -- Check active trial
     if npcUtil.tradeHas(trade, { trial.mainItem }) then
         local killsDone = player:getCharVar("MagianKills_" .. trialNumber)
-        if (killsDone >= trial.numRequired) then
+        printf("[Magian] Player has %d/%d kills.", killsDone, trial.numRequired)
+
+        if killsDone >= trial.numRequired then
             if tpz.magian.IsValidReward(player, npc, trade, trial.rewardItem.itemId) then
+                printf("[Magian] Player eligible for reward %d", trial.rewardItem.itemId)
                 local flatAugments = {}
                 for _, augPair in ipairs(trial.rewardItem.itemAugments) do
                     for _, val in ipairs(augPair) do
@@ -288,11 +457,15 @@ magianTrials.Kills = function(player, npc, trade, trial, trialNumber)
                 player:messageSpecial(ID.text.MAGIAN_TRIAL_COMPLETE, trial.rewardItem.itemId)
                 player:messageSpecial(ID.text.ITEM_OBTAINED, trial.rewardItem.itemId)
             else
+                printf("[Magian] Player already has reward %d", trial.rewardItem.itemId)
                 player:messageSpecial(ID.text.MAGIAN_ALREADY_HAVE_ITEM, trial.rewardItem.itemId)
             end
             return true
+        else
+            printf("[Magian] Not enough kills for trial %d", trialNumber)
         end
     end
+
     return false
 end
 

@@ -144,6 +144,7 @@ function onGameIn(player, firstLogin, zoning)
         end
 
         tpz.magian.onGameIn()
+        tpz.magian.registerListeners(player)
     else
         -- things checked ONLY during zone in go here
     end

@@ -13,6 +13,7 @@ require("scripts/globals/roe")
 require("scripts/globals/world")
 require("scripts/globals/mob_skills")
 require("scripts/globals/mob_family")
+require("scripts/globals/mob_pool")
 require("scripts/globals/znm")
 require("scripts/globals/magian")
 -----------------------------------
@@ -46,7 +47,7 @@ function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill)
     end
 
     tpz.znm.OnMobDeath(mob, player, isKiller, isWeaponSkillKill)
-    tpz.magian.checkMagianTrial(player, mob)
+    tpz.magian.checkMagianTrial(player, mob, isWeaponSkillKill)
 end
 
 -------------------------------------------------

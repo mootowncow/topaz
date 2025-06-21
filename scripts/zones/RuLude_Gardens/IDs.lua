@@ -58,6 +58,7 @@ zones[tpz.zone.RULUDE_GARDENS] =
         YOU_HAND_THE_THREE_SLIVERS       = 13740, -- You hand the three crystal slivers to Esha'ntarl.
         MAGIAN_NO_TRIAL                  = 14619, -- Uh, I don't think there are any trials for that item
         MAGIAN_TRIAL_STARTED             = 14611, -- Your <tpz.ki.MAGIAN_TRIAL_LOG (key item only)> is now recording the progress of your trial!
+        MAGIAN_ALREADY_HAVE_TRIAL        = 14615, -- Uh, I think you're already doing that trial? Atama daijoubu?
         MAGIAN_TRIAL_ACTIVE              = 14618, -- Tsumari, you have to finish or cancel one of your current trials before taking on a new one.
         --Doesn't work? MAGIAN_ALREADY_DOING_TRIAL       = 14621, -- Yo. You're already doing Trial <trial> for that <item>. You can't do more than one trial for the same item. That's just not the way it's done.
         MAGIAN_ALREADY_HAVE_ITEM         = 14636, -- Uh, you've already got <item>. Dakara, you'll have to get rid of it before you get another.

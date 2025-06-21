@@ -1,8 +1,7 @@
 -----------------------------------
 -- Magian Trial Data
 -----------------------------------
-require('scripts/globals/status')
-require('scripts/globals/mob_family')
+require("scripts/globals/status")
 -----------------------------------
 tpz = tpz or {}
 tpz.magian = tpz.magian or {}
@@ -17,15 +16,19 @@ tpz.magian = tpz.magian or {}
 -- ORCUS_MANDIBLE is only used for OAT staff...add to more?
 
 tpz.magian.TRIAL_AVAILABLE = 0
-tpz.magian.TRIAL_ACCEPTED    = 1
+tpz.magian.TRIAL_ACCEPTED  = 1
 tpz.magian.TRIAL_COMPLETED = 2
 
--- Kills
--- family
+-- Kills:
+-- Family
 -- Species
 -- Pool
 -- During weather / day
 -- With x weaponskill
+-- With x elemental damage
+-- Pet Kills
+-- While enemy is under x status effect
+-- Specific name (NM kills)
 
 tpz.magian.trials = {
     [1] = {
@@ -334,14 +337,14 @@ tpz.magian.trials = {
         },
     },
 
-    [1000] = {
+    [1001] = {
         mainItem      = tpz.items.HEAVY_MANTLE,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 0,
+        previousTrial = 1000,
         textOffset    = 1,
         killType      = 'Family',
-        mob           = { tpz.mob.family.MAMOOLJA, tpz.mob.family.MAMOOLJAKNIGHT, tpz.mob.family.MAMOOLJA_SWORD },
+        mob           = { tpz.mob.family.TROLL, tpz.mob.family.TROLLGURFURLUR, tpz.mob.family.TROLL_EXCAVATIONDUTY },
         numRequired   = 5000,
         rewardItem    = {
             itemId       = tpz.items.HEAVY_MANTLE,
@@ -371,6 +374,25 @@ tpz.magian.trials = {
         },
     },
 
+    [1051] = {
+        mainItem      = tpz.items.TIGER_MANTLE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1050,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.TROLL, tpz.mob.family.TROLLGURFURLUR, tpz.mob.family.TROLL_EXCAVATIONDUTY },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.TIGER_MANTLE,
+            itemAugments = {
+                { tpz.augments.ACC, 12 },
+                { tpz.augments.ATTK, 12 },
+                { tpz.augments.STR, 2 },
+            },
+        },
+    },
+
     [1100] = {
         mainItem      = tpz.items.RAPTOR_MANTLE,
         tradeItem     = tpz.items.NONE,
@@ -389,6 +411,25 @@ tpz.magian.trials = {
         },
     },
 
+    [1101] = {
+        mainItem      = tpz.items.RAPTOR_MANTLE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1100,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.TROLL, tpz.mob.family.TROLLGURFURLUR, tpz.mob.family.TROLL_EXCAVATIONDUTY },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.RAPTOR_MANTLE,
+            itemAugments = {
+                { tpz.augments.RACC, 12 },
+                { tpz.augments.RATTK, 12 },
+                { tpz.augments.STR, 2 },
+            },
+        },
+    },
+
     [1150] = {
         mainItem      = tpz.items.GREEN_CAPE,
         tradeItem     = tpz.items.NONE,
@@ -402,7 +443,26 @@ tpz.magian.trials = {
             itemId       = tpz.items.GREEN_CAPE,
             itemAugments = {
                 { tpz.augments.MP, 50 },
-                { tpz.augments.ENMITY_MINUS, 5 },
+                { tpz.augments.CURE_POTENCY, 5 },
+            },
+        },
+    },
+
+    [1151] = {
+        mainItem      = tpz.items.GREEN_CAPE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1150,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.TROLL, tpz.mob.family.TROLLGURFURLUR, tpz.mob.family.TROLL_EXCAVATIONDUTY },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.GREEN_CAPE,
+            itemAugments = {
+                { tpz.augments.MP, 75 },
+                { tpz.augments.CURE_POTENCY, 5 },
+                { tpz.augments.CONSERVE_MP, 5 },
             },
         },
     },
@@ -421,6 +481,25 @@ tpz.magian.trials = {
             itemAugments = {
                 { tpz.augments.MACC, 3 },
                 { tpz.augments.MATT, 3 },
+            },
+        },
+    },
+
+    [1201] = {
+        mainItem      = tpz.items.COTTON_CAPE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1200,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.TROLL, tpz.mob.family.TROLLGURFURLUR, tpz.mob.family.TROLL_EXCAVATIONDUTY },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.COTTON_CAPE,
+            itemAugments = {
+                { tpz.augments.MACC, 4 },
+                { tpz.augments.MATT, 4 },
+                { tpz.augments.INT, 2 },
             },
         },
     },
