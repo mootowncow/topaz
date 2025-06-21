@@ -3965,6 +3965,8 @@ inline int32 CLuaBaseEntity::hasItem(lua_State *L)
 *  Purpose : Adds an item to a player's inventory
 *  Example : player:addItem(4102,12) -- a stack of Light Crystals
 *  Notes   : See format and variable options below
+*  Example: player:addItem(tpz.items.CAPE, 1, 0, 0, 0, 0, 0, 0, 0, 0, 24) Trial 24
+*  Example: player:addItem(tpz.items.CAPE, 1 1 1 1 1 1 1 1 1 1 1) Full augments
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::addItem(lua_State *L)
@@ -4145,7 +4147,7 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
                         ((CItemEquipment*)PItem)->setAugment(3, augment3, augment3val);
                     if (augment4 != 0)
                         ((CItemEquipment*)PItem)->setAugment(4, augment4, augment4val);
-                    if (augment0 != 0)
+                    if (trialNumber != 0)
                         ((CItemEquipment*)PItem)->setTrialNumber(trialNumber);
                 }
                 SlotID = charutils::AddItem(PChar, LOC_INVENTORY, PItem, silence);
@@ -4569,6 +4571,7 @@ inline int32 CLuaBaseEntity::getFreeSlotsCount(lua_State *L)
 *  Purpose : Completes a trade and takes ONLY confirmed items
 *  Example : player:confirmTrade()
 *  Notes   : Must use trade:confirmItem(slotID) first
+*  Notes    : ALWAYS use with npcutil.TradeHas()!
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::confirmTrade(lua_State* L)
@@ -4606,7 +4609,7 @@ inline int32 CLuaBaseEntity::confirmTrade(lua_State* L)
 *  Function: tradeComplete()
 *  Purpose : Completes trade and removes all items in trade container
 *  Example : player:tradeComplete()
-*  Notes   :
+*  Notes   : NEVER USE! TAKES ALL ITEMS FROM THE TRADE WINDOW! EVEN ONES NOT NEEDED FOR THE TRADE!
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::tradeComplete(lua_State* L)

@@ -9,6 +9,7 @@ tpz = tpz or {}
 
 tpz.items =
 {
+    NONE = 0,
     PILE_OF_CHOCOBO_BEDDING = 1,
     SIMPLE_BED = 2,
     OAK_BED = 3,
@@ -8940,6 +8941,7 @@ tpz.items =
     SARCENET_CAPE = 13643,
     MIDNIGHT_CAPE = 13644,
     AMEMET_MANTLE = 13645,
+    AMEMET_MANTLE_HQ = 13646,
     SETTLERS_CAPE = 13647,
     GIGANT_MANTLE = 13648,
     TAFFETA_CAPE = 13649,

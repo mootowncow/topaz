@@ -386,6 +386,16 @@ tpz.msg.basic =
 }
 
 ------------------------------------
+-- Combat Messages
+------------------------------------
+tpz.msg.combat =
+{
+    -- Magian trials
+    MAGIAN_TRIAL_PROGRESS = 583, -- Trial <id>: <number> objectives remain.
+    MAGIAN_TRIAL_COMPLETE = 584, -- You have completed Trial <id>. Report your success to a Magian Moogle.
+}
+
+------------------------------------
 -- System Messages
 ------------------------------------
 
