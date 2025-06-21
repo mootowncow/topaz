@@ -30,7 +30,8 @@ function onTrigger(player, target)
 
     -- Define spell ID ranges to delete
     local ranges = {
-        {86, 92},    -- Bar spells
+        {66, 71},    -- Bar element spells
+        {86, 92},    -- Bar resist spells
         {7, 13},     -- Curaga spells, Raise, Raise II
         {14, 20},    -- -Na spells
         {125, 135},  -- Protectra / Shellra / Reraise
