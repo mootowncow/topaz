@@ -13660,11 +13660,11 @@ INSERT INTO `mob_groups` VALUES (8,1705,212,'Goblin_Reaper',330,0,6014,0,0,46,49
 INSERT INTO `mob_groups` VALUES (9,1901,212,'Hawker',330,0,142,0,0,45,48,0);
 INSERT INTO `mob_groups` VALUES (10,1632,212,'Goblinsavior_Heronox',3600,0,1012,5000,0,50,52,0);
 INSERT INTO `mob_groups` VALUES (11,2491,212,'Makara',330,0,1581,0,0,46,49,0);
-INSERT INTO `mob_groups` VALUES (12,3375,212,'Robber_Crab',330,0,2111,0,0,65,68,0);
-INSERT INTO `mob_groups` VALUES (13,1687,212,'Goblin_Mercenary',330,0,1114,0,0,65,68,0);
-INSERT INTO `mob_groups` VALUES (14,1634,212,'Goblin_Alchemist',330,0,1015,0,0,65,68,0);
-INSERT INTO `mob_groups` VALUES (15,1711,212,'Goblin_Shepherd',330,0,1156,0,0,65,68,0);
-INSERT INTO `mob_groups` VALUES (16,1728,212,'Goblins_Leech',0,128,0,0,0,64,64,0);
+INSERT INTO `mob_groups` VALUES (12,3375,212,'Robber_Crab',330,0,2111,0,0,64,66,0);
+INSERT INTO `mob_groups` VALUES (13,1687,212,'Goblin_Mercenary',330,0,1114,0,0,64,66,0);
+INSERT INTO `mob_groups` VALUES (14,1634,212,'Goblin_Alchemist',330,0,1015,0,0,64,66,0);
+INSERT INTO `mob_groups` VALUES (15,1711,212,'Goblin_Shepherd',330,0,1156,0,0,64,66,0);
+INSERT INTO `mob_groups` VALUES (16,1728,212,'Goblins_Leech',0,128,0,0,0,62,62,0);
 INSERT INTO `mob_groups` VALUES (17,4390,212,'Wyvernpoacher_Drachlox',3600,0,2680,17000,0,73,75,0);
 INSERT INTO `mob_groups` VALUES (18,1085,212,'Doom_Soldier',330,0,686,0,0,65,67,0);
 INSERT INTO `mob_groups` VALUES (19,1083,212,'Doom_Mage',330,0,680,0,0,65,67,0);
@@ -13731,6 +13731,8 @@ INSERT INTO `mob_groups` VALUES (36,1641,213,'Goblin_Bouncer',330,0,1029,0,0,55,
 INSERT INTO `mob_groups` VALUES (37,1677,213,'Goblin_Hunter',330,0,1095,0,0,55,58,0);
 INSERT INTO `mob_groups` VALUES (38,1654,213,'Goblin_Enchanter',330,0,1049,0,0,55,58,0);
 INSERT INTO `mob_groups` VALUES (39,2775,213,'Mushussu',330,0,1757,0,0,55,57,0); -- higher lvl group
+INSERT INTO `mob_groups` VALUES (40,71,213,'Air_Elemental',330,4,38,0,0,75,77,0); -- higher lvl group
+INSERT INTO `mob_groups` VALUES (41,4309,213,'Water_Elemental',330,4,2629,0,0,75,77,0); -- higher lvl group
 
 INSERT INTO `mob_groups` VALUES (10168,3992,213,'Treasure_Chest',0,0,0,0,0,0,0,0);
 

@@ -2,6 +2,7 @@
 -- Area: Gustav Tunnel
 --   NM: Wyvernpoacher Drachlox
 mixins = {require("scripts/mixins/job_special")}
+require("scripts/globals/status")
 -----------------------------------
 function onMobSpawn(mob)
     mob:addMod(tpz.mod.ATTP, 25)
@@ -13,6 +14,8 @@ function onMobSpawn(mob)
     mob:addImmunity(tpz.immunity.LIGHTSLEEP) 
     mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
     mob:setMobMod(tpz.mobMod.MUG_GIL, 4300)
+    mob:setMobMod(tpz.mobMod.NO_AGGRO, 1)
+    mob:setMobMod(tpz.mobMod.NO_LINK, 1)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
