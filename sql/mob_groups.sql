@@ -4181,7 +4181,7 @@ INSERT INTO `mob_groups` VALUES (41,6674,79,'Lamia_Toxophilite',330,0,1495,0,0,8
 INSERT INTO `mob_groups` VALUES (42,2326,79,'Lamia_Chaukidar',330,0,1486,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (43,6672,79,'Lamia_Necromancer',330,0,22,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (44,5206,79,'Aynu-Kaysey',7200,0,2936,20000,5000,82,82,0);
-INSERT INTO `mob_groups` VALUES (45,5337,79,'Vauxia_Fly',330,0,2310,0,0,76,78,0);
+INSERT INTO `mob_groups` VALUES (45,5337,79,'Vauxia_Fly',330,0,2310,0,0,71,73,0);
 INSERT INTO `mob_groups` VALUES (46,5203,79,'Ephramadian_Shade',330,0,2878,0,0,75,77,0);
 INSERT INTO `mob_groups` VALUES (47,2330,79,'Lamia_Deathdancer',0,128,0,0,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (48,916,79,'Dark_Rider',0,128,0,0,0,95,95,0);
