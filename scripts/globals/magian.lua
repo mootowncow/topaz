@@ -6,6 +6,7 @@ local ID = require("scripts/zones/RuLude_Gardens/IDs")
 require("scripts/globals/magian_data")
 require("scripts/globals/npc_util")
 require("scripts/globals/world")
+require("scripts/globals/item_utils")
 -----------------------------------
 tpz = tpz or {}
 tpz.magian = tpz.magian or {}
@@ -297,8 +298,23 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
                     printf("[Magian] Eligible for next trial %d after %d", trialNumber, trial.previousTrial)
                     if npcUtil.tradeHas(trade, {mainItemId}) and (currentTrial == 0) then
                         printf("[Magian] Starting follow-up Kills trial %d", trialNumber)
+                        local tradedItem = trade:getItem()
+                        local augments = tpz.itemUtils.GetItemAugments(tradedItem) -- Get augments currently on items to readd later
+
+                        -- Make sure augments are sorted or placed by slot index 0-4 in order
+                        local augTable = {}
+                        for i = 0, 4 do
+                            augTable[i+1] = {id=0, value=0}
+                        end
+                        for _, aug in ipairs(augments) do
+                            augTable[aug.slot + 1] = {id = aug.id, value = aug.value}
+                        end
+
+                        local addItemArgs = tpz.itemUtils.BuildAddItemArgs(augTable, trialNumber) -- Stored augments to readd
+                        printf("[AddItemArgs] %s", table.concat(addItemArgs, ", "))
+
                         player:confirmTrade()
-                        player:addItem(mainItemId, 1, 0, 0, 0, 0, 0, 0, 0, 0, trialNumber)
+                        player:addItem(mainItemId, 1, unpack(addItemArgs))
                         player:messageSpecial(ID.text.MAGIAN_TRIAL_STARTED, tpz.ki.MAGIAN_TRIAL_LOG)
                         player:setCharVar("MagianTrial_" .. trialNumber, tpz.magian.TRIAL_ACCEPTED)
                         return

@@ -331,8 +331,8 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.HEAVY_MANTLE,
             itemAugments = {
-                { tpz.augments.HP, 50 },
-                { tpz.augments.PDT, -5 },
+                { tpz.augments.HP_33, 17 },
+                { tpz.augments.PDT, 4 },
             },
         },
     },
@@ -349,9 +349,9 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.HEAVY_MANTLE,
             itemAugments = {
-                { tpz.augments.HP, 75 },
-                { tpz.augments.PDT, -5 },
-                { tpz.augments.MDT, -5 },
+                { tpz.augments.HP_65, 10 },
+                { tpz.augments.PDT, 4 },
+                { tpz.augments.MDT, 4 },
             },
         },
     },
@@ -368,8 +368,8 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.TIGER_MANTLE,
             itemAugments = {
-                { tpz.augments.ACC, 10 },
-                { tpz.augments.ATTK, 10 },
+                { tpz.augments.ACC, 9 },
+                { tpz.augments.ATTK, 9 },
             },
         },
     },
@@ -386,9 +386,9 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.TIGER_MANTLE,
             itemAugments = {
-                { tpz.augments.ACC, 12 },
-                { tpz.augments.ATTK, 12 },
-                { tpz.augments.STR, 2 },
+                { tpz.augments.ACC, 11 },
+                { tpz.augments.ATTK, 11 },
+                { tpz.augments.STR, 1 },
             },
         },
     },
@@ -405,8 +405,8 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.RAPTOR_MANTLE,
             itemAugments = {
-                { tpz.augments.RACC, 10 },
-                { tpz.augments.RATTK, 10 },
+                { tpz.augments.RACC, 9 },
+                { tpz.augments.RATTK, 9 },
             },
         },
     },
@@ -423,9 +423,9 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.RAPTOR_MANTLE,
             itemAugments = {
-                { tpz.augments.RACC, 12 },
-                { tpz.augments.RATTK, 12 },
-                { tpz.augments.STR, 2 },
+                { tpz.augments.RACC, 11 },
+                { tpz.augments.RATTK, 11 },
+                { tpz.augments.STR, 1 },
             },
         },
     },
@@ -442,8 +442,8 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.GREEN_CAPE,
             itemAugments = {
-                { tpz.augments.MP, 50 },
-                { tpz.augments.CURE_POTENCY, 5 },
+                { tpz.augments.MP_33, 17 },
+                { tpz.augments.CURE_POTENCY, 4 },
             },
         },
     },
@@ -460,9 +460,9 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.GREEN_CAPE,
             itemAugments = {
-                { tpz.augments.MP, 75 },
-                { tpz.augments.CURE_POTENCY, 5 },
-                { tpz.augments.CONSERVE_MP, 5 },
+                { tpz.augments.MP_65, 10 },
+                { tpz.augments.CURE_POTENCY, 4 },
+                { tpz.augments.CONSERVE_MP, 4 },
             },
         },
     },
@@ -479,8 +479,8 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.COTTON_CAPE,
             itemAugments = {
-                { tpz.augments.MACC, 3 },
-                { tpz.augments.MATT, 3 },
+                { tpz.augments.MACC, 2 },
+                { tpz.augments.MATT, 2 },
             },
         },
     },
@@ -497,9 +497,9 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.COTTON_CAPE,
             itemAugments = {
-                { tpz.augments.MACC, 4 },
-                { tpz.augments.MATT, 4 },
-                { tpz.augments.INT, 2 },
+                { tpz.augments.MACC, 3 },
+                { tpz.augments.MATT, 3 },
+                { tpz.augments.INT, 1 },
             },
         },
     },

@@ -744,6 +744,13 @@ tpz.augments.special =
     MOVE                        = 18,
 }
 
+tpz.augments.getAugmentName = function(augId)
+    local augName = "Unknown"
+    if tpz.augments and tpz.augments[augId] then
+        augName = tpz.augments[augId]
+    end
+end
+
 function getSpecialAugment(augment) -- TODO: Doesn't work
     if not augment then
         return nil

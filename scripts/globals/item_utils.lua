@@ -1,5 +1,5 @@
 -----------------------------------
--- Item Utils (Used by Skill Books)
+-- Item Utils
 -----------------------------------
 require('scripts/globals/utils')
 -----------------------------------
@@ -263,5 +263,162 @@ tpz.itemUtils.removeMultipleEffects = function(target, effects, count, random)
         end
 
         return removed
+    end
+end
+
+--[[ How to use DumpItemAugments
+local item = player:getEquip(0) -- e.g. main weapon
+
+if item then
+    tpz.itemUtils.DumpItemAugments(item)
+end
+]]
+function tpz.itemUtils.PrintItemAugments(item)
+    if item == nil then
+        printf("[itemUtils] No item provided.")
+        return
+    end
+
+    printf("[itemUtils] Augments for: %s", item:getName())
+    local foundAugment = false
+
+    for slot = 1, 4 do
+        local augId, augVal = item:getAugment(slot)
+        if augId ~= 0 then
+            foundAugment = true
+            local augName = "Unknown"
+            if tpz.augments and tpz.augments[augId] then
+                augName = tpz.augments[augId]
+            end
+            printf("  Slot %d: ID %d (%s), Value %d", slot, augId, augName, augVal)
+        end
+    end
+
+    if not foundAugment then
+        printf("  No augments found on this item.")
+    end
+end
+
+--[[ How to use GetItemAugments()
+local item = player:getEquip(0) -- main hand
+
+if item then
+    local augments = tpz.itemUtils.GetItemAugments(item)
+
+    for _, aug in ipairs(augments) do
+        printf("Slot %d: ID %d (%s), Value %d", aug.slot, aug.id, aug.name, aug.value)
+    end
+
+    if #augments == 0 then
+        printf("No augments found on this item.")
+    end
+end
+]]
+function tpz.itemUtils.GetItemAugments(item)
+    local augments = {}
+
+    if item == nil then
+        printf("[GetItemAugments] No item provided")
+        return augments
+    end
+
+    for slot = 0, 3 do -- slots 0-3
+        local augId, augVal = item:getAugment(slot)
+        if augId ~= 0 then
+            local name = tpz.augments.getAugmentName(augId) or "Unknown"
+            printf("[GetItemAugments] Slot %d: ID=%d (%s), Value=%d", slot, augId, name, augVal)
+            table.insert(augments, {
+                slot  = slot,
+                id    = augId,
+                value = augVal,
+                name  = name
+            })
+        else
+            printf("[GetItemAugments] Slot %d: empty", slot)
+        end
+    end
+
+    return augments
+end
+
+function tpz.itemUtils.GetItemAugmentArrays(item)
+    local augments = {}
+    local augmentsPower = {}
+
+    -- Fill with zeros by default (slots 0 to 3)
+    for slot = 0, 3 do
+        augments[slot + 1] = 0
+        augmentsPower[slot + 1] = 0
+    end
+
+    if item == nil then
+        printf("[GetItemAugmentArrays] No item provided")
+        return augments, augmentsPower
+    end
+
+    local augTable = tpz.itemUtils.GetItemAugments(item)
+
+    for _, aug in ipairs(augTable) do
+        printf("[GetItemAugmentArrays] Slot %d: ID=%d, Value=%d", aug.slot, aug.id, aug.value)
+        augments[aug.slot + 1] = aug.id
+        augmentsPower[aug.slot + 1] = aug.value
+    end
+
+    return augments, augmentsPower
+end
+
+function tpz.itemUtils.BuildAddItemArgs(augTable, trialNumber)
+    local args = {}
+
+    -- pack aug0 to aug3 and their values
+    for slot = 0, 3 do
+        args[slot * 2 + 1] = augTable[slot + 1].id or 0
+        args[slot * 2 + 2] = math.min(augTable[slot + 1].value or 0, 31)
+    end
+
+    -- pack trialNumber at arg[9]
+    args[9] = trialNumber or 0
+
+    -- optionally pack aug4val (if you use 5 augments in your system)
+    -- args[10] = augTable[5] and math.min(augTable[5].value or 0, 31) or 0
+
+    return args
+end
+
+
+--[[ How to use ApplyAugmentsToItem()
+    -- Not sure if this works
+    local item = player:getEquip(0)
+    local augments = tpz.itemUtils.GetItemAugments(item)
+
+    local newItem = player:getEquip(1)
+    tpz.itemUtils.ApplyAugmentsToItem(newItem, augments)
+    Expects a table like (Created from GetItemAugments()):
+    {
+        { slot = 1, id = 1, value = 50, name = "HP" },
+        { slot = 3, id = 28, value = 5, name = "PDT" },
+        -- etc.
+    }
+
+]]
+function tpz.itemUtils.ApplyAugmentsToItem(item, augmentTable)
+    if item == nil then
+        printf("[itemUtils] ApplyAugmentsToItem: No item provided.")
+        return
+    end
+
+    if augmentTable == nil or #augmentTable == 0 then
+        printf("[itemUtils] ApplyAugmentsToItem: No augments to apply.")
+        return
+    end
+
+    for _, aug in ipairs(augmentTable) do
+        if aug.slot and aug.id and aug.value then
+            item:setAugment(aug.slot, aug.id, aug.value)
+            printf("[itemUtils] Applied augment to slot %d: ID %d (%s), Value %d",
+                aug.slot, aug.id, aug.name or "Unknown", aug.value)
+        else
+            printf("[itemUtils] Skipped invalid augment entry: %s", tostring(aug))
+        end
     end
 end
