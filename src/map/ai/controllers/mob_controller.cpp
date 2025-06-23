@@ -79,15 +79,17 @@ bool CMobController::TryDeaggro()
 
     }
 
-    // Deaggro player pets if they mount up
+    // Deaggro player pets and trusts if they mount up
     if (PTarget)
     {
-        if (PTarget->objtype == TYPE_PET && PTarget->PMaster != nullptr)
+        bool isPlayerPet = PTarget->objtype == TYPE_PET && PTarget->PMaster;
+        bool isPlayerTrust = PTarget->objtype == TYPE_TRUST && PTarget->PMaster;
+
+        if (isPlayerPet || isPlayerTrust)
         {
             if (PTarget->PMaster->isMounted())
             {
-                if (PTarget)
-                    PMob->PEnmityContainer->Clear(PTarget->id);
+                PMob->PEnmityContainer->Clear(PTarget->id);
                 PTarget = PMob->PEnmityContainer->GetHighestEnmity();
                 PMob->SetBattleTargetID(PTarget ? PTarget->targid : 0);
                 return TryDeaggro();
@@ -95,7 +97,6 @@ bool CMobController::TryDeaggro()
         }
     }
 
-    
     bool isForcedDeaggro = (std::find(m_forcedDeaggroEntities.begin(), m_forcedDeaggroEntities.end(), PTarget) != m_forcedDeaggroEntities.end());
     // target is no longer valid, so wipe them from our enmity list
     if (!PTarget || PTarget->isDead() || PTarget->isMounted() || PTarget->loc.zone->GetID() != PMob->loc.zone->GetID() ||

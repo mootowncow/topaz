@@ -3156,15 +3156,17 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,49,37,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,50,57,255);         -- Shell III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,51,68,255);         -- Shell IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,52,87,255);         -- Shell V
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,56,13,255);         -- Slow
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,57,48,255);         -- Haste
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,57,48,74);          -- Haste
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,511,75,255);        -- Haste II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,56,13,74);          -- Slow
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,79,75,255);         -- Slow II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,58,6,74);           -- Paralyze
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,80,75,255);         -- Paralyze II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,106,33,255);        -- Phalanx
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,107,75,255);        -- Phalanx II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,109,41,255);        -- Refresh
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,260,32,255);        -- Dispel
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,109,41,74);         -- Refresh
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,473,75,255);        -- Refresh II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,511,75,255);        -- Haste II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,260,32,255);        -- Dispel
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,841,35,255);        -- Distract
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,842,85,255);        -- Distract II
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,845,48,255);        -- Flurry
