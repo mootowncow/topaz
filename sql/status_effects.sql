@@ -103,7 +103,7 @@ INSERT INTO `status_effects` VALUES (59,'focus',809,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (60,'dodge',809,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (61,'counterstance',801,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (62,'sentinel',33,0,0,0,0,0,0,0,0);
-INSERT INTO `status_effects` VALUES (63,'souleater',808,0,0,0,0,0,0,0,0);
+INSERT INTO `status_effects` VALUES (63,'souleater',808,0,0,0,0,0,0,0,2);
 INSERT INTO `status_effects` VALUES (64,'last_resort',809,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (65,'sneak_attack',536871712,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (66,'copy_image',41,0,0,0,0,36,3,0,1);
