@@ -764,9 +764,30 @@ int32 CBattleEntity::addMP(int32 mp)
     return abs(mp);
 }
 
-int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullptr*/, ATTACKTYPE attackType /* = ATTACK_NONE*/, DAMAGETYPE damageType /* = DAMAGE_NONE*/, bool isDOT)
+int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullptr*/, ATTACKTYPE attackType /* = ATTACK_NONE*/, DAMAGETYPE damageType /* = DAMAGE_NONE*/, bool isDOT, int16 skillId)
 {
     PLastAttacker = attacker;
+
+    // Track elemental or weaponskill kills for Magian trials
+    if (objtype == TYPE_MOB && attacker && attacker->objtype == TYPE_PC)
+    {
+        auto PChar = dynamic_cast<CCharEntity*>(attacker);
+
+        if (amount >= health.hp)
+        {
+            if (attackType == ATTACK_WEAPONSKILL)
+            {
+                auto PMob = static_cast<CMobEntity*>(this);
+                PMob->SetLocalVar("WSKilledBy", skillId);
+            }
+            else if (attackType == ATTACK_MAGICAL)
+            {
+                auto PMob = static_cast<CMobEntity*>(this);
+                PMob->SetLocalVar("ElementKilledBy", (int)damageType);
+            }
+        }
+    }
+
     PAI->EventHandler.triggerListener("TAKE_DAMAGE", this, amount, attacker, (uint16)attackType, (uint16)damageType);
 
     //RoE Damage Taken Trigger

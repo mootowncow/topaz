@@ -326,7 +326,7 @@ tpz.magian.trials = {
         previousTrial = 0,
         textOffset    = 1,
         killType      = 'Family',
-        mob           = { tpz.mob.family.MAMOOLJA, tpz.mob.family.MAMOOLJAKNIGHT, tpz.mob.family.MAMOOLJA_SWORD },
+        mob           = { tpz.mob.family.MAMOOLJA, tpz.mob.family.MAMOOLJAKNIGHT, tpz.mob.family.MAMOOLJA_SWORD, tpz.mob.family.GULOOL_JA_JA },
         numRequired   = 5000,
         rewardItem    = {
             itemId       = tpz.items.HEAVY_MANTLE,
@@ -356,6 +356,26 @@ tpz.magian.trials = {
         },
     },
 
+    [1002] = {
+        mainItem      = tpz.items.HEAVY_MANTLE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1001,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.LAMIAE, tpz.mob.family.MERROW, tpz.mob.family.MEDUSA },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.HEAVY_MANTLE,
+            itemAugments = {
+                { tpz.augments.HP_97, 3 },
+                { tpz.augments.PDT, 4 },
+                { tpz.augments.MDT, 4 },
+                { tpz.augments.BDT, 4 },
+            },
+        },
+    },
+
     [1050] = {
         mainItem      = tpz.items.TIGER_MANTLE,
         tradeItem     = tpz.items.NONE,
@@ -363,7 +383,7 @@ tpz.magian.trials = {
         previousTrial = 0,
         textOffset    = 1,
         killType      = 'Family',
-        mob           = { tpz.mob.family.MAMOOLJA, tpz.mob.family.MAMOOLJAKNIGHT, tpz.mob.family.MAMOOLJA_SWORD },
+        mob           = { tpz.mob.family.MAMOOLJA, tpz.mob.family.MAMOOLJAKNIGHT, tpz.mob.family.MAMOOLJA_SWORD, tpz.mob.family.GULOOL_JA_JA },
         numRequired   = 5000,
         rewardItem    = {
             itemId       = tpz.items.TIGER_MANTLE,
@@ -400,7 +420,7 @@ tpz.magian.trials = {
         previousTrial = 0,
         textOffset    = 1,
         killType      = 'Family',
-        mob           = { tpz.mob.family.MAMOOLJA, tpz.mob.family.MAMOOLJAKNIGHT, tpz.mob.family.MAMOOLJA_SWORD },
+        mob           = { tpz.mob.family.MAMOOLJA, tpz.mob.family.MAMOOLJAKNIGHT, tpz.mob.family.MAMOOLJA_SWORD, tpz.mob.family.GULOOL_JA_JA },
         numRequired   = 5000,
         rewardItem    = {
             itemId       = tpz.items.RAPTOR_MANTLE,
@@ -437,7 +457,7 @@ tpz.magian.trials = {
         previousTrial = 0,
         textOffset    = 1,
         killType      = 'Family',
-        mob           = { tpz.mob.family.MAMOOLJA, tpz.mob.family.MAMOOLJAKNIGHT, tpz.mob.family.MAMOOLJA_SWORD },
+        mob           = { tpz.mob.family.MAMOOLJA, tpz.mob.family.MAMOOLJAKNIGHT, tpz.mob.family.MAMOOLJA_SWORD, tpz.mob.family.GULOOL_JA_JA },
         numRequired   = 5000,
         rewardItem    = {
             itemId       = tpz.items.GREEN_CAPE,
@@ -474,7 +494,7 @@ tpz.magian.trials = {
         previousTrial = 0,
         textOffset    = 1,
         killType      = 'Family',
-        mob           = { tpz.mob.family.MAMOOLJA, tpz.mob.family.MAMOOLJAKNIGHT, tpz.mob.family.MAMOOLJA_SWORD },
+        mob           = { tpz.mob.family.MAMOOLJA, tpz.mob.family.MAMOOLJAKNIGHT, tpz.mob.family.MAMOOLJA_SWORD, tpz.mob.family.GULOOL_JA_JA },
         numRequired   = 5000,
         rewardItem    = {
             itemId       = tpz.items.COTTON_CAPE,
@@ -500,6 +520,142 @@ tpz.magian.trials = {
                 { tpz.augments.MACC, 3 },
                 { tpz.augments.MATT, 3 },
                 { tpz.augments.INT, 1 },
+            },
+        },
+    },
+
+    [2200] = {
+        mainItem      = tpz.items.VULCANS_STAFF,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        textOffset    = 1,
+        killType      = 'Elemental',
+        element       = tpz.magic.ele.FIRE,
+        numRequired   = 1000,
+        rewardItem    = {
+            itemId       = tpz.items.VULCANS_STAFF,
+            itemAugments = {
+                { tpz.augments.MATT, 2 },
+            },
+        },
+    },
+
+    [2250] = {
+        mainItem      = tpz.items.AQUILOS_STAFF,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        textOffset    = 1,
+        killType      = 'Elemental',
+        element       = tpz.magic.ele.ICE,
+        numRequired   = 1000,
+        rewardItem    = {
+            itemId       = tpz.items.AQUILOS_STAFF,
+            itemAugments = {
+                { tpz.augments.MATT, 2 },
+            },
+        },
+    },
+
+    [2300] = {
+        mainItem      = tpz.items.AUSTERS_STAFF,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        textOffset    = 1,
+        killType      = 'Elemental',
+        element       = tpz.magic.ele.WIND,
+        numRequired   = 1000,
+        rewardItem    = {
+            itemId       = tpz.items.AUSTERS_STAFF,
+            itemAugments = {
+                { tpz.augments.MATT, 2 },
+            },
+        },
+    },
+
+    [2350] = {
+        mainItem      = tpz.items.TERRAS_STAFF,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        textOffset    = 1,
+        killType      = 'Elemental',
+        element       = tpz.magic.ele.EARTH,
+        numRequired   = 1000,
+        rewardItem    = {
+            itemId       = tpz.items.TERRAS_STAFF,
+            itemAugments = {
+                { tpz.augments.MATT, 2 },
+            },
+        },
+    },
+
+    [2400] = {
+        mainItem      = tpz.items.JUPITERS_STAFF,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        textOffset    = 1,
+        killType      = 'Elemental',
+        element       = tpz.magic.ele.THUNDER,
+        numRequired   = 1000,
+        rewardItem    = {
+            itemId       = tpz.items.JUPITERS_STAFF,
+            itemAugments = {
+                { tpz.augments.MATT, 2 },
+            },
+        },
+    },
+
+    [2450] = {
+        mainItem      = tpz.items.NEPTUNES_STAFF,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        textOffset    = 1,
+        killType      = 'Elemental',
+        element       = tpz.magic.ele.WATER,
+        numRequired   = 1000,
+        rewardItem    = {
+            itemId       = tpz.items.NEPTUNES_STAFF,
+            itemAugments = {
+                { tpz.augments.MATT, 2 },
+            },
+        },
+    },
+
+    [2500] = {
+        mainItem      = tpz.items.APOLLOS_STAFF,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        textOffset    = 1,
+        killType      = 'Elemental',
+        element       = tpz.magic.ele.LIGHT,
+        numRequired   = 1000,
+        rewardItem    = {
+            itemId       = tpz.items.APOLLOS_STAFF,
+            itemAugments = {
+                { tpz.augments.MATT, 2 },
+            },
+        },
+    },
+
+    [2550] = {
+        mainItem      = tpz.items.PLUTOS_STAFF,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        textOffset    = 1,
+        killType      = 'Elemental',
+        element       = tpz.magic.ele.DARK,
+        numRequired   = 1000,
+        rewardItem    = {
+            itemId       = tpz.items.PLUTOS_STAFF,
+            itemAugments = {
+                { tpz.augments.MATT, 2 },
             },
         },
     },

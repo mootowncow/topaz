@@ -75,6 +75,7 @@
 #include "../ai/controllers/player_charm_controller.h"
 #include "../ai/controllers/automaton_controller.h"
 #include "../ai/states/magic_state.h"
+#include "../ai/states/weaponskill_state.h"
 #include "../utils/petutils.h"
 #include "zoneutils.h"
 #include "../packets/chat_message.h"
@@ -3818,7 +3819,14 @@ namespace battleutils
         HandleAfflatusMiseryDamage(PDefender, damage);
         damage = std::clamp(damage, -99999, 99999);
 
-        int32 corrected = PDefender->takeDamage(damage, PAttacker, attackType, damageType);
+        int16 WSId = 0;
+        CWeaponSkillState* wsState = dynamic_cast<CWeaponSkillState*>(PAttacker->PAI->GetCurrentState());
+        if (wsState && wsState->GetSkill())
+        {
+            WSId = wsState->GetSkill()->getID();
+        }
+
+        int32 corrected = PDefender->takeDamage(damage, PAttacker, ATTACK_WEAPONSKILL, damageType, false, WSId);
         if (damage < 0)
             damage = -corrected;
 

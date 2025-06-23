@@ -3,11 +3,14 @@
 -- !gotoid 17772782
 -----------------------------------
 local ID = require("scripts/zones/RuLude_Gardens/IDs")
+require("scripts/globals/spell_data")
+require("scripts/globals/status")
 require("scripts/globals/magian_data")
 require("scripts/globals/npc_util")
 require("scripts/globals/world")
 require("scripts/globals/item_utils")
 -----------------------------------
+-- TODO: Need to make sure kills give XP in order to give credit!
 tpz = tpz or {}
 tpz.magian = tpz.magian or {}
 
@@ -84,7 +87,43 @@ local trialConditions =
         local weather = player:getWeather()
     end,
 
+    ['WSKill'] = function(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
+        local wsId = mob:getLocalVar("WSKilledBy")
+
+        if isKiller and (wsId == trial.ws) then
+            local kills = player:getCharVar("MagianKills_" .. trialNum) + 1
+            local remainingKills = trial.numRequired - kills
+            player:setCharVar("MagianKills_" .. trialNum, kills)
+
+            printf("[Magian] Incremented WS kills for trial %d to %d", trialNum, kills)
+
+            if kills >= trial.numRequired then
+                player:messageCombat(player, trialNum, 0, tpz.msg.combat.MAGIAN_TRIAL_COMPLETE)
+                player:setCharVar("MagianTrial_" .. trialNum, tpz.magian.TRIAL_COMPLETED)
+            else
+                player:messageCombat(player, trialNum, remainingKills, tpz.msg.combat.MAGIAN_TRIAL_PROGRESS)
+            end
+        end
+    end,
+
     ['Elemental'] = function(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
+        local element = mob:getLocalVar("ElementKilledBy") - 5 -- The var is set by damage type, and damage type elements start at 6 for fire
+        --printf("Element %d, trial element: %d", element, trial.element)
+
+        if isKiller and (element == trial.element) then
+            local kills = player:getCharVar("MagianKills_" .. trialNum) + 1
+            local remainingKills = trial.numRequired - kills
+            player:setCharVar("MagianKills_" .. trialNum, kills)
+
+            printf("[Magian] Incremented kills for trial %d to %d", trialNum, kills)
+
+            if kills >= trial.numRequired then
+                player:messageCombat(player, trialNum, 0, tpz.msg.combat.MAGIAN_TRIAL_COMPLETE)
+                player:setCharVar("MagianTrial_" .. trialNum, tpz.magian.TRIAL_COMPLETED)
+            else
+                player:messageCombat(player, trialNum, remainingKills, tpz.msg.combat.MAGIAN_TRIAL_PROGRESS)
+            end
+        end
     end,
 
     ['Enfeebled'] = function(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
@@ -368,18 +407,20 @@ tpz.magian.checkMagianTrial = function (player, mob, isKiller, isWeaponSkillKill
     local activeTrials = tpz.magian.getActiveMagianTrials(player)
     printf("[Magian] Found %d active trial(s)", table.getn(activeTrials))
 
-    for trialNum, data in pairs(activeTrials) do
-        printf("[Magian] Checking trial %d (itemId: %d in slot %d)", trialNum, data.itemId, data.slot)
-        local trial = tpz.magian.trialDataById[trialNum]
-        if trial and (trial.type == 'Kills') then
-            printf("[Magian] Trial %d is a Kills trial of type %s", trialNum, trial.killType)
+    if player:checkKillCredit(mob) then
+        for trialNum, data in pairs(activeTrials) do
+            printf("[Magian] Checking trial %d (itemId: %d in slot %d)", trialNum, data.itemId, data.slot)
+            local trial = tpz.magian.trialDataById[trialNum]
+            if trial and (trial.type == 'Kills') then
+                printf("[Magian] Trial %d is a Kills trial of type %s", trialNum, trial.killType)
 
-            local conditions = trialConditions[trial.killType]
+                local conditions = trialConditions[trial.killType]
 
-            if conditions then
-                conditions(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
-            else
-                printf("[Magian] No handler for killType: %s", trial.killType)
+                if conditions then
+                    conditions(player, mob, isKiller, isWeaponSkillKill, trialNum, trial)
+                else
+                    printf("[Magian] No handler for killType: %s", trial.killType)
+                end
             end
         end
     end

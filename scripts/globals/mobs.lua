@@ -47,7 +47,7 @@ function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill)
     end
 
     tpz.znm.OnMobDeath(mob, player, isKiller, isWeaponSkillKill)
-    tpz.magian.checkMagianTrial(player, mob, isWeaponSkillKill)
+    tpz.magian.checkMagianTrial(player, mob, isKiller, isWeaponSkillKill)
 end
 
 -------------------------------------------------
