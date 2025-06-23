@@ -2,6 +2,9 @@
 -- Appraisal Utilities
 -- desc: Common functionality for Appraisals
 -- Credit: KnowOne - https://github.com/KnowOne134/DSP-Shared_Collection/blob/main/Appraisal/appraisal.lua
+-- Notes: Additional items need to be added to their questionMarksItems.item table (i.e [tpz.appraisalUtil.questionMarkItems.GLOVES] =)
+-- Notes: Then their "origin" must be added to the tpz.appraisalUtil.Origin table
+-- Notes: Finally, their appraisalId(usually zone ID) (i.e. tpz.appraisalUtil.Origin.MAOOK) with the itemIds it can appraise into
 -----------------------------------
 require("scripts/globals/missions")
 require("scripts/globals/npc_util")
@@ -13,9 +16,12 @@ tpz.appraisalUtil = tpz.appraisalUtil or {}
 
 tpz.appraisalUtil.Origin = 
 {
+    ARRAPAGO_REEF               = 54,
     SCOUTING_THE_ASHU_TALIF     = 55,
     ROYAL_PAINTER_ESCORT        = 56,
     TARGETING_THE_CAPTAIN       = 57,
+    HALVUNG                     = 62,
+    MAMOOK                      = 65,
     NYZUL_BASIC                 = 100,
     NYZUL_BAT_EYE               = 101,
     NYZUL_SHADOW_EYE            = 102,
@@ -953,6 +959,99 @@ tpz.appraisalUtil.appraisalItems =
                 {10, 13576}, -- Night Cape
             },
         },
+        [tpz.appraisalUtil.Origin.MAMOOK] =
+        {
+            items =
+            {
+                {20, 12969}, -- Leather Gloves
+                {20, 12965}, -- Bronze Mittens +1
+                {20, 12721}, -- Cotton Gloves
+                {20, 12728}, -- Cuffs
+
+                {20, 28617}, -- Mauler's Mantle
+                {20, 28618}, -- Anchoret's Mantle
+                {20, 28619}, -- Mending Cape
+                {20, 28620}, -- Bane Cape
+                {20, 28621}, -- Ghostfyre Cape
+                {20, 28622}, -- Canny Cape
+                {20, 28623}, -- Weard Mantle
+                {20, 28624}, -- Niht Mantle
+                {20, 28625}, -- Pastoralist's Mantle
+                {20, 28626}, -- Rhapsode's Cape
+                {20, 28627}, -- Lutian Cape
+                {20, 28628}, -- Takaha Mantle
+                {20, 28629}, -- Yokaze Mantle
+                {20, 28630}, -- Updraft Mantle
+                {20, 28631}, -- Conveyance Cape
+                {20, 28632}, -- Cornflower Cape
+                {20, 28633}, -- Gunslinger's Cape
+                {20, 28634}, -- Dispersal Mantle
+                {20, 28635}, -- Toetapper Mantle
+                {20, 28636}, -- Bookworm's Cape
+            }
+        },
+        [tpz.appraisalUtil.Origin.HALVUNG] =
+        {
+            items =
+            {
+                {20, 12969}, -- Leather Gloves
+                {20, 12965}, -- Bronze Mittens +1
+                {20, 12721}, -- Cotton Gloves
+                {20, 12728}, -- Cuffs
+
+                {20, 28617}, -- Mauler's Mantle
+                {20, 28618}, -- Anchoret's Mantle
+                {20, 28619}, -- Mending Cape
+                {20, 28620}, -- Bane Cape
+                {20, 28621}, -- Ghostfyre Cape
+                {20, 28622}, -- Canny Cape
+                {20, 28623}, -- Weard Mantle
+                {20, 28624}, -- Niht Mantle
+                {20, 28625}, -- Pastoralist's Mantle
+                {20, 28626}, -- Rhapsode's Cape
+                {20, 28627}, -- Lutian Cape
+                {20, 28628}, -- Takaha Mantle
+                {20, 28629}, -- Yokaze Mantle
+                {20, 28630}, -- Updraft Mantle
+                {20, 28631}, -- Conveyance Cape
+                {20, 28632}, -- Cornflower Cape
+                {20, 28633}, -- Gunslinger's Cape
+                {20, 28634}, -- Dispersal Mantle
+                {20, 28635}, -- Toetapper Mantle
+                {20, 28636}, -- Bookworm's Cape
+            }
+        },
+        [tpz.appraisalUtil.Origin.ARRAPAGO_REEF] =
+        {
+            items =
+            {
+                {20, 12969}, -- Leather Gloves
+                {20, 12965}, -- Bronze Mittens +1
+                {20, 12721}, -- Cotton Gloves
+                {20, 12728}, -- Cuffs
+
+                {20, 28617}, -- Mauler's Mantle
+                {20, 28618}, -- Anchoret's Mantle
+                {20, 28619}, -- Mending Cape
+                {20, 28620}, -- Bane Cape
+                {20, 28621}, -- Ghostfyre Cape
+                {20, 28622}, -- Canny Cape
+                {20, 28623}, -- Weard Mantle
+                {20, 28624}, -- Niht Mantle
+                {20, 28625}, -- Pastoralist's Mantle
+                {20, 28626}, -- Rhapsode's Cape
+                {20, 28627}, -- Lutian Cape
+                {20, 28628}, -- Takaha Mantle
+                {20, 28629}, -- Yokaze Mantle
+                {20, 28630}, -- Updraft Mantle
+                {20, 28631}, -- Conveyance Cape
+                {20, 28632}, -- Cornflower Cape
+                {20, 28633}, -- Gunslinger's Cape
+                {20, 28634}, -- Dispersal Mantle
+                {20, 28635}, -- Toetapper Mantle
+                {20, 28636}, -- Bookworm's Cape
+            }
+        },
     },
     [tpz.appraisalUtil.questionMarkItems.SASH] =
     {
@@ -1411,6 +1510,11 @@ tpz.appraisalUtil.appraiseItem = function(player, npc, trade, gil, appraisalCsid
 end
 
 function itemPick(player, info, appraisalID)
+    if not info[appraisalID] then
+        printf("Appraisal table missing entry for AppraisalID: %d", appraisalID)
+        return 0
+    end
+
     -- possible drops
     local items = info[appraisalID].items
 

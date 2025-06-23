@@ -659,4 +659,5 @@ tpz.magian.trials = {
             },
         },
     },
+    -- Lyft weapon upgrades
 }

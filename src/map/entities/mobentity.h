@@ -157,6 +157,7 @@ public:
     void      Untargetable(bool untargetable);
     bool      IsUntargetable();
     void      DoAutoTarget();
+    void      HandleToAUStrongholdsAppraisalDrops(CCharEntity* PChar, uint16 PZone);
 
     void      PostTick() override;
     float     GetRoamDistance();

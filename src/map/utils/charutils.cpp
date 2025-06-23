@@ -1349,6 +1349,101 @@ namespace charutils
 
     /************************************************************************
     *                                                                       *
+    *  Adding items to treasure pool                                        *
+    *                                                                       *
+    ************************************************************************/
+    // Version 1: Takes itemID, quantity, silence, appraisalID; creates CItem* internally
+    uint8 AddItemTreasure(CCharEntity* PChar, uint8 LocationID, uint16 itemID, uint32 quantity, bool silence, uint8 appraisalID)
+    {
+        if (PChar->getStorage(LocationID)->GetFreeSlotsCount() == 0 || quantity == 0)
+            return ERROR_SLOTID;
+
+        CItem* PItem = itemutils::GetItem(itemID);
+        if (PItem != nullptr)
+        {
+            PItem->setQuantity(quantity);
+            // Call the CItem* version
+            return AddItemTreasure(PChar, LocationID, PItem, silence, appraisalID);
+        }
+
+        ShowWarning(CL_YELLOW "charplugin::AddItemTreasure: Item <%i> not found in database\n" CL_RESET, itemID);
+        return ERROR_SLOTID;
+    }
+
+    // Version 2: Takes CItem* and adds it, applying appraisalID if provided
+    uint8 AddItemTreasure(CCharEntity* PChar, uint8 LocationID, CItem* PItem, bool silence, uint8 appraisalID)
+    {
+        // Set appraisalID if provided
+        if (appraisalID > 0)
+        {
+            PItem->setAppraisalID(appraisalID);
+        }
+
+        if (PItem->isType(ITEM_CURRENCY))
+        {
+            UpdateItem(PChar, LocationID, 0, PItem->getQuantity());
+            delete PItem;
+            return 0;
+        }
+        if (PItem->getFlag() & ITEM_FLAG_RARE)
+        {
+            if (HasItem(PChar, PItem->getID()))
+            {
+                if (!silence)
+                    PChar->pushPacket(new CMessageStandardPacket(PChar, PItem->getID(), 0, MsgStd::ItemEx));
+                delete PItem;
+                return ERROR_SLOTID;
+            }
+        }
+
+        uint8 SlotID = PChar->getStorage(LocationID)->InsertItem(PItem);
+
+        if (SlotID != ERROR_SLOTID)
+        {
+            const char* Query = "INSERT INTO char_inventory("
+                                "charid,"
+                                "location,"
+                                "slot,"
+                                "itemId,"
+                                "quantity,"
+                                "signature,"
+                                "extra) "
+                                "VALUES(%u,%u,%u,%u,%u,'%s','%s')";
+
+            int8 signature[21];
+            if (PItem->isType(ITEM_LINKSHELL))
+            {
+                DecodeStringLinkshell((int8*)PItem->getSignature(), signature);
+            }
+            else
+            {
+                DecodeStringSignature((int8*)PItem->getSignature(), signature);
+            }
+
+            char extra[sizeof(PItem->m_extra) * 2 + 1];
+            Sql_EscapeStringLen(SqlHandle, extra, (const char*)PItem->m_extra, sizeof(PItem->m_extra));
+
+            if (Sql_Query(SqlHandle, Query, PChar->id, LocationID, SlotID, PItem->getID(), PItem->getQuantity(), signature, extra) == SQL_ERROR)
+            {
+                ShowError(CL_RED "charplugin::AddItemTreasure: Cannot insert item to database\n" CL_RESET);
+                PChar->getStorage(LocationID)->InsertItem(nullptr, SlotID);
+                delete PItem;
+                return ERROR_SLOTID;
+            }
+            PChar->pushPacket(new CInventoryItemPacket(PItem, LocationID, SlotID));
+            PChar->pushPacket(new CInventoryFinishPacket());
+        }
+        else
+        {
+            ShowDebug(CL_CYAN "charplugin::AddItemTreasure: Location %i is full\n" CL_RESET, LocationID);
+            delete PItem;
+        }
+        return SlotID;
+    }
+
+
+    /************************************************************************
+    *                                                                       *
     *  Проверяем наличие предмета у персонажа                               *
     *                                                                       *
     ************************************************************************/
