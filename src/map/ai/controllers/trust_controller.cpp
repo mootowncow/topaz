@@ -392,9 +392,9 @@ void CTrustController::DoRoamTick(time_point tick)
     {
         if (POwner->health.hp != POwner->health.maxhp || POwner->health.mp != POwner->health.maxmp)
         {
-            // recover 3% HP & MP (Retail tested)
-            uint32 recoverHP = (uint32)(POwner->health.maxhp * 0.03);
-            uint32 recoverMP = (uint32)(POwner->health.maxmp * 0.03);
+            // recover 2% HP & MP (3% on retail - tested)
+            uint32 recoverHP = (uint32)(POwner->health.maxhp * 0.02);
+            uint32 recoverMP = (uint32)(POwner->health.maxmp * 0.02);
             // POwner->addHP(recoverHP);
             POwner->addMP(recoverMP);
             m_LastHealTickTime = m_Tick;

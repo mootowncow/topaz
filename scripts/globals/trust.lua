@@ -125,9 +125,10 @@ local modByMobName =
     end,
 
     ['adelheid'] = function(mob)
-        mob:addMod(tpz.mod.MPP, 40)
         mob:addMod(tpz.mod.DMGAOE, -33)
-        mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.MPP, 40)
+        end
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         if mob:getMainLvl() >= 75 then
             mob:addMod(tpz.mod.REGAIN, 25)
@@ -139,9 +140,9 @@ local modByMobName =
 
     ['koru-moru'] = function(mob)
         mob:addMod(tpz.mod.HPP, 20)
-        mob:addMod(tpz.mod.MPP, 25)
-        mob:addMod(tpz.mod.DMGAOE, -33)
-        mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.DMGAOE, -33)
+        end
         AddRefreshGear(mob)
         AddEnfeebleGear(mob)
         AddArtifactGear(mob)
@@ -149,9 +150,9 @@ local modByMobName =
 
     ['kupipi'] = function(mob)
         mob:addMod(tpz.mod.HPP, 20)
-        mob:addMod(tpz.mod.MPP, 25)
-        mob:addMod(tpz.mod.DMGAOE, -33)
-        mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.DMGAOE, -33)
+        end
         AddRefreshGear(mob)
         mob:addMod(tpz.mod.CURE_CAST_TIME, 25)
         AddHealerGear(mob)
@@ -203,7 +204,6 @@ local modByMobName =
 
     ['shikaree_z'] = function(mob)
         mob:addMod(tpz.mod.HPP, -10)
-        mob:addMod(tpz.mod.MPP, 100)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.CRITHITRATE, 4)
         mob:addMod(tpz.mod.JUMP_TP_BONUS, 450)
@@ -212,6 +212,7 @@ local modByMobName =
         mob:addMod(tpz.mod.FASTCAST, 25)
         mob:addMod(tpz.mod.REFRESH, 4)
         if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.MPP, 100)
             mob:addMod(tpz.mod.ATTP, 30)
             mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         end
@@ -284,9 +285,10 @@ local modByMobName =
     end,
 
     ['sylvie_uc'] = function(mob)
-        mob:addMod(tpz.mod.MPP, 25)
         mob:addMod(tpz.mod.DMG, -25)
-        mob:addMod(tpz.mod.REGAIN, 25)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.REGAIN, 5)
+        end
         if mob:getMainLvl() >= 99 then
             mob:addMod(tpz.mod.GEOMANCY_BONUS, 3)
         end
