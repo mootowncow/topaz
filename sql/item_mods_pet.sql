@@ -644,3 +644,6 @@ INSERT INTO `item_mods_pet` VALUES (18771,30,20,3); -- Automaton: MACC 20
 INSERT INTO `item_mods_pet` VALUES (18288,160,-25,0); -- All: DMG -25
 INSERT INTO `item_mods_pet` VALUES (18330,28,30,1); -- Avatar: MATT 30
 INSERT INTO `item_mods_pet` VALUES (18330,30,15,1); -- Avatar: MACC 15
+INSERT INTO `item_mods_pet` VALUES (28625,384,300,0); -- All: HASTE_GEAR 300
+INSERT INTO `item_mods_pet` VALUES (28631,288,3,1); -- Avatar: DOUBLE_ATTACK 3
+INSERT INTO `item_mods_pet` VALUES (28634,384,300,3); -- Automaton: HASTE_GEAR 300
