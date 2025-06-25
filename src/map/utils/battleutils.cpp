@@ -3967,7 +3967,7 @@ namespace battleutils
         }
 
         // Add listener
-        PDefender->PAI->EventHandler.triggerListener("WS_DMG_TAKEN", PDefender, PAttacker, damage, (uint16)attackType, (uint16)damageType, slot);
+        PDefender->PAI->EventHandler.triggerListener("WS_DMG_TAKEN", PDefender, PAttacker, damage, (uint16)attackType, (uint16)damageType, slot, WSId);
 
         return damage;
     }

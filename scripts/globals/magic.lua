@@ -5,6 +5,7 @@ require("scripts/globals/status")
 require("scripts/globals/utils")
 require("scripts/globals/msg")
 require("scripts/globals/items")
+require("scripts/globals/magian")
 ------------------------------------
 
 tpz = tpz or {}
@@ -3335,6 +3336,8 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
     local skill = spell:getSkillType()
     local spellGroup = spell:getSpellGroup()
 
+    target:updateClaim(caster) -- Needed for checkKillCredit() for magian trials
+
     if isNoEffectMsg(caster, target, effect, params) then
         return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
     end
@@ -3422,6 +3425,8 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
             target:delStatusEffectSilent(effect)
         end
         if target:addStatusEffect(effect, power, tick, finalDuration, 0, subpower, tier) then
+            tpz.magian.checkMagianTrialEffects(caster, target, effect)
+
             caster:delStatusEffectSilent(tpz.effect.STYMIE)
             -- Check for magic burst
             if GetEnfeebleMagicBurstMessage(caster, spell, target) then

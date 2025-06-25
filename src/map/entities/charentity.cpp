@@ -1419,6 +1419,10 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                         actionTarget_t dummy;
                         luautils::OnAdditionalEffect(this, PTarget, static_cast<CItemWeapon*>(getEquip(SLOT_AMMO)), &dummy, damage);
                     }
+
+                    // Add Listener
+                    this->PAI->EventHandler.triggerListener("WS_DMG_DONE", this, PTarget, damage, PWeaponSkill->getID());
+
                     int wspoints = 1;
                     if (PWeaponSkill->getPrimarySkillchain() != 0)
                     {

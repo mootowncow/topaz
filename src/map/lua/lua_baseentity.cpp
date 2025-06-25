@@ -2531,8 +2531,16 @@ inline int32 CLuaBaseEntity::getWeather(lua_State *L)
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
 
     WEATHER weather = WEATHER_NONE;
+    bool ignoreScholar = false;
+
+
+    if (!lua_isnil(L, 1) && lua_isboolean(L, 1))
+    {
+        ignoreScholar = lua_toboolean(L, 1);
+    }
+
     if (m_PBaseEntity->objtype & TYPE_PC || m_PBaseEntity->objtype & TYPE_MOB)
-        weather = battleutils::GetWeather((CBattleEntity*)m_PBaseEntity, false);
+        weather = battleutils::GetWeather((CBattleEntity*)m_PBaseEntity, ignoreScholar);
     else
         weather = zoneutils::GetZone(m_PBaseEntity->getZone())->GetWeather();
 
