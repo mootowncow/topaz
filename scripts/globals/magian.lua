@@ -28,39 +28,6 @@ tpz.magian.moogle =
     GREEN   = 17772784,
 }
 
-local trialListeners =
-{
-    ['WSUse'] = function(player, trialNum, trial)
-        player:addListener("WEAPONSKILL_USE", "MAGIAN_USE_WS_"..trialNum, function(player, target, wsId)
-            printf("WS use")
-            local points = tpz.magian.evaluateTrialConditions(player, target, trial, wsId)
-            if points > 0 then
-                tpz.magian.addTrialPoints(player, trialNum, trial, points)
-            end
-        end)
-    end,
-
-    ['WSDamage'] = function(player, trialNum, trial)
-        printf("Adding WS dmg listener")
-        player:addListener("WS_DMG_DONE", "MAGIAN_WS_DMG_DONE_"..trialNum, function(player, target, damage, wsId)
-            printf("ws dmg")
-            local points = tpz.magian.evaluateTrialConditions(player, target, trial, wsId, damage)
-            if points > 0 then
-                tpz.magian.addTrialPoints(player, trialNum, trial, points)
-            end
-        end)
-    end,
-
-    ['ExperiencePoints'] = function(player, trialNum, trial)
-        player:addListener("EXPERIENCE_POINTS", "MAGIAN_GAIN_EXP_"..trialNum, function(player, exp)
-            local points = tpz.magian.evaluateTrialConditions(player, nil, trial)
-            if points > 0 then
-                tpz.magian.addTrialPoints(player, trialNum, trial, exp) -- or some conversion if applicable
-            end
-        end)
-    end,
-}
-
 -- Builds the table of what trials to add when trading an item + starter item
 tpz.magian.onGameIn = function()
     tpz.magian.startableTrials = {}
@@ -87,17 +54,47 @@ tpz.magian.onGameIn = function()
 end
 
 tpz.magian.registerListeners = function(player)
-    local activeTrials = tpz.magian.getActiveMagianTrials(player)
-    printf("Registering magian listeners")
-    for trialNum, data in pairs(activeTrials) do
-        local trial = tpz.magian.trialDataById[trialNum]
-        if trial and (trial.type == 'Special') then
-            local listeners = trialListeners[trial.specialType]
-            if listeners then
-                listeners(player, trialNum, trial)
+    -- WS USE
+    player:addListener("WEAPONSKILL_USE", "MAGIAN_USE_WS", function(player, target, wsId)
+        local activeTrials = tpz.magian.getActiveMagianTrials(player)
+        for trialNum, _ in pairs(activeTrials) do
+            local trial = tpz.magian.trialDataById[trialNum]
+            if trial and trial.type == 'Special' and trial.specialType == 'WSUse' then
+                local points = tpz.magian.evaluateTrialConditions(player, target, trial, wsId)
+                if points > 0 then
+                    tpz.magian.addTrialPoints(player, trialNum, trial, points)
+                end
             end
         end
-    end
+    end)
+
+    -- WS DAMAGE
+    player:addListener("WS_DMG_DONE", "MAGIAN_WS_DMG_DONE", function(player, target, damage, wsId)
+        local activeTrials = tpz.magian.getActiveMagianTrials(player)
+        for trialNum, _ in pairs(activeTrials) do
+            local trial = tpz.magian.trialDataById[trialNum]
+            if trial and trial.type == 'Special' and trial.specialType == 'WSDamage' then
+                local points = tpz.magian.evaluateTrialConditions(player, target, trial, wsId, damage)
+                if points > 0 then
+                    tpz.magian.addTrialPoints(player, trialNum, trial, points)
+                end
+            end
+        end
+    end)
+
+    -- EXP
+    player:addListener("EXPERIENCE_POINTS", "MAGIAN_GAIN_EXP", function(player, exp)
+        local activeTrials = tpz.magian.getActiveMagianTrials(player)
+        for trialNum, _ in pairs(activeTrials) do
+            local trial = tpz.magian.trialDataById[trialNum]
+            if trial and trial.type == 'Special' and trial.specialType == 'ExperiencePoints' then
+                local points = tpz.magian.evaluateTrialConditions(player, nil, trial)
+                if points > 0 then
+                    tpz.magian.addTrialPoints(player, trialNum, trial, exp)
+                end
+            end
+        end
+    end)
 end
 
 tpz.magian.magianOnTrigger = function(player, npc, trade)
@@ -509,7 +506,6 @@ tpz.magian.getActiveMagianTrials = function(player)
 
     return activeTrials
 end
-
 
 magianTrials = {}
 magianTrials.Items = function(player, npc, trade, trial, trialNumber)
