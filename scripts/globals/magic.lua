@@ -3272,8 +3272,6 @@ function TryApplyAdditionalEffect(player, target, effect, element, power, tick, 
         tick = 0
     end
 
-
-
     -- Get sub effect from status effect ID
     for i, statusEffects in pairs(effects) do
         if (effect == statusEffects[1]) then
@@ -3300,6 +3298,8 @@ function TryApplyAdditionalEffect(player, target, effect, element, power, tick, 
         end
 
         target:addStatusEffect(effect, power, tick, duration, 0, subpower, tier)
+
+        tpz.magian.checkMagianTrialEffects(caster, target, effect, 'AddEffect')
 
         return subeffect, tpz.msg.basic.ADD_EFFECT_STATUS, effect
     end
@@ -3425,7 +3425,7 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
             target:delStatusEffectSilent(effect)
         end
         if target:addStatusEffect(effect, power, tick, finalDuration, 0, subpower, tier) then
-            tpz.magian.checkMagianTrialEffects(caster, target, effect)
+            tpz.magian.checkMagianTrialEffects(caster, target, effect, 'Magic')
 
             caster:delStatusEffectSilent(tpz.effect.STYMIE)
             -- Check for magic burst

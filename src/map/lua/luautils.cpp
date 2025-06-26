@@ -3265,7 +3265,18 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
                     // lua_pushboolean(LuaHandle, isPetKill);
                     // Todo: look at better way do do these than additional bools...
 
-                    if (lua_pcall(LuaHandle, 4, 0, 0))
+                    CBattleEntity* PBattleMob = dynamic_cast<CBattleEntity*>(PMob);
+                    if (PBattleMob && PBattleMob->PLastAttacker)
+                    {
+                        CLuaBaseEntity LuaAttacker(PBattleMob->PLastAttacker);
+                        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaAttacker);
+                    }
+                    else
+                    {
+                        lua_pushnil(LuaHandle);
+                    }
+
+                    if (lua_pcall(LuaHandle, 5, 0, 0))
                     {
                         ShowError("luautils::onMobDeathEx: %s\n", lua_tostring(LuaHandle, -1));
                         lua_pop(LuaHandle, 1);

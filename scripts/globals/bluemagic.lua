@@ -1158,7 +1158,7 @@ function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, p
 
         if (finalDuration > 0) then
             if target:addStatusEffect(params.effect, power, tick, finalDuration) then
-                tpz.magian.checkMagianTrialEffects(caster, target, effect)
+                tpz.magian.checkMagianTrialEffects(caster, target, effect, 'Magic')
 
                 -- Check for magic burst
                 if GetEnfeebleMagicBurstMessage(caster, spell, target) and (damage < 2) then

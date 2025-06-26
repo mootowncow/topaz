@@ -1661,3 +1661,18 @@ end
 function utils.PunctuateString(word)
     return word:sub(1, 1):upper() .. word:sub(2):lower()
 end
+
+-- Converts "ENUM_VALUE_NAME" to "Enum value name"
+function utils.formatEnumName(raw)
+    local clean = raw:gsub("_", " "):lower()
+    return clean:sub(1, 1):upper() .. clean:sub(2)
+end
+
+-- Generates a reverse lookup table: { value = "Formatted Name" }
+function utils.generateEnumNameMap(enumTable)
+    local nameMap = {}
+    for k, v in pairs(enumTable) do
+        nameMap[v] = utils.formatEnumName(k)
+    end
+    return nameMap
+end

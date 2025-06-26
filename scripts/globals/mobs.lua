@@ -22,7 +22,7 @@ tpz = tpz or {}
 tpz.mob = tpz.mob or {}
 
 -- onMobDeathEx is called from the core
-function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill)
+function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill, killer)
     -- Things that happen only to the person who landed killing blow
     if isKiller then
         -- DRK quest - Blade Of Darkness
@@ -46,8 +46,12 @@ function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill)
         end
     end
 
+        -- killer can be nil, check it like:
+    if killer then
+        printf("Last attacker was: %s", killer:getName())
+    end
     tpz.znm.OnMobDeath(mob, player, isKiller, isWeaponSkillKill)
-    tpz.magian.checkMagianTrial(player, mob, isKiller, isWeaponSkillKill)
+    tpz.magian.checkMagianTrial(player, mob, killer)
 end
 
 -------------------------------------------------

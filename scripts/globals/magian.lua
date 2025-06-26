@@ -9,9 +9,14 @@ require("scripts/globals/magian_data")
 require("scripts/globals/npc_util")
 require("scripts/globals/world")
 require("scripts/globals/item_utils")
+require("scripts/globals/utils")
 -----------------------------------
 -- TODO: Make weather into functions so you can just call "wind" and itll do both winds (Do in world.lua?)
--- TODO: Make sure trials are kill shared for allies in range
+-- TODO: Add effect trigger (i.e. additional effect: evasion down on the weapon)
+-- TODO: Test "Any monster" killType (if no kill type it defaults to this?)
+-- TODO: How to code weapons to only proc if they have add effect augment (augment should add ADDITIONAL_EFFECT mod then file checks if mod > 0?)
+-- But what if dual wielding and the MH has it and OH doesn't? Need to check if the ITEM has the augment then, I think i can do that easily now
+
 tpz = tpz or {}
 tpz.magian = tpz.magian or {}
 
@@ -186,6 +191,7 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
                     player:addItem(mainItemId, 1, 0, 0, 0, 0, 0, 0, 0, 0, trialNumber)
                     player:messageSpecial(ID.text.MAGIAN_TRIAL_STARTED, tpz.ki.MAGIAN_TRIAL_LOG)
                     player:setCharVar("MagianTrial_" .. trialNumber, tpz.magian.TRIAL_ACCEPTED)
+                    tpz.magian.trialObjectivesText(player, trial, trialNumber)
                     return
                 end
             end
@@ -221,6 +227,7 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
                     player:addItem(mainItemId, 1, 0, 0, 0, 0, 0, 0, 0, 0, trialNumber)
                     player:messageSpecial(ID.text.MAGIAN_TRIAL_STARTED, tpz.ki.MAGIAN_TRIAL_LOG)
                     player:setCharVar("MagianTrial_" .. trialNumber, tpz.magian.TRIAL_ACCEPTED)
+                    tpz.magian.trialObjectivesText(player, trial, trialNumber)
                     return
                 end
             end
@@ -254,6 +261,7 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
                         player:addItem(mainItemId, 1, unpack(addItemArgs))
                         player:messageSpecial(ID.text.MAGIAN_TRIAL_STARTED, tpz.ki.MAGIAN_TRIAL_LOG)
                         player:setCharVar("MagianTrial_" .. trialNumber, tpz.magian.TRIAL_ACCEPTED)
+                        tpz.magian.trialObjectivesText(player, trial, trialNumber)
                         return
                     end
                 end
@@ -286,6 +294,10 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
     else
         printf("[Magian] Trial %d is still active.", currentTrial)
         player:messageSpecial(ID.text.MAGIAN_TRIAL_ACTIVE)
+        local trial = tpz.magian.trialDataById[currentTrial]
+        if trial then
+            tpz.magian.trialObjectivesText(player, trial, currentTrial)
+        end
     end
 end
 
@@ -299,8 +311,84 @@ tpz.magian.IsValidReward = function(player, npc, trade, rewardItem)
     return true
 end
 
+tpz.magian.trialObjectivesText = function(player, trial, trialNumber)
+    local familyNames       = utils.generateEnumNameMap(tpz.mob.family)
+    local poolNames         = utils.generateEnumNameMap(tpz.mob.pool)
+    local weatherNames      = utils.generateEnumNameMap(tpz.weather)
+    local dayNames          = utils.generateEnumNameMap(tpz.day)
+    local currentProgress   = player:getCharVar("MagianKills_" .. trialNumber)
+
+    if (trial.type == 'Effect') then
+        currentProgress = player:getCharVar("MagianEffects_" .. trialNumber)
+    end
+
+    player:queue(1000, function(player) 
+        player:PrintToPlayer("Trial " .. trialNumber, 0xD, nil)
+
+        -- Trial type
+        player:PrintToPlayer("Type: " .. trial.type, 0xD, nil)
+
+        -- Kill type / sub type / special type
+        if trial.killType then
+            player:PrintToPlayer("Kill Type: " .. trial.killType, 0xD, nil)
+        end
+        if trial.subType then
+            player:PrintToPlayer("Sub Type: " .. trial.subType, 0xD, nil)
+        end
+        if trial.specialType then
+            player:PrintToPlayer("Special Type: " .. trial.specialType, 0xD, nil)
+        end
+
+        -- Mob families
+        if trial.mob then
+            local families = ""
+            for _, family in ipairs(trial.mob) do
+                families = families .. (familyNames[family] or "#" .. family) .. " "
+            end
+            player:PrintToPlayer("Target Families: " .. families, 0xD, nil)
+        end
+
+        -- Pet requirement
+        if trial.pet then
+            player:PrintToPlayer("Required Pet: " .. trial.pet, 0xD, nil)
+        end
+
+        -- Weapon skill requirements
+        if trial.wsId then
+            local wsList = table.concat(trial.wsId, ", ")
+            player:PrintToPlayer("Required WS: " .. wsList, 0xD, nil)
+        end
+
+        if trial.wsDmg then
+            player:PrintToPlayer("Minimum WS Damage: " .. trial.wsDmg, 0xD, nil)
+        end
+
+        -- Element requirement
+        if trial.element then
+            player:PrintToPlayer("Required Element: " .. trial.element, 0xD, nil)
+        end
+
+        -- Weather requirement
+        if trial.weather then
+            local weathers = ""
+            for _, weather in ipairs(trial.weather) do
+                weathers = weathers .. (weatherNames[weather] or "#" .. weather) .. ", "
+            end
+            player:PrintToPlayer("Required Weather: " .. weathers, 0xD, nil)
+        end
+
+        -- Day requirement
+        if trial.day then
+            player:PrintToPlayer("Required Day: " .. (dayNames[trial.day] or "#" .. trial.day), 0xD, nil)
+        end
+
+        -- Required kills/points
+        player:PrintToPlayer("Required: " .. currentProgress .. "/" .. trial.numRequired, 0xD, nil)
+    end)
+end
+
 -- Kill trials
-tpz.magian.checkMagianTrial = function (player, mob, isKiller, isWeaponSkillKill)
+tpz.magian.checkMagianTrial = function (player, mob, killer)
     printf("[Magian] Checking Magian Trials for player %s", player:getName())
 
     local activeTrials = tpz.magian.getActiveMagianTrials(player)
@@ -313,7 +401,7 @@ tpz.magian.checkMagianTrial = function (player, mob, isKiller, isWeaponSkillKill
             if trial and (trial.type == 'Kills') then
                 printf("[Magian] Trial %d is a Kills trial of type %s", trialNum, trial.subType)
 
-                local points = tpz.magian.evaluateTrialConditions(player, mob, trial)
+                local points = tpz.magian.evaluateTrialConditions(player, mob, trial, nil, nil, killer)
                 if points > 0 then
                     tpz.magian.addTrialPoints(player, trialNum, trial, points)
                 end
@@ -322,7 +410,7 @@ tpz.magian.checkMagianTrial = function (player, mob, isKiller, isWeaponSkillKill
     end
 end
 
-tpz.magian.checkMagianTrialEffects = function(player, mob, effect)
+tpz.magian.checkMagianTrialEffects = function(player, mob, effect, sourceType)
     printf("[Magian] Checking Magian Trials for player %s", player:getName())
 
     local activeTrials = tpz.magian.getActiveMagianTrials(player)
@@ -330,10 +418,16 @@ tpz.magian.checkMagianTrialEffects = function(player, mob, effect)
 
     if player:checkKillCredit(mob) then
         for trialNum, data in pairs(activeTrials) do
-            printf("[Magian] Checking trial %d (itemId: %d in slot %d)", trialNum, data.itemId, data.slot)
             local trial = tpz.magian.trialDataById[trialNum]
-            if trial and (trial.type == 'Effect') then
-                tpz.magian.processTrialEffect(player, trialNum, trial, effect, trial.effect)
+
+            if trial and trial.type == 'Effect' then
+                -- Check for subtype match
+                if trial.subType == sourceType then
+                    printf("[Magian] Processing trial %d (effect: %d) from source %s", trialNum, trial.effect, sourceType or "None")
+                    tpz.magian.processTrialEffect(player, trialNum, trial, effect, trial.effect)
+                else
+                    printf("[Magian] Skipped trial %d (subType mismatch: trial expects %s, got %s)", trialNum, trial.subType, sourceType)
+                end
             end
         end
     end
@@ -355,7 +449,7 @@ tpz.magian.addTrialPoints = function(player, trialNum, trial, points)
     end
 end
 
-tpz.magian.evaluateTrialConditions = function(player, mob, trial, skillId, damage)
+tpz.magian.evaluateTrialConditions = function(player, mob, trial, skillId, damage, killer)
     local points = 0
 
     -- If a mob is required, but none provided (like EXP without kill criteria), bail
@@ -395,10 +489,25 @@ tpz.magian.evaluateTrialConditions = function(player, mob, trial, skillId, damag
             return mob:hasStatusEffect(trial.effect)
         end,
 
+        ['AddEffect'] = function(player, mob, trial)
+            return mob:hasStatusEffect(trial.effect)
+        end,
+
         ['Zone'] = function(player, mob, trial)
             for _, zoneId in ipairs(trial.zone or {}) do
                 if zoneId == player:getZoneID() then return true end
             end
+        end,
+
+        ['PetKill'] = function(player, mob, trial, skillId, damage, killer)
+            if killer and killer:isPet() then
+                if trial.pet then -- Specific pet(s) required
+                    return killer:getName() == trial.pet
+                else
+                    return true -- Any pet kill qualifies
+                end
+            end
+            return false -- No points if neither condition met
         end,
 
         ['WSDamage'] = function(player, mob, trial, skillId, damage)
@@ -419,17 +528,25 @@ tpz.magian.evaluateTrialConditions = function(player, mob, trial, skillId, damag
         end,
     }
 
-    -- If trial has a subType or specialType, check it
+    -- If trial has a killType, subType or specialType, check it
+
+    if trial.killType then
+        local checkFunc = eligibilityChecks[trial.killType]
+        if not checkFunc or not checkFunc(player, mob, trial, skillId, damage, killer) then
+            return 0
+        end
+    end
+
     if trial.subType then
         local checkFunc = eligibilityChecks[trial.subType]
-        if not checkFunc or not checkFunc(player, mob, trial, skillId, damage) then
+        if not checkFunc or not checkFunc(player, mob, trial, skillId, damage, killer) then
             return 0
         end
     end
 
     if trial.specialType then
         local checkFunc = eligibilityChecks[trial.specialType]
-        if not checkFunc or not checkFunc(player, mob, trial, skillId, damage) then
+        if not checkFunc or not checkFunc(player, mob, trial, skillId, damage, killer) then
             return 0
         end
     end
