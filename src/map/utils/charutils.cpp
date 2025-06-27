@@ -4216,7 +4216,7 @@ namespace charutils
             {
                 CCharEntity* PMember = dynamic_cast<CCharEntity*>(PPartyMember);
 
-                if (!PMember || PMember->isDead() || (PMember->loc.zone->GetID() != zone))
+                if (!PMember || PMember->isDead() || (PMember->loc.zone->GetID() != zone) || (distance(PMember->loc.p, PMob->loc.p) > 100))
                 {
                     // Do not grant Capacity points if null, Dead, or in a different area
                     return;
