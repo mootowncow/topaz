@@ -3250,6 +3250,8 @@ function TryApplyAdditionalEffect(player, target, effect, element, power, tick, 
     local resist = getAdditionalEffectStatusResist(player, target, effect, element, skill, bonus)
     duration = math.floor(duration * resist)
 
+    target:updateClaim(player) -- Needed for checkKillCredit() for magian trials
+
     if isNoEffectMsg(player, target, effect, params) then
         return 
     end
@@ -3299,7 +3301,7 @@ function TryApplyAdditionalEffect(player, target, effect, element, power, tick, 
 
         target:addStatusEffect(effect, power, tick, duration, 0, subpower, tier)
 
-        tpz.magian.checkMagianTrialEffects(caster, target, effect, 'AddEffect')
+        tpz.magian.checkMagianTrialEffects(player, target, effect, 'AddEffect')
 
         return subeffect, tpz.msg.basic.ADD_EFFECT_STATUS, effect
     end

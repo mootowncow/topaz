@@ -12624,6 +12624,7 @@ inline int32 CLuaBaseEntity::getStatusEffect(lua_State *L)
 *  Purpose : Returns a Lua table of all Status Effects an Entity has
 *  Example : local effects = caster:getStatusEffects() -- can iterate over table
 *  Notes   : Currently only used to check for Snake Eyes in ability.lua
+*  Notes:  : Need to use effect:getType() in order to get it's status effect Id
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::getStatusEffects(lua_State *L)
@@ -12991,6 +12992,35 @@ inline int32 CLuaBaseEntity::setEffectUndispellable(lua_State* L)
     }
 
     return 0;
+}
+
+int32 CLuaBaseEntity::getStatusEffectsAtDeath(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
+
+    auto PMob = static_cast<CMobEntity*>(m_PBaseEntity);
+    if (PMob == nullptr)
+    {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    lua_newtable(L);
+    int idx = 1;
+    for (const auto& snapshot : PMob->m_StatusEffectsAtDeath)
+    {
+        lua_newtable(L);
+        lua_pushinteger(L, snapshot.effectId);
+        lua_setfield(L, -2, "effectId");
+
+        lua_pushinteger(L, snapshot.element);
+        lua_setfield(L, -2, "element");
+
+        lua_rawseti(L, -2, idx++);
+    }
+
+    return 1;
 }
 
 /************************************************************************
@@ -18825,6 +18855,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasStatusEffectByFlag),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,countEffect),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEffectUndispellable),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getStatusEffectsAtDeath),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffect),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffectsByFlag),

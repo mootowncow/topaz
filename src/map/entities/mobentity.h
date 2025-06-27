@@ -31,6 +31,12 @@ class CMobSpellList;
 class CEnmityContainer;
 class CItemState;
 
+struct EffectSnapshot
+{
+    uint16 effectId;
+    uint16 element;
+};
+
 enum SPAWNTYPE
 {
     SPAWNTYPE_NORMAL        = 0x00, // 00:00-24:00
@@ -263,6 +269,7 @@ public:
 
     CMobSpellContainer* SpellContainer;                // retrieves spells for the mob
     uint8     m_HasSpellScript;                        // 1 if they have a spell script to use for working out what to cast.
+    std::vector<EffectSnapshot> m_StatusEffectsAtDeath;
 
     time_t m_pixieLastCast;
     void PixieTryHealPlayer(CCharEntity* PChar); // Pixies only - attempt to cast a cure or a raise on a player

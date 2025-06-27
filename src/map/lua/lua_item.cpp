@@ -230,6 +230,7 @@ inline int32 CLuaItem::getAugment(lua_State* L)
 
     CItemEquipment* PItem = (CItemEquipment*)m_PLuaItem;
 
+    // Augment slots are 0 - 3
     auto slot = (uint8)lua_tointeger(L, 1);
     uint16 augment = PItem->getAugment(slot);
     uint16 augmentid = (uint16)unpackBitsBE((uint8*)(&augment), 0, 11);

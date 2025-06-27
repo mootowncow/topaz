@@ -34,6 +34,9 @@ tpz.magian.TRIAL_COMPLETED = 2
 -- While enemy is under x status effect
 -- Specific name (NM kills)
 
+-- All trials need to either be type 'Items', 'Kills', or 'Special'
+-- 'Special' only works on listener trials (via C++ core)
+
 tpz.magian.trials = {
     [1] = {
         mainItem      = tpz.items.PUGILISTS,
@@ -1408,7 +1411,7 @@ tpz.magian.trials = {
         specialType   = 'WSUse',
         previousTrial = 0,
         textOffset    = 1,
-        killType       = 'Family',
+        killType      = 'Family',
         mob           = { tpz.mob.family.COLIBRI },
         wsId          = { tpz.ws.HEAVY_SWING },
         numRequired   = 1000,
@@ -1449,7 +1452,7 @@ tpz.magian.trials = {
         textOffset    = 1,
         subType       = 'Zone',
         zone          = { tpz.zone.BHAFLAU_THICKETS },
-        numRequired   = 1000,
+        numRequired   = 100000,
         rewardItem    = {
             itemId       = tpz.items.EARTH_STAFF,
             itemAugments = {
@@ -1532,8 +1535,51 @@ tpz.magian.trials = {
             },
         },
     },
+
+    [9010] = {
+        mainItem      = tpz.items.KUKRI,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        subType       = 'UnderEffect',
+        effect        = tpz.effect.LEVEL_RESTRICTION,
+        previousTrial = 0,
+        textOffset    = 1,
+        killType       = 'Family',
+        mob           = { tpz.mob.family.COLIBRI },
+        numRequired   = 1000,
+        rewardItem    = {
+            itemId       = tpz.items.KUKRI,
+            itemAugments = {
+                { tpz.augments.MATT, 2 },
+            },
+        },
+    },
+
+    [9011] = {
+        mainItem      = tpz.items.BRONZE_DAGGER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        subType       = 'StatusEffectElement',
+        effectElement = tpz.magic.ele.FIRE,
+        previousTrial = 0,
+        textOffset    = 1,
+        killType       = 'Family',
+        mob           = { tpz.mob.family.COLIBRI },
+        numRequired   = 1000,
+        rewardItem    = {
+            itemId       = tpz.items.BRONZE_DAGGER,
+            itemAugments = {
+                { tpz.augments.MATT, 2 },
+            },
+        },
+    },
+
     -- Lyft weapon upgrades
     -- Squamous Hide gear
     -- Add previous trials for mass kills before OAT VNM trials and then TON more after to make it even better
+    -- Add trials vs EMPTY mobs
+    -- Add trials vs zilart beastmen and cactuars
+    -- Add trials for Sky God set / weapon trials, requires sky god seals
+    -- Add trials for AF weapons that require multiple testimonies and make the weapons equal to perdu etc in a unique way
     --1100 - 2199 free
 }

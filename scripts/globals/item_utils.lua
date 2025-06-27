@@ -266,6 +266,17 @@ tpz.itemUtils.removeMultipleEffects = function(target, effects, count, random)
     end
 end
 
+-- Augment slots are 0-3
+function tpz.itemUtils.HasAugment(item, augmentId)
+    for slot = 0, 3 do
+        local augId, augVal = item:getAugment(slot)
+        if augId == augmentId then
+            return augVal
+        end
+    end
+    return false
+end
+
 --[[ How to use DumpItemAugments
 local item = player:getEquip(0) -- e.g. main weapon
 
@@ -282,7 +293,7 @@ function tpz.itemUtils.PrintItemAugments(item)
     printf("[itemUtils] Augments for: %s", item:getName())
     local foundAugment = false
 
-    for slot = 1, 4 do
+    for slot = 0, 3 do -- corrected to 0-3
         local augId, augVal = item:getAugment(slot)
         if augId ~= 0 then
             foundAugment = true

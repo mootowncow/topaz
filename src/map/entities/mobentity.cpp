@@ -2410,6 +2410,17 @@ void CMobEntity::OnDespawn(CDespawnState&)
 
 void CMobEntity::Die()
 {
+    // Record mobs status effects before death for Magian Trials
+    m_StatusEffectsAtDeath.clear();
+    StatusEffectContainer->ForEachEffect(
+        [&](CStatusEffect* PEffect)
+        {
+            EffectSnapshot snapshot;
+            snapshot.effectId = PEffect->GetStatusID();
+            snapshot.element = effects::GetEffectElement(snapshot.effectId);
+            m_StatusEffectsAtDeath.push_back(snapshot);
+
+        });
     DoAutoTarget();
     PEnmityContainer->Clear();
     PAI->ClearStateStack();

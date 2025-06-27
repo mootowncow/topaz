@@ -13,10 +13,9 @@ require("scripts/globals/utils")
 -----------------------------------
 -- TODO: Make weather into functions so you can just call "wind" and itll do both winds (Do in world.lua?)
 -- TODO: Add effect trigger (i.e. additional effect: evasion down on the weapon)
--- TODO: Test "Any monster" killType (if no kill type it defaults to this?)
--- TODO: How to code weapons to only proc if they have add effect augment (augment should add ADDITIONAL_EFFECT mod then file checks if mod > 0?)
--- But what if dual wielding and the MH has it and OH doesn't? Need to check if the ITEM has the augment then, I think i can do that easily now
-
+-- TODO: While under a status effect (i.e. level restriction, make sure level restriction SPECIFICALLY works)
+-- TODO: Test 'Special' trials and ExperiencePoints
+-- TODO: Kills on target effected by status effect of x element
 tpz = tpz or {}
 tpz.magian = tpz.magian or {}
 
@@ -199,7 +198,7 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
         end
     end
 
-    -- Check if starting a new Kills or Effect trial
+    -- Check if starting a new Kills, Effect or Special trial
     if tpz.magian.startableTrials[mainItemId] then
         for tradeItemId, trialNumber in pairs(tpz.magian.startableTrials[mainItemId]) do
             local trial = tpz.magian.trials[trialNumber]
@@ -235,7 +234,7 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
         end
     end
 
-    -- Now, separately check for follow-up eligible Kills, Effect or special trials that are not in startableTrials
+    -- Now, separately check for follow-up eligible Kills, Effect or Special trials that are not in startableTrials
     for trialNumber, trial in pairs(tpz.magian.trials) do
         if trial.mainItem == mainItemId and (trial.type == 'Kills' or trial.type == 'Effect' or trial.type == 'Special') then
             if trial.previousTrial > 0 and player:getCharVar("MagianTrial_" .. trial.previousTrial) == tpz.magian.TRIAL_COMPLETED then
@@ -316,6 +315,8 @@ tpz.magian.trialObjectivesText = function(player, trial, trialNumber)
     local poolNames         = utils.generateEnumNameMap(tpz.mob.pool)
     local weatherNames      = utils.generateEnumNameMap(tpz.weather)
     local dayNames          = utils.generateEnumNameMap(tpz.day)
+    local elementNames      = utils.generateEnumNameMap(tpz.magic.ele)
+    local effectNames       = utils.generateEnumNameMap(tpz.effect)
     local currentProgress   = player:getCharVar("MagianKills_" .. trialNumber)
 
     if (trial.type == 'Effect') then
@@ -332,9 +333,11 @@ tpz.magian.trialObjectivesText = function(player, trial, trialNumber)
         if trial.killType then
             player:PrintToPlayer("Kill Type: " .. trial.killType, 0xD, nil)
         end
+
         if trial.subType then
             player:PrintToPlayer("Sub Type: " .. trial.subType, 0xD, nil)
         end
+
         if trial.specialType then
             player:PrintToPlayer("Special Type: " .. trial.specialType, 0xD, nil)
         end
@@ -355,7 +358,7 @@ tpz.magian.trialObjectivesText = function(player, trial, trialNumber)
 
         -- Weapon skill requirements
         if trial.wsId then
-            local wsList = table.concat(trial.wsId, ", ")
+            local wsList = table.concat(trial.wsId, " ")
             player:PrintToPlayer("Required WS: " .. wsList, 0xD, nil)
         end
 
@@ -365,14 +368,22 @@ tpz.magian.trialObjectivesText = function(player, trial, trialNumber)
 
         -- Element requirement
         if trial.element then
-            player:PrintToPlayer("Required Element: " .. trial.element, 0xD, nil)
+            player:PrintToPlayer("Required Element: " .. elementNames[trial.element], 0xD, nil)
+        end
+
+        if trial.effect then
+            player:PrintToPlayer("Required Status Effect: " .. (effectNames[trial.effect] or "#" .. trial.effect), 0xD, nil)
+        end
+
+        if trial.effectElement then
+            player:PrintToPlayer("Required Status Effect Element: " .. elementNames[trial.effectElement], 0xD, nil)
         end
 
         -- Weather requirement
         if trial.weather then
             local weathers = ""
             for _, weather in ipairs(trial.weather) do
-                weathers = weathers .. (weatherNames[weather] or "#" .. weather) .. ", "
+                weathers = weathers .. (weatherNames[weather] or "#" .. weather) .. " "
             end
             player:PrintToPlayer("Required Weather: " .. weathers, 0xD, nil)
         end
@@ -410,6 +421,7 @@ tpz.magian.checkMagianTrial = function (player, mob, killer)
     end
 end
 
+-- Effect trials
 tpz.magian.checkMagianTrialEffects = function(player, mob, effect, sourceType)
     printf("[Magian] Checking Magian Trials for player %s", player:getName())
 
@@ -421,10 +433,14 @@ tpz.magian.checkMagianTrialEffects = function(player, mob, effect, sourceType)
             local trial = tpz.magian.trialDataById[trialNum]
 
             if trial and trial.type == 'Effect' then
-                -- Check for subtype match
                 if trial.subType == sourceType then
-                    printf("[Magian] Processing trial %d (effect: %d) from source %s", trialNum, trial.effect, sourceType or "None")
-                    tpz.magian.processTrialEffect(player, trialNum, trial, effect, trial.effect)
+                    local points = tpz.magian.evaluateTrialConditions(player, mob, trial)
+                    if points > 0 then
+                        printf("[Magian] Processing trial %d (effect: %d) from source %s", trialNum, trial.effect, sourceType or "None")
+                        tpz.magian.processTrialEffect(player, trialNum, trial, effect, trial.effect)
+                    else
+                        printf("[Magian] Skipped trial %d (did not meet trial conditions)", trialNum)
+                    end
                 else
                     printf("[Magian] Skipped trial %d (subType mismatch: trial expects %s, got %s)", trialNum, trial.subType, sourceType)
                 end
@@ -432,6 +448,7 @@ tpz.magian.checkMagianTrialEffects = function(player, mob, effect, sourceType)
         end
     end
 end
+
 
 tpz.magian.addTrialPoints = function(player, trialNum, trial, points)
     local current = player:getCharVar("MagianKills_" .. trialNum) + points
@@ -448,6 +465,18 @@ tpz.magian.addTrialPoints = function(player, trialNum, trial, points)
         player:messageCombat(player, trialNum, remaining, tpz.msg.combat.MAGIAN_TRIAL_PROGRESS)
     end
 end
+
+function PrintAllMobEffectsAndElements(mob)
+    local effects = mob:getStatusEffects()
+    printf("Mob has %d status effects:", #effects)
+
+    for _, effect in ipairs(effects) do
+        local effectId = effect:getType()
+        local element = mob:getStatusEffectElement(effectId)
+        printf("Effect ID: %d, Element: %d", effectId, element)
+    end
+end
+
 
 tpz.magian.evaluateTrialConditions = function(player, mob, trial, skillId, damage, killer)
     local points = 0
@@ -489,8 +518,33 @@ tpz.magian.evaluateTrialConditions = function(player, mob, trial, skillId, damag
             return mob:hasStatusEffect(trial.effect)
         end,
 
+        ['StatusEffectElement'] = function(player, mob, trial)
+            local effectsAtDeath = mob:getStatusEffectsAtDeath()
+
+            -- If no effects saved, immediately return false
+            if effectsAtDeath == nil or #effectsAtDeath == 0 then
+                printf("No effects recorded at death.")
+                return false
+            end
+
+            -- effectsAtDeath is a table of { effectId = ..., element = ... }
+            for _, effect in ipairs(effectsAtDeath) do
+                printf("Effect ID at death: %d, Element: %d", effect.effectId, effect.element)
+                if effect.element == trial.effectElement then
+                    return true
+                end
+            end
+
+            printf("No matching effects found in death snapshot.")
+            return false
+        end,
+
         ['AddEffect'] = function(player, mob, trial)
             return mob:hasStatusEffect(trial.effect)
+        end,
+
+        ['UnderEffect'] = function(player, mob, trial)
+            return player:hasStatusEffect(trial.effect)
         end,
 
         ['Zone'] = function(player, mob, trial)
@@ -508,6 +562,10 @@ tpz.magian.evaluateTrialConditions = function(player, mob, trial, skillId, damag
                 end
             end
             return false -- No points if neither condition met
+        end,
+
+        ['Magic'] = function(player, mob, trial)
+            return true
         end,
 
         ['WSDamage'] = function(player, mob, trial, skillId, damage)
