@@ -963,93 +963,50 @@ tpz.appraisalUtil.appraisalItems =
         {
             items =
             {
-                {20, 12969}, -- Leather Gloves
-                {20, 12965}, -- Bronze Mittens +1
-                {20, 12721}, -- Cotton Gloves
-                {20, 12728}, -- Cuffs
+                -- 50% chance Cotton Cape / Lizard mantle, 50% chance a JSE cape
+                {25, 13601}, -- Cotton Cape +1
+                {25, 13608}, -- Lizard Mantle +1
 
-                {20, 28617}, -- Mauler's Mantle
-                {20, 28618}, -- Anchoret's Mantle
-                {20, 28619}, -- Mending Cape
-                {20, 28620}, -- Bane Cape
-                {20, 28621}, -- Ghostfyre Cape
-                {20, 28622}, -- Canny Cape
-                {20, 28623}, -- Weard Mantle
-                {20, 28624}, -- Niht Mantle
-                {20, 28625}, -- Pastoralist's Mantle
-                {20, 28626}, -- Rhapsode's Cape
-                {20, 28627}, -- Lutian Cape
-                {20, 28628}, -- Takaha Mantle
-                {20, 28629}, -- Yokaze Mantle
-                {20, 28630}, -- Updraft Mantle
-                {20, 28631}, -- Conveyance Cape
-                {20, 28632}, -- Cornflower Cape
-                {20, 28633}, -- Gunslinger's Cape
-                {20, 28634}, -- Dispersal Mantle
-                {20, 28635}, -- Toetapper Mantle
-                {20, 28636}, -- Bookworm's Cape
-            }
+                {8, 28621}, -- Ghostfyre Cape
+                {8, 28624}, -- Niht Mantle
+                {8, 28619}, -- Mending Cape
+                {7, 28630}, -- Updraft Mantle
+                {7, 28636}, -- Bookworm's Cape
+                {7, 28626}, -- Rhapsode's Cape
+                {7, 28622}, -- Canny Cape
+            },
         },
         [tpz.appraisalUtil.Origin.HALVUNG] =
         {
             items =
             {
-                {20, 12969}, -- Leather Gloves
-                {20, 12965}, -- Bronze Mittens +1
-                {20, 12721}, -- Cotton Gloves
-                {20, 12728}, -- Cuffs
+                -- 50% chance Cotton Cape / Lizard mantle, 50% chance a JSE cape
+                {25, 13601}, -- Cotton Cape +1
+                {25, 13608}, -- Lizard Mantle +1
 
-                {20, 28617}, -- Mauler's Mantle
-                {20, 28618}, -- Anchoret's Mantle
-                {20, 28619}, -- Mending Cape
-                {20, 28620}, -- Bane Cape
-                {20, 28621}, -- Ghostfyre Cape
-                {20, 28622}, -- Canny Cape
-                {20, 28623}, -- Weard Mantle
-                {20, 28624}, -- Niht Mantle
-                {20, 28625}, -- Pastoralist's Mantle
-                {20, 28626}, -- Rhapsode's Cape
-                {20, 28627}, -- Lutian Cape
-                {20, 28628}, -- Takaha Mantle
-                {20, 28629}, -- Yokaze Mantle
-                {20, 28630}, -- Updraft Mantle
-                {20, 28631}, -- Conveyance Cape
-                {20, 28632}, -- Cornflower Cape
-                {20, 28633}, -- Gunslinger's Cape
-                {20, 28634}, -- Dispersal Mantle
-                {20, 28635}, -- Toetapper Mantle
-                {20, 28636}, -- Bookworm's Cape
+                {8, 28632}, -- Cornflower Cape
+                {8, 28635}, -- Toetapper Mantle
+                {8, 28617}, -- Mauler's Mantle
+                {7, 28633}, -- Gunslinger's Cape
+                {7, 28623}, -- Weard Mantle
+                {7, 28618}, -- Anchoret's Mantle
+                {7, 28620}, -- Bane Cape
             }
         },
         [tpz.appraisalUtil.Origin.ARRAPAGO_REEF] =
         {
             items =
             {
-                {20, 12969}, -- Leather Gloves
-                {20, 12965}, -- Bronze Mittens +1
-                {20, 12721}, -- Cotton Gloves
-                {20, 12728}, -- Cuffs
+                -- 50% chance Cotton Cape / Lizard mantle, 50% chance a JSE cape
+                {25, 13601}, -- Cotton Cape +1
+                {25, 13608}, -- Lizard Mantle +1
 
-                {20, 28617}, -- Mauler's Mantle
-                {20, 28618}, -- Anchoret's Mantle
-                {20, 28619}, -- Mending Cape
-                {20, 28620}, -- Bane Cape
-                {20, 28621}, -- Ghostfyre Cape
-                {20, 28622}, -- Canny Cape
-                {20, 28623}, -- Weard Mantle
-                {20, 28624}, -- Niht Mantle
-                {20, 28625}, -- Pastoralist's Mantle
-                {20, 28626}, -- Rhapsode's Cape
-                {20, 28627}, -- Lutian Cape
-                {20, 28628}, -- Takaha Mantle
-                {20, 28629}, -- Yokaze Mantle
-                {20, 28630}, -- Updraft Mantle
-                {20, 28631}, -- Conveyance Cape
-                {20, 28632}, -- Cornflower Cape
-                {20, 28633}, -- Gunslinger's Cape
-                {20, 28634}, -- Dispersal Mantle
-                {20, 28635}, -- Toetapper Mantle
-                {20, 28636}, -- Bookworm's Cape
+                {9, 28627}, -- Lutian Cape
+                {9, 28625}, -- Pastoralist's Mantle
+                {8, 28631}, -- Conveyance Cape
+                {8, 28629}, -- Yokaze Mantle
+                {8, 28628}, -- Takaha Mantle
+                {8, 28634}, -- Dispersal Mantle
             }
         },
     },
