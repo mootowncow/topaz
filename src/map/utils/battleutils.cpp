@@ -1954,64 +1954,68 @@ namespace battleutils
             }
 
             // These are AFTER weapon damage is calculated
-            if (enspell == ENSPELL_BLOOD_WEAPON)
+            if (afterDamageCalc)
             {
-                Action->additionalEffect = SUBEFFECT_HP_DRAIN;
-                Action->addEffectMessage = MSGBASIC_ENSPELL_HP_DRAIN;
+                if (enspell == ENSPELL_BLOOD_WEAPON)
+                {
+                    Action->additionalEffect = SUBEFFECT_HP_DRAIN;
+                    Action->addEffectMessage = MSGBASIC_ENSPELL_HP_DRAIN;
 
-                // Increase HP Absorbed by 2% per JP
-                int32 absorbed = Action->param;
-                if (PAttacker->objtype == TYPE_PC)
-                {
-                    absorbed += (int32)floor(absorbed * 0.02f * static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(JP_BLOOD_WEAPON_EFFECT));
-                }
+                    // Increase HP Absorbed by 2% per JP
+                    int32 absorbed = Action->param;
+                    if (PAttacker->objtype == TYPE_PC)
+                    {
+                        absorbed += (int32)floor(absorbed * 0.02f * static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(JP_BLOOD_WEAPON_EFFECT));
+                    }
 
-                // Reduced by Shell / Phalanx
-                // https://www.bg-wiki.com/ffxi/Blood_Weapon
+                    // Reduced by Shell / Phalanx
+                    // https://www.bg-wiki.com/ffxi/Blood_Weapon
 
-                absorbed = MagicDmgTaken(PDefender, absorbed, (ELEMENT)(ELEMENT_DARK), absorbed);
-                // Does not work on undead
-                if (PDefender->objtype == TYPE_MOB && PDefender->m_EcoSystem == SYSTEM_UNDEAD)
-                {
-                    Action->addEffectParam = 0;
-                }
-                else
-                {
-                    Action->addEffectParam = PAttacker->addHP(absorbed);
-                }
+                    absorbed = MagicDmgTaken(PDefender, absorbed, (ELEMENT)(ELEMENT_DARK), absorbed);
+                    // Does not work on undead
+                    if (PDefender->objtype == TYPE_MOB && PDefender->m_EcoSystem == SYSTEM_UNDEAD)
+                    {
+                        Action->addEffectParam = 0;
+                    }
+                    else
+                    {
+                        Action->addEffectParam = PAttacker->addHP(absorbed);
+                    }
 
-                if (PChar != nullptr)
-                {
-                    PChar->updatemask |= UPDATE_HP;
+                    if (PChar != nullptr)
+                    {
+                        PChar->updatemask |= UPDATE_HP;
+                    }
                 }
-            }
-            else if (enspell == ENSPELL_SOUL_ENSLAVEMENT)
-            {
-                Action->additionalEffect = SUBEFFECT_TP_DRAIN;
-                Action->addEffectMessage = MSGBASIC_ADD_EFFECT_TP_DRAIN;
+                else if (enspell == ENSPELL_SOUL_ENSLAVEMENT)
+                {
+                    Action->additionalEffect = SUBEFFECT_TP_DRAIN;
+                    Action->addEffectMessage = MSGBASIC_ADD_EFFECT_TP_DRAIN;
 
-                // Increase TP Absorbed by 1% per JP
-                int32 absorbed = Action->param;
-                if (PAttacker->objtype == TYPE_PC)
-                {
-                    absorbed += (int32)floor(absorbed * 0.01f * static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(JP_SOUL_ENSLAVEMENT_EFFECT));
-                }
+                    // Increase TP Absorbed by 1% per JP
+                    int32 absorbed = Action->param;
+                    if (PAttacker->objtype == TYPE_PC)
+                    {
+                        absorbed +=
+                            (int32)floor(absorbed * 0.01f * static_cast<CCharEntity*>(PAttacker)->PJobPoints->GetJobPointValue(JP_SOUL_ENSLAVEMENT_EFFECT));
+                    }
 
-                // Does not work on undead
-                if (PDefender->objtype == TYPE_MOB && PDefender->m_EcoSystem == SYSTEM_UNDEAD)
-                {
-                    Action->addEffectParam = 0;
-                }
-                else
-                {
-                    // Removes TP from the attacker
-                    PDefender->addTP(-absorbed);
-                    Action->addEffectParam = PAttacker->addTP(absorbed);
-                }
+                    // Does not work on undead
+                    if (PDefender->objtype == TYPE_MOB && PDefender->m_EcoSystem == SYSTEM_UNDEAD)
+                    {
+                        Action->addEffectParam = 0;
+                    }
+                    else
+                    {
+                        // Removes TP from the attacker
+                        PDefender->addTP(-absorbed);
+                        Action->addEffectParam = PAttacker->addTP(absorbed);
+                    }
 
-                if (PChar != nullptr)
-                {
-                    PChar->updatemask |= UPDATE_HP;
+                    if (PChar != nullptr)
+                    {
+                        PChar->updatemask |= UPDATE_HP;
+                    }
                 }
             }
 

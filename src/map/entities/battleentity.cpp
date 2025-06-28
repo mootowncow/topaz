@@ -2438,7 +2438,10 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 // Spikes is also applied after damage calc (For retal, reprisal, reflect(damage spikes) spikes, etc
                 if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
                 {
-                    if (!isBlocked)
+                    if (!isBlocked &&
+                        actionTarget.additionalEffect == 0 &&
+                        actionTarget.addEffectMessage == 0 &&
+                        actionTarget.addEffectParam == 0)
                     {
                         battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
                                                    attack.GetDamage(), true);
