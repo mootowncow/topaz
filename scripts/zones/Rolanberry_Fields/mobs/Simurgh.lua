@@ -19,7 +19,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.ATTP, 25)
     mob:setMod(tpz.mod.DOUBLE_ATTACK, 50)
     mob:addMod(tpz.mod.DEFP, 25) 
-    mob:addMod(tpz.mod.EVA, 60)
+    mob:addMod(tpz.mod.EVA, 1000)
     mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
     mob:setMobMod(tpz.mobMod.MUG_GIL, 1000)
     mob:setLocalVar("[rage]timer", 3600) -- 60 minutes
