@@ -1393,6 +1393,7 @@ tpz.magian.trials = {
         textOffset    = 1,
         killType      = 'Family',
         mob           = { tpz.mob.family.COLIBRI },
+        subType       = 'Weather',
         weather       = { tpz.weather.WIND, tpz.weather.GALES },
         day           = tpz.day.WINDSDAY,
         numRequired   = 1000,
@@ -1580,6 +1581,7 @@ tpz.magian.trials = {
     -- Add trials vs EMPTY mobs
     -- Add trials vs zilart beastmen and cactuars
     -- Add trials for Sky God set / weapon trials, requires sky god seals
-    -- Add trials for AF weapons that require multiple testimonies and make the weapons equal to perdu etc in a unique way
+    -- Add trials for AF weapons that require multiple testimonies. Unique job specific weapons with brand new mods kinda like bonanza weapons
+    -- AF Weapon trial part2 to kill vanilla Beastmen Kings many times
     --1100 - 2199 free
 }

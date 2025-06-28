@@ -568,6 +568,10 @@ tpz.magian.evaluateTrialConditions = function(player, mob, trial, skillId, damag
             return true
         end,
 
+        ['Weather'] = function(player, mob, trial)
+            return true
+        end,
+
         ['WSDamage'] = function(player, mob, trial, skillId, damage)
             for _, expectedWsId in ipairs(trial.wsId or {}) do
                 if expectedWsId == skillId and damage and damage > trial.wsDmg then return true end
