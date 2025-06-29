@@ -2692,7 +2692,7 @@ INSERT INTO `mob_groups` VALUES (48,465,54,'Bloody_Bones',3600,0,306,22350,0,83,
 INSERT INTO `mob_groups` VALUES (49,2629,54,'Merrow_Songstress',300,0,1657,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (50,2617,54,'Merrow_Bladedancer',300,0,1657,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (51,2043,54,'Ice_Elemental',300,4,1347,0,0,81,83,0);
-INSERT INTO `mob_groups` VALUES (52,5328,54,'Nostokulshedra ',300,0,6119,0,0,74,76,0);
+INSERT INTO `mob_groups` VALUES (52,5328,54,'Nostokulshedra ',300,0,6119,0,0,85,87,0);
 INSERT INTO `mob_groups` VALUES (53,2631,54,'Merrow_Wavedancer',300,0,1657,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (54,2335,54,'Lamia_Idolater',300,0,1492,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (55,2338,54,'Lamia_Necromancer',300,0,1494,0,0,81,83,0);
@@ -3326,7 +3326,7 @@ INSERT INTO `mob_groups` VALUES (14,71,68,'Air_Elemental',300,4,38,0,0,75,75,0);
 INSERT INTO `mob_groups` VALUES (15,307,68,'Aydeewa_Diremite',330,0,204,0,0,67,70,0);
 INSERT INTO `mob_groups` VALUES (16,2782,68,'Mycohopper',300,0,1759,6018,0,68,71,0);
 INSERT INTO `mob_groups` VALUES (17,1809,68,'Great_Ameretat',300,0,6103,0,0,73,76,0);
-INSERT INTO `mob_groups` VALUES (18,5333,68,'Deforester',330,0,598,0,0,65,68,0);
+INSERT INTO `mob_groups` VALUES (18,5333,68,'Deforester',330,0,598,0,0,85,87,0);
 INSERT INTO `mob_groups` VALUES (19,3245,68,'Qiqirn_Archaeologist',300,0,2050,0,0,73,75,0);
 INSERT INTO `mob_groups` VALUES (20,3261,68,'Qiqirn_Mosstrooper',300,0,2056,0,0,73,75,0);
 INSERT INTO `mob_groups` VALUES (21,2720,68,'Mold_Eater',300,0,1725,0,0,69,71,0);

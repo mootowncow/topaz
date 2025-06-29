@@ -1231,6 +1231,315 @@ tpz.magian.trials = {
         },
     },
 
+    [1100] = {
+        mainItem      = tpz.items.STENZ,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        branches      = {
+            [tpz.items.FIRE_CLUSTER]        = 1101,
+            [tpz.items.ICE_CLUSTER]         = 1111,
+            [tpz.items.WIND_CLUSTER]        = 1121,
+            [tpz.items.EARTH_CLUSTER]       = 1131,
+            [tpz.items.LIGHTNING_CLUSTER]   = 1141,
+            [tpz.items.WATER_CLUSTER]       = 1151,
+            [tpz.items.LIGHT_CLUSTER]       = 1161,
+            [tpz.items.DARK_CLUSTER]        = 1171
+        },
+    },
+
+    [1161] = {
+        mainItem      = tpz.items.STENZ,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1100,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.TONBERRY_ZILART, tpz.mob.family.TONBERRY_COP },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.LIGHT,
+        day           = tpz.day.LIGHTSDAY,
+        numRequired   = 250,
+        rewardItem    = {
+            itemId       = tpz.items.INGRIMM,
+            itemAugments = {
+                { tpz.augments.CURE_POTENCY, 5 },
+            },
+        },
+    },
+
+    [1162] = {
+        mainItem      = tpz.items.INGRIMM,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1161,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.GIANTBIRD, tpz.mob.family.GIANTBIRD_NM },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.LIGHT,
+        day           = tpz.day.LIGHTSDAY,
+        numRequired   = 300,
+        rewardItem    = {
+            itemId       = tpz.items.INGRIMM,
+            itemAugments = {
+                { tpz.augments.CURE_POTENCY, 7 },
+                { tpz.augments.MND, 4 },
+            },
+        },
+    },
+
+    [1163] = {
+        mainItem      = tpz.items.INGRIMM,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1162,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.GHRAH_SEA, tpz.mob.family.GHRAH_LIMBUS, tpz.mob.family.GHRAH_UNUSED },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.LIGHT,
+        day           = tpz.day.LIGHTSDAY,
+        numRequired   = 350,
+        rewardItem    = {
+            itemId       = tpz.items.INGRIMM,
+            itemAugments = {
+                { tpz.augments.CURE_POTENCY, 9 },
+                { tpz.augments.MND, 5 },
+                { tpz.augments.LIGHTRES, 10 },
+            },
+        },
+    },
+
+    [1164] = {
+        mainItem      = tpz.items.INGRIMM,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1163,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.HIPPOGRYPH, tpz.mob.family.HIPPOGRYPH_2 },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.LIGHT,
+        day           = tpz.day.LIGHTSDAY,
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.INGRIMM,
+            itemAugments = {
+                { tpz.augments.CURE_POTENCY, 12 },
+                { tpz.augments.MND, 6 },
+                { tpz.augments.LIGHTRES, 12 },
+            },
+        },
+    },
+
+    [1165] = {
+        mainItem      = tpz.items.INGRIMM,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1164,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.CARDIAN },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.LIGHT,
+        day           = tpz.day.LIGHTSDAY,
+        numRequired   = 450,
+        rewardItem    = {
+            itemId       = tpz.items.INGRIMM,
+            itemAugments = {
+                { tpz.augments.CURE_POTENCY, 13 },
+                { tpz.augments.MND, 7 },
+                
+            },
+        },
+    },
+
+    [1166] = {
+        mainItem      = tpz.items.INGRIMM,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1165,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.ARTEMISIA },
+        numRequired   = 15,
+        rewardItem    = {
+            itemId       = tpz.items.INGRIMM,
+            itemAugments = {
+                { tpz.augments.CURE_POTENCY, 14 },
+                { tpz.augments.MND, 7 },
+                { tpz.augments.LIGHTRES, 17 },
+            },
+        },
+    },
+
+    [1167] = {
+        mainItem      = tpz.items.INGRIMM,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1166,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.VERTHANDI },
+        numRequired   = 25,
+        rewardItem    = {
+            itemId       = tpz.items.INGRIMM,
+            itemAugments = {
+                { tpz.augments.CURE_POTENCY, 14 },
+                { tpz.augments.MND, 7 },
+                { tpz.augments.REFRESH, 0 },
+                { tpz.augments.LIGHTRES, 20 },
+            },
+        },
+    },
+
+    [1171] = {
+        mainItem      = tpz.items.STENZ,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1100,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.AERN },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.DARK,
+        day           = tpz.day.DARKSDAY,
+        numRequired   = 250,
+        rewardItem    = {
+            itemId       = tpz.items.INGRIMM,
+            itemAugments = {
+                { tpz.augments.MACC, 14 },
+            },
+        },
+    },
+
+    [1172] = {
+        mainItem      = tpz.items.INGRIMM,
+        tradeItem     = tpz.items.NONE, 
+        type          = 'Kills',
+        previousTrial = 1171,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.AERN },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.DARK,
+        day           = tpz.day.DARKSDAY,
+        numRequired   = 300,
+        rewardItem    = {
+            itemId       = tpz.items.INGRIMM,
+            itemAugments = {
+                { tpz.augments.MACC, 15 },
+                { tpz.augments.MP_33, 2 },
+            },
+        },
+    },
+    -- TODO: Res of trials, and start adding DARKRES (10-20)
+
+    [1200] = {
+        mainItem      = tpz.items.SIDE_SWORD,
+        tradeItem     = tpz.items.NONE,
+        branches      = {
+            [tpz.items.FIRE_CLUSTER]        = 1201,
+            [tpz.items.ICE_CLUSTER]         = 1211,
+            [tpz.items.WIND_CLUSTER]        = 1221,
+            [tpz.items.EARTH_CLUSTER]       = 1231,
+            [tpz.items.LIGHTNING_CLUSTER]   = 1241,
+            [tpz.items.WATER_CLUSTER]       = 1251,
+            [tpz.items.LIGHT_CLUSTER]       = 1261,
+            [tpz.items.DARK_CLUSTER]        = 1271
+        },
+    },
+
+    [1201] = {
+        mainItem      = tpz.items.SIDE_SWORD,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1200,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.WIVRE },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 250,
+        rewardItem    = {
+            itemId       = tpz.items.SOULSABER,
+            itemAugments = {
+                { tpz.augments.DELAYMINUS, 6 },
+            },
+        },
+    },
+
+
+    [1202] = {
+        mainItem      = tpz.items.SOULSABER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1201,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.MANTICORE },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 300,
+        rewardItem    = {
+            itemId       = tpz.items.SOULSABER,
+            itemAugments = {
+                { tpz.augments.DELAYMINUS, 10 },
+                { tpz.augments.MAIN_DMG_RATING, 5 },
+            },
+        },
+    },
+
+    [1203] = {
+        mainItem      = tpz.items.SOULSABER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1202,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.CLUSTER_1, tpz.mob.family.CLUSTER_2 },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 350,
+        rewardItem    = {
+            itemId       = tpz.items.SOULSABER,
+            itemAugments = {
+                { tpz.augments.DELAYMINUS, 12 },
+                { tpz.augments.MAIN_DMG_RATING, 7 },
+                { tpz.augments.ADDEFF_FIREDMG_5, 10 },
+            },
+        },
+    },
+
+    [1204] = {
+        mainItem      = tpz.items.SOULSABER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1203,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.DRACHENLIZARD },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.SOULSABER,
+            itemAugments = {
+                { tpz.augments.DELAYMINUS, 13 },
+                { tpz.augments.MAIN_DMG_RATING, 8 },
+                { tpz.augments.ADDEFF_FIREDMG_5, 15 },
+            },
+        },
+    },
+
+    -- Soulsaber MMM NM x15 next
+    -- Soulsaber VNM x 25 NEXT
+
     [2200] = {
         mainItem      = tpz.items.VULCANS_STAFF,
         tradeItem     = tpz.items.NONE,
@@ -1583,5 +1892,7 @@ tpz.magian.trials = {
     -- Add trials for Sky God set / weapon trials, requires sky god seals
     -- Add trials for AF weapons that require multiple testimonies. Unique job specific weapons with brand new mods kinda like bonanza weapons
     -- AF Weapon trial part2 to kill vanilla Beastmen Kings many times
-    --1100 - 2199 free
+    -- Most trials should end with ZNM T3 drops/kills
+    -- Trials for older Rare/Ex drops from NM's or quests like Executioner's Axe
+    -- TODO: Stenz dark trials
 }

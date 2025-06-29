@@ -11,11 +11,10 @@ require("scripts/globals/world")
 require("scripts/globals/item_utils")
 require("scripts/globals/utils")
 -----------------------------------
--- TODO: Make weather into functions so you can just call "wind" and itll do both winds (Do in world.lua?)
--- TODO: Add effect trigger (i.e. additional effect: evasion down on the weapon)
--- TODO: While under a status effect (i.e. level restriction, make sure level restriction SPECIFICALLY works)
 -- TODO: Test 'Special' trials and ExperiencePoints
--- TODO: Kills on target effected by status effect of x element
+-- TODO: Does 'Region' work? Not sure on lua binding
+-- TODO: Does 'Specific' work? I changed 'Pool' to 'Specific'
+-- TODO: weather and day should be 1 single key that has data for both day, weather, and double weather of a single element as the key name
 tpz = tpz or {}
 tpz.magian = tpz.magian or {}
 
@@ -36,6 +35,13 @@ tpz.magian.moogle =
 tpz.magian.onGameIn = function()
     tpz.magian.startableTrials = {}
     tpz.magian.trialDataById = {}
+
+    for element, weatherList in pairs(tpz.weatherGroup) do
+        local displayName = utils.PunctuateString(element)
+        for _, weatherId in ipairs(weatherList) do
+            tpz.weatherToElement[weatherId] = displayName
+        end
+    end
 
     for trialNumber, trial in pairs(tpz.magian.trials) do
         -- Map trial number to trial data
@@ -163,6 +169,28 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
     local mainItemId = tradedItem:getID()
     local currentTrial = tradedItem:getTrialNumber()
     printf("[Magian] Item ID: %d, Trial Number: %d", mainItemId, currentTrial)
+
+    -- Check for branching paths
+    local startable = tpz.magian.startableTrials[mainItemId]
+    if currentTrial == 0 and startable and startable[0] then
+        local trialNumber = startable[0]
+        local trial = tpz.magian.trials[trialNumber]
+        if trial.branches then
+            for tradeItemId, branchTrial in pairs(trial.branches) do
+                if npcUtil.tradeHas(trade, { mainItemId, tradeItemId }) then
+                    printf("[Magian] Starting branch trial %d via item %d", branchTrial, tradeItemId)
+                    player:confirmTrade()
+                    player:addItem(mainItemId, 1, 0, 0, 0, 0, 0, 0, 0, 0, branchTrial)
+                    player:messageSpecial(ID.text.MAGIAN_TRIAL_STARTED, tpz.ki.MAGIAN_TRIAL_LOG)
+                    -- Mark 1100 as completed so follow-up trials work cleanly
+                    player:setCharVar("MagianTrial_" .. trialNumber, tpz.magian.TRIAL_COMPLETED)
+                    player:setCharVar("MagianTrial_" .. branchTrial, tpz.magian.TRIAL_ACCEPTED)
+                    tpz.magian.trialObjectivesText(player, tpz.magian.trials[branchTrial], branchTrial)
+                    return
+                end
+            end
+        end
+    end
 
     -- Check if starting a new Items trial
     if tpz.magian.startableTrials[mainItemId] then
@@ -313,7 +341,6 @@ end
 tpz.magian.trialObjectivesText = function(player, trial, trialNumber)
     local familyNames       = utils.generateEnumNameMap(tpz.mob.family)
     local poolNames         = utils.generateEnumNameMap(tpz.mob.pool)
-    local weatherNames      = utils.generateEnumNameMap(tpz.weather)
     local dayNames          = utils.generateEnumNameMap(tpz.day)
     local elementNames      = utils.generateEnumNameMap(tpz.magic.ele)
     local effectNames       = utils.generateEnumNameMap(tpz.effect)
@@ -381,12 +408,18 @@ tpz.magian.trialObjectivesText = function(player, trial, trialNumber)
 
         -- Weather requirement
         if trial.weather then
-            local weathers = ""
+            local elements = {}
             for _, weather in ipairs(trial.weather) do
-                weathers = weathers .. (weatherNames[weather] or "#" .. weather) .. " "
+                local element = tpz.weatherToElement[weather] or "UNKNOWN"
+                elements[element] = true
             end
-            player:PrintToPlayer("Required Weather: " .. weathers, 0xD, nil)
+            local elementList = ""
+            for elementName, _ in pairs(elements) do
+                elementList = elementList .. elementName .. " "
+            end
+            player:PrintToPlayer("Required Weather: " .. elementList, 0xD, nil)
         end
+
 
         -- Day requirement
         if trial.day then
@@ -494,7 +527,7 @@ tpz.magian.evaluateTrialConditions = function(player, mob, trial, skillId, damag
             end
         end,
 
-        ['Pool'] = function(player, mob, trial)
+        ['Specific'] = function(player, mob, trial)
             for _, poolId in ipairs(trial.mob or {}) do
                 if poolId == mob:getPool() then return true end
             end
@@ -550,6 +583,12 @@ tpz.magian.evaluateTrialConditions = function(player, mob, trial, skillId, damag
         ['Zone'] = function(player, mob, trial)
             for _, zoneId in ipairs(trial.zone or {}) do
                 if zoneId == player:getZoneID() then return true end
+            end
+        end,
+
+        ['Region'] = function(player, mob, trial)
+            for _, regionId in ipairs(trial.region or {}) do
+                if regionId == player:getRegionID() then return true end
             end
         end,
 
