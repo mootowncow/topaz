@@ -409,13 +409,17 @@ tpz.magian.trialObjectivesText = function(player, trial, trialNumber)
         -- Weather requirement
         if trial.weather then
             local elements = {}
-            for _, weather in ipairs(trial.weather) do
-                local element = tpz.weatherToElement[weather] or "UNKNOWN"
-                elements[element] = true
-            end
-            local elementList = ""
-            for elementName, _ in pairs(elements) do
-                elementList = elementList .. elementName .. " "
+            if (trial.weather == 'Any') then
+                elementList = 'Any active weather'
+            else
+                for _, weather in ipairs(trial.weather) do
+                    local element = tpz.weatherToElement[weather] or "UNKNOWN"
+                    elements[element] = true
+                end
+                local elementList = ""
+                for elementName, _ in pairs(elements) do
+                    elementList = elementList .. elementName .. " "
+                end
             end
             player:PrintToPlayer("Required Weather: " .. elementList, 0xD, nil)
         end
@@ -658,10 +662,17 @@ tpz.magian.evaluateTrialConditions = function(player, mob, trial, skillId, damag
         -- Weather (+5)
         if trial.weather then
             local currentWeather = player:getWeather(true)
-            for _, w in ipairs(trial.weather) do
-                if w == currentWeather then
+
+            if (trial.weather == 'Any') then
+                if (currentWeather >= tpz.weather.HOT_SPELL) then
                     points = points + 5
-                    break
+                end
+            else
+                for _, w in ipairs(trial.weather or {}) do
+                    if w == currentWeather then
+                        points = points + 5
+                        break
+                    end
                 end
             end
         end
