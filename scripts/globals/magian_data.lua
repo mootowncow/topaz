@@ -88,23 +88,6 @@ tpz.magian.trials = {
         },
     },
 
-    [100] = {
-        mainItem      = tpz.items.SIDE_SWORD,
-        tradeItem     = tpz.items.RUTHVENS_NAIL,
-        type          = 'Items',
-        previousTrial = 0,
-        textOffset    = 1,
-        numRequired   = 10,
-        rewardItem    = {
-            itemId       = tpz.items.ANTEA,
-            itemAugments = {
-                { tpz.augments.DMG, 16 },
-                { tpz.augments.DELAY_33, 3 },
-                { tpz.augments.SPECIAL, tpz.augments.special.OCC_ATTACK_TWICE },
-            },
-        },
-    },
-
     [101] = {
         mainItem      = tpz.items.BREAK_BLADE,
         tradeItem     = tpz.items.KRABKATOA_SHELL,
@@ -338,7 +321,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.MAULERS_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 9 },
+                { tpz.augments.ATTK, 9 },
             },
         },
     },
@@ -355,7 +338,8 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.MAULERS_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 9 },
+                { tpz.
+                K, 9 },
                 { tpz.augments.ACC, 9 },
             },
         },
@@ -373,7 +357,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.MAULERS_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 11 },
+                { tpz.augments.ATTK, 11 },
                 { tpz.augments.ACC, 11 },
                 { tpz.augments.STR, 2 },
             },
@@ -392,7 +376,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.MAULERS_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 14 },
+                { tpz.augments.ATTK, 14 },
                 { tpz.augments.ACC, 14 },
                 { tpz.augments.STR, 3 },
             },
@@ -411,7 +395,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.ANCHORETS_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 9 },
+                { tpz.augments.ATTK, 9 },
             },
         },
     },
@@ -428,7 +412,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.ANCHORETS_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 11 },
+                { tpz.augments.ATTK, 11 },
                 { tpz.augments.ACC, 11 },
             },
         },
@@ -446,7 +430,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.ANCHORETS_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 11 },
+                { tpz.augments.ATTK, 11 },
                 { tpz.augments.ACC, 11 },
                 { tpz.augments.STR, 2 },
             },
@@ -465,7 +449,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.ANCHORETS_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 14 },
+                { tpz.augments.ATTK, 14 },
                 { tpz.augments.ACC, 14 },
                 { tpz.augments.STR, 3 },
             },
@@ -605,7 +589,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.CANNY_CAPE,
             itemAugments = {
-                { tpz.augments.ATT, 9 },
+                { tpz.augments.ATTK, 9 },
                 { tpz.augments.ACC, 9 },
             },
         },
@@ -623,7 +607,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.CANNY_CAPE,
             itemAugments = {
-                { tpz.augments.ATT, 11 },
+                { tpz.augments.ATTK, 11 },
                 { tpz.augments.ACC, 11 },
                 { tpz.augments.DEX, 2 },
             },
@@ -642,7 +626,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.CANNY_CAPE,
             itemAugments = {
-                { tpz.augments.ATT, 14 },
+                { tpz.augments.ATTK, 14 },
                 { tpz.augments.ACC, 14 },
                 { tpz.augments.DEX, 3 },
             },
@@ -679,7 +663,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.NIHT_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 9 },
+                { tpz.augments.ATTK, 9 },
             },
         },
     },
@@ -696,7 +680,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.NIHT_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 9 },
+                { tpz.augments.ATTK, 9 },
                 { tpz.augments.ACC, 9 },
             },
         },
@@ -714,7 +698,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.NIHT_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 11 },
+                { tpz.augments.ATTK, 11 },
                 { tpz.augments.ACC, 11 },
                 { tpz.augments.STR, 2 },
             },
@@ -733,7 +717,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.NIHT_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 14 },
+                { tpz.augments.ATTK, 14 },
                 { tpz.augments.ACC, 14 },
                 { tpz.augments.STR, 3 },
             },
@@ -806,7 +790,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.TAKAHA_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 9 },
+                { tpz.augments.ATTK, 9 },
             },
         },
     },
@@ -823,7 +807,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.TAKAHA_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 9 },
+                { tpz.augments.ATTK, 9 },
                 { tpz.augments.ACC, 9 },
             },
         },
@@ -841,7 +825,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.TAKAHA_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 11 },
+                { tpz.augments.ATTK, 11 },
                 { tpz.augments.ACC, 11 },
                 { tpz.augments.STR, 2 },
             },
@@ -860,7 +844,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.TAKAHA_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 14 },
+                { tpz.augments.ATTK, 14 },
                 { tpz.augments.ACC, 14 },
                 { tpz.augments.STR, 3 },
             },
@@ -896,7 +880,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.YOKAZE_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 9 },
+                { tpz.augments.ATTK, 9 },
                 { tpz.augments.ACC, 9 },
             },
         },
@@ -914,7 +898,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.YOKAZE_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 11 },
+                { tpz.augments.ATTK, 11 },
                 { tpz.augments.ACC, 11 },
                 { tpz.augments.DEX, 2 },
             },
@@ -933,7 +917,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.YOKAZE_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 14 },
+                { tpz.augments.ATTK, 14 },
                 { tpz.augments.ACC, 14 },
                 { tpz.augments.DEX, 3 },
             },
@@ -952,7 +936,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.UPDRAFT_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 9 },
+                { tpz.augments.ATTK, 9 },
             },
         },
     },
@@ -969,7 +953,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.UPDRAFT_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 9 },
+                { tpz.augments.ATTK, 9 },
                 { tpz.augments.ACC, 9 },
             },
         },
@@ -987,7 +971,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.UPDRAFT_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 11 },
+                { tpz.augments.ATTK, 11 },
                 { tpz.augments.ACC, 11 },
                 { tpz.augments.STR, 2 },
             },
@@ -1006,7 +990,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.UPDRAFT_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 14 },
+                { tpz.augments.ATTK, 14 },
                 { tpz.augments.ACC, 14 },
                 { tpz.augments.STR, 3 },
             },
@@ -1060,7 +1044,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.CORNFLOWER_CAPE,
             itemAugments = {
-                { tpz.augments.ATT, 9 },
+                { tpz.augments.ATTK, 9 },
                 { tpz.augments.ACC, 9 },
             },
         },
@@ -1078,7 +1062,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.CORNFLOWER_CAPE,
             itemAugments = {
-                { tpz.augments.ATT, 11 },
+                { tpz.augments.ATTK, 11 },
                 { tpz.augments.ACC, 11 },
                 { tpz.augments.DEX, 2 },
             },
@@ -1097,7 +1081,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.CORNFLOWER_CAPE,
             itemAugments = {
-                { tpz.augments.ATT, 14 },
+                { tpz.augments.ATTK, 14 },
                 { tpz.augments.ACC, 14 },
                 { tpz.augments.DEX, 3 },
             },
@@ -1169,7 +1153,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.TOETAPPER_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 9 },
+                { tpz.augments.ATTK, 9 },
                 { tpz.augments.ACC, 9 },
             },
         },
@@ -1187,7 +1171,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.TOETAPPER_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 11 },
+                { tpz.augments.ATTK, 11 },
                 { tpz.augments.ACC, 11 },
                 { tpz.augments.DEX, 2 },
             },
@@ -1206,7 +1190,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.TOETAPPER_MANTLE,
             itemAugments = {
-                { tpz.augments.ATT, 14 },
+                { tpz.augments.ATTK, 14 },
                 { tpz.augments.ACC, 14 },
                 { tpz.augments.DEX, 2 },
             },
@@ -1430,7 +1414,7 @@ tpz.magian.trials = {
             },
         },
     },
-    -- TODO: Res of trials, and start adding DARKRES (10-20)
+    -- TODO: Rest of trials, and start adding DARKRES (10-20)
 
     [1200] = {
         mainItem      = tpz.items.SIDE_SWORD,
@@ -1445,7 +1429,8 @@ tpz.magian.trials = {
             [tpz.items.LIGHTNING_CLUSTER]   = 1241,
             [tpz.items.WATER_CLUSTER]       = 1251,
             [tpz.items.LIGHT_CLUSTER]       = 1261,
-            [tpz.items.DARK_CLUSTER]        = 1271
+            [tpz.items.DARK_CLUSTER]        = 1271,
+            [tpz.items.FIRE_CRYSTAL]        = 1281
         },
     },
 
@@ -1467,7 +1452,6 @@ tpz.magian.trials = {
             },
         },
     },
-
 
     [1202] = {
         mainItem      = tpz.items.SOULSABER,
@@ -1529,12 +1513,290 @@ tpz.magian.trials = {
                 { tpz.augments.DELAYMINUS, 13 },
                 { tpz.augments.MAIN_DMG_RATING, 8 },
                 { tpz.augments.ADDEFF_FIREDMG_5, 15 },
+                { tpz.augments.STR, 3 },
             },
         },
     },
 
-    -- Soulsaber MMM NM x15 next
-    -- Soulsaber VNM x 25 NEXT
+    [1205] = {
+        mainItem      = tpz.items.SOULSABER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1204,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.DICEY_DORCUS },
+        numRequired   = 15,
+        rewardItem    = {
+            itemId       = tpz.items.SOULSABER,
+            itemAugments = {
+                { tpz.augments.DELAYMINUS, 15 },
+                { tpz.augments.MAIN_DMG_RATING, 10 },
+                { tpz.augments.STR, 4 },
+                { tpz.augments.ATTK, 12 },
+            },
+        },
+    },
+
+    [1206] = {
+        mainItem      = tpz.items.SOULSABER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1205,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.ORCUS },
+        numRequired   = 25,
+        rewardItem    = {
+            itemId       = tpz.items.SOULSABER,
+            itemAugments = {
+                { tpz.augments.DELAYMINUS, 20 },
+                { tpz.augments.MAIN_DMG_RATING, 12 },
+                { tpz.augments.STR, 5 },
+                { tpz.augments.ATTK, 15 },
+            },
+        },
+    },
+
+    [1281] = {
+        mainItem      = tpz.items.SIDE_SWORD,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1200,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.TRES_DUENDES },
+        numRequired   = 5,
+        rewardItem    = {
+            itemId       = tpz.items.SCHIAVONA,
+            itemAugments = {
+            },
+        },
+    },
+
+    [1282] = {
+        mainItem      = tpz.items.SCHIAVONA,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1281,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.CARMINE_DOBSONFLY },
+        numRequired   = 70,
+        rewardItem    = {
+            itemId       = tpz.items.SCHIAVONA,
+            itemAugments = {
+                { tpz.augments.ATTK, 3 },
+            },
+        },
+    },
+
+    [1283] = {
+        mainItem      = tpz.items.SCHIAVONA,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1282,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.ELEL },
+        numRequired   = 10,
+        rewardItem    = {
+            itemId       = tpz.items.SCHIAVONA,
+            itemAugments = {
+                { tpz.augments.ATTK, 5 },
+            },
+        },
+    },
+
+    [1284] = {
+        mainItem      = tpz.items.SCHIAVONA,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1283,
+        textOffset    = 1,
+        killType      = 'Species',
+        mob           = { tpz.eco.EMPTY },
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.ANTEA,
+            itemAugments = {
+            },
+        },
+    },
+
+    [1285] = {
+        mainItem      = tpz.items.ANTEA,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1284,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.EFT },
+        numRequired   = 600,
+        rewardItem    = {
+            itemId       = tpz.items.ANTEA,
+            itemAugments = {
+                { tpz.augments.DMG, 16 },
+                { tpz.augments.DELAY_33, 3 },
+            },
+        },
+    },
+
+    [1286] = {
+        mainItem      = tpz.items.ANTEA,
+        tradeItem     = tpz.items.RUTHVENS_NAIL,
+        type          = 'Items',
+        previousTrial = 1285,
+        textOffset    = 1,
+        numRequired   = 10,
+        rewardItem    = {
+            itemId       = tpz.items.ANTEA,
+            itemAugments = {
+                { tpz.augments.DMG, 16 },
+                { tpz.augments.DELAY_33, 3 },
+                { tpz.augments.SPECIAL, tpz.augments.special.OCC_ATTACK_TWICE },
+            },
+        },
+    },
+
+    [1300] = {
+        mainItem      = tpz.items.LUMBERJACK,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        branches      = {
+            [tpz.items.FIRE_CLUSTER]        = 1301,
+            [tpz.items.ICE_CLUSTER]         = 1311,
+            [tpz.items.WIND_CLUSTER]        = 1321,
+            [tpz.items.EARTH_CLUSTER]       = 1331,
+            [tpz.items.LIGHTNING_CLUSTER]   = 1341,
+            [tpz.items.WATER_CLUSTER]       = 1351,
+            [tpz.items.LIGHT_CLUSTER]       = 1361,
+            [tpz.items.DARK_CLUSTER]        = 1371
+        },
+    },
+
+    [1301] = {
+        mainItem      = tpz.items.LUMBERJACK,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1300,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.BUGARD },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 250,
+        rewardItem    = {
+            itemId       = tpz.items.HEPHAESTUS,
+            itemAugments = {
+                { tpz.augments.STR, 5 },
+            },
+        },
+    },
+
+    [1302] = {
+        mainItem      = tpz.items.HEPHAESTUS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1301,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.BOMB },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 300,
+        rewardItem    = {
+            itemId       = tpz.items.HEPHAESTUS,
+            itemAugments = {
+                { tpz.augments.STR, 6 },
+                { tpz.augments.ATTK, 10 },
+            },
+        },
+    },
+
+    [1303] = {
+        mainItem      = tpz.items.HEPHAESTUS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1302,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.WAMOURA },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 350,
+        rewardItem    = {
+            itemId       = tpz.items.HEPHAESTUS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 16 },
+                { tpz.augments.STR, 7 },
+                { tpz.augments.ATTK, 15 },
+            },
+        },
+    },
+
+    [1304] = {
+        mainItem      = tpz.items.HEPHAESTUS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1303,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.pool.CONDOR },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.HEPHAESTUS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 18 },
+                { tpz.augments.STR, 8 },
+                { tpz.augments.ATTK, 20 },
+            },
+        },
+    },
+
+    [1305] = {
+        mainItem      = tpz.items.HEPHAESTUS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1304,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.pool.KENDI },
+        numRequired   = 15,
+        rewardItem    = {
+            itemId       = tpz.items.HEPHAESTUS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 20 },
+                { tpz.augments.STR, 9 },
+                { tpz.augments.ATTK, 25 },
+            },
+        },
+    },
+
+    [1306] = {
+        mainItem      = tpz.items.HEPHAESTUS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1305,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.pool.BLOBDINGNAG },
+        numRequired   = 25,
+        rewardItem    = {
+            itemId       = tpz.items.HEPHAESTUS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 22 },
+                { tpz.augments.STR, 10 },
+                { tpz.augments.ATTK, 30 },
+                { tpz.augments.FIRERES, 25 },
+            },
+        },
+    },
 
     [2200] = {
         mainItem      = tpz.items.VULCANS_STAFF,
