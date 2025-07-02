@@ -1482,8 +1482,7 @@ int16 CBattleEntity::getMaxGearMod(Mod modID, int16 modMax)
 
     if (!PChar)
     {
-        ShowWarning("CBattleEntity::getMaxGearMod() - Entity is not a player.");
-        return 0;
+        return this->getMod(modID);
     }
 
     for (uint8 i = 0; i <= SLOT_BACK; ++i)
