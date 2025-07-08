@@ -6235,8 +6235,18 @@ INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 59, 1, 255); -- Sile
 INSERT INTO `mob_spell_lists` VALUES ('Hound_of_Balthazar',555,176,1,255); -- Firaga III
 INSERT INTO `mob_spell_lists` VALUES ('Hound_of_Balthazar',555,286,1,255); -- Addle
 
+INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,359,1,255); -- silencega
+INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,156,1,255); -- aero III
+INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,185,1,255); -- aeroga II
+INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,277,1,255); -- dread spikes
+
+INSERT INTO `mob_spell_lists` VALUES ('Frosted_Soul',1023,180,1,255); -- Blizzaga II
+INSERT INTO `mob_spell_lists` VALUES ('Frosted_Soul',1023,151,1,94); -- Blizzard III
+INSERT INTO `mob_spell_lists` VALUES ('Frosted_Soul',1023,455,1,94); -- Ice Threnody
+
+
 -- NEXT 546
--- NEXT 1022
+-- NEXT 1024
 -- NEXT 2089(Custom)
 
 

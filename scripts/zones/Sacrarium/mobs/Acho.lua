@@ -1,13 +1,15 @@
 -----------------------------------
 -- Area: Sacrarium
---  Mob: Elel
+--   NM: Acho
 -----------------------------------
-require("scripts/globals/status")
-require("scripts/globals/mobs")
+mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
 
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
+end
+
+function onMobRoam(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

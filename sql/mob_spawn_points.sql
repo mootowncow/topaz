@@ -2139,6 +2139,7 @@ INSERT INTO `mob_spawn_points` VALUES (16814388,'Dire_Bat','Dire Bat',38,-269.93
 --INSERT INTO `mob_spawn_points` VALUES (16814389,'Dire_Bat','Dire Bat',38,-270.162,15.647,333.899,188);
 INSERT INTO `mob_spawn_points` VALUES (16814390,'Avalanche','Avalanche',58,-370.995,31.647,332.965,221);
 --INSERT INTO `mob_spawn_points` VALUES (16814391,'Purgatory_Bat','Purgatory Bat',59,-370.179,31.400,350.569,191);
+INSERT INTO `mob_spawn_points` VALUES (16814572, 'Frosted_Soul', 'Frosted Soul', 68, 20.38, 40.24, 29.05, 0);
 
 --Uncapped
 INSERT INTO `mob_spawn_points` VALUES (16814392,'Purgatory_Bat','Purgatory Bat',59,-369.951,31.449,358.870,63);
@@ -5152,6 +5153,18 @@ INSERT INTO `mob_spawn_points` VALUES (16875928,'Lhu_Mhakaracca','Lhu Mhakaracca
 INSERT INTO `mob_spawn_points` VALUES (16875929,'Kyo','Kyo',91,433.51,-7.11,154.27,205);
 INSERT INTO `mob_spawn_points` VALUES (16875930,'Pya','Pya',92,435.51,-7.11,154.27,205);
 
+INSERT INTO `mob_spawn_points` VALUES (16875931, 'Meadows_Diremite', 'Meadows Diremite', 93, -198.50, -7.90, -201.25, 0);
+INSERT INTO `mob_spawn_points` VALUES (16875932, 'Meadows_Diremite', 'Meadows Diremite', 93, -175.81, -5.88, -183.79, 0);
+INSERT INTO `mob_spawn_points` VALUES (16875933, 'Meadows_Diremite', 'Meadows Diremite', 93, -140.38, -5.95, -176.73, 0);
+INSERT INTO `mob_spawn_points` VALUES (16875934, 'Meadows_Diremite', 'Meadows Diremite', 93, -117.37, -8.17, -157.30, 0);
+INSERT INTO `mob_spawn_points` VALUES (16875935, 'Meadows_Diremite', 'Meadows Diremite', 93, -89.48, -7.73, -160.72, 0);
+INSERT INTO `mob_spawn_points` VALUES (16875936, 'Meadows_Diremite', 'Meadows Diremite', 93, -85.11, -7.87, -189.26, 0);
+INSERT INTO `mob_spawn_points` VALUES (16875937, 'Meadows_Diremite', 'Meadows Diremite', 93, -78.63, -7.75, -210.16, 0);
+INSERT INTO `mob_spawn_points` VALUES (16875938, 'Meadows_Diremite', 'Meadows Diremite', 93, -56.26, -7.48, -208.99, 0);
+INSERT INTO `mob_spawn_points` VALUES (16875939, 'Meadows_Diremite', 'Meadows Diremite', 93, -32.56, -7.58, -211.49, 0);
+INSERT INTO `mob_spawn_points` VALUES (16875940, 'Meadows_Diremite', 'Meadows Diremite', 93, -34.66, -7.77, -235.87, 0);
+INSERT INTO `mob_spawn_points` VALUES (16875941, 'Meadows_Diremite', 'Meadows Diremite', 93, -76.73, -7.87, -264.69, 0);
+INSERT INTO `mob_spawn_points` VALUES (16875942, 'Meadows_Diremite', 'Meadows Diremite', 93, -76.70, -8.11, -289.99, 0);
 
 -- ------------------------------------------------------------
 -- Misareaux Coast (Zone 25)
@@ -5456,6 +5469,21 @@ INSERT INTO `mob_spawn_points` VALUES (16879912,'Tiyanak','Tiyanak',62,0.000,0.0
 INSERT INTO `mob_spawn_points` VALUES (16879913,'Volatile_Cluster','Volatile Cluster',63,0.000,0.000,0.000,0); -- UWNM
 INSERT INTO `mob_spawn_points` VALUES (16879914,'Volatile_Cluster','Volatile Cluster',63,-229.015,-32.239,115.628,225);
 INSERT INTO `mob_spawn_points` VALUES (16879915,'Volatile_Cluster','Volatile Cluster',63,0.000,0.000,0.000,0);
+
+INSERT INTO `mob_spawn_points` VALUES (16880015, 'Shellmite', 'Shellmite', 64, -161.85, -15.55, 654.92, 0);
+INSERT INTO `mob_spawn_points` VALUES (16880016, 'Shellmite', 'Shellmite', 64, -159.57, -15.50, 637.44, 0);
+INSERT INTO `mob_spawn_points` VALUES (16880017, 'Shellmite', 'Shellmite', 64, -161.08, -15.67, 608.67, 0);
+INSERT INTO `mob_spawn_points` VALUES (16880018, 'Shellmite', 'Shellmite', 64, -140.06, -15.66, 604.20, 0);
+INSERT INTO `mob_spawn_points` VALUES (16880019, 'Shellmite', 'Shellmite', 64, -112.64, -15.55, 608.22, 0);
+INSERT INTO `mob_spawn_points` VALUES (16880020, 'Shellmite', 'Shellmite', 64, -92.57, -15.50, 587.41, 0);
+INSERT INTO `mob_spawn_points` VALUES (16880021, 'Shellmite', 'Shellmite', 64, -106.70, -15.56, 556.93, 0);
+INSERT INTO `mob_spawn_points` VALUES (16880022, 'Shellmite', 'Shellmite', 64, -46.11, -15.63, 598.66, 0);
+INSERT INTO `mob_spawn_points` VALUES (16880023, 'Shellmite', 'Shellmite', 64, -19.01, -15.61, 606.21, 0);
+INSERT INTO `mob_spawn_points` VALUES (16880024, 'Shellmite', 'Shellmite', 64, -8.17, -15.56, 589.10, 0);
+INSERT INTO `mob_spawn_points` VALUES (16880025, 'Shellmite', 'Shellmite', 64, 9.59, -15.57, 570.82, 0);
+INSERT INTO `mob_spawn_points` VALUES (16880026, 'Shellmite', 'Shellmite', 64, 25.58, -15.53, 554.19, 0);
+INSERT INTO `mob_spawn_points` VALUES (16880027, 'Shellmite', 'Shellmite', 64, 47.38, -15.53, 553.81, 0);
+
 
 -- ------------------------------------------------------------
 -- Phomiuna Aqueducts (Zone 27)
@@ -5878,7 +5906,7 @@ INSERT INTO `mob_spawn_points` VALUES (16892074,'Indich','Indich',40,50,-2.250,-
 --INSERT INTO `mob_spawn_points` VALUES (16892092,'Aqueduct_Spider','Aqueduct Spider',41,171.08,-3.006,-60.91,255);
 --INSERT INTO `mob_spawn_points` VALUES (16892093,'Aqueduct_Spider','Aqueduct Spider',41,181.066,-8.431,-81.765,63);
 --INSERT INTO `mob_spawn_points` VALUES (16892095,'Aqueduct_Spider','Aqueduct Spider',41,181.26,-8.482,-82.43,63);
-
+INSERT INTO `mob_spawn_points` VALUES (16892186, 'Acho', 'Acho', 42, 166.86, 7.99, 99.99, 0);
 
 -- ------------------------------------------------------------
 -- Riverne - Site #B01 (Zone 29)

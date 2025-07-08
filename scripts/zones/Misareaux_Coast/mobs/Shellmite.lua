@@ -1,14 +1,9 @@
 -----------------------------------
--- Area: Sacrarium
---  Mob: Elel
+-- Area: Misareaux Coast
+--  Mob: Shellmite
 -----------------------------------
-require("scripts/globals/status")
-require("scripts/globals/mobs")
+mixins = {require("scripts/mixins/families/uragnite")}
 -----------------------------------
-
-function onMobSpawn(mob)
-    SetGenericNMStats(mob)
-end
 
 function onMobDeath(mob, player, isKiller, noKiller)
 end

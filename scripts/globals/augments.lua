@@ -1,7 +1,7 @@
 ---------------------------------------------
 --
 --  Augment IDS
---
+-- Note: Augments "power" cap at 31 (31 + 1, 33 total)
 ---------------------------------------------
 tpz = tpz or {}
 
@@ -287,17 +287,17 @@ tpz.augments =
     STRINT = 558,
     STRMND = 559,
     DMG = 740,
-    MAIN_DMG_RATING33 = 741,
-    MAIN_DMG_RATING65 = 742,
-    MAIN_DMG_RATING97 = 743,
+    MAIN_DMG_RATING_33 = 741,
+    MAIN_DMG_RATING_65 = 742,
+    MAIN_DMG_RATING_97 = 743,
     DMGMINUS = 744,
-    MAIN_DMG_RATINGMINUS33 = 745,
+    MAIN_DMG_RATINGMINUS_33 = 745,
     RANGED_DMG_RATING = 746,
-    RANGED_DMG_RATING33 = 747,
-    RANGED_DMG_RATING65 = 748,
-    RANGED_DMG_RATING97 = 749,
+    RANGED_DMG_RATING_33 = 747,
+    RANGED_DMG_RATING_65 = 748,
+    RANGED_DMG_RATING_97 = 749,
     RANGED_DMG_RATINGMINUS = 750,
-    RANGED_DMG_RATINGMINUS33 = 751,
+    RANGED_DMG_RATINGMINUS_33 = 751,
     DELAY = 752,
     DELAY_33 = 753,
     DELAY_65 = 754,

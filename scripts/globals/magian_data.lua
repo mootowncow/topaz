@@ -40,9 +40,112 @@ tpz.magian.TRIAL_COMPLETED = 2
 tpz.magian.trials = {
     [1] = {
         mainItem      = tpz.items.PUGILISTS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        branches      = {
+            [tpz.items.FIRE_CLUSTER]        = 2,
+            [tpz.items.ICE_CLUSTER]         = 12,
+            [tpz.items.WIND_CLUSTER]        = 22,
+            [tpz.items.EARTH_CLUSTER]       = 32,
+            [tpz.items.LIGHTNING_CLUSTER]   = 42,
+            [tpz.items.WATER_CLUSTER]       = 52,
+            [tpz.items.LIGHT_CLUSTER]       = 62,
+            [tpz.items.DARK_CLUSTER]        = 72,
+            [tpz.items.FIRE_CRYSTAL]        = 82,
+            [tpz.items.ICE_CRYSTAL]         = 92
+        },
+    },
+
+    [82] = {
+        mainItem      = tpz.items.PUGILISTS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 81,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.EBA },
+        numRequired   = 5,
+        rewardItem    = {
+            itemId       = tpz.items.SIMIAN_FISTS,
+            itemAugments = {
+            },
+        },
+    },
+
+    [83] = {
+        mainItem      = tpz.items.SIMIAN_FISTS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 82,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.BOROKA },
+        numRequired   = 7,
+        rewardItem    = {
+            itemId       = tpz.items.SIMIAN_FISTS,
+            itemAugments = {
+                { tpz.augments.ATTK, 3 },
+            },
+        },
+    },
+
+    [84] = {
+        mainItem      = tpz.items.SIMIAN_FISTS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 83,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.WAILER },
+        numRequired   = 10,
+        rewardItem    = {
+            itemId       = tpz.items.SIMIAN_FISTS,
+            itemAugments = {
+                { tpz.augments.ATTK, 5 },
+            },
+        },
+    },
+
+    [85] = {
+        mainItem      = tpz.items.SIMIAN_FISTS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 84,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.TAURI },
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.WARGFANGS,
+            itemAugments = {
+            },
+        },
+    },
+
+    [86] = {
+        mainItem      = tpz.items.WARGFANGS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 85,
+        textOffset    = 1,
+        killType      = 'Species',
+        mob           = { tpz.eco.EMPTY },
+        numRequired   = 600,
+        rewardItem    = {
+            itemId       = tpz.items.WARGFANGS,
+            itemAugments = {
+                { tpz.augments.DMG, 16 },
+                { tpz.augments.DELAYMINUS, 15 },
+            },
+        },
+    },
+
+    [87] = {
+        mainItem      = tpz.items.WARGFANGS,
         tradeItem     = tpz.items.BABY_BLOBDINGNAG,
         type          = 'Items',
-        previousTrial = 0,
+        previousTrial = 86,
         textOffset    = 1,
         numRequired   = 10,
         rewardItem    = {
@@ -55,6 +158,7 @@ tpz.magian.trials = {
         },
     },
 
+    --[[ TODO
     [2] = {
         mainItem      = tpz.items.PUGILISTS,
         tradeItem     = tpz.items.DAYBREAK_SOUL,
@@ -70,12 +174,116 @@ tpz.magian.trials = {
             },
         },
     },
+    ]]
 
-    [50] = {
+    [100] = {
         mainItem      = tpz.items.PEELER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        branches      = {
+            [tpz.items.FIRE_CLUSTER]        = 101,
+            [tpz.items.ICE_CLUSTER]         = 111,
+            [tpz.items.WIND_CLUSTER]        = 121,
+            [tpz.items.EARTH_CLUSTER]       = 131,
+            [tpz.items.LIGHTNING_CLUSTER]   = 141,
+            [tpz.items.WATER_CLUSTER]       = 151,
+            [tpz.items.LIGHT_CLUSTER]       = 161,
+            [tpz.items.DARK_CLUSTER]        = 171,
+            [tpz.items.FIRE_CRYSTAL]        = 181,
+            [tpz.items.ICE_CRYSTAL]         = 191
+        },
+    },
+
+    [181] = {
+        mainItem      = tpz.items.PEELER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 180,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.MAHISHA },
+        numRequired   = 5,
+        rewardItem    = {
+            itemId       = tpz.items.RENEGADE,
+            itemAugments = {
+            },
+        },
+    },
+
+    [182] = {
+        mainItem      = tpz.items.RENEGADE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 181,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.AIATAR },
+        numRequired   = 7,
+        rewardItem    = {
+            itemId       = tpz.items.RENEGADE,
+            itemAugments = {
+                { tpz.augments.ATTK, 3 },
+            },
+        },
+    },
+
+    [183] = {
+        mainItem      = tpz.items.RENEGADE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 182,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.PROVOKER },
+        numRequired   = 10,
+        rewardItem    = {
+            itemId       = tpz.items.RENEGADE,
+            itemAugments = {
+                { tpz.augments.ATTK, 5 },
+            },
+        },
+    },
+
+    [184] = {
+        mainItem      = tpz.items.RENEGADE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 183,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.URAGNITE },
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.ATHAME,
+            itemAugments = {
+            },
+        },
+    },
+
+    [185] = {
+        mainItem      = tpz.items.ATHAME,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 184,
+        textOffset    = 1,
+        killType      = 'Species',
+        mob           = { tpz.eco.EMPTY },
+        numRequired   = 600,
+        rewardItem    = {
+            itemId       = tpz.items.ATHAME,
+            itemAugments = {
+                { tpz.augments.DMG, 12 },
+                { tpz.augments.DELAYMINUS, 15 },
+            },
+        },
+    },
+
+    [186] = {
+        mainItem      = tpz.items.ATHAME,
         tradeItem     = tpz.items.EYE_OF_VERTHANDI,
         type          = 'Items',
-        previousTrial = 0,
+        previousTrial = 185,
         textOffset    = 1,
         numRequired   = 10,
         rewardItem    = {
@@ -88,11 +296,113 @@ tpz.magian.trials = {
         },
     },
 
-    [101] = {
+    [200] = {
         mainItem      = tpz.items.BREAK_BLADE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        branches      = {
+            [tpz.items.FIRE_CLUSTER]        = 201,
+            [tpz.items.ICE_CLUSTER]         = 211,
+            [tpz.items.WIND_CLUSTER]        = 221,
+            [tpz.items.EARTH_CLUSTER]       = 231,
+            [tpz.items.LIGHTNING_CLUSTER]   = 241,
+            [tpz.items.WATER_CLUSTER]       = 251,
+            [tpz.items.LIGHT_CLUSTER]       = 261,
+            [tpz.items.DARK_CLUSTER]        = 271,
+            [tpz.items.FIRE_CRYSTAL]        = 281,
+            [tpz.items.ICE_CRYSTAL]         = 291
+        },
+    },
+
+    [281] = {
+        mainItem      = tpz.items.BREAK_BLADE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 280,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.DEVIATOR },
+        numRequired   = 5,
+        rewardItem    = {
+            itemId       = tpz.items.SUNBLADE,
+            itemAugments = {
+            },
+        },
+    },
+
+    [282] = {
+        mainItem      = tpz.items.SUNBLADE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 281,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.KEREMET },
+        numRequired   = 7,
+        rewardItem    = {
+            itemId       = tpz.items.SUNBLADE,
+            itemAugments = {
+                { tpz.augments.ATTK, 3 },
+            },
+        },
+    },
+
+    [283] = {
+        mainItem      = tpz.items.SUNBLADE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 282,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.GYRE_CARLIN },
+        numRequired   = 10,
+        rewardItem    = {
+            itemId       = tpz.items.SUNBLADE,
+            itemAugments = {
+                { tpz.augments.ATTK, 5 },
+            },
+        },
+    },
+
+    [284] = {
+        mainItem      = tpz.items.SUNBLADE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 283,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.BUFFALO },
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.SALAMAND_SWORD,
+            itemAugments = {
+            },
+        },
+    },
+
+    [285] = {
+        mainItem      = tpz.items.SALAMAND_SWORD,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 284,
+        textOffset    = 1,
+        killType      = 'Species',
+        mob           = { tpz.eco.EMPTY },
+        numRequired   = 600,
+        rewardItem    = {
+            itemId       = tpz.items.SALAMAND_SWORD,
+            itemAugments = {
+                { tpz.augments.DMG, 29 },
+            },
+        },
+    },
+
+    [286] = {
+        mainItem      = tpz.items.SALAMAND_SWORD,
         tradeItem     = tpz.items.KRABKATOA_SHELL,
         type          = 'Items',
-        previousTrial = 0,
+        previousTrial = 285,
         textOffset    = 1,
         numRequired   = 10,
         rewardItem    = {
@@ -105,11 +415,114 @@ tpz.magian.trials = {
         },
     },
 
-    [150] = {
+    [300] = {
         mainItem      = tpz.items.CHOPPER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        branches      = {
+            [tpz.items.FIRE_CLUSTER]        = 301,
+            [tpz.items.ICE_CLUSTER]         = 311,
+            [tpz.items.WIND_CLUSTER]        = 321,
+            [tpz.items.EARTH_CLUSTER]       = 331,
+            [tpz.items.LIGHTNING_CLUSTER]   = 341,
+            [tpz.items.WATER_CLUSTER]       = 351,
+            [tpz.items.LIGHT_CLUSTER]       = 361,
+            [tpz.items.DARK_CLUSTER]        = 371,
+            [tpz.items.FIRE_CRYSTAL]        = 381,
+            [tpz.items.ICE_CRYSTAL]         = 391
+        },
+    },
+
+    [381] = {
+        mainItem      = tpz.items.CHOPPER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 380,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.SATIATOR },
+        numRequired   = 5,
+        rewardItem    = {
+            itemId       = tpz.items.SPLINTER,
+            itemAugments = {
+            },
+        },
+    },
+
+    [382] = {
+        mainItem      = tpz.items.SPLINTER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 381,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.MINOTAUR },
+        numRequired   = 7,
+        rewardItem    = {
+            itemId       = tpz.items.SPLINTER,
+            itemAugments = {
+                { tpz.augments.ATTK, 3 },
+            },
+        },
+    },
+
+    [383] = {
+        mainItem      = tpz.items.SPLINTER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 382,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.ACHO },
+        numRequired   = 10,
+        rewardItem    = {
+            itemId       = tpz.items.SPLINTER,
+            itemAugments = {
+                { tpz.augments.ATTK, 5 },
+            },
+        },
+    },
+
+    [384] = {
+        mainItem      = tpz.items.SPLINTER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 383,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.DIREMITE },
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.PUNISHER,
+            itemAugments = {
+            },
+        },
+    },
+
+    [385] = {
+        mainItem      = tpz.items.PUNISHER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 384,
+        textOffset    = 1,
+        killType      = 'Species',
+        mob           = { tpz.eco.EMPTY },
+        numRequired   = 600,
+        rewardItem    = {
+            itemId       = tpz.items.PUNISHER,
+            itemAugments = {
+                { tpz.augments.DMG, 18 },
+                { tpz.augments.DELAYMINUS, 15 },
+            },
+        },
+    },
+
+    [386] = {
+        mainItem      = tpz.items.PUNISHER,
         tradeItem     = tpz.items.BABY_BLOBDINGNAG,
         type          = 'Items',
-        previousTrial = 0,
+        previousTrial = 385,
         textOffset    = 1,
         numRequired   = 10,
         rewardItem    = {
@@ -122,45 +535,232 @@ tpz.magian.trials = {
         },
     },
 
-    [200] = {
-        mainItem      = tpz.items.LUMBERJACK,
-        tradeItem     = tpz.items.RUTHVENS_NAIL,
-        type          = 'Items',
+    [400] = {
+        mainItem      = tpz.items.FARMHAND,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
         previousTrial = 0,
+        branches      = {
+            [tpz.items.FIRE_CLUSTER]        = 401,
+            [tpz.items.ICE_CLUSTER]         = 411,
+            [tpz.items.WIND_CLUSTER]        = 421,
+            [tpz.items.EARTH_CLUSTER]       = 431,
+            [tpz.items.LIGHTNING_CLUSTER]   = 441,
+            [tpz.items.WATER_CLUSTER]       = 451,
+            [tpz.items.LIGHT_CLUSTER]       = 461,
+            [tpz.items.DARK_CLUSTER]        = 471,
+            [tpz.items.FIRE_CRYSTAL]        = 481,
+            [tpz.items.ICE_CRYSTAL]         = 491
+        },
+    },
+
+    [481] = {
+        mainItem      = tpz.items.FARMHAND,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 480,
         textOffset    = 1,
-        numRequired   = 10,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.CEREBRATOR },
+        numRequired   = 5,
         rewardItem    = {
-            itemId       = tpz.items.LUCHTAINE,
+            itemId       = tpz.items.STIGMA,
             itemAugments = {
-                { tpz.augments.DMG, 31 },
-                { tpz.augments.DELAY, 9 },
-                { tpz.augments.SPECIAL, tpz.augments.special.OCC_ATTACK_TWICE },
             },
         },
     },
 
-    [250] = {
-        mainItem      = tpz.items.FARMHAND,
+    [482] = {
+        mainItem      = tpz.items.STIGMA,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 481,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.HELIODROMOS },
+        numRequired   = 7,
+        rewardItem    = {
+            itemId       = tpz.items.STIGMA,
+            itemAugments = {
+                { tpz.augments.ATTK, 3 },
+            },
+        },
+    },
+
+    [483] = {
+        mainItem      = tpz.items.STIGMA,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 482,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.FROSTED_SOUL },
+        numRequired   = 10,
+        rewardItem    = {
+            itemId       = tpz.items.STIGMA,
+            itemAugments = {
+                { tpz.augments.ATTK, 5 },
+            },
+        },
+    },
+
+    [484] = {
+        mainItem      = tpz.items.STIGMA,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 483,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.CORSE },
+        numRequired   = 480,
+        rewardItem    = {
+            itemId       = tpz.items.VENGEANCE,
+            itemAugments = {
+            },
+        },
+    },
+
+    [485] = {
+        mainItem      = tpz.items.VENGEANCE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 484,
+        textOffset    = 1,
+        killType      = 'Species',
+        mob           = { tpz.eco.EMPTY },
+        numRequired   = 600,
+        rewardItem    = {
+            itemId       = tpz.items.VENGEANCE,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING_33, 0 },
+            },
+        },
+    },
+
+    [486] = {
+        mainItem      = tpz.items.VENGEANCE,
         tradeItem     = tpz.items.EYE_OF_VERTHANDI,
         type          = 'Items',
-        previousTrial = 0,
+        previousTrial = 485,
         textOffset    = 1,
         numRequired   = 10,
         rewardItem    = {
             itemId       = tpz.items.VENGEANCE,
             itemAugments = {
-                { tpz.augments.DMG, 32 },
+                { tpz.augments.MAIN_DMG_RATING_33, 0 },
                 { tpz.augments.DELAY, 9 },
                 { tpz.augments.SPECIAL, tpz.augments.special.OCC_ATTACK_TWICE },
             },
         },
     },
 
-    [300] = {
+    [500] = {
         mainItem      = tpz.items.RANSEUR,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        branches      = {
+            [tpz.items.FIRE_CLUSTER]        = 501,
+            [tpz.items.ICE_CLUSTER]         = 511,
+            [tpz.items.WIND_CLUSTER]        = 521,
+            [tpz.items.EARTH_CLUSTER]       = 531,
+            [tpz.items.LIGHTNING_CLUSTER]   = 541,
+            [tpz.items.WATER_CLUSTER]       = 551,
+            [tpz.items.LIGHT_CLUSTER]       = 561,
+            [tpz.items.DARK_CLUSTER]        = 571,
+            [tpz.items.FIRE_CRYSTAL]        = 581,
+            [tpz.items.ICE_CRYSTAL]         = 591
+        },
+    },
+
+    [581] = {
+        mainItem      = tpz.items.RANSEUR,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 580,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.COVETER },
+        numRequired   = 5,
+        rewardItem    = {
+            itemId       = tpz.items.COPPERHEAD,
+            itemAugments = {
+            },
+        },
+    },
+
+    [582] = {
+        mainItem      = tpz.items.COPPERHEAD,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 581,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.IMDUGUD },
+        numRequired   = 7,
+        rewardItem    = {
+            itemId       = tpz.items.COPPERHEAD,
+            itemAugments = {
+                { tpz.augments.ATTK, 3 },
+            },
+        },
+    },
+
+    [583] = {
+        mainItem      = tpz.items.COPPERHEAD,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 582,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.LOBAIS },
+        numRequired   = 4,
+        rewardItem    = {
+            itemId       = tpz.items.COPPERHEAD,
+            itemAugments = {
+                { tpz.augments.ATTK, 5 },
+            },
+        },
+    },
+
+    [584] = {
+        mainItem      = tpz.items.COPPERHEAD,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 583,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.ANTLION },
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.BRADAMANTE,
+            itemAugments = {
+            },
+        },
+    },
+
+    [585] = {
+        mainItem      = tpz.items.BRADAMANTE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 584,
+        textOffset    = 1,
+        killType      = 'Species',
+        mob           = { tpz.eco.EMPTY },
+        numRequired   = 600,
+        rewardItem    = {
+            itemId       = tpz.items.BRADAMANTE,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING_33, 31 },
+            },
+        },
+    },
+
+    [586] = {
+        mainItem      = tpz.items.BRADAMANTE,
         tradeItem     = tpz.items.BABY_BLOBDINGNAG,
         type          = 'Items',
-        previousTrial = 0,
+        previousTrial = 585,
         textOffset    = 1,
         numRequired   = 10,
         rewardItem    = {
@@ -173,11 +773,114 @@ tpz.magian.trials = {
         },
     },
 
-    [350] = {
+    [600] = {
         mainItem      = tpz.items.KIBASHIRI,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 0,
+        branches      = {
+            [tpz.items.FIRE_CLUSTER]        = 601,
+            [tpz.items.ICE_CLUSTER]         = 611,
+            [tpz.items.WIND_CLUSTER]        = 621,
+            [tpz.items.EARTH_CLUSTER]       = 631,
+            [tpz.items.LIGHTNING_CLUSTER]   = 641,
+            [tpz.items.WATER_CLUSTER]       = 651,
+            [tpz.items.LIGHT_CLUSTER]       = 661,
+            [tpz.items.DARK_CLUSTER]        = 671,
+            [tpz.items.FIRE_CRYSTAL]        = 681,
+            [tpz.items.ICE_CRYSTAL]         = 691
+        },
+    },
+
+    [681] = {
+        mainItem      = tpz.items.KIBASHIRI,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 680,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.COVETER },
+        numRequired   = 5,
+        rewardItem    = {
+            itemId       = tpz.items.KORURI,
+            itemAugments = {
+            },
+        },
+    },
+
+    [682] = {
+        mainItem      = tpz.items.KORURI,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 681,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.IMDUGUD },
+        numRequired   = 7,
+        rewardItem    = {
+            itemId       = tpz.items.KORURI,
+            itemAugments = {
+                { tpz.augments.ATTK, 3 },
+            },
+        },
+    },
+
+    [683] = {
+        mainItem      = tpz.items.KORURI,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 682,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.LOBAIS },
+        numRequired   = 4,
+        rewardItem    = {
+            itemId       = tpz.items.KORURI,
+            itemAugments = {
+                { tpz.augments.ATTK, 5 },
+            },
+        },
+    },
+
+    [684] = {
+        mainItem      = tpz.items.KORURI,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 683,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.ANTLION },
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.ISATU,
+            itemAugments = {
+            },
+        },
+    },
+
+    [685] = {
+        mainItem      = tpz.items.ISATU,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 684,
+        textOffset    = 1,
+        killType      = 'Species',
+        mob           = { tpz.eco.EMPTY },
+        numRequired   = 600,
+        rewardItem    = {
+            itemId       = tpz.items.ISATU,
+            itemAugments = {
+                { tpz.augments.DMG, 13 },
+                { tpz.augments.DELAYMINUS, 15 },
+            },
+        },
+    },
+
+    [686] = {
+        mainItem      = tpz.items.ISATU,
         tradeItem     = tpz.items.RUTHVENS_NAIL,
         type          = 'Items',
-        previousTrial = 0,
+        previousTrial = 685,
         textOffset    = 1,
         numRequired   = 10,
         rewardItem    = {
@@ -234,7 +937,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.DANDA,
             itemAugments = {
-                { tpz.augments.DMG, 40 },
+                { tpz.augments.MAIN_DMG_RATING_33, 8 },
                 { tpz.augments.DELAY, 12 },
                 { tpz.augments.SPECIAL, tpz.augments.special.OCC_ATTACK_TWICE },
             },
@@ -1228,7 +1931,9 @@ tpz.magian.trials = {
             [tpz.items.LIGHTNING_CLUSTER]   = 1141,
             [tpz.items.WATER_CLUSTER]       = 1151,
             [tpz.items.LIGHT_CLUSTER]       = 1161,
-            [tpz.items.DARK_CLUSTER]        = 1171
+            [tpz.items.DARK_CLUSTER]        = 1171,
+            [tpz.items.FIRE_CRYSTAL]        = 1181,
+            [tpz.items.ICE_CRYSTAL]         = 1191
         },
     },
 
@@ -1430,7 +2135,8 @@ tpz.magian.trials = {
             [tpz.items.WATER_CLUSTER]       = 1251,
             [tpz.items.LIGHT_CLUSTER]       = 1261,
             [tpz.items.DARK_CLUSTER]        = 1271,
-            [tpz.items.FIRE_CRYSTAL]        = 1281
+            [tpz.items.FIRE_CRYSTAL]        = 1281,
+            [tpz.items.ICE_CRYSTAL]         = 1291
         },
     },
 
@@ -1614,8 +2320,8 @@ tpz.magian.trials = {
         type          = 'Kills',
         previousTrial = 1283,
         textOffset    = 1,
-        killType      = 'Species',
-        mob           = { tpz.eco.EMPTY },
+        killType      = 'Family',
+        mob           = { tpz.mob.family.EFT },
         numRequired   = 400,
         rewardItem    = {
             itemId       = tpz.items.ANTEA,
@@ -1630,14 +2336,14 @@ tpz.magian.trials = {
         type          = 'Kills',
         previousTrial = 1284,
         textOffset    = 1,
-        killType      = 'Family',
-        mob           = { tpz.mob.family.EFT },
+        killType      = 'Species',
+        mob           = { tpz.eco.EMPTY },
         numRequired   = 600,
         rewardItem    = {
             itemId       = tpz.items.ANTEA,
             itemAugments = {
                 { tpz.augments.DMG, 16 },
-                { tpz.augments.DELAY_33, 3 },
+                { tpz.augments.DELAYMINUS, 6 },
             },
         },
     },
@@ -2142,6 +2848,23 @@ tpz.magian.trials = {
         },
     },
 
+    [9012] = {
+        mainItem      = tpz.items.LONGSWORD,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        subType       = 'Region',
+        region        = { tpz.region.VOLLBOW },
+        previousTrial = 0,
+        textOffset    = 1,
+        numRequired   = 1000,
+        rewardItem    = {
+            itemId       = tpz.items.LONGSWORD,
+            itemAugments = {
+                { tpz.augments.MATT, 2 },
+            },
+        },
+    },
+
     -- Lyft weapon upgrades
     -- Squamous Hide gear
     -- Add previous trials for mass kills before OAT VNM trials and then TON more after to make it even better
@@ -2154,4 +2877,5 @@ tpz.magian.trials = {
     -- Trials for older Rare/Ex drops from NM's or quests like Executioner's Axe
     -- TODO: Stenz dark trials
     -- Use Marids!
+    -- Antlions, corse, diremite, buffalo, snoll, cluster, hippogryph
 }

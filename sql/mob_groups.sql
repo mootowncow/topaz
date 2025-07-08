@@ -449,6 +449,7 @@ INSERT INTO `mob_groups` VALUES (64,217,9,'Archaic_Chest',1800,0,6052,0,0,71,71,
 INSERT INTO `mob_groups` VALUES (65,1750,9,'Golden-Tongued_Culberry',0,128,1190,20000,30000,84,85,0);
 INSERT INTO `mob_groups` VALUES (66,913,9,'Dark_Elemental',300,4,568,0,0,84,86,0);
 INSERT INTO `mob_groups` VALUES (67,2043,9,'Ice_Elemental',300,4,1347,0,0,84,86,0);
+INSERT INTO `mob_groups` VALUES (68,9158,9,'Frosted_Soul',7200,0,2285,5000,0,48,49,0); -- After elevator, across from Diabolos' Entrance. (40 cap entrance H-8 Glacier)
 
 -- ------------------------------------------------------------
 -- The_Shrouded_Maw (Zone 10)
@@ -931,6 +932,9 @@ INSERT INTO `mob_groups` VALUES (90,5943,24,'Lhu_Mhakaracca',0,128,0,1300,0,80,8
 INSERT INTO `mob_groups` VALUES (91,6864,24,'Kyo',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (92,6865,24,'Pya',0,128,0,1300,0,80,80,1);
 
+INSERT INTO `mob_groups` VALUES (93,9156,24,'Meadows_Diremite',330,0,204,0,0,77,81,0); -- G-9 past bridge until H-12. 12 spawns. (Tav Stronghold South exit)
+
+
 -- ------------------------------------------------------------
 -- Misareaux_Coast (Zone 25)
 -- ------------------------------------------------------------
@@ -998,6 +1002,7 @@ INSERT INTO `mob_groups` VALUES (60,0,25,'Tsui-Goab',0,128,0,9300,0,65,65,0);
 INSERT INTO `mob_groups` VALUES (61,0,25,'Bloodswiller_Fly',0,128,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (62,0,25,'Tiyanak',0,128,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (63,0,25,'Volatile_Cluster',0,128,0,0,0,128,128,0);
+INSERT INTO `mob_groups` VALUES (64,9155,25,'Shellmite',330,0,2527,0,0,77,81,0); -- F-4 by Home point in water towards waterfall
 
 -- ------------------------------------------------------------
 -- Phomiuna_Aqueducts (Zone 27)
@@ -1093,6 +1098,7 @@ INSERT INTO `mob_groups` VALUES (38,1392,28,'Fomors_Avatar',0,128,0,0,0,49,51,0)
 INSERT INTO `mob_groups` VALUES (39,608,28,'Caithleann',0,128,399,8000,0,59,59,0);
 INSERT INTO `mob_groups` VALUES (40,2074,28,'Indich',0,128,1362,8000,0,58,60,0);
 INSERT INTO `mob_groups` VALUES (41,4531,28,'Aqueduct_Spider',330,0,0,0,0,84,86,0);
+INSERT INTO `mob_groups` VALUES (42,9157,28,'Acho',7200,0,315,8000,0,58,59,0); -- J-5 (Map 2)
 
 -- ------------------------------------------------------------
 -- Riverne-Site_B01 (Zone 29)

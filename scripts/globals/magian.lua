@@ -318,6 +318,7 @@ tpz.magian.trialObjectivesText = function(player, trial, trialNumber)
     local familyNames       = utils.generateEnumNameMap(tpz.mob.family)
     local poolNames         = utils.generateEnumNameMap(tpz.mob.pool)
     local speciesNames      = utils.generateEnumNameMap(tpz.eco)
+    local regionNames       = utils.generateEnumNameMap(tpz.region)
     local dayNames          = utils.generateEnumNameMap(tpz.day)
     local elementNames      = utils.generateEnumNameMap(tpz.magic.ele)
     local effectNames       = utils.generateEnumNameMap(tpz.effect)
@@ -415,6 +416,14 @@ tpz.magian.trialObjectivesText = function(player, trial, trialNumber)
 
         if trial.effectElement then
             player:PrintToPlayer("Required Status Effect Element: " .. elementNames[trial.effectElement], 0xD, nil)
+        end
+
+        if trial.region then
+            local regionText = ""
+            for _, regionId in ipairs(trial.region) do
+                regionText = regionText .. regionNames[regionId] .. " "
+            end
+            player:PrintToPlayer("Region(s): " .. regionText, 0xD, nil)
         end
 
         -- Weather requirement
@@ -602,7 +611,7 @@ tpz.magian.evaluateTrialConditions = function(player, mob, trial, skillId, damag
 
         ['Region'] = function(player, mob, trial)
             for _, regionId in ipairs(trial.region or {}) do
-                if regionId == player:getRegionID() then return true end
+                if regionId == player:getCurrentRegion() then return true end
             end
         end,
 
@@ -730,7 +739,7 @@ tpz.magian.getActiveMagianTrials = function(player)
             local itemId = itemInstance:getID()
             local trialNum = itemInstance:getTrialNumber()
 
-            printf("[Magian] Slot %d has itemId: %d with trial number: %d", slot, itemId, trialNum)
+            -- printf("[Magian] Slot %d has itemId: %d with trial number: %d", slot, itemId, trialNum)
 
             if trialNum and trialNum > 0 then
                 activeTrials[trialNum] = {
