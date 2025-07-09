@@ -88,19 +88,23 @@ INSERT INTO `mob_groups` VALUES (15,3033,2,'Orcish_Stonechucker',330,0,307,0,0,1
 INSERT INTO `mob_groups` VALUES (16,3023,2,'Orcish_Neckchopper',330,0,307,0,0,18,20,0);
 INSERT INTO `mob_groups` VALUES (17,2373,2,'Land_Pugil',330,0,463,0,0,17,19,0);
 INSERT INTO `mob_groups` VALUES (18,4309,2,'Water_Elemental',330,4,2629,0,0,29,31,0);
-INSERT INTO `mob_groups` VALUES (19,3752,2,'Stag_Beetle',330,0,2318,0,0,25,28,0);
-INSERT INTO `mob_groups` VALUES (20,371,2,'Battrap',330,0,243,0,0,29,31,0);
-INSERT INTO `mob_groups` VALUES (21,3009,2,'Orcish_Fighter',330,0,283,0,0,29,31,0);
-INSERT INTO `mob_groups` VALUES (22,3004,2,'Orcish_Cursemaker',330,0,283,0,0,29,31,0);
-INSERT INTO `mob_groups` VALUES (23,3032,2,'Orcish_Serjeant',330,0,0,0,0,29,31,0);
-INSERT INTO `mob_groups` VALUES (24,1518,2,'Ghoul',330,1,958,0,0,29,31,0);
-INSERT INTO `mob_groups` VALUES (25,1517,2,'Ghoul',330,1,960,0,0,29,31,0);
-INSERT INTO `mob_groups` VALUES (26,5135,2,'Marsh_Funguar',330,0,1632,0,0,25,28,0);
-INSERT INTO `mob_groups` VALUES (27,4345,2,'Will-o-the-Wisp',330,8,0,0,0,29,31,0);
-INSERT INTO `mob_groups` VALUES (28,1406,2,'Forest_Tiger',330,0,896,0,0,29,31,0);
-INSERT INTO `mob_groups` VALUES (29,1409,2,'Fosse_Pugil',330,0,463,0,0,29,31,0);
-INSERT INTO `mob_groups` VALUES (30,3728,2,'Spider_Wasp',330,0,2305,0,0,23,26,0);
-INSERT INTO `mob_groups` VALUES (31,4528,2,'Tempest_Tigon',3600,0,2895,4500,0,43,45,0);
+
+-- North Jugner entrance (High level)
+INSERT INTO `mob_groups` VALUES (19,3752,2,'Stag_Beetle',330,0,2318,0,0,77,81,0);
+INSERT INTO `mob_groups` VALUES (20,371,2,'Battrap',330,0,243,0,0,77,81,0);
+INSERT INTO `mob_groups` VALUES (21,3009,2,'Orcish_Fighter',330,0,283,0,0,77,81,0);
+INSERT INTO `mob_groups` VALUES (22,3004,2,'Orcish_Cursemaker',330,0,283,0,0,77,81,0);
+INSERT INTO `mob_groups` VALUES (23,3032,2,'Orcish_Serjeant',330,0,0,0,0,77,81,0);
+INSERT INTO `mob_groups` VALUES (24,1518,2,'Ghoul',330,1,958,0,0,80,82,0);
+INSERT INTO `mob_groups` VALUES (25,1517,2,'Ghoul',330,1,960,0,0,80,82,0);
+INSERT INTO `mob_groups` VALUES (26,5135,2,'Marsh_Funguar',330,0,1632,0,0,77,81,0);
+INSERT INTO `mob_groups` VALUES (27,4345,2,'Will-o-the-Wisp',330,8,0,0,0,80,82,0);
+INSERT INTO `mob_groups` VALUES (28,1406,2,'Forest_Tiger',330,0,896,0,0,79,81,0);
+INSERT INTO `mob_groups` VALUES (29,1409,2,'Fosse_Pugil',330,0,463,0,0,77,81,0);
+INSERT INTO `mob_groups` VALUES (30,3728,2,'Spider_Wasp',330,0,2305,0,0,77,81,0);
+INSERT INTO `mob_groups` VALUES (31,4528,2,'Tempest_Tigon',3600,0,2895,25000,0,83,83,0);
+
+-- South Jugner entrance (Mid level)
 INSERT INTO `mob_groups` VALUES (32,1065,2,'Diving_Beetle',330,0,169,0,0,27,30,0);
 INSERT INTO `mob_groups` VALUES (33,421,2,'Birdtrap',330,0,243,0,0,29,33,0);
 INSERT INTO `mob_groups` VALUES (34,3424,2,'Sabertooth_Tiger',330,0,2136,0,0,29,32,0);
@@ -124,6 +128,9 @@ INSERT INTO `mob_groups` VALUES (51,1934,2,'Hercules_Beetle',0,128,1303,3500,0,3
 INSERT INTO `mob_groups` VALUES (52,0,2,'Orcfeltrap',0,128,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (53,3724,2,'Specter_Bat',330,2,19,0,0,18,20,0); --  higher lvl group
 INSERT INTO `mob_groups` VALUES (54,575,2,'Bulldog_Bats',330,2,80,0,0,18,20,0); --  higher lvl group
+INSERT INTO `mob_groups` VALUES (55,4309,2,'Water_Elemental',330,4,2629,0,0,81,83,0); -- higher lvl group
+INSERT INTO `mob_groups` VALUES (56,3912,2,'Thunder_Elemental',330,4,2411,0,0,81,83,0);-- higher lvl group
+
 
 -- ------------------------------------------------------------
 -- Manaclipper (Zone 3)
