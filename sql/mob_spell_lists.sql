@@ -6241,12 +6241,100 @@ INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,185,1,255); -- aeroga II
 INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,277,1,255); -- dread spikes
 
 INSERT INTO `mob_spell_lists` VALUES ('Frosted_Soul',1023,180,1,255); -- Blizzaga II
-INSERT INTO `mob_spell_lists` VALUES ('Frosted_Soul',1023,151,1,94); -- Blizzard III
-INSERT INTO `mob_spell_lists` VALUES ('Frosted_Soul',1023,455,1,94); -- Ice Threnody
+INSERT INTO `mob_spell_lists` VALUES ('Frosted_Soul',1023,151,1,255); -- Blizzard III
+INSERT INTO `mob_spell_lists` VALUES ('Frosted_Soul',1023,455,1,255); -- Ice Threnody
+
+INSERT INTO `mob_spell_lists` VALUES ('Indich',1024,376,1,255); -- Horde Lullaby
+INSERT INTO `mob_spell_lists` VALUES ('Indich',1024,112,1,255); -- Flash
+
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,288,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,289,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,290,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,291,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,292,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,144,13,22);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,145,38,47);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,146,62,67);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,147,73,94); -- Fire IV
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,148,95,255); -- Fire V
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,149,17,27);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,150,42,53);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,151,64,68);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,152,74,94); -- Blizzard IV
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,153,95,255); -- Blizzard V
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,154,9,18);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,155,34,44);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,156,59,66);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,157,72,94); -- Aero IV
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,158,95,255); -- Aero V
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,159,1,10);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,160,26,35);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,161,51,60);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,162,68,94); -- Stone IV
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,163,95,255); -- Stone V
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,164,21,46);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,165,46,55);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,166,66,70);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,167,75,94); -- Thunder IV
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,168,95,255); -- Thunder V
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,169,5,12);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,170,30,40);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,171,55,61);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,172,70,94); -- Water IV
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,173,95,255); -- Water V
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,174,28,35);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,175,53,60);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,176,69,90);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,179,32,39);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,180,57,62);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,181,71,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,184,23,31);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,185,48,56);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,186,67,71);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,189,15,22);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,190,40,47);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,191,63,67);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,194,36,43);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,195,61,65);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,196,73,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,199,19,27);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,200,44,52);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,201,65,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,204,60,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,206,50,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,208,52,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,210,54,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,212,56,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,214,58,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,220,3,17);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,221,43,64);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,225,24,71);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,226,72,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,230,10,34);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,231,35,84);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,232,85,255); -- Bio III
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,235,24,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,236,22,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,237,20,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,238,18,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,239,16,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,240,27,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,245,12,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,247,25,94);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,248,95,255); -- Aspir II
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,249,10,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,252,45,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,253,20,40);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,254,4,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,258,7,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,259,41,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,273,31,55);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,274,56,255);
+
 
 
 -- NEXT 546
--- NEXT 1024
+-- NEXT 1026
 -- NEXT 2089(Custom)
 
 
