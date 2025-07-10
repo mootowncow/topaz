@@ -13,15 +13,15 @@ function onAdditionalEffect(player, target, damage)
         local item = player:getEquippedItem(slot)
 
         if item then
-            local augmentValue = tpz.itemUtils.HasAugment(item, tpz.augments.ADDEFF_WEAKENS_DEF)
+            local augmentValue = tpz.itemUtils.HasAugment(item, tpz.augments.ADDEFF_FIREDMG_5)
             if augmentValue then
                 local chance = CalculateAdditionalEffectChance(player, 100)
-                local dmg = augmentValue
+                local dmg = augmentValue +1
                 local includeMAB = false
                 local bonusMAB = 0
                 local element = tpz.magic.ele.FIRE
-                local bonus = 0
-                local dmg = doAdditionalEffectDamage(player, target, chance, dmg, nil, includeMAB, bonusMAB, element, bonus)
+                local bonus = 255
+                local dmg = doAdditionalEffectDamage(player, target, chance, dmg, nil, includeMAB, bonusMAB, element, tpz.skill.SWORD, bonus)
 
                 if dmg == 0 then
                     return 0, 0, 0
