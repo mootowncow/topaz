@@ -39,7 +39,7 @@ zones[tpz.zone.RIVERNE_SITE_A01] =
     npc =
     {
         DISPLACEMENT_OFFSET = 16900334,
-        SHIELD_BUG_QM     = 16900325,
+        SHIELD_BUG_QM       = 16900325,
     },
 }
 

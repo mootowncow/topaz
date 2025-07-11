@@ -6331,10 +6331,15 @@ INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,259,41,255);
 INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,273,31,55);
 INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,274,56,255);
 
+INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,145,1,255); -- Spell list changes based on day of the week (in shieldtrap.lua
+INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,175,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,235,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,100,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,249,1,255);
 
 
 -- NEXT 546
--- NEXT 1026
+-- NEXT 1027
 -- NEXT 2089(Custom)
 
 

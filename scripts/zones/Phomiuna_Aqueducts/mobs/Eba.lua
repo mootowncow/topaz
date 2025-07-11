@@ -8,12 +8,9 @@ require("scripts/globals/mobs")
 local ID = require("scripts/zones/Phomiuna_Aqueducts/IDs")
 -----------------------------------
 function onMobSpawn(mob)
-	mob:setMod(tpz.mod.MAIN_DMG_RATING, 25)
-	mob:setMod(tpz.mod.DEFP, 25) 
-    mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
-end
-
-function onMobSpawn(mob)
+    SetGenericNMStats(mob)
+    mob:setDamage(70)
+    mob:addMod(tpz.mod.ATTP, 50)
     mob:setLocalVar("fomorHateAdj", 4)
 end
 
