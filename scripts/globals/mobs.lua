@@ -160,7 +160,8 @@ tpz.mob.additionalEffect = {
     HAUNT                 = 36, -- Undispellable Curse
     ADDLE                 = 37,
     MAX_HP_DOWN           = 38,
-    MAX_MP_DOWN           = 39
+    MAX_MP_DOWN           = 39,
+    TERROR_ENMITY_RESET   = 40
 }
 tpz.mob.ae = tpz.mob.additionalEffect
 
@@ -636,6 +637,16 @@ local additionalEffects =
         duration = 30,
         minDuration = 1,
         maxduration = 30,
+    },
+    [tpz.mob.ae.TERROR_ENMITY_RESET] =
+    {
+        chance = 100,
+        sub = tpz.subEffect.PARALYSIS,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.TERROR,
+        duration = 5,
+        code = function(mob, target, power) mob:resetEnmity(target) end,
     },
 }
 

@@ -38,6 +38,9 @@ CREATE TABLE `nm_spawn_points` (
 
 LOCK TABLES `nm_spawn_points` WRITE;
 /*!40000 ALTER TABLE `nm_spawn_points` DISABLE KEYS */;
+INSERT INTO `nm_spawn_points` VALUES (16814331,0,34.057,-0.352,165.306);
+INSERT INTO `nm_spawn_points` VALUES (16814331,1,-139.05, 0.24, 18.97);
+INSERT INTO `nm_spawn_points` VALUES (16814331,2,-20.43, 0.00, 70.60);
 INSERT INTO `nm_spawn_points` VALUES (16785593,0,-246.387,-8.815,-328.821);
 INSERT INTO `nm_spawn_points` VALUES (16785593,1,-242.669,-6.587,-325.404);
 INSERT INTO `nm_spawn_points` VALUES (16785593,2,-235.198,-7.664,-328.223);

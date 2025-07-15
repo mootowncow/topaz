@@ -443,7 +443,7 @@ INSERT INTO `mob_groups` VALUES (52,3992,9,'Treasure_Chest',1800,0,6052,7500,0,6
 INSERT INTO `mob_groups` VALUES (53,6387,9,'Gazer',300,0,315,0,0,42,44,0);
 INSERT INTO `mob_groups` VALUES (54,1040,9,'Diremite',300,0,657,0,0,42,46,0);
 INSERT INTO `mob_groups` VALUES (55,3685,9,'Snowball',300,0,2286,0,0,43,46,0);
-INSERT INTO `mob_groups` VALUES (56,1861,9,'Gyre-Carlin',3600,0,1260,4900,0,47,49,0);
+INSERT INTO `mob_groups` VALUES (56,1861,9,'Gyre-Carlin',3600,0,1260,6000,0,50,52,0);
 INSERT INTO `mob_groups` VALUES (57,2922,9,'Nunyunuwi',0,128,0,3500,0,56,58,0);
 -- High level
 INSERT INTO `mob_groups` VALUES (58,292,9,'Avalanche',300,0,30,0,0,75,75,0);

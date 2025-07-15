@@ -5,6 +5,7 @@
 require("scripts/globals/titles")
 require("scripts/globals/mobs")
 require("scripts/globals/status")
+require("scripts/globals/mob_skills")
 mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
 function onMobSpawn(mob)
@@ -14,14 +15,15 @@ function onMobSpawn(mob)
     tpz.mix.jobSpecial.config(mob, {
     specials =
     {
-        {id = tpz.jsa.SOUL_VOICE, cooldown = 45, hpp = 100},
+        {id = tpz.jsa.SOUL_VOICE, cooldown = 180, hpp = 100},
     },
     })
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    if skill:getID() == 576 or skill:getID() == 578 or skill:getID() == 579 or skill:getID() == 580 or skill:getID() == 2828 then -- Jettatura
-		mob:useMobAbility(1330)  -- Hoof Volley
+    -- Always follows every TP move with Hoof Volley (except for Hoof Volley itself)
+    if (skill:getID() ~= tpz.mob.skills.HOOF_VOLLEY) then
+		mob:useMobAbility(tpz.mob.skills.HOOF_VOLLEY)
 	end
 end
 
