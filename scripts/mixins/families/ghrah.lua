@@ -55,6 +55,7 @@ g_mixins.families.ghrah = function(mob)
             mob:setLocalVar("element", tpz.magic.ele.DARK)
         end
         SetJob(mob)
+        SetSDT(mob)
     end)
 
     mob:addListener("ROAM_TICK", "GHRAH_RTICK", function(mob)
@@ -165,6 +166,16 @@ end
 
 function SetSDT(mob)
     local element = mob:getLocalVar("element")
+
+    -- Reset SDT/EEM
+    for sdt = tpz.mod.SDT_FIRE, tpz.mod.SDT_DARK do
+        mob:setMod(sdt, 100)
+    end
+
+    for eem = tpz.mod.EEM_AMNESIA, tpz.mod.EEM_BLIND do
+        mob:setMod(eem, 100)
+    end
+
     if element == 1 then -- Fire
         mob:setMod(tpz.mod.SDT_FIRE, 5)
         mob:setMod(tpz.mod.EEM_AMNESIA, 5)
