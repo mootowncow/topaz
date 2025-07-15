@@ -30,6 +30,30 @@ RIVERNE_SITE_A01 = {
         end
     end,
 
+    --[[..............................................................................................
+        Move shield bug ??? that is used to spawn Shieldtrap
+        ..............................................................................................]]
+
+    moveShieldBug = function()
+        local positions =
+        {
+            { x = 275.1907, y = 0.8048,  z = 273.8457 },
+            { x = 581.000,  y = -1.0981, z = 426.000 },
+            { x = -51.06,   y = 0.89,    z = 357.97 },
+        }
+
+        -- Pick a new index not equal to lastPositionIndex
+        local qm = GetNPCByID(ID.npc.SHIELD_BUG_QM)
+        local lastIndex = qm:getLocalVar("lastPositionIndex")
+        local newIndex
+        repeat
+            newIndex = math.random(1, #positions)
+        until newIndex ~= lastIndex
+
+        local newPosition = positions[newIndex]
+        qm:setLocalVar("lastPositionIndex", newIndex)
+        qm:setPos(newPosition.x, newPosition.y, newPosition.z)
+    end,
 }
 
 return RIVERNE_SITE_A01

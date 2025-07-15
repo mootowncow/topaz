@@ -166,7 +166,6 @@ INSERT INTO `mob_family_mods` VALUES (192,28,10,1);	-- Peiste +10% EXP
 -- Ule Bunies in mob_pool_mods.sql
 
 INSERT INTO `mob_family_mods` VALUES (176,28,6,1);	-- Mamool Ja +6% EXP 
-INSERT INTO `mob_family_mods` VALUES (176,66,5,1);	-- Mamool Ja +6% EXP 
 INSERT INTO `mob_family_mods` VALUES (177,28,6,1);	-- Mamool Ja +6% EXP 
 INSERT INTO `mob_family_mods` VALUES (591,28,6,1);	-- Mamool Ja +6% EXP 
 INSERT INTO `mob_family_mods` VALUES (171,28,6,1);	-- Lamia +6% EXP 

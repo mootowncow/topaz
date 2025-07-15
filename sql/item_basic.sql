@@ -1642,7 +1642,7 @@ INSERT INTO `item_basic` VALUES (1752,0,'benten_card','benten_card',1,61520,0,1,
 INSERT INTO `item_basic` VALUES (1753,0,'daikoku_card','daikoku_card',1,61520,0,1,0);
 INSERT INTO `item_basic` VALUES (1754,0,'jurojin_card','jurojin_card',1,61520,0,1,0);
 INSERT INTO `item_basic` VALUES (1755,0,'fukurokuju_card','fukurokuju_card',1,61520,0,1,0);
-INSERT INTO `item_basic` VALUES (1756,0,'remnant_of_a_cerebrator','cerebrator_rem.',1,61524,0,1,0);
+INSERT INTO `item_basic` VALUES (1756,0,'cerebrator_remnant','cerebrator_rem.',1,61524,0,1,0);
 INSERT INTO `item_basic` VALUES (1757,0,'coveter_remnant','coveter_remnant',1,61524,0,1,0);
 INSERT INTO `item_basic` VALUES (1758,0,'satiator_remnant','satiator_remnant',1,61524,0,1,0);
 INSERT INTO `item_basic` VALUES (1759,0,'recollection_of_suffering','rec._of_suffering',1,61520,0,1,0);

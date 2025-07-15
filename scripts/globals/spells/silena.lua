@@ -11,10 +11,5 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    if (target:delStatusEffect(tpz.effect.SILENCE)) then
-        spell:setMsg(tpz.msg.basic.MAGIC_REMOVE_EFFECT)
-    else
-        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-    end
-    return tpz.effect.SILENCE
+    return doNaSpell(caster, target, spell)
 end

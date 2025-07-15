@@ -1349,6 +1349,101 @@ namespace charutils
 
     /************************************************************************
     *                                                                       *
+    *  Adding items to treasure pool                                        *
+    *                                                                       *
+    ************************************************************************/
+    // Version 1: Takes itemID, quantity, silence, appraisalID; creates CItem* internally
+    uint8 AddItemTreasure(CCharEntity* PChar, uint8 LocationID, uint16 itemID, uint32 quantity, bool silence, uint8 appraisalID)
+    {
+        if (PChar->getStorage(LocationID)->GetFreeSlotsCount() == 0 || quantity == 0)
+            return ERROR_SLOTID;
+
+        CItem* PItem = itemutils::GetItem(itemID);
+        if (PItem != nullptr)
+        {
+            PItem->setQuantity(quantity);
+            // Call the CItem* version
+            return AddItemTreasure(PChar, LocationID, PItem, silence, appraisalID);
+        }
+
+        ShowWarning(CL_YELLOW "charplugin::AddItemTreasure: Item <%i> not found in database\n" CL_RESET, itemID);
+        return ERROR_SLOTID;
+    }
+
+    // Version 2: Takes CItem* and adds it, applying appraisalID if provided
+    uint8 AddItemTreasure(CCharEntity* PChar, uint8 LocationID, CItem* PItem, bool silence, uint8 appraisalID)
+    {
+        // Set appraisalID if provided
+        if (appraisalID > 0)
+        {
+            PItem->setAppraisalID(appraisalID);
+        }
+
+        if (PItem->isType(ITEM_CURRENCY))
+        {
+            UpdateItem(PChar, LocationID, 0, PItem->getQuantity());
+            delete PItem;
+            return 0;
+        }
+        if (PItem->getFlag() & ITEM_FLAG_RARE)
+        {
+            if (HasItem(PChar, PItem->getID()))
+            {
+                if (!silence)
+                    PChar->pushPacket(new CMessageStandardPacket(PChar, PItem->getID(), 0, MsgStd::ItemEx));
+                delete PItem;
+                return ERROR_SLOTID;
+            }
+        }
+
+        uint8 SlotID = PChar->getStorage(LocationID)->InsertItem(PItem);
+
+        if (SlotID != ERROR_SLOTID)
+        {
+            const char* Query = "INSERT INTO char_inventory("
+                                "charid,"
+                                "location,"
+                                "slot,"
+                                "itemId,"
+                                "quantity,"
+                                "signature,"
+                                "extra) "
+                                "VALUES(%u,%u,%u,%u,%u,'%s','%s')";
+
+            int8 signature[21];
+            if (PItem->isType(ITEM_LINKSHELL))
+            {
+                DecodeStringLinkshell((int8*)PItem->getSignature(), signature);
+            }
+            else
+            {
+                DecodeStringSignature((int8*)PItem->getSignature(), signature);
+            }
+
+            char extra[sizeof(PItem->m_extra) * 2 + 1];
+            Sql_EscapeStringLen(SqlHandle, extra, (const char*)PItem->m_extra, sizeof(PItem->m_extra));
+
+            if (Sql_Query(SqlHandle, Query, PChar->id, LocationID, SlotID, PItem->getID(), PItem->getQuantity(), signature, extra) == SQL_ERROR)
+            {
+                ShowError(CL_RED "charplugin::AddItemTreasure: Cannot insert item to database\n" CL_RESET);
+                PChar->getStorage(LocationID)->InsertItem(nullptr, SlotID);
+                delete PItem;
+                return ERROR_SLOTID;
+            }
+            PChar->pushPacket(new CInventoryItemPacket(PItem, LocationID, SlotID));
+            PChar->pushPacket(new CInventoryFinishPacket());
+        }
+        else
+        {
+            ShowDebug(CL_CYAN "charplugin::AddItemTreasure: Location %i is full\n" CL_RESET, LocationID);
+            delete PItem;
+        }
+        return SlotID;
+    }
+
+
+    /************************************************************************
+    *                                                                       *
     *  Проверяем наличие предмета у персонажа                               *
     *                                                                       *
     ************************************************************************/
@@ -4121,7 +4216,7 @@ namespace charutils
             {
                 CCharEntity* PMember = dynamic_cast<CCharEntity*>(PPartyMember);
 
-                if (!PMember || PMember->isDead() || (PMember->loc.zone->GetID() != zone))
+                if (!PMember || PMember->isDead() || (PMember->loc.zone->GetID() != zone) || (distance(PMember->loc.p, PMob->loc.p) > 100))
                 {
                     // Do not grant Capacity points if null, Dead, or in a different area
                     return;
@@ -4414,22 +4509,23 @@ namespace charutils
         if (PChar->MeritMode == true && jobLevel > 74 && expFromRaise == false)
             onLimitMode = true;
 
-        //we check if the player is level capped and max exp..
-        if (jobLevel > 74 && jobLevel >= PChar->jobs.genkai && PChar->jobs.exp[PChar->GetMJob()] == GetExpNEXTLevel(jobLevel) - 1)
+        // we check if the player is level capped and max exp..
+        if (PChar->jobs.job[PChar->GetMJob()] > 74 && PChar->jobs.job[PChar->GetMJob()] >= PChar->jobs.genkai &&
+            PChar->jobs.exp[PChar->GetMJob()] == GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]) - 1)
             onLimitMode = true;
 
         // exp added from raise shouldn't display a message. Don't need a message for zero exp either
         if (!expFromRaise && exp > 0)
         {
-            //printf("Experience before level penalty %i\n", exp);
-            // Check for level restriction(COP level capped zones)
+            // printf("Experience before level penalty %i\n", exp);
+            //  Check for level restriction(COP level capped zones)
             if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_RESTRICTION))
             {
                 // Reduce experience if the players job is higher level than the level cap restriction
                 if (PChar->StatusEffectContainer->GetStatusEffect(EFFECT_LEVEL_RESTRICTION)->GetPower() < jobLevel)
                 {
                     exp = (int32)(exp * 0.10f);
-                    //printf("Experience after level penalty %i\n", exp);
+                    // printf("Experience after level penalty %i\n", exp);
                 }
             }
             if (mobCheck >= EMobDifficulty::EvenMatch && isexpchain)
@@ -4465,7 +4561,7 @@ namespace charutils
 
         if (onLimitMode)
         {
-            //add limit points
+            // add limit points
             if (PChar->PMeritPoints->AddLimitPoints(exp))
             {
                 PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CMessageCombatPacket(PChar, PMob, PChar->PMeritPoints->GetMeritPoints(), 0, 50));
@@ -4473,7 +4569,7 @@ namespace charutils
         }
         else
         {
-            //add normal exp
+            // add normal exp
             PChar->jobs.exp[PChar->GetMJob()] += exp;
         }
 
@@ -4482,30 +4578,26 @@ namespace charutils
             REGIONTYPE region = PChar->loc.zone->GetRegionID();
 
             // Should this user be awarded conquest points..
-            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET) &&
-                (region >= REGION_RONFAURE && region <= REGION_JEUNO))
+            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET) && (region >= REGION_RONFAURE && region <= REGION_JEUNO))
             {
                 // Add influence for the players region..
                 conquest::AddConquestPoints(PChar, exp);
             }
 
             // Should this user be awarded imperial standing..
-            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SANCTION) &&
-                (region >= REGION_WEST_AHT_URHGAN && region <= REGION_ALZADAAL))
+            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SANCTION) && (region >= REGION_WEST_AHT_URHGAN && region <= REGION_ALZADAAL))
             {
                 charutils::AddPoints(PChar, "imperial_standing", (int32)(exp * 0.1f));
                 PChar->pushPacket(new CConquestPacket(PChar));
             }
-          
-		  // TEMPORARY: Until we have campaign implemented, allow players
+
+            // TEMPORARY: Until we have campaign implemented, allow players
             // to get allied notes by exping in past zones with sigil.
-            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGIL) &&
-                (region >= REGION_RONFAURE_FRONT && region <= REGION_VALDEAUNIA_FRONT))
+            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGIL) && (region >= REGION_RONFAURE_FRONT && region <= REGION_VALDEAUNIA_FRONT))
             {
                 charutils::AddPoints(PChar, "allied_notes", (int32)(exp * 0.1f));
                 PChar->pushPacket(new CConquestPacket(PChar));
             }
-
 
             // Cruor Drops in Abyssea zones.
             uint16 Pzone = PChar->getZone();
@@ -4517,7 +4609,7 @@ namespace charutils
 
                 if (TextID == 0)
                 {
-                    ShowWarning(CL_YELLOW"Failed to fetch Cruor Message ID for zone: %i\n" CL_RESET, Pzone);
+                    ShowWarning(CL_YELLOW "Failed to fetch Cruor Message ID for zone: %i\n" CL_RESET, Pzone);
                 }
 
                 if (Cruor >= 1)
@@ -4550,8 +4642,7 @@ namespace charutils
                 }
                 jobLevel += 1;
 
-                if (PChar->m_LevelRestriction == 0 ||
-                    PChar->m_LevelRestriction > PChar->GetMLevel())
+                if (PChar->m_LevelRestriction == 0 || PChar->m_LevelRestriction > PChar->GetMLevel())
                 {
                     PChar->SetMLevel(jobLevel);
                     PChar->SetSLevel(PChar->jobs.job[PChar->GetSJob()]);

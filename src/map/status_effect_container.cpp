@@ -250,6 +250,30 @@ uint8 CStatusEffectContainer::GetLowestFreeSlot()
 bool CStatusEffectContainer::CanGainStatusEffect(CStatusEffect* PStatusEffect)
 {
     EFFECT statusEffect = PStatusEffect->GetStatusID();
+
+    // Handle Divine Caress immunity buff
+    if (m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_DIVINE_CARESS_2))
+    {
+        CStatusEffect* divineCaress = m_POwner->StatusEffectContainer->GetStatusEffect(EFFECT_DIVINE_CARESS_2);
+        uint16 divineCaressImmunity = divineCaress->GetPower();
+
+        if (statusEffect == divineCaressImmunity)
+        {
+            // Subpower is the amount of effects that can be immuned by Divine Caress. When it reaches 0 the effect ends
+            int remainingImmunes = divineCaress->GetSubPower();
+            if (remainingImmunes - 1 <= 0)
+            {
+                m_POwner->StatusEffectContainer->DelStatusEffectSilent(EFFECT_DIVINE_CARESS_2);
+            }
+            else
+            {
+                divineCaress->SetSubPower(remainingImmunes - 1);
+            }
+
+            return false;
+        }
+    }
+
     // check for immunities first
     switch (statusEffect) {
         case EFFECT_SLEEP:

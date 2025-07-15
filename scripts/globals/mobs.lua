@@ -12,14 +12,17 @@ require("scripts/globals/npc_util")
 require("scripts/globals/roe")
 require("scripts/globals/world")
 require("scripts/globals/mob_skills")
+require("scripts/globals/mob_family")
+require("scripts/globals/mob_pool")
 require("scripts/globals/znm")
+require("scripts/globals/magian")
 -----------------------------------
 
 tpz = tpz or {}
 tpz.mob = tpz.mob or {}
 
 -- onMobDeathEx is called from the core
-function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill)
+function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill, killer)
     -- Things that happen only to the person who landed killing blow
     if isKiller then
         -- DRK quest - Blade Of Darkness
@@ -43,8 +46,12 @@ function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill)
         end
     end
 
+        -- killer can be nil, check it like:
+    if killer then
+        printf("Last attacker was: %s", killer:getName())
+    end
     tpz.znm.OnMobDeath(mob, player, isKiller, isWeaponSkillKill)
-    -- tpz.magian.checkMagianTrial(player, {['mob'] = mob}) TODO: NYI
+    tpz.magian.checkMagianTrial(player, mob, killer)
 end
 
 -------------------------------------------------
@@ -153,7 +160,8 @@ tpz.mob.additionalEffect = {
     HAUNT                 = 36, -- Undispellable Curse
     ADDLE                 = 37,
     MAX_HP_DOWN           = 38,
-    MAX_MP_DOWN           = 39
+    MAX_MP_DOWN           = 39,
+    TERROR_ENMITY_RESET   = 40
 }
 tpz.mob.ae = tpz.mob.additionalEffect
 
@@ -629,6 +637,16 @@ local additionalEffects =
         duration = 30,
         minDuration = 1,
         maxduration = 30,
+    },
+    [tpz.mob.ae.TERROR_ENMITY_RESET] =
+    {
+        chance = 100,
+        sub = tpz.subEffect.PARALYSIS,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.TERROR,
+        duration = 5,
+        code = function(mob, target, power) mob:resetEnmity(target) end,
     },
 }
 

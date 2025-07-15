@@ -2531,8 +2531,16 @@ inline int32 CLuaBaseEntity::getWeather(lua_State *L)
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
 
     WEATHER weather = WEATHER_NONE;
+    bool ignoreScholar = false;
+
+
+    if (!lua_isnil(L, 1) && lua_isboolean(L, 1))
+    {
+        ignoreScholar = lua_toboolean(L, 1);
+    }
+
     if (m_PBaseEntity->objtype & TYPE_PC || m_PBaseEntity->objtype & TYPE_MOB)
-        weather = battleutils::GetWeather((CBattleEntity*)m_PBaseEntity, false);
+        weather = battleutils::GetWeather((CBattleEntity*)m_PBaseEntity, ignoreScholar);
     else
         weather = zoneutils::GetZone(m_PBaseEntity->getZone())->GetWeather();
 
@@ -3965,6 +3973,8 @@ inline int32 CLuaBaseEntity::hasItem(lua_State *L)
 *  Purpose : Adds an item to a player's inventory
 *  Example : player:addItem(4102,12) -- a stack of Light Crystals
 *  Notes   : See format and variable options below
+*  Example: player:addItem(tpz.items.CAPE, 1, 0, 0, 0, 0, 0, 0, 0, 0, 24) Trial 24
+*  Example: player:addItem(tpz.items.CAPE, 1 1 1 1 1 1 1 1 1 1 1) Full augments
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::addItem(lua_State *L)
@@ -4145,7 +4155,7 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
                         ((CItemEquipment*)PItem)->setAugment(3, augment3, augment3val);
                     if (augment4 != 0)
                         ((CItemEquipment*)PItem)->setAugment(4, augment4, augment4val);
-                    if (augment0 != 0)
+                    if (trialNumber != 0)
                         ((CItemEquipment*)PItem)->setTrialNumber(trialNumber);
                 }
                 SlotID = charutils::AddItem(PChar, LOC_INVENTORY, PItem, silence);
@@ -4569,6 +4579,7 @@ inline int32 CLuaBaseEntity::getFreeSlotsCount(lua_State *L)
 *  Purpose : Completes a trade and takes ONLY confirmed items
 *  Example : player:confirmTrade()
 *  Notes   : Must use trade:confirmItem(slotID) first
+*  Notes    : ALWAYS use with npcutil.TradeHas()!
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::confirmTrade(lua_State* L)
@@ -4606,7 +4617,7 @@ inline int32 CLuaBaseEntity::confirmTrade(lua_State* L)
 *  Function: tradeComplete()
 *  Purpose : Completes trade and removes all items in trade container
 *  Example : player:tradeComplete()
-*  Notes   :
+*  Notes   : NEVER USE! TAKES ALL ITEMS FROM THE TRADE WINDOW! EVEN ONES NOT NEEDED FOR THE TRADE!
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::tradeComplete(lua_State* L)
@@ -12613,6 +12624,7 @@ inline int32 CLuaBaseEntity::getStatusEffect(lua_State *L)
 *  Purpose : Returns a Lua table of all Status Effects an Entity has
 *  Example : local effects = caster:getStatusEffects() -- can iterate over table
 *  Notes   : Currently only used to check for Snake Eyes in ability.lua
+*  Notes:  : Need to use effect:getType() in order to get it's status effect Id
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::getStatusEffects(lua_State *L)
@@ -12980,6 +12992,35 @@ inline int32 CLuaBaseEntity::setEffectUndispellable(lua_State* L)
     }
 
     return 0;
+}
+
+int32 CLuaBaseEntity::getStatusEffectsAtDeath(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
+
+    auto PMob = static_cast<CMobEntity*>(m_PBaseEntity);
+    if (PMob == nullptr)
+    {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    lua_newtable(L);
+    int idx = 1;
+    for (const auto& snapshot : PMob->m_StatusEffectsAtDeath)
+    {
+        lua_newtable(L);
+        lua_pushinteger(L, snapshot.effectId);
+        lua_setfield(L, -2, "effectId");
+
+        lua_pushinteger(L, snapshot.element);
+        lua_setfield(L, -2, "element");
+
+        lua_rawseti(L, -2, idx++);
+    }
+
+    return 1;
 }
 
 /************************************************************************
@@ -18814,6 +18855,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasStatusEffectByFlag),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,countEffect),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEffectUndispellable),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getStatusEffectsAtDeath),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffect),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffectsByFlag),

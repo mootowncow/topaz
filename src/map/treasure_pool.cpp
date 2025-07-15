@@ -149,7 +149,8 @@ void CTreasurePool::DelMember(CCharEntity* PChar)
 *                                                                       *
 ************************************************************************/
 
-uint8 CTreasurePool::AddItem(uint16 ItemID, CBaseEntity* PEntity)
+
+uint8 CTreasurePool::AddItem(uint16 ItemID, CBaseEntity* PEntity, uint8 appraisalID /*= 0*/)
 {
     uint8  SlotID;
     uint8  FreeSlotID = -1;
@@ -227,6 +228,7 @@ uint8 CTreasurePool::AddItem(uint16 ItemID, CBaseEntity* PEntity)
 
     m_count++;
     m_PoolItems[FreeSlotID].ID = ItemID;
+    m_PoolItems[FreeSlotID].AppraisalID = appraisalID;
     m_PoolItems[FreeSlotID].TimeStamp = server_clock::now() - treasure_checktime;
 
     for (uint32 i = 0; i < members.size(); ++i)
@@ -440,7 +442,7 @@ void CTreasurePool::CheckTreasureItem(time_point tick, uint8 SlotID)
             if (highestInfo.member->getStorage(LOC_INVENTORY)->GetFreeSlotsCount() != 0)
             {
                 //add item as they have room!
-                if (charutils::AddItem(highestInfo.member, LOC_INVENTORY, m_PoolItems[SlotID].ID, 1, true) != ERROR_SLOTID)
+                if (charutils::AddItemTreasure(highestInfo.member, LOC_INVENTORY, m_PoolItems[SlotID].ID, 1, true, m_PoolItems[SlotID].AppraisalID) != ERROR_SLOTID)
                 {
                     TreasureWon(highestInfo.member, SlotID);
                 }
@@ -478,7 +480,7 @@ void CTreasurePool::CheckTreasureItem(time_point tick, uint8 SlotID)
             {
                 //select random member from this pool to give item to
                 CCharEntity* PChar = candidates.at(tpzrand::GetRandomNumber(candidates.size()));
-                if (charutils::AddItem(PChar, LOC_INVENTORY, m_PoolItems[SlotID].ID, 1, true) != ERROR_SLOTID)
+                if (charutils::AddItemTreasure(PChar, LOC_INVENTORY, m_PoolItems[SlotID].ID, 1, true, m_PoolItems[SlotID].AppraisalID) != ERROR_SLOTID)
                 {
                     TreasureWon(PChar, SlotID);
                 }
@@ -514,6 +516,7 @@ void CTreasurePool::TreasureWon(CCharEntity* winner, uint8 SlotID)
     m_count--;
 
     m_PoolItems[SlotID].ID = 0;
+    m_PoolItems[SlotID].AppraisalID = 0;
     m_PoolItems[SlotID].Lotters.clear();
 }
 
@@ -538,6 +541,7 @@ void CTreasurePool::TreasureError(CCharEntity* winner, uint8 SlotID)
     m_count--;
 
     m_PoolItems[SlotID].ID = 0;
+    m_PoolItems[SlotID].AppraisalID = 0;
     m_PoolItems[SlotID].Lotters.clear();
 }
 
@@ -560,6 +564,7 @@ void CTreasurePool::TreasureLost(uint8 SlotID)
     m_count--;
 
     m_PoolItems[SlotID].ID = 0;
+    m_PoolItems[SlotID].AppraisalID = 0;
     m_PoolItems[SlotID].Lotters.clear();
 }
 

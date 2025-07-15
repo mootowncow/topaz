@@ -9,12 +9,10 @@ require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobSpawn(mob)
-    tpz.promyvion.setEmptyModel(mob)
-    mob:addMod(tpz.mod.DEFP, 20) 
-    mob:addMod(tpz.mod.ATTP, 10)
-    mob:setMod(tpz.mod.REFRESH, 40)
+    SetGenericNMStats(mob)
     mob:setMod(tpz.mod.REGAIN, 10)
-    mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
+    mob:setMobMod(tpz.mobMod.ALWAYS_AGGRO, 1)
+    tpz.promyvion.setEmptyModel(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

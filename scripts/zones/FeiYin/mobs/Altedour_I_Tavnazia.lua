@@ -8,15 +8,13 @@ require("scripts/globals/mobs")
 require("scripts/globals/status")
 mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
-
-
 function onMobSpawn(mob)
     mob:addMod(tpz.mod.DEFP, 20) 
     mob:addMod(tpz.mod.ATTP, 10)
     mob:addMod(tpz.mod.ACC, 30) 
     mob:addMod(tpz.mod.EVA, 30)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
 end
-
 
 function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
@@ -33,7 +31,6 @@ function onMobFight(mob, target)
         mob:setLocalVar("TriggerHit", 2)
     end
 end
-
 
 function onAdditionalEffect(mob, target, damage)
     return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.MP_DRAIN, {chance = 100, power = math.random(50, 70)})

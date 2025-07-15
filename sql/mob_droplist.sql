@@ -12161,7 +12161,7 @@ INSERT INTO `mob_droplist` VALUES (2308,0,0,1000,1156,0);
 INSERT INTO `mob_droplist` VALUES (2308,0,0,1000,13607,240);	-- mist silk cape
 INSERT INTO `mob_droplist` VALUES (2309,0,0,1000,838,150);
 INSERT INTO `mob_droplist` VALUES (2309,0,0,1000,2953,150);
-INSERT INTO `mob_droplist` VALUES (2310,0,0,1000,846,240);
+INSERT INTO `mob_droplist` VALUES (2310,0,0,1000,846,240); -- (Spongilla / Vauxia Fly - Caedara Mire) Insect wing
 INSERT INTO `mob_droplist` VALUES (2311,0,0,1000,940,10);
 INSERT INTO `mob_droplist` VALUES (2311,0,0,1000,1046,50);
 INSERT INTO `mob_droplist` VALUES (2312,2,0,1000,750,0);    -- Spring_Sahagin
@@ -14175,16 +14175,12 @@ INSERT INTO `mob_droplist` VALUES (2600,0,0,1000,1723,240); -- White memosphere
 INSERT INTO `mob_droplist` VALUES (2600,0,0,1000,1723,150); -- White memosphere
 INSERT INTO `mob_droplist` VALUES (2600,0,0,1000,1760,240); -- Recollection of animosity
 INSERT INTO `mob_droplist` VALUES (2601,4,0,1000,861,0); -- (Wajaom Tiger)
-INSERT INTO `mob_droplist` VALUES (2601,0,0,1000,861,240); -- Tiger Hide
+INSERT INTO `mob_droplist` VALUES (2601,0,0,1000,861,100); -- Tiger Hide
 INSERT INTO `mob_droplist` VALUES (2601,0,0,1000,884,240); -- Black Tiger Fang
-INSERT INTO `mob_droplist` VALUES (2601,0,0,1000,884,150); -- Black Tiger Fang
-INSERT INTO `mob_droplist` VALUES (2601,0,0,1000,884,100); -- Black Tiger Fang
 INSERT INTO `mob_droplist` VALUES (2601,0,0,1000,2461,100); -- Rusty Medal
 INSERT INTO `mob_droplist` VALUES (2602,4,0,1000,861,0); --(Bhaflau Thickets Tiger)
-INSERT INTO `mob_droplist` VALUES (2602,0,0,1000,861,240); -- Tiger Hide
+INSERT INTO `mob_droplist` VALUES (2602,0,0,1000,861,100); -- Tiger Hide
 INSERT INTO `mob_droplist` VALUES (2602,0,0,1000,884,240); -- Black Tiger Fang
-INSERT INTO `mob_droplist` VALUES (2602,0,0,1000,884,150); -- Black Tiger Fang
-INSERT INTO `mob_droplist` VALUES (2602,0,0,1000,884,100); -- Black Tiger Fang
 INSERT INTO `mob_droplist` VALUES (2602,0,0,1000,2461,100); -- Rusty Medal
 INSERT INTO `mob_droplist` VALUES (2603,0,0,1000,573,70);
 INSERT INTO `mob_droplist` VALUES (2603,2,0,1000,575,0);

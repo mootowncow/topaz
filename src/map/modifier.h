@@ -397,6 +397,7 @@ enum class Mod
     PROTECT_SHELL_EFFECT      = 1316,// Enhances the effect of "Protect" and "Shell". Target with mod only.
     ENHANCES_PROT_RCVD        = 1050,// Enhances Protect received in percents (PLD JP Gift)
     REGEN_BONUS               = 989, // Increases the amount of HP restored by Regen
+    ENH_DIVINE_CARESS         = 1437,// Increases the amount of spells blocked by Divine Caress before it fades
 
     // Black Mage
     CLEAR_MIND                = 295, // Used in conjunction with HEALMP to increase amount between tics
@@ -1152,7 +1153,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1437 NEXT
+    // 1438 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

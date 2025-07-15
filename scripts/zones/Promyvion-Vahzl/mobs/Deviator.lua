@@ -6,60 +6,61 @@ require("scripts/globals/status")
 require("scripts/globals/magic")
 require("scripts/globals/promyvion")
 require("scripts/globals/mobs")
+require("scripts/zones/Promyvion-Vahzl/globals")
 mixins = {require("scripts/mixins/families/empty")}
 -----------------------------------
-
 function onMobSpawn(mob)
+    SetGenericNMStats(mob)
+    mob:setMod(tpz.mod.REGAIN, 100)
     mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 120)
-    mob:addMod(tpz.mod.DEFP, 20) 
-    mob:addMod(tpz.mod.ATTP, 10)
-    mob:setMod(tpz.mod.REFRESH, 40)
-    mob:setMod(tpz.mod.REGAIN, 10)
-    mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
-    mob:setLocalVar("LightTimer", 0)
-	mob:setLocalVar("DarkTimer", 0)
-	mob:setLocalVar("Mode", 0)
+    tpz.promyvion.setEmptyModel(mob)
+end
+
+function onMobEngaged(mob, target)
+    ApplyEmptyAbsorbMods(mob)    
 end
 
 function onMobFight(mob, target)
-	local LightTimer = mob:getLocalVar("LightTimer")
-	local DarkTimer = mob:getLocalVar("DarkMode")
-	local Mode = mob:getLocalVar("Mode")
-	local BattleTime = mob:getBattleTime()
+    local ElementGaSpells =
+    {
+        [1] = tpz.magic.spell.FIRAGA_II,
+        [2] = tpz.magic.spell.BLIZZAGA_II,
+        [3] = tpz.magic.spell.AEROGA_II,
+        [4] = tpz.magic.spell.STONEGA_II,
+        [5] = tpz.magic.spell.THUNDAGA_II,
+        [6] = tpz.magic.spell.WATERGA_II,
+        [7] = tpz.magic.spell.BANISHGA_II,
+        [8] = tpz.magic.spell.SLEEPGA
+    }
 
-	if LightTimer == 0 and Mode == 0 then
-		mob:setLocalVar("LightTimer", BattleTime)
-	elseif BattleTime >= LightTimer then
-        mob:useMobAbility(624) -- 2 hour "cloud" animation
-		mob:castSpell(39) -- Banishga II
-        mob:addMod(tpz.mod.LIGHT_ABSORB, 100)
-        mob:delMod(tpz.mod.DARK_ABSORB, 100)
-		mob:setLocalVar("DarkTimer", BattleTime + 45)
-	    mob:setLocalVar("Mode", 1)
-	end
+    local BattleTime = mob:getBattleTime()
+    local elementChangeTimer = mob:getLocalVar("elementChangeTimer")
 
-    if BattleTime >= DarkTimer and Mode == 1 then
-        mob:useMobAbility(624) -- 2 hour "cloud" animation
-        local RNG = math.random(1, 6)
-        if RNG == 1 then
-            mob:castSpell(175)
-        elseif RNG == 2 then
-            mob:castSpell(180)
-        elseif RNG == 3 then
-            mob:castSpell(185)
-        elseif RNG == 4 then
-            mob:castSpell(190)
-        elseif RNG == 5 then
-            mob:castSpell(195)
-        elseif RNG == 6 then
-            mob:castSpell(200)
+    if elementChangeTimer == 0 then
+        mob:setLocalVar("elementChangeTimer", BattleTime + 45)
+    elseif BattleTime >= elementChangeTimer then
+        mob:useMobAbility(624) -- 2hr  cloud animation
+
+        -- Change model and element
+        tpz.promyvion.setEmptyModel(mob)
+
+        local element = mob:getLocalVar("element")
+        local spell   = ElementGaSpells[element]
+
+        ApplyEmptyAbsorbMods(mob)
+
+        -- Cast spell if valid
+        if spell then
+            mob:castSpell(spell)
+        else
+            printf("Mob has invalid spell for element value: %i", element)
         end
-        mob:addMod(tpz.mod.DARK_ABSORB, 100)
-        mob:delMod(tpz.mod.LIGHT_ABSORB, 100)
-		mob:setLocalVar("LightTimer", BattleTime + 45)
-	    mob:setLocalVar("Mode", 0)
-	end
+
+        -- Reset timer
+        mob:setLocalVar("elementChangeTimer", BattleTime + 45)
+    end
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
+    tpz.promyvion.onEmptyDeath(mob)
 end

@@ -764,9 +764,30 @@ int32 CBattleEntity::addMP(int32 mp)
     return abs(mp);
 }
 
-int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullptr*/, ATTACKTYPE attackType /* = ATTACK_NONE*/, DAMAGETYPE damageType /* = DAMAGE_NONE*/, bool isDOT)
+int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullptr*/, ATTACKTYPE attackType /* = ATTACK_NONE*/, DAMAGETYPE damageType /* = DAMAGE_NONE*/, bool isDOT, int16 skillId)
 {
     PLastAttacker = attacker;
+
+    // Track elemental or weaponskill kills for Magian trials
+    if (objtype == TYPE_MOB && attacker && attacker->objtype == TYPE_PC)
+    {
+        auto PChar = dynamic_cast<CCharEntity*>(attacker);
+
+        if (amount >= health.hp)
+        {
+            if (attackType == ATTACK_WEAPONSKILL)
+            {
+                auto PMob = static_cast<CMobEntity*>(this);
+                PMob->SetLocalVar("WSKilledBy", skillId);
+            }
+            else if (attackType == ATTACK_MAGICAL)
+            {
+                auto PMob = static_cast<CMobEntity*>(this);
+                PMob->SetLocalVar("ElementKilledBy", (int)damageType);
+            }
+        }
+    }
+
     PAI->EventHandler.triggerListener("TAKE_DAMAGE", this, amount, attacker, (uint16)attackType, (uint16)damageType);
 
     //RoE Damage Taken Trigger
@@ -1461,8 +1482,7 @@ int16 CBattleEntity::getMaxGearMod(Mod modID, int16 modMax)
 
     if (!PChar)
     {
-        ShowWarning("CBattleEntity::getMaxGearMod() - Entity is not a player.");
-        return 0;
+        return this->getMod(modID);
     }
 
     for (uint8 i = 0; i <= SLOT_BACK; ++i)
@@ -2417,7 +2437,10 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 // Spikes is also applied after damage calc (For retal, reprisal, reflect(damage spikes) spikes, etc
                 if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
                 {
-                    if (!isBlocked)
+                    if (!isBlocked &&
+                        actionTarget.additionalEffect == 0 &&
+                        actionTarget.addEffectMessage == 0 &&
+                        actionTarget.addEffectParam == 0)
                     {
                         battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
                                                    attack.GetDamage(), true);

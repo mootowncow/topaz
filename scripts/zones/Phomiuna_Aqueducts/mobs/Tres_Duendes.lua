@@ -8,11 +8,7 @@ require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobSpawn(mob)
-    DespawnMob(mob:getID()-1) -- Despawn Fomor BLM
-    DisallowRespawn(mob:getID()-1, true)
-    mob:addMod(tpz.mod.DEFP, 25)
-	mob:addMod(tpz.mod.ACC, 15)
-    mob:addMod(tpz.mod.EVA, 15)
+    SetGenericNMStats(mob)
 end
 
 function onMobFight(mob)

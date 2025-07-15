@@ -1655,11 +1655,12 @@ function MobTransferEnfeeblesMove(mob, target, skill, range, isAOE)
             if mob:hasStatusEffect(effect) then
                 local currentEffect = mob:getStatusEffect(effect)
                 local skillRange = skill:getDistance()
-                local NearbyPlayers = mob:getPlayersInRange(skillRange)
-                if NearbyPlayers == nil then return end
-                if NearbyPlayers then
-                    for _,v in ipairs(NearbyPlayers) do
-                        MobStatusEffectMove(mob, v, effect, currentEffect:getPower(), currentEffect:getTick() / 1000, currentEffect:getTimeRemaining() / 1000)
+                local nearbyEnemies = mob:getNearbyEntities(skillRange)
+                if nearbyEnemies then
+                    for _, enemy in pairs(nearbyEnemies) do
+                        if not enemy:isNPC() and (enemy:getAllegiance() ~= mob:getAllegiance()) then
+                            MobStatusEffectMove(mob, enemy, effect, currentEffect:getPower(), currentEffect:getTick() / 1000, currentEffect:getTimeRemaining() / 1000)
+                        end
                     end
                 end
             end

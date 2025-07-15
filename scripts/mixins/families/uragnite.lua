@@ -21,6 +21,7 @@ tpz.mix.uragnite.config(mob, {
 --]]
 require("scripts/globals/mixins")
 require("scripts/globals/status")
+require("scripts/globals/mob_skills")
 -----------------------------------
 
 tpz = tpz or {}
@@ -30,35 +31,49 @@ tpz.mix.uragnite = tpz.mix.uragnite or {}
 g_mixins = g_mixins or {}
 g_mixins.families = g_mixins.families or {}
 
+local animation = {
+    OutsideShell  = 0,
+    InsideShell   = 1
+}
+
+local function setDamageTakenThreshold(mob)
+    local hpp = mob:getHPP()
+    local thresholdPercent = math.max(math.floor(hpp / 10), 1)
+    local threshold = mob:getMaxHP() * (thresholdPercent / 100)
+
+    mob:setLocalVar("[uragnite]damageThreshold", threshold)
+end
+
 local function enterShell(mob)
     if not IsMobBusy(mob) then
-        mob:AnimationSub(1)
+        mob:AnimationSub(animation.InsideShell)
         mob:SetAutoAttackEnabled(false)
         mob:useMobAbility(1572) -- Always immediately uses Venom Shell 
         mob:addMod(tpz.mod.DEFP, 100)
         mob:addMod(tpz.mod.UDMGMAGIC, -75)
         mob:addMod(tpz.mod.UDMGBREATH, -75)
-        mob:addMod(tpz.mod.REGEN, mob:getMaxHP() * 0.02)
-        mob:setMod(tpz.mod.REGAIN, 250) -- Gains TP fast inside hell
+        mob:addMod(tpz.mod.REGEN, mob:getMaxHP() * 0.01)
         mob:setMobMod(tpz.mobMod.SKILL_LIST, mob:getLocalVar("[uragnite]inShellSkillList"))
         mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
         mob:setLocalVar("damageTaken", 0)
+        mob:setLocalVar("[uragnite]shellTime", 0)
         mob:setLocalVar("[uragnite]timeInShell", os.time() + 27)
     end
 end
 
 local function exitShell(mob)
     if not IsMobBusy(mob) then
-        mob:AnimationSub(0)
+        mob:AnimationSub(animation.OutsideShell)
         mob:SetAutoAttackEnabled(true)
         mob:delMod(tpz.mod.DEFP, 100)
         mob:delMod(tpz.mod.UDMGMAGIC, -75)
         mob:delMod(tpz.mod.UDMGBREATH, -75)
-        mob:delMod(tpz.mod.REGEN, mob:getMaxHP() * 0.02)
-        mob:setMod(tpz.mod.REGAIN, 0)
+        mob:delMod(tpz.mod.REGEN, mob:getMaxHP() * 0.01)
         mob:setMobMod(tpz.mobMod.SKILL_LIST, mob:getLocalVar("[uragnite]noShellSkillList"))
         mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
         mob:setLocalVar("damageTaken", 0)
+        mob:setLocalVar("[uragnite]shellTime", os.time() + 40)
+        setDamageTakenThreshold(mob)
     end
 end
 
@@ -85,32 +100,48 @@ g_mixins.families.uragnite = function(mob)
     -- at spawn, give mob default skill lists for in-shell and out-of-shell states
     -- these defaults can be overwritten by using tpz.mix.uragnite.config() in onMobSpawn.
     mob:addListener("SPAWN", "URAGNITE_SPAWN", function(mob)
+        mob:AnimationSub(animation.OutsideShell)
+        mob:setLocalVar("damageTaken", 0)
         mob:setLocalVar("[uragnite]noShellSkillList", 251)
         mob:setLocalVar("[uragnite]inShellSkillList", 250)
         mob:setLocalVar("[uragnite]timeInShell", 0)
+        mob:setLocalVar("[uragnite]shellTime", 0)
+        setDamageTakenThreshold(mob)
     end)
 
     mob:addListener("COMBAT_TICK", "URAGNITE_COMBAT_TICK", function(mob)
         local timeInShell = mob:getLocalVar("[uragnite]timeInShell")
+        local shellTime = mob:getLocalVar("[uragnite]shellTime")
         local animationSub = mob:AnimationSub()
+
         -- Leaves shell after 27 seconds
-        if (animationSub == 1) and os.time() > timeInShell then
+        if (animationSub == animation.InsideShell) and os.time() > timeInShell then
             exitShell(mob)
             --printf("exit shell timer")
+        end
+
+        -- Hides in its shell after being out of it for 40 seconds.
+        if (animationSub == animation.OutsideShell) and (shellTime == 0) then
+            mob:setLocalVar("[uragnite]shellTime", os.time() + 40)
+        elseif (animationSub == animation.OutsideShell) and os.time() > shellTime then
+            enterShell(mob)
         end
     end)
 
     mob:addListener("TAKE_DAMAGE", "URAGNITE_TAKE_DAMAGE", function(mob, damage, attacker, attackType, damageType)
-        local damageTaken = mob:getLocalVar("damageTaken")
-        local timeInShell = mob:getLocalVar("[uragnite]timeInShell")
         local animationSub = mob:AnimationSub()
-        mob:setLocalVar("damageTaken", mob:getLocalVar("damageTaken") + damage)
-        if (animationSub ~= 1) and (damageTaken > 125) then  -- Retreats into shell after taking 150 damage
-            enterShell(mob)
-            --printf("enterShell")
-        elseif (animationSub == 1) and (damageTaken >= 150) then -- Leaves shell early after taking 150 damage
-            exitShell(mob)
-            --printf("exit shell damage")
+
+        -- Only process damage threshold logic if outside the shell
+        if (animationSub ~= animation.InsideShell) then
+            local damageTaken = mob:getLocalVar("damageTaken") + damage
+            local threshold = mob:getLocalVar("[uragnite]damageThreshold")
+
+            mob:setLocalVar("damageTaken", damageTaken)
+            --printf("Threshold %d, damageTaken %d", threshold, damageTaken)
+
+            if (damageTaken >= threshold) then
+                enterShell(mob)
+            end
         end
     end)
 end

@@ -538,6 +538,8 @@ enum ATTACKTYPE
     ATTACK_RANGED = 3,
     ATTACK_SPECIAL = 4,
     ATTACK_BREATH = 5,
+    ATTACK_WEAPONSKILL = 6,
+    ATTACK_PETABILITY = 7,
 };
 
 enum DAMAGETYPE
@@ -858,7 +860,7 @@ public:
     virtual int32 	addMP(int32 mp);			// увеличиваем/уменьшаем количество mp
 
     //Deals damage and updates the last attacker which is used when sending a player death message
-    virtual int32   takeDamage(int32 amount, CBattleEntity* attacker = nullptr, ATTACKTYPE attackType = ATTACK_NONE, DAMAGETYPE damageType = DAMAGE_NONE, bool isDOT = false);
+    virtual int32   takeDamage(int32 amount, CBattleEntity* attacker = nullptr, ATTACKTYPE attackType = ATTACK_NONE, DAMAGETYPE damageType = DAMAGE_NONE, bool isDOT = false, int16 skillId = 0);
 
     int16		    getMod(Mod modID);		// Get the current value of the specified modifier 
     int16           getMaxGearMod(Mod modID, int16 modMax = 9999);

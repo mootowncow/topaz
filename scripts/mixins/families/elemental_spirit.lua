@@ -36,6 +36,15 @@ function setResistances(mob)
       return
     end
 
+    -- Reset SDT/EEM
+    for sdt = tpz.mod.SDT_FIRE, tpz.mod.SDT_DARK do
+        mob:setMod(sdt, 100)
+    end
+
+    for eem = tpz.mod.EEM_AMNESIA, tpz.mod.EEM_BLIND do
+        mob:setMod(eem, 100)
+    end
+
     if (pet == 'Fire Spirit') or (pet == 'Ifrit') then
         mob:setMod(tpz.mod.SDT_FIRE, 5)
         mob:setMod(tpz.mod.SDT_ICE, 5)
@@ -128,14 +137,6 @@ end
 
 g_mixins.families.elemental_spirit = function(mob)
     mob:addListener("SPAWN", "ELEMENTAL_SPIRIT_SPAWN", function(mob)
-        -- First set all SDT's and EEM's to 100
-        for v = tpz.mod.SDT_FIRE, tpz.mod.SDT_DARK, 1 do
-            mob:setMod(v, 100)
-        end
-        for v = tpz.mod.EEM_AMNESIA, tpz.mod.EEM_BLIND, 1 do
-            mob:setMod(v, 100)
-        end
-
         -- Set specific SDT and EEM
         setResistances(mob)
         -- Set avatar spell lists to 0

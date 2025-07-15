@@ -629,6 +629,25 @@ void CMobEntity::DoAutoTarget()
         });
 }
 
+void CMobEntity::HandleToAUStrongholdsAppraisalDrops(CCharEntity* PChar, uint16 PZone)
+{
+    uint16 dropRate = 24;
+
+    // NMs drop appraisal items 100% of the time
+    if (m_Type == MOBTYPE_NOTORIOUS || getMobMod(MOBMOD_CHECK_AS_NM) > 0)
+    {
+        dropRate = 100;
+    }
+
+    if (tpzrand::GetRandomNumber(100) < dropRate)
+    {
+        uint16 itemId = 2279; // ??? Cape
+
+        // Pass appraisal ID along when adding to treasure pool
+        PChar->PTreasurePool->AddItem(itemId, this, static_cast<uint8>(PZone));
+    }
+}
+
 
 void CMobEntity::PostTick()
 {
@@ -1883,6 +1902,7 @@ void CMobEntity::DropItems(CCharEntity* PChar)
             }
         }
     }
+
     // Roll for random rare items
     if (tpzrand::GetRandomNumber(500) < 1 && getMobMod(MOBMOD_NO_DROPS) == 0 && GetMLevel() >= 11 && GetMLevel() < 80)
     {
@@ -2103,7 +2123,7 @@ void CMobEntity::DropItems(CCharEntity* PChar)
     uint16 Pzone = PChar->getZone();
 
     // ToAU beastmen strongholds Moogle Coin drops
-    if (Pzone == 65 || Pzone == 54 || Pzone == 62)
+    if (Pzone == ZONE_MAMOOK || Pzone == ZONE_ARRAPAGO_REEF || Pzone == ZONE_HALVUNG)
     {
         if (tpzrand::GetRandomNumber(100) < 24 && getMobMod(MOBMOD_NO_DROPS) == 0)
         {
@@ -2190,6 +2210,15 @@ void CMobEntity::DropItems(CCharEntity* PChar)
                     return;
             }
         }
+
+        uint16 Pzone = PChar->getZone();
+
+        // ToAU beastmen strongholds Apprisal drops
+        if (Pzone == ZONE_MAMOOK || Pzone == ZONE_ARRAPAGO_REEF || Pzone == ZONE_HALVUNG)
+        {
+            HandleToAUStrongholdsAppraisalDrops(PChar, Pzone);
+        }
+
         // Todo: Avatarite and Geode drops during day/weather. Much higher chance during weather than day.
         // Item element matches day/weather element, not mob crystal. Lv80+ xp mobs can drop Avatarite.
         // Wiki's have conflicting info on mob lv required for Geodes. One says 50 the other 75. I think 50 is correct.
@@ -2381,6 +2410,17 @@ void CMobEntity::OnDespawn(CDespawnState&)
 
 void CMobEntity::Die()
 {
+    // Record mobs status effects before death for Magian Trials
+    m_StatusEffectsAtDeath.clear();
+    StatusEffectContainer->ForEachEffect(
+        [&](CStatusEffect* PEffect)
+        {
+            EffectSnapshot snapshot;
+            snapshot.effectId = PEffect->GetStatusID();
+            snapshot.element = effects::GetEffectElement(snapshot.effectId);
+            m_StatusEffectsAtDeath.push_back(snapshot);
+
+        });
     DoAutoTarget();
     PEnmityContainer->Clear();
     PAI->ClearStateStack();

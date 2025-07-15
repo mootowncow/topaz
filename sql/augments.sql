@@ -91,7 +91,7 @@ INSERT INTO `augments` VALUES (56, 0, 162, -1, 0, 0); -- Breath dmg. taken -1%
 INSERT INTO `augments` VALUES (57, 0, 562, 1, 0, 0); -- Magic crit. hit rate+1
 INSERT INTO `augments` VALUES (58, 0, 29, -1, 0, 0); -- Mag.Def.Bns.-1
 INSERT INTO `augments` VALUES (59, 0, 0, 0, 0, 0); -- Latent effect: Regain+1 (Do via Script: triggered with your current weapon drawn for 1 TP/tick.)
-INSERT INTO `augments` VALUES (60, 0, 0, 0, 0, 0); -- TODO: Auto-refresh +1
+INSERT INTO `augments` VALUES (60, 0, 369, 1, 0, 0); -- Auto-refresh +1
 INSERT INTO `augments` VALUES (61, 0, 2000, 1, 0, 0); -- Occ. inc. resist to stat ailments+1
 INSERT INTO `augments` VALUES (62, 0, 25, 33, 0, 0); -- Accuracy+33
 INSERT INTO `augments` VALUES (63, 0, 26, 33, 0, 0); -- Rng.Accuracy+33
@@ -1033,31 +1033,31 @@ INSERT INTO `augments` VALUES (829, 0, 0, 0, 0, 0);
 INSERT INTO `augments` VALUES (830, 0, 0, 0, 0, 0);
 INSERT INTO `augments` VALUES (831, 0, 0, 0, 0, 0);
 -- TODO: NOTICE: additional effect augments will not work until we finish refactoring additional effects. See Teo in discrod for details.
-INSERT INTO `augments` VALUES (832, 0, 0, 0, 0, 0); -- Additional Effect: Fire Dmg      (Base of 5, each additional point +1 for range of 5 to 36)
-INSERT INTO `augments` VALUES (833, 0, 0, 0, 0, 0); -- Additional Effect: Ice Dmg       (Base of 5, each additional point +1 for range of 5 to 36)
-INSERT INTO `augments` VALUES (834, 0, 0, 0, 0, 0); -- Additional Effect: Wind Dmg      (Base of 5, each additional point +1 for range of 5 to 36)
-INSERT INTO `augments` VALUES (835, 0, 0, 0, 0, 0); -- Additional Effect: Earth Dmg     (Base of 5, each additional point +1 for range of 5 to 36)
-INSERT INTO `augments` VALUES (836, 0, 0, 0, 0, 0); -- Additional Effect: Lightning Dmg (Base of 5, each additional point +1 for range of 5 to 36)
-INSERT INTO `augments` VALUES (837, 0, 0, 0, 0, 0); -- Additional Effect: Water Dmg     (Base of 5, each additional point +1 for range of 5 to 36)
-INSERT INTO `augments` VALUES (838, 0, 0, 0, 0, 0); -- Additional Effect: Light Dmg     (Base of 5, each additional point +1 for range of 5 to 36)
-INSERT INTO `augments` VALUES (839, 0, 0, 0, 0, 0); -- Additional Effect: Darkness Dmg  (Base of 5, each additional point +1 for range of 5 to 36)
-INSERT INTO `augments` VALUES (840, 0, 0, 0, 0, 0); -- Additional Effect: Disease +1
-INSERT INTO `augments` VALUES (841, 0, 0, 0, 0, 0); -- Additional Effect: Paralysis +1
-INSERT INTO `augments` VALUES (842, 0, 0, 0, 0, 0); -- Additional Effect: Silence +1
-INSERT INTO `augments` VALUES (843, 0, 0, 0, 0, 0); -- Additional Effect: Slow +1
-INSERT INTO `augments` VALUES (844, 0, 0, 0, 0, 0); -- Additional Effect: Stun +1
-INSERT INTO `augments` VALUES (845, 0, 0, 0, 0, 0); -- Additional Effect: Poison +1
-INSERT INTO `augments` VALUES (846, 0, 0, 0, 0, 0); -- Additional Effect: Flash +1
-INSERT INTO `augments` VALUES (847, 0, 0, 0, 0, 0); -- Additional Effect: Blindness +1
-INSERT INTO `augments` VALUES (848, 0, 0, 0, 0, 0); -- Additional Effect: Weakens Defense +1
-INSERT INTO `augments` VALUES (849, 0, 0, 0, 0, 0); -- Additional Effect: Sleep +1
-INSERT INTO `augments` VALUES (850, 0, 0, 0, 0, 0); -- Additional Effect: Weakens Attack +1
-INSERT INTO `augments` VALUES (851, 0, 0, 0, 0, 0); -- Additional Effect: Impairs Evasion +1
-INSERT INTO `augments` VALUES (852, 0, 0, 0, 0, 0); -- Additional Effect: Lowers Accuracy +1
-INSERT INTO `augments` VALUES (853, 0, 0, 0, 0, 0); -- Additional Effect: Lowers Magic Evasion +1
-INSERT INTO `augments` VALUES (854, 0, 0, 0, 0, 0); -- Additional Effect: Lowers Magic Attack +1
-INSERT INTO `augments` VALUES (855, 0, 0, 0, 0, 0); -- Additional Effect: Lowers Magic Defense +1
-INSERT INTO `augments` VALUES (856, 0, 0, 0, 0, 0); -- Additional Effect: Lowers Magic Accuracy +1
+INSERT INTO `augments` VALUES (832, 0, 431, 1, 0, 0); -- Additional Effect: Fire Dmg      (Base of 5, each additional point +1 for range of 5 to 36)
+INSERT INTO `augments` VALUES (833, 0, 431, 1, 0, 0); -- Additional Effect: Ice Dmg       (Base of 5, each additional point +1 for range of 5 to 36)
+INSERT INTO `augments` VALUES (834, 0, 431, 1, 0, 0); -- Additional Effect: Wind Dmg      (Base of 5, each additional point +1 for range of 5 to 36)
+INSERT INTO `augments` VALUES (835, 0, 431, 1, 0, 0); -- Additional Effect: Earth Dmg     (Base of 5, each additional point +1 for range of 5 to 36)
+INSERT INTO `augments` VALUES (836, 0, 431, 1, 0, 0); -- Additional Effect: Lightning Dmg (Base of 5, each additional point +1 for range of 5 to 36)
+INSERT INTO `augments` VALUES (837, 0, 431, 1, 0, 0); -- Additional Effect: Water Dmg     (Base of 5, each additional point +1 for range of 5 to 36)
+INSERT INTO `augments` VALUES (838, 0, 431, 1, 0, 0); -- Additional Effect: Light Dmg     (Base of 5, each additional point +1 for range of 5 to 36)
+INSERT INTO `augments` VALUES (839, 0, 431, 1, 0, 0); -- Additional Effect: Darkness Dmg  (Base of 5, each additional point +1 for range of 5 to 36)
+INSERT INTO `augments` VALUES (840, 0, 431, 1, 0, 0); -- Additional Effect: Disease +1
+INSERT INTO `augments` VALUES (841, 0, 431, 1, 0, 0); -- Additional Effect: Paralysis +1
+INSERT INTO `augments` VALUES (842, 0, 431, 1, 0, 0); -- Additional Effect: Silence +1
+INSERT INTO `augments` VALUES (843, 0, 431, 1, 0, 0); -- Additional Effect: Slow +1
+INSERT INTO `augments` VALUES (844, 0, 431, 1, 0, 0); -- Additional Effect: Stun +1
+INSERT INTO `augments` VALUES (845, 0, 431, 1, 0, 0); -- Additional Effect: Poison +1
+INSERT INTO `augments` VALUES (846, 0, 431, 1, 0, 0); -- Additional Effect: Flash +1
+INSERT INTO `augments` VALUES (847, 0, 431, 1, 0, 0); -- Additional Effect: Blindness +1
+INSERT INTO `augments` VALUES (848, 0, 431, 1, 0, 0); -- Additional Effect: Weakens Defense +1
+INSERT INTO `augments` VALUES (849, 0, 431, 1, 0, 0); -- Additional Effect: Sleep +1
+INSERT INTO `augments` VALUES (850, 0, 431, 1, 0, 0); -- Additional Effect: Weakens Attack +1
+INSERT INTO `augments` VALUES (851, 0, 431, 1, 0, 0); -- Additional Effect: Impairs Evasion +1
+INSERT INTO `augments` VALUES (852, 0, 431, 1, 0, 0); -- Additional Effect: Lowers Accuracy +1
+INSERT INTO `augments` VALUES (853, 0, 431, 1, 0, 0); -- Additional Effect: Lowers Magic Evasion +1
+INSERT INTO `augments` VALUES (854, 0, 431, 1, 0, 0); -- Additional Effect: Lowers Magic Attack +1
+INSERT INTO `augments` VALUES (855, 0, 431, 1, 0, 0); -- Additional Effect: Lowers Magic Defense +1
+INSERT INTO `augments` VALUES (856, 0, 431, 1, 0, 0); -- Additional Effect: Lowers Magic Accuracy +1
 INSERT INTO `augments` VALUES (857, 0, 0, 0, 0, 0); 
 INSERT INTO `augments` VALUES (858, 0, 0, 0, 0, 0); 
 INSERT INTO `augments` VALUES (859, 0, 0, 0, 0, 0); 

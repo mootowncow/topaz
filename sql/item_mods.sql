@@ -52660,102 +52660,43 @@ INSERT INTO `item_mods` VALUES (28616,1,8); -- DEF 8
 INSERT INTO `item_mods` VALUES (28616,27,3); -- ENMITY 3
 INSERT INTO `item_mods` VALUES (28616,68,10); -- EVA 10
 INSERT INTO `item_mods` VALUES (28616,1249,5); -- GRAVITYRESTRAIT 5
-INSERT INTO `item_mods` VALUES (28617,1,17);      -- Mauler's Mantle: DEF 17
-INSERT INTO `item_mods` VALUES (28617,8,5);       -- STR +5
-INSERT INTO `item_mods` VALUES (28617,23,13);     -- Attack +13
-INSERT INTO `item_mods` VALUES (28617,25,13);     -- Accuracy +13
-INSERT INTO `item_mods` VALUES (28617,288,3);     -- Double Attack +3%
-INSERT INTO `item_mods` VALUES (28618,1,16);
-INSERT INTO `item_mods` VALUES (28618,2,80);
-INSERT INTO `item_mods` VALUES (28618,10,5);
-INSERT INTO `item_mods` VALUES (28618,23,15);
-INSERT INTO `item_mods` VALUES (28618,25,20);
-INSERT INTO `item_mods` VALUES (28619,1,13);      -- Mending Cape: DEF 13
-INSERT INTO `item_mods` VALUES (28619,27,-6);     -- Enmity -6
-INSERT INTO `item_mods` VALUES (28619,310,15);    -- Cursna effect +15%
-INSERT INTO `item_mods` VALUES (28620,1,13);      -- Bane Cape: DEF 13
-INSERT INTO `item_mods` VALUES (28620,5,90);      -- MP +90
-INSERT INTO `item_mods` VALUES (28620,27,-2);     -- Enmity -2
-INSERT INTO `item_mods` VALUES (28620,30,10);     -- Magic Accuracy +10
-INSERT INTO `item_mods` VALUES (28620,311,10);    -- Magic Damage +10
-INSERT INTO `item_mods` VALUES (28621,1,13);      -- Ghostfyre Cape: DEF 13
-INSERT INTO `item_mods` VALUES (28621,311,6);     -- Magic Damage +6
-INSERT INTO `item_mods` VALUES (28621,374,6);     -- Cure potency +6%
-INSERT INTO `item_mods` VALUES (28621,432,5);     -- Enspell damage bonus +5
-INSERT INTO `item_mods` VALUES (28622,1,16); -- Canny Cape - DEF +16
-INSERT INTO `item_mods` VALUES (28622,11,6); -- AGI +6
-INSERT INTO `item_mods` VALUES (28622,25,10); -- ACC +10
-INSERT INTO `item_mods` VALUES (28622,68,15); -- EVA +15
-INSERT INTO `item_mods` VALUES (28622,302,2); -- TRP ATT +2%
-INSERT INTO `item_mods` VALUES (28623,1,20);
-INSERT INTO `item_mods` VALUES (28623,2,40);
-INSERT INTO `item_mods` VALUES (28623,5,40);
-INSERT INTO `item_mods` VALUES (28623,25,15);
-INSERT INTO `item_mods` VALUES (28623,160,-3);
-INSERT INTO `item_mods` VALUES (28624,1,16);
-INSERT INTO `item_mods` VALUES (28624,8,5);
-INSERT INTO `item_mods` VALUES (28624,23,35);
-INSERT INTO `item_mods` VALUES (28625,1,16);
-INSERT INTO `item_mods` VALUES (28625,13,10);
-INSERT INTO `item_mods` VALUES (28625,23,20);
-INSERT INTO `item_mods` VALUES (28625,25,10);
-INSERT INTO `item_mods` VALUES (28626,1,13);
-INSERT INTO `item_mods` VALUES (28626,5,50);
-INSERT INTO `item_mods` VALUES (28626,29,5);
-INSERT INTO `item_mods` VALUES (28626,30,13);
-INSERT INTO `item_mods` VALUES (28626,121,8);
-INSERT INTO `item_mods` VALUES (28627,1,13);
-INSERT INTO `item_mods` VALUES (28627,2,50);
-INSERT INTO `item_mods` VALUES (28627,24,15);
-INSERT INTO `item_mods` VALUES (28627,26,15);
-INSERT INTO `item_mods` VALUES (28627,27,-5);
-INSERT INTO `item_mods` VALUES (28628,1,17);
-INSERT INTO `item_mods` VALUES (28628,23,15);
-INSERT INTO `item_mods` VALUES (28628,25,15);
-INSERT INTO `item_mods` VALUES (28628,73,10);
-INSERT INTO `item_mods` VALUES (28629,1,16);
-INSERT INTO `item_mods` VALUES (28629,2,50);
-INSERT INTO `item_mods` VALUES (28629,23,15);
-INSERT INTO `item_mods` VALUES (28629,25,15);
-INSERT INTO `item_mods` VALUES (28629,26,15);
-INSERT INTO `item_mods` VALUES (28629,30,15);
-INSERT INTO `item_mods` VALUES (28629,68,15);     -- Evasion +15
-INSERT INTO `item_mods` VALUES (28629,288,2);
-INSERT INTO `item_mods` VALUES (28630,1,16);
-INSERT INTO `item_mods` VALUES (28630,10,8);
-INSERT INTO `item_mods` VALUES (28630,23,20);
-INSERT INTO `item_mods` VALUES (28630,25,20);
-INSERT INTO `item_mods` VALUES (28631,1,13);
-INSERT INTO `item_mods` VALUES (28631,5,100);
-INSERT INTO `item_mods` VALUES (28631,117,8);
-INSERT INTO `item_mods` VALUES (28631,540,30);
-INSERT INTO `item_mods` VALUES (28632,1,16);
-INSERT INTO `item_mods` VALUES (28632,8,5);
-INSERT INTO `item_mods` VALUES (28632,12,5);
-INSERT INTO `item_mods` VALUES (28632,13,5);
-INSERT INTO `item_mods` VALUES (28632,28,15);
-INSERT INTO `item_mods` VALUES (28632,30,15);
-INSERT INTO `item_mods` VALUES (28632,122,5);
-INSERT INTO `item_mods` VALUES (28633,1,16);      -- Gunslinger's Cape: DEF 16
-INSERT INTO `item_mods` VALUES (28633,26,20);     -- Ranged Accuracy +20
-INSERT INTO `item_mods` VALUES (28633,28,10);     -- Magic Atk. Bonus +10
-INSERT INTO `item_mods` VALUES (28633,30,10);     -- Magic Accuracy +10
-INSERT INTO `item_mods` VALUES (28633,305,10);    -- Recycle chance +10% ?
-INSERT INTO `item_mods` VALUES (28634,1,16);      -- Dispersal Mantle: DEF 16
-INSERT INTO `item_mods` VALUES (28634,23,15);     -- Attack +15
-INSERT INTO `item_mods` VALUES (28634,25,15);     -- Accuracy +15
-INSERT INTO `item_mods` VALUES (28634,68,10);     -- Evasion +10
-INSERT INTO `item_mods` VALUES (28634,289,4);     -- Subtle Blow +4%
-INSERT INTO `item_mods` VALUES (28635,1,16);
-INSERT INTO `item_mods` VALUES (28635,25,20);
-INSERT INTO `item_mods` VALUES (28635,68,10);
-INSERT INTO `item_mods` VALUES (28635,289,10);
-INSERT INTO `item_mods` VALUES (28635,491,5);
-INSERT INTO `item_mods` VALUES (28636,1,13);      -- Bookworm's Cape: DEF 13
-INSERT INTO `item_mods` VALUES (28636,28,10);     -- Magic Atk. Bonus +10
-INSERT INTO `item_mods` VALUES (28636,115,8);     -- Elemental magic skill +8
-INSERT INTO `item_mods` VALUES (28636,116,8);     -- Dark magic skill +8
-INSERT INTO `item_mods` VALUES (28636,311,10);    -- Magic Damage +10
+INSERT INTO `item_mods` VALUES (28617,1,17); -- DEF 17
+INSERT INTO `item_mods` VALUES (28617,288,3); -- DOUBLE_ATTACK 3
+INSERT INTO `item_mods` VALUES (28618,1,16); -- DEF 16
+INSERT INTO `item_mods` VALUES (28618,291,3); -- COUNTER 3
+INSERT INTO `item_mods` VALUES (28619,1,13); -- DEF 13
+INSERT INTO `item_mods` VALUES (28619,374,3); -- CURE_POTENCY 3
+INSERT INTO `item_mods` VALUES (28620,1,13); -- DEF 13
+INSERT INTO `item_mods` VALUES (28620,28,3); -- MATT 3
+INSERT INTO `item_mods` VALUES (28621,1,13); -- DEF 13
+INSERT INTO `item_mods` VALUES (28621,30,3); -- MACC 3
+INSERT INTO `item_mods` VALUES (28622,1,16); -- DEF 16
+INSERT INTO `item_mods` VALUES (28622,302,2); -- TRIPLE_ATTACK 2
+INSERT INTO `item_mods` VALUES (28623,1,20); -- DEF 20
+INSERT INTO `item_mods` VALUES (28623,160,-3); -- DMG -3
+INSERT INTO `item_mods` VALUES (28624,1,16); -- DEF 16
+INSERT INTO `item_mods` VALUES (28624,1274,20); -- AUGMENTS_ABSORB 20
+INSERT INTO `item_mods` VALUES (28625,1,16); -- DEF 16
+INSERT INTO `item_mods` VALUES (28626,1,13); -- DEF 13
+INSERT INTO `item_mods` VALUES (28626,454,10); -- SONG_DURATION_BONUS 10
+INSERT INTO `item_mods` VALUES (28627,1,13); -- DEF 13
+INSERT INTO `item_mods` VALUES (28627,365,5); -- SNAP_SHOT 5
+INSERT INTO `item_mods` VALUES (28628,1,17); -- DEF 17
+INSERT INTO `item_mods` VALUES (28628,73,5); -- STORETP 5
+INSERT INTO `item_mods` VALUES (28629,1,16); -- DEF 16
+INSERT INTO `item_mods` VALUES (28629,160,-3); -- DMG -3
+INSERT INTO `item_mods` VALUES (28630,1,16); -- DEF 16
+INSERT INTO `item_mods` VALUES (28630,361,50); -- JUMP_TP_BONUS 50
+INSERT INTO `item_mods` VALUES (28631,1,13); -- DEF 13
+INSERT INTO `item_mods` VALUES (28632,1,16); -- DEF 16
+INSERT INTO `item_mods` VALUES (28632,122,5); -- BLUE 5
+INSERT INTO `item_mods` VALUES (28633,1,16); -- DEF 16
+INSERT INTO `item_mods` VALUES (28633,1374,5); -- Quickdraw Recast -5
+INSERT INTO `item_mods` VALUES (28634,1,16); -- DEF 16
+INSERT INTO `item_mods` VALUES (28635,1,16); -- DEF 16
+INSERT INTO `item_mods` VALUES (28635,491,5); -- WALTZ_POTENTCY 5
+INSERT INTO `item_mods` VALUES (28636,1,13); -- DEF 13
+INSERT INTO `item_mods` VALUES (28636,838,10); -- REGEN_MULTIPLIER 10
 INSERT INTO `item_mods` VALUES (28637,1,13);      -- Lifestream Cape: DEF 13
 INSERT INTO `item_mods` VALUES (28637,2,50);      -- HP +50
 INSERT INTO `item_mods` VALUES (28637,5,50);      -- MP +50

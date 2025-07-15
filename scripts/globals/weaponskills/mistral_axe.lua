@@ -26,6 +26,10 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     params.canCrit = false
     params.acc100 = 0.0 params.acc200= 0.0 params.acc300= 0.0
     params.atk100 = 1; params.atk200 = 1; params.atk300 = 1
+	params.ignoresDef = true
+    params.ignored100 = 0.33
+    params.ignored200 = 0.33
+    params.ignored300 = 0.33
 
     if (USE_ADOULIN_WEAPON_SKILL_CHANGES == true) then
         params.ftp100 = 4 params.ftp200 = 10.5 params.ftp300 = 13.625

@@ -26,12 +26,10 @@ function onTrade(player, npc, trade)
     if npcUtil.tradeHasExactly(trade, tpz.items.FOMOR_CODEX) then
         local draftOffset = npc:getID() - ID.npc.STALE_DRAFT_OFFSET
         local nmId = ID.mob.SWIFT_BELT_NMS[draftOffset + 1][1]
-        local races = ID.mob.SWIFT_BELT_NMS[draftOffset + 1][2]
         local nm = GetMobByID(nmId)
-        local race = player:getRace()
         local hate = player:getFomorHate()
 
-        if (races[race] and not nm:isSpawned() and hate >= 50) then
+        if not nm:isSpawned() and (hate >= 50) then
             player:tradeComplete()
             player:setFomorHate(0)
             SpawnMob(nmId):updateClaim(player)

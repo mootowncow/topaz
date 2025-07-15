@@ -138,6 +138,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
 
             PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA2));
             PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, recastSeconds, 0, MSGBASIC_TIME_LEFT));
+            PChar->PAI->InterruptStates();
             return false;
         }
 

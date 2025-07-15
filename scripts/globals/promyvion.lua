@@ -50,9 +50,18 @@ end
 local function selectRandomModel(models, mob)
     local model = math.random(1,4)
     local sub = math.random(1,2)
+    local element = 0
+
+    -- Reset SDT/EEM
+    for sdt = tpz.mod.SDT_FIRE, tpz.mod.SDT_DARK do
+        mob:setMod(sdt, 100)
+    end
+
+    for eem = tpz.mod.EEM_AMNESIA, tpz.mod.EEM_BLIND do
+        mob:setMod(eem, 100)
+    end
 
     -- set elemental type
-    local element = 0
     if sub == 1 then
         if model == 1 then
         element = 8 -- dark
