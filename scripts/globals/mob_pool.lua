@@ -6986,4 +6986,6 @@ tpz.mob.pool = {
     MEADOWS_DIREMITE = 9156,
     ACHO = 9157,
     FROSTED_SOUL = 9158,
+    FROZEN_GHOUL_DRK = 9159,
+    FROZEN_GHOUL_BLM = 9160,
 }
