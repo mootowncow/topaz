@@ -1291,6 +1291,11 @@ namespace battleutils
                 magicDefense = 1.0f - (PDefender->getMod(Mod::DARKDEF) / 256.0f);
                 damage *= magicDefense;
                 break;
+            case SPIKE_DAMAGE:
+                element = ELEMENT_NONE;
+                damage = static_cast<float>(
+                    (damage * ApplyResistance(PDefender, PAttacker, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus))));
+                break;
             default:
                 break;
         }
@@ -1422,6 +1427,10 @@ namespace battleutils
             {
                 Action->spikesEffect = SUBEFFECT_GLINT_SPIKES;
             }
+            else if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DAMAGE_SPIKES))
+            {
+                Action->spikesEffect = SUBEFFECT_DAMAGE_SPIKES;
+            }
 
             Action->spikesParam = CalculateSpikeDamage(PAttacker, PDefender, Action, damage);
 
@@ -1485,6 +1494,19 @@ namespace battleutils
                     PAttacker->takeDamage(Action->spikesParam,
                                           PDefender, ATTACK_MAGICAL,
                                           GetSpikesDamageType(Action->spikesEffect));
+                    // Handle Negative damage
+                    if (Action->spikesParam < 0)
+                    {
+                        Action->spikesParam = -Action->spikesParam;
+                    }
+                    break;
+
+                case SPIKE_DAMAGE:
+                    PAttacker->takeDamage(Action->spikesParam,
+                        PDefender, ATTACK_MAGICAL,
+                        DAMAGE_NONE);
+
+                    Action->spikesEffect = SUBEFFECT_FIRE_DAMAGE; // looks like blaze spikes
                     // Handle Negative damage
                     if (Action->spikesParam < 0)
                     {
@@ -9292,7 +9314,6 @@ namespace battleutils
             case SUBEFFECT_DREAD_SPIKES:
                 return DAMAGE_DARK;
             case SUBEFFECT_CURSE_SPIKES:
-                return DAMAGE_NONE;
             case SUBEFFECT_SHOCK_SPIKES:
                 return DAMAGE_LIGHTNING;
             case SUBEFFECT_DELUGE_SPIKES:
