@@ -9966,8 +9966,8 @@ INSERT INTO `mob_groups` VALUES (41,6845,137,'Feuerunke',3600,0,3220,13500,0,85,
 INSERT INTO `mob_groups` VALUES (42,6846,137,'Lord_Ruthven',7200,0,3227,45000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (43,6863,137,'Yilbegan',7200,0,3229,50000,0,92,92,0);
 
-INSERT INTO `mob_groups` VALUES (44,3691,137,'Frozen_Ghoul_DRK',60,0,2125,0,0,88,90,0);
-INSERT INTO `mob_groups` VALUES (45,6566,137,'Frozen_Ghoul_BLM',60,0,2125,0,0,88,90,0);
+INSERT INTO `mob_groups` VALUES (44,9159,137,'Frozen_Ghoul_DRK',60,0,2125,0,0,88,90,0); -- Starts at J-7 Tunnel
+INSERT INTO `mob_groups` VALUES (45,9160,137,'Frozen_Ghoul_BLM',60,0,2125,0,0,88,90,0);
 
 INSERT INTO `mob_groups` VALUES (7380,2,137,'1st_Iron_Musketeer',0,0,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (7381,3,137,'1st_Legionnaire',1,0,0,0,0,1,1,0);

@@ -16,7 +16,7 @@ function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.EVASION_DOWN
     local power = math.floor(target:getEVA()* 0.25)
 
-    if (mob:getName() == 'Gouger Beetle') then
+    if (mob:getName() == 'Gouger_Beetle') then
         typeEffect = tpz.effect.AVOIDANCE_DOWN
     end
 
