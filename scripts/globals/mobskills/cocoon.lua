@@ -18,6 +18,9 @@ function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.DEFENSE_BOOST
 
     skill:setMsg(MobBuffMove(mob, typeEffect, 100, 0, 180))
+    if mob:getName() == 'Champion_Crawler' then
+        MobBuffMove(mob, tpz.effect.DAMAGE_SPIKES, math.random(50, 75), 0, 180)
+    end
 
     return typeEffect
 end

@@ -57,6 +57,130 @@ tpz.magian.trials = {
         },
     },
 
+    [2] = {
+        mainItem      = tpz.items.PUGILISTS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.BIRD },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 250,
+        rewardItem    = {
+            itemId       = tpz.items.CATS_CLAWS,
+            itemAugments = {
+                { tpz.augments.DELAYMINUS, 4 },
+            },
+        },
+    },
+
+    [3] = {
+        mainItem      = tpz.items.CATS_CLAWS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 2,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.LIZARD, tpz.mob.family.ICELIZARD, tpz.mob.family.HIGHLANDER_LIZARD },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 300,
+        rewardItem    = {
+            itemId       = tpz.items.CATS_CLAWS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 4 },
+                { tpz.augments.DELAYMINUS, 4 },
+            },
+        },
+    },
+
+    [4] = {
+        mainItem      = tpz.items.CATS_CLAWS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 3,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.WAMOURACAMPA },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 350,
+        rewardItem    = {
+            itemId       = tpz.items.CATS_CLAWS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 5 },
+                { tpz.augments.DELAYMINUS, 4 },
+                { tpz.augments.ADDEFF_FIREDMG_5, 10 },
+            },
+        },
+    },
+
+    [5] = {
+        mainItem      = tpz.items.CATS_CLAWS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 4,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.CONDOR },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.CATS_CLAWS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 6 },
+                { tpz.augments.DELAYMINUS, 4 },
+                { tpz.augments.ADDEFF_FIREDMG_5, 15 },
+                { tpz.augments.STR, 3 },
+            },
+        },
+    },
+
+    [6] = {
+        mainItem      = tpz.items.CATS_CLAWS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 5,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.TERROR_FLY },
+        numRequired   = 15,
+        rewardItem    = {
+            itemId       = tpz.items.CATS_CLAWS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 7 },
+                { tpz.augments.DELAYMINUS, 4 },
+                { tpz.augments.STR, 4 },
+                { tpz.augments.ATTK, 12 },
+            },
+        },
+    },
+
+    [7] = {
+        mainItem      = tpz.items.CATS_CLAWS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 6,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.DAWON },
+        numRequired   = 25,
+        rewardItem    = {
+            itemId       = tpz.items.CATS_CLAWS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 8 },
+                { tpz.augments.DELAYMINUS, 4 },
+                { tpz.augments.STR, 5 },
+                { tpz.augments.ATTK, 15 },
+            },
+        },
+    },
+
     [82] = {
         mainItem      = tpz.items.PUGILISTS,
         tradeItem     = tpz.items.NONE,
@@ -195,6 +319,130 @@ tpz.magian.trials = {
         },
     },
 
+    [101] = {
+        mainItem      = tpz.items.PEELER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 100,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.BIRD },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 250,
+        rewardItem    = {
+            itemId       = tpz.items.DAKINI,
+            itemAugments = {
+                { tpz.augments.DELAYMINUS, 6 },
+            },
+        },
+    },
+
+    [102] = {
+        mainItem      = tpz.items.DAKINI,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 101,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.LIZARD, tpz.mob.family.ICELIZARD, tpz.mob.family.HIGHLANDER_LIZARD },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 300,
+        rewardItem    = {
+            itemId       = tpz.items.DAKINI,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 5 },
+                { tpz.augments.DELAYMINUS, 10 },
+            },
+        },
+    },
+
+    [103] = {
+        mainItem      = tpz.items.DAKINI,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 102,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.WAMOURACAMPA },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 350,
+        rewardItem    = {
+            itemId       = tpz.items.DAKINI,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 7 },
+                { tpz.augments.DELAYMINUS, 12 },
+                { tpz.augments.ADDEFF_FIREDMG_5, 10 },
+            },
+        },
+    },
+
+    [104] = {
+        mainItem      = tpz.items.DAKINI,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 103,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.CONDOR },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.DAKINI,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 8 },
+                { tpz.augments.DELAYMINUS, 13 },
+                { tpz.augments.ADDEFF_FIREDMG_5, 15 },
+                { tpz.augments.STR, 3 },
+            },
+        },
+    },
+
+    [105] = {
+        mainItem      = tpz.items.DAKINI,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 104,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.TERROR_FLY },
+        numRequired   = 15,
+        rewardItem    = {
+            itemId       = tpz.items.DAKINI,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 10 },
+                { tpz.augments.DELAYMINUS, 15 },
+                { tpz.augments.STR, 4 },
+                { tpz.augments.ATTK, 12 },
+            },
+        },
+    },
+
+    [106] = {
+        mainItem      = tpz.items.DAKINI,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 105,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.DAWON },
+        numRequired   = 25,
+        rewardItem    = {
+            itemId       = tpz.items.DAKINI,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 9 },
+                { tpz.augments.DELAYMINUS, 4 },
+                { tpz.augments.STR, 5 },
+                { tpz.augments.ATTK, 15 },
+            },
+        },
+    },
+
     [181] = {
         mainItem      = tpz.items.PEELER,
         tradeItem     = tpz.items.NONE,
@@ -315,6 +563,127 @@ tpz.magian.trials = {
         },
     },
 
+    [201] = {
+        mainItem      = tpz.items.BREAK_BLADE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 200,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.MAGICPOT },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 250,
+        rewardItem    = {
+            itemId       = tpz.items.BRAND_DARCON,
+            itemAugments = {
+                { tpz.augments.STR, 5 },
+            },
+        },
+    },
+
+    [202] = {
+        mainItem      = tpz.items.BRAND_DARCON,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 201,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.COCKATRICE },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 300,
+        rewardItem    = {
+            itemId       = tpz.items.BRAND_DARCON,
+            itemAugments = {
+                { tpz.augments.STR, 6 },
+                { tpz.augments.ATTK, 10 },
+            },
+        },
+    },
+
+    [203] = {
+        mainItem      = tpz.items.BRAND_DARCON,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 202,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.MORBOL, tpz.mob.family.MORBOL_NM },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 350,
+        rewardItem    = {
+            itemId       = tpz.items.BRAND_DARCON,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 10 },
+                { tpz.augments.STR, 7 },
+                { tpz.augments.ATTK, 15 },
+            },
+        },
+    },
+
+    [204] = {
+        mainItem      = tpz.items.BRAND_DARCON,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 203,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.TSETSE_FLY },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.BRAND_DARCON,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 12 },
+                { tpz.augments.STR, 8 },
+                { tpz.augments.ATTK, 20 },
+            },
+        },
+    },
+
+    [205] = {
+        mainItem      = tpz.items.BRAND_DARCON,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 204,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.COCCINELLIDAE },
+        numRequired   = 15,
+        rewardItem    = {
+            itemId       = tpz.items.BRAND_DARCON,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 14 },
+                { tpz.augments.STR, 9 },
+                { tpz.augments.ATTK, 25 },
+            },
+        },
+    },
+
+    [206] = {
+        mainItem      = tpz.items.BRAND_DARCON,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 205,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.KRABKATOA },
+        numRequired   = 25,
+        rewardItem    = {
+            itemId       = tpz.items.BRAND_DARCON,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 16 },
+                { tpz.augments.STR, 10 },
+                { tpz.augments.ATTK, 30 },
+            },
+        },
+    },
+
     [281] = {
         mainItem      = tpz.items.BREAK_BLADE,
         tradeItem     = tpz.items.NONE,
@@ -431,6 +800,130 @@ tpz.magian.trials = {
             [tpz.items.DARK_CLUSTER]        = 371,
             [tpz.items.FIRE_CRYSTAL]        = 381,
             [tpz.items.ICE_CRYSTAL]         = 391
+        },
+    },
+
+    [301] = {
+        mainItem      = tpz.items.CHOPPER,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 300,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.GHOST },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 250,
+        rewardItem    = {
+            itemId       = tpz.items.SKEGGIOLD,
+            itemAugments = {
+                { tpz.augments.DELAYMINUS, 3 },
+            },
+        },
+    },
+
+    [302] = {
+        mainItem      = tpz.items.SKEGGIOLD,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 301,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.SLIME, tpz.mob.family.SLIME_NM },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 300,
+        rewardItem    = {
+            itemId       = tpz.items.SKEGGIOLD,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 9 },
+                { tpz.augments.DELAYMINUS, 3 },
+            },
+        },
+    },
+
+    [303] = {
+        mainItem      = tpz.items.SKEGGIOLD,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 302,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.WYVERN },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 350,
+        rewardItem    = {
+            itemId       = tpz.items.SKEGGIOLD,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 10 },
+                { tpz.augments.DELAYMINUS, 3 },
+                { tpz.augments.ADDEFF_FIREDMG_5, 10 },
+            },
+        },
+    },
+
+    [304] = {
+        mainItem      = tpz.items.SKEGGIOLD,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 303,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.GOUGER_BEETLE },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.SKEGGIOLD,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 11 },
+                { tpz.augments.DELAYMINUS, 3 },
+                { tpz.augments.ADDEFF_FIREDMG_5, 15 },
+                { tpz.augments.STR, 3 },
+            },
+        },
+    },
+
+    [305] = {
+        mainItem      = tpz.items.SKEGGIOLD,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 304,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.GORIB },
+        numRequired   = 15,
+        rewardItem    = {
+            itemId       = tpz.items.SKEGGIOLD,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 12 },
+                { tpz.augments.DELAYMINUS, 3 },
+                { tpz.augments.STR, 4 },
+                { tpz.augments.ATTK, 12 },
+            },
+        },
+    },
+
+    [306] = {
+        mainItem      = tpz.items.SKEGGIOLD,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 305,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.VERTHANDI },
+        numRequired   = 25,
+        rewardItem    = {
+            itemId       = tpz.items.SKEGGIOLD,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 13 },
+                { tpz.augments.DELAYMINUS, 3 },
+                { tpz.augments.STR, 5 },
+                { tpz.augments.ATTK, 15 },
+            },
         },
     },
 
@@ -670,6 +1163,127 @@ tpz.magian.trials = {
             [tpz.items.DARK_CLUSTER]        = 571,
             [tpz.items.FIRE_CRYSTAL]        = 581,
             [tpz.items.ICE_CRYSTAL]         = 591
+        },
+    },
+
+    [501] = {
+        mainItem      = tpz.items.RANSEUR,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 500,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.OPO_OPO },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 250,
+        rewardItem    = {
+            itemId       = tpz.items.STRIBOG,
+            itemAugments = {
+                { tpz.augments.STR, 5 },
+            },
+        },
+    },
+
+    [502] = {
+        mainItem      = tpz.items.STRIBOG,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 501,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.HOUND, tpz.mob.family.HOUND_BOREAL },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 300,
+        rewardItem    = {
+            itemId       = tpz.items.STRIBOG,
+            itemAugments = {
+                { tpz.augments.STR, 6 },
+                { tpz.augments.ATTK, 10 },
+            },
+        },
+    },
+
+    [503] = {
+        mainItem      = tpz.items.STRIBOG,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 502,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.RAM },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 350,
+        rewardItem    = {
+            itemId       = tpz.items.STRIBOG,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 16 },
+                { tpz.augments.STR, 7 },
+                { tpz.augments.ATTK, 15 },
+            },
+        },
+    },
+
+    [504] = {
+        mainItem      = tpz.items.STRIBOG,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 503,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.CHAMPION_CRAWLER },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.STRIBOG,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 18 },
+                { tpz.augments.STR, 8 },
+                { tpz.augments.ATTK, 20 },
+            },
+        },
+    },
+
+    [505] = {
+        mainItem      = tpz.items.STRIBOG,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 504,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.BLOODDRINKER },
+        numRequired   = 15,
+        rewardItem    = {
+            itemId       = tpz.items.STRIBOG,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 20 },
+                { tpz.augments.STR, 9 },
+                { tpz.augments.ATTK, 25 },
+            },
+        },
+    },
+
+    [506] = {
+        mainItem      = tpz.items.STRIBOG,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 505,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.LORD_RUTHVEN },
+        numRequired   = 25,
+        rewardItem    = {
+            itemId       = tpz.items.STRIBOG,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 22 },
+                { tpz.augments.STR, 10 },
+                { tpz.augments.ATTK, 30 },
+            },
         },
     },
 
@@ -1486,8 +2100,8 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.SOULSABER,
             itemAugments = {
-                { tpz.augments.DELAYMINUS, 10 },
                 { tpz.augments.MAIN_DMG_RATING, 5 },
+                { tpz.augments.DELAYMINUS, 10 },
             },
         },
     },
@@ -1507,8 +2121,8 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.SOULSABER,
             itemAugments = {
-                { tpz.augments.DELAYMINUS, 12 },
                 { tpz.augments.MAIN_DMG_RATING, 7 },
+                { tpz.augments.DELAYMINUS, 12 },
                 { tpz.augments.ADDEFF_FIREDMG_5, 10 },
             },
         },
@@ -1529,8 +2143,8 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.SOULSABER,
             itemAugments = {
-                { tpz.augments.DELAYMINUS, 13 },
                 { tpz.augments.MAIN_DMG_RATING, 8 },
+                { tpz.augments.DELAYMINUS, 13 },
                 { tpz.augments.ADDEFF_FIREDMG_5, 15 },
                 { tpz.augments.STR, 3 },
             },
@@ -1549,8 +2163,8 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.SOULSABER,
             itemAugments = {
-                { tpz.augments.DELAYMINUS, 15 },
                 { tpz.augments.MAIN_DMG_RATING, 10 },
+                { tpz.augments.DELAYMINUS, 15 },
                 { tpz.augments.STR, 4 },
                 { tpz.augments.ATTK, 12 },
             },
@@ -1569,8 +2183,8 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.SOULSABER,
             itemAugments = {
-                { tpz.augments.DELAYMINUS, 20 },
                 { tpz.augments.MAIN_DMG_RATING, 12 },
+                { tpz.augments.DELAYMINUS, 20 },
                 { tpz.augments.STR, 5 },
                 { tpz.augments.ATTK, 15 },
             },
@@ -3436,6 +4050,7 @@ tpz.magian.trials = {
     -- Most trials should end with ZNM T3 drops/kills
     -- Trials for older Rare/Ex drops from NM's or quests like Executioner's Axe
     -- HQ stave trials require elemental Kills
+    -- HQ Stave final trial, finish all staves trials then can combine into Chatoyant Staff
     -- Something that requires experience in zilart dungeons
     -- TODO: Stenz dark trials
     -- Use Marids!
