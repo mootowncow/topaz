@@ -56,6 +56,7 @@ struct TreasurePoolItem
 {
     uint16 ID;
     uint8  SlotID;
+    uint8 AppraisalID = 0; // default to 0 if not appraised
     time_point TimeStamp;
 
     std::vector<LotInfo> Lotters;
@@ -69,7 +70,7 @@ public:
 
     TREASUREPOOLTYPE GetPoolType();
 
-    uint8 AddItem(uint16 ItemID, CBaseEntity*);
+    uint8 AddItem(uint16 ItemID, CBaseEntity* PEntity, uint8 appraisalID = 0);
 
     void LotItem(uint8 SlotID, uint16 Lot);
     void LotItem(CCharEntity* PChar, uint8 SlotID, uint16 Lot);

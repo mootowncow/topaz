@@ -250,6 +250,30 @@ uint8 CStatusEffectContainer::GetLowestFreeSlot()
 bool CStatusEffectContainer::CanGainStatusEffect(CStatusEffect* PStatusEffect)
 {
     EFFECT statusEffect = PStatusEffect->GetStatusID();
+
+    // Handle Divine Caress immunity buff
+    if (m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_DIVINE_CARESS_2))
+    {
+        CStatusEffect* divineCaress = m_POwner->StatusEffectContainer->GetStatusEffect(EFFECT_DIVINE_CARESS_2);
+        uint16 divineCaressImmunity = divineCaress->GetPower();
+
+        if (statusEffect == divineCaressImmunity)
+        {
+            // Subpower is the amount of effects that can be immuned by Divine Caress. When it reaches 0 the effect ends
+            int remainingImmunes = divineCaress->GetSubPower();
+            if (remainingImmunes - 1 <= 0)
+            {
+                m_POwner->StatusEffectContainer->DelStatusEffectSilent(EFFECT_DIVINE_CARESS_2);
+            }
+            else
+            {
+                divineCaress->SetSubPower(remainingImmunes - 1);
+            }
+
+            return false;
+        }
+    }
+
     // check for immunities first
     switch (statusEffect) {
         case EFFECT_SLEEP:
@@ -617,7 +641,7 @@ static const std::unordered_set<uint16> noLongerMsgEffects = {
     EFFECT_SLOW,          EFFECT_CHARM,    EFFECT_DOOM,   EFFECT_AMNESIA,    EFFECT_CHARM_II,  EFFECT_GRADUAL_PETRIFICATION,
     EFFECT_SLEEP_II,      EFFECT_CURSE_II, EFFECT_ADDLE,  EFFECT_INTIMIDATE, EFFECT_KAUSTRA,   EFFECT_TERROR,
     EFFECT_MUTE,          EFFECT_BANE,     EFFECT_PLAGUE, EFFECT_ENCUMBRANCE, EFFECT_ENCUMBRANCE_II, EFFECT_MUDDLE,
-    EFFECT_TAINT,         EFFECT_HAUNT,    EFFECT_QUICKENING
+    EFFECT_TAINT,         EFFECT_HAUNT,    EFFECT_QUICKENING, EFFECT_OVERLOAD
 };
 
 void CStatusEffectContainer::SendWearOffMessage(CStatusEffect* PStatusEffect, bool silent)
@@ -1927,7 +1951,8 @@ void CStatusEffectContainer::TickRegen(time_point tick)
     TracyZoneScoped;
     TPZ_DEBUG_BREAK_IF(m_POwner == nullptr);
 
-    if (!m_POwner->isDead())
+    // Nothing ticks while in a cutscene
+    if (!m_POwner->isDead() && m_POwner->status != STATUS_CUTSCENE_ONLY)
     {
         CCharEntity* PChar = nullptr;
         if (m_POwner->objtype == TYPE_PC)

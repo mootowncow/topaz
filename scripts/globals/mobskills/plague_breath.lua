@@ -18,13 +18,13 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.POISON
     local power = math.floor(mob:getMainLvl() / 10)
-    local dmgmod = MobHPBasedMove(mob, target, 0.0625, 1, tpz.magic.ele.WATER, 500)
+    local dmgmod = MobHPBasedMove(mob, target, skill, 0.0625, 1, tpz.magic.ele.WATER, 500)
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.WATER, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.BREATH, tpz.damageType.WATER)
     MobStatusEffectMove(mob, target, typeEffect, power, 3, 90)
-    if (mob:getPool() == 9067) then -- Kendi
+    if (mob:getPool() == 9067 or mob:getPool() == 5339) then -- Kendi / Drachen Lizard
         target:delStatusEffectSilent(tpz.effect.POISON)
-        MobStatusEffectMove(mob, target, tpz.effect.CURSE_II, 1, 0, 90)
+        MobStatusEffectMove(mob, target, tpz.effect.CURSE_II, 1, 0, 10)
         mob:resetEnmity(target)
     end
     return dmg

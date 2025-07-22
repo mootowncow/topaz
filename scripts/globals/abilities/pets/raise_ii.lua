@@ -18,7 +18,14 @@ function onPetAbility(target, pet, skill, summoner)
 
     if (target:isPC()) then
         target:sendRaise(2)
+    elseif target:isTrust() then
+        target:setHP(target:getMaxHP() * 0.25)
+        if target:hasStatusEffect(tpz.effect.WEAKNESS) then
+            target:addStatusEffect(tpz.effect.WEAKNESS, 2, 0, 120)
+        else
+            target:addStatusEffect(tpz.effect.WEAKNESS, 1, 0, 120)
+        end
     end
 
-    return 2 -- TODO: Incorrect return
+    return 0
 end

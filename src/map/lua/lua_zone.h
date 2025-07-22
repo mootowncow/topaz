@@ -44,14 +44,16 @@ public:
 
     int32 registerRegion(lua_State*);
     int32 levelRestriction(lua_State*);
+    int32 setLocalVar(lua_State*);
     int32 getPlayers(lua_State*);
     int32 getID(lua_State*);
     int32 getRegionID(lua_State*);
     int32 getType(lua_State*);
     int32 getBattlefieldByInitiator(lua_State*);
     int32 getName(lua_State*);
-    int32 battlefieldsFull(lua_State*);
     int32 getWeather(lua_State*);
+    int32 getLocalVar(lua_State*);
+    int32 battlefieldsFull(lua_State*);
     int32 addListener(lua_State*);
     int32 removeListener(lua_State*);
     int32 triggerListener(lua_State*);

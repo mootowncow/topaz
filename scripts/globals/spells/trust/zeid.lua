@@ -27,6 +27,10 @@ function onMobSpawn(mob)
     })
     ]]
 
+    tpz.trust.setUpFood(mob)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
+
     -- Stun all the things!
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0,
                         ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
@@ -52,27 +56,19 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.WEAPON_BASH)
 
-    if mob:getMainLvl() >= 70 then
-        mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.SEIGAN)
-        mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.THIRD_EYE)
-    end
+    mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.SEIGAN)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.THIRD_EYE)
 
-    if mob:getMainLvl() >= 50 then
-        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASSO)
-    end
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASSO)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS_FLAG, tpz.effectFlag.DISPELABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ABSORB_ATTRI)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_ASPIR, 50, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ASPIR)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_DRAIN, 50, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DRAIN)
 
-    if mob:getMainLvl() >= 61 then
-        mob:addSimpleGambit(ai.t.TARGET, ai.c.TP_GTE, 900, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ABSORB_TP)
-    end
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.TP_GTE, 900, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ABSORB_TP)
 
-    if mob:getMainLvl() >= 60 then
-        mob:addSimpleGambit(ai.t.SELF, ai.c.TP_LT, 400, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MEDITATE)
-    end
+    mob:addSimpleGambit(ai.t.SELF, ai.c.TP_LT, 400, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MEDITATE)
 
     -- Non-stun things
     mob:addSimpleGambit(ai.t.SELF, ai.c.PT_HAS_WHM, 0,
@@ -83,12 +79,12 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.ENDARK, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ENDARK)
 
-    if mob:getMainLvl() >= 71 then
-        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.DREAD_SPIKES, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.DREAD_SPIKES)
-    end
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.DREAD_SPIKES, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.DREAD_SPIKES)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.IS_ECOSYSTEM,tpz. ecosystem.ARCANA, ai.r.JA, ai.s.SPECIFIC,tpz.ja.ARCANE_CIRCLE)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.IS_ECOSYSTEM,tpz. ecosystem.ARCANA, ai.r.JA, ai.s.SPECIFIC,tpz.ja.ARCANE_CREST)
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.ALWAYS, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.NETHER_VOID)
     if mob:getMainLvl() >= 61 then
         mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.ACCURACY_DOWN, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ABSORB_ACC)
     else

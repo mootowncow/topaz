@@ -29,12 +29,11 @@ zones[tpz.zone.SHIP_BOUND_FOR_SELBINA_PIRATES] =
     {
         SEA_CREATURES =
         {
-            17707013,   -- Sea Monk 1
             17707014,   -- Sea Crab 1
             17707015,   -- Sea Crab 2
             17707016,   -- Sea Pugil 1
             17707017,   -- Sea Pugil 2
-            17707018,   -- Sea Monk 2
+            17707018,   -- Sea Monk 1
         },
         PHANTOM = 17707019,
         CROSSBONES =

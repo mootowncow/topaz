@@ -95,13 +95,19 @@ bool CMobSkill::isAttackReplacement() const
 
 bool CMobSkill::isTpSkill() const
 {
-    return !isSpecial() && !isAttackReplacement();
+    return !isSpecial() && !isAttackReplacement() && !isTwoHour();
 }
 
 bool CMobSkill::isSpecial() const
 {
     // means it is a ranged attack or call beast, etc..
     return m_Flag & SKILLFLAG_SPECIAL;
+}
+
+bool CMobSkill::isMagicAttack() const
+{
+    // means it is a magic skill / blood pact
+    return m_Flag & SKILLFLAG_MAGIC_SKILL;
 }
 
 bool CMobSkill::alwaysKnockback() const
@@ -159,6 +165,16 @@ void CMobSkill::setDistance(float distance)
 void CMobSkill::setFlag(uint8 flag)
 {
     m_Flag = flag;
+}
+
+void CMobSkill::addFlag(uint8 flag)
+{
+    m_Flag |= flag;
+}
+
+void CMobSkill::delFlag(uint8 flag)
+{
+    m_Flag &= ~flag;
 }
 
 void CMobSkill::setTP(int16 tp)

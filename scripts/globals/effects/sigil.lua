@@ -30,7 +30,7 @@ function onEffectGain(target, effect)
         -- target:addLatent(LATENT_SIGIL_EXPLOSS, ?, MOD_EXPLOSS_REDUCTION, ?)
         -- exp loss reduction not implemented.
     end
-    -- Gain +15% more EXP in campaign regions if above level 55 and below 75
+    -- Gain +15% more EXP in campaign regions
     target:addLatent(tpz.latent.SIGIL_EXP_BONUS, 1, tpz.mod.EXP_BONUS, 15)
 end
 

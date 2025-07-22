@@ -1,0 +1,647 @@
+File ID,ROMDir,Dir,File,Armor,Race,Slot,Model ID
+23472,Rom,52,13.dat,None,Mithra,Body,0
+23473,Rom,52,14.dat,Leather Vest,Mithra,Body,1
+23474,Rom,52,15.dat,Breastplate,Mithra,Body,2
+23475,Rom,52,16.dat,Tunic,Mithra,Body,3
+23476,Rom,52,17.dat,Shinobi Gi,Mithra,Body,4
+23477,Rom,52,18.dat,Chainmail,Mithra,Body,5
+23478,Rom,52,19.dat,Lizard Jerkin,Mithra,Body,6
+23479,Rom,52,20.dat,Raptor Jerkin,Mithra,Body,7
+23480,Rom,52,21.dat,Mithran Separates,Mithra,Body,8
+23481,Rom,52,22.dat,Hara-Ate,Mithra,Body,9
+23482,Rom,52,23.dat,Cloak,Mithra,Body,10
+23483,Rom,52,24.dat,Silk Cloak,Mithra,Body,11
+23484,Rom,52,25.dat,Royal Squire's Chainmail,Mithra,Body,12
+23485,Rom,52,26.dat,Royal Knight's Chainmail,Mithra,Body,13
+23486,Rom,52,27.dat,Padded Armor,Mithra,Body,14
+23487,Rom,52,28.dat,Bronze Harness,Mithra,Body,15
+23488,Rom,52,29.dat,Bone Harness,Mithra,Body,16
+23489,Rom,52,30.dat,Kenpogi,Mithra,Body,17
+23490,Rom,52,31.dat,Wool Robe,Mithra,Body,18
+23491,Rom,52,32.dat,Tactician Magician's Coat,Mithra,Body,19
+23492,Rom,52,33.dat,Robe,Mithra,Body,20
+23493,Rom,52,34.dat,Doublet,Mithra,Body,21
+23494,Rom,52,35.dat,Darksteel Cuirass,Mithra,Body,22
+23495,Rom,52,36.dat,Gambison,Mithra,Body,23
+23496,Rom,52,37.dat,Battle Jupon,Mithra,Body,24
+23497,Rom,52,38.dat,Iron Musketeer's Cuirass,Mithra,Body,25
+23498,Rom,52,39.dat,Centurion's Scale Mail,Mithra,Body,26
+23499,Rom,52,40.dat,Gavial Mail,Mithra,Body,27
+23500,Rom,52,41.dat,Scale Mail,Mithra,Body,28
+23501,Rom,52,42.dat,Mythril Breastplate,Mithra,Body,29
+23502,Rom,52,14.dat,Leather Vest,Mithra,Body,30
+23503,Rom,52,43.dat,Savage Separates,Mithra,Body,31
+23504,Rom,52,44.dat,Assault Breastplate,Mithra,Body,32
+23505,Rom,52,45.dat,Cardinal Vest,Mithra,Body,33
+23506,Rom,52,46.dat,Scorpion Harness,Mithra,Body,34
+23507,Rom,52,47.dat,Demon's Harness,Mithra,Body,35
+23508,Rom,52,48.dat,Lord's Cuirass,Mithra,Body,36
+23509,Rom,52,49.dat,Jujitsu Gi,Mithra,Body,37
+23510,Rom,52,50.dat,Royal Knight's Aketon,Mithra,Body,38
+23511,Rom,52,51.dat,Aketon,Mithra,Body,39
+23512,Rom,52,52.dat,Haubergeon,Mithra,Body,40
+23513,Rom,52,53.dat,Byrnie,Mithra,Body,41
+23514,Rom,52,54.dat,War Shinobi Gi,Mithra,Body,42
+23515,Rom,52,55.dat,Earth Doublet,Mithra,Body,43
+23516,Rom,52,56.dat,Brigandine,Mithra,Body,44
+23517,Rom,94,54.dat,Justaucorps,Mithra,Body,45
+23518,Rom,94,55.dat,Black Cloak,Mithra,Body,46
+23519,Rom,94,56.dat,Vermillion Cloak,Mithra,Body,47
+23520,Rom,94,57.dat,Blue Cotehardie,Mithra,Body,48
+23521,Rom,94,58.dat,Black Cotehardie,Mithra,Body,49
+23522,Rom,119,34.dat,Tiger Jerkin,Mithra,Body,50
+23523,Rom,267,0.dat,Toci's Harness,Mithra,Body,51
+23524,Rom,119,35.dat,Iron Scale Mail,Mithra,Body,52
+23525,Rom,121,70.dat,Steel Scale Mail,Mithra,Body,53
+23526,Rom,121,71.dat,Coeurl Jerkin,Mithra,Body,54
+23527,Rom,121,72.dat,Adaman Cuirass,Mithra,Body,55
+23528,Rom,121,73.dat,Coral Harness,Mithra,Body,56
+23529,Rom,121,74.dat,Noble's Tunic,Mithra,Body,57
+23530,Rom,121,75.dat,Hauberk,Mithra,Body,58
+23531,Rom,121,76.dat,Arhat's Gi,Mithra,Body,59
+23532,Rom,121,77.dat,Dragon Mail,Mithra,Body,60
+23533,Rom,124,119.dat,Rasetsu Samue,Mithra,Body,61
+23534,Rom,124,120.dat,Crimson Scale Mail,Mithra,Body,62
+23535,Rom,124,121.dat,Adaman Hauberk,Mithra,Body,63
+23536,Rom,94,59.dat,Fighter's Lorica (WAR AF1),Mithra,Body,64
+23537,Rom,134,76.dat,Warrior's Lorica (WAR AF2),Mithra,Body,65
+23538,Rom,94,60.dat,Temple Cyclas (MNK AF1),Mithra,Body,66
+23539,Rom,134,77.dat,Melee Cyclas (MNK AF2),Mithra,Body,67
+23540,Rom,94,61.dat,Healer's Briault (WHM AF1),Mithra,Body,68
+23541,Rom,134,78.dat,Cleric's Briault (WHM AF2),Mithra,Body,69
+23542,Rom,94,62.dat,Wizard's Coat (BLM AF1),Mithra,Body,70
+23543,Rom,134,79.dat,Sorcerer's Coat (BLM AF2),Mithra,Body,71
+23544,Rom,94,63.dat,Warlock's Tabard (RDM AF1),Mithra,Body,72
+23545,Rom,134,80.dat,Duelist's Tabard (RDM AF2),Mithra,Body,73
+23546,Rom,94,64.dat,Rogue's Vest (THF AF1),Mithra,Body,74
+23547,Rom,134,81.dat,Assassin's Vest (THF AF2),Mithra,Body,75
+23548,Rom,96,89.dat,Gallant Surcoat (PLD AF1),Mithra,Body,76
+23549,Rom,134,82.dat,Valor Surcoat (PLD AF2),Mithra,Body,77
+23550,Rom,96,90.dat,Chaos Cuirass (DRK AF1),Mithra,Body,78
+23551,Rom,134,83.dat,Abyss Cuirass (DRK AF2),Mithra,Body,79
+23552,Rom,96,91.dat,Beast Jackcoat (BST AF1),Mithra,Body,80
+23553,Rom,134,84.dat,Monster Jackcoat (BST AF2),Mithra,Body,81
+23554,Rom,96,92.dat,Choral Justaucorps (BRD AF1),Mithra,Body,82
+23555,Rom,134,85.dat,Bard's Justaucorps (BRD AF2),Mithra,Body,83
+23556,Rom,96,93.dat,Hunter's Jerkin (RNG AF1),Mithra,Body,84
+23557,Rom,134,86.dat,Scout's Jerkin (RNG AF2),Mithra,Body,85
+23558,Rom,99,62.dat,Myochin Domaru (SAM AF1),Mithra,Body,86
+23559,Rom,134,87.dat,Saotome Domaru (SAM AF2),Mithra,Body,87
+23560,Rom,99,63.dat,Ninja Chainmail (NIN AF1),Mithra,Body,88
+23561,Rom,134,88.dat,Koga Chainmail (NIN AF2),Mithra,Body,89
+23562,Rom,99,64.dat,Drachen Mail (DRG AF1),Mithra,Body,90
+23563,Rom,134,89.dat,Wyrm Mail (DRG AF2),Mithra,Body,91
+23564,Rom,99,65.dat,Evoker's Doublet (SMN AF1),Mithra,Body,92
+23565,Rom,134,90.dat,Summoner's Doublet (SMN AF2),Mithra,Body,93
+23566,Rom,124,122.dat,Ogre Jerkin,Mithra,Body,94
+23567,Rom,124,123.dat,Koenig Cuirass,Mithra,Body,95
+23568,Rom,125,62.dat,War Aketon,Mithra,Body,96
+23569,Rom,127,47.dat,Holy Breastplate,Mithra,Body,97
+23570,Rom,127,48.dat,Yasha Samue,Mithra,Body,98
+23571,Rom,127,49.dat,Kirin's Osode,Mithra,Body,99
+23572,Rom,127,50.dat,Hecatomb Harness,Mithra,Body,100
+23573,Rom,127,51.dat,Errant Houppelande,Mithra,Body,101
+23574,Rom,127,52.dat,Fisherman's Tunica,Mithra,Body,102
+23575,Rom,127,53.dat,Chocobo Jack Coat,Mithra,Body,103
+23576,Rom,127,54.dat,Vagabond's Tunica,Mithra,Body,104
+23577,Rom,130,1.dat,Field Tunica,Mithra,Body,105
+23578,Rom,130,2.dat,Shura Togi,Mithra,Body,106
+23579,Rom,130,3.dat,Dalmatica,Mithra,Body,107
+23580,Rom,130,4.dat,Carapace Breastplate,Mithra,Body,108
+23581,Rom,130,5.dat,Dusk Jerkin,Mithra,Body,109
+23582,Rom,130,6.dat,Dragon Harness,Mithra,Body,110
+23583,Rom,138,76.dat,Kingdom Aketon,Mithra,Body,111
+23584,Rom,138,77.dat,Federation Aketon,Mithra,Body,112
+23585,Rom,138,78.dat,Republic Aketon,Mithra,Body,113
+23586,Rom,134,91.dat,Scorpion Breastplate,Mithra,Body,114
+23587,Rom,134,92.dat,Austere Robe,Mithra,Body,115
+23588,Rom,134,93.dat,Opaline Dress,Mithra,Body,116
+23589,Rom,138,79.dat,Carpenter's Apron,Mithra,Body,117
+23590,Rom,138,80.dat,Blacksmith's Apron,Mithra,Body,118
+23591,Rom,138,81.dat,Weaver's Apron,Mithra,Body,119
+23592,Rom,138,82.dat,Alchemist's Apron,Mithra,Body,120
+23593,Rom,138,83.dat,Boneworker's Apron,Mithra,Body,121
+23594,Rom,138,84.dat,Fisherman's Apron,Mithra,Body,122
+23595,Rom,138,85.dat,Tanner's Apron,Mithra,Body,123
+23596,Rom,138,86.dat,Culinarian's Apron,Mithra,Body,124
+23597,Rom,138,87.dat,Goldsmith's Apron,Mithra,Body,125
+23598,Rom,52,14.dat,Leather Vest,Mithra,Body,126
+23599,Rom,143,38.dat,Omina Yukata,Mithra,Body,127
+23600,Rom,145,3.dat,Hydra Harness,Mithra,Body,128
+23601,Rom,145,4.dat,Shade Harness,Mithra,Body,129
+23602,Rom,145,5.dat,Garish Tunic,Mithra,Body,130
+23603,Rom,145,6.dat,Seer's Tunic,Mithra,Body,131
+23604,Rom,145,7.dat,Hydra Doublet,Mithra,Body,132
+23605,Rom,145,8.dat,Noct Doublet,Mithra,Body,133
+23606,Rom,146,15.dat,Bison Jacket,Mithra,Body,134
+23607,Rom,146,16.dat,Sha'ir Manteel,Mithra,Body,135
+23608,Rom,146,61.dat,Barone Corazza,Mithra,Body,136
+23609,Rom,146,100.dat,Igqira Weskit,Mithra,Body,137
+23610,Rom,148,34.dat,Eisenbrust,Mithra,Body,138
+23611,Rom,52,48.dat,Lord's Cuirass,Mithra,Body,139
+23612,Rom,159,89.dat,Dream Robe,Mithra,Body,140
+23613,Rom,150,79.dat,Hachiman Domaru,Mithra,Body,141
+23614,Rom,150,80.dat,Blessed Briault,Mithra,Body,142
+23615,Rom,151,63.dat,Chasuble,Mithra,Body,143
+23616,Rom,225,91.dat,Carpenter's Smock,Mithra,Body,144
+23617,Rom,225,92.dat,Blacksmith's Smock,Mithra,Body,145
+23618,Rom,225,93.dat,Weaver's Smock,Mithra,Body,146
+23619,Rom,225,94.dat,Alchemist's Smock,Mithra,Body,147
+23620,Rom,153,34.dat,Unicorn Harness,Mithra,Body,148
+23621,Rom,153,71.dat,Trader's Saio,Mithra,Body,149
+23622,Rom,154,82.dat,Alumine Haubert,Mithra,Body,150
+23623,Rom,155,10.dat,Plastron,Mithra,Body,151
+23624,Rom,225,95.dat,Boneworker's Smock,Mithra,Body,152
+23625,Rom,225,96.dat,Fisherman's Smock,Mithra,Body,153
+23626,Rom,225,97.dat,Tanner's Smock,Mithra,Body,154
+23627,Rom,225,98.dat,Culinarian's Smock,Mithra,Body,155
+23628,Rom,225,99.dat,Goldsmith's Smock,Mithra,Body,156
+23629,Rom,157,36.dat,Mithra Top,Mithra,Body,157
+23630,Rom,52,14.dat,Leather Vest,Mithra,Body,158
+23631,Rom,158,51.dat,Homam Corazza,Mithra,Body,159
+23632,Rom,157,111.dat,Nashira Manteel,Mithra,Body,160
+23633,Rom,158,107.dat,Trader's Saio (Black),Mithra,Body,161
+23634,Rom,159,14.dat,Crow Jupon,Mithra,Body,162
+23635,Rom,160,82.dat,Hydra Jupon,Mithra,Body,163
+23636,Rom,154,20.dat,Hydra Haubert,Mithra,Body,164
+23637,Rom,163,67.dat,Magus Jubbah (BLU AF1),Mithra,Body,165
+23638,Rom,214,43.dat,Mirage Jubbah (BLU AF2),Mithra,Body,166
+23639,Rom,160,102.dat,Corsair's Frac (COR AF1),Mithra,Body,167
+23640,Rom,214,44.dat,Commodore Frac (COR AF2),Mithra,Body,168
+23641,Rom,162,77.dat,Puppetry Tobe (PUP AF1),Mithra,Body,169
+23642,Rom,214,45.dat,Pantin Tobe (PUP AF2),Mithra,Body,170
+23643,Rom,163,68.dat,Sipahi Jawshan,Mithra,Body,171
+23644,Rom,163,69.dat,Jaridah Peti,Mithra,Body,172
+23645,Rom,52,14.dat,Leather Vest,Mithra,Body,173
+23646,Rom,166,59.dat,Amir Korazin,Mithra,Body,174
+23647,Rom,166,60.dat,Pahluwan Khazagand,Mithra,Body,175
+23648,Rom,166,61.dat,Yigit Gomlek,Mithra,Body,176
+23649,Rom,52,14.dat,Leather Vest,Mithra,Body,177
+23650,Rom,52,14.dat,Leather Vest,Mithra,Body,178
+23651,Rom,170,92.dat,Corselet,Mithra,Body,179
+23652,Rom,170,93.dat,Kyudogi,Mithra,Body,180
+23653,Rom,261,87.dat,Twilight Mail,Mithra,Body,181
+23654,Rom,174,108.dat,Ares's Cuirass,Mithra,Body,182
+23655,Rom,174,109.dat,Skadi's Cuirie,Mithra,Body,183
+23656,Rom,176,19.dat,Usukane Haramaki,Mithra,Body,184
+23657,Rom,176,20.dat,Marduk's Jubbah,Mithra,Body,185
+23658,Rom,176,21.dat,Morrigan's Robe,Mithra,Body,186
+23659,Rom,183,22.dat,Orange Racing Silks,Mithra,Body,187
+23660,Rom,183,23.dat,Black Racing Silks,Mithra,Body,188
+23661,Rom,183,24.dat,Purple Racing Silks,Mithra,Body,189
+23662,Rom,183,25.dat,Sky Blue Racing Silks,Mithra,Body,190
+23663,Rom,183,26.dat,Blue Racing Silks,Mithra,Body,191
+23664,Rom,183,27.dat,Red Racing Silks,Mithra,Body,192
+23665,Rom,183,28.dat,White Racing Silks,Mithra,Body,193
+23666,Rom,183,29.dat,Green Racing Silks,Mithra,Body,194
+23667,Rom,183,30.dat,Askar Korazin,Mithra,Body,195
+23668,Rom,182,31.dat,Denali Jacket,Mithra,Body,196
+23669,Rom,183,31.dat,Goliard Saio,Mithra,Body,197
+23670,Rom,263,29.dat,Cuauhtli Harness,Mithra,Body,198
+23671,Rom,184,76.dat,Valhalla Breastplate,Mithra,Body,199
+23672,Rom,185,111.dat,Shadow Breastplate,Mithra,Body,200
+23673,Rom,186,20.dat,Shadow Coat,Mithra,Body,201
+23674,Rom,248,99.dat,Grim Cuirass,Mithra,Body,202
+23675,Rom,248,100.dat,Timarli Jawshan,Mithra,Body,203
+23676,Rom,248,101.dat,Yhel Jacket,Mithra,Body,204
+23677,Rom,263,66.dat,Hyksos Robe,Mithra,Body,205
+23678,Rom,263,30.dat,Fazheluo Mail,Mithra,Body,206
+23679,Rom,263,91.dat,Mextli Harness,Mithra,Body,207
+23680,Rom,263,92.dat,Anhur Robe,Mithra,Body,208
+23681,Rom,263,93.dat,Fazheluo Radiant Mail,Mithra,Body,209
+23682,Rom,52,14.dat,Leather Vest,Mithra,Body,210
+23683,Rom,198,87.dat,Dancer's Casaque (DNC AF1),Mithra,Body,211
+23684,Rom,261,88.dat,Twilight Cloak,Mithra,Body,212
+23685,Rom,266,119.dat,Heka's Kalasiris,Mithra,Body,213
+23686,Rom,198,88.dat,Scholar's Gown (SCH AF1),Mithra,Body,214
+23687,Rom,217,98.dat,Argute Gown (SCH AF2),Mithra,Body,215
+23688,Rom,248,102.dat,Juogi,Mithra,Body,216
+23689,Rom,52,14.dat,Leather Vest,Mithra,Body,217
+23690,Rom,199,18.dat,Bastokan Armor,Mithra,Body,218
+23691,Rom,196,97.dat,Cobra Unit Harness,Mithra,Body,219
+23692,Rom,200,100.dat,Cobra Unit Coat,Mithra,Body,220
+23693,Rom,201,45.dat,Iron Ram Hauberk,Mithra,Body,221
+23694,Rom,199,19.dat,Fourth Division Brunne,Mithra,Body,222
+23695,Rom,248,103.dat,Augur's Jaseran,Mithra,Body,223
+23696,Rom,52,14.dat,Leather Vest,Mithra,Body,224
+23697,Rom,204,74.dat,Savage Top,Mithra,Body,225
+23698,Rom,52,14.dat,Leather Vest,Mithra,Body,226
+23699,Rom,207,47.dat,Hachiryu Haramaki,Mithra,Body,227
+23700,Rom,214,120.dat,Tidal Talisman,Mithra,Body,228
+23701,Rom,214,121.dat,Eerie Cloak,Mithra,Body,229
+23702,Rom,239,4.dat,Dinner Jacket,Mithra,Body,230
+23703,Rom,239,5.dat,Nocturnus Mail,Mithra,Body,231
+23704,Rom,52,14.dat,Leather Vest,Mithra,Body,232
+23705,Rom,265,119.dat,Himegami Yukata,Mithra,Body,233
+23706,Rom,248,104.dat,Loki's Kaftan,Mithra,Body,234
+23707,Rom,52,14.dat,Leather Vest,Mithra,Body,235
+23708,Rom,221,57.dat,Nuevo Coselete,Mithra,Body,236
+23709,Rom,221,86.dat,Mirke Wardecors,Mithra,Body,237
+23710,Rom,221,58.dat,Royal Redingote,Mithra,Body,238
+23711,Rom,248,105.dat,Perle Hauberk,Mithra,Body,239
+23712,Rom,248,106.dat,Teal Saio,Mithra,Body,240
+23713,Rom,248,107.dat,Aurore Doublet,Mithra,Body,241
+23715,Rom,52,14.dat,Leather Vest,Mithra,Body,243
+23716,Rom,223,51.dat,Otokogusa Yukata,Mithra,Body,244
+23717,Rom,264,4.dat,Novennial Dress,Mithra,Body,245
+23718,Rom,230,41.dat,Ebon Harness,Mithra,Body,246
+23719,Rom,230,42.dat,Furia Harness,Mithra,Body,247
+23720,Rom,230,43.dat,Ebur Harness,Mithra,Body,248
+23721,Rom,230,44.dat,Ebon Jerkin,Mithra,Body,249
+23722,Rom,230,45.dat,Furia Jerkin,Mithra,Body,250
+23723,Rom,230,46.dat,Ebur Jerkin,Mithra,Body,251
+23724,Rom,230,47.dat,Shikkoku Togi,Mithra,Body,252
+23725,Rom,230,48.dat,Shinku Togi,Mithra,Body,253
+23726,Rom,230,49.dat,Ginhaku Togi,Mithra,Body,254
+23727,Rom,230,50.dat,Ebon Vest,Mithra,Body,255
+32739,Rom,72,94.dat,Poroggo Cassock,Mithra,Body,9267
+65627,Rom,230,83.dat,Furia Vest,Mithra,Body,256
+65628,Rom,230,84.dat,Ebur Vest,Mithra,Body,257
+65629,Rom,234,5.dat,Ebon Talar,Mithra,Body,258
+65630,Rom,234,6.dat,Furia Talar,Mithra,Body,259
+65631,Rom,234,7.dat,Ebur Talar,Mithra,Body,260
+65632,Rom,234,8.dat,Ebon Coat,Mithra,Body,261
+65633,Rom,234,9.dat,Furia Coat,Mithra,Body,262
+65634,Rom,234,10.dat,Ebur Coat,Mithra,Body,263
+65635,Rom,234,11.dat,Ebon Bliaut,Mithra,Body,264
+65636,Rom,234,12.dat,Furia Bliaut,Mithra,Body,265
+65637,Rom,234,13.dat,Ebur Bliaut,Mithra,Body,266
+65638,Rom,234,14.dat,Ebon Frock,Mithra,Body,267
+65639,Rom,234,15.dat,Furia Frock,Mithra,Body,268
+65640,Rom,234,16.dat,Ebur Frock,Mithra,Body,269
+65641,Rom,237,59.dat,Ebon Cuirass,Mithra,Body,270
+65642,Rom,237,60.dat,Furia Cuirass,Mithra,Body,271
+65643,Rom,237,61.dat,Ebur Cuirass,Mithra,Body,272
+65644,Rom,237,62.dat,Ebon Mail,Mithra,Body,273
+65645,Rom,237,63.dat,Furia Mail,Mithra,Body,274
+65646,Rom,237,64.dat,Ebur Mail,Mithra,Body,275
+65647,Rom,237,65.dat,Ebon Haubert,Mithra,Body,276
+65648,Rom,237,66.dat,Furia Haubert,Mithra,Body,277
+65649,Rom,237,67.dat,Ebur Haubert,Mithra,Body,278
+65650,Rom,237,68.dat,Ebon Breastplate,Mithra,Body,279
+65651,Rom,237,69.dat,Furia Breastplate,Mithra,Body,280
+65652,Rom,237,70.dat,Ebur Breastplate,Mithra,Body,281
+242 = nanna mihgo outfit (cute!)
+65653,Rom,244,39.dat,Ravager's Lorica (WAR AF3),Mithra,Body,282
+65654,Rom,253,27.dat,Tantra Cyclas (MNK AF3),Mithra,Body,283
+65655,Rom,254,44.dat,Orison Bliaud (WHM AF3),Mithra,Body,284
+65656,Rom,241,56.dat,Goetia Coat (BLM AF3),Mithra,Body,285
+65657,Rom,244,40.dat,Estoqueur's Sayon (RDM AF3),Mithra,Body,286
+65658,Rom,253,28.dat,Raider's Vest (THF AF3),Mithra,Body,287
+65659,Rom,241,57.dat,Creed Cuirass (PLD AF3),Mithra,Body,288
+65660,Rom,253,29.dat,Bale Cuirass (DRK AF3),Mithra,Body,289
+65661,Rom,253,30.dat,Ferine Gausape (BST AF3),Mithra,Body,290
+65662,Rom,253,31.dat,Aoidos' Hongreline (BRD AF3),Mithra,Body,291
+65663,Rom,256,69.dat,Sylvan Caban (RNG AF3),Mithra,Body,292
+65664,Rom,253,32.dat,Unkai Domaru (SAM AF3),Mithra,Body,293
+65665,Rom,253,33.dat,Iga Ningi (NIN AF3),Mithra,Body,294
+65666,Rom,253,34.dat,Lancer Plackart (DRG AF3),Mithra,Body,295
+65667,Rom,256,70.dat,Caller's Doublet (SMN AF3),Mithra,Body,296
+65668,Rom,253,35.dat,Mavi Mintan (BLU AF3),Mithra,Body,297
+65669,Rom,253,36.dat,Navarch's Frac (COR AF3),Mithra,Body,298
+65670,Rom,253,37.dat,Cirque Farsetto (PUP AF3),Mithra,Body,299
+65671,Rom,266,31.dat,Ocelomeh Harness,Mithra,Body,300
+65672,Rom,266,32.dat,Nefer Kalasiris,Mithra,Body,301
+65673,Rom,266,33.dat,Mekira Toshugai,Mithra,Body,302
+65674,Rom,267,21.dat,Mekira Meikogai,Mithra,Body,303
+65675,Rom,218,13.dat,Etoile Casaque (DNC AF2),Mithra,Body,304
+65676,Rom,254,105.dat,Charis Casaque (DNC AF3),Mithra,Body,305
+65677,Rom,253,38.dat,Savant's Gown (SCH AF3),Mithra,Body,306
+65678,Rom,286,47.dat,Moogle Suit,Mithra,Body,307
+65679,Rom,291,110.dat, Geomancy tunic (GEO AF1),Mithra,Body,308
+65680,Rom,289,117.dat, Chocobo Shirt,Mithra,Body,309
+65681,Rom,305,17.dat, Bagua tunic (GEO AF2),Mithra,Body,310
+65682,Rom,307,59.dat, Alliance Shirt,Mithra,Body,311
+65683,Rom,52,14.dat,Leather Vest,Mithra,Body,312
+65684,Rom,52,14.dat,Leather Vest,Mithra,Body,313
+65685,Rom,52,14.dat,Leather Vest,Mithra,Body,314
+65686,Rom,52,14.dat,Leather Vest,Mithra,Body,315
+65687,Rom,52,14.dat,Leather Vest,Mithra,Body,316
+65688,Rom,52,14.dat,Leather Vest,Mithra,Body,317
+65689,Rom,52,14.dat,Leather Vest,Mithra,Body,318
+65690,Rom,52,14.dat,Leather Vest,Mithra,Body,319
+79183,Rom,278,42.dat,Kheper Jacket,Mithra,Body,320
+79184,Rom,278,43.dat,Paean Bliaut,Mithra,Body,321
+79185,Rom,278,44.dat,Auspex Doublet,Mithra,Body,322
+79186,Rom,278,45.dat,Hrafn Haubert,Mithra,Body,323
+79187,Rom,278,46.dat,Tenryu Domaru,Mithra,Body,324
+79188,Rom,271,126.dat,Ogier's Surcoat,Mithra,Body,325
+79189,Rom,271,127.dat,Athos's Tabard,Mithra,Body,326
+79190,Rom,272,0.dat,Rubeus Jacket,Mithra,Body,327
+79191,Rom,272,1.dat,Fulad-Zereh,Mithra,Body,328
+79192,Rom,272,2.dat,Praeco Doublet,Mithra,Body,329
+79193,Rom,278,47.dat,Tessera Saio,Mithra,Body,330
+79194,Rom,52,14.dat,Leather Vest,Mithra,Body,331
+79195,Rom,282,25.dat,Decennial Dress,Mithra,Body,332
+79196,Rom,281,115.dat,Matanca harness,Mithra,Body,333
+79197,Rom,281,116.dat,River Top,Mithra,Body,334
+79198,Rom,52,14.dat,Leather Vest,Mithra,Body,335
+79199,Rom,282,84.dat,Dux Scale Mail,Mithra,Body,336
+79200,Rom,282,85.dat,Chelona Blazer,Mithra,Body,337
+79201,Rom,292,81.dat, Runeist coat (RUN AF1),Mithra,Body,338
+79202,Rom,306,2.dat, Futhark coat (RUN AF2),Mithra,Body,339
+79203,Rom,52,14.dat,Leather Vest,Mithra,Body,340
+79204,Rom,327,53.dat, Azimuth robe (GEO AF3),Mithra,Body,341
+79205,Rom,291,10.dat, Karieyh Haubert,Mithra,Body,342
+79206,Rom,291,11.dat, Thurandaut Tabard,Mithra,Body,343
+79207,Rom,291,12.dat, Orvail Robe,Mithra,Body,344
+79208,Rom,291,13.dat, Councilor's garb,Mithra,Body,345
+79209,Rom,288,105.dat,Baalmuian Robe,Mithra,Body,346
+79210,Rom,52,14.dat,Leather Vest,Mithra,Body,347
+79211,Rom,291,14.dat, Morass tunic,Mithra,Body,348
+79212,Rom,301,54.dat, Mikinaak Breastplate,Mithra,Body,349
+79213,Rom,301,55.dat, Manibozho Jerkin,Mithra,Body,350
+79214,Rom,301,56.dat, Bokwus Robe,Mithra,Body,351
+79215,Rom,52,14.dat,Leather Vest,Mithra,Body,352
+79216,Rom,304,53.dat, Chocobo Suit,Mithra,Body,353
+79217,Rom,306,3.dat, Gorney Haubert,Mithra,Body,354
+79218,Rom,306,4.dat, Shneddick Tabard,Mithra,Body,355
+79219,Rom,306,5.dat, Weatherspoon Robe,Mithra,Body,356
+79220,Rom,336,87.dat, Founder's breastplate,Mithra,Body,357
+79221,Rom,52,14.dat,Leather Vest,Mithra,Body,358
+79222,Rom,304,54.dat, Rustic Maillot,Mithra,Body,359
+79223,Rom,314,21.dat, Purple Spriggan Coat,Mithra,Body,360
+79224,Rom,310,98.dat, G. Spriggan Coat,Mithra,Body,361
+79225,Rom,314,22.dat, Red Spriggan Coat,Mithra,Body,362
+79226,Rom,312,92.dat, Qaaxo Harness,Mithra,Body,363
+79227,Rom,312,93.dat, Artsieq Jubbah,Mithra,Body,364
+79228,Rom,312,94.dat, Xaddi Mail,Mithra,Body,365
+79229,Rom,52,14.dat,Leather Vest,Mithra,Body,366
+79230,Rom,310,99.dat, Overalls,Mithra,Body,367
+79231,Rom,52,14.dat,Leather Vest,Mithra,Body,368
+79232,Rom,317,62.dat, Shokujo happi,Mithra,Body,369
+79233,Rom,52,14.dat,Leather Vest,Mithra,Body,370
+79234,Rom,315,89.dat, Erilaz surcoat (RUN AF3),Mithra,Body,371
+79235,Rom,315,90.dat, Goblin Suit,Mithra,Body,372
+79236,Rom,52,14.dat,Leather Vest,Mithra,Body,373
+79237,Rom,52,14.dat,Leather Vest,Mithra,Body,374
+79238,Rom,320,92.dat,Mekosuchinae Harness,Mithra,Body,375
+79239,Rom,321,107.dat,Mandragora Suit,Mithra,Body,376
+79240,Rom,52,14.dat,Leather Vest,Mithra,Body,377
+79241,Rom,52,14.dat,Leather Vest,Mithra,Body,378
+79242,Rom,52,14.dat,Leather Vest,Mithra,Body,379
+79243,Rom,325,40.dat, Ravenous Breastplate,Mithra,Body,380
+79244,Rom,325,41.dat, Wretched Coat,Mithra,Body,381
+79245,Rom,325,42.dat, Foppish Tunica,Mithra,Body,382
+79246,Rom,52,14.dat,Leather Vest,Mithra,Body,383
+79247,Rom,327,54.dat, Tartarus platemail,Mithra,Body,384
+79248,Rom,52,14.dat,Leather Vest,Mithra,Body,385
+79249,Rom,52,14.dat,Leather Vest,Mithra,Body,386
+79250,Rom,52,14.dat,Leather Vest,Mithra,Body,387
+79251,Rom,52,14.dat,Leather Vest,Mithra,Body,388
+79252,Rom,330,121.dat, Despair mail,Mithra,Body,389
+79253,Rom,330,122.dat, Pursuer's doublet,Mithra,Body,390
+79254,Rom,330,123.dat, Psycloth vest,Mithra,Body,391
+79255,Rom,330,124.dat, Eschite breastplate,Mithra,Body,392
+79256,Rom,330,125.dat, Rawhide vest,Mithra,Body,393
+79257,Rom,330,126.dat, Naga samue,Mithra,Body,394
+79258,Rom,330,127.dat, Vanya robe,Mithra,Body,395
+79259,Rom,331,0.dat, Behemoth suit,Mithra,Body,396
+79260,Rom,331,1.dat, Poroggo coat,Mithra,Body,397
+79261,Rom,334,106.dat, Vrikodara jupon,Mithra,Body,398
+79262,Rom,334,107.dat, Lapidary tunic,Mithra,Body,399
+79263,Rom,336,88.dat, Jumalik mail,Mithra,Body,400
+79264,Rom,336,89.dat, Samnuha coat,Mithra,Body,401
+79265,Rom,52,14.dat,Leather Vest,Mithra,Body,402
+79266,Rom,52,14.dat,Leather Vest,Mithra,Body,403
+79267,Rom,52,14.dat,Leather Vest,Mithra,Body,404
+79268,Rom,335,14.dat, Cossie top,Mithra,Body,405
+79269,Rom,335,29.dat, Chozoron coselete,Mithra,Body,406
+79270,Rom,52,14.dat,Leather Vest,Mithra,Body,407
+79271,Rom,336,90.dat, Starlet jabot,Mithra,Body,408
+79272,Rom,339,14.dat, Terminal plate,Mithra,Body,409
+79273,Rom,339,15.dat, Gyve doublet,Mithra,Body,410
+79274,Rom,52,14.dat,Leather Vest,Mithra,Body,411
+79275,Rom,344,67.dat, Odyssean chestplate,Mithra,Body,412
+79276,Rom,344,68.dat, Valorus mail,Mithra,Body,413
+79277,Rom,347,35.dat, Wyrmking suit,Mithra,Body,414
+79278,Rom,346,36.dat, Merlinic jubbah,Mithra,Body,415
+79279,Rom,348,71.dat, Chironic doublet,Mithra,Body,416
+79280,Rom,344,69.dat, Korrigan suit,Mithra,Body,417
+79281,Rom,52,14.dat,Leather Vest,Mithra,Body,418
+79282,Rom,341,26.dat, Botulus suit,Mithra,Body,419
+79283,Rom,52,14.dat,Leather Vest,Mithra,Body,420
+79284,Rom,52,14.dat,Leather Vest,Mithra,Body,421
+79285,Rom,52,14.dat,Leather Vest,Mithra,Body,422
+79286,Rom,52,14.dat,Leather Vest,Mithra,Body,423
+79287,Rom,351,18.dat, Pieuje Unity shirt,Mithra,Body,424
+79288,Rom,351,19.dat, Ayame Unity shirt,Mithra,Body,425
+79289,Rom,351,20.dat, I. Shield Unity shirt,Mithra,Body,426
+79290,Rom,351,21.dat, Apururu Unity shirt,Mithra,Body,427
+79291,Rom,351,22.dat, Maat Unity shirt,Mithra,Body,428
+79292,Rom,351,23.dat, Aldo Unity shirt,Mithra,Body,429
+79293,Rom,351,24.dat, Jakoh Unity shirt,Mithra,Body,430
+79294,Rom,351,25.dat, Naja Unity shirt,Mithra,Body,431
+79295,Rom,351,26.dat, Flaviria Unity shirt,Mithra,Body,432
+79296,Rom,351,27.dat, Yoran Unity shirt,Mithra,Body,433
+79297,Rom,351,28.dat, Sylvie Unity shirt,Mithra,Body,434
+79298,Rom,52,14.dat,Leather Vest,Mithra,Body,435
+79299,Rom,52,14.dat,Leather Vest,Mithra,Body,436
+79300,Rom,52,14.dat,Leather Vest,Mithra,Body,437
+79301,Rom,52,14.dat,Leather Vest,Mithra,Body,438
+79302,Rom,52,14.dat,Leather Vest,Mithra,Body,439
+79303,Rom,52,14.dat,Leather Vest,Mithra,Body,440
+79304,Rom,352,94.dat,Delegate's Garb,Mithra,Body,441
+79307,Rom,52,14.dat,Leather Vest,Mithra,Body,444
+79308,Rom,52,14.dat,Leather Vest,Mithra,Body,445
+79309,Rom,52,14.dat,Leather Vest,Mithra,Body,446
+79310,Rom,52,14.dat,Leather Vest,Mithra,Body,447
+79311,Rom,357,71.dat,Swimsuit,Mithra,Body,448
+79312,Rom,353,51.dat,Black Chocobo Suit,Mithra,Body,449
+79313,Rom,52,14.dat,Leather Vest,Mithra,Body,450
+79314,Rom,52,14.dat,Leather Vest,Mithra,Body,451
+79316,Rom,52,14.dat,Leather Vest,Mithra,Body,453
+79317,Rom,52,14.dat,Leather Vest,Mithra,Body,454
+79318,Rom,52,14.dat,Leather Vest,Mithra,Body,455
+79319,Rom,52,14.dat,Leather Vest,Mithra,Body,456
+79320,Rom,361,126.dat,Sacro Breastplate,Mithra,Body,457
+79321,Rom,362,64.dat,Malignance Tabard,Mithra,Body,458
+79322,Rom,52,14.dat,Leather Vest,Mithra,Body,459
+79323,Rom,363,121.dat,Poroggo Fleece,Mithra,Body,460
+79324,Rom,52,14.dat,Leather Vest,Mithra,Body,461
+79325,Rom,52,14.dat,Leather Vest,Mithra,Body,462
+79326,Rom,52,14.dat,Leather Vest,Mithra,Body,463
+79327,Rom,367,70.dat,Ikenga's Vest,Mithra,Body,464
+79328,Rom,367,71.dat,Gleti's Cuirass,Mithra,Body,465
+79329,Rom,367,72.dat,Sakpata's Breastplate,Mithra,Body,466
+79330,Rom,367,73.dat,Mpaca's Doublet,Mithra,Body,467
+79331,Rom,367,74.dat,Agwu's Robe,Mithra,Body,468
+79332,Rom,367,75.dat,Bunzi's Robe,Mithra,Body,469
+79333,Rom,368,117.dat,Nyame Mail,Mithra,Body,470
+79334,Rom,365,43.dat,Adenium suit,Mithra,Body,471
+79336,Rom,52,14.dat,Leather Vest,Mithra,Body,473
+79337,Rom,369,123.dat,Ziamet Peti,Mithra,Body,474
+79338,Rom,370,114.dat,Cancrine Apron,Mithra,Body,475
+79339,Rom,52,14.dat,Leather Vest,Mithra,Body,476
+79341,Rom,373,32.dat,Morbol Apron,Mithra,Body,478
+79342,Rom,52,14.dat,Leather Vest,Mithra,Body,479
+79343,Rom,374,79.dat,Esthete's Coat,Mithra,Body,480
+79344,Rom,52,14.dat,Leather Vest,Mithra,Body,481
+79352,Rom,52,14.dat,Leather Vest,Mithra,Body,489
+79358,Rom,52,14.dat,Leather Vest,Mithra,Body,495
+79360,Rom,52,14.dat,Leather Vest,Mithra,Body,497
+79361,Rom,52,14.dat,Leather Vest,Mithra,Body,498
+79362,Rom,52,14.dat,Leather Vest,Mithra,Body,499
+79370,Rom,52,14.dat,Leather Vest,Mithra,Body,507
+79371,Rom,52,14.dat,Leather Vest,Mithra,Body,508
+79372,Rom,52,14.dat,Leather Vest,Mithra,Body,509
+79373,Rom,52,14.dat,Leather Vest,Mithra,Body,510
+79374,Rom,52,14.dat,Leather Vest,Mithra,Body,511
+79376,Rom,52,14.dat,Leather Vest,Mithra,Body,513
+79377,Rom,52,14.dat,Leather Vest,Mithra,Body,514
+79378,Rom,52,14.dat,Leather Vest,Mithra,Body,515
+79379,Rom,52,14.dat,Leather Vest,Mithra,Body,516
+79380,Rom,52,14.dat,Leather Vest,Mithra,Body,517
+79381,Rom,52,14.dat,Leather Vest,Mithra,Body,518
+79382,Rom,52,14.dat,Leather Vest,Mithra,Body,519
+79383,Rom,52,14.dat,Leather Vest,Mithra,Body,520
+79384,Rom,52,14.dat,Leather Vest,Mithra,Body,521
+79385,Rom,52,14.dat,Leather Vest,Mithra,Body,522
+79386,Rom,52,14.dat,Leather Vest,Mithra,Body,523
+79387,Rom,52,14.dat,Leather Vest,Mithra,Body,524
+79388,Rom,52,14.dat,Leather Vest,Mithra,Body,525
+79389,Rom,52,14.dat,Leather Vest,Mithra,Body,526
+79390,Rom,52,14.dat,Leather Vest,Mithra,Body,527
+79391,Rom,52,14.dat,Leather Vest,Mithra,Body,528
+79392,Rom,52,14.dat,Leather Vest,Mithra,Body,529
+79393,Rom,52,14.dat,Leather Vest,Mithra,Body,530
+79394,Rom,52,14.dat,Leather Vest,Mithra,Body,531
+79395,Rom,52,14.dat,Leather Vest,Mithra,Body,532
+79396,Rom,52,14.dat,Leather Vest,Mithra,Body,533
+79397,Rom,52,14.dat,Leather Vest,Mithra,Body,534
+79398,Rom,52,14.dat,Leather Vest,Mithra,Body,535
+79399,Rom,52,14.dat,Leather Vest,Mithra,Body,536
+79400,Rom,52,14.dat,Leather Vest,Mithra,Body,537
+79401,Rom,52,14.dat,Leather Vest,Mithra,Body,538
+79402,Rom,52,14.dat,Leather Vest,Mithra,Body,539
+79403,Rom,52,14.dat,Leather Vest,Mithra,Body,540
+79404,Rom,52,14.dat,Leather Vest,Mithra,Body,541
+79405,Rom,52,14.dat,Leather Vest,Mithra,Body,542
+79406,Rom,52,14.dat,Leather Vest,Mithra,Body,543
+79407,Rom,52,14.dat,Leather Vest,Mithra,Body,544
+79408,Rom,52,14.dat,Leather Vest,Mithra,Body,545
+79409,Rom,52,14.dat,Leather Vest,Mithra,Body,546
+79410,Rom,52,14.dat,Leather Vest,Mithra,Body,547
+79411,Rom,52,14.dat,Leather Vest,Mithra,Body,548
+79412,Rom,52,14.dat,Leather Vest,Mithra,Body,549
+79413,Rom,52,14.dat,Leather Vest,Mithra,Body,550
+79414,Rom,52,14.dat,Leather Vest,Mithra,Body,551
+79415,Rom,52,14.dat,Leather Vest,Mithra,Body,552
+79416,Rom,52,14.dat,Leather Vest,Mithra,Body,553
+79417,Rom,52,14.dat,Leather Vest,Mithra,Body,554
+79418,Rom,52,14.dat,Leather Vest,Mithra,Body,555
+79419,Rom,52,14.dat,Leather Vest,Mithra,Body,556
+79420,Rom,52,14.dat,Leather Vest,Mithra,Body,557
+79421,Rom,52,14.dat,Leather Vest,Mithra,Body,558
+79422,Rom,52,14.dat,Leather Vest,Mithra,Body,559
+79423,Rom,52,14.dat,Leather Vest,Mithra,Body,560
+79424,Rom,52,14.dat,Leather Vest,Mithra,Body,561
+79425,Rom,52,14.dat,Leather Vest,Mithra,Body,562
+79426,Rom,52,14.dat,Leather Vest,Mithra,Body,563
+79427,Rom,52,14.dat,Leather Vest,Mithra,Body,564
+79428,Rom,52,14.dat,Leather Vest,Mithra,Body,565
+79429,Rom,52,14.dat,Leather Vest,Mithra,Body,566
+79430,Rom,52,14.dat,Leather Vest,Mithra,Body,567
+79431,Rom,52,14.dat,Leather Vest,Mithra,Body,568
+79432,Rom,52,14.dat,Leather Vest,Mithra,Body,569
+79433,Rom,52,14.dat,Leather Vest,Mithra,Body,570
+79434,Rom,52,14.dat,Leather Vest,Mithra,Body,571
+79435,Rom,52,14.dat,Leather Vest,Mithra,Body,572
+79436,Rom,52,14.dat,Leather Vest,Mithra,Body,573
+79437,Rom,52,14.dat,Leather Vest,Mithra,Body,574
+79438,Rom,52,14.dat,Leather Vest,Mithra,Body,575
+99619,Rom,326,55.dat, Heart apron,Mithra,Body,576
+99620,Rom,327,113.dat, Pupil's Shirt,Mithra,Body,577
+99621,Rom,334,125.dat, Pupil's camisa,Mithra,Body,578
+99622,Rom,339,33.dat, Track shirt,Mithra,Body,579
+99623,Rom,349,68.dat, Herculean vest,Mithra,Body,580
+99624,Rom,351,46.dat, Rhapsody shirt,Mithra,Body,581
+99625,Rom,351,122.dat, Akitu shirt,Mithra,Body,582
+99626,Rom,353,24.dat,Jubilee Shirt,Mithra,Body,583
+99627,Rom,353,108.dat,Crustacean Shirt,Mithra,Body,584
+99628,Rom,355,108.dat,Gil Nabber Shirt,Mithra,Body,585
+99629,Rom,364,1.dat,Mandragora Shirt,Mithra,Body,586
+99630,Rom,361,59.dat,Jody Shirt,Mithra,Body,587
+99631,Rom,358,94.dat,Shadow Lord Shirt,Mithra,Body,588
+99632,Rom,362,15.dat,Citrullus Shirt,Mithra,Body,589
+99633,Rom,363,57.dat,Mithkabob Shirt,Mithra,Body,590
+99634,Rom,372,57.dat,Moogle Shirt,Mithra,Body,591
+99635,Rom,52,14.dat,Leather Vest,Mithra,Body,592
+99636,Rom,52,14.dat,Leather Vest,Mithra,Body,593
+99637,Rom,52,14.dat,Leather Vest,Mithra,Body,594
+99638,Rom,52,14.dat,Leather Vest,Mithra,Body,595
+99639,Rom,52,14.dat,Leather Vest,Mithra,Body,596
+99640,Rom,52,14.dat,Leather Vest,Mithra,Body,597
+99641,Rom,52,14.dat,Leather Vest,Mithra,Body,598
+99642,Rom,52,14.dat,Leather Vest,Mithra,Body,599
+99643,Rom,52,14.dat,Leather Vest,Mithra,Body,600
+99644,Rom,52,14.dat,Leather Vest,Mithra,Body,601
+99645,Rom,52,14.dat,Leather Vest,Mithra,Body,602
+99646,Rom,52,14.dat,Leather Vest,Mithra,Body,603
+99647,Rom,52,14.dat,Leather Vest,Mithra,Body,604
+99648,Rom,52,14.dat,Leather Vest,Mithra,Body,605
+99649,Rom,52,14.dat,Leather Vest,Mithra,Body,606
+99650,Rom,52,14.dat,Leather Vest,Mithra,Body,607
+104626,Rom,52,14.dat,Leather Vest,Mithra,Body,673
+104627,Rom,52,14.dat,Leather Vest,Mithra,Body,674
+104628,Rom,52,14.dat,Leather Vest,Mithra,Body,675
+104629,Rom,52,14.dat,Leather Vest,Mithra,Body,676
+104630,Rom,52,14.dat,Leather Vest,Mithra,Body,677
+104631,Rom,52,14.dat,Leather Vest,Mithra,Body,678
+104632,Rom,52,14.dat,Leather Vest,Mithra,Body,679
+104633,Rom,52,14.dat,Leather Vest,Mithra,Body,680
+104634,Rom,52,14.dat,Leather Vest,Mithra,Body,681
+104635,Rom,52,14.dat,Leather Vest,Mithra,Body,682
+104636,Rom,52,14.dat,Leather Vest,Mithra,Body,683
+104637,Rom,52,14.dat,Leather Vest,Mithra,Body,684
+104638,Rom,52,14.dat,Leather Vest,Mithra,Body,685
+104639,Rom,52,14.dat,Leather Vest,Mithra,Body,686
+104640,Rom,52,14.dat,Leather Vest,Mithra,Body,687
+104641,Rom,52,14.dat,Leather Vest,Mithra,Body,688
+104642,Rom,52,14.dat,Leather Vest,Mithra,Body,689
+104643,Rom,52,14.dat,Leather Vest,Mithra,Body,690
+104644,Rom,52,14.dat,Leather Vest,Mithra,Body,691
+104645,Rom,52,14.dat,Leather Vest,Mithra,Body,692
+104646,Rom,52,14.dat,Leather Vest,Mithra,Body,693
+104647,Rom,52,14.dat,Leather Vest,Mithra,Body,694
+104648,Rom,52,14.dat,Leather Vest,Mithra,Body,695
+104649,Rom,52,14.dat,Leather Vest,Mithra,Body,696
+104650,Rom,52,14.dat,Leather Vest,Mithra,Body,697
+104651,Rom,52,14.dat,Leather Vest,Mithra,Body,698
+104652,Rom,52,14.dat,Leather Vest,Mithra,Body,699
+104653,Rom,52,14.dat,Leather Vest,Mithra,Body,700
+104654,Rom,52,14.dat,Leather Vest,Mithra,Body,701
+104655,Rom,52,14.dat,Leather Vest,Mithra,Body,702
+104656,Rom,52,14.dat,Leather Vest,Mithra,Body,703
+104657,Rom,52,14.dat,Leather Vest,Mithra,Body,704
+104658,Rom,52,14.dat,Leather Vest,Mithra,Body,705
+104659,Rom,52,14.dat,Leather Vest,Mithra,Body,706
+104660,Rom,52,14.dat,Leather Vest,Mithra,Body,707
+104661,Rom,52,14.dat,Leather Vest,Mithra,Body,708
+104662,Rom,52,14.dat,Leather Vest,Mithra,Body,709
+104663,Rom,52,14.dat,Leather Vest,Mithra,Body,710
+104664,Rom,52,14.dat,Leather Vest,Mithra,Body,711
+104665,Rom,52,14.dat,Leather Vest,Mithra,Body,712
+104666,Rom,52,14.dat,Leather Vest,Mithra,Body,713
+104667,Rom,52,14.dat,Leather Vest,Mithra,Body,714
+104668,Rom,52,14.dat,Leather Vest,Mithra,Body,715
+104669,Rom,52,14.dat,Leather Vest,Mithra,Body,716
+104670,Rom,52,14.dat,Leather Vest,Mithra,Body,717
+104671,Rom,52,14.dat,Leather Vest,Mithra,Body,718
+104672,Rom,52,14.dat,Leather Vest,Mithra,Body,719
+104673,Rom,52,14.dat,Leather Vest,Mithra,Body,720
+104674,Rom,52,14.dat,Leather Vest,Mithra,Body,721
+104675,Rom,52,14.dat,Leather Vest,Mithra,Body,722
+104676,Rom,52,14.dat,Leather Vest,Mithra,Body,723
+104677,Rom,52,14.dat,Leather Vest,Mithra,Body,724
+104678,Rom,52,14.dat,Leather Vest,Mithra,Body,725
+104679,Rom,52,14.dat,Leather Vest,Mithra,Body,726
+104680,Rom,52,14.dat,Leather Vest,Mithra,Body,727
+104681,Rom,52,14.dat,Leather Vest,Mithra,Body,728
+104682,Rom,52,14.dat,Leather Vest,Mithra,Body,729
+104683,Rom,52,14.dat,Leather Vest,Mithra,Body,730
+104684,Rom,52,14.dat,Leather Vest,Mithra,Body,731
+104685,Rom,52,14.dat,Leather Vest,Mithra,Body,732
+104686,Rom,52,14.dat,Leather Vest,Mithra,Body,733
+104687,Rom,52,14.dat,Leather Vest,Mithra,Body,734
+104688,Rom,52,14.dat,Leather Vest,Mithra,Body,735

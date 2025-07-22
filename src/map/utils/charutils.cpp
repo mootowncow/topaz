@@ -94,6 +94,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../entities/charentity.h"
 #include "../entities/petentity.h"
 #include "../entities/mobentity.h"
+#include "../entities/trustentity.h"
 #include "../entities/automatonentity.h"
 
 #include "battleutils.h"
@@ -1345,6 +1346,101 @@ namespace charutils
         }
         return SlotID;
     }
+
+    /************************************************************************
+    *                                                                       *
+    *  Adding items to treasure pool                                        *
+    *                                                                       *
+    ************************************************************************/
+    // Version 1: Takes itemID, quantity, silence, appraisalID; creates CItem* internally
+    uint8 AddItemTreasure(CCharEntity* PChar, uint8 LocationID, uint16 itemID, uint32 quantity, bool silence, uint8 appraisalID)
+    {
+        if (PChar->getStorage(LocationID)->GetFreeSlotsCount() == 0 || quantity == 0)
+            return ERROR_SLOTID;
+
+        CItem* PItem = itemutils::GetItem(itemID);
+        if (PItem != nullptr)
+        {
+            PItem->setQuantity(quantity);
+            // Call the CItem* version
+            return AddItemTreasure(PChar, LocationID, PItem, silence, appraisalID);
+        }
+
+        ShowWarning(CL_YELLOW "charplugin::AddItemTreasure: Item <%i> not found in database\n" CL_RESET, itemID);
+        return ERROR_SLOTID;
+    }
+
+    // Version 2: Takes CItem* and adds it, applying appraisalID if provided
+    uint8 AddItemTreasure(CCharEntity* PChar, uint8 LocationID, CItem* PItem, bool silence, uint8 appraisalID)
+    {
+        // Set appraisalID if provided
+        if (appraisalID > 0)
+        {
+            PItem->setAppraisalID(appraisalID);
+        }
+
+        if (PItem->isType(ITEM_CURRENCY))
+        {
+            UpdateItem(PChar, LocationID, 0, PItem->getQuantity());
+            delete PItem;
+            return 0;
+        }
+        if (PItem->getFlag() & ITEM_FLAG_RARE)
+        {
+            if (HasItem(PChar, PItem->getID()))
+            {
+                if (!silence)
+                    PChar->pushPacket(new CMessageStandardPacket(PChar, PItem->getID(), 0, MsgStd::ItemEx));
+                delete PItem;
+                return ERROR_SLOTID;
+            }
+        }
+
+        uint8 SlotID = PChar->getStorage(LocationID)->InsertItem(PItem);
+
+        if (SlotID != ERROR_SLOTID)
+        {
+            const char* Query = "INSERT INTO char_inventory("
+                                "charid,"
+                                "location,"
+                                "slot,"
+                                "itemId,"
+                                "quantity,"
+                                "signature,"
+                                "extra) "
+                                "VALUES(%u,%u,%u,%u,%u,'%s','%s')";
+
+            int8 signature[21];
+            if (PItem->isType(ITEM_LINKSHELL))
+            {
+                DecodeStringLinkshell((int8*)PItem->getSignature(), signature);
+            }
+            else
+            {
+                DecodeStringSignature((int8*)PItem->getSignature(), signature);
+            }
+
+            char extra[sizeof(PItem->m_extra) * 2 + 1];
+            Sql_EscapeStringLen(SqlHandle, extra, (const char*)PItem->m_extra, sizeof(PItem->m_extra));
+
+            if (Sql_Query(SqlHandle, Query, PChar->id, LocationID, SlotID, PItem->getID(), PItem->getQuantity(), signature, extra) == SQL_ERROR)
+            {
+                ShowError(CL_RED "charplugin::AddItemTreasure: Cannot insert item to database\n" CL_RESET);
+                PChar->getStorage(LocationID)->InsertItem(nullptr, SlotID);
+                delete PItem;
+                return ERROR_SLOTID;
+            }
+            PChar->pushPacket(new CInventoryItemPacket(PItem, LocationID, SlotID));
+            PChar->pushPacket(new CInventoryFinishPacket());
+        }
+        else
+        {
+            ShowDebug(CL_CYAN "charplugin::AddItemTreasure: Location %i is full\n" CL_RESET, LocationID);
+            delete PItem;
+        }
+        return SlotID;
+    }
+
 
     /************************************************************************
     *                                                                       *
@@ -2855,11 +2951,15 @@ namespace charutils
             {
                 CAbility* PAbility = AbilitiesList.at(i);
 
-                if (PPet->GetMLevel() >= PAbility->getLevel() && PetID >= 8 && PetID <= 20 && CheckAbilityAddtype(PChar, PAbility))
+                if (PPet->GetMLevel() >= PAbility->getLevel() && PPet->isAvatar() && CheckAbilityAddtype(PChar, PAbility))
                 {
                     if (PetID == PETID_CARBUNCLE)
                     {
                         if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_SOOTHING_RUBY)
+                        {
+                            addPetAbility(PChar, PAbility->getID() - ABILITY_HEALING_RUBY);
+                        }
+                        if (PAbility->getID() == ABILITY_PACIFYING_RUBY)
                         {
                             addPetAbility(PChar, PAbility->getID() - ABILITY_HEALING_RUBY);
                         }
@@ -2883,6 +2983,19 @@ namespace charutils
                         if (PAbility->getID() > ABILITY_SOOTHING_RUBY && PAbility->getID() < ABILITY_MOONLIT_CHARGE)
                         {
                             addPetAbility(PChar, PAbility->getID() - ABILITY_HEALING_RUBY);
+                        }
+                        if (PAbility->getID() == ABILITY_REGAL_GASH)
+                        {
+                            addPetAbility(PChar, PAbility->getID() - ABILITY_HEALING_RUBY);
+                        }
+                    }
+                    else if (PetID == PETID_SIREN)
+                    {
+                        if (PAbility->getID() >= ABILITY_CLARSACH_CALL && PAbility->getID() <= ABILITY_HYSTERIC_ASSAULT)
+                        {
+                            uint16 sirenAbilltyPacketOffset = 0x1C0;
+                            uint16 sirenAbilityPacketBit = (PAbility->getID() - ABILITY_CLARSACH_CALL) + sirenAbilltyPacketOffset;
+                            addPetAbility(PChar, sirenAbilityPacketBit);
                         }
                     }
                 }
@@ -3786,24 +3899,52 @@ namespace charutils
             }
         }
 
-        PChar->ForAlliance([&pcinzone, &PMob, &minlevel, &maxlevel](CBattleEntity* PMember) {
-            if (PMember->getZone() == PMob->getZone() && distance(PMember->loc.p, PMob->loc.p) < 100)
-            {
-                if (PMember->PPet != nullptr && PMember->PPet->GetMLevel() > maxlevel && PMember->PPet->objtype != TYPE_PET)
+        if (PChar->PParty && PChar->PParty->m_PAlliance != nullptr)
+        {
+            PChar->ForAlliance(
+                [&pcinzone, &PMob, &minlevel, &maxlevel](CBattleEntity* PMember)
                 {
-                    maxlevel = PMember->PPet->GetMLevel();
-                }
-                if (PMember->GetMLevel() > maxlevel)
+                    if (PMember->getZone() == PMob->getZone() && distance(PMember->loc.p, PMob->loc.p) < 100)
+                    {
+                        if (PMember->PPet != nullptr && PMember->PPet->GetMLevel() > maxlevel && PMember->PPet->objtype != TYPE_PET)
+                        {
+                            maxlevel = PMember->PPet->GetMLevel();
+                        }
+                        if (PMember->GetMLevel() > maxlevel)
+                        {
+                            maxlevel = PMember->GetMLevel();
+                        }
+                        else if (PMember->GetMLevel() < minlevel)
+                        {
+                            minlevel = PMember->GetMLevel();
+                        }
+                        pcinzone++;
+                    }
+                });
+        }
+        else
+        {
+            PChar->ForPartyWithTrusts(
+                [&pcinzone, &PMob, &minlevel, &maxlevel](CBattleEntity* PMember)
                 {
-                    maxlevel = PMember->GetMLevel();
-                }
-                else if (PMember->GetMLevel() < minlevel)
-                {
-                    minlevel = PMember->GetMLevel();
-                }
-                pcinzone++;
-            }
-        });
+                    if (PMember->getZone() == PMob->getZone() && distance(PMember->loc.p, PMob->loc.p) < 100)
+                    {
+                        if (PMember->PPet != nullptr && PMember->PPet->GetMLevel() > maxlevel && PMember->PPet->objtype != TYPE_PET)
+                        {
+                            maxlevel = PMember->PPet->GetMLevel();
+                        }
+                        if (PMember->GetMLevel() > maxlevel)
+                        {
+                            maxlevel = PMember->GetMLevel();
+                        }
+                        else if (PMember->GetMLevel() < minlevel)
+                        {
+                            minlevel = PMember->GetMLevel();
+                        }
+                        pcinzone++;
+                    }
+                });
+        }
         pcinzone = std::max(pcinzone, PMob->m_HiPartySize);
         maxlevel = std::max(maxlevel, PMob->m_HiPCLvl);
         PMob->m_HiPartySize = pcinzone;
@@ -4075,7 +4216,7 @@ namespace charutils
             {
                 CCharEntity* PMember = dynamic_cast<CCharEntity*>(PPartyMember);
 
-                if (!PMember || PMember->isDead() || (PMember->loc.zone->GetID() != zone))
+                if (!PMember || PMember->isDead() || (PMember->loc.zone->GetID() != zone) || (distance(PMember->loc.p, PMob->loc.p) > 100))
                 {
                     // Do not grant Capacity points if null, Dead, or in a different area
                     return;
@@ -4319,7 +4460,7 @@ namespace charutils
 
                 if (PChar->PParty != nullptr)
                 {
-                    if (PChar->PParty->GetSyncTarget() == PChar)
+                    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_SYNC))
                     {
                         PChar->PParty->RefreshSync();
                     }
@@ -4359,29 +4500,32 @@ namespace charutils
         {
             exp = (uint32)(exp * map_config.exp_rate);
         }
+
+        auto jobLevel = PChar->jobs.job[PChar->GetMJob()];
         uint16 currentExp = PChar->jobs.exp[PChar->GetMJob()];
         bool onLimitMode = false;
 
         // Incase player de-levels to 74 on the field
-        if (PChar->MeritMode == true && PChar->jobs.job[PChar->GetMJob()] > 74 && expFromRaise == false)
+        if (PChar->MeritMode == true && jobLevel > 74 && expFromRaise == false)
             onLimitMode = true;
 
-        //we check if the player is level capped and max exp..
-        if (PChar->jobs.job[PChar->GetMJob()] > 74 && PChar->jobs.job[PChar->GetMJob()] >= PChar->jobs.genkai && PChar->jobs.exp[PChar->GetMJob()] == GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]) - 1)
+        // we check if the player is level capped and max exp..
+        if (PChar->jobs.job[PChar->GetMJob()] > 74 && PChar->jobs.job[PChar->GetMJob()] >= PChar->jobs.genkai &&
+            PChar->jobs.exp[PChar->GetMJob()] == GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]) - 1)
             onLimitMode = true;
 
         // exp added from raise shouldn't display a message. Don't need a message for zero exp either
         if (!expFromRaise && exp > 0)
         {
-            //printf("Experience before level penalty %i\n", exp);
-            // Check for level restriction(COP level capped zones)
+            // printf("Experience before level penalty %i\n", exp);
+            //  Check for level restriction(COP level capped zones)
             if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_RESTRICTION))
             {
                 // Reduce experience if the players job is higher level than the level cap restriction
-                if (PChar->StatusEffectContainer->GetStatusEffect(EFFECT_LEVEL_RESTRICTION)->GetPower() < PChar->jobs.job[PChar->GetMJob()])
+                if (PChar->StatusEffectContainer->GetStatusEffect(EFFECT_LEVEL_RESTRICTION)->GetPower() < jobLevel)
                 {
                     exp = (int32)(exp * 0.10f);
-                    //printf("Experience after level penalty %i\n", exp);
+                    // printf("Experience after level penalty %i\n", exp);
                 }
             }
             if (mobCheck >= EMobDifficulty::EvenMatch && isexpchain)
@@ -4417,7 +4561,7 @@ namespace charutils
 
         if (onLimitMode)
         {
-            //add limit points
+            // add limit points
             if (PChar->PMeritPoints->AddLimitPoints(exp))
             {
                 PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CMessageCombatPacket(PChar, PMob, PChar->PMeritPoints->GetMeritPoints(), 0, 50));
@@ -4425,7 +4569,7 @@ namespace charutils
         }
         else
         {
-            //add normal exp
+            // add normal exp
             PChar->jobs.exp[PChar->GetMJob()] += exp;
         }
 
@@ -4434,30 +4578,26 @@ namespace charutils
             REGIONTYPE region = PChar->loc.zone->GetRegionID();
 
             // Should this user be awarded conquest points..
-            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET) &&
-                (region >= REGION_RONFAURE && region <= REGION_JEUNO))
+            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET) && (region >= REGION_RONFAURE && region <= REGION_JEUNO))
             {
                 // Add influence for the players region..
                 conquest::AddConquestPoints(PChar, exp);
             }
 
             // Should this user be awarded imperial standing..
-            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SANCTION) &&
-                (region >= REGION_WEST_AHT_URHGAN && region <= REGION_ALZADAAL))
+            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SANCTION) && (region >= REGION_WEST_AHT_URHGAN && region <= REGION_ALZADAAL))
             {
                 charutils::AddPoints(PChar, "imperial_standing", (int32)(exp * 0.1f));
                 PChar->pushPacket(new CConquestPacket(PChar));
             }
-          
-		  // TEMPORARY: Until we have campaign implemented, allow players
+
+            // TEMPORARY: Until we have campaign implemented, allow players
             // to get allied notes by exping in past zones with sigil.
-            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGIL) &&
-                (region >= REGION_RONFAURE_FRONT && region <= REGION_VALDEAUNIA_FRONT))
+            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGIL) && (region >= REGION_RONFAURE_FRONT && region <= REGION_VALDEAUNIA_FRONT))
             {
                 charutils::AddPoints(PChar, "allied_notes", (int32)(exp * 0.1f));
                 PChar->pushPacket(new CConquestPacket(PChar));
             }
-
 
             // Cruor Drops in Abyssea zones.
             uint16 Pzone = PChar->getZone();
@@ -4469,7 +4609,7 @@ namespace charutils
 
                 if (TextID == 0)
                 {
-                    ShowWarning(CL_YELLOW"Failed to fetch Cruor Message ID for zone: %i\n" CL_RESET, Pzone);
+                    ShowWarning(CL_YELLOW "Failed to fetch Cruor Message ID for zone: %i\n" CL_RESET, Pzone);
                 }
 
                 if (Cruor >= 1)
@@ -4483,11 +4623,11 @@ namespace charutils
         PChar->PAI->EventHandler.triggerListener("EXPERIENCE_POINTS", PChar, exp);
 
         // Player levels up
-        if ((currentExp + exp) >= GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]) && !onLimitMode)
+        if ((currentExp + exp) >= GetExpNEXTLevel(jobLevel) && !onLimitMode)
         {
-            if (PChar->jobs.job[PChar->GetMJob()] >= PChar->jobs.genkai)
+            if (jobLevel >= PChar->jobs.genkai)
             {
-                PChar->jobs.exp[PChar->GetMJob()] = GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]) - 1;
+                PChar->jobs.exp[PChar->GetMJob()] = GetExpNEXTLevel(jobLevel) - 1;
                 if (PChar->PParty && PChar->PParty->GetSyncTarget() == PChar)
                 {
                     PChar->PParty->SetSyncTarget(nullptr, 556);
@@ -4495,17 +4635,16 @@ namespace charutils
             }
             else
             {
-                PChar->jobs.exp[PChar->GetMJob()] -= GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]);
-                if (PChar->jobs.exp[PChar->GetMJob()] >= GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()] + 1))
+                PChar->jobs.exp[PChar->GetMJob()] -= GetExpNEXTLevel(jobLevel);
+                if (PChar->jobs.exp[PChar->GetMJob()] >= GetExpNEXTLevel(jobLevel + 1))
                 {
-                    PChar->jobs.exp[PChar->GetMJob()] = GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()] + 1) - 1;
+                    PChar->jobs.exp[PChar->GetMJob()] = GetExpNEXTLevel(jobLevel + 1) - 1;
                 }
-                PChar->jobs.job[PChar->GetMJob()] += 1;
+                jobLevel += 1;
 
-                if (PChar->m_LevelRestriction == 0 ||
-                    PChar->m_LevelRestriction > PChar->GetMLevel())
+                if (PChar->m_LevelRestriction == 0 || PChar->m_LevelRestriction > PChar->GetMLevel())
                 {
-                    PChar->SetMLevel(PChar->jobs.job[PChar->GetMJob()]);
+                    PChar->SetMLevel(jobLevel);
                     PChar->SetSLevel(PChar->jobs.job[PChar->GetSJob()]);
 
                     jobpointutils::RefreshGiftMods(PChar);
@@ -4523,7 +4662,7 @@ namespace charutils
 
                 if (PChar->PParty != nullptr)
                 {
-                    if (PChar->PParty->GetSyncTarget() == PChar)
+                    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_SYNC))
                     {
                         PChar->PParty->RefreshSync();
                     }
@@ -4549,7 +4688,7 @@ namespace charutils
                 PChar->pushPacket(new CCharJobExtraPacket(PChar, true));
                 PChar->pushPacket(new CCharSyncPacket(PChar));
 
-                PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CMessageCombatPacket(PChar, PMob, PChar->jobs.job[PChar->GetMJob()], 0, 9));
+                PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CMessageCombatPacket(PChar, PMob, jobLevel, 0, 9));
                 PChar->pushPacket(new CCharStatsPacket(PChar));
 
                 luautils::OnPlayerLevelUp(PChar);
@@ -6308,7 +6447,7 @@ namespace charutils
             return;
         }
 
-        if (PChar->GetMLevel() < 75)
+        if (PChar->GetMLevel() < 15)
         {
             return;
         }

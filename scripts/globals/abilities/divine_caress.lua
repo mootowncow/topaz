@@ -1,7 +1,7 @@
 -----------------------------------
 -- Ability: Divine Caress
 -- Description: If the next spell you cast cures a status ailment, your target will gain enhanced resistance to that ailment.
--- Obtained: WHM Level 83
+-- Obtained: WHM Level 65
 -- Recast Time: 00:01:00
 -- Duration: 0:01:00
 -----------------------------------
@@ -14,5 +14,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    player:addStatusEffect(tpz.effect.DIVINE_CARESS, 3, 0, 60)
+    player:addStatusEffect(tpz.effect.DIVINE_CARESS_I, 0, 0, 60)
 end

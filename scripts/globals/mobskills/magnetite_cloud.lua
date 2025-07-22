@@ -16,7 +16,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.WEIGHT
 
-    local dmgmod = MobHPBasedMove(mob, target, 0.15, 1, tpz.magic.ele.EARTH, 400)
+    local dmgmod = MobHPBasedMove(mob, target, skill, 0.15, 1, tpz.magic.ele.EARTH, 400)
 
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.EARTH, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.BREATH, tpz.damageType.EARTH)

@@ -29,7 +29,7 @@ function onMobWeaponSkill(target, mob, skill)
 
 	dmg = math.floor(hp * (math.floor(0.016 * tp) + 16) / 256)
 	dmg = dmg * 0.5
-	dmg = target:breathDmgTaken(dmg)
+	dmg = target:breathDmgTaken(dmg, tpz.magic.ele.NONE, dmg)
 
     -- Handling phalanx
     dmg = dmg - target:getMod(tpz.mod.PHALANX)

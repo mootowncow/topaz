@@ -56,23 +56,6 @@ function MobRangedMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffec
     return MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, params_phys)
 end
 
--- PHYSICAL MOVE FUNCTION
--- Call this on every physical move!
--- accmod is a linear multiplier for accuracy (1 default)
--- dmgmod is a linear multiplier for damage (1 default)
--- tpeffect is an enum which can be one of:
--- 0 TP_ACC_VARIES
--- 1 TP_ATK_VARIES
--- 2 TP_DMG_VARIES
--- 3 TP_CRIT_VARIES
--- 4 TP_RANGED Used for ranged attacks
--- 5 TP_AUTO_ATTACK -- Used for "auto-attack"" skills ONLY
--- 6 TP_IGNORE_DEFENSE
--- mtp100/200/300 are the three values for 100% TP, 200% TP, 300% TP just like weaponskills.lua
--- if TP_ACC_VARIES -> three values are acc %s (1.0 is 100% acc, 0.8 is 80% acc, 1.2 is 120% acc)
--- if TP_ATK_VARIES -> three values are attack multiplier (1.5x 0.5x etc)
--- if TP_DMG_VARIES -> three values are
-
 -- HYBRID MOVES:
 -- params_phys.hybrid = true
 -- params_phys.hybridElement = (i.e. tpz.magic.ele.WIND) **REQUIRED**
@@ -82,7 +65,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local name = mob:getName()
     local isRanged = false
     local canCrit = (tpeffect == TP_CRIT_VARIES) or (tpeffect == TP_RANGED_CRIT)
-    local tp = mob:getLocalVar("tp")
+    local tp = mob:getSpentTP()
 
     --get fSTR
     local weaponDmg = mob:getWeaponDmg()
@@ -261,6 +244,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
             paramshybrid.includemab = true
             local bonusMacc = 0
             local magicdmg = addBonusesAbility(mob, element, target, finaldmg, paramshybrid)
+            local rawmDmg = magicdmg
             local resist = applyPlayerResistance(mob, effect, target, mob:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT), bonusMacc, element)
             --printf("resist %f", resist)
             --printf("magicdmg before resist %u", magicdmg)
@@ -269,7 +253,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
             magicdmg = magicdmg / 2
             magicdmg = utils.CheckForNull(mob, target, tpz.attackType.MAGICAL, element, magicdmg)
             --printf("magicdmg after resist %u", magicdmg)
-            magicdmg = target:magicDmgTaken(magicdmg, element)
+            magicdmg = target:magicDmgTaken(magicdmg, element, rawmDmg)
             -- Handle absorb
             magicdmg = adjustForTarget(target, magicdmg, element)
             -- Add HP if absorbed
@@ -417,6 +401,7 @@ end
 
 function MobMagicalMove(mob, target, skill, damage, element, dmgmod, tpeffect, ignoremacc, params)
     returninfo = {}
+    skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
     -- Params NYI
     -- Initialize params if it is nil
     if (params == nil) then
@@ -470,7 +455,7 @@ function MobMagicalMove(mob, target, skill, damage, element, dmgmod, tpeffect, i
     end
 
     -- Add TP scaling if not a high fTP skill(mainly 2 hours / Mijin Gakure / special attacks)
-    local tp = mob:getLocalVar("tp")
+    local tp = mob:getSpentTP()
     if (tpeffect ~= TP_AUTO_ATTACK) and (dmgmod <= 7) then
         finaldmg = math.floor(finaldmg * MobDmgTPModifier(tp))
     end
@@ -496,7 +481,7 @@ end
 
 function MobNeedlesMagicalMove(mob, target, skill, damage, element, tpeffect)
     returninfo = {}
-
+    skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
     local resist = 1
     local statmod = INT_BASED
     local dStat = getMobDStat(statmod, mob, target)
@@ -580,10 +565,11 @@ end
 -- base is no longer used
 -- Equation: (HP * percent) + (LVL / base)
 -- cap is optional, defines a maximum damage
-function MobHPBasedMove(mob, target, percent, base, element, cap, isSuicide, oppositeScaling)
+function MobHPBasedMove(mob, target, skill, percent, base, element, cap, isSuicide, oppositeScaling)
     local mobHP = mob:getHP() 
     local resist = 1
     local bonus = 0
+    skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
 
     -- Used for mob suicide moves
     -- Needed or else additional targets beyond first will take 0 damage
@@ -630,12 +616,11 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
         params = {}
     end
 
-    if (attackType == tpz.attackType.PHYSICAL) then
-        mob:delStatusEffectSilent(tpz.effect.SNEAK_ATTACK)
-        mob:delStatusEffectSilent(tpz.effect.TRICK_ATTACK)
-    end
-
     target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
+
+    mob:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    mob:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
+    mob:delStatusEffectsByFlag(tpz.effectFlag.PHYS_ATTACK)
 
     -- physical attack missed, skip rest
     if (skill:hasMissMsg()) then
@@ -657,16 +642,6 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
 
         skill:setMsg(tpz.msg.basic.MISS)
         return 0
-    end
-
-    -- MNK and PUP mobs have a -50% end multiplier for wep damage and need to do 2x for physical moves to do proper damage
-    local hasH2H = mob:getWeaponSkillType(tpz.slot.MAIN) == tpz.skill.HAND_TO_HAND
-    local isMNK = mob:getMainJob() == tpz.job.MNK and hasH2H
-    local isPUP = mob:getMainJob() == tpz.job.PUP and hasH2H
-    if isMNK or isPUP or hasH2H then
-        if (attackType == tpz.attackType.PHYSICAL) or (attackType == tpz.attackType.RANGED) then
-            dmg = dmg * 2
-        end
     end
 
     -- set message to damage
@@ -773,6 +748,8 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     -- Handle Null
     dmg = utils.CheckForNull(mob, target, attackType, element, dmg)
 
+    -- Track raw damage
+    local rawDmg = dmg
 
     -- Handle Circle DR
     dmg = utils.HandleCircleDamageReduction(mob, target, dmg)
@@ -784,10 +761,10 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
             dmg = target:physicalDmgTaken(dmg, damageType)
         elseif (attackType == tpz.attackType.MAGICAL) then
             dmg = utils.HandlePositionalMDT(mob, target, dmg)
-            dmg = target:magicDmgTaken(dmg, element)
+            dmg = target:magicDmgTaken(dmg, element, rawDmg)
         elseif (attackType == tpz.attackType.BREATH) then
             dmg = utils.HandlePositionalMDT(mob, target, dmg)
-            dmg = target:breathDmgTaken(dmg, element)
+            dmg = target:breathDmgTaken(dmg, element, rawDmg)
         elseif (attackType == tpz.attackType.RANGED) then
             dmg = utils.HandlePositionalPDT(mob, target, dmg)
             dmg = target:rangedDmgTaken(dmg)
@@ -798,6 +775,10 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     local dmgTPmod = 1 + (target:getMod(tpz.mod.DMGTP) / 100)
 
     dmg = math.floor(dmg * dmgTPmod)
+
+    -- Handle global damage done mod
+    local globalDmgDone = 1 + (mob:getMod(tpz.mod.GLOBAL_DMG_DONE) / 100)
+    dmg = math.floor(dmg * globalDmgDone)
 
     -- Handle TPEVA mod (Does not work on auto-attcks or RA)
     if (skill:getFlag() ~= tpz.mobSkillFlag.SPECIAL and skill:getFlag() ~= tpz.mobSkillFlag.REPLACE_ATTACK) then
@@ -1119,7 +1100,7 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isG
             duration = CheckDiminishingReturns(mob, target, typeEffect, duration)
 
             -- add TP scaling
-            local tp = mob:getLocalVar("tp")
+            local tp = mob:getSpentTP()
             -- Doom and Gradual Petrification duration shouldn't scale or it makes it weaker
             if (typeEffect ~= tpz.effect.DOOM) and (typeEffect ~= tpz.effect.GRADUAL_PETRIFICATION) then
                 totalDuration = math.floor(totalDuration * MobEnfeebleDurationTPModifier(typeEffect, tp))
@@ -1187,7 +1168,7 @@ function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, 
             local totalDuration = duration * resist
 
             -- add TP scaling
-            local tp = mob:getLocalVar("tp")
+            local tp = mob:getSpentTP()
             -- Doom and Gradual Petrification duration shouldn't scale or it makes it weaker
             if (typeEffect ~= tpz.effect.DOOM) and (typeEffect ~= tpz.effect.GRADUAL_PETRIFICATION) then
                 totalDuration = math.floor(totalDuration * MobEnfeebleDurationTPModifier(typeEffect, tp))
@@ -1233,7 +1214,7 @@ function MobHasteOverwriteSlowMove(mob, target, power, tick, duration, subid, su
             local totalDuration = duration * resist
 
             -- add TP scaling
-            local tp = mob:getLocalVar("tp")
+            local tp = mob:getSpentTP()
 
             target:delStatusEffectSilent(tpz.effect.HASTE)
             target:addStatusEffect(typeEffect, power, tick, totalDuration, subid, subpower, tier)
@@ -1303,7 +1284,7 @@ end
 function MobBuffMove(mob, typeEffect, power, tick, duration)
 
     -- Add TP scaling
-    local tp = mob:getLocalVar("tp")
+    local tp = mob:getSpentTP() or 0
     local finalDuration = duration
     if not IsNonScalingBuff(typeEffect) then
         finalDuration =  math.floor(finalDuration * MobBuffDurationTPModifier(tp))
@@ -1325,7 +1306,7 @@ end
 function MobBuffMoveSub(mob, typeEffect, power, tick, duration, subid, subpower, tier)
 
     -- Add TP scaling
-    local tp = mob:getLocalVar("tp")
+    local tp = mob:getSpentTP()
     local finalDuration = duration
     if not IsNonScalingBuff(typeEffect) then
         finalDuration =  math.floor(finalDuration * MobBuffDurationTPModifier(tp))
@@ -1662,11 +1643,12 @@ function MobTransferEnfeeblesMove(mob, target, skill, range, isAOE)
             if mob:hasStatusEffect(effect) then
                 local currentEffect = mob:getStatusEffect(effect)
                 local skillRange = skill:getDistance()
-                local NearbyPlayers = mob:getPlayersInRange(skillRange)
-                if NearbyPlayers == nil then return end
-                if NearbyPlayers then
-                    for _,v in ipairs(NearbyPlayers) do
-                        MobStatusEffectMove(mob, v, effect, currentEffect:getPower(), currentEffect:getTick() / 1000, currentEffect:getTimeRemaining() / 1000)
+                local nearbyEnemies = mob:getNearbyEntities(skillRange)
+                if nearbyEnemies then
+                    for _, enemy in pairs(nearbyEnemies) do
+                        if not enemy:isNPC() and (enemy:getAllegiance() ~= mob:getAllegiance()) then
+                            MobStatusEffectMove(mob, enemy, effect, currentEffect:getPower(), currentEffect:getTick() / 1000, currentEffect:getTimeRemaining() / 1000)
+                        end
                     end
                 end
             end

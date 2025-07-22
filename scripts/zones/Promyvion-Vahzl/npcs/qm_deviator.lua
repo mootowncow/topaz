@@ -9,7 +9,7 @@ require("scripts/globals/npc_util")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 1756) and npcUtil.popFromQM(player, npc, ID.mob.DEVIATOR) then -- Cerebrator Remnant
+    if npcUtil.tradeHas(trade, 1756) and npcUtil.popFromQM(player, npc, ID.mob.DEVIATOR, {hide=7200}) then -- Cerebrator Remnant
         player:messageSpecial(ID.text.ON_NM_SPAWN)
         player:confirmTrade()
     end

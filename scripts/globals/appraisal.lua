@@ -2,6 +2,9 @@
 -- Appraisal Utilities
 -- desc: Common functionality for Appraisals
 -- Credit: KnowOne - https://github.com/KnowOne134/DSP-Shared_Collection/blob/main/Appraisal/appraisal.lua
+-- Notes: Additional items need to be added to their questionMarksItems.item table (i.e [tpz.appraisalUtil.questionMarkItems.GLOVES] =)
+-- Notes: Then their "origin" must be added to the tpz.appraisalUtil.Origin table
+-- Notes: Finally, their appraisalId(usually zone ID) (i.e. tpz.appraisalUtil.Origin.MAOOK) with the itemIds it can appraise into
 -----------------------------------
 require("scripts/globals/missions")
 require("scripts/globals/npc_util")
@@ -13,9 +16,12 @@ tpz.appraisalUtil = tpz.appraisalUtil or {}
 
 tpz.appraisalUtil.Origin = 
 {
+    ARRAPAGO_REEF               = 54,
     SCOUTING_THE_ASHU_TALIF     = 55,
     ROYAL_PAINTER_ESCORT        = 56,
     TARGETING_THE_CAPTAIN       = 57,
+    HALVUNG                     = 62,
+    MAMOOK                      = 65,
     NYZUL_BASIC                 = 100,
     NYZUL_BAT_EYE               = 101,
     NYZUL_SHADOW_EYE            = 102,
@@ -953,6 +959,56 @@ tpz.appraisalUtil.appraisalItems =
                 {10, 13576}, -- Night Cape
             },
         },
+        [tpz.appraisalUtil.Origin.MAMOOK] =
+        {
+            items =
+            {
+                -- 50% chance Cotton Cape / Lizard mantle, 50% chance a JSE cape
+                {25, 13601}, -- Cotton Cape +1
+                {25, 13608}, -- Lizard Mantle +1
+
+                {8, 28621}, -- Ghostfyre Cape
+                {8, 28624}, -- Niht Mantle
+                {8, 28619}, -- Mending Cape
+                {7, 28630}, -- Updraft Mantle
+                {7, 28636}, -- Bookworm's Cape
+                {7, 28626}, -- Rhapsode's Cape
+                {7, 28622}, -- Canny Cape
+            },
+        },
+        [tpz.appraisalUtil.Origin.HALVUNG] =
+        {
+            items =
+            {
+                -- 50% chance Cotton Cape / Lizard mantle, 50% chance a JSE cape
+                {25, 13601}, -- Cotton Cape +1
+                {25, 13608}, -- Lizard Mantle +1
+
+                {8, 28632}, -- Cornflower Cape
+                {8, 28635}, -- Toetapper Mantle
+                {8, 28617}, -- Mauler's Mantle
+                {7, 28633}, -- Gunslinger's Cape
+                {7, 28623}, -- Weard Mantle
+                {7, 28618}, -- Anchoret's Mantle
+                {7, 28620}, -- Bane Cape
+            }
+        },
+        [tpz.appraisalUtil.Origin.ARRAPAGO_REEF] =
+        {
+            items =
+            {
+                -- 50% chance Cotton Cape / Lizard mantle, 50% chance a JSE cape
+                {25, 13601}, -- Cotton Cape +1
+                {25, 13608}, -- Lizard Mantle +1
+
+                {9, 28627}, -- Lutian Cape
+                {9, 28625}, -- Pastoralist's Mantle
+                {8, 28631}, -- Conveyance Cape
+                {8, 28629}, -- Yokaze Mantle
+                {8, 28628}, -- Takaha Mantle
+                {8, 28634}, -- Dispersal Mantle
+            }
+        },
     },
     [tpz.appraisalUtil.questionMarkItems.SASH] =
     {
@@ -1411,6 +1467,11 @@ tpz.appraisalUtil.appraiseItem = function(player, npc, trade, gil, appraisalCsid
 end
 
 function itemPick(player, info, appraisalID)
+    if not info[appraisalID] then
+        printf("Appraisal table missing entry for AppraisalID: %d", appraisalID)
+        return 0
+    end
+
     -- possible drops
     local items = info[appraisalID].items
 

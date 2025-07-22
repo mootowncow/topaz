@@ -92,7 +92,7 @@ bool CAttack::IsCritical()
 
 /************************************************************************
 *																		*
-*  Sets the critical flag. Also calculates m_damageRato                 *
+*  Sets the critical flag. Also calculates m_damageRato (pDIF)          *
 *																		*
 ************************************************************************/
 void CAttack::SetCritical(bool value)
@@ -745,69 +745,7 @@ void CAttack::ProcessDamage()
         m_damage = m_damage * (100 + m_attacker->getMod(Mod::PET_DAMAGEP)) / 100;
     }
 
-    // Handle frontal PDT
-    if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(m_attacker->loc.p, m_victim->loc.p, 64))
-    {
-        int power = m_victim->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-        float resist = 1.0f;
-        if (power == 3)
-        {
-            resist = 0;
-        }
-        m_damage = (uint16)(m_damage * (float)resist);
-    }
-    if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(m_attacker->loc.p, m_victim->loc.p, 64))
-    {
-        int power = m_victim->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-        float resist = 1.0f;
-        if (power == 5)
-        {
-            resist = 0.25f;
-        }
-        m_damage = (uint16)(m_damage * (float)resist);
-    }
-    if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(m_attacker->loc.p, m_victim->loc.p, 64))
-    {
-        int power = m_victim->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-        float resist = 1.0f;
-        if (power == 6)
-        {
-            resist = 0.5f;
-        }
-        m_damage = (uint16)(m_damage * (float)resist);
-    }
-
-    // Handle behind PDT
-    if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(m_attacker->loc.p, m_victim->loc.p, 64))
-    {
-        int power = m_victim->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-        float resist = 1.0f;
-        if (power == 4)
-        {
-            resist = 0;
-        }
-        m_damage = (uint16)(m_damage * (float)resist);
-    }
-    if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(m_attacker->loc.p, m_victim->loc.p, 64))
-    {
-        int power = m_victim->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-        float resist = 1.0f;
-        if (power == 7)
-        {
-            resist = 0.25f;
-        }
-        m_damage = (uint16)(m_damage * (float)resist);
-    }
-    if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(m_attacker->loc.p, m_victim->loc.p, 64))
-    {
-        int power = m_victim->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-        float resist = 1.0f;
-        if (power == 8)
-        {
-            resist = 0.5f;
-        }
-        m_damage = (uint16)(m_damage * (float)resist);
-    }
+    m_damage = battleutils::HandlePositionalPDT(m_attacker, m_victim, m_damage);
 
     // Handle "Boost" status effect on mobs
     if (m_attacker->objtype == TYPE_MOB && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_BOOST))
@@ -822,6 +760,9 @@ void CAttack::ProcessDamage()
         float dmgBonus = 1 + ((uint16)power / 100.0f);
         m_damage = m_damage * (float)dmgBonus;
     }
+
+    /// Handle global damage mod
+    m_damage = m_damage * (100 + m_attacker->getMod(Mod::GLOBAL_DMG_DONE)) / 100;
 
     // Damage should never be below 0
     m_damage = std::max(m_damage, 0);

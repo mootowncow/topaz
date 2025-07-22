@@ -166,7 +166,6 @@ INSERT INTO `mob_family_mods` VALUES (192,28,10,1);	-- Peiste +10% EXP
 -- Ule Bunies in mob_pool_mods.sql
 
 INSERT INTO `mob_family_mods` VALUES (176,28,6,1);	-- Mamool Ja +6% EXP 
-INSERT INTO `mob_family_mods` VALUES (176,66,5,1);	-- Mamool Ja +6% EXP 
 INSERT INTO `mob_family_mods` VALUES (177,28,6,1);	-- Mamool Ja +6% EXP 
 INSERT INTO `mob_family_mods` VALUES (591,28,6,1);	-- Mamool Ja +6% EXP 
 INSERT INTO `mob_family_mods` VALUES (171,28,6,1);	-- Lamia +6% EXP 
@@ -364,7 +363,10 @@ INSERT INTO `mob_family_mods` VALUES (465,389,-10,0);	-- Yggdreant(Yumcax) -10%
 INSERT INTO `mob_family_mods` VALUES (628,389,-10,0);	-- Yggdreant -10%
 INSERT INTO `mob_family_mods` VALUES (464,389,-25,0);	-- Snapweed -25%
 
-
+-- MAB
+INSERT INTO `mob_family_mods` VALUES (122,28,20,0);     -- Ghrah +20 MAB
+INSERT INTO `mob_family_mods` VALUES (123,28,20,0);     -- Ghrah +20 MAB
+INSERT INTO `mob_family_mods` VALUES (124,28,20,0);     -- Ghrah +20 MAB
 
 -- MDB
 INSERT INTO `mob_family_mods` VALUES (171,29,40,0); 	-- Lamiae +40 MDB
@@ -1162,6 +1164,9 @@ INSERT INTO `mob_family_mods` VALUES (23,3,50,1);
 INSERT INTO `mob_family_mods` VALUES (24,3,50,1);
 
 -- Never standback
+INSERT INTO `mob_family_mods` VALUES (88,56,-1,1);
+INSERT INTO `mob_family_mods` VALUES (89,56,-1,1);
+INSERT INTO `mob_family_mods` VALUES (227,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (196,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (203,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (204,56,-1,1);
@@ -1194,6 +1199,8 @@ INSERT INTO `mob_family_mods` VALUES (121,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (122,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (123,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (124,56,-1,1);
+INSERT INTO `mob_family_mods` VALUES (73,56,-1,1);
+INSERT INTO `mob_family_mods` VALUES (91,56,-1,1);
 -- elementals don't standback
 INSERT INTO `mob_family_mods` VALUES (99,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (100,56,-1,1);

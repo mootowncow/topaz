@@ -2643,6 +2643,9 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,49,37,255);           -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,50,57,255);           -- Shell III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,51,68,255);           -- Shell IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,143,32,255);          -- Erase
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,12,25,255);           -- Raise
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,13,56,255);           -- Raise II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,140,70,255);          -- Raise III
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Excenmille',311,1,5,255);         -- Cure
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Excenmille',311,2,17,255);        -- Cure II
@@ -2827,7 +2830,22 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,401,31,255);           -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,402,71,255);           -- Archers Prelude
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,419,29,255);           -- Advancing March
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,420,60,255);           -- Victory March
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,421,39,255);           -- Battlefield Elegy
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,422,59,255);           -- Carnage Elegy
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,462,33,255);           -- Magic Finale
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,470,82,255);           -- Sentinels Scherzo
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,1,2,255);            -- Cure
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,2,22,255);           -- Cure II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,3,42,255);           -- Cure III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,4,82,255);           -- Cure IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,14,12,255);          -- Poisona
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,15,18,255);          -- Paralyna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,16,28,255);          -- Blindna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,17,38,255);          -- Silena
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,18,78,255);          -- Stona
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,19,68,255);          -- Viruna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,20,58,255);          -- Cursna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,143,64,255);         -- Erase
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shikaree_Z',327,1,2,255);         -- Cure
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shikaree_Z',327,2,22,255);        -- Cure II
@@ -2872,9 +2890,9 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Cherukiki',328,477,86,255);       -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,338,12,255);          -- Utsusemi: Ichi
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,339,37,255);          -- Utsusemi: Ni
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,340,75,255);          -- Utsusemi: San
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,344,23,255);          -- Hojo: Ichi
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,344,23,47);           -- Hojo: Ichi
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,345,48,255);          -- Hojo: Ni
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,347,19,255);          -- Kurayami: Ichi
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,347,19,43);           -- Kurayami: Ichi
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,348,44,255);          -- Kurayami: Ni
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,510,75,255);          -- Migawari: Ichi
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Gessho',330,320,15,39);
@@ -3138,19 +3156,22 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,49,37,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,50,57,255);         -- Shell III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,51,68,255);         -- Shell IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,52,87,255);         -- Shell V
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,56,13,255);         -- Slow
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,57,48,255);         -- Haste
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,57,48,74);          -- Haste
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,511,75,255);        -- Haste II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,56,13,74);          -- Slow
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,79,75,255);         -- Slow II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,58,6,74);           -- Paralyze
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,80,75,255);         -- Paralyze II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,106,33,255);        -- Phalanx
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,107,75,255);        -- Phalanx II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,109,41,255);        -- Refresh
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,260,32,255);        -- Dispel
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,109,41,74);         -- Refresh
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,473,75,255);        -- Refresh II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,511,75,255);        -- Haste II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,260,32,255);        -- Dispel
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,841,35,255);        -- Distract
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,842,85,255);        -- Distract II
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,845,48,255);        -- Flurry
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,846,96,255);        -- Flurry II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,12,38,255);        -- Raise
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Pieuje_UC',365,1,1,255);           -- Cure
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Pieuje_UC',365,2,11,255);          -- Cure II
@@ -3382,6 +3403,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,247,36,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,163,79,255);         -- Stone V
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,253,30,255);         -- Sleep
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,259,65,255);         -- Sleep II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,12,35,255);          -- Raise
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,13,70,255);          -- Raise II
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Amchuchu',382,43,20,255);          -- Protect
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Amchuchu',382,44,40,255);          -- Protect II
@@ -6189,8 +6212,134 @@ INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 524, 1, 255); -- Sandspin
 INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 548, 1, 255); -- Filamented Hold
 INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 555, 1, 255); -- Magnetite Cloud
 
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 147, 1, 255); -- Fire IV
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 152, 1, 255); -- Blizzard IV
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 157, 1, 255); -- Aero IV
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 162, 1, 255); -- Stone IV
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 167, 1, 255); -- Thunder IV
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 172, 1, 255); -- Water IV
+
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 176, 1, 255); -- Firaga III
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 181, 1, 255); -- Blizzaga III
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 186, 1, 255); -- Aeroga III
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 191, 1, 255); -- Stonega III
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 196, 1, 255); -- Thundaga III
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 201, 1, 255); -- Waterga III
+
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 56, 1, 255); -- Slow
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 254, 1, 255); -- Blind
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 58, 1, 255); -- Paralyze
+INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 59, 1, 255); -- Silence
+
+-- NEXT 561
+INSERT INTO `mob_spell_lists` VALUES ('Hound_of_Balthazar',555,176,1,255); -- Firaga III
+INSERT INTO `mob_spell_lists` VALUES ('Hound_of_Balthazar',555,286,1,255); -- Addle
+
+INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,359,1,255); -- silencega
+INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,156,1,255); -- aero III
+INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,185,1,255); -- aeroga II
+INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,277,1,255); -- dread spikes
+
+INSERT INTO `mob_spell_lists` VALUES ('Frosted_Soul',1023,180,1,255); -- Blizzaga II
+INSERT INTO `mob_spell_lists` VALUES ('Frosted_Soul',1023,151,1,255); -- Blizzard III
+INSERT INTO `mob_spell_lists` VALUES ('Frosted_Soul',1023,455,1,255); -- Ice Threnody
+
+INSERT INTO `mob_spell_lists` VALUES ('Indich',1024,376,1,255); -- Horde Lullaby
+INSERT INTO `mob_spell_lists` VALUES ('Indich',1024,112,1,255); -- Flash
+
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,288,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,289,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,290,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,291,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,292,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,144,13,22);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,145,38,47);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,146,62,67);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,147,73,94); -- Fire IV
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,148,95,255); -- Fire V
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,149,17,27);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,150,42,53);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,151,64,68);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,152,74,94); -- Blizzard IV
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,153,95,255); -- Blizzard V
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,154,9,18);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,155,34,44);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,156,59,66);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,157,72,94); -- Aero IV
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,158,95,255); -- Aero V
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,159,1,10);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,160,26,35);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,161,51,60);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,162,68,94); -- Stone IV
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,163,95,255); -- Stone V
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,164,21,46);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,165,46,55);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,166,66,70);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,167,75,94); -- Thunder IV
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,168,95,255); -- Thunder V
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,169,5,12);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,170,30,40);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,171,55,61);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,172,70,94); -- Water IV
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,173,95,255); -- Water V
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,174,28,35);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,175,53,60);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,176,69,90);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,179,32,39);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,180,57,62);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,181,71,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,184,23,31);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,185,48,56);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,186,67,71);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,189,15,22);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,190,40,47);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,191,63,67);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,194,36,43);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,195,61,65);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,196,73,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,199,19,27);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,200,44,52);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,201,65,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,204,60,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,206,50,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,208,52,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,210,54,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,212,56,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,214,58,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,220,3,17);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,221,43,64);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,225,24,71);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,226,72,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,230,10,34);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,231,35,84);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,232,85,255); -- Bio III
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,235,24,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,236,22,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,237,20,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,238,18,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,239,16,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,240,27,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,245,12,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,247,25,94);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,248,95,255); -- Aspir II
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,249,10,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,252,45,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,253,20,40);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,254,4,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,258,7,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,259,41,255);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,273,31,55);
+INSERT INTO `mob_spell_lists` VALUES ('Lobais',1025,274,56,255);
+
+INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,145,1,255); -- Spell list changes based on day of the week (in shieldtrap.lua
+INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,175,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,235,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,100,1,255);
+INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,249,1,255);
+
+
 -- NEXT 546
--- NEXT 1022
+-- NEXT 1027
 -- NEXT 2089(Custom)
 
 

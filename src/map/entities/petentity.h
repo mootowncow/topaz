@@ -56,9 +56,11 @@ public:
     int32       getJugDuration();             // duration of this jug pet in seconds
     void        setJugDuration(int32 seconds); // sets the duration of this jug pet in seconds
     bool isBstPet();
+    bool isAvatar();
 	uint8 m_Element;
 	uint32 m_PetID;
     uint32 m_bloodPactAbilityId;
+    uint32 m_bloodPactActivationTime;
     std::string GetScriptName();
 
     WYVERNTYPE getWyvernType();
@@ -69,6 +71,7 @@ public:
     bool shouldDespawn(time_point tick); // if true, the pet should despawn at this point in time
     void loadPetZoningInfo();            // loads info from previous zone (hp / mp / tp / spawn time). This MUST be called after Spawn()
     virtual void OnAbility(CAbilityState&, action_t&) override;
+    virtual void OnPlayerPetSkillFinished(CMobSkillState&, action_t&);
     virtual bool ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) override;
 
 private:

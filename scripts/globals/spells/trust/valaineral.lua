@@ -32,7 +32,10 @@ function onMobSpawn(mob)
         Summon (Formerly): Let the Royal Family’s blade be seared forever into their memories!
     ]]
     tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.SPAWN)
+    tpz.trust.setUpFood(mob)
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
+    
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_SPECIFIC, tpz.magic.spell.METEOR, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_SPECIFIC, tpz.magic.spell.DEATH, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.DETECT_MIJIN, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.FEALTY)
@@ -54,11 +57,13 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.SHIELD_BASH)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0,
+    mob:addSimpleGambit(ai.t.SELF, ai.c.ALWAYS, 0,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.PROVOKE)
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.WARCRY)
+
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.DIVINE_EMBLEM,
-                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.DIVINE_EMBLEM)
+                            ai.r.JA, ai.s.SPECIFIC, tpz.ja.DIVINE_EMBLEM)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.FLASH,
                         ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.FLASH)
@@ -69,10 +74,8 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SENTINEL,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.SENTINEL)
 
-    if mob:getMainLvl() >= 75 then
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SENTINEL,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.PALISADE)
-    end
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.MPP_LT, 25,
                         ai.r.JA, ai.s.SPECIFIC, tpz.ja.CHIVALRY)
@@ -82,14 +85,18 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 33, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
 
-    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS,tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.CURE)
-    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS,tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.LULLABY, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.LULLABY, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.REPRISAL, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.REPRISAL)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.ENLIGHT, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ENLIGHT)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SHELL, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spellFamily.SHELL)
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.PROTECT, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spellFamily.PROTECT)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SHELL, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.SHELL)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.PROTECT, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.PROTECT)
 
     tpz.trust.onMobSpawn(mob)
 end

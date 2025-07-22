@@ -487,10 +487,9 @@ bool CMobEntity::IsHumanoid()
 {
     return this->m_EcoSystem == SYSTEM_BEASTMEN || this->m_EcoSystem == SYSTEM_HUMANOID || this->m_Family == 3 || this->m_Family == 115 ||
         this->m_Family == 359 || this->m_Family == 509 || this->m_Family == 221 || this->m_Family == 222 || this->m_Family == 223 || this->m_Family == 169 ||
-           this->m_Family == 358 || this->m_Family == 329 || this->m_Family == 927 || this->m_Family == 928 || this->m_Family == 61 || this->m_Family == 597;
+        this->m_Family == 358 || this->m_Family == 329 || this->m_Family == 927 || this->m_Family == 928 || this->m_Family == 61 || this->m_Family == 597 ||
+        this->getMobMod(MOBMOD_HUMANOID);
 }
-
-
 
 void CMobEntity::CallForHelp(bool call)
 {
@@ -628,6 +627,25 @@ void CMobEntity::DoAutoTarget()
             if (!success && PChar && PChar->objtype == TYPE_PC)
                 PChar->m_LastEngagedTargID = 0;
         });
+}
+
+void CMobEntity::HandleToAUStrongholdsAppraisalDrops(CCharEntity* PChar, uint16 PZone)
+{
+    uint16 dropRate = 24;
+
+    // NMs drop appraisal items 100% of the time
+    if (m_Type == MOBTYPE_NOTORIOUS || getMobMod(MOBMOD_CHECK_AS_NM) > 0)
+    {
+        dropRate = 100;
+    }
+
+    if (tpzrand::GetRandomNumber(100) < dropRate)
+    {
+        uint16 itemId = 2279; // ??? Cape
+
+        // Pass appraisal ID along when adding to treasure pool
+        PChar->PTreasurePool->AddItem(itemId, this, static_cast<uint8>(PZone));
+    }
 }
 
 
@@ -917,6 +935,7 @@ void CMobEntity::OnRangedAttack(CRangeState& state, action_t& action)
                 actionTarget.messageID = MSGBASIC_RANGED_HIT;
             }
         }
+
         actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);
 
         // lower damage based on shadows taken
@@ -928,70 +947,6 @@ void CMobEntity::OnRangedAttack(CRangeState& state, action_t& action)
         {
             actionTarget.param = -(actionTarget.param);
             actionTarget.messageID = 382;
-        }
-
-        // Handle frontal PDT
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 3)
-            {
-                resist = 0;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 5)
-            {
-                resist = 0.25f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 6)
-            {
-                resist = 0.5f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-
-        // Handle Behind PDT
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 4)
-            {
-                resist = 0;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 7)
-            {
-                resist = 0.25f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 8)
-            {
-                resist = 0.5f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
         }
     }
     else if (shadowsTaken > 0)
@@ -1011,9 +966,9 @@ void CMobEntity::OnRangedAttack(CRangeState& state, action_t& action)
         StatusEffectContainer->DelStatusEffect(EFFECT_BARRAGE, 0);
     }
     battleutils::ClaimMob(PTarget, this);
-    // only remove detectables and NOT camouflage
-    if (!StatusEffectContainer->HasStatusEffect(EFFECT_CAMOUFLAGE))
-        StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+
+    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
 
     if (hitOccured == false && PTarget->objtype == TYPE_MOB)
     {
@@ -1338,6 +1293,8 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 {
     auto PSkill = state.GetSkill();
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    int16 tp = state.GetSpentTP();
+    tp = battleutils::CalculateWeaponSkillTP(this, 0, tp);
 
     static_cast<CMobController*>(PAI->GetController())->TapDeaggroTime();
 
@@ -1510,11 +1467,13 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
                     target.animation = PSkill->getPetAnimationID() - 1; // cait sith level ? holy pet animations shifted by 1 from mob animations
 
             }
+            // This needs to be changed to look up by ability ID (the players ability) and not mobskill ID for the file to use, and to get animation etc
+            // PSkill also needs to be changed to PAvatar->m_bloodPactAbilityId;
             target.param = luautils::OnPetAbility(PTarget, this, PSkill, PMaster, &action);
         }
         else
         {
-            target.param = luautils::OnMobWeaponSkill(PTarget, this, PSkill, &action);
+            target.param = luautils::OnMobWeaponSkill(PTarget, this, PSkill, &action, tp);
         }
         if (msg == 0)
         {
@@ -1537,8 +1496,22 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         else
         {
             target.reaction = REACTION_HIT;
+
+            static const std::unordered_set<uint16> excludedMsgs {
+                MSGBASIC_USES,
+                MSGBASIC_SKILL_GAIN_EFFECT,
+                MSGBASIC_SELF_HEAL,
+                MSGBASIC_SKILL_ENFEEB_IS,
+                MSGBASIC_JA_RECOVERS_HP,
+                MSGBASIC_JA_ENFEEB_IS,
+                MSGBASIC_JA_GAINS_EFFFECT,
+                MSGBASIC_JA_NO_EFFECT_2
+            };
             // Don't add TP if the TP move is a two hour, buff, heal, or enfeeble.
-            if (msg != MSGBASIC_USES && msg != MSGBASIC_SKILL_GAIN_EFFECT && msg != MSGBASIC_SELF_HEAL && msg != MSGBASIC_SKILL_ENFEEB_IS)
+            if (excludedMsgs.find(msg) == excludedMsgs.end() &&
+                !PSkill->isTwoHour() &&
+                !PSkill->isJobAbility() &&
+                !PSkill->isMagicAttack())
             {
                 int16 delay = this->GetWeaponDelay(true);
                 float ratio = 1.0f;
@@ -1620,10 +1593,12 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         {
             PTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
         }
-        if (PTarget->isDead())
+
+        if (!PTarget->isDead())
         {
             battleutils::ClaimMob(PTarget, this);
         }
+
         battleutils::DirtyExp(PTarget, this);
         if (PTarget->isDead() && PTarget->objtype == TYPE_MOB && this->objtype == TYPE_PET && this->PMaster->objtype == TYPE_PC)
         {
@@ -1926,6 +1901,7 @@ void CMobEntity::DropItems(CCharEntity* PChar)
             }
         }
     }
+
     // Roll for random rare items
     if (tpzrand::GetRandomNumber(500) < 1 && getMobMod(MOBMOD_NO_DROPS) == 0 && GetMLevel() >= 11 && GetMLevel() < 80)
     {
@@ -2146,7 +2122,7 @@ void CMobEntity::DropItems(CCharEntity* PChar)
     uint16 Pzone = PChar->getZone();
 
     // ToAU beastmen strongholds Moogle Coin drops
-    if (Pzone == 65 || Pzone == 54 || Pzone == 62)
+    if (Pzone == ZONE_MAMOOK || Pzone == ZONE_ARRAPAGO_REEF || Pzone == ZONE_HALVUNG)
     {
         if (tpzrand::GetRandomNumber(100) < 24 && getMobMod(MOBMOD_NO_DROPS) == 0)
         {
@@ -2233,6 +2209,15 @@ void CMobEntity::DropItems(CCharEntity* PChar)
                     return;
             }
         }
+
+        uint16 Pzone = PChar->getZone();
+
+        // ToAU beastmen strongholds Apprisal drops
+        if (Pzone == ZONE_MAMOOK || Pzone == ZONE_ARRAPAGO_REEF || Pzone == ZONE_HALVUNG)
+        {
+            HandleToAUStrongholdsAppraisalDrops(PChar, Pzone);
+        }
+
         // Todo: Avatarite and Geode drops during day/weather. Much higher chance during weather than day.
         // Item element matches day/weather element, not mob crystal. Lv80+ xp mobs can drop Avatarite.
         // Wiki's have conflicting info on mob lv required for Geodes. One says 50 the other 75. I think 50 is correct.
@@ -2424,6 +2409,17 @@ void CMobEntity::OnDespawn(CDespawnState&)
 
 void CMobEntity::Die()
 {
+    // Record mobs status effects before death for Magian Trials
+    m_StatusEffectsAtDeath.clear();
+    StatusEffectContainer->ForEachEffect(
+        [&](CStatusEffect* PEffect)
+        {
+            EffectSnapshot snapshot;
+            snapshot.effectId = PEffect->GetStatusID();
+            snapshot.element = effects::GetEffectElement(snapshot.effectId);
+            m_StatusEffectsAtDeath.push_back(snapshot);
+
+        });
     DoAutoTarget();
     PEnmityContainer->Clear();
     PAI->ClearStateStack();

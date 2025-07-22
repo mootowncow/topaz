@@ -17,7 +17,7 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
 
-    local dmgmod = MobHPBasedMove(mob, target, 0.10, 1, tpz.magic.ele.ICE, 500)
+    local dmgmod = MobHPBasedMove(mob, target, skill, 0.10, 1, tpz.magic.ele.ICE, 500)
 
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.ICE, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.BREATH, tpz.damageType.ICE)

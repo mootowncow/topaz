@@ -138,6 +138,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
 
             PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA2));
             PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, recastSeconds, 0, MSGBASIC_TIME_LEFT));
+            PChar->PAI->InterruptStates();
             return false;
         }
 
@@ -185,7 +186,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             if (PAbility->isPetAbility())
             {
                 // Blood pact MP costs are stored under animation ID
-                if (PChar->health.mp < PAbility->getAnimationID())
+                if (PChar->health.mp < PAbility->getMPCost())
                 {
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
                     return false;
@@ -925,7 +926,6 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             case ABILITY_VIOLENT_FLOURISH:
             case ABILITY_WILD_FLOURISH:
             case ABILITY_KONZEN_ITTAI:
-            case ABILITY_CONSPIRATOR:
             {
                 if (PChar->animation != ANIMATION_ATTACK)
                 {
@@ -1178,7 +1178,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                         }
                     }
                 }
-                else if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
+                else if (PAbility->isBloodPact())
                 {
                     if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_APOGEE))
                     {

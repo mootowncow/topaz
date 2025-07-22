@@ -65,6 +65,8 @@ public:
     void CheckLatentsWeather(uint16 weather);
     void CheckLatentsTargetChange();
 
+    bool CLatentEffectContainer::IsLatentActive(LATENT conditionID, uint16 conditionValue);
+
 	void AddLatentEffects(std::vector<CItemEquipment::itemLatent>& latentList, uint8 reqLvl, uint8 slot);
     void DelLatentEffects(uint8 reqLvl, uint8 slot);
 

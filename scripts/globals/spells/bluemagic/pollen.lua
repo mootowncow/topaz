@@ -52,6 +52,7 @@ function onSpellCast(caster, target, spell)
 	
 	if target:hasStatusEffect(tpz.effect.CURSE_II) then
 		target:addHP(0)
+        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
 	else
 		target:addHP(final)
 		if (target:getAllegiance() == caster:getAllegiance() and (target:getObjType() == tpz.objType.PC or target:getObjType() == tpz.objType.MOB)) then

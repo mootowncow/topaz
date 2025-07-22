@@ -16,7 +16,7 @@ require("scripts/globals/status")
 function onEffectGain(target, effect)
     target:addLatent(tpz.latent.SIGNET_BONUS, 0, tpz.mod.DMGPHYS_II, 15)
     target:addLatent(tpz.latent.SIGNET_BONUS, 0, tpz.mod.EVA, 50)
-    -- Gain +15% more EXP in Conquest zones if above level 55 and below 75
+    -- Gain +15% more EXP in Conquest zones
     target:addLatent(tpz.latent.SIGNET_EXP_BONUS, 0, tpz.mod.EXP_BONUS, 15) 
 end
 

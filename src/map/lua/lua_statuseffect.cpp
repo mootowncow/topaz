@@ -49,7 +49,7 @@ CLuaStatusEffect::CLuaStatusEffect(CStatusEffect* StatusEffect)
 
 //======================================================//
 
-inline int32 CLuaStatusEffect::getType(lua_State* L)
+inline int32 CLuaStatusEffect::getType(lua_State* L) // Status effect Id
 {
     TPZ_DEBUG_BREAK_IF(m_PLuaStatusEffect == nullptr);
 

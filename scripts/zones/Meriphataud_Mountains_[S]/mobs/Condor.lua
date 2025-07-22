@@ -4,6 +4,7 @@
 -- Note: JP camp
 -----------------------------------
 require("scripts/globals/status")
+require("scripts/globals/mobs")
 -----------------------------------
 function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.CAPACITY_BONUS, 200)

@@ -5,6 +5,7 @@
 -----------------------------------
 local ID = require("scripts/zones/Vunkerl_Inlet_[S]/IDs")
 require("scripts/globals/mobs")
+mixins = {require("scripts/mixins/families/djinn")}
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller, noKiller)

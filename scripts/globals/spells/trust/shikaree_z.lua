@@ -28,13 +28,21 @@ end
 function onMobSpawn(mob)
     -- tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.SPAWN) TODO
 
+    tpz.trust.setUpFood(mob)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
+
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.SLOW, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.ERASE)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS,tpz.effect.HASTE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.HASTE)
     mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.SLOW, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.ERASE)
     mob:addSimpleGambit(ai.t.MELEE, ai.c.NOT_STATUS,tpz.effect.HASTE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.HASTE)
 
-    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS,tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.CURE)
-    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS,tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.LULLABY, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.LULLABY, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
 
     mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.POISON, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.POISONA)
     mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.PARALYSIS, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.PARALYNA)

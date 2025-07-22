@@ -68,10 +68,10 @@ enum LATENT
     LATENT_JOB_MULTIPLE             = 38, //PARAM: 0: ODD, 2: EVEN, 3-X: DIVISOR
     LATENT_JOB_MULTIPLE_AT_NIGHT    = 39, //PARAM: 0: ODD, 2: EVEN, 3-X: DIVISOR
     LATENT_MAINJOB                  = 40, //mainjob - PARAM: JOBTYPE
-    LATENT_SIGNET_EXP_BONUS         = 41,  // While in conquest region and between levels 55 - 74
-    LATENT_SANCTION_EXP_BONUS       = 42,  // While in besieged region and between levels 55 - 74
+    LATENT_SIGNET_EXP_BONUS         = 41,  // While in conquest region
+    LATENT_SANCTION_EXP_BONUS       = 42,  // While in besieged region
     LATENT_WEAPON_DRAWN_HP_UNDER    = 43, //PARAM: HP PERCENT
-    LATENT_SIGIL_EXP_BONUS          = 44, // While in campaign region and between levels 55 - 74
+    LATENT_SIGIL_EXP_BONUS          = 44, // While in campaign region
     LATENT_MP_UNDER_VISIBLE_GEAR    = 45, //mp less than or equal to %, calculated using MP bonuses from visible gear only
     LATENT_HP_OVER_VISIBLE_GEAR     = 46, //hp more than or equal to %, calculated using HP bonuses from visible gear only
     LATENT_WEAPON_BROKEN            = 47,

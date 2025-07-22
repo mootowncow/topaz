@@ -362,7 +362,7 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     auto damageMultiplier = static_cast<float>(trustData->cmbDmgMult) / 100.0f;
     auto adjustedDamage = baseDamage * damageMultiplier;
     auto finalDamage = static_cast<uint16>(std::max(adjustedDamage, 1.0f));
-
+    //
     // Trust do not really have weapons, but they are modelled internally as
     // if they do.
     if (auto* mainWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]))
@@ -373,24 +373,34 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
         // 2H Weapons should deal more damage
         if (mainWeapon->isTwoHanded())
         {
-            mainWeapon->setDamage(finalDamage * 2);
+            float multiplier = 2.7f;
+
+            // Scale the 2H weapon multplier based on the weapon type (more damage on higher delay weapons)
+            switch (mainWeapon->getSkillType())
+            {
+                case SKILL_GREAT_KATANA: multiplier = 2.70f; break; // 450
+                case SKILL_GREAT_AXE:    multiplier = 2.90f; break; // 504
+                case SKILL_GREAT_SWORD:  multiplier = 2.80f; break; // 480
+                case SKILL_POLEARM:      multiplier = 2.90f; break; // 492
+                case SKILL_SCYTHE:       multiplier = 3.00f; break; // 516? Unused
+                case SKILL_STAFF:        multiplier = 2.60f; break; // 420? Unused
+            }
+
+            mainWeapon->setDamage(finalDamage * multiplier);
+        }
+        else if (mainWeapon->isHandToHand())
+        {
+            auto h2hSkill = PTrust->GetSkill(SKILL_HAND_TO_HAND);
+            auto levelDmgBonus = PTrust->GetMLevel() / 4;
+            damageMultiplier = 0.11f * h2hSkill + 3 + levelDmgBonus;
         }
         else
         {
             mainWeapon->setDamage(finalDamage);
         }
 
-        // 1h weapons should be faster
-        if (!mainWeapon->isTwoHanded() && !mainWeapon->isHandToHand())
-        {
-            mainWeapon->setDelay(((trustData->cmbDelay * 1000) / 60) / 2);
-            mainWeapon->setBaseDelay(((trustData->cmbDelay * 1000) / 60) / 2);
-        }
-        else
-        {
-            mainWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
-            mainWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
-        }
+        mainWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
+        mainWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
     }
 
     if (auto* subWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_SUB]))
@@ -428,8 +438,8 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
         ammoWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
     }
 
-    // TODO: Why can't this be set in mob pool mods like mobs?
-    if (trustData->m_Family == 971 || trustData->m_Family == 5918) 
+    // TODO: Why can't this be set in mob pool mods like mobs? Is mob_pool_mods not applied to trusts?
+    if (trustData->m_Family == 971 || trustData->m_Family == 96) 
     {
         PTrust->m_dualWield = true;
     }

@@ -28,6 +28,7 @@ end
 
 function onMobSpawn(mob)
     tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.SPAWN)
+    tpz.trust.setUpFood(mob)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_MS, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)

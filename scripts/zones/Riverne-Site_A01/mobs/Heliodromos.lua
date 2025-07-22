@@ -7,10 +7,7 @@ require("scripts/globals/status")
 require("scripts/globals/mobs")
 -----------------------------------
 function onMobSpawn(mob)
-	mob:setMod(tpz.mod.MAIN_DMG_RATING, 25)
-	mob:addMod(tpz.mod.DEFP, 25) 
-	mob:addMod(tpz.mod.ACC, 25) 
-    mob:setMod(tpz.mod.REFRESH, 40)
+    SetGenericNMStats(mob)
     SetServerVariable("Heliodromos_Despawn", 0)
 end
 
@@ -38,12 +35,11 @@ end
 
 function onMobEngaged(mob)
 	local target = mob:getTarget()
-    local HeliodromosOne = GetMobByID(16900110)
-    local HeliodromosTwo = GetMobByID(16900111)
-    local HeliodromosThree = GetMobByID(16900112)
-	HeliodromosOne:updateEnmity(target)
-	HeliodromosTwo:updateEnmity(target)
-	HeliodromosThree:updateEnmity(target)
+
+    -- Force links all 3 "clones" on engage
+    for heliodromos = 16900110, 16900112 do
+        GetMobByID(heliodromos):updateEnmity(target)
+    end
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

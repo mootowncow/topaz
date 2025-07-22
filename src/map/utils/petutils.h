@@ -26,6 +26,7 @@
 #include "../../common/cbasetypes.h"
 #include "../../common/mmo.h"
 
+// Additional pets are added in pet_list.sql
 enum PETID
 {
     PETID_FIRESPIRIT         = 0,
@@ -155,6 +156,7 @@ enum PETID
     PETID_GLENN = 124,            // WISPY BROTH
     PETID_YELLOW_BEETLE = 125, // ZESTFUL SAP
     PETID_SEFINA = 126,        // GASSY SAP
+    PETID_SIREN = 127,
     MAX_PETID                = 999,
 };
 

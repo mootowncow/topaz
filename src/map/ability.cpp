@@ -82,9 +82,26 @@ bool CAbility::isPetCommand()
             getID() == ABILITY_RETRIEVE);
 }
 
+bool CAbility::isBloodPact()
+{
+    uint16 id = getID();
+
+    if ((id >= ABILITY_HEALING_RUBY && id <= ABILITY_PERFECT_DEFENSE) ||
+        (id >= ABILITY_CLARSACH_CALL && id <= ABILITY_HYSTERIC_ASSAULT) ||
+        id == ABILITY_PACIFYING_RUBY || id == ABILITY_REGAL_GASH)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+
 bool CAbility::isReadyMove()
 {
-    return getID() >= ABILITY_FOOT_KICK && getID() <= ABILITY_NIHILITY_SONG;
+    return (getID() >= ABILITY_FOOT_KICK && getID() <= ABILITY_NIHILITY_SONG)
+        && getID() != ABILITY_PACIFYING_RUBY
+        && getID() != ABILITY_REGAL_GASH;
 }
 
 bool CAbility::isQuickDraw()
@@ -148,6 +165,18 @@ bool CAbility::isConal()
 {
     // no abilities are conal?
     return false;
+}
+
+bool CAbility::isTwoHour() const
+{
+    // flag means this skill is a real two hour
+    return m_Flag & ABILITYFLAG_TWO_HOUR;
+}
+
+bool CAbility::isMagicAttack() const
+{
+    // means it is a magic skill / blood pact
+    return m_Flag & ABILITYFLAG_MAGIC_SKILL;
 }
 
 void CAbility::setID(uint16 id)
@@ -282,6 +311,79 @@ uint16 CAbility::getTPCost()
     return m_tpCost;
 }
 
+void CAbility::setMPCost(uint16 mpCost)
+{
+    m_mpCost = mpCost;
+}
+
+uint16 CAbility::getMPCost()
+{
+    return m_mpCost;
+}
+
+uint8 CAbility::getPrimarySkillchain() const
+{
+    return m_primarySkillchain;
+}
+
+uint8 CAbility::getSecondarySkillchain() const
+{
+    return m_secondarySkillchain;
+}
+
+uint8 CAbility::getTertiarySkillchain() const
+{
+    return m_tertiarySkillchain;
+}
+
+uint8 CAbility::getFlag() const
+{
+    return m_Flag;
+}
+
+void CAbility::setPrimarySkillchain(uint8 skillchain)
+{
+    m_primarySkillchain = skillchain;
+}
+
+void CAbility::setSecondarySkillchain(uint8 skillchain)
+{
+    m_secondarySkillchain = skillchain;
+}
+
+void CAbility::setTertiarySkillchain(uint8 skillchain)
+{
+    m_tertiarySkillchain = skillchain;
+}
+
+void CAbility::setFlag(uint8 flag)
+{
+    m_Flag = flag;
+}
+
+void CAbility::addFlag(uint8 flag)
+{
+    m_Flag |= flag;
+}
+
+bool CAbility::hasMissMsg() const
+{
+    switch (m_message)
+    {
+        case MSGBASIC_JA_MISS_2:
+        case MSGBASIC_SHADOW_ABSORB:
+            return true;
+        default:
+            break;
+    }
+    return false;
+}
+
+void CAbility::setTarget(CBaseEntity* target)
+{
+    m_target = target;
+}
+
 void CAbility::setValidTarget(uint16 validTarget)
 {
     m_validTarget = validTarget;
@@ -295,6 +397,11 @@ void CAbility::setTotalTargets(uint16 targets)
 void CAbility::setPrimaryTargetID(uint32 targid)
 {
     m_PrimaryTargetID = targid;
+}
+
+CBaseEntity* CAbility::getTarget() const
+{
+    return m_target;
 }
 
 uint16 CAbility::getValidTarget()
@@ -496,7 +603,12 @@ namespace ability
             "meritModID, "
             "addType, "
             "content_tag, "
-            "tpCost "
+            "tpCost, "
+            "mpCost, "
+            "primary_sc, "
+            "secondary_sc, "
+            "tertiary_sc, "
+            "ability_flag "
             "FROM abilities LEFT JOIN (SELECT mob_skill_name, MIN(mob_skill_id) AS min_id "
             "FROM mob_skills GROUP BY mob_skill_name) mob_skills_1 ON "
             "abilities.name = mob_skills_1.mob_skill_name "
@@ -525,7 +637,6 @@ namespace ability
                 PAbility->setValidTarget(Sql_GetIntData(SqlHandle, 5));
                 PAbility->setRecastTime(Sql_GetIntData(SqlHandle, 6));
                 PAbility->setMessage(Sql_GetIntData(SqlHandle, 7));
-                //PAbility->setMessage(Sql_GetIntData(SqlHandle,8));
                 PAbility->setAnimationID(Sql_GetIntData(SqlHandle, 9));
                 PAbility->setAnimationTime(std::chrono::milliseconds(Sql_GetIntData(SqlHandle, 10)));
                 PAbility->setCastTime(std::chrono::milliseconds(Sql_GetIntData(SqlHandle, 11)));
@@ -538,6 +649,11 @@ namespace ability
                 PAbility->setMeritModID(Sql_GetIntData(SqlHandle, 18));
                 PAbility->setAddType(Sql_GetUIntData(SqlHandle, 19));
                 PAbility->setTPCost(Sql_GetUIntData(SqlHandle, 21));
+                PAbility->setMPCost(Sql_GetUIntData(SqlHandle, 22));
+                PAbility->setPrimarySkillchain(Sql_GetUIntData(SqlHandle, 23));
+                PAbility->setSecondarySkillchain(Sql_GetUIntData(SqlHandle, 24));
+                PAbility->setTertiarySkillchain(Sql_GetUIntData(SqlHandle, 25));
+                PAbility->setFlag(Sql_GetUIntData(SqlHandle, 26));
 
                 PAbilityList[PAbility->getID()] = PAbility;
                 PAbilitiesList[PAbility->getJob()].push_back(PAbility);
@@ -629,6 +745,22 @@ namespace ability
 
             return ((PUser->GetMJob() == Job && PUser->GetMLevel() >= JobLvl) ||
                 (PUser->GetSJob() == Job && PUser->GetSLevel() >= JobLvl));
+        }
+        return false;
+    }
+
+    bool CanUseAbility(CBattleEntity* PUser, CAbility* PAbility)
+    {
+        if (PAbility != nullptr)
+        {
+            // Special case: Trusts at 75 can use merit abilities
+            if ((PAbility->getAddType() & ADDTYPE_MERIT) && PUser->objtype == TYPE_TRUST && PUser->GetMLevel() >= 75)
+            {
+                return true;
+            }
+
+            // Normal ability check
+            return CanLearnAbility(PUser, PAbility->getID());
         }
         return false;
     }

@@ -15,8 +15,13 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-
-    local dmgmod = MobHPBasedMove(mob, target, 0.0625, 1, tpz.magic.ele.FIRE, 400)
+    local cap = 400
+    local percent = 0.0625
+    if mob:getName() == 'Hound_of_Balthazar' then
+        cap = 1250
+        percent = 0.10
+    end
+    local dmgmod = MobHPBasedMove(mob, target, skill, percent, 1, tpz.magic.ele.FIRE, cap)
 
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.FIRE, MOBPARAM_IGNORE_SHADOWS)
 

@@ -275,6 +275,12 @@ void setAttachment(CCharEntity* PChar, uint8 slotId, uint8 attachment)
             }
             luautils::OnAttachmentEquip(PChar->PAutomaton, PAttachment);
             PChar->PAutomaton->setAttachment(slotId, attachment);
+
+            auto PAutomaton = PChar->PAutomaton;
+            // Max [HP/MP] Boost mods
+            PAutomaton->UpdateHealth();
+            PAutomaton->health.hp = PAutomaton->GetMaxHP();
+            PAutomaton->health.mp = PAutomaton->GetMaxMP();
         }
         else
         {
@@ -297,6 +303,13 @@ void setAttachment(CCharEntity* PChar, uint8 slotId, uint8 attachment)
                 }
                 luautils::OnAttachmentUnequip(PChar->PAutomaton, PAttachment);
                 PChar->PAutomaton->setAttachment(slotId, 0);
+
+                auto PAutomaton = PChar->PAutomaton;
+                // Max [HP/MP] Boost mods
+                PAutomaton->UpdateHealth();
+                PAutomaton->health.hp = PAutomaton->GetMaxHP();
+                PAutomaton->health.mp = PAutomaton->GetMaxMP();
+                PChar->setPetZoningInfo();
             }
         }
     }
@@ -516,20 +529,9 @@ void TrySkillUP(CAutomatonEntity* PAutomaton, SKILLTYPE SkillID, uint8 lvl)
 
         double random = tpzrand::GetRandomNumber(1.);
 
-        // Ranged(Sharpshot) and Magic(Stormwaker) have 70% max, melee has 24% max skill up chance
-        if (SkillID == SKILL_AUTOMATON_RANGED || SkillID == SKILL_AUTOMATON_MAGIC)
+        if (SkillUpChance > 0.70)
         {
-            if (SkillUpChance > 0.70)
-            {
-                SkillUpChance = 0.70;
-            }
-        }
-        else
-        {
-            if (SkillUpChance > 0.24)
-            {
-                SkillUpChance = 0.24;
-            }
+            SkillUpChance = 0.70;
         }
 
         SkillUpChance *= ((100.f + PAutomaton->getMod(Mod::COMBAT_SKILLUP_RATE)) / 100.f);

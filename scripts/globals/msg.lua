@@ -152,6 +152,11 @@ tpz.msg.basic =
     JA_MISS_2              = 324, -- <user> uses <ability>, but misses <target>. (includes target name)
     JA_RECEIVES_EFFECT_3   = 441, -- <user> receives the effect of <ability>.
     JA_DAMAGE_AND_STUN     = 522, -- <user> uses <ability>.  <target> takes <damage> and is stunned. (2 line msg)
+    JA_GAINS_EFFFECT       = 319, -- The <uses> uses <ability <target> gains the effect of <status>.
+    JA_ERASE               = 378, -- Arg is effect ID, only for removing 1 effect
+    JA_ERASE_MULTIPLE      = 343,
+    JA_ENMITY_REDUCED      = 743, -- <user> uses <ability. <target>'s enmity decreases. (2 line msg)
+    JA_DRAIN_HP            = 802, -- <user> uses <ability>. <damage> HP drained from <target> (2 line msg)
     CANNOT_PERFORM_ACTION  = 71,  -- <user> cannot perform that action.
     SEEMS_FRIENDLIER       = 138, -- The <player> uses .. <target> seems friendlier.
 
@@ -232,6 +237,7 @@ tpz.msg.basic =
     STATUS_INCREASED       = 562, -- The status parameters of ${target} have increased.
     PET_CANNOT_DO_ACTION   = 574, -- <player>'s pet is currently unable to perform that action.
     PET_NOT_ENOUGH_TP      = 575, -- <player>'s pet does not have enough TP to perform that action.
+    BURDEN_PERCENT         = 798, -- <player>'s <maneuver> overload chance is <%>.
 
     -- Food
     IS_FULL                 = 246,  -- ${target} is full.
@@ -377,6 +383,16 @@ tpz.msg.basic =
     -- TRUST & ALTER EGO
     TRUST_NO_CAST_TRUST     = 700,  -- You are unable to use Trust magic at this time.
     TRUST_NO_CALL_AE        = 717,  -- You cannot call forth alter egos here.
+}
+
+------------------------------------
+-- Combat Messages
+------------------------------------
+tpz.msg.combat =
+{
+    -- Magian trials
+    MAGIAN_TRIAL_PROGRESS = 583, -- Trial <id>: <number> objectives remain.
+    MAGIAN_TRIAL_COMPLETE = 584, -- You have completed Trial <id>. Report your success to a Magian Moogle.
 }
 
 ------------------------------------

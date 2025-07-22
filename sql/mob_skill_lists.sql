@@ -273,7 +273,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Bugbear',59,361); -- earth_shock
 INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2448);
 INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2449);
 INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2450);
-INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2451);
 INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2452);
 INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2453);
 INSERT INTO `mob_skill_lists` VALUES ('CaitSith',60,2454);
@@ -2797,22 +2796,44 @@ INSERT INTO `mob_skill_lists` VALUES ('Ob_Valoredge',1200,2299); -- bone_crusher
 INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,1942); -- arcuballista
 INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,2066); -- daze
 INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,2300); -- armor_piercer
+
 INSERT INTO `mob_skill_lists` VALUES ('Capricornus-MS',1202,641); -- Recoil Dive Only
+
 INSERT INTO `mob_skill_lists` VALUES ('Febrenard_C_Brunnaut',1203,36); -- Shining Blade
 INSERT INTO `mob_skill_lists` VALUES ('Febrenard_C_Brunnaut',1203,37); -- Seraph Blade
+
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,38); -- Circle Blade
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,40); -- Vorpal Blade
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,41); -- Swift Blade
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,2278); -- Glory Slash
+
 INSERT INTO `mob_skill_lists` VALUES ('Shouldercharge_Only',1205,2264); -- Shoulder Charge Only
+
 INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1206,733); -- Jump
 INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1206,1064); -- Jump (Long cast time)
+
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2193); -- zephyr_arrow
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2194); -- lethe_arrows
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2195); -- spring_breeze
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2196); -- summer_breeze
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2197); -- autumn_breeze
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2198); -- winter_breeze
+
+INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2163); -- Seedspray
+INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2164); -- Viscid Emission
+INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2165); -- Rotten Stench
+INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2166); -- Floral Bouquet
+INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2167); -- Bloody Caress
+INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2169); -- Soothing Aroma
+
+INSERT INTO `mob_skill_lists` VALUES ('Acho',1209,439); -- Petro Gaze
+INSERT INTO `mob_skill_lists` VALUES ('Acho',1209,440); -- Catharsis
+
+INSERT INTO `mob_skill_lists` VALUES ('Gouger_Beetle',1210,338);
+INSERT INTO `mob_skill_lists` VALUES ('Gouger_Beetle',1210,339);
+INSERT INTO `mob_skill_lists` VALUES ('Gouger_Beetle',1210,341);
+INSERT INTO `mob_skill_lists` VALUES ('Gouger_Beetle',1210,343);
+INSERT INTO `mob_skill_lists` VALUES ('Gouger_Beetle',1210,2823); -- Rhinowrecker
 
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
@@ -3220,7 +3241,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Tejas_post50',876,913); -- inferno
 INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,530); -- Memento_Mori
 INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,531); -- Silence_Seal
 INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,533); -- danse macambre
-INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,1326); -- final retrobution
+INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,1326); -- final retribution
 INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,1329); -- gala mancabre
 INSERT INTO `mob_skill_lists` VALUES ('Titlacauan',877,2638); -- hadal summons
 INSERT INTO `mob_skill_lists` VALUES ('Ulhuadshi',878,2187); -- dustvoid
@@ -4918,6 +4939,98 @@ INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,169); -- black_hal
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,250); -- carnal_nightmare
 INSERT INTO `mob_skill_lists` VALUES ('Cherukiki-Mythic',6152,252); -- dancing_chains
 
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren-Autoattacks',6172,3508); -- autoattack 1
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren-Autoattacks',6172,3509); -- autoattack 2
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren-Autoattacks',6172,3510); -- autoattack 3
+
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,3512); -- sonic_buffet
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,3513); -- entice
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,4227); -- bitter_elegy
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,4228); -- tornado_II
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,4229); -- lunatic_voice
+INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,4230); -- hysteric_assault
+
 -- Next available ID: 1208
 -- Next custom ID: 6153
+INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2178); -- sudden_lunge
+INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2179); -- noisome_powder
+INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2180); -- nepenthean_hum
+INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2181); -- spiral_spin
+INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2182); -- spiral_burst 
+INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2933); -- searing_effulgence 
+
+INSERT INTO `mob_skill_lists` VALUES ('Gastropoda',6154,2183); -- fuscous_ooze
+INSERT INTO `mob_skill_lists` VALUES ('Gastropoda',6154,2184); -- purulent_ooze
+INSERT INTO `mob_skill_lists` VALUES ('Gastropoda',6154,2185); -- corrosive_ooze
+INSERT INTO `mob_skill_lists` VALUES ('Gastropoda',6154,2186); -- Mucilaginous Ooze -- (60 seconds of encumbrance)
+
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,348);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,349);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,350);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,351);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,353);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,354);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,355);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,356);
+INSERT INTO `mob_skill_lists` VALUES ('Scorpion-WotG',6155,2221); -- hell scissors
+
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,32); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,33); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,34); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,35); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,36); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,37); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,38); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,39); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,40); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,41); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,42); -- Sword WS
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,247); -- foxfire
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,249); -- netherspikes
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,250); -- carnal_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,251); -- aegis_schism
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,252); -- dancing_chains
+INSERT INTO `mob_skill_lists` VALUES ('Lugh',6156,253); -- barbed_crescent
+
+INSERT INTO `mob_skill_lists` VALUES ('HoundOfBalthazar',6157,466); -- poison_breath_hound
+INSERT INTO `mob_skill_lists` VALUES ('HoundOfBalthazar',6157,470); -- methane_breath
+
+INSERT INTO `mob_skill_lists` VALUES ('Klagmuhme',6158,2511); -- Corpse Breath
+INSERT INTO `mob_skill_lists` VALUES ('Klagmuhme',6158,2825); -- Louring Skies
+
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,498); -- triclip
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,499); -- back swish
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,500); -- mow
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,501); -- frightful roar
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,502); -- mortal ray
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,503); -- unblessed armor
+INSERT INTO `mob_skill_lists` VALUES ('Velfegor',6159,1360); -- apocalyptic ray
+
+INSERT INTO `mob_skill_lists` VALUES ('Kernunnos',6160,2423); -- Triumphant_roar
+INSERT INTO `mob_skill_lists` VALUES ('Kernunnos',6160,2424); -- Terror_eye
+INSERT INTO `mob_skill_lists` VALUES ('Kernunnos',6160,2425); -- Bloody_claw
+
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,19); -- Gust Slash
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,20); -- Cyclone
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,25); -- Evisceration
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,247); -- foxfire
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,249); -- netherspikes
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,250); -- carnal_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,251); -- aegis_schism
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,252); -- dancing_chains
+INSERT INTO `mob_skill_lists` VALUES ('Ethniu',6161,253); -- barbed_crescent
+
+-- earthcrusher, retribution, rock crusher
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,177); -- rock_crusher
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,178); -- earth_crusher
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,184); -- retribution
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,248); -- grim_halo
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,249); -- netherspikes
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,250); -- carnal_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,251); -- aegis_schism
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,252); -- dancing_chains
+INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,253); -- barbed_crescent
+
+-- Next available ID: 1211
+-- Next custom ID: 6159
 

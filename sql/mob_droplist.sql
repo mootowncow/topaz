@@ -671,7 +671,7 @@ INSERT INTO `mob_droplist` VALUES (116,0,0,1000,16995,240);
 INSERT INTO `mob_droplist` VALUES (117,0,0,1000,644,50);
 INSERT INTO `mob_droplist` VALUES (117,2,0,1000,749,0);
 INSERT INTO `mob_droplist` VALUES (117,0,0,1000,1118,150);
-INSERT INTO `mob_droplist` VALUES (117,0,0,1000,1540,60);
+-- INSERT INTO `mob_droplist` VALUES (117,0,0,1000,1540,60); -- Garrison
 INSERT INTO `mob_droplist` VALUES (117,0,0,1000,16995,240);
 INSERT INTO `mob_droplist` VALUES (118,0,0,1000,645,1000); -- (Antican Consul) Chunk of darksteel ore
 INSERT INTO `mob_droplist` VALUES (118,0,0,1000,1118,1000); -- Antican pauldron
@@ -5050,7 +5050,7 @@ INSERT INTO `mob_droplist` VALUES (962,0,0,1000,880,240);
 INSERT INTO `mob_droplist` VALUES (962,0,0,1000,2776,0);	--Pumice Stone
 INSERT INTO `mob_droplist` VALUES (962,0,0,1000,4824,10);
 INSERT INTO `mob_droplist` VALUES (963,0,0,1000,560,150);
-INSERT INTO `mob_droplist` VALUES (964,0,0,1000,1538,80);
+-- INSERT INTO `mob_droplist` VALUES (964,0,0,1000,1538,80); -- garrison
 INSERT INTO `mob_droplist` VALUES (965,0,0,1000,846,50);
 INSERT INTO `mob_droplist` VALUES (965,0,0,1000,912,240);
 INSERT INTO `mob_droplist` VALUES (965,0,0,1000,925,13);
@@ -5070,7 +5070,7 @@ INSERT INTO `mob_droplist` VALUES (970,2,0,1000,864,0);
 INSERT INTO `mob_droplist` VALUES (970,0,0,1000,868,100);
 INSERT INTO `mob_droplist` VALUES (970,0,0,1000,1727,80);
 INSERT INTO `mob_droplist` VALUES (970,0,0,1000,4484,80);
-INSERT INTO `mob_droplist` VALUES (971,0,0,1000,1538,80);
+-- INSERT INTO `mob_droplist` VALUES (971,0,0,1000,1538,80);  -- garrison
 INSERT INTO `mob_droplist` VALUES (972,0,0,1000,896,240);
 INSERT INTO `mob_droplist` VALUES (972,0,0,1000,897,1000);
 INSERT INTO `mob_droplist` VALUES (972,4,0,1000,896,0); -- Scorpion Shell(Despoil)
@@ -12161,7 +12161,7 @@ INSERT INTO `mob_droplist` VALUES (2308,0,0,1000,1156,0);
 INSERT INTO `mob_droplist` VALUES (2308,0,0,1000,13607,240);	-- mist silk cape
 INSERT INTO `mob_droplist` VALUES (2309,0,0,1000,838,150);
 INSERT INTO `mob_droplist` VALUES (2309,0,0,1000,2953,150);
-INSERT INTO `mob_droplist` VALUES (2310,0,0,1000,846,240);
+INSERT INTO `mob_droplist` VALUES (2310,0,0,1000,846,240); -- (Spongilla / Vauxia Fly - Caedara Mire) Insect wing
 INSERT INTO `mob_droplist` VALUES (2311,0,0,1000,940,10);
 INSERT INTO `mob_droplist` VALUES (2311,0,0,1000,1046,50);
 INSERT INTO `mob_droplist` VALUES (2312,2,0,1000,750,0);    -- Spring_Sahagin
@@ -14175,16 +14175,12 @@ INSERT INTO `mob_droplist` VALUES (2600,0,0,1000,1723,240); -- White memosphere
 INSERT INTO `mob_droplist` VALUES (2600,0,0,1000,1723,150); -- White memosphere
 INSERT INTO `mob_droplist` VALUES (2600,0,0,1000,1760,240); -- Recollection of animosity
 INSERT INTO `mob_droplist` VALUES (2601,4,0,1000,861,0); -- (Wajaom Tiger)
-INSERT INTO `mob_droplist` VALUES (2601,0,0,1000,861,240); -- Tiger Hide
+INSERT INTO `mob_droplist` VALUES (2601,0,0,1000,861,100); -- Tiger Hide
 INSERT INTO `mob_droplist` VALUES (2601,0,0,1000,884,240); -- Black Tiger Fang
-INSERT INTO `mob_droplist` VALUES (2601,0,0,1000,884,150); -- Black Tiger Fang
-INSERT INTO `mob_droplist` VALUES (2601,0,0,1000,884,100); -- Black Tiger Fang
 INSERT INTO `mob_droplist` VALUES (2601,0,0,1000,2461,100); -- Rusty Medal
 INSERT INTO `mob_droplist` VALUES (2602,4,0,1000,861,0); --(Bhaflau Thickets Tiger)
-INSERT INTO `mob_droplist` VALUES (2602,0,0,1000,861,240); -- Tiger Hide
+INSERT INTO `mob_droplist` VALUES (2602,0,0,1000,861,100); -- Tiger Hide
 INSERT INTO `mob_droplist` VALUES (2602,0,0,1000,884,240); -- Black Tiger Fang
-INSERT INTO `mob_droplist` VALUES (2602,0,0,1000,884,150); -- Black Tiger Fang
-INSERT INTO `mob_droplist` VALUES (2602,0,0,1000,884,100); -- Black Tiger Fang
 INSERT INTO `mob_droplist` VALUES (2602,0,0,1000,2461,100); -- Rusty Medal
 INSERT INTO `mob_droplist` VALUES (2603,0,0,1000,573,70);
 INSERT INTO `mob_droplist` VALUES (2603,2,0,1000,575,0);
@@ -17824,6 +17820,30 @@ INSERT INTO `mob_droplist` VALUES (6128,1,8,240,28575,250);     -- Cho'j Band
 INSERT INTO `mob_droplist` VALUES (6128,1,8,240,28385,250);     -- Atzintli Necklace
 INSERT INTO `mob_droplist` VALUES (6128,1,8,240,21384,250);     -- Kalboron Stone
 
+-- Lugh
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2858,1000);    -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2858,240);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2858,150);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,2859,240);     -- Cobalt Ore
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,11410,100);    -- Setantas Ledelsens
+INSERT INTO `mob_droplist` VALUES (6129,0,0,1000,17765,50);     -- Concordia
+
+-- Ethniu
+INSERT INTO `mob_droplist` VALUES (6130,0,0,1000,2858,1000);    -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6130,0,0,1000,2858,240);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6130,0,0,1000,2858,150);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6130,0,0,1000,2859,240);     -- Cobalt Ore
+INSERT INTO `mob_droplist` VALUES (6130,0,0,1000,16376,100);    -- Bahram Cuisses
+INSERT INTO `mob_droplist` VALUES (6130,0,0,1000,19118,50);     -- Machismo
+
+-- Tethra
+INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,2858,1000);    -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,2858,240);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,2858,150);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,2859,240);     -- Cobalt Ore
+INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,16302,100);    -- Bloodbead Gorget
+INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,18603,50);     -- Majestas
+
 ---------------------Dynamis---------------------
 
 -- Bastok
@@ -18385,11 +18405,12 @@ INSERT INTO `mob_droplist` VALUES (9059,0,0,1000,15702,240); -- Spagyric nails
 INSERT INTO `mob_droplist` VALUES (9059,0,0,1000,18419,240); -- Kugui
 INSERT INTO `mob_droplist` VALUES (9060,0,0,1000,1618,240); -- (Harajnite) Uragnite Shell
 INSERT INTO `mob_droplist` VALUES (9060,0,0,1000,1719,50); -- Harajnite Shell
+INSERT INTO `mob_droplist` VALUES (9061,0,0,1000,1009,50); -- Jack of Coins
 
 -- free 22, 1665, 2331
 -- free 3170 - 3176
 -- NEXT: 3231
--- NEXT: 6129
+-- NEXT: 6130
 
 
 

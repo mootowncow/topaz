@@ -225,6 +225,7 @@ public:
 
     int32 hasGearSetMod(lua_State*);         // Checks if character already has a gear set mod
     int32 addGearSetMod(lua_State*);         // Sets the characters gear set mod
+    int32 addPetGearSetMod(lua_State*);         // Sets the characters pet gear set mod
     int32 clearGearSetMods(lua_State*);      // Clears a characters gear set mods
 
     int32 getStorageItem(lua_State*);        // returns item object player:getStorageItem(containerid, slotid, equipslotid)
@@ -392,6 +393,7 @@ public:
     int32 getBaseHP(lua_State*);            // Returns Entity base Health before modifiers
     int32 addHP(lua_State*);                // Modify hp of Entity +/-
     int32 setHP(lua_State*);                // Set hp of Entity to value
+    int32 setHPP(lua_State*);               // Set hp percent of Entity to value
     int32 restoreHP(lua_State*);            // Modify hp of Entity, but check if alive first
     int32 delHP(lua_State*);                // Subtract hp of Entity
     int32 takeDamage(lua_State*);           // Takes damage from the provided attacker
@@ -403,6 +405,7 @@ public:
     int32 getBaseMP(lua_State*);            // Gets base MP before modifiers of Entity
     int32 addMP(lua_State*);                // Modify mp of Entity +/-
     int32 setMP(lua_State*);                // Set mp of Entity to value
+    int32 setMPP(lua_State*);               // Set mp percent of Entity to value
     int32 restoreMP(lua_State*);            // Modify mp of Entity, but check if alive first
     int32 delMP(lua_State*);                // Subtract mp of Entity
 
@@ -410,6 +413,9 @@ public:
     int32 addTP(lua_State*);                // Modify tp of Entity +/-
     int32 setTP(lua_State*);                // Set tp of Entity to value
     int32 delTP(lua_State*);                // Subtract tp of Entity
+    int32 getSpentTP(lua_State*);           // Get an entities last spent TP
+    int32 getTPToAttacker(lua_State*);      // Calculate how much TP to gain from a successful hit
+    int32 getTPToVictim(lua_State*);        // Calculate how much TP to give to a target from a successful hit
 
     int32 updateHealth(lua_State* L);
 
@@ -543,6 +549,7 @@ public:
     int32 setVE(lua_State*);                   //sets current VE the mob has towards the player
     int32 addEnmity(lua_State*);               // Add specified amount of enmity (target, CE, VE)
     int32 lowerEnmity(lua_State*);             //lower enmity to player for specificed mob
+    int32 lowerAllEnmity(lua_State*);          // lower enmity for a player against ALL mobs in the zone by a percent
     int32 updateEnmity(lua_State*);            // Adds Enmity to player for specified mob
     int32 transferEnmity(lua_State*);
     int32 updateEnmityFromDamage(lua_State*);  // Adds Enmity to player for specified mob for the damage specified
@@ -562,6 +569,8 @@ public:
     int32 hasStatusEffect(lua_State*);         // Checks to see if character has specified effect
     int32 hasStatusEffectByFlag(lua_State*);   // Checks to see if a character has an effect with the specified flag
     int32 countEffect(lua_State*);             // Gets the number of effects of a specific type on the player
+    int32 setEffectUndispellable(lua_State*);  // Makes the status effect undispellable (i.e. poison)
+    int32 getStatusEffectsAtDeath(lua_State*); // Gets a mobs status effects at time of death
 
     int32 delStatusEffect(lua_State*);         // Removes Status Effect
     int32 delStatusEffectsByFlag(lua_State*);  // Removes Status Effects by Flag
@@ -577,6 +586,7 @@ public:
     int32 getMod(lua_State*);                  // Retrieves Modifier Value
     int32 setMod(lua_State*);                  // Sets Modifier Value
     int32 delMod(lua_State*);                  // Subtracts Modifier Value
+    int32 getMaxGearMod(lua_State*);           // Gets the highest value of the specified modifier across all gear set effects, and latent effects   
 
     int32 addLatent(lua_State*);               // Adds a latent effect
     int32 delLatent(lua_State*);               // Removes a latent effect
@@ -707,8 +717,8 @@ public:
 
     int32 getModelSize(lua_State *L);       // Gets model size
     int32 setModelSize(lua_State* L);       // Sets model size
-    int32 setMobFlags(lua_State*);          // Used to manipulate the mob's flags for testing.
-    int32 getMobFlags(lua_State*);
+    int32 setEntityFlags(lua_State*);       // Used to manipulate the mob's entity flags for testing.
+    int32 getEntityFlags(lua_State*);
 
     int32 spawn(lua_State* L);
     int32 isSpawned(lua_State*);
@@ -732,8 +742,15 @@ public:
     int32 getRangedDelay(lua_State*);         // gets a players ranged weapon delay
     int32 setDelay(lua_State*);               // sets a mobs weapon delay
     int32 setDamage(lua_State*);              // sets a mobs weapon damage
+    int32 getSpellList(lua_State*);
     int32 hasSpellList(lua_State*);
     int32 setSpellList(lua_State*);
+    int32 addSpellListEntry(lua_State*);      // Adds a spell to the mobs current spell list
+    int32 delSpelllistEntry(lua_State*);      // Removes a spell to the mobs current spell list
+    int32 clearSpellList(lua_State*);         // Fully clears the mobs current spell list
+    int32 isAutoAttackEnabled(lua_State*);    // Returns true / false if autoattack is enabled or not
+    int32 isMagicCastingEnabled(lua_State*);    // Returns true / false if casting is enabled or not
+    int32 isMobAbilityEnabled(lua_State*);    // Returns true / false if mob skills is enabled or not
     int32 SetAutoAttackEnabled(lua_State*);   // halts/resumes auto attack of entity
     int32 SetMagicCastingEnabled(lua_State*); // halt/resumes casting magic
     int32 SetMobAbilityEnabled(lua_State*);   // halt/resumes mob skills
@@ -796,6 +813,10 @@ public:
     int32 deaggroPlayer(lua_State* L);
     int32 deaggroAll(lua_State* L);
     int32 isTopEnmity(lua_State* L);
+    int32 getSkillList(lua_State* L);
+    int32 addSkillListEntry(lua_State* L);
+    int32 delSkillListEntry(lua_State* L);
+    int32 clearSkillList(lua_State* L);
     int32 trustProgressUpdateFlag(lua_State* L);
 };
 

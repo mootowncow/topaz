@@ -16,7 +16,7 @@ require("scripts/globals/msg")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    return 0
+    return 1
 end
 
 function onMobWeaponSkill(target, mob, skill)

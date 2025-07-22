@@ -5,6 +5,7 @@ require("scripts/globals/status")
 require("scripts/globals/utils")
 require("scripts/globals/msg")
 require("scripts/globals/items")
+require("scripts/globals/magian")
 ------------------------------------
 
 tpz = tpz or {}
@@ -389,6 +390,76 @@ function doEnspell(caster, target, spell, effect)
     end
 end
 
+-- TODO: Cursna can remove bane AND doom in 1 cast?
+function doNaSpell(caster, target, spell)
+    local naSpellData =
+    {
+        { Spell = tpz.magic.spell.BLINDNA,     Effects = tpz.effect.BLINDNESS,                                        CheckUnremovable = true  },
+        { Spell = tpz.magic.spell.CURSNA,      Effects = { tpz.effect.DOOM, tpz.effect.CURSE_I, tpz.effect.BANE },    CheckUnremovable = false },
+        { Spell = tpz.magic.spell.PARALYNA,    Effects = tpz.effect.PARALYSIS,                                        CheckUnremovable = true  },
+        { Spell = tpz.magic.spell.POISONA,     Effects = tpz.effect.POISON,                                           CheckUnremovable = true  },
+        { Spell = tpz.magic.spell.SILENA,      Effects = tpz.effect.SILENCE,                                          CheckUnremovable = true  },
+        { Spell = tpz.magic.spell.STONA,       Effects = tpz.effect.PETRIFICATION,                                    CheckUnremovable = false },
+        { Spell = tpz.magic.spell.VIRUNA,      Effects = { tpz.effect.DISEASE, tpz.effect.PLAGUE },                   CheckUnremovable = true  },
+    }
+    local spellId = spell:getID()
+
+    for _, na in ipairs(naSpellData) do
+        if (spellId == na.Spell) then
+
+            -- Determine list of effects to check
+            local effects = na.Effects or { na.Effect }
+            if type(effects) ~= "table" then
+                effects = { effects }
+            end
+
+            -- Now loop over each effect for this spell
+            for _, effectId in ipairs(effects) do
+                if target:hasStatusEffect(effectId) then
+                    if (na.CheckUnremovable) then
+                        local effect = target:getStatusEffect(effectId)
+                        local effectFlags = effect:getFlag()
+                        if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) == 0) then
+                            return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+                        end
+                    end
+
+                    -- Handle Doom (special case)
+                    if (effectId == tpz.effect.DOOM) then
+                        local bonus = caster:getMod(tpz.mod.ENHANCES_CURSNA) + target:getMod(tpz.mod.ENHANCES_CURSNA_RCVD)
+                        local skill = caster:getSkillLevel(tpz.skill.HEALING_MAGIC) + caster:getMod(tpz.mod.HEALING)
+                        local power = (10 + math.floor(skill / 30)) + bonus
+
+                        if (power >= math.random(1, 100)) then
+                            target:delStatusEffectSilent(effectId)
+                            spell:setMsg(tpz.msg.basic.MAGIC_REMOVE_EFFECT)
+                            return effectId
+                        else
+                            return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+                        end
+                    end
+
+                    handleDivineCaress(caster, target, effectId)
+                    target:delStatusEffectSilent(effectId)
+                    spell:setMsg(tpz.msg.basic.MAGIC_REMOVE_EFFECT)
+                    return effectId
+                end
+            end
+        end
+    end
+
+    return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+end
+
+function handleDivineCaress(caster, target, effect)
+    local amountBlocked = 1 + caster:getMod(tpz.mod.ENH_DIVINE_CARESS)
+
+    if caster:hasStatusEffect(tpz.effect.DIVINE_CARESS_I) then
+        target:addStatusEffect(tpz.effect.DIVINE_CARESS_II, effect, 0, 180, 0, amountBlocked, 0)
+        caster:delStatusEffectSilent(tpz.effect.DIVINE_CARESS_I)
+    end
+end
+
 ---------------------------------
 --   getCurePower returns the caster's cure power
 --   getCureFinal returns the final cure amount
@@ -760,6 +831,7 @@ function applyResistanceAddEffect(player, target, element, bonus, effect, skill)
     if (skill == tpz.skill.NONE) then
         skill = tpz.skill.HAND_TO_HAND
     end
+
     local p = getMagicHitRate(player, target, skill, element, SDT, 0, bonus, params)
 	local res = getMagicResist(p)
 
@@ -793,7 +865,7 @@ function applyResistanceAddEffect(player, target, element, bonus, effect, skill)
             end
         end
     end
-    -- printf("res was %f", res)
+    --printf("res was %f", res)
     return res
 end
 
@@ -863,13 +935,13 @@ function getMagicHitRate(caster, target, skillType, element, SDT, percentBonus, 
     -- printf("MEVA after +MEVA mod: %s", magiceva)
     -- add resist gear/mods(barspells etc)
     magiceva = magiceva + resMod
-    -- printf("MEVA after gear/barspells: %s", magiceva)
+    --printf("MEVA after gear/barspells: %s", magiceva)
     magicacc = math.floor(magicacc + bonusAcc)
 
     -- Add macc% from food
     local maccFood = magicacc * (caster:getMod(tpz.mod.FOOD_MACCP)/100)
     magicacc = math.floor(magicacc + utils.clamp(maccFood, 0, caster:getMod(tpz.mod.FOOD_MACC_CAP)))
-    -- printf("MACC: %s", magicacc)
+    --printf("MACC: %s", magicacc)
     
     return calculateMagicHitRate(target, magicacc, magiceva, element, percentBonus, caster:getMainLvl(), target:getMainLvl(), SDT)
 end
@@ -1184,7 +1256,7 @@ function handleAfflatusMisery(caster, spell, dmg)
     return dmg
 end
 
-function finalMagicAdjustments(caster, target, spell, dmg)
+function finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
     --Handles target's HP adjustment and returns UNSIGNED dmg (absorb message is set in this function)
 
     local skill = spell:getSkillType()
@@ -1233,6 +1305,10 @@ function finalMagicAdjustments(caster, target, spell, dmg)
     -- Handle Scarlet Delirium
     dmg = utils.ScarletDeliriumBonus(caster, dmg)
 
+    -- Handle global damage done mod
+    local globalDmgDone = 1 + (caster:getMod(tpz.mod.GLOBAL_DMG_DONE) / 100)
+    dmg = math.floor(dmg * globalDmgDone)
+
     -- Handle Positional MDT
     if caster:isInfront(target, 90) and target:hasStatusEffect(tpz.effect.MAGIC_SHIELD) then -- Front
         if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() == 3 then
@@ -1267,7 +1343,7 @@ function finalMagicAdjustments(caster, target, spell, dmg)
     dmg = AreaOfEffectResistance(target, spell, dmg)
 
     local element = spell:getElement()
-    dmg = target:magicDmgTaken(dmg, element)
+    dmg = target:magicDmgTaken(dmg, element, rawDmg)
 
     if (dmg > 0) then
         if not (spell:getSpellFamily() == tpz.magic.spellFamily.ASPIR) then
@@ -1309,13 +1385,13 @@ function finalMagicAdjustments(caster, target, spell, dmg)
     return dmg
  end
 
-function finalMagicNonSpellAdjustments(caster, target, ele, dmg)
+function finalMagicNonSpellAdjustments(caster, target, ele, dmg, rawDmg)
     --Handles target's HP adjustment and returns SIGNED dmg (negative values on absorb)
 
     -- Handle Circle DR
     dmg = utils.HandleCircleDamageReduction(caster, target, dmg)
 
-    dmg = target:magicDmgTaken(dmg, ele)
+    dmg = target:magicDmgTaken(dmg, ele, rawDmg)
 
     if (dmg > 0) then
         dmg = utils.clamp(dmg, 0, 99999)
@@ -1521,11 +1597,6 @@ function addBonuses(caster, spell, target, dmg, params)
             mab = mab + caster:getMerit(tpz.merit.NIN_MAGIC_BONUS)
         end
 
-        local mab_crit = caster:getMod(tpz.mod.MAGIC_CRITHITRATE)
-        if ( math.random(1, 100) < mab_crit ) then
-           mab = mab + ( 10 + caster:getMod(tpz.mod.MAGIC_CRIT_DMG_INCREASE ) )
-        end
-
         if caster:isPC() then
             if (casterJob == tpz.job.RDM) then
                 mab = mab + caster:getJobPointLevel(tpz.jp.RDM_MAGIC_ATK_BONUS)
@@ -1540,8 +1611,14 @@ function addBonuses(caster, spell, target, dmg, params)
     if (mabbonus < 0) then
         mabbonus = 0
     end
-
     dmg = math.floor(dmg * mabbonus)
+
+    -- Spell Crit
+    local critHitRate = caster:getMod(tpz.mod.MAGIC_CRITHITRATE) + target:getMod(tpz.mod.MAGIC_ENEMYCRITRATE)
+    local magicCritDmgIncrease = 1.5 + ((caster:getMod(tpz.mod.MAGIC_CRIT_DMG_INCREASE) - target:getMod(tpz.mod.MAGIC_CRIT_DEF_BONUS)) / 100)
+    if (math.random(1, 100) < critHitRate) then
+        dmg = math.floor(dmg * magicCritDmgIncrease)
+    end
 
     if spell:getSkillType() == tpz.skill.ELEMENTAL_MAGIC or spell:getSkillType() == tpz.skill.DARK_MAGIC then
         if (caster:hasStatusEffect(tpz.effect.EBULLIENCE)) then
@@ -1681,11 +1758,12 @@ function addBonusesAbility(caster, ele, target, dmg, params)
     dmg = math.floor(dmg * dayWeatherBonus)
 
     local mab = 1
+    local mdefBarBonus = getBarspellElementalMDB(caster, target, ele)
 
     if (params ~= nil and params.bonusmab ~= nil and params.includemab == true) then
         mab = (100 + caster:getMod(tpz.mod.MATT) + params.bonusmab) / (100 + target:getMod(tpz.mod.MDEF) + mdefBarBonus)
     elseif (params == nil or (params ~= nil and params.includemab == true)) then
-        mab = (100 + caster:getMod(tpz.mod.MATT)) / (100 + target:getMod(tpz.mod.MDEF) + getBarspellElementalMDB(caster, target, ele))
+        mab = (100 + caster:getMod(tpz.mod.MATT)) / (100 + target:getMod(tpz.mod.MDEF) + mdefBarBonus)
     end
 
     if (mab < 0) then
@@ -2306,7 +2384,7 @@ end
 
 function doElementalNuke(caster, spell, target, spellParams)
     local DMG = 0
-    local DMGMod = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+    local DMGMod = CalculateMagicDamageMod(caster)
     local skillType = spellParams.skillType
     local dINT = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)
     local V = 0
@@ -2352,7 +2430,7 @@ function doElementalNuke(caster, spell, target, spellParams)
         end
 
     else
-        local mDMG = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+        local mDMG = CalculateMagicDamageMod(caster)
         --[[
                 Calculate base damage:
                 D = mDMG + V + (dINT × M)
@@ -2410,26 +2488,27 @@ function doElementalNuke(caster, spell, target, spellParams)
         --print(string.format("MTDR was %.2f for numtargets %u",MTDR,spell:getTotalTargets()))
     end
     
-   -- if target:getMod(tpz.mod.MAGIC_STACKING_MDT) == 0 then
-   --     target:setMod(tpz.mod.MAGIC_STACKING_MDT,40)
-   --     target:queue(1100, function(target)
-   --         target:setMod(tpz.mod.MAGIC_STACKING_MDT,0)
-   --     end) 
-   -- else
-   --     DMG = DMG * target:getMod(tpz.mod.MAGIC_STACKING_MDT) / 100
-   -- end
-    
+    -- if target:getMod(tpz.mod.MAGIC_STACKING_MDT) == 0 then
+    --     target:setMod(tpz.mod.MAGIC_STACKING_MDT,40)
+    --     target:queue(1100, function(target)
+    --         target:setMod(tpz.mod.MAGIC_STACKING_MDT,0)
+    --     end) 
+    -- else
+    --     DMG = DMG * target:getMod(tpz.mod.MAGIC_STACKING_MDT) / 100
+    -- end
+
+    -- Track raw damage
+    local rawDmg = DMG
+    rawDmg = addBonuses(caster, spell, target, rawDmg, params)
+
     --get the resisted damage
     DMG = DMG * resist * MTDR
-
     --add on bonuses (staff/day/weather/jas/mab/etc all go in this function)
     DMG = addBonuses(caster, spell, target, DMG, spellParams)
-
     --add in target adjustment
     DMG = adjustForTarget(target, DMG, element)
-
     --add in final adjustments
-    DMG = finalMagicAdjustments(caster, target, spell, DMG)
+    DMG = finalMagicAdjustments(caster, target, spell, DMG, rawDmg)
 
     return DMG
 end
@@ -2469,7 +2548,7 @@ function doNuke(caster, target, spell, params)
     if (spell:getSkillType() == tpz.skill.NINJUTSU) then
         if (caster:getMainJob() == tpz.job.NIN) then -- NIN main gets a bonus to their ninjutsu nukes
             local ninSkillBonus = 100
-            local DMGMod = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+            local DMGMod = CalculateMagicDamageMod(caster)
 
             -- NIN Job Point: Elemental Ninjutsu Effect
             if caster:isPC() then
@@ -2512,6 +2591,10 @@ function doNuke(caster, target, spell, params)
         end
     end
 
+    -- Track raw damage
+    local rawDmg = dmg
+    rawDmg = addBonuses(caster, spell, target, rawDmg, params)
+
     --get the resisted damage
     dmg = dmg * resist
     --add on bonuses (staff/day/weather/jas/mab/etc all go in this function)
@@ -2519,7 +2602,7 @@ function doNuke(caster, target, spell, params)
     --add in target adjustment
     dmg = adjustForTarget(target, dmg, spell:getElement())
     --add in final adjustments
-    dmg = finalMagicAdjustments(caster, target, spell, dmg)
+    dmg = finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
     return dmg
 end
 
@@ -2540,12 +2623,16 @@ function doDivineBanishNuke(caster, target, spell, params)
     local dmg = calculateMagicDamage(caster, target, spell, params)
 
     -- Add magic damage mod 
-    local DMGMod = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+    local DMGMod = CalculateMagicDamageMod(caster)
     dmg = dmg + DMGMod
 
     --get resist multiplier (1x if no resist)
     local resist = applyResistance(caster, target, spell, params)
-	 
+
+    -- Track raw damage
+    local rawDmg = dmg
+    rawDmg = addBonuses(caster, spell, target, rawDmg, params)
+
     --get the resisted damage
     dmg = dmg * resist
 
@@ -2563,7 +2650,7 @@ function doDivineBanishNuke(caster, target, spell, params)
     --handling afflatus misery
     dmg = handleAfflatusMisery(caster, spell, dmg)
     --add in final adjustments
-    dmg = finalMagicAdjustments(caster, target, spell, dmg)
+    dmg = finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
     return dmg
 end
 
@@ -2945,29 +3032,31 @@ function doCure(caster, target, spell)
             end
         else
             if (target:isUndead()) then
-               spell:setMsg(tpz.msg.basic.MAGIC_DMG)
-               local params = {}
-               params.dmg = baseDmg
-               params.multiplier = offensiveMultiplier
-               params.skillType = tpz.skill.HEALING_MAGIC
-               params.attribute = tpz.mod.MND
-               params.hasMultipleTargetReduction = false
+                spell:setMsg(tpz.msg.basic.MAGIC_DMG)
+                local params = {}
+                params.dmg = baseDmg
+                params.multiplier = offensiveMultiplier
+                params.skillType = tpz.skill.HEALING_MAGIC
+                params.attribute = tpz.mod.MND
+                params.hasMultipleTargetReduction = false
 
-               local dmg = calculateMagicDamage(caster, target, spell, params)
-               local params = {}
-               params.diff = caster:getStat(tpz.mod.MND)-target:getStat(tpz.mod.MND)
-               params.attribute = tpz.mod.MND
-               params.skillType = tpz.skill.HEALING_MAGIC
-               params.bonus = 0
-               local resist = applyResistance(caster, target, spell, params)
-               dmg = dmg*resist
-               dmg = addBonuses(caster, spell, target, dmg)
-               dmg = adjustForTarget(target, dmg, spell:getElement())
-               dmg = finalMagicAdjustments(caster, target, spell, dmg)
-               final = dmg
-               -- printf(string.format("Cure resist: %f final damage: %d", resist, dmg))
-               target:takeDamage(final, caster, tpz.attackType.MAGICAL, tpz.damageType.LIGHT)
-               target:updateEnmityFromDamage(caster, final)
+                local dmg = calculateMagicDamage(caster, target, spell, params)
+                -- Track raw damage
+                local rawDmg = dmg
+                local params = {}
+                params.diff = caster:getStat(tpz.mod.MND)-target:getStat(tpz.mod.MND)
+                params.attribute = tpz.mod.MND
+                params.skillType = tpz.skill.HEALING_MAGIC
+                params.bonus = 0
+                local resist = applyResistance(caster, target, spell, params)
+                dmg = dmg*resist
+                dmg = addBonuses(caster, spell, target, dmg)
+                dmg = adjustForTarget(target, dmg, spell:getElement())
+                dmg = finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
+                final = dmg
+                -- printf(string.format("Cure resist: %f final damage: %d", resist, dmg))
+                target:takeDamage(final, caster, tpz.attackType.MAGICAL, tpz.damageType.LIGHT)
+                target:updateEnmityFromDamage(caster, final)
             elseif (caster:getObjType() == tpz.objType.PC) then
                 spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
             else
@@ -3021,19 +3110,22 @@ function doCure(caster, target, spell)
     return final
 end
 
-function doAdditionalEffectDamage(player, target, chance, dmg, dStat, incudeMAB, bonusMAB, element, maccBonus)
-    local resist = applyResistanceAddEffect(player, target, element, maccBonus, nil)
+function doAdditionalEffectDamage(player, target, chance, dmg, statMod, incudeMAB, bonusMAB, element, skill, maccBonus)
+    -- statMod (INT MND etc) increases damage by 1 per 3 of the stat (i.e. 30 MND = +10 damage)
+    local rawDmg = dmg
+    local resist = applyResistanceAddEffect(player, target, element, maccBonus, tpz.effect.NONE, skill)
     local params = {}
     params.bonusmab = bonusMAB
     params.includemab = incudeMAB
+
     if math.random(100) <= chance then
-        if dStat ~= nil then
-            dmg = dmg + (player:getStat(dStat) - target:getStat(dStat))
+        if (statMod) then
+            dmg = dmg + math.floor(player:getStat(statMod) / 3)
         end
         dmg = addBonusesAbility(player, element, target, dmg, params)
         dmg = math.floor(dmg * resist)
         dmg = adjustForTarget(target, dmg, element)
-        dmg = finalMagicNonSpellAdjustments(player, target, element, dmg)
+        dmg = finalMagicNonSpellAdjustments(player, target, element, dmg, rawDmg)
     else
          return 0
     end
@@ -3042,7 +3134,7 @@ function doAdditionalEffectDamage(player, target, chance, dmg, dStat, incudeMAB,
     --printf("bonusMAB %i", bonusMAB)
     --printf("element %i", element)
     --printf("maccBonus %i", maccBonus)
-    --printf("dmg %i", dmg)
+    --printf("dmg final %i", dmg)
     return dmg
 end
 
@@ -3062,7 +3154,7 @@ function DeleteAmmoAdditionalEffect(player, dmg, ammo)
     end
 end
 
-function getAdditionalEffectStatusResist(player, target, effect, element, bonus)
+function getAdditionalEffectStatusResist(player, target, effect, element, skill, bonus)
     local immunityMap =
     {
         { Effect = tpz.effect.SLEEP_I,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
@@ -3094,7 +3186,7 @@ function getAdditionalEffectStatusResist(player, target, effect, element, bonus)
         return 1/16
     end
 
-    local resist = applyResistanceAddEffect(player, target, element, bonus, effect)
+    local resist = applyResistanceAddEffect(player, target, element, bonus, effect, skill)
 
     -- Check for resistance traits 
     if effect ~= nil and math.random() < getEffectResistanceTraitChance(player, target, effect) then
@@ -3121,7 +3213,7 @@ function getAdditionalEffectStatusResist(player, target, effect, element, bonus)
     return resist
 end
 
-function TryApplyAdditionalEffect(player, target, effect, element, power, tick, duration, subpower, tier, chance, bonus)
+function TryApplyAdditionalEffect(player, target, effect, element, power, tick, duration, subpower, tier, chance, skill, bonus)
     local effects =
     {
         { tpz.effect.SLEEP_I, tpz.subEffect.SLEEP },
@@ -3159,8 +3251,10 @@ function TryApplyAdditionalEffect(player, target, effect, element, power, tick, 
         { tpz.effect.KO, tpz.subEffect.DEATH },
     }
 
-    local resist = getAdditionalEffectStatusResist(player, target, effect, element, bonus)
+    local resist = getAdditionalEffectStatusResist(player, target, effect, element, skill, bonus)
     duration = math.floor(duration * resist)
+
+    target:updateClaim(player) -- Needed for checkKillCredit() for magian trials
 
     if isNoEffectMsg(player, target, effect, params) then
         return 
@@ -3184,8 +3278,6 @@ function TryApplyAdditionalEffect(player, target, effect, element, power, tick, 
         tick = 0
     end
 
-
-
     -- Get sub effect from status effect ID
     for i, statusEffects in pairs(effects) do
         if (effect == statusEffects[1]) then
@@ -3206,10 +3298,95 @@ function TryApplyAdditionalEffect(player, target, effect, element, power, tick, 
             target:delStatusEffectSilent(tpz.effect.EVASION_BOOST)
         end
 
+        if (skill == tpz.skill.MARKSMANSHIP) then
+            local enhancesStatusBoltsMod = 1 + (player:getMod(tpz.mod.ENH_STATUS_BOLTS) / 100)
+            power = power *  enhancesStatusBoltsMod
+        end
+
         target:addStatusEffect(effect, power, tick, duration, 0, subpower, tier)
+
+        tpz.magian.checkMagianTrialEffects(player, target, effect, 'AddEffect')
 
         return subeffect, tpz.msg.basic.ADD_EFFECT_STATUS, effect
     end
+end
+
+function TryAdditionalEffectAugment(player, target, skill, bonus)
+    local augmentData = {
+        -- Elemental Damage Add Effects
+        [tpz.augments.ADDEFF_FIREDMG_5]          = { element = tpz.magic.ele.FIRE,      subEffect = tpz.subEffect.FIRE_DAMAGE },
+        [tpz.augments.ADDEFF_ICEDMG_5]           = { element = tpz.magic.ele.ICE,       subEffect = tpz.subEffect.ICE_DAMAGE },
+        [tpz.augments.ADDEFF_WINDDMG_5]          = { element = tpz.magic.ele.WIND,      subEffect = tpz.subEffect.WIND_DAMAGE },
+        [tpz.augments.ADDEFF_EARTHDMG_5]         = { element = tpz.magic.ele.EARTH,     subEffect = tpz.subEffect.EARTH_DAMAGE },
+        [tpz.augments.ADDEFF_LIGHTNINGDMG_5]     = { element = tpz.magic.ele.LIGHTNING, subEffect = tpz.subEffect.LIGHTNING_DAMAGE },
+        [tpz.augments.ADDEFF_WATERDMG_5]         = { element = tpz.magic.ele.WATER,     subEffect = tpz.subEffect.WATER_DAMAGE },
+        [tpz.augments.ADDEFF_LIGHTDMG_5]         = { element = tpz.magic.ele.LIGHT,     subEffect = tpz.subEffect.LIGHT_DAMAGE },
+        [tpz.augments.ADDEFF_DARKDMG_5]          = { element = tpz.magic.ele.DARK,      subEffect = tpz.subEffect.DARK_DAMAGE },
+
+        -- Status Effect Add Effects
+        [tpz.augments.ADDEFF_DISEASE]            = { element = tpz.magic.ele.FIRE,      effect = tpz.effect.PLAGUE,             subEffect = tpz.subEffect.PLAGUE },
+        [tpz.augments.ADDEFF_PARALYSIS]          = { element = tpz.magic.ele.ICE,       effect = tpz.effect.PARALYSIS,          subEffect = tpz.subEffect.PARALYSIS },
+        [tpz.augments.ADDEFF_SILENCE]            = { element = tpz.magic.ele.WIND,      effect = tpz.effect.SILENCE,            subEffect = tpz.subEffect.SILENCE },
+        [tpz.augments.ADDEFF_SLOW]               = { element = tpz.magic.ele.EARTH,     effect = tpz.effect.SLOW,               subEffect = tpz.subEffect.SLOW },
+        [tpz.augments.ADDEFF_STUN]               = { element = tpz.magic.ele.LIGHTNING, effect = tpz.effect.STUN,               subEffect = tpz.subEffect.STUN },
+        [tpz.augments.ADDEFF_POISON]             = { element = tpz.magic.ele.WATER,     effect = tpz.effect.POISON,             subEffect = tpz.subEffect.POISON },
+        [tpz.augments.ADDEFF_FLASH]              = { element = tpz.magic.ele.LIGHT,     effect = tpz.effect.FLASH,              subEffect = tpz.subEffect.FLASH },
+        [tpz.augments.ADDEFF_BLINDNESS]          = { element = tpz.magic.ele.DARK,      effect = tpz.effect.BLINDNESS,          subEffect = tpz.subEffect.BLIND },
+        [tpz.augments.ADDEFF_WEAKENS_DEF]        = { element = tpz.magic.ele.WIND,      effect = tpz.effect.DEFENSE_DOWN,       subEffect = tpz.subEffect.DEFENSE_DOWN },
+        [tpz.augments.ADDEFF_SLEEP]              = { element = tpz.magic.ele.DARK,      effect = tpz.effect.SLEEP,              subEffect = tpz.subEffect.SLEEP },
+        [tpz.augments.ADDEFF_WEAKENS_ATK]        = { element = tpz.magic.ele.WATER,     effect = tpz.effect.ATTACK_DOWN,        subEffect = tpz.subEffect.ATTACK_DOWN },
+        [tpz.augments.ADDEFF_IMPAIRS_EVASION]    = { element = tpz.magic.ele.ICE,       effect = tpz.effect.EVASION_DOWN,       subEffect = tpz.subEffect.EVASION_DOWN },
+        [tpz.augments.ADDEFF_LOWERS_ACC]         = { element = tpz.magic.ele.EARTH,     effect = tpz.effect.ACCURACY_DOWN,      subEffect = tpz.subEffect.DEFENSE_DOWN },
+        [tpz.augments.ADDEFF_LOWERS_MAGEVA]      = { element = tpz.magic.ele.DARK,      effect = tpz.effect.MAGIC_EVASION_DOWN, subEffect = tpz.subEffect.DEFENSE_DOWN },
+        [tpz.augments.ADDEFF_LOWERS_MAGATK]      = { element = tpz.magic.ele.FIRE,      effect = tpz.effect.MAGIC_ATK_DOWN,     subEffect = tpz.subEffect.MAGIC_ATK_DOWN },
+        [tpz.augments.ADDEFF_LOWERS_MAGDEF]      = { element = tpz.magic.ele.LIGHTNING, effect = tpz.effect.MAGIC_DEF_DOWN,     subEffect = tpz.subEffect.DEFENSE_DOWN },
+        [tpz.augments.ADDEFF_LOWERS_MAGACC]      = { element = tpz.magic.ele.LIGHTNING, effect = tpz.effect.MAGIC_ACC_DOWN,     subEffect = tpz.subEffect.DEFENSE_DOWN },
+    }
+
+    for slot = tpz.slot.MAIN, tpz.slot.SUB do
+        local item = player:getEquippedItem(slot)
+
+        if item then
+            for augmentId, effectData in pairs(augmentData) do
+                local augmentValue = tpz.itemUtils.HasAugment(item, augmentId)
+
+                if augmentValue then
+                    if (augmentId < tpz.augments.ADDEFF_DISEASE) then  -- Elemental enspell additional effect
+                        local chance = CalculateAdditionalEffectChance(player, 100)
+                        local dmg = 5 + augmentValue
+                        local includeMAB = false
+                        local bonusMAB = 0
+                        local element = effectData.element
+
+                        local dmg = doAdditionalEffectDamage(player, target, chance, dmg, nil, includeMAB, bonusMAB, element, skill, bonus)
+
+                        if dmg == 0 then
+                            return 0, 0, 0
+                        end
+
+                        local message = tpz.msg.basic.ADD_EFFECT_DMG
+                        if dmg < 0 then
+                            message = tpz.msg.basic.ADD_EFFECT_HEAL
+                            dmg = target:addHP(-dmg)
+                        end
+
+                        return effectData.subEffect, message, dmg
+                    else -- Status effect additional effect
+                        local chance = CalculateAdditionalEffectChance(player, 100)
+                        local power = 1 + augmentValue
+                        local tick = 0
+                        local duration = 180
+                        local subpower = 0
+                        local tier = 1
+
+                        return TryApplyAdditionalEffect(player, target, effectData.effect, effectData.element, power, tick, duration, subpower, tier, chance, skill, bonus)
+                    end
+                end
+            end
+        end
+    end
+
+    return 0, 0, 0
 end
 
 function TryApplyEffect(caster, target, spell, effect, power, tick, duration, resist, resistthreshold, subpower, tier)
@@ -3242,6 +3419,8 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
 
     local skill = spell:getSkillType()
     local spellGroup = spell:getSpellGroup()
+
+    target:updateClaim(caster) -- Needed for checkKillCredit() for magian trials
 
     if isNoEffectMsg(caster, target, effect, params) then
         return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
@@ -3330,6 +3509,8 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
             target:delStatusEffectSilent(effect)
         end
         if target:addStatusEffect(effect, power, tick, finalDuration, 0, subpower, tier) then
+            tpz.magian.checkMagianTrialEffects(caster, target, effect, 'Magic')
+
             caster:delStatusEffectSilent(tpz.effect.STYMIE)
             -- Check for magic burst
             if GetEnfeebleMagicBurstMessage(caster, spell, target) then
@@ -3852,6 +4033,17 @@ function getBarspellElementalMDB(caster, target, element)
     end
 
     return mdefBarBonus
+end
+
+function CalculateMagicDamageMod(caster)
+    local magicDamage = caster:getMod(tpz.mod.MAGIC_DAMAGE)
+    local mainHand = caster:getEquipID(tpz.slot.MAIN)
+
+    if (mainHand == tpz.items.MACHISMO) then
+        magicDamage = magicDamage + math.floor(caster:getTP() / 10)
+    end
+
+    return magicDamage
 end
 
 -- Output magic hit rate for all levels

@@ -81,7 +81,7 @@ void CMobSpellContainer::AddSpell(SpellID spellId)
         // na spell and erase
         m_naList.push_back(spellId);
     }
-    else if(spell->isHeal()){ // includes blue mage healing spells, wild carrot etc
+    else if(spell->isHeal()){ // includes raise spells and blue mage healing spells, wild carrot etc
    // add to healing
         m_healList.push_back(spellId);
 
@@ -109,6 +109,7 @@ void CMobSpellContainer::RemoveSpell(SpellID spellId)
     findAndRemove(m_debuffList, spellId);
     findAndRemove(m_healList, spellId);
     findAndRemove(m_naList, spellId);
+    findAndRemove(m_severeList, spellId);
 
     m_hasSpells = !(m_gaList.empty() && m_damageList.empty() && m_buffList.empty() && m_debuffList.empty() && m_healList.empty() && m_naList.empty());
 }
@@ -908,6 +909,18 @@ std::optional<SpellID> CMobSpellContainer::HelixWeakness(CBattleEntity* PMob, CB
     return std::nullopt;
 }
 
+std::vector<SpellID> CMobSpellContainer::GetAllSpells() const
+{
+    std::vector<SpellID> allSpells;
+    allSpells.insert(allSpells.end(), m_gaList.begin(), m_gaList.end());
+    allSpells.insert(allSpells.end(), m_damageList.begin(), m_damageList.end());
+    allSpells.insert(allSpells.end(), m_buffList.begin(), m_buffList.end());
+    allSpells.insert(allSpells.end(), m_debuffList.begin(), m_debuffList.end());
+    allSpells.insert(allSpells.end(), m_healList.begin(), m_healList.end());
+    allSpells.insert(allSpells.end(), m_naList.begin(), m_naList.end());
+    allSpells.insert(allSpells.end(), m_severeList.begin(), m_severeList.end());
+    return allSpells;
+}
 
 bool CMobSpellContainer::HasSpells() const
 {
@@ -947,8 +960,12 @@ std::optional<SpellID> CMobSpellContainer::GetAggroSpell()
 std::optional<SpellID> CMobSpellContainer::GetSpell()
 {
     // prioritize curing if health low enough
-    if(HasHealSpells() && m_PMob->GetHPP() <= m_PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_HEAL_CHANCE)){
-        return GetHealSpell();
+    if (HasHealSpells() && m_PMob->GetHPP() <= m_PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) &&
+        tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_HEAL_CHANCE))
+    {
+        auto healSpell = GetHealSpell();
+        if (healSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(healSpell.value())))
+            return healSpell;
     }
 
     // See if a nearby ally is low enough HP to cure
@@ -970,62 +987,83 @@ std::optional<SpellID> CMobSpellContainer::GetSpell()
             }
         }
 
-        if (PCureTarget != nullptr && PCureTarget->GetHPP() <= m_PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_HEAL_CHANCE))
+        if (PCureTarget != nullptr && PCureTarget->GetHPP() <= m_PMob->getMobMod(MOBMOD_HP_HEAL_CHANCE) &&
+            tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_HEAL_CHANCE))
         {
-            return GetHealSpell();
+            auto healSpell = GetHealSpell();
+            if (healSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(healSpell.value())))
+                return healSpell;
         }
     }
 
     // almost always use na if I can
-    if(HasNaSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_NA_CHANCE)){
-        // will return -1 if no proper na spell exists
+    if (HasNaSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_NA_CHANCE))
+    {
         auto naSpell = GetNaSpell();
-        if(naSpell){
+        if (naSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(naSpell.value())))
+        {
             return naSpell.value();
         }
     }
 
     // try something really destructive
-    if (HasSevereSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_SEVERE_SPELL_CHANCE))
+    if (HasSevereSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_SEVERE_CHANCE))
     {
-        return GetSevereSpell();
+        auto severeSpell = GetSevereSpell();
+        if (severeSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(severeSpell.value())))
+            return severeSpell;
     }
 
     // try ga spell
-    if(HasGaSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_GA_CHANCE)){
-        return GetGaSpell();
+    if (HasGaSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_GA_CHANCE))
+    {
+        auto gaSpell = GetGaSpell();
+        if (gaSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(gaSpell.value())))
+            return gaSpell;
     }
 
-    if(HasBuffSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_BUFF_CHANCE)){
-        return GetBuffSpell();
+    if (HasBuffSpells() && tpzrand::GetRandomNumber(100) < m_PMob->getMobMod(MOBMOD_BUFF_CHANCE))
+    {
+        auto buffSpell = GetBuffSpell();
+        if (buffSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(buffSpell.value())))
+            return buffSpell;
     }
 
     // Grab whatever spell can be found
     // starting from damage spell
-    if(HasDamageSpells())
+    if (HasDamageSpells())
     {
-        // try damage spell
-        return GetDamageSpell();
+        auto damageSpell = GetDamageSpell();
+        if (damageSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(damageSpell.value())))
+            return damageSpell;
     }
 
     if (HasDebuffSpells())
     {
-        return GetDebuffSpell();
+        auto debuffSpell = GetDebuffSpell();
+        if (debuffSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(debuffSpell.value())))
+            return debuffSpell;
     }
 
-    if(HasBuffSpells())
+    if (HasBuffSpells())
     {
-        return GetBuffSpell();
+        auto buffSpell = GetBuffSpell();
+        if (buffSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(buffSpell.value())))
+            return buffSpell;
     }
 
-    if(HasGaSpells())
+    if (HasGaSpells())
     {
-        return GetGaSpell();
+        auto gaSpell = GetGaSpell();
+        if (gaSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(gaSpell.value())))
+            return gaSpell;
     }
 
-    if(HasHealSpells())
+    if (HasHealSpells())
     {
-        return GetHealSpell();
+        auto healSpell = GetHealSpell();
+        if (healSpell && !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(healSpell.value())))
+            return healSpell;
     }
 
     // Got no spells to use
@@ -1193,10 +1231,19 @@ bool CMobSpellContainer::IsImmune(CBattleEntity* PTarget, SpellID spellId)
     const std::unordered_map<SpellID, SpellInfo> spellInfoMap = {
         { SpellID::Paralyze,           { EFFECT_PARALYSIS,  IMMUNITY_PARALYZE,   Mod::EEM_PARALYZE   } },
         { SpellID::Paralyze_II,        { EFFECT_PARALYSIS,  IMMUNITY_PARALYZE,   Mod::EEM_PARALYZE   } },
+        { SpellID::Jubaku_Ichi,        { EFFECT_PARALYSIS,  IMMUNITY_PARALYZE,   Mod::EEM_PARALYZE   } },
+        { SpellID::Jubaku_Ni,          { EFFECT_PARALYSIS,  IMMUNITY_PARALYZE,   Mod::EEM_PARALYZE   } },
+        { SpellID::Jubaku_San,         { EFFECT_PARALYSIS,  IMMUNITY_PARALYZE,   Mod::EEM_PARALYZE   } },
         { SpellID::Slow,               { EFFECT_SLOW,       IMMUNITY_SLOW,       Mod::EEM_SLOW       } },
         { SpellID::Slow_II,            { EFFECT_SLOW,       IMMUNITY_SLOW,       Mod::EEM_SLOW       } },
+        { SpellID::Hojo_Ichi,          { EFFECT_SLOW,       IMMUNITY_SLOW,       Mod::EEM_SLOW       } },
+        { SpellID::Hojo_Ni,            { EFFECT_SLOW,       IMMUNITY_SLOW,       Mod::EEM_SLOW       } },
+        { SpellID::Hojo_San,           { EFFECT_SLOW,       IMMUNITY_SLOW,       Mod::EEM_SLOW       } },
         { SpellID::Blind,              { EFFECT_BLINDNESS,  IMMUNITY_BLIND,      Mod::EEM_BLIND      } },
         { SpellID::Blind_II,           { EFFECT_BLINDNESS,  IMMUNITY_BLIND,      Mod::EEM_BLIND      } },
+        { SpellID::Kurayami_Ichi,      { EFFECT_BLINDNESS,  IMMUNITY_BLIND,      Mod::EEM_BLIND      } },
+        { SpellID::Kurayami_Ni,        { EFFECT_BLINDNESS,  IMMUNITY_BLIND,      Mod::EEM_BLIND      } },
+        { SpellID::Kurayami_San,       { EFFECT_BLINDNESS,  IMMUNITY_BLIND,      Mod::EEM_BLIND      } },
         { SpellID::Silence,            { EFFECT_SILENCE,    IMMUNITY_SILENCE,    Mod::EEM_SILENCE    } },
         { SpellID::Gravity,            { EFFECT_WEIGHT,     IMMUNITY_GRAVITY,    Mod::EEM_GRAVITY    } },
         { SpellID::Gravity_II,         { EFFECT_WEIGHT,     IMMUNITY_GRAVITY,    Mod::EEM_GRAVITY    } },
@@ -1227,57 +1274,70 @@ bool CMobSpellContainer::IsImmune(CBattleEntity* PTarget, SpellID spellId)
         SPELLFAMILY_SLOW
     };
 
-    // Check for magic immunity buffs
-    if (PTarget->objtype == TYPE_MOB)
+    auto spell = spell::GetSpell(spellId);
+
+    // Healing spells
+    if (spell->isHeal())
     {
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
-        {
-            CStatusEffect* magicShield = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_MAGIC_SHIELD, 0);
-            uint16 magicShieldPower = magicShield->GetPower();
-
-            if (magicShieldPower < 2)
-            {
-                return true;
-            }
-        }
-
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_FEALTY))
+        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_CURSE_II))
         {
             return true;
         }
-
-        // Check immunities
-        auto it = spellInfoMap.find(spellId);
-        if (it != spellInfoMap.end())
+    }
+    else // All other types of spells (Offensive enfeebles / nukes)
+    {
+        // Check for magic immunity buffs
+        if (PTarget->objtype == TYPE_MOB)
         {
-            const SpellInfo& spell = it->second;
-
-            // Check if hard immune
-            if (PTarget->hasImmunity(static_cast<uint32>(spell.immunity)))
+            if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
             {
-                return true;
-            }
+                CStatusEffect* magicShield = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_MAGIC_SHIELD, 0);
+                uint16 magicShieldPower = magicShield->GetPower();
 
-            // Check if immune due to EEM
-            if (PTarget->getMod(static_cast<Mod>(spell.eem)) <= 5)
-            {
-                return true;
-            }
-        }
-
-        // Check if mob has JA Autos
-        SpellID PSpell = static_cast<SpellID>(spellId);
-        auto spellData = spell::GetSpell(PSpell);
-
-        if (spellData)
-        {
-            SPELLFAMILY spellFamily = spellData->getSpellFamily();
-
-            if (jaAutosSpellFamilies.count(spellFamily))
-            {
-                if (((CMobEntity*)PTarget)->getMobMod(MOBMOD_ATTACK_SKILL_LIST) > 0)
+                if (magicShieldPower < 2)
                 {
                     return true;
+                }
+            }
+
+            if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_FEALTY))
+            {
+                return true;
+            }
+
+            // Check immunities
+            auto it = spellInfoMap.find(spellId);
+            if (it != spellInfoMap.end())
+            {
+                const SpellInfo& spell = it->second;
+
+                // Check if hard immune
+                if (PTarget->hasImmunity(static_cast<uint32>(spell.immunity)))
+                {
+                    return true;
+                }
+
+                // Check if immune due to EEM
+                if (PTarget->getMod(static_cast<Mod>(spell.eem)) <= 5)
+                {
+                    return true;
+                }
+            }
+
+            // Check if mob has JA Autos
+            SpellID PSpell = static_cast<SpellID>(spellId);
+            auto spellData = spell::GetSpell(PSpell);
+
+            if (spellData)
+            {
+                SPELLFAMILY spellFamily = spellData->getSpellFamily();
+
+                if (jaAutosSpellFamilies.count(spellFamily))
+                {
+                    if (((CMobEntity*)PTarget)->getMobMod(MOBMOD_ATTACK_SKILL_LIST) > 0)
+                    {
+                        return true;
+                    }
                 }
             }
         }

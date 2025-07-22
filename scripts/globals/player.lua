@@ -5,7 +5,7 @@ require("scripts/globals/status")
 require("scripts/globals/teleports")
 require("scripts/globals/titles")
 require("scripts/globals/zone")
------------------------------------
+require("scripts/globals/magian")
 require("scripts/quests/full_speed_ahead")
 -----------------------------------
 
@@ -142,9 +142,14 @@ function onGameIn(player, firstLogin, zoning)
         if firstLogin then
             CharCreate(player)
         end
+
+        tpz.magian.onGameIn()
     else
         -- things checked ONLY during zone in go here
     end
+
+    -- magian trial listeners
+    tpz.magian.registerListeners(player)
 
     -- apply mods from gearsets (scripts/globals/gear_sets.lua)
     checkForGearSet(player)

@@ -2,6 +2,7 @@
 -- Area: Caedarva Mire
 --  Mob: Heraldic Imp
 -----------------------------------
+require("scripts/globals/status")
 mixins = {require("scripts/mixins/families/imp")}
 -----------------------------------
 function onMobSpawn(mob)

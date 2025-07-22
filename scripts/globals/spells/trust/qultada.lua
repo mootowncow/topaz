@@ -20,6 +20,10 @@ function onSpellCast(caster, target, spell)
 end
 
 function onMobSpawn(mob)
+    tpz.trust.setUpFood(mob)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
+
     mob:addSimpleGambit(ai.t.TARGET, ai.c.ALWAYS, 0, ai.r.RATTACK, 0, 0, 10)
 
     tpz.trust.onMobSpawn(mob)

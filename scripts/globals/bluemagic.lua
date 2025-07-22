@@ -3,6 +3,7 @@ require("scripts/globals/magic")
 require("scripts/globals/utils")
 require("scripts/globals/msg")
 require("scripts/globals/items")
+require("scripts/globals/magian")
 
 -- The TP modifier
 TPMOD_NONE = 0
@@ -646,13 +647,16 @@ function BlueFinalAdjustments(caster, target, spell, dmg, params)
         end
     end
 
+    -- Track raw damage
+    local rawDmg = dmg
+
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, spell, dmg)
 
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.SPECIAL then
-        dmg = target:magicDmgTaken(dmg, element)
+        dmg = target:magicDmgTaken(dmg, element, rawDmg)
     elseif attackType == tpz.attackType.BREATH then
-        dmg = target:breathDmgTaken(dmg, element)
+        dmg = target:breathDmgTaken(dmg, element, rawDmg)
     elseif attackType == tpz.attackType.RANGED then
         dmg = target:rangedDmgTaken(dmg)
     elseif attackType == tpz.attackType.PHYSICAL then
@@ -1063,6 +1067,8 @@ function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, p
     local skill = spell:getSkillType()
     local spellGroup = spell:getSpellGroup()
 
+    target:updateClaim(caster) -- Needed for checkKillCredit() for magian trials
+
     if isNoEffectMsg(caster, target, effect, params) then
         return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
     end
@@ -1143,6 +1149,8 @@ function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, p
 
         if (finalDuration > 0) then
             if target:addStatusEffect(params.effect, power, tick, finalDuration) then
+                tpz.magian.checkMagianTrialEffects(caster, target, effect, 'Magic')
+
                 -- Check for magic burst
                 if GetEnfeebleMagicBurstMessage(caster, spell, target) and (damage < 2) then
                     spell:setMsg(spell:getMagicBurstMessage()) 

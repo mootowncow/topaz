@@ -18,11 +18,11 @@ end
 
 function onUseAbility(player, target, ability)
 
-    -- Check for PD
     if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
         return ability:setMsg(tpz.msg.basic.JA_MISS)
     end
-
+    -- TODO: Resist check (Has 255 MACC bonus?)
+    -- Remove pdif, randomize damage (1-5% variance)
     local shieldSize = player:getShieldSize()
     local jpValue    = player:getJobPointLevel(tpz.jp.SHIELD_BASH_EFFECT) * 10
     local damage = 0

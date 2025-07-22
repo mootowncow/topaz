@@ -27,8 +27,8 @@ tpz.pet.type =
 
 -----------------------------------
 --  Pet IDs
+-- Additional pets are added in pet_list.sql
 -----------------------------------
-
 tpz.pet.id =
 {
     --  Summoner
@@ -151,9 +151,9 @@ tpz.pet.id =
     MOSQUITO = 122,  -- WETLANDS BROTH
     YOKO = 123,  -- HEAVENLY BROTH
     GLENN = 124,  -- WISPY BROTH
-    -- ID''s past 124 break the server
-    -- YELLOW_BEETLE = 125,  -- ZESTFUL SAP
-    -- SEFINA = 126,  -- GASSY SAP
+    YELLOW_BEETLE = 125,  -- ZESTFUL SAP
+    SEFINA = 126,  -- GASSY SAP
+    SIREN = 127,
 
     --  Dragoon
     WYVERN                = 48,
@@ -1297,6 +1297,45 @@ tpz.pet.name =
     TURBULENTE    = 1124,
     DESTRUCTION   = 1125,
     FIRECRACKER   = 1126,
+}
+
+-----------------------------------
+-- Pet mod types
+-----------------------------------
+tpz.pet.modType = 
+{
+    ALL = 0,
+    AVATAR = 1,
+    WYVERN = 2,
+    AUTOMATON = 3,
+    HARLEQUIN = 4,
+    VALOREDGE = 5,
+    SHARPSHOT = 6,
+    STORMWAKER = 7,
+    FIRESPIRIT = 8,
+    ICESPIRIT = 9,
+    AIRSPIRIT = 10,
+    EARTHSPIRIT = 11,
+    THUNDERSPIRIT = 12,
+    WATERSPIRIT = 13,
+    LIGHTSPIRIT = 14,
+    DARKSPIRIT = 15,
+    CARBUNCLE = 16,
+    FENRIR = 17,
+    IFRIT = 18,
+    TITAN = 19,
+    LEVIATHAN = 20,
+    GARUDA = 21,
+    SHIVA = 22,
+    RAMUH = 23,
+    DIABOLOS = 24,
+    ALEXANDER = 25,
+    ODIN = 26,
+    ATOMOS = 27,
+    CAIT_SITH = 28,
+    ADVENTURING_FELLOW = 29,
+    CHOCOBO = 30,
+    LUOPAN = 31,
 }
 
 function tpz.pet.spawnPet(player, petID)

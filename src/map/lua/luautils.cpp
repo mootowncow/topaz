@@ -1167,7 +1167,7 @@ namespace luautils
     }
 
 
-        /*******************************************************************************
+     /*******************************************************************************
      *                                                                              *
      *  Returns data of Magian trials                                               *
      *  Will return a single table with keys matching the SQL table column          *
@@ -1756,6 +1756,10 @@ namespace luautils
 
         uint32 retVal = (!lua_isnil(LuaHandle, -1) && lua_isnumber(LuaHandle, -1) ? (int32)lua_tonumber(LuaHandle, -1) : 0);
         lua_pop(LuaHandle, 1);
+
+        // Add listener
+        PNpc->PAI->EventHandler.triggerListener("TRIGGER", PChar, PNpc);
+
         return retVal;
     }
 
@@ -2550,8 +2554,6 @@ namespace luautils
     {
         TPZ_DEBUG_BREAK_IF(PSpell == nullptr);
 
-        PTarget->PAI->EventHandler.triggerListener("MAGIC_TAKE", PTarget, PCaster, PSpell);
-
         lua_prepscript("scripts/zones/%s/mobs/%s.lua", PTarget->loc.zone->GetName(), PTarget->GetName());
 
         if (prepFile(File, "onMagicHit"))
@@ -2649,62 +2651,78 @@ namespace luautils
         return 0;
     }
 
-    int32 ApplyMixins(CBaseEntity* PMob)
+    int32 ApplyMixins(CBaseEntity* PEntity)
     {
         TPZ_DEBUG_BREAK_IF(PMob == nullptr);
 
-        if (PMob->objtype == TYPE_MOB)
+        auto filePath = "";
+        if (PEntity->objtype == TYPE_MOB)
         {
-            lua_prepscript("scripts/zones/%s/mobs/%s.lua", PMob->loc.zone->GetName(), PMob->GetName());
-
-            lua_pushnil(LuaHandle);
-            lua_setglobal(LuaHandle, "mixins");
-            lua_pushnil(LuaHandle);
-            lua_setglobal(LuaHandle, "mixinOptions");
-
-            //remove any previous definition of the global "mixins"
-
-            auto ret = luaL_loadfile(LuaHandle, (const char*)File);
-            if (ret)
+            filePath = "scripts/zones/%s/mobs/%s.lua";
+        }
+        else if (PEntity->objtype == TYPE_NPC)
+        {
+            filePath = "scripts/zones/%s/npcs/%s.lua";
+        }
+        else
+        {
+            if (lua_pcall(LuaHandle, 1, 0, 0))
             {
+                ShowError("luautils::ApplyMixins: [%s] is not a mob or NPC\n", PEntity->name);
                 lua_pop(LuaHandle, 1);
                 return -1;
             }
+        }
 
-            ret = lua_pcall(LuaHandle, 0, 0, 0);
-            if (ret)
-            {
-                ShowError("luautils::%s: %s\n", "applyMixins", lua_tostring(LuaHandle, -1));
-                lua_pop(LuaHandle, 1);
-                return -1;
-            }
+        lua_prepscript(filePath, PEntity->loc.zone->GetName(), PEntity->GetName());
 
-            //get the function "applyMixins"
-            lua_getglobal(LuaHandle, "applyMixins");
-            if (lua_isnil(LuaHandle, -1))
-            {
-                lua_pop(LuaHandle, 1);
-                return -1;
-            }
+        lua_pushnil(LuaHandle);
+        lua_setglobal(LuaHandle, "mixins");
+        lua_pushnil(LuaHandle);
+        lua_setglobal(LuaHandle, "mixinOptions");
 
-            CLuaBaseEntity LuaMobEntity(PMob);
-            Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMobEntity);
+        // remove any previous definition of the global "mixins"
 
-            //get the parameter "mixins"
-            lua_getglobal(LuaHandle, "mixins");
-            if (lua_isnil(LuaHandle, -1))
-            {
-                lua_pop(LuaHandle, 3);
-                return -1;
-            }
-            //get the parameter "mixinOptions" (optional)
-            lua_getglobal(LuaHandle, "mixinOptions");
+        auto ret = luaL_loadfile(LuaHandle, (const char*)File);
+        if (ret)
+        {
+            lua_pop(LuaHandle, 1);
+            return -1;
+        }
 
-            if (lua_pcall(LuaHandle, 3, 0, 0))
-            {
-                ShowError("luautils::applyMixins: %s\n", lua_tostring(LuaHandle, -1));
-                lua_pop(LuaHandle, 1);
-            }
+        ret = lua_pcall(LuaHandle, 0, 0, 0);
+        if (ret)
+        {
+            ShowError("luautils::%s: %s\n", "applyMixins", lua_tostring(LuaHandle, -1));
+            lua_pop(LuaHandle, 1);
+            return -1;
+        }
+
+        // get the function "applyMixins"
+        lua_getglobal(LuaHandle, "applyMixins");
+        if (lua_isnil(LuaHandle, -1))
+        {
+            lua_pop(LuaHandle, 1);
+            return -1;
+        }
+
+        CLuaBaseEntity LuaMobEntity(PEntity);
+        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMobEntity);
+
+        // get the parameter "mixins"
+        lua_getglobal(LuaHandle, "mixins");
+        if (lua_isnil(LuaHandle, -1))
+        {
+            lua_pop(LuaHandle, 3);
+            return -1;
+        }
+        // get the parameter "mixinOptions" (optional)
+        lua_getglobal(LuaHandle, "mixinOptions");
+
+        if (lua_pcall(LuaHandle, 3, 0, 0))
+        {
+            ShowError("luautils::applyMixins: %s\n", lua_tostring(LuaHandle, -1));
+            lua_pop(LuaHandle, 1);
         }
         return 0;
     }
@@ -3245,7 +3263,18 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
                     // lua_pushboolean(LuaHandle, isPetKill);
                     // Todo: look at better way do do these than additional bools...
 
-                    if (lua_pcall(LuaHandle, 4, 0, 0))
+                    CBattleEntity* PBattleMob = dynamic_cast<CBattleEntity*>(PMob);
+                    if (PBattleMob && PBattleMob->PLastAttacker)
+                    {
+                        CLuaBaseEntity LuaAttacker(PBattleMob->PLastAttacker);
+                        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaAttacker);
+                    }
+                    else
+                    {
+                        lua_pushnil(LuaHandle);
+                    }
+
+                    if (lua_pcall(LuaHandle, 5, 0, 0))
                     {
                         ShowError("luautils::onMobDeathEx: %s\n", lua_tostring(LuaHandle, -1));
                         lua_pop(LuaHandle, 1);
@@ -3507,6 +3536,52 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
         return 0;
     }
 
+    int32 OnZoneTick(CCharEntity* PChar, uint16 ZoneID, CRegion* PRegion)
+    {
+        std::string filename;
+        CZone* PZone = zoneutils::GetZone(ZoneID);
+        if (PChar->PInstance)
+        {
+            filename =
+                std::string("scripts/zones/") + (const char*)PChar->loc.zone->GetName() + "/instances/" + (const char*)PChar->PInstance->GetName() + ".lua";
+        }
+        else
+        {
+            filename = std::string("scripts/zones/") + (const char*)PChar->loc.zone->GetName() + "/Zone.lua";
+        }
+
+        if (prepFile((int8*)filename.c_str(), "OnZoneTick"))
+        {
+            return -1;
+        }
+
+        CLuaBaseEntity LuaBaseEntity(PChar);
+        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaBaseEntity);
+
+        CLuaZone LuaZone(PZone);
+        Lunar<CLuaZone>::push(LuaHandle, &LuaZone);
+
+        if (PRegion)
+        {
+            CLuaRegion LuaRegion(PRegion);
+            Lunar<CLuaRegion>::push(LuaHandle, &LuaRegion);
+        }
+        else
+        {
+            lua_pushnil(LuaHandle);
+        }
+
+
+        if (lua_pcall(LuaHandle, 3, 0, 0))
+        {
+            ShowError("luautils::OnZoneTick: %s\n", lua_tostring(LuaHandle, -1));
+            lua_pop(LuaHandle, 1);
+            return -1;
+        }
+
+        return 0;
+    }
+
     /************************************************************************
     *   OnGameDayAutomatisation()                                           *
     *   used for creating action of npc every game day                      *
@@ -3668,7 +3743,7 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
     *                                                                       *
     ************************************************************************/
 
-    int32 OnMobWeaponSkill(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill, action_t* action)
+    int32 OnMobWeaponSkill(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill, action_t* action, uint16 tp)
     {
         lua_prepscript("scripts/zones/%s/mobs/%s.lua", PMob->loc.zone->GetName(), PMob->GetName());
 
@@ -3686,7 +3761,9 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
             CLuaAction LuaAction(action);
             Lunar<CLuaAction>::push(LuaHandle, &LuaAction);
 
-            if (lua_pcall(LuaHandle, 4, 0, 0))
+            lua_pushnumber(LuaHandle, tp);
+
+            if (lua_pcall(LuaHandle, 5, 0, 0))
             {
                 ShowError("luautils::onMobWeaponSkill: %s\n", lua_tostring(LuaHandle, -1));
                 lua_pop(LuaHandle, 1);
@@ -3701,12 +3778,16 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
         }
         CLuaBaseEntity LuaBaseEntity(PTarget);
         Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaBaseEntity);
+
         CLuaBaseEntity LuaMobEntity(PMob);
         Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMobEntity);
+
         CLuaMobSkill LuaMobSkill(PMobSkill);
         Lunar<CLuaMobSkill>::push(LuaHandle, &LuaMobSkill);
 
-        if (lua_pcall(LuaHandle, 3, 1, 0))
+        lua_pushnumber(LuaHandle, tp);
+
+        if (lua_pcall(LuaHandle, 4, 1, 0))
         {
             ShowError("luautils::onMobWeaponSkill: %s\n", lua_tostring(LuaHandle, -1));
             lua_pop(LuaHandle, 1);
@@ -3950,6 +4031,53 @@ int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
 
         CLuaMobSkill LuaMobSkill(PMobSkill);
         Lunar<CLuaMobSkill>::push(LuaHandle, &LuaMobSkill);
+
+        CLuaBaseEntity LuaMasterEntity(PMobMaster);
+        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMasterEntity);
+
+        CLuaAction LuaAction(action);
+        Lunar<CLuaAction>::push(LuaHandle, &LuaAction);
+
+        if (lua_pcall(LuaHandle, 5, 1, 0))
+        {
+            ShowError("luautils::onPetAbility: %s\n", lua_tostring(LuaHandle, -1));
+            lua_pop(LuaHandle, 1);
+            return 0;
+        }
+
+        // Bloodpact Skillups
+        if (PMob->objtype == TYPE_PET && map_config.skillup_bloodpact)
+        {
+            CPetEntity* PPet = (CPetEntity*)PMob;
+            if (PPet->getPetType() == PETTYPE_AVATAR && PPet->PMaster->objtype == TYPE_PC)
+            {
+                CCharEntity* PMaster = (CCharEntity*)PPet->PMaster;
+                if (PMaster->GetMJob() == JOB_SMN) charutils::TrySkillUP(PMaster, SKILL_SUMMONING_MAGIC, PMaster->GetMLevel(), true);
+            }
+        }
+
+        uint32 retVal = (!lua_isnil(LuaHandle, -1) && lua_isnumber(LuaHandle, -1) ? (int32)lua_tonumber(LuaHandle, -1) : 0);
+        lua_pop(LuaHandle, 1);
+        return retVal;
+    }
+
+    int32 OnPetAbility(CBaseEntity* PTarget, CBaseEntity* PMob, CAbility* PAbility, CBaseEntity* PMobMaster, action_t* action)
+    {
+        lua_prepscript("scripts/globals/abilities/pets/%s.lua", PAbility->getName());
+
+        if (prepFile(File, "onPetAbility"))
+        {
+            return 0;
+        }
+
+        CLuaBaseEntity LuaBaseEntity(PTarget);
+        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaBaseEntity);
+
+        CLuaBaseEntity LuaMobEntity(PMob);
+        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMobEntity);
+
+        CLuaAbility LuaAbility(PAbility);
+        Lunar<CLuaAbility>::push(LuaHandle, &LuaAbility);
 
         CLuaBaseEntity LuaMasterEntity(PMobMaster);
         Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMasterEntity);

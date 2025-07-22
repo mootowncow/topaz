@@ -13,6 +13,31 @@ require("scripts/globals/music")
 tpz = tpz or {}
 
 ------------------------------------
+-- Entity flags
+------------------------------------
+tpz.entityFlags =
+{
+    NONE                = 0,        -- No flags set
+    UNKNOWN_1           = 1,        -- No immediately observable impact
+    SIZE_SMALL          = 2,        -- Small model size
+    SIZE_MEDIUM         = 4,        -- Medim model size
+    SIZE_LARGE          = 6,        -- Biggest model size
+    UNKNOWN_8           = 8,        -- Possibly hides name?
+    UNKNOWN_16          = 16,       -- No obvious impact
+    CALL_FOR_HELP       = 32,       -- Displays call for help icon
+    POL_AWAY_SYMBOL     = 64,       -- Displays "POL away" icon
+    UNKNOWN_128         = 128,      -- No obvious impact
+    HIDE_HP_BAR         = 256,      -- Hides mob's HP bar
+    UNKNOWN_512         = 512,      -- No obvious impact
+    UNKNOWN_1024        = 1024,     -- No obvious impact
+    UNTARGETABLE        = 2048,     -- Mob cannot be targeted
+    UNKNOWN_4096        = 4096,     -- No obvious impact
+    UNKNOWN_8192        = 8192,     -- No obvious impact
+    UNKNOWN_16384       = 16384,    -- No obvious impact
+    UNKNOWN_32768       = 32768,    -- No obvious impact
+}
+
+------------------------------------
 -- Mob skill flags
 ------------------------------------
 
@@ -22,11 +47,12 @@ tpz.mobSkillFlag =
     JOB_ABILITY       = 0x001, -- 1
     TWO_HOUR          = 0x002, -- 2
     -- Special skill (ranged attack / call beast)
-    SPECIAL           = 0x004, -- 4
+    SPECIAL           = 0x004, -- 4 Currently only used for Ranged Attacks? (/ra)
     HIT_ALL           = 0x008, -- 8
     REPLACE_ATTACK    = 0x010, -- 16 To turn off "Readies .." or "Readies skill#650360 message" Use skill:setMsg(tpz.msg.basic.HIT_DMG) in the skills lua file
     DRAW_IN           = 0x020, -- 32
-    ALWAYS_KNOCK_BACK = 0x040  -- 64
+    ALWAYS_KNOCK_BACK = 0x040,  -- 64
+    MAGIC_SKILL       = 0x080 -- 128 Magical skill  / Blood pact
 }
 
 ------------------------------------
@@ -291,7 +317,6 @@ tpz.subEffect =
 {
     -- ATTACKS
     FIRE_DAMAGE         = 1,   -- 110000        3
-    PLAGUE              = 1,   -- Same subeffect as FIRE_DAMAGE
     ICE_DAMAGE          = 2,   -- 1-01000       5
     WIND_DAMAGE         = 3,   -- 111000        7
     CHOKE               = 3,   -- Shares subeffect
@@ -315,7 +340,8 @@ tpz.subEffect =
     SILENCE             = 13,
     PETRIFY             = 14,
     PETRIFICATION       = 14,
-    BANE                = 15,
+    BANE                = 15,   -- Maybe has to be same as FIRE_DAMAGE?
+    PLAGUE              = 15,   -- Same subeffect as BANE (Maybe has to be FIRE_DAMAGE?)
     ADDLE               = 15,
     STUN                = 16,
     CURSE               = 17,
@@ -346,6 +372,7 @@ tpz.subEffect =
     CLOD_SPIKES         = 8,   -- Earth damage + Slow.
     DELUGE_SPIKES       = 9,   -- Water damage + Poison https://ffxiclopedia.fandom.com/wiki/Aqua_Spikes
     DEATH_SPIKES        = 10,  -- yes really: http://www.ffxiah.com/item/26944/
+    DAMAGE_SPIKES       = 11,  -- non-elemental damage
     COUNTER             = 63, -- Also used by Retaliation
     -- There are no spikes effect animations beyond 63. Some effects share subeffect/animations.
     -- "Damage Spikes" use the Blaze Spikes animation even though they are different status.
@@ -841,13 +868,13 @@ tpz.effect =
     BEWILDERED_DAZE_3        = 450,
     BEWILDERED_DAZE_4        = 451,
     BEWILDERED_DAZE_5        = 452,
-    DIVINE_CARESS_I          = 453,
+    DIVINE_CARESS_I          = 453, -- Ability buff on caster
     SABOTEUR                 = 454,
     TENUTO                   = 455,
     SPUR                     = 456,
     EFFLUX                   = 457,
     EARTHEN_ARMOR            = 458,
-    DIVINE_CARESS_II         = 459,
+    DIVINE_CARESS_II         = 459, -- Effect immunity Buff granted by divine caress on target
     BLOOD_RAGE               = 460,
     IMPETUS                  = 461,
     CONSPIRATOR              = 462,
@@ -883,7 +910,7 @@ tpz.effect =
     ASYLUM                   = 492,
     SUBTLE_SORCERY           = 493,
     STYMIE                   = 494,
-    -- NONE                       = 495,
+    MACRO_TEST               = 495,
     INTERVENE                = 496,
     SOUL_ENSLAVEMENT         = 497,
     UNLEASH                  = 498,
@@ -974,7 +1001,7 @@ tpz.effect =
     APOGEE                   = 583,
     ENTRUST                  = 584,
     COSTUME_II               = 585,
-    CURING_CONDUIT           = 586,
+    CURING_CONDUIT           = 586, -- +Healing recieved
     TP_BONUS                 = 587,
     FINISHING_MOVE_6         = 588,
     FIRESTORM_II             = 589,
@@ -1004,7 +1031,7 @@ tpz.effect =
     MAJESTY                  = 621,
     GUARD_BOOST              = 622,
     RAMPART                  = 623,
-    WINDS_BLESSING           = 624,
+    WINDS_BLESSING           = 624, -- MDT II
     SIRENS_FAVOR             = 625,
     NEGATE_SLEEP             = 626,
     MOBILIZATION             = 627,
@@ -1114,6 +1141,7 @@ tpz.effectFlag =
     AURA            = 0x4000000,
     FINISHING_MOVE  = 0x8000000,  -- Is a finishing move
     HIDE_TIMER      = 0x10000000, -- Sends "Always" in the packet, even though timer is tracked (used for geo bubbles / infinite duration buffs)
+    PHYS_ATTACK     = 0x20000000, -- disappears when damage is dealt (physical status effects only, i.e. sneak attack, assassins charge, etc)
 }
 
 ------------------------------------
@@ -1340,7 +1368,9 @@ tpz.mod =
     ENEMYCRITRATE                   = 1256,
     CRIT_DEF_BONUS                  = 908, -- Reduces crit hit damage
     MAGIC_CRITHITRATE               = 562,
+    MAGIC_ENEMYCRITRATE             = 1432, -- Raises chance enemy will magic crit
     MAGIC_CRIT_DMG_INCREASE         = 563,
+    MAGIC_CRIT_DEF_BONUS            = 1431, -- Reduces magic crit hit damage
     HASTE_MAGIC                     = 167,
     SPELLINTERRUPT                  = 168,
     MOVE_SPEED_OVERIDE              = 169, -- Modifier used to overide regular speed caps. (GM speed and Feast of Sword
@@ -2147,8 +2177,25 @@ tpz.mod =
     STRATAGEM_RECAST        = 1417, -- Reduces the recast time of stratagems (seconds)
     PET_DAMAGEP             = 1418, -- % damage increase done by pets
     CRITHITRATE_SLOT        = 1419, -- Crit rate only applied by attacks in this weapon slot. i.e. Senjuionrikio
+    FIRE_ABSORB_SC          = 1420, -- Occasionally absorbs SC fire elemental damage, in percents
+    ICE_ABSORB_SC           = 1421, -- Occasionally absorbs SC ice elemental damage, in percents
+    WIND_ABSORB_SC          = 1422, -- Occasionally absorbs SC wind elemental damage, in percents
+    EARTH_ABSORB_SC         = 1423, -- Occasionally absorbs SC earth elemental damage, in percents
+    LTNG_ABSORB_SC          = 1424, -- Occasionally absorbs SC thunder elemental damage, in percents
+    WATER_ABSORB_SC         = 1425, -- Occasionally absorbs SC water elemental damage, in percents
+    LIGHT_ABSORB_SC         = 1426, -- Occasionally absorbs SC light elemental damage, in percents
+    DARK_ABSORB_SC          = 1427, -- Occasionally absorbs SC dark elemental damage, in percents
+    PAST_DUNGEON_MASTER     = 1428, -- Increased number augments on items from WotG dungeons
+    DOUBLE_CAST             = 1429, -- Chance to cast a spell twice in a row
+    ENH_CASTING_TIME        = 1431, -- Reduces Enhancing Magic casting time by percentage (e.g. mod value -10 = -10% cast time)
+    AUTO_RANGED_DELAY       = 1433, -- Reduces the cooldown of your Automatons ranged attack (in seconds)
+    AUTO_ELEMENTAL_DELAY    = 1434, -- Reduces the cooldown of your Automatons elemental magic (in seconds)
+    AUTO_STANDBACK          = 1435, -- Tells your Automaton to stand back
+    ENH_STATUS_BOLTS        = 1436, -- Enhances the additional effect of status bolts. i.e. acid bolts defense down (in percents)
+    ENH_DIVINE_CARESS       = 1437, -- Increases the amount of spells blocked by Divine Caress before it fades
+    GLOBAL_DMG_DONE         = 1438, -- Global reduction to damage done
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1420 NEXT
+    -- 1439 NEXT
 }
 
 tpz.latent =
@@ -3049,12 +3096,14 @@ tpz.objType =
 
 tpz.attackType =
 {
-    NONE     = 0,
-    PHYSICAL = 1,
-    MAGICAL  = 2,
-    RANGED   = 3,
-    SPECIAL  = 4,
-    BREATH   = 5,
+    NONE        = 0,
+    PHYSICAL    = 1,
+    MAGICAL     = 2,
+    RANGED      = 3,
+    SPECIAL     = 4,
+    BREATH      = 5,
+    WEAPONSKILL = 6,
+    PETABILITY  = 7
 }
 
 ----------------------------------
@@ -3079,6 +3128,24 @@ tpz.damageType =
     LIGHT     = 12,
     DARK      = 13,
     RANGED    = 14,
+}
+
+----------------------------------
+-- Physical Attack Type
+----------------------------------
+
+tpz.physicalAttackType =
+{
+    NORMAL      = 0,
+    DOUBLE      = 1,
+    TRIPLE      = 2,
+    ZANSHIN     = 3,
+    KICK        = 4,
+    RANGED      = 5,
+    RAPID_SHOT  = 6,
+    SAMBA       = 7,
+    QUAD        = 8,
+    DAKEN       = 9
 }
 
 ----------------------------------
@@ -3138,7 +3205,8 @@ tpz.procEffect =
     RANGED          = 5,
     SKILLCHAIN      = 6,
     MAGIC_BURST     = 7,
-    SPIRITS_DAMAGE  = 8  -- Spirits Within / Formless Strikes
+    SPIRITS_DAMAGE  = 8,  -- Spirits Within / Formless Strikes
+    NONE            = 255 -- No increased damage taken
 }
 
 ------------------------------------
@@ -3162,7 +3230,7 @@ tpz.mobMod =
     SUBLINK             = 10, -- sub link group
     LINK_RADIUS         = 11, -- link radius
     DRAW_IN             = 12, -- 1 - player draw in, 2 - alliance draw in -- only add as a spawn mod!
-    SEVERE_SPELL_CHANCE = 13, -- % chance to use a severe spell like death or impact
+    SEVERE_CHANCE       = 13, -- % chance to use a severe spell like death or impact
     SKILL_LIST          = 14, -- uses given mob skill list
     MUG_GIL             = 15, -- amount gil carried for mugging
     -- 16 Available for use
@@ -3253,6 +3321,8 @@ tpz.mobMod =
     RANGED_DELAY        = 115, -- Trust ranged weapon delay
     AMMO_DELAY          = 116, -- Trust ranged ammo delay
     CAPACITY_BONUS      = 117, -- bonus capacity points (bonus / 100) negative values reduce capacity points.
+    CUSTOMLINK          = 118, -- Force linking with other mobs with same power of this mod (i.e. 99 power mobs will all link together). Also parties mobs for buffs/heals
+    HUMANOID            = 119, -- Considered humanoid, but does NOT change the mobs family. used for CMobEntity::IsHumanoid()
 }
 
 ------------------------------------
@@ -3388,7 +3458,7 @@ tpz.jobSpecialAbility =
     -- TABULA_RASA          = 2358,
     TABULA_RASA          = 2261,
     -- TABULA_RASA          = 2358,
-    -- ELEMENTAL_SFORZO     = 3265,
+    ELEMENTAL_SFORZO     = 3265,
     -- ELEMENTAL_SFORZO     = 3479,
     BOLSTER              = 3482,
     CHARM                = 710,
@@ -3675,7 +3745,7 @@ tpz.animation =
     -- 63 through 72 are used with /sitchair
     -- 73 through 83 sitting on air (guessing future use for more chairs..)
     MOUNT                   = 85,
-    -- TRUST                = 90, -- This is the animation for a trust NPC spawning in.
+    TRUST                = 90, -- This is the animation for a trust NPC spawning in.
 }
 tpz.anim = tpz.animation
 

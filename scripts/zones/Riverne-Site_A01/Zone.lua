@@ -4,12 +4,13 @@
 --
 -----------------------------------
 local ID = require("scripts/zones/Riverne-Site_A01/IDs")
+local RIVERNE_SITE_A01 = require("scripts/zones/Riverne-Site_A01/globals")
 require("scripts/globals/conquest")
 require("scripts/globals/settings")
 require("scripts/globals/status")
 -----------------------------------
-
 function onInitialize(zone)
+    RIVERNE_SITE_A01.moveShieldBug()
 end
 
 function onConquestUpdate(zone, updatetype)
@@ -40,15 +41,7 @@ function onRegionEnter(player, region)
 end
 
 function onGameDay()
-    -- move shield bug ???
-    local positions =
-    {
-        {275.1907, 0.8048, 273.8457},
-        {581.000,  -1.0981,   426.000},
-        {-245.6420,  19.9981,  -718.3527},
-    }
-    local newPosition = npcUtil.pickNewPosition(ID.npc.SHIELD_BUG_QM, positions)
-    GetNPCByID(ID.npc.SHIELD_BUG_QM):setPos(newPosition.x, newPosition.y, newPosition.z)
+    RIVERNE_SITE_A01.moveShieldBug()
 end
 
 function onEventUpdate(player, csid, option)

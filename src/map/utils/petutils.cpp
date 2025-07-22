@@ -635,7 +635,6 @@ namespace petutils
         // Расчет бонусных HP
         bonusStat = (mainLevelOver10 + mainLevelOver50andUnder60) * 2;
         PPet->health.maxhp = (int32)((raceStat + jobStat + bonusStat + sJobStat) * petStats->HPscale);
-        PPet->health.hp = PPet->health.maxhp;
 
         //Начало расчера MP
         raceStat = 0;
@@ -672,7 +671,11 @@ namespace petutils
         }
 
         PPet->health.maxmp = (int32)((raceStat + jobStat + sJobStat) * petStats->MPscale);
-        PPet->health.mp = PPet->health.maxmp;
+
+        PPet->UpdateHealth();
+        PPet->health.tp = 0;
+        PPet->health.hp = PPet->GetMaxHP();
+        PPet->health.mp = PPet->GetMaxMP();
 
         uint16 fSTR = GetBaseToRank(petStats->strRank, PPet->GetMLevel());
         uint16 fDEX = GetBaseToRank(petStats->dexRank, PPet->GetMLevel());
@@ -811,7 +814,6 @@ namespace petutils
         if (PPet->m_PetID == PETID_ODIN || PPet->m_PetID == PETID_ALEXANDER)
             bonusStat += 6800;
         PPet->health.maxhp = (int16)(raceStat + jobStat + bonusStat + sJobStat);
-        PPet->health.hp = PPet->health.maxhp;
 
         //Начало расчера MP
         raceStat = 0;
@@ -844,7 +846,12 @@ namespace petutils
         }
 
         PPet->health.maxmp = (int16)(raceStat + jobStat + sJobStat); // результат расчета MP
-        PPet->health.mp = PPet->health.maxmp;
+
+        PPet->UpdateHealth();
+        PPet->health.tp = 0;
+        PPet->health.hp = PPet->GetMaxHP();
+        PPet->health.mp = PPet->GetMaxMP();
+
         //add in evasion from skill
         int16 evaskill = PPet->GetSkill(SKILL_EVASION);
         int16 eva = evaskill;
@@ -1048,6 +1055,7 @@ namespace petutils
                 PPet->m_Element = 0; // Water is 0 ElementID for some reason
                 break;
             case PETID_GARUDA:
+            case PETID_SIREN:
                 PPet->addModifier(Mod::EVA, 50);
                 break;
             case PETID_SHIVA:
@@ -1171,6 +1179,7 @@ namespace petutils
             PPet->SetMLevel(mLvl + PMaster->getMod(Mod::WYVERN_LVL_BONUS));
             PPet->SetSLevel(mLvl + PMaster->getMod(Mod::WYVERN_LVL_BONUS));
         }
+
         LoadAvatarStats(PPet); // TODO: LoadWyvernStats
         // follows PC calcs (w/o SJ)
 
@@ -1301,7 +1310,7 @@ namespace petutils
         });
         // clang-format on
 
-        // weapon damage = (floor(automaton ranged skill * 0.11) * 3)
+        // melee weapon damage = (floor(automaton melee skill * 0.11) * 3)
         auto meleeSkill = PPet->GetSkill(SKILL_AUTOMATON_MELEE);
         auto rangedSkill = PPet->GetSkill(SKILL_AUTOMATON_RANGED);
         static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_MAIN])->setDamage((uint16)(floor(meleeSkill * 0.11) * 3));
@@ -1385,6 +1394,7 @@ namespace petutils
                     WeaponDelay *= (100 - (PMaster->getMod(Mod::PET_DELAY) + PChar->PJobPoints->GetJobPointValue(JP_PET_ATK_SPD_BONUS)));
                     WeaponDelay /= 100;
                 }
+                // ranged weapon damage = (floor(automaton melee skill * 0.11) * 3)
                 static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_RANGED])->setDamage((uint16)(floor(rangedSkill * 0.11) * 3));
                 ((CItemWeapon*)PPet->m_Weapons[SLOT_RANGED])->setDelay((uint16)(floor(1000.0 * (WeaponDelay / 60.0f))));
                 ((CItemWeapon*)PPet->m_Weapons[SLOT_RANGED])->setDmgType(DAMAGE_RANGED);
@@ -1462,7 +1472,9 @@ namespace petutils
             PPet->SetMLevel(mLvl + PMaster->getMod(Mod::AUTO_LVL_BONUS));
             PPet->SetSLevel(mLvl + PMaster->getMod(Mod::AUTO_LVL_BONUS));
         }
+
         LoadAutomatonStats((CCharEntity*)PMaster, PPet, g_PPetList.at(petID)); // temp
+
         if (PMaster->objtype == TYPE_PC)
         {
             CCharEntity* PChar = (CCharEntity*)PMaster;
@@ -1495,7 +1507,10 @@ namespace petutils
             PPet->health.maxhp += (uint32)floor(PPet->health.maxhp * (0.03 * bolsterJPVal));
         }
 
-        PPet->health.hp = PPet->health.maxhp;
+        PPet->UpdateHealth();
+        PPet->health.tp = 0;
+        PPet->health.hp = PPet->GetMaxHP();
+        PPet->health.mp = PPet->GetMaxMP();
 
         // This sets the correct visual size for the luopan as pets currently
         // do not make use of the entity flags in the database
@@ -1516,6 +1531,7 @@ namespace petutils
     {
         TPZ_DEBUG_BREAK_IF(PMaster->PPet != nullptr);
 
+        // Additional pets are added in pet_list.sql
         if (PMaster->objtype == TYPE_PC && (PetID == PETID_HARLEQUINFRAME || PetID == PETID_VALOREDGEFRAME || PetID == PETID_SHARPSHOTFRAME || PetID == PETID_STORMWAKERFRAME))
         {
             puppetutils::LoadAutomaton(static_cast<CCharEntity*>(PMaster));
@@ -1903,7 +1919,7 @@ namespace petutils
     {
         int16 cost = 0;
         // Elementals
-        if (id >= 0 && id <= 7)
+        if (id >= PETID_FIRESPIRIT && id <= PETID_DARKSPIRIT)
         {
             if (level < 10)
                 cost = 1;
@@ -1933,7 +1949,7 @@ namespace petutils
                 cost = 15;
         }
         // Carbuncle and Cait Sith
-        else if (id == 8 || id == 20)
+        else if (id == PETID_CARBUNCLE || id == PETID_CAIT_SITH)
         {
             if (level < 10)
                 cost = 1;
@@ -1959,7 +1975,7 @@ namespace petutils
                 cost = 11;
         }
         // Fenrir
-        else if (id == 9)
+        else if (id == PETID_FENRIR)
         {
             if (level < 8)
                 cost = 1;
@@ -1989,7 +2005,7 @@ namespace petutils
                 cost = 13;
         }
         // Celestials
-        else if (id <= 16)
+        else if (id <= PETID_DIABOLOS || id == PETID_SIREN)
         {
             if (level < 10)
                 cost = 1;
@@ -2089,6 +2105,7 @@ namespace petutils
         TPZ_DEBUG_BREAK_IF(PMaster == nullptr);
         TPZ_DEBUG_BREAK_IF(PetID >= MAX_PETID);
 
+        // Additional pets are added in pet_list.sql
         Pet_t* PPetData = *std::find_if(g_PPetList.begin(), g_PPetList.end(), [PetID](Pet_t* t) { return t->PetID == PetID; });
     
         if (PMaster->GetMJob() != JOB_DRG && PetID == PETID_WYVERN)
@@ -2103,7 +2120,7 @@ namespace petutils
 
         PETTYPE petType = PETTYPE_JUG_PET;
 
-        if (PetID <= PETID_CAIT_SITH)
+        if (PetID <= PETID_CAIT_SITH || PetID == PETID_SIREN)
         {
             petType = PETTYPE_AVATAR;
         }
@@ -2450,6 +2467,10 @@ namespace petutils
                 return true;
             }
             if (petmod == PetModType::Luopan && PPetEntity->m_PetID == PETID_LUOPAN)
+            {
+                return true;
+            }
+            if (petmod == PetModType::Siren && PPetEntity->m_PetID == PETID_SIREN)
             {
                 return true;
             }

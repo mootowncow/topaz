@@ -7,6 +7,7 @@
 require("scripts/globals/annm")
 require("scripts/globals/status")
 require("scripts/globals/pathfind")
+mixins = {require("scripts/mixins/families/djinn")}
 -----------------------------------
 function onMobSpawn(mob)
     mob:setMod(tpz.mod.MOVE, 0)
@@ -32,7 +33,8 @@ function onMobFight(mob, target)
         for _,v in ipairs(nearbyPlayers) do
             local mp = math.floor((v:getMaxMP() * math.random(1, 3)) / 10)
             local dmg = 500
-            dmg = v:magicDmgTaken(dmg, tpz.magic.ele.DARK)
+            local rawDmg = dmg
+            dmg = v:magicDmgTaken(dmg, tpz.magic.ele.DARK, rawDmg)
             v:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.DARK)
             v:delMP(mp)
         end

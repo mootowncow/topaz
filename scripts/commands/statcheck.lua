@@ -19,7 +19,7 @@ function onTrigger(player)
             local macc = targ:getMod(tpz.mod.MACC)
             local mdef = targ:getMod(tpz.mod.MDEF)
 
-            player:PrintToPlayer(string.format("%s Stats 1: MJOB: %i, SJOB: %i, HP: %i, MP: %i, Weapon Damage: %i, Delay: %i,", targ:getName(), targ:getMainJob(), targ:getSubJob(), targ:getMaxHP(), targ:getMaxMP(), targ:getWeaponDmg(), targ:getDelay()))
+            player:PrintToPlayer(string.format("%s Stats 1: MJOB: %i, SJOB: %i, HP: %i, MP: %i, Melee Damage: %i, Ranged Damage: %i Delay: %i,", targ:getName(), targ:getMainJob(), targ:getSubJob(), targ:getMaxHP(), targ:getMaxMP(), targ:getWeaponDmg(), targ:getRangedDmg(), targ:getDelay()))
             player:PrintToPlayer(string.format("%s Stats 2: LVL: %i, SLVL: %i, ACC: %i, EVA: %i, ATT: %i, RATT: %i, DEF: %i, MATT: %i, MACC: %i, MDEF: %i ", targ:getName(), targ:getMainLvl(), targ:getSubLvl(), acc,eva,att,ratt,def,matt,macc,mdef))
             player:PrintToPlayer(string.format("%s Stats 3: STR: %i, DEX: %i, VIT: %i, AGI: %i, INT: %i, MND: %i, CHR: %i", targ:getName(), str,dex,vit,agi,int,mnd,chr))
         else

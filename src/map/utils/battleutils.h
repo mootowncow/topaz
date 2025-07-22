@@ -31,6 +31,8 @@
 
 #include "../entities/battleentity.h"
 
+extern std::unordered_map<uint16, std::vector<uint16>> g_PMobSkillLists;
+
 
 class CAbility;
 class CItemWeapon;
@@ -61,17 +63,21 @@ enum ENSPELL
     ENSPELL_II_LIGHT = 15,
     ENSPELL_II_DARK = 16,
     ENSPELL_BLOOD_WEAPON = 17,
-    //ENSPELL_AUSPICE = 18,
-    //ENSPELL_DRAIN_SAMBA = 19,
-    //ENSPELL_ASPIR_SAMBA = 20,
-    //ENSPELL_HASTE_SAMBA = 21
-    ENSPELL_ROLLING_THUNDER = 18,
+    // 18 free
     ENSPELL_AUSPICE = 19,
     ENSPELL_DRAIN_SAMBA = 20,
     ENSPELL_ASPIR_SAMBA = 21,
     ENSPELL_HASTE_SAMBA = 22,
     ENSPELL_SOUL_ENSLAVEMENT = 23,
-    ENSPELL_TAINT = 24
+    ENSPELL_TAINT = 24,
+    ENSPELL_ROLLING_THUNDER = 25,
+    ENSPELL_INFERNO_HOWL = 26,
+    ENSPELL_KATABATIC_BLADES = 27,
+    ENSPELL_HEAVENWARD_HOWL_DRAIN = 28,
+    ENSPELL_HEAVENWARD_HOWL_ASPIR = 29,
+    ENSPELL_DRAIN = 30,
+    ENSPELL_ASPIR = 31
+
 };
 
 enum SPIKES
@@ -87,6 +93,7 @@ enum SPIKES
     SPIKE_CLOD = 8,
     SPIKE_DELUGE = 9,
     SPIKE_GLINT = 10,
+    SPIKE_DAMAGE = 11,
     RETALIATION = 63
 };
 
@@ -162,7 +169,7 @@ namespace battleutils
     CMobSkill*      GetMobSkill(uint16 SkillID);
 
     const std::list<CWeaponSkill*>& GetWeaponSkills(uint8 skill);
-    const std::vector<uint16>& GetMobSkillList(uint16 ListID);
+    std::vector<uint16>& GetMobSkillList(uint16 listId);
 
     void                FreeWeaponSkillsList();
     void                FreeMobSkillList();
@@ -219,11 +226,11 @@ namespace battleutils
     bool                HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, int32 damage);
     bool                HandleSpikesEquip(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, uint8 damage, SUBEFFECT spikesType, uint8 chance);
     void                HandleSpikesStatusEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action);
-    void                HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, bool isFirstSwing, CItemWeapon* weapon, int32 damage);
+    void                HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, bool isFirstSwing, CItemWeapon* weapon, int32 finalDamge, bool afterDamageCalc = false);
     uint8               GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage);
     uint8               GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage, int8 accBonus, bool isBluSpell = false);
     uint16              CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int acc, bool isBluSpell = false);
-    int32               CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element);
+    int32               CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element, uint8 enspell, actionTarget_t* Action, int32 finaldamage);
 
     int16               GetEnmityModDamage(int16 level);
     int16               GetEnmityModCure(int16 level);
@@ -263,8 +270,8 @@ namespace battleutils
     void                DirtyExp(CBattleEntity* PDefender, CBattleEntity* PAttacker);
     void                RelinquishClaim(CCharEntity* PDefender);
 
-    int32               BreathDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element);
-    int32               MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element);
+    int32               BreathDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage);
+    int32               MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage);
     int32               SkillchainDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element);
     int32               PhysicalDmgTaken(CBattleEntity* PDefender, int32 damage, int16 damageType, bool IsCovered = false);
     int32               RangedDmgTaken(CBattleEntity* PDefender, int32 damage, int16 damageType, bool IsCovered = false);
@@ -284,8 +291,12 @@ namespace battleutils
     int32               HandleMagicStoneskin(CBattleEntity* PDefender, int32 damage);
     int32               HandleFanDance(CBattleEntity* PDefender, int32 damage);
     int32               HandleCircleDamageReduction(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage);
-    int32               HandlePositionalPDT(CBattleEntity* PDefender, int32 damage);
+    int32               HandlePositionalPDT(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage);
     int32               HandleExtraDamageMultipliers(CBattleEntity* PAttacker, int32 damage);
+    int32               HandleElementalAbsorb(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage);
+    int32               HandleElementalNull(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage);
+    int32               HandlePhysicalAbsorb(CBattleEntity* PDefender, int32 damage);
+    int32               HandlePhysicalNull(CBattleEntity* PDefender, int32 damage);
 
     // stores damage for afflatus misery if active
     void                HandleAfflatusMiseryDamage(CBattleEntity* PDefender, int32 damage);
@@ -304,6 +315,7 @@ namespace battleutils
     bool                WeatherMatchesElement(WEATHER weather, uint8 element);
     bool                DrawIn(CBattleEntity* PEntity, CMobEntity* PMob, float offset);
     void                ResetAllAbilitiesToMaxRecast(CCharEntity* PTarget, bool resetTwoHours = false);
+    void                ReduceAbilityRecast(CCharEntity* PChar, uint16 abilityId, uint32 seconds);
     void                DoWildCardToEntity(CCharEntity* PCaster, CCharEntity* PTarget, uint8 roll);
     void                DoCuttingCardsToEntity(CCharEntity* PCaster, CCharEntity* PTarget, uint8 roll);
     bool                DoRandomDealToEntity(CCharEntity* PChar, CCharEntity* PTarget);

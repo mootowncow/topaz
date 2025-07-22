@@ -15,4 +15,5 @@ function onItemUse(target)
     target:delStatusEffectSilent(tpz.effect.RERAISE)
     target:addStatusEffect(tpz.effect.RERAISE, 1, 0, duration)
     target:messageBasic(tpz.msg.basic.GAINS_EFFECT_OF_STATUS, tpz.effect.RERAISE)
+    target:setEffectUndispellable(tpz.effect.RERAISE)
 end

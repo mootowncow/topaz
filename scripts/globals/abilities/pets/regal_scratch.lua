@@ -1,5 +1,6 @@
 ---------------------------------------------------
 -- Regal Scratch
+-- Slashing
 ---------------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")

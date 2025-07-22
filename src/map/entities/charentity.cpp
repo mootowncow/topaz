@@ -1391,6 +1391,23 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                 }
                 if (actionTarget.reaction == REACTION_HIT)
                 {
+                    bool cerberusBow = false;
+                    auto cerberusBowNQ = 18695;
+                    auto cerberusBowHQ = 18701;
+                    if (this->objtype == TYPE_PC)
+                    {
+                        CItemWeapon* ranged = dynamic_cast<CItemWeapon*>(((CCharEntity*)this)->getEquip(SLOT_RANGED));
+                        if (ranged && (ranged->getID() == cerberusBowNQ || ranged->getID() == cerberusBowHQ))
+                        {
+                            cerberusBow = true;
+                        }
+                    }
+
+                    if (cerberusBow)
+                    {
+                        battleutils::ReduceAbilityRecast(this, ABILITY_BARRAGE, 1);
+                    }
+
                     if (battleutils::GetScaledItemModifier(this, m_Weapons[damslot], Mod::ADDITIONAL_EFFECT))
                     {
                         actionTarget_t dummy;
@@ -1402,6 +1419,10 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                         actionTarget_t dummy;
                         luautils::OnAdditionalEffect(this, PTarget, static_cast<CItemWeapon*>(getEquip(SLOT_AMMO)), &dummy, damage);
                     }
+
+                    // Add Listener
+                    this->PAI->EventHandler.triggerListener("WS_DMG_DONE", this, PTarget, damage, PWeaponSkill->getID());
+
                     int wspoints = 1;
                     if (PWeaponSkill->getPrimarySkillchain() != 0)
                     {
@@ -1590,7 +1611,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                     PRecastContainer->Del(RECAST_ABILITY, PActivateAbility->getRecastId());
             }
         }
-        else if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
+        else if (PAbility->isBloodPact())
         {
             if (this->StatusEffectContainer->HasStatusEffect(EFFECT_APOGEE))
             {
@@ -1681,6 +1702,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         {
             action.recast = 0;
         }
+        uint16 mobSkillId = 885;
 
         action.id = this->id;
         action.actiontype = PAbility->getActionType();
@@ -1702,11 +1724,11 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 actionTarget.param = 0;
                 actionTarget.messageID = 0;
 
-                auto PPetTarget = PTarget->targid;
-                if (PAbility->getID() >= ABILITY_HEALING_RUBY && PAbility->getID() <= ABILITY_PERFECT_DEFENSE)
+                uint16 PPetTarget = PAbility->getTarget()->targid;
+
+                if (PAbility->isPetAbility())
                 {
-                    // Blood Pact mp cost stored in animation ID
-                    float mpCost = PAbility->getAnimationID();
+                    float mpCost = PAbility->getMPCost();
 
                     if (StatusEffectContainer->HasStatusEffect(EFFECT_APOGEE))
                     {
@@ -1733,27 +1755,51 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
                     uint16 validTarget = PAbility->getValidTarget();
 
-                    if (validTarget & TARGET_SELF)
+                    // TARGET_PLAYER_PARTY is set. Will detect from left to right so lowest number enum gets detected first (Self - 1)
+                    // In order to set target for TARGET_SELF and TARGET_PLAYER_PARTY (3) to pick TARGET_PLAYER_PARTY first it has to
+                    // come first in the if elseif
+                    // Alternatively, this would fix it:
+                    // if ((validTarget & (TARGET_PLAYER_PARTY | TARGET_SELF)) == 3)
+                    // Should be if BOTH TARGET_PLAYER_PARTY and TARGET_SELFlf (3)
+                    if (validTarget & TARGET_PLAYER_PARTY)
                     {
-                        PPetTarget = PPet->targid;
-
-                        // Check if it also includes TARGET_PLAYER_PARTY
-                        if (validTarget & TARGET_PLAYER_PARTY)
+                        PPetTarget = PAbility->getTarget()->targid;
+                        if (PAbility->isBloodPact())
                         {
-                            PPetTarget = PTarget->targid;
+                            mobSkillId = 906;
                         }
                     }
-                    else if (validTarget & TARGET_PLAYER_PARTY)
+                    else if (validTarget & TARGET_SELF) // TARGET_SELF is set
                     {
-                        // If only TARGET_PLAYER_PARTY is set
-                        PPetTarget = PTarget->targid;
+                        PPetTarget = PPet->targid;
+                        if (PAbility->isBloodPact())
+                        {
+                            mobSkillId = 887;
+                        }
+                    }
+                    else if (validTarget & TARGET_ENEMY) // TARGET_ENEMY is set
+                    {
+                        PPetTarget = PAbility->getTarget()->targid;
+                        if (PAbility->isBloodPact())
+                        {
+                            mobSkillId = 885;
+                        }
+                    }
+
+                    if (validTarget & TARGET_PLAYER_DEAD) // TARGET_PLAYER_DEAD is set
+                    {
+                        PPetTarget = PAbility->getTarget()->targid;
+                        if (PAbility->isBloodPact())
+                        {
+                            mobSkillId = 2460;
+                        }
                     }
 
                 }
                 else
                 {
                     auto PMobSkill = battleutils::GetMobSkill(PAbility->getMobSkillID());
-                    if (PMobSkill)
+                    if (PMobSkill && !(PAbility->getFlag() & ABILITYFLAG_PET_ABILITY))
                     {
                         if (PMobSkill->getValidTargets() & TARGET_ENEMY)
                         {
@@ -1765,31 +1811,36 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                         }
                     }
                 }
-                if (PAbility->getID() == ABILITY_LEVEL_QUESTION_HOLY)
-                {
-                    int16 tp = PPet->health.tp;
-                    PPet->SetLocalVar("tp", tp);
-                    // ShowDebug("doing qm holy...\n");
-                    PPet->PAI->MobSkill(PPetTarget, tpzrand::GetRandomNumber((uint16)2452, (uint16)2458));
-                    PPet->PAI->MobSkill(PPetTarget, tpzrand::GetRandomNumber((uint16)2452, (uint16)2458)); // GetRandomNumber never returns the max value
-                }
-                else
-                {
-                    // Tell pet to use mob skill
-                    if (PPetTarget > 0 && PAbility->getMobSkillID() > 0)
-                    {
-                        int16 tp = PPet->health.tp;
-                        PPet->SetLocalVar("tp", tp);
-                        if (PPet->objtype == TYPE_PET)
-                        {
-                            auto PAvatar = dynamic_cast<CPetEntity*>(PPet);
-                            if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
-                            {
-                                uint32 bloodPactAbilityId = PAbility->getID();
-                                PAvatar->m_bloodPactAbilityId = PAbility->getID();
-                            }
-                        }
 
+                // Tell pet to use mob skill
+                if (PAbility->getFlag() & ABILITYFLAG_PET_ABILITY)
+                {
+                    if (PPet->objtype == TYPE_PET)
+                    {
+                        auto PAvatar = dynamic_cast<CPetEntity*>(PPet);
+                        if (PAvatar && PAvatar->getPetType() == PETTYPE_AVATAR)
+                        {
+                            uint32 bloodPactAbilityId = PAbility->getID();
+                            PAvatar->m_bloodPactAbilityId = PAbility->getID();
+                            PAvatar->m_bloodPactActivationTime = 4000;
+
+                            // Shock Squall, Raise II and Reraise II have .5s activation time
+                            auto abilityId = PAbility->getID();
+                            if (abilityId == ABILITY_SHOCK_SQUALL || abilityId == ABILITY_RAISE_II || abilityId == ABILITY_RERAISE_II)
+                            {
+                                PAvatar->m_bloodPactActivationTime = 500;
+                            }
+                            PPet->PAI->MobSkill(PPetTarget, mobSkillId);
+                        }
+                    }
+                }
+                else 
+                {
+                    // Tell wyvern / Jug pets to use a mob skill
+                    // TODO: Fix wyvern to not need this!
+                    // DO NOT DELETE THIS LOGIC
+                    if (PPetTarget > 0 && PAbility->getMobSkillID())
+                    {
                         PPet->PAI->MobSkill(PPetTarget, PAbility->getMobSkillID());
                     }
                 }
@@ -1834,6 +1885,16 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 }
                 else
                 {
+                    // Store current burden for later - luautils::OnUseAbility() modifies burden on maneuver use
+                    uint8 burden = 0;
+                    if (PPet && PPet->objtype == TYPE_PET)
+                    {
+                        auto PAutomaton = static_cast<CAutomatonEntity*>(PPet);
+                        uint8 elementIndex = static_cast<uint8>(PAbility->getID() - ABILITY_FIRE_MANEUVER);
+
+                        burden = PAutomaton->getBurden()[elementIndex];
+                    }
+
                     int32 value = luautils::OnUseAbility(this, PTarget, PAbility, &action);
 
                     // If a script set messageID directly, use that;
@@ -1845,7 +1906,20 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
                     // Display a generic message for the caster if no message is set.
                     if (first && actionTarget.messageID == 0)
+                    {
                         actionTarget.messageID = MSGBASIC_USES_JA;
+                    }
+
+                    // No action message list
+                    static const std::unordered_set<uint16> noMsgAbilities = {
+                        ABILITY_DEPLOY, ABILITY_RETRIEVE, ABILITY_ASSAULT, ABILITY_RETREAT, ABILITY_RELEASE, ABILITY_FIGHT,
+                        ABILITY_HEEL, ABILITY_LEAVE, ABILITY_STAY
+                    };
+
+                    if (noMsgAbilities.count(PAbility->getID()))
+                    {
+                        actionTarget.messageID = 0;
+                    }
 
                     actionTarget.param = value;
 
@@ -1855,13 +1929,24 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                         actionTarget.param = -value;
                     }
 
+                    // Handle Maneuvers message
+                    if (PAbility->getID() >= ABILITY_FIRE_MANEUVER && PAbility->getID() <= ABILITY_DARK_MANEUVER)
+                    {
+                        auto msgId = MSGBASIC_BURDEN_PERCENT;
+                        if (StatusEffectContainer->HasStatusEffect(EFFECT_OVERLOAD))
+                        {
+                            msgId = MSGBASIC_OVERLOADED;
+                        }
+                        actionTarget.messageID = msgId;
+                        actionTarget.param = burden;
+                    }
+
                     state.ApplyEnmity();
                 }
 
                 first = false;
             }
         }
-
 
         // Interrupted
         // TODO: Does nothing? No longer needed?
@@ -1872,7 +1957,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
             actionTarget_t& actionTarget = actionList.getNewActionTarget();
             actionTarget.animation = 508;
-            actionTarget.messageID = 88;
+            actionTarget.messageID = MSGBASIC_UNABLE_TO_USE_JA2;
             action.actionid = 0;
             action.recast = 0;
 
@@ -2110,6 +2195,12 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
             }
         }
         totalDamage += damage;
+
+        // Stop adding hits if target would die before calculating other hits
+        if (PTarget->health.hp <= totalDamage)
+        {
+            break;
+        }
     }
 
     // if a hit did occur (even without barrage)
@@ -2134,7 +2225,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
             }
         }
 
-        actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);
+       actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);
 
         // lower damage based on shadows taken
         if (shadowsTaken)
@@ -2147,78 +2238,53 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
             actionTarget.messageID = MSGBASIC_RANGED_ABSORBED_DMG;
         }
 
-        // Handle frontal PDT
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 3)
-            {
-                resist = 0;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 5)
-            {
-                resist = 0.25f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && infront(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 6)
-            {
-                resist = 0.5f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-
-        // Handle Behind PDT
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 4)
-            {
-                resist = 0;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 7)
-            {
-                resist = 0.25f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PHYSICAL_SHIELD) && behind(this->loc.p, PTarget->loc.p, 64))
-        {
-            int power = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_PHYSICAL_SHIELD)->GetPower();
-            float resist = 1.0f;
-            if (power == 8)
-            {
-                resist = 0.5f;
-            }
-            actionTarget.param = (int32)(actionTarget.param * (float)resist);
-        }
-
         //add additional effects
         //this should go AFTER damage taken
         //or else sleep effect won't work
         //battleutils::HandleRangedAdditionalEffect(this,PTarget,&Action);
         //TODO: move all hard coded additional effect ammo to scripts
         if ((PAmmo != nullptr && battleutils::GetScaledItemModifier(this, PAmmo, Mod::ADDITIONAL_EFFECT) > 0) ||
-            (PItem != nullptr && battleutils::GetScaledItemModifier(this, PItem, Mod::ADDITIONAL_EFFECT) > 0)) {}
-        luautils::OnAdditionalEffect(this, PTarget, (PAmmo != nullptr ? PAmmo : PItem), &actionTarget, totalDamage);
+            (PItem != nullptr && battleutils::GetScaledItemModifier(this, PItem, Mod::ADDITIONAL_EFFECT) > 0))
+        {
+
+            uint32 addEffectDamage = 0;
+            SUBEFFECT subEffect = SUBEFFECT_NONE;
+            uint16 addEffectMessage = 0;
+            uint32 addEffectParam = 0;
+
+            for (int i = 0; i < realHits; ++i)
+            {
+                luautils::OnAdditionalEffect(this, PTarget, (PAmmo != nullptr ? PAmmo : PItem), &actionTarget, totalDamage);
+
+                // Record damage done for all damage/drain additional effects
+                if (actionTarget.additionalEffect <= SUBEFFECT_DARKNESS_DAMAGE ||
+                    (actionTarget.additionalEffect >= SUBEFFECT_HP_DRAIN && actionTarget.additionalEffect <= SUBEFFECT_TP_DRAIN))
+                {
+                    addEffectDamage += actionTarget.addEffectParam;
+                }
+                // Record status effect data
+                else
+                {
+                    subEffect = actionTarget.additionalEffect;
+                    addEffectMessage = actionTarget.addEffectMessage;
+                    addEffectParam = actionTarget.addEffectParam;
+                }
+            }
+
+            // Is a damage additional effect, so apply the added up damage to the packet
+            if (addEffectDamage > 0)
+            {
+                actionTarget.addEffectParam = addEffectDamage;
+            }
+            // Is a status effect additional effect, if it procced then apply the data for the packet
+            else
+            {
+                actionTarget.additionalEffect = subEffect;
+                actionTarget.addEffectMessage = addEffectMessage;
+                actionTarget.addEffectParam = addEffectParam;
+            }
+
+        }
     }
     else if (shadowsTaken > 0)
     {
@@ -2239,6 +2305,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
     battleutils::RemoveAmmo(this, ammoConsumed);
 
     StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
 
     // Safety check to not get locked in cutscene status
     if (this->status == STATUS_CUTSCENE_ONLY || this->m_Substate == CHAR_SUBSTATE::SUBSTATE_IN_CS)
@@ -2660,6 +2727,14 @@ CBattleEntity* CCharEntity::IsValidTarget(uint16 targid, uint16 validTargetFlags
             // Interaction was blocked
             static_cast<CCharEntity*>(PTarget)->pushPacket(new CMessageSystemPacket(0, 0, 226));
         }
+        else if (PTarget->objtype == TYPE_TRUST && validTargetFlags & TARGET_EXCLUDE_TRUSTS)
+        {
+            errMsg = std::make_unique<CMessageBasicPacket>(this, this, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG);
+        }
+        else if (PTarget->objtype == TYPE_PET && validTargetFlags & TARGET_EXCLUDE_PETS)
+        {
+            errMsg = std::make_unique<CMessageBasicPacket>(this, this, 0, 0, MSGBASIC_CANNOT_ON_THAT_TARG);
+        }
         else if (static_cast<CCharEntity*>(this)->IsMobOwner(PTarget))
         {
             if (PTarget->isAlive() || (validTargetFlags & TARGET_PLAYER_DEAD) != 0)
@@ -2709,12 +2784,16 @@ void CCharEntity::Die()
         float retainPercent = std::clamp(map_config.exp_retain + getMod(Mod::EXPERIENCE_RETAINED) / 100.0f, 0.0f, 1.0f);
         charutils::DelExperiencePoints(this, retainPercent, 0);
     }
+
+    // Add Listener
+    if (PLastAttacker)
+    {
+        PLastAttacker->PAI->EventHandler.triggerListener("PLAYER_DEATH", PLastAttacker, this);
+    }
 }
 
 void CCharEntity::Die(duration _duration)
 {
-    this->ClearTrusts();
-
     m_deathSyncTime = server_clock::now() + death_update_frequency;
     PAI->ClearStateStack();
     PAI->Internal_Die(_duration);
@@ -2722,6 +2801,7 @@ void CCharEntity::Die(duration _duration)
     // If player allegiance is not reset on death they will auto-homepoint
     allegiance = ALLEGIANCE_PLAYER;
 
+    // TODO: None of this works?? Reraise doesn't apply a mod..
     // reraise modifiers
     if (this->getMod(Mod::RERAISE_I) > 0)
         m_hasRaise = 1;

@@ -47,6 +47,7 @@ public:
     bool Cast(uint16 targid, SpellID spellid) override;
 
     bool RangedAttack(uint16 targid);
+    virtual bool UseItem(uint16 targid, uint8 loc, uint16 slotid);
 
     static constexpr float RoamDistance = { 2.0f };
     static constexpr float SpawnDistance = { 3.0f };
@@ -69,6 +70,10 @@ private:
 
     void Declump(CCharEntity* PMaster, CBattleEntity* PTarget);
     void PathOutToDistance(CBattleEntity* PTarget, float amount);
+
+    bool TrustIsHealing();
+    bool TryCastRaise();
+    bool TryCastUtsusemi();
 
     CBattleEntity* m_LastTopEnmity;
 

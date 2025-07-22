@@ -9,7 +9,7 @@ require("scripts/globals/npc_util")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 1757) and npcUtil.popFromQM(player, npc, ID.mob.WAILER) then -- Coveter Remnant
+    if npcUtil.tradeHas(trade, 1757) and npcUtil.popFromQM(player, npc, ID.mob.WAILER, {hide=7200}) then -- Coveter Remnant
         player:messageSpecial(ID.text.ON_NM_SPAWN)
         player:confirmTrade()
     end

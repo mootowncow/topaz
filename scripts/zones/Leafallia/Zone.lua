@@ -16,6 +16,14 @@ function onZoneIn(player, prevZone)
         player:setPos(-1, 0, 0, 151)
     end
 
+    if (player:getCharVar("sirenDefeated") == 1) then
+        player:queue(5000, function(player)
+            player:addSpell(355)
+            player:messageSpecial(ID.text.UNLOCK_SIREN)
+            player:setCharVar("sirenDefeated", 0)
+        end)
+    end
+
     return cs
 end
 

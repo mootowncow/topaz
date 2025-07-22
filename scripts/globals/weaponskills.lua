@@ -22,11 +22,11 @@ function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams, isOffha
     local pdif = 0
     local finaldmg = 0
 
-    local hitRate = calcParams.hitRate
+    local hitRate = calcParams.hitRate / 100
     local missChance = math.random()
 
     if (isOffhand) then
-        hitRate = calcParams.hitRateOffhand
+        hitRate = calcParams.hitRateOffhand / 100
     end
 
     if ((missChance <= hitRate) or calcParams.guaranteedHit)
@@ -488,6 +488,8 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
 
     -- Delete statuses that may have been spent by the WS
     attacker:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.PHYS_ATTACK)
     attacker:delStatusEffectSilent(tpz.effect.SNEAK_ATTACK)
     attacker:delStatusEffectSilent(tpz.effect.BUILDING_FLOURISH)
 	attacker:delStatusEffectSilent(tpz.effect.CONSUME_MANA)
@@ -585,7 +587,6 @@ end
 -- Sets up the necessary calcParams for a ranged WS before passing it to calculateRawWSDmg. When the raw
 -- damage is returned, handles reductions based on target resistances and passes off to takeWeaponskillDamage.
 function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, primaryMsg)
-
     -- Determine cratio and ccritratio
     local bonusAttPercent = 0
     local flatAttackBonus = 0
@@ -694,6 +695,9 @@ function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, prima
 
     -- Handle Scarlet Delirium
     finaldmg = utils.ScarletDeliriumBonus(attacker, finaldmg)
+
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
 	
     finaldmg = finaldmg * WEAPON_SKILL_POWER * 1.00 -- Add server bonus
     calcParams.finalDmg = finaldmg
@@ -807,6 +811,9 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
     -- Handle Ecosystem Bonus
     dmg = utils.HandleEcosystemBonus(attacker, target, dmg)
 
+    -- Track raw damage
+    local rawDmg = dmg
+
     -- Handle Null
     dmg = utils.CheckForNull(attacker, target, tpz.attackType.MAGICAL, wsParams.ele, dmg)
 
@@ -848,7 +855,7 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
         dmg = dmg * applyResistanceAbility(attacker, target, wsParams.ele, wsParams.skill, bonusacc)
     end
 
-    dmg = target:magicDmgTaken(dmg, wsParams.ele)
+    dmg = target:magicDmgTaken(dmg, wsParams.ele, rawDmg)
 
     -- handling absorb
     if (wsParams.ele ~= 0) then -- Non-elemental damage cannot be absorbed
@@ -866,6 +873,9 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
         --handling rampart stoneskin
         dmg = utils.rampartstoneskin(target, dmg)
     end
+
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
 
     calcParams.finalDmg = dmg
     dmg = takeWeaponskillDamage(target, attacker, wsParams, primaryMsg, attack, calcParams, action)
@@ -971,7 +981,8 @@ function souleaterBonus(attacker, numhits)
         if attacker:getMainJob() ~= tpz.job.DRK then
             percent = percent / 2
         end
-        percent = percent + math.min(0.02, 0.01 * attacker:getMod(tpz.mod.SOULEATER_EFFECT))
+        local souleaterGearMod = attacker:getMaxGearMod(tpz.mod.SOULEATER_EFFECT, 2) -- +2 is 0.2 which makes it 12% (12% Cap)
+        percent = percent + math.min(0.02, 0.01 * souleaterGearMod)
         utils.clamp(percent, 0.01, 0.15) -- Caps at 15%
         local hitscounted = 0
         while (hitscounted < numhits) do

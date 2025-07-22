@@ -182,16 +182,6 @@ uint8 CAutomatonEntity::addBurden(uint8 element, int8 burden)
 
     m_Burden[element] = std::clamp(m_Burden[element] + burden, 0, 255);
 
-    // Convert burden to string
-    std::string currentBurden = std::to_string(m_Burden[element]);
-    // Get the element name
-    std::string elementName = getElementName(element +1);
-    // Create the message
-    std::string message = "Current burden for " + elementName + " is " + currentBurden;
-
-    // Push the message to the chat
-    ((CCharEntity*)PMaster)->pushPacket(new CChatMessagePacket(((CCharEntity*)PMaster), CHAT_MESSAGE_TYPE::MESSAGE_NS_SAY, message));
-
     if (burden > 0)
     {
         //check for overload
@@ -258,12 +248,6 @@ void CAutomatonEntity::OnMobSkillFinished(CMobSkillState& state, action_t& actio
 
     auto PSkill = state.GetSkill();
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
-
-    // Ranged attack skill up
-    if (PSkill->getID() == 1949 && !PSkill->hasMissMsg())
-    {
-        puppetutils::TrySkillUP(this, SKILL_AUTOMATON_RANGED, PTarget->GetMLevel());
-    }
 }
 
 void CAutomatonEntity::Spawn()
@@ -273,12 +257,12 @@ void CAutomatonEntity::Spawn()
     updatemask |= UPDATE_HP;
     PAI->Reset();
     PAI->EventHandler.triggerListener("SPAWN", this);
-    // Max [HP/MP] Boost mods
-    this->UpdateHealth();
-    this->health.hp = this->GetMaxHP();
-    this->health.mp = this->GetMaxMP();
     animation = ANIMATION_NONE;
     m_OwnerID.clean();
     HideName(false);
     luautils::OnMobSpawn(this);
+    // Max [HP/MP] Boost mods
+    this->UpdateHealth();
+    this->health.hp = this->GetMaxHP();
+    this->health.mp = this->GetMaxMP();
 }

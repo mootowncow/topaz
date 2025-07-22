@@ -23,7 +23,8 @@ ai.target =
     CURILLA         = 9, -- Special case for Rainemard
     PARTY_DEAD      = 10,
     PARTY_MULTI     = 11,
-    CASTS_SPELLS    = 12
+    CASTS_SPELLS    = 12,
+    WANTS_REFRESH   = 13
 }
 ai.t = ai.target
 
@@ -81,6 +82,7 @@ ai.reaction =
     WS      = 4,
     MS      = 5,
     MSG     = 6,
+    ITEM    = 7
 }
 ai.r = ai.reaction
 

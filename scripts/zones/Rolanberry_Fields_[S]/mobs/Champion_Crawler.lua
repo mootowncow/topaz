@@ -4,6 +4,7 @@
 -- Note: JP camp
 -----------------------------------
 require("scripts/globals/status")
+require("scripts/globals/mobs")
 -----------------------------------
 function onMobInitialize(mob)
     mob:setMod(tpz.mod.DMGMAGIC, 25)

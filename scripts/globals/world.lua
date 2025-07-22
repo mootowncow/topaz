@@ -1,6 +1,7 @@
 -----------------------------------
 --  World Enums
 -----------------------------------
+
 tpz = tpz or {}
 
 tpz.weather =
@@ -26,6 +27,22 @@ tpz.weather =
     GLOOM           = 18,
     DARKNESS        = 19,
 }
+
+tpz.weatherGroup =
+{
+    NONE        = {                                              },
+    FIRE        = { tpz.weather.HOT_SPELL,      tpz.weather.HEAT_WAVE       },
+    ICE         = { tpz.weather.SNOW,           tpz.weather.BLIZZARDS       },
+    WIND        = { tpz.weather.WIND,           tpz.weather.GALES           },
+    EARTH       = { tpz.weather.DUST_STORM,     tpz.weather.SAND_STORM      },
+    LIGHTNING   = { tpz.weather.THUNDER,        tpz.weather.THUNDERSTORMS   },
+    THUNDER     = { tpz.weather.THUNDER,        tpz.weather.THUNDERSTORMS   },
+    WATER       = { tpz.weather.RAIN,           tpz.weather.SQUALL          },
+    LIGHT       = { tpz.weather.AURORAS,        tpz.weather.STELLAR_GLARE   },
+    DARK        = { tpz.weather.GLOOM,          tpz.weather.DARKNESS        },
+}
+
+tpz.weatherToElement = {}
 
 tpz.day =
 {

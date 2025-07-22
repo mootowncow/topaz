@@ -40,6 +40,10 @@ class CBattleEntity;
 class CStatusEffectContainer
 {
 public:
+    size_t GetStatusEffectCount() const
+    {
+        return m_StatusEffectSet.size();
+    }
 
     uint64	m_Flags{0};											// биты переполнения байтов m_StatusIcons (по два бита на каждый эффект)
     uint8 m_StatusIcons[32];                  // иконки статус-эффектов

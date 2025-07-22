@@ -10,6 +10,7 @@ require("scripts/globals/missions")
 require("scripts/globals/npc_util")
 require("scripts/globals/common")
 require("scripts/globals/quests")
+require("scripts/globals/magian")
 -----------------------------------
 
 function onInitialize(zone)

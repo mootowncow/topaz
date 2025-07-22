@@ -13,11 +13,8 @@ require("scripts/globals/monstertpmoves")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-	if mob:getPool() == 513 then -- Boroka
-		return 1
-	end
     local zone = mob:getZoneID()
-	 if mob:isNM() or zone == 89 then
+	if mob:isNM() or zone == 89 then
 		return 0
 	end
 	return 1
@@ -26,7 +23,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local numhits = 1
     local accmod = 1
-    local dmgmod = 3.5
+    local dmgmod = 3.0
     local params_phys = {}
     params_phys.multiplier = dmgmod
     params_phys.tp150 = 1

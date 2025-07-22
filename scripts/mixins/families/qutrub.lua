@@ -52,6 +52,9 @@ g_mixins.families.qutrub = function(mob)
             elseif animationSub == 2 and not IsMobBusy(mob) then
                 mob:AnimationSub(3)
                 mob:setLocalVar("swapTime", 0)
+
+                -- All damage reduced by 25%
+                mob:setMod(tpz.mod.GLOBAL_DMG_DONE, -25)
             end
         end
 
@@ -85,6 +88,9 @@ g_mixins.families.qutrub = function(mob)
 				elseif animationSub == 2 and not IsMobBusy(mob) then
 					mob:AnimationSub(3)
 					mob:setLocalVar("swapTime", 0)
+
+                    -- All damage reduced by 25%
+                    mob:setMod(tpz.mod.GLOBAL_DMG_DONE, -25)
 				end
 			end
         end

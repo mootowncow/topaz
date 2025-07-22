@@ -23,7 +23,6 @@ end
 function onMobFight(mob)
 end
 
-
 function onMobEngaged(mob)
 end
 

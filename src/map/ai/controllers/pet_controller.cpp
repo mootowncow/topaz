@@ -139,6 +139,17 @@ bool CPetController::TryDeaggro()
         return true;
     }
 
+    CBattleEntity* PMaster = static_cast<CBattleEntity*>(PPet->PMaster);
+
+    // Disengage from battle if master is mounted
+    if (PMaster &&
+        !PMaster->isDead() &&
+        PPet->isAlive() &&
+        PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_MOUNTED))
+    {
+        return true;
+    }
+
     // target is no longer valid, so wipe them from our enmity list
     if (PTarget->isDead() ||
         PTarget->isMounted() ||

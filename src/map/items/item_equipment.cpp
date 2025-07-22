@@ -23,6 +23,7 @@
 
 #include <string.h>
 #include "../map.h"
+#include "item_weapon.h"
 
 CItemEquipment::CItemEquipment(uint16 id) : CItemUsable(id)
 {
@@ -249,7 +250,6 @@ int16 CItemEquipment::getLatent(Mod mod)
     return 0;
 }
 
-
 /************************************************************************
 *                                                                       *
 *                                                                       *
@@ -345,22 +345,26 @@ void CItemEquipment::SetAugmentMod(uint16 type, uint8 value)
         // i.e. !additem pugilists 0 912 11 for attack 2-3 times
         if (type == 0x390)
         {
-            if (value == 8)
+            CItemWeapon* weapon = dynamic_cast<CItemWeapon*>(this);
+            if (weapon)
             {
-                // Add OAT mod..
-                addModifier(CModifier(Mod::MAX_SWINGS, 2));
+                if (value == 8)
+                {
+                    // Add OAT mod..
+                    weapon->setMaxHit(2);
+                }
+                else if (value == 11)
+                {
+                    // Add OA2-3 mod..
+                    weapon->setMaxHit(3);
+                }
+                else if (value == 12)
+                {
+                    // Add OA2-4 mod..
+                    weapon->setMaxHit(4);
+                }
             }
-            else if (value == 11)
-            {
-                // Add OA2-3 mod..
-                addModifier(CModifier(Mod::MAX_SWINGS, 3));
-            }
-            else if (value == 12)
-            {
-                // Add OA2-4 mod..
-                addModifier(CModifier(Mod::MAX_SWINGS, 4));
-            }
-            else if (value == 13)
+            if (value == 13)
             {
                 // Add occ. double damage mod
                 addModifier(CModifier(Mod::EXTRA_DMG_CHANCE, 200));

@@ -54,45 +54,207 @@ namespace mobutils
 
     uint16 GetWeaponDamage(CMobEntity* PMob, uint16 slot)
     {
+        // Melee Bonus:
+            // Vanilla / RotZ / CoP areas : 2
+            // ToAU areas : 10
+            // WoTG / Abyssea / Adoulin level 100 monsters : 11
+
+            // Vanilla / RotZ family reductions
+            // Rabbits 1
+            // Worms 1
+            // Giant Birds 1
+
+            // Starter zone reductions
+            // -1
+
+            // H2H Penalty
+            // Vanilla - CoP: .425
+            // TOAU+: .65
+
+            // MULTI
+            // Some monsters, typically ones with larger models use Level * 1.5 instead of level
+            // Monk monsters (who attack twice per round) Level * 1.667.
+            // These multipliers appear to only exist in pre-ToAU areas; in ToAU and beyond all monster families who had a multiplier instead use expected Level
+            // values.
+
+
+        // Ranged Bonus:
+            // Vanilla / RotZ / CoP 5
+            // ToAU 12
+            // WotG / Abyssea 13
+
+    // INDIVIDUAL TERMS:														
+        // Level: This is simply the level of the monster. For level -1 monsters (Wild Rabbits and so forth) this term is equal to 1.														
+        // Multi: Some monsters multiply this value by various values (detailed on the Stat Ranks tab under Column N). Importantly these multipliers disappear in ToAU zones and beyond.														
+        // Offset: This is the most complicated of any terms here, and is described more completely below. This is a flat value applied to base damage regardless of the variable values of the other parts.														
+        // fSTR: described above														
+        // H2H penalty: because monks hit twice in an attack round (except tiny mandragora), base damage is reduced by a specific multiplier.													
+
+        // (Level x Multi + Offset + fSTR) x H2H penalty
+
+        // There is a hard floor to this equal to 2, pre-H2H penalty. 2 pre-H2H penalty. If H2H penalty the floor is equal to 1.
+
         uint16 lvl = PMob->GetMLevel();
+        uint16 family = PMob->m_Family;
         int8 bonus = 2;
-        uint16 damage = 0;
+        float multi = 1.0f;
+        int8 rangedBonus = 5;
+        float h2hPenalty = 0.425;
+        float damage = 0.0f;
+        REGIONTYPE region = PMob->loc.zone->GetRegionID();
+
+        switch (region)
+        {
+            case REGION_RONFAURE:
+            case REGION_SARUTABARUTA:
+            case REGION_GUSTABERG:
+                bonus = 1;
+                rangedBonus = 5;
+                h2hPenalty = 0.425;
+                break;
+            case REGION_ZULKHEIM:
+            case REGION_NORVALLEN:
+            case REGION_DERFLAND:
+            case REGION_KOLSHUSHU:
+            case REGION_ARAGONEU:
+            case REGION_FAUREGANDI:
+            case REGION_VALDEAUNIA:
+            case REGION_QUFIMISLAND:
+            case REGION_LITELOR:
+            case REGION_KUZOTZ:
+            case REGION_VOLLBOW:
+            case REGION_ELSHIMOLOWLANDS:
+            case REGION_ELSHIMOUPLANDS:
+            case REGION_TULIA:
+            case REGION_MOVALPOLOS:
+            case REGION_TAVNAZIA:
+            case REGION_TAVNAZIAN_MARQ:
+            case REGION_PROMYVION:
+            case REGION_LUMORIA:
+            case REGION_LIMBUS:
+                bonus = 2;
+                rangedBonus = 5;
+                h2hPenalty = 0.425;
+                break;
+            case REGION_WEST_AHT_URHGAN:
+            case REGION_MAMOOL_JA_SAVAGE:
+            case REGION_HALVUNG:
+            case REGION_ARRAPAGO:
+            case REGION_ALZADAAL:
+                bonus = 10;
+                rangedBonus = 12;
+                h2hPenalty = 0.65;
+                break;
+            case REGION_RONFAURE_FRONT:
+            case REGION_NORVALLEN_FRONT:
+            case REGION_GUSTABERG_FRONT:
+            case REGION_DERFLAND_FRONT:
+            case REGION_SARUTA_FRONT:
+            case REGION_ARAGONEAU_FRONT:
+            case REGION_FAUREGANDI_FRONT:
+            case REGION_VALDEAUNIA_FRONT:
+            case REGION_ABYSSEA:
+            case REGION_THE_THRESHOLD:
+            case REGION_ABDHALJS:
+            case REGION_ADOULIN_ISLANDS:
+            case REGION_EAST_ULBUKA:
+                bonus = 11;
+                rangedBonus = 13;
+                h2hPenalty = 0.65;
+                break;
+            case REGION_UNKNOWN:
+                break;
+            default:
+                bonus = 2;
+                rangedBonus = 5;
+                h2hPenalty = 0.425;
+                break;
+        }
+
+        // Vanilla / Zilart family penalties
+        if (region >= REGION_RONFAURE && region <= REGION_JEUNO)
+        {
+            switch (family)
+            {
+                case 206: // Rabbit
+                case 258: // Worm
+                case 125: // Giant Bird
+                case 636: // Giant Bird
+                    bonus = 1;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // Multi (Original - Zilart zones only)
+        switch (family)
+        {
+            case 208:   // Ram
+            case 58:    // Bugard
+            case 136:   // Goobue
+            case 186:   // Morbol
+            case 74:    // Corse
+            case 56:    // Bomb
+            case 135:   // Golem
+            case 169:   // Kindred
+                multi = 1.5f;
+                break;
+            case 271:   // Yovra
+                multi = 2.0f;
+                break;
+            default:
+                break;
+        }
+
+        bonus = std::max((int8)1, bonus);
+
+        // Starter zones
+        if (region >= REGION_RONFAURE && region <= REGION_GUSTABERG)
+        {
+            if (lvl == 1)
+            {
+                bonus = 0;
+            }
+        }
 
         if (slot == SLOT_RANGED)
         {
-            bonus = 5;
+            bonus = rangedBonus;
         }
 
-        if (lvl == 1)
+        // ToAU onward mobs don't have a multi, except Vampyrs and Chariots
+        if (region >= REGION_LIMBUS &&
+            (family != 252 && family != 63)) // Vampyr and Chariots
         {
-            bonus = 0;
+            multi = 1.0;
         }
 
-        damage = lvl + bonus;
+        damage = std::max(2.0f, static_cast<float>((lvl * multi) + bonus));
 
         // Some mobs can have H2H skill but not be a MNK (Like Vampyrs)
         if (PMob->GetMJob() == JOB_MNK || PMob->GetMJob() == JOB_PUP || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() == SKILL_HAND_TO_HAND)
         {
-            uint16 h2hskill = battleutils::GetMaxSkill(SKILL_HAND_TO_HAND, JOB_MNK, PMob->GetMLevel());
-            // https://ffxiclopedia.fandom.com/wiki/Category:Hand-to-Hand
-            damage = 0.11f * h2hskill + 3 +
-                     18 * PMob->GetMLevel() / 75; // basic h2h weapon dmg + scaling "weapon" for mnk mobs based on h2h skill (destroyers 18 dmg at 75)
+            damage *= h2hPenalty;
+            damage = std::max((float)1.0f, damage);
         }
 
         // DW mobs use 1h weapon damage instead of 2h
         if (PMob->getMobMod(MOBMOD_DUAL_WIELD) > 0)
         {
-            damage = (lvl / 2) + bonus;
+            damage *= h2hPenalty;
+            damage = std::max((float)1.0f, damage);
         }
 
-        damage = (uint16)(damage * PMob->m_dmgMult / 100.0f);
+        // TODO: Should be clamped to 1 for H2H/DW and 2 for normal
+        damage = static_cast<uint16>(std::max(1.0f, damage * PMob->m_dmgMult / 100.0f));
 
         if (PMob->getMobMod(MOBMOD_WEAPON_BONUS) != 0)
         {
             damage += (uint16)(PMob->getMobMod(MOBMOD_WEAPON_BONUS));
         }
 
-        return damage;
+        return static_cast<uint16>(damage);
     }
 
     // Gest base skill rankings for ACC/ATT/EVA/MEVA
@@ -229,7 +391,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     uint8 mJobGrade; // main jobs grade
     uint8 sJobGrade; // subjobs grade
 
-    if (recover == true)
+    if (recover)
     {
         if (PMob->HPmodifier == 0)
         {
@@ -651,10 +813,13 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     }
 
     // Max [HP/MP] Boost traits
-    PMob->UpdateHealth();
-    PMob->health.tp = 0;
-    PMob->health.hp = PMob->GetMaxHP();
-    PMob->health.mp = PMob->GetMaxMP();
+    if (recover)
+    {
+        PMob->UpdateHealth();
+        PMob->health.tp = 0;
+        PMob->health.hp = PMob->GetMaxHP();
+        PMob->health.mp = PMob->GetMaxMP();
+    }
 
     SetupJob(PMob);
     SetupRoaming(PMob);
@@ -784,7 +949,7 @@ void SetupJob(CMobEntity* PMob)
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 20);
             PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
             PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 25);
-            PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
             break;
         case JOB_PLD:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -836,7 +1001,7 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::SLOWRESTRAIT, 0);
             }
-            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 40);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 20);
             PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 100); // SMN only has "buffs"
             break;
         case JOB_NIN:
@@ -853,19 +1018,19 @@ void SetupJob(CMobEntity* PMob)
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
             PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
             PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
-            PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
             break;
         case JOB_GEO:
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
             PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
             PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
-            PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
             break;
         case JOB_RUN:
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
             PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
             PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
-            PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
             break;
         default:
             break;
@@ -1512,7 +1677,7 @@ void GetAvailableSpells(CMobEntity* PMob) {
     PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 35);
     PMob->defaultMobMod(MOBMOD_GA_CHANCE, 35);
     PMob->defaultMobMod(MOBMOD_NA_CHANCE, 05);
-    PMob->defaultMobMod(MOBMOD_SEVERE_SPELL_CHANCE, 20);
+    PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 20);
     PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
     PMob->defaultMobMod(MOBMOD_HEAL_CHANCE, 40);
     PMob->defaultMobMod(MOBMOD_HP_HEAL_CHANCE, 40);
@@ -1754,7 +1919,7 @@ void AddCustomMods(CMobEntity* PMob)
     // find my families custom mods
     ModsList_t* PFamilyMods = GetMobFamilyMods(PMob->m_Family);
 
-    if(PFamilyMods != nullptr)
+    if (PFamilyMods != nullptr)
     {
         // add them
         for(std::vector<CModifier*>::iterator it = PFamilyMods->mods.begin(); it != PFamilyMods->mods.end() ; ++it)
@@ -1771,7 +1936,7 @@ void AddCustomMods(CMobEntity* PMob)
     // find my pools custom mods
     ModsList_t* PPoolMods = GetMobPoolMods(PMob->m_Pool);
 
-    if(PPoolMods != nullptr)
+    if (PPoolMods != nullptr)
     {
         // add them
         for(std::vector<CModifier*>::iterator it = PPoolMods->mods.begin(); it != PPoolMods->mods.end() ; ++it)
@@ -1788,7 +1953,7 @@ void AddCustomMods(CMobEntity* PMob)
     // find my pools custom mods
     ModsList_t* PSpawnMods = GetMobSpawnMods(PMob->id);
 
-    if(PSpawnMods != nullptr)
+    if (PSpawnMods != nullptr)
     {
         // add them
         for(std::vector<CModifier*>::iterator it = PSpawnMods->mods.begin(); it != PSpawnMods->mods.end() ; ++it)
@@ -1973,7 +2138,7 @@ void WeaknessTrigger(CBaseEntity* PTarget, WeaknessType level)
     actionTarget_t& target = list.getNewActionTarget();
     target.animation = animationID;
     target.param = 2582;
-    PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE, new CActionPacket(action));
+    PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE_SELF, new CActionPacket(action));
 }
 
 }; // namespace mobutils

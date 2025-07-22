@@ -49,6 +49,8 @@
 #include "../../weapon_skill.h"
 #include "../../mob_modifier.h"
 #include "../../items/item_weapon.h"
+#include "../../item_container.h"
+#include "../../utils/itemutils.h"
 
 namespace gambits
 {
@@ -67,6 +69,13 @@ void CGambitsContainer::AddGambit(Gambit_t gambit)
             if (!spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), static_cast<SpellID>(action.select_arg)))
             {
                 //ShowDebug("%s cannot cast %u!\n", POwner->name, action.select_arg);
+                available = false;
+            }
+        }
+        else if (action.reaction == G_REACTION::JA && action.select == G_SELECT::SPECIFIC)
+        {
+            if (!ability::CanUseAbility(static_cast<CBattleEntity*>(POwner), ability::GetAbility(static_cast<uint16>(action.select_arg))))
+            {
                 available = false;
             }
         }
@@ -152,10 +161,6 @@ void CGambitsContainer::Tick(time_point tick)
             });
             return result;
         }
-        else if (predicate.target == G_TARGET::MASTER)
-        {
-            return CheckTrigger(POwner->PMaster, predicate);
-        }
         else if (predicate.target == G_TARGET::PARTY_DEAD)
         {
             auto result = false;
@@ -169,6 +174,10 @@ void CGambitsContainer::Tick(time_point tick)
                 });
             // clang-format on
             return result;
+        }
+        else if (predicate.target == G_TARGET::MASTER)
+        {
+            return CheckTrigger(POwner->PMaster, predicate);
         }
         else if (predicate.target == G_TARGET::TANK)
         {
@@ -321,6 +330,11 @@ void CGambitsContainer::Tick(time_point tick)
                 return !PSettableTarget && PPartyTarget->isAlive() && POwner->loc.zone == PPartyTarget->loc.zone && distance(POwner->loc.p, PPartyTarget->loc.p) <= 20.0f;
             };
 
+            auto isValidDeadMember = [this](CBattleEntity* PSettableTarget, CBattleEntity* PPartyTarget)
+            {
+                return !PSettableTarget && PPartyTarget->isDead() && POwner->loc.zone == PPartyTarget->loc.zone && distance(POwner->loc.p, PPartyTarget->loc.p) <= 20.0f;
+            };
+
             // TODO: This whole section is messy and bonkers
             // Try and extract target out the first predicate
             CBattleEntity* target = nullptr;
@@ -339,6 +353,16 @@ void CGambitsContainer::Tick(time_point tick)
                 static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
                 {
                     if (isValidMember(target, PMember) && CheckTrigger(PMember, gambit.predicates[0]))
+                    {
+                        target = PMember;
+                    }
+                });
+            }
+            else if (gambit.predicates[0].target == G_TARGET::PARTY_DEAD)
+            {
+                static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+                {
+                    if (isValidDeadMember(target, PMember) && CheckTrigger(PMember, gambit.predicates[0]))
                     {
                         target = PMember;
                     }
@@ -474,6 +498,7 @@ void CGambitsContainer::Tick(time_point tick)
                     if (spell_id.has_value())
                     {
                         SpellID PSpell = static_cast<SpellID>(spell_id.value());
+                        //ShowDebug("[%s] selected spell ID: %d for family %d\n", POwner->name, static_cast<uint16>(PSpell), action.select_arg);
                         auto spell = spell::GetSpell(PSpell);
 
                         if (spell)
@@ -891,6 +916,18 @@ void CGambitsContainer::Tick(time_point tick)
                 if (action.select == G_SELECT::SPECIFIC)
                 {
                     //trustutils::SendTrustMessage(POwner, action.select_arg);
+                }
+            }
+            else if (action.reaction == G_REACTION::ITEM)
+            {
+                if (action.select == G_SELECT::SPECIFIC)
+                {
+                    CItem* item = itemutils::GetItem(action.select_arg);
+                    if (item)
+                    {
+                        uint16 itemID = item->getID();                              // Get the ID from the item
+                        controller->UseItem(target->targid, LOC_INVENTORY, itemID); // Pass the ID, not the object
+                    }
                 }
             }
 
@@ -1614,7 +1651,10 @@ bool CGambitsContainer::TryTrustSkill()
                 }
             }
 
-            if (currentDistance <= (skill->getDistance()))
+            
+            int onSkillCheck = luautils::OnMobSkillCheck(target, POwner, skill);
+
+            if (onSkillCheck == 0 && currentDistance <= (skill->getDistance()))
             {
                 int16 tp = battleutils::CalculateWeaponSkillTP(POwner, 0, POwner->health.tp);
 

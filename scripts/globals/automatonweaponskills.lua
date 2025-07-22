@@ -37,7 +37,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
     local returninfo = {}
 
     local master = auto:getMaster()
-    local tp = auto:getLocalVar("TP")
+    local tp = auto:getSpentTP()
 
     local jas =
     { 1944, 1945, 1946, 1947, 1948, 1949, 2021, 2068, 2745, 2746, 2747, 3485 }
@@ -236,6 +236,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
                 paramshybrid.includemab = true
                 local bonusMacc = 0
                 local magicdmg = addBonusesAbility(auto, tpz.magic.ele.FIRE, target, finaldmg, paramshybrid)
+                local rawDmg = magicdmg
                 local resist = getAutoResist(auto, effect, target, auto:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT), bonusMacc, tpz.magic.ele.FIRE)
                 --printf("resist %u", resist * 100)
                 --printf("magicdmg before resist %u", magicdmg)
@@ -245,7 +246,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
                 -- Handle Null
                 magicdmg = utils.CheckForNull(auto, target, tpz.attackType.MAGICAL, tpz.magic.ele.FIRE, magicdmg)
                 --printf("magicdmg after resist %u", magicdmg)
-                magicdmg = target:magicDmgTaken(magicdmg)
+                magicdmg = target:magicDmgTaken(magicdmg, tpz.magic.ele.FIRE, rawDmg)
                 -- Handle absorb
                 magicdmg = adjustForTarget(target, magicdmg, tpz.magic.ele.FIRE)
                 -- Handle percentage DR to elements
@@ -348,6 +349,11 @@ function AutoMagicalWeaponSkill(auto, target, skill, element, params, statmod, b
     -- Formula is ((Lvl+2 + WSC) x fTP + dstat) x Magic Burst bonus x resist x day / weather bonus x  MAB/MDB x mdt
     -- MDT is handled in AutoMagicalFinalAdjustments
 
+    auto:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    auto:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
+
+    skill:setFlag(tpz.mobSkillFlag.MAGIC_SKILL)
+
     local resist = 1
     if bonus == nil then bonus = 0 end -- bonus macc
 
@@ -365,7 +371,7 @@ function AutoMagicalWeaponSkill(auto, target, skill, element, params, statmod, b
     local WSC = getAutoWSC(auto, params)
 
     -- get ftp
-    local tp = auto:getLocalVar("TP")
+    local tp = auto:getSpentTP()
     local multiplier = params.multiplier
     local tp150 = params.tp150
     local tp300 = params.tp300
@@ -425,6 +431,10 @@ function AutoMagicalWeaponSkill(auto, target, skill, element, params, statmod, b
 end
 
 function AutoPhysicalFinalAdjustments(dmg, auto, skill, target, attackType, damageType, numberofhits, params)
+
+    auto:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    auto:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
+    auto:delStatusEffectsByFlag(tpz.effectFlag.PHYS_ATTACK)
 
     -- physical attack missed, skip rest
     if (skill:hasMissMsg()) then 
@@ -495,30 +505,34 @@ function AutoPhysicalFinalAdjustments(dmg, auto, skill, target, attackType, dama
         end
     end
 
+    -- Track raw damage
+    local rawDmg = dmg
+
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, skill, dmg)
 
     local element = damageType - 5
+    local master = auto:getMaster()
     -- Check for MDT/PDT/RDT/BDT/MDB
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.SPECIAL then
-        dmg = target:magicDmgTaken(dmg, element)
+        dmg = target:magicDmgTaken(dmg, element, rawDmg)
 	    if (dmg > 0) then
-            auto:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
+            master:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
         end
     elseif attackType == tpz.attackType.BREATH then
-        dmg = target:breathDmgTaken(dmg, element)
+        dmg = target:breathDmgTaken(dmg, element, rawDmg)
 	    if (dmg > 0) then
-            auto:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
+            master:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
         end
-    elseif attackType == tpz.attackType.RANGED then
+    elseif attackType == tpz.attackType.RANGED and skill:getID() ~= 1949 then -- Skill 1949 is "Ranged Attack" and handled in it's lua file
         dmg = target:rangedDmgTaken(dmg)
 	    if (dmg > 0) then
-            auto:trySkillUp(target, tpz.skill.AUTOMATON_RANGED, numberofhits)
+            master:trySkillUp(target, tpz.skill.AUTOMATON_RANGED, numberofhits)
         end
     elseif attackType == tpz.attackType.PHYSICAL then
         dmg = target:physicalDmgTaken(dmg, damageType)
 	    if (dmg > 0) then
-            auto:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
+            master:trySkillUp(target, tpz.skill.AUTOMATON_MELEE, numberofhits)
         end
     end
 
@@ -564,7 +578,6 @@ function AutoPhysicalFinalAdjustments(dmg, auto, skill, target, attackType, dama
     auto:delStatusEffectSilent(tpz.effect.BOOST)
     if (skill:getID() ~= 1944) then -- Shield Bash
         auto:setLocalVar("TP", 0)
-        auto:setTP(0)
     end
     return dmg
 end
@@ -583,13 +596,16 @@ function AutoMagicalFinalAdjustments(dmg, auto, skill, target, attackType, eleme
     --printf("dmg after circle %u", dmg)
     dmg = dmg * HandlePositionalMDT(auto, target)
 
+    -- Track raw damage
+    local rawDmg = dmg
+
     -- In retail, the main target takes extra damage from high level mob TP TP moves / spells
     dmg = AreaOfEffectResistance(target, skill, dmg)
 
     if attackType == tpz.attackType.MAGICAL or attackType == tpz.attackType.SPECIAL then
-        dmg = target:magicDmgTaken(dmg, element)
+        dmg = target:magicDmgTaken(dmg, element, rawDmg)
     elseif attackType == tpz.attackType.BREATH then
-        dmg = target:breathDmgTaken(dmg, element)
+        dmg = target:breathDmgTaken(dmg, element, rawDmg)
     end
 
 	if (dmg > 0) then
@@ -619,7 +635,6 @@ function AutoMagicalFinalAdjustments(dmg, auto, skill, target, attackType, eleme
     end
     target:updateEnmityFromDamage(auto, dmg)
     target:handleAfflatusMiseryDamage(dmg)
-    auto:setTP(0)
     if params.NO_TP_CONSUMPTION == true then
         giveAutoTP(auto)
     end
@@ -1540,12 +1555,9 @@ function GenerateAutoPdif(auto, target, attackType, isCrit, bonusAttPercent, fla
 end
 
 function getAutoTP(player)
-    local auto = player:getPet()
-	local currentTP = auto:getTP()
-	auto:setLocalVar("TP", currentTP)
+    -- No longer used
 end
 
 function giveAutoTP(auto)
-    local tp = auto:getLocalVar("TP")
-    auto:setTP(tp)
+    -- No longer used
 end

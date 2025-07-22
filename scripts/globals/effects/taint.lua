@@ -1,6 +1,6 @@
 -----------------------------------
 --
---     tpz.effect.TAINT
+--  tpz.effect.TAINT
 --  Undispellable
 -----------------------------------
 require("scripts/globals/status")

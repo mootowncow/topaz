@@ -16,6 +16,7 @@ end
 
 function onUseAbility(player, target, ability, action)
     -- TODO: Retail testing to determine real damage formula
+    -- Remove pdif, randomize damage (1% variance)
     local jpValue    = 1 + ((player:getJobPointLevel(tpz.jp.INTERVENE_EFFECT) * 2) / 100)
     local damage     = 0
     local shieldSkillMultiplier = player:getSkillLevel(tpz.skill.SHIELD) / 100

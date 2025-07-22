@@ -36,6 +36,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../ai/states/attack_state.h"
 #include "../ai/states/weaponskill_state.h"
 #include "../ai/states/mobskill_state.h"
+#include "../ai/states/item_state.h"
 #include "../ai/states/magic_state.h"
 #include "../ai/states/range_state.h"
 #include "../recast_container.h"
@@ -55,6 +56,8 @@ CTrustEntity::CTrustEntity(CCharEntity* PChar)
     m_IsClaimable = false;
     namevis = 0;
     speed = 50;
+    m_hasReraise = 0;
+    m_isDead = false;
 
     m_modStat[Mod::SDT_FIRE] = 100;
     m_modStat[Mod::SDT_ICE] = 100;
@@ -82,6 +85,29 @@ CTrustEntity::CTrustEntity(CCharEntity* PChar)
     m_modStat[Mod::EEM_BLIND] = 100;
 
     PAI = std::make_unique<CAIContainer>(this, std::make_unique<CPathFind>(this), std::make_unique<CTrustController>(PChar, this), std::make_unique<CTargetFind>(this));
+}
+
+void CTrustEntity::Tick(time_point tick)
+{
+    TracyZoneScoped;
+    CBattleEntity::Tick(tick);
+    if (m_DeathTimestamp > 0 && tick >= m_deathSyncTime)
+    {
+        // Send an update packet at a regular interval to keep the player's death variables synced
+        updatemask |= UPDATE_STATUS;
+        m_deathSyncTime = tick + death_update_frequency;
+    }
+
+    if (m_isDead && m_hasReraise > 0)
+    {
+        OnRaise();
+    }
+
+    if (health.hp > 0)
+    {
+        m_isDead = false;
+        m_Behaviour &= ~BEHAVIOUR_RAISABLE;
+    }
 }
 
 void CTrustEntity::PostTick()
@@ -119,36 +145,58 @@ void CTrustEntity::FadeOut()
 
 void CTrustEntity::Die()
 {
-    luautils::OnMobDeath(this, nullptr);
-    PAI->ClearStateStack();
-    PAI->Internal_Die(0s);
+    if (!m_isDead)
+    {
+        Die(death_duration);
+        luautils::OnMobDeath(this, nullptr);
+        PAI->ClearStateStack();
+        PAI->Internal_Die(0s);
+        SetDeathTimestamp((uint32)time(nullptr));
 
-    if ((PAI != nullptr) && (PAI->GetController() != nullptr))
-    {    
-        PAI->GetController()->SetAutoAttackEnabled(true);
-        PAI->GetController()->SetMagicCastingEnabled(true);
-        PAI->GetController()->SetWeaponSkillEnabled(true);
+        if ((PAI != nullptr) && (PAI->GetController() != nullptr))
+        {
+            PAI->GetController()->SetAutoAttackEnabled(true);
+            PAI->GetController()->SetMagicCastingEnabled(true);
+            PAI->GetController()->SetWeaponSkillEnabled(true);
+        }
+
+        if (PLastAttacker)
+        {
+            loc.zone->PushPacket(this, CHAR_INRANGE, new CMessageBasicPacket(PLastAttacker, this, 0, 0, MSGBASIC_DEFEATS_TARG));
+            // Add Listener
+            PLastAttacker->PAI->EventHandler.triggerListener("PLAYER_DEATH", PLastAttacker, this);
+        }
+        else
+        {
+            loc.zone->PushPacket(this, CHAR_INRANGE, new CMessageBasicPacket(this, this, 0, 0, MSGBASIC_FALLS_TO_GROUND));
+        }
+
+        m_isDead = true;
+
+        CBattleEntity::Die();
+        m_Behaviour |= BEHAVIOUR_RAISABLE;
     }
-    
-    ((CCharEntity*)PMaster)->RemoveTrust(this);
-    CBattleEntity::Die();
 }
 
 void CTrustEntity::Spawn()
 {
-    //we need to skip CMobEntity's spawn because it calculates stats (and our stats are already calculated)
+    // we need to skip CMobEntity's spawn because it calculates stats (and our stats are already calculated)
     CBattleEntity::Spawn();
     PAI->EventHandler.triggerListener("SPAWN", this);
     luautils::OnMobSpawn(this);
     trustutils::BuildingTrustSkillsTable(this);
+    m_isDead = false;
     // Max [HP/MP] Boost mods
     this->UpdateHealth();
     this->health.tp = 0;
     this->health.hp = this->GetMaxHP();
     this->health.mp = this->GetMaxMP();
     ((CCharEntity*)PMaster)->pushPacket(new CTrustSyncPacket((CCharEntity*)PMaster, this));
+    if (PMaster && PMaster->PParty)
+    {
+        PMaster->PParty->ReloadParty();
+    }
 }
-
 void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
 {
     auto* PAbility = state.GetAbility();
@@ -311,10 +359,10 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
             StatusEffectContainer->DelStatusEffectSilent(EFFECT_CONTRADANCE);
         }
 
-        PRecastContainer->Add(RECAST_ABILITY, action.actionid, action.recast);
+        PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), action.recast);
     }
 
-    if (PTarget && PTarget->isDead())
+    if (PTarget && PTarget->isDead() && PTarget->objtype == TYPE_MOB)
     {
         ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
         ((CMobEntity*)PTarget)->DoAutoTarget();
@@ -556,10 +604,11 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
     }
     battleutils::ClaimMob(PTarget, this);
     //battleutils::RemoveAmmo(this, ammoConsumed);
-    // only remove detectables
-    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
 
-    if (PTarget && PTarget->isDead())
+    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
+
+    if (PTarget && PTarget->isDead() && PTarget->objtype == TYPE_MOB)
     {
         ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
         ((CMobEntity*)PTarget)->DoAutoTarget();
@@ -630,7 +679,7 @@ void CTrustEntity::OnCastFinished(CMagicState& state, action_t& action)
     charutils::RemoveStratagems(this, PSpell);
 
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
-    if (PTarget->isDead())
+    if (PTarget->isDead() && PTarget->objtype == TYPE_MOB)
     {
         ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
         ((CMobEntity*)PTarget)->DoAutoTarget();
@@ -646,18 +695,6 @@ void CTrustEntity::OnCastInterrupted(CMagicState& state, action_t& action, MSGBA
     if (trustController)
     {
         trustController->OnCastStopped(state, action);
-    }
-}
-
-void CTrustEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
-{
-    CMobEntity::OnMobSkillFinished(state, action);
-
-    auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
-    if (PTarget->isDead())
-    {
-        ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
-        ((CMobEntity*)PTarget)->DoAutoTarget();
     }
 }
 
@@ -742,7 +779,8 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
                 {
                     // NOTE: GetSkillChainEffect is INSIDE this if statement because it
                     //  ALTERS the state of the resonance, which misses and non-elemental skills should NOT do.
-                    SUBEFFECT effect = battleutils::GetSkillChainEffect(PBattleTarget, PWeaponSkill->getPrimarySkillchain(), PWeaponSkill->getSecondarySkillchain(), PWeaponSkill->getTertiarySkillchain());
+                    SUBEFFECT effect = battleutils::GetSkillChainEffect(PBattleTarget, PWeaponSkill->getPrimarySkillchain(),
+                                                                        PWeaponSkill->getSecondarySkillchain(), PWeaponSkill->getTertiarySkillchain());
                     if (effect != SUBEFFECT_NONE)
                     {
                         // Apply Inundation weapon skill type tracking
@@ -768,7 +806,7 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
                         else
                         {
                             actionTarget.addEffectMessage = 287 + effect;
-                        } 
+                        }
                         actionTarget.additionalEffect = effect;
                     }
                     else if (effect == SUBEFFECT_NONE)
@@ -812,9 +850,287 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
     }
 
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
-    if (PTarget->isDead())
+    if (PTarget->isDead() && PTarget->objtype == TYPE_MOB)
     {
         ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
         ((CMobEntity*)PTarget)->DoAutoTarget();
+    }
+}
+
+void CTrustEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
+{
+    CMobEntity::OnMobSkillFinished(state, action);
+
+    auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    if (PTarget->isDead() && PTarget->objtype == TYPE_MOB)
+    {
+        ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
+        ((CMobEntity*)PTarget)->DoAutoTarget();
+    }
+}
+
+void CTrustEntity::OnRaise()
+{
+    uint8 weaknessLvl = 1;
+    int weaknessDura = 0;
+    uint16 hpReturned = 1;
+
+    if (StatusEffectContainer->HasStatusEffect(EFFECT_WEAKNESS))
+    {
+        // double weakness!
+        weaknessLvl = 2;
+    }
+
+    // Add weakness effect (75% reduction in HP/MP) if not Mijin or GM command raise
+    if (GetLocalVar("MijinGakure") == 0 && GetLocalVar("GMRaise") == 0)
+    {
+        // Duration of Weakness varies with raise effect
+        switch (m_hasReraise)
+        {
+            case 1:
+                weaknessDura = 180;
+                hpReturned = GetMaxHP() * 0.1;
+                break;
+            case 2:
+                weaknessDura = 120;
+                hpReturned = GetMaxHP() * 0.25;
+                break;
+            case 3:
+                weaknessDura = 60;
+                hpReturned = GetMaxHP() * 0.50;
+                break;
+            case 4:
+            case 5:
+                weaknessDura = 30;
+                hpReturned = GetMaxHP();
+                break;
+            default:
+                weaknessDura = 180;
+                hpReturned = GetMaxHP() * 0.1;
+                break;
+        }
+    }
+
+    // Mijin Gakure used with MIJIN_RERAISE MOD
+    if (GetLocalVar("MijinGakure") != 0 && getMod(Mod::MIJIN_RERAISE) != 0)
+    {
+        hpReturned = (uint16)(GetMaxHP());
+    }
+    else if (GetLocalVar("GMRaise") != 0)
+    {
+        hpReturned = (uint16)(GetMaxHP());
+    }
+
+    CStatusEffect* PWeaknessEffect = new CStatusEffect(EFFECT_WEAKNESS, EFFECT_WEAKNESS, weaknessLvl, 0, weaknessDura);
+    StatusEffectContainer->AddStatusEffect(PWeaknessEffect);
+
+    addHP(((hpReturned < 1) ? 1 : hpReturned));
+    updatemask |= UPDATE_HP;
+
+    StatusEffectContainer->DelStatusEffect(EFFECT_RERAISE);
+    m_hasReraise = 0;
+    m_isDead = false;
+}
+
+void CTrustEntity::Die(duration _duration)
+{
+    if (StatusEffectContainer->HasStatusEffect(EFFECT_RERAISE))
+    {
+        CStatusEffect* reraise = StatusEffectContainer->GetStatusEffect(EFFECT_RERAISE, 0);
+        uint16 reraiseNumber = reraise->GetPower();
+        switch (reraiseNumber)
+        {
+            case 1:
+                m_hasReraise = 1;
+                break;
+            case 2:
+                m_hasReraise = 2;
+                break;
+            case 3:
+                m_hasReraise = 3;
+                break;
+            case 4:
+                m_hasReraise = 4;
+                break;
+            default:
+                m_hasReraise = 1;
+                break;
+        }
+    }
+    else if (StatusEffectContainer->HasStatusEffect(EFFECT_HYMNUS))
+    {
+        m_hasReraise = 1;
+    }
+
+    // MIJIN_RERAISE checks
+    if (m_hasReraise == 0 && this->getMod(Mod::MIJIN_RERAISE) > 0)
+        m_hasReraise = 1;
+
+    m_deathSyncTime = server_clock::now() + death_update_frequency;
+    PAI->ClearStateStack();
+    PAI->Internal_Die(_duration);
+
+    // If player allegiance is not reset on death they will auto-homepoint
+    allegiance = ALLEGIANCE_PLAYER;
+
+    CBattleEntity::Die();
+}
+
+void CTrustEntity::Raise()
+{
+    PAI->Internal_Raise();
+    SetDeathTimestamp(0);
+}
+
+void CTrustEntity::SetDeathTimestamp(uint32 timestamp)
+{
+    m_DeathTimestamp = timestamp;
+}
+
+int32 CTrustEntity::GetSecondsElapsedSinceDeath()
+{
+    return m_DeathTimestamp > 0 ? (uint32)time(nullptr) - m_DeathTimestamp : 0;
+}
+
+void CTrustEntity::OnItemFinish(CItemState& state, action_t& action)
+{
+    auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    auto PItem = static_cast<CItemUsable*>(state.GetItem());
+
+    PAI->TargetFind->reset();
+    if (PItem->getAoE())
+    {
+        PTarget->ForParty(
+            [PItem, PTarget](CBattleEntity* PMember)
+            {
+                if (!PMember->isDead() && distance(PTarget->loc.p, PMember->loc.p) <= 10)
+                {
+                    luautils::OnItemUse(PMember, PItem);
+                    battleutils::GenerateInRangeEnmity(PTarget, 0, 640);
+                    // Prism and Rainbow powders
+                    if (PItem->getID() != 4164 && PItem->getID() != 5362)
+                    {
+                        PTarget->StatusEffectContainer->DelStatusEffectSilent(EFFECT_INVISIBLE);
+                    }
+                }
+            });
+        float radius = 10.0f;
+        PAI->TargetFind->findWithinArea(PTarget, AOERADIUS_ATTACKER, radius);
+
+        uint16 targets = (uint16)PAI->TargetFind->m_targets.size();
+
+        for (auto&& PActionTarget : PAI->TargetFind->m_targets)
+        {
+            if (this->allegiance == PActionTarget->allegiance)
+            {
+                action.id = this->id;
+                action.actiontype = ACTION_ITEM_FINISH;
+                action.actionid = PItem->getID();
+
+                actionList_t& actionList = action.getNewActionList();
+                actionList.ActionTargetID = PActionTarget->id;
+
+                actionTarget_t& actionTarget = actionList.getNewActionTarget();
+                actionTarget.animation = PItem->getAnimationID();
+                actionTarget.reaction = REACTION_HIT;
+                actionTarget.messageID = PItem->getMsg();
+                actionTarget.param = PItem->getParam();
+
+                // Percentage HP / MP restored msg, Healing/Mana Powder
+                if (actionTarget.messageID == MSGBASIC_RECOVERS_HP_MP || PItem->getID() == 5322 || PItem->getID() == 4255)
+                {
+                    int hp = floor(PActionTarget->GetMaxHP() * actionTarget.param);
+                    int mp = floor(PActionTarget->GetMaxMP() * actionTarget.param);
+                    int hpp = floor(hp / 100);
+                    int mpp = floor(mp / 100);
+
+                    actionTarget.param = hpp;
+
+                    // Mana Powder
+                    if (PItem->getID() == 4255)
+                    {
+                        actionTarget.param = mpp;
+                    }
+                }
+
+                // HP restored msg
+                if (actionTarget.messageID == MSGBASIC_RECOVERS_HP || actionTarget.messageID == MSGBASIC_RECOVERS_HP_MP)
+                {
+                    if (this->StatusEffectContainer->HasStatusEffect(EFFECT_CURSE_II))
+                    {
+                        actionTarget.param = 0;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        luautils::OnItemUse(PTarget, PItem);
+        battleutils::GenerateInRangeEnmity(PTarget, 0, 640);
+        // Prism and Rainbow powders
+        if (PItem->getID() != 4164 && PItem->getID() != 5362)
+        {
+            this->StatusEffectContainer->DelStatusEffectSilent(EFFECT_INVISIBLE);
+        }
+        action.id = this->id;
+        action.actiontype = ACTION_ITEM_FINISH;
+        action.actionid = PItem->getID();
+
+        actionList_t& actionList = action.getNewActionList();
+        actionList.ActionTargetID = PTarget->id;
+
+        // Healing / Clear Salve / Dawn Mulsum (Pet items)
+        if (PItem->getID() >= 5835 && PItem->getID() <= 5838 || PItem->getID() == 5411)
+        {
+            if (PTarget->PPet != nullptr)
+            {
+                actionList.ActionTargetID = PTarget->PPet->id;
+            }
+        }
+
+        actionTarget_t& actionTarget = actionList.getNewActionTarget();
+        actionTarget.animation = PItem->getAnimationID();
+        actionTarget.reaction = REACTION_HIT;
+        actionTarget.messageID = PItem->getMsg();
+        actionTarget.param = PItem->getParam();
+
+        // Percentage HP for Healing Salve I and II
+        if (PItem->getID() == 5835 || PItem->getID() == 5836)
+        {
+            if (PTarget->PPet != nullptr)
+            {
+                int hp = floor(PPet->GetMaxHP() * actionTarget.param);
+                int hpp = floor(hp / 100);
+
+                actionTarget.param = hpp;
+            }
+        }
+
+        // Percentage HP / MP restored msg, Healing/Mana Powder
+        if (actionTarget.messageID == MSGBASIC_RECOVERS_HP_MP || PItem->getID() == 5322 || PItem->getID() == 4255)
+        {
+            int hp = floor(this->GetMaxHP() * actionTarget.param);
+            int mp = floor(this->GetMaxMP() * actionTarget.param);
+            int hpp = floor(hp / 100);
+            int mpp = floor(mp / 100);
+
+            actionTarget.param = hpp;
+
+            // Mana Powder
+            if (PItem->getID() == 4255)
+            {
+                actionTarget.param = mpp;
+            }
+        }
+
+        // HP restored msg
+        if (actionTarget.messageID == MSGBASIC_RECOVERS_HP || actionTarget.messageID == MSGBASIC_RECOVERS_HP_MP)
+        {
+            if (this->StatusEffectContainer->HasStatusEffect(EFFECT_CURSE_II))
+            {
+                actionTarget.param = 0;
+            }
+        }
     }
 }

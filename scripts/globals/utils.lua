@@ -331,6 +331,8 @@ local function getSkillLevelIndex(level)
         rangeId = 80
     elseif level <= 99 then
         rangeId = 90
+    else
+        rangeId = 99
     end
 
     return rangeId
@@ -934,15 +936,15 @@ function utils.MessageParty(player, msg, textcolor, sender)
     end
 
     local party = player:getParty()
-    if player:isPet() then
+    if player:isTrust() or player:isPet() then
         party = player:getMaster():getParty()
     end
 
     --Text color: default(name shown) - 0, gold - 0x1F, green - 0x1C, blue - 0xF, white(no sender name) - 0xD
-    if (party ~= nil) then
-        for _,v in ipairs(party) do
-            if v:isPC() then
-                v:PrintToPlayer(msg, textcolor, sender)
+    if party then
+        for _, member in ipairs(party) do
+            if member:isPC() then
+                member:PrintToPlayer(msg, textcolor, sender)
             end
         end
     end
@@ -954,12 +956,12 @@ function utils.ShowTextParty(player, textId)
     end
 
     local party = player:getParty()
-    if player:isPet() then
+    if player:isTrust() or player:isPet() then
         party = player:getMaster():getParty()
     end
 
     --Text color: default(name shown) - 0, gold - 0x1F, green - 0x1C, blue - 0xF, white(no sender name) - 0xD
-    if (party ~= nil) then
+    if party then
         for _,v in ipairs(party) do
             if v:isPC() then
                 v:showText(npc, textId)
@@ -1010,53 +1012,60 @@ function utils.getDropRate(mob, base)
     return dropChance
 end
 
-function utils.spawnPetInBattle(mob, pet, aggro, randomizeTarget, setSpawn, spawnOnTarget)
+function utils.spawnPetInBattle(mob, pets, aggro, randomizeTarget, setSpawn, spawnOnTarget)
     mob:entityAnimationPacket("casm")
     mob:SetAutoAttackEnabled(false)
     mob:SetMagicCastingEnabled(false)
     mob:SetMobAbilityEnabled(false)
+
     mob:timer(3000, function(mob)
         mob:entityAnimationPacket("shsm")
         mob:SetAutoAttackEnabled(true)
         mob:SetMagicCastingEnabled(true)
         mob:SetMobAbilityEnabled(true)
 
-        -- Spawn on a random target
-        if (spawnOnTarget ~= nil) then
-            local NearbyEntities = mob:getNearbyEntities(50)
-            if NearbyEntities and #NearbyEntities > 0 then
-                local randomTarget = NearbyEntities[math.random(1, #NearbyEntities)]
-                if randomTarget:isAlive() then
-                    pet:setSpawn(randomTarget:getXPos(), randomTarget:getYPos(), randomTarget:getZPos())
-                    pet:spawn()
-                    if (randomTarget:getAllegiance() ~= mob:getAllegiance()) then
-                        pet:updateEnmity(randomTarget)
-                    end
-                end
-            end
-
-            return
+        -- Ensure pets is a table, even if it's a single mob
+        if type(pets) ~= "table" then
+            pets = { pets }
         end
 
-        if (setSpawn ~= nil) then
-            pet:setSpawn(mob:getXPos() + math.random(0, 2), mob:getYPos(), mob:getZPos() + math.random(0, 2))
-        end
-        pet:spawn()
-        if (aggro ~= nil) then
-            if (randomizeTarget ~= nil) then
-                local enmityList = mob:getEnmityList()
-                if enmityList and #enmityList > 0 then
-                local randomTarget = enmityList[math.random(1, #enmityList)]
-                local entityId = randomTarget.entity:getID()
-        
-                    if (entityId > 10000) then -- ID is a mob (pet)
-                        pet:updateEnmity(GetMobByID(entityId))
-                    else
-                        pet:updateEnmity(GetPlayerByID(entityId))
+        for _, pet in ipairs(pets) do
+            if (spawnOnTarget ~= nil) then
+                local NearbyEntities = mob:getNearbyEntities(50)
+                if NearbyEntities and #NearbyEntities > 0 then
+                    local randomTarget = NearbyEntities[math.random(1, #NearbyEntities)]
+                    if randomTarget:isAlive() then
+                        pet:setSpawn(randomTarget:getXPos(), randomTarget:getYPos(), randomTarget:getZPos())
+                        pet:spawn()
+                        if (randomTarget:getAllegiance() ~= mob:getAllegiance()) then
+                            pet:updateEnmity(randomTarget)
+                        end
                     end
                 end
             else
-                pet:updateEnmity(mob:getTarget())
+                if (setSpawn ~= nil) then
+                    pet:setSpawn(mob:getXPos() + math.random(0, 2), mob:getYPos(), mob:getZPos() + math.random(0, 2))
+                end
+
+                pet:spawn()
+
+                if (aggro ~= nil) then
+                    if (randomizeTarget ~= nil) then
+                        local enmityList = mob:getEnmityList()
+                        if enmityList and #enmityList > 0 then
+                            local randomTarget = enmityList[math.random(1, #enmityList)]
+                            local entityId = randomTarget.entity:getID()
+
+                            if (entityId > 10000) then -- mob
+                                pet:updateEnmity(GetMobByID(entityId))
+                            else -- player
+                                pet:updateEnmity(GetPlayerByID(entityId))
+                            end
+                        end
+                    else
+                        pet:updateEnmity(mob:getTarget())
+                    end
+                end
             end
         end
     end)
@@ -1590,4 +1599,80 @@ function utils.SetModWithDuration(target, modId, power, duration)
     target:queue(duration*1000, function(target)
         target:setMod(modId,0)
     end)
+end
+
+function utils.GetJobType(entity)
+    local job = entity:getMainJob()
+
+    local meleeJobs =
+    {
+        tpz.job.WAR,
+        tpz.job.MNK,
+        tpz.job.THF,
+        tpz.job.BST,
+        tpz.job.BRD,
+        tpz.job.RNG,
+        tpz.job.SAM,
+        tpz.job.NIN,
+        tpz.job.DRG,
+        tpz.job.COR,
+        tpz.job.PUP,
+        tpz.job.DNC
+    }
+
+    local casterJobs =
+    {
+        tpz.job.WHM,
+        tpz.job.BLM,
+        tpz.job.RDM,
+        tpz.job.PLD,
+        tpz.job.DRK,
+        tpz.job.SMN,
+        tpz.job.BLU,
+        tpz.job.SCH,
+        tpz.job.GEO,
+        tpz.job.RUN
+    }
+
+    for _, jobId in ipairs(meleeJobs) do
+        if (jobId == job) then
+            return 'Melee'
+        end
+    end
+
+    for _, jobId in ipairs(casterJobs) do
+        if (jobId == job) then
+            return 'Caster'
+        end
+    end
+
+    return 'None'
+end
+
+function utils.GetAugmentName()
+    local reverseAugments = {}
+    for k, v in pairs(tpz.augments) do
+        reverseAugments[v] = k 
+    end
+    return reverseAugments
+end
+
+-- Function to capitalize the first letter and make the rest lowercase
+function utils.PunctuateString(word)
+    return word:sub(1, 1):upper() .. word:sub(2):lower()
+end
+
+-- Converts "ENUM_VALUE_NAME" to "Enum value name"
+function utils.formatEnumName(raw)
+    local clean = raw:gsub("_", " "):lower()
+    return clean:sub(1, 1):upper() .. clean:sub(2)
+end
+
+-- Generates a reverse lookup table: { value = "Formatted Name" }
+function utils.generateEnumNameMap(enumTable)
+    local nameMap = {}
+    for k, v in pairs(enumTable) do
+        nameMap[v] = utils.formatEnumName(k)
+    end
+    return nameMap
 end

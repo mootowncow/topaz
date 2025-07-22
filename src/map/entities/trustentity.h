@@ -38,21 +38,38 @@ public:
     explicit CTrustEntity(CCharEntity*);
     ~CTrustEntity() override = default;
 
+    virtual void Tick(time_point) override;
     void PostTick() override;
     void FadeOut() override;
-    void Die() override;
     void Spawn() override;
     void OnAbility(CAbilityState&, action_t&) override;
     void OnRangedAttack(CRangeState&, action_t&) override;
     bool ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) override;
     void OnDespawn(CDespawnState&) override;
 
+    virtual void Die() override;
+    void Die(duration _duration);
+    void Raise();
+
+    static constexpr duration death_duration = 60min;
+    static constexpr duration death_update_frequency = 16s;
+
+    void SetDeathTimestamp(uint32 timestamp);
+    int32 GetSecondsElapsedSinceDeath();
+
     void OnCastFinished(CMagicState& state, action_t& action) override;
     virtual void OnCastInterrupted(CMagicState&, action_t&, MSGBASIC_ID msg, bool blockedCast) override;
-    void OnMobSkillFinished(CMobSkillState& state, action_t& action) override;
     void OnWeaponSkillFinished(CWeaponSkillState& state, action_t& action) override;
+    void OnMobSkillFinished(CMobSkillState& state, action_t& action) override;
+    virtual void OnRaise() override;
+    virtual void OnItemFinish(CItemState&, action_t&);
 
     uint32 m_TrustID{};
+
+    uint32 m_DeathTimestamp;    // Timestamp when death counter has been saved to database
+    time_point m_deathSyncTime; // Timer used for sending an update packet at a regular interval while the trust is dead
+    uint8 m_hasReraise;         // checks if the trust has reraise already
+    bool  m_isDead = false;      // Ensures that the trust won't continously run death logic over and over repeatadly
 };
 
 #endif

@@ -162,12 +162,14 @@ bool CSpell::hasMPCost()
     return m_spellGroup != SPELLGROUP_SONG && m_spellGroup != SPELLGROUP_NINJUTSU && m_spellGroup != SPELLGROUP_TRUST;
 }
 
+// Includes Raise / BLU curing spells
 bool CSpell::isHeal()
 {
-    return ((getValidTarget() & TARGET_SELF) && getSkillType() == SKILL_HEALING_MAGIC) || m_ID == SpellID::Pollen || m_ID == SpellID::Wild_Carrot || m_ID == SpellID::Healing_Breeze || m_ID == SpellID::Magic_Fruit;
+    return ((getValidTarget() & TARGET_SELF) && getSkillType() == SKILL_HEALING_MAGIC) || m_ID == SpellID::Raise || m_ID == SpellID::Raise_II || m_ID == SpellID::Raise_III || m_ID == SpellID::Arise || m_ID == SpellID::Pollen ||
+           m_ID == SpellID::Wild_Carrot || m_ID == SpellID::Healing_Breeze || m_ID == SpellID::Magic_Fruit;
 }
 
-
+// Cure / Curaga / Cura only
 bool CSpell::isCure()
 {
     return ((static_cast<uint16>(m_ID) >= 1 && static_cast<uint16>(m_ID) <= 11) || m_ID == SpellID::Cura || m_ID == SpellID::Cura_II || m_ID == SpellID::Cura_III);
@@ -733,7 +735,7 @@ namespace spell
 
                 PSpell->setRange(static_cast<float>(Sql_GetIntData(SqlHandle, 23)) / 10);
 
-                if(PSpell->getAOE())
+                if (PSpell->getAOE())
                 {
                     // default radius
                     PSpell->setRadius(10);

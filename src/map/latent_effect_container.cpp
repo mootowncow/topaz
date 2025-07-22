@@ -665,6 +665,18 @@ void CLatentEffectContainer::CheckLatentsTargetChange()
     });
 }
 
+bool CLatentEffectContainer::IsLatentActive(LATENT conditionID, uint16 conditionValue)
+{
+    for (auto& latent : m_LatentEffectList)
+    {
+        if (latent.GetConditionsID() == conditionID && latent.GetConditionsValue() == conditionValue)
+        {
+            return latent.IsActivated();
+        }
+    }
+    return false;
+}
+
 // Process the latent effects container and apply a logic function responsible for
 // filtering the appropriate latents to be activated/deactivated and finally update
 // health post looping if at least one logic function returned true
@@ -982,16 +994,16 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect)
         expression = m_POwner->GetMJob() == latentEffect.GetConditionsValue();
         break;
     case LATENT_SIGNET_EXP_BONUS:
-        expression = m_POwner->loc.zone->GetRegionID() < 28 && m_POwner->GetMLevel() > 54 && m_POwner->GetMLevel() < 75;
+        expression = m_POwner->loc.zone->GetRegionID() < 28 && m_POwner->GetMLevel() > 54;
         break;
     case LATENT_SANCTION_EXP_BONUS:
-        expression =  m_POwner->loc.zone->GetRegionID() >= 28 && m_POwner->loc.zone->GetRegionID() <= 32 && m_POwner->GetMLevel() > 54 && m_POwner->GetMLevel() < 75;
+        expression =  m_POwner->loc.zone->GetRegionID() >= 28 && m_POwner->loc.zone->GetRegionID() <= 32 && m_POwner->GetMLevel() > 54;
         break;
     case LATENT_WEAPON_DRAWN_HP_UNDER:
         expression = m_POwner->health.hp < latentEffect.GetConditionsValue() && m_POwner->animation == ANIMATION_ATTACK;
         break;
     case LATENT_SIGIL_EXP_BONUS:
-        expression = m_POwner->loc.zone->GetRegionID() >= 33 && m_POwner->loc.zone->GetRegionID() <= 40 && m_POwner->GetMLevel() > 54 && m_POwner->GetMLevel() < 75;
+        expression = m_POwner->loc.zone->GetRegionID() >= 33 && m_POwner->loc.zone->GetRegionID() <= 40 && m_POwner->GetMLevel() > 54;
         break;
     case LATENT_MP_UNDER_VISIBLE_GEAR:
         //TODO: figure out if this is actually right

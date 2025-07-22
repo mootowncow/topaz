@@ -12,14 +12,17 @@ require("scripts/globals/npc_util")
 require("scripts/globals/roe")
 require("scripts/globals/world")
 require("scripts/globals/mob_skills")
+require("scripts/globals/mob_family")
+require("scripts/globals/mob_pool")
 require("scripts/globals/znm")
+require("scripts/globals/magian")
 -----------------------------------
 
 tpz = tpz or {}
 tpz.mob = tpz.mob or {}
 
 -- onMobDeathEx is called from the core
-function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill)
+function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill, killer)
     -- Things that happen only to the person who landed killing blow
     if isKiller then
         -- DRK quest - Blade Of Darkness
@@ -43,8 +46,12 @@ function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill)
         end
     end
 
+        -- killer can be nil, check it like:
+    if killer then
+        printf("Last attacker was: %s", killer:getName())
+    end
     tpz.znm.OnMobDeath(mob, player, isKiller, isWeaponSkillKill)
-    -- tpz.magian.checkMagianTrial(player, {['mob'] = mob}) TODO: NYI
+    tpz.magian.checkMagianTrial(player, mob, killer)
 end
 
 -------------------------------------------------
@@ -150,7 +157,11 @@ tpz.mob.additionalEffect = {
     PETRIFY_ENMITY_RESET  = 33,
     POISON_OVERWRITE      = 34,
     TAINT                 = 35, -- Undispellable Poison
-    HAUNT                 = 36 -- Undispellable Curse 
+    HAUNT                 = 36, -- Undispellable Curse
+    ADDLE                 = 37,
+    MAX_HP_DOWN           = 38,
+    MAX_MP_DOWN           = 39,
+    TERROR_ENMITY_RESET   = 40
 }
 tpz.mob.ae = tpz.mob.additionalEffect
 
@@ -574,6 +585,69 @@ local additionalEffects =
         maxDuration = 30,
         tick = 3,
     },
+    [tpz.mob.ae.HAUNT] =
+    {
+        chance = 100,
+        ele = tpz.magic.ele.DARK,
+        sub = tpz.subEffect.CURSE,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.HAUNT,
+        power = 50,
+        duration = 30,
+        minDuration = 1,
+        maxduration = 30,
+    },
+    [tpz.mob.ae.ADDLE] =
+    {
+        chance = 100,
+        ele = tpz.magic.ele.WATER,
+        sub = tpz.subEffect.PLAGUE,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.ADDLE,
+        power = 2500,
+        subPower = 2500,
+        duration = 60,
+        minDuration = 1,
+        maxDuration = 30,
+    },
+    [tpz.mob.ae.MAX_HP_DOWN] =
+    {
+        chance = 100,
+        ele = tpz.magic.ele.DARK,
+        sub = tpz.subEffect.CURSE,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.MAX_HP_DOWN,
+        power = 25,
+        duration = 30,
+        minDuration = 1,
+        maxduration = 30,
+    },
+    [tpz.mob.ae.MAX_MP_DOWN] =
+    {
+        chance = 100,
+        ele = tpz.magic.ele.LIGHT,
+        sub = tpz.subEffect.CURSE,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.MAX_MP_DOWN,
+        power = 25,
+        duration = 30,
+        minDuration = 1,
+        maxduration = 30,
+    },
+    [tpz.mob.ae.TERROR_ENMITY_RESET] =
+    {
+        chance = 100,
+        sub = tpz.subEffect.PARALYSIS,
+        msg = tpz.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff = tpz.effect.TERROR,
+        duration = 5,
+        code = function(mob, target, power) mob:resetEnmity(target) end,
+    },
 }
 
 --[[
@@ -617,6 +691,7 @@ tpz.mob.onAddEffect = function(mob, target, damage, effect, params)
 
                 if (resist >= 0.5) and not target:hasStatusEffect(ae.eff) then
                     local power = params.power or ae.power or 0
+                    local subPower = params.subPower or ae.subPower or 0
                     local tick = ae.tick or 0
                     local duration = params.duration or ae.duration
 
@@ -628,7 +703,7 @@ tpz.mob.onAddEffect = function(mob, target, damage, effect, params)
 
                     duration = duration * resist
 
-                    target:addStatusEffect(ae.eff, power, tick, duration)
+                    target:addStatusEffect(ae.eff, power, tick, duration, 0, subPower, 0)
 
                     if params.code then
                         params.code(mob, target, power)
@@ -842,13 +917,64 @@ function TickMobAura(mob, target, auraParams)
             mob:setLocalVar("auraTick" .. auraParams.auraNumber, os.time() + 3)
             local nearbyEnemies = mob:getNearbyEntities(auraParams.radius)
             if (nearbyEnemies ~= nil) then 
-                for _,v in pairs(nearbyEnemies) do
-                    if (v:getID() ~= mob:getID()) then
-                        v:delStatusEffectSilent(auraParams.effect)
-                        v:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
-                        local buffEffect = v:getStatusEffect(auraParams.effect)
-                        buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
-                        buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                for _, enemy in pairs(nearbyEnemies) do
+                     if not enemy:isNPC() and (enemy:getAllegiance() ~= mob:getAllegiance()) then
+                        if auraParams.corrupt then
+                            CorruptBuffs(mob, enemy, auraParams.power)
+                        else
+                            if auraParams.effect then
+                                enemy:delStatusEffectSilent(auraParams.effect)
+                                enemy:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
+                                local buffEffect = enemy:getStatusEffect(auraParams.effect)
+                                buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
+                                buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+        -- print(string.format("TickMobAura Radius: %d, Effect: %d, Power: %d, Duration: %d, AuraNumber: %d", auraParams.radius, auraParams.effect, auraParams.power, auraParams.duration, auraParams.auraNumber))
+    else
+        -- Reset aura var to 0 once it's duration ends
+        if (auraParams ~= nil) then
+            DelMobAura(mob, target, auraParams)
+        end
+    end
+end
+
+function TickMobBuffAura(mob, target, auraParams)
+    if (auraParams == nil) then
+        return
+    end
+
+    if (auraParams.auraNumber == nil) then
+        auraParams.auraNumber = 1
+    end
+
+    if (auraParams.subpower == nil) then
+        auraParams.subpower = 0
+    end
+
+    local auraDuration = mob:getLocalVar("auraDuration" .. auraParams.auraNumber)
+    local tick = 3
+    local duration = 6
+
+    if os.time() <= auraDuration then
+        local auraTick = mob:getLocalVar("auraTick" .. auraParams.auraNumber)
+        if os.time() >= auraTick then
+            mob:setLocalVar("auraTick" .. auraParams.auraNumber, os.time() + 3)
+            local nearbyAllies = mob:getNearbyEntities(10)
+            if (nearbyAllies ~= nil) then 
+                for _, ally in pairs(nearbyAllies) do
+                    if not ally:isNPC() and (ally:getAllegiance() == mob:getAllegiance()) then
+                        if auraParams.effect then
+                            ally:delStatusEffectSilent(auraParams.effect)
+                            ally:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
+                            local buffEffect = ally:getStatusEffect(auraParams.effect)
+                            buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
+                            buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                        end
                     end
                 end
             end
@@ -870,9 +996,9 @@ function TickDamageAura(mob, target, radius, dmg, attackType, damageType, tick)
     if os.time() >= DmgAuraTick then
         mob:setLocalVar("DmgAuraTick", os.time() + tick)
         local nearbyEnemies = mob:getNearbyEntities(radius)
-        if (nearbyEnemies ~= nil )then 
+        if (nearbyEnemies ~= nil) then 
             for _,v in pairs(nearbyEnemies) do
-                if (v:getID() ~= mob:getID()) then
+                if not v:isNPC() and (v:getID() ~= mob:getID()) then
                     if (attackType == tpz.attackType.MAGICAL) or (attackType == tpz.attackType.SPECIAL) then
                         dmg = v:magicDmgTaken(dmg, element)
                     elseif (attackType == tpz.attackType.BREATH) then
@@ -905,6 +1031,11 @@ function BreakMob(mob, target, power, duration, proc)
     mobName = string.gsub(mobName, '_', ' ');
 
     if os.time() >= BreakDuration then
+        local party = target:getParty()
+        if target:isTrust() or target:isPet() then
+            party = target:getMaster():getParty()
+        end
+
         mob:setLocalVar("BreakDuration", os.time() + duration)
         if proc ~= nil then
             mob:weaknessTrigger(proc)
@@ -916,14 +1047,15 @@ function BreakMob(mob, target, power, duration, proc)
         elseif (proc == 2) or (proc == 3)  then -- Red and White !!
             mob:addStatusEffect(tpz.effect.TERROR, 0, 0, duration)
         end
-        if (target:getParty() ~= nil) then
-            local party = target:getParty()
+
+        if party then
             for _, players in pairs(party) do
                 players:PrintToPlayer("Your attack devastates the " .. mobName .. "!", 0xD, none)
             end
         else
             target:PrintToPlayer("Your attack devastates the " .. mobName .. "!", 0xD, none)
         end
+
         mob:addStatusEffectEx(tpz.effect.INCREASED_DAMAGE_TAKEN, tpz.effect.INCREASED_DAMAGE_TAKEN, power, 0, duration)
     end
 end
@@ -934,10 +1066,15 @@ function MessageGroup(mob, target, msg, textcolor, sender)
     end
 
     local party = target:getParty()
+    if target:isTrust() or target:isPet() then
+        party = target:getMaster():getParty()
+    end
 
     --Text color: gold - 0x1F, green - 0x1C, blue - 0xF, white(no sender name) - 0xD
-    for _, partyMember in pairs(party) do
-        partyMember:PrintToPlayer(msg, textcolor, sender)
+    if party then
+        for _, partyMember in pairs(party) do
+            partyMember:PrintToPlayer(msg, textcolor, sender)
+        end
     end
 end
 
@@ -948,14 +1085,20 @@ function OnDeathMessage(mob, player, isKiller, noKiller, msg, textcolor, sender)
 end
 
 function PeriodicMessage(mob, target, msg, textcolor, sender, timer)
-    local party = target:getParty()
     local msgTimer = mob:getLocalVar("msgTimer")
+    local party = target:getParty()
+    if target:isTrust() or target:isPet() then
+        party = target:getMaster():getParty()
+    end
 
     --Text color: default(name shown) - 0, gold - 0x1F, green - 0x1C, blue - 0xF, white(no sender name) - 0xD
     if os.time() >= msgTimer then
         mob:setLocalVar("msgTimer", os.time() + timer)
-        for _, players in pairs(party) do
-            players:PrintToPlayer(msg, textcolor, sender)
+
+        if party then
+            for _, players in pairs(party) do
+                players:PrintToPlayer(msg, textcolor, sender)
+            end
         end
     end
 end
@@ -1062,9 +1205,7 @@ function SetGenericNMStats(mob)
     wepDMG = level + 20
 
     if mob:getMainJob() == tpz.job.MNK or mob:getMainJob() == tpz.job.PUP or isH2H then
-        local h2hskill = math.floor(utils.getSkillLvl(1, mob:getMainLvl()))
-        wepDMG = 0.11 * h2hskill + 3 + 18 * math.floor((mob:getMainLvl() + 20) / 75)
-        wepDMG = wepDMG * 0.4
+        wepDMG = wepDMG * 0.65
     end
 
     if (wepDMG > 0 and wepDMG ~= nil) then
@@ -1162,6 +1303,20 @@ function CorruptBuffs(mob, target, amount)
         { tpz.effect.INTENSION, tpz.effect.MAGIC_ACC_DOWN },
         { tpz.effect.MAGIC_DEF_BOOST, tpz.effect.MAGIC_DEF_DOWN },
         { tpz.effect.MAGIC_EVASION_BOOST_II, tpz.effect.MAGIC_EVASION_DOWN },
+        { tpz.effect.MARCH, tpz.effect.ELEGY },
+        { tpz.effect.PAEON, tpz.effect.REQUIEM },
+        { tpz.effect.CAROL, tpz.effect.THRENODY },
+    }
+
+    local carolMap = {
+        tpz.mod.FIRERES,                         
+        tpz.mod.ICERES,                         
+        tpz.mod.WINDRES,                         
+        tpz.mod.EARTHRES,                        
+        tpz.mod.THUNDERRES,                      
+        tpz.mod.WATERRES,                        
+        tpz.mod.LIGHTRES,
+        tpz.mod.DARKRES,
     }
 
     local randomList = {};
@@ -1178,15 +1333,27 @@ function CorruptBuffs(mob, target, amount)
     local corruptCount = 0
     -- Corrupt as many buffs as specified in the amount arg
     for _, buff in ipairs(randomList) do
-        if target:hasStatusEffect(buff[1]) then
+        if buff[1] and target:hasStatusEffect(buff[1]) then
             local currentBuff = target:getStatusEffect(buff[1])
             local power = currentBuff:getPower()
             local tick = currentBuff:getTick() / 1000
             local duration = math.ceil((currentBuff:getTimeRemaining())/1000)
+            local subId = 0
+            local subPower = currentBuff:getSubPower() -- Used for Carols / Threnodies
 
-            target:delStatusEffectSilent(buff[1])
-            target:addStatusEffect(buff[2], power, tick, duration)
-            corruptCount = corruptCount + 1
+            if (buff[1] == tpz.effect.CAROL) then
+                if subPower >= 1 and subPower <= 8 then
+                    subPower = carolMap[subPower] -- Convert Carols subpower (1-8) to Threnodies subpower (FIRERES-LIGHTRES)
+                    power = -power -- Threnodies are MINUS resistance
+                end
+            end
+
+            if (duration > 0) then -- Don't corrupt infinite duration buffs / auras
+                target:delStatusEffectSilent(buff[1])
+                target:delStatusEffectSilent(buff[2])
+                target:addStatusEffect(buff[2], power, tick, duration, subId, subPower)
+                corruptCount = corruptCount + 1
+            end
             if (corruptCount == amount) then
                 break;
             end

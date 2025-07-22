@@ -27,6 +27,11 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../status_effect_container.h"
 #include "../../enmity_container.h"
 #include "../../ai/states/despawn_state.h"
+#include "../../ai/states/ability_state.h"
+#include "../../ai/states/mobskill_state.h"
+#include "../../ai/states/magic_state.h"
+#include "../../ai/states/range_state.h"
+#include "../../ai/states/weaponskill_state.h"
 #include "../../ai/helpers/gambits_container.h"
 #include "../../entities/charentity.h"
 #include "../../entities/trustentity.h"
@@ -109,9 +114,12 @@ void CTrustController::Tick(time_point tick)
         return;
     }
 
-    if (PMaster->isCharmed)
+    if (auto PTrust = dynamic_cast<CTrustEntity*>(POwner))
     {
-        this->Despawn();
+        if (PTrust->m_isDead)
+        {
+            return;
+        }
     }
 
     // Match owners speed +10
@@ -147,8 +155,9 @@ void CTrustController::DoCombatTick(time_point tick)
     bool masterMeleeSwing = masterLastAttackTime > server_clock::now() - 1s;
     auto mastersLastTargetHit = PMaster->GetLocalVar("LastTargetHit");
     bool trustEngageCondition = PMaster->GetBattleTarget() && masterMeleeSwing && mastersLastTargetHit == PMaster->GetBattleTarget()->id;
+    bool masterWeakened = PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_WEAKNESS);
 
-    if (!POwner->PMaster->PAI->IsEngaged())
+    if (PMaster && !PMaster->PAI->IsEngaged() && PMaster->isAlive() && !masterWeakened)
     {
         POwner->PAI->Internal_Disengage();
         m_LastTopEnmity = nullptr;
@@ -157,9 +166,9 @@ void CTrustController::DoCombatTick(time_point tick)
         m_numberOfWarps = 0;
     }
 
-    if (POwner->PMaster->GetBattleTargetID() != POwner->GetBattleTargetID() && trustEngageCondition)
+    if (PMaster && PMaster->GetBattleTargetID() != POwner->GetBattleTargetID() && trustEngageCondition)
     {
-        POwner->PAI->Internal_ChangeTarget(POwner->PMaster->GetBattleTargetID());
+        POwner->PAI->Internal_ChangeTarget(PMaster->GetBattleTargetID());
         m_LastTopEnmity = nullptr;
         m_failedRepositionAttempts = 0;
         m_InTransit = false;
@@ -378,8 +387,49 @@ void CTrustController::DoRoamTick(time_point tick)
         POwner->PAI->Internal_Engage(PMaster->GetBattleTargetID());
     }
 
+    if (POwner->CanRest() && m_Tick - POwner->LastAttacked > m_tickDelays.at(0) && m_Tick - m_CombatEndTime > m_tickDelays.at(0) &&
+        m_Tick - m_LastHealTickTime > m_tickDelays.at(m_NumHealingTicks))
+    {
+        if (POwner->health.hp != POwner->health.maxhp || POwner->health.mp != POwner->health.maxmp)
+        {
+            // recover 2% HP & MP (3% on retail - tested)
+            uint32 recoverHP = (uint32)(POwner->health.maxhp * 0.02);
+            uint32 recoverMP = (uint32)(POwner->health.maxmp * 0.02);
+            // POwner->addHP(recoverHP);
+            POwner->addMP(recoverMP);
+            m_LastHealTickTime = m_Tick;
+            POwner->updatemask |= UPDATE_HP;
+            m_NumHealingTicks = std::clamp(m_NumHealingTicks + 1, static_cast<std::size_t>(0U), m_tickDelays.size() - 1U);
+        }
+    }
+
     // Unable to move due to hard CC (Sleep, stun, terror, etc)
     if (POwner->StatusEffectContainer->HasPreventActionEffect(false) || POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BIND))
+    {
+        return;
+    }
+
+    if (TrustIsHealing())
+    {
+        return;
+    }
+
+
+    if (TryCastRaise())
+    {
+        return;
+    }
+
+    if (TryCastUtsusemi())
+    {
+        return;
+    }
+
+    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
+        POwner->PAI->IsCurrentState<CRangeState>() ||
+        POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
+        POwner->PAI->IsCurrentState<CMobSkillState>())
     {
         return;
     }
@@ -423,22 +473,6 @@ void CTrustController::DoRoamTick(time_point tick)
         else if (POwner->GetSpeed() > 0)
         {
             POwner->PAI->PathFind->StepTo(PFollowTarget->loc.p, true);
-        }
-    }
-
-    if (POwner->CanRest() && m_Tick - POwner->LastAttacked > m_tickDelays.at(0) && m_Tick - m_CombatEndTime > m_tickDelays.at(0) &&
-        m_Tick - m_LastHealTickTime > m_tickDelays.at(m_NumHealingTicks))
-    {
-        if (POwner->health.hp != POwner->health.maxhp || POwner->health.mp != POwner->health.maxmp)
-        {
-            // recover 3% HP & MP (Retail tested)
-            uint32 recoverHP = (uint32)(POwner->health.maxhp * 0.03);
-            uint32 recoverMP = (uint32)(POwner->health.maxmp * 0.03);
-            POwner->addHP(recoverHP);
-            POwner->addMP(recoverMP);
-            m_LastHealTickTime = m_Tick;
-            POwner->updatemask |= UPDATE_HP;
-            m_NumHealingTicks = std::clamp(m_NumHealingTicks + 1, static_cast<std::size_t>(0U), m_tickDelays.size() - 1U);
         }
     }
 }
@@ -572,11 +606,141 @@ void CTrustController::PathOutToDistance(CBattleEntity* PTarget, float amount)
     }
 }
 
+bool CTrustController::TrustIsHealing()
+{
+    bool isMasterHealing = (POwner->PMaster->animation == ANIMATION_HEALING);
+    bool isTrustHealing = (POwner->animation == ANIMATION_HEALING);
+
+    if (isMasterHealing && !isTrustHealing && !POwner->StatusEffectContainer->HasPreventActionEffect(false))
+    {
+        // animation down
+        POwner->animation = ANIMATION_HEALING;
+        POwner->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_HEALING, 0, 0, map_config.healing_tick_delay, 0));
+        POwner->updatemask |= UPDATE_HP;
+        return true;
+    }
+    else if (!isMasterHealing && isTrustHealing)
+    {
+        // animation up
+        POwner->animation = ANIMATION_NONE;
+        POwner->StatusEffectContainer->DelStatusEffect(EFFECT_HEALING);
+        POwner->updatemask |= UPDATE_HP;
+        return false;
+    }
+
+    return isMasterHealing;
+}
+
+bool CTrustController::TryCastRaise()
+{
+    // Try to raise dead party members within 20 yalms
+    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
+    CCharEntity* PChar = static_cast<CCharEntity*>(POwner->PMaster);
+
+    if (!controller || !PChar)
+        return false;
+
+    if (!POwner->PAI->CanChangeState())
+    {
+        return false;
+    }
+
+    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
+        POwner->PAI->IsCurrentState<CRangeState>() ||
+        POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
+        POwner->PAI->IsCurrentState<CMobSkillState>())
+    {
+        return false;
+    }
+
+    PChar->ForPartyWithTrusts(
+        [&](CBattleEntity* PMember)
+        {
+            if (!PMember->isDead())
+            {
+                return false;
+            }
+
+            float distanceToMember = distance(POwner->loc.p, PMember->loc.p);
+            if (distanceToMember > 20.0f)
+            {
+                return false;
+            }
+
+            // Check highest available Raise spell
+            SpellID raiseSpell = SpellID::NULLSPELL;
+
+            if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise_III))
+                raiseSpell = SpellID::Raise_III;
+            else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise_II))
+                raiseSpell = SpellID::Raise_II;
+            else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise))
+                raiseSpell = SpellID::Raise;
+
+            if (raiseSpell != SpellID::NULLSPELL)
+            {
+                controller->Cast(PMember->targid, raiseSpell);
+                return true;
+            }
+        });
+
+    return false;
+}
+
+bool CTrustController::TryCastUtsusemi()
+{
+    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
+
+    if (!controller)
+    {
+        return false;
+    }
+
+    if (!POwner->PAI->CanChangeState())
+    {
+        return false;
+    }
+
+    if (POwner->StatusEffectContainer->HasStatusEffect({EFFECT_COPY_IMAGE, EFFECT_COPY_IMAGE_1, EFFECT_COPY_IMAGE_2, EFFECT_COPY_IMAGE_3, EFFECT_COPY_IMAGE_4}))
+    {
+        return false;
+    }
+
+    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
+        POwner->PAI->IsCurrentState<CRangeState>() ||
+        POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
+        POwner->PAI->IsCurrentState<CMobSkillState>())
+    {
+        return false;
+    }
+
+    // Check highest available Raise spell
+    SpellID utsusemi = SpellID::NULLSPELL;
+
+    if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Utsusemi_San))
+        utsusemi = SpellID::Utsusemi_San;
+    else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Utsusemi_Ni))
+        utsusemi = SpellID::Utsusemi_Ni;
+    else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Utsusemi_Ichi))
+        utsusemi = SpellID::Utsusemi_Ichi;
+
+    if (utsusemi != SpellID::NULLSPELL)
+    {
+        controller->Cast(POwner->targid, utsusemi);
+        return true;
+    }
+
+    return false;
+}
+
 bool CTrustController::Ability(uint16 targid, uint16 abilityid)
 {
     TracyZoneScoped;
 
-    if (static_cast<CMobEntity*>(POwner)->PRecastContainer->HasRecast(RECAST_ABILITY, abilityid, 0))
+    CAbility* PAbility = ability::GetAbility(abilityid);
+    if (static_cast<CMobEntity*>(POwner)->PRecastContainer->HasRecast(RECAST_ABILITY, PAbility->getRecastId(), PAbility->getRecastTime()))
     {
         return false;
     }
@@ -685,9 +849,9 @@ CBattleEntity* CTrustController::GetTopEnmity()
     TracyZoneScoped;
 
     CBattleEntity* PEntity = nullptr;
-    if (auto PMob = dynamic_cast<CMobEntity*>(POwner->PMaster->GetBattleTarget()))
+    if (auto PTrust = dynamic_cast<CMobEntity*>(POwner->PMaster->GetBattleTarget()))
     {
-        return PMob->PEnmityContainer->GetHighestEnmity();
+        return PTrust->PEnmityContainer->GetHighestEnmity();
     }
     return PEntity;
 }
@@ -705,4 +869,18 @@ uint8 CTrustController::GetPartyPosition()
         }
     }
     return 0;
+}
+
+bool CTrustController::UseItem(uint16 targid, uint8 loc, uint16 slotid)
+{
+    auto PTrust = static_cast<CMobEntity*>(POwner);
+    if (PTrust->PAI->CanChangeState())
+    {
+        if (PTrust->StatusEffectContainer->HasStatusEffect(EFFECT_MUDDLE))
+        {
+            return false;
+        }
+        return PTrust->PAI->Internal_UseItem(targid, loc, slotid);
+    }
+    return false;
 }

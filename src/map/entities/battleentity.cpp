@@ -50,6 +50,7 @@
 #include "../utils/petutils.h"
 #include "../utils/puppetutils.h"
 #include "../weapon_skill.h"
+#include "../latent_effect_container.h"
 #include "../lua/luautils.cpp"
 #include "../job_points.h"
 #include "../ai/controllers/mob_controller.h"
@@ -262,7 +263,7 @@ uint8 CBattleEntity::GetSpeed()
 
     if (objtype == TYPE_PC)
     {
-        gearBonus = static_cast<float>(getMaxGearMod(Mod::MOVE_SPEED_GEAR_BONUS)) / 100.0f;
+        gearBonus = static_cast<float>(getMaxGearMod(Mod::MOVE_SPEED_GEAR_BONUS, 25)) / 100.0f;
     }
 
     // Gravity and Curse. They seem additive to each other and the sum seems to be multiplicative.
@@ -763,9 +764,30 @@ int32 CBattleEntity::addMP(int32 mp)
     return abs(mp);
 }
 
-int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullptr*/, ATTACKTYPE attackType /* = ATTACK_NONE*/, DAMAGETYPE damageType /* = DAMAGE_NONE*/, bool isDOT)
+int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullptr*/, ATTACKTYPE attackType /* = ATTACK_NONE*/, DAMAGETYPE damageType /* = DAMAGE_NONE*/, bool isDOT, int16 skillId)
 {
     PLastAttacker = attacker;
+
+    // Track elemental or weaponskill kills for Magian trials
+    if (objtype == TYPE_MOB && attacker && attacker->objtype == TYPE_PC)
+    {
+        auto PChar = dynamic_cast<CCharEntity*>(attacker);
+
+        if (amount >= health.hp)
+        {
+            if (attackType == ATTACK_WEAPONSKILL)
+            {
+                auto PMob = static_cast<CMobEntity*>(this);
+                PMob->SetLocalVar("WSKilledBy", skillId);
+            }
+            else if (attackType == ATTACK_MAGICAL)
+            {
+                auto PMob = static_cast<CMobEntity*>(this);
+                PMob->SetLocalVar("ElementKilledBy", (int)damageType);
+            }
+        }
+    }
+
     PAI->EventHandler.triggerListener("TAKE_DAMAGE", this, amount, attacker, (uint16)attackType, (uint16)damageType);
 
     //RoE Damage Taken Trigger
@@ -1449,10 +1471,10 @@ int16 CBattleEntity::getMod(Mod modID)
 /************************************************************************
 *                                                                       *
 *  Get the highest value of the specified modifier across all gear      *
-*  and latent effects                                                   *
-*                                                                       *
+*  set effects, and latent effects                                      *
+*  Notes: Default modMax is 9999                                        *
 ************************************************************************/
-int16 CBattleEntity::getMaxGearMod(Mod modID)
+int16 CBattleEntity::getMaxGearMod(Mod modID, int16 modMax)
 {
     TracyZoneScoped;
     CCharEntity* PChar = dynamic_cast<CCharEntity*>(this);
@@ -1460,21 +1482,36 @@ int16 CBattleEntity::getMaxGearMod(Mod modID)
 
     if (!PChar)
     {
-        ShowWarning("CBattleEntity::getMaxGearMod() - Entity is not a player.");
-        return 0;
+        return this->getMod(modID);
     }
 
-    // Check equipment modifiers
-    for (uint8 i = 0; i < SLOT_BACK; ++i)
+    for (uint8 i = 0; i <= SLOT_BACK; ++i)
     {
         auto* PItem = PChar->getEquip((SLOTTYPE)i);
         if (PItem && (PItem->isType(ITEM_EQUIPMENT) || PItem->isType(ITEM_WEAPON)))
         {
             uint16 modValue = PItem->getModifier(modID);
-            uint16 latentValue = PItem->getLatent(modID);
 
-            // Take the higher of base mod or latent mod from this item
-            uint16 itemMax = std::max(modValue, latentValue);
+            // Instead of blindly using latent mod from item, check if latent is active via container:
+            int16 latentValue = 0;
+            if (PChar->PLatentEffectContainer)
+            {
+                // For each latent in the item latentList matching modID, check if active
+                for (const auto& latent : PItem->latentList)
+                {
+                    if (latent.ModValue == modID)
+                    {
+                        // Check if the latent effect container has it active:
+                        if (PChar->PLatentEffectContainer->IsLatentActive(latent.ConditionsID, latent.ConditionsValue))
+                        {
+                            if (latent.ModPower > latentValue)
+                                latentValue = latent.ModPower;
+                        }
+                    }
+                }
+            }
+
+            uint16 itemMax = std::max(modValue, static_cast<uint16>(latentValue));
             if (itemMax > maxModValue)
             {
                 maxModValue = itemMax;
@@ -1482,11 +1519,21 @@ int16 CBattleEntity::getMaxGearMod(Mod modID)
         }
     }
 
-    maxModValue = std::min(maxModValue, static_cast<uint16>(25));
+    // Check Set bonus Mods
+    for (const auto& gearSetMod : PChar->m_GearSetMods)
+    {
+        if (gearSetMod.modId == modID)
+        {
+            if (gearSetMod.modValue > maxModValue)
+            {
+                maxModValue = gearSetMod.modValue;
+            }
+        }
+    }
 
+    maxModValue = std::min(maxModValue, static_cast<uint16>(modMax));
     return maxModValue;
 }
-
 
 void CBattleEntity::addPetModifier(Mod type, PetModType petmod, int16 amount)
 {
@@ -1551,7 +1598,6 @@ void CBattleEntity::applyPetModifiers(CPetEntity* PPet)
         }
     }
 }
-
 
 void CBattleEntity::removePetModifiers(CPetEntity* PPet)
 {
@@ -1648,6 +1694,21 @@ bool CBattleEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
 
     if ((targetFlags & TARGET_SELF) && (this == PInitiator || (PInitiator->objtype == TYPE_PET &&
         static_cast<CPetEntity*>(PInitiator)->getPetType() == PETTYPE_AUTOMATON && this == PInitiator->PMaster)))
+    {
+        return true;
+    }
+
+    if ((targetFlags & TARGET_PLAYER_PARTY) && (allegiance == PInitiator->allegiance))
+    {
+        if ((PParty && PInitiator->PParty && PParty == PInitiator->PParty) || (!PParty && !PInitiator->PParty) || // both solo
+            (this == PInitiator->PPet) || (PInitiator == this->PMaster))
+        {
+            return true;
+        }
+    }
+
+
+    if (objtype == TYPE_PET && (targetFlags & TARGET_EXCLUDE_PETS))
     {
         return true;
     }
@@ -1915,10 +1976,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     }
     if ((!(PSpell->isHeal()) || PSpell->tookEffect()) && PActionTarget->isAlive())
     {
-        if (objtype != TYPE_PET)
-        {
-            battleutils::ClaimMob(PActionTarget, this);
-        }
+        battleutils::ClaimMob(PActionTarget, this);
     }
 
     if (PSpell->getRequirements() & SPELLREQ_UNBRIDLED_LEARNING)
@@ -2254,7 +2312,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
             }
             else
             {
-                // Set this attack's critical flag.
+                // Set this attack's critical flag. Also calculates m_damageRato (pDIF)
                 attack.SetCritical(tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(this, PTarget, !attack.IsFirstSwing(), static_cast<SLOTTYPE>(attack.GetWeaponSlot())));
                 if (tredecim && ((CCharEntity*)this)->m_hitCounter > 12)
                 {
@@ -2328,6 +2386,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 }
 
                 // Check for Enspell
+                // Enspells that are applied BEFORE damage calc
                 bool isBlocked = actionTarget.reaction == REACTION_BLOCK;
                 if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
                 {
@@ -2336,7 +2395,6 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
                                                    attack.GetDamage());
                     }
-                    battleutils::HandleSpikesDamage(this, PTarget, &actionTarget, attack.GetDamage());
 
                     uint8 enspell = (uint8)this->getMod(Mod::ENSPELL);
 
@@ -2373,6 +2431,21 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         actionTarget.param = -(actionTarget.param);
                         actionTarget.messageID = MSGBASIC_HIT_ABSORBS_HP;
                     }
+                }
+
+                // Enspells that are applied AFTER damage calc (i.e. blood weapon and soul enslavement)
+                // Spikes is also applied after damage calc (For retal, reprisal, reflect(damage spikes) spikes, etc
+                if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
+                {
+                    if (!isBlocked &&
+                        actionTarget.additionalEffect == 0 &&
+                        actionTarget.addEffectMessage == 0 &&
+                        actionTarget.addEffectParam == 0)
+                    {
+                        battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
+                                                   attack.GetDamage(), true);
+                    }
+                    battleutils::HandleSpikesDamage(this, PTarget, &actionTarget, attack.GetDamage());
                 }
             }
 
@@ -2501,11 +2574,11 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
         PChar->m_sneakTrickActive = false;
     }
 
-    this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK | EFFECTFLAG_DETECTABLE);
+    this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK | EFFECTFLAG_DETECTABLE | EFFECTFLAG_PHYS_ATTACK);
 
     if (this->objtype == TYPE_TRUST) // Player pets / Player is done in mobentity/char entity but trust entity does not have an OnAttack override
     {
-        if (PTarget && PTarget->isDead())
+        if (PTarget && PTarget->isDead() && PTarget->objtype == TYPE_MOB)
         {
             ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
             ((CMobEntity*)PTarget)->DoAutoTarget();

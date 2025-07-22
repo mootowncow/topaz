@@ -25,6 +25,8 @@ function onMobSpawn(mob)
     })
     ]]
 
+    tpz.trust.setUpFood(mob)
+
     -- Dynamic modifier that checks party member list on tick to apply synergy
     mob:addListener('COMBAT_TICK', 'UKA_TOTLIHN_CTICK', function(mobArg)
         local waltzPotencyBoost = 0
@@ -48,6 +50,15 @@ function onMobSpawn(mob)
 
     if mob:getMainLvl() >= 45 then -- Haste samba if lvl >= 45
         mob:addSimpleGambit(ai.t.SELF, ai.c.NO_SAMBA, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASTE_SAMBA)
+    end
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
+
+    -- Chocobo Jig (Haste / Haste II)
+    if mob:getMainLvl() >= 75 then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.HASTE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.CHOCOBO_JIG_II)
+    else
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.HASTE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.CHOCOBO_JIG)
     end
 
     -- Step Interactions:

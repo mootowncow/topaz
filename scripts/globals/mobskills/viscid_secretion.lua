@@ -17,5 +17,5 @@ function onMobWeaponSkill(target, mob, skill)
     skill:setMsg(MobHasteOverwriteSlowMove(mob, target, 5000, 0, 90, 0, 0, 2)) 
     mob:resetEnmity(target)
 
-    return typeEffect
+    return tpz.effect.SLOW
 end

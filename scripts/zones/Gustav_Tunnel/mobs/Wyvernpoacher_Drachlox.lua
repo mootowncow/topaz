@@ -2,6 +2,7 @@
 -- Area: Gustav Tunnel
 --   NM: Wyvernpoacher Drachlox
 mixins = {require("scripts/mixins/job_special")}
+require("scripts/globals/status")
 -----------------------------------
 function onMobSpawn(mob)
     mob:addMod(tpz.mod.ATTP, 25)

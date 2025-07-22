@@ -71,6 +71,7 @@ enum EFFECTFLAG
     EFFECTFLAG_AURA             = 0x4000000, // Is an aura type effect
     EFFECTFLAG_FINISHING_MOVE   = 0x8000000, // Is a finishing move
     EFFECTFLAG_HIDE_TIMER       = 0x10000000,// Sends "Always" in the packet, even though timer is tracked (used for geo bubbles / infinite duration buffs)
+    EFFECTFLAG_PHYS_ATTACK      = 0x20000000,// disappears when damage is dealt (physical status effects only, i.e. sneak attack, assassins charge, etc)
 };
 
 enum EFFECT

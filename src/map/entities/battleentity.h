@@ -255,7 +255,6 @@ enum SUBSKILLTYPE
     SUBSKILL_MOSQUITO = 122,  // WETLANDS BROTH
     SUBSKILL_YOKO = 123,  // HEAVENLY BROTH
     SUBSKILL_GLENN = 124,  // WISPY BROTH
-    // ID"s past 124 break the server
     SUBSKILL_YELLOW_BEETLE = 125,  // ZESTFUL SAP
     SUBSKILL_SEFINA = 126,  // GASSY SAP
 };
@@ -539,6 +538,8 @@ enum ATTACKTYPE
     ATTACK_RANGED = 3,
     ATTACK_SPECIAL = 4,
     ATTACK_BREATH = 5,
+    ATTACK_WEAPONSKILL = 6,
+    ATTACK_PETABILITY = 7,
 };
 
 enum DAMAGETYPE
@@ -626,6 +627,7 @@ enum SUBEFFECT
     SUBEFFECT_CLOD_SPIKES = 8,   // Earth damage + Slow.
     SUBEFFECT_DELUGE_SPIKES = 9, // Water damage + Poison https://ffxiclopedia.fandom.com/wiki/Aqua_Spikes
     SUBEFFECT_GLINT_SPIKES = 10, // yes really: http://www.ffxiah.com/item/26944/
+    SUBEFFECT_DAMAGE_SPIKES = 11, // non-elemental spikes
     SUBEFFECT_COUNTER = 63,      // Also used by Retaliation
     // There are no spikes effect animations beyond 63. Some effects share subeffect/animations.
     // "Damage Spikes" use the Blaze Spikes animation even though they are different status.
@@ -671,6 +673,8 @@ enum TARGETTYPE
     TARGET_PET                     = 0x100,
     TARGET_PLAYER_PARTY_ENTRUST    = 0x200,
     TARGET_IGNORE_BATTLEID         = 0x400, // Can hit targets that do not have the same battle ID
+    TARGET_EXCLUDE_TRUSTS          = 0x800, // Exclude trusts
+    TARGET_EXCLUDE_PETS            = 0x1000,// Exclude pets
 };
 
 enum SKILLCHAIN_ELEMENT
@@ -857,10 +861,10 @@ public:
     virtual int32 	addMP(int32 mp);			// увеличиваем/уменьшаем количество mp
 
     //Deals damage and updates the last attacker which is used when sending a player death message
-    virtual int32   takeDamage(int32 amount, CBattleEntity* attacker = nullptr, ATTACKTYPE attackType = ATTACK_NONE, DAMAGETYPE damageType = DAMAGE_NONE, bool isDOT = false);
+    virtual int32   takeDamage(int32 amount, CBattleEntity* attacker = nullptr, ATTACKTYPE attackType = ATTACK_NONE, DAMAGETYPE damageType = DAMAGE_NONE, bool isDOT = false, int16 skillId = 0);
 
     int16		    getMod(Mod modID);		// Get the current value of the specified modifier 
-    int16           getMaxGearMod(Mod modID);
+    int16           getMaxGearMod(Mod modID, int16 modMax = 9999);
 
     bool            CanRest(); // checks if able to heal
     bool			Rest(float rate); // heal an amount of hp / mp

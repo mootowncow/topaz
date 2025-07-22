@@ -2,14 +2,13 @@
 -- Area: Sacrarium
 --  Mob: Elel
 -----------------------------------
-require("scripts/globals/status")
+mixins = {require("scripts/mixins/job_special")}
 require("scripts/globals/mobs")
+require("scripts/globals/status")
 -----------------------------------
-
 function onMobSpawn(mob)
-	mob:setMod(tpz.mod.MAIN_DMG_RATING, 12)
-	mob:setMod(tpz.mod.DEFP, 25) 
-    mob:setMod(tpz.mod.REFRESH, 40)
+    SetGenericNMStats(mob)
+    mob:setMod(tpz.mod.EEM_SILENCE, 5)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

@@ -52,7 +52,7 @@ function onEffectTick(target, effect)
             local healHP = 0
             if (target:getContinentID() == 1 and target:hasStatusEffect(tpz.effect.SIGNET)) or (target:getContinentID() == 3 and target:hasStatusEffect(tpz.effect.SIGIL)) then
                 healHP = 10 + (3 * math.floor(target:getMainLvl() / 10)) + (healtime - 2) * (1 + math.floor(target:getMaxHP() / 300)) + target:getMod(tpz.mod.HPHEAL)
-            elseif target:getMaster() ~= nil then -- Beastmaster's Stay ability
+            elseif target:getMaster() ~= nil then -- Beastmaster's Stay ability and Trusts
                 healHP = 10 + (3 * math.floor(target:getMainLvl() / 10)) + (healtime - 2) * (2.5 + math.floor(target:getMaxHP() / 100)) + target:getMod(tpz.mod.HPHEAL)
             else
                 target:addTP(HEALING_TP_CHANGE)

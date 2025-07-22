@@ -23,6 +23,7 @@ zones[tpz.zone.RIVERNE_SITE_A01] =
         SD_HAS_GROWN            = 7588, -- The spatial displacement has grown.
         SPACE_SEEMS_DISTORTED   = 7589, -- The space around you seems oddly distorted and disrupted.
         MONUMENT                = 7596, -- Something has been engraved on this stone, but the message is too difficult to make out.
+        INSECT_WINGS_SCATTERED  = 7720, --  There are tiny insect wings scattered all around here.
         HOMEPOINT_SET           = 7724, -- Home point set!
     },
     mob =
@@ -39,7 +40,7 @@ zones[tpz.zone.RIVERNE_SITE_A01] =
     npc =
     {
         DISPLACEMENT_OFFSET = 16900334,
-        SHIELD_BUG_QM     = 16900325,
+        SHIELD_BUG_QM       = 16900325,
     },
 }
 

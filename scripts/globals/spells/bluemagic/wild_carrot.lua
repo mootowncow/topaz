@@ -52,6 +52,7 @@ function onSpellCast(caster, target, spell)
 
 	if target:hasStatusEffect(tpz.effect.CURSE_II) then
 		target:addHP(0)
+        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
 	else
 		target:addHP(final)
 		target:wakeUp()

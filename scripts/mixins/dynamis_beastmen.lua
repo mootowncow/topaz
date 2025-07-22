@@ -44,7 +44,7 @@ g_mixins.dynamis_beastmen = function(mob)
         [4] = {single = 250, hundo = 50},
     }
 
-    mob:addListener("MAGIC_TAKE", "DYNAMIS_MAGIC_PROC_CHECK", function(target, caster, spell)
+    mob:addListener("SPELL_DMG_TAKEN", "DYNAMIS_MAGIC_PROC_CHECK", function(target, caster, spell)
         if procjobs[target:getMainJob()] == "ma" and math.random(0, 99) < 10 and target:getLocalVar("dynamis_proc") == 0 then
             dynamis.procMonster(target, caster)
         end
@@ -59,8 +59,6 @@ g_mixins.dynamis_beastmen = function(mob)
     mob:addListener("ABILITY_TAKE", "DYNAMIS_ABILITY_PROC_CHECK", function(mob, user, ability, action)
         local abilityID = ability:getID()
         local abilityMsg = ability:getMsg()
-        local tryProc = true
-
         local validProc = 
             abilityID ~= tpz.ja.FIGHT and
             abilityID ~= tpz.ja.SIC and

@@ -16,6 +16,7 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    -- TODO: Resist check on stun (Has 255 MACC bonus?)
     -- Stun rate
     if (math.random(1, 100) < 99) then
         target:addStatusEffect(tpz.effect.STUN, 1, 0, 3)

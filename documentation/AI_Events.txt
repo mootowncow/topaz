@@ -1,5 +1,7 @@
 States/Actions
 
+TRIGGER (On Trigger) - Player, NPC
+
 ABILITY_START - Entity, Ability
 ABILITY_USE - Entity, Target, Ability, action
 ABILITY_STATE_EXIT - Entity, Ability
@@ -8,16 +10,17 @@ WS_DMG_TAKEN - Target, Entity, damage, attackType, damageType, equipslot
 
 WEAPONSKILL_START - Entity, Skillid 
 WEAPONSKILL_STATE_ENTER - Entity, skill ID (Works for mobs)
-WEAPONSKILL_USE - Entity, Target, Skillid, TP, action (Also works for mobs)
-WEAPONSKILL_TAKE - Target, Entity, Skillid, TP, action (Also works for mobs)
+WEAPONSKILL_USE - Entity, Target, Skillid, TPSpent, action (Also works for mobs)
+WEAPONSKILL_TAKE - Target, Entity, Skillid, TPSpent, action (Also works for mobs)
 WEAPONSKILL_STATE_EXIT - Entity, Skillid  (Also works for mobs)
+WS_DMG_DONE - User, target, damage, skillId
+WS_DMG_TAKEN - Target, Entity, Dmg, attackType, damageType, slot, wsId
 WEAPONSKILL_STATE_INTERRUPTED - Entity, Skillid  (ONLY works for mobs)
 
 MAGIC_START - Entity, Spell, action
 MAGIC_MID - Entity, Target, Spell
 MAGIC_USE - Entity, Target, Spell, action
 MAGIC_STATE_EXIT - Entity, Spell
-MAGIC_TAKE - Target, Entity, Spell, action
 SPELL_DMG_TAKEN - Target, Entity, Spell, amount, message
 MAGIC_HIT - caster, target, spell -- Hit and was not absorbed by a shadow
 EN_SPIKES_HIT - attacker, target, enspellID (enum ENSPELL in battleutils.h)
@@ -32,6 +35,7 @@ SPAWN - Entity
 DESPAWN - Entity
 DEATH_DAMAGE - target, damage, attacker, attackType, damageType
 DEATH - Entity, Killer
+PLAYER_DEATH - Killer, player (Also detects trust deaths)
 ENGAGE - Entity, Target
 DISENGAGE - Entity
 MOB_PATH - mob, target

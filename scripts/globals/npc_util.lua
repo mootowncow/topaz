@@ -472,6 +472,7 @@ end
         { {640, 2} }             -- copper ore x2
         { {640, 2}, 641 }        -- copper ore x2, tin ore x1
         { 640, {"gil", 200} }   -- copper ore x1, gil x200
+    ALWAYS USE WITH confirmTrade()!!
 ******************************************************************************* --]]
 function npcUtil.tradeHas(trade, items, exact)
     if type(exact) ~= "boolean" then exact = false end
@@ -554,6 +555,7 @@ end
         { {640, 2} }             -- copper ore x2
         { {640, 2}, 641 }        -- copper ore x2, tin ore x1
         { 640, {"gil", 200} }   -- copper ore x1, gil x200
+        ALWAYS USE WITH confirmTrade()!!
 ******************************************************************************* --]]
 function npcUtil.tradeHasExactly(trade, items)
     return npcUtil.tradeHas(trade, items, true)
