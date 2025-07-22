@@ -4846,7 +4846,7 @@ namespace battleutils
             int32 lowerCap = -1 - (level / 5);
 
             int32 mobFSTR = std::clamp(fstr, lowerCap, upperCap);
-            ShowDebug("Mob fSTR: diff=%d, raw fSTR=%d, clamped=[%d, %d] => fSTR=%d\n", dif, fstr, lowerCap, upperCap, mobFSTR);
+            //ShowDebug("Mob fSTR: diff=%d, raw fSTR=%d, clamped=[%d, %d] => fSTR=%d\n", dif, fstr, lowerCap, upperCap, mobFSTR);
             return mobFSTR;
         }
 
@@ -4888,7 +4888,7 @@ namespace battleutils
             }
 
             int32 bluFSTR = std::clamp(fstr, -bluCap, bluCap);
-            ShowDebug("BLU %s FSTR: %i\n", isRanged ? "ranged" : "melee", bluFSTR);
+            //ShowDebug("BLU %s FSTR: %i\n", isRanged ? "ranged" : "melee", bluFSTR);
             return bluFSTR;
         }
 
@@ -4898,7 +4898,7 @@ namespace battleutils
         if (isAvatar)
         {
             int32 avatarFSTR = std::clamp(fstr, -20, 9999);
-            ShowDebug("Avatar fSTR: %i\n", avatarFSTR);
+            //ShowDebug("Avatar fSTR: %i\n", avatarFSTR);
             return avatarFSTR;
         }
 
@@ -4908,7 +4908,7 @@ namespace battleutils
             int32 rangedMin = -rank * 2;
             int32 rangedMax = rank * 2;
 
-            ShowDebug("Ranged FSTR check: fSTR = %d, Rank = %d, Cap = [%d, %d]\n", fstr, rank, rangedMin, rangedMax);
+            //ShowDebug("Ranged FSTR check: fSTR = %d, Rank = %d, Cap = [%d, %d]\n", fstr, rank, rangedMin, rangedMax);
             return std::clamp(fstr, rangedMin, rangedMax);
         }
         else
@@ -4924,7 +4924,7 @@ namespace battleutils
             int32 meleeMin = -rank;
             int32 meleeMax = rank + 8;
 
-            ShowDebug("Melee FSTR check: fSTR = %d, Rank = %d, Cap = [%d, %d]\n", fstr, rank, meleeMin, meleeMax);
+            //ShowDebug("Melee FSTR check: fSTR = %d, Rank = %d, Cap = [%d, %d]\n", fstr, rank, meleeMin, meleeMax);
             return std::clamp(fstr, meleeMin, meleeMax);
         }
     }

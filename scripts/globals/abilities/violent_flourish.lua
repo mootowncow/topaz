@@ -39,7 +39,7 @@ function onUseAbility(player, target, ability, action)
 
     local hit = 4
     --get fstr
-    local fSTR = player:getFSTR(target, tpz.slot.MAIN, false, false)
+    local fstr = player:getFSTR(target, tpz.slot.MAIN, false, false)
 
     local params = {}
     params.atk100 = 1 params.atk200 = 1 params.atk300 = 1
