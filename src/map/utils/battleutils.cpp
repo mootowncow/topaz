@@ -4823,13 +4823,30 @@ namespace battleutils
         // Mob/Non-Avatar Pet FSTR
         if (isMobOrNonAvatarPet)
         {
-            fstr = (dif + 4) / 4;
-
-            // Level 1 mob quirk
             if (attackerType == TYPE_MOB && PAttacker->GetMLevel() == 1)
                 return 1;
-            int32 mobFSTR = std::clamp(fstr, -20, 24);
-            ShowDebug("Mob fSTR: %i", mobFSTR);
+
+            // ΔSTR = STR - VIT
+            if      (dif >= 36)       fstr = (dif - 4) / 4;
+            else if (dif >= 26)       fstr = (dif - 3) / 4;
+            else if (dif >= 17)       fstr = (dif - 2) / 4;
+            else if (dif >= 4)        fstr = (dif - 1) / 4;
+            else if (dif >= -8)       fstr = dif / 4;
+            else if (dif >= -13)      fstr = (dif + 1) / 4;
+            else if (dif >= -19)      fstr = (dif + 3) / 4;
+            else if (dif >= -32)      fstr = (dif + 4) / 4;
+            else if (dif >= -42)      fstr = (dif + 5) / 4;
+            else if (dif >= -54)      fstr = (dif + 6) / 4;
+            else if (dif >= -67)      fstr = (dif + 7) / 4;
+            else if (dif >= -76)      fstr = (dif + 8) / 4;
+            else                      fstr = (dif + 9) / 4;
+
+            int32 level = PAttacker->GetMLevel();
+            int32 upperCap = 5 + (level / 5);
+            int32 lowerCap = -1 - (level / 5);
+
+            int32 mobFSTR = std::clamp(fstr, lowerCap, upperCap);
+            ShowDebug("Mob fSTR: diff=%d, raw fSTR=%d, clamped=[%d, %d] => fSTR=%d\n", dif, fstr, lowerCap, upperCap, mobFSTR);
             return mobFSTR;
         }
 
@@ -4853,7 +4870,21 @@ namespace battleutils
 
             if (level >= 75)
             {
-                bluCap += std::min((level - 75) / 5, 4);
+                bluCap += std::min((level - 75) / 5, 4); // Up to +4 more
+            }
+
+            // Blue Magic fSTR tables
+            if (isRanged)
+            {
+                if      (dif >=  25)  fstr = (dif + 4) / 2;
+                else if (dif >=   3)  fstr = (dif + 6) / 2;
+                else if (dif >= -20)  fstr = (dif + 8) / 2;
+                else                  fstr = (dif + 10) / 2;
+            }
+            else // melee
+            {
+                if      (dif >=   3)  fstr = (dif + 4) / 4;
+                else                  fstr = (dif + 8) / 4;
             }
 
             int32 bluFSTR = std::clamp(fstr, -bluCap, bluCap);
