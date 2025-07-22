@@ -3283,6 +3283,127 @@ tpz.magian.trials = {
         },
     },
 
+    [1501] = {
+        mainItem      = tpz.items.THUNDERSTICK,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1500,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.GIANT_BATS },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 250,
+        rewardItem    = {
+            itemId       = tpz.items.HURACAN,
+            itemAugments = {
+                { tpz.augments.STR, 5 },
+            },
+        },
+    },
+
+    [1502] = {
+        mainItem      = tpz.items.HURACAN,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1501,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.DOLL },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 300,
+        rewardItem    = {
+            itemId       = tpz.items.HURACAN,
+            itemAugments = {
+                { tpz.augments.STR, 6 },
+                { tpz.augments.RATTK, 10 },
+            },
+        },
+    },
+
+    [1503] = {
+        mainItem      = tpz.items.HURACAN,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1502,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.AERN },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 350,
+        rewardItem    = {
+            itemId       = tpz.items.HURACAN,
+            itemAugments = {
+                { tpz.augments.RANGED_DMG_RATING, 15 },
+                { tpz.augments.STR, 7 },
+                { tpz.augments.RATTK, 15 },
+            },
+        },
+    },
+
+    [1504] = {
+        mainItem      = tpz.items.HURACAN,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1503,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.CHAMPION_CRAWLER },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.FIRE,
+        day           = tpz.day.FIRESDAY,
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.HURACAN,
+            itemAugments = {
+                { tpz.augments.RANGED_DMG_RATING, 17 },
+                { tpz.augments.STR, 9 },
+                { tpz.augments.RATTK, 20 },
+            },
+        },
+    },
+
+    [1505] = {
+        mainItem      = tpz.items.HURACAN,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1504,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.RAHU },
+        numRequired   = 15,
+        rewardItem    = {
+            itemId       = tpz.items.HURACAN,
+            itemAugments = {
+                { tpz.augments.RANGED_DMG_RATING, 19 },
+                { tpz.augments.STR, 9 },
+                { tpz.augments.RATTK, 25 },
+            },
+        },
+    },
+
+    [1506] = {
+        mainItem      = tpz.items.HURACAN,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1505,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.BLOBDINGNAG },
+        numRequired   = 25,
+        rewardItem    = {
+            itemId       = tpz.items.HURACAN,
+            itemAugments = {
+                { tpz.augments.RANGED_DMG_RATING, 13 },
+                { tpz.augments.STR, 10 },
+                { tpz.augments.RATTK, 30 },
+            },
+        },
+    },
+
     [1581] = {
         mainItem      = tpz.items.THUNDERSTICK,
         tradeItem     = tpz.items.NONE,
