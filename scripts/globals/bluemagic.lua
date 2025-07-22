@@ -256,11 +256,7 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
     --printf("Crit chance: %f", critRate)
 
     -- Calculate base attack bonus
-    local baseAttkBonus = params.attkbonus
-    if baseAttkBonus == 0 then
-        baseAttkBonus = 1.0
-    end
-
+    local baseAttkBonus = spell:getAttackBonus()
     bonusAttPercent = baseAttkBonus + AttkTPModifier
 
     -- Add Physical Potency merits

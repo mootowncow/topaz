@@ -1131,6 +1131,10 @@ public:
     const int8* getName();
     void        setName(int8* name);
 
+    // Blue Magic only
+    float       getAttackBonus() const { return m_attackBonus; }
+    void        setAttackBonus(float bonus) { m_attackBonus = bonus; }
+
 protected:
 
     CSpell(const CSpell&) = default;
@@ -1166,6 +1170,9 @@ private:
     uint16      m_meritId {};                              // associated merit (if applicable)
     uint8       m_flag {};
     int8*       m_contentTag {};
+
+    // Blue magic only
+    float m_attackBonus {};                                // Default 1.0 for most spells
 };
 
 //Namespace to work with spells
