@@ -1772,6 +1772,9 @@ function TryBreakMob(target)
                     target:useMobAbility(2361) -- Stave Toss
                 end
             end
+
+            -- All damage reduced by 25%
+            target:setMod(tpz.mod.GLOBAL_DMG_DONE, -25)
         end
     elseif (GetMobFamily(target) == 'Qutrub') then
         if math.random(100) <= target:getLocalVar("qutrubBreakChance") then
@@ -1784,6 +1787,9 @@ function TryBreakMob(target)
                 target:AnimationSub(3)
                 target:setLocalVar("swapTime", 0)
             end
+
+            -- All damage reduced by 25%
+            target:setMod(tpz.mod.GLOBAL_DMG_DONE, -25)
         end
     elseif (GetMobFamily(target) == 'Orobon') then
         if math.random(100) <= target:getLocalVar("FeelersBreakChance") and animationSub == 0 then

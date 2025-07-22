@@ -105,13 +105,6 @@ namespace mobutils
 
         switch (region)
         {
-            case REGION_RONFAURE:
-            case REGION_SARUTABARUTA:
-            case REGION_GUSTABERG:
-                bonus = 1;
-                rangedBonus = 5;
-                h2hPenalty = 0.425;
-                break;
             case REGION_ZULKHEIM:
             case REGION_NORVALLEN:
             case REGION_DERFLAND:
@@ -187,6 +180,16 @@ namespace mobutils
             }
         }
 
+        // Starter zone penalty
+        switch (region)
+        {
+            case REGION_RONFAURE:
+            case REGION_SARUTABARUTA:
+            case REGION_GUSTABERG:
+                bonus -= 1;
+                break;
+        }
+
         // Multi (Original - Zilart zones only)
         switch (family)
         {
@@ -207,7 +210,7 @@ namespace mobutils
                 break;
         }
 
-        bonus = std::max((int8)1, bonus);
+        bonus = std::max((int8)0, bonus);
 
         // Starter zones
         if (region >= REGION_RONFAURE && region <= REGION_GUSTABERG)
