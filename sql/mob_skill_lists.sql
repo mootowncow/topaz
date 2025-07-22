@@ -2796,28 +2796,44 @@ INSERT INTO `mob_skill_lists` VALUES ('Ob_Valoredge',1200,2299); -- bone_crusher
 INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,1942); -- arcuballista
 INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,2066); -- daze
 INSERT INTO `mob_skill_lists` VALUES ('Ob_Sharpshot',1201,2300); -- armor_piercer
+
 INSERT INTO `mob_skill_lists` VALUES ('Capricornus-MS',1202,641); -- Recoil Dive Only
+
 INSERT INTO `mob_skill_lists` VALUES ('Febrenard_C_Brunnaut',1203,36); -- Shining Blade
 INSERT INTO `mob_skill_lists` VALUES ('Febrenard_C_Brunnaut',1203,37); -- Seraph Blade
+
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,38); -- Circle Blade
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,40); -- Vorpal Blade
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,41); -- Swift Blade
 INSERT INTO `mob_skill_lists` VALUES ('Bartholomaus',1204,2278); -- Glory Slash
+
 INSERT INTO `mob_skill_lists` VALUES ('Shouldercharge_Only',1205,2264); -- Shoulder Charge Only
+
 INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1206,733); -- Jump
 INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1206,1064); -- Jump (Long cast time)
+
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2193); -- zephyr_arrow
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2194); -- lethe_arrows
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2195); -- spring_breeze
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2196); -- summer_breeze
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2197); -- autumn_breeze
 INSERT INTO `mob_skill_lists` VALUES ('Pixie-UldSkuld',1207,2198); -- winter_breeze
+
 INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2163); -- Seedspray
 INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2164); -- Viscid Emission
 INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2165); -- Rotten Stench
 INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2166); -- Floral Bouquet
 INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2167); -- Bloody Caress
 INSERT INTO `mob_skill_lists` VALUES ('Witchweed-LevelUp',1208,2169); -- Soothing Aroma
+
+INSERT INTO `mob_skill_lists` VALUES ('Acho',1209,439); -- Petro Gaze
+INSERT INTO `mob_skill_lists` VALUES ('Acho',1209,440); -- Catharsis
+
+INSERT INTO `mob_skill_lists` VALUES ('Gouger_Beetle',1210,338);
+INSERT INTO `mob_skill_lists` VALUES ('Gouger_Beetle',1210,339);
+INSERT INTO `mob_skill_lists` VALUES ('Gouger_Beetle',1210,341);
+INSERT INTO `mob_skill_lists` VALUES ('Gouger_Beetle',1210,343);
+INSERT INTO `mob_skill_lists` VALUES ('Gouger_Beetle',1210,2823); -- Rhinowrecker
 
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
@@ -5015,6 +5031,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,251); -- aegis_schism
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,252); -- dancing_chains
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,253); -- barbed_crescent
 
--- Next available ID: 1209
+-- Next available ID: 1211
 -- Next custom ID: 6159
 

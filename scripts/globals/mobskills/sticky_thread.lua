@@ -15,6 +15,9 @@ function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.SLOW
 
     skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 9000, 0, 300))
+    if mob:getName() == 'Champion_Crawler' then
+        mob:resetEnmity(target)
+    end
 
     return typeEffect
 end

@@ -2,10 +2,9 @@
 -- Spoil
 --
 -- Description: Lowers the strength of target.
--- Type: Enhancing
+-- Type: Enfeebling
 -- Utsusemi/Blink absorb: Ignore
--- Range: Self
--- Notes: Very sharp evasion increase.
+-- Range: Single
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
@@ -22,6 +21,10 @@ function onMobWeaponSkill(target, mob, skill)
     local power = (target:getStat(tpz.mod.STR) * 0.2) +5
 
     skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, power, tick, 300))
+    if (mob:getName() == 'Gouger_Beetle') then
+        MobStatusEffectMove(mob, target, tpz.effect.ACCURACY_DOWN, 50, 0, 30)
+        MobStatusEffectMove(mob, target, tpz.effect.MAGIC_ACC_DOWN, 25, 0, 30)
+    end
 
     return typeEffect
 end

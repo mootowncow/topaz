@@ -627,6 +627,7 @@ enum SUBEFFECT
     SUBEFFECT_CLOD_SPIKES = 8,   // Earth damage + Slow.
     SUBEFFECT_DELUGE_SPIKES = 9, // Water damage + Poison https://ffxiclopedia.fandom.com/wiki/Aqua_Spikes
     SUBEFFECT_GLINT_SPIKES = 10, // yes really: http://www.ffxiah.com/item/26944/
+    SUBEFFECT_DAMAGE_SPIKES = 11, // non-elemental spikes
     SUBEFFECT_COUNTER = 63,      // Also used by Retaliation
     // There are no spikes effect animations beyond 63. Some effects share subeffect/animations.
     // "Damage Spikes" use the Blaze Spikes animation even though they are different status.

@@ -18,7 +18,13 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.POISON
     local power = 1
-    local dmgmod = MobHPBasedMove(mob, target, skill, 0.103, 1, tpz.magic.ele.WATER, 405)
+    local dmgCap = 405
+    local mobName = mob:getName()
+    if mob:getName() == 'Champion_Crawler' then
+        power = 20
+        dmgCap = 900
+    end
+    local dmgmod = MobHPBasedMove(mob, target, skill, 0.103, 1, tpz.magic.ele.WATER, dmgCap)
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.WATER, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.BREATH, tpz.damageType.WATER)
     MobStatusEffectMove(mob, target, typeEffect, power, 3, 90)

@@ -14,6 +14,7 @@ require("scripts/globals/utils")
 -- TODO: Test 'Special' trials and ExperiencePoints
 -- TODO: Does 'Region' work? Not sure on lua binding
 -- TODO: Addon for all the data
+-- TODO: Magian oAT weapons can proc in either hand. i.e. dual wield a bronze sword and OAT antea, it can proc on bronze sword too
 tpz = tpz or {}
 tpz.magian = tpz.magian or {}
 

@@ -3307,6 +3307,84 @@ function TryApplyAdditionalEffect(player, target, effect, element, power, tick, 
     end
 end
 
+function TryAdditionalEffectAugment(player, target, skill, bonus)
+    local augmentData = {
+        -- Elemental Damage Add Effects
+        [tpz.augments.ADDEFF_FIREDMG_5]          = { element = tpz.magic.ele.FIRE,      subEffect = tpz.subEffect.FIRE_DAMAGE },
+        [tpz.augments.ADDEFF_ICEDMG_5]           = { element = tpz.magic.ele.ICE,       subEffect = tpz.subEffect.ICE_DAMAGE },
+        [tpz.augments.ADDEFF_WINDDMG_5]          = { element = tpz.magic.ele.WIND,      subEffect = tpz.subEffect.WIND_DAMAGE },
+        [tpz.augments.ADDEFF_EARTHDMG_5]         = { element = tpz.magic.ele.EARTH,     subEffect = tpz.subEffect.EARTH_DAMAGE },
+        [tpz.augments.ADDEFF_LIGHTNINGDMG_5]     = { element = tpz.magic.ele.LIGHTNING, subEffect = tpz.subEffect.LIGHTNING_DAMAGE },
+        [tpz.augments.ADDEFF_WATERDMG_5]         = { element = tpz.magic.ele.WATER,     subEffect = tpz.subEffect.WATER_DAMAGE },
+        [tpz.augments.ADDEFF_LIGHTDMG_5]         = { element = tpz.magic.ele.LIGHT,     subEffect = tpz.subEffect.LIGHT_DAMAGE },
+        [tpz.augments.ADDEFF_DARKDMG_5]          = { element = tpz.magic.ele.DARK,      subEffect = tpz.subEffect.DARK_DAMAGE },
+
+        -- Status Effect Add Effects
+        [tpz.augments.ADDEFF_DISEASE]            = { element = tpz.magic.ele.FIRE,      effect = tpz.effect.PLAGUE,             subEffect = tpz.subEffect.PLAGUE },
+        [tpz.augments.ADDEFF_PARALYSIS]          = { element = tpz.magic.ele.ICE,       effect = tpz.effect.PARALYSIS,          subEffect = tpz.subEffect.PARALYSIS },
+        [tpz.augments.ADDEFF_SILENCE]            = { element = tpz.magic.ele.WIND,      effect = tpz.effect.SILENCE,            subEffect = tpz.subEffect.SILENCE },
+        [tpz.augments.ADDEFF_SLOW]               = { element = tpz.magic.ele.EARTH,     effect = tpz.effect.SLOW,               subEffect = tpz.subEffect.SLOW },
+        [tpz.augments.ADDEFF_STUN]               = { element = tpz.magic.ele.LIGHTNING, effect = tpz.effect.STUN,               subEffect = tpz.subEffect.STUN },
+        [tpz.augments.ADDEFF_POISON]             = { element = tpz.magic.ele.WATER,     effect = tpz.effect.POISON,             subEffect = tpz.subEffect.POISON },
+        [tpz.augments.ADDEFF_FLASH]              = { element = tpz.magic.ele.LIGHT,     effect = tpz.effect.FLASH,              subEffect = tpz.subEffect.FLASH },
+        [tpz.augments.ADDEFF_BLINDNESS]          = { element = tpz.magic.ele.DARK,      effect = tpz.effect.BLINDNESS,          subEffect = tpz.subEffect.BLIND },
+        [tpz.augments.ADDEFF_WEAKENS_DEF]        = { element = tpz.magic.ele.WIND,      effect = tpz.effect.DEFENSE_DOWN,       subEffect = tpz.subEffect.DEFENSE_DOWN },
+        [tpz.augments.ADDEFF_SLEEP]              = { element = tpz.magic.ele.DARK,      effect = tpz.effect.SLEEP,              subEffect = tpz.subEffect.SLEEP },
+        [tpz.augments.ADDEFF_WEAKENS_ATK]        = { element = tpz.magic.ele.WATER,     effect = tpz.effect.ATTACK_DOWN,        subEffect = tpz.subEffect.ATTACK_DOWN },
+        [tpz.augments.ADDEFF_IMPAIRS_EVASION]    = { element = tpz.magic.ele.ICE,       effect = tpz.effect.EVASION_DOWN,       subEffect = tpz.subEffect.EVASION_DOWN },
+        [tpz.augments.ADDEFF_LOWERS_ACC]         = { element = tpz.magic.ele.EARTH,     effect = tpz.effect.ACCURACY_DOWN,      subEffect = tpz.subEffect.DEFENSE_DOWN },
+        [tpz.augments.ADDEFF_LOWERS_MAGEVA]      = { element = tpz.magic.ele.DARK,      effect = tpz.effect.MAGIC_EVASION_DOWN, subEffect = tpz.subEffect.DEFENSE_DOWN },
+        [tpz.augments.ADDEFF_LOWERS_MAGATK]      = { element = tpz.magic.ele.FIRE,      effect = tpz.effect.MAGIC_ATK_DOWN,     subEffect = tpz.subEffect.MAGIC_ATK_DOWN },
+        [tpz.augments.ADDEFF_LOWERS_MAGDEF]      = { element = tpz.magic.ele.LIGHTNING, effect = tpz.effect.MAGIC_DEF_DOWN,     subEffect = tpz.subEffect.DEFENSE_DOWN },
+        [tpz.augments.ADDEFF_LOWERS_MAGACC]      = { element = tpz.magic.ele.LIGHTNING, effect = tpz.effect.MAGIC_ACC_DOWN,     subEffect = tpz.subEffect.DEFENSE_DOWN },
+    }
+
+    for slot = tpz.slot.MAIN, tpz.slot.SUB do
+        local item = player:getEquippedItem(slot)
+
+        if item then
+            for augmentId, effectData in pairs(augmentData) do
+                local augmentValue = tpz.itemUtils.HasAugment(item, augmentId)
+
+                if augmentValue then
+                    if (augmentId < tpz.augments.ADDEFF_DISEASE) then  -- Elemental enspell additional effect
+                        local chance = CalculateAdditionalEffectChance(player, 100)
+                        local dmg = 5 + augmentValue
+                        local includeMAB = false
+                        local bonusMAB = 0
+                        local element = effectData.element
+
+                        local dmg = doAdditionalEffectDamage(player, target, chance, dmg, nil, includeMAB, bonusMAB, element, skill, bonus)
+
+                        if dmg == 0 then
+                            return 0, 0, 0
+                        end
+
+                        local message = tpz.msg.basic.ADD_EFFECT_DMG
+                        if dmg < 0 then
+                            message = tpz.msg.basic.ADD_EFFECT_HEAL
+                            dmg = target:addHP(-dmg)
+                        end
+
+                        return effectData.subEffect, message, dmg
+                    else -- Status effect additional effect
+                        local chance = CalculateAdditionalEffectChance(player, 100)
+                        local power = 1 + augmentValue
+                        local tick = 0
+                        local duration = 180
+                        local subpower = 0
+                        local tier = 1
+
+                        return TryApplyAdditionalEffect(player, target, effectData.effect, effectData.element, power, tick, duration, subpower, tier, chance, skill, bonus)
+                    end
+                end
+            end
+        end
+    end
+
+    return 0, 0, 0
+end
+
 function TryApplyEffect(caster, target, spell, effect, power, tick, duration, resist, resistthreshold, subpower, tier)
     local immunityMap =
     {
