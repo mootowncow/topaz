@@ -4851,7 +4851,7 @@ namespace battleutils
         }
 
         // Player / Avatar fSTR table
-        if (dif >= 12)        fstr = (dif + 4) / 2;
+        if      (dif >= 12)   fstr = (dif + 4) / 2;
         else if (dif >= 6)    fstr = (dif + 6) / 2;
         else if (dif >= 1)    fstr = (dif + 7) / 2;
         else if (dif >= -2)   fstr = (dif + 8) / 2;
