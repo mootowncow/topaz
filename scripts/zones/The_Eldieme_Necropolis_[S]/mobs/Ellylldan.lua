@@ -7,6 +7,7 @@
 require("scripts/globals/annm")
 require("scripts/globals/status")
 require("scripts/globals/pathfind")
+mixins = {require("scripts/mixins/families/djinn")}
 -----------------------------------
 function onMobSpawn(mob)
     mob:setMod(tpz.mod.MOVE, 0)

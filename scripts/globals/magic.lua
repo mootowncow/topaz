@@ -1305,6 +1305,10 @@ function finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
     -- Handle Scarlet Delirium
     dmg = utils.ScarletDeliriumBonus(caster, dmg)
 
+    -- Handle global damage done mod
+    local globalDmgDone = 1 + (caster:getMod(tpz.mod.GLOBAL_DMG_DONE) / 100)
+    dmg = math.floor(dmg * globalDmgDone)
+
     -- Handle Positional MDT
     if caster:isInfront(target, 90) and target:hasStatusEffect(tpz.effect.MAGIC_SHIELD) then -- Front
         if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() == 3 then

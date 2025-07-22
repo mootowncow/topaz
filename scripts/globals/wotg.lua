@@ -22,8 +22,6 @@ require("scripts/globals/titles")
 -- give one of the trash mobs hastega (make it II effect) regenga IV, etc
 -- has to be able to AOE it onto other mobs so needs to be in family somehow...or just hard code AOEing it on spellcast
 -- Delete tpz.wotg.WaveonMobDeath?
--- Zone wide damage in certain areas like undispellable poison etc. Environmental effects
--- Test elite champ etc mobs with auras
 -- Add a way to re-add +augment mod incase of DC
 -- Test values given by augments with prints
 -- Test SAVETP mod
@@ -46,7 +44,10 @@ require("scripts/globals/titles")
 -- bosses and metaBosses tables needs eldieme and garlaige
 -- Code or remove randomEventDefense from both tables
 -- environmental for eldieme and garlaige
--- test all regions and environmentals in eldieme
+-- Crawlers Nest [S] chest/coffer still work?
+-- Test DMG of djinn TP moves during day/night random times
+-- randomEventMimic needs some logic (or wait / while isDead()?) to make sure it doesn't get "stuck" if mimic is in death state and another one is triggered
+-- /heal show zone data (meta progress %) and augments power
 
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
@@ -166,10 +167,21 @@ local mobFamily = {
         Saplings = { 17478199, 17478200, 17478201, 17478202, 17478203, 17478204, 17478205, 17478206, 17478207, 17478208 },
         Crawlers = { 17478209, 17478210, 17478211, 17478212, 17478213, 17478214, 17478215, 17478216, 17478217, 17478218 },
         Flies = { 17478219, 17478220, 17478221, 17478222, 17478223, 17478224, 17478225, 17478226, 17478227, 17478228 },
-        Peistes = { 17478229, 17478230, 17478231, 17478232, 17478233, 17478234, 17478235, 17478236, 17478237, 17478238 }
+        Peistes = { 17478229, 17478230, 17478231, 17478232, 17478233, 17478234, 17478235, 17478236, 17478237, 17478238 },
     },
+
     [tpz.zone.GARLAIGE_CITADEL_S] = {
+        Lynx   = {17449570, 17449571, 17449572, 17449573, 17449574, 17449575, 17449576, 17449577, 17449578, 17449579},
+        Djinn  = {17449580, 17449581, 17449582, 17449583, 17449584, 17449585, 17449586, 17449587, 17449588, 17449589},
+        Ziz    = {17449590, 17449591, 17449592, 17449593, 17449594, 17449595, 17449596, 17449597, 17449598, 17449599},
+        Bugard = {17449600, 17449601, 17449602, 17449603, 17449604, 17449605, 17449606, 17449607, 17449608, 17449609},
+        Ram    = {17449610, 17449611, 17449612, 17449613, 17449614, 17449615, 17449616, 17449617, 17449618, 17449619},
+        Opoopo = {17449620, 17449621, 17449622, 17449623, 17449624, 17449625, 17449626, 17449627, 17449628, 17449629},
+        Uragnite = {17449630, 17449631, 17449632, 17449633, 17449634, 17449635, 17449636, 17449637, 17449638, 17449639},
+        Gnole  = {17449640, 17449641, 17449642, 17449643, 17449644, 17449645, 17449646, 17449647, 17449648, 17449649},
+        Smilodon = {17449650, 17449651, 17449652, 17449653, 17449654, 17449655, 17449656, 17449657, 17449658, 17449659},
     },
+
     [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
         Skeletons = { 17494789, 17494790, 17494791, 17494792, 17494793, 17494794, 17494795, 17494796, 17494797, 17494798 },
         Ghosts    = { 17494799, 17494800, 17494801, 17494802, 17494803, 17494804, 17494805, 17494806, 17494807, 17494808 },
@@ -185,6 +197,12 @@ local bosses = {
     [tpz.zone.CRAWLERS_NEST_S] = { 17478239, 17478240, 17478241, 17478242, 17478243, 17478244 },
     [tpz.zone.GARLAIGE_CITADEL_S] = { 17494849, 17494850, 17494854, 17494855,  17494856, 17494857, 17494858 },
     [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = { },
+}
+
+local chests = {
+    [tpz.zone.CRAWLERS_NEST_S] = { Mimic = 17478246, TreasureChest = 17478247 },
+    --[tpz.zone.GARLAIGE_CITADEL_S] = { Mimic = , TreasureChest =  },
+    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = { Mimic = 17494859, TreasureChest = 17494860 },
 }
 
 local metaBosses = {
@@ -935,7 +953,9 @@ local function ProgressMeta(player, zone)
     if (metaProgress < 100) then
         zone:setLocalVar("metaProgress", math.min(metaProgress + 5, 100))
         utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, none)
-        generateActiveRegions(zone)
+        zone:queue(15000, function(zone)
+            generateActiveRegions(zone)
+        end)
     end
  end
 
@@ -1189,9 +1209,19 @@ end
 
 local function randomEventMimic(player)
     local zone = player:getZone()
-    local mimic, treasureChest = 17478246, 17478247
-    local chestId = math.random(mimic, treasureChest) -- Either spawn a mimic or treasure chest
+    local zoneId = zone:getID()
+    local chestData = chests[zoneId]
+
+    if not chestData then
+        printf("No chest data for zoneId: %d", zoneId)
+        return
+    end
+
+    local mimic = chestData.Mimic
+    local treasureChest = chestData.TreasureChest
+    local chestId = (math.random(100) <= 50) and mimic or treasureChest -- Either spawn a mimic or treasure chest
     local chest = GetEntityByID(chestId)
+    printf("Chest ID: %d", chestId)
 
     local xPos, yPos, zPos, zRot = player:getXPos(), player:getYPos(), player:getZPos(), player:getRotPos()
     local posOffset = 0.5
@@ -1200,6 +1230,7 @@ local function randomEventMimic(player)
             chest:setSpawn(xPos + posOffset, yPos, zPos + posOffset)
             chest:spawn()
             if (chestId == treasureChest) then
+                printf("Is treasure chest, setPos and status")
                 chest:setPos(xPos + posOffset, yPos, zPos + posOffset, zRot)
                 chest:setStatus(tpz.status.NORMAL)
             end
@@ -1504,9 +1535,47 @@ local modByMobName =
         })
     end,
 
+    ['Anhur'] = function(mob)
+    end,
+
+    ['Barqan'] = function(mob)
+    end,
+
+    ['Ahmet'] = function(mob)
+        mob:setMod(tpz.mod.ENH_CASTING_TIME, 50)
+    end,
+
+    ['Shedyet'] = function(mob)
+        mob:addStatusEffect(tpz.effect.PERFECT_DODGE)
+    end,
+
+    ['Khnum'] = function(mob)
+        mob:setMobMod(tpz.mobMod.NO_DR, 1)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -25)
+
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 30, hpp = 100},
+            },
+        })
+    end,
+
+    ['Aegyptopithecus'] = function(mob)
+    end,
+
+    ['Ammonoidea'] = function(mob)
+    end,
+
+    ['Anubis'] = function(mob)
+    end,
+
+    ['Amunet'] = function(mob)
+    end,
+
     -- Lynx
     -- Djinn
-    -- Cockatrice
+    -- Ziz
     -- Bugard
     -- Ram
     -- Opo-opo
@@ -2306,51 +2375,211 @@ local mobFightByMobName =
         end)
     end,
 
+    ['Anhur'] = function(mob, target)
     -- Lynx
+        if (mob:getLocalVar("dmgAura") > 0) then
+            local radius = 10
+            local damage = 100
+            local tick = 3
+            TickDamageAura(mob, target, radius, damage, tpz.attackType.MAGICAL, tpz.magic.ele.THUNDER, tick)
+            mob:addStatusEffect(tpz.effect.ENTHUNDER, 150, 0, 3)
+            mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 25, 0, 3)
+            mob:setEffectUndispellable(tpz.effect.ENTHUNDER)
+            mob:setEffectUndispellable(tpz.effect.SHOCK_SPIKES)
+        end
         -- Charged whisker grants undispellable shock spikes, enthunder, and pulsing AoE thunder damage aura
-        -- Aura removed by magic bursting 1k+ earth damage
+        mob:addListener("WEAPONSKILL_STATE_EXIT", "ANHUR_MOBSKILL_FINISHED", function(mob, skillID)
+            if (skillID == tpz.mob.skills.CHARGED_WHISKER) then
+                mob:setLocalVar("dmgAura", 1)
+            end
+        end)
 
-    -- Djinn (Djinn mixin)
+        -- Aura removed by magic bursting 1k+ earth damage
+        mob:addListener("SPELL_DMG_TAKEN", "ANHUR_SPELL_DMG_TAKEN", function(mob, caster, spell, amount, msg)
+            local element = spell:getElement()
+
+            if (element == tpz.magic.ele.EARTH) and (amount >= 1000) then
+                if (msg == tpz.msg.basic.MAGIC_BURST_BLACK) or (msg == tpz.msg.MAGIC_BURST_BREATH) then
+                    local duration = 30
+                    BreakMob(mob, caster, tpz.procEffect.NONE, duration, tpz.procType.TERROR)
+                    mob:delStatusEffectSilent(tpz.effect.ENTHUNDER)
+                    mob:delStatusEffectSilent(tpz.effect.SHOCK_SPIKES)
+                    mob:setLocalVar("dmgAura", 0)
+                end
+            end
+        end)
+    end,
+
+    ['Barqan'] = function(mob, target)
+    -- Djinn
+        local buffCD = mob:getLocalVar("buffCD")
+        local stormCD = mob:getLocalVar("stormCD")
+        local battleTime = mob:getBattleTime()
+        local storms = { 99, 113, 114, 115, 116, 117, 118, 119 }
+        local stormSDT = {
+            [tpz.effect.FIRESTORM]    = { strong = tpz.mod.SDT_ICE,    weak = tpz.mod.SDT_WATER },
+            [tpz.effect.HAILSTORM]    = { strong = tpz.mod.SDT_WIND,   weak = tpz.mod.SDT_FIRE  },
+            [tpz.effect.WINDSTORM]    = { strong = tpz.mod.SDT_EARTH,  weak = tpz.mod.SDT_ICE   },
+            [tpz.effect.SANDSTORM]    = { strong = tpz.mod.SDT_THUNDER,weak = tpz.mod.SDT_WIND  },
+            [tpz.effect.THUNDERSTORM] = { strong = tpz.mod.SDT_WATER,  weak = tpz.mod.SDT_EARTH },
+            [tpz.effect.RAINSTORM]    = { strong = tpz.mod.SDT_FIRE,   weak = tpz.mod.SDT_THUNDER},
+            [tpz.effect.AURORASTORM]  = { strong = tpz.mod.NONE,       weak = tpz.mod.SDT_LIGHT },
+            [tpz.effect.VOIDSTORM]    = { strong = tpz.mod.NONE,       weak = tpz.mod.SDT_DARK  },
+        }
+
+        local allSDTMods = {
+            tpz.mod.SDT_FIRE,
+            tpz.mod.SDT_ICE,
+            tpz.mod.SDT_WIND,
+            tpz.mod.SDT_EARTH,
+            tpz.mod.SDT_THUNDER,
+            tpz.mod.SDT_WATER,
+            tpz.mod.SDT_LIGHT,
+            tpz.mod.SDT_DARK,
+        }
         -- DRK/DRK
         -- Casts storm on self then absorbs that element, SDT is changed to be weak to it's weakness and casts spells/enfeebles of that element
+        -- Cast a random storm every minute
+        if (battleTime <= stormCD) then
+            mob:setLocalVar("buffCD", battletime + 60)
+            mob:castSpell(storms[math.random(#storms)])
+        end
 
-    -- Cockatrice
+        mob:addListener("MAGIC_USE", "DJINN_MAGIC_USE", function(mob, target, spell, action)
+            local spellID = spell:getID()
+            if spellID == 99 or (spellID >= 113 and spellID < 120) then
+                -- Absorb the spell's element
+                mob:setMod(tpz.mod.FIRE_ABSORB + spell:getElement() - 1, 100)
+
+                -- Check active storm and apply SDT changes
+                for effectType, sdtMods in pairs(stormSDT) do
+                    if mob:hasStatusEffect(effectType) then
+                        for _, modID in ipairs(allSDTMods) do
+                            if modID == sdtMods.strong then
+                                mob:setMod(modID, 5) -- Strong
+                            elseif modID == sdtMods.weak then
+                                mob:setMod(modID, 100) -- Weak
+                            else
+                                mob:setMod(modID, 50) -- Rest
+                            end
+                        end
+                    end
+                end
+            end
+        end)
+
+        mob:addListener("EFFECT_LOSE", "DJINN_EFFECT_LOSE", function(mob, effect)
+            local effectType = effect:getType()
+            if effectType >= tpz.effect.FIRESTORM and effectType <= tpz.effect.VOIDSTORM then
+                -- Remove absorb
+                mob:setMod(tpz.mod.FIRE_ABSORB + effectType - tpz.effect.FIRESTORM, 0)
+
+                -- Reset all SDT mods to 50 (normal)
+                for _, modID in ipairs(allSDTMods) do
+                    mob:setMod(modID, 50)
+                end
+            end
+        end)
+    end,
+
+    ['Ahmet'] = function(mob, target)
+    -- Ziz
         -- WAR/DRK
         -- No SJ aura
+        local auraParams = {
+            radius = 20,
+            effect = tpz.effect.OBLIVISCENCE,
+            power = 1,
+            duration = 30,
+            auraNumber = 1
+        }
+        AddMobAura(mob, target, auraParams)
+        TickMobAura(mob, target, auraParams)
         -- Contagion Transfer - AoE status transfers from the mob to all players within range.
         -- Sound Vacuum 10' AoE(not conal) mute.
-        -- Enhancing magic casting time -50%
         -- Breakga, Stoneskin, Rasp, Stone IV, Stonega III
+    end,
 
+    ['Shedyet'] = function(mob, target)
     -- Bugard
         -- THF/DRK
         -- Perma perfect dodge
         -- Nightmare Bugard moves
         -- Tyrant Tusk (If this attack puts targets HP below 50%, then insta kill)
+    end,
 
-    -- Ram
+    ['Khnum'] = function(mob, target)
+    -- Ram (Use Model: 0x0000680A00000000000000000000000000000000)
         -- WAR/SAM
         -- Keeps mighty strikes up at all times(uses it, isn't just a perma buff)
-        -- Reduced move speed (40? 30?)
-        -- NO_DR mob mod
+    end,
 
+    ['Aegyptopithecus'] = function(mob, target)
     -- Opo-opo
-        -- Doesn't auto and keeps distance (15.5 yalms). Stone Throw JA auto
+        -- RNG/WAR
+        -- Stand back, doesn't auto-attack, only uses ranged attacks (Stone Throw animation)
         -- Claw Storm is also AOE Bio
         -- Magic Fruit 3.5s cast time
         -- Uses Vacant Gaze, dispels up to 3 effects
         -- Vicious Claw "Throat Stab" + Enmity reset
+    end,
 
+    ['Ammonoidea'] = function(mob, target)
     -- Urganite
         -- Casts Holy II, Banishga III, Banish IV, Flash(AOE)
+    end,
+
+    ['Anubis'] = function(mob, target)
     -- Gnole
         -- Gnole mixin
-        -- In "2 legs" mode, takes normal magical damage and has 100% counter and guard rate
-        -- In "4 legs" mode, takes -95% magic damage, casts spells, and cannot counter or guard
+        -- animsub 1= standing, animsub 0 = all fours
+        local animation = {
+            FOURLEGS    = 0,
+            STANDING    = 1,
+        }
 
+        -- In "4 legs" mode, takes -95% magic damage, casts spells, and cannot counter or guard
+        -- In "2 legs" mode, takes normal magical damage and has capped counter and guard rate
+        if (mob:AnimationSub() == animation.FOURLEGS) then
+            mob:setMod(tpz.mod.UDMGMAGIC, -95)
+            mob:setMod(tpz.mod.COUNTER, 0)
+            mob:setMod(tpz.mod.GUARD_PERCENT, 0)
+            mob:SetMagicCastingEnabled(true)
+            mob:addStatusEffect(tpz.effect.AVOIDANCE_DOWN)
+        elseif (mob:AnimationSub() == animation.STANDING) then
+            mob:setMod(tpz.mod.UDMGMAGIC, 0)
+            mob:setMod(tpz.mod.COUNTER, 100)
+            mob:setMod(tpz.mod.GUARD_PERCENT, 1000)
+            mob:SetMagicCastingEnabled(false)
+            mob:delStatusEffectSilent(tpz.effect.AVOIDANCE_DOWN)
+        end
+    end,
+
+    ['Amunet'] = function(mob, target)
     -- Smilodon (Use model 0x0000C80800000000000000000000000000000000)
         -- Cures self with Cure V Curaga IV, buffs self with Haste II Temper etc
         -- Fixates on random target every 60-90s
+	    local fixateTimer = mob:getLocalVar("fixateTimer")
+
+        -- Spawns a bee next to it, after a certain amount of time will consume the bee then level up
+        -- If the bee dies in this fashion, levels up and gains access to Soothing Aroma (AOE Charm)
+        if (fixateTimer == 0) then
+            mob:setLocalVar("fixateTimer", os.time() + 5)
+        elseif (os.time() >= fixateTimer) then
+            local enmityList = mob:getEnmityList()
+            for _, enmity in ipairs(enmityList) do
+                if enmityList and #enmityList > 0 then
+                    local randomTarget = enmityList[math.random(1,#enmityList)];
+                    mob:setLocalVar("fixateTarget", randomTarget.entity:getShortID())
+                end
+            end
+            local fixateTarget = mob:getLocalVar("fixateTarget")
+            if (fixateTarget > 0) then
+                mob:setMobMod(tpz.mobMod.FIXATE, fixateTarget)
+            end
+            mob:setLocalVar("fixateTimer", os.time() + math.random(60, 90))
+        end
+    end,
 }
 
 local mobSpellPrecastByMobName =
@@ -2664,7 +2893,7 @@ end
 
 tpz.wotg.RandomEvent = function(player)
     local zone = player:getZone()
-    randomEventWaves(player) -- TODO: Remove after done testing
+    randomEventMimic(player) -- TODO: Remove after done testing
     --eventList[math.random(#eventList)](player) -- TODO: Does this work?
 end
 
@@ -2720,8 +2949,8 @@ tpz.wotg.distributeChestLoot = function(player, chest)
         ProgressMeta(player, zone)
         ClearMsgVars(zone)
 
-        -- Despawn chest after 30 seconds
-        chest:queue(30000, function(chest)
+        -- Despawn chest after 10 seconds
+        chest:queue(10000, function(chest)
             chest:AnimationSub(0)
             chest:setStatus(tpz.status.DISAPPEAR)
         end)
@@ -2813,6 +3042,10 @@ tpz.wotg.onRegionEnter = function(player, region)
     local regionID = region:GetRegionID()
     local regionEnterDelay = zone:getLocalVar("regionEnterDelay")
     local spawnChance = 10
+
+    if (regionID <= 14) then
+        printf("Player entered RegionId: %d", regionID)
+    end
 
     -- Event related regions
     if activeRegions then

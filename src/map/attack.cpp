@@ -761,6 +761,9 @@ void CAttack::ProcessDamage()
         m_damage = m_damage * (float)dmgBonus;
     }
 
+    /// Handle global damage mod
+    m_damage = m_damage * (100 + m_attacker->getMod(Mod::GLOBAL_DMG_DONE)) / 100;
+
     // Damage should never be below 0
     m_damage = std::max(m_damage, 0);
 

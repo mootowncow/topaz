@@ -8,7 +8,6 @@ require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobSpawn(mob)
-	mob:setDamage(math.floor(mob:getMainLvl() * 2))
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:addImmunity(tpz.immunity.PARALYZE)
@@ -30,10 +29,14 @@ function onMobEngaged(mob, target)
 end
 
 function onMobFight(mob, target)
+    local lvl = mob:getMainLvl()
+    local multi = 2
+    local bonus = 2
+    local wepDmg = math.floor((lvl * multi) + bonus)
     if mob:hasStatusEffect(tpz.effect.BOOST) then
-        mob:setDamage(240)
+        mob:setDamage(wepDmg * 2)
     else
-        mob:setDamage(120)
+        mob:setDamage(wepDmg)
     end
 end
 

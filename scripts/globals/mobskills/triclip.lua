@@ -22,7 +22,7 @@ function onMobWeaponSkill(target, mob, skill)
 
     local numhits = 1
     local accmod = 1
-    local dmgmod = 0.5
+    local dmgmod = 1.0
     local params_phys = {}
     params_phys.multiplier = dmgmod
     params_phys.tp150 = 1

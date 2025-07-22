@@ -363,7 +363,10 @@ INSERT INTO `mob_family_mods` VALUES (465,389,-10,0);	-- Yggdreant(Yumcax) -10%
 INSERT INTO `mob_family_mods` VALUES (628,389,-10,0);	-- Yggdreant -10%
 INSERT INTO `mob_family_mods` VALUES (464,389,-25,0);	-- Snapweed -25%
 
-
+-- MAB
+INSERT INTO `mob_family_mods` VALUES (122,28,20,0);     -- Ghrah +20 MAB
+INSERT INTO `mob_family_mods` VALUES (123,28,20,0);     -- Ghrah +20 MAB
+INSERT INTO `mob_family_mods` VALUES (124,28,20,0);     -- Ghrah +20 MAB
 
 -- MDB
 INSERT INTO `mob_family_mods` VALUES (171,29,40,0); 	-- Lamiae +40 MDB
@@ -491,7 +494,6 @@ INSERT INTO `mob_family_mods` VALUES (240,63,-20,0);	-- -20% Defense penalty
 INSERT INTO `mob_family_mods` VALUES (240,68,-10,0);	-- -10 Evasion penalty
 
 -- Buffalo
-INSERT INTO `mob_family_mods` VALUES (57,62,10,0);		-- +10% Attack
 INSERT INTO `mob_family_mods` VALUES (57,63,20,0);		-- +20% Defense
 
 -- Bugard
@@ -1212,20 +1214,6 @@ INSERT INTO `mob_family_mods` VALUES (139,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (511,56,-1,1);
 
 -- Weapon bonus damage
-INSERT INTO `mob_family_mods` VALUES (57,59,15,1);  -- Buffalo
-INSERT INTO `mob_family_mods` VALUES (58,59,10,1);  -- Bugard
-INSERT INTO `mob_family_mods` VALUES (80,59,10,1);  -- Dhalmel
-INSERT INTO `mob_family_mods` VALUES (266,59,15,1); -- Wyvern
-INSERT INTO `mob_family_mods` VALUES (87,59,20,1);  -- Dragon
-INSERT INTO `mob_family_mods` VALUES (136,59,15,1); -- Goobbue
-INSERT INTO `mob_family_mods` VALUES (179,59,20,1); -- Manticore +20 Weapon dmg
-INSERT INTO `mob_family_mods` VALUES (217,59,15,1); -- Scorpion
-INSERT INTO `mob_family_mods` VALUES (208,59,15,1); -- Ram
-INSERT INTO `mob_family_mods` VALUES (210,59,10,1); -- Raptor
-INSERT INTO `mob_family_mods` VALUES (242,59,10,1); -- Tiger
-INSERT INTO `mob_family_mods` VALUES (257,59,15,1); -- Wivre +15 Weapon dmg
-INSERT INTO `mob_family_mods` VALUES (180,59,20,1); -- Marid +20 Weapon dmg
-INSERT INTO `mob_family_mods` VALUES (371,59,20,1); -- Marid (NM? Family #2)
 INSERT INTO `mob_family_mods` VALUES (203,59,13,1); -- Qutrub +13 Weapon dmg
 INSERT INTO `mob_family_mods` VALUES (204,59,13,1); -- Qutrub +13 Weapon dmg
 INSERT INTO `mob_family_mods` VALUES (205,59,13,1); -- Qutrub +13 Weapon dmg

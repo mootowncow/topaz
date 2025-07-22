@@ -4,6 +4,7 @@
 -----------------------------------
 require("scripts/globals/hunts")
 require("scripts/globals/status")
+mixins = {require("scripts/mixins/families/djinn")}
 -----------------------------------
 
 function onMobInitialize(mob)

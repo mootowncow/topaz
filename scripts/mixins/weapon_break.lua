@@ -5,7 +5,8 @@ g_mixins = g_mixins or {}
 -- AnimationSub
 -- 0 = main weapon out
 -- 1 = main weapon broken
--- Lamia, Trolls, Mammols
+-- Lamia, Merrow, Trolls, Mammols
+-- Breaking weapon also reduces all damage dealt by 25%
 
 g_mixins.weapon_break = function(mob)
 
@@ -30,6 +31,11 @@ g_mixins.weapon_break = function(mob)
                 mob:AnimationSub(1)
             end
         end
+
+        -- Needed because mob_family_mods doesn't properly support exp bonus AND MAB bonus mods on a single family..
+        if (mob:getFamily() == 182) then -- Merrow
+            mob:addMod(tpz.mod.MATT, 10)
+        end
     end)
 
     -- chance to break weapon when taking a critical hit
@@ -52,6 +58,8 @@ g_mixins.weapon_break = function(mob)
             end
         end
 
+        -- All damage reduced by 25%
+        mob:setMod(tpz.mod.GLOBAL_DMG_DONE, -25)
     end)
     
 	-- chance to break when hit by an offensive JA(like box step)
@@ -76,6 +84,9 @@ g_mixins.weapon_break = function(mob)
 				-- break weapon
 				if animationSub == 0 or animationSub == 4 then
 					mob:AnimationSub(1)
+
+                    -- All damage reduced by 25%
+                    mob:setMod(tpz.mod.GLOBAL_DMG_DONE, -25)
 				end
 			end
 		end

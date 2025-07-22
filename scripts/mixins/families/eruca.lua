@@ -75,16 +75,23 @@ g_mixins.families.eruca = function(mob)
         elseif subAnimation == 1 and currentHour < sleepHour and currentHour >= mob:getLocalVar("[eruca]wakeHour") then
             wakeUp(mob)
         end
-        if VanadielDayOfTheWeek() == tpz.day.FIRESDAY and mob:getMod(tpz.mod.REGAIN) == 0 then
-            mob:setMod(tpz.mod.REGAIN, 30)
-        elseif VanadielDayOfTheWeek() ~= tpz.day.FIRESDAY and mob:getMod(tpz.mod.REGAIN) ~= 0 then
-            mob:setMod(tpz.mod.REGAIN, 0)
-        end
     end)
 
     mob:addListener("ENGAGE", "ERUCA_ENGAGE", function(mob, target)
         if mob:AnimationSub() == 1 then
             wakeUp(mob)
+        end
+    end)
+
+    mob:addListener("COMBAT_TICK", "ERUCA_COMBAT_TICK", function(mob)
+        if VanadielDayOfTheWeek() == tpz.day.FIRESDAY then
+            mob:setMod(tpz.mod.REGEN, 25)
+            mob:setMod(tpz.mod.REGAIN, 150)
+            mob:setMod(tpz.mod.HASTE_GEAR, 1000)
+        elseif VanadielDayOfTheWeek() ~= tpz.day.FIRESDAY then
+            mob:setMod(tpz.mod.REGEN, 0)
+            mob:setMod(tpz.mod.REGAIN, 0)
+            mob:setMod(tpz.mod.HASTE_GEAR, 0)
         end
     end)
 

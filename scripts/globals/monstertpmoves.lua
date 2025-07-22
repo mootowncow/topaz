@@ -650,16 +650,6 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
         return 0
     end
 
-    -- MNK and PUP mobs have a -50% end multiplier for wep damage and need to do 2x for physical moves to do proper damage
-    local hasH2H = mob:getWeaponSkillType(tpz.slot.MAIN) == tpz.skill.HAND_TO_HAND
-    local isMNK = mob:getMainJob() == tpz.job.MNK and hasH2H
-    local isPUP = mob:getMainJob() == tpz.job.PUP and hasH2H
-    if isMNK or isPUP or hasH2H then
-        if (attackType == tpz.attackType.PHYSICAL) or (attackType == tpz.attackType.RANGED) then
-            dmg = dmg * 2
-        end
-    end
-
     -- set message to damage
     -- this is for AoE because its only set once
     skill:setMsg(tpz.msg.basic.DAMAGE)
@@ -791,6 +781,10 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     local dmgTPmod = 1 + (target:getMod(tpz.mod.DMGTP) / 100)
 
     dmg = math.floor(dmg * dmgTPmod)
+
+    -- Handle global damage done mod
+    local globalDmgDone = 1 + (mob:getMod(tpz.mod.GLOBAL_DMG_DONE) / 100)
+    dmg = math.floor(dmg * globalDmgDone)
 
     -- Handle TPEVA mod (Does not work on auto-attcks or RA)
     if (skill:getFlag() ~= tpz.mobSkillFlag.SPECIAL and skill:getFlag() ~= tpz.mobSkillFlag.REPLACE_ATTACK) then

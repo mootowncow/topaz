@@ -233,7 +233,7 @@ enum class Mod
 
     SMITE                     = 898, // Raises attack when using H2H or 2H weapons (256 scale)
     TACTICAL_GUARD            = 899, // Tp increase when guarding
-    GUARD_PERCENT             = 976, // Guard Percent
+    GUARD_PERCENT             = 976, // Guard Percent. Increases guard rate and maximum guard rate. (in pecents, i.e 50 mod = 1.5x guard and MAX guard rate.
 
     HASTE_MAGIC               = 167, // Haste (and Slow) from magic - 10000 base, 375 = 3.75%
     HASTE_ABILITY             = 383, // Haste (and Slow) from abilities - 10000 base, 375 = 3.75%
@@ -1138,6 +1138,7 @@ enum class Mod
     CRITHITRATE_SLOT     = 1419,//Crit rate only applied by attacks in this weapon slot. i.e. Senjuionrikio
     PAST_DUNGEON_MASTER  = 1428,//Increased number augments on items from WotG dungeons
     ENH_STATUS_BOLTS     = 1436,//Enhances the additional effect of status bolts. i.e. acid bolts defense down (in percents)
+    GLOBAL_DMG_DONE      = 1438,//Global reduction to damage done
 
 
 
@@ -1153,7 +1154,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1438 NEXT
+    // 1439 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

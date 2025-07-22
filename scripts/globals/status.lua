@@ -2193,8 +2193,9 @@ tpz.mod =
     AUTO_STANDBACK          = 1435, -- Tells your Automaton to stand back
     ENH_STATUS_BOLTS        = 1436, -- Enhances the additional effect of status bolts. i.e. acid bolts defense down (in percents)
     ENH_DIVINE_CARESS       = 1437, -- Increases the amount of spells blocked by Divine Caress before it fades
+    GLOBAL_DMG_DONE         = 1438, -- Global reduction to damage done
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1438 NEXT
+    -- 1439 NEXT
 }
 
 tpz.latent =

@@ -47,9 +47,13 @@ g_mixins.families.qutrub = function(mob)
             if animationSub == 0 and not IsMobBusy(mob) then
                 mob:AnimationSub(1)
                 mob:setLocalVar("swapTime", os.time() + 60)
+                printf("Broke first weapon!")
+                -- All damage reduced by 25%
+                mob:setMod(tpz.mod.GLOBAL_DMG_DONE, -25)
 
             -- break second weapon
             elseif animationSub == 2 and not IsMobBusy(mob) then
+                printf("Broke second weapon!")
                 mob:AnimationSub(3)
                 mob:setLocalVar("swapTime", 0)
             end
@@ -80,9 +84,13 @@ g_mixins.families.qutrub = function(mob)
 				if animationSub == 0 and not IsMobBusy(mob) then
 					mob:AnimationSub(1)
 					mob:setLocalVar("swapTime", os.time() + 60)
+                    printf("Broke first weapon! (JA)")
+                    -- All damage reduced by 25%
+                    mob:setMod(tpz.mod.GLOBAL_DMG_DONE, -25)
 
 				-- break second weapon
 				elseif animationSub == 2 and not IsMobBusy(mob) then
+                    printf("Broke second weapon (JA)!")
 					mob:AnimationSub(3)
 					mob:setLocalVar("swapTime", 0)
 				end
