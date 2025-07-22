@@ -56,6 +56,9 @@ g_mixins.families.qutrub = function(mob)
                 printf("Broke second weapon!")
                 mob:AnimationSub(3)
                 mob:setLocalVar("swapTime", 0)
+
+                -- All damage reduced by 25%
+                mob:setMod(tpz.mod.GLOBAL_DMG_DONE, -25)
             end
         end
 
@@ -93,6 +96,9 @@ g_mixins.families.qutrub = function(mob)
                     printf("Broke second weapon (JA)!")
 					mob:AnimationSub(3)
 					mob:setLocalVar("swapTime", 0)
+
+                    -- All damage reduced by 25%
+                    mob:setMod(tpz.mod.GLOBAL_DMG_DONE, -25)
 				end
 			end
         end

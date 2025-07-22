@@ -611,6 +611,7 @@ public:
 
     // Damage Calculation
     int32 getStat(lua_State*);                  // STR,DEX,VIT,AGI,INT,MND,CHR,ATT,DEF
+    int32 getFSTR(lua_State*);                  // Get FSTR vs a target
     int32 getACC(lua_State*);                   // Get total ACC
     int32 getHitRate(lua_State*);               // Get hit rate vs a target
     int32 getEVA(lua_State*);                   // Get total EVA

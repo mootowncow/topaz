@@ -4792,104 +4792,140 @@ namespace battleutils
     *   Formula for Strength                                                *
     ************************************************************************/
 
-    int32 GetFSTR(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 SlotID)
+    int32 GetFSTR(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 SlotID, bool isWeaponSkill, bool isBluSpell)
     {
-        int32 rank = 0;
-        int32 fstr = 0;
-        float dif = (float)(PAttacker->STR() - PDefender->VIT());
+        int32 STR = PAttacker->STR();
+        int32 VIT = PDefender->VIT();
 
-        // does mob FSTR2 for ranged attack apply here?
-        if ((PAttacker->objtype == TYPE_MOB && PAttacker->allegiance != ALLEGIANCE_PLAYER) || PAttacker->objtype == TYPE_PET)
+        if (isWeaponSkill && PAttacker->objtype == TYPE_TRUST)
         {
-            fstr = (PAttacker->STR() - PDefender->VIT() + 4) / 4;
+            STR += PAttacker->getMod(Mod::STR_DURING_WS);
+        }
 
-            // Level -1 mobs are coded as level 1, but they have an fSTR of 1 always
-            if (PAttacker->objtype == TYPE_MOB && PAttacker->GetMLevel() == 1)
+        int32 dif = STR - VIT;
+        int32 fstr = 0;
+
+        // Mob / Pet / Avatar type checks
+        ENTITYTYPE attackerType = PAttacker->objtype;
+        bool isAvatar = false;
+
+        if (attackerType == TYPE_PET)
+        {
+            if (CPetEntity* petEntity = dynamic_cast<CPetEntity*>(PAttacker))
             {
+                isAvatar = (petEntity->getPetType() == PETTYPE_AVATAR);
+            }
+        }
+
+        bool isMobOrNonAvatarPet = ((attackerType == TYPE_MOB && PAttacker->allegiance != ALLEGIANCE_PLAYER) ||
+                                    (attackerType == TYPE_PET && !isAvatar));
+
+        // Mob/Non-Avatar Pet FSTR
+        if (isMobOrNonAvatarPet)
+        {
+            if (attackerType == TYPE_MOB && PAttacker->GetMLevel() == 1)
                 return 1;
+
+            // ΔSTR = STR - VIT
+            if      (dif >= 36)       fstr = (dif - 4) / 4;
+            else if (dif >= 26)       fstr = (dif - 3) / 4;
+            else if (dif >= 17)       fstr = (dif - 2) / 4;
+            else if (dif >= 4)        fstr = (dif - 1) / 4;
+            else if (dif >= -8)       fstr = dif / 4;
+            else if (dif >= -13)      fstr = (dif + 1) / 4;
+            else if (dif >= -19)      fstr = (dif + 3) / 4;
+            else if (dif >= -32)      fstr = (dif + 4) / 4;
+            else if (dif >= -42)      fstr = (dif + 5) / 4;
+            else if (dif >= -54)      fstr = (dif + 6) / 4;
+            else if (dif >= -67)      fstr = (dif + 7) / 4;
+            else if (dif >= -76)      fstr = (dif + 8) / 4;
+            else                      fstr = (dif + 9) / 4;
+
+            int32 level = PAttacker->GetMLevel();
+            int32 upperCap = 5 + (level / 5);
+            int32 lowerCap = -1 - (level / 5);
+
+            int32 mobFSTR = std::clamp(fstr, lowerCap, upperCap);
+            //ShowDebug("Mob fSTR: diff=%d, raw fSTR=%d, clamped=[%d, %d] => fSTR=%d\n", dif, fstr, lowerCap, upperCap, mobFSTR);
+            return mobFSTR;
+        }
+
+        // Player / Avatar fSTR table
+        if      (dif >= 12)   fstr = (dif + 4) / 2;
+        else if (dif >= 6)    fstr = (dif + 6) / 2;
+        else if (dif >= 1)    fstr = (dif + 7) / 2;
+        else if (dif >= -2)   fstr = (dif + 8) / 2;
+        else if (dif >= -7)   fstr = (dif + 9) / 2;
+        else if (dif >= -15)  fstr = (dif + 10) / 2;
+        else if (dif >= -21)  fstr = (dif + 12) / 2;
+        else                  fstr = (dif + 13) / 2;
+
+        int32 level = PAttacker->GetMLevel();
+        bool isRanged = (SlotID == SLOT_RANGED || SlotID == SLOT_AMMO);
+
+        // Blue Magic cap scaling
+        if (isBluSpell)
+        {
+            int32 bluCap = isRanged ? 44 : 22;
+
+            if (level >= 75)
+            {
+                bluCap += std::min((level - 75) / 5, 4); // Up to +4 more
             }
 
-            return std::clamp(fstr, -20, 24);
+            // Blue Magic fSTR tables
+            if (isRanged)
+            {
+                if      (dif >=  25)  fstr = (dif + 4) / 2;
+                else if (dif >=   3)  fstr = (dif + 6) / 2;
+                else if (dif >= -20)  fstr = (dif + 8) / 2;
+                else                  fstr = (dif + 10) / 2;
+            }
+            else // melee
+            {
+                if      (dif >=   3)  fstr = (dif + 4) / 4;
+                else                  fstr = (dif + 8) / 4;
+            }
+
+            int32 bluFSTR = std::clamp(fstr, -bluCap, bluCap);
+            //ShowDebug("BLU %s FSTR: %i\n", isRanged ? "ranged" : "melee", bluFSTR);
+            return bluFSTR;
         }
 
-        if (dif >= 12) {
-            fstr = static_cast<int32>((dif + 4) / 2);
-        }
-        else if (dif >= 6) {
-            fstr = static_cast<int32>((dif + 6) / 2);
-        }
-        else if (dif >= 1) {
-            fstr = static_cast<int32>((dif + 7) / 2);
-        }
-        else if (dif >= -2) {
-            fstr = static_cast<int32>((dif + 8) / 2);
-        }
-        else if (dif >= -7) {
-            fstr = static_cast<int32>((dif + 9) / 2);
-        }
-        else if (dif >= -15) {
-            fstr = static_cast<int32>((dif + 10) / 2);
-        }
-        else if (dif >= -21) {
-            fstr = static_cast<int32>((dif + 12) / 2);
-        }
-        else {
-            fstr = static_cast<int32>((dif + 13) / 2);
-        }
+        // Melee or Ranged Weapon fSTR scaling
 
-        if (SlotID == SLOT_RANGED || SlotID == SLOT_AMMO)
+        // Avatars have no upper cap
+        if (isAvatar)
         {
-            rank = PAttacker->GetRangedWeaponRank();
-            // Different caps than melee weapons
-            if (fstr <= (-rank * 2))
-                return (-rank * 2);
+            int32 avatarFSTR = std::clamp(fstr, -20, 9999);
+            //ShowDebug("Avatar fSTR: %i\n", avatarFSTR);
+            return avatarFSTR;
+        }
 
-            if ((fstr > (-rank * 2)) && (fstr <= (2 * (rank + 8))))
-                return fstr;
+        if (isRanged)
+        {
+            int32 rank = PAttacker->GetRangedWeaponRank();
+            int32 rangedMin = -rank * 2;
+            int32 rangedMax = rank * 2;
 
-            else
-                return 2 * (rank + 8);
+            //ShowDebug("Ranged FSTR check: fSTR = %d, Rank = %d, Cap = [%d, %d]\n", fstr, rank, rangedMin, rangedMax);
+            return std::clamp(fstr, rangedMin, rangedMax);
         }
         else
         {
             fstr /= 2;
+
+            int32 rank = 0;
             if (SlotID == SLOT_MAIN)
-            {
                 rank = PAttacker->GetMainWeaponRank();
-            }
             else if (SlotID == SLOT_SUB)
-            {
                 rank = PAttacker->GetSubWeaponRank();
-            }
-            // Everything else
-            if (fstr <= (-rank))
-                return (-rank);
 
-            // https://www.bluegartr.com/threads/114636-Monster-Avatar-Pet-damage
-            // fSTR has no upper cap for Avatars, this is likely true for monsters and all pets.
-            // Since I can only confirm Avatars and this has a much larger impact on balance I will
-            // Only change this logic for Avatars pending further testing.
+            int32 meleeMin = -rank;
+            int32 meleeMax = rank + 8;
 
-            ENTITYTYPE attackerType = PAttacker->objtype;
-            bool isAvatar = false;
-
-            if (attackerType == TYPE_PET)
-            {
-                if (CPetEntity* petEntity = dynamic_cast<CPetEntity*>(PAttacker))
-                {
-                    isAvatar = petEntity->getPetType() == PETTYPE_AVATAR;
-                }
-            }
-
-            if (isAvatar)
-            {
-                return fstr;
-            }
-
-            if ((fstr > (-rank)) && (fstr <= rank + 8))
-                return fstr;
-            else
-                return rank + 8;
+            //ShowDebug("Melee FSTR check: fSTR = %d, Rank = %d, Cap = [%d, %d]\n", fstr, rank, meleeMin, meleeMax);
+            return std::clamp(fstr, meleeMin, meleeMax);
         }
     }
 

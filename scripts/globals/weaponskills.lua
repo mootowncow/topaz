@@ -450,13 +450,10 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
         ['weaponType'] = attacker:getWeaponSkillType(tpz.slot.MAIN),
         ['damageType'] = attacker:getWeaponDamageType(tpz.slot.MAIN)
     }
-    local STR = attacker:getStat(tpz.mod.STR)
-    if attacker:isTrust() then
-        STR = STR + attacker:getMod(tpz.mod.STR_DURING_WS)
-    end
+
     local calcParams = {}
     calcParams.weaponDamage = getMeleeDmg(attacker, attack.weaponType, wsParams.kick)
-    calcParams.fSTR = fSTR(STR, target:getStat(tpz.mod.VIT), attacker:getWeaponDmgRank())
+    calcParams.fSTR = attacker:getFSTR(target, tpz.slot.MAIN, true, false)
     calcParams.cratio = cratio
     calcParams.ccritratio = ccritratio
     calcParams.cratioOffhand = attacker:getDamageRatio(target, false, bonusAttPercent, flatAttackBonus, tpz.slot.SUB, ignoredDef)
@@ -623,14 +620,11 @@ function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, prima
         ['weaponType'] = attacker:getWeaponSkillType(tpz.slot.RANGED),
         ['damageType'] = attacker:getWeaponDamageType(tpz.slot.RANGED)
     }
-    local STR = attacker:getStat(tpz.mod.STR)
-    if attacker:isTrust() then
-        STR = STR + attacker:getMod(tpz.mod.STR_DURING_WS)
-    end
+
     local calcParams =
     {
         weaponDamage = {attacker:getRangedDmg()},
-        fSTR = fSTR2(STR, target:getStat(tpz.mod.VIT), attacker:getRangedDmgRank()),
+        fSTR = attacker:getFSTR(target, tpz.slot.RANGED, true, false),
         cratio = cratio,
         ccritratio = ccritratio,
         accStat = attacker:getRACC(),
@@ -649,6 +643,7 @@ function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, prima
 	    bonusAcc = (gorgetBeltAcc or 0) + attacker:getMod(tpz.mod.WSACC),
         bonusWSmods = wsParams.bonusWSmods or 0
     }
+
     if (wsID == 196) or (wsID == 212) then -- Slugwinder
         calcParams.hitRate = getRangedHitRate(attacker, target, true, calcParams.bonusAcc)
     else

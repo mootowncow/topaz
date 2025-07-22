@@ -187,7 +187,7 @@ namespace battleutils
     bool                IsIntimidated(CBattleEntity* PAttacker, CBattleEntity* PDefender);
 
     int32               GetBluAttack(CBattleEntity* PAttacker);
-    int32               GetFSTR(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 SlotID);
+    int32               GetFSTR(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 SlotID, bool isWeaponSkill = false, bool isBluSpell = false);
     uint8               GetHitRateEx(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 accBonus, bool isBluSpell = false);
     uint8               GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender);
     uint8               GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber);

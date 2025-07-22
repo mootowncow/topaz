@@ -124,20 +124,11 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
     -- print("D val is ".. D)
 
     -- Ranged fSTR caps at 44, melee at 22
-    local fStr = 0
+    -- Get fSTR
+    local fStr = caster:getFSTR(target, tpz.slot.MAIN, false, true)
     if isRanged then
-        fStr = BluefSTR2(caster:getStat(tpz.mod.STR) - target:getStat(tpz.mod.VIT))
-        if (fStr > 44) then
-            fStr = 44
-        end
-    else
-        fStr = BluefSTR(caster:getStat(tpz.mod.STR) - target:getStat(tpz.mod.VIT))
-        if (fStr > 22) then
-            fStr = 22 -- TODO: Smite of Rage doesn't have this cap applied.
-        end
+        fStr = caster:getFSTR(target, tpz.slot.RANGED, false, true)
     end
-
-    --printf("fStr val is %i", fStr)
 
     local WSC = BlueGetWsc(caster, params)
 

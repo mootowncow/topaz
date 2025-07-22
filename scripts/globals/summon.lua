@@ -154,7 +154,12 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
         --printf("Final crit %d", critRate * 100)
 
         local weaponDmg = avatar:getWeaponDmg()
-        local fSTR = getAvatarFSTR(weaponDmg, avatar:getStat(tpz.mod.STR), target:getStat(tpz.mod.VIT))
+        local fSTR = avatar:getFSTR(target, tpz.slot.MAIN, false, false)
+
+        if (attackType == tpz.attackType.RANGED) then
+            fSTR = avatar:getFSTR(target, tpz.slot.RANGED, false, false)
+        end
+
         local WSC = getAvatarWSC(avatar, params)
 
         --Everything past this point is randomly computed per hit

@@ -69,23 +69,17 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
     --get fSTR
     local weaponDmg = mob:getWeaponDmg()
-    local STR = mob:getStat(tpz.mod.STR)
-    if mob:isTrust() then
-        STR = STR + mob:getMod(tpz.mod.STR_DURING_WS)
-    end
-
-    local fSTR = getMobFSTR(weaponDmg, STR, target:getStat(tpz.mod.VIT))
+    local fSTR = mob:getFSTR(target, tpz.slot.MAIN, true, false)
 
     if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
         isRanged = true
         weaponDmg = mob:getRangedDmg()
-        fSTR = getMobFSTR2(weaponDmg, STR, target:getStat(tpz.mod.VIT))
+        fSTR = mob:getFSTR(target, tpz.slot.RANGED, true, false)
     end
 
     local lvluser = mob:getMainLvl()
     local lvltarget = target:getMainLvl()
     
-
     --apply WSC
     local WSC = getMobWSC(mob, params_phys)
     --printf("WSC %u", WSC)
