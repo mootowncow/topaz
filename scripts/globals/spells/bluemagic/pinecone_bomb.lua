@@ -47,17 +47,6 @@ function onSpellCast(caster,target,spell)
     params.chr_wsc = 0.0
 
     local damage = BluePhysicalSpell(caster, target, spell, params)
-	local beast = (target:getSystem() == 6)
-	local vermin = (target:getSystem() == 20)
-	
-	if aquan then
-		beast = damage * 1.25
-		params.bonus = 25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-	elseif amorph then
-		vermin = damage * 0.75
-		params.bonus = -25
-	end
-
 	damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
     -- Can't overwrite any sleep

@@ -63,17 +63,6 @@ function onSpellCast(caster, target, spell)
         return 0
     end
 
-	local aquan = (target:getSystem() == 2)
-	local amorph = (target:getSystem() == 1)
-	
-	if aquan then
-		dmg = dmg * 1.25
-		params.bonus = 25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-	elseif amorph then
-		dmg = dmg * 0.75
-		params.bonus = -25
-	end
-
     dmg = BlueFinalAdjustments(caster, target, spell, dmg, params)
 
     -- add dmg variance

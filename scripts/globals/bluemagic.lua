@@ -706,9 +706,11 @@ function BlueBreathSpell(caster, target, spell, params, hppercent)
     local element = spell:getElement()
 
     -- Get ecosystem
+    local ecosystem = spell:getEcosystem()
     local correlation = 0
-    if (params.eco ~= nil) and not target:isPC() then
-        correlation = GetMonsterCorrelation(params.eco,GetTargetEcosystem(target))
+    printf("ecosystem is %d", ecosystem)
+    if ecosystem and not target:isPC() then
+        correlation = GetMonsterCorrelation(ecosystem, GetTargetEcosystem(target))
     end
 
     -- Add bonus MACC(Mainly magic burst MACC)
@@ -731,7 +733,7 @@ function BlueBreathSpell(caster, target, spell, params, hppercent)
 	if caster:hasStatusEffect(tpz.effect.CONVERGENCE) then
 		local ConvergenceBonus = (1 + caster:getMerit(tpz.merit.CONVERGENCE) / 100)
         -- Apply Convergence relic augment 2% damage per Convergence merit
-         -- TODO: Ilvl relic
+        -- TODO: Ilvl relic
         local head = caster:getEquipID(tpz.slot.HEAD)
         if (head == tpz.items.MIRAGE_KEFFIYEH_HQ or head == tpz.items.MIRAGE_KEFFIYEH_HQTWO) then
             ConvergenceBonus = ConvergenceBonus + ((caster:getMerit(tpz.merit.CONVERGENCE) / 5) * 0.02)

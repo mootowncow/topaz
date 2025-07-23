@@ -30,14 +30,6 @@ function onSpellCast(caster, target, spell)
     params.attribute = tpz.mod.INT
     params.skillType = tpz.skill.BLUE_MAGIC
     params.bonus = 0
-	local lizard = (target:getSystem() == 14)
-	local plantoid = (target:getSystem() == 17)
-	-- add correlation bonus
-	if lizard then
-		params.bonus = 25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-	elseif plantoid then
-		params.bonus = -25
-	end
 
     if target:hasStatusEffect(tpz.effect.SILENCE) then
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)

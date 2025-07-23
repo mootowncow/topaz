@@ -73,6 +73,8 @@ public:
     int32 setRequirements(lua_State*);
     int32 getAttackBonus(lua_State*);
     int32 setAttackBonus(lua_State*);
+    int32 getEcosystem(lua_State*);
+    int32 setEcosystem(lua_State*);
     int32 dealsDamage(lua_State*);
 };
 

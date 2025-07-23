@@ -46,19 +46,8 @@ function onSpellCast(caster, target, spell)
     params.int_wsc = 0.0
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
+
     damage = BlueMagicalSpell(caster, target, spell, params, INT_BASED)
-	local beast = (target:getSystem() == 6)
-	local vermin = (target:getSystem() == 20)
-
-	-- add correlation bonus
-	if beast then
-	 	damage = damage * 1.25
-		params.bonus = params.bonus + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-	elseif vermin then
-		damage = damage * 0.75
-		params.bonus = params.bonus - 25
-	end
-
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
     target:dispelAllStatusEffect(bit.bor(tpz.effectFlag.DISPELABLE))

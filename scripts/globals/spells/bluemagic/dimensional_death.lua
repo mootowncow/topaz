@@ -43,12 +43,8 @@ function onSpellCast(caster, target, spell)
     params.chr_wsc = 0.0
     params.attkbonus = 1.5
     params.AttkTPModifier = true
+
     damage = BluePhysicalSpell(caster, target, spell, params)
-	local arcana = (target:getSystem() == 3)
-	
-	if arcana then
-		damage = damage * (1.25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION)/100 + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)/100)
-	end
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
     return damage

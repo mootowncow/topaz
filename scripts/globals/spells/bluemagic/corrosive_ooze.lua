@@ -45,17 +45,8 @@ function onSpellCast(caster, target, spell)
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
     params.NO_ENMITY = true
-	local bird = (target:getSystem() == 8)
-	local aquan = (target:getSystem() == 2)
+
     damage = BlueMagicalSpell(caster, target, spell, params, INT_BASED)
-	-- add correlation bonus
-	if bird then
-	 	dmg = dmg * 1.25
-		params.bonus = 25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-	elseif aquan then
-		dmg = dmg * 0.75
-		params.bonus = -25
-	end
     damage = BlueFinalAdjustments(caster, target, spell, damage, params) -- Corrosive has static enmity https://www.bg-wiki.com/ffxi/Corrosive_Ooze
 
     params.effect = tpz.effect.ATTACK_DOWN
