@@ -457,17 +457,17 @@ end
 
 -- Kill trials
 tpz.magian.checkMagianTrial = function (player, mob, killer)
-    printf("[Magian] Checking Magian Trials for player %s", player:getName())
+    --printf("[Magian] Checking Magian Trials for player %s", player:getName())
 
     local activeTrials = tpz.magian.getActiveMagianTrials(player)
-    printf("[Magian] Found %d active trial(s)", table.getn(activeTrials))
+    --printf("[Magian] Found %d active trial(s)", table.getn(activeTrials))
 
     if player:checkKillCredit(mob) then
         for trialNum, data in pairs(activeTrials) do
-            printf("[Magian] Checking trial %d (itemId: %d in slot %d)", trialNum, data.itemId, data.slot)
+            --printf("[Magian] Checking trial %d (itemId: %d in slot %d)", trialNum, data.itemId, data.slot)
             local trial = tpz.magian.trialDataById[trialNum]
             if trial and (trial.type == 'Kills') then
-                printf("[Magian] Trial %d is a Kills trial of type %s", trialNum, trial.subType)
+                --printf("[Magian] Trial %d is a Kills trial of type %s", trialNum, trial.subType)
 
                 local points = tpz.magian.evaluateTrialConditions(player, mob, trial, nil, nil, killer)
                 if points > 0 then
@@ -480,10 +480,10 @@ end
 
 -- Effect trials
 tpz.magian.checkMagianTrialEffects = function(player, mob, effect, sourceType)
-    printf("[Magian] Checking Magian Trials for player %s", player:getName())
+    --printf("[Magian] Checking Magian Trials for player %s", player:getName())
 
     local activeTrials = tpz.magian.getActiveMagianTrials(player)
-    printf("[Magian] Found %d active trial(s)", table.getn(activeTrials))
+    --printf("[Magian] Found %d active trial(s)", table.getn(activeTrials))
 
     if player:checkKillCredit(mob) then
         for trialNum, data in pairs(activeTrials) do
@@ -493,13 +493,13 @@ tpz.magian.checkMagianTrialEffects = function(player, mob, effect, sourceType)
                 if trial.subType == sourceType then
                     local points = tpz.magian.evaluateTrialConditions(player, mob, trial)
                     if points > 0 then
-                        printf("[Magian] Processing trial %d (effect: %d) from source %s", trialNum, trial.effect, sourceType or "None")
+                        --printf("[Magian] Processing trial %d (effect: %d) from source %s", trialNum, trial.effect, sourceType or "None")
                         tpz.magian.processTrialEffect(player, trialNum, trial, effect, trial.effect)
                     else
-                        printf("[Magian] Skipped trial %d (did not meet trial conditions)", trialNum)
+                        --printf("[Magian] Skipped trial %d (did not meet trial conditions)", trialNum)
                     end
                 else
-                    printf("[Magian] Skipped trial %d (subType mismatch: trial expects %s, got %s)", trialNum, trial.subType, sourceType)
+                    --printf("[Magian] Skipped trial %d (subType mismatch: trial expects %s, got %s)", trialNum, trial.subType, sourceType)
                 end
             end
         end

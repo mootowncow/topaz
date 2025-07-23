@@ -686,8 +686,9 @@ namespace spell
     void LoadSpellList()
     {
         const char* Query = "SELECT spellid, name, jobs, `group`, family, validTargets, skill, castTime, recastTime, animation, animationTime, mpCost, \
-                             AOE, base, element, zonemisc, multiplier, message, magicBurstMessage, CE, VE, requirements, content_tag, spell_range, attackBonus \
-                             FROM spell_list;";
+                             AOE, base, element, zonemisc, multiplier, message, magicBurstMessage, CE, VE, requirements, content_tag, spell_range, \
+                             attackBonus, ecosystem \
+                            FROM spell_list;";
 
         int32 ret = Sql_Query(SqlHandle, Query);
 
@@ -737,6 +738,7 @@ namespace spell
 
                 // Blue magic only
                 PSpell->setAttackBonus(Sql_GetFloatData(SqlHandle, 24));
+                PSpell->setEcosystem((ECOSYSTEM)Sql_GetIntData(SqlHandle, 25));
 
                 if (PSpell->getAOE())
                 {

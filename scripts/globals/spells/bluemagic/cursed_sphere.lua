@@ -46,17 +46,8 @@ function onSpellCast(caster, target, spell)
     params.int_wsc = 0.3
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
+
     damage = BlueMagicalSpell(caster, target, spell, params, INT_BASED)
-	local plantoid = (target:getSystem() == 17)
-	local lizard = (target:getSystem() == 14)
-	
-	if plantoid then
-		damage = damage * (1.25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION)/100 + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)/100)
-		params.bonus = 25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-	elseif lizard then
-		damage = damage * 0.75
-		params.bonus = -25
-	end
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
     return damage

@@ -29,15 +29,6 @@ function onSpellCast(caster, target, spell)
     params.skillType = tpz.skill.BLUE_MAGIC
     params.effect = tpz.effect.TERROR
     params.bonus = 125
-	local lizard = (target:getSystem() == 14)
-    local beast = (target:getSystem() == 6)
-
-	if lizard then
-		params.bonus = params.bonus + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-    elseif beast then
-        params.bonus = params.bonus - 25
-	end
-
     local duration = 30
 
 	if target:isNM() then

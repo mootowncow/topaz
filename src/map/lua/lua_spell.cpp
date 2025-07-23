@@ -330,6 +330,22 @@ inline int32 CLuaSpell::setAttackBonus(lua_State* L)
     return 0;
 }
 
+inline int32 CLuaSpell::getEcosystem(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaSpell == nullptr);
+    lua_pushnumber(L, m_PLuaSpell->getEcosystem());
+    return 1;
+}
+
+inline int32 CLuaSpell::setEcosystem(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaSpell == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, -1) || !lua_isnumber(L, -1));
+
+    m_PLuaSpell->setEcosystem((ECOSYSTEM)lua_tonumber(L, 1));
+    return 0;
+}
+
 inline int32 CLuaSpell::dealsDamage(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PLuaSpell == nullptr);
@@ -377,6 +393,8 @@ Lunar<CLuaSpell>::Register_t CLuaSpell::methods[] =
     LUNAR_DECLARE_METHOD(CLuaSpell,setRequirements),
     LUNAR_DECLARE_METHOD(CLuaSpell,getAttackBonus),
     LUNAR_DECLARE_METHOD(CLuaSpell,setAttackBonus),
+    LUNAR_DECLARE_METHOD(CLuaSpell,getEcosystem),
+    LUNAR_DECLARE_METHOD(CLuaSpell,setEcosystem),
     LUNAR_DECLARE_METHOD(CLuaSpell,dealsDamage),
     {nullptr,nullptr}
 };

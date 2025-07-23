@@ -43,19 +43,8 @@ function onSpellCast(caster, target, spell)
     params.int_wsc = 0.4
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
+
     local dmg = BlueMagicalSpell(caster, target, spell, params, INT_BASED)
-
-	local bird = (target:getSystem() == 8)
-	local aquan = (target:getSystem() == 2)
-	-- add correlation bonus
-	if bird then
-	 	dmg = dmg * 1.25
-		params.bonus = 25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-	elseif aquan then
-		dmg = dmg * 0.75
-		params.bonus = -25
-	end
-
     dmg = BlueFinalAdjustments(caster, target, spell, dmg, params)
 
     params.effect = tpz.effect.ACCURACY_DOWN

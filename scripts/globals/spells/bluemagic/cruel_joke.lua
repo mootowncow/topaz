@@ -29,12 +29,6 @@ function onSpellCast(caster, target, spell)
     params.skillType = tpz.skill.BLUE_MAGIC
     params.effect = tpz.effect.DOOM
     params.bonus = 125
-	local demon = (target:getSystem() == 9)
-
-	if demon then
-		params.bonus = params.bonus + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-	end
-
     local duration = 60
 
     typeEffect = tpz.effect.DOOM

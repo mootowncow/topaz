@@ -40,9 +40,7 @@ function onSpellCast(caster, target, spell)
     params.int_wsc = 0.0
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
-	local beast = (target:getSystem() == 6)
-	local vermin = (target:getSystem() == 20)
-	
+
     local resist = applyResistance(caster, target, spell, params)
     local damage = BlueMagicalSpell(caster, target, spell, params, INT_BASED)
 
@@ -53,21 +51,14 @@ function onSpellCast(caster, target, spell)
 			damage = 1000
 		end
 	end
+
 	-- add convergence bonus
 	if caster:hasStatusEffect(tpz.effect.CONVERGENCE) then
 		local ConvergenceBonus = (1 + caster:getMerit(tpz.merit.CONVERGENCE) / 100)
 		damage = damage * ConvergenceBonus
 		caster:delStatusEffectSilent(tpz.effect.CONVERGENCE)
 	end
-	--add correlation bonus
-	if beast then
-		damage = damage * (1.25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION)/100 + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)/100)
-		params.bonus = 75 + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-	elseif vermin then
-		damage = damage * 0.75
-		params.bonus = 50
-	end
-	
+
 	damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 	
 	return damage

@@ -270,19 +270,22 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
     end
 
     -- Get ecosystem
+    local ecosystem = spell:getEcosystem()
     local correlation = 0
-    if (params.eco ~= nil) and not target:isPC() then
-        correlation = GetMonsterCorrelation(params.eco,GetTargetEcosystem(target))
+
+    if ecosystem and not target:isPC() then
+        correlation = GetMonsterCorrelation(ecosystem, target:getSystem())
     end
 
     -- Calculate accuracy bonus
     local accBonus = 30 -- BLU phys spells get a flat 30 ACC bonus
     local attackNumber = 0 -- attackNumber: 0=main, 1=sub, 2=kick 
+    params.bonus = params.bonus or 0
 
     -- Add correlation ACC bonus
-    if (correlation > 0 and params.bonus ~= nil) then
+    if (correlation > 0) then
         params.bonus = params.bonus + 25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-    elseif (correlation < 0 and params.bonus ~= nil) then
+    elseif (correlation < 0) then
         params.bonus = params.bonus - 25 
     end
 
@@ -294,9 +297,9 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
 	end
 
     local bonusAcc = 30 -- BLU phys spells get a flat 30 ACC bonus
-    if (params.bonus ~= nil) then
-        accBonus = accBonus + params.bonus
-    end
+    params.bonus = params.bonus or 0
+
+    accBonus = accBonus + params.bonus
 
     accBonus = accBonus + caster:getMerit(tpz.merit.PHYSICAL_POTENCY) -- https://www.bluegartr.com/threads/37619-Blue-Mage-Best-thread-ever?p=2097460&viewfull=1#post2097460 
 
@@ -439,9 +442,6 @@ function BluePhysicalSpell(caster, target, spell, params, tp)
         finaldmg = math.floor(finaldmg * circlemult / 100)
     end
 
-    -- Handle correlation bonus
-    finaldmg = BlueHandleCorrelationDamage(caster, target, spell, finaldmg, correlation)
-
     -- Handle Positional PDT
     if caster:isInfront(target, 90) and target:hasStatusEffect(tpz.effect.PHYSICAL_SHIELD) then -- Front
         if target:getStatusEffect(tpz.effect.PHYSICAL_SHIELD):getPower() == 3 then
@@ -538,20 +538,21 @@ function BlueMagicalSpell(caster, target, spell, params, statMod)
     magicAttack = math.floor(D * multTargetReduction)
 
     -- Get ecosystem
+    local ecosystem = spell:getEcosystem()
     local correlation = 0
-    if (params.eco ~= nil) and not target:isPC() then
-        correlation = GetMonsterCorrelation(params.eco,GetTargetEcosystem(target))
+    params.bonus = params.bonus or 0
+
+    if ecosystem and not target:isPC() then
+        correlation = GetMonsterCorrelation(ecosystem, target:getSystem())
     end
 
     -- Add bonus MACC(Mainly magic burst MACC)
-    if (params.bonus ~= nil) then
-        params.bonus = params.bonus + BluGetBonusMacc(caster, target, element, params)
-    end
-
+    params.bonus = params.bonus + BluGetBonusMacc(caster, target, element, params)
+    
     -- Add correlation MACC bonus
     if correlation > 0 then
         params.bonus = params.bonus + 25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-    elseif (correlation < 0 and params.bonus ~= nil) then
+    elseif (correlation < 0) then
         params.bonus = params.bonus - 25 
     end
 
@@ -565,7 +566,6 @@ function BlueMagicalSpell(caster, target, spell, params, statMod)
     if (dmg < 0) then
         dmg = 0
     end
-
 
     -- Handle correlation bonus
     dmg = BlueHandleCorrelationDamage(caster, target, spell, dmg, correlation)
@@ -643,6 +643,17 @@ function BlueFinalAdjustments(caster, target, spell, dmg, params)
         end
     end
 
+    -- Get ecosystem
+    local ecosystem = spell:getEcosystem()
+    local correlation = 0
+
+    if ecosystem and not target:isPC() then
+        correlation = GetMonsterCorrelation(ecosystem, target:getSystem())
+    end
+
+    -- Handle correlation bonus
+    dmg = BlueHandleCorrelationDamage(caster, target, spell, dmg, correlation)
+
     -- Track raw damage
     local rawDmg = dmg
 
@@ -688,6 +699,7 @@ function BlueFinalAdjustments(caster, target, spell, dmg, params)
     if (params.NO_ENMITY == nil) then -- Only used for Regurg / Corrosive Ooze atm
         target:updateEnmityFromDamage(caster, dmg)
     end
+
     if (params.bonus ~= nil) then
         params.bonus = 0
     end
@@ -706,32 +718,32 @@ function BlueBreathSpell(caster, target, spell, params, hppercent)
     local element = spell:getElement()
 
     -- Get ecosystem
+    local ecosystem = spell:getEcosystem()
     local correlation = 0
-    if (params.eco ~= nil) and not target:isPC() then
-        correlation = GetMonsterCorrelation(params.eco,GetTargetEcosystem(target))
+    params.bonus = params.bonus or 0
+
+    if ecosystem and not target:isPC() then
+        correlation = GetMonsterCorrelation(ecosystem, target:getSystem())
     end
 
     -- Add bonus MACC(Mainly magic burst MACC)
-    if (params.bonus ~= nil) then
-        params.bonus = params.bonus + BluGetBonusMacc(caster, target, element, params)
-    end
+    params.bonus = params.bonus + BluGetBonusMacc(caster, target, element, params)
 
     -- Add correlation MACC bonus
     if correlation > 0 then
         params.bonus = params.bonus + 25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-    elseif (correlation < 0 and params.bonus ~= nil) then
+    elseif (correlation < 0) then
         params.bonus = params.bonus - 25 
     end
 
     -- Get resist
     local resist = applyResistance(caster, target, spell, params)
 
-
 	-- Handle convergence damage bonus
 	if caster:hasStatusEffect(tpz.effect.CONVERGENCE) then
 		local ConvergenceBonus = (1 + caster:getMerit(tpz.merit.CONVERGENCE) / 100)
         -- Apply Convergence relic augment 2% damage per Convergence merit
-         -- TODO: Ilvl relic
+        -- TODO: Ilvl relic
         local head = caster:getEquipID(tpz.slot.HEAD)
         if (head == tpz.items.MIRAGE_KEFFIYEH_HQ or head == tpz.items.MIRAGE_KEFFIYEH_HQTWO) then
             ConvergenceBonus = ConvergenceBonus + ((caster:getMerit(tpz.merit.CONVERGENCE) / 5) * 0.02)
@@ -1114,10 +1126,9 @@ function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, p
     end
 
     local maccBonus = 0
+    params.bonus = params.bonus or 0
     -- Add Correlation Bonus
-    if (params.bonus ~= nil) then
-        maccBonus = BlueHandleCorrelationMACC(caster, target, spell, params, params.bonus)
-    end
+    maccBonus = BlueHandleCorrelationMACC(caster, target, spell, params, params.bonus)
 
     -- Add "Chance of effect varies with TP" mod
     if (params.tpmod == TPMOD_MACC) then
@@ -1224,78 +1235,46 @@ function getBlueEffectDuration(caster, resist, effect, varieswithtp)
     return finalDuration
 end
 
-function GetTargetEcosystem(target)
-    if not target:isPC() then
-	    local sys = target:getSystem()
+-- Gets ectosystem bonus / penalty
+function GetMonsterCorrelation(eco, targeco)
+    -- Group 1: Circular RPS
+    if eco == tpz.eco.LIZARD and targeco == tpz.eco.VERMIN then return 1 end
+    if eco == tpz.eco.VERMIN and targeco == tpz.eco.PLANTOID then return 1 end
+    if eco == tpz.eco.PLANTOID and targeco == tpz.eco.BEAST then return 1 end
+    if eco == tpz.eco.BEAST and targeco == tpz.eco.LIZARD then return 1 end
 
-        -- honestly just taking the topaz enum standard and converting it an easier enum standard
-        -- this makes it very easy to explain the strengths/weaknesses (in the next function)
+    if eco == tpz.eco.VERMIN and targeco == tpz.eco.LIZARD then return -1 end
+    if eco == tpz.eco.PLANTOID and targeco == tpz.eco.VERMIN then return -1 end
+    if eco == tpz.eco.BEAST and targeco == tpz.eco.PLANTOID then return -1 end
+    if eco == tpz.eco.LIZARD and targeco == tpz.eco.BEAST then return -1 end
 
-	    if sys == 6 then return 1
-	    elseif sys == 14 then return 2
-	    elseif sys == 20 then return 3
-	    elseif sys == 17 then return 4
-	    elseif sys == 2 then return 5
-	    elseif sys == 1 then return 6
-	    elseif sys == 8 then return 7
-	    elseif sys == 19 then return 8
-	    elseif sys == 3 then return 9
-	    elseif sys == 10 then return 10
-	    elseif sys == 9 then return 11
-	    elseif sys == 15 then return 12
-	    elseif sys == 16 then return 13 end
+    -- Group 2: Circular RPS
+    if eco == tpz.eco.AQUAN and targeco == tpz.eco.AMORPH then return 1 end
+    if eco == tpz.eco.AMORPH and targeco == tpz.eco.BIRD then return 1 end
+    if eco == tpz.eco.BIRD and targeco == tpz.eco.AQUAN then return 1 end
+
+    if eco == tpz.eco.AMORPH and targeco == tpz.eco.AQUAN then return -1 end
+    if eco == tpz.eco.BIRD and targeco == tpz.eco.AMORPH then return -1 end
+    if eco == tpz.eco.AQUAN and targeco == tpz.eco.BIRD then return -1 end
+
+    -- Mutual counters (bidirectional)
+    if (eco == tpz.eco.UNDEAD and targeco == tpz.eco.ARCANA) or
+       (eco == tpz.eco.ARCANA and targeco == tpz.eco.UNDEAD) then
+        return 1
     end
 
-	return 0
-end
+    if (eco == tpz.eco.DEMON and targeco == tpz.eco.DRAGON) or
+       (eco == tpz.eco.DRAGON and targeco == tpz.eco.DEMON) then
+        return 1
+    end
 
--- Gets ectosystem bonus / penalty
-function GetMonsterCorrelation(eco,targeco)
+    if (eco == tpz.eco.LUMORIAN and targeco == tpz.eco.LUMINION) or
+       (eco == tpz.eco.LUMINION and targeco == tpz.eco.LUMORIAN) then
+        return 1
+    end
 
-    -- see top of document for the five ecosystem groups
-    -- they work as a rotating rock-paper-scissors system for each group
-    -- 1 beats 2 beats 3 beats 4 beats 1
-    -- 5 beats 6 beats 7 beats 5
-    -- 8/9 beat each other. 10/11 beat each other. 12/13 beat each other.
-    -- https://ffxiclopedia.fandom.com/wiki/Category:Bestiary
-    -- return value ... -1 = negative correlation, 0 = neutral, 1 = positive correlation
-
-	if eco == 1 then
-		if targeco == 2 then return  1 end
-		if targeco == 4 then return -1 end
-	elseif eco == 2 then
-		if targeco == 3 then return  1 end
-		if targeco == 1 then return -1 end
-	elseif eco == 3 then
-		if targeco == 4 then return  1 end
-		if targeco == 2 then return -1 end
-	elseif eco == 4 then
-		if targeco == 1 then return  1 end
-		if targeco == 3 then return -1 end
-	elseif eco == 5 then
-		if targeco == 6 then return  1 end
-		if targeco == 7 then return -1 end
-	elseif eco == 6 then
-		if targeco == 7 then return  1 end
-		if targeco == 5 then return -1 end
-	elseif eco == 7 then
-		if targeco == 5 then return  1 end
-		if targeco == 6 then return -1 end
-	elseif eco == 8 and targeco == 9 then
-		return 1
-	elseif eco == 9 and targeco == 8 then
-		return 1
-	elseif eco == 10 and targeco == 11 then
-		return 1
-	elseif eco == 11 and targeco == 10 then
-		return 1
-	elseif eco == 12 and targeco == 13 then
-		return 1
-	elseif eco == 13 and targeco == 12 then
-		return 1
-	end
-
-	return 0
+    -- Neutral if no correlation
+    return 0
 end
 
 function BluGetBonusMacc(caster, target, element, params)
@@ -1372,8 +1351,11 @@ function BlueHandleCorrelationMACC(caster, target, spell, params, bonus, correla
     end
 
     -- Figure out correlation if not provided as an arg
-    if (correlation == nil) and not target:isPC() then
-        correlation = GetMonsterCorrelation(params.eco,GetTargetEcosystem(target))
+    local ecosystem = spell:getEcosystem()
+    local correlation = 0
+
+    if ecosystem and not target:isPC() then
+        correlation = GetMonsterCorrelation(ecosystem, target:getSystem())
     end
 
     local gearMeritBonus = caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)

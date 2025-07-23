@@ -47,19 +47,8 @@ function onSpellCast(caster, target, spell)
     params.int_wsc = 0.0
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
+
     damage = BlueMagicalSpell(caster, target, spell, params, INT_BASED)
-	local aquan = (target:getSystem() == 2)
-	local amorph = (target:getSystem() == 1)
-
-	-- add correlation bonus
-	if aquan then
-	 	dmg = dmg * 1.25
-		params.bonus = params.bonus + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-	elseif amorph then
-		dmg = dmg * 0.75
-		params.bonus = params.bonus - 25
-	end
-
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
     if (damage > 0) then

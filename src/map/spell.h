@@ -1134,6 +1134,8 @@ public:
     // Blue Magic only
     float       getAttackBonus() const { return m_attackBonus; }
     void        setAttackBonus(float bonus) { m_attackBonus = bonus; }
+    ECOSYSTEM   getEcosystem() const { return m_ecosystem; }
+    void        setEcosystem(ECOSYSTEM ecosystem) { m_ecosystem = ecosystem; }
 
 protected:
 
@@ -1173,6 +1175,7 @@ private:
 
     // Blue magic only
     float m_attackBonus {};                                // Default 1.0 for most spells
+    ECOSYSTEM m_ecosystem{};                               // Default SYSTEM_ERROR (0) for most spells
 };
 
 //Namespace to work with spells

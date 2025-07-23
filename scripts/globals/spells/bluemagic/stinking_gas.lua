@@ -30,11 +30,6 @@ function onSpellCast(caster, target, spell)
     params.attribute = tpz.mod.INT
     params.skillType = tpz.skill.BLUE_MAGIC
     params.bonus = 30
-    local arcana = (target:getSystem() == 3)
-	
-    if arcana then
-	    params.bonus = 55 + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-    end
 
     -- Does not stack with VIT down, choke, or frost
     if (target:getStatusEffect(tpz.effect.RASP) ~= nil) then

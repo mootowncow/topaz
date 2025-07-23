@@ -30,23 +30,13 @@ function onSpellCast(caster, target, spell)
     params.bonus = 0
     params.effect = tpz.effect.PLAGUE
     local power = 3
-	local lizard = (target:getSystem() == 14)
-	local plantoid = (target:getSystem() == 17)
-	-- add correlation bonus
-	if lizard then
-		params.bonus = 25 + caster:getMerit(tpz.merit.MONSTER_CORRELATION) + caster:getMod(tpz.mod.MONSTER_CORRELATION_BONUS)
-	elseif plantoid then
-		params.bonus = -25
-	end
 
-    typeEffect = tpz.effect.PLAGUE
-
-    if target:hasStatusEffect(typeEffect) then
+    if target:hasStatusEffect(params.effect) then
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-        return typeEffect
+        return params.effect
     end
 
-    params.effect = typeEffect
+    params.effect = params.effect
     if BlueTryEnfeeble(caster, target, spell, 1, power, 3, 180, params) then
         spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
     else
@@ -55,5 +45,5 @@ function onSpellCast(caster, target, spell)
         end
     end
 
-    return typeEffect
+    return params.effect
 end
