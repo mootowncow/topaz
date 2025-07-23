@@ -52,7 +52,6 @@ function onSpellCast(caster, target, spell)
     damage = BluePhysicalSpell(caster, target, spell, params)
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
-    -- TODO: Can this be removed? Investigate, its adding 50 MACC with correlation now
     params.bonus = BlueHandleCorrelationMACC(caster, target, spell, params, 0)
 
     local resist = applyResistanceEffect(caster, target, spell, params)
