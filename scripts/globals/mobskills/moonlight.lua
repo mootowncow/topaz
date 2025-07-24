@@ -13,7 +13,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local tp = mob:getLocalVar("tp")
+    local tp = mob:getSpentTP()
     local lvl = mob:getSkillLevel(tpz.skill.CLUB)
     if (tp == nil) or (tp == 0) then
         tp = 1000

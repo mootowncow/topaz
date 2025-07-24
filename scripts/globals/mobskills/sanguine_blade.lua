@@ -20,7 +20,8 @@ function onMobWeaponSkill(target, mob, skill)
     local info = MobMagicalMove(mob, target, skill, mob:getWeaponDmg()*1.5, tpz.magic.ele.DARK, dmgmod, TP_DMG_BONUS, 1)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.DARK, MOBPARAM_IGNORE_SHADOWS)
 
-    local tp = mob:getLocalVar("tp")
+    local tp = mob:getSpentTP()
+    local drain = 50
     if (tp >= 1000 and tp <=1999) then
         drain = 50
     elseif (tp >= 2000 and tp <= 2999) then

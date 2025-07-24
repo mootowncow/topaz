@@ -17,7 +17,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local tp = mob:getLocalVar("tp")
+    local tp = mob:getSpentTP()
     local numhits = 1
     local accmod = 1
     local dmgmod = 2
