@@ -6988,4 +6988,5 @@ tpz.mob.pool = {
     FROSTED_SOUL = 9158,
     FROZEN_GHOUL_DRK = 9159,
     FROZEN_GHOUL_BLM = 9160,
+    BEACH_BUGARD = 9161,
 }

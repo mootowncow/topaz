@@ -720,6 +720,19 @@ INSERT INTO `mob_spawn_points` VALUES (16793987,'Valaineral_R_Davilles','Valaine
 INSERT INTO `mob_spawn_points` VALUES (16793988,'Febrenard_C_Brunnaut','Febrenard C Brunnaut',59,230,-27,363,157);
 INSERT INTO `mob_spawn_points` VALUES (16793989,'Bartholomaus','Bartholomaus',60,232,-27,363,157);
 
+INSERT INTO `mob_spawn_points` VALUES (16793990, 'Beach_Bugard', 'Beach Bugard', 61, 154.65, -27.85, 430.82, 0);
+INSERT INTO `mob_spawn_points` VALUES (16793991, 'Beach_Bugard', 'Beach Bugard', 61, 167.28, -28.31, 452.13, 0);
+INSERT INTO `mob_spawn_points` VALUES (16793992, 'Beach_Bugard', 'Beach Bugard', 61, 182.25, -27.11, 478.82, 0);
+INSERT INTO `mob_spawn_points` VALUES (16793993, 'Beach_Bugard', 'Beach Bugard', 61, 150.03, -27.70, 483.22, 0);
+INSERT INTO `mob_spawn_points` VALUES (16793994, 'Beach_Bugard', 'Beach Bugard', 61, 126.13, -27.89, 483.52, 0);
+INSERT INTO `mob_spawn_points` VALUES (16793995, 'Beach_Bugard', 'Beach Bugard', 61, 100.14, -28.92, 504.87, 0);
+INSERT INTO `mob_spawn_points` VALUES (16793996, 'Beach_Bugard', 'Beach Bugard', 61, 194.24, -28.12, 509.35, 0);
+INSERT INTO `mob_spawn_points` VALUES (16793997, 'Beach_Bugard', 'Beach Bugard', 61, 220.42, -29.36, 529.58, 0);
+INSERT INTO `mob_spawn_points` VALUES (16793998, 'Beach_Bugard', 'Beach Bugard', 61, 244.92, -25.75, 534.51, 0);
+INSERT INTO `mob_spawn_points` VALUES (16793999, 'Beach_Bugard', 'Beach Bugard', 61, 240.62, -20.00, 557.68, 0);
+INSERT INTO `mob_spawn_points` VALUES (16794000, 'Beach_Bugard', 'Beach Bugard', 61, 261.98, -19.78, 570.18, 0);
+INSERT INTO `mob_spawn_points` VALUES (16794001, 'Beach_Bugard', 'Beach Bugard', 61, 179.29, -27.04, 396.61, 0);
+
 -- ------------------------------------------------------------
 -- Uleguerand Range (Zone 5)
 -- ------------------------------------------------------------
@@ -1140,6 +1153,19 @@ INSERT INTO `mob_spawn_points` VALUES (16798170,'Kindred_Warrior','KindredWarrio
 INSERT INTO `mob_spawn_points` VALUES (16798171,'Molech','Molech',36,-195.860,-182.139,384.379,128);	
 INSERT INTO `mob_spawn_points` VALUES (16798172,'Kindred_Warrior','Kindred Warrior',32,-211.055,-176.173,241.733,238);	
 --End Replaced Scowlenkos(OOE)
+
+INSERT INTO `mob_spawn_points` VALUES (16798173, 'Molech', 'Molech', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (16798174, 'Molech', 'Molech', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (16798175, 'Molech', 'Molech', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (16798176, 'Molech', 'Molech', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (16798177, 'Molech', 'Molech', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (16798178, 'Molech', 'Molech', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (16798179, 'Molech', 'Molech', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (16798180, 'Molech', 'Molech', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (16798181, 'Molech', 'Molech', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (16798182, 'Molech', 'Molech', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (16798183, 'Molech', 'Molech', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (16798184, 'Molech', 'Molech', 36, 0, 50, 0, 0);
 
 -- ------------------------------------------------------------
 -- Bearclaw Pinnacle (Zone 6)
@@ -5323,7 +5349,7 @@ INSERT INTO `mob_spawn_points` VALUES (16879765,'Gigantobugard','Gigantobugard',
 INSERT INTO `mob_spawn_points` VALUES (16879767,'Gigantobugard','Gigantobugard',25,-14.604,-16.189,-11.382,201);
 INSERT INTO `mob_spawn_points` VALUES (16879768,'Gigas_Braver','Gigas Braver',27,12.042,-16.191,-1.918,217);
 --INSERT INTO `mob_spawn_points` VALUES (16879769,'Gigas_Martialist','Gigas Martialist',28,-5.547,-15.792,-16.304,31);
---INSERT INTO `mob_spawn_points` VALUES (16879770,'Gigas_Warwolf','Gigas Warwolf',34,-12.286,-15.870,5.372,199);
+INSERT INTO `mob_spawn_points` VALUES (16879770,'Gigas_Warwolf','Gigas Warwolf',34,-12.286,-15.870,5.372,199);
 --INSERT INTO `mob_spawn_points` VALUES (16879771,'Gigas_Catapulter','Gigas Catapulter',35,-1.418,-16.000,24.965,218);
 INSERT INTO `mob_spawn_points` VALUES (16879772,'Orcish_Footsoldier','Orcish Footsoldier',36,-57.380,-15.825,-2.045,0);
 --INSERT INTO `mob_spawn_points` VALUES (16879773,'Orcish_Gladiator','Orcish Gladiator',38,6.820,-16.096,7.434,60);
@@ -5339,7 +5365,7 @@ INSERT INTO `mob_spawn_points` VALUES (16879782,'Gigas_Martialist','Gigas Martia
 --INSERT INTO `mob_spawn_points` VALUES (16879783,'Gigas_Warwolf','Gigas Warwolf',34,109.398,-16.019,79.312,13);
 --INSERT INTO `mob_spawn_points` VALUES (16879784,'Gigas_Catapulter','Gigas Catapulter',35,68.948,-15.838,67.675,202);
 --INSERT INTO `mob_spawn_points` VALUES (16879785,'Orcish_Footsoldier','Orcish Footsoldier',36,102.105,-15.770,100.596,45);
---INSERT INTO `mob_spawn_points` VALUES (16879786,'Orcish_Gladiator','Orcish Gladiator',38,87.010,-16.175,87.092,54);
+INSERT INTO `mob_spawn_points` VALUES (16879786,'Orcish_Gladiator','Orcish Gladiator',38,87.010,-16.175,87.092,54);
 --INSERT INTO `mob_spawn_points` VALUES (16879787,'Orcish_Trooper','Orcish Trooper',30,110.693,-15.704,105.819,138);
 INSERT INTO `mob_spawn_points` VALUES (16879788,'Orcish_Bowshooter','Orcish Bowshooter',31,53.628,-15.874,31.147,96);
 --INSERT INTO `mob_spawn_points` VALUES (16879789,'Gigass_Sheep','Gigas\'s Sheep',37,113.085,-16.176,75.873,69);
@@ -5370,7 +5396,7 @@ INSERT INTO `mob_spawn_points` VALUES (16879811,'Fomor_Red_Mage','Fomor Red Mage
 INSERT INTO `mob_spawn_points` VALUES (16879814,'Fomor_Dark_Knight','Fomor Dark Knight',19,-300.799,-32.248,173.000,208);
 -- INSERT INTO `mob_spawn_points` VALUES (16879815,'Fomor_Thief','Fomor Thief',13,-300.399,-32.125,178.199,56);
 -- INSERT INTO `mob_spawn_points` VALUES (16879816,'Fomor_Ranger','Fomor Ranger',18,-297.600,-32.222,173.800,160);
--- INSERT INTO `mob_spawn_points` VALUES (16879817,'Fomor_Paladin','Fomor Paladin',21,-302.500,-32.145,175.850,0);
+INSERT INTO `mob_spawn_points` VALUES (16879817,'Fomor_Paladin','Fomor Paladin',21,-302.500,-32.145,175.850,0);
 -- INSERT INTO `mob_spawn_points` VALUES (16879818,'Fomor_Summoner','Fomor Summoner',44,-300.399,-32.125,178.199,56);
 INSERT INTO `mob_spawn_points` VALUES (16879819,'Fomor_Monk','Fomor Monk',10,-300.799,-32.248,173.000,208);
 -- INSERT INTO `mob_spawn_points` VALUES (16879820,'Fomors_Elemental','Fomor\'s Elemental',45,-300.398,-32.125,178.199,56);

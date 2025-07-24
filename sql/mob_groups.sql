@@ -213,6 +213,7 @@ INSERT INTO `mob_groups` VALUES (57,5964,4,'Lhe_Lhangavo',0,128,0,1300,0,80,80,1
 INSERT INTO `mob_groups` VALUES (58,5910,4,'Valaineral_R_Davilles',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (59,1313,4,'Febrenard_C_Brunnaut',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (60,352,4,'Bartholomaus',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (61,9161,4,'Beach_Bugard',330,0,371,1300,0,77,81,0);
 
 -- ------------------------------------------------------------
 -- Uleguerand_Range (Zone 5)
