@@ -5355,7 +5355,7 @@ INSERT INTO `mob_spawn_points` VALUES (16879772,'Orcish_Footsoldier','Orcish Foo
 --INSERT INTO `mob_spawn_points` VALUES (16879773,'Orcish_Gladiator','Orcish Gladiator',38,6.820,-16.096,7.434,60);
 --INSERT INTO `mob_spawn_points` VALUES (16879774,'Orcish_Trooper','Orcish Trooper',30,-57.008,-15.669,39.833,135);
 INSERT INTO `mob_spawn_points` VALUES (16879775,'Orcish_Bowshooter','Orcish Bowshooter',31,-28.549,-16.156,31.389,136);
---INSERT INTO `mob_spawn_points` VALUES (16879776,'Gigass_Sheep','Gigas\'s Sheep',37,-6.149,-16.175,4.298,63);
+INSERT INTO `mob_spawn_points` VALUES (16879776,'Gigass_Sheep','Gigas\'s Sheep',37,-6.149,-16.175,4.298,63);
 INSERT INTO `mob_spawn_points` VALUES (16879777,'Atomic_Cluster','Atomic Cluster',33,117.493,-16.061,94.516,253);
 INSERT INTO `mob_spawn_points` VALUES (16879778,'Gigantobugard','Gigantobugard',25,67.632,-15.955,30.679,232);
 --INSERT INTO `mob_spawn_points` VALUES (16879779,'Gigantobugard','Gigantobugard',25,92.365,-15.972,34.256,227);
