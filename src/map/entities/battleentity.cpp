@@ -769,21 +769,23 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
     PLastAttacker = attacker;
 
     // Track elemental or weaponskill kills for Magian trials
-    if (objtype == TYPE_MOB && attacker && attacker->objtype == TYPE_PC)
+    if (attacker && objtype == TYPE_MOB)
     {
-        auto PChar = dynamic_cast<CCharEntity*>(attacker);
+        auto PMob = static_cast<CMobEntity*>(this);
+        bool isPlayerPet = attacker->objtype == TYPE_PET && attacker->PMaster->objtype == TYPE_PC;
 
-        if (amount >= health.hp)
+        if (attacker->objtype == TYPE_PC || isPlayerPet)
         {
-            if (attackType == ATTACK_WEAPONSKILL)
+            if (amount >= health.hp)
             {
-                auto PMob = static_cast<CMobEntity*>(this);
-                PMob->SetLocalVar("WSKilledBy", skillId);
-            }
-            else if (attackType == ATTACK_MAGICAL)
-            {
-                auto PMob = static_cast<CMobEntity*>(this);
-                PMob->SetLocalVar("ElementKilledBy", (int)damageType);
+                if (attackType == ATTACK_WEAPONSKILL)
+                {
+                    PMob->SetLocalVar("WSKilledBy", skillId);
+                }
+                else if (attackType == ATTACK_MAGICAL)
+                {
+                    PMob->SetLocalVar("ElementKilledBy", (int)damageType);
+                }
             }
         }
     }

@@ -631,7 +631,7 @@ function AutoMagicalFinalAdjustments(dmg, auto, skill, target, attackType, eleme
         -- Handling rampart stoneskin + normal stoneskin
         dmg = utils.rampartstoneskin(target, dmg)
         dmg = utils.stoneskin(target, dmg, attackType)
-	    target:takeDamage(dmg, auto, attackType, element)
+	    target:takeDamage(dmg, auto, attackType, tpz.damageType.ELEMENTAL + element)
     end
     target:updateEnmityFromDamage(auto, dmg)
     target:handleAfflatusMiseryDamage(dmg)

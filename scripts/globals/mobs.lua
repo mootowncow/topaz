@@ -46,9 +46,8 @@ function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill, killer)
         end
     end
 
-        -- killer can be nil, check it like:
     if killer then
-        printf("Last attacker was: %s", killer:getName())
+        -- printf("Last attacker was: %s", killer:getName())
     end
     tpz.znm.OnMobDeath(mob, player, isKiller, isWeaponSkillKill)
     tpz.magian.checkMagianTrial(player, mob, killer)

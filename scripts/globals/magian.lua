@@ -464,10 +464,10 @@ tpz.magian.checkMagianTrial = function (player, mob, killer)
 
     if player:checkKillCredit(mob) then
         for trialNum, data in pairs(activeTrials) do
-            --printf("[Magian] Checking trial %d (itemId: %d in slot %d)", trialNum, data.itemId, data.slot)
+            printf("[Magian] Checking trial %d (itemId: %d in slot %d)", trialNum, data.itemId, data.slot)
             local trial = tpz.magian.trialDataById[trialNum]
             if trial and (trial.type == 'Kills') then
-                --printf("[Magian] Trial %d is a Kills trial of type %s", trialNum, trial.subType)
+                printf("[Magian] Trial %d is a Kills trial of type %s", trialNum, trial.subType)
 
                 local points = tpz.magian.evaluateTrialConditions(player, mob, trial, nil, nil, killer)
                 if points > 0 then
