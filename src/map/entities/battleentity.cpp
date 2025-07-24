@@ -823,7 +823,7 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
     }
 
     // Damage always breaks petrify on mobs, but not players or NPCs(trusts, campaign helpers, charmed mobs, etc)
-    if (this->objtype == TYPE_MOB && !this->isCharmed)
+    if ((this->objtype == TYPE_MOB && this->allegiance == ALLEGIANCE_MOB) && !this->isCharmed)
     {
         this->StatusEffectContainer->DelStatusEffect(EFFECT_PETRIFICATION);
     }
