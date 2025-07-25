@@ -1539,8 +1539,25 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 {
     auto PAbility = state.GetAbility();
     bool success = true;
-    auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
     uint16 targets = static_cast<uint16>(PAI->TargetFind->m_targets.size());
+
+    uint8 findFlags = 0;
+
+    if ((PAbility->getValidTarget() & TARGET_PLAYER_DEAD) == TARGET_PLAYER_DEAD)
+    {
+        findFlags |= FINDFLAGS_DEAD;
+    }
+
+    auto* PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    PAI->TargetFind->reset();
+    PAI->TargetFind->findSingleTarget(PTarget, findFlags, PAbility->getValidTarget());
+
+    // Check if target is untargetable
+    if (PAI->TargetFind->m_targets.size() == 0)
+    {
+        return;
+    }
+
     std::unique_ptr<CBasicPacket> errMsg;
     if (IsValidTarget(PTarget->targid, PAbility->getValidTarget(), errMsg))
     {
@@ -1864,7 +1881,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 PAI->TargetFind->reset();
 
                 float distance = PAbility->getRange();
-                PAI->TargetFind->findWithinArea(this, AOERADIUS_ATTACKER, distance);
+                PAI->TargetFind->findWithinArea(this, AOERADIUS_ATTACKER, distance, findFlags, PAbility->getValidTarget());
                 PTargets = PAI->TargetFind->m_targets;
             }
             for (auto&& PTarget : PTargets)

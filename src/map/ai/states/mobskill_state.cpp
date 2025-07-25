@@ -87,6 +87,17 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
         actionTarget.param = m_PSkill->getID();
         actionTarget.messageID = MSGBASIC_READIES_WS;
 
+
+        if ((m_PSkill->getValidTargets() & TARGET_ANY_ALLEGIANCE) && (m_PSkill->getValidTargets() & TARGET_SELF))
+
+        {
+            // This ability targets self for aoe skills (such as Frozen Mist)
+
+            action.actiontype = ACTION_WEAPONSKILL_START;
+
+            actionList.ActionTargetID = action.id;
+        }
+
         if (isPlayerPet)
         {
             auto PAvatar = dynamic_cast<CPetEntity*>(m_PEntity);

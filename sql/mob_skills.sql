@@ -572,7 +572,7 @@ INSERT INTO `mob_skills` VALUES (636,380,'flame_arrow',0,10.0,2000,1500,4,0,0,0,
 INSERT INTO `mob_skills` VALUES (637,381,'firebomb',4,9.5,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (638,382,'blastbomb',2,13.5,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (639,383,'fountain',4,9.5,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (640,384,'touchdown',0,7.0,2000,1500,4,2,0,0,0,0,0);
+-- INSERT INTO `mob_skills` VALUES (640,384,'touchdown',0,7.0,2000,1500,8193,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (641,973,'recoil_dive',4,7.0,2000,1500,4,0,0,0,1,0,0);
 INSERT INTO `mob_skills` VALUES (642,386,'flame_breath',4,12.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (643,387,'poison_breath_dragon',4,12.0,2000,1500,4,0,0,0,0,0,0);
@@ -898,7 +898,7 @@ INSERT INTO `mob_skills` VALUES (950,652,'flame_blast_alt',0,40.0,0,0,4,16,0,0,0
 INSERT INTO `mob_skills` VALUES (951,653,'hurricane_wing',1,40.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (952,654,'spike_flail',1,50.0,2000,2000,4,0,0,0,0,0,0); -- Alliance only targeting version of spike flail
 INSERT INTO `mob_skills` VALUES (953,655,'dragon_breath',4,18.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (954,656,'touchdown',1,30.0,2000,0,4,2,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (954,656,'touchdown',1,30.0,2000,0,8193,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (955,657,'flame_blast',1,30.0,2000,1500,4,0,0,0,0,0,0); -- KS99_Wyrm airborne fire AoE
 INSERT INTO `mob_skills` VALUES (956,658,'hurricane_wing_flying',1,40.0,2000,1500,4,0,0,0,0,0,0); -- KS99_Wyrm airborne Hurricane Wing
 INSERT INTO `mob_skills` VALUES (957,659,'absolute_terror',0,18.0,4000,1500,4,0,0,0,0,0,0);
@@ -1226,7 +1226,7 @@ INSERT INTO `mob_skills` VALUES (1278,652,'inferno_blast_alt',0,40.0,0,0,4,16,0,
 INSERT INTO `mob_skills` VALUES (1279,653,'tebbad_wing',1,40.0,2000,1500,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1280,654,'spike_flail',1,50.0,2000,2000,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1281,655,'fiery_breath',4,18.0,2000,1500,4,8,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1282,656,'touchdown',1,6.0,2000,0,4,2,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1282,656,'touchdown',1,6.0,2000,0,8193,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1283,657,'inferno_blast',1,40.0,2000,2000,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1284,658,'tebbad_wing_air',1,40.0,2000,1500,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1285,659,'absolute_terror',0,18.0,2000,1500,4,8,0,0,0,0,0);
@@ -1236,7 +1236,7 @@ INSERT INTO `mob_skills` VALUES (1288,963,'sleet_blast_alt',0,40.0,0,0,4,16,0,0,
 INSERT INTO `mob_skills` VALUES (1289,653,'gregale_wing',1,40.0,2000,1500,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1290,654,'spike_flail',1,50.0,2000,2000,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1291,962,'glacial_breath',4,18.0,2000,1500,4,8,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1292,656,'touchdown',1,6.0,2000,0,4,2,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1292,656,'touchdown',1,6.0,2000,0,8193,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1293,964,'sleet_blast',1,20.0,2000,2000,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1294,658,'gregale_wing_air',1,40.0,2000,1500,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1295,659,'absolute_terror',0,18.0,4000,1500,4,8,0,0,0,0,0);
@@ -1246,7 +1246,7 @@ INSERT INTO `mob_skills` VALUES (1298,966,'ochre_blast_alt',0,40.0,0,0,4,0,0,0,0
 INSERT INTO `mob_skills` VALUES (1299,653,'typhoon_wing_ouryu_cop',4,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1300,654,'spike_flail',1,50.0,2000,2000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1301,965,'geotic_breath',4,18.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1302,656,'touchdown',1,6.0,2000,0,4,2,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1302,656,'touchdown',1,6.0,2000,0,8193,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1303,967,'ochre_blast',1,40.0,2000,2000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1304,658,'bai_wing',1,30.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1305,659,'absolute_terror_ouryu_cop',0,18.0,4000,1500,4,0,0,0,0,0,0);
@@ -1256,7 +1256,7 @@ INSERT INTO `mob_skills` VALUES (1306,660,'horrid_roar_3',0,18.0,4000,1500,4,0,0
 INSERT INTO `mob_skills` VALUES (1309,653,'cyclone_wing',1,40.0,2000,1500,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1310,654,'spike_flail',1,50.0,2000,2000,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1311,968,'sable_breath',4,18.0,2000,1500,4,8,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1312,1056,'touchdown',0,6.0,2000,1500,4,2,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1312,1056,'touchdown',0,6.0,2000,1500,8193,2,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1313,1057,'dark_matter_blast',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1314,1058,'cyclone_wing_air',1,40.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1315,659,'absolute_terror',0,18.0,4000,1500,4,8,0,0,0,0,0);
@@ -1354,7 +1354,7 @@ INSERT INTO `mob_skills` VALUES (1401,138,'soul_accretion',0,7.0,2000,1500,4,0,0
 -- INSERT INTO `mob_skills` VALUES (1406,653,'typhoon_wing',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1407,654,'spike_flail',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1408,965,'geotic_breath',0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (1409,656,'touchdown',0,7.0,2000,1500,4,2,0,0,0,0,0);
+-- INSERT INTO `mob_skills` VALUES (1409,656,'touchdown',0,7.0,2000,1500,8193,2,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1410,967,'ocher_blast',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1411,658,'bai_wing',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1412,1156,'absolute_terror',0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -1489,7 +1489,7 @@ INSERT INTO `mob_skills` VALUES (1540,1081,'citadel_buster',2,20.0,2000,1500,4,1
 -- INSERT INTO `mob_skills` VALUES (1541,1285,'blighted_gloom',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1542,1133,'trample',1,15.0,2000,1500,4,8,0,7,0,0,0);
 INSERT INTO `mob_skills` VALUES (1543,1134,'tempest_wing',1,40.0,2000,1500,4,8,0,7,0,0,0);
-INSERT INTO `mob_skills` VALUES (1544,1139,'touchdown_bahamut',1,15.0,2000,1500,4,10,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1544,1139,'touchdown_bahamut',1,15.0,2000,1500,8193,10,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1545,1135,'sweeping_flail',1,50.0,2000,1500,4,8,0,7,0,0,0);
 INSERT INTO `mob_skills` VALUES (1546,1140,'prodigious_spike',0,15.0,2000,1500,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1547,1141,'impulsion',2,10.0,2000,1500,4,8,0,7,0,0,0);
@@ -2031,7 +2031,7 @@ INSERT INTO `mob_skills` VALUES (2068,439,'economizer',0,7.0,2000,0,16,2,0,0,0,0
 -- INSERT INTO `mob_skills` VALUES (2069,1813,'tribulation',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2070,1411,'dismemberment',1,10.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2071,1412,'dire_straight',0,7.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2072,1413,'earth_shatter',1,10.0,2000,3500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2072,1413,'earth_shatter',1,10.0,2000,3500,8193,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2073,1414,'sinker_drill',0,7.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2074,1415,'detonating_grip',0,7.0,2000,1000,4,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2075,1819,'overthrow',0,7.0,2000,1500,4,0,0,3,0,0,0); -- Destroyer Troll
@@ -2043,7 +2043,7 @@ INSERT INTO `mob_skills` VALUES (2080,1421,'potent_lunge',0,7.0,2000,1500,4,0,0,
 INSERT INTO `mob_skills` VALUES (2081,1422,'hammer-go-round',1,10.0,2000,1500,4,0,0,3,0,0,0);
 INSERT INTO `mob_skills` VALUES (2082,1423,'hammerblow',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2083,1424,'drop_hammer',1,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2084,1425,'seismohammer',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2084,1425,'seismohammer',0,7.0,2000,1500,8193,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2085,1190,'venomous_tail',4,10.0,2000,1500,4,0,0,0,0,0,0); -- was 1829
 INSERT INTO `mob_skills` VALUES (2086,1278,'grim_reaper',4,10.0,2000,1500,4,0,0,0,0,0,0); -- was 1830
 -- INSERT INTO `mob_skills` VALUES (2087,1831,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -2299,7 +2299,7 @@ INSERT INTO `mob_skills` VALUES (2334,1640,'wrath_of_zeus',1,15.0,2000,2500,4,0,
 INSERT INTO `mob_skills` VALUES (2335,1639,'lightning_spear',4,20.0,2000,2500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2336,1642,'acheron_kick',4,10.0,2000,1000,4,0,0,0,0,0,0); -- need animation
 INSERT INTO `mob_skills` VALUES (2337,1644,'damsel_memento',0,7.0,2000,3000,1,0,0,0,0,0,0); 
-INSERT INTO `mob_skills` VALUES (2338,1641,'rampant_stance',1,7.0,2000,3000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2338,1641,'rampant_stance',1,7.0,2000,3000,8193,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2339,2083,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2340,2084,'extreme_purgation',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2341,2085,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -2398,7 +2398,7 @@ INSERT INTO `mob_skills` VALUES (2433,1711,'calamitous_wind',1,20.0,2000,2000,4,
 INSERT INTO `mob_skills` VALUES (2435,1697,'severing_fang',4,10.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2436,1698,'sub-zero_smash',1,15.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2437,1699,'aqua_blast',4,7.0,2000,1000,4,0,0,5,0,0,0);
-INSERT INTO `mob_skills` VALUES (2438,1700,'frozen_mist',1,10.0,2000,1000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2438,1700,'frozen_mist',1,10.0,2000,1000,8193,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2439,1701,'hydro_wave',1,15.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2440,1702,'ice_guillotine',4,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2441,1703,'aqua_cannon',4,10.0,2000,1500,4,0,0,7,0,0,0); 

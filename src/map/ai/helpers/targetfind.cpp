@@ -50,6 +50,7 @@ void CTargetFind::reset()
     m_radius = 0.0f;
     m_zone = 0;
     m_findFlags = FINDFLAGS_NONE;
+    m_targetFlags = 0;
 
     m_APoint = nullptr;
     m_PRadiusAround = nullptr;
@@ -57,9 +58,10 @@ void CTargetFind::reset()
     m_PMasterTarget = nullptr;
 }
 
-void CTargetFind::findSingleTarget(CBattleEntity* PTarget, uint8 flags)
+void CTargetFind::findSingleTarget(CBattleEntity* PTarget, uint8 flags, uint16 targetFlags)
 {
     m_findFlags = flags;
+    m_targetFlags = targetFlags;
     m_zone = m_PBattleEntity->getZone();
     m_PTarget = nullptr;
     m_PRadiusAround = &PTarget->loc.p;
@@ -67,10 +69,11 @@ void CTargetFind::findSingleTarget(CBattleEntity* PTarget, uint8 flags)
     addEntity(PTarget, false);
 }
 
-void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, float radius, uint8 flags)
+void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, float radius, uint8 flags, uint16 targetFlags)
 {
     TracyZoneScoped;
     m_findFlags = flags;
+    m_targetFlags = targetFlags;
     m_radius = radius;
     m_zone = m_PBattleEntity->getZone();
 
@@ -138,13 +141,31 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
     else 
     {
         // handle this as a mob
-        if (m_PMasterTarget->objtype == TYPE_PC || m_PBattleEntity->allegiance == ALLEGIANCE_PLAYER ||
-            (radius > 0 && m_PMasterTarget == m_PBattleEntity && m_PBattleEntity->name == "Dark_Ixion")) // DI targeting himself with AoE mobskill
+
+        if (m_targetFlags & TARGET_ANY_ALLEGIANCE)
+
         {
             m_findType = FIND_MONSTER_PLAYER;
 
+            if ((m_targetFlags & TARGET_SELF) && m_PBattleEntity->GetBattleTarget())
+
+            {
+                // This ability targets self for aoe skills (such as Frozen Mist)
+
+                // We must update the base target for allegiance checks
+
+                m_PMasterTarget = findMaster(m_PBattleEntity->GetBattleTarget());
+            }
         }
+
+        else if (m_PMasterTarget->objtype == TYPE_PC || m_PBattleEntity->allegiance == ALLEGIANCE_PLAYER)
+
+        {
+            m_findType = FIND_MONSTER_PLAYER;
+        }
+
         else
+
         {
             m_findType = FIND_MONSTER_MONSTER;
         }
@@ -194,7 +215,7 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
     }
 }
 
-void CTargetFind::findWithinCone(CBattleEntity* PTarget, float distance, float angle, uint8 flags, bool isBehind)
+void CTargetFind::findWithinCone(CBattleEntity* PTarget, float distance, float angle, uint8 flags, bool isBehind, uint16 targetFlags)
 {
     m_findFlags = flags;
     m_conal = true;
@@ -436,47 +457,77 @@ bool CTargetFind::validEntity(CBattleEntity* PTarget)
         return true;
     }
 
-	if (m_PTarget->allegiance != PTarget->allegiance && m_PTarget->name != "Dark_Ixion")
-	{
-		return false;
-	}
+
+    // short-circuit allegiance checks for aoe skills/abilities/spells that can hit players and mobs simultaneously
+    if (m_targetFlags & TARGET_ANY_ALLEGIANCE)
+    {
+        if (m_targetFlags & TARGET_SELF)
+        {
+            if (m_PBattleEntity->allegiance == PTarget->allegiance)
+            {
+                // TARGET_ANY_ALLEGIANCE with TARGET_SELF means it should behave like TARGET_ENEMY
+                return false;
+            }
+        }
+        else if (m_PBattleEntity == PTarget)
+        {
+            // Don't erroneously include self when using TARGET_ANY_ALLEGIANCE
+            return false;
+        }
+    }
+    else
+    {
+        if (m_PTarget->allegiance != PTarget->allegiance)
+        {
+            return false;
+        }
+
+        // If offensive, don't target other entities with same allegiance
+        // Cures can be AoE with Accession and Majesty, ideally we would use SPELLGROUP or some other mechanism, but TargetFind wasn't designed with that in
+        // mind
+        if ((m_targetFlags & TARGET_ENEMY) && !(m_targetFlags & TARGET_PLAYER_PARTY) && m_PBattleEntity->allegiance == PTarget->allegiance)
+        {
+            return false;
+        }
 
     // shouldn't add if target is charmed by the enemy
-    if (PTarget->PMaster != nullptr)
-    {
-        if (m_findType == FIND_MONSTER_PLAYER){
-
-            if (PTarget->PMaster->objtype == TYPE_MOB){
-                return false;
-            }
-
-        }
-        else if (m_findType == FIND_PLAYER_MONSTER){
-
-            if (PTarget->PMaster->objtype == TYPE_PC){
-                return false;
-            }
-
-        }
-        else if (m_findType == FIND_MONSTER_MONSTER || m_findType == FIND_PLAYER_PLAYER){
-            if (PTarget->objtype == TYPE_TRUST)
+        if (PTarget->PMaster != nullptr)
+        {
+            if (m_findType == FIND_MONSTER_PLAYER)
             {
-                if (m_conal)
+                if (PTarget->PMaster->objtype == TYPE_MOB)
                 {
-                    if (isWithinCone(&PTarget->loc.p))
-                    {
-                        return true;
-                    }
-                }
-                else
-                {
-                    if ((m_findFlags & FINDFLAGS_UNLIMITED) || isWithinArea(&PTarget->loc.p))
-                    {
-                        return true;
-                    }
+                    return false;
                 }
             }
-            return false;
+            else if (m_findType == FIND_PLAYER_MONSTER)
+            {
+                if (PTarget->PMaster->objtype == TYPE_PC)
+                {
+                    return false;
+                }
+            }
+            else if (m_findType == FIND_MONSTER_MONSTER || m_findType == FIND_PLAYER_PLAYER)
+            {
+                if (PTarget->objtype == TYPE_TRUST)
+                {
+                    if (m_conal)
+                    {
+                        if (isWithinCone(&PTarget->loc.p))
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if ((m_findFlags & FINDFLAGS_UNLIMITED) || isWithinArea(&PTarget->loc.p))
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
         }
     }
 

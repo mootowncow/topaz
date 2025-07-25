@@ -1288,7 +1288,6 @@ void CMobEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& actio
     }
 }
 
-
 void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 {
     auto PSkill = state.GetSkill();
@@ -1331,17 +1330,17 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     {
         if (PSkill->isAoE())
         {
-            PAI->TargetFind->findWithinArea(PTarget, (AOERADIUS)PSkill->getAoe(), PSkill->getRadius(), findFlags);
+            PAI->TargetFind->findWithinArea(PTarget, (AOERADIUS)PSkill->getAoe(), PSkill->getRadius(), findFlags, PSkill->getValidTargets());
         }
         else if (PSkill->isConal())
         {
             float angle = 45.0f;
-            PAI->TargetFind->findWithinCone(PTarget, distance, angle, findFlags);
+            PAI->TargetFind->findWithinCone(PTarget, distance, angle, findFlags, false, PSkill->getValidTargets());
         }
         else if (PSkill->isBack())
         {
             float angle = 45.0f;
-            PAI->TargetFind->findWithinCone(PTarget, distance, angle, findFlags, true);
+            PAI->TargetFind->findWithinCone(PTarget, distance, angle, findFlags, true, PSkill->getValidTargets());
         }
         else
         {
@@ -1382,18 +1381,63 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         }
     }
 
+
     uint16 targets = static_cast<uint16>(PAI->TargetFind->m_targets.size());
+
+    auto skipSelf = false;
+
+    if ((PSkill->getValidTargets() & TARGET_ANY_ALLEGIANCE) && (PSkill->getValidTargets() & TARGET_SELF))
+
+    {
+        // This ability targets self for aoe skills (such as Frozen Mist)
+
+        // Should be impossible for self to not be in target list, but just in case
+
+        if (targets > 0)
+
+        {
+            targets -= 1;
+        }
+
+        skipSelf = true;
+    }
+
     // No targets, perhaps something like Super Jump or otherwise untargetable
     if (targets == 0)
     {
-        action.actiontype = ACTION_MOBABILITY_INTERRUPT;
-        action.actionid = 28787; // Some hardcoded magic for interrupts
         actionList_t& actionList = action.getNewActionList();
         actionList.ActionTargetID = id;
         actionTarget_t& actionTarget = actionList.getNewActionTarget();
-        actionTarget.animation = 0x1FC; // Hardcoded magic sent from the server
         actionTarget.messageID = 0;
-        actionTarget.reaction = REACTION_ABILITY_HIT;
+
+
+        if (skipSelf)
+
+        {
+            // This ability targets self for aoe skills (such as Frozen Mist)
+
+            // And it found no valid targets in range, the skill and animation should still trigger
+
+            // action.actiontype unchanged
+
+            actionTarget.animation = PSkill->getAnimationID();
+
+            actionTarget.reaction = REACTION_HIT;
+
+            actionTarget.speceffect = SELFAOE_MISS;
+        }
+
+        else
+
+        {
+            action.actiontype = ACTION_MOBABILITY_INTERRUPT;
+
+            action.actionid = 28787; // Some hardcoded magic for interrupts
+
+            actionTarget.animation = 0x1FC; // Hardcoded magic sent from the server
+
+            actionTarget.reaction = REACTION_HIT;
+        }
         return;
     }
 
@@ -1408,6 +1452,16 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     bool first {true};
     for (auto&& PTarget : PAI->TargetFind->m_targets)
     {
+        if (PTarget == PTarget && skipSelf)
+
+        {
+            // This ability targets self for aoe skills (such as Frozen Mist)
+
+            // Ignore self completely
+
+            continue;
+        }
+
         actionList_t& list = action.getNewActionList();
 
         list.ActionTargetID = PTarget->id;
