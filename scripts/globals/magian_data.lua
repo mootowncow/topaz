@@ -182,6 +182,130 @@ tpz.magian.trials = {
         },
     },
 
+    [42] = {
+        mainItem      = tpz.items.PUGILISTS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.LEECH, tpz.mob.family.LEECH_TOAU },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 250,
+        rewardItem    = {
+            itemId       = tpz.items.CATS_CLAWS,
+            itemAugments = {
+                { tpz.augments.DELAYMINUS, 4 },
+            },
+        },
+    },
+
+    [43] = {
+        mainItem      = tpz.items.CATS_CLAWS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 42,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.SEAMONK },
+        subType       = 'Weather',
+        weather       = 'Any',
+        numRequired   = 300,
+        rewardItem    = {
+            itemId       = tpz.items.CATS_CLAWS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 4 },
+                { tpz.augments.DELAYMINUS, 4 },
+            },
+        },
+    },
+
+    [44] = {
+        mainItem      = tpz.items.CATS_CLAWS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 43,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.POROGGO },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.LIGHTNING,
+        day           = tpz.day.LIGHTNINGDAY,
+        numRequired   = 350,
+        rewardItem    = {
+            itemId       = tpz.items.CATS_CLAWS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 5 },
+                { tpz.augments.DELAYMINUS, 4 },
+                { tpz.augments.ADDEFF_FIREDMG_5, 10 },
+            },
+        },
+    },
+
+    [45] = {
+        mainItem      = tpz.items.CATS_CLAWS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 44,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.DRACHENLIZARD },
+        subType       = 'Weather',
+        weather       = tpz.weatherGroup.LIGHTNING,
+        day           = tpz.day.LIGHTNINGDAY,
+        numRequired   = 400,
+        rewardItem    = {
+            itemId       = tpz.items.CATS_CLAWS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 6 },
+                { tpz.augments.DELAYMINUS, 4 },
+                { tpz.augments.ADDEFF_FIREDMG_5, 15 },
+                { tpz.augments.DEX, 3 },
+            },
+        },
+    },
+
+    [46] = {
+        mainItem      = tpz.items.CATS_CLAWS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 45,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.NIMBLE_NELSON },
+        numRequired   = 15,
+        rewardItem    = {
+            itemId       = tpz.items.CATS_CLAWS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 7 },
+                { tpz.augments.DELAYMINUS, 4 },
+                { tpz.augments.DEX, 4 },
+                { tpz.augments.ACC, 8 },
+            },
+        },
+    },
+
+    [47] = {
+        mainItem      = tpz.items.CATS_CLAWS,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 46,
+        textOffset    = 1,
+        killType      = 'Specific',
+        mob           = { tpz.mob.pool.VERTHANDI },
+        numRequired   = 25,
+        rewardItem    = {
+            itemId       = tpz.items.CATS_CLAWS,
+            itemAugments = {
+                { tpz.augments.MAIN_DMG_RATING, 8 },
+                { tpz.augments.DELAYMINUS, 4 },
+                { tpz.augments.DEX, 5 },
+                { tpz.augments.ACC, 10 },
+            },
+        },
+    },
+
     [82] = {
         mainItem      = tpz.items.PUGILISTS,
         tradeItem     = tpz.items.NONE,
