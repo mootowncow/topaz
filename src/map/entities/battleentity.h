@@ -676,7 +676,7 @@ enum TARGETTYPE
     TARGET_IGNORE_BATTLEID         = 0x400, // Can hit targets that do not have the same battle ID
     TARGET_EXCLUDE_TRUSTS          = 0x800, // Exclude trusts
     TARGET_EXCLUDE_PETS            = 0x1000,// Exclude pets
-    TARGET_ANY_ALLEGIANCE          = 0x2000, // Can hit targets from any allegiance simultaneously. To be used with other flags above and only makes sense for non-single-target skills
+    TARGET_ANY_ALLEGIANCE          = 0x2000,// Can hit targets from any allegiance simultaneously. To be used with other flags above and only makes sense for non-single-target skills
 };
 
 enum SKILLCHAIN_ELEMENT

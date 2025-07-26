@@ -1383,11 +1383,9 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
 
     uint16 targets = static_cast<uint16>(PAI->TargetFind->m_targets.size());
-
     auto skipSelf = false;
 
     if ((PSkill->getValidTargets() & TARGET_ANY_ALLEGIANCE) && (PSkill->getValidTargets() & TARGET_SELF))
-
     {
         // This ability targets self for aoe skills (such as Frozen Mist)
 
@@ -1412,7 +1410,6 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
 
         if (skipSelf)
-
         {
             // This ability targets self for aoe skills (such as Frozen Mist)
 
@@ -1426,9 +1423,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
             actionTarget.speceffect = SELFAOE_MISS;
         }
-
         else
-
         {
             action.actiontype = ACTION_MOBABILITY_INTERRUPT;
 
@@ -1450,10 +1445,11 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     uint16 defaultMessage = PSkill->getMsg();
 
     bool first {true};
-    for (auto&& PTarget : PAI->TargetFind->m_targets)
+    for (auto&& PTargetFound : PAI->TargetFind->m_targets)
     {
-        if (PTarget == PTarget && skipSelf)
-
+        // TODO: If PTarget == PTarget is wrong, see how this was coded in the commit
+        // and auto&& PTarget should prob be changed to something besides PTarget
+        if (PTarget == PTargetFound && skipSelf)
         {
             // This ability targets self for aoe skills (such as Frozen Mist)
 
@@ -1464,11 +1460,11 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
         actionList_t& list = action.getNewActionList();
 
-        list.ActionTargetID = PTarget->id;
+        list.ActionTargetID = PTargetFound->id;
 
         actionTarget_t& target = list.getNewActionTarget();
 
-        list.ActionTargetID = PTarget->id;
+        list.ActionTargetID = PTargetFound->id;
         target.reaction = REACTION_HIT;
         target.speceffect = SPECEFFECT_HIT;
         target.animation = PSkill->getAnimationID();
@@ -1503,7 +1499,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         // reset the skill's message back to default
         PSkill->setMsg(defaultMessage);
 
-        if (PTarget->isSuperJumped)
+        if (PTargetFound->isSuperJumped)
         {
             target.reaction = REACTION_EVADE;
             target.speceffect = SPECEFFECT_NONE;
@@ -1523,11 +1519,11 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             }
             // This needs to be changed to look up by ability ID (the players ability) and not mobskill ID for the file to use, and to get animation etc
             // PSkill also needs to be changed to PAvatar->m_bloodPactAbilityId;
-            target.param = luautils::OnPetAbility(PTarget, this, PSkill, PMaster, &action);
+            target.param = luautils::OnPetAbility(PTargetFound, this, PSkill, PMaster, &action);
         }
         else
         {
-            target.param = luautils::OnMobWeaponSkill(PTarget, this, PSkill, &action, tp);
+            target.param = luautils::OnMobWeaponSkill(PTargetFound, this, PSkill, &action, tp);
         }
         if (msg == 0)
         {
@@ -1571,7 +1567,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
                 float ratio = 1.0f;
                 int16 baseTp = 0;
                 baseTp = battleutils::CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
-                if (PTarget->id == PSkill->getPrimaryTargetID())
+                if (PTargetFound->id == PSkill->getPrimaryTargetID())
                     this->addTP((int16)(1 * (baseTp * (1.0f + 0.01f * (float)((this->getMod(Mod::STORETP)))))));
             }
         }
@@ -1587,14 +1583,14 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
                 {
                     if (PSkill->getPrimarySkillchain())
                     {
-                        SUBEFFECT effect = battleutils::GetSkillChainEffect(PTarget, PSkill->getPrimarySkillchain(), PSkill->getSecondarySkillchain(),
+                        SUBEFFECT effect = battleutils::GetSkillChainEffect(PTargetFound, PSkill->getPrimarySkillchain(), PSkill->getSecondarySkillchain(),
                                                                             PSkill->getTertiarySkillchain());
                         if (effect != SUBEFFECT_NONE)
                         {
                             // Apply Inundation weapon skill type tracking
-                            if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_INUNDATION))
+                            if (PTargetFound->StatusEffectContainer->HasStatusEffect(EFFECT_INUNDATION))
                             {
-                                CStatusEffect* PEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_INUNDATION, 0);
+                                CStatusEffect* PEffect = PTargetFound->StatusEffectContainer->GetStatusEffect(EFFECT_INUNDATION, 0);
                                 auto power = PEffect->GetPower();
                                 auto currentFlag = WEAPONTYPE_PET;
                                 auto subPower = PEffect->GetSubPower();
@@ -1605,7 +1601,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
                                 }
                             }
 
-                            int32 skillChainDamage = battleutils::TakeSkillchainDamage(this, PTarget, target.param, nullptr);
+                            int32 skillChainDamage = battleutils::TakeSkillchainDamage(this, PTargetFound, target.param, nullptr);
                             if (skillChainDamage < 0)
                             {
                                 target.addEffectParam = -skillChainDamage;
@@ -1621,9 +1617,9 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
                         else if (effect == SUBEFFECT_NONE)
                         {
                             // Reset Inundation weapon skill type tracking
-                            if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_INUNDATION))
+                            if (PTargetFound->StatusEffectContainer->HasStatusEffect(EFFECT_INUNDATION))
                             {
-                                CStatusEffect* PEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_INUNDATION, 0);
+                                CStatusEffect* PEffect = PTargetFound->StatusEffectContainer->GetStatusEffect(EFFECT_INUNDATION, 0);
                                 auto currentFlag = WEAPONTYPE_PET;
                                 PEffect->SetPower(0);
                                 PEffect->SetSubPower(currentFlag);
@@ -1645,19 +1641,19 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         // Pet buffing abilities shouldn't remove sneak/invis off players(i.e. Garuda's Hastega Blood Pact: Ward)
         if (objtype != TYPE_PET)
         {
-            PTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+            PTargetFound->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
         }
 
-        if (!PTarget->isDead())
+        if (!PTargetFound->isDead())
         {
-            battleutils::ClaimMob(PTarget, this);
+            battleutils::ClaimMob(PTargetFound, this);
         }
 
-        battleutils::DirtyExp(PTarget, this);
-        if (PTarget->isDead() && PTarget->objtype == TYPE_MOB && this->objtype == TYPE_PET && this->PMaster->objtype == TYPE_PC)
+        battleutils::DirtyExp(PTargetFound, this);
+        if (PTargetFound->isDead() && PTargetFound->objtype == TYPE_MOB && this->objtype == TYPE_PET && this->PMaster->objtype == TYPE_PC)
         {
-            ((CMobEntity*)PTarget)->m_autoTargetKiller = ((CCharEntity*)PMaster);
-            ((CMobEntity*)PTarget)->DoAutoTarget();
+            ((CMobEntity*)PTargetFound)->m_autoTargetKiller = ((CCharEntity*)PMaster);
+            ((CMobEntity*)PTargetFound)->DoAutoTarget();
         }
     }
     PTarget = static_cast<CBattleEntity*>(state.GetTarget());
