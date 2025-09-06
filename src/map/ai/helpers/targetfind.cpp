@@ -77,142 +77,147 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
     m_radius = radius;
     m_zone = m_PBattleEntity->getZone();
 
-    if (radiusType == AOERADIUS_ATTACKER){
+    ShowDebug("TargetFind::findWithinArea() - Initiated by: %s (%u), Target: %s (%u)\n", m_PBattleEntity->GetName(), m_PBattleEntity->id, PTarget->GetName(),
+              PTarget->id);
+
+    if (radiusType == AOERADIUS_ATTACKER)
+    {
         m_PRadiusAround = &m_PBattleEntity->loc.p;
+        ShowDebug("TargetFind::findWithinArea() - AoE center is attacker\n");
     }
-    else {
-        // radius around target
+    else
+    {
         m_PRadiusAround = &PTarget->loc.p;
+        ShowDebug("TargetFind::findWithinArea() - AoE center is target\n");
     }
 
-    // get master to properly handle loops
     m_PMasterTarget = findMaster(PTarget);
+    ShowDebug("TargetFind::findWithinArea() - Master of target: %s (%u)\n", m_PMasterTarget->GetName(), m_PMasterTarget->id);
 
-    // no not include pets if this AoE is a buff spell
-    // this is a buff because i'm targeting my self
     bool withPet = PETS_CAN_AOE_BUFF || (m_findFlags & FINDFLAGS_PET) || (m_PMasterTarget->objtype != m_PBattleEntity->objtype);
 
-    // always add original target first
-    addEntity(PTarget, false); // pet will be added later
+    addEntity(PTarget, false);
+    ShowDebug("TargetFind::findWithinArea() - Added base target: %s\n", PTarget->GetName());
 
     m_PTarget = PTarget;
     isPlayer = checkIsPlayer(m_PBattleEntity);
+    ShowDebug("TargetFind::findWithinArea() - Initiator is %s\n", isPlayer ? "Player" : "Mob");
 
     if (isPlayer)
     {
-        // handle this as a player
         if (m_PMasterTarget->objtype == TYPE_PC)
         {
-            // players will never need to add whole alliance
             m_findType = FIND_PLAYER_PLAYER;
+            ShowDebug("TargetFind::findWithinArea() - Player is targeting player\n");
 
             if (m_PMasterTarget->PParty != nullptr)
             {
-                // player -ra spells should never hit whole alliance
                 if ((m_findFlags & FINDFLAGS_ALLIANCE) && m_PMasterTarget->PParty->m_PAlliance != nullptr)
                 {
+                    ShowDebug("TargetFind::findWithinArea() - Adding alliance members\n");
                     addAllInAlliance(m_PMasterTarget, withPet);
                 }
                 else
                 {
-                    // add party members
+                    ShowDebug("TargetFind::findWithinArea() - Adding party members\n");
                     addAllInParty(m_PMasterTarget, withPet);
                 }
             }
-            else 
+            else
             {
-                // just add myself
+                ShowDebug("TargetFind::findWithinArea() - No party, adding master target only\n");
                 addEntity(m_PMasterTarget, withPet);
             }
 
-            // AoE ALL targets if certain status effects are active in order to buff friendly NPCs and players
-            if (m_PMasterTarget->StatusEffectContainer->HasStatusEffect({ EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
+            if (m_PMasterTarget->StatusEffectContainer->HasStatusEffect(
+                    { EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
             {
+                ShowDebug("TargetFind::findWithinArea() - StatusEffect triggered, adding all in zone\n");
                 addAllInZone(m_PMasterTarget, withPet);
             }
         }
-        else 
+        else
         {
             m_findType = FIND_PLAYER_MONSTER;
-            // special case to add all mobs in range
+            ShowDebug("TargetFind::findWithinArea() - Player is targeting mob, adding mobs in range\n");
             addAllInMobList(m_PMasterTarget, false);
         }
     }
-    else 
+    else
     {
-        // handle this as a mob
-
+        // Mob logic
         if (m_targetFlags & TARGET_ANY_ALLEGIANCE)
-
         {
             m_findType = FIND_MONSTER_PLAYER;
+            ShowDebug("TargetFind::findWithinArea() - Mob targeting any allegiance\n");
 
             if ((m_targetFlags & TARGET_SELF) && m_PBattleEntity->GetBattleTarget())
-
             {
-                // This ability targets self for aoe skills (such as Frozen Mist)
-
-                // We must update the base target for allegiance checks
-
                 m_PMasterTarget = findMaster(m_PBattleEntity->GetBattleTarget());
+                ShowDebug("TargetFind::findWithinArea() - Self-targeting skill, adjusted master target to: %s\n", m_PMasterTarget->GetName());
             }
         }
-
         else if (m_PMasterTarget->objtype == TYPE_PC || m_PBattleEntity->allegiance == ALLEGIANCE_PLAYER)
-
         {
             m_findType = FIND_MONSTER_PLAYER;
+            ShowDebug("TargetFind::findWithinArea() - Mob targeting players\n");
         }
-
         else
-
         {
             m_findType = FIND_MONSTER_MONSTER;
+            ShowDebug("TargetFind::findWithinArea() - Mob targeting monsters\n");
         }
 
-        // do not include pets in monster AoE buffs
         if (m_findType == FIND_MONSTER_MONSTER && m_PTarget->PMaster == nullptr)
         {
             withPet = PETS_CAN_AOE_BUFF;
         }
 
-        // AoE ALL targets if certain status effects are active in order to buff friendly NPCs and players
-        if (m_PMasterTarget->StatusEffectContainer->HasStatusEffect({ EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
+        if (m_PMasterTarget->StatusEffectContainer->HasStatusEffect(
+                { EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
         {
+            ShowDebug("TargetFind::findWithinArea() - Mob status effect triggered, adding all in zone\n");
             addAllInZone(m_PMasterTarget, withPet);
         }
 
-        if (m_findFlags & FINDFLAGS_HIT_ALL ||
-            (m_findType == FIND_MONSTER_PLAYER && ((CMobEntity*)m_PBattleEntity)->CalledForHelp()))
+        if (m_findFlags & FINDFLAGS_HIT_ALL || (m_findType == FIND_MONSTER_PLAYER && ((CMobEntity*)m_PBattleEntity)->CalledForHelp()))
         {
+            ShowDebug("TargetFind::findWithinArea() - AoE hitting all in zone\n");
             addAllInZone(m_PMasterTarget, withPet);
         }
         else
         {
             if (m_PMasterTarget->PParty != nullptr)
             {
-                // player -ra spells should never hit whole alliance
                 if ((m_findFlags & FINDFLAGS_ALLIANCE) && m_PMasterTarget->PParty->m_PAlliance != nullptr)
                 {
+                    ShowDebug("TargetFind::findWithinArea() - Adding alliance (mob->player)\n");
                     addAllInAlliance(m_PMasterTarget, withPet);
                 }
                 else
                 {
-                    // add party members
+                    ShowDebug("TargetFind::findWithinArea() - Adding party (mob->player)\n");
                     addAllInParty(m_PMasterTarget, withPet);
                 }
             }
 
-            // Is the monster casting on a player..
             if (m_findType == FIND_MONSTER_PLAYER)
             {
                 if (m_PBattleEntity->allegiance == ALLEGIANCE_PLAYER)
+                {
+                    ShowDebug("TargetFind::findWithinArea() - Player-aligned mob, adding all in zone\n");
                     addAllInZone(m_PMasterTarget, withPet);
+                }
                 else
+                {
+                    ShowDebug("TargetFind::findWithinArea() - Regular mob, adding from enmity list\n");
                     addAllInEnmityList();
+                }
             }
         }
     }
+
+    ShowDebug("TargetFind::findWithinArea() - Target list size: %zu\n", m_targets.size());
 }
 
 void CTargetFind::findWithinCone(CBattleEntity* PTarget, float distance, float angle, uint8 flags, bool isBehind, uint16 targetFlags)

@@ -1109,10 +1109,13 @@ void CMobEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& actio
 
     SLOTTYPE damslot = SLOT_MAIN;
     bool isRangedWS = (PWeaponSkill->getID() >= 192 && PWeaponSkill->getID() <= 218);
+    uint8 findFlags = 0;
 
     // Check if target is alive
     if (PBattleTarget->GetHPP() < 1)
+    {
         return;
+    }
 
     if (distance(loc.p, PBattleTarget->loc.p) - PBattleTarget->m_ModelSize <= PWeaponSkill->getRange())
     {
@@ -1294,7 +1297,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
     int16 tp = state.GetSpentTP();
     tp = battleutils::CalculateWeaponSkillTP(this, 0, tp);
-
+    ShowDebug("PTarget %s\n", PTarget->name);
     static_cast<CMobController*>(PAI->GetController())->TapDeaggroTime();
 
     // store the skill used
@@ -1315,6 +1318,10 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         findFlags |= FINDFLAGS_PET;
     }
 
+    auto skillId = PSkill->getID();
+    auto aoe = PSkill->getAoe();
+    auto flags = PSkill->getFlag();
+    ShowDebug("PSkill %u AOE: %u\n Flags: %u", skillId, aoe, flags);
     action.id = id;
     if (objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() == PETTYPE_AVATAR)
         action.actiontype = ACTION_PET_MOBABILITY_FINISH;
@@ -1328,12 +1335,15 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
     if (PTarget && PAI->TargetFind->isWithinRange(&PTarget->loc.p, distance))
     {
+        ShowDebug("Is within range\n");
         if (PSkill->isAoE())
         {
+            ShowDebug("Is AOE\n");
             PAI->TargetFind->findWithinArea(PTarget, (AOERADIUS)PSkill->getAoe(), PSkill->getRadius(), findFlags, PSkill->getValidTargets());
         }
         else if (PSkill->isConal())
         {
+            ShowDebug("Is Conal\n");
             float angle = 45.0f;
             PAI->TargetFind->findWithinCone(PTarget, distance, angle, findFlags, false, PSkill->getValidTargets());
         }
@@ -1358,6 +1368,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     }
     else // Out of range
     {
+        ShowDebug("Out of range\n");
         if (PTarget)
         {
             action.actiontype = ACTION_MOBABILITY_INTERRUPT;
@@ -1387,6 +1398,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
     if ((PSkill->getValidTargets() & TARGET_ANY_ALLEGIANCE) && (PSkill->getValidTargets() & TARGET_SELF))
     {
+        ShowDebug("Skip self\n");
         // This ability targets self for aoe skills (such as Frozen Mist)
 
         // Should be impossible for self to not be in target list, but just in case
@@ -1411,6 +1423,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
         if (skipSelf)
         {
+            ShowDebug("Targets 0 and skipping self\n");
             // This ability targets self for aoe skills (such as Frozen Mist)
 
             // And it found no valid targets in range, the skill and animation should still trigger
@@ -1425,6 +1438,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         }
         else
         {
+            ShowDebug("Targets 0 and NOT skipping self\n");
             action.actiontype = ACTION_MOBABILITY_INTERRUPT;
 
             action.actionid = 28787; // Some hardcoded magic for interrupts
@@ -1451,6 +1465,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         // and auto&& PTarget should prob be changed to something besides PTarget
         if (PTarget == PTargetFound && skipSelf)
         {
+            ShowDebug("PTarget is PTargetfound and skip self\n");
             // This ability targets self for aoe skills (such as Frozen Mist)
 
             // Ignore self completely
