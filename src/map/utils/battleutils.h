@@ -286,6 +286,9 @@ namespace battleutils
     // Handles everything related to breaking Bind
     void                BindBreakCheck(CBattleEntity* PAttacker, CBattleEntity* PDefender);
 
+    // JA's
+    void                HandleRestraint(CBattleEntity* PAttacker, int32 dmg);
+
     // returns damage taken
     int32               HandleStoneskin(CBattleEntity* PDefender, int32 damage, ATTACKTYPE attackType);
     int32               HandleMagicStoneskin(CBattleEntity* PDefender, int32 damage);

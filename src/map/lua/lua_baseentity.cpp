@@ -18369,6 +18369,28 @@ int32 CLuaBaseEntity::trustProgressUpdateFlag(lua_State* L)
     return 0;
 }
 
+/************************************************************************
+ *  Function: handleRestraint(dmg)
+ *  Purpose : Attempts to proc Treasure Hunter on the target
+ *  Example : attacker:handleRestraint(dmg)
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::handleRestraint(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1));
+
+    int32 dmg = lua_tointeger(L, 1);
+
+    if (auto* PBattleEntity = static_cast<CBattleEntity*>(m_PBaseEntity))
+    {
+        battleutils::HandleRestraint(PBattleEntity, dmg);
+    }
+
+    return 0;
+}
+
 
 //=======================================================//
 
@@ -19147,6 +19169,9 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getPlayerRegionInZone),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateToEntireZone),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,trustProgressUpdateFlag),
+
+    // JA's
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,handleRestraint),
 
     {nullptr,nullptr}
 };

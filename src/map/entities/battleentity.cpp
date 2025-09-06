@@ -2435,6 +2435,8 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                     }
                 }
 
+                battleutils::HandleRestraint(this, actionTarget.param);
+
                 // Enspells that are applied AFTER damage calc (i.e. blood weapon and soul enslavement)
                 // Spikes is also applied after damage calc (For retal, reprisal, reflect(damage spikes) spikes, etc
                 if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
