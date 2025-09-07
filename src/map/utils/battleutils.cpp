@@ -1397,6 +1397,7 @@ namespace battleutils
                     Action->spikesMessage = MSGBASIC_SPIKES_RETAL;
                     Action->spikesParam = battleutils::TakePhysicalDamage(PDefender, PAttacker, PHYSICAL_ATTACK_TYPE::NORMAL, dmg, false, SLOT_MAIN, 1, nullptr,
                                                                           true, true, true);
+                    battleutils::HandleRestraint(PDefender, Action->spikesParam);
                 }
             }
         }
@@ -7329,29 +7330,29 @@ namespace battleutils
 
         if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_RESTRAINT))
         {
+            // Base 25%
+            float stoneskinPercent = 0.25f;
+
+            // Add JP bonus (2% per JP)
+            if (PAttacker->objtype == TYPE_PC)
+            {
+                if (auto* PChar = dynamic_cast<CCharEntity*>(PAttacker))
+                {
+                    float jpBonus = PChar->PJobPoints->GetJobPointValue(JP_RESTRAINT_EFFECT) * 0.02f;
+                    stoneskinPercent *= (1.0f + jpBonus);
+                }
+            }
+
+            // Add mod bonus (value like 10 means +10%)
+            float modBonus = PAttacker->getMod(Mod::ENHANCES_RESTRAINT) / 100.0f;
+            stoneskinPercent *= (1.0f + modBonus);
+
             // Has stoneskin effect, increase it's power based on damage done
             if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_STONESKIN))
             {
                 CStatusEffect* stoneskin = PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_STONESKIN, 0);
                 uint16 stoneskinPower = PAttacker->getMod(Mod::STONESKIN);
                 uint32 stoneskinTimeRemaining = stoneskin->GetTimeRemaining();
-
-                // Base 25%
-                float stoneskinPercent = 0.25f;
-
-                // Add JP bonus (2% per JP)
-                if (PAttacker->objtype == TYPE_PC)
-                {
-                    if (auto* PChar = dynamic_cast<CCharEntity*>(PAttacker))
-                    {
-                        float jpBonus = PChar->PJobPoints->GetJobPointValue(JP_RESTRAINT_EFFECT) * 0.02f;
-                        stoneskinPercent *= (1.0f + jpBonus);
-                    }
-                }
-
-                // Add mod bonus (value like 10 means +10%)
-                float modBonus = PAttacker->getMod(Mod::ENHANCES_RESTRAINT) / 100.0f;
-                stoneskinPercent *= (1.0f + modBonus);
 
                 // Added stoneskin amount
                 uint32 addedStoneskinPower = static_cast<uint32>(std::floor(dmg * stoneskinPercent));
@@ -7374,23 +7375,6 @@ namespace battleutils
             }
             else // Does not have SS effect, add a new one based on damage dealt
             {
-                // Base 25%
-                float stoneskinPercent = 0.25f;
-
-                // Add JP bonus (2% per JP)
-                if (PAttacker->objtype == TYPE_PC)
-                {
-                    if (auto* PChar = dynamic_cast<CCharEntity*>(PAttacker))
-                    {
-                        float jpBonus = PChar->PJobPoints->GetJobPointValue(JP_RESTRAINT_EFFECT) * 0.02f;
-                        stoneskinPercent *= (1.0f + jpBonus);
-                    }
-                }
-
-                // Add mod bonus (value like 10 means +10%)
-                float modBonus = PAttacker->getMod(Mod::ENHANCES_RESTRAINT) / 100.0f;
-                stoneskinPercent *= (1.0f + modBonus);
-
                 // Added stoneskin amount
                 uint32 stoneskinPower = static_cast<uint32>(std::floor(dmg * stoneskinPercent));
 

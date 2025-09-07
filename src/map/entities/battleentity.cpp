@@ -2298,6 +2298,9 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
                         actionTarget.spikesParam = battleutils::TakePhysicalDamage(PTarget, this, attack.GetAttackType(), damage, false, SLOT_MAIN, 1, nullptr, true, false, true);
                         actionTarget.spikesMessage = 33;
+
+                        battleutils::HandleRestraint(PTarget, actionTarget.spikesParam);
+
                         if (PTarget->objtype == TYPE_PC)
                         {
                             auto targ_weapon = dynamic_cast<CItemWeapon*>(PTarget->m_Weapons[SLOT_MAIN]);
