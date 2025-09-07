@@ -237,7 +237,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Wargfangs]] || [[Baby Blobdingnag]] || Items || Required: 10<br /> || [[Wargfangs]]<br />DMG +16, DELAY_65 +0, SPECIAL +8 || –
+| [[Wargfangs]] || [[Baby Blobdingnag]] || Items || Required: 10<br /> || [[Wargfangs]]<br />DMG +16, DELAY_65 +0, OCC_ATTACK_TWICE || –
 |}
 
 {| class="wikitable sortable"
@@ -371,7 +371,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Athame]] || [[Eye Of Verthandi]] || Items || Required: 10<br /> || [[Athame]]<br />DMG +12, DELAY +20, SPECIAL +8 || –
+| [[Athame]] || [[Eye Of Verthandi]] || Items || Required: 10<br /> || [[Athame]]<br />DMG +12, DELAY +20, OCC_ATTACK_TWICE || –
 |}
 
 {| class="wikitable sortable"
@@ -477,7 +477,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Antea]] || [[Ruthven's Nail]] || Items || Required: 10<br /> || [[Antea]]<br />DMG +16, DELAY_33 +3, SPECIAL +8 || –
+| [[Antea]] || [[Ruthven's Nail]] || Items || Required: 10<br /> || [[Antea]]<br />DMG +16, DELAY_33 +3, OCC_ATTACK_TWICE || –
 |}
 
 == [[Soulsaber]] ==
@@ -569,7 +569,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Salamand Sword]] || [[Krabkatoa Shell]] || Items || Required: 10<br /> || [[Salamand Sword]]<br />DMG +29, DELAY +23, SPECIAL +8 || –
+| [[Salamand Sword]] || [[Krabkatoa Shell]] || Items || Required: 10<br /> || [[Salamand Sword]]<br />DMG +29, DELAY +23, OCC_ATTACK_TWICE || –
 |}
 
 {| class="wikitable sortable"
@@ -668,7 +668,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Punisher]] || [[Baby Blobdingnag]] || Items || Required: 10<br /> || [[Punisher]]<br />DMG +18, DELAY +31, SPECIAL +8 || –
+| [[Punisher]] || [[Baby Blobdingnag]] || Items || Required: 10<br /> || [[Punisher]]<br />DMG +18, DELAY +31, OCC_ATTACK_TWICE || –
 |}
 
 {| class="wikitable sortable"
@@ -774,7 +774,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Luchtaine]] || [[Ruthven's Nail]] || Items || Required: 10<br /> || [[Luchtaine]]<br />DMG +31, SPECIAL +8 || –
+| [[Luchtaine]] || [[Ruthven's Nail]] || Items || Required: 10<br /> || [[Luchtaine]]<br />DMG +31, OCC_ATTACK_TWICE || –
 |}
 
 == [[Hephaestus]] ==
@@ -866,7 +866,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Vengeance]] || [[Eye Of Verthandi]] || Items || Required: 10<br /> || [[Vengeance]]<br />MAIN_DMG_RATING_33 +0, DELAY +9, SPECIAL +8 || –
+| [[Vengeance]] || [[Eye Of Verthandi]] || Items || Required: 10<br /> || [[Vengeance]]<br />MAIN_DMG_RATING_33 +0, DELAY +9, OCC_ATTACK_TWICE || –
 |}
 
 {| class="wikitable sortable"
@@ -965,7 +965,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Bradamante]] || [[Baby Blobdingnag]] || Items || Required: 10<br /> || [[Bradamante]]<br />DMG +31, DELAY +20, SPECIAL +8 || –
+| [[Bradamante]] || [[Baby Blobdingnag]] || Items || Required: 10<br /> || [[Bradamante]]<br />DMG +31, DELAY +20, OCC_ATTACK_TWICE || –
 |}
 
 {| class="wikitable sortable"
@@ -1071,7 +1071,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Isatu]] || [[Ruthven's Nail]] || Items || Required: 10<br /> || [[Isatu]]<br />DMG +13, DELAY +9, SPECIAL +8 || –
+| [[Isatu]] || [[Ruthven's Nail]] || Items || Required: 10<br /> || [[Isatu]]<br />DMG +13, DELAY +9, OCC_ATTACK_TWICE || –
 |}
 
 == [[Kuina]] ==
@@ -1163,7 +1163,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Kurodachi]] || [[Krabkatoa Shell]] || Items || Required: 10<br /> || [[Kurodachi]]<br />DMG +27, DELAY +19, SPECIAL +8 || –
+| [[Kurodachi]] || [[Krabkatoa Shell]] || Items || Required: 10<br /> || [[Kurodachi]]<br />DMG +27, DELAY +19, OCC_ATTACK_TWICE || –
 |}
 
 {| class="wikitable sortable"
@@ -1276,7 +1276,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Goedendag]] || [[Krabkatoa Shell]] || Items || Required: 10<br /> || [[Goedendag]]<br />DMG +19, DELAY_33 +7, SPECIAL +8 || –
+| [[Goedendag]] || [[Krabkatoa Shell]] || Items || Required: 10<br /> || [[Goedendag]]<br />DMG +19, DELAY_33 +7, OCC_ATTACK_TWICE || –
 |}
 
 == [[Ingrimm]] ==
@@ -1375,7 +1375,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Danda]] || [[Orcu's Mandible]] || Items || Required: 10<br /> || [[Danda]]<br />MAIN_DMG_RATING_33 +8, DELAY +12, SPECIAL +8 || –
+| [[Danda]] || [[Orcu's Mandible]] || Items || Required: 10<br /> || [[Danda]]<br />MAIN_DMG_RATING_33 +8, DELAY +12, OCC_ATTACK_TWICE || –
 |}
 
 {| class="wikitable sortable"
@@ -1391,7 +1391,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Sparrow]] || [[Krabkatoa Shell]] || Items || Required: 10<br /> || [[Goshawk]]<br />RANGED_DMG_RATING +22, RANGED_DELAY +23, SPECIAL +8 || –
+| [[Sparrow]] || [[Krabkatoa Shell]] || Items || Required: 10<br /> || [[Goshawk]]<br />RANGED_DMG_RATING +22, RANGED_DELAY +23, OCC_ATTACK_TWICE || –
 |}
 
 {| class="wikitable sortable"
@@ -1536,7 +1536,7 @@
 |+ Trial
 ! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
 |-
-| [[Dragonmaw]] || [[Eye Of Verthandi]] || Items || Required: 10<br /> || [[Dragonmaw]]<br />RANGED_DMG_RATING +27, RANGED_DELAY_65 +5, SPECIAL +8 || –
+| [[Dragonmaw]] || [[Eye Of Verthandi]] || Items || Required: 10<br /> || [[Dragonmaw]]<br />RANGED_DMG_RATING +27, RANGED_DELAY_65 +5, OCC_ATTACK_TWICE || –
 |}
 
 {| class="wikitable sortable"

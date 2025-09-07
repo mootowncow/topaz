@@ -52,8 +52,23 @@ local function formatAugments(augments)
     local parts = {}
     for _, aug in ipairs(augments) do
         if type(aug) == "table" and aug[1] and aug[2] then
-            local augName = augmentNames[aug[1]] or ("Unknown("..aug[1]..")")
-            table.insert(parts, augName .. " +" .. aug[2])
+            local augName
+            if aug[1] == tpz.augments.SPECIAL then
+                -- Lookup special sub-types
+                for name, id in pairs(tpz.augments.special) do
+                    if id == aug[2] then
+                        augName = name
+                        break
+                    end
+                end
+                if not augName then
+                    augName = "UnknownSpecial"
+                end
+            else
+                augName = augmentNames[aug[1]] or ("Unknown("..aug[1]..")")
+                augName = augName .. " +" .. aug[2]
+            end
+            table.insert(parts, augName)
         end
     end
     return table.concat(parts, ", ")
