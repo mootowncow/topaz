@@ -631,7 +631,7 @@ void CMobEntity::DoAutoTarget()
 
 void CMobEntity::HandleToAUStrongholdsAppraisalDrops(CCharEntity* PChar, uint16 PZone)
 {
-    uint16 dropRate = 24;
+    uint16 dropRate = 1;
 
     // NMs drop appraisal items 100% of the time
     if (m_Type == MOBTYPE_NOTORIOUS || getMobMod(MOBMOD_CHECK_AS_NM) > 0)

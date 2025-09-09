@@ -2298,6 +2298,9 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
                         actionTarget.spikesParam = battleutils::TakePhysicalDamage(PTarget, this, attack.GetAttackType(), damage, false, SLOT_MAIN, 1, nullptr, true, false, true);
                         actionTarget.spikesMessage = 33;
+
+                        battleutils::HandleRestraint(PTarget, actionTarget.spikesParam);
+
                         if (PTarget->objtype == TYPE_PC)
                         {
                             auto targ_weapon = dynamic_cast<CItemWeapon*>(PTarget->m_Weapons[SLOT_MAIN]);
@@ -2400,19 +2403,6 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
                     uint8 enspell = (uint8)this->getMod(Mod::ENSPELL);
 
-                    // Try to proc TH
-                    if (attack.IsFirstSwing() && this->objtype == TYPE_PC)
-                    {
-                        bool highProcRate = false;
-                        CCharEntity* PChar = (CCharEntity*)this;
-                        if (PChar->m_sneakTrickActive)
-                        {
-                            highProcRate = true;
-                        }
-
-                        charutils::TryProcTH(PChar, (CMobEntity*)PTarget, &actionTarget, highProcRate);
-                    }
-
                     // Add listener
                     if (enspell && !isBlocked)
                     {
@@ -2435,6 +2425,8 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                     }
                 }
 
+                battleutils::HandleRestraint(this, actionTarget.param);
+
                 // Enspells that are applied AFTER damage calc (i.e. blood weapon and soul enslavement)
                 // Spikes is also applied after damage calc (For retal, reprisal, reflect(damage spikes) spikes, etc
                 if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
@@ -2447,6 +2439,20 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
                                                    attack.GetDamage(), true);
                     }
+
+                    // Try to proc TH
+                    if (attack.IsFirstSwing() && this->objtype == TYPE_PC)
+                    {
+                        bool highProcRate = false;
+                        CCharEntity* PChar = (CCharEntity*)this;
+                        if (PChar->m_sneakTrickActive)
+                        {
+                            highProcRate = true;
+                        }
+
+                        charutils::TryProcTH(PChar, (CMobEntity*)PTarget, &actionTarget, highProcRate);
+                    }
+
                     battleutils::HandleSpikesDamage(this, PTarget, &actionTarget, attack.GetDamage());
                 }
             }

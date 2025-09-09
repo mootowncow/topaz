@@ -274,6 +274,11 @@ local modByMobName =
         AddBRDInstruments(mob)
         AddRefreshGear(mob)
         AddArtifactGear(mob)
+        if mob:getMainLvl() >= 51 and mob:getMainLvl() < 72 then
+            AddElementalStaves(mob, 'nq')
+        elseif mob:getMainLvl() >= 75 then
+            AddElementalStaves(mob, 'hq')
+        end
     end,
 
     ['qultada'] = function(mob)

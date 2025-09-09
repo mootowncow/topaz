@@ -3658,8 +3658,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.MAULERS_MANTLE,
             itemAugments = {
-                { tpz.
-                K, 9 },
+                { tpz.augments.ATTK, 9 },
                 { tpz.augments.ACC, 9 },
             },
         },
@@ -3788,7 +3787,7 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.MENDING_CAPE,
             itemAugments = {
-                { tpz.augments.ENMITY_MINUS, 2 },
+                { tpz.augments.CURE_POTENCY, 2 },
             },
         },
     },
@@ -3805,7 +3804,8 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.MENDING_CAPE,
             itemAugments = {
-                { tpz.augments.ENMITY_MINUS, 2 },
+                { tpz.augments.CURE_POTENCY, 3 },
+                { tpz.augments.ENH_MAGIC_DURATION, 4 },
             },
         },
     },
@@ -3821,8 +3821,10 @@ tpz.magian.trials = {
         numRequired   = 5000,
         rewardItem    = {
             itemId       = tpz.items.MENDING_CAPE,
-            itemAugments = {
-                { tpz.augments.ENMITY_MINUS, 3 },
+            itemAugments = {  
+                { tpz.augments.CURE_POTENCY, 4 },
+                { tpz.augments.ENH_MAGIC_DURATION, 9 },
+                { tpz.augments.ENMITY_MINUS, 2 },
             },
         },
     },
@@ -3839,7 +3841,10 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.MENDING_CAPE,
             itemAugments = {
-                { tpz.augments.ENMITY_MINUS, 4 },
+                { tpz.augments.CURE_POTENCY, 5 },
+                { tpz.augments.ENH_MAGIC_DURATION, 14 },
+                { tpz.augments.ENMITY_MINUS, 3 },
+                { tpz.augments.MND, 3 },
             },
         },
     },
@@ -3856,13 +3861,69 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.BANE_CAPE,
             itemAugments = {
-                { tpz.augments.HP_33, 17 },
-                { tpz.augments.PDT, 4 },
+                { tpz.augments.MATT, 2 },
             },
         },
     },
 
-    [1020] = {
+    [1016] = {
+        mainItem      = tpz.items.BANE_CAPE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1015,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.TROLL, tpz.mob.family.TROLLGURFURLUR, tpz.mob.family.TROLL_EXCAVATIONDUTY },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.BANE_CAPE,
+            itemAugments = {
+                { tpz.augments.MATT, 3 },
+                { tpz.augments.MACC, 2 },
+            },
+        },
+    },
+
+    [1017] = {
+        mainItem      = tpz.items.BANE_CAPE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1016,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.LAMIAE, tpz.mob.family.MERROW, tpz.mob.family.MEDUSA },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.BANE_CAPE,
+            itemAugments = {  
+                { tpz.augments.MATT, 4 },
+                { tpz.augments.MACC, 3 },
+                { tpz.augments.CONSERVE_MP, 4 },
+            },
+        },
+    },
+
+    [1018] = {
+        mainItem      = tpz.items.BANE_CAPE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1017,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.QUTRUB1, tpz.mob.family.QUTRUB2, tpz.mob.family.QUTRUB3 },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.BANE_CAPE,
+            itemAugments = {
+                { tpz.augments.MATT, 5 },
+                { tpz.augments.MACC, 4 },
+                { tpz.augments.CONSERVE_MP, 9 },
+                { tpz.augments.REGENPOTENCY, 10 },
+            },
+        },
+    },
+
+    [1019] = {
         mainItem      = tpz.items.GHOSTFYRE_CAPE,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
@@ -3874,8 +3935,64 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.GHOSTFYRE_CAPE,
             itemAugments = {
-                { tpz.augments.HP_33, 17 },
-                { tpz.augments.PDT, 4 },
+                { tpz.augments.MACC, 2 },
+            },
+        },
+    },
+
+    [1020] = {
+        mainItem      = tpz.items.GHOSTFYRE_CAPE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1019,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.TROLL, tpz.mob.family.TROLLGURFURLUR, tpz.mob.family.TROLL_EXCAVATIONDUTY },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.GHOSTFYRE_CAPE,
+            itemAugments = {
+                { tpz.augments.MACC, 3 },
+                { tpz.augments.ENSPELL_DMG_BONUS, 3 },
+            },
+        },
+    },
+
+    [1021] = {
+        mainItem      = tpz.items.GHOSTFYRE_CAPE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1020,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.LAMIAE, tpz.mob.family.MERROW, tpz.mob.family.MEDUSA },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.GHOSTFYRE_CAPE,
+            itemAugments = {  
+                { tpz.augments.MACC, 4 },
+                { tpz.augments.ENSPELL_DMG_BONUS, 4 },
+                { tpz.augments.ENH_MAGIC_DURATION, 7 },
+            },
+        },
+    },
+
+    [1022] = {
+        mainItem      = tpz.items.GHOSTFYRE_CAPE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1021,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.QUTRUB1, tpz.mob.family.QUTRUB2, tpz.mob.family.QUTRUB3 },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.GHOSTFYRE_CAPE,
+            itemAugments = {
+                { tpz.augments.MACC, 5 },
+                { tpz.augments.ENSPELL_DMG_BONUS, 5 },
+                { tpz.augments.ENH_MAGIC_DURATION, 14 },
+                { tpz.augments.ACC, 14 },
             },
         },
     },
@@ -4056,8 +4173,65 @@ tpz.magian.trials = {
         rewardItem    = {
             itemId       = tpz.items.PASTORALISTS_MANTLE,
             itemAugments = {
-                { tpz.augments.HP_33, 17 },
-                { tpz.augments.PDT, 4 },
+                { tpz.augments.PET_ATTK_RATTK, 9 },
+                -- Pet Acc / Attk / DA / Store TP / Crit / Regain
+            },
+        },
+    },
+
+    [1041] = {
+        mainItem      = tpz.items.PASTORALISTS_MANTLE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1040,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.TROLL, tpz.mob.family.TROLLGURFURLUR, tpz.mob.family.TROLL_EXCAVATIONDUTY },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.PASTORALISTS_MANTLE,
+            itemAugments = {
+                { tpz.augments.PET_ATTK_RATTK, 9 },
+                { tpz.augments.PET_ACC_RACC, 9 },
+            },
+        },
+    },
+
+    [1042] = {
+        mainItem      = tpz.items.PASTORALISTS_MANTLE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1041,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.LAMIAE, tpz.mob.family.MERROW, tpz.mob.family.MEDUSA },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.PASTORALISTS_MANTLE,
+            itemAugments = {
+                { tpz.augments.PET_ATTK_RATTK, 11 },
+                { tpz.augments.PET_ACC_RACC, 11 },
+                { tpz.augments.PET_DOUBLE_ATTACK, 2 },
+            },
+        },
+    },
+
+    [1043] = {
+        mainItem      = tpz.items.PASTORALISTS_MANTLE,
+        tradeItem     = tpz.items.NONE,
+        type          = 'Kills',
+        previousTrial = 1042,
+        textOffset    = 1,
+        killType      = 'Family',
+        mob           = { tpz.mob.family.QUTRUB1, tpz.mob.family.QUTRUB2, tpz.mob.family.QUTRUB3 },
+        numRequired   = 5000,
+        rewardItem    = {
+            itemId       = tpz.items.PASTORALISTS_MANTLE,
+            itemAugments = {
+                { tpz.augments.PET_ATTK_RATTK, 14 },
+                { tpz.augments.PET_ACC_RACC, 14 },
+                { tpz.augments.PET_DOUBLE_ATTACK, 3 },
+                { tpz.augments.PET_HASTE, 2 },
             },
         },
     },

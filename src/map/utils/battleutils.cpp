@@ -32,6 +32,7 @@
 #include "../packets/char_health.h"
 #include "../packets/char_update.h"
 #include "../packets/char_skills.h"
+#include "../packets/status_effects.h"
 #include "../packets/entity_update.h"
 #include "../packets/inventory_finish.h"
 #include "../packets/message_basic.h"
@@ -41,6 +42,7 @@
 #include "../ability.h"
 #include "../modifier.h"
 #include "../status_effect_container.h"
+#include "../latent_effect_container.h"
 #include "charutils.h"
 #include "battleutils.h"
 #include "attackutils.h"
@@ -1396,6 +1398,7 @@ namespace battleutils
                     Action->spikesMessage = MSGBASIC_SPIKES_RETAL;
                     Action->spikesParam = battleutils::TakePhysicalDamage(PDefender, PAttacker, PHYSICAL_ATTACK_TYPE::NORMAL, dmg, false, SLOT_MAIN, 1, nullptr,
                                                                           true, true, true);
+                    battleutils::HandleRestraint(PDefender, Action->spikesParam);
                 }
             }
         }
@@ -7319,6 +7322,68 @@ namespace battleutils
         }
     }
 
+    void HandleRestraint(CBattleEntity* PAttacker, int32 dmg)
+    {
+        if (!PAttacker)
+        {
+            return;
+        }
+
+        if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_RESTRAINT))
+        {
+            // Base 25%
+            float stoneskinPercent = 0.25f;
+
+            // Add JP bonus (2% per JP)
+            if (PAttacker->objtype == TYPE_PC)
+            {
+                if (auto* PChar = dynamic_cast<CCharEntity*>(PAttacker))
+                {
+                    float jpBonus = PChar->PJobPoints->GetJobPointValue(JP_RESTRAINT_EFFECT) * 0.02f;
+                    stoneskinPercent *= (1.0f + jpBonus);
+                }
+            }
+
+            // Add mod bonus (value like 10 means +10%)
+            float modBonus = PAttacker->getMod(Mod::ENHANCES_RESTRAINT) / 100.0f;
+            stoneskinPercent *= (1.0f + modBonus);
+
+            // Has stoneskin effect, increase it's power based on damage done
+            if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_STONESKIN))
+            {
+                CStatusEffect* stoneskin = PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_STONESKIN, 0);
+                uint16 stoneskinPower = PAttacker->getMod(Mod::STONESKIN);
+                uint32 stoneskinTimeRemaining = stoneskin->GetTimeRemaining();
+
+                // Added stoneskin amount
+                uint32 addedStoneskinPower = static_cast<uint32>(std::floor(dmg * stoneskinPercent));
+
+                PAttacker->setModifier(Mod::STONESKIN, stoneskinPower + addedStoneskinPower);
+
+                if (stoneskinTimeRemaining < 60000)
+                {
+                    uint32 elapsed = stoneskin->GetDuration() - stoneskinTimeRemaining;
+                    stoneskin->SetDuration(elapsed + 60000);
+
+                    if (PAttacker->objtype == TYPE_PC)
+                    {
+                        if (auto* PChar = dynamic_cast<CCharEntity*>(PAttacker))
+                        {
+                            PChar->pushPacket(new CStatusEffectPacket(PChar));
+                        }
+                    }
+                }
+            }
+            else // Does not have SS effect, add a new one based on damage dealt
+            {
+                // Added stoneskin amount
+                uint32 stoneskinPower = static_cast<uint32>(std::floor(dmg * stoneskinPercent));
+
+                PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_STONESKIN, EFFECT_STONESKIN, stoneskinPower, 0, 60));
+            }
+        }
+    }
+
     int32 HandleStoneskin(CBattleEntity* PDefender, int32 damage, ATTACKTYPE attackType)
     {
         // Check phys only SS
@@ -9337,6 +9402,71 @@ namespace battleutils
             return PItem->getModifier(mod);
         }
     }
+
+    int16 GetEffectiveItemModifier(CCharEntity* PChar, CItemEquipment* PItem, Mod mod)
+    {
+        if (!PItem)
+            return 0;
+
+        int16 modAmount = PItem->getModifier(mod);
+        int16 latentValue = 0;
+
+        if (PChar->PLatentEffectContainer)
+        {
+            for (const auto& latent : PItem->latentList)
+            {
+                if (latent.ModValue == mod)
+                {
+                    if (PChar->PLatentEffectContainer->IsLatentActive(latent.ConditionsID, latent.ConditionsValue))
+                    {
+                        latentValue = std::max(latentValue, latent.ModPower);
+                    }
+                }
+            }
+        }
+
+        modAmount = std::max(modAmount, latentValue);
+
+        // Apply scaling rules if player is under item level
+        if (PChar->GetMLevel() < PItem->getReqLvl())
+        {
+            switch (mod)
+            {
+                case Mod::DEF:
+                case Mod::MAIN_DMG_RATING:
+                case Mod::SUB_DMG_RATING:
+                case Mod::RANGED_DMG_RATING:
+                    modAmount = modAmount * 3 / 4;
+                    break;
+                case Mod::HP:
+                case Mod::MP:
+                    modAmount /= 2;
+                    break;
+                case Mod::STR:
+                case Mod::DEX:
+                case Mod::VIT:
+                case Mod::AGI:
+                case Mod::INT:
+                case Mod::MND:
+                case Mod::CHR:
+                case Mod::ATT:
+                case Mod::RATT:
+                case Mod::ACC:
+                case Mod::RACC:
+                case Mod::MATT:
+                case Mod::MACC:
+                    modAmount /= 3;
+                    break;
+                default:
+                    modAmount = 0;
+                    break;
+            }
+            return modAmount / PItem->getReqLvl();
+        }
+
+        return modAmount;
+    }
+
 
     DAMAGETYPE GetSpikesDamageType(SUBEFFECT spikesType)
     {

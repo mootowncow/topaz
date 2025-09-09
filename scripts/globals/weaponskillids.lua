@@ -348,5 +348,6 @@ tpz.ws_unlock =
     LAST_STAND          = 64,
     URIEL_BLADE         = 79,
     GLORY_SLASH         = 80,
-    TARTARUS_TORPOR     = 81
+    TARTARUS_TORPOR     = 81,
+    DISASTER            = 82
 }

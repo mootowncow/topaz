@@ -2997,26 +2997,23 @@ function doCure(caster, target, spell)
             else
                 basecure = getBaseCure(power,divisor,constant,basePower)
             end
+
             final = getCureFinal(caster, spell, basecure,minCure, false)
-            if (caster:hasStatusEffect(tpz.effect.AFFLATUS_SOLACE) and target:hasStatusEffect(tpz.effect.STONESKIN) == false) then
-                local solaceStoneskin = 0
-                local equippedBody = caster:getEquipID(tpz.slot.BODY)
-                if (equippedBody == 11186) then
-                    solaceStoneskin = math.floor(final * 0.30)
-                elseif (equippedBody == 11086) then
-                    solaceStoneskin = math.floor(final * 0.35)
-                else
-                    solaceStoneskin = math.floor(final * 0.25)
-                end
 
-                solaceStoneskin = solaceStoneskin * (1 + caster:getMerit(tpz.merit.ANIMUS_SOLACE)/100)
-
-                target:addStatusEffect(tpz.effect.STONESKIN, solaceStoneskin, 0, 25, 0, 0, 1)
-            end
             final = final + (final * (target:getMod(tpz.mod.CURE_POTENCY_RCVD)/100))
 
             --Applying server mods....
             final = final * CURE_POWER
+
+            -- Apply Afflatus Solace
+            if (caster:hasStatusEffect(tpz.effect.AFFLATUS_SOLACE) and target:hasStatusEffect(tpz.effect.STONESKIN) == false) then
+                local solaceStoneskin = 0
+                local solacePercent = (25 + caster:getMod(tpz.mod.AFFLATUS_SOLACE)) / 100 -- Base amount is 25%
+
+                solaceStoneskin = math.floor(final * solacePercent)
+
+                target:addStatusEffect(tpz.effect.STONESKIN, solaceStoneskin, 0, 30, 0, 0, 1)
+            end
 
             local diff = (target:getMaxHP() - target:getHP())
             if (final > diff) then

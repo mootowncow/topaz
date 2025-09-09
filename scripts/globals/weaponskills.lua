@@ -400,6 +400,9 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
         attacker:TryProcTH(target, highProcChance)
     end
 
+    -- Handle Restraint
+    attacker:handleRestraint(finaldmg)
+
     -- Return our raw damage to then be modified by enemy reductions based off of melee/ranged
     calcParams.finalDmg = finaldmg
     return calcParams

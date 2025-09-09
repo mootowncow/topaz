@@ -818,6 +818,9 @@ public:
     int32 delSkillListEntry(lua_State* L);
     int32 clearSkillList(lua_State* L);
     int32 trustProgressUpdateFlag(lua_State* L);
+
+    // JA's
+    int32 handleRestraint(lua_State* L);
 };
 
 #endif
