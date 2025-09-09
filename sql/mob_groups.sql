@@ -3095,7 +3095,7 @@ INSERT INTO `mob_groups` VALUES (52,3339,62,'Reacton',0,128,2082,30000,0,85,85,0
 INSERT INTO `mob_groups` VALUES (53,34,62,'Achamoth',0,128,14,40000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (54,35,62,'Achamothcampa',0,128,0,6000,0,77,77,0);
 INSERT INTO `mob_groups` VALUES (55,36,62,'Achamoth_Nympha',0,128,0,12000,0,83,83,0);
-INSERT INTO `mob_groups` VALUES (56,2697,62,'Moblin_Millionaire',300,0,1712,0,0,76,77,0);
+INSERT INTO `mob_groups` VALUES (56,2697,62,'Moblin_Millionaire',300,0,1712,0,0,76,77,0); -- 3 @ D-8 via Entrance 4 from Mount Z
 INSERT INTO `mob_groups` VALUES (57,6587,62,'Friars_Lantern_Grow',300,0,3143,0,0,76,76,0);
 
 INSERT INTO `mob_groups` VALUES (2132,4493,62,'Zazarg',0,128,0,0,0,0,0,0);

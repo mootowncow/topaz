@@ -22,7 +22,6 @@ for name, id in pairs(tpz.items) do itemNames[id] = name end
 for name, id in pairs(tpz.augments) do augmentNames[id] = name end
 
 -- Helper functions
-
 local function itemLink(itemId)
     if not itemId or itemId == tpz.items.NONE then
         return "–"
@@ -33,18 +32,34 @@ local function itemLink(itemId)
     -- Replace underscores with spaces
     local displayName = name:gsub("_", " ")
 
-    -- Add apostrophe for possessive S
-    displayName = displayName:gsub("(%a)S(%s)", function(letter, space)
-        return letter .. "'s" .. space
-    end)
+    -- Handle exceptions (BG Wiki naming quirks)
+    local exceptions = {
+        ["DAGGER"]           = "Dagger_(Weapon)",
+        ["Lumberjack"]       = "Lumberjack_(Item)",
+        ["Side Sword"]       = "Side-sword",
+        ["Eye Of Verthandi"] = "Eye of Verthandi",   -- lowercase "of"
+        ["Brand Darcon"]     = "Brand d'Arcon",      -- special apostrophe
+    }
 
-    -- Capitalize each word
-    displayName = displayName:gsub("(%a)([%w']*)", function(first, rest)
-        return first:upper() .. rest:lower()
-    end)
 
-    -- Wiki link format
-    return "[[" .. displayName .. "]]"
+    if exceptions[displayName] then
+        displayName = exceptions[displayName]
+    else
+        -- Add apostrophe for possessive S
+        displayName = displayName:gsub("(%a)S(%s)", function(letter, space)
+            return letter .. "'s" .. space
+        end)
+
+        -- Capitalize each word
+        displayName = displayName:gsub("(%a)([%w']*)", function(first, rest)
+            return first:upper() .. rest:lower()
+        end)
+    end
+
+    -- Wiki format: icon + link
+    local cleanName = displayName:gsub("%(.*%)", "") -- strip (Weapon)/(Item) for the icon filename
+    local icon = "[[File:" .. cleanName .. " icon.png|25px]]"
+    return icon .. " [[" .. displayName .. "]]"
 end
 
 local function formatAugments(augments)
@@ -85,7 +100,6 @@ local function formatRequirements(trial)
     if trial.killType then
         req = req .. "Kill Type: " .. trial.killType .. "<br />"
     end
-
 
     -- SubType
     if trial.subType then
@@ -204,7 +218,7 @@ local function formatBranches(trial)
     return table.concat(b, "<br />")
 end
 
-local function exportTrialTableRow(trial)
+local function exportTrialTableRow(trialId, trial)
     local reward = "–"
     if trial.rewardItem then
         reward = itemLink(trial.rewardItem.itemId)
@@ -213,7 +227,8 @@ local function exportTrialTableRow(trial)
         end
     end
 
-    return "| " .. itemLink(trial.mainItem)
+    return "| " .. trialId
+        .. " || " .. itemLink(trial.mainItem)
         .. " || " .. itemLink(trial.tradeItem)
         .. " || " .. (trial.type or "–")
         .. " || " .. formatRequirements(trial)
@@ -230,7 +245,7 @@ end
     for id, trial in pairs(tpz.magian.trials) do
         local mainId = trial.mainItem or tpz.items.NONE
         grouped[mainId] = grouped[mainId] or {}
-        table.insert(grouped[mainId], trial)
+        table.insert(grouped[mainId], { id = id, data = trial })
     end
 
     local mainItemIds = {}
@@ -241,12 +256,15 @@ end
         local trials = grouped[mainId]
         file:write("== " .. itemLink(mainId) .. " ==\n\n")
 
-        for _, trial in ipairs(trials) do
+        for _, entry in ipairs(trials) do
+            local trialId = entry.id
+            local trial   = entry.data
+
             file:write("{| class=\"wikitable sortable\"\n")
             file:write("|+ Trial\n")
-            file:write("! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches\n")
+            file:write("! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches\n")
             file:write("|-\n")
-            file:write(exportTrialTableRow(trial) .. "\n")
+            file:write(exportTrialTableRow(trialId, trial) .. "\n")
             file:write("|}\n\n")
         end
     end
