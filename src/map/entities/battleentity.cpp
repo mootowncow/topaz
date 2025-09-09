@@ -2403,19 +2403,6 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
                     uint8 enspell = (uint8)this->getMod(Mod::ENSPELL);
 
-                    // Try to proc TH
-                    if (attack.IsFirstSwing() && this->objtype == TYPE_PC)
-                    {
-                        bool highProcRate = false;
-                        CCharEntity* PChar = (CCharEntity*)this;
-                        if (PChar->m_sneakTrickActive)
-                        {
-                            highProcRate = true;
-                        }
-
-                        charutils::TryProcTH(PChar, (CMobEntity*)PTarget, &actionTarget, highProcRate);
-                    }
-
                     // Add listener
                     if (enspell && !isBlocked)
                     {
@@ -2452,6 +2439,20 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
                                                    attack.GetDamage(), true);
                     }
+
+                    // Try to proc TH
+                    if (attack.IsFirstSwing() && this->objtype == TYPE_PC)
+                    {
+                        bool highProcRate = false;
+                        CCharEntity* PChar = (CCharEntity*)this;
+                        if (PChar->m_sneakTrickActive)
+                        {
+                            highProcRate = true;
+                        }
+
+                        charutils::TryProcTH(PChar, (CMobEntity*)PTarget, &actionTarget, highProcRate);
+                    }
+
                     battleutils::HandleSpikesDamage(this, PTarget, &actionTarget, attack.GetDamage());
                 }
             }
