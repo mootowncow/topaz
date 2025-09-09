@@ -335,6 +335,7 @@ namespace battleutils
     int32               GetMeritValue(CBattleEntity*, MERIT_TYPE);
 
     int32               GetScaledItemModifier(CBattleEntity*, CItemEquipment*, Mod);
+    int16               GetEffectiveItemModifier(CCharEntity* PChar, CItemEquipment* PItem, Mod mod);
     DAMAGETYPE          GetSpikesDamageType(SUBEFFECT spikesType);
     DAMAGETYPE          GetEnspellDamageType(ENSPELL enspellType);
     int16               GetMikageBonus(CBattleEntity* PEntity);

@@ -42,6 +42,7 @@
 #include "../ability.h"
 #include "../modifier.h"
 #include "../status_effect_container.h"
+#include "../latent_effect_container.h"
 #include "charutils.h"
 #include "battleutils.h"
 #include "attackutils.h"
@@ -9401,6 +9402,71 @@ namespace battleutils
             return PItem->getModifier(mod);
         }
     }
+
+    int16 GetEffectiveItemModifier(CCharEntity* PChar, CItemEquipment* PItem, Mod mod)
+    {
+        if (!PItem)
+            return 0;
+
+        int16 modAmount = PItem->getModifier(mod);
+        int16 latentValue = 0;
+
+        if (PChar->PLatentEffectContainer)
+        {
+            for (const auto& latent : PItem->latentList)
+            {
+                if (latent.ModValue == mod)
+                {
+                    if (PChar->PLatentEffectContainer->IsLatentActive(latent.ConditionsID, latent.ConditionsValue))
+                    {
+                        latentValue = std::max(latentValue, latent.ModPower);
+                    }
+                }
+            }
+        }
+
+        modAmount = std::max(modAmount, latentValue);
+
+        // Apply scaling rules if player is under item level
+        if (PChar->GetMLevel() < PItem->getReqLvl())
+        {
+            switch (mod)
+            {
+                case Mod::DEF:
+                case Mod::MAIN_DMG_RATING:
+                case Mod::SUB_DMG_RATING:
+                case Mod::RANGED_DMG_RATING:
+                    modAmount = modAmount * 3 / 4;
+                    break;
+                case Mod::HP:
+                case Mod::MP:
+                    modAmount /= 2;
+                    break;
+                case Mod::STR:
+                case Mod::DEX:
+                case Mod::VIT:
+                case Mod::AGI:
+                case Mod::INT:
+                case Mod::MND:
+                case Mod::CHR:
+                case Mod::ATT:
+                case Mod::RATT:
+                case Mod::ACC:
+                case Mod::RACC:
+                case Mod::MATT:
+                case Mod::MACC:
+                    modAmount /= 3;
+                    break;
+                default:
+                    modAmount = 0;
+                    break;
+            }
+            return modAmount / PItem->getReqLvl();
+        }
+
+        return modAmount;
+    }
+
 
     DAMAGETYPE GetSpikesDamageType(SUBEFFECT spikesType)
     {

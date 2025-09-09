@@ -2875,8 +2875,8 @@ namespace charutils
             {
                 PItem = dynamic_cast<CItemWeapon*>(PChar->m_Weapons[std::get<0>(slot)]);
 
-                std::get<1>(slot) = battleutils::GetScaledItemModifier(PChar, PItem, Mod::ADDS_WEAPONSKILL);
-                std::get<2>(slot) = battleutils::GetScaledItemModifier(PChar, PItem, Mod::ADDS_WEAPONSKILL_DYN);
+                std::get<1>(slot) = battleutils::GetEffectiveItemModifier(PChar, PItem, Mod::ADDS_WEAPONSKILL);
+                std::get<2>(slot) = battleutils::GetEffectiveItemModifier(PChar, PItem, Mod::ADDS_WEAPONSKILL_DYN);
             }
         }
 
@@ -6117,6 +6117,8 @@ namespace charutils
             {
                 // weapon is now broken
                 PChar->PLatentEffectContainer->CheckLatentsWeaponBreak(slotid);
+                charutils::BuildingCharWeaponSkills(PChar);
+                PChar->pushPacket(new CCharAbilitiesPacket(PChar));
                 PChar->pushPacket(new CCharStatsPacket(PChar));
             }
             char extra[sizeof(PWeapon->m_extra) * 2 + 1];

@@ -3763,7 +3763,7 @@ INSERT INTO `item_latents` VALUES(10730, 1308, 15, 13, 57); -- Warrior's Calliga
 -- Trial Mythic Weapons
 -- -------------------------------------------------------
 INSERT INTO `item_latents` VALUES(18492, 355, 90, 47, 0);   -- Sturdy Axe
-INSERT INTO `item_latents` VALUES(18753, 355, 11, 47, 0);   -- Burning FIsts
+INSERT INTO `item_latents` VALUES(18753, 355, 11, 47, 0);   -- Burning Fists
 INSERT INTO `item_latents` VALUES(18851, 355, 171, 47, 0);  -- Werebuster
 INSERT INTO `item_latents` VALUES(18589, 355, 186, 47, 0);  -- Mage's Staff
 INSERT INTO `item_latents` VALUES(17742, 355, 44, 47, 0);   -- Vorpal Sword
