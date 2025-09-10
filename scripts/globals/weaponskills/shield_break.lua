@@ -45,11 +45,24 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, bonus, tpz.effect.EVASION_DOWN)
-    if (damage > 0 and target:hasStatusEffect(tpz.effect.EVASION_DOWN) == false) and resist >= 0.5  then
-        local duration = (120 + (tp/1000 * 60))
-        target:delStatusEffect(tpz.effect.EVASION_BOOST)
-        target:addStatusEffect(tpz.effect.EVASION_DOWN, power, 0, duration * resist)
+    if (damage > 0) then
+
+        -- Try to apply Evasion Down
+        local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, bonus, tpz.effect.EVASION_DOWN, tpz.skill.GREAT_AXE)
+        if not target:hasStatusEffect(tpz.effect.EVASION_DOWN) and (resist >= 0.5)  then
+            local duration = (120 + (tp/1000 * 60))
+            target:delStatusEffect(tpz.effect.EVASION_BOOST)
+            target:addStatusEffect(tpz.effect.EVASION_DOWN, power, 0, duration * resist)
+        end
+
+        -- Try to apply Avoidance Down
+        local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.NONE, bonus, tpz.effect.AVOIDANCE_DOWN, tpz.skill.GREAT_AXE)
+        if not target:hasStatusEffect(tpz.effect.AVOIDANCE_DOWN) and (resist >= 0.5) then
+            local duration = (120 + (tp/1000 * 60))
+            target:addStatusEffect(tpz.effect.AVOIDANCE_DOWN, 1, 0, duration * resist)
+        end
     end
+
 	if damage > 0 then player:trySkillUp(target, tpz.skill.GREAT_AXE, tpHits+extraHits) end
 	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
 

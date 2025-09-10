@@ -600,11 +600,11 @@ INSERT INTO `status_effects` VALUES (564,'geo_magic_evasion_down',276824096,0,0,
 INSERT INTO `status_effects` VALUES (565,'geo_slow',276824096,0,0,0,0,0,4,0,1);
 INSERT INTO `status_effects` VALUES (566,'geo_paralysis',276824096,0,0,0,0,0,2,0,1);
 INSERT INTO `status_effects` VALUES (567,'geo_weight',276824096,0,0,0,0,0,3,0,1);
-INSERT INTO `status_effects` VALUES (568,'foil',33,0,0,0,0,0,0,0,0);
+INSERT INTO `status_effects` VALUES (568,'foil',33,0,0,0,572,0,0,0,0);
 INSERT INTO `status_effects` VALUES (569,'blaze_of_glory',545,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (570,'battuta',545,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (571,'rayke',545,0,0,0,0,0,0,0,0);
-INSERT INTO `status_effects` VALUES (572,'avoidance_down',32,0,0,0,0,0,0,0,1);
+INSERT INTO `status_effects` VALUES (572,'avoidance_down',32,0,0,0,0,568,0,0,1);
 INSERT INTO `status_effects` VALUES (573,'deluge_spikes',41,0,0,0,0,0,6,0,800);
 INSERT INTO `status_effects` VALUES (574,'fast_cast',33,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (575,'gestation',32,0,0,0,0,0,0,0,0);
