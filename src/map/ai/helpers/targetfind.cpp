@@ -77,69 +77,55 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
     m_radius = radius;
     m_zone = m_PBattleEntity->getZone();
 
-    ShowDebug("TargetFind::findWithinArea() - Initiated by: %s (%u), Target: %s (%u)\n", m_PBattleEntity->GetName(), m_PBattleEntity->id, PTarget->GetName(),
-              PTarget->id);
-
     if (radiusType == AOERADIUS_ATTACKER)
     {
         m_PRadiusAround = &m_PBattleEntity->loc.p;
-        ShowDebug("TargetFind::findWithinArea() - AoE center is attacker\n");
     }
     else
     {
         m_PRadiusAround = &PTarget->loc.p;
-        ShowDebug("TargetFind::findWithinArea() - AoE center is target\n");
     }
 
     m_PMasterTarget = findMaster(PTarget);
-    ShowDebug("TargetFind::findWithinArea() - Master of target: %s (%u)\n", m_PMasterTarget->GetName(), m_PMasterTarget->id);
 
     bool withPet = PETS_CAN_AOE_BUFF || (m_findFlags & FINDFLAGS_PET) || (m_PMasterTarget->objtype != m_PBattleEntity->objtype);
 
     addEntity(PTarget, false);
-    ShowDebug("TargetFind::findWithinArea() - Added base target: %s\n", PTarget->GetName());
 
     m_PTarget = PTarget;
     isPlayer = checkIsPlayer(m_PBattleEntity);
-    ShowDebug("TargetFind::findWithinArea() - Initiator is %s\n", isPlayer ? "Player" : "Mob");
 
     if (isPlayer)
     {
         if (m_PMasterTarget->objtype == TYPE_PC)
         {
             m_findType = FIND_PLAYER_PLAYER;
-            ShowDebug("TargetFind::findWithinArea() - Player is targeting player\n");
 
             if (m_PMasterTarget->PParty != nullptr)
             {
                 if ((m_findFlags & FINDFLAGS_ALLIANCE) && m_PMasterTarget->PParty->m_PAlliance != nullptr)
                 {
-                    ShowDebug("TargetFind::findWithinArea() - Adding alliance members\n");
                     addAllInAlliance(m_PMasterTarget, withPet);
                 }
                 else
                 {
-                    ShowDebug("TargetFind::findWithinArea() - Adding party members\n");
                     addAllInParty(m_PMasterTarget, withPet);
                 }
             }
             else
             {
-                ShowDebug("TargetFind::findWithinArea() - No party, adding master target only\n");
                 addEntity(m_PMasterTarget, withPet);
             }
 
             if (m_PMasterTarget->StatusEffectContainer->HasStatusEffect(
                     { EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
             {
-                ShowDebug("TargetFind::findWithinArea() - StatusEffect triggered, adding all in zone\n");
                 addAllInZone(m_PMasterTarget, withPet);
             }
         }
         else
         {
             m_findType = FIND_PLAYER_MONSTER;
-            ShowDebug("TargetFind::findWithinArea() - Player is targeting mob, adding mobs in range\n");
             addAllInMobList(m_PMasterTarget, false);
         }
     }
@@ -149,23 +135,19 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
         if (m_targetFlags & TARGET_ANY_ALLEGIANCE)
         {
             m_findType = FIND_MONSTER_PLAYER;
-            ShowDebug("TargetFind::findWithinArea() - Mob targeting any allegiance\n");
 
             if ((m_targetFlags & TARGET_SELF) && m_PBattleEntity->GetBattleTarget())
             {
                 m_PMasterTarget = findMaster(m_PBattleEntity->GetBattleTarget());
-                ShowDebug("TargetFind::findWithinArea() - Self-targeting skill, adjusted master target to: %s\n", m_PMasterTarget->GetName());
             }
         }
         else if (m_PMasterTarget->objtype == TYPE_PC || m_PBattleEntity->allegiance == ALLEGIANCE_PLAYER)
         {
             m_findType = FIND_MONSTER_PLAYER;
-            ShowDebug("TargetFind::findWithinArea() - Mob targeting players\n");
         }
         else
         {
             m_findType = FIND_MONSTER_MONSTER;
-            ShowDebug("TargetFind::findWithinArea() - Mob targeting monsters\n");
         }
 
         if (m_findType == FIND_MONSTER_MONSTER && m_PTarget->PMaster == nullptr)
@@ -176,13 +158,11 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
         if (m_PMasterTarget->StatusEffectContainer->HasStatusEffect(
                 { EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
         {
-            ShowDebug("TargetFind::findWithinArea() - Mob status effect triggered, adding all in zone\n");
             addAllInZone(m_PMasterTarget, withPet);
         }
 
         if (m_findFlags & FINDFLAGS_HIT_ALL || (m_findType == FIND_MONSTER_PLAYER && ((CMobEntity*)m_PBattleEntity)->CalledForHelp()))
         {
-            ShowDebug("TargetFind::findWithinArea() - AoE hitting all in zone\n");
             addAllInZone(m_PMasterTarget, withPet);
         }
         else
@@ -191,12 +171,10 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
             {
                 if ((m_findFlags & FINDFLAGS_ALLIANCE) && m_PMasterTarget->PParty->m_PAlliance != nullptr)
                 {
-                    ShowDebug("TargetFind::findWithinArea() - Adding alliance (mob->player)\n");
                     addAllInAlliance(m_PMasterTarget, withPet);
                 }
                 else
                 {
-                    ShowDebug("TargetFind::findWithinArea() - Adding party (mob->player)\n");
                     addAllInParty(m_PMasterTarget, withPet);
                 }
             }
@@ -205,19 +183,15 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
             {
                 if (m_PBattleEntity->allegiance == ALLEGIANCE_PLAYER)
                 {
-                    ShowDebug("TargetFind::findWithinArea() - Player-aligned mob, adding all in zone\n");
                     addAllInZone(m_PMasterTarget, withPet);
                 }
                 else
                 {
-                    ShowDebug("TargetFind::findWithinArea() - Regular mob, adding from enmity list\n");
                     addAllInEnmityList();
                 }
             }
         }
     }
-
-    ShowDebug("TargetFind::findWithinArea() - Target list size: %zu\n", m_targets.size());
 }
 
 void CTargetFind::findWithinCone(CBattleEntity* PTarget, float distance, float angle, uint8 flags, bool isBehind, uint16 targetFlags)
