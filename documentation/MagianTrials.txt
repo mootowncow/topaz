@@ -1,1996 +1,621 @@
-== [[File:Bronze Dagger icon.png|25px]] [[Bronze Dagger]] ==
+{{Private Server|Shiyo Server|Shiyo}}
 
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 9011 || [[File:Bronze Dagger icon.png|25px]] [[Bronze Dagger]] || – || Kills || Required: 1000<br />Kill Type: Family<br />Sub Type: StatusEffectElement<br />Mob(s): Colibri<br />Effect Element: Fire<br /> || [[File:Bronze Dagger icon.png|25px]] [[Bronze Dagger]]<br />MATT +2 || –
-|}
 
-== [[File:Dagger_(Weapon) icon.png|25px]] [[Dagger_(Weapon)]] ==
-
+== Hand To Hand ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
 |-
-| 9009 || [[File:Dagger_(Weapon) icon.png|25px]] [[Dagger_(Weapon)]] || – || Effect || Required: 1000<br />Kill Type: Family<br />Sub Type: AddEffect<br />Mob(s): Colibri<br />Effect: Defense down<br /> || [[File:Dagger_(Weapon) icon.png|25px]] [[Dagger_(Weapon)]]<br />MATT +2 || –
-|}
-
-== [[File:Kukri icon.png|25px]] [[Kukri]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1 || [[File:Pugilists icon.png|25px]] [[Pugilists]] || – || Hand To Hand || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 92<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 82<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 72<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 62<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 52<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 42<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 32<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 2<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 22<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 12
 |-
-| 9010 || [[File:Kukri icon.png|25px]] [[Kukri]] || – || Kills || Required: 1000<br />Kill Type: Family<br />Sub Type: UnderEffect<br />Mob(s): Colibri<br />Effect: Level restriction<br /> || [[File:Kukri icon.png|25px]] [[Kukri]]<br />MATT +2 || –
-|}
-
-== [[File:Longsword icon.png|25px]] [[Longsword]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 2 || [[File:Pugilists icon.png|25px]] [[Pugilists]] || – || Hand To Hand || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Bird<br />Weather: Any active weather<br /> || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]]<br />Delayminus +4 || –
 |-
-| 9012 || [[File:Longsword icon.png|25px]] [[Longsword]] || – || Kills || Required: 1000<br />Sub Type: Region<br />Region(s): Vollbow<br /> || [[File:Longsword icon.png|25px]] [[Longsword]]<br />MATT +2 || –
-|}
-
-== [[File:Fire Staff icon.png|25px]] [[Fire Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 3 || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]] || – || Hand To Hand || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Lizard, Icelizard, Highlander lizard<br />Weather: Any active weather<br /> || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]]<br />Main Dmg Rating +4<br />Delayminus +4 || –
 |-
-| 9001 || [[File:Fire Staff icon.png|25px]] [[Fire Staff]] || – || Kills || Required: 1000<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Colibri<br />Weather: Wind, Wind<br />Day: Windsday<br /> || [[File:Fire Staff icon.png|25px]] [[Fire Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Vulcan's Staff icon.png|25px]] [[Vulcan's Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 4 || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]] || – || Hand To Hand || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Wamouracampa<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]]<br />Main Dmg Rating +5<br />Delayminus +4<br />Addeff Firedmg 5 +10 || –
 |-
-| 2200 || [[File:Vulcan's Staff icon.png|25px]] [[Vulcan's Staff]] || – || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: Fire<br /> || [[File:Vulcan's Staff icon.png|25px]] [[Vulcan's Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Ice Staff icon.png|25px]] [[Ice Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 5 || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]] || – || Hand To Hand || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Condor<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]]<br />Main Dmg Rating +6<br />Delayminus +4<br />Addeff Firedmg 5 +15<br />Str +3 || –
 |-
-| 9006 || [[File:Ice Staff icon.png|25px]] [[Ice Staff]] || – || Kills || Required: 1000<br />Kill Type: Family<br />Sub Type: PetKill<br />Mob(s): Colibri<br /> || [[File:Ice Staff icon.png|25px]] [[Ice Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Aquilo's Staff icon.png|25px]] [[Aquilo's Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 6 || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]] || – || Hand To Hand || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Terror fly<br /> || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]]<br />Main Dmg Rating +7<br />Delayminus +4<br />Str +4<br />Attk +12 || –
 |-
-| 2250 || [[File:Aquilo's Staff icon.png|25px]] [[Aquilo's Staff]] || – || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: Ice<br /> || [[File:Aquilo's Staff icon.png|25px]] [[Aquilo's Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Wind Staff icon.png|25px]] [[Wind Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 7 || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]] || – || Hand To Hand || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Dawon<br /> || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]]<br />Main Dmg Rating +8<br />Delayminus +4<br />Str +5<br />Attk +15 || –
 |-
-| 9003 || [[File:Wind Staff icon.png|25px]] [[Wind Staff]] || – || Special || Required: 1000<br />Kill Type: Family<br />Special Type: WSDamage<br />Mob(s): Colibri<br />Required WS: Rock crusher<br />Minimum WS Damage: 100<br /> || [[File:Wind Staff icon.png|25px]] [[Wind Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Auster's Staff icon.png|25px]] [[Auster's Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 42 || [[File:Pugilists icon.png|25px]] [[Pugilists]] || – || Hand To Hand || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Leech, Leech toau<br />Weather: Any active weather<br /> || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]]<br />Delayminus +4 || –
 |-
-| 2300 || [[File:Auster's Staff icon.png|25px]] [[Auster's Staff]] || – || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: Wind<br /> || [[File:Auster's Staff icon.png|25px]] [[Auster's Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Earth Staff icon.png|25px]] [[Earth Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 43 || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]] || – || Hand To Hand || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Seamonk<br />Weather: Any active weather<br /> || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]]<br />Main Dmg Rating +4<br />Delayminus +4 || –
 |-
-| 9004 || [[File:Earth Staff icon.png|25px]] [[Earth Staff]] || – || Special || Required: 100000<br />Sub Type: Zone<br />Special Type: ExperiencePoints<br />Zone(s): Bhaflau thickets<br /> || [[File:Earth Staff icon.png|25px]] [[Earth Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Terra's Staff icon.png|25px]] [[Terra's Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 44 || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]] || – || Hand To Hand || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Poroggo<br />Weather: Lightning, Lightning<br />Day: Lightningday<br /> || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]]<br />Main Dmg Rating +5<br />Delayminus +4<br />Addeff Firedmg 5 +10 || –
 |-
-| 2350 || [[File:Terra's Staff icon.png|25px]] [[Terra's Staff]] || – || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: Earth<br /> || [[File:Terra's Staff icon.png|25px]] [[Terra's Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Thunder Staff icon.png|25px]] [[Thunder Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 45 || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]] || – || Hand To Hand || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Drachenlizard<br />Weather: Lightning, Lightning<br />Day: Lightningday<br /> || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]]<br />Main Dmg Rating +6<br />Delayminus +4<br />Addeff Firedmg 5 +15<br />Dex +3 || –
 |-
-| 9008 || [[File:Thunder Staff icon.png|25px]] [[Thunder Staff]] || – || Kills || Required: 1000<br />Kill Type: Family<br />Sub Type: PetKill<br />Mob(s): Colibri<br /> || [[File:Thunder Staff icon.png|25px]] [[Thunder Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Jupiter's Staff icon.png|25px]] [[Jupiter's Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 46 || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]] || – || Hand To Hand || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Nimble nelson<br /> || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]]<br />Main Dmg Rating +7<br />Delayminus +4<br />Dex +4<br />Acc +8 || –
 |-
-| 2400 || [[File:Jupiter's Staff icon.png|25px]] [[Jupiter's Staff]] || – || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: Lightning<br /> || [[File:Jupiter's Staff icon.png|25px]] [[Jupiter's Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Water Staff icon.png|25px]] [[Water Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 47 || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]] || – || Hand To Hand || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Verthandi<br /> || [[File:Cat's_Claws icon.png|25px]] [[Cat's Claws]]<br />Main Dmg Rating +8<br />Delayminus +4<br />Dex +5<br />Acc +10 || –
 |-
-| 9002 || [[File:Water Staff icon.png|25px]] [[Water Staff]] || – || Special || Required: 1000<br />Kill Type: Family<br />Special Type: WSUse<br />Mob(s): Colibri<br />Required WS: Heavy swing<br /> || [[File:Water Staff icon.png|25px]] [[Water Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Neptune's Staff icon.png|25px]] [[Neptune's Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 82 || [[File:Pugilists icon.png|25px]] [[Pugilists]] || – || Hand To Hand || Kills || Required: 3<br />Kill Type: Specific<br />Mob(s): Eba<br /> || [[File:Simian_Fists icon.png|25px]] [[Simian Fists]]<br /> || –
 |-
-| 2450 || [[File:Neptune's Staff icon.png|25px]] [[Neptune's Staff]] || – || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: Water<br /> || [[File:Neptune's Staff icon.png|25px]] [[Neptune's Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Light Staff icon.png|25px]] [[Light Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 83 || [[File:Simian_Fists icon.png|25px]] [[Simian Fists]] || – || Hand To Hand || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Boroka<br /> || [[File:Simian_Fists icon.png|25px]] [[Simian Fists]]<br />Attk +3 || –
 |-
-| 9007 || [[File:Light Staff icon.png|25px]] [[Light Staff]] || – || Kills || Required: 1000<br />Kill Type: Family<br />Sub Type: Elemental<br />Mob(s): Colibri<br />Element: Fire<br /> || [[File:Light Staff icon.png|25px]] [[Light Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Apollo's Staff icon.png|25px]] [[Apollo's Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 84 || [[File:Simian_Fists icon.png|25px]] [[Simian Fists]] || – || Hand To Hand || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Wailer<br /> || [[File:Simian_Fists icon.png|25px]] [[Simian Fists]]<br />Attk +5 || –
 |-
-| 2500 || [[File:Apollo's Staff icon.png|25px]] [[Apollo's Staff]] || – || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: Light<br /> || [[File:Apollo's Staff icon.png|25px]] [[Apollo's Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Dark Staff icon.png|25px]] [[Dark Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 85 || [[File:Simian_Fists icon.png|25px]] [[Simian Fists]] || – || Hand To Hand || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Tauri<br /> || [[File:Wargfangs icon.png|25px]] [[Wargfangs]]<br /> || –
 |-
-| 9000 || [[File:Dark Staff icon.png|25px]] [[Dark Staff]] || – || Effect || Required: 1000<br />Sub Type: Magic<br />Effect: Paralysis<br /> || [[File:Dark Staff icon.png|25px]] [[Dark Staff]]<br />MATT +2 || –
-|}
-
-== [[File:Pluto's Staff icon.png|25px]] [[Pluto's Staff]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 86 || [[File:Wargfangs icon.png|25px]] [[Wargfangs]] || – || Hand To Hand || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Wargfangs icon.png|25px]] [[Wargfangs]]<br />Dmg +16<br />Delayminus +15 || –
 |-
-| 2550 || [[File:Pluto's Staff icon.png|25px]] [[Pluto's Staff]] || – || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: Dark<br /> || [[File:Pluto's Staff icon.png|25px]] [[Pluto's Staff]]<br />MATT +2 || –
+| 87 || [[File:Wargfangs icon.png|25px]] [[Wargfangs]] || [[File:Baby_Blobdingnag icon.png|25px]] [[Baby Blobdingnag]] || Hand To Hand || Items || Required: 10<br /> || [[File:Wargfangs icon.png|25px]] [[Wargfangs]]<br />Dmg +16<br />Delay 65 +0<br />Occ Attack Twice || –
 |}
-
-== [[File:Pugilists icon.png|25px]] [[Pugilists]] ==
 
+== Dagger ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
 |-
-| 2 || [[File:Pugilists icon.png|25px]] [[Pugilists]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Bird<br />Weather: Any active weather<br /> || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]]<br />DELAYMINUS +4 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 100 || [[File:Peeler icon.png|25px]] [[Peeler]] || – || Dagger || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 191<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 181<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 171<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 161<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 151<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 141<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 131<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 101<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 121<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 111
 |-
-| 82 || [[File:Pugilists icon.png|25px]] [[Pugilists]] || – || Kills || Required: 3<br />Kill Type: Specific<br />Mob(s): Eba<br /> || [[File:Simian Fists icon.png|25px]] [[Simian Fists]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 101 || [[File:Peeler icon.png|25px]] [[Peeler]] || – || Dagger || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Bird<br />Weather: Any active weather<br /> || [[File:Dakini icon.png|25px]] [[Dakini]]<br />Delayminus +6 || –
 |-
-| 1 || [[File:Pugilists icon.png|25px]] [[Pugilists]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 92<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 82<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 72<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 62<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 52<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 42<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 32<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 2<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 22<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 12
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 102 || [[File:Dakini icon.png|25px]] [[Dakini]] || – || Dagger || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Lizard, Icelizard, Highlander lizard<br />Weather: Any active weather<br /> || [[File:Dakini icon.png|25px]] [[Dakini]]<br />Main Dmg Rating +5<br />Delayminus +10 || –
 |-
-| 42 || [[File:Pugilists icon.png|25px]] [[Pugilists]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Leech, Leech toau<br />Weather: Any active weather<br /> || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]]<br />DELAYMINUS +4 || –
-|}
-
-== [[File:Simian Fists icon.png|25px]] [[Simian Fists]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 103 || [[File:Dakini icon.png|25px]] [[Dakini]] || – || Dagger || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Wamouracampa<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Dakini icon.png|25px]] [[Dakini]]<br />Main Dmg Rating +7<br />Delayminus +12<br />Addeff Firedmg 5 +10 || –
 |-
-| 85 || [[File:Simian Fists icon.png|25px]] [[Simian Fists]] || – || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Tauri<br /> || [[File:Wargfangs icon.png|25px]] [[Wargfangs]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 104 || [[File:Dakini icon.png|25px]] [[Dakini]] || – || Dagger || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Condor<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Dakini icon.png|25px]] [[Dakini]]<br />Main Dmg Rating +8<br />Delayminus +13<br />Addeff Firedmg 5 +15<br />Str +3 || –
 |-
-| 84 || [[File:Simian Fists icon.png|25px]] [[Simian Fists]] || – || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Wailer<br /> || [[File:Simian Fists icon.png|25px]] [[Simian Fists]]<br />ATTK +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 105 || [[File:Dakini icon.png|25px]] [[Dakini]] || – || Dagger || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Terror fly<br /> || [[File:Dakini icon.png|25px]] [[Dakini]]<br />Main Dmg Rating +10<br />Delayminus +15<br />Str +4<br />Attk +12 || –
 |-
-| 83 || [[File:Simian Fists icon.png|25px]] [[Simian Fists]] || – || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Boroka<br /> || [[File:Simian Fists icon.png|25px]] [[Simian Fists]]<br />ATTK +3 || –
-|}
-
-== [[File:Wargfangs icon.png|25px]] [[Wargfangs]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 106 || [[File:Dakini icon.png|25px]] [[Dakini]] || – || Dagger || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Dawon<br /> || [[File:Dakini icon.png|25px]] [[Dakini]]<br />Main Dmg Rating +9<br />Delayminus +4<br />Str +5<br />Attk +15 || –
 |-
-| 87 || [[File:Wargfangs icon.png|25px]] [[Wargfangs]] || [[File:Baby Blobdingnag icon.png|25px]] [[Baby Blobdingnag]] || Items || Required: 10<br /> || [[File:Wargfangs icon.png|25px]] [[Wargfangs]]<br />DMG +16, DELAY_65 +0, OCC_ATTACK_TWICE || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 181 || [[File:Peeler icon.png|25px]] [[Peeler]] || – || Dagger || Kills || Required: 3<br />Kill Type: Specific<br />Mob(s): Mahisha<br /> || [[File:Renegade icon.png|25px]] [[Renegade]]<br /> || –
 |-
-| 86 || [[File:Wargfangs icon.png|25px]] [[Wargfangs]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Wargfangs icon.png|25px]] [[Wargfangs]]<br />DMG +16, DELAYMINUS +15 || –
-|}
-
-== [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 182 || [[File:Renegade icon.png|25px]] [[Renegade]] || – || Dagger || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Aiatar<br /> || [[File:Renegade icon.png|25px]] [[Renegade]]<br />Attk +3 || –
 |-
-| 7 || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]] || – || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Dawon<br /> || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]]<br />MAIN_DMG_RATING +8, DELAYMINUS +4, STR +5, ATTK +15 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 183 || [[File:Renegade icon.png|25px]] [[Renegade]] || – || Dagger || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Provoker<br /> || [[File:Renegade icon.png|25px]] [[Renegade]]<br />Attk +5 || –
+|-
+| 184 || [[File:Renegade icon.png|25px]] [[Renegade]] || – || Dagger || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Uragnite<br /> || [[File:Athame icon.png|25px]] [[Athame]]<br /> || –
+|-
+| 185 || [[File:Athame icon.png|25px]] [[Athame]] || – || Dagger || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Athame icon.png|25px]] [[Athame]]<br />Dmg +12<br />Delayminus +15 || –
+|-
+| 186 || [[File:Athame icon.png|25px]] [[Athame]] || [[File:Eye_of_Verthandi icon.png|25px]] [[Eye of Verthandi]] || Dagger || Items || Required: 10<br /> || [[File:Athame icon.png|25px]] [[Athame]]<br />Dmg +12<br />Delay +20<br />Occ Attack Twice || –
+|-
+| 9009 || [[File:Dagger_(Weapon) icon.png|25px]] [[Dagger_(Weapon)]] || – || Dagger || Effect || Required: 1000<br />Kill Type: Family<br />Sub Type: AddEffect<br />Mob(s): Colibri<br />Effect: Defense down<br /> || [[File:Dagger_(Weapon) icon.png|25px]] [[Dagger_(Weapon)]]<br />Matt +2 || –
+|-
+| 9010 || [[File:Kukri icon.png|25px]] [[Kukri]] || – || Dagger || Kills || Required: 1000<br />Kill Type: Family<br />Sub Type: UnderEffect<br />Mob(s): Colibri<br />Effect: Level restriction<br /> || [[File:Kukri icon.png|25px]] [[Kukri]]<br />Matt +2 || –
 |-
-| 6 || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]] || – || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Terror fly<br /> || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]]<br />MAIN_DMG_RATING +7, DELAYMINUS +4, STR +4, ATTK +12 || –
+| 9011 || [[File:Bronze_Dagger icon.png|25px]] [[Bronze Dagger]] || – || Dagger || Kills || Required: 1000<br />Kill Type: Family<br />Sub Type: StatusEffectElement<br />Mob(s): Colibri<br />Effect Element: {{Fire}}<br /> || [[File:Bronze_Dagger icon.png|25px]] [[Bronze Dagger]]<br />Matt +2 || –
 |}
 
+== Sword ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
 |-
-| 5 || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]] || – || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Condor<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]]<br />MAIN_DMG_RATING +6, DELAYMINUS +4, ADDEFF_FIREDMG_5 +15, STR +3 || –
+| 1200 || [[File:Side-sword icon.png|25px]] [[Side-sword]] || – || Sword || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 1291<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 1281<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 1271<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 1261<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 1251<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 1241<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 1231<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 1201<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 1221<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 1211
+|-
+| 1201 || [[File:Side-sword icon.png|25px]] [[Side-sword]] || – || Sword || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Wivre<br />Weather: Any active weather<br /> || [[File:Soulsaber icon.png|25px]] [[Soulsaber]]<br />Delayminus +6 || –
+|-
+| 1202 || [[File:Soulsaber icon.png|25px]] [[Soulsaber]] || – || Sword || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Manticore<br />Weather: Any active weather<br /> || [[File:Soulsaber icon.png|25px]] [[Soulsaber]]<br />Main Dmg Rating +5<br />Delayminus +10 || –
+|-
+| 1203 || [[File:Soulsaber icon.png|25px]] [[Soulsaber]] || – || Sword || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Cluster 1, Cluster 2<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Soulsaber icon.png|25px]] [[Soulsaber]]<br />Main Dmg Rating +7<br />Delayminus +12<br />Addeff Firedmg 5 +10 || –
+|-
+| 1204 || [[File:Soulsaber icon.png|25px]] [[Soulsaber]] || – || Sword || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Drachenlizard<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Soulsaber icon.png|25px]] [[Soulsaber]]<br />Main Dmg Rating +8<br />Delayminus +13<br />Addeff Firedmg 5 +15<br />Str +3 || –
+|-
+| 1205 || [[File:Soulsaber icon.png|25px]] [[Soulsaber]] || – || Sword || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Dicey dorcus<br /> || [[File:Soulsaber icon.png|25px]] [[Soulsaber]]<br />Main Dmg Rating +10<br />Delayminus +15<br />Str +4<br />Attk +12 || –
+|-
+| 1206 || [[File:Soulsaber icon.png|25px]] [[Soulsaber]] || – || Sword || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Orcus<br /> || [[File:Soulsaber icon.png|25px]] [[Soulsaber]]<br />Main Dmg Rating +12<br />Delayminus +20<br />Str +5<br />Attk +15 || –
+|-
+| 1281 || [[File:Side-sword icon.png|25px]] [[Side-sword]] || – || Sword || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Tres duendes<br /> || [[File:Schiavona icon.png|25px]] [[Schiavona]]<br /> || –
+|-
+| 1282 || [[File:Schiavona icon.png|25px]] [[Schiavona]] || – || Sword || Kills || Required: 70<br />Kill Type: Specific<br />Mob(s): Carmine dobsonfly<br /> || [[File:Schiavona icon.png|25px]] [[Schiavona]]<br />Attk +3 || –
+|-
+| 1283 || [[File:Schiavona icon.png|25px]] [[Schiavona]] || – || Sword || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Elel<br /> || [[File:Schiavona icon.png|25px]] [[Schiavona]]<br />Attk +5 || –
+|-
+| 1284 || [[File:Schiavona icon.png|25px]] [[Schiavona]] || – || Sword || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Eft<br /> || [[File:Antea icon.png|25px]] [[Antea]]<br /> || –
+|-
+| 1285 || [[File:Antea icon.png|25px]] [[Antea]] || – || Sword || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Antea icon.png|25px]] [[Antea]]<br />Dmg +16<br />Delayminus +6 || –
+|-
+| 1286 || [[File:Antea icon.png|25px]] [[Antea]] || [[File:Ruthven's_Nail icon.png|25px]] [[Ruthven's Nail]] || Sword || Items || Required: 10<br /> || [[File:Antea icon.png|25px]] [[Antea]]<br />Dmg +16<br />Delay 33 +3<br />Occ Attack Twice || –
+|-
+| 9012 || [[File:Longsword icon.png|25px]] [[Longsword]] || – || Sword || Kills || Required: 1000<br />Sub Type: Region<br />Region(s): Vollbow<br /> || [[File:Longsword icon.png|25px]] [[Longsword]]<br />Matt +2 || –
 |}
 
+== Great Sword ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
+|-
+| 200 || [[File:Break_Blade icon.png|25px]] [[Break Blade]] || – || Great Sword || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 291<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 281<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 271<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 261<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 251<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 241<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 231<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 201<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 221<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 211
+|-
+| 201 || [[File:Break_Blade icon.png|25px]] [[Break Blade]] || – || Great Sword || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Magicpot<br />Weather: Any active weather<br /> || [[File:Brand_d'Arcon icon.png|25px]] [[Brand d'Arcon]]<br />Str +5 || –
+|-
+| 202 || [[File:Brand_d'Arcon icon.png|25px]] [[Brand d'Arcon]] || – || Great Sword || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Cockatrice<br />Weather: Any active weather<br /> || [[File:Brand_d'Arcon icon.png|25px]] [[Brand d'Arcon]]<br />Str +6<br />Attk +10 || –
 |-
-| 4 || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Wamouracampa<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]]<br />MAIN_DMG_RATING +5, DELAYMINUS +4, ADDEFF_FIREDMG_5 +10 || –
+| 203 || [[File:Brand_d'Arcon icon.png|25px]] [[Brand d'Arcon]] || – || Great Sword || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Morbol, Morbol nm<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Brand_d'Arcon icon.png|25px]] [[Brand d'Arcon]]<br />Main Dmg Rating +10<br />Str +7<br />Attk +15 || –
+|-
+| 204 || [[File:Brand_d'Arcon icon.png|25px]] [[Brand d'Arcon]] || – || Great Sword || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Tsetse fly<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Brand_d'Arcon icon.png|25px]] [[Brand d'Arcon]]<br />Main Dmg Rating +12<br />Str +8<br />Attk +20 || –
+|-
+| 205 || [[File:Brand_d'Arcon icon.png|25px]] [[Brand d'Arcon]] || – || Great Sword || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Coccinellidae<br /> || [[File:Brand_d'Arcon icon.png|25px]] [[Brand d'Arcon]]<br />Main Dmg Rating +14<br />Str +9<br />Attk +25 || –
+|-
+| 206 || [[File:Brand_d'Arcon icon.png|25px]] [[Brand d'Arcon]] || – || Great Sword || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Krabkatoa<br /> || [[File:Brand_d'Arcon icon.png|25px]] [[Brand d'Arcon]]<br />Main Dmg Rating +16<br />Str +10<br />Attk +30 || –
+|-
+| 281 || [[File:Break_Blade icon.png|25px]] [[Break Blade]] || – || Great Sword || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Deviator<br /> || [[File:Sunblade icon.png|25px]] [[Sunblade]]<br /> || –
+|-
+| 282 || [[File:Sunblade icon.png|25px]] [[Sunblade]] || – || Great Sword || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Keremet<br /> || [[File:Sunblade icon.png|25px]] [[Sunblade]]<br />Attk +3 || –
+|-
+| 283 || [[File:Sunblade icon.png|25px]] [[Sunblade]] || – || Great Sword || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Gyre carlin<br /> || [[File:Sunblade icon.png|25px]] [[Sunblade]]<br />Attk +5 || –
+|-
+| 284 || [[File:Sunblade icon.png|25px]] [[Sunblade]] || – || Great Sword || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Buffalo<br /> || [[File:Salamand_Sword icon.png|25px]] [[Salamand Sword]]<br /> || –
+|-
+| 285 || [[File:Salamand_Sword icon.png|25px]] [[Salamand Sword]] || – || Great Sword || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Salamand_Sword icon.png|25px]] [[Salamand Sword]]<br />Dmg +29 || –
+|-
+| 286 || [[File:Salamand_Sword icon.png|25px]] [[Salamand Sword]] || [[File:Krabkatoa_Shell icon.png|25px]] [[Krabkatoa Shell]] || Great Sword || Items || Required: 10<br /> || [[File:Salamand_Sword icon.png|25px]] [[Salamand Sword]]<br />Dmg +29<br />Delay +23<br />Occ Attack Twice || –
 |}
 
+== Axe ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
+|-
+| 300 || [[File:Chopper icon.png|25px]] [[Chopper]] || – || Axe || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 391<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 381<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 371<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 361<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 351<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 341<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 331<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 301<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 321<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 311
+|-
+| 301 || [[File:Chopper icon.png|25px]] [[Chopper]] || – || Axe || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Ghost<br />Weather: Any active weather<br /> || [[File:Skeggiold icon.png|25px]] [[Skeggiold]]<br />Delayminus +3 || –
+|-
+| 302 || [[File:Skeggiold icon.png|25px]] [[Skeggiold]] || – || Axe || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Slime, Slime nm<br />Weather: Any active weather<br /> || [[File:Skeggiold icon.png|25px]] [[Skeggiold]]<br />Main Dmg Rating +9<br />Delayminus +3 || –
+|-
+| 303 || [[File:Skeggiold icon.png|25px]] [[Skeggiold]] || – || Axe || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Wyvern<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Skeggiold icon.png|25px]] [[Skeggiold]]<br />Main Dmg Rating +10<br />Delayminus +3<br />Addeff Firedmg 5 +10 || –
+|-
+| 304 || [[File:Skeggiold icon.png|25px]] [[Skeggiold]] || – || Axe || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Gouger beetle<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Skeggiold icon.png|25px]] [[Skeggiold]]<br />Main Dmg Rating +11<br />Delayminus +3<br />Addeff Firedmg 5 +15<br />Str +3 || –
+|-
+| 305 || [[File:Skeggiold icon.png|25px]] [[Skeggiold]] || – || Axe || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Gorib<br /> || [[File:Skeggiold icon.png|25px]] [[Skeggiold]]<br />Main Dmg Rating +12<br />Delayminus +3<br />Str +4<br />Attk +12 || –
+|-
+| 306 || [[File:Skeggiold icon.png|25px]] [[Skeggiold]] || – || Axe || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Verthandi<br /> || [[File:Skeggiold icon.png|25px]] [[Skeggiold]]<br />Main Dmg Rating +13<br />Delayminus +3<br />Str +5<br />Attk +15 || –
 |-
-| 43 || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Seamonk<br />Weather: Any active weather<br /> || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]]<br />MAIN_DMG_RATING +4, DELAYMINUS +4 || –
+| 381 || [[File:Chopper icon.png|25px]] [[Chopper]] || – || Axe || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Satiator<br /> || [[File:Splinter icon.png|25px]] [[Splinter]]<br /> || –
+|-
+| 382 || [[File:Splinter icon.png|25px]] [[Splinter]] || – || Axe || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Minotaur<br /> || [[File:Splinter icon.png|25px]] [[Splinter]]<br />Attk +3 || –
+|-
+| 383 || [[File:Splinter icon.png|25px]] [[Splinter]] || – || Axe || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Acho<br /> || [[File:Splinter icon.png|25px]] [[Splinter]]<br />Attk +5 || –
+|-
+| 384 || [[File:Splinter icon.png|25px]] [[Splinter]] || – || Axe || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Diremite<br /> || [[File:Punisher icon.png|25px]] [[Punisher]]<br /> || –
+|-
+| 385 || [[File:Punisher icon.png|25px]] [[Punisher]] || – || Axe || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Punisher icon.png|25px]] [[Punisher]]<br />Dmg +18<br />Delayminus +15 || –
+|-
+| 386 || [[File:Punisher icon.png|25px]] [[Punisher]] || [[File:Baby_Blobdingnag icon.png|25px]] [[Baby Blobdingnag]] || Axe || Items || Required: 10<br /> || [[File:Punisher icon.png|25px]] [[Punisher]]<br />Dmg +18<br />Delay +31<br />Occ Attack Twice || –
 |}
 
+== Great Axe ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
+|-
+| 1300 || [[File:Lumberjack_(Item) icon.png|25px]] [[Lumberjack_(Item)]] || – || Great Axe || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 1391<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 1381<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 1371<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 1361<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 1351<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 1341<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 1331<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 1301<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 1321<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 1311
+|-
+| 1301 || [[File:Lumberjack_(Item) icon.png|25px]] [[Lumberjack_(Item)]] || – || Great Axe || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Bugard<br />Weather: Any active weather<br /> || [[File:Hephaestus icon.png|25px]] [[Hephaestus]]<br />Str +5 || –
+|-
+| 1302 || [[File:Hephaestus icon.png|25px]] [[Hephaestus]] || – || Great Axe || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Bomb<br />Weather: Any active weather<br /> || [[File:Hephaestus icon.png|25px]] [[Hephaestus]]<br />Str +6<br />Attk +10 || –
+|-
+| 1303 || [[File:Hephaestus icon.png|25px]] [[Hephaestus]] || – || Great Axe || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Wamoura<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Hephaestus icon.png|25px]] [[Hephaestus]]<br />Main Dmg Rating +16<br />Str +7<br />Attk +15 || –
+|-
+| 1304 || [[File:Hephaestus icon.png|25px]] [[Hephaestus]] || – || Great Axe || Kills || Required: 400<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): #5342<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Hephaestus icon.png|25px]] [[Hephaestus]]<br />Main Dmg Rating +18<br />Str +8<br />Attk +20 || –
+|-
+| 1305 || [[File:Hephaestus icon.png|25px]] [[Hephaestus]] || – || Great Axe || Kills || Required: 15<br />Kill Type: Family<br />Mob(s): #9067<br /> || [[File:Hephaestus icon.png|25px]] [[Hephaestus]]<br />Main Dmg Rating +20<br />Str +9<br />Attk +25 || –
+|-
+| 1306 || [[File:Hephaestus icon.png|25px]] [[Hephaestus]] || – || Great Axe || Kills || Required: 25<br />Kill Type: Family<br />Mob(s): #6835<br /> || [[File:Hephaestus icon.png|25px]] [[Hephaestus]]<br />Main Dmg Rating +22<br />Str +10<br />Attk +30 || –
+|-
+| 1381 || [[File:Lumberjack_(Item) icon.png|25px]] [[Lumberjack_(Item)]] || – || Great Axe || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Wailer<br /> || [[File:Sagaris icon.png|25px]] [[Sagaris]]<br /> || –
+|-
+| 1382 || [[File:Sagaris icon.png|25px]] [[Sagaris]] || – || Great Axe || Kills || Required: 3<br />Kill Type: Specific<br />Mob(s): Eba<br /> || [[File:Sagaris icon.png|25px]] [[Sagaris]]<br />Attk +3 || –
+|-
+| 1383 || [[File:Sagaris icon.png|25px]] [[Sagaris]] || – || Great Axe || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Lobais<br /> || [[File:Sagaris icon.png|25px]] [[Sagaris]]<br />Attk +5 || –
+|-
+| 1384 || [[File:Sagaris icon.png|25px]] [[Sagaris]] || – || Great Axe || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Moblin, Bugbear<br /> || [[File:Luchtaine icon.png|25px]] [[Luchtaine]]<br /> || –
 |-
-| 3 || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Lizard, Icelizard, Highlander lizard<br />Weather: Any active weather<br /> || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]]<br />MAIN_DMG_RATING +4, DELAYMINUS +4 || –
+| 1385 || [[File:Luchtaine icon.png|25px]] [[Luchtaine]] || – || Great Axe || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Luchtaine icon.png|25px]] [[Luchtaine]]<br />Dmg +31 || –
+|-
+| 1386 || [[File:Luchtaine icon.png|25px]] [[Luchtaine]] || [[File:Ruthven's_Nail icon.png|25px]] [[Ruthven's Nail]] || Great Axe || Items || Required: 10<br /> || [[File:Luchtaine icon.png|25px]] [[Luchtaine]]<br />Dmg +31<br />Occ Attack Twice || –
 |}
 
+== Scythe ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
+|-
+| 400 || [[File:Farmhand icon.png|25px]] [[Farmhand]] || – || Scythe || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 491<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 481<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 471<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 461<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 451<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 441<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 431<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 401<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 421<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 411
+|-
+| 401 || [[File:Farmhand icon.png|25px]] [[Farmhand]] || – || Scythe || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Coeurl<br />Weather: Any active weather<br /> || [[File:Severance icon.png|25px]] [[Severance]]<br />Str +5 || –
+|-
+| 402 || [[File:Severance icon.png|25px]] [[Severance]] || – || Scythe || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Flan<br />Weather: Any active weather<br /> || [[File:Severance icon.png|25px]] [[Severance]]<br />Str +6<br />Attk +10 || –
+|-
+| 403 || [[File:Severance icon.png|25px]] [[Severance]] || – || Scythe || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Marid<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Severance icon.png|25px]] [[Severance]]<br />Main Dmg Rating +16<br />Str +7<br />Attk +15 || –
+|-
+| 404 || [[File:Severance icon.png|25px]] [[Severance]] || – || Scythe || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Hispid rarab<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Severance icon.png|25px]] [[Severance]]<br />Main Dmg Rating +18<br />Str +8<br />Attk +20 || –
+|-
+| 405 || [[File:Severance icon.png|25px]] [[Severance]] || – || Scythe || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Seua peek<br /> || [[File:Severance icon.png|25px]] [[Severance]]<br />Main Dmg Rating +20<br />Str +9<br />Attk +25 || –
+|-
+| 406 || [[File:Severance icon.png|25px]] [[Severance]] || – || Scythe || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Orcus<br /> || [[File:Severance icon.png|25px]] [[Severance]]<br />Main Dmg Rating +22<br />Str +10<br />Attk +30 || –
 |-
-| 47 || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]] || – || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Verthandi<br /> || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]]<br />MAIN_DMG_RATING +8, DELAYMINUS +4, DEX +5, ACC +10 || –
+| 481 || [[File:Farmhand icon.png|25px]] [[Farmhand]] || – || Scythe || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Cerebrator<br /> || [[File:Stigma icon.png|25px]] [[Stigma]]<br /> || –
+|-
+| 482 || [[File:Stigma icon.png|25px]] [[Stigma]] || – || Scythe || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Heliodromos<br /> || [[File:Stigma icon.png|25px]] [[Stigma]]<br />Attk +3 || –
+|-
+| 483 || [[File:Stigma icon.png|25px]] [[Stigma]] || – || Scythe || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Frosted soul<br /> || [[File:Stigma icon.png|25px]] [[Stigma]]<br />Attk +5 || –
+|-
+| 484 || [[File:Stigma icon.png|25px]] [[Stigma]] || – || Scythe || Kills || Required: 480<br />Kill Type: Family<br />Mob(s): Corse<br /> || [[File:Vengeance icon.png|25px]] [[Vengeance]]<br /> || –
+|-
+| 485 || [[File:Vengeance icon.png|25px]] [[Vengeance]] || – || Scythe || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Vengeance icon.png|25px]] [[Vengeance]]<br />Main Dmg Rating 33 +0 || –
+|-
+| 486 || [[File:Vengeance icon.png|25px]] [[Vengeance]] || [[File:Eye_of_Verthandi icon.png|25px]] [[Eye of Verthandi]] || Scythe || Items || Required: 10<br /> || [[File:Vengeance icon.png|25px]] [[Vengeance]]<br />Main Dmg Rating 33 +0<br />Delay +9<br />Occ Attack Twice || –
 |}
 
+== Polearm ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
+|-
+| 500 || [[File:Ranseur icon.png|25px]] [[Ranseur]] || – || Polearm || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 591<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 581<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 571<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 561<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 551<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 541<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 531<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 501<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 521<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 511
+|-
+| 501 || [[File:Ranseur icon.png|25px]] [[Ranseur]] || – || Polearm || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Opo opo<br />Weather: Any active weather<br /> || [[File:Stribog icon.png|25px]] [[Stribog]]<br />Str +5 || –
+|-
+| 502 || [[File:Stribog icon.png|25px]] [[Stribog]] || – || Polearm || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Hound, Hound boreal<br />Weather: Any active weather<br /> || [[File:Stribog icon.png|25px]] [[Stribog]]<br />Str +6<br />Attk +10 || –
 |-
-| 46 || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]] || – || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Nimble nelson<br /> || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]]<br />MAIN_DMG_RATING +7, DELAYMINUS +4, DEX +4, ACC +8 || –
+| 503 || [[File:Stribog icon.png|25px]] [[Stribog]] || – || Polearm || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Ram<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Stribog icon.png|25px]] [[Stribog]]<br />Main Dmg Rating +16<br />Str +7<br />Attk +15 || –
+|-
+| 504 || [[File:Stribog icon.png|25px]] [[Stribog]] || – || Polearm || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Champion crawler<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Stribog icon.png|25px]] [[Stribog]]<br />Main Dmg Rating +18<br />Str +8<br />Attk +20 || –
+|-
+| 505 || [[File:Stribog icon.png|25px]] [[Stribog]] || – || Polearm || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Blooddrinker<br /> || [[File:Stribog icon.png|25px]] [[Stribog]]<br />Main Dmg Rating +20<br />Str +9<br />Attk +25 || –
+|-
+| 506 || [[File:Stribog icon.png|25px]] [[Stribog]] || – || Polearm || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Lord ruthven<br /> || [[File:Stribog icon.png|25px]] [[Stribog]]<br />Main Dmg Rating +22<br />Str +10<br />Attk +30 || –
+|-
+| 581 || [[File:Ranseur icon.png|25px]] [[Ranseur]] || – || Polearm || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Coveter<br /> || [[File:Copperhead icon.png|25px]] [[Copperhead]]<br /> || –
+|-
+| 582 || [[File:Copperhead icon.png|25px]] [[Copperhead]] || – || Polearm || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Imdugud<br /> || [[File:Copperhead icon.png|25px]] [[Copperhead]]<br />Attk +3 || –
+|-
+| 583 || [[File:Copperhead icon.png|25px]] [[Copperhead]] || – || Polearm || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Lobais<br /> || [[File:Copperhead icon.png|25px]] [[Copperhead]]<br />Attk +5 || –
+|-
+| 584 || [[File:Copperhead icon.png|25px]] [[Copperhead]] || – || Polearm || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Antlion<br /> || [[File:Bradamante icon.png|25px]] [[Bradamante]]<br /> || –
+|-
+| 585 || [[File:Bradamante icon.png|25px]] [[Bradamante]] || – || Polearm || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Bradamante icon.png|25px]] [[Bradamante]]<br />Main Dmg Rating 33 +31 || –
+|-
+| 586 || [[File:Bradamante icon.png|25px]] [[Bradamante]] || [[File:Baby_Blobdingnag icon.png|25px]] [[Baby Blobdingnag]] || Polearm || Items || Required: 10<br /> || [[File:Bradamante icon.png|25px]] [[Bradamante]]<br />Dmg +31<br />Delay +20<br />Occ Attack Twice || –
 |}
 
+== Katana ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
+|-
+| 600 || [[File:Kibashiri icon.png|25px]] [[Kibashiri]] || – || Katana || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 691<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 681<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 671<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 661<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 651<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 641<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 631<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 601<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 621<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 611
+|-
+| 601 || [[File:Kibashiri icon.png|25px]] [[Kibashiri]] || – || Katana || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Funguar, Funguar electrumcap<br />Weather: Any active weather<br /> || [[File:Kuina icon.png|25px]] [[Kuina]]<br />Delayminus +3 || –
+|-
+| 602 || [[File:Kuina icon.png|25px]] [[Kuina]] || – || Katana || Kills || Required: 600<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Treant<br />Weather: Any active weather<br /> || [[File:Kuina icon.png|25px]] [[Kuina]]<br />Main Dmg Rating +9<br />Delayminus +3 || –
+|-
+| 603 || [[File:Kuina icon.png|25px]] [[Kuina]] || – || Katana || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Zdei<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Kuina icon.png|25px]] [[Kuina]]<br />Main Dmg Rating +10<br />Delayminus +3<br />Addeff Firedmg 5 +10 || –
+|-
+| 604 || [[File:Kuina icon.png|25px]] [[Kuina]] || – || Katana || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Duriumshell<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Kuina icon.png|25px]] [[Kuina]]<br />Main Dmg Rating +11<br />Delayminus +3<br />Addeff Firedmg 5 +15<br />Str +3 || –
+|-
+| 605 || [[File:Kuina icon.png|25px]] [[Kuina]] || – || Katana || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Dzoavits<br /> || [[File:Kuina icon.png|25px]] [[Kuina]]<br />Main Dmg Rating +12<br />Delayminus +3<br />Str +4<br />Attk +12 || –
+|-
+| 606 || [[File:Kuina icon.png|25px]] [[Kuina]] || – || Katana || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Verthandi<br /> || [[File:Kuina icon.png|25px]] [[Kuina]]<br />Main Dmg Rating +13<br />Delayminus +3<br />Str +5<br />Attk +15 || –
 |-
-| 45 || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]] || – || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Drachenlizard<br />Weather: Lightning, Lightning<br />Day: Lightningday<br /> || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]]<br />MAIN_DMG_RATING +6, DELAYMINUS +4, ADDEFF_FIREDMG_5 +15, DEX +3 || –
+| 681 || [[File:Kibashiri icon.png|25px]] [[Kibashiri]] || – || Katana || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Coveter<br /> || [[File:Koruri icon.png|25px]] [[Koruri]]<br /> || –
+|-
+| 682 || [[File:Koruri icon.png|25px]] [[Koruri]] || – || Katana || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Imdugud<br /> || [[File:Koruri icon.png|25px]] [[Koruri]]<br />Attk +3 || –
+|-
+| 683 || [[File:Koruri icon.png|25px]] [[Koruri]] || – || Katana || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Lobais<br /> || [[File:Koruri icon.png|25px]] [[Koruri]]<br />Attk +5 || –
+|-
+| 684 || [[File:Koruri icon.png|25px]] [[Koruri]] || – || Katana || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Antlion<br /> || [[File:Isatu icon.png|25px]] [[Isatu]]<br /> || –
+|-
+| 685 || [[File:Isatu icon.png|25px]] [[Isatu]] || – || Katana || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Isatu icon.png|25px]] [[Isatu]]<br />Dmg +13<br />Delayminus +15 || –
+|-
+| 686 || [[File:Isatu icon.png|25px]] [[Isatu]] || [[File:Ruthven's_Nail icon.png|25px]] [[Ruthven's Nail]] || Katana || Items || Required: 10<br /> || [[File:Isatu icon.png|25px]] [[Isatu]]<br />Dmg +13<br />Delay +9<br />Occ Attack Twice || –
 |}
 
+== Great Katana ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
+|-
+| 700 || [[File:Donto icon.png|25px]] [[Donto]] || – || Great Katana || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 791<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 781<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 771<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 761<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 751<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 741<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 731<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 701<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 721<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 711
+|-
+| 701 || [[File:Donto icon.png|25px]] [[Donto]] || – || Great Katana || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Worm, Bigworm<br />Weather: Any active weather<br /> || [[File:Efunotachi icon.png|25px]] [[Efunotachi]]<br />Str +5 || –
+|-
+| 702 || [[File:Efunotachi icon.png|25px]] [[Efunotachi]] || – || Great Katana || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Bee<br />Weather: Any active weather<br /> || [[File:Efunotachi icon.png|25px]] [[Efunotachi]]<br />Str +6<br />Attk +10 || –
+|-
+| 703 || [[File:Efunotachi icon.png|25px]] [[Efunotachi]] || – || Great Katana || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Ghrah sea<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Efunotachi icon.png|25px]] [[Efunotachi]]<br />Main Dmg Rating +11<br />Str +7<br />Attk +15 || –
+|-
+| 704 || [[File:Efunotachi icon.png|25px]] [[Efunotachi]] || – || Great Katana || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Frozen ghoul drk, Frozen ghoul blm<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Efunotachi icon.png|25px]] [[Efunotachi]]<br />Main Dmg Rating +13<br />Str +8<br />Attk +20 || –
+|-
+| 705 || [[File:Efunotachi icon.png|25px]] [[Efunotachi]] || – || Great Katana || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Tipua<br /> || [[File:Efunotachi icon.png|25px]] [[Efunotachi]]<br />Main Dmg Rating +15<br />Str +9<br />Attk +25 || –
+|-
+| 706 || [[File:Efunotachi icon.png|25px]] [[Efunotachi]] || – || Great Katana || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Blobdingnag<br /> || [[File:Efunotachi icon.png|25px]] [[Efunotachi]]<br />Main Dmg Rating +17<br />Str +10<br />Attk +30 || –
+|-
+| 781 || [[File:Donto icon.png|25px]] [[Donto]] || – || Great Katana || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Deviator<br /> || [[File:Shirodachi icon.png|25px]] [[Shirodachi]]<br /> || –
+|-
+| 782 || [[File:Shirodachi icon.png|25px]] [[Shirodachi]] || – || Great Katana || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Shieldtrap<br /> || [[File:Shirodachi icon.png|25px]] [[Shirodachi]]<br />Attk +3 || –
+|-
+| 783 || [[File:Shirodachi icon.png|25px]] [[Shirodachi]] || – || Great Katana || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Balor<br /> || [[File:Shirodachi icon.png|25px]] [[Shirodachi]]<br />Attk +5 || –
+|-
+| 784 || [[File:Shirodachi icon.png|25px]] [[Shirodachi]] || – || Great Katana || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Hippogryph, Hippogryph 2<br /> || [[File:Kurodachi icon.png|25px]] [[Kurodachi]]<br /> || –
 |-
-| 44 || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Poroggo<br />Weather: Lightning, Lightning<br />Day: Lightningday<br /> || [[File:Cat's Claws icon.png|25px]] [[Cat's Claws]]<br />MAIN_DMG_RATING +5, DELAYMINUS +4, ADDEFF_FIREDMG_5 +10 || –
+| 785 || [[File:Kurodachi icon.png|25px]] [[Kurodachi]] || – || Great Katana || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Kurodachi icon.png|25px]] [[Kurodachi]]<br />Dmg +27 || –
+|-
+| 786 || [[File:Kurodachi icon.png|25px]] [[Kurodachi]] || [[File:Krabkatoa_Shell icon.png|25px]] [[Krabkatoa Shell]] || Great Katana || Items || Required: 10<br /> || [[File:Kurodachi icon.png|25px]] [[Kurodachi]]<br />Dmg +27<br />Delay +19<br />Occ Attack Twice || –
 |}
-
-== [[File:Peeler icon.png|25px]] [[Peeler]] ==
 
+== Club ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
+|-
+| 800 || [[File:Stenz icon.png|25px]] [[Stenz]] || – || Club || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 891<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 881<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 871<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 861<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 851<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 841<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 831<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 801<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 821<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 811
+|-
+| 861 || [[File:Stenz icon.png|25px]] [[Stenz]] || – || Club || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Tonberry zilart, Tonberry cop<br />Weather: Any active weather<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />Cure Potency +5 || –
+|-
+| 862 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Club || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Giantbird, Giantbird nm<br />Weather: Any active weather<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />Cure Potency +7<br />Mnd +4 || –
+|-
+| 863 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Club || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Ghrah sea, Ghrah limbus, Ghrah unused<br />Weather: Light, Light<br />Day: Lightsday<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />Cure Potency +9<br />Mnd +5<br />Lightres +10 || –
+|-
+| 864 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Club || Kills || Required: 400<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Hippogryph, Hippogryph 2<br />Weather: Light, Light<br />Day: Lightsday<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />Cure Potency +12<br />Mnd +6<br />Lightres +12 || –
+|-
+| 865 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Club || Kills || Required: 450<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Cardian<br />Weather: Light, Light<br />Day: Lightsday<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />Cure Potency +13<br />Mnd +7 || –
+|-
+| 866 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Club || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Artemisia<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />Cure Potency +14<br />Mnd +7<br />Lightres +17 || –
+|-
+| 867 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Club || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Verthandi<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />Cure Potency +14<br />Mnd +7<br />Refresh +0<br />Lightres +20 || –
+|-
+| 871 || [[File:Stenz icon.png|25px]] [[Stenz]] || – || Club || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Gnole<br />Weather: Any active weather<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />Macc +14 || –
+|-
+| 872 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Club || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Aern<br />Weather: Any active weather<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />Macc +15<br />Mp 33 +2 || –
+|-
+| 881 || [[File:Stenz icon.png|25px]] [[Stenz]] || – || Club || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Provoker<br /> || [[File:Rageblow icon.png|25px]] [[Rageblow]]<br /> || –
+|-
+| 882 || [[File:Rageblow icon.png|25px]] [[Rageblow]] || – || Club || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Unstable cluster<br /> || [[File:Rageblow icon.png|25px]] [[Rageblow]]<br />Attk +3 || –
+|-
+| 883 || [[File:Rageblow icon.png|25px]] [[Rageblow]] || – || Club || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Caithleann<br /> || [[File:Rageblow icon.png|25px]] [[Rageblow]]<br />Attk +5 || –
+|-
+| 884 || [[File:Rageblow icon.png|25px]] [[Rageblow]] || – || Club || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Flytrap<br /> || [[File:Goedendag icon.png|25px]] [[Goedendag]]<br /> || –
+|-
+| 885 || [[File:Goedendag icon.png|25px]] [[Goedendag]] || – || Club || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Goedendag icon.png|25px]] [[Goedendag]]<br />Dmg +19 || –
 |-
-| 101 || [[File:Peeler icon.png|25px]] [[Peeler]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Bird<br />Weather: Any active weather<br /> || [[File:Dakini icon.png|25px]] [[Dakini]]<br />DELAYMINUS +6 || –
+| 886 || [[File:Goedendag icon.png|25px]] [[Goedendag]] || [[File:Krabkatoa_Shell icon.png|25px]] [[Krabkatoa Shell]] || Club || Items || Required: 10<br /> || [[File:Goedendag icon.png|25px]] [[Goedendag]]<br />Dmg +19<br />Delay 33 +7<br />Occ Attack Twice || –
 |}
 
+== Staff ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
 |-
-| 100 || [[File:Peeler icon.png|25px]] [[Peeler]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 191<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 181<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 171<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 161<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 151<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 141<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 131<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 101<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 121<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 111
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 900 || [[File:Crook icon.png|25px]] [[Crook]] || – || Staff || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 991<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 981<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 971<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 961<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 951<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 941<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 931<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 901<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 921<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 911
 |-
-| 181 || [[File:Peeler icon.png|25px]] [[Peeler]] || – || Kills || Required: 3<br />Kill Type: Specific<br />Mob(s): Mahisha<br /> || [[File:Renegade icon.png|25px]] [[Renegade]]<br /> || –
-|}
-
-== [[File:Renegade icon.png|25px]] [[Renegade]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 981 || [[File:Crook icon.png|25px]] [[Crook]] || – || Staff || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Deviator<br /> || [[File:Shillelagh icon.png|25px]] [[Shillelagh]]<br /> || –
 |-
-| 182 || [[File:Renegade icon.png|25px]] [[Renegade]] || – || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Aiatar<br /> || [[File:Renegade icon.png|25px]] [[Renegade]]<br />ATTK +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 982 || [[File:Shillelagh icon.png|25px]] [[Shillelagh]] || – || Staff || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Aiatar<br /> || [[File:Shillelagh icon.png|25px]] [[Shillelagh]]<br />Attk +3 || –
 |-
-| 183 || [[File:Renegade icon.png|25px]] [[Renegade]] || – || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Provoker<br /> || [[File:Renegade icon.png|25px]] [[Renegade]]<br />ATTK +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 983 || [[File:Shillelagh icon.png|25px]] [[Shillelagh]] || – || Staff || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Indich<br /> || [[File:Shillelagh icon.png|25px]] [[Shillelagh]]<br />Attk +5 || –
 |-
-| 184 || [[File:Renegade icon.png|25px]] [[Renegade]] || – || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Uragnite<br /> || [[File:Athame icon.png|25px]] [[Athame]]<br /> || –
-|}
-
-== [[File:Athame icon.png|25px]] [[Athame]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 984 || [[File:Shillelagh icon.png|25px]] [[Shillelagh]] || – || Staff || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Snoll<br /> || [[File:Danda icon.png|25px]] [[Danda]]<br /> || –
 |-
-| 186 || [[File:Athame icon.png|25px]] [[Athame]] || [[File:Eye of Verthandi icon.png|25px]] [[Eye of Verthandi]] || Items || Required: 10<br /> || [[File:Athame icon.png|25px]] [[Athame]]<br />DMG +12, DELAY +20, OCC_ATTACK_TWICE || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 985 || [[File:Danda icon.png|25px]] [[Danda]] || – || Staff || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Danda icon.png|25px]] [[Danda]]<br />Main Dmg Rating 33 +8 || –
 |-
-| 185 || [[File:Athame icon.png|25px]] [[Athame]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Athame icon.png|25px]] [[Athame]]<br />DMG +12, DELAYMINUS +15 || –
-|}
-
-== [[File:Dakini icon.png|25px]] [[Dakini]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 986 || [[File:Danda icon.png|25px]] [[Danda]] || [[File:Orcus_Mandible icon.png|25px]] [[Orcus Mandible]] || Staff || Items || Required: 10<br /> || [[File:Danda icon.png|25px]] [[Danda]]<br />Main Dmg Rating 33 +8<br />Delay +12<br />Occ Attack Twice || –
 |-
-| 103 || [[File:Dakini icon.png|25px]] [[Dakini]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Wamouracampa<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Dakini icon.png|25px]] [[Dakini]]<br />MAIN_DMG_RATING +7, DELAYMINUS +12, ADDEFF_FIREDMG_5 +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 2200 || [[File:Vulcan's_Staff icon.png|25px]] [[Vulcan's Staff]] || – || Staff || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: {{Fire}}<br /> || [[File:Vulcan's_Staff icon.png|25px]] [[Vulcan's Staff]]<br />Matt +2 || –
 |-
-| 102 || [[File:Dakini icon.png|25px]] [[Dakini]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Lizard, Icelizard, Highlander lizard<br />Weather: Any active weather<br /> || [[File:Dakini icon.png|25px]] [[Dakini]]<br />MAIN_DMG_RATING +5, DELAYMINUS +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 2250 || [[File:Aquilo's_Staff icon.png|25px]] [[Aquilo's Staff]] || – || Staff || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: {{Ice}}<br /> || [[File:Aquilo's_Staff icon.png|25px]] [[Aquilo's Staff]]<br />Matt +2 || –
 |-
-| 104 || [[File:Dakini icon.png|25px]] [[Dakini]] || – || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Condor<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Dakini icon.png|25px]] [[Dakini]]<br />MAIN_DMG_RATING +8, DELAYMINUS +13, ADDEFF_FIREDMG_5 +15, STR +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 2300 || [[File:Auster's_Staff icon.png|25px]] [[Auster's Staff]] || – || Staff || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: {{Wind}}<br /> || [[File:Auster's_Staff icon.png|25px]] [[Auster's Staff]]<br />Matt +2 || –
 |-
-| 105 || [[File:Dakini icon.png|25px]] [[Dakini]] || – || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Terror fly<br /> || [[File:Dakini icon.png|25px]] [[Dakini]]<br />MAIN_DMG_RATING +10, DELAYMINUS +15, STR +4, ATTK +12 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 2350 || [[File:Terra's_Staff icon.png|25px]] [[Terra's Staff]] || – || Staff || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: {{Earth}}<br /> || [[File:Terra's_Staff icon.png|25px]] [[Terra's Staff]]<br />Matt +2 || –
 |-
-| 106 || [[File:Dakini icon.png|25px]] [[Dakini]] || – || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Dawon<br /> || [[File:Dakini icon.png|25px]] [[Dakini]]<br />MAIN_DMG_RATING +9, DELAYMINUS +4, STR +5, ATTK +15 || –
-|}
-
-== [[File:Side-sword icon.png|25px]] [[Side-sword]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 2400 || [[File:Jupiter's_Staff icon.png|25px]] [[Jupiter's Staff]] || – || Staff || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: {{Lightning}}<br /> || [[File:Jupiter's_Staff icon.png|25px]] [[Jupiter's Staff]]<br />Matt +2 || –
 |-
-| 1200 || [[File:Side-sword icon.png|25px]] [[Side-sword]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 1291<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 1281<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 1271<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 1261<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 1251<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 1241<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 1231<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 1201<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 1221<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 1211
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 2450 || [[File:Neptune's_Staff icon.png|25px]] [[Neptune's Staff]] || – || Staff || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: {{Water}}<br /> || [[File:Neptune's_Staff icon.png|25px]] [[Neptune's Staff]]<br />Matt +2 || –
 |-
-| 1201 || [[File:Side-sword icon.png|25px]] [[Side-sword]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Wivre<br />Weather: Any active weather<br /> || [[File:Soulsaber icon.png|25px]] [[Soulsaber]]<br />DELAYMINUS +6 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 2500 || [[File:Apollo's_Staff icon.png|25px]] [[Apollo's Staff]] || – || Staff || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: {{Light}}<br /> || [[File:Apollo's_Staff icon.png|25px]] [[Apollo's Staff]]<br />Matt +2 || –
 |-
-| 1281 || [[File:Side-sword icon.png|25px]] [[Side-sword]] || – || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Tres duendes<br /> || [[File:Schiavona icon.png|25px]] [[Schiavona]]<br /> || –
-|}
-
-== [[File:Schiavona icon.png|25px]] [[Schiavona]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 2550 || [[File:Pluto's_Staff icon.png|25px]] [[Pluto's Staff]] || – || Staff || Kills || Required: 1000<br />Sub Type: Elemental<br />Element: {{Dark}}<br /> || [[File:Pluto's_Staff icon.png|25px]] [[Pluto's Staff]]<br />Matt +2 || –
 |-
-| 1282 || [[File:Schiavona icon.png|25px]] [[Schiavona]] || – || Kills || Required: 70<br />Kill Type: Specific<br />Mob(s): Carmine dobsonfly<br /> || [[File:Schiavona icon.png|25px]] [[Schiavona]]<br />ATTK +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 9000 || [[File:Dark_Staff icon.png|25px]] [[Dark Staff]] || – || Staff || Effect || Required: 1000<br />Sub Type: Magic<br />Effect: Paralysis<br /> || [[File:Dark_Staff icon.png|25px]] [[Dark Staff]]<br />Matt +2 || –
 |-
-| 1283 || [[File:Schiavona icon.png|25px]] [[Schiavona]] || – || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Elel<br /> || [[File:Schiavona icon.png|25px]] [[Schiavona]]<br />ATTK +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 9001 || [[File:Fire_Staff icon.png|25px]] [[Fire Staff]] || – || Staff || Kills || Required: 1000<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Colibri<br />Weather: Wind, Wind<br />Day: Windsday<br /> || [[File:Fire_Staff icon.png|25px]] [[Fire Staff]]<br />Matt +2 || –
 |-
-| 1284 || [[File:Schiavona icon.png|25px]] [[Schiavona]] || – || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Eft<br /> || [[File:Antea icon.png|25px]] [[Antea]]<br /> || –
-|}
-
-== [[File:Antea icon.png|25px]] [[Antea]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 9002 || [[File:Water_Staff icon.png|25px]] [[Water Staff]] || – || Staff || Special || Required: 1000<br />Kill Type: Family<br />Special Type: WSUse<br />Mob(s): Colibri<br />Required WS: Heavy swing<br /> || [[File:Water_Staff icon.png|25px]] [[Water Staff]]<br />Matt +2 || –
 |-
-| 1285 || [[File:Antea icon.png|25px]] [[Antea]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Antea icon.png|25px]] [[Antea]]<br />DMG +16, DELAYMINUS +6 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 9003 || [[File:Wind_Staff icon.png|25px]] [[Wind Staff]] || – || Staff || Special || Required: 1000<br />Kill Type: Family<br />Special Type: WSDamage<br />Mob(s): Colibri<br />Required WS: Rock crusher<br />Minimum WS Damage: 100<br /> || [[File:Wind_Staff icon.png|25px]] [[Wind Staff]]<br />Matt +2 || –
 |-
-| 1286 || [[File:Antea icon.png|25px]] [[Antea]] || [[File:Ruthven's Nail icon.png|25px]] [[Ruthven's Nail]] || Items || Required: 10<br /> || [[File:Antea icon.png|25px]] [[Antea]]<br />DMG +16, DELAY_33 +3, OCC_ATTACK_TWICE || –
-|}
-
-== [[File:Soulsaber icon.png|25px]] [[Soulsaber]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 9004 || [[File:Earth_Staff icon.png|25px]] [[Earth Staff]] || – || Staff || Special || Required: 100000<br />Sub Type: Zone<br />Special Type: ExperiencePoints<br />Zone(s): Bhaflau thickets<br /> || [[File:Earth_Staff icon.png|25px]] [[Earth Staff]]<br />Matt +2 || –
 |-
-| 1202 || [[File:Soulsaber icon.png|25px]] [[Soulsaber]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Manticore<br />Weather: Any active weather<br /> || [[File:Soulsaber icon.png|25px]] [[Soulsaber]]<br />MAIN_DMG_RATING +5, DELAYMINUS +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 9006 || [[File:Ice_Staff icon.png|25px]] [[Ice Staff]] || – || Staff || Kills || Required: 1000<br />Kill Type: Family<br />Sub Type: PetKill<br />Mob(s): Colibri<br /> || [[File:Ice_Staff icon.png|25px]] [[Ice Staff]]<br />Matt +2 || –
 |-
-| 1204 || [[File:Soulsaber icon.png|25px]] [[Soulsaber]] || – || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Drachenlizard<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Soulsaber icon.png|25px]] [[Soulsaber]]<br />MAIN_DMG_RATING +8, DELAYMINUS +13, ADDEFF_FIREDMG_5 +15, STR +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 9007 || [[File:Light_Staff icon.png|25px]] [[Light Staff]] || – || Staff || Kills || Required: 1000<br />Kill Type: Family<br />Sub Type: Elemental<br />Mob(s): Colibri<br />Element: {{Fire}}<br /> || [[File:Light_Staff icon.png|25px]] [[Light Staff]]<br />Matt +2 || –
 |-
-| 1205 || [[File:Soulsaber icon.png|25px]] [[Soulsaber]] || – || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Dicey dorcus<br /> || [[File:Soulsaber icon.png|25px]] [[Soulsaber]]<br />MAIN_DMG_RATING +10, DELAYMINUS +15, STR +4, ATTK +12 || –
+| 9008 || [[File:Thunder_Staff icon.png|25px]] [[Thunder Staff]] || – || Staff || Kills || Required: 1000<br />Kill Type: Family<br />Sub Type: PetKill<br />Mob(s): Colibri<br /> || [[File:Thunder_Staff icon.png|25px]] [[Thunder Staff]]<br />Matt +2 || –
 |}
 
+== Archery ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
 |-
-| 1203 || [[File:Soulsaber icon.png|25px]] [[Soulsaber]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Cluster 1, Cluster 2<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Soulsaber icon.png|25px]] [[Soulsaber]]<br />MAIN_DMG_RATING +7, DELAYMINUS +12, ADDEFF_FIREDMG_5 +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 801 || [[File:Sparrow icon.png|25px]] [[Sparrow]] || – || Archery || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Scorpion<br />Weather: Any active weather<br /> || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]]<br />Str +5 || –
 |-
-| 1206 || [[File:Soulsaber icon.png|25px]] [[Soulsaber]] || – || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Orcus<br /> || [[File:Soulsaber icon.png|25px]] [[Soulsaber]]<br />MAIN_DMG_RATING +12, DELAYMINUS +20, STR +5, ATTK +15 || –
-|}
-
-== [[File:Break Blade icon.png|25px]] [[Break Blade]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 802 || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]] || – || Archery || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Golem<br />Weather: Any active weather<br /> || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]]<br />Str +6<br />Rattk +10 || –
 |-
-| 200 || [[File:Break Blade icon.png|25px]] [[Break Blade]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 291<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 281<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 271<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 261<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 251<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 241<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 231<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 201<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 221<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 211
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 803 || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]] || – || Archery || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Ghrah sea<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]]<br />Ranged Dmg Rating +15<br />Str +7<br />Rattk +15 || –
 |-
-| 201 || [[File:Break Blade icon.png|25px]] [[Break Blade]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Magicpot<br />Weather: Any active weather<br /> || [[File:Brand d'Arcon icon.png|25px]] [[Brand d'Arcon]]<br />STR +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 804 || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]] || – || Archery || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Gnoletrap<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]]<br />Ranged Dmg Rating +17<br />Str +9<br />Rattk +20 || –
 |-
-| 281 || [[File:Break Blade icon.png|25px]] [[Break Blade]] || – || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Deviator<br /> || [[File:Sunblade icon.png|25px]] [[Sunblade]]<br /> || –
-|}
-
-== [[File:Sunblade icon.png|25px]] [[Sunblade]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 805 || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]] || – || Archery || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Purushamriga<br /> || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]]<br />Ranged Dmg Rating +19<br />Str +9<br />Rattk +25 || –
 |-
-| 282 || [[File:Sunblade icon.png|25px]] [[Sunblade]] || – || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Keremet<br /> || [[File:Sunblade icon.png|25px]] [[Sunblade]]<br />ATTK +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 806 || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]] || – || Archery || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Lord ruthven<br /> || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]]<br />Ranged Dmg Rating +21<br />Str +10<br />Rattk +30 || –
 |-
-| 284 || [[File:Sunblade icon.png|25px]] [[Sunblade]] || – || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Buffalo<br /> || [[File:Salamand Sword icon.png|25px]] [[Salamand Sword]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1400 || [[File:Sparrow icon.png|25px]] [[Sparrow]] || – || Archery || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 1491<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 1481<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 1471<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 1461<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 1451<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 1441<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 1431<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 1401<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 1421<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 1411
 |-
-| 283 || [[File:Sunblade icon.png|25px]] [[Sunblade]] || – || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Gyre carlin<br /> || [[File:Sunblade icon.png|25px]] [[Sunblade]]<br />ATTK +5 || –
-|}
-
-== [[File:Salamand Sword icon.png|25px]] [[Salamand Sword]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1481 || [[File:Sparrow icon.png|25px]] [[Sparrow]] || – || Archery || Kills || Required: 3<br />Kill Type: Specific<br />Mob(s): Mahisha<br /> || [[File:Kestrel icon.png|25px]] [[Kestrel]]<br /> || –
 |-
-| 286 || [[File:Salamand Sword icon.png|25px]] [[Salamand Sword]] || [[File:Krabkatoa Shell icon.png|25px]] [[Krabkatoa Shell]] || Items || Required: 10<br /> || [[File:Salamand Sword icon.png|25px]] [[Salamand Sword]]<br />DMG +29, DELAY +23, OCC_ATTACK_TWICE || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1482 || [[File:Kestrel icon.png|25px]] [[Kestrel]] || – || Archery || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Luaith<br /> || [[File:Kestrel icon.png|25px]] [[Kestrel]]<br />Attk +3 || –
 |-
-| 285 || [[File:Salamand Sword icon.png|25px]] [[Salamand Sword]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Salamand Sword icon.png|25px]] [[Salamand Sword]]<br />DMG +29 || –
-|}
-
-== [[File:Brand d'Arcon icon.png|25px]] [[Brand d'Arcon]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1483 || [[File:Kestrel icon.png|25px]] [[Kestrel]] || – || Archery || Kills || Required: 70<br />Kill Type: Specific<br />Mob(s): Carmine dobsonfly<br /> || [[File:Kestrel icon.png|25px]] [[Kestrel]]<br />Attk +5 || –
 |-
-| 206 || [[File:Brand d'Arcon icon.png|25px]] [[Brand d'Arcon]] || – || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Krabkatoa<br /> || [[File:Brand d'Arcon icon.png|25px]] [[Brand d'Arcon]]<br />MAIN_DMG_RATING +16, STR +10, ATTK +30 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1484 || [[File:Kestrel icon.png|25px]] [[Kestrel]] || – || Archery || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Dhalmel<br /> || [[File:Goshawk icon.png|25px]] [[Goshawk]]<br /> || –
 |-
-| 204 || [[File:Brand d'Arcon icon.png|25px]] [[Brand d'Arcon]] || – || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Tsetse fly<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Brand d'Arcon icon.png|25px]] [[Brand d'Arcon]]<br />MAIN_DMG_RATING +12, STR +8, ATTK +20 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1485 || [[File:Goshawk icon.png|25px]] [[Goshawk]] || – || Archery || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Goshawk icon.png|25px]] [[Goshawk]]<br />Ranged Dmg Rating +26<br />Ranged Delayminus 33 +0 || –
 |-
-| 205 || [[File:Brand d'Arcon icon.png|25px]] [[Brand d'Arcon]] || – || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Coccinellidae<br /> || [[File:Brand d'Arcon icon.png|25px]] [[Brand d'Arcon]]<br />MAIN_DMG_RATING +14, STR +9, ATTK +25 || –
+| 1486 || [[File:Sparrow icon.png|25px]] [[Sparrow]] || [[File:Krabkatoa_Shell icon.png|25px]] [[Krabkatoa Shell]] || Archery || Items || Required: 10<br /> || [[File:Goshawk icon.png|25px]] [[Goshawk]]<br />Ranged Dmg Rating +22<br />Ranged Delay +23<br />Occ Attack Twice || –
 |}
 
+== Marksmanship ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
 |-
-| 202 || [[File:Brand d'Arcon icon.png|25px]] [[Brand d'Arcon]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Cockatrice<br />Weather: Any active weather<br /> || [[File:Brand d'Arcon icon.png|25px]] [[Brand d'Arcon]]<br />STR +6, ATTK +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1500 || [[File:Thunderstick icon.png|25px]] [[Thunderstick]] || – || Marksmanship || Kills ||  || – || [[File:Ice_Crystal icon.png|25px]] [[Ice Crystal]] → Trial 1591<br />[[File:Fire_Crystal icon.png|25px]] [[Fire Crystal]] → Trial 1581<br />[[File:Dark_Cluster icon.png|25px]] [[Dark Cluster]] → Trial 1571<br />[[File:Light_Cluster icon.png|25px]] [[Light Cluster]] → Trial 1561<br />[[File:Water_Cluster icon.png|25px]] [[Water Cluster]] → Trial 1551<br />[[File:Lightning_Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 1541<br />[[File:Earth_Cluster icon.png|25px]] [[Earth Cluster]] → Trial 1531<br />[[File:Fire_Cluster icon.png|25px]] [[Fire Cluster]] → Trial 1501<br />[[File:Wind_Cluster icon.png|25px]] [[Wind Cluster]] → Trial 1521<br />[[File:Ice_Cluster icon.png|25px]] [[Ice Cluster]] → Trial 1511
 |-
-| 203 || [[File:Brand d'Arcon icon.png|25px]] [[Brand d'Arcon]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Morbol, Morbol nm<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Brand d'Arcon icon.png|25px]] [[Brand d'Arcon]]<br />MAIN_DMG_RATING +10, STR +7, ATTK +15 || –
-|}
-
-== [[File:Chopper icon.png|25px]] [[Chopper]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1501 || [[File:Thunderstick icon.png|25px]] [[Thunderstick]] || – || Marksmanship || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Weather: Any active weather<br /> || [[File:Huracan icon.png|25px]] [[Huracan]]<br />Str +5 || –
 |-
-| 300 || [[File:Chopper icon.png|25px]] [[Chopper]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 391<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 381<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 371<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 361<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 351<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 341<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 331<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 301<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 321<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 311
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1502 || [[File:Huracan icon.png|25px]] [[Huracan]] || – || Marksmanship || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Doll<br />Weather: Any active weather<br /> || [[File:Huracan icon.png|25px]] [[Huracan]]<br />Str +6<br />Rattk +10 || –
 |-
-| 381 || [[File:Chopper icon.png|25px]] [[Chopper]] || – || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Satiator<br /> || [[File:Splinter icon.png|25px]] [[Splinter]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1503 || [[File:Huracan icon.png|25px]] [[Huracan]] || – || Marksmanship || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Aern<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Huracan icon.png|25px]] [[Huracan]]<br />Ranged Dmg Rating +15<br />Str +7<br />Rattk +15 || –
 |-
-| 301 || [[File:Chopper icon.png|25px]] [[Chopper]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Ghost<br />Weather: Any active weather<br /> || [[File:Skeggiold icon.png|25px]] [[Skeggiold]]<br />DELAYMINUS +3 || –
-|}
-
-== [[File:Splinter icon.png|25px]] [[Splinter]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1504 || [[File:Huracan icon.png|25px]] [[Huracan]] || – || Marksmanship || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Champion crawler<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Huracan icon.png|25px]] [[Huracan]]<br />Ranged Dmg Rating +17<br />Str +9<br />Rattk +20 || –
 |-
-| 384 || [[File:Splinter icon.png|25px]] [[Splinter]] || – || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Diremite<br /> || [[File:Punisher icon.png|25px]] [[Punisher]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1505 || [[File:Huracan icon.png|25px]] [[Huracan]] || – || Marksmanship || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Rahu<br /> || [[File:Huracan icon.png|25px]] [[Huracan]]<br />Ranged Dmg Rating +19<br />Str +9<br />Rattk +25 || –
 |-
-| 382 || [[File:Splinter icon.png|25px]] [[Splinter]] || – || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Minotaur<br /> || [[File:Splinter icon.png|25px]] [[Splinter]]<br />ATTK +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1506 || [[File:Huracan icon.png|25px]] [[Huracan]] || – || Marksmanship || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Blobdingnag<br /> || [[File:Huracan icon.png|25px]] [[Huracan]]<br />Ranged Dmg Rating +13<br />Str +10<br />Rattk +30 || –
 |-
-| 383 || [[File:Splinter icon.png|25px]] [[Splinter]] || – || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Acho<br /> || [[File:Splinter icon.png|25px]] [[Splinter]]<br />ATTK +5 || –
-|}
-
-== [[File:Punisher icon.png|25px]] [[Punisher]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1581 || [[File:Thunderstick icon.png|25px]] [[Thunderstick]] || – || Marksmanship || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Tres duendes<br /> || [[File:Blue_Steel icon.png|25px]] [[Blue Steel]]<br /> || –
 |-
-| 386 || [[File:Punisher icon.png|25px]] [[Punisher]] || [[File:Baby Blobdingnag icon.png|25px]] [[Baby Blobdingnag]] || Items || Required: 10<br /> || [[File:Punisher icon.png|25px]] [[Punisher]]<br />DMG +18, DELAY +31, OCC_ATTACK_TWICE || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1582 || [[File:Blue_Steel icon.png|25px]] [[Blue Steel]] || – || Marksmanship || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Unstable cluster<br /> || [[File:Blue_Steel icon.png|25px]] [[Blue Steel]]<br />Attk +3 || –
 |-
-| 385 || [[File:Punisher icon.png|25px]] [[Punisher]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Punisher icon.png|25px]] [[Punisher]]<br />DMG +18, DELAYMINUS +15 || –
-|}
-
-== [[File:Skeggiold icon.png|25px]] [[Skeggiold]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1583 || [[File:Blue_Steel icon.png|25px]] [[Blue Steel]] || – || Marksmanship || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Elel<br /> || [[File:Blue_Steel icon.png|25px]] [[Blue Steel]]<br />Attk +5 || –
 |-
-| 302 || [[File:Skeggiold icon.png|25px]] [[Skeggiold]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Slime, Slime nm<br />Weather: Any active weather<br /> || [[File:Skeggiold icon.png|25px]] [[Skeggiold]]<br />MAIN_DMG_RATING +9, DELAYMINUS +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1584 || [[File:Blue_Steel icon.png|25px]] [[Blue Steel]] || – || Marksmanship || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Giantbird, Giantbird nm<br /> || [[File:Dragonmaw icon.png|25px]] [[Dragonmaw]]<br /> || –
 |-
-| 306 || [[File:Skeggiold icon.png|25px]] [[Skeggiold]] || – || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Verthandi<br /> || [[File:Skeggiold icon.png|25px]] [[Skeggiold]]<br />MAIN_DMG_RATING +13, DELAYMINUS +3, STR +5, ATTK +15 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1585 || [[File:Dragonmaw icon.png|25px]] [[Dragonmaw]] || – || Marksmanship || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Dragonmaw icon.png|25px]] [[Dragonmaw]]<br />Ranged Dmg Rating +27<br />Ranged Delayminus 33 +0 || –
 |-
-| 304 || [[File:Skeggiold icon.png|25px]] [[Skeggiold]] || – || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Gouger beetle<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Skeggiold icon.png|25px]] [[Skeggiold]]<br />MAIN_DMG_RATING +11, DELAYMINUS +3, ADDEFF_FIREDMG_5 +15, STR +3 || –
+| 1586 || [[File:Dragonmaw icon.png|25px]] [[Dragonmaw]] || [[File:Eye_of_Verthandi icon.png|25px]] [[Eye of Verthandi]] || Marksmanship || Items || Required: 10<br /> || [[File:Dragonmaw icon.png|25px]] [[Dragonmaw]]<br />Ranged Dmg Rating +27<br />Ranged Delay 65 +5<br />Occ Attack Twice || –
 |}
 
+== Back ==
 {| class="wikitable sortable"
 |+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+! Trial # !! Main Item !! Trade Item !! Skill/Slot !! Type !! Requirements !! Reward !! Branches
 |-
-| 303 || [[File:Skeggiold icon.png|25px]] [[Skeggiold]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Wyvern<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Skeggiold icon.png|25px]] [[Skeggiold]]<br />MAIN_DMG_RATING +10, DELAYMINUS +3, ADDEFF_FIREDMG_5 +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1000 || [[File:Mauler's_Mantle icon.png|25px]] [[Mauler's Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Mauler's_Mantle icon.png|25px]] [[Mauler's Mantle]]<br />Attk +9 || –
 |-
-| 305 || [[File:Skeggiold icon.png|25px]] [[Skeggiold]] || – || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Gorib<br /> || [[File:Skeggiold icon.png|25px]] [[Skeggiold]]<br />MAIN_DMG_RATING +12, DELAYMINUS +3, STR +4, ATTK +12 || –
-|}
-
-== [[File:Lumberjack_(Item) icon.png|25px]] [[Lumberjack_(Item)]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1001 || [[File:Mauler's_Mantle icon.png|25px]] [[Mauler's Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Mauler's_Mantle icon.png|25px]] [[Mauler's Mantle]]<br />Attk +9<br />Acc +9 || –
 |-
-| 1381 || [[File:Lumberjack_(Item) icon.png|25px]] [[Lumberjack_(Item)]] || – || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Wailer<br /> || [[File:Sagaris icon.png|25px]] [[Sagaris]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1002 || [[File:Mauler's_Mantle icon.png|25px]] [[Mauler's Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Mauler's_Mantle icon.png|25px]] [[Mauler's Mantle]]<br />Attk +11<br />Acc +11<br />Str +2 || –
 |-
-| 1301 || [[File:Lumberjack_(Item) icon.png|25px]] [[Lumberjack_(Item)]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Bugard<br />Weather: Any active weather<br /> || [[File:Hephaestus icon.png|25px]] [[Hephaestus]]<br />STR +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1003 || [[File:Mauler's_Mantle icon.png|25px]] [[Mauler's Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Mauler's_Mantle icon.png|25px]] [[Mauler's Mantle]]<br />Attk +14<br />Acc +14<br />Str +3 || –
 |-
-| 1300 || [[File:Lumberjack_(Item) icon.png|25px]] [[Lumberjack_(Item)]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 1391<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 1381<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 1371<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 1361<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 1351<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 1341<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 1331<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 1301<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 1321<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 1311
-|}
-
-== [[File:Sagaris icon.png|25px]] [[Sagaris]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1005 || [[File:Anchoret's_Mantle icon.png|25px]] [[Anchoret's Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Anchoret's_Mantle icon.png|25px]] [[Anchoret's Mantle]]<br />Attk +9 || –
 |-
-| 1382 || [[File:Sagaris icon.png|25px]] [[Sagaris]] || – || Kills || Required: 3<br />Kill Type: Specific<br />Mob(s): Eba<br /> || [[File:Sagaris icon.png|25px]] [[Sagaris]]<br />ATTK +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1006 || [[File:Anchoret's_Mantle icon.png|25px]] [[Anchoret's Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Anchoret's_Mantle icon.png|25px]] [[Anchoret's Mantle]]<br />Attk +11<br />Acc +11 || –
 |-
-| 1383 || [[File:Sagaris icon.png|25px]] [[Sagaris]] || – || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Lobais<br /> || [[File:Sagaris icon.png|25px]] [[Sagaris]]<br />ATTK +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1007 || [[File:Anchoret's_Mantle icon.png|25px]] [[Anchoret's Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Anchoret's_Mantle icon.png|25px]] [[Anchoret's Mantle]]<br />Attk +11<br />Acc +11<br />Str +2 || –
 |-
-| 1384 || [[File:Sagaris icon.png|25px]] [[Sagaris]] || – || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Moblin, Bugbear<br /> || [[File:Luchtaine icon.png|25px]] [[Luchtaine]]<br /> || –
-|}
-
-== [[File:Luchtaine icon.png|25px]] [[Luchtaine]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1008 || [[File:Anchoret's_Mantle icon.png|25px]] [[Anchoret's Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Anchoret's_Mantle icon.png|25px]] [[Anchoret's Mantle]]<br />Attk +14<br />Acc +14<br />Str +3 || –
 |-
-| 1385 || [[File:Luchtaine icon.png|25px]] [[Luchtaine]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Luchtaine icon.png|25px]] [[Luchtaine]]<br />DMG +31 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1010 || [[File:Mending_Cape icon.png|25px]] [[Mending Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Mending_Cape icon.png|25px]] [[Mending Cape]]<br />Cure Potency +2 || –
 |-
-| 1386 || [[File:Luchtaine icon.png|25px]] [[Luchtaine]] || [[File:Ruthven's Nail icon.png|25px]] [[Ruthven's Nail]] || Items || Required: 10<br /> || [[File:Luchtaine icon.png|25px]] [[Luchtaine]]<br />DMG +31, OCC_ATTACK_TWICE || –
-|}
-
-== [[File:Hephaestus icon.png|25px]] [[Hephaestus]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1011 || [[File:Mending_Cape icon.png|25px]] [[Mending Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Mending_Cape icon.png|25px]] [[Mending Cape]]<br />Cure Potency +3<br />Enh Magic Duration +4 || –
 |-
-| 1302 || [[File:Hephaestus icon.png|25px]] [[Hephaestus]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Bomb<br />Weather: Any active weather<br /> || [[File:Hephaestus icon.png|25px]] [[Hephaestus]]<br />STR +6, ATTK +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1012 || [[File:Mending_Cape icon.png|25px]] [[Mending Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Mending_Cape icon.png|25px]] [[Mending Cape]]<br />Cure Potency +4<br />Enh Magic Duration +9<br />Enmity Minus +2 || –
 |-
-| 1303 || [[File:Hephaestus icon.png|25px]] [[Hephaestus]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Wamoura<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Hephaestus icon.png|25px]] [[Hephaestus]]<br />MAIN_DMG_RATING +16, STR +7, ATTK +15 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1013 || [[File:Mending_Cape icon.png|25px]] [[Mending Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Mending_Cape icon.png|25px]] [[Mending Cape]]<br />Cure Potency +5<br />Enh Magic Duration +14<br />Enmity Minus +3<br />Mnd +3 || –
 |-
-| 1304 || [[File:Hephaestus icon.png|25px]] [[Hephaestus]] || – || Kills || Required: 400<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): #5342<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Hephaestus icon.png|25px]] [[Hephaestus]]<br />MAIN_DMG_RATING +18, STR +8, ATTK +20 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1015 || [[File:Bane_Cape icon.png|25px]] [[Bane Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Bane_Cape icon.png|25px]] [[Bane Cape]]<br />Matt +2 || –
 |-
-| 1305 || [[File:Hephaestus icon.png|25px]] [[Hephaestus]] || – || Kills || Required: 15<br />Kill Type: Family<br />Mob(s): #9067<br /> || [[File:Hephaestus icon.png|25px]] [[Hephaestus]]<br />MAIN_DMG_RATING +20, STR +9, ATTK +25 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1306 || [[File:Hephaestus icon.png|25px]] [[Hephaestus]] || – || Kills || Required: 25<br />Kill Type: Family<br />Mob(s): #6835<br /> || [[File:Hephaestus icon.png|25px]] [[Hephaestus]]<br />MAIN_DMG_RATING +22, STR +10, ATTK +30 || –
-|}
-
-== [[File:Farmhand icon.png|25px]] [[Farmhand]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 481 || [[File:Farmhand icon.png|25px]] [[Farmhand]] || – || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Cerebrator<br /> || [[File:Stigma icon.png|25px]] [[Stigma]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 401 || [[File:Farmhand icon.png|25px]] [[Farmhand]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Coeurl<br />Weather: Any active weather<br /> || [[File:Severance icon.png|25px]] [[Severance]]<br />STR +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 400 || [[File:Farmhand icon.png|25px]] [[Farmhand]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 491<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 481<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 471<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 461<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 451<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 441<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 431<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 401<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 421<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 411
-|}
-
-== [[File:Stigma icon.png|25px]] [[Stigma]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 482 || [[File:Stigma icon.png|25px]] [[Stigma]] || – || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Heliodromos<br /> || [[File:Stigma icon.png|25px]] [[Stigma]]<br />ATTK +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 484 || [[File:Stigma icon.png|25px]] [[Stigma]] || – || Kills || Required: 480<br />Kill Type: Family<br />Mob(s): Corse<br /> || [[File:Vengeance icon.png|25px]] [[Vengeance]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 483 || [[File:Stigma icon.png|25px]] [[Stigma]] || – || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Frosted soul<br /> || [[File:Stigma icon.png|25px]] [[Stigma]]<br />ATTK +5 || –
-|}
-
-== [[File:Vengeance icon.png|25px]] [[Vengeance]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 486 || [[File:Vengeance icon.png|25px]] [[Vengeance]] || [[File:Eye of Verthandi icon.png|25px]] [[Eye of Verthandi]] || Items || Required: 10<br /> || [[File:Vengeance icon.png|25px]] [[Vengeance]]<br />MAIN_DMG_RATING_33 +0, DELAY +9, OCC_ATTACK_TWICE || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 485 || [[File:Vengeance icon.png|25px]] [[Vengeance]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Vengeance icon.png|25px]] [[Vengeance]]<br />MAIN_DMG_RATING_33 +0 || –
-|}
-
-== [[File:Severance icon.png|25px]] [[Severance]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 406 || [[File:Severance icon.png|25px]] [[Severance]] || – || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Orcus<br /> || [[File:Severance icon.png|25px]] [[Severance]]<br />MAIN_DMG_RATING +22, STR +10, ATTK +30 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 402 || [[File:Severance icon.png|25px]] [[Severance]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Flan<br />Weather: Any active weather<br /> || [[File:Severance icon.png|25px]] [[Severance]]<br />STR +6, ATTK +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 405 || [[File:Severance icon.png|25px]] [[Severance]] || – || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Seua peek<br /> || [[File:Severance icon.png|25px]] [[Severance]]<br />MAIN_DMG_RATING +20, STR +9, ATTK +25 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 403 || [[File:Severance icon.png|25px]] [[Severance]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Marid<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Severance icon.png|25px]] [[Severance]]<br />MAIN_DMG_RATING +16, STR +7, ATTK +15 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 404 || [[File:Severance icon.png|25px]] [[Severance]] || – || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Hispid rarab<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Severance icon.png|25px]] [[Severance]]<br />MAIN_DMG_RATING +18, STR +8, ATTK +20 || –
-|}
-
-== [[File:Ranseur icon.png|25px]] [[Ranseur]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 500 || [[File:Ranseur icon.png|25px]] [[Ranseur]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 591<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 581<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 571<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 561<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 551<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 541<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 531<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 501<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 521<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 511
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 501 || [[File:Ranseur icon.png|25px]] [[Ranseur]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Opo opo<br />Weather: Any active weather<br /> || [[File:Stribog icon.png|25px]] [[Stribog]]<br />STR +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 581 || [[File:Ranseur icon.png|25px]] [[Ranseur]] || – || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Coveter<br /> || [[File:Copperhead icon.png|25px]] [[Copperhead]]<br /> || –
-|}
-
-== [[File:Copperhead icon.png|25px]] [[Copperhead]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 582 || [[File:Copperhead icon.png|25px]] [[Copperhead]] || – || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Imdugud<br /> || [[File:Copperhead icon.png|25px]] [[Copperhead]]<br />ATTK +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 583 || [[File:Copperhead icon.png|25px]] [[Copperhead]] || – || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Lobais<br /> || [[File:Copperhead icon.png|25px]] [[Copperhead]]<br />ATTK +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 584 || [[File:Copperhead icon.png|25px]] [[Copperhead]] || – || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Antlion<br /> || [[File:Bradamante icon.png|25px]] [[Bradamante]]<br /> || –
-|}
-
-== [[File:Bradamante icon.png|25px]] [[Bradamante]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 586 || [[File:Bradamante icon.png|25px]] [[Bradamante]] || [[File:Baby Blobdingnag icon.png|25px]] [[Baby Blobdingnag]] || Items || Required: 10<br /> || [[File:Bradamante icon.png|25px]] [[Bradamante]]<br />DMG +31, DELAY +20, OCC_ATTACK_TWICE || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 585 || [[File:Bradamante icon.png|25px]] [[Bradamante]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Bradamante icon.png|25px]] [[Bradamante]]<br />MAIN_DMG_RATING_33 +31 || –
-|}
-
-== [[File:Stribog icon.png|25px]] [[Stribog]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 502 || [[File:Stribog icon.png|25px]] [[Stribog]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Hound, Hound boreal<br />Weather: Any active weather<br /> || [[File:Stribog icon.png|25px]] [[Stribog]]<br />STR +6, ATTK +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 504 || [[File:Stribog icon.png|25px]] [[Stribog]] || – || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Champion crawler<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Stribog icon.png|25px]] [[Stribog]]<br />MAIN_DMG_RATING +18, STR +8, ATTK +20 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 506 || [[File:Stribog icon.png|25px]] [[Stribog]] || – || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Lord ruthven<br /> || [[File:Stribog icon.png|25px]] [[Stribog]]<br />MAIN_DMG_RATING +22, STR +10, ATTK +30 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 503 || [[File:Stribog icon.png|25px]] [[Stribog]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Ram<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Stribog icon.png|25px]] [[Stribog]]<br />MAIN_DMG_RATING +16, STR +7, ATTK +15 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 505 || [[File:Stribog icon.png|25px]] [[Stribog]] || – || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Blooddrinker<br /> || [[File:Stribog icon.png|25px]] [[Stribog]]<br />MAIN_DMG_RATING +20, STR +9, ATTK +25 || –
-|}
-
-== [[File:Kibashiri icon.png|25px]] [[Kibashiri]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 681 || [[File:Kibashiri icon.png|25px]] [[Kibashiri]] || – || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Coveter<br /> || [[File:Koruri icon.png|25px]] [[Koruri]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 600 || [[File:Kibashiri icon.png|25px]] [[Kibashiri]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 691<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 681<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 671<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 661<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 651<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 641<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 631<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 601<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 621<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 611
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 601 || [[File:Kibashiri icon.png|25px]] [[Kibashiri]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Funguar, Funguar electrumcap<br />Weather: Any active weather<br /> || [[File:Kuina icon.png|25px]] [[Kuina]]<br />DELAYMINUS +3 || –
-|}
-
-== [[File:Koruri icon.png|25px]] [[Koruri]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 682 || [[File:Koruri icon.png|25px]] [[Koruri]] || – || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Imdugud<br /> || [[File:Koruri icon.png|25px]] [[Koruri]]<br />ATTK +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 683 || [[File:Koruri icon.png|25px]] [[Koruri]] || – || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Lobais<br /> || [[File:Koruri icon.png|25px]] [[Koruri]]<br />ATTK +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 684 || [[File:Koruri icon.png|25px]] [[Koruri]] || – || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Antlion<br /> || [[File:Isatu icon.png|25px]] [[Isatu]]<br /> || –
-|}
-
-== [[File:Isatu icon.png|25px]] [[Isatu]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 685 || [[File:Isatu icon.png|25px]] [[Isatu]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Isatu icon.png|25px]] [[Isatu]]<br />DMG +13, DELAYMINUS +15 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 686 || [[File:Isatu icon.png|25px]] [[Isatu]] || [[File:Ruthven's Nail icon.png|25px]] [[Ruthven's Nail]] || Items || Required: 10<br /> || [[File:Isatu icon.png|25px]] [[Isatu]]<br />DMG +13, DELAY +9, OCC_ATTACK_TWICE || –
-|}
-
-== [[File:Kuina icon.png|25px]] [[Kuina]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 606 || [[File:Kuina icon.png|25px]] [[Kuina]] || – || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Verthandi<br /> || [[File:Kuina icon.png|25px]] [[Kuina]]<br />MAIN_DMG_RATING +13, DELAYMINUS +3, STR +5, ATTK +15 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 602 || [[File:Kuina icon.png|25px]] [[Kuina]] || – || Kills || Required: 600<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Treant<br />Weather: Any active weather<br /> || [[File:Kuina icon.png|25px]] [[Kuina]]<br />MAIN_DMG_RATING +9, DELAYMINUS +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 603 || [[File:Kuina icon.png|25px]] [[Kuina]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Zdei<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Kuina icon.png|25px]] [[Kuina]]<br />MAIN_DMG_RATING +10, DELAYMINUS +3, ADDEFF_FIREDMG_5 +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 604 || [[File:Kuina icon.png|25px]] [[Kuina]] || – || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Duriumshell<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Kuina icon.png|25px]] [[Kuina]]<br />MAIN_DMG_RATING +11, DELAYMINUS +3, ADDEFF_FIREDMG_5 +15, STR +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 605 || [[File:Kuina icon.png|25px]] [[Kuina]] || – || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Dzoavits<br /> || [[File:Kuina icon.png|25px]] [[Kuina]]<br />MAIN_DMG_RATING +12, DELAYMINUS +3, STR +4, ATTK +12 || –
-|}
-
-== [[File:Donto icon.png|25px]] [[Donto]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 701 || [[File:Donto icon.png|25px]] [[Donto]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Worm, Bigworm<br />Weather: Any active weather<br /> || [[File:Efunotachi icon.png|25px]] [[Efunotachi]]<br />STR +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 781 || [[File:Donto icon.png|25px]] [[Donto]] || – || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Deviator<br /> || [[File:Shirodachi icon.png|25px]] [[Shirodachi]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 700 || [[File:Donto icon.png|25px]] [[Donto]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 791<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 781<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 771<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 761<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 751<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 741<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 731<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 701<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 721<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 711
-|}
-
-== [[File:Shirodachi icon.png|25px]] [[Shirodachi]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 782 || [[File:Shirodachi icon.png|25px]] [[Shirodachi]] || – || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Shieldtrap<br /> || [[File:Shirodachi icon.png|25px]] [[Shirodachi]]<br />ATTK +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 783 || [[File:Shirodachi icon.png|25px]] [[Shirodachi]] || – || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Balor<br /> || [[File:Shirodachi icon.png|25px]] [[Shirodachi]]<br />ATTK +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 784 || [[File:Shirodachi icon.png|25px]] [[Shirodachi]] || – || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Hippogryph, Hippogryph 2<br /> || [[File:Kurodachi icon.png|25px]] [[Kurodachi]]<br /> || –
-|}
-
-== [[File:Kurodachi icon.png|25px]] [[Kurodachi]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 786 || [[File:Kurodachi icon.png|25px]] [[Kurodachi]] || [[File:Krabkatoa Shell icon.png|25px]] [[Krabkatoa Shell]] || Items || Required: 10<br /> || [[File:Kurodachi icon.png|25px]] [[Kurodachi]]<br />DMG +27, DELAY +19, OCC_ATTACK_TWICE || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 785 || [[File:Kurodachi icon.png|25px]] [[Kurodachi]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Kurodachi icon.png|25px]] [[Kurodachi]]<br />DMG +27 || –
-|}
-
-== [[File:Efunotachi icon.png|25px]] [[Efunotachi]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 705 || [[File:Efunotachi icon.png|25px]] [[Efunotachi]] || – || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Tipua<br /> || [[File:Efunotachi icon.png|25px]] [[Efunotachi]]<br />MAIN_DMG_RATING +15, STR +9, ATTK +25 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 706 || [[File:Efunotachi icon.png|25px]] [[Efunotachi]] || – || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Blobdingnag<br /> || [[File:Efunotachi icon.png|25px]] [[Efunotachi]]<br />MAIN_DMG_RATING +17, STR +10, ATTK +30 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 702 || [[File:Efunotachi icon.png|25px]] [[Efunotachi]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Bee<br />Weather: Any active weather<br /> || [[File:Efunotachi icon.png|25px]] [[Efunotachi]]<br />STR +6, ATTK +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 704 || [[File:Efunotachi icon.png|25px]] [[Efunotachi]] || – || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Frozen ghoul drk, Frozen ghoul blm<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Efunotachi icon.png|25px]] [[Efunotachi]]<br />MAIN_DMG_RATING +13, STR +8, ATTK +20 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 703 || [[File:Efunotachi icon.png|25px]] [[Efunotachi]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Ghrah sea<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Efunotachi icon.png|25px]] [[Efunotachi]]<br />MAIN_DMG_RATING +11, STR +7, ATTK +15 || –
-|}
-
-== [[File:Stenz icon.png|25px]] [[Stenz]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 871 || [[File:Stenz icon.png|25px]] [[Stenz]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Gnole<br />Weather: Any active weather<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />MACC +14 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 800 || [[File:Stenz icon.png|25px]] [[Stenz]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 891<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 881<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 871<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 861<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 851<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 841<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 831<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 801<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 821<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 811
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 881 || [[File:Stenz icon.png|25px]] [[Stenz]] || – || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Provoker<br /> || [[File:Rageblow icon.png|25px]] [[Rageblow]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 861 || [[File:Stenz icon.png|25px]] [[Stenz]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Tonberry zilart, Tonberry cop<br />Weather: Any active weather<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />CURE_POTENCY +5 || –
-|}
-
-== [[File:Rageblow icon.png|25px]] [[Rageblow]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 883 || [[File:Rageblow icon.png|25px]] [[Rageblow]] || – || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Caithleann<br /> || [[File:Rageblow icon.png|25px]] [[Rageblow]]<br />ATTK +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 884 || [[File:Rageblow icon.png|25px]] [[Rageblow]] || – || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Flytrap<br /> || [[File:Goedendag icon.png|25px]] [[Goedendag]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 882 || [[File:Rageblow icon.png|25px]] [[Rageblow]] || – || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Unstable cluster<br /> || [[File:Rageblow icon.png|25px]] [[Rageblow]]<br />ATTK +3 || –
-|}
-
-== [[File:Goedendag icon.png|25px]] [[Goedendag]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 885 || [[File:Goedendag icon.png|25px]] [[Goedendag]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Goedendag icon.png|25px]] [[Goedendag]]<br />DMG +19 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 886 || [[File:Goedendag icon.png|25px]] [[Goedendag]] || [[File:Krabkatoa Shell icon.png|25px]] [[Krabkatoa Shell]] || Items || Required: 10<br /> || [[File:Goedendag icon.png|25px]] [[Goedendag]]<br />DMG +19, DELAY_33 +7, OCC_ATTACK_TWICE || –
-|}
-
-== [[File:Ingrimm icon.png|25px]] [[Ingrimm]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 867 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Verthandi<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />CURE_POTENCY +14, MND +7, REFRESH +0, LIGHTRES +20 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 864 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Kills || Required: 400<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Hippogryph, Hippogryph 2<br />Weather: Light, Light<br />Day: Lightsday<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />CURE_POTENCY +12, MND +6, LIGHTRES +12 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 872 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Aern<br />Weather: Any active weather<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />MACC +15, MP_33 +2 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 865 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Kills || Required: 450<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Cardian<br />Weather: Light, Light<br />Day: Lightsday<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />CURE_POTENCY +13, MND +7 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 866 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Artemisia<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />CURE_POTENCY +14, MND +7, LIGHTRES +17 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 862 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Giantbird, Giantbird nm<br />Weather: Any active weather<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />CURE_POTENCY +7, MND +4 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 863 || [[File:Ingrimm icon.png|25px]] [[Ingrimm]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Ghrah sea, Ghrah limbus, Ghrah unused<br />Weather: Light, Light<br />Day: Lightsday<br /> || [[File:Ingrimm icon.png|25px]] [[Ingrimm]]<br />CURE_POTENCY +9, MND +5, LIGHTRES +10 || –
-|}
-
-== [[File:Crook icon.png|25px]] [[Crook]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 900 || [[File:Crook icon.png|25px]] [[Crook]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 991<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 981<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 971<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 961<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 951<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 941<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 931<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 901<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 921<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 911
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 981 || [[File:Crook icon.png|25px]] [[Crook]] || – || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Deviator<br /> || [[File:Shillelagh icon.png|25px]] [[Shillelagh]]<br /> || –
-|}
-
-== [[File:Shillelagh icon.png|25px]] [[Shillelagh]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 982 || [[File:Shillelagh icon.png|25px]] [[Shillelagh]] || – || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Aiatar<br /> || [[File:Shillelagh icon.png|25px]] [[Shillelagh]]<br />ATTK +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 983 || [[File:Shillelagh icon.png|25px]] [[Shillelagh]] || – || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Indich<br /> || [[File:Shillelagh icon.png|25px]] [[Shillelagh]]<br />ATTK +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 984 || [[File:Shillelagh icon.png|25px]] [[Shillelagh]] || – || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Snoll<br /> || [[File:Danda icon.png|25px]] [[Danda]]<br /> || –
-|}
-
-== [[File:Danda icon.png|25px]] [[Danda]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 986 || [[File:Danda icon.png|25px]] [[Danda]] || [[File:Orcu's Mandible icon.png|25px]] [[Orcu's Mandible]] || Items || Required: 10<br /> || [[File:Danda icon.png|25px]] [[Danda]]<br />MAIN_DMG_RATING_33 +8, DELAY +12, OCC_ATTACK_TWICE || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 985 || [[File:Danda icon.png|25px]] [[Danda]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Danda icon.png|25px]] [[Danda]]<br />MAIN_DMG_RATING_33 +8 || –
-|}
-
-== [[File:Sparrow icon.png|25px]] [[Sparrow]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1486 || [[File:Sparrow icon.png|25px]] [[Sparrow]] || [[File:Krabkatoa Shell icon.png|25px]] [[Krabkatoa Shell]] || Items || Required: 10<br /> || [[File:Goshawk icon.png|25px]] [[Goshawk]]<br />RANGED_DMG_RATING +22, RANGED_DELAY +23, OCC_ATTACK_TWICE || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1400 || [[File:Sparrow icon.png|25px]] [[Sparrow]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 1491<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 1481<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 1471<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 1461<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 1451<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 1441<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 1431<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 1401<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 1421<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 1411
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1481 || [[File:Sparrow icon.png|25px]] [[Sparrow]] || – || Kills || Required: 3<br />Kill Type: Specific<br />Mob(s): Mahisha<br /> || [[File:Kestrel icon.png|25px]] [[Kestrel]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 801 || [[File:Sparrow icon.png|25px]] [[Sparrow]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Scorpion<br />Weather: Any active weather<br /> || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]]<br />STR +5 || –
-|}
-
-== [[File:Kestrel icon.png|25px]] [[Kestrel]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1482 || [[File:Kestrel icon.png|25px]] [[Kestrel]] || – || Kills || Required: 4<br />Kill Type: Specific<br />Mob(s): Luaith<br /> || [[File:Kestrel icon.png|25px]] [[Kestrel]]<br />ATTK +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1483 || [[File:Kestrel icon.png|25px]] [[Kestrel]] || – || Kills || Required: 70<br />Kill Type: Specific<br />Mob(s): Carmine dobsonfly<br /> || [[File:Kestrel icon.png|25px]] [[Kestrel]]<br />ATTK +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1484 || [[File:Kestrel icon.png|25px]] [[Kestrel]] || – || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Dhalmel<br /> || [[File:Goshawk icon.png|25px]] [[Goshawk]]<br /> || –
-|}
-
-== [[File:Goshawk icon.png|25px]] [[Goshawk]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1485 || [[File:Goshawk icon.png|25px]] [[Goshawk]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Goshawk icon.png|25px]] [[Goshawk]]<br />RANGED_DMG_RATING +26, RANGED_DELAYMINUS_33 +0 || –
-|}
-
-== [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 802 || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Golem<br />Weather: Any active weather<br /> || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]]<br />STR +6, RATTK +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 806 || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]] || – || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Lord ruthven<br /> || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]]<br />RANGED_DMG_RATING +21, STR +10, RATTK +30 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 803 || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Ghrah sea<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]]<br />RANGED_DMG_RATING +15, STR +7, RATTK +15 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 804 || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]] || – || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Gnoletrap<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]]<br />RANGED_DMG_RATING +17, STR +9, RATTK +20 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 805 || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]] || – || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Purushamriga<br /> || [[File:Gyrfalcon icon.png|25px]] [[Gyrfalcon]]<br />RANGED_DMG_RATING +19, STR +9, RATTK +25 || –
-|}
-
-== [[File:Thunderstick icon.png|25px]] [[Thunderstick]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1581 || [[File:Thunderstick icon.png|25px]] [[Thunderstick]] || – || Kills || Required: 5<br />Kill Type: Specific<br />Mob(s): Tres duendes<br /> || [[File:Blue Steel icon.png|25px]] [[Blue Steel]]<br /> || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1501 || [[File:Thunderstick icon.png|25px]] [[Thunderstick]] || – || Kills || Required: 250<br />Kill Type: Family<br />Sub Type: Weather<br />Weather: Any active weather<br /> || [[File:Huracan icon.png|25px]] [[Huracan]]<br />STR +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1500 || [[File:Thunderstick icon.png|25px]] [[Thunderstick]] || – || Kills ||  || – || [[File:Ice Crystal icon.png|25px]] [[Ice Crystal]] → Trial 1591<br />[[File:Fire Crystal icon.png|25px]] [[Fire Crystal]] → Trial 1581<br />[[File:Dark Cluster icon.png|25px]] [[Dark Cluster]] → Trial 1571<br />[[File:Light Cluster icon.png|25px]] [[Light Cluster]] → Trial 1561<br />[[File:Water Cluster icon.png|25px]] [[Water Cluster]] → Trial 1551<br />[[File:Lightning Cluster icon.png|25px]] [[Lightning Cluster]] → Trial 1541<br />[[File:Earth Cluster icon.png|25px]] [[Earth Cluster]] → Trial 1531<br />[[File:Fire Cluster icon.png|25px]] [[Fire Cluster]] → Trial 1501<br />[[File:Wind Cluster icon.png|25px]] [[Wind Cluster]] → Trial 1521<br />[[File:Ice Cluster icon.png|25px]] [[Ice Cluster]] → Trial 1511
-|}
-
-== [[File:Blue Steel icon.png|25px]] [[Blue Steel]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1582 || [[File:Blue Steel icon.png|25px]] [[Blue Steel]] || – || Kills || Required: 7<br />Kill Type: Specific<br />Mob(s): Unstable cluster<br /> || [[File:Blue Steel icon.png|25px]] [[Blue Steel]]<br />ATTK +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1583 || [[File:Blue Steel icon.png|25px]] [[Blue Steel]] || – || Kills || Required: 10<br />Kill Type: Specific<br />Mob(s): Elel<br /> || [[File:Blue Steel icon.png|25px]] [[Blue Steel]]<br />ATTK +5 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1584 || [[File:Blue Steel icon.png|25px]] [[Blue Steel]] || – || Kills || Required: 400<br />Kill Type: Family<br />Mob(s): Giantbird, Giantbird nm<br /> || [[File:Dragonmaw icon.png|25px]] [[Dragonmaw]]<br /> || –
-|}
-
-== [[File:Dragonmaw icon.png|25px]] [[Dragonmaw]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1586 || [[File:Dragonmaw icon.png|25px]] [[Dragonmaw]] || [[File:Eye of Verthandi icon.png|25px]] [[Eye of Verthandi]] || Items || Required: 10<br /> || [[File:Dragonmaw icon.png|25px]] [[Dragonmaw]]<br />RANGED_DMG_RATING +27, RANGED_DELAY_65 +5, OCC_ATTACK_TWICE || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1585 || [[File:Dragonmaw icon.png|25px]] [[Dragonmaw]] || – || Kills || Required: 600<br />Kill Type: Species<br />Mob(s): Empty<br /> || [[File:Dragonmaw icon.png|25px]] [[Dragonmaw]]<br />RANGED_DMG_RATING +27, RANGED_DELAYMINUS_33 +0 || –
-|}
-
-== [[File:Huracan icon.png|25px]] [[Huracan]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1502 || [[File:Huracan icon.png|25px]] [[Huracan]] || – || Kills || Required: 300<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Doll<br />Weather: Any active weather<br /> || [[File:Huracan icon.png|25px]] [[Huracan]]<br />STR +6, RATTK +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1504 || [[File:Huracan icon.png|25px]] [[Huracan]] || – || Kills || Required: 400<br />Kill Type: Specific<br />Sub Type: Weather<br />Mob(s): Champion crawler<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Huracan icon.png|25px]] [[Huracan]]<br />RANGED_DMG_RATING +17, STR +9, RATTK +20 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1505 || [[File:Huracan icon.png|25px]] [[Huracan]] || – || Kills || Required: 15<br />Kill Type: Specific<br />Mob(s): Rahu<br /> || [[File:Huracan icon.png|25px]] [[Huracan]]<br />RANGED_DMG_RATING +19, STR +9, RATTK +25 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1506 || [[File:Huracan icon.png|25px]] [[Huracan]] || – || Kills || Required: 25<br />Kill Type: Specific<br />Mob(s): Blobdingnag<br /> || [[File:Huracan icon.png|25px]] [[Huracan]]<br />RANGED_DMG_RATING +13, STR +10, RATTK +30 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1503 || [[File:Huracan icon.png|25px]] [[Huracan]] || – || Kills || Required: 350<br />Kill Type: Family<br />Sub Type: Weather<br />Mob(s): Aern<br />Weather: Fire, Fire<br />Day: Firesday<br /> || [[File:Huracan icon.png|25px]] [[Huracan]]<br />RANGED_DMG_RATING +15, STR +7, RATTK +15 || –
-|}
-
-== [[File:Mauler's Mantle icon.png|25px]] [[Mauler's Mantle]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1002 || [[File:Mauler's Mantle icon.png|25px]] [[Mauler's Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Mauler's Mantle icon.png|25px]] [[Mauler's Mantle]]<br />ATTK +11, ACC +11, STR +2 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1003 || [[File:Mauler's Mantle icon.png|25px]] [[Mauler's Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Mauler's Mantle icon.png|25px]] [[Mauler's Mantle]]<br />ATTK +14, ACC +14, STR +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1000 || [[File:Mauler's Mantle icon.png|25px]] [[Mauler's Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Mauler's Mantle icon.png|25px]] [[Mauler's Mantle]]<br />ATTK +9 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1001 || [[File:Mauler's Mantle icon.png|25px]] [[Mauler's Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Mauler's Mantle icon.png|25px]] [[Mauler's Mantle]]<br />ACC +9 || –
-|}
-
-== [[File:Anchoret's Mantle icon.png|25px]] [[Anchoret's Mantle]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1006 || [[File:Anchoret's Mantle icon.png|25px]] [[Anchoret's Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Anchoret's Mantle icon.png|25px]] [[Anchoret's Mantle]]<br />ATTK +11, ACC +11 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1007 || [[File:Anchoret's Mantle icon.png|25px]] [[Anchoret's Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Anchoret's Mantle icon.png|25px]] [[Anchoret's Mantle]]<br />ATTK +11, ACC +11, STR +2 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1008 || [[File:Anchoret's Mantle icon.png|25px]] [[Anchoret's Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Anchoret's Mantle icon.png|25px]] [[Anchoret's Mantle]]<br />ATTK +14, ACC +14, STR +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
-|-
-| 1005 || [[File:Anchoret's Mantle icon.png|25px]] [[Anchoret's Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Anchoret's Mantle icon.png|25px]] [[Anchoret's Mantle]]<br />ATTK +9 || –
-|}
-
-== [[File:Mending Cape icon.png|25px]] [[Mending Cape]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1016 || [[File:Bane_Cape icon.png|25px]] [[Bane Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Bane_Cape icon.png|25px]] [[Bane Cape]]<br />Matt +3<br />Macc +2 || –
 |-
-| 1011 || [[File:Mending Cape icon.png|25px]] [[Mending Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Mending Cape icon.png|25px]] [[Mending Cape]]<br />CURE_POTENCY +3, ENH_MAGIC_DURATION +4 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1017 || [[File:Bane_Cape icon.png|25px]] [[Bane Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Bane_Cape icon.png|25px]] [[Bane Cape]]<br />Matt +4<br />Macc +3<br />Conserve Mp +4 || –
 |-
-| 1012 || [[File:Mending Cape icon.png|25px]] [[Mending Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Mending Cape icon.png|25px]] [[Mending Cape]]<br />CURE_POTENCY +4, ENH_MAGIC_DURATION +9, ENMITY_MINUS +2 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1018 || [[File:Bane_Cape icon.png|25px]] [[Bane Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Bane_Cape icon.png|25px]] [[Bane Cape]]<br />Matt +5<br />Macc +4<br />Conserve Mp +9<br />Regenpotency +10 || –
 |-
-| 1013 || [[File:Mending Cape icon.png|25px]] [[Mending Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Mending Cape icon.png|25px]] [[Mending Cape]]<br />CURE_POTENCY +5, ENH_MAGIC_DURATION +14, ENMITY_MINUS +3, MND +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1019 || [[File:Ghostfyre_Cape icon.png|25px]] [[Ghostfyre Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Ghostfyre_Cape icon.png|25px]] [[Ghostfyre Cape]]<br />Macc +2 || –
 |-
-| 1010 || [[File:Mending Cape icon.png|25px]] [[Mending Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Mending Cape icon.png|25px]] [[Mending Cape]]<br />CURE_POTENCY +2 || –
-|}
-
-== [[File:Bane Cape icon.png|25px]] [[Bane Cape]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1020 || [[File:Ghostfyre_Cape icon.png|25px]] [[Ghostfyre Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Ghostfyre_Cape icon.png|25px]] [[Ghostfyre Cape]]<br />Macc +3<br />Enspell Dmg Bonus +3 || –
 |-
-| 1015 || [[File:Bane Cape icon.png|25px]] [[Bane Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Bane Cape icon.png|25px]] [[Bane Cape]]<br />MATT +2 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1021 || [[File:Ghostfyre_Cape icon.png|25px]] [[Ghostfyre Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Ghostfyre_Cape icon.png|25px]] [[Ghostfyre Cape]]<br />Macc +4<br />Enspell Dmg Bonus +4<br />Enh Magic Duration +7 || –
 |-
-| 1017 || [[File:Bane Cape icon.png|25px]] [[Bane Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Bane Cape icon.png|25px]] [[Bane Cape]]<br />MATT +4, MACC +3, CONSERVE_MP +4 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1022 || [[File:Ghostfyre_Cape icon.png|25px]] [[Ghostfyre Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Ghostfyre_Cape icon.png|25px]] [[Ghostfyre Cape]]<br />Macc +5<br />Enspell Dmg Bonus +5<br />Enh Magic Duration +14<br />Acc +14 || –
 |-
-| 1018 || [[File:Bane Cape icon.png|25px]] [[Bane Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Bane Cape icon.png|25px]] [[Bane Cape]]<br />MATT +5, MACC +4, CONSERVE_MP +9, REGENPOTENCY +10 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1025 || [[File:Canny_Cape icon.png|25px]] [[Canny Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Canny_Cape icon.png|25px]] [[Canny Cape]]<br />Acc +9 || –
 |-
-| 1016 || [[File:Bane Cape icon.png|25px]] [[Bane Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Bane Cape icon.png|25px]] [[Bane Cape]]<br />MATT +3, MACC +2 || –
-|}
-
-== [[File:Ghostfyre Cape icon.png|25px]] [[Ghostfyre Cape]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1026 || [[File:Canny_Cape icon.png|25px]] [[Canny Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Canny_Cape icon.png|25px]] [[Canny Cape]]<br />Attk +9<br />Acc +9 || –
 |-
-| 1020 || [[File:Ghostfyre Cape icon.png|25px]] [[Ghostfyre Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Ghostfyre Cape icon.png|25px]] [[Ghostfyre Cape]]<br />MACC +2 || –
-|}
-
-== [[File:Canny Cape icon.png|25px]] [[Canny Cape]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1027 || [[File:Canny_Cape icon.png|25px]] [[Canny Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Canny_Cape icon.png|25px]] [[Canny Cape]]<br />Attk +11<br />Acc +11<br />Dex +2 || –
 |-
-| 1025 || [[File:Canny Cape icon.png|25px]] [[Canny Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Canny Cape icon.png|25px]] [[Canny Cape]]<br />ACC +9 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1028 || [[File:Canny_Cape icon.png|25px]] [[Canny Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Canny_Cape icon.png|25px]] [[Canny Cape]]<br />Attk +14<br />Acc +14<br />Dex +3 || –
 |-
-| 1028 || [[File:Canny Cape icon.png|25px]] [[Canny Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Canny Cape icon.png|25px]] [[Canny Cape]]<br />ATTK +14, ACC +14, DEX +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1030 || [[File:Weard_Mantle icon.png|25px]] [[Weard Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Weard_Mantle icon.png|25px]] [[Weard Mantle]]<br />Hp 33 +17<br />Pdt +4 || –
 |-
-| 1027 || [[File:Canny Cape icon.png|25px]] [[Canny Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Canny Cape icon.png|25px]] [[Canny Cape]]<br />ATTK +11, ACC +11, DEX +2 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1035 || [[File:Niht_Mantle icon.png|25px]] [[Niht Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Niht_Mantle icon.png|25px]] [[Niht Mantle]]<br />Attk +9 || –
 |-
-| 1026 || [[File:Canny Cape icon.png|25px]] [[Canny Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Canny Cape icon.png|25px]] [[Canny Cape]]<br />ATTK +9, ACC +9 || –
-|}
-
-== [[File:Weard Mantle icon.png|25px]] [[Weard Mantle]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1036 || [[File:Niht_Mantle icon.png|25px]] [[Niht Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Niht_Mantle icon.png|25px]] [[Niht Mantle]]<br />Attk +9<br />Acc +9 || –
 |-
-| 1030 || [[File:Weard Mantle icon.png|25px]] [[Weard Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Weard Mantle icon.png|25px]] [[Weard Mantle]]<br />HP_33 +17, PDT +4 || –
-|}
-
-== [[File:Niht Mantle icon.png|25px]] [[Niht Mantle]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1037 || [[File:Niht_Mantle icon.png|25px]] [[Niht Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Niht_Mantle icon.png|25px]] [[Niht Mantle]]<br />Attk +11<br />Acc +11<br />Str +2 || –
 |-
-| 1038 || [[File:Niht Mantle icon.png|25px]] [[Niht Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Niht Mantle icon.png|25px]] [[Niht Mantle]]<br />ATTK +14, ACC +14, STR +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1038 || [[File:Niht_Mantle icon.png|25px]] [[Niht Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Niht_Mantle icon.png|25px]] [[Niht Mantle]]<br />Attk +14<br />Acc +14<br />Str +3 || –
 |-
-| 1035 || [[File:Niht Mantle icon.png|25px]] [[Niht Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Niht Mantle icon.png|25px]] [[Niht Mantle]]<br />ATTK +9 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1040 || [[File:Pastoralist's_Mantle icon.png|25px]] [[Pastoralist's Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Pastoralist's_Mantle icon.png|25px]] [[Pastoralist's Mantle]]<br />Pet Attk Rattk +9 || –
 |-
-| 1036 || [[File:Niht Mantle icon.png|25px]] [[Niht Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Niht Mantle icon.png|25px]] [[Niht Mantle]]<br />ATTK +9, ACC +9 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1041 || [[File:Pastoralist's_Mantle icon.png|25px]] [[Pastoralist's Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Pastoralist's_Mantle icon.png|25px]] [[Pastoralist's Mantle]]<br />Pet Attk Rattk +9<br />Pet Acc Racc +9 || –
 |-
-| 1037 || [[File:Niht Mantle icon.png|25px]] [[Niht Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Niht Mantle icon.png|25px]] [[Niht Mantle]]<br />ATTK +11, ACC +11, STR +2 || –
-|}
-
-== [[File:Pastoralist's Mantle icon.png|25px]] [[Pastoralist's Mantle]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1042 || [[File:Pastoralist's_Mantle icon.png|25px]] [[Pastoralist's Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Pastoralist's_Mantle icon.png|25px]] [[Pastoralist's Mantle]]<br />Pet Attk Rattk +11<br />Pet Acc Racc +11<br />Pet Double Attack +2 || –
 |-
-| 1040 || [[File:Pastoralist's Mantle icon.png|25px]] [[Pastoralist's Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Pastoralist's Mantle icon.png|25px]] [[Pastoralist's Mantle]]<br />HP_33 +17, PDT +4 || –
-|}
-
-== [[File:Rhapsode's Cape icon.png|25px]] [[Rhapsode's Cape]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1043 || [[File:Pastoralist's_Mantle icon.png|25px]] [[Pastoralist's Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Pastoralist's_Mantle icon.png|25px]] [[Pastoralist's Mantle]]<br />Pet Attk Rattk +14<br />Pet Acc Racc +14<br />Pet Double Attack +3<br />Pet Haste +2 || –
 |-
-| 1045 || [[File:Rhapsode's Cape icon.png|25px]] [[Rhapsode's Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Rhapsode's Cape icon.png|25px]] [[Rhapsode's Cape]]<br />HP_33 +17, PDT +4 || –
-|}
-
-== [[File:Lutian Cape icon.png|25px]] [[Lutian Cape]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1045 || [[File:Rhapsode's_Cape icon.png|25px]] [[Rhapsode's Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Rhapsode's_Cape icon.png|25px]] [[Rhapsode's Cape]]<br />Hp 33 +17<br />Pdt +4 || –
 |-
-| 1050 || [[File:Lutian Cape icon.png|25px]] [[Lutian Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Lutian Cape icon.png|25px]] [[Lutian Cape]]<br />HP_33 +17, PDT +4 || –
-|}
-
-== [[File:Takaha Mantle icon.png|25px]] [[Takaha Mantle]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1050 || [[File:Lutian_Cape icon.png|25px]] [[Lutian Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Lutian_Cape icon.png|25px]] [[Lutian Cape]]<br />Hp 33 +17<br />Pdt +4 || –
 |-
-| 1055 || [[File:Takaha Mantle icon.png|25px]] [[Takaha Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Takaha Mantle icon.png|25px]] [[Takaha Mantle]]<br />ATTK +9 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1055 || [[File:Takaha_Mantle icon.png|25px]] [[Takaha Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Takaha_Mantle icon.png|25px]] [[Takaha Mantle]]<br />Attk +9 || –
 |-
-| 1056 || [[File:Takaha Mantle icon.png|25px]] [[Takaha Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Takaha Mantle icon.png|25px]] [[Takaha Mantle]]<br />ATTK +9, ACC +9 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1056 || [[File:Takaha_Mantle icon.png|25px]] [[Takaha Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Takaha_Mantle icon.png|25px]] [[Takaha Mantle]]<br />Attk +9<br />Acc +9 || –
 |-
-| 1057 || [[File:Takaha Mantle icon.png|25px]] [[Takaha Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Takaha Mantle icon.png|25px]] [[Takaha Mantle]]<br />ATTK +11, ACC +11, STR +2 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1057 || [[File:Takaha_Mantle icon.png|25px]] [[Takaha Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Takaha_Mantle icon.png|25px]] [[Takaha Mantle]]<br />Attk +11<br />Acc +11<br />Str +2 || –
 |-
-| 1058 || [[File:Takaha Mantle icon.png|25px]] [[Takaha Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Takaha Mantle icon.png|25px]] [[Takaha Mantle]]<br />ATTK +14, ACC +14, STR +3 || –
-|}
-
-== [[File:Yokaze Mantle icon.png|25px]] [[Yokaze Mantle]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1058 || [[File:Takaha_Mantle icon.png|25px]] [[Takaha Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Takaha_Mantle icon.png|25px]] [[Takaha Mantle]]<br />Attk +14<br />Acc +14<br />Str +3 || –
 |-
-| 1063 || [[File:Yokaze Mantle icon.png|25px]] [[Yokaze Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Yokaze Mantle icon.png|25px]] [[Yokaze Mantle]]<br />ATTK +14, ACC +14, DEX +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1060 || [[File:Yokaze_Mantle icon.png|25px]] [[Yokaze Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Yokaze_Mantle icon.png|25px]] [[Yokaze Mantle]]<br />Acc +9 || –
 |-
-| 1060 || [[File:Yokaze Mantle icon.png|25px]] [[Yokaze Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Yokaze Mantle icon.png|25px]] [[Yokaze Mantle]]<br />ACC +9 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1061 || [[File:Yokaze_Mantle icon.png|25px]] [[Yokaze Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Yokaze_Mantle icon.png|25px]] [[Yokaze Mantle]]<br />Attk +9<br />Acc +9 || –
 |-
-| 1061 || [[File:Yokaze Mantle icon.png|25px]] [[Yokaze Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Yokaze Mantle icon.png|25px]] [[Yokaze Mantle]]<br />ATTK +9, ACC +9 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1062 || [[File:Yokaze_Mantle icon.png|25px]] [[Yokaze Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Yokaze_Mantle icon.png|25px]] [[Yokaze Mantle]]<br />Attk +11<br />Acc +11<br />Dex +2 || –
 |-
-| 1062 || [[File:Yokaze Mantle icon.png|25px]] [[Yokaze Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Yokaze Mantle icon.png|25px]] [[Yokaze Mantle]]<br />ATTK +11, ACC +11, DEX +2 || –
-|}
-
-== [[File:Updraft Mantle icon.png|25px]] [[Updraft Mantle]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1063 || [[File:Yokaze_Mantle icon.png|25px]] [[Yokaze Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Yokaze_Mantle icon.png|25px]] [[Yokaze Mantle]]<br />Attk +14<br />Acc +14<br />Dex +3 || –
 |-
-| 1065 || [[File:Updraft Mantle icon.png|25px]] [[Updraft Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Updraft Mantle icon.png|25px]] [[Updraft Mantle]]<br />ATTK +9 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1065 || [[File:Updraft_Mantle icon.png|25px]] [[Updraft Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Updraft_Mantle icon.png|25px]] [[Updraft Mantle]]<br />Attk +9 || –
 |-
-| 1066 || [[File:Updraft Mantle icon.png|25px]] [[Updraft Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Updraft Mantle icon.png|25px]] [[Updraft Mantle]]<br />ATTK +9, ACC +9 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1066 || [[File:Updraft_Mantle icon.png|25px]] [[Updraft Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Updraft_Mantle icon.png|25px]] [[Updraft Mantle]]<br />Attk +9<br />Acc +9 || –
 |-
-| 1067 || [[File:Updraft Mantle icon.png|25px]] [[Updraft Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Updraft Mantle icon.png|25px]] [[Updraft Mantle]]<br />ATTK +11, ACC +11, STR +2 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1067 || [[File:Updraft_Mantle icon.png|25px]] [[Updraft Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Updraft_Mantle icon.png|25px]] [[Updraft Mantle]]<br />Attk +11<br />Acc +11<br />Str +2 || –
 |-
-| 1068 || [[File:Updraft Mantle icon.png|25px]] [[Updraft Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Updraft Mantle icon.png|25px]] [[Updraft Mantle]]<br />ATTK +14, ACC +14, STR +3 || –
-|}
-
-== [[File:Conveyance Cape icon.png|25px]] [[Conveyance Cape]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1068 || [[File:Updraft_Mantle icon.png|25px]] [[Updraft Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Updraft_Mantle icon.png|25px]] [[Updraft Mantle]]<br />Attk +14<br />Acc +14<br />Str +3 || –
 |-
-| 1070 || [[File:Conveyance Cape icon.png|25px]] [[Conveyance Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Conveyance Cape icon.png|25px]] [[Conveyance Cape]]<br />HP_33 +17, PDT +4 || –
-|}
-
-== [[File:Cornflower Cape icon.png|25px]] [[Cornflower Cape]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1070 || [[File:Conveyance_Cape icon.png|25px]] [[Conveyance Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Conveyance_Cape icon.png|25px]] [[Conveyance Cape]]<br />Hp 33 +17<br />Pdt +4 || –
 |-
-| 1078 || [[File:Cornflower Cape icon.png|25px]] [[Cornflower Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Cornflower Cape icon.png|25px]] [[Cornflower Cape]]<br />ATTK +14, ACC +14, DEX +3 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1075 || [[File:Cornflower_Cape icon.png|25px]] [[Cornflower Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Cornflower_Cape icon.png|25px]] [[Cornflower Cape]]<br />Acc +9 || –
 |-
-| 1075 || [[File:Cornflower Cape icon.png|25px]] [[Cornflower Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Cornflower Cape icon.png|25px]] [[Cornflower Cape]]<br />ACC +9 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1076 || [[File:Cornflower_Cape icon.png|25px]] [[Cornflower Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Cornflower_Cape icon.png|25px]] [[Cornflower Cape]]<br />Attk +9<br />Acc +9 || –
 |-
-| 1076 || [[File:Cornflower Cape icon.png|25px]] [[Cornflower Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Cornflower Cape icon.png|25px]] [[Cornflower Cape]]<br />ATTK +9, ACC +9 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1077 || [[File:Cornflower_Cape icon.png|25px]] [[Cornflower Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Cornflower_Cape icon.png|25px]] [[Cornflower Cape]]<br />Attk +11<br />Acc +11<br />Dex +2 || –
 |-
-| 1077 || [[File:Cornflower Cape icon.png|25px]] [[Cornflower Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Cornflower Cape icon.png|25px]] [[Cornflower Cape]]<br />ATTK +11, ACC +11, DEX +2 || –
-|}
-
-== [[File:Gunslinger's Cape icon.png|25px]] [[Gunslinger's Cape]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1078 || [[File:Cornflower_Cape icon.png|25px]] [[Cornflower Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Cornflower_Cape icon.png|25px]] [[Cornflower Cape]]<br />Attk +14<br />Acc +14<br />Dex +3 || –
 |-
-| 1080 || [[File:Gunslinger's Cape icon.png|25px]] [[Gunslinger's Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Gunslinger's Cape icon.png|25px]] [[Gunslinger's Cape]]<br />HP_33 +17, PDT +4 || –
-|}
-
-== [[File:Dispersal Mantle icon.png|25px]] [[Dispersal Mantle]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1080 || [[File:Gunslinger's_Cape icon.png|25px]] [[Gunslinger's Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Gunslinger's_Cape icon.png|25px]] [[Gunslinger's Cape]]<br />Hp 33 +17<br />Pdt +4 || –
 |-
-| 1085 || [[File:Dispersal Mantle icon.png|25px]] [[Dispersal Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Dispersal Mantle icon.png|25px]] [[Dispersal Mantle]]<br />HP_33 +17, PDT +4 || –
-|}
-
-== [[File:Toetapper Mantle icon.png|25px]] [[Toetapper Mantle]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1085 || [[File:Dispersal_Mantle icon.png|25px]] [[Dispersal Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Dispersal_Mantle icon.png|25px]] [[Dispersal Mantle]]<br />Hp 33 +17<br />Pdt +4 || –
 |-
-| 1090 || [[File:Toetapper Mantle icon.png|25px]] [[Toetapper Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Toetapper Mantle icon.png|25px]] [[Toetapper Mantle]]<br />ACC +9 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1090 || [[File:Toetapper_Mantle icon.png|25px]] [[Toetapper Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Toetapper_Mantle icon.png|25px]] [[Toetapper Mantle]]<br />Acc +9 || –
 |-
-| 1092 || [[File:Toetapper Mantle icon.png|25px]] [[Toetapper Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Toetapper Mantle icon.png|25px]] [[Toetapper Mantle]]<br />ATTK +11, ACC +11, DEX +2 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1091 || [[File:Toetapper_Mantle icon.png|25px]] [[Toetapper Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Toetapper_Mantle icon.png|25px]] [[Toetapper Mantle]]<br />Attk +9<br />Acc +9 || –
 |-
-| 1093 || [[File:Toetapper Mantle icon.png|25px]] [[Toetapper Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Toetapper Mantle icon.png|25px]] [[Toetapper Mantle]]<br />ATTK +14, ACC +14, DEX +2 || –
-|}
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1092 || [[File:Toetapper_Mantle icon.png|25px]] [[Toetapper Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Lamiae, Merrow, Medusa<br /> || [[File:Toetapper_Mantle icon.png|25px]] [[Toetapper Mantle]]<br />Attk +11<br />Acc +11<br />Dex +2 || –
 |-
-| 1091 || [[File:Toetapper Mantle icon.png|25px]] [[Toetapper Mantle]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Troll, Trollgurfurlur, Troll excavationduty<br /> || [[File:Toetapper Mantle icon.png|25px]] [[Toetapper Mantle]]<br />ATTK +9, ACC +9 || –
-|}
-
-== [[File:Bookworm's Cape icon.png|25px]] [[Bookworm's Cape]] ==
-
-{| class="wikitable sortable"
-|+ Trial
-! Trial # !! Main Item !! Trade Item !! Type !! Requirements !! Reward !! Branches
+| 1093 || [[File:Toetapper_Mantle icon.png|25px]] [[Toetapper Mantle]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Qutrub1, Qutrub2, Qutrub3<br /> || [[File:Toetapper_Mantle icon.png|25px]] [[Toetapper Mantle]]<br />Attk +14<br />Acc +14<br />Dex +2 || –
 |-
-| 1095 || [[File:Bookworm's Cape icon.png|25px]] [[Bookworm's Cape]] || – || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Bookworm's Cape icon.png|25px]] [[Bookworm's Cape]]<br />HP_33 +17, PDT +4 || –
+| 1095 || [[File:Bookworm's_Cape icon.png|25px]] [[Bookworm's Cape]] || – || Back || Kills || Required: 5000<br />Kill Type: Family<br />Mob(s): Mamoolja, Mamooljaknight, Mamoolja sword, Gulool ja ja<br /> || [[File:Bookworm's_Cape icon.png|25px]] [[Bookworm's Cape]]<br />Hp 33 +17<br />Pdt +4 || –
 |}
 

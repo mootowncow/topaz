@@ -111,6 +111,14 @@ inline int32 CLuaItem::getSlotID(lua_State* L)
     return 1;
 }
 
+inline int32 CLuaItem::getEquipSlotID(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
+    uint16 equipSlotId = static_cast<CItemEquipment*>(m_PLuaItem)->getEquipSlotId();
+    lua_pushinteger(L, equipSlotId);
+    return 1;
+}
+
 inline int32 CLuaItem::getTrialNumber(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
@@ -447,6 +455,7 @@ Lunar<CLuaItem>::Register_t CLuaItem::methods[] =
     LUNAR_DECLARE_METHOD(CLuaItem,getLocationID),
     LUNAR_DECLARE_METHOD(CLuaItem,getBasePrice),
     LUNAR_DECLARE_METHOD(CLuaItem,getSlotID),
+    LUNAR_DECLARE_METHOD(CLuaItem,getEquipSlotID),
     LUNAR_DECLARE_METHOD(CLuaItem,getTrialNumber),
     LUNAR_DECLARE_METHOD(CLuaItem,getWornItem),
     LUNAR_DECLARE_METHOD(CLuaItem,isType),
