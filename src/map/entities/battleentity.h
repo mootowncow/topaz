@@ -576,11 +576,12 @@ enum REACTION
 
 enum SPECEFFECT
 {
-    SPECEFFECT_NONE = 0x00,
-    SPECEFFECT_BLOOD = 0x02,
-    SPECEFFECT_HIT = 0x10,
-    SPECEFFECT_RAISE = 0x11,
-    SPECEFFECT_RECOIL = 0x20,
+    SPECEFFECT_NONE         = 0x00,
+    SPECEFFECT_BLOOD        = 0x02,
+    SELFAOE_MISS            = 0x04,
+    SPECEFFECT_HIT          = 0x10,
+    SPECEFFECT_RAISE        = 0x11,
+    SPECEFFECT_RECOIL       = 0x20,
     SPECEFFECT_CRITICAL_HIT = 0x22
 };
 
@@ -675,6 +676,7 @@ enum TARGETTYPE
     TARGET_IGNORE_BATTLEID         = 0x400, // Can hit targets that do not have the same battle ID
     TARGET_EXCLUDE_TRUSTS          = 0x800, // Exclude trusts
     TARGET_EXCLUDE_PETS            = 0x1000,// Exclude pets
+    TARGET_ANY_ALLEGIANCE          = 0x2000,// Can hit targets from any allegiance simultaneously. To be used with other flags above and only makes sense for non-single-target skills
 };
 
 enum SKILLCHAIN_ELEMENT

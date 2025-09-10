@@ -37,6 +37,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../mob_spell_container.h"
 #include "../../entities/mobentity.h"
 #include "../../utils/battleutils.h"
+#include "../../utils/mobutils.h"
 #include "../../../common/utils.h"
 #include "../../utils/petutils.h"
 #include "../../items/item_weapon.h"
@@ -609,11 +610,11 @@ bool CMobController::MobSkill(int wsList)
         {
             continue;
         }
-        if (PMobSkill->getValidTargets() == TARGET_ENEMY) //enemy
+        if (PMobSkill->getValidTargets() & TARGET_ENEMY) //enemy
         {
             PActionTarget = PTarget;
         }
-        else if (PMobSkill->getValidTargets() == TARGET_SELF) //self
+        else if (PMobSkill->getValidTargets() & TARGET_SELF) //self
         {
             PActionTarget = PMob;
         }
@@ -632,7 +633,7 @@ bool CMobController::MobSkill(int wsList)
         float currentDistance = distance(PMob->loc.p, PActionTarget->loc.p);
         if (!PMobSkill->isTwoHour() && luautils::OnMobSkillCheck(PActionTarget, PMob, PMobSkill) == 0) //A script says that the move in question is valid
         {
-            if (currentDistance <= PMobSkill->getDistance())
+            if (currentDistance <= mobutils::GetMobSkillRange(PMobSkill, PMob, PTarget))
             {
                 int16 tp = battleutils::CalculateWeaponSkillTP(PMob, 0, PMob->health.tp);
 
@@ -682,7 +683,7 @@ bool CMobController::TrySpecialSkill()
         // distance check for special skill
         float currentDistance = distance(PMob->loc.p, PTarget->loc.p);
 
-        if (currentDistance <= PSpecialSkill->getDistance())
+        if (currentDistance <= mobutils::GetMobSkillRange(PSpecialSkill, PMob, PTarget))
         {
             PAbilityTarget = PTarget;
         }
@@ -1105,7 +1106,7 @@ void CMobController::Move()
             auto* skill{ battleutils::GetMobSkill(skillList.front()) };
             if (skill)
             {
-                attack_range = skill->getDistance();
+                attack_range = mobutils::GetMobSkillRange(skill, PMob, PTarget);
             }
         }
     }
@@ -1133,7 +1134,7 @@ void CMobController::Move()
             {
                 CMobSkill* teleportBegin = battleutils::GetMobSkill(PMob->getMobMod(MOBMOD_TELEPORT_START));
 
-                if (teleportBegin && currentDistance <= teleportBegin->getDistance())
+                if (teleportBegin && currentDistance <= mobutils::GetMobSkillRange(teleportBegin, PMob, PTarget))
                 {
                     MobSkill(PMob->targid, teleportBegin->getID());
                     m_LastSpecialTime = m_Tick;

@@ -50,6 +50,7 @@ void CTargetFind::reset()
     m_radius = 0.0f;
     m_zone = 0;
     m_findFlags = FINDFLAGS_NONE;
+    m_targetFlags = 0;
 
     m_APoint = nullptr;
     m_PRadiusAround = nullptr;
@@ -57,9 +58,10 @@ void CTargetFind::reset()
     m_PMasterTarget = nullptr;
 }
 
-void CTargetFind::findSingleTarget(CBattleEntity* PTarget, uint8 flags)
+void CTargetFind::findSingleTarget(CBattleEntity* PTarget, uint8 flags, uint16 targetFlags)
 {
     m_findFlags = flags;
+    m_targetFlags = targetFlags;
     m_zone = m_PBattleEntity->getZone();
     m_PTarget = nullptr;
     m_PRadiusAround = &PTarget->loc.p;
@@ -67,102 +69,99 @@ void CTargetFind::findSingleTarget(CBattleEntity* PTarget, uint8 flags)
     addEntity(PTarget, false);
 }
 
-void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, float radius, uint8 flags)
+void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, float radius, uint8 flags, uint16 targetFlags)
 {
     TracyZoneScoped;
     m_findFlags = flags;
+    m_targetFlags = targetFlags;
     m_radius = radius;
     m_zone = m_PBattleEntity->getZone();
 
-    if (radiusType == AOERADIUS_ATTACKER){
+    if (radiusType == AOERADIUS_ATTACKER)
+    {
         m_PRadiusAround = &m_PBattleEntity->loc.p;
     }
-    else {
-        // radius around target
+    else
+    {
         m_PRadiusAround = &PTarget->loc.p;
     }
 
-    // get master to properly handle loops
     m_PMasterTarget = findMaster(PTarget);
 
-    // no not include pets if this AoE is a buff spell
-    // this is a buff because i'm targeting my self
     bool withPet = PETS_CAN_AOE_BUFF || (m_findFlags & FINDFLAGS_PET) || (m_PMasterTarget->objtype != m_PBattleEntity->objtype);
 
-    // always add original target first
-    addEntity(PTarget, false); // pet will be added later
+    addEntity(PTarget, false);
 
     m_PTarget = PTarget;
     isPlayer = checkIsPlayer(m_PBattleEntity);
 
     if (isPlayer)
     {
-        // handle this as a player
         if (m_PMasterTarget->objtype == TYPE_PC)
         {
-            // players will never need to add whole alliance
             m_findType = FIND_PLAYER_PLAYER;
 
             if (m_PMasterTarget->PParty != nullptr)
             {
-                // player -ra spells should never hit whole alliance
                 if ((m_findFlags & FINDFLAGS_ALLIANCE) && m_PMasterTarget->PParty->m_PAlliance != nullptr)
                 {
                     addAllInAlliance(m_PMasterTarget, withPet);
                 }
                 else
                 {
-                    // add party members
                     addAllInParty(m_PMasterTarget, withPet);
                 }
             }
-            else 
+            else
             {
-                // just add myself
                 addEntity(m_PMasterTarget, withPet);
             }
 
-            // AoE ALL targets if certain status effects are active in order to buff friendly NPCs and players
-            if (m_PMasterTarget->StatusEffectContainer->HasStatusEffect({ EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
+            if (m_PMasterTarget->StatusEffectContainer->HasStatusEffect(
+                    { EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
             {
                 addAllInZone(m_PMasterTarget, withPet);
             }
         }
-        else 
+        else
         {
             m_findType = FIND_PLAYER_MONSTER;
-            // special case to add all mobs in range
             addAllInMobList(m_PMasterTarget, false);
         }
     }
-    else 
+    else
     {
-        // handle this as a mob
-        if (m_PMasterTarget->objtype == TYPE_PC || m_PBattleEntity->allegiance == ALLEGIANCE_PLAYER ||
-            (radius > 0 && m_PMasterTarget == m_PBattleEntity && m_PBattleEntity->name == "Dark_Ixion")) // DI targeting himself with AoE mobskill
+        // Mob logic
+        if (m_targetFlags & TARGET_ANY_ALLEGIANCE)
         {
             m_findType = FIND_MONSTER_PLAYER;
 
+            if ((m_targetFlags & TARGET_SELF) && m_PBattleEntity->GetBattleTarget())
+            {
+                m_PMasterTarget = findMaster(m_PBattleEntity->GetBattleTarget());
+            }
+        }
+        else if (m_PMasterTarget->objtype == TYPE_PC || m_PBattleEntity->allegiance == ALLEGIANCE_PLAYER)
+        {
+            m_findType = FIND_MONSTER_PLAYER;
         }
         else
         {
             m_findType = FIND_MONSTER_MONSTER;
         }
 
-        // do not include pets in monster AoE buffs
         if (m_findType == FIND_MONSTER_MONSTER && m_PTarget->PMaster == nullptr)
         {
             withPet = PETS_CAN_AOE_BUFF;
         }
 
-        // AoE ALL targets if certain status effects are active in order to buff friendly NPCs and players
-        if (m_PMasterTarget->StatusEffectContainer->HasStatusEffect({ EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
+        if (m_PMasterTarget->StatusEffectContainer->HasStatusEffect(
+                { EFFECT_CONFRONTATION, EFFECT_BESIEGED, EFFECT_ALLIED_TAGS, EFFECT_VOIDWATCHER, EFFECT_REIVE_MARK, EFFECT_ELVORSEAL }))
         {
             addAllInZone(m_PMasterTarget, withPet);
         }
 
-        if (m_findFlags & FINDFLAGS_HIT_ALL ||
-            (m_findType == FIND_MONSTER_PLAYER && ((CMobEntity*)m_PBattleEntity)->CalledForHelp()))
+        if (m_findFlags & FINDFLAGS_HIT_ALL || (m_findType == FIND_MONSTER_PLAYER && ((CMobEntity*)m_PBattleEntity)->CalledForHelp()))
         {
             addAllInZone(m_PMasterTarget, withPet);
         }
@@ -170,31 +169,32 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
         {
             if (m_PMasterTarget->PParty != nullptr)
             {
-                // player -ra spells should never hit whole alliance
                 if ((m_findFlags & FINDFLAGS_ALLIANCE) && m_PMasterTarget->PParty->m_PAlliance != nullptr)
                 {
                     addAllInAlliance(m_PMasterTarget, withPet);
                 }
                 else
                 {
-                    // add party members
                     addAllInParty(m_PMasterTarget, withPet);
                 }
             }
 
-            // Is the monster casting on a player..
             if (m_findType == FIND_MONSTER_PLAYER)
             {
                 if (m_PBattleEntity->allegiance == ALLEGIANCE_PLAYER)
+                {
                     addAllInZone(m_PMasterTarget, withPet);
+                }
                 else
+                {
                     addAllInEnmityList();
+                }
             }
         }
     }
 }
 
-void CTargetFind::findWithinCone(CBattleEntity* PTarget, float distance, float angle, uint8 flags, bool isBehind)
+void CTargetFind::findWithinCone(CBattleEntity* PTarget, float distance, float angle, uint8 flags, bool isBehind, uint16 targetFlags)
 {
     m_findFlags = flags;
     m_conal = true;
@@ -436,47 +436,77 @@ bool CTargetFind::validEntity(CBattleEntity* PTarget)
         return true;
     }
 
-	if (m_PTarget->allegiance != PTarget->allegiance && m_PTarget->name != "Dark_Ixion")
-	{
-		return false;
-	}
+
+    // short-circuit allegiance checks for aoe skills/abilities/spells that can hit players and mobs simultaneously
+    if (m_targetFlags & TARGET_ANY_ALLEGIANCE)
+    {
+        if (m_targetFlags & TARGET_SELF)
+        {
+            if (m_PBattleEntity->allegiance == PTarget->allegiance)
+            {
+                // TARGET_ANY_ALLEGIANCE with TARGET_SELF means it should behave like TARGET_ENEMY
+                return false;
+            }
+        }
+        else if (m_PBattleEntity == PTarget)
+        {
+            // Don't erroneously include self when using TARGET_ANY_ALLEGIANCE
+            return false;
+        }
+    }
+    else
+    {
+        if (m_PTarget->allegiance != PTarget->allegiance)
+        {
+            return false;
+        }
+
+        // If offensive, don't target other entities with same allegiance
+        // Cures can be AoE with Accession and Majesty, ideally we would use SPELLGROUP or some other mechanism, but TargetFind wasn't designed with that in
+        // mind
+        if ((m_targetFlags & TARGET_ENEMY) && !(m_targetFlags & TARGET_PLAYER_PARTY) && m_PBattleEntity->allegiance == PTarget->allegiance)
+        {
+            return false;
+        }
 
     // shouldn't add if target is charmed by the enemy
-    if (PTarget->PMaster != nullptr)
-    {
-        if (m_findType == FIND_MONSTER_PLAYER){
-
-            if (PTarget->PMaster->objtype == TYPE_MOB){
-                return false;
-            }
-
-        }
-        else if (m_findType == FIND_PLAYER_MONSTER){
-
-            if (PTarget->PMaster->objtype == TYPE_PC){
-                return false;
-            }
-
-        }
-        else if (m_findType == FIND_MONSTER_MONSTER || m_findType == FIND_PLAYER_PLAYER){
-            if (PTarget->objtype == TYPE_TRUST)
+        if (PTarget->PMaster != nullptr)
+        {
+            if (m_findType == FIND_MONSTER_PLAYER)
             {
-                if (m_conal)
+                if (PTarget->PMaster->objtype == TYPE_MOB)
                 {
-                    if (isWithinCone(&PTarget->loc.p))
-                    {
-                        return true;
-                    }
-                }
-                else
-                {
-                    if ((m_findFlags & FINDFLAGS_UNLIMITED) || isWithinArea(&PTarget->loc.p))
-                    {
-                        return true;
-                    }
+                    return false;
                 }
             }
-            return false;
+            else if (m_findType == FIND_PLAYER_MONSTER)
+            {
+                if (PTarget->PMaster->objtype == TYPE_PC)
+                {
+                    return false;
+                }
+            }
+            else if (m_findType == FIND_MONSTER_MONSTER || m_findType == FIND_PLAYER_PLAYER)
+            {
+                if (PTarget->objtype == TYPE_TRUST)
+                {
+                    if (m_conal)
+                    {
+                        if (isWithinCone(&PTarget->loc.p))
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if ((m_findFlags & FINDFLAGS_UNLIMITED) || isWithinArea(&PTarget->loc.p))
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
         }
     }
 

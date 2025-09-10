@@ -27,6 +27,7 @@
 #include "../grades.h"
 #include "../trait.h"
 #include "mobutils.h"
+#include "../mobskill.h"
 #include "petutils.h"
 #include "zoneutils.h"
 #include "../lua/luautils.h"
@@ -2142,6 +2143,42 @@ void WeaknessTrigger(CBaseEntity* PTarget, WeaknessType level)
     target.animation = animationID;
     target.param = 2582;
     PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE_SELF, new CActionPacket(action));
+}
+
+float GetMobSkillRange(CMobSkill* PMobSkill, CMobEntity* PMob, CBattleEntity* PTarget)
+{
+    float distance = 0.0f;
+
+    if (PMobSkill)
+    {
+        distance = PMobSkill->getDistance() + static_cast<float>(PMob->m_ModelSize);
+
+        if (PTarget && PMob && PMobSkill->getFlag() & SKILLFLAG_REPLACE_ATTACK)
+        {
+            distance = static_cast<float>(PMob->GetMeleeRange()) + static_cast<float>(PMob->m_ModelSize);
+        }
+        uint16 mobSkill = PMobSkill->getID();
+    }
+
+    return distance;
+}
+
+float GetMobRadiusRange(CMobSkill* PMobSkill, CMobEntity* PMob, CBattleEntity* PTarget)
+{
+    float radius = 0.0f;
+
+    if (PMobSkill)
+    {
+        radius = PMobSkill->getRadius();
+
+        if (PTarget && PMob && PMobSkill->getFlag() & SKILLFLAG_REPLACE_ATTACK)
+        {
+            radius = static_cast<float>(PMob->GetMeleeRange()) + static_cast<float>(PMob->m_ModelSize);
+        }
+        uint16 mobSkill = PMobSkill->getID();
+    }
+
+    return radius;
 }
 
 }; // namespace mobutils

@@ -1800,7 +1800,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     if (aoeType == SPELLAOE_RADIAL) {
         float distance = spell::GetSpellRadius(PSpell, this);
 
-        PAI->TargetFind->findWithinArea(PActionTarget, AOERADIUS_TARGET, distance, flags);
+        PAI->TargetFind->findWithinArea(PActionTarget, AOERADIUS_TARGET, distance, flags, PSpell->getValidTarget());
 
     }
     else if (aoeType == SPELLAOE_CONAL)
@@ -1808,14 +1808,14 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
         //TODO: actual radius calculation
         float radius = spell::GetSpellRadius(PSpell, this);
 
-        PAI->TargetFind->findWithinCone(PActionTarget, radius, 45, flags);
+        PAI->TargetFind->findWithinCone(PActionTarget, radius, 45, flags, false, PSpell->getValidTarget());
     }
     else if (aoeType == SPELLAOE_PBAOE)
     {
         // Aoe around caster
         float distance = spell::GetSpellRadius(PSpell, this);
 
-        PAI->TargetFind->findWithinArea(PActionTarget, AOERADIUS_ATTACKER, distance, flags);
+        PAI->TargetFind->findWithinArea(PActionTarget, AOERADIUS_ATTACKER, distance, flags, PSpell->getValidTarget());
     }
     else
     {

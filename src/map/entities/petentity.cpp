@@ -450,12 +450,12 @@ void CPetEntity::OnPlayerPetSkillFinished(CMobSkillState& state, action_t& actio
     {
         if (PSkill->isAoE())
         {
-            PAI->TargetFind->findWithinArea(PTarget, (AOERADIUS)PSkill->getAOE(), PSkill->getRange(), findFlags);
+            PAI->TargetFind->findWithinArea(PTarget, (AOERADIUS)PSkill->getAOE(), PSkill->getRange(), findFlags, PSkill->getValidTarget());
         }
         else if (PSkill->isConal())
         {
             float angle = 45.0f;
-            PAI->TargetFind->findWithinCone(PTarget, distance, angle, findFlags);
+            PAI->TargetFind->findWithinCone(PTarget, distance, angle, findFlags, false, PSkill->getValidTarget());
         }
         else
         {
