@@ -1299,9 +1299,6 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     tp = battleutils::CalculateWeaponSkillTP(this, 0, tp);
     static_cast<CMobController*>(PAI->GetController())->TapDeaggroTime();
 
-    // store the skill used
-    m_UsedSkillIds[PSkill->getID()] = GetMLevel();
-
     PAI->TargetFind->reset();
 
     float distance = mobutils::GetMobSkillRange(PSkill, this, PTarget);

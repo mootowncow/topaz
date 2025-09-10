@@ -87,6 +87,14 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
         actionTarget.param = m_PSkill->getID();
         actionTarget.messageID = MSGBASIC_READIES_WS;
 
+        // Store the skill used if mob (For BLU spell learning)
+        if (m_PEntity->objtype == TYPE_MOB)
+        {
+            if (auto* PMob = dynamic_cast<CMobEntity*>(m_PEntity))
+            {
+                PMob->m_UsedSkillIds[m_PSkill->getID()] = PMob->GetMLevel();
+            }
+        }
 
         if ((m_PSkill->getValidTargets() & TARGET_ANY_ALLEGIANCE) && (m_PSkill->getValidTargets() & TARGET_SELF))
 
