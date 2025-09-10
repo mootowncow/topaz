@@ -2151,7 +2151,8 @@ float GetMobSkillRange(CMobSkill* PMobSkill, CMobEntity* PMob, CBattleEntity* PT
 
     if (PMobSkill)
     {
-        distance = PMobSkill->getDistance();
+        distance = PMobSkill->getDistance() + static_cast<float>(PMob->m_ModelSize);
+
         if (PTarget && PMob && PMobSkill->getFlag() & SKILLFLAG_REPLACE_ATTACK)
         {
             distance = static_cast<float>(PMob->GetMeleeRange()) + static_cast<float>(PMob->m_ModelSize);
@@ -2169,6 +2170,7 @@ float GetMobRadiusRange(CMobSkill* PMobSkill, CMobEntity* PMob, CBattleEntity* P
     if (PMobSkill)
     {
         radius = PMobSkill->getRadius();
+
         if (PTarget && PMob && PMobSkill->getFlag() & SKILLFLAG_REPLACE_ATTACK)
         {
             radius = static_cast<float>(PMob->GetMeleeRange()) + static_cast<float>(PMob->m_ModelSize);
