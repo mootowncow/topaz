@@ -120,6 +120,7 @@ function onMobFight(mob, target)
     if mob:getLocalVar("shouldEvokers") > 0 then
         mob:delStatusEffect(tpz.effect.BIND)
         mob:addStatusEffect(tpz.effect.BIND, 1, 0, 55)
+        mob:setEffectUndispellable(tpz.effect.BIND)
         mob:setLocalVar("globalJATimer", os.time() + 3)
         mob:useJobAbility(tpz.jobAbility.EVOKERS_ROLL, mob)
         return
@@ -190,6 +191,7 @@ function onMobFight(mob, target)
                                         local pos = friendlyTarget:getPos()
                                         mob:setPos(pos.x, pos.y, pos.z)
                                         mob:addStatusEffect(tpz.effect.BIND, 1, 0, 5)
+                                        mob:setEffectUndispellable(tpz.effect.BIND)
                                         mob:setLocalVar("shouldEvokers", 1)
                                         return
                                     end
