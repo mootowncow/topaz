@@ -1676,3 +1676,13 @@ function utils.generateEnumNameMap(enumTable)
     end
     return nameMap
 end
+
+-- Is in table
+function utils.isInTable(value, tbl)
+    for _, v in ipairs(tbl) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end

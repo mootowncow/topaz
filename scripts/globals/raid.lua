@@ -2508,6 +2508,8 @@ function UpdateSupportAI(mob, target)
         end
 
         -- Rolls
+        -- TODO: Make sure new roll isn't same as one already active (i.e. has chaos roll active, then casts chaos again for 2nd roll)
+        -- TODO: Add if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then check
         local effects = mob:getStatusEffects()
         for _, effect in ipairs(effects) do
             if
