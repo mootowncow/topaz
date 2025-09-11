@@ -904,12 +904,13 @@ namespace petutils
     {
         uint32 petID = PPet->m_PetID;
 
-        // clang-format off
-        Pet_t* PPetData = *std::find_if(g_PPetList.begin(), g_PPetList.end(), [petID](Pet_t* t)
+        auto it = std::find_if(g_PPetList.begin(), g_PPetList.end(), [petID](Pet_t* t) { return t->PetID == petID; });
+
+        Pet_t* PPetData = nullptr;
+        if (it != g_PPetList.end())
         {
-            return t->PetID == petID;
-        });
-        // clang-format on
+            PPetData = *it;
+        }
 
         PPet->SetMJob(JOB_DRK);
         PPet->SetSJob(JOB_BLM);
@@ -936,14 +937,15 @@ namespace petutils
         }
         LoadAvatarStats(PPet); // follows PC calcs (w/o SJ)
 
-        if (PPetData != nullptr && PPetData != (decltype(PPetData))0xFFFFFFFFFFFFFF99)
+        if (PPetData != nullptr)
         {
             PPet->m_SpellListContainer = mobSpellList::GetMobSpellList(PPetData->spellList);
         }
         else
-        { // should never happen
-            ShowDebug("%s summoned an avatar but the petID was nil! Please report. \n", PMaster->GetName());
+        {
+            ShowDebug("%s summoned an avatar but the petID %u was not found in g_PPetList! Please report. \n", PMaster->GetName(), petID);
         }
+
 
         // High refresh so Elementals don't oom
         PPet->setModifier(Mod::REFRESH, 500);
@@ -1147,12 +1149,13 @@ namespace petutils
     {
         uint32 petID = PPet->m_PetID;
 
-        // clang-format off
-        Pet_t* PPetData = *std::find_if(g_PPetList.begin(), g_PPetList.end(), [petID](Pet_t* t)
+        auto it = std::find_if(g_PPetList.begin(), g_PPetList.end(), [petID](Pet_t* t) { return t->PetID == petID; });
+
+        Pet_t* PPetData = nullptr;
+        if (it != g_PPetList.end())
         {
-            return t->PetID == petID;
-        });
-        // clang-format on
+            PPetData = *it;
+        }
 
         // set the wyvern job based on master's SJ
         if (PMaster->GetSJob() != JOB_NON)
@@ -1240,12 +1243,13 @@ namespace petutils
     {
         uint32 petID = PPet->m_PetID;
 
-        // clang-format off
-        Pet_t* PPetData = *std::find_if(g_PPetList.begin(), g_PPetList.end(), [petID](Pet_t* t)
+        auto it = std::find_if(g_PPetList.begin(), g_PPetList.end(), [petID](Pet_t* t) { return t->PetID == petID; });
+
+        Pet_t* PPetData = nullptr;
+        if (it != g_PPetList.end())
         {
-            return t->PetID == petID;
-        });
-        // clang-format on
+            PPetData = *it;
+        }
 
         // Base delay
         uint16 WeaponDelay = 240;
@@ -1303,12 +1307,13 @@ namespace petutils
     {
         uint32 petID = PPet->m_PetID;
 
-        // clang-format off
-        Pet_t* PPetData = *std::find_if(g_PPetList.begin(), g_PPetList.end(), [petID](Pet_t* t)
+        auto it = std::find_if(g_PPetList.begin(), g_PPetList.end(), [petID](Pet_t* t) { return t->PetID == petID; });
+
+        Pet_t* PPetData = nullptr;
+        if (it != g_PPetList.end())
         {
-            return t->PetID == petID;
-        });
-        // clang-format on
+            PPetData = *it;
+        }
 
         // melee weapon damage = (floor(automaton melee skill * 0.11) * 3)
         auto meleeSkill = PPet->GetSkill(SKILL_AUTOMATON_MELEE);
@@ -1490,13 +1495,13 @@ namespace petutils
     void CalculateLoupanStats(CBattleEntity* PMaster, CPetEntity* PPet)
     {
         uint32 petID = PPet->m_PetID;
+        auto it = std::find_if(g_PPetList.begin(), g_PPetList.end(), [petID](Pet_t* t) { return t->PetID == petID; });
 
-        // clang-format off
-        Pet_t* PPetData = *std::find_if(g_PPetList.begin(), g_PPetList.end(), [petID](Pet_t* t)
+        Pet_t* PPetData = nullptr;
+        if (it != g_PPetList.end())
         {
-            return t->PetID == petID;
-        });
-        // clang-format on
+            PPetData = *it;
+        }
 
         PPet->SetMLevel(PMaster->GetMLevel());
         PPet->health.maxhp = (uint32)floor((250 * PPet->GetMLevel()) / 15);
