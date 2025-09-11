@@ -1,6 +1,7 @@
 ﻿---------------------------------------------------------------------------------------------------
 -- func: magianexporter
 -- desc: Exports and converts magian data to be pasted into BG wiki
+-- TODO: Branches with Clusters Crystals sorted properly
 ---------------------------------------------------------------------------------------------------
 require("scripts/globals/magian_data")
 
