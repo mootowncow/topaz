@@ -9,7 +9,10 @@ mixins =
 }
 -----------------------------------
 function onMobEngaged(mob, target)
-	mob:spawnPet()
+    local pet = GetMobByID(mob:getID()+1)
+    if not pet:isSpawned() then
+		utils.spawnPetInBattle(mob, pet, true, false, true)
+    end
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

@@ -8,7 +8,10 @@ require("scripts/globals/mobs")
 -----------------------------------
 function onMobEngaged(mob, target)
 	if mob:getMainJob() == tpz.job.DRG then
-		mob:spawnPet()
+        local pet = GetMobByID(mob:getID()+1)
+        if not pet:isSpawned() then
+		    utils.spawnPetInBattle(mob, pet, true, false, true)
+        end
 	end
 end
 

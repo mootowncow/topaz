@@ -11769,7 +11769,7 @@ INSERT INTO `mob_spawn_points` VALUES (16990383,'Sea_Puk','Sea Puk',34,-135,-18,
 INSERT INTO `mob_spawn_points` VALUES (16990386,'Mamool_Ja_Stabler','Mamool Ja Stabler',35,-142,-20,-640,127);
 INSERT INTO `mob_spawn_points` VALUES (16990387,'Mamool_Jas_Raptor','Mamool Ja\'s Raptor',36,1,1,1,0);
 INSERT INTO `mob_spawn_points` VALUES (16990388,'Mamool_Ja_Infiltrator','Mamool Ja Infiltrator',37,-134,-18,-632,127);
-INSERT INTO `mob_spawn_points` VALUES (16990389,'Mamool_Ja_Mimer','Mamool Ja Mimer',38,-118,-15,-630,127);
+INSERT INTO `mob_spawn_points` VALUES (16990389,'Mamool_Ja_Mimer','Mamool Ja Mimer',38,-118,-16,-636,127);
 INSERT INTO `mob_spawn_points` VALUES (16990390,'Mamool_Ja_Philosopher','Mamool Ja Philosopher',39,-133,-17,-622,127);
 -- INSERT INTO `mob_spawn_points` VALUES (16990391,'Sea_Puk','Sea Puk',34,-106,-16,-613,127);
 --INSERT INTO `mob_spawn_points` VALUES (16990392,'Sea_Puk','Sea Puk',34,-109,-15,-600,127);
@@ -12279,7 +12279,7 @@ INSERT INTO `mob_spawn_points` VALUES (16998810,'Draugar_Servant','Draugar Serva
 --INSERT INTO `mob_spawn_points` VALUES (16998811,'Draugar_Servant','Draugar Servant',42,19.123,-6.904,-366.064,28);
 INSERT INTO `mob_spawn_points` VALUES (16998812,'Lamie_Toxophilite','Lamie Toxophilite',72,23.952,-4.992,-398.956,63);
 --INSERT INTO `mob_spawn_points` VALUES (16998813,'Draugar_Servant','Draugar Servant',42,17.145,-7.802,-402.501,86);
-INSERT INTO `mob_spawn_points` VALUES (16998814,'Draugar_Servant','Draugar Servant',42,22.604,-6.513,-405.572,76);
+INSERT INTO `mob_spawn_points` VALUES (16998814,'Draugar_Servant','Draugar Servant',45,22.604,-6.513,-405.572,76);
 INSERT INTO `mob_spawn_points` VALUES (16998815,'Draugars_Wyvern','Draugar\'s Wyvern',18,1,1,1,191);
 INSERT INTO `mob_spawn_points` VALUES (16998816,'Lamie_Bellydancer','Lamie Bellydancer',70,-98.405,-5.966,-409.375,76);
 INSERT INTO `mob_spawn_points` VALUES (16998817,'Lamias_Elemental','Lamia\'s Elemental',16,1,1,1,11);
@@ -18587,7 +18587,7 @@ INSERT INTO `mob_spawn_points` VALUES (17101053,'Ephramadian_Shade','Ephramadian
 INSERT INTO `mob_spawn_points` VALUES (17101054,'Ephramadian_Shade','Ephramadian Shade',32,-655.1,10.506,-270.72,171);
 INSERT INTO `mob_spawn_points` VALUES (17101055,'Guard_Bhoot','Guard Bhoot',33,-589.839,7.268,-133.674,235);
 INSERT INTO `mob_spawn_points` VALUES (17101056,'Dark_Elemental','Dark Elemental',34,-598.417,9.389,-146.678,69);
-INSERT INTO `mob_spawn_points` VALUES (17101057,'Draugar_Servant','Draugar Servant',35,-533.845,11.673,-219.798,128);
+INSERT INTO `mob_spawn_points` VALUES (17101057,'Draugar_Servant','Draugar Servant',37,-533.845,11.673,-219.798,128);
 INSERT INTO `mob_spawn_points` VALUES (17101058,'Draugars_Wyvern','Draugar\'s Wyvern',36,1,1,1,249);
 --INSERT INTO `mob_spawn_points` VALUES (17101059,'Draugar_Servant','Draugar Servant',37,-454.477,-1.333,-212.574,8);
 INSERT INTO `mob_spawn_points` VALUES (17101060,'Lamia_Idolater','Lamia Idolater',38,-487.856,2.341,-208.063,110);
@@ -18657,7 +18657,7 @@ INSERT INTO `mob_spawn_points` VALUES (17101123,'Draugar_Servant','Draugar Serva
 --INSERT INTO `mob_spawn_points` VALUES (17101124,'Draugar_Servant','Draugar Servant',39,-763.510,-12.136,265.749,57);
 INSERT INTO `mob_spawn_points` VALUES (17101125,'Lamia_Toxophilite','Lamia Toxophilite',41,-767.739,-12.103,298.05,86);
 --INSERT INTO `mob_spawn_points` VALUES (17101126,'Draugar_Servant','Draugar Servant',40,-771.479,-12.114,314.370,182);
-INSERT INTO `mob_spawn_points` VALUES (17101127,'Draugar_Servant','Draugar Servant',35,-765.735,-12.217,311.841,158);
+INSERT INTO `mob_spawn_points` VALUES (17101127,'Draugar_Servant','Draugar Servant',37,-765.735,-12.217,311.841,158);
 INSERT INTO `mob_spawn_points` VALUES (17101128,'Draugars_Wyvern','Draugar\'s Wyvern',36,1,1,1,212);
 INSERT INTO `mob_spawn_points` VALUES (17101129,'Draugar_Servant','Draugar Servant',37,-726.279,-13.844,329.654,208);
 INSERT INTO `mob_spawn_points` VALUES (17101130,'Lamia_Chaukidar','Lamia Chaukidar',42,-704.582,-22.941,382.998,173);
