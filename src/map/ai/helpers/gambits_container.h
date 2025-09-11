@@ -105,6 +105,8 @@ enum class G_CONDITION : uint16
     REFRESH            = 35,
     MANI_SLEEPGA       = 36,
     SLEEPGA            = 37,
+    TWO_EFFECTS        = 38,
+    THREE_EFFECTS      = 39,
 };
 
 enum class G_REACTION : uint16

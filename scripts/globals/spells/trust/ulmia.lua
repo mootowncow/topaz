@@ -48,15 +48,11 @@ function onMobSpawn(mob)
 
     -- Capable of casting a Ballad
     if mob:getMainLvl() >= 25 then
-        mob:addSimpleGambit(ai.t.CASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.JA, ai.s.SPECIFIC, tpz.jobAbility.PIANISSIMO)
+        mob:addSimpleGambit(ai.t.CASTER, ai.c.TWO_EFFECTS, tpz.effect.BALLAD, ai.r.JA, ai.s.SPECIFIC, tpz.jobAbility.PIANISSIMO)
     end
 
     -- Ballad casters
-    if mob:getMainLvl() >= 55 then
-        mob:addSimpleGambit(ai.t.CASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.MAGES_BALLAD_II)
-    else
-        mob:addSimpleGambit(ai.t.CASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.MAGES_BALLAD)
-    end
+    mob:addSimpleGambit(ai.t.CASTER, ai.c.TWO_EFFECTS, tpz.effect.BALLAD, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MAGES_BALLAD, 30)
 
     -- Capable of casting a Prelude 
     if mob:getMainLvl() >= 31 then

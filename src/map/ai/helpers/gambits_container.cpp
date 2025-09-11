@@ -1358,6 +1358,16 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             return false;
             break;
         }
+        case G_CONDITION::TWO_EFFECTS:
+        {
+            return trigger_target->StatusEffectContainer->GetEffectsCount(static_cast<EFFECT>(predicate.condition_arg)) < 2;
+            break;
+        }
+        case G_CONDITION::THREE_EFFECTS:
+        {
+            return trigger_target->StatusEffectContainer->GetEffectsCount(static_cast<EFFECT>(predicate.condition_arg)) < 3;
+            break;
+        }
         default: { return false;  break; }
     }
 }
