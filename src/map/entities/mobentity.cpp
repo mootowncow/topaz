@@ -629,12 +629,16 @@ void CMobEntity::DoAutoTarget()
         });
 }
 
+// Mirrors, Mirror Guards
+static const std::set<uint16> excludedMobGroups = { 220, 2354, 1948, 4366, 2512, 2543, 6673 };
+
 void CMobEntity::HandleToAUStrongholdsAppraisalDrops(CCharEntity* PChar, uint16 PZone)
 {
     uint16 dropRate = 1;
 
     // NMs drop appraisal items 100% of the time
-    if (m_Type == MOBTYPE_NOTORIOUS || getMobMod(MOBMOD_CHECK_AS_NM) > 0)
+    if ((m_Type == MOBTYPE_NOTORIOUS || getMobMod(MOBMOD_CHECK_AS_NM) > 0) &&
+        (excludedMobGroups.count(m_Pool) == 0))
     {
         dropRate = 100;
     }
@@ -647,7 +651,6 @@ void CMobEntity::HandleToAUStrongholdsAppraisalDrops(CCharEntity* PChar, uint16 
         PChar->PTreasurePool->AddItem(itemId, this, static_cast<uint8>(PZone));
     }
 }
-
 
 void CMobEntity::PostTick()
 {
