@@ -118,6 +118,7 @@ enum MSGBASIC_ID : uint16
     MSGBASIC_NOT_ENOUGH_MP          = 34,  // The <player> does not have enough MP to cast (nullptr).
     MSGBASIC_MAGIC_NO_EFFECT        = 75,  // <caster>'s <spell> has no effect on <target>.
     MSGBASIC_MAGIC_TELEPORT         = 93,  // <caster> casts <spell>. <target> vanishes.
+    MSGBASIC_MAGIC_FAIL             = 114, // <caster> casts <spell> on <target>, but the spell fails to take effect (BLU phys spell miss)
 
     // Distance 
 	MSGBASIC_TARG_OUT_OF_RANGE		= 4, // <target> is out of range. 

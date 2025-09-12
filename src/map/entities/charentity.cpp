@@ -1099,7 +1099,10 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
         {
             if (StatusEffectContainer->HasStatusEffect(EFFECT_CHAIN_AFFINITY) || StatusEffectContainer->HasStatusEffect(EFFECT_AZURE_LORE))
             {
-                if (PSpell->dealsDamage() && PSpell->getSpellGroup() == SPELLGROUP_BLUE && static_cast<CBlueSpell*>(PSpell)->getPrimarySkillchain() != 0)
+                if (PSpell->dealsDamage() &&
+                    PSpell->getSpellGroup() == SPELLGROUP_BLUE &&
+                    static_cast<CBlueSpell*>(PSpell)->getPrimarySkillchain() != 0 &&
+                    PSpell->getMessage() != MSGBASIC_MAGIC_FAIL)
                 {
                     auto PBlueSpell = static_cast<CBlueSpell*>(PSpell);
                     SUBEFFECT effect = battleutils::GetSkillChainEffect(PTarget, PBlueSpell->getPrimarySkillchain(), PBlueSpell->getSecondarySkillchain(), 0);
@@ -1424,7 +1427,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                     this->PAI->EventHandler.triggerListener("WS_DMG_DONE", this, PTarget, damage, PWeaponSkill->getID());
 
                     int wspoints = 1;
-                    if (PWeaponSkill->getPrimarySkillchain() != 0)
+                    if (PWeaponSkill->getPrimarySkillchain() != 0 && PTarget->isAlive())
                     {
                         // NOTE: GetSkillChainEffect is INSIDE this if statement because it
                         //  ALTERS the state of the resonance, which misses and non-elemental(i.e. spirits within) skills should NOT do.

@@ -32,6 +32,7 @@ function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams, isOffha
     if ((missChance <= hitRate) or calcParams.guaranteedHit)
     and not calcParams.mustMiss then
         if not shadowAbsorb(target) then
+            calcParams.reaction = tpz.reaction.HIT
             critChance = math.random()
             criticalHit = (wsParams.canCrit and critChance <= calcParams.critRate)
             criticalHitOffhand = (wsParams.canCrit and critChance <= calcParams.critRateOffhand)
@@ -484,6 +485,7 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
     calcParams.bonusWSmods = wsParams.bonusWSmods or 0
     calcParams.hitRate = attacker:getHitRate(target, attackNumber, calcParams.bonusAcc, false)
     calcParams.hitRateOffhand =  attacker:getHitRate(target, 1, 0, false)
+    calcParams.reaction = tpz.reaction.MISS
 
     -- Send our wsParams off to calculate our raw WS damage, hits landed, and shadows absorbed
     calcParams = calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcParams, false)
@@ -644,7 +646,8 @@ function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, prima
         bonusTP = wsParams.bonusTP or 0,
         bonusfTP = gorgetBeltFTP or 0,
 	    bonusAcc = (gorgetBeltAcc or 0) + attacker:getMod(tpz.mod.WSACC),
-        bonusWSmods = wsParams.bonusWSmods or 0
+        bonusWSmods = wsParams.bonusWSmods or 0,
+        reaction = tpz.reaction.MISS
     }
 
     if (wsID == 196) or (wsID == 212) then -- Slugwinder
@@ -730,7 +733,8 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
         ['shadowsAbsorbed'] = 0,
         ['tpHitsLanded'] = 1,
         ['extraHitsLanded'] = 0,
-        ['bonusTP'] = wsParams.bonusTP or 0
+        ['bonusTP'] = wsParams.bonusTP or 0,
+        ['reaction'] = tpz.reaction.HIT
     }
     if (wsParams.bonusmacc == nil) then
 		wsParams.bonusmacc = 0
@@ -911,7 +915,7 @@ function takeWeaponskillDamage(defender, attacker, wsParams, primaryMsg, attack,
             end
 
             if (finaldmg >= 0) then
-                action:reaction(defender:getID(), tpz.reaction.HIT)
+                action:reaction(defender:getID(), wsResults.reaction)
                 action:speceffect(defender:getID(), tpz.specEffect.RECOIL)
             end
         else

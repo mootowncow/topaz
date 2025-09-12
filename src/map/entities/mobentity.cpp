@@ -1206,7 +1206,7 @@ void CMobEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& actio
                 //}
                 if (actionTarget.reaction == REACTION_HIT)
                 {
-                    if (PWeaponSkill->getPrimarySkillchain() != 0)
+                    if (PWeaponSkill->getPrimarySkillchain() != 0 && PTarget->isAlive())
                     {
                         // NOTE: GetSkillChainEffect is INSIDE this if statement because it
                         //  ALTERS the state of the resonance, which misses and non-elemental(i.e. spirits within) skills should NOT do.
@@ -1588,7 +1588,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
                 // Only Humanoid mobs, jug pets, and charmed mobs can skillchain
                 if (IsHumanoid() || objtype == TYPE_PET || isCharmed)
                 {
-                    if (PSkill->getPrimarySkillchain())
+                    if (PSkill->getPrimarySkillchain() && PTargetFound->isAlive() && !PSkill->hasMissMsg())
                     {
                         SUBEFFECT effect = battleutils::GetSkillChainEffect(PTargetFound, PSkill->getPrimarySkillchain(), PSkill->getSecondarySkillchain(),
                                                                             PSkill->getTertiarySkillchain());

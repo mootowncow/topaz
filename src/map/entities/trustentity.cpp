@@ -661,7 +661,6 @@ void CTrustEntity::OnDespawn(CDespawnState&)
     PAI->EventHandler.triggerListener("DESPAWN", this);
 }
 
-
 void CTrustEntity::OnCastFinished(CMagicState& state, action_t& action)
 {
     CBattleEntity::OnCastFinished(state, action);
@@ -775,7 +774,7 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
 
             if (primary)
             {
-                if (PWeaponSkill->getPrimarySkillchain() != 0)
+                if (PWeaponSkill->getPrimarySkillchain() != 0 && PTarget->isAlive())
                 {
                     // NOTE: GetSkillChainEffect is INSIDE this if statement because it
                     //  ALTERS the state of the resonance, which misses and non-elemental skills should NOT do.

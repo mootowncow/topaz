@@ -586,7 +586,7 @@ void CPetEntity::OnPlayerPetSkillFinished(CMobSkillState& state, action_t& actio
         if (target.speceffect & SPECEFFECT_HIT)
         {
             target.speceffect = SPECEFFECT_RECOIL;
-            if (first && (PSkill->getPrimarySkillchain() != 0))
+            if (first && (PSkill->getPrimarySkillchain() != 0) && PTarget->isAlive() && !PSkill->hasMissMsg())
             {
                 // Only Humanoid mobs, jug pets, and charmed mobs can skillchain
                 if (IsHumanoid() || objtype == TYPE_PET || isCharmed)
