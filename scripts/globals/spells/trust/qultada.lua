@@ -37,12 +37,23 @@ function onMobSpawn(mob)
 end
 
 function onMobFight(mob, target)
+    local rollData =
+    {
+        { RollId = tpz.jobAbility.CHAOS_ROLL,     Lucky = 4 },
+        { RollId = tpz.jobAbility.HUNTERS_ROLL,   Lucky = 4 },
+        { RollId = tpz.jobAbility.FIGHTERS_ROLL,  Lucky = 5 },
+        { RollId = tpz.jobAbility.SAMURAI_ROLL,   Lucky = 2 },
+        { RollId = tpz.jobAbility.EVOKERS_ROLL,   Lucky = 5 },
+    }
     local globalJATimer = mob:getLocalVar("globalJATimer")
     local qdCharges = mob:getLocalVar("qdCharges")
     local qdLastUsed = mob:getLocalVar("qdLastUsed")
     local snakeEyeTimer = mob:getLocalVar("snakeEyeTimer")
+    local foldTimer = mob:getLocalVar("foldTimer")
+    local currentRoll = mob:getLocalVar("currentRoll")
     local activeRolls = 0
     local canDoubleUp = false
+    local lucky = false
     local snakeEye = false
     local evokersTarget = { tpz.job.WHM, tpz.job.BLM, tpz.job.RDM, tpz.job.SMN, tpz.job.SCH, tpz.job.GEOMANCER }
     local rolls = { tpz.jobAbility.FIGHTERS_ROLL, tpz.jobAbility.CHAOS_ROLL, tpz.jobAbility.HUNTERS_ROLL, tpz.jobAbility.SAMURAI_ROLL }
@@ -51,28 +62,22 @@ function onMobFight(mob, target)
         return
     end
 
-    -- Quick Draw
-    if (qdCharges < 2) and (os.time() - qdLastUsed >= 60) then
-        qdCharges = qdCharges + 1
-        mob:setLocalVar("qdCharges", qdCharges)
-        mob:setLocalVar("qdLastUsed", os.time())
-    end
+    -- Rolls
 
-    if (qdCharges > 0) then
-        if HasDispellableEffect(target) then
-            if (os.time() > globalJATimer) then
-                if CanUseAbility(mob) then
-                    qdCharges = qdCharges - 1
-                    mob:setLocalVar("qdCharges", qdCharges)
+    -- Fold if busted
+    if (mob:getMainLvl() >= 75) and (os.time() > foldTimer) then
+        if (os.time() > globalJATimer) then
+            if CanUseAbility(mob) then
+                if mob:hasStatusEffect(tpz.effect.BUST) then
                     mob:setLocalVar("globalJATimer", os.time() + 3)
-                    mob:useJobAbility(tpz.jobAbility.DARK_SHOT, target)
+                    mob:setLocalVar("foldTimer", os.time() + 300)
+                    mob:useJobAbility(tpz.jobAbility.FOLD, mob)
                     return
                 end
             end
         end
     end
 
-    -- Rolls
     local effects = mob:getStatusEffects()
     for _, effect in ipairs(effects) do
         if
@@ -91,8 +96,25 @@ function onMobFight(mob, target)
                 end
             end
 
+            -- Make sure roll was casted by us
             if (effect:getSubType() == mob:getID()) then
                 activeRolls = activeRolls +1
+            end
+        end
+    end
+
+    -- Check if roll currently rolling for is Lucky
+    if canDoubleUp then
+        for _, rolls in ipairs(rollData) do
+            if (currentRoll == rolls.RollId) and mob:hasStatusEffect(rolls.RollId) then
+                local effect = mob:getStatusEffect(rolls.RollId)
+                -- Make sure roll was casted by us
+                if (effect:getSubType() == mob:getID()) then
+                    if effect:getSubPower() == rolls.Lucky then
+                        lucky = true
+                        break
+                    end
+                end
             end
         end
     end
@@ -126,8 +148,12 @@ function onMobFight(mob, target)
         return
     end
 
-    if mob:hasStatusEffect(tpz.effect.DOUBLE_UP_CHANCE) then
-        if snakeEye and (os.time() > snakeEyeTimer) then
+    if mob:hasStatusEffect(tpz.effect.DOUBLE_UP_CHANCE) and not lucky then
+        if
+            (mob:getMainLvl() >= 75) and
+            snakeEye and
+            (os.time() > snakeEyeTimer)
+        then
             if (os.time() > globalJATimer) then
                 if CanUseAbility(mob) then
                     if not mob:hasStatusEffect(tpz.effect.SNAKE_EYE) then
@@ -163,6 +189,7 @@ function onMobFight(mob, target)
                                     if #availableRolls > 0 then
                                         local chosenRoll = availableRolls[math.random(#availableRolls)]
                                         mob:setLocalVar("globalJATimer", os.time() + 3)
+                                        mob:setLocalVar("currentRoll", chosenRoll)
                                         mob:useJobAbility(chosenRoll, mob)
                                         return
                                     end
@@ -209,13 +236,34 @@ function onMobFight(mob, target)
             end
         end
     end
+
+    -- Quick Draw
+    if (mob:getMainLvl() >= 40) then
+        if (qdCharges < 2) and (os.time() - qdLastUsed >= 60) then
+            qdCharges = qdCharges + 1
+            mob:setLocalVar("qdCharges", qdCharges)
+            mob:setLocalVar("qdLastUsed", os.time())
+        end
+
+        if (qdCharges > 0) then
+            if HasDispellableEffect(target) then
+                if (os.time() > globalJATimer) then
+                    if CanUseAbility(mob) then
+                        qdCharges = qdCharges - 1
+                        mob:setLocalVar("qdCharges", qdCharges)
+                        mob:setLocalVar("globalJATimer", os.time() + 3)
+                        mob:useJobAbility(tpz.jobAbility.DARK_SHOT, target)
+                        return
+                    end
+                end
+            end
+        end
+    end
 end
 
--- TODO
---function onMobDisengage(mob, target)
-  --  printf("On disengage")
-    --mob:setLocalVar("shouldEvokers", 0)
---end
+function onMobDisengage(mob, target)
+    mob:setLocalVar("shouldEvokers", 0)
+end
 
 function onMobDespawn(mob)
     -- TODO tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DESPAWN)
