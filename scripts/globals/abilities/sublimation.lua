@@ -43,9 +43,11 @@ function onUseAbility(player, target, ability)
         ability:setMsg(tpz.msg.basic.JA_RECOVERS_MP)
     else
         local refresh = player:getStatusEffect(tpz.effect.REFRESH)
+        local sublimationRefresh = 2 + player:getMod(tpz.mod.SUBLIMATION_BONUS)
+
         if refresh == nil or refresh:getSubPower() < 3 then
             player:delStatusEffectSilent(tpz.effect.REFRESH)
-            player:addStatusEffect(tpz.effect.SUBLIMATION_ACTIVATED, 0, 3, 7200)
+            player:addStatusEffect(tpz.effect.SUBLIMATION_ACTIVATED, 0, 3, 7200, 0, sublimationRefresh, 0)
         else
             ability:setMsg(tpz.msg.basic.JA_NO_EFFECT_2)
         end
