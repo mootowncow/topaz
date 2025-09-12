@@ -118,7 +118,7 @@ function onMobFight(mob, target)
 
     -- Evoker's Roll var is active, so use it
     if mob:getLocalVar("shouldEvokers") > 0 then
-        mob:delStatusEffect(tpz.effect.BIND)
+        mob:delStatusEffectSilent(tpz.effect.BIND)
         mob:addStatusEffect(tpz.effect.BIND, 1, 0, 55)
         mob:setEffectUndispellable(tpz.effect.BIND)
         mob:setLocalVar("globalJATimer", os.time() + 3)
@@ -173,7 +173,13 @@ function onMobFight(mob, target)
                 end
             end
         else
-            if (os.time() > globalJATimer) then
+            local target = mob:getTarget()
+            local me = mob:getID()
+            if
+                (os.time() > globalJATimer) and
+                target and
+                (target:getTarget():getID() ~= me)
+            then
                 local nearbyFriendly = mob:getNearbyEntities(20)
                 if nearbyFriendly ~= nil then 
                     local friendlyCount = 0
@@ -204,6 +210,12 @@ function onMobFight(mob, target)
         end
     end
 end
+
+-- TODO
+--function onMobDisengage(mob, target)
+  --  printf("On disengage")
+    --mob:setLocalVar("shouldEvokers", 0)
+--end
 
 function onMobDespawn(mob)
     -- TODO tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DESPAWN)
