@@ -661,6 +661,13 @@ void CTrustEntity::OnDespawn(CDespawnState&)
     PAI->EventHandler.triggerListener("DESPAWN", this);
 }
 
+void CTrustEntity::OnDisengage(CAttackState& state)
+{
+    CBattleEntity::OnDisengage(state);
+
+    luautils::OnMobDisengage(this);
+}
+
 void CTrustEntity::OnCastFinished(CMagicState& state, action_t& action)
 {
     CBattleEntity::OnCastFinished(state, action);

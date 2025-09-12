@@ -3026,8 +3026,21 @@ namespace luautils
         uint8 weather = PMob->loc.zone->GetWeather();
 
         int8 File[255];
-        PMob->objtype == TYPE_PET ? snprintf((char*)File, sizeof(File), "scripts/globals/pets/%s.lua", static_cast<CPetEntity*>(PMob)->GetScriptName().c_str()) :
-            snprintf((char*)File, sizeof(File), "scripts/zones/%s/mobs/%s.lua", PMob->loc.zone->GetName(), PMob->GetName());
+        switch (PMob->objtype)
+        {
+            case TYPE_MOB:
+                snprintf((char*)File, sizeof(File), "scripts/zones/%s/mobs/%s.lua", PMob->loc.zone->GetName(), PMob->GetName());
+                break;
+            case TYPE_PET:
+                snprintf((char*)File, sizeof(File), "scripts/globals/pets/%s.lua", static_cast<CPetEntity*>(PMob)->GetScriptName().c_str());
+                break;
+            case TYPE_TRUST:
+                snprintf((char*)File, sizeof(File), "scripts/globals/spells/trust/%s.lua", PMob->GetName());
+                break;
+            default:
+                ShowWarning("OnMobDisengage (%d): unknown objtype\n", PMob->objtype);
+                return -1;
+        }
 
         if (prepFile(File, "onMobDisengage"))
         {
@@ -3041,7 +3054,7 @@ namespace luautils
 
         if (lua_pcall(LuaHandle, 2, 0, 0))
         {
-            ShowError("luautils::onMobDisengage: %s\n", lua_tostring(LuaHandle, -1));
+            ShowError("luautils::OnMobDisengage: %s\n", lua_tostring(LuaHandle, -1));
             lua_pop(LuaHandle, 1);
             return -1;
         }
@@ -3088,7 +3101,7 @@ namespace luautils
     *                                                                       *
     ************************************************************************/
 
-int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
+    int32 OnMobFight(CBaseEntity* PMob, CBaseEntity* PTarget)
     {
         TracyZoneScoped;
         TPZ_DEBUG_BREAK_IF(PMob == nullptr);

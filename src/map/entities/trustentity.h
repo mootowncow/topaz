@@ -45,6 +45,8 @@ public:
     void OnAbility(CAbilityState&, action_t&) override;
     void OnRangedAttack(CRangeState&, action_t&) override;
     bool ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) override;
+
+    virtual void OnDisengage(CAttackState&) override;
     void OnDespawn(CDespawnState&) override;
 
     virtual void Die() override;
