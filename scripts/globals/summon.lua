@@ -40,6 +40,8 @@ local bit = require("bit")
 function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, tpeffect, params)
     local returninfo = {}
 
+    skill:setMsg(tpz.msg.basic.USES_JA_TAKE_DAMAGE)
+
     local summoner = avatar:getMaster()
     local tp = avatar:getSpentTP()
 
