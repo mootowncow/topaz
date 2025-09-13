@@ -1746,7 +1746,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
                 uint16 PPetTarget = PAbility->getTarget()->targid;
 
-                if (PAbility->isPetAbility())
+                if (PAbility->isBloodPact())
                 {
                     float mpCost = PAbility->getMPCost();
 
@@ -1814,7 +1814,6 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                             mobSkillId = 2460;
                         }
                     }
-
                 }
                 else
                 {

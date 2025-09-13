@@ -64,7 +64,6 @@ bool CAbility::isMeleeAbility()
     return false;
 }
 
-
 bool CAbility::isPetAbility()
 {
     return getID() >= ABILITY_HEALING_RUBY;
@@ -95,7 +94,6 @@ bool CAbility::isBloodPact()
 
     return false;
 }
-
 
 bool CAbility::isReadyMove()
 {
