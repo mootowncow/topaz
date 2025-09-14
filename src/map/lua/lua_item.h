@@ -85,10 +85,20 @@ public:
     int32 setAppraisalID(lua_State*); // Set Appraisal ID
 
     int32 getMsg(lua_State*);   // get the item's msg
-    int32 setMsg(lua_State*); // set the item's msg
+    int32 setMsg(lua_State*);   // set the item's msg
 
-    int32 getParam(lua_State*);    // get the item's param (healing / MP restored)
-    int32 setParam(lua_State*); // set the item's parmam (healing / MP restored)
+    int32 getParam(lua_State*);  // get the item's param (healing / MP restored)
+    int32 setParam(lua_State*);  // set the item's parmam (healing / MP restored)
+
+    // === Food items ===
+    int32 getModUsable(lua_State*);
+    int32 setModUsable(lua_State*);
+
+    int32 getPower(lua_State*);
+    int32 setPower(lua_State*);
+
+    int32 getDuration(lua_State*);
+    int32 setDuration(lua_State*);
 };
 
 #endif

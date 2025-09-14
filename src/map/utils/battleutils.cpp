@@ -9726,4 +9726,27 @@ namespace battleutils
         // Return the corresponding element based on the index (adjusted to match ELEMENT values)
         return (ELEMENT)(strongestIndex + 1);  // +1 because ELEMENT_NONE is usually 0, and the others start from 1
     }
+
+    void HandleFoodEffects(CItemUsable* PItem, CBattleEntity* PTarget)
+    {
+        if (PItem->isType(ITEM_USABLE) && PItem->getMod(1) > 0)
+        {
+            CStatusEffect* foodEffect = new CStatusEffect(EFFECT_FOOD,          // effect ID
+                                                          EFFECT_FOOD,          // icon
+                                                          0,                    // power (not needed)
+                                                          0,                    // tick
+                                                          PItem->getDuration(), // duration
+                                                          PItem->getID()        // subID = the itemID
+            );
+
+            // Store the foods mods/powers inside the effect
+            for (uint8 i = 0; i < 10; ++i)
+            {
+                foodEffect->m_Mods[i] = PItem->getMod(i + 1);
+                foodEffect->m_Powers[i] = PItem->getPower(i + 1);
+            }
+
+            PTarget->StatusEffectContainer->AddStatusEffect(foodEffect);
+        }
+    }
 };

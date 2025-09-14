@@ -441,6 +441,103 @@ inline int32 CLuaItem::setParam(lua_State* L)
     }
 }
 
+inline int32 CLuaItem::getModUsable(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    auto PItem = (CItemUsable*)m_PLuaItem;
+
+    if (PItem)
+    {
+        uint8 index = (uint8)lua_tointeger(L, 1);
+        lua_pushinteger(L, PItem->getMod(index));
+        return 1;
+    }
+    return 0;
+}
+
+inline int32 CLuaItem::setModUsable(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
+
+    auto PItem = (CItemUsable*)m_PLuaItem;
+
+    if (PItem)
+    {
+        uint8 index = (uint8)lua_tointeger(L, 1);
+        int16 value = (int16)lua_tointeger(L, 2);
+        PItem->setMod(index, value);
+        return 0;
+    }
+    return 0;
+}
+
+inline int32 CLuaItem::getPower(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    auto PItem = (CItemUsable*)m_PLuaItem;
+
+    if (PItem)
+    {
+        uint8 index = (uint8)lua_tointeger(L, 1);
+        lua_pushinteger(L, PItem->getPower(index));
+        return 1;
+    }
+    return 0;
+}
+
+inline int32 CLuaItem::setPower(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
+
+    auto PItem = (CItemUsable*)m_PLuaItem;
+
+    if (PItem)
+    {
+        uint8 index = (uint8)lua_tointeger(L, 1);
+        int16 value = (int16)lua_tointeger(L, 2);
+        PItem->setPower(index, value);
+        return 0;
+    }
+    return 0;
+}
+
+inline int32 CLuaItem::getDuration(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
+
+    auto PItem = (CItemUsable*)m_PLuaItem;
+
+    if (PItem)
+    {
+        lua_pushinteger(L, PItem->getDuration());
+        return 1;
+    }
+    return 0;
+}
+
+inline int32 CLuaItem::setDuration(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    auto PItem = (CItemUsable*)m_PLuaItem;
+
+    if (PItem)
+    {
+        PItem->setDuration((uint16)lua_tointeger(L, 1));
+        return 0;
+    }
+    return 0;
+}
+
 //==========================================================//
 
 const char CLuaItem::className[] = "CItem";
@@ -479,5 +576,11 @@ Lunar<CLuaItem>::Register_t CLuaItem::methods[] =
     LUNAR_DECLARE_METHOD(CLuaItem,setMsg),
     LUNAR_DECLARE_METHOD(CLuaItem,getParam),
     LUNAR_DECLARE_METHOD(CLuaItem,setParam),
+    LUNAR_DECLARE_METHOD(CLuaItem,getModUsable),
+    LUNAR_DECLARE_METHOD(CLuaItem,setModUsable),
+    LUNAR_DECLARE_METHOD(CLuaItem,getPower),
+    LUNAR_DECLARE_METHOD(CLuaItem,setPower),
+    LUNAR_DECLARE_METHOD(CLuaItem,getDuration),
+    LUNAR_DECLARE_METHOD(CLuaItem,setDuration),
     {nullptr,nullptr}
 };

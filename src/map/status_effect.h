@@ -837,6 +837,10 @@ public:
 
    ~CStatusEffect();
 
+   // Food mod / powers
+   std::array<int16, 10> m_Mods{};
+   std::array<int16, 10> m_Powers{};
+
 private:
 
     CBattleEntity* m_POwner {nullptr};            // владелец

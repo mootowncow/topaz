@@ -1680,7 +1680,7 @@ void CMobEntity::OnItemFinish(CItemState& state, action_t& action)
     if (PItem->getAoE())
     {
         PTarget->ForParty(
-            [PItem, PTarget](CBattleEntity* PMember)
+            [this, PItem, PTarget](CBattleEntity* PMember)
             {
                 if (!PMember->isDead() && distance(PTarget->loc.p, PMember->loc.p) <= 10)
                 {
@@ -1691,6 +1691,8 @@ void CMobEntity::OnItemFinish(CItemState& state, action_t& action)
                     {
                         PTarget->StatusEffectContainer->DelStatusEffectSilent(EFFECT_INVISIBLE);
                     }
+
+                    battleutils::HandleFoodEffects(PItem, PTarget);
                 }
             });
         float radius = 10.0f;
@@ -1811,6 +1813,8 @@ void CMobEntity::OnItemFinish(CItemState& state, action_t& action)
                 actionTarget.param = 0;
             }
         }
+
+        battleutils::HandleFoodEffects(PItem, PTarget);
     }
 }
 

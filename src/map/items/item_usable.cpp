@@ -40,6 +40,15 @@ CItemUsable::CItemUsable(uint16 id) : CItem(id)
     m_AssignTime     = 0;
     m_AoE            = 0;
     m_Message        = 0;
+
+    // Food-specific fields
+    m_Mod1 = m_Mod2 = m_Mod3 = m_Mod4 = m_Mod5 = 0;
+    m_Mod6 = m_Mod7 = m_Mod8 = m_Mod9 = m_Mod10 = 0;
+
+    m_Power1 = m_Power2 = m_Power3 = m_Power4 = m_Power5 = 0;
+    m_Power6 = m_Power7 = m_Power8 = m_Power9 = m_Power10 = 0;
+
+    m_Duration = 0;
 }
 
 CItemUsable::~CItemUsable()
@@ -169,6 +178,88 @@ uint16 CItemUsable::getParam()
 void CItemUsable::setParam(uint16 param)
 {
     m_Param = param;
+}
+
+// === Food items ===
+
+uint16 CItemUsable::getMod(uint8 index) const
+{
+    switch(index)
+    {
+        case 1: return m_Mod1;
+        case 2: return m_Mod2;
+        case 3: return m_Mod3;
+        case 4: return m_Mod4;
+        case 5: return m_Mod5;
+        case 6: return m_Mod6;
+        case 7: return m_Mod7;
+        case 8: return m_Mod8;
+        case 9: return m_Mod9;
+        case 10: return m_Mod10;
+        default: return 0;
+    }
+}
+
+uint16 CItemUsable::getPower(uint8 index) const
+{
+    switch(index)
+    {
+        case 1: return m_Power1;
+        case 2: return m_Power2;
+        case 3: return m_Power3;
+        case 4: return m_Power4;
+        case 5: return m_Power5;
+        case 6: return m_Power6;
+        case 7: return m_Power7;
+        case 8: return m_Power8;
+        case 9: return m_Power9;
+        case 10: return m_Power10;
+        default: return 0;
+    }
+}
+
+uint16 CItemUsable::getDuration() const
+{
+    return m_Duration;
+}
+
+void CItemUsable::setMod(uint8 index, int16 value)
+{
+    switch(index)
+    {
+        case 1: m_Mod1 = value; break;
+        case 2: m_Mod2 = value; break;
+        case 3: m_Mod3 = value; break;
+        case 4: m_Mod4 = value; break;
+        case 5: m_Mod5 = value; break;
+        case 6: m_Mod6 = value; break;
+        case 7: m_Mod7 = value; break;
+        case 8: m_Mod8 = value; break;
+        case 9: m_Mod9 = value; break;
+        case 10: m_Mod10 = value; break;
+    }
+}
+
+void CItemUsable::setPower(uint8 index, int16 value)
+{
+    switch(index)
+    {
+        case 1: m_Power1 = value; break;
+        case 2: m_Power2 = value; break;
+        case 3: m_Power3 = value; break;
+        case 4: m_Power4 = value; break;
+        case 5: m_Power5 = value; break;
+        case 6: m_Power6 = value; break;
+        case 7: m_Power7 = value; break;
+        case 8: m_Power8 = value; break;
+        case 9: m_Power9 = value; break;
+        case 10: m_Power10 = value; break;
+    }
+}
+
+void CItemUsable::setDuration(uint16 duration)
+{
+    m_Duration = duration;
 }
 
 /************************************************************************

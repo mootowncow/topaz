@@ -47,6 +47,9 @@ public:
     uint16  getAoE();
     uint16  getMsg();
     uint16  getParam();
+    uint16  getMod(uint8 index) const;
+    uint16  getPower(uint8 index) const;
+    uint16  getDuration() const;
 
 	void	setUseDelay(uint8 UseDelay);
 	void	setCurrentCharges(uint8 CurrCharges);
@@ -61,6 +64,9 @@ public:
 	void    setAoE(uint16 AoE);
     void    setMsg(uint16 msg);
     void    setParam(uint16 param);
+    void    setMod(uint8 index, int16 value);
+    void    setPower(uint8 index, int16 value);
+    void    setDuration(uint16 duration);
 
 private:
 
@@ -75,6 +81,31 @@ private:
     uint16  m_AoE;
     uint16  m_Message;          // Message param in packet (Recovers X HP etc)
     uint16  m_Param;            // Amount displayed in message (Player recovers 50 HP etc)
+
+    // === Food items ===
+    int16 m_Mod1;
+    int16 m_Mod2;
+    int16 m_Mod3;
+    int16 m_Mod4;
+    int16 m_Mod5;
+    int16 m_Mod6;
+    int16 m_Mod7;
+    int16 m_Mod8;
+    int16 m_Mod9;
+    int16 m_Mod10;
+
+    int16 m_Power1;
+    int16 m_Power2;
+    int16 m_Power3;
+    int16 m_Power4;
+    int16 m_Power5;
+    int16 m_Power6;
+    int16 m_Power7;
+    int16 m_Power8;
+    int16 m_Power9;
+    int16 m_Power10;
+
+    uint16 m_Duration;
 };
 
 #endif

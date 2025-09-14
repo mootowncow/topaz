@@ -2562,17 +2562,20 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
     PAI->TargetFind->reset();
     if (PItem->getAoE())
     {
-        PTarget->ForParty([PItem, PTarget](CBattleEntity* PMember)
+        PTarget->ForParty([this, PItem, PTarget](CBattleEntity* PMember)
         {
             if (!PMember->isDead() && distance(PTarget->loc.p, PMember->loc.p) <= 10)
             {
                 luautils::OnItemUse(PMember, PItem);
                 battleutils::GenerateInRangeEnmity(PTarget, 0, 640);
+
                 // Prism and Rainbow powders
                 if (PItem->getID() != 4164 && PItem->getID() != 5362)
                 {
                     PTarget->StatusEffectContainer->DelStatusEffectSilent(EFFECT_INVISIBLE);
                 }
+
+                battleutils::HandleFoodEffects(PItem, PTarget);
             }
         });
         float radius = 10.0f;
@@ -2695,6 +2698,8 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
                 actionTarget.param = 0;
             }
         }
+
+        battleutils::HandleFoodEffects(PItem, PTarget);
     }
 
     if (PItem->isType(ITEM_EQUIPMENT))

@@ -347,6 +347,8 @@ namespace battleutils
     bool                IsTopEnmity(CBattleEntity* PAttacker, CBattleEntity* PDefender);
     ELEMENT             GetTargetWeakness(CBattleEntity* PEntity, bool excludeLightDark = false);
 
+    void                HandleFoodEffects(CItemUsable* PItem, CBattleEntity* PTarget);
+
 };
 
 #endif

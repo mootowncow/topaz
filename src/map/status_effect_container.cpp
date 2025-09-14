@@ -493,6 +493,25 @@ bool CStatusEffectContainer::AddStatusEffect(CStatusEffect* PStatusEffect, bool 
         m_StatusEffectSet.insert(PStatusEffect);
 
         luautils::OnEffectGain(m_POwner, PStatusEffect);
+
+        if (PStatusEffect->GetStatusID() == EFFECT_FOOD)
+        {
+            uint32 itemid = PStatusEffect->GetSubID();
+            CItemUsable* PItem = dynamic_cast<CItemUsable*>(itemutils::GetItem(itemid));
+            if (PItem && PItem->getMod(1) > 0 && PItem->getPower(1) > 0)
+            {
+                for (uint8 i = 0; i < 10; ++i)
+                {
+                    int16 mod = PItem->getMod(i + 1);
+                    int16 power = PItem->getPower(i + 1);
+                    if (mod != 0 && power != 0)
+                    {
+                        PStatusEffect->modList.push_back({ static_cast<Mod>(mod), power });
+                    }
+                }
+            }
+        }
+
         if (m_POwner->objtype == TYPE_PC)
         {
             CCharEntity* PChar = (CCharEntity*)m_POwner;
@@ -611,7 +630,15 @@ void CStatusEffectContainer::RemoveStatusEffect(CStatusEffect* PStatusEffect, bo
     }
 
     PStatusEffect->deleted = true;
+
+    // Lua callback
     luautils::OnEffectLose(m_POwner, PStatusEffect);
+
+    // Handle Food
+    for (auto& mod : PStatusEffect->modList)
+    {
+        m_POwner->delModifier(mod.getModID(), mod.getModAmount());
+    }
 
     // If player: rebuild skill tables and push ability packet
     if (m_POwner->objtype == TYPE_PC)
@@ -624,9 +651,6 @@ void CStatusEffectContainer::RemoveStatusEffect(CStatusEffect* PStatusEffect, bo
 
     // Event listeners
     m_POwner->PAI->EventHandler.triggerListener("EFFECT_LOSE", m_POwner, PStatusEffect);
-
-    // Remove mod list
-    m_POwner->delModifiers(&PStatusEffect->modList);
 
     // Mark for update
     m_POwner->extDataUpdateFlag = true;
