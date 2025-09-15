@@ -1675,7 +1675,7 @@ INSERT INTO `mob_spawn_points` VALUES (16809996,'Shikaree_Y','Shikaree Y',2,479.
 INSERT INTO `mob_spawn_points` VALUES (16809997,'Shikaree_X','Shikaree X',3,472.013,2.970,613.136,64);
 INSERT INTO `mob_spawn_points` VALUES (16809998,'Shikaree_Zs_Wyvern','Shikaree Z\'s Wyvern',4,475.306,3.639,610.579,64);
 INSERT INTO `mob_spawn_points` VALUES (16809999,'Shikaree_Xs_Rabbit','Shikaree X\'s Rabbit',5,472.013,2.97,614.136,64);
-INSERT INTO `mob_spawn_points` VALUES (16810001,'Tuchulcha','Tuchulcha',6,-610.888,0.546,-490,171);
+INSERT INTO `mob_spawn_points` VALUES (16810001,'Tuchulcha','Tuchulcha',6,-604.10,-0.47,-487.19,171);
 INSERT INTO `mob_spawn_points` VALUES (16810002,'Swift_Hunter','Swift Hunter',7,-545,0.749,-416,64);
 INSERT INTO `mob_spawn_points` VALUES (16810003,'Shrewd_Hunter','Shrewd Hunter',8,-517,-0.5,-518,46);
 INSERT INTO `mob_spawn_points` VALUES (16810004,'Armored_Hunter','Armored Hunter',9,-536.364,-0.5,-458,175);
@@ -38849,7 +38849,7 @@ INSERT INTO `mob_spawn_points` VALUES (17277122,'Infernal_Weapon','Infernal Weap
 INSERT INTO `mob_spawn_points` VALUES (17277123,'Darksteel_Golem','Darksteel Golem',14,148.304,3.499,91.240,127);
 INSERT INTO `mob_spawn_points` VALUES (17277124,'Apocalyptic_Weapon','Apocalyptic Weapon',10,177.221,3.234,75.166,127);
 INSERT INTO `mob_spawn_points` VALUES (17277125,'Darksteel_Golem','Darksteel Golem',14,164.194,3.5,74.653,66);
-INSERT INTO `mob_spawn_points` VALUES (17277126,'Eldhrimnir','Eldhrimnir',17,200.3,-11,-24.8,105);
+INSERT INTO `mob_spawn_points` VALUES (17277126,'Eldhrimnir','Eldhrimnir',17,193.03,-8,-23.62,34);
 INSERT INTO `mob_spawn_points` VALUES (17277127,'Shikigami_Weapon','Shikigami Weapon',18,-40,-4,-36,127);
 INSERT INTO `mob_spawn_points` VALUES (17277128,'Jackpot','Jackpot',19,0,0,0,0);
 --INSERT INTO `mob_spawn_points` VALUES (17277129,'Steely_Weapon','Steely Weapon',23,5.469,-8.5,131.296,183);
