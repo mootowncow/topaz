@@ -62,12 +62,25 @@ function onMobFight(mob, target)
             local pos_index = tuchulcha:getLocalVar("sand_pit" .. tuchulcha:getLocalVar('Sandpits'))
             local coords = ID.sheepInAntlionsClothing[tuchulcha:getBattlefield():getArea()].ant_positions[pos_index]
             tuchulcha:setPos(coords)
+            local nearbyEnemies = tuchulcha:getNearbyEntities(200)
+            if (nearbyEnemies ~= nil) then 
+                for _, enemy in pairs(nearbyEnemies) do
+                    if
+                        not enemy:isNPC()
+                        and (enemy:getAllegiance() ~= tuchulcha:getAllegiance()) and
+                        (enemy:getID() ~= tuchulcha:getID())
+                    then
+                        enemy:disengage()
+                        if enemy:hasPet() then
+                            enemy:petRetreat()
+                        end
+                    end
+                end
+            end
+
+            -- Message players ONLY
             for _, char in pairs(tuchulcha:getBattlefield():getPlayers()) do
                 char:messageSpecial(ID.text.RETREATS_SOIL)
-                char:disengage()
-                if char:hasPet() then
-                    char:petRetreat()
-                end
             end
         end)
     end
