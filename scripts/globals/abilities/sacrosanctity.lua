@@ -15,5 +15,6 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    -- TODO: JP
     player:addStatusEffect(tpz.effect.SACROSANCTITY, 1, 0, 300)
 end

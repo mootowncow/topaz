@@ -453,9 +453,11 @@ end
 
 function handleDivineCaress(caster, target, effect)
     local amountBlocked = 1 + caster:getMod(tpz.mod.ENH_DIVINE_CARESS)
+    local jpBonus = caster:getJobPointLevel(tpz.jp.DIVINE_CARESS_DURATION) * 2
+    local duration = 180 + jpBonus
 
     if caster:hasStatusEffect(tpz.effect.DIVINE_CARESS_I) then
-        target:addStatusEffect(tpz.effect.DIVINE_CARESS_II, effect, 0, 180, 0, amountBlocked, 0)
+        target:addStatusEffect(tpz.effect.DIVINE_CARESS_II, effect, 0, duration, 0, amountBlocked, 0)
         caster:delStatusEffectSilent(tpz.effect.DIVINE_CARESS_I)
     end
 end

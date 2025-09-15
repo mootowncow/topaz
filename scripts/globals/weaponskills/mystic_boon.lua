@@ -22,13 +22,13 @@ require("scripts/globals/magic")
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local params = {}
     params.numHits = 1
-    params.ftp100 = 1 params.ftp200 = 1.5 params.ftp300 = 2
+    params.ftp100 = 1 params.ftp200 = 1.0 params.ftp300 = 1.0
     params.str_wsc = 0.3 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0
-    params.mnd_wsc = 0.5 params.chr_wsc = 0.0
+    params.mnd_wsc = 0.3 params.chr_wsc = 0.0
     params.crit100 = 0.0 params.crit200 = 0.0 params.crit300 = 0.0
     params.canCrit = false
     params.acc100 = 0.0 params.acc200 = 0.0 params.acc300 = 0.0
-    params.atk100 = 2; params.atk200 = 2; params.atk300 = 2
+    params.atk100 = 1.5; params.atk200 = 1.75; params.atk300 = 2
 
     if USE_ADOULIN_WEAPON_SKILL_CHANGES then
         params.ftp100 = 2.5 params.ftp200 = 4 params.ftp300 = 7
@@ -43,7 +43,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
 
     local party = player:getParty()
-    local healAmount = math.floor(damage / 2)
+    local healAmount = damage
     local MND = player:getStat(tpz.mod.MND)
     local stoneskinAmount = 250 + MND
 
