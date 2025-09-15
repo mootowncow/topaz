@@ -52,7 +52,6 @@ public:
     bool CanGainStatusEffect(CStatusEffect* PStatusEffect); // returns true if the status effect will take effect
     bool AddStatusEffect(CStatusEffect* StatusEffect, bool silent = false);
     bool DelStatusEffect(EFFECT StatusID);
-    bool DelStatusEffectBySource(EFFECT StatusID, EffectSourceType EffectSourceType, uint16 SourceTypeParam);
     bool DelStatusEffectSilent(EFFECT StatusID);
     bool DelStatusEffect(EFFECT StatusID, uint16 SubID);
     void DelStatusEffectsByFlag(uint32 flag, bool silent = false);                   // удаляем все эффекты с указанным типом
@@ -76,15 +75,6 @@ public:
 
     CStatusEffect* GetStatusEffect(EFFECT StatusID);
     CStatusEffect* GetStatusEffect(EFFECT StatusID, uint32 SubID);
-    CStatusEffect* GetStatusEffectBySource(EFFECT StatusID, EffectSourceType Sourcetype, uint16 SourceTypeParam); // TODO
-
-    std::vector<EFFECT> GetStatusEffectsInIDRange(EFFECT start, EFFECT end);
-
-    uint8 GetStatusEffectCountInIDRange(EFFECT start, EFFECT end);
-    EFFECT GetNewestStatusEffectInIDRange(EFFECT start, EFFECT end);
-    void RemoveOldestStatusEffectInIDRange(EFFECT start, EFFECT end);
-    void RemoveNewestStatusEffectInIDRange(EFFECT start, EFFECT end);
-    void RemoveAllStatusEffectsInIDRange(EFFECT start, EFFECT end);
 
     void UpdateStatusIcons();                                   // пересчитываем иконки эффектов
     void CheckEffectsExpiry(time_point tick);
@@ -109,15 +99,6 @@ public:
     uint8 GetActiveManeuvers();
     void RemoveOldestManeuver();
     void RemoveAllManeuvers();
-
-    std::vector<EFFECT> GetAllRuneEffects();
-
-    uint8 GetActiveRuneCount();
-    EFFECT GetHighestRuneEffect();
-    EFFECT GetNewestRuneEffect();
-    void RemoveOldestRune();
-    void RemoveNewestRune();
-    void RemoveAllRunes();
 
     void WakeUp(); // remove sleep effects
     bool IsAsleep();

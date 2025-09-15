@@ -26,19 +26,8 @@
 #include "status_effect_container.h"
 
 
-CStatusEffect::CStatusEffect(EFFECT id, uint16 icon, uint16 power, uint32 tick, uint32 duration, uint32 subid, uint32 subPower, uint16 tier, uint32 flags, uint16 sourceType, uint32 sourceTypeParam, uint32 originID) :
-    m_StatusID(id),
-    m_SubID(subid),
-    m_Icon(icon),
-    m_Power(power),
-    m_SubPower(subPower),
-    m_Tier(tier),
-    m_Flag(flags),
-    m_OriginID(originID),
-    m_SourceType(sourceType),
-    m_SourceTypeParam(sourceTypeParam),
-    m_TickTime(tick * 1000),
-    m_Duration(duration * 1000)
+CStatusEffect::CStatusEffect(EFFECT id, uint16 icon, uint16 power, uint32 tick, uint32 duration, uint32 subid, uint32 subPower, uint16 tier, uint32 flags) :
+    m_StatusID(id), m_SubID(subid), m_Icon(icon), m_Power(power), m_SubPower(subPower), m_Tier(tier), m_Flag(flags), m_TickTime(tick * 1000), m_Duration(duration * 1000)
 {
     if (m_TickTime < 3000 && m_TickTime != 0)
     {
@@ -73,21 +62,6 @@ CBattleEntity* CStatusEffect::GetOwner()
 uint32 CStatusEffect::GetSubID()
 {
 	return m_SubID;
-}
-
-auto CStatusEffect::GetSourceType() const -> uint16
-{
-    return m_SourceType;
-}
-
-auto CStatusEffect::GetSourceTypeParam() const -> uint32
-{
-    return m_SourceTypeParam;
-}
-
-auto CStatusEffect::GetOriginID() const -> uint32
-{
-    return m_OriginID;
 }
 
 uint16 CStatusEffect::GetType()
@@ -173,17 +147,6 @@ void CStatusEffect::SetIcon(uint16 Icon)
 
 	m_Icon = Icon;
     m_POwner->StatusEffectContainer->UpdateStatusIcons();
-}
-
-auto CStatusEffect::SetSource(uint16 sourceType, uint32 sourceTypeParam) -> void
-{
-    m_SourceType = sourceType;
-    m_SourceTypeParam = sourceTypeParam;
-}
-
-auto CStatusEffect::SetOriginID(uint32 originID) -> void
-{
-    m_OriginID = originID;
 }
 
 void CStatusEffect::SetType(uint16 Type)
