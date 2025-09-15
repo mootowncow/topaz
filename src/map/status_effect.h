@@ -747,13 +747,25 @@ enum EFFECT
 #define MAX_EFFECTID    9999  // 768 real + 32 custom
 
 /************************************************************************
-*                                                                       *
-*  Нерешенные задачи:                                                   *
-*                                                                       *
-*  - сохранение ID сущности, добавившей эффект                          *
-*  - обновление эффекта (например перезапись protect 1 на protect 2)    *
-*                                                                       *
-************************************************************************/
+ *                                                                       *
+ *  Unsolved problems:                                                   *
+ *                                                                       *
+ *  - saving the ID of the entity that added the effect                  *
+ *  - updating the effect (e.g., rewriting Protect I to Protect II)      *
+ *                                                                       *
+ ************************************************************************/
+
+class CBattleEntity;
+
+enum EffectSourceType : uint8_t
+{
+    SOURCE_NONE           = 0,
+    SOURCE_EQUIPPED_ITEM  = 1,
+    SOURCE_TEMPORARY_ITEM = 2,
+    SOURCE_MOB            = 3,
+    SOURCE_FOOD           = 4,
+    SOURCE_CORSAIR_ROLL   = 5,
+};
 
 class CBattleEntity;
 
@@ -763,6 +775,9 @@ public:
 
     EFFECT  GetStatusID();
     uint32  GetSubID();
+    auto    GetSourceType() const -> uint16;
+    auto    GetSourceTypeParam() const -> uint32;
+    auto    GetOriginID() const -> uint32;
     uint16  GetIcon();
     uint16  GetPower();
     uint32  GetSubPower();
@@ -783,12 +798,14 @@ public:
     void    SetType(uint16 Type);
     void    SetSlot(uint8 Slot);
     void    SetIcon(uint16 Icon);
+    auto    SetSource(uint16 sourceType, uint32 sourceTypeParam) -> void;
     void    SetPower(uint16 Power);
     void    SetSubPower(uint32 subPower);
     void    SetTier(uint16 tier);
     void    SetDuration(uint32 Duration);
     void    SetOwner(CBattleEntity* Owner);
     void    SetTickTime(uint32 tick);
+    auto    SetOriginID(uint32 originID) -> void;
 
     void    IncrementElapsedTickCount();
     void    SetStartTime(time_point StartTime);
@@ -813,7 +830,10 @@ public:
          uint32 subid = 0,
          uint32 subPower = 0,
          uint16 tier = 0,
-         uint32 flags = 0);
+         uint32 flags = 0,
+         uint16 sourceType = EffectSourceType::SOURCE_NONE,
+         uint32 sourceTypeParam = 0,
+         uint32 originID = 0);
 
    ~CStatusEffect();
 
@@ -832,15 +852,18 @@ private:
     uint32      m_SubPower {0};             // Secondary power of the effect
     uint16      m_Tier {0};                 // Tier of the effect
     uint32      m_Flag {0};                 // флаг эффекта (условия его исчезновения)
+    uint32      m_OriginID{ 0 };            // The effect's origin ID. (This is usually the ID of the entity that created the effect)
+    uint16      m_SourceType{ 0 };          // The effect's source type
+    uint32      m_SourceTypeParam{ 0 };     // The effect's source ID
     uint16      m_Type {0};                 // used to enforce only one
     uint8       m_Slot {0};                 // used to determine slot order for songs/rolls
 
     uint32      m_TickTime {0};             // время повторения эффекта (млс)
     uint32      m_Duration {0};             // продолжительность эффекта (млс)
-    time_point  m_StartTime;            // время получения эффекта (млс)
-    int         m_tickCount {0};             // премя последнего выполнения эффекта (млс)
+    time_point  m_StartTime;                // время получения эффекта (млс)
+    int         m_tickCount {0};            // премя последнего выполнения эффекта (млс)
 
-    string_t    m_Name;                 // имя эффекта для скриптов
+    string_t    m_Name;                     // имя эффекта для скриптов
 };
 
 #endif
