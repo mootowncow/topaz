@@ -21,6 +21,5 @@ function onUseAbility(player, target, ability)
 	local finalDuration = duration + gearbonus
 
 	target:addStatusEffect(tpz.effect.QUICKENING, 20, 0, finalDuration)
-    target:addStatusEffect(tpz.effect.HASTE, 1465, 0, finalDuration)
 end
 
