@@ -50,21 +50,25 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     stoneskinAmount = utils.ApplyStoneskinBonuses(player, stoneskinAmount)
 
     local NearbyEntities = player:getNearbyEntities(10)
-    if NearbyEntities == nil then return end
     if NearbyEntities then
-        for _,entity in pairs(NearbyEntities) do
-            if entity:isAlive() then
-                if (entity:getAllegiance() == player:getAllegiance()) then
-                    entity:addHP(healAmount)
-                    player:updateEnmityFromCure(entity, healAmount)
-                    entity:removeAllNegativeEffects()
-                    utils.ShouldRemoveStoneskin(entity, stoneskinAmount)
-                    entity:addStatusEffect(tpz.effect.STONESKIN, stoneskinAmount, 0, 60)
-                    if canOverwrite(entity, 25, tpz.effect.MAGIC_DEF_BOOST) then
-                        entity:addStatusEffect(tpz.effect.MAGIC_DEF_BOOST, 25, 0, 60)
-                    end
+        local totalHealed = 0
+
+        for _, entity in pairs(NearbyEntities) do
+            if entity:isAlive() and (entity:getAllegiance() == player:getAllegiance()) then
+                local healed = entity:addHP(healAmount)
+                totalHealed = totalHealed + healed
+
+                entity:removeAllNegativeEffects()
+                utils.ShouldRemoveStoneskin(entity, stoneskinAmount)
+                entity:addStatusEffect(tpz.effect.STONESKIN, stoneskinAmount, 0, 60)
+                if canOverwrite(entity, 25, tpz.effect.MAGIC_DEF_BOOST) then
+                    entity:addStatusEffect(tpz.effect.MAGIC_DEF_BOOST, 25, 0, 60)
                 end
             end
+        end
+
+        if totalHealed > 0 then
+            player:updateEnmityFromCure(player, totalHealed)
         end
     end
 
