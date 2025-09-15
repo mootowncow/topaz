@@ -115,6 +115,7 @@ local loot =
             { itemid = 4213, droprate = 250 },
         },
         {
+            { itemid =     0, droprate =  950}, -- nothing
             { itemid = 685, droprate = 50 }, -- Khroma ore
         },
         {
