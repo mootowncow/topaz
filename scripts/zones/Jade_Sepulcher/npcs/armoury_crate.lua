@@ -85,7 +85,6 @@ local loot =
             { itemid = 883, droprate = 125 },
             { itemid = 1656, droprate = 125 },
             { itemid = 903, droprate = 125 },
-            { itemid = 685, droprate = 125 },
             { itemid = 2228, droprate = 125 },
             { itemid = 2146, droprate = 125 },
             { itemid = 1886, droprate = 125 },
@@ -94,7 +93,6 @@ local loot =
             { itemid = 883, droprate = 125 },
             { itemid = 1656, droprate = 125 },
             { itemid = 903, droprate = 125 },
-            { itemid = 685, droprate = 125 },
             { itemid = 2228, droprate = 125 },
             { itemid = 2146, droprate = 125 },
             { itemid = 1886, droprate = 125 },
@@ -115,6 +113,9 @@ local loot =
             { itemid = 4209, droprate = 250 },
             { itemid = 4211, droprate = 250 },
             { itemid = 4213, droprate = 250 },
+        },
+        {
+            { itemid = 685, droprate = 50 }, -- Khroma ore
         },
         {
             { itemid = 2148, droprate = 1000 },
