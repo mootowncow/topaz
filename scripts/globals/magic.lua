@@ -1035,6 +1035,7 @@ end
 
 function getEffectResistanceTraitChance(caster, target, effect)
     local effectres = 0
+    local ret = 0
     if (effect == tpz.effect.SLEEP_I or effect == tpz.effect.SLEEP_II or effect == tpz.effect.LULLABY) then
         effectres = tpz.mod.SLEEPRESTRAIT
     elseif (effect == tpz.effect.POISON) then
@@ -1068,27 +1069,27 @@ function getEffectResistanceTraitChance(caster, target, effect)
     elseif (effect == tpz.effect.KO) then
         effectres = tpz.mod.DEATHRESTRAIT
     end
-    
-    if (effectres ~= 0) then
-        local ret = target:getMod(effectres)
-        -- All resist does not work on Terror or Death
-        if (effect ~= tpz.effect.KO and effect ~= tpz.effect.TERROR) then
-            ret = ret + target:getMod(tpz.mod.STATUSRESTRAIT) 
-        end
 
-        -- Caps at 90%
-        -- https://www.bg-wiki.com/ffxi/Resist#Status_Effect_Resistance_via_Bard_Songs_and_Barpell_Resist
-        ret = utils.clamp(ret, 0, 90)
 
-        -- Player resistance traits are halved vs NM's
-        if (target:isPC() and caster:isNM()) then
-            ret = math.floor(ret/2)
-        end
+    ret = ret + target:getMod(effectres)
 
-        return ret/100
+    -- All status resist (Does not work on Terror or Death)
+    if (effect ~= tpz.effect.KO) and (effect ~= tpz.effect.TERROR) then
+        ret = ret + target:getMod(tpz.mod.STATUSRESTRAIT) 
     end
 
-    return 0
+    -- Caps at 90%
+    -- https://www.bg-wiki.com/ffxi/Resist#Status_Effect_Resistance_via_Bard_Songs_and_Barpell_Resist
+    ret = utils.clamp(ret, 0, 90)
+
+    -- Player resistance traits are halved vs NM's
+    if (target:isPC() and caster:isNM()) then
+        ret = math.floor(ret/2)
+    end
+
+    ret = ret/100
+
+    return ret
 end
 
 -- Returns the amount of resistance the

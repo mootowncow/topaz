@@ -29,7 +29,7 @@ CREATE TABLE `food_mods` (
     PRIMARY KEY (`itemid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 PACK_KEYS=1 CHECKSUM=1;
 
-INSERT INTO `food_mods` VALUES (5677,'serving_of_patriarch_saute',5,8,13,374,27,71,0,0,0,0,15,-1,2,7,-2,2,0,0,0,0,10800);
+INSERT INTO `food_mods` VALUES (4419,'mushroom_soup',5,8,13,374,27,71,0,0,0,0,15,-1,2,7,-2,2,0,0,0,0,10800);
 
 -- Template
 -- INSERT INTO `food_mods` VALUES (5677,'serving_of_patriarch_saute',mod,0,0,0,0,0,0,0,0,0,power,0,0,0,0,0,0,0,0,0,duration);

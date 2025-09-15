@@ -822,6 +822,7 @@ namespace battleutils
     int16 GetEffectResistanceTraitChance(CBattleEntity* PAttacker, CBattleEntity* PDefender, EFFECT effect)
     {
         Mod effectres = Mod::NONE;
+        int16 ret = 0;
 
         // Determine the Mod based on the EFFECT
         switch (effect)
@@ -884,39 +885,35 @@ namespace battleutils
                 return 0; // No res trait applicable
         }
 
-        if (effectres != Mod::NONE)
+        ret += PDefender->getMod(effectres);
+
+        // All resist does not work on Terror or Death
+        if (effect != EFFECT_KO && effect != EFFECT_TERROR)
         {
-            int16 ret = PDefender->getMod(effectres);
-
-            // All resist does not work on Terror or Death
-            if (effect != EFFECT_KO && effect != EFFECT_TERROR)
-            {
-                ret += PDefender->getMod(Mod::STATUSRESTRAIT);
-            }
-
-            // Caps at 90%
-            ret = static_cast<int16>(std::clamp<int>(ret, 0, 90));
-
-            // Player resistance traits are halved vs NM's
-            if (PAttacker->objtype == TYPE_MOB)
-            {
-                CMobEntity* PMob = (CMobEntity*)PAttacker;
-                if (PMob)
-                {
-                    bool isNM = PMob->m_Type & MOBTYPE_NOTORIOUS || PMob->m_Type & MOBTYPE_BATTLEFIELD || PMob->m_Type & MOBTYPE_QUEST ||
-                                PMob->getMobMod(MOBMOD_CHECK_AS_NM) > 0;
-                    if (PDefender->objtype == TYPE_PC && isNM)
-                    {
-                        ret = static_cast<int>(std::floor(ret / 2));
-                    }
-                }
-            }
-
-            //printf("Resist trait chance %d\n", ret);
-            return ret;
+            ret += PDefender->getMod(Mod::STATUSRESTRAIT);
         }
 
-        return 0;
+        // Caps at 90%
+        ret = static_cast<int16>(std::clamp<int>(ret, 0, 90));
+
+        // Player resistance traits are halved vs NM's
+        if (PAttacker->objtype == TYPE_MOB)
+        {
+            CMobEntity* PMob = (CMobEntity*)PAttacker;
+            if (PMob)
+            {
+                bool isNM = PMob->m_Type & MOBTYPE_NOTORIOUS || PMob->m_Type & MOBTYPE_BATTLEFIELD || PMob->m_Type & MOBTYPE_QUEST ||
+                            PMob->getMobMod(MOBMOD_CHECK_AS_NM) > 0;
+                if (PDefender->objtype == TYPE_PC && isNM)
+                {
+                    ret = static_cast<int>(std::floor(ret / 2));
+                }
+            }
+        }
+
+        //printf("Resist trait chance %d\n", ret);
+
+        return ret;
     }
 
     bool CanUseWeaponskill(CCharEntity* PChar, CWeaponSkill* PSkill)
