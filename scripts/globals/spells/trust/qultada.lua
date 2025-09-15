@@ -110,7 +110,7 @@ function onMobFight(mob, target)
                 local effect = mob:getStatusEffect(rolls.RollId)
                 -- Make sure roll was casted by us
                 if (effect:getSubType() == mob:getID()) then
-                    if effect:getSubPower() == rolls.Lucky then
+                    if (effect:getSubPower() == rolls.Lucky) then
                         lucky = true
                         break
                     end
