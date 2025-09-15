@@ -263,6 +263,15 @@ bool CRangeState::CanFinishRangedAttack(CBattleEntity* PTarget)
         return false;
     }
 
+    if (auto* PMob = dynamic_cast<CMobEntity*>(PTarget))
+    {
+        if (PMob->IsUntargetable())
+        {
+            m_errorMsg = std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget, 0, 0, MSGASIC_CANNOT_SEE_TARGET2);
+            return false;
+        }
+    }
+
     if (auto* PChar = dynamic_cast<CCharEntity*>(m_PEntity))
     {
         CItemWeapon* PRanged = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_RANGED));
