@@ -54,6 +54,11 @@ bool CWeaponSkill::isAoE()
     return m_AOE == 2;
 }
 
+bool CWeaponSkill::isFriendlyAoE()
+{
+    return m_AOE == 3;
+}
+
 bool CWeaponSkill::mainOnly()
 {
     return m_mainOnly;

@@ -1287,6 +1287,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
 
     int16 tp = state.GetSpentTP();
     tp = battleutils::CalculateWeaponSkillTP(this, PWeaponSkill, tp);
+    int32 storedDamage = 0;
 
     PLatentEffectContainer->CheckLatentsTP();
 
@@ -1358,6 +1359,8 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
             actionTarget.animation = PWeaponSkill->getAnimationId();
             actionTarget.messageID = 0;
             std::tie(damage, tpHitsLanded, extraHitsLanded) = luautils::OnUseWeaponSkill(this, PTarget, PWeaponSkill, tp, primary, action, taChar);
+
+            storedDamage = damage;
 
             if (!battleutils::isValidSelfTargetWeaponskill(PWeaponSkill->getID()))
             {
@@ -1487,6 +1490,46 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                 }
             }
         }
+
+    // Handle AoE healing WS
+        PAI->TargetFind->reset();
+
+        if (PWeaponSkill->isFriendlyAoE())
+        {
+            PAI->TargetFind->findWithinArea(this, AOERADIUS_ATTACKER, 10, FINDFLAGS_ALLIANCE, TARGET_SELF | TARGET_PLAYER_PARTY);
+
+            ShowDebug("=== Friendly AoE WS Begin ===\n");
+            ShowDebug("Number of targets found: %u\n", (unsigned)PAI->TargetFind->m_targets.size());
+
+            for (auto&& PTarget : PAI->TargetFind->m_targets)
+            {
+                bool primary = PTarget == this;
+
+                ShowDebug("Target ID: %u | Name: %s | Primary: %s\n", PTarget->id, PTarget->name.c_str(), primary ? "Yes" : "No");
+
+                actionList_t& actionList = action.getNewActionList();
+                actionList.ActionTargetID = PTarget->id;
+
+                actionTarget_t& actionTarget = actionList.getNewActionTarget();
+
+                actionTarget.reaction = REACTION_NONE;
+                actionTarget.speceffect = SPECEFFECT_NONE;
+                actionTarget.animation = PWeaponSkill->getAnimationId();
+                actionTarget.messageID = primary ? MSGBASIC_SKILL_RECOVERS_HP : MSGBASIC_SELF_HEAL_SECONDARY;
+
+                storedDamage = std::max(storedDamage, 0);
+                actionTarget.param = storedDamage;
+
+                ShowDebug("Healing %d HP to target\n", storedDamage);
+
+                PTarget->addHP(storedDamage);
+
+                ShowDebug("Target HP after heal: %d\n", PTarget->GetHPP());
+            }
+
+            ShowDebug("=== Friendly AoE WS End ===\n");
+        }
+
         // Remove effects consumed if present
         StatusEffectContainer->DelStatusEffectSilent(EFFECT_SENGIKORI);
         battleutils::ClaimMob(PBattleTarget, this);
