@@ -573,7 +573,7 @@ enum class Mod
     BP_DELAY                  = 357, // stores blood pact delay reduction
     ENHANCES_ELEMENTAL_SIPHON = 540, // Bonus Base MP added to Elemental Siphon skill.
     BP_DELAY_II               = 541, // Blood Pact Delay Reduction II
-    BP_DAMAGE                 = 126, // Blood Pact: Rage Damage increase percentage
+    BP_DAMAGE                 = 126, // Blood Pact: Rage Damage increase percentage (Needs to be added as a PET mod)
     BP_BURST_DAMAGE           = 1257, // Blood Pact: Rage magic burst damage increase percentage.
     BLOOD_BOON                = 913, // Occasionally cuts down MP cost of Blood Pact abilities. Does not affect abilities that require Astral Flow.
     AVATAR_FAVOR_BONUS        = 1414,// Increases the effect of avatars favor (percent)

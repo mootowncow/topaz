@@ -2833,19 +2833,20 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,420,60,255);           -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,421,39,255);           -- Battlefield Elegy
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,422,59,255);           -- Carnage Elegy
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,462,33,255);           -- Magic Finale
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,376,27,255);	       -- Horde Lullaby
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,470,82,255);           -- Sentinels Scherzo
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,1,2,255);            -- Cure
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,2,22,255);           -- Cure II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,3,42,255);           -- Cure III
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,4,82,255);           -- Cure IV
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,14,12,255);          -- Poisona
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,15,18,255);          -- Paralyna
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,16,28,255);          -- Blindna
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,17,38,255);          -- Silena
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,18,78,255);          -- Stona
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,19,68,255);          -- Viruna
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,20,58,255);          -- Cursna
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,143,64,255);         -- Erase
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,1,2,255);              -- Cure
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,2,22,255);             -- Cure II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,3,42,255);             -- Cure III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,4,82,255);             -- Cure IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,14,12,255);            -- Poisona
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,15,18,255);            -- Paralyna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,16,28,255);            -- Blindna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,17,38,255);            -- Silena
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,18,78,255);            -- Stona
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,19,68,255);            -- Viruna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,20,58,255);            -- Cursna
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Ulmia',326,143,64,255);           -- Erase
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shikaree_Z',327,1,2,255);         -- Cure
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shikaree_Z',327,2,22,255);        -- Cure II

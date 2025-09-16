@@ -36,7 +36,9 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.LULLABY, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
 
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.SLEEPGA, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.HORDE_LULLABY)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS_FLAG, tpz.effectFlag.DISPELABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.MAGIC_FINALE)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.ELEGY, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ELEGY, 60)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MADRIGAL, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MADRIGAL)
 
@@ -79,8 +81,6 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)
-
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.ELEGY, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ELEGY, 60)
 
     mob:SetAutoAttackEnabled(false)
     mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.NO_MOVE)
