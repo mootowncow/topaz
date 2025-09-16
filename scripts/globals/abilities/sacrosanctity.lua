@@ -3,7 +3,7 @@
 -- Description: Enhances your physical prowess, but lowers curing power.
 -- Obtained: WHM Level 5
 -- Recast Time: 00:00:30
--- Duration: 0:05:00
+-- Duration: 2:00:00
 -- WHM Main only
 -----------------------------------
 require("scripts/globals/settings")
@@ -15,6 +15,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    -- TODO: JP
-    player:addStatusEffect(tpz.effect.SACROSANCTITY, 1, 0, 300)
+    player:addStatusEffect(tpz.effect.SACROSANCTITY, 1, 0, 7200)
 end
