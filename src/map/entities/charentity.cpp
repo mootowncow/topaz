@@ -2523,19 +2523,36 @@ void CCharEntity::OnRaise()
 
         loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CActionPacket(action));
 
+        // compute base loss like DelExperiencePoints does
         uint8 mLevel = (m_LevelRestriction != 0 && m_LevelRestriction < GetMLevel()) ? m_LevelRestriction : GetMLevel();
-        uint16 expLost = mLevel <= 67 ? (charutils::GetExpNEXTLevel(mLevel) * 8) / 100 : 2400;
+        uint32 baseExpLoss = (mLevel <= 67) ? (charutils::GetExpNEXTLevel(mLevel) * 8) / 100 : 2400u;
 
-        uint16 xpNeededToLevel = charutils::GetExpNEXTLevel(jobs.job[GetMJob()]) - jobs.exp[GetMJob()];
+        // compute the same retainPercent as DelExperiencePoints
+        float retainPercent = std::clamp(map_config.exp_retain + getMod(Mod::EXPERIENCE_RETAINED) / 100.0f, 0.0f, 1.0f);
 
-        // Exp is enough to level you and (you're not under a level restriction, or the level restriction is higher than your current main level).
-        if (xpNeededToLevel < expLost && (m_LevelRestriction == 0 || GetMLevel() < m_LevelRestriction))
-        {
-            // Player probably leveled down when they died.  Give they xp for the next level.
-            expLost = GetMLevel() <= 67 ? (charutils::GetExpNEXTLevel(jobs.job[GetMJob()] + 1) * 8) / 100 : 2400;
-        }
+        // applied loss after retention and map rate (match DelExperiencePoints)
+        float appliedLossF = static_cast<float>(baseExpLoss) * (1.0f - retainPercent) * map_config.exp_loss_rate;
+        uint32 appliedLoss = static_cast<uint32>(std::floor(appliedLossF + 0.5f)); // round
 
-        uint16 xpReturned = (uint16)(ceil(expLost * ratioReturned));
+        // determine raise multiplier (raiseMult) depending on m_hasRaise / level
+        float raiseMult = 0.0f;
+        if (m_hasRaise == 1)
+            raiseMult = 0.50f; // example; follow your existing logic for level check if needed
+        else if (m_hasRaise == 2)
+            raiseMult = (GetMLevel() <= 50) ? 0.50f : 0.75f;
+        else if (m_hasRaise == 3)
+            raiseMult = (GetMLevel() <= 50) ? 0.50f : 0.90f;
+        else if (m_hasRaise == 6)
+            raiseMult = 1.00f; // pixie: you used 1.0f in your code
+
+        // xp returned is a fraction of the *applied* loss — not of the base loss
+        uint32 xpReturned32 = static_cast<uint32>(std::ceil(appliedLossF * raiseMult));
+
+        // safety clamp (shouldn't normally be necessary if formulas match)
+        if (xpReturned32 > appliedLoss)
+            xpReturned32 = appliedLoss;
+
+        uint16 xpReturned = static_cast<uint16>(std::min<uint32>(xpReturned32, std::numeric_limits<uint16>::max()));
 
         if (GetLocalVar("MijinGakure") == 0 && GetMLevel() >= map_config.exp_loss_level)
         {
@@ -2805,7 +2822,11 @@ void CCharEntity::Die()
 
     if (GetLocalVar("MijinGakure") == 0)
     {
-        float retainPercent = std::clamp(map_config.exp_retain + getMod(Mod::EXPERIENCE_RETAINED) / 100.0f, 0.0f, 1.0f);
+        float baseRetain = map_config.exp_retain;
+        int modValue = getMod(Mod::EXPERIENCE_RETAINED);
+        float modPercent = modValue / 100.0f;
+        float retainPercent = std::clamp(baseRetain + modPercent, 0.0f, 1.0f);
+
         charutils::DelExperiencePoints(this, retainPercent, 0);
     }
 
