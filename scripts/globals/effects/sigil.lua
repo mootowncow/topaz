@@ -1,36 +1,30 @@
 -----------------------------------
---
 -- tpz.effect.SIGIL
---
 -----------------------------------
 require("scripts/globals/status")
------------------------------------
--- TODO: if you get all buffs it breaks and doesn't give regen/refresh
+
 function onEffectGain(target, effect)
+    local REGEN      = 1  -- 0001
+    local REFRESH    = 2  -- 0010
+    local MEAL       = 4  -- 0100
+    local EXPLOSS    = 8  -- 1000
 
-    local power = effect:getPower() -- Tracks which bonus effects are in use.
-    if (power == 1 or power == 3 or power == 5 or power == 7 or power == 9 or power == 11 or power == 13 or power == 15) then
-        local percentage = 95 
-        target:addLatent(tpz.latent.SIGIL_REGEN_BONUS, percentage, tpz.mod.REGEN, 1)
+    local power = effect:getPower()
+
+    if (bit.band(power, REGEN) ~= 0) then
+        target:addLatent(tpz.latent.SIGIL_REGEN_BONUS, 95, tpz.mod.REGEN, 1)
+    end
+    if (bit.band(power, REFRESH) ~= 0) then
+        target:addLatent(tpz.latent.SIGIL_REFRESH_BONUS, 85, tpz.mod.REFRESH, 1)
+    end
+    if (bit.band(power, MEAL) ~= 0) then
+        target:addLatent(tpz.latent.SIGIL_FOOD_DURATION, 1, tpz.mod.FOOD_DURATION, 200)
+    end
+    if (bit.band(power, EXPLOSS) ~= 0) then
+        target:addLatent(tpz.latent.SIGIL_RETAINED_EXP, 1, tpz.mod.EXPERIENCE_RETAINED, 35)
     end
 
-    if (power == 2 or power == 3 or power == 6 or power == 7 or power == 10 or power == 11 or power >= 14) then
-        local percentage = 85 
-        target:addLatent(tpz.latent.SIGIL_REFRESH_BONUS, percentage, tpz.mod.REFRESH, 1)
-    end
-
-    if (power >= 4 and power <= 7) then
-        target:addMod(tpz.mod.FOOD_DURATION, 100)
-    elseif (power >= 8 and power <= 11) then
-        -- target:addMod(tpz.mod.EXPLOSS_REDUCTION), ???)
-        -- exp loss reduction not implemented.
-    elseif (power >= 12) then
-        -- Possibly handle exp loss reduction in core instead..Maybe the food bonus also?
-        target:addMod(tpz.mod.FOOD_DURATION, 100)
-        -- target:addLatent(LATENT_SIGIL_EXPLOSS, ?, MOD_EXPLOSS_REDUCTION, ?)
-        -- exp loss reduction not implemented.
-    end
-    -- Gain +15% more EXP in campaign regions
+    -- Always add campaign EXP bonus
     target:addLatent(tpz.latent.SIGIL_EXP_BONUS, 1, tpz.mod.EXP_BONUS, 15)
 end
 
@@ -38,28 +32,27 @@ function onEffectTick(target, effect)
 end
 
 function onEffectLose(target, effect)
-    local power = effect:getPower() -- Tracks which bonus effects are in use.
-    local subPower = effect:getSubPower() -- subPower sets % required to trigger regen/refresh.
+    local REGEN      = 1  -- 0001
+    local REFRESH    = 2  -- 0010
+    local MEAL       = 4  -- 0100
+    local EXPLOSS    = 8  -- 1000
 
-    if (power == 1 or power == 3 or power == 5 or power == 7 or power == 9 or power == 11 or power == 13 or power == 15) then
-        local percentage = 95 
-        target:delLatent(tpz.latent.SIGIL_REGEN_BONUS, percentage, tpz.mod.REGEN, 1)
+    local power = effect:getPower()
+
+
+    if (bit.band(power, REGEN) ~= 0) then
+        target:delLatent(tpz.latent.SIGIL_REGEN_BONUS, 95, tpz.mod.REGEN, 1)
+    end
+    if (bit.band(power, REFRESH) ~= 0) then
+        target:delLatent(tpz.latent.SIGIL_REFRESH_BONUS, 85, tpz.mod.REFRESH, 1)
+    end
+    if (bit.band(power, MEAL) ~= 0) then
+        target:delLatent(tpz.latent.SIGIL_FOOD_DURATION, 1, tpz.mod.FOOD_DURATION, 200)
+    end
+    if (bit.band(power, EXPLOSS) ~= 0) then
+        target:delLatent(tpz.latent.SIGIL_RETAINED_EXP, 1, tpz.mod.EXPERIENCE_RETAINED, 35)
     end
 
-    if (power == 2 or power == 3 or power == 6 or power == 7 or power == 10 or power == 11 or power >= 14) then
-        local percentage = 85
-        target:delLatent(tpz.latent.SIGIL_REFRESH_BONUS, percentage, tpz.mod.REFRESH, 1)
-    end
-
-    if (effect:getPower() >= 4 and effect:getPower() <= 7) then
-        target:delMod(tpz.mod.FOOD_DURATION, 100)
-    elseif (effect:getPower() >= 8 and effect:getPower() <= 11) then
-        -- target:delMod(tpz.mod.EXPLOSS_REDUCTION), ???)
-        -- exp loss reduction not implemented.
-    elseif (effect:getPower() >= 12) then
-        target:delMod(tpz.mod.FOOD_DURATION, 100)
-        -- target:delMod(tpz.mod.EXPLOSS_REDUCTION), ???)
-        -- exp loss reduction not implemented.
-    end
+    -- Always remove campaign EXP bonus
     target:delLatent(tpz.latent.SIGIL_EXP_BONUS, 1, tpz.mod.EXP_BONUS, 15)
 end

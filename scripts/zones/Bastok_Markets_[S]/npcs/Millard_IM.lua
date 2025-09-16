@@ -68,38 +68,42 @@ function onEventFinish(player, csid, option)
                     player:delCurrency("allied_notes", price)
                 end
             end
+        elseif option % 4096 == 1 then
+            local power = math.floor((option - 1) / 4096)
+            local duration = 10800 + ((15 * medalRank) * 60)
+            local subPower = 85
 
-        -- Please, don't change this elseif without knowing ALL the option results first.
-        elseif (option == 1 or option == 4097 or option == 8193 or option == 12289 or option == 16385
-        or option == 20481 or option == 24577 or option == 28673 or option == 36865 or option == 40961
-        or option == 45057 or option == 49153 or option == 53249 or option == 57345 or option == 61441) then
-            local cost = 0
-            local power = ( (option - 1) / 4096 )
-            local duration = 10800+((15*medalRank)*60) -- 3hrs +15 min per medal (minimum 3hr 15 min with 1st medal)
-            local subPower = 85 -- Sets % trigger for regen/refresh. Static at maximum value (85%) for now.
+            printf("[Sigil Debug] option=%d, power=%d, medalRank=%d, duration=%d, subPower=%d",
+                option, power, medalRank, duration, subPower)
 
-            if (power == 1 or power == 2 or power == 4) then
-            -- 1: Regen,  2: Refresh,  4: Meal Duration
-                cost = 50
-            elseif (power == 3 or power == 5 or power == 6 or power == 8 or power == 12) then
-            -- 3: Regen + Refresh,  5: Regen + Meal Duration,  6: Refresh + Meal Duration,
-            -- 8: Reduced EXP loss,  12: Meal Duration + Reduced EXP loss
-                cost = 100
-            elseif (power == 7 or power == 9 or power == 10 or power == 11 or power == 13 or power == 14) then
-            -- 7: Regen + Refresh + Meal Duration,  9: Regen + Reduced EXP loss,
-            -- 10: Refresh + Reduced EXP loss,  11: Regen + Refresh + Reduced EXP loss,
-            -- 13: Regen + Meal Duration + Reduced EXP loss,  14: Refresh + Meal Duration + Reduced EXP loss
-                cost = 150
-            elseif (power == 15) then
-            -- 15: Everything
-                cost = 200
-            end
+            -- cost table (indexed by power value)
+            local costTable = {
+                [1]  = 50, -- Regen
+                [2]  = 50, -- Refresh
+                [4]  = 50, -- Meal Duration
+                [3]  = 100, -- Regen + Refresh
+                [5]  = 100, -- Regen + Meal Duration
+                [6]  = 100, -- Refresh + Meal Duration
+                [8]  = 100, -- Reduced EXP loss
+                [12] = 100, -- Meal Duration + Reduced EXP loss
+                [7]  = 150, -- Regen + Refresh + Meal Duration
+                [9]  = 150, -- Regen + Reduced EXP loss
+                [10] = 150, -- Refresh + Reduced EXP loss
+                [11] = 150, -- Regen + Refresh + Reduced EXP loss
+                [13] = 150, -- Regen + Meal Duration + Reduced EXP loss
+                [14] = 150, -- Refresh + Meal Duration + Reduced EXP loss
+                [15] = 200, -- Everything
+            }
+
+            local cost = costTable[power] or 0
+            printf("[Sigil Debug] cost=%d", cost)
 
             player:delStatusEffectsByFlag(tpz.effectFlag.INFLUENCE, true)
             player:addStatusEffect(tpz.effect.SIGIL, power, 0, duration, 0, subPower, 0)
             player:messageSpecial(ID.text.ALLIED_SIGIL)
 
-            if (cost > 0) then
+            if cost > 0 then
+                printf("[Sigil Debug] Deducting %d allied_notes", cost)
                 player:delCurrency("allied_notes", cost)
             end
         end

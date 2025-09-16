@@ -2260,6 +2260,11 @@ tpz.latent =
     IN_ASSAULT               = 58, -- is in an Instance battle in a TOAU zone
     VS_ECOSYSTEM             = 59, -- Vs. Specific Ecosystem ID (e.g. Vs. Birds: Accuracy+3)
     VS_FAMILY                = 60, -- Vs. Specific Family ID (e.g. Vs. Apkallu: Accuracy+3)
+    CITIZEN_OF               = 61, -- Citizen of Nation SANDY = 0, BASTOK = 1, WINDURST = 2
+    EQUIP_SLOT               = 62, -- Item is equipped specific slot (i.e. MAIN = 0, SUB = 1, EAR1 = 11, EAR2 = 12, RING1 = 13, RING2 = 14)
+    SANCTION_FOOD_DURATION   = 63, -- While in besieged region
+    SIGIL_FOOD_DURATION      = 64, -- While in campaign region
+    SIGIL_RETAINED_EXP       = 65, -- While in campaign region
 }
 
 ------------------------------------

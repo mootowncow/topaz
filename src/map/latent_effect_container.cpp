@@ -613,7 +613,10 @@ void CLatentEffectContainer::CheckLatentsZone()
         case LATENT_NATION_CONTROL:
         case LATENT_SIGNET_EXP_BONUS:
         case LATENT_SANCTION_EXP_BONUS:
+        case LATENT_SANCTION_FOOD_DURATION:
         case LATENT_SIGIL_EXP_BONUS:
+        case LATENT_SIGIL_FOOD_DURATION:
+        case LATENT_SIGIL_RETAINED_EXP:
         case LATENT_CITIZEN_OF:
         case LATENT_ZONE_HOME_NATION:
             return ProcessLatentEffect(latentEffect);
@@ -999,11 +1002,20 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect)
     case LATENT_SANCTION_EXP_BONUS:
         expression =  m_POwner->loc.zone->GetRegionID() >= 28 && m_POwner->loc.zone->GetRegionID() <= 32 && m_POwner->GetMLevel() > 54;
         break;
+    case LATENT_SANCTION_FOOD_DURATION:
+        expression = m_POwner->loc.zone->GetRegionID() >= 28 && m_POwner->loc.zone->GetRegionID() <= 32;
+        break;
     case LATENT_WEAPON_DRAWN_HP_UNDER:
         expression = m_POwner->health.hp < latentEffect.GetConditionsValue() && m_POwner->animation == ANIMATION_ATTACK;
         break;
     case LATENT_SIGIL_EXP_BONUS:
         expression = m_POwner->loc.zone->GetRegionID() >= 33 && m_POwner->loc.zone->GetRegionID() <= 40 && m_POwner->GetMLevel() > 54;
+        break;
+    case LATENT_SIGIL_FOOD_DURATION:
+        expression = m_POwner->loc.zone->GetRegionID() >= 33 && m_POwner->loc.zone->GetRegionID() <= 40;
+        break;
+    case LATENT_SIGIL_RETAINED_EXP:
+        expression = m_POwner->loc.zone->GetRegionID() >= 33 && m_POwner->loc.zone->GetRegionID() <= 40;
         break;
     case LATENT_MP_UNDER_VISIBLE_GEAR:
         //TODO: figure out if this is actually right

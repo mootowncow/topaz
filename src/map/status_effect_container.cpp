@@ -532,7 +532,7 @@ bool CStatusEffectContainer::AddStatusEffect(CStatusEffect* PStatusEffect, bool 
             puppetutils::CheckAttachmentsForManeuver((CCharEntity*)m_POwner, PStatusEffect->GetStatusID(), true);
         }
 
-        if (m_POwner->health.maxhp != 0) //make sure we're not in the middle of logging in
+        if (m_POwner->health.maxhp != 0 && m_POwner->status != STATUS_DISAPPEAR) // make sure we're not in the middle of logging in
         {
             m_POwner->UpdateHealth();
         }
@@ -546,12 +546,13 @@ bool CStatusEffectContainer::AddStatusEffect(CStatusEffect* PStatusEffect, bool 
                 UpdateStatusIcons();
             }
 
-            if (m_POwner->health.maxhp != 0) //make sure we're not in the middle of logging in
+            if (m_POwner->health.maxhp != 0 && m_POwner->status != STATUS_DISAPPEAR) // make sure we're not in the middle of logging in
             {
                 //check for latents
                 PChar->PLatentEffectContainer->CheckLatentsFoodEffect();
                 PChar->PLatentEffectContainer->CheckLatentsStatusEffect();
                 PChar->PLatentEffectContainer->CheckLatentsRollSong();
+                PChar->PLatentEffectContainer->CheckLatentsZone();
                 PChar->UpdateHealth();
             }
         }
