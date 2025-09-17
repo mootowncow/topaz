@@ -43,7 +43,6 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
 
     local party = player:getParty()
-    local healAmount = damage
     local MND = player:getStat(tpz.mod.MND)
     local stoneskinAmount = 250 + MND
 
@@ -51,13 +50,8 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     local NearbyEntities = player:getNearbyEntities(10)
     if NearbyEntities then
-        local totalHealed = 0
-
         for _, entity in pairs(NearbyEntities) do
             if entity:isAlive() and (entity:getAllegiance() == player:getAllegiance()) then
-                local healed = entity:addHP(healAmount)
-                totalHealed = totalHealed + healed
-
                 entity:removeAllNegativeEffects()
                 utils.ShouldRemoveStoneskin(entity, stoneskinAmount)
                 entity:addStatusEffect(tpz.effect.STONESKIN, stoneskinAmount, 0, 60)
@@ -65,10 +59,6 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
                     entity:addStatusEffect(tpz.effect.MAGIC_DEF_BOOST, 25, 0, 60)
                 end
             end
-        end
-
-        if totalHealed > 0 then
-            player:updateEnmityFromCure(player, totalHealed)
         end
     end
 

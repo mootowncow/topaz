@@ -1491,21 +1491,16 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
             }
         }
 
-    // Handle AoE healing WS
+        // Handle AoE healing WS
         PAI->TargetFind->reset();
 
         if (PWeaponSkill->isFriendlyAoE())
         {
             PAI->TargetFind->findWithinArea(this, AOERADIUS_ATTACKER, 10, FINDFLAGS_ALLIANCE, TARGET_SELF | TARGET_PLAYER_PARTY);
 
-            ShowDebug("=== Friendly AoE WS Begin ===\n");
-            ShowDebug("Number of targets found: %u\n", (unsigned)PAI->TargetFind->m_targets.size());
-
             for (auto&& PTarget : PAI->TargetFind->m_targets)
             {
                 bool primary = PTarget == this;
-
-                ShowDebug("Target ID: %u | Name: %s | Primary: %s\n", PTarget->id, PTarget->name.c_str(), primary ? "Yes" : "No");
 
                 actionList_t& actionList = action.getNewActionList();
                 actionList.ActionTargetID = PTarget->id;
@@ -1518,16 +1513,23 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                 actionTarget.messageID = primary ? MSGBASIC_SKILL_RECOVERS_HP : MSGBASIC_SELF_HEAL_SECONDARY;
 
                 storedDamage = std::max(storedDamage, 0);
-                actionTarget.param = storedDamage;
 
-                ShowDebug("Healing %d HP to target\n", storedDamage);
+                float wsMultiplier = 1.0f;
+                switch (PWeaponSkill->getID())
+                {
+                    case 160: wsMultiplier = 0.5f;  break; // Shining Strike
+                    case 161: wsMultiplier = 0.75f; break; // Seraph Strike
+                    case 171: wsMultiplier = 1.0f;  break; // Mystic Boon
+                    default:  wsMultiplier = 1.0f;  break; // fallback
+                }
 
-                PTarget->addHP(storedDamage);
+                auto cureRcvdMod = 100 + PTarget->getMod(Mod::CURE_POTENCY_RCVD);
+                auto cureAmount = static_cast<int32>((std::floor(storedDamage * wsMultiplier * cureRcvdMod) / 100.0f));
+                auto cureFinal = PTarget->addHP(cureAmount);
 
-                ShowDebug("Target HP after heal: %d\n", PTarget->GetHPP());
+                battleutils::GenerateCureEnmity(this, PTarget, cureFinal);
+                actionTarget.param = cureFinal;
             }
-
-            ShowDebug("=== Friendly AoE WS End ===\n");
         }
 
         // Remove effects consumed if present
