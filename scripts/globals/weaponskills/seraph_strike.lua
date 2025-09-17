@@ -36,7 +36,6 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 	if damage > 0 then player:trySkillUp(target, tpz.skill.CLUB, tpHits+extraHits) end
 	
 
-    local healAmount = math.floor(damage * 0.75)
     local regenAmount = math.floor(player:getMainLvl() / 8)
 
     local NearbyEntities = player:getNearbyEntities(10)
@@ -45,8 +44,6 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         for _,entity in pairs(NearbyEntities) do
             if entity:isAlive() then
                 if (entity:getAllegiance() == player:getAllegiance()) then
-                    entity:addHP(healAmount)
-                    player:updateEnmityFromCure(entity, healAmount)
                     if canOverwrite(target, tpz.effect.REGEN, regenAmount) then
                         entity:addStatusEffect(tpz.effect.REGEN, regenAmount, 3, 30)
                     end
