@@ -1,0 +1,146 @@
+{{Private Server|Shiyo Server|Shiyo}}
+
+== Fighters ==
+* '''[[Fighter's Mask_+1]]''': Pdt +2
+* '''[[Fighter's Lorica_+1]]''': Pdt +4 | Fireres +15
+* '''[[Fighter's Mufflers_+1]]''': Pdt +2
+* '''[[Fighter's Cuisses_+1]]''': Pdt +3
+* '''[[Fighter's Calligae_+1]]''': Pdt +2
+
+== Temple ==
+* '''[[Temple Crown_+1]]''': NONE +1
+* '''[[Temple Cyclas_+1]]''': NONE +1
+* '''[[Temple Gloves_+1]]''': Darkres +15
+* '''[[Temple Hose_+1]]''': Cure Potency Rcvd +10
+* '''[[Temple Gaiters_+1]]''': Lightres +15
+
+== Healers ==
+* '''[[Healer's Cap_+1]]''': Darkres +15
+* '''[[Healer's Bliaut_+1]]''': Windres +15
+* '''[[Healer's Mitts_+1]]''': NONE +1
+* '''[[Healer's Pantaloons_+1]]''': Macc +5
+* '''[[Healer's Duckbills_+1]]''': Conserve Mp +5
+
+== Wizards ==
+* '''[[Wizard's Petasos_+1]]''': Lightningres +15
+* '''[[Wizard's Coat_+1]]''': NONE +1
+* '''[[Wizard's Gloves_+1]]''': NONE +1
+* '''[[Wizard's Tonban_+1]]''': NONE +1
+* '''[[Wizard's Sabots_+1]]''': Dark +5
+
+== Warlocks ==
+* '''[[Warlock's Chapeau_+1]]''': NONE +1
+* '''[[Warlock's Tabard_+1]]''': NONE +1
+* '''[[Warlock's Gloves_+1]]''': Haste +4 | Darkres +15
+* '''[[Warlock's Tights_+1]]''': NONE +1
+* '''[[Warlock's Boots_+1]]''': Pdt +2 | Waterres +15
+
+== Rogues ==
+* '''[[Rogue's Bonnet_+1]]''': Attk +10
+* '''[[Rogue's Vest_+1]]''': Attk +10 | Earthres +15
+* '''[[Rogue's Armlets_+1]]''': Iceres +15
+* '''[[Rogue's Culottes_+1]]''': Attk +10
+* '''[[Rogue's Poulaines_+1]]''': Eva +10
+
+== Gallant ==
+* '''[[Gallant Coronet_+1]]''': NONE +1
+* '''[[Gallant Surcoat_+1]]''': Matt +10
+* '''[[Gallant Gauntlets_+1]]''': Attk +20 | Lightres +15
+* '''[[Gallant Breeches_+1]]''': Phalanx +1
+* '''[[Gallant Leggings_+1]]''': NONE +1
+
+== Chaos ==
+* '''[[Chaos Burgeonet_+1]]''': NONE +1
+* '''[[Chaos Cuirass_+1]]''': Fastcast +3
+* '''[[Chaos Gauntlets_+1]]''': Crithitrate +2 | Darkres +15
+* '''[[Chaos Flanchard_+1]]''': Crithitrate +3
+* '''[[Chaos Sollerets_+1]]''': Int +5
+
+== Beast ==
+* '''[[Beast Helm_+1]]''': NONE +1
+* '''[[Beast Jackcoat_+1]]''': Attk +15 | Acc +15
+* '''[[Beast Gloves_+1]]''': Haste +3
+* '''[[Beast Trousers_+1]]''': NONE +1
+* '''[[Beast Gaiters_+1]]''': Haste +2
+
+== Choral ==
+* '''[[Choral Roundlet_+1]]''': Song Spellcasting Time Minus +5
+* '''[[Chl. Jstcorps_+1]]''': Cure Potency +10
+* '''[[Choral Cuffs_+1]]''': Song Spellcasting Time Minus +5
+* '''[[Choral Cannions_+1]]''': Song Spellcasting Time Minus +5
+* '''[[Choral Slippers_+1]]''': Song Spellcasting Time Minus +5 | Windres +15
+
+== Hunters ==
+* '''[[Hunter's Beret_+1]]''': NONE +1
+* '''[[Hunter's Jerkin_+1]]''': NONE +1
+* '''[[Hunter's Bracers_+1]]''': Darkres +15
+* '''[[Hunter's Braccae_+1]]''': NONE +1
+* '''[[Hunter's Socks_+1]]''': Crithitdamage +3
+
+== Myochin ==
+* '''[[Myochin Kabuto_+1]]''': Racc +10
+* '''[[Myochin Domaru_+1]]''': Pdt +9 | Darkres +20
+* '''[[Myochin Kote_+1]]''': Pdt +2
+* '''[[Myochin Haidate_+1]]''': Racc +7 | Earthres +15
+* '''[[Myochin Sune-Ate_+1]]''': Pdt +2 | Fireres +15
+
+== Ninja ==
+* '''[[Ninja Hatsuburi_+1]]''': Macc +4 | Iceres +15
+* '''[[Ninja Chainmail_+1]]''': NONE +1
+* '''[[Ninja Tekko_+1]]''': Haste +4
+* '''[[Ninja Hakama_+1]]''': Pdt +3
+* '''[[Ninja Kyahan_+1]]''': Darkres +50
+
+== Drachen ==
+* '''[[Drachen Armet_+1]]''': Haste +5
+* '''[[Drachen Mail_+1]]''': Polearm +15 | Iceres +15
+* '''[[Drachen Finger Gauntlets_+1]]''': Crithitrate +2
+* '''[[Drachen Brais_+1]]''': Pet Dt +11 | Earthres +15
+* '''[[Drachen Greaves_+1]]''': Vit +6
+
+== Evokers ==
+* '''[[Evoker's Horn_+1]]''': Pet Matt +5
+* '''[[Evoker's Doublet_+1]]''': Pet Matt +7
+* '''[[Evoker's Bracers_+1]]''': Pet Matt +5
+* '''[[Evoker's Spats_+1]]''': NONE +1
+* '''[[Evoker's Pigaches_+1]]''': NONE +1
+
+== Magus ==
+* '''[[Magus Keffiyeh_+1]]''': NONE +1
+* '''[[Magus Jubbah_+1]]''': NONE +1
+* '''[[Magus Bazubands_+1]]''': Macc +5
+* '''[[Magus Shalwar_+1]]''': Pdt +3
+* '''[[Magus Charuqs_+1]]''': Cure Potency +5
+
+== Corsairs ==
+* '''[[Corsair's Tricorne_+1]]''': NONE +1
+* '''[[Corsair's Frac_+1]]''': NONE +1
+* '''[[Corsair's Gants_+1]]''': Matt +5
+* '''[[Corsair's Culottes_+1]]''': Matt +7
+* '''[[Corsair's Bottes_+1]]''': NONE +1
+
+== Puppetry ==
+* '''[[Puppetry Taj_+1]]''': NONE +1
+* '''[[Puppetry Tobe_+1]]''': NONE +1
+* '''[[Puppetry Dastanas_+1]]''': NONE +1
+* '''[[Puppetry Churidars_+1]]''': NONE +1
+* '''[[Puppetry Babouches_+1]]''': NONE +1
+
+== Dancers ==
+* '''[[Dancer's Tiara_+1]]''': Attk +10
+* '''[[Dancer's Casaque_+1]]''': Attk +20
+* '''[[Dancer's Bangles_+1]]''': NONE +1
+* '''[[Dancer's Tights_+1]]''': Pdt +3
+* '''[[Dancer's Toe Shoes_+1]]''': NONE +1
+* '''[[Dancer's Tiara_+1]]''': Attk +10
+* '''[[Dancer's Casaque_+1]]''': Attk +20
+* '''[[Dancer's Bangles_+1]]''': NONE +1
+* '''[[Dancer's Tights_+1]]''': Pdt +3
+* '''[[Dancer's Toe Shoes_+1]]''': NONE +1
+
+== Scholars ==
+* '''[[Scholar's Mortarboard_+1]]''': NONE +1
+* '''[[Scholar's Gown_+1]]''': NONE +1
+* '''[[Scholar's Bracers_+1]]''': Regenpotency +10
+* '''[[Scholar's Pants_+1]]''': NONE +1
+* '''[[Scholar's Loafers_+1]]''': NONE +1
