@@ -20,23 +20,3 @@ function onItemCheck(target)
     end
     return result
 end
-
-function onItemUse(target)
-    target:addStatusEffect(tpz.effect.FOOD, 0, 0, 10800, 4419)
-end
-
-function onEffectGain(target, effect)
-    target:addMod(tpz.mod.MP, 20)
-    target:addMod(tpz.mod.STR, -1)
-    target:addMod(tpz.mod.MND, 2)
-    target:addMod(tpz.mod.MPHEAL, 1)
-    target:addMod(tpz.mod.ENMITY, -2)
-end
-
-function onEffectLose(target, effect)
-    target:delMod(tpz.mod.MP, 20)
-    target:delMod(tpz.mod.STR, -1)
-    target:delMod(tpz.mod.MND, 2)
-    target:delMod(tpz.mod.MPHEAL, 1)
-    target:delMod(tpz.mod.ENMITY, -2)
-end

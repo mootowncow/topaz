@@ -12973,7 +12973,7 @@ inline int32 CLuaBaseEntity::stealStatusEffect(lua_State *L)
 *  Function: setEffectUndispellable()
 *  Purpose : Sets an effect on the target to be undispellable / unerasable
 *  Example : target:setEffectUndispellable(tpz.effect.POISON)
-*  Notes   : If Mod ID already exists, adds the amount to existing amount
+*  Notes   : 
 ************************************************************************/
 inline int32 CLuaBaseEntity::setEffectUndispellable(lua_State* L)
 {

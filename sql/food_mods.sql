@@ -30,6 +30,13 @@ CREATE TABLE `food_mods` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 PACK_KEYS=1 CHECKSUM=1;
 
 INSERT INTO `food_mods` VALUES (4419,'mushroom_soup',5,8,13,374,27,71,0,0,0,0,15,-1,2,7,-2,2,0,0,0,0,10800);
+INSERT INTO `food_mods` VALUES (4333,'witch_soup',5,13,374,27,71,0,0,0,0,0,17,3,8,-2,3,0,0,0,0,0,14400);
+INSERT INTO `food_mods` VALUES (4434,'mushroom_risotto',5,13,374,27,71,0,0,0,0,0,20,3,10,-2,3,0,0,0,0,0,10800);
+INSERT INTO `food_mods` VALUES (4330,'witch_risotto',5,13,374,27,71,0,0,0,0,0,25,3,11,-3,4,0,0,0,0,0,14400);
+INSERT INTO `food_mods` VALUES (4544,'mushroom_stew',5,13,374,27,71,0,0,0,0,0,30,4,15,-3,3,0,0,0,0,0,10800);
+INSERT INTO `food_mods` VALUES (4344,'witch_stew',5,13,374,27,71,0,0,0,0,0,35,4,16,-3,4,0,0,0,0,0,14400);
+INSERT INTO `food_mods` VALUES (5676,'mushroom_saute',5,13,374,27,71,0,0,0,0,0,40,4,20,-3,4,0,0,0,0,0,10800);
+INSERT INTO `food_mods` VALUES (5677,'patriarch_saute',5,13,374,27,71,0,0,0,0,0,45,5,22,-4,4,0,0,0,0,0,14400);
 
 -- Template
 -- INSERT INTO `food_mods` VALUES (5677,'serving_of_patriarch_saute',mod,0,0,0,0,0,0,0,0,0,power,0,0,0,0,0,0,0,0,0,duration);
