@@ -1373,7 +1373,8 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             actionList.ActionTargetID = PTarget->id;
             actionTarget_t& actionTarget = actionList.getNewActionTarget();
             actionTarget.animation = 0x1FC; // Hardcoded magic sent from the server
-            if (PTarget->isAlive())
+
+            if (PTarget->isAlive() && !PSkill->isSpecial()) // Not a ranged attack or call beast
             {
                 actionTarget.messageID = MSGBASIC_TOO_FAR_AWAY;
             }
