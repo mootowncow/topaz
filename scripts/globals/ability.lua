@@ -11,6 +11,7 @@ tpz = tpz or {}
 
 tpz.jobAbility =
 {
+    NONE               = 0,
     MIGHTY_STRIKES     = 16,
     HUNDRED_FISTS      = 17,
     BENEDICTION        = 18,

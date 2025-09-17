@@ -414,13 +414,12 @@ void CTrustController::DoRoamTick(time_point tick)
         return;
     }
 
-
-    if (TryCastRaise())
+    if (TryCastOOCSpells())
     {
         return;
     }
 
-    if (TryCastUtsusemi())
+    if (TryUseBoltersRoll())
     {
         return;
     }
@@ -631,6 +630,31 @@ bool CTrustController::TrustIsHealing()
     return isMasterHealing;
 }
 
+bool CTrustController::TryCastOOCSpells()
+{
+    if (TryCastRaise())
+    {
+        return true;
+    }
+
+    if (TryCastReraise())
+    {
+        return true;
+    }
+
+    if (TryCastUtsusemi())
+    {
+        return true;
+    }
+
+    if (TryCastMazurka())
+    {
+        return true;
+    }
+
+    return false;
+}
+
 bool CTrustController::TryCastRaise()
 {
     // Try to raise dead party members within 20 yalms
@@ -638,7 +662,9 @@ bool CTrustController::TryCastRaise()
     CCharEntity* PChar = static_cast<CCharEntity*>(POwner->PMaster);
 
     if (!controller || !PChar)
+    {
         return false;
+    }
 
     if (!POwner->PAI->CanChangeState())
     {
@@ -688,6 +714,56 @@ bool CTrustController::TryCastRaise()
     return false;
 }
 
+bool CTrustController::TryCastReraise()
+{
+    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
+
+    if (!controller)
+        return false;
+
+    if (!POwner->PAI->CanChangeState())
+    {
+        return false;
+    }
+
+    if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_RERAISE))
+    {
+        return false;
+    }
+
+    if (POwner->health.mp < 150)
+    {
+        return false;
+    }
+
+    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
+        POwner->PAI->IsCurrentState<CRangeState>() ||
+        POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
+        POwner->PAI->IsCurrentState<CMobSkillState>())
+    {
+        return false;
+    }
+
+    // Check highest available Reraise spell
+    SpellID reraiseSpell = SpellID::NULLSPELL;
+
+    if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Reraise_III))
+        reraiseSpell = SpellID::Reraise_III;
+    else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Reraise_II))
+        reraiseSpell = SpellID::Reraise_II;
+    else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Reraise))
+        reraiseSpell = SpellID::Reraise;
+
+    if (reraiseSpell != SpellID::NULLSPELL)
+    {
+        controller->Cast(POwner->targid, reraiseSpell);
+        return true;
+    }
+
+    return false;
+}
+
 bool CTrustController::TryCastUtsusemi()
 {
     auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
@@ -731,6 +807,112 @@ bool CTrustController::TryCastUtsusemi()
         controller->Cast(POwner->targid, utsusemi);
         return true;
     }
+
+    return false;
+}
+
+bool CTrustController::TryCastMazurka()
+{
+    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
+    CCharEntity* PChar = static_cast<CCharEntity*>(POwner->PMaster);
+
+    if (!controller || !PChar)
+    {
+        return false;
+    }
+
+    if (!POwner->PAI->CanChangeState())
+    {
+        return false;
+    }
+
+    if (POwner->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_SONG))
+    {
+        return false;
+    }
+
+    if (POwner->PAI->IsCurrentState<CAbilityState>() || POwner->PAI->IsCurrentState<CRangeState>() || POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() || POwner->PAI->IsCurrentState<CMobSkillState>())
+    {
+        return false;
+    }
+
+    PChar->ForPartyWithTrusts(
+        [&](CBattleEntity* PMember)
+        {
+            // Make sure master is within song distance
+            float distanceToMaster = distance(POwner->loc.p, POwner->PMaster->loc.p);
+            if (distanceToMaster > 8.0f)
+            {
+                return false;
+            }
+
+            // Check highest available Mazurka spell
+            SpellID song = SpellID::NULLSPELL;
+
+            if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Chocobo_Mazurka))
+                song = SpellID::Chocobo_Mazurka;
+            else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raptor_Mazurka))
+                song = SpellID::Raptor_Mazurka;
+
+            if (song != SpellID::NULLSPELL)
+            {
+                controller->Cast(POwner->targid, song);
+                return true;
+            }
+        });
+
+    return false;
+}
+
+bool CTrustController::TryUseBoltersRoll()
+{
+    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
+    CCharEntity* PChar = static_cast<CCharEntity*>(POwner->PMaster);
+
+    if (!controller || !PChar)
+    {
+        return false;
+    }
+
+    if (!POwner->PAI->CanChangeState())
+    {
+        return false;
+    }
+
+    if (POwner->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_ROLL))
+    {
+        return false;
+    }
+
+    if (POwner->PAI->IsCurrentState<CAbilityState>() || POwner->PAI->IsCurrentState<CRangeState>() || POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() || POwner->PAI->IsCurrentState<CMobSkillState>())
+    {
+        return false;
+    }
+
+    PChar->ForPartyWithTrusts(
+        [&](CBattleEntity* PMember)
+        {
+            // Make sure master is within roll distance
+            float distanceToMaster = distance(POwner->loc.p, POwner->PMaster->loc.p);
+            if (distanceToMaster > 8.0f)
+            {
+                return false;
+            }
+
+            // Check if can use Bolters Roll
+            ABILITY ability = ABILITY_NONE;
+
+            if (ability::CanUseAbility(static_cast<CBattleEntity*>(POwner), ability::GetAbility(ABILITY_BOLTERS_ROLL)))
+                ability = ABILITY_BOLTERS_ROLL;
+
+            if (ability != ABILITY_NONE)
+            {
+                controller->Ability(POwner->targid, ability);
+                return true;
+            }
+        });
 
     return false;
 }
@@ -825,16 +1007,16 @@ void CTrustController::OnCastStopped(CMagicState& state, action_t& action)
                     case SKILLTYPE::SKILL_BLUE_MAGIC:
                     case SKILLTYPE::SKILL_GEOMANCY:
                     case SKILLTYPE::SKILL_HANDBELL:
-                        magicCool = spellCastTime + 5000;
-                        // ShowDebug("Adding 5s to spell recast timer\n");
+                        magicCool = spellCastTime + 3000;
+                        // ShowDebug("Adding 3s to spell recast timer!\n");
                         break;
                     case SKILLTYPE::SKILL_ELEMENTAL_MAGIC:
-                        // ShowDebug("Adding 23s to spell recast timer\n");
-                        magicCool = spellCastTime + 23000;
+                        // ShowDebug("Adding 13s to spell recast timer!\n");
+                        magicCool = spellCastTime + 13000;
                         break;
                     default:
-                        // ShowDebug("Adding 5s to spell recast timer\n");
-                        magicCool = spellCastTime + 5000;
+                        // ShowDebug("Adding 3s to spell recast timer!\n");
+                        magicCool = spellCastTime + 3000;
                         break;
                 }
             }

@@ -59,6 +59,7 @@ enum ABILITYRECAST
 
 enum ABILITY
 {
+    ABILITY_NONE               = 0,
     ABILITY_MIGHTY_STRIKES     = 16,
     ABILITY_HUNDRED_FISTS      = 17,
     ABILITY_BENEDICTION        = 18,
