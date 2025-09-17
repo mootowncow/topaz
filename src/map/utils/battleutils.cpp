@@ -1388,7 +1388,7 @@ namespace battleutils
                                                               dmg, PHYSICAL_ATTACK_TYPE::NORMAL, SLOT_MAIN);
 
                     // Apply Retaliation bonus modifier
-                    uint16 bonus = dmg * (PDefender->getMod(Mod::RETALIATION) / 100);
+                    uint16 bonus = static_cast<uint16>(dmg * (PDefender->getMod(Mod::RETALIATION) / 100.0));
                     dmg += bonus;
 
                     // Apply the damage and handle TP and stoneskin

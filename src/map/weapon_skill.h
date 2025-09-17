@@ -44,6 +44,7 @@ public:
     bool        isElemental();
 
     bool        isAoE();
+    bool        isFriendlyAoE();
     bool        mainOnly(); // can only be used as main job
 	uint8		getAoe();
 	uint8		getAnimationId();

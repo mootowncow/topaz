@@ -1287,6 +1287,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
 
     int16 tp = state.GetSpentTP();
     tp = battleutils::CalculateWeaponSkillTP(this, PWeaponSkill, tp);
+    int32 storedDamage = 0;
 
     PLatentEffectContainer->CheckLatentsTP();
 
@@ -1358,6 +1359,8 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
             actionTarget.animation = PWeaponSkill->getAnimationId();
             actionTarget.messageID = 0;
             std::tie(damage, tpHitsLanded, extraHitsLanded) = luautils::OnUseWeaponSkill(this, PTarget, PWeaponSkill, tp, primary, action, taChar);
+
+            storedDamage = damage;
 
             if (!battleutils::isValidSelfTargetWeaponskill(PWeaponSkill->getID()))
             {
@@ -1487,6 +1490,48 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                 }
             }
         }
+
+        // Handle AoE healing WS
+        PAI->TargetFind->reset();
+
+        if (PWeaponSkill->isFriendlyAoE())
+        {
+            PAI->TargetFind->findWithinArea(this, AOERADIUS_ATTACKER, 10, FINDFLAGS_ALLIANCE, TARGET_SELF | TARGET_PLAYER_PARTY);
+
+            for (auto&& PTarget : PAI->TargetFind->m_targets)
+            {
+                bool primary = PTarget == this;
+
+                actionList_t& actionList = action.getNewActionList();
+                actionList.ActionTargetID = PTarget->id;
+
+                actionTarget_t& actionTarget = actionList.getNewActionTarget();
+
+                actionTarget.reaction = REACTION_NONE;
+                actionTarget.speceffect = SPECEFFECT_NONE;
+                actionTarget.animation = PWeaponSkill->getAnimationId();
+                actionTarget.messageID = primary ? MSGBASIC_SKILL_RECOVERS_HP : MSGBASIC_SELF_HEAL_SECONDARY;
+
+                storedDamage = std::max(storedDamage, 0);
+
+                float wsMultiplier = 1.0f;
+                switch (PWeaponSkill->getID())
+                {
+                    case 160: wsMultiplier = 0.5f;  break; // Shining Strike
+                    case 161: wsMultiplier = 0.75f; break; // Seraph Strike
+                    case 171: wsMultiplier = 1.0f;  break; // Mystic Boon
+                    default:  wsMultiplier = 1.0f;  break; // fallback
+                }
+
+                auto cureRcvdMod = 100 + PTarget->getMod(Mod::CURE_POTENCY_RCVD);
+                auto cureAmount = static_cast<int32>((std::floor(storedDamage * wsMultiplier * cureRcvdMod) / 100.0f));
+                auto cureFinal = PTarget->addHP(cureAmount);
+
+                battleutils::GenerateCureEnmity(this, PTarget, cureFinal);
+                actionTarget.param = cureFinal;
+            }
+        }
+
         // Remove effects consumed if present
         StatusEffectContainer->DelStatusEffectSilent(EFFECT_SENGIKORI);
         battleutils::ClaimMob(PBattleTarget, this);
