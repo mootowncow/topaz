@@ -12987,8 +12987,8 @@ inline int32 CLuaBaseEntity::setEffectUndispellable(lua_State* L)
     CStatusEffect* effect = ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->GetStatusEffect((EFFECT)effectID);
     if (effect)
     {
-        // Unset the flags for DISPELABLE and WALTZABLE
-        effect->UnsetFlag(EFFECTFLAG_DISPELABLE | EFFECTFLAG_WALTZABLE);
+        // Unset the flags for DISPELABLE, WALTZABLE and ERASABLE
+        effect->UnsetFlag(EFFECTFLAG_DISPELABLE | EFFECTFLAG_WALTZABLE | EFFECTFLAG_ERASABLE);
     }
 
     return 0;
