@@ -261,6 +261,7 @@ private:
     bool CanSneakAttack();
     bool IsStunImmune(CBattleEntity* trigger_target);
     bool HasSpells(CBattleEntity* PEntity);
+    bool ShouldWS(CBattleEntity* PTarget);
     CTrustEntity* POwner;
     time_point m_lastAction;
     std::vector<Gambit_t> gambits;
