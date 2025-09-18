@@ -903,15 +903,16 @@ function getMagicHitRate(caster, target, skillType, element, SDT, percentBonus, 
     end
 
     local resMod = 0 -- Some spells may possibly be non elemental, but have status effects.
+    local affinityBonus = AffinityBonusAcc(caster, element or 0)
+    local elementBonus = caster:getMod(spellAcc[element or 0])
 
-    if (element > 0) and (effect == nil) then -- Element resist does not work on status effects with an EEM(Like para)
+    -- Element resist does not work on status effects with an EEM(Like para)
+    if (element > 0) and (effect == nil) then 
         resMod = target:getMod(tpz.magic.resistMod[element])
-        -- Add acc for elemental affinity accuracy and element specific accuracy
-        local affinityBonus = AffinityBonusAcc(caster, element)
-        local elementBonus = caster:getMod(spellAcc[element])
-        -- print(elementBonus)
-        bonusAcc = bonusAcc + affinityBonus + elementBonus
     end
+
+    -- Add acc for elemental affinity accuracy and element specific accuracy
+    bonusAcc = bonusAcc + affinityBonus + elementBonus
 
     magicacc = magicacc + caster:getMerit(tpz.merit.MAGIC_ACCURACY)
 
