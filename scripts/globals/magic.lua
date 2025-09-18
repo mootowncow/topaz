@@ -754,7 +754,7 @@ function applyResistanceEffect(caster, target, spell, params) -- says "effect" b
         percentBonus = percentBonus - getEffectResistance(target, effect) -- this is a HITRATE penalty not a MEVA BOOST (but they are the same thing if macc > meva)
     end -- traits are handled later
     
-    if params.skillBonus ~= nil then -- bard only it seems like. takes into account signing+instrument skill. i'll need to verify those formulas later
+    if (params.skillBonus ~= nil) then -- bard only. takes into account signing+instrument skill.
         magicaccbonus = magicaccbonus + params.skillBonus
 
         -- Add JP Song MACC Bonus
@@ -891,14 +891,26 @@ function getMagicHitRate(caster, target, skillType, element, SDT, percentBonus, 
     end
 
     local magicacc = caster:getMod(tpz.mod.MACC) + caster:getILvlMacc()
-    -- Get the base acc (just skill + skill mod (79 + skillID = ModID) + magic acc mod)
-    if (skillType ~= 0) then
-        local skillBonus = 0
-        local skillAmount = caster:getSkillLevel(skillType)
-        skillBonus = skillAmount
+
+    -- Get MACC from skill
+    if (skillType == tpz.skill.SINGING) then
+        -- BRD songs, the formula is Singing Skill + (currently equipped instrument skill / 3).
+
+        -- Non-players, use hard string skill
+        local skillBonus = caster:getSkillLevel(tpz.skill.SINGING) + (caster:getSkillLevel(tpz.skill.STRING_INSTRUMENT)/ 3)
+
+        -- Players use currenly equipped instrument skill
+        if caster:isPC() then
+            skillBonus = caster:getSkillLevel(tpz.skill.SINGING) + (caster:getWeaponSkillLevel(tpz.slot.RANGED) / 3)
+        end
+
         magicacc = magicacc + skillBonus
-    else
-        -- for mob skills / additional effects which don't have a skill
+    elseif (skillType ~= 0) then
+        -- Normal skill bonus (i.e. Elemental Magic)
+        local skillBonus = caster:getSkillLevel(skillType)
+        magicacc = magicacc + skillBonus
+    elseif (skillType == 0) then
+        -- Mob skills / additional effects which don't have a skill
         magicacc = magicacc + utils.getSkillLvl(1, caster:getMainLvl())
     end
 
