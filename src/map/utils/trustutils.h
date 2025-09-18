@@ -14,6 +14,8 @@ namespace trustutils
     void BuildingTrustSkillsTable(CTrustEntity* PTrust);
     void FreeTrustList();
     int  GetEvasionRankForJob(uint8 job);
+
+    bool IsMediumLevelWS(uint16 skill_id);
     bool IsHighLevelWS(uint16 skill_id);
     bool IsBuffWS(uint16 skill_id);
 

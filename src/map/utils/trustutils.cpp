@@ -710,15 +710,24 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
         // Special case for Zeid II and others who only have Lv3+ skills
         bool onlyHasLv3Skillchains = canFormLv3Skillchain && controller->m_GambitsContainer->tp_skills.empty();
 
+        // If level 55-59, use "Medium" level WS such as Slguwinder, Pentathrust, and Raging Fists
+        if (PTrust->GetMLevel() >= 55 && PTrust->GetMLevel() <= 59)
+        {
+            if (IsMediumLevelWS(skill_id))
+            {
+                controller->m_GambitsContainer->tp_skills.emplace_back(skill);
+            }
+        }
         // If level 60+, only use high level WS and buff WS
-        if (PTrust->GetMLevel() >= 60)
+        else if (PTrust->GetMLevel() >= 60)
         {
             if (canFormLv3Skillchain || IsHighLevelWS(skill_id) || IsBuffWS(skill_id))
             {
                 controller->m_GambitsContainer->tp_skills.emplace_back(skill);
             }
         }
-        else // Use low level weaponskills
+        // Use low level weaponskills
+        else 
         {
             // Check for high-level weapon skills and level 60+ requirement
             if ((!canFormLv3Skillchain || PTrust->GetMLevel() >= 60 || onlyHasLv3Skillchains) && (PTrust->GetMLevel() >= 60 || !IsHighLevelWS(skill_id)))
@@ -870,11 +879,38 @@ void BuildingTrustSkillsTable(CTrustEntity* PTrust)
     }
 }
 
-bool IsHighLevelWS(uint16 skill_id)
+// Level ~55 WS
+bool IsMediumLevelWS(uint16 skill_id)
 {
     switch (skill_id)
     {
         case WS_RAGING_FISTS:
+        case WS_PENTA_THRUST:
+        case WS_SIDEWINDER:
+        case WS_SLUG_SHOT:
+        case WS_STURMWIND:
+        case WS_CIRCLE_BLADE:
+        case 1392: // Amatsu: Yukiarashi
+        case 3195: // Abyssal Drain
+        case 3196: // Abyssal Strike
+        case 3256: // Hane Fubuki
+        case 3259: // Happobarai
+        case 3466: // Paralyzing Microtube
+        case 3467: // Silencing Microtube
+        case 3468: // Binding Microtube
+        case 3286: // Lock and Load
+            return true;
+        default:
+            break;
+    }
+    return false;
+}
+
+// Level 60 WS. These won't make level 3 skillchains
+bool IsHighLevelWS(uint16 skill_id)
+{
+    switch (skill_id)
+    {
         case WS_DANCING_EDGE:
         case WS_VORPAL_BLADE:
         case WS_SICKLE_MOON:
@@ -886,8 +922,9 @@ bool IsHighLevelWS(uint16 skill_id)
         case WS_TACHI_YUKIKAZE:
         case WS_SIDEWINDER:
         case WS_SLUG_SHOT:
-        case 3285: // CHOREOGRAPHED_CARNAGE
-        case 3469: // TWIRLING_DERVISH
+        case 1392: // Amatsu: Yukiarashi
+        case 3285: // Choreographed Carnage
+        case 3469: // Twirling Dervish
             return true;
         default:
             break;

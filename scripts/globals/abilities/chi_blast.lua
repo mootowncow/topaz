@@ -20,7 +20,8 @@ function onUseAbility(player, target, ability)
 	if multiplier == 0 then -- If buff isn't active, don't multiply by zero!
 		multiplier = 1
 	end
-    if (boost ~= nil) then
+
+    if boost then
         penanceDurationMultiplier = 2
         multiplier = multiplier * ( (boost:getPower()/100) * 4 + 1)  -- power is the raw % atk boost. Get boost damage bonus
     end
@@ -28,10 +29,15 @@ function onUseAbility(player, target, ability)
 	local dmg = math.floor((player:getStat(tpz.mod.MND) * (0.5 + (math.random() / 2))) * multiplier) / 3 -- Formula from BG wiki
     
     local penance = player:getMerit(tpz.merit.PENANCE)
+    if player:isTrust() then -- Lhe Lhangavo trust has Penance merits
+        if (player:getName() == 'lhe_lhangavo') then
+            penance = 100
+        end
+    end
     
     if (penance > 0) then
         target:delStatusEffectSilent(tpz.effect.INHIBIT_TP)
-        target:addStatusEffect(tpz.effect.INHIBIT_TP,25,3,penance * penanceDurationMultiplier)
+        target:addStatusEffect(tpz.effect.INHIBIT_TP, 25, 0, penance * penanceDurationMultiplier)
     end
 
     local attackType = tpz.attackType.BREATH

@@ -1137,7 +1137,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Structure_Exoplate',237,1000);
 INSERT INTO `mob_skill_lists` VALUES ('Structure_Exoplate',237,1001);
 INSERT INTO `mob_skill_lists` VALUES ('Lhe_Lhangavo',238,4); -- Backhand Blow
 INSERT INTO `mob_skill_lists` VALUES ('Lhe_Lhangavo',238,5); -- Raging Fists
-INSERT INTO `mob_skill_lists` VALUES ('Lhe_Lhangavo',238,8); -- Dragon Kick
+-- INSERT INTO `mob_skill_lists` VALUES ('Lhe_Lhangavo',238,8); -- Dragon Kick
 INSERT INTO `mob_skill_lists` VALUES ('Lhe_Lhangavo',238,9); -- Asuran Fists
 INSERT INTO `mob_skill_lists` VALUES ('Thunderclaw_Thuban',239,378); -- thunderbolt
 INSERT INTO `mob_skill_lists` VALUES ('Tauri',240,498);
@@ -3760,6 +3760,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Prishe',1028,3235); -- Auroral Uppe
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Prishe',1028,3236); -- Knuckle Sandwich
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ulmia',1029,0);
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Shikaree_Z',1030,112); -- Double Thrust
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Shikaree_Z',1030,116); -- Penta Thrust
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Shikaree_Z',1030,118); -- Skewer
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Shikaree_Z',1030,119); -- Wheeling Thrust
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Shikaree_Z',1030,120); -- Impulse Drive
@@ -3871,6 +3872,7 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Jakoh_Wahcondalo_UC',1071,3497); --
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Qultada',1082,33); -- Burning Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Qultada',1082,42); -- Savage Blade
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Qultada',1082,210); -- Sniper Shot
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Qultada',1082,212); -- Slug Shot
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Qultada',1082,215); -- Detonator
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Adelheid',1083,3466); -- Paralyzing Microtube
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Adelheid',1083,3467); -- Silencing Microtube
