@@ -98,7 +98,7 @@ local modByMobName =
             mob:addMod(tpz.mod.DMG, -8)
             mob:addMod(tpz.mod.SPELLINTERRUPT, 33)
             mob:addMod(tpz.mod.ENMITY, 30)
-            mob:addMod(tpz.mod.DMGPHYS, -33)
+            mob:addMod(tpz.mod.DMGPHYS, -8)
             mob:addMod(tpz.mod.DMGBREATH, -33)
             mob:addMod(tpz.mod.REFRESH, 3)
             mob:addMod(tpz.mod.CURE_POTENCY, 50)
@@ -176,7 +176,6 @@ local modByMobName =
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         if mob:getMainLvl() >= 75 then
             mob:addMod(tpz.mod.HPP, 10)
-            mob:addMod(tpz.mod.DEFP, 25)
             mob:addMod(tpz.mod.DOUBLE_ATTACK, 5)
             mob:addMod(tpz.mod.STORETP, 25)
             mob:addMod(tpz.mod.DA_DOUBLE_DAMAGE, 10)
