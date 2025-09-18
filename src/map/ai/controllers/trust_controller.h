@@ -76,6 +76,7 @@ private:
     bool TryCastOOCSpells();
     bool TryCastRaise();
     bool TryCastReraise();
+    bool TryCastProtectraShellra();
     bool TryCastUtsusemi();
     bool TryCastMazurka();
 

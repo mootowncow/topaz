@@ -72,6 +72,7 @@ CTrustController::CTrustController(CCharEntity* PChar, CTrustEntity* PTrust)
 , m_outOfLosChecks(0)
 , m_numberOfWarps(0)
 , m_InTransit(false)
+, m_CombatEndTime(0s)
 {
 }
 
@@ -642,6 +643,11 @@ bool CTrustController::TryCastOOCSpells()
         return true;
     }
 
+    if (TryCastProtectraShellra())
+    {
+        return true;
+    }
+
     if (TryCastUtsusemi())
     {
         return true;
@@ -764,6 +770,71 @@ bool CTrustController::TryCastReraise()
     return false;
 }
 
+bool CTrustController::TryCastProtectraShellra()
+{
+    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
+    CCharEntity* PChar = static_cast<CCharEntity*>(POwner->PMaster);
+
+    if (!controller || !PChar)
+    {
+        return false;
+    }
+
+    if (!POwner->PAI->CanChangeState())
+    {
+        return false;
+    }
+
+    if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_PROTECT) && POwner->StatusEffectContainer->HasStatusEffect(EFFECT_SHELL))
+    {
+        return false;
+    }
+
+    if (POwner->PAI->IsCurrentState<CAbilityState>() || POwner->PAI->IsCurrentState<CRangeState>() || POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() || POwner->PAI->IsCurrentState<CMobSkillState>())
+    {
+        return false;
+    }
+
+    auto membersInRange = 0;
+
+    PChar->ForPartyWithTrusts(
+        [&](CBattleEntity* PMember)
+        {
+            // Make sure all party members are in range before casting protectra/shellra
+            float distanceToMember = distance(POwner->loc.p, PMember->loc.p);
+            if (distanceToMember <= 10.0f)
+            {
+                membersInRange++;
+            }
+
+            if (membersInRange < 6)
+            {
+                return false;
+            }
+
+            if (auto* PTrust = dynamic_cast<CTrustEntity*>(POwner))
+            {
+                auto protectra = PTrust->SpellContainer->GetBestAvailable(SPELLFAMILY_PROTECTRA);
+                auto shellra = PTrust->SpellContainer->GetBestAvailable(SPELLFAMILY_SHELLRA);
+
+                if (protectra && !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_PROTECT))
+                {
+                    controller->Cast(POwner->targid, *protectra);
+                    return true;
+                }
+
+                if (shellra && !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_SHELL))
+                {
+                    controller->Cast(POwner->targid, *shellra);
+                    return true;
+                }
+            }
+        });
+
+    return false;
+}
+
 bool CTrustController::TryCastUtsusemi()
 {
     auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
@@ -871,6 +942,11 @@ bool CTrustController::TryUseBoltersRoll()
     CCharEntity* PChar = static_cast<CCharEntity*>(POwner->PMaster);
 
     if (!controller || !PChar)
+    {
+        return false;
+    }
+
+    if (m_Tick - m_CombatEndTime < 30s)
     {
         return false;
     }
