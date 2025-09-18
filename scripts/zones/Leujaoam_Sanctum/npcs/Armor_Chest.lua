@@ -23,7 +23,7 @@ function onTrigger(player, npc)
         end
     end
     if Message == 0 then
-        for _, member in pairs(player:getAlliance()) do
+        for _, member in pairs(player:getPartyWithTrusts()) do
             if member:getZoneID() == player:getZoneID() then
                 member:PrintToPlayer("Your armor is enchanted with fire resistant runes! But a nearby chest melts away...",0,"Armor Chest")
                 member:addMod(tpz.mod.FIREDEF, 13)

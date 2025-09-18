@@ -23,7 +23,7 @@ function onTrigger(player, npc)
         end
     end
     if Message == 0 then
-        for _, member in pairs(player:getAlliance()) do
+        for _, member in pairs(player:getPartyWithTrusts()) do
             if member:getZoneID() == player:getZoneID() then
                 member:PrintToPlayer("Your weapon is imbued with powerful magic! But a nearby chest melts away...",0,"Weapon Chest")
                 member:addMod(tpz.mod.VERMIN_CIRCLE, 5)
