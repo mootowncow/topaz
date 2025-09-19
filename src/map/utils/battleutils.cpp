@@ -9052,6 +9052,15 @@ namespace battleutils
             }
         }
 
+        // Afflatus MIsery reduces the MP cost of Divine Spells by 100%
+        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_AFFLATUS_MISERY))
+        {
+            if (PSpell->getSkillType() == SKILLTYPE::SKILL_DIVINE_MAGIC)
+            {
+                cost = 0;
+            }
+        }
+
         return std::clamp<int16>(cost, 0, 9999);
     }
     uint32 CalculateSpellRecastTime(CBattleEntity* PEntity, CSpell* PSpell)
