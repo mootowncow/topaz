@@ -882,7 +882,7 @@ local function GiveTempItems(player, amount)
 
         Pet = {
             tpz.items.TUBE_OF_HEALING_SALVE_I, tpz.items.TUBE_OF_HEALING_SALVE_II,
-            tpz.items.TUBE_OF_CLEAR_SALVE_I, tpz.items.TUBE_OF_CLEAR_SALVE_II
+            tpz.items.TUBE_OF_CLEAR_SALVE_I, tpz.items.TUBE_OF_CLEAR_SALVE_II, tpz.items.BOTTLE_OF_SHEPHERDS_DRINK
         },
 
         Boosts = {
@@ -901,7 +901,7 @@ local function GiveTempItems(player, amount)
             tpz.items.BOTTLE_OF_BARBARIANS_DRINK, tpz.items.BOTTLE_OF_FIGHTERS_DRINK, tpz.items.BOTTLE_OF_ORACLES_DRINK,
             tpz.items.BOTTLE_OF_ASSASSINS_DRINK, tpz.items.BOTTLE_OF_SPYS_DRINK, tpz.items.BOTTLE_OF_BRAVERS_DRINK,
             tpz.items.BOTTLE_OF_SOLDIERS_DRINK, tpz.items.BOTTLE_OF_CHAMPIONS_DRINK, tpz.items.BOTTLE_OF_MONARCHS_DRINK,
-            tpz.items.BOTTLE_OF_GNOSTICS_DRINK, tpz.items.BOTTLE_OF_CLERICS_DRINK, tpz.items.BOTTLE_OF_SHEPHERDS_DRINK,
+            tpz.items.BOTTLE_OF_GNOSTICS_DRINK, tpz.items.BOTTLE_OF_CLERICS_DRINK,
             tpz.items.BOTTLE_OF_SPRINTERS_DRINK, tpz.items.BOTTLE_OF_VICARS_DRINK
         },
 
