@@ -1872,9 +1872,9 @@ INSERT INTO `item_basic` VALUES (1982,0,'king_locust','king_locust',99,4,59,0,20
 INSERT INTO `item_basic` VALUES (1983,0,'mushroom_locust','mushrm._locust',99,4,59,0,307);
 INSERT INTO `item_basic` VALUES (1984,0,'snapping_mole','snapping_mole',99,4,59,0,41);
 INSERT INTO `item_basic` VALUES (1985,0,'helmet_mole','helmet_mole',99,4,59,0,714);
-INSERT INTO `item_basic` VALUES (1986,0,'orchid_chip','orchid_chip',1,45136,0,1,0);
-INSERT INTO `item_basic` VALUES (1987,0,'charcoal_chip','charcoal_chip',1,45136,0,1,0);
-INSERT INTO `item_basic` VALUES (1988,0,'magenta_chip','magenta_chip',1,45136,0,1,0);
+INSERT INTO `item_basic` VALUES (1986,0,'orchid_chip','orchid_chip',1,12368,0,1,0);
+INSERT INTO `item_basic` VALUES (1987,0,'charcoal_chip','charcoal_chip',1,12368,0,1,0);
+INSERT INTO `item_basic` VALUES (1988,0,'magenta_chip','magenta_chip',1,12368,0,1,0);
 INSERT INTO `item_basic` VALUES (1989,0,'dark_bronze','dark_bronze',99,4,38,0,390);
 INSERT INTO `item_basic` VALUES (1990,0,'dark_bronze_sheet','drk._brz._sheet',99,4,38,0,397);
 INSERT INTO `item_basic` VALUES (1991,0,'silver_brocade','silver_brocade',99,4,40,0,1249);
