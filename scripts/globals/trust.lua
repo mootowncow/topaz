@@ -154,7 +154,8 @@ local modByMobName =
             mob:addMod(tpz.mod.DMGAOE, -33)
         end
         AddRefreshGear(mob)
-        mob:addMod(tpz.mod.CURE_CAST_TIME, 25)
+        mob:addMod(tpz.mod.CURE_CAST_TIME, 35)
+        mob:addMod(tpz.mod.CURE_POTENCY, 10)
         AddHealerGear(mob)
         AddArtifactGear(mob)
     end,
@@ -980,7 +981,6 @@ function AddHealerGear(mob)
         mob:addMod(tpz.mod.INT, 30)
         mob:addMod(tpz.mod.MND, 51)
         mob:addMod(tpz.mod.MATT, 5)
-        mob:addMod(tpz.mod.CURE_POTENCY, 10)
         AddElementalStaves(mob, 'nq')
         if master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
             -- TODO

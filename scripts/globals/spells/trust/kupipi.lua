@@ -36,6 +36,7 @@ function onMobSpawn(mob)
     tpz.trust.setUpFood(mob)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.LIGHT_ARTS, ai.r.JA, ai.s.SPECIFIC, tpz.ja.LIGHT_ARTS)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.AFFLATUS_SOLACE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.AFFLATUS_SOLACE)
 
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.STATUS, tpz.effect.PETRIFICATION, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STONA)
 
