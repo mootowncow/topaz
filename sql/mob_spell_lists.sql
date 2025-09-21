@@ -2606,6 +2606,9 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,170,30,255);       -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,171,55,255);       -- Water III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,172,70,255);       -- Water IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,173,80,255);       -- Water V
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,273,31,255);       -- Sleepga
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,274,56,255);       -- Sleepga II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,365,73,255);       -- Breakga
 
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Naji',309,0,1,255);            -- none (reserved)
 
@@ -6213,6 +6216,9 @@ INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 524, 1, 255); -- Sandspin
 INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 548, 1, 255); -- Filamented Hold
 INSERT INTO `mob_spell_lists` VALUES ('Tethra', 554, 555, 1, 255); -- Magnetite Cloud
 
+INSERT INTO `mob_spell_lists` VALUES ('Hound_of_Balthazar',555,176,1,255); -- Firaga III
+INSERT INTO `mob_spell_lists` VALUES ('Hound_of_Balthazar',555,286,1,255); -- Addle
+
 INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 147, 1, 255); -- Fire IV
 INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 152, 1, 255); -- Blizzard IV
 INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 157, 1, 255); -- Aero IV
@@ -6232,9 +6238,17 @@ INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 254, 1, 255); -- Bli
 INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 58, 1, 255); -- Paralyze
 INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 59, 1, 255); -- Silence
 
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,278,1,255); -- Geohelix
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,279,1,255); -- Hydroelix
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,280,1,255); -- Anemohelix
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,281,1,255); -- Pyrohelix
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,282,1,255); -- Cryohelix
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,283,1,255); -- Ionohelix
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,284,1,255); -- Noctohelix
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,285,1,255); -- Luminohelix
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,477,1,255); -- Regen IV
+
 -- NEXT 561
-INSERT INTO `mob_spell_lists` VALUES ('Hound_of_Balthazar',555,176,1,255); -- Firaga III
-INSERT INTO `mob_spell_lists` VALUES ('Hound_of_Balthazar',555,286,1,255); -- Addle
 
 INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,359,1,255); -- silencega
 INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,156,1,255); -- aero III

@@ -17,7 +17,7 @@ function onSpellCast(caster, target, spell)
 	--62/256 = 24.218% ～ 70/256 = 27.343% *
 	-- 2/256 per merit
 
-    if caster:isMob() then
+    if caster:isMob() or caster:isTrust() then
         power = 24
     end
 

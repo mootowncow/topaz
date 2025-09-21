@@ -30,6 +30,8 @@ function onMobSpawn(mob)
     tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.SPAWN)
     tpz.trust.setUpFood(mob)
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
+
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_MS, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_JA, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
@@ -53,9 +55,7 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NO_STORM, 0, ai.r.MA, ai.s.STORM_WEAKNESS, 0, 0)
 
-    if mob:getMainLvl() >= 65 then
-        mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.HELIX, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MODUS_VERITAS)
-    end
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS, tpz.effect.HELIX, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MODUS_VERITAS)
 
     if mob:getMainLvl() >= 55 then
         mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.EBULLIENCE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.EBULLIENCE)
@@ -73,7 +73,7 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.HPP_LT, 66, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 50, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_SC_AVAILABLE, 0, ai.r.MA, ai.s.BEST_AGAINST_TARGET, tpz.magic.spellFamily.NONE, 75)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_SC_AVAILABLE, 0, ai.r.MA, ai.s.BEST_AGAINST_TARGET, tpz.magic.spellFamily.NONE)
 
     if mob:getMainLvl() >= 75 then
         mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.LONG_RANGE)

@@ -908,16 +908,16 @@ bool CTrustController::TryCastMazurka()
         return false;
     }
 
+    // Make sure master is within song distance
+    float distanceToMaster = distance(POwner->loc.p, POwner->PMaster->loc.p);
+    if (distanceToMaster > 8.0f)
+    {
+        return false;
+    }
+
     PChar->ForPartyWithTrusts(
         [&](CBattleEntity* PMember)
         {
-            // Make sure master is within song distance
-            float distanceToMaster = distance(POwner->loc.p, POwner->PMaster->loc.p);
-            if (distanceToMaster > 8.0f)
-            {
-                return false;
-            }
-
             // Check highest available Mazurka spell
             SpellID song = SpellID::NULLSPELL;
 
@@ -967,16 +967,16 @@ bool CTrustController::TryUseBoltersRoll()
         return false;
     }
 
+    // Make sure master is within roll distance
+    float distanceToMaster = distance(POwner->loc.p, POwner->PMaster->loc.p);
+    if (distanceToMaster > 8.0f)
+    {
+        return false;
+    }
+
     PChar->ForPartyWithTrusts(
         [&](CBattleEntity* PMember)
         {
-            // Make sure master is within roll distance
-            float distanceToMaster = distance(POwner->loc.p, POwner->PMaster->loc.p);
-            if (distanceToMaster > 8.0f)
-            {
-                return false;
-            }
-
             // Check if can use Bolters Roll
             ABILITY ability = ABILITY_NONE;
 

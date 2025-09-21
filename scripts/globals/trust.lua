@@ -138,6 +138,17 @@ local modByMobName =
         AddArtifactGear(mob)
     end,
 
+    ['shantotto'] = function(mob)
+        mob:addMod(tpz.mod.DMGAOE, -33)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.MPP, 40)
+        end
+
+        AddRefreshGear(mob)
+        AddCasterGear(mob)
+        AddArtifactGear(mob)
+    end,
+
     ['koru-moru'] = function(mob)
         mob:addMod(tpz.mod.HPP, 20)
         if mob:getMainLvl() >= 75 then
