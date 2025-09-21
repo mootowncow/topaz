@@ -25,7 +25,12 @@ function onSpellCast(caster, target, spell)
 
     local duration = 3 * (1 + (skill / 11))
     local base = math.floor((math.floor(0.67 * caster:getMainLvl())/10)*(37 + math.floor(0.67*dINT)))
-    base = math.floor(base * 0.25)
+
+    -- 75% damage reduction if casted by a player
+    if caster:isPC() then
+        base = math.floor(base * 0.25)
+    end
+
     local params = {}
     params.diff = nil
     params.attribute = tpz.mod.INT

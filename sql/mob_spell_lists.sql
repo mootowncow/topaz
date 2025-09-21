@@ -1034,7 +1034,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Overlord_s_Tombstone',49,367,1,255); -- D
 INSERT INTO `mob_spell_lists` VALUES ('Tzee_Xicu_Idol',50,147,1,255); -- fire_iv
 INSERT INTO `mob_spell_lists` VALUES ('Tzee_Xicu_Idol',50,152,1,255); -- blizzard_iv
 INSERT INTO `mob_spell_lists` VALUES ('Tzee_Xicu_Idol',50,157,1,255); -- aero_iv
-INSERT INTO `mob_spell_lists` VALUES ('Tzee_Xicu_Idol',50,163,1,255); -- stone_iv
+INSERT INTO `mob_spell_lists` VALUES ('Tzee_Xicu_Idol',50,162,1,255); -- stone_iv
 INSERT INTO `mob_spell_lists` VALUES ('Tzee_Xicu_Idol',50,167,1,255); -- thunder_iv
 INSERT INTO `mob_spell_lists` VALUES ('Tzee_Xicu_Idol',50,172,1,255); -- water_iv
 INSERT INTO `mob_spell_lists` VALUES ('Tzee_Xicu_Idol',50,181,1,255); -- blizzaga_iii
@@ -6079,7 +6079,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,218,1,255); -- Mete
 INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,147,1,255); -- fire_iv
 INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,152,1,255); -- blizzard_iv
 INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,157,1,255); -- aero_iv
-INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,163,1,255); -- stone_iv
+INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,162,1,255); -- stone_iv
 INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,167,1,255); -- thunder_iv
 INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,172,1,255); -- water_iv
 INSERT INTO `mob_spell_lists` VALUES ('Cherukiki-Mythic',541,181,1,255); -- blizzaga_iii
@@ -6238,6 +6238,12 @@ INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 254, 1, 255); -- Bli
 INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 58, 1, 255); -- Paralyze
 INSERT INTO `mob_spell_lists` VALUES ('CaitSithPrime', 560, 59, 1, 255); -- Silence
 
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,147,1,255); -- Fire IV
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,152,1,255); -- Blizzard IV
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,157,1,255); -- Aero IV
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,162,1,255); -- Stone IV
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,167,1,255); -- Thunder IV
+INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,172,1,255); -- Water IV
 INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,278,1,255); -- Geohelix
 INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,279,1,255); -- Hydroelix
 INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,280,1,255); -- Anemohelix

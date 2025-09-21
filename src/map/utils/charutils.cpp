@@ -5799,6 +5799,16 @@ namespace charutils
             {
                 PEntity->StatusEffectContainer->DelStatusEffectSilent(EFFECT_MANIFESTATION);
             }
+
+            if (PEntity->objtype == TYPE_MOB)
+            {
+                // Mobs only Manifestation that turns ST nukes into -ga nukes
+                if (PSpell->getID() >= SpellID::Fire && PSpell->getID() <= SpellID::Water_V)
+                {
+                    PEntity->StatusEffectContainer->DelStatusEffectSilent(EFFECT_MANIFESTATION);
+                    PEntity->StatusEffectContainer->DelStatusEffectSilent(EFFECT_ENHANCED_MANIFESTATION);
+                }
+            }
         }
     }
 

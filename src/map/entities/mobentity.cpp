@@ -2540,6 +2540,9 @@ void CMobEntity::OnCastFinished(CMagicState& state, action_t& action)
         mobController->OnCastStopped(state, action);
     }
 
+    auto PSpell = state.GetSpell();
+    charutils::RemoveStratagems(this, PSpell);
+
     static_cast<CMobController*>(PAI->GetController())->TapDeaggroTime();
 
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
