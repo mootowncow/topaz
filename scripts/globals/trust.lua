@@ -523,7 +523,9 @@ tpz.trust.setUpFood = function(mob)
         },
 
         Healer = {
-            { Lvl = 1, Food = tpz.items.CUP_OF_CHOCOMILK },
+            { Lvl = 1, Food = tpz.items.ROAST_MUSHROOM },
+            { Lvl = 50, Food = tpz.items.BOWL_OF_MUSHROOM_SOUP },
+            { Lvl = 75, Food = tpz.items.BOWL_OF_MUSHROOM_STEW },
         },
 
         Support = {
