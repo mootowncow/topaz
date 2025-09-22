@@ -42,6 +42,7 @@
 #include "../../ai/states/magic_state.h"
 #include "../../ai/states/range_state.h"
 #include "../../ai/states/weaponskill_state.h"
+#include "../../ai/states/item_state.h"
 #include "../../utils/battleutils.h"
 #include "../../utils/trustutils.h"
 
@@ -113,7 +114,8 @@ void CGambitsContainer::Tick(time_point tick)
         POwner->PAI->IsCurrentState<CRangeState>() ||
         POwner->PAI->IsCurrentState<CMagicState>() ||
         POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
-        POwner->PAI->IsCurrentState<CMobSkillState>())
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
     {
         return;
     }

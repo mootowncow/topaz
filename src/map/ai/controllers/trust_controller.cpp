@@ -32,6 +32,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../ai/states/magic_state.h"
 #include "../../ai/states/range_state.h"
 #include "../../ai/states/weaponskill_state.h"
+#include "../../ai/states/item_state.h"
 #include "../../ai/helpers/gambits_container.h"
 #include "../../entities/charentity.h"
 #include "../../entities/trustentity.h"
@@ -178,7 +179,12 @@ void CTrustController::DoCombatTick(time_point tick)
     }
 
     // If busy, don't run around!
-    if (POwner->PAI->IsCurrentState<CMagicState>() || POwner->PAI->IsCurrentState<CRangeState>())
+    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
+        POwner->PAI->IsCurrentState<CRangeState>() ||
+        POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
     {
         return;
     }
@@ -429,7 +435,8 @@ void CTrustController::DoRoamTick(time_point tick)
         POwner->PAI->IsCurrentState<CRangeState>() ||
         POwner->PAI->IsCurrentState<CMagicState>() ||
         POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
-        POwner->PAI->IsCurrentState<CMobSkillState>())
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
     {
         return;
     }
@@ -681,7 +688,8 @@ bool CTrustController::TryCastRaise()
         POwner->PAI->IsCurrentState<CRangeState>() ||
         POwner->PAI->IsCurrentState<CMagicState>() ||
         POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
-        POwner->PAI->IsCurrentState<CMobSkillState>())
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
     {
         return false;
     }
@@ -746,7 +754,8 @@ bool CTrustController::TryCastReraise()
         POwner->PAI->IsCurrentState<CRangeState>() ||
         POwner->PAI->IsCurrentState<CMagicState>() ||
         POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
-        POwner->PAI->IsCurrentState<CMobSkillState>())
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
     {
         return false;
     }
@@ -790,8 +799,12 @@ bool CTrustController::TryCastProtectraShellra()
         return false;
     }
 
-    if (POwner->PAI->IsCurrentState<CAbilityState>() || POwner->PAI->IsCurrentState<CRangeState>() || POwner->PAI->IsCurrentState<CMagicState>() ||
-        POwner->PAI->IsCurrentState<CWeaponSkillState>() || POwner->PAI->IsCurrentState<CMobSkillState>())
+    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
+        POwner->PAI->IsCurrentState<CRangeState>() ||
+        POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
     {
         return false;
     }
@@ -858,7 +871,8 @@ bool CTrustController::TryCastUtsusemi()
         POwner->PAI->IsCurrentState<CRangeState>() ||
         POwner->PAI->IsCurrentState<CMagicState>() ||
         POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
-        POwner->PAI->IsCurrentState<CMobSkillState>())
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
     {
         return false;
     }
@@ -902,8 +916,12 @@ bool CTrustController::TryCastMazurka()
         return false;
     }
 
-    if (POwner->PAI->IsCurrentState<CAbilityState>() || POwner->PAI->IsCurrentState<CRangeState>() || POwner->PAI->IsCurrentState<CMagicState>() ||
-        POwner->PAI->IsCurrentState<CWeaponSkillState>() || POwner->PAI->IsCurrentState<CMobSkillState>())
+    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
+        POwner->PAI->IsCurrentState<CRangeState>() ||
+        POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
     {
         return false;
     }
@@ -961,8 +979,12 @@ bool CTrustController::TryUseBoltersRoll()
         return false;
     }
 
-    if (POwner->PAI->IsCurrentState<CAbilityState>() || POwner->PAI->IsCurrentState<CRangeState>() || POwner->PAI->IsCurrentState<CMagicState>() ||
-        POwner->PAI->IsCurrentState<CWeaponSkillState>() || POwner->PAI->IsCurrentState<CMobSkillState>())
+    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
+        POwner->PAI->IsCurrentState<CRangeState>() ||
+        POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
     {
         return false;
     }
