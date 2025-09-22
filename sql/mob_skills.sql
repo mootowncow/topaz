@@ -361,14 +361,14 @@ INSERT INTO `mob_skills` VALUES (421,165,'mp_drainkiss',0,7.0,2000,1500,4,0,0,0,
 INSERT INTO `mob_skills` VALUES (422,891,'sonic_blade',1,5.0,2000,1500,4,0,0,0,0,0,0); -- sword form only
 INSERT INTO `mob_skills` VALUES (423,167,'brain_drain',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (424,168,'full-force_blow',0,7.0,2000,1500,4,0,0,1,3,0,0);
-INSERT INTO `mob_skills` VALUES (425,169,'gastric_bomb',0,18.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (426,170,'sandspin',1,12.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (427,171,'tremors',1,12.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (425,169,'gastric_bomb',0,25.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (426,170,'sandspin',1,10.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (427,171,'tremors',1,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (428,172,'mp_absorption',0,15.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (429,173,'sound_vacuum',0,15.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (430,174,'buff_drain',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (431,175,'fluid_spread',1,10.0,2000,1500,4,0,0,0,12,1,0);
-INSERT INTO `mob_skills` VALUES (432,176,'fluid_toss',0,15.0,2000,1000,4,0,0,0,5,0,0);
+INSERT INTO `mob_skills` VALUES (432,176,'fluid_toss',0,25.0,2000,1000,4,0,0,0,5,0,0);
 INSERT INTO `mob_skills` VALUES (433,177,'digest',0,7.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (434,806,'soporific',1,15.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (435,807,'palsy_pollen',4,10.0,2000,1500,4,0,0,0,0,0,0);
@@ -1911,9 +1911,9 @@ INSERT INTO `mob_skills` VALUES (1948,439,'mana_converter',0,7.0,2000,0,16,2,0,0
 INSERT INTO `mob_skills` VALUES (1949,16,'ranged_attack',0,25.0,2000,0,4,4,0,0,0,0,0); -- Automaton
 INSERT INTO `mob_skills` VALUES (1950,1694,'belly_dance',1,10.0,2000,2500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1951,1345,'magma_fan',4,10.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1952,1346,'erratic_flutter',1,15.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1953,1347,'proboscis',1,15.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1954,1348,'erosion_dust',1,15.0,2000,1000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1952,1346,'erratic_flutter',1,10.0,2000,1000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1953,1347,'proboscis',1,10.0,2000,1000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1954,1348,'erosion_dust',1,10.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1955,1349,'exuviation',0,7.0,2000,1000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1956,1350,'fire_break',4,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1957,1359,'frog_song',0,7.0,2000,1500,4,0,0,0,0,0,0);
