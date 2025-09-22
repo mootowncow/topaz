@@ -1006,10 +1006,10 @@ namespace fishingutils
         }
 
         // If JST midnight has rolled over since last time player fished, then reset their fishing fatigue
-        if (charutils::GetCharVar(PChar, "LastFishingDate") > CVanaTime::getInstance()->getJstMidnight())
+        uint32 now = static_cast<uint32>(time(nullptr));
+        if (charutils::GetCharVar(PChar, "LastFishingDate") < now)
         {
-            uint32 now = static_cast<uint32>(time(nullptr));
-            charutils::SetCharVar(PChar, "LastFishingDate", now);
+            charutils::SetCharVar(PChar, "LastFishingDate", CVanaTime::getInstance()->getJstMidnight());
             charutils::SetCharVar(PChar, "FishingFatigue", 0);
         }
 
