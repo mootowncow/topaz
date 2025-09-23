@@ -4501,7 +4501,7 @@ namespace charutils
     *                                                                       *
     ************************************************************************/
 
-    void AddExperiencePoints(bool expFromRaise, CCharEntity* PChar, CBaseEntity* PMob, uint32 exp, EMobDifficulty mobCheck, bool isexpchain)
+    void AddExperiencePoints(bool expFromRaise, CCharEntity* PChar, CBaseEntity* PMob, uint32 exp, EMobDifficulty mobCheck, bool isexpchain, bool isSilent, bool xpOnly)
     {
         if (PChar->isDead())
             return;
@@ -4510,6 +4510,7 @@ namespace charutils
         {
             exp = (uint32)(exp * map_config.exp_rate);
         }
+
         uint16 currentExp = PChar->jobs.exp[PChar->GetMJob()];
         bool onLimitMode = false;
 
@@ -4522,8 +4523,12 @@ namespace charutils
             PChar->jobs.exp[PChar->GetMJob()] == GetExpNEXTLevel(PChar->jobs.job[PChar->GetMJob()]) - 1)
             onLimitMode = true;
 
-        // exp added from raise shouldn't display a message. Don't need a message for zero exp either
-        if (!expFromRaise && exp > 0)
+        // ONLY give xp.
+        if (xpOnly)
+            onLimitMode = false;
+
+        // exp added from raise shouldn't display a message. Don't need a message for zero exp either. Additionally, check isSIlent bool
+        if ((!expFromRaise && exp > 0) && !isSilent)
         {
             // printf("Experience before level penalty %i\n", exp);
             //  Check for level restriction(COP level capped zones)
@@ -4572,7 +4577,8 @@ namespace charutils
             // add limit points
             if (PChar->PMeritPoints->AddLimitPoints(exp))
             {
-                PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CMessageCombatPacket(PChar, PMob, PChar->PMeritPoints->GetMeritPoints(), 0, 50));
+                if (!isSilent)
+                    PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CMessageCombatPacket(PChar, PMob, PChar->PMeritPoints->GetMeritPoints(), 0, 50));
             }
         }
         else
