@@ -62,7 +62,7 @@ enum class Mod
 
     ACC                       = 25, // Accuracy
     RACC                      = 26, // Ranged Accuracy
-    TWOHAND_ACC = 219, // Same as ACC, but only active when using a two handed weapon (e.g. Hasso)
+    TWOHAND_ACC               = 219, // Same as ACC, but only active when using a two handed weapon (e.g. Hasso)
 
     ENMITY                    = 27, // Enmity
     ENMITY_II                 = 1376,// Enmity II (Special Enmity Bonus on BG Wiki)

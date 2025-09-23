@@ -564,8 +564,8 @@ tpz.trust.setUpFood = function(mob)
         end
     end
 
-    if selectedFood and not mob:hasStatusEffect(tpz.effect.FOOD) then
-        mob:useItem(selectedFood, mob)
+    if selectedFood then
+        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.FOOD, ai.r.ITEM, ai.s.SPECIFIC, selectedFood)
     end
 end
 

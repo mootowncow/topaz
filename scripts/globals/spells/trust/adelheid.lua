@@ -38,10 +38,8 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
 
     -- Manifestation + Sleepga if multiple targets next to eachother
-    if (mob:getMainLvl() >= 30) then
-        mob:addSimpleGambit(ai.t.TARGET, ai.c.MANI_SLEEPGA, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MANIFESTATION)
-        mob:addSimpleGambit(ai.t.TARGET, ai.c.SLEEPGA, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.SLEEP)
-    end
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.MANI_SLEEPGA, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MANIFESTATION)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.SLEEPGA, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.SLEEP)
 
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)

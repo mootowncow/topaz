@@ -70,7 +70,9 @@ ai.condition =
     MANI_SLEEPGA       = 36,
     SLEEPGA            = 37,
     TWO_EFFECTS        = 38,
-    THREE_EFFECTS      = 39, 
+    THREE_EFFECTS      = 39,
+    ES_SLEEPGA         = 40,
+    BREAKGA            = 41,
 }
 ai.c = ai.condition
 
