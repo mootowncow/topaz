@@ -22,8 +22,8 @@ function onEffectGain(target, effect)
     if not target:hasStatusEffect(tpz.effect.MUDDLE) then
         target:addStatusEffect(tpz.effect.MUDDLE, 1, 0, 30)
     end
-    local effect = target:getStatusEffect(tpz.effect.AMNESIA)
-    effect:unsetFlag(tpz.effectFlag.WALTZABLE)
+
+    target:setEffectUndispellable(tpz.effect.AMNESIA)
 end
 
 function onEffectTick(target, effect)
