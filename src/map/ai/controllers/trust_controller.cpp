@@ -922,10 +922,20 @@ bool CTrustController::TryCastUtsusemi(CCharEntity* PMaster, CTrustController* C
 
     return false;
 }
-
+ 
 bool CTrustController::TryCastMazurka(CCharEntity* PMaster, CTrustController* Controller)
 {
-    if (PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_MAZURKA))
+    if (m_Tick - m_CombatEndTime < 30s)
+    {
+        return false;
+    }
+
+    if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_MAZURKA))
+    {
+        return false;
+    }
+
+    if (PMaster->PAI->IsEngaged())
     {
         return false;
     }
