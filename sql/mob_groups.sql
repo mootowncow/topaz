@@ -6627,7 +6627,7 @@ INSERT INTO `mob_groups` VALUES (21,1160,96,'Earth_Elemental',330,4,733,0,0,75,7
 INSERT INTO `mob_groups` VALUES (22,3148,96,'Pixie',330,256,2001,0,0,56,58,0);
 INSERT INTO `mob_groups` VALUES (23,1698,96,'Goblin_Pioneer',330,0,1138,0,0,62,64,0);
 INSERT INTO `mob_groups` VALUES (24,1688,96,'Goblin_Mine',0,128,0,0,0,75,75,0);
-INSERT INTO `mob_groups` VALUES (25,4298,96,'War_Lynx',0,128,0,0,0,68,72,0);
+INSERT INTO `mob_groups` VALUES (25,4298,96,'War_Lynx',0,128,0,9000,0,72,72,0);
 INSERT INTO `mob_groups` VALUES (26,4457,96,'Yagudo_Transporter',0,128,0,0,0,60,60,0);
 INSERT INTO `mob_groups` VALUES (27,4421,96,'Yagudo_Guard',0,128,0,0,0,60,60,0);
 INSERT INTO `mob_groups` VALUES (28,915,96,'Dark_Ixion',36000,0,1481,45000,0,85,85,0);
