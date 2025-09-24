@@ -3,6 +3,7 @@
 --  Mob: Gorynich
 -----------------------------------
 require("scripts/globals/limbus")
+require("scripts/globals/status")
 require("scripts/globals/pathfind")
 local ID = require("scripts/zones/Apollyon/IDs")
 local flags = tpz.path.flag.WALLHACK
@@ -65,7 +66,7 @@ function onMobDeath(mob, player, isKiller, noKiller)
         battlefield:setLocalVar("GorynichKillCounter", GorynichKillCounter + 100)
         Cynoprosopi:addMod(tpz.mod.ACC, -25)
         Cynoprosopi:addMod(tpz.mod.HASTE_MAGIC, -1000)
-        Cynoprosopi:setHP(15000 - GorynichKillCounter * 10)
+        Cynoprosopi:addStatusEffect(tpz.effect.MAX_HP_DOWN, 10 * (GorynichKillCounter / 100), 0, 0)
 	    Cynoprosopi:setDamage(500 - GorynichKillCounter)
         local mobID = mob:getID()
         local battlefield = mob:getBattlefield()
