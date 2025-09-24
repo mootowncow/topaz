@@ -782,6 +782,11 @@ bool CTrustController::TryUseOOCAbilities(CCharEntity* PMaster, CTrustController
         return true;
     }
 
+    if (TryUseChocoboJig(PMaster, Controller))
+    {
+        return true;
+    }
+
     return false;
 }
 
@@ -1008,6 +1013,46 @@ bool CTrustController::TryUseBoltersRoll(CCharEntity* PMaster, CTrustController*
 
             if (ability::CanUseAbility(static_cast<CBattleEntity*>(POwner), ability::GetAbility(ABILITY_BOLTERS_ROLL)))
                 ability = ABILITY_BOLTERS_ROLL;
+
+            if (ability != ABILITY_NONE)
+            {
+                Controller->Ability(POwner->targid, ability);
+                return true;
+            }
+        });
+
+    return false;
+}
+
+bool CTrustController::TryUseChocoboJig(CCharEntity* PMaster, CTrustController* Controller)
+{
+    if (m_Tick - m_CombatEndTime < 30s)
+    {
+        return false;
+    }
+
+    if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_QUICKENING))
+    {
+        return false;
+    }
+
+    // Make sure master is near
+    float distanceToMaster = distance(POwner->loc.p, POwner->PMaster->loc.p);
+    if (distanceToMaster > 5.0f)
+    {
+        return false;
+    }
+
+    PMaster->ForPartyWithTrusts(
+        [&](CBattleEntity* PMember)
+        {
+            // Check if can use Chocobo Jig
+            ABILITY ability = ABILITY_NONE;
+
+            if (ability::CanUseAbility(static_cast<CBattleEntity*>(POwner), ability::GetAbility(ABILITY_CHOCOBO_JIG_II)))
+                ability = ABILITY_CHOCOBO_JIG_II;
+            else if (ability::CanUseAbility(static_cast<CBattleEntity*>(POwner), ability::GetAbility(ABILITY_CHOCOBO_JIG)))
+                ability = ABILITY_CHOCOBO_JIG;
 
             if (ability != ABILITY_NONE)
             {

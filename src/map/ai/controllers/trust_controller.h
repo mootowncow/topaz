@@ -84,6 +84,7 @@ private:
 
     bool TryUseOOCAbilities(CCharEntity* PMaster, CTrustController* Controller);
     bool TryUseBoltersRoll(CCharEntity* PMaster, CTrustController* Controller);
+    bool TryUseChocoboJig(CCharEntity* PMaster, CTrustController* Controller);
 
     CBattleEntity* m_LastTopEnmity;
 
