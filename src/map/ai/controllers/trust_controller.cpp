@@ -453,6 +453,17 @@ void CTrustController::DoRoamTick(time_point tick)
         }
     }
 
+    // Currently doing another action
+    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
+        POwner->PAI->IsCurrentState<CRangeState>() ||
+        POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
+    {
+        return;
+    }
+
     uint8 currentPartyPos = GetPartyPosition();
     CBattleEntity* PFollowTarget = (GetPartyPosition() > 0) ? (CBattleEntity*)PMaster->PTrusts.at(currentPartyPos - 1) : POwner->PMaster;
     float currentDistance = distance(POwner->loc.p, PFollowTarget->loc.p);
@@ -931,6 +942,11 @@ bool CTrustController::TryCastMazurka(CCharEntity* PMaster, CTrustController* Co
     }
 
     if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_MAZURKA))
+    {
+        return false;
+    }
+
+    if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_PIANISSIMO))
     {
         return false;
     }
