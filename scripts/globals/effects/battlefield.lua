@@ -23,6 +23,10 @@ function onEffectLose(target, effect)
         pet:delStatusEffect(tpz.effect.BATTLEFIELD)
         pet:leaveBattlefield(1)
     end
+
+    if target:getObjType() == tpz.objType.PC then
+        target:clearTrusts()
+    end
     target:setLocalVar("[battlefield]area", 0)
 end
 
