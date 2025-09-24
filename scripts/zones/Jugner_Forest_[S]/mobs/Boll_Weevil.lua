@@ -30,6 +30,7 @@ function onMobFight(mob, target)
     -- Manifestation
     local currentHP = mob:getHPP()
     local manifestationTimer = mob:getLocalVar("manifestationTimer")
+    local kaustraWaitTime = mob:getLocalVar("kaustraWaitTime")
 
     if (manifestationTimer == 0) then
         mob:setLocalVar("manifestationTimer", os.time() + 3)
@@ -56,6 +57,12 @@ function onMobFight(mob, target)
     -- Gains access to Kaustra during Tabula Rasa
     if mob:hasStatusEffect(tpz.effect.TABULA_RASA) then
         mob:addSpellListEntry(tpz.magic.spell.KAUSTRA)
+
+        -- Cast Kaustra if target does not have it while Tabula Rasa is active
+        if (os.time() > kaustraWaitTime) and not target:hasStatusEffect(tpz.effect.KAUSTRA) then
+            mob:castSpell(tpz.magic.spell.KAUSTRA)
+            mob:setLocalVar("kaustraWaitTime", os.time() + 10)
+        end
     else
         mob:delSpelllistEntry(tpz.magic.spell.KAUSTRA)
     end
