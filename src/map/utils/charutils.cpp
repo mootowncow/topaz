@@ -2689,6 +2689,7 @@ namespace charutils
                     PChar->addEquipModifiers(&PItem->modList, ((CItemEquipment*)PItem)->getReqLvl(), equipSlotID);
                     PChar->PLatentEffectContainer->AddLatentEffects(PItem->latentList, ((CItemEquipment*)PItem)->getReqLvl(), equipSlotID);
                     PChar->PLatentEffectContainer->CheckLatentsEquip(equipSlotID);
+                    PChar->PLatentEffectContainer->CheckLatentsAllEquip();
                     PChar->addPetModifiers(&PItem->petModList);
 
                     PChar->pushPacket(new CEquipPacket(slotID, equipSlotID, containerID));
@@ -5830,6 +5831,7 @@ namespace charutils
                 {
                     PChar->PLatentEffectContainer->DelLatentEffects(PItem->getReqLvl(), slotID);
                     PChar->PLatentEffectContainer->CheckLatentsEquip(slotID);
+                    PChar->PLatentEffectContainer->CheckLatentsAllEquip();
                 }
             }
         }
@@ -5847,6 +5849,7 @@ namespace charutils
                 {
                     PChar->PLatentEffectContainer->AddLatentEffects(PItem->latentList, PItem->getReqLvl(), slotID);
                     PChar->PLatentEffectContainer->CheckLatentsEquip(slotID);
+                    PChar->PLatentEffectContainer->CheckLatentsAllEquip();
                 }
             }
         }
