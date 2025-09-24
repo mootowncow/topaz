@@ -1,7 +1,9 @@
 -----------------------------------
 --
 -- tpz.effect.BATTLEFIELD
---
+-- 
+-----------------------------------
+require("scripts/globals/status")
 -----------------------------------
 
 function onEffectGain(target, effect)
