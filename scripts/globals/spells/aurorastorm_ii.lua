@@ -21,6 +21,7 @@ function onSpellCast(caster, target, spell)
     end
 
     DeleteStormEffects(caster)
-    target:addStatusEffect(tpz.effect.AURORASTORM, power, 0, duration)
-    return tpz.effect.AURORASTORM
+    target:addStatusEffect(tpz.effect.AURORASTORM_II, power, 0, duration)
+
+    return tpz.effect.AURORASTORM_II
 end

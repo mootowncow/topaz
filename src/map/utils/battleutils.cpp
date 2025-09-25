@@ -7922,21 +7922,45 @@ namespace battleutils
     WEATHER GetWeather(CBattleEntity* PEntity, bool ignoreScholar, uint16 zoneWeather)
     {
         WEATHER scholarSpell = WEATHER_NONE;
-        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_FIRESTORM))
+
+        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_FIRESTORM_II))
+            scholarSpell = WEATHER_HEAT_WAVE;
+        else if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_FIRESTORM))
             scholarSpell = WEATHER_HOT_SPELL;
-        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_RAINSTORM))
+
+        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_RAINSTORM_II))
+            scholarSpell = WEATHER_SQUALL;
+        else if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_RAINSTORM))
             scholarSpell = WEATHER_RAIN;
-        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_SANDSTORM))
+
+        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_SANDSTORM_II))
+            scholarSpell = WEATHER_SAND_STORM;
+        else if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_SANDSTORM))
             scholarSpell = WEATHER_DUST_STORM;
-        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_WINDSTORM))
+
+        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_WINDSTORM_II))
+            scholarSpell = WEATHER_GALES;
+        else if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_WINDSTORM))
             scholarSpell = WEATHER_WIND;
-        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_HAILSTORM))
+
+        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_HAILSTORM_II))
+            scholarSpell = WEATHER_BLIZZARDS;
+        else if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_HAILSTORM))
             scholarSpell = WEATHER_SNOW;
-        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_THUNDERSTORM))
+
+        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_THUNDERSTORM_II))
+            scholarSpell = WEATHER_THUNDERSTORMS;
+        else if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_THUNDERSTORM))
             scholarSpell = WEATHER_THUNDER;
-        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_AURORASTORM))
+
+        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_AURORASTORM_II))
+            scholarSpell = WEATHER_STELLAR_GLARE;
+        else if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_AURORASTORM))
             scholarSpell = WEATHER_AURORAS;
-        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_VOIDSTORM))
+
+        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_VOIDSTORM_II))
+            scholarSpell = WEATHER_DARKNESS;
+        else if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_VOIDSTORM))
             scholarSpell = WEATHER_GLOOM;
 
         if (ignoreScholar || scholarSpell == WEATHER_NONE || zoneWeather == (scholarSpell + 1)) // Strong weather overwrites scholar spell weak weather

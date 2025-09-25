@@ -1,6 +1,6 @@
 --------------------------------------
--- Spell: Aurorastorm
---     Changes the weather around target party member to "auroras."
+-- Spell: Windstorm
+--     Changes the weather around target party member to "windy."
 --------------------------------------
 require("scripts/globals/magic")
 require("scripts/globals/status")
@@ -11,8 +11,8 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local duration = 1800
-    duration = calculateDurationForLvl(duration, 48, target:getMainLvl())
+        local duration = 1800
+    duration = calculateDurationForLvl(duration, 47, target:getMainLvl())
 
     local merit = caster:getMerit(tpz.merit.STORMSURGE)
     local power = 0
@@ -21,6 +21,7 @@ function onSpellCast(caster, target, spell)
     end
 
     DeleteStormEffects(caster)
-    target:addStatusEffect(tpz.effect.AURORASTORM, power, 0, duration)
-    return tpz.effect.AURORASTORM
+    target:addStatusEffect(tpz.effect.WINDSTORM_II, power, 0, duration)
+
+    return tpz.effect.WINDSTORM_II
 end

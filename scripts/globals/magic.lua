@@ -1656,7 +1656,7 @@ function addBonuses(caster, spell, target, dmg, params)
 
     -- print(affinityBonus)
     -- print(speciesReduction)
-    -- print(dayWeatherBonus)
+    --print(dayWeatherBonus)
     -- print(burst)
     -- print(mab)
     -- print(magicDmgMod)
@@ -4010,6 +4010,16 @@ function AreaOfEffectResistance(target, spell, dmg)
     dmg = dmg * areaOfEffectMultiplier
 
     return dmg
+end
+
+function DeleteStormEffects(caster)
+    for storm = tpz.effect.FIRESTORM, tpz.effect.VOIDSTORM do
+        caster:delStatusEffectSilent(storm)
+    end
+
+    for storm = tpz.effect.FIRESTORM_II, tpz.effect.VOIDSTORM_II do
+        caster:delStatusEffectSilent(storm)
+    end
 end
 
 function shouldApplyTerrorPetrify(caster, target, effect, params)

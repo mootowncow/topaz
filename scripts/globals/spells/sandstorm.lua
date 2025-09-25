@@ -11,17 +11,7 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-
-    target:delStatusEffectSilent(tpz.effect.FIRESTORM)
-    target:delStatusEffectSilent(tpz.effect.SANDSTORM)
-    target:delStatusEffectSilent(tpz.effect.RAINSTORM)
-    target:delStatusEffectSilent(tpz.effect.WINDSTORM)
-    target:delStatusEffectSilent(tpz.effect.HAILSTORM)
-    target:delStatusEffectSilent(tpz.effect.THUNDERSTORM)
-    target:delStatusEffectSilent(tpz.effect.AURORASTORM)
-    target:delStatusEffectSilent(tpz.effect.VOIDSTORM)
-
-   local duration = 1800
+    local duration = 1800
     duration = calculateDurationForLvl(duration, 41, target:getMainLvl())
 
     local merit = caster:getMerit(tpz.merit.STORMSURGE)
@@ -30,6 +20,7 @@ function onSpellCast(caster, target, spell)
         power = merit + caster:getMod(tpz.mod.STORMSURGE_EFFECT) + 2
     end
 
+    DeleteStormEffects(caster)
     target:addStatusEffect(tpz.effect.SANDSTORM, power, 0, duration)
 
     return tpz.effect.SANDSTORM
