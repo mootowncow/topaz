@@ -34,11 +34,15 @@ function onMobFight(mob, target)
 		mob:setLocalVar("MeteorTime", BattleTime + 70)
 	end
 
-    -- Bandaid until navmesh in Limbus is better
+    -- Bandaids until navmesh in Limbus is better
     if tpz.path.CheckIfStuck(mob) then
         if (mob:checkDistance(target) > 10) then
             mob:setPos(target:getXPos(), target:getYPos(), target:getZPos())
         end
+    end
+
+    if (mob:checkDistance(target) >= 8) then
+        mob:setPos(target:getXPos(), target:getYPos(), target:getZPos())
     end
 end
 
