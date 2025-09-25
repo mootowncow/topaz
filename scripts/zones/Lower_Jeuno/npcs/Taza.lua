@@ -345,8 +345,8 @@ function onTrade(player, npc, trade)
             player:addItem(gil, amount)
             player:addGil(gil)
             player:setCharVar(forgottenName, 0)
-            -- TODO: NPC text saying what happened
             player:tradeComplete()
+            player:PrintToPlayer("I was holding " .. amount .. " " .. forgottenName .. " for you." ,0,"Taza")
             return
         end
     end
@@ -358,6 +358,6 @@ function onTrigger(player, npc)
     player:PrintToPlayer("Dark Cuirass Set, Shade Harness Set, Tiger Jerkin Set, Silk Robe Set",0xF,"Taza")
     player:timer(5000, function(player)
         player:PrintToPlayer("Alternatively, I can hold onto your forgotten items.",0,"Taza")
-        player:PrintToPlayer("To have them returned, trade me 1 gil for Thought, 2 gil for Hope, 3 gil for Touch, 4 gil for Journey and 5 gil for Step.",0,"Taza")
+        player:PrintToPlayer("To have them returned, trade me 3493 gil for Thought, 3494 gil for Hope, 3495 gil for Touch, 3496 gil for Journey and 3497 gil for Step.",0,"Taza")
     end)
 end
