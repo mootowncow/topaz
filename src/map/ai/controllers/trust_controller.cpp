@@ -442,12 +442,12 @@ void CTrustController::DoRoamTick(time_point tick)
             return;
         }
 
-        if (TryCastOOCSpells(PMaster, controller))
+        if (TryUseOOCAbilities(PMaster, controller))
         {
             return;
         }
 
-        if (TryUseOOCAbilities(PMaster, controller))
+        if (TryCastOOCSpells(PMaster, controller))
         {
             return;
         }
@@ -946,7 +946,7 @@ bool CTrustController::TryCastMazurka(CCharEntity* PMaster, CTrustController* Co
         return false;
     }
 
-    if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_MAZURKA))
+    if (POwner->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_SONG))
     {
         return false;
     }
@@ -962,7 +962,7 @@ bool CTrustController::TryCastMazurka(CCharEntity* PMaster, CTrustController* Co
     }
 
     // Make sure master is within song distance
-    float distanceToMaster = distance(POwner->loc.p, POwner->PMaster->loc.p);
+    float distanceToMaster = distance(POwner->loc.p, PMaster->loc.p);
     if (distanceToMaster > 5.0f)
     {
         return false;
@@ -999,7 +999,7 @@ bool CTrustController::TryUseBoltersRoll(CCharEntity* PMaster, CTrustController*
     }
 
     // Make sure master is near
-    float distanceToMaster = distance(POwner->loc.p, POwner->PMaster->loc.p);
+    float distanceToMaster = distance(POwner->loc.p, PMaster->loc.p);
     if (distanceToMaster > 5.0f)
     {
         return false;
@@ -1037,7 +1037,7 @@ bool CTrustController::TryUseChocoboJig(CCharEntity* PMaster, CTrustController* 
     }
 
     // Make sure master is near
-    float distanceToMaster = distance(POwner->loc.p, POwner->PMaster->loc.p);
+    float distanceToMaster = distance(POwner->loc.p, PMaster->loc.p);
     if (distanceToMaster > 5.0f)
     {
         return false;
