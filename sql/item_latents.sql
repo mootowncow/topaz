@@ -1098,12 +1098,14 @@ INSERT INTO `item_latents` VALUES(14050, 25, 6, 53, 0);     -- ACC +6 in areas i
 -- -------------------------------------------------------
 -- Unicorn Mittens
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(14055, 23, 7, 1, 75);     -- Attack+7 when HP >75%
+INSERT INTO `item_latents` VALUES(14055, 291, 10, 8, 2); -- [14055] Unicorn Mittens: Subjob(2) - COUNTER 10
+INSERT INTO `item_latents` VALUES(14055, 384, 1000, 8, 2); -- [14055] Unicorn Mittens: Subjob(2) - HASTE_GEAR 1000
 
 -- -------------------------------------------------------
 -- Unicorn Mittens +1
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(14056, 23, 8, 1, 75);     -- Attack+8 when HP >75%
+INSERT INTO `item_latents` VALUES(14056, 291, 12, 8, 2); -- [14056] Ucn. Mittens +1: Subjob(2) - COUNTER 12
+INSERT INTO `item_latents` VALUES(14056, 384, 1200, 8, 2); -- [14056] Ucn. Mittens +1: Subjob(2) - HASTE_GEAR 1200
 
 INSERT INTO `item_latents` VALUES(14062, 346, 0, 9, 8);
 
@@ -1394,12 +1396,10 @@ INSERT INTO `item_latents` VALUES(14443, 370, 1, 26, 0);    -- Daytime: Regen +1
 -- -------------------------------------------------------
 -- Unicorn Harness
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(14448, 10, 6, 1, 71);     -- VIT+6 when HP >71%
 
 -- -------------------------------------------------------
 -- Unicorn Harness +1
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(14449, 10, 7, 1, 71);     -- VIT+7 when HP >71%
 INSERT INTO `item_latents` VALUES(14500, 68, 10, 13, 58);  -- WAR AF2 +1 Body Reduces evasion penalty by 10 if Aggressor Active
 INSERT INTO `item_latents` VALUES(14509, 8, 8, 10, 0);
 INSERT INTO `item_latents` VALUES(14509, 9, 8, 10, 0);
@@ -1672,12 +1672,11 @@ INSERT INTO `item_latents` VALUES(15197, 25, 3, 26, 1);     -- Nighttime: ACC +3
 -- -------------------------------------------------------
 -- Unicorn Cap
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(15209, 8, 4, 1, 75);      -- STR+4 when HP >75%
-
+INSERT INTO `item_latents` VALUES(15209, 384, 500, 66, 3); -- [15209] Unicorn Cap: MH WeaponType(3) - HASTE_GEAR 500
 -- -------------------------------------------------------
 -- Unicorn Cap +1
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(15210, 8, 5, 1, 75);      -- STR+5 when HP >75%
+INSERT INTO `item_latents` VALUES(15210, 384, 600, 66, 3); -- [15210] Unicorn Cap +1: MH WeaponType(3) - HASTE_GEAR 600
 
 -- -------------------------------------------------------
 -- Rain Hat
@@ -1736,12 +1735,10 @@ INSERT INTO `item_latents` VALUES(15338, 68, 10, 26, 1);    -- Nighttime: EVA +1
 -- -------------------------------------------------------
 -- Unicorn Leggings
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(15345, 384, 300, 1, 75);  -- Haste+3% when HP > 75%
 
 -- -------------------------------------------------------
 -- Unicorn Leggings +1
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(15346, 384, 400, 1, 75);  -- Haste+4% when HP > 75%
 
 -- -------------------------------------------------------
 -- Ninja Kyahan +1
@@ -1761,12 +1758,14 @@ INSERT INTO `item_latents` VALUES(15394, 24, 8, 7, 1000);   -- Ranged Attack+8 w
 -- -------------------------------------------------------
 -- Unicorn Subligar
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(15406, 68, 3, 1, 75);     -- Evasion+3 when HP >75%
+INSERT INTO `item_latents` VALUES(15406, 384, 500, 67, 1); -- [15345] Unicorn Leggings: Dual Wield(1) - HASTE_GEAR 500
+INSERT INTO `item_latents` VALUES(15406, 302, 3, 67, 1);     -- [15345] Unicorn Leggings: Dual Wield(1) - TRIPLE_ATTACK 3
 
 -- -------------------------------------------------------
 -- Unicorn Subligar +1
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(15407, 68, 4, 1, 75);     -- Evasion+4 when HP >75%
+INSERT INTO `item_latents` VALUES(15407, 384, 600, 67, 3); -- [15346] Ucn. Leggings +1: Dual Wield(1) - HASTE_GEAR 600
+INSERT INTO `item_latents` VALUES(15407, 302, 4, 67, 3); -- [15346] Ucn. Leggings +1: Dual Wield(1) - TRIPLE_ATTACK 4
 
 -- -------------------------------------------------------
 -- Resentment Cape
