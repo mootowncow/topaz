@@ -19,7 +19,6 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.WATERDEF, 192)
     mob:setMod(tpz.mod.LIGHTDEF, 192)
     mob:setMod(tpz.mod.DARKDEF, 192)
-
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

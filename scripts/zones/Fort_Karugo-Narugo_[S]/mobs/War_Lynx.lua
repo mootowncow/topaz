@@ -11,6 +11,8 @@ require("scripts/globals/mobs")
 function onMobSpawn(mob)
     if (mob:getID() == ID.mob.TIGRESS_STRIKES_WAR_LYNX) then
         SetGenericNMStats(mob)
+        mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
+        mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     end
 end
 
