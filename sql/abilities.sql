@@ -36,6 +36,7 @@ CREATE TABLE `abilities` (
   `secondary_sc` tinyint(4) NOT NULL DEFAULT '0',
   `tertiary_sc` tinyint(4) NOT NULL DEFAULT '0',
   `ability_flag` tinyint(4) NOT NULL DEFAULT '0',
+--   `itemId` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`abilityId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=56;
 
@@ -177,7 +178,7 @@ INSERT INTO `abilities` VALUES (146,'water_maneuver',18,1,1,10,210,0,0,333,2000,
 INSERT INTO `abilities` VALUES (147,'light_maneuver',18,1,1,10,210,0,0,333,2000,0,6,18.0,0,1,0,0,512,'TOAU',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (148,'dark_maneuver',18,1,1,10,210,0,0,333,2000,0,6,18.0,0,1,0,0,512,'TOAU',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (149,'warriors_charge',1,75,1,300,6,0,0,154,2000,0,6,20.0,0,1,300,2048,1,'TOAU',0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (150,'tomahawk',1,75,4,60,7,0,0,244,2000,0,3,20.0,0,1,600,2050,1,'TOAU',0,0,0,0,0,0);
+INSERT INTO `abilities` VALUES (150,'tomahawk',1,75,4,60,7,0,0,244,2000,0,3,20.0,0,0,640,2050,1,'TOAU',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (151,'mantra',2,75,1,600,19,441,0,155,2000,0,6,20.0,1,1,60,2112,1,'TOAU',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (152,'formless_strikes',2,75,1,600,20,0,0,156,2000,0,6,20.0,0,1,300,2114,1,'TOAU',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (153,'martyr',3,75,2,600,27,102,0,157,2000,0,6,20.0,0,1,300,2176,1,'TOAU',0,0,0,0,0,0);
