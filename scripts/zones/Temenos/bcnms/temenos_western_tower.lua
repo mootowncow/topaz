@@ -26,10 +26,8 @@ function onBattlefieldEnter(player, battlefield)
     player:delKeyItem(tpz.ki.WHITE_CARD)
     player:messageSpecial(ID.text.KEYITEM_OBTAINED + 1, tpz.ki.COSMOCLEANSE)
     player:messageSpecial(ID.text.KEYITEM_OBTAINED + 1, tpz.ki.WHITE_CARD)
-    player:setCharVar("Cosmo_Cleanse_TIME", os.time())
 end
 
-function onBattlefieldDestroy(battlefield)
     tpz.limbus.handleDoors(battlefield, true)
     SetServerVariable("[Temenos_Western_Tower]Time", 0)
 end

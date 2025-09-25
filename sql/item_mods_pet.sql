@@ -647,3 +647,4 @@ INSERT INTO `item_mods_pet` VALUES (18330,30,15,1); -- Avatar: MACC 15
 INSERT INTO `item_mods_pet` VALUES (28625,1350,1,0); -- All: JUG_LVL_BONUS 1
 INSERT INTO `item_mods_pet` VALUES (28631,288,3,1); -- Avatar: DOUBLE_ATTACK 3
 INSERT INTO `item_mods_pet` VALUES (28634,384,300,3); -- Automaton: HASTE_GEAR 300
+INSERT INTO `item_mods_pet` VALUES (14935,28,4,1); -- Avatar: MATT 4

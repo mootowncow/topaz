@@ -42,6 +42,7 @@
 #include "../../ai/states/magic_state.h"
 #include "../../ai/states/range_state.h"
 #include "../../ai/states/weaponskill_state.h"
+#include "../../ai/states/item_state.h"
 #include "../../utils/battleutils.h"
 #include "../../utils/trustutils.h"
 
@@ -113,7 +114,8 @@ void CGambitsContainer::Tick(time_point tick)
         POwner->PAI->IsCurrentState<CRangeState>() ||
         POwner->PAI->IsCurrentState<CMagicState>() ||
         POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
-        POwner->PAI->IsCurrentState<CMobSkillState>())
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
     {
         return;
     }
@@ -1339,6 +1341,62 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
         case G_CONDITION::THREE_EFFECTS:
         {
             return trigger_target->StatusEffectContainer->GetEffectsCount(static_cast<EFFECT>(predicate.condition_arg)) < 3;
+            break;
+        }
+        case G_CONDITION::ES_SLEEPGA:
+        {
+            if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_ELEMENTAL_SEAL))
+            {
+                return false;
+            }
+
+            float radius = 10.0f;
+            POwner->PAI->TargetFind->reset();
+            POwner->PAI->TargetFind->findWithinArea(trigger_target, AOERADIUS_TARGET, radius);
+
+            for (CBattleEntity* PTarget : POwner->PAI->TargetFind->m_targets)
+            {
+                // Is a target NOT the main target not asleep, then return true
+                if (PTarget != trigger_target &&
+                    !PTarget->getMod(Mod::REGEN_DOWN) &&
+                    !PTarget->getMod(Mod::EEM_DARK_SLEEP) <= 5 &&
+                    !PTarget->hasImmunity(IMMUNITY_SLEEP) &&
+                    !PTarget->hasImmunity(IMMUNITY_DARK_SLEEP) &&
+                    PTarget->PAI->IsEngaged() &&
+                    !PTarget->StatusEffectContainer->IsAsleep())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+            break;
+        }
+
+        case G_CONDITION::BREAKGA:
+        {
+            float radius = 10.0f;
+            POwner->PAI->TargetFind->reset();
+            POwner->PAI->TargetFind->findWithinArea(trigger_target, AOERADIUS_TARGET, radius);
+
+            for (CBattleEntity* PTarget : POwner->PAI->TargetFind->m_targets)
+            {
+                // Is a target NOT the main target not asleep, then return true
+                if (PTarget != trigger_target &&
+                    !PTarget->getMod(Mod::REGEN_DOWN) &&
+                    !PTarget->getMod(Mod::EEM_PETRIFY) <= 5 &&
+                    !PTarget->hasImmunity(IMMUNITY_SLEEP) &&
+                    !PTarget->hasImmunity(IMMUNITY_PETRIFY) &&
+                    PTarget->PAI->IsEngaged() &&
+                    !PTarget->StatusEffectContainer->IsAsleep() &&
+                    !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PETRIFICATION) &&
+                    !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_STUN))
+                {
+                    return true;
+                }
+            }
+
+            return false;
             break;
         }
         default: { return false;  break; }

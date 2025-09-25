@@ -32,6 +32,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../ai/states/magic_state.h"
 #include "../../ai/states/range_state.h"
 #include "../../ai/states/weaponskill_state.h"
+#include "../../ai/states/item_state.h"
 #include "../../ai/helpers/gambits_container.h"
 #include "../../entities/charentity.h"
 #include "../../entities/trustentity.h"
@@ -42,6 +43,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../ai/states/range_state.h"
 #include "../../items/item_weapon.h"
 #include "../../mob_modifier.h"
+#include "../../item_container.h"
 
 namespace
 {
@@ -64,7 +66,7 @@ namespace
     };
 } // namespace
 
-CTrustController::CTrustController(CCharEntity* PChar, CTrustEntity* PTrust)
+CTrustController::CTrustController(CCharEntity* PMaster, CTrustEntity* PTrust)
 : CMobController(PTrust)
 , m_GambitsContainer(std::make_unique<gambits::CGambitsContainer>(PTrust))
 , m_LastTopEnmity(nullptr)
@@ -178,7 +180,12 @@ void CTrustController::DoCombatTick(time_point tick)
     }
 
     // If busy, don't run around!
-    if (POwner->PAI->IsCurrentState<CMagicState>() || POwner->PAI->IsCurrentState<CRangeState>())
+    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
+        POwner->PAI->IsCurrentState<CRangeState>() ||
+        POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
     {
         return;
     }
@@ -410,26 +417,49 @@ void CTrustController::DoRoamTick(time_point tick)
         return;
     }
 
+    // Currently doing another action
+    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
+        POwner->PAI->IsCurrentState<CRangeState>() ||
+        POwner->PAI->IsCurrentState<CMagicState>() ||
+        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
+    {
+        return;
+    }
+
     if (TrustIsHealing())
     {
         return;
     }
 
-    if (TryCastOOCSpells())
+    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
+
+    if (PMaster && controller && POwner->PAI->CanChangeState())
     {
-        return;
+        if (TryUseFood(PMaster, controller))
+        {
+            return;
+        }
+
+        if (TryUseOOCAbilities(PMaster, controller))
+        {
+            return;
+        }
+
+        if (TryCastOOCSpells(PMaster, controller))
+        {
+            return;
+        }
     }
 
-    if (TryUseBoltersRoll())
-    {
-        return;
-    }
-
+    // Currently doing another action
     if (POwner->PAI->IsCurrentState<CAbilityState>() ||
         POwner->PAI->IsCurrentState<CRangeState>() ||
         POwner->PAI->IsCurrentState<CMagicState>() ||
         POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
-        POwner->PAI->IsCurrentState<CMobSkillState>())
+        POwner->PAI->IsCurrentState<CMobSkillState>() ||
+        POwner->PAI->IsCurrentState<CItemState>())
     {
         return;
     }
@@ -631,29 +661,113 @@ bool CTrustController::TrustIsHealing()
     return isMasterHealing;
 }
 
-bool CTrustController::TryCastOOCSpells()
+bool CTrustController::TryUseFood(CCharEntity* PMaster, CTrustController* Controller)
 {
-    if (TryCastRaise())
+    JOBTYPE job = POwner->GetMJob();
+    uint8 mobLvl = POwner->GetMLevel();
+
+    // Determine role
+    std::string role = "Melee";
+    if (job == JOB_PLD || job == JOB_RUN)
+        role = "Tank";
+    else if (job == JOB_RNG || job == JOB_COR)
+        role = "Ranged";
+    else if (job == JOB_BLM || job == JOB_SCH)
+        role = "Caster";
+    else if (job == JOB_WHM || job == JOB_RDM || job == JOB_GEO)
+        role = "Healer";
+    else if (job == JOB_NIN)
+        role = "Ninja";
+    else if (job == JOB_COR || job == JOB_BRD)
+        role = "Support";
+
+    // Food entry struct must be defined *before* using it in std::map
+    struct FoodEntry { uint8 Lvl; uint16 ItemID; };
+
+    // Food table
+    static const std::map<std::string, std::vector<FoodEntry>> foodData = {
+        { "Tank", {
+            FoodEntry{ 1,   static_cast<uint16>(ItemID::SAUSAGE) },
+            FoodEntry{ 30,  static_cast<uint16>(ItemID::DHALMEL_STEAK) },
+            FoodEntry{ 50,  static_cast<uint16>(ItemID::PLATE_OF_DORADO_SUSHI) },
+            FoodEntry{ 75,  static_cast<uint16>(ItemID::TAVNAZIAN_TACO) }
+        }},
+        { "Melee", {
+            FoodEntry{ 1,   static_cast<uint16>(ItemID::SAUSAGE) },
+            FoodEntry{ 30,  static_cast<uint16>(ItemID::DHALMEL_STEAK) },
+            FoodEntry{ 40,  static_cast<uint16>(ItemID::MARINARA_PIZZA) }
+        }},
+        { "Ranged", {
+            FoodEntry{ 1,   static_cast<uint16>(ItemID::SAUSAGE) },
+            FoodEntry{ 30,  static_cast<uint16>(ItemID::SIS_KEBABI) },
+            FoodEntry{ 55,  static_cast<uint16>(ItemID::POT_AU_FEU) }
+        }},
+        { "Caster", {
+            FoodEntry{ 1,   static_cast<uint16>(ItemID::MELON_PIE) },
+            FoodEntry{ 75,  static_cast<uint16>(ItemID::CREAM_PUFF) }
+        }},
+        { "Healer", {
+            FoodEntry{ 1,   static_cast<uint16>(ItemID::ROAST_MUSHROOM) },
+            FoodEntry{ 50,  static_cast<uint16>(ItemID::BOWL_OF_MUSHROOM_SOUP) },
+            FoodEntry{ 75,  static_cast<uint16>(ItemID::BOWL_OF_MUSHROOM_STEW) }
+        }},
+        { "Support", {
+            FoodEntry{ 1,   static_cast<uint16>(ItemID::PUMPKIN_PIE) }
+        }},
+        { "Ninja", {
+            FoodEntry{ 1,   static_cast<uint16>(ItemID::SAUSAGE) },
+            FoodEntry{ 30,  static_cast<uint16>(ItemID::DHALMEL_STEAK) },
+            FoodEntry{ 50,  static_cast<uint16>(ItemID::PLATE_OF_DORADO_SUSHI) }
+        }},
+    };
+
+    // Pick highest valid food
+    uint16 selectedFood = 0;
+    auto it = foodData.find(role);
+    if (it != foodData.end())
+    {
+        for (const auto& entry : it->second)
+        {
+            if (mobLvl >= entry.Lvl)
+                selectedFood = entry.ItemID;
+            else
+                break;
+        }
+    }
+
+    // If food found and trust has no food effect, use it
+    if (selectedFood && !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_FOOD))
+    {
+        UseItem(POwner->targid, LOC_INVENTORY, selectedFood);
+        return true;
+    }
+
+    return false;
+}
+
+bool CTrustController::TryCastOOCSpells(CCharEntity* PMaster, CTrustController* Controller)
+{
+    if (TryCastRaise(PMaster, Controller))
     {
         return true;
     }
 
-    if (TryCastReraise())
+    if (TryCastReraise(PMaster, Controller))
     {
         return true;
     }
 
-    if (TryCastProtectraShellra())
+    if (TryCastProtectraShellra(PMaster, Controller))
     {
         return true;
     }
 
-    if (TryCastUtsusemi())
+    if (TryCastUtsusemi(PMaster, Controller))
     {
         return true;
     }
 
-    if (TryCastMazurka())
+    if (TryCastMazurka(PMaster, Controller))
     {
         return true;
     }
@@ -661,32 +775,24 @@ bool CTrustController::TryCastOOCSpells()
     return false;
 }
 
-bool CTrustController::TryCastRaise()
+bool CTrustController::TryUseOOCAbilities(CCharEntity* PMaster, CTrustController* Controller)
 {
-    // Try to raise dead party members within 20 yalms
-    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
-    CCharEntity* PChar = static_cast<CCharEntity*>(POwner->PMaster);
-
-    if (!controller || !PChar)
+    if (TryUseBoltersRoll(PMaster, Controller))
     {
-        return false;
+        return true;
     }
 
-    if (!POwner->PAI->CanChangeState())
+    if (TryUseChocoboJig(PMaster, Controller))
     {
-        return false;
+        return true;
     }
 
-    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
-        POwner->PAI->IsCurrentState<CRangeState>() ||
-        POwner->PAI->IsCurrentState<CMagicState>() ||
-        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
-        POwner->PAI->IsCurrentState<CMobSkillState>())
-    {
-        return false;
-    }
+    return false;
+}
 
-    PChar->ForPartyWithTrusts(
+bool CTrustController::TryCastRaise(CCharEntity* PMaster, CTrustController* Controller)
+{
+    PMaster->ForPartyWithTrusts(
         [&](CBattleEntity* PMember)
         {
             if (!PMember->isDead())
@@ -700,105 +806,68 @@ bool CTrustController::TryCastRaise()
                 return false;
             }
 
-            // Check highest available Raise spell
-            SpellID raiseSpell = SpellID::NULLSPELL;
-
-            if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise_III))
-                raiseSpell = SpellID::Raise_III;
-            else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise_II))
-                raiseSpell = SpellID::Raise_II;
-            else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raise))
-                raiseSpell = SpellID::Raise;
-
-            if (raiseSpell != SpellID::NULLSPELL)
+            if (auto* PTrust = dynamic_cast<CTrustEntity*>(POwner))
             {
-                controller->Cast(PMember->targid, raiseSpell);
-                return true;
+                auto raise = PTrust->SpellContainer->GetBestAvailable(SPELLFAMILY_RAISE);
+
+                if (raise.has_value())
+                {
+                    SpellID raiseId = *raise;
+
+                    if (auto* PSpell = spell::GetSpell(raiseId))
+                    {
+                        if (POwner->health.mp >= PSpell->getMPCost())
+                        {
+                            Controller->Cast(PMember->targid, *raise);
+                            return true;
+                        }
+                    }
+                }
             }
         });
 
     return false;
 }
 
-bool CTrustController::TryCastReraise()
+bool CTrustController::TryCastReraise(CCharEntity* PMaster, CTrustController* Controller)
 {
-    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
-
-    if (!controller)
-        return false;
-
-    if (!POwner->PAI->CanChangeState())
-    {
-        return false;
-    }
-
     if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_RERAISE))
     {
         return false;
     }
 
-    if (POwner->health.mp < 150)
+    if (auto* PTrust = dynamic_cast<CTrustEntity*>(POwner))
     {
-        return false;
-    }
+        auto reraise = PTrust->SpellContainer->GetBestAvailable(SPELLFAMILY_RERAISE);
 
-    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
-        POwner->PAI->IsCurrentState<CRangeState>() ||
-        POwner->PAI->IsCurrentState<CMagicState>() ||
-        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
-        POwner->PAI->IsCurrentState<CMobSkillState>())
-    {
-        return false;
-    }
+        if (reraise.has_value())
+        {
+            SpellID reraiseId = *reraise;
 
-    // Check highest available Reraise spell
-    SpellID reraiseSpell = SpellID::NULLSPELL;
-
-    if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Reraise_III))
-        reraiseSpell = SpellID::Reraise_III;
-    else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Reraise_II))
-        reraiseSpell = SpellID::Reraise_II;
-    else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Reraise))
-        reraiseSpell = SpellID::Reraise;
-
-    if (reraiseSpell != SpellID::NULLSPELL)
-    {
-        controller->Cast(POwner->targid, reraiseSpell);
-        return true;
+            if (auto* PSpell = spell::GetSpell(reraiseId))
+            {
+                if (POwner->health.mp >= PSpell->getMPCost())
+                {
+                    Controller->Cast(POwner->targid, *reraise);
+                    return true;
+                }
+            }
+        }
     }
 
     return false;
 }
 
-bool CTrustController::TryCastProtectraShellra()
+bool CTrustController::TryCastProtectraShellra(CCharEntity* PMaster, CTrustController* Controller)
 {
-    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
-    CCharEntity* PChar = static_cast<CCharEntity*>(POwner->PMaster);
-
-    if (!controller || !PChar)
-    {
-        return false;
-    }
-
-    if (!POwner->PAI->CanChangeState())
-    {
-        return false;
-    }
-
     if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_PROTECT) && POwner->StatusEffectContainer->HasStatusEffect(EFFECT_SHELL))
-    {
-        return false;
-    }
-
-    if (POwner->PAI->IsCurrentState<CAbilityState>() || POwner->PAI->IsCurrentState<CRangeState>() || POwner->PAI->IsCurrentState<CMagicState>() ||
-        POwner->PAI->IsCurrentState<CWeaponSkillState>() || POwner->PAI->IsCurrentState<CMobSkillState>())
     {
         return false;
     }
 
     auto membersInRange = 0;
 
-    PChar->ForPartyWithTrusts(
+    PMaster->ForPartyWithTrusts(
         [&](CBattleEntity* PMember)
         {
             // Make sure all party members are in range before casting protectra/shellra
@@ -816,18 +885,32 @@ bool CTrustController::TryCastProtectraShellra()
             if (auto* PTrust = dynamic_cast<CTrustEntity*>(POwner))
             {
                 auto protectra = PTrust->SpellContainer->GetBestAvailable(SPELLFAMILY_PROTECTRA);
-                auto shellra = PTrust->SpellContainer->GetBestAvailable(SPELLFAMILY_SHELLRA);
+                auto shellra   = PTrust->SpellContainer->GetBestAvailable(SPELLFAMILY_SHELLRA);
 
                 if (protectra && !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_PROTECT))
                 {
-                    controller->Cast(POwner->targid, *protectra);
-                    return true;
+                    SpellID spellId = *protectra;
+                    if (auto* PSpell = spell::GetSpell(spellId))
+                    {
+                        if (POwner->health.mp >= PSpell->getMPCost())
+                        {
+                            Controller->Cast(POwner->targid, spellId);
+                            return true;
+                        }
+                    }
                 }
 
                 if (shellra && !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_SHELL))
                 {
-                    controller->Cast(POwner->targid, *shellra);
-                    return true;
+                    SpellID spellId = *shellra;
+                    if (auto* PSpell = spell::GetSpell(spellId))
+                    {
+                        if (POwner->health.mp >= PSpell->getMPCost())
+                        {
+                            Controller->Cast(POwner->targid, spellId);
+                            return true;
+                        }
+                    }
                 }
             }
         });
@@ -835,64 +918,30 @@ bool CTrustController::TryCastProtectraShellra()
     return false;
 }
 
-bool CTrustController::TryCastUtsusemi()
+bool CTrustController::TryCastUtsusemi(CCharEntity* PMaster, CTrustController* Controller)
 {
-    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
-
-    if (!controller)
-    {
-        return false;
-    }
-
-    if (!POwner->PAI->CanChangeState())
-    {
-        return false;
-    }
-
     if (POwner->StatusEffectContainer->HasStatusEffect({EFFECT_COPY_IMAGE, EFFECT_COPY_IMAGE_1, EFFECT_COPY_IMAGE_2, EFFECT_COPY_IMAGE_3, EFFECT_COPY_IMAGE_4}))
     {
         return false;
     }
 
-    if (POwner->PAI->IsCurrentState<CAbilityState>() ||
-        POwner->PAI->IsCurrentState<CRangeState>() ||
-        POwner->PAI->IsCurrentState<CMagicState>() ||
-        POwner->PAI->IsCurrentState<CWeaponSkillState>() ||
-        POwner->PAI->IsCurrentState<CMobSkillState>())
+    if (auto* PTrust = dynamic_cast<CTrustEntity*>(POwner))
     {
-        return false;
-    }
+        auto utsusemi = PTrust->SpellContainer->GetBestAvailable(SPELLFAMILY_UTSUSEMI);
 
-    // Check highest available Raise spell
-    SpellID utsusemi = SpellID::NULLSPELL;
-
-    if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Utsusemi_San))
-        utsusemi = SpellID::Utsusemi_San;
-    else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Utsusemi_Ni))
-        utsusemi = SpellID::Utsusemi_Ni;
-    else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Utsusemi_Ichi))
-        utsusemi = SpellID::Utsusemi_Ichi;
-
-    if (utsusemi != SpellID::NULLSPELL)
-    {
-        controller->Cast(POwner->targid, utsusemi);
-        return true;
+        if (utsusemi)
+        {
+            Controller->Cast(POwner->targid, *utsusemi);
+            return true;
+        }
     }
 
     return false;
 }
-
-bool CTrustController::TryCastMazurka()
+ 
+bool CTrustController::TryCastMazurka(CCharEntity* PMaster, CTrustController* Controller)
 {
-    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
-    CCharEntity* PChar = static_cast<CCharEntity*>(POwner->PMaster);
-
-    if (!controller || !PChar)
-    {
-        return false;
-    }
-
-    if (!POwner->PAI->CanChangeState())
+    if (m_Tick - m_CombatEndTime < 30s)
     {
         return false;
     }
@@ -902,56 +951,44 @@ bool CTrustController::TryCastMazurka()
         return false;
     }
 
-    if (POwner->PAI->IsCurrentState<CAbilityState>() || POwner->PAI->IsCurrentState<CRangeState>() || POwner->PAI->IsCurrentState<CMagicState>() ||
-        POwner->PAI->IsCurrentState<CWeaponSkillState>() || POwner->PAI->IsCurrentState<CMobSkillState>())
+    if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_PIANISSIMO))
     {
         return false;
     }
 
-    PChar->ForPartyWithTrusts(
+    if (PMaster->PAI->IsEngaged())
+    {
+        return false;
+    }
+
+    // Make sure master is within song distance
+    float distanceToMaster = distance(POwner->loc.p, PMaster->loc.p);
+    if (distanceToMaster > 5.0f)
+    {
+        return false;
+    }
+
+    PMaster->ForPartyWithTrusts(
         [&](CBattleEntity* PMember)
         {
-            // Make sure master is within song distance
-            float distanceToMaster = distance(POwner->loc.p, POwner->PMaster->loc.p);
-            if (distanceToMaster > 8.0f)
+            if (auto* PTrust = dynamic_cast<CTrustEntity*>(POwner))
             {
-                return false;
-            }
+                auto mazurka = PTrust->SpellContainer->GetBestAvailable(SPELLFAMILY_MAZURKA);
 
-            // Check highest available Mazurka spell
-            SpellID song = SpellID::NULLSPELL;
-
-            if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Chocobo_Mazurka))
-                song = SpellID::Chocobo_Mazurka;
-            else if (spell::CanUseSpell(static_cast<CBattleEntity*>(POwner), SpellID::Raptor_Mazurka))
-                song = SpellID::Raptor_Mazurka;
-
-            if (song != SpellID::NULLSPELL)
-            {
-                controller->Cast(POwner->targid, song);
-                return true;
+                if (mazurka)
+                {
+                    Controller->Cast(POwner->targid, *mazurka);
+                    return true;
+                }
             }
         });
 
     return false;
 }
 
-bool CTrustController::TryUseBoltersRoll()
+bool CTrustController::TryUseBoltersRoll(CCharEntity* PMaster, CTrustController* Controller)
 {
-    auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
-    CCharEntity* PChar = static_cast<CCharEntity*>(POwner->PMaster);
-
-    if (!controller || !PChar)
-    {
-        return false;
-    }
-
     if (m_Tick - m_CombatEndTime < 30s)
-    {
-        return false;
-    }
-
-    if (!POwner->PAI->CanChangeState())
     {
         return false;
     }
@@ -961,22 +998,16 @@ bool CTrustController::TryUseBoltersRoll()
         return false;
     }
 
-    if (POwner->PAI->IsCurrentState<CAbilityState>() || POwner->PAI->IsCurrentState<CRangeState>() || POwner->PAI->IsCurrentState<CMagicState>() ||
-        POwner->PAI->IsCurrentState<CWeaponSkillState>() || POwner->PAI->IsCurrentState<CMobSkillState>())
+    // Make sure master is near
+    float distanceToMaster = distance(POwner->loc.p, PMaster->loc.p);
+    if (distanceToMaster > 5.0f)
     {
         return false;
     }
 
-    PChar->ForPartyWithTrusts(
+    PMaster->ForPartyWithTrusts(
         [&](CBattleEntity* PMember)
         {
-            // Make sure master is within roll distance
-            float distanceToMaster = distance(POwner->loc.p, POwner->PMaster->loc.p);
-            if (distanceToMaster > 8.0f)
-            {
-                return false;
-            }
-
             // Check if can use Bolters Roll
             ABILITY ability = ABILITY_NONE;
 
@@ -985,7 +1016,47 @@ bool CTrustController::TryUseBoltersRoll()
 
             if (ability != ABILITY_NONE)
             {
-                controller->Ability(POwner->targid, ability);
+                Controller->Ability(POwner->targid, ability);
+                return true;
+            }
+        });
+
+    return false;
+}
+
+bool CTrustController::TryUseChocoboJig(CCharEntity* PMaster, CTrustController* Controller)
+{
+    if (m_Tick - m_CombatEndTime < 30s)
+    {
+        return false;
+    }
+
+    if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_QUICKENING))
+    {
+        return false;
+    }
+
+    // Make sure master is near
+    float distanceToMaster = distance(POwner->loc.p, PMaster->loc.p);
+    if (distanceToMaster > 5.0f)
+    {
+        return false;
+    }
+
+    PMaster->ForPartyWithTrusts(
+        [&](CBattleEntity* PMember)
+        {
+            // Check if can use Chocobo Jig
+            ABILITY ability = ABILITY_NONE;
+
+            if (ability::CanUseAbility(static_cast<CBattleEntity*>(POwner), ability::GetAbility(ABILITY_CHOCOBO_JIG_II)))
+                ability = ABILITY_CHOCOBO_JIG_II;
+            else if (ability::CanUseAbility(static_cast<CBattleEntity*>(POwner), ability::GetAbility(ABILITY_CHOCOBO_JIG)))
+                ability = ABILITY_CHOCOBO_JIG;
+
+            if (ability != ABILITY_NONE)
+            {
+                Controller->Ability(POwner->targid, ability);
                 return true;
             }
         });

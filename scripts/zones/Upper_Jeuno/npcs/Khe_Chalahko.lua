@@ -5,6 +5,7 @@
 -----------------------------------
 local ID = require("scripts/zones/Upper_Jeuno/IDs")
 require("scripts/globals/shop")
+require("scripts/globals/items")
 
 function onTrade(player, npc, trade)
 end
@@ -12,12 +13,11 @@ end
 function onTrigger(player, npc)
     local stock =
     {
-        12416, 29311,    -- Sallet
-        12544, 45208,    -- Breastplate
-        12800, 34776,    -- Cuisses
-        12928, 21859,    -- Plate Leggins
-        12810, 53130,    -- Breeches
-        12938, 32637,    -- Sollerets
+        tpz.items.DARKSTEEL_ARMET,      7500,
+        tpz.items.DARKSTEEL_CUIRASS,    10000,
+        tpz.items.DARKSTEEL_GAUNTLETS,  5500,
+        tpz.items.DARKSTEEL_CUISSES,    9000,
+        tpz.items.DARKSTEEL_SABATONS,   5500
     }
 
     player:showText(npc, ID.text.KHECHALAHKO_SHOP_DIALOG)

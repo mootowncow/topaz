@@ -7962,15 +7962,27 @@ inline int32 CLuaBaseEntity::addExp(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
-
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    bool isSilent = false;
+    bool xpOnly = false;
+
+    if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
+    {
+        isSilent = lua_toboolean(L, 2);
+    }
+
+    if (!lua_isnil(L, 3) && lua_isboolean(L, 3))
+    {
+        xpOnly = lua_toboolean(L, 3);
+    }
 
     if (m_PBaseEntity->objtype != TYPE_PC)
     {
         return 0;
     }
 
-    charutils::AddExperiencePoints(false, (CCharEntity*)m_PBaseEntity, m_PBaseEntity, (uint32)lua_tointeger(L, 1));
+    charutils::AddExperiencePoints(false, (CCharEntity*)m_PBaseEntity, m_PBaseEntity, (uint32)lua_tointeger(L, 1), EMobDifficulty::TooWeak, false, isSilent, xpOnly);
     return 0;
 }
 

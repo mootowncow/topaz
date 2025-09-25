@@ -45,6 +45,7 @@ public:
 	void CheckLatentsTP();
 	void CheckLatentsMP();
 	void CheckLatentsEquip(uint8 slot);
+    void CheckLatentsAllEquip();
 	void CheckLatentsWeaponDraw(bool drawn);
 	void CheckLatentsStatusEffect();
 	void CheckLatentsFoodEffect();

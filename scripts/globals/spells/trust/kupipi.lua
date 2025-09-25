@@ -35,8 +35,13 @@ function onMobSpawn(mob)
 
     tpz.trust.setUpFood(mob)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.LIGHT_ARTS, ai.r.JA, ai.s.SPECIFIC, tpz.ja.LIGHT_ARTS)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.SILENCE, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_ECHO_DROPS)
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.LIGHT_ARTS, ai.r.JA, ai.s.SPECIFIC, tpz.ja.LIGHT_ARTS)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.AFFLATUS_SOLACE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.AFFLATUS_SOLACE)
+
+    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.DOOM, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURSNA)
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.STATUS, tpz.effect.PETRIFICATION, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STONA)
 
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.HPP_LT, 75, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
@@ -68,9 +73,6 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)
-
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.PARALYSIS, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.PARALYZE, 60)
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.SLOW, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.SLOW, 60)
 
     mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, 15)
 

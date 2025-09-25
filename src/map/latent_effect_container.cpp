@@ -193,6 +193,28 @@ void CLatentEffectContainer::CheckLatentsEquip(uint8 slot)
 }
 
 /************************************************************************
+ *																		*
+ *  Checks all equip laents (ie. on equip)					*
+ *																		*
+ ************************************************************************/
+void CLatentEffectContainer::CheckLatentsAllEquip()
+{
+    ProcessLatentEffects([this](CLatentEffect& latentEffect)
+    {
+        switch (latentEffect.GetConditionsID())
+        {
+        case LATENT_MH_WEAPONTYPE:
+        case LATENT_DUALWIELD:
+            return ProcessLatentEffect(latentEffect);
+            break;
+        default:
+            break;
+        }
+        return false;
+    });
+}
+
+/************************************************************************
 *																		*
 *  Checks all latents that are affected by drawn weapon and activates  	*
 *  them if the conditions are met.										*
@@ -1196,12 +1218,24 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect)
     case LATENT_EQUIP_SLOT:
     {
         auto slot = latentEffect.GetSlot();
-        auto slotCondition = latentEffect.GetConditionsValue();;
+        auto slotCondition = latentEffect.GetConditionsValue();
         auto item = (CItemEquipment*)m_POwner->getEquip((SLOTTYPE)slot);
         if (slot == slotCondition)
         {
             expression = item != nullptr;
         }
+        break;
+    }
+    case LATENT_MH_WEAPONTYPE:
+    {
+        auto slot = latentEffect.GetSlot();
+        auto weapon = (CItemWeapon*)m_POwner->getEquip((SLOTTYPE)SLOT_MAIN);
+        expression = weapon != nullptr && weapon->getSkillType() == latentEffect.GetConditionsValue();
+        break;
+    }
+    case LATENT_DUALWIELD:
+    {
+        expression = m_POwner->m_dualWield == latentEffect.GetConditionsValue();
         break;
     }
     default:

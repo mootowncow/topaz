@@ -30,7 +30,6 @@ function onBattlefieldEnter(player, battlefield)
     player:messageSpecial(ID.text.KEYITEM_OBTAINED + 1, tpz.ki.COSMOCLEANSE)
     player:delKeyItem(tpz.ki.RED_CARD)
     player:messageSpecial(ID.text.KEYITEM_OBTAINED + 1, tpz.ki.RED_CARD)
-    player:setCharVar("Cosmo_Cleanse_TIME", os.time())
 end
 
 function onBattlefieldDestroy(battlefield)

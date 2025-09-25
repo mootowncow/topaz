@@ -73,14 +73,18 @@ private:
 
     bool TrustIsHealing();
 
-    bool TryCastOOCSpells();
-    bool TryCastRaise();
-    bool TryCastReraise();
-    bool TryCastProtectraShellra();
-    bool TryCastUtsusemi();
-    bool TryCastMazurka();
+    bool TryUseFood(CCharEntity* PMaster, CTrustController* Controller);
 
-    bool TryUseBoltersRoll();
+    bool TryCastOOCSpells(CCharEntity* PMaster, CTrustController* Controller);
+    bool TryCastRaise(CCharEntity* PMaster, CTrustController* Controller);
+    bool TryCastReraise(CCharEntity* PMaster, CTrustController* Controller);
+    bool TryCastProtectraShellra(CCharEntity* PMaster, CTrustController* Controller);
+    bool TryCastUtsusemi(CCharEntity* PMaster, CTrustController* Controller);
+    bool TryCastMazurka(CCharEntity* PMaster, CTrustController* Controller);
+
+    bool TryUseOOCAbilities(CCharEntity* PMaster, CTrustController* Controller);
+    bool TryUseBoltersRoll(CCharEntity* PMaster, CTrustController* Controller);
+    bool TryUseChocoboJig(CCharEntity* PMaster, CTrustController* Controller);
 
     CBattleEntity* m_LastTopEnmity;
 

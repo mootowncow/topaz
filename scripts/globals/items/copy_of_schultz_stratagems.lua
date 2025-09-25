@@ -18,6 +18,9 @@ end
 
 function onItemUse(target)
     local exp = math.random(150, 500)
-    target:addExp(exp)
+    local silent = true
+    local xpOnly = true
+
+    target:addExp(exp, silent, xpOnly)
     target:messageBasic(8, exp, 0)
 end

@@ -18,9 +18,9 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local cTime = VanadielHour()
-    local power = 8
+    local dmgmod = 8
     if (12 <= cTime) then
-        local power = 8 + (cTime - 11)
+        local dmgmod = 8 + (cTime - 11)
     end
     local info = MobMagicalMove(mob, target, skill, mob:getWeaponDmg()*3, tpz.magic.ele.DARK, dmgmod, TP_NO_EFFECT)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.DARK, MOBPARAM_IGNORE_SHADOWS)

@@ -20,6 +20,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
 
     MobBuffMove(mob, tpz.effect.MAGIC_SHIELD, 2, 0, 30)
+    target:setEffectUndispellable(tpz.effect.MAGIC_SHIELD)
     skill:setMsg(tpz.msg.basic.NONE)
 
     return 0

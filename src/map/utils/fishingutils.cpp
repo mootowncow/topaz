@@ -122,6 +122,21 @@ namespace fishingutils
 
             break;
         }
+
+        switch (PChar->hookedFish->catchtype)
+        {
+            case FISHINGCATCHTYPE_SMALLFISH:
+            case FISHINGCATCHTYPE_BIGFISH:
+                // Add 1 to fishing daily limit (max: 200) if not a Moat Carp
+                if (PChar->hookedFish->catchid != 5789)
+                {
+                    charutils::SetCharVar(PChar, "FishingFatigue", 1 + charutils::GetCharVar(PChar, "FishingFatigue"));
+                }
+                break;
+            default:
+                break;
+        }
+
         
         const char* fmtQuery = "INSERT into fishing_log (zone,area,charid,charname,charlevel,charskill,pos_x,pos_y,pos_z,catchtype,catchid,catchname,catchskill,regen,ip) "
                                "VALUES(%u,%u,%u,'%s',%u,%u,%.3f,%.3f,%.3f,%u,%u,'%s',%u,%u,'%s')";
@@ -990,6 +1005,13 @@ namespace fishingutils
             return;
         }
 
+        // If JST midnight has rolled over since last time player fished, then reset their fishing fatigue
+        uint32 now = static_cast<uint32>(time(nullptr));
+        if (charutils::GetCharVar(PChar, "LastFishingDate") < now)
+        {
+            charutils::SetCharVar(PChar, "LastFishingDate", CVanaTime::getInstance()->getJstMidnight());
+            charutils::SetCharVar(PChar, "FishingFatigue", 0);
+        }
 
         uint32 vanaTime = CVanaTime::getInstance()->getVanaTime();
         if (PChar->nextFishTime > vanaTime) {
@@ -1157,6 +1179,14 @@ namespace fishingutils
             case FISHACTION_CHECK:
             {
                 if (vanaTime < PChar->lastCastTime + 10) {
+                    CatchNothing(PChar, FISHINGFAILTYPE_NONE);
+                    return;
+                }
+
+                // Daily limit of fish caught (200)
+                if (charutils::GetCharVar(PChar, "FishingFatigue") >= 200)
+                {
+                    ShowDebug("[%s] is fatigued!\n", PChar->name);
                     CatchNothing(PChar, FISHINGFAILTYPE_NONE);
                     return;
                 }

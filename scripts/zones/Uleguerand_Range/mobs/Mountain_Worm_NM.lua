@@ -7,15 +7,16 @@ require("scripts/globals/status")
 require("scripts/globals/mobs")
 ------------------------------
 function onMobSpawn(mob)
-    mob:addMod(tpz.mod.DEFP, 25) 
-    mob:addMod(tpz.mod.ATTP, 10)
-    mob:addMod(tpz.mod.ACC, 15) 
-    mob:addMod(tpz.mod.EVA, 15)
-    mob:setMod(tpz.mod.REFRESH, 40)
+    SetGenericNMStats(mob)
+	mob:setMod(tpz.mod.REGEN, 50)
+    mob:setMod(tpz.mod.UFASTCAST, 50) 
+    mob:addMod(tpz.mod.SPELLINTERRUPT, 50)
+    mob:addMod(tpz.mod.EEM_LIGHT_SLEEP, 20)
+    mob:addMod(tpz.mod.EEM_DARK_SLEEP, 20)
+	mob:addMod(tpz.mod.EEM_SILENCE, 5)
 end
 
 function onMobInitialize(mob)
-	mob:setMod(tpz.mod.REGEN, 50)
 end
 
 function onMobDespawn(mob)

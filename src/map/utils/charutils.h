@@ -78,7 +78,7 @@ namespace charutils
     void    DistributeCapacityPoints(CCharEntity* PChar, CMobEntity* PMob);
     void	DistributeGil(CCharEntity* PChar, CMobEntity* PMob);
     void	DistributeItem(CCharEntity* PChar, CBaseEntity* PEntity, uint16 itemid, uint16 droprate);
-    void	AddExperiencePoints(bool expFromRaise, CCharEntity* PChar, CBaseEntity* PMob, uint32 exp, EMobDifficulty mobCheck = EMobDifficulty::TooWeak, bool isexpchain = false);
+    void	AddExperiencePoints(bool expFromRaise, CCharEntity* PChar, CBaseEntity* PMob, uint32 exp, EMobDifficulty mobCheck = EMobDifficulty::TooWeak, bool isexpchain = false, bool isSilent = false, bool xpOnly = false);
     void    AddCapacityPoints(CCharEntity* PChar, CBaseEntity* PMob, uint32 capacityPoints, int16 levelDiff, bool isCapacityChain);
 
     void    TrySkillUP(CCharEntity* PChar, SKILLTYPE SkillID, uint8 lvl, bool HighChance);

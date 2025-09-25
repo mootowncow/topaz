@@ -36,7 +36,7 @@ function onMobFight(mob, target)
 
     -- Bandaid until navmesh in Limbus is better
     if tpz.path.CheckIfStuck(mob) then
-        if (mob:checkDistance(target) >= 10) then
+        if (mob:checkDistance(target) > 10) then
             mob:setPos(target:getXPos(), target:getYPos(), target:getZPos())
         end
     end

@@ -274,13 +274,13 @@ tpz.path =
         local stuckTimer = npc:getLocalVar("stuckTimer")
         if not IsMobBusy(npc) and not npc:hasPreventActionEffect() then
             if (stuckTimer == 0) then
-                npc:setLocalVar("stuckTimer", os.time() + 5)
+                npc:setLocalVar("stuckTimer", os.time() + 3)
             elseif (os.time() >= stuckTimer) then
                 if tpz.path.IsStuck(npc) then
                     -- print(string.format("Entity is stuck: %s | %s", npc:getName(), npc:getID()))
                     return true
                 end
-                npc:setLocalVar("stuckTimer", os.time() + 5)
+                npc:setLocalVar("stuckTimer", os.time() + 3)
             end
             return false
         end

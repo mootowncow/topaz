@@ -93,6 +93,8 @@ enum LATENT
     LATENT_SANCTION_FOOD_DURATION   = 63, // While in besieged region
     LATENT_SIGIL_FOOD_DURATION      = 64, // While in campaign region
     LATENT_SIGIL_RETAINED_EXP       = 65, // While in campaign region
+    LATENT_MH_WEAPONTYPE            = 66, // MH weapon is specific type (i.e. SWORD = 3, CLUB = 11)
+    LATENT_DUALWIELD                = 67, // Is Dual Wielding (0 for False, 1 for True)
 };
 
 #define MAX_LATENTEFFECTID    999

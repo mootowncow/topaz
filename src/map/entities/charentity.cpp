@@ -2708,8 +2708,8 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
         actionList_t& actionList = action.getNewActionList();
         actionList.ActionTargetID = PTarget->id;
 
-        // Healing / Clear Salve / Dawn Mulsum (Pet items)
-        if (PItem->getID() >= 5835 && PItem->getID() <= 5838 || PItem->getID() == 5411)
+        // Healing / Clear Salve / Dawn Mulsum / Shepherd's Drink (Pet items)
+        if (PItem->getID() >= 5835 && PItem->getID() <= 5838 || PItem->getID() == 5411 || PItem->getID() == 5396)
         {
             if (PTarget->PPet != nullptr)
             {
@@ -2723,8 +2723,8 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
         actionTarget.messageID = PItem->getMsg();
         actionTarget.param = PItem->getParam();
 
-        // Percentage HP for Healing Salve I and II
-        if (PItem->getID() == 5835 || PItem->getID() == 5836)
+        // Percentage HP for Healing Salve I / II and Shepherd's Drink
+        if (PItem->getID() == 5835 || PItem->getID() == 5836 || PItem->getID() == 5396)
         {
             if (PTarget->PPet != nullptr)
             {

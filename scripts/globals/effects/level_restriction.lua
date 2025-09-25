@@ -36,4 +36,7 @@ end
 
 function onEffectLose(target, effect)
     target:levelRestriction(0)
+    if target:getObjType() == tpz.objType.PC then
+        target:clearTrusts()
+    end
 end

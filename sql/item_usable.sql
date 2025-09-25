@@ -1236,7 +1236,7 @@ INSERT INTO `item_usable` VALUES (5392,'bottle_of_champions_drink',1,1,25,0,0,0,
 INSERT INTO `item_usable` VALUES (5393,'bottle_of_monarchs_drink',1,1,76,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5394,'bottle_of_gnostics_drink',1,1,27,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5395,'bottle_of_clerics_drink',1,1,34,0,0,0,0,1,0,0);
-INSERT INTO `item_usable` VALUES (5396,'bottle_of_shepherds_drink',1,1,34,0,0,0,0,0,0,0);
+INSERT INTO `item_usable` VALUES (5396,'bottle_of_shepherds_drink',1,1,34,0,0,0,0,0,24,50);
 INSERT INTO `item_usable` VALUES (5397,'bottle_of_sprinters_drink',1,1,34,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5398,'cage_of_z_remnants_fireflies',1,10,80,3,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5399,'cage_of_a_remnants_fireflies',1,10,80,3,0,0,0,0,0,0);

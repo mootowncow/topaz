@@ -138,6 +138,17 @@ local modByMobName =
         AddArtifactGear(mob)
     end,
 
+    ['shantotto'] = function(mob)
+        mob:addMod(tpz.mod.DMGAOE, -33)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.MPP, 40)
+        end
+
+        AddRefreshGear(mob)
+        AddCasterGear(mob)
+        AddArtifactGear(mob)
+    end,
+
     ['koru-moru'] = function(mob)
         mob:addMod(tpz.mod.HPP, 20)
         if mob:getMainLvl() >= 75 then
@@ -154,7 +165,8 @@ local modByMobName =
             mob:addMod(tpz.mod.DMGAOE, -33)
         end
         AddRefreshGear(mob)
-        mob:addMod(tpz.mod.CURE_CAST_TIME, 25)
+        mob:addMod(tpz.mod.CURE_CAST_TIME, 35)
+        mob:addMod(tpz.mod.CURE_POTENCY, 10)
         AddHealerGear(mob)
         AddArtifactGear(mob)
     end,
@@ -522,7 +534,9 @@ tpz.trust.setUpFood = function(mob)
         },
 
         Healer = {
-            { Lvl = 1, Food = tpz.items.CUP_OF_CHOCOMILK },
+            { Lvl = 1, Food = tpz.items.ROAST_MUSHROOM },
+            { Lvl = 50, Food = tpz.items.BOWL_OF_MUSHROOM_SOUP },
+            { Lvl = 75, Food = tpz.items.BOWL_OF_MUSHROOM_STEW },
         },
 
         Support = {
@@ -882,9 +896,15 @@ function AddCasterGear(mob)
         mob:addMod(tpz.mod.MATT, 5)
         AddElementalStaves(mob, 'nq')
     elseif mobLevel >= 75 then
-        mob:addMod(tpz.mod.INT, 47)
-        mob:addMod(tpz.mod.MATT, 5)
-        mob:addMod(tpz.mod.ELEM, 64)
+        if (mob:getMainJob() == tpz.job.BLM) then
+            mob:addMod(tpz.mod.INT, 47)
+            mob:addMod(tpz.mod.MATT, 5)
+            mob:addMod(tpz.mod.ELEM, 64)
+        elseif (mob:getMainJob() == tpz.job.SCH) then
+            mob:addMod(tpz.mod.INT, 45)
+            mob:addMod(tpz.mod.MATT, 16)
+            mob:addMod(tpz.mod.ELEM, 12)
+        end
         AddElementalStaves(mob, 'hq')
         if master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
             -- Obis, more MAB, more int, etc
@@ -980,7 +1000,6 @@ function AddHealerGear(mob)
         mob:addMod(tpz.mod.INT, 30)
         mob:addMod(tpz.mod.MND, 51)
         mob:addMod(tpz.mod.MATT, 5)
-        mob:addMod(tpz.mod.CURE_POTENCY, 10)
         AddElementalStaves(mob, 'nq')
         if master:hasKeyItem(tpz.ki.FILLED_MEMORY_GEM) then
             -- TODO

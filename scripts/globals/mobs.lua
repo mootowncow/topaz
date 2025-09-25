@@ -1234,7 +1234,7 @@ function CheckQuadavModel(mob, skill, model, vanillaAnimation, wotgAnimation)
 end
 
 function SetNukeAnimationsToGa(mob, spell)
-    -- Used with onSpellPrecast
+    -- Used with onSpellPrecast(mob, spell)
     -- For setting ST nukes to -ga animations for Tabula Rasa / Manifeistation
     -- t1/t2/t3/t44 spells only (mod 5 == 1) for t3, (mod 5 == 2) for t4 (remainder)
     if (spell:getID() >= 144 and spell:getID() <= 173) then -- T1 to T4 nukes
