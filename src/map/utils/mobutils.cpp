@@ -1443,7 +1443,7 @@ void SetupDungeonInstancedMob(CMobEntity* PMob)
     {
         if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
         {
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(90);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(120);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
