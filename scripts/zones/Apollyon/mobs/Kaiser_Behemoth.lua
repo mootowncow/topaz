@@ -25,6 +25,7 @@ end
 
 function onMobFight(mob, target)
 	local MeteorTime = mob:getLocalVar("MeteorTime")
+    local setPosTime = mob:getLocalVar("setPosTime")
 	local BattleTime = mob:getBattleTime()
 
 	if (MeteorTime == 0) then
@@ -41,8 +42,15 @@ function onMobFight(mob, target)
         end
     end
 
-    if (mob:checkDistance(target) >= 8) then
-        mob:setPos(target:getXPos(), target:getYPos(), target:getZPos())
+    if (setPosTime == 0) then
+		mob:setLocalVar("setPosTime", BattleTime + 10)
+	elseif (BattleTime >= setPosTime) then
+        if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
+            if (mob:checkDistance(target) >= 8) then
+                mob:setPos(target:getXPos(), target:getYPos(), target:getZPos())
+                mob:setLocalVar("setPosTime", BattleTime + 10)
+            end
+        end
     end
 end
 
