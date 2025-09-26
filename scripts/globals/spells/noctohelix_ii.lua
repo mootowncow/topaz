@@ -1,6 +1,6 @@
 --------------------------------------
--- Spell: Luminohelix
--- Deals light damage that gradually reduces a target's HP. Damage dealt is greatly affected by the weather.
+-- Spell: Noctohelix II
+-- Deals dark damage that gradually reduces a target's HP. Damage dealt is greatly affected by the weather.
 --------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -12,7 +12,7 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local helix = doHelix(caster, target, spell, HELIX_TIER_1)
+    local helix = doHelix(caster, target, spell, HELIX_TIER_2)
 
     return helix
 end

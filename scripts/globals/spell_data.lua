@@ -77,6 +77,8 @@ tpz.magic.spellGroup =
     NINJUTSU  = 4,
     SUMMONING = 5,
     WHITE     = 6,
+    GEOMANCY  = 7,
+    TRUST     = 8
 }
 
 ------------------------------------

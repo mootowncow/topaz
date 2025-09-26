@@ -10,8 +10,8 @@ function onEffectGain(target, effect)
         subpower = effect:getPower()
     end
 
-    target:addMod(tpz.mod.FASTCAST, -effect:getPower()) -- Yes we are subtracting in addMod()
-    target:addMod(tpz.mod.MACC, -subpower) -- This is intentional
+    target:addMod(tpz.mod.FASTCAST, -effect:getPower())
+    target:addMod(tpz.mod.MACC, -subpower)
 end
 
 function onEffectTick(target, effect)

@@ -1,10 +1,9 @@
 -----------------------------------------
--- Spell: Drain II
+-- Spell: Aspir
 -- Drain functions only on skill level!!
 -----------------------------------------
 require("scripts/globals/magic")
 require("scripts/globals/status")
-require("scripts/globals/settings")
 require("scripts/globals/msg")
 -----------------------------------------
 
@@ -17,11 +16,10 @@ function onSpellCast(caster, target, spell)
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
         return 0
     end
-    --calculate raw damage (unknown function  -> only dark skill though) - using http://www.bluegartr.com/threads/44518-Drain-Calculations
-    -- also have small constant to account for 0 dark skill
-    local dmg = 165 + caster:getSkillLevel(tpz.skill.DARK_MAGIC)
 
-
+    -- https://wiki.ffo.jp/html/33772.html
+    -- https://www.bg-wiki.com/ffxi/Aspir_III
+    local dmg = 30 +  (caster:getSkillLevel(tpz.skill.DARK_MAGIC) * 0.8 )
     --get resist multiplier (1x if no resist)
     local params = {}
     params.diff = caster:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT)
@@ -49,34 +47,23 @@ function onSpellCast(caster, target, spell)
 
     dmg = finalMagicAdjustments(caster, target, spell, dmg)
 
-	-- add dmg variance
-	dmg = (dmg * math.random(66, 100)) / 100
+    -- add dmg variance
+    dmg = (dmg * math.random(75, 100)) / 100
 
-	dmg = dmg * DARK_POWER
+    dmg = dmg * DARK_POWER
 
     if (target:isUndead()) then
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT) -- No effect
         return dmg
     end
 
-    local leftOver = (caster:getHP() + dmg) - caster:getMaxHP()
-
-    if (leftOver > 0) and caster:hasStatusEffect(tpz.effect.CURSE_II) == false then
-        caster:addStatusEffect(tpz.effect.MAX_HP_BOOST, (leftOver/caster:getMaxHP())*100, 0, 180)
+    if (target:getMP() > dmg) then
+        caster:addMP(dmg)
+        target:delMP(dmg)
+    else
+        dmg = target:getMP()
+        caster:addMP(dmg)
+        target:delMP(dmg)
     end
-
-    local healing = dmg
-    -- Cap healing amount at the targets current HP
-    if (target:getHP() < dmg) then
-        healing = target:getHP()
-    end
-
-	-- Heal for 0 if afflicted with zombie
-	if caster:hasStatusEffect(tpz.effect.CURSE_II) then
-		caster:addHP(0)
-	else
-		caster:addHP(healing)
-	end
-	
     return dmg
 end

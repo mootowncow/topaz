@@ -779,8 +779,8 @@ public:
     auto    GetSourceTypeParam() const -> uint32;
     auto    GetOriginID() const -> uint32;
     uint16  GetIcon();
-    uint16  GetPower();
-    uint32  GetSubPower();
+    int16   GetPower();
+    int32   GetSubPower();
     uint16  GetTier();
     uint32  GetFlag();
     uint16  GetType();
@@ -799,8 +799,8 @@ public:
     void    SetSlot(uint8 Slot);
     void    SetIcon(uint16 Icon);
     auto    SetSource(uint16 sourceType, uint32 sourceTypeParam) -> void;
-    void    SetPower(uint16 Power);
-    void    SetSubPower(uint32 subPower);
+    void    SetPower(int16 Power);
+    void    SetSubPower(int32 subPower);
     void    SetTier(uint16 tier);
     void    SetDuration(uint32 Duration);
     void    SetOwner(CBattleEntity* Owner);
@@ -824,11 +824,11 @@ public:
     CStatusEffect(
          EFFECT id,
          uint16 icon,
-         uint16 power,
+         int16  power,
          uint32 tick,
          uint32 duration,
          uint32 subid = 0,
-         uint32 subPower = 0,
+         int32  subPower = 0,
          uint16 tier = 0,
          uint32 flags = 0,
          uint16 sourceType = EffectSourceType::SOURCE_NONE,
@@ -848,8 +848,8 @@ private:
     EFFECT      m_StatusID {EFFECT_NONE};             // основной тип эффекта
     uint32      m_SubID {0};                // дополнительный тип эффекта
     uint16      m_Icon {0};                 // иконка эффекта
-    uint16      m_Power {0};                // сила эффекта
-    uint32      m_SubPower {0};             // Secondary power of the effect
+    int16       m_Power{ 0 };               // сила эффекта
+    int32       m_SubPower {0};              // Secondary power of the effect
     uint16      m_Tier {0};                 // Tier of the effect
     uint32      m_Flag {0};                 // флаг эффекта (условия его исчезновения)
     uint32      m_OriginID{ 0 };            // The effect's origin ID. (This is usually the ID of the entity that created the effect)
