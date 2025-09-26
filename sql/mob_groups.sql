@@ -1511,7 +1511,7 @@ INSERT INTO `mob_groups` VALUES (21,4513,38,'Zlatorog',0,128,0,11000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (22,2757,38,'Mountain_Buffalo',0,128,2857,9000,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (23,2661,38,'Millenary_Mossback',0,128,0,19000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (24,202,38,'Apollyon_Scavenger',0,128,2858,4750,0,81,83,0);
-INSERT INTO `mob_groups` VALUES (25,883,38,'Cynoprosopi',0,128,0,15000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (25,883,38,'Cynoprosopi',0,128,0,30000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (26,1771,38,'Gorynich',0,128,2862,5000,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (27,2180,38,'Kaiser_Behemoth',0,128,0,15000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (28,2289,38,'Kronprinz_Behemoth',0,128,2863,7000,1000,81,83,0);

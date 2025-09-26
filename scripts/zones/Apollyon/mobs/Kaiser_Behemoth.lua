@@ -25,6 +25,7 @@ end
 
 function onMobFight(mob, target)
 	local MeteorTime = mob:getLocalVar("MeteorTime")
+    local setPosTime = mob:getLocalVar("setPosTime")
 	local BattleTime = mob:getBattleTime()
 
 	if (MeteorTime == 0) then
@@ -34,10 +35,21 @@ function onMobFight(mob, target)
 		mob:setLocalVar("MeteorTime", BattleTime + 70)
 	end
 
-    -- Bandaid until navmesh in Limbus is better
+    -- Bandaids until navmesh in Limbus is better
     if tpz.path.CheckIfStuck(mob) then
         if (mob:checkDistance(target) > 10) then
             mob:setPos(target:getXPos(), target:getYPos(), target:getZPos())
+        end
+    end
+
+    if (setPosTime == 0) then
+		mob:setLocalVar("setPosTime", BattleTime + 10)
+	elseif (BattleTime >= setPosTime) then
+        if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
+            if (mob:checkDistance(target) >= 8) then
+                mob:setPos(target:getXPos(), target:getYPos(), target:getZPos())
+                mob:setLocalVar("setPosTime", BattleTime + 10)
+            end
         end
     end
 end

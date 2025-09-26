@@ -52,7 +52,6 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     if NearbyEntities then
         for _, entity in pairs(NearbyEntities) do
             if entity:isAlive() and (entity:getAllegiance() == player:getAllegiance()) then
-                entity:removeAllNegativeEffects()
                 utils.ShouldRemoveStoneskin(entity, stoneskinAmount)
                 entity:addStatusEffect(tpz.effect.STONESKIN, stoneskinAmount, 0, 60)
                 if canOverwrite(entity, 25, tpz.effect.MAGIC_DEF_BOOST) then

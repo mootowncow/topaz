@@ -380,7 +380,6 @@ function doEnspell(caster, target, spell, effect)
     if caster:hasStatusEffect(tpz.effect.AFFLATUS_MISERY) then
         local jpLevel = caster:getJobPointLevel(tpz.jp.AFFLATUS_MISERY_EFFECT)
         potency = potency + jpLevel
-        potency = potency * 2
     end
 
     if target:addStatusEffect(effect, potency, 0, duration) then
