@@ -14,7 +14,6 @@ function onSpellCast(caster, target, spell)
     local lvl = target:getMainLvl()
     local mainJob = target:getMainJob()
     local jobLevel = target:getJobLevel(mainJob)
-    printf("name %s, lvl: %d, mainJob: %d, jobLevel: %d", name, lvl, mainJob, jobLevel)
     if (target:isPC()) then
         if caster:isPC() then
             target:sendTractor(caster:getXPos(), caster:getYPos(), caster:getZPos(), target:getRotPos())
