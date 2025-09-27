@@ -1349,6 +1349,7 @@ void SetupDynamisMob(CMobEntity* PMob)
     // boost dynamis mobs weapon damage
     PMob->setMobMod(MOBMOD_WEAPON_BONUS, 30); // Add approximately 30 flat damage until proven otherwise (In-line with the 35% added previously)
     ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
+    ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(GetWeaponDamage(PMob, SLOT_SUB));
     ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
 
     // job resist traits are much more powerful in dynamis
@@ -1377,6 +1378,8 @@ void SetupLimbusMob(CMobEntity* PMob)
         if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(175);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(175);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(175);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
@@ -1390,6 +1393,8 @@ void SetupLimbusMob(CMobEntity* PMob)
         if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(150);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(150);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(150);
         }
 
         PMob->addModifier(Mod::ATTP, 33);
@@ -1420,6 +1425,8 @@ void SetupDungeonInstancedMob(CMobEntity* PMob)
         if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(200);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(200);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(200);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
@@ -1432,6 +1439,8 @@ void SetupDungeonInstancedMob(CMobEntity* PMob)
         if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(150);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(150);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(150);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
@@ -1443,7 +1452,9 @@ void SetupDungeonInstancedMob(CMobEntity* PMob)
     {
         if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
         {
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(90);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(120);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(120);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(120);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
@@ -1475,6 +1486,8 @@ void SetupSalvageMob(CMobEntity* PMob)
         if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(60);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(60);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(60);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
@@ -1486,6 +1499,8 @@ void SetupSalvageMob(CMobEntity* PMob)
         if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(50);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(50);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(50);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
@@ -1497,6 +1512,8 @@ void SetupSalvageMob(CMobEntity* PMob)
         if (PMob->GetMJob() != JOB_MNK || ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->getSkillType() != SKILL_HAND_TO_HAND)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(40);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(40);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(40);
         }
 
         PMob->addModifier(Mod::ATTP, 25);

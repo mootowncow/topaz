@@ -30,6 +30,7 @@ function onSpellCast(caster, target, spell)
             end
             target:addStatusEffect(tpz.effect.RERAISE, 3, 0, 3600)
         end
+        target:disengage()
     end
     spell:setMsg(tpz.msg.basic.MAGIC_CASTS_ON)
 

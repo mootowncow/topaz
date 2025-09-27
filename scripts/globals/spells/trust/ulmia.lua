@@ -78,6 +78,8 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.PARALYSIS, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.PARALYNA)
     mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS, tpz.effect.BLINDNESS, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.BLINDNA)
     mob:addSimpleGambit(ai.t.RANGED, ai.c.STATUS, tpz.effect.BLINDNESS, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.BLINDNA)
+    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS, tpz.effect.PLAGUE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.VIRUNA)
+    mob:addSimpleGambit(ai.t.RANGED, ai.c.STATUS, tpz.effect.PLAGUE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.VIRUNA)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.DISEASE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.VIRUNA)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.POISON, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.POISONA)
 

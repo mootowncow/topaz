@@ -144,6 +144,11 @@ local modByMobName =
             mob:addMod(tpz.mod.MPP, 40)
         end
 
+        -- She won't be able to MB T4 nukes without this
+        if mob:getMainLvl() >= 68 then
+            mob:addMod(tpz.mod.ELEMENTAL_CELERITY, 25)
+        end
+
         AddRefreshGear(mob)
         AddCasterGear(mob)
         AddArtifactGear(mob)

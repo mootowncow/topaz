@@ -37,6 +37,7 @@ function onSpellCast(caster, target, spell)
             else
                 target:addStatusEffect(tpz.effect.WEAKNESS, 1, 0, 60)
             end
+            target:disengage()
         end
     end
     spell:setMsg(tpz.msg.basic.MAGIC_CASTS_ON)

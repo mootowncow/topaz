@@ -10,18 +10,12 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local name = target:getName()
-    local lvl = target:getMainLvl()
-    local mainJob = target:getMainJob()
-    local jobLevel = target:getJobLevel(mainJob)
-    printf("name %s, lvl: %d, mainJob: %d, jobLevel: %d", name, lvl, mainJob, jobLevel)
     if (target:isPC()) then
         if caster:isPC() then
             target:sendTractor(caster:getXPos(), caster:getYPos(), caster:getZPos(), target:getRotPos())
             target:allowSendRaisePrompt()
             target:addStatusEffect(tpz.effect.RERAISE, 1, 0, 3600)
         else
-            target:setLocalVar("jobLevel", target:getJobLevel(target:getMainJob()))
             target:sendRaise(1)
         end
     else
@@ -38,6 +32,7 @@ function onSpellCast(caster, target, spell)
             else
                 target:addStatusEffect(tpz.effect.WEAKNESS, 1, 0, 180)
             end
+            target:disengage()
         end
     end
     spell:setMsg(tpz.msg.basic.MAGIC_CASTS_ON)
