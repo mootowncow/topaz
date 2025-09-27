@@ -5,7 +5,11 @@
 -----------------------------------
 local ID = require("scripts/zones/Ilrusi_Atoll/IDs")
 require("scripts/globals/pathfind")
-mixins = {require("scripts/mixins/families/qutrub")}
+mixins = 
+{
+    require("scripts/mixins/families/qutrub"),
+    require("scripts/mixins/job_special")
+}
 -----------------------------------
 local path =
 {

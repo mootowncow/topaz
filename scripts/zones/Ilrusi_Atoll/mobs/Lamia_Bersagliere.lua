@@ -4,7 +4,11 @@
 -- RNG
 -----------------------------------
 local ID = require("scripts/zones/Ilrusi_Atoll/IDs")
-mixins = {require("scripts/mixins/weapon_break")}
+mixins = 
+{
+    require("scripts/mixins/weapon_break"),
+    require("scripts/mixins/job_special")
+}
 -----------------------------------
 function onMobSpawn(mob)
     mob:setMod(tpz.mod.MDEF, 0)

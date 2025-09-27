@@ -3,7 +3,11 @@
 --  Mob: Evolved Orobon
 -- RNG
 -----------------------------------
-mixins = {require("scripts/mixins/families/orobon")}
+mixins = 
+{
+    require("scripts/mixins/families/orobon"),
+    require("scripts/mixins/job_special")
+}
 local ID = require("scripts/zones/Ilrusi_Atoll/IDs")
 -----------------------------------
 function onMobSpawn(mob)
