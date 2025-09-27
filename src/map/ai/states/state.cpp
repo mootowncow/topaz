@@ -41,6 +41,11 @@ CBaseEntity* CState::GetTarget() const
     return m_PTarget;
 }
 
+CBaseEntity* CState::GetInitialTarget() const
+{
+    return m_PInitialTarget;
+}
+
 uint16 CState::GetTargetID() const
 {
     return m_targid;
@@ -68,6 +73,13 @@ void CState::SetTarget(uint16 _targid)
         m_targid = _targid;
         UpdateTarget(_targid);
     }
+}
+
+void CState::SetInitialTarget(uint16 _targid)
+{
+    m_targid = _targid;
+    m_PInitialTarget = m_PEntity->GetEntity(_targid);
+    UpdateTarget(_targid);
 }
 
 bool CState::HasErrorMsg() const

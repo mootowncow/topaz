@@ -51,6 +51,10 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
         throw CStateInitException(std::move(m_errorMsg));
     }
 
+    // Set the initial target, to stop weird things from happening when checking conal/behind/AOE
+    SetInitialTarget(PTarget->targid);
+    uint16 initialTarget = PTarget->targid;
+
     m_PSkill = std::make_unique<CMobSkill>(*skill);
 
     m_castTime = std::chrono::milliseconds(m_PSkill->getActivationTime());

@@ -1297,7 +1297,7 @@ void CMobEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& actio
 void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 {
     auto PSkill = state.GetSkill();
-    auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    auto PTarget = static_cast<CBattleEntity*>(state.GetInitialTarget());
     int16 tp = state.GetSpentTP();
     tp = battleutils::CalculateWeaponSkillTP(this, 0, tp);
     static_cast<CMobController*>(PAI->GetController())->TapDeaggroTime();

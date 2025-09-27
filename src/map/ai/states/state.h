@@ -45,7 +45,10 @@ public:
     virtual ~CState() = default;
 
     CBaseEntity* GetTarget() const;
-    void SetTarget(uint16 targid);
+    void        SetTarget(uint16 targid);
+
+    CBaseEntity* GetInitialTarget() const;
+    void         SetInitialTarget(uint16 targid);
 
     bool HasErrorMsg() const;
     /* Releases ownership to the caller */
@@ -82,6 +85,8 @@ protected:
     uint16 m_targid {0};
 private:
     CBaseEntity* m_PTarget {nullptr};
+    CBaseEntity* m_PInitialTarget{ nullptr };
+    position_t m_initialFacing{};
     bool m_completed {false};
     time_point m_entryTime {server_clock::now()};
 };

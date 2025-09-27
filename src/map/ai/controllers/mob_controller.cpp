@@ -1022,14 +1022,6 @@ void CMobController::FaceTarget(uint16 targid)
         return;
     }
 
-    // If busy, don't face target!
-    if (PMob->PAI->IsCurrentState<CMagicState>() || PMob->PAI->IsCurrentState<CMobSkillState>() || PMob->PAI->IsCurrentState<CWeaponSkillState>() ||
-        PMob->PAI->IsCurrentState<CItemState>())
-    {
-        return;
-    }
-
-
     CBaseEntity* targ = PTarget;
     if (targid != 0 && ((targ && targid != targ->targid ) || !targ))
     {
