@@ -369,6 +369,26 @@ namespace battleutils
         return false;
     }
 
+    uint16 GetWeaponDamageType(SKILLTYPE skillType)
+    {
+        switch (skillType)
+        {
+            case SKILL_HAND_TO_HAND: return DAMAGE_IMPACT;
+            case SKILL_DAGGER:       return DAMAGE_PIERCING;
+            case SKILL_SWORD:        return DAMAGE_SLASHING;
+            case SKILL_GREAT_SWORD:  return DAMAGE_SLASHING;
+            case SKILL_AXE:          return DAMAGE_SLASHING;
+            case SKILL_GREAT_AXE:    return DAMAGE_SLASHING;
+            case SKILL_SCYTHE:       return DAMAGE_SLASHING;
+            case SKILL_POLEARM:      return DAMAGE_PIERCING;
+            case SKILL_KATANA:       return DAMAGE_SLASHING;
+            case SKILL_GREAT_KATANA: return DAMAGE_SLASHING;
+            case SKILL_CLUB:         return DAMAGE_IMPACT;
+            case SKILL_STAFF:        return DAMAGE_IMPACT;
+
+            default: return DAMAGE_HTH;
+        }
+    }
 
     int16 getSDTRank(CBattleEntity* PDefender, ELEMENT element, int16 SDT)
     {

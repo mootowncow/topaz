@@ -362,7 +362,7 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     auto damageMultiplier = static_cast<float>(trustData->cmbDmgMult) / 100.0f;
     auto adjustedDamage = baseDamage * damageMultiplier;
     auto finalDamage = static_cast<uint16>(std::max(adjustedDamage, 1.0f));
-    //
+    
     // Trust do not really have weapons, but they are modelled internally as
     // if they do.
     if (auto* mainWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]))
@@ -386,16 +386,19 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
                 case SKILL_STAFF:        multiplier = 2.60f; break; // 420? Unused
             }
 
+            mainWeapon->setDmgType(battleutils::GetWeaponDamageType(static_cast<SKILLTYPE>(trustData->cmbSkill)));
             mainWeapon->setDamage(finalDamage * multiplier);
         }
         else if (mainWeapon->isHandToHand())
         {
             auto h2hSkill = PTrust->GetSkill(SKILL_HAND_TO_HAND);
             auto levelDmgBonus = PTrust->GetMLevel() / 4;
+            mainWeapon->setDmgType(DAMAGE_HTH);
             damageMultiplier = 0.11f * h2hSkill + 3 + levelDmgBonus;
         }
         else
         {
+            mainWeapon->setDmgType(battleutils::GetWeaponDamageType(static_cast<SKILLTYPE>(trustData->cmbSkill)));
             mainWeapon->setDamage(finalDamage);
         }
 
@@ -405,6 +408,7 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
 
     if (auto* subWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_SUB]))
     {
+        subWeapon->setDmgType(battleutils::GetWeaponDamageType(static_cast<SKILLTYPE>(trustData->cmbSkill)));
         subWeapon->setDamage(finalDamage);
         subWeapon->setDelay(((trustData->cmbDelay * 1000) / 60) / 2);
         subWeapon->setBaseDelay(((trustData->cmbDelay * 1000) / 60) / 2);
@@ -415,6 +419,7 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
         rangedWeapon->setSubSkillType(trustData->rangedSkill);
 
         auto rangedWepDelay = 540;
+        rangedWeapon->setDmgType(DAMAGE_RANGED);
         rangedWeapon->setDamage(finalDamage * 3);
         rangedWeapon->setDelay((rangedWepDelay * 1000) / 60);
         rangedWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
@@ -434,6 +439,8 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
         {
             ammoWeapon->setDamage(finalDamage);
         }
+
+        ammoWeapon->setDmgType(DAMAGE_RANGED);
         ammoWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
         ammoWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
     }
