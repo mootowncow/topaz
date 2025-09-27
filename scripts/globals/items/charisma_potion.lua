@@ -17,5 +17,5 @@ function onItemUse(target)
     target:addStatusEffect(tpz.effect.CHR_BOOST, 20, 0, 30)
     target:addStatusEffect(tpz.effect.INTENSION, 30, 0, 30)
     target:messageBasic(tpz.msg.basic.GAINS_EFFECT_OF_STATUS, tpz.effect.INTENSION)
-    target:addStatusEffect(tpz.effect.MEDICINE, 0, 0, 900)
+    target:addStatusEffect(tpz.effect.MEDICINE, 0, 0, 3600)
 end
