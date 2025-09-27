@@ -64,10 +64,10 @@ function onSpellCast(caster, target, spell)
     end
 
 	dmg = BlueFinalAdjustments(caster, target, spell, dmg, params)
-   	dmg = (dmg * math.random(85, 115)) / 100
+   	dmg = (dmg * math.random(75, 100)) / 100
 
 	-- add dmg variance 
-	dmg = (dmg * math.random(85, 115)) / 100
+	dmg = (dmg * math.random(75, 100)) / 100
 
    if (dmg > 0) then
 		caster:addMP(dmg)

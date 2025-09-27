@@ -46,10 +46,9 @@ function onSpellCast(caster, target, spell)
     if (dmg < 0) then
         dmg = 0
     end
-	
 
 	-- add dmg variance
-	dmg = (dmg * math.random(85, 115)) / 100
+	dmg = (dmg * math.random(75, 100)) / 100
 
     dmg = dmg * DARK_POWER
 

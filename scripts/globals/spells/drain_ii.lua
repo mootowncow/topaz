@@ -50,7 +50,7 @@ function onSpellCast(caster, target, spell)
     dmg = finalMagicAdjustments(caster, target, spell, dmg)
 
 	-- add dmg variance
-	dmg = (dmg * math.random(85, 115)) / 100
+	dmg = (dmg * math.random(66, 100)) / 100
 
 	dmg = dmg * DARK_POWER
 

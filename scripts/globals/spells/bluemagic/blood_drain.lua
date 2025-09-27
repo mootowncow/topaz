@@ -66,7 +66,7 @@ function onSpellCast(caster, target, spell)
     dmg = BlueFinalAdjustments(caster, target, spell, dmg, params)
 
     -- add dmg variance
-	dmg = (dmg * math.random(85, 115)) / 100
+	dmg = (dmg * math.random(50, 100)) / 100
 
     local healing = dmg
     -- Cap healing amount at the targets current HP

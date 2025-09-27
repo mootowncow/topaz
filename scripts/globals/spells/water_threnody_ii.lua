@@ -10,5 +10,5 @@ function onMagicCastingCheck(caster,target,spell)
 end
 
 function onSpellCast(caster,target,spell)
-    return handleThrenody(caster, target, spell, 160, 90, tpz.mod.WATERRES)
+    return handleThrenody(caster, target, spell, 75, 90, tpz.mod.WATERRES)
 end

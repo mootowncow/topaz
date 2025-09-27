@@ -8,32 +8,15 @@ require("scripts/globals/items")
 require("scripts/globals/magian")
 ------------------------------------
 
+------------------------------------
+-- Globals
+------------------------------------
+---
+HELIX_TIER_1 = 1
+HELIX_TIER_2 = 2
+
 tpz = tpz or {}
 tpz.magic = tpz.magic or {}
-
-------------------------------------
--- Elements
-------------------------------------
-
---tpz.magic.element =
---{
-   -- NONE      = 0,
-   -- FIRE      = 1,
-   -- EARTH     = 2,
-   -- WATER     = 3,
-   -- WIND      = 4,
-   -- ICE       = 5,
-   -- LIGHTNING = 6,
-   -- THUNDER   = 6,
-   -- LIGHT     = 7,
-  --  DARK      = 8,
---}
---tpz.magic.ele = tpz.magic.element
-
-------------------------------------
--- Spell Groups
-------------------------------------
-
 
 ------------------------------------
 -- Resistance Building Categories
@@ -387,6 +370,55 @@ function doEnspell(caster, target, spell, effect)
     else
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
     end
+end
+
+function doHelix(caster, target, spell, tier)
+    -- https://wiki.ffo.jp/html/14111.html
+    -- get helix acc/att merits
+    local merit = caster:getMerit(tpz.merit.HELIX_MAGIC_ACC_ATT)
+
+    -- calculate raw damage
+    local spellParams = {}
+    spellParams.dmg = 0
+    spellParams.V0 = getHelixV0Value(caster, spell, tier)
+    spellParams.multiplier = getHelixMultiplier(caster, spell, tier)
+    spellParams.skillType = tpz.skill.ELEMENTAL_MAGIC
+    spellParams.attribute = tpz.mod.INT
+    spellParams.hasMultipleTargetReduction = false
+
+    local dmg = calculateMagicDamage(caster, target, spell, spellParams)
+    dmg = dmg + caster:getMod(tpz.mod.HELIX_EFFECT)
+    -- get resist multiplier (1x if no resist)
+    local params = {}
+    params.diff = caster:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT)
+    params.attribute = tpz.mod.INT
+    params.skillType = tpz.skill.ELEMENTAL_MAGIC
+    -- bonus accuracy from merit
+    params.bonus = merit*3
+    local resist = applyResistance(caster, target, spell, params)
+    -- get the resisted damage
+    dmg = dmg*resist
+    -- add on bonuses (staff/day/weather/jas/mab/etc all go in this function)
+    dmg = addBonuses(caster, spell, target, dmg, params)
+    -- add in target adjustment
+    dmg = adjustForTarget(target, dmg, spell:getElement())
+    -- helix MAB merits are actually a percentage increase
+    dmg = dmg * ((100 + merit*2)/100)
+    local dot = dmg
+    local rawDmg = dmg
+    -- add in final adjustments
+    dmg = finalMagicAdjustments(caster, target, spell, dmg)
+    -- calculate Damage over time
+    dot = target:magicDmgTaken(dot, spell:getElement(), rawDmg)
+
+    local duration = getHelixDuration(caster) + caster:getMod(tpz.mod.HELIX_DURATION)
+
+    if (dot > 0 and ShouldHelixOverwrite(caster, target, spell, tier)) then
+        target:addStatusEffect(tpz.effect.HELIX, dot, 3, duration, 0, 0, tier)
+        HandlePlayerHelixDmgTakenIncrease(caster, target, spell, duration)
+    end
+
+    return dmg
 end
 
 -- TODO: Cursna can remove bane AND doom in 1 cast?
@@ -1655,7 +1687,7 @@ function addBonuses(caster, spell, target, dmg, params)
 
     -- print(affinityBonus)
     -- print(speciesReduction)
-    -- print(dayWeatherBonus)
+    --print(dayWeatherBonus)
     -- print(burst)
     -- print(mab)
     -- print(magicDmgMod)
@@ -1838,7 +1870,29 @@ function getElementalDebuffStatDownFromDOT(dot)
     return stat_down
 end
 
-function getHelixDuration(caster)
+function getHelixV0Value(caster, spell, tier)
+    local V0 = 0
+    if (tier == HELIX_TIER_1) then
+        V0 = 25
+    elseif (tier == HELIX_TIER_2) then
+        V0 = 75
+    end
+
+    return V0
+end
+
+function getHelixMultiplier(caster, spell, tier)
+    local multiplier = 0
+    if (tier == HELIX_TIER_1) then
+        multiplier = 1.0
+    elseif (tier == HELIX_TIER_2) then
+        multiplier = 2.0
+    end
+
+    return multiplier
+end
+
+function getHelixDuration(caster, tier)
     --Dark Arts will further increase Helix duration, but testing is ongoing.
 
     local casterLevel = caster:getMainLvl()
@@ -1851,12 +1905,51 @@ function getHelixDuration(caster)
         duration = 90
     end
 
+    if (tier == HELIX_TIER_2) then
+        duration = 90
+    end
+
     if caster:hasStatusEffect(tpz.effect.DARK_ARTS) or caster:hasStatusEffect(tpz.effect.ADDENDUM_BLACK) then
         local jpValue = caster:getJobPointLevel(tpz.jp.DARK_ARTS_EFFECT) * 3
         duration = duration + jpValue
     end
 
     return duration
+end
+
+function HandlePlayerHelixDmgTakenIncrease(caster, target, spell, duration)
+    if caster:isPC() then
+        if (caster:getMainJob() == tpz.job.SCH) then
+            if caster:hasStatusEffect(tpz.effect.DARK_ARTS) or caster:hasStatusEffect(tpz.effect.ADDENDUM_BLACK) then
+                target:addStatusEffectEx(tpz.effect.INCREASED_DAMAGE_TAKEN, tpz.effect.INCREASED_DAMAGE_TAKEN, 9, 0, duration)
+            end
+        end
+    end
+end
+
+function ShouldHelixOverwrite(caster, target, spell, tier)
+    -- https://wiki.ffo.jp/html/14111.html
+    -- Tier 1 Helix spells will overwrite any active Tier 1 Helix effect on the enemy, but not Tier 2.
+    -- Tier 2 Helix spells will overwrite any active Helix effect on the enemy. 
+
+    if target:hasStatusEffect(tpz.effect.HELIX) then
+        local activeHelix = target:getStatusEffect(tpz.effect.HELIX)
+        local activeHelixTier = activeHelix:getTier()
+
+        if (tier == HELIX_TIER_1 and activeHelixTier == HELIX_TIER_1) then
+            target:delStatusEffectSilent(tpz.effect.HELIX)
+            return true
+        end
+
+        if (tier == HELIX_TIER_2) then
+            target:delStatusEffectSilent(tpz.effect.HELIX)
+            return true
+        end
+    else -- No active Helix
+        return true
+    end
+
+    return false
 end
 
 function isHelixSpell(spell)
@@ -1902,9 +1995,6 @@ function handleThrenody(caster, target, spell, basePower, baseDuration, modifier
         return tpz.effect.THRENODY
     end
 
-    -- Remove previous Threnody
-    target:delStatusEffectSilent(tpz.effect.THRENODY)
-
     local iBoost = caster:getMod(tpz.mod.THRENODY_EFFECT) + caster:getMod(tpz.mod.ALL_SONGS_EFFECT)
     local power = basePower + iBoost*5
     local duration = baseDuration * ((iBoost * 0.1) + (caster:getMod(tpz.mod.SONG_DURATION_BONUS)/100) + 1)
@@ -1914,6 +2004,25 @@ function handleThrenody(caster, target, spell, basePower, baseDuration, modifier
     elseif caster:hasStatusEffect(tpz.effect.MARCATO) then
         power = power * 1.5
     end
+
+    -- Don't overwrite weaker or equal Threnodies of the same type-0
+    if target:hasStatusEffect(tpz.effect.THRENODY) then
+        local threnodyEffect = target:getStatusEffect(tpz.effect.THRENODY)
+        local threnodyPower = threnodyEffect:getPower()
+        local newThrenodyPower = -threnodyPower
+        local threnodyEffectSubPower = threnodyEffect:getSubPower()
+
+        if
+            threnodyEffect and
+            (power <= newThrenodyPower) and
+            (modifier == threnodyEffectSubPower)
+        then
+            return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+        end
+    end
+
+    -- Remove previous Threnody
+    target:delStatusEffectSilent(tpz.effect.THRENODY)
 
     if caster:hasStatusEffect(tpz.effect.TROUBADOUR) then
         duration = duration * 2
@@ -1929,7 +2038,6 @@ function handleThrenody(caster, target, spell, basePower, baseDuration, modifier
 
     return tpz.effect.THRENODY
 end
-
 
 function handleNinjutsuDebuff(caster, target, spell, basePower, baseDuration, modifier)
     -- Add new
@@ -4009,6 +4117,16 @@ function AreaOfEffectResistance(target, spell, dmg)
     dmg = dmg * areaOfEffectMultiplier
 
     return dmg
+end
+
+function DeleteStormEffects(caster)
+    for storm = tpz.effect.FIRESTORM, tpz.effect.VOIDSTORM do
+        caster:delStatusEffectSilent(storm)
+    end
+
+    for storm = tpz.effect.FIRESTORM_II, tpz.effect.VOIDSTORM_II do
+        caster:delStatusEffectSilent(storm)
+    end
 end
 
 function shouldApplyTerrorPetrify(caster, target, effect, params)

@@ -71,9 +71,7 @@ function onSpellCast(caster, target, spell)
     -- add in final adjustments
     dmg = BlueFinalAdjustments(caster, target, spell, dmg, params)
 
-	-- add dmg variance
-	dmg = (dmg * math.random(85, 115)) / 100
-
+	dmg = (dmg * math.random(50, 100)) / 100
 
     if dmg > 0 then
         dmg = dmg * BLUE_POWER
