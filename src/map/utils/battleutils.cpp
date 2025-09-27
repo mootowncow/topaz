@@ -373,7 +373,7 @@ namespace battleutils
     {
         switch (skillType)
         {
-            case SKILL_HAND_TO_HAND: return DAMAGE_IMPACT;
+            case SKILL_HAND_TO_HAND: return DAMAGE_HTH;
             case SKILL_DAGGER:       return DAMAGE_PIERCING;
             case SKILL_SWORD:        return DAMAGE_SLASHING;
             case SKILL_GREAT_SWORD:  return DAMAGE_SLASHING;
