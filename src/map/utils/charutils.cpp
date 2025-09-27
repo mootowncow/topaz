@@ -3042,26 +3042,16 @@ namespace charutils
                 {
                     addAbility(PChar, PAbility->getID());
                     Charge_t* charge = ability::GetCharge(PChar, PAbility->getRecastId());
-                    uint32 chargeTime = 0;
-                    uint8 maxCharges = 0;
-
+                    auto chargeTime = 0;
+                    auto maxCharges = 0;
                     if (charge)
                     {
-                        chargeTime = charge->chargeTime;
+                        chargeTime = charge->chargeTime - PChar->PMeritPoints->GetMeritValue((MERIT_TYPE)charge->merit, PChar);
                         maxCharges = charge->maxCharges;
                     }
-
-                    if (PChar->PRecastContainer->Has(RECAST_ABILITY, PAbility->getRecastId()))
+                    if (!PChar->PRecastContainer->Has(RECAST_ABILITY, PAbility->getRecastId()))
                     {
-                        // There is an existing entry, but we need to check if max charges increased
-                        // Simplest approach: remove and reload with full charges if max charges > 1
-                        PChar->PRecastContainer->Del(RECAST_ABILITY, PAbility->getRecastId());
-                        PChar->PRecastContainer->Load(RECAST_ABILITY, PAbility->getRecastId(), 0, chargeTime, maxCharges);
-                    }
-                    else
-                    {
-                        // No entry exists yet (first time)
-                        PChar->PRecastContainer->Load(RECAST_ABILITY, PAbility->getRecastId(), 0, chargeTime, maxCharges);
+                        PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), 0, chargeTime, maxCharges);
                     }
                 }
             }
