@@ -1257,7 +1257,9 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
                     !PTarget->hasImmunity(IMMUNITY_SLEEP) &&
                     !PTarget->hasImmunity(IMMUNITY_DARK_SLEEP) &&
                     PTarget->PAI->IsEngaged() &&
-                    !PTarget->StatusEffectContainer->IsAsleep())
+                    !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SLEEP) &&
+                    !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SLEEP_II) &&
+                    !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PETRIFICATION))
                 {
                     return true;
                 }
@@ -1289,7 +1291,9 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
                             !PTarget->hasImmunity(IMMUNITY_SLEEP) &&
                             !PTarget->hasImmunity(IMMUNITY_DARK_SLEEP) &&
                             PTarget->PAI->IsEngaged() &&
-                            !PTarget->StatusEffectContainer->IsAsleep())
+                            !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SLEEP) &&
+                            !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SLEEP_II) &&
+                            !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PETRIFICATION))
                         {
                             return true;
                         }
@@ -1311,7 +1315,9 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
                             !PTarget->hasImmunity(IMMUNITY_SLEEP) &&
                             !PTarget->hasImmunity(IMMUNITY_LIGHT_SLEEP) &&
                             PTarget->PAI->IsEngaged() &&
-                            !PTarget->StatusEffectContainer->IsAsleep())
+                            !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SLEEP) &&
+                            !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SLEEP_II) &&
+                            !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PETRIFICATION))
                         {
                             return true;
                         }
@@ -1363,7 +1369,9 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
                     !PTarget->hasImmunity(IMMUNITY_SLEEP) &&
                     !PTarget->hasImmunity(IMMUNITY_DARK_SLEEP) &&
                     PTarget->PAI->IsEngaged() &&
-                    !PTarget->StatusEffectContainer->IsAsleep())
+                    !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SLEEP) &&
+                    !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SLEEP_II) &&
+                    !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PETRIFICATION))
                 {
                     return true;
                 }
@@ -1375,6 +1383,12 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
 
         case G_CONDITION::BREAKGA:
         {
+            // Don't waste ES on Breakga
+            if (POwner->StatusEffectContainer->HasStatusEffect(EFFECT_ELEMENTAL_SEAL))
+            {
+                return false;
+            }
+
             float radius = 10.0f;
             POwner->PAI->TargetFind->reset();
             POwner->PAI->TargetFind->findWithinArea(trigger_target, AOERADIUS_TARGET, radius);
@@ -1388,7 +1402,8 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
                     !PTarget->hasImmunity(IMMUNITY_SLEEP) &&
                     !PTarget->hasImmunity(IMMUNITY_PETRIFY) &&
                     PTarget->PAI->IsEngaged() &&
-                    !PTarget->StatusEffectContainer->IsAsleep() &&
+                    !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SLEEP) &&
+                    !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SLEEP_II) &&
                     !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PETRIFICATION) &&
                     !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_STUN))
                 {
