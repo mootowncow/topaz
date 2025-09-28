@@ -3,13 +3,11 @@
 --  Mob: Helltail Harry
 -- BCNM: Tails of Woe
 -----------------------------------
-require("scripts/globals/status")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobSpawn(mob)
-    mob:setMod(tpz.mod.SLEEPRES, 1000)
-    mob:setMod(tpz.mod.SILENCERES, 900)
-    mob:setMod(tpz.mod.LULLABYRES, 700)
+    SetGenericNMStats(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

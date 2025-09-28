@@ -3,10 +3,11 @@
 --  Mob: Cottontail
 -- BCNM: Tails of Woe
 -----------------------------------
-require("scripts/globals/status")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobSpawn(mob)
+    SetGenericNMStats(mob)
     mob:setMobMod(tpz.mobMod.CHARMABLE, 1)
 end
 
