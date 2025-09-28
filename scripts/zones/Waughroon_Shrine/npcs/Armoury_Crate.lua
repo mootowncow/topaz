@@ -94,7 +94,7 @@ local loot =
             {itemid =   702, droprate =  250}, -- ebony_log
             {itemid =   801, droprate =  250}, -- chrysoberyl
             {itemid =   810, droprate =  250}, -- fluorite
-            {itemid =   140, droprate =  250}, -- jadeite
+            {itemid =   784, droprate =  250}, -- jadeite
         },
         {
             {itemid =     0, droprate =  875}, -- nothing
