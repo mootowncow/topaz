@@ -11,7 +11,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
     local maxHeal = target:getMaxHP() - target:getHP()
 
-    MobSelfDispelMove(mob, skill)
+    MobSelfDispelMove(target, skill)
     target:addHP(maxHeal)
     target:wakeUp()
 
