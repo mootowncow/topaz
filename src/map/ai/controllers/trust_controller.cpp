@@ -139,6 +139,9 @@ void CTrustController::Tick(time_point tick)
         }
     }
 
+    // Incase Masters allegiance changes due to charm
+    POwner->allegiance = PMaster->allegiance;
+
     if (POwner->PAI->IsEngaged())
     {
         DoCombatTick(tick);
