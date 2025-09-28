@@ -893,20 +893,12 @@ namespace fishingutils
         // Minimum 4% chance
         maxChance = std::max(4, distMod + lowerLevelBonus - skillLevelPenalty);
 
-        // Grant a bonus for catching much higher level fish (50 levels or above never gives kill ups)
-        if (levelDifference >= 41)
-        {
-            maxChance = 20;
-        }
-        else if (levelDifference >= 31)
-        {
-            maxChance = 15;
-        }
-        else if (levelDifference >= 21)
+        // Grant a bonus for catching much higher level fish
+        if (levelDifference >= 21)
         {
             maxChance = 10;
         }
-        ShowDebug("maxChance: %i\n", maxChance);
+
         // Moon phase skillup modifiers
         uint8 phase = CVanaTime::getInstance()->getMoonPhase();
         uint8 moonDirection = CVanaTime::getInstance()->getMoonDirection();
