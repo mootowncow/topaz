@@ -4119,13 +4119,17 @@ function AreaOfEffectResistance(target, spell, dmg)
     return dmg
 end
 
-function DeleteStormEffects(caster)
+function DeleteStormEffects(target, castedStorm)
     for storm = tpz.effect.FIRESTORM, tpz.effect.VOIDSTORM do
-        caster:delStatusEffectSilent(storm)
+        if (castedStorm ~= storm) then
+            target:delStatusEffectSilent(storm)
+        end
     end
 
     for storm = tpz.effect.FIRESTORM_II, tpz.effect.VOIDSTORM_II do
-        caster:delStatusEffectSilent(storm)
+        if (castedStorm ~= storm) then
+            target:delStatusEffectSilent(storm)
+        end
     end
 end
 

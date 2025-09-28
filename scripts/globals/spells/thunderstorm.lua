@@ -20,7 +20,7 @@ function onSpellCast(caster, target, spell)
         power = merit + caster:getMod(tpz.mod.STORMSURGE_EFFECT) + 2
     end
 
-    DeleteStormEffects(caster)
+    DeleteStormEffects(target, tpz.effect.THUNDERSTORM)
     target:addStatusEffect(tpz.effect.THUNDERSTORM, power, 0 , duration)
 
     return tpz.effect.THUNDERSTORM
