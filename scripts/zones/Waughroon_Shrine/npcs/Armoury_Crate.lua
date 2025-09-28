@@ -60,13 +60,29 @@ local loot =
     [66] =
     {
         {
-            {itemid =     0, droprate =  250}, -- nothing
-            {itemid = 13403, droprate =  125}, -- assault_earring
-            {itemid = 16788, droprate =  125}, -- vassagos_scythe
-            {itemid = 17615, droprate =  125}, -- chicken_knife
-            {itemid = 17430, droprate =  125}, -- fey_wand
-            {itemid = 12351, droprate =  125}, -- astral_shield
-            {itemid = 13624, droprate =  125}, -- enhancing_mantle
+            {itemid = 13403, droprate =  166}, -- assault_earring
+            {itemid = 16788, droprate =  166}, -- vassagos_scythe
+            {itemid = 17615, droprate =  166}, -- chicken_knife
+            {itemid = 17430, droprate =  166}, -- fey_wand
+            {itemid = 12351, droprate =  166}, -- astral_shield
+            {itemid = 13624, droprate =  170}, -- enhancing_mantle
+        },
+        {
+            {itemid = 13403, droprate =  166}, -- assault_earring
+            {itemid = 16788, droprate =  166}, -- vassagos_scythe
+            {itemid = 17615, droprate =  166}, -- chicken_knife
+            {itemid = 17430, droprate =  166}, -- fey_wand
+            {itemid = 12351, droprate =  166}, -- astral_shield
+            {itemid = 13624, droprate =  170}, -- enhancing_mantle
+        },
+            {
+            {itemid = 13403, droprate =  75}, -- assault_earring
+            {itemid = 16788, droprate =  75}, -- vassagos_scythe
+            {itemid = 17615, droprate =  75}, -- chicken_knife
+            {itemid = 17430, droprate =  75}, -- fey_wand
+            {itemid = 12351, droprate =  75}, -- astral_shield
+            {itemid = 13624, droprate =  75}, -- enhancing_mantle
+            {itemid =     0, droprate =  550}, -- nothing
         },
         {
             {itemid =   653, droprate =  250}, -- mythril_ingot
