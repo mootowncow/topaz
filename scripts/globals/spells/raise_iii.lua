@@ -14,14 +14,7 @@ function onSpellCast(caster, target, spell)
         if (caster:getObjType() == tpz.objType.MOB) and (caster:getMobMod(tpz.mobMod.PIXIE) > 0) then
             target:sendRaise(6)
         else
-            if caster:isPC() then
-                target:sendTractor(caster:getXPos(), caster:getYPos(), caster:getZPos(), target:getRotPos())
-                target:allowSendRaisePrompt()
-                target:addStatusEffect(tpz.effect.RERAISE, 3, 0, 3600)
-            else
-                target:setLocalVar("jobLevel", target:getJobLevel(target:getMainJob()))
-                target:sendRaise(3)
-            end
+            target:sendRaise(3)
         end
     else
         if (target:getName() == "Prishe") then

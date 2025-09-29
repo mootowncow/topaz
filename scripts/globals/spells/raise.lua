@@ -11,13 +11,7 @@ end
 
 function onSpellCast(caster, target, spell)
     if (target:isPC()) then
-        if caster:isPC() then
-            target:sendTractor(caster:getXPos(), caster:getYPos(), caster:getZPos(), target:getRotPos())
-            target:allowSendRaisePrompt()
-            target:addStatusEffect(tpz.effect.RERAISE, 1, 0, 3600)
-        else
-            target:sendRaise(1)
-        end
+        target:sendRaise(1)
     else
         if (target:getName() == "Prishe") then
             -- CoP 8-4 Prishe
