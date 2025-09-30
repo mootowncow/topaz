@@ -27,16 +27,27 @@ function onMobFight(mob, target)
         { HP = 74,     Var = 'tabulaRasa_74'   },
     }
 
-    -- Manifestation
     local currentHP = mob:getHPP()
     local manifestationTimer = mob:getLocalVar("manifestationTimer")
     local kaustraWaitTime = mob:getLocalVar("kaustraWaitTime")
 
+    -- Manifestation Timer
     if (manifestationTimer == 0) then
         mob:setLocalVar("manifestationTimer", os.time() + 3)
     elseif (os.time() >= manifestationTimer) and not mob:hasStatusEffect(tpz.effect.MANIFESTATION) then
         mob:useJobAbility(tpz.ja.MANIFESTATION, mob)
         mob:setLocalVar("manifestationTimer", os.time() + 5)
+    end
+
+    -- If Manifestation is active, only cast T4 nukes
+    if mob:hasStatusEffect(tpz.effect.MANIFESTATION) then
+        for helix = tpz.magic.spell.GEOHELIX, tpz.magic.spell.LUMINOHELIX do
+            mob:delSpelllistEntry(helix)
+        end
+    else
+        for helix = tpz.magic.spell.GEOHELIX, tpz.magic.spell.LUMINOHELIX do
+            mob:addSpellListEntry(helix)
+        end
     end
 
     -- Uses Tabulsa Rasa every 10%
