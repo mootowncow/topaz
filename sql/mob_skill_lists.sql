@@ -2835,6 +2835,12 @@ INSERT INTO `mob_skill_lists` VALUES ('Gouger_Beetle',1210,341);
 INSERT INTO `mob_skill_lists` VALUES ('Gouger_Beetle',1210,343);
 INSERT INTO `mob_skill_lists` VALUES ('Gouger_Beetle',1210,2823); -- Rhinowrecker
 
+INSERT INTO `mob_skill_lists` VALUES ('Duriumshell',1211,442);
+INSERT INTO `mob_skill_lists` VALUES ('Duriumshell',1211,1590);
+INSERT INTO `mob_skill_lists` VALUES ('Duriumshell',1211,1592);
+INSERT INTO `mob_skill_lists` VALUES ('Duriumshell',1211,1593);
+INSERT INTO `mob_skill_lists` VALUES ('Duriumshell',1211,2513); -- Mega Scissors
+
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,531);
@@ -4952,8 +4958,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,4228); -- tornado_II
 INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,4229); -- lunatic_voice
 INSERT INTO `mob_skill_lists` VALUES ('Prime-Siren',6173,4230); -- hysteric_assault
 
--- Next available ID: 1208
--- Next custom ID: 6153
 INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2178); -- sudden_lunge
 INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2179); -- noisome_powder
 INSERT INTO `mob_skill_lists` VALUES ('Coccineus',6153,2180); -- nepenthean_hum
@@ -5033,6 +5037,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,251); -- aegis_schism
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,252); -- dancing_chains
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,253); -- barbed_crescent
 
--- Next available ID: 1211
+-- Next available ID: 1212
 -- Next custom ID: 6159
 
