@@ -7,14 +7,16 @@
 require("scripts/globals/titles")
 require("scripts/globals/status")
 require("scripts/globals/magic")
+require("scripts/globals/utils")
 -----------------------------------
 
 function onMobSpawn(mob)
-     mob:addMod(tpz.mod.ATTP, 10)
-     mob:addMod(tpz.mod.DEFP, 20) 
-     mob:addMod(tpz.mod.ACC, 15) 
-     mob:addMod(tpz.mod.EVA, 15)
-     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+    mob:addMod(tpz.mod.ATTP, 10)
+    mob:addMod(tpz.mod.DEFP, 20) 
+    mob:addMod(tpz.mod.ACC, 15) 
+    mob:addMod(tpz.mod.EVA, 15)
+    mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 23)
+    mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
 end
 
 function onMobFight(mob, target)
@@ -22,20 +24,17 @@ function onMobFight(mob, target)
     local Guard = GetMobByID(mob:getID()+1)
 
     if mob:getHPP() <= 75 and hitTrigger == 0 and not Guard:isSpawned() then
-        Guard:spawn()
-        Guard:updateEnmity(target)
+        utils.spawnPetInBattle(mob, Guard, true)
         mob:setLocalVar("TriggerHit", 1)
         --printf("Spawning Guard Hippo #1");
     end
     if mob:getHPP() <= 50 and hitTrigger == 1 and not Guard:isSpawned() then 
-        Guard:spawn()
-        Guard:updateEnmity(target)
+        utils.spawnPetInBattle(mob, Guard, true)
         mob:setLocalVar("TriggerHit", 2)
         --printf("Spawning Guard Hippo #2");
     end
-    if mob:getHPP() <= 25 and hitTrigger == 2 and not Guard:isSpawned() then 
-        Guard:spawn()
-        Guard:updateEnmity(target)
+    if mob:getHPP() <= 25 and hitTrigger == 2 and not Guard:isSpawned() then
+        utils.spawnPetInBattle(mob, Guard, true)
         mob:setLocalVar("TriggerHit", 3)
         --printf("Spawning Guard Hippo #3");
     end

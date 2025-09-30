@@ -6363,7 +6363,7 @@ INSERT INTO `mob_spawn_points` VALUES (16904209,'Hamadryad','Hamadryad',3,588.87
 INSERT INTO `mob_spawn_points` VALUES (16904211,'Razon','Razon',4,-597.4959,82.4000,-1.1805,0);
 INSERT INTO `mob_spawn_points` VALUES (16904213,'Razon','Razon',4,-10.6179,2.2000,-2.7225,240);
 INSERT INTO `mob_spawn_points` VALUES (16904215,'Razon','Razon',4,589.1514,-77.8000,-2.4381,218);
-INSERT INTO `mob_spawn_points` VALUES (16904217,'Watch_Hippogryph','Watch Hippogryph',5,-597.4959,82.4000,-1.1805,0);
+INSERT INTO `mob_spawn_points` VALUES (16904217,'Watch_Hippogryph','Watch Hippogryph',5,-595.21,82,1.50,1);
 INSERT INTO `mob_spawn_points` VALUES (16904218,'Guard_Hippogryph','Guard Hippogryph',6,-603.4854,82.2000,-11.0253,101);
 INSERT INTO `mob_spawn_points` VALUES (16904220,'Watch_Hippogryph','Watch Hippogryph',5,-10.6562,2.2000,-2.0502,81);
 INSERT INTO `mob_spawn_points` VALUES (16904221,'Guard_Hippogryph','Guard Hippogryph',6,-3.2944,2.2000,-10.9762,100);
