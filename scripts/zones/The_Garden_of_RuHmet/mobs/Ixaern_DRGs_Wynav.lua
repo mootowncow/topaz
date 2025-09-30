@@ -7,7 +7,9 @@ require("scripts/globals/status")
 -----------------------------------
 
 function onMobSpawn(mob)
-    target:setMobMod(tpz.mobMod.MAGIC_COOL, 14)
+    local partyWithIxDrg = 19236
+    mob:setMobMod(tpz.mobMod.CUSTOMLINK, partyWithIxDrg)
+    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 14)
     mob:addImmunity(tpz.immunity.SLEEP)
     tpz.mix.jobSpecial.config(mob, {
         specials =

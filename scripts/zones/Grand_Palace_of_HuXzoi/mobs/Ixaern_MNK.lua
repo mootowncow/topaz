@@ -14,10 +14,10 @@ function onMobSpawn(mob)
     SetDropRate(2845, 1851, chance * 10) -- Deed Of Placidity
     qm:setLocalVar("[SEA]IxAern_DropRate", 0)
 	
-	mob:setDamage(70)
+	mob:setDamage(40)
     mob:setDelay(8000)
-    mob:addMod(tpz.mod.DEFP, 15) 
     mob:addMod(tpz.mod.ATTP, 15)
+    mob:addMod(tpz.mod.DEFP, 15)
     mob:setMod(tpz.mod.REFRESH, 50)
 	mob:AnimationSub(1) -- Reset the subanim - otherwise it will respawn with bracers on. Note that Aerns are never actually supposed to be in subanim 0.
 end
@@ -34,10 +34,10 @@ function onMobFight(mob, target)
             -- Go into bracer mode
             mob:setLocalVar("BracerMode", 1)
             mob:AnimationSub(2)
-			mob:setDelay(4000)
-			mob:addMod(tpz.mod.ATTP, 30)
+            mob:setDelay(5300)
+            mob:addMod(tpz.mod.ATTP, 30)
             mob:addMod(tpz.mod.ACC, 40)
-			mob:addMod(tpz.mod.MATT, 48)
+            mob:addMod(tpz.mod.MATT, 25)
             mob:useMobAbility(690) -- Hundred Fists
 		
 			-- Force minions to 2hour

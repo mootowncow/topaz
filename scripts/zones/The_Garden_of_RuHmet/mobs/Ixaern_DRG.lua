@@ -3,29 +3,30 @@
 --  Mob: Ix'aern DRG
 -----------------------------------
 local ID = require("scripts/zones/The_Garden_of_RuHmet/IDs")
+require("scripts/globals/status")
+require("scripts/globals/utils")
 -----------------------------------
 
 function onMobSpawn(mob)
 	mob:setDamage(145)
-    mob:addMod(tpz.mod.DEFP, 15) 
+    mob:addMod(tpz.mod.DEFP, 15)
     mob:addMod(tpz.mod.ATTP, 15)
     mob:setMod(tpz.mod.REFRESH, 50)
+    local partyWithWynavs = 19236
+    mob:setMobMod(tpz.mobMod.CUSTOMLINK, partyWithWynavs)
 end
 
 function onMobFight(mob, target)
-    -- Spawn the pets if they are despawned
-    -- TODO: summon animations?
-    local mobId = mob:getID()
-    local x = mob:getXPos()
-    local y = mob:getYPos()
-    local z = mob:getZPos()
+        local mobId = mob:getID()
+        local wynav1 = GetMobByID(mobId +1)
+        local wynav2 = GetMobByID(mobId +2)
+        local wynav3 = GetMobByID(mobId +3)
+        local currentlySummoning = mob:getLocalVar("SpawnPetAnimation")
 
-    for i = mobId + 1, mobId + 3 do
-        local wynav = GetMobByID(i)
-        if not wynav:isSpawned() then
-            wynav:setSpawn(x + math.random(1, 5), y, z + math.random(1, 5))
-            wynav:spawn()
-            wynav:updateEnmity(target)
+    -- Spawn the pets if they are despawned
+    if (currentlySummoning == 0) then
+        if not wynav1:isSpawned() or not wynav2:isSpawned() or not wynav3:isSpawned() then
+            utils.spawnPetInBattle(mob, { wynav1, wynav2, wynav3 }, true, false, true)
         end
     end
 end

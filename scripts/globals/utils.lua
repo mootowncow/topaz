@@ -1012,11 +1012,13 @@ function utils.getDropRate(mob, base)
     return dropChance
 end
 
+-- Use mob:getLocalVar("SpawnPetAnimation") == 0 for not currently summoning
 function utils.spawnPetInBattle(mob, pets, aggro, randomizeTarget, setSpawn, spawnOnTarget)
     mob:entityAnimationPacket("casm")
     mob:SetAutoAttackEnabled(false)
     mob:SetMagicCastingEnabled(false)
     mob:SetMobAbilityEnabled(false)
+    mob:setLocalVar("SpawnPetAnimation", 1)
 
     mob:timer(3000, function(mob)
         mob:entityAnimationPacket("shsm")
@@ -1068,6 +1070,7 @@ function utils.spawnPetInBattle(mob, pets, aggro, randomizeTarget, setSpawn, spa
                 end
             end
         end
+        mob:setLocalVar("SpawnPetAnimation", 0)
     end)
 end
 
