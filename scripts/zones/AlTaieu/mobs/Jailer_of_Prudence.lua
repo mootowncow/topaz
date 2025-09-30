@@ -92,14 +92,18 @@ function onMobDespawn(mob)
     if (mob:getID() == ID.mob.JAILER_OF_PRUDENCE_1) then
         secondPrudence:setMobMod(tpz.mobMod.NO_DROPS, 0)
         secondPrudence:AnimationSub(3) -- Mouth Open
-        mob:addMod(tpz.mod.ATTP, 100)
-        mob:addMod(tpz.mod.DEFP, -50)
-        mob:addMod(tpz.mod.DMGMAGIC, 100)
+        secondPrudence:setDamage(250)
+        secondPrudence:setMod(tpz.mod.UDMGPHYS, 100)
+        secondPrudence:setMod(tpz.mod.UDMGBREATH, 100)
+        secondPrudence:setMod(tpz.mod.UDMGMAGIC, 100)
+        secondPrudence:setMod(tpz.mod.UDMGRANGE, 100)
     else
         firstPrudence:setMobMod(tpz.mobMod.NO_DROPS, 0)
         firstPrudence:AnimationSub(3) -- Mouth Open
-        mob:addMod(tpz.mod.ATTP, 100)
-        mob:addMod(tpz.mod.DEFP, -50)
-        mob:addMod(tpz.mod.DMGMAGIC, 100)
+        firstPrudence:setDamage(250) -- Weapon damage * 2
+        firstPrudence:setMod(tpz.mod.UDMGPHYS, 100)
+        firstPrudence:setMod(tpz.mod.UDMGBREATH, 100)
+        firstPrudence:setMod(tpz.mod.UDMGMAGIC, 100)
+        firstPrudence:setMod(tpz.mod.UDMGRANGE, 100)
     end
 end
