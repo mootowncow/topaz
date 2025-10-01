@@ -2354,19 +2354,23 @@ namespace luautils
     *                                                                       *
     ************************************************************************/
 
-    int32 OnItemUse(CBaseEntity* PTarget, CItem* PItem)
+    int32 OnItemUse(CBaseEntity* PTarget, CItem* PItem, CBaseEntity* PItemUser)
     {
         lua_prepscript("scripts/globals/items/%s.lua", PItem->getName());
 
         if (prepFile(File, "onItemUse"))
-        {
             return -1;
-        }
 
-        CLuaBaseEntity LuaBaseEntity(PTarget);
-        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaBaseEntity);
+        CLuaBaseEntity LuaTarget(PTarget);
+        CLuaItem LuaItem(PItem);
+        CLuaBaseEntity LuaUser(PItemUser);
 
-        if (lua_pcall(LuaHandle, 1, 0, 0))
+        // push args: (1) target, (2) item, (3) user
+        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaTarget);
+        Lunar<CLuaItem>::push(LuaHandle, &LuaItem);
+        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaUser);
+
+        if (lua_pcall(LuaHandle, 3, 0, 0))
         {
             ShowError("luautils::onItemUse: %s\n", lua_tostring(LuaHandle, -1));
             lua_pop(LuaHandle, 1);
@@ -2375,7 +2379,6 @@ namespace luautils
 
         return 0;
     }
-
 
     /************************************************************************
     *                                                                       *

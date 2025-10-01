@@ -2628,7 +2628,7 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
         {
             if (!PMember->isDead() && distance(PTarget->loc.p, PMember->loc.p) <= 10)
             {
-                luautils::OnItemUse(PMember, PItem);
+                luautils::OnItemUse(PMember, PItem, this);
                 battleutils::GenerateInRangeEnmity(PTarget, 0, 640);
 
                 // Prism and Rainbow powders
@@ -2694,7 +2694,7 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
     }
     else
     {
-        luautils::OnItemUse(PTarget, PItem);
+        luautils::OnItemUse(PTarget, PItem, this);
         battleutils::GenerateInRangeEnmity(PTarget, 0, 640);
         // Prism and Rainbow powders
         if (PItem->getID() != 4164 && PItem->getID() != 5362)

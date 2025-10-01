@@ -7,18 +7,24 @@
 require("scripts/globals/titles")
 require("scripts/globals/status")
 require("scripts/globals/magic")
+require("scripts/zones/Spire_of_Vahzl/globals")
 -----------------------------------
 
 function onMobSpawn(mob)
     mob:addMod(tpz.mod.ATTP, 10)
     mob:addMod(tpz.mod.DEFP, 20) 
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+    mob:setLocalVar("path", vahzl.PATH_RIGHT)
 end
 
 function onMobFight(mob, target)
     if mob:getTP() > 0 then
         mob:setTP(0)
     end
+
+    -- Paths between platforms every 30 second
+    vahzl.StartPathing(mob)
+    vahzl.StopPathing(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
@@ -28,7 +34,6 @@ function onMobDeath(mob, player, isKiller, noKiller)
     Add:spawn()
     Add:updateEnmity(player)
     Red:delStatusEffectSilent(tpz.effect.PHYSICAL_SHIELD)
-    printf("Delete status = Physical Shield");
 end
 
 
