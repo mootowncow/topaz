@@ -611,7 +611,6 @@ INSERT INTO `item_mods_pet` VALUES (27886,23,10,0); -- All: ATT 10
 INSERT INTO `item_mods_pet` VALUES (27886,384,200,0); -- All: HASTE_GEAR 200
 INSERT INTO `item_mods_pet` VALUES (25634,370,10,0); -- All: REGEN 10
 INSERT INTO `item_mods_pet` VALUES (25634,160,-5,0); -- All: DMG -5
-INSERT INTO `item_mods_pet` VALUES (15463,160,-5,0); -- All: DMG -5
 INSERT INTO `item_mods_pet` VALUES (13505,25,5,0); -- All: ACC 5
 INSERT INTO `item_mods_pet` VALUES (15095,8,5,0); -- All: STR 5
 INSERT INTO `item_mods_pet` VALUES (15095,9,5,0); -- All: DEX 5
