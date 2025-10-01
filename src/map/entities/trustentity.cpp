@@ -781,49 +781,52 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
 
             if (primary)
             {
-                if (PWeaponSkill->getPrimarySkillchain() != 0 && PTarget->isAlive())
+                if (actionTarget.reaction == REACTION_HIT)
                 {
-                    // NOTE: GetSkillChainEffect is INSIDE this if statement because it
-                    //  ALTERS the state of the resonance, which misses and non-elemental skills should NOT do.
-                    SUBEFFECT effect = battleutils::GetSkillChainEffect(PBattleTarget, PWeaponSkill->getPrimarySkillchain(),
-                                                                        PWeaponSkill->getSecondarySkillchain(), PWeaponSkill->getTertiarySkillchain());
-                    if (effect != SUBEFFECT_NONE)
+                    if (PWeaponSkill->getPrimarySkillchain() != 0 && PTarget->isAlive())
                     {
-                        // Apply Inundation weapon skill type tracking
-                        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_INUNDATION))
+                        // NOTE: GetSkillChainEffect is INSIDE this if statement because it
+                        //  ALTERS the state of the resonance, which misses and non-elemental skills should NOT do.
+                        SUBEFFECT effect = battleutils::GetSkillChainEffect(PBattleTarget, PWeaponSkill->getPrimarySkillchain(),
+                                                                            PWeaponSkill->getSecondarySkillchain(), PWeaponSkill->getTertiarySkillchain());
+                        if (effect != SUBEFFECT_NONE)
                         {
-                            CStatusEffect* PEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_INUNDATION, 0);
-                            auto power = PEffect->GetPower();
-                            auto currentFlag = WEAPONTYPE_PET;
-                            auto subPower = PEffect->GetSubPower();
-                            if ((subPower & currentFlag) == 0)
+                            // Apply Inundation weapon skill type tracking
+                            if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_INUNDATION))
                             {
-                                PEffect->SetPower(power + 1);
-                                PEffect->SetSubPower(subPower | currentFlag);
+                                CStatusEffect* PEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_INUNDATION, 0);
+                                auto power = PEffect->GetPower();
+                                auto currentFlag = WEAPONTYPE_PET;
+                                auto subPower = PEffect->GetSubPower();
+                                if ((subPower & currentFlag) == 0)
+                                {
+                                    PEffect->SetPower(power + 1);
+                                    PEffect->SetSubPower(subPower | currentFlag);
+                                }
                             }
-                        }
 
-                        actionTarget.addEffectParam = battleutils::TakeSkillchainDamage(this, PBattleTarget, damage, taChar);
-                        if (actionTarget.addEffectParam < 0)
-                        {
-                            actionTarget.addEffectParam = -actionTarget.addEffectParam;
-                            actionTarget.addEffectMessage = 384 + effect;
+                            actionTarget.addEffectParam = battleutils::TakeSkillchainDamage(this, PBattleTarget, damage, taChar);
+                            if (actionTarget.addEffectParam < 0)
+                            {
+                                actionTarget.addEffectParam = -actionTarget.addEffectParam;
+                                actionTarget.addEffectMessage = 384 + effect;
+                            }
+                            else
+                            {
+                                actionTarget.addEffectMessage = 287 + effect;
+                            }
+                            actionTarget.additionalEffect = effect;
                         }
-                        else
+                        else if (effect == SUBEFFECT_NONE)
                         {
-                            actionTarget.addEffectMessage = 287 + effect;
-                        }
-                        actionTarget.additionalEffect = effect;
-                    }
-                    else if (effect == SUBEFFECT_NONE)
-                    {
-                        // Reset Inundation weapon skill type tracking
-                        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_INUNDATION))
-                        {
-                            CStatusEffect* PEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_INUNDATION, 0);
-                            auto currentFlag = WEAPONTYPE_PET;
-                            PEffect->SetPower(0);
-                            PEffect->SetSubPower(currentFlag);
+                            // Reset Inundation weapon skill type tracking
+                            if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_INUNDATION))
+                            {
+                                CStatusEffect* PEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_INUNDATION, 0);
+                                auto currentFlag = WEAPONTYPE_PET;
+                                PEffect->SetPower(0);
+                                PEffect->SetSubPower(currentFlag);
+                            }
                         }
                     }
                 }
