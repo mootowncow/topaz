@@ -1051,7 +1051,7 @@ INSERT INTO `item_equipment` VALUES (11279,'savage_top_+1',1,0,4194303,225,0,0,3
 INSERT INTO `item_equipment` VALUES (11280,'elder_gilet_+1',1,0,4194303,225,0,0,32,64,0);
 INSERT INTO `item_equipment` VALUES (11281,'hachiryu_haramaki',75,0,7171,227,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (11282,'aurum_cuirass',72,0,8641,36,0,0,32,0,0);
-INSERT INTO `item_equipment` VALUES (11283,'oracles_robe',72,0,1065484,143,0,0,32,0,0);
+INSERT INTO `item_equipment` VALUES (11283,'oracles_robe',72,0,524820,143,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (11284,'enkidus_harness',72,0,2595874,56,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (11285,'mrgn._cotehardie',75,0,3850780,48,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (11286,'avalon_breastplate',71,0,397154,114,0,0,32,0,0);
@@ -1145,7 +1145,7 @@ INSERT INTO `item_equipment` VALUES (11373,'seirenshi_habaki',60,0,2,17,0,0,256,
 INSERT INTO `item_equipment` VALUES (11374,'junhanshi_habaki',68,0,2,17,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (11375,'seihanshi_habaki',68,0,2,17,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (11376,'aurum_sabatons',72,0,8641,139,0,0,256,0,0);
-INSERT INTO `item_equipment` VALUES (11377,'oracles_pigaches',72,0,1065484,143,0,0,256,0,0);
+INSERT INTO `item_equipment` VALUES (11377,'oracles_pigaches',72,0,524820,143,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (11378,'enkidus_leggings',72,0,2595874,56,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (11379,'hermes_sandals',70,0,2293763,3,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (11380,'hermes_sandals_+1',70,0,2293763,3,0,0,256,0,0);
@@ -4780,7 +4780,7 @@ INSERT INTO `item_equipment` VALUES (15018,'ritterhentzes',70,0,193,138,0,0,64,0
 INSERT INTO `item_equipment` VALUES (15019,'serpentes_cuffs',80,0,1622556,179,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (15020,'heafoc_mitts',80,0,2472947,129,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (15021,'aurum_gauntlets',72,0,8641,139,0,0,64,0,0);
-INSERT INTO `item_equipment` VALUES (15022,'oracles_gloves',72,0,1065484,143,0,0,64,0,0);
+INSERT INTO `item_equipment` VALUES (15022,'oracles_gloves',72,0,524820,143,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (15023,'enkidus_mittens',72,0,2595874,56,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (15024,'mag._bazubands_+1',74,0,32768,165,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (15025,'mirage_bazubands',73,0,32768,166,0,0,64,0,0);
@@ -5907,7 +5907,7 @@ INSERT INTO `item_equipment` VALUES (16152,'hissho_hachimaki',71,0,6146,141,0,0,
 INSERT INTO `item_equipment` VALUES (16153,'reikyo_hairpin',72,0,4194303,0,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16154,'karura_hachigane',73,0,16384,4,0,5,16,0,0);
 INSERT INTO `item_equipment` VALUES (16155,'aurum_armet',72,0,8641,139,0,0,16,0,0);
-INSERT INTO `item_equipment` VALUES (16156,'oracles_cap',72,0,1065484,143,0,0,16,0,0);
+INSERT INTO `item_equipment` VALUES (16156,'oracles_cap',72,0,524820,143,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16157,'enkidus_cap',72,0,2595874,56,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16158,'gnadbhods_helm',71,0,4194303,144,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16159,'zhagos_barbut',71,0,4194303,147,0,0,16,0,0);
@@ -6092,7 +6092,7 @@ INSERT INTO `item_equipment` VALUES (16338,'ruby_seraweels',71,0,2204880,160,0,0
 INSERT INTO `item_equipment` VALUES (16339,'paddock_trousers',71,0,66560,7,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (16340,'armadillo_cuisses',72,0,2473969,52,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (16341,'aurum_cuisses',72,0,8641,139,0,0,128,0,0);
-INSERT INTO `item_equipment` VALUES (16342,'oracles_braconi',72,0,1065484,143,0,0,128,0,0);
+INSERT INTO `item_equipment` VALUES (16342,'oracles_braconi',72,0,524820,143,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (16343,'enkidus_subligar',72,0,2595874,56,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (16344,'oily_trousers',74,0,2473969,6,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (16345,'magus_shalwar_+1',74,0,32768,165,0,0,128,0,0);
