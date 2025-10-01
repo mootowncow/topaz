@@ -9,6 +9,7 @@ local ID = require("scripts/zones/The_Shrine_of_RuAvitau/IDs")
 -----------------------------------
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
+    mob:setDamage(125)
 	mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 30)
     mob:setMobMod(tpz.mobMod.GIL_MAX, 6000)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
