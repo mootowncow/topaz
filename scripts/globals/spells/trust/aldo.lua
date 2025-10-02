@@ -29,14 +29,14 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.COPY_IMAGE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.UTSUSEMI)
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.DOUBT,
-        ai.r.JA, ai.s.SPECIFIC, tpz.ja.BULLY)
+    
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.DOUBT, ai.r.JA, ai.s.SPECIFIC, tpz.ja.BULLY)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.CAN_SNEAK_ATTACK, 0,
-        ai.r.JA, ai.s.SPECIFIC, tpz.ja.SNEAK_ATTACK)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.CONSPIRATOR, ai.r.JA, ai.s.SPECIFIC, tpz.ja.CONSPIRATOR)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.SC_AVAILABLE, 0,
-        ai.r.JA, ai.s.SPECIFIC, tpz.ja.ASSASSINS_CHARGE)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.CAN_SNEAK_ATTACK, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.SNEAK_ATTACK)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.SC_AVAILABLE, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.ASSASSINS_CHARGE)
 
     mob:setTrustTPSkillSettings(ai.tp.CLOSER_UNTIL_TP, ai.s.HIGHEST, 2000)
 
