@@ -9,7 +9,7 @@ require("scripts/globals/npc_util")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if npcUtil.tradeHas(trade, 1899) and npcUtil.popFromQM(player, npc, ID.mob.JAILER_OF_FAITH, {radius = 1}) then -- High-Quality Euvhi Organ
+    if npcUtil.tradeHas(trade, 1899) and npcUtil.popFromQM(player, npc, ID.mob.JAILER_OF_FAITH, {radius = 1, hide = 900}) then -- High-Quality Euvhi Organ
         player:confirmTrade()
     end
 end
