@@ -510,7 +510,7 @@ INSERT INTO `item_latents` VALUES(13416, 68, 15, 13, 5);
 -- -------------------------------------------------------
 -- Soldier's Earring
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(13419, 63, 20, 2, 25);    -- DEF:20% when HP <=25% and TP <=100%
+INSERT INTO `item_latents` VALUES(13419, 63, 100, 2, 25);    -- DEF:100% when HP <=25% and TP <=100%
 
 -- -------------------------------------------------------
 -- Kampfer Earring
