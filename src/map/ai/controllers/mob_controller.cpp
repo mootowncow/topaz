@@ -168,7 +168,8 @@ bool CMobController::CheckDetection(CBattleEntity* PTarget)
         TapDeaggroTime();
     }
 
-    return PMob->CanDeaggro() && (m_Tick >= m_DeaggroTime + 180s); // increased from 25s
+    // Chase target for 25 seconds, if they are not in range for 25 seconds, then deaggro
+    return PMob->CanDeaggro() && (m_Tick >= m_DeaggroTime + 25s);
 }
 
 void CMobController::TryLink()
