@@ -31,14 +31,28 @@ function onMobFight(mob, target)
 	if (MeteorTime == 0) then
 		mob:setLocalVar("MeteorTime", BattleTime + 60)
 	elseif (BattleTime >= MeteorTime) then
-		mob:castSpell(218) -- MEteor
+		mob:castSpell(218) -- Meteor
 		mob:setLocalVar("MeteorTime", BattleTime + 70)
 	end
+
+    -- Don't immediately teleport after meteor
+    mob:addListener("MAGIC_STATE_EXIT", "KB_MAGIC_STATE_EXIT", function(mob, spell)
+        local BattleTime = mob:getBattleTime()
+        mob:setLocalVar("setPosTime", BattleTime +10)
+    end)
+
+    local distance = 5 -- how far behind to place mob
+    local targetHeading = target:getRotPos()
+
+    -- Behind position
+    local behindX = target:getXPos() + math.sin(targetHeading) * distance
+    local behindZ = target:getZPos() - math.cos(targetHeading) * distance
+    local behindY = target:getYPos()
 
     -- Bandaids until navmesh in Limbus is better
     if tpz.path.CheckIfStuck(mob) then
         if (mob:checkDistance(target) > 10) then
-            mob:setPos(target:getXPos(), target:getYPos(), target:getZPos())
+            mob:setPos(behindX, behindY, behindZ)
         end
     end
 
@@ -47,7 +61,7 @@ function onMobFight(mob, target)
 	elseif (BattleTime >= setPosTime) then
         if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
             if (mob:checkDistance(target) >= 8) then
-                mob:setPos(target:getXPos(), target:getYPos(), target:getZPos())
+                mob:setPos(behindX, behindY, behindZ)
                 mob:setLocalVar("setPosTime", BattleTime + 10)
             end
         end
