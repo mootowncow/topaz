@@ -11,7 +11,7 @@ require("scripts/globals/msg")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if mob:AnimationSub() == 6 then
+    if (mob:AnimationSub() == 6) or (mob:AnimationSub() == 2) then
         return 0
     end
     return 1

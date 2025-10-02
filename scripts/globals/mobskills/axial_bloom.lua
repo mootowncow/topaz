@@ -13,7 +13,7 @@ require("scripts/globals/status")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if mob:AnimationSub() == 4 then
+    if (mob:AnimationSub() == 4) or (mob:AnimationSub() == 1) then
         return 0
     end
     return 1

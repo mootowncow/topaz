@@ -24,32 +24,35 @@ function onMobSpawn(mob)
     })
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 120)
-        mob:setLocalVar("Form", 0)
-        mob:setLocalVar("ClosedTime", 0)
-        mob:setLocalVar("OpenTime", 0)
+    mob:setLocalVar("Form", 0)
+    mob:setLocalVar("ClosedTime", 0)
+    mob:setLocalVar("OpenTime", 0)
 end
 
 function onMobFight(mob)
-    -- Forms: 0 = Closed  1 = Closed  2 = Open 3 = Closed
-    local OpenTime = mob:getLocalVar("OpenTime")
-    local ClosedTime = mob:getLocalVar("ClosedTime")
-    local Form = mob:getLocalVar("Form")
-    local BattleTime = mob:getBattleTime()
+    -- Forms: 0 = Closed  1 = Open
+    local form       = mob:getLocalVar("Form")
+    local openTime   = mob:getLocalVar("OpenTime")
+    local closedTime = mob:getLocalVar("ClosedTime")
+    local battleTime = mob:getBattleTime()
 
-    if BattleTime > ClosedTime and form == 0 then
-        -- Change close to open.
-        mob:AnimationSub(2)
-        mob:setMod(tpz.mod.DMG, 12.5) 
+    -- Closed -> Open
+    if form == 0 and battleTime > closedTime then
+        mob:AnimationSub(2) -- open
+        mob:setMod(tpz.mod.DMG, 12.5)
         mob:setLocalVar("Form", 1)
-        mob:setLocalVar("OpenTime", 180)
+        mob:setLocalVar("OpenTime", battleTime + 180)
     end
-    if BattleTime > ClosedTime and form == 1 then -- Change from open to close
-        mob:AnimationSub(1)
-        mob:setMod(tpz.mod.DMG, -25) 
+
+    -- Open -> Closed
+    if form == 1 and battleTime > openTime then
+        mob:AnimationSub(1) -- closed
+        mob:setMod(tpz.mod.DMG, -25)
         mob:setLocalVar("Form", 0)
-        mob:setLocalVar("ClosedTime", 60)
+        mob:setLocalVar("ClosedTime", battleTime + 60)
     end
 end
+
 
 function onMonsterMagicPrepare(mob,target)
     local spells = {162, 191, 357, 365}
