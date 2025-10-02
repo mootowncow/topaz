@@ -626,8 +626,8 @@ local mixinByMobName =
 
     ['Shoggoth'] = function(mob)
         doMobSkillEveryHPP(mob, 20, 80, tpz.jsa.CHAINSPELL, not mob:hasStatusEffect(tpz.effect.CHAINSPELL))
-            -- Resets hate when using Chainspell
-            mob:addListener("EFFECT_GAIN", "SHOGGOTH_EFFECT_GAIN", function(mob, effect)
+        -- Resets hate when using Chainspell
+        mob:addListener("EFFECT_GAIN", "SHOGGOTH_EFFECT_GAIN", function(mob, effect)
             local effectType = effect:getType()
             if (effectType == tpz.effect.CHAINSPELL) then
                 ResetEnmityList(mob)
