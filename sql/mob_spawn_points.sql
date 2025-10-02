@@ -7584,7 +7584,7 @@ INSERT INTO `mob_spawn_points` VALUES (16920675,'Aweuvhi','Aw\'euvhi',19,-532.48
 INSERT INTO `mob_spawn_points` VALUES (16920677,'Aweuvhi','Aw\'euvhi',19,-627,1.5,53,224);
 INSERT INTO `mob_spawn_points` VALUES (16920678,'Aweuvhi','Aw\'euvhi',19,-617.518,1.399,53.591,224);
 INSERT INTO `mob_spawn_points` VALUES (16920679,'Awghrah','Aw\'ghrah',13,-611.827,-0.599,140.404,109);
--- INSERT INTO `mob_spawn_points` VALUES (16920680,'Aweuvhi','Aw\'euvhi',19,-627,1.5,147,32);
+INSERT INTO `mob_spawn_points` VALUES (16920680,'Aweuvhi','Aw\'euvhi',19,-627,1.5,147,32);
 INSERT INTO `mob_spawn_points` VALUES (16920681,'Aweuvhi','Aw\'euvhi',19,-627.370,1.003,137.211,192);
 INSERT INTO `mob_spawn_points` VALUES (16920682,'Awghrah','Aw\'ghrah',13,-533.356,-0.587,91.805,69);
 INSERT INTO `mob_spawn_points` VALUES (16920683,'Awghrah','Aw\'ghrah',13,-633.916,-0.599,101.540,116);
