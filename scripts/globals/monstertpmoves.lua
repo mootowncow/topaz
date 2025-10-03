@@ -1050,15 +1050,18 @@ function MobDrainStatusEffectMove(mob, target)
     return tpz.msg.basic.SKILL_MISS
 end
 
-function MobDrainAllStatusEffectMove(mob, target, skill, flag)
+function MobDrainAllStatusEffectMove(mob, target, skill, flags)
     local effectsAbsorbed = 0
 
-    while true do
-        local stolen = mob:stealStatusEffect(target, flag)
-        if stolen == 0 then
-            break
+    -- Loop through all flags in the table
+    for _, flag in ipairs(flags) do
+        while true do
+            local stolen = mob:stealStatusEffect(target, flag)
+            if stolen == 0 then
+                break
+            end
+            effectsAbsorbed = effectsAbsorbed + 1
         end
-        effectsAbsorbed = effectsAbsorbed + 1
     end
 
     if effectsAbsorbed > 0 then

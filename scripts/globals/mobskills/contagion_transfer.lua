@@ -13,6 +13,6 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     mob:setLocalVar("effectsDrained", 1)
-    return MobDrainAllStatusEffectMove(mob, target, skill, tpz.effectFlag.DISPELABLE)
+    return MobDrainAllStatusEffectMove(mob, target, skill, { tpz.effectFlag.ERASABLE, tpz.effectFlag.WALTZABLE, tpz.effectFlag.DISPELABLE} )
 end
 
