@@ -139,6 +139,12 @@ void CTrustController::Tick(time_point tick)
         }
     }
 
+    // Match owner's status
+    if (!PMaster->isDead() && POwner->isAlive())
+    {
+        POwner->status = PMaster->status;
+    }
+
     // Incase Masters allegiance changes due to charm
     POwner->allegiance = PMaster->allegiance;
 

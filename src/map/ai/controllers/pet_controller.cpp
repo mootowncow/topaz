@@ -68,6 +68,13 @@ void CPetController::Tick(time_point tick)
             }
         }
     }
+
+    // Match owner's status
+    if (!PMaster->isDead() && PPet->isAlive())
+    {
+        PPet->status = PMaster->status;
+    }
+
     CMobController::Tick(tick);
 }
 
