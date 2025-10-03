@@ -772,7 +772,7 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
     if (attacker && objtype == TYPE_MOB)
     {
         auto PMob = static_cast<CMobEntity*>(this);
-        bool isPlayerPet = attacker->objtype == TYPE_PET && attacker->PMaster->objtype == TYPE_PC;
+        bool isPlayerPet = attacker->objtype == TYPE_PET && attacker->PMaster && attacker->PMaster->objtype == TYPE_PC;
 
         if (attacker->objtype == TYPE_PC || isPlayerPet)
         {

@@ -59,7 +59,7 @@ CMobSkillState::CMobSkillState(CMobEntity* PEntity, uint16 targid, uint16 wsid) 
 
     m_castTime = std::chrono::milliseconds(m_PSkill->getActivationTime());
 
-    bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
+    bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster && m_PEntity->PMaster->objtype == TYPE_PC;
 
     if (isPlayerPet)
     {
@@ -183,7 +183,7 @@ bool CMobSkillState::Update(time_point tick)
                     SpendCost();
                 }
 
-                bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
+                bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster && m_PEntity->PMaster->objtype == TYPE_PC;
 
                 if (isPlayerPet)
                 {

@@ -104,7 +104,7 @@ CMagicState::CMagicState(CBattleEntity* PEntity, uint16 targid, SpellID spellid,
         actionTarget.messageID = MSGBASIC_STARTS_CASTING; // <caster> starts casting <spell>.
     }
 
-    bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster->objtype == TYPE_PC;
+    bool isPlayerPet = m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster && m_PEntity->PMaster->objtype == TYPE_PC;
     // Mobs shouldn't display casting spells in chat when out of combat unless target is a player
     // Display mobs being casted on by players
     if (!isPlayerPet && PTarget->objtype == TYPE_MOB && PTarget->PAI->IsRoaming() && m_PEntity->objtype != TYPE_PC)

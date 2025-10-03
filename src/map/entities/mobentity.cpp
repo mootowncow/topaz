@@ -640,7 +640,7 @@ void CMobEntity::HandleToAUStrongholdsAppraisalDrops(CCharEntity* PChar, uint16 
     if ((m_Type == MOBTYPE_NOTORIOUS || getMobMod(MOBMOD_CHECK_AS_NM) > 0) &&
         (excludedMobGroups.count(m_Pool) == 0))
     {
-        dropRate = 100;
+        dropRate = 24;
     }
 
     if (tpzrand::GetRandomNumber(100) < dropRate)
@@ -1485,7 +1485,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             target.knockback = PSkill->getKnockback();
         }
 
-        bool isPlayerPet = objtype == TYPE_PET && PMaster->objtype == TYPE_PC;
+        bool isPlayerPet = objtype == TYPE_PET && PMaster && PMaster->objtype == TYPE_PC;
 
         if (isPlayerPet)
         {
