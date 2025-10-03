@@ -1,6 +1,6 @@
 ---------------------------------------------
--- Wanion
--- Transfers all ailments the Seether itself has to players in AoE range.
+-- Contagion Transfer
+-- Absorbs all negative and positive status effects from players in AoE range.
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/status")
@@ -12,7 +12,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local isAOE = true
-    
-    return MobTransferEnfeeblesMove(mob, target, skill, isAOE)
+    mob:setLocalVar("effectsDrained", 1)
+    return MobDrainAllStatusEffectMove(mob, target, skill, tpz.effectFlag.DISPELABLE)
 end
+

@@ -2387,6 +2387,7 @@ local mobFightByMobName =
             mob:setEffectUndispellable(tpz.effect.ENTHUNDER)
             mob:setEffectUndispellable(tpz.effect.SHOCK_SPIKES)
         end
+
         -- Charged whisker grants undispellable shock spikes, enthunder, and pulsing AoE thunder damage aura
         mob:addListener("WEAPONSKILL_STATE_EXIT", "ANHUR_MOBSKILL_FINISHED", function(mob, skillID)
             if (skillID == tpz.mob.skills.CHARGED_WHISKER) then
@@ -2412,7 +2413,7 @@ local mobFightByMobName =
 
     ['Barqan'] = function(mob, target)
     -- Djinn
-        local buffCD = mob:getLocalVar("buffCD")
+    -- TODO: tartarean_storm animationId
         local stormCD = mob:getLocalVar("stormCD")
         local battleTime = mob:getBattleTime()
         local storms = { 99, 113, 114, 115, 116, 117, 118, 119 }
@@ -2437,6 +2438,19 @@ local mobFightByMobName =
             tpz.mod.SDT_LIGHT,
             tpz.mod.SDT_DARK,
         }
+
+        local spellList =
+        {
+            [tpz.effect.FIRESTORM]    = { tpz.magic.spell.FIRE_IV,      tpz.magic.spell.FIRAGA_III,    tpz.magic.spell.ADDLE },
+            [tpz.effect.HAILSTORM]    = { tpz.magic.spell.BLIZZARD_IV,  tpz.magic.spell.BLIZZAGA_III,  tpz.magic.spell.BINDGA, tpz.magic.spell.PARALYGA },
+            [tpz.effect.WINDSTORM]    = { tpz.magic.spell.AERO_IV,      tpz.magic.spell.AEROGA_III,    tpz.magic.spell.SILENCEGA, tpz.magic.spell.GRAVIGA },
+            [tpz.effect.SANDSTORM]    = { tpz.magic.spell.STONE_IV,     tpz.magic.spell.STONEGA_III,   tpz.magic.spell.SLOWGA, tpz.magic.spell.BREAKGA },
+            [tpz.effect.THUNDERSTORM] = { tpz.magic.spell.THUNDER_IV,   tpz.magic.spell.THUNDAGA_III,  tpz.magic.spell.STUN },
+            [tpz.effect.RAINSTORM]    = { tpz.magic.spell.WATER_IV,     tpz.magic.spell.WATERGA_III,   tpz.magic.spell.POISONGA_II },
+            [tpz.effect.AURORASTORM]  = { tpz.magic.spell.HOLY_II,      tpz.magic.spell.BANISHGA_III,  tpz.magic.spell.DIAGA_II, tpz.magic.spell.FLASH },
+            [tpz.effect.VOIDSTORM]    = { tpz.magic.spell.COMET,        tpz.magic.spell.NOCTOHELIX,    tpz.magic.spell.SLEEPGA_II, tpz.magic.spell.BLINDGA,  tpz.magic.spell.DISPELGA },
+        }
+
         -- DRK/DRK
         -- Casts storm on self then absorbs that element, SDT is changed to be weak to it's weakness and casts spells/enfeebles of that element
         -- Cast a random storm every minute
@@ -2468,7 +2482,23 @@ local mobFightByMobName =
             end
         end)
 
-        mob:addListener("EFFECT_LOSE", "DJINN_EFFECT_LOSE", function(mob, effect)
+        mob:addListener("EFFECT_GAIN", "BARQAN_EFFECT_GAIN", function(mob, effect)
+            local effectType = effect:getType()
+
+            -- Update spell list based on currently active Storm
+            if effectType >= tpz.effect.FIRESTORM and effectType <= tpz.effect.VOIDSTORM then
+                mob:clearSpellList()
+
+                local spells = spellList[effectType]
+                if spells then
+                    for _, spellId in ipairs(spells) do
+                        mob:addSpellListEntry(spellId)
+                    end
+                end
+            end
+        end)
+
+        mob:addListener("EFFECT_LOSE", "BARQAN_EFFECT_LOSE", function(mob, effect)
             local effectType = effect:getType()
             if effectType >= tpz.effect.FIRESTORM and effectType <= tpz.effect.VOIDSTORM then
                 -- Remove absorb
@@ -2561,8 +2591,6 @@ local mobFightByMobName =
         -- Fixates on random target every 60-90s
 	    local fixateTimer = mob:getLocalVar("fixateTimer")
 
-        -- Spawns a bee next to it, after a certain amount of time will consume the bee then level up
-        -- If the bee dies in this fashion, levels up and gains access to Soothing Aroma (AOE Charm)
         if (fixateTimer == 0) then
             mob:setLocalVar("fixateTimer", os.time() + 5)
         elseif (os.time() >= fixateTimer) then
@@ -2594,7 +2622,7 @@ local mobSpellPrecastByMobName =
             if (spell:getID() == spellId) then
                 spell:setAoE(tpz.magic.aoe.RADIAL)
                 spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
-                spell:setRadius(10)
+                spell:setRadius(15)
                 break
 	        end
         end
@@ -2632,6 +2660,33 @@ local mobSpellPrecastByMobName =
                 spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
                 spell:setRadius(10)
             end
+        end
+    end,
+
+    ['Barqan'] = function(mob, spell)
+        local aoeSpellList = {
+            tpz.magic.spell.ADDLE,
+            tpz.magic.spell.STUN,
+            tpz.magic.spell.COMET,
+            tpz.magic.spell.NOCTOHELIX,
+            tpz.magic.spell.FLASH
+        }
+
+        for _, spellId in pairs (aoeSpellList) do
+            if (spell:getID() == spellId) then
+                spell:setAoE(tpz.magic.aoe.RADIAL)
+                spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
+                spell:setRadius(15)
+                break
+	        end
+        end
+    end,
+
+    ['Ammonoidea'] = function(mob, spell)
+        if (spell:getID() == tpz.magic.spell.FLASH) then
+            spell:setAoE(tpz.magic.aoe.RADIAL)
+            spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
+            spell:setRadius(15)
         end
     end,
 }

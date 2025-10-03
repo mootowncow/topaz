@@ -21,8 +21,8 @@ function onMobWeaponSkill(target, mob, skill)
     local info = MobMagicalMove(mob, target, skill, mob:getWeaponDmg()*3, tpz.magic.ele.LIGHT, dmgmod, TP_NO_EFFECT)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.LIGHT, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.LIGHT)
-    MobStatusEffectMove(mob, target, tpz.effect.PARALYSIS, 70, 0, 300)
-    MobStatusEffectMove(mob, target, tpz.effect.MUTE, 1, 0, 120)
+    MobStatusEffectMove(mob, target, tpz.effect.PARALYSIS, 70, 0, 60)
+    MobStatusEffectMove(mob, target, tpz.effect.MUTE, 1, 0, 30)
     mob:resetEnmity(target)
     return dmg
 end

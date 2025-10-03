@@ -4799,10 +4799,10 @@ INSERT INTO `mob_skill_lists` VALUES ('Nimble_Nelson',6127,3841); --
 INSERT INTO `mob_skill_lists` VALUES ('Nimble_Nelson',6127,3842); -- 
 INSERT INTO `mob_skill_lists` VALUES ('Nimble_Nelson',6127,2612); -- Wild Carrot MMM
 
-INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,480); -- 
-INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,483); -- 
-INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,2760); -- 
-INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,2209); -- 
+INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,480); -- petrifactive_breath
+INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,483); -- charged_whisker
+INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,2760); -- preternatural_gleam
+INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,2209); -- blink_of_peril
 
 INSERT INTO `mob_skill_lists` VALUES ('Seua_Peek',6129,1680); -- 
 INSERT INTO `mob_skill_lists` VALUES ('Seua_Peek',6129,2207); -- 
@@ -5037,6 +5037,15 @@ INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,251); -- aegis_schism
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,252); -- dancing_chains
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,253); -- barbed_crescent
 
+INSERT INTO `mob_skill_lists` VALUES ('Barqan',6163,2218); -- penumbral_impact
+INSERT INTO `mob_skill_lists` VALUES ('Barqan',6163,2219); -- dark_wave
+INSERT INTO `mob_skill_lists` VALUES ('Barqan',6163,2220); -- tartarean_storm
+
+INSERT INTO `mob_skill_lists` VALUES ('Ahmet',6164,1333); -- contagion_transfer
+INSERT INTO `mob_skill_lists` VALUES ('Ahmet',6164,1334); -- contamination
+INSERT INTO `mob_skill_lists` VALUES ('Ahmet',6164,1335); -- toxic_pick
+INSERT INTO `mob_skill_lists` VALUES ('Ahmet',6164,1601); -- sound_vacuum_nightmare
+
 -- Next available ID: 1212
--- Next custom ID: 6159
+-- Next custom ID: 6164
 
