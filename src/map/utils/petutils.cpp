@@ -2393,6 +2393,13 @@ namespace petutils
                                                                            PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_IMPAIRMENT)->GetDuration()),
                                                          true);
         }
+        if (PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_BATTLEFIELD))
+        {
+            PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_BATTLEFIELD, EFFECT_BATTLEFIELD,
+                                                                           PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_BATTLEFIELD)->GetPower(), 0,
+                                                                           PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_BATTLEFIELD)->GetDuration()),
+                                                         true);
+        }
     }
 
 
