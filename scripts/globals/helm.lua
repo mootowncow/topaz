@@ -235,6 +235,12 @@ local helmInfo =
                     {-391.068, -27.890,  361.257},
                     {-356.123, -20.537,  212.243},
                     {-159.075, -16.103,  394.371},
+                    { -73.508, -20.531, 134.637 },
+                    { -74.057, -16.000, 39.862 },
+                    { -105.310, -16.843, -83.660 },
+                    { -153.854, -17.275, -97.301 },
+                    { -63.236, -17.506, 414.965 },
+                    { -104.275, -17.179, 389.168 }
                 },
             },
             [tpz.zone.YUHTUNGA_JUNGLE] =
@@ -1471,13 +1477,13 @@ local function TrySkillUpHELM(player, helmType, zoneId)
         local chance = GetHelmSKillUpChance(zoneId, loggingSkill)
         if math.random(1000) <= chance then
             player:setCharVar("LoggingSkill", loggingSkill + 1)
-            player:PrintToPlayer("Your skill in logging has increased to " .. loggingSkill +1, tpz.msg.textColor.GOLD, 0)
+            player:PrintToPlayer("Your skill in logging has increased to " .. loggingSkill +1 .. ".", tpz.msg.textColor.GOLD, 0)
         end
     elseif (helmType == tpz.helm.type.HARVESTING) and (harvestingSkill < 100) then
         local chance = GetHelmSKillUpChance(zoneId, harvestingSkill)
         if math.random(1000) <= chance then
             player:setCharVar("HarvestingSkill", harvestingSkill + 1)
-            player:PrintToPlayer("Your skill in logging has increased to " .. harvestingSkill +1, tpz.msg.textColor.GOLD, 0)
+            player:PrintToPlayer("Your skill in harvesting has increased to " .. harvestingSkill +1 .. ".", tpz.msg.textColor.GOLD, 0)
         end
     end
 end

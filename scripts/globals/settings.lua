@@ -86,10 +86,10 @@ USE_ADOULIN_WEAPON_SKILL_CHANGES = false -- true/false. Change to toggle new Ado
 ENABLE_TRUST_CASTING = 1
 ENABLE_TRUST_QUESTS  = 1
 
-HARVESTING_BREAK_CHANCE = 50 -- % chance for the sickle to break during harvesting.  Set between 0 and 100.
-EXCAVATION_BREAK_CHANCE = 50 -- % chance for the pickaxe to break during excavation.  Set between 0 and 100.
-LOGGING_BREAK_CHANCE    = 50 -- % chance for the hatchet to break during logging.  Set between 0 and 100.
-MINING_BREAK_CHANCE     = 50 -- % chance for the pickaxe to break during mining.  Set between 0 and 100.
+HARVESTING_BREAK_CHANCE = 5  -- % chance for the sickle to break during harvesting.  Set between 0 and 100.
+EXCAVATION_BREAK_CHANCE = 40 -- % chance for the pickaxe to break during excavation.  Set between 0 and 100.
+LOGGING_BREAK_CHANCE    = 10 -- % chance for the hatchet to break during logging.  Set between 0 and 100.
+MINING_BREAK_CHANCE     = 40 -- % chance for the pickaxe to break during mining.  Set between 0 and 100.
 HARVESTING_RATE         = 65 -- % chance to recieve an item from haresting.  Set between 0 and 100.
 EXCAVATION_RATE         = 65 -- % chance to recieve an item from excavation.  Set between 0 and 100.
 LOGGING_RATE            = 65 -- % chance to recieve an item from logging.  Set between 0 and 100.
