@@ -1644,6 +1644,15 @@ function addBonuses(caster, spell, target, dmg, params)
             mab = mab + caster:getMerit(tpz.merit.NIN_MAGIC_BONUS)
         end
 
+        if ele >= tpz.magic.element.FIRE and ele <= tpz.magic.element.WATER then
+            mab = mab + caster:getMerit(blmMerit[ele])
+
+            -- Handle Ally / Trusts  BLM merits
+            if (caster:isTrust() or caster:isAlly()) and (caster:getMainJob() == tpz.job.BLM) then
+                mab = mab +10
+            end
+        end
+
         if caster:isPC() then
             if (casterJob == tpz.job.RDM) then
                 mab = mab + caster:getJobPointLevel(tpz.jp.RDM_MAGIC_ATK_BONUS)
@@ -1658,6 +1667,7 @@ function addBonuses(caster, spell, target, dmg, params)
     if (mabbonus < 0) then
         mabbonus = 0
     end
+
     dmg = math.floor(dmg * mabbonus)
 
     -- Spell Crit
@@ -2775,6 +2785,51 @@ function doDivineBanishNuke(caster, target, spell, params)
     --add in final adjustments
     dmg = finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
     return dmg
+end
+
+function doAbsorbSpell(caster, target, spell, effect)
+    local absorbData =
+    {
+        [tpz.effect.STR_BOOST] = { StatDown = tpz.effect.STR_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_STR },
+        [tpz.effect.DEX_BOOST] = { StatDown = tpz.effect.DEX_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_DEX },
+        [tpz.effect.VIT_BOOST] = { StatDown = tpz.effect.VIT_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_VIT },
+        [tpz.effect.AGI_BOOST] = { StatDown = tpz.effect.AGI_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_AGI },
+        [tpz.effect.INT_BOOST] = { StatDown = tpz.effect.INT_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_INT },
+        [tpz.effect.MND_BOOST] = { StatDown = tpz.effect.MND_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_MND },
+        [tpz.effect.CHR_BOOST] = { StatDown = tpz.effect.CHR_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_CHR },
+        [tpz.effect.ACCURACY_BOOST] = { StatDown = tpz.effect.ACCURACY_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_ACC },
+    }
+
+    local dINT = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)
+    local params = {}
+    params.diff = dINT
+    params.attribute = tpz.mod.INT
+    params.skillType = tpz.skill.DARK_MAGIC
+    params.bonus = 0
+    params.effect = nil
+
+    if caster:hasStatusEffect(tpz.effect.NETHER_VOID) then
+        params.bonus = 100
+    end
+
+    local power = getAbsorbSpellPower(caster)
+    local tick = 0
+    local resist = applyResistanceEffect(caster, target, spell, params)
+    local duration = getAbsorbSpellDuration(caster, resist)
+
+    if (resist >= 0.5) then
+        spell:setMsg(absorbData[effect].Msg)
+        HandleDrkRelicHelm(caster)
+        caster:delStatusEffectSilent(effect)
+        target:delStatusEffectSilent(absorbData[effect].StatDown)
+	    caster:addStatusEffect(effect, power, tick, duration) -- Caster gains boost
+	    target:addStatusEffect(absorbData[effect].StatDown, power, tick, duration) -- Target gains stat down
+        caster:delStatusEffectSilent(tpz.effect.NETHER_VOID)
+    else
+        spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
+    end
+
+    return effect
 end
 
 function doCure(caster, target, spell)
@@ -3949,6 +4004,15 @@ function getAbsorbSpellPower(caster)
 
     local totalPower = math.floor(math.floor(basePower * (gearBonus) * liberatorBonus) * netherVoidBonus)
     return totalPower
+end
+
+function getAbsorbSpellDuration(caster, resist)
+    local duration = 90
+
+    duration = duration + caster:getMod(tpz.mod.ABSORB_EFFECT_DURATION)
+    duration = duration * resist
+
+    return duration
 end
 
 function getRegenPotency(caster, target, base)

@@ -462,6 +462,7 @@ enum class Mod
     DARK_MAGIC_CAST           = 1330,// Reduces Dark Magic casting time by percentage (e.g. mod value -10 = -10% cast time)
     DARK_MAGIC_DURATION       = 1331,// Increases Dark Magic spell durations by percentage (e.g. mod value 10 = +10% duration)
     ENHANCES_DARK_SEAL        = 1332,// Enhances "Dark Seal" effect (Increases Dark Magic spell durations by 10% per Dark Seal merit while Dark Seal active)
+    ABSORB_EFFECT_DURATION    = 1440,// Increases the duration of absorb effects by a flat amount (e.g. mod value 10 = +10s duration)
 
     // Beastmaster
     TAME                      = 304, // Additional percent chance to charm
@@ -1154,7 +1155,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1439 NEXT
+    // 1440 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

@@ -2194,8 +2194,9 @@ tpz.mod =
     ENH_STATUS_BOLTS        = 1436, -- Enhances the additional effect of status bolts. i.e. acid bolts defense down (in percents)
     ENH_DIVINE_CARESS       = 1437, -- Increases the amount of spells blocked by Divine Caress before it fades
     GLOBAL_DMG_DONE         = 1438, -- Global reduction to damage done
+    ABSORB_EFFECT_DURATION  = 1440, -- Increases the duration of absorb effects by a flat amount (e.g. mod value 10 = +10s duration)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1439 NEXT
+    -- 1440 NEXT
 }
 
 tpz.latent =
