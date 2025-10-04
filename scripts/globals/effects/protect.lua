@@ -9,7 +9,7 @@
 -- Protect II - 4% PDT II
 -- Protect III - 6% PDT II
 -- Protect IV - 8% PDT II
--- Protect V - 10% PDT II
+-- Protect V - 10-14% PDT II
 -----------------------------------
 require("scripts/globals/status")
 -----------------------------------
