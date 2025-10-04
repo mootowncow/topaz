@@ -7,7 +7,7 @@ require("scripts/globals/settings")
 
 cmdprops =
 {
-    permission = 1,
+    permission = 0,
     parameters = "i"
 }
 
