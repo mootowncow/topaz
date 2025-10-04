@@ -2841,6 +2841,20 @@ INSERT INTO `mob_skill_lists` VALUES ('Duriumshell',1211,1592);
 INSERT INTO `mob_skill_lists` VALUES ('Duriumshell',1211,1593);
 INSERT INTO `mob_skill_lists` VALUES ('Duriumshell',1211,2513); -- Mega Scissors
 
+INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1753); -- Hysteric Barrage
+INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1812); -- Pinning Shot
+INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1813); -- Calcifying Deluge
+INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1773); -- Swift Shot
+INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1774); -- Arrow Deluge
+INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1758); -- Tail Slap
+
+
+INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1766); -- Hysteric Barrage
+INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1771); -- Tail Slap
+INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1772); -- Torrent
+INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1775); -- Rising Swell
+INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1809); -- Shadow Thrust
+
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,531);
@@ -5037,20 +5051,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,251); -- aegis_schism
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,252); -- dancing_chains
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,253); -- barbed_crescent
 
-INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',6163,1753); -- Hysteric Barrage
-INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',6163,1812); -- Pinning Shot
-INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',6163,1813); -- Calcifying Deluge
-INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',6163,1773); -- Swift Shot
-INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',6163,1774); -- Arrow Deluge
-INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',6163,1758); -- Tail Slap
-
-
-INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',6164,1766); -- Hysteric Barrage
-INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',6164,1771); -- Tail Slap
-INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',6164,1772); -- Torrent
-INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',6164,1775); -- Rising Swell
-INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',6164,1809); -- Shadow Thrust
-
--- Next available ID: 1212
+-- Next available ID: 1214
 -- Next custom ID: 6165
 
