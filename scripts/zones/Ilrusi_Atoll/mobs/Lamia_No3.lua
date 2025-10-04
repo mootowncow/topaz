@@ -4,6 +4,7 @@
 -- 
 -----------------------------------
 local ID = require("scripts/zones/Ilrusi_Atoll/IDs")
+mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
 function onMobSpawn(mob)
 	mob:setDamage(120)
@@ -12,20 +13,30 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.UDMGRANGE, -50)
     mob:setMod(tpz.mod.UDMGMAGIC, -50)
     mob:setMod(tpz.mod.UDMGBREATH, -50)
-    mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
-    mob:setMod(tpz.mod.TRIPLE_ATTACK, 10)
-    mob:setMod(tpz.mod.QUAD_ATTACK, 5)
+    mob:setMod(tpz.mod.DOUBLE_ATTACK, 30)
+    mob:setMod(tpz.mod.TRIPLE_ATTACK, 20)
+    mob:setMod(tpz.mod.QUAD_ATTACK, 10)
     mob:setMod(tpz.mod.HTHRES, 500)
     mob:setMod(tpz.mod.SLASHRES, 500)
     mob:setMod(tpz.mod.PIERCERES, 500)
     mob:setMod(tpz.mod.RANGEDRES, 500)
     mob:setMod(tpz.mod.IMPACTRES, 500)
 	mob:setMod(tpz.mod.HASTE_MAGIC, 5000)
+    mob:setMod(tpz.mod.STORETP, 50)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
 	mob:setLocalVar("Message", 0)
 	mob:setLocalVar("DT", 0)
 	mob:setLocalVar("Haste", 0)
+
+    tpz.mix.jobSpecial.config(mob, {
+        specials =
+        {
+            {id = tpz.jsa.MEIKYO_SHISUI, hpp = 75},
+            {id = tpz.jsa.MEIKYO_SHISUI, hpp = 50},
+            {id = tpz.jsa.MEIKYO_SHISUI, hpp = 25},
+        },
+    })
 end
 
 function onMobRoam(mob)

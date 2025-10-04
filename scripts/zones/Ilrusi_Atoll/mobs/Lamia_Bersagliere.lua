@@ -58,7 +58,12 @@ function onMobFight(mob, target)
 	local BattleTime = mob:getBattleTime()
 end
 
-function onMobWeaponSkillPrepare(mob, target)
+function onMobWeaponSkill(target, mob, skill)
+    -- Always follow up any TP move with Belly Dance
+    local tpMoves = { 1759, 1762 }
+    if (skill:getID() ~= 272) and (skill:getID() ~= 1759) and (skill:getID() ~= 1762) then
+        mob:useMobAbility(tpMoves[math.random(#tpMoves)])
+    end
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
