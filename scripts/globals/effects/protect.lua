@@ -20,10 +20,10 @@ local protect =
     {40, -6},
     {55, -8},
     {60, -10},
-    {62, -10},
-    {64, -10},
-    {66, -10},
-    {68, -10}
+    {62, -11},
+    {64, -12},
+    {66, -13},
+    {68, -14}
 }
 function onEffectGain(target, effect)
     -- Apply PDT effect
