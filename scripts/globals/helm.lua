@@ -1383,14 +1383,19 @@ local rocks = {769, 772, 770, 771, 773, 774, 776, 775}
 -------------------------------------------------
 
 local function doesToolBreak(player, info)
-    local roll  = math.random(100)
-    local mod   = info.mod
+    local roll = math.random(100)
+    local breakChance = _G[info.settingBreak] -- base %
 
-    if mod then
-        roll = roll + (player:getMod(mod) / 10)
+    if info.mod then
+        local modValue = player:getMod(info.mod) / 1000
+        breakChance = breakChance * (1 - modValue)
     end
 
-    if roll <= _G[info.settingBreak] then
+    if breakChance < 1 then
+        breakChance = 1
+    end
+
+    if roll <= breakChance then
         player:tradeComplete()
         return true
     end
