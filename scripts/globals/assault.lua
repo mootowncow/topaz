@@ -329,6 +329,7 @@ function onAssaultComplete(instance, X, Z, textTable, npcTable)
         if v:getLocalVar("AssaultCompletedMessage") ~= 1 then
             v:messageSpecial(textTable.RUNE_UNLOCKED_POS, X, Z)
             v:setLocalVar("AssaultCompletedMessage", 1)
+            v:resetRecasts()
         end
     end
 
