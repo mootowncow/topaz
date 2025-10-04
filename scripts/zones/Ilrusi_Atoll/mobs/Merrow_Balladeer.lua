@@ -62,7 +62,7 @@ function onMobFight(mob, target)
 	local BattleTime = mob:getBattleTime()
 end
 
-function onMobWeaponSkillPrepare(mob, target)
+function onMobWeaponSkill(target, mob, skill)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

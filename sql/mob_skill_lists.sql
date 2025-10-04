@@ -2841,6 +2841,20 @@ INSERT INTO `mob_skill_lists` VALUES ('Duriumshell',1211,1592);
 INSERT INTO `mob_skill_lists` VALUES ('Duriumshell',1211,1593);
 INSERT INTO `mob_skill_lists` VALUES ('Duriumshell',1211,2513); -- Mega Scissors
 
+INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1753); -- Hysteric Barrage
+INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1812); -- Pinning Shot
+INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1813); -- Calcifying Deluge
+INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1773); -- Swift Shot
+INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1774); -- Arrow Deluge
+INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1758); -- Tail Slap
+
+
+INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1766); -- Hysteric Barrage
+INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1771); -- Tail Slap
+INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1772); -- Torrent
+INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1775); -- Rising Swell
+INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1809); -- Shadow Thrust
+
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,531);
@@ -5046,6 +5060,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Ahmet',6164,1334); -- contamination
 INSERT INTO `mob_skill_lists` VALUES ('Ahmet',6164,1335); -- toxic_pick
 INSERT INTO `mob_skill_lists` VALUES ('Ahmet',6164,1601); -- sound_vacuum_nightmare
 
--- Next available ID: 1212
--- Next custom ID: 6164
+-- Next available ID: 1214
+-- Next custom ID: 6165
 

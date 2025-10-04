@@ -131,9 +131,23 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
+    local bfData =
+    {
+        [1152] = tpz.ki.CONFIDENTIAL_IMPERIAL_ORDER,
+        [1153] = tpz.ki.SECRET_IMPERIAL_ORDER,
+    }
+
     local battlefield = player:getBattlefield()
     if battlefield then
-        tpz.battlefield.HandleLootRolls(battlefield, loot[battlefield:getID()], nil, npc)
+        local bfId = battlefield:getID()
+        local requiredKI = bfData[bfId]
+
+        -- Only allow player to open chest if they have the KI
+        if requiredKI and player:hasKeyItem(requiredKI) then
+            tpz.battlefield.HandleLootRolls(battlefield, loot[bfId], nil, npc)
+        else
+            player:PrintToPlayer("You do not have the required key item to open that.", 0xD, nil)
+        end
     end
 end
 
