@@ -5,27 +5,26 @@
 -- 9653 power sets mobs DMGPHYS to 0. This is used for Qutrubs fortifying wail.
 -- 9654 grants the mob 90% PDT. This is used for Nighmare crabs Scissor Guard.
 -- Grants PDT based on the protect spell(and merits into Protectra V)
--- Protect - 5% PDT II
--- Protect II - 10% PDT II
--- Protect III - 15% PDT II
--- Protect IV - 20% PDT II
--- Protect V - 24~28% PDT II
+-- Protect - 2% PDT II
+-- Protect II - 4% PDT II
+-- Protect III - 6% PDT II
+-- Protect IV - 8% PDT II
+-- Protect V - 10% PDT II
 -----------------------------------
 require("scripts/globals/status")
 -----------------------------------
 local protect =
 {
-    {10, -5},
-    {25, -10},
-    {40, -15},
-    {55, -20},
-    {60, -24},
-    {62, -25},
-    {64, -26},
-    {66, -27},
-    {68, -28}
+    {10, -2},
+    {25, -4},
+    {40, -6},
+    {55, -8},
+    {60, -10},
+    {62, -10},
+    {64, -10},
+    {66, -10},
+    {68, -10}
 }
-
 function onEffectGain(target, effect)
     -- Apply PDT effect
     local power = effect:getPower()
