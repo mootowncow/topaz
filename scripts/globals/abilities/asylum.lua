@@ -15,7 +15,6 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local party = player:getParty()
     local asylumMPRecovery = player:getLocalVar("asylumMPRecovery")
 
     if (os.time() >= asylumMPRecovery) then -- So that it never recovers MP more than once per use
