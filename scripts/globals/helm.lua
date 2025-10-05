@@ -265,9 +265,9 @@ local helmInfo =
                     { 1000, 4447}, -- Scream Fungus
                     { 1000, 4448}, -- Puffball
                     { 1000, 4565}, -- Sobbing Fungus
+                    { 1000, 1983}, -- Mushroom Locust
                     { 500, 4386}, -- King Truffle   -- changed from 300
                     { 500, 3915}, -- Saffron Blossom  
-                    { 100, 1983}, -- Mushroom Locust
                 },
                 points =
                 {
@@ -298,6 +298,8 @@ local helmInfo =
                     { 508.332, 8.9,   -505.287 },
                     { 411.292, 8.841, -381.538 },
                     { -61.675, 8.841, -211.16  },
+                    { 458.778, 12.840, -491.585 }
+};
                 },
             },
             [tpz.zone.GIDDEUS] =
