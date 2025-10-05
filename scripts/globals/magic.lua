@@ -761,7 +761,7 @@ function applyResistanceEffect(caster, target, spell, params) -- says "effect" b
     -- https://www.bluegartr.com/threads/134257-Status-resistance-and-other-miscellaneous-JP-insights
 
     local element = spell:getElement()
-    local SDT = getEnfeeblelSDT(effect, element, target)
+    local SDT = getEnfeeblelSDT(effect, element, target, spell)
     local percentBonus = 0
     local magicaccbonus = getSpellBonusAcc(caster, target, spell, params)
     
@@ -846,7 +846,7 @@ function applyResistanceAddEffect(player, target, element, bonus, effect, skill)
         return 1/16
     end
 
-    if (effect ~= nil) then
+    if (effect and effect ~= tpz.effect.NONE) then
         SDT = getEnfeeblelSDT(effect, element, target)
     end
 
@@ -1104,7 +1104,7 @@ function getEffectResistanceTraitChance(caster, target, effect)
         effectres = tpz.mod.SLOWRESTRAIT
     elseif (effect == tpz.effect.STUN) then
         effectres = tpz.mod.STUNRESTRAIT
-    elseif (effect == tpz.effect.CHARM) then
+    elseif (effect == tpz.effect.CHARM_I or effect == tpz.effect.CHARM_II) then
         effectres = tpz.mod.CHARMRESTRAIT
     elseif (effect == tpz.effect.AMNESIA) then
         effectres = tpz.mod.AMNESIARESTRAIT
@@ -1167,7 +1167,7 @@ function getEffectResistance(target, effect)
         effectres = tpz.mod.SLOWRES
     elseif (effect == tpz.effect.STUN) then
         effectres = tpz.mod.STUNRES
-    elseif (effect == tpz.effect.CHARM) then
+    elseif (effect == tpz.effect.CHARM_I or effect == tpz.effect.CHARM_II) then
         effectres = tpz.mod.CHARMRES
     elseif (effect == tpz.effect.AMNESIA) then
         effectres = tpz.mod.AMNESIARES
@@ -2103,7 +2103,7 @@ function getElementalSDT(element, target) -- takes into account if magic burst w
     return SDT
 end
 
-function getEnfeeblelSDT(status, element, target) -- takes into account if magic burst window is open -> increase tier by 1
+function getEnfeeblelSDT(status, element, target, spell) -- takes into account if magic burst window is open -> increase tier by 1
     if target:isPC() then
         return 100
     end
@@ -2161,8 +2161,13 @@ function getEnfeeblelSDT(status, element, target) -- takes into account if magic
         SDT = SDTmod
     end
 
-    -- printf("SDTmod: %s", SDTmod)
-    -- printf("SDT %s", SDT)
+    -- Repose is Light sleep despite being sleep effect
+    if spell and (spell:getID() == tpz.magic.spell.REPOSE) then
+        SDTmod = tpz.mod.EEM_LIGHT_SLEEP
+        SDT = target:getMod(SDTmod)
+    end
+
+    --printf("SDTmod: %d, SDT %d", SDTmod, SDT)
     
     if SDT == 0 or SDT == nil then -- invalid SDT, it was never set on this target... just default it.
         SDT = 100
@@ -2430,7 +2435,7 @@ function GetCharmHitRate(player, target)
     end
 
     local dLvl = playerLvl - target:getMainLvl()
-    local SDT = getEnfeeblelSDT(tpz.effect.CHARM, element, target)
+    local SDT = getEnfeeblelSDT(tpz.effect.CHARM_I, element, target)
     local charmMultiplier = GetCharmMultiplier(SDT)
     local charmMod = (1 + player:getMod(tpz.mod.CHARM_CHANCE) / 100) -- Correct mod?
     local affinityBonus = AffinityBonusAcc(player, element)
@@ -3354,7 +3359,8 @@ function getAdditionalEffectStatusResist(player, target, effect, element, skill,
         { Effect = tpz.effect.CURSE_I,                  Immunity = { tpz.immunity.CURSE } },
         { Effect = tpz.effect.CURSE_II,                 Immunity = { tpz.immunity.CURSE } },
         { Effect = tpz.effect.DOOM,                     Immunity = { tpz.immunity.DOOM } },
-        { Effect = tpz.effect.CHARM,                    Immunity = { tpz.immunity.CHARM } },
+        { Effect = tpz.effect.CHARM_I,                  Immunity = { tpz.immunity.CHARM } },
+        { Effect = tpz.effect.CHARM_II,                 Immunity = { tpz.immunity.CHARM } },
     }
 
     if isNoEffectMsg(player, target, effect, params) then
@@ -3589,7 +3595,8 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
         { Effect = tpz.effect.CURSE_I,                  Immunity = { tpz.immunity.CURSE } },
         { Effect = tpz.effect.CURSE_II,                 Immunity = { tpz.immunity.CURSE } },
         { Effect = tpz.effect.DOOM,                     Immunity = { tpz.immunity.DOOM } },
-        { Effect = tpz.effect.CHARM,                    Immunity = { tpz.immunity.CHARM } },
+        { Effect = tpz.effect.CHARM_I,                  Immunity = { tpz.immunity.CHARM } },
+        { Effect = tpz.effect.CHARM_II,                 Immunity = { tpz.immunity.CHARM } },
     }
 
     local skill = spell:getSkillType()
@@ -3708,7 +3715,7 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
         -- https://sazitouhuu.blogspot.com/2020/02/iicl.html?m=1 
         -- 0-40% (no more immunobreaks from there)
         local element = target:getStatusEffectElement(effect)
-        local SDT = getEnfeeblelSDT(effect, element, target)
+        local SDT = getEnfeeblelSDT(effect, element, target, spell)
         -- 10% chance to Immunobreak
         if caster:isPC() then
             -- Immunobreak caps at 40 SDT and +4 tiers increase max
