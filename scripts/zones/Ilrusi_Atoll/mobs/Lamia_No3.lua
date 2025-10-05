@@ -83,6 +83,9 @@ function onMobFight(mob, target)
 end
 
 function onMobWeaponSkillPrepare(mob, target)
+    if mob:hasStatusEffect(tpz.effect.MEIKYO_SHISUI) then
+        return tpz.mob.skills.GRIM_REAPER
+    end
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

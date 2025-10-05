@@ -45,9 +45,14 @@ function onMobWeaponSkillPrepare(mob, target)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    for v = 1714,1717,1 do
-        if skill:getID() == v then 
-             mob:useMobAbility(1713) -- Yawn
+    local forcedYawn = mob:getLocalVar("forcedYawn")
+
+    if (os.time() >= forcedYawn) then -- So that it won't spam Yawn after using a TP move that hits multiple targets
+        for v = 1714,1717,1 do
+            if skill:getID() == v then 
+                mob:useMobAbility(1713) -- Yawn
+                mob:setLocalVar("forcedYawn", os.time() + 5)
+            end
         end
     end
 end
