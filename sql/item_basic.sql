@@ -1410,7 +1410,7 @@ INSERT INTO `item_basic` VALUES (1520,0,'goblin_grease','goblin_grease',99,4,50,
 INSERT INTO `item_basic` VALUES (1521,0,'slime_juice','slime_juice',99,4,44,0,265);
 INSERT INTO `item_basic` VALUES (1522,0,'fresh_marjoram','fresh_marjoram',99,4,59,0,1);
 INSERT INTO `item_basic` VALUES (1523,0,'apple_mint','apple_mint',99,4,59,0,79);
-INSERT INTO `item_basic` VALUES (1524,0,'fresh_mugwort','fresh_mugwort',99,4,44,0,80);
+INSERT INTO `item_basic` VALUES (1524,0,'fresh_mugwort','fresh_mugwort',12,4,44,0,80);
 INSERT INTO `item_basic` VALUES (1525,0,'adamantoise_egg','adamantoise_egg',1,61508,0,1,0);
 INSERT INTO `item_basic` VALUES (1526,0,'wyrm_beard','wyrm_beard',1,61508,0,1,0);
 INSERT INTO `item_basic` VALUES (1527,0,'behemoth_tongue','behemoth_tongue',1,61508,0,1,0);
@@ -1731,7 +1731,7 @@ INSERT INTO `item_basic` VALUES (1841,0,'unicorn_horn','unicorn_horn',99,4,42,0,
 INSERT INTO `item_basic` VALUES (1842,0,'cloud_evoker','cloud_evoker',1,61520,0,1,0);
 INSERT INTO `item_basic` VALUES (1843,0,'spectral_crimson','spectral_crimson',99,12356,0,1,0);
 INSERT INTO `item_basic` VALUES (1844,0,'square_of_spectral_goldenrod','spect._goldenrod',99,12356,0,1,0);
-INSERT INTO `item_basic` VALUES (1845,0,'red_moko_grass','red_moko_grass',99,4,40,0,30);
+INSERT INTO `item_basic` VALUES (1845,0,'red_moko_grass','red_moko_grass',12,4,40,0,30);
 INSERT INTO `item_basic` VALUES (1846,0,'pumimi_doll','pumimi_doll',1,45120,0,1,0);
 INSERT INTO `item_basic` VALUES (1847,0,'fifth_virtue','fifth_virtue',99,12372,0,1,0);
 INSERT INTO `item_basic` VALUES (1848,0,'fourth_virtue','fourth_virtue',99,12372,0,1,0);
