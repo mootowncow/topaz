@@ -2609,6 +2609,11 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,173,80,255);       -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,273,31,255);       -- Sleepga
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,274,56,255);       -- Sleepga II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,365,73,255);       -- Breakga
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,235,24,255);       -- Burn
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,254,4,255);        -- Blind
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,220,3,42);         -- Poison
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,221,43,255);       -- Poison II
+
 
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Naji',309,0,1,255);            -- none (reserved)
 
