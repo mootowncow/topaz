@@ -7,6 +7,7 @@
 -- Additional Effect: Poison is 3 HP/tick.
 -- Poison effect may not always process.
 -- Removes all Shadow Images on the target.
+-- Funguar use Queasy, Numb, and Shakeshroom in that order. They lose a mushroom on their head per tp move, and can only use each tp move once.
 ---------------------------------------------------
 
 require("scripts/globals/settings")
@@ -16,7 +17,7 @@ require("scripts/globals/monstertpmoves")
 ---------------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if (mob:getMobMod(tpz.mobMod.VAR) == 0) then
+    if (mob:AnimationSub() == 0) then
         return 0
     end
     return 1
@@ -31,7 +32,6 @@ function onMobWeaponSkill(target, mob, skill)
             power = math.floor(mob:getMainLvl() / 3)
         end
     end
-    mob:setMobMod(tpz.mobMod.VAR, 1)
     local numhits = 1
     local accmod = 1
     local dmgmod = 1.2
@@ -50,5 +50,6 @@ function onMobWeaponSkill(target, mob, skill)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, info.hitslanded)
     target:takeDamage(dmg, mob, tpz.attackType.RANGED, tpz.damageType.RANGED)
     MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, power, 3, 90)
+    mob:AnimationSub(1)
     return dmg
 end
