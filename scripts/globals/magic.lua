@@ -761,7 +761,7 @@ function applyResistanceEffect(caster, target, spell, params) -- says "effect" b
     -- https://www.bluegartr.com/threads/134257-Status-resistance-and-other-miscellaneous-JP-insights
 
     local element = spell:getElement()
-    local SDT = getEnfeeblelSDT(effect, element, target, spell)
+    local SDT = getEnfeeblelSDT(effect, element, target)
     local percentBonus = 0
     local magicaccbonus = getSpellBonusAcc(caster, target, spell, params)
     
@@ -2103,7 +2103,7 @@ function getElementalSDT(element, target) -- takes into account if magic burst w
     return SDT
 end
 
-function getEnfeeblelSDT(status, element, target, spell) -- takes into account if magic burst window is open -> increase tier by 1
+function getEnfeeblelSDT(status, element, target) -- takes into account if magic burst window is open -> increase tier by 1
     if target:isPC() then
         return 100
     end
@@ -2153,18 +2153,17 @@ function getEnfeeblelSDT(status, element, target, spell) -- takes into account i
     elseif status == tpz.effect.SLEEP_I or status == tpz.effect.SLEEP_II then
         SDTmod = tpz.mod.EEM_DARK_SLEEP
         SDT = target:getMod(SDTmod)
+        -- Some sleeps are Light based
+        if (element == tpz.magic.ele.LIGHT) then
+            SDTmod = tpz.mod.EEM_LIGHT_SLEEP
+            SDT = target:getMod(SDTmod)
+        end
     elseif status == tpz.effect.BLINDNESS then
         SDTmod = tpz.mod.EEM_BLIND
         SDT = target:getMod(SDTmod)
     else -- No status effect mod exists, default to the element of it's status effect
         SDTmod = getElementalSDT(element, target)
         SDT = SDTmod
-    end
-
-    -- Repose is Light sleep despite being sleep effect
-    if spell and (spell:getID() == tpz.magic.spell.REPOSE) then
-        SDTmod = tpz.mod.EEM_LIGHT_SLEEP
-        SDT = target:getMod(SDTmod)
     end
 
     --printf("SDTmod: %d, SDT %d", SDTmod, SDT)
@@ -3715,7 +3714,7 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
         -- https://sazitouhuu.blogspot.com/2020/02/iicl.html?m=1 
         -- 0-40% (no more immunobreaks from there)
         local element = target:getStatusEffectElement(effect)
-        local SDT = getEnfeeblelSDT(effect, element, target, spell)
+        local SDT = getEnfeeblelSDT(effect, element, target)
         -- 10% chance to Immunobreak
         if caster:isPC() then
             -- Immunobreak caps at 40 SDT and +4 tiers increase max
