@@ -4218,6 +4218,12 @@ namespace charutils
         REGIONTYPE region = PChar->loc.zone->GetRegionID();
         uint8 mobLevel = PMob->GetMLevel();
 
+        // Do not grant Capacity Points if the mob doesn't grant Experience Points
+        if (PMob->getMobMod(MOBMOD_EXP_BONUS) == -100)
+        {
+            return;
+        }
+
         PChar->ForAlliance(
             [&PMob, &zone, &mobLevel](CBattleEntity* PPartyMember)
             {
