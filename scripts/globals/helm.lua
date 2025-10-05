@@ -228,7 +228,6 @@ local helmInfo =
                     {1000, 1522}, -- Fresh Marjoram
                     {1000, 1845}, -- Red Moko Grass
                     {1000,  835}, -- Flax Flower
-                    {1000, 2713}, -- Dyer's Woad
                     { 500, 4545}, -- Gysahl Greens
                     { 500,  635}, -- Windurstian Tea Leaves
                     { 500, 1981}, -- Skull Locust
@@ -238,6 +237,7 @@ local helmInfo =
                     { 100,  575}, -- Grain Seeds
                     { 100,  839}, -- Crawler Cocoon
                     { 100, 1524}, -- Fresh Mugwort
+                    { 100, 2713}, -- Dyer's Woad
                 },
                 points =
                 {
@@ -306,7 +306,6 @@ local helmInfo =
                 drops =
                 {
                     {1500, 1845}, -- Red Moko Grass
-                    {1500, 2713}, -- Dyer's Woad
                     {1500,  835}, -- Flax Flower
                     {1500,  834}, -- Saruta Cotton
                     {1000, 1522}, -- Fresh Marjoram
@@ -320,6 +319,7 @@ local helmInfo =
                     { 100, 1524}, -- Fresh Mugwort
                     { 100,  839}, -- Crawler Cocoon
                     { 100,  573}, -- Vegetable Seeds
+                    {100, 2713}, -- Dyer's Woad
                 },
                 points =
                 {
