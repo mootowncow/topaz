@@ -846,7 +846,7 @@ function applyResistanceAddEffect(player, target, element, bonus, effect, skill)
         return 1/16
     end
 
-    if (effect ~= nil) then
+    if (effect and effect ~= tpz.effect.NONE) then
         SDT = getEnfeeblelSDT(effect, element, target)
     end
 
@@ -1104,7 +1104,7 @@ function getEffectResistanceTraitChance(caster, target, effect)
         effectres = tpz.mod.SLOWRESTRAIT
     elseif (effect == tpz.effect.STUN) then
         effectres = tpz.mod.STUNRESTRAIT
-    elseif (effect == tpz.effect.CHARM) then
+    elseif (effect == tpz.effect.CHARM_I or effect == tpz.effect.CHARM_II) then
         effectres = tpz.mod.CHARMRESTRAIT
     elseif (effect == tpz.effect.AMNESIA) then
         effectres = tpz.mod.AMNESIARESTRAIT
@@ -1167,7 +1167,7 @@ function getEffectResistance(target, effect)
         effectres = tpz.mod.SLOWRES
     elseif (effect == tpz.effect.STUN) then
         effectres = tpz.mod.STUNRES
-    elseif (effect == tpz.effect.CHARM) then
+    elseif (effect == tpz.effect.CHARM_I or effect == tpz.effect.CHARM_II) then
         effectres = tpz.mod.CHARMRES
     elseif (effect == tpz.effect.AMNESIA) then
         effectres = tpz.mod.AMNESIARES
@@ -1644,6 +1644,15 @@ function addBonuses(caster, spell, target, dmg, params)
             mab = mab + caster:getMerit(tpz.merit.NIN_MAGIC_BONUS)
         end
 
+        if ele >= tpz.magic.element.FIRE and ele <= tpz.magic.element.WATER then
+            mab = mab + caster:getMerit(blmMerit[ele])
+
+            -- Handle Ally / Trusts  BLM merits
+            if (caster:isTrust() or caster:isAlly()) and (caster:getMainJob() == tpz.job.BLM) then
+                mab = mab +10
+            end
+        end
+
         if caster:isPC() then
             if (casterJob == tpz.job.RDM) then
                 mab = mab + caster:getJobPointLevel(tpz.jp.RDM_MAGIC_ATK_BONUS)
@@ -1658,6 +1667,7 @@ function addBonuses(caster, spell, target, dmg, params)
     if (mabbonus < 0) then
         mabbonus = 0
     end
+
     dmg = math.floor(dmg * mabbonus)
 
     -- Spell Crit
@@ -2143,6 +2153,11 @@ function getEnfeeblelSDT(status, element, target) -- takes into account if magic
     elseif status == tpz.effect.SLEEP_I or status == tpz.effect.SLEEP_II then
         SDTmod = tpz.mod.EEM_DARK_SLEEP
         SDT = target:getMod(SDTmod)
+        -- Some sleeps are Light based
+        if (element == tpz.magic.ele.LIGHT) then
+            SDTmod = tpz.mod.EEM_LIGHT_SLEEP
+            SDT = target:getMod(SDTmod)
+        end
     elseif status == tpz.effect.BLINDNESS then
         SDTmod = tpz.mod.EEM_BLIND
         SDT = target:getMod(SDTmod)
@@ -2151,8 +2166,7 @@ function getEnfeeblelSDT(status, element, target) -- takes into account if magic
         SDT = SDTmod
     end
 
-    -- printf("SDTmod: %s", SDTmod)
-    -- printf("SDT %s", SDT)
+    --printf("SDTmod: %d, SDT %d", SDTmod, SDT)
     
     if SDT == 0 or SDT == nil then -- invalid SDT, it was never set on this target... just default it.
         SDT = 100
@@ -2420,7 +2434,7 @@ function GetCharmHitRate(player, target)
     end
 
     local dLvl = playerLvl - target:getMainLvl()
-    local SDT = getEnfeeblelSDT(tpz.effect.CHARM, element, target)
+    local SDT = getEnfeeblelSDT(tpz.effect.CHARM_I, element, target)
     local charmMultiplier = GetCharmMultiplier(SDT)
     local charmMod = (1 + player:getMod(tpz.mod.CHARM_CHANCE) / 100) -- Correct mod?
     local affinityBonus = AffinityBonusAcc(player, element)
@@ -2775,6 +2789,51 @@ function doDivineBanishNuke(caster, target, spell, params)
     --add in final adjustments
     dmg = finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
     return dmg
+end
+
+function doAbsorbSpell(caster, target, spell, effect)
+    local absorbData =
+    {
+        [tpz.effect.STR_BOOST] = { StatDown = tpz.effect.STR_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_STR },
+        [tpz.effect.DEX_BOOST] = { StatDown = tpz.effect.DEX_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_DEX },
+        [tpz.effect.VIT_BOOST] = { StatDown = tpz.effect.VIT_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_VIT },
+        [tpz.effect.AGI_BOOST] = { StatDown = tpz.effect.AGI_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_AGI },
+        [tpz.effect.INT_BOOST] = { StatDown = tpz.effect.INT_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_INT },
+        [tpz.effect.MND_BOOST] = { StatDown = tpz.effect.MND_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_MND },
+        [tpz.effect.CHR_BOOST] = { StatDown = tpz.effect.CHR_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_CHR },
+        [tpz.effect.ACCURACY_BOOST] = { StatDown = tpz.effect.ACCURACY_DOWN, Msg = tpz.msg.basic.MAGIC_ABSORB_ACC },
+    }
+
+    local dINT = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)
+    local params = {}
+    params.diff = dINT
+    params.attribute = tpz.mod.INT
+    params.skillType = tpz.skill.DARK_MAGIC
+    params.bonus = 0
+    params.effect = nil
+
+    if caster:hasStatusEffect(tpz.effect.NETHER_VOID) then
+        params.bonus = 100
+    end
+
+    local power = getAbsorbSpellPower(caster)
+    local tick = 0
+    local resist = applyResistanceEffect(caster, target, spell, params)
+    local duration = getAbsorbSpellDuration(caster, resist)
+
+    if (resist >= 0.5) then
+        spell:setMsg(absorbData[effect].Msg)
+        HandleDrkRelicHelm(caster)
+        caster:delStatusEffectSilent(effect)
+        target:delStatusEffectSilent(absorbData[effect].StatDown)
+	    caster:addStatusEffect(effect, power, tick, duration) -- Caster gains boost
+	    target:addStatusEffect(absorbData[effect].StatDown, power, tick, duration) -- Target gains stat down
+        caster:delStatusEffectSilent(tpz.effect.NETHER_VOID)
+    else
+        spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
+    end
+
+    return effect
 end
 
 function doCure(caster, target, spell)
@@ -3299,7 +3358,8 @@ function getAdditionalEffectStatusResist(player, target, effect, element, skill,
         { Effect = tpz.effect.CURSE_I,                  Immunity = { tpz.immunity.CURSE } },
         { Effect = tpz.effect.CURSE_II,                 Immunity = { tpz.immunity.CURSE } },
         { Effect = tpz.effect.DOOM,                     Immunity = { tpz.immunity.DOOM } },
-        { Effect = tpz.effect.CHARM,                    Immunity = { tpz.immunity.CHARM } },
+        { Effect = tpz.effect.CHARM_I,                  Immunity = { tpz.immunity.CHARM } },
+        { Effect = tpz.effect.CHARM_II,                 Immunity = { tpz.immunity.CHARM } },
     }
 
     if isNoEffectMsg(player, target, effect, params) then
@@ -3534,7 +3594,8 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
         { Effect = tpz.effect.CURSE_I,                  Immunity = { tpz.immunity.CURSE } },
         { Effect = tpz.effect.CURSE_II,                 Immunity = { tpz.immunity.CURSE } },
         { Effect = tpz.effect.DOOM,                     Immunity = { tpz.immunity.DOOM } },
-        { Effect = tpz.effect.CHARM,                    Immunity = { tpz.immunity.CHARM } },
+        { Effect = tpz.effect.CHARM_I,                  Immunity = { tpz.immunity.CHARM } },
+        { Effect = tpz.effect.CHARM_II,                 Immunity = { tpz.immunity.CHARM } },
     }
 
     local skill = spell:getSkillType()
@@ -3949,6 +4010,15 @@ function getAbsorbSpellPower(caster)
 
     local totalPower = math.floor(math.floor(basePower * (gearBonus) * liberatorBonus) * netherVoidBonus)
     return totalPower
+end
+
+function getAbsorbSpellDuration(caster, resist)
+    local duration = 90
+
+    duration = duration + caster:getMod(tpz.mod.ABSORB_EFFECT_DURATION)
+    duration = duration * resist
+
+    return duration
 end
 
 function getRegenPotency(caster, target, base)

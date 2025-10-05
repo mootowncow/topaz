@@ -2844,7 +2844,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Duriumshell',1211,2513); -- Mega Scissors
 INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1753); -- Hysteric Barrage
 INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1812); -- Pinning Shot
 INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1813); -- Calcifying Deluge
-INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1773); -- Swift Shot
 INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1774); -- Arrow Deluge
 INSERT INTO `mob_skill_lists` VALUES ('Lamia_Bersagliere',1212,1758); -- Tail Slap
 

@@ -1722,7 +1722,7 @@ INSERT INTO `mob_skills` VALUES (1769,1256,'dukkeripen_para',0,7.0,2000,1500,4,0
 INSERT INTO `mob_skills` VALUES (1770,1257,'dukkeripen_heal',0,7.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1771,1258,'tail_slap',4,10.0,2000,1500,4,0,0,3,0,0,0);
 INSERT INTO `mob_skills` VALUES (1772,1259,'torrent',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1773,1518,'swift_shot',0,7.0,2000,1500,4,0,0,0,0,0,0); -- TODO: ANimation
+INSERT INTO `mob_skills` VALUES (1773,1518,'swift_shot',0,7.0,2000,1500,4,0,0,0,0,0,0); -- TODO: Animation
 INSERT INTO `mob_skills` VALUES (1774,1518,'arrow_deluge',4,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1775,1261,'rising_swell',1,30.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1776,1253,'hysteric_barrage',0,7.0,2000,1500,4,0,0,0,0,0,0);

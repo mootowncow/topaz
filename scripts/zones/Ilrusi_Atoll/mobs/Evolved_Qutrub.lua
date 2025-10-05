@@ -83,8 +83,13 @@ function onMobWeaponSkillPrepare(mob, target)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    if skill:getID() == 1782 then -- Animating Wail
-         mob:useMobAbility(math.random(1778, 1781)) -- Spinal Cleave, Mangle, Leaping Cleave, Hex Palm
+    local randomTPMove = mob:getLocalVar("randomTPMove")
+
+    if (os.time() >= randomTPMove) then -- So that it won't spam random TP moves after using a TP move that hits multiple targets
+        if skill:getID() == 1782 then -- Animating Wail
+            mob:useMobAbility(math.random(1778, 1781)) -- Spinal Cleave, Mangle, Leaping Cleave, Hex Palm
+            mob:setLocalVar("randomTPMove", os.time() + 5)
+        end
     end
 end
 

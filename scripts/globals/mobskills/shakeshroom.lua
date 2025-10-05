@@ -3,17 +3,15 @@
 -- Additional effect: Fires a mushroom cap, dealing damage to a single target. Additional effect: disease
 -- Range is 14.7 yalms.
 -- Piercing damage Ranged Attack.
--- Secondary modifiers: INT: 20%.
+-- Funguar use Queasy, Numb, and Shakeshroom in that order. They lose a mushroom on their head per tp move, and can only use each tp move once.
 ---------------------------------------------------
-
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/monstertpmoves")
-
 ---------------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if (mob:getMobMod(tpz.mobMod.VAR) == 2) then
+    if (mob:AnimationSub() == 2) then
         return 0
     end
     return 1
@@ -40,5 +38,6 @@ function onMobWeaponSkill(target, mob, skill)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, info.hitslanded)
     target:takeDamage(dmg, mob, tpz.attackType.RANGED, tpz.damageType.RANGED)
     MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, 1, 0, 300)
+    mob:AnimationSub(3)
     return dmg
 end

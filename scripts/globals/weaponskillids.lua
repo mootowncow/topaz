@@ -349,5 +349,6 @@ tpz.ws_unlock =
     URIEL_BLADE         = 79,
     GLORY_SLASH         = 80,
     TARTARUS_TORPOR     = 81,
-    DISASTER            = 82
+    DISASTER            = 82,
+    RUTHLESS_STROKE     = 83
 }

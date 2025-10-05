@@ -43,26 +43,34 @@ function onMobEngaged(mob)
     local instance = mob:getInstance()
     local target = mob:getTarget(instance)
 	local Buddy = 0
+
     if mob:getID(instance) == 17002773 then
         Buddy = GetMobByID(mob:getID(instance)+1, instance)
 	    Buddy:updateEnmity(target)
     end
+
     if mob:getID(instance) == 17002774 then
         Buddy = GetMobByID(mob:getID(instance)-1, instance)
 	    Buddy:updateEnmity(target)
     end
+
+    mob:setLocalVar("BreakChance", 50)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
 end
 
 function onMobFight(mob, target)
-    --mob:setPos(380.4065,-7.8809,72.7741, 90)
-	local StunTime = mob:getLocalVar("StunTime")
-	local DreadSpikesTime = mob:getLocalVar("DreadSpikesTime")
-	local DrainTime = mob:getLocalVar("DrainTime")
-	local BattleTime = mob:getBattleTime()
+    -- Enrages when weapon is Broken
+    if (mob:AnimationSub() == 1) then
+        mob:setMod(tpz.mod.REGAIN, 250)
+        mob:setMod(tpz.mod.GLOBAL_DMG_DONE, 0)
+    end
 end
 
-function onMobWeaponSkill(target, mob, skill)
+function onMobWeaponSkillPrepare(mob, target)
+    -- Only uses Hysteric Barrage when weapon is broken
+    if (mob:AnimationSub() == 1) then
+        return tpz.mob.skills.HYSTERIC_BARRAGE_MERROW
+    end
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

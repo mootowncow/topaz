@@ -222,6 +222,7 @@ ZONETYPE CZone::GetType()
     return m_zoneType;
 }
 
+// Built via GetCurrentRegion(uint16 ZoneID) in zoneutils.cpp
 REGIONTYPE CZone::GetRegionID()
 {
     return m_regionID;

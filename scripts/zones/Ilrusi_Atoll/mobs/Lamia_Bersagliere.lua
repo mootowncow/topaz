@@ -59,10 +59,15 @@ function onMobFight(mob, target)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    -- Always follow up any TP move with Belly Dance
-    local tpMoves = { 1759, 1762 }
-    if (skill:getID() ~= 272) and (skill:getID() ~= 1759) and (skill:getID() ~= 1762) then
-        mob:useMobAbility(tpMoves[math.random(#tpMoves)])
+    local randomTPMove = mob:getLocalVar("randomTPMove")
+
+    if (os.time() >= randomTPMove) then -- So that it won't spam random TP moves after using a TP move that hits multiple targets
+        -- Always follow up any TP move with Belly Dance
+        local tpMoves = { 1759, 1762 }
+        if (skill:getID() ~= 272) and (skill:getID() ~= 1759) and (skill:getID() ~= 1762) and (skill:getID() ~= tpz.jsa.EES_LAMIA) then
+            mob:useMobAbility(tpMoves[math.random(#tpMoves)])
+            mob:setLocalVar("randomTPMove", os.time() + 5)
+        end
     end
 end
 

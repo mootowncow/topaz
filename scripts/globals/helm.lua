@@ -26,47 +26,59 @@ tpz.helm.type =
     MINING     = 4,
 }
 
+-- zoneID, skill up chabnce, zone skill cap
 tpz.helm.ZoneData =
-    -- zoneID, skill up chabnce, zone skill cap
+{
+    [tpz.helm.type.LOGGING] =
     {
-        -- Logging
         { tpz.zone.CARPENTERS_LANDING, 100, 40 },
-        { tpz.zone.LUFAISE_MEADOWS, 100, 40 },
-        { tpz.zone.MISAREAUX_COAST, 100, 40 },
-        { tpz.zone.MAMOOK, 1, 100 },
-        { tpz.zone.CAEDARVA_MIRE, 1, 100 },
-        { tpz.zone.EAST_RONFAURE_S, 50, 60 },
-        { tpz.zone.JUGNER_FOREST_S, 1, 80 },
+        { tpz.zone.LUFAISE_MEADOWS,   100, 40 },
+        { tpz.zone.MISAREAUX_COAST,   100, 40 },
+        { tpz.zone.MAMOOK,              1, 100 },
+        { tpz.zone.CAEDARVA_MIRE,       1, 100 },
+        { tpz.zone.EAST_RONFAURE_S,    50, 60 },
+        { tpz.zone.JUGNER_FOREST_S,     1, 80 },
         { tpz.zone.FORT_KARUGO_NARUGO_S, 1, 80 },
-        { tpz.zone.EAST_RONFAURE, 100, 20 },
-        { tpz.zone.JUGNER_FOREST, 50, 60 },
+        { tpz.zone.EAST_RONFAURE,     100, 20 },
+        { tpz.zone.JUGNER_FOREST,      50, 60 },
         { tpz.zone.BUBURIMU_PENINSULA, 50, 60 },
-        { tpz.zone.YUHTUNGA_JUNGLE, 100, 40 },
-        { tpz.zone.YHOATOR_JUNGLE, 50, 60 },
-        { tpz.zone.GHELSBA_OUTPOST, 100, 40 },
-        -- Mining
+        { tpz.zone.YUHTUNGA_JUNGLE,   100, 40 },
+        { tpz.zone.YHOATOR_JUNGLE,     50, 60 },
+        { tpz.zone.GHELSBA_OUTPOST,   100, 40 },
+    },
+
+    [tpz.helm.type.MINING] =
+    {
         { tpz.zone.OLDTON_MOVALPOLOS, 50, 60 },
-        { tpz.zone.NEWTON_MOVALPOLOS, 1, 80 },
-        { tpz.zone.MOUNT_ZHAYOLM, 1, 80 },
-        { tpz.zone.HALVUNG, 1, 100 },
+        { tpz.zone.NEWTON_MOVALPOLOS,  1, 80 },
+        { tpz.zone.MOUNT_ZHAYOLM,      1, 80 },
+        { tpz.zone.HALVUNG,            1, 100 },
         { tpz.zone.NORTH_GUSTABERG_S, 100, 40 },
-        { tpz.zone.YUGHOTT_GROTTO, 100, 40 },
-        { tpz.zone.PALBOROUGH_MINES, 100, 40 },
-        { tpz.zone.ZERUHN_MINES, 100, 20 },
-        { tpz.zone.GUSGEN_MINES, 50, 60 },
-        { tpz.zone.IFRITS_CAULDRON, 1, 100 },
-        -- Harvesting
-        { tpz.zone.WAJAOM_WOODLANDS, 1, 100 },
-        { tpz.zone.BHAFLAU_THICKETS, 1, 100 },
-        { tpz.zone.GRAUBERG_S, 1, 80 },
+        { tpz.zone.YUGHOTT_GROTTO,    100, 40 },
+        { tpz.zone.PALBOROUGH_MINES,  100, 40 },
+        { tpz.zone.ZERUHN_MINES,      100, 20 },
+        { tpz.zone.GUSGEN_MINES,       50, 60 },
+        { tpz.zone.IFRITS_CAULDRON,     1, 100 },
+    },
+
+    [tpz.helm.type.HARVESTING] =
+    {
+        { tpz.zone.WAJAOM_WOODLANDS,   1, 100 },
+        { tpz.zone.BHAFLAU_THICKETS,   1, 100 },
+        { tpz.zone.GRAUBERG_S,         1, 80 },
         { tpz.zone.WEST_SARUTABARUTA_S, 50, 60 },
         { tpz.zone.WEST_SARUTABARUTA, 100, 20 },
-        { tpz.zone.YUHTUNGA_JUNGLE, 100, 40 },
-        { tpz.zone.YHOATOR_JUNGLE, 100, 40 },
-        { tpz.zone.GIDDEUS, 100, 40 },
-        { tpz.zone.ABYSSEA_GRAUBERG, 1, 100 },
-    }
+        { tpz.zone.YUHTUNGA_JUNGLE,   100, 40 },
+        { tpz.zone.YHOATOR_JUNGLE,    100, 40 },
+        { tpz.zone.GIDDEUS,           100, 40 },
+        { tpz.zone.ABYSSEA_GRAUBERG,   1, 100 },
+    },
 
+    [tpz.helm.type.EXCAVATION] =
+    {
+        -- TODO
+    },
+}
 -------------------------------------------------
 -- drops are {weight, itemId}
 -- {R} for retail-verified coordinates
@@ -216,7 +228,6 @@ local helmInfo =
                     {1000, 1522}, -- Fresh Marjoram
                     {1000, 1845}, -- Red Moko Grass
                     {1000,  835}, -- Flax Flower
-                    {1000, 2713}, -- Dyer's Woad
                     { 500, 4545}, -- Gysahl Greens
                     { 500,  635}, -- Windurstian Tea Leaves
                     { 500, 1981}, -- Skull Locust
@@ -226,15 +237,22 @@ local helmInfo =
                     { 100,  575}, -- Grain Seeds
                     { 100,  839}, -- Crawler Cocoon
                     { 100, 1524}, -- Fresh Mugwort
+                    { 100, 2713}, -- Dyer's Woad
                 },
                 points =
                 {
-                    {-437.564, -28.414,  349.393},
-                    {-433.726, -28.143,  359.270},
-                    {-392.602, -28.175,  372.697},
-                    {-391.068, -27.890,  361.257},
-                    {-356.123, -20.537,  212.243},
-                    {-159.075, -16.103,  394.371},
+                    { -437.564, -28.414,  349.393 },
+                    { -433.726, -28.143,  359.270 },
+                    { -392.602, -28.175,  372.697 },
+                    { -391.068, -27.890,  361.257 },
+                    { -356.123, -20.537,  212.243 },
+                    { -159.075, -16.103,  394.371 },
+                    { -73.508, -20.531, 134.637  },
+                    { -74.057, -16.000, 39.862 },
+                    { -105.310, -16.843, -83.660 },
+                    { -153.854, -17.275, -97.301 },
+                    { -63.236, -17.506, 414.965 },
+                    { -104.275, -17.179, 389.168 }
                 },
             },
             [tpz.zone.YUHTUNGA_JUNGLE] =
@@ -247,9 +265,9 @@ local helmInfo =
                     { 1000, 4447}, -- Scream Fungus
                     { 1000, 4448}, -- Puffball
                     { 1000, 4565}, -- Sobbing Fungus
+                    { 1000, 1983}, -- Mushroom Locust
                     { 500, 4386}, -- King Truffle   -- changed from 300
                     { 500, 3915}, -- Saffron Blossom  
-                    { 100, 1983}, -- Mushroom Locust
                 },
                 points =
                 {
@@ -274,9 +292,13 @@ local helmInfo =
                 },
                 points =
                 {
-                    { 140.242,  12.319, -108.471},
-                    { 108.884,   8.263, -579.216},
-                    { 108.884,   8.263, -579.216},
+                    { 140.242,  12.319, -108.471 },
+                    { 108.884,   8.263, -579.216 },
+                    { 541.435, 8.841, -348.605 },
+                    { 508.332, 8.9,   -505.287 },
+                    { 411.292, 8.841, -381.538 },
+                    { -61.675, 8.841, -211.16  },
+                    { 458.778, 12.840, -491.585 }
                 },
             },
             [tpz.zone.GIDDEUS] =
@@ -284,7 +306,6 @@ local helmInfo =
                 drops =
                 {
                     {1500, 1845}, -- Red Moko Grass
-                    {1500, 2713}, -- Dyer's Woad
                     {1500,  835}, -- Flax Flower
                     {1500,  834}, -- Saruta Cotton
                     {1000, 1522}, -- Fresh Marjoram
@@ -298,6 +319,7 @@ local helmInfo =
                     { 100, 1524}, -- Fresh Mugwort
                     { 100,  839}, -- Crawler Cocoon
                     { 100,  573}, -- Vegetable Seeds
+                    {100, 2713}, -- Dyer's Woad
                 },
                 points =
                 {
@@ -1377,14 +1399,19 @@ local rocks = {769, 772, 770, 771, 773, 774, 776, 775}
 -------------------------------------------------
 
 local function doesToolBreak(player, info)
-    local roll  = math.random(100)
-    local mod   = info.mod
+    local roll = math.random(100)
+    local breakChance = _G[info.settingBreak] -- base %
 
-    if mod then
-        roll = roll + (player:getMod(mod) / 10)
+    if info.mod then
+        local modValue = player:getMod(info.mod) / 1000
+        breakChance = breakChance * (1 - modValue)
     end
 
-    if roll <= _G[info.settingBreak] then
+    if breakChance < 1 then
+        breakChance = 1
+    end
+
+    if roll <= breakChance then
         player:tradeComplete()
         return true
     end
@@ -1442,18 +1469,15 @@ local function movePoint(npc, zoneId, info)
     npc:queue(3000, doMove(npc, unpack(point)))
 end
 
-local function GetHelmSKillUpChance(zoneId, skill)
-    local chance = 0
-
-    for _, skillUps in pairs(tpz.helm.ZoneData) do
-        if (zoneId == skillUps[1]) then
-            if (skill < skillUps[3]) then
-                chance = skillUps[2]
+local function GetHelmSkillUpChance(zoneId, skill, helmType)
+    for _, skillUps in ipairs(tpz.helm.ZoneData[helmType] or {}) do
+        if zoneId == skillUps[1] then
+            if skill < skillUps[3] then
+                return skillUps[2]
             end
         end
     end
-
-    return chance
+    return 0
 end
 
 local function TrySkillUpHELM(player, helmType, zoneId)
@@ -1462,33 +1486,32 @@ local function TrySkillUpHELM(player, helmType, zoneId)
     local harvestingSkill = player:getCharVar("HarvestingSkill")
 
     if (helmType == tpz.helm.type.MINING) and (miningSkill < 100) then
-        local chance = GetHelmSKillUpChance(zoneId, miningSkill)
+        local chance = GetHelmSkillUpChance(zoneId, miningSkill, helmType)
         if math.random(1000) <= chance then
             player:setCharVar("MiningSkill", miningSkill + 1)
             player:PrintToPlayer("Your skill in mining has increased to " .. miningSkill +1 .. ".", tpz.msg.textColor.GOLD, 0)
         end
     elseif (helmType == tpz.helm.type.LOGGING) and (loggingSkill < 100) then
-        local chance = GetHelmSKillUpChance(zoneId, loggingSkill)
+        local chance = GetHelmSkillUpChance(zoneId, loggingSkill, helmType)
         if math.random(1000) <= chance then
             player:setCharVar("LoggingSkill", loggingSkill + 1)
-            player:PrintToPlayer("Your skill in logging has increased to " .. loggingSkill +1, tpz.msg.textColor.GOLD, 0)
+            player:PrintToPlayer("Your skill in logging has increased to " .. loggingSkill +1 .. ".", tpz.msg.textColor.GOLD, 0)
         end
     elseif (helmType == tpz.helm.type.HARVESTING) and (harvestingSkill < 100) then
-        local chance = GetHelmSKillUpChance(zoneId, harvestingSkill)
+        local chance = GetHelmSkillUpChance(zoneId, harvestingSkill, helmType)
         if math.random(1000) <= chance then
             player:setCharVar("HarvestingSkill", harvestingSkill + 1)
-            player:PrintToPlayer("Your skill in logging has increased to " .. harvestingSkill +1, tpz.msg.textColor.GOLD, 0)
+            player:PrintToPlayer("Your skill in harvesting has increased to " .. harvestingSkill +1 .. ".", tpz.msg.textColor.GOLD, 0)
         end
     end
 end
 
-local function GetCurrentZone(player, zoneId)
-    for _, zoneLevel in pairs(tpz.helm.ZoneData) do
-        if (zoneId == zoneLevel[1]) then
+local function GetCurrentZone(zoneId, helmType)
+    for _, zoneLevel in ipairs(tpz.helm.ZoneData[helmType] or {}) do
+        if zoneId == zoneLevel[1] then
             return zoneLevel[1]
         end
     end
-
     return 0
 end
 
@@ -1512,9 +1535,9 @@ end
 local function GetHELMZoneLevelRequirements(player, zoneId, helmType)
     local skill = GetCurrentHELMSkill(player, helmType)
 
-    for _, zoneLevel in pairs(tpz.helm.ZoneData) do
-        if (zoneId == zoneLevel[1]) then
-            if (zoneLevel[3] > skill + 20) then
+    for _, zoneLevel in ipairs(tpz.helm.ZoneData[helmType] or {}) do
+        if zoneId == zoneLevel[1] then
+            if zoneLevel[3] > skill + 20 then
                 return false, skill, zoneLevel[3]
             else
                 return true, skill, zoneLevel[3]
@@ -1539,7 +1562,8 @@ end
 
 local function GetHELMSkillBonus(player, helmType, zoneLvl)
     local skill = GetCurrentHELMSkill(player, helmType)
-    local zone = GetCurrentZone(player, zoneId)
+    local zoneId = player:getZoneID()
+    local zone = GetCurrentZone(zoneId, helmType)
     local skillBonus = 0
 
     -- Add gear mod
