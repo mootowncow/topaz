@@ -29,7 +29,7 @@ function onTrigger(player, target)
     end
 
     -- delete all learned weaponskills
-    for i = 1, 82 do
+    for i = 1, 83 do
         targ:delLearnedWeaponskill(i)
     end
     player:PrintToPlayer(string.format("%s no longer has all learned weaponskills.", targ:getName()))
