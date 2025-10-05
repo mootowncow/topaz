@@ -2613,6 +2613,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,235,24,255);       -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,254,4,255);        -- Blind
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,220,3,42);         -- Poison
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,221,43,255);       -- Poison II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,245,12,255);       -- Drain
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,247,25,255);       -- Aspir
 
 
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Naji',309,0,1,255);            -- none (reserved)
