@@ -1910,8 +1910,15 @@ bool CMobController::IsSpellReady(float currentDistance)
     {
         for (auto spellId : PMob->SpellContainer->GetAllSpells())
         {
+            // Make sure all spells in spell list are not on cooldown
             if (!PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(spellId)))
             {
+                // Ignore m_NextMagicTime timer if Chainspell / Manafont / Azure Lore / Tabula Rasa are active
+                if (PMob->StatusEffectContainer->HasStatusEffect({ EFFECT_CHAINSPELL, EFFECT_MANAFONT, EFFECT_AZURE_LORE, EFFECT_TABULA_RASA }))
+                {
+                    return true;
+                }
+
                 return m_Tick >= m_NextMagicTime;
             }
         }
