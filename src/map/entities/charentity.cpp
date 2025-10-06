@@ -41,6 +41,7 @@
 #include "../packets/message_special.h"
 #include "../packets/message_system.h"
 #include "../packets/trust_progression.h"
+#include "../packets/char_abilities.h"
 
 #include "../ai/ai_container.h"
 #include "../ai/controllers/player_controller.h"
@@ -829,6 +830,7 @@ void CCharEntity::PostTick()
     if (m_EquipSwap)
     {
         pushPacket(new CCharAppearancePacket(this));
+        pushPacket(new CCharAbilitiesPacket(this));
 
         updatemask |= UPDATE_HP;
         m_EquipSwap = false;

@@ -1814,7 +1814,6 @@ namespace charutils
                     PChar->StatusEffectContainer->DelStatusEffect(EFFECT_AFTERMATH);
                     BuildingCharWeaponSkills(PChar);
                     UpdateWeaponStyle(PChar, equipSlotID, nullptr);
-                    PChar->pushPacket(new CCharAbilitiesPacket(PChar));
                 }
                 break;
                 case SLOT_AMMO:
@@ -1840,7 +1839,6 @@ namespace charutils
                     }
                     PChar->StatusEffectContainer->DelStatusEffect(EFFECT_AFTERMATH);
                     BuildingCharWeaponSkills(PChar);
-                    PChar->pushPacket(new CCharAbilitiesPacket(PChar));
                     UpdateWeaponStyle(PChar, equipSlotID, nullptr);
                 }
                 break;
@@ -1869,7 +1867,6 @@ namespace charutils
                     PChar->health.tp = 0;
                     PChar->StatusEffectContainer->DelStatusEffect(EFFECT_AFTERMATH);
                     BuildingCharWeaponSkills(PChar);
-                    PChar->pushPacket(new CCharAbilitiesPacket(PChar));
                     UpdateWeaponStyle(PChar, equipSlotID, nullptr);
                 }
                 break;
@@ -1880,7 +1877,6 @@ namespace charutils
                 charutils::BuildingCharSkillsTable(PChar);
                 BuildingCharWeaponSkills(PChar);
 
-                PChar->pushPacket(new CCharAbilitiesPacket(PChar));
                 PChar->UpdateHealth();
                 PChar->m_EquipSwap = true;
                 PChar->updatemask |= UPDATE_LOOK;
@@ -2734,7 +2730,6 @@ namespace charutils
 
         charutils::BuildingCharSkillsTable(PChar);
         BuildingCharWeaponSkills(PChar);
-        PChar->pushPacket(new CCharAbilitiesPacket(PChar));
 
         PChar->UpdateHealth();
         PChar->m_EquipSwap = true;
@@ -5834,8 +5829,6 @@ namespace charutils
                     PChar->PLatentEffectContainer->DelLatentEffects(PItem->getReqLvl(), slotID);
                     PChar->PLatentEffectContainer->CheckLatentsEquip(slotID);
                     PChar->PLatentEffectContainer->CheckLatentsAllEquip();
-                    BuildingCharWeaponSkills(PChar);
-                    PChar->pushPacket(new CCharAbilitiesPacket(PChar));
                 }
             }
         }
@@ -5854,8 +5847,6 @@ namespace charutils
                     PChar->PLatentEffectContainer->AddLatentEffects(PItem->latentList, PItem->getReqLvl(), slotID);
                     PChar->PLatentEffectContainer->CheckLatentsEquip(slotID);
                     PChar->PLatentEffectContainer->CheckLatentsAllEquip();
-                    BuildingCharWeaponSkills(PChar);
-                    PChar->pushPacket(new CCharAbilitiesPacket(PChar));
                 }
             }
         }
