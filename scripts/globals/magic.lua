@@ -1067,7 +1067,7 @@ end
 
 function getBaseMEVA(target)
     local baseMeva = 0
-    if target:isPC() or target:isTrust() then
+    if target:isPC() or target:isTrust() or target:isAlly() then
         baseMeva = math.floor(utils.getSkillLvl(12, target:getMainLvl())) -- 171 for a level 75 player
     else
         baseMeva = math.floor(utils.getSkillLvl(7, target:getMainLvl()))
