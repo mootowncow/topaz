@@ -1379,7 +1379,7 @@ void SetupLimbusMob(CMobEntity* PMob)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(175);
             ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(175);
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(175);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(185);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
@@ -1394,7 +1394,7 @@ void SetupLimbusMob(CMobEntity* PMob)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(150);
             ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(150);
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(150);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(160);
         }
 
         PMob->addModifier(Mod::ATTP, 33);
@@ -1426,7 +1426,7 @@ void SetupDungeonInstancedMob(CMobEntity* PMob)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(200);
             ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(200);
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(200);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(220);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
@@ -1440,7 +1440,7 @@ void SetupDungeonInstancedMob(CMobEntity* PMob)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(150);
             ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(150);
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(150);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(160);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
@@ -1454,7 +1454,7 @@ void SetupDungeonInstancedMob(CMobEntity* PMob)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(120);
             ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(120);
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(120);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(130);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
@@ -1487,7 +1487,7 @@ void SetupSalvageMob(CMobEntity* PMob)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(60);
             ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(60);
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(60);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(200);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
@@ -1500,7 +1500,7 @@ void SetupSalvageMob(CMobEntity* PMob)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(50);
             ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(50);
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(50);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(170);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
@@ -1513,7 +1513,7 @@ void SetupSalvageMob(CMobEntity* PMob)
         {
             ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(40);
             ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(40);
-            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(40);
+            ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(150);
         }
 
         PMob->addModifier(Mod::ATTP, 25);
