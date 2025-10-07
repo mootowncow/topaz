@@ -16,8 +16,7 @@ function onItemCheck(target)
     return 0
 end
 
-function onItemUse(target)
-    local item = GetItem(tpz.items.POTION)
+function onItemUse(target, item, itemUser)
     local param = item:getParam()
     target:messageBasic(tpz.msg.basic.RECOVERS_HP, 0, target:addHP(param))
  end
