@@ -4,6 +4,7 @@
 --
 -----------------------------------
 require("scripts/globals/keyitems")
+require("scripts/globals/utils")
 -----------------------------------
 -- onEffectGain Action
 -----------------------------------
@@ -67,6 +68,7 @@ function onEffectLose(target, effect)
         if effect:getTimeRemaining() == 0 then
             target:messageSpecial(zones[target:getZoneID()].text.DYNAMIS_TIME_EXPIRED)
             target:disengage()
+            utils.DespawnAllMobsEngagedToPlayer(target)
             target:startEvent(100)
         end
     end

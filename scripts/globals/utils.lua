@@ -1689,3 +1689,20 @@ function utils.isInTable(value, tbl)
     end
     return false
 end
+
+function utils.DespawnAllMobsEngagedToPlayer(player)
+    local nearbyMobs = player:getNearbyMobs(50)
+    if nearbyMobs then
+        for _, mob in pairs(nearbyMobs) do
+            if 
+                mob and 
+                mob:isMob() and 
+                mob:getTarget() and
+                (mob:getTarget():getID() == player:getID())
+            then
+                printf("Despawn: %s", mob:getName())
+                DespawnMob(mob:getID())
+            end
+        end
+    end
+end
