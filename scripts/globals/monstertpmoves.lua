@@ -2275,8 +2275,7 @@ end
 
 function MobRemoveEffects(target)
     target:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
-    target:delStatusEffectSilent(tpz.effect.QUICKENING)
-    target:delStatusEffectSilent(tpz.effect.MAZURKA)
+    target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
 end
 
 function GenerateMobPdif(mob, target, tpeffect, isCrit, bonusAttPercent, flatAttackBonus, ignoredDef)

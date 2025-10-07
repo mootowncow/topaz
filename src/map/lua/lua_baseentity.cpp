@@ -12920,6 +12920,8 @@ inline int32 CLuaBaseEntity::dispelStatusEffect(lua_State *L)
         flag = EFFECTFLAG_DISPELABLE;
     }
 
+    ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE | EFFECTFLAG_DAMAGE, true);
+
     lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DispelStatusEffect((EFFECTFLAG)flag));
     return 1;
 }
