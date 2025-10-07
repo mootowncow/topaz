@@ -12948,6 +12948,8 @@ inline int32 CLuaBaseEntity::dispelAllStatusEffect(lua_State *L)
         flag = EFFECTFLAG_DISPELABLE;
     }
 
+    ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE | EFFECTFLAG_DAMAGE, true);
+
     lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DispelAllStatusEffect((EFFECTFLAG)flag));
     return 1;
 }
@@ -12973,6 +12975,8 @@ inline int32 CLuaBaseEntity::stealStatusEffect(lua_State *L)
 
     if (CStatusEffect* PStatusEffect = ((CBattleEntity*)PEntity->m_PBaseEntity)->StatusEffectContainer->StealStatusEffect(flag))
     {
+        ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE | EFFECTFLAG_DAMAGE, true);
+
         ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->AddStatusEffect(PStatusEffect);
         lua_pushinteger(L, PStatusEffect->GetStatusID());
     }
