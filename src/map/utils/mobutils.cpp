@@ -1652,15 +1652,6 @@ void SetupNMMob(CMobEntity* PMob)
         PMob->setMobMod(MOBMOD_MUG_GIL, PMob->getMobMod(MOBMOD_GIL_MIN));
     }
 
-    if(mLvl >= 25)
-    {
-        if(mJob == JOB_WHM)
-        {
-            // whm nms have stronger regen effect
-            PMob->addModifier(Mod::REGEN, mLvl/4);
-        }
-    }
-
     PMob->addModifier(Mod::REFRESH, 400);
     PMob->PAI->PathFind->SetCarefulPathing(true);
 }
