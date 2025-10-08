@@ -8173,7 +8173,7 @@ INSERT INTO `item_equipment` VALUES (18442,'taimakuniyuki_+1',87,0,6144,392,0,0,
 INSERT INTO `item_equipment` VALUES (18443,'windslicer',75,0,2048,156,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (18444,'tsurugitachi',37,0,2048,147,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (18445,'amakura',57,0,2048,148,0,0,1,0,0);
-INSERT INTO `item_equipment` VALUES (18446,'pachipachio',75,0,2048,440,0,0,1,0,0);
+INSERT INTO `item_equipment` VALUES (18446,'pachipachio',75,0,2049,440,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (18447,'nanatsusaya',72,0,2048,443,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (18448,'hacchonenbutsu',74,0,2048,147,0,0,1,0,0);
 INSERT INTO `item_equipment` VALUES (18449,'namioyogi',69,0,2048,146,0,0,1,0,0);
@@ -8560,7 +8560,7 @@ INSERT INTO `item_equipment` VALUES (18853,'spirit_maul',38,0,1048580,116,0,0,3,
 INSERT INTO `item_equipment` VALUES (18854,'fourth_mace',71,0,1590047,105,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (18855,'trainee_hammer',1,0,4194303,115,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (18856,'deae_gratia',74,0,32767,102,0,0,3,0,0);
-INSERT INTO `item_equipment` VALUES (18857,'antares',72,0,1589788,437,0,0,3,0,0);
+INSERT INTO `item_equipment` VALUES (18857,'antares',72,0,1622557,437,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (18858,'flanged_mace',69,0,1048645,446,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (18859,'kerykeion',71,0,1622044,233,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (18860,'flanged_mace_+1',69,0,1048645,446,0,0,3,0,0);
