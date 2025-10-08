@@ -71,8 +71,7 @@ function onRegionEnter(player, region)
                     player:hasCompletedQuest(JEUNO, tpz.quest.id.jeuno.STORMS_OF_FATE) and
                     player:getCurrentMission(ZILART) == tpz.mission.id.zilart.AWAKENING and
                     player:getCharVar("ZilartStatus") == 3 and
-                    player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.SHADOWS_OF_THE_DEPARTED) == QUEST_AVAILABLE and
-                    player:getCharVar("StormsOfFateWait") <= os.time()
+                    player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.SHADOWS_OF_THE_DEPARTED) == QUEST_AVAILABLE
                 then
                     player:startEvent(161)
                 elseif
@@ -84,8 +83,7 @@ function onRegionEnter(player, region)
                 elseif
                     player:hasCompletedQuest(JEUNO, tpz.quest.id.jeuno.SHADOWS_OF_THE_DEPARTED) and
                     player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.APOCALYPSE_NIGH) == QUEST_AVAILABLE and
-                    player:getLocalVar('ANZONE') == 0 and
-                    player:getCharVar("ApocNighWait") <= os.time()
+                    player:getLocalVar('ANZONE') == 0
                 then
                     player:startEvent(123)
                 end
@@ -150,11 +148,9 @@ function onEventFinish(player, csid, option)
     elseif csid == 143 then
         player:completeQuest(JEUNO, tpz.quest.id.jeuno.STORMS_OF_FATE)
         player:setCharVar('StormsOfFate', 0)
-        player:setCharVar("StormsOfFateWait", getVanaMidnight())
     elseif csid == 161 then
         npcUtil.giveKeyItem(player, tpz.ki.NOTE_WRITTEN_BY_ESHANTARL)
         player:addQuest(JEUNO, tpz.quest.id.jeuno.SHADOWS_OF_THE_DEPARTED)
-        player:setCharVar("StormsOfFateWait", 0)
     elseif csid == 162 then
         player:completeQuest(JEUNO, tpz.quest.id.jeuno.SHADOWS_OF_THE_DEPARTED)
         player:delKeyItem(tpz.ki.PROMYVION_HOLLA_SLIVER)
@@ -162,10 +158,8 @@ function onEventFinish(player, csid, option)
         player:delKeyItem(tpz.ki.PROMYVION_MEA_SLIVER)
         player:messageSpecial(ID.text.YOU_HAND_THE_THREE_SLIVERS)
         player:setLocalVar('ANZONE', 1)
-        player:setCharVar("ApocNighWait", getVanaMidnight())
     elseif csid == 123 then
         player:addQuest(JEUNO, tpz.quest.id.jeuno.APOCALYPSE_NIGH)
         player:setCharVar('ApocalypseNigh', 1)
-        player:setCharVar("ApocNighWait", 0)
     end
 end
