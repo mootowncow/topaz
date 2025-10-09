@@ -40,7 +40,6 @@ function PetalMods(mob)
         mob:setLocalVar("petalMods", 1)
         mob:setLocalVar("bloomedMods", 0)
         mob:setLocalVar("changeTime", os.time() + 80)
-        mob:setLocalVar("damageTaken", 0)
         mob:setDamage(mob:getMainLvl() + 2) -- Normal weapon damage
         mob:addMod(tpz.mod.DEFP, 100) 
         mob:setDelay(4000)
@@ -95,12 +94,10 @@ g_mixins.families.euvhi = function(mob)
     end)
 
     mob:addListener("TAKE_DAMAGE", "EUVHI_TAKE_DAMAGE", function(mob, damage, attacker, attackType, damageType)
-        local damageTaken = mob:getLocalVar("damageTaken")
         local animationSub = mob:AnimationSub()
         -- Only track damage taken while open(bloomed)
         if (animationSub ~= 4) then
-            mob:setLocalVar("damageTaken", mob:getLocalVar("damageTaken") + damage)
-            if (damageTaken >= 350) and not IsMobBusy(mob) then  -- Goes into petal form after taking 350 damage
+            if (damage >= 350) and not IsMobBusy(mob) then  -- Goes into petal form after taking a hit for 350+ damage
                 petal_form(mob)
             end
         end
