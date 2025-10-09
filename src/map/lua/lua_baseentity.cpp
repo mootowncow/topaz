@@ -18346,6 +18346,36 @@ inline int32 CLuaBaseEntity::TryProcTH(lua_State* L)
 }
 
 /************************************************************************
+ *  Function: getDropRate()
+ *  Purpose : Get's the drop % of an item after calculating TH
+ *  Example : mob:getDropRate(240)
+ *  Notes   : 
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getDropRate(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
+
+    if (auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity))
+    {
+        uint16 baseDrop = 0;
+
+        if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
+        {
+            baseDrop = lua_tointeger(L, 1);
+        }
+
+        uint16 dropRate = mobutils::GetDropRate(PMob, baseDrop);
+
+        lua_pushnumber(L, dropRate);
+        return 1;
+    }
+
+    return 1;
+}
+
+/************************************************************************
  *  Function: setSuperJump(1)
  *  Purpose : sets super jump flag to evade spells and abilities
  *  Example : setSuperJump(1), setSuperJump(0)
@@ -19185,6 +19215,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,itemStolen),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getTHlevel),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,TryProcTH),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getDropRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getPlayerRegionInZone),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateToEntireZone),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,trustProgressUpdateFlag),

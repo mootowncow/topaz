@@ -80,7 +80,7 @@ enum MOBTYPE
     MOBTYPE_QUEST       = 0x01, // 1
     MOBTYPE_NOTORIOUS   = 0x02, // 2
     MOBTYPE_FISHED      = 0x04, // 4
-    MOBTYPE_CALLED      = 0x08, // 8
+    MOBTYPE_CALLED      = 0x08, // 8 (Pets)
     MOBTYPE_BATTLEFIELD = 0x10, // 16
     MOBTYPE_EVENT       = 0x20  // 32
 };

@@ -370,7 +370,7 @@ namespace mobutils
         return 0;
     }
 
-    /************************************************************************
+ /************************************************************************
  *                                                                       *
  *  Calculate mob stats                                                  *
  *                                                                       *
@@ -2187,6 +2187,48 @@ float GetMobRadiusRange(CMobSkill* PMobSkill, CMobEntity* PMob, CBattleEntity* P
     }
 
     return radius;
+}
+
+uint16 GetDropRate(CMobEntity* PMob, uint16 base)
+{
+    static const uint16 gDropBase[7][15] = {
+        { 2400, 4800, 5600, 6000, 6400, 6666, 6800, 6900, 7050, 7200, 7350, 7400, 7600, 7800, 8000 },
+        { 1500, 3000, 4000, 4250, 4500, 4750, 5000, 5250, 5500, 5750, 6000, 6250, 6500, 6750, 7000 },
+        { 1000, 1200, 1500, 1650, 1800, 1900, 2000, 2100, 2250, 2400, 2650, 2800, 2950, 3100, 3250 },
+        {  500,  600,  700,  750,  800,  850,  900,  950, 1050, 1150, 1250, 1350, 1550, 1750, 2000 },
+        {  100,  150,  200,  225,  250,  300,  350,  400,  475,  550,  650,  750,  825,  900, 1000 },
+        {   50,   75,  100,  120,  140,  160,  180,  200,  230,  260,  300,  350,  400,  450,  500 },
+        {   10,   20,   30,   35,   40,   45,   50,   60,   70,   80,   90,  100,  115,  130,  150 }
+    };
+
+    uint16 th = PMob->m_THLvl;
+    if (th > 14)
+        th = 14;
+
+    uint16 category = 7;
+    if (base < 5)
+        category = 6;
+    else if (base < 10)
+        category = 5;
+    else if (base < 50)
+        category = 4;
+    else if (base < 100)
+        category = 3;
+    else if (base < 150)
+        category = 2;
+    else if (base < 240)
+        category = 1;
+    else if (base < 1000)
+        category = 0;
+
+    if (category == 7) // 100% drop rate
+    {
+        return 1000;
+    }
+
+    uint16 dropRate = gDropBase[category][th];
+
+    return dropRate;
 }
 
 }; // namespace mobutils
