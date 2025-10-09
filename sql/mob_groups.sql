@@ -3075,7 +3075,7 @@ INSERT INTO `mob_groups` VALUES (32,4018,62,'Troll_Grenadier',300,0,2479,0,0,81,
 INSERT INTO `mob_groups` VALUES (33,4013,62,'Troll_Cuirasser',300,0,2476,0,0,81,83,0); -- DRK
 INSERT INTO `mob_groups` VALUES (34,163,62,'Antares',300,0,6030,0,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (35,2794,62,'Mythril_Mouth_Monamaq',14400,0,1766,60000,0,83,83,0);
-INSERT INTO `mob_groups` VALUES (36,4024,62,'Troll_Mythril_Guard',14400,0,0,0,0,76,77,0);
+INSERT INTO `mob_groups` VALUES (36,4024,62,'Troll_Mythril_Guard',0,128,0,0,0,76,77,0);
 INSERT INTO `mob_groups` VALUES (37,2267,62,'Kirlirger_the_Abhorrent',14400,0,1454,22350,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (38,1302,62,'Farlarder_the_Shrewd',14400,0,819,22350,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (39,1091,62,'Dorgerwor_the_Astute',14400,0,692,22350,0,83,83,0);

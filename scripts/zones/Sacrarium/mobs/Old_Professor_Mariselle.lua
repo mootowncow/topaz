@@ -79,7 +79,7 @@ function onMobFight(mob,target)
     end)
 
     local targetPos = target:getPos()
-    local lastattack = mob:getLocalVar("lastAttack")
+    local lastAttack = mob:getLocalVar("lastAttack")
     if (os.time() + 30 > lastAttack) then
         if not mob:hasPreventActionEffect() and mob:getCurrentAction() ~= tpz.action.MAGIC_CASTING and not mob:isDead() then
             mob:setPos(targetPos.x +2, targetPos.y, targetPos.z +2)

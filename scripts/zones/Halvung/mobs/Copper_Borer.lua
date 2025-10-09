@@ -14,7 +14,7 @@ function onMobInitialize(mob)
 end
 
 function onMobSpawn(mob)
-	mob:setDamage(200) 
+	mob:setDamage(200)
     mob:setMod(tpz.mod.REFRESH, 400)
 	mob:setMod(tpz.mod.MOVE, -15)
     mob:setAggressive(0)

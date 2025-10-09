@@ -4,37 +4,17 @@
 -----------------------------------
 require("scripts/globals/mobs")
 require("scripts/globals/status")
+require("scripts/globals/utils")
 local ID = require("scripts/zones/Halvung/IDs")
 mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
 function onMobSpawn(mob)
-	mob:setMod(tpz.mod.DEF, 10000)
-    mob:setMod(tpz.mod.VIT, 200)
+    mob:setMod(tpz.mod.UDMGPHYS, -90)
+    mob:setMod(tpz.mod.UDMGMAGIC, -90)
+    mob:setMod(tpz.mod.UDMGBREATH, -90)
+    mob:setMod(tpz.mod.UDMGRANGE, -90)
     mob:setMod(tpz.mod.REFRESH, 300)
     mob:setAggressive(0)
-end
-
-function onMobFight(mob, target)
-	local GuardOne = GetMobByID(mob:getID()+1)
-	local GuardTwo = GetMobByID(mob:getID()+2)
-
-	if GuardOne:isSpawned() then
-		GuardOne:updateEnmity(target)
-	end
-	if  GuardTwo:isSpawned() then
-		GuardTwo:updateEnmity(target)
-	end
-
-	if not GuardOne:isSpawned() then
-		GuardOne:setPos(mob:getPos())
-		GuardOne:spawn()
-		GuardOne:updateEnmity(target)
-	elseif not GuardTwo:isSpawned() then
-		GuardTwo:setPos(mob:getPos())
-		GuardTwo:spawn()
-		GuardTwo:updateEnmity(target)
-	end
-
     tpz.mix.jobSpecial.config(mob, {
     specials =
     {
@@ -43,9 +23,63 @@ function onMobFight(mob, target)
     })
 end
 
+function onMobEngaged(mob)
+    local mobId = mob:getID()
+    local guard1 = GetMobByID(mobId +1)
+    local guard2 = GetMobByID(mobId +2)
+    local currentlySummoning = mob:getLocalVar("SpawnPetAnimation")
+
+    -- Summon pets on engage
+    if (currentlySummoning == 0) then
+        if not guard1:isSpawned() or not guard2:isSpawned() then
+            utils.spawnPetInBattle(mob, { guard1, guard2 }, true, false, true)
+        end
+    end
+end
+
+function onMobFight(mob, target)
+    local mobId = mob:getID()
+    local guard1 = GetMobByID(mobId +1)
+    local guard2 = GetMobByID(mobId +2)
+
+    -- Takes greatly reduced damage while his guards are alive
+    if guard1:isAlive() or guard2:isAlive() then
+	    mob:setMod(tpz.mod.UDMGPHYS, -90)
+	    mob:setMod(tpz.mod.UDMGMAGIC, -90)
+	    mob:setMod(tpz.mod.UDMGBREATH, -90)
+	    mob:setMod(tpz.mod.UDMGRANGE, -90)
+    else
+	    mob:setMod(tpz.mod.UDMGPHYS, 0)
+	    mob:setMod(tpz.mod.UDMGMAGIC, 0)
+	    mob:setMod(tpz.mod.UDMGBREATH, 0)
+	    mob:setMod(tpz.mod.UDMGRANGE, 0)
+    end
+
+    -- Frypan respawns guards
+    mob:addListener("WEAPONSKILL_STATE_EXIT", "MONAMAQ_MOBSKILL_FINISHED", function(mob, skillID)
+        local mobId = mob:getID()
+        local guard1 = GetMobByID(mobId +1)
+        local guard2 = GetMobByID(mobId +2)
+        local currentlySummoning = mob:getLocalVar("SpawnPetAnimation")
+        if (skillID == tpz.mob.skills.FRYPAN) then
+            if (currentlySummoning == 0) then
+                if not guard1:isSpawned() or not guard2:isSpawned() then
+                    utils.spawnPetInBattle(mob, { guard1, guard2 }, true, false, true)
+                end
+            end
+        end
+    end)
+
+    -- Make sure all pets engage with master
+    for i = mob:getID() + 1, mob:getID() + 3 do
+        local pet = GetMobByID(i)
+        if (pet:getCurrentAction() == tpz.act.ROAMING) then
+            pet:updateEnmity(target)
+        end
+    end
+end
+
 function onMobDeath(mob, player, isKiller, noKiller)
-    DespawnMob(mob:getID()+1)
-    DespawnMob(mob:getID()+2)
 	if isKiller  then 
 		player:addTreasure(5736, mob)--Linen Coin Purse
 	end
