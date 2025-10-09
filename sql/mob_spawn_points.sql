@@ -14052,7 +14052,7 @@ INSERT INTO `mob_spawn_points` VALUES (17043624,'Battle_Bugard','Battle Bugard',
 --INSERT INTO `mob_spawn_points` VALUES (17043625,'Puk','Puk',18,-284.384,14.145,-80.079,114);
 INSERT INTO `mob_spawn_points` VALUES (17043626,'Dragonscaled_Bugaal_Ja','Dragonscaled Bugaal Ja',26,-280.843,14.159,-84.556,193);
 INSERT INTO `mob_spawn_points` VALUES (17043627,'Tyrannobugard','Tyrannobugard',27,1,1,1,71);
---INSERT INTO `mob_spawn_points` VALUES (17043628,'Tyrannobugard','Tyrannobugard',27,-268.874,14.338,-76.130,34);
+INSERT INTO `mob_spawn_points` VALUES (17043628,'Tyrannobugard','Tyrannobugard',27,-268.874,14.338,-76.130,34);
 INSERT INTO `mob_spawn_points` VALUES (17043629,'Tyrannobugard','Tyrannobugard',27,-273.781,14.232,-78.504,254);
 INSERT INTO `mob_spawn_points` VALUES (17043630,'Mamool_Ja_Strapper','Mamool Ja Strapper',12,-242.226,13.867,-81.8,180);
 INSERT INTO `mob_spawn_points` VALUES (17043631,'Mamool_Jas_Lizard','Mamool Ja\'s Lizard',13,1,1,1,146);

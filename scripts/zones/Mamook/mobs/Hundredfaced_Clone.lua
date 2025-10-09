@@ -7,9 +7,12 @@ require("scripts/globals/mobs")
 require("scripts/globals/status")
 -----------------------------------
 function onMobSpawn(mob)
-    mob:setMod(tpz.mod.REGAIN, 300)
+    mob:setDamage(20)
+    mob:setMod(tpz.mod.REGAIN, 250)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
+    mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:SetMagicCastingEnabled(false)
-    mob:setLocalVar("MijinTime", BattleTime + 0)
+    mob:setLocalVar("MijinTime", 0)
 end
 
 function onMobFight(mob, target)
@@ -25,5 +28,4 @@ function onMobFight(mob, target)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
-    tpz.hunts.checkHunt(mob, player, 461)
 end

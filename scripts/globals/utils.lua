@@ -982,36 +982,6 @@ function utils.linkAlliance(mob, player)
     end
 end
 
-function utils.getDropRate(mob, base)
-    local dropRateBase =
-    {
-        [2400] = { 2400, 4800, 5600, 6000, 6400, 6666, 6800, 6900, 7050, 7200, 7350, 7400, 7600, 7800, 8000 },
-        [1500] = { 1500, 3000, 4000, 4250, 4500, 4750, 5000, 5250, 5500, 5750, 6000, 6250, 6500, 6750, 7000 },
-        [1000] = { 1000, 1200, 1500, 1650, 1800, 1900, 2000, 2100, 2250, 2400, 2650, 2800, 2950, 3100, 3250 },
-        [500] =  { 0500, 0600, 0700, 0750, 800, 850, 900, 950, 1050, 1150, 1250, 1350, 1550, 1750, 2000 },
-        [100] =  { 0100, 0150, 0200, 0225, 0250, 0300, 0350, 0400, 0475, 0550, 0650, 0750, 825, 900, 1000 },
-        [50] =   { 0050, 0075, 0100, 0120, 0140, 0160, 180, 0200, 0230, 0260, 0300, 0350, 0400, 0450, 0500 },
-        [10] =   { 0010, 0020, 0030, 0035, 0040, 0045, 0050, 0060, 0070, 80, 90, 0100, 0115, 0130, 0150 }
-    }
-    local th = mob:getTHlevel() + 1
-
-    if (th > 15) then
-        th = 15
-    end
-
-    local baseRate = 0;
-    for compBase,_ in pairs(dropRateBase) do
-        if (compBase <= base) and (compBase > baseRate) then
-            baseRate = compBase
-        end
-    end
-
-    local dropChance = dropRateBase[baseRate][th]
-    -- printf("Base drop rate %s", baseRate)
-    -- printf("Drop chance: %s", dropChance)
-    return dropChance
-end
-
 -- Use mob:getLocalVar("SpawnPetAnimation") == 0 for not currently summoning
 function utils.spawnPetInBattle(mob, pets, aggro, randomizeTarget, setSpawn, spawnOnTarget)
     mob:entityAnimationPacket("casm")

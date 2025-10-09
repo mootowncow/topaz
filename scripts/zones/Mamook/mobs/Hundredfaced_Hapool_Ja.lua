@@ -7,16 +7,19 @@ require("scripts/globals/mobs")
 require("scripts/globals/status")
 mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
+local function DespawnClones()
+    for clone = 17043666, 17043669 do
+        DespawnMob(GetMobByID(clone))
+    end
+end
+
 function onMobSpawn(mob)
-	mob:setDamage(120) 
-    mob:addMod(tpz.mod.ATTP, 25)
-    mob:addMod(tpz.mod.DEFP, 25) 
-    mob:setMod(tpz.mod.REFRESH, 400)
+    SetGenericNMStats(mob)
     mob:setMod(tpz.mod.REGAIN, 200)
      tpz.mix.jobSpecial.config(mob, {
         specials =
         {
-            {id = tpz.jsa.MIJIN_GAKURE, cooldown = 45, hpp = 100},
+            {id = tpz.jsa.MIJIN_GAKURE, cooldown = 45, hpp = 90},
         },
      })
     mob:SetMagicCastingEnabled(false)
@@ -72,20 +75,18 @@ function onSpellPrecast(mob, spell)
 	end
 end
 
+function onMobDisengage(mob)
+    DespawnClones()
+end
+
 function onMobDespawn(mob)
     mob:setRespawnTime(math.random(7200, 14400)) -- 2 to 4 hours
-    DespawnMob(Guard)
-    DespawnMob(GuardTwo)
-    DespawnMob(GuardThree)
-    DespawnMob(GuardFour)
+    DespawnClones()
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
     tpz.hunts.checkHunt(mob, player, 461)
-    DespawnMob(Guard)
-    DespawnMob(GuardTwo)
-    DespawnMob(GuardThree)
-    DespawnMob(GuardFour)
+    DespawnClones()
 	if isKiller  then 
 		player:addTreasure(5736, mob)--Linen Coin Purse
 	end
