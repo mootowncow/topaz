@@ -2596,7 +2596,7 @@ INSERT INTO `mob_groups` VALUES (30,2961,52,'Olden_Treant',330,0,755,0,0,72,74,0
 INSERT INTO `mob_groups` VALUES (31,768,52,'Colorful_Treant',300,0,755,0,0,75,76,0);
 INSERT INTO `mob_groups` VALUES (32,2073,52,'Incubus_Bats',330,2,80,0,0,74,76,0);
 INSERT INTO `mob_groups` VALUES (33,1208,52,'Emergent_Elm',3600,0,764,15000,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (34,3525,52,'Sea_Puk',330,0,2189,0,0,81,83,0);
+INSERT INTO `mob_groups` VALUES (34,3525,52,'Sea_Puk',330,0,2189,0,0,77,78,0);
 INSERT INTO `mob_groups` VALUES (35,2537,52,'Mamool_Ja_Stabler',300,0,1603,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (36,2540,52,'Mamool_Jas_Raptor',0,128,0,0,0,76,78,0);
 INSERT INTO `mob_groups` VALUES (37,2522,52,'Mamool_Ja_Infiltrator',300,0,1591,0,0,81,83,0);
