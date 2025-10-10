@@ -5064,7 +5064,16 @@ INSERT INTO `mob_skill_lists` VALUES ('Shedyet',6165,1862); -- awful_eye_nightma
 INSERT INTO `mob_skill_lists` VALUES ('Shedyet',6165,1863); -- heavy_bellow_nightmare
 INSERT INTO `mob_skill_lists` VALUES ('Shedyet',6165,2643); -- tyrant_tusk
 
-INSERT INTO `mob_skill_lists` VALUES ('Shedyet',6166,2609); -- booming_bleat
+INSERT INTO `mob_skill_lists` VALUES ('Khnum',6166,2609); -- booming_bleat
+INSERT INTO `mob_skill_lists` VALUES ('Khnum',6166,265); -- rage
+INSERT INTO `mob_skill_lists` VALUES ('Khnum',6166,266); -- ram_charge
+INSERT INTO `mob_skill_lists` VALUES ('Khnum',6166,269); -- petribreath
+
+INSERT INTO `mob_skill_lists` VALUES ('Aegyptopithecus',6167,288); -- vicious_claw
+INSERT INTO `mob_skill_lists` VALUES ('Aegyptopithecus',6167,291); -- claw_storm
+INSERT INTO `mob_skill_lists` VALUES ('Aegyptopithecus',6167,295); -- magic_fruit
+INSERT INTO `mob_skill_lists` VALUES ('Aegyptopithecus',6167,2610); -- vacant_gaze
+
 
 
 

@@ -38,5 +38,9 @@ function onMobWeaponSkill(target, mob, skill)
 	if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then   target:tryInterruptSpell(mob, info.hitslanded) end
     MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, 7, 3, 90)
 
+    if (mob:getName() == "Aegyptopithecus") then
+        MobPhysicalStatusEffectMoveSub(mob, target, skill, tpz.effect.BIO, 25, 3, 30, 0, 15, 3)
+    end
+
     return dmg
 end

@@ -13,6 +13,12 @@ require("scripts/globals/msg")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
+    if (mob:getName() == "Aegyptopithecus") then
+        skill:setActivationTime(3500)
+    else
+        skill:setActivationTime(1500)
+    end
+
     return 0
 end
 

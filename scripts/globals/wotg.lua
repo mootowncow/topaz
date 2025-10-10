@@ -1562,6 +1562,7 @@ local modByMobName =
     end,
 
     ['Aegyptopithecus'] = function(mob)
+        mob:setMobMod(tpz.mobMod.SPECIAL_SKILL, tpz.mob.skills.ORE_TOSS_AUTOATTACK)
     end,
 
     ['Ammonoidea'] = function(mob)
@@ -2555,7 +2556,8 @@ local mobFightByMobName =
     end,
 
     ['Ammonoidea'] = function(mob, target)
-    -- Urganite
+    -- Urganite (Use model: 0x0000520500000000000000000000000000000000)
+        -- Uses Palsynyxis, Painful Whip and Virulent Haze 
         -- Casts Holy II, Banishga III, Banish IV, Flash(AOE)
     end,
 

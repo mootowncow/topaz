@@ -18,7 +18,7 @@ function onMobWeaponSkill(target, mob, skill)
     local effect = 0
     if (target:isFacing(mob)) then
 
-        effect = MobDispelMove(mob, target, skill, tpz.magic.ele.DARK, tpz.effectFlag.DISPELABLE)
+        effect = MobDispelMove(mob, target, skill, tpz.magic.ele.LIGHT, tpz.effectFlag.DISPELABLE)
 
         if (effect == tpz.effect.NONE) then
             skill:setMsg(tpz.msg.basic.SKILL_MISS) -- no effect
