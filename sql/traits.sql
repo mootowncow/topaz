@@ -521,10 +521,10 @@ INSERT INTO `traits` VALUES (96,'closed position',19,75,1,0,0,'WOTG',3206);
 INSERT INTO `traits` VALUES (97,'stormsurge',20,75,1,0,0,'WOTG',0);
 -- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',1,78,1,421,5,'ABYSSEA',0); -- WAR
 -- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',1,86,2,421,8,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,60,1,421,5,'ABYSSEA',0); --  THF
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,65,2,421,8,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,70,3,421,11,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,75,4,421,14,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,70,1,421,5,'ABYSSEA',0); --  THF
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,75,2,421,8,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,80,3,421,11,'ABYSSEA',0);
+-- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',6,81,4,421,14,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',8,85,1,421,5,'ABYSSEA',0); -- DRK
 -- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',8,95,2,421,8,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (98,'crit. atk. bonus',19,97,1,421,5,'ABYSSEA',0);
