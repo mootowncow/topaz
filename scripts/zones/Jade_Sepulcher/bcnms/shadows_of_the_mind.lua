@@ -26,7 +26,7 @@ function onBattlefieldLeave(player, battlefield, leavecode)
         -- Only lose KI if you win(and don't run away)
         if player:hasKeyItem(tpz.ki.SECRET_IMPERIAL_ORDER) then
             player:delKeyItem(tpz.ki.SECRET_IMPERIAL_ORDER)
-            player:messageSpecial(ID.text.KEYITEM_OBTAINED + 1, tpz.ki.SECRET_IMPERIAL_ORDER)
+            player:messageSpecial(ID.text.KEYITEM_BREAKS, tpz.ki.SECRET_IMPERIAL_ORDER)
         end
     elseif leavecode == tpz.battlefield.leaveCode.LOST then
         player:startEvent(32002)
