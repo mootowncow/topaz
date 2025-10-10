@@ -2138,7 +2138,7 @@ INSERT INTO `mob_spawn_points` VALUES (16814361,'Nunyunuwi','Nunyunuwi',57,-329.
 INSERT INTO `mob_spawn_points` VALUES (16814362,'Maze_Lizard','Maze Lizard',18,-299.634,-0.610,262.544,192);
 --INSERT INTO `mob_spawn_points` VALUES (16814363,'Maze_Lizard','Maze Lizard',18,-299.375,-0.600,267.915,192);
 INSERT INTO `mob_spawn_points` VALUES (16814364,'Diremite','Diremite',54,-315.991,-0.605,285.089,3);
---INSERT INTO `mob_spawn_points` VALUES (16814365,'Diremite','Diremite',54,-323.000,-0.605,285.132,127);
+INSERT INTO `mob_spawn_points` VALUES (16814365,'Diremite','Diremite',54,-323.000,-0.605,285.132,127);
 INSERT INTO `mob_spawn_points` VALUES (16814366,'Maze_Lizard','Maze Lizard',18,-320.362,-0.605,293.873,255);
 --INSERT INTO `mob_spawn_points` VALUES (16814367,'Maze_Lizard','Maze Lizard',18,-305.378,-0.605,293.601,232);
 INSERT INTO `mob_spawn_points` VALUES (16814368,'Snowball','Snowball',55,-332.394,-0.352,313.459,151);
@@ -2156,9 +2156,9 @@ INSERT INTO `mob_spawn_points` VALUES (16814378,'Dire_Bat','Dire Bat',38,-369.67
 INSERT INTO `mob_spawn_points` VALUES (16814380,'Diremite_Assaulter','Diremite Assaulter',39,-290.888,15.647,289.394,190);
 --INSERT INTO `mob_spawn_points` VALUES (16814381,'Dire_Bat','Dire Bat',38,-290.809,15.422,311.452,191);
 INSERT INTO `mob_spawn_points` VALUES (16814382,'Dire_Bat','Dire Bat',38,-290.897,15.424,311.249,191);
---INSERT INTO `mob_spawn_points` VALUES (16814383,'Diremite_Assaulter','Diremite Assaulter',39,-291.447,15.442,347.683,8);
+INSERT INTO `mob_spawn_points` VALUES (16814383,'Diremite_Assaulter','Diremite Assaulter',39,-291.447,15.442,347.683,8);
 INSERT INTO `mob_spawn_points` VALUES (16814384,'Diremite_Assaulter','Diremite Assaulter',39,-310.549,15.618,341.224,201);
---INSERT INTO `mob_spawn_points` VALUES (16814385,'Diremite_Assaulter','Diremite Assaulter',39,-311.522,15.520,338.324,77);
+INSERT INTO `mob_spawn_points` VALUES (16814385,'Diremite_Assaulter','Diremite Assaulter',39,-311.522,15.520,338.324,77);
 INSERT INTO `mob_spawn_points` VALUES (16814386,'Snow_Lizard','Snow Lizard',45,-296.471,15.414,327.238,250);
 --INSERT INTO `mob_spawn_points` VALUES (16814387,'Snow_Lizard','Snow Lizard',45,-293.371,15.568,332.462,72);
 INSERT INTO `mob_spawn_points` VALUES (16814388,'Dire_Bat','Dire Bat',38,-269.933,15.647,325.460,93);
