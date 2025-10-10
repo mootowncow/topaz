@@ -14312,6 +14312,7 @@ INSERT INTO `item_equipment` VALUES (21568,'acrontica',1,0,0,615,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (26116,'schere_earring',99,0,133251,0,0,0,6144,0,0);
 INSERT INTO `item_equipment` VALUES (26362,'tellen_belt',99,0,66560,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (26363,'obstin._sash',99,0,524820,0,0,0,1024,0,0);
+--  Prishe's Boots itemId 23894 mId 499
 /*!40000 ALTER TABLE `item_equipment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
