@@ -38,8 +38,9 @@ function onSpellCast(caster, target, spell)
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT) -- no effect
     elseif (resist >= 0.5) then
         target:delStatusEffectSilent(tpz.effect.CHOKE)
-        local DOT = (caster:getMainLvl()  / 5) +3
         local statDown = math.floor(caster:getMainLvl() / 2)
+        local DOT = math.floor((statDown - 3 / 2))
+        DOT = utils.clamp(DOT, 1, 23)
         statDown = utils.clamp(statDown, 1, 49)
         local effect = target:getStatusEffect(typeEffect)
         local noeffect = false
@@ -55,7 +56,7 @@ function onSpellCast(caster, target, spell)
                 target:delStatusEffectSilent(typeEffect)
             end
             spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB)
-            target:addStatusEffect(typeEffect, DOT, 3, getBlueEffectDuration(caster, resist, typeEffect, true), 0, statDown, 0)
+            target:addStatusEffect(typeEffect, DOT, 3, 30, 0, statDown, 0)
         end
     else
         spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
