@@ -3462,7 +3462,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Leonoyne',387,180,57,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Leonoyne',387,181,71,255);         -- Blizzaga III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Leonoyne',387,250,20,255);         -- Ice spikes
 
--- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Maximilian',388,0,1,255);       -- none (reserved)
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Maximilian',388,338,24,255);          -- Utsusemi: Ichi
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Maximilian',388,339,74,255);          -- Utsusemi: Ni
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kayeel-Payeel',389,149,17,255);    -- Blizzard
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kayeel-Payeel',389,150,42,255);    -- Blizzard II

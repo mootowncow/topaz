@@ -203,6 +203,18 @@ local modByMobName =
         AddArtifactGear(mob)
     end,
 
+    ['maximilian'] = function(mob)
+        if mob:getMainLvl() >= 75 then
+            mob:addMod(tpz.mod.HPP, 10)
+            mob:addMod(tpz.mod.DOUBLE_ATTACK, 5)
+            mob:addMod(tpz.mod.STORETP, 25)
+            mob:addMod(tpz.mod.ATTP, ATTP_RATTP_BOOST)
+            mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
+        end
+        AddHeavyMeleeAccuracyGear(mob)
+        AddArtifactGear(mob)
+    end,
+
     ['lhe_lhangavo'] = function(mob)
         if mob:getMainLvl() >= 75 then
             mob:addMod(tpz.mod.HPP, 30)

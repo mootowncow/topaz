@@ -234,6 +234,14 @@ namespace mobutils
             multi = 1.0;
         }
 
+        // Trust don't get any special bonuses
+        if (PMob->objtype == TYPE_TRUST)
+        {
+            multi = 1.0f;
+            bonus = 0;
+            rangedBonus = 0;
+        }
+
         damage = std::max(2.0f, static_cast<float>((lvl * multi) + bonus));
 
         // Some mobs can have H2H skill but not be a MNK (Like Vampyrs)
