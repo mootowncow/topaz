@@ -1169,9 +1169,16 @@ void SetupJob(CMobEntity* PMob)
              }
 		     if (PMob->m_Family != 3)  // Exclude Aerns, should only summon in combat and hide their jobs
 		     {
-                PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 180);
+                PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 300);
                 PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1017);
 		     }
+            break;
+        case JOB_DRG:
+            if (PMob->m_Family == 88 || PMob->m_Family == 89 || PMob->m_Family == 176 || PMob->m_Family == 177) // Draugar and Mamools
+            {
+                PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 300);
+                PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 732);
+            }
             break;
         case JOB_PUP:
             PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1901);
