@@ -15,6 +15,7 @@ function onMobSpawn(mob)
     mob:addMod(tpz.mod.DEFP, 20) 
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:setLocalVar("path", vahzl.PATH_RIGHT)
+    mob:speed(0)
 end
 
 function onMobFight(mob, target)

@@ -12920,6 +12920,8 @@ inline int32 CLuaBaseEntity::dispelStatusEffect(lua_State *L)
         flag = EFFECTFLAG_DISPELABLE;
     }
 
+    ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE | EFFECTFLAG_DAMAGE, true);
+
     lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DispelStatusEffect((EFFECTFLAG)flag));
     return 1;
 }
@@ -12946,6 +12948,8 @@ inline int32 CLuaBaseEntity::dispelAllStatusEffect(lua_State *L)
         flag = EFFECTFLAG_DISPELABLE;
     }
 
+    ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE | EFFECTFLAG_DAMAGE, true);
+
     lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DispelAllStatusEffect((EFFECTFLAG)flag));
     return 1;
 }
@@ -12971,6 +12975,8 @@ inline int32 CLuaBaseEntity::stealStatusEffect(lua_State *L)
 
     if (CStatusEffect* PStatusEffect = ((CBattleEntity*)PEntity->m_PBaseEntity)->StatusEffectContainer->StealStatusEffect(flag))
     {
+        ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE | EFFECTFLAG_DAMAGE, true);
+
         ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->AddStatusEffect(PStatusEffect);
         lua_pushinteger(L, PStatusEffect->GetStatusID());
     }
@@ -18340,6 +18346,36 @@ inline int32 CLuaBaseEntity::TryProcTH(lua_State* L)
 }
 
 /************************************************************************
+ *  Function: getDropRate()
+ *  Purpose : Get's the drop % of an item after calculating TH
+ *  Example : mob:getDropRate(240)
+ *  Notes   : 
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getDropRate(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
+
+    if (auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity))
+    {
+        uint16 baseDrop = 0;
+
+        if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
+        {
+            baseDrop = lua_tointeger(L, 1);
+        }
+
+        uint16 dropRate = mobutils::GetDropRate(PMob, baseDrop);
+
+        lua_pushnumber(L, dropRate);
+        return 1;
+    }
+
+    return 1;
+}
+
+/************************************************************************
  *  Function: setSuperJump(1)
  *  Purpose : sets super jump flag to evade spells and abilities
  *  Example : setSuperJump(1), setSuperJump(0)
@@ -19179,6 +19215,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,itemStolen),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getTHlevel),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,TryProcTH),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getDropRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getPlayerRegionInZone),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateToEntireZone),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,trustProgressUpdateFlag),

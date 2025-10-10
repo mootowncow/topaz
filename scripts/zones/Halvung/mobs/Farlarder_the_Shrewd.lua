@@ -11,32 +11,32 @@ function onMobInitialize(mob)
 end
 
 function onMobSpawn(mob)
+    mob:setDamage(30)
 	mob:setMod(tpz.mod.DEF, 10000)
     mob:setMod(tpz.mod.VIT, 200)
-    mob:setMod(tpz.mod.REGAIN, 200)
+    mob:setMod(tpz.mod.REGAIN, 250)
     mob:setMod(tpz.mod.REFRESH, 300)
     mob:setAggressive(0)
-    mob:removeListener("DORGERWOR_ATTACK")
-end
 
-function onMobFight(mob, target)
-    if mob:hasStatusEffect(tpz.effect.HUNDRED_FISTS) then
-        mob:addListener("ATTACK","DORGERWOR_ATTACK", function(mob)
-        mob:resetEnmity(target)
-        end)
-    else
-        mob:removeListener("DORGERWOR_ATTACK")
-    end
     tpz.mix.jobSpecial.config(mob, {
     specials =
     {
-        {id = tpz.jsa.HUNDRED_FISTS, cooldown = 180, hpp = 90},
+        {id = tpz.jsa.HUNDRED_FISTS, cooldown = 300, hpp = 90},
     },
     })
+
+    mob:addListener("ATTACK","FARLARDER_ATTACK", function(mob, target)
+        if mob:hasStatusEffect(tpz.effect.HUNDRED_FISTS) then
+            mob:resetEnmity(target)
+        end
+    end)
+end
+
+function onMobFight(mob, target)
 end
 
 function onAdditionalEffect(mob, target, damage)
-    if (mob:hasStatusEffect(tpz.effect.HUNDRED_FISTS) == true) then
+    if mob:hasStatusEffect(tpz.effect.HUNDRED_FISTS) then
         return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.PETRIFY, {chance = 24, duration = 8})
     else
         return 0

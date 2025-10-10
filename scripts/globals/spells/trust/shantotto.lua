@@ -49,6 +49,10 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.POISON, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.POISON)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.BLINDNESS, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.BLIND)
 
+    -- TODO: Manawall
+    -- TODO: Enmity douse
+    -- TODO: Manawell
+    
     mob:addFullGambit({
         ['predicates'] =
         {

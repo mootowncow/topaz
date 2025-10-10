@@ -162,7 +162,7 @@ namespace battleutils
     void LoadWeaponSkillsList()
     {
         const char* fmtQuery = "SELECT weaponskillid, name, jobs, type, skilllevel, element, animation, "
-                            "animationTime, `range`, aoe, primary_sc, secondary_sc, tertiary_sc, main_only, unlock_id "
+                            "animationTime, `range`, aoe, primary_sc, secondary_sc, tertiary_sc, main_only, unlock_id, min_level "
                             "FROM weapon_skills "
                             "WHERE weaponskillid < %u "
                             "ORDER BY type, skilllevel ASC";
@@ -189,6 +189,7 @@ namespace battleutils
                 PWeaponSkill->setTertiarySkillchain(Sql_GetIntData(SqlHandle, 12));
                 PWeaponSkill->setMainOnly(Sql_GetIntData(SqlHandle, 13));
                 PWeaponSkill->setUnlockId(Sql_GetIntData(SqlHandle, 14));
+                PWeaponSkill->setMinLevel(Sql_GetIntData(SqlHandle, 15));
 
                 g_PWeaponSkillList[PWeaponSkill->getID()] = PWeaponSkill;
                 g_PWeaponSkillsList[PWeaponSkill->getType()].push_back(PWeaponSkill);
@@ -730,7 +731,7 @@ namespace battleutils
         float baseMeva = static_cast<float>(battleutils::GetMaxSkill(SKILL_EVASION, JOB_PLD, PDefender->GetMLevel()));
         //printf("baseMeva before SDT %f\n", baseMeva);
         Mod resistarray[8] = { Mod::FIRERES, Mod::ICERES, Mod::WINDRES, Mod::EARTHRES, Mod::THUNDERRES, Mod::WATERRES, Mod::LIGHTRES, Mod::DARKRES };
-        if (PDefender->objtype == TYPE_PC || PDefender->objtype == TYPE_TRUST)
+        if (PDefender->objtype == TYPE_PC || PDefender->objtype == TYPE_TRUST || (PDefender->objtype == TYPE_MOB && PDefender->allegiance == ALLEGIANCE_PLAYER))
         {
             baseMeva = static_cast<float>(GetPlayerMeva(PDefender));
         }
@@ -938,15 +939,47 @@ namespace battleutils
 
     bool CanUseWeaponskill(CCharEntity* PChar, CWeaponSkill* PSkill)
     {
-        if ((((PSkill->getSkillLevel() > 0 && PChar->GetSkill(PSkill->getType()) >= PSkill->getSkillLevel() &&
-            (PSkill->getUnlockId() == 0 || charutils::hasLearnedWeaponskill(PChar, PSkill->getUnlockId()))) ||
-            (PSkill->getSkillLevel() == 0 && (PSkill->getUnlockId() == 0 || charutils::hasLearnedWeaponskill(PChar, PSkill->getUnlockId())))) &&
-            (PSkill->getJob(PChar->GetMJob()) > 0 || (PSkill->getJob(PChar->GetSJob()) > 0 && !PSkill->mainOnly()))))
+        // Must meet minimum level requirement
+        if (PSkill->getMinLevel() > PChar->GetMLevel())
         {
-            return true;
+            return false;
         }
-        return false;
+
+        bool hasRequiredSkill = false;
+        bool hasRequiredUnlock = false;
+        bool jobCanUse = false;
+
+        // Check skill requirement
+        if (PSkill->getSkillLevel() > 0)
+        {
+            hasRequiredSkill = (PChar->GetSkill(PSkill->getType()) >= PSkill->getSkillLevel());
+        }
+        else
+        {
+            // Some WS (e.g. quest or special WS) have no skill requirement
+            hasRequiredSkill = true;
+        }
+
+        // Check unlock condition (either not required, or already learned)
+        if (PSkill->getUnlockId() == 0 || charutils::hasLearnedWeaponskill(PChar, PSkill->getUnlockId()))
+        {
+            hasRequiredUnlock = true;
+        }
+
+        // Check if main or sub job can use this WS
+        if (PSkill->getJob(PChar->GetMJob()) > 0)
+        {
+            jobCanUse = true;
+        }
+        else if (PSkill->getJob(PChar->GetSJob()) > 0 && !PSkill->mainOnly())
+        {
+            jobCanUse = true;
+        }
+
+        // Final decision
+        return hasRequiredSkill && hasRequiredUnlock && jobCanUse;
     }
+
 
     /************************************************************************
     *                                                                       *

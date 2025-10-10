@@ -2596,7 +2596,7 @@ INSERT INTO `mob_groups` VALUES (30,2961,52,'Olden_Treant',330,0,755,0,0,72,74,0
 INSERT INTO `mob_groups` VALUES (31,768,52,'Colorful_Treant',300,0,755,0,0,75,76,0);
 INSERT INTO `mob_groups` VALUES (32,2073,52,'Incubus_Bats',330,2,80,0,0,74,76,0);
 INSERT INTO `mob_groups` VALUES (33,1208,52,'Emergent_Elm',3600,0,764,15000,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (34,3525,52,'Sea_Puk',330,0,2189,0,0,81,83,0);
+INSERT INTO `mob_groups` VALUES (34,3525,52,'Sea_Puk',330,0,2189,0,0,77,78,0);
 INSERT INTO `mob_groups` VALUES (35,2537,52,'Mamool_Ja_Stabler',300,0,1603,0,0,81,83,0);
 INSERT INTO `mob_groups` VALUES (36,2540,52,'Mamool_Jas_Raptor',0,128,0,0,0,76,78,0);
 INSERT INTO `mob_groups` VALUES (37,2522,52,'Mamool_Ja_Infiltrator',300,0,1591,0,0,81,83,0);
@@ -3075,7 +3075,7 @@ INSERT INTO `mob_groups` VALUES (32,4018,62,'Troll_Grenadier',300,0,2479,0,0,81,
 INSERT INTO `mob_groups` VALUES (33,4013,62,'Troll_Cuirasser',300,0,2476,0,0,81,83,0); -- DRK
 INSERT INTO `mob_groups` VALUES (34,163,62,'Antares',300,0,6030,0,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (35,2794,62,'Mythril_Mouth_Monamaq',14400,0,1766,60000,0,83,83,0);
-INSERT INTO `mob_groups` VALUES (36,4024,62,'Troll_Mythril_Guard',14400,0,0,0,0,76,77,0);
+INSERT INTO `mob_groups` VALUES (36,4024,62,'Troll_Mythril_Guard',0,128,0,0,0,76,77,0);
 INSERT INTO `mob_groups` VALUES (37,2267,62,'Kirlirger_the_Abhorrent',14400,0,1454,22350,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (38,1302,62,'Farlarder_the_Shrewd',14400,0,819,22350,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (39,1091,62,'Dorgerwor_the_Astute',14400,0,692,22350,0,83,83,0);
@@ -3310,8 +3310,8 @@ INSERT INTO `mob_groups` VALUES (2264,1506,67,'Gessho',0,128,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (2265,1846,67,'Gulool_Ja_Ja',0,128,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (2266,2143,67,'Jasweem',0,128,0,0,0,1,1,0);
 INSERT INTO `mob_groups` VALUES (2268,2712,67,'Mocking_Colibri',0,128,0,12000,0,65,67,0);
-INSERT INTO `mob_groups` VALUES (2269,3128,67,'Phantom_Puk',0,128,0,9800,0,83,83,0);
-INSERT INTO `mob_groups` VALUES (14651,3128,67,'Phantom_Puk_Clone',0,128,0,500,0,80,80,0);
+INSERT INTO `mob_groups` VALUES (2269,3128,67,'Phantom_Puk',0,128,0,15000,0,76,76,0);
+INSERT INTO `mob_groups` VALUES (14651,3128,67,'Phantom_Puk_Clone',0,128,0,500,0,76,76,0);
 INSERT INTO `mob_groups` VALUES (2270,3327,67,'Raubahn',0,128,0,0,0,75,75,0);
 INSERT INTO `mob_groups` VALUES (2271,3567,67,'Shadowhand_Kajeel_Ja',0,128,0,0,0,75,75,0);
 INSERT INTO `mob_groups` VALUES (2272,3933,67,'Tiyaash',0,128,0,0,0,1,1,0);

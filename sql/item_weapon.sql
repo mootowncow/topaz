@@ -2068,7 +2068,7 @@ INSERT INTO `item_weapon` VALUES (18425,'perdu_blade',9,0,0,0,0,2,1,190,27,0);
 INSERT INTO `item_weapon` VALUES (18426,'sasuke_katana',9,0,0,0,0,2,1,227,33,250);
 INSERT INTO `item_weapon` VALUES (18427,'hanafubuki',9,0,0,0,0,2,1,227,24,0);
 INSERT INTO `item_weapon` VALUES (18428,'kogitsunemaru',9,0,0,0,0,2,1,227,34,0);
-INSERT INTO `item_weapon` VALUES (18429,'shusui',9,0,0,0,0,2,1,227,37,0);
+INSERT INTO `item_weapon` VALUES (18429,'shusui',9,0,0,0,0,2,1,190,32,0);
 INSERT INTO `item_weapon` VALUES (18430,'oninohocho',9,0,0,0,0,2,1,227,30,0);
 INSERT INTO `item_weapon` VALUES (18431,'butachi',10,0,0,0,0,2,1,450,80,0);
 INSERT INTO `item_weapon` VALUES (18432,'butachi_+1',10,0,0,0,0,2,1,437,81,0);
@@ -2085,7 +2085,7 @@ INSERT INTO `item_weapon` VALUES (18442,'taimakuniyuki_+1',10,0,0,0,0,2,1,407,90
 INSERT INTO `item_weapon` VALUES (18443,'windslicer',10,0,0,0,0,2,1,450,76,250);
 INSERT INTO `item_weapon` VALUES (18444,'tsurugitachi',10,0,0,0,0,2,1,428,51,0);
 INSERT INTO `item_weapon` VALUES (18445,'amakura',10,0,0,0,0,2,1,450,71,0);
-INSERT INTO `item_weapon` VALUES (18446,'pachipachio',10,0,0,0,0,2,1,480,82,0);
+INSERT INTO `item_weapon` VALUES (18446,'pachipachio',10,0,0,0,0,2,1,480,88,0);
 INSERT INTO `item_weapon` VALUES (18447,'nanatsusaya',10,0,0,0,0,2,1,420,77,0);
 INSERT INTO `item_weapon` VALUES (18448,'hacchonenbutsu',10,0,0,0,0,2,1,378,70,0);
 INSERT INTO `item_weapon` VALUES (18449,'namioyogi',10,0,0,0,0,2,1,450,80,0);
@@ -2135,7 +2135,7 @@ INSERT INTO `item_weapon` VALUES (18493,'regiment_kheten',6,0,0,0,0,2,1,504,63,0
 INSERT INTO `item_weapon` VALUES (18494,'fourth_toporok',6,0,0,0,0,2,1,474,88,0);
 INSERT INTO `item_weapon` VALUES (18495,'wootz_amood',6,0,0,0,0,2,1,504,90,0);
 INSERT INTO `item_weapon` VALUES (18496,'wootz_amood_+1',6,0,0,0,0,2,1,489,91,0);
-INSERT INTO `item_weapon` VALUES (18497,'foolkiller',6,0,0,0,0,2,1,489,90,0);
+INSERT INTO `item_weapon` VALUES (18497,'foolkiller',6,0,0,0,0,2,1,504,95,0);
 INSERT INTO `item_weapon` VALUES (18498,'balestarius',6,0,0,0,0,2,1,504,88,0);
 INSERT INTO `item_weapon` VALUES (18499,'alastor',6,0,0,0,0,2,1,504,88,0);
 INSERT INTO `item_weapon` VALUES (18500,'sparth',6,0,0,0,0,2,1,504,89,0);

@@ -9,12 +9,12 @@ require("scripts/globals/status")
 require("scripts/globals/magic")
 require("scripts/zones/Spire_of_Vahzl/globals")
 -----------------------------------
-
 function onMobSpawn(mob)
     mob:addMod(tpz.mod.ATTP, 10)
     mob:addMod(tpz.mod.DEFP, 20) 
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:setLocalVar("path", vahzl.PATH_LEFT)
+    mob:speed(0)
 end
 
 function onMobFight(mob, target)

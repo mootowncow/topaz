@@ -74,6 +74,11 @@ void CWeaponSkill::setUnlockId(uint8 id)
     m_unlockId = id;
 }
 
+void CWeaponSkill::setMinLevel(uint8 level)
+{
+    m_minLevel = level;
+}
+
 void CWeaponSkill::setJob(int8* jobs)
 {
 	memcpy(&m_Job[1], jobs, 22);
@@ -148,6 +153,11 @@ uint8 CWeaponSkill::getType()
 uint8 CWeaponSkill::getUnlockId()
 {
     return m_unlockId;
+}
+
+uint8 CWeaponSkill::getMinLevel()
+{
+    return m_minLevel;
 }
 
 uint8 CWeaponSkill::getJob(JOBTYPE job)

@@ -213,7 +213,7 @@ function onEventFinish(player, csid, option)
             title = tpz.title.THE_TRUSTWORTHY,
             var = "WindurstFirstTrust" })
         -- Add all custom starter trusts
-        local spellIDs = { 896, 906, 908, 910, 914, 915, 917, 918, 930, 941, 947, 952, 967, 968, 981, 964 }
+        local spellIDs = { 896, 906, 908, 910, 914, 915, 917, 918, 930, 941, 947, 952, 967, 968, 981, 964, 975 }
         for _, spellID in ipairs(spellIDs) do
             player:addSpell(spellID, true, true)
         end

@@ -20,7 +20,6 @@ function vahzl.PathToNextPoint(mob)
     local currentPath = mob:getLocalVar("path")
     local target = vahzl.PullingThePlugSpawnPositions[currentPath]
 
-    printf("Pathing to point %d", currentPath)
     mob:pathTo(target.X, target.Y, target.Z)
 end
 
@@ -58,7 +57,6 @@ function vahzl.StopPathing(mob)
 
 	if (Pos.x == currentPosx) then
         local pathing = mob:getLocalVar("pathing")
-        printf("Stop pathing")
         if pathing == 1 then
             mob:speed(0)
             mob:clearPath()

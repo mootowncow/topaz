@@ -251,7 +251,7 @@ public:
     uint8					m_TitleList[143];				// список заслуженных завний
     uint8					m_Abilities[64];				// список текущих способностей
     uint8					m_LearnedAbilities[49];			// learnable abilities (corsair rolls)
-    std::bitset<49>         m_LearnedWeaponskills;          // learnable weaponskills
+    std::bitset<128>        m_LearnedWeaponskills;          // learnable weaponskills (capped at unlockId 127)
     uint8					m_TraitList[18];				// ist of active job traits in the form of a bit mask
     uint8					m_PetCommands[128];				// 128 supports up to 970 (Siren's abilities are the cut off)
     uint8					m_WeaponSkills[32];

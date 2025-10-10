@@ -14,7 +14,7 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local duration = 180
+    local duration = 30
     duration = duration + player:getMod(tpz.mod.LAST_RESORT_DURATION)
 
     player:addStatusEffect(tpz.effect.LAST_RESORT, 0, 0, duration)

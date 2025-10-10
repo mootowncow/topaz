@@ -14,9 +14,11 @@ end
 function onSpellCast(caster, target, spell)
     local effect = tpz.effect.ENDARK
     local magicSkill = target:getSkillLevel(tpz.skill.DARK_MAGIC)
-    -- Skill 500 or less: int(((dark magic skills +2)*5/66)+7)*2.5
-    -- https://wiki.ffo.jp/html/21171.html
-    local potency = math.floor(((magicSkill +2) *5 /66)+7) *2.5 -- JP value handled in endark.lua effect
+    local potency = 9 + math.floor(6 * magicSkill / 100)
+
+    if magicSkill > 200 then
+        potency = 15 + math.floor(5 * magicSkill / 100)
+    end
 
     if target:addStatusEffect(effect, potency, 0, 180) then
         spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)

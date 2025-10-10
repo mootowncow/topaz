@@ -65,8 +65,6 @@ function onTrigger(player, npc)
     elseif (ZilartMission == tpz.mission.id.zilart.THE_SEALED_SHRINE and ZilartStatus == 0 and DMEarrings <=
         NUMBER_OF_DM_EARRINGS) then
         player:startEvent(172)
-    elseif player:getCharVar('ApocalypseNigh') == 6 and os.time() < player:getCharVar("Apoc_Nigh_Reward") then
-        player:startEvent(235)
     elseif RhapsodiesMission == tpz.mission.id.rov.RING_MY_BELL then
         player:startEvent(283)
     else

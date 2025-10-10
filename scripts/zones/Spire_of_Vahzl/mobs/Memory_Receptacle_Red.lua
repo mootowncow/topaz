@@ -56,11 +56,16 @@ function onMobFight(mob, target)
 end
 
 function onMobWeaponSkill(target, mob, skill)
+    local mimicEmptySeed = mob:getLocalVar("mimicEmptySeed")
+
     -- All Memory Receptacles use Empty Seed at the same time
-    if skill:getID() == 542 then
-         for v = 16871447, 16871449 do
-            GetMobByID(v):useMobAbility(542)
-         end
+    if (os.time() >= mimicEmptySeed) then -- So that it won't spam Yawn after using a TP move that hits multiple targets
+        if skill:getID() == 542 then
+            for v = 16871447, 16871449 do
+                GetMobByID(v):useMobAbility(542)
+            end
+            mob:setLocalVar("mimicEmptySeed", os.time() + 5)
+        end
     end
 end
 

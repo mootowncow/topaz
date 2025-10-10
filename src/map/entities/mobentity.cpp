@@ -629,25 +629,38 @@ void CMobEntity::DoAutoTarget()
         });
 }
 
-// Mirrors, Mirror Guards
-static const std::set<uint16> excludedMobGroups = { 220, 2354, 1948, 4366, 2512, 2543, 6673 };
-
 void CMobEntity::HandleToAUStrongholdsAppraisalDrops(CCharEntity* PChar, uint16 PZone)
 {
-    uint16 dropRate = 1;
-
-    // NMs drop appraisal items 100% of the time
-    if ((m_Type == MOBTYPE_NOTORIOUS || getMobMod(MOBMOD_CHECK_AS_NM) > 0) &&
-        (excludedMobGroups.count(m_Pool) == 0))
+    // Don't drop capes if a Pet
+    if (m_Type & MOBTYPE_CALLED)
     {
-        dropRate = 24;
+        return;
     }
 
-    if (tpzrand::GetRandomNumber(100) < dropRate)
+    bool isNM = (m_Type == MOBTYPE_NOTORIOUS) || (getMobMod(MOBMOD_CHECK_AS_NM) > 0);
+    bool canDropItems = (getMobMod(MOBMOD_NO_DROPS) == 0);
+
+    // Default base 1% drop chance (out of 10000)
+    uint16 baseDrop = 10;
+
+    // Mirrors, Mirror Guards, ZNM nms
+    static const std::set<uint16> excludedMobPools = {
+        220, 2354, 1948, 4366, 2512, 2543, 6673, 691, 2089, 4217,
+        2920, 4490, 34, 35, 36, 1020, 3339
+    };
+
+    // NM drop rate
+    if (isNM && canDropItems && (excludedMobPools.count(m_Pool) == 0))
+    {
+        baseDrop = 240; // 24% 
+    }
+
+    uint16 dropRate = mobutils::GetDropRate(this, baseDrop);
+
+    // Roll chance
+    if (tpzrand::GetRandomNumber(10000) < dropRate)
     {
         uint16 itemId = 2279; // ??? Cape
-
-        // Pass appraisal ID along when adding to treasure pool
         PChar->PTreasurePool->AddItem(itemId, this, static_cast<uint8>(PZone));
     }
 }
@@ -1885,10 +1898,10 @@ void CMobEntity::DropItems(CCharEntity* PChar)
         { 2400, 4800, 5600, 6000, 6400, 6666, 6800, 6900, 7050, 7200, 7350, 7400, 7600, 7800, 8000 },
         { 1500, 3000, 4000, 4250, 4500, 4750, 5000, 5250, 5500, 5750, 6000, 6250, 6500, 6750, 7000 },
         { 1000, 1200, 1500, 1650, 1800, 1900, 2000, 2100, 2250, 2400, 2650, 2800, 2950, 3100, 3250 },
-        { 0500, 0600, 0700, 0750, 800, 850, 900, 950, 1050, 1150, 1250, 1350, 1550, 1750, 2000 },
-        { 0100, 0150, 0200, 0225, 0250, 0300, 0350, 0400, 0475, 0550, 0650, 0750, 825, 900, 1000 },
-        { 0050, 0075, 0100, 0120, 0140, 0160, 180, 0200, 0230, 0260, 0300, 0350, 0400, 0450, 0500 },
-        { 0010, 0020, 0030, 0035, 0040, 0045, 0050, 0060, 0070, 80, 90, 0100, 0115, 0130, 0150 }
+        { 500, 600, 700, 750, 800, 850, 900, 950, 1050, 1150, 1250, 1350, 1550, 1750, 2000 },
+        { 100, 150, 200, 225, 250, 300, 350, 400, 475, 550, 650, 750, 825, 900, 1000 },
+        { 50, 75, 100, 120, 140, 160, 180, 200, 230, 260, 300, 350, 400, 450, 500 },
+        { 10, 20, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 115, 130, 150 }
     };
 
     if (DropList != nullptr && !getMobMod(MOBMOD_NO_DROPS) && (DropList->Items.size() || DropList->Groups.size()))
@@ -2186,7 +2199,7 @@ void CMobEntity::DropItems(CCharEntity* PChar)
     // ToAU beastmen strongholds Moogle Coin drops
     if (Pzone == ZONE_MAMOOK || Pzone == ZONE_ARRAPAGO_REEF || Pzone == ZONE_HALVUNG)
     {
-        if (tpzrand::GetRandomNumber(100) < 24 && getMobMod(MOBMOD_NO_DROPS) == 0)
+        if (tpzrand::GetRandomNumber(100) < 24 && getMobMod(MOBMOD_NO_DROPS) == 0 && !m_Type & MOBTYPE_CALLED)
         {
             if (AddItemToPool(8732, ++dropCount))
                 return;

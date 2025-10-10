@@ -420,7 +420,18 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
 
         auto rangedWepDelay = 540;
         rangedWeapon->setDmgType(DAMAGE_RANGED);
-        rangedWeapon->setDamage(finalDamage * 3);
+
+        // Shuriken damage
+        if (PTrust->GetMJob() == JOB_NIN)
+        {
+            rangedWeapon->setDamage(finalDamage);
+        }
+        else
+        {
+            rangedWeapon->setDamage(finalDamage * 3.0f);
+
+        }
+
         rangedWeapon->setDelay((rangedWepDelay * 1000) / 60);
         rangedWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
     }
@@ -429,24 +440,14 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     {
         auto rangedAmmoDelay = 90;
 
-        // Shurikens have 2H weapon damage
-        if (PTrust->GetMJob() == JOB_NIN)
-        {
-            ammoWeapon->setDamage(finalDamage * 2);
-            finalDamage *= 2;
-        }
-        else
-        {
-            ammoWeapon->setDamage(finalDamage);
-        }
-
+        ammoWeapon->setDamage(finalDamage);
         ammoWeapon->setDmgType(DAMAGE_RANGED);
         ammoWeapon->setDelay((trustData->cmbDelay * 1000) / 60);
         ammoWeapon->setBaseDelay((trustData->cmbDelay * 1000) / 60);
     }
 
     // TODO: Why can't this be set in mob pool mods like mobs? Is mob_pool_mods not applied to trusts?
-    if (trustData->m_Family == 971 || trustData->m_Family == 96) 
+    if (trustData->m_Family == 971 || trustData->m_Family == 96 || trustData->name == "maximilian") 
     {
         PTrust->m_dualWield = true;
     }

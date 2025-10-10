@@ -1880,7 +1880,6 @@ namespace charutils
                 charutils::BuildingCharSkillsTable(PChar);
                 BuildingCharWeaponSkills(PChar);
 
-                PChar->pushPacket(new CCharAbilitiesPacket(PChar));
                 PChar->UpdateHealth();
                 PChar->m_EquipSwap = true;
                 PChar->updatemask |= UPDATE_LOOK;
@@ -2734,7 +2733,6 @@ namespace charutils
 
         charutils::BuildingCharSkillsTable(PChar);
         BuildingCharWeaponSkills(PChar);
-        PChar->pushPacket(new CCharAbilitiesPacket(PChar));
 
         PChar->UpdateHealth();
         PChar->m_EquipSwap = true;

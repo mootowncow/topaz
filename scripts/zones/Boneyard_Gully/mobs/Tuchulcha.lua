@@ -61,7 +61,6 @@ function onMobFight(mob, target)
             tuchulcha:setMobMod(tpz.mobMod.NO_REST, 1)
             local pos_index = tuchulcha:getLocalVar("sand_pit" .. tuchulcha:getLocalVar('Sandpits'))
             local coords = ID.sheepInAntlionsClothing[tuchulcha:getBattlefield():getArea()].ant_positions[pos_index]
-            tuchulcha:setPos(coords)
             local nearbyEnemies = tuchulcha:getNearbyEntities(200)
             if (nearbyEnemies ~= nil) then 
                 for _, enemy in pairs(nearbyEnemies) do
@@ -82,6 +81,8 @@ function onMobFight(mob, target)
             for _, char in pairs(tuchulcha:getBattlefield():getPlayers()) do
                 char:messageSpecial(ID.text.RETREATS_SOIL)
             end
+
+            tuchulcha:setPos(coords)
         end)
     end
 end

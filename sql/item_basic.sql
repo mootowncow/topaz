@@ -19521,6 +19521,7 @@ INSERT INTO `item_basic` VALUES (23833,0,'ruby_robe','ruby_robe',1,63570,0,1,0);
 INSERT INTO `item_basic` VALUES (23834,0,'ruby_cuffs','ruby_cuffs',1,63570,0,1,0);
 INSERT INTO `item_basic` VALUES (23835,0,'ruby_slops','ruby_slops',1,63570,0,1,0);
 INSERT INTO `item_basic` VALUES (23836,0,'ruby_pigaches','ruby_pigaches',1,63570,0,1,0);
+--  Prishe's Boots itemId 23894
 INSERT INTO `item_basic` VALUES (25414,0,'elite_royal_collar','elite_royal_collar',1,63552,0,1,0);
 INSERT INTO `item_basic` VALUES (25415,0,'republican_platinum_medal','rep._plat._medal',1,63552,0,1,0);
 INSERT INTO `item_basic` VALUES (25416,0,'sibyl_scarf','sibyl_scarf',1,63552,0,1,0);
