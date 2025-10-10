@@ -11,6 +11,7 @@ mixins =
 }
 -----------------------------------
 function onMobSpawn(mob)
+    mob:setMod(tpz.mod.TRIPLE_ATTACK, 25)
     mob:setMod(tpz.mod.MDEF, 0)
     mob:setMod(tpz.mod.UDMGMAGIC, 0)
     mob:setMod(tpz.mod.HTHRES, 500)
