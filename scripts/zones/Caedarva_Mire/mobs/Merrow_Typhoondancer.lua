@@ -20,5 +20,7 @@ function onMobSpawn(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
-    GetMobByID(ID.mob.EXPERIMENTAL_LAMIA):useMobAbility(1762) -- Belly Dance
+    if isKiller or noKiller then
+        GetMobByID(ID.mob.EXPERIMENTAL_LAMIA):useMobAbility(1762) -- Belly Dance
+    end
 end
