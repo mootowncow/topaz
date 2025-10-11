@@ -4,7 +4,7 @@
 -- !pos -773.369 -11.824 322.298 79
 -----------------------------------
 local ID = require("scripts/zones/Caedarva_Mire/IDs")
-require("scripts/globals/status")
+require("scripts/globals/mobs")
 -----------------------------------
 
 local function spawnMinions(mob, target)
@@ -72,9 +72,14 @@ function onMobFight(mob, target)
 end
 
 function onMobWeaponSkill(target, mob, skill)
+    local forcedArrowDeluge = mob:getLocalVar("forcedArrowDeluge")
+
     -- Uses Arrow Deluge immediately after using Tail Slap
     if skill:getID() == 1758 then -- Tail Slap
-        mob:useMobAbility(1761) -- Arrow Deluge
+        if (os.time() >= forcedArrowDeluge) then -- So that it won't spam Arrow Deluge after using a TP move that hits multiple targets
+            mob:useMobAbility(1761) -- Arrow Deluge
+            mob:setLocalVar("forcedArrowDeluge", os.time() + 5)
+        end
     end
 end
 

@@ -1355,6 +1355,13 @@ function MobPercentHealMove(mob, target, skill, heal)
         heal = mobMaxHP - mobHP
     end
 
+    if mob:isNM() then
+        -- Exuviation is an exception
+        if (skill:getID() ~= tpz.mob.skills.EXUVIATION) then
+            heal = heal / 5
+        end
+    end
+
     target:wakeUp()
     target:addHP(heal)
     skill:setMsg(tpz.msg.basic.SKILL_RECOVERS_HP)
