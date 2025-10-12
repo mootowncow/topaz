@@ -725,8 +725,9 @@ tpz.wotg.QuadavTrashDrops = function(mob, player, isKiller, noKiller)
         if  math.random(1,10000) <= mob:getDropRate(50) then
             player:addTreasure(tpz.items.CONDENSED_EMPTYNESS, mob)
         end
+
         -- Campaign Ops KI
-        if  math.random(1,10000) <= 1 then
+        if  math.random(1,100) <= 1 then
             utils.givePartyKeyItem(player, tpz.ki.DIAMOND_SEAL)
         end
     end
@@ -749,8 +750,9 @@ tpz.wotg.YagudoTrashDrops = function(mob, player, isKiller, noKiller)
         if  math.random(1,10000) <= mob:getDropRate(50) then
             player:addTreasure(tpz.items.ZILARTIAN_ORB, mob)
         end
+
         -- Campaign Ops KI
-        if  math.random(1,10000) <= 1 then
+        if  math.random(1,100) <= 1 then
             utils.givePartyKeyItem(player, tpz.ki.XICUS_ROSARY)
         end
     end
@@ -773,8 +775,9 @@ tpz.wotg.OrcTrashDrops = function(mob, player, isKiller, noKiller)
         if  math.random(1,10000) <= mob:getDropRate(50) then
             player:addTreasure(tpz.items.KULUU_SPHERE, mob)
         end
+        
         -- Campaign Ops KI
-        if  math.random(1,10000) <= 1 then
+        if  math.random(1,100) <= 1 then
             utils.givePartyKeyItem(player, tpz.ki.TIGRIS_STONE)
         end
     end
