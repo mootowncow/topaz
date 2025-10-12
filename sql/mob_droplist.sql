@@ -18096,10 +18096,10 @@ INSERT INTO `mob_droplist` VALUES (9003,1,3,50,15144,87); -- Koga Kyahan
 INSERT INTO `mob_droplist` VALUES (9003,1,5,10,1456,334);  -- One Hundred Byne Bill
 INSERT INTO `mob_droplist` VALUES (9003,1,5,10,1453,334);  -- Montiont Silverpiece
 INSERT INTO `mob_droplist` VALUES (9003,1,5,10,1450,334);  -- Lungo-Nango Jadeshell
-INSERT INTO `mob_droplist` VALUES (9003,1,5,1000,3392,150); -- Odious Cup
-INSERT INTO `mob_droplist` VALUES (9003,1,5,1000,3393,150); -- Odious Die
-INSERT INTO `mob_droplist` VALUES (9003,1,5,1000,3394,150); -- Odious Mask
-INSERT INTO `mob_droplist` VALUES (9003,1,5,1000,3395,150); -- Odious Grenade
+INSERT INTO `mob_droplist` VALUES (9003,1,6,1000,3392,150); -- Odious Cup
+INSERT INTO `mob_droplist` VALUES (9003,1,6,1000,3393,150); -- Odious Die
+INSERT INTO `mob_droplist` VALUES (9003,1,6,1000,3394,150); -- Odious Mask
+INSERT INTO `mob_droplist` VALUES (9003,1,6,1000,3395,150); -- Odious Grenade
 -- Timed NMs
 INSERT INTO `mob_droplist` VALUES (9032,1,1,50,1456,333);  -- One Hundred Byne Bill
 INSERT INTO `mob_droplist` VALUES (9032,1,1,50,1453,333);  -- Montiont Silverpiece
