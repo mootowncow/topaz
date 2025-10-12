@@ -348,6 +348,131 @@ function doBoostGain(caster, target, spell, effect)
     end
 end
 
+function doBuffSong(caster, target, spell, effect)
+    local songData =
+    {
+        -- Minnes
+        { Id = tpz.magic.spell.KNIGHTS_MINNE,        Base = 6,  Cap = 13,  Divider = 15,   LvlMulti = 2.5,   Duration = 120, Tier = 1, Mod = tpz.mod.MINNE_EFFECT, Merit = tpz.merit.MINNE_EFFECT, JP = tpz.jp.MINNE_EFFECT },
+        { Id = tpz.magic.spell.KNIGHTS_MINNE_II,     Base = 12, Cap = 28,  Divider = 15,   LvlMulti = 2.5,   Duration = 120, Tier = 2, Mod = tpz.mod.MINNE_EFFECT, Merit = tpz.merit.MINNE_EFFECT, JP = tpz.jp.MINNE_EFFECT },
+        { Id = tpz.magic.spell.KNIGHTS_MINNE_III,    Base = 18, Cap = 41,  Divider = 15,   LvlMulti = 2.5,   Duration = 120, Tier = 3, Mod = tpz.mod.MINNE_EFFECT, Merit = tpz.merit.MINNE_EFFECT, JP = tpz.jp.MINNE_EFFECT },
+        { Id = tpz.magic.spell.KNIGHTS_MINNE_IV,     Base = 24, Cap = 49,  Divider = 15,   LvlMulti = 2.5,   Duration = 120, Tier = 4, Mod = tpz.mod.MINNE_EFFECT, Merit = tpz.merit.MINNE_EFFECT, JP = tpz.jp.MINNE_EFFECT },
+        { Id = tpz.magic.spell.KNIGHTS_MINNE_V,      Base = 30, Cap = 58,  Divider = 15,   LvlMulti = 2.5,   Duration = 120, Tier = 5, Mod = tpz.mod.MINNE_EFFECT, Merit = tpz.merit.MINNE_EFFECT, JP = tpz.jp.MINNE_EFFECT },
+
+        -- Minuets
+        { Id = tpz.magic.spell.VALOR_MINUET,         Base = 2,   Cap = 16,  Divider = 12,   LvlMulti = 2.5,   Duration = 120, Tier = 1, Mod = tpz.mod.MINUET_EFFECT, Merit = tpz.merit.MINUET_EFFECT, JP = tpz.jp.MINUET_EFFECT },
+        { Id = tpz.magic.spell.VALOR_MINUET_II,      Base = 7,   Cap = 32,  Divider = 12,   LvlMulti = 2.5,   Duration = 120, Tier = 2, Mod = tpz.mod.MINUET_EFFECT, Merit = tpz.merit.MINUET_EFFECT, JP = tpz.jp.MINUET_EFFECT },
+        { Id = tpz.magic.spell.VALOR_MINUET_III,     Base = 12,  Cap = 48,  Divider = 12,  LvlMulti = 2.5,   Duration = 120, Tier = 3, Mod = tpz.mod.MINUET_EFFECT, Merit = tpz.merit.MINUET_EFFECT, JP = tpz.jp.MINUET_EFFECT },
+        { Id = tpz.magic.spell.VALOR_MINUET_IV,      Base = 17,  Cap = 56,  Divider = 12,  LvlMulti = 2.5,   Duration = 120, Tier = 4, Mod = tpz.mod.MINUET_EFFECT, Merit = tpz.merit.MINUET_EFFECT, JP = tpz.jp.MINUET_EFFECT },
+        { Id = tpz.magic.spell.VALOR_MINUET_V,       Base = 22,  Cap = 72,  Divider = 12,  LvlMulti = 2.5,   Duration = 120, Tier = 5, Mod = tpz.mod.MINUET_EFFECT, Merit = tpz.merit.MINUET_EFFECT, JP = tpz.jp.MINUET_EFFECT },
+
+        -- Madrigals
+        { Id = tpz.magic.spell.SWORD_MADRIGAL,       Base = 5, Cap = 15,  Divider = 25,   LvlMulti = 2.0,   Duration = 120, Tier = 1, Mod = tpz.mod.MADRIGAL_EFFECT, Merit = tpz.merit.MADRIGAL_EFFECT, JP = nil },
+        { Id = tpz.magic.spell.BLADE_MADRIGAL,       Base = 8, Cap = 60,   Divider = 25,   LvlMulti = 2.0,   Duration = 120, Tier = 2, Mod = tpz.mod.MADRIGAL_EFFECT, Merit = tpz.merit.MADRIGAL_EFFECT, JP = nil },
+
+        -- Preludes
+        { Id = tpz.magic.spell.HUNTERS_PRELUDE,      Base = 5,  Cap = 15, Divider = 25,  LvlMulti = 2.0,   Duration = 120, Tier = 1, Mod = tpz.mod.PRELUDE_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.ARCHERS_PRELUDE,      Base = 8, Cap = 60,  Divider = 25,  LvlMulti = 2.0,   Duration = 120, Tier = 2, Mod = tpz.mod.PRELUDE_EFFECT, Merit = nil, JP = nil },
+
+        -- Mambos
+        { Id = tpz.magic.spell.SHEEPFOE_MAMBO,       Base = 22, Cap = 48,  Divider = 15,   LvlMulti = 4.5,   Duration = 120, Tier = 1, Mod = tpz.mod.MAMBO_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.DRAGONFOE_MAMBO,      Base = 44, Cap = 72,  Divider = 15,   LvlMulti = 7.0,   Duration = 120, Tier = 2, Mod = tpz.mod.MAMBO_EFFECT, Merit = nil, JP = nil },
+
+        -- Marches
+        { Id = tpz.magic.spell.ADVANCING_MARCH,      Base = 41,  Cap = 58,  Divider = 14,  LvlMulti = 16.0,   Duration = 120, Tier = 1, Mod = tpz.mod.MARCH_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.VICTORY_MARCH,        Base = 41,  Cap = 180, Divider = 14,  LvlMulti = 16.0,   Duration = 120, Tier = 2, Mod = tpz.mod.MARCH_EFFECT, Merit = nil, JP = nil },
+
+        -- Paeons
+        { Id = tpz.magic.spell.ARMYS_PAEON,         Base = 6,   Cap = 10,   Divider = 10,  LvlMulti = 1.0,   Duration = 9, Tier = 1, Mod = tpz.mod.PAEON_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.ARMYS_PAEON_II,      Base = 15,  Cap = 30,   Divider = 10,  LvlMulti = 2.0,   Duration = 9, Tier = 1, Mod = tpz.mod.PAEON_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.ARMYS_PAEON_III,     Base = 40,  Cap = 63,   Divider = 10,  LvlMulti = 2.0,   Duration = 9, Tier = 1, Mod = tpz.mod.PAEON_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.ARMYS_PAEON_IV,      Base = 60,  Cap = 126,  Divider = 10,  LvlMulti = 2.0,   Duration = 9, Tier = 1, Mod = tpz.mod.PAEON_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.ARMYS_PAEON_V,       Base = 130, Cap = 180,  Divider = 10,  LvlMulti = 2.0,   Duration = 9, Tier = 1, Mod = tpz.mod.PAEON_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.ARMYS_PAEON_VI,      Base = 190, Cap = 300,  Divider = 10,  LvlMulti = 2.0,   Duration = 9, Tier = 1, Mod = tpz.mod.PAEON_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.ARMYS_PAEON_VII,     Base = 310, Cap = 500,  Divider = 10,  LvlMulti = 2.0,   Duration = 9, Tier = 1, Mod = tpz.mod.PAEON_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.ARMYS_PAEON_VIII,    Base = 510, Cap = 700,  Divider = 10,  LvlMulti = 2.0,   Duration = 9, Tier = 1, Mod = tpz.mod.PAEON_EFFECT, Merit = nil, JP = nil },
+
+
+        -- Carols
+        { Id = tpz.magic.spell.FIRE_CAROL,         Base = 30,  Cap = 80,  Divider = 10,  LvlMulti = 8.0,   Duration = 120, Element = tpz.magic.ele.FIRE,      Tier = 1, Mod = tpz.mod.CAROL_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.ICE_CAROL,          Base = 30,  Cap = 80,  Divider = 10,  LvlMulti = 8.0,   Duration = 120, Element = tpz.magic.ele.ICE,       Tier = 1, Mod = tpz.mod.CAROL_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.WIND_CAROL,         Base = 30,  Cap = 80,  Divider = 10,  LvlMulti = 8.0,   Duration = 120, Element = tpz.magic.ele.WIND,      Tier = 1, Mod = tpz.mod.CAROL_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.EARTH_CAROL,        Base = 30,  Cap = 80,  Divider = 10,  LvlMulti = 8.0,   Duration = 120, Element = tpz.magic.ele.EARTH,     Tier = 1, Mod = tpz.mod.CAROL_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.LIGHTNING_CAROL,    Base = 30,  Cap = 80,  Divider = 10,  LvlMulti = 8.0,   Duration = 120, Element = tpz.magic.ele.LIGHTNING, Tier = 1, Mod = tpz.mod.CAROL_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.WATER_CAROL,        Base = 30,  Cap = 80,  Divider = 10,  LvlMulti = 8.0,   Duration = 120, Element = tpz.magic.ele.WATER,     Tier = 1, Mod = tpz.mod.CAROL_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.LIGHT_CAROL,        Base = 30,  Cap = 80,  Divider = 10,  LvlMulti = 8.0,   Duration = 120, Element = tpz.magic.ele.LIGHT,     Tier = 1, Mod = tpz.mod.CAROL_EFFECT, Merit = nil, JP = nil },
+        { Id = tpz.magic.spell.DARK_CAROL,         Base = 30,  Cap = 80,  Divider = 10,  LvlMulti = 8.0,   Duration = 120, Element = tpz.magic.ele.DARK,      Tier = 1, Mod = tpz.mod.CAROL_EFFECT, Merit = nil, JP = nil },
+        -- t2 carol cap 100, and Nullification Chance: 15%
+    }
+    local singingSkill = caster:getSkillLevel(tpz.skill.SINGING) -- Gets skill level of Singing
+    local instrumentSkill = caster:getWeaponSkillLevel(tpz.slot.RANGED) -- Gets skill level of currently equipped instrument
+    local spellId = spell:getID()
+
+    if caster:isTrust() then
+        instrumentSkill = caster:getSkillLevel(tpz.skill.STRING_INSTRUMENT)
+    end
+
+    for _, song in ipairs(songData) do
+        if (spellId == song.Id) then
+            local element = song.Element or spell:getElement()
+            local combinedSkill = singingSkill + instrumentSkill
+            local power = song.Base + math.floor(combinedSkill / song.Divider)
+
+            power = utils.clamp(power, song.Base, song.Cap)
+
+            local plusLvlMod = caster:getMod(tpz.mod.ALL_SONGS_EFFECT)
+
+            -- Add gear mod effect
+            if song.Mod then
+                plusLvlMod = plusLvlMod + caster:getMod(song.Mod)
+            end
+            
+            -- printf("CombinedSkill: %d, Base: %d, Cap: %d, Divider: %d, Power: %d, plusLvlMod %d, song.LvlMulti %f, gearmodBonus %d", combinedSkill, song.Base, song.Cap, song.Divider, power, plusLvlMod, song.LvlMulti, plusLvlMod * song.LvlMulti)
+
+            -- Calculate how much +1 skill Gear mods add
+            if (plusLvlMod > 0) then
+                power = power + (plusLvlMod * song.LvlMulti)
+            end
+
+            -- Add merit effect
+            if song.Merit then
+                power = power + caster:getMerit(song.Merit)
+            end
+
+            -- Add JP effect
+            if song.JP then
+                power = power + caster:getJobPointLevel(song.JP)
+            end
+
+            if (caster:hasStatusEffect(tpz.effect.SOUL_VOICE)) then
+                power = power * 2
+            elseif (caster:hasStatusEffect(tpz.effect.MARCATO)) then
+                power = power * 1.5
+            end
+
+            -- Handle marches
+            if (effect == tpz.effect.MARCH) then
+                power = power * 10
+            end
+
+            local duration = song.Duration
+            duration = duration * ((plusLvlMod * 0.1) + (caster:getMod(tpz.mod.SONG_DURATION_BONUS)/100) + 1)
+
+            if (caster:hasStatusEffect(tpz.effect.TROUBADOUR)) then
+                duration = duration * 2
+            end
+
+            if not (target:addBardSong(caster, effect, power, 0, duration, caster:getID(), element, song.Tier)) then
+                spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+            end
+
+            caster:delStatusEffectSilent(tpz.effect.MARCATO)
+            -- printf("Effect: %d, Power: %f, Duration: %d", effect, power, duration)
+            
+            return effect
+        end
+    end
+end
+
 function doEnspell(caster, target, spell, effect)
     local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
 

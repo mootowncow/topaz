@@ -1,6 +1,6 @@
 -----------------------------------------
--- Spell: Ice Carol
--- Increases ice resistance for party members within the area of effect.
+-- Spell: Army's Paeon VIII (Mobs only)
+-- Gradually restores target's HP.
 -----------------------------------------
 require("scripts/globals/magic")
 -----------------------------------------
@@ -10,5 +10,5 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    return doBuffSong(caster, target, spell, tpz.effect.CAROL)
+    return doBuffSong(caster, target, spell, tpz.effect.PAEON)
 end
