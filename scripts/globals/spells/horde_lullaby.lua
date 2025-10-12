@@ -40,7 +40,7 @@ function onSpellCast(caster, target, spell)
     duration = math.ceil(duration * tryBuildResistance(tpz.magic.buildcat.LULLABY, target))
 
     -- Can't overwrite any sleep
-    if hasSleepT1Effect(target) then
+    if hasSleepEffects(target) then
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
         return tpz.effect.LULLABY
     end

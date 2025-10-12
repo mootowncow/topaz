@@ -40,6 +40,12 @@ function onSpellCast(caster, target, spell)
 
     duration = math.ceil(duration + (iBoost * 6 + caster:getMod(tpz.mod.SONG_DURATION_BONUS) / 100 + 1) + caster:getJobPointLevel(tpz.jp.LULLABY_DURATION))
 
+    -- Can't overwrite any sleep
+    if hasSleepEffects(target) then
+        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+        return params.effect
+    end
+
     if caster:hasStatusEffect(tpz.effect.TROUBADOUR) then
         duration = duration * 2
     end
