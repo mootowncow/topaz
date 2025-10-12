@@ -66,13 +66,13 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.HELIX, ai.r.MA, ai.s.HELIX_WEAKNESS, 0, 0)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_ASPIR, 75, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ASPIR)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_DRAIN, 75, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DRAIN)
 
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.HPP_LT, 66, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 50, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_SC_AVAILABLE, 0, ai.r.MA, ai.s.BEST_AGAINST_TARGET, tpz.magic.spellFamily.NONE)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_DRAIN, 100, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DRAIN)
 
     if mob:getMainLvl() >= 75 then
         mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.LONG_RANGE)
