@@ -2459,11 +2459,8 @@ INSERT INTO `mob_droplist` VALUES (412,0,0,1000,5393,1000);
 INSERT INTO `mob_droplist` VALUES (412,0,0,1000,11512,1000);
 INSERT INTO `mob_droplist` VALUES (412,0,0,1000,15427,90);
 INSERT INTO `mob_droplist` VALUES (412,0,0,1000,16428,530);
-INSERT INTO `mob_droplist` VALUES (413,0,0,1000,2512,240); -- (War Lynx Castle Oztroja[S]) Lynx Hide
-INSERT INTO `mob_droplist` VALUES (413,0,0,1000,2512,150); 
-INSERT INTO `mob_droplist` VALUES (413,0,0,1000,5667,240); -- Lynx Meat
-INSERT INTO `mob_droplist` VALUES (413,0,0,1000,5667,150);
-INSERT INTO `mob_droplist` VALUES (413,0,0,1000,5667,100);
+INSERT INTO `mob_droplist` VALUES (413,0,0,1000,2512,150); -- (War Lynx Castle Oztroja[S]) Lynx Hide
+INSERT INTO `mob_droplist` VALUES (413,0,0,1000,5667,100); -- Lynx Meat
 INSERT INTO `mob_droplist` VALUES (414,0,0,1000,14931,100);
 INSERT INTO `mob_droplist` VALUES (414,0,0,1000,17192,100);
 INSERT INTO `mob_droplist` VALUES (414,0,0,1000,17711,100);
@@ -17509,11 +17506,8 @@ INSERT INTO `mob_droplist` VALUES (6071,0,0,1000,4362,100);   -- Lizard Egg
 INSERT INTO `mob_droplist` VALUES (6071,0,0,1000,852,50);     -- Lizard Skin
 INSERT INTO `mob_droplist` VALUES (6072,0,0,1000,2510,100);   -- Orc Helmet + Platinum Beastcoin steal
 INSERT INTO `mob_droplist` VALUES (6072,2,0,1000,751,0); 
-INSERT INTO `mob_droplist` VALUES (6073,0,0,1000,2518,240);   -- (Fighting Smilodon - La Vaule[S]) Smilodon Hide
-INSERT INTO `mob_droplist` VALUES (6073,0,0,1000,2518,150);   -- Smilodon Hide
-INSERT INTO `mob_droplist` VALUES (6073,0,0,1000,2518,100);   -- Smilodon Hide
-INSERT INTO `mob_droplist` VALUES (6073,0,0,1000,5668,240);   -- Smilodon Liver
-INSERT INTO `mob_droplist` VALUES (6073,0,0,1000,5668,150);   -- Smilodon Liver
+INSERT INTO `mob_droplist` VALUES (6073,0,0,1000,2518,100);   -- (Fighting Smilodon - La Vaule[S]) Smilodon Hide
+INSERT INTO `mob_droplist` VALUES (6073,0,0,1000,5668,50);   -- Smilodon Liver
 INSERT INTO `mob_droplist` VALUES (6074,2,0,1000,751,0);      -- Platinum Beastcoin steal only
 INSERT INTO `mob_droplist` VALUES (6075,2,0,1000,751,0);      -- Bottled Pixie + Platinum Beastcoin steal
 INSERT INTO `mob_droplist` VALUES (6075,0,0,1000,2525,100);
