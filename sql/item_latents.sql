@@ -3187,7 +3187,7 @@ INSERT INTO `item_latents` VALUES(18943, 366, 5, 6, 1000);  -- DMG+5 while TP <1
 -- -------------------------------------------------------
 -- Zareehkl Scythe
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(18949, 302, 1, 0, 25);    -- Tiple Attack 1% when HP <=25%
+INSERT INTO `item_latents` VALUES(18949, 302, 25, 13, 63); -- [18949] Zareehkl Scythe: Status Effect Active(63) - TRIPLE_ATTACK 25
 
 -- -------------------------------------------------------
 -- Lyft Scythe
@@ -3810,8 +3810,9 @@ INSERT INTO `item_latents` VALUES(14764, 25, 3, 13, 198); -- [14764] Minuet Earr
 INSERT INTO `item_latents` VALUES(15773, 384, 400, 58, 1); -- [15773] Imperial Ring: In Assault(1) - HASTE_GEAR 400
 INSERT INTO `item_latents` VALUES(15099, 1, 50, 13, 420); -- [15099] Koga Chainmail: Status Effect Active(420) - DEF 50
 INSERT INTO `item_latents` VALUES(14512, 1, 55, 13, 420); -- [14512] Kog. Chainmail +1: Status Effect Active(420) - DEF 55
-INSERT INTO `item_latents` VALUES(18429, 911, 5, 62, 1); -- [18429] Shusui: Equip Slot(Offhand) - DAKEN 5
+INSERT INTO `item_latents` VALUES(18429, 911, 5, 62, 1); -- [18429] Shusui: Offhand: - DAKEN 5
 INSERT INTO `item_latents` VALUES(15155, 384, 500, 66, 8); -- [15155] Barone Zucchetto: MH WeaponType(8) - HASTE_GEAR 500
 INSERT INTO `item_latents` VALUES(15156, 384, 600, 66, 8); -- [15156] Conte Zucchetto: MH WeaponType(8) - HASTE_GEAR 600
-INSERT INTO `item_latents` VALUES(18857, 550, 3, 62, 0); -- [18857] Antares: Equip Slot(Main hand) - LIGHT_AFFINITY_ACC 3
-INSERT INTO `item_latents` VALUES(18857, 353, 3, 62, 0); -- [18857] Antares: Equip Slot(Main hand) - LIGHT_AFFINITY_DMG 3
+INSERT INTO `item_latents` VALUES(18857, 550, 3, 62, 0); -- [18857] Antares: Main hand: - LIGHT_AFFINITY_ACC 3
+INSERT INTO `item_latents` VALUES(18857, 353, 3, 62, 0); -- [18857] Antares: Main hand: - LIGHT_AFFINITY_DMG 3
+INSERT INTO `item_latents` VALUES(17960, 73, 25, 62, 0); -- [17960] Labrys: Main hand: - STORETP 25

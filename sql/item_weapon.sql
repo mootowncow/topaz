@@ -1600,7 +1600,7 @@ INSERT INTO `item_weapon` VALUES (17956,'double_axe',5,0,0,0,0,2,1,312,46,250);
 INSERT INTO `item_weapon` VALUES (17957,'navy_axe',5,0,0,0,0,2,1,276,29,0);
 INSERT INTO `item_weapon` VALUES (17958,'iron_ram_pick',5,0,0,0,0,2,1,268,47,0);
 INSERT INTO `item_weapon` VALUES (17959,'viperine_pick',5,0,0,0,0,2,1,312,42,0);
-INSERT INTO `item_weapon` VALUES (17960,'labrys',5,0,0,0,0,2,1,288,45,0);
+INSERT INTO `item_weapon` VALUES (17960,'labrys',5,0,0,0,0,2,1,276,48,0);
 INSERT INTO `item_weapon` VALUES (17961,'lion_tamer',5,0,0,0,0,2,1,276,44,0);
 INSERT INTO `item_weapon` VALUES (17962,'fleetwing',5,0,0,0,0,2,1,276,45,0);
 INSERT INTO `item_weapon` VALUES (17963,'rainmaker',5,0,0,0,0,2,1,276,45,0);
@@ -1765,7 +1765,7 @@ INSERT INTO `item_weapon` VALUES (18121,'valkyries_fork',8,0,0,0,0,1,1,492,95,0)
 INSERT INTO `item_weapon` VALUES (18122,'broach_lance',8,0,0,0,0,1,1,492,57,0);
 INSERT INTO `item_weapon` VALUES (18123,'thalassocrat',8,0,0,0,0,1,1,492,94,0);
 INSERT INTO `item_weapon` VALUES (18124,'thalassocrat_+1',8,0,0,0,0,1,1,478,95,0);
-INSERT INTO `item_weapon` VALUES (18125,'cletine',8,0,0,0,0,1,1,480,91,0);
+INSERT INTO `item_weapon` VALUES (18125,'cletine',8,0,0,0,0,1,1,492,94,0);
 INSERT INTO `item_weapon` VALUES (18126,'tomoe',8,0,0,0,0,1,1,480,86,0);
 INSERT INTO `item_weapon` VALUES (18127,'achilles_spear',8,0,0,0,0,1,1,346,69,0);
 INSERT INTO `item_weapon` VALUES (18128,'skystrider',8,0,0,0,0,1,1,492,93,0);
@@ -2639,7 +2639,7 @@ INSERT INTO `item_weapon` VALUES (19104,'dst._jambiya_+1',2,0,0,0,0,1,1,194,21,0
 INSERT INTO `item_weapon` VALUES (19105,'thugs_jambiya',2,0,0,0,0,1,1,201,13,0);
 INSERT INTO `item_weapon` VALUES (19106,'thugs_jambiya_+1',2,0,0,0,0,1,1,194,14,0);
 INSERT INTO `item_weapon` VALUES (19107,'azoth',2,0,0,0,0,1,1,210,35,0);
-INSERT INTO `item_weapon` VALUES (19108,'zareehkl_jambiya',2,0,0,0,0,1,1,201,31,0);
+INSERT INTO `item_weapon` VALUES (19108,'zareehkl_jambiya',2,0,0,0,0,1,1,201,34,0);
 INSERT INTO `item_weapon` VALUES (19109,'trilling_dagger',2,0,0,0,0,1,1,186,28,0);
 INSERT INTO `item_weapon` VALUES (19110,'trainees_needle',2,0,0,0,0,1,1,200,1,0);
 INSERT INTO `item_weapon` VALUES (19111,'silktone',2,0,0,0,0,1,1,195,28,0);
