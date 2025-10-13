@@ -4,10 +4,12 @@
 -- Obtained: Thief Level 5
 -- Recast Time: 5:00
 -- Duration: Instant
------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/items")
+-----------------------------------
+
 
 -- these are the quadavs that the thf af1 item can be stolen from
 -- bronze quadav groupid = 7949
@@ -27,6 +29,17 @@ validThfQuestMobs =
     17379586, 17379598, 17379365, 17379366, 17379461, 17379472, 17379479, 17379492, 17379494, 17379499, 17379503,
     17379507, 17379511, 17379515, 17379519, 17379523, 17379527, 17379531, 17379535, 17379540, 17379545, 17379549,
     17379554, 17379558, 17379562, 17379567, 17379571, 17379575, 17379579, 17379583, 17379587, 17379599
+}
+
+local stealTable =
+{
+    [tpz.items.BEASTCOIN]               = {Chance = 45}, 
+    [tpz.items.SILVER_BEASTCOIN]        = {Chance = 35},
+    [tpz.items.GOLD_BEASTCOIN]          = {Chance = 10},
+    [tpz.items.PLATINUM_BEASTCOIN]      = {Chance = 5},
+    [tpz.items.TUKUKU_WHITESHELL]       = {Chance = 5},
+    [tpz.items.ORDELLE_BRONZEPIECE]     = {Chance = 5},
+    [tpz.items.ONE_BYNE_BILL]           = {Chance = 5},
 }
 
 local function HasDispellableEffect(target)
@@ -55,7 +68,8 @@ end
 
 function onUseAbility(player, target, ability, action)
     local thfLevel
-    local stolen = 0
+    local stolenItemId = 0
+    local base = 50
     local itemStolen = false
     local stoleEffect = false
 
@@ -65,10 +79,16 @@ function onUseAbility(player, target, ability, action)
         thfLevel = player:getSubLvl()
     end
 
-    local stealMod = player:getMod(tpz.mod.STEAL) * 10
+    stolenItemId = target:getStealItem()
 
-    -- 50% Base chance
-    local stealChance = 500 + stealMod + thfLevel - target:getMainLvl()
+    -- See if base exists inside of the steal table, if not set base chance to 50%
+    for itemId, stealData in pairs(stealTable) do
+        if (itemId == stolenItemId) then
+            base = stealData.Chance
+        end
+    end
+    local stealMod = player:getMod(tpz.mod.STEAL) * 10
+    local stealChance = (base * 10) + stealMod + thfLevel - target:getMainLvl()
 	
 	stealChance = utils.clamp(stealChance, 50, 450) -- Cap at 45% chance
 
@@ -80,17 +100,16 @@ function onUseAbility(player, target, ability, action)
         end
     end
 
-    stolen = target:getStealItem()
-    if (target:isMob() and math.random(1000) < stealChance and stolen ~= 0) then
+    if (target:isMob() and math.random(1000) < stealChance and stolenItemId ~= 0) then
         if (checkThfAfQuest(player, target) == true) then
-            stolen = 4569
+            stolenItemId = 4569
         end
 
         itemStolen = true
-        player:addItem(stolen)
+        player:addItem(stolenItemId)
         target:itemStolen()
         ability:setMsg(tpz.msg.basic.STEAL_SUCCESS) -- Item stolen successfully
-        target:triggerListener("ITEM_STOLEN", target, player, stolen)
+        target:triggerListener("ITEM_STOLEN", target, player, stolenItemId)
     else
         ability:setMsg(tpz.msg.basic.STEAL_FAIL) -- Failed to steal
         action:animation(target:getID(), 182)
@@ -161,7 +180,7 @@ function onUseAbility(player, target, ability, action)
         return effect
     end
 
-    return stolen
+    return stolenItemId
 end
 
 
