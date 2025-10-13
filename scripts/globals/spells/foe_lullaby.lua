@@ -34,11 +34,11 @@ function onSpellCast(caster, target, spell)
         end
     end
 
-    resist = applyResistanceEffect(caster, target, spell, params)
+    local resist = applyResistanceEffect(caster, target, spell, params)
     duration = math.ceil(duration * tryBuildResistance(tpz.magic.buildcat.LULLABY, target))
 
     -- Can't overwrite any sleep
-    if hasSleepT1Effect(target) then
+    if hasSleepEffects(target) then
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
         return params.effect
     end

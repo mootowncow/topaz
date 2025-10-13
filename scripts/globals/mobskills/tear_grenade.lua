@@ -23,8 +23,8 @@ function onMobSkillCheck(target, mob, skill)
         result = 0
     end
 
-    if cogtoothSkagnogg then
-        result = 0
+    if cogtoothSkagnogg and (mobhp >= 20) then
+        result = 1
     end
 
     return result

@@ -881,7 +881,7 @@ bool CTrustController::TryCastProtectraShellra(CCharEntity* PMaster, CTrustContr
         {
             // Make sure all party members are in range before casting protectra/shellra
             float distanceToMember = distance(POwner->loc.p, PMember->loc.p);
-            if (distanceToMember <= 10.0f)
+            if (distanceToMember <= 5.0f)
             {
                 membersInRange++;
             }
@@ -972,7 +972,7 @@ bool CTrustController::TryCastMazurka(CCharEntity* PMaster, CTrustController* Co
 
     // Make sure master is within song distance
     float distanceToMaster = distance(POwner->loc.p, PMaster->loc.p);
-    if (distanceToMaster > 5.0f)
+    if (distanceToMaster > 2.0f)
     {
         return false;
     }
@@ -1009,7 +1009,7 @@ bool CTrustController::TryUseBoltersRoll(CCharEntity* PMaster, CTrustController*
 
     // Make sure master is near
     float distanceToMaster = distance(POwner->loc.p, PMaster->loc.p);
-    if (distanceToMaster > 5.0f)
+    if (distanceToMaster > 2.0f)
     {
         return false;
     }

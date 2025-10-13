@@ -31,26 +31,19 @@ function onTrade(player, npc, trade)
     then
         player:startEvent(52, 500 * GIL_RATE)
     end
-    if npcUtil.tradeHas(trade, 1782) then -- Florid Stone for Test Your Mite ENM
+
+    -- Test your Mite ENM
+    if npcUtil.tradeHasExactly(trade, 1782) then -- Florid Stone for Test Your Mite ENM
         if player:hasKeyItem(tpz.ki.ASTRAL_COVENANT) then
             player:PrintToPlayer("You're already in the possession of an Astral Covenant.",0,"Ghebi Damomohe")
         elseif os.time() >= AstralCovenantTimer and not player:hasKeyItem(tpz.ki.ASTRAL_COVENANT) then
-            player:confirmTrade()
-            player:PrintToPlayer("This stone... there's something inside of it!",0,"Ghebi Damomohe")
-            player:addKeyItem(tpz.ki.ASTRAL_COVENANT)
-            player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.ASTRAL_COVENANT)
-            player:setCharVar("[ENM]AstralCovenantTimer", os.time() + 432000) -- 5 days
-            player:PrintToPlayer("Take this down to the deepest scariest parts of Pso\'Xja.",0,"Ghebi Damomohe")
-            player:PrintToPlayer("Please come back safely...",0,"Ghebi Damomohe")
-        else
-            player:PrintToPlayer("You must wait until the next day for another Astral Covenant.",0,"Ghebi Damomohe")
+            player:startEvent(10047, 1782, 1, 255, 0, 67108863, 609919, 4095, 4)
         end
     end
 end
 
 function onTrigger(player, npc)
     local GetGems = player:getCharVar("PXPassGetGems")
-    local takeAstralToPsoxja = player:getLocalVar("takeAstralToPsoxja")
 
     if player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.TENSHODO_MEMBERSHIP) == QUEST_AVAILABLE then
         -- Start Quest: Tenshodo Membership
@@ -63,9 +56,9 @@ function onTrigger(player, npc)
         player:startEvent(54)
     elseif (GetGems == 1) then
         player:startEvent(53)
-    elseif player:hasKeyItem(tpz.ki.ASTRAL_COVENANT) and (takeAstralToPsoxja == 0) then
-        player:PrintToPlayer("What are you waiting for? Take that Astral Covenant to Pso\'Xja!",0,"Ghebi Damomohe")
-        player:setLocalVar("takeAstralToPsoxja", 1)
+    elseif (player:getCurrentMission(COP) > tpz.mission.id.cop.MORE_QUESTIONS_THAN_ANSWERS) and not player:needsToZone() then
+        -- Start Quest: Chips
+        player:startEvent(169, 0, 1, 255, 0, 65339383, 2995334, 409, 131107)
     else
         player:startEvent(106, 4)
     end
@@ -75,7 +68,6 @@ function onEventUpdate(player, csid, option)
 end
 
 function onEventFinish(player, csid, option)
-    local AstralCovenantTimer = player:getCharVar("[ENM]AstralCovenantTimer")
     if csid == 106 and option == 0 then
         local stock =
         {
@@ -95,16 +87,26 @@ function onEventFinish(player, csid, option)
     elseif csid == 108 then
         -- Finish Quest: Tenshodo Membership (Invitation)
         if npcUtil.completeQuest(player, JEUNO, tpz.quest.id.jeuno.TENSHODO_MEMBERSHIP, { item=548, title=tpz.title.TENSHODO_MEMBER, ki=tpz.ki.TENSHODO_MEMBERS_CARD }) then
-            player:confirmTrade()
+            player:tradeComplete()
             player:delKeyItem(tpz.ki.TENSHODO_APPLICATION_FORM)
         end
     elseif csid == 52 then
-        player:confirmTrade()
+        player:tradeComplete()
         player:addGil(500 * GIL_RATE)
         player:addKeyItem(tpz.ki.PSOXJA_PASS)
         player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.PSOXJA_PASS)
         player:setCharVar("PXPassGetGems", 0)
     elseif csid == 54 then
         player:setCharVar("PXPassGetGems", 1)
+    elseif csid == 169 then
+        if option == 1 then
+            player:addQuest(BASTOK, tpz.quest.id.bastok.CHIPS)
+        end
+        player:needsToZone(true)
+    elseif csid == 10047 then
+        player:tradeComplete()
+        player:addKeyItem(tpz.ki.ASTRAL_COVENANT)
+        player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.ASTRAL_COVENANT)
+        player:setCharVar("[ENM]AstralCovenantTimer", os.time() + 432000) -- 5 days
     end
 end

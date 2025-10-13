@@ -3,6 +3,8 @@
 --  Mob: Merrow Shadowdancer
 -- Note: Minion of Experimental Lamia
 -----------------------------------
+local ID = require("scripts/zones/Caedarva_Mire/IDs")
+require("scripts/globals/mobs")
 mixins =
     {
         require("scripts/mixins/job_special"),
@@ -18,4 +20,7 @@ function onMobSpawn(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
+    if isKiller or noKiller then
+        GetMobByID(ID.mob.EXPERIMENTAL_LAMIA):useMobAbility(1762) -- Belly Dance
+    end
 end

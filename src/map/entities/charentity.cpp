@@ -1654,12 +1654,6 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast /= 2;
         }
 
-        // Sneak Attack merits also reduce the recast of Bully
-        if (PAbility->getID() == ABILITY_BULLY)
-        {
-            action.recast = PAbility->getRecastTime() - PMeritPoints->GetMeritValue((MERIT_TYPE)MERIT_SNEAK_ATTACK_RECAST, this);
-        }
-
         auto deactivateJpValue = PJobPoints->GetJobPointValue(JP_DEACTIVATE_EFFECT);
         float minHpPercentage = std::max(0.0f, 100.0f - deactivateJpValue);
         if (PAbility->getID() == ABILITY_LIGHT_ARTS || PAbility->getID() == ABILITY_DARK_ARTS || PAbility->getRecastId() == 231) // stratagems

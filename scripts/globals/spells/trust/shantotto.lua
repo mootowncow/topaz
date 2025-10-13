@@ -42,12 +42,7 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.LULLABY, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_ASPIR, 90, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ASPIR)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_DRAIN, 100, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DRAIN)
-
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.BURN, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.BURN)
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.POISON, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.POISON)
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.BLINDNESS, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.BLIND)
 
     -- TODO: Manawall
     -- TODO: Enmity douse
@@ -71,10 +66,12 @@ function onMobSpawn(mob)
         },
     })
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_ASPIR, 90, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ASPIR)
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_DRAIN, 100, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DRAIN)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_ASPIR, 75, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ASPIR)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_SC_AVAILABLE, 0, ai.r.MA, ai.s.BEST_AGAINST_TARGET, tpz.magic.spellFamily.NONE)
+
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_DRAIN, 100, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DRAIN)
+
 
     if mob:getMainLvl() >= 75 then
         mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.LONG_RANGE)

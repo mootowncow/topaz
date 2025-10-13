@@ -11,6 +11,7 @@ mixins =
 }
 -----------------------------------
 function onMobSpawn(mob)
+    mob:setMod(tpz.mod.TRIPLE_ATTACK, 25)
     mob:setMod(tpz.mod.MDEF, 0)
     mob:setMod(tpz.mod.UDMGMAGIC, 0)
     mob:setMod(tpz.mod.HTHRES, 500)
@@ -18,6 +19,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.PIERCERES, 500)
     mob:setMod(tpz.mod.RANGEDRES, 500)
     mob:setMod(tpz.mod.IMPACTRES, 500)
+    mob:setMod(tpz.mod.UFASTCAST, 75)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
 end

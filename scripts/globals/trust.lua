@@ -232,16 +232,11 @@ local modByMobName =
 
     ['shikaree_z'] = function(mob)
         mob:addMod(tpz.mod.HPP, -10)
-        mob:addMod(tpz.mod.DEFP, 25)
-        mob:addMod(tpz.mod.CRITHITRATE, 4)
-        mob:addMod(tpz.mod.JUMP_TP_BONUS, 450)
-        mob:addMod(tpz.mod.CONSERVE_TP, 21)
-        mob:addMod(tpz.mod.HASTE_ABILITY, 1500)
-        mob:addMod(tpz.mod.FASTCAST, 25)
-        mob:addMod(tpz.mod.REFRESH, 4)
+        mob:addMod(tpz.mod.JUMP_TP_BONUS, 100)
+        mob:addMod(tpz.mod.HASTE_ABILITY, 1000)
+        mob:addMod(tpz.mod.REFRESH, 2)
         if mob:getMainLvl() >= 75 then
             mob:addMod(tpz.mod.MPP, 100)
-            mob:addMod(tpz.mod.ATTP, 30)
             mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
         end
         AddLightMeleeAccuracyGear(mob)
@@ -298,6 +293,7 @@ local modByMobName =
     end,
 
     ['ulmia'] = function(mob)
+        mob:addMod(tpz.mod.MPP, 100)
         mob:addMod(tpz.mod.DMGAOE, -66)
         AddBRDInstruments(mob)
         AddRefreshGear(mob)

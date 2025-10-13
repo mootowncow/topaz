@@ -13,7 +13,7 @@ end
 
 function onUseAbility(player, target, ability)
     local duration = 60
-    local bonusAcc = player:getStat(tpz.mod.AGI) / 2 + player:getMerit(tpz.merit.QUICK_DRAW_ACCURACY) + player:getMod(tpz.mod.QUICK_DRAW_MACC)
+    local bonusAcc = 175 + player:getStat(tpz.mod.AGI) / 2 + player:getMerit(tpz.merit.QUICK_DRAW_ACCURACY) + player:getMod(tpz.mod.QUICK_DRAW_MACC)
     local typeEffect = tpz.effect.SLEEP_I
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.LIGHT, bonusAcc, typeEffect, tpz.skill.MARKSMANSHIP)
 

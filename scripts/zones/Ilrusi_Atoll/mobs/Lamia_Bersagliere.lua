@@ -11,6 +11,7 @@ mixins =
 }
 -----------------------------------
 function onMobSpawn(mob)
+    mob:setMod(tpz.mod.TRIPLE_ATTACK, 25)
     mob:setMod(tpz.mod.MDEF, 0)
     mob:setMod(tpz.mod.UDMGMAGIC, 0)
     mob:setMod(tpz.mod.HTHRES, 500)
@@ -19,6 +20,13 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.RANGEDRES, 500)
     mob:setMod(tpz.mod.IMPACTRES, 500)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
+
+    tpz.mix.jobSpecial.config(mob, {
+    specials =
+    {
+        {id = tpz.jsa.EES_LAMIA, hpp = math.random(25, 50)},
+    },
+    })
 end
 
 function onMobRoam(mob)

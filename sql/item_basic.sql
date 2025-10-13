@@ -13379,8 +13379,8 @@ INSERT INTO `item_basic` VALUES (16047,0,'norg_earring','norg_earring',1,60488,0
 INSERT INTO `item_basic` VALUES (16048,0,'safehold_earring','safehold_earring',1,60488,0,0,0);
 INSERT INTO `item_basic` VALUES (16049,0,'empire_earring','empire_earring',1,60488,0,0,0);
 INSERT INTO `item_basic` VALUES (16050,0,'nashmau_earring','nashmau_earring',1,60488,0,0,1291);
-INSERT INTO `item_basic` VALUES (16052,0,'incubus_earring','incubus_earring',1,51204,24,0,0);
-INSERT INTO `item_basic` VALUES (16053,0,'incubus_earring_+1','incubus_earring_+1',1,51200,24,0,0);
+INSERT INTO `item_basic` VALUES (16052,0,'incubus_earring','incubus_earring',1,51268,24,0,0);
+INSERT INTO `item_basic` VALUES (16053,0,'incubus_earring_+1','incubus_earring_+1',1,51264,24,1,0);
 INSERT INTO `item_basic` VALUES (16054,0,'hirudinea_earring','hirudinea_earring',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (16055,0,'choreia_earring','choreia_earring',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (16056,0,'pagondas_earring','pagondas_earring',1,63572,0,1,0);

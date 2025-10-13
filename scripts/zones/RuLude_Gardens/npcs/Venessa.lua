@@ -61,32 +61,33 @@ function onTrigger(player, npc)
 end
 
 function onEventUpdate(player, csid, option)
-    local abandonmentTimer = player:getCharVar("[ENM]abandonmentTimer")
-    local antipathyTimer = player:getCharVar("[ENM]antipathyTimer")
-    local animusTimer = player:getCharVar("[ENM]animusTimer")
-    local acrimonyTimer = player:getCharVar("[ENM]acrimonyTimer")
+    local now = VanadielTime()
+    local timers = {
+        [1] = player:getCharVar("[ENM]abandonmentTimer"),
+        [2] = player:getCharVar("[ENM]antipathyTimer"),
+        [3] = player:getCharVar("[ENM]animusTimer"),
+        [4] = player:getCharVar("[ENM]acrimonyTimer"),
+    }
+    local kis = {
+        [1] = tpz.ki.CENSER_OF_ABANDONMENT,
+        [2] = tpz.ki.CENSER_OF_ANTIPATHY,
+        [3] = tpz.ki.CENSER_OF_ANIMUS,
+        [4] = tpz.ki.CENSER_OF_ACRIMONY,
+    }
 
     if csid == 10064 or csid == 10065 then
-        -- Spit out time remaining on KI
-        if option == 1 and VanadielTime() < abandonmentTimer and player:hasKeyItem(tpz.ki.CENSER_OF_ABANDONMENT) == false then
-            player:updateEvent(1, 0, 0, 0, abandonmentTimer, 1, 0, 0)
-        elseif option == 2 and VanadielTime() < antipathyTimer and player:hasKeyItem(tpz.ki.CENSER_OF_ANTIPATHY) == false  then
-            player:updateEvent(2, 0, 0, 0, antipathyTimer, 1, 0, 0)
-        elseif option == 3 and VanadielTime() < animusTimer and player:hasKeyItem(tpz.ki.CENSER_OF_ANIMUS) == false then
-            player:updateEvent(3, 0, 0, 0, animusTimer, 1, 0, 0)
-        elseif option == 4 and VanadielTime() < acrimonyTimer and player:hasKeyItem(tpz.ki.CENSER_OF_ACRIMONY) == false then
-            player:updateEvent(4, 0, 0, 0, acrimonyTimer, 1, 0, 0)
-        end
+        local timer = timers[option]
+        local ki = kis[option]
 
-        -- Give player KI
-        if option == 1 and VanadielTime() >= abandonmentTimer then
-            player:updateEvent(1, 0, 0, 1)
-        elseif option == 2 and VanadielTime() >= antipathyTimer then
-            player:updateEvent(2, 0, 0, 1)
-        elseif option == 3 and VanadielTime() >= animusTimer then
-            player:updateEvent(3, 0, 0, 1)
-        elseif option == 4 and VanadielTime() >= acrimonyTimer then
-            player:updateEvent(4, 0, 0, 1)
+        if timer and timer > 0 then
+            if now < timer and not player:hasKeyItem(ki) then
+                player:updateEvent(option, 0, 0, 0, timer, 1, 0, 0)
+            elseif now >= timer then
+                player:updateEvent(option, 0, 0, 1)
+            end
+        else
+            -- no timer set yet, allow KI
+            player:updateEvent(option, 0, 0, 1)
         end
     end
 end
