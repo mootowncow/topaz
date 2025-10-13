@@ -4,6 +4,7 @@
 -- Has a chance to use all TP moves up to 3 times in a row
 -- Uses Daunting Hurl below 40% HP
 -- Daunting hurtl throws a boulder that damages enemies around the impact radius. Additional effect: Terror and hate reset.
+-- !gotoid 17125663
 -----------------------------------
 require("scripts/globals/status")
 require("scripts/globals/mobs")
@@ -30,12 +31,32 @@ function onMobWeaponSkillPrepare(mob, target)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    -- Has a chance to use all TP moves up to 3 times in a row
-    if skill:getID() ~= 658 then
-        if math.random(100) <= 20 then
-            mob:useMobAbility(skill:getID()) 
+    local tripleTPMove = mob:getLocalVar("tripleTPMove")
+
+    -- Skip specific move
+    if skill:getID() == 658 then
+        return
+    end
+
+    -- 20% chance to repeat the move 1–2 more times
+    if math.random(100) <= 20 then
+        if os.time() >= tripleTPMove then
+            -- Repeat the move up to 3 total (1 original + 1–2 extra)
+            local repeats = math.random(1, 2)
+            printf("Use TP move %d more times", repeats)
+            if repeats == 1 then
+                mob:useMobAbility(skill:getID())
+            elseif repeats == 2 then
+                mob:useMobAbility(skill:getID())
+                mob:useMobAbility(skill:getID())
+            end
+            mob:setLocalVar("tripleTPMove", os.time() + 15)
         end
     end
+end
+
+function onMobDisengage(mob, target)
+    mob:setLocalVar("tripleTPMove", 0)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
