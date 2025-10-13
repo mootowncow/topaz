@@ -2199,6 +2199,8 @@ function MobGetStatusEffectDuration(effect)
             duration = 30
         elseif (effect == tpz.effect.SLEEP_II) then
             duration = 30
+        elseif (effect == tpz.effect.MAX_HP_DOWN) or (effect == tpz.effect.MAX_MP_DOWN) or (effect == tpz.effect.MAX_TP_DOWN) then
+            duration = 45
         elseif (effect == tpz.effect.WEIGHT) then
             duration = 60 
         elseif (effect == tpz.effect.PARALYSIS) then
