@@ -33,13 +33,22 @@ validThfQuestMobs =
 
 local stealTable =
 {
-    [tpz.items.BEASTCOIN]               = {Chance = 45}, 
+    [tpz.items.BEASTCOIN]               = {Chance = 45},
     [tpz.items.SILVER_BEASTCOIN]        = {Chance = 35},
     [tpz.items.GOLD_BEASTCOIN]          = {Chance = 10},
     [tpz.items.PLATINUM_BEASTCOIN]      = {Chance = 5},
     [tpz.items.TUKUKU_WHITESHELL]       = {Chance = 5},
     [tpz.items.ORDELLE_BRONZEPIECE]     = {Chance = 5},
     [tpz.items.ONE_BYNE_BILL]           = {Chance = 5},
+    [tpz.items.KING_TRUFFLE]            = {Chance = 5},
+    [tpz.items.MAGIC_POT_SHARD]         = {Chance = 10},
+    [tpz.items.CHUNK_OF_MYTHRIL_ORE]    = {Chance = 10},
+    [tpz.items.THIEFS_TESTIMONY]        = {Chance = 10},
+    [tpz.items.SPOOL_OF_SILK_THREAD]    = {Chance = 20},
+    [tpz.items.POT_OF_HONEY]            = {Chance = 20},
+    [tpz.items.SLICE_OF_COCKATRICE_MEAT]= {Chance = 20},
+    [tpz.items.SPIDER_WEB]              = {Chance = 5},
+    [18688]                             = {Chance = 5}, -- Lamian Kaman -1
 }
 
 local function HasDispellableEffect(target)
@@ -85,11 +94,13 @@ function onUseAbility(player, target, ability, action)
     for itemId, stealData in pairs(stealTable) do
         if (itemId == stolenItemId) then
             base = stealData.Chance
+            break
         end
     end
+
     local stealMod = player:getMod(tpz.mod.STEAL) * 10
     local stealChance = (base * 10) + stealMod + thfLevel - target:getMainLvl()
-	
+
 	stealChance = utils.clamp(stealChance, 50, 450) -- Cap at 45% chance
 
     -- THF JSE quest
