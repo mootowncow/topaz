@@ -10,6 +10,13 @@ require("scripts/globals/monstertpmoves")
 ---------------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
+    local mobhp = mob:getHPP()
+    local cogtoothSkagnogg = mob:getPool() == 761
+
+    if cogtoothSkagnogg and (mobhp < 40) then
+        return 1
+    end
+
     return 0
 end
 
