@@ -12741,7 +12741,7 @@ INSERT INTO `mob_groups` VALUES (7,4147,188,'Vanguard_Enchanter',1800,0,2543,0,0
 INSERT INTO `mob_groups` VALUES (8,4192,188,'Vanguard_Tinkerer',1800,0,2543,0,0,65,67,0);
 INSERT INTO `mob_groups` VALUES (9,4136,188,'Vanguard_Armorer',1800,0,2543,0,0,65,67,0);
 INSERT INTO `mob_groups` VALUES (10,4155,188,'Vanguard_Hitman',1800,0,2543,0,0,65,67,0);
-INSERT INTO `mob_groups` VALUES (11,1444,188,'Gabblox_Magpietongue',0,32,922,8000,0,70,71,0); -- PH
+INSERT INTO `mob_groups` VALUES (11,1444,188,'Gabblox_Magpietongue',0,32,9032,8000,0,70,71,0); -- PH
 INSERT INTO `mob_groups` VALUES (12,4173,188,'Vanguard_Pitfighter',1800,0,2543,0,0,65,67,0);
 INSERT INTO `mob_groups` VALUES (13,4133,188,'Vanguard_Alchemist',1800,0,2543,0,0,65,67,0);
 INSERT INTO `mob_groups` VALUES (14,4160,188,'Vanguard_Maestro',1800,0,2543,0,0,65,67,0);
