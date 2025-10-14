@@ -1917,7 +1917,10 @@ namespace petutils
         TPZ_DEBUG_BREAK_IF(PMaster == nullptr);
         TPZ_DEBUG_BREAK_IF(PMaster->PPet == nullptr);
 
-        petutils::DetachPet(PMaster);
+        if (PMaster->PPet)
+        {
+            petutils::DetachPet(PMaster);
+        }
     }
 
     int16 PerpetuationCost(uint32 id, uint8 level)

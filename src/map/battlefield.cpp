@@ -43,6 +43,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "packets/position.h"
 
 #include "status_effect_container.h"
+#include "recast_container.h"
 #include "treasure_pool.h"
 
 #include "utils/charutils.h"
@@ -51,6 +52,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "utils/zoneutils.h"
 #include "zone.h"
 #include <chrono>
+#include "ability.h"
 
 CBattlefield::CBattlefield(uint16 id, CZone* PZone, uint8 area, CCharEntity* PInitiator)
 {
@@ -292,7 +294,14 @@ bool CBattlefield::InsertEntity(CBaseEntity* PEntity, bool enter, BATTLEFIELDMOB
                 ApplyLevelRestrictions(PChar);
                 m_EnteredPlayers.emplace(PEntity->id);
                 PChar->ClearTrusts();
+                petutils::DespawnPet(PChar);
+
+                CAbility* PActivateAbility = ability::GetAbility(ABILITY_ACTIVATE);
+                if (PActivateAbility)
+                    PChar->PRecastContainer->Del(RECAST_ABILITY, PActivateAbility->getRecastId());
+
                 luautils::OnBattlefieldEnter(PChar, this);
+
                 // Show timer except in Temenos and Apollyon
                 if (this->GetZoneID() != 37 && this->GetZoneID() != 38)
                 {
