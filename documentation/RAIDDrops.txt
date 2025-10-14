@@ -1,3 +1,5 @@
+{{Private Server|Shiyo Server|Shiyo}}
+
 === Promathia ===
   * Gyve Trousers [Legs]
       - Lv.75 WHM BLM RDM BRD RNG NIN SMN BLU PUP SCH GEO
@@ -49,6 +51,9 @@
       - Dmgmagic -5
       - Ratt +12
       - Snap Shot +5
+      - Pet:
+          - Regen +10
+          - Dmg -5
   * Terminal Plate [Body]
       - Lv.75 WAR PLD DRK SAM DRG
       - Def +50
@@ -65,6 +70,10 @@
   * Consummation Torque [Neck]
       - Lv.75 All Jobs
       - Blood Boon +3
+      - Avatar:
+          - Acc +5
+          - Macc +5
+          - Enmity +5
 
 === Bahamut ===
   * Vanir Boots [Feet]
@@ -98,7 +107,7 @@
       - Storetp +5
 
 === Ultima ===
-  * Culminus [Sub]
+  * Culminus [Shield]
       - Lv.75 WHM BLM RDM BRD SMN BLU SCH GEO
       - Def +23
       - Hp +25
@@ -113,10 +122,17 @@
       - DMG: 18
       - Delay: 531
       - Acc +10
+      - Automaton:
+          - Regen +4
+          - Refresh +4
+          - Dmg -10
   * Domesticators Earring [Ear]
       - Lv.75 All Jobs
       - Enmity -5
       - Eva +3
+      - Pet:
+          - Enmity +5
+          - Double Attack +3
   * Tengu No Hane [Ammo]
       - Lv.75 THF NIN DNC
       - DMG: 0
@@ -144,6 +160,7 @@
       - DMG: 28
       - Delay: 150
       - Acc +10
+      - Latent: Equip Slot (1) → Treasure Hunter +1
   * Divinator [Ranged]
       - Lv.75 PUP
       - DMG: 0
@@ -160,6 +177,10 @@
       - Att +12
       - Eva -10
       - Dual Wield +5
+      - Pet:
+          - Acc +10
+          - Att +10
+          - Haste Gear +200
   * Mesyohi Rod [Club]
       - Lv.72 WHM PLD
       - DMG: 42
@@ -185,7 +206,7 @@
       - Meva +107
       - Eva +27
       - Haste Gear +500
-  * Kamlanauts Shield [Sub]
+  * Kamlanauts Shield [Shield]
       - Lv.75 WAR PLD DRK
       - Fire Absorb +25
       - Ice Absorb +25
@@ -249,6 +270,8 @@
       - Mp +34
       - Haste Gear +300
       - Enmity -4
+      - Pet:
+          - Haste Gear +300
   * Anahera Saber [Sword]
       - Lv.75 RDM BLU
       - DMG: 45
@@ -264,6 +287,11 @@
       - Def +18
       - Haste Gear +300
       - Hp +25
+      - Pet:
+          - Acc +5
+          - Racc +5
+          - Macc +5
+          - Haste Gear +300
   * Felistris Mask [Head]
       - Lv.72 WAR MNK THF BST NIN DNC RUN
       - Def +29
@@ -283,6 +311,9 @@
       - Delay: 288
       - Acc +10
       - Storetp +5
+      - Pet:
+          - Acc +10
+          - Double Attack +5
 
 === Ark Angel Ev ===
   * Patricius Ring [Ring]
@@ -378,5 +409,4 @@
       - Occasionally attacks 2–3 times
       - DMG: 60
       - Delay: 494
-      - No mods found
 
