@@ -746,6 +746,12 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             case ABILITY_MAINTENANCE:
             case ABILITY_REPAIR:
             {
+                if (PChar->PPet == nullptr)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_REQUIRES_A_PET));
+                    return false;
+                }
+
                 CItem* PItem = PChar->getEquip((SLOTTYPE)SLOT_AMMO);
                 if (PItem == nullptr)
                 {
