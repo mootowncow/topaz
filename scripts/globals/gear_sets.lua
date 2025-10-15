@@ -314,11 +314,14 @@ function ApplyMod(player, gearset, matches)
         local petModType    = mod[6] or 0
 
         -- Apply mod to player or pet based on isPetMod
-        if isPetMod then -- i.e. {id = 1, items = {16092, 14554, 14969, 15633, 15719},  matches = 5, matchType = matchtype.any, mods = {{tpz.mod.HASTE_GEAR, 500, 0, 0, true, tpz.pet.modType.AUTOMATON}} },    --  Usukane's set (5% Haste)
-            player:addPetGearSetMod(gearset.id + i, modId, petModType, modValue + addSetBonus)
+        local finalValue = modValue + (addMatches * addMatchValue) + addSetBonus
+
+        if isPetMod then
+            player:addPetGearSetMod(gearset.id + i, modId, petModType, finalValue)
         else
-            player:addGearSetMod(gearset.id + i, modId, modValue + addSetBonus)
+            player:addGearSetMod(gearset.id + i, modId, finalValue)
         end
+        -- printf("Gearset %u matched %u pieces -> add %u (%u total)\n", gearset.id, matches, finalValue, addMatches)
 
         i = i + 1
     end
