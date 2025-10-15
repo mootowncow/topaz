@@ -13,18 +13,24 @@ require("scripts/globals/monstertpmoves")
 local ID = require("scripts/zones/Grand_Palace_of_HuXzoi/IDs")
 ---------------------------------------------
 function onMobSkillCheck(target,mob,skill)
-    printf("Is temperance")
+    -- Temperance can use this TP move at will
     if mob:getID() == ID.mob.JAILER_OF_TEMPERANCE then
-        printf("Is temperance")
+        -- Only uses in H2H mode(No bars or rings) mode
+        if mob:AnimationSub() > 1 then
+            return 1
+        end
+
         return 0
     end
-    if mob:AnimationSub() > 1 then
-        return 1
+
+    -- Normal Zdei can only use this after charging 3 times
+    if mob:getLocalVar("charge_count") >= 2 then
+        mob:SetAutoAttackEnabled(true)
+        mob:setLocalVar("charge_count", 0)
+        mob:setLocalVar("charge_total", 0)
+        return 0
     end
-    if mob:AnimationSub() == 2 or mob:AnimationSub() == 3 then
-        return 1
-    end
-    return 0
+    return 1
 end
 
 function onMobWeaponSkill(target, mob, skill)
@@ -48,5 +54,8 @@ function onMobWeaponSkill(target, mob, skill)
     target:takeDamage(dmg, mob, tpz.attackType.PHYSICAL, tpz.damageType.SLASHING)
 	if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then   target:tryInterruptSpell(mob, info.hitslanded) end
     MobPhysicalStatusEffectMoveSub(mob, target, skill, typeEffect, 1, 0, 30, 0, 0, 0)
+    if (MobPhysicalHit(mob, skill)) then
+        mob:resetEnmity(target)
+    end
     return dmg
 end
