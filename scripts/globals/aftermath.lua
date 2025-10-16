@@ -63,7 +63,7 @@ tpz.aftermath.effects =
     -- Tier 1 Relic
     -----------------------------------
     [1]  = { mods = { tpz.mod.GUARD_PERCENT, 25 }, duration = getTier1RelicDuration }, -- Spharai
-    [2]  = { mods = { tpz.mod.TRIPLE_ATTACK, 10 }, duration = getTier1RelicDuration }, -- Mandau
+    [2]  = { mods = { tpz.mod.CRIT_DMG_INCREASE, 10 }, duration = getTier1RelicDuration }, -- Mandau
     [3]  = { mods = { tpz.mod.ATTP, 25, tpz.mod.RATTP, 25 }, duration = getTier1RelicDuration }, -- Excalibur
     [4]  = { mods = { tpz.mod.ATTP, 25, tpz.mod.RATTP, 25 }, duration = getTier1RelicDuration }, -- Ragnarok
     [5]  = { mods = { tpz.mod.REGEN, 30 }, duration = getTier1RelicDuration, includePets = true }, -- Guttler
