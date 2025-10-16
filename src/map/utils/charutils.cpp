@@ -2306,8 +2306,21 @@ namespace charutils
                         switch (PWeapon->getSkillType())
                         {
                             case SKILL_HAND_TO_HAND:
-                                PChar->mainlook.sub = appearanceModel + 0x1000;
-                                break;
+                            {
+                                // Only show H2H sub model if sub slot is empty or not a weapon
+                                CItemEquipment* PSubItem = PChar->getEquip(SLOT_SUB);
+                                bool subIsWeapon = (PSubItem && PSubItem->isType(ITEM_WEAPON) && !((CItemWeapon*)PSubItem)->IsShield());
+
+                                if (!subIsWeapon)
+                                {
+                                    PChar->mainlook.sub = appearanceModel + 0x1000;
+                                }
+                                else
+                                {
+                                    PChar->mainlook.sub = PChar->look.sub; // invalid offhand combo visually
+                                }
+                            }
+                            break;
                             case SKILL_GREAT_SWORD:
                             case SKILL_GREAT_AXE:
                             case SKILL_SCYTHE:
