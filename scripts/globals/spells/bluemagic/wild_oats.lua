@@ -46,14 +46,13 @@ function onSpellCast(caster, target, spell)
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
     params.eco = ECO_PLANTOID
-    damage = BluePhysicalSpell(caster, target, spell, params)
+    local damage = BluePhysicalSpell(caster, target, spell, params)
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
     params.bonus = 15
     params.effect = tpz.effect.VIT_DOWN
-    if not target:hasStatusEffect(tpz.effect.CHOKE) then -- Does not stack with Choke
-        BlueTryEnfeeble(caster, target, spell, damage, 17, 30, 180, params)
-    end
+    local vitDown = 3 + caster:getMainLvl() / 7
+    BlueTryEnfeeble(caster, target, spell, damage, vitDown, 30, 180, params)
     params.effect = tpz.effect.ATTACK_DOWN
     BlueTryEnfeeble(caster, target, spell, damage, 8, 0, 180, params)
 
