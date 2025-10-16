@@ -17,11 +17,11 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local duration = 30
+    local duration = 90
     local gearBonus = player:getMod(tpz.mod.JIG_DURATION)
     local jpBonus =  player:getJobPointLevel(tpz.jp.JIG_DURATION)
     if (player:getMainJob() == tpz.job.DNC) then
-        duration = 60
+        duration = 180
     end
 
     duration = duration + gearBonus
