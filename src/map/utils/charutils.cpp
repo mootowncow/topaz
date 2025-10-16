@@ -2684,8 +2684,8 @@ namespace charutils
                 {
                     CItemWeapon* PSubWeapon = static_cast<CItemWeapon*>(PSubItem);
 
-                    // Unequip only if the sub weapon isn't a grip (SKILL_NONE)
-                    if (PSubWeapon->getSkillType() != SKILL_NONE)
+                    // Unequip only if the sub weapon isn't a grip (SKILL_NONE) or Shield
+                    if (PSubWeapon->getSkillType() != SKILL_NONE && !PSubWeapon->IsShield())
                     {
                         RemoveSub(PChar);
                     }
@@ -2797,82 +2797,78 @@ namespace charutils
                 continue;
             }
 
-            if (PItem->getReqLvl() > (map_config.disable_gear_scaling ?
-                PChar->GetMLevel() : PChar->jobs.job[PChar->GetMJob()]))
+            // Check level requirements
+            if (PItem->getReqLvl() > (map_config.disable_gear_scaling ? PChar->GetMLevel() : PChar->jobs.job[PChar->GetMJob()]))
             {
                 UnequipItem(PChar, slotID);
                 continue;
             }
 
+            // --- Subslot checks ---
             if (slotID == SLOT_SUB)
             {
-                CItem* PSubItem = PChar->getEquip((SLOTTYPE)SLOT_SUB);
-                if (!PSubItem)
-                    continue;
-
-                CItemWeapon* PSubWeapon = dynamic_cast<CItemWeapon*>(PSubItem);
+                CItemWeapon* PSubWeapon = dynamic_cast<CItemWeapon*>(PChar->getEquip((SLOTTYPE)SLOT_SUB));
                 CItemWeapon* PMainWeapon = dynamic_cast<CItemWeapon*>(PChar->getEquip((SLOTTYPE)SLOT_MAIN));
 
-                // Allow shields always (even if no mainhand)
-                if (PSubWeapon && PSubWeapon->IsShield())
+                // No sub item equipped
+                if (!PSubWeapon)
                     continue;
 
-                // If sub item is a grip (skill_NONE)
-                if (PSubWeapon && PSubWeapon->getSkillType() == SKILL_NONE)
+                // Allow shields always (even if no mainhand)
+                if (PSubWeapon->IsShield())
+                    continue;
+
+                // Allow grips only with 2H weapons
+                if (PSubWeapon->getSkillType() == SKILL_NONE)
                 {
-                    // Require a two-handed mainhand weapon
                     if (!PMainWeapon || !PMainWeapon->isTwoHanded())
                     {
                         UnequipItem(PChar, SLOT_SUB);
                         PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_2H_WEAPON_EQUIP_GRIP));
-                        continue;
                     }
-                    continue; // valid grip + 2H combo
+                    continue;
                 }
 
-                // Disallow sub-weapons if no mainhand (except shields handled above)
+                // 🚫 Disallow sub-weapons if no mainhand (non-shield, non-grip)
                 if (!PMainWeapon)
                 {
                     UnequipItem(PChar, SLOT_SUB);
                     continue;
                 }
 
-                // Disallow sub-weapons if mainhand is H2H
+                // 🚫 Disallow sub-weapons if mainhand is H2H
                 if (PMainWeapon->getSkillType() == SKILL_HAND_TO_HAND)
                 {
                     UnequipItem(PChar, SLOT_SUB);
-                    //PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_SUB_MH_1h_ONLY)); TODO
                     continue;
                 }
 
-                // Disallow non-shield, non-grip sub-weapons if no Dual Wield
+                // 🚫 Disallow sub-weapons if no Dual Wield
                 if (!charutils::hasTrait(PChar, TRAIT_DUAL_WIELD))
                 {
-                    if (PSubWeapon && PSubWeapon->getSkillType() != SKILL_NONE)
-                    {
-                        UnequipItem(PChar, SLOT_SUB);
-                        continue;
-                    }
+                    UnequipItem(PChar, SLOT_SUB);
+                    continue;
                 }
             }
 
-            if ((PItem->getJobs() & (1 << (PChar->GetMJob() - 1))) &&
-                (PItem->getEquipSlotId() & (1 << slotID)))
+            // --- Job/equip restrictions ---
+            if ((PItem->getJobs() & (1 << (PChar->GetMJob() - 1))) && (PItem->getEquipSlotId() & (1 << slotID)))
             {
                 continue;
             }
 
+            // If neither job nor slot is valid, unequip
             UnequipItem(PChar, slotID);
         }
-        // Unarmed H2H weapon check
+
+        // --- Unarmed weapon fallback ---
         if (!PChar->getEquip(SLOT_MAIN) || !PChar->getEquip(SLOT_MAIN)->isType(ITEM_EQUIPMENT) || PChar->m_Weapons[SLOT_MAIN] == itemutils::GetUnarmedH2HItem())
         {
             CheckUnarmedWeapon(PChar);
         }
 
+        // --- Final updates ---
         PChar->pushPacket(new CCharAppearancePacket(PChar));
-
-
         BuildingCharWeaponSkills(PChar);
         SaveCharEquip(PChar);
         SaveCharLook(PChar);
