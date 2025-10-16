@@ -33,7 +33,7 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.MPP_LT, 10, ai.r.JA, ai.s.SPECIFIC, tpz.ja.CONVERT)
 
     -- Raise master, highest priority
-    mob:addSimpleGambit(ai.t.MASTER, ai.c.ALWAYS, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RAISE)
+    mob:addSimpleGambit(ai.t.MASTER_DEAD, ai.c.ALWAYS, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RAISE)
 
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.DOOM, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURSNA)
 

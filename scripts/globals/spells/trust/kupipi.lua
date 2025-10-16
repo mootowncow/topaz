@@ -42,7 +42,7 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.AFFLATUS_SOLACE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.AFFLATUS_SOLACE)
 
     -- Raise master, highest priority
-    mob:addSimpleGambit(ai.t.MASTER, ai.c.ALWAYS, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RAISE)
+    mob:addSimpleGambit(ai.t.MASTER_DEAD, ai.c.ALWAYS, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RAISE)
 
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.DOOM, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURSNA)
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.STATUS, tpz.effect.PETRIFICATION, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STONA)

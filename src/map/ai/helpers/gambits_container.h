@@ -62,7 +62,8 @@ enum class G_TARGET : uint16
     PARTY_DEAD      = 10,
     PARTY_MULTI     = 11,
     CASTS_SPELLS    = 12,
-    WANTS_REFRESH   = 13
+    WANTS_REFRESH   = 13,
+    MASTER_DEAD     = 14,
 };
 
 enum class G_CONDITION : uint16

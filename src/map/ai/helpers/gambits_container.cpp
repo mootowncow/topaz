@@ -178,6 +178,9 @@ void CGambitsContainer::Tick(time_point tick)
                     return PMember->isDead();
                 }) != nullptr;
 
+            case G_TARGET::MASTER_DEAD:
+                return POwner->PMaster->isDead();
+
             case G_TARGET::MASTER:
                 return CheckTrigger(POwner->PMaster, predicate);
 
@@ -321,6 +324,13 @@ void CGambitsContainer::Tick(time_point tick)
                         target = PMember;
                     }
                 });
+            }
+            else if (gambit.predicates[0].target == G_TARGET::MASTER_DEAD)
+            {
+                if (POwner->PMaster->isDead())
+                {
+                    target = POwner->PMaster;
+                }
             }
             else if (gambit.predicates[0].target == G_TARGET::MASTER)
             {
