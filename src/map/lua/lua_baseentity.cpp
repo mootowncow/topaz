@@ -11278,7 +11278,7 @@ inline int32 CLuaBaseEntity::sendRaise(lua_State *L)
     {
         ShowDebug(CL_CYAN"lua::sendRaise raise value is not valide!\n" CL_RESET);
     }
-    else if (PChar->m_hasTractor == 0 && PChar->m_hasRaise == 0)
+    else if (PChar->m_hasTractor == 0 && PChar->m_hasRaise <= RaiseLevel)
     {
         PChar->m_hasRaise = RaiseLevel;
         PChar->pushPacket(new CRaiseTractorMenuPacket(PChar, TYPE_RAISE));
