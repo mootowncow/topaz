@@ -399,6 +399,15 @@ void CTrustController::DoRoamTick(time_point tick)
     bool masterMeleeSwing = masterLastAttackTime > server_clock::now() - 1s;
     bool trustEngageCondition = PMaster->GetBattleTarget() && masterMeleeSwing;
 
+    if (PMaster && !PMaster->PAI->IsEngaged() && PMaster->isAlive())
+    {
+        POwner->PAI->Internal_Disengage();
+        m_LastTopEnmity = nullptr;
+        m_CombatEndTime = m_Tick;
+        m_outOfLosChecks = 0;
+        m_numberOfWarps = 0;
+    }
+
     if (PMaster->PAI->IsEngaged() && trustEngageCondition)
     {
         POwner->PAI->Internal_Engage(PMaster->GetBattleTargetID());
@@ -830,8 +839,14 @@ bool CTrustController::TryCastRaise(CCharEntity* PMaster, CTrustController* Cont
                     {
                         if (POwner->health.mp >= PSpell->getMPCost())
                         {
-                            Controller->Cast(PMember->targid, *raise);
-                            return true;
+                            if (auto* PChar = dynamic_cast<CCharEntity*>(PMember))
+                            {
+                                if (!PChar->m_hasRaise)
+                                {
+                                    Controller->Cast(PMember->targid, *raise);
+                                    return true;
+                                }
+                            }
                         }
                     }
                 }

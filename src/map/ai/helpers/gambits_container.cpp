@@ -458,19 +458,31 @@ void CGambitsContainer::Tick(time_point tick)
                         {
                             SPELLFAMILY family = spell->getSpellFamily();
 
-                            if (family == SPELLFAMILY_PROTECTRA)
+                            switch (family)
                             {
+                                case SPELLFAMILY_PROTECTRA:
                                 if (!ShouldProtectra())
                                 {
                                     spell_id = POwner->SpellContainer->GetBestAvailable(SPELLFAMILY_PROTECT);
                                 }
-                            }
-                            else if (family == SPELLFAMILY_SHELLRA)
-                            {
+                                break;
+                                case SPELLFAMILY_SHELLRA:
                                 if (!ShouldShellra())
                                 {
                                     spell_id = POwner->SpellContainer->GetBestAvailable(SPELLFAMILY_SHELL);
                                 }
+                                break;
+                                case SPELLFAMILY_RAISE:
+                                if (auto* PChar = dynamic_cast<CCharEntity*>(target))
+                                {
+                                    if (PChar->m_hasRaise)
+                                    {
+                                        return;
+                                    }
+                                }
+                                break;
+                                default:
+                                    break;
                             }
 
                             // After updating spell_id, ensure it still has a value
