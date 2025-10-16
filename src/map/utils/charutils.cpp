@@ -1897,6 +1897,7 @@ namespace charutils
     /************************************************************************
     *                                                                       *
     *  Пытаемся экипировать предмет с соблюдением всех условий              *
+    *  Пытаемся экипировать предмет с соблюдением всех условий              *
     *                                                                       *
     ************************************************************************/
 
@@ -1999,6 +2000,7 @@ namespace charutils
                                         CItemWeapon* PWeapon = (CItemWeapon*)armor;
                                         if (PWeapon->getSkillType() != SKILL_NONE || ((CItemWeapon*)PItem)->getSkillType() == SKILL_HAND_TO_HAND)
                                         {
+                                            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_2H_WEAPON_EQUIP_GRIP));
                                             UnequipItem(PChar, SLOT_SUB, false);
                                         }
                                     }
@@ -2009,7 +2011,13 @@ namespace charutils
                                 }
                                 if (((CItemWeapon*)PItem)->getSkillType() == SKILL_HAND_TO_HAND)
                                 {
+                                    // Ensure both hands show the correct model
+                                    PChar->look.main = PItem->getModelId();
                                     PChar->look.sub = PItem->getModelId() + 0x1000;
+
+                                    // Force update weapons (H2H is special)
+                                    PChar->m_Weapons[SLOT_MAIN] = PItem;
+                                    PChar->m_Weapons[SLOT_SUB] = PItem; // mirror the same H2H weapon for offhand visual
                                 }
                             }
                             break;
@@ -2644,14 +2652,26 @@ namespace charutils
             PChar->addModifier(Mod::PHALANX, PChar->getMod(Mod::SHIELD_BARRIER));
         }
 
-        if (slotID == 0)
+        if (slotID == SLOT_MAIN)
         {
             CItemEquipment* PSubItem = PChar->getEquip(SLOT_SUB);
 
             UnequipItem(PChar, equipSlotID);
 
-            if (equipSlotID == 0 && PSubItem)
-                RemoveSub(PChar);
+            if (equipSlotID == SLOT_MAIN && PSubItem)
+            {
+                // Only unequip sub if it's an offhand weapon
+                if (PSubItem->isType(ITEM_WEAPON))
+                {
+                    CItemWeapon* PSubWeapon = static_cast<CItemWeapon*>(PSubItem);
+
+                    // Unequip only if the sub weapon isn't a grip (SKILL_NONE)
+                    if (PSubWeapon->getSkillType() != SKILL_NONE)
+                    {
+                        RemoveSub(PChar);
+                    }
+                }
+            }
 
             PChar->pushPacket(new CEquipPacket(slotID, equipSlotID, containerID));
         }
@@ -2729,6 +2749,10 @@ namespace charutils
         }
 
         charutils::BuildingCharSkillsTable(PChar);
+        if (PChar->health.maxhp != 0 && PChar->status != STATUS_DISAPPEAR) // make sure we're not in the middle of logging in
+        {
+            CheckValidEquipment(PChar);
+        }
         BuildingCharWeaponSkills(PChar);
 
         PChar->UpdateHealth();
@@ -2763,19 +2787,52 @@ namespace charutils
 
             if (slotID == SLOT_SUB)
             {
-                // Check if the player has dual wield trait or not, and if they don't then unequip their weapons
+                CItem* PSubItem = PChar->getEquip((SLOTTYPE)SLOT_SUB);
+                if (!PSubItem)
+                    continue;
+
+                CItemWeapon* PSubWeapon = dynamic_cast<CItemWeapon*>(PSubItem);
+                CItemWeapon* PMainWeapon = dynamic_cast<CItemWeapon*>(PChar->getEquip((SLOTTYPE)SLOT_MAIN));
+
+                // Allow shields always (even if no mainhand)
+                if (PSubWeapon && PSubWeapon->IsShield())
+                    continue;
+
+                // If sub item is a grip (skill_NONE)
+                if (PSubWeapon && PSubWeapon->getSkillType() == SKILL_NONE)
+                {
+                    // Require a two-handed mainhand weapon
+                    if (!PMainWeapon || !PMainWeapon->isTwoHanded())
+                    {
+                        UnequipItem(PChar, SLOT_SUB);
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_2H_WEAPON_EQUIP_GRIP));
+                        continue;
+                    }
+                    continue; // valid grip + 2H combo
+                }
+
+                // Disallow sub-weapons if no mainhand (except shields handled above)
+                if (!PMainWeapon)
+                {
+                    UnequipItem(PChar, SLOT_SUB);
+                    continue;
+                }
+
+                // Disallow sub-weapons if mainhand is H2H
+                if (PMainWeapon->getSkillType() == SKILL_HAND_TO_HAND)
+                {
+                    UnequipItem(PChar, SLOT_SUB);
+                    //PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_SUB_MH_1h_ONLY)); TODO
+                    continue;
+                }
+
+                // Disallow non-shield, non-grip sub-weapons if no Dual Wield
                 if (!charutils::hasTrait(PChar, TRAIT_DUAL_WIELD))
                 {
-                    CItem* PItem = PChar->getEquip((SLOTTYPE)SLOT_SUB);
-                    // Don't unequip shields or Grips
-                    CItemWeapon* PWeapon = (CItemWeapon*)PItem;
-                    if (PItem)
+                    if (PSubWeapon && PSubWeapon->getSkillType() != SKILL_NONE)
                     {
-                        if (!((CItemWeapon*)PItem)->IsShield() && !PWeapon->getSkillType() == SKILL_NONE)
-                        {
-                            UnequipItem(PChar, SLOT_SUB);
-                            continue;
-                        }
+                        UnequipItem(PChar, SLOT_SUB);
+                        continue;
                     }
                 }
             }
@@ -5666,19 +5723,28 @@ namespace charutils
 
     void CheckUnarmedWeapon(CCharEntity* PChar)
     {
+        CItemWeapon* PMainWeapon = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_MAIN));
         CItem* PSubslot = PChar->getEquip(SLOT_SUB);
 
-        // Main or sub job provides H2H skill, and sub slot is empty.
-        if ((battleutils::GetSkillRank(SKILL_HAND_TO_HAND, PChar->GetMJob()) > 0 || battleutils::GetSkillRank(SKILL_HAND_TO_HAND, PChar->GetSJob()) > 0) &&
+        // Skip if actually using an equipped H2H weapon
+        if (PMainWeapon && PMainWeapon->getSkillType() == SKILL_HAND_TO_HAND)
+            return;
+
+        if ((battleutils::GetSkillRank(SKILL_HAND_TO_HAND, PChar->GetMJob()) > 0 ||
+             battleutils::GetSkillRank(SKILL_HAND_TO_HAND, PChar->GetSJob()) > 0) &&
             (!PSubslot || !PSubslot->isType(ITEM_EQUIPMENT)))
         {
             PChar->m_Weapons[SLOT_MAIN] = itemutils::GetUnarmedH2HItem();
-            PChar->look.main = 21;                                          // The secret to H2H animations.  setModelId for UnarmedH2H didn't work.
+            PChar->look.main = 21;
+            PChar->look.sub = 21 + 0x1000; // ensure both hands show unarmed H2H
         }
-        else {
+        else
+        {
             PChar->m_Weapons[SLOT_MAIN] = itemutils::GetUnarmedItem();
             PChar->look.main = 0;
+            PChar->look.sub = 0;
         }
+
         BuildingCharWeaponSkills(PChar);
     }
 

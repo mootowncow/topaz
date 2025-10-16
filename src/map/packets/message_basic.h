@@ -72,7 +72,8 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_CANNOT_ON_THAT_TARG	= 155, // You cannot perform that action on the specified target. 
 	MSGBASIC_OUT_OF_RANGE_UNABLE_CAST	= 313, // Out of range unable to cast 
 	MSGBASIC_CANNOT_ATTACK_TARGET	= 446, // You cannot attack that target 
-	MSGBASIC_NEEDS_2H_WEAPON		= 307, // That action requires a two-handed weapon. 
+	MSGBASIC_NEEDS_2H_WEAPON		= 307, // That action requires a two-handed weapon.
+    MSGBASIC_2H_WEAPON_EQUIP_GRIP   = 512, // You must have a two-handed weapon equipped in the main weapon slot in order to equip a grip.
 	MSGBASIC_USES_BUT_MISSES		= 324, // The <player> uses .. but misses <target>.
     MSGBASIC_CANT_BE_USED_IN_AREA	= 316, // That action cannot be used in this area. 
 	MSGBASIC_REQUIRES_SHIELD		= 199, // That action requires a shield.
