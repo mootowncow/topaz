@@ -1886,11 +1886,20 @@ namespace charutils
 
     void RemoveSub(CCharEntity* PChar)
     {
-        CItemEquipment* PItem = (CItemEquipment*)PChar->getEquip(SLOT_SUB);
+        CItemEquipment* PSubItem = dynamic_cast<CItemEquipment*>(PChar->getEquip(SLOT_SUB));
+        if (!PSubItem)
+            return;
 
-        if (PItem != nullptr && PItem->isType(ITEM_EQUIPMENT))
+        // Only unequip if it's actually an offhand weapon (not a shield or grip)
+        if (PSubItem->isType(ITEM_WEAPON))
         {
-            UnequipItem(PChar, SLOT_SUB);
+            CItemWeapon* PSubWeapon = static_cast<CItemWeapon*>(PSubItem);
+
+            // Grips (SKILL_NONE) are valid with 2H mainhand, so keep them
+            if (PSubWeapon->getSkillType() != SKILL_NONE)
+            {
+                UnequipItem(PChar, SLOT_SUB);
+            }
         }
     }
 
@@ -2285,6 +2294,7 @@ namespace charutils
         switch (equipSlotID)
         {
             case SLOT_MAIN:
+            {
                 if (hasValidStyle(PChar, PItem, appearance))
                 {
                     PChar->mainlook.main = appearanceModel;
@@ -2306,21 +2316,9 @@ namespace charutils
                         switch (PWeapon->getSkillType())
                         {
                             case SKILL_HAND_TO_HAND:
-                            {
-                                // Only show H2H sub model if sub slot is empty or not a weapon
-                                CItemEquipment* PSubItem = PChar->getEquip(SLOT_SUB);
-                                bool subIsWeapon = (PSubItem && PSubItem->isType(ITEM_WEAPON) && !((CItemWeapon*)PSubItem)->IsShield());
-
-                                if (!subIsWeapon)
-                                {
-                                    PChar->mainlook.sub = appearanceModel + 0x1000;
-                                }
-                                else
-                                {
-                                    PChar->mainlook.sub = PChar->look.sub; // invalid offhand combo visually
-                                }
-                            }
-                            break;
+                                // Set both fists when using H2H
+                                PChar->mainlook.sub = PChar->mainlook.main + 0x1000;
+                                break;
                             case SKILL_GREAT_SWORD:
                             case SKILL_GREAT_AXE:
                             case SKILL_SCYTHE:
@@ -2329,11 +2327,17 @@ namespace charutils
                             case SKILL_STAFF:
                                 PChar->mainlook.sub = PChar->look.sub;
                                 break;
+                            default:
+                                // 1H or other valid weapon types
+                                PChar->mainlook.sub = PChar->look.sub;
+                                break;
                         }
                     }
                 }
                 break;
+            }
             case SLOT_SUB:
+            {
                 if (hasValidStyle(PChar, PItem, appearance))
                 {
                     PChar->mainlook.sub = appearanceModel;
@@ -2343,7 +2347,9 @@ namespace charutils
                     PChar->mainlook.sub = PChar->look.sub;
                 }
                 break;
+            }
             case SLOT_RANGED:
+            {
                 if (hasValidStyle(PChar, PItem, appearance))
                 {
                     PChar->mainlook.ranged = appearanceModel;
@@ -2352,8 +2358,8 @@ namespace charutils
                 {
                     PChar->mainlook.ranged = PChar->look.ranged;
                 }
-
                 break;
+            }
             default:
                 break;
         }
