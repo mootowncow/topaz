@@ -111,6 +111,11 @@ function onMobFight(mob)
     end
 end
 
+function onMobDisengage(mob, target)
+    mob:setLocalVar("changeTime", 0)
+    mob:setMobMod(tpz.mobMod.NO_AGGRO, 1)
+end
+
 function onMobDeath(mob, player, isKiller, noKiller)
 end
 
