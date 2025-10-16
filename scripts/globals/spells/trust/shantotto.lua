@@ -26,9 +26,6 @@ function onMobSpawn(mob)
 
     tpz.trust.setUpFood(mob)
 
-    -- Magic burst logic!
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.MB_AVAILABLE, 0, ai.r.MA, ai.s.MB_ELEMENT, tpz.magic.spellFamily.NONE)
-    
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
@@ -40,6 +37,9 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.SLEEPGA, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.SLEEPGA)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.BREAKGA, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.BREAKGA)
+
+    -- Magic burst logic!
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.MB_AVAILABLE, 0, ai.r.MA, ai.s.MB_ELEMENT, tpz.magic.spellFamily.NONE)
 
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
