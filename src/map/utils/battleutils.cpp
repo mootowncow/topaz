@@ -1416,6 +1416,7 @@ namespace battleutils
                 // Check if the hit was absorbed by shadows
                 if (battleutils::IsAbsorbByShadow(PAttacker, PDefender))
                 {
+                    Action->spikesParam = 1;
                     Action->spikesMessage = MSGBASIC_SPIKES_SHADOW_ABSORB;
                 }
                 else
