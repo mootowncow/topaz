@@ -26,6 +26,9 @@ function onMobSpawn(mob)
 
     tpz.trust.setUpFood(mob)
 
+    -- Magic burst logic!
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.MB_AVAILABLE, 0, ai.r.MA, ai.s.MB_ELEMENT, tpz.magic.spellFamily.NONE)
+    
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_WS, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
@@ -48,24 +51,6 @@ function onMobSpawn(mob)
     -- TODO: Enmity douse
     -- TODO: Manawell
     
-    mob:addFullGambit({
-        ['predicates'] =
-        {
-            {
-                ['target'] = ai.t.TARGET, ['condition'] = ai.c.MB_AVAILABLE, ['argument'] = 0,
-            }
-        },
-        ['actions'] =
-        {
-            {
-                ['reaction'] = ai.r.MA, ['select'] = ai.s.HIGHEST, ['argument'] = tpz.magic.spellFamily.NONE,
-            },
-            {
-                ['reaction'] = ai.r.MSG, ['select'] = ai.s.SPECIFIC, ['argument'] = tpz.trust.message_offset.SPECIAL_MOVE_1, -- Ohohoho!
-            },
-        },
-    })
-
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_ASPIR, 75, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ASPIR)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_SC_AVAILABLE, 0, ai.r.MA, ai.s.BEST_AGAINST_TARGET, tpz.magic.spellFamily.NONE)

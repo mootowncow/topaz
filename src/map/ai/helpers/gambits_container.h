@@ -264,6 +264,7 @@ private:
     bool IsStunImmune(CBattleEntity* trigger_target);
     bool HasSpells(CBattleEntity* PEntity);
     bool ShouldWS(CBattleEntity* PTarget);
+    uint32 CalculateSpellCastTime(CBattleEntity* PEntity, CSpell* PSpell);
     CTrustEntity* POwner;
     time_point m_lastAction;
     std::vector<Gambit_t> gambits;
