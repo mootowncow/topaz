@@ -12758,7 +12758,7 @@ INSERT INTO `item_basic` VALUES (15421,0,'galka_trunks_+1','galka_trunks_+1',1,6
 INSERT INTO `item_basic` VALUES (15422,0,'black_hose','black_hose',1,34820,20,0,2831);
 INSERT INTO `item_basic` VALUES (15423,0,'tarutaru_shorts','tarutaru_shorts',1,63568,0,1,0);
 INSERT INTO `item_basic` VALUES (15424,0,'tarutaru_shorts_+1','taru._shorts_+1',1,63568,0,1,0);
-INSERT INTO `item_basic` VALUES (15425,0,'galliard_trousers','galliard_trousers',1,59476,0,0,6000);
+INSERT INTO `item_basic` VALUES (15425,0,'galliard_trousers','galliard_trousers',1,59476,0,1,6000);
 INSERT INTO `item_basic` VALUES (15426,0,'torrent_subligar','torrent_subligar',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (15427,0,'teutates_subligar','teutates_subligar',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (15428,0,'ocelot_trousers','ocelot_trousers',1,63572,0,1,0);
@@ -17353,7 +17353,7 @@ INSERT INTO `item_basic` VALUES (20628,0,'mindmeld_kris','mindmeld_kris',1,34820
 INSERT INTO `item_basic` VALUES (20629,0,'legato_dagger','legato_dagger',1,34820,2,0,0);
 INSERT INTO `item_basic` VALUES (20630,0,'atoyac','atoyac',1,63572,0,0,0);
 INSERT INTO `item_basic` VALUES (20631,0,'khandroma_-1','khandroma_-1',1,63552,0,0,0);
-INSERT INTO `item_basic` VALUES (20632,0,'vanir_knife','vanir_knife',1,63572,0,0,0);
+INSERT INTO `item_basic` VALUES (20632,0,'vanir_knife','vanir_knife',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (20633,0,'camaraderie_dagger','cama._dagger',1,63572,0,0,0);
 INSERT INTO `item_basic` VALUES (20634,0,'leisilonu_+1','leisilonu_+1',1,30804,0,1,0);
 INSERT INTO `item_basic` VALUES (20635,0,'forefront_dagger','forefront_dagger',1,63572,0,1,0);

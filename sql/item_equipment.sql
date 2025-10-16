@@ -7984,7 +7984,7 @@ INSERT INTO `item_equipment` VALUES (18253,'musk_sachet',30,0,4194303,0,0,0,8,4,
 INSERT INTO `item_equipment` VALUES (18254,'tiphia_sting',58,0,4194303,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (18255,'heavy_shell',75,0,1024,0,0,0,8,0,0);
 INSERT INTO `item_equipment` VALUES (18256,'orphic_egg',1,0,4194303,0,0,0,8,4,0);
-INSERT INTO `item_equipment` VALUES (18257,'bibiki_seashell',60,0,4194303,0,0,0,8,4,0);
+INSERT INTO `item_equipment` VALUES (18257,'bibiki_seashell',60,0,4194303,22,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (18258,'thr._tomahawk',75,0,1,87,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (18259,'angon',75,0,8192,88,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (18260,'relic_knuckles',75,0,2,135,0,0,1,0,0);

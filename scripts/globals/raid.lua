@@ -42,7 +42,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: AA TT immune to stun during manafont
 -- TODO: Kamlanaut waay undertuned, dies really fast and does nothing. Make new mob family and give trong ga enfeebles? Also make his enspells undispellable and give him ochain
 -- TODO: Confrontation should be removed after a timer when the red text shows but make it only show at 50+ yards
--- TODO: NPC's didn't despawn after Ealdnarche died?
 -- TODO: PLD's need chivalry
 -- TODO: Shikaree Z's wyvern has insane attack speed?
 -- TODO: Monberaux overwrites shell/haste

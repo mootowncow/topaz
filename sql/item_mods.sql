@@ -17765,18 +17765,16 @@ INSERT INTO `item_mods` VALUES (15422,27,5);      -- Enmity +5
 INSERT INTO `item_mods` VALUES (15423,1,1);
 INSERT INTO `item_mods` VALUES (15424,1,2);
 INSERT INTO `item_mods` VALUES (15424,510,1);
-INSERT INTO `item_mods` VALUES (15425,1,30);        -- Galliard Trousers
-INSERT INTO `item_mods` VALUES (15425,2,20);
-INSERT INTO `item_mods` VALUES (15425,8,2);
-INSERT INTO `item_mods` VALUES (15425,9,-2);
-INSERT INTO `item_mods` VALUES (15425,10,2);
-INSERT INTO `item_mods` VALUES (15425,11,-2);
-INSERT INTO `item_mods` VALUES (15425,12,-2);
-INSERT INTO `item_mods` VALUES (15425,13,-2);
-INSERT INTO `item_mods` VALUES (15425,14,-2);
-INSERT INTO `item_mods` VALUES (15425,25,5);
-INSERT INTO `item_mods` VALUES (15425,26,5);
-INSERT INTO `item_mods` VALUES (15425,384,200);      -- Haste+2%
+INSERT INTO `item_mods` VALUES (15425,1,30); -- DEF 30
+INSERT INTO `item_mods` VALUES (15425,2,20); -- HP 20
+INSERT INTO `item_mods` VALUES (15425,8,2); -- STR 2
+INSERT INTO `item_mods` VALUES (15425,9,-2); -- DEX -2
+INSERT INTO `item_mods` VALUES (15425,10,2); -- VIT 2
+INSERT INTO `item_mods` VALUES (15425,11,-2); -- AGI -2
+INSERT INTO `item_mods` VALUES (15425,12,-2); -- INT -2
+INSERT INTO `item_mods` VALUES (15425,13,-2); -- MND -2
+INSERT INTO `item_mods` VALUES (15425,14,-2); -- CHR -2
+INSERT INTO `item_mods` VALUES (15425,384,200); -- HASTE_GEAR 200
 INSERT INTO `item_mods` VALUES (15426,1,27);
 INSERT INTO `item_mods` VALUES (15426,8,-5);
 INSERT INTO `item_mods` VALUES (15426,384,600);
@@ -26006,10 +26004,7 @@ INSERT INTO `item_mods` VALUES (20624,68,48);
 INSERT INTO `item_mods` VALUES (20629,25,12);     -- Legato Dagger (iLvl 109): Accuracy +12
 INSERT INTO `item_mods` VALUES (20629,68,12);     -- Evasion +12
 INSERT INTO `item_mods` VALUES (20629,454,5);     -- Increases song effect duration +5%
-INSERT INTO `item_mods` VALUES (20632,25,13); -- Vanir Knife -- 13 Acc
-INSERT INTO `item_mods` VALUES (20632,68,22); -- 22 Eva
-INSERT INTO `item_mods` VALUES (20632,163,-5); -- Magic Damage Taken -5%
-INSERT INTO `item_mods` VALUES (20632,311,70); -- 70 Magic Damage
+INSERT INTO `item_mods` VALUES (20632,25,10); -- ACC 10
 INSERT INTO `item_mods` VALUES (20634,68,15);
 INSERT INTO `item_mods` VALUES (20635,25,15);
 INSERT INTO `item_mods` VALUES (20635,68,8);
