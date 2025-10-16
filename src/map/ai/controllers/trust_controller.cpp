@@ -444,7 +444,10 @@ void CTrustController::DoRoamTick(time_point tick)
 
     auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
 
-    if (PMaster && controller && POwner->PAI->CanChangeState())
+    if (PMaster &&
+        !PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_MOUNTED) &&
+        controller &&
+        POwner->PAI->CanChangeState())
     {
         if (TryUseFood(PMaster, controller))
         {
