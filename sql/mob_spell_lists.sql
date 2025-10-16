@@ -2576,6 +2576,11 @@ INSERT INTO `mob_spell_lists` VALUES ('Frost_Flambeau',307,180,1,255); -- blizza
 
 -- Trusts
 
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,273,31,255);       -- Sleepga
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,274,56,255);       -- Sleepga II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,365,73,255);       -- Breakga
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,245,12,255);       -- Drain
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,247,25,255);       -- Aspir
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,144,13,255);       -- Fire
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,145,38,255);       -- Fire II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,146,62,255);       -- Fire III
@@ -2606,15 +2611,6 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,170,30,255);       -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,171,55,255);       -- Water III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,172,70,255);       -- Water IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,173,80,255);       -- Water V
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,273,31,255);       -- Sleepga
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,274,56,255);       -- Sleepga II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,365,73,255);       -- Breakga
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,235,24,255);       -- Burn
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,254,4,255);        -- Blind
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,220,3,42);         -- Poison
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,221,43,255);       -- Poison II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,245,12,255);       -- Drain
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Shantotto',308,247,25,255);       -- Aspir
 
 
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Naji',309,0,1,255);            -- none (reserved)
