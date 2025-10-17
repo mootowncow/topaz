@@ -224,6 +224,18 @@ local function AddTreasure(mob, player)
     end
 end
 
+local function AddDomainPoints(mob, player, amount)
+    local NearbyPlayers = mob:getPlayersInRange(50)
+    if not NearbyPlayers or #NearbyPlayers == 0 then
+        return
+    end
+    for _, player in ipairs(NearbyPlayers) do
+        player:addCurrency("domain_points", amount)
+        local newAmount = player:getCurrency("domain_points")
+        player:PrintToPlayer("You gain " .. amount .. " Domain Points, for a total of " .. newAmount .. "!", 0xD, nil)
+    end
+end
+
 local modByMobName =
 {
     ['Promathia'] = function(mob)
@@ -909,6 +921,7 @@ end
 
 tpz.raid.onMobDeath = function(mob, player, isKiller, noKiller)
     AddTreasure(mob, player)
+    AddDomainPoints(mob, player, 5)
     OnBattleEndConfrontation(mob)
     SetBattleMusicOnDeath(mob)
 end
