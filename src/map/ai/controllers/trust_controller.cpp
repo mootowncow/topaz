@@ -403,7 +403,6 @@ void CTrustController::DoRoamTick(time_point tick)
     {
         POwner->PAI->Internal_Disengage();
         m_LastTopEnmity = nullptr;
-        m_CombatEndTime = m_Tick;
         m_outOfLosChecks = 0;
         m_numberOfWarps = 0;
     }
