@@ -3363,10 +3363,15 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Arciela',378,511,96,255);          
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Mayakov',379,0,1,255);          -- none (reserved)
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Qultada',380,0,1,255);          -- none (reserved)
 
+
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,1,5,255);            -- Cure
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,2,17,255);           -- Cure II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,3,30,255);           -- Cure III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,4,55,255);           -- Cure IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,12,35,255);          -- Raise
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,13,70,255);          -- Raise II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,135,35,255);         -- Reraise
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,141,70,255);         -- Reraise II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,99,41,255);          -- Sandstorm
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,113,42,255);         -- Rainstorm
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,114,43,255);         -- Windstorm
@@ -3375,6 +3380,11 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,116,45,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,117,46,255);         -- Thunderstorm
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,118,47,255);         -- Voidstorm
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,119,48,255);         -- Aurorastorm
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,245,21,255);         -- Drain
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,247,36,255);         -- Aspir
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,163,79,255);         -- Stone V
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,253,30,255);         -- Sleep
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,259,65,255);         -- Sleep II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,144,16,255);         -- Fire
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,145,42,255);         -- Fire II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,146,63,255);         -- Fire III
@@ -3413,15 +3423,6 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,282,26,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,283,28,255);         -- Ionohelix
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,284,30,255);         -- Noctohelix
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,285,32,255);         -- Luminohelix
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,245,21,255);         -- Drain
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,247,36,255);         -- Aspir
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,163,79,255);         -- Stone V
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,253,30,255);         -- Sleep
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,259,65,255);         -- Sleep II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,12,35,255);          -- Raise
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,13,70,255);          -- Raise II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,135,35,255);         -- Reraise
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,141,70,255);         -- Reraise II
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Amchuchu',382,43,20,255);          -- Protect
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Amchuchu',382,44,40,255);          -- Protect II
