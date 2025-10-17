@@ -6088,7 +6088,10 @@ INSERT INTO `item_basic` VALUES (6415,0,'seki_shuriken_pouch','seki_sh._pouch',1
 INSERT INTO `item_basic` VALUES (6416,0,'behemoth_meat','behemoth_meat',12,1548,59,0,2850);
 INSERT INTO `item_basic` VALUES (6417,0,'divine_quiver','divine_quiver',12,1540,15,0,1410);
 INSERT INTO `item_basic` VALUES (6418,0,'beryllium_quiver','beryllium_quiver',12,1540,0,0,0);
-INSERT INTO `item_basic` VALUES (6419,0,'raetic_quiver','raetic_quiver',12,1536,0,0,0);
+INSERT INTO `item_basic` VALUES (6420,0,'voluspa_quiver','voluspa_quiver',12,30272,0,1,0);
+INSERT INTO `item_basic` VALUES (6429,0,'voluspa_bolt_quiver','vol._bolt_quiver',12,30272,0,1,0);
+INSERT INTO `item_basic` VALUES (6438,0,'voluspa_bullet_pouch','vol._bul._pouch',12,30272,0,1,0);
+INSERT INTO `item_basic` VALUES (6449,0,'date_shuriken_pouch','date_sh._pouch',12,30272,0,1,0);
 INSERT INTO `item_basic` VALUES (6427,0,'divine_bolt_quiver','div._bolt_quiver',12,1540,15,0,0);
 INSERT INTO `item_basic` VALUES (6428,0,'beryllium_bolt_quiver','ber._bolt_quiver',12,1540,0,0,0);
 INSERT INTO `item_basic` VALUES (6437,0,'divine_bullet_quiver','div._bul._quiver',12,1540,15,0,0);
