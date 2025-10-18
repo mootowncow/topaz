@@ -519,7 +519,7 @@ void CTrustController::DoRoamTick(time_point tick)
 
     if (currentDistance > RoamDistance)
     {
-        if (currentDistance < RoamDistance * 3.0f && POwner->PAI->PathFind->PathAround(PFollowTarget->loc.p, RoamDistance, PATHFLAG_RUN | PATHFLAG_WALLHACK))
+        if (currentDistance < RoamDistance * 3.0f && POwner->PAI->PathFind->PathAround(PFollowTarget->loc.p, RoamDistance, PATHFLAG_RUN))
         {
             POwner->PAI->PathFind->FollowPath();
         }
@@ -588,7 +588,7 @@ void CTrustController::Declump(CCharEntity * PMaster, CBattleEntity * PTarget)
 
             if (POwner->PAI->PathFind->ValidPosition(newPos))
             {
-                POwner->PAI->PathFind->PathTo(newPos, PATHFLAG_RUN | PATHFLAG_WALLHACK);
+                POwner->PAI->PathFind->PathTo(newPos, PATHFLAG_RUN);
             }
             break;
         }
