@@ -481,34 +481,41 @@ void CTrustController::DoRoamTick(time_point tick)
     }
 
     uint8 currentPartyPos = GetPartyPosition();
-    CBattleEntity* PFollowTarget = (GetPartyPosition() > 0) ? (CBattleEntity*)PMaster->PTrusts.at(currentPartyPos - 1) : POwner->PMaster;
-    float currentDistance = distance(POwner->loc.p, PFollowTarget->loc.p);
+    CBattleEntity* PFollowTarget = nullptr;
 
-    for (auto* POtherTrust : PMaster->PTrusts)
+    // If this is the first trust, follow the player/master
+    if (currentPartyPos == 0)
     {
-        if (POtherTrust != POwner && distance(POtherTrust->loc.p, POwner->loc.p) < 1.0f && !POwner->PAI->PathFind->IsFollowingPath())
+        PFollowTarget = POwner->PMaster;
+    }
+    else
+    {
+        // Start by assuming we’ll follow the one right before us
+        for (int8 i = currentPartyPos - 1; i >= 0; --i)
         {
-            auto diff_angle = worldAngle(POwner->loc.p, POtherTrust->loc.p) + 64;
-            auto amount = (currentPartyPos % 2) ? 1.0f : -1.0f;
+            auto* PTrustBeingFollowed = PMaster->PTrusts.at(i);
+            if (!PTrustBeingFollowed)
+                continue;
 
-            // clang-format off
-            position_t new_pos =
+            // Skip this trust if it cannot act or has 0 movement
+            if (PTrustBeingFollowed->StatusEffectContainer->HasPreventActionEffect(false) || PTrustBeingFollowed->speed <= 0)
             {
-                   POwner->loc.p.x - (cosf(rotationToRadian(diff_angle)) * amount),
-                   POtherTrust->loc.p.y,
-                   POwner->loc.p.z + (sinf(rotationToRadian(diff_angle)) * amount),
-                   0,
-                   0,
-            };
-            // clang-format on
-
-            if (POwner->PAI->PathFind->ValidPosition(new_pos) && POwner->PAI->PathFind->PathAround(new_pos, RoamDistance, PATHFLAG_RUN | PATHFLAG_WALLHACK))
-            {
-                POwner->PAI->PathFind->FollowPath();
+                continue; // try the next one further up
             }
+
+            // Found a valid one to follow
+            PFollowTarget = PTrustBeingFollowed;
             break;
         }
+
+        // If we didn’t find any valid Trusts above us, fallback to the player
+        if (!PFollowTarget)
+        {
+            PFollowTarget = POwner->PMaster;
+        }
     }
+
+    float currentDistance = distance(POwner->loc.p, PFollowTarget->loc.p);
 
     if (currentDistance > RoamDistance)
     {
