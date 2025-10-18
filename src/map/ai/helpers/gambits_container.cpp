@@ -150,7 +150,9 @@ void CGambitsContainer::Tick(time_point tick)
             CBattleEntity* validMember = nullptr;
             static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
             {
-                if (!validMember && isValidMember(PMember) && filterFunc(PMember))
+                if (!validMember && isValidMember(PMember)
+                    && filterFunc(PMember)
+                    && POwner->allegiance == PMember->allegiance)
                 {
                     validMember = PMember;
                 }
@@ -182,7 +184,14 @@ void CGambitsContainer::Tick(time_point tick)
                 return POwner->PMaster->isDead();
 
             case G_TARGET::MASTER:
-                return CheckTrigger(POwner->PMaster, predicate);
+                if (POwner->allegiance == POwner->PMaster->allegiance)
+                {
+                    return CheckTrigger(POwner->PMaster, predicate);
+                }
+                else
+                {
+                    return false;
+                }
 
             case G_TARGET::TANK:
                 return getFirstValidMember([&](CBattleEntity* PMember)
