@@ -1921,7 +1921,7 @@ INSERT INTO `item_usable` VALUES (6413,'astral_cube',1,1,0,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (6420,'voluspa_quiver',1,1,55,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (6429,'voluspa_bolt_quiver',1,1,55,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (6438,'voluspa_bullet_pouch',1,1,55,0,0,0,0,0,0,0);
-INSERT INTO `item_usable` VALUES (6449,'date_shuriken_pouch',1,1,55,0,0,0,0,0,0,0);
+INSERT INTO `item_usable` VALUES (6449,'date_suriken_pouch',1,1,55,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (6447,'sasuke_shuriken_pouch',1,1,55,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (6448,'sasuke_shuriken_pouch_+1',1,1,55,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (6458,'bowl_of_soy_ramen',1,1,28,0,0,0,0,0,0,0);
