@@ -643,7 +643,6 @@ void CGambitsContainer::Tick(time_point tick)
                                 if (spell_element == chain_element &&
                                     spell_cast_time <= time_remaining &&
                                     POwner->SpellContainer->GetAvailable(spell) &&
-                                    spell_data->dealsDamage() &&
                                     spell_element == battleutils::GetTargetWeakness(target, true)) // Matching the element weakness
                                 {
                                     spell_id = spell;
@@ -683,8 +682,7 @@ void CGambitsContainer::Tick(time_point tick)
                                     // Check if the spell matches the chain element and the target's weakness
                                     if (spell_element == chain_element &&
                                         spell_cast_time <= time_remaining &&
-                                        POwner->SpellContainer->GetAvailable(spell) &&
-                                        spell_data->dealsDamage())
+                                        POwner->SpellContainer->GetAvailable(spell))
                                     {
                                         spell_id = spell;
                                         found = true;

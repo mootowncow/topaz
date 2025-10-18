@@ -3385,6 +3385,15 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,247,36,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,163,79,255);         -- Stone V
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,253,30,255);         -- Sleep
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,259,65,255);         -- Sleep II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,252,90,255);         -- Stun
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,278,18,255);         -- Geohelix
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,279,20,255);         -- Hydrohelix
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,280,22,255);         -- Anemohelix
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,281,24,255);         -- Pyrohelix
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,282,26,255);         -- Cryohelix
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,283,28,255);         -- Ionohelix
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,284,30,255);         -- Noctohelix
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,285,32,255);         -- Luminohelix
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,144,16,255);         -- Fire
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,145,42,255);         -- Fire II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,146,63,255);         -- Fire III
@@ -3414,15 +3423,6 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,170,34,255);         
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,171,57,255);         -- Water III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,172,71,255);         -- Water IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,173,83,255);         -- Water V
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,252,90,255);         -- Stun
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,278,18,255);         -- Geohelix
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,279,20,255);         -- Hydrohelix
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,280,22,255);         -- Anemohelix
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,281,24,255);         -- Pyrohelix
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,282,26,255);         -- Cryohelix
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,283,28,255);         -- Ionohelix
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,284,30,255);         -- Noctohelix
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Adelheid',381,285,32,255);         -- Luminohelix
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Amchuchu',382,43,20,255);          -- Protect
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Amchuchu',382,44,40,255);          -- Protect II
