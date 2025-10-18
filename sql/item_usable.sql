@@ -1657,7 +1657,7 @@ INSERT INTO `item_usable` VALUES (5847,'pinch_of_fanatics_powder',1,1,28,0,0,0,0
 INSERT INTO `item_usable` VALUES (5848,'pinch_of_fools_powder',1,1,26,0,0,0,0,1,0,0);
 INSERT INTO `item_usable` VALUES (5849,'bottle_of_berserkers_drink',1,1,30,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5850,'bottle_of_swiftshot_drink',1,1,0,0,0,0,0,0,0,0);
-INSERT INTO `item_usable` VALUES (5851,'bottle_of_berserkers_tonic',1,1,28,0,0,0,0,1,0,0);
+INSERT INTO `item_usable` VALUES (5851,'bottle_of_berserkers_tonic',1,1,28,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5852,'bottle_of_swiftshot_tonic',1,1,0,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5853,'flask_of_primeval_brew',1,4,0,0,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5854,'frayed_pouch_of_birth',1,4,0,0,0,0,0,0,0,0);
