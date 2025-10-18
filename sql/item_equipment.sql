@@ -12069,7 +12069,7 @@ INSERT INTO `item_equipment` VALUES (26019,'homeric_gorget',99,0,193,0,0,0,512,0
 INSERT INTO `item_equipment` VALUES (26020,'ainia_collar',99,0,2473969,0,0,0,512,0,0);
 INSERT INTO `item_equipment` VALUES (26021,'vim_torque',99,0,10433,0,0,0,512,0,0);
 INSERT INTO `item_equipment` VALUES (26022,'vim_torque_+1',99,0,10433,0,0,0,512,0,0);
-INSERT INTO `item_equipment` VALUES (26023,'sanctity_necklace',99,0,4194303,0,0,0,512,0,0);
+INSERT INTO `item_equipment` VALUES (26023,'sanctity_necklace',75,0,4194303,0,0,0,512,0,0);
 INSERT INTO `item_equipment` VALUES (26026,'shulmanu_collar',99,0,155904,0,0,0,512,0,0);
 INSERT INTO `item_equipment` VALUES (26027,'iskur_gorget',99,0,70688,0,0,0,512,0,0);
 INSERT INTO `item_equipment` VALUES (26028,'adad_amulet',99,0,155904,0,0,0,512,0,0);
@@ -12092,7 +12092,7 @@ INSERT INTO `item_equipment` VALUES (26085,'regal_earring',99,0,1606172,0,0,0,61
 INSERT INTO `item_equipment` VALUES (26160,'evanescence_ring',99,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (26161,'shukuyu_ring',99,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (26162,'rahab_ring',99,0,4194303,0,0,0,24576,0,0);
-INSERT INTO `item_equipment` VALUES (26163,'etana_ring',99,0,4194303,0,0,0,24576,0,0);
+INSERT INTO `item_equipment` VALUES (26163,'etana_ring',75,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (26164,'caliber_ring',1,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (26165,'facility_ring',99,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (26166,'invisible_ring',1,0,4194303,0,0,0,24576,0,0);
@@ -12148,7 +12148,7 @@ INSERT INTO `item_equipment` VALUES (26241,'scintillating_cape',99,0,16384,0,0,0
 INSERT INTO `item_equipment` VALUES (26242,'phalangite_mantle',99,0,2473971,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (26243,'perimede_cape',99,0,1753628,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (26244,'agema_cape',99,0,2473971,0,0,0,32768,0,0);
-INSERT INTO `item_equipment` VALUES (26245,'solemnity_cape',99,0,4194303,0,0,0,32768,0,0);
+INSERT INTO `item_equipment` VALUES (26245,'solemnity_cape',75,0,4194303,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (26246,'cichols_mantle',99,0,1,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (26247,'segomos_mantle',99,0,2,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (26248,'alaunuss_cape',99,0,4,0,0,0,32768,0,0);
@@ -12176,7 +12176,7 @@ INSERT INTO `item_equipment` VALUES (26269,'moonlight_cape',99,0,4194303,0,0,0,3
 INSERT INTO `item_equipment` VALUES (26320,'kobo_obi',99,0,1622556,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (26321,'reiki_yotai',99,0,2472947,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (26322,'kerygma_belt',99,0,8641,0,0,0,1024,0,0);
-INSERT INTO `item_equipment` VALUES (26323,'gishdubar_sash',99,0,4194303,0,0,0,1024,0,0);
+INSERT INTO `item_equipment` VALUES (26323,'gishdubar_sash',75,0,4194303,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (26324,'latria_sash',75,0,1761023,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (26325,'refoccilation_stone',99,0,1589788,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (26326,'channelers_stone',99,0,1589788,0,0,0,1024,0,0);
@@ -13203,7 +13203,7 @@ INSERT INTO `item_equipment` VALUES (27536,'assuage_earring',99,0,4194303,0,0,0,
 INSERT INTO `item_equipment` VALUES (27537,'ishvara_earring',99,0,4194303,0,0,0,6144,0,0);
 INSERT INTO `item_equipment` VALUES (27538,'lempo_earring',99,0,4194303,0,0,0,6144,0,0);
 INSERT INTO `item_equipment` VALUES (27539,'genmei_earring',99,0,4194303,0,0,0,6144,0,0);
-INSERT INTO `item_equipment` VALUES (27540,'eabani_earring',99,0,4194303,0,0,0,6144,0,0);
+INSERT INTO `item_equipment` VALUES (27540,'eabani_earring',75,0,4194303,0,0,0,6144,0,0);
 INSERT INTO `item_equipment` VALUES (27541,'cessance_earring',75,0,4194303,0,0,0,6144,0,0);
 INSERT INTO `item_equipment` VALUES (27542,'dominance_earring',99,0,4194303,0,0,0,6144,0,0);
 INSERT INTO `item_equipment` VALUES (27543,'domin._earring_+1',99,0,4194303,0,0,0,6144,0,0);
@@ -13276,7 +13276,7 @@ INSERT INTO `item_equipment` VALUES (27612,'sokolski_mantle',99,0,2473971,0,0,0,
 INSERT INTO `item_equipment` VALUES (27613,'quarrel_mantle',99,0,2360608,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (27614,'xucau_mantle',99,0,2473971,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (27615,'reiki_cloak',99,0,2473971,0,0,0,32768,0,0);
-INSERT INTO `item_equipment` VALUES (27616,'izdubar_mantle',99,0,4194303,0,0,0,32768,0,0);
+INSERT INTO `item_equipment` VALUES (27616,'izdubar_mantle',75,0,4194303,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (27617,'enuma_mantle',99,0,2473971,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (27618,'laic_mantle',75,0,2473971,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (27619,'aurists_cape',99,0,1753628,0,0,0,32768,0,0);

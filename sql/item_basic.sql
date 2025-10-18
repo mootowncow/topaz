@@ -20228,7 +20228,7 @@ INSERT INTO `item_basic` VALUES (26241,0,'scintillating_cape','scintillating_cap
 INSERT INTO `item_basic` VALUES (26242,0,'phalangite_mantle','phalangite_mantle',1,63568,0,0,0);
 INSERT INTO `item_basic` VALUES (26243,0,'perimede_cape','perimede_cape',1,63568,0,0,0);
 INSERT INTO `item_basic` VALUES (26244,0,'agema_cape','agema_cape',1,63568,0,0,0);
-INSERT INTO `item_basic` VALUES (26245,0,'solemnity_cape','solemnity_cape',1,63572,0,0,0);
+INSERT INTO `item_basic` VALUES (26245,0,'solemnity_cape','solemnity_cape',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (26246,0,'cichols_mantle','cichols_mantle',1,30784,0,0,0);
 INSERT INTO `item_basic` VALUES (26247,0,'segomos_mantle','segomos_mantle',1,30784,0,0,0);
 INSERT INTO `item_basic` VALUES (26248,0,'alaunuss_cape','alaunuss_cape',1,30784,0,0,0);
