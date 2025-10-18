@@ -30,4 +30,7 @@ function onMobWeaponSkill(target, mob, skill)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
+    local darkHeir = GetMobByID(mob:getID() - 3)
+    darkHeir:setLocalVar("Add_" .. mob:getID(), os.time())
 end
+
