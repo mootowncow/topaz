@@ -229,10 +229,14 @@ local function AddDomainPoints(mob, player, amount)
     if not NearbyPlayers or #NearbyPlayers == 0 then
         return
     end
+
     for _, player in ipairs(NearbyPlayers) do
-        player:addCurrency("domain_points", amount)
-        local newAmount = player:getCurrency("domain_points")
-        player:PrintToPlayer("You gain " .. amount .. " Domain Points, for a total of " .. newAmount .. "!", 0xD, nil)
+        if (player:getLocalVar("domainPointsGiven") == 0) then
+            player:addCurrency("domain_points", amount)
+            local newAmount = player:getCurrency("domain_points")
+            player:setLocalVar("domainPointsGiven", 1)
+            player:PrintToPlayer("You gain " .. amount .. " Domain Points, for a total of " .. newAmount .. "!", 0xD, nil)
+        end
     end
 end
 
