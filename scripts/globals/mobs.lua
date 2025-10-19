@@ -1203,6 +1203,10 @@ function SetGenericNMStats(mob)
     -- Mobs normal weapon damage formula is mob level + 2
     wepDMG = level + 20
 
+    if (level <= 30) then
+        wepDMG = level + 10
+    end
+
     if mob:getMainJob() == tpz.job.MNK or mob:getMainJob() == tpz.job.PUP or isH2H then
         wepDMG = wepDMG * 0.65
     end
@@ -1214,9 +1218,15 @@ function SetGenericNMStats(mob)
         printf("WARNING! %s tried to set negative or nil weapon damage!", mobName)
     end
 
-    mob:addMod(tpz.mod.ATTP, 25)
-    mob:addMod(tpz.mod.DEFP, 25)
-    mob:addMod(tpz.mod.ACC, 25)
+    if (level <= 30) then
+        mob:addMod(tpz.mod.ATTP, 10)
+        mob:addMod(tpz.mod.DEFP, 10)
+        mob:addMod(tpz.mod.ACC, 10)
+    else
+        mob:addMod(tpz.mod.ATTP, 25)
+        mob:addMod(tpz.mod.DEFP, 25)
+        mob:addMod(tpz.mod.ACC, 25)
+    end
 end
 
 function SetJPMobStats(mob)
