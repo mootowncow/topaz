@@ -57,10 +57,7 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_DRAIN, 100, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DRAIN)
 
-
-    if mob:getMainLvl() >= 75 then
-        mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.LONG_RANGE)
-    end
+    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.LONG_RANGE)
 
     mob:SetAutoAttackEnabled(false)
 
