@@ -1203,7 +1203,7 @@ function SetGenericNMStats(mob)
     -- Mobs normal weapon damage formula is mob level + 2
     wepDMG = level + 20
 
-    if (level <= 30) then
+    if (level <= 40) then
         wepDMG = level + 10
     end
 
@@ -1218,7 +1218,7 @@ function SetGenericNMStats(mob)
         printf("WARNING! %s tried to set negative or nil weapon damage!", mobName)
     end
 
-    if (level <= 30) then
+    if (level <= 40) then
         mob:addMod(tpz.mod.ATTP, 10)
         mob:addMod(tpz.mod.DEFP, 10)
         mob:addMod(tpz.mod.ACC, 10)
