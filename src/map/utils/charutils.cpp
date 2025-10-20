@@ -2304,38 +2304,32 @@ namespace charutils
                     PChar->mainlook.main = PChar->look.main;
                 }
 
-                if (PItem == nullptr)
+                CItemWeapon* PWeapon = dynamic_cast<CItemWeapon*>(PItem);
+                if (PWeapon)
                 {
-                    PChar->mainlook.sub = PChar->look.sub;
-                }
-                else
-                {
-                    CItemWeapon* PWeapon = dynamic_cast<CItemWeapon*>(PItem);
-                    if (PWeapon)
+                    switch (PWeapon->getSkillType())
                     {
-                        switch (PWeapon->getSkillType())
-                        {
-                            case SKILL_HAND_TO_HAND:
-                                // Set both fists when using H2H
-                                PChar->mainlook.sub = PChar->mainlook.main + 0x1000;
-                                break;
-                            case SKILL_GREAT_SWORD:
-                            case SKILL_GREAT_AXE:
-                            case SKILL_SCYTHE:
-                            case SKILL_POLEARM:
-                            case SKILL_GREAT_KATANA:
-                            case SKILL_STAFF:
-                                PChar->mainlook.sub = PChar->look.sub;
-                                break;
-                            default:
-                                // 1H or other valid weapon types
-                                PChar->mainlook.sub = PChar->look.sub;
-                                break;
-                        }
+                        case SKILL_HAND_TO_HAND:
+                            // Set both fists when using H2H
+                            PChar->mainlook.sub = PChar->mainlook.main + 0x1000;
+                            break;
+                        case SKILL_GREAT_SWORD:
+                        case SKILL_GREAT_AXE:
+                        case SKILL_SCYTHE:
+                        case SKILL_POLEARM:
+                        case SKILL_GREAT_KATANA:
+                        case SKILL_STAFF:
+                            // 2H weapon, hide sub appearance
+                            PChar->mainlook.sub = PChar->look.sub;
+                            break;
+                        default:
+                            // 1H or dual wield case — leave sub appearance alone
+                            break;
                     }
                 }
                 break;
             }
+
             case SLOT_SUB:
             {
                 if (hasValidStyle(PChar, PItem, appearance))
