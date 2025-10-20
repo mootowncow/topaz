@@ -2620,6 +2620,7 @@ namespace charutils
                                      PEquip != PChar->getEquip(static_cast<SLOTTYPE>(equipSlot + 1))))
                                 {
                                     found = true;
+                                    PChar->isLoadingJobChangeGear = true;
                                     charutils::EquipItem(PChar, PItem->getSlotID(), equipSlot, static_cast<CONTAINER_ID>(container));
                                     break;
                                 }
@@ -2764,8 +2765,12 @@ namespace charutils
         charutils::BuildingCharSkillsTable(PChar);
         if (PChar->health.maxhp != 0 && PChar->status != STATUS_DISAPPEAR) // make sure we're not in the middle of logging in
         {
-            CheckValidEquipment(PChar);
+            if (!PChar->isLoadingJobChangeGear) // Make sure not equipping job change gear (charutils::LoadJobChangeGear(PChar))
+            {
+                CheckValidEquipment(PChar);
+            }
         }
+
         BuildingCharWeaponSkills(PChar);
 
         PChar->UpdateHealth();

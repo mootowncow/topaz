@@ -276,6 +276,8 @@ public:
     uint32 lastCastTime;        // When char last cast their rod
     uint32 fishingToken;        // To track fishing process
 
+    bool isLoadingJobChangeGear = false;
+
     std::vector<CTrustEntity*> PTrusts; // Active trusts
     template        <typename F, typename... Args>
     void            ForPartyWithTrusts(F func, Args&&... args)
