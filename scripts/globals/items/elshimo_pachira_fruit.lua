@@ -11,8 +11,12 @@ function onItemCheck(target)
 end
 
 function onItemUse(target)
-    if (not target:hasStatusEffect(tpz.effect.POISON)) then
-        target:addStatusEffect(tpz.effect.POISON, 1, 3, 120)
+    local typeEffect = tpz.effect.POISON
+
+    if (not target:hasStatusEffect(typeEffect)) then
+        target:addStatusEffect(typeEffect, 1, 3, 120)
+        local effect1 = target:getStatusEffect(typeEffect)
+        effect1:unsetFlag(tpz.effectFlag.WALTZABLE)
     else
         target:messageBasic(tpz.msg.basic.NO_EFFECT)
     end
