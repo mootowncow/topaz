@@ -68,21 +68,101 @@ local menus = {
         tpz.items.SOLEMNITY_CAPE
     } },
 
-    -- TODO:
     { Cost=200, Items={
-        tpz.items.HERVOR_GALEA,
+        tpz.items.INSTIGATOR,
+        tpz.items.HAMMERFISTS,
+        tpz.items.QUELLER_ROD,
+        tpz.items.LATHI,
+        tpz.items.EMISSARY,
+        tpz.items.SHIJO,
+        tpz.items.NIXXER,
+        tpz.items.DEATHBANE,
+        tpz.items.SKULLRENDER,
+        tpz.items.KALI,
+        tpz.items.VIJAYA_BOW,
+        tpz.items.ICHIGOHITOFURI,
+        tpz.items.AIZUSHINTOGO,
+        tpz.items.RHOMPHAIA,
+        tpz.items.ESPIRITUS,
+        tpz.items.IRIS,
+        tpz.items.COMPENSATOR,
+        tpz.items.MIDNIGHTS,
+        tpz.items.AKADEMOS,
+        tpz.items.SOLSTICE,
+        tpz.items.BIDENHANDER
     } },
 
+    -- TODO
     { Cost=400, Items={
         tpz.items.HERVOR_GALEA,
     } },
 
     { Cost=600, Items={
-        tpz.items.HERVOR_GALEA,
+        tpz.items.HRETHA_EARRING,
+        tpz.items.RAN_EARRING,
+        tpz.items.FORESTI_EARRING,
+        tpz.items.HERMODR_EARRING,
+        tpz.items.SAXNOT_EARRING,
+        tpz.items.MEILI_EARRING,
+        tpz.items.MIMIR_EARRING,
+        tpz.items.VOR_EARRING,
+        tpz.items.ILMR_EARRING,
+        tpz.items.MANI_EARRING,
+        tpz.items.LODURR_EARRING,
+        tpz.items.NJORDR_EARRING,
+        tpz.items.BRAGI_EARRING,
+        tpz.items.DELLINGR_EARRING,
+        tpz.items.GERSEMI_EARRING,
+        tpz.items.HNOSS_EARRING,
+        tpz.items.GNA_EARRING,
+        tpz.items.FULLA_EARRING
     } },
 
     { Cost=800, Items={
-        tpz.items.HERVOR_GALEA,
+        tpz.items.CONDEMNERS,
+        tpz.items.SKINFLAYER,
+        tpz.items.COLADA,
+        tpz.items.ZULFIQAR,
+        tpz.items.DIGIRBALAG,
+        tpz.items.AGANOSHE,
+        tpz.items.REIENKYO,
+        tpz.items.OBSCHINE,
+        tpz.items.KANARIA,
+        tpz.items.UMARU,
+        tpz.items.GADA,
+        tpz.items.GRIOAVOLR,
+        tpz.items.TELLER,
+        tpz.items.HOLLIDAY,
+
+        tpz.items.ODYSSEAN_HELM,
+        tpz.items.ODYSSEAN_CHESTPLATE,
+        tpz.items.ODYSSEAN_GAUNTLETS,
+        tpz.items.ODYSSEAN_CUISSES,
+        tpz.items.ODYSSEAN_GREAVES,
+
+        tpz.items.VALOROUS_MASK,
+        tpz.items.VALOROUS_MAIL,
+        tpz.items.VALOROUS_MITTS,
+        tpz.items.VALOROUS_HOSE,
+        tpz.items.VALOROUS_GREAVES,
+
+        tpz.items.HERCULEAN_HELM,
+        tpz.items.HERCULEAN_VEST, -- 4% Haste 5 Acc
+        tpz.items.HERCULEAN_GLOVES,
+        tpz.items.HERCULEAN_TROUSERS,
+        tpz.items.HERCULEAN_BOOTS,
+
+        tpz.items.CHIRONIC_HAT,
+        tpz.items.CHIRONIC_DOUBLET,
+        tpz.items.CHIRONIC_GLOVES,
+        tpz.items.CHIRONIC_HOSE,
+        tpz.items.CHIRONIC_SLIPPERS,
+
+        tpz.items.MERLINIC_HOOD,
+        tpz.items.MERLINIC_JUBBAH,
+        tpz.items.MERLINIC_DASTANAS,
+        tpz.items.MERLINIC_SHALWAR,
+        tpz.items.MERLINIC_CRACKOWS
     } },
 
     { Cost=1000, Items={
