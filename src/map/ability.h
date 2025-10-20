@@ -753,6 +753,8 @@ public:
     bool        isQuickDraw();
     bool        isBuffedByInnerStrength();
     bool        isWaltz();
+    bool        isCuringWaltz();
+    bool        isDivineWaltz();
     bool        isStep();
     bool        isFlourish();
     bool        isStratagem();

@@ -133,6 +133,17 @@ bool CAbility::isWaltz()
             getID() == ABILITY_CURING_WALTZ_V;
 }
 
+bool CAbility::isCuringWaltz()
+{
+    return getID() >= ABILITY_CURING_WALTZ && getID() <= ABILITY_CURING_WALTZ_IV ||
+            getID() == ABILITY_CURING_WALTZ_V;
+}
+
+bool CAbility::isDivineWaltz()
+{
+    return getID() == ABILITY_DIVINE_WALTZ || getID() == ABILITY_DIVINE_WALTZ_II;
+}
+
 bool CAbility::isStep()
 {
     return getID() >= ABILITY_QUICKSTEP && getID() <= ABILITY_STUTTER_STEP ||
