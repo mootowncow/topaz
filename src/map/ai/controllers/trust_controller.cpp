@@ -224,6 +224,16 @@ void CTrustController::DoCombatTick(time_point tick)
                             m_outOfLosChecks = 0;
                             ++m_numberOfWarps;
                             float warpOffset = 0.0f;
+
+                            // Record original movement distance (only once)
+                            if (m_OriginalMovementDistance == -1)
+                            {
+                                m_OriginalMovementDistance = PTrust->getMobMod(MOBMOD_TRUST_DISTANCE);
+                            }
+
+                            // Record last warp time
+                            m_LastWarpTime = server_clock::now();
+
                             POwner->PAI->PathFind->WarpTo(PTarget->loc.p, warpOffset);
                         }
                     }
@@ -281,6 +291,23 @@ void CTrustController::DoCombatTick(time_point tick)
                         {
                             movementDistance = TRUST_MOVEMENT_TYPE::NO_MOVE;
                         }
+                    }
+                }
+
+                // Restore original movement distance after 30s since last warp
+                if (m_OriginalMovementDistance != -1)
+                {
+                    auto now = server_clock::now();
+                    auto timeSinceLastWarp = std::chrono::duration_cast<std::chrono::seconds>(now - m_LastWarpTime).count();
+
+                    if (timeSinceLastWarp >= 30)
+                    {
+                        // Restore the trust’s movement distance
+                        PTrust->setMobMod(MOBMOD_TRUST_DISTANCE, m_OriginalMovementDistance);
+
+                        // Reset tracking variables
+                        m_OriginalMovementDistance = -1;
+                        m_numberOfWarps = 0;
                     }
                 }
 
