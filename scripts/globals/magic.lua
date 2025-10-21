@@ -407,7 +407,7 @@ function doBuffSong(caster, target, spell, effect)
     local instrumentSkill = caster:getWeaponSkillLevel(tpz.slot.RANGED) -- Gets skill level of currently equipped instrument
     local spellId = spell:getID()
 
-    if caster:isTrust() then
+    if not caster:isPC() then
         instrumentSkill = caster:getSkillLevel(tpz.skill.STRING_INSTRUMENT)
     end
 
