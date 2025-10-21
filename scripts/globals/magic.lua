@@ -3843,6 +3843,7 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
         -- 10% chance to Immunobreak
         if caster:isPC() then
             -- Immunobreak caps at 40 SDT and +4 tiers increase max
+            -- TODO: This should get the mobs STARTING SDT
             if (SDT < 40) then
                 return TryImmunobreak(caster, target, spell, effect, SDT)
             end
@@ -3932,34 +3933,37 @@ function TryImmunobreak(caster, target, spell, effect, SDT)
         tpz.effect.SILENCE,
         tpz.effect.PETRIFICATION,
         tpz.effect.STUN,
-        tpz.effect.BIND ,
+        tpz.effect.BIND,
         tpz.effect.WEIGHT,
         tpz.effect.SLOW,
         tpz.effect.LULLABY,
     }
 
-    -- If Immunobreak procs, increase the SDT tier by 1
-    -- 10% base chance
+    -- Base 10% chance, +10% per failed resist attempt
     local ImmunobreakChance = 10 + target:getLocalVar("immunobreak" .. effect)
+
     if math.random(100) <= ImmunobreakChance then
-        for _, effectSDT in pairs(immunobreakTable) do
-            if (effect == effectSDT) then
-                IncreaseSDTTier(caster, target, spell, effect, SDT)
+        for _, effectSDT in ipairs(immunobreakTable) do
+            if effect == effectSDT then
+                if IncreaseSDTTier(caster, target, spell, effect, SDT) then
+                    -- Successful immunobreak: reset buildup
+                    target:setLocalVar("immunobreak" .. effect, 0)
+
+                    if target:getID() == spell:getPrimaryTargetID() then
+                        return spell:setMsg(tpz.msg.basic.MAGIC_IMMUNOBREAK)
+                    else
+                        return spell:setMsg(tpz.msg.basic.MAGIC_IMMUNOBREAK_2)
+                    end
+                end
             end
-        end
-        -- Reset Immunobreak chance on a successful proc
-        target:setLocalVar("immunobreak" .. effect, 0)
-        if target:getID() == spell:getPrimaryTargetID() then
-            return spell:setMsg(tpz.msg.basic.MAGIC_IMMUNOBREAK)
-        else
-            return spell:setMsg(tpz.msg.basic.MAGIC_IMMUNOBREAK_2)
         end
     end
 
-    -- Increase Immunobreak proc rate by 10 on a failed proc
-    target:setLocalVar("immunobreak" .. effect, target:getLocalVar("immunobreak" .. effect) +10)
+    -- Failed to apply: increase buildup
+    target:setLocalVar("immunobreak" .. effect, ImmunobreakChance + 10)
     return spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
 end
+
 
 function IncreaseSDTTier(caster, target, spell, effect, SDT)
     local tierTable =
@@ -3969,6 +3973,7 @@ function IncreaseSDTTier(caster, target, spell, effect, SDT)
         { Tier = 25, Increase = 5  },
         { Tier = 20, Increase = 5  },
     }
+
     local SDTTable =
     {
         { Effect = tpz.effect.SLEEP_I,          Mod = tpz.mod.EEM_DARK_SLEEP    },
@@ -3979,38 +3984,47 @@ function IncreaseSDTTier(caster, target, spell, effect, SDT)
         { Effect = tpz.effect.SILENCE,          Mod = tpz.mod.EEM_SILENCE       },
         { Effect = tpz.effect.PETRIFICATION,    Mod = tpz.mod.EEM_PETRIFY       },
         { Effect = tpz.effect.STUN,             Mod = tpz.mod.EEM_STUN          },
-        { Effect = tpz.effect.BIND ,            Mod = tpz.mod.EEM_BIND          },
+        { Effect = tpz.effect.BIND,             Mod = tpz.mod.EEM_BIND          },
         { Effect = tpz.effect.WEIGHT,           Mod = tpz.mod.EEM_GRAVITY       },
         { Effect = tpz.effect.SLOW,             Mod = tpz.mod.EEM_SLOW          },
         { Effect = tpz.effect.LULLABY,          Mod = tpz.mod.EEM_LIGHT_SLEEP   },
     }
-    -- Incriment SDT by 1 tier
-    for _, entry in pairs(tierTable) do
-        if (SDT == entry.Tier) then
-            local newSDT = entry.Tier + entry.Increase
-            for _, statusId in pairs (SDTTable) do
-                if (effect == statusId.Effect) then
-                local currentMod = statusId.Mod
-                    target:setMod(currentMod, newSDT)
-                end
+
+    local immunoBonus = caster:getMod(tpz.mod.ENHANCES_IMMUNOBREAK)
+    local totalIncrements = 1 + immunoBonus
+    local immunoBreaked = false
+
+    for i = 1, totalIncrements do
+        local newSDT = nil
+
+        -- Find the matching tier breakpoint
+        for _, entry in ipairs(tierTable) do
+            if SDT == entry.Tier then
+                newSDT = entry.Tier + entry.Increase
+                break
             end
         end
+
+        if not newSDT then
+            -- No matching tier (e.g. SDT > 40 or < 20)
+            break
+        end
+
+        -- Apply the new SDT value to the correct mod
+        for _, statusId in ipairs(SDTTable) do
+            if effect == statusId.Effect then
+                target:setMod(statusId.Mod, newSDT)
+                immunoBreaked = true
+            end
+        end
+
+        -- Prepare for next tier if multiple immunobreaks apply
+        SDT = newSDT
     end
 
-    -- Check if the caster has +Immunobreak mod
-    -- Incriment SDT by 1 tier
-    for _, entry in pairs(tierTable) do
-        if (SDT == entry.Tier) then
-            local newSDT = entry.Tier + entry.Increase
-            for _, statusId in pairs (SDTTable) do
-                if (effect == statusId.Effect) then
-                local currentMod = statusId.Mod
-                    target:setMod(currentMod, newSDT)
-                end
-            end
-        end
-    end
+    return immunoBreaked
 end
+
 
 function ShouldOverwriteDiaBio(caster, target, effect, tier)
     -- Check effect trying to be applied
