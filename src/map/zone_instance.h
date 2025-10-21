@@ -69,6 +69,7 @@ public:
     virtual void	ForEachChar(std::function<void(CCharEntity*)> func) override;
     virtual void	ForEachCharInstance(CBaseEntity* PEntity, std::function<void(CCharEntity*)> func) override;
     virtual void	ForEachMobInstance(CBaseEntity* PEntity, std::function<void(CMobEntity*)> func) override;
+    virtual void    ForEachTrustInstance(CBaseEntity* PEntity, std::function<void(CTrustEntity*)> func) override;
 
     CInstance* CreateInstance(uint8 instanceid);
 

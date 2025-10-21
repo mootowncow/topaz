@@ -842,6 +842,11 @@ function BlueBuffSpell(caster, target, spell, effect, power, tick, duration, sub
         target:delStatusEffectSilent(effect)
     end
 
+    if not BlueBuffShouldOverwrite(caster, effect, power) then
+        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+        return effect
+    end
+
     if not target:addStatusEffect(effect, power, tick, duration, subid, subpower, tier) then
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
     else
@@ -853,11 +858,44 @@ end
 ------------------------------
 -- Utility functions below ---
 ------------------------------
+function BlueBuffShouldOverwrite(caster, buffEffect, power)
+    local buffData =
+    {
+        [tpz.effect.ACCURACY_BOOST]  = { tpz.effect.ACCURACY_DOWN },
+        [tpz.effect.ATTACK_BOOST]    = { tpz.effect.ATTACK_DOWN },
+        [tpz.effect.EVASION_BOOST]   = { tpz.effect.EVASION_DOWN },
+        [tpz.effect.DEFENSE_BOOST]   = { tpz.effect.DEFENSE_DOWN },
+        [tpz.effect.INTENSION]       = { tpz.effect.MAGIC_ACC_DOWN },
+        [tpz.effect.MAGIC_ATK_BOOST] = { tpz.effect.MAGIC_ATK_DOWN },
+        [tpz.effect.MAGIC_DEF_BOOST] = { tpz.effect.MAGIC_DEF_DOWN },
+    }
+
+    local shouldOverwrite = false
+
+    for buff, debuffs in pairs(buffData) do
+        if buffEffect == buff then
+            for _, debuff in ipairs(debuffs) do
+                if caster:hasStatusEffect(debuff) then
+                    local statusEffect = caster:getStatusEffect(debuff)
+                    if statusEffect:getPower() < power then
+                        caster:delStatusEffectSilent(debuff)
+                        shouldOverwrite = true
+                    end
+                else
+                    -- Doesn't have the debuff, safe to apply
+                    shouldOverwrite = true
+                end
+            end
+        end
+    end
+
+    return shouldOverwrite
+end
 
 function BlueGetWsc(attacker, params)
     local blue_wsc_bonus = attacker:getMod(tpz.mod.BLUE_WSC_BONUS) / 100
     
-    wsc = (attacker:getStat(tpz.mod.STR) * (params.str_wsc + blue_wsc_bonus) +
+    local wsc = (attacker:getStat(tpz.mod.STR) * (params.str_wsc + blue_wsc_bonus) +
            attacker:getStat(tpz.mod.DEX) * (params.dex_wsc + blue_wsc_bonus) +
            attacker:getStat(tpz.mod.VIT) * (params.vit_wsc + blue_wsc_bonus) +
            attacker:getStat(tpz.mod.AGI) * (params.agi_wsc + blue_wsc_bonus) +

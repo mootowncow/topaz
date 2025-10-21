@@ -30,7 +30,7 @@ local GearSets =  {
              {id = 3, items = {16084, 14546, 14961, 15625, 15711},  matches = 5, matchType = matchtype.any, mods = {{tpz.mod.DOUBLE_ATTACK, 5, 0, 0}} },  --  Ares's set (5% DA)
              {id = 4, items = {16107, 14569, 14984, 15648, 15734},  matches = 5, matchType = matchtype.any, mods = {{tpz.mod.ACC, 20, 0, 0}} },           --  Denali Jacket Set (Increases Accuracy +20)
              {id = 5, items = {16106, 14568, 14983, 15647, 15733},  matches = 5, matchType = matchtype.any, mods = {{tpz.mod.HPP, 10, 0, 0}} },           --  Askar Korazin Set (Max HP Boost %10)
-             {id = 6, items = {16069, 14530, 14940, 15609, 15695},  matches = 2, matchType = matchtype.any, mods = {{tpz.mod.HASTE_GEAR, 600, 0, 0}} }, --  Pahluwan Khazagand Set (Haste +6~12%)
+             {id = 6, items = {16069, 14530, 14940, 15609, 15695},  matches = 2, matchType = matchtype.any, mods = {{tpz.mod.HASTE_GEAR, 400, 200, 0}} }, --  Pahluwan Khazagand Set (Haste +4~10%)
              {id = 7, items = {16100, 14562, 14977, 15641, 15727},  matches = 5, matchType = matchtype.any, mods = {{tpz.mod.MATT, 5, 0, 0}} },           --  Morrigan's Robe Set (+5 Magic. Atk Bonus)
              {id = 8, items = {16096, 14558, 14973, 15637, 15723},  matches = 5, matchType = matchtype.any, mods = {{tpz.mod.FASTCAST, 5, 0, 0}} },       --  Marduk's Jubbah Set (5% fastcast)
              {id = 9, items = {16108, 14570, 14985, 15649, 15735},  matches = 5, matchType = matchtype.any, mods = {{tpz.mod.MDEF, 10, 0, 0}} },          --  Goliard Saio Set - Total Set Bonus +10% Magic Def. Bonus
@@ -314,11 +314,14 @@ function ApplyMod(player, gearset, matches)
         local petModType    = mod[6] or 0
 
         -- Apply mod to player or pet based on isPetMod
-        if isPetMod then -- i.e. {id = 1, items = {16092, 14554, 14969, 15633, 15719},  matches = 5, matchType = matchtype.any, mods = {{tpz.mod.HASTE_GEAR, 500, 0, 0, true, tpz.pet.modType.AUTOMATON}} },    --  Usukane's set (5% Haste)
-            player:addPetGearSetMod(gearset.id + i, modId, petModType, modValue + addSetBonus)
+        local finalValue = modValue + (addMatches * addMatchValue) + addSetBonus
+
+        if isPetMod then
+            player:addPetGearSetMod(gearset.id + i, modId, petModType, finalValue)
         else
-            player:addGearSetMod(gearset.id + i, modId, modValue + addSetBonus)
+            player:addGearSetMod(gearset.id + i, modId, finalValue)
         end
+        -- printf("Gearset %u matched %u pieces -> add %u (%u total)\n", gearset.id, matches, finalValue, addMatches)
 
         i = i + 1
     end

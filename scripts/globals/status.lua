@@ -1304,6 +1304,7 @@ tpz.mod =
     SUPPRESS_OVERLOAD               = 125, -- Kenkonken "Suppresses Overload" mod. Unclear how this works exactly. Requires testing on retail.
     BP_DAMAGE                       = 126, -- Blood Pact: Rage Damage increase percentage
     BP_BURST_DAMAGE                 = 1257, -- Blood Pact: Rage magic burst damage increase percentage.
+    BLOOD_BOON                      = 913, -- Occasionally cuts down MP cost of Blood Pact abilities. Does not affect abilities that require Astral Flow.
     AVATAR_ATT                      = 1258, -- Avatar Acc and Ranged Accuracy.
     AVATAR_ACC                      = 1259, -- Avatar Acc.
     AVATAR_EVASION                  = 1260, -- Avatar Evasion.

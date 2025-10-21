@@ -150,7 +150,9 @@ void CGambitsContainer::Tick(time_point tick)
             CBattleEntity* validMember = nullptr;
             static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
             {
-                if (!validMember && isValidMember(PMember) && filterFunc(PMember))
+                if (!validMember && isValidMember(PMember)
+                    && filterFunc(PMember)
+                    && POwner->allegiance == PMember->allegiance)
                 {
                     validMember = PMember;
                 }
@@ -178,8 +180,18 @@ void CGambitsContainer::Tick(time_point tick)
                     return PMember->isDead();
                 }) != nullptr;
 
+            case G_TARGET::MASTER_DEAD:
+                return POwner->PMaster->isDead();
+
             case G_TARGET::MASTER:
-                return CheckTrigger(POwner->PMaster, predicate);
+                if (POwner->allegiance == POwner->PMaster->allegiance)
+                {
+                    return CheckTrigger(POwner->PMaster, predicate);
+                }
+                else
+                {
+                    return false;
+                }
 
             case G_TARGET::TANK:
                 return getFirstValidMember([&](CBattleEntity* PMember)
@@ -322,6 +334,13 @@ void CGambitsContainer::Tick(time_point tick)
                     }
                 });
             }
+            else if (gambit.predicates[0].target == G_TARGET::MASTER_DEAD)
+            {
+                if (POwner->PMaster->isDead())
+                {
+                    target = POwner->PMaster;
+                }
+            }
             else if (gambit.predicates[0].target == G_TARGET::MASTER)
             {
                 target = POwner->PMaster;
@@ -427,11 +446,10 @@ void CGambitsContainer::Tick(time_point tick)
             }
             else if (action.reaction == G_REACTION::MA)
             {
-                if (tick < controller->m_NextMagicTime)
+                if (tick < controller->m_NextMagicTime && action.select != G_SELECT::MB_ELEMENT)
                 {
                     return;
                 }
-
 
                 if (action.select == G_SELECT::SPECIFIC)
                 {
@@ -459,19 +477,31 @@ void CGambitsContainer::Tick(time_point tick)
                         {
                             SPELLFAMILY family = spell->getSpellFamily();
 
-                            if (family == SPELLFAMILY_PROTECTRA)
+                            switch (family)
                             {
+                                case SPELLFAMILY_PROTECTRA:
                                 if (!ShouldProtectra())
                                 {
                                     spell_id = POwner->SpellContainer->GetBestAvailable(SPELLFAMILY_PROTECT);
                                 }
-                            }
-                            else if (family == SPELLFAMILY_SHELLRA)
-                            {
+                                break;
+                                case SPELLFAMILY_SHELLRA:
                                 if (!ShouldShellra())
                                 {
                                     spell_id = POwner->SpellContainer->GetBestAvailable(SPELLFAMILY_SHELL);
                                 }
+                                break;
+                                case SPELLFAMILY_RAISE:
+                                if (auto* PChar = dynamic_cast<CCharEntity*>(target))
+                                {
+                                    if (PChar->m_hasRaise)
+                                    {
+                                        return;
+                                    }
+                                }
+                                break;
+                                default:
+                                    break;
                             }
 
                             // After updating spell_id, ensure it still has a value
@@ -615,7 +645,7 @@ void CGambitsContainer::Tick(time_point tick)
                                 auto spell = POwner->SpellContainer->m_damageList[i - 1];
                                 auto spell_data = spell::GetSpell(spell);
                                 auto spell_element = spell_data->getElement();
-                                auto spell_cast_time = spell_data->getCastTime();
+                                auto spell_cast_time = CalculateSpellCastTime(POwner, spell_data);
                                 auto time_remaining = PSCEffect->GetTimeRemaining();
 
                                 // Check if the spell matches the chain element and the target's weakness
@@ -655,7 +685,7 @@ void CGambitsContainer::Tick(time_point tick)
                                     auto spell = POwner->SpellContainer->m_damageList[i - 1];
                                     auto spell_data = spell::GetSpell(spell);
                                     auto spell_element = spell_data->getElement();
-                                    auto spell_cast_time = spell_data->getCastTime();
+                                    auto spell_cast_time = CalculateSpellCastTime(POwner, spell_data);
                                     auto time_remaining = PSCEffect->GetTimeRemaining();
 
                                     // Check if the spell matches the chain element and the target's weakness
@@ -1060,7 +1090,6 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             CState* currentState = trigger_target->PAI->GetCurrentState();
             if (currentState)
             {
-                // Attempt to cast to CMobSkillState
                 CMobSkillState* msState = dynamic_cast<CMobSkillState*>(currentState);
                 if (msState)
                 {
@@ -1108,7 +1137,6 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             CState* currentState = trigger_target->PAI->GetCurrentState();
             if (currentState)
             {
-                // Attempt to cast to CMagicState
                 CMagicState* maState = dynamic_cast<CMagicState*>(currentState);
                 if (maState)
                 {
@@ -1139,7 +1167,6 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             CState* currentState = trigger_target->PAI->GetCurrentState();
             if (currentState)
             {
-                // Attempt to cast to CMagicState
                 CMagicState* maState = dynamic_cast<CMagicState*>(currentState);
                 if (maState)
                 {
@@ -1901,4 +1928,152 @@ bool CGambitsContainer::TryTrustSkill()
 
         return true;
     }
+
+    uint32 CGambitsContainer::CalculateSpellCastTime(CBattleEntity* PEntity, CSpell* PSpell)
+    {
+        bool applyArts = true;
+        uint32 base = PSpell->getCastTime();
+        uint32 cast = base;
+
+        if (PEntity->StatusEffectContainer->HasStatusEffect({EFFECT_HASSO, EFFECT_SEIGAN}))
+        {
+            cast = (uint32)(cast * 1.5f);
+        }
+
+        if (PSpell->getSpellGroup() == SPELLGROUP_BLACK)
+        {
+            if (PSpell->getSkillType() == SKILL_DARK_MAGIC)
+            {
+                uint16 darkCasting = PEntity->getMod(Mod::DARK_MAGIC_CAST);
+                cast = (uint32)(cast * (1.0f - ((darkCasting > 50 ? 50 : darkCasting) / 100.0f)));
+            }
+
+            if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_ALACRITY))
+            {
+                uint16 bonus = 0;
+                // Only apply Alacrity/Celerity mod if the spell element matches the weather.
+                if (battleutils::WeatherMatchesElement(battleutils::GetWeather(PEntity, false), PSpell->getElement()))
+                {
+                    bonus = PEntity->getMod(Mod::ALACRITY_CELERITY_EFFECT);
+                }
+
+                // Calculate the reduction factor based on bonus
+                float reductionFactor = (100 - (50 + bonus)) / 100.0f;
+                cast = static_cast<uint32>(base * reductionFactor);
+
+                applyArts = false;
+            }
+            else if (applyArts)
+            {
+                if (PEntity->StatusEffectContainer->HasStatusEffect({EFFECT_DARK_ARTS, EFFECT_ADDENDUM_BLACK}))
+                {
+                    // Add any "Grimoire: Reduces spellcasting time" bonuses
+                    cast = (uint32)(cast * (1.0f + (PEntity->getMod(Mod::BLACK_MAGIC_CAST) + PEntity->getMod(Mod::GRIMOIRE_SPELLCASTING)) / 100.0f));
+                }
+                else
+                {
+                    cast = (uint32)(cast * (1.0f + PEntity->getMod(Mod::BLACK_MAGIC_CAST) / 100.0f));
+                }
+            }
+        }
+        else if (PSpell->getSpellGroup() == SPELLGROUP_WHITE)
+        {
+            if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_CELERITY))
+            {
+                uint16 bonus = 0;
+                // Only apply Alacrity/Celerity mod if the spell element matches the weather.
+                if (battleutils::WeatherMatchesElement(battleutils::GetWeather(PEntity, false), PSpell->getElement()))
+                {
+                    bonus = PEntity->getMod(Mod::ALACRITY_CELERITY_EFFECT);
+                }
+
+                // Calculate the reduction factor based on bonus
+                float reductionFactor = (100 - (50 + bonus)) / 100.0f;
+                cast = static_cast<uint32>(base * reductionFactor);
+
+                applyArts = false;
+            }
+            else if (applyArts)
+            {
+                if (PEntity->StatusEffectContainer->HasStatusEffect({ EFFECT_LIGHT_ARTS, EFFECT_ADDENDUM_WHITE }))
+                {
+                    // Add any "Grimoire: Reduces spellcasting time" bonuses
+                    cast = (uint32)(cast * (1.0f + (PEntity->getMod(Mod::WHITE_MAGIC_CAST) + PEntity->getMod(Mod::GRIMOIRE_SPELLCASTING)) / 100.0f));
+                }
+                else
+                {
+                    cast = (uint32)(cast * (1.0f + PEntity->getMod(Mod::WHITE_MAGIC_CAST) / 100.0f));
+                }
+            }
+        }
+        else if (PSpell->getSpellGroup() == SPELLGROUP_SONG)
+        {
+            if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_PIANISSIMO))
+            {
+                if (PSpell->getAOE() == SPELLAOE_PIANISSIMO)
+                {
+                    cast = base / 2;
+                }
+            }
+            if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_NIGHTINGALE))
+            {
+                if (PEntity->objtype == TYPE_PC &&
+                    tpzrand::GetRandomNumber(100) < ((CCharEntity*)PEntity)->PMeritPoints->GetMeritValue(MERIT_NIGHTINGALE, (CCharEntity*)PEntity) - 25)
+                {
+                    return 0;
+                }
+                cast = (uint32)(cast * 0.5f);
+            }
+            if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_TROUBADOUR))
+            {
+                cast = (uint32)(cast * 1.5f);
+            }
+            uint16 songCasting = PEntity->getMod(Mod::SONG_SPELLCASTING_TIME);
+            cast = (uint32)(cast * (1.0f - ((songCasting > 50 ? 50 : songCasting) / 100.0f)));
+        }
+        else if (PSpell->getSpellGroup() == SPELLGROUP_NINJUTSU)
+        {
+            uint16 ninjutsuCasting = PEntity->getMod(Mod::NINJUTSU_CASTING_TIME);
+
+            cast = (uint32)(cast * (1.0f - ((ninjutsuCasting > 50 ? 50 : ninjutsuCasting) / 100.0f)));
+        }
+        else if (PSpell->getSpellGroup() == SPELLGROUP_BLUE)
+        {
+            uint16 blueCasting = PEntity->getMod(Mod::BLUE_SPELLCASTING_TIME);
+            cast = (uint32)(cast * (1.0f - ((blueCasting > 50 ? 50 : blueCasting) / 100.0f)));
+        }
+        else if (PSpell->getSkillType() == SKILLTYPE::SKILL_ENHANCING_MAGIC)
+        {
+            uint16 enhCasting = PEntity->getMod(Mod::ENH_CASTING_TIME);
+            cast = (uint32)(cast * (1.0f - ((enhCasting > 50 ? 50 : enhCasting) / 100.0f)));
+        }
+
+        int16 fastCast = std::clamp<int16>(PEntity->getMod(Mod::FASTCAST), -100, 50);
+        if (PSpell->getSkillType() == SKILLTYPE::SKILL_ELEMENTAL_MAGIC) // Elemental Celerity reductions
+        {
+            fastCast += PEntity->getMod(Mod::ELEMENTAL_CELERITY);
+        }
+        else if (PSpell->isCure()) // Cure cast time reductions
+        {
+            fastCast += PEntity->getMod(Mod::CURE_CAST_TIME);
+            if (PEntity->objtype == TYPE_PC)
+            {
+                fastCast += ((CCharEntity*)PEntity)->PMeritPoints->GetMeritValue(MERIT_CURE_CAST_TIME, (CCharEntity*)PEntity);
+            }
+        }
+
+        fastCast = std::clamp<int16>(fastCast, -100, 80);
+        int16 uncappedFastCast = std::clamp<int16>(PEntity->getMod(Mod::UFASTCAST), -100, 100);
+
+        // Add in fast cast from Divine Benison
+        if (PSpell->isNa())
+        {
+            uncappedFastCast = std::clamp<int16>(uncappedFastCast + PEntity->getMod(Mod::DIVINE_BENISON), -100, 100);
+        }
+
+        float sumFastCast = std::clamp<float>((float)(fastCast + uncappedFastCast), -100.f, 100.f);
+
+        return (uint32)(cast * ((100.0f - sumFastCast) / 100.0f));
+    }
+
 } // namespace gambits

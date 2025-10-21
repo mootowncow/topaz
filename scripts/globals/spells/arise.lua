@@ -20,15 +20,17 @@ function onSpellCast(caster, target, spell)
             target:addHP(target:getMaxHP())
             target:addMP(target:getMaxMP())
         elseif target:isTrust() then
-            target:setHP(target:getMaxHP())
-            if target:hasStatusEffect(tpz.effect.WEAKNESS) then
-                target:addStatusEffect(tpz.effect.WEAKNESS, 2, 0, 30)
-            else
-                target:addStatusEffect(tpz.effect.WEAKNESS, 1, 0, 30)
+            if target:isDead() then
+                target:setHP(target:getMaxHP())
+                if target:hasStatusEffect(tpz.effect.WEAKNESS) then
+                    target:addStatusEffect(tpz.effect.WEAKNESS, 2, 0, 30)
+                else
+                    target:addStatusEffect(tpz.effect.WEAKNESS, 1, 0, 30)
+                end
+                target:addStatusEffect(tpz.effect.RERAISE, 3, 0, 3600)
             end
-            target:addStatusEffect(tpz.effect.RERAISE, 3, 0, 3600)
+            target:disengage()
         end
-        target:disengage()
     end
     spell:setMsg(tpz.msg.basic.MAGIC_CASTS_ON)
 

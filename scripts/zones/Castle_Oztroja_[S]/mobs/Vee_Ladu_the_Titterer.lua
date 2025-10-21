@@ -22,6 +22,11 @@ require("scripts/globals/status")
 require("scripts/globals/mobs")
 require("scripts/globals/wotg")
 -----------------------------------
+local function despawnClones(mob)
+    for clones = mob:getID() +4, mob:getID() +7 do
+        DespawnMob(clones)
+    end
+end
 
 function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.MAGIC_COOL, 10)
@@ -120,8 +125,7 @@ function onMonsterMagicPrepare(mob,target)
     -- Only casts Ususemi when no shadows are active, every 45 seconds
     local utsuTimer = mob:getLocalVar("utsuTimer")
     local time = os.time()
-    print(time)
-    print(utsuTimer)
+
     if os.time() > utsuTimer then
         return 339 -- Utsusemi: Ni
     end
@@ -137,8 +141,13 @@ function onMobWeaponSkillPrepare(mob, target)
    return tpMoves[math.random(#tpMoves)]
 end
 
+function onMobDisengage(mob)
+    despawnClones(mob)
+end
+
 function onMobDeath(mob, player, isKiller, noKiller)
     tpz.wotg.MagianT4(mob, player, isKiller, noKiller)
+    despawnClones(mob)
 end
 
 function onMobDespawn(mob)
@@ -146,6 +155,7 @@ function onMobDespawn(mob)
         UpdateNMSpawnPoint(mob:getID())
         mob:setRespawnTime(7200) -- 2 hours
     end
+    despawnClones(mob)
 end
 
 function GetShadowCount(mob)

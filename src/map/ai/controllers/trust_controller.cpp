@@ -139,15 +139,6 @@ void CTrustController::Tick(time_point tick)
         }
     }
 
-    // Match owner's status
-    if (!PMaster->isDead() && POwner->isAlive())
-    {
-        POwner->status = PMaster->status;
-    }
-
-    // Incase Masters allegiance changes due to charm
-    POwner->allegiance = PMaster->allegiance;
-
     if (POwner->PAI->IsEngaged())
     {
         DoCombatTick(tick);
@@ -168,6 +159,8 @@ void CTrustController::DoCombatTick(time_point tick)
     auto mastersLastTargetHit = PMaster->GetLocalVar("LastTargetHit");
     bool trustEngageCondition = PMaster->GetBattleTarget() && masterMeleeSwing && mastersLastTargetHit == PMaster->GetBattleTarget()->id;
     bool masterWeakened = PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_WEAKNESS);
+    bool masterCharmed = PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_CHARM) || PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_CHARM_II);
+
 
     if (PMaster && !PMaster->PAI->IsEngaged() && PMaster->isAlive() && !masterWeakened)
     {
@@ -178,7 +171,10 @@ void CTrustController::DoCombatTick(time_point tick)
         m_numberOfWarps = 0;
     }
 
-    if (PMaster && PMaster->GetBattleTargetID() != POwner->GetBattleTargetID() && trustEngageCondition)
+    if (PMaster &&
+        PMaster->GetBattleTargetID() != POwner->GetBattleTargetID()
+        && trustEngageCondition &&
+        !masterCharmed)
     {
         POwner->PAI->Internal_ChangeTarget(PMaster->GetBattleTargetID());
         m_LastTopEnmity = nullptr;
@@ -228,6 +224,16 @@ void CTrustController::DoCombatTick(time_point tick)
                             m_outOfLosChecks = 0;
                             ++m_numberOfWarps;
                             float warpOffset = 0.0f;
+
+                            // Record original movement distance (only once)
+                            if (m_OriginalMovementDistance == -1)
+                            {
+                                m_OriginalMovementDistance = PTrust->getMobMod(MOBMOD_TRUST_DISTANCE);
+                            }
+
+                            // Record last warp time
+                            m_LastWarpTime = server_clock::now();
+
                             POwner->PAI->PathFind->WarpTo(PTarget->loc.p, warpOffset);
                         }
                     }
@@ -288,6 +294,23 @@ void CTrustController::DoCombatTick(time_point tick)
                     }
                 }
 
+                // Restore original movement distance after 30s since last warp
+                if (m_OriginalMovementDistance != -1)
+                {
+                    auto now = server_clock::now();
+                    auto timeSinceLastWarp = std::chrono::duration_cast<std::chrono::seconds>(now - m_LastWarpTime).count();
+
+                    if (timeSinceLastWarp >= 30)
+                    {
+                        // Restore the trust’s movement distance
+                        PTrust->setMobMod(MOBMOD_TRUST_DISTANCE, m_OriginalMovementDistance);
+
+                        // Reset tracking variables
+                        m_OriginalMovementDistance = -1;
+                        m_numberOfWarps = 0;
+                    }
+                }
+
                 switch (movementDistance)
                 {
                     case TRUST_MOVEMENT_TYPE::NO_MOVE:
@@ -297,16 +320,16 @@ void CTrustController::DoCombatTick(time_point tick)
                             // Path closer to Master if unable to see due to LOS
                             if (!POwner->CanSeeTarget(PMaster))
                             {
-                                POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 5.0f + PMaster->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                                POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 5.0f + PMaster->m_ModelSize, PATHFLAG_RUN);
                             }
                             else
                             {
-                                POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 18.0f + PMaster->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                                POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 18.0f + PMaster->m_ModelSize, PATHFLAG_RUN);
                             }
                         }
                         else if (currentDistanceToTarget > CastingDistance)
                         {
-                            POwner->PAI->PathFind->PathInRange(PTarget->loc.p, 16.0f + PTarget->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                            POwner->PAI->PathFind->PathInRange(PTarget->loc.p, 16.0f + PTarget->m_ModelSize, PATHFLAG_RUN);
                         }
                         break;
                     }
@@ -323,7 +346,7 @@ void CTrustController::DoCombatTick(time_point tick)
                                 if (!POwner->PAI->PathFind->IsFollowingPath() ||
                                     distanceSquared(POwner->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10 * 10)
                                 {
-                                    POwner->PAI->PathFind->PathInRange(PTarget->loc.p, attack_range - 1.0f, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                                    POwner->PAI->PathFind->PathInRange(PTarget->loc.p, attack_range - 1.0f, PATHFLAG_RUN);
                                 }
                                 POwner->PAI->PathFind->FollowPath();
 
@@ -344,7 +367,7 @@ void CTrustController::DoCombatTick(time_point tick)
                                 if (!POwner->PAI->PathFind->IsFollowingPath() ||
                                     distanceSquared(POwner->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10 * 10)
                                 {
-                                    POwner->PAI->PathFind->PathTo(PTarget->loc.p, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                                    POwner->PAI->PathFind->PathTo(PTarget->loc.p, PATHFLAG_RUN);
                                 }
                                 POwner->PAI->PathFind->FollowPath();
                             }
@@ -355,7 +378,7 @@ void CTrustController::DoCombatTick(time_point tick)
                     {
                         if (currentDistanceToMaster > FollowDistance)
                         {
-                            POwner->PAI->PathFind->PathInRange(PMaster->loc.p, PMaster->m_ModelSize, PATHFLAG_WALLHACK | PATHFLAG_RUN);
+                            POwner->PAI->PathFind->PathInRange(PMaster->loc.p, PMaster->m_ModelSize, PATHFLAG_RUN);
                         }
                         break;
                     }
@@ -398,6 +421,14 @@ void CTrustController::DoRoamTick(time_point tick)
     auto masterLastAttackTime = static_cast<CPlayerController*>(PMaster->PAI->GetController())->getLastAttackTime();
     bool masterMeleeSwing = masterLastAttackTime > server_clock::now() - 1s;
     bool trustEngageCondition = PMaster->GetBattleTarget() && masterMeleeSwing;
+
+    if (PMaster && !PMaster->PAI->IsEngaged() && PMaster->isAlive())
+    {
+        POwner->PAI->Internal_Disengage();
+        m_LastTopEnmity = nullptr;
+        m_outOfLosChecks = 0;
+        m_numberOfWarps = 0;
+    }
 
     if (PMaster->PAI->IsEngaged() && trustEngageCondition)
     {
@@ -444,7 +475,10 @@ void CTrustController::DoRoamTick(time_point tick)
 
     auto* controller = static_cast<CTrustController*>(POwner->PAI->GetController());
 
-    if (PMaster && controller && POwner->PAI->CanChangeState())
+    if (PMaster &&
+        !PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_MOUNTED) &&
+        controller &&
+        POwner->PAI->CanChangeState())
     {
         if (TryUseFood(PMaster, controller))
         {
@@ -474,38 +508,45 @@ void CTrustController::DoRoamTick(time_point tick)
     }
 
     uint8 currentPartyPos = GetPartyPosition();
-    CBattleEntity* PFollowTarget = (GetPartyPosition() > 0) ? (CBattleEntity*)PMaster->PTrusts.at(currentPartyPos - 1) : POwner->PMaster;
-    float currentDistance = distance(POwner->loc.p, PFollowTarget->loc.p);
+    CBattleEntity* PFollowTarget = nullptr;
 
-    for (auto* POtherTrust : PMaster->PTrusts)
+    // If this is the first trust, follow the player/master
+    if (currentPartyPos == 0)
     {
-        if (POtherTrust != POwner && distance(POtherTrust->loc.p, POwner->loc.p) < 1.0f && !POwner->PAI->PathFind->IsFollowingPath())
+        PFollowTarget = POwner->PMaster;
+    }
+    else
+    {
+        // Start by assuming we’ll follow the one right before us
+        for (int8 i = currentPartyPos - 1; i >= 0; --i)
         {
-            auto diff_angle = worldAngle(POwner->loc.p, POtherTrust->loc.p) + 64;
-            auto amount = (currentPartyPos % 2) ? 1.0f : -1.0f;
+            auto* PTrustBeingFollowed = PMaster->PTrusts.at(i);
+            if (!PTrustBeingFollowed)
+                continue;
 
-            // clang-format off
-            position_t new_pos =
+            // Skip this trust if it cannot act or has 0 movement
+            if (PTrustBeingFollowed->StatusEffectContainer->HasPreventActionEffect(false) || PTrustBeingFollowed->speed <= 0)
             {
-                   POwner->loc.p.x - (cosf(rotationToRadian(diff_angle)) * amount),
-                   POtherTrust->loc.p.y,
-                   POwner->loc.p.z + (sinf(rotationToRadian(diff_angle)) * amount),
-                   0,
-                   0,
-            };
-            // clang-format on
-
-            if (POwner->PAI->PathFind->ValidPosition(new_pos) && POwner->PAI->PathFind->PathAround(new_pos, RoamDistance, PATHFLAG_RUN | PATHFLAG_WALLHACK))
-            {
-                POwner->PAI->PathFind->FollowPath();
+                continue; // try the next one further up
             }
+
+            // Found a valid one to follow
+            PFollowTarget = PTrustBeingFollowed;
             break;
+        }
+
+        // If we didn’t find any valid Trusts above us, fallback to the player
+        if (!PFollowTarget)
+        {
+            PFollowTarget = POwner->PMaster;
         }
     }
 
+    float currentDistance = distance(POwner->loc.p, PFollowTarget->loc.p);
+
     if (currentDistance > RoamDistance)
     {
-        if (currentDistance < RoamDistance * 3.0f && POwner->PAI->PathFind->PathAround(PFollowTarget->loc.p, RoamDistance, PATHFLAG_RUN | PATHFLAG_WALLHACK))
+        if (currentDistance < RoamDistance * 3.0f && POwner->PAI->PathFind->PathAround(PFollowTarget->loc.p, RoamDistance, PATHFLAG_RUN))
         {
             POwner->PAI->PathFind->FollowPath();
         }
@@ -574,7 +615,7 @@ void CTrustController::Declump(CCharEntity * PMaster, CBattleEntity * PTarget)
 
             if (POwner->PAI->PathFind->ValidPosition(newPos))
             {
-                POwner->PAI->PathFind->PathTo(newPos, PATHFLAG_RUN | PATHFLAG_WALLHACK);
+                POwner->PAI->PathFind->PathTo(newPos, PATHFLAG_RUN);
             }
             break;
         }
@@ -636,7 +677,7 @@ void CTrustController::PathOutToDistance(CBattleEntity* PTarget, float amount)
     // Get somewhat close to the target destination
     if (distance(POwner->loc.p, target_position) > 2.0f && m_failedRepositionAttempts < 3)
     {
-        POwner->PAI->PathFind->PathTo(target_position, PATHFLAG_RUN | PATHFLAG_WALLHACK);
+        POwner->PAI->PathFind->PathTo(target_position, PATHFLAG_RUN);
     }
     else
     {
@@ -827,8 +868,14 @@ bool CTrustController::TryCastRaise(CCharEntity* PMaster, CTrustController* Cont
                     {
                         if (POwner->health.mp >= PSpell->getMPCost())
                         {
-                            Controller->Cast(PMember->targid, *raise);
-                            return true;
+                            if (auto* PChar = dynamic_cast<CCharEntity*>(PMember))
+                            {
+                                if (!PChar->m_hasRaise)
+                                {
+                                    Controller->Cast(PMember->targid, *raise);
+                                    return true;
+                                }
+                            }
                         }
                     }
                 }

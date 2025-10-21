@@ -746,6 +746,12 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             case ABILITY_MAINTENANCE:
             case ABILITY_REPAIR:
             {
+                if (PChar->PPet == nullptr)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_REQUIRES_A_PET));
+                    return false;
+                }
+
                 CItem* PItem = PChar->getEquip((SLOTTYPE)SLOT_AMMO);
                 if (PItem == nullptr)
                 {
@@ -1231,7 +1237,27 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     recast -= PChar->getMod(Mod::DRAGOON_BREATH_RECAST);
                 }
 
-                PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), recast);
+                auto AddWaltzRecasts = [&](std::initializer_list<uint16> ids)
+                {
+                    for (auto id : ids)
+                    {
+                        PChar->PRecastContainer->Add(RECAST_ABILITY, id, recast);
+                    }
+                };
+
+                if (PAbility->isCuringWaltz())
+                {
+                    AddWaltzRecasts({ 217, 186, 187, 188, 189 });
+                }
+                else if (PAbility->isDivineWaltz())
+                {
+                    AddWaltzRecasts({ 190, 225 });
+                }
+                else
+                {
+                    PChar->PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), recast);
+                }
+
             }
             PChar->pushPacket(new CCharRecastPacket(PChar));
             PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_IS_PARALYZED));

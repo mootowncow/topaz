@@ -89,6 +89,8 @@ private:
     CBattleEntity* m_LastTopEnmity;
 
     time_point m_LastRepositionTime;
+    time_point m_LastWarpTime;
+    int16 m_OriginalMovementDistance = -1;
     uint8 m_failedRepositionAttempts;
     time_point m_LastLosCheckTime;
     uint8 m_outOfLosChecks = 0;

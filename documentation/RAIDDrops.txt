@@ -1,0 +1,412 @@
+{{Private Server|Shiyo Server|Shiyo}}
+
+=== Promathia ===
+  * Gyve Trousers [Legs]
+      - Lv.75 WHM BLM RDM BRD RNG NIN SMN BLU PUP SCH GEO
+      - Def +34
+      - Hp +22
+      - Mp +32
+      - Vit +7
+      - Agi +7
+      - Int +5
+      - Mnd +5
+      - Chr +5
+      - Fastcast +3
+      - Dmg -2
+      - Enmity +5
+  * Gyve Doublet [Body]
+      - Lv.75 WHM BLM RDM BRD RNG NIN SMN BLU PUP SCH GEO
+      - Def +44
+      - Hp +24
+      - Mp +39
+      - Int +5
+      - Mnd +5
+      - Chr +5
+      - Mag Burst Bonus +5
+  * Laic Mantle [Back]
+      - Lv.75 WAR MNK RDM THF PLD DRK BST BRD RNG SAM NIN DRG BLU COR DNC RUN
+      - Att +15
+      - Storetp +2
+      - Def +19
+  * Latria Sash [Waist]
+      - Lv.75 WAR MNK WHM BLM RDM THF PLD DRK BRD RNG SAM NIN SMN BLU PUP SCH GEO
+      - Earthres +10
+      - Waterres +10
+      - Windres +10
+      - Fireres +10
+      - Iceres +10
+      - Thunderres +10
+      - Def +12
+
+=== Omega ===
+  * Terminal Helm [Head]
+      - Lv.75 WAR PLD DRK SAM DRG
+      - Def +35
+      - Hp +21
+      - Mp +29
+      - Agi +4
+      - Int +4
+      - Mnd +4
+      - Racc +12
+      - Dmgmagic -5
+      - Ratt +12
+      - Snap Shot +5
+      - Pet:
+          - Regen +10
+          - Dmg -5
+  * Terminal Plate [Body]
+      - Lv.75 WAR PLD DRK SAM DRG
+      - Def +50
+      - Hp +50
+      - Mp +20
+      - Shield +7
+      - Parry +7
+      - Spellinterrupt +20
+  * Cessance Earring [Ear]
+      - Lv.75 All Jobs
+      - Acc +6
+      - Double Attack +3
+      - Storetp +3
+  * Consummation Torque [Neck]
+      - Lv.75 All Jobs
+      - Blood Boon +3
+      - Avatar:
+          - Acc +5
+          - Macc +5
+          - Enmity +5
+
+=== Bahamut ===
+  * Vanir Boots [Feet]
+      - Lv.75 WAR RDM THF PLD DRK BST BRD RNG SAM NIN DRG BLU COR DNC RUN
+      - Def +23
+      - Hp +13
+      - Vit +5
+      - Agi +5
+      - Int +5
+      - Chr +5
+      - Racc +7
+      - Matt +3
+  * Bestas Bane [Throwing]
+      - Lv.75 THF NIN BLU DNC
+      - DMG: 35
+      - Delay: 286
+      - Str +4
+      - Dex +4
+  * Lentus Grip [Sub]
+      - Lv.75 All Jobs
+      - Hp +25
+      - Str +3
+      - Double Attack +2
+  * Kyujutsugi [Body]
+      - Lv.75 RNG SAM
+      - Def +45
+      - Hp +25
+      - Ratt +25
+      - Racc +25
+      - Enmity -5
+      - Storetp +5
+
+=== Ultima ===
+  * Culminus [Shield]
+      - Lv.75 WHM BLM RDM BRD SMN BLU SCH GEO
+      - Def +23
+      - Hp +25
+      - Mp +25
+      - Shield +30
+      - Spellinterrupt +33
+      - Item Spikes Type +8
+      - Item Spikes Dmg +15
+      - Item Spikes Chance +33
+  * Denouements [Hand To Hand]
+      - Lv.75 MNK PUP
+      - DMG: 18
+      - Delay: 531
+      - Acc +10
+      - Automaton:
+          - Regen +4
+          - Refresh +4
+          - Dmg -10
+  * Domesticators Earring [Ear]
+      - Lv.75 All Jobs
+      - Enmity -5
+      - Eva +3
+      - Pet:
+          - Enmity +5
+          - Double Attack +3
+  * Tengu No Hane [Ammo]
+      - Lv.75 THF NIN DNC
+      - DMG: 0
+      - Delay: 999
+      - Acc +10
+      - Att +10
+
+=== Ealdnarche ===
+  * Vanir Cotehardie [Body]
+      - Lv.75 WHM BLM RDM BRD SMN BLU PUP SCH GEO RUN
+      - Def +45
+      - Hp +54
+      - Mp +59
+      - Vit +8
+      - Agi +8
+      - Conserve Mp +10
+      - Magic Damage +20
+  * Vanir Battery [Ammo]
+      - Lv.72 All Jobs
+      - DMG: 0
+      - Delay: 999
+      - Double Attack +1
+  * Vanir Knife [Dagger]
+      - Lv.75 THF
+      - DMG: 28
+      - Delay: 150
+      - Acc +10
+      - Latent: Equip Slot (1) → Treasure Hunter +1
+  * Divinator [Ranged]
+      - Lv.75 PUP
+      - DMG: 0
+      - Delay: 999
+      - Auto Lvl Bonus +1
+
+=== Kamlanaut ===
+  * Mesyohi Haubergeon [Body]
+      - Lv.75 WAR PLD DRK BST SAM NIN
+      - Def +53
+      - Str +7
+      - Dex +7
+      - Acc +12
+      - Att +12
+      - Eva -10
+      - Dual Wield +5
+      - Pet:
+          - Acc +10
+          - Att +10
+          - Haste Gear +200
+  * Mesyohi Rod [Club]
+      - Lv.72 WHM PLD
+      - DMG: 42
+      - Delay: 288
+      - Int +6
+      - Mnd +6
+      - Matt +16
+      - Divine +10
+      - Magic Damage +40
+  * Mesyohi Slacks [Legs]
+      - Lv.72 MNK WHM BLM RDM PLD BRD RNG SMN BLU PUP SCH GEO RUN
+      - Def +107
+      - Hp +43
+      - Mp +29
+      - Str +25
+      - Vit +12
+      - Agi +17
+      - Int +39
+      - Mnd +29
+      - Chr +19
+      - Mdef +8
+      - Macc +20
+      - Meva +107
+      - Eva +27
+      - Haste Gear +500
+  * Kamlanauts Shield [Shield]
+      - Lv.75 WAR PLD DRK
+      - Fire Absorb +25
+      - Ice Absorb +25
+      - Wind Absorb +25
+      - Earth Absorb +25
+      - Ltng Absorb +25
+      - Water Absorb +25
+      - Light Absorb +25
+      - Dark Absorb +25
+
+=== Shadow Lord ===
+  * Dread Jupon [Body]
+      - Lv.75 MNK THF RNG NIN BLU COR DNC RUN
+      - Def +41
+      - Hp +25
+      - Mp +25
+      - Agi +8
+      - Int +8
+      - Mnd +8
+      - Chr +8
+      - Fastcast +3
+  * Perdition Slops [Legs]
+      - Lv.72 WHM BLM SMN SCH
+      - Def +40
+      - Hp +25
+      - Mp +35
+      - Str +9
+      - Acc +5
+      - Att +20
+      - Haste Gear -1200
+  * Onimusha No Kote [Hands]
+      - Lv.72 MNK SAM NIN PUP
+      - Def +20
+      - Hp +25
+      - Att +20
+      - Storetp +4
+      - Haste Gear +300
+  * Trepidity Mantle [Back]
+      - Lv.72 WAR PLD DRK SAM
+      - Def +20
+      - Hp +35
+      - Mp +35
+      - Mdef +5
+
+=== Ark Angel Hm ===
+  * Lithelimb Cap [Head]
+      - Lv.75 WAR MNK RDM THF PLD DRK BST BRD SAM NIN DRG BLU COR DNC RUN
+      - Def +33
+      - Hp +19
+      - Str +5
+      - Acc +5
+      - Dmgphys -2
+  * Bloodrain Strap [Sub]
+      - Lv.72 All Jobs
+      - Acc +10
+      - Racc +10
+  * Manabyss Pigaches [Feet]
+      - Lv.72 BST SMN PUP
+      - Def +23
+      - Hp +13
+      - Mp +34
+      - Haste Gear +300
+      - Enmity -4
+      - Pet:
+          - Haste Gear +300
+  * Anahera Saber [Sword]
+      - Lv.75 RDM BLU
+      - DMG: 45
+      - Delay: 240
+      - Enspell Dmg Bonus +20
+      - Enspell Macc +20
+      - Blu Attp +10
+      - Refresh +1
+
+=== Ark Angel Mr ===
+  * Regimen Mittens [Hands]
+      - Lv.72 BST DRG SMN PUP
+      - Def +18
+      - Haste Gear +300
+      - Hp +25
+      - Pet:
+          - Acc +5
+          - Racc +5
+          - Macc +5
+          - Haste Gear +300
+  * Felistris Mask [Head]
+      - Lv.72 WAR MNK THF BST NIN DNC RUN
+      - Def +29
+      - Hp +36
+      - Haste Gear +300
+      - Evasion +10
+      - Parry +10
+      - Guard +10
+  * Sekhmet Corset [Waist]
+      - Lv.72 WHM BLM RDM BRD SMN GEO
+      - Def +10
+      - Conserve Mp +3
+      - Magic Damage +7
+  * Anahera Tabar [Axe]
+      - Lv.75 BST
+      - DMG: 51
+      - Delay: 288
+      - Acc +10
+      - Storetp +5
+      - Pet:
+          - Acc +10
+          - Double Attack +5
+
+=== Ark Angel Ev ===
+  * Patricius Ring [Ring]
+      - Lv.75 All Jobs
+      - Acc +2
+      - Dmgphys -5
+  * Osmium Cuisses [Legs]
+      - Lv.72 WAR RDM PLD DRK BST RNG SAM DRG BLU RUN
+      - Def +49
+      - Hp +55
+      - Str +3
+      - Vit +7
+      - Agi +7
+      - Dmgmagic -4
+  * Dynasty Mitts [Hands]
+      - Lv.72 WHM
+      - Def +17
+      - Hp +22
+      - Mp +24
+      - Magic Damage +20
+      - Divine +20
+  * Anahera Sword [Sword]
+      - Lv.75 WAR PLD DRK RUN
+      - DMG: 47
+      - Delay: 264
+      - Mnd +15
+      - Shield +20
+      - Dmgmagic -7
+      - Enmity +5
+      - Hp +20
+      - Int +15
+
+=== Ark Angel Tt ===
+  * Fravashi Mantle [Back]
+      - Lv.75 WAR MNK RDM THF PLD DRK BST BRD RNG SAM NIN DRG BLU COR DNC RUN
+      - Def +8
+      - Enmity +3
+      - Eva +10
+      - Gravityrestrait +5
+  * Theurgists Slacks [Legs]
+      - Lv.72 WHM BLM SMN PUP SCH GEO
+      - Def +40
+      - Hp +29
+      - Mp +32
+      - Int +3
+      - Mnd +3
+      - Conserve Mp +4
+      - Magic Damage +16
+  * Scamps Sollerets [Feet]
+      - Lv.72 WAR PLD DRK BST SAM NIN
+      - Def +25
+      - Hp +35
+      - Haste Gear +300
+      - Shield +13
+      - Evasion +10
+      - Parry +10
+  * Anahera Scythe [Scythe]
+      - Lv.75 DRK
+      - DMG: 97
+      - Delay: 528
+      - Str +5
+      - Int +5
+      - Enh Drain Aspir +10
+      - Dark Magic Cast -33
+      - Dread Spikes Effect +25
+      - Refresh +1
+
+=== Ark Angel Gk ===
+  * Lurid Mitts [Hands]
+      - Lv.75 WHM BLM RDM BRD SMN SCH GEO
+      - Def +24
+      - Hp +22
+      - Mp +14
+      - Enfeeble +5
+      - Enh Magic Duration +10
+  * Agitators Collar [Neck]
+      - Lv.72 WAR PLD DRK BST SAM NIN
+      - Att +4
+      - Acc +4
+      - Shield +7
+      - Evasion +7
+      - Parry +7
+      - Guard +7
+  * Daihanshi Habaki [Feet]
+      - Lv.72 MNK SAM NIN PUP
+      - Def +12
+      - Hp +23
+      - Haste Gear +200
+      - Acc +5
+      - Kick Dmg +40
+  * Anahera Blade [Great Katana]
+      - Lv.75 SAM
+      - Occasionally attacks 2–3 times
+      - DMG: 60
+      - Delay: 494
+

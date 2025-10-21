@@ -11278,7 +11278,7 @@ inline int32 CLuaBaseEntity::sendRaise(lua_State *L)
     {
         ShowDebug(CL_CYAN"lua::sendRaise raise value is not valide!\n" CL_RESET);
     }
-    else if (PChar->m_hasTractor == 0 && PChar->m_hasRaise == 0)
+    else if (PChar->m_hasTractor == 0 && PChar->m_hasRaise <= RaiseLevel)
     {
         PChar->m_hasRaise = RaiseLevel;
         PChar->pushPacket(new CRaiseTractorMenuPacket(PChar, TYPE_RAISE));
@@ -11824,14 +11824,12 @@ inline int32 CLuaBaseEntity::getNearbyEntities(lua_State* L)
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
 
     position_t position = m_PBaseEntity->loc.p;
-
     float max_distance = (float)lua_tonumber(L, 1);
     lua_pop(L, 1);
 
     lua_newtable(L);
     int newTable = lua_gettop(L);
 
-    // Lambda function to add an entity to the Lua table if it's within the specified distance
     auto addEntityIfNearby = [&L, &newTable, &position, &max_distance](CBaseEntity* PEntity)
     {
         if (distance(position, PEntity->loc.p) <= max_distance)
@@ -11846,17 +11844,25 @@ inline int32 CLuaBaseEntity::getNearbyEntities(lua_State* L)
         }
     };
 
-    // Iterate over all characters
-    zoneutils::GetZone(m_PBaseEntity->getZone())->ForEachChar([&addEntityIfNearby](CCharEntity* PChar) { addEntityIfNearby(PChar); });
+    auto* PZone = zoneutils::GetZone(m_PBaseEntity->getZone());
 
-    // Iterate over all mobs
-    zoneutils::GetZone(m_PBaseEntity->getZone())->ForEachMob([&addEntityIfNearby](CMobEntity* PMob) { addEntityIfNearby(PMob); });
+    // Use instance-aware iterators if this entity belongs to an instance
+    if (m_PBaseEntity->PInstance)
+    {
+        PZone->ForEachCharInstance(m_PBaseEntity, [&](CCharEntity* PChar) { addEntityIfNearby(PChar); });
+        PZone->ForEachMobInstance(m_PBaseEntity, [&](CMobEntity* PMob) { addEntityIfNearby(PMob); });
+        PZone->ForEachTrustInstance(m_PBaseEntity, [&](CTrustEntity* PTrust) { addEntityIfNearby(PTrust); });
+    }
+    else
+    {
+        // Normal zone-wide iteration (non-instance areas)
+        PZone->ForEachChar([&](CCharEntity* PChar) { addEntityIfNearby(PChar); });
+        PZone->ForEachMob([&](CMobEntity* PMob) { addEntityIfNearby(PMob); });
+        PZone->ForEachTrust([&](CTrustEntity* PTrust) { addEntityIfNearby(PTrust); });
+    }
 
-    // Iterate over all trusts
-    zoneutils::GetZone(m_PBaseEntity->getZone())->ForEachTrust([&addEntityIfNearby](CTrustEntity* PTrust) { addEntityIfNearby(PTrust); });
-
-    // Iterate over all NPCs
-    zoneutils::GetZone(m_PBaseEntity->getZone())->ForEachNpc([&addEntityIfNearby](CNpcEntity* PNpc) { addEntityIfNearby(PNpc); });
+    // NPCs are always zone-level, not instance-tied
+    PZone->ForEachNpc([&](CNpcEntity* PNpc) { addEntityIfNearby(PNpc); });
 
     return 1;
 }

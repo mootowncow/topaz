@@ -769,6 +769,7 @@ bool CMobController::TryCastSpell()
     TracyZoneScoped;
     if (!CanCastSpells())
     {
+        TapDeaggroTime();
         return false;
     }
 
@@ -782,6 +783,7 @@ bool CMobController::TryCastSpell()
         {
             PMob->PRecastContainer->Del(RECAST_MAGIC, static_cast<uint16>(chosenSpellId.value()));
             CastSpell(chosenSpellId.value());
+            TapDeaggroTime();
             return true;
         }
     }
@@ -803,6 +805,7 @@ bool CMobController::TryCastSpell()
         if (chosenSpellId && currentDistance <= 20.4)
         {
             CastSpell(chosenSpellId.value());
+            TapDeaggroTime();
             return true;
         }
     }

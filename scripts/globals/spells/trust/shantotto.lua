@@ -38,6 +38,9 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.BREAKGA, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.BREAKGA)
 
+    -- Magic burst logic!
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.MB_AVAILABLE, 0, ai.r.MA, ai.s.MB_ELEMENT, tpz.magic.spellFamily.NONE)
+
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.LULLABY, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
@@ -48,34 +51,13 @@ function onMobSpawn(mob)
     -- TODO: Enmity douse
     -- TODO: Manawell
     
-    mob:addFullGambit({
-        ['predicates'] =
-        {
-            {
-                ['target'] = ai.t.TARGET, ['condition'] = ai.c.MB_AVAILABLE, ['argument'] = 0,
-            }
-        },
-        ['actions'] =
-        {
-            {
-                ['reaction'] = ai.r.MA, ['select'] = ai.s.HIGHEST, ['argument'] = tpz.magic.spellFamily.NONE,
-            },
-            {
-                ['reaction'] = ai.r.MSG, ['select'] = ai.s.SPECIFIC, ['argument'] = tpz.trust.message_offset.SPECIAL_MOVE_1, -- Ohohoho!
-            },
-        },
-    })
-
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_ASPIR, 75, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ASPIR)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_SC_AVAILABLE, 0, ai.r.MA, ai.s.BEST_AGAINST_TARGET, tpz.magic.spellFamily.NONE)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_DRAIN, 100, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DRAIN)
 
-
-    if mob:getMainLvl() >= 75 then
-        mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.LONG_RANGE)
-    end
+    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.LONG_RANGE)
 
     mob:SetAutoAttackEnabled(false)
 

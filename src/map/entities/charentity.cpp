@@ -2050,7 +2050,26 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             }
         }
 
-        PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), action.recast);
+        auto AddWaltzRecasts = [&](std::initializer_list<uint16> ids)
+        {
+            for (auto id : ids)
+            {
+                PRecastContainer->Add(RECAST_ABILITY, id, action.recast);
+            }
+        };
+
+        if (PAbility->isCuringWaltz())
+        {
+            AddWaltzRecasts({ 217, 186, 187, 188, 189 });
+        }
+        else if (PAbility->isDivineWaltz())
+        {
+            AddWaltzRecasts({ 190, 225 });
+        }
+        else
+        {
+            PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), action.recast);
+        }
 
         uint16 recastID = PAbility->getRecastId();
         if (map_config.blood_pact_shared_timer && (recastID == 173 || recastID == 174))

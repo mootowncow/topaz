@@ -61,7 +61,7 @@ function onTrigger(player, npc)
 end
 
 function onEventUpdate(player, csid, option)
-    local now = VanadielTime()
+    local now = os.time()
     local timers = {
         [1] = player:getCharVar("[ENM]abandonmentTimer"),
         [2] = player:getCharVar("[ENM]antipathyTimer"),
@@ -113,22 +113,22 @@ function onEventFinish(player, csid, option)
 
     -- Give player KI
     if csid == 10065 or csid == 10064 then
-        if option == 1 and VanadielTime() >= abandonmentTimer and player:hasKeyItem(tpz.ki.CENSER_OF_ABANDONMENT) == false then
+        if option == 1 and os.time() >= abandonmentTimer and player:hasKeyItem(tpz.ki.CENSER_OF_ABANDONMENT) == false then
             player:addKeyItem(tpz.ki.CENSER_OF_ABANDONMENT)
             player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.CENSER_OF_ABANDONMENT)
             player:setCharVar("[ENM]abandonmentTimer", os.time() + 432000) -- 5 days
             player:setCharVar("[ENM]VenessaIntro", 1)
-        elseif option == 2 and VanadielTime() >= antipathyTimer and player:hasKeyItem(tpz.ki.CENSER_OF_ANTIPATHY) == false then
+        elseif option == 2 and os.time() >= antipathyTimer and player:hasKeyItem(tpz.ki.CENSER_OF_ANTIPATHY) == false then
             player:addKeyItem(tpz.ki.CENSER_OF_ANTIPATHY)
             player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.CENSER_OF_ANTIPATHY)
             player:setCharVar("[ENM]antipathyTimer", os.time() + 432000) -- 5 days
             player:setCharVar("[ENM]VenessaIntro", 1)
-        elseif option == 3 and VanadielTime() >= animusTimer and player:hasKeyItem(tpz.ki.CENSER_OF_ANIMUS) == false then
+        elseif option == 3 and os.time() >= animusTimer and player:hasKeyItem(tpz.ki.CENSER_OF_ANIMUS) == false then
             player:addKeyItem(tpz.ki.CENSER_OF_ANIMUS)
             player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.CENSER_OF_ANIMUS)
             player:setCharVar("[ENM]animusTimer", os.time() + 432000) -- 5 days
             player:setCharVar("[ENM]VenessaIntro", 1)
-        elseif option == 4 and VanadielTime() >= acrimonyTimer and player:hasKeyItem(tpz.ki.CENSER_OF_ACRIMONY) == false then
+        elseif option == 4 and os.time() >= acrimonyTimer and player:hasKeyItem(tpz.ki.CENSER_OF_ACRIMONY) == false then
             player:addKeyItem(tpz.ki.CENSER_OF_ACRIMONY)
             player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.CENSER_OF_ACRIMONY)
             player:setCharVar("[ENM]acrimonyTimer", os.time() + 432000) -- 5 days

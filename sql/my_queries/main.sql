@@ -82,5 +82,11 @@ UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 221 AND mJob = 11;
 UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 222 AND mJob = 11;
 UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 223 AND mJob = 11;
 
+-- Fixes "Singing" animation with ranged weapons via lockstyle / stylelock
+UPDATE item_equipment
+SET MId = 22
+WHERE slot = 8 AND rslot = 4 AND MId = 0;
+
+
 
 

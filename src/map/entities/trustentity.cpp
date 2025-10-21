@@ -939,7 +939,8 @@ void CTrustEntity::OnRaise()
     StatusEffectContainer->DelStatusEffect(EFFECT_RERAISE);
     m_hasReraise = 0;
     m_isDead = false;
-    PAI->Internal_Disengage();
+
+    PAI->Disengage();
 }
 
 void CTrustEntity::Die(duration _duration)

@@ -17,14 +17,45 @@ function onUseAbility(player, target, ability, action)
     local effectStolen
     local effectID = 0
     local jpValue  = player:getJobPointLevel(tpz.jp.LARCENY_EFFECT)
-
     local stealableSPEffects =
-{
-    tpz.effect.MIGHTY_STRIKES,   tpz.effect.HUNDRED_FISTS, tpz.effect.MANAFONT,     tpz.effect.CHAINSPELL,
-    tpz.effect.PERFECT_DODGE,    tpz.effect.INVINCIBLE,    tpz.effect.BLOOD_WEAPON, tpz.effect.SOUL_VOICE,
-    tpz.effect.MEIKYO_SHISUI,    tpz.effect.AZURE_LORE,    tpz.effect.TRANCE,       tpz.effect.BOLSTER,
-    tpz.effect.ELEMENTAL_SFORZO
-}
+    {
+        tpz.effect.MIGHTY_STRIKES,
+        tpz.effect.HUNDRED_FISTS,
+        tpz.effect.MANAFONT,
+        tpz.effect.CHAINSPELL,
+        tpz.effect.PERFECT_DODGE,
+        tpz.effect.INVINCIBLE,
+        tpz.effect.BLOOD_WEAPON,
+        tpz.effect.SOUL_VOICE,
+        tpz.effect.MEIKYO_SHISUI,
+        tpz.effect.SPIRIT_SURGE,
+        tpz.effect.ASTRAL_FLOW,
+        tpz.effect.AZURE_LORE,
+        tpz.effect.OVERDRIVE,
+        tpz.effect.TABULA_RASA,
+        tpz.effect.TRANCE,
+        tpz.effect.BOLSTER,
+        tpz.effect.ELEMENTAL_SFORZO,
+
+        tpz.effect.BRAZEN_RUSH,
+        tpz.effect.INNER_STRENGTH,
+        tpz.effect.SUBTLE_SORCERY,
+        tpz.effect.STYMIE,
+        tpz.effect.ASYLUM,
+        tpz.effect.UNLEASH,
+        tpz.effect.CLEARION_CALL,
+        tpz.effect.SOUL_ENSLAVEMENT,
+        tpz.effect.SPIRIT_SURGE,
+        tpz.effect.FLY_HIGH,
+        tpz.effect.ASTRAL_CONDUIT,
+        tpz.effect.UNBRIDLED_WISDOM,
+        tpz.effect.MIKAGE,
+        tpz.effect.YAEGASUMI,
+        tpz.effect.GRAND_PAS,
+        tpz.effect.OVERKILL,
+        tpz.effect.WIDENED_COMPASS
+    }
+
 
     -- SP Abilities have priority, check if one is present first
     for i = 1, #stealableSPEffects do

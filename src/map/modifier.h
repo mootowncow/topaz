@@ -925,7 +925,7 @@ enum class Mod
     AUGMENTS_AURA_STEAL       = 889, // 20% chance of 2 effects to be dispelled or stolen per merit level
     AUGMENTS_CONSPIRATOR      = 912, // Grants an attack bonus equal to the accuracy bonus, must be worn.
     ENHANCES_REFRESH          = 529, // "Enhances Refresh" adds +1 per modifier to spell's tick result.
-    REFRESH_DURATION          = 1312, // Increased refresh duration (in seconds)
+    REFRESH_DURATION          = 1312, // Increased refresh duration (in seconds) on TARGET (not casters duration)
     NO_SPELL_MP_DEPLETION     = 530, // % to not deplete MP on spellcast.
     FORCE_FIRE_DWBONUS        = 531, // Set to above 0 to force fire day/weather spell bonus/penalty.
     FORCE_ICE_DWBONUS         = 532, // Set to above 0 to force ice day/weather spell bonus/penalty.

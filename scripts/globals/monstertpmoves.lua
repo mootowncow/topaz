@@ -648,40 +648,48 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     -- this is for AoE because its only set once
     skill:setMsg(tpz.msg.basic.DAMAGE)
 
-    --Handle shadows depending on shadow behaviour / attackType
-    if (shadowbehav ~= MOBPARAM_WIPE_SHADOWS and shadowbehav ~= MOBPARAM_IGNORE_SHADOWS) then --remove 'shadowbehav' shadows.
+    -- Handle shadows depending on shadow behaviour / attackType
+    if shadowbehav ~= MOBPARAM_WIPE_SHADOWS and shadowbehav ~= MOBPARAM_IGNORE_SHADOWS then
+        if attackType == tpz.attackType.PHYSICAL then
+            if skill:isAoE() or skill:isConal() then
+                -- AoE and conal moves that don't ignore or fully wipe shadows remove 2–3 instead
+                shadowbehav = math.random(MOBPARAM_2_SHADOW, MOBPARAM_3_SHADOW)
 
-        if (skill:isAoE() or skill:isConal()) then
-            -- Blink is fully wiped by AOE and conal moves
-            if target:hasStatusEffect(tpz.effect.BLINK) then
-                shadowbehav = MOBPARAM_WIPE_SHADOWS
-            else
-                shadowbehav = MobTakeAoEShadow(mob, target, shadowbehav)
+                -- Blink is fully wiped by AoE and conal moves
+                if target:hasStatusEffect(tpz.effect.BLINK) then
+                    target:delStatusEffect(tpz.effect.BLINK)
+                    shadowbehav = MOBPARAM_WIPE_SHADOWS
+                else
+                    shadowbehav = MobTakeAoEShadow(mob, target, shadowbehav)
+                end
             end
         end
+    end
 
+    if shadowbehav ~= MOBPARAM_WIPE_SHADOWS and shadowbehav ~= MOBPARAM_IGNORE_SHADOWS then
         dmg = utils.takeShadows(target, dmg, shadowbehav)
 
-        -- dealt zero damage, so shadows took hit
-        if (dmg == 0) then
+        -- dealt zero damage, so shadows absorbed the hit
+        if dmg == 0 then
             skill:setMsg(tpz.msg.basic.SHADOW_ABSORB)
-			target:addHP(shadowbehav)
+            target:addHP(shadowbehav)
             return shadowbehav
         end
+    end
 
-    elseif (shadowbehav == MOBPARAM_WIPE_SHADOWS) then --take em all!
+    if shadowbehav == MOBPARAM_WIPE_SHADOWS then
+        -- Wipe all shadows explicitly
         target:delStatusEffect(tpz.effect.COPY_IMAGE)
         target:delStatusEffect(tpz.effect.BLINK)
+    end
+
+    -- Physical AoE/conal attacks always remove Third Eye
+    if attackType == tpz.attackType.PHYSICAL and not skill:isSingle() then
         target:delStatusEffect(tpz.effect.THIRD_EYE)
     end
 
-    if (attackType == tpz.attackType.PHYSICAL and skill:isSingle() == false) then
-        target:delStatusEffect(tpz.effect.THIRD_EYE)
-    end
-
-    --handle Third Eye using shadowbehav as a guide
-    if (attackType == tpz.attackType.PHYSICAL and utils.thirdeye(mob, target)) then
-
+    -- Handle Third Eye counter logic
+    if attackType == tpz.attackType.PHYSICAL and utils.thirdeye(mob, target) then
         skill:setMsg(tpz.msg.basic.MISS)
         return 0
     end

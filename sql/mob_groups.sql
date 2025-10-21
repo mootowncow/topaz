@@ -1246,11 +1246,11 @@ INSERT INTO `mob_groups` VALUES (45,5884,33,'Ruaern_rng',0,128,0,0,0,77,77,0);
 INSERT INTO `mob_groups` VALUES (46,5885,33,'Ruaern_mnk',0,128,0,0,0,77,77,0);
 INSERT INTO `mob_groups` VALUES (47,5886,33,'Ruaern_blm',0,128,0,0,0,77,77,0);
 INSERT INTO `mob_groups` VALUES (48,5887,33,'Ruaern_pld',0,128,0,0,0,77,77,0);
-INSERT INTO `mob_groups` VALUES (49,2132,33,'Jailer_of_Hope',0,128,1398,34000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (50,2133,33,'Jailer_of_Justice',0,128,1399,32000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (49,2132,33,'Jailer_of_Hope',0,128,1398,51000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (50,2133,33,'Jailer_of_Justice',0,128,1399,48000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (51,3271,33,'Qnxzomit',0,128,0,1820,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (52,2135,33,'Jailer_of_Prudence',0,128,1401,34000,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (53,2134,33,'Jailer_of_Love',0,128,1400,55000,0,90,90,0);
+INSERT INTO `mob_groups` VALUES (53,2134,33,'Jailer_of_Love',0,128,1400,82000,0,90,90,0);
 INSERT INTO `mob_groups` VALUES (54,3422,33,'Ruphuabo',0,128,0,0,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (55,3270,33,'Qnhpemde',0,128,0,0,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (56,21,33,'Absolute_Virtue',0,128,3,45000,0,90,90,0);
@@ -1287,7 +1287,7 @@ INSERT INTO `mob_groups` VALUES (19,55,34,'Aerns_Euvhi',0,128,0,0,0,74,77,0);
 INSERT INTO `mob_groups` VALUES (20,6180,34,'Eoaern_drk',960,0,775,0,9999,79,82,0);
 INSERT INTO `mob_groups` VALUES (21,6177,34,'Eoaern_rdm',960,0,775,0,9999,79,82,0);
 INSERT INTO `mob_groups` VALUES (22,2113,34,'Ixghrah',0,128,0,9500,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (23,2136,34,'Jailer_of_Temperance',0,32,1402,25000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (23,2136,34,'Jailer_of_Temperance',0,32,1402,45000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (24,4661,34,'Ixaern_mnk',0,128,2845,16000,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (25,3269,34,'Qnaern_rdm',0,128,0,10000,0,77,77,0);
 INSERT INTO `mob_groups` VALUES (26,4651,34,'Qnaern_whm',0,128,0,10000,0,77,77,0);
@@ -1321,12 +1321,12 @@ INSERT INTO `mob_groups` VALUES (21,301,35,'Awzdei',960,0,778,0,0,80,83,0);
 -- 22: free
 INSERT INTO `mob_groups` VALUES (23,6179,35,'Awaern_pld',960,0,9053,0,9999,81,84,0);
 INSERT INTO `mob_groups` VALUES (24,6745,35,'Ixzdei',0,128,0,6300,0,75,75,0); -- BLM
-INSERT INTO `mob_groups` VALUES (25,2131,35,'Jailer_of_Fortitude',0,128,1397,25000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (25,2131,35,'Jailer_of_Fortitude',0,128,1397,45000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (26,2215,35,'Kfghrah_whm',0,128,0,9000,0,77,78,0);
 INSERT INTO `mob_groups` VALUES (27,4659,35,'Kfghrah_blm',0,128,0,9000,0,77,78,0);
 INSERT INTO `mob_groups` VALUES (28,4660,35,'Ixaern_drk',0,128,2844,10000,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (29,5549,35,'Qnaern_rng',0,128,0,0,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (30,2130,35,'Jailer_of_Faith',0,128,1396,35000,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (30,2130,35,'Jailer_of_Faith',0,128,1396,45000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (31,2112,35,'Ixaern_drg',0,128,2843,16000,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (32,5536,35,'Ixaern_drgs_Wynav',0,128,0,10000,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (33,6746,35,'Ixzdei',0,128,0,7100,0,75,75,0); -- RDM
@@ -12741,7 +12741,7 @@ INSERT INTO `mob_groups` VALUES (7,4147,188,'Vanguard_Enchanter',1800,0,2543,0,0
 INSERT INTO `mob_groups` VALUES (8,4192,188,'Vanguard_Tinkerer',1800,0,2543,0,0,65,67,0);
 INSERT INTO `mob_groups` VALUES (9,4136,188,'Vanguard_Armorer',1800,0,2543,0,0,65,67,0);
 INSERT INTO `mob_groups` VALUES (10,4155,188,'Vanguard_Hitman',1800,0,2543,0,0,65,67,0);
-INSERT INTO `mob_groups` VALUES (11,1444,188,'Gabblox_Magpietongue',0,32,922,8000,0,70,71,0); -- PH
+INSERT INTO `mob_groups` VALUES (11,1444,188,'Gabblox_Magpietongue',0,32,9032,8000,0,70,71,0); -- PH
 INSERT INTO `mob_groups` VALUES (12,4173,188,'Vanguard_Pitfighter',1800,0,2543,0,0,65,67,0);
 INSERT INTO `mob_groups` VALUES (13,4133,188,'Vanguard_Alchemist',1800,0,2543,0,0,65,67,0);
 INSERT INTO `mob_groups` VALUES (14,4160,188,'Vanguard_Maestro',1800,0,2543,0,0,65,67,0);

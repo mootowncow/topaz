@@ -51,7 +51,6 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, bonus, tpz.effect.EVASION_DOWN, tpz.skill.GREAT_AXE)
         if not target:hasStatusEffect(tpz.effect.EVASION_DOWN) and (resist >= 0.5)  then
             local duration = (120 + (tp/1000 * 60))
-            target:delStatusEffect(tpz.effect.EVASION_BOOST)
             target:addStatusEffect(tpz.effect.EVASION_DOWN, power, 0, duration * resist)
         end
 

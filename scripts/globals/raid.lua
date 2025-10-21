@@ -42,7 +42,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: AA TT immune to stun during manafont
 -- TODO: Kamlanaut waay undertuned, dies really fast and does nothing. Make new mob family and give trong ga enfeebles? Also make his enspells undispellable and give him ochain
 -- TODO: Confrontation should be removed after a timer when the red text shows but make it only show at 50+ yards
--- TODO: NPC's didn't despawn after Ealdnarche died?
 -- TODO: PLD's need chivalry
 -- TODO: Shikaree Z's wyvern has insane attack speed?
 -- TODO: Monberaux overwrites shell/haste
@@ -225,6 +224,22 @@ local function AddTreasure(mob, player)
     end
 end
 
+local function AddDomainPoints(mob, player, amount)
+    local NearbyPlayers = mob:getPlayersInRange(50)
+    if not NearbyPlayers or #NearbyPlayers == 0 then
+        return
+    end
+
+    for _, player in ipairs(NearbyPlayers) do
+        if (player:getLocalVar("domainPointsGiven") == 0) then
+            player:addCurrency("domain_points", amount)
+            local newAmount = player:getCurrency("domain_points")
+            player:setLocalVar("domainPointsGiven", 1)
+            player:PrintToPlayer("You gain " .. amount .. " Domain Points, for a total of " .. newAmount .. "!", 0xD, nil)
+        end
+    end
+end
+
 local modByMobName =
 {
     ['Promathia'] = function(mob)
@@ -281,7 +296,7 @@ local modByMobName =
     end,
 
     ['Ealdnarche'] = function(mob)
-        mob:setMod(tpz.mod.REGEN, 50)
+        mob:setMod(tpz.mod.REGEN, 25)
         mob:addMod(tpz.mod.EVA, 100)
         mob:setMod(tpz.mod.UFASTCAST, 60)
         mob:setMod(tpz.mod.UDMGPHYS, -75)
@@ -910,6 +925,7 @@ end
 
 tpz.raid.onMobDeath = function(mob, player, isKiller, noKiller)
     AddTreasure(mob, player)
+    AddDomainPoints(mob, player, 5)
     OnBattleEndConfrontation(mob)
     SetBattleMusicOnDeath(mob)
 end

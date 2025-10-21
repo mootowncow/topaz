@@ -13,6 +13,10 @@ mixins = {require("scripts/mixins/job_special")}
 -----------------------------------
 function onMobSpawn(mob)
     tpz.wotg.NMMods(mob)
+    mob:setMod(tpz.mod.MATT, 72)
+    mob:setMod(tpz.mod.HELIX_EFFECT, 50)
+    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 10)
+    mob:setMobMod(tpz.mobMod.BUFF_CHANCE, 5)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
@@ -32,7 +36,7 @@ function onMobEngaged(mob, target)
 end
 
 function onMobFight(mob, target)
-    -- Spawn adds if they're dead'
+    -- Spawn adds if they're dead
     for v = mob:getID() +2, mob:getID() +4 do
         local adds = GetMobByID(v)
         if not adds:isSpawned() then

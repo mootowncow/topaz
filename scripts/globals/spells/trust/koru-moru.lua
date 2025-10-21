@@ -32,6 +32,9 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.MPP_LT, 10, ai.r.JA, ai.s.SPECIFIC, tpz.ja.CONVERT)
 
+    -- Raise master, highest priority
+    mob:addSimpleGambit(ai.t.MASTER_DEAD, ai.c.ALWAYS, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RAISE)
+
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.DOOM, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURSNA)
 
     mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
@@ -43,11 +46,19 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 66, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
 
+    -- Keep up Reraise
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.RERAISE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RERAISE)
+
+    mob:addSimpleGambit(ai.t.PARTY_DEAD, ai.c.ALWAYS, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RAISE)
+
     -- Refresh self
     mob:addSimpleGambit(ai.t.SELF, ai.c.REFRESH, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.REFRESH)
 
-    -- Refresh others
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.DIA, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DIA)
+
     mob:addSimpleGambit(ai.t.MELEE, ai.c.NOT_STATUS, tpz.effect.HASTE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.HASTE)
+
+    -- Refresh others
     mob:addSimpleGambit(ai.t.WANTS_REFRESH, ai.c.REFRESH, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.REFRESH)
 
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.PETRIFICATION, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STONA)
@@ -55,7 +66,6 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.CASTS_SPELLS, ai.c.STATUS, tpz.effect.SILENCE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.SILENA)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.PARALYSIS, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.PARALYNA)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.DIA, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DIA)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.PARALYSIS, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.PARALYZE)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.SLOW, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.SLOW)
     -- mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.EVASION_DOWN, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DISTRACT, 60) -- NYI
@@ -68,8 +78,6 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.RANGED, ai.c.STATUS, tpz.effect.PLAGUE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.VIRUNA)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.DISEASE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.VIRUNA)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.POISON, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.POISONA)
-
-    mob:addSimpleGambit(ai.t.PARTY_DEAD, ai.c.ALWAYS, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RAISE)
 
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)

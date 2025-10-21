@@ -1387,8 +1387,12 @@ namespace battleutils
         }
 
         // Handle Retaliation
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_RETALIATION) && PDefender->PAI->IsEngaged() &&
-            facing(PDefender->loc.p, PAttacker->loc.p, 64) && !PDefender->StatusEffectContainer->HasPreventActionEffect(false))
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_RETALIATION) &&
+            PDefender->PAI->IsEngaged() &&
+            facing(PDefender->loc.p, PAttacker->loc.p, 64) &&
+            !PDefender->StatusEffectContainer->HasPreventActionEffect(false) &&
+            !PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE) &&
+            !PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_FLY_HIGH))
         {
             // Calculate the base retaliation chance
             auto chance = 4 + battleutils::GetHitRate(PDefender, PAttacker);
@@ -1412,6 +1416,7 @@ namespace battleutils
                 // Check if the hit was absorbed by shadows
                 if (battleutils::IsAbsorbByShadow(PAttacker, PDefender))
                 {
+                    Action->spikesParam = 1;
                     Action->spikesMessage = MSGBASIC_SPIKES_SHADOW_ABSORB;
                 }
                 else

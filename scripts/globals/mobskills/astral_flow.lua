@@ -30,9 +30,11 @@ function onMobWeaponSkill(target, mob, skill)
         avatar = mobID + 2 -- default offset
     end
 
-    if not GetMobByID(avatar):isSpawned() then
-        GetMobByID(avatar):setSpawn(mob:getXPos() + 1, mob:getYPos(), mob:getZPos() + 1, mob:getRotPos())
-        SpawnMob(avatar):updateEnmity(mob:getTarget())
+    if not mob:getpool() == 6770 then
+        if not GetMobByID(avatar):isSpawned() then
+            GetMobByID(avatar):setSpawn(mob:getXPos() + 1, mob:getYPos(), mob:getZPos() + 1, mob:getRotPos())
+            SpawnMob(avatar):updateEnmity(mob:getTarget())
+        end
     end
     mob:addStatusEffect(tpz.effect.ASTRAL_FLOW, 1, 0, 180)
 

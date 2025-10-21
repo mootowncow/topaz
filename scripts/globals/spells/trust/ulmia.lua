@@ -39,6 +39,10 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.LULLABY, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.SLEEPGA, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.HORDE_LULLABY)
+
+    -- Keep up Reraise
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.RERAISE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RERAISE)
+    
     mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS_FLAG, tpz.effectFlag.DISPELABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.MAGIC_FINALE)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.ELEGY, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ELEGY)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MINUET, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.VALOR_MINUET)
