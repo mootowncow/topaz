@@ -21,6 +21,12 @@ function onMobEngaged(mob, target)
 end
 
 function onMobFight(mob, target)
+    local zaDhaAdamantKing = GetMobByID(17154372)
+
+    -- Shares target with Za'Dha Adamantking
+    if zaDhaAdamantKing:isAlive() then
+        mob:setMobMod(tpz.mobMod.SHARE_TARGET, zaDhaAdamantKing:getShortID())
+    end
 end
 
 function onMobWeaponSkillPrepare(mob, target)
