@@ -54,6 +54,32 @@ CREATE TABLE `mob_pools` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+-- Jobs
+-- Jobs
+SET @JOB_WAR = 1,
+    @JOB_MNK = 2,
+    @JOB_WHM = 3,
+    @JOB_BLM = 4,
+    @JOB_RDM = 5,
+    @JOB_THF = 6,
+    @JOB_PLD = 7,
+    @JOB_DRK = 8,
+    @JOB_BST = 9,
+    @JOB_BRD = 10,
+    @JOB_RNG = 11,
+    @JOB_SAM = 12,
+    @JOB_NIN = 13,
+    @JOB_DRG = 14,
+    @JOB_SMN = 15,
+    @JOB_BLU = 16,
+    @JOB_COR = 17,
+    @JOB_PUP = 18,
+    @JOB_DNC = 19,
+    @JOB_SCH = 20,
+    @JOB_GEO = 21,
+    @JOB_RUN = 22;
+
+
 --
 -- Dumping data for table `mob_pools`
 --
@@ -3763,7 +3789,7 @@ INSERT INTO `mob_pools` VALUES (3699,'Solicitor','Solicitor',78,0x00007304000000
 INSERT INTO `mob_pools` VALUES (3700,'Sonia','Sonia',149,0x01000A02D310D320D330D340D350756075700000,1,1,0,0,100,0,0,0,0,0,0,0,0,3,0,0,0,1,0,149,0,6);
 INSERT INTO `mob_pools` VALUES (3701,'Son_of_Anansi','Son_of_Anansi',235,0x0000370100000000000000000000000000000000,1,1,7,240,100,0,1,1,1,0,0,0,4429,129,0,0,0,1,0,236,0,6);
 INSERT INTO `mob_pools` VALUES (3702,'Soo_Jopo_the_Fiendking','Soo_Jopo_the_Fiendking',360,0x0000390400000000000000000000000000000000,9,9,5,240,100,0,1,0,1,2,0,32,0,159,0,0,0,1,0,360,0,6);
-INSERT INTO `mob_pools` VALUES (3703,'Soo_Luma_the_Ascended','Soo_Luma_the_Ascended',943,0x0000410800000000000000000000000000000000,20,20,7,240,100,0,1,1,1,18,0,0,0,0,0,0,2080,1,0,360,0,6);
+INSERT INTO `mob_pools` VALUES (3703,'Soo_Luma_the_Ascended','Soo_Luma_the_Ascended',943,0x0000410800000000000000000000000000000000,20,@JOB_RDM,7,240,100,0,1,1,1,18,48,0,0,0,0,0,2080,1,0,360,0,6);
 INSERT INTO `mob_pools` VALUES (3704,'Soulflayer','Soulflayer',233,0x0000EF0600000000000000000000000000000000,4,4,5,240,100,0,1,3,1,0,0,0,4,129,4,0,28,1,0,233,0,6);
 INSERT INTO `mob_pools` VALUES (3705,'Soulsender_Fugbrag','Soulsender_Fugbrag',334,0x0000190400000000000000000000000000000000,10,1,4,240,100,0,1,1,1,2,0,32,431,159,0,0,6,1,0,334,0,6);
 INSERT INTO `mob_pools` VALUES (3706,'Soulstealer_Skullnix','Soulstealer_Skullnix',133,0x0000F90100000000000000000000000000000000,6,6,2,240,100,0,1,0,1,2,0,32,0,157,0,0,0,1,0,133,0,6);
