@@ -1710,7 +1710,7 @@ function MobTransferEnfeeblesMove(mob, target, skill, isAOE)
     -- Remove effects from mob afterwards
     for _, effect in ipairs(effects) do
         if mob:hasStatusEffect(effect) then
-            mob:delStatusEffect(effect)
+            mob:delStatusEffectSilent(effect)
         end
     end
 
