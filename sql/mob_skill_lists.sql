@@ -5078,10 +5078,16 @@ INSERT INTO `mob_skill_lists` VALUES ('Ammonoidea',6168,1573); -- palsynyxis
 INSERT INTO `mob_skill_lists` VALUES ('Ammonoidea',6168,1574); -- painful_whip
 INSERT INTO `mob_skill_lists` VALUES ('Ammonoidea',6168,2693); -- virulent_haze
 
+INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,51); -- freezebite
+INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,52); -- shockwave
+INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,56); -- ground_strike
+INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,248); -- grim_halo
+INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,249); -- netherspikes
+INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,250); -- carnal_nightmare
 
 
-
+INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,2693); -- virulent_haze
 
 -- Next available ID: 1214
--- Next custom ID: 6169
+-- Next custom ID: 6171
 

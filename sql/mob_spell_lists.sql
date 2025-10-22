@@ -6297,6 +6297,19 @@ INSERT INTO `mob_spell_lists` VALUES ('Amunet',565,493,1,255); -- Temper
 INSERT INTO `mob_spell_lists` VALUES ('Amunet',565,106,1,255); -- Phalanx
 INSERT INTO `mob_spell_lists` VALUES ('Amunet',565,310,1,255); -- Enlight
 
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,531,1,255); -- Ice Break
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,535,1,255); -- Cold Wave
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,608,1,255); -- Frost Breath
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,356,1,255); -- Paralyga
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,362,1,255); -- Bindga
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,152,1,255); -- Blizzard IV
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,181,1,255); -- Blizzaga III
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,206,1,255); -- Freeze
+
+
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,310,1,255); -- Enlight
+
+
 INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,359,1,255); -- silencega
 INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,156,1,255); -- aero III
 INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,185,1,255); -- aeroga II
@@ -6400,7 +6413,7 @@ INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,100,1,255);
 INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,249,1,255);
 
 
--- NEXT 566
+-- NEXT 568
 -- NEXT 1027
 -- NEXT 2089(Custom)
 

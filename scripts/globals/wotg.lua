@@ -214,8 +214,8 @@ local metaBosses = {
         { Name = 'Tethra',      Id = 17494213, Pos = 'K-12', Title = tpz.title.TETHRA_EXORCIST },
     },
     [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
-        { Name = 'Elatha',      Id = 17449008, Pos = '???', Title = tpz.title.ELATHA_EXORCIST },
-        { Name = 'Buarainech',  Id = 17449017, Pos = '???', Title = tpz.title.BUARAINECH_EXORCIST },
+        { Name = 'Elatha',      Id = 17449008, Pos = 'F-9(Map 2)', Title = tpz.title.ELATHA_EXORCIST },
+        { Name = 'Buarainech',  Id = 17449017, Pos = 'H-7(Map 3)', Title = tpz.title.BUARAINECH_EXORCIST },
     },
 }
 local augments = {
@@ -1411,6 +1411,8 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.BLIND)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
         mob:setMobMod(tpz.mobMod.HUMANOID, 1)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+        mob:setMobMod(tpz.mobMod.GA_CHANCE, 90)
 
         tpz.mix.jobSpecial.config(mob, {
             specials =
@@ -1508,6 +1510,8 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.BLIND)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
         mob:setMobMod(tpz.mobMod.HUMANOID, 1)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+        mob:setMobMod(tpz.mobMod.GA_CHANCE, 90)
 
         tpz.mix.jobSpecial.config(mob, {
             specials =
@@ -1532,6 +1536,8 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
         mob:setMobMod(tpz.mobMod.HUMANOID, 1)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+        mob:setMobMod(tpz.mobMod.GA_CHANCE, 90)
 
         tpz.mix.jobSpecial.config(mob, {
             specials =
@@ -1586,6 +1592,56 @@ local modByMobName =
 
     ['Amunet'] = function(mob)
         mob:setDamage(100)
+    end,
+
+    ['Elatha'] = function(mob)
+        -- WS: Groundstrike, Freezebite, Shockwave, Grim Halo, Netherspikes, Carnal Nightmare
+        -- Spell: Cold wave, Ice Break, Paralyga, Blizzard IV, Frost Breath, Bindga, Freeze, Blizzaga III
+        -- SDT/EEM: 150% Fire. Extremely high Dark and Wind
+        -- Absorbs: Ice
+        -- Takes double Fire damage
+        -- Immunities: Paralyze, Blind, Bind, Sleep, Gravity, Petrification
+        -- Levels up if taken physical damage since last spell was cast on him. I.e. cast stone on him -> levels up -> cast stone again, won't level up. Melee him once -> cast tone, levels up. (10 times max)
+        -- Counters any magic cast on him with Blizzard IV (Doesn't counter 100% of the time?)
+        -- 20s cast timer
+        -- Levels up 10 times max
+        -- Draws in
+        -- High auto-regen, 1% every minute or something. (~30-50/3s Regen?)
+        -- Minor regain (10?)
+        -- Perma undispellable Ice Spikes
+        -- En-Blizzard (100 damage) or En-Paralyze on every auto-attack
+        -- Used Blood Weapon at 30%< then every 5 minutes afterwards, AoE Paralyze aura and 100 fist delay during it. Does not castor retaliate with Blizzard IV while it's active.
+        -- Absorbs physical damage while using a TP move or casting
+        -- Casting a spell on him if not his current target resets his enmity on everyone
+
+        mob:addMod(tpz.mod.DEFP, 25)
+        mob:addMod(tpz.mod.MDEF, 24)
+        mob:setMod(tpz.mod.VIT, 175)
+        mob:setMod(tpz.mod.REGEN, 25)
+        mob:setMod(tpz.mod.FIREDEF, -256)
+        mob:setMod(tpz.mod.ICE_ABSORB, 100)
+        mob:addImmunity(tpz.immunity.SILENCE)
+        mob:addImmunity(tpz.immunity.BIND)
+        mob:addImmunity(tpz.immunity.GRAVITY)
+        mob:addImmunity(tpz.immunity.PETRIFY)
+        mob:addImmunity(tpz.immunity.SLOW)
+        mob:addImmunity(tpz.immunity.BLIND)
+        mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
+        mob:setMobMod(tpz.mobMod.HUMANOID, 1)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+        mob:setMobMod(tpz.mobMod.GA_CHANCE, 90)
+
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.BLOOD_WEAPON, cooldown = 300, hpp = 35},
+            },
+        })
+    end,
+
+    ['Buarainech'] = function(mob)
+        -- NEED MODEL ID
     end,
 }
 
@@ -2275,7 +2331,7 @@ local mobFightByMobName =
             mob:setLocalVar("lvlUp", 0)
         end
 
-        -- Gains an invisible silence aura (~20') during Perfect Dodge.
+        -- Gains a Silence aura (~20') during Perfect Dodge.
         -- Gains an enhanced rate of Triple Attack rate during Perfect Dodge.
         -- Does not cast or use TP moves during Perfect Dodge.
         if mob:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
@@ -2353,7 +2409,7 @@ local mobFightByMobName =
         -- Offensive JA's and magic reset it's hate on everyone but the person who used the JA
         -- Counters magic casts with Stone IV onto it's current target ONLY IF HATE IS SWAPPED OFF.
         -- I.e. if a pld tanking it uses flash it won't counter
-        mob:addListener("SPELL_DMG_TAKEN", "ETHRA_SPELL_DMG_TAKEN", function(mob, caster, spell)
+        mob:addListener("SPELL_DMG_TAKEN", "TETHRA_SPELL_DMG_TAKEN", function(mob, caster, spell)
            if
                 mob:getTarget():getShortID() ~= caster:getShortID() and
                 not IsMobBusy(mob) and
@@ -2624,6 +2680,94 @@ local mobFightByMobName =
             end
             mob:setLocalVar("fixateTimer", os.time() + math.random(30, 45))
         end
+    end,
+
+    ['Elatha'] = function(mob, target)
+        -- Absorbs: Ice
+        -- Takes double Fire damage
+        -- Immunities: Paralyze, Blind, Bind, Sleep, Gravity, Petrification
+        -- Levels up if taken physical damage since last spell was cast on him. I.e. cast stone on him -> levels up -> cast stone again, won't level up. Melee him once -> cast tone, levels up. (10 times max)
+        -- Counters any magic cast on him with Blizzard IV (Doesn't counter 100% of the time?)
+        -- 20s cast timer
+        -- Levels up 10 times max
+        -- Draws in
+        -- High auto-regen, 1% every minute or something. (~30-50/3s Regen?)
+        -- Minor regain (10?)
+        -- Perma undispellable Ice Spikes
+        -- En-Blizzard (100 damage) or En-Paralyze on every auto-attack
+        -- Used Blood Weapon at 30%< then every 5 minutes afterwards, AoE Paralyze aura and 100 fist delay during it. Does not castor retaliate with Blizzard IV while it's active.
+        local lvlUp = mob:getLocalVar("lvlUp")
+        local level = mob:getMainLvl()
+        -- Only levels up 10 times max
+        if
+            (lvlUp > 0) and
+            (level < 90) and
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect()
+        then
+            mob:useMobAbility(tpz.mob.skills.LEVEL_UP, mob)
+            mob:setMobLevel(level +1, false)
+            -- Mods and Mobmods are cleared on leveling up, need to readd them
+            tpz.wotg.onMobSpawn(mob)
+            mob:setLocalVar("lvlUp", 0)
+        end
+
+        -- Gains a Paralysis aura (~20') during Blood Weapon.
+        -- Gains 100 fist attack speed during Blood Weapon.
+        -- Does not cast during Blood Weapon.
+        if mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON) then
+            local auraParams = {
+                radius = 20,
+                effect = tpz.effect.PARALYSIS,
+                power = 25,
+                duration = 30,
+                auraNumber = 1
+            }
+
+            mob:setDelay(700)
+            mob:SetMagicCastingEnabled(false)
+            AddMobAura(mob, target, auraParams)
+            TickMobAura(mob, target, auraParams)
+        else
+             mob:setDelay(2400)
+            mob:SetMagicCastingEnabled(true)
+        end
+
+        -- Offensive JA's and magic reset it's hate on everyone but the person who used the JA
+        -- Counters magic casts with Blizzard IV onto it's current target ONLY IF HATE IS SWAPPED OFF.
+        -- I.e. if a pld tanking it uses flash it won't counter
+        mob:addListener("SPELL_DMG_TAKEN", "ELATHA_SPELL_DMG_TAKEN", function(mob, caster, spell)
+           if
+                mob:getTarget():getShortID() ~= caster:getShortID() and
+                not IsMobBusy(mob) and
+                not mob:hasPreventActionEffect()
+           then
+                local enmityList = mob:getEnmityList()
+                if enmityList then
+                    for _, enmity in ipairs(enmityList) do
+                        if (caster:getID() ~= enmity.entity:getID()) then
+                            mob:resetEnmity(enmity.entity)
+                        end
+                    end
+                end
+                mob:castSpell(tpz.magic.spell.BLIZZARD_IV)
+           end
+        end)
+
+        -- Absorbs physical damage while casting or using a TP Move
+        mob:addListener("MAGIC_START", "ELATHA_MAGIC_START", function(mob, spell)
+            mob:setMod(tpz.mod.PHYS_ABSORB, 100)
+        end)
+        mob:addListener("MAGIC_STATE_EXIT", "ELATHA_MAGIC_STATE_EXIT", function(mob, spell)
+            mob:setMod(tpz.mod.PHYS_ABSORB, 0)
+        end)
+
+        mob:addListener("WEAPONSKILL_STATE_ENTER", "ELATHA_WS_STATE_ENTER", function(mob, skillID)
+            mob:setMod(tpz.mod.PHYS_ABSORB, 100)
+        end)
+        mob:addListener("WEAPONSKILL_STATE_EXIT", "ELATHA_WS_STATE_EXIT", function(mob, skillID)
+            mob:setMod(tpz.mod.PHYS_ABSORB, 0)
+        end)
     end,
 }
 

@@ -5,7 +5,6 @@
 require("scripts/globals/wotg")
 require("scripts/globals/hunts")
 mixins = {require("scripts/mixins/job_special")}
-
 ------------------------------
 function onMobSpawn(mob)
     tpz.wotg.onMobSpawn(mob)
