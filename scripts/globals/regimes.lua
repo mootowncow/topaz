@@ -1176,14 +1176,17 @@ tpz.regime.bookOnEventFinish = function(player, option, regimeType)
         elseif act == "RERAISE" then
             player:delStatusEffectSilent(tpz.effect.RERAISE)
             player:addStatusEffect(tpz.effect.RERAISE, 1, 0, 7200)
+            player:setEffectUndispellable(tpz.effect.RERAISE)
 
         elseif act == "RERAISE_II" then
             player:delStatusEffectSilent(tpz.effect.RERAISE)
-            player:addStatusEffect(tpz.effect.RERAISE, 2, 0, 7200)
+            player:addStatusEffect(tpz.effect.RERAISE, 1, 0, 7200)
+            player:setEffectUndispellable(tpz.effect.RERAISE)
 
         elseif act == "RERAISE_III" then
             player:delStatusEffectSilent(tpz.effect.RERAISE)
-            player:addStatusEffect(tpz.effect.RERAISE, 3, 0, 7200)
+            player:addStatusEffect(tpz.effect.RERAISE, 1, 0, 7200)
+            player:setEffectUndispellable(tpz.effect.RERAISE)
 
         elseif act == "REGEN" then
             player:delStatusEffectSilent(tpz.effect.REGEN)
