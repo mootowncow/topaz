@@ -16,6 +16,9 @@ function onTrigger(player)
                 nearbyPlayers:removeAllNegativeEffects()
                 nearbyPlayers:setHPP(100)
                 nearbyPlayers:setMPP(100)
+                if nearbyPlayers:isDead() and nearbyPlayers:isTrust() then
+                    nearbyPlayers:disengage()
+                end
             end
         end
         player:PrintToPlayer( string.format( "Successfully healed everyone's HP and MP to full and removed all negative status effects.") )

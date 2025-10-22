@@ -1585,6 +1585,7 @@ local modByMobName =
     end,
 
     ['Amunet'] = function(mob)
+        mob:setDamage(100)
     end,
 }
 
@@ -2585,7 +2586,9 @@ local mobFightByMobName =
             mob:setMod(tpz.mod.COUNTER, 0)
             mob:setMod(tpz.mod.GUARD_PERCENT, 0)
             mob:SetMagicCastingEnabled(true)
-            mob:addStatusEffect(tpz.effect.AVOIDANCE_DOWN)
+            if not mob:hasStatusEffect(tpz.effect.AVOIDANCE_DOWN) then
+                mob:addStatusEffect(tpz.effect.AVOIDANCE_DOWN, 1, 0, 0)
+            end
         elseif (mob:AnimationSub() == animation.STANDING) then
             mob:setMod(tpz.mod.UDMGMAGIC, 0)
             mob:setMod(tpz.mod.COUNTER, 100)
@@ -2609,13 +2612,17 @@ local mobFightByMobName =
                 if enmityList and #enmityList > 0 then
                     local randomTarget = enmityList[math.random(1,#enmityList)];
                     mob:setLocalVar("fixateTarget", randomTarget.entity:getShortID())
+                    local fixatedTargetName = randomTarget.entity:getName()
+                    fixatedTargetName = string.gsub(fixatedTargetName, '_', ' ');
+                    MessageGroup(mob, target, MobName(mob) .. " sets his gaze upon " .. fixatedTargetName .. "!", 0xD, nil)
+                    break
                 end
             end
             local fixateTarget = mob:getLocalVar("fixateTarget")
             if (fixateTarget > 0) then
                 mob:setMobMod(tpz.mobMod.FIXATE, fixateTarget)
             end
-            mob:setLocalVar("fixateTimer", os.time() + math.random(60, 90))
+            mob:setLocalVar("fixateTimer", os.time() + math.random(30, 45))
         end
     end,
 }
