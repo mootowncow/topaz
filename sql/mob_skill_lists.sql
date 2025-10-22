@@ -5070,13 +5070,18 @@ INSERT INTO `mob_skill_lists` VALUES ('Khnum',6166,266); -- ram_charge
 INSERT INTO `mob_skill_lists` VALUES ('Khnum',6166,269); -- petribreath
 
 INSERT INTO `mob_skill_lists` VALUES ('Aegyptopithecus',6167,288); -- vicious_claw
-INSERT INTO `mob_skill_lists` VALUES ('Aegyptopithecus',6167,291); -- claw_storm
+INSERT INTO `mob_skill_lists` VALUES ('Aegyptopithecus',6167,290); -- spinning_claw
 INSERT INTO `mob_skill_lists` VALUES ('Aegyptopithecus',6167,295); -- magic_fruit
 INSERT INTO `mob_skill_lists` VALUES ('Aegyptopithecus',6167,2610); -- vacant_gaze
+
+INSERT INTO `mob_skill_lists` VALUES ('Ammonoidea',6168,1573); -- palsynyxis
+INSERT INTO `mob_skill_lists` VALUES ('Ammonoidea',6168,1574); -- painful_whip
+INSERT INTO `mob_skill_lists` VALUES ('Ammonoidea',6168,2693); -- virulent_haze
+
 
 
 
 
 -- Next available ID: 1214
--- Next custom ID: 6165
+-- Next custom ID: 6169
 

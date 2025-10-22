@@ -195,25 +195,28 @@ local mobFamily = {
 local bosses = {
     -- Scorpion(Gold), Rafflesia, Gnat, Ladybug, Slug, Peiste
     [tpz.zone.CRAWLERS_NEST_S] = { 17478239, 17478240, 17478241, 17478242, 17478243, 17478244 },
-    [tpz.zone.GARLAIGE_CITADEL_S] = { 17494849, 17494850, 17494854, 17494855,  17494856, 17494857, 17494858 },
-    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = { },
+    [tpz.zone.GARLAIGE_CITADEL_S] =  { 17449660, 17449661, 17449662, 17449663, 17449664, 17449665, 17449666, 17449667, 17449668},
+    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = { 17494849, 17494850, 17494854, 17494855,  17494856, 17494857, 17494858 },
 }
 
 local chests = {
     [tpz.zone.CRAWLERS_NEST_S] = { Mimic = 17478246, TreasureChest = 17478247 },
-    --[tpz.zone.GARLAIGE_CITADEL_S] = { Mimic = , TreasureChest =  },
+    [tpz.zone.GARLAIGE_CITADEL_S] = { Mimic =17449669, TreasureChest = 17449670 },
     [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = { Mimic = 17494859, TreasureChest = 17494860 },
 }
 
 local metaBosses = {
     [tpz.zone.CRAWLERS_NEST_S] = {
-        { Name = 'Lugh', Id = 17477708, Pos = 'E-7', Title = tpz.title.LUGH_EXORCIST },
+        { Name = 'Lugh',        Id = 17477708, Pos = 'E-7', Title = tpz.title.LUGH_EXORCIST },
     },
     [tpz.zone.GARLAIGE_CITADEL_S] = {
-        { Name = 'Ethniu', Id = 17494093, Pos = 'K-7', Title = tpz.title.ETHNIU_EXORCIST },
-        { Name = 'Tethra', Id = 17494213, Pos = 'K-12', Title = tpz.title.TETHRA_EXORCIST },
+        { Name = 'Ethniu',      Id = 17494093, Pos = 'K-7', Title = tpz.title.ETHNIU_EXORCIST },
+        { Name = 'Tethra',      Id = 17494213, Pos = 'K-12', Title = tpz.title.TETHRA_EXORCIST },
     },
-    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {}, -- tpz.title.ELATHA_EXORCIST, tpz.title.BUARAINECH_EXORCIST
+    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
+        { Name = 'Elatha',      Id = 17449008, Pos = '???', Title = tpz.title.ELATHA_EXORCIST },
+        { Name = 'Buarainech',  Id = 17449017, Pos = '???', Title = tpz.title.BUARAINECH_EXORCIST },
+    },
 }
 local augments = {
     [tpz.zone.CRAWLERS_NEST_S] = {
@@ -1542,6 +1545,8 @@ local modByMobName =
     end,
 
     ['Barqan'] = function(mob)
+        mob:setMod(tpz.mod.MATT, 72)
+        mob:setMod(tpz.mod.HELIX_EFFECT, 50)
     end,
 
     ['Ahmet'] = function(mob)
@@ -1559,16 +1564,21 @@ local modByMobName =
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 30, hpp = 100},
+                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 45, hpp = 100},
             },
         })
     end,
 
     ['Aegyptopithecus'] = function(mob)
+        mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
         mob:setMobMod(tpz.mobMod.SPECIAL_SKILL, tpz.mob.skills.ORE_TOSS_AUTOATTACK)
+        mob:SetAutoAttackEnabled(false)
     end,
 
     ['Ammonoidea'] = function(mob)
+        mob:setMod(tpz.mod.MATT, 72)
+        mob:setLocalVar("[uragnite]noShellSkillList", 6168)
+        mob:setLocalVar("[uragnite]inShellSkillList", 250)
     end,
 
     ['Anubis'] = function(mob)
@@ -1576,16 +1586,6 @@ local modByMobName =
 
     ['Amunet'] = function(mob)
     end,
-
-    -- Lynx
-    -- Djinn
-    -- Ziz
-    -- Bugard
-    -- Ram
-    -- Opo-opo
-    -- Urganite
-    -- Gnole
-    -- Smilodon (Use model 0x0000C80800000000000000000000000000000000)
 }
 
 local mobRoamByMobName =
@@ -2383,13 +2383,17 @@ local mobFightByMobName =
     -- Lynx
         if (mob:getLocalVar("dmgAura") > 0) then
             local radius = 10
-            local damage = 100
+            local damage = 50
             local tick = 3
-            TickDamageAura(mob, target, radius, damage, tpz.attackType.MAGICAL, tpz.magic.ele.THUNDER, tick)
-            mob:addStatusEffect(tpz.effect.ENTHUNDER, 150, 0, 3)
-            mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 25, 0, 3)
-            mob:setEffectUndispellable(tpz.effect.ENTHUNDER)
-            mob:setEffectUndispellable(tpz.effect.SHOCK_SPIKES)
+            TickDamageAura(mob, target, radius, damage, tpz.attackType.MAGICAL, tpz.magic.ele.THUNDER, tick, "The Anhur discharges electricity all around it!")
+            if not mob:hasStatusEffect(tpz.effect.ENTHUNDER) then
+                mob:addStatusEffect(tpz.effect.ENTHUNDER, 150, 0, 0)
+                mob:setEffectUndispellable(tpz.effect.ENTHUNDER)
+            end
+            if not mob:hasStatusEffect(tpz.effect.SHOCK_SPIKES) then
+                mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 25, 0, 0)
+                mob:setEffectUndispellable(tpz.effect.SHOCK_SPIKES)
+            end
         end
 
         -- Charged whisker grants undispellable shock spikes, enthunder, and pulsing AoE thunder damage aura
@@ -2454,13 +2458,12 @@ local mobFightByMobName =
             [tpz.effect.AURORASTORM]  = { tpz.magic.spell.HOLY_II,      tpz.magic.spell.BANISHGA_III,  tpz.magic.spell.DIAGA_II, tpz.magic.spell.FLASH },
             [tpz.effect.VOIDSTORM]    = { tpz.magic.spell.COMET,        tpz.magic.spell.NOCTOHELIX,    tpz.magic.spell.SLEEPGA_II, tpz.magic.spell.BLINDGA,  tpz.magic.spell.DISPELGA },
         }
-
         -- DRK/DRK
         -- Casts storm on self then absorbs that element, SDT is changed to be weak to it's weakness and casts spells/enfeebles of that element
         -- Cast a random storm every minute
-        if (battleTime <= stormCD) then
-            mob:setLocalVar("buffCD", battletime + 60)
-            mob:castSpell(storms[math.random(#storms)])
+        if (battleTime >= stormCD) then
+            mob:setLocalVar("stormCD", battleTime + 60)
+            mob:castSpell(storms[math.random(#storms)], mob)
         end
 
         mob:addListener("MAGIC_USE", "DJINN_MAGIC_USE", function(mob, target, spell, action)
@@ -2519,16 +2522,6 @@ local mobFightByMobName =
     ['Ahmet'] = function(mob, target)
     -- Ziz
         -- WAR/DRK
-        -- No SJ aura
-        local auraParams = {
-            radius = 20,
-            effect = tpz.effect.OBLIVISCENCE,
-            power = 1,
-            duration = 30,
-            auraNumber = 1
-        }
-        AddMobAura(mob, target, auraParams)
-        TickMobAura(mob, target, auraParams)
         -- Contagion Transfer - AoE status transfers from the mob to all players within range.
         -- Sound Vacuum 10' AoE(not conal) mute.
         -- Breakga, Stoneskin, Rasp, Stone IV, Stonega III
@@ -2546,13 +2539,15 @@ local mobFightByMobName =
     -- Ram (Use Model: 0x0000680A00000000000000000000000000000000)
         -- WAR/SAM
         -- Keeps mighty strikes up at all times(uses it, isn't just a perma buff)
+        -- Uses Booming Bleat (AoE -50% Max Hp Down), Petribreath, Ram Charge, Rage
+        -- Reduced movement speed
     end,
 
     ['Aegyptopithecus'] = function(mob, target)
     -- Opo-opo
         -- RNG/WAR
         -- Stand back, doesn't auto-attack, only uses ranged attacks (Stone Throw animation)
-        -- Claw Storm is also AOE Bio
+        -- Spinning Claw is also AOE Bio
         -- Magic Fruit 3.5s cast time
         -- Uses Vacant Gaze, dispels up to 3 effects
         -- Vicious Claw "Throat Stab" + Enmity reset
@@ -2560,6 +2555,17 @@ local mobFightByMobName =
 
     ['Ammonoidea'] = function(mob, target)
     -- Urganite (Use model: 0x0000520500000000000000000000000000000000)
+        -- No SJ aura
+        local auraParams = {
+            radius = 20,
+            effect = tpz.effect.OBLIVISCENCE,
+            power = 1,
+            duration = 30,
+            auraTickRate = 28,
+            auraNumber = 1
+        }
+        AddMobAura(mob, target, auraParams)
+        TickMobAura(mob, target, auraParams)
         -- Uses Palsynyxis, Painful Whip and Virulent Haze 
         -- Casts Holy II, Banishga III, Banish IV, Flash(AOE)
     end,
@@ -2567,7 +2573,6 @@ local mobFightByMobName =
     ['Anubis'] = function(mob, target)
     -- Gnole
         -- Gnole mixin
-        -- animsub 1= standing, animsub 0 = all fours
         local animation = {
             FOURLEGS    = 0,
             STANDING    = 1,

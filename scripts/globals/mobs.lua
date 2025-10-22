@@ -907,13 +907,14 @@ function TickMobAura(mob, target, auraParams)
     end
 
     local auraDuration = mob:getLocalVar("auraDuration" .. auraParams.auraNumber)
-    local tick = 3
-    local duration = 6
+    local auraTickRate = auraParams.auraTickRate or 3
+    local tick = auraParams.tick or 3
+    local duration = auraParams.duration or 6
 
     if os.time() <= auraDuration then
         local auraTick = mob:getLocalVar("auraTick" .. auraParams.auraNumber)
         if os.time() >= auraTick then
-            mob:setLocalVar("auraTick" .. auraParams.auraNumber, os.time() + 3)
+            mob:setLocalVar("auraTick" .. auraParams.auraNumber, os.time() + auraTickRate)
             local nearbyEnemies = mob:getNearbyEntities(auraParams.radius)
             if (nearbyEnemies ~= nil) then 
                 for _, enemy in pairs(nearbyEnemies) do
@@ -988,8 +989,9 @@ function TickMobBuffAura(mob, target, auraParams)
 end
 
 -- TODO: Add damage aura, tick damage aura like TickMobAura
-function TickDamageAura(mob, target, radius, dmg, attackType, damageType, tick)
+function TickDamageAura(mob, target, radius, dmg, attackType, damageType, tick, msg)
     local DmgAuraTick = mob:getLocalVar("DmgAuraTick")
+    local dmgauraMsgTick = mob:getLocalVar("dmgauraMsgTick")
     local element = damageType - 5
 
     if os.time() >= DmgAuraTick then
@@ -1007,6 +1009,15 @@ function TickDamageAura(mob, target, radius, dmg, attackType, damageType, tick)
                     elseif (attackType == tpz.attackType.PHYSICAL) then
                         dmg = v:physicalDmgTaken(dmg, damageType)
                     end
+                    
+                    -- Display msg if arg is supplied
+                    if msg then
+                        if os.time() >= dmgauraMsgTick then
+                            MessageGroup(mob, target, msg, 0xD, nil)
+                            mob:setLocalVar("dmgauraMsgTick", os.time() + 15)
+                        end
+                    end
+
                     v:takeDamage(dmg, mob, attackType, damageType)
                 end
             end

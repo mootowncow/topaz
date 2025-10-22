@@ -11468,13 +11468,13 @@ INSERT INTO `mob_groups` VALUES (32,1338,164,'Angry_Smilodon',0,128,0,0,0,85,85,
 -- Bosses
 INSERT INTO `mob_groups` VALUES (33,9144,164,'Anhur',0,128,0,35000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (34,9145,164,'Barqan',0,128,0,35000,0,88,88,0);
-INSERT INTO `mob_groups` VALUES (35,9146,164,'Ahmet',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (35,9146,164,'Ahmet',0,128,0,35000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (36,9147,164,'Shedyet',0,128,0,35000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (37,9148,164,'Khnum',0,128,0,35000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (38,9149,164,'Aegyptopithecus',0,128,0,35000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (39,9150,164,'Ammonoidea',0,128,0,35000,0,88,88,0);
-INSERT INTO `mob_groups` VALUES (40,9151,164,'Anubis',0,128,0,0,0,85,85,0);
-INSERT INTO `mob_groups` VALUES (41,9152,164,'Amunet',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (40,9151,164,'Anubis',0,128,0,35000,0,88,88,0);
+INSERT INTO `mob_groups` VALUES (41,9152,164,'Amunet',0,128,0,35000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (42,2664,164,'Mimic',0,128,0,0,0,85,85,0);
 
 
@@ -12092,7 +12092,7 @@ INSERT INTO `mob_groups` VALUES (41,9137,175,'Tezcatli',0,128,0,35000,0,88,88,0)
 INSERT INTO `mob_groups` VALUES (42,9138,175,'Klagmuhme',0,128,0,35000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (43,9139,175,'Knecht',0,128,0,35000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (44,9140,175,'Velfegor',0,128,0,35000,0,88,88,0);
-INSERT INTO `mob_groups` VALUES (45,9141,175,'Kernunnos',0,128,0,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (45,9141,175,'Kernunnos',0,128,0,35000,0,88,88,0);
 INSERT INTO `mob_groups` VALUES (46,2664,175,'Mimic',0,128,0,0,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (47,9142,175,'Knechts_Corpselight-Healer',0,128,0,0,0,81,81,0);
 INSERT INTO `mob_groups` VALUES (48,9143,175,'Knechts_Corpselight-Debuffer',0,128,0,0,0,81,81,0);
