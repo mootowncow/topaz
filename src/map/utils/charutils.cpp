@@ -2343,6 +2343,7 @@ namespace charutils
                 break;
             }
             case SLOT_RANGED:
+            case SLOT_AMMO:
             {
                 if (hasValidStyle(PChar, PItem, appearance))
                 {
