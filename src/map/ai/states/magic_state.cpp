@@ -80,7 +80,6 @@ CMagicState::CMagicState(CBattleEntity* PEntity, uint16 targid, SpellID spellid,
 
     m_PEntity->OnCastStarting(*this);
 
-    m_castTime = std::chrono::milliseconds(battleutils::CalculateSpellCastTime(m_PEntity, this));
     m_startPos = m_PEntity->loc.p;
 
     action_t action;
@@ -114,6 +113,8 @@ CMagicState::CMagicState(CBattleEntity* PEntity, uint16 targid, SpellID spellid,
 
     // starts casting
     m_PEntity->PAI->EventHandler.triggerListener("MAGIC_START", m_PEntity, m_PSpell.get(), &action); //TODO: weaponskill lua object
+
+    m_castTime = std::chrono::milliseconds(battleutils::CalculateSpellCastTime(m_PEntity, this));
 
     m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
 }

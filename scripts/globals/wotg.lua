@@ -1632,6 +1632,11 @@ local modByMobName =
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
         mob:setMobMod(tpz.mobMod.GA_CHANCE, 90)
 
+        -- Perma undispellable Ice Spikes
+        mob:addStatusEffect(tpz.effect.ICE_SPIKES, 25, 0, 0)
+        local iceSpikes = mob:getStatusEffect(tpz.effect.ICE_SPIKES)
+        iceSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
+
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
@@ -2687,7 +2692,9 @@ local mobFightByMobName =
         -- Takes double Fire damage
         -- Immunities: Paralyze, Blind, Bind, Sleep, Gravity, Petrification
         -- Levels up if taken physical damage since last spell was cast on him. I.e. cast stone on him -> levels up -> cast stone again, won't level up. Melee him once -> cast tone, levels up. (10 times max)
-        -- Counters any magic cast on him with Blizzard IV (Doesn't counter 100% of the time?)
+        -- Offensive JA's and magic reset it's hate on everyone
+        -- Counters any magic cast on him with instant cast Blizzard IV
+        -- Counters offensive JA's on him with Freezebite
         -- 20s cast timer
         -- Levels up 10 times max
         -- Draws in
@@ -2695,7 +2702,7 @@ local mobFightByMobName =
         -- Minor regain (10?)
         -- Perma undispellable Ice Spikes
         -- En-Blizzard (100 damage) or En-Paralyze on every auto-attack
-        -- Used Blood Weapon at 30%< then every 5 minutes afterwards, AoE Paralyze aura and 100 fist delay during it. Does not castor retaliate with Blizzard IV while it's active.
+        -- Used Blood Weapon at 30%, then every 5 minutes afterwards, AoE Paralyze aura and 100 fist delay during it. Does not castor retaliate with Blizzard IV while it's active.
         local lvlUp = mob:getLocalVar("lvlUp")
         local level = mob:getMainLvl()
         -- Only levels up 10 times max
@@ -2710,6 +2717,7 @@ local mobFightByMobName =
             -- Mods and Mobmods are cleared on leveling up, need to readd them
             tpz.wotg.onMobSpawn(mob)
             mob:setLocalVar("lvlUp", 0)
+            mob:setLocalVar("physDmgTaken", 0)
         end
 
         -- Gains a Paralysis aura (~20') during Blood Weapon.
@@ -2720,11 +2728,11 @@ local mobFightByMobName =
                 radius = 20,
                 effect = tpz.effect.PARALYSIS,
                 power = 25,
-                duration = 30,
+                duration = 3,
                 auraNumber = 1
             }
 
-            mob:setDelay(700)
+            mob:setDelay(1400)
             mob:SetMagicCastingEnabled(false)
             AddMobAura(mob, target, auraParams)
             TickMobAura(mob, target, auraParams)
@@ -2733,8 +2741,48 @@ local mobFightByMobName =
             mob:SetMagicCastingEnabled(true)
         end
 
-        -- Offensive JA's and magic reset it's hate on everyone but the person who used the JA
-        -- Counters magic casts with Blizzard IV onto it's current target ONLY IF HATE IS SWAPPED OFF.
+        -- Counter magic with Blizzard IV
+        if
+            not IsMobBusy(mob) and 
+            not mob:hasPreventActionEffect() and
+            mob:getLocalVar("counterMagic") > 0
+        then
+            mob:setLocalVar("instantCastBlizzard", 1)
+            mob:castSpell(tpz.magic.spell.BLIZZARD_IV, GetEntityByID(mob:getLocalVar("counterMagic")))
+            mob:setLocalVar("counterMagic", 0)
+        end
+
+        -- Counter JA"s with Freezebite
+        if
+            not IsMobBusy(mob) and 
+            not mob:hasPreventActionEffect() and
+            mob:getLocalVar("counterJA") > 0
+        then
+            mob:useMobAbility(tpz.mob.skills.FREEZEBITE, GetEntityByID(mob:getLocalVar("counterJA")))
+            mob:setLocalVar("counterJA", 0)
+        end
+
+        -- Offensive JA's and magic reset it's hate on everyone
+        -- Counters JA's Freezebite onto the person who used the JA on him
+        -- I.e. if a pld tanking it uses Provoke it won't counter
+        mob:addListener("ABILITY_TAKE", "ELATHA_ABILITY_TAKE", function(mob, user, ability, action)
+            local abilityMsg = ability:getMsg()
+            local act = mob:getCurrentAction()
+        local validAction =
+            abilityMsg ~= tpz.msg.basic.JA_MISS and
+            abilityMsg ~= tpz.msg.basic.SHADOW_ABSORB and
+            mob:getTarget():getShortID() ~= user:getShortID() and
+            not mob:hasPreventActionEffect()
+            printf("Ability take")
+            -- Pet assault JA's shouldn't count
+            if validAction then
+                ResetEnmityList(mob)
+                mob:setLocalVar("counterJA", user:getID())
+            end
+        end)
+
+
+        -- Counters magic casts with instant cast Blizzard IV onto the caster who casted on him
         -- I.e. if a pld tanking it uses flash it won't counter
         mob:addListener("SPELL_DMG_TAKEN", "ELATHA_SPELL_DMG_TAKEN", function(mob, caster, spell)
            if
@@ -2742,16 +2790,36 @@ local mobFightByMobName =
                 not IsMobBusy(mob) and
                 not mob:hasPreventActionEffect()
            then
-                local enmityList = mob:getEnmityList()
-                if enmityList then
-                    for _, enmity in ipairs(enmityList) do
-                        if (caster:getID() ~= enmity.entity:getID()) then
-                            mob:resetEnmity(enmity.entity)
-                        end
-                    end
-                end
-                mob:castSpell(tpz.magic.spell.BLIZZARD_IV)
+                mob:setLocalVar("counterMagic", caster:getID())
+                ResetEnmityList(mob)
            end
+        end)
+
+        -- Levels up if taken physical damage since last spell was cast on him. 
+        -- I.e. cast stone on him -> levels up -> cast stone again, won't level up. Melee him once -> cast stone, levels up. (10 times max)
+        mob:addListener("TAKE_DAMAGE", "ELATHA_TAKE_DAMAGE", function(mob, dmgTaken, attacker, attackType, damageType)
+            local physDmgTaken = mob:getLocalVar("physDmgTaken")
+            local isPhysDmg = attackType == tpz.attackType.PHYSICAL or attackType == tpz.attackType.RANGED
+
+            if  isPhysDmg and(dmgTaken > 0) then
+                mob:setLocalVar("physDmgTaken", physDmgTaken + dmgTaken)
+            end
+        end)
+
+        mob:addListener("MAGIC_HIT", "ELATHA_MAGIC_HIT", function(caster, mob, spell)
+            local canLvlUp = mob:getLocalVar("physDmgTaken") > 0
+
+            if canLvlUp then
+                mob:setLocalVar("lvlUp", 1)
+            end
+        end)
+
+        -- Countered Blizzard IV's are instant cast
+        mob:addListener("MAGIC_START", "ELATHA_MAGIC_START", function(mob, spell)
+            if (spell:getID() == tpz.magic.spell.BLIZZARD_IV) and mob:getLocalVar("instantCastBlizzard") > 0 then
+                spell:castTime(0)
+                mob:setLocalVar("instantCastBlizzard", 0)
+            end
         end)
 
         -- Absorbs physical damage while casting or using a TP Move

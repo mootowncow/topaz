@@ -1274,6 +1274,7 @@ function SetBuffUndispellable(mob, buff)
     effect1:unsetFlag(tpz.effectFlag.DISPELABLE)
 end
 
+-- Fully reset enmity on all targets on mobs current enmity list
 function ResetEnmityList(mob)
     local enmityList = mob:getEnmityList()
     for _, enmity in ipairs(enmityList) do

@@ -1148,7 +1148,13 @@ namespace luautils
             }
             else
             {
-                PEntity = zoneutils::GetEntity(entityId, TYPE_MOB | TYPE_PET | TYPE_NPC | TYPE_TRUST);
+                PEntity = zoneutils::GetEntity(entityId, TYPE_NPC | TYPE_MOB | TYPE_PET | TYPE_NPC | TYPE_TRUST);
+            }
+
+            // Check if it's a PC entity
+            if (!PEntity)
+            {
+                PEntity = zoneutils::GetChar(entityId);
             }
 
             if (PEntity != nullptr)
