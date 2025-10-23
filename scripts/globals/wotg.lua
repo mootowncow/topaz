@@ -2773,7 +2773,7 @@ local mobFightByMobName =
             abilityMsg ~= tpz.msg.basic.SHADOW_ABSORB and
             mob:getTarget():getShortID() ~= user:getShortID() and
             not mob:hasPreventActionEffect()
-            printf("Ability take")
+            
             -- Pet assault JA's shouldn't count
             if validAction then
                 ResetEnmityList(mob)
