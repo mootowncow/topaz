@@ -442,7 +442,7 @@ INSERT INTO `status_effects` VALUES (402,'addendum_black',4195104,0,0,0,0,0,0,0,
 INSERT INTO `status_effects` VALUES (403,'reprisal',33,34,0,0,0,0,0,0,2);
 INSERT INTO `status_effects` VALUES (404,'magic_evasion_down',8405026,0,0,0,0,0,5,0,1);
 INSERT INTO `status_effects` VALUES (405,'retaliation',4195104,0,0,0,0,0,0,0,0);
-INSERT INTO `status_effects` VALUES (406,'footwork',800,0,0,0,0,0,0,0,0);
+INSERT INTO `status_effects` VALUES (406,'footwork',536871464,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (407,'klimaform',545,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (408,'sekkanoki',801,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (409,'pianissimo',4194848,0,0,0,0,0,0,0,0);
