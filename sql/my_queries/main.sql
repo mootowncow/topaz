@@ -82,6 +82,9 @@ UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 221 AND mJob = 11;
 UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 222 AND mJob = 11;
 UPDATE tpzdb . mob_pools SET rangedSkill = 5 WHERE familyid = 223 AND mJob = 11;
 
+-- Elementals shouldn't have immunities, just high EEM to their element / element strength 
+UPDATE tpzdb . mob_pools SET immunity = 0 WHERE familyid IN (99, 100, 101, 102, 103, 104, 105, 106, 155, 156, 157, 158, 159, 160, 162, 934, 935, 936, 937, 938, 939, 940, 941);
+
 -- Fixes "Singing" animation with ranged weapons via lockstyle / stylelock
 UPDATE item_equipment
 SET MId = 22

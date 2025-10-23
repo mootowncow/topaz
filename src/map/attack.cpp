@@ -626,6 +626,19 @@ void CAttack::ProcessDamage()
     SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
     if (m_attackRound->IsH2H())
     {
+
+        // Boost
+        if (m_attacker->GetMJob() == JOB_MNK && m_isFirstSwing && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_BOOST))
+        {
+            m_boostDamage += m_attacker->STR() * 1.5;
+        }
+
+        // Footwork
+        if (m_attacker->GetMJob() == JOB_MNK && m_isFirstSwing && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
+        {
+            m_footworkDamage += m_attacker->VIT() * 1.5;
+        }
+
         // FFXIclopedia H2H: Remove 3 dmg from weapon, DB has an extra 3 for weapon rank. h2hSkill*0.11+3
         m_naturalH2hDamage = (int32)(m_attacker->GetSkill(SKILL_HAND_TO_HAND) * 0.11f);
         m_baseDamage = std::max<uint16>(m_attacker->GetMainWeaponDmg(), 3);
@@ -633,7 +646,8 @@ void CAttack::ProcessDamage()
         {
             m_baseDamage = m_baseDamage + m_attacker->getMod(Mod::KICK_DMG) + 3;
         }
-        m_damage = (uint32)(((m_baseDamage + m_naturalH2hDamage + m_trickAttackDamage +
+        m_damage = (uint32)((
+            (m_baseDamage + m_naturalH2hDamage + m_trickAttackDamage + m_boostDamage + m_footworkDamage +
             battleutils::GetFSTR(m_attacker, m_victim, slot)) * m_damageRatio));
     }
     else if (slot == SLOT_MAIN)
