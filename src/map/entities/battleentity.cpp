@@ -1663,10 +1663,13 @@ bool CBattleEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
         if (!isDead())
         {
             // Mob targetting another mob that's friendly to itself
-            if (allegiance == ALLEGIANCE_MOB && PInitiator->allegiance == ALLEGIANCE_MOB &&
-                static_cast<CMobEntity*>(PInitiator)->getMobMod(MOBMOD_FRIENDLY_FIRE) > 0)
+            if (auto* PMob = dynamic_cast<CMobEntity*>(PInitiator))
             {
-                return true;
+                if (allegiance == ALLEGIANCE_MOB && PInitiator->allegiance == ALLEGIANCE_MOB &&
+                    PMob->getMobMod(MOBMOD_FRIENDLY_FIRE) > 0)
+                {
+                    return true;
+                }
             }
 
             // Teams PVP
