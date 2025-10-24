@@ -1403,6 +1403,8 @@ local modByMobName =
         mob:setMod(tpz.mod.VIT, 175)
         mob:setMod(tpz.mod.REGEN, 25)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 100)
+        mob:setMod(tpz.mod.WATERDEF, -256)
+        mob:setMod(tpz.mod.FIREDEF, -256)
         mob:setMod(tpz.mod.FIRE_ABSORB, 100)
         mob:addImmunity(tpz.immunity.SILENCE)
         mob:addImmunity(tpz.immunity.BIND)
@@ -1502,6 +1504,8 @@ local modByMobName =
         mob:addMod(tpz.mod.MDEF, 24)
         mob:setMod(tpz.mod.VIT, 175)
         mob:setMod(tpz.mod.REGEN, 25)
+        mob:setMod(tpz.mod.ICEDEF, -256)
+        mob:setMod(tpz.mod.WINDDEF, -256)
         mob:setMod(tpz.mod.WIND_ABSORB, 100)
         mob:addImmunity(tpz.immunity.SILENCE)
         mob:addImmunity(tpz.immunity.BIND)
@@ -1527,6 +1531,8 @@ local modByMobName =
         mob:addMod(tpz.mod.MDEF, 24)
         mob:setMod(tpz.mod.VIT, 175)
         mob:setMod(tpz.mod.REGEN, 25)
+        mob:setMod(tpz.mod.WINDDEF, -256)
+        mob:setMod(tpz.mod.EARTHDEF, -256)
         mob:setMod(tpz.mod.EARTH_ABSORB, 100)
         mob:addImmunity(tpz.immunity.SILENCE)
         mob:addImmunity(tpz.immunity.BIND)
@@ -1621,6 +1627,7 @@ local modByMobName =
         mob:setMod(tpz.mod.VIT, 175)
         mob:setMod(tpz.mod.REGEN, 25)
         mob:setMod(tpz.mod.FIREDEF, -256)
+        mob:setMod(tpz.mod.ICEDEF, -256)
         mob:setMod(tpz.mod.ICE_ABSORB, 100)
         mob:addImmunity(tpz.immunity.SILENCE)
         mob:addImmunity(tpz.immunity.BIND)
@@ -1655,8 +1662,9 @@ local modByMobName =
         mob:addMod(tpz.mod.MDEF, 24)
         mob:setMod(tpz.mod.VIT, 175)
         mob:setMod(tpz.mod.REGEN, 25)
-        mob:setMod(tpz.mod.FIREDEF, -256)
-        mob:setMod(tpz.mod.ICE_ABSORB, 100)
+        mob:setMod(tpz.mod.EARTHDEF, -256)
+        mob:setMod(tpz.mod.THUNDERDEF, -256)
+        mob:setMod(tpz.mod.LTNG_ABSORB, 100)
         mob:addImmunity(tpz.immunity.SILENCE)
         mob:addImmunity(tpz.immunity.BIND)
         mob:addImmunity(tpz.immunity.GRAVITY)
@@ -2869,6 +2877,17 @@ local mobFightByMobName =
         mob:addListener("WEAPONSKILL_STATE_EXIT", "ELATHA_WS_STATE_EXIT", function(mob, skillID)
             mob:setMod(tpz.mod.PHYS_ABSORB, 0)
         end)
+    end,
+
+    ['Buarainech'] = function(mob)
+        -- 0x01001D030E110E210E310E410E51CD6100700000
+        -- Casts: Haste, Mind Blast, Temporal Shift, Blitzstrahl, Thunder IV, Thundaga III, Burst
+        -- Perma shock spikes
+        -- Additional effect: Stun or Enthunder (100)
+        -- Immune: Paralyze, Poison, Blind, Bind, Gravity, Sleep, Petrify
+        -- Absorbs Thunder damage
+        -- Takes double Earth damage
+        -- Casts every 20 seconds
     end,
 }
 
