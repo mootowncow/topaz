@@ -520,6 +520,11 @@ bool CAttack::CheckCounter()
         return false;
     }
 
+    if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_BOOST) || m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
+    {
+        return false;
+    }
+
     if (!m_victim->PAI->IsEngaged())
     {
         m_isCountered = false;
