@@ -765,7 +765,7 @@ bool CStatusEffectContainer::DelStatusEffectByTier(EFFECT StatusID, uint16 tier)
 /************************************************************************
 *                                                                       *
 *  Deletes all status effects without sending messages                  *
-*                                                                       *
+*  Note: Does NOT delete infinte (0) duration effects                   *
 ************************************************************************/
 void CStatusEffectContainer::KillAllStatusEffect()
 {
