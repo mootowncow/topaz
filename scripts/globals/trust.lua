@@ -409,6 +409,11 @@ tpz.trust.canCast = function(caster, spell, not_allowed_trust_ids)
         return -1
     end
 
+    -- Can freely resummon during Confrontation / Reives / Domain Invasion
+    if caster:hasStatusEffect(tpz.effect.CONFRONTATION) or caster:hasStatusEffect(tpz.effect.MOBILIZATION) or caster:hasStatusEffect(tpz.effect.REIVE_MARK) then
+        return 0
+    end
+
     -- Trusts cannot be summoned if you have hate
     if caster:hasEnmity() then
         caster:messageSystem(tpz.msg.system.TRUST_NO_ENMITY)

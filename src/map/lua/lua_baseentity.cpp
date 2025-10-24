@@ -11300,18 +11300,20 @@ inline int32 CLuaBaseEntity::sendReraise(lua_State *L)
 
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
-    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
-
-    uint8 RaiseLevel = (uint8)lua_tonumber(L, 1);
-
-    if (RaiseLevel == 0 || RaiseLevel > 6)
+    if (auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity))
     {
-        ShowDebug(CL_CYAN"lua::sendRaise raise value is not valide!\n" CL_RESET);
+        uint8 RaiseLevel = (uint8)lua_tonumber(L, 1);
+
+        if (RaiseLevel == 0 || RaiseLevel > 6)
+        {
+            ShowDebug(CL_CYAN "lua::sendRaise raise value is not valide!\n" CL_RESET);
+        }
+        else if (PChar->m_hasRaise == 0)
+        {
+            PChar->m_hasRaise = RaiseLevel;
+        }
     }
-    else if (PChar->m_hasRaise == 0)
-    {
-        PChar->m_hasRaise = RaiseLevel;
-    }
+
     return 0;
 }
 
