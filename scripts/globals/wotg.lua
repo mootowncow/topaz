@@ -14,6 +14,7 @@ require("scripts/globals/keyitems")
 require("scripts/globals/titles")
 -----------------------------------
 -- TODO:
+-- Proper weapon types for all the fomor meta bosses (Did Elatha)
 -- tpz.wotg.RandomEvent need the forced spawn removed (randomEventWaves(player)) and should only spawn at 10% of time
 --  weather related event (during weather only)
 --  undead related event (night only)
@@ -1648,6 +1649,37 @@ local modByMobName =
 
     ['Buarainech'] = function(mob)
         -- NEED MODEL ID
+
+        mob:addMod(tpz.mod.MATT, 0)
+        mob:addMod(tpz.mod.DEFP, 25)
+        mob:addMod(tpz.mod.MDEF, 24)
+        mob:setMod(tpz.mod.VIT, 175)
+        mob:setMod(tpz.mod.REGEN, 25)
+        mob:setMod(tpz.mod.FIREDEF, -256)
+        mob:setMod(tpz.mod.ICE_ABSORB, 100)
+        mob:addImmunity(tpz.immunity.SILENCE)
+        mob:addImmunity(tpz.immunity.BIND)
+        mob:addImmunity(tpz.immunity.GRAVITY)
+        mob:addImmunity(tpz.immunity.PETRIFY)
+        mob:addImmunity(tpz.immunity.SLOW)
+        mob:addImmunity(tpz.immunity.BLIND)
+        mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
+        mob:setMobMod(tpz.mobMod.HUMANOID, 1)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+        mob:setMobMod(tpz.mobMod.GA_CHANCE, 90)
+
+        -- Perma undispellable Ice Spikes
+        mob:addStatusEffect(tpz.effect.ICE_SPIKES, 25, 0, 0)
+        local iceSpikes = mob:getStatusEffect(tpz.effect.ICE_SPIKES)
+        iceSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
+
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.BLOOD_WEAPON, cooldown = 300, hpp = 35},
+            },
+        })
     end,
 }
 
