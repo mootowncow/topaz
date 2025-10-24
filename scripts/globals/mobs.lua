@@ -678,8 +678,9 @@ tpz.mob.onAddEffect = function(mob, target, damage, effect, params)
             -- STATUS EFFECT
             if ae.applyEffect then
                 local resist = 1
+                local bonus = 0
                 if ae.ele then
-                    resist = applyResistanceAddEffect(mob, target, ae.ele, ae.eff)
+                    resist = applyResistanceAddEffect(mob, target, ae.ele, bonus, ae.eff)
                 end
 
                 if (resist >= 0.5) and (ae.overwrite ~= nil) then

@@ -769,24 +769,17 @@ bool CStatusEffectContainer::DelStatusEffectByTier(EFFECT StatusID, uint16 tier)
 ************************************************************************/
 void CStatusEffectContainer::KillAllStatusEffect()
 {
-    for (auto effect_iter = m_StatusEffectSet.begin(); effect_iter != m_StatusEffectSet.end();)
+    for (auto it = m_StatusEffectSet.begin(); it != m_StatusEffectSet.end();)
     {
-        CStatusEffect* PStatusEffect = *effect_iter;
-        if (PStatusEffect->GetDuration() != 0)
-        {
+        CStatusEffect* PStatusEffect = *it;
 
-            luautils::OnEffectLose(m_POwner, PStatusEffect);
+        luautils::OnEffectLose(m_POwner, PStatusEffect);
+        m_POwner->delModifiers(&PStatusEffect->modList);
 
-            m_POwner->delModifiers(&PStatusEffect->modList);
-
-            effect_iter = m_StatusEffectSet.erase(effect_iter);
-
-            delete PStatusEffect;
-        }
-        else {
-            ++effect_iter;
-        }
+        it = m_StatusEffectSet.erase(it);
+        delete PStatusEffect;
     }
+
     m_POwner->UpdateHealth();
 }
 
@@ -830,12 +823,19 @@ void CStatusEffectContainer::DelStatusEffectsByType(uint16 Type)
 
 void CStatusEffectContainer::DelStatusEffectsByFlag(uint32 flag, bool silent)
 {
+    std::vector<CStatusEffect*> toRemove;
+
     for (CStatusEffect* PStatusEffect : m_StatusEffectSet)
     {
         if (PStatusEffect->GetFlag() & flag)
         {
-            RemoveStatusEffect(PStatusEffect, silent);
+            toRemove.push_back(PStatusEffect);
         }
+    }
+
+    for (CStatusEffect* PStatusEffect : toRemove)
+    {
+        RemoveStatusEffect(PStatusEffect, silent);
     }
 }
 

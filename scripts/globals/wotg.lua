@@ -1614,6 +1614,7 @@ local modByMobName =
         -- Absorbs physical damage while using a TP move or casting
         -- Casting a spell on him if not his current target resets his enmity on everyone
 
+        mob:addMod(tpz.mod.MATT, 0)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.MDEF, 24)
         mob:setMod(tpz.mod.VIT, 175)

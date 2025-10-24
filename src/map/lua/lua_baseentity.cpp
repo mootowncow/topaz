@@ -15801,6 +15801,7 @@ inline int32 CLuaBaseEntity::setMobLevel(lua_State *L)
 
         mobutils::CalculateMobStats(PMob, recover);
         mobutils::GetAvailableSpells(PMob);
+        PMob->StatusEffectContainer->KillAllStatusEffect();
     }
 
     return 0;
