@@ -3514,10 +3514,12 @@ namespace battleutils
                 attackType = ATTACK_RANGED;
                 damageType = DAMAGE_RANGED;
                 damage = RangedDmgTaken(PDefender, damage, damageType, isCovered);
+                damage = HandlePositionalPDT(PAttacker, PDefender, damage);
             }
             else
             {
                 damage = PhysicalDmgTaken(PDefender, damage, damageType, isCovered);
+                damage = HandlePositionalPDT(PAttacker, PDefender, damage);
             }
 
             //absorb mods are handled in the above functions, but they do not affect counters
@@ -3539,7 +3541,7 @@ namespace battleutils
             //else
             //    damage = (damage * (PDefender->getMod(Mod::HTHRES))) / 1000;
 
-                        if (!isCounter || giveTPtoAttacker) // counters are always considered blunt (assuming h2h) damage, except retaliation (which is the only counter
+            if (!isCounter || giveTPtoAttacker) // counters are always considered blunt (assuming h2h) damage, except retaliation (which is the only counter
                                                 // that gives TP to the attacker)
             {
                 float resmult = 1.0f;
@@ -3580,7 +3582,6 @@ namespace battleutils
             }
 
             damage = HandleCircleDamageReduction(PAttacker, PDefender, damage);
-            damage = HandlePositionalPDT(PAttacker, PDefender, damage);
 
             if (isBlocked)
             {
@@ -7674,6 +7675,63 @@ namespace battleutils
                 }
             }
         }
+        return damage;
+    }
+
+    int32 HandleCircleDamageIncrease(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage)
+    {
+        // Circle Effects
+        if (PDefender->objtype != TYPE_PC && damage > 0)
+        {
+            uint16 circlemult = 100;
+
+            switch (PDefender->m_EcoSystem)
+            {
+                case SYSTEM_AMORPH:
+                    circlemult += PAttacker->getMod(Mod::AMORPH_CIRCLE);
+                    break;
+                case SYSTEM_AQUAN:
+                    circlemult += PAttacker->getMod(Mod::AQUAN_CIRCLE);
+                    break;
+                case SYSTEM_ARCANA:
+                    circlemult += PAttacker->getMod(Mod::ARCANA_CIRCLE);
+                    break;
+                case SYSTEM_BEAST:
+                    circlemult += PAttacker->getMod(Mod::BEAST_CIRCLE);
+                    break;
+                case SYSTEM_BIRD:
+                    circlemult += PAttacker->getMod(Mod::BIRD_CIRCLE);
+                    break;
+                case SYSTEM_DEMON:
+                    circlemult += PAttacker->getMod(Mod::DEMON_CIRCLE);
+                    break;
+                case SYSTEM_DRAGON:
+                    circlemult += PAttacker->getMod(Mod::DRAGON_CIRCLE);
+                    break;
+                case SYSTEM_LIZARD:
+                    circlemult += PAttacker->getMod(Mod::LIZARD_CIRCLE);
+                    break;
+                case SYSTEM_LUMINION:
+                    circlemult += PAttacker->getMod(Mod::LUMINION_CIRCLE);
+                    break;
+                case SYSTEM_LUMORIAN:
+                    circlemult += PAttacker->getMod(Mod::LUMORIAN_CIRCLE);
+                    break;
+                case SYSTEM_PLANTOID:
+                    circlemult += PAttacker->getMod(Mod::PLANTOID_CIRCLE);
+                    break;
+                case SYSTEM_UNDEAD:
+                    circlemult += PAttacker->getMod(Mod::UNDEAD_CIRCLE);
+                    break;
+                case SYSTEM_VERMIN:
+                    circlemult += PAttacker->getMod(Mod::VERMIN_CIRCLE);
+                    break;
+                default:
+                    break;
+            }
+            damage = damage * circlemult / 100;
+        }
+
         return damage;
     }
 
