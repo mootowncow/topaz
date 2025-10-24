@@ -74,6 +74,8 @@ function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams, isOffha
         else
             calcParams.shadowsAbsorbed = calcParams.shadowsAbsorbed + 1
         end
+    else -- Missed
+            attacker:delStatusEffect(tpz.effect.IMPETUS)
     end
 
     if attacker:isInfront(target, 90) and math.random()*100 < target:getBlockRate(attacker) then
