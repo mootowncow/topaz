@@ -965,6 +965,8 @@ public:
     virtual void TryHitInterrupt(CBattleEntity* PAttacker);
     virtual void OnDespawn(CDespawnState&);
 
+    void HandleImpetus(CBattleEntity* PAttacker);
+
     void SetBattleStartTime(time_point);
     duration GetBattleTime();
 

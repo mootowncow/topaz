@@ -14,5 +14,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    player:addStatusEffect(tpz.effect.IMPETUS, 2, 0, 180)
+    player:addStatusEffect(tpz.effect.IMPETUS, 0, 0, 180)
 end
