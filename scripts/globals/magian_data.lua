@@ -310,7 +310,7 @@ tpz.magian.trials = {
         mainItem      = tpz.items.PUGILISTS,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 81,
+        previousTrial = 1,
         textOffset    = 1,
         killType      = 'Specific',
         mob           = { tpz.mob.pool.EBA },
@@ -572,7 +572,7 @@ tpz.magian.trials = {
         mainItem      = tpz.items.PEELER,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 0,
+        previousTrial = 100,
         textOffset    = 1,
         killType      = 'Specific',
         mob           = { tpz.mob.pool.MAHISHA },
@@ -813,7 +813,7 @@ tpz.magian.trials = {
         mainItem      = tpz.items.BREAK_BLADE,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 280,
+        previousTrial = 200,
         textOffset    = 1,
         killType      = 'Specific',
         mob           = { tpz.mob.pool.DEVIATOR },
@@ -1056,7 +1056,7 @@ tpz.magian.trials = {
         mainItem      = tpz.items.CHOPPER,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 380,
+        previousTrial = 300,
         textOffset    = 1,
         killType      = 'Specific',
         mob           = { tpz.mob.pool.SATIATOR },
@@ -1297,7 +1297,7 @@ tpz.magian.trials = {
         mainItem      = tpz.items.FARMHAND,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 480,
+        previousTrial = 400,
         textOffset    = 1,
         killType      = 'Specific',
         mob           = { tpz.mob.pool.CEREBRATOR },
@@ -1537,7 +1537,7 @@ tpz.magian.trials = {
         mainItem      = tpz.items.RANSEUR,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 580,
+        previousTrial = 500,
         textOffset    = 1,
         killType      = 'Specific',
         mob           = { tpz.mob.pool.COVETER },
@@ -1780,7 +1780,7 @@ tpz.magian.trials = {
         mainItem      = tpz.items.KIBASHIRI,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 680,
+        previousTrial = 600,
         textOffset    = 1,
         killType      = 'Specific',
         mob           = { tpz.mob.pool.COVETER },
@@ -2021,7 +2021,7 @@ tpz.magian.trials = {
         mainItem      = tpz.items.DONTO,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 780,
+        previousTrial = 700,
         textOffset    = 1,
         killType      = 'Specific',
         mob           = { tpz.mob.pool.DEVIATOR },
@@ -2449,7 +2449,7 @@ tpz.magian.trials = {
         mainItem      = tpz.items.STENZ,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 880,
+        previousTrial = 800,
         textOffset    = 1,
         killType      = 'Specific',
         mob           = { tpz.mob.pool.PROVOKER },
@@ -2568,7 +2568,7 @@ tpz.magian.trials = {
         mainItem      = tpz.items.CROOK,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 980,
+        previousTrial = 900,
         textOffset    = 1,
         killType      = 'Specific',
         mob           = { tpz.mob.pool.DEVIATOR },
@@ -3166,11 +3166,11 @@ tpz.magian.trials = {
         },
     },
 
-    [801] = {
+    [1401] = {
         mainItem      = tpz.items.SPARROW,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 800,
+        previousTrial = 1400,
         textOffset    = 1,
         killType      = 'Family',
         mob           = { tpz.mob.family.SCORPION },
@@ -3185,11 +3185,11 @@ tpz.magian.trials = {
         },
     },
 
-    [802] = {
+    [1402] = {
         mainItem      = tpz.items.GYRFALCON,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 801,
+        previousTrial = 1401,
         textOffset    = 1,
         killType      = 'Family',
         mob           = { tpz.mob.family.GOLEM },
@@ -3205,11 +3205,11 @@ tpz.magian.trials = {
         },
     },
 
-    [803] = {
+    [1403] = {
         mainItem      = tpz.items.GYRFALCON,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 802,
+        previousTrial = 1402,
         textOffset    = 1,
         killType      = 'Family',
         mob           = { tpz.mob.family.GHRAH_SEA },
@@ -3227,11 +3227,11 @@ tpz.magian.trials = {
         },
     },
 
-    [804] = {
+    [1404] = {
         mainItem      = tpz.items.GYRFALCON,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 803,
+        previousTrial = 1403,
         textOffset    = 1,
         killType      = 'Specific',
         mob           = { tpz.mob.pool.GNOLETRAP },
@@ -3249,11 +3249,11 @@ tpz.magian.trials = {
         },
     },
 
-    [805] = {
+    [1405] = {
         mainItem      = tpz.items.GYRFALCON,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 804,
+        previousTrial = 1404,
         textOffset    = 1,
         killType      = 'Specific',
         mob           = { tpz.mob.pool.PURUSHAMRIGA },
@@ -3268,11 +3268,11 @@ tpz.magian.trials = {
         },
     },
 
-    [806] = {
+    [1406] = {
         mainItem      = tpz.items.GYRFALCON,
         tradeItem     = tpz.items.NONE,
         type          = 'Kills',
-        previousTrial = 805,
+        previousTrial = 1405,
         textOffset    = 1,
         killType      = 'Specific',
         mob           = { tpz.mob.pool.LORD_RUTHVEN },
