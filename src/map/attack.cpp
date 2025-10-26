@@ -541,25 +541,41 @@ bool CAttack::CheckCounter()
     }
 
     // counter check (rate AND your hit rate makes it land, else its just a regular hit)
+    auto counterChance = std::clamp<uint16>(m_victim->getMod(Mod::COUNTER) + meritCounter, 0, 80);
+    bool facingAttacker = facing(m_victim->loc.p, m_attacker->loc.p, 40);
 
-    if ((tpzrand::GetRandomNumber(100) < std::clamp<uint16>(m_victim->getMod(Mod::COUNTER) + meritCounter, 0, 80)) &&
-        facing(m_victim->loc.p, m_attacker->loc.p, 40) &&
-        tpzrand::GetRandomNumber(100) < battleutils::GetHitRate(m_victim, m_attacker))
+    if (facingAttacker)
     {
-        SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
-        m_isCountered = true;
-        m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false, slot));
-    }
-    else if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_COUNTER) && facing(m_victim->loc.p, m_attacker->loc.p, 40))
-    {
-        // Perfect Counter only counters hits that normal counter misses, always critical, can counter 1-3 times before wearing
-        m_isCountered = true;
-        m_isCritical = true;
-        if (!ShouldPerfectCounterPersist())
+        bool rolledCounter = tpzrand::GetRandomNumber(100) < counterChance;
+
+        if (rolledCounter)
         {
-            m_victim->StatusEffectContainer->DelStatusEffectSilent(EFFECT_PERFECT_COUNTER);
+            bool counterHit = tpzrand::GetRandomNumber(100) < battleutils::GetHitRate(m_victim, m_attacker);
+            if (counterHit)
+            {
+                // Counter succeeded
+                SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
+                m_isCountered = true;
+                m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false, slot));
+            }
+            else
+            {
+                // Counter attempted but missed due to hit rate
+                m_victim->StatusEffectContainer->DelStatusEffect(EFFECT_IMPETUS);
+            }
+        }
+        else if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_COUNTER))
+        {
+            // Perfect Counter
+            m_isCountered = true;
+            m_isCritical = true;
+            if (!ShouldPerfectCounterPersist())
+            {
+                m_victim->StatusEffectContainer->DelStatusEffectSilent(EFFECT_PERFECT_COUNTER);
+            }
         }
     }
+
     return m_isCountered;
 }
 
