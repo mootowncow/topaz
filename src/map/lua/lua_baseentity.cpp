@@ -11238,6 +11238,7 @@ int32 CLuaBaseEntity::isAlive(lua_State* L)
 int32 CLuaBaseEntity::isDead(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
     lua_pushboolean(L, static_cast<CBattleEntity*>(m_PBaseEntity)->isDead());
     return 1;
 }
@@ -11252,8 +11253,14 @@ int32 CLuaBaseEntity::isDead(lua_State* L)
 int32 CLuaBaseEntity::hasRaise(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
-    lua_pushboolean(L, static_cast<CCharEntity*>(m_PBaseEntity)->m_hasRaise);
-    return 1;
+
+    if (auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity))
+    {
+        lua_pushboolean(L, PChar->m_hasRaise);
+        return 1;
+    }
+
+    return 0;
 }
 
 /************************************************************************
@@ -11300,7 +11307,7 @@ inline int32 CLuaBaseEntity::sendReraise(lua_State *L)
 
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
-    if (auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity))
+    if (auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity))
     {
         uint8 RaiseLevel = (uint8)lua_tonumber(L, 1);
 

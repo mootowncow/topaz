@@ -1596,7 +1596,13 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         if (target.speceffect & SPECEFFECT_HIT)
         {
             target.speceffect = SPECEFFECT_RECOIL;
-            target.knockback = PSkill->getKnockback();
+
+            // Don't knockback if the move was fully absorbed by shadows
+            if (msg != MSGBASIC_SHADOW_ABSORB)
+            {
+                target.knockback = PSkill->getKnockback();
+            }
+
             if (first && (PSkill->getPrimarySkillchain() != 0))
             {
                 // Only Humanoid mobs, jug pets, and charmed mobs can skillchain
