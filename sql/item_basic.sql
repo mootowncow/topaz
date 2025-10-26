@@ -19746,7 +19746,7 @@ INSERT INTO `item_basic` VALUES (25639,0,'korrigan_masque','korrigan_masque',1,6
 INSERT INTO `item_basic` VALUES (25640,0,'odyssean_helm','odyssean_helm',1,30801,0,1,0);
 INSERT INTO `item_basic` VALUES (25641,0,'valorous_mask','valorous_mask',1,30801,0,1,0);
 INSERT INTO `item_basic` VALUES (25642,0,'herculean_helm','herculean_helm',1,30801,0,1,0);
-INSERT INTO `item_basic` VALUES (25643,0,'merlinic_hood','merlinic_hood',1,30801,0,0,0);
+INSERT INTO `item_basic` VALUES (25643,0,'merlinic_hood','merlinic_hood',1,30801,0,1,0);
 INSERT INTO `item_basic` VALUES (25644,0,'chironic_hat','chironic_hat',1,30801,0,0,0);
 INSERT INTO `item_basic` VALUES (25645,0,'kupo_masque','kupo_masque',1,64584,0,0,0);
 INSERT INTO `item_basic` VALUES (25648,0,'curmudgeons_helmet','curm._helmet',1,63568,0,0,0);
@@ -19929,7 +19929,7 @@ INSERT INTO `item_basic` VALUES (25839,0,'fancy_shorts','fancy_shorts',1,63552,0
 INSERT INTO `item_basic` VALUES (25840,0,'odyssean_cuisses','odyssean_cuisses',1,30801,0,1,0);
 INSERT INTO `item_basic` VALUES (25841,0,'valorous_hose','valorous_hose',1,30801,0,1,0);
 INSERT INTO `item_basic` VALUES (25842,0,'herculean_trousers','herculean_trousers',1,30801,0,1,0);
-INSERT INTO `item_basic` VALUES (25843,0,'merlinic_shalwar','merlinic_shalwar',1,30801,0,0,0);
+INSERT INTO `item_basic` VALUES (25843,0,'merlinic_shalwar','merlinic_shalwar',1,30801,0,1,0);
 INSERT INTO `item_basic` VALUES (25844,0,'chironic_hose','chironic_hose',1,30801,0,1,0);
 INSERT INTO `item_basic` VALUES (25849,0,'dashing_subligar','dashing_subligar',1,6244,0,0,0);
 INSERT INTO `item_basic` VALUES (25850,0,'pink_subligar','pink_subligar',1,63568,0,0,0);

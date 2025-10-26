@@ -34310,23 +34310,9 @@ INSERT INTO `item_mods` VALUES (25642,2,20); -- HP 20
 INSERT INTO `item_mods` VALUES (25642,9,11); -- DEX 11
 INSERT INTO `item_mods` VALUES (25642,8,5); -- STR 5
 INSERT INTO `item_mods` VALUES (25642,384,-900); -- HASTE_GEAR -900
-INSERT INTO `item_mods` VALUES (25643,1,95); -- Merlinic Hood DEF+95
-INSERT INTO `item_mods` VALUES (25643,2,22); -- HP+22
-INSERT INTO `item_mods` VALUES (25643,5,56); -- MP,56
-INSERT INTO `item_mods` VALUES (25643,8,15); -- STR+15
-INSERT INTO `item_mods` VALUES (25643,9,15); -- DEX+15
-INSERT INTO `item_mods` VALUES (25643,10,15); -- VIT+15
-INSERT INTO `item_mods` VALUES (25643,11,6); -- AGI+6
-INSERT INTO `item_mods` VALUES (25643,12,29); -- INT+29
-INSERT INTO `item_mods` VALUES (25643,13,28); -- MND+28
-INSERT INTO `item_mods` VALUES (25643,14,26); -- CHR+26
-INSERT INTO `item_mods` VALUES (25643,68,33); -- Evasion+33
-INSERT INTO `item_mods` VALUES (25643,31,86); -- Magic Evasion+86
-INSERT INTO `item_mods` VALUES (25643,30,15); -- Magic Accuracy+15
-INSERT INTO `item_mods` VALUES (25643,28,10); -- "Magic Atk. Bonus"+10
-INSERT INTO `item_mods` VALUES (25643,29,6); -- "Magic Def. Bonus"+6
-INSERT INTO `item_mods` VALUES (25643,384,600); -- Haste+6%
-INSERT INTO `item_mods` VALUES (25643,170,8); -- "Fast Cast"+8%
+INSERT INTO `item_mods` VALUES (25643,1,21); -- DEF 21
+INSERT INTO `item_mods` VALUES (25643,5,30); -- MP 30
+INSERT INTO `item_mods` VALUES (25643,28,4); -- MATT 4
 INSERT INTO `item_mods` VALUES (25652,1,1);       -- crab_cap DEF:1
 INSERT INTO `item_mods` VALUES (25661,1,101);     -- meghanada_visor DEF:101
 INSERT INTO `item_mods` VALUES (25661,2,25);      -- HP+25
@@ -52981,3 +52967,7 @@ INSERT INTO `item_mods` VALUES (27141,1,23); -- DEF 23
 INSERT INTO `item_mods` VALUES (27141,5,19); -- MP 19
 INSERT INTO `item_mods` VALUES (27141,28,5); -- MATT 5
 INSERT INTO `item_mods` VALUES (27141,30,3); -- MACC 3
+INSERT INTO `item_mods` VALUES (25719,1,21); -- DEF 21
+INSERT INTO `item_mods` VALUES (25719,5,40); -- MP 40
+INSERT INTO `item_mods` VALUES (25719,28,10); -- MATT 10
+INSERT INTO `item_mods` VALUES (25719,30,-10); -- MACC -10
