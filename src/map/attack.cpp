@@ -557,11 +557,12 @@ bool CAttack::CheckCounter()
                 SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
                 m_isCountered = true;
                 m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false, slot));
+                battleutils::HandleImpetus(m_victim);
             }
-            else
+            else // Counter attempted but missed due to hit rate
             {
-                // Counter attempted but missed due to hit rate
-                m_victim->StatusEffectContainer->DelStatusEffect(EFFECT_IMPETUS);
+                // Reset impetus
+                battleutils::UpdateImpetus(m_victim, 0, 0);
             }
         }
         else if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_COUNTER))

@@ -9968,4 +9968,68 @@ namespace battleutils
             PTarget->StatusEffectContainer->AddStatusEffect(foodEffect);
         }
     }
+
+    void HandleImpetus(CBattleEntity* PEntity)
+    {
+        if (!PEntity)
+        {
+            return;
+        }
+
+        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_IMPETUS))
+        {
+            CStatusEffect* impetus = PEntity->StatusEffectContainer->GetStatusEffect(EFFECT_IMPETUS);
+
+            uint16 attackBoost = impetus->GetPower();
+            uint16 critBoost = impetus->GetSubPower();
+
+            // Increase values
+            attackBoost += 2; // +2 Attack
+            critBoost += 1;   // +1% Crit
+
+            // Caps at 100 attack (100 accuracy with tantra cyclas +1) / 50% crit (50% crit dmg with tantra cyclas +2)
+            auto attackCap = 100;
+            if (PEntity->objtype == TYPE_PC)
+            {
+                if (auto* PChar = dynamic_cast<CCharEntity*>(PEntity))
+                {
+                    auto jpValue = PChar->PJobPoints->GetJobPointValue(JP_IMPETUS_EFFECT) * 2;
+                    attackCap += jpValue;
+                }
+            }
+
+            attackBoost = std::min<uint16>(attackBoost, attackCap);
+            critBoost = std::min<uint16>(critBoost, 50);
+
+            if (attackBoost < attackCap)
+            {
+                battleutils::UpdateImpetus(PEntity, attackBoost, critBoost);
+            }
+        }
+    }
+
+
+    void UpdateImpetus(CBattleEntity* PEntity, uint16 attackBoost, uint16 critBoost)
+    {
+        if (!PEntity)
+        {
+            return;
+        }
+
+        if (!PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_IMPETUS))
+        {
+            return;
+        }
+
+        CStatusEffect* impetus = PEntity->StatusEffectContainer->GetStatusEffect(EFFECT_IMPETUS);
+        // Remove old mods
+        luautils::OnEffectLose(PEntity, impetus);
+
+        // Update attack (accuracy) and crit (crit dmg)
+        impetus->SetPower(attackBoost);
+        impetus->SetSubPower(critBoost);
+
+        // Reapply new mod
+        luautils::OnEffectGain(PEntity, impetus);
+    }
 };

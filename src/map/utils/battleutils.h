@@ -351,6 +351,8 @@ namespace battleutils
     ELEMENT             GetTargetWeakness(CBattleEntity* PEntity, bool excludeLightDark = false);
 
     void                HandleFoodEffects(CItemUsable* PItem, CBattleEntity* PTarget);
+    void                HandleImpetus(CBattleEntity* PEntity);
+    void                UpdateImpetus(CBattleEntity* PEntity, uint16 attackBoost, uint16 critBoost);
 
 };
 

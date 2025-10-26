@@ -2557,7 +2557,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 {
                     // Damage target
                     actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, attack.GetAttackType(), attack.GetDamage(), attack.IsBlocked(), attack.GetWeaponSlot(), 1, attackRound.GetTAEntity(), true, true, attack.IsCountered(), attack.IsCovered(), POriginalTarget);
-                    HandleImpetus(this);
+                    battleutils::HandleImpetus(this);
 
                     if (actionTarget.param < 0)
                     {
@@ -2643,7 +2643,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 PTarget->addTP(tponEvadeMod);
             }
 
-            StatusEffectContainer->DelStatusEffect(EFFECT_IMPETUS);
+            battleutils::UpdateImpetus(this, 0, 0);
 
             // Check & Handle Afflatus Misery Accuracy Bonus
             battleutils::HandleAfflatusMiseryAccuracyBonus(this);
@@ -2794,52 +2794,4 @@ void CBattleEntity::PostTick()
 uint16 CBattleEntity::GetBattleTargetID()
 {
     return m_battleTarget;
-}
-
-void CBattleEntity::HandleImpetus(CBattleEntity* PAttacker)
-{
-    if (!PAttacker)
-    {
-        return;
-    }
-
-    if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_IMPETUS))
-    {
-        CStatusEffect* impetus = PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_IMPETUS);
-
-        uint16 attackBoost = impetus->GetPower();
-        uint16 critBoost = impetus->GetSubPower();
-
-        // Increase values
-        attackBoost += 2;    // +2 Attack
-        critBoost += 1;     // +1% Crit
-
-        // Caps at 100 attack / 50% crit
-        // TODO: Gear mod
-        auto attackCap = 100;
-        if (PAttacker->objtype == TYPE_PC)
-        {
-            if (auto* PChar = dynamic_cast<CCharEntity*>(PAttacker))
-            {
-                auto jpValue = PChar->PJobPoints->GetJobPointValue(JP_IMPETUS_EFFECT) * 2;
-                attackCap += jpValue;
-            }
-        }
-
-        attackBoost = std::min<uint16>(attackBoost, attackCap);
-        critBoost = std::min<uint16>(critBoost, 50);
-
-        if (attackBoost < attackCap)
-        {
-            // Remove old mods
-            luautils::OnEffectLose(PAttacker, impetus);
-
-            // Update attack and crit
-            impetus->SetPower(attackBoost);
-            impetus->SetSubPower(critBoost);
-
-            // Reapply new mod
-            luautils::OnEffectGain(PAttacker, impetus);
-        }
-    }
 }

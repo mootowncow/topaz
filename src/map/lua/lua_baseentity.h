@@ -822,6 +822,8 @@ public:
 
     // JA's
     int32 handleRestraint(lua_State* L);
+    int32 handleImpetus(lua_State* L);
+    int32 updateImpetus(lua_State* L);
 };
 
 #endif
