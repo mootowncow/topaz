@@ -20935,7 +20935,7 @@ INSERT INTO `item_basic` VALUES (27137,0,'floral_gauntlets','floral_gauntlets',1
 INSERT INTO `item_basic` VALUES (27138,0,'odyssean_gauntlets','odyssean_gauntlets',1,30801,0,1,0);
 INSERT INTO `item_basic` VALUES (27139,0,'valorous_mitts','valorous_mitts',1,30801,0,0,0);
 INSERT INTO `item_basic` VALUES (27140,0,'herculean_gloves','herculean_gloves',1,30801,0,1,0);
-INSERT INTO `item_basic` VALUES (27141,0,'merlinic_dastanas','merlinic_dastanas',1,30801,0,0,0);
+INSERT INTO `item_basic` VALUES (27141,0,'merlinic_dastanas','merlinic_dastanas',1,30801,0,1,0);
 INSERT INTO `item_basic` VALUES (27142,0,'chironic_gloves','chironic_gloves',1,30801,0,1,0);
 INSERT INTO `item_basic` VALUES (27143,0,'composers_mitts','composers_mitts',1,63568,0,0,0);
 INSERT INTO `item_basic` VALUES (27146,0,'bewegt_cuffs','bewegt_cuffs',1,63572,0,0,0);
@@ -21286,7 +21286,7 @@ INSERT INTO `item_basic` VALUES (27493,0,'mediums_sabots','mediums_sabots',1,308
 INSERT INTO `item_basic` VALUES (27494,0,'odyssean_greaves','odyssean_greaves',1,30801,0,0,0);
 INSERT INTO `item_basic` VALUES (27495,0,'valorous_greaves','valorous_greaves',1,30801,0,1,0);
 INSERT INTO `item_basic` VALUES (27496,0,'herculean_boots','herculean_boots',1,30801,0,0,0);
-INSERT INTO `item_basic` VALUES (27497,0,'merlinic_crackows','merlinic_crackows',1,30801,0,0,0);
+INSERT INTO `item_basic` VALUES (27497,0,'merlinic_crackows','merlinic_crackows',1,30801,0,1,0);
 INSERT INTO `item_basic` VALUES (27498,0,'chironic_slippers','chironic_slippers',1,30801,0,1,0);
 INSERT INTO `item_basic` VALUES (27499,0,'composers_sabots','composers_sabots',1,63568,0,0,0);
 INSERT INTO `item_basic` VALUES (27502,0,'maenadic_gambieras','maenadic_gambieras',1,63572,0,0,0);

@@ -13294,11 +13294,11 @@ INSERT INTO `item_mods` VALUES (14203,5,-35);
 INSERT INTO `item_mods` VALUES (14203,8,4);
 INSERT INTO `item_mods` VALUES (14203,10,4);
 INSERT INTO `item_mods` VALUES (14203,12,-3);
-INSERT INTO `item_mods` VALUES (14204,1,9);     -- River Gaiters
-INSERT INTO `item_mods` VALUES (14204,5,75);    -- MP+75
-INSERT INTO `item_mods` VALUES (14204,9,-3);
-INSERT INTO `item_mods` VALUES (14204,12,10);    -- INT+10
-INSERT INTO `item_mods` VALUES (14204,13,15);    -- MND+15
+INSERT INTO `item_mods` VALUES (14204,1,9); -- DEF 9
+INSERT INTO `item_mods` VALUES (14204,5,75); -- MP 75
+INSERT INTO `item_mods` VALUES (14204,9,-3); -- DEX -3
+INSERT INTO `item_mods` VALUES (14204,12,8); -- INT 8
+INSERT INTO `item_mods` VALUES (14204,13,15); -- MND 15
 INSERT INTO `item_mods` VALUES (14205,1,9);
 INSERT INTO `item_mods` VALUES (14205,2,-20);
 INSERT INTO `item_mods` VALUES (14205,5,45);
@@ -40824,7 +40824,8 @@ INSERT INTO `item_mods` VALUES (27136,310,15);    -- Enhances Cursna effect +15%
 INSERT INTO `item_mods` VALUES (27136,384,300);    -- Haste +3%
 INSERT INTO `item_mods` VALUES (27140,1,24); -- DEF 24
 INSERT INTO `item_mods` VALUES (27140,2,15); -- HP 15
-INSERT INTO `item_mods` VALUES (27140,29,3); -- MDEF 3
+INSERT INTO `item_mods` VALUES (27140,23,5); -- ATT 5
+INSERT INTO `item_mods` VALUES (27140,175,5); -- SKILLCHAINDMG 5
 INSERT INTO `item_mods` VALUES (27152,1,90);
 INSERT INTO `item_mods` VALUES (27152,2,23);
 INSERT INTO `item_mods` VALUES (27152,8,22);
@@ -43748,24 +43749,10 @@ INSERT INTO `item_mods` VALUES (27496,2,15); -- HP 15
 INSERT INTO `item_mods` VALUES (27496,8,5); -- STR 5
 INSERT INTO `item_mods` VALUES (27496,11,5); -- AGI 5
 INSERT INTO `item_mods` VALUES (27496,384,400); -- HASTE_GEAR 400
-INSERT INTO `item_mods` VALUES (27497,1,67);      -- Merlinic Crackows: DEF 67
-INSERT INTO `item_mods` VALUES (27497,2,4);       -- HP +4
-INSERT INTO `item_mods` VALUES (27497,5,20);      -- MP +20
-INSERT INTO `item_mods` VALUES (27497,8,6);       -- STR +6
-INSERT INTO `item_mods` VALUES (27497,9,6);       -- DEX +6
-INSERT INTO `item_mods` VALUES (27497,10,6);      -- VIT +6
-INSERT INTO `item_mods` VALUES (27497,11,26);     -- AGI +26
-INSERT INTO `item_mods` VALUES (27497,12,24);     -- INT +24
-INSERT INTO `item_mods` VALUES (27497,13,23);     -- MND +23
-INSERT INTO `item_mods` VALUES (27497,14,35);     -- CHR +35
-INSERT INTO `item_mods` VALUES (27497,28,15);     -- Magic Atk. Bonus +15
-INSERT INTO `item_mods` VALUES (27497,29,6);      -- Magic Def. Bonus +6
-INSERT INTO `item_mods` VALUES (27497,31,118);    -- Magic Evasion +118
-INSERT INTO `item_mods` VALUES (27497,68,60);     -- Evasion +60
-INSERT INTO `item_mods` VALUES (27497,170,5);     -- Fast Cast +5%
-INSERT INTO `item_mods` VALUES (27497,296,4);     -- Conserve MP +4%
-INSERT INTO `item_mods` VALUES (27497,315,7);     -- Drain and Aspir potency +7%
-INSERT INTO `item_mods` VALUES (27497,384,300);    -- Haste +3%
+INSERT INTO `item_mods` VALUES (27497,1,20); -- DEF 20
+INSERT INTO `item_mods` VALUES (27497,5,22); -- MP 22
+INSERT INTO `item_mods` VALUES (27497,12,4); -- INT 4
+INSERT INTO `item_mods` VALUES (27497,487,5); -- MAG_BURST_BONUS 5
 INSERT INTO `item_mods` VALUES (27504,54,15);     -- Warder's Charm: Fire resistance +15
 INSERT INTO `item_mods` VALUES (27504,55,15);     -- Ice resistance +15
 INSERT INTO `item_mods` VALUES (27504,56,15);     -- Wind resistance +15
@@ -52990,3 +52977,7 @@ INSERT INTO `item_mods` VALUES (27498,1,15); -- DEF 15
 INSERT INTO `item_mods` VALUES (27498,5,20); -- MP 20
 INSERT INTO `item_mods` VALUES (27498,310,3); -- ENHANCES_CURSNA 3
 INSERT INTO `item_mods` VALUES (27498,27,-6); -- ENMITY -6
+INSERT INTO `item_mods` VALUES (27141,1,23); -- DEF 23
+INSERT INTO `item_mods` VALUES (27141,5,19); -- MP 19
+INSERT INTO `item_mods` VALUES (27141,28,5); -- MATT 5
+INSERT INTO `item_mods` VALUES (27141,30,3); -- MACC 3

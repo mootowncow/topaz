@@ -11725,7 +11725,7 @@ INSERT INTO `item_equipment` VALUES (25639,'korrigan_masque',1,0,4194303,418,0,0
 INSERT INTO `item_equipment` VALUES (25640,'odyssean_helm',75,0,193,412,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (25641,'valorous_mask',75,0,10689,413,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (25642,'herculean_helm',75,0,2593826,580,0,0,16,0,0);
-INSERT INTO `item_equipment` VALUES (25643,'merlinic_hood',99,119,1589272,415,0,0,16,0,0);
+INSERT INTO `item_equipment` VALUES (25643,'merlinic_hood',75,0,1589272,415,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (25644,'chironic_hat',75,0,524820,416,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (25645,'kupo_masque',1,0,4194303,373,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (25648,'curm._helmet',1,0,4194303,421,0,0,16,0,0);
@@ -11796,7 +11796,7 @@ INSERT INTO `item_equipment` VALUES (25715,'korrigan_suit',1,0,4194303,417,0,0,3
 INSERT INTO `item_equipment` VALUES (25716,'odyss._chestplate',75,0,193,412,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (25717,'valorous_mail',75,0,10689,413,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (25718,'herculean_vest',75,0,2593826,580,0,0,32,0,0);
-INSERT INTO `item_equipment` VALUES (25719,'merlinic_jubbah',99,119,1589272,415,0,0,32,0,0);
+INSERT INTO `item_equipment` VALUES (25719,'merlinic_jubbah',75,0,1589272,415,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (25720,'chironic_doublet',75,0,524820,416,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (25721,'vedic_coat',99,119,1622044,261,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (25722,'jubilee_shirt',1,0,4194303,583,0,0,32,0,0);
@@ -11908,7 +11908,7 @@ INSERT INTO `item_equipment` VALUES (25837,'mallquis_cuffs_+2',99,119,1572872,19
 INSERT INTO `item_equipment` VALUES (25840,'odyssean_cuisses',75,0,193,412,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (25841,'valorous_hose',75,0,10689,413,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (25842,'herculean_trousers',75,0,2593826,580,0,0,128,0,0);
-INSERT INTO `item_equipment` VALUES (25843,'merlinic_shalwar',99,119,1589272,415,0,0,128,0,0);
+INSERT INTO `item_equipment` VALUES (25843,'merlinic_shalwar',75,0,1589272,415,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (25844,'chironic_hose',75,0,524820,416,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (25849,'dashing_subligar',99,119,2472947,423,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (25850,'pink_subligar',1,0,4194303,453,0,0,128,0,0);
@@ -12813,7 +12813,7 @@ INSERT INTO `item_equipment` VALUES (27137,'floral_gauntlets',99,119,70688,106,0
 INSERT INTO `item_equipment` VALUES (27138,'odyssean_gauntlets',75,0,193,412,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (27139,'valorous_mitts',75,0,10689,413,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (27140,'herculean_gloves',75,0,2593826,580,0,0,64,0,0);
-INSERT INTO `item_equipment` VALUES (27141,'merlinic_dastanas',99,119,1589272,415,0,0,64,0,0);
+INSERT INTO `item_equipment` VALUES (27141,'merlinic_dastanas',75,0,1589272,415,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (27142,'chironic_gloves',75,0,524820,416,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (27143,'composers_mitts',99,119,14785,338,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (27146,'bewegt_cuffs',99,119,512,242,0,0,64,0,0);
@@ -13164,7 +13164,7 @@ INSERT INTO `item_equipment` VALUES (27493,'mediums_sabots',99,119,1622556,252,0
 INSERT INTO `item_equipment` VALUES (27494,'odyssean_greaves',75,0,193,412,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (27495,'valorous_greaves',75,0,10689,413,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (27496,'herculean_boots',75,0,2593826,580,0,0,256,0,0);
-INSERT INTO `item_equipment` VALUES (27497,'merlinic_crackows',99,119,1589272,415,0,0,256,0,0);
+INSERT INTO `item_equipment` VALUES (27497,'merlinic_crackows',75,0,1589272,415,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (27498,'chironic_slippers',75,0,524820,416,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (27499,'composers_sabots',99,119,14785,164,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (27502,'maenadic_gambieras',99,119,10433,270,0,0,256,0,0);
