@@ -338,6 +338,7 @@ namespace battleutils
 
     int32               GetScaledItemModifier(CBattleEntity*, CItemEquipment*, Mod);
     int16               GetEffectiveItemModifier(CCharEntity* PChar, CItemEquipment* PItem, Mod mod);
+    float               GetScaledArmorDEF(uint8 level, JOBTYPE job, uint8 slotid);
     DAMAGETYPE          GetSpikesDamageType(SUBEFFECT spikesType);
     DAMAGETYPE          GetEnspellDamageType(ENSPELL enspellType);
     int16               GetMikageBonus(CBattleEntity* PEntity);

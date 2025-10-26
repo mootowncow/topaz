@@ -554,17 +554,79 @@ uint16 CBattleEntity::GetMainWeaponDmg()
 {
     if (auto weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]))
     {
-        if ((weapon->getReqLvl() > GetMLevel()) && objtype == TYPE_PC)
+        auto playerLvl = GetMLevel();
+        auto weaponLvl = weapon->getReqLvl();
+
+        if ((weaponLvl > playerLvl) && objtype == TYPE_PC)
         {
-            uint16 dmg = weapon->getDamage();
-            dmg *= GetMLevel() * 3;
-            dmg /= 4;
-            dmg /= weapon->getReqLvl();
-            return std::clamp(dmg + getMod(Mod::MAIN_DMG_RATING), 0, 9999);
+            // 1H Weapons
+            // Base quadratic growth curve for 1H
+            float dmg = 5.1f + 0.28f * playerLvl + 0.0019f * playerLvl * playerLvl;
+
+            // Apply gentle flattening above level 70
+            if (playerLvl > 70.0f)
+            {
+                float flatten = 1.0f - 0.0025f * (playerLvl - 70.0f);
+                if (flatten < 0.9f)
+                    flatten = 0.9f;
+                dmg *= flatten;
+            }
+
+            if (weapon->isHandToHand())
+            {
+                dmg = weapon->getDamage();
+                dmg *= GetMLevel() * 3;
+                dmg /= 4;
+                dmg /= weapon->getReqLvl();
+            }
+            else if (weapon->isTwoHanded())
+            {
+                // Base quadratic growth curve
+                dmg = 11.47f + 0.72f * playerLvl + 0.0047f * playerLvl * playerLvl;
+
+                // Apply gentle flattening above level 60
+                if (playerLvl > 60.0f)
+                {
+                    float flatten = 1.0f - 0.0015f * (playerLvl - 60.0f);
+                    if (flatten < 0.9f)
+                        flatten = 0.9f; // minimum flattening
+                    dmg *= flatten;
+                }
+            }
+            else if (weapon->getSkillType() == SKILL_DAGGER)
+            {
+                // Daggers: faster but lower base damage; receive a notable DPS buff around level 60+
+                // Derived from empirical weapon table data.
+                dmg = 2.5f + 0.18f * playerLvl + 0.0029f * playerLvl * playerLvl;
+
+                // Apply post-60 DPS buff
+                if (playerLvl > 60.0f)
+                {
+                    float buff = 1.0f + 0.015f * (playerLvl - 60.0f); // gradual 1.0 → 1.15 at 70+
+                    if (buff > 1.15f)
+                        buff = 1.15f; // cap the dagger DPS boost
+                    dmg *= buff;
+                }
+
+                // Slight dampening above 70 to avoid overscaling
+                if (playerLvl > 70.0f)
+                {
+                    float flatten = 1.0f - 0.002f * (playerLvl - 70.0f);
+                    if (flatten < 0.95f)
+                        flatten = 0.95f;
+                    dmg *= flatten;
+                }
+            }
+
+
+            return std::clamp<float>(dmg + getMod(Mod::MAIN_DMG_RATING), 0, 9999);
         }
         else
+        {
             return std::clamp(weapon->getDamage() + getMod(Mod::MAIN_DMG_RATING), 0, 9999);
+        }
     }
+
     return 0;
 }
 
@@ -572,17 +634,78 @@ uint16 CBattleEntity::GetSubWeaponDmg()
 {
     if (auto weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]))
     {
-        if ((weapon->getReqLvl() > GetMLevel()) && objtype == TYPE_PC)
+        auto playerLvl = GetMLevel();
+        auto weaponLvl = weapon->getReqLvl();
+
+        if ((weaponLvl > playerLvl) && objtype == TYPE_PC)
         {
-            uint16 dmg = weapon->getDamage();
-            dmg *= GetMLevel() * 3;
-            dmg /= 4;
-            dmg /= weapon->getReqLvl();
-            return dmg + getMod(Mod::SUB_DMG_RATING);
+            // 1H Weapons
+            // Base quadratic growth curve for 1H
+            float dmg = 5.1f + 0.28f * playerLvl + 0.0019f * playerLvl * playerLvl;
+
+            // Apply gentle flattening above level 70
+            if (playerLvl > 70.0f)
+            {
+                float flatten = 1.0f - 0.0025f * (playerLvl - 70.0f);
+                if (flatten < 0.9f)
+                    flatten = 0.9f;
+                dmg *= flatten;
+            }
+
+            if (weapon->isHandToHand())
+            {
+                dmg = weapon->getDamage();
+                dmg *= GetMLevel() * 3;
+                dmg /= 4;
+                dmg /= weapon->getReqLvl();
+            }
+            else if (weapon->isTwoHanded())
+            {
+                // Base quadratic growth curve
+                dmg = 11.47f + 0.72f * playerLvl + 0.0047f * playerLvl * playerLvl;
+
+                // Apply gentle flattening above level 60
+                if (playerLvl > 60.0f)
+                {
+                    float flatten = 1.0f - 0.0015f * (playerLvl - 60.0f);
+                    if (flatten < 0.9f)
+                        flatten = 0.9f; // minimum flattening
+                    dmg *= flatten;
+                }
+            }
+            else if (weapon->getSkillType() == SKILL_DAGGER)
+            {
+                // Daggers: faster but lower base damage; receive a notable DPS buff around level 60+
+                // Derived from empirical weapon table data.
+                dmg = 2.5f + 0.18f * playerLvl + 0.0029f * playerLvl * playerLvl;
+
+                // Apply post-60 DPS buff
+                if (playerLvl > 60.0f)
+                {
+                    float buff = 1.0f + 0.015f * (playerLvl - 60.0f); // gradual 1.0 → 1.15 at 70+
+                    if (buff > 1.15f)
+                        buff = 1.15f; // cap the dagger DPS boost
+                    dmg *= buff;
+                }
+
+                // Slight dampening above 70 to avoid overscaling
+                if (playerLvl > 70.0f)
+                {
+                    float flatten = 1.0f - 0.002f * (playerLvl - 70.0f);
+                    if (flatten < 0.95f)
+                        flatten = 0.95f;
+                    dmg *= flatten;
+                }
+            }
+
+            return std::clamp<float>(dmg + getMod(Mod::SUB_DMG_RATING), 0, 9999);
         }
         else
-            return weapon->getDamage() + getMod(Mod::SUB_DMG_RATING);
+        {
+            return std::clamp(weapon->getDamage() + getMod(Mod::SUB_DMG_RATING), 0, 9999);
+        }
     }
+
     return 0;
 }
 
@@ -1262,23 +1385,28 @@ void CBattleEntity::addEquipModifiers(std::vector<CModifier> *modList, uint8 ite
             }
         }
     }
-    else
+    else // Level synced / level restriction scaled mods
     {
         for (uint16 i = 0; i < modList->size(); ++i)
         {
             int16 modAmount = GetMLevel() * modList->at(i).getModAmount();
             switch (modList->at(i).getModID())
             {
+                // Defense adjustment is determined by Main Job
                 case Mod::DEF:
+                    modAmount = static_cast<int16>(battleutils::GetScaledArmorDEF(this->GetMLevel(), this->GetMJob(), slotid));
+                    break;
                 case Mod::MAIN_DMG_RATING:
                 case Mod::SUB_DMG_RATING:
                 case Mod::RANGED_DMG_RATING:
                     modAmount *= 3;
                     modAmount /= 4;
+                    modAmount /= itemLevel;
                     break;
                 case Mod::HP:
                 case Mod::MP:
                     modAmount /= 2;
+                    modAmount /= itemLevel;
                     break;
                 case Mod::STR:
                 case Mod::DEX:
@@ -1294,12 +1422,14 @@ void CBattleEntity::addEquipModifiers(std::vector<CModifier> *modList, uint8 ite
                 case Mod::MATT:
                 case Mod::MACC:
                     modAmount /= 3;
+                    modAmount /= itemLevel;
                     break;
                 default:
                     modAmount = 0;
+                    modAmount /= itemLevel;
                     break;
             }
-            modAmount /= itemLevel;
+
             if (slotid == SLOT_SUB)
             {
                 if (modList->at(i).getModID() == Mod::MAIN_DMG_RANK)
@@ -1402,23 +1532,28 @@ void CBattleEntity::delEquipModifiers(std::vector<CModifier> *modList, uint8 ite
             }
         }
     }
-    else
+    else // Level synced / level restriction scaled mods
     {
         for (uint16 i = 0; i < modList->size(); ++i)
         {
             int16 modAmount = GetMLevel() * modList->at(i).getModAmount();
             switch (modList->at(i).getModID())
             {
+                // Defense adjustment is determined by Main Job
                 case Mod::DEF:
+                    modAmount = static_cast<int16>(battleutils::GetScaledArmorDEF(this->GetMLevel(), this->GetMJob(), slotid));
+                    break;
                 case Mod::MAIN_DMG_RATING:
                 case Mod::SUB_DMG_RATING:
                 case Mod::RANGED_DMG_RATING:
                     modAmount *= 3;
                     modAmount /= 4;
+                    modAmount /= itemLevel;
                     break;
                 case Mod::HP:
                 case Mod::MP:
                     modAmount /= 2;
+                    modAmount /= itemLevel;
                     break;
                 case Mod::STR:
                 case Mod::DEX:
@@ -1434,12 +1569,14 @@ void CBattleEntity::delEquipModifiers(std::vector<CModifier> *modList, uint8 ite
                 case Mod::MATT:
                 case Mod::MACC:
                     modAmount /= 3;
+                    modAmount /= itemLevel;
                     break;
                 default:
                     modAmount = 0;
+                    modAmount /= itemLevel;
                     break;
             }
-            modAmount /= itemLevel;
+
             if (slotid == SLOT_SUB)
             {
                 if (modList->at(i).getModID() == Mod::MAIN_DMG_RANK)

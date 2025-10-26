@@ -9511,12 +9511,12 @@ namespace battleutils
             auto modAmount = PItem->getModifier(mod);
             switch (mod)
             {
+                // Defense adjustment is determined by Main Job
                 case Mod::DEF:
                 case Mod::MAIN_DMG_RATING:
                 case Mod::SUB_DMG_RATING:
                 case Mod::RANGED_DMG_RATING:
-                    modAmount *= 3;
-                    modAmount /= 4;
+                    modAmount = modAmount * 3 / 4;
                     break;
                 case Mod::HP:
                 case Mod::MP:
@@ -9547,6 +9547,79 @@ namespace battleutils
         {
             return PItem->getModifier(mod);
         }
+    }
+
+    float GetScaledArmorDEF(uint8 level, JOBTYPE job, uint8 slotid)
+    {
+        float base = 1.0f;
+        float scale = 0.0f;
+        float curve = 0.0f;
+        float slotMult = 1.0f;
+
+        // -- Base DEF --
+        switch (slotid)
+        {
+            case SLOT_HEAD:  base = 1.00f; break;
+            case SLOT_BODY:  base = 2.00f; break;
+            case SLOT_HANDS: base = 1.00f; break;
+            case SLOT_LEGS:  base = 2.00f; break;
+            case SLOT_FEET:  base = 1.00f; break;
+            case SLOT_WAIST: base = 1.00f; break;
+            case SLOT_BACK:  base = 1.00f; break;
+        }
+
+        // --- Armor category by job ---
+        switch (job)
+        {
+            // Heavy Armor
+            case JOB_WAR:
+            case JOB_PLD:
+            case JOB_DRK:
+            case JOB_BST:
+            case JOB_SAM:
+            case JOB_NIN:
+                scale = 0.60f;
+                curve = 0.003f;
+                break;
+
+            // Medium Armor
+            case JOB_RDM:
+            case JOB_THF:
+            case JOB_BRD:
+            case JOB_RNG:
+            case JOB_DRG:
+            case JOB_BLU:
+            case JOB_COR:
+            case JOB_DNC:
+            case JOB_RUN:
+                scale = 0.50f;
+                curve = 0.0025f;
+                break;
+
+            // Light Armor
+            default:
+                scale = 0.45f;
+                curve = 0.002f;
+                break;
+        }
+
+        // --- Slot multipliers ---
+        switch (slotid)
+        {
+            case SLOT_HEAD:  slotMult = 0.50f; break;
+            case SLOT_BODY:  slotMult = 1.00f; break;
+            case SLOT_HANDS: slotMult = 0.34f; break;
+            case SLOT_LEGS:  slotMult = 0.72f; break;
+            case SLOT_FEET:  slotMult = 0.28f; break;
+            case SLOT_WAIST: slotMult = 0.13f; break;
+            case SLOT_BACK:  slotMult = 0.13f; break;
+        }
+
+        float def = (base + (scale * level) + (curve * level * level)) * slotMult;
+        float finalDef = std::round(def);
+
+        ShowDebug("Defense:: %.1f (lvl=%d job=%d slot=%d)\n", finalDef, level, job, slotid);
+        return finalDef;
     }
 
     int16 GetEffectiveItemModifier(CCharEntity* PChar, CItemEquipment* PItem, Mod mod)
