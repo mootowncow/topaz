@@ -9618,7 +9618,7 @@ namespace battleutils
         float def = (base + (scale * level) + (curve * level * level)) * slotMult;
         float finalDef = std::round(def);
 
-        ShowDebug("Defense:: %.1f (lvl=%d job=%d slot=%d)\n", finalDef, level, job, slotid);
+        //ShowDebug("Defense:: %.1f (lvl=%d job=%d slot=%d)\n", finalDef, level, job, slotid);
         return finalDef;
     }
 
