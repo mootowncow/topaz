@@ -282,7 +282,7 @@ local modByMobName =
     ['elivira'] = function(mob)
         mob:addMod(tpz.mod.HPP, 10)
         mob:addMod(tpz.mod.RACC, 30)
-        mob:addMod(tpz.mod.STORETP, 130)
+        mob:addMod(tpz.mod.STORETP, 25)
         mob:addMod(tpz.mod.ENMITY, -15)
         mob:addMod(tpz.mod.DMGAOE, -33)
         mob:setMobMod(tpz.mobMod.RANGED_DELAY, 600)
