@@ -120,7 +120,7 @@ int32 time_server(time_point tick, CTaskMgr::CTask* PTask)
         { "Promathia", "Bibiki Bay", FIRESDAY },
         { "Omega", "Attohwa Chasm", EARTHSDAY },
         { "Bahamut", "Lufaise Meadows", WATERSDAY },
-        { "Ultima", "Cape Terrigan", WINDSDAY },
+        { "Ultima", "Cape Teriggan", WINDSDAY },
         { "Eald'narche", "Western Altepa Desert", ICEDAY },
         { "Kam'lanaut", "Yhoator Jungle", LIGHTNINGDAY },
         { "Shadow Lord", "The Sanctuary of Zi'tah", LIGHTSDAY },

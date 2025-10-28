@@ -11238,6 +11238,7 @@ int32 CLuaBaseEntity::isAlive(lua_State* L)
 int32 CLuaBaseEntity::isDead(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
     lua_pushboolean(L, static_cast<CBattleEntity*>(m_PBaseEntity)->isDead());
     return 1;
 }
@@ -11252,8 +11253,14 @@ int32 CLuaBaseEntity::isDead(lua_State* L)
 int32 CLuaBaseEntity::hasRaise(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
-    lua_pushboolean(L, static_cast<CCharEntity*>(m_PBaseEntity)->m_hasRaise);
-    return 1;
+
+    if (auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity))
+    {
+        lua_pushboolean(L, PChar->m_hasRaise);
+        return 1;
+    }
+
+    return 0;
 }
 
 /************************************************************************
@@ -11300,7 +11307,7 @@ inline int32 CLuaBaseEntity::sendReraise(lua_State *L)
 
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
-    if (auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity))
+    if (auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity))
     {
         uint8 RaiseLevel = (uint8)lua_tonumber(L, 1);
 
@@ -18488,7 +18495,7 @@ int32 CLuaBaseEntity::trustProgressUpdateFlag(lua_State* L)
 
 /************************************************************************
  *  Function: handleRestraint(dmg)
- *  Purpose : Attempts to proc Treasure Hunter on the target
+ *  Purpose : Handles restraint stoneskin effect from damage caused
  *  Example : attacker:handleRestraint(dmg)
  *  Notes   :
  ************************************************************************/
@@ -18508,6 +18515,50 @@ inline int32 CLuaBaseEntity::handleRestraint(lua_State* L)
     return 0;
 }
 
+/************************************************************************
+ *  Function: handleImpetus()
+ *  Purpose : Handles impetus +mods from a successful hit
+ *  Example : attacker:handleImpetus()
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::handleImpetus(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+
+    if (auto* PBattleEntity = static_cast<CBattleEntity*>(m_PBaseEntity))
+    {
+        battleutils::HandleImpetus(PBattleEntity);
+    }
+
+    return 0;
+}
+
+/************************************************************************
+ *  Function: updateImpetus()
+ *  Purpose : Updates impetus's attack/crit/acc/crithit dmg boost
+ *  Example : attacker:updateImpetus(0, 0)
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::updateImpetus(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2));
+
+    uint16 attackBoost = lua_tointeger(L, 1);
+    uint16 critBoost = lua_tointeger(L, 2);
+
+    if (auto* PBattleEntity = static_cast<CBattleEntity*>(m_PBaseEntity))
+    {
+        battleutils::UpdateImpetus(PBattleEntity, attackBoost, critBoost);
+    }
+
+    return 0;
+}
+
 
 //=======================================================//
 
@@ -18516,7 +18567,7 @@ const char CLuaBaseEntity::className[] = "CBaseEntity";
 Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 {
 
-        // Messaging System
+    // Messaging System
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,showText),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,messageText),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,PrintToPlayer),
@@ -19290,6 +19341,8 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     // JA's
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,handleRestraint),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,handleImpetus),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateImpetus),
 
     {nullptr,nullptr}
 };

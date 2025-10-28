@@ -294,6 +294,7 @@ namespace battleutils
     int32               HandleStoneskin(CBattleEntity* PDefender, int32 damage, ATTACKTYPE attackType);
     int32               HandleMagicStoneskin(CBattleEntity* PDefender, int32 damage);
     int32               HandleFanDance(CBattleEntity* PDefender, int32 damage);
+    int32               HandleCircleDamageIncrease(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage);
     int32               HandleCircleDamageReduction(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage);
     int32               HandlePositionalPDT(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage);
     int32               HandleExtraDamageMultipliers(CBattleEntity* PAttacker, int32 damage);
@@ -337,6 +338,7 @@ namespace battleutils
 
     int32               GetScaledItemModifier(CBattleEntity*, CItemEquipment*, Mod);
     int16               GetEffectiveItemModifier(CCharEntity* PChar, CItemEquipment* PItem, Mod mod);
+    float               GetScaledArmorDEF(uint8 level, JOBTYPE job, uint8 slotid);
     DAMAGETYPE          GetSpikesDamageType(SUBEFFECT spikesType);
     DAMAGETYPE          GetEnspellDamageType(ENSPELL enspellType);
     int16               GetMikageBonus(CBattleEntity* PEntity);
@@ -349,6 +351,8 @@ namespace battleutils
     ELEMENT             GetTargetWeakness(CBattleEntity* PEntity, bool excludeLightDark = false);
 
     void                HandleFoodEffects(CItemUsable* PItem, CBattleEntity* PTarget);
+    void                HandleImpetus(CBattleEntity* PEntity);
+    void                UpdateImpetus(CBattleEntity* PEntity, uint16 attackBoost, uint16 critBoost);
 
 };
 

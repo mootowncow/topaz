@@ -34,6 +34,7 @@
 
 #include <math.h>
 #include "ai/controllers/trust_controller.h"
+#include "utils/battleutils.cpp"
 
 /************************************************************************
 *																		*
@@ -519,6 +520,11 @@ bool CAttack::CheckCounter()
         return false;
     }
 
+    if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_BOOST) || m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
+    {
+        return false;
+    }
+
     if (!m_victim->PAI->IsEngaged())
     {
         m_isCountered = false;
@@ -535,25 +541,42 @@ bool CAttack::CheckCounter()
     }
 
     // counter check (rate AND your hit rate makes it land, else its just a regular hit)
+    auto counterChance = std::clamp<uint16>(m_victim->getMod(Mod::COUNTER) + meritCounter, 0, 80);
+    bool facingAttacker = facing(m_victim->loc.p, m_attacker->loc.p, 40);
 
-    if ((tpzrand::GetRandomNumber(100) < std::clamp<uint16>(m_victim->getMod(Mod::COUNTER) + meritCounter, 0, 80)) &&
-        facing(m_victim->loc.p, m_attacker->loc.p, 40) &&
-        tpzrand::GetRandomNumber(100) < battleutils::GetHitRate(m_victim, m_attacker))
+    if (facingAttacker)
     {
-        SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
-        m_isCountered = true;
-        m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false, slot));
-    }
-    else if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_COUNTER) && facing(m_victim->loc.p, m_attacker->loc.p, 40))
-    {
-        // Perfect Counter only counters hits that normal counter misses, always critical, can counter 1-3 times before wearing
-        m_isCountered = true;
-        m_isCritical = true;
-        if (!ShouldPerfectCounterPersist())
+        bool rolledCounter = tpzrand::GetRandomNumber(100) < counterChance;
+
+        if (rolledCounter)
         {
-            m_victim->StatusEffectContainer->DelStatusEffectSilent(EFFECT_PERFECT_COUNTER);
+            bool counterHit = tpzrand::GetRandomNumber(100) < battleutils::GetHitRate(m_victim, m_attacker);
+            if (counterHit)
+            {
+                // Counter succeeded
+                SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
+                m_isCountered = true;
+                m_isCritical = (tpzrand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false, slot));
+                battleutils::HandleImpetus(m_victim);
+            }
+            else // Counter attempted but missed due to hit rate
+            {
+                // Reset impetus
+                battleutils::UpdateImpetus(m_victim, 0, 0);
+            }
+        }
+        else if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_COUNTER))
+        {
+            // Perfect Counter
+            m_isCountered = true;
+            m_isCritical = true;
+            if (!ShouldPerfectCounterPersist())
+            {
+                m_victim->StatusEffectContainer->DelStatusEffectSilent(EFFECT_PERFECT_COUNTER);
+            }
         }
     }
+
     return m_isCountered;
 }
 
@@ -701,65 +724,13 @@ void CAttack::ProcessDamage()
         m_damage += (int32)(m_damage * ((100 + (m_attacker->getMod(Mod::AUGMENTS_TA))) / 100.0f));
     }
 
-    // Circle Effects
-    if (m_victim->objtype != TYPE_PC && m_damage > 0)
-    {
-        uint16 circlemult = 100;
-
-        switch (m_victim->m_EcoSystem)
-        {
-            case SYSTEM_AMORPH:
-              circlemult += m_attacker->getMod(Mod::AMORPH_CIRCLE);
-                break;
-            case SYSTEM_AQUAN:
-                circlemult += m_attacker->getMod(Mod::AQUAN_CIRCLE);
-                break;
-            case SYSTEM_ARCANA:
-                circlemult += m_attacker->getMod(Mod::ARCANA_CIRCLE);
-                break;
-            case SYSTEM_BEAST:
-                circlemult += m_attacker->getMod(Mod::BEAST_CIRCLE);
-                break;
-            case SYSTEM_BIRD:
-                circlemult += m_attacker->getMod(Mod::BIRD_CIRCLE);
-                break;
-            case SYSTEM_DEMON:
-                circlemult += m_attacker->getMod(Mod::DEMON_CIRCLE);
-                break;
-            case SYSTEM_DRAGON:
-                circlemult += m_attacker->getMod(Mod::DRAGON_CIRCLE);
-                break;
-            case SYSTEM_LIZARD:
-                circlemult += m_attacker->getMod(Mod::LIZARD_CIRCLE);
-                break;
-            case SYSTEM_LUMINION:
-                circlemult += m_attacker->getMod(Mod::LUMINION_CIRCLE);
-                break;
-            case SYSTEM_LUMORIAN:
-                circlemult += m_attacker->getMod(Mod::LUMORIAN_CIRCLE);
-                break;
-            case SYSTEM_PLANTOID:
-                circlemult += m_attacker->getMod(Mod::PLANTOID_CIRCLE);
-                break;
-            case SYSTEM_UNDEAD:
-                circlemult += m_attacker->getMod(Mod::UNDEAD_CIRCLE);
-                break;
-            case SYSTEM_VERMIN:
-                circlemult += m_attacker->getMod(Mod::VERMIN_CIRCLE);
-                break;
-            default:
-                break;
-        }
-        m_damage = m_damage * circlemult / 100;
-    }
-
     // Pet damage mods
     if (m_attacker->objtype == TYPE_PET)
     {
         m_damage = m_damage * (100 + m_attacker->getMod(Mod::PET_DAMAGEP)) / 100;
     }
 
-    m_damage = battleutils::HandlePositionalPDT(m_attacker, m_victim, m_damage);
+    m_damage = battleutils::HandleCircleDamageIncrease(m_attacker, m_victim, m_damage);
 
     // Handle "Boost" status effect on mobs
     if (m_attacker->objtype == TYPE_MOB && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_BOOST))

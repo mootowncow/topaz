@@ -9,6 +9,7 @@ require("scripts/globals/chocobo_digging")
 require("scripts/globals/conquest")
 require("scripts/globals/missions")
 require("scripts/globals/zone")
+require("scripts/globals/raid")
 -----------------------------------
 
 function onChocoboDig(player, precheck)
@@ -42,14 +43,11 @@ function onZoneIn(player, prevZone)
 end
 
 function afterZoneIn(player)
-    local day = VanadielDayOfTheWeek()
-    if (day == tpz.day.LIGHTSDAY) then
-        for v = 17273438, 17273447 do
-            if not GetMobByID(v):isSpawned() then
-                GetMobByID(v):spawn()
-            end
-        end
-    end
+    tpz.raid.afterZoneIn(player)
+end
+
+function OnZoneTick(player, zone, region)
+    tpz.raid.onZoneTick(player, zone, region)
 end
 
 function onRegionEnter(player, region)

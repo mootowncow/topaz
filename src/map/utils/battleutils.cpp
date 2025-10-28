@@ -3514,10 +3514,12 @@ namespace battleutils
                 attackType = ATTACK_RANGED;
                 damageType = DAMAGE_RANGED;
                 damage = RangedDmgTaken(PDefender, damage, damageType, isCovered);
+                damage = HandlePositionalPDT(PAttacker, PDefender, damage);
             }
             else
             {
                 damage = PhysicalDmgTaken(PDefender, damage, damageType, isCovered);
+                damage = HandlePositionalPDT(PAttacker, PDefender, damage);
             }
 
             //absorb mods are handled in the above functions, but they do not affect counters
@@ -3539,7 +3541,7 @@ namespace battleutils
             //else
             //    damage = (damage * (PDefender->getMod(Mod::HTHRES))) / 1000;
 
-                        if (!isCounter || giveTPtoAttacker) // counters are always considered blunt (assuming h2h) damage, except retaliation (which is the only counter
+            if (!isCounter || giveTPtoAttacker) // counters are always considered blunt (assuming h2h) damage, except retaliation (which is the only counter
                                                 // that gives TP to the attacker)
             {
                 float resmult = 1.0f;
@@ -3580,7 +3582,6 @@ namespace battleutils
             }
 
             damage = HandleCircleDamageReduction(PAttacker, PDefender, damage);
-            damage = HandlePositionalPDT(PAttacker, PDefender, damage);
 
             if (isBlocked)
             {
@@ -7677,6 +7678,63 @@ namespace battleutils
         return damage;
     }
 
+    int32 HandleCircleDamageIncrease(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage)
+    {
+        // Circle Effects
+        if (PDefender->objtype != TYPE_PC && damage > 0)
+        {
+            uint16 circlemult = 100;
+
+            switch (PDefender->m_EcoSystem)
+            {
+                case SYSTEM_AMORPH:
+                    circlemult += PAttacker->getMod(Mod::AMORPH_CIRCLE);
+                    break;
+                case SYSTEM_AQUAN:
+                    circlemult += PAttacker->getMod(Mod::AQUAN_CIRCLE);
+                    break;
+                case SYSTEM_ARCANA:
+                    circlemult += PAttacker->getMod(Mod::ARCANA_CIRCLE);
+                    break;
+                case SYSTEM_BEAST:
+                    circlemult += PAttacker->getMod(Mod::BEAST_CIRCLE);
+                    break;
+                case SYSTEM_BIRD:
+                    circlemult += PAttacker->getMod(Mod::BIRD_CIRCLE);
+                    break;
+                case SYSTEM_DEMON:
+                    circlemult += PAttacker->getMod(Mod::DEMON_CIRCLE);
+                    break;
+                case SYSTEM_DRAGON:
+                    circlemult += PAttacker->getMod(Mod::DRAGON_CIRCLE);
+                    break;
+                case SYSTEM_LIZARD:
+                    circlemult += PAttacker->getMod(Mod::LIZARD_CIRCLE);
+                    break;
+                case SYSTEM_LUMINION:
+                    circlemult += PAttacker->getMod(Mod::LUMINION_CIRCLE);
+                    break;
+                case SYSTEM_LUMORIAN:
+                    circlemult += PAttacker->getMod(Mod::LUMORIAN_CIRCLE);
+                    break;
+                case SYSTEM_PLANTOID:
+                    circlemult += PAttacker->getMod(Mod::PLANTOID_CIRCLE);
+                    break;
+                case SYSTEM_UNDEAD:
+                    circlemult += PAttacker->getMod(Mod::UNDEAD_CIRCLE);
+                    break;
+                case SYSTEM_VERMIN:
+                    circlemult += PAttacker->getMod(Mod::VERMIN_CIRCLE);
+                    break;
+                default:
+                    break;
+            }
+            damage = damage * circlemult / 100;
+        }
+
+        return damage;
+    }
+
     int32 HandleCircleDamageReduction(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage)
     {
         if (PAttacker->objtype != TYPE_PC && damage > 0)
@@ -9453,12 +9511,12 @@ namespace battleutils
             auto modAmount = PItem->getModifier(mod);
             switch (mod)
             {
+                // Defense adjustment is determined by Main Job
                 case Mod::DEF:
                 case Mod::MAIN_DMG_RATING:
                 case Mod::SUB_DMG_RATING:
                 case Mod::RANGED_DMG_RATING:
-                    modAmount *= 3;
-                    modAmount /= 4;
+                    modAmount = modAmount * 3 / 4;
                     break;
                 case Mod::HP:
                 case Mod::MP:
@@ -9489,6 +9547,79 @@ namespace battleutils
         {
             return PItem->getModifier(mod);
         }
+    }
+
+    float GetScaledArmorDEF(uint8 level, JOBTYPE job, uint8 slotid)
+    {
+        float base = 1.0f;
+        float scale = 0.0f;
+        float curve = 0.0f;
+        float slotMult = 1.0f;
+
+        // -- Base DEF --
+        switch (slotid)
+        {
+            case SLOT_HEAD:  base = 1.00f; break;
+            case SLOT_BODY:  base = 2.00f; break;
+            case SLOT_HANDS: base = 1.00f; break;
+            case SLOT_LEGS:  base = 2.00f; break;
+            case SLOT_FEET:  base = 1.00f; break;
+            case SLOT_WAIST: base = 1.00f; break;
+            case SLOT_BACK:  base = 1.00f; break;
+        }
+
+        // --- Armor category by job ---
+        switch (job)
+        {
+            // Heavy Armor
+            case JOB_WAR:
+            case JOB_PLD:
+            case JOB_DRK:
+            case JOB_BST:
+            case JOB_SAM:
+            case JOB_NIN:
+                scale = 0.60f;
+                curve = 0.003f;
+                break;
+
+            // Medium Armor
+            case JOB_RDM:
+            case JOB_THF:
+            case JOB_BRD:
+            case JOB_RNG:
+            case JOB_DRG:
+            case JOB_BLU:
+            case JOB_COR:
+            case JOB_DNC:
+            case JOB_RUN:
+                scale = 0.50f;
+                curve = 0.0025f;
+                break;
+
+            // Light Armor
+            default:
+                scale = 0.45f;
+                curve = 0.002f;
+                break;
+        }
+
+        // --- Slot multipliers ---
+        switch (slotid)
+        {
+            case SLOT_HEAD:  slotMult = 0.50f; break;
+            case SLOT_BODY:  slotMult = 1.00f; break;
+            case SLOT_HANDS: slotMult = 0.34f; break;
+            case SLOT_LEGS:  slotMult = 0.72f; break;
+            case SLOT_FEET:  slotMult = 0.28f; break;
+            case SLOT_WAIST: slotMult = 0.13f; break;
+            case SLOT_BACK:  slotMult = 0.13f; break;
+        }
+
+        float def = (base + (scale * level) + (curve * level * level)) * slotMult;
+        float finalDef = std::round(def);
+
+        //ShowDebug("Defense:: %.1f (lvl=%d job=%d slot=%d)\n", finalDef, level, job, slotid);
+        return finalDef;
     }
 
     int16 GetEffectiveItemModifier(CCharEntity* PChar, CItemEquipment* PItem, Mod mod)
@@ -9836,5 +9967,69 @@ namespace battleutils
 
             PTarget->StatusEffectContainer->AddStatusEffect(foodEffect);
         }
+    }
+
+    void HandleImpetus(CBattleEntity* PEntity)
+    {
+        if (!PEntity)
+        {
+            return;
+        }
+
+        if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_IMPETUS))
+        {
+            CStatusEffect* impetus = PEntity->StatusEffectContainer->GetStatusEffect(EFFECT_IMPETUS);
+
+            uint16 attackBoost = impetus->GetPower();
+            uint16 critBoost = impetus->GetSubPower();
+
+            // Increase values
+            attackBoost += 2; // +2 Attack
+            critBoost += 1;   // +1% Crit
+
+            // Caps at 100 attack (100 accuracy with tantra cyclas +1) / 50% crit (50% crit dmg with tantra cyclas +2)
+            auto attackCap = 100;
+            if (PEntity->objtype == TYPE_PC)
+            {
+                if (auto* PChar = dynamic_cast<CCharEntity*>(PEntity))
+                {
+                    auto jpValue = PChar->PJobPoints->GetJobPointValue(JP_IMPETUS_EFFECT) * 2;
+                    attackCap += jpValue;
+                }
+            }
+
+            attackBoost = std::min<uint16>(attackBoost, attackCap);
+            critBoost = std::min<uint16>(critBoost, 50);
+
+            if (attackBoost < attackCap)
+            {
+                battleutils::UpdateImpetus(PEntity, attackBoost, critBoost);
+            }
+        }
+    }
+
+
+    void UpdateImpetus(CBattleEntity* PEntity, uint16 attackBoost, uint16 critBoost)
+    {
+        if (!PEntity)
+        {
+            return;
+        }
+
+        if (!PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_IMPETUS))
+        {
+            return;
+        }
+
+        CStatusEffect* impetus = PEntity->StatusEffectContainer->GetStatusEffect(EFFECT_IMPETUS);
+        // Remove old mods
+        luautils::OnEffectLose(PEntity, impetus);
+
+        // Update attack (accuracy) and crit (crit dmg)
+        impetus->SetPower(attackBoost);
+        impetus->SetSubPower(critBoost);
+
+        // Reapply new mod
+        luautils::OnEffectGain(PEntity, impetus);
     }
 };

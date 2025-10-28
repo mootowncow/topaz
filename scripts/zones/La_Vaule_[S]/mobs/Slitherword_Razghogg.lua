@@ -21,6 +21,12 @@ function onMobEngaged(mob, target)
 end
 
 function onMobFight(mob, target)
+    local darkheirGrradhood = GetMobByID(17125666)
+
+    -- Shares target with Darkheir Grradhod
+    if darkheirGrradhood:isAlive() then
+        mob:setMobMod(tpz.mobMod.SHARE_TARGET, darkheirGrradhood:getShortID())
+    end
 end
 
 function onMobWeaponSkillPrepare(mob, target)

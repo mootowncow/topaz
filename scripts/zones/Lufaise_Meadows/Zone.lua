@@ -10,6 +10,7 @@ require("scripts/globals/missions")
 require("scripts/globals/npc_util")
 require("scripts/globals/titles")
 require("scripts/globals/helm")
+require("scripts/globals/raid")
 -----------------------------------
 
 function onInitialize(zone)
@@ -50,14 +51,11 @@ function onZoneIn(player, prevZone)
 end
 
 function afterZoneIn(player)
-    local day = VanadielDayOfTheWeek()
-    if (day == tpz.day.WATERSDAY) then
-        for v = 16875921, 16875930 do
-            if not GetMobByID(v):isSpawned() then
-                GetMobByID(v):spawn()
-            end
-        end
-    end
+    tpz.raid.afterZoneIn(player, tpz.day.WATERSDAY, 16875921, 16875930)
+end
+
+function OnZoneTick(player, zone, region)
+    tpz.raid.onZoneTick(player, zone, region)
 end
 
 function onRegionEnter(player, region)

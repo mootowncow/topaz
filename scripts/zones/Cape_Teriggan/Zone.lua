@@ -9,6 +9,7 @@ require("scripts/quests/i_can_hear_a_rainbow")
 require("scripts/globals/conquest")
 require("scripts/globals/world")
 require("scripts/globals/zone")
+require("scripts/globals/raid")
 -----------------------------------
 
 function onInitialize(zone)
@@ -38,14 +39,11 @@ function onZoneIn( player, prevZone)
 end
 
 function afterZoneIn(player)
-    local day = VanadielDayOfTheWeek()
-    if (day == tpz.day.WINDSDAY) then
-        for v = 17240534, 17240541 do
-            if not GetMobByID(v):isSpawned() then
-                GetMobByID(v):spawn()
-            end
-        end
-    end
+    tpz.raid.afterZoneIn(player, tpz.day.WINDSDAY, 17240534, 17240541)
+end
+
+function OnZoneTick(player, zone, region)
+    tpz.raid.onZoneTick(player, zone, region)
 end
 
 function onRegionEnter( player, region)

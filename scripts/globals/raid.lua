@@ -12,6 +12,7 @@ require("scripts/globals/ability")
 require("scripts/globals/utils")
 require("scripts/globals/spell_data")
 require("scripts/globals/weaponskillids")
+require("scripts/globals/status")
 --------------------------------------
 -- TODO: Make sure tanks always spawn opposite side of everyone (DPS/healers > mob < tank)
 -- TODO: Spread out DPS to surround the NMs better
@@ -66,6 +67,49 @@ local mobData =
     { Name = 'Ark_Angel_EV',    Loot = { tpz.items.PATRICIUS_RING, tpz.items.OSMIUM_CUISSES, tpz.items.DYNASTY_MITTS, tpz.items.ANAHERA_SWORD }                 },
     { Name = 'Ark_Angel_TT',    Loot = { tpz.items.FRAVASHI_MANTLE, tpz.items.THEURGISTS_SLACKS, tpz.items.SCAMPS_SOLLERETS, tpz.items.ANAHERA_SCYTHE }         },
     { Name = 'Ark_Angel_GK',    Loot = { tpz.items.LURID_MITTS, tpz.items.AGITATORS_COLLAR, tpz.items.DAIHANSHI_HABAKI, tpz.items.ANAHERA_BLADE }               },
+}
+
+local zoneData = {
+    [tpz.zone.BIBIKI_BAY] = {
+        Bosses = { 16793982 },
+        Npcs   = { 16793983, 16793984, 16793985, 16793986, 16793987, 16793988, 16793989 },
+        Day    = tpz.day.FIRESDAY,
+    },
+    [tpz.zone.ATTOHWA_CHASM] = {
+        Bosses = { 16806397 },
+        Npcs   = { 16806399, 16806400, 16806401, 16806402, 16806403, 16806404, 16806405 },
+        Day    = tpz.day.EARTHSDAY,
+    },
+    [tpz.zone.LUFAISE_MEADOWS] = {
+        Bosses = { 16875921 },
+        Npcs   = { 16875922, 16875923, 16875924, 16875925, 16875926, 16875927, 16875928 },
+        Day    = tpz.day.WATERSDAY,
+    },
+    [tpz.zone.CAPE_TERIGGAN] = {
+        Bosses = { 17240534 },
+        Npcs   = { 17240535, 17240536, 17240537, 17240538, 17240539, 17240540, 17240541 },
+        Day    = tpz.day.WINDSDAY,
+    },
+    [tpz.zone.WESTERN_ALTEPA_DESERT] = {
+        Bosses = { 17289819 },
+        Npcs   = { 17289820, 17289821, 17289822, 17289823, 17289824, 17289825, 17289826 },
+        Day    = tpz.day.ICEDAY,
+    },
+    [tpz.zone.YHOATOR_JUNGLE] = {
+        Bosses = { 17285714 },
+        Npcs   = { 17285715, 17285716, 17285717, 17285718, 17285719, 17285720, 17285721 },
+        Day    = tpz.day.LIGHTNINGDAY,
+    },
+    [tpz.zone.THE_SANCTUARY_OF_ZITAH] = {
+        Bosses = { 17273438 },
+        Npcs   = { 17273439, 17273440, 17273441, 17273442, 17273443, 17273444, 17273445 },
+        Day    = tpz.day.LIGHTSDAY,
+    },
+    [tpz.zone.QUFIM_ISLAND] = {
+        Bosses = { 17293832, 17293833, 17293836, 17293837, 17293838 },
+        Npcs   = { 17293840, 17293841, 17293842, 17293843, 17293844, 17293845, 17293846 },
+        Day    = tpz.day.DARKSDAY,
+    },
 }
 
 local abilityMap =
@@ -1130,6 +1174,79 @@ end
 
 -- Zone helper functions
 tpz.raid.afterZoneIn = function(player)
+    local zone = player:getZoneID()
+    local currentDay = VanadielDayOfTheWeek()
+
+
+    for zoneId, raidData in pairs(zoneData) do
+        if (zone == zoneId) and (currentDay == raidData.Day) then
+
+            -- Check if any boss is already spawned
+            local bossAlreadySpawned = false
+            for _, bossId in ipairs(raidData.Bosses) do
+                local mob = GetMobByID(bossId)
+                if mob and mob:isSpawned() then
+                    bossAlreadySpawned = true
+                    break
+                end
+            end
+
+            -- Only spawn a new boss if none are active
+            if not bossAlreadySpawned then
+                local randomIndex = math.random(#raidData.Bosses)
+                local bossId = raidData.Bosses[randomIndex]
+                local boss = GetMobByID(bossId)
+                if boss and not boss:isSpawned() then
+                    boss:spawn()
+                end
+            end
+
+
+            -- Spawn all NPCs
+            for _, npcId in ipairs(raidData.Npcs) do
+                local npc = GetMobByID(npcId)
+                if npc and not npc:isSpawned() then
+                    npc:spawn()
+                end
+            end
+
+            break
+        end
+    end
+end
+
+tpz.raid.onZoneTick = function(player, zone, region)
+    local currentZoneId = zone:getID()
+
+    for zoneId, raidData in pairs(zoneData) do
+        if (currentZoneId == zoneId) then
+            local boss = nil
+
+            -- Get the currently spawned Boss
+            for _, bossId in ipairs(raidData.Bosses) do
+                local mob = GetMobByID(bossId)
+
+                if mob and mob:isSpawned() then
+                    boss = mob
+                    break
+                end
+            end
+
+            -- Get all dead NPCs
+            if boss then
+                local pos = boss:getPos()
+
+                for _, npcId in ipairs(raidData.Npcs) do
+                    local npc = GetMobByID(npcId)
+
+                    if npc and not npc:isSpawned() then
+                        npc:spawn()
+                        npc:setPos(pos.x + math.random(5, 10), pos.y + math.random(5, 10), pos.z)
+                    end
+                end
+            end
+        end
+    end
 end
 
 tpz.raid.onNpcDisengage = function(mob)

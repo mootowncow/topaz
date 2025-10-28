@@ -35,8 +35,7 @@ function onUseAbility(player, target, ability)
         end
     end
     
-    if (penance > 0) then
-        target:delStatusEffectSilent(tpz.effect.INHIBIT_TP)
+    if (penance > 0 and not target:hasStatusEffect(tpz.effect.INHIBIT_TP)) then
         target:addStatusEffect(tpz.effect.INHIBIT_TP, 25, 0, penance * penanceDurationMultiplier)
     end
 

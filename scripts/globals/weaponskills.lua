@@ -70,10 +70,14 @@ function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams, isOffha
                 -- Hybrid WS magical component logic here if you want to print too
             end
 
+            attacker:handleImpetus()
+            
             calcParams.hitsLanded = calcParams.hitsLanded + 1
         else
             calcParams.shadowsAbsorbed = calcParams.shadowsAbsorbed + 1
         end
+    else -- Missed
+        attacker:updateImpetus(0, 0)
     end
 
     if attacker:isInfront(target, 90) and math.random()*100 < target:getBlockRate(attacker) then

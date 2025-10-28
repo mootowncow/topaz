@@ -8,6 +8,7 @@ require("scripts/globals/settings")
 require("scripts/globals/helm")
 require("scripts/globals/zone")
 require("scripts/globals/status")
+require("scripts/globals/raid")
 -----------------------------------
 
 function onInitialize(zone)
@@ -56,17 +57,11 @@ function onZoneIn(player, prevZone)
 end
 
 function afterZoneIn(player)
-    local day = VanadielDayOfTheWeek()
-    if (day == tpz.day.EARTHSDAY) then
-        if not GetMobByID(16806397):isSpawned() then
-            GetMobByID(16806397):spawn()
-        end
-        for v = 16806399, 16806404 do
-            if not GetMobByID(v):isSpawned() then
-                GetMobByID(v):spawn()
-            end
-        end
-    end
+    tpz.raid.afterZoneIn(player)
+end
+
+function OnZoneTick(player, zone, region)
+    tpz.raid.onZoneTick(player, zone, region)
 end
 
 function onConquestUpdate(zone, updatetype)
