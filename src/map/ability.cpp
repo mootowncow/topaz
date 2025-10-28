@@ -115,7 +115,6 @@ bool CAbility::isBuffedByInnerStrength()
         case ABILITY_DODGE:
         case ABILITY_CHAKRA:
         case ABILITY_CHI_BLAST:
-        case ABILITY_FOOTWORK:
         case ABILITY_MANTRA:
             return true;
             break;
