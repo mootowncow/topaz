@@ -9875,14 +9875,14 @@ namespace battleutils
 
         CCharEntity* PIterSource = nullptr;
 
-        if (PSource->objtype != TYPE_PC)
+        if (PSource->objtype != TYPE_PC) // Someone not a player used an ability, check if they are a players pet or trust
         {
             if (PSource->PMaster && PSource->PMaster->objtype == TYPE_PC)
             {
                 PIterSource = static_cast<CCharEntity*>(PSource->PMaster);
             }
         }
-        else
+        else // A player used an ability
         {
             PIterSource = static_cast<CCharEntity*>(PSource);
         }
@@ -9898,6 +9898,40 @@ namespace battleutils
                 if (PCurrentMob->m_OwnerID.id != 0 && PIterSource->IsMobOwner(PCurrentMob) && distance(PIterSource->loc.p, PCurrentMob->loc.p) < 15.0)
                 {
                     PCurrentMob->PAI->EventHandler.triggerListener("PLAYER_ABILITY_USED", PCurrentMob, PSource, PAbility, action);
+                }
+            }
+        }
+    }
+
+    void HandlePlayerSpellCasted(CBattleEntity* PSource, CSpell* PSpell, action_t* action)
+    {
+        TPZ_DEBUG_BREAK_IF(PSource == nullptr);
+
+        CCharEntity* PIterSource = nullptr;
+
+        if (PSource->objtype != TYPE_PC) // Someone not a player used a spell, check if they are a players pet or trust
+        {
+            if (PSource->PMaster && PSource->PMaster->objtype == TYPE_PC)
+            {
+                PIterSource = static_cast<CCharEntity*>(PSource->PMaster);
+            }
+        }
+        else // A player used a spell
+        {
+            PIterSource = static_cast<CCharEntity*>(PSource);
+        }
+
+        if (PIterSource)
+        {
+            for (SpawnIDList_t::const_iterator it = PIterSource->SpawnMOBList.begin(); it != PIterSource->SpawnMOBList.end(); ++it)
+            {
+                CMobEntity* PCurrentMob = (CMobEntity*)it->second;
+
+                // Unclear if the required conditions include enmity and/or alliance.
+                // Let's go with just alliance for now.
+                if (PCurrentMob->m_OwnerID.id != 0 && PIterSource->IsMobOwner(PCurrentMob) && distance(PIterSource->loc.p, PCurrentMob->loc.p) < 15.0)
+                {
+                    PCurrentMob->PAI->EventHandler.triggerListener("PLAYER_SPELL_USED", PCurrentMob, PSource, PSpell, action);
                 }
             }
         }

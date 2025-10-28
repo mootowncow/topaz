@@ -1244,6 +1244,8 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
         }
     }
 
+    battleutils::HandlePlayerSpellCasted(this, PSpell, &action);
+
     // Safety check to not get locked in cutscene status
     if (this->status == STATUS_CUTSCENE_ONLY || this->m_Substate == CHAR_SUBSTATE::SUBSTATE_IN_CS)
     {

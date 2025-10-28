@@ -73,6 +73,7 @@ tpz.mob.skills = {
     PHANTOM_ROLL = 114,
     DOUBLE_THRUST = 112,
     THUNDER_THRUST = 113,
+    RAIDEN_THRUST = 114,
     LEG_SWEEP = 115,
     PENTA_THRUST = 116,
     VORPAL_THRUST = 117,

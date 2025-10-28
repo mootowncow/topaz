@@ -1655,8 +1655,6 @@ local modByMobName =
     end,
 
     ['Buarainech'] = function(mob)
-        -- NEED MODEL ID
-
         mob:addMod(tpz.mod.MATT, 0)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.MDEF, 24)
@@ -1685,7 +1683,7 @@ local modByMobName =
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.BLOOD_WEAPON, cooldown = 300, hpp = 35},
+                {id = tpz.jsa.SPIRIT_SURGE, cooldown = 300, hpp = 35},
             },
         })
     end,
@@ -2793,7 +2791,7 @@ local mobFightByMobName =
             mob:setLocalVar("counterMagic", 0)
         end
 
-        -- Counter JA"s with Freezebite
+        -- Counter JA's with Freezebite
         if
             not IsMobBusy(mob) and 
             not mob:hasPreventActionEffect() and
@@ -2804,7 +2802,7 @@ local mobFightByMobName =
         end
 
         -- Offensive JA's and magic reset it's hate on everyone
-        -- Counters JA's Freezebite onto the person who used the JA on him
+        -- Counters JA's with Freezebite onto the person who used the JA on him
         -- I.e. if a pld tanking it uses Provoke it won't counter
         mob:addListener("ABILITY_TAKE", "ELATHA_ABILITY_TAKE", function(mob, user, ability, action)
             local abilityMsg = ability:getMsg()
@@ -2881,13 +2879,115 @@ local mobFightByMobName =
 
     ['Buarainech'] = function(mob)
         -- 0x01001D030E110E210E310E410E51CD6100700000
-        -- Casts: Haste, Mind Blast, Temporal Shift, Blitzstrahl, Thunder IV, Thundaga III, Burst
-        -- Perma shock spikes
-        -- Additional effect: Stun or Enthunder (100)
+        -- Uses: Grim Halo, Netherspikes, Carnal Nightmare, Pentathrust, Impulse Drive
+        -- Casts: Haste, Mind Blast, Temporal Shift, Blitzstrahl, Thunder IV, Thundaga III, Burst, Stun (AOE), Haste
         -- Immune: Paralyze, Poison, Blind, Bind, Gravity, Sleep, Petrify
         -- Absorbs Thunder damage
-        -- Takes double Earth damage
+        -- Takes double Earth and Thunder damage
         -- Casts every 20 seconds
+        -- Perma shock spikes
+        -- Additional effect: Stun or Enthunder (100)
+        -- Endoom during Spirit Surge
+        -- Counters magic with instant cast Thunmder IV
+        -- Counter's JA's with Raiden Thrust
+        -- Casting buffs on self/others a -na, or any spell which cause a status effect on him triggers a level up. Ele magic is safe. I.e. casting foil on self
+        -- Spells and JA's on him from anyone not his target resets enmity on everyone
+        -- Very high Store TP
+        -- Spirit surge at 35%
+        -- Uses a Spear
+
+        local lvlUp = mob:getLocalVar("lvlUp")
+        local level = mob:getMainLvl()
+        -- Only levels up 10 times max
+        if
+            (lvlUp > 0) and
+            (level < 90) and
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect()
+        then
+            mob:useMobAbility(tpz.mob.skills.LEVEL_UP, mob)
+            mob:setMobLevel(level +1, false)
+            -- Mods and Mobmods are cleared on leveling up, need to readd them
+            tpz.wotg.onMobSpawn(mob)
+            mob:setLocalVar("lvlUp", 0)
+        end
+
+        -- Counter magic with Thunder IV
+        if
+            not IsMobBusy(mob) and 
+            not mob:hasPreventActionEffect() and
+            mob:getLocalVar("counterMagic") > 0
+        then
+            mob:setLocalVar("instantCastThunder", 1)
+            mob:castSpell(tpz.magic.spell.THUNDER_IV, GetEntityByID(mob:getLocalVar("counterMagic")))
+            mob:setLocalVar("counterMagic", 0)
+        end
+
+        -- Counter JA's with Raiden Thrust
+        if
+            not IsMobBusy(mob) and 
+            not mob:hasPreventActionEffect() and
+            mob:getLocalVar("counterJA") > 0
+        then
+            mob:useMobAbility(tpz.mob.skills.RAIDEN_THRUST, GetEntityByID(mob:getLocalVar("counterJA")))
+            mob:setLocalVar("counterJA", 0)
+        end
+
+        -- Offensive JA's and magic reset it's hate on everyone
+        -- Counters JA's with Raiden Thrust onto the person who used the JA on him
+        -- I.e. if a pld tanking it uses Provoke it won't counter
+        mob:addListener("ABILITY_TAKE", "BUARA_ABILITY_TAKE", function(mob, user, ability, action)
+            local abilityMsg = ability:getMsg()
+            local act = mob:getCurrentAction()
+        local validAction =
+            abilityMsg ~= tpz.msg.basic.JA_MISS and
+            abilityMsg ~= tpz.msg.basic.SHADOW_ABSORB and
+            mob:getTarget():getShortID() ~= user:getShortID() and
+            not mob:hasPreventActionEffect()
+            
+            -- Pet assault JA's shouldn't count
+            if validAction then
+                ResetEnmityList(mob)
+                mob:setLocalVar("counterJA", user:getID())
+            end
+        end)
+
+        -- Counters magic casts with instant cast Thunder IV onto the caster who casted on him
+        -- I.e. if a pld tanking it uses flash it won't counter
+        mob:addListener("SPELL_DMG_TAKEN", "BUARA_SPELL_DMG_TAKEN", function(mob, caster, spell)
+           if
+                mob:getTarget():getShortID() ~= caster:getShortID() and
+                not IsMobBusy(mob) and
+                not mob:hasPreventActionEffect()
+           then
+                mob:setLocalVar("counterMagic", caster:getID())
+                ResetEnmityList(mob)
+           end
+        end)
+
+        -- Casting buffs on self/others a -na, or any spell which cause a status effect on him triggers a level up. Ele magic is safe. I.e. casting foil on self
+        mob:addListener("PLAYER_SPELL_USED", "BUARA_PLAYER_SPELL_USED", function(mob, player, spell, action)
+            local eligibleSkillTypes = { tpz.skill.ENHANCING_MAGIC, tpz.skill.DIVINE_MAGIC, tpz.skill.ENFEEBLING_MAGIC, tpz.skill.DARK_MAGIC, tpz.skill.HEALING_MAGIC }
+            local skillType = spell:getSkillType()
+            local lvlUpCooldown = mob:getLocalVar("lvlUpCooldown")
+
+            if (os.time() >= lvlUpCooldown) then
+                for _, skill in ipairs(eligibleSkillTypes) do
+                    if (skillType == skill) then
+                        mob:setLocalVar("lvlUp", 1)
+                        mob:setLocalVar("lvlUpCooldown", os.time() + 45)
+                    end
+                end
+            end
+        end)
+
+        -- Countered Thunder IV's are instant cast
+        mob:addListener("MAGIC_START", "BUARA_MAGIC_START", function(mob, spell)
+            if (spell:getID() == tpz.magic.spell.THUNDER_IV) and mob:getLocalVar("instantCastThunder") > 0 then
+                spell:castTime(0)
+                mob:setLocalVar("instantCastThunder", 0)
+            end
+        end)
     end,
 }
 

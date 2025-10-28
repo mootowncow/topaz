@@ -359,6 +359,8 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
             StatusEffectContainer->DelStatusEffectSilent(EFFECT_CONTRADANCE);
         }
 
+        battleutils::HandlePlayerAbilityUsed(this, PAbility, &action);
+
         PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), action.recast);
     }
 
@@ -683,6 +685,8 @@ void CTrustEntity::OnCastFinished(CMagicState& state, action_t& action)
 
     PRecastContainer->Add(RECAST_MAGIC, static_cast<uint16>(PSpell->getID()), action.recast);
     charutils::RemoveStratagems(this, PSpell);
+
+    battleutils::HandlePlayerSpellCasted(this, PSpell, &action);
 
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
     if (PTarget->isDead() && PTarget->objtype == TYPE_MOB)

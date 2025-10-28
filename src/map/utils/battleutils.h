@@ -346,7 +346,10 @@ namespace battleutils
     CBattleEntity*      GetCoverAbilityUser(CBattleEntity* PCoverAbilityTarget, CBattleEntity* PMob);
     bool                IsMagicCovered(CCharEntity* PCoverAbilityUser);
     void                ConvertDmgToMP(CBattleEntity* PDefender, int32 damage, bool IsCovered);
-    void                HandlePlayerAbilityUsed(CBattleEntity* PSource, CAbility* PAbility, action_t* action);
+
+    void                HandlePlayerAbilityUsed(CBattleEntity* PSource, CAbility* PSpell, action_t* action);
+    void                HandlePlayerSpellCasted(CBattleEntity* PSource, CSpell* PSpell, action_t* action);
+
     bool                IsTopEnmity(CBattleEntity* PAttacker, CBattleEntity* PDefender);
     ELEMENT             GetTargetWeakness(CBattleEntity* PEntity, bool excludeLightDark = false);
 
