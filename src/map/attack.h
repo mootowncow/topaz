@@ -120,7 +120,6 @@ private:
     float                       m_damageRatio {false};          // The damage ratio.
     int32                       m_damage {0};               // The damage for this attack.
     int32                       m_trickAttackDamage {0};    // The damage from sneak and trick attack.
-    int32                       m_boostDamage {0};          // The damage from boost.
     int32                       m_footworkDamage {0};       // The damage from footwork.
     int32                       m_naturalH2hDamage {0};     // The damage from natural H2H.
     int32                       m_baseDamage {0};           // The base damage.

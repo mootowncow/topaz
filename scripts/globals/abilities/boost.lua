@@ -23,7 +23,7 @@ function onUseAbility(player, target, ability)
 		boost = boost + 1
 		player:setCharVar("boost", boost)
     else
-        player:addStatusEffect(tpz.effect.BOOST, power, 0, 60)
+        player:addStatusEffect(tpz.effect.BOOST, power, 0, 180)
 		player:setCharVar("boost", 1)
     end
 end
