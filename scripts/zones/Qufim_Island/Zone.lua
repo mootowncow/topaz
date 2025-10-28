@@ -9,10 +9,15 @@ require("scripts/globals/npc_util")
 require("scripts/globals/quests")
 require("scripts/globals/titles")
 require("scripts/globals/zone")
+require("scripts/globals/raid")
 -----------------------------------
 
 function onInitialize(zone)
     tpz.conq.setRegionalConquestOverseers(zone:getRegionID())
+end
+
+function OnZoneTick(player, zone, region)
+    tpz.raid.onZoneTick(player, zone, region)
 end
 
 function onConquestUpdate(zone, updatetype)
@@ -34,32 +39,8 @@ function onZoneIn(player, prevZone)
 end
 
 function afterZoneIn(player)
-    local day = VanadielDayOfTheWeek()
-    local arkangels = { 17293832, 17293833, 17293836, 17293837, 17293838 }
-    local anySpawned = false
-
-    -- Check if any of the Ark Angels are already spawned
-    for id = 17293832, 17293839 do
-        if GetMobByID(id):isSpawned() then
-            anySpawned = true
-            break
-        end
-    end
-
-    -- If none are spawned and it's Darksday, spawn a random Ark Angel
-    if not anySpawned and (day == tpz.day.DARKSDAY) then
-        local selectedArkAngel = arkangels[math.random(#arkangels)]
-        GetMobByID(selectedArkAngel):spawn()
-
-        -- Spawn other related mobs if needed
-        for v = 17293840, 17293846 do
-            if not GetMobByID(v):isSpawned() then
-                GetMobByID(v):spawn()
-            end
-        end
-    end
+    tpz.raid.afterZoneIn(player)
 end
-
 
 function onRegionEnter(player, region)
 end
