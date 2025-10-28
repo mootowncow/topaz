@@ -194,7 +194,7 @@ void CLatentEffectContainer::CheckLatentsEquip(uint8 slot)
 
 /************************************************************************
  *																		*
- *  Checks all equip laents (ie. on equip)					*
+ *  Checks all equip latents (ie. on equip)					            *
  *																		*
  ************************************************************************/
 void CLatentEffectContainer::CheckLatentsAllEquip()
@@ -205,6 +205,7 @@ void CLatentEffectContainer::CheckLatentsAllEquip()
         {
         case LATENT_MH_WEAPONTYPE:
         case LATENT_DUALWIELD:
+        case LATENT_IN_RAID:
             return ProcessLatentEffect(latentEffect);
             break;
         default:
@@ -295,6 +296,7 @@ void CLatentEffectContainer::CheckLatentsStatusEffect()
         case LATENT_STATUS_EFFECT_ACTIVE:
         case LATENT_WEATHER_ELEMENT:
         case LATENT_NATION_CONTROL:
+        case LATENT_IN_RAID:
             return ProcessLatentEffect(latentEffect);
             break;
         default:
@@ -629,8 +631,8 @@ void CLatentEffectContainer::CheckLatentsZone()
         switch (latentEffect.GetConditionsID())
         {
         case LATENT_ZONE:
-        case LATENT_IN_ASSAULT:
         case LATENT_IN_DYNAMIS:
+        case LATENT_IN_ASSAULT:
         case LATENT_WEATHER_ELEMENT:
         case LATENT_NATION_CONTROL:
         case LATENT_SIGNET_EXP_BONUS:
@@ -1110,6 +1112,9 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect)
         break;
     case LATENT_IN_ASSAULT:
         expression = m_POwner->isInAssault();
+        break;
+    case LATENT_IN_RAID:
+        expression = m_POwner->isInRAID();
         break;
     case LATENT_FOOD_ACTIVE:
         expression = m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_FOOD) &&

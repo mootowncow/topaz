@@ -123,6 +123,32 @@ bool CBattleEntity::isInDynamis()
     return false;
 }
 
+bool CBattleEntity::isInRAID()
+{
+    if (StatusEffectContainer->HasStatusEffect(EFFECT_CONFRONTATION))
+    {
+        CStatusEffect* confrontation = StatusEffectContainer->GetStatusEffect(EFFECT_CONFRONTATION);
+
+        if (confrontation)
+        {
+            std::set<int32> raidNmIds = {
+                16793982, 16806397, 16875921, 17240534, 17289819, 17285714,
+                17273438, 17293832, 17293833, 17293836, 17293837, 17293838
+            };
+
+            int32 subpower = confrontation->GetSubPower();
+            bool hasRaidNMSubpower = raidNmIds.find(subpower) != raidNmIds.end();
+
+            if (subpower && hasRaidNMSubpower)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
 bool CBattleEntity::isInAssault()
 {
     if (loc.zone != nullptr)

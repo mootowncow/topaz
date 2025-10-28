@@ -822,8 +822,9 @@ public:
     std::mutex      scMutex;
     bool            isDead();					// проверяем, мертва ли сущность
     bool            isAlive();
-    bool            isInAssault();
     bool            isInDynamis();
+    bool            isInAssault();
+    bool            isInRAID();
     bool            hasImmunity(uint32 imID);
     bool            isAsleep();
     bool            isMounted();
