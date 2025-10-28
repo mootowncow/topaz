@@ -1530,18 +1530,24 @@ void CZoneEntities::ZoneServer(time_point tick, bool check_trigger_areas)
         {
             PChar->PRecastContainer->Check();
             PChar->StatusEffectContainer->CheckEffectsExpiry(tick);
+
             if (tick > m_EffectCheckTime)
             {
                 PChar->StatusEffectContainer->TickRegen(tick);
                 PChar->StatusEffectContainer->TickEffects(tick);
             }
+
             PChar->PAI->Tick(tick);
             PChar->PTreasurePool->CheckItems(tick);
+
+            // Always call OnZoneTick, even if PRegion is null
+            CRegion* PRegion = nullptr;
             if (check_trigger_areas)
             {
-                CRegion* PRegion = m_zone->CheckRegions(PChar);
-                luautils::OnZoneTick(PChar, m_zone->GetID(), PRegion);
+                PRegion = m_zone->CheckRegions(PChar);
             }
+
+            luautils::OnZoneTick(PChar, m_zone->GetID(), PRegion);
         }
     }
 
