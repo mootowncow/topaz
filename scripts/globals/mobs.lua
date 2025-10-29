@@ -1278,7 +1278,7 @@ end
 -- Fully reset enmity on all targets on mobs current enmity list
 function ResetEnmityList(mob)
     local enmityList = mob:getEnmityList()
-    for _, enmity in ipairs(enmityList) do
+    for _, enmity in pairs(enmityList) do
         mob:resetEnmity(enmity.entity)
     end
 end

@@ -1655,7 +1655,8 @@ local modByMobName =
     end,
 
     ['Buarainech'] = function(mob)
-        mob:addMod(tpz.mod.MATT, 0)
+        mob:setMod(tpz.mod.STORETP, 200)
+        mob:setMod(tpz.mod.SAVETP, 1500)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.MDEF, 24)
         mob:setMod(tpz.mod.VIT, 175)
@@ -1676,9 +1677,9 @@ local modByMobName =
         mob:setMobMod(tpz.mobMod.GA_CHANCE, 90)
 
         -- Perma undispellable Ice Spikes
-        mob:addStatusEffect(tpz.effect.ICE_SPIKES, 25, 0, 0)
-        local iceSpikes = mob:getStatusEffect(tpz.effect.ICE_SPIKES)
-        iceSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
+        mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 25, 0, 0)
+        local shockSpikes = mob:getStatusEffect(tpz.effect.SHOCK_SPIKES)
+        shockSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
 
         tpz.mix.jobSpecial.config(mob, {
             specials =
@@ -2815,7 +2816,10 @@ local mobFightByMobName =
             
             -- Pet assault JA's shouldn't count
             if validAction then
+
+            -- Reset enmity on everyone, then add enmity to the caster who used an ability to cause this enmity reset equal to the enmtiy that ability created
                 ResetEnmityList(mob)
+                user:addEnmity(mob, ability:getCE(), ability:getVE())
                 mob:setLocalVar("counterJA", user:getID())
             end
         end)
@@ -2829,8 +2833,8 @@ local mobFightByMobName =
                 not IsMobBusy(mob) and
                 not mob:hasPreventActionEffect()
            then
-                mob:setLocalVar("counterMagic", caster:getID())
                 ResetEnmityList(mob)
+                mob:setLocalVar("counterMagic", caster:getID())
            end
         end)
 
@@ -2845,7 +2849,7 @@ local mobFightByMobName =
             end
         end)
 
-        mob:addListener("MAGIC_HIT", "ELATHA_MAGIC_HIT", function(caster, mob, spell)
+        mob:addListener("MAGIC_HIT", "ELATHA_MAGIC_HIT", function(caster, mob, spell, dmg)
             local canLvlUp = mob:getLocalVar("physDmgTaken") > 0
 
             if canLvlUp then
@@ -2888,20 +2892,23 @@ local mobFightByMobName =
         -- Perma shock spikes
         -- Additional effect: Stun or Enthunder (100)
         -- Endoom during Spirit Surge
-        -- Counters magic with instant cast Thunmder IV
+        -- Counters magic that successfully lands or is absorbed (enfeeble or direct damage) with instant cast Thunmder IV
         -- Counter's JA's with Raiden Thrust
-        -- Casting buffs on self/others a -na, or any spell which cause a status effect on him triggers a level up. Ele magic is safe. I.e. casting foil on self
+        -- Casting buffs on self/others a -na, or any spell which cause a status effect on him triggers a level up. Ele magic is safe. I.e. casting foil on self. Has a 10-180s cooldown between level ups
+        -- Can level up 17 times max
         -- Spells and JA's on him from anyone not his target resets enmity on everyone
+        -- Can use Penta Thrust multiple times in a row
         -- Very high Store TP
-        -- Spirit surge at 35%
+        -- Very high Save TP
+        -- Spirit surge at 35% and every 5 minutes below 35%
         -- Uses a Spear
 
         local lvlUp = mob:getLocalVar("lvlUp")
         local level = mob:getMainLvl()
-        -- Only levels up 10 times max
+        -- Only levels up 17 times max
         if
             (lvlUp > 0) and
-            (level < 90) and
+            (level < 97) and
             not IsMobBusy(mob) and
             not mob:hasPreventActionEffect()
         then
@@ -2914,7 +2921,7 @@ local mobFightByMobName =
 
         -- Counter magic with Thunder IV
         if
-            not IsMobBusy(mob) and 
+            not IsMobBusy(mob) and
             not mob:hasPreventActionEffect() and
             mob:getLocalVar("counterMagic") > 0
         then
@@ -2939,29 +2946,42 @@ local mobFightByMobName =
         mob:addListener("ABILITY_TAKE", "BUARA_ABILITY_TAKE", function(mob, user, ability, action)
             local abilityMsg = ability:getMsg()
             local act = mob:getCurrentAction()
-        local validAction =
-            abilityMsg ~= tpz.msg.basic.JA_MISS and
-            abilityMsg ~= tpz.msg.basic.SHADOW_ABSORB and
-            mob:getTarget():getShortID() ~= user:getShortID() and
-            not mob:hasPreventActionEffect()
+            local validAction =
+                abilityMsg ~= tpz.msg.basic.JA_MISS and
+                abilityMsg ~= tpz.msg.basic.SHADOW_ABSORB and
+                mob:getTarget():getShortID() ~= user:getShortID() and
+                not mob:hasPreventActionEffect()
             
             -- Pet assault JA's shouldn't count
             if validAction then
+
+                -- Reset enmity on everyone, then add enmity to the caster who used an ability to cause this enmity reset equal to the enmtiy that ability created
                 ResetEnmityList(mob)
+                user:addEnmity(mob, ability:getCE(), ability:getVE())
                 mob:setLocalVar("counterJA", user:getID())
             end
         end)
 
-        -- Counters magic casts with instant cast Thunder IV onto the caster who casted on him
+        -- Counters magic casts with instant cast Thunder IV onto the caster who casted on him, and resets enmity on everyone
         -- I.e. if a pld tanking it uses flash it won't counter
-        mob:addListener("SPELL_DMG_TAKEN", "BUARA_SPELL_DMG_TAKEN", function(mob, caster, spell)
+        mob:addListener("MAGIC_HIT", "BUARA_MAGIC_HIT", function(caster, mob, spell, dmg)
            if
                 mob:getTarget():getShortID() ~= caster:getShortID() and
                 not IsMobBusy(mob) and
-                not mob:hasPreventActionEffect()
+                not mob:hasPreventActionEffect() and
+                spell:tookEffect()
            then
-                mob:setLocalVar("counterMagic", caster:getID())
+                local CE = spell:getCE()
+                local VE = spell:getVE()
+
+                -- Reset enmity on everyone, then add enmity to the caster who used a spell to cause this enmity reset equal to the enmtiy that spell created
                 ResetEnmityList(mob)
+                if (CE > 0) or (VE > 0) then
+                    caster:addEnmity(mob, spell:getCE(), spell:getVE())
+                else
+                    mob:updateEnmityFromDamage(caster, dmg * getSpellEnmityBonus(caster, mob, spell))
+                end
+                mob:setLocalVar("counterMagic", caster:getID())
            end
         end)
 
@@ -2975,7 +2995,7 @@ local mobFightByMobName =
                 for _, skill in ipairs(eligibleSkillTypes) do
                     if (skillType == skill) then
                         mob:setLocalVar("lvlUp", 1)
-                        mob:setLocalVar("lvlUpCooldown", os.time() + 45)
+                        mob:setLocalVar("lvlUpCooldown", os.time() + math.random(10, 180))
                     end
                 end
             end

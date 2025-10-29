@@ -3756,7 +3756,11 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
                 end
             end
             if hasImmunity then
-                return spell:setMsg(tpz.msg.basic.MAGIC_IMMUNE)
+                if target:getID() == spell:getPrimaryTargetID() then
+                    return spell:setMsg(tpz.msg.basic.MAGIC_IMMUNE)
+                else
+                    return spell:setMsg(tpz.msg.basic.MAGIC_IMMUNE_2)
+                end
             end
             break
         end
