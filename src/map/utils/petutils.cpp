@@ -347,17 +347,34 @@ namespace petutils
             return false;
         }
 
+        // Skip if the pet already has a valid target
         if (PTarget && !PTarget->isDead())
         {
             return false;
         }
 
+        // Check if master is engaged and within range
+        if (PMaster->PAI->IsEngaged())
+        {
+            CBattleEntity* PMastersTarget = static_cast<CBattleEntity*>(PMaster->GetBattleTarget());
+            if (PMastersTarget && !PMastersTarget->isDead())
+            {
+                float dist = distance(PPet->loc.p, PMastersTarget->loc.p);
+                std::unique_ptr<CBasicPacket> errMsg;
+                if (dist <= 29.0f && PPet->IsValidTarget(PMastersTarget->targid, TARGET_ENEMY, errMsg))
+                {
+                    petutils::AttackTarget(PMaster, PMastersTarget);
+                    return true;
+                }
+            }
+        }
+
+        // Otherwise, find the closest valid enemy in range
         CBattleEntity* PClosestTarget = nullptr;
         float closestDistance = 29.0f; // max search radius
 
-        for (auto&& PPotentialTarget : PMaster->SpawnMOBList)
+        for (auto&& [targid, PEntity] : PMaster->SpawnMOBList)
         {
-            auto* PEntity = PPotentialTarget.second;
             if (!PEntity || PEntity->animation != ANIMATION_ATTACK)
             {
                 continue;
