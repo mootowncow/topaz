@@ -1232,16 +1232,18 @@ tpz.raid.onZoneTick = function(player, zone, region)
                 end
             end
 
-            -- Get all dead NPCs
-            if boss then
-                local pos = boss:getPos()
-
-                for _, npcId in ipairs(raidData.Npcs) do
-                    local npc = GetMobByID(npcId)
-
+            -- Get all NPCs
+            for _, npcId in ipairs(raidData.Npcs) do
+                local npc = GetMobByID(npcId)
+                if boss and boss:isAlive() then -- Boss is alive, respawn NPCs if they're dead
+                    local pos = boss:getPos()
                     if npc and not npc:isSpawned() then
                         npc:spawn()
                         npc:setPos(pos.x + math.random(5, 10), pos.y + math.random(5, 10), pos.z)
+                    end
+                else -- No boss is alive, despawn all NPCs
+                    if npc and npc:isSpawned() then
+                        DespawnMob(npcId)
                     end
                 end
             end
@@ -2432,9 +2434,9 @@ function UpdateChemistAI(mob, target)
     }
 
     if hasSleepEffects(mob) then
-        printf("Slept")
         mob:setLocalVar("wasSlept", 1)
     end
+
     UpdateAbilityAI(mob, target, abilityData)
     TryKeepDistance(mob, target)
 end
