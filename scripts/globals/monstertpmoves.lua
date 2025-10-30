@@ -51,7 +51,7 @@ TP_IGNORE_MACC = 8
 BOMB_TOSS_HPP = 1
 
 function MobRangedMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, params_phys)
-    -- All formula changes for being ranged are handled in MobPhysicalMove via the TP_RANGED param
+    -- All formula changes for being ranged are handled in Mob1Move via the TP_RANGED param
     -- A MOVE WILL NOT BE CONSIDERED RANGED IF YOU DON'T SET THE tpeffect to TP_RANGED!
     return MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, params_phys)
 end
@@ -68,12 +68,10 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local tp = mob:getSpentTP()
 
     --get fSTR
-    local weaponDmg = mob:getWeaponDmg()
     local fSTR = mob:getFSTR(target, tpz.slot.MAIN, true, false)
 
     if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
         isRanged = true
-        weaponDmg = mob:getRangedDmg()
         fSTR = mob:getFSTR(target, tpz.slot.RANGED, true, false)
     end
 
@@ -1290,10 +1288,83 @@ function MobGazeMoveSub(mob, target, typeEffect, power, tick, duration, subid, s
 end
 
 function MobBuffMove(mob, typeEffect, power, tick, duration)
+    local buffData =
+    {
+        -- Stat boosts
+        { Effect = tpz.effect.ACCURACY_BOOST,    Duration = 30 },
+        { Effect = tpz.effect.ATTACK_BOOST,      Duration = 30 },
+        { Effect = tpz.effect.EVASION_BOOST,     Duration = 30 },
+        { Effect = tpz.effect.DEFENSE_BOOST,     Duration = 30 },
+        { Effect = tpz.effect.MAGIC_ATK_BOOST,   Duration = 30 },
+        { Effect = tpz.effect.MAGIC_DEF_BOOST,   Duration = 30 },
+
+        -- Attribute Boosts
+        { Effect = tpz.effect.STR_BOOST,         Duration = 60 },
+        { Effect = tpz.effect.DEX_BOOST,         Duration = 60 },
+        { Effect = tpz.effect.VIT_BOOST,         Duration = 60 },
+        { Effect = tpz.effect.AGI_BOOST,         Duration = 60 },
+        { Effect = tpz.effect.INT_BOOST,         Duration = 60 },
+        { Effect = tpz.effect.MND_BOOST,         Duration = 60 },
+        { Effect = tpz.effect.CHR_BOOST,         Duration = 60 },
+
+        -- Attribute Boosts II
+        { Effect = tpz.effect.STR_BOOST_II,      Duration = 60 },
+        { Effect = tpz.effect.DEX_BOOST_II,      Duration = 60 },
+        { Effect = tpz.effect.VIT_BOOST_II,      Duration = 60 },
+        { Effect = tpz.effect.AGI_BOOST_II,      Duration = 60 },
+        { Effect = tpz.effect.INT_BOOST_II,      Duration = 60 },
+        { Effect = tpz.effect.MND_BOOST_II,      Duration = 60 },
+        { Effect = tpz.effect.CHR_BOOST_II,      Duration = 60 },
+
+        -- Spikes
+        { Effect = tpz.effect.BLAZE_SPIKES,      Duration = 180 },
+        { Effect = tpz.effect.ICE_SPIKES,        Duration = 180 },
+        { Effect = tpz.effect.SHOCK_SPIKES,      Duration = 180 },
+        { Effect = tpz.effect.DAMAGE_SPIKES,     Duration = 180 },
+        { Effect = tpz.effect.DREAD_SPIKES,      Duration = 180 },
+        { Effect = tpz.effect.DELUGE_SPIKES,     Duration = 180 },
+        { Effect = tpz.effect.GALE_SPIKES,       Duration = 180 },
+        { Effect = tpz.effect.CLOD_SPIKES,       Duration = 180 },
+        { Effect = tpz.effect.GLINT_SPIKES,      Duration = 180 },
+
+        -- Shields
+        { Effect = tpz.effect.PHYSICAL_SHIELD,   Duration = 15 },
+        { Effect = tpz.effect.ARROW_SHIELD,      Duration = 15 },
+        { Effect = tpz.effect.MAGIC_SHIELD,      Duration = 15 },
+
+        -- Misc
+        { Effect = tpz.effect.POTENCY,           Duration = 30 },
+        { Effect = tpz.effect.INTENSION,         Duration = 30 },
+        { Effect = tpz.effect.BERSERK,           Duration = 45 },
+        { Effect = tpz.effect.WARCRY,            Duration = 45 },
+        { Effect = tpz.effect.PHALANX,           Duration = 30 },
+        { Effect = tpz.effect.STONESKIN,         Duration = 60 },
+        { Effect = tpz.effect.BLINK,             Duration = 60 },
+        { Effect = tpz.effect.AQUAVEIL,          Duration = 90 },
+        { Effect = tpz.effect.FLEE,              Duration = 30 },
+
+        { Effect = tpz.effect.BOOST,             Duration = 30 },
+        { Effect = tpz.effect.PROTECT,           Duration = 60 },
+        { Effect = tpz.effect.SHELL,             Duration = 60 },
+        { Effect = tpz.effect.HASTE,             Duration = 60 },
+        { Effect = tpz.effect.REGEN,             Duration = 45 },
+        { Effect = tpz.effect.REFRESH,           Duration = 45 },
+        { Effect = tpz.effect.REGAIN,            Duration = 30 },
+
+    }
+
 
     -- Add TP scaling
     local tp = mob:getSpentTP() or 0
     local finalDuration = duration
+
+    for _, effects in ipairs(buffData) do
+        if (typeEffect == effects.Effect) then
+            finalDuration = effects.Duration
+            break
+        end
+    end
+
     if not IsNonScalingBuff(typeEffect) then
         finalDuration =  math.floor(finalDuration * MobBuffDurationTPModifier(tp))
     end
