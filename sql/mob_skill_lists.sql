@@ -2854,6 +2854,9 @@ INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1772); -- Torrent
 INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1775); -- Rising Swell
 INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1809); -- Shadow Thrust
 
+INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1214,733); -- Jump
+INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1214,1064); -- Jump (Long Cast Time)
+
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,531);
@@ -5050,6 +5053,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,251); -- aegis_schism
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,252); -- dancing_chains
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,253); -- barbed_crescent
 
--- Next available ID: 1214
+-- Next available ID: 1215
 -- Next custom ID: 6165
 
