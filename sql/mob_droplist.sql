@@ -13295,7 +13295,7 @@ INSERT INTO `mob_droplist` VALUES (2515,0,0,1000,4108,5);
 INSERT INTO `mob_droplist` VALUES (2515,0,0,1000,4109,5);
 INSERT INTO `mob_droplist` VALUES (2515,0,0,1000,4110,5);
 INSERT INTO `mob_droplist` VALUES (2515,0,0,1000,4111,5);
-INSERT INTO `mob_droplist` VALUES (2516,2,0,1000,1783,0); -- (Ulphuabo)  Sample of Luminian tissue - Despoil
+INSERT INTO `mob_droplist` VALUES (2516,4,0,1000,1783,0); -- (Ulphuabo)  Sample of Luminian tissue - Despoil
 INSERT INTO `mob_droplist` VALUES (2516,0,0,1000,1784,150);
 INSERT INTO `mob_droplist` VALUES (2516,0,0,1000,1852,50);
 INSERT INTO `mob_droplist` VALUES (2516,0,0,1000,1783,10);
