@@ -14,25 +14,9 @@ require("scripts/globals/utils")
 -----------------------------------
 
 function onMobSpawn(mob)
-    tpz.wotg.NMMods(mob)
-end
-
-function onMobEngaged(mob)
-    mob:setLocalVar("callOfTheMoonTimer", os.time() + 30)
-end
-
-function onMobFight(mob, target)
-    local callOfTheMoonTimer = mob:getLocalVar("callOfTheMoonTimer")
     local moon = utils.getMoonPhase()
-    local moonphase = 0
-
-    -- Uses five call to the moons into Asuran Fists
-    if os.time() >= callOfTheMoonTimer then
-        mob:setLocalVar("callOfTheMoonTimer", os.time() + 50)
-        UseMultipleTPMoves(mob, 5, 2171)
-        mob:useMobAbility(2176) -- Asuran Claws
-    end
-
+    
+    tpz.wotg.NMMods(mob)
     -- Gnole moon phase based stats
     if (moon == 'Full') then
         mob:setMod(tpz.mod.MARTIAL_ARTS, 280)
@@ -48,6 +32,21 @@ function onMobFight(mob, target)
     elseif (moon == 'New') then
         mob:setMod(tpz.mod.MARTIAL_ARTS, 20)
         mob:addMod(tpz.mod.EVA, -60)
+    end
+end
+
+function onMobEngaged(mob)
+    mob:setLocalVar("callOfTheMoonTimer", os.time() + 30)
+end
+
+function onMobFight(mob, target)
+    local callOfTheMoonTimer = mob:getLocalVar("callOfTheMoonTimer")
+
+    -- Uses five call to the moons into Asuran Fists
+    if os.time() >= callOfTheMoonTimer then
+        mob:setLocalVar("callOfTheMoonTimer", os.time() + 50)
+        UseMultipleTPMoves(mob, 5, 2171)
+        mob:useMobAbility(2176) -- Asuran Claws
     end
 end
 

@@ -10,7 +10,7 @@ g_mixins.families = g_mixins.families or {}
 g_mixins.families.gnole = function(mob)
     mob:addListener("SPAWN", "GNOLE_SPAWN", function(mob)
         local moon = utils.getMoonPhase()
-        local moonphase = 0
+        
         if (moon == 'Full') then
             mob:setMod(tpz.mod.MARTIAL_ARTS, 280)
             mob:addMod(tpz.mod.EVA, 60)
