@@ -25,6 +25,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 
 #include "../../utils/battleutils.h"
 #include "../../packets/action.h"
+#include "../../packets/lock_on.h"
 #include "../ai_container.h"
 
 CAttackState::CAttackState(CBattleEntity* PEntity, uint16 targid) :
@@ -96,23 +97,50 @@ void CAttackState::ResetAttackTimer()
 void CAttackState::UpdateTarget(uint16 targid)
 {
     m_errorMsg.reset();
-    auto newTargid {m_PEntity->GetBattleTargetID()};
-    CBattleEntity* PNewTarget {nullptr};
+
+    auto newTargid{ m_PEntity->GetBattleTargetID() };
+    CBattleEntity* PNewTarget{ nullptr };
+
     if (newTargid != 0)
     {
         PNewTarget = m_PEntity->IsValidTarget(newTargid, TARGET_ENEMY, m_errorMsg);
+
         if (!PNewTarget)
         {
             m_PEntity->PAI->ChangeTarget(0);
             newTargid = 0;
+
+            CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_PEntity);
+            if (PChar && PChar->m_hasAutoTarget) // Auto-Target
+            {
+                for (auto&& PPotentialTarget : PChar->SpawnMOBList)
+                {
+                    auto* PEntity = PPotentialTarget.second;
+
+                    if (PEntity->animation == ANIMATION_ATTACK && distance(PChar->loc.p, PEntity->loc.p) <= 29)
+                    {
+                        std::unique_ptr<CBasicPacket> errMsg;
+                        if (PChar->IsValidTarget(PEntity->targid, TARGET_ENEMY, errMsg))
+                        {
+                            newTargid = PEntity->targid;
+                            PChar->pushPacket(new CLockOnPacket(PChar, static_cast<CBattleEntity*>(PEntity)));
+                            break;
+                        }
+                    }
+                }
+            }
+
+            m_PEntity->PAI->ChangeTarget(newTargid);
         }
     }
+
     if (targid != newTargid)
     {
         if (targid != 0)
         {
             m_PEntity->OnChangeTarget(PNewTarget);
             SetTarget(newTargid);
+
             if (!PNewTarget)
             {
                 m_errorMsg.reset();
@@ -120,6 +148,7 @@ void CAttackState::UpdateTarget(uint16 targid)
             }
         }
     }
+
     CState::UpdateTarget(m_PEntity->GetBattleTargetID());
 }
 

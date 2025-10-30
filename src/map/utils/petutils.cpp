@@ -334,6 +334,44 @@ namespace petutils
         }
     }
 
+    bool TryAutoTarget(CBattleEntity* PPet, CBattleEntity* PTarget)
+    {
+        if (!PPet || !PPet->PMaster)
+        {
+            return false;
+        }
+
+        if (PPet->PMaster->objtype != TYPE_PC)
+        {
+            return false;
+        }
+
+        auto* PMaster = static_cast<CCharEntity*>(PPet->PMaster);
+
+        if ((!PTarget || PTarget->isDead()) && PMaster->m_hasAutoTarget)
+        {
+            for (auto&& PPotentialTarget : PMaster->SpawnMOBList)
+            {
+                auto* PEntity = PPotentialTarget.second;
+
+                if (!PEntity)
+                    continue;
+
+                if (PEntity->animation == ANIMATION_ATTACK && distance(PPet->loc.p, PEntity->loc.p) <= 29)
+                {
+                    std::unique_ptr<CBasicPacket> errMsg;
+                    if (PPet->IsValidTarget(PEntity->targid, TARGET_ENEMY, errMsg))
+                    {
+                        petutils::AttackTarget(PMaster, static_cast<CBattleEntity*>(PEntity));
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     void RetreatToMaster(CBattleEntity* PMaster)
     {
         TPZ_DEBUG_BREAK_IF(PMaster->PPet == nullptr);

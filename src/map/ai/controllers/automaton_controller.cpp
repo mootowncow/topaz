@@ -178,6 +178,12 @@ void CAutomatonController::DoCombatTick(time_point tick)
 
     PTarget = static_cast<CBattleEntity*>(PAutomaton->GetEntity(PAutomaton->GetBattleTargetID()));
 
+    // Auto-target logic for pets
+    if (petutils::TryAutoTarget(PAutomaton, PTarget))
+    {
+        return;
+    }
+
     if (TryDeaggro())
     {
         Disengage();

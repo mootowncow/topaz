@@ -955,6 +955,12 @@ void CMobController::DoCombatTick(time_point tick)
     HandleEnmity();
     PTarget = static_cast<CBattleEntity*>(PMob->GetEntity(PMob->GetBattleTargetID()));
 
+    // Auto-target logic for pets
+    if (petutils::TryAutoTarget(PMob, PTarget))
+    {
+        return;
+    }
+
     if (TryDeaggro())
     {
         Disengage();
