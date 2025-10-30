@@ -334,6 +334,75 @@ namespace petutils
         }
     }
 
+    bool TryAutoTarget(CBattleEntity* PPet, CBattleEntity* PTarget)
+    {
+        if (!PPet)
+        {
+            return false;
+        }
+
+        auto* PMaster = dynamic_cast<CCharEntity*>(PPet->PMaster);
+        if (!PMaster || !PMaster->m_hasAutoTarget) // /autotarget on
+        {
+            return false;
+        }
+
+        // Skip if the pet already has a valid target
+        if (PTarget && !PTarget->isDead())
+        {
+            return false;
+        }
+
+        // Check if master is engaged and within range
+        if (PMaster->PAI->IsEngaged())
+        {
+            CBattleEntity* PMastersTarget = static_cast<CBattleEntity*>(PMaster->GetBattleTarget());
+            if (PMastersTarget && !PMastersTarget->isDead())
+            {
+                float dist = distance(PPet->loc.p, PMastersTarget->loc.p);
+                std::unique_ptr<CBasicPacket> errMsg;
+                if (dist <= 29.0f && PPet->IsValidTarget(PMastersTarget->targid, TARGET_ENEMY, errMsg))
+                {
+                    petutils::AttackTarget(PMaster, PMastersTarget);
+                    return true;
+                }
+            }
+        }
+
+        // Otherwise, find the closest valid enemy in range
+        CBattleEntity* PClosestTarget = nullptr;
+        float closestDistance = 29.0f; // max search radius
+
+        for (auto&& [targid, PEntity] : PMaster->SpawnMOBList)
+        {
+            if (!PEntity || PEntity->animation != ANIMATION_ATTACK)
+            {
+                continue;
+            }
+
+            float dist = distance(PPet->loc.p, PEntity->loc.p);
+            if (dist > closestDistance)
+            {
+                continue;
+            }
+
+            std::unique_ptr<CBasicPacket> errMsg;
+            if (PPet->IsValidTarget(PEntity->targid, TARGET_ENEMY, errMsg))
+            {
+                PClosestTarget = static_cast<CBattleEntity*>(PEntity);
+                closestDistance = dist;
+            }
+        }
+
+        if (PClosestTarget)
+        {
+            petutils::AttackTarget(PMaster, PClosestTarget);
+            return true;
+        }
+
+        return false;
+    }
+
     void RetreatToMaster(CBattleEntity* PMaster)
     {
         TPZ_DEBUG_BREAK_IF(PMaster->PPet == nullptr);

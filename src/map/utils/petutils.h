@@ -187,6 +187,8 @@ namespace petutils
     void SetupPetWithMaster(CBattleEntity* PMaster, CPetEntity* PPet);
 
     bool CheckPetModType(CBattleEntity* PPet, PetModType petmod);
-};
+
+    bool TryAutoTarget(CBattleEntity* PPet, CBattleEntity* PTarget);
+    };
 
 #endif

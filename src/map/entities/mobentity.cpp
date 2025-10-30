@@ -530,103 +530,7 @@ bool CMobEntity::IsUntargetable()
 
 void CMobEntity::DoAutoTarget()
 {
-    if (!m_autoTargetReady)
-        return;
-    m_autoTargetReady = false;
-
-    // logic walk-thru:
-    // check each alliance-member of mob claimer if they were engaged with this mob when it died
-    // person who landed the final blow designates a new target for the alliance (closest mob to that person)
-    // which is a mob that is trying to attack a player and can be attacked by the alliance (white or red name mob)
-    // this way, when auto-target triggers, the entire alliance/party will always engage on the same mob together
-    // it is no longer a requirement for players to face towards a mob in order to auto-target it
-
-    CCharEntity* POwner = nullptr;
-    if (this->m_autoTargetKiller)
-        POwner = m_autoTargetKiller;
-    else if (this->m_OwnerID.id)
-        POwner = zoneutils::GetChar(m_OwnerID.id);
-    if (!POwner)
-        return;
-    CZone* PZone = zoneutils::GetZone(POwner->getZone());
-    if (!PZone)
-        return;
-
-    PZone->ForEachChar(
-    [](CCharEntity* PChar)
-    {
-        if (PChar && PChar->objtype == TYPE_PC)
-            PChar->m_autoTargetOverride = nullptr;
-    });
-
-    PZone->ForEachChar(
-        [this, POwner, PZone](CCharEntity* PChar)
-        {
-            bool success = false;
-
-            if (PChar && PChar->objtype == TYPE_PC && PChar->loc.zone->GetID() == this->loc.zone->GetID() && PChar->m_LastEngagedTargID == this->targid &&
-                PChar->m_hasAutoTarget)
-            {
-                CCharEntity* PMember = PChar;
-                std::unique_ptr<CBasicPacket> errMsg;
-                if (PMember->m_autoTargetOverride)
-                {
-                    if (PMember->m_autoTargetOverride->allegiance == ALLEGIANCE_MOB && PMember->IsMobOwner(PMember->m_autoTargetOverride) &&
-                        !((CBattleEntity*)(PMember->m_autoTargetOverride)->IsNameHidden()) &&
-                        distanceSquared(PMember->loc.p, PMember->m_autoTargetOverride->loc.p) < 29.0f * 29.0f)
-                    {
-                        auto controller{ static_cast<CPlayerController*>(PMember->PAI->GetController()) };
-                        success = controller->ChangeTarget(PMember->m_autoTargetOverride->targid);
-                    }
-                }
-                else
-                {
-                    auto controller{ static_cast<CPlayerController*>(PMember->PAI->GetController()) };
-                    CMobEntity* PWinner = nullptr;
-                    for (auto&& PPotentialTarget : PMember->SpawnMOBList)
-                    {
-                        CBattleEntity* PMob = (CBattleEntity*)PPotentialTarget.second;
-
-                        if ((PMob->objtype == TYPE_MOB || PMob->objtype == TYPE_PET) && PMob->animation == ANIMATION_ATTACK &&
-                            PMob->allegiance == ALLEGIANCE_MOB && PMember->IsMobOwner(PMob) && !PMob->IsNameHidden() && PMob->id != this->id &&
-                            distanceSquared(PMember->loc.p, PMob->loc.p) < 29 * 29 && !PMember->m_autoTargetOverride)
-                        {
-                            if (PWinner)
-                            {
-                                if (distanceSquared(PMob->loc.p, POwner->loc.p) < distanceSquared(PWinner->loc.p, POwner->loc.p))
-                                    PWinner = (CMobEntity*)PMob;
-                            }
-                            else
-                            {
-                                PWinner = (CMobEntity*)PMob;
-                            }
-                        }
-                    }
-                    if (PWinner)
-                    {
-                        success = controller->ChangeTarget(PWinner->targid);
-                        PZone->ForEachChar(
-                            [PMember, PWinner](CCharEntity* PMembermember)
-                            {
-                                if (PMembermember->objtype == TYPE_PC && PMembermember->loc.zone->GetID() == PMember->loc.zone->GetID() &&
-                                    PMembermember->animation == ANIMATION_ATTACK)
-                                    PMembermember->m_autoTargetOverride = (CBattleEntity*)PWinner;
-                                // Player pet should auto-target too(if the player is engaged and if the pet is not currently healing)
-                                // TODO: Only swap target if master is also now targetting the new mob
-                                if (((CCharEntity*)PMembermember)->PPet != nullptr &&
-                                    !((CCharEntity*)PMembermember)->PPet->StatusEffectContainer->HasStatusEffect(EFFECT_HEALING) &&
-                                    ((CCharEntity*)PMembermember)->PAI->IsEngaged())
-                                {
-                                    petutils::AttackTarget((CBattleEntity*)((CCharEntity*)PMembermember), (CBattleEntity*)PWinner);
-                                }
-                            });
-                    }
-                }
-            }
-
-            if (!success && PChar && PChar->objtype == TYPE_PC)
-                PChar->m_LastEngagedTargID = 0;
-        });
+    // No longer used
 }
 
 void CMobEntity::HandleToAUStrongholdsAppraisalDrops(CCharEntity* PChar, uint16 PZone)
@@ -1593,15 +1497,16 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             }
         }
 
+        // Don't knockback if the move missed or was fully absorbed by shadows
+        if (target.reaction != REACTION_MISS && msg != MSGBASIC_SHADOW_ABSORB)
+        {
+            target.knockback = PSkill->getKnockback();
+            //target.knockback -= PTargetFound->getMod(Mod::KNOCKBACK_REDUCTION); // TODO: Add mod
+        }
+
         if (target.speceffect & SPECEFFECT_HIT)
         {
             target.speceffect = SPECEFFECT_RECOIL;
-
-            // Don't knockback if the move was fully absorbed by shadows
-            if (msg != MSGBASIC_SHADOW_ABSORB)
-            {
-                target.knockback = PSkill->getKnockback();
-            }
 
             if (first && (PSkill->getPrimarySkillchain() != 0))
             {
@@ -1664,7 +1569,6 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             target.knockback = 0;
         }
 
-
         // Pet buffing abilities shouldn't remove sneak/invis off players(i.e. Garuda's Hastega Blood Pact: Ward)
         if (objtype != TYPE_PET)
         {
@@ -1683,6 +1587,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             ((CMobEntity*)PTargetFound)->DoAutoTarget();
         }
     }
+
     PTarget = static_cast<CBattleEntity*>(state.GetTarget());
     if (PTarget->objtype == TYPE_MOB && (PTarget->isDead() || (objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() == PETTYPE_AVATAR)))
     {

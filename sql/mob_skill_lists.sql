@@ -2854,6 +2854,9 @@ INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1772); -- Torrent
 INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1775); -- Rising Swell
 INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1809); -- Shadow Thrust
 
+INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1214,733); -- Jump
+INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1214,1064); -- Jump (Long Cast Time)
+
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,531);
@@ -5088,6 +5091,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,250); -- carnal_nightmare
 
 INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,2693); -- virulent_haze
 
--- Next available ID: 1214
+-- Next available ID: 1215
 -- Next custom ID: 6171
 

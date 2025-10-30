@@ -520,7 +520,7 @@ bool CAttack::CheckCounter()
         return false;
     }
 
-    if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_BOOST) || m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
+    if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
     {
         return false;
     }
@@ -649,13 +649,6 @@ void CAttack::ProcessDamage()
     SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
     if (m_attackRound->IsH2H())
     {
-
-        // Boost
-        if (m_attacker->GetMJob() == JOB_MNK && m_isFirstSwing && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_BOOST))
-        {
-            m_boostDamage += m_attacker->STR() * 1.5;
-        }
-
         // Footwork
         if (m_attacker->GetMJob() == JOB_MNK && m_isFirstSwing && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
         {
@@ -670,7 +663,7 @@ void CAttack::ProcessDamage()
             m_baseDamage = m_baseDamage + m_attacker->getMod(Mod::KICK_DMG) + 3;
         }
         m_damage = (uint32)((
-            (m_baseDamage + m_naturalH2hDamage + m_trickAttackDamage + m_boostDamage + m_footworkDamage +
+            (m_baseDamage + m_naturalH2hDamage + m_trickAttackDamage + m_footworkDamage +
             battleutils::GetFSTR(m_attacker, m_victim, slot)) * m_damageRatio));
     }
     else if (slot == SLOT_MAIN)

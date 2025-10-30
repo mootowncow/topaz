@@ -3816,3 +3816,17 @@ INSERT INTO `item_latents` VALUES(15156, 384, 600, 66, 8); -- [15156] Conte Zucc
 INSERT INTO `item_latents` VALUES(18857, 550, 3, 62, 0); -- [18857] Antares: Main hand: - LIGHT_AFFINITY_ACC 3
 INSERT INTO `item_latents` VALUES(18857, 353, 3, 62, 0); -- [18857] Antares: Main hand: - LIGHT_AFFINITY_DMG 3
 INSERT INTO `item_latents` VALUES(17960, 73, 25, 62, 0); -- [17960] Labrys: Main hand: - STORETP 25
+INSERT INTO `item_latents` VALUES(21510, 355, 15, 68, 1); -- [21510] Voluspa Knuckles: In RAID(1) - ADDS_WEAPONSKILL 15
+INSERT INTO `item_latents` VALUES(21566, 355, 224, 68, 1); -- [21566] Voluspa Knife: In RAID(1) - ADDS_WEAPONSKILL 224
+INSERT INTO `item_latents` VALUES(21622, 355, 226, 68, 1); -- [21622] Voluspa Sword: In RAID(1) - ADDS_WEAPONSKILL 226
+INSERT INTO `item_latents` VALUES(21665, 355, 60, 68, 1); -- [21665] Voluspa Blade: In RAID(1) - ADDS_WEAPONSKILL 60
+INSERT INTO `item_latents` VALUES(21712, 355, 77, 68, 1); -- [21712] Voluspa Axe: In RAID(1) - ADDS_WEAPONSKILL 77
+INSERT INTO `item_latents` VALUES(21769, 355, 93, 68, 1); -- [21769] Voluspa Chopper: In RAID(1) - ADDS_WEAPONSKILL 93
+INSERT INTO `item_latents` VALUES(21822, 355, 93, 68, 1); -- [21822] Voluspa Scythe: In RAID(1) - ADDS_WEAPONSKILL 93
+INSERT INTO `item_latents` VALUES(21864, 355, 125, 68, 1); -- [21864] Voluspa Lance: In RAID(1) - ADDS_WEAPONSKILL 125
+INSERT INTO `item_latents` VALUES(21912, 355, 141, 68, 1); -- [21912] Voluspa Katana: In RAID(1) - ADDS_WEAPONSKILL 141
+INSERT INTO `item_latents` VALUES(21976, 355, 157, 68, 1); -- [21976] Voluspa Tachi: In RAID(1) - ADDS_WEAPONSKILL 157
+INSERT INTO `item_latents` VALUES(22006, 355, 174, 68, 1); -- [22006] Voluspa Hammer: In RAID(1) - ADDS_WEAPONSKILL 174
+INSERT INTO `item_latents` VALUES(22088, 355, 191, 68, 1); -- [22088] Voluspa Pole: In RAID(1) - ADDS_WEAPONSKILL 191
+INSERT INTO `item_latents` VALUES(22133, 355, 203, 68, 1); -- [22133] Voluspa Bow: In RAID(1) - ADDS_WEAPONSKILL 203
+INSERT INTO `item_latents` VALUES(22144, 355, 221, 68, 1); -- [22144] Voluspa Gun: In RAID(1) - ADDS_WEAPONSKILL 221

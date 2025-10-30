@@ -95,6 +95,7 @@ enum LATENT
     LATENT_SIGIL_RETAINED_EXP       = 65, // While in campaign region
     LATENT_MH_WEAPONTYPE            = 66, // MH weapon is specific type (i.e. SWORD = 3, CLUB = 11)
     LATENT_DUALWIELD                = 67, // Is Dual Wielding (0 for False, 1 for True)
+    LATENT_IN_RAID                  = 68, // In a fight against a RAID NM (0 for False, 1 for True)
 };
 
 #define MAX_LATENTEFFECTID    999

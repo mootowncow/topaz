@@ -2161,7 +2161,7 @@ INSERT INTO `mob_skills` VALUES (2197,1585,'autumn_breeze',0,7.0,2000,1500,1,0,0
 INSERT INTO `mob_skills` VALUES (2198,1586,'winter_breeze',1,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2199,1587,'cyclonic_turmoil',1,15.0,2000,1500,4,0,0,7,0,0,0);
 INSERT INTO `mob_skills` VALUES (2200,1588,'cyclonic_torrent',1,15.0,2000,3500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2201,1555,'orcish_counterstance',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2201,1555,'orcish_counterstance',0,7.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2202,1556,'berserker_dance',0,7.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2203,1563,'diamond_shell',0,7.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2204,1564,'ore_lob',4,10.0,2000,2000,4,0,0,0,0,0,0); -- Animation ID was 1948
@@ -2224,7 +2224,7 @@ INSERT INTO `mob_skills` VALUES (2260,437,'trance',0,7.0,2000,0,1,2,0,0,0,0,0); 
 INSERT INTO `mob_skills` VALUES (2261,437,'tabula_rasa',0,7.0,2000,0,1,2,0,0,0,0,0); -- TODO: Missing Animation
 -- INSERT INTO `mob_skills` VALUES (2262,1617,'',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2263,1626,'tornado_edge',4,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2264,1627,'shoulder_charge',4,10.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2264,1627,'shoulder_charge',4,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2265,1618,'skull_smash',0,7.0,2000,1500,4,0,0,0,0,0,0); -- Za'Dha Adamantking (The Buried God SCNM)
 INSERT INTO `mob_skills` VALUES (2266,357,'shell_charge',4,10.0,2000,2000,4,0,0,4,0,0,0);
 INSERT INTO `mob_skills` VALUES (2267,1620,'skull_smash',0,7.0,2000,1500,4,0,0,0,0,0,0);

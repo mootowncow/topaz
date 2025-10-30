@@ -553,6 +553,10 @@ bool CStatusEffectContainer::AddStatusEffect(CStatusEffect* PStatusEffect, bool 
                 PChar->PLatentEffectContainer->CheckLatentsStatusEffect();
                 PChar->PLatentEffectContainer->CheckLatentsRollSong();
                 PChar->PLatentEffectContainer->CheckLatentsZone();
+
+                charutils::BuildingCharSkillsTable(PChar);
+                charutils::BuildingCharWeaponSkills(PChar);
+                PChar->pushPacket(new CCharAbilitiesPacket(PChar));
                 PChar->UpdateHealth();
             }
         }
@@ -613,6 +617,10 @@ void CStatusEffectContainer::DeleteStatusEffects()
             PChar->PLatentEffectContainer->CheckLatentsFoodEffect();
             PChar->PLatentEffectContainer->CheckLatentsStatusEffect();
             PChar->PLatentEffectContainer->CheckLatentsRollSong();
+
+            charutils::BuildingCharSkillsTable(PChar);
+            charutils::BuildingCharWeaponSkills(PChar);
+            PChar->pushPacket(new CCharAbilitiesPacket(PChar));
         }
         m_POwner->UpdateHealth();
         m_POwner->extDataUpdateFlag = true;
@@ -645,6 +653,12 @@ void CStatusEffectContainer::RemoveStatusEffect(CStatusEffect* PStatusEffect, bo
     if (m_POwner->objtype == TYPE_PC)
     {
         CCharEntity* PChar = (CCharEntity*)m_POwner;
+
+        // check for latents
+        PChar->PLatentEffectContainer->CheckLatentsFoodEffect();
+        PChar->PLatentEffectContainer->CheckLatentsStatusEffect();
+        PChar->PLatentEffectContainer->CheckLatentsRollSong();
+
         charutils::BuildingCharSkillsTable(PChar);
         charutils::BuildingCharWeaponSkills(PChar);
         PChar->pushPacket(new CCharAbilitiesPacket(PChar));

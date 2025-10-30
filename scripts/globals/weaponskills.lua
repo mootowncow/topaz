@@ -573,14 +573,6 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
         end
     end
 
-    -- Handle Footwork 
-	if attacker:hasStatusEffect(tpz.effect.FOOTWORK) then
-        -- Non-kick WS deal half damage while Footwork is active
-        if (wsID == tpz.weaponskill.DRAGON_KICK) or (wsID == tpz.weaponskill.TORNADO_KICK) then
-	        finaldmg = math.floor(finaldmg * 0.5)
-	    end
-    end
-
     -- Handle Scarlet Delirium
     finaldmg = utils.ScarletDeliriumBonus(attacker, finaldmg)
 
@@ -1041,10 +1033,10 @@ function getMeleeDmg(attacker, weaponType, kick)
     local offhandDamage = attacker:getOffhandDmg()
 
     if weaponType == tpz.skill.HAND_TO_HAND or weaponType == tpz.skill.NONE then
-        local h2hSkill = attacker:getSkillLevel(1) * 0.11 + 3
+        local h2hSkill = attacker:getSkillLevel(tpz.skill.HAND_TO_HAND) * 0.11 + 3
 
-        if kick and attacker:hasStatusEffect(tpz.effect.FOOTWORK) then
-            mainhandDamage = attacker:getMod(tpz.mod.KICK_DMG) -- Use Kick damage if footwork is on
+        if kick then -- Use Kick damage
+            mainhandDamage = attacker:getMod(tpz.mod.KICK_DMG)
         end
 
         mainhandDamage = mainhandDamage + h2hSkill

@@ -12,6 +12,9 @@ require("scripts/globals/wotg")
 
 function onMobSpawn(mob)
     tpz.wotg.NMMods(mob)
+    tpz.wotg.NMMods(mob)
+    mob:setMod(tpz.mod.MATT, 72)
+    mob:setMod(tpz.mod.HELIX_EFFECT, 50)
     mob:addMobMod(tpz.mobMod.HP_HEAL_CHANCE, 33)
 end
 
@@ -21,7 +24,6 @@ end
 
 function onMobFight(mob, target)
     local charmTimer = mob:getLocalVar("charmTimer")
-    local battleTime =  mob:getBattleTime()
     local hp = mob:getHPP()
 
     -- Uses Charm every 5ish seconds
