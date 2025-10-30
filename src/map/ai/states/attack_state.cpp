@@ -111,26 +111,39 @@ void CAttackState::UpdateTarget(uint16 targid)
             newTargid = 0;
 
             CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_PEntity);
-            if (PChar && PChar->m_hasAutoTarget) // Auto-Target
+            if (PChar && PChar->m_hasAutoTarget) // /autotarget on
             {
+                CBattleEntity* PClosestTarget = nullptr;
+                float closestDistance = 29.0f; // max search radius
+
                 for (auto&& PPotentialTarget : PChar->SpawnMOBList)
                 {
                     auto* PEntity = PPotentialTarget.second;
+                    if (!PEntity)
+                    {
+                        continue;
+                    }
 
-                    if (PEntity->animation == ANIMATION_ATTACK && distance(PChar->loc.p, PEntity->loc.p) <= 29)
+                    float dist = distance(PChar->loc.p, PEntity->loc.p);
+                    if (PEntity->animation == ANIMATION_ATTACK && dist <= closestDistance)
                     {
                         std::unique_ptr<CBasicPacket> errMsg;
                         if (PChar->IsValidTarget(PEntity->targid, TARGET_ENEMY, errMsg))
                         {
-                            newTargid = PEntity->targid;
-                            PChar->pushPacket(new CLockOnPacket(PChar, static_cast<CBattleEntity*>(PEntity)));
-                            break;
+                            PClosestTarget = static_cast<CBattleEntity*>(PEntity);
+                            closestDistance = dist;
                         }
                     }
                 }
-            }
 
-            m_PEntity->PAI->ChangeTarget(newTargid);
+                if (PClosestTarget)
+                {
+                    newTargid = PClosestTarget->targid;
+                    PChar->pushPacket(new CLockOnPacket(PChar, PClosestTarget));
+                }
+
+                m_PEntity->PAI->ChangeTarget(newTargid);
+            }
         }
     }
 

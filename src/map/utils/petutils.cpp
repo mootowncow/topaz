@@ -336,37 +336,51 @@ namespace petutils
 
     bool TryAutoTarget(CBattleEntity* PPet, CBattleEntity* PTarget)
     {
-        if (!PPet || !PPet->PMaster)
+        if (!PPet)
         {
             return false;
         }
 
-        if (PPet->PMaster->objtype != TYPE_PC)
+        auto* PMaster = dynamic_cast<CCharEntity*>(PPet->PMaster);
+        if (!PMaster || !PMaster->m_hasAutoTarget) // /autotarget on
         {
             return false;
         }
 
-        auto* PMaster = static_cast<CCharEntity*>(PPet->PMaster);
-
-        if ((!PTarget || PTarget->isDead()) && PMaster->m_hasAutoTarget)
+        if (PTarget && !PTarget->isDead())
         {
-            for (auto&& PPotentialTarget : PMaster->SpawnMOBList)
+            return false;
+        }
+
+        CBattleEntity* PClosestTarget = nullptr;
+        float closestDistance = 29.0f; // max search radius
+
+        for (auto&& PPotentialTarget : PMaster->SpawnMOBList)
+        {
+            auto* PEntity = PPotentialTarget.second;
+            if (!PEntity || PEntity->animation != ANIMATION_ATTACK)
             {
-                auto* PEntity = PPotentialTarget.second;
-
-                if (!PEntity)
-                    continue;
-
-                if (PEntity->animation == ANIMATION_ATTACK && distance(PPet->loc.p, PEntity->loc.p) <= 29)
-                {
-                    std::unique_ptr<CBasicPacket> errMsg;
-                    if (PPet->IsValidTarget(PEntity->targid, TARGET_ENEMY, errMsg))
-                    {
-                        petutils::AttackTarget(PMaster, static_cast<CBattleEntity*>(PEntity));
-                        return true;
-                    }
-                }
+                continue;
             }
+
+            float dist = distance(PPet->loc.p, PEntity->loc.p);
+            if (dist > closestDistance)
+            {
+                continue;
+            }
+
+            std::unique_ptr<CBasicPacket> errMsg;
+            if (PPet->IsValidTarget(PEntity->targid, TARGET_ENEMY, errMsg))
+            {
+                PClosestTarget = static_cast<CBattleEntity*>(PEntity);
+                closestDistance = dist;
+            }
+        }
+
+        if (PClosestTarget)
+        {
+            petutils::AttackTarget(PMaster, PClosestTarget);
+            return true;
         }
 
         return false;
