@@ -5088,8 +5088,14 @@ INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,248); -- grim_halo
 INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,249); -- netherspikes
 INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,250); -- carnal_nightmare
 
+-- Grim Halo, Netherspikes, Carnal Nightmare, Pentathrust, Impulse Drive, Raiden Thrust
+INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,248); -- grim_halo
+INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,249); -- netherspikes
+INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,250); -- carnal_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,114); -- raiden_thrust
+INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,116); -- penta_thrust
+INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,120); -- impulse_drive
 
-INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,2693); -- virulent_haze
 
 -- Next available ID: 1215
 -- Next custom ID: 6171

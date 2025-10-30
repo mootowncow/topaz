@@ -6306,8 +6306,16 @@ INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,152,1,255); -- Blizzard IV
 INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,181,1,255); -- Blizzaga III
 INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,206,1,255); -- Freeze
 
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,644,1,255); -- Mind Blast
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,616,1,255); -- Temporal Shift
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,632,1,255); -- Blitzstrahl
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,107,1,255); -- Thunder IV
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,196,1,255); -- Thundaga III
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,212,1,255); -- Burst
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,252,1,255); -- Stun
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,57,1,255); -- Haste
 
-INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,310,1,255); -- Enlight
+
 
 
 INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,359,1,255); -- silencega

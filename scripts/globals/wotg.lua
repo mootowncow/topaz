@@ -14,7 +14,6 @@ require("scripts/globals/keyitems")
 require("scripts/globals/titles")
 -----------------------------------
 -- TODO:
--- Proper weapon types for all the fomor meta bosses (Did Elatha)
 -- tpz.wotg.RandomEvent need the forced spawn removed (randomEventWaves(player)) and should only spawn at 10% of time
 --  weather related event (during weather only)
 --  undead related event (night only)
@@ -29,8 +28,6 @@ require("scripts/globals/titles")
 -- Test if mob OFFENSIVE auras still work (TickMobAura) and don't AOE onto other nearby mobs
 -- Test if BreakMob still works and works if a trust breaks the mob
 -- Mobs that res eachother?
--- Make sure all spikes still work properly
--- Fomors (Lugh etc) special mobmod to ignore enmity and only focus whatever did newest CE/VE? read bg wiki page for tethra/etniu
 -- Mechanics like abyssea for killing mobs? atmas to collect? stat boosts for clearing every zone boss? meta progression? 1 attribute boost per bos?
 -- Store augment buff in one of the atma or stat buffs or the abyssea buff itself.
 -- Earth bosses gain stoneskin (undispellable) after using TP moves
@@ -48,7 +45,7 @@ require("scripts/globals/titles")
 -- Crawlers Nest [S] chest/coffer still work?
 -- Test DMG of djinn TP moves during day/night random times
 -- randomEventMimic needs some logic (or wait / while isDead()?) to make sure it doesn't get "stuck" if mimic is in death state and another one is triggered
--- /heal show zone data (meta progress %) and augments power
+-- /heal show zone data (meta progress %) and augments power. Add a fake status effect like dynamis
 
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
@@ -1406,12 +1403,6 @@ local modByMobName =
         mob:setMod(tpz.mod.WATERDEF, -256)
         mob:setMod(tpz.mod.FIREDEF, -256)
         mob:setMod(tpz.mod.FIRE_ABSORB, 100)
-        mob:addImmunity(tpz.immunity.SILENCE)
-        mob:addImmunity(tpz.immunity.BIND)
-        mob:addImmunity(tpz.immunity.GRAVITY)
-        mob:addImmunity(tpz.immunity.PETRIFY)
-        mob:addImmunity(tpz.immunity.SLOW)
-        mob:addImmunity(tpz.immunity.BLIND)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
         mob:setMobMod(tpz.mobMod.HUMANOID, 1)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
@@ -1507,12 +1498,6 @@ local modByMobName =
         mob:setMod(tpz.mod.ICEDEF, -256)
         mob:setMod(tpz.mod.WINDDEF, -256)
         mob:setMod(tpz.mod.WIND_ABSORB, 100)
-        mob:addImmunity(tpz.immunity.SILENCE)
-        mob:addImmunity(tpz.immunity.BIND)
-        mob:addImmunity(tpz.immunity.GRAVITY)
-        mob:addImmunity(tpz.immunity.PETRIFY)
-        mob:addImmunity(tpz.immunity.SLOW)
-        mob:addImmunity(tpz.immunity.BLIND)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
         mob:setMobMod(tpz.mobMod.HUMANOID, 1)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
@@ -1534,13 +1519,6 @@ local modByMobName =
         mob:setMod(tpz.mod.WINDDEF, -256)
         mob:setMod(tpz.mod.EARTHDEF, -256)
         mob:setMod(tpz.mod.EARTH_ABSORB, 100)
-        mob:addImmunity(tpz.immunity.SILENCE)
-        mob:addImmunity(tpz.immunity.BIND)
-        mob:addImmunity(tpz.immunity.GRAVITY)
-        mob:addImmunity(tpz.immunity.PETRIFY)
-        mob:addImmunity(tpz.immunity.SLOW)
-        mob:addImmunity(tpz.immunity.BLIND)
-        mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
         mob:setMobMod(tpz.mobMod.HUMANOID, 1)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
@@ -1617,7 +1595,7 @@ local modByMobName =
         -- Minor regain (10?)
         -- Perma undispellable Ice Spikes
         -- En-Blizzard (100 damage) or En-Paralyze on every auto-attack
-        -- Used Blood Weapon at 30%< then every 5 minutes afterwards, AoE Paralyze aura and 100 fist delay during it. Does not castor retaliate with Blizzard IV while it's active.
+        -- Used Blood Weapon at 30%, then every 5 minutes afterwards, AoE Paralyze aura and 100 fist delay during it. Does not castor retaliate with Blizzard IV while it's active.
         -- Absorbs physical damage while using a TP move or casting
         -- Casting a spell on him if not his current target resets his enmity on everyone
 
@@ -1629,13 +1607,6 @@ local modByMobName =
         mob:setMod(tpz.mod.FIREDEF, -256)
         mob:setMod(tpz.mod.ICEDEF, -256)
         mob:setMod(tpz.mod.ICE_ABSORB, 100)
-        mob:addImmunity(tpz.immunity.SILENCE)
-        mob:addImmunity(tpz.immunity.BIND)
-        mob:addImmunity(tpz.immunity.GRAVITY)
-        mob:addImmunity(tpz.immunity.PETRIFY)
-        mob:addImmunity(tpz.immunity.SLOW)
-        mob:addImmunity(tpz.immunity.BLIND)
-        mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
         mob:setMobMod(tpz.mobMod.HUMANOID, 1)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
@@ -1655,12 +1626,13 @@ local modByMobName =
     end,
 
     ['Buarainech'] = function(mob)
-        mob:setMod(tpz.mod.STORETP, 200)
-        mob:setMod(tpz.mod.SAVETP, 1500)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.MDEF, 24)
         mob:setMod(tpz.mod.VIT, 175)
         mob:setMod(tpz.mod.REGEN, 25)
+        mob:setMod(tpz.mod.STORETP, 200)
+        mob:setMod(tpz.mod.SAVETP, 1500)
+        mob:setMod(tpz.mod.UFASTCAST, 50)
         mob:setMod(tpz.mod.EARTHDEF, -256)
         mob:setMod(tpz.mod.THUNDERDEF, -256)
         mob:setMod(tpz.mod.LTNG_ABSORB, 100)
@@ -1674,7 +1646,6 @@ local modByMobName =
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
         mob:setMobMod(tpz.mobMod.HUMANOID, 1)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
-        mob:setMobMod(tpz.mobMod.GA_CHANCE, 90)
 
         -- Perma undispellable Ice Spikes
         mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 25, 0, 0)
@@ -2444,10 +2415,10 @@ local mobFightByMobName =
                     for _, enmity in ipairs(enmityList) do
                         if (user:getID() ~= enmity.entity:getID()) then
                             mob:resetEnmity(enmity.entity)
+                            mob:setLocalVar("lvlUp", 1)
                         end
                     end
                 end
-                mob:setLocalVar("lvlUp", 1)
             end
         end)
 
@@ -2830,7 +2801,6 @@ local mobFightByMobName =
         mob:addListener("SPELL_DMG_TAKEN", "ELATHA_SPELL_DMG_TAKEN", function(mob, caster, spell)
            if
                 mob:getTarget():getShortID() ~= caster:getShortID() and
-                not IsMobBusy(mob) and
                 not mob:hasPreventActionEffect()
            then
                 ResetEnmityList(mob)
@@ -2882,8 +2852,7 @@ local mobFightByMobName =
     end,
 
     ['Buarainech'] = function(mob)
-        -- 0x01001D030E110E210E310E410E51CD6100700000
-        -- Uses: Grim Halo, Netherspikes, Carnal Nightmare, Pentathrust, Impulse Drive
+        -- Uses: Grim Halo, Netherspikes, Carnal Nightmare, Pentathrust, Impulse Drive, Raiden Thrust
         -- Casts: Haste, Mind Blast, Temporal Shift, Blitzstrahl, Thunder IV, Thundaga III, Burst, Stun (AOE), Haste
         -- Immune: Paralyze, Poison, Blind, Bind, Gravity, Sleep, Petrify
         -- Absorbs Thunder damage
@@ -2892,9 +2861,12 @@ local mobFightByMobName =
         -- Perma shock spikes
         -- Additional effect: Stun or Enthunder (100)
         -- Endoom during Spirit Surge
+        -- ~50% Fast Cast
         -- Counters magic that successfully lands or is absorbed (enfeeble or direct damage) with instant cast Thunmder IV
         -- Counter's JA's with Raiden Thrust
-        -- Casting buffs on self/others a -na, or any spell which cause a status effect on him triggers a level up. Ele magic is safe. I.e. casting foil on self. Has a 10-180s cooldown between level ups
+        -- Casting buffs on self/others a -na, or any spell which cause a status effect on him triggers a level up. Ele magic is safe. I.e. casting foil on self. 
+        -- JA's also level him up if used on him and not his current target
+        -- Has a 3m cooldown between level ups (2 timers, one for JA, one for magic)
         -- Can level up 17 times max
         -- Spells and JA's on him from anyone not his target resets enmity on everyone
         -- Can use Penta Thrust multiple times in a row
@@ -2943,9 +2915,9 @@ local mobFightByMobName =
         -- Offensive JA's and magic reset it's hate on everyone
         -- Counters JA's with Raiden Thrust onto the person who used the JA on him
         -- I.e. if a pld tanking it uses Provoke it won't counter
+        -- JA's also level him up if used on him and not his current target
         mob:addListener("ABILITY_TAKE", "BUARA_ABILITY_TAKE", function(mob, user, ability, action)
             local abilityMsg = ability:getMsg()
-            local act = mob:getCurrentAction()
             local validAction =
                 abilityMsg ~= tpz.msg.basic.JA_MISS and
                 abilityMsg ~= tpz.msg.basic.SHADOW_ABSORB and
@@ -2959,6 +2931,19 @@ local mobFightByMobName =
                 ResetEnmityList(mob)
                 user:addEnmity(mob, ability:getCE(), ability:getVE())
                 mob:setLocalVar("counterJA", user:getID())
+
+                local enmityList = mob:getEnmityList()
+                local lvlUpJACooldown = mob:getLocalVar("lvlUpJACooldown")
+                if enmityList then
+                    for _, enmity in ipairs(enmityList) do
+                        if (user:getID() ~= enmity.entity:getID()) then
+                            if (os.time() >= lvlUpJACooldown) then
+                                mob:setLocalVar("lvlUp", 1)
+                                mob:setLocalVar("lvlUpJACooldown", os.time() + 180)
+                            end
+                        end
+                    end
+                end
             end
         end)
 
@@ -2967,7 +2952,6 @@ local mobFightByMobName =
         mob:addListener("MAGIC_HIT", "BUARA_MAGIC_HIT", function(caster, mob, spell, dmg)
            if
                 mob:getTarget():getShortID() ~= caster:getShortID() and
-                not IsMobBusy(mob) and
                 not mob:hasPreventActionEffect() and
                 spell:tookEffect()
            then
@@ -2989,13 +2973,13 @@ local mobFightByMobName =
         mob:addListener("PLAYER_SPELL_USED", "BUARA_PLAYER_SPELL_USED", function(mob, player, spell, action)
             local eligibleSkillTypes = { tpz.skill.ENHANCING_MAGIC, tpz.skill.DIVINE_MAGIC, tpz.skill.ENFEEBLING_MAGIC, tpz.skill.DARK_MAGIC, tpz.skill.HEALING_MAGIC }
             local skillType = spell:getSkillType()
-            local lvlUpCooldown = mob:getLocalVar("lvlUpCooldown")
+            local lvlUpMagicCooldown = mob:getLocalVar("lvlUpMagicCooldown")
 
-            if (os.time() >= lvlUpCooldown) then
+            if (os.time() >= lvlUpMagicCooldown) then
                 for _, skill in ipairs(eligibleSkillTypes) do
                     if (skillType == skill) then
                         mob:setLocalVar("lvlUp", 1)
-                        mob:setLocalVar("lvlUpCooldown", os.time() + math.random(10, 180))
+                        mob:setLocalVar("lvlUpMagicCooldown", os.time() + 180)
                     end
                 end
             end
@@ -3085,6 +3069,14 @@ local mobSpellPrecastByMobName =
 
     ['Ammonoidea'] = function(mob, spell)
         if (spell:getID() == tpz.magic.spell.FLASH) then
+            spell:setAoE(tpz.magic.aoe.RADIAL)
+            spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
+            spell:setRadius(15)
+        end
+    end,
+
+    ['Buarainech'] = function(mob, spell)
+        if (spell:getID() == tpz.magic.spell.STUN) then
             spell:setAoE(tpz.magic.aoe.RADIAL)
             spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
             spell:setRadius(15)
