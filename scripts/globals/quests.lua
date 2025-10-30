@@ -1,5 +1,6 @@
 require("scripts/globals/log_ids")
 require("scripts/globals/zone")
+require("scripts/globals/utils")
 require("scripts/globals/npc_util")
 require("scripts/globals/items")
 require("scripts/globals/keyitems")
