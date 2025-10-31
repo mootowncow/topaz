@@ -697,6 +697,7 @@ INSERT INTO `status_effects` VALUES (803,'full_speed_ahead',768,0,0,0,0,0,0,0,0)
 INSERT INTO `status_effects` VALUES (804,'increased_damage_taken',544,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (805,'crit_hit_rate_down',544,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (806,'enhanced_manifestation',544,0,0,0,0,0,0,0,0);
+INSERT INTO `status_effects` VALUES (807,'wotg_dungeons',33554432,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (901,'deepsleep',8388640,0,0,0,0,2,0,0,0);
 
 -- NEXT 807

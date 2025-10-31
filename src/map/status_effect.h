@@ -738,6 +738,7 @@ enum EFFECT
     EFFECT_INCREASED_DAMAGE_TAKEN   = 804, // Increased damage taken, in percents
     EFFECT_CRIT_HIT_RATE_DOWN       = 805, // Critical hit rate down
     EFFECT_ENHANCED_MANIFESTATION   = 806, // Makes all spells AOE. Mobs only.
+    EFFECT_WOTG_DUNGEONS            = 807, // Stores data related to WotG dungeons
     // EFFECT_PLACEHOLDER           = 807,  // Description
     // 807-1022
     EFFECT_DEEPSLEEP                = 901,

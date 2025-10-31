@@ -1088,6 +1088,7 @@ tpz.effect =
     INCREASED_DAMAGE_TAKEN   = 804, -- Increased damage taken, in percents
     CRIT_HIT_RATE_DOWN       = 805, -- Critical hit rate down
     ENHANCED_MANIFESTATION   = 806, -- Makes all spells AOE. Mobs only.
+    WOTG_DUNGEONS            = 807, -- Stores data related to WotG dungeons
     -- 807-1022
     DEEPSLEEP                = 901, -- For abilities like Nightmare
     -- PLACEHOLDER             = 1023 -- The client dat file seems to have only this many "slots", results of exceeding that are untested.
