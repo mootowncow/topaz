@@ -46,6 +46,8 @@ require("scripts/globals/titles")
 -- Test DMG of djinn TP moves during day/night random times
 -- randomEventMimic needs some logic (or wait / while isDead()?) to make sure it doesn't get "stuck" if mimic is in death state and another one is triggered
 -- /heal show zone data (meta progress %) and augments power. Add a fake status effect like dynamis
+-- Chests THF can open that give temps or a currency or gil, also can open from key drops from mobs?
+-- Currency from this content from every event completed ?
 
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
@@ -92,6 +94,65 @@ tpz.wotg.regionsData = {
         }
     },
     [tpz.zone.GARLAIGE_CITADEL_S] = {
+    amount = 21,
+        environmental = {
+            { Region = 3,
+                Effect = tpz.effect.OBLIVISCENCE,
+                Power = 1,
+                Tick = 0,
+                Duration = 30,
+                SubPower = 0,
+                Msg = 'restrictive'
+            },
+            { Region = 4,
+                Effect = tpz.effect.ADDLE,
+                Power = 33,
+                Tick = 0,
+                Duration = 30,
+                SubPower = 33,
+                Msg = 'full of toxic fumes'
+            },
+            { Region = 6,
+                Effect = tpz.effect.OBLIVISCENCE,
+                Power = 1,
+                Tick = 0,
+                Duration = 30,
+                SubPower = 0,
+                Msg = 'restrictive'
+            },
+            { Region = 7,
+                Effect = tpz.effect.OBLIVISCENCE,
+                Power = 1,
+                Tick = 0,
+                Duration = 30,
+                SubPower = 0,
+                Msg = 'restrictive'
+            },
+            { Region = 16,
+                Effect = tpz.effect.BURN,
+                Power = 25,
+                Tick = 0,
+                Duration = 30,
+                SubPower = 25,
+                Msg = 'burning up'
+            },
+            { Region = 17,
+                Effect = tpz.effect.FLASH,
+                Power = 255,
+                Tick = 3,
+                Duration = 12,
+                SubPower = 0,
+                Msg = 'filled with a blinding light'
+            },
+            { Region = 20,
+                Effect = tpz.effect.FLASH,
+                Power = 255,
+                Tick = 3,
+                Duration = 12,
+                SubPower = 0,
+                Msg = 'filled with a blinding light'
+            },
+        },
     },
     [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
         amount = 14,
@@ -954,10 +1015,13 @@ end
 
 local function ProgressMeta(player, zone)
     local metaProgress = zone:getLocalVar("metaProgress")
+    printf("Progressing meta percent")
     if (metaProgress < 100) then
         zone:setLocalVar("metaProgress", math.min(metaProgress + 5, 100))
         utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, none)
-        zone:queue(15000, function(zone)
+
+        player:queue(15000, function(player)
+            local zone = player:getZone()
             generateActiveRegions(zone)
         end)
     end
@@ -1145,9 +1209,6 @@ local function generateWave(player, usedMobs)
         -- Add the mobID to the usedMobs tracker and the wave
         usedMobs[mobID] = true
         table.insert(wave, mobID)
-        
-        -- Print the current mobID of the mobs in the current wave
-        print("Current mobID in wave " .. currentWave .. ": " .. mobID)
     end
 
     if (wavesMsg == 0) then
@@ -1255,6 +1316,7 @@ local function RandomEventComplete(player)
         local chance = 25
         GenerateAugments(member, chance)
     end
+    printf("Random event complete!")
     ProgressMeta(player, zone)
     ClearMsgVars(zone)
 end
@@ -3230,10 +3292,19 @@ tpz.wotg.onMobWeaponSkillPrepare = function(mob, target)
     end
 end
 
-local eventOnMobDeath = {}
-function eventOnMobDeath.Waves(mob, player, isKiller, noKiller)
+local eventOnMobDespawn = {}
+function eventOnMobDespawn.Waves(mob)
     local zone = mob:getZone()
     local waveProgress = zone:getLocalVar("waveProgress")
+
+    if waveProgress then
+        printf("Mob [%d] Despawned, incrementing wave progress by 1", mob:getID())
+        zone:setLocalVar("waveProgress", waveProgress + 1)
+    end
+end
+
+local eventOnMobDeath = {}
+function eventOnMobDeath.Waves(mob, player, isKiller, noKiller)
     local mobType = GetMobType(mob)
     local deathTypeHandler = mobTypeDeath[mobType]
 
@@ -3242,9 +3313,6 @@ function eventOnMobDeath.Waves(mob, player, isKiller, noKiller)
             deathTypeHandler(player, mob)
         end
     end
-
-    -- printf("Mob dead, incrementing wave progress by 1")
-    zone:setLocalVar("waveProgress", waveProgress + 1)
 end
 
 function eventOnMobDeath.Boss(mob, player, isKiller, noKiller)
@@ -3260,7 +3328,7 @@ function eventOnMobDeath.Boss(mob, player, isKiller, noKiller)
     zone:setLocalVar("eventActive", 0)
 end
 
-function eventOnMobDeath.Mimic(mob, player, isKiller, noKille)
+function eventOnMobDeath.Mimic(mob, player, isKiller, noKiller)
     local zone = player:getZone()
     local amount = math.random(3, 5)
     GiveTempItems(player, amount)
@@ -3321,12 +3389,21 @@ tpz.wotg.onMobDeath = function (mob, player, isKiller, noKiller, event)
     end
 end
 
-tpz.wotg.onMobDespawn = function (mob)
+tpz.wotg.onMobDespawn = function (mob, event)
     local mobName  = mob:getName()
     local mobDespawn = mobDespawnByMobName[mobName]
 
     if mobDespawn then
         mobDespawn(mob)
+    end
+
+    if (event ~= nil) then
+        for eventName, eventID in pairs(tpz.wotg.events) do
+            if event == eventID and eventOnMobDespawn[eventName] then
+                eventOnMobDespawn[eventName](mob)
+                return
+            end
+        end
     end
 end
 
@@ -3341,7 +3418,7 @@ end
 
 tpz.wotg.RandomEvent = function(player)
     local zone = player:getZone()
-    randomEventMimic(player) -- TODO: Remove after done testing
+    randomEventWaves(player) -- TODO: Remove after done testing
     --eventList[math.random(#eventList)](player) -- TODO: Does this work?
 end
 
@@ -3360,22 +3437,21 @@ tpz.wotg.spawnWave = function(player, waveIndex)
 
     local xPos, yPos, zPos = player:getXPos(), player:getYPos(), player:getZPos()
     local posOffset = 0
-    player:queue(5000, function(player) -- 5s wait before spawning a wave
-        for _, mobID in ipairs(wave) do
-            print("Spawning Mob ID:", mobID)
-            local mob = GetMobByID(mobID)
-            if not mob:isSpawned() then
-                mob:setSpawn(xPos + posOffset, yPos, zPos + posOffset)
-                GenerateMob(player, mob)
-                mob:updateEnmity(player)
-                mob:updateClaim(player)
-                mob:addStatusEffect(tpz.effect.TERROR, 1, 0, 3)
-                posOffset = posOffset + 0.5
-            end
+
+    for _, mobID in ipairs(wave) do
+        printf("Spawning Mob ID: %d", mobID)
+        local mob = GetMobByID(mobID)
+        if not mob:isSpawned() then
+            mob:setSpawn(xPos + posOffset, yPos, zPos + posOffset)
+            GenerateMob(player, mob)
+            mob:updateEnmity(player)
+            mob:updateClaim(player)
+            mob:addStatusEffect(tpz.effect.TERROR, 1, 0, 3)
+            posOffset = posOffset + 0.5
         end
-        print("Spawning Wave " .. waveIndex)
-        utils.MessageParty(player, 'Enemies appear around you!', tpz.msg.textColor.HIDDEN, none)
-    end)
+    end
+    print("Spawning Wave " .. waveIndex)
+    utils.MessageParty(player, 'Enemies appear around you!', tpz.msg.textColor.HIDDEN, none)
 
     -- Set wave size as a local variable in the zone
     zone:setLocalVar("waveActive", 1)
@@ -3413,14 +3489,16 @@ tpz.wotg.onZoneTick = function(player, zone, region)
     local eventCompleted = zone:getLocalVar("eventCompleted")
     local metaProgress = zone:getLocalVar("metaProgress")
 
-    -- Progress check logic
-    -- Print the current wave details for debugging
-    local debugTimer = zone:getLocalVar("debugTimer")
-    if (os.time() >= debugTimer) then
-        -- print(string.format("Wave: %d, Progress: %d, Size: %d, Max Waves: %d", currentWave, waveProgress, waveSize, maxWaves))
-        zone:setLocalVar("debugTimer", os.time() + 10)
+    if (zone:getLocalVar("eventActive", 1) == tpz.wotg.events.Waves) then
+        -- Print the current wave details for debugging
+        local debugTimer = zone:getLocalVar("debugTimer")
+        if (os.time() >= debugTimer) then
+            print(string.format("Wave: %d, Progress: %d, Size: %d, Max Waves: %d", currentWave, waveProgress, waveSize, maxWaves))
+            zone:setLocalVar("debugTimer", os.time() + 10)
+        end
     end
 
+    -- Progress check logic
     if (waveSize > 0) and (waveProgress >= waveSize) then
         if (currentWave +1 <= maxWaves) then
             printf("Increasing wave by 1")
@@ -3491,7 +3569,7 @@ tpz.wotg.onRegionEnter = function(player, region)
     local regionEnterDelay = zone:getLocalVar("regionEnterDelay")
     local spawnChance = 10
 
-    if (regionID <= 14) then
+    if (regionID ) then
         printf("Player entered RegionId: %d", regionID)
     end
 

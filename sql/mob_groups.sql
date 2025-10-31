@@ -11441,10 +11441,10 @@ INSERT INTO `mob_groups` VALUES (11,4454,164,'Yagudos_Elemental',0,128,0,0,0,71,
 INSERT INTO `mob_groups` VALUES (12,3912,164,'Thunder_Elemental',330,4,2410,0,0,75,75,0);
 INSERT INTO `mob_groups` VALUES (13,6586,164,'Explosure',330,0,569,0,0,64,65,0);
 INSERT INTO `mob_groups` VALUES (14,5145,164,'Citadel_Pipistrelles',0,128,0,0,9999,77,77,0);
-INSERT INTO `mob_groups` VALUES (15,5144,164,'Elatha',14400,0,0,35000,0,80,80,0);
+INSERT INTO `mob_groups` VALUES (15,5144,164,'Elatha',0,128,6131,35000,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (16,3503,164,'Scolopendrid',330,0,113,0,0,68,70,0);
 INSERT INTO `mob_groups` VALUES (17,1160,164,'Earth_Elemental',330,4,733,0,0,75,75,0);
-INSERT INTO `mob_groups` VALUES (18,5143,164,'Buarainech',14400,0,0,35000,0,80,80,0);
+INSERT INTO `mob_groups` VALUES (18,5143,164,'Buarainech',0,128,6131,35000,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (19,4457,164,'Yagudo_Transporter',0,128,0,0,0,60,60,0);
 INSERT INTO `mob_groups` VALUES (20,4421,164,'Yagudo_Guard',0,128,0,0,0,60,60,0);
 INSERT INTO `mob_groups` VALUES (21,2216,164,'Khadem_Quemquoma',0,128,0,20000,0,88,88,0);
