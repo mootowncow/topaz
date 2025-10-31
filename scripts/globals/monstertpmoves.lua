@@ -1047,7 +1047,10 @@ function MobDrainStatusEffectMove(mob, target)
     local effect = mob:stealStatusEffect(target)
 
     MobRemoveEffects(target)
-    target:addEnmity(mob, 1, 320)
+
+    if mob:isPet() then
+        target:addEnmity(mob, 1, 320)
+    end
 
     if (effect ~= 0) then
         return tpz.msg.basic.EFFECT_DRAINED
@@ -1060,7 +1063,10 @@ end
 function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isGaze)
 
     MobRemoveEffects(target)
-    target:addEnmity(mob, 1, 320)
+
+    if mob:isPet() then
+        target:addEnmity(mob, 1, 320)
+    end
 
     if isNoEffectMsg(mob, target, typeEffect, params) then
         return tpz.msg.basic.SKILL_NO_EFFECT -- Should this be SKILL_MISS?
@@ -1131,8 +1137,10 @@ end
 function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, isGaze)
 
     MobRemoveEffects(target)
-    target:addEnmity(mob, 1, 320)
 
+    if mob:isPet() then
+        target:addEnmity(mob, 1, 320)
+    end
     if isNoEffectMsg(mob, target, typeEffect, params) then
         return tpz.msg.basic.SKILL_NO_EFFECT -- Should this be SKILL_MISS?
     end
@@ -1198,7 +1206,10 @@ end
 function MobHasteOverwriteSlowMove(mob, target, power, tick, duration, subid, subpower, tier)
 
     MobRemoveEffects(target)
-    target:addEnmity(mob, 1, 320)
+
+    if mob:isPet() then
+        target:addEnmity(mob, 1, 320)
+    end
 
     if target:hasStatusEffect(tpz.effect.FEALTY) then
 	    return tpz.msg.basic.SKILL_MISS
@@ -1258,7 +1269,11 @@ function MobGazeMove(mob, target, typeEffect, power, tick, duration)
     if (target:isFacing(mob)) then
 		if target:hasStatusEffect(tpz.effect.BLINDNESS) then
             MobRemoveEffects(target)
-            target:addEnmity(mob, 1, 320)
+
+            if mob:isPet() then
+                target:addEnmity(mob, 1, 320)
+            end
+
 			return tpz.msg.basic.SKILL_MISS
 		else
 			return MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, true)
@@ -1266,7 +1281,11 @@ function MobGazeMove(mob, target, typeEffect, power, tick, duration)
     end
 
     MobRemoveEffects(target)
-    target:addEnmity(mob, 1, 320)
+
+    if mob:isPet() then
+        target:addEnmity(mob, 1, 320)
+    end
+
     return tpz.msg.basic.SKILL_MISS
 end
 
@@ -1275,7 +1294,11 @@ function MobGazeMoveSub(mob, target, typeEffect, power, tick, duration, subid, s
     if (target:isFacing(mob)) then
 		if target:hasStatusEffect(tpz.effect.BLINDNESS) then
             MobRemoveEffects(target)
-            target:addEnmity(mob, 1, 320)
+
+            if mob:isPet() then
+                target:addEnmity(mob, 1, 320)
+            end
+
 			return tpz.msg.basic.SKILL_MISS
 		else
 			return MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, true)
@@ -1283,7 +1306,11 @@ function MobGazeMoveSub(mob, target, typeEffect, power, tick, duration, subid, s
     end
 
     MobRemoveEffects(target)
-    target:addEnmity(mob, 1, 320)
+
+    if mob:isPet() then
+        target:addEnmity(mob, 1, 320)
+    end
+    
     return tpz.msg.basic.SKILL_MISS
 end
 
@@ -1370,7 +1397,7 @@ function MobBuffMove(mob, typeEffect, power, tick, duration)
     end
 
     local target = mob:getTarget()
-    if target then
+    if mob:isPet() and target then
         target:addEnmity(mob, 320, 320)
     end
 
@@ -1392,7 +1419,7 @@ function MobBuffMoveSub(mob, typeEffect, power, tick, duration, subid, subpower,
     end
 
     local target = mob:getTarget()
-    if target then
+    if mob:isPet() and target then
         target:addEnmity(mob, 320, 320)
     end
 
@@ -1525,7 +1552,11 @@ function MobEncumberMove(mob, target, maxSlots, duration)
           mask = mask + math.pow(2, encumberSlots[i]);
         end
         MobRemoveEffects(target)
-        target:addEnmity(mob, 1, 320)
+
+        if mob:isPet() then
+            target:addEnmity(mob, 1, 320)
+        end
+
         target:addStatusEffectEx(tpz.effect.ENCUMBRANCE_II, tpz.effect.ENCUMBRANCE_II, mask, 0, duration * resist);
     end
 end
@@ -1543,14 +1574,22 @@ function MobCharmMove(mob, target, skill, costume, duration)
 
 	if (not target:isPC()) then
         MobRemoveEffects(target)
-        target:addEnmity(mob, 1, 320)
+
+        if mob:isPet() then
+            target:addEnmity(mob, 1, 320)
+        end
+
 		return skill:setMsg(tpz.msg.basic.SKILL_MISS)
 	end
 	
 	if (resist >= 0.5) then
 		if target:hasStatusEffect(tpz.effect.FEALTY) then
             MobRemoveEffects(target)
+
+        if mob:isPet() then
             target:addEnmity(mob, 1, 320)
+        end
+
 		    return skill:setMsg(tpz.msg.basic.SKILL_MISS)
 		else
             mob:resetEnmity(target)
@@ -1561,7 +1600,11 @@ function MobCharmMove(mob, target, skill, costume, duration)
         end
 	else
         MobRemoveEffects(target)
-        target:addEnmity(mob, 1, 320)
+        
+        if mob:isPet() then
+            target:addEnmity(mob, 1, 320)
+        end
+
 	    return skill:setMsg(tpz.msg.basic.SKILL_MISS)
 	end
 end
@@ -1619,7 +1662,10 @@ function MobDispelMove(mob, target, skill, element, param1, param2)
     resist = CheckPlayerStatusElementResist(mob, target, element, effect, resist, bonus)
 
     MobRemoveEffects(target)
-    target:addEnmity(mob, 1, 320)
+
+    if mob:isPet() then
+        target:addEnmity(mob, 1, 320)
+    end
 
     -- Check for dispel resistance trait
 	if math.random(100) < target:getMod(tpz.mod.DISPELRESTRAIT) then
@@ -1655,7 +1701,10 @@ function MobFullDispelMove(mob, target, skill, param1, param2)
     resist = CheckPlayerStatusElementResist(mob, target, element, effect, resist, bonus)
 
     MobRemoveEffects(target)
-    target:addEnmity(mob, 1, 320)
+
+    if mob:isPet() then
+        target:addEnmity(mob, 1, 320)
+    end
 
     -- Check for dispel resistance trait
 	if math.random(100) < target:getMod(tpz.mod.DISPELRESTRAIT) then
@@ -1690,7 +1739,10 @@ function MobCorruptMove(mob, target, skill, amount)
     resist = CheckPlayerStatusElementResist(mob, target, element, effect, resist, bonus)
 
     MobRemoveEffects(target)
-    target:addEnmity(mob, 1, 320)
+    
+    if mob:isPet() then
+        target:addEnmity(mob, 1, 320)
+    end
 
 	if (resist >= 0.5) then
 		if target:hasStatusEffect(tpz.effect.FEALTY) then
