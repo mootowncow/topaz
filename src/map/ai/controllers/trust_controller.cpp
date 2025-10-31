@@ -139,6 +139,12 @@ void CTrustController::Tick(time_point tick)
         }
     }
 
+    // Match owners status
+    if (!PMaster->isDead() && POwner->isAlive())
+    {
+        POwner->status = PMaster->status;
+    }
+
     if (POwner->PAI->IsEngaged())
     {
         DoCombatTick(tick);
