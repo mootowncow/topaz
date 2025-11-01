@@ -42,7 +42,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
 	local resist =  applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, params.bonusmacc, tpz.effect.FROST) 
     local duration = (tp/1000 * 30) + 60
-    if IsWSDamageMessage(target, action) and resist >= 0.5) then
+    if IsWSDamageMessage(target, action) and resist >= 0.5 then
         if not target:hasStatusEffect(tpz.effect.FROST) and not target:hasStatusEffect(tpz.effect.BURN) then
             target:addStatusEffect(tpz.effect.FROST, 15, 3, duration * resist)
         end

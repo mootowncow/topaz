@@ -38,7 +38,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
 
 
-    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.POISON) == false) then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.POISON) == false then
         local duration = (30 + (tp/1000 * 60)) * applyResistanceAddEffect(player, target, tpz.magic.ele.WATER, 0, tpz.effect.POISON)
         target:addStatusEffect(tpz.effect.POISON, 3, 0, duration)
     end

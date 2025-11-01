@@ -33,7 +33,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.DARK, 0, tpz.effect.SLEEP_I)
     -- Silence duration changed from 60 to 45 as per bg-wiki: http://www.bg-wiki.com/bg/Tachi:_Gekko
-    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.SLEEP_I) == false) and resist >= 0.5 then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.SLEEP_I) == false and resist >= 0.5 then
         local duration = (tp/1000 * 60) * resist
         target:addStatusEffect(tpz.effect.SLEEP_I, 1, 0, duration)
     end

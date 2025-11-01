@@ -40,7 +40,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local duration = (75 + (tp/1000 * 15))
     duration = duration * resist
 
-    if IsWSDamageMessage(target, action) and not target:hasStatusEffect(tpz.effect.MAGIC_ATK_DOWN) and resist >= 0.5) then
+    if IsWSDamageMessage(target, action) and not target:hasStatusEffect(tpz.effect.MAGIC_ATK_DOWN) and resist >= 0.5 then
        target:addStatusEffect(tpz.effect.MAGIC_ATK_DOWN, 25, 0, duration)
     end
 

@@ -35,7 +35,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         params.str_wsc = 1.0
     end
 
-    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.INT_DOWN) == false) then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.INT_DOWN) == false then
         target:addStatusEffect(tpz.effect.INT_DOWN, 20, 0, 140)
     end
     return tpHits, extraHits, criticalHit, damage

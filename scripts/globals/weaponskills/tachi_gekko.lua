@@ -39,7 +39,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     jobUtil.AddIgnisRune(player, damage)
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, 0, tpz.effect.SILENCE)
     -- Silence duration changed from 60 to 45 as per bg-wiki: http://www.bg-wiki.com/bg/Tachi:_Gekko
-    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.SILENCE) == false) and resist >= 0.5 then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.SILENCE) == false and resist >= 0.5 then
         local duration = 45
         local isMaaIllmutheBestower = target:getPool() == 2465
 

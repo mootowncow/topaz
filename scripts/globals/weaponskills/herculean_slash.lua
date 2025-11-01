@@ -39,7 +39,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local effect = tpz.effect.PARALYSIS
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.DARK, 100, tpz.effect.NONE)
 
-    if IsWSDamageMessage(target, action) and resist >= 0.5) then
+    if IsWSDamageMessage(target, action) and resist >= 0.5 then
         target:dispelStatusEffect()
         target:dispelStatusEffect()
         target:dispelStatusEffect()

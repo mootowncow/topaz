@@ -35,7 +35,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 		if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
    
 	local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, 0, tpz.effect.SILENCE)
-    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.SILENCE) == false) and resist >= 0.5 then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.SILENCE) == false and resist >= 0.5 then
         local duration = (30 + (tp/1000 * 30))
         local isMaaIllmutheBestower = target:getPool() == 2465
 

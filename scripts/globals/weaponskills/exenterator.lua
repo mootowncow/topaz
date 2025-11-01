@@ -40,7 +40,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
 
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.EARTH, 0, tpz.effect.ACCURACY_DOWN)
-    if IsWSDamageMessage(target, action) and not target:hasStatusEffect(tpz.effect.ACCURACY_DOWN) and resist >= 0.5) then
+    if IsWSDamageMessage(target, action) and not target:hasStatusEffect(tpz.effect.ACCURACY_DOWN) and resist >= 0.5 then
         local duration = tp / 1000 * 60
         target:delStatusEffect(tpz.effect.ACCURACY_BOOST)
         target:addStatusEffect(tpz.effect.ACCURACY_DOWN, 30, 0, duration * resist)
