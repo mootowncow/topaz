@@ -147,7 +147,7 @@ local menus = {
         tpz.items.VALOROUS_GREAVES,
 
         tpz.items.HERCULEAN_HELM,
-        tpz.items.HERCULEAN_VEST, -- 4% Haste 5 Acc
+        tpz.items.HERCULEAN_VEST,
         tpz.items.HERCULEAN_GLOVES,
         tpz.items.HERCULEAN_TROUSERS,
         tpz.items.HERCULEAN_BOOTS,
@@ -207,7 +207,7 @@ function onEventUpdate(player, csid, option)
         printf("Option: [%d], Item: [%d], Cost: [%d]", option, item, cost)
 
         if (currentPoints >= cost) then
-            player:updateEvent(90, 7, 1880556290, 24119625, 675706948, 136512258, 138676741, 0)
+            player:updateEvent(currentPoints - cost, 7, 1880556290, 24119625, 675706948, 136512258, 138676741, 0)
             player:addItem(item)
             player:messageSpecial( ID.text.ITEM_OBTAINED, item)
             player:delCurrency("domain_points", cost)
