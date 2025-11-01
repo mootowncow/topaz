@@ -351,6 +351,7 @@ local modByMobName =
     end,
 
     ['Kamlanaut'] = function(mob)
+        mob:setDamage(175)
         mob:setMod(tpz.mod.UDMGPHYS, -30)
         mob:setMod(tpz.mod.UDMGMAGIC, -30)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
