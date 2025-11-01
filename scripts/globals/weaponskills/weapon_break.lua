@@ -45,12 +45,12 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WATER, bonus, tpz.effect.ATTACK_DOWN)
-    if (damage > 0 and target:hasStatusEffect(tpz.effect.ATTACK_DOWN) == false) and resist >= 0.5  then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.ATTACK_DOWN) == false) and resist >= 0.5  then
         local duration = (120 + (tp/1000 * 60))
         target:addStatusEffect(tpz.effect.ATTACK_DOWN, power, 0, duration * resist, 0, power, 0)
     end
-	if damage > 0 then player:trySkillUp(target, tpz.skill.GREAT_AXE, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.GREAT_AXE, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
 end

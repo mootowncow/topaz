@@ -28,8 +28,8 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     params.accuracyVariesWithTP = true
     params.atk100 = 0.875; params.atk200 = 0.875; params.atk300 = 0.875
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-	if damage > 0 then player:trySkillUp(target, tpz.skill.POLEARM, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.POLEARM, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
     jobUtil.AddIgnisRune(player, damage)
 
     return tpHits, extraHits, criticalHit, damage

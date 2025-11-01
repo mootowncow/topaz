@@ -1904,3 +1904,12 @@ function GetMaxWeaponPdif(attacker)
 
     return 2.0
 end
+
+function IsWSDamageMessage(target, action)
+    return
+    (action:messageID(target:getID()) == tpz.msg.basic.DAMAGE) or 
+    (action:messageID(target:getID()) == tpz.msg.basic.DAMAGE_SECONDARY) or
+    (action:messageID(target:getID()) == tpz.msg.basic.SELF_HEAL) or
+    (action:messageID(target:getID()) == tpz.msg.basic.SELF_HEAL_SECONDARY) or
+    (action:messageID(target:getID()) == tpz.msg.basic.SKILL_RECOVERS_HP)
+end

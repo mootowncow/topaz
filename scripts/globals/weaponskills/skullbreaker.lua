@@ -27,15 +27,15 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     params.acc100 = 1.0 params.acc200= 1.0 params.acc300= 1.0
     params.atk100 = 1; params.atk200 = 1; params.atk300 = 1
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-	if damage > 0 then player:trySkillUp(target, tpz.skill.CLUB, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.CLUB, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
 
 
     if (USE_ADOULIN_WEAPON_SKILL_CHANGES == true) then
         params.str_wsc = 1.0
     end
 
-    if (damage > 0 and target:hasStatusEffect(tpz.effect.INT_DOWN) == false) then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.INT_DOWN) == false) then
         target:addStatusEffect(tpz.effect.INT_DOWN, 20, 0, 140)
     end
     return tpHits, extraHits, criticalHit, damage

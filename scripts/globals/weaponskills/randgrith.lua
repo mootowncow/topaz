@@ -38,14 +38,14 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     local bonus = 100
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, bonus, tpz.effect.EVASION_DOWN)
-    if (damage > 0 and not target:hasStatusEffect(tpz.effect.EVASION_DOWN) and resist >= 0.5) then
+    if IsWSDamageMessage(target, action) and not target:hasStatusEffect(tpz.effect.EVASION_DOWN) and resist >= 0.5) then
         local duration = tp / 1000 * 20 * resist
         target:delStatusEffect(tpz.effect.EVASION_BOOST)
         target:addStatusEffect(tpz.effect.EVASION_DOWN, 32, 0, duration)
     end
 
-	if damage > 0 then player:trySkillUp(target, tpz.skill.CLUB, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.CLUB, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
 end

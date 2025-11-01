@@ -31,12 +31,12 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     end
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-	if damage > 0 then player:trySkillUp(target, tpz.skill.POLEARM, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.POLEARM, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
     jobUtil.AddIgnisRune(player, damage)
 
 
-    if (damage > 0 and target:hasStatusEffect(tpz.effect.CRIT_HIT_EVASION_DOWN) == false) then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.CRIT_HIT_EVASION_DOWN) == false) then
         target:addStatusEffect(tpz.effect.CRIT_HIT_EVASION_DOWN, 5, 0, 60)
     end
     return tpHits, extraHits, criticalHit, damage

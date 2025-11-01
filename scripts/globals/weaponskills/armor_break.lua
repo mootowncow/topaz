@@ -44,7 +44,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 
-    if (damage > 0) then
+    if IsWSDamageMessage(target, action) then
         -- Try to apply Defense Down
         local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, bonus, tpz.effect.DEFENSE_DOWN, tpz.skill.GREAT_AXE)
         if not target:hasStatusEffect(tpz.effect.DEFENSE_DOWN) and (resist >= 0.5) then
@@ -60,8 +60,8 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         end
     end
 
-	if damage > 0 then player:trySkillUp(target, tpz.skill.GREAT_AXE, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.GREAT_AXE, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
 end

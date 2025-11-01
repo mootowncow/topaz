@@ -43,28 +43,32 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         bonus = 50
     end
 
-    if (damage > 0) then
+    if IsWSDamageMessage(target, action) then
         local duration = (tp/1000) * 180
         local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, bonus, tpz.effect.DEFENSE_DOWN)
         if (target:hasStatusEffect(tpz.effect.DEFENSE_DOWN) == false) and resist >= 0.5  then
+            target:delStatusEffect(tpz.effect.DEFENSE_BOOST)
             target:addStatusEffect(tpz.effect.DEFENSE_DOWN, power1, 0, duration * resist)
         end
         local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WATER, bonus, tpz.effect.ATTACK_DOWN)
         if (target:hasStatusEffect(tpz.effect.ATTACK_DOWN) == false) and resist >= 0.5  then
+            target:delStatusEffect(tpz.effect.ATTACK_BOOST)
             target:addStatusEffect(tpz.effect.ATTACK_DOWN, power1, 0, duration * resist)
         end
         local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, bonus, tpz.effect.EVASION_DOWN)
         if (target:hasStatusEffect(tpz.effect.EVASION_DOWN) == false) and resist >= 0.5  then
+            target:delStatusEffect(tpz.effect.EVASION_BOOST)
             target:addStatusEffect(tpz.effect.EVASION_DOWN, power2, 0, duration * resist)
         end
         local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.EARTH, bonus, tpz.effect.ACCURACY_DOWN)
         if (target:hasStatusEffect(tpz.effect.ACCURACY_DOWN) == false) and resist >= 0.5  then
+            target:delStatusEffect(tpz.effect.ACCURACY_BOOST)
             target:addStatusEffect(tpz.effect.ACCURACY_DOWN, power2, 0, duration * resist)
         end
     end
 
-	if damage > 0 then player:trySkillUp(target, tpz.skill.GREAT_AXE, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.GREAT_AXE, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
 end

@@ -36,11 +36,11 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     end
 
     local damage, criticalHit, tpHits, extraHits = doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
-	if damage > 0 then player:trySkillUp(target, tpz.skill.CLUB, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.CLUB, tpHits+extraHits) end
 	
     local maccBonus = math.floor(MaccTPModifier(tp) * 10) -- 100/200/300
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.LIGHT, maccBonus, tpz.effect.FLASH)
-    if (damage > 0 and not target:hasStatusEffect(tpz.effect.FLASH) and resist >= 0.5) then
+    if IsWSDamageMessage(target, action) and not target:hasStatusEffect(tpz.effect.FLASH) and resist >= 0.5) then
         local duration = 12 * resist
         target:addStatusEffect(tpz.effect.FLASH, 300, 3, duration)
     end

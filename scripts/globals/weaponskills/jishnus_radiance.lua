@@ -38,7 +38,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     tpz.aftermath.addStatusEffect(player, tp, tpz.slot.RANGED, tpz.aftermath.type.EMPYREAN)
 
     local damage, criticalHit, tpHits, extraHits, shadowsAbsorbed = doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
-    if damage > 0 then player:trySkillUp(target, tpz.skill.ARCHERY, tpHits+extraHits) end
+    if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.ARCHERY, tpHits+extraHits) end
 
     if shadowsAbsorbed + tpHits + extraHits == 3 then
         action:speceffect(target:getID(), bit.bor(action:speceffect(target:getID()), 8))

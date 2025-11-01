@@ -39,11 +39,11 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     tpz.aftermath.addStatusEffect(player, tp, tpz.slot.MAIN, tpz.aftermath.type.MYTHIC)
 
     local damage, criticalHit, tpHits, extraHits = doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
-		if damage > 0 then player:trySkillUp(target, tpz.skill.STAFF, tpHits+extraHits) end
+		if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.STAFF, tpHits+extraHits) end
 		
 		
 	local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, 50, tpz.effect.DEFENSE_DOWN)
-    if (damage > 0 and target:hasStatusEffect(tpz.effect.DEFENSE_DOWN) == false) and resist >= 0.5 then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.DEFENSE_DOWN) == false) and resist >= 0.5 then
         local duration = (30 + tp / 1000 * 30)
         target:delStatusEffect(tpz.effect.DEFENSE_BOOST)
         target:addStatusEffect(tpz.effect.DEFENSE_DOWN, 12.5, 0, duration * resist)

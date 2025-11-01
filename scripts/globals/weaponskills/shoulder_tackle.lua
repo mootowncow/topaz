@@ -31,12 +31,12 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     end
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-	if damage > 0 then player:trySkillUp(target, tpz.skill.HAND_TO_HAND, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.HAND_TO_HAND, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
 
     local maccBonus = math.floor(MaccTPModifier(tp))
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.THUNDER, maccBonus, tpz.effect.STUN)
-    if (damage > 0) and not target:hasStatusEffect(tpz.effect.STUN) and (resist >= 0.5) then
+    if IsWSDamageMessage(target, action)) and not target:hasStatusEffect(tpz.effect.STUN) and (resist >= 0.5) then
         local duration = 12 * resist
         target:addStatusEffect(tpz.effect.STUN, 1, 0, duration)
     end

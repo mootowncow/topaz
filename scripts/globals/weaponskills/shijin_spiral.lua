@@ -32,7 +32,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         params.dex_wsc = 0.7 + (player:getMerit(tpz.merit.SHIJIN_SPIRAL) / 100)
     end
 
-    if (damage > 0) then
+    if IsWSDamageMessage(target, action) then
         local duration = (tp/1000) + 4
         if (target:hasStatusEffect(tpz.effect.PLAGUE) == false) then
             target:addStatusEffect(tpz.effect.PLAGUE, 5, 0, duration)

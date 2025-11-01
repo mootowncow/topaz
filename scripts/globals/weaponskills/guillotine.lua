@@ -31,11 +31,11 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     end
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-		if damage > 0 then player:trySkillUp(target, tpz.skill.SCYTHE, tpHits+extraHits) end
-		if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+		if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.SCYTHE, tpHits+extraHits) end
+		if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
    
 	local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, 0, tpz.effect.SILENCE)
-    if (damage > 0 and target:hasStatusEffect(tpz.effect.SILENCE) == false) and resist >= 0.5 then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.SILENCE) == false) and resist >= 0.5 then
         local duration = (30 + (tp/1000 * 30))
         local isMaaIllmutheBestower = target:getPool() == 2465
 

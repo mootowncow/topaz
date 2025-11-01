@@ -107,7 +107,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     damage = WSC
 
-    if (damage > 0) then
+    if IsWSDamageMessage(target, action) then
         if (player:getOffhandDmg() > 0) then
             calcParams.tpHitsLanded = 2
         else

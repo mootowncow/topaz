@@ -40,11 +40,11 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local duration = (75 + (tp/1000 * 15))
     duration = duration * resist
 
-    if (damage > 0 and not target:hasStatusEffect(tpz.effect.MAGIC_ATK_DOWN) and resist >= 0.5) then
+    if IsWSDamageMessage(target, action) and not target:hasStatusEffect(tpz.effect.MAGIC_ATK_DOWN) and resist >= 0.5) then
        target:addStatusEffect(tpz.effect.MAGIC_ATK_DOWN, 25, 0, duration)
     end
 
-	if damage > 0 then player:trySkillUp(target, tpz.skill.KATANA, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.KATANA, tpHits+extraHits) end
 	
     return tpHits, extraHits, criticalHit, damage
 end

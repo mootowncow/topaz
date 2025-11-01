@@ -32,7 +32,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     end
 
     local damage, criticalHit, tpHits, extraHits = doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
-	if damage > 0 then player:trySkillUp(target, tpz.skill.STAFF, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.STAFF, tpHits+extraHits) end
 		
 		
 	local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.DARK, 50, tpz.effect.SLEEP_I)

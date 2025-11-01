@@ -42,8 +42,8 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         target:addStatusEffect(effect, power, 3, duration)
     end
 
-	if damage > 0 then player:trySkillUp(target, tpz.skill.KATANA, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.KATANA, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
 end
