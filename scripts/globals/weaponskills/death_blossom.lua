@@ -47,7 +47,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     local maccBonus = math.floor(MaccTPModifier(tp))
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.THUNDER, maccBonus, tpz.effect.MAGIC_EVASION_DOWN)
-    if IsWSDamageMessage(target, action)) and (resist >= 0.5) then
+    if IsWSDamageMessage(target, action) and (resist >= 0.5) then
         target:addStatusEffect(tpz.effect.MAGIC_EVASION_DOWN, 10, 0, 60 * resist)
     end
 

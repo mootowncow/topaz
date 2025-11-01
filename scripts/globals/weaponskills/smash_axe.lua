@@ -37,7 +37,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     local maccBonus = math.floor(MaccTPModifier(tp))
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.THUNDER, maccBonus,tpz.effect.STUN)
-    if IsWSDamageMessage(target, action)) and not target:hasStatusEffect(tpz.effect.STUN) and (resist >= 0.5) then
+    if IsWSDamageMessage(target, action) and not target:hasStatusEffect(tpz.effect.STUN) and (resist >= 0.5) then
         local duration = 12 * resist
         target:addStatusEffect(tpz.effect.STUN, 1, 0, duration)
     end
