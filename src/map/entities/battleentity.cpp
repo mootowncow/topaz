@@ -2456,12 +2456,6 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         // Add extra damage multipliers
                         damage = battleutils::HandleExtraDamageMultipliers(PTarget, damage);
 
-                        // Reduce counter damage if footwork is active to 50% for balancing reasons
-                        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
-                        {
-                            damage *= 0.50;
-                        }
-
                         actionTarget.spikesParam = battleutils::TakePhysicalDamage(PTarget, this, attack.GetAttackType(), damage, false, SLOT_MAIN, 1, nullptr, true, false, true);
                         actionTarget.spikesMessage = 33;
 
