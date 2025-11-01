@@ -36,7 +36,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     jobUtil.AddIgnisRune(player, damage)
 
 
-    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.CRIT_HIT_EVASION_DOWN) == false) then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.CRIT_HIT_EVASION_DOWN) == false then
         target:addStatusEffect(tpz.effect.CRIT_HIT_EVASION_DOWN, 5, 0, 60)
     end
     return tpHits, extraHits, criticalHit, damage
