@@ -16175,9 +16175,10 @@ INSERT INTO `item_mods` VALUES (15015,1,26);
 INSERT INTO `item_mods` VALUES (15015,9,10);
 INSERT INTO `item_mods` VALUES (15015,25,5);
 INSERT INTO `item_mods` VALUES (15015,306,1);
-INSERT INTO `item_mods` VALUES (15016,1,23);
-INSERT INTO `item_mods` VALUES (15016,2,30);
-INSERT INTO `item_mods` VALUES (15016,10,3);
+INSERT INTO `item_mods` VALUES (15016,1,23); -- DEF 23
+INSERT INTO `item_mods` VALUES (15016,2,30); -- HP 30
+INSERT INTO `item_mods` VALUES (15016,8,-5); -- STR -5
+INSERT INTO `item_mods` VALUES (15016,288,3); -- DOUBLE_ATTACK 3
 INSERT INTO `item_mods` VALUES (15017,1,16);
 INSERT INTO `item_mods` VALUES (15017,2,20);
 INSERT INTO `item_mods` VALUES (15017,28,3);
@@ -20282,9 +20283,9 @@ INSERT INTO `item_mods` VALUES (16318,2,25);
 INSERT INTO `item_mods` VALUES (16318,5,25);
 INSERT INTO `item_mods` VALUES (16318,28,2);
 INSERT INTO `item_mods` VALUES (16318,296,2);
-INSERT INTO `item_mods` VALUES (16319,1,35);    -- Sangoma Lappa
-INSERT INTO `item_mods` VALUES (16319,5,30);    -- MP +30
-INSERT INTO `item_mods` VALUES (16319,838,10);  -- Enhances Regen +10%
+INSERT INTO `item_mods` VALUES (16319,1,35); -- DEF 35
+INSERT INTO `item_mods` VALUES (16319,5,30); -- MP 30
+INSERT INTO `item_mods` VALUES (16319,113,10); -- ENHANCE 10
 INSERT INTO `item_mods` VALUES (16320,1,29);    -- Kensei Sitabaki
 INSERT INTO `item_mods` VALUES (16320,10,15);     -- VIT +15
 INSERT INTO `item_mods` VALUES (16320,23,10);    -- Attack +10
