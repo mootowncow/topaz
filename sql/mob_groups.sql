@@ -7142,6 +7142,7 @@ INSERT INTO `mob_groups` VALUES (37,274,99,'Asterion',7200,0,185,15000,0,83,83,0
 INSERT INTO `mob_groups` VALUES (38,3815,99,'Suu_Xicu_the_Cantabile',7200,0,2361,15000,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (39,4210,99,'Vee_Ladu_the_Titterer',0,128,0,20,0,80,80,0); -- Clones
 INSERT INTO `mob_groups` VALUES (40,1146,99,'Duu_Nazo_the_Spryfooted',0,128,0,2300,0,80,80,0);
+INSERT INTO `mob_groups` VALUES (156,4454,99,'Yagudos_Elemental',0,128,0,0,0,78,78,0);
 
 --Plucking Wings
 INSERT INTO `mob_groups` VALUES (41,3703,99,'Soo_Luma_the_Ascended',0,128,0,35000,0,85,85,0);
