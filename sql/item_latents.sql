@@ -1380,7 +1380,7 @@ INSERT INTO `item_latents` VALUES(18145, 841, 10, 61, 2);     -- Windurst Citize
 -- -------------------------------------------------------
 -- Master Caster's Baghnakhs
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(17508, 173, 5, 61, 2);     -- Windurst Citizens: Martial Arts +5
+INSERT INTO `item_latents` VALUES(17508, 173, 3, 61, 2); -- [17508] Mst.Cst.Baghnakhs: Citizen Of(2) - MARTIAL_ARTS 3
 
 -- -------------------------------------------------------
 -- Master Caster's Pole
