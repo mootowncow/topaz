@@ -3830,3 +3830,8 @@ INSERT INTO `item_latents` VALUES(22006, 355, 174, 68, 1); -- [22006] Voluspa Ha
 INSERT INTO `item_latents` VALUES(22088, 355, 191, 68, 1); -- [22088] Voluspa Pole: In RAID(1) - ADDS_WEAPONSKILL 191
 INSERT INTO `item_latents` VALUES(22133, 355, 203, 68, 1); -- [22133] Voluspa Bow: In RAID(1) - ADDS_WEAPONSKILL 203
 INSERT INTO `item_latents` VALUES(22144, 355, 221, 68, 1); -- [22144] Voluspa Gun: In RAID(1) - ADDS_WEAPONSKILL 221
+INSERT INTO `item_latents` VALUES(20702, 369, 1, 62, 0); -- [20702] Emissary: Main hand: - REFRESH 1
+INSERT INTO `item_latents` VALUES(20979, 165, 7, 62, 0); -- [20979] Aizushintogo: Main hand: - CRITHITRATE 7
+INSERT INTO `item_latents` VALUES(20979, 421, 10, 62, 0); -- [20979] Aizushintogo: Main hand: - CRIT_DMG_INCREASE 10
+INSERT INTO `item_latents` VALUES(20597, 165, 7, 62, 0); -- [20597] Enchufla: Main hand: - CRITHITRATE 7
+INSERT INTO `item_latents` VALUES(20597, 421, 10, 62, 0); -- [20597] Enchufla: Main hand: - CRIT_DMG_INCREASE 10

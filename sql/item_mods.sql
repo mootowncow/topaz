@@ -14135,10 +14135,10 @@ INSERT INTO `item_mods` VALUES (14410,1,26); -- DEF 26
 INSERT INTO `item_mods` VALUES (14410,370,1); -- REGEN 1
 INSERT INTO `item_mods` VALUES (14410,904,5); -- FENCER_CRITHITRATE 5
 INSERT INTO `item_mods` VALUES (14410,986,5); -- FENCER_JA_HASTE 5
-INSERT INTO `item_mods` VALUES (14411,1,33);      -- Aikido Gi
-INSERT INTO `item_mods` VALUES (14411,10,4);
-INSERT INTO `item_mods` VALUES (14411,11,2);
-INSERT INTO `item_mods` VALUES (14411,173,5);     -- Martial Arts +5
+INSERT INTO `item_mods` VALUES (14411,1,33); -- DEF 33
+INSERT INTO `item_mods` VALUES (14411,10,4); -- VIT 4
+INSERT INTO `item_mods` VALUES (14411,11,2); -- AGI 2
+INSERT INTO `item_mods` VALUES (14411,173,2); -- MARTIAL_ARTS 2
 INSERT INTO `item_mods` VALUES (14412,1,38);      -- Parade Cuirass
 INSERT INTO `item_mods` VALUES (14412,2,28);
 INSERT INTO `item_mods` VALUES (14412,10,5);      -- VIT+5
@@ -26310,8 +26310,9 @@ INSERT INTO `item_mods` VALUES (20840,355,92); -- Ukko's Fury
 INSERT INTO `item_mods` VALUES (20842,954,15);  -- Reikiono Berserk Duration + 15
 INSERT INTO `item_mods` VALUES (20843,73,10); -- Chango - STP +10
 INSERT INTO `item_mods` VALUES (20843,345,500); -- TP Bonus +500
-INSERT INTO `item_mods` VALUES (20845,954,20);  -- Instigator Berserk Duration + 20
-INSERT INTO `item_mods` VALUES (20845,955,20);  -- Instigator Aggressor Duration + 20
+INSERT INTO `item_mods` VALUES (20845,25,-30); -- ACC -30
+INSERT INTO `item_mods` VALUES (20845,165,7); -- CRITHITRATE 7
+INSERT INTO `item_mods` VALUES (20845,421,10); -- CRIT_DMG_INCREASE 10
 INSERT INTO `item_mods` VALUES (20849,25,20); -- Blurred Cleaver - 20 Acc
 INSERT INTO `item_mods` VALUES (20850,25,25); -- Blurred Cleaver +1 - 25 Acc
 INSERT INTO `item_mods` VALUES (20851,23,20);     -- Aizkora (iLvl 119): Attack +20
@@ -26838,8 +26839,7 @@ INSERT INTO `item_mods` VALUES (21144,355,190); -- Myrkr
 INSERT INTO `item_mods` VALUES (21147,73,10); -- Khatvanga - STP +10
 INSERT INTO `item_mods` VALUES (21147,345,500); -- TP Bonus +500
 INSERT INTO `item_mods` VALUES (21147,902,30); -- "Occult Acumen" +30
-INSERT INTO `item_mods` VALUES (21151,24,10);
-INSERT INTO `item_mods` VALUES (21151,26,15);
+INSERT INTO `item_mods` VALUES (21151,369,1); -- REFRESH 1
 INSERT INTO `item_mods` VALUES (21155,5,61); -- Marquetry staff 21155-- MP+61
 -- INSERT INTO `item_mods` VALUES (21155,Blood Boon,5); -- "Blood Boon"+5 unassign mod
 INSERT INTO `item_mods` VALUES (21157,12,12); -- Blurred Staff - 12 Int
@@ -27265,7 +27265,9 @@ INSERT INTO `item_mods` VALUES (21479,305,15);
 INSERT INTO `item_mods` VALUES (21480,26,20);     -- Blurred Crossbow - 20 Racc
 INSERT INTO `item_mods` VALUES (21481,26,25);     -- Blurred Crossbow +1 - 25 Racc
 INSERT INTO `item_mods` VALUES (21481,365,15);    -- Snapshot +15
-INSERT INTO `item_mods` VALUES (21482,882,20);    -- Phantom Roll Duration +
+INSERT INTO `item_mods` VALUES (21482,26,20); -- RACC 20
+INSERT INTO `item_mods` VALUES (21482,24,10); -- RATT 10
+INSERT INTO `item_mods` VALUES (21482,305,25); -- RECYCLE 25
 INSERT INTO `item_mods` VALUES (21485,73,10);     -- Fomalhaut - STP +10
 INSERT INTO `item_mods` VALUES (21485,345,500);   -- TP Bonus +500
 INSERT INTO `item_mods` VALUES (21506,8,10);      -- jolt_counter STR+10
@@ -52971,3 +52973,32 @@ INSERT INTO `item_mods` VALUES (25719,1,21); -- DEF 21
 INSERT INTO `item_mods` VALUES (25719,5,40); -- MP 40
 INSERT INTO `item_mods` VALUES (25719,28,10); -- MATT 10
 INSERT INTO `item_mods` VALUES (25719,30,-10); -- MACC -10
+INSERT INTO `item_mods` VALUES (20519,429,10); -- FOOTWORK_ATT_BONUS 10
+INSERT INTO `item_mods` VALUES (20519,386,10); -- KICK_DMG 10
+INSERT INTO `item_mods` VALUES (21084,23,24); -- ATT 24
+INSERT INTO `item_mods` VALUES (20598,431,1); -- ADDITIONAL_EFFECT 1
+INSERT INTO `item_mods` VALUES (20700,2,50); -- HP 50
+INSERT INTO `item_mods` VALUES (20700,27,5); -- ENMITY 5
+INSERT INTO `item_mods` VALUES (20700,518,5); -- SHIELDBLOCKRATE 5
+INSERT INTO `item_mods` VALUES (20892,25,-30); -- ACC -30
+INSERT INTO `item_mods` VALUES (20892,1360,30); -- LAST_RESORT_DURATION 30
+INSERT INTO `item_mods` VALUES (20599,455,5); -- SONG_SPELLCASTING_TIME 5
+INSERT INTO `item_mods` VALUES (21215,8,4); -- STR 4
+INSERT INTO `item_mods` VALUES (21215,11,4); -- AGI 4
+INSERT INTO `item_mods` VALUES (21215,26,4); -- RACC 4
+INSERT INTO `item_mods` VALUES (21215,24,25); -- RATT 25
+INSERT INTO `item_mods` VALUES (21215,73,2); -- STORETP 2
+INSERT INTO `item_mods` VALUES (21027,880,250); -- SAVETP 250
+INSERT INTO `item_mods` VALUES (20979,25,-30); -- ACC -30
+INSERT INTO `item_mods` VALUES (20937,25,-30); -- ACC -30
+INSERT INTO `item_mods` VALUES (20937,165,7); -- CRITHITRATE 7
+INSERT INTO `item_mods` VALUES (20937,421,10); -- CRIT_DMG_INCREASE 10
+INSERT INTO `item_mods` VALUES (21149,5,40); -- MP 40
+INSERT INTO `item_mods` VALUES (21149,357,2); -- BP_DELAY 2
+INSERT INTO `item_mods` VALUES (20701,25,-30); -- ACC -30
+INSERT INTO `item_mods` VALUES (20701,1357,25); -- BLU_ATTP 25
+INSERT INTO `item_mods` VALUES (20597,25,-30); -- ACC -30
+INSERT INTO `item_mods` VALUES (20520,25,5); -- ACC 5
+INSERT INTO `item_mods` VALUES (20520,289,5); -- SUBTLE_BLOW 5
+INSERT INTO `item_mods` VALUES (20520,27,-5); -- ENMITY -5
+INSERT INTO `item_mods` VALUES (21150,838,10); -- REGEN_MULTIPLIER 10
