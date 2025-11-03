@@ -284,7 +284,7 @@ INSERT INTO `abilities` VALUES (223,'stratagems',20,10,1,0,233,0,0,0,2000,0,6,20
 INSERT INTO `abilities` VALUES (224,'velocity_shot',11,45,1,60,129,0,0,186,2000,0,6,20.0,0,1,300,0,0,'WOTG',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (225,'snarl',9,45,257,30,107,0,0,87,2000,0,6,20.0,0,0,0,0,192,'WOTG',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (226,'retaliation',1,60,1,300,8,0,0,193,2000,0,6,20.0,0,1,80,0,0,'WOTG',0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (227,'footwork',2,65,1,60,21,0,0,197,2000,0,6,20.0,0,1,80,0,0,'WOTG',0,0,0,0,0,0);
+INSERT INTO `abilities` VALUES (227,'footwork',2,65,1,120,21,0,0,197,2000,0,6,20.0,0,1,80,0,0,'WOTG',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (228,'despoil',6,60,4,300,61,125,0,181,2000,0,3,5.4,0,1,300,0,0,'ABYSSEA',0,0,0,0,0,0);		-- changed from  300s cd level 77
 INSERT INTO `abilities` VALUES (229,'pianissimo',10,20,1,15,112,0,0,194,2000,0,6,20.0,0,1,60,0,0,'WOTG',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (230,'sekkanoki',12,40,1,300,140,0,0,199,2000,0,6,20.0,0,1,80,0,0,'WOTG',0,0,0,0,0,0);

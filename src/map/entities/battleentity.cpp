@@ -377,11 +377,8 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
 
             WeaponDelay -= martialArtsBonus * 1000 / 60;
         }
-        if (StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
-        {
-            WeaponDelay = WeaponDelay * 2;
-        }
-        else if (auto subweapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]); subweapon && subweapon->getDmgType() > 0 && subweapon->getDmgType() < 4)
+
+        if (auto subweapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]); subweapon && subweapon->getDmgType() > 0 && subweapon->getDmgType() < 4)
         {
             MinimumDelay += subweapon->getDelay();
             WeaponDelay += subweapon->getDelay();
