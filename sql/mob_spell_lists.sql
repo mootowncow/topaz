@@ -3182,8 +3182,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,473,75,255);        
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,260,32,255);        -- Dispel
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,841,35,255);        -- Distract
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,842,85,255);        -- Distract II
--- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,845,48,255);        -- Flurry
--- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,846,96,255);        -- Flurry II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,845,48,255);        -- Flurry
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,846,75,255);        -- Flurry II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,12,38,255);        -- Raise
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,135,66,255);       -- Reraise
 
