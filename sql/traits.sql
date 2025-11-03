@@ -588,10 +588,10 @@ INSERT INTO `traits` VALUES (103,'stout servant',15,95,2,0,7,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (103,'stout servant',18,78,1,0,5,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (103,'stout servant',18,88,2,0,7,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (103,'stout servant',18,98,3,0,9,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (103,'true shot',11,60,1,1053,3,'ABYSSEA',0); -- RNG
-INSERT INTO `traits` VALUES (103,'true shot',11,65,2,1053,5,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (103,'true shot',11,70,3,1053,7,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (103,'true shot',17,70,1,1053,3,'ABYSSEA',0); -- COR
+INSERT INTO `traits` VALUES (104,'true shot',11,60,1,1053,3,'ABYSSEA',0); -- RNG
+INSERT INTO `traits` VALUES (104,'true shot',11,65,2,1053,5,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (104,'true shot',11,70,3,1053,7,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (104,'true shot',17,70,1,1053,3,'ABYSSEA',0); -- COR
 INSERT INTO `traits` VALUES (105,'blood boon',15,30,1,913,20,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (105,'blood boon',15,45,2,913,22,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (105,'blood boon',15,60,3,913,24,'ABYSSEA',0);
