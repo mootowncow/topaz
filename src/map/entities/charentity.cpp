@@ -815,11 +815,11 @@ void CCharEntity::Tick(time_point tick)
         m_LastPartyReload = tick + std::chrono::milliseconds(10000);
     }
 
-    // Try to load PCs around you every 5 seconds
-    if (tick > m_LastPlayerLoadRequest)
+    // Try to load PCs around you every 5 seconds while in a cutscene
+    if (status == STATUS_CUTSCENE_ONLY && tick > m_LastPlayerLoadRequest)
     {
         requestedInfoSync = true;
-        m_LastPlayerLoadRequest = tick + std::chrono::milliseconds(5000);
+        m_LastPlayerLoadRequest = tick + 5s + std::chrono::milliseconds(tpzrand::GetRandomNumber(0, 1000));
     }
 
     if (m_moghouseID != 0)
