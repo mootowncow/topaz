@@ -19,7 +19,7 @@ require("scripts/globals/weaponskills")
 -----------------------------------
 
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
-
+    -- scaling is *1.2 (2k) *1.6 (3k)
     local params = {}
     params.numHits = 1
     params.ftp100 = 1.5625 params.ftp200 = 1.875 params.ftp300 = 2.5
