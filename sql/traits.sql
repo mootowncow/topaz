@@ -500,12 +500,12 @@ INSERT INTO `traits` VALUES (80,'desperate blows',8,75,3,906,1500,'SOA',0);
 INSERT INTO `traits` VALUES (81,'beast affinity ',9,75,1,0,0,'TOAU',0);
 INSERT INTO `traits` VALUES (82,'beast healer',9,75,1,0,0,'TOAU',0);
 INSERT INTO `traits` VALUES (83,'snapshot',11,75,1,0,0,'TOAU',0);
-INSERT INTO `traits` VALUES (84,'recycle',11,80,1,305,10,'SOA',0);
-INSERT INTO `traits` VALUES (84,'recycle',11,81,2,305,30,'SOA',0);
-INSERT INTO `traits` VALUES (84,'recycle',11,82,3,305,20,'SOA',0);
-INSERT INTO `traits` VALUES (84,'recycle',17,35,1,305,10,'SOA',0);
-INSERT INTO `traits` VALUES (84,'recycle',17,65,2,305,20,'SOA',0);
-INSERT INTO `traits` VALUES (84,'recycle',17,95,3,305,30,'SOA',0);
+INSERT INTO `traits` VALUES (84,'recycle',11,30,1,305,10,'SOA',0); -- RNG
+INSERT INTO `traits` VALUES (84,'recycle',11,40,2,305,20,'SOA',0);
+INSERT INTO `traits` VALUES (84,'recycle',11,50,3,305,30,'SOA',0);
+INSERT INTO `traits` VALUES (84,'recycle',17,20,1,305,10,'SOA',0); -- COR
+INSERT INTO `traits` VALUES (84,'recycle',17,30,2,305,20,'SOA',0);
+INSERT INTO `traits` VALUES (84,'recycle',17,40,3,305,30,'SOA',0);
 INSERT INTO `traits` VALUES (85,'ikishoten',12,75,1,0,0,'TOAU',2756);
 INSERT INTO `traits` VALUES (86,'overwhelm',12,75,1,0,0,'TOAU',2758);
 INSERT INTO `traits` VALUES (87,'ninja tool expert.',13,75,1,308,0,'TOAU',2818);
@@ -588,6 +588,10 @@ INSERT INTO `traits` VALUES (103,'stout servant',15,95,2,0,7,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (103,'stout servant',18,78,1,0,5,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (103,'stout servant',18,88,2,0,7,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (103,'stout servant',18,98,3,0,9,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (103,'true shot',11,60,1,1053,3,'ABYSSEA',0); -- RNG
+INSERT INTO `traits` VALUES (103,'true shot',11,65,2,1053,5,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (103,'true shot',11,70,3,1053,7,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (103,'true shot',17,70,1,1053,3,'ABYSSEA',0); -- COR
 INSERT INTO `traits` VALUES (105,'blood boon',15,30,1,913,20,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (105,'blood boon',15,45,2,913,22,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (105,'blood boon',15,60,3,913,24,'ABYSSEA',0);
