@@ -500,6 +500,9 @@ INSERT INTO `traits` VALUES (80,'desperate blows',8,75,3,906,1500,'SOA',0);
 INSERT INTO `traits` VALUES (81,'beast affinity ',9,75,1,0,0,'TOAU',0);
 INSERT INTO `traits` VALUES (82,'beast healer',9,75,1,0,0,'TOAU',0);
 INSERT INTO `traits` VALUES (83,'snapshot',11,75,1,0,0,'TOAU',0);
+INSERT INTO `traits` VALUES (83,'snapshot',17,40,1,365,5,'TOAU',0);
+INSERT INTO `traits` VALUES (83,'snapshot',17,60,2,365,10,'TOAU',0);
+INSERT INTO `traits` VALUES (83,'snapshot',17,75,3,365,15,'TOAU',0);
 INSERT INTO `traits` VALUES (84,'recycle',11,30,1,305,10,'SOA',0); -- RNG
 INSERT INTO `traits` VALUES (84,'recycle',11,40,2,305,20,'SOA',0);
 INSERT INTO `traits` VALUES (84,'recycle',11,50,3,305,30,'SOA',0);
