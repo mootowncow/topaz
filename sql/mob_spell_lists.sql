@@ -621,7 +621,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,249,10,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,204,56,255); -- Flare 
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,230,10,35);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,231,36,84);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,232,85,255); -- Bio III
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,232,99,255); -- Bio III
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,242,61,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,245,12,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,247,25,255);
@@ -642,12 +642,12 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,2,11,20);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,3,21,40);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,4,41,60);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,5,61,79);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,6,80,255);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,6,99,255); -- Cure VI
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,21,50,94);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,22,95,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,23,1,30);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,24,31,84);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,25,85,255); -- Dia III
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,25,99,255); -- Dia III
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,28,5,29);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,29,30,64);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,30,65,89);
