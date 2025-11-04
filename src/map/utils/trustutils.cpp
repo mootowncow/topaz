@@ -354,8 +354,6 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     PTrust->saveModifiers();
     PTrust->saveMobModifiers();
 
-    LoadTrustStatsAndSkills(PTrust);
-
     // Use Mob formulas to work out base "weapon" damage, but scale down to reasonable values.
     auto mobStyleDamage = static_cast<float>(mobutils::GetWeaponDamage(PTrust, SLOT_MAIN));
     auto baseDamage = mobStyleDamage * 0.5f;
@@ -461,6 +459,8 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     {
         mobutils::SetSpellList(PTrust, trustData->spellList);
     }
+
+    LoadTrustStatsAndSkills(PTrust);
 
     return PTrust;
 }
@@ -647,17 +647,32 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
     PTrust->stats.CHR = static_cast<uint16>((fCHR + mCHR + sCHR) * map_config.alter_ego_stat_multiplier);
 
     // Skills =======================
-    int8 mlvl = PTrust->GetMLevel();
-    int evasionRank = GetEvasionRankForJob(PTrust->GetMJob()); // Get rank for Trust's job
+    BuildingTrustSkillsTable(PTrust); // Need to build skills table before we can use them for adding mods
 
-    BuildingTrustSkillsTable(PTrust);
+    int evasionRank = GetEvasionRankForJob(PTrust->GetMJob()); // Get rank for Trust's job
+    SKILLTYPE mainhandSkill     = SKILL_HAND_TO_HAND; // Default to something
+    SKILLTYPE rangedSkill       = SKILL_ARCHERY;      // Default to something
+
+    // Get the actual skill type of the mainhand weapon currently being used by the trust
+    if (auto* mainWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]))
+    {
+        auto skillType = static_cast<SKILLTYPE>(mainWeapon->getSkillType());
+        mainhandSkill = (skillType != SKILL_NONE) ? skillType : mainhandSkill;
+    }
+
+    // Get the actual skill type of the ranged weapon currently being used by the trust
+    if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_RANGED]))
+    {
+        auto skillType = static_cast<SKILLTYPE>(rangedWeapon->getSkillType());
+        rangedSkill = (skillType != SKILL_NONE) ? skillType : rangedSkill;
+    }
 
     PTrust->addModifier(Mod::DEF, mobutils::GetBase(PTrust, PTrust->defRank));
-    PTrust->addModifier(Mod::EVA, battleutils::GetMaxSkill(evasionRank, mlvl > 99 ? 99 : mlvl));
-    PTrust->addModifier(Mod::ATT, mobutils::GetBase(PTrust, 1));
-    PTrust->addModifier(Mod::ACC, mobutils::GetBase(PTrust, 1));
-    PTrust->addModifier(Mod::RATT, mobutils::GetBase(PTrust, 1));
-    PTrust->addModifier(Mod::RACC, mobutils::GetBase(PTrust, 1));
+    PTrust->addModifier(Mod::EVA, battleutils::GetMaxSkill(evasionRank, mLvl > 99 ? 99 : mLvl));
+    PTrust->addModifier(Mod::ATT, battleutils::GetMaxSkill(mainhandSkill, mJob, mLvl > 99 ? 99 : mLvl));
+    PTrust->addModifier(Mod::ACC, battleutils::GetMaxSkill(mainhandSkill, mJob, mLvl > 99 ? 99 : mLvl));
+    PTrust->addModifier(Mod::RATT, battleutils::GetMaxSkill(rangedSkill, mJob, mLvl > 99 ? 99 : mLvl));
+    PTrust->addModifier(Mod::RACC, battleutils::GetMaxSkill(rangedSkill, mJob, mLvl > 99 ? 99 : mLvl));
 
     PTrust->addModifier(Mod::PARRY, battleutils::GetMaxSkill(SKILL_SINGING, JOB_BRD, mLvl)); // C Rank parrying
 
