@@ -357,8 +357,7 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     LoadTrustStatsAndSkills(PTrust);
 
     // Use Mob formulas to work out base "weapon" damage, but scale down to reasonable values.
-    auto mobStyleDamage = static_cast<float>(mobutils::GetWeaponDamage(PTrust, SLOT_MAIN));
-    auto baseDamage = mobStyleDamage * 0.5f;
+    auto baseDamage = static_cast<float>(mobutils::GetWeaponDamage(PTrust, SLOT_MAIN));
     auto damageMultiplier = static_cast<float>(trustData->cmbDmgMult) / 100.0f;
     auto adjustedDamage = baseDamage * damageMultiplier;
     auto finalDamage = static_cast<uint16>(std::max(adjustedDamage, 1.0f));
@@ -649,10 +648,10 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
 
     PTrust->addModifier(Mod::DEF, mobutils::GetBase(PTrust, PTrust->defRank));
     PTrust->addModifier(Mod::EVA, battleutils::GetMaxSkill(evasionRank, mlvl > 99 ? 99 : mlvl));
-    PTrust->addModifier(Mod::ATT, mobutils::GetBase(PTrust, PTrust->attRank));
-    PTrust->addModifier(Mod::ACC, mobutils::GetBase(PTrust, PTrust->accRank));
-    PTrust->addModifier(Mod::RATT, mobutils::GetBase(PTrust, PTrust->attRank));
-    PTrust->addModifier(Mod::RACC, mobutils::GetBase(PTrust, PTrust->accRank));
+    PTrust->addModifier(Mod::ATT, mobutils::GetBase(PTrust, 1));
+    PTrust->addModifier(Mod::ACC, mobutils::GetBase(PTrust, 1));
+    PTrust->addModifier(Mod::RATT, mobutils::GetBase(PTrust, 1));
+    PTrust->addModifier(Mod::RACC, mobutils::GetBase(PTrust, 1));
 
     PTrust->addModifier(Mod::PARRY, battleutils::GetMaxSkill(SKILL_SINGING, JOB_BRD, mLvl)); // C Rank parrying
 

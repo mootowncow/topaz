@@ -237,9 +237,8 @@ namespace mobutils
         // Trust don't get any special bonuses
         if (PMob->objtype == TYPE_TRUST)
         {
-            multi = 1.0f;
-            bonus = 0;
-            rangedBonus = 0;
+            bonus = 2;
+            rangedBonus = 5;
         }
 
         damage = std::max(2.0f, static_cast<float>((lvl * multi) + bonus));
