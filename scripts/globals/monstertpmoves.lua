@@ -199,12 +199,12 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     -- Set block rate to 0 for now
     mob:setLocalVar("isBlocked", 0)
 
-    pdif = GenerateMobPdif(mob, target, tpeffect, false, bonusAttPercent, flatAttackBonus, ignoredDef)
+    pdif = MobGeneratePdif(mob, target, tpeffect, false, bonusAttPercent, flatAttackBonus, ignoredDef)
 
     --printf("[%s] Pdif is %f", name, pdif)
     if ((chance*100) <= firstHitChance) then
         if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
-            pdif = GenerateMobPdif(mob, target, tpeffect, true, bonusAttPercent, flatAttackBonus, ignoredDef)
+            pdif = MobGeneratePdif(mob, target, tpeffect, true, bonusAttPercent, flatAttackBonus, ignoredDef)
             TryBreakMob(target)
             --printf("[%s] CRIT! Pdif is %f", name, pdif)
         end
@@ -293,10 +293,10 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
 
         if ((chance*100)<=hitrate) then --it hit
             -- Generate random pdif
-            pdif = GenerateMobPdif(mob, target, tpeffect, false, bonusAttPercent, flatAttackBonus, ignoredDef)
+            pdif = MobGeneratePdif(mob, target, tpeffect, false, bonusAttPercent, flatAttackBonus, ignoredDef)
             --printf("[%s] Pdif is %f", name, pdif)
             if isCrit(mob, critRate, params_phys) then
-                pdif = GenerateMobPdif(mob, target, tpeffect, true, bonusAttPercent, flatAttackBonus, ignoredDef)
+                pdif = MobGeneratePdif(mob, target, tpeffect, true, bonusAttPercent, flatAttackBonus, ignoredDef)
                 TryBreakMob(target)
             end
             --printf("[%s] CRIT! Pdif is %f", name, pdif)
@@ -433,7 +433,7 @@ function MobMagicalMove(mob, target, skill, damage, element, dmgmod, tpeffect, i
 
     -- get resist
     if (tpeffect == TP_IGNORE_MACC) then -- Only used for Eyes On Me currently. Ignores Macc(100% land rate)
-         resist = 1
+        resist = 1
     else
         resist = ApplyPlayerGearResistModCheck(mob, target, typeEffect, dStat, bonus, element)
     end
@@ -852,9 +852,8 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
 
         local enmityMult = params.enmityMult or 1
         if (params.overrideCE and params.overrideVE) then
-            target:addEnmity(mob, params.overrideCE, params.overrideVE)
+            MobHandlePetEnmity(mob, target, params.overrideCE, params.overrideVE)
         else
-            local enmitytoAdd = dmg*enmityMult
             target:updateEnmityFromDamage(mob, dmg * enmityMult)
         end
 
@@ -1035,7 +1034,7 @@ function DrainMultipleAttributesPhysical(mob, target, skill, power, tick, count,
     -- If no shadows, then set msg to miss.
     if not target:hasStatusEffect(tpz.effect.COPY_IMAGE) and not target:hasStatusEffect(tpz.effect.COPY_IMAGE_2)
         and not target:hasStatusEffect(tpz.effect.COPY_IMAGE_3) and not target:hasStatusEffect(tpz.effect.COPY_IMAGE_4) then
-            
+
         return tpz.msg.basic.SKILL_MISS, 0
     else -- Return amount of shadows were consumed to block the attack
         return tpz.msg.basic.SHADOW_ABSORB, shadows
@@ -1046,11 +1045,8 @@ function MobDrainStatusEffectMove(mob, target)
     -- try to drain buff
     local effect = mob:stealStatusEffect(target)
 
-    MobRemoveEffects(target)
-
-    if mob:isPet() then
-        target:addEnmity(mob, 1, 320)
-    end
+    MobHandleFlagsRemoval(target)
+    MobHandlePetEnmity(mob, target, 1, 320)
 
     if (effect ~= 0) then
         return tpz.msg.basic.EFFECT_DRAINED
@@ -1062,11 +1058,8 @@ end
 -- Adds a status effect to a target
 function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isGaze)
 
-    MobRemoveEffects(target)
-
-    if mob:isPet() then
-        target:addEnmity(mob, 1, 320)
-    end
+    MobHandleFlagsRemoval(target)
+    MobHandlePetEnmity(mob, target, 1, 320)
 
     if isNoEffectMsg(mob, target, typeEffect, params) then
         return tpz.msg.basic.SKILL_NO_EFFECT -- Should this be SKILL_MISS?
@@ -1136,11 +1129,9 @@ end
 -- Adds a status effect to a target with customizable duration and subpower
 function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, isGaze)
 
-    MobRemoveEffects(target)
+    MobHandleFlagsRemoval(target)
+    MobHandlePetEnmity(mob, target, 1, 320)
 
-    if mob:isPet() then
-        target:addEnmity(mob, 1, 320)
-    end
     if isNoEffectMsg(mob, target, typeEffect, params) then
         return tpz.msg.basic.SKILL_NO_EFFECT -- Should this be SKILL_MISS?
     end
@@ -1205,11 +1196,8 @@ end
 -- Used for Slows that overwrite Haste
 function MobHasteOverwriteSlowMove(mob, target, power, tick, duration, subid, subpower, tier)
 
-    MobRemoveEffects(target)
-
-    if mob:isPet() then
-        target:addEnmity(mob, 1, 320)
-    end
+    MobHandleFlagsRemoval(target)
+    MobHandlePetEnmity(mob, target, 1, 320)
 
     if target:hasStatusEffect(tpz.effect.FEALTY) then
 	    return tpz.msg.basic.SKILL_MISS
@@ -1268,24 +1256,16 @@ end
 function MobGazeMove(mob, target, typeEffect, power, tick, duration)
     if (target:isFacing(mob)) then
 		if target:hasStatusEffect(tpz.effect.BLINDNESS) then
-            MobRemoveEffects(target)
-
-            if mob:isPet() then
-                target:addEnmity(mob, 1, 320)
-            end
-
+            MobHandleFlagsRemoval(target)
+            MobHandlePetEnmity(mob, target, 1, 320)
 			return tpz.msg.basic.SKILL_MISS
 		else
 			return MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, true)
 		end
     end
 
-    MobRemoveEffects(target)
-
-    if mob:isPet() then
-        target:addEnmity(mob, 1, 320)
-    end
-
+    MobHandleFlagsRemoval(target)
+    MobHandlePetEnmity(mob, target, 1, 320)
     return tpz.msg.basic.SKILL_MISS
 end
 
@@ -1293,24 +1273,16 @@ end
 function MobGazeMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier)
     if (target:isFacing(mob)) then
 		if target:hasStatusEffect(tpz.effect.BLINDNESS) then
-            MobRemoveEffects(target)
-
-            if mob:isPet() then
-                target:addEnmity(mob, 1, 320)
-            end
-
+            MobHandleFlagsRemoval(target)
+            MobHandlePetEnmity(mob, target, 1, 320)
 			return tpz.msg.basic.SKILL_MISS
 		else
 			return MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, true)
 		end
     end
 
-    MobRemoveEffects(target)
-
-    if mob:isPet() then
-        target:addEnmity(mob, 1, 320)
-    end
-    
+    MobHandleFlagsRemoval(target)
+    MobHandlePetEnmity(mob, target, 1, 320)
     return tpz.msg.basic.SKILL_MISS
 end
 
@@ -1397,8 +1369,8 @@ function MobBuffMove(mob, typeEffect, power, tick, duration)
     end
 
     local target = mob:getTarget()
-    if mob:isPet() and target then
-        target:addEnmity(mob, 320, 320)
+    if target then
+        MobHandlePetEnmity(mob, target, 320, 320)
     end
 
     if (mob:addStatusEffect(typeEffect, power, tick, finalDuration)) then
@@ -1419,8 +1391,8 @@ function MobBuffMoveSub(mob, typeEffect, power, tick, duration, subid, subpower,
     end
 
     local target = mob:getTarget()
-    if mob:isPet() and target then
-        target:addEnmity(mob, 320, 320)
+    if target then
+        MobHandlePetEnmity(mob, target, 320, 320)
     end
 
     if (mob:addStatusEffect(typeEffect, power, tick, finalDuration, subid, subpower, tier)) then
@@ -1551,12 +1523,8 @@ function MobEncumberMove(mob, target, maxSlots, duration)
           target:unequipItem(encumberSlots[i]);
           mask = mask + math.pow(2, encumberSlots[i]);
         end
-        MobRemoveEffects(target)
-
-        if mob:isPet() then
-            target:addEnmity(mob, 1, 320)
-        end
-
+        MobHandleFlagsRemoval(target)
+        MobHandlePetEnmity(mob, target, 1, 320)
         target:addStatusEffectEx(tpz.effect.ENCUMBRANCE_II, tpz.effect.ENCUMBRANCE_II, mask, 0, duration * resist);
     end
 end
@@ -1573,23 +1541,15 @@ function MobCharmMove(mob, target, skill, costume, duration)
 	--GetPlayerByID(6):PrintToPlayer(string.format("Resist: %u",resist))
 
 	if (not target:isPC()) then
-        MobRemoveEffects(target)
-
-        if mob:isPet() then
-            target:addEnmity(mob, 1, 320)
-        end
-
+        MobHandleFlagsRemoval(target)
+        MobHandlePetEnmity(mob, target, 1, 320)
 		return skill:setMsg(tpz.msg.basic.SKILL_MISS)
 	end
 	
 	if (resist >= 0.5) then
 		if target:hasStatusEffect(tpz.effect.FEALTY) then
-            MobRemoveEffects(target)
-
-        if mob:isPet() then
-            target:addEnmity(mob, 1, 320)
-        end
-
+            MobHandleFlagsRemoval(target)
+            MobHandlePetEnmity(mob, target, 1, 320)
 		    return skill:setMsg(tpz.msg.basic.SKILL_MISS)
 		else
             mob:resetEnmity(target)
@@ -1599,12 +1559,8 @@ function MobCharmMove(mob, target, skill, costume, duration)
             return skill:setMsg(tpz.msg.basic.SKILL_ENFEEB_IS)
         end
 	else
-        MobRemoveEffects(target)
-        
-        if mob:isPet() then
-            target:addEnmity(mob, 1, 320)
-        end
-
+        MobHandleFlagsRemoval(target)
+        MobHandlePetEnmity(mob, target, 1, 320)
 	    return skill:setMsg(tpz.msg.basic.SKILL_MISS)
 	end
 end
@@ -1661,11 +1617,8 @@ function MobDispelMove(mob, target, skill, element, param1, param2)
     -- Negative / Positive element resist on players
     resist = CheckPlayerStatusElementResist(mob, target, element, effect, resist, bonus)
 
-    MobRemoveEffects(target)
-
-    if mob:isPet() then
-        target:addEnmity(mob, 1, 320)
-    end
+    MobHandleFlagsRemoval(target)
+    MobHandlePetEnmity(mob, target, 1, 320)
 
     -- Check for dispel resistance trait
 	if math.random(100) < target:getMod(tpz.mod.DISPELRESTRAIT) then
@@ -1700,11 +1653,8 @@ function MobFullDispelMove(mob, target, skill, param1, param2)
     -- Negative / Positive element resist on players
     resist = CheckPlayerStatusElementResist(mob, target, element, effect, resist, bonus)
 
-    MobRemoveEffects(target)
-
-    if mob:isPet() then
-        target:addEnmity(mob, 1, 320)
-    end
+    MobHandleFlagsRemoval(target)
+    MobHandlePetEnmity(mob, target, 1, 320)
 
     -- Check for dispel resistance trait
 	if math.random(100) < target:getMod(tpz.mod.DISPELRESTRAIT) then
@@ -1738,11 +1688,8 @@ function MobCorruptMove(mob, target, skill, amount)
     -- Negative / Positive element resist on players
     resist = CheckPlayerStatusElementResist(mob, target, element, effect, resist, bonus)
 
-    MobRemoveEffects(target)
-    
-    if mob:isPet() then
-        target:addEnmity(mob, 1, 320)
-    end
+    MobHandleFlagsRemoval(target)
+    MobHandlePetEnmity(mob, target, 1, 320)
 
 	if (resist >= 0.5) then
 		if target:hasStatusEffect(tpz.effect.FEALTY) then
@@ -2102,14 +2049,9 @@ function getMobWSC(mob, params_phys)
     return wsc
 end
 
-function getMobMagicWSC(mob, tpeffect)
-    if (params == nil) then
-        wsc = mob:getStat(tpz.mod.INT) * 0.3 -- Place holder WSC for magic
-        --printf("wsc: %u", wsc)
-        return wsc
-    end
-    
-    return wsc
+function getMobMagicWSC(mob, params)
+    -- No longer used, mob magic moves don't use WSC
+    return 0
 end
 
 function getMobWeatherDayBonus(mob, element)
@@ -2413,12 +2355,18 @@ function ApplyPlayerGearResistModCheck(mob, target, typeEffect, dStat, bonus, el
     return resist
 end
 
-function MobRemoveEffects(target)
+function MobHandleFlagsRemoval(target)
     target:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
     target:delStatusEffectsByFlag(tpz.effectFlag.DAMAGE)
 end
 
-function GenerateMobPdif(mob, target, tpeffect, isCrit, bonusAttPercent, flatAttackBonus, ignoredDef)
+function MobHandlePetEnmity(mob, target, ce, ve)
+    if mob:isPet() then
+        target:addEnmity(mob, ce, ve)
+    end
+end
+
+function MobGeneratePdif(mob, target, tpeffect, isCrit, bonusAttPercent, flatAttackBonus, ignoredDef)
     local generatedPdif = 0
 
     if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
