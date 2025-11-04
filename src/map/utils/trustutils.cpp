@@ -357,13 +357,13 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     LoadTrustStatsAndSkills(PTrust);
 
     // Use Mob formulas to work out base "weapon" damage, but scale down to reasonable values.
-    auto baseDamage = static_cast<float>(mobutils::GetWeaponDamage(PTrust, SLOT_MAIN));
+    auto mobStyleDamage = static_cast<float>(mobutils::GetWeaponDamage(PTrust, SLOT_MAIN));
+    auto baseDamage = mobStyleDamage * 0.5f;
     auto damageMultiplier = static_cast<float>(trustData->cmbDmgMult) / 100.0f;
     auto adjustedDamage = baseDamage * damageMultiplier;
     auto finalDamage = static_cast<uint16>(std::max(adjustedDamage, 1.0f));
     
-    // Trust do not really have weapons, but they are modelled internally as
-    // if they do.
+    // Trust do not really have weapons, but they are modelled internally as if they do.
     if (auto* mainWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]))
     {
         mainWeapon->setMaxHit(1);
@@ -372,21 +372,27 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
         // 2H Weapons should deal more damage
         if (mainWeapon->isTwoHanded())
         {
-            float multiplier = 2.7f;
+            float multiplier = 1.70f;
+            uint16 bonusDamage = 5;
 
             // Scale the 2H weapon multplier based on the weapon type (more damage on higher delay weapons)
             switch (mainWeapon->getSkillType())
             {
-                case SKILL_GREAT_KATANA: multiplier = 2.70f; break; // 450
-                case SKILL_GREAT_AXE:    multiplier = 2.90f; break; // 504
-                case SKILL_GREAT_SWORD:  multiplier = 2.80f; break; // 480
-                case SKILL_POLEARM:      multiplier = 2.90f; break; // 492
-                case SKILL_SCYTHE:       multiplier = 3.00f; break; // 516? Unused
-                case SKILL_STAFF:        multiplier = 2.60f; break; // 420? Unused
+                case SKILL_GREAT_KATANA: multiplier = 1.70f, bonusDamage = 5;  break; // 450 delay
+                case SKILL_GREAT_AXE:    multiplier = 1.90f, bonusDamage = 10; break; // 504 delay
+                case SKILL_GREAT_SWORD:  multiplier = 1.80f, bonusDamage = 7;  break; // 480 delay
+                case SKILL_POLEARM:      multiplier = 1.90f, bonusDamage = 8;  break; // 492 delay
+                case SKILL_SCYTHE:       multiplier = 2.00f, bonusDamage = 12; break; // 516? delay Unused
+                case SKILL_STAFF:        multiplier = 1.60f, bonusDamage = 5;  break; // 420? delay Unused
             }
 
+            // Add 1 bonus damage per 10 levels
+            finalDamage += bonusDamage;
+            finalDamage *= multiplier;
+            finalDamage += PTrust->GetMLevel() / 10;
+
             mainWeapon->setDmgType(battleutils::GetWeaponDamageType(static_cast<SKILLTYPE>(trustData->cmbSkill)));
-            mainWeapon->setDamage(finalDamage * multiplier);
+            mainWeapon->setDamage(finalDamage);
         }
         else if (mainWeapon->isHandToHand())
         {
