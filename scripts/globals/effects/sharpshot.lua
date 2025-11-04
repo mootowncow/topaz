@@ -9,7 +9,7 @@ require("scripts/globals/spell_data")
 
 function onEffectGain(target, effect)
     local jpValue = target:getJobPointLevel(tpz.jp.SHARPSHOT_EFFECT) * 2
-    local taintPower = math.floor(target:getMainLvl() / 3)
+    local taintPower = math.floor(target:getMainLvl() / 5)
 
     target:addMod(tpz.mod.RACC, effect:getPower())
     target:addMod(tpz.mod.RATT, jpValue)
