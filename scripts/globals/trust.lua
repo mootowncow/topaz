@@ -46,7 +46,7 @@ tpz.trust.message_offset =
 }
 
 local MAX_MESSAGE_PAGE = 120
-local ATTP_RATTP_BOOST = 15
+local ATTP_RATTP_BOOST = 0
 
 local rovKIBattlefieldIDs = set{
     5,    -- Shattering Stars (WAR LB5)
