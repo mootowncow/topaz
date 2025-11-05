@@ -168,8 +168,8 @@ bool CMobController::CheckDetection(CBattleEntity* PTarget)
         TapDeaggroTime();
     }
 
-    // Chase target for 25 seconds, if they are not in range for 25 seconds, then deaggro
-    return PMob->CanDeaggro() && (m_Tick >= m_DeaggroTime + 25s);
+    // Chase target for 30 seconds, if they are not in range for 30 seconds, then deaggro
+    return PMob->CanDeaggro() && (m_Tick >= m_DeaggroTime + 30s);
 }
 
 void CMobController::TryLink()
@@ -1225,6 +1225,12 @@ void CMobController::Move()
     else
     {
         FaceTarget(); // Ensure facing target if not moving
+    }
+
+    // Worm's cant attempt to move but stay aggrod unless out of cast range
+    if (PMob->m_roamFlags & ROAMFLAG_WORM && currentDistance <= 20.4f)
+    {
+        TapDeaggroTime();
     }
 }
 
