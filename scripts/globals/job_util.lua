@@ -222,7 +222,7 @@ function jobUtil.Cor.HandleShots(player, target, ability, action)
         local typeEffect = data.AdditionalEffect.Effect
         local resist = getAdditionalEffectStatusResist(player, target, typeEffect, data.Element, tpz.skill.MARKSMANSHIP, bonusAcc)
 
-        ability:setMsg(tpz.msg.basic.JA_MISS_2)
+        ability:setMsg(tpz.msg.basic.JA_NO_EFFECT_2)
 
         if (resist >= 0.5) then
             duration = duration * resist
