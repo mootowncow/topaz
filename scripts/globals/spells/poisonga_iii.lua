@@ -12,6 +12,7 @@ end
 
 function onSpellCast(caster, target, spell)
     local duration = 180
+    local tier = 3
     local pINT = caster:getStat(tpz.mod.INT)
     local mINT = target:getStat(tpz.mod.INT)
 
@@ -31,7 +32,7 @@ function onSpellCast(caster, target, spell)
     params.effect = tpz.effect.POISON
 
     local resist = applyResistanceEffect(caster, target, spell, params)
-    TryApplyEffect(caster, target, spell, params.effect, power, 3, duration, resist, 0.5)
+    TryApplyEffect(caster, target, spell, params.effect, power, 3, duration, resist, 0.5, 0, tier)
 
     return params.effect
 end

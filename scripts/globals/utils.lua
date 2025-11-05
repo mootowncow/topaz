@@ -1268,7 +1268,7 @@ end
 
 -- TODO: Still wrong, missing stuff for h2h
 -- battle utils   baseTp = (int16)(CalculateBaseTP((delay * 60) / 1000) / ratio); etc
-function utils.CalcualteTPGain(attacker, target, ranged) 
+function utils.CalculateTPGain(attacker, target, ranged) 
     local delay = attacker:getDelay()
     local baseTp = utils.CalculateBaseTP(delay)
     local tpGained = 0
@@ -1279,7 +1279,7 @@ function utils.CalcualteTPGain(attacker, target, ranged)
     end
 
     if attacker:isPC() then
-        tpAdded = math.floor(((baseTp / 3) * (100 + attacker:getMod(tpz.mod.STORETP))) / 100)
+        tpGained = math.floor(((baseTp / 3) * (100 + attacker:getMod(tpz.mod.STORETP))) / 100)
     elseif attacker:isMob() and not attacker:isCharmed() and not attacker:isJugPet() then
         tpGained = math.floor(((baseTp + 3) * (100 + attacker:getMod(tpz.mod.STORETP))) / 100)
     end

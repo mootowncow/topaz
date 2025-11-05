@@ -29,6 +29,7 @@ function onSpellCast(caster, target, spell)
 
     -- Duration, including resistance.  Unconfirmed.
     local duration = math.random(180, 300)
+    local tier = 1
     local params = {}
     params.diff = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)
     params.attribute = tpz.mod.INT
@@ -40,7 +41,7 @@ function onSpellCast(caster, target, spell)
     duration = duration * applyResistanceEffect(caster, target, spell, params)
     duration = math.ceil(duration * tryBuildResistance(tpz.magic.buildcat.BLIND, target))
 
-    TryApplyEffect(caster, target, spell, params.effect, power, 0, duration, resist, 0.5)
+    TryApplyEffect(caster, target, spell, params.effect, power, 0, duration, resist, 0.5, 0, tier)
 
     return params.effect
 end

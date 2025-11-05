@@ -31,7 +31,7 @@ function onSpellCast(caster, target, spell)
     params.effect = tpz.effect.PARALYSIS
     local resist = applyResistanceEffect(caster, target, spell, params)
 
-    TryApplyEffect(caster, target, spell, params.effect, potency, 0, duration, resist, 0.5, tier)
+    TryApplyEffect(caster, target, spell, params.effect, potency, 0, duration, resist, 0.5, 0, tier)
 
     return params.effect
 end

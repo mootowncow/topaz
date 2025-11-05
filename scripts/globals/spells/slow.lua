@@ -26,7 +26,7 @@ function onSpellCast(caster, target, spell)
     --printf("Potency : %u", potency)
     --Duration
     local duration = 180
-
+    local tier = 1
     local params = {}
     params.diff = dMND
     params.skillType = tpz.skill.ENFEEBLING_MAGIC
@@ -34,7 +34,7 @@ function onSpellCast(caster, target, spell)
     params.effect = tpz.effect.SLOW
     local resist = applyResistanceEffect(caster, target, spell, params)
 
-    TryApplyEffect(caster, target, spell, params.effect, power, 0, duration, resist, 0.5)
+    TryApplyEffect(caster, target, spell, params.effect, power, 0, duration, resist, 0.5, 0, tier)
 
     return params.effect
 end

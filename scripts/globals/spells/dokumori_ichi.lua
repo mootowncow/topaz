@@ -22,8 +22,9 @@ function onSpellCast(caster, target, spell)
     local resist = applyResistanceEffect(caster, target, spell, params)
     local power = 5
     local duration = 90
+    local tier = 1
 
-    TryApplyEffect(caster, target, spell, params.effect, power, 3, duration, resist, 0.5)
+    TryApplyEffect(caster, target, spell, params.effect, power, 3, duration, resist, 0.5, 0, tier)
 
     return params.effect
 end

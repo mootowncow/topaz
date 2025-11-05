@@ -786,6 +786,7 @@ function phantombuffMultiple(caster) -- Check for tpz.mod.PHANTOM_ROLL Value and
     return phantombuffMultiplier
 end
 
+-- Only used for Player DRG pet Wyverns
 function AbilityFinalAdjustments(dmg, mob, skill, target, skilltype, damagetype, shadowbehav)
     -- physical attack missed, skip rest
     local msg = skill:getMsg()
@@ -869,6 +870,9 @@ end
 
 
 function takeAbilityDamage(defender, attacker, params, primary, finaldmg, attackType, damageType, slot, tpHitsLanded, extraHitsLanded, shadowsAbsorbed, bonusTP, action, taChar)
+
+    action:messageID(defender:getID(), tpz.msg.basic.USES_JA_TAKE_DAMAGE)
+
     if tpHitsLanded + extraHitsLanded > 0 then
         if finaldmg >= 0 then
             if finaldmg > 0 then
@@ -936,7 +940,7 @@ function takeAbilityDamage(defender, attacker, params, primary, finaldmg, attack
             defender:updateEnmityFromDamage(enmityEntity, finaldmg * enmityMult)
         end
     end
-    
+
     -- printf("Final damage %d", finaldmg)
     return finaldmg
 end
