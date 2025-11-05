@@ -17,11 +17,12 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    -- TODO: Resist check (Has 255 MACC bonus?)
+    -- TODO: Ignores shadows
 
     if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
         return ability:setMsg(tpz.msg.basic.JA_MISS)
     end
-    -- TODO: Resist check (Has 255 MACC bonus?)
     local shieldSize = player:getShieldSize()
     local jpValue    = player:getJobPointLevel(tpz.jp.SHIELD_BASH_EFFECT) * 10
     local chance = 99
@@ -37,6 +38,10 @@ function onUseAbility(player, target, ability)
 
     -- Base dmg is 27 at lvl 99 PLD. This value scales with level. 15 base dmg at PLD level 45.
     local baseDamage = 0.2222 * player:getMainLvl() + 5
+
+    if (player:getMainJob() ~= tpz.job.PLD) then
+        baseDamage = 0.2222 * player:getSubLvl() + 5
+    end
 
     -- Shield size bonuses are:
     -- Size 1 Shield (Bucklers): +0
@@ -59,21 +64,12 @@ function onUseAbility(player, target, ability)
 
     baseDamage = baseDamage + (player:getMod(tpz.mod.SHIELD_BASH) + jpValue)
 
-    -- Main job factors
-    if player:getMainJob() ~= tpz.job.PLD then
-        baseDamage = math.floor(baseDamage / 2.5)
-        chance = 60
-    else
-        baseDamage = math.floor(baseDamage)
-    end
-
     -- Calculate stun proc chance
-    if
-        (math.random()*100 < chance) and
-        not target:hasStatusEffect(tpz.effect.STUN) and
-        (stunEEM > 5)
-    then
-        target:addStatusEffect(tpz.effect.STUN, 1, 0, 3)
+    local bonusAcc = 200
+    local resist = getAdditionalEffectStatusResist(player, target, tpz.effect.STUN, tpz.magic.ele.LIGHTNING, tpz.skill.SHIELD, bonusAcc)
+    local duration = 3 * resist
+    if (resist >= 0.5) then
+        target:addStatusEffect(tpz.effect.STUN, 1, 0, duration)
     end
 
     -- Highlanders Target hidden effect
@@ -104,12 +100,13 @@ function onUseAbility(player, target, ability)
     -- Check for phalanx + stoneskin
     if (baseDamage > 0) then
         local attackType = tpz.attackType.PHYSICAL
+
+        -- Add dmg variance
+        baseDamage = (baseDamage * math.random(95, 100)) / 100
+
         baseDamage = baseDamage - target:getMod(tpz.mod.PHALANX)
         baseDamage = utils.stoneskin(target, baseDamage, attackType)
     end
-
-	-- Add dmg variance
-	baseDamage = (baseDamage * math.random(95, 100)) / 100
 
     target:takeDamage(baseDamage, player, tpz.attackType.PHYSICAL, tpz.damageType.BLUNT)
     target:updateEnmityFromDamage(player, baseDamage)

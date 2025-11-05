@@ -19,7 +19,8 @@ end
 
 function onUseAbility(player, target, ability)
     -- TODO: Resist check (Has 255 MACC bonus?)
-    -- Remove pdif, randomize damage (1-5% variance)
+    -- TODO: Ignores shadows
+
     -- Check for PD
     if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
         return ability:setMsg(tpz.msg.basic.JA_MISS)
@@ -27,15 +28,14 @@ function onUseAbility(player, target, ability)
 
     local stunEEM = target:getMod(tpz.mod.EEM_STUN)
     local hands = player:getEquipID(tpz.slot.HANDS)
-    local hasChaosGauntlets = (hands == tpz.items.CHAOS_GAUNTLETS)
+    local hasChaosGauntlets = hands == tpz.items.CHAOS_GAUNTLETS
 
-    -- Applying Weapon Bash stun. Rate is said to be near 100%, so let's say 99%.
-    if
-        (math.random()*100 < 99) and
-        not target:hasStatusEffect(tpz.effect.STUN) and
-        (stunEEM > 5)
-    then
-        target:addStatusEffect(tpz.effect.STUN, 1, 0, 3)
+    -- Calculate stun proc chance
+    local bonusAcc = 200
+    local resist = getAdditionalEffectStatusResist(player, target, tpz.effect.STUN, tpz.magic.ele.LIGHTNING, nil, bonusAcc)
+    local duration = 3 * resist
+    if (resist >= 0.5) then
+        target:addStatusEffect(tpz.effect.STUN, 1, 0, duration)
     end
 
     -- Chaos Gauntlets effect corrupt
@@ -44,43 +44,36 @@ function onUseAbility(player, target, ability)
         CorruptBuffs(player, target, corruptAmount)
     end
 
-    -- Get fSTR
-    local damage = 0
-    local fstr = player:getFSTR(target, tpz.slot.MAIN, false, false)
-    local params = {}
-    params.atk100 = 1 params.atk200 = 1 params.atk300 = 1
-    -- Get Weapon Damage
-    local weaponDamage = player:getWeaponDmg()
-    -- Calculating and applying Weapon Bash damage
-    local base = weaponDamage + fstr
+    -- At level 75, unenhanced Weapon Bash deals 21 blunt type damage.
+    local baseDamage = 0.2222 * player:getMainLvl() + 5
 
-    local bonusAttPercent = 0
-    local flatAttackBonus = 0
-    local ignoredDef = 0
-    local isCritical = false
-    local pdif = player:getDamageRatio(target, isCritical, bonusAttPercent, flatAttackBonus, tpz.slot.MAIN, ignoredDef)
+    if (player:getMainJob() ~= tpz.job.DRK) then
+        baseDamage = 0.2222 * player:getSubLvl() + 5
+    end
 
     local gearMod = player:getMod(tpz.mod.WEAPON_BASH)
     local jpValue = player:getJobPointLevel(tpz.jp.WEAPON_BASH_EFFECT) * 10
 
-    damage = (base + gearMod)
+    baseDamage = (baseDamage + gearMod)
+    baseDamage = baseDamage + jpValue
 
-    damage = damage + jpValue
-
-    damage = damage * pdif
     -- Apply reductions
-    damage = utils.HandlePositionalPDT(player, target, damage)
-    damage = target:physicalDmgTaken(damage, tpz.damageType.BLUNT)
+    baseDamage = utils.HandlePositionalPDT(player, target, baseDamage)
+    baseDamage = target:physicalDmgTaken(baseDamage, tpz.damageType.BLUNT)
 
     -- Check for phalanx + stoneskin
-    if (damage > 0) then
+    if (baseDamage > 0) then
         local attackType = tpz.attackType.PHYSICAL
-        damage = damage - target:getMod(tpz.mod.PHALANX)
-        damage = utils.stoneskin(target, damage, attackType)
+
+        -- Add dmg variance
+        baseDamage = (baseDamage * math.random(95, 100)) / 100
+
+        baseDamage = baseDamage - target:getMod(tpz.mod.PHALANX)
+        baseDamage = utils.stoneskin(target, baseDamage, attackType)
     end
 
-    target:takeDamage(damage, player, tpz.attackType.PHYSICAL, tpz.damageType.BLUNT)
-    target:updateEnmityFromDamage(player, damage)
+    target:takeDamage(baseDamage, player, tpz.attackType.PHYSICAL, tpz.damageType.BLUNT)
+    target:updateEnmityFromDamage(player, baseDamage)
 
-    return damage
+    return baseDamage
 end
