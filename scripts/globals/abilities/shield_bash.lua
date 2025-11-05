@@ -22,7 +22,6 @@ function onUseAbility(player, target, ability)
         return ability:setMsg(tpz.msg.basic.JA_MISS)
     end
     -- TODO: Resist check (Has 255 MACC bonus?)
-    -- Remove pdif, randomize damage (1-5% variance)
     local shieldSize = player:getShieldSize()
     local jpValue    = player:getJobPointLevel(tpz.jp.SHIELD_BASH_EFFECT) * 10
     local chance = 99
@@ -108,6 +107,9 @@ function onUseAbility(player, target, ability)
         baseDamage = baseDamage - target:getMod(tpz.mod.PHALANX)
         baseDamage = utils.stoneskin(target, baseDamage, attackType)
     end
+
+	-- Add dmg variance
+	baseDamage = (baseDamage * math.random(95, 100)) / 100
 
     target:takeDamage(baseDamage, player, tpz.attackType.PHYSICAL, tpz.damageType.BLUNT)
     target:updateEnmityFromDamage(player, baseDamage)
