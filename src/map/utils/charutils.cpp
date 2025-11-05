@@ -2230,6 +2230,7 @@ namespace charutils
                 return true;
         return false;
     }
+
     bool hasValidStyle(CCharEntity* PChar, CItemEquipment* PItem, CItemEquipment* AItem)
     {
         if (AItem && PItem)
@@ -2347,7 +2348,17 @@ namespace charutils
             {
                 if (hasValidStyle(PChar, PItem, appearance))
                 {
-                    PChar->mainlook.ranged = appearanceModel;
+                    // Only apply the appearance if it actually has a model ID
+                    uint16 modelId = appearance->getModelId();
+                    if (modelId != 0)
+                    {
+                        PChar->mainlook.ranged = modelId;
+                    }
+                    else
+                    {
+                        // Use the currently equipped ranged model instead
+                        PChar->mainlook.ranged = PChar->look.ranged;
+                    }
                 }
                 else
                 {
