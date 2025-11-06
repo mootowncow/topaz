@@ -1097,6 +1097,7 @@ public:
     bool        isNa(); // is a -na spell
     bool        canHitShadow(); // check if spell ignores shadows
     bool        isComposureAOE(); // check if spell should be AOEd with composure active
+    bool        isCovered() const { return m_isCovered; }
 
     void        setRadius(float radius);
     void        setTotalTargets(uint16 total);
@@ -1127,6 +1128,8 @@ public:
     void        setFlag(uint8 flag);
     void        setContentTag(int8* contentTag);
     void        setRange(float range);
+    void        setCovered(bool value) { m_isCovered = value; }
+
 
     const int8* getName();
     void        setName(int8* name);
@@ -1172,6 +1175,7 @@ private:
     uint16      m_meritId {};                              // associated merit (if applicable)
     uint8       m_flag {};
     int8*       m_contentTag {};
+    bool        m_isCovered { false }; // Spells target is currently being redirected by cover            
 
     // Blue magic only
     float m_attackBonus {};                                // Default 1.0 for most spells

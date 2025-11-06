@@ -14211,22 +14211,30 @@ inline int32 CLuaBaseEntity::physicalDmgTaken(lua_State *L)
 *  Example : dmg = target:magicDmgTaken(dmg)
 *  Notes   : Passes argument to MagicDmgTaken member of battleutils
 ************************************************************************/
-
 inline int32 CLuaBaseEntity::magicDmgTaken(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
-
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
-    if (!lua_isnil(L, 2) && lua_isnumber(L, 2) && lua_tointeger(L, 2) > 0 && lua_tointeger(L, 2) < 9)
-        lua_pushinteger(
-            L, battleutils::MagicDmgTaken((CBattleEntity*)m_PBaseEntity, (int32)lua_tointeger(L, 1), (ELEMENT)lua_tointeger(L, 2), (int32)lua_tointeger(L, 3)));
-    else
-        lua_pushinteger(L, battleutils::MagicDmgTaken((CBattleEntity*)m_PBaseEntity, (int32)lua_tointeger(L, 1), ELEMENT_NONE, (int32)lua_tointeger(L, 3)));
+    int32 dmg = lua_tointeger(L, 1);
+    ELEMENT element = ELEMENT_NONE;
+    int32 rawDmg = dmg;
+    bool IsCovered = false;
 
+    if (!lua_isnil(L, 2) && lua_isnumber(L, 2) && lua_tointeger(L, 2) > 0 && lua_tointeger(L, 2) < 9)
+        element = (ELEMENT)lua_tointeger(L, 2);
+
+    if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
+        rawDmg = lua_tointeger(L, 3);
+
+    if (!lua_isnil(L, 4) && lua_isboolean(L, 4))
+        IsCovered = lua_toboolean(L, 4);
+
+    lua_pushinteger(L, battleutils::MagicDmgTaken((CBattleEntity*)m_PBaseEntity, dmg, element, rawDmg, IsCovered));
     return 1;
 }
+
 
 /************************************************************************
 *  Function: rangedDmgTaken()
@@ -14263,7 +14271,8 @@ inline int32 CLuaBaseEntity::breathDmgTaken(lua_State* L)
 
     int32 damage = (int32)lua_tointeger(L, 1);
     int32 element = ELEMENT_NONE;
-    int32 rawDmg = damage; // default rawDmg to damage
+    int32 rawDmg = damage;
+    bool IsCovered = false;
 
     if (!lua_isnil(L, 2) && lua_isnumber(L, 2) && lua_tointeger(L, 2) > 0 && lua_tointeger(L, 2) < 9)
         element = (int32)lua_tointeger(L, 2);
@@ -14271,7 +14280,10 @@ inline int32 CLuaBaseEntity::breathDmgTaken(lua_State* L)
     if (!lua_isnil(L, 3) && lua_isnumber(L, 3))
         rawDmg = (int32)lua_tointeger(L, 3);
 
-    lua_pushinteger(L, battleutils::BreathDmgTaken((CBattleEntity*)m_PBaseEntity, damage, (ELEMENT)element, rawDmg));
+    if (!lua_isnil(L, 4) && lua_isboolean(L, 4))
+        IsCovered = lua_toboolean(L, 4);
+
+    lua_pushinteger(L, battleutils::BreathDmgTaken((CBattleEntity*)m_PBaseEntity, damage, (ELEMENT)element, rawDmg, IsCovered));
     return 1;
 }
 

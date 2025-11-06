@@ -1922,7 +1922,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     auto PSpell = state.GetSpell();
     auto PActionTarget = static_cast<CBattleEntity*>(state.GetTarget());
     CBattleEntity* POriginalTarget = PActionTarget;
-    bool IsMagicCovered= false;
+    bool IsMagicCovered = false;
 
     if (PActionTarget->isSuperJumped)
     {
@@ -1990,6 +1990,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
             if (IsMagicCovered)
             {
                 PActionTarget = PCoverAbilityUser;
+                PSpell->setCovered(true);
             }
         }
         // only add target

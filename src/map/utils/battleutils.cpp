@@ -7107,7 +7107,7 @@ namespace battleutils
         PChar->PClaimedMob = nullptr;
     }
 
-    int32 BreathDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage)
+    int32 BreathDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage, bool IsCovered)
     {
         float resist = 1.0f + floor(256.0f * (PDefender->getMod(Mod::UDMGBREATH) / 100.0f)) / 256.0f;
         float spdefDown = PDefender->getMod(Mod::SPDEF_DOWN) / 100.0f;
@@ -7141,6 +7141,7 @@ namespace battleutils
         damage = HandleElementalAbsorb(PDefender, damage, element, rawDamage);
         damage = HandleElementalNull(PDefender, damage, element, rawDamage);
         damage = HandleSevereDamage(PDefender, damage, false);
+        ConvertDmgToMP(PDefender, damage, IsCovered);
 
         int16 absorbedMP = (int16)(damage * PDefender->getMod(Mod::ABSORB_DMG_TO_MP) / 100);
         if (absorbedMP > 0)
@@ -7151,7 +7152,7 @@ namespace battleutils
         return damage;
     }
 
-    int32 MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage)
+    int32 MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage, bool IsCovered)
     {
         float resist = 1.0f + PDefender->getMod(Mod::UDMGMAGIC) / 100.0f;
         float spdefDown = PDefender->getMod(Mod::SPDEF_DOWN) / 100.0f;
@@ -7187,6 +7188,7 @@ namespace battleutils
         damage = HandleElementalAbsorb(PDefender, damage, element, rawDamage);
         damage = HandleElementalNull(PDefender, damage, element, rawDamage);
         damage = HandleSevereDamage(PDefender, damage, false);
+        ConvertDmgToMP(PDefender, damage, IsCovered);
 
         int16 absorbedMP = (int16)(damage * PDefender->getMod(Mod::ABSORB_DMG_TO_MP) / 100);
         if (absorbedMP > 0)
