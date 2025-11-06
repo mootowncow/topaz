@@ -1289,7 +1289,12 @@ void CMobController::HandleEnmity()
             PTarget->status != STATUS_SHUTDOWN && PTarget->status != STATUS_DISAPPEAR && PTarget->health.maxhp != 0)
         {
             if ((PMob->StatusEffectContainer && PMob->StatusEffectContainer->HasStatusEffect(EFFECT_BIND)) ||
-                (PTarget && PTarget->StatusEffectContainer && PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PALISADE)))
+                (
+                    PTarget &&
+                    PTarget->objtype == TYPE_PC &&
+                    PTarget->StatusEffectContainer &&
+                    PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PALISADE))
+                )
             {
                 CBattleEntity* PNewTarget = nullptr;
                 std::unique_ptr<CBasicPacket> m_errorMsg; // Ignored
