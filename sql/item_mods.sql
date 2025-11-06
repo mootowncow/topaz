@@ -8499,11 +8499,11 @@ INSERT INTO `item_mods` VALUES (12514,2,13);
 INSERT INTO `item_mods` VALUES (12514,12,5);
 INSERT INTO `item_mods` VALUES (12514,110,10);
 INSERT INTO `item_mods` VALUES (12514,298,1);
-INSERT INTO `item_mods` VALUES (12515,1,24);
-INSERT INTO `item_mods` VALUES (12515,2,12);
-INSERT INTO `item_mods` VALUES (12515,13,3);
-INSERT INTO `item_mods` VALUES (12515,27,2);
-INSERT INTO `item_mods` VALUES (12515,966,1);     -- Enhances Cover to redirect magic and ranged attacks to ability user
+INSERT INTO `item_mods` VALUES (12515,1,24); -- DEF 24
+INSERT INTO `item_mods` VALUES (12515,2,12); -- HP 12
+INSERT INTO `item_mods` VALUES (12515,13,3); -- MND 3
+INSERT INTO `item_mods` VALUES (12515,27,2); -- ENMITY 2
+INSERT INTO `item_mods` VALUES (12515,1015,1); -- COVER_MAGIC_AND_RANGED 1
 INSERT INTO `item_mods` VALUES (12516,1,23);
 INSERT INTO `item_mods` VALUES (12516,2,12);
 INSERT INTO `item_mods` VALUES (12516,8,4);
@@ -14498,11 +14498,11 @@ INSERT INTO `item_mods` VALUES (14505,2,22);
 INSERT INTO `item_mods` VALUES (14505,11,5);
 INSERT INTO `item_mods` VALUES (14505,27,5);
 INSERT INTO `item_mods` VALUES (14505,165,1);
-INSERT INTO `item_mods` VALUES (14506,1,56);
-INSERT INTO `item_mods` VALUES (14506,2,30);
-INSERT INTO `item_mods` VALUES (14506,9,3);
-INSERT INTO `item_mods` VALUES (14506,27,5);
-INSERT INTO `item_mods` VALUES (14506,965,20);      -- Valor Surcoat +1 - Converts 20% Covered Physical Damage to MP
+INSERT INTO `item_mods` VALUES (14506,1,56); -- DEF 56
+INSERT INTO `item_mods` VALUES (14506,2,30); -- HP 30
+INSERT INTO `item_mods` VALUES (14506,9,3); -- DEX 3
+INSERT INTO `item_mods` VALUES (14506,27,5); -- ENMITY 5
+INSERT INTO `item_mods` VALUES (14506,1014,25); -- COVER_TO_MP 25
 INSERT INTO `item_mods` VALUES (14507,1,50);        -- Abyss Cuirass +1
 INSERT INTO `item_mods` VALUES (14507,2,27);
 INSERT INTO `item_mods` VALUES (14507,13,4);
@@ -16511,11 +16511,11 @@ INSERT INTO `item_mods` VALUES (15092,2,22);
 INSERT INTO `item_mods` VALUES (15092,11,4);
 INSERT INTO `item_mods` VALUES (15092,27,3);
 INSERT INTO `item_mods` VALUES (15092,165,1);
-INSERT INTO `item_mods` VALUES (15093,1,55);
-INSERT INTO `item_mods` VALUES (15093,2,23);
-INSERT INTO `item_mods` VALUES (15093,9,3);
-INSERT INTO `item_mods` VALUES (15093,27,4);
-INSERT INTO `item_mods` VALUES (15093,965,20);       -- Valor Surcoat - Converts 20% Covered Physical Damage to MP
+INSERT INTO `item_mods` VALUES (15093,1,55); -- DEF 55
+INSERT INTO `item_mods` VALUES (15093,2,23); -- HP 23
+INSERT INTO `item_mods` VALUES (15093,9,3); -- DEX 3
+INSERT INTO `item_mods` VALUES (15093,27,4); -- ENMITY 4
+INSERT INTO `item_mods` VALUES (15093,1014,20); -- COVER_TO_MP 20
 INSERT INTO `item_mods` VALUES (15094,1,49);         -- Abyss Cuirass
 INSERT INTO `item_mods` VALUES (15094,2,20);
 INSERT INTO `item_mods` VALUES (15094,13,4);
