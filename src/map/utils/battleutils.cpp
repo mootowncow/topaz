@@ -2711,12 +2711,12 @@ namespace battleutils
 
     uint16 CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int acc, bool isBluSpell)
     {
-        float sweetSpotMultiplier = 1.0f;
+        int16 accPenalty = 0;
         float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
         uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
         uint8 rangedType = 6;
-        float optimalRangeBonus = 1.0f;
-        uint8 flatAccBonus = 0;
+        int16 optimalRangeBonus = 0; // Not yet implemented, for future gear mods or whatever
+        int16 flatAccBonus = 0; // Not yet implemented, for future gear mods or whatever
 
         if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_RANGED]))
         {
@@ -2728,85 +2728,117 @@ namespace battleutils
             rangedType = SUBSKILL_THROWN;
         }
 
+        // -5 per yalm up to 10, then -10 per yalm after 10
+        auto computeTwoTierPenalty = [](float distanceFromSweetSpot) -> int16
+        {
+            float d = std::max(0.0f, distanceFromSweetSpot);
+            if (d <= 0.0f)
+                return 0;
+
+            const float tier1Limit = 10.0f;
+            const float tier1Rate = 5.0f;  // -5 per yalm
+            const float tier2Rate = 10.0f; // -10 per yalm after 10
+
+            if (d <= tier1Limit)
+            {
+                return static_cast<int16>(std::lround(d * tier1Rate));
+            }
+            else
+            {
+                float beyond = d - tier1Limit;
+                return static_cast<int16>(std::lround(tier1Limit * tier1Rate + beyond * tier2Rate));
+            }
+        };
+
         // https://wiki.ffo.jp/html/9286.html
         switch (rangedType)
         {
             case SUBSKILL_SHURIKEN:
             case SUBSKILL_THROWN:
+            {
                 if (distanceToTarget <= meleeRange)
                 {
-                    sweetSpotMultiplier = 1.0f;
+                    accPenalty = 0; // no penalty
                 }
                 else
                 {
-                    sweetSpotMultiplier = 1.0f - ((distanceToTarget - meleeRange) * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    float distanceFromSweetSpot = distanceToTarget - meleeRange;
+                    accPenalty = computeTwoTierPenalty(distanceFromSweetSpot);
                 }
                 break;
+            }
             case SUBSKILL_GUN:
             case SUBSKILL_CNN:
+            {
                 if (distanceToTarget >= 5.0f && distanceToTarget <= 6.0f)
                 {
-                    sweetSpotMultiplier = 1.0f;
+                    accPenalty = 0;
                 }
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 5.0f) ? (5.0f - distanceToTarget) : (distanceToTarget - 6.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    accPenalty = computeTwoTierPenalty(distanceFromSweetSpot);
                 }
                 break;
+            }
             case SUBSKILL_SHORTBOW:
+            {
                 if (distanceToTarget >= 6.0f && distanceToTarget <= 8.0f)
                 {
-                    sweetSpotMultiplier = 1.0f;
+                    accPenalty = 0;
                 }
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 6.0f) ? (6.0f - distanceToTarget) : (distanceToTarget - 8.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    accPenalty = computeTwoTierPenalty(distanceFromSweetSpot);
                 }
                 break;
+            }
             case SUBSKILL_XBO:
+            {
                 if (distanceToTarget >= 7.0f && distanceToTarget <= 10.0f)
                 {
-                    sweetSpotMultiplier = 1.0f;
+                    accPenalty = 0;
                 }
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 7.0f) ? (7.0f - distanceToTarget) : (distanceToTarget - 10.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    accPenalty = computeTwoTierPenalty(distanceFromSweetSpot);
                 }
                 break;
+            }
             case SUBSKILL_LONGBOW:
+            {
                 if (distanceToTarget >= 8.0f && distanceToTarget <= 11.0f)
                 {
-                    sweetSpotMultiplier = 1.0f;
+                    accPenalty = 0;
                 }
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 8.0f) ? (8.0f - distanceToTarget) : (distanceToTarget - 11.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    accPenalty = computeTwoTierPenalty(distanceFromSweetSpot);
                 }
                 break;
+            }
             default:
-                sweetSpotMultiplier = 1.0f;
+            {
+                accPenalty = 0;
                 break;
+            }
         }
 
-        if (sweetSpotMultiplier == 1.0f)
+        // Not yet implemented, for future gear mods or whatever
+        if (accPenalty == 0)
         {
-            sweetSpotMultiplier *= optimalRangeBonus;
+            acc += optimalRangeBonus;
             acc += flatAccBonus;
         }
 
-        acc *= sweetSpotMultiplier;
+        // Apply penalty
+        acc -= accPenalty;
 
-        //ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
-        //ShowDebug("[%s] accuracy after sweet spot multiplier %i\n", PAttacker->name, acc);
+        //ShowDebug("[%s] accuracy penalty: %d\n", PAttacker->name, accPenalty);
+        //ShowDebug("[%s] final accuracy: %i\n", PAttacker->name, acc);
         return acc;
     }
 
@@ -2948,6 +2980,32 @@ namespace battleutils
             }
         }
 
+        // -1% per yalm up to 11 yalms, then -2% per yalm after 11
+        auto computeTwoTierMultiplier = [](float distanceFromSweetSpot) -> float
+        {
+            float d = std::max(0.0f, distanceFromSweetSpot);
+            if (d <= 0.0f) return 1.0f;
+
+            const float tier1Limit = 11.0f;    // first tier limit in yalms
+            const float tier1Rate = 0.01f;     // 1% per yalm
+            const float tier2Rate = 0.02f;     // 2% per yalm beyond tier1Limit
+
+            float reduction = 0.0f;
+            if (d <= tier1Limit)
+            {
+                reduction = d * tier1Rate;
+            }
+            else
+            {
+                float beyond = d - tier1Limit;
+                reduction = tier1Limit * tier1Rate + beyond * tier2Rate;
+            }
+
+            float mult = 1.0f - reduction;
+
+            return mult;
+        };
+
         // https://wiki.ffo.jp/html/9286.html
         switch (rangedType)
         {
@@ -2959,10 +3017,11 @@ namespace battleutils
                 }
                 else
                 {
-                    sweetSpotMultiplier = 1.0f - ((distanceToTarget - meleeRange) * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier); //
+                    float distanceFromSweetSpot = distanceToTarget - meleeRange;
+                    sweetSpotMultiplier = computeTwoTierMultiplier(distanceFromSweetSpot);
                 }
                 break;
+
             case SUBSKILL_GUN:
             case SUBSKILL_CNN:
                 if (distanceToTarget >= 5.0f && distanceToTarget <= 6.0f)
@@ -2972,10 +3031,10 @@ namespace battleutils
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 5.0f) ? (5.0f - distanceToTarget) : (distanceToTarget - 6.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    sweetSpotMultiplier = computeTwoTierMultiplier(distanceFromSweetSpot);
                 }
                 break;
+
             case SUBSKILL_SHORTBOW:
                 if (distanceToTarget >= 6.0f && distanceToTarget <= 8.0f)
                 {
@@ -2984,10 +3043,10 @@ namespace battleutils
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 6.0f) ? (6.0f - distanceToTarget) : (distanceToTarget - 8.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    sweetSpotMultiplier = computeTwoTierMultiplier(distanceFromSweetSpot);
                 }
                 break;
+
             case SUBSKILL_XBO:
                 if (distanceToTarget >= 7.0f && distanceToTarget <= 10.0f)
                 {
@@ -2996,10 +3055,10 @@ namespace battleutils
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 7.0f) ? (7.0f - distanceToTarget) : (distanceToTarget - 10.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    sweetSpotMultiplier = computeTwoTierMultiplier(distanceFromSweetSpot);
                 }
                 break;
+
             case SUBSKILL_LONGBOW:
                 if (distanceToTarget >= 8.0f && distanceToTarget <= 11.0f)
                 {
@@ -3008,10 +3067,10 @@ namespace battleutils
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 8.0f) ? (8.0f - distanceToTarget) : (distanceToTarget - 11.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    sweetSpotMultiplier = computeTwoTierMultiplier(distanceFromSweetSpot);
                 }
                 break;
+
             default:
                 sweetSpotMultiplier = 1.0f;
                 break;
@@ -3023,12 +3082,15 @@ namespace battleutils
             rAttack += flatAttackBonus;
         }
 
-        rAttack *= sweetSpotMultiplier;
+        // apply multiplier
+        float finalAttackF = static_cast<float>(rAttack) * sweetSpotMultiplier;
+        rAttack = static_cast<uint16>(finalAttackF);
 
         //ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
         //ShowDebug("[%s] attack after sweet spot multiplier %i\n", PAttacker->name, rAttack);
         return rAttack;
     }
+
 
     int16 CalculateBaseTP(int delay){
         int16 x = 1;
