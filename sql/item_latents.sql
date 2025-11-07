@@ -1312,8 +1312,8 @@ INSERT INTO `item_latents` VALUES(14355, 108, 6, 53, 0);    -- EVA +6 in areas i
 -- -------------------------------------------------------
 -- Iron Musketeer's Gambison +1/+2
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(14356, 1, 6, 53, 0);      -- DEF +6 in areas inside own nation's control
-INSERT INTO `item_latents` VALUES(14357, 1, 8, 53, 0);      -- DEF +8 in areas inside own nation's control
+INSERT INTO `item_latents` VALUES(14356, 8, 3, 53, 0); -- [14356] Irn.Msk.Gmbsn. +1: Nation Control(0) - STR 3
+INSERT INTO `item_latents` VALUES(14357, 8, 5, 53, 0); -- [14357] Irn.Msk.Gmbsn. +2: Nation Control(0) - STR 5
 
 -- -------------------------------------------------------
 -- Royal Squire's Robe +1/+2

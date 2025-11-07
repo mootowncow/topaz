@@ -5375,7 +5375,7 @@ INSERT INTO `item_equipment` VALUES (15613,'jet_seraweels',72,0,3719388,176,0,0,
 INSERT INTO `item_equipment` VALUES (15614,'exorcist_hose',70,0,385,5,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15615,'hydra_cuisses',72,0,2141648,27,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15616,'hydra_cuisses_+1',72,0,2141648,27,0,0,128,0,0);
-INSERT INTO `item_equipment` VALUES (15617,'barb._zerehs',75,0,474915,171,0,0,128,0,0);
+INSERT INTO `item_equipment` VALUES (15617,'barb._zerehs',75,0,466691,171,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15618,'vendors_slops',71,0,4179646,149,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15619,'princes_slops',71,0,4179646,149,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15620,'silken_slops',72,0,147456,264,0,0,128,0,0);
