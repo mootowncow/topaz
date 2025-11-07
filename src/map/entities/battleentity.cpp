@@ -378,34 +378,36 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
             WeaponDelay -= martialArtsBonus * 1000 / 60;
         }
 
-        if (auto subweapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]); subweapon && subweapon->getDmgType() > 0 && subweapon->getDmgType() < 4)
+        // Dual Wield logic
+        if (this->objtype == TYPE_PC) // Players
         {
-            MinimumDelay += subweapon->getDelay();
-            WeaponDelay += subweapon->getDelay();
-            //apply dual wield delay reduction
-            int16 dualWieldMods = getMod(Mod::DUAL_WIELD);
-            auto PChar = dynamic_cast<CCharEntity*>(this);
-            if (PChar)
+            if (auto subweapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]); subweapon && subweapon->getDmgType() > 0 && subweapon->getDmgType() < 4)
             {
-                dualWieldMods += PChar->PMeritPoints->GetMeritValue(MERIT_SUBTLE_BLOW_EFFECT, PChar);
+                MinimumDelay += subweapon->getDelay();
+                WeaponDelay += subweapon->getDelay();
+                // apply dual wield delay reduction
+                int16 dualWieldMods = getMod(Mod::DUAL_WIELD);
+                auto PChar = dynamic_cast<CCharEntity*>(this);
+                if (PChar)
+                {
+                    dualWieldMods += PChar->PMeritPoints->GetMeritValue(MERIT_SUBTLE_BLOW_EFFECT, PChar);
+                }
+
+                WeaponDelay = (uint16)(WeaponDelay * ((100.0f - dualWieldMods) / 100.0f));
             }
-
-            WeaponDelay = (uint16)(WeaponDelay * ((100.0f - dualWieldMods) / 100.0f));
         }
-
-        // Add Dual Wield to Mobs / NPCS / Trusts
-        if (this->objtype > TYPE_NPC)
+        else // (Mobs / Allies / Trusts)
         {
             if (m_dualWield)
             {
                 WeaponDelay = (uint16)(WeaponDelay * ((100.0f - getMod(Mod::DUAL_WIELD)) / 100.0f));
             }
         }
-        //Add Fencer JA haste 
+
+        // Add Fencer JA haste
         CItemWeapon* PMain = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]);
         CItemWeapon* PSub = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]);
-        if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand() &&
-                 (!PSub || PSub->getSkillType() == SKILL_NONE || m_Weapons[SLOT_SUB]->IsShield()))
+        if (PMain && !PMain->isTwoHanded() && !PMain->isHandToHand() && (!PSub || PSub->getSkillType() == SKILL_NONE || m_Weapons[SLOT_SUB]->IsShield()))
         {
             if (getMod(Mod::FENCER_JA_HASTE) > 0)
             {
@@ -419,13 +421,13 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
             }
         }
 
-        //apply haste and delay reductions that don't affect tp
+        // apply haste and delay reductions that don't affect tp
         if (!tp)
         {
             // Cap haste at appropriate levels.
-            int16 hasteMagic = std::clamp<int16>(getMod(Mod::HASTE_MAGIC), -10000, 4375); // 43.75% cap -- handle 100% slow for weakness
+            int16 hasteMagic = std::clamp<int16>(getMod(Mod::HASTE_MAGIC), -10000, 4375);    // 43.75% cap -- handle 100% slow for weakness
             int16 hasteAbility = std::clamp<int16>(getMod(Mod::HASTE_ABILITY), -2500, 2500); // 25% cap
-            int16 hasteGear = std::clamp<int16>(getMod(Mod::HASTE_GEAR), -2500, 2500); // 25%
+            int16 hasteGear = std::clamp<int16>(getMod(Mod::HASTE_GEAR), -2500, 2500);       // 25%
 
             if (weapon->isTwoHanded())
             {
@@ -465,7 +467,7 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
         MinimumDelay -= (uint16)(MinimumDelay * 0.8);
 
         WeaponDelay = (WeaponDelay < MinimumDelay) ? MinimumDelay : WeaponDelay;
-        //ShowDebug("[%s] weapon delay is... %i \n", this->name, WeaponDelay);
+        // ShowDebug("[%s] weapon delay is... %i \n", this->name, WeaponDelay);
     }
     return WeaponDelay;
 }
