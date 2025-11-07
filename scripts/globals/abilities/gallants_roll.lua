@@ -9,18 +9,18 @@
 --
 -- Die Roll    |No PLD  |With PLD
 -- --------    -------  -----------
--- 1           |6%     |9%
--- 2           |8%     |11%
--- 3           |22%    |25%
--- 4           |9%     |12%
--- 5           |11%    |14%
--- 6           |12%    |15%
--- 7           |3%     |8%
--- 8           |15%    |18%
--- 9           |17%    |20%
--- 10          |18%    |21%
--- 11          |25%    |28%
--- Bust        |-5%    |-5%
+-- 1           |10%     |9%
+-- 2           |12%     |11%
+-- 3           |40%     |25%
+-- 4           |14%     |12%
+-- 5           |16%     |14%
+-- 6           |20%     |15%
+-- 7           |6%      |8%
+-- 8           |24%     |18%
+-- 9           |28%     |20%
+-- 10          |32%     |21%
+-- 11          |48%     |28%
+-- Bust        |-22%    |-5%
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/ability")
@@ -43,10 +43,10 @@ end
 
 function applyRoll(caster, target, ability, action, total)
     local duration = 300 + caster:getMerit(tpz.merit.WINNING_STREAK) + caster:getMod(tpz.mod.PHANTOM_DURATION) + (caster:getJobPointLevel(tpz.jp.PHANTOM_ROLL_DURATION) * 2)
-    local effectpowers = {6, 8, 22, 9, 11, 12, 3, 15, 17, 18, 25, 5}
+    local effectpowers = {10, 12, 40, 14, 16, 20, 6, 24, 28, 32, 48, 22}
     local effectpower = effectpowers[total]
     if (caster:getLocalVar("corsairRollBonus") == 1 and total < 12) then
-        effectpower = effectpower + 3
+        effectpower = effectpower + 10
     end
 -- Apply Additional Phantom Roll+ Buff
     local phantomBase = 2.34 -- Base increment buff

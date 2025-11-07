@@ -8,20 +8,20 @@
 -- Corsair Level 8
 -- Phantom Roll +1 Value: 2
 --
--- Die Roll    |With NIN
+-- Die Roll    |No NIN
 -- --------    ----------
--- 1           |+105
--- 2           |+106
--- 3           |+108
--- 4           |+115
--- 5           |+100
--- 6           |+102
--- 7           |+104
--- 8           |+95
--- 9           |+107
--- 10          |+110
--- 11          |+120
--- Bust        |-10
+-- 1           |+10
+-- 2           |+13
+-- 3           |+15
+-- 4           |+40
+-- 5           |+18
+-- 6           |+20
+-- 7           |+25
+-- 8           |+5
+-- 9           |+28
+-- 10          |+30
+-- 11          |+50
+-- Bust        |-15
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/ability")
@@ -44,10 +44,10 @@ end
 
 function applyRoll(caster, target, ability, action, total)
     local duration = 300 + caster:getMerit(tpz.merit.WINNING_STREAK) + caster:getMod(tpz.mod.PHANTOM_DURATION) + (caster:getJobPointLevel(tpz.jp.PHANTOM_ROLL_DURATION) * 2)
-    local effectpowers = {105, 106, 108, 115, 100, 102, 104, 95, 107, 110, 120}
+    local effectpowers = {10, 13, 15, 40, 18, 20, 25, 5, 28, 30, 50, 15}
     local effectpower = effectpowers[total]
     if (caster:getLocalVar("corsairRollBonus") == 1 and total < 12) then
-        effectpower = effectpower + 6
+        effectpower = effectpower + 15
     end
 -- Apply Additional Phantom Roll+ Buff
     local phantomBase = 2 -- Base increment buff

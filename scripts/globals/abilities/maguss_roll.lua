@@ -9,17 +9,17 @@
 --
 -- Die Roll    |No BLU  |With BLU
 -----------    -------  -----------
--- 1           |+85     |+93
--- 2           |+95     |+103
--- 3           |+86     |+94
--- 4           |+88     |+96
--- 5           |+89     |+97
--- 6           |+73     |+81
--- 7           |+80     |+88
--- 8           |+93     |+10
--- 9           |+94     |+102
--- 10          |+90     |+98
--- 11          |+100    |+108
+-- 1           |+5      |+13
+-- 2           |+20     |+28
+-- 3           |+6      |+14
+-- 4           |+8      |+16
+-- 5           |+9      |+17
+-- 6           |+3      |+11
+-- 7           |+10     |+18
+-- 8           |+13     |+21
+-- 9           |+14     |+22
+-- 10          |+15     |+23
+-- 11          |+25     |+33
 -- Bust        |-5      |-5
 -----------------------------------
 require("scripts/globals/settings")
@@ -43,7 +43,7 @@ end
 
 function applyRoll(caster, target, ability, action, total)
     local duration = 300 + caster:getMerit(tpz.merit.WINNING_STREAK) + caster:getMod(tpz.mod.PHANTOM_DURATION) + (caster:getJobPointLevel(tpz.jp.PHANTOM_ROLL_DURATION) * 2)
-    local effectpowers = {85, 95, 86, 88, 89, 73, 80, 93, 94, 90, 100, 5}
+    local effectpowers = {5, 20, 6, 8, 9, 3, 10, 13, 14, 15, 25, 5}
     local effectpower = effectpowers[total]
     if (caster:getLocalVar("corsairRollBonus") == 1 and total < 12) then
         effectpower = effectpower + 8
