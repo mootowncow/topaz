@@ -37,7 +37,7 @@ function onTrigger(player, arg1, arg2)
         return
     end
 
-    if (animationId == nil)
+    if (animationId == nil) then
         error(player, "You must either enter a valid interger (0-999)")
         return
     end
