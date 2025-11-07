@@ -649,7 +649,8 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
     // Skills =======================
     BuildingTrustSkillsTable(PTrust); // Need to build skills table before we can use them for adding mods
 
-    int evasionRank = GetEvasionRankForJob(PTrust->GetMJob()); // Get rank for Trust's job
+    uint8 defenseRank = GetDefenseRankForJob(PTrust->GetMJob()); // Get Defense rank for Trust's job
+    uint8 evasionRank = GetEvasionRankForJob(PTrust->GetMJob()); // Get Evasion rank for Trust's job
     SKILLTYPE mainhandSkill     = SKILL_HAND_TO_HAND; // Default to something
     SKILLTYPE rangedSkill       = SKILL_ARCHERY;      // Default to something
 
@@ -667,7 +668,7 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
         rangedSkill = (skillType != SKILL_NONE) ? skillType : rangedSkill;
     }
 
-    PTrust->addModifier(Mod::DEF, mobutils::GetBase(PTrust, PTrust->defRank));
+    PTrust->addModifier(Mod::DEF, battleutils::GetMaxSkill(defenseRank, mLvl > 99 ? 99 : mLvl));
     PTrust->addModifier(Mod::EVA, battleutils::GetMaxSkill(evasionRank, mLvl > 99 ? 99 : mLvl));
     PTrust->addModifier(Mod::ATT, battleutils::GetMaxSkill(mainhandSkill, mJob, mLvl > 99 ? 99 : mLvl));
     PTrust->addModifier(Mod::ACC, battleutils::GetMaxSkill(mainhandSkill, mJob, mLvl > 99 ? 99 : mLvl));
@@ -972,7 +973,45 @@ bool IsBuffWS(uint16 skill_id)
     return false;
 }
 
-int GetEvasionRankForJob(uint8 job)
+uint8 GetDefenseRankForJob(uint8 job)
+{
+    switch (job)
+    {
+        case JOB_PLD:
+            return 1; // A+
+
+        case JOB_WAR:
+            return 3; // B+
+
+        case JOB_DRK:
+        case JOB_BST:
+        case JOB_SAM:
+        case JOB_NIN:
+            return 9; // D
+
+        case JOB_THF:
+        case JOB_BRD:
+        case JOB_RNG:
+        case JOB_DRG:
+        case JOB_BLU:
+        case JOB_COR:
+        case JOB_DNC:
+        case JOB_RUN:
+        case JOB_MNK:
+        case JOB_WHM:
+        case JOB_BLM:
+        case JOB_RDM:
+        case JOB_SMN:
+        case JOB_PUP:
+        case JOB_SCH:
+        case JOB_GEO:
+            return 12; // G
+        default:
+            return 12; // Default to G rank if no Job. Shouldn't happen.
+    }
+}
+
+uint8 GetEvasionRankForJob(uint8 job)
 {
     switch (job)
     {
