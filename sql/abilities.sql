@@ -151,7 +151,7 @@ INSERT INTO `abilities` VALUES (118,'bolters_roll',17,75,1,60,193,420,0,118,2000
 INSERT INTO `abilities` VALUES (119,'casters_roll',17,79,1,60,193,420,0,119,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (120,'coursers_roll',17,75,1,60,193,420,0,120,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (121,'blitzers_roll',17,83,1,60,193,420,0,121,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (122,'tacticians_roll',17,86,1,60,193,420,0,122,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
+INSERT INTO `abilities` VALUES (122,'tacticians_roll',17,70,1,60,193,420,0,122,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (123,'double-up',17,5,1,5,194,424,0,116,2000,0,6,8.0,1,1,80,0,0,'TOAU',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (124,'quick_draw',17,40,1,1,199,0,0,0,2000,0,6,18.0,0,0,0,1410,0,'TOAU',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (125,'fire_shot',17,40,4,1,195,110,0,125,2000,0,6,18.0,0,0,0,1410,0,'TOAU',0,0,0,0,0,0);
