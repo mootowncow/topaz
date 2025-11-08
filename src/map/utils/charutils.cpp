@@ -1781,15 +1781,19 @@ namespace charutils
 
             if (equipSlotID == SLOT_SUB)
             {
-                if (((CItemWeapon*)PItem)->IsShield() && charutils::hasTrait(PChar, TRAIT_SHIELD_BARRIER))
+                CItemEquipment* PSubItem = dynamic_cast<CItemEquipment*>(PItem);
+                if (PSubItem && PSubItem->IsShield() && charutils::hasTrait(PChar, TRAIT_SHIELD_BARRIER))
                 {
                     PChar->delModifier(Mod::PHALANX, PChar->getMod(Mod::SHIELD_BARRIER));
                 }
-                // Removed sub item, if main hand is empty, then possibly eligible for H2H weapon
-                if (!PChar->getEquip(SLOT_MAIN) || !PChar->getEquip(SLOT_MAIN)->isType(ITEM_EQUIPMENT))
+
+                // If main hand is empty, check for unarmed setup
+                CItemEquipment* PMainItem = dynamic_cast<CItemEquipment*>(PChar->getEquip(SLOT_MAIN));
+                if (!PMainItem)
                 {
                     CheckUnarmedWeapon(PChar);
                 }
+
                 PChar->m_dualWield = false;
             }
             PChar->delEquipModifiers(&((CItemEquipment*)PItem)->modList, ((CItemEquipment*)PItem)->getReqLvl(), equipSlotID);
@@ -2686,14 +2690,19 @@ namespace charutils
 
             if (equipSlotID == SLOT_MAIN && PSubItem)
             {
-                // Only unequip sub if it's an offhand weapon
-                if (PSubItem->isType(ITEM_WEAPON))
+                // If it's a shield, never unequip it here
+                if (PSubItem->IsShield())
+                {
+                    ShowDebug("Main swap: Sub item is a shield, keeping equipped.\n");
+                }
+                else if (PSubItem->isType(ITEM_WEAPON))
                 {
                     CItemWeapon* PSubWeapon = static_cast<CItemWeapon*>(PSubItem);
 
-                    // Unequip only if the sub weapon isn't a grip (SKILL_NONE) or Shield
-                    if (PSubWeapon->getSkillType() != SKILL_NONE && !PSubWeapon->IsShield())
+                    // Unequip only if it's a valid offhand weapon (not grip)
+                    if (PSubWeapon->getSkillType() != SKILL_NONE)
                     {
+                        ShowDebug("Main swap: Sub item is an offhand weapon, removing.\n");
                         RemoveSub(PChar);
                     }
                 }
@@ -3360,14 +3369,25 @@ namespace charutils
             // Check if the player has dual wield trait or not, and if they don't then unequip their weapons
             if (!charutils::hasTrait(PChar, TRAIT_DUAL_WIELD))
             {
-                CItem* PItem = PChar->getEquip((SLOTTYPE)SLOT_SUB);
-                // Don't unequip shields or Grips
-                CItemWeapon* PWeapon = (CItemWeapon*)PItem;
-                if (PItem)
+                CItemEquipment* PSubItem = dynamic_cast<CItemEquipment*>(PChar->getEquip(SLOT_SUB));
+
+                if (PSubItem)
                 {
-                    if (!((CItemWeapon*)PItem)->IsShield() && !PWeapon->getSkillType() == SKILL_NONE)
+                    // Skip unequipping shields or grips
+                    if (PSubItem->IsShield())
                     {
-                        UnequipItem(PChar, SLOT_SUB);
+                        ShowDebug("Sub item is a shield — keeping equipped.\n");
+                    }
+                    else if (PSubItem->isType(ITEM_WEAPON))
+                    {
+                        CItemWeapon* PSubWeapon = static_cast<CItemWeapon*>(PSubItem);
+
+                        // Unequip if it's a weapon that’s not a grip
+                        if (PSubWeapon->getSkillType() != SKILL_NONE)
+                        {
+                            ShowDebug("Sub item is an offhand weapon without Dual Wield — unequipping.\n");
+                            UnequipItem(PChar, SLOT_SUB);
+                        }
                     }
                 }
             }
