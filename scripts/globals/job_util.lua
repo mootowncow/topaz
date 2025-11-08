@@ -93,7 +93,7 @@ function jobUtil.Cor.HandleCorsairShotTP(player, target, dmg, tp)
 end
 
 function jobUtil.Cor.CalculateQd(player, target, ability, element, action, params)
-    local dmg = (4 * (player:getRangedDmg() + player:getAmmoDmg()) + player:getMod(tpz.mod.QUICK_DRAW_DMG)) * (1 + player:getMod(tpz.mod.QUICK_DRAW_DMG_PERCENT) / 100)
+    local dmg = (2 * (player:getRangedDmg() + player:getAmmoDmg()) + player:getMod(tpz.mod.QUICK_DRAW_DMG)) * (1 + player:getMod(tpz.mod.QUICK_DRAW_DMG_PERCENT) / 100)
     local bonusAcc = player:getStat(tpz.mod.AGI) / 2 + player:getMerit(tpz.merit.QUICK_DRAW_ACCURACY) + player:getMod(tpz.mod.QUICK_DRAW_MACC)
 
     dmg = dmg + player:getJobPointLevel(tpz.jp.QUICK_DRAW_EFFECT) * 2
