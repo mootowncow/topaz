@@ -14,6 +14,7 @@ require("scripts/globals/zone")
 function onInitialize(zone)
     applyHalloweenNpcCostumes(zone:getID())
     tpz.chocobo.initZone(zone)
+    tpz.conquest.toggleRegionalNPCs(zone)
 end
 
 function onZoneIn(player, prevZone)

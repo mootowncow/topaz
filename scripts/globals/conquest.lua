@@ -567,6 +567,66 @@ local function conquestRanking()
     return getNationRank(tpz.nation.SANDORIA) + 4 * getNationRank(tpz.nation.BASTOK) + 16 * getNationRank(tpz.nation.WINDURST)
 end
 
+tpz.conquest.toggleRegionalNPCs = function(zone)
+    -- Show/Hide regional NPCs
+    -- If there is a draw or a 1st place Alliance, those NPCs won't be available anywhere.
+    local id = zone:getID()
+    if
+        id == tpz.zone.PORT_BASTOK or
+        id == tpz.zone.SOUTHERN_SAN_DORIA or
+        id == tpz.zone.WINDURST_WOODS
+    then
+        local regionalNPCNames =
+        {
+            'Nokkhi_Jinjahl',
+            'Ominous_Cloud',
+            'Valeriano',
+            'Mokop-Sankop',
+            'Cheh_Raihah',
+            'Nalta',
+            'Dahjal'
+        }
+
+        -- TODO: Do we need to worry about beastmen's rank?
+        local rankings =
+        {
+            { getNationRank(tpz.nation.SANDORIA), tpz.zone.SOUTHERN_SAN_DORIA },
+            { getNationRank(tpz.nation.BASTOK), tpz.zone.PORT_BASTOK },
+            { getNationRank(tpz.nation.WINDURST), tpz.zone.WINDURST_WOODS },
+        }
+
+        table.sort(rankings, function(a, b)
+            return a[1] < b[1]
+        end)
+
+        local firstPlaceZone  = rankings[1][2]
+        -- check if the first and second are both rank 1 (thus a tie)
+        local firstAndSecondTie = rankings[1][1] == rankings[2][1]
+
+        if
+            firstPlaceZone == id and
+            not firstAndSecondTie
+        then
+            print('Showing regional conquest NPCs in: ' .. zone:getName())
+        else
+            print('Hiding regional conquest NPCs in: ' .. zone:getName())
+        end
+
+        local npcs = zone:getNpcs()
+
+        for _, name in ipairs(regionalNPCNames) do
+            local entity = npcs[name]
+            if entity and math.abs(entity:getXPos()) > 0 then
+                entity:setStatus(tpz.status.DISAPPEAR)
+
+                if id == firstPlaceZone and not firstAndSecondTie then
+                    entity:setStatus(tpz.status.NORMAL)
+                end
+            end
+        end
+    end
+end
+
 local function getArg1(player, guardNation, guardType)
     local pNation = player:getNation()
     local output = 0
