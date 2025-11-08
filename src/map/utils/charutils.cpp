@@ -2693,7 +2693,6 @@ namespace charutils
                 // If it's a shield, never unequip it here
                 if (PSubItem->IsShield())
                 {
-                    ShowDebug("Main swap: Sub item is a shield, keeping equipped.\n");
                 }
                 else if (PSubItem->isType(ITEM_WEAPON))
                 {
@@ -2702,7 +2701,6 @@ namespace charutils
                     // Unequip only if it's a valid offhand weapon (not grip)
                     if (PSubWeapon->getSkillType() != SKILL_NONE)
                     {
-                        ShowDebug("Main swap: Sub item is an offhand weapon, removing.\n");
                         RemoveSub(PChar);
                     }
                 }
@@ -3376,7 +3374,6 @@ namespace charutils
                     // Skip unequipping shields or grips
                     if (PSubItem->IsShield())
                     {
-                        ShowDebug("Sub item is a shield — keeping equipped.\n");
                     }
                     else if (PSubItem->isType(ITEM_WEAPON))
                     {
@@ -3385,7 +3382,6 @@ namespace charutils
                         // Unequip if it's a weapon that’s not a grip
                         if (PSubWeapon->getSkillType() != SKILL_NONE)
                         {
-                            ShowDebug("Sub item is an offhand weapon without Dual Wield — unequipping.\n");
                             UnequipItem(PChar, SLOT_SUB);
                         }
                     }
