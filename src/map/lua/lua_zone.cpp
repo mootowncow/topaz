@@ -27,6 +27,9 @@
 #include "lua_baseentity.h"
 #include "../zone.h"
 #include "../entities/charentity.h"
+#include "../entities/npcentity.h"
+#include "../entities/mobentity.h"
+#include "../entities/trustentity.h"
 #include "../ai/helpers/event_handler.h"
 
 /************************************************************************
@@ -141,6 +144,66 @@ inline int32 CLuaZone::getPlayers(lua_State* L)
         lua_pushlightuserdata(L, (void*)PChar);
         lua_pcall(L, 2, 1, 0);
         lua_setfield(L, newTable, (const char*)PChar->GetName());
+    });
+
+    return 1;
+}
+
+inline int32 CLuaZone::getNpcs(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
+
+    lua_newtable(L);
+    int newTable = lua_gettop(L);
+
+    m_pLuaZone->ForEachNpc([&L, &newTable](CNpcEntity* PNpc) {
+        lua_getglobal(L, CLuaBaseEntity::className);
+        lua_pushstring(L, "new");
+        lua_gettable(L, -2);
+        lua_insert(L, -2);
+        lua_pushlightuserdata(L, (void*)PNpc);
+        lua_pcall(L, 2, 1, 0);
+        lua_setfield(L, newTable, (const char*)PNpc->GetName());
+    });
+
+    return 1;
+}
+
+inline int32 CLuaZone::getMobs(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
+
+    lua_newtable(L);
+    int newTable = lua_gettop(L);
+
+    m_pLuaZone->ForEachMob([&L, &newTable](CMobEntity* PMob) {
+        lua_getglobal(L, CLuaBaseEntity::className);
+        lua_pushstring(L, "new");
+        lua_gettable(L, -2);
+        lua_insert(L, -2);
+        lua_pushlightuserdata(L, (void*)PMob);
+        lua_pcall(L, 2, 1, 0);
+        lua_setfield(L, newTable, (const char*)PMob->GetName());
+    });
+
+    return 1;
+}
+
+inline int32 CLuaZone::getTrusts(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
+
+    lua_newtable(L);
+    int newTable = lua_gettop(L);
+
+    m_pLuaZone->ForEachTrust([&L, &newTable](CTrustEntity* PTrust) {
+        lua_getglobal(L, CLuaBaseEntity::className);
+        lua_pushstring(L, "new");
+        lua_gettable(L, -2);
+        lua_insert(L, -2);
+        lua_pushlightuserdata(L, (void*)PTrust);
+        lua_pcall(L, 2, 1, 0);
+        lua_setfield(L, newTable, (const char*)PTrust->GetName());
     });
 
     return 1;
@@ -299,6 +362,9 @@ Lunar<CLuaZone>::Register_t CLuaZone::methods[] =
     LUNAR_DECLARE_METHOD(CLuaZone,levelRestriction),
     LUNAR_DECLARE_METHOD(CLuaZone,setLocalVar),
     LUNAR_DECLARE_METHOD(CLuaZone,getPlayers),
+    LUNAR_DECLARE_METHOD(CLuaZone,getNpcs),
+    LUNAR_DECLARE_METHOD(CLuaZone,getMobs),
+    LUNAR_DECLARE_METHOD(CLuaZone,getTrusts),
     LUNAR_DECLARE_METHOD(CLuaZone,getID),
     LUNAR_DECLARE_METHOD(CLuaZone,getRegionID),
     LUNAR_DECLARE_METHOD(CLuaZone,getType),
