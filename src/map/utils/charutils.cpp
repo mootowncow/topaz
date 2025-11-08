@@ -2818,16 +2818,28 @@ namespace charutils
             // --- Subslot checks ---
             if (slotID == SLOT_SUB)
             {
+                ShowDebug("Checking sub slots\n");
                 CItemWeapon* PSubWeapon = dynamic_cast<CItemWeapon*>(PChar->getEquip((SLOTTYPE)SLOT_SUB));
                 CItemWeapon* PMainWeapon = dynamic_cast<CItemWeapon*>(PChar->getEquip((SLOTTYPE)SLOT_MAIN));
+                CItemEquipment* PSubItem = dynamic_cast<CItemEquipment*>(PChar->getEquip((SLOTTYPE)SLOT_SUB)); // Used for shields
 
                 // No sub item equipped
-                if (!PSubWeapon)
+                if (!PSubWeapon && !PSubItem)
                     continue;
 
                 // Allow shields always (even if no mainhand)
-                if (PSubWeapon->IsShield())
-                    continue;
+                if (PSubItem && PSubItem->IsShield())
+                {
+                    if ((PSubItem->getJobs() & (1 << (PChar->GetMJob() - 1))) && (PSubItem->getEquipSlotId() & (1 << SLOT_SUB)))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        UnequipItem(PChar, SLOT_SUB);
+                        continue;
+                    }
+                }
 
                 // Allow grips only with 2H weapons
                 if (PSubWeapon->getSkillType() == SKILL_NONE)
@@ -2840,21 +2852,21 @@ namespace charutils
                     continue;
                 }
 
-                // 🚫 Disallow sub-weapons if no mainhand (non-shield, non-grip)
+                // Disallow sub-weapons if no mainhand (non-shield, non-grip)
                 if (!PMainWeapon)
                 {
                     UnequipItem(PChar, SLOT_SUB);
                     continue;
                 }
 
-                // 🚫 Disallow sub-weapons if mainhand is H2H
+                // Disallow sub-weapons if mainhand is H2H
                 if (PMainWeapon->getSkillType() == SKILL_HAND_TO_HAND)
                 {
                     UnequipItem(PChar, SLOT_SUB);
                     continue;
                 }
 
-                // 🚫 Disallow sub-weapons if no Dual Wield
+                // Disallow sub-weapons if no Dual Wield
                 if (!charutils::hasTrait(PChar, TRAIT_DUAL_WIELD))
                 {
                     UnequipItem(PChar, SLOT_SUB);
