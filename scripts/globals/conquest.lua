@@ -607,9 +607,9 @@ tpz.conquest.toggleRegionalNPCs = function(zone)
             firstPlaceZone == id and
             not firstAndSecondTie
         then
-            print('Showing regional conquest NPCs in: ' .. zone:getName())
+            -- print('Showing regional conquest NPCs in: ' .. zone:getName())
         else
-            print('Hiding regional conquest NPCs in: ' .. zone:getName())
+            -- print('Hiding regional conquest NPCs in: ' .. zone:getName())
         end
 
         local npcs = zone:getNpcs()
