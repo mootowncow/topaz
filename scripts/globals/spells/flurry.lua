@@ -20,5 +20,5 @@ function onSpellCast(caster, target, spell)
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
     end
 
-    return tpz.effect.FLURRY
+    return tpz.effect.FLURRY_II
 end
