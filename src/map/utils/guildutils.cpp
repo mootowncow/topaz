@@ -104,7 +104,7 @@ void Initialize()
 				PItem->setMaxPrice(Sql_GetIntData(SqlHandle,2));
 				PItem->setStackSize(Sql_GetIntData(SqlHandle,3));
                 PItem->setDailyIncrease(Sql_GetIntData(SqlHandle,4));
-				PItem->setInitialQuantity(Sql_GetIntData(SqlHandle,5));
+				PItem->setInitialQuantity(Sql_GetIntData(SqlHandle,3));
 
 				PItem->setQuantity(PItem->IsDailyIncrease() ? PItem->getInitialQuantity() : 0);
 				PItem->setBasePrice((uint32)(PItem->getMinPrice() + ((float)(PItem->getStackSize() - PItem->getQuantity()) / PItem->getStackSize()) * (PItem->getMaxPrice() - PItem->getMinPrice())));
