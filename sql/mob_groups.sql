@@ -13622,11 +13622,11 @@ INSERT INTO `mob_groups` VALUES (3,672,208,'Centurio_IV-VII',0,128,0,12000,0,85,
 INSERT INTO `mob_groups` VALUES (4,3999,208,'Triarius_IV-XIV',0,128,0,10000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (5,3193,208,'Princeps_IV-XLV',0,128,0,12000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (6,2664,208,'Mimic',0,128,1692,0,0,56,59,0);
-INSERT INTO `mob_groups` VALUES (7,3459,208,'Sand_Spider',330,0,2156,0,0,51,53,0);
-INSERT INTO `mob_groups` VALUES (8,1928,208,'Helm_Beetle',330,0,3205,0,0,51,53,0);
-INSERT INTO `mob_groups` VALUES (9,175,208,'Antican_Hastatus',330,0,3206,0,0,52,54,0);
-INSERT INTO `mob_groups` VALUES (10,182,208,'Antican_Princeps',330,0,3207,0,0,52,54,0);
-INSERT INTO `mob_groups` VALUES (11,188,208,'Antican_Signifer',330,0,3208,0,0,52,54,0);
+INSERT INTO `mob_groups` VALUES (7,3459,208,'Sand_Spider',330,0,2156,0,0,52,54,0);
+INSERT INTO `mob_groups` VALUES (8,1928,208,'Helm_Beetle',330,0,3205,0,0,53,55,0);
+INSERT INTO `mob_groups` VALUES (9,175,208,'Antican_Hastatus',330,0,3206,0,0,54,56,0);
+INSERT INTO `mob_groups` VALUES (10,182,208,'Antican_Princeps',330,0,3207,0,0,54,56,0);
+INSERT INTO `mob_groups` VALUES (11,188,208,'Antican_Signifer',330,0,3208,0,0,54,56,0);
 INSERT INTO `mob_groups` VALUES (12,3454,208,'Sand_Eater',330,0,2149,0,0,57,59,0);
 INSERT INTO `mob_groups` VALUES (13,674,208,'Centurio_X-I',3600,0,443,5500,0,56,58,0);
 INSERT INTO `mob_groups` VALUES (14,180,208,'Antican_Praefectus',3600,0,129,7500,0,65,65,0);
