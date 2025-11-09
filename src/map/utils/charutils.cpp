@@ -2069,8 +2069,24 @@ namespace charutils
                         }
 
                     }
+                    // after setting PChar->m_Weapons[SLOT_MAIN] and PChar->look.main...
                     PChar->look.main = PItem->getModelId();
                     UpdateWeaponStyle(PChar, equipSlotID, (CItemWeapon*)PItem);
+
+                    // Also update offhand model if one is equipped
+                    if (auto PSubEquip = dynamic_cast<CItemEquipment*>(PChar->getEquip(SLOT_SUB)))
+                    {
+                        // ensure the look/sub model is up-to-date
+                        PChar->look.sub = PSubEquip->getModelId();
+
+                        // if it's a weapon, ensure m_Weapons is kept in sync for visual logic
+                        if (PSubEquip->isType(ITEM_WEAPON))
+                        {
+                            PChar->m_Weapons[SLOT_SUB] = static_cast<CItemWeapon*>(PSubEquip);
+                        }
+
+                        UpdateWeaponStyle(PChar, SLOT_SUB, PSubEquip);
+                    }
                 }
                 break;
                 case SLOT_SUB:
@@ -2334,7 +2350,6 @@ namespace charutils
                 }
                 break;
             }
-
             case SLOT_SUB:
             {
                 if (hasValidStyle(PChar, PItem, appearance))
@@ -2825,7 +2840,6 @@ namespace charutils
             // --- Subslot checks ---
             if (slotID == SLOT_SUB)
             {
-                ShowDebug("Checking sub slots\n");
                 CItemWeapon* PSubWeapon = dynamic_cast<CItemWeapon*>(PChar->getEquip((SLOTTYPE)SLOT_SUB));
                 CItemWeapon* PMainWeapon = dynamic_cast<CItemWeapon*>(PChar->getEquip((SLOTTYPE)SLOT_MAIN));
                 CItemEquipment* PSubItem = dynamic_cast<CItemEquipment*>(PChar->getEquip((SLOTTYPE)SLOT_SUB)); // Used for shields
