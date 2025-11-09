@@ -313,53 +313,75 @@ namespace conquest
     *   update 1 time per week			                                    *
     ************************************************************************/
 
-	void UpdateWeekConquest()
-	{
+    void conquest::UpdateWeekConquest()
+    {
         TracyZoneScoped;
-		//TODO: move to lobby server
-		//launch conquest message in all zone (monday server midnight)
 
+        // Randomize region influence before tally
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<int> dist(0, 3); // 0=Sandy, 1=Bastok, 2=Windy, 3=Beastmen
+
+        const char* updateQuery =
+            "UPDATE conquest_system "
+            "SET sandoria_influence = CASE WHEN %d = 0 THEN 5000 ELSE 1000 END, "
+            "    bastok_influence   = CASE WHEN %d = 1 THEN 5000 ELSE 1000 END, "
+            "    windurst_influence = CASE WHEN %d = 2 THEN 5000 ELSE 1000 END, "
+            "    beastmen_influence = CASE WHEN %d = 3 THEN 5000 ELSE 1000 END "
+            "WHERE region_id = %u;";
+
+        for (uint8 region = 0; region <= 18; ++region)
+        {
+            int winner = dist(gen);
+
+            Sql_Query(SqlHandle, updateQuery,
+                winner, winner, winner, winner, region);
+        }
+
+        //ShowDebug(CL_YELLOW"[Conquest] Randomized regional influence for all regions.\n" CL_RESET);
+
+        // Now continue with normal weekly conquest update
         zoneutils::ForEachZone([](CZone* PZone)
         {
-            //only find chars for zones that have had conquest updated
             if (PZone->GetRegionID() <= 18)
             {
                 luautils::OnConquestUpdate(PZone, Conquest_Tally_Start);
             }
         });
 
+        // Now tally conquest normally to determine control based on new influences
         const char* Query = "UPDATE conquest_system SET region_control = \
-                            IF(sandoria_influence > bastok_influence AND sandoria_influence > windurst_influence AND \
-                            sandoria_influence > beastmen_influence, 0, \
-                            IF(bastok_influence > sandoria_influence AND bastok_influence > windurst_influence AND \
-                            bastok_influence > beastmen_influence, 1, \
-                            IF(windurst_influence > bastok_influence AND windurst_influence > sandoria_influence AND \
-                            windurst_influence > beastmen_influence, 2, 3)));";
+            IF(sandoria_influence > bastok_influence AND sandoria_influence > windurst_influence AND \
+               sandoria_influence > beastmen_influence, 0, \
+            IF(bastok_influence > sandoria_influence AND bastok_influence > windurst_influence AND \
+               bastok_influence > beastmen_influence, 1, \
+            IF(windurst_influence > bastok_influence AND windurst_influence > sandoria_influence AND \
+               windurst_influence > beastmen_influence, 2, 3)));";
 
-        Sql_Query(SqlHandle, Query);
+            Sql_Query(SqlHandle, Query);
 
-		//update conquest overseers
-		for (uint8 i=0; i <= 18; i++)
-		{
-            luautils::SetRegionalConquestOverseers(i);
-		}
+		    //update conquest overseers
+		    for (uint8 i=0; i <= 18; i++)
+		    {
+                luautils::SetRegionalConquestOverseers(i);
+		    }
 
-        zoneutils::ForEachZone([](CZone* PZone)
-        {
-            //only find chars for zones that have had conquest updated
-            if (PZone->GetRegionID() <= 18)
+            zoneutils::ForEachZone([](CZone* PZone)
             {
-                luautils::OnConquestUpdate(PZone, Conquest_Tally_End);
-                PZone->ForEachChar([](CCharEntity* PChar)
+                //only find chars for zones that have had conquest updated
+                if (PZone->GetRegionID() <= 18)
                 {
-                    PChar->pushPacket(new CConquestPacket(PChar));
-                    PChar->PLatentEffectContainer->CheckLatentsZone();
-                });
-            }
-        });
+                    luautils::OnConquestUpdate(PZone, Conquest_Tally_End);
+                    PZone->ForEachChar([](CCharEntity* PChar)
+                    {
+                        PChar->pushPacket(new CConquestPacket(PChar));
+                        PChar->PLatentEffectContainer->CheckLatentsZone();
+                    });
+                }
+            });
 
-		ShowDebug(CL_CYAN"Conquest Weekly Update is finished\n" CL_RESET);
-	}
+		    ShowDebug(CL_CYAN"Conquest Weekly Update is finished\n" CL_RESET);
+	    }
 
 	/************************************************************************
     *                                                                       *
