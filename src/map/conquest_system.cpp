@@ -380,8 +380,8 @@ namespace conquest
                 }
             });
 
-		    ShowDebug(CL_CYAN"Conquest Weekly Update is finished\n" CL_RESET);
-	    }
+		ShowDebug(CL_CYAN"Conquest Weekly Update is finished\n" CL_RESET);
+	}
 
 	/************************************************************************
     *                                                                       *
