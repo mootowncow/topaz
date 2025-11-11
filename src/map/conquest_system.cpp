@@ -318,10 +318,6 @@ namespace conquest
         TracyZoneScoped;
 
         // Randomize region influence before tally
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<int> dist(0, 3); // 0=Sandy, 1=Bastok, 2=Windy, 3=Beastmen
-
         const char* updateQuery =
             "UPDATE conquest_system "
             "SET sandoria_influence = CASE WHEN %d = 0 THEN 5000 ELSE 1000 END, "
@@ -332,7 +328,7 @@ namespace conquest
 
         for (uint8 region = 0; region <= 18; ++region)
         {
-            int winner = dist(gen);
+            int winner = tpzrand::GetRandomNumber<int>(4); // Replaces dist(gen)
 
             Sql_Query(SqlHandle, updateQuery,
                 winner, winner, winner, winner, region);
