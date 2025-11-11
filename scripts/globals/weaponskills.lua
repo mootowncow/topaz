@@ -567,7 +567,6 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
 
     -- Handle Footwork 
 	if attacker:hasStatusEffect(tpz.effect.FOOTWORK) then
-        printf("Foowork is active")
         if (wsID == tpz.weaponskill.DRAGON_KICK) or (wsID == tpz.weaponskill.TORNADO_KICK) then
 	        finaldmg = math.floor(finaldmg * 1.5)
 	    end
