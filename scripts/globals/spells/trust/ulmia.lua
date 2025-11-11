@@ -45,12 +45,12 @@ function onMobSpawn(mob)
     
     mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS_FLAG, tpz.effectFlag.DISPELABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.MAGIC_FINALE)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.ELEGY, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ELEGY)
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MINUET, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.VALOR_MINUET)
+    mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS, tpz.effect.MINUET, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.VALOR_MINUET)
 
     if mob:getMainLvl() >= 75 then
-        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MARCH, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MARCH)
+        mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS, tpz.effect.MARCH, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MARCH)
     else
-        mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MADRIGAL, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MADRIGAL)
+        mob:addSimpleGambit(ai.t.MASTER, ai.c.NOT_STATUS, tpz.effect.MADRIGAL, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MADRIGAL)
     end
 
     -- Capable of casting a Ballad
@@ -63,7 +63,7 @@ function onMobSpawn(mob)
     -- Ballad casters
     if mob:getMainLvl() >= 55 then
         mob:addSimpleGambit(ai.t.CASTER, ai.c.TWO_EFFECTS, tpz.effect.BALLAD, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MAGES_BALLAD, 30)
-    else -- Only cast Ballad if below leve 55, or else will infinitely loop Ballad 1 onto the same caster over and over
+    else -- Only cast Ballad if below level 55, or else will infinitely loop Ballad 1 onto the same caster over and over
         mob:addSimpleGambit(ai.t.CASTER, ai.c.NOT_STATUS, tpz.effect.BALLAD, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.MAGES_BALLAD)
     end
 
