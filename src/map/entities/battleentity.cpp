@@ -467,8 +467,9 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
         MinimumDelay -= (uint16)(MinimumDelay * 0.8);
 
         WeaponDelay = (WeaponDelay < MinimumDelay) ? MinimumDelay : WeaponDelay;
-        // ShowDebug("[%s] weapon delay is... %i \n", this->name, WeaponDelay);
+        //ShowDebug("[GetWeaponDelay] %s weapon delay is... %i \n", this->name, WeaponDelay);
     }
+
     return WeaponDelay;
 }
 

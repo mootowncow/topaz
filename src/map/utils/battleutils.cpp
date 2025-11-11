@@ -3839,36 +3839,48 @@ namespace battleutils
                 PDefender->TryHitInterrupt(PAttacker);
             }
 
+            // Calculate TP gained and received
             int16 baseTp = 0;
 
             if (isRanged && (PAttacker->objtype == TYPE_PC || PAttacker->allegiance == ALLEGIANCE_PLAYER))
             {
                 int16 delay = PAttacker->GetRangedWeaponDelay(true);
-
                 baseTp = CalculateBaseTP((delay * 120) / 1000);
-
             }
             else
             {
                 int16 delay = PAttacker->GetWeaponDelay(true);
-                auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
-
-                if (sub_weapon && sub_weapon->getDmgType() > 0 &&
-                    sub_weapon->getDmgType() < 4 &&
-                    weapon->getSkillType() != SKILL_HAND_TO_HAND)
-                {
-                    delay = delay / 2;
-                }
-
                 float ratio = 1.0f;
 
+                if (PAttacker->objtype == TYPE_PC) // Players
+                {
+                    auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
+                    if (sub_weapon &&
+                        sub_weapon->getDmgType() > 0 &&
+                        sub_weapon->getDmgType() < 4 &&
+                        weapon->getSkillType() != SKILL_HAND_TO_HAND)
+                    {
+                        delay /= 2;
+                    }
+                }
+                else // (Mobs / Allies / Trusts)
+                {
+                    if (PAttacker->m_dualWield)
+                    {
+                        delay = (uint16)(delay * ((100.0f - PAttacker->getMod(Mod::DUAL_WIELD)) / 100.0f));
+                    }
+                }
+
                 if (weapon->getSkillType() == SKILL_HAND_TO_HAND)
+                {
                     ratio = 2.0f;
+                }
 
                 baseTp = CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
             }
 
 
+            // Calculate giving TP to attacker (Hitting target)
             if (giveTPtoAttacker)
             {
                 if (PAttacker->objtype == TYPE_PC && physicalAttackType == PHYSICAL_ATTACK_TYPE::ZANSHIN)
@@ -3879,6 +3891,7 @@ namespace battleutils
                 PAttacker->addTP((int16)(tpMultiplier * (baseTp * (1.0f + 0.01f * (float)((PAttacker->getMod(Mod::STORETP) + getStoreTPbonusFromMerit(PAttacker)))))));
             }
 
+            // Calculate giving TP to victim (Being hit)
             if (giveTPtoVictim)
             {
                 uint32 sBlowMerit = 0;
@@ -8541,7 +8554,6 @@ namespace battleutils
                 // Reset 2 abilities from JP
                 if (activeCooldownList.size() > 1 && jpTwoResetChance >= tpzrand::GetRandomNumber(100))
                 {
-                    ShowDebug("Random deal JP proc!\n");
                     PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, activeCooldownList.at(1));
                 }
 
@@ -8576,7 +8588,6 @@ namespace battleutils
             // Reset 2 abilities from JP
             if (resetCandidateList.size() > 1 && activeCooldownList.size() > 1 && jpTwoResetChance >= tpzrand::GetRandomNumber(100))
             {
-                ShowDebug("Random deal JP proc!\n");
                 PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, resetCandidateList.at(1));
             }
 
