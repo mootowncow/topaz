@@ -2640,13 +2640,13 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,131,37,255);          -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,132,57,255);          -- Shellra III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,133,68,255);          -- Shellra IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,134,75,255);          -- Shellra V
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,43,7,255);            -- Protect
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,44,27,255);           -- Protect II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,45,47,255);           -- Protect III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,43,7,26);             -- Protect
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,44,27,46);            -- Protect II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,45,47,62);            -- Protect III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,46,63,255);           -- Protect IV
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,48,17,255);           -- Shell
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,49,37,255);           -- Shell II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,50,57,255);           -- Shell III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,48,17,36);            -- Shell
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,49,37,56);            -- Shell II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,50,57,67);            -- Shell III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,51,68,255);           -- Shell IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,143,32,255);          -- Erase
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,12,25,255);           -- Raise
@@ -3159,15 +3159,15 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,143,64,255);        
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,23,1,255);          -- Dia
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,24,31,255);         -- Dia II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,25,75,255);         -- Dia III
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,43,7,255);          -- Protect
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,44,27,255);         -- Protect II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,45,47,255);         -- Protect III
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,46,63,255);         -- Protect IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,43,7,26);           -- Protect
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,44,27,46);          -- Protect II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,45,47,62);          -- Protect III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,46,63,76);          -- Protect IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,47,77,255);         -- Protect V
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,48,17,255);         -- Shell
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,49,37,255);         -- Shell II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,50,57,255);         -- Shell III
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,51,68,255);         -- Shell IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,48,17,36);          -- Shell
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,49,37,56);          -- Shell II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,50,57,67);          -- Shell III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,51,68,86);          -- Shell IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,52,87,255);         -- Shell V
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,57,48,74);          -- Haste
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,511,75,255);        -- Haste II
