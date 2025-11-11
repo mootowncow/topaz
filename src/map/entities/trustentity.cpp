@@ -197,6 +197,7 @@ void CTrustEntity::Spawn()
         PMaster->PParty->ReloadParty();
     }
 }
+
 void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
 {
     auto* PAbility = state.GetAbility();
@@ -238,12 +239,6 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
         action.actionid = PAbility->getID();
         action.recast = PAbility->getRecastTime();
 
-        // If Third Eye is paralyzed while seigan is active, use the modified seigan cooldown for thirdeye(30s instead of 1m)
-        if (action.actionid == ABILITY_THIRD_EYE && this->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
-        {
-            action.recast /= 2;
-        }
-
         if (battleutils::IsParalyzed(this))
         {
             // 2 hours can be paraylzed but it won't reset their timers
@@ -252,13 +247,12 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
                 // If Third Eye is paralyzed while seigan is active, use the modified seigan cooldown for thirdeye(30s instead of 1m)
                 if (action.actionid == ABILITY_THIRD_EYE && this->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
                 {
-                    PRecastContainer->Add(RECAST_ABILITY, action.actionid, action.recast / 2);
+                    action.recast /= 2;
                 }
-                else
-                {
-                    PRecastContainer->Add(RECAST_ABILITY, action.actionid, action.recast);
-                }
+
+                PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), action.recast);
             }
+
 
             setActionInterrupted(action, PTarget, MSGBASIC_IS_PARALYZED, 0);
             return;
