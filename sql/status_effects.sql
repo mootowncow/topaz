@@ -155,7 +155,7 @@ INSERT INTO `status_effects` VALUES (110,'barsilence',553,106,0,0,0,0,2,0,500);
 INSERT INTO `status_effects` VALUES (111,'barpetrify',553,106,0,0,0,0,3,0,500);
 INSERT INTO `status_effects` VALUES (112,'barvirus',553,106,0,0,0,0,6,0,500);
 INSERT INTO `status_effects` VALUES (113,'reraise',553,0,0,0,0,0,7,0,900);
-INSERT INTO `status_effects` VALUES (114,'cover',545,0,0,0,0,0,0,0,0);
+INSERT INTO `status_effects` VALUES (114,'cover',545,0,0,0,0,0,0,0,2);
 INSERT INTO `status_effects` VALUES (115,'unlimited_shot',801,73,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (116,'phalanx',297,0,0,0,0,0,7,0,1050);
 INSERT INTO `status_effects` VALUES (117,'warding_circle',553,0,0,0,0,0,0,0,0);
