@@ -11,7 +11,7 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    if GetRegionOwner(tpz.region.DERFLAND) == tpz.nation.BASTOK then
+    if GetRegionOwner(tpz.region.DERFLAND) ~= tpz.nation.BASTOK then
         player:showText(npc, ID.text.BELKA_CLOSED_DIALOG)
     else
         local stock =
