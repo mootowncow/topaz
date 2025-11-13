@@ -4045,24 +4045,35 @@ namespace battleutils
             else
             {
                 int16 delay = PAttacker->GetWeaponDelay(true);
-
-                auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
-
-                if (sub_weapon && sub_weapon->getDmgType() > 0 &&
-                    sub_weapon->getDmgType() < 4 &&
-                    weapon->getSkillType() != SKILL_HAND_TO_HAND)
-                {
-                    delay /= 2;
-                }
-
                 float ratio = 1.0f;
 
-                if (weapon && weapon->getSkillType() == SKILL_HAND_TO_HAND)
+                if (PAttacker->objtype == TYPE_PC) // Players
+                {
+                    auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
+                    if (sub_weapon &&
+                        sub_weapon->getDmgType() > 0 &&
+                        sub_weapon->getDmgType() < 4 &&
+                        weapon->getSkillType() != SKILL_HAND_TO_HAND)
+                    {
+                        delay /= 2;
+                    }
+                }
+                else // (Mobs / Allies / Trusts)
+                {
+                    if (PAttacker->m_dualWield)
+                    {
+                        delay = (uint16)(delay * ((100.0f - PAttacker->getMod(Mod::DUAL_WIELD)) / 100.0f));
+                    }
+                }
+
+                if (weapon->getSkillType() == SKILL_HAND_TO_HAND)
+                {
                     ratio = 2.0f;
+                }
 
-                baseTp = (int16)(CalculateBaseTP((delay * 60) / 1000) / ratio);
+                baseTp = CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
+                ShowDebug("[TakeWeaponskillDamage] %s weapon delay is... %i \n", PAttacker->name, delay);
             }
-
 
             // add tp to attacker
             if (primary)
