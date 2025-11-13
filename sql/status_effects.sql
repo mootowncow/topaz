@@ -205,7 +205,7 @@ INSERT INTO `status_effects` VALUES (159,'penalty',32,0,0,0,0,0,0,0,0); -- terro
 INSERT INTO `status_effects` VALUES (160,'preparations',32,0,0,0,0,0,0,0,0); -- invisible + can't attack anyone
 INSERT INTO `status_effects` VALUES (161,'sprint',32,0,0,0,0,0,0,0,0); -- Flee
 
-INSERT INTO `status_effects` VALUES (162,'enchantment',544,0,0,0,0,0,0,0,0);
+INSERT INTO `status_effects` VALUES (162,'enchantment',800,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (163,'azure_lore',544,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (164,'chain_affinity',545,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (165,'burst_affinity',545,0,0,0,0,0,0,0,0);
