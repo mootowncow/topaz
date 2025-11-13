@@ -83,7 +83,7 @@ INSERT INTO `skill_ranks` VALUES (10, 'great katana', 0, 0, 0, 0, 0, 0, 0, 0, 0,
 INSERT INTO `skill_ranks` VALUES (11, 'club', 3, 6, 2, 6, 9, 4, 2, 8, 9, 9, 10, 10, 10, 10, 6, 5, 0, 9, 0, 6, 3, 8);
 INSERT INTO `skill_ranks` VALUES (12, 'staff', 3, 4, 6, 5, 0, 0, 2, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 0, 0, 6, 6, 0);
 INSERT INTO `skill_ranks` VALUES (25, 'archery', 9, 0, 0, 0, 9, 8, 0, 0, 2, 0, 1, 6, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO `skill_ranks` VALUES (26, 'marksmanship', 9, 0, 0, 0, 0, 6, 0, 10, 0, 0, 1, 0, 7, 0, 0, 0, 1, 0, 0, 0, 0, 0);
+INSERT INTO `skill_ranks` VALUES (26, 'marksmanship', 9, 0, 0, 0, 0, 6, 0, 10, 0, 0, 1, 0, 7, 0, 0, 0, 3, 0, 0, 0, 0, 0);
 INSERT INTO `skill_ranks` VALUES (27, 'throwing', 9, 10, 10, 9, 11, 1, 0, 0, 0, 10, 8, 6, 1, 0, 0, 0, 6, 6, 6, 9, 0, 0);
 INSERT INTO `skill_ranks` VALUES (28, 'guarding', 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0);
 INSERT INTO `skill_ranks` VALUES (29, 'evasion', 7, 3, 10, 10, 9, 1, 7, 7, 2, 9, 3, 3, 2, 4, 10, 8, 9, 4, 3, 10, 9, 3);
