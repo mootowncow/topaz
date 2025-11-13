@@ -21,6 +21,10 @@ function onUseAbility(player, target, ability)
     local typeEffect = tpz.effect.DEFENSE_DOWN
     local duration = 15 + player:getMerit(tpz.merit.ANGON) -- This will return 30 sec at one investment because merit power is 15.
 
+    if (player:getName() == 'shikaree_z') then
+        duration = 90
+    end
+
     if (target:addStatusEffect(typeEffect, 20, 0, duration) == false) then
         ability:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
     end

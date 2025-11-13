@@ -232,9 +232,10 @@ local modByMobName =
 
     ['shikaree_z'] = function(mob)
         mob:addMod(tpz.mod.HPP, -10)
+        mob:addMod(tpz.mod.ATTP, 10)
+        mob:addMod(tpz.mod.DEFP, 20)
         mob:addMod(tpz.mod.JUMP_TP_BONUS, 100)
-        mob:addMod(tpz.mod.HASTE_ABILITY, 1000)
-        mob:addMod(tpz.mod.REFRESH, 2)
+        
         if mob:getMainLvl() >= 75 then
             mob:addMod(tpz.mod.MPP, 100)
             mob:addMod(tpz.mod.RATTP, ATTP_RATTP_BOOST)
