@@ -4361,6 +4361,11 @@ function isNoEffectMsg(caster, target, effect, params)
         return true
     end
 
+    -- Check for T1 Sleep (Used for Light Shot)
+    if (effect == tpz.effect.SLEEP_I) and hasSleepEffects(target) then
+        return true
+    end
+
     -- TODO: Immunity checks here too
     -- TODO: Dimishing returns check too?
 
