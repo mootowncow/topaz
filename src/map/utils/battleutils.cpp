@@ -4072,7 +4072,6 @@ namespace battleutils
                 }
 
                 baseTp = CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
-                ShowDebug("[TakeWeaponskillDamage] %s weapon delay is... %i \n", PAttacker->name, delay);
             }
 
             // add tp to attacker
