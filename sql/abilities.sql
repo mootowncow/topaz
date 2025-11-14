@@ -89,7 +89,7 @@ INSERT INTO `abilities` VALUES (56,'scavenge',11,10,1,600,121,0,0,21,2000,0,6,20
 INSERT INTO `abilities` VALUES (57,'shadowbind',11,40,4,45,122,0,0,188,2000,0,3,18.0,0,1,800,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (58,'camouflage',11,20,1,120,123,0,0,10,2000,0,6,20.0,0,1,80,1026,0,NULL,0,0,0,0,0,0); -- made 2m
 INSERT INTO `abilities` VALUES (59,'sharpshot',11,1,1,300,124,0,0,22,2000,0,6,20.0,0,1,600,1028,0,NULL,0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (60,'barrage',11,30,1,180,125,0,0,23,2000,0,6,20.0,0,1,600,0,0,NULL,0,0,0,0,0,0);	-- made 3m
+INSERT INTO `abilities` VALUES (60,'barrage',11,30,1,300,125,0,0,23,2000,0,6,20.0,0,1,600,0,0,NULL,0,0,0,0,0,0);	-- made 3m
 INSERT INTO `abilities` VALUES (61,'call_wyvern',14,1,1,1200,163,0,0,94,2000,0,6,20.0,0,1,300,0,4,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (62,'third_eye',12,15,1,60,133,0,0,24,2000,0,6,20.0,0,1,0,1088,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (63,'meditate',12,30,1,180,134,0,0,25,2000,0,6,20.0,0,300,0,1094,0,NULL,0,0,0,0,0,0);
