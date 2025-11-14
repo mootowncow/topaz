@@ -27249,7 +27249,6 @@ INSERT INTO `item_mods` VALUES (21481,26,25);     -- Blurred Crossbow +1 - 25 Ra
 INSERT INTO `item_mods` VALUES (21481,365,15);    -- Snapshot +15
 INSERT INTO `item_mods` VALUES (21482,26,20); -- RACC 20
 INSERT INTO `item_mods` VALUES (21482,24,10); -- RATT 10
-INSERT INTO `item_mods` VALUES (21482,305,25); -- RECYCLE 25
 INSERT INTO `item_mods` VALUES (21485,73,10);     -- Fomalhaut - STP +10
 INSERT INTO `item_mods` VALUES (21485,345,500);   -- TP Bonus +500
 INSERT INTO `item_mods` VALUES (21506,8,10);      -- jolt_counter STR+10
