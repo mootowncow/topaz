@@ -517,7 +517,7 @@ enum class Mod
     SCAVENGE_EFFECT           = 312, //
     SHARPSHOT                 = 314, //
     TRUE_SHOT_EFFECT          = 1053,// True Shot Ranged attack power increase inside sweet spot (percent)
-    DEAD_AIM_EFFECT           = 1054,// Critical damage increase to ranged attacks in percents (does not effect ranged WS)
+    DEAD_AIM_EFFECT           = 1054,// Critical damage increase to ranged attacks in percents
 
     // Samurai
     WARDING_CIRCLE_DURATION   = 95,  // Warding Circle extended duration in seconds
