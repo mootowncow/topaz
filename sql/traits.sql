@@ -438,21 +438,24 @@ INSERT INTO `traits` VALUES (59,'resist slow',19,20,1,1250,10,'WOTG',0);
 INSERT INTO `traits` VALUES (59,'resist slow',19,55,2,1250,15,'WOTG',0);
 INSERT INTO `traits` VALUES (59,'resist slow',19,99,3,1250,20,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (60,'resist charm',0,0,1,1252,2,NULL,0);
--- OOE
--- INSERT INTO `traits` VALUES (63,'resist amnesia',9,80,1,1253,10,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',9,81,2,1253,15,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',9,82,3,1253,20,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',9,83,4,1253,25,'ABYSSEA',0);
+
+INSERT INTO `traits` VALUES (63,'resist amnesia',9,15,1,1253,10,'ABYSSEA',0); -- BST
+INSERT INTO `traits` VALUES (63,'resist amnesia',9,35,2,1253,15,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (63,'resist amnesia',9,55,3,1253,20,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (63,'resist amnesia',9,75,4,1253,25,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (63,'resist amnesia',9,95,5,1253,30,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',17,80,1,1253,10,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',17,81,2,1253,15,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',17,82,3,1253,20,'ABYSSEA',0);
+
+INSERT INTO `traits` VALUES (63,'resist amnesia',17,30,1,1253,10,'ABYSSEA',0); -- COR
+INSERT INTO `traits` VALUES (63,'resist amnesia',17,50,2,1253,15,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (63,'resist amnesia',17,70,3,1253,20,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (63,'resist amnesia',17,90,4,1253,25,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',18,80,1,1253,10,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',18,81,2,1253,15,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',18,82,3,1253,20,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',18,83,4,1253,25,'ABYSSEA',0);
+
+INSERT INTO `traits` VALUES (63,'resist amnesia',18,15,1,1253,10,'ABYSSEA',0); -- PUP
+INSERT INTO `traits` VALUES (63,'resist amnesia',18,35,2,1253,15,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (63,'resist amnesia',18,55,3,1253,20,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (63,'resist amnesia',18,75,4,1253,25,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (63,'resist amnesia',18,95,5,1253,30,'ABYSSEA',0);
+
 INSERT INTO `traits` VALUES (63,'resist amnesia',19,40,1,1253,20,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (63,'resist amnesia',19,50,2,1253,24,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (63,'resist amnesia',19,60,3,1253,26,'ABYSSEA',0);
