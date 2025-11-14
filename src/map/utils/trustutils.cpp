@@ -309,7 +309,9 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     PTrust->m_OwnerID.targid = PMaster->targid;
 
     // spawn me randomly around master
-    PTrust->loc.p = nearPosition(PMaster->loc.p, CTrustController::SpawnDistance + (PMaster->PTrusts.size() * CTrustController::SpawnDistance), (float)M_PI);
+    float offset = CTrustController::SpawnDistance;
+    PTrust->loc.p = FindValidTrustSpawnPos(PTrust, PMaster, offset);
+
     PTrust->look = trustData->look;
     PTrust->name = trustData->name;
 
@@ -1063,5 +1065,39 @@ uint8 GetEvasionRankForJob(uint8 job)
             return 7; // Default to C rank if no Job. Shouldn't happen.
     }
 }
+
+position_t FindValidTrustSpawnPos(CTrustEntity* PTrust, CCharEntity* PMaster, float baseOffset)
+{
+    const float step = M_PI / 4.0f;
+    const int maxAttempts = 8;
+
+    float startAngle = (float)tpzrand::GetRandomNumber(628) / 100.0f;
+
+    bool canValidate =
+        PTrust->PAI &&
+        PTrust->PAI->PathFind &&
+        PTrust->PAI->PathFind->isNavMeshEnabled();
+
+    for (int i = 0; i < maxAttempts; i++)
+    {
+        float angle = startAngle + (i * step);
+        position_t pos = nearPosition(PMaster->loc.p, baseOffset, angle);
+
+        // Safety checks
+        if (canValidate)
+        {
+            if (PTrust->PAI->PathFind->ValidPosition(pos))
+                return pos;
+        }
+        else // Shouldn't happen
+        {
+            return pos;
+        }
+    }
+
+    // Couldn't find a valid position to spawn, just spawn on master
+    return PMaster->loc.p;
+}
+
 
 }; // namespace trustutils
