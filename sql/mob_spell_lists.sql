@@ -2630,15 +2630,15 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,19,34,255);           -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,20,29,255);           -- Cursna
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,56,13,255);           -- Slow
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,58,6,255);            -- Paralyze
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,125,7,255);           -- Protectra
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,126,27,255);          -- Protectra II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,127,47,255);          -- Protectra III
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,128,63,255);          -- Protectra IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,125,7,26);            -- Protectra
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,126,27,46);           -- Protectra II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,127,47,62);           -- Protectra III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,128,63,74);           -- Protectra IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,129,75,255);          -- Protectra V
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,130,17,255);          -- Shellra
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,131,37,255);          -- Shellra II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,132,57,255);          -- Shellra III
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,133,68,255);          -- Shellra IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,130,17,36);           -- Shellra
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,131,37,56);           -- Shellra II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,132,57,67);           -- Shellra III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,133,68,74);           -- Shellra IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,134,75,255);          -- Shellra V
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,43,7,26);             -- Protect
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,44,27,46);            -- Protect II
