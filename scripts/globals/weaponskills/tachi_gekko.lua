@@ -19,7 +19,7 @@ require("scripts/globals/weaponskills")
 -----------------------------------
 
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
-
+    -- scaling is *1.2 (2k) *1.6 (3k)
     local params = {}
     params.numHits = 1
     params.ftp100 = 1.5625 params.ftp200 = 1.875 params.ftp300 = 2.5
@@ -34,12 +34,12 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     end
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-	if damage > 0 then player:trySkillUp(target, tpz.skill.GREAT_KATANA, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.GREAT_KATANA, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
     jobUtil.AddIgnisRune(player, damage)
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, 0, tpz.effect.SILENCE)
     -- Silence duration changed from 60 to 45 as per bg-wiki: http://www.bg-wiki.com/bg/Tachi:_Gekko
-    if (damage > 0 and target:hasStatusEffect(tpz.effect.SILENCE) == false) and resist >= 0.5 then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.SILENCE) == false and resist >= 0.5 then
         local duration = 45
         local isMaaIllmutheBestower = target:getPool() == 2465
 

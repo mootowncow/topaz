@@ -14,12 +14,12 @@ end
 function onTrigger(player, npc)
     local stock =
     {
-        625,  79, 3,    -- Apple Vinegar
-        623, 117, 3,    -- Bay Leaves
-        4382, 28, 3,    -- Frost Turnip
-        4392, 28, 3,    -- Saruta Orange
-        4363, 39, 3,    -- Faerie Apple
-        4366, 21, 3,    -- La Theine Cabbage
+        625,  79, 1,    -- Apple Vinegar
+        623, 117, 1,    -- Bay Leaves
+        4382, 28, 1,    -- Frost Turnip
+        4392, 28, 1,    -- Saruta Orange
+        4363, 39, 2,    -- Faerie Apple
+        4366, 21, 2,    -- La Theine Cabbage
         633,  14, 3,    -- Olive Oil
         638, 166, 3,    -- Sage
         4389, 28, 3,    -- San d'Orian Carrot

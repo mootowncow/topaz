@@ -64,7 +64,7 @@ function onEffectTick(target, effect)
     end
 
     -- Delete effect if 50 yards from the spawn pos
-    if (target:isPC()) then
+    if (target:isPC() or target:isTrust()) then
         if (target:checkDistance(confrontationStartPos) >= 50) then
             target:messageSpecial(ID.text.CONF_DISENAGED)
             target:delStatusEffect(tpz.effect.CONFRONTATION)

@@ -197,6 +197,7 @@ void CTrustEntity::Spawn()
         PMaster->PParty->ReloadParty();
     }
 }
+
 void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
 {
     auto* PAbility = state.GetAbility();
@@ -238,12 +239,6 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
         action.actionid = PAbility->getID();
         action.recast = PAbility->getRecastTime();
 
-        // If Third Eye is paralyzed while seigan is active, use the modified seigan cooldown for thirdeye(30s instead of 1m)
-        if (action.actionid == ABILITY_THIRD_EYE && this->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
-        {
-            action.recast /= 2;
-        }
-
         if (battleutils::IsParalyzed(this))
         {
             // 2 hours can be paraylzed but it won't reset their timers
@@ -252,13 +247,12 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
                 // If Third Eye is paralyzed while seigan is active, use the modified seigan cooldown for thirdeye(30s instead of 1m)
                 if (action.actionid == ABILITY_THIRD_EYE && this->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN))
                 {
-                    PRecastContainer->Add(RECAST_ABILITY, action.actionid, action.recast / 2);
+                    action.recast /= 2;
                 }
-                else
-                {
-                    PRecastContainer->Add(RECAST_ABILITY, action.actionid, action.recast);
-                }
+
+                PRecastContainer->Add(RECAST_ABILITY, PAbility->getRecastId(), action.recast);
             }
+
 
             setActionInterrupted(action, PTarget, MSGBASIC_IS_PARALYZED, 0);
             return;
@@ -374,6 +368,28 @@ void CTrustEntity::OnAbility(CAbilityState& state, action_t& action)
 void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
 {
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+
+    if (battleutils::IsParalyzed(this))
+    {
+        // setup new action packet to send paralyze message
+        action_t paralyze_action = {};
+        setActionInterrupted(paralyze_action, PTarget, MSGBASIC_IS_PARALYZED, 0);
+        loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CActionPacket(paralyze_action));
+
+        // Set up /ra action to be interrupted
+        action.actiontype = ACTION_RANGED_INTERRUPT; // This handles some magic numbers in CActionPacket to cancel actions
+        action.id = id;
+
+        actionList_t& actionList = action.getNewActionList();
+        actionList.ActionTargetID = id;
+
+        actionTarget_t& actionTarget = actionList.getNewActionTarget();
+        actionTarget.animation = 0x1FC; // Seems hardcoded, two bits away from 0x1FF (0x1FC = 1 1111 1100)
+        actionTarget.speceffect = SPECEFFECT::SPECEFFECT_RECOIL;
+        actionTarget.reaction = REACTION::REACTION_NONE;
+
+        return;
+    }
 
     int32 damage = 0;
     int32 totalDamage = 0;

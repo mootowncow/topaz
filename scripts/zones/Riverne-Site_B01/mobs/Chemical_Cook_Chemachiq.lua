@@ -14,11 +14,19 @@ function onMobSpawn(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
-    local riverneMapProgress = player:getCharVar("riverneMapQuest")
     if (isKiller or noKiller) then
-        local riverneMapQuest = player:getQuestStatus(OTHER_AREAS_LOG, tpz.quest.id.otherAreas.GO_GO_GOBMUFFIN)
-        if (riverneMapQuest == QUEST_ACCEPTED and riverneMapProgress < 4) then
-            player:setCharVar("riverneMapQuest", riverneMapProgress +1)
+        local party = player:getParty()
+        if player:isTrust() or player:isPet() then
+            party = player:getMaster():getParty()
+        end
+
+        for _, member in pairs(party) do
+            local riverneMapQuest = member:getQuestStatus(OTHER_AREAS_LOG, tpz.quest.id.otherAreas.GO_GO_GOBMUFFIN)
+            local riverneMapProgress = member:getCharVar("riverneMapQuest")
+
+            if (riverneMapQuest == QUEST_ACCEPTED and riverneMapProgress < 4) then
+                member:setCharVar("riverneMapQuest", riverneMapProgress +1)
+            end
         end
     end
 end

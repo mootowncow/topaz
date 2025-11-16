@@ -85,11 +85,11 @@ INSERT INTO `abilities` VALUES (52,'charm',9,1,4,15,97,0,0,13,2000,0,6,18.0,0,32
 INSERT INTO `abilities` VALUES (53,'gauge',9,10,4,30,98,0,0,14,2000,0,6,23.0,0,0,0,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (54,'tame',9,30,4,600,99,0,0,15,2000,0,6,18.0,0,0,0,904,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (55,'pet_commands',9,1,1,0,255,0,0,0,2000,0,6,18.0,0,0,0,0,0,NULL,0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (56,'scavenge',11,10,1,180,121,0,0,21,2000,0,6,20.0,0,1,80,1024,0,NULL,0,0,0,0,0,0);
+INSERT INTO `abilities` VALUES (56,'scavenge',11,10,1,600,121,0,0,21,2000,0,6,20.0,0,1,80,1024,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (57,'shadowbind',11,40,4,45,122,0,0,188,2000,0,3,18.0,0,1,800,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (58,'camouflage',11,20,1,120,123,0,0,10,2000,0,6,20.0,0,1,80,1026,0,NULL,0,0,0,0,0,0); -- made 2m
 INSERT INTO `abilities` VALUES (59,'sharpshot',11,1,1,300,124,0,0,22,2000,0,6,20.0,0,1,600,1028,0,NULL,0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (60,'barrage',11,30,1,180,125,0,0,23,2000,0,6,20.0,0,1,600,0,0,NULL,0,0,0,0,0,0);	-- made 3m
+INSERT INTO `abilities` VALUES (60,'barrage',11,30,1,300,125,0,0,23,2000,0,6,20.0,0,1,600,0,0,NULL,0,0,0,0,0,0);	-- made 3m
 INSERT INTO `abilities` VALUES (61,'call_wyvern',14,1,1,1200,163,0,0,94,2000,0,6,20.0,0,1,300,0,4,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (62,'third_eye',12,15,1,60,133,0,0,24,2000,0,6,20.0,0,1,0,1088,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (63,'meditate',12,30,1,180,134,0,0,25,2000,0,6,20.0,0,300,0,1094,0,NULL,0,0,0,0,0,0);
@@ -149,9 +149,9 @@ INSERT INTO `abilities` VALUES (116,'dancers_roll',17,61,1,60,193,420,0,116,2000
 INSERT INTO `abilities` VALUES (117,'scholars_roll',17,64,1,60,193,420,0,117,2000,0,6,8.0,1,1,80,0,8,'WOTG',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (118,'bolters_roll',17,75,1,60,193,420,0,118,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (119,'casters_roll',17,79,1,60,193,420,0,119,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (120,'coursers_roll',17,75,1,60,193,420,0,120,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
+INSERT INTO `abilities` VALUES (120,'coursers_roll',17,74,1,60,193,420,0,120,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (121,'blitzers_roll',17,83,1,60,193,420,0,121,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (122,'tacticians_roll',17,86,1,60,193,420,0,122,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
+INSERT INTO `abilities` VALUES (122,'tacticians_roll',17,70,1,60,193,420,0,122,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (123,'double-up',17,5,1,5,194,424,0,116,2000,0,6,8.0,1,1,80,0,0,'TOAU',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (124,'quick_draw',17,40,1,1,199,0,0,0,2000,0,6,18.0,0,0,0,1410,0,'TOAU',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (125,'fire_shot',17,40,4,1,195,110,0,125,2000,0,6,18.0,0,0,0,1410,0,'TOAU',0,0,0,0,0,0);
@@ -344,17 +344,17 @@ INSERT INTO `abilities` VALUES (282,'run_wild',9,20,1,30,46,100,0,247,2000,0,6,2
 INSERT INTO `abilities` VALUES (283,'tenuto',10,83,1,5,47,0,0,257,2000,0,6,20.0,0,0,0,0,0,'ABYSSEA',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (284,'marcato',10,70,1,600,48,0,0,251,2000,0,6,20.0,0,0,0,0,0,'ABYSSEA',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (285,'bounty_shot',11,87,4,60,51,100,0,261,2000,0,6,20.0,0,0,0,0,0,NULL,0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (286,'decoy_shot',11,15,1,60,52,100,0,261,2000,0,6,20.0,0,0,0,0,0,NULL,0,0,0,0,0,0); -- needs animation
+INSERT INTO `abilities` VALUES (286,'decoy_shot',11,15,1,300,52,100,0,261,2000,0,6,20.0,0,0,0,0,0,NULL,0,0,0,0,0,0); -- needs animation
 INSERT INTO `abilities` VALUES (287,'hamanoha',12,65,4,90,53,100,0,249,2000,0,6,12.0,0,0,0,0,4,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (288,'hagakure',12,55,1,90,54,0,0,249,2000,0,6,20.0,0,1,80,0,4,'ABYSSEA',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (291,'issekigan',13,65,1,300,57,0,0,246,2000,0,6,20.0,0,0,1200,0,0,'ABYSSEA',0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (292,'dragon_breaker',14,65,4,60,58,320,0,236,2000,0,6,8.0,0,0,0,0,0,NULL,0,0,0,0,0,0);
+INSERT INTO `abilities` VALUES (292,'dragon_breaker',14,65,4,180,58,320,0,236,2000,0,6,8.0,0,0,0,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (293,'soul_jump',14,85,4,120,167,100,0,209,2000,0,6,7.0,0,1,0,1220,0,NULL,0,0,0,0,0,0); -- check animation
 -- INSERT INTO `abilities` VALUES (295,'steady_wing',14,95,1,300,70,100,0,262,2000,0,6,0.0,0,0,0,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (296,'mana_cede',15,50,257,60,71,100,0,241,2000,0,6,20.5,0,0,0,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (297,'efflux',16,60,1,180,185,100,0,256,2000,0,6,0.0,0,0,0,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (298,'unbridled_learning',16,75,1,300,81,100,0,263,2000,0,6,0.0,0,0,0,0,0,NULL,0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (301,'triple_shot',17,30,1,300,84,100,0,242,2000,0,6,0.0,0,0,0,0,4,NULL,0,0,0,0,0,0);
+INSERT INTO `abilities` VALUES (301,'triple_shot',17,70,1,300,84,100,0,242,2000,0,6,0.0,0,0,0,0,4,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (302,'allies_roll',17,75,1,60,193,420,0,138,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (303,'misers_roll',17,75,1,60,193,420,0,139,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (304,'companions_roll',17,75,1,60,193,420,0,265,2000,0,6,8.0,1,1,80,0,8,'ABYSSEA',0,0,0,0,0,0);

@@ -254,6 +254,13 @@ inline int32 CLuaSpell::isAoE(lua_State *L)
     return 1;
 }
 
+inline int32 CLuaSpell::isCovered(lua_State *L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaSpell == nullptr);
+    lua_pushboolean(L, m_PLuaSpell->isCovered());
+    return 1;
+}
+
 inline int32 CLuaSpell::tookEffect(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PLuaSpell == nullptr);
@@ -386,6 +393,7 @@ Lunar<CLuaSpell>::Register_t CLuaSpell::methods[] =
     LUNAR_DECLARE_METHOD(CLuaSpell,setAnimation),
     LUNAR_DECLARE_METHOD(CLuaSpell,setMPCost),
     LUNAR_DECLARE_METHOD(CLuaSpell,isAoE),
+    LUNAR_DECLARE_METHOD(CLuaSpell,isCovered),
     LUNAR_DECLARE_METHOD(CLuaSpell,tookEffect),
     LUNAR_DECLARE_METHOD(CLuaSpell,getMagicBurstMessage),
     LUNAR_DECLARE_METHOD(CLuaSpell,getElement),

@@ -414,6 +414,8 @@ public:
     time_point        m_LastSynthTime;
     time_point        m_LastPlayerDataSave;         // time between last player data save
     time_point        m_LastPartyReload;            // time between last party reload
+    time_point        m_LastPlayerLoadRequest;      // time between last time asking to update PCs during CZoneEntities::ZoneServer
+
 
     CHAR_SUBSTATE     m_Substate;
 

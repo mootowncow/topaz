@@ -49,11 +49,14 @@ function onSpellCast(caster, target, spell)
                 spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB)
                 CheckForMagicBurst(caster, spell, target)
                 local duration = math.floor(ELEMENTAL_DEBUFF_DURATION * resist)
+                local subId = 0
+                local subPower = getElementalDebuffStatDownFromDOT(DOT)
+                local tier = 1
 
                 local mbonus = caster:getMerit(tpz.merit.ELEMENTAL_DEBUFF_EFFECT)
                 DOT = DOT + mbonus/2 -- Damage
 
-                target:addStatusEffect(tpz.effect.DROWN, DOT, 3, duration)
+                target:addStatusEffect(tpz.effect.DROWN, DOT, 3, duration, subId, subPower, tier)
             end
         end
     end

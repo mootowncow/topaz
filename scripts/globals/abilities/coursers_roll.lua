@@ -11,17 +11,17 @@
 --
 -- Die Roll    | Snapshot+
 -- --------    -------
--- 1           |+2
--- 2           |+3
--- 3           |+11
--- 4           |+4
--- 5           |+5
--- 6           |+6
--- 7           |+7
--- 8           |+8
--- 9           |+1
--- 10          |+10
--- 11          |+12
+-- 1           |+6
+-- 2           |+7
+-- 3           |+14
+-- 4           |+7
+-- 5           |+8
+-- 6           |+9
+-- 7           |+10
+-- 8           |+11
+-- 9           |+4
+-- 10          |+13
+-- 11          |+15
 -- Bust        |-5
 -----------------------------------
 require("scripts/globals/settings")
@@ -45,7 +45,7 @@ end
 
 function applyRoll(caster, target, ability, action, total)
     local duration = 300 + caster:getMerit(tpz.merit.WINNING_STREAK) + caster:getMod(tpz.mod.PHANTOM_DURATION) + (caster:getJobPointLevel(tpz.jp.PHANTOM_ROLL_DURATION) * 2)
-    local effectpowers = {2, 3, 11, 4, 5, 6, 7, 8, 1, 10, 12, -5}
+    local effectpowers = {6, 7, 14, 7, 8, 9, 10, 11, 4, 13, 15, -5}
     local effectpower = effectpowers[total]
 -- Apply Buffs from Courser's Roll Enhancing Gear if present
     if (math.random(0, 99) < caster:getMod(tpz.mod.ENHANCES_COURSERS_ROLL)) then

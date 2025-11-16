@@ -41,13 +41,13 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     -- Apply aftermath
     tpz.aftermath.addStatusEffect(player, tp, tpz.slot.MAIN, tpz.aftermath.type.EMPYREAN)
 
-    if damage > 0 then
+    if IsWSDamageMessage(target, action) then
         if not target:hasStatusEffect(tpz.effect.SLOW) then
             local duration = 60 * applyResistanceAddEffect(player, target, tpz.magic.ele.EARTH, 0, tpz.effect.SLOW)
             target:addStatusEffect(tpz.effect.SLOW, 1500, 0, duration)
         end
     end
-		if damage > 0 then player:trySkillUp(target, tpz.skill.GREAT_AXE, tpHits+extraHits) end
-		if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+		if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.GREAT_AXE, tpHits+extraHits) end
+		if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
     return tpHits, extraHits, criticalHit, damage
 end

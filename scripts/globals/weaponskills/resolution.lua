@@ -23,7 +23,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local params = {}
     params.numHits = 5
     params.ftp100 = 0.71875 params.ftp200 = 0.84375 params.ftp300 = 0.96875
-    params.str_wsc = 0.85 + (player:getMerit(tpz.merit.RESOLUTION) / 100) params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0 
+    params.str_wsc = 0.60 + (player:getMerit(tpz.merit.RESOLUTION) / 100) params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0 
 	params.mnd_wsc = 0.0 params.chr_wsc = 0.0
     params.crit100 = 0.0 params.crit200 = 0.0 params.crit300 = 0.0
     params.canCrit = false
@@ -37,8 +37,8 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     end
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-		if damage > 0 then player:trySkillUp(target, tpz.skill.GREAT_SWORD, tpHits+extraHits) end
-		if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+		if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.GREAT_SWORD, tpHits+extraHits) end
+		if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
     return tpHits, extraHits, criticalHit, damage
 
 end

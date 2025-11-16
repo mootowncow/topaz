@@ -40,7 +40,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
             target:addStatusEffect(tpz.effect.BURN, 33, 3, duration * resist)
         end
 	end
-	if damage > 0 then player:trySkillUp(target, tpz.skill.SCYTHE, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.SCYTHE, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
 end

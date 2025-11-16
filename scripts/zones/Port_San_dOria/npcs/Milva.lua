@@ -11,7 +11,7 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    if GetRegionOwner(tpz.region.SARUTABARUTA) ~= tpz.nation.BASTOK then
+    if GetRegionOwner(tpz.region.SARUTABARUTA) ~= tpz.nation.SANDORIA then
         player:showText(npc, ID.text.MILVA_CLOSED_DIALOG)
     else
         local stock =

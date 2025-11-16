@@ -830,7 +830,7 @@ public:
          uint32 duration,
          uint32 subid = 0,
          int32  subPower = 0,
-         uint16 tier = 0,
+         uint16 tier = 1,
          uint32 flags = 0,
          uint16 sourceType = EffectSourceType::SOURCE_NONE,
          uint32 sourceTypeParam = 0,

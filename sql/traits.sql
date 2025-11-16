@@ -124,8 +124,8 @@ INSERT INTO `traits` VALUES (3,'attack bonus',14,10,1,24,10,NULL,0);
 INSERT INTO `traits` VALUES (3,'attack bonus',14,98,2,23,22,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (3,'attack bonus',14,9,2,24,22,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (4,'defense bonus',1,10,1,1321,10,NULL,0);
-INSERT INTO `traits` VALUES (4,'defense bonus',1,45,2,1321,22,'ROV',0);
-INSERT INTO `traits` VALUES (4,'defense bonus',1,60,3,1321,35,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (4,'defense bonus',1,98,2,1321,22,'ROV',0);
+INSERT INTO `traits` VALUES (4,'defense bonus',1,99,3,1321,35,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (4,'defense bonus',14,10,1,1321,10,NULL,0);
 INSERT INTO `traits` VALUES (4,'defense bonus',14,40,2,1321,22,'ROV',0);
 INSERT INTO `traits` VALUES (4,'defense bonus',7,10,1,1321,10,NULL,0);
@@ -161,9 +161,9 @@ INSERT INTO `traits` VALUES (6,'magic def. bonus',22,70,4,29,16,'SOA',0);
 INSERT INTO `traits` VALUES (6,'magic def. bonus',22,97,5,29,18,'SOA',0);
 INSERT INTO `traits` VALUES (6,'magic def. bonus',22,98,6,29,20,'SOA',0);
 INSERT INTO `traits` VALUES (6,'magic def. bonus',22,99,7,29,22,'SOA',0);
-INSERT INTO `traits` VALUES (7,'max hp boost',1,55,1,2,30,'SOA',0);
-INSERT INTO `traits` VALUES (7,'max hp boost',1,65,2,2,60,'SOA',0);
-INSERT INTO `traits` VALUES (7,'max hp boost',1,75,3,2,120,'SOA',0);
+INSERT INTO `traits` VALUES (7,'max hp boost',1,96,1,2,30,'SOA',0);
+INSERT INTO `traits` VALUES (7,'max hp boost',1,97,2,2,60,'SOA',0);
+INSERT INTO `traits` VALUES (7,'max hp boost',1,98,3,2,120,'SOA',0);
 INSERT INTO `traits` VALUES (7,'max hp boost',1,99,4,2,180,'SOA',0);
 INSERT INTO `traits` VALUES (7,'max hp boost',2,15,1,2,30,NULL,0);
 INSERT INTO `traits` VALUES (7,'max hp boost',2,35,2,2,60,NULL,0);
@@ -438,21 +438,24 @@ INSERT INTO `traits` VALUES (59,'resist slow',19,20,1,1250,10,'WOTG',0);
 INSERT INTO `traits` VALUES (59,'resist slow',19,55,2,1250,15,'WOTG',0);
 INSERT INTO `traits` VALUES (59,'resist slow',19,99,3,1250,20,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (60,'resist charm',0,0,1,1252,2,NULL,0);
--- OOE
--- INSERT INTO `traits` VALUES (63,'resist amnesia',9,80,1,1253,10,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',9,81,2,1253,15,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',9,82,3,1253,20,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',9,83,4,1253,25,'ABYSSEA',0);
+
+INSERT INTO `traits` VALUES (63,'resist amnesia',9,15,1,1253,10,'ABYSSEA',0); -- BST
+INSERT INTO `traits` VALUES (63,'resist amnesia',9,35,2,1253,15,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (63,'resist amnesia',9,55,3,1253,20,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (63,'resist amnesia',9,75,4,1253,25,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (63,'resist amnesia',9,95,5,1253,30,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',17,80,1,1253,10,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',17,81,2,1253,15,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',17,82,3,1253,20,'ABYSSEA',0);
+
+INSERT INTO `traits` VALUES (63,'resist amnesia',17,30,1,1253,10,'ABYSSEA',0); -- COR
+INSERT INTO `traits` VALUES (63,'resist amnesia',17,50,2,1253,15,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (63,'resist amnesia',17,70,3,1253,20,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (63,'resist amnesia',17,90,4,1253,25,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',18,80,1,1253,10,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',18,81,2,1253,15,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',18,82,3,1253,20,'ABYSSEA',0);
--- INSERT INTO `traits` VALUES (63,'resist amnesia',18,83,4,1253,25,'ABYSSEA',0);
+
+INSERT INTO `traits` VALUES (63,'resist amnesia',18,15,1,1253,10,'ABYSSEA',0); -- PUP
+INSERT INTO `traits` VALUES (63,'resist amnesia',18,35,2,1253,15,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (63,'resist amnesia',18,55,3,1253,20,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (63,'resist amnesia',18,75,4,1253,25,'ABYSSEA',0);
 -- INSERT INTO `traits` VALUES (63,'resist amnesia',18,95,5,1253,30,'ABYSSEA',0);
+
 INSERT INTO `traits` VALUES (63,'resist amnesia',19,40,1,1253,20,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (63,'resist amnesia',19,50,2,1253,24,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (63,'resist amnesia',19,60,3,1253,26,'ABYSSEA',0);
@@ -500,12 +503,15 @@ INSERT INTO `traits` VALUES (80,'desperate blows',8,75,3,906,1500,'SOA',0);
 INSERT INTO `traits` VALUES (81,'beast affinity ',9,75,1,0,0,'TOAU',0);
 INSERT INTO `traits` VALUES (82,'beast healer',9,75,1,0,0,'TOAU',0);
 INSERT INTO `traits` VALUES (83,'snapshot',11,75,1,0,0,'TOAU',0);
-INSERT INTO `traits` VALUES (84,'recycle',11,80,1,305,10,'SOA',0);
-INSERT INTO `traits` VALUES (84,'recycle',11,81,2,305,30,'SOA',0);
-INSERT INTO `traits` VALUES (84,'recycle',11,82,3,305,20,'SOA',0);
-INSERT INTO `traits` VALUES (84,'recycle',17,35,1,305,10,'SOA',0);
-INSERT INTO `traits` VALUES (84,'recycle',17,65,2,305,20,'SOA',0);
-INSERT INTO `traits` VALUES (84,'recycle',17,95,3,305,30,'SOA',0);
+INSERT INTO `traits` VALUES (83,'snapshot',17,40,1,365,5,'TOAU',0);
+INSERT INTO `traits` VALUES (83,'snapshot',17,60,2,365,10,'TOAU',0);
+INSERT INTO `traits` VALUES (83,'snapshot',17,75,3,365,15,'TOAU',0);
+INSERT INTO `traits` VALUES (84,'recycle',11,30,1,305,10,'SOA',0); -- RNG
+INSERT INTO `traits` VALUES (84,'recycle',11,40,2,305,20,'SOA',0);
+INSERT INTO `traits` VALUES (84,'recycle',11,50,3,305,30,'SOA',0);
+INSERT INTO `traits` VALUES (84,'recycle',17,20,1,305,10,'SOA',0); -- COR
+INSERT INTO `traits` VALUES (84,'recycle',17,30,2,305,20,'SOA',0);
+INSERT INTO `traits` VALUES (84,'recycle',17,40,3,305,30,'SOA',0);
 INSERT INTO `traits` VALUES (85,'ikishoten',12,75,1,0,0,'TOAU',2756);
 INSERT INTO `traits` VALUES (86,'overwhelm',12,75,1,0,0,'TOAU',2758);
 INSERT INTO `traits` VALUES (87,'ninja tool expert.',13,75,1,308,0,'TOAU',2818);
@@ -588,6 +594,10 @@ INSERT INTO `traits` VALUES (103,'stout servant',15,95,2,0,7,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (103,'stout servant',18,78,1,0,5,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (103,'stout servant',18,88,2,0,7,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (103,'stout servant',18,98,3,0,9,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (104,'true shot',11,60,1,1053,3,'ABYSSEA',0); -- RNG
+INSERT INTO `traits` VALUES (104,'true shot',11,65,2,1053,5,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (104,'true shot',11,70,3,1053,7,'ABYSSEA',0);
+INSERT INTO `traits` VALUES (104,'true shot',17,70,1,1053,3,'ABYSSEA',0); -- COR
 INSERT INTO `traits` VALUES (105,'blood boon',15,30,1,913,20,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (105,'blood boon',15,45,2,913,22,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (105,'blood boon',15,60,3,913,24,'ABYSSEA',0);

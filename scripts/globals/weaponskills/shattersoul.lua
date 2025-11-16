@@ -26,7 +26,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local params = {}
     params.numHits = 3
     params.ftp100 = 1 params.ftp200 = 1.1 params.ftp300 = 1.2
-    params.str_wsc = 0.0 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.85 + (player:getMerit(tpz.merit.SHATTERSOUL) / 100) params.mnd_wsc = 0.0 params.chr_wsc = 0.0
+    params.str_wsc = 0.0 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.60 + (player:getMerit(tpz.merit.SHATTERSOUL) / 100) params.mnd_wsc = 0.0 params.chr_wsc = 0.0
     params.crit100 = 0.15 params.crit200 = 0.25 params.crit300 = 0.40
     params.canCrit = true
     params.acc100 = 0.0 params.acc200= 0.0 params.acc300= 0.0
@@ -37,11 +37,11 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     end
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-		if damage > 0 then player:trySkillUp(target, tpz.skill.STAFF, tpHits+extraHits) end
-		if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+		if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.STAFF, tpHits+extraHits) end
+		if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
 
 	local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.LIGHTNING, 50, tpz.effect.MAGIC_DEF_DOWN)
-    if (damage > 0 and target:hasStatusEffect(tpz.effect.MAGIC_DEF_DOWN) == false) and resist >= 0.5  then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.MAGIC_DEF_DOWN) == false and resist >= 0.5  then
         target:addStatusEffect(tpz.effect.MAGIC_DEF_DOWN, 10, 0, 120 * resist)
     end
     return tpHits, extraHits, criticalHit, damage

@@ -815,6 +815,13 @@ void CCharEntity::Tick(time_point tick)
         m_LastPartyReload = tick + std::chrono::milliseconds(10000);
     }
 
+    // Try to load PCs around you every 5 seconds while in a cutscene
+    if (status == STATUS_CUTSCENE_ONLY && tick > m_LastPlayerLoadRequest)
+    {
+        requestedInfoSync = true;
+        m_LastPlayerLoadRequest = tick + 5s + std::chrono::milliseconds(tpzrand::GetRandomNumber(0, 1000));
+    }
+
     if (m_moghouseID != 0)
     {
         gardenutils::UpdateGardening(this, true);
@@ -1244,7 +1251,10 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
         }
     }
 
-    battleutils::HandlePlayerSpellCasted(this, PSpell, &action);
+    if (PParty)
+    {
+        PParty->ReloadParty();
+    }
 
     // Safety check to not get locked in cutscene status
     if (this->status == STATUS_CUTSCENE_ONLY || this->m_Substate == CHAR_SUBSTATE::SUBSTATE_IN_CS)

@@ -1781,15 +1781,19 @@ namespace charutils
 
             if (equipSlotID == SLOT_SUB)
             {
-                if (((CItemWeapon*)PItem)->IsShield() && charutils::hasTrait(PChar, TRAIT_SHIELD_BARRIER))
+                CItemEquipment* PSubItem = dynamic_cast<CItemEquipment*>(PItem);
+                if (PSubItem && PSubItem->IsShield() && charutils::hasTrait(PChar, TRAIT_SHIELD_BARRIER))
                 {
                     PChar->delModifier(Mod::PHALANX, PChar->getMod(Mod::SHIELD_BARRIER));
                 }
-                // Removed sub item, if main hand is empty, then possibly eligible for H2H weapon
-                if (!PChar->getEquip(SLOT_MAIN) || !PChar->getEquip(SLOT_MAIN)->isType(ITEM_EQUIPMENT))
+
+                // If main hand is empty, check for unarmed setup
+                CItemEquipment* PMainItem = dynamic_cast<CItemEquipment*>(PChar->getEquip(SLOT_MAIN));
+                if (!PMainItem)
                 {
                     CheckUnarmedWeapon(PChar);
                 }
+
                 PChar->m_dualWield = false;
             }
             PChar->delEquipModifiers(&((CItemEquipment*)PItem)->modList, ((CItemEquipment*)PItem)->getReqLvl(), equipSlotID);
@@ -2068,8 +2072,24 @@ namespace charutils
                         }
 
                     }
+                    // after setting PChar->m_Weapons[SLOT_MAIN] and PChar->look.main...
                     PChar->look.main = PItem->getModelId();
                     UpdateWeaponStyle(PChar, equipSlotID, (CItemWeapon*)PItem);
+
+                    // Also update offhand model if one is equipped
+                    if (auto PSubEquip = dynamic_cast<CItemEquipment*>(PChar->getEquip(SLOT_SUB)))
+                    {
+                        // ensure the look/sub model is up-to-date
+                        PChar->look.sub = PSubEquip->getModelId();
+
+                        // if it's a weapon, ensure m_Weapons is kept in sync for visual logic
+                        if (PSubEquip->isType(ITEM_WEAPON))
+                        {
+                            PChar->m_Weapons[SLOT_SUB] = static_cast<CItemWeapon*>(PSubEquip);
+                        }
+
+                        UpdateWeaponStyle(PChar, SLOT_SUB, PSubEquip);
+                    }
                 }
                 break;
                 case SLOT_SUB:
@@ -2233,6 +2253,7 @@ namespace charutils
                 return true;
         return false;
     }
+
     bool hasValidStyle(CCharEntity* PChar, CItemEquipment* PItem, CItemEquipment* AItem)
     {
         if (AItem && PItem)
@@ -2332,7 +2353,6 @@ namespace charutils
                 }
                 break;
             }
-
             case SLOT_SUB:
             {
                 if (hasValidStyle(PChar, PItem, appearance))
@@ -2350,7 +2370,17 @@ namespace charutils
             {
                 if (hasValidStyle(PChar, PItem, appearance))
                 {
-                    PChar->mainlook.ranged = appearanceModel;
+                    // Only apply the appearance if it actually has a model ID
+                    uint16 modelId = appearance->getModelId();
+                    if (modelId != 0)
+                    {
+                        PChar->mainlook.ranged = modelId;
+                    }
+                    else
+                    {
+                        // Use the currently equipped ranged model instead
+                        PChar->mainlook.ranged = PChar->look.ranged;
+                    }
                 }
                 else
                 {
@@ -2678,13 +2708,16 @@ namespace charutils
 
             if (equipSlotID == SLOT_MAIN && PSubItem)
             {
-                // Only unequip sub if it's an offhand weapon
-                if (PSubItem->isType(ITEM_WEAPON))
+                // If it's a shield, never unequip it here
+                if (PSubItem->IsShield())
+                {
+                }
+                else if (PSubItem->isType(ITEM_WEAPON))
                 {
                     CItemWeapon* PSubWeapon = static_cast<CItemWeapon*>(PSubItem);
 
-                    // Unequip only if the sub weapon isn't a grip (SKILL_NONE) or Shield
-                    if (PSubWeapon->getSkillType() != SKILL_NONE && !PSubWeapon->IsShield())
+                    // Unequip only if it's a valid offhand weapon (not grip)
+                    if (PSubWeapon->getSkillType() != SKILL_NONE)
                     {
                         RemoveSub(PChar);
                     }
@@ -2812,14 +2845,25 @@ namespace charutils
             {
                 CItemWeapon* PSubWeapon = dynamic_cast<CItemWeapon*>(PChar->getEquip((SLOTTYPE)SLOT_SUB));
                 CItemWeapon* PMainWeapon = dynamic_cast<CItemWeapon*>(PChar->getEquip((SLOTTYPE)SLOT_MAIN));
+                CItemEquipment* PSubItem = dynamic_cast<CItemEquipment*>(PChar->getEquip((SLOTTYPE)SLOT_SUB)); // Used for shields
 
                 // No sub item equipped
-                if (!PSubWeapon)
+                if (!PSubWeapon && !PSubItem)
                     continue;
 
                 // Allow shields always (even if no mainhand)
-                if (PSubWeapon->IsShield())
-                    continue;
+                if (PSubItem && PSubItem->IsShield())
+                {
+                    if ((PSubItem->getJobs() & (1 << (PChar->GetMJob() - 1))) && (PSubItem->getEquipSlotId() & (1 << SLOT_SUB)))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        UnequipItem(PChar, SLOT_SUB);
+                        continue;
+                    }
+                }
 
                 // Allow grips only with 2H weapons
                 if (PSubWeapon->getSkillType() == SKILL_NONE)
@@ -2832,21 +2876,21 @@ namespace charutils
                     continue;
                 }
 
-                // 🚫 Disallow sub-weapons if no mainhand (non-shield, non-grip)
+                // Disallow sub-weapons if no mainhand (non-shield, non-grip)
                 if (!PMainWeapon)
                 {
                     UnequipItem(PChar, SLOT_SUB);
                     continue;
                 }
 
-                // 🚫 Disallow sub-weapons if mainhand is H2H
+                // Disallow sub-weapons if mainhand is H2H
                 if (PMainWeapon->getSkillType() == SKILL_HAND_TO_HAND)
                 {
                     UnequipItem(PChar, SLOT_SUB);
                     continue;
                 }
 
-                // 🚫 Disallow sub-weapons if no Dual Wield
+                // Disallow sub-weapons if no Dual Wield
                 if (!charutils::hasTrait(PChar, TRAIT_DUAL_WIELD))
                 {
                     UnequipItem(PChar, SLOT_SUB);
@@ -3340,14 +3384,23 @@ namespace charutils
             // Check if the player has dual wield trait or not, and if they don't then unequip their weapons
             if (!charutils::hasTrait(PChar, TRAIT_DUAL_WIELD))
             {
-                CItem* PItem = PChar->getEquip((SLOTTYPE)SLOT_SUB);
-                // Don't unequip shields or Grips
-                CItemWeapon* PWeapon = (CItemWeapon*)PItem;
-                if (PItem)
+                CItemEquipment* PSubItem = dynamic_cast<CItemEquipment*>(PChar->getEquip(SLOT_SUB));
+
+                if (PSubItem)
                 {
-                    if (!((CItemWeapon*)PItem)->IsShield() && !PWeapon->getSkillType() == SKILL_NONE)
+                    // Skip unequipping shields or grips
+                    if (PSubItem->IsShield())
                     {
-                        UnequipItem(PChar, SLOT_SUB);
+                    }
+                    else if (PSubItem->isType(ITEM_WEAPON))
+                    {
+                        CItemWeapon* PSubWeapon = static_cast<CItemWeapon*>(PSubItem);
+
+                        // Unequip if it's a weapon that’s not a grip
+                        if (PSubWeapon->getSkillType() != SKILL_NONE)
+                        {
+                            UnequipItem(PChar, SLOT_SUB);
+                        }
                     }
                 }
             }
@@ -6072,17 +6125,15 @@ namespace charutils
             PChar->ReloadPartyDec();
         }
 
-        // Attempt to disband party if the last trust was just released
-        // NOTE: Trusts are not counted as party members, so the current member count will be 1
-        // TODO: Needs to check that removed party member was a trust as well or else it forces disband if someone leaves PT and you're left solo
-        //if (PChar->PParty && PChar->PParty->HasOnlyOneMember() && PChar->PTrusts.empty())
-        //{
-        //    // Looks good so far, check OTHER processes to see if we should disband
-        //    if (PChar->PParty->GetMemberCountAcrossAllProcesses() == 1)
-        //    {
-        //        PChar->PParty->DisbandParty();
-        //    }
-        //}
+        // Attempt to disband party if the last party member removed was a trust
+        if (PChar->PParty &&
+            PChar->PParty->HasOnlyOneMember() &&
+            PChar->PTrusts.empty() &&
+            PChar->PParty->GetLastRemovedObjType() == TYPE_TRUST &&
+            PChar->PParty->GetMemberCountAcrossAllProcesses() == 1)
+        {
+            PChar->PParty->DisbandParty();
+        }
     }
 
     bool IsAidBlocked(CCharEntity* PInitiator, CCharEntity* PTarget) {

@@ -1,10 +1,9 @@
 -----------------------------------
 -- Ability: Footwork
--- Makes kicks your primary mode of attack.
+-- Makes kicks your primary mode of attack and increases the damage of kicks.
 -- Obtained: Monk Level 65
--- Recast Time: 3:00
--- Duration: 1:30
--- Inner Strength: Doubles duration
+-- Recast Time: 1:00
+-- Duration: 1:00
 -----------------------------------
 require("scripts/globals/status")
 -----------------------------------
@@ -14,7 +13,7 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    local kickDmg = 3 + player:getWeaponDmg()
+    local kickDmg = 25 + player:getWeaponDmg()
     local duration = 60
 
    player:addStatusEffect(tpz.effect.FOOTWORK, kickDmg, 0, duration)

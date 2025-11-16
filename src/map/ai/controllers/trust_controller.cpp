@@ -139,6 +139,12 @@ void CTrustController::Tick(time_point tick)
         }
     }
 
+    // Match owners status
+    if (!PMaster->isDead() && POwner->isAlive())
+    {
+        POwner->status = PMaster->status;
+    }
+
     if (POwner->PAI->IsEngaged())
     {
         DoCombatTick(tick);
@@ -1130,7 +1136,7 @@ bool CTrustController::Ability(uint16 targid, uint16 abilityid)
         return false;
     }
 
-    if (POwner->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
+    if (POwner->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT, EFFECT_PARALYSIS, EFFECT_GEO_PARALYSIS }))
     {
         return false;
     }

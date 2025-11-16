@@ -517,7 +517,7 @@ enum class Mod
     SCAVENGE_EFFECT           = 312, //
     SHARPSHOT                 = 314, //
     TRUE_SHOT_EFFECT          = 1053,// True Shot Ranged attack power increase inside sweet spot (percent)
-    DEAD_AIM_EFFECT           = 1054,// Critical damage increase to ranged attacks in percents (does not effect ranged WS)
+    DEAD_AIM_EFFECT           = 1054,// Critical damage increase to ranged attacks in percents
 
     // Samurai
     WARDING_CIRCLE_DURATION   = 95,  // Warding Circle extended duration in seconds
@@ -592,6 +592,7 @@ enum class Mod
     BLU_ATTP                  = 1357,// Modifier to BLU phys attack (in percents)
     BLUE_JOB_TRAIT_BONUS      = 1411,//Job traits tier +1(JP Gift)
     BLUE_WSC_BONUS            = 1413,//WSC bonus to spells(JP Gift)
+    //CHAIN_AFFINITY_DMG // TODO: "Chain Affinity+" Equipment. Adds base damage to the spell.  https://www.bg-wiki.com/ffxi/Chain_Affinity
 
     // Corsair
     TRIPLE_SHOT_RATE          = 987, // The rate that triple shot can proc. Without this, the default is 40%.

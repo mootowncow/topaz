@@ -46,6 +46,9 @@ public:
     int32 levelRestriction(lua_State*);
     int32 setLocalVar(lua_State*);
     int32 getPlayers(lua_State*);
+    int32 getNpcs(lua_State*);
+    int32 getMobs(lua_State*);
+    int32 getTrusts(lua_State*);
     int32 getID(lua_State*);
     int32 getRegionID(lua_State*);
     int32 getType(lua_State*);

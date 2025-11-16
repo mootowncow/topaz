@@ -24,6 +24,7 @@
 
 #include "map.h"
 #include "../common/cbasetypes.h"
+#include "entities/baseentity.h"
 
 #include <vector>
 
@@ -98,6 +99,9 @@ public:
     void PushPacket(uint32 senderID, uint16 ZoneID, CBasicPacket* packet);		// отправляем пакет всем членам группы, за исключением PPartyMember
     void PushEffectsPacket();
     void EffectsChanged();
+
+    uint8 GetLastRemovedObjType() const { return m_LastRemovedObjType; }
+    uint32 GetLastRemovedID() const { return m_LastRemovedID; }
 	CAlliance* m_PAlliance;
 
     // ВНИМАНИЕ: НЕ ИЗМЕНЯТЬ ЗНАЧЕНИЯ СПИСКА ВНЕ КЛАССА ГРУППЫ
@@ -124,6 +128,8 @@ private:
     void RefreshFlags(std::vector<partyInfo_t>&);
 
     time_point m_TimeLastMemberJoined;
+    uint8 m_LastRemovedObjType = TYPE_NONE; // TYPE_PC, TYPE_TRUST, etc.
+    uint32 m_LastRemovedID = 0;             
 };
 
 #endif

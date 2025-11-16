@@ -57,6 +57,7 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.DIA, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DIA)
 
     mob:addSimpleGambit(ai.t.MELEE, ai.c.NOT_STATUS, tpz.effect.HASTE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.HASTE)
+    mob:addSimpleGambit(ai.t.RANGED, ai.c.NOT_STATUS, tpz.effect.FLURRY_II, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.FLURRY)
 
     -- Refresh others
     mob:addSimpleGambit(ai.t.WANTS_REFRESH, ai.c.REFRESH, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.REFRESH)
@@ -82,7 +83,6 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)
 
-    mob:addSimpleGambit(ai.t.RANGED, ai.c.NOT_STATUS, tpz.effect.FLURRY, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.FLURRY)
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.NOT_STATUS, tpz.effect.PHALANX, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.PHALANX_II)
 
     mob:addSimpleGambit(ai.t.PARTY, ai.c.NOT_STATUS, tpz.effect.PROTECT, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.PROTECT)

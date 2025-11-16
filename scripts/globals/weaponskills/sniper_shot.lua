@@ -19,8 +19,8 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     local params = {}
     params.numHits = 1
-    params.ftp100 = 1.5 params.ftp200 = 1.7 params.ftp300 = 2.0
-    params.str_wsc = 0.40 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0 params.mnd_wsc = 0.0 params.chr_wsc = 0.0
+    params.ftp100 = 1.0 params.ftp200 = 1.2 params.ftp300 = 1.5
+    params.str_wsc = 0.0 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.3 params.int_wsc = 0.0 params.mnd_wsc = 0.0 params.chr_wsc = 0.0
     params.crit100 = 0.0 params.crit200 = 0.0 params.crit300 = 0.0
     params.canCrit = false
     params.acc100 = 0.0 params.acc200= 0.0 params.acc300= 0.0
@@ -33,13 +33,13 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local damage, criticalHit, tpHits, extraHits = doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.THUNDER, 0, tpz.effect.MND_DOWN)
 
-    if (damage > 0 and target:hasStatusEffect(tpz.effect.MND_DOWN) == false) and resist >= 0.5 then
+    if IsWSDamageMessage(target, action) and target:hasStatusEffect(tpz.effect.MND_DOWN) == false and resist >= 0.5 then
     local duration = 90 * resist
     local power = math.floor((player:getMainLvl() / 10) * (tp / 2000) + 5)
         target:addStatusEffect(tpz.effect.MND_DOWN, power, 0, duration)
     end
 
-    if damage > 0 then player:trySkillUp(target, tpz.skill.MARKSMANSHIP, tpHits+extraHits) end
+    if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.MARKSMANSHIP, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
 end

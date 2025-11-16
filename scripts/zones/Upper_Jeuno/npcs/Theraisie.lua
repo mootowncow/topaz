@@ -32,7 +32,7 @@ function onTrigger(player, npc)
        -- 17021, 1000,    -- Pet Food Zeta
        -- 17022, 1500,    -- Pet Food Eta
        -- 17023, 2000,    -- Pet Food Theta
-        9251,  300,    -- Pet Roborant
+        19251,  300,    -- Pet Roborant
         19252,  250,    -- Pet Poultice
     }
 

@@ -306,7 +306,6 @@ void CGambitsContainer::Tick(time_point tick)
             CBattleEntity* target = nullptr;
             if (gambit.predicates[0].target == G_TARGET::SELF)
             {
-                POwner->StatusEffectContainer->DelStatusEffect(EFFECT_PIANISSIMO);
                 target = CheckTrigger(POwner, gambit.predicates[0]) ? POwner : nullptr;
             }
             else if (gambit.predicates[0].target == G_TARGET::TARGET)

@@ -38,11 +38,11 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     end
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-	if damage > 0 then player:trySkillUp(target, tpz.skill.AXE, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.AXE, tpHits+extraHits) end
 
 	local resist =  applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, params.bonusmacc, tpz.effect.FROST) 
     local duration = (tp/1000 * 30) + 60
-    if (damage > 0 and resist >= 0.5) then
+    if IsWSDamageMessage(target, action) and resist >= 0.5 then
         if not target:hasStatusEffect(tpz.effect.FROST) and not target:hasStatusEffect(tpz.effect.BURN) then
             target:addStatusEffect(tpz.effect.FROST, 15, 3, duration * resist)
         end

@@ -15,5 +15,5 @@ end
 
 function onUseAbility(player, target, ability)
     local power = 40 + player:getMod(tpz.mod.SHARPSHOT)
-    player:addStatusEffect(tpz.effect.SHARPSHOT, power, 0, 180)
+    player:addStatusEffect(tpz.effect.SHARPSHOT, power, 0, 60)
 end

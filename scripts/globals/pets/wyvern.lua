@@ -167,7 +167,7 @@ function OffensiveBreath(pet, target, skill, action, element, damageType, shadow
         pet:delStatusEffectSilent(tpz.effect.MAGIC_ATK_BOOST)
     end
 
-    local dmg = MobHPBasedMove(pet, target, 0.185, 1, element) -- Works out to (hp/6) + 15, as desired
+    local dmg = MobHPBasedMove(pet, target, skill, 0.185, 1, element) -- Works out to (hp/6) + 15, as desired
 
     -- Add +15 flat damage
     dmg = dmg + 15

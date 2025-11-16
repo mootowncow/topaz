@@ -150,7 +150,7 @@ tpz.voidwalker.pos =
         [16] = { mobId = nil, pos = { 231, 0, 755 } },
         [17] = { mobId = nil, pos = { 282, -9, 898 } },
         [18] = { mobId = nil, pos = { 214, -20, 651 } },
-        [19] = { mobId = nil, pos = { -313, 0, -158 } },
+        [19] = { mobId = nil, pos = { -333, 39, 170 } },
         [20] = { mobId = nil, pos = { 126, -19, 541 } },
         [21] = { mobId = nil, pos = { 147, -20, 439 } },
         [22] = { mobId = nil, pos = { 319, -19, 370 } },

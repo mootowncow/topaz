@@ -25,7 +25,7 @@ function onEffectGain(target, effect)
     for i, effect in ipairs(effects) do
         -- check mask bit for tpz.effectFlag.DISPELABLE
         if (utils.mask.getBit(effect:getFlag(), 0) and effect:getType() ~= tpz.effect.RERAISE) then
-            target:delStatusEffect(effect:getType())
+            target:delStatusEffectSilent(effect:getType())
         end
     end
 end

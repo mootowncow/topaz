@@ -56,6 +56,7 @@ public:
     int32 setValidTarget(lua_State*);
     int32 canTargetEnemy(lua_State*);
     int32 isAoE(lua_State*);
+    int32 isCovered(lua_State*);
     int32 tookEffect(lua_State*);
     int32 getTotalTargets(lua_State*);
     int32 getPrimaryTargetID(lua_State*);

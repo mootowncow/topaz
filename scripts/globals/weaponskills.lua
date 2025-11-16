@@ -495,14 +495,6 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
     calcParams = calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcParams, false)
     local finaldmg = calcParams.finalDmg
 
-    -- Delete statuses that may have been spent by the WS
-    attacker:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
-    attacker:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
-    attacker:delStatusEffectsByFlag(tpz.effectFlag.PHYS_ATTACK)
-    attacker:delStatusEffectSilent(tpz.effect.SNEAK_ATTACK)
-    attacker:delStatusEffectSilent(tpz.effect.BUILDING_FLOURISH)
-	attacker:delStatusEffectSilent(tpz.effect.CONSUME_MANA)
-
     -- Handle Null
     finaldmg = utils.CheckForNull(attacker, target, tpz.attackType.PHYSICAL, tpz.magic.ele.NONE, finaldmg)
 
@@ -573,10 +565,25 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
         end
     end
 
+    -- Handle Footwork 
+	if attacker:hasStatusEffect(tpz.effect.FOOTWORK) then
+        if (wsID == tpz.weaponskill.DRAGON_KICK) or (wsID == tpz.weaponskill.TORNADO_KICK) then
+	        finaldmg = math.floor(finaldmg * 1.5)
+	    end
+    end
+
     -- Handle Scarlet Delirium
     finaldmg = utils.ScarletDeliriumBonus(attacker, finaldmg)
 
     finaldmg = utils.HandleExtraDamageMultipliers(attacker, finaldmg)
+
+    -- Delete statuses that may have been spent by the WS
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.DETECTABLE)
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.ATTACK)
+    attacker:delStatusEffectsByFlag(tpz.effectFlag.PHYS_ATTACK)
+    attacker:delStatusEffectSilent(tpz.effect.SNEAK_ATTACK)
+    attacker:delStatusEffectSilent(tpz.effect.BUILDING_FLOURISH)
+	attacker:delStatusEffectSilent(tpz.effect.CONSUME_MANA)
 
     finaldmg = finaldmg * WEAPON_SKILL_POWER -- Add server bonus
     calcParams.finalDmg = finaldmg
@@ -1903,4 +1910,13 @@ function GetMaxWeaponPdif(attacker)
     end
 
     return 2.0
+end
+
+function IsWSDamageMessage(target, action)
+    return
+    (action:messageID(target:getID()) == tpz.msg.basic.DAMAGE) or 
+    (action:messageID(target:getID()) == tpz.msg.basic.DAMAGE_SECONDARY) or
+    (action:messageID(target:getID()) == tpz.msg.basic.SELF_HEAL) or
+    (action:messageID(target:getID()) == tpz.msg.basic.SELF_HEAL_SECONDARY) or
+    (action:messageID(target:getID()) == tpz.msg.basic.SKILL_RECOVERS_HP)
 end

@@ -2711,12 +2711,12 @@ namespace battleutils
 
     uint16 CalculateSweetSpotAccuracy(CBattleEntity* PAttacker, CBattleEntity* PDefender, int acc, bool isBluSpell)
     {
-        float sweetSpotMultiplier = 1.0f;
+        int16 accPenalty = 0;
         float distanceToTarget = distance(PAttacker->loc.p, PDefender->loc.p);
         uint8 meleeRange = PAttacker->GetMeleeRange() + PDefender->m_ModelSize;
         uint8 rangedType = 6;
-        float optimalRangeBonus = 1.0f;
-        uint8 flatAccBonus = 0;
+        int16 optimalRangeBonus = 0; // Not yet implemented, for future gear mods or whatever
+        int16 flatAccBonus = 0; // Not yet implemented, for future gear mods or whatever
 
         if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_RANGED]))
         {
@@ -2728,85 +2728,117 @@ namespace battleutils
             rangedType = SUBSKILL_THROWN;
         }
 
+        // -5 per yalm up to 10, then -10 per yalm after 10
+        auto computeTwoTierPenalty = [](float distanceFromSweetSpot) -> int16
+        {
+            float d = std::max(0.0f, distanceFromSweetSpot);
+            if (d <= 0.0f)
+                return 0;
+
+            const float tier1Limit = 10.0f;
+            const float tier1Rate = 5.0f;  // -5 per yalm
+            const float tier2Rate = 10.0f; // -10 per yalm after 10
+
+            if (d <= tier1Limit)
+            {
+                return static_cast<int16>(std::lround(d * tier1Rate));
+            }
+            else
+            {
+                float beyond = d - tier1Limit;
+                return static_cast<int16>(std::lround(tier1Limit * tier1Rate + beyond * tier2Rate));
+            }
+        };
+
         // https://wiki.ffo.jp/html/9286.html
         switch (rangedType)
         {
             case SUBSKILL_SHURIKEN:
             case SUBSKILL_THROWN:
+            {
                 if (distanceToTarget <= meleeRange)
                 {
-                    sweetSpotMultiplier = 1.0f;
+                    accPenalty = 0; // no penalty
                 }
                 else
                 {
-                    sweetSpotMultiplier = 1.0f - ((distanceToTarget - meleeRange) * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    float distanceFromSweetSpot = distanceToTarget - meleeRange;
+                    accPenalty = computeTwoTierPenalty(distanceFromSweetSpot);
                 }
                 break;
+            }
             case SUBSKILL_GUN:
             case SUBSKILL_CNN:
+            {
                 if (distanceToTarget >= 5.0f && distanceToTarget <= 6.0f)
                 {
-                    sweetSpotMultiplier = 1.0f;
+                    accPenalty = 0;
                 }
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 5.0f) ? (5.0f - distanceToTarget) : (distanceToTarget - 6.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    accPenalty = computeTwoTierPenalty(distanceFromSweetSpot);
                 }
                 break;
+            }
             case SUBSKILL_SHORTBOW:
+            {
                 if (distanceToTarget >= 6.0f && distanceToTarget <= 8.0f)
                 {
-                    sweetSpotMultiplier = 1.0f;
+                    accPenalty = 0;
                 }
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 6.0f) ? (6.0f - distanceToTarget) : (distanceToTarget - 8.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    accPenalty = computeTwoTierPenalty(distanceFromSweetSpot);
                 }
                 break;
+            }
             case SUBSKILL_XBO:
+            {
                 if (distanceToTarget >= 7.0f && distanceToTarget <= 10.0f)
                 {
-                    sweetSpotMultiplier = 1.0f;
+                    accPenalty = 0;
                 }
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 7.0f) ? (7.0f - distanceToTarget) : (distanceToTarget - 10.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    accPenalty = computeTwoTierPenalty(distanceFromSweetSpot);
                 }
                 break;
+            }
             case SUBSKILL_LONGBOW:
+            {
                 if (distanceToTarget >= 8.0f && distanceToTarget <= 11.0f)
                 {
-                    sweetSpotMultiplier = 1.0f;
+                    accPenalty = 0;
                 }
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 8.0f) ? (8.0f - distanceToTarget) : (distanceToTarget - 11.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    accPenalty = computeTwoTierPenalty(distanceFromSweetSpot);
                 }
                 break;
+            }
             default:
-                sweetSpotMultiplier = 1.0f;
+            {
+                accPenalty = 0;
                 break;
+            }
         }
 
-        if (sweetSpotMultiplier == 1.0f)
+        // Not yet implemented, for future gear mods or whatever
+        if (accPenalty == 0)
         {
-            sweetSpotMultiplier *= optimalRangeBonus;
+            acc += optimalRangeBonus;
             acc += flatAccBonus;
         }
 
-        acc *= sweetSpotMultiplier;
+        // Apply penalty
+        acc -= accPenalty;
 
-        //ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
-        //ShowDebug("[%s] accuracy after sweet spot multiplier %i\n", PAttacker->name, acc);
+        //ShowDebug("[%s] accuracy penalty: %d\n", PAttacker->name, accPenalty);
+        //ShowDebug("[%s] final accuracy: %i\n", PAttacker->name, acc);
         return acc;
     }
 
@@ -2948,6 +2980,32 @@ namespace battleutils
             }
         }
 
+        // -1% per yalm up to 11 yalms, then -2% per yalm after 11
+        auto computeTwoTierMultiplier = [](float distanceFromSweetSpot) -> float
+        {
+            float d = std::max(0.0f, distanceFromSweetSpot);
+            if (d <= 0.0f) return 1.0f;
+
+            const float tier1Limit = 11.0f;    // first tier limit in yalms
+            const float tier1Rate = 0.01f;     // 1% per yalm
+            const float tier2Rate = 0.02f;     // 2% per yalm beyond tier1Limit
+
+            float reduction = 0.0f;
+            if (d <= tier1Limit)
+            {
+                reduction = d * tier1Rate;
+            }
+            else
+            {
+                float beyond = d - tier1Limit;
+                reduction = tier1Limit * tier1Rate + beyond * tier2Rate;
+            }
+
+            float mult = 1.0f - reduction;
+
+            return mult;
+        };
+
         // https://wiki.ffo.jp/html/9286.html
         switch (rangedType)
         {
@@ -2959,10 +3017,11 @@ namespace battleutils
                 }
                 else
                 {
-                    sweetSpotMultiplier = 1.0f - ((distanceToTarget - meleeRange) * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier); //
+                    float distanceFromSweetSpot = distanceToTarget - meleeRange;
+                    sweetSpotMultiplier = computeTwoTierMultiplier(distanceFromSweetSpot);
                 }
                 break;
+
             case SUBSKILL_GUN:
             case SUBSKILL_CNN:
                 if (distanceToTarget >= 5.0f && distanceToTarget <= 6.0f)
@@ -2972,10 +3031,10 @@ namespace battleutils
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 5.0f) ? (5.0f - distanceToTarget) : (distanceToTarget - 6.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    sweetSpotMultiplier = computeTwoTierMultiplier(distanceFromSweetSpot);
                 }
                 break;
+
             case SUBSKILL_SHORTBOW:
                 if (distanceToTarget >= 6.0f && distanceToTarget <= 8.0f)
                 {
@@ -2984,10 +3043,10 @@ namespace battleutils
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 6.0f) ? (6.0f - distanceToTarget) : (distanceToTarget - 8.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    sweetSpotMultiplier = computeTwoTierMultiplier(distanceFromSweetSpot);
                 }
                 break;
+
             case SUBSKILL_XBO:
                 if (distanceToTarget >= 7.0f && distanceToTarget <= 10.0f)
                 {
@@ -2996,10 +3055,10 @@ namespace battleutils
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 7.0f) ? (7.0f - distanceToTarget) : (distanceToTarget - 10.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    sweetSpotMultiplier = computeTwoTierMultiplier(distanceFromSweetSpot);
                 }
                 break;
+
             case SUBSKILL_LONGBOW:
                 if (distanceToTarget >= 8.0f && distanceToTarget <= 11.0f)
                 {
@@ -3008,10 +3067,10 @@ namespace battleutils
                 else
                 {
                     float distanceFromSweetSpot = (distanceToTarget < 8.0f) ? (8.0f - distanceToTarget) : (distanceToTarget - 11.0f);
-                    sweetSpotMultiplier = 1.0f - (distanceFromSweetSpot * 0.05f);
-                    sweetSpotMultiplier = std::max(0.2f, sweetSpotMultiplier);
+                    sweetSpotMultiplier = computeTwoTierMultiplier(distanceFromSweetSpot);
                 }
                 break;
+
             default:
                 sweetSpotMultiplier = 1.0f;
                 break;
@@ -3023,12 +3082,15 @@ namespace battleutils
             rAttack += flatAttackBonus;
         }
 
-        rAttack *= sweetSpotMultiplier;
+        // apply multiplier
+        float finalAttackF = static_cast<float>(rAttack) * sweetSpotMultiplier;
+        rAttack = static_cast<uint16>(finalAttackF);
 
         //ShowDebug("[%s] sweetSpotMultiplier %f\n", PAttacker->name, sweetSpotMultiplier);
         //ShowDebug("[%s] attack after sweet spot multiplier %i\n", PAttacker->name, rAttack);
         return rAttack;
     }
+
 
     int16 CalculateBaseTP(int delay){
         int16 x = 1;
@@ -3777,36 +3839,48 @@ namespace battleutils
                 PDefender->TryHitInterrupt(PAttacker);
             }
 
+            // Calculate TP gained and received
             int16 baseTp = 0;
 
             if (isRanged && (PAttacker->objtype == TYPE_PC || PAttacker->allegiance == ALLEGIANCE_PLAYER))
             {
                 int16 delay = PAttacker->GetRangedWeaponDelay(true);
-
                 baseTp = CalculateBaseTP((delay * 120) / 1000);
-
             }
             else
             {
                 int16 delay = PAttacker->GetWeaponDelay(true);
-                auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
-
-                if (sub_weapon && sub_weapon->getDmgType() > 0 &&
-                    sub_weapon->getDmgType() < 4 &&
-                    weapon->getSkillType() != SKILL_HAND_TO_HAND)
-                {
-                    delay = delay / 2;
-                }
-
                 float ratio = 1.0f;
 
+                if (PAttacker->objtype == TYPE_PC) // Players
+                {
+                    auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
+                    if (sub_weapon &&
+                        sub_weapon->getDmgType() > 0 &&
+                        sub_weapon->getDmgType() < 4 &&
+                        weapon->getSkillType() != SKILL_HAND_TO_HAND)
+                    {
+                        delay /= 2;
+                    }
+                }
+                else // (Mobs / Allies / Trusts)
+                {
+                    if (PAttacker->m_dualWield)
+                    {
+                        delay = (uint16)(delay * ((100.0f - PAttacker->getMod(Mod::DUAL_WIELD)) / 100.0f));
+                    }
+                }
+
                 if (weapon->getSkillType() == SKILL_HAND_TO_HAND)
+                {
                     ratio = 2.0f;
+                }
 
                 baseTp = CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
             }
 
 
+            // Calculate giving TP to attacker (Hitting target)
             if (giveTPtoAttacker)
             {
                 if (PAttacker->objtype == TYPE_PC && physicalAttackType == PHYSICAL_ATTACK_TYPE::ZANSHIN)
@@ -3817,6 +3891,7 @@ namespace battleutils
                 PAttacker->addTP((int16)(tpMultiplier * (baseTp * (1.0f + 0.01f * (float)((PAttacker->getMod(Mod::STORETP) + getStoreTPbonusFromMerit(PAttacker)))))));
             }
 
+            // Calculate giving TP to victim (Being hit)
             if (giveTPtoVictim)
             {
                 uint32 sBlowMerit = 0;
@@ -3970,24 +4045,34 @@ namespace battleutils
             else
             {
                 int16 delay = PAttacker->GetWeaponDelay(true);
-
-                auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
-
-                if (sub_weapon && sub_weapon->getDmgType() > 0 &&
-                    sub_weapon->getDmgType() < 4 &&
-                    weapon->getSkillType() != SKILL_HAND_TO_HAND)
-                {
-                    delay /= 2;
-                }
-
                 float ratio = 1.0f;
 
-                if (weapon && weapon->getSkillType() == SKILL_HAND_TO_HAND)
+                if (PAttacker->objtype == TYPE_PC) // Players
+                {
+                    auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
+                    if (sub_weapon &&
+                        sub_weapon->getDmgType() > 0 &&
+                        sub_weapon->getDmgType() < 4 &&
+                        weapon->getSkillType() != SKILL_HAND_TO_HAND)
+                    {
+                        delay /= 2;
+                    }
+                }
+                else // (Mobs / Allies / Trusts)
+                {
+                    if (PAttacker->m_dualWield)
+                    {
+                        delay = (uint16)(delay * ((100.0f - PAttacker->getMod(Mod::DUAL_WIELD)) / 100.0f));
+                    }
+                }
+
+                if (weapon->getSkillType() == SKILL_HAND_TO_HAND)
+                {
                     ratio = 2.0f;
+                }
 
-                baseTp = (int16)(CalculateBaseTP((delay * 60) / 1000) / ratio);
+                baseTp = CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
             }
-
 
             // add tp to attacker
             if (primary)
@@ -7045,7 +7130,7 @@ namespace battleutils
         PChar->PClaimedMob = nullptr;
     }
 
-    int32 BreathDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage)
+    int32 BreathDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage, bool IsCovered)
     {
         float resist = 1.0f + floor(256.0f * (PDefender->getMod(Mod::UDMGBREATH) / 100.0f)) / 256.0f;
         float spdefDown = PDefender->getMod(Mod::SPDEF_DOWN) / 100.0f;
@@ -7079,6 +7164,7 @@ namespace battleutils
         damage = HandleElementalAbsorb(PDefender, damage, element, rawDamage);
         damage = HandleElementalNull(PDefender, damage, element, rawDamage);
         damage = HandleSevereDamage(PDefender, damage, false);
+        ConvertDmgToMP(PDefender, damage, IsCovered);
 
         int16 absorbedMP = (int16)(damage * PDefender->getMod(Mod::ABSORB_DMG_TO_MP) / 100);
         if (absorbedMP > 0)
@@ -7089,7 +7175,7 @@ namespace battleutils
         return damage;
     }
 
-    int32 MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage)
+    int32 MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage, bool IsCovered)
     {
         float resist = 1.0f + PDefender->getMod(Mod::UDMGMAGIC) / 100.0f;
         float spdefDown = PDefender->getMod(Mod::SPDEF_DOWN) / 100.0f;
@@ -7125,6 +7211,7 @@ namespace battleutils
         damage = HandleElementalAbsorb(PDefender, damage, element, rawDamage);
         damage = HandleElementalNull(PDefender, damage, element, rawDamage);
         damage = HandleSevereDamage(PDefender, damage, false);
+        ConvertDmgToMP(PDefender, damage, IsCovered);
 
         int16 absorbedMP = (int16)(damage * PDefender->getMod(Mod::ABSORB_DMG_TO_MP) / 100);
         if (absorbedMP > 0)
@@ -8477,7 +8564,6 @@ namespace battleutils
                 // Reset 2 abilities from JP
                 if (activeCooldownList.size() > 1 && jpTwoResetChance >= tpzrand::GetRandomNumber(100))
                 {
-                    ShowDebug("Random deal JP proc!\n");
                     PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, activeCooldownList.at(1));
                 }
 
@@ -8512,7 +8598,6 @@ namespace battleutils
             // Reset 2 abilities from JP
             if (resetCandidateList.size() > 1 && activeCooldownList.size() > 1 && jpTwoResetChance >= tpzrand::GetRandomNumber(100))
             {
-                ShowDebug("Random deal JP proc!\n");
                 PTarget->PRecastContainer->DeleteByIndex(RECAST_ABILITY, resetCandidateList.at(1));
             }
 

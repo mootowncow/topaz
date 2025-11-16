@@ -38,14 +38,14 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local damage, criticalHit, tpHits, extraHits = doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
 
     -- Apply aftermath
-    if damage > 0 then
+    if IsWSDamageMessage(target, action) then
         if player:isTrust() then
             tpz.aftermath.addStatusEffect(player, tp, tpz.slot.MAIN, tpz.aftermath.type.RELIC, true, 14)
         else
             tpz.aftermath.addStatusEffect(player, tp, tpz.slot.RANGED, tpz.aftermath.type.RELIC)
         end
     end
-	if damage > 0 then player:trySkillUp(target, tpz.skill.MARKSMANSHIP, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.MARKSMANSHIP, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
 end

@@ -83,15 +83,17 @@ function jobUtil.GetAutoMainSkill(pet)
     return tpz.skill.AUTOMATON_MELEE
 end
 
-function jobUtil.HandleCorsairShotTP(player, target, dmg, tp)
+jobUtil.Cor = {}
+
+function jobUtil.Cor.HandleCorsairShotTP(player, target, dmg, tp)
     if (dmg > 0) then
         player:addTP(tp)
         target:handleAfflatusMiseryDamage(dmg)
     end
 end
 
-function jobUtil.CalculateQd(player, target, ability, element, action, params)
-    local dmg = (4 * (player:getRangedDmg() + player:getAmmoDmg()) + player:getMod(tpz.mod.QUICK_DRAW_DMG)) * (1 + player:getMod(tpz.mod.QUICK_DRAW_DMG_PERCENT) / 100)
+function jobUtil.Cor.CalculateQd(player, target, ability, element, action, params)
+    local dmg = (2 * (player:getRangedDmg() + player:getAmmoDmg()) + player:getMod(tpz.mod.QUICK_DRAW_DMG)) * (1 + player:getMod(tpz.mod.QUICK_DRAW_DMG_PERCENT) / 100)
     local bonusAcc = player:getStat(tpz.mod.AGI) / 2 + player:getMerit(tpz.merit.QUICK_DRAW_ACCURACY) + player:getMod(tpz.mod.QUICK_DRAW_MACC)
 
     dmg = dmg + player:getJobPointLevel(tpz.jp.QUICK_DRAW_EFFECT) * 2
@@ -99,6 +101,180 @@ function jobUtil.CalculateQd(player, target, ability, element, action, params)
     dmg = addBonusesAbility(player, element, target, dmg, params)
     dmg = adjustForTarget(target, dmg, element)
 
+    return dmg
+end
+
+function jobUtil.Cor.HandleShots(player, target, ability, action)
+    local shotData = {
+        [tpz.ja.FIRE_SHOT] = {
+            Element = tpz.magic.ele.FIRE,
+            Effects = {
+                { Id = tpz.effect.BURN, Boost = 4, SubBoost = 4, MaxTier = 3 },
+                { Id = tpz.effect.ADDLE, Boost = 5, SubBoost = 5, MaxTier = 3 },
+            },
+            Card = tpz.items.FIRE_CARD
+        },
+
+        [tpz.ja.ICE_SHOT] = {
+            Element = tpz.magic.ele.ICE,
+            Effects = {
+                { Id = tpz.effect.FROST, Boost = 4, SubBoost = 4, MaxTier = 3 },
+                { Id = tpz.effect.PARALYSIS, Boost = 5, MaxTier = 3 },
+            },
+            Card = tpz.items.ICE_CARD
+        },
+
+        [tpz.ja.WIND_SHOT] = {
+            Element = tpz.magic.ele.WIND,
+            Effects = {
+                { Id = tpz.effect.CHOKE, Boost = 4, SubBoost = 4, MaxTier = 3 },
+                { Id = tpz.effect.WEIGHT, Boost = 5, MaxTier = 3 },
+            },
+            Card = tpz.items.WIND_CARD
+        },
+
+        [tpz.ja.EARTH_SHOT] = {
+            Element = tpz.magic.ele.EARTH,
+            Effects = {
+                { Id = tpz.effect.RASP, Boost = 4, SubBoost = 4, MaxTier = 3 },
+                { Id = tpz.effect.SLOW, Boost = 500, MaxTier = 3 },
+            },
+            Card = tpz.items.EARTH_CARD
+        },
+
+        [tpz.ja.THUNDER_SHOT] = {
+            Element = tpz.magic.ele.LIGHTNING,
+            Effects = {
+                { Id = tpz.effect.SHOCK, Boost = 4, SubBoost = 4, MaxTier = 3 },
+            },
+            Card = tpz.items.THUNDER_CARD
+        },
+
+        [tpz.ja.WATER_SHOT] = {
+            Element = tpz.magic.ele.WATER,
+            Effects = {
+                { Id = tpz.effect.DROWN, Boost = 4, SubBoost = 4, MaxTier = 3 },
+                { Id = tpz.effect.POISON, Boost = 2, MaxTier = 3 },
+            },
+            Card = tpz.items.WATER_CARD
+        },
+
+        [tpz.ja.LIGHT_SHOT] = {
+            Element = tpz.magic.ele.LIGHT,
+            Effects = {
+                { Id = tpz.effect.DIA, Boost = 1, SubBoost = 5, MaxTier = 4 },
+            },
+            AdditionalEffect = { Effect = tpz.effect.SLEEP_I , Duration = 60, BonusAcc = 175 },
+            Card = tpz.items.LIGHT_CARD
+        },
+
+        [tpz.ja.DARK_SHOT] = {
+            Element = tpz.magic.ele.DARK,
+            Effects = {
+                { Id = tpz.effect.BIO, Boost = 3, SubBoost = 5, MaxTier = 4 },
+                { Id = tpz.effect.BLINDNESS, Boost = 10, MaxTier = 3 },
+            },
+            AdditionalEffect = { Effect = tpz.effect.NONE , Duration = 0, BonusAcc = 175 },
+            Card = tpz.items.DARK_CARD
+        },
+    }
+    local dmg = 0
+
+    local data = shotData[ability:getID()]
+    if not data then -- Shouldn't happen
+        return dmg
+    end
+
+    -- Collect valid active effects to boost
+    local activeEffects = {}
+    for _, currentEffect in ipairs(data.Effects) do
+        local active = target:getStatusEffect(currentEffect.Id)
+        if active then
+            table.insert(activeEffects, { Effect = active, Boost = currentEffect.Boost, SubBoost = currentEffect.SubBoost or 0, MaxTier = currentEffect.MaxTier })
+        end
+    end
+
+    -- Apply boosts to matching effects
+    for _, entry in ipairs(activeEffects) do
+        local old = entry.Effect
+        local power = old:getPower() + entry.Boost
+        local duration = old:getDuration()
+        local tick = old:getTick() / 1000
+        local startTime = old:getStartTime()
+        local subpower = old:getSubPower() + entry.SubBoost
+        local tier = old:getTier()
+        local effectId = old:getType()
+
+        if (tier < entry.MaxTier) then
+            target:delStatusEffectSilent(effectId)
+            target:addStatusEffect(effectId, power, tick, duration, 0, subpower, tier +1)
+            local newEffect = target:getStatusEffect(effectId)
+            if newEffect then
+                newEffect:setStartTime(startTime)
+            end
+        end
+    end
+
+     -- Light / Dark Shot
+    if data.AdditionalEffect then
+        local duration = data.AdditionalEffect.Duration
+        local bonusAcc = data.AdditionalEffect.BonusAcc + player:getStat(tpz.mod.AGI) / 2 + player:getMerit(tpz.merit.QUICK_DRAW_ACCURACY) + player:getMod(tpz.mod.QUICK_DRAW_MACC)
+        local typeEffect = data.AdditionalEffect.Effect
+        local resist = getAdditionalEffectStatusResist(player, target, typeEffect, data.Element, tpz.skill.MARKSMANSHIP, bonusAcc)
+
+        ability:setMsg(tpz.msg.basic.JA_NO_EFFECT_2)
+
+        if (resist >= 0.5) then
+            duration = duration * resist
+            duration = CheckDiminishingReturns(player, target, typeEffect, duration)
+
+             -- Handle Dark Shot (Dispel)
+            if (typeEffect == tpz.effect.NONE) then
+                local dispelledEffect = tpz.effect.NONE
+
+                -- Check for dispel resistance trait
+                if math.random(100) > target:getMod(tpz.mod.DISPELRESTRAIT) then
+                    dispelledEffect = target:dispelStatusEffect()
+                end
+
+                if (dispelledEffect ~= tpz.effect.NONE) then
+                    -- Dispelled an effect
+                    dmg = dispelledEffect
+                    ability:setMsg(tpz.msg.basic.JA_REMOVE_EFFECT_2)
+                end
+
+            -- Handle Light Shot (Sleep)
+            elseif (duration > 0) and not target:hasStatusEffect(typeEffect) then
+                local power = 1
+                local tick = 0
+                if target:addStatusEffect(typeEffect, power, tick, duration) then
+                    dmg = typeEffect
+                    ability:setMsg(tpz.msg.basic.JA_ENFEEB_IS)
+                    AddDimishingReturns(player, target, nil, typeEffect)
+                end
+            end
+        end
+
+    -- Elemental damage shots
+    else
+        local params = {}
+        params.includemab = true
+        params.targetTPMult = 0 -- Quick Draw does not feed TP
+
+        local damageType = data.Element +5
+
+        dmg = jobUtil.Cor.CalculateQd(player, target, ability, data.Element, action, params)
+        dmg = takeAbilityDamage(target, player, params, true, dmg, tpz.attackType.MAGICAL, damageType, tpz.slot.RANGED, 1, 0, 0, 0, action, nil)
+
+        local tp = utils.CalculateTPGain(player, target, true)
+        jobUtil.Cor.HandleCorsairShotTP(player, target, dmg, tp)
+    end
+
+    if player:isPC() then
+        local del = player:delItem(data.Card, 1) or player:delItem(tpz.items.TRUMP_CARD, 1)
+    end
+
+    target:updateClaim(player)
     return dmg
 end
 

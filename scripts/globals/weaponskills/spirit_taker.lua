@@ -27,8 +27,8 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     params.acc100 = 0.0 params.acc200= 0.0 params.acc300= 0.0
     params.atk100 = 2; params.atk200 = 2; params.atk300 = 2
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-		if damage > 0 then player:trySkillUp(target, tpz.skill.STAFF, tpHits+extraHits) end
-		if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+		if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.STAFF, tpHits+extraHits) end
+		if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
     if not player:hasStatusEffect(tpz.effect.CURSE_II) then
         player:addMP(damage)
     end

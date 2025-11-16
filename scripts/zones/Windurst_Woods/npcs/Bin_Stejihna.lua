@@ -31,7 +31,7 @@ function onTrigger(player, npc)
             4378,    55   -- Selbina Milk
         }
         if rank ~= 3 then
-            table.insert(stock, 1840) --Semolina
+            table.insert(stock, 1840, 0) --Semolina
         end
 
         tpz.shop.general(player, stock, WINDURST)

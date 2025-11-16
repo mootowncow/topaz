@@ -3,7 +3,7 @@
 -- Description: Occasionally uses three units of ammunition to deal extra damage.
 -- Obtained: COR Level 30
 -- Recast Time: 00:05:00
--- Duration: 0:01:30
+-- Duration: 0:03:00
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -14,5 +14,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    player:addStatusEffect(tpz.effect.TRIPLE_SHOT, 40, 0, 90)
+    player:addStatusEffect(tpz.effect.TRIPLE_SHOT, 40, 0, 180)
 end

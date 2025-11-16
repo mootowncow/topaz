@@ -261,6 +261,11 @@ void CParty::RemoveMember(CBattleEntity* PEntity)
         {
             if (PEntity == members.at(i))
             {
+
+                // Store the last removed member info before erasing
+                m_LastRemovedObjType = PEntity->objtype;
+                m_LastRemovedID = PEntity->id;
+
                 members.erase(members.begin() + i);
 
                 if (m_PartyType == PARTY_PCS)
@@ -339,6 +344,11 @@ void CParty::DelMember(CBattleEntity* PEntity)
         {
             if (PEntity == members.at(i))
             {
+
+                // Store the last removed member info before erasing
+                m_LastRemovedObjType = PEntity->objtype;
+                m_LastRemovedID = PEntity->id;
+
                 members.erase(members.begin() + i);
 
                 if (m_PartyType == PARTY_PCS)
@@ -446,6 +456,9 @@ void CParty::RemovePartyLeader(CBattleEntity* PEntity)
     }
     if (m_PLeader == PEntity)
     {
+        // Record leader removal before disbanding
+        m_LastRemovedObjType = PEntity->objtype;
+        m_LastRemovedID = PEntity->id;
         DisbandParty();
     }
     else

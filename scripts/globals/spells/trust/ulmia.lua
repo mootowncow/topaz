@@ -47,7 +47,6 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.ELEGY, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ELEGY)
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MINUET, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.VALOR_MINUET)
 
-
     if mob:getMainLvl() >= 75 then
         mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.MARCH, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.MARCH)
     else

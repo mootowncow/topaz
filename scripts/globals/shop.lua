@@ -127,8 +127,14 @@ tpz.shop =
         local rank = getNationRank(nation)
         local newStock = {}
         for i = 1, #stock, 3 do
-            table.insert(newStock, stock[i])
-            table.insert(newStock, stock[i+1])
+            if
+                (stock[i+2] == 1 and player:getNation() == nation and rank == 1) or
+                (stock[i+2] == 2 and rank <= 2) or
+                (stock[i+2] == 3)
+            then
+                table.insert(newStock, stock[i])
+                table.insert(newStock, stock[i+1])
+            end
         end
         tpz.shop.general(player, newStock, nation)
     end,

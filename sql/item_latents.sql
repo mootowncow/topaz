@@ -1312,8 +1312,8 @@ INSERT INTO `item_latents` VALUES(14355, 108, 6, 53, 0);    -- EVA +6 in areas i
 -- -------------------------------------------------------
 -- Iron Musketeer's Gambison +1/+2
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(14356, 1, 6, 53, 0);      -- DEF +6 in areas inside own nation's control
-INSERT INTO `item_latents` VALUES(14357, 1, 8, 53, 0);      -- DEF +8 in areas inside own nation's control
+INSERT INTO `item_latents` VALUES(14356, 8, 3, 53, 0); -- [14356] Irn.Msk.Gmbsn. +1: Nation Control(0) - STR 3
+INSERT INTO `item_latents` VALUES(14357, 8, 5, 53, 0); -- [14357] Irn.Msk.Gmbsn. +2: Nation Control(0) - STR 5
 
 -- -------------------------------------------------------
 -- Royal Squire's Robe +1/+2
@@ -1380,7 +1380,7 @@ INSERT INTO `item_latents` VALUES(18145, 841, 10, 61, 2);     -- Windurst Citize
 -- -------------------------------------------------------
 -- Master Caster's Baghnakhs
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(17508, 173, 5, 61, 2);     -- Windurst Citizens: Martial Arts +5
+INSERT INTO `item_latents` VALUES(17508, 173, 3, 61, 2); -- [17508] Mst.Cst.Baghnakhs: Citizen Of(2) - MARTIAL_ARTS 3
 
 -- -------------------------------------------------------
 -- Master Caster's Pole
@@ -3830,3 +3830,8 @@ INSERT INTO `item_latents` VALUES(22006, 355, 174, 68, 1); -- [22006] Voluspa Ha
 INSERT INTO `item_latents` VALUES(22088, 355, 191, 68, 1); -- [22088] Voluspa Pole: In RAID(1) - ADDS_WEAPONSKILL 191
 INSERT INTO `item_latents` VALUES(22133, 355, 203, 68, 1); -- [22133] Voluspa Bow: In RAID(1) - ADDS_WEAPONSKILL 203
 INSERT INTO `item_latents` VALUES(22144, 355, 221, 68, 1); -- [22144] Voluspa Gun: In RAID(1) - ADDS_WEAPONSKILL 221
+INSERT INTO `item_latents` VALUES(20702, 369, 1, 62, 0); -- [20702] Emissary: Main hand: - REFRESH 1
+INSERT INTO `item_latents` VALUES(20979, 165, 7, 62, 0); -- [20979] Aizushintogo: Main hand: - CRITHITRATE 7
+INSERT INTO `item_latents` VALUES(20979, 421, 10, 62, 0); -- [20979] Aizushintogo: Main hand: - CRIT_DMG_INCREASE 10
+INSERT INTO `item_latents` VALUES(20597, 165, 7, 62, 0); -- [20597] Enchufla: Main hand: - CRITHITRATE 7
+INSERT INTO `item_latents` VALUES(20597, 421, 10, 62, 0); -- [20597] Enchufla: Main hand: - CRIT_DMG_INCREASE 10

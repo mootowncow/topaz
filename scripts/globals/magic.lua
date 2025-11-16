@@ -534,7 +534,7 @@ function doHelix(caster, target, spell, tier)
     -- add in final adjustments
     dmg = finalMagicAdjustments(caster, target, spell, dmg)
     -- calculate Damage over time
-    dot = target:magicDmgTaken(dot, spell:getElement(), rawDmg)
+    dot = target:magicDmgTaken(dot, spell:getElement(), rawDmg, spell:isCovered())
 
     local duration = getHelixDuration(caster) + caster:getMod(tpz.mod.HELIX_DURATION)
 
@@ -1515,7 +1515,7 @@ function finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
     dmg = AreaOfEffectResistance(target, spell, dmg)
 
     local element = spell:getElement()
-    dmg = target:magicDmgTaken(dmg, element, rawDmg)
+    dmg = target:magicDmgTaken(dmg, element, rawDmg, spell:isCovered())
 
     if (dmg > 0) then
         if not (spell:getSpellFamily() == tpz.magic.spellFamily.ASPIR) then
@@ -1527,7 +1527,7 @@ function finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
     --handling rampart stoneskin
     if not (spell:getSpellFamily() == tpz.magic.spellFamily.ASPIR) then
         dmg = utils.rampartstoneskin(target, dmg)
-    
+
         --handling stoneskin
         local attackType = tpz.attackType.MAGICAL
         dmg = utils.stoneskin(target, dmg, attackType)
@@ -4365,6 +4365,11 @@ end
 
 function isNoEffectMsg(caster, target, effect, params)
     if target:hasStatusEffect(tpz.effect.FEALTY) or not shouldApplyTerrorPetrify(player, target, effect, params) then
+        return true
+    end
+
+    -- Check for T1 Sleep (Used for Light Shot)
+    if (effect == tpz.effect.SLEEP_I) and hasSleepEffects(target) then
         return true
     end
 

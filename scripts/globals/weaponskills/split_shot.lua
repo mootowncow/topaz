@@ -31,14 +31,13 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         params.agi_wsc = 0.7
     end
 
-    -- Defense ignored is 0%, 35%, 50% as per wiki.bluegartr.com
     params.ignoresDef = true
     params.ignored100 = 0.2
-    params.ignored200 = 0.5
+    params.ignored200 = 0.35
     params.ignored300 = 0.5
 
     local damage, criticalHit, tpHits, extraHits = doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
-	if damage > 0 then player:trySkillUp(target, tpz.skill.MARKSMANSHIP, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.MARKSMANSHIP, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
 end

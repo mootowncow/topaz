@@ -621,7 +621,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,249,10,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,204,56,255); -- Flare 
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,230,10,35);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,231,36,84);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,232,85,255); -- Bio III
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,232,99,255); -- Bio III
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,242,61,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,245,12,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Dark',18,247,25,255);
@@ -642,12 +642,12 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,2,11,20);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,3,21,40);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,4,41,60);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,5,61,79);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,6,80,255);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,6,99,255); -- Cure VI
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,21,50,94);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,22,95,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,23,1,30);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,24,31,84);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,25,85,255); -- Dia III
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,25,99,255); -- Dia III
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,28,5,29);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,29,30,64);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Light',19,30,65,89);
@@ -2630,23 +2630,23 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,19,34,255);           -
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,20,29,255);           -- Cursna
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,56,13,255);           -- Slow
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,58,6,255);            -- Paralyze
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,125,7,255);           -- Protectra
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,126,27,255);          -- Protectra II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,127,47,255);          -- Protectra III
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,128,63,255);          -- Protectra IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,125,7,26);            -- Protectra
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,126,27,46);           -- Protectra II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,127,47,62);           -- Protectra III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,128,63,74);           -- Protectra IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,129,75,255);          -- Protectra V
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,130,17,255);          -- Shellra
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,131,37,255);          -- Shellra II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,132,57,255);          -- Shellra III
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,133,68,255);          -- Shellra IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,130,17,36);           -- Shellra
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,131,37,56);           -- Shellra II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,132,57,67);           -- Shellra III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,133,68,74);           -- Shellra IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,134,75,255);          -- Shellra V
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,43,7,255);            -- Protect
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,44,27,255);           -- Protect II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,45,47,255);           -- Protect III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,43,7,26);             -- Protect
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,44,27,46);            -- Protect II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,45,47,62);            -- Protect III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,46,63,255);           -- Protect IV
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,48,17,255);           -- Shell
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,49,37,255);           -- Shell II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,50,57,255);           -- Shell III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,48,17,36);            -- Shell
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,49,37,56);            -- Shell II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,50,57,67);            -- Shell III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,51,68,255);           -- Shell IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,143,32,255);          -- Erase
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Kupipi',310,12,25,255);           -- Raise
@@ -3159,15 +3159,15 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,143,64,255);        
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,23,1,255);          -- Dia
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,24,31,255);         -- Dia II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,25,75,255);         -- Dia III
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,43,7,255);          -- Protect
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,44,27,255);         -- Protect II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,45,47,255);         -- Protect III
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,46,63,255);         -- Protect IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,43,7,26);           -- Protect
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,44,27,46);          -- Protect II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,45,47,62);          -- Protect III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,46,63,76);          -- Protect IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,47,77,255);         -- Protect V
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,48,17,255);         -- Shell
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,49,37,255);         -- Shell II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,50,57,255);         -- Shell III
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,51,68,255);         -- Shell IV
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,48,17,36);          -- Shell
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,49,37,56);          -- Shell II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,50,57,67);          -- Shell III
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,51,68,86);          -- Shell IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,52,87,255);         -- Shell V
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,57,48,74);          -- Haste
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,511,75,255);        -- Haste II
@@ -3182,8 +3182,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,473,75,255);        
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,260,32,255);        -- Dispel
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,841,35,255);        -- Distract
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,842,85,255);        -- Distract II
--- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,845,48,255);        -- Flurry
--- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,846,96,255);        -- Flurry II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,845,48,255);        -- Flurry
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,846,75,255);        -- Flurry II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,12,38,255);        -- Raise
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,135,66,255);       -- Reraise
 

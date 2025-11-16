@@ -8,22 +8,14 @@ require("scripts/globals/magic")
 -----------------------------------
 
 function onEffectGain(target, effect)
-    local subPower = effect:getSubPower()
-    if (subPower == nil) or (subPower == 0) then
-        subPower = getElementalDebuffStatDownFromDOT(effect:getPower())
-    end
     target:addMod(tpz.mod.REGEN_DOWN, effect:getPower())
-    target:addMod(tpz.mod.AGI, -subPower)
+    target:addMod(tpz.mod.AGI, -effect:getSubPower())
 end
 
 function onEffectTick(target, effect)
 end
 
 function onEffectLose(target, effect)
-    local subPower = effect:getSubPower()
-    if (subPower == nil) or (subPower == 0) then
-        subPower = getElementalDebuffStatDownFromDOT(effect:getPower())
-    end
     target:delMod(tpz.mod.REGEN_DOWN, effect:getPower())
-    target:delMod(tpz.mod.AGI, -subPower)
+    target:delMod(tpz.mod.AGI, -effect:getSubPower())
 end

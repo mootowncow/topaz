@@ -43,7 +43,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         bonus = 50
     end
 
-    if (damage > 0) then
+    if IsWSDamageMessage(target, action) then
         local duration = (tp/1000) * 180
         local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, bonus, tpz.effect.DEFENSE_DOWN)
         if (target:hasStatusEffect(tpz.effect.DEFENSE_DOWN) == false) and resist >= 0.5  then
@@ -63,8 +63,8 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         end
     end
 
-	if damage > 0 then player:trySkillUp(target, tpz.skill.GREAT_AXE, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.GREAT_AXE, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
 end

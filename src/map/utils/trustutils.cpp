@@ -309,7 +309,9 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     PTrust->m_OwnerID.targid = PMaster->targid;
 
     // spawn me randomly around master
-    PTrust->loc.p = nearPosition(PMaster->loc.p, CTrustController::SpawnDistance + (PMaster->PTrusts.size() * CTrustController::SpawnDistance), (float)M_PI);
+    float offset = CTrustController::SpawnDistance;
+    PTrust->loc.p = FindValidTrustSpawnPos(PTrust, PMaster, offset);
+
     PTrust->look = trustData->look;
     PTrust->name = trustData->name;
 
@@ -354,8 +356,6 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     PTrust->saveModifiers();
     PTrust->saveMobModifiers();
 
-    LoadTrustStatsAndSkills(PTrust);
-
     // Use Mob formulas to work out base "weapon" damage, but scale down to reasonable values.
     auto mobStyleDamage = static_cast<float>(mobutils::GetWeaponDamage(PTrust, SLOT_MAIN));
     auto baseDamage = mobStyleDamage * 0.5f;
@@ -363,8 +363,7 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     auto adjustedDamage = baseDamage * damageMultiplier;
     auto finalDamage = static_cast<uint16>(std::max(adjustedDamage, 1.0f));
     
-    // Trust do not really have weapons, but they are modelled internally as
-    // if they do.
+    // Trust do not really have weapons, but they are modelled internally as if they do.
     if (auto* mainWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]))
     {
         mainWeapon->setMaxHit(1);
@@ -373,21 +372,27 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
         // 2H Weapons should deal more damage
         if (mainWeapon->isTwoHanded())
         {
-            float multiplier = 2.7f;
+            float multiplier = 1.70f;
+            uint16 bonusDamage = 5;
 
             // Scale the 2H weapon multplier based on the weapon type (more damage on higher delay weapons)
             switch (mainWeapon->getSkillType())
             {
-                case SKILL_GREAT_KATANA: multiplier = 2.70f; break; // 450
-                case SKILL_GREAT_AXE:    multiplier = 2.90f; break; // 504
-                case SKILL_GREAT_SWORD:  multiplier = 2.80f; break; // 480
-                case SKILL_POLEARM:      multiplier = 2.90f; break; // 492
-                case SKILL_SCYTHE:       multiplier = 3.00f; break; // 516? Unused
-                case SKILL_STAFF:        multiplier = 2.60f; break; // 420? Unused
+                case SKILL_GREAT_KATANA: multiplier = 1.70f, bonusDamage = 5;  break; // 450 delay
+                case SKILL_GREAT_AXE:    multiplier = 1.90f, bonusDamage = 10; break; // 504 delay
+                case SKILL_GREAT_SWORD:  multiplier = 1.80f, bonusDamage = 7;  break; // 480 delay
+                case SKILL_POLEARM:      multiplier = 1.90f, bonusDamage = 8;  break; // 492 delay
+                case SKILL_SCYTHE:       multiplier = 2.00f, bonusDamage = 12; break; // 516? delay Unused
+                case SKILL_STAFF:        multiplier = 1.60f, bonusDamage = 5;  break; // 420? delay Unused
             }
 
+            // Add 1 bonus damage per 10 levels
+            finalDamage += bonusDamage;
+            finalDamage *= multiplier;
+            finalDamage += PTrust->GetMLevel() / 10;
+
             mainWeapon->setDmgType(battleutils::GetWeaponDamageType(static_cast<SKILLTYPE>(trustData->cmbSkill)));
-            mainWeapon->setDamage(finalDamage * multiplier);
+            mainWeapon->setDamage(finalDamage);
         }
         else if (mainWeapon->isHandToHand())
         {
@@ -456,6 +461,8 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     {
         mobutils::SetSpellList(PTrust, trustData->spellList);
     }
+
+    LoadTrustStatsAndSkills(PTrust);
 
     return PTrust;
 }
@@ -642,17 +649,33 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
     PTrust->stats.CHR = static_cast<uint16>((fCHR + mCHR + sCHR) * map_config.alter_ego_stat_multiplier);
 
     // Skills =======================
-    int8 mlvl = PTrust->GetMLevel();
-    int evasionRank = GetEvasionRankForJob(PTrust->GetMJob()); // Get rank for Trust's job
+    BuildingTrustSkillsTable(PTrust); // Need to build skills table before we can use them for adding mods
 
-    BuildingTrustSkillsTable(PTrust);
+    uint8 defenseRank = GetDefenseRankForJob(PTrust->GetMJob()); // Get Defense rank for Trust's job
+    uint8 evasionRank = GetEvasionRankForJob(PTrust->GetMJob()); // Get Evasion rank for Trust's job
+    SKILLTYPE mainhandSkill     = SKILL_HAND_TO_HAND; // Default to something
+    SKILLTYPE rangedSkill       = SKILL_ARCHERY;      // Default to something
 
-    PTrust->addModifier(Mod::DEF, mobutils::GetBase(PTrust, PTrust->defRank));
-    PTrust->addModifier(Mod::EVA, battleutils::GetMaxSkill(evasionRank, mlvl > 99 ? 99 : mlvl));
-    PTrust->addModifier(Mod::ATT, mobutils::GetBase(PTrust, PTrust->attRank));
-    PTrust->addModifier(Mod::ACC, mobutils::GetBase(PTrust, PTrust->accRank));
-    PTrust->addModifier(Mod::RATT, mobutils::GetBase(PTrust, PTrust->attRank));
-    PTrust->addModifier(Mod::RACC, mobutils::GetBase(PTrust, PTrust->accRank));
+    // Get the actual skill type of the mainhand weapon currently being used by the trust
+    if (auto* mainWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_MAIN]))
+    {
+        auto skillType = static_cast<SKILLTYPE>(mainWeapon->getSkillType());
+        mainhandSkill = (skillType != SKILL_NONE) ? skillType : mainhandSkill;
+    }
+
+    // Get the actual skill type of the ranged weapon currently being used by the trust
+    if (auto* rangedWeapon = dynamic_cast<CItemWeapon*>(PTrust->m_Weapons[SLOT_RANGED]))
+    {
+        auto skillType = static_cast<SKILLTYPE>(rangedWeapon->getSkillType());
+        rangedSkill = (skillType != SKILL_NONE) ? skillType : rangedSkill;
+    }
+
+    PTrust->addModifier(Mod::DEF, battleutils::GetMaxSkill(defenseRank, mLvl > 99 ? 99 : mLvl));
+    PTrust->addModifier(Mod::EVA, battleutils::GetMaxSkill(evasionRank, mLvl > 99 ? 99 : mLvl));
+    PTrust->addModifier(Mod::ATT, battleutils::GetMaxSkill(mainhandSkill, mJob, mLvl > 99 ? 99 : mLvl));
+    PTrust->addModifier(Mod::ACC, battleutils::GetMaxSkill(mainhandSkill, mJob, mLvl > 99 ? 99 : mLvl));
+    PTrust->addModifier(Mod::RATT, battleutils::GetMaxSkill(rangedSkill, mJob, mLvl > 99 ? 99 : mLvl));
+    PTrust->addModifier(Mod::RACC, battleutils::GetMaxSkill(rangedSkill, mJob, mLvl > 99 ? 99 : mLvl));
 
     PTrust->addModifier(Mod::PARRY, battleutils::GetMaxSkill(SKILL_SINGING, JOB_BRD, mLvl)); // C Rank parrying
 
@@ -952,7 +975,45 @@ bool IsBuffWS(uint16 skill_id)
     return false;
 }
 
-int GetEvasionRankForJob(uint8 job)
+uint8 GetDefenseRankForJob(uint8 job)
+{
+    switch (job)
+    {
+        case JOB_PLD:
+            return 1; // A+
+
+        case JOB_WAR:
+            return 3; // B+
+
+        case JOB_DRK:
+        case JOB_BST:
+        case JOB_SAM:
+        case JOB_NIN:
+            return 9; // D
+
+        case JOB_THF:
+        case JOB_BRD:
+        case JOB_RNG:
+        case JOB_DRG:
+        case JOB_BLU:
+        case JOB_COR:
+        case JOB_DNC:
+        case JOB_RUN:
+        case JOB_MNK:
+        case JOB_WHM:
+        case JOB_BLM:
+        case JOB_RDM:
+        case JOB_SMN:
+        case JOB_PUP:
+        case JOB_SCH:
+        case JOB_GEO:
+            return 12; // G
+        default:
+            return 12; // Default to G rank if no Job. Shouldn't happen.
+    }
+}
+
+uint8 GetEvasionRankForJob(uint8 job)
 {
     switch (job)
     {
@@ -1004,5 +1065,39 @@ int GetEvasionRankForJob(uint8 job)
             return 7; // Default to C rank if no Job. Shouldn't happen.
     }
 }
+
+position_t FindValidTrustSpawnPos(CTrustEntity* PTrust, CCharEntity* PMaster, float baseOffset)
+{
+    const float step = M_PI / 4.0f;
+    const int maxAttempts = 8;
+
+    float startAngle = (float)tpzrand::GetRandomNumber(628) / 100.0f;
+
+    bool canValidate =
+        PTrust->PAI &&
+        PTrust->PAI->PathFind &&
+        PTrust->PAI->PathFind->isNavMeshEnabled();
+
+    for (int i = 0; i < maxAttempts; i++)
+    {
+        float angle = startAngle + (i * step);
+        position_t pos = nearPosition(PMaster->loc.p, baseOffset, angle);
+
+        // Safety checks
+        if (canValidate)
+        {
+            if (PTrust->PAI->PathFind->ValidPosition(pos))
+                return pos;
+        }
+        else // Shouldn't happen
+        {
+            return pos;
+        }
+    }
+
+    // Couldn't find a valid position to spawn, just spawn on master
+    return PMaster->loc.p;
+}
+
 
 }; // namespace trustutils

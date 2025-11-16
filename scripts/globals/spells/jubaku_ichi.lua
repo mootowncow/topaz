@@ -23,8 +23,9 @@ function onSpellCast(caster, target, spell)
     --Jubaku base powers are not effected by resistances, Ichi:20, Ni:30, San:35.
     local power = 20
     local duration = math.random(60, 120)
+    local tier = 1
 
-    TryApplyEffect(caster, target, spell, params.effect, power, 0, duration, resist, 0.5)
+    TryApplyEffect(caster, target, spell, params.effect, power, 0, duration, resist, 0.5, 0, tier)
 
     return params.effect
 end

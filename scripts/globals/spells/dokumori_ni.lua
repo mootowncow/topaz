@@ -25,7 +25,7 @@ function onSpellCast(caster, target, spell)
     local duration = 120
     local tier = 2
 
-    TryApplyEffect(caster, target, spell, params.effect, power, 3, duration, resist, 0.5, tier)
+    TryApplyEffect(caster, target, spell, params.effect, power, 3, duration, resist, 0.5, 0, tier)
 
     return params.effect
 end

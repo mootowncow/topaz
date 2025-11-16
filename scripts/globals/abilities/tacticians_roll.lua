@@ -43,7 +43,7 @@ end
 
 function applyRoll(caster, target, ability, action, total)
     local duration = 300 + caster:getMerit(tpz.merit.WINNING_STREAK) + caster:getMod(tpz.mod.PHANTOM_DURATION) + (caster:getJobPointLevel(tpz.jp.PHANTOM_ROLL_DURATION) * 2)
-    local effectpowers = {10, 10, 10, 10, 30, 10, 10, 0, 20, 20, 40, -10}
+    local effectpowers = {10, 10, 10, 10, 30, 10, 10, 0, 20, 20, 40, 10}
     local effectpower = effectpowers[total]
 -- Apply Buffs from Tactician's Roll Enhancing Gear if present
     if (math.random(0, 99) < caster:getMod(tpz.mod.ENHANCES_TACTICIANS_ROLL)) then

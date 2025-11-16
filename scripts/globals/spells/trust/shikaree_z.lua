@@ -32,37 +32,27 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
 
-    mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.SLOW, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.ERASE)
-    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS,tpz.effect.HASTE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.HASTE)
-    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.SLOW, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.ERASE)
-    mob:addSimpleGambit(ai.t.MELEE, ai.c.NOT_STATUS,tpz.effect.HASTE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.HASTE)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC,tpz.ja.SUPER_JUMP)
 
-    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
-    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
-    mob:addSimpleGambit(ai.t.CASTER, ai.c.STATUS, tpz.effect.LULLABY, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.LULLABY, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.SEIGAN)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.THIRD_EYE)
 
-    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.POISON, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.POISONA)
-    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.PARALYSIS, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.PARALYNA)
-    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.BLINDNESS, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.BLINDNA)
-    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.SILENCE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.SILENA)
-    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.PETRIFICATION, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.STONA)
-    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.DISEASE, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.VIRUNA)
-    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS,tpz.effect.CURSE_I, ai.r.MA, ai.s.SPECIFIC,tpz.magic.spell.CURSNA)
-
-    mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)
-
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 50, ai.r.MA, ai.s.HIGHEST,tpz.magic.spellFamily.CURE)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.IS_ECOSYSTEM,tpz.ecosystem.DRAGON, ai.r.JA, ai.s.SPECIFIC,tpz.ja.ANCIENT_CIRCLE)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.IS_ECOSYSTEM,tpz.ecosystem.DRAGON, ai.r.JA, ai.s.SPECIFIC,tpz.ja.DRAGON_BREAKER)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.HASSO)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.TP_LT, 400, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MEDITATE)
+
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.ALWAYS, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.ANGON)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.ALWAYS, 0, ai.r.JA, ai.s.SPECIFIC,tpz.ja.SPIRIT_SURGE)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.ALWAYS, 0, ai.r.JA, ai.s.SPECIFIC,tpz.ja.JUMP)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.ALWAYS, 0, ai.r.JA, ai.s.SPECIFIC,tpz.ja.HIGH_JUMP)
-    mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC,tpz.ja.SUPER_JUMP)
 
-    mob:setTrustTPSkillSettings(ai.tp.CLOSER_UNTIL_TP, ai.s.HIGHEST, 2000)
+
+    mob:setTrustTPSkillSettings(ai.tp.CLOSER_UNTIL_TP, ai.s.HIGHEST, 1500)
 
     tpz.trust.onMobSpawn(mob)
 end

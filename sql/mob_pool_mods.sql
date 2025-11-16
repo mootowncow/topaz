@@ -276,10 +276,6 @@ INSERT INTO `mob_pool_mods` VALUES (4188,28,-100,1); -- Vanguards_Scorpion EXP_B
 INSERT INTO `mob_pool_mods` VALUES (4189,28,-100,1); -- Vanguards_Slime EXP_BONUS: don't give XP
 INSERT INTO `mob_pool_mods` VALUES (4190,28,-100,1); -- Vanguards_Wyvern EXP_BONUS: don't give XP
 
--- Immunities
-INSERT INTO `mob_pool_mods` VALUES (6693,23,2048,1); -- (Apollyon) Light Elemetal light sleep immunity 
-INSERT INTO `mob_pool_mods` VALUES (6689,23,1,1); -- (Apollyon) Dark Elemental sleep Immunity
-
 -- Dynamis mob pets
 INSERT INTO `mob_pool_mods` VALUES (4185,30,50,0); -- +50 Macc
 INSERT INTO `mob_pool_mods` VALUES (4186,30,50,0); -- +50 Macc

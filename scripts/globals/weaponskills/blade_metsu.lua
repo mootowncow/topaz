@@ -39,7 +39,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     tpz.aftermath.addStatusEffect(player, tp, tpz.slot.MAIN, tpz.aftermath.type.RELIC)
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-    if damage > 0 then
+    if IsWSDamageMessage(target, action) then
         if not target:hasStatusEffect(tpz.effect.PARALYSIS) then
             local bonus = 100
             local duration = 60 * applyResistanceAddEffect(player, target, tpz.magic.ele.ICE, 100, tpz.effect.PARALYSIS)
@@ -47,8 +47,8 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         end
     end
 
-	if damage > 0 then player:trySkillUp(target, tpz.skill.KATANA, tpHits+extraHits) end
-	if damage > 0 then target:tryInterruptSpell(player, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.KATANA, tpHits+extraHits) end
+	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
 end
