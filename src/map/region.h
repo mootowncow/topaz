@@ -51,12 +51,13 @@ public:
 	float x1, y1, z1; // верхний левый угол
     float x2, y2, z2; // лижний правый угол
 
+    bool circle;
+
 private:
 
 	uint32 m_RegionID;									// номер региона
     int16  m_Count;                                     // количество персонажей в регионе
 
-	bool circle;
 };
 
 #endif

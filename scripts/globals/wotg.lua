@@ -3276,10 +3276,13 @@ tpz.wotg.onMobWeaponSkillPrepare = function(mob, target)
 end
 
 tpz.wotg.onHealing = function(target)
+    -- TODO: Not sure if it gets the correct nearest region
+    -- TODO: Setting to turn off wotg dungeons entirely until ready
     if target:isPC() then
         local zone = target:getZone()
         local augmentModPower = target:getMod(tpz.mod.PAST_DUNGEON_MASTER) or 0
         local nearest = tpz.wotg.getNearestActiveRegion(target)
+        local eventActive = zone:getLocalVar("eventActive")
 
         if not nearest then
             target:PrintToPlayer("You sense nothing nearby...", tpz.msg.textColor.HIDDEN, none)
@@ -3288,14 +3291,16 @@ tpz.wotg.onHealing = function(target)
             return
         end
 
-        local direction = tpz.wotg.getDirectionToRegion(target, nearest)
-        local directionName = tpz.wotg.directionToString(direction)
+        if not eventActive then
+            local direction = tpz.wotg.getDirectionToRegion(target, nearest)
+            local directionName = tpz.wotg.directionToString(direction)
 
-        target:PrintToPlayer(
-            string.format("You sense something %d yalms away to the %s",
-            math.floor(nearest.distance), directionName),
-            tpz.msg.textColor.HIDDEN, none
-        )
+            target:PrintToPlayer(
+                string.format("You sense something %d yalms away to the %s",
+                math.floor(nearest.distance), directionName),
+                tpz.msg.textColor.HIDDEN, none
+            )
+        end
 
         utils.MessageParty(target, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, nil)
         target:PrintToPlayer("Current augment power: " .. augmentModPower .. " (Max 5)", tpz.msg.textColor.HIDDEN, none)
@@ -3318,27 +3323,24 @@ tpz.wotg.getNearestActiveRegion = function(player)
         local region = zone:getRegion(regionID)
         if region then
             local c = region:getCenterPos()
-            local rx, ry, rz = c.x, c.y, c.z
-            local p = player:getPos()
-            local px, py, pz = p.x, p.y, p.z
 
-
-            local dx = rx - px
-            local dz = rz - pz
-            local dist = math.sqrt(dx*dx + dz*dz)
+            -- engine distance check
+            local dist = player:checkDistance(c)
 
             if dist < bestDist then
                 bestDist = dist
                 best = {
                     regionID = regionID,
                     distance = dist,
-                    x = rx,
-                    y = ry,
-                    z = rz
+                    x = c.x,
+                    y = c.y,
+                    z = c.z,
                 }
             end
         end
     end
+
+    player:PrintToPlayer("DEBUG: Best region = "..best.regionID.." ("..math.floor(best.distance).." yalms)", tpz.msg.textColor.HIDDEN, none)
 
     return best
 end
