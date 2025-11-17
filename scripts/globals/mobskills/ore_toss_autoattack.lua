@@ -11,13 +11,19 @@ require("scripts/globals/monstertpmoves")
 ---------------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
+    if (mob:getName() == "Aegyptopithecus") then
+        skill:setAnimation(33)
+    else
+        skill:setAnimation(355)
+    end
+
     return 0
 end
 
 function onMobWeaponSkill(target, mob, skill)
     local numhits = 1
     local accmod = 1
-    local dmgmod = 1 
+    local dmgmod = 1
     local params_phys = {}
     params_phys.multiplier = dmgmod
     params_phys.tp150 = 1

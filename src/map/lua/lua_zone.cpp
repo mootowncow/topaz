@@ -103,6 +103,89 @@ inline int32 CLuaZone::registerRegion(lua_State *L)
     return 1;
 }
 
+inline int32 CLuaZone::getRegion(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
+
+    if (!lua_isnumber(L, 1))
+    {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    uint32 regionId = (uint32)lua_tointeger(L, 1);
+
+    for (CRegion* region : m_pLuaZone->m_regionList)
+    {
+        if (region && region->GetRegionID() == regionId)
+        {
+            // Push CRegion table
+            lua_getglobal(L, "CRegion");
+
+            // Push “new”
+            lua_pushstring(L, "new");
+            lua_gettable(L, -2);
+
+            // Reorder stack so: new, CRegion
+            lua_insert(L, -2);
+
+            // Push pointer
+            lua_pushlightuserdata(L, region);
+
+            // Call new(CRegion, lightuserdata)
+            lua_pcall(L, 2, 1, 0);
+
+            return 1;
+        }
+    }
+
+    lua_pushnil(L);
+    return 1;
+}
+
+int32 CLuaZone::getCurrentRegion(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
+
+    CLuaBaseEntity* PLuaChar = Lunar<CLuaBaseEntity>::check(L, 1);
+    if (!PLuaChar)
+    {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    CCharEntity* PChar = dynamic_cast<CCharEntity*>(PLuaChar->GetBaseEntity());
+    if (!PChar)
+    {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    uint32 regionId = PChar->m_InsideRegionID;
+    if (regionId == 0)
+    {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    for (CRegion* region : m_pLuaZone->m_regionList)
+    {
+        if (region->GetRegionID() == regionId)
+        {
+            lua_getglobal(L, "CRegion");
+            lua_pushstring(L, "new");
+            lua_gettable(L, -2);
+            lua_insert(L, -2);
+            lua_pushlightuserdata(L, region);
+            lua_pcall(L, 2, 1, 0);
+            return 1;
+        }
+    }
+
+    lua_pushnil(L);
+    return 1;
+}
+
 inline int32 CLuaZone::setLocalVar(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
@@ -359,6 +442,8 @@ const char CLuaZone::className[] = "CZone";
 Lunar<CLuaZone>::Register_t CLuaZone::methods[] =
 {
     LUNAR_DECLARE_METHOD(CLuaZone,registerRegion),
+    LUNAR_DECLARE_METHOD(CLuaZone,getRegion),
+    LUNAR_DECLARE_METHOD(CLuaZone,getCurrentRegion),
     LUNAR_DECLARE_METHOD(CLuaZone,levelRestriction),
     LUNAR_DECLARE_METHOD(CLuaZone,setLocalVar),
     LUNAR_DECLARE_METHOD(CLuaZone,getPlayers),

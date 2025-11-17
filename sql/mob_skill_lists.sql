@@ -3103,7 +3103,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Toppling_Tuber',828,310); -- queazyshroom
 INSERT INTO `mob_skill_lists` VALUES ('Toppling_Tuber',828,311); -- numbshroom
 -- INSERT INTO `mob_skill_lists` VALUES ('Toppling_Tuber',828,2607); -- agaricus
 INSERT INTO `mob_skill_lists` VALUES ('Trudging_Thomas',829,266); -- ram charge
--- INSERT INTO `mob_skill_lists` VALUES ('Trudging_Thomas',829,0); -- Doom Bleat missing from mob_skills.sql in Topaz -- Doom Bleat which is roughly 50% HP down. HP down effect can be erased
+INSERT INTO `mob_skill_lists` VALUES ('Trudging_Thomas',829,2609); -- booming bleat
 INSERT INTO `mob_skill_lists` VALUES ('Abas',830,515); -- toxic spit
 INSERT INTO `mob_skill_lists` VALUES ('Adze',831,2158); -- insipid nip
 INSERT INTO `mob_skill_lists` VALUES ('Adze',831,2159); -- pandemic nip
@@ -4780,12 +4780,12 @@ INSERT INTO `mob_skill_lists` VALUES ('Tatzelwurm',6121,1595); --
 INSERT INTO `mob_skill_lists` VALUES ('Tatzelwurm',6121,1596); -- 
 INSERT INTO `mob_skill_lists` VALUES ('Tatzelwurm',6121,1597); -- 
 
-INSERT INTO `mob_skill_lists` VALUES ('Tanihwa',6122,1858); -- 
-INSERT INTO `mob_skill_lists` VALUES ('Tanihwa',6122,1859); -- 
-INSERT INTO `mob_skill_lists` VALUES ('Tanihwa',6122,1860); -- 
-INSERT INTO `mob_skill_lists` VALUES ('Tanihwa',6122,1861); -- 
-INSERT INTO `mob_skill_lists` VALUES ('Tanihwa',6122,1862); -- 
-INSERT INTO `mob_skill_lists` VALUES ('Tanihwa',6122,1863); -- 
+INSERT INTO `mob_skill_lists` VALUES ('Tanihwa',6122,1858); -- tail_roll_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Tanihwa',6122,1859); -- tusk_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Tanihwa',6122,1860); -- scutum_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Tanihwa',6122,1861); -- bone_crunch_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Tanihwa',6122,1862); -- awful_eye_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Tanihwa',6122,1863); -- heavy_bellow_nightmare
 
 INSERT INTO `mob_skill_lists` VALUES ('Artemisia',6123,2579); -- 
 INSERT INTO `mob_skill_lists` VALUES ('Artemisia',6123,2599); -- 
@@ -4815,10 +4815,10 @@ INSERT INTO `mob_skill_lists` VALUES ('Nimble_Nelson',6127,3841); --
 INSERT INTO `mob_skill_lists` VALUES ('Nimble_Nelson',6127,3842); -- 
 INSERT INTO `mob_skill_lists` VALUES ('Nimble_Nelson',6127,2612); -- Wild Carrot MMM
 
-INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,480); -- 
-INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,483); -- 
-INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,2760); -- 
-INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,2209); -- 
+INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,480); -- petrifactive_breath
+INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,483); -- charged_whisker
+INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,2760); -- preternatural_gleam
+INSERT INTO `mob_skill_lists` VALUES ('Gorib',6128,2209); -- blink_of_peril
 
 INSERT INTO `mob_skill_lists` VALUES ('Seua_Peek',6129,1680); -- 
 INSERT INTO `mob_skill_lists` VALUES ('Seua_Peek',6129,2207); -- 
@@ -5053,6 +5053,50 @@ INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,251); -- aegis_schism
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,252); -- dancing_chains
 INSERT INTO `mob_skill_lists` VALUES ('Tehtra',6162,253); -- barbed_crescent
 
+INSERT INTO `mob_skill_lists` VALUES ('Barqan',6163,2218); -- penumbral_impact
+INSERT INTO `mob_skill_lists` VALUES ('Barqan',6163,2219); -- dark_wave
+INSERT INTO `mob_skill_lists` VALUES ('Barqan',6163,2220); -- tartarean_storm
+
+INSERT INTO `mob_skill_lists` VALUES ('Ahmet',6164,1333); -- contagion_transfer
+INSERT INTO `mob_skill_lists` VALUES ('Ahmet',6164,1334); -- contamination
+INSERT INTO `mob_skill_lists` VALUES ('Ahmet',6164,1335); -- toxic_pick
+INSERT INTO `mob_skill_lists` VALUES ('Ahmet',6164,1601); -- sound_vacuum_nightmare
+
+INSERT INTO `mob_skill_lists` VALUES ('Shedyet',6165,1859); -- tusk_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Shedyet',6165,1862); -- awful_eye_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Shedyet',6165,1863); -- heavy_bellow_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Shedyet',6165,2643); -- tyrant_tusk
+
+INSERT INTO `mob_skill_lists` VALUES ('Khnum',6166,2609); -- booming_bleat
+INSERT INTO `mob_skill_lists` VALUES ('Khnum',6166,265); -- rage
+INSERT INTO `mob_skill_lists` VALUES ('Khnum',6166,266); -- ram_charge
+INSERT INTO `mob_skill_lists` VALUES ('Khnum',6166,269); -- petribreath
+
+INSERT INTO `mob_skill_lists` VALUES ('Aegyptopithecus',6167,288); -- vicious_claw
+INSERT INTO `mob_skill_lists` VALUES ('Aegyptopithecus',6167,290); -- spinning_claw
+INSERT INTO `mob_skill_lists` VALUES ('Aegyptopithecus',6167,295); -- magic_fruit
+INSERT INTO `mob_skill_lists` VALUES ('Aegyptopithecus',6167,2610); -- vacant_gaze
+
+INSERT INTO `mob_skill_lists` VALUES ('Ammonoidea',6168,1573); -- palsynyxis
+INSERT INTO `mob_skill_lists` VALUES ('Ammonoidea',6168,1574); -- painful_whip
+INSERT INTO `mob_skill_lists` VALUES ('Ammonoidea',6168,2693); -- virulent_haze
+
+INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,51); -- freezebite
+INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,52); -- shockwave
+INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,56); -- ground_strike
+INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,248); -- grim_halo
+INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,249); -- netherspikes
+INSERT INTO `mob_skill_lists` VALUES ('Elatha',6169,250); -- carnal_nightmare
+
+-- Grim Halo, Netherspikes, Carnal Nightmare, Pentathrust, Impulse Drive, Raiden Thrust
+INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,248); -- grim_halo
+INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,249); -- netherspikes
+INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,250); -- carnal_nightmare
+INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,114); -- raiden_thrust
+INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,116); -- penta_thrust
+INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,120); -- impulse_drive
+
+
 -- Next available ID: 1215
--- Next custom ID: 6165
+-- Next custom ID: 6171
 

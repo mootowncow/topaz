@@ -15,7 +15,6 @@ g_mixins.families.djinn = function(mob)
         local element = spell:getElement()
         local dayElement = VanadielDayElement()
 
-        printf("Element: %d, dayElement: %d", element, dayElement)
         if (element == dayElement) then
             mob:addTP(1000)
         end

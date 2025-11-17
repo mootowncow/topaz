@@ -113,6 +113,46 @@ inline int32 CLuaRegion::DelCount(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: getCenterPos()
+ *  Purpose : Returns a table of signed coordinates (x,y,z)
+ *  Example : region:getCenterPos()
+ *  Notes   :
+ ************************************************************************/
+inline int32 CLuaRegion::getCenterPos(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaRegion == nullptr);
+
+    lua_createtable(L, 0, 3);
+    int table = lua_gettop(L);
+
+    float cx, cy, cz;
+
+    // Circle
+    if (m_PLuaRegion->circle)
+    {
+        cx = m_PLuaRegion->x1; // center X
+        cy = 0;                // not used, but safe
+        cz = m_PLuaRegion->z1; // center Z
+    }
+    else
+    {
+        // Rectangle
+        cx = (m_PLuaRegion->x1 + m_PLuaRegion->x2) * 0.5f;
+        cy = (m_PLuaRegion->y1 + m_PLuaRegion->y2) * 0.5f;
+        cz = (m_PLuaRegion->z1 + m_PLuaRegion->z2) * 0.5f;
+    }
+
+    lua_pushnumber(L, cx);
+    lua_setfield(L, table, "x");
+    lua_pushnumber(L, cy);
+    lua_setfield(L, table, "y");
+    lua_pushnumber(L, cz);
+    lua_setfield(L, table, "z");
+
+    return 1;
+}
+
+/************************************************************************
 *																		*
 *  Инициализация методов в lua											*
 *																		*
@@ -126,5 +166,6 @@ Lunar<CLuaRegion>::Register_t CLuaRegion::methods[] =
     LUNAR_DECLARE_METHOD(CLuaRegion,GetCount),
     LUNAR_DECLARE_METHOD(CLuaRegion,AddCount),
     LUNAR_DECLARE_METHOD(CLuaRegion,DelCount),
+    LUNAR_DECLARE_METHOD(CLuaRegion,getCenterPos),
     {nullptr,nullptr}
 };

@@ -151,10 +151,22 @@ bool CSpell::isBuff()
 
 bool CSpell::tookEffect()
 {
-    if(m_message == 75 || m_message == 284 || m_message == 283 || m_message == 85){
-        return false;
+    switch (m_message)
+    {
+        case 75:  // MAGIC_NO_EFFECT
+        case 85:  // MAGIC_RESIST
+        case 283: // NO_EFFECT
+        case 284: // MAGIC_RESIST_2 (Resist! trait proc)
+        case 653: // MAGIC_IMMUNOBREAK
+        case 654: // MAGIC_IMMUNOBREAK_2
+        case 655: // MAGIC_IMMUNE
+        case 656: // MAGIC_IMMUNE_2
+            return false;
+            break;
+        default:
+            return true;
+            break;
     }
-    return true;
 }
 
 bool CSpell::hasMPCost()

@@ -1055,6 +1055,32 @@ function MobDrainStatusEffectMove(mob, target)
     return tpz.msg.basic.SKILL_MISS
 end
 
+function MobDrainAllStatusEffectMove(mob, target, skill, flags)
+    local effectsAbsorbed = 0
+
+    -- Loop through all flags in the table
+    for _, flag in ipairs(flags) do
+        while true do
+            local stolen = mob:stealStatusEffect(target, flag)
+            if stolen == 0 then
+                break
+            end
+            effectsAbsorbed = effectsAbsorbed + 1
+        end
+    end
+
+    if effectsAbsorbed > 0 then
+        skill:setMsg(tpz.msg.basic.EFFECT_DRAINED)
+    else
+        skill:setMsg(tpz.msg.basic.SKILL_MISS)
+    end
+
+    MobHandleFlagsRemoval(target)
+    MobHandlePetEnmity(mob, target, 1, 320)
+
+    return effectsAbsorbed
+end
+
 -- Adds a status effect to a target
 function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isGaze)
 
@@ -1715,45 +1741,55 @@ function MobSelfDispelMove(mob, skill)
     return dispel
 end
 
-function MobTransferEnfeeblesMove(mob, target, skill, range, isAOE)
-    -- list of effects to give in AoE
+function MobTransferEnfeeblesMove(mob, target, skill, isAOE)
     local effects = utils.GetRemovableEffects()
-    local enmityList = mob:getEnmityList()
-    local entityId = nil
-    local currentEntity = nil
+    local transferredEffect = nil
 
-    -- Transfer effects
     if isAOE then
-        for i, effect in ipairs(effects) do
+        for _, effect in ipairs(effects) do
             if mob:hasStatusEffect(effect) then
                 local currentEffect = mob:getStatusEffect(effect)
                 local skillRange = skill:getDistance()
                 local nearbyEnemies = mob:getNearbyEntities(skillRange)
                 if nearbyEnemies then
                     for _, enemy in pairs(nearbyEnemies) do
-                        if not enemy:isNPC() and (enemy:getAllegiance() ~= mob:getAllegiance()) then
-                            MobStatusEffectMove(mob, enemy, effect, currentEffect:getPower(), currentEffect:getTick() / 1000, currentEffect:getTimeRemaining() / 1000)
+                        if not enemy:isNPC() and enemy:getAllegiance() ~= mob:getAllegiance() then
+                            MobStatusEffectMove(mob, enemy, effect,
+                                currentEffect:getPower(),
+                                currentEffect:getTick() / 1000,
+                                currentEffect:getTimeRemaining() / 1000)
+                            transferredEffect = effect
                         end
                     end
                 end
             end
         end
     else
-        -- Transfer effect
-        for i, effect in ipairs(effects) do
+        for _, effect in ipairs(effects) do
             if mob:hasStatusEffect(effect) then
                 local currentEffect = mob:getStatusEffect(effect)
-                MobStatusEffectMove(mob, target, effect, currentEffect:getPower(), currentEffect:getTick() / 1000, currentEffect:getTimeRemaining() / 1000)
+                MobStatusEffectMove(mob, target, effect,
+                    currentEffect:getPower(),
+                    currentEffect:getTick() / 1000,
+                    currentEffect:getTimeRemaining() / 1000)
+                transferredEffect = effect
             end
         end
     end
 
-    -- Delete status effects off self
-    for i, effect in ipairs(effects) do
+    -- Remove effects from mob afterwards
+    for _, effect in ipairs(effects) do
         if mob:hasStatusEffect(effect) then
-            mob:delStatusEffect(effect)
+            mob:delStatusEffectSilent(effect)
         end
+    end
+
+    if transferredEffect then
         skill:setMsg(tpz.msg.basic.SKILL_ENFEEB_IS)
+        return transferredEffect
+    else
+        skill:setMsg(tpz.msg.basic.SKILL_MISS)
+        return 0
     end
 end
 

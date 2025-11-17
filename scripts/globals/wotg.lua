@@ -28,8 +28,6 @@ require("scripts/globals/titles")
 -- Test if mob OFFENSIVE auras still work (TickMobAura) and don't AOE onto other nearby mobs
 -- Test if BreakMob still works and works if a trust breaks the mob
 -- Mobs that res eachother?
--- Make sure all spikes still work properly
--- Fomors (Lugh etc) special mobmod to ignore enmity and only focus whatever did newest CE/VE? read bg wiki page for tethra/etniu
 -- Mechanics like abyssea for killing mobs? atmas to collect? stat boosts for clearing every zone boss? meta progression? 1 attribute boost per bos?
 -- Store augment buff in one of the atma or stat buffs or the abyssea buff itself.
 -- Earth bosses gain stoneskin (undispellable) after using TP moves
@@ -47,7 +45,9 @@ require("scripts/globals/titles")
 -- Crawlers Nest [S] chest/coffer still work?
 -- Test DMG of djinn TP moves during day/night random times
 -- randomEventMimic needs some logic (or wait / while isDead()?) to make sure it doesn't get "stuck" if mimic is in death state and another one is triggered
--- /heal show zone data (meta progress %) and augments power
+-- /heal show zone data (meta progress %) and augments power. Add a fake status effect like dynamis
+-- Chests THF can open that give temps or a currency or gil, also can open from key drops from mobs?
+-- Currency from this content from every event completed ?
 
 tpz = tpz or {}
 tpz.wotg = tpz.wotg or {}
@@ -94,6 +94,65 @@ tpz.wotg.regionsData = {
         }
     },
     [tpz.zone.GARLAIGE_CITADEL_S] = {
+    amount = 21,
+        environmental = {
+            { Region = 3,
+                Effect = tpz.effect.OBLIVISCENCE,
+                Power = 1,
+                Tick = 0,
+                Duration = 30,
+                SubPower = 0,
+                Msg = 'restrictive'
+            },
+            { Region = 4,
+                Effect = tpz.effect.ADDLE,
+                Power = 33,
+                Tick = 0,
+                Duration = 30,
+                SubPower = 33,
+                Msg = 'full of toxic fumes'
+            },
+            { Region = 6,
+                Effect = tpz.effect.OBLIVISCENCE,
+                Power = 1,
+                Tick = 0,
+                Duration = 30,
+                SubPower = 0,
+                Msg = 'restrictive'
+            },
+            { Region = 7,
+                Effect = tpz.effect.OBLIVISCENCE,
+                Power = 1,
+                Tick = 0,
+                Duration = 30,
+                SubPower = 0,
+                Msg = 'restrictive'
+            },
+            { Region = 16,
+                Effect = tpz.effect.BURN,
+                Power = 25,
+                Tick = 0,
+                Duration = 30,
+                SubPower = 25,
+                Msg = 'burning up'
+            },
+            { Region = 17,
+                Effect = tpz.effect.FLASH,
+                Power = 255,
+                Tick = 3,
+                Duration = 12,
+                SubPower = 0,
+                Msg = 'filled with a blinding light'
+            },
+            { Region = 20,
+                Effect = tpz.effect.FLASH,
+                Power = 255,
+                Tick = 3,
+                Duration = 12,
+                SubPower = 0,
+                Msg = 'filled with a blinding light'
+            },
+        },
     },
     [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
         amount = 14,
@@ -195,26 +254,30 @@ local mobFamily = {
 local bosses = {
     -- Scorpion(Gold), Rafflesia, Gnat, Ladybug, Slug, Peiste
     [tpz.zone.CRAWLERS_NEST_S] = { 17478239, 17478240, 17478241, 17478242, 17478243, 17478244 },
-    [tpz.zone.GARLAIGE_CITADEL_S] = { 17494849, 17494850, 17494854, 17494855,  17494856, 17494857, 17494858 },
-    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = { },
+    [tpz.zone.GARLAIGE_CITADEL_S] =  { 17449660, 17449661, 17449662, 17449663, 17449664, 17449665, 17449666, 17449667, 17449668},
+    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = { 17494849, 17494850, 17494854, 17494855,  17494856, 17494857, 17494858 },
 }
 
 local chests = {
     [tpz.zone.CRAWLERS_NEST_S] = { Mimic = 17478246, TreasureChest = 17478247 },
-    --[tpz.zone.GARLAIGE_CITADEL_S] = { Mimic = , TreasureChest =  },
+    [tpz.zone.GARLAIGE_CITADEL_S] = { Mimic =17449669, TreasureChest = 17449670 },
     [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = { Mimic = 17494859, TreasureChest = 17494860 },
 }
 
 local metaBosses = {
     [tpz.zone.CRAWLERS_NEST_S] = {
-        { Name = 'Lugh', Id = 17477708, Pos = 'E-7', Title = tpz.title.LUGH_EXORCIST },
+        { Name = 'Lugh',        Id = 17477708, Pos = 'E-7', Title = tpz.title.LUGH_EXORCIST },
     },
     [tpz.zone.GARLAIGE_CITADEL_S] = {
-        { Name = 'Ethniu', Id = 17494093, Pos = 'K-7', Title = tpz.title.ETHNIU_EXORCIST },
-        { Name = 'Tethra', Id = 17494213, Pos = 'K-12', Title = tpz.title.TETHRA_EXORCIST },
+        { Name = 'Ethniu',      Id = 17494093, Pos = 'K-7', Title = tpz.title.ETHNIU_EXORCIST },
+        { Name = 'Tethra',      Id = 17494213, Pos = 'K-12', Title = tpz.title.TETHRA_EXORCIST },
     },
-    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {}, -- tpz.title.ELATHA_EXORCIST, tpz.title.BUARAINECH_EXORCIST
+    [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
+        { Name = 'Elatha',      Id = 17449008, Pos = 'F-9(Map 2)', Title = tpz.title.ELATHA_EXORCIST },
+        { Name = 'Buarainech',  Id = 17449017, Pos = 'H-7(Map 3)', Title = tpz.title.BUARAINECH_EXORCIST },
+    },
 }
+
 local augments = {
     [tpz.zone.CRAWLERS_NEST_S] = {
         [tpz.items.WHITE_CLOAK] =
@@ -953,32 +1016,17 @@ end
 
 local function ProgressMeta(player, zone)
     local metaProgress = zone:getLocalVar("metaProgress")
+    printf("Progressing meta percent")
     if (metaProgress < 100) then
         zone:setLocalVar("metaProgress", math.min(metaProgress + 5, 100))
         utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, none)
-        zone:queue(15000, function(zone)
+
+        player:queue(15000, function(player)
+            local zone = player:getZone()
             generateActiveRegions(zone)
         end)
     end
  end
-
- local function AddAugmentMod(player)
-    local party = player:getParty()
-    if player then
-        if player:isTrust() or player:isPet() then
-            party = player:getMaster():getParty()
-        end
-    end
-
-    if party then
-        for _, member in ipairs(party) do
-            if member:isPC() then
-                local augmentModPower = member:getMod(tpz.mod.PAST_DUNGEON_MASTER) or 0
-                member:PrintToPlayer("You will now gain more augments on your items! (Amount: " .. augmentModPower .. ", max 5)", tpz.msg.textColor.HIDDEN, none)
-            end
-        end
-    end
-end
 
 local function ClearMsgVars(zone)
     zone:setLocalVar("wavesMsg", 0)
@@ -1144,9 +1192,6 @@ local function generateWave(player, usedMobs)
         -- Add the mobID to the usedMobs tracker and the wave
         usedMobs[mobID] = true
         table.insert(wave, mobID)
-        
-        -- Print the current mobID of the mobs in the current wave
-        print("Current mobID in wave " .. currentWave .. ": " .. mobID)
     end
 
     if (wavesMsg == 0) then
@@ -1254,6 +1299,7 @@ local function RandomEventComplete(player)
         local chance = 25
         GenerateAugments(member, chance)
     end
+    printf("Random event complete!")
     ProgressMeta(player, zone)
     ClearMsgVars(zone)
 end
@@ -1399,15 +1445,13 @@ local modByMobName =
         mob:setMod(tpz.mod.VIT, 175)
         mob:setMod(tpz.mod.REGEN, 25)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 100)
+        mob:setMod(tpz.mod.WATERDEF, -256)
+        mob:setMod(tpz.mod.FIREDEF, -256)
         mob:setMod(tpz.mod.FIRE_ABSORB, 100)
-        mob:addImmunity(tpz.immunity.SILENCE)
-        mob:addImmunity(tpz.immunity.BIND)
-        mob:addImmunity(tpz.immunity.GRAVITY)
-        mob:addImmunity(tpz.immunity.PETRIFY)
-        mob:addImmunity(tpz.immunity.SLOW)
-        mob:addImmunity(tpz.immunity.BLIND)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
         mob:setMobMod(tpz.mobMod.HUMANOID, 1)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+        mob:setMobMod(tpz.mobMod.GA_CHANCE, 90)
 
         tpz.mix.jobSpecial.config(mob, {
             specials =
@@ -1496,15 +1540,13 @@ local modByMobName =
         mob:addMod(tpz.mod.MDEF, 24)
         mob:setMod(tpz.mod.VIT, 175)
         mob:setMod(tpz.mod.REGEN, 25)
+        mob:setMod(tpz.mod.ICEDEF, -256)
+        mob:setMod(tpz.mod.WINDDEF, -256)
         mob:setMod(tpz.mod.WIND_ABSORB, 100)
-        mob:addImmunity(tpz.immunity.SILENCE)
-        mob:addImmunity(tpz.immunity.BIND)
-        mob:addImmunity(tpz.immunity.GRAVITY)
-        mob:addImmunity(tpz.immunity.PETRIFY)
-        mob:addImmunity(tpz.immunity.SLOW)
-        mob:addImmunity(tpz.immunity.BLIND)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
         mob:setMobMod(tpz.mobMod.HUMANOID, 1)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+        mob:setMobMod(tpz.mobMod.GA_CHANCE, 90)
 
         tpz.mix.jobSpecial.config(mob, {
             specials =
@@ -1519,16 +1561,13 @@ local modByMobName =
         mob:addMod(tpz.mod.MDEF, 24)
         mob:setMod(tpz.mod.VIT, 175)
         mob:setMod(tpz.mod.REGEN, 25)
+        mob:setMod(tpz.mod.WINDDEF, -256)
+        mob:setMod(tpz.mod.EARTHDEF, -256)
         mob:setMod(tpz.mod.EARTH_ABSORB, 100)
-        mob:addImmunity(tpz.immunity.SILENCE)
-        mob:addImmunity(tpz.immunity.BIND)
-        mob:addImmunity(tpz.immunity.GRAVITY)
-        mob:addImmunity(tpz.immunity.PETRIFY)
-        mob:addImmunity(tpz.immunity.SLOW)
-        mob:addImmunity(tpz.immunity.BLIND)
-        mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
         mob:setMobMod(tpz.mobMod.HUMANOID, 1)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+        mob:setMobMod(tpz.mobMod.GA_CHANCE, 90)
 
         tpz.mix.jobSpecial.config(mob, {
             specials =
@@ -1542,6 +1581,8 @@ local modByMobName =
     end,
 
     ['Barqan'] = function(mob)
+        mob:setMod(tpz.mod.MATT, 72)
+        mob:setMod(tpz.mod.HELIX_EFFECT, 50)
     end,
 
     ['Ahmet'] = function(mob)
@@ -1559,32 +1600,110 @@ local modByMobName =
         tpz.mix.jobSpecial.config(mob, {
             specials =
             {
-                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 30, hpp = 100},
+                {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 45, hpp = 100},
             },
         })
     end,
 
     ['Aegyptopithecus'] = function(mob)
+        mob:setMobMod(tpz.mobMod.HP_STANDBACK, 1)
+        mob:setMobMod(tpz.mobMod.SPECIAL_SKILL, tpz.mob.skills.ORE_TOSS_AUTOATTACK)
+        mob:SetAutoAttackEnabled(false)
     end,
 
     ['Ammonoidea'] = function(mob)
+        mob:setMod(tpz.mod.MATT, 72)
+        mob:setLocalVar("[uragnite]noShellSkillList", 6168)
+        mob:setLocalVar("[uragnite]inShellSkillList", 250)
     end,
 
     ['Anubis'] = function(mob)
     end,
 
     ['Amunet'] = function(mob)
+        mob:setDamage(100)
     end,
 
-    -- Lynx
-    -- Djinn
-    -- Ziz
-    -- Bugard
-    -- Ram
-    -- Opo-opo
-    -- Urganite
-    -- Gnole
-    -- Smilodon (Use model 0x0000C80800000000000000000000000000000000)
+    ['Elatha'] = function(mob)
+        -- WS: Groundstrike, Freezebite, Shockwave, Grim Halo, Netherspikes, Carnal Nightmare
+        -- Spell: Cold wave, Ice Break, Paralyga, Blizzard IV, Frost Breath, Bindga, Freeze, Blizzaga III
+        -- SDT/EEM: 150% Fire. Extremely high Dark and Wind
+        -- Absorbs: Ice
+        -- Takes double Fire damage
+        -- Immunities: Paralyze, Blind, Bind, Sleep, Gravity, Petrification
+        -- Levels up if taken physical damage since last spell was cast on him. I.e. cast stone on him -> levels up -> cast stone again, won't level up. Melee him once -> cast tone, levels up. (10 times max)
+        -- Counters any magic cast on him with Blizzard IV (Doesn't counter 100% of the time?)
+        -- 20s cast timer
+        -- Levels up 10 times max
+        -- Draws in
+        -- High auto-regen, 1% every minute or something. (~30-50/3s Regen?)
+        -- Minor regain (10?)
+        -- Perma undispellable Ice Spikes
+        -- En-Blizzard (100 damage) or En-Paralyze on every auto-attack
+        -- Used Blood Weapon at 30%, then every 5 minutes afterwards, AoE Paralyze aura and 100 fist delay during it. Does not castor retaliate with Blizzard IV while it's active.
+        -- Absorbs physical damage while using a TP move or casting
+        -- Casting a spell on him if not his current target resets his enmity on everyone
+
+        mob:addMod(tpz.mod.MATT, 0)
+        mob:addMod(tpz.mod.DEFP, 25)
+        mob:addMod(tpz.mod.MDEF, 24)
+        mob:setMod(tpz.mod.VIT, 175)
+        mob:setMod(tpz.mod.REGEN, 25)
+        mob:setMod(tpz.mod.FIREDEF, -256)
+        mob:setMod(tpz.mod.ICEDEF, -256)
+        mob:setMod(tpz.mod.ICE_ABSORB, 100)
+        mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
+        mob:setMobMod(tpz.mobMod.HUMANOID, 1)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+        mob:setMobMod(tpz.mobMod.GA_CHANCE, 90)
+
+        -- Perma undispellable Ice Spikes
+        mob:addStatusEffect(tpz.effect.ICE_SPIKES, 25, 0, 0)
+        local iceSpikes = mob:getStatusEffect(tpz.effect.ICE_SPIKES)
+        iceSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
+
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.BLOOD_WEAPON, cooldown = 300, hpp = 35},
+            },
+        })
+    end,
+
+    ['Buarainech'] = function(mob)
+        mob:addMod(tpz.mod.DEFP, 25)
+        mob:addMod(tpz.mod.MDEF, 24)
+        mob:setMod(tpz.mod.VIT, 175)
+        mob:setMod(tpz.mod.REGEN, 25)
+        mob:setMod(tpz.mod.STORETP, 200)
+        mob:setMod(tpz.mod.SAVETP, 1500)
+        mob:setMod(tpz.mod.UFASTCAST, 50)
+        mob:setMod(tpz.mod.EARTHDEF, -256)
+        mob:setMod(tpz.mod.THUNDERDEF, -256)
+        mob:setMod(tpz.mod.LTNG_ABSORB, 100)
+        mob:addImmunity(tpz.immunity.SILENCE)
+        mob:addImmunity(tpz.immunity.BIND)
+        mob:addImmunity(tpz.immunity.GRAVITY)
+        mob:addImmunity(tpz.immunity.PETRIFY)
+        mob:addImmunity(tpz.immunity.SLOW)
+        mob:addImmunity(tpz.immunity.BLIND)
+        mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:setMobMod(tpz.mobMod.DRAW_IN, 2)
+        mob:setMobMod(tpz.mobMod.HUMANOID, 1)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+
+        -- Perma undispellable Ice Spikes
+        mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 25, 0, 0)
+        local shockSpikes = mob:getStatusEffect(tpz.effect.SHOCK_SPIKES)
+        shockSpikes:unsetFlag(tpz.effectFlag.DISPELABLE)
+
+        tpz.mix.jobSpecial.config(mob, {
+            specials =
+            {
+                {id = tpz.jsa.SPIRIT_SURGE, cooldown = 300, hpp = 35},
+            },
+        })
+    end,
 }
 
 local mobRoamByMobName =
@@ -2273,7 +2392,7 @@ local mobFightByMobName =
             mob:setLocalVar("lvlUp", 0)
         end
 
-        -- Gains an invisible silence aura (~20') during Perfect Dodge.
+        -- Gains a Silence aura (~20') during Perfect Dodge.
         -- Gains an enhanced rate of Triple Attack rate during Perfect Dodge.
         -- Does not cast or use TP moves during Perfect Dodge.
         if mob:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
@@ -2341,17 +2460,17 @@ local mobFightByMobName =
                     for _, enmity in ipairs(enmityList) do
                         if (user:getID() ~= enmity.entity:getID()) then
                             mob:resetEnmity(enmity.entity)
+                            mob:setLocalVar("lvlUp", 1)
                         end
                     end
                 end
-                mob:setLocalVar("lvlUp", 1)
             end
         end)
 
         -- Offensive JA's and magic reset it's hate on everyone but the person who used the JA
         -- Counters magic casts with Stone IV onto it's current target ONLY IF HATE IS SWAPPED OFF.
         -- I.e. if a pld tanking it uses flash it won't counter
-        mob:addListener("SPELL_DMG_TAKEN", "ETHRA_SPELL_DMG_TAKEN", function(mob, caster, spell)
+        mob:addListener("SPELL_DMG_TAKEN", "TETHRA_SPELL_DMG_TAKEN", function(mob, caster, spell)
            if
                 mob:getTarget():getShortID() ~= caster:getShortID() and
                 not IsMobBusy(mob) and
@@ -2382,14 +2501,19 @@ local mobFightByMobName =
     -- Lynx
         if (mob:getLocalVar("dmgAura") > 0) then
             local radius = 10
-            local damage = 100
+            local damage = 50
             local tick = 3
-            TickDamageAura(mob, target, radius, damage, tpz.attackType.MAGICAL, tpz.magic.ele.THUNDER, tick)
-            mob:addStatusEffect(tpz.effect.ENTHUNDER, 150, 0, 3)
-            mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 25, 0, 3)
-            mob:setEffectUndispellable(tpz.effect.ENTHUNDER)
-            mob:setEffectUndispellable(tpz.effect.SHOCK_SPIKES)
+            TickDamageAura(mob, target, radius, damage, tpz.attackType.MAGICAL, tpz.magic.ele.THUNDER, tick, "The Anhur discharges electricity all around it!")
+            if not mob:hasStatusEffect(tpz.effect.ENTHUNDER) then
+                mob:addStatusEffect(tpz.effect.ENTHUNDER, 150, 0, 0)
+                mob:setEffectUndispellable(tpz.effect.ENTHUNDER)
+            end
+            if not mob:hasStatusEffect(tpz.effect.SHOCK_SPIKES) then
+                mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 25, 0, 0)
+                mob:setEffectUndispellable(tpz.effect.SHOCK_SPIKES)
+            end
         end
+
         -- Charged whisker grants undispellable shock spikes, enthunder, and pulsing AoE thunder damage aura
         mob:addListener("WEAPONSKILL_STATE_EXIT", "ANHUR_MOBSKILL_FINISHED", function(mob, skillID)
             if (skillID == tpz.mob.skills.CHARGED_WHISKER) then
@@ -2415,7 +2539,7 @@ local mobFightByMobName =
 
     ['Barqan'] = function(mob, target)
     -- Djinn
-        local buffCD = mob:getLocalVar("buffCD")
+    -- TODO: tartarean_storm animationId
         local stormCD = mob:getLocalVar("stormCD")
         local battleTime = mob:getBattleTime()
         local storms = { 99, 113, 114, 115, 116, 117, 118, 119 }
@@ -2440,12 +2564,24 @@ local mobFightByMobName =
             tpz.mod.SDT_LIGHT,
             tpz.mod.SDT_DARK,
         }
+
+        local spellList =
+        {
+            [tpz.effect.FIRESTORM]    = { tpz.magic.spell.FIRE_IV,      tpz.magic.spell.FIRAGA_III,    tpz.magic.spell.ADDLE },
+            [tpz.effect.HAILSTORM]    = { tpz.magic.spell.BLIZZARD_IV,  tpz.magic.spell.BLIZZAGA_III,  tpz.magic.spell.BINDGA, tpz.magic.spell.PARALYGA },
+            [tpz.effect.WINDSTORM]    = { tpz.magic.spell.AERO_IV,      tpz.magic.spell.AEROGA_III,    tpz.magic.spell.SILENCEGA, tpz.magic.spell.GRAVIGA },
+            [tpz.effect.SANDSTORM]    = { tpz.magic.spell.STONE_IV,     tpz.magic.spell.STONEGA_III,   tpz.magic.spell.SLOWGA, tpz.magic.spell.BREAKGA },
+            [tpz.effect.THUNDERSTORM] = { tpz.magic.spell.THUNDER_IV,   tpz.magic.spell.THUNDAGA_III,  tpz.magic.spell.STUN },
+            [tpz.effect.RAINSTORM]    = { tpz.magic.spell.WATER_IV,     tpz.magic.spell.WATERGA_III,   tpz.magic.spell.POISONGA_II },
+            [tpz.effect.AURORASTORM]  = { tpz.magic.spell.HOLY_II,      tpz.magic.spell.BANISHGA_III,  tpz.magic.spell.DIAGA_II, tpz.magic.spell.FLASH },
+            [tpz.effect.VOIDSTORM]    = { tpz.magic.spell.COMET,        tpz.magic.spell.NOCTOHELIX,    tpz.magic.spell.SLEEPGA_II, tpz.magic.spell.BLINDGA,  tpz.magic.spell.DISPELGA },
+        }
         -- DRK/DRK
         -- Casts storm on self then absorbs that element, SDT is changed to be weak to it's weakness and casts spells/enfeebles of that element
         -- Cast a random storm every minute
-        if (battleTime <= stormCD) then
-            mob:setLocalVar("buffCD", battletime + 60)
-            mob:castSpell(storms[math.random(#storms)])
+        if (battleTime >= stormCD) then
+            mob:setLocalVar("stormCD", battleTime + 60)
+            mob:castSpell(storms[math.random(#storms)], mob)
         end
 
         mob:addListener("MAGIC_USE", "DJINN_MAGIC_USE", function(mob, target, spell, action)
@@ -2471,7 +2607,23 @@ local mobFightByMobName =
             end
         end)
 
-        mob:addListener("EFFECT_LOSE", "DJINN_EFFECT_LOSE", function(mob, effect)
+        mob:addListener("EFFECT_GAIN", "BARQAN_EFFECT_GAIN", function(mob, effect)
+            local effectType = effect:getType()
+
+            -- Update spell list based on currently active Storm
+            if effectType >= tpz.effect.FIRESTORM and effectType <= tpz.effect.VOIDSTORM then
+                mob:clearSpellList()
+
+                local spells = spellList[effectType]
+                if spells then
+                    for _, spellId in ipairs(spells) do
+                        mob:addSpellListEntry(spellId)
+                    end
+                end
+            end
+        end)
+
+        mob:addListener("EFFECT_LOSE", "BARQAN_EFFECT_LOSE", function(mob, effect)
             local effectType = effect:getType()
             if effectType >= tpz.effect.FIRESTORM and effectType <= tpz.effect.VOIDSTORM then
                 -- Remove absorb
@@ -2488,16 +2640,6 @@ local mobFightByMobName =
     ['Ahmet'] = function(mob, target)
     -- Ziz
         -- WAR/DRK
-        -- No SJ aura
-        local auraParams = {
-            radius = 20,
-            effect = tpz.effect.OBLIVISCENCE,
-            power = 1,
-            duration = 30,
-            auraNumber = 1
-        }
-        AddMobAura(mob, target, auraParams)
-        TickMobAura(mob, target, auraParams)
         -- Contagion Transfer - AoE status transfers from the mob to all players within range.
         -- Sound Vacuum 10' AoE(not conal) mute.
         -- Breakga, Stoneskin, Rasp, Stone IV, Stonega III
@@ -2515,27 +2657,40 @@ local mobFightByMobName =
     -- Ram (Use Model: 0x0000680A00000000000000000000000000000000)
         -- WAR/SAM
         -- Keeps mighty strikes up at all times(uses it, isn't just a perma buff)
+        -- Uses Booming Bleat (AoE -50% Max Hp Down), Petribreath, Ram Charge, Rage
+        -- Reduced movement speed
     end,
 
     ['Aegyptopithecus'] = function(mob, target)
     -- Opo-opo
         -- RNG/WAR
         -- Stand back, doesn't auto-attack, only uses ranged attacks (Stone Throw animation)
-        -- Claw Storm is also AOE Bio
+        -- Spinning Claw is also AOE Bio
         -- Magic Fruit 3.5s cast time
         -- Uses Vacant Gaze, dispels up to 3 effects
         -- Vicious Claw "Throat Stab" + Enmity reset
     end,
 
     ['Ammonoidea'] = function(mob, target)
-    -- Urganite
+    -- Urganite (Use model: 0x0000520500000000000000000000000000000000)
+        -- No SJ aura
+        local auraParams = {
+            radius = 20,
+            effect = tpz.effect.OBLIVISCENCE,
+            power = 1,
+            duration = 30,
+            auraTickRate = 28,
+            auraNumber = 1
+        }
+        AddMobAura(mob, target, auraParams)
+        TickMobAura(mob, target, auraParams)
+        -- Uses Palsynyxis, Painful Whip and Virulent Haze 
         -- Casts Holy II, Banishga III, Banish IV, Flash(AOE)
     end,
 
     ['Anubis'] = function(mob, target)
     -- Gnole
         -- Gnole mixin
-        -- animsub 1= standing, animsub 0 = all fours
         local animation = {
             FOURLEGS    = 0,
             STANDING    = 1,
@@ -2548,7 +2703,9 @@ local mobFightByMobName =
             mob:setMod(tpz.mod.COUNTER, 0)
             mob:setMod(tpz.mod.GUARD_PERCENT, 0)
             mob:SetMagicCastingEnabled(true)
-            mob:addStatusEffect(tpz.effect.AVOIDANCE_DOWN)
+            if not mob:hasStatusEffect(tpz.effect.AVOIDANCE_DOWN) then
+                mob:addStatusEffect(tpz.effect.AVOIDANCE_DOWN, 1, 0, 0)
+            end
         elseif (mob:AnimationSub() == animation.STANDING) then
             mob:setMod(tpz.mod.UDMGMAGIC, 0)
             mob:setMod(tpz.mod.COUNTER, 100)
@@ -2564,8 +2721,6 @@ local mobFightByMobName =
         -- Fixates on random target every 60-90s
 	    local fixateTimer = mob:getLocalVar("fixateTimer")
 
-        -- Spawns a bee next to it, after a certain amount of time will consume the bee then level up
-        -- If the bee dies in this fashion, levels up and gains access to Soothing Aroma (AOE Charm)
         if (fixateTimer == 0) then
             mob:setLocalVar("fixateTimer", os.time() + 5)
         elseif (os.time() >= fixateTimer) then
@@ -2574,14 +2729,314 @@ local mobFightByMobName =
                 if enmityList and #enmityList > 0 then
                     local randomTarget = enmityList[math.random(1,#enmityList)];
                     mob:setLocalVar("fixateTarget", randomTarget.entity:getShortID())
+                    local fixatedTargetName = randomTarget.entity:getName()
+                    fixatedTargetName = string.gsub(fixatedTargetName, '_', ' ');
+                    MessageGroup(mob, target, MobName(mob) .. " sets his gaze upon " .. fixatedTargetName .. "!", 0xD, nil)
+                    break
                 end
             end
             local fixateTarget = mob:getLocalVar("fixateTarget")
             if (fixateTarget > 0) then
                 mob:setMobMod(tpz.mobMod.FIXATE, fixateTarget)
             end
-            mob:setLocalVar("fixateTimer", os.time() + math.random(60, 90))
+            mob:setLocalVar("fixateTimer", os.time() + math.random(30, 45))
         end
+    end,
+
+    ['Elatha'] = function(mob, target)
+        -- Absorbs: Ice
+        -- Takes double Fire damage
+        -- Immunities: Paralyze, Blind, Bind, Sleep, Gravity, Petrification
+        -- Levels up if taken physical damage since last spell was cast on him. I.e. cast stone on him -> levels up -> cast stone again, won't level up. Melee him once -> cast tone, levels up. (10 times max)
+        -- Offensive JA's and magic reset it's hate on everyone
+        -- Counters any magic cast on him with instant cast Blizzard IV
+        -- Counters offensive JA's on him with Freezebite
+        -- 20s cast timer
+        -- Levels up 10 times max
+        -- Draws in
+        -- High auto-regen, 1% every minute or something. (~30-50/3s Regen?)
+        -- Minor regain (10?)
+        -- Perma undispellable Ice Spikes
+        -- En-Blizzard (100 damage) or En-Paralyze on every auto-attack
+        -- Used Blood Weapon at 30%, then every 5 minutes afterwards, AoE Paralyze aura and 100 fist delay during it. Does not castor retaliate with Blizzard IV while it's active.
+        local lvlUp = mob:getLocalVar("lvlUp")
+        local level = mob:getMainLvl()
+        -- Only levels up 10 times max
+        if
+            (lvlUp > 0) and
+            (level < 90) and
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect()
+        then
+            mob:useMobAbility(tpz.mob.skills.LEVEL_UP, mob)
+            mob:setMobLevel(level +1, false)
+            -- Mods and Mobmods are cleared on leveling up, need to readd them
+            tpz.wotg.onMobSpawn(mob)
+            mob:setLocalVar("lvlUp", 0)
+            mob:setLocalVar("physDmgTaken", 0)
+        end
+
+        -- Gains a Paralysis aura (~20') during Blood Weapon.
+        -- Gains 100 fist attack speed during Blood Weapon.
+        -- Does not cast during Blood Weapon.
+        if mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON) then
+            local auraParams = {
+                radius = 20,
+                effect = tpz.effect.PARALYSIS,
+                power = 25,
+                duration = 3,
+                auraNumber = 1
+            }
+
+            mob:setDelay(1400)
+            mob:SetMagicCastingEnabled(false)
+            AddMobAura(mob, target, auraParams)
+            TickMobAura(mob, target, auraParams)
+        else
+             mob:setDelay(2400)
+            mob:SetMagicCastingEnabled(true)
+        end
+
+        -- Counter magic with Blizzard IV
+        if
+            not IsMobBusy(mob) and 
+            not mob:hasPreventActionEffect() and
+            mob:getLocalVar("counterMagic") > 0
+        then
+            mob:setLocalVar("instantCastBlizzard", 1)
+            mob:castSpell(tpz.magic.spell.BLIZZARD_IV, GetEntityByID(mob:getLocalVar("counterMagic")))
+            mob:setLocalVar("counterMagic", 0)
+        end
+
+        -- Counter JA's with Freezebite
+        if
+            not IsMobBusy(mob) and 
+            not mob:hasPreventActionEffect() and
+            mob:getLocalVar("counterJA") > 0
+        then
+            mob:useMobAbility(tpz.mob.skills.FREEZEBITE, GetEntityByID(mob:getLocalVar("counterJA")))
+            mob:setLocalVar("counterJA", 0)
+        end
+
+        -- Offensive JA's and magic reset it's hate on everyone
+        -- Counters JA's with Freezebite onto the person who used the JA on him
+        -- I.e. if a pld tanking it uses Provoke it won't counter
+        mob:addListener("ABILITY_TAKE", "ELATHA_ABILITY_TAKE", function(mob, user, ability, action)
+            local abilityMsg = ability:getMsg()
+            local act = mob:getCurrentAction()
+        local validAction =
+            abilityMsg ~= tpz.msg.basic.JA_MISS and
+            abilityMsg ~= tpz.msg.basic.SHADOW_ABSORB and
+            mob:getTarget():getShortID() ~= user:getShortID() and
+            not mob:hasPreventActionEffect()
+            
+            -- Pet assault JA's shouldn't count
+            if validAction then
+
+            -- Reset enmity on everyone, then add enmity to the caster who used an ability to cause this enmity reset equal to the enmtiy that ability created
+                ResetEnmityList(mob)
+                user:addEnmity(mob, ability:getCE(), ability:getVE())
+                mob:setLocalVar("counterJA", user:getID())
+            end
+        end)
+
+
+        -- Counters magic casts with instant cast Blizzard IV onto the caster who casted on him
+        -- I.e. if a pld tanking it uses flash it won't counter
+        mob:addListener("SPELL_DMG_TAKEN", "ELATHA_SPELL_DMG_TAKEN", function(mob, caster, spell)
+           if
+                mob:getTarget():getShortID() ~= caster:getShortID() and
+                not mob:hasPreventActionEffect()
+           then
+                ResetEnmityList(mob)
+                mob:setLocalVar("counterMagic", caster:getID())
+           end
+        end)
+
+        -- Levels up if taken physical damage since last spell was cast on him. 
+        -- I.e. cast stone on him -> levels up -> cast stone again, won't level up. Melee him once -> cast stone, levels up. (10 times max)
+        mob:addListener("TAKE_DAMAGE", "ELATHA_TAKE_DAMAGE", function(mob, dmgTaken, attacker, attackType, damageType)
+            local physDmgTaken = mob:getLocalVar("physDmgTaken")
+            local isPhysDmg = attackType == tpz.attackType.PHYSICAL or attackType == tpz.attackType.RANGED
+
+            if  isPhysDmg and(dmgTaken > 0) then
+                mob:setLocalVar("physDmgTaken", physDmgTaken + dmgTaken)
+            end
+        end)
+
+        mob:addListener("MAGIC_HIT", "ELATHA_MAGIC_HIT", function(caster, mob, spell, dmg)
+            local canLvlUp = mob:getLocalVar("physDmgTaken") > 0
+
+            if canLvlUp then
+                mob:setLocalVar("lvlUp", 1)
+            end
+        end)
+
+        -- Countered Blizzard IV's are instant cast
+        mob:addListener("MAGIC_START", "ELATHA_MAGIC_START", function(mob, spell)
+            if (spell:getID() == tpz.magic.spell.BLIZZARD_IV) and mob:getLocalVar("instantCastBlizzard") > 0 then
+                spell:castTime(0)
+                mob:setLocalVar("instantCastBlizzard", 0)
+            end
+        end)
+
+        -- Absorbs physical damage while casting or using a TP Move
+        mob:addListener("MAGIC_START", "ELATHA_MAGIC_START", function(mob, spell)
+            mob:setMod(tpz.mod.PHYS_ABSORB, 100)
+        end)
+        mob:addListener("MAGIC_STATE_EXIT", "ELATHA_MAGIC_STATE_EXIT", function(mob, spell)
+            mob:setMod(tpz.mod.PHYS_ABSORB, 0)
+        end)
+
+        mob:addListener("WEAPONSKILL_STATE_ENTER", "ELATHA_WS_STATE_ENTER", function(mob, skillID)
+            mob:setMod(tpz.mod.PHYS_ABSORB, 100)
+        end)
+        mob:addListener("WEAPONSKILL_STATE_EXIT", "ELATHA_WS_STATE_EXIT", function(mob, skillID)
+            mob:setMod(tpz.mod.PHYS_ABSORB, 0)
+        end)
+    end,
+
+    ['Buarainech'] = function(mob)
+        -- Uses: Grim Halo, Netherspikes, Carnal Nightmare, Pentathrust, Impulse Drive, Raiden Thrust
+        -- Casts: Haste, Mind Blast, Temporal Shift, Blitzstrahl, Thunder IV, Thundaga III, Burst, Stun (AOE), Haste
+        -- Immune: Paralyze, Poison, Blind, Bind, Gravity, Sleep, Petrify
+        -- Absorbs Thunder damage
+        -- Takes double Earth and Thunder damage
+        -- Casts every 20 seconds
+        -- Perma shock spikes
+        -- Additional effect: Stun or Enthunder (100)
+        -- Endoom during Spirit Surge
+        -- ~50% Fast Cast
+        -- Counters magic that successfully lands or is absorbed (enfeeble or direct damage) with instant cast Thunmder IV
+        -- Counter's JA's with Raiden Thrust
+        -- Casting buffs on self/others a -na, or any spell which cause a status effect on him triggers a level up. Ele magic is safe. I.e. casting foil on self. 
+        -- JA's also level him up if used on him and not his current target
+        -- Has a 3m cooldown between level ups (2 timers, one for JA, one for magic)
+        -- Can level up 17 times max
+        -- Spells and JA's on him from anyone not his target resets enmity on everyone
+        -- Can use Penta Thrust multiple times in a row
+        -- Very high Store TP
+        -- Very high Save TP
+        -- Spirit surge at 35% and every 5 minutes below 35%
+        -- Uses a Spear
+
+        local lvlUp = mob:getLocalVar("lvlUp")
+        local level = mob:getMainLvl()
+        -- Only levels up 17 times max
+        if
+            (lvlUp > 0) and
+            (level < 97) and
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect()
+        then
+            mob:useMobAbility(tpz.mob.skills.LEVEL_UP, mob)
+            mob:setMobLevel(level +1, false)
+            -- Mods and Mobmods are cleared on leveling up, need to readd them
+            tpz.wotg.onMobSpawn(mob)
+            mob:setLocalVar("lvlUp", 0)
+        end
+
+        -- Counter magic with Thunder IV
+        if
+            not IsMobBusy(mob) and
+            not mob:hasPreventActionEffect() and
+            mob:getLocalVar("counterMagic") > 0
+        then
+            mob:setLocalVar("instantCastThunder", 1)
+            mob:castSpell(tpz.magic.spell.THUNDER_IV, GetEntityByID(mob:getLocalVar("counterMagic")))
+            mob:setLocalVar("counterMagic", 0)
+        end
+
+        -- Counter JA's with Raiden Thrust
+        if
+            not IsMobBusy(mob) and 
+            not mob:hasPreventActionEffect() and
+            mob:getLocalVar("counterJA") > 0
+        then
+            mob:useMobAbility(tpz.mob.skills.RAIDEN_THRUST, GetEntityByID(mob:getLocalVar("counterJA")))
+            mob:setLocalVar("counterJA", 0)
+        end
+
+        -- Offensive JA's and magic reset it's hate on everyone
+        -- Counters JA's with Raiden Thrust onto the person who used the JA on him
+        -- I.e. if a pld tanking it uses Provoke it won't counter
+        -- JA's also level him up if used on him and not his current target
+        mob:addListener("ABILITY_TAKE", "BUARA_ABILITY_TAKE", function(mob, user, ability, action)
+            local abilityMsg = ability:getMsg()
+            local validAction =
+                abilityMsg ~= tpz.msg.basic.JA_MISS and
+                abilityMsg ~= tpz.msg.basic.SHADOW_ABSORB and
+                mob:getTarget():getShortID() ~= user:getShortID() and
+                not mob:hasPreventActionEffect()
+            
+            -- Pet assault JA's shouldn't count
+            if validAction then
+
+                -- Reset enmity on everyone, then add enmity to the caster who used an ability to cause this enmity reset equal to the enmtiy that ability created
+                ResetEnmityList(mob)
+                user:addEnmity(mob, ability:getCE(), ability:getVE())
+                mob:setLocalVar("counterJA", user:getID())
+
+                local enmityList = mob:getEnmityList()
+                local lvlUpJACooldown = mob:getLocalVar("lvlUpJACooldown")
+                if enmityList then
+                    for _, enmity in ipairs(enmityList) do
+                        if (user:getID() ~= enmity.entity:getID()) then
+                            if (os.time() >= lvlUpJACooldown) then
+                                mob:setLocalVar("lvlUp", 1)
+                                mob:setLocalVar("lvlUpJACooldown", os.time() + 180)
+                            end
+                        end
+                    end
+                end
+            end
+        end)
+
+        -- Counters magic casts with instant cast Thunder IV onto the caster who casted on him, and resets enmity on everyone
+        -- I.e. if a pld tanking it uses flash it won't counter
+        mob:addListener("MAGIC_HIT", "BUARA_MAGIC_HIT", function(caster, mob, spell, dmg)
+           if
+                mob:getTarget():getShortID() ~= caster:getShortID() and
+                not mob:hasPreventActionEffect() and
+                spell:tookEffect()
+           then
+                local CE = spell:getCE()
+                local VE = spell:getVE()
+
+                -- Reset enmity on everyone, then add enmity to the caster who used a spell to cause this enmity reset equal to the enmtiy that spell created
+                ResetEnmityList(mob)
+                if (CE > 0) or (VE > 0) then
+                    caster:addEnmity(mob, spell:getCE(), spell:getVE())
+                else
+                    mob:updateEnmityFromDamage(caster, dmg * getSpellEnmityBonus(caster, mob, spell))
+                end
+                mob:setLocalVar("counterMagic", caster:getID())
+           end
+        end)
+
+        -- Casting buffs on self/others a -na, or any spell which cause a status effect on him triggers a level up. Ele magic is safe. I.e. casting foil on self
+        mob:addListener("PLAYER_SPELL_USED", "BUARA_PLAYER_SPELL_USED", function(mob, player, spell, action)
+            local eligibleSkillTypes = { tpz.skill.ENHANCING_MAGIC, tpz.skill.DIVINE_MAGIC, tpz.skill.ENFEEBLING_MAGIC, tpz.skill.DARK_MAGIC, tpz.skill.HEALING_MAGIC }
+            local skillType = spell:getSkillType()
+            local lvlUpMagicCooldown = mob:getLocalVar("lvlUpMagicCooldown")
+
+            if (os.time() >= lvlUpMagicCooldown) then
+                for _, skill in ipairs(eligibleSkillTypes) do
+                    if (skillType == skill) then
+                        mob:setLocalVar("lvlUp", 1)
+                        mob:setLocalVar("lvlUpMagicCooldown", os.time() + 180)
+                    end
+                end
+            end
+        end)
+
+        -- Countered Thunder IV's are instant cast
+        mob:addListener("MAGIC_START", "BUARA_MAGIC_START", function(mob, spell)
+            if (spell:getID() == tpz.magic.spell.THUNDER_IV) and mob:getLocalVar("instantCastThunder") > 0 then
+                spell:castTime(0)
+                mob:setLocalVar("instantCastThunder", 0)
+            end
+        end)
     end,
 }
 
@@ -2597,7 +3052,7 @@ local mobSpellPrecastByMobName =
             if (spell:getID() == spellId) then
                 spell:setAoE(tpz.magic.aoe.RADIAL)
                 spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
-                spell:setRadius(10)
+                spell:setRadius(15)
                 break
 	        end
         end
@@ -2635,6 +3090,41 @@ local mobSpellPrecastByMobName =
                 spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
                 spell:setRadius(10)
             end
+        end
+    end,
+
+    ['Barqan'] = function(mob, spell)
+        local aoeSpellList = {
+            tpz.magic.spell.ADDLE,
+            tpz.magic.spell.STUN,
+            tpz.magic.spell.COMET,
+            tpz.magic.spell.NOCTOHELIX,
+            tpz.magic.spell.FLASH
+        }
+
+        for _, spellId in pairs (aoeSpellList) do
+            if (spell:getID() == spellId) then
+                spell:setAoE(tpz.magic.aoe.RADIAL)
+                spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
+                spell:setRadius(15)
+                break
+	        end
+        end
+    end,
+
+    ['Ammonoidea'] = function(mob, spell)
+        if (spell:getID() == tpz.magic.spell.FLASH) then
+            spell:setAoE(tpz.magic.aoe.RADIAL)
+            spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
+            spell:setRadius(15)
+        end
+    end,
+
+    ['Buarainech'] = function(mob, spell)
+        if (spell:getID() == tpz.magic.spell.STUN) then
+            spell:setAoE(tpz.magic.aoe.RADIAL)
+            spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
+            spell:setRadius(15)
         end
     end,
 }
@@ -2785,10 +3275,128 @@ tpz.wotg.onMobWeaponSkillPrepare = function(mob, target)
     end
 end
 
-local eventOnMobDeath = {}
-function eventOnMobDeath.Waves(mob, player, isKiller, noKiller)
+tpz.wotg.onHealing = function(target)
+    -- TODO: Not sure if it gets the correct nearest region
+    -- TODO: Setting to turn off wotg dungeons entirely until ready
+    if target:isPC() then
+        local zone = target:getZone()
+        local augmentModPower = target:getMod(tpz.mod.PAST_DUNGEON_MASTER) or 0
+        local nearest = tpz.wotg.getNearestActiveRegion(target)
+        local eventActive = zone:getLocalVar("eventActive")
+
+        if not nearest then
+            target:PrintToPlayer("You sense nothing nearby...", tpz.msg.textColor.HIDDEN, none)
+            utils.MessageParty(target, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, nil)
+            target:PrintToPlayer("Current augment power: " .. augmentModPower .. " (Max 5)", tpz.msg.textColor.HIDDEN, none)
+            return
+        end
+
+        if (eventActive == 0) then
+            local direction = tpz.wotg.getDirectionToRegion(target, nearest)
+            local directionName = tpz.wotg.directionToString(direction)
+
+            target:PrintToPlayer(
+                string.format("You sense something %d yalms away to the %s",
+                math.floor(nearest.distance), directionName),
+                tpz.msg.textColor.HIDDEN, none
+            )
+        end
+
+        utils.MessageParty(target, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, nil)
+        target:PrintToPlayer("Current augment power: " .. augmentModPower .. " (Max 5)", tpz.msg.textColor.HIDDEN, none)
+    end
+end
+
+tpz.wotg.getNearestActiveRegion = function(player)
+    local zone   = player:getZone()
+    local zoneId = zone:getID()
+    local active = tpz.wotg.getActiveRegions(zoneId)
+
+    if not active or #active == 0 then
+        return nil
+    end
+
+    local best = nil
+    local bestDist = 999999
+
+    for _, regionID in ipairs(active) do
+        local region = zone:getRegion(regionID)
+        if region then
+            local c = region:getCenterPos()
+
+            -- engine distance check
+            local dist = player:checkDistance(c)
+
+            if dist < bestDist then
+                bestDist = dist
+                best = {
+                    regionID = regionID,
+                    distance = dist,
+                    x = c.x,
+                    y = c.y,
+                    z = c.z,
+                }
+            end
+        end
+    end
+
+    -- player:PrintToPlayer("DEBUG: Best region = "..best.regionID.." ("..math.floor(best.distance).." yalms)", tpz.msg.textColor.HIDDEN, none)
+
+    return best
+end
+
+tpz.wotg.getDirectionToRegion = function(player, regionInfo)
+    if not regionInfo then
+        return 0
+    end
+
+    local pos = player:getPos()
+    local px, py, pz = pos.x, pos.y, pos.z
+
+    local rx, ry, rz = regionInfo.x, regionInfo.y, regionInfo.z
+
+    local diffx = rx - px
+    local diffz = rz - pz
+
+    -- FFXI-correct angle conversion
+    local angle = math.deg(math.atan2(diffx, -diffz))
+    if angle < 0 then
+        angle = angle + 360
+    end
+
+    -- 8-direction index (Voidwalker style)
+    local dir = math.floor((angle + 22.5) / 45) % 8
+    return dir
+end
+
+tpz.wotg.DIRECTION_NAMES = {
+    [0] = "East",
+    [1] = "Southeast",
+    [2] = "South",
+    [3] = "Southwest",
+    [4] = "West",
+    [5] = "Northwest",
+    [6] = "North",
+    [7] = "Northeast",
+}
+
+tpz.wotg.directionToString = function(dir)
+    return tpz.wotg.DIRECTION_NAMES[dir] or "Unknown"
+end
+
+local eventOnMobDespawn = {}
+function eventOnMobDespawn.Waves(mob)
     local zone = mob:getZone()
     local waveProgress = zone:getLocalVar("waveProgress")
+
+    if waveProgress then
+        printf("Mob [%d] Despawned, incrementing wave progress by 1", mob:getID())
+        zone:setLocalVar("waveProgress", waveProgress + 1)
+    end
+end
+
+local eventOnMobDeath = {}
+function eventOnMobDeath.Waves(mob, player, isKiller, noKiller)
     local mobType = GetMobType(mob)
     local deathTypeHandler = mobTypeDeath[mobType]
 
@@ -2797,9 +3405,6 @@ function eventOnMobDeath.Waves(mob, player, isKiller, noKiller)
             deathTypeHandler(player, mob)
         end
     end
-
-    -- printf("Mob dead, incrementing wave progress by 1")
-    zone:setLocalVar("waveProgress", waveProgress + 1)
 end
 
 function eventOnMobDeath.Boss(mob, player, isKiller, noKiller)
@@ -2815,7 +3420,7 @@ function eventOnMobDeath.Boss(mob, player, isKiller, noKiller)
     zone:setLocalVar("eventActive", 0)
 end
 
-function eventOnMobDeath.Mimic(mob, player, isKiller, noKille)
+function eventOnMobDeath.Mimic(mob, player, isKiller, noKiller)
     local zone = player:getZone()
     local amount = math.random(3, 5)
     GiveTempItems(player, amount)
@@ -2842,10 +3447,17 @@ function eventOnMobDeath.MetaBoss(mob, player, isKiller, noKiller)
         GenerateAugments(player, chance)
 
         for _, member in pairs(player:getAlliance()) do
-            member:addMod(tpz.mod.PAST_DUNGEON_MASTER, 1)
+            local wotgDungeonsEffect = member:getStatusEffect(tpz.effect.WOTG_DUNGEONS)
+            local power = 1
+
+            if wotgDungeonsEffect then
+                -- Caps at 5
+                power = math.min(power + wotgDungeonsEffect:getPower(), 5)
+            end
+
+            member:addStatusEffectEx(tpz.effect.WOTG_DUNGEONS, 0, power, 0, 21600) -- 6 hours
         end
 
-        AddAugmentMod(player)
         zone:setLocalVar("metaProgress", 0)
         zone:setLocalVar("eventActive", 0)
         utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, nil)
@@ -2876,12 +3488,21 @@ tpz.wotg.onMobDeath = function (mob, player, isKiller, noKiller, event)
     end
 end
 
-tpz.wotg.onMobDespawn = function (mob)
+tpz.wotg.onMobDespawn = function (mob, event)
     local mobName  = mob:getName()
     local mobDespawn = mobDespawnByMobName[mobName]
 
     if mobDespawn then
         mobDespawn(mob)
+    end
+
+    if (event ~= nil) then
+        for eventName, eventID in pairs(tpz.wotg.events) do
+            if event == eventID and eventOnMobDespawn[eventName] then
+                eventOnMobDespawn[eventName](mob)
+                return
+            end
+        end
     end
 end
 
@@ -2896,7 +3517,7 @@ end
 
 tpz.wotg.RandomEvent = function(player)
     local zone = player:getZone()
-    randomEventMimic(player) -- TODO: Remove after done testing
+    randomEventWaves(player) -- TODO: Remove after done testing
     --eventList[math.random(#eventList)](player) -- TODO: Does this work?
 end
 
@@ -2915,22 +3536,21 @@ tpz.wotg.spawnWave = function(player, waveIndex)
 
     local xPos, yPos, zPos = player:getXPos(), player:getYPos(), player:getZPos()
     local posOffset = 0
-    player:queue(5000, function(player) -- 5s wait before spawning a wave
-        for _, mobID in ipairs(wave) do
-            print("Spawning Mob ID:", mobID)
-            local mob = GetMobByID(mobID)
-            if not mob:isSpawned() then
-                mob:setSpawn(xPos + posOffset, yPos, zPos + posOffset)
-                GenerateMob(player, mob)
-                mob:updateEnmity(player)
-                mob:updateClaim(player)
-                mob:addStatusEffect(tpz.effect.TERROR, 1, 0, 3)
-                posOffset = posOffset + 0.5
-            end
+
+    for _, mobID in ipairs(wave) do
+        printf("Spawning Mob ID: %d", mobID)
+        local mob = GetMobByID(mobID)
+        if not mob:isSpawned() then
+            mob:setSpawn(xPos + posOffset, yPos, zPos + posOffset)
+            GenerateMob(player, mob)
+            mob:updateEnmity(player)
+            mob:updateClaim(player)
+            mob:addStatusEffect(tpz.effect.TERROR, 1, 0, 3)
+            posOffset = posOffset + 0.5
         end
-        print("Spawning Wave " .. waveIndex)
-        utils.MessageParty(player, 'Enemies appear around you!', tpz.msg.textColor.HIDDEN, none)
-    end)
+    end
+    print("Spawning Wave " .. waveIndex)
+    utils.MessageParty(player, 'Enemies appear around you!', tpz.msg.textColor.HIDDEN, none)
 
     -- Set wave size as a local variable in the zone
     zone:setLocalVar("waveActive", 1)
@@ -2968,14 +3588,16 @@ tpz.wotg.onZoneTick = function(player, zone, region)
     local eventCompleted = zone:getLocalVar("eventCompleted")
     local metaProgress = zone:getLocalVar("metaProgress")
 
-    -- Progress check logic
-    -- Print the current wave details for debugging
-    local debugTimer = zone:getLocalVar("debugTimer")
-    if (os.time() >= debugTimer) then
-        -- print(string.format("Wave: %d, Progress: %d, Size: %d, Max Waves: %d", currentWave, waveProgress, waveSize, maxWaves))
-        zone:setLocalVar("debugTimer", os.time() + 10)
+    if (zone:getLocalVar("eventActive", 1) == tpz.wotg.events.Waves) then
+        -- Print the current wave details for debugging
+        local debugTimer = zone:getLocalVar("debugTimer")
+        if (os.time() >= debugTimer) then
+            print(string.format("Wave: %d, Progress: %d, Size: %d, Max Waves: %d", currentWave, waveProgress, waveSize, maxWaves))
+            zone:setLocalVar("debugTimer", os.time() + 10)
+        end
     end
 
+    -- Progress check logic
     if (waveSize > 0) and (waveProgress >= waveSize) then
         if (currentWave +1 <= maxWaves) then
             printf("Increasing wave by 1")
@@ -3046,7 +3668,7 @@ tpz.wotg.onRegionEnter = function(player, region)
     local regionEnterDelay = zone:getLocalVar("regionEnterDelay")
     local spawnChance = 10
 
-    if (regionID <= 14) then
+    if (regionID ) then
         printf("Player entered RegionId: %d", regionID)
     end
 

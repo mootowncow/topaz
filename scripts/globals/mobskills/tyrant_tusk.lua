@@ -5,7 +5,6 @@
 -- Element: Dark
 -- Conal
 -- Additional effect: KO if targets HP is below 50% as of a result of this damage
--- Notes: Only used below 50% HP
 ---------------------------------------------------
 
 require("scripts/globals/settings")

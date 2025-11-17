@@ -16,3 +16,7 @@ end
 function onMobDeath(mob, player, isKiller, noKiller)
     tpz.wotg.onMobDeath(mob, player, isKiller, noKiller, tpz.wotg.events.Waves)
 end
+
+function onMobDespawn(mob)
+    tpz.wotg.onMobDespawn(mob, tpz.wotg.events.Waves)
+end

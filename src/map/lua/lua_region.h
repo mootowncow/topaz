@@ -47,6 +47,7 @@ public:
     int32 GetCount(lua_State*);
     int32 AddCount(lua_State*);
     int32 DelCount(lua_State*);
+    int32 getCenterPos(lua_State*);
 };
 
 #endif

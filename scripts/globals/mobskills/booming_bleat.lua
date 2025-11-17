@@ -1,27 +1,25 @@
 ---------------------------------------------
--- Magic Fruit
+-- Booming Bleat
 --
--- Description: Restores HP for the target party member.
--- Type: Magical (Light)
---
---
+-- Description: Lowers maximum HP of targets in an area of effect.
+-- Type: Enfeebling
+-- Utsusemi/Blink absorb: Ignores shadows
+-- Range: Unknown radial
+-- Notes:
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
 require("scripts/globals/status")
-require("scripts/globals/msg")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if (mob:getName() == "Aegyptopithecus") then
-        skill:setActivationTime(3500)
-    else
-        skill:setActivationTime(1500)
-    end
-
     return 0
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    return MobPercentHealMove(mob, target, skill, 0.18)
+    local typeEffect = tpz.effect.MAX_HP_DOWN
+
+    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 50, 0, 300))
+
+    return typeEffect
 end

@@ -1,8 +1,9 @@
 ------------------------------
 -- Area: Crawlers Nest [S]
---   NM: Abatwa
+--   NM: Ammonoidea
 ------------------------------
 require("scripts/globals/wotg")
+mixins = {require("scripts/mixins/families/uragnite")}
 ------------------------------
 function onMobSpawn(mob)
     tpz.wotg.onMobSpawn(mob)
@@ -16,6 +17,7 @@ function onAdditionalEffect(mob, target, damage)
 end
 
 function onSpellPrecast(mob, spell)
+    tpz.wotg.onSpellPrecast(mob, spell)
 end
 
 function onMobWeaponSkillPrepare(mob, target)

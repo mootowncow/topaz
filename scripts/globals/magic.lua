@@ -1968,6 +1968,9 @@ end
 -- FIREDEF - DARKDEF
 -- Percentage damage reduction to specific Elements
 -- 128 = 128 / 256 = 50% reduction
+-- Negatives also increase damage done
+-- -128 = 50% damage increase
+-- Caps at 2x damage increase
 function getElementalDamageReduction(target, element)
     local defense = 1
     if (element > 0) then
@@ -3753,7 +3756,11 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
                 end
             end
             if hasImmunity then
-                return spell:setMsg(tpz.msg.basic.MAGIC_IMMUNE)
+                if target:getID() == spell:getPrimaryTargetID() then
+                    return spell:setMsg(tpz.msg.basic.MAGIC_IMMUNE)
+                else
+                    return spell:setMsg(tpz.msg.basic.MAGIC_IMMUNE_2)
+                end
             end
             break
         end

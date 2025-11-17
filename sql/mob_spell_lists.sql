@@ -6269,7 +6269,54 @@ INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,284,1,255); -- Noctoheli
 INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,285,1,255); -- Luminohelix
 INSERT INTO `mob_spell_lists` VALUES ('Boll_Weevil',561,477,1,255); -- Regen IV
 
--- NEXT 561
+INSERT INTO `mob_spell_lists` VALUES ('Barqan',562,162,1,255); -- Stone IV
+INSERT INTO `mob_spell_lists` VALUES ('Barqan',562,357,1,255); -- Slowga
+INSERT INTO `mob_spell_lists` VALUES ('Barqan',562,365,1,255); -- Breakga
+INSERT INTO `mob_spell_lists` VALUES ('Barqan',562,191,1,255); -- Stonega III
+
+
+INSERT INTO `mob_spell_lists` VALUES ('Ahmet',563,162,1,255); -- Stone IV
+INSERT INTO `mob_spell_lists` VALUES ('Ahmet',563,191,1,255); -- Stonega III
+INSERT INTO `mob_spell_lists` VALUES ('Ahmet',563,238,1,255); -- Rasp
+INSERT INTO `mob_spell_lists` VALUES ('Ahmet',563,365,1,255); -- Breakga
+INSERT INTO `mob_spell_lists` VALUES ('Ahmet',563,54,1,255); -- Stoneskin
+
+
+INSERT INTO `mob_spell_lists` VALUES ('Ammonoidea',564,22,1,255); -- Holy II
+INSERT INTO `mob_spell_lists` VALUES ('Ammonoidea',564,40,1,255); -- Banishga III
+INSERT INTO `mob_spell_lists` VALUES ('Ammonoidea',564,31,1,255); -- Banish IV
+INSERT INTO `mob_spell_lists` VALUES ('Ammonoidea',564,112,1,255); -- Flash
+
+
+INSERT INTO `mob_spell_lists` VALUES ('Amunet',565,5,1,255); -- Cure V
+INSERT INTO `mob_spell_lists` VALUES ('Amunet',565,10,1,255); -- Curaga IV
+INSERT INTO `mob_spell_lists` VALUES ('Amunet',565,129,1,255); -- Protectra V
+INSERT INTO `mob_spell_lists` VALUES ('Amunet',565,134,1,255); -- Shellra V
+INSERT INTO `mob_spell_lists` VALUES ('Amunet',565,511,1,255); -- Haste II
+INSERT INTO `mob_spell_lists` VALUES ('Amunet',565,493,1,255); -- Temper
+INSERT INTO `mob_spell_lists` VALUES ('Amunet',565,106,1,255); -- Phalanx
+INSERT INTO `mob_spell_lists` VALUES ('Amunet',565,310,1,255); -- Enlight
+
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,531,1,255); -- Ice Break
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,535,1,255); -- Cold Wave
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,608,1,255); -- Frost Breath
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,356,1,255); -- Paralyga
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,362,1,255); -- Bindga
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,152,1,255); -- Blizzard IV
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,181,1,255); -- Blizzaga III
+INSERT INTO `mob_spell_lists` VALUES ('Elatha',566,206,1,255); -- Freeze
+
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,644,1,255); -- Mind Blast
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,616,1,255); -- Temporal Shift
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,632,1,255); -- Blitzstrahl
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,107,1,255); -- Thunder IV
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,196,1,255); -- Thundaga III
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,212,1,255); -- Burst
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,252,1,255); -- Stun
+INSERT INTO `mob_spell_lists` VALUES ('Buarainech',567,57,1,255); -- Haste
+
+
+
 
 INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,359,1,255); -- silencega
 INSERT INTO `mob_spell_lists` VALUES ('Acho',1022,156,1,255); -- aero III
@@ -6374,24 +6421,9 @@ INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,100,1,255);
 INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,249,1,255);
 
 
--- NEXT 546
+-- NEXT 568
 -- NEXT 1027
 -- NEXT 2089(Custom)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*!40000 ALTER TABLE `mob_spell_lists` ENABLE KEYS */;
 UNLOCK TABLES;

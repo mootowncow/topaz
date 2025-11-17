@@ -1,25 +1,22 @@
 ---------------------------------------------
--- Microspores
--- Only used by Goldcap and Morille Mortelle.
--- Description: Transfers all ailments to target
--- Type: Enfeebling
--- Utsusemi/Blink absorb: Ignores Shadows
+-- Contagion Transfer
+-- Absorbs all negative and positive status effects from players in AoE range.
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
-require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/msg")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if mob:getPool() == 1749 or mob:getPool() == 4698 then
+    if mob:getLocalVar("effectsDrained") == 0 then
         return 0
-     end
+    end
+
     return 1
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local isAOE = true
-    
-    return MobTransferEnfeeblesMove(mob, target, skill, isAOE)
+    mob:setLocalVar("effectsDrained", 1)
+    return MobDrainAllStatusEffectMove(mob, target, skill, { tpz.effectFlag.ERASABLE, tpz.effectFlag.WALTZABLE, tpz.effectFlag.DISPELABLE} )
 end
+

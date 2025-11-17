@@ -1,7 +1,7 @@
 ---------------------------------------------
---  Poison Pick
+--  Toxic Pick
 --
---  Description: Deals damage to a single target. Additional effect: poison
+--  Description: Deals damage to a single target. Additional effect: poison and Weight
 --  Type: Physical
 --  Utsusemi/Blink absorb: 1 shadow
 --  Range: Melee
@@ -41,6 +41,7 @@ function onMobWeaponSkill(target, mob, skill)
 
     target:takeDamage(dmg, mob, tpz.attackType.PHYSICAL, tpz.damageType.PIERCING)
 	if ((skill:getMsg() ~= tpz.msg.basic.SHADOW_ABSORB) and (dmg > 0)) then   target:tryInterruptSpell(mob, info.hitslanded) end
-    MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, power, 3, 180)
+    MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, 5, 3, 60)
+    MobPhysicalStatusEffectMove(mob, target, skill, tpz.effect.WEIGHT, 75, 3, 60)
     return dmg
 end

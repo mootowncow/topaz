@@ -68,7 +68,7 @@ INSERT INTO `abilities` VALUES (35,'provoke',1,5,4,30,5,0,0,3,2000,0,6,18.0,0,1,
 INSERT INTO `abilities` VALUES (36,'focus',2,25,1,300,13,120,0,4,2000,0,6,20.0,0,1,300,448,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (37,'dodge',2,15,1,300,14,121,0,5,2000,0,6,20.0,0,1,300,450,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (38,'chakra',2,20,1,180,15,441,421,6,2000,0,6,20.0,0,1,300,452,0,NULL,0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (39,'boost',2,5,1,15,16,116,0,7,2000,0,6,20.0,0,1,300,0,0,NULL,0,0,0,0,0,0);
+INSERT INTO `abilities` VALUES (39,'boost',2,5,1,60,16,116,0,7,2000,0,6,20.0,0,1,300,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (40,'counterstance',2,45,1,300,17,0,0,8,2000,0,6,20.0,0,1,900,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (41,'steal',6,5,4,300,60,125,0,181,2000,0,3,5.4,0,1,300,0,0,NULL,0,0,0,0,0,0);		-- made 120s
 INSERT INTO `abilities` VALUES (42,'flee',6,25,1,300,62,126,0,9,2000,0,6,20.0,0,1,80,704,0,NULL,0,0,0,0,0,0);	
@@ -284,7 +284,7 @@ INSERT INTO `abilities` VALUES (223,'stratagems',20,10,1,0,233,0,0,0,2000,0,6,20
 INSERT INTO `abilities` VALUES (224,'velocity_shot',11,45,1,60,129,0,0,186,2000,0,6,20.0,0,1,300,0,0,'WOTG',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (225,'snarl',9,45,257,30,107,0,0,87,2000,0,6,20.0,0,0,0,0,192,'WOTG',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (226,'retaliation',1,60,1,300,8,0,0,193,2000,0,6,20.0,0,1,80,0,0,'WOTG',0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (227,'footwork',2,65,1,120,21,0,0,197,2000,0,6,20.0,0,1,80,0,0,'WOTG',0,0,0,0,0,0);
+INSERT INTO `abilities` VALUES (227,'footwork',2,65,1,60,21,0,0,197,2000,0,6,20.0,0,1,80,0,0,'WOTG',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (228,'despoil',6,60,4,300,61,125,0,181,2000,0,3,5.4,0,1,300,0,0,'ABYSSEA',0,0,0,0,0,0);		-- changed from  300s cd level 77
 INSERT INTO `abilities` VALUES (229,'pianissimo',10,20,1,15,112,0,0,194,2000,0,6,20.0,0,1,60,0,0,'WOTG',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (230,'sekkanoki',12,40,1,300,140,0,0,199,2000,0,6,20.0,0,1,80,0,0,'WOTG',0,0,0,0,0,0);

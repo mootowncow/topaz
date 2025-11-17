@@ -1,9 +1,9 @@
 ------------------------------
 -- Area: Crawlers Nest [S]
---   NM: Abatwa
+--   NM: Anubis
 ------------------------------
 require("scripts/globals/wotg")
-mixins = {require("scripts/mixins/families/djinn")}
+mixins = {require("scripts/mixins/families/gnole")}
 ------------------------------
 function onMobSpawn(mob)
     tpz.wotg.onMobSpawn(mob)

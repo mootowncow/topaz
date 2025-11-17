@@ -232,6 +232,20 @@ inline int32 CLuaSpell::getElement(lua_State *L)
     return 1;
 }
 
+inline int32 CLuaSpell::getCE(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaSpell == nullptr);
+    lua_pushinteger(L, m_PLuaSpell->getCE());
+    return 1;
+}
+
+inline int32 CLuaSpell::getVE(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaSpell == nullptr);
+    lua_pushinteger(L, m_PLuaSpell->getVE());
+    return 1;
+}
+
 inline int32 CLuaSpell::isAoE(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PLuaSpell == nullptr);
@@ -383,6 +397,8 @@ Lunar<CLuaSpell>::Register_t CLuaSpell::methods[] =
     LUNAR_DECLARE_METHOD(CLuaSpell,tookEffect),
     LUNAR_DECLARE_METHOD(CLuaSpell,getMagicBurstMessage),
     LUNAR_DECLARE_METHOD(CLuaSpell,getElement),
+    LUNAR_DECLARE_METHOD(CLuaSpell,getCE),
+    LUNAR_DECLARE_METHOD(CLuaSpell,getVE),
     LUNAR_DECLARE_METHOD(CLuaSpell,castTime),
     LUNAR_DECLARE_METHOD(CLuaSpell,getValidTarget),
     LUNAR_DECLARE_METHOD(CLuaSpell,setValidTarget),

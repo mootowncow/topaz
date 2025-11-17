@@ -20,13 +20,8 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local msg = tpz.effect.POISON
-    local dmg = utils.takeShadows(target, 1, math.random(2, 3))
-    local transferred, effect = MobTransferEnfeeblesMove(mob, target, skill, 15, true)
-    if transferred then
-        return effect
-    else
-        skill:setMsg(tpz.msg.basic.SKILL_MISS) -- no effect
-        return 0
-    end
+    local isAOE = true
+    utils.takeShadows(target, 1, math.random(2, 3))
+    
+    return MobTransferEnfeeblesMove(mob, target, skill, isAOE)
 end

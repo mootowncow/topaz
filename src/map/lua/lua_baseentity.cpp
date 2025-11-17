@@ -12984,16 +12984,75 @@ inline int32 CLuaBaseEntity::stealStatusEffect(lua_State *L)
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isuserdata(L, 1));
     CLuaBaseEntity* PEntity = Lunar<CLuaBaseEntity>::check(L, 1);
 
+    CBattleEntity* PTarget  = (CBattleEntity*)PEntity->m_PBaseEntity;
+    CBattleEntity* PStealer = (CBattleEntity*)m_PBaseEntity;
+
     EFFECTFLAG flag = EFFECTFLAG_DISPELABLE;
     if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
         flag = (EFFECTFLAG)lua_tointeger(L, 2);
 
-    if (CStatusEffect* PStatusEffect = ((CBattleEntity*)PEntity->m_PBaseEntity)->StatusEffectContainer->StealStatusEffect(flag))
-    {
-        ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE | EFFECTFLAG_DAMAGE, true);
+    // Remove detectable or damage flags from target
+    PTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE | EFFECTFLAG_DAMAGE, true);
 
-        ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->AddStatusEffect(PStatusEffect);
-        lua_pushinteger(L, PStatusEffect->GetStatusID());
+    // Attempt to steal
+    if (CStatusEffect* PStatusEffect = PTarget->StatusEffectContainer->StealStatusEffect(flag))
+    {
+        bool applied = false;
+
+        // --- Bard Songs (buffs only)
+        if (PStatusEffect->GetStatusID() >= EFFECT_PAEON && PStatusEffect->GetStatusID() <= EFFECT_SCHERZO)
+        {
+            uint8 songCount = 0;
+            PStealer->StatusEffectContainer->ForEachEffect([&songCount](CStatusEffect* effect)
+            {
+                if (effect->GetStatusID() >= EFFECT_PAEON && effect->GetStatusID() <= EFFECT_SCHERZO)
+                {
+                    songCount++;
+                }
+            });
+
+            if (songCount < 2)
+            {
+                PStealer->StatusEffectContainer->ApplyBardEffect(PStatusEffect, 2);
+                applied = true;
+            }
+        }
+        // --- Corsair Rolls
+        else if ((PStatusEffect->GetStatusID() >= EFFECT_FIGHTERS_ROLL && PStatusEffect->GetStatusID() <= EFFECT_NATURALISTS_ROLL) ||
+                 PStatusEffect->GetStatusID() == EFFECT_RUNEISTS_ROLL || PStatusEffect->GetStatusID() == EFFECT_BUST)
+        {
+            uint8 rollCount = 0;
+            PStealer->StatusEffectContainer->ForEachEffect([&rollCount](CStatusEffect* effect)
+            {
+                if ((effect->GetStatusID() >= EFFECT_FIGHTERS_ROLL && effect->GetStatusID() <= EFFECT_NATURALISTS_ROLL) ||
+                    effect->GetStatusID() == EFFECT_RUNEISTS_ROLL || effect->GetStatusID() == EFFECT_BUST)
+                {
+                    rollCount++;
+                }
+            });
+
+            if (rollCount < 2)
+            {
+                PStealer->StatusEffectContainer->AddStatusEffect(PStatusEffect);
+                applied = true;
+            }
+        }
+        // --- Normal effect
+        else
+        {
+            PStealer->StatusEffectContainer->AddStatusEffect(PStatusEffect);
+            applied = true;
+        }
+
+        if (applied)
+        {
+            lua_pushinteger(L, PStatusEffect->GetStatusID());
+        }
+        else
+        {
+            delete PStatusEffect;
+            lua_pushinteger(L, 0);
+        }
     }
     else
     {
@@ -15761,6 +15820,7 @@ inline int32 CLuaBaseEntity::setMobLevel(lua_State *L)
 
         mobutils::CalculateMobStats(PMob, recover);
         mobutils::GetAvailableSpells(PMob);
+        PMob->StatusEffectContainer->KillAllStatusEffect();
     }
 
     return 0;

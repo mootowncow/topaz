@@ -51033,6 +51033,17 @@ INSERT INTO `mob_spawn_points` VALUES (17449657, 'Angry_Smilodon', 'Angry Smilod
 INSERT INTO `mob_spawn_points` VALUES (17449658, 'Angry_Smilodon', 'Angry Smilodon', 32, 0, 50, 0, 0);
 INSERT INTO `mob_spawn_points` VALUES (17449659, 'Angry_Smilodon', 'Angry Smilodon', 32, 0, 50, 0, 0);
 
+INSERT INTO `mob_spawn_points` VALUES (17449660, 'Anhur', 'Anhur', 33, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17449661, 'Barqan', 'Barqan', 34, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17449662, 'Ahmet', 'Ahmet', 35, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17449663, 'Shedyet', 'Shedyet', 36, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17449664, 'Khnum', 'Khnum', 37, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17449665, 'Aegyptopithecus', 'Aegyptopithecus', 38, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17449666, 'Ammonoidea', 'Ammonoidea', 39, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17449667, 'Anubis', 'Anubis', 40, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17449668, 'Amunet', 'Amunet', 41, 0, 50, 0, 0);
+INSERT INTO `mob_spawn_points` VALUES (17449669, 'Mimic', 'Mimic', 42, 0, 50, 0, 0);
+
 INSERT INTO `mob_spawn_points` VALUES (17449039,'Kayeel-Payeel','Kayeel-Payeel',0,63.799,5.592,19.995,103);
 INSERT INTO `mob_spawn_points` VALUES (17449040,'Ice_Fiend','Ice Fiend',0,62.798,5.491,18.995,113);
 INSERT INTO `mob_spawn_points` VALUES (17449041,'Thunder_Fiend','Thunder Fiend',0,62.798,5.460,20.995,89);

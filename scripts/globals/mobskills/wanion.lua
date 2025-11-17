@@ -12,11 +12,7 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local transferred, effect = MobTransferEnfeeblesMove(mob, target, skill, 15, true)
-    if transferred then
-        return effect
-    else
-        skill:setMsg(tpz.msg.basic.SKILL_MISS) -- no effect
-        return 0
-    end
+    local isAOE = true
+    
+    return MobTransferEnfeeblesMove(mob, target, skill, isAOE)
 end
