@@ -1034,22 +1034,10 @@ uint16 CBattleEntity::ATT(SLOTTYPE slot)
     auto ATTP = m_modStat[Mod::ATTP];
     auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]);
     // https://www.bg-wiki.com/ffxi/Strength - Using July 9th 2013
-    if (weapon && weapon->isTwoHanded())
-    {
-        ATT += (STR() * 3) / 4;
-    }
-    else if (weapon && weapon->isHandToHand())
-    {
-        ATT += (STR() * 5) / 8;
-    }
-    else if (slot == SLOT_MAIN) // 1-handed weapon in main slot.
-    {
-        ATT += (STR() * 3) / 4;
-    }
-    else // 1-handed weapon in sub slot.
-    {
-        ATT += STR() / 2;
-    }
+
+    // Add STR
+    ATT += STR() / 2;
+
     if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENDARK))
     {
         ATT += this->getMod(Mod::ENSPELL_DMG);
@@ -1086,7 +1074,7 @@ uint16 CBattleEntity::RATT(uint8 skill, uint16 bonusSkill)
     // make sure to not use fishing skill
     uint16 baseSkill = skill == SKILL_FISHING ? 0 : GetSkill(skill);
     // https://www.bg-wiki.com/ffxi/Strength - Using July 9th 2013
-    int32 RATT = 8 + baseSkill + bonusSkill + m_modStat[Mod::RATT] + battleutils::GetRangedAttackBonuses(this) + (STR() * 3) / 4;
+    int32 RATT = 8 + baseSkill + bonusSkill + m_modStat[Mod::RATT] + battleutils::GetRangedAttackBonuses(this) + STR() / 2;
     // use max to prevent any underflow
     return std::max(0, RATT + (RATT * m_modStat[Mod::RATTP] / 100) + std::min<int16>((RATT * m_modStat[Mod::FOOD_RATTP] / 100), m_modStat[Mod::FOOD_RATT_CAP]));
 }
@@ -1127,7 +1115,7 @@ uint16 CBattleEntity::RACC(uint8 skill, uint16 bonusSkill, bool isBluSpell)
 
     RACC += getMod(Mod::RACC);
     RACC += battleutils::GetRangedAccuracyBonuses(this);
-    RACC += (AGI() * 3) / 4;
+    RACC += AGI() / 2;
 
     // use max to prevent underflow
     return std::max(0, RACC + std::min<int16>(((100 + getMod(Mod::FOOD_RACCP) * RACC) / 100), getMod(Mod::FOOD_RACC_CAP)));
@@ -1180,12 +1168,12 @@ uint16 CBattleEntity::ACC(int8 attackNumber, int8 bonusAcc, bool isBluSpell)
         ACC = (ACC > 200 ? (int16)(((ACC - 200) * 0.9) + 200) : ACC);
         if (auto weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]); weapon && weapon->isTwoHanded() == true)
         {
-            ACC += (int16)(DEX() * 0.75);
+            ACC += (int16)(DEX() * 0.5);
             ACC += m_modStat[Mod::TWOHAND_ACC];
         }
         else
         {
-            ACC += (int16)(DEX() * 0.75);
+            ACC += (int16)(DEX() * 0.5);
         }
         ACC = (ACC + m_modStat[Mod::ACC] + bonusAcc);
 
@@ -1204,7 +1192,7 @@ uint16 CBattleEntity::ACC(int8 attackNumber, int8 bonusAcc, bool isBluSpell)
     {
         int16 ACC = this->GetSkill(SKILL_AUTOMATON_MELEE);
         ACC = (ACC > 200 ? (int16)(((ACC - 200) * 0.9) + 200) : ACC);
-        ACC += (int16)(DEX() * 0.75);
+        ACC += (int16)(DEX() * 0.5);
         ACC += m_modStat[Mod::ACC] + bonusAcc;
 
         if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT) && !isBluSpell)
@@ -1218,7 +1206,7 @@ uint16 CBattleEntity::ACC(int8 attackNumber, int8 bonusAcc, bool isBluSpell)
     else
     {
         int16 ACC = m_modStat[Mod::ACC];
-        ACC += (int16)(DEX() * 0.75);
+        ACC += (int16)(DEX() * 0.5);
         ACC += +bonusAcc;
 
         if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT) && !isBluSpell)
@@ -1226,7 +1214,7 @@ uint16 CBattleEntity::ACC(int8 attackNumber, int8 bonusAcc, bool isBluSpell)
             ACC += this->getMod(Mod::ENSPELL_DMG);
         }
 
-        ACC = ACC + std::min<int16>((ACC * m_modStat[Mod::FOOD_ACCP] / 100), m_modStat[Mod::FOOD_ACC_CAP]) + DEX() / 2; //food mods here for Snatch Morsel
+        ACC = ACC + std::min<int16>((ACC * m_modStat[Mod::FOOD_ACCP] / 100), m_modStat[Mod::FOOD_ACC_CAP]);
         return std::max<int16>(0, ACC);
     }
 }
