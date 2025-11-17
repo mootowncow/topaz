@@ -277,6 +277,7 @@ local metaBosses = {
         { Name = 'Buarainech',  Id = 17449017, Pos = 'H-7(Map 3)', Title = tpz.title.BUARAINECH_EXORCIST },
     },
 }
+
 local augments = {
     [tpz.zone.CRAWLERS_NEST_S] = {
         [tpz.items.WHITE_CLOAK] =
@@ -1026,24 +1027,6 @@ local function ProgressMeta(player, zone)
         end)
     end
  end
-
- local function AddAugmentMod(player)
-    local party = player:getParty()
-    if player then
-        if player:isTrust() or player:isPet() then
-            party = player:getMaster():getParty()
-        end
-    end
-
-    if party then
-        for _, member in ipairs(party) do
-            if member:isPC() then
-                local augmentModPower = member:getMod(tpz.mod.PAST_DUNGEON_MASTER) or 0
-                member:PrintToPlayer("You will now gain more augments on your items! (Amount: " .. augmentModPower .. ", max 5)", tpz.msg.textColor.HIDDEN, none)
-            end
-        end
-    end
-end
 
 local function ClearMsgVars(zone)
     zone:setLocalVar("wavesMsg", 0)
@@ -3292,6 +3275,113 @@ tpz.wotg.onMobWeaponSkillPrepare = function(mob, target)
     end
 end
 
+tpz.wotg.onHealing = function(target)
+    if target:isPC() then
+        local zone = target:getZone()
+        local augmentModPower = target:getMod(tpz.mod.PAST_DUNGEON_MASTER) or 0
+        local nearest = tpz.wotg.getNearestActiveRegion(target)
+
+        if not nearest then
+            target:PrintToPlayer("You sense nothing nearby...", tpz.msg.textColor.HIDDEN, none)
+            utils.MessageParty(target, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, nil)
+            target:PrintToPlayer("Current augment power: " .. augmentModPower .. " (Max 5)", tpz.msg.textColor.HIDDEN, none)
+            return
+        end
+
+        local direction = tpz.wotg.getDirectionToRegion(target, nearest)
+        local directionName = tpz.wotg.directionToString(direction)
+
+        target:PrintToPlayer(
+            string.format("You sense something %d yalms away to the %s",
+            math.floor(nearest.distance), directionName),
+            tpz.msg.textColor.HIDDEN, none
+        )
+
+        utils.MessageParty(target, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, nil)
+        target:PrintToPlayer("Current augment power: " .. augmentModPower .. " (Max 5)", tpz.msg.textColor.HIDDEN, none)
+    end
+end
+
+tpz.wotg.getNearestActiveRegion = function(player)
+    local zone   = player:getZone()
+    local zoneId = zone:getID()
+    local active = tpz.wotg.getActiveRegions(zoneId)
+
+    if not active or #active == 0 then
+        return nil
+    end
+
+    local best = nil
+    local bestDist = 999999
+
+    for _, regionID in ipairs(active) do
+        local region = zone:getRegion(regionID)
+        if region then
+            local c = region:getCenterPos()
+            local rx, ry, rz = c.x, c.y, c.z
+            local p = player:getPos()
+            local px, py, pz = p.x, p.y, p.z
+
+
+            local dx = rx - px
+            local dz = rz - pz
+            local dist = math.sqrt(dx*dx + dz*dz)
+
+            if dist < bestDist then
+                bestDist = dist
+                best = {
+                    regionID = regionID,
+                    distance = dist,
+                    x = rx,
+                    y = ry,
+                    z = rz
+                }
+            end
+        end
+    end
+
+    return best
+end
+
+tpz.wotg.getDirectionToRegion = function(player, regionInfo)
+    if not regionInfo then
+        return 0
+    end
+
+    local pos = player:getPos()
+    local px, py, pz = pos.x, pos.y, pos.z
+
+    local rx, ry, rz = regionInfo.x, regionInfo.y, regionInfo.z
+
+    local diffx = rx - px
+    local diffz = rz - pz
+
+    -- FFXI-correct angle conversion
+    local angle = math.deg(math.atan2(diffx, -diffz))
+    if angle < 0 then
+        angle = angle + 360
+    end
+
+    -- 8-direction index (Voidwalker style)
+    local dir = math.floor((angle + 22.5) / 45) % 8
+    return dir
+end
+
+tpz.wotg.DIRECTION_NAMES = {
+    [0] = "East",
+    [1] = "Southeast",
+    [2] = "South",
+    [3] = "Southwest",
+    [4] = "West",
+    [5] = "Northwest",
+    [6] = "North",
+    [7] = "Northeast",
+}
+
+tpz.wotg.directionToString = function(dir)
+    return tpz.wotg.DIRECTION_NAMES[dir] or "Unknown"
+end
+
 local eventOnMobDespawn = {}
 function eventOnMobDespawn.Waves(mob)
     local zone = mob:getZone()
@@ -3355,10 +3445,17 @@ function eventOnMobDeath.MetaBoss(mob, player, isKiller, noKiller)
         GenerateAugments(player, chance)
 
         for _, member in pairs(player:getAlliance()) do
-            member:addMod(tpz.mod.PAST_DUNGEON_MASTER, 1)
+            local wotgDungeonsEffect = member:getStatusEffect(tpz.effect.WOTG_DUNGEONS)
+            local power = 1
+
+            if wotgDungeonsEffect then
+                -- Caps at 5
+                power = math.min(power + wotgDungeonsEffect:getPower(), 5)
+            end
+
+            member:addStatusEffectEx(tpz.effect.WOTG_DUNGEONS, 0, power, 0, 21600) -- 6 hours
         end
 
-        AddAugmentMod(player)
         zone:setLocalVar("metaProgress", 0)
         zone:setLocalVar("eventActive", 0)
         utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, nil)

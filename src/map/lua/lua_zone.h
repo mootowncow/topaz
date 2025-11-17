@@ -43,6 +43,8 @@ public:
     }
 
     int32 registerRegion(lua_State*);
+    int32 getRegion(lua_State*);
+    int32 getCurrentRegion(lua_State*);
     int32 levelRestriction(lua_State*);
     int32 setLocalVar(lua_State*);
     int32 getPlayers(lua_State*);

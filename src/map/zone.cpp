@@ -233,6 +233,18 @@ CONTINENTTYPE CZone::GetContinentID()
     return m_continentID;
 }
 
+CRegion* CZone::GetRegionByID(uint32 regionID)
+{
+    for (auto region : m_regionList)
+    {
+        if (region->GetRegionID() == regionID)
+        {
+            return region;
+        }
+    }
+    return nullptr;
+}
+
 uint32 CZone::GetIP()
 {
     return m_zoneIP;

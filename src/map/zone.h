@@ -558,6 +558,7 @@ public:
     ZONETYPE        GetType();
     REGIONTYPE      GetRegionID();
     CONTINENTTYPE   GetContinentID();
+    CRegion*        GetRegionByID(uint32 regionID);
     uint32          GetIP();
     uint16          GetPort();
     uint16          GetTax();
@@ -569,6 +570,8 @@ public:
     uint8           GetBackgroundMusicDay();
     uint8           GetBackgroundMusicNight();
     zoneLine_t*     GetZoneLine(uint32 zoneLineID);
+
+    const regionList_t& GetRegionList() const { return m_regionList; }
 
     CZoneEntities* m_zoneEntities;
 
@@ -649,6 +652,8 @@ public:
 
      time_point m_LoadedAt; // time zone was loaded
 
+    regionList_t m_regionList; // список активных областей зоны
+
 private:
 
     ZONEID          m_zoneID;               // ID зоны
@@ -668,7 +673,6 @@ private:
 
     zoneMusic_t     m_zoneMusic;            // информация о мелодиях, используемых в зоне
 
-    regionList_t    m_regionList;           // список активных областей зоны
     zoneLineList_t  m_zoneLineList;         // список всех доступных zonelines для зоны
 
     void    LoadZoneLines();                // список zonelines (можно было бы заменить этот метод методом InsertZoneLine)
