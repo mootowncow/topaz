@@ -114,8 +114,8 @@ inline int32 CLuaRegion::DelCount(lua_State *L)
 
 /************************************************************************
  *  Function: getCenterPos()
- *  Purpose : Returns a table of signed coordinates (x,y,z,rot)
- *  Example : 
+ *  Purpose : Returns a table of signed coordinates (x,y,z)
+ *  Example : region:getCenterPos()
  *  Notes   :
  ************************************************************************/
 inline int32 CLuaRegion::getCenterPos(lua_State* L)

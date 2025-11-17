@@ -3291,7 +3291,7 @@ tpz.wotg.onHealing = function(target)
             return
         end
 
-        if not eventActive then
+        if (eventActive == 0) then
             local direction = tpz.wotg.getDirectionToRegion(target, nearest)
             local directionName = tpz.wotg.directionToString(direction)
 
@@ -3340,7 +3340,7 @@ tpz.wotg.getNearestActiveRegion = function(player)
         end
     end
 
-    player:PrintToPlayer("DEBUG: Best region = "..best.regionID.." ("..math.floor(best.distance).." yalms)", tpz.msg.textColor.HIDDEN, none)
+    -- player:PrintToPlayer("DEBUG: Best region = "..best.regionID.." ("..math.floor(best.distance).." yalms)", tpz.msg.textColor.HIDDEN, none)
 
     return best
 end
