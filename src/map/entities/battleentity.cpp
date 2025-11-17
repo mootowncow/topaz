@@ -1214,7 +1214,7 @@ uint16 CBattleEntity::ACC(int8 attackNumber, int8 bonusAcc, bool isBluSpell)
             ACC += this->getMod(Mod::ENSPELL_DMG);
         }
 
-        ACC = ACC + std::min<int16>((ACC * m_modStat[Mod::FOOD_ACCP] / 100), m_modStat[Mod::FOOD_ACC_CAP]) + DEX() / 2; //food mods here for Snatch Morsel
+        ACC = ACC + std::min<int16>((ACC * m_modStat[Mod::FOOD_ACCP] / 100), m_modStat[Mod::FOOD_ACC_CAP]);
         return std::max<int16>(0, ACC);
     }
 }
