@@ -28,6 +28,10 @@ function onMobWeaponSkill(target, mob, skill)
         clone:updateEnmity(player)
         clone:setPos(mob:getXPos(), mob:getYPos(), mob:getZPos())
         clone:addStatusEffect(tpz.effect.BLINK, 3, 0, 300)
+        local battleFieldEffect = mob:getStatusEffect(tpz.effect.BATTLEFIELD)
+        if battleFieldEffect then
+            clone:addStatusEffect(tpz.effect.BATTLEFIELD, battleFieldEffect:getPower(), 0, 0, battleFieldEffect:getSubType(), battleFieldEffect:getSubPower())
+        end
     end
 
     mob:timer(30000, function(mob)
