@@ -10,7 +10,6 @@ function onEffectGain(target, effect)
 
     target:addMod(tpz.mod.TWOHAND_STR, effect:getPower())
     target:addMod(tpz.mod.TWOHAND_HASTE_ABILITY, jaHaste)
-    target:addMod(tpz.mod.TWOHAND_ACC, 10)
 end
 
 function onEffectTick(target, effect)
@@ -21,5 +20,4 @@ function onEffectLose(target, effect)
 
     target:delMod(tpz.mod.TWOHAND_STR, effect:getPower())
     target:delMod(tpz.mod.TWOHAND_HASTE_ABILITY, jaHaste)
-    target:delMod(tpz.mod.TWOHAND_ACC, 10)
 end
