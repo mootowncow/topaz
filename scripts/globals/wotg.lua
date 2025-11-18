@@ -3278,33 +3278,46 @@ end
 tpz.wotg.onHealing = function(target)
     -- TODO: Not sure if it gets the correct nearest region
     -- TODO: Setting to turn off wotg dungeons entirely until ready
-    if target:isPC() then
-        local zone = target:getZone()
-        local augmentModPower = target:getMod(tpz.mod.PAST_DUNGEON_MASTER) or 0
-        local nearest = tpz.wotg.getNearestActiveRegion(target)
-        local eventActive = zone:getLocalVar("eventActive")
+    local wotgDungeonZones = { tpz.zone.GARLAIGE_CITADEL_S, tpz.zone.CRAWLERS_NEST_S, tpz.zone.THE_ELDIEME_NECROPOLIS_S }
+    local zone   = target:getZone()
+    local zoneId = zone:getID()
+    local isInWotgDungeon = false
 
-        if not nearest then
-            target:PrintToPlayer("You sense nothing nearby...", tpz.msg.textColor.HIDDEN, none)
-            utils.MessageParty(target, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, nil)
-            target:PrintToPlayer("Current augment power: " .. augmentModPower .. " (Max 5)", tpz.msg.textColor.HIDDEN, none)
-            return
+    if not target:isPC() then return end
+    
+    for _, currentZone in pairs(wotgDungeonZones) do
+        if (zoneId == currentZone) then
+            isInWotgDungeon = true
+            break
         end
+    end
 
-        if (eventActive == 0) then
-            local direction = tpz.wotg.getDirectionToRegion(target, nearest)
-            local directionName = tpz.wotg.directionToString(direction)
+    if not isInWotgDungeon then return end
 
-            target:PrintToPlayer(
-                string.format("You sense something %d yalms away to the %s",
-                math.floor(nearest.distance), directionName),
-                tpz.msg.textColor.HIDDEN, none
-            )
-        end
+    local augmentModPower = target:getMod(tpz.mod.PAST_DUNGEON_MASTER) or 0
+    local nearest = tpz.wotg.getNearestActiveRegion(target)
+    local eventActive = zone:getLocalVar("eventActive")
 
+    if not nearest then
+        target:PrintToPlayer("You sense nothing nearby...", tpz.msg.textColor.HIDDEN, none)
         utils.MessageParty(target, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, nil)
         target:PrintToPlayer("Current augment power: " .. augmentModPower .. " (Max 5)", tpz.msg.textColor.HIDDEN, none)
+        return
     end
+
+    if (eventActive == 0) then
+        local direction = tpz.wotg.getDirectionToRegion(target, nearest)
+        local directionName = tpz.wotg.directionToString(direction)
+
+        target:PrintToPlayer(
+            string.format("You sense something %d yalms away to the %s",
+            math.floor(nearest.distance), directionName),
+            tpz.msg.textColor.HIDDEN, none
+        )
+    end
+
+    utils.MessageParty(target, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, nil)
+    target:PrintToPlayer("Current augment power: " .. augmentModPower .. " (Max 5)", tpz.msg.textColor.HIDDEN, none)
 end
 
 tpz.wotg.getNearestActiveRegion = function(player)
