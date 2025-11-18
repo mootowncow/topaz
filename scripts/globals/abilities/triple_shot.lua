@@ -14,5 +14,5 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    player:addStatusEffect(tpz.effect.TRIPLE_SHOT, 40, 0, 180)
+    player:addStatusEffect(tpz.effect.TRIPLE_SHOT, 40, 0, 90)
 end
