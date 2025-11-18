@@ -692,6 +692,13 @@ void CCharEntity::RemoveTrust(CTrustEntity* PTrust)
         return;
     }
 
+    // Store the last removed member
+    if (PParty)
+    {
+        PParty->m_LastRemovedObjType = PTrust->objtype;
+        PParty->m_LastRemovedID = PTrust->id;
+    }
+
     auto trustIt = std::find_if(PTrusts.begin(), PTrusts.end(), [PTrust](auto trust) { return PTrust == trust; });
     if (trustIt != PTrusts.end())
     {

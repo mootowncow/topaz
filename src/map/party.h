@@ -108,6 +108,9 @@ public:
 
     std::vector<CBattleEntity*> members;                // список участников группы
 
+    uint8 m_LastRemovedObjType = TYPE_NONE; // TYPE_PC, TYPE_TRUST, etc.
+    uint32 m_LastRemovedID = 0;   
+
 private:
 
     struct partyInfo_t;
@@ -128,8 +131,6 @@ private:
     void RefreshFlags(std::vector<partyInfo_t>&);
 
     time_point m_TimeLastMemberJoined;
-    uint8 m_LastRemovedObjType = TYPE_NONE; // TYPE_PC, TYPE_TRUST, etc.
-    uint32 m_LastRemovedID = 0;             
-};
+          };
 
 #endif
