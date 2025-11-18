@@ -4310,38 +4310,7 @@ namespace battleutils
             // Cold Carrion Broth / Meat Broth / Warm Meat Broth / Tree Sap / Scarlet Sap / Fish Broth / Fish Oil Broth / Seedbed Soil / Sun Water / 
             // Grasshopper Broth / Noisy Grasshopper Broth / Mole Broth / Lively Mole Broth / Blood Broth / Clear Blood Broth / Antica Broth / Fragrant Antica Broth
 
-            int32 maxHitRate = 99;
-            auto targ_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_MAIN]);
-
-            // As far as I can tell kick attacks fall under Hand-to-Hand so ignoring them and letting them go to 99
-            bool isOffhand = attackNumber == 1;
-            bool isTwoHanded = targ_weapon && targ_weapon->isTwoHanded();
-            bool isHandTwoHand = targ_weapon && targ_weapon->isHandToHand();
-
-            if (isTwoHanded)
-            {
-                maxHitRate = 95;    
-            }
-          
-		    if (isOffhand)
-            {
-                maxHitRate = 95;    
-            }
-
-            if (isHandTwoHand)
-            {
-                maxHitRate = 95;
-            }
-
-            if (PAttacker->objtype == TYPE_MOB || PAttacker->objtype == TYPE_PET)
-            {
-                maxHitRate = 95;
-            }
-
-            if (isBluSpell)
-            {
-                maxHitRate = 99;
-            }
+            int32 maxHitRate = 95;
 
             hitrate = std::clamp(hitrate, 20, maxHitRate);
         }
