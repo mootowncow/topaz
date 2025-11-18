@@ -1583,7 +1583,6 @@ void SmallPacket0x03A(map_session_data_t* session, CCharEntity* PChar, CBasicPac
         return;
     }
 
-
     uint8 container = data.ref<uint8>(0x04);
 
     if (container >= CONTAINER_ID::MAX_CONTAINER_ID)
