@@ -70,6 +70,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "mob_modifier.h"
 #include "ai/ai_container.h"
 #include "ai/states/death_state.h"
+#include "ai/states/item_state.h"
 
 #include "items/item_shop.h"
 #include "items/item_flowerpot.h"
@@ -1575,6 +1576,14 @@ void SmallPacket0x03A(map_session_data_t* session, CCharEntity* PChar, CBasicPac
     TracyZoneScoped;
     TracyZoneCString("Sort Inventory");
 
+    auto PState = dynamic_cast<CItemState*>(PChar->PAI->GetCurrentState());
+    // Do not sort / merge items while mid using items
+    if (PState && PState->GetItem())
+    {
+        return;
+    }
+
+
     uint8 container = data.ref<uint8>(0x04);
 
     if (container >= CONTAINER_ID::MAX_CONTAINER_ID)
@@ -1603,6 +1612,7 @@ void SmallPacket0x03A(map_session_data_t* session, CCharEntity* PChar, CBasicPac
         PItemContainer->SortingPacket = 0;
         PItemContainer->LastSortingTime = gettick();
     }
+
     for (uint8 slotID = 1; slotID <= size; ++slotID)
     {
         CItem* PItem = PItemContainer->GetItem(slotID);
@@ -1617,6 +1627,17 @@ void SmallPacket0x03A(map_session_data_t* session, CCharEntity* PChar, CBasicPac
                     (PItem2->getQuantity() < PItem2->getStackSize()) &&
                     !PItem2->isSubType(ITEM_LOCKED) && (PItem2->getReserve() == 0))
                 {
+
+                    auto PState = dynamic_cast<CItemState*>(PChar->PAI->GetCurrentState());
+                    if (PState && PState->GetItem())
+                    {
+                        CItem* usingItem = PState->GetItem();
+
+                        // Prevent merging ANY stack of the item currently being used
+                        if (usingItem->getID() == PItem->getID())
+                            continue; // skip merge
+                    }
+
                     uint32 totalQty = PItem->getQuantity() + PItem2->getQuantity();
                     uint32 moveQty = 0;
 
@@ -1635,6 +1656,7 @@ void SmallPacket0x03A(map_session_data_t* session, CCharEntity* PChar, CBasicPac
             }
         }
     }
+
     PChar->pushPacket(new CInventoryFinishPacket());
     return;
 }
