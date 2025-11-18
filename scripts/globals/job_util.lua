@@ -85,13 +85,6 @@ end
 
 jobUtil.Cor = {}
 
-function jobUtil.Cor.HandleCorsairShotTP(player, target, dmg, tp)
-    if (dmg > 0) then
-        player:addTP(tp)
-        target:handleAfflatusMiseryDamage(dmg)
-    end
-end
-
 function jobUtil.Cor.CalculateQd(player, target, ability, element, action, params)
     local dmg = (2 * (player:getRangedDmg() + player:getAmmoDmg()) + player:getMod(tpz.mod.QUICK_DRAW_DMG)) * (1 + player:getMod(tpz.mod.QUICK_DRAW_DMG_PERCENT) / 100)
     local bonusAcc = player:getStat(tpz.mod.AGI) / 2 + player:getMerit(tpz.merit.QUICK_DRAW_ACCURACY) + player:getMod(tpz.mod.QUICK_DRAW_MACC)
@@ -265,9 +258,6 @@ function jobUtil.Cor.HandleShots(player, target, ability, action)
 
         dmg = jobUtil.Cor.CalculateQd(player, target, ability, data.Element, action, params)
         dmg = takeAbilityDamage(target, player, params, true, dmg, tpz.attackType.MAGICAL, damageType, tpz.slot.RANGED, 1, 0, 0, 0, action, nil)
-
-        local tp = utils.CalculateTPGain(player, target, true)
-        jobUtil.Cor.HandleCorsairShotTP(player, target, dmg, tp)
     end
 
     if player:isPC() then

@@ -1266,67 +1266,14 @@ function utils.ApplyStoneskinBonuses(caster, power)
     return power
 end
 
--- TODO: Still wrong, missing stuff for h2h
--- battle utils   baseTp = (int16)(CalculateBaseTP((delay * 60) / 1000) / ratio); etc
-function utils.CalculateTPGain(attacker, target, ranged) 
-    local delay = attacker:getDelay()
-    local baseTp = utils.CalculateBaseTP(delay)
-    local tpGained = 0
-
-    if ranged then
-        delay = attacker:getRangedDelay()
-        baseTp = utils.CalculateBaseTP((delay * 120) / 1000);
-    end
-
-    if attacker:isPC() then
-        tpGained = math.floor(((baseTp / 3) * (100 + attacker:getMod(tpz.mod.STORETP))) / 100)
-    elseif attacker:isMob() and not attacker:isCharmed() and not attacker:isJugPet() then
-        tpGained = math.floor(((baseTp + 3) * (100 + attacker:getMod(tpz.mod.STORETP))) / 100)
-    end
-
-    return tpGained
+function utils.CalculateTPGain(attacker, target, ranged)
+    -- No longer used
+    -- Use lua binding: attacker:getTPToAttacker(tpz.slot.RANGED, tpz.physicalAttackType.NORMAL, 1)
 end
 
--- TODO: Still wrong, missing stuff for h2h
--- battle utils   baseTp = (int16)(CalculateBaseTP((delay * 60) / 1000) / ratio); etc
 function utils.CalcualteTPGiven(attacker, target, ranged)
-    local delay = attacker:getDelay()
-    local baseTp = utils.CalculateBaseTP(delay)
-    local tpAdded = 0
-
-    if ranged then
-        delay = attacker:getRangedDelay()
-        baseTp = utils.CalculateBaseTP((delay * 120) / 1000);
-    end
-
-    -- Mobs get basetp+30 whereas pcs and their pets get basetp/3 when hit
-    if target:isPC() then
-        tpAdded = math.floor(((baseTp / 3) * (100 + target:getMod(tpz.mod.STORETP))) / 100)
-    elseif target:isMob() and not target:isCharmed() and not target:isJugPet() then
-        tpAdded = math.floor(((baseTp + 3) * (100 + target:getMod(tpz.mod.STORETP))) / 100)
-    end
-
-    -- print(string.format("Delay: %d, Base TP: %d, StoreTP Mod: %d,  TP Added: %d", delay, baseTp, target:getMod(tpz.mod.STORETP), tpAdded))
-    return tpAdded
-end
-
-function utils.CalculateBaseTP(delay)
-    local tp = 1
-    if (delay <= 180) then
-        tp = (61 + ((delay - 180) * 63) / 360)
-    elseif (delay <= 540) then
-        tp = (61 + ((delay - 180) * 88) / 360)
-    elseif (delay <= 630) then
-        tp = (149 + ((delay - 540) * 20) / 360)
-    elseif (delay <= 720) then
-        tp = (154 + ((delay - 630) * 28) / 360)
-    elseif (delay <= 900) then
-        tp = (161 + ((delay - 720) * 24) / 360)
-    else 
-        tp = (173 + ((delay - 900) * 28) / 360)
-    end
-
-    return tp
+    -- No longer used
+    -- Use lua binding: attacker:getTPToVictim(target, tpz.slot.RANGED, tpz.physicalAttackType.NORMAL, 1)
 end
 
 function utils.CalculateSpellTPGiven(caster, target, totalhits)

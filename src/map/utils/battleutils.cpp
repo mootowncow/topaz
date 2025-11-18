@@ -3115,6 +3115,49 @@ namespace battleutils
         return x;
     }
 
+    int16 GetBaseTP(CBattleEntity* PAttacker, uint8 slot)
+    {
+        auto weapon = GetEntityWeapon(PAttacker, (SLOTTYPE)slot);
+        bool isRanged = (slot == SLOT_AMMO || slot == SLOT_RANGED);
+        int16 baseTp = 0;
+
+        if (isRanged && (PAttacker->objtype == TYPE_PC || PAttacker->allegiance == ALLEGIANCE_PLAYER))
+        {
+            int16 delay = PAttacker->GetRangedWeaponDelay(true);
+            baseTp = CalculateBaseTP((delay * 120) / 1000);
+        }
+        else
+        {
+            int16 delay = PAttacker->GetWeaponDelay(true);
+            float ratio = 1.0f;
+
+            if (PAttacker->objtype == TYPE_PC) // Players
+            {
+                auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
+                if (sub_weapon && sub_weapon->getDmgType() > 0 && sub_weapon->getDmgType() < 4 && weapon->getSkillType() != SKILL_HAND_TO_HAND)
+                {
+                    delay /= 2;
+                }
+            }
+            else // (Mobs / Allies / Trusts)
+            {
+                if (PAttacker->m_dualWield)
+                {
+                    delay = (uint16)(delay * ((100.0f - PAttacker->getMod(Mod::DUAL_WIELD)) / 100.0f));
+                }
+            }
+
+            if (weapon->getSkillType() == SKILL_HAND_TO_HAND)
+            {
+                ratio = 2.0f;
+            }
+
+            baseTp = CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
+        }
+
+        return baseTp;
+    }
+
     bool TryInterruptSpell(CBattleEntity* PAttacker, CBattleEntity* PDefender, CSpell* PSpell)
     {
         // cannot interrupt when manafont is active
@@ -3840,45 +3883,7 @@ namespace battleutils
             }
 
             // Calculate TP gained and received
-            int16 baseTp = 0;
-
-            if (isRanged && (PAttacker->objtype == TYPE_PC || PAttacker->allegiance == ALLEGIANCE_PLAYER))
-            {
-                int16 delay = PAttacker->GetRangedWeaponDelay(true);
-                baseTp = CalculateBaseTP((delay * 120) / 1000);
-            }
-            else
-            {
-                int16 delay = PAttacker->GetWeaponDelay(true);
-                float ratio = 1.0f;
-
-                if (PAttacker->objtype == TYPE_PC) // Players
-                {
-                    auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
-                    if (sub_weapon &&
-                        sub_weapon->getDmgType() > 0 &&
-                        sub_weapon->getDmgType() < 4 &&
-                        weapon->getSkillType() != SKILL_HAND_TO_HAND)
-                    {
-                        delay /= 2;
-                    }
-                }
-                else // (Mobs / Allies / Trusts)
-                {
-                    if (PAttacker->m_dualWield)
-                    {
-                        delay = (uint16)(delay * ((100.0f - PAttacker->getMod(Mod::DUAL_WIELD)) / 100.0f));
-                    }
-                }
-
-                if (weapon->getSkillType() == SKILL_HAND_TO_HAND)
-                {
-                    ratio = 2.0f;
-                }
-
-                baseTp = CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
-            }
-
+            int16 baseTp = GetBaseTP(PAttacker, slot);
 
             // Calculate giving TP to attacker (Hitting target)
             if (giveTPtoAttacker)
@@ -4035,46 +4040,10 @@ namespace battleutils
             // try to interrupt spell
             PDefender->TryHitInterrupt(PAttacker);
 
-            int16 baseTp = 0;
+            // Calculate TP gained and received
+            int16 baseTp = GetBaseTP(PAttacker, slot);
 
-            if (isRanged)
-            {
-                int16 delay = PAttacker->GetRangedWeaponDelay(true);
-                baseTp = CalculateBaseTP((delay * 120) / 1000);
-            }
-            else
-            {
-                int16 delay = PAttacker->GetWeaponDelay(true);
-                float ratio = 1.0f;
-
-                if (PAttacker->objtype == TYPE_PC) // Players
-                {
-                    auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
-                    if (sub_weapon &&
-                        sub_weapon->getDmgType() > 0 &&
-                        sub_weapon->getDmgType() < 4 &&
-                        weapon->getSkillType() != SKILL_HAND_TO_HAND)
-                    {
-                        delay /= 2;
-                    }
-                }
-                else // (Mobs / Allies / Trusts)
-                {
-                    if (PAttacker->m_dualWield)
-                    {
-                        delay = (uint16)(delay * ((100.0f - PAttacker->getMod(Mod::DUAL_WIELD)) / 100.0f));
-                    }
-                }
-
-                if (weapon->getSkillType() == SKILL_HAND_TO_HAND)
-                {
-                    ratio = 2.0f;
-                }
-
-                baseTp = CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
-            }
-
-            // add tp to attacker
+            // Calculate giving TP to attacker (Hitting target)
             if (primary)
             // Calculate TP Return from WS
             {

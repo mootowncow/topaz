@@ -9448,43 +9448,8 @@ inline int32 CLuaBaseEntity::getTPToAttacker(lua_State* L)
         tpMultiplier = lua_tointeger(L, 3);
     }
 
-    int16 baseTp = 0;
-    int16 tpToGain = 0;
-    auto weapon = battleutils::GetEntityWeapon(PAttacker, (SLOTTYPE)weaponSlot);
-
-    if ((weaponSlot == SLOT_RANGED || weaponSlot == SLOT_AMMO) && PAttacker->objtype == TYPE_PC || PAttacker->allegiance == ALLEGIANCE_PLAYER)
-    {
-        int16 delay = PAttacker->GetRangedWeaponDelay(true);
-
-        baseTp = battleutils::CalculateBaseTP((delay * 120) / 1000);
-        //ShowDebug("getTPToAttacker: [Ranged]: Delay: %i, baseTP: %i, multiplier: %u\n", delay, baseTp, tpMultiplier);
-    }
-    else
-    {
-        int16 delay = PAttacker->GetWeaponDelay(true);
-        auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
-
-        if (sub_weapon && sub_weapon->getDmgType() > 0 && sub_weapon->getDmgType() < 4 && weapon->getSkillType() != SKILL_HAND_TO_HAND)
-        {
-            delay = delay / 2;
-        }
-
-        float ratio = 1.0f;
-
-        if (weapon->getSkillType() == SKILL_HAND_TO_HAND)
-            ratio = 2.0f;
-
-        baseTp = battleutils::CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
-        //ShowDebug("getTPToAttacker: [Melee]: Delay: %i, baseTP: %i, multiplier: %u, ratio: %f\n", delay, baseTp, tpMultiplier, ratio);
-    }
-
-    if (PAttacker->objtype == TYPE_PC && physicalAttackType == PHYSICAL_ATTACK_TYPE::ZANSHIN)
-    {
-        baseTp += ((CCharEntity*)PAttacker)->PMeritPoints->GetMeritValue(MERIT_IKISHOTEN, (CCharEntity*)PAttacker);
-        //ShowDebug("getTPToAttacker: [Zanshin]: baseTP: %i, multiplier: %u\n", baseTp, tpMultiplier);
-    }
-
-    tpToGain = (int16)(tpMultiplier * (baseTp * (1.0f + 0.01f * (float)((PAttacker->getMod(Mod::STORETP) + battleutils::getStoreTPbonusFromMerit(PAttacker))))));
+    int16 baseTp = battleutils::GetBaseTP(PAttacker, weaponSlot);
+    int16 tpToGain = (int16)(tpMultiplier * (baseTp * (1.0f + 0.01f * (float)((PAttacker->getMod(Mod::STORETP) + battleutils::getStoreTPbonusFromMerit(PAttacker))))));
 
     //ShowDebug("getTPToAttacker: tpToGain %i\n", tpToGain);
     lua_pushinteger(L, tpToGain);
@@ -9527,89 +9492,62 @@ inline int32 CLuaBaseEntity::getTPToVictim(lua_State* L)
         tpMultiplier = lua_tointeger(L, 4);
     }
 
-    int16 baseTp = 0;
+    int16 baseTp = battleutils::GetBaseTP(PAttacker, weaponSlot);
     int16 tpToGain = 0;
-    auto weapon = battleutils::GetEntityWeapon(PAttacker, (SLOTTYPE)weaponSlot);
+    uint32 sBlowMerit = 0;
 
-    if ((weaponSlot == SLOT_RANGED || weaponSlot == SLOT_AMMO) && PAttacker->objtype == TYPE_PC || PAttacker->allegiance == ALLEGIANCE_PLAYER)
+    if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
     {
-        int16 delay = PAttacker->GetRangedWeaponDelay(true);
+        if (PChar && PChar->objtype == TYPE_PC)
+        {
+            sBlowMerit = PChar->PMeritPoints->GetMeritValue(MERIT_TYPE::MERIT_SUBTLE_BLOW_EFFECT, PChar);
+        }
+    }
 
-        baseTp = battleutils::CalculateBaseTP((delay * 120) / 1000);
-        //ShowDebug("getTPToVictim: [Ranged]: Delay: %i, baseTP: %i, multiplier: %u\n", delay, baseTp, tpMultiplier);
+    uint32 conspiratorBonus = 0;
+    // Conspirator Subtle Blow bonus. Calculated at time of attack. No effect if attacker is currently the top enmity for their target
+    if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_CONSPIRATOR))
+    {
+        if (!battleutils::IsTopEnmity(PAttacker, PDefender))
+        {
+            conspiratorBonus += 15;
+        }
+        //ShowDebug("getTPToVictim: conspiratorBonus %u\n", conspiratorBonus);
+    }
+
+    // account for attacker's subtle blow which reduces the baseTP gain for the defender
+    float sBlow1 = std::clamp((float)(PAttacker->getMod(Mod::SUBTLE_BLOW) + sBlowMerit + conspiratorBonus), -50.0f, 50.0f);
+    float sBlow2 = std::clamp((float)PAttacker->getMod(Mod::SUBTLE_BLOW_II), -50.0f, 50.0f);
+    float sBlowMult = ((100.0f - std::clamp((float)(sBlow1 + sBlow2), -75.0f, 75.0f)) / 100.0f);
+
+    // Handle "TP Boost When Damaged" gear mod
+    int16 bonusTP = 0;
+    if (PDefender->objtype == TYPE_PC)
+    {
+        if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::TP_BOOST_WHEN_DMGD))
+        {
+            // Occasionally boosts TP 10-30 points when damaged.
+            bonusTP = tpzrand::GetRandomNumber(10, 30);
+            // Multiply by 3 because the final result is divided by 3 when giving a player TP
+            bonusTP *= 3;
+            baseTp += bonusTP;
+            //ShowDebug("getTPToVictim: bonusTP %i\n", bonusTP);
+        }
+    }
+
+    auto PPet = dynamic_cast<CPetEntity*>(PDefender);
+    // mobs get basetp+30 whereas pcs and their pets get basetp/3 when hit
+    if (PDefender->objtype == TYPE_PC || PDefender->objtype == TYPE_PET && PDefender->PMaster && PDefender->PMaster->objtype == TYPE_PC ||
+        PDefender->allegiance != ALLEGIANCE_MOB)
+    {
+        tpToGain = (int16)(tpMultiplier * ((baseTp / 3) * sBlowMult * (1.0f + 0.01f * (float)((PDefender->getMod(Mod::STORETP) + battleutils::getStoreTPbonusFromMerit(PAttacker)))))); // yup store tp counts on hits taken too!
+        //ShowDebug("getTPToVictim: [Player] tpToGain %i\n", tpToGain);
     }
     else
     {
-        int16 delay = PAttacker->GetWeaponDelay(true);
-        auto sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
-
-        if (sub_weapon && sub_weapon->getDmgType() > 0 && sub_weapon->getDmgType() < 4 && weapon->getSkillType() != SKILL_HAND_TO_HAND)
-        {
-            delay = delay / 2;
-        }
-
-        float ratio = 1.0f;
-
-        if (weapon->getSkillType() == SKILL_HAND_TO_HAND)
-            ratio = 2.0f;
-
-        baseTp = battleutils::CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
-        //ShowDebug("getTPToVictim: [Melee]: Delay: %i, baseTP: %i, multiplier: %u, ratio: %f\n", delay, baseTp, tpMultiplier, ratio);
+        tpToGain = (tpMultiplier * ((baseTp + 30) * sBlowMult * (1.0f + 0.01f * (float)PDefender->getMod(Mod::STORETP)))); // subtle blow also reduces the "+30" on mob tp gain
+        //ShowDebug("getTPToVictim: [Mob] tpToGain %i\n", tpToGain);
     }
-
-        uint32 sBlowMerit = 0;
-        if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PAttacker))
-        {
-            if (PChar && PChar->objtype == TYPE_PC)
-            {
-                sBlowMerit = PChar->PMeritPoints->GetMeritValue(MERIT_TYPE::MERIT_SUBTLE_BLOW_EFFECT, PChar);
-            }
-        }
-
-        uint32 conspiratorBonus = 0;
-        // Conspirator Subtle Blow bonus. Calculated at time of attack. No effect if attacker is currently the top enmity for their target
-        if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_CONSPIRATOR))
-        {
-            if (!battleutils::IsTopEnmity(PAttacker, PDefender))
-            {
-                conspiratorBonus += 15;
-            }
-            //ShowDebug("getTPToVictim: conspiratorBonus %u\n", conspiratorBonus);
-        }
-
-        // account for attacker's subtle blow which reduces the baseTP gain for the defender
-        float sBlow1 = std::clamp((float)(PAttacker->getMod(Mod::SUBTLE_BLOW) + sBlowMerit + conspiratorBonus), -50.0f, 50.0f);
-        float sBlow2 = std::clamp((float)PAttacker->getMod(Mod::SUBTLE_BLOW_II), -50.0f, 50.0f);
-        float sBlowMult = ((100.0f - std::clamp((float)(sBlow1 + sBlow2), -75.0f, 75.0f)) / 100.0f);
-
-        // Handle "TP Boost When Damaged" gear mod
-        int16 bonusTP = 0;
-        if (PDefender->objtype == TYPE_PC)
-        {
-            if (tpzrand::GetRandomNumber(100) < PDefender->getMod(Mod::TP_BOOST_WHEN_DMGD))
-            {
-                // Occasionally boosts TP 10-30 points when damaged.
-                bonusTP = tpzrand::GetRandomNumber(10, 30);
-                // Multiply by 3 because the final result is divided by 3 when giving a player TP
-                bonusTP *= 3;
-                baseTp += bonusTP;
-                //ShowDebug("getTPToVictim: bonusTP %i\n", bonusTP);
-            }
-        }
-
-        auto PPet = dynamic_cast<CPetEntity*>(PDefender);
-        // mobs get basetp+30 whereas pcs and their pets get basetp/3 when hit
-        if (PDefender->objtype == TYPE_PC || PDefender->objtype == TYPE_PET && PDefender->PMaster && PDefender->PMaster->objtype == TYPE_PC ||
-            PDefender->allegiance != ALLEGIANCE_MOB)
-        {
-            tpToGain = (int16)(tpMultiplier * ((baseTp / 3) * sBlowMult * (1.0f + 0.01f * (float)((PDefender->getMod(Mod::STORETP) + battleutils::getStoreTPbonusFromMerit(PAttacker)))))); // yup store tp counts on hits taken too!
-            //ShowDebug("getTPToVictim: [Player] tpToGain %i\n", tpToGain);
-        }
-        else
-        {
-            tpToGain = (tpMultiplier * ((baseTp + 30) * sBlowMult * (1.0f + 0.01f * (float)PDefender->getMod(Mod::STORETP)))); // subtle blow also reduces the "+30" on mob tp gain
-            //ShowDebug("getTPToVictim: [Mob] tpToGain %i\n", tpToGain);
-        }
 
     lua_pushinteger(L, tpToGain);
 
@@ -16538,7 +16476,13 @@ inline int32 CLuaBaseEntity::getDelay(lua_State* L)
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
 
-    lua_pushinteger(L, (int16)((CBattleEntity*)m_PBaseEntity)->CBattleEntity::GetWeaponDelay(false));
+    bool tp = false;
+    if (!lua_isnoneornil(L, 1) && lua_isboolean(L, 1))
+    {
+        tp = lua_toboolean(L, 1);
+    }
+
+    lua_pushinteger(L, (int16)((CBattleEntity*)m_PBaseEntity)->CBattleEntity::GetWeaponDelay(tp));
     return 1;
 }
 
@@ -16555,7 +16499,13 @@ inline int32 CLuaBaseEntity::getRangedDelay(lua_State* L)
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
 
-    lua_pushinteger(L, (int16)((CBattleEntity*)m_PBaseEntity)->CBattleEntity::GetRangedWeaponDelay(false));
+    bool tp = false;
+    if (!lua_isnoneornil(L, 1) && lua_isboolean(L, 1))
+    {
+        tp = lua_toboolean(L, 1);
+    }
+
+    lua_pushinteger(L, (int16)((CBattleEntity*)m_PBaseEntity)->CBattleEntity::GetRangedWeaponDelay(tp));
     return 1;
 }
 
