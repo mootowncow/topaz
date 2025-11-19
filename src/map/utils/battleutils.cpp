@@ -2844,7 +2844,9 @@ namespace battleutils
 
     float GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, uint16 ignoredDefense, bool isBluSpell)
     {
-        //get ranged attack value
+        //========================
+        // 1) Calculate Attack
+        //========================
         uint16 rAttack = 1;
 
         if (isBluSpell)
@@ -2856,21 +2858,15 @@ namespace battleutils
             CCharEntity* PChar = (CCharEntity*)PAttacker;
             CItemWeapon* PItem = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
 
-            if (PItem != nullptr && PItem->isType(ITEM_WEAPON))
+            if (PItem && PItem->isType(ITEM_WEAPON))
             {
                 rAttack = PChar->RATT(PItem->getSkillType(), PItem->getILvlSkill());
             }
             else
             {
                 PItem = (CItemWeapon*)PChar->getEquip(SLOT_AMMO);
-
-                if (PItem == nullptr || !PItem->isType(ITEM_WEAPON) || (PItem->getSkillType() != SKILL_THROWING)) {
-                    ShowDebug("battleutils::GetRangedPDIF Cannot find a valid ranged weapon to calculate PDIF for. \n");
-                }
-                else
-                {
+                if (PItem && PItem->isType(ITEM_WEAPON))
                     rAttack = PChar->RATT(PItem->getSkillType(), PItem->getILvlSkill());
-                }
             }
         }
         else if (PAttacker->objtype == TYPE_PET && ((CPetEntity*)PAttacker)->getPetType() == PETTYPE_AUTOMATON)
@@ -2879,60 +2875,52 @@ namespace battleutils
         }
         else
         {
-            //assume mobs capped
             rAttack = battleutils::GetMaxSkill(SKILL_ARCHERY, JOB_RNG, PAttacker->GetMLevel());
-            //printf("Your ranged attack is... %u\n", rAttack);
         }
 
         rAttack = CalculateSweetSpotAttack(PAttacker, PDefender, rAttack);
 
-        //get ratio (2.5 pDIF cap RAs)
+        //========================
+        // 2) Calculate cRatio
+        //========================
         uint16 defense = PDefender->DEF();
-        if (defense == 0)
-        {
+        if (defense <= 0)
             defense = 1;
-        }
 
-        float ratio = (static_cast<float>(rAttack)) / ((static_cast<float>(defense) - ignoredDefense));
+        float cRatio = (float)rAttack / ((float)defense - ignoredDefense);
+        if (cRatio < 0)
+            cRatio = 0;
 
-        ratio = std::clamp<float>(ratio, 0, 2.5);
+        const float CRATIO_CAP = 2.5f;
+        if (cRatio > CRATIO_CAP)
+            cRatio = CRATIO_CAP;
 
-        //level correct (0.025 not 0.05 like for melee) PLAYERS ONLY
-        if (PAttacker->objtype == TYPE_PC && !PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_FLASHY_SHOT))
-        {
-            if (PDefender->GetMLevel() > PAttacker->GetMLevel())
-            {
-                ratio -= 0.025f * (PDefender->GetMLevel() - PAttacker->GetMLevel());
-            }
-        }
+        //========================
+        // 3) Old 2007–2010 pDIF curve (non-crit average)
+        //========================
+        float basePdif = 1.0f;
 
-        //calculate min/max PDIF
-        float minPdif = 0;
-        float maxPdif = 0;
-
-        if (ratio < 0.9)
-        {
-            minPdif = ratio;
-            maxPdif = (10.0f / 9.0f) * ratio;
-        }
-        else if (ratio <= 1.1)
-        {
-            minPdif = 1;
-            maxPdif = 1;
-        }
+        if (cRatio < 0.5f)
+            basePdif = cRatio;
+        else if (cRatio < 1.0f)
+            basePdif = (1.5f * cRatio) - 0.25f;
+        else if (cRatio < 1.5f)
+            basePdif = cRatio + 0.25f;
+        else if (cRatio <= 2.0f)
+            basePdif = (0.75f * cRatio) + 0.625f;
         else
-        {
-            minPdif = (-3.0f / 19.0f) + ((20.0f / 19.0f) * ratio);
-            maxPdif = ratio;
-        }
+            basePdif = 2.5f;
 
-        minPdif = std::clamp<float>(minPdif, 0, 2.5);
-        maxPdif = std::clamp<float>(maxPdif, 0, 2.5);
+        //========================
+        // 4) Min/max spread (old era random)
+        //========================
+        float minPdif = basePdif * 0.85f;
+        float maxPdif = basePdif * 1.15f;
 
-        //return random number between the two
+        minPdif = std::clamp(minPdif, 0.f, CRATIO_CAP);
+        maxPdif = std::clamp(maxPdif, 0.f, CRATIO_CAP);
+
         float pdif = tpzrand::GetRandomNumber(minPdif, maxPdif);
-
-        //printf("PDif before crit: %f\n", pdif);
 
         if (isCritical)
         {
@@ -2948,7 +2936,7 @@ namespace battleutils
             pdif *= ((100 + criticaldamage) / 100.0f);
         }
 
-        //ShowDebug("PDif after crit: %f\n", pdif);
+         //ShowDebug("PDif after crit: %f\n", pdif);
         return pdif;
     }
 
@@ -4720,57 +4708,20 @@ namespace battleutils
         float upperLimit = 0.0f;
         float lowerLimit = 0.0f;
 
-        // https://www.bg-wiki.com/bg/PDIF
-        // Pre-Randomized values excluding Damage Limit+ trait
-        // Damage Limit+ trait adds 0.1/rank to these values
-        // type : non-crit : crit
-        // 1H : 3.25 : 4.25
-        // H2H & GK : 3.5 : 4.5
-        // 2H : 3.75 : 4.75
-        // Scythe : 4 : 5
-        // Archery & Throwing : 3.25 : 3.25*1.25
-        // Marksmanship : 3.5 : 3.5*1.25
-        
-        // https://www.bluegartr.com/threads/114636-Monster-Avatar-Pet-damage
-        // Monster pDIF = Avatar pDIF = Pet pDIF
-
-        auto targ_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_MAIN]);
-
-        // Default for 1H is 2.0
         float maxRatio = 2.00f;
 
+        // Mobs and pets cap at 2.0
+        // https://www.bluegartr.com/threads/114636-Monster-Avatar-Pet-damage
         if (attackerType == TYPE_MOB || attackerType == TYPE_PET)
         {
-            // Mobs and pets cap at 2.0 
             maxRatio = 2.00f;
         }
         else if (isBluSpell)
         {
             maxRatio = 2.00f;
         }
-        else
+        else // Players / Trusts / Allies
         {
-            // If null ignore the checks and fallback to 1H values
-            if (targ_weapon)
-            {
-                if (targ_weapon->isHandToHand() || targ_weapon->getSkillType() == SKILL_GREAT_KATANA)
-                {
-                    //maxRatio = 3.5f;
-                    maxRatio = 2.1f;
-                }
-                else if (targ_weapon->getSkillType() == SKILL_SCYTHE)
-                {
-                    //maxRatio = 4.0f;
-                    maxRatio = 2.3f;
-                }
-                else if (targ_weapon->isTwoHanded())
-                {
-                    //maxRatio = 3.75f;
-                    maxRatio = 2.2f;
-                }
-            }
-            // Skipping Ranged since that is handled in a separate function
-            
             // Base Crits cap at 3.0 for players
             if (isCritical)
             {
@@ -4845,6 +4796,7 @@ namespace battleutils
             criticaldamage = std::clamp<int16>(criticaldamage, 0, 100);
             pDIF *= ((100 + criticaldamage) / 100.0f);
         }
+
         //ShowDebug("PDif: %f\n", pDIF);
         return pDIF;
     }
@@ -4856,7 +4808,7 @@ namespace battleutils
     int32 GetBluAttack(CBattleEntity* PAttacker)
     {
         auto skill = PAttacker->GetSkill(SKILL_BLUE_MAGIC);
-        auto STR = (PAttacker->STR() * 75) / 100;
+        auto STR = (PAttacker->STR() * 50) / 100;
         auto attMod = PAttacker->getMod(Mod::BLU_ATT);
         auto attpMod = PAttacker->getMod(Mod::BLU_ATTP);
         auto minuetAtt = PAttacker->StatusEffectContainer->GetTotalSongBonus(EFFECT_MINUET);
