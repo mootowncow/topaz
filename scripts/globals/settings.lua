@@ -28,7 +28,7 @@ ENABLE_ROV     = 0
 ENABLE_VOIDWATCH = 0 -- Not an expansion, but has its own storyline.
 
 -- Enable content
-ENABLE_WOTG_DUNGEONS = 0
+ENABLE_WOTG_DUNGEONS = 1
 
 -- FIELDS OF VALOR/Grounds of Valor settings
 ENABLE_FIELD_MANUALS  = 1 -- Enables Fields of Valor
