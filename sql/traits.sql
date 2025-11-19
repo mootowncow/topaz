@@ -734,11 +734,11 @@ INSERT INTO `traits` VALUES (118,'inquartata',22,99,4,1012,11,'SOA',0);
 INSERT INTO `traits` VALUES (119,'curative recantation',21,75,1,970,0,'SOA',3396);
 INSERT INTO `traits` VALUES (120,'primeval zeal',21,75,1,971,0,'SOA',3398);
 
-INSERT INTO `traits` VALUES (123,'daken',13,30,1,911,20,'SOA',0);
-INSERT INTO `traits` VALUES (123,'daken',13,70,2,911,25,'SOA',0);
-INSERT INTO `traits` VALUES (123,'daken',13,97,3,911,30,'SOA',0);
-INSERT INTO `traits` VALUES (123,'daken',13,98,4,911,35,'SOA',0);
-INSERT INTO `traits` VALUES (123,'daken',13,99,5,911,40,'SOA',0);
+INSERT INTO `traits` VALUES (123,'daken',13,51,1,911,10,'SOA',0);
+INSERT INTO `traits` VALUES (123,'daken',13,71,2,911,12,'SOA',0);
+INSERT INTO `traits` VALUES (123,'daken',13,97,3,911,14,'SOA',0);
+INSERT INTO `traits` VALUES (123,'daken',13,98,4,911,16,'SOA',0);
+INSERT INTO `traits` VALUES (123,'daken',13,99,5,911,18,'SOA',0);
 INSERT INTO `traits` VALUES (126,'magic eva. bonus',11,45,1,31,10,'SOA',0); -- RNG
 INSERT INTO `traits` VALUES (126,'magic eva. bonus',11,65,1,31,22,'SOA',0);
 INSERT INTO `traits` VALUES (126,'magic eva. bonus',11,75,1,31,35,'SOA',0);
