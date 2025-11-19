@@ -2977,81 +2977,79 @@ namespace charutils
     *                                                                       *
     ************************************************************************/
 
-    void BuildingCharWeaponSkills(CCharEntity* PChar)
+void BuildingCharWeaponSkills(CCharEntity* PChar)
     {
         memset(&PChar->m_WeaponSkills, 0, sizeof(PChar->m_WeaponSkills));
 
+        bool isInDynamis = PChar->isInDynamis();
+
+        // Sort WS by ID
+        auto addSkillListSorted = [&](auto& wsList, int wsGear, int wsGearDyn)
+        {
+            std::vector<CWeaponSkill*> list;
+            for (auto&& ws : wsList)
+                list.push_back(ws);
+
+            std::sort(list.begin(), list.end(), [](auto a, auto b) { return a->getID() < b->getID(); });
+
+            for (auto&& ws : list)
+            {
+                if (battleutils::CanUseWeaponskill(PChar, ws) || ws->getID() == wsGear || (isInDynamis && ws->getID() == wsGearDyn))
+                {
+                    addWeaponSkill(PChar, ws->getID());
+                }
+            }
+        };
+
+        // 1) Determine mods from gear
         CItemWeapon* PItem;
         int main_ws = 0;
         int range_ws = 0;
         int main_ws_dyn = 0;
         int range_ws_dyn = 0;
 
-        bool isInDynamis = PChar->isInDynamis();
-
-        for (auto&& slot : {std::make_tuple(SLOT_MAIN, std::ref(main_ws), std::ref(main_ws_dyn)),
-            std::make_tuple(SLOT_RANGED, std::ref(range_ws), std::ref(range_ws_dyn))})
+        for (auto&& slot : { std::make_tuple(SLOT_MAIN, &main_ws, &main_ws_dyn), std::make_tuple(SLOT_RANGED, &range_ws, &range_ws_dyn) })
         {
             if (PChar->m_Weapons[std::get<0>(slot)])
             {
                 PItem = dynamic_cast<CItemWeapon*>(PChar->m_Weapons[std::get<0>(slot)]);
-
-                std::get<1>(slot) = battleutils::GetEffectiveItemModifier(PChar, PItem, Mod::ADDS_WEAPONSKILL);
-                std::get<2>(slot) = battleutils::GetEffectiveItemModifier(PChar, PItem, Mod::ADDS_WEAPONSKILL_DYN);
+                *std::get<1>(slot) = battleutils::GetEffectiveItemModifier(PChar, PItem, Mod::ADDS_WEAPONSKILL);
+                *std::get<2>(slot) = battleutils::GetEffectiveItemModifier(PChar, PItem, Mod::ADDS_WEAPONSKILL_DYN);
             }
         }
 
-        //add in melee ws
+        // 2) Add MAIN-HAND WS (sorted by WSID)
         PItem = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_MAIN));
         uint8 skill = PItem ? PItem->getSkillType() : SKILL_HAND_TO_HAND;
-        auto& WeaponSkillList = battleutils::GetWeaponSkills(skill);
-        for (auto&& PSkill : WeaponSkillList)
-        {
-            if (battleutils::CanUseWeaponskill(PChar, PSkill) ||
-                PSkill->getID() == main_ws ||
-                (isInDynamis && (PSkill->getID() == main_ws_dyn)))
-            {
-                addWeaponSkill(PChar, PSkill->getID());
-            }
-        }
 
-        //add in ranged ws
+        auto& meleeList = battleutils::GetWeaponSkills(skill);
+        addSkillListSorted(meleeList, main_ws, main_ws_dyn);
+
+        // 3) Add RANGED WS (sorted by WSID)
         PItem = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_RANGED));
-        if (PItem != nullptr && PItem->isType(ITEM_WEAPON) && PItem->getSkillType() != SKILL_THROWING)
+        if (PItem && PItem->isType(ITEM_WEAPON) && PItem->getSkillType() != SKILL_THROWING)
         {
-            skill = PItem ? PItem->getSkillType() : 0;
-            auto& WeaponSkillList = battleutils::GetWeaponSkills(skill);
-            for (auto&& PSkill : WeaponSkillList)
-            {
-                if ((battleutils::CanUseWeaponskill(PChar, PSkill)) ||
-                    PSkill->getID() == range_ws ||
-                    (isInDynamis && (PSkill->getID() == range_ws_dyn)))
-                {
-                    addWeaponSkill(PChar, PSkill->getID());
-                }
-            }
+            uint8 rskill = PItem->getSkillType();
+            auto& rangedList = battleutils::GetWeaponSkills(rskill);
+            addSkillListSorted(rangedList, range_ws, range_ws_dyn);
         }
 
-        // Add Uriel Blade for PUP with a Valoredge head
+        // 4) Uriel Blade for PUP
         if (PChar->GetMJob() == JOB_PUP)
         {
-            CBattleEntity* PPet = ((CBattleEntity*)PChar)->PPet;
-            if (PChar->PPet && static_cast<CPetEntity*>(PPet)->getPetType() == PETTYPE_AUTOMATON)
+            CBattleEntity* pet = PChar->PPet;
+            if (pet && static_cast<CPetEntity*>(pet)->getPetType() == PETTYPE_AUTOMATON)
             {
-                if (static_cast<CAutomatonEntity*>(PPet)->getHead() == HEAD_VALOREDGE)
+                if (static_cast<CAutomatonEntity*>(pet)->getHead() == HEAD_VALOREDGE)
                 {
                     PItem = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_MAIN));
-                    if (PItem != nullptr && PItem->isType(ITEM_WEAPON) && PItem->getSkillType() == SKILL_SWORD)
+                    if (PItem && PItem->isType(ITEM_WEAPON) && PItem->getSkillType() == SKILL_SWORD)
                     {
                         addWeaponSkill(PChar, PChar->getMod(Mod::ADDS_WEAPONSKILL));
                     }
                 }
             }
         }
-
-        // Add in WS from gear mod
-        // Unneeded?
-       // addWeaponSkill(PChar, PChar->getMod(Mod::ADDS_WEAPONSKILL));
     }
 
     void BuildingCharPetAbilityTable(CCharEntity* PChar, CPetEntity* PPet, uint32 PetID) {
