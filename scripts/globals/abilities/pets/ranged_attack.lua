@@ -42,7 +42,7 @@ function onPetAbility(target, pet, skill)
     --printf("Arrow count %i", arrowCount)
     -- Roll for extra hits
     if (arrowCount > 1) then
-        local hitrate = getRangedHitRate(pet, target, true, 0)
+        local hitrate = pet:getRangedHitRate(target, false, 0, false)
         while numhits < arrowCount do
             -- TODO: End early if mob will die
             if (math.random() <= hitrate) then
