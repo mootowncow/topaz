@@ -5423,27 +5423,49 @@ void SmallPacket0x0DD(map_session_data_t* session, CCharEntity* PChar, CBasicPac
                 // Calculate main /check message (64 is Too Weak)
                 int32 MessageValue = 64 + (uint8)mobCheck;
 
-                // Grab mob and player stats for extra messaging
-                uint16 charAcc = PChar->ACC(SLOT_MAIN, (uint8)0);
                 uint16 charAtt = PChar->ATT(SLOT_MAIN);
-                uint16 mobEva = PTarget->EVA();
                 uint16 mobDef = PTarget->DEF();
 
-                // Calculate +/- message
-                uint16 MessageID = 174; // Default even def/eva
+                if (mobDef == 0)
+                    mobDef = 1;
 
-                // Offsetting the message ID by a certain amount for each stat gives us the correct message
-                // Defense is +/- 1
-                // Evasion is +/- 3
-                if (mobDef > charAtt) // High Defesne
-                    MessageID -= 1;
-                else if ((mobDef * 1.25) <= charAtt) // Low Defense
-                    MessageID += 1;
+                // Ratio BEFORE level correction
+                float ratio = (float)charAtt / (float)mobDef;
 
-                if ((mobEva - 30) > charAcc) // High Evasion
-                    MessageID -= 3;
-                else if ((mobEva + 10) <= charAcc)
-                    MessageID += 3;
+                // Level correction
+                int16 dLvl = PChar->GetMLevel() - mobLvl;
+
+                // Ratio += 0.05 * level difference
+                ratio += (float)dLvl * 0.05f;
+
+                // Clamp ratio
+                ratio = std::clamp(ratio, 0.5f, 2.0f);
+
+                uint16 MessageID = 174;
+
+                // Defense
+                //   <1.0  = High Defense
+                //   >1.25 = Low Defense
+
+                if (ratio < 1.0f)
+                {
+                    MessageID -= 1; // High defense
+                }
+                else if (ratio > 1.25f)
+                {
+                    MessageID += 1; // Low defense
+                }
+
+                // Evasion
+                //  < 60% hit rate = High Evasion
+                //  >= 80% hit rate = Low Evasion
+                float hitrate = battleutils::GetHitRate(PChar, PTarget);
+
+                if (hitrate < 60.0f)
+                    MessageID -= 3; // High evasion
+                else if (hitrate >= 80.0f)
+                    MessageID += 3; // Low evasion
+
 
                 PChar->pushPacket(new CMessageBasicPacket(PChar, PTarget, mobLvl, MessageValue, MessageID));
             }
