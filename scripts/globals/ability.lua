@@ -879,16 +879,11 @@ function takeAbilityDamage(defender, attacker, params, primary, finaldmg, attack
                 action:reaction(defender:getID(), tpz.reaction.HIT)
                 action:speceffect(defender:getID(), tpz.specEffect.RECOIL)
             end
-        else
-            -- TODO: ability absorb messages (if there are any)
-            -- action:messageID(defender:getID(), tpz.msg.basic.WHATEVER)
         end
         action:param(defender:getID(), finaldmg)
     elseif shadowsAbsorbed > 0 then
         action:messageID(defender:getID(), tpz.msg.basic.SHADOW_ABSORB)
         action:param(defender:getID(), shadowsAbsorbed)
-    else
-        -- no abilities that use ability message can miss (the rest use ws messages)
     end
 
     -- Handle Ecosystem Bonus
