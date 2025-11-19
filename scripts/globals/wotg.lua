@@ -896,6 +896,8 @@ local function generateActiveRegions(zone)
     local regionsGenerated = regionsAmount / 4 -- 25% of total regions active at once
     local lastRegion = zone:getLocalVar("lastRegion")
     tpz.wotg.activeRegions[zoneId] = {}
+    
+    if (ENABLE_WOTG_DUNGEONS == 0) then return end
 
     -- Build a list of region IDs excluding the lastRegion
     local availableRegions = {}
@@ -3276,8 +3278,6 @@ tpz.wotg.onMobWeaponSkillPrepare = function(mob, target)
 end
 
 tpz.wotg.onHealing = function(target)
-    -- TODO: Not sure if it gets the correct nearest region
-    -- TODO: Setting to turn off wotg dungeons entirely until ready
     local wotgDungeonZones = { tpz.zone.GARLAIGE_CITADEL_S, tpz.zone.CRAWLERS_NEST_S, tpz.zone.THE_ELDIEME_NECROPOLIS_S }
     local zone   = target:getZone()
     local zoneId = zone:getID()
