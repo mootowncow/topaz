@@ -2844,9 +2844,8 @@ namespace battleutils
 
     float GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, uint16 ignoredDefense, bool isBluSpell)
     {
-        //========================
-        // 1) Calculate Attack
-        //========================
+        
+        // Get Ranged Attack Value
         uint16 rAttack = 1;
 
         if (isBluSpell)
@@ -2858,15 +2857,22 @@ namespace battleutils
             CCharEntity* PChar = (CCharEntity*)PAttacker;
             CItemWeapon* PItem = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
 
-            if (PItem && PItem->isType(ITEM_WEAPON))
+            if (PItem != nullptr && PItem->isType(ITEM_WEAPON))
             {
                 rAttack = PChar->RATT(PItem->getSkillType(), PItem->getILvlSkill());
             }
             else
             {
                 PItem = (CItemWeapon*)PChar->getEquip(SLOT_AMMO);
-                if (PItem && PItem->isType(ITEM_WEAPON))
+
+                if (PItem == nullptr || !PItem->isType(ITEM_WEAPON) || (PItem->getSkillType() != SKILL_THROWING))
+                {
+                    ShowDebug("battleutils::GetRangedPDIF Cannot find a valid ranged weapon to calculate PDIF for. \n");
+                }
+                else
+                {
                     rAttack = PChar->RATT(PItem->getSkillType(), PItem->getILvlSkill());
+                }
             }
         }
         else if (PAttacker->objtype == TYPE_PET && ((CPetEntity*)PAttacker)->getPetType() == PETTYPE_AUTOMATON)
@@ -2877,67 +2883,75 @@ namespace battleutils
         {
             rAttack = battleutils::GetMaxSkill(SKILL_ARCHERY, JOB_RNG, PAttacker->GetMLevel());
         }
-
+        
+        // Apply Sweet Spot Bonus
         rAttack = CalculateSweetSpotAttack(PAttacker, PDefender, rAttack);
+        
+        // cRatio
+        uint16 def = PDefender->DEF();
+        if (def == 0)
+            def = 1;
 
-        //========================
-        // 2) Calculate cRatio
-        //========================
-        uint16 defense = PDefender->DEF();
-        if (defense <= 0)
-            defense = 1;
+        uint16 effDef = std::max<int>(1, def - ignoredDefense);
+        float cRatio = (float)rAttack / (float)effDef;
 
-        float cRatio = (float)rAttack / ((float)defense - ignoredDefense);
         if (cRatio < 0)
             cRatio = 0;
 
-        const float CRATIO_CAP = 2.5f;
-        if (cRatio > CRATIO_CAP)
-            cRatio = CRATIO_CAP;
+        cRatio = std::clamp<float>(cRatio, 0.f, 2.5f);
 
-        //========================
-        // 3) Old 2007–2010 pDIF curve (non-crit average)
-        //========================
-        float basePdif = 1.0f;
+        
+        // level correct (0.025 not 0.05 like for melee) PLAYERS ONLY
+        if (PAttacker->objtype == TYPE_PC && !PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_FLASHY_SHOT))
+        {
+            if (PDefender->GetMLevel() > PAttacker->GetMLevel())
+            {
+                cRatio -= 0.025f * (PDefender->GetMLevel() - PAttacker->GetMLevel());
+            }
+        }
 
-        if (cRatio < 0.5f)
-            basePdif = cRatio;
-        else if (cRatio < 1.0f)
-            basePdif = (1.5f * cRatio) - 0.25f;
-        else if (cRatio < 1.5f)
-            basePdif = cRatio + 0.25f;
-        else if (cRatio <= 2.0f)
-            basePdif = (0.75f * cRatio) + 0.625f;
+        float minPdif = 0.f;
+        float maxPdif = 0.f;
+
+        if (cRatio < 0.9f)
+        {
+            minPdif = cRatio;
+            maxPdif = (10.f / 9.f) * cRatio; // ~+11%
+        }
+        else if (cRatio <= 1.1f)
+        {
+            minPdif = 1.f;
+            maxPdif = 1.f;
+        }
         else
-            basePdif = 2.5f;
+        {
+            minPdif = (-3.f / 19.f) + ((20.f / 19.f) * cRatio);
+            maxPdif = cRatio;
+        }
 
-        //========================
-        // 4) Min/max spread (old era random)
-        //========================
-        float minPdif = basePdif * 0.85f;
-        float maxPdif = basePdif * 1.15f;
+        minPdif = std::clamp<float>(minPdif, 0.f, 2.5f);
+        maxPdif = std::clamp<float>(maxPdif, 0.f, 2.5f);
 
-        minPdif = std::clamp(minPdif, 0.f, CRATIO_CAP);
-        maxPdif = std::clamp(maxPdif, 0.f, CRATIO_CAP);
+        
+        // Random roll between min/max
+        float pDIF = tpzrand::GetRandomNumber(minPdif, maxPdif);
 
-        float pdif = tpzrand::GetRandomNumber(minPdif, maxPdif);
-
+        
         if (isCritical)
         {
             // Calculate the base critical hit multiplier combined with Dead Aim
             float baseCritMultiplier = 1.25f * (1.0f + PAttacker->getMod(Mod::DEAD_AIM_EFFECT) / 100.0f);
-            pdif *= baseCritMultiplier;
+            pDIF *= baseCritMultiplier;
 
             // Apply additional critical damage modifiers, adjusted for defender's critical defense
             int16 critDamageMods = PAttacker->getMod(Mod::CRIT_DMG_INCREASE) + PAttacker->getMod(Mod::RANGED_CRIT_DMG_INCREASE);
             int16 criticaldamage = critDamageMods - PDefender->getMod(Mod::CRIT_DEF_BONUS);
             criticaldamage = std::clamp<int16>(criticaldamage, 0, 100);
 
-            pdif *= ((100 + criticaldamage) / 100.0f);
+            pDIF *= ((100 + criticaldamage) / 100.0f);
         }
 
-         //ShowDebug("PDif after crit: %f\n", pdif);
-        return pdif;
+        return pDIF;
     }
 
     uint16 CalculateSweetSpotAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint16 rAttack, bool isBluSpell)
