@@ -17,6 +17,10 @@ function onInitialize(zone)
     tpz.conquest.toggleRegionalNPCs(zone)
 end
 
+function OnZoneTick(player, zone, region)
+    tpz.conquest.toggleRegionalNPCs(zone)
+end
+
 function onZoneIn(player, prevZone)
     local cs = -1
 

@@ -570,7 +570,7 @@ end
 tpz.conquest.toggleRegionalNPCs = function(zone)
     -- Show/Hide regional NPCs
     -- If there is a draw or a 1st place Alliance, those NPCs won't be available anywhere.
-    local id = zone:getID()
+    local id = zone:getID() or 0
     if
         id == tpz.zone.PORT_BASTOK or
         id == tpz.zone.SOUTHERN_SAN_DORIA or

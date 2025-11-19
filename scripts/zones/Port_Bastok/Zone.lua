@@ -20,6 +20,10 @@ function onConquestUpdate(zone, updatetype)
     tpz.conq.onConquestUpdate(zone, updatetype)
 end
 
+function OnZoneTick(player, zone, region)
+    tpz.conquest.toggleRegionalNPCs(zone)
+end
+
 function onZoneIn(player, prevZone)
     local cs = -1
 
