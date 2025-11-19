@@ -14015,7 +14015,6 @@ inline int32 CLuaBaseEntity::getRangedDamageRatio(lua_State* L)
         isBluSpell = lua_toboolean(L, 4);
     }
 
-
     float pDif = battleutils::GetRangedDamageRatio(PAttacker, PDefender, isCritical, ignoredDefense, isBluSpell);
 
     lua_pushnumber(L, pDif);
