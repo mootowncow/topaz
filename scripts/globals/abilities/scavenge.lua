@@ -123,7 +123,7 @@ local items = {
             4148, -- Antidote
             4150, -- Eye Drops
             4151, -- Echo Drops
-            4154, -- Holy Water
+            4301, -- Pear Au Lait
         },
         -- 70-75
         [7] =
@@ -132,7 +132,7 @@ local items = {
             4118, -- Hi-potion +2
             4119, -- Hi-potion +3
             4150, -- Eye Drops
-            4154, -- Holy Water
+            4301, -- Pear Au Lait
         }
     }
     

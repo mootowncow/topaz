@@ -2899,7 +2899,6 @@ namespace battleutils
             cRatio = 0;
 
         cRatio = std::clamp<float>(cRatio, 0.f, 2.5f);
-
         
         // level correct (0.025 not 0.05 like for melee) PLAYERS ONLY
         if (PAttacker->objtype == TYPE_PC && !PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_FLASHY_SHOT))
