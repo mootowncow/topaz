@@ -258,6 +258,7 @@ function jobUtil.Cor.HandleShots(player, target, ability, action)
 
         dmg = jobUtil.Cor.CalculateQd(player, target, ability, data.Element, action, params)
         dmg = takeAbilityDamage(target, player, params, true, dmg, tpz.attackType.MAGICAL, damageType, tpz.slot.RANGED, 1, 0, 0, 0, action, nil)
+        player:trySkillUp(target, tpz.skill.MARKSMANSHIP, 1)
     end
 
     if player:isPC() then
