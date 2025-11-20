@@ -17836,6 +17836,22 @@ INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,2859,240);     -- Cobalt Ore
 INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,16302,100);    -- Bloodbead Gorget
 INSERT INTO `mob_droplist` VALUES (6131,0,0,1000,18603,50);     -- Majestas
 
+-- Elatha
+INSERT INTO `mob_droplist` VALUES (6132,0,0,1000,2858,1000);    -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6132,0,0,1000,2858,240);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6132,0,0,1000,2858,150);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6132,0,0,1000,2859,240);     -- Cobalt Ore
+INSERT INTO `mob_droplist` VALUES (6132,0,0,1000,15057,100);    -- Bricta's Cuffs
+INSERT INTO `mob_droplist` VALUES (6132,0,0,1000,19159,50);     -- Galatyn
+
+-- Buarainech
+INSERT INTO `mob_droplist` VALUES (6133,0,0,1000,2858,1000);    -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6133,0,0,1000,2858,240);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6133,0,0,1000,2858,150);     -- Wolfram Steel
+INSERT INTO `mob_droplist` VALUES (6133,0,0,1000,2859,240);     -- Cobalt Ore
+INSERT INTO `mob_droplist` VALUES (6133,0,0,1000,11411,100);    -- Shrewd Pumps
+INSERT INTO `mob_droplist` VALUES (6133,0,0,1000,19304,50);     -- Sarissa
+
 ---------------------Dynamis---------------------
 
 -- Bastok
@@ -18402,7 +18418,7 @@ INSERT INTO `mob_droplist` VALUES (9061,0,0,1000,1009,50); -- Jack of Coins
 -- free 22, 1665, 2331
 -- free 3170 - 3176
 -- NEXT: 3231
--- NEXT: 6130
+-- NEXT: 6134
 
 
 
