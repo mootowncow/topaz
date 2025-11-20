@@ -37,6 +37,7 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.SEIGAN)
     mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.THIRD_EYE)
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.TP_GTE, 800, ai.r.JA, ai.s.SPECIFIC,tpz.ja.SPIRIT_SURGE)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.IS_ECOSYSTEM,tpz.ecosystem.DRAGON, ai.r.JA, ai.s.SPECIFIC,tpz.ja.ANCIENT_CIRCLE)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.IS_ECOSYSTEM,tpz.ecosystem.DRAGON, ai.r.JA, ai.s.SPECIFIC,tpz.ja.DRAGON_BREAKER)
@@ -45,8 +46,6 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.TP_LT, 400, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MEDITATE)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.ALWAYS, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.ANGON)
-
-    mob:addSimpleGambit(ai.t.SELF, ai.c.ALWAYS, 0, ai.r.JA, ai.s.SPECIFIC,tpz.ja.SPIRIT_SURGE)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.ALWAYS, 0, ai.r.JA, ai.s.SPECIFIC,tpz.ja.JUMP)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.ALWAYS, 0, ai.r.JA, ai.s.SPECIFIC,tpz.ja.HIGH_JUMP)
