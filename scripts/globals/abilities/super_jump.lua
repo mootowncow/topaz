@@ -49,4 +49,37 @@ function onUseAbility(player, target, ability)
         end
     end
 
+    local weapon = player:getEquipID(tpz.slot.MAIN)
+    local hasSarissa = (weapon == tpz.items.SARISSA)
+
+    -- Under Spirit Surge, Super Jump adds -50% enmity reduction to closest party member behind the dragoon
+    if player:hasStatusEffect(tpz.effect.SPIRIT_SURGE) or hasSarissa then
+        local minDistance = 9999
+        local closestPartyMember = nil
+
+        -- Find the closest party member
+        local party = player:getPartyWithTrusts()
+        for _, member in pairs(party) do
+            local distance = member:checkDistance(player)
+            if
+                member:getID() ~= player:getID() and
+                not member:isDead() and
+                (distance < minDistance or closestPartyMember == nil)
+            then
+                closestPartyMember = member
+                minDistance = distance
+            end
+        end
+
+        -- It doesn't matter what direction the dragoon is facing http://wiki.ffo.jp/html/3367.html#comment_1
+        if
+            closestPartyMember and
+            closestPartyMember:isBehind(player) and
+            (player:checkDistance(target) < closestPartyMember:checkDistance(target)) -- Verify dragoon is closer than the party member that we want to reduce the enmity of
+        then
+            if target:isMob() then
+                target:lowerEnmity(closestPartyMember, 50)
+            end
+        end
+    end
 end

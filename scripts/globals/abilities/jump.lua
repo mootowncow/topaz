@@ -44,15 +44,20 @@ function onUseAbility(player, target, ability, action)
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, 0, params, 0, action, true, taChar)
 
     if (tpHits + extraHits > 0) then
+        local weapon = player:getEquipID(tpz.slot.MAIN)
+	    local hasSarissa = (weapon == tpz.items.SARISSA)
+
         -- Under Spirit Surge, Jump also decreases target defense by 20% for 60 seconds
-        if (player:hasStatusEffect(tpz.effect.SPIRIT_SURGE) == true) then
+        if player:hasStatusEffect(tpz.effect.SPIRIT_SURGE) or hasSarissa then
             if (target:hasStatusEffect(tpz.effect.DEFENSE_DOWN) == false) then
                 target:addStatusEffect(tpz.effect.DEFENSE_DOWN, 20, 0, 60)
             end
         end
+
         if (criticalHit) then
             action:speceffect(target:getID(), 38)
         end
+        
         action:messageID(target:getID(), tpz.msg.basic.USES_JA_TAKE_DAMAGE)
         action:speceffect(target:getID(), 32)
     else
