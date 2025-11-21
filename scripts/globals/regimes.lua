@@ -1380,9 +1380,12 @@ tpz.regime.checkRegime = function(player, mob, regimeId, index, regimeType)
         end
     end
 
-    -- award gil and tabs once per day, or at every page completion if REGIME_WAIT is 0 in settings.lua
+    -- award exp, gil and tabs once per day, or at every page completion if REGIME_WAIT is 0 in settings.lua
     local vanadielEpoch = vanaDay()
     if REGIME_WAIT == 0 or player:getCharVar("[regime]lastReward") < vanadielEpoch then
+        -- exp
+        player:addExp(xpReward)
+
         -- gil
         player:addGil(reward)
         player:messageBasic(tpz.msg.basic.FOV_OBTAINS_GIL, reward, 0, 0, false)
@@ -1395,9 +1398,6 @@ tpz.regime.checkRegime = function(player, mob, regimeId, index, regimeType)
 
         player:setCharVar("[regime]lastReward", vanadielEpoch)
     end
-
-    -- award XP every page completion
-    player:addExp(xpReward)
 
     -- repeating regimes
     if player:getCharVar("[regime]repeat") == 1 then
