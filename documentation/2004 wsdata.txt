@@ -1,0 +1,207 @@
+For those of you who are interested in exhaustive testing and analysis, Apple Pie directed me to a great Japanese website that lists the results of several years of testing concerning Weapon Skill damage.  Keep in mind much of this is still in development, and there are still some unknown factors, but this may clear up some misconceptions players may have.  Also, due to the difficult nature of testing WS with several hits, many of the high-hit WS’ damage modifiers are still unknown at this time.
+
+http://www.geocities.co.jp/Playtown-Part/6371/memo.html
+
+Here is what I have translated so far of this site.  Many thanks to Apple Pie for translating several of the formulae for me and explaining some of the other intricacies of the calculations.  There are still a few formulae that I have not successfully fully translated yet, such as the cap of damage if WS criticals, or added damage with Sneak Attack. Note that there are a few added notes on the JP site that include very minute corrections on the formulae, but they do not affect the basic damage equation very much.
+
+I also changed some incorrect data in this site (for certain weapons that were not tested extensively such as Katana and Great Katana).  Plus, I included how additional TP affects certain WS that have a set damage modifier (accuracy up, crit rate higher, etc).
+
+Magic WS Damage Calculation: 
+WSC : Secondary attribute modifier
+fINT : difference between your INT and target’s INT (caps at 24)
+fTP : Multiplier (Please see chart below)
+MDIF : (your MATK/target’s MDEF)
+ELM : Elemental influence... i.e. is target weak or strong to the element?
+
+Damage = ((WSC * fTP) + fINT/2 + 8) * MDIF * ELM
+
+Magic Chart : fTP multiplier
+Burning Blade		1.00	2.00	2.50	Fire		STR_20%, INT_20%		
+Red Lotus Blade		1.00	2.375	3.00	Fire		STR_30%, INT_20%
+Frostbite		1.00	2.00	2.50	Ice		STR_20%, INT_20%
+Freezebite		1.00	1.50	3.00	Ice		STR_30%, INT_20%
+Gust Slash		1.00	2.00	2.50	Wind		DEX, INT
+Cyclone			1.00	2.50	3.00	Wind		DEX, INT
+Rock Crusher		1.00	2.00	2.50	Earth		INT
+Earth Crusher		1.00	2.25	3.50	Earth		STR, INT
+Thunder Thrust		1.50	2.00	2.50	Thunder		INT
+Raiden Thrust		1.00	2.00	3.00	Thunder		STR, INT
+Shining Blade		1.00	2.00	2.50	Light		MND
+Seraph Blade		1.00	2.50	3.00	Light		STR, MND
+Shining Strike		.875	1.75	2.50	Light		MND
+Seraph Strike		.875	2.00	3.00	Light		STR, MND
+Dark Harvest		1.00	2.00	2.50	Darkness	INT
+Shadow of Death		1.00	2.50	3.00	Darkness	STR, INT
+Starburst		.875	1.625	2.00	Light/Dark	MND or INT
+Sunburst		.875	2.00	3.125	Light/Dark	MND or INT
+Blade: Teki		1.00	1.00	1.00	Water		???_30%			
+Blade: To		1.00	1.00	1.00	Ice		???_30%			
+Blade: Chi		???	???	???	Earth		???_??%		2hits		
+Blade: Ei		???	???	???	Darkness	???_??%			
+Tachi: Goten		1.00	???	???	Thunder		STR_30%			
+Tachi: Kagero		1.00	???	???	Fire		STR_50%			
+Tachi: Jinpu		1.00	???	???	Wind		STR_30%		2hits		
+Tachi: Koki		1.00	???	???	Light		STR_??%			
+	
+Physical WS Damage Calculation: 
+WD: Base damage of your WS
+D: Base damage of your weapon (e.g., Espadon = 43)
+fSTR: difference between your STR and target's VIT 
+WSC: Secondary attribute like STR_30 (30% of your STR).
+fTP: Multiplier (Please see chart below). 
+PDIF: (your ATK/target’s DEF)
+
+WSC = integer(any secondary attributes) x @
+
+Level    @
+Lv75... 0.83
+Lv74... 0.83
+Lv73... 0.84
+Lv72... 0.84
+Lv67... 0.86 or 0.87 (perhaps 0.87)
+Lv60... 0.90 or 0.91 (perhaps 0.90)
+Lv40... 0.94 
+Lv37... 0.94 – 0.99
+Lv31... 0.94 - 0.99
+
+For example, suppose you have 100 STR and 100 MND and use use Swift Blade (STR_30, MND_30).
+
+WSC = integer[(100 x 0.3) + (100 x 0.3)] x @ = integer(60) x @ = 60 x @
+
+@ is 0.86 - 0.87 at LV67 but it's going to decrease as your level is going up. It's 0.83 at LV75
+
+WD = (D + fSTR + WSC) * fTP
+
+I’m not 100% positive, but I think for Sneak Attack with THF main, this is the calculation:
+WD = (D + fSTR + WSC) * fTP + DEX + AGI
+
+Actual Damage of WS is then calculated in this way.
+Damage = WD * PDIF = ((D + fSTR + WSC) * fTP) * PDIF
+
+Phsyical Chart : fTP multiplier (non-damage related TP modifier in last column)
+
+Grapple WS		100%	200%	300%	#Hits	Secondary Attribute	TP Adjustment
+Combo			1.00	1.50	2.00	x3	STR_20%, DEX_20%		
+Shoulder Tackle		1.00			x2	VIT_30%			More stun
+One Inch Blow		1.00			x2	VIT_40%			Ignore more DEF
+Backhand Blow		1.00			x2	STR_30%, VIT_30%	Crit Rate
+Raging Fists		???	???	???	x5	STR_???			
+Spinning Attack		1.00			x2	STR_35%			Attack Radius
+Howling Fist		1.50	2.00	3.00	x2	STR_20%, VIT_50%		
+Dragon Kick		2.00	2.50	3.00	x2	STR_50%, VIT_50%		
+Asuran Fists		1.00			x8	STR_50% or VIT_50%	Accuracy
+
+Dagger WS		100%	200%	300%	#Hits	Secondary Attribute	TP Adjustment
+Wasp Sting		1.00			x1				More poison
+Shadowstitch		1.00			x1	CHR_30%			More bind
+Viper Bite		1.00			x1	ATKx2			More poison
+Dancing Edge		1.00			x5	DEX_??%, CHR_??%	Accuracy
+Shark Bite		2.00	???	3.00	x2	DEX_50%			
+Evisceration		1.00	???	2.00	x5	DEX_30%			
+
+1H Sword WS		100%	200%	300%	#Hits	Secondary Attribute	TP Adjustment
+Fast Blade		1.00	1.50	2.00	x2	STR_20%, DEX_20%		
+Flat Blade		1.00			x1	STR_30%			More stun
+Circle Blade		1.00			x1	STR_35%			Attack Radius
+Spirits Within		4/32	6/32	15/32	x1	Current HPx			
+Vorpal Blade		1.00			x4	STR_30%			Crit Rate
+Swift Blade		1.50			x3	STR_30%, MND_30%	Accuracy
+Savage Blade		1.00	1.75	3.50	x2	STR_30%, MND_50%		
+
+2H Sword WS		100%	200%	300%	#Hits	Secondary Attribute	TP Adjustment
+Hard Slash		1.50	1.75	2.00	1x	STR_30%			
+Power Slash		1.00			1x	STR_20%, VIT_20%	Crit Rate
+Shockwave		1.00			1x	STR_30%, MND_30%	More sleep
+Crescent Moon		1.00	1.75	2.50	1x	STR_35%			
+Sickle Moon		???	???	???	2x	STR_??%			
+Spinning Slash		2.50	3.00	3.50	1x	STR_30%, INT_30%		
+Ground Strike		1.50	1.75	3.00	1x	STR_50%, INT_50%		
+
+Scythe WS		100%	200%	300%	#Hits	Secondary Attribute	TP Adjustment
+Slice			1.50	1.75	2.00	1x	STR_30%			
+Nightmare Scythe	1.00			1x	MND_30%			More Blind
+Spinning Scythe		1.00			1x	STR_30%			Attack Radius
+Vorpal Scythe		1.00			1x	STR_35%			Crit Ratio
+Guillotine		???	???	???	4x	STR_??%			More Silence
+Cross Reaper		2.00	2.25	2.50	2x	STR_30%, MND_30%		
+Spiral Hell		1.375	1.875	3.625	1x	STR_50%, INT_50%		
+
+Polearm WS		100%	200%	300%	#Hits	Secondary Attribute	TP Adjustment
+Double Thrust		1.00	1.50	2.00	2x	STR_30%			
+Leg Sweep		1.00			1x	STR_30%			More stun
+Penta Thrust		0.75	1.00	2.25	5x	STR_20%, DEX_20%		
+Vorpal Thrust		1.00			1x	STR_20%, AGI_20%	Crit Rate
+Skewer			1.00			3x	STR_35%			Accuracy
+Wheeling Thrust		1.00			1x	STR_50%			Ignore more DEF
+Impulse Drive		1.00	1.50	2.50	2x	STR_50%			
+
+1H Axe WS		100%	200%	300%	#Hits	Secondary Attribute	TP Adjustment
+Raging Axe		1.00	1.50	2.00	2x	STR_30%			
+Smash Axe		1.00			1x	STR_30%			More stun
+Gale Axe		1.50	2.00	2.50	1x	STR_30%			More choke
+Avalanche Axe		2.00	2.50	3.00	1x	STR_35%			
+Spinning Axe		1.00			1x	STR_30%			
+Rampage			0.50			5x	STR_30%			Crit Chance
+Calamity		2.50	3.00	3.50	1x	STR_50%			
+Mistral Axe		1.00	1.50	4.00	1x	STR_32%, VIT_32%		
+Decimation		1.00			3x	STR_50%			Accuracy
+
+Great Axe WS		100%	200%	300%	#Hits	Secondary Attribute	TP Adjustment
+Shield Break		1.00			1x	STR_20%, VIT_20%	More Evade Down
+Iron Tempest		1.00			1x	STR_30%			
+Sturmwind		1.00			2x	STR_30%			
+Armor Break		1.00			1x	STR_20%, VIT_20%	More Def Down
+Keen Edge		1.00			1x	STR_35%			Crit Rate
+Weapon Break		1.00			1x	STR_32%, VIT_32%	More ATK Down
+Raging Rush		1.00	1.50	2.50	3x	STR_35%			
+Full Break		1.00			1x	STR_50%, VIT_50%	More Stat Down
+Steel Cyclone		1.50	1.75	3.00	1x	STR_50%, VIT_50%		
+
+Club WS			100%	200%	300%	#Hits	Secondary Attribute	TP Adjustment
+Brainshaker		1.00			1x	STR_30%			More stun
+Skullbreaker		1.00			1x	STR_35%			More INT down
+True Strike		1.00			1x	STR_50%			Crit Rate
+Judgment		2.00	2.50	4.00	1x	STR_32%, MND_32%		
+Hexastrike		???			6x	STR_??%			Crit Rate
+Black Halo		1.50	2.50	3.00	2x	STR_30%, MND_50%		
+
+Staff WS		100%	200%	300%	#Hits	Secondary Attribute	TP Adjustment
+Heavy Swing		1.00	1.25	2.25	1x	STR_30%			
+Shell Crusher		1.00			1x	STR_35%			More DEFDown
+Full Swing		1.00	3.00	5.00	1x	STR_50%			
+Spirit Taker		1.00	1.50	2.00	1x	INT_50%, MND_50%		
+Retribution		2.00	2.50	3.00	1x	STR_30%, MND_50%		
+
+Katana WS		100%	200%	300%	#Hits	Secondary Attribute	TP Adjustment
+Blade: Rin		1.00			1x	???_30%			Crit Rate
+Blade: Retsu		1.00			2x	???_30%			More paralysis
+Blade: Jin		1.00			3x	STR_30%, DEX_30%	Crit Rate
+Blade: Ten		2.50	2.75	3.00	1x	STR_30%, DEX_30%		
+Blade: Ku		1.00			5x	(random)_20%		Accuracy
+
+Great Katana WS	100%	200%	300%	#Hits	Secondary Attribute		TP Adjustment
+Tachi: Enpi		1.00	1.50	2.00	2x	STR_30%			
+Tachi: Hobaku		1.00			1x	STR_30%			More Stun
+Tachi: Yukikaze	1.50	2.00	2.50	1x	STR_75%			
+Tachi: Gekko		1.50	2.00	2.50	1x	STR_75%			
+Tachi: Kasha		1.50	2.00	2.50	1x	STR_75%	
+
+Archery WS		100%	200%	300%	#Hits	Secondary Attribute	TP Adjustment
+Flaming Arrow		1.00	1.00	1.00	1x	STR_16%, AGI_25%		
+Piercing Arrow		1.00			1x	STR_16%, AGI_25%	Def Down
+Dulling Arrow		1.00			1x	STR_16%, AGI_25%	Crit Rate
+Sidewinder		5.00			1x	STR_16%, AGI_25%	Accuracy
+Blast Arrow		2.00			1x	STR_16%, AGI_25%	Accuracy
+Arching Arrow		3.50			1x	STR_16%, AGI_25%	Crit Rate
+Empyrial Arrow		2.50	2.75	3.00	1x	STR_16%, AGI_25%		
+
+Marksmanship WS		100%	200%	300%	#Hits	Secondary Attribute	TP Adjustment
+Hot Shot			1.00	1.00	1.00	1x	AGI_30%			
+Split Shot		1.00			1x	AGI_30%			Def Down
+Sniper Shot		1.00			1x	AGI_30%			Crit Rate
+Slug Shot		5.00			1x	AGI_30%			Accuracy
+Blast Shot		2.00			1x	AGI_30%			Accuracy
+Heavy Shot		3.50			1x	AGI_30%			Crit Rate
+Detonator		2.50	2.75	3.00	1x	AGI_30%
+
+--Rugal
