@@ -1152,11 +1152,7 @@ namespace battleutils
                 obiBonus = true;
             }
         }
-        else
-        {
-            // mobs random multiplier
-            dBonus += tpzrand::GetRandomNumber(100) / 1000.0f;
-        }
+
        // if (WeekDay == strongDay[element] && (obiBonus || tpzrand::GetRandomNumber(100) < 33))
         if (WeekDay == strongDay[element] && (obiBonus || tpzrand::GetRandomNumber(100) < 33))
             dBonus += 0.1f;
@@ -5750,11 +5746,7 @@ namespace battleutils
                 obiBonus = true;
             }
         }
-        else
-        {
-            // mobs random multiplier
-            dBonus += tpzrand::GetRandomNumber(100) / 1000.0f;
-        }
+
        // if (WeekDay == strongDay[appliedEle] && (obiBonus || tpzrand::GetRandomNumber(100) < 33))
         if (WeekDay == strongDay[appliedEle -1] && (obiBonus || tpzrand::GetRandomNumber(100) < 33))
             dBonus += 0.1f;
