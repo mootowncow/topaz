@@ -2894,7 +2894,7 @@ namespace battleutils
         if (cRatio < 0)
             cRatio = 0;
 
-        cRatio = std::clamp<float>(cRatio, 0.f, 2.5f);
+        cRatio = std::clamp<float>(cRatio, 0.f, 2.4f);
         
         // level correct (0.025 not 0.05 like for melee) PLAYERS ONLY
         if (PAttacker->objtype == TYPE_PC && !PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_FLASHY_SHOT))
@@ -2924,8 +2924,15 @@ namespace battleutils
             maxPdif = cRatio;
         }
 
-        minPdif = std::clamp<float>(minPdif, 0.f, 2.5f);
-        maxPdif = std::clamp<float>(maxPdif, 0.f, 2.5f);
+        minPdif = std::clamp<float>(minPdif, 0.f, 2.4f);
+        maxPdif = std::clamp<float>(maxPdif, 0.f, 2.4f);
+
+        // Mobs pDIF never goes below 0.5 or above 2.0
+        if (PAttacker->objtype == TYPE_MOB)
+        {
+            minPdif = std::clamp<float>(minPdif, 0.5f, 2.0f);
+            maxPdif = std::clamp<float>(maxPdif, 0.5f, 2.0f);
+        }
 
         
         // Random roll between min/max
@@ -2938,6 +2945,12 @@ namespace battleutils
             float baseCritMultiplier = 1.25f * (1.0f + PAttacker->getMod(Mod::DEAD_AIM_EFFECT) / 100.0f);
             pDIF *= baseCritMultiplier;
 
+            // Mobs pDIF never goes below 0.5 or above 2.0
+            if (PAttacker->objtype == TYPE_MOB)
+            {
+                pDIF = std::clamp(pDIF, 0.5f, 2.0f);
+            }
+
             // Apply additional critical damage modifiers, adjusted for defender's critical defense
             int16 critDamageMods = PAttacker->getMod(Mod::CRIT_DMG_INCREASE) + PAttacker->getMod(Mod::RANGED_CRIT_DMG_INCREASE);
             int16 criticaldamage = critDamageMods - PDefender->getMod(Mod::CRIT_DEF_BONUS);
@@ -2946,6 +2959,7 @@ namespace battleutils
             pDIF *= ((100 + criticaldamage) / 100.0f);
         }
 
+        //ShowDebug("PDif: %f\n", pDIF);
         return pDIF;
     }
 
