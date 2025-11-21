@@ -509,6 +509,24 @@ void CGambitsContainer::Tick(time_point tick)
                                 PSpell = static_cast<SpellID>(spell_id.value());
                                 if (!POwner->SpellContainer->IsImmune(target, PSpell))
                                 {
+                                    spell = spell::GetSpell(PSpell);
+                                    SPELLGROUP group = spell->getSpellGroup();
+                                    if (group && group == SPELLGROUP_SONG)
+                                    {
+                                        family = spell->getSpellFamily();
+                                        switch (family)
+                                        {
+                                            // Remove Pianssimo if casting a song that shouldn't be Piansimmo'd
+                                            case SPELLFAMILY_VALOR_MINUET:
+                                            case SPELLFAMILY_MADRIGAL:
+                                            case SPELLFAMILY_MARCH:
+                                                (POwner->StatusEffectContainer->DelStatusEffect(EFFECT_PIANISSIMO));
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }
+
                                     controller->Cast(target->targid, PSpell);
                                     return;
                                 }
