@@ -24,6 +24,10 @@ function onTrigger(player, slot, points, target)
     end
 
     -- validate points
+        if points == nil then
+        error(player, "Must provide points to add.")
+        return
+    end
     if points < 0 then
         error(player, "Cannot add negative points.")
         return

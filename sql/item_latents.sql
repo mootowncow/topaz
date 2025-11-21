@@ -2334,7 +2334,7 @@ INSERT INTO `item_latents` VALUES(17192, 165, 3, 21, 10);   -- Increases Critica
 INSERT INTO `item_latents` VALUES(17204, 56, 15, 31, 0);    -- [Element: Wind]+15
 INSERT INTO `item_latents` VALUES(17204, 376, 10, 31, 0);   -- Mighty Bow DMG+10 (to ranged) on Windsday
 INSERT INTO `item_latents` VALUES(17204, 376, 10, 52, 3);   -- Mighty Bow DMG+10 (to ranged) during Wind Weather
-INSERT INTO `item_latents` VALUES(17207, 376, 13, 47, 0);
+INSERT INTO `item_latents` VALUES(17207, 376, 13, 47, 2);
 INSERT INTO `item_latents` VALUES(17208, 26, 10, 59, 12);   -- Hamayumi - Vs. Empty: Ranged Accuracy+10
 INSERT INTO `item_latents` VALUES(17208, 66, 10, 59, 12);   -- Vs. Empty: Ranged Attack+10%
 
@@ -2364,7 +2364,7 @@ INSERT INTO `item_latents` VALUES(17212, 26, 25, 37, 4);
 INSERT INTO `item_latents` VALUES(17269, 24, 8, 53, 0);     -- RATT +8 in areas outside own nation's control
 INSERT INTO `item_latents` VALUES(17270, 24, 9, 53, 0);     -- RATT +9 in areas outside own nation's control
 
-INSERT INTO `item_latents` VALUES(17275, 376, 13, 47, 0);
+INSERT INTO `item_latents` VALUES(17275, 376, 13, 47, 2);
 -- -------------------------------------------------------
 -- Rune Arrow
 -- -------------------------------------------------------
@@ -2810,9 +2810,13 @@ INSERT INTO `item_latents` VALUES(18135, 8, 3, 53, 0);      -- STR +3 in areas o
 INSERT INTO `item_latents` VALUES(18144, 2, -20, 47, 0);
 INSERT INTO `item_latents` VALUES(18144, 56, -10, 47, 0);
 INSERT INTO `item_latents` VALUES(18144, 58, -10, 47, 0);
-INSERT INTO `item_latents` VALUES(18146, 2, -20, 47, 0);
-INSERT INTO `item_latents` VALUES(18146, 57, -10, 47, 0);
-INSERT INTO `item_latents` VALUES(18146, 59, -10, 47, 0);
+
+-- -------------------------------------------------------
+-- Gun of Trials
+-- -------------------------------------------------------
+INSERT INTO `item_latents` VALUES(18146, 2, -20, 47, 2);
+INSERT INTO `item_latents` VALUES(18146, 57, -10, 47, 2);
+INSERT INTO `item_latents` VALUES(18146, 59, -10, 47, 2);
 
 -- -------------------------------------------------------
 -- Fenrir's Stone
@@ -3771,13 +3775,13 @@ INSERT INTO `item_latents` VALUES(17744, 355, 45, 47, 0);   -- Brave Blade
 INSERT INTO `item_latents` VALUES(18944, 355, 106, 47, 0);  -- Death Sickle
 INSERT INTO `item_latents` VALUES(17956, 355, 74, 47, 0);   -- Double Axe
 INSERT INTO `item_latents` VALUES(18034, 355, 28, 47, 0);   -- Dancing Dagger
-INSERT INTO `item_latents` VALUES(18719, 355, 217, 47, 0);  -- Killer Bow
+INSERT INTO `item_latents` VALUES(18719, 355, 217, 47, 2);  -- Killer Bow
 INSERT INTO `item_latents` VALUES(18443, 355, 154, 47, 0);  -- Windslicer
 INSERT INTO `item_latents` VALUES(18426, 355, 138, 47, 0);  -- Sasuke Katana
 INSERT INTO `item_latents` VALUES(18120, 355, 122, 47, 0);  -- Radiant Lance
 INSERT INTO `item_latents` VALUES(18590, 355, 187, 47, 0);  -- Scepter Staff
 INSERT INTO `item_latents` VALUES(17743, 355, 46, 47, 0);   -- Wightslayer
-INSERT INTO `item_latents` VALUES(18720, 355, 218, 47, 0);  -- Quicksilver
+INSERT INTO `item_latents` VALUES(18720, 355, 218, 47, 2);  -- Quicksilver
 INSERT INTO `item_latents` VALUES(18754, 355, 12, 47, 0);   -- Inferno Claws
 INSERT INTO `item_latents` VALUES(19102, 355, 29, 47, 0);   -- Main Gauche
 INSERT INTO `item_latents` VALUES(18592, 355, 188, 47, 0);  -- Elder Staff
