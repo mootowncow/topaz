@@ -770,10 +770,6 @@ INSERT INTO `traits` VALUES (136,'shield barrier',1,30,1,1310,10,'ROV',0); -- WA
 INSERT INTO `traits` VALUES (136,'shield barrier',1,45,2,1310,15,'ROV',0);
 INSERT INTO `traits` VALUES (136,'shield barrier',1,60,3,1310,20,'ROV',0);
 INSERT INTO `traits` VALUES (136,'shield barrier',1,75,4,1310,25,'ROV',0);
-INSERT INTO `traits` VALUES (136,'shield barrier',8,30,1,1310,10,'ROV',0); -- DRK
-INSERT INTO `traits` VALUES (136,'shield barrier',8,45,2,1310,15,'ROV',0);
-INSERT INTO `traits` VALUES (136,'shield barrier',8,60,3,1310,20,'ROV',0);
-INSERT INTO `traits` VALUES (136,'shield barrier',8,75,4,1310,25,'ROV',0);
 INSERT INTO `traits` VALUES (136,'shield barrier',11,45,1,1310,10,'ROV',0); -- RNG
 INSERT INTO `traits` VALUES (136,'shield barrier',11,55,2,1310,15,'ROV',0);
 INSERT INTO `traits` VALUES (136,'shield barrier',11,65,3,1310,20,'ROV',0);
