@@ -9944,34 +9944,40 @@ namespace battleutils
         return false;
     }
 
-    ELEMENT GetTargetWeakness(CBattleEntity* PEntity, bool excludeLightDark)
+    ELEMENT GetTargetSCElementWeakness(CBattleEntity* PEntity, const std::vector<ELEMENT>& scElements, bool excludeLightDark)
     {
-        // Look up what the target has the _highest resistance to_:
-        std::vector<int16> resistances
-        {
-            PEntity->getMod(Mod::SDT_FIRE),
-            PEntity->getMod(Mod::SDT_ICE),
-            PEntity->getMod(Mod::SDT_WIND),
-            PEntity->getMod(Mod::SDT_EARTH),
-            PEntity->getMod(Mod::SDT_THUNDER),
-            PEntity->getMod(Mod::SDT_WATER),
-            PEntity->getMod(Mod::SDT_LIGHT),
-            PEntity->getMod(Mod::SDT_DARK),
-        };
+        ELEMENT bestElement = ELEMENT_NONE;
+        int16 bestValue = std::numeric_limits<int16>::min();
 
-        // If Light and Dark should be excluded, set their values to a very low number (so they are not considered)
-        if (excludeLightDark)
+        for (auto ele : scElements)
         {
-            // Set Light and Dark to an extremely low value to exclude them from consideration
-            resistances[6] = std::numeric_limits<int16>::lowest();  // SDT_LIGHT
-            resistances[7] = std::numeric_limits<int16>::lowest();  // SDT_DARK
+            if (excludeLightDark && (ele == ELEMENT_LIGHT || ele == ELEMENT_DARK))
+                continue;
+
+            int16 sdt = 0;
+            switch (ele)
+            {
+                case ELEMENT_FIRE:    sdt = PEntity->getMod(Mod::SDT_FIRE); break;
+                case ELEMENT_ICE:     sdt = PEntity->getMod(Mod::SDT_ICE); break;
+                case ELEMENT_WIND:    sdt = PEntity->getMod(Mod::SDT_WIND); break;
+                case ELEMENT_EARTH:   sdt = PEntity->getMod(Mod::SDT_EARTH); break;
+                case ELEMENT_THUNDER: sdt = PEntity->getMod(Mod::SDT_THUNDER); break;
+                case ELEMENT_WATER:   sdt = PEntity->getMod(Mod::SDT_WATER); break;
+                case ELEMENT_LIGHT:   sdt = PEntity->getMod(Mod::SDT_LIGHT); break;
+                case ELEMENT_DARK:    sdt = PEntity->getMod(Mod::SDT_DARK); break;
+                default: continue;
+            }
+
+            // Higher SDT = weaker to that element
+            if (sdt > bestValue)
+            {
+                bestValue = sdt;
+                bestElement = ele;
+            }
         }
 
-        // Find the index of the highest resistance (most resistant element)
-        std::size_t strongestIndex = std::distance(resistances.begin(), std::max_element(resistances.begin(), resistances.end()));
-
-        // Return the corresponding element based on the index (adjusted to match ELEMENT values)
-        return (ELEMENT)(strongestIndex + 1);  // +1 because ELEMENT_NONE is usually 0, and the others start from 1
+        // ShowDebug("[GetTargetSCElementWeakness]: returning %u (SDT=%d)\n", bestElement, bestValue);
+        return bestElement;
     }
 
     void HandleFoodEffects(CItemUsable* PItem, CBattleEntity* PTarget)

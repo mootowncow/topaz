@@ -348,8 +348,6 @@ std::optional<SpellID> CMobSpellContainer::GetBestAgainstTargetWeakness(CBattleE
         PTarget->getMod(Mod::SDT_EARTH),
         PTarget->getMod(Mod::SDT_THUNDER),
         PTarget->getMod(Mod::SDT_WATER),
-        PTarget->getMod(Mod::SDT_LIGHT),
-        PTarget->getMod(Mod::SDT_DARK),
     };
     // clang-format on
 
@@ -394,16 +392,6 @@ std::optional<SpellID> CMobSpellContainer::GetBestAgainstTargetWeakness(CBattleE
             choice = GetBestAvailable(SPELLFAMILY_WATER);
             break;
         }
-        case ELEMENT_LIGHT:
-        {
-            choice = GetBestAvailable(SPELLFAMILY_BANISH);
-            break;
-        }
-        case ELEMENT_DARK:
-        {
-            choice = GetBestAvailable(SPELLFAMILY_DRAIN);
-            break;
-        }
     }
 
     // All equal weakness, pick a spell based on day
@@ -439,16 +427,6 @@ std::optional<SpellID> CMobSpellContainer::GetBestAgainstTargetWeakness(CBattleE
             case ELEMENT_WATER:
             {
                 choice = GetBestAvailable(SPELLFAMILY_WATER);
-                break;
-            }
-            case ELEMENT_LIGHT:
-            {
-                choice = GetBestAvailable(SPELLFAMILY_BANISH);
-                break;
-            }
-            case ELEMENT_DARK:
-            {
-                choice = GetBestAvailable(SPELLFAMILY_DRAIN);
                 break;
             }
         }
@@ -492,18 +470,6 @@ std::optional<SpellID> CMobSpellContainer::GetBestAgainstTargetWeakness(CBattleE
             case WEATHER_SQUALL:
             {
                 choice = GetBestAvailable(SPELLFAMILY_WATER);
-                break;
-            }
-            case WEATHER_AURORAS:
-            case WEATHER_STELLAR_GLARE:
-            {
-                choice = GetBestAvailable(SPELLFAMILY_BANISH);
-                break;
-            }
-            case WEATHER_GLOOM:
-            case WEATHER_DARKNESS:
-            {
-                choice = GetBestAvailable(SPELLFAMILY_DRAIN);
                 break;
             }
         }

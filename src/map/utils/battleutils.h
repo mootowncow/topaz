@@ -352,7 +352,7 @@ namespace battleutils
     void                HandlePlayerSpellCasted(CBattleEntity* PSource, CSpell* PSpell, action_t* action);
 
     bool                IsTopEnmity(CBattleEntity* PAttacker, CBattleEntity* PDefender);
-    ELEMENT             GetTargetWeakness(CBattleEntity* PEntity, bool excludeLightDark = false);
+    ELEMENT             GetTargetSCElementWeakness(CBattleEntity* PEntity, const std::vector<ELEMENT>& scElements, bool excludeLightDark = false);
 
     void                HandleFoodEffects(CItemUsable* PItem, CBattleEntity* PTarget);
     void                HandleImpetus(CBattleEntity* PEntity);

@@ -653,6 +653,7 @@ void CGambitsContainer::Tick(time_point tick)
                     for (auto& resonance_element : resonanceProperties)
                     {
                         const auto& sc_elements = battleutils::GetSkillchainMagicElement(resonance_element);
+                        ELEMENT weakestSC = battleutils::GetTargetSCElementWeakness(target, sc_elements, true);
 
                         for (auto& chain_element : sc_elements)
                         {
@@ -666,15 +667,13 @@ void CGambitsContainer::Tick(time_point tick)
                                 auto time_remaining = PSCEffect->GetTimeRemaining();
 
                                 // Check if the spell matches the chain element and the target's weakness
-                                if (spell_element == chain_element &&
-                                    spell_cast_time <= time_remaining &&
-                                    POwner->SpellContainer->GetAvailable(spell) &&
-                                    spell_element == battleutils::GetTargetWeakness(target, true)) // Matching the element weakness
+                                if (spell_element == weakestSC && spell_cast_time <= time_remaining && POwner->SpellContainer->GetAvailable(spell))
                                 {
                                     spell_id = spell;
                                     found = true;
-                                    break; // Exit inner loop if we find a matching spell
+                                    break;
                                 }
+
                             }
 
                             // If found, no need to continue further iterations
