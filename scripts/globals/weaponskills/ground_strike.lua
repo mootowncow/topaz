@@ -20,7 +20,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     params.crit100 = 0.0 params.crit200 = 0.0 params.crit300 = 0.0
     params.canCrit = false
     params.acc100 = 0.0 params.acc200= 0.0 params.acc300= 0.0
-    params.atk100 = 2.0; params.atk200 = 2.0; params.atk300 = 2.0
+    params.atk100 = 1.75 params.atk200 = 1.75; params.atk300 = 1.75
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 		if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.GREAT_SWORD, tpHits+extraHits) end
