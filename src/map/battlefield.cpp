@@ -41,6 +41,8 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "packets/entity_update.h"
 #include "packets/message_basic.h"
 #include "packets/position.h"
+#include "packets/char_recast.h"
+
 
 #include "status_effect_container.h"
 #include "recast_container.h"
@@ -298,7 +300,10 @@ bool CBattlefield::InsertEntity(CBaseEntity* PEntity, bool enter, BATTLEFIELDMOB
 
                 CAbility* PActivateAbility = ability::GetAbility(ABILITY_ACTIVATE);
                 if (PActivateAbility)
+                {
                     PChar->PRecastContainer->Del(RECAST_ABILITY, PActivateAbility->getRecastId());
+                    PChar->pushPacket(new CCharRecastPacket(PChar));
+                }
 
                 luautils::OnBattlefieldEnter(PChar, this);
 
