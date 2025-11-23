@@ -20,6 +20,7 @@ function onMobSpawn(mob)
     mob:getStatusEffect(tpz.effect.ARROW_SHIELD):unsetFlag(tpz.effectFlag.DISPELABLE)
     mob:getStatusEffect(tpz.effect.MAGIC_SHIELD):unsetFlag(tpz.effectFlag.DISPELABLE)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+    mob:SetAutoAttackEnabled(false)
     --printf("Add Status");
 end
 
