@@ -7493,7 +7493,7 @@ INSERT INTO `item_equipment` VALUES (17761,'oberons_rapier',75,0,16,187,0,0,3,0,
 INSERT INTO `item_equipment` VALUES (17762,'erlkings_sword',75,0,64,275,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17763,'erlkings_blade',75,0,32768,260,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17764,'trainee_sword',1,0,4194303,253,0,0,3,0,0);
-INSERT INTO `item_equipment` VALUES (17765,'concordia',75,0,2506401,460,0,0,3,0,0);
+INSERT INTO `item_equipment` VALUES (17765,'concordia',75,0,35009,460,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17766,'lyft_scimitar',73,0,2130113,255,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17767,'chipped_scimitar',75,0,35009,256,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17768,'yoto_+1',46,0,4096,310,0,0,3,0,0);

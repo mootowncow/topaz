@@ -4594,7 +4594,7 @@ INSERT INTO `item_weapon` VALUES (21818,'raetic_scythe',7,0,242,242,215,2,1,528,
 INSERT INTO `item_weapon` VALUES (21819,'raetic_scythe_+1',7,0,242,242,215,2,1,513,353,0);
 INSERT INTO `item_weapon` VALUES (21820,'januss_sickle',7,0,0,0,0,2,1,528,1,0);
 INSERT INTO `item_weapon` VALUES (21821,'lost_sickle_+1',7,0,0,0,0,2,1,513,2,0);
-INSERT INTO `item_weapon` VALUES (21822,'voluspa_scythe',7,0,215,215,215,2,1,528,98,0);
+INSERT INTO `item_weapon` VALUES (21822,'voluspa_scythe',7,0,215,215,215,2,1,528,95,0);
 INSERT INTO `item_weapon` VALUES (21823,'abyss_scythe',7,0,242,242,228,2,1,528,352,0);
 INSERT INTO `item_weapon` VALUES (21824,'fallens_scythe',7,0,255,255,242,2,1,513,353,0);
 INSERT INTO `item_weapon` VALUES (21825,'father_time',7,0,269,269,255,2,1,513,354,0);

@@ -14776,7 +14776,7 @@ INSERT INTO `item_basic` VALUES (17465,0,'mighty_cudgel','mighty_cudgel',1,2052,
 INSERT INTO `item_basic` VALUES (17466,0,'dia_wand','dia_wand',1,63568,0,1,0);
 INSERT INTO `item_basic` VALUES (17467,0,'martial_wand','martial_wand',1,2052,11,0,1875);
 INSERT INTO `item_basic` VALUES (17468,0,'raise_rod','raise_rod',1,35844,11,0,1130);
-INSERT INTO `item_basic` VALUES (17469,0,'raise_ii_rod','raise_ii_rod',1,35844,11,0,2532);
+INSERT INTO `item_basic` VALUES (17469,0,'raise_ii_rod','raise_ii_rod',1,35844,11,0,5270);
 INSERT INTO `item_basic` VALUES (17470,0,'pealing_buzdygan','pealing_buzdygan',1,3108,11,0,3211);
 INSERT INTO `item_basic` VALUES (17471,0,'horrent_mace','horrent_mace',1,2052,11,0,2880);
 INSERT INTO `item_basic` VALUES (17472,0,'cross-counters','cross-counters',1,2052,1,0,2974);

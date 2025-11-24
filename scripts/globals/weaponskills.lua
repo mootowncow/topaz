@@ -572,6 +572,14 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
 	    end
     end
 
+    -- Handle Galatyn severe weaponskill damage proc (20% chance at +50% dmg)
+	local main = attacker:getEquipID(tpz.slot.MAIN)
+	local galatyn = main == tpz.items.GALATYN
+
+    if (galatyn and math.random(100) <= 20) then
+        finaldmg = math.floor(finaldmg * 1.5)
+    end
+
     -- Handle Scarlet Delirium
     finaldmg = utils.ScarletDeliriumBonus(attacker, finaldmg)
 
