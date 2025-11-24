@@ -16483,11 +16483,11 @@ INSERT INTO `item_mods` VALUES (15091,5,24);      -- MP +24
 INSERT INTO `item_mods` VALUES (15091,11,4);      -- AGI +4
 INSERT INTO `item_mods` VALUES (15091,112,10);    -- Healing magic skill +10
 INSERT INTO `item_mods` VALUES (15091,170,10);    -- Fast Cast +10%
-INSERT INTO `item_mods` VALUES (15092,1,45);
-INSERT INTO `item_mods` VALUES (15092,2,22);
-INSERT INTO `item_mods` VALUES (15092,11,4);
-INSERT INTO `item_mods` VALUES (15092,27,3);
-INSERT INTO `item_mods` VALUES (15092,165,1);
+INSERT INTO `item_mods` VALUES (15092,1,45); -- DEF 45
+INSERT INTO `item_mods` VALUES (15092,2,22); -- HP 22
+INSERT INTO `item_mods` VALUES (15092,11,6); -- AGI 6
+INSERT INTO `item_mods` VALUES (15092,27,10); -- ENMITY 10
+INSERT INTO `item_mods` VALUES (15092,165,1); -- CRITHITRATE 1
 INSERT INTO `item_mods` VALUES (15093,1,55); -- DEF 55
 INSERT INTO `item_mods` VALUES (15093,2,23); -- HP 23
 INSERT INTO `item_mods` VALUES (15093,9,3); -- DEX 3
