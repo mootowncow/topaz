@@ -199,25 +199,6 @@ tpz.wotg.mobTypes = {
     Elite      = 3,
 }
 
--- These two tables need to match
-tpz.wotg.events = {
-    Waves       = 1,
-    Defense     = 2,
-    Boss        = 3,
-    Mimic       = 4,
-    Special     = 5,
-    MetaBoss    = 6
-}
--- These two tables need to match
-local eventList = {
-    [1] = randomEventWaves,
-    [2] = randomEventDefense,
-    [3] = randomEventBoss,
-    [4] = randomEventMimic,
-    [5] = randomEventSpecial,
-    [5] = randomEventMetaBoss,
-}
-
 local mobFamily = {
     [tpz.zone.CRAWLERS_NEST_S] = {
         Scorpids = { 17478169, 17478170, 17478171, 17478172, 17478173, 17478174, 17478175, 17478176, 17478177, 17478178 },
@@ -269,12 +250,12 @@ local metaBosses = {
         { Name = 'Lugh',        Id = 17477708, Pos = 'E-7', Title = tpz.title.LUGH_EXORCIST },
     },
     [tpz.zone.GARLAIGE_CITADEL_S] = {
-        { Name = 'Ethniu',      Id = 17494093, Pos = 'K-7', Title = tpz.title.ETHNIU_EXORCIST },
-        { Name = 'Tethra',      Id = 17494213, Pos = 'K-12', Title = tpz.title.TETHRA_EXORCIST },
+        { Name = 'Elatha',      Id = 17449008, Pos = 'F-9 (Map 2)', Title = tpz.title.ELATHA_EXORCIST },
+        { Name = 'Buarainech',  Id = 17449017, Pos = 'H-7 (Map 3)', Title = tpz.title.BUARAINECH_EXORCIST },
     },
     [tpz.zone.THE_ELDIEME_NECROPOLIS_S] = {
-        { Name = 'Elatha',      Id = 17449008, Pos = 'F-9(Map 2)', Title = tpz.title.ELATHA_EXORCIST },
-        { Name = 'Buarainech',  Id = 17449017, Pos = 'H-7(Map 3)', Title = tpz.title.BUARAINECH_EXORCIST },
+        { Name = 'Ethniu',      Id = 17494093, Pos = 'K-7', Title = tpz.title.ETHNIU_EXORCIST },
+        { Name = 'Tethra',      Id = 17494213, Pos = 'K-12', Title = tpz.title.TETHRA_EXORCIST },
     },
 }
 
@@ -896,7 +877,7 @@ local function generateActiveRegions(zone)
     local regionsGenerated = regionsAmount / 4 -- 25% of total regions active at once
     local lastRegion = zone:getLocalVar("lastRegion")
     tpz.wotg.activeRegions[zoneId] = {}
-    
+
     if (ENABLE_WOTG_DUNGEONS == 0) then return end
 
     -- Build a list of region IDs excluding the lastRegion
@@ -1293,6 +1274,18 @@ end
 local function randomEventSpecial(player)
 end
 
+tpz.wotg.events = {
+    Waves       = 1,
+    Boss        = 2,
+    Mimic       = 3,
+    MetaBoss    = 4
+}
+local eventList = {
+    [1] = randomEventWaves,
+    [2] = randomEventBoss,
+    [3] = randomEventMimic,
+}
+
 local function RandomEventComplete(player)
     local zone = player:getZone()
     local amount = math.random(1, 3)
@@ -1310,8 +1303,7 @@ local function SpawnMetaBoss(player, zone)
     local zoneId = player:getZoneID()
     local bossData = metaBosses[zoneId]
     local eventActive = zone:getLocalVar("eventActive")
-    -- TODO: Spams has spawned, doesnt spawn him
-    -- Need to set eventActive and add entry for metaBoss
+    
     if not bossData then
         printf("SpawnMetaBoss: No meta boss found.")
         return
@@ -3474,6 +3466,7 @@ function eventOnMobDeath.MetaBoss(mob, player, isKiller, noKiller)
         zone:setLocalVar("metaProgress", 0)
         zone:setLocalVar("eventActive", 0)
         utils.MessageParty(player, 'Meta progress: ' .. zone:getLocalVar("metaProgress") .. '%', tpz.msg.textColor.HIDDEN, nil)
+        generateActiveRegions(zone)
     end
 
     for _, boss in pairs(bossData) do
@@ -3529,9 +3522,7 @@ tpz.wotg.getActiveRegions = function(zone)
 end
 
 tpz.wotg.RandomEvent = function(player)
-    local zone = player:getZone()
-    randomEventWaves(player) -- TODO: Remove after done testing
-    --eventList[math.random(#eventList)](player) -- TODO: Does this work?
+    eventList[math.random(1, 3)](player) -- 4 is meta boss, don't randomize spawning meta
 end
 
 tpz.wotg.spawnWave = function(player, waveIndex)
