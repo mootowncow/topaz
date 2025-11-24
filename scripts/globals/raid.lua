@@ -2910,11 +2910,12 @@ function TryChemistAbility(mob, target, skill)
     local buffTimer = mob:getLocalVar("buffTimer")
 
     -- Applies Insomninant to self after being slept once
-    if (wasSlept > 0) and not mob:hasStatusEffect(tpz.effect.NEGATE_SLEEP) then
-        -- mob:useMobAbility(tpz.mob.skills.MIX_INSOMNIANT, mob) TODO: CRASHES GAME
-        -- mob:setLocalVar("globalPotionTimer", os.time() + 5) TODO: CRASHES GAME
-        return
-    end
+    -- TODO: Mix Insomniant crashes the game
+    -- if (wasSlept > 0) and not mob:hasStatusEffect(tpz.effect.NEGATE_SLEEP) then
+    --     mob:useMobAbility(tpz.mob.skills.MIX_INSOMNIANT, mob)
+    --     mob:setLocalVar("globalPotionTimer", os.time() + 5)
+    --     return
+    -- end
 
     local nearbyFriendly = mob:getNearbyEntities(20)
     if (nearbyFriendly ~= nil) then 
