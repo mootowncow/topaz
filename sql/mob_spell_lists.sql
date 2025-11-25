@@ -543,8 +543,8 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,102,20,70); -- Enaero
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,154,9,33);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,155,34,58);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,156,59,71);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,157,72,82);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,158,83,255);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,157,72,98);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,158,99,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,184,23,47);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,185,48,66);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,186,67,255);
@@ -558,8 +558,8 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,103,18,70); -- Enston
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,159,1,25);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,160,26,50);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,161,51,67);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,162,68,76);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,163,77,255);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,162,68,98);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,163,99,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,189,15,39);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,190,40,62);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,191,63,255);
@@ -570,8 +570,8 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,101,22,70); -- Enblizza
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,149,17,41);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,150,42,63);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,151,64,73);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,152,74,88);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,153,89,255);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,152,74,98);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,153,99,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,179,32,56);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,180,57,70);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,181,71,255);
@@ -584,8 +584,8 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,105,27,70); -- Enwate
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,169,5,29);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,170,30,54);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,171,55,69);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,172,70,79);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,173,80,255);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,172,70,98);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,173,99,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,199,19,43);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,200,44,64);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,201,65,255);
@@ -598,8 +598,8 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,104,16,70); -- Enth
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,164,21,45);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,165,46,65);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,166,66,74);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,167,75,91);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,168,92,255);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,167,75,98);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,168,99,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,194,36,60);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,195,61,72);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,196,73,255);
@@ -611,8 +611,8 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,100,24,70); -- Enfire
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,144,13,37);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,145,38,61);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,146,62,72);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,147,73,85);
-INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,148,86,255);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,147,73,98);
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,148,99,255);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,174,28,52);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,175,53,68);
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,176,69,255);
