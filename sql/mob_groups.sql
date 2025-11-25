@@ -9150,7 +9150,7 @@ INSERT INTO `mob_groups` VALUES (51,5971,125,'Mildaurion',0,128,0,1300,0,80,80,1
 INSERT INTO `mob_groups` VALUES (52,5920,125,'Rainemard',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (53,5907,125,'Lion',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (54,5999,125,'Monberaux',0,128,0,1300,0,80,80,1);
-INSERT INTO `mob_groups` VALUES (55,5915,125,'Shikaree_Z',0,128,0,1300,0,80,80,1);
+INSERT INTO `mob_groups` VALUES (55,9162,125,'Shikaree_Z',0,128,0,1300,0,80,80,1);
 INSERT INTO `mob_groups` VALUES (56,4736,125,'Shikaree_Zs_Wyvern',0,128,0,1300,0,80,80,1);
 
 INSERT INTO `mob_groups` VALUES (6784,2226,125,'Kilhwch',0,128,0,0,0,0,0,0);
