@@ -8,12 +8,6 @@ require("scripts/globals/status")
 -----------------------------------
 
 function onMobSpawn(mob)
-    -- adjust drops based on number of HQ Aern Organs traded to QM
-    local qm = GetNPCByID(ID.npc.IXAERN_MNK_QM)
-    local chance = qm:getLocalVar("[SEA]IxAern_DropRate")
-    SetDropRate(2845, 1851, chance * 10) -- Deed Of Placidity
-    qm:setLocalVar("[SEA]IxAern_DropRate", 0)
-	
 	mob:setDamage(40)
     mob:setDelay(8000)
     mob:addMod(tpz.mod.ATTP, 15)
