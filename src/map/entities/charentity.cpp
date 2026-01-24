@@ -2658,22 +2658,22 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
     PAI->TargetFind->reset();
     if (PItem->getAoE())
     {
-        PTarget->ForParty([this, PItem, PTarget](CBattleEntity* PMember)
-        {
-            if (!PMember->isDead() && distance(PTarget->loc.p, PMember->loc.p) <= 10)
+        static_cast<CCharEntity*>(PTarget)->ForPartyWithTrusts(
+            [this, PItem, PTarget](CBattleEntity* PMember)
             {
-                luautils::OnItemUse(PMember, PItem, this);
-                battleutils::GenerateInRangeEnmity(PTarget, 0, 640);
-
-                // Prism and Rainbow powders
-                if (PItem->getID() != 4164 && PItem->getID() != 5362)
+                if (!PMember->isDead() && distance(PTarget->loc.p, PMember->loc.p) <= 10)
                 {
-                    PTarget->StatusEffectContainer->DelStatusEffectSilent(EFFECT_INVISIBLE);
-                }
+                    luautils::OnItemUse(PMember, PItem, this);
+                    battleutils::GenerateInRangeEnmity(PTarget, 0, 640);
+                    // Prism and Rainbow powders
+                    if (PItem->getID() != 4164 && PItem->getID() != 5362)
+                    {
+                        PTarget->StatusEffectContainer->DelStatusEffectSilent(EFFECT_INVISIBLE);
+                    }
 
-                battleutils::HandleFoodEffects(PItem, PTarget);
-            }
-        });
+                    battleutils::HandleFoodEffects(PItem, PTarget);
+                }
+            });
         float radius = 10.0f;
         PAI->TargetFind->findWithinArea(PTarget, AOERADIUS_ATTACKER, radius);
 
