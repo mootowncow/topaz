@@ -60,5 +60,4 @@ function onMobDespawn(mob)
     else
         qm:setPos(460, 0, 540, 0) -- I-7
     end
-    qm:updateNPCHideTime(FORCE_SPAWN_QM_RESET_TIME)
 end

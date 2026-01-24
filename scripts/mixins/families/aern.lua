@@ -208,8 +208,10 @@ g_mixins.families.aern = function(mob)
 
         -- Ensure pet is engaged
         local pet = mob:getPet()
-        if pet:isSpawned() and pet:getCurrentAction() == tpz.act.ROAMING then
-            pet:updateEnmity(mob:getTarget())
+        if pet then
+            if pet:isSpawned() and pet:getCurrentAction() == tpz.act.ROAMING then
+                pet:updateEnmity(mob:getTarget())
+            end
         end
     end)
 end

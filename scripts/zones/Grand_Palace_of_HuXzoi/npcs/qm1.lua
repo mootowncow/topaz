@@ -26,11 +26,10 @@ function onTrade(player, npc, trade)
 
         if (chance > 0) then
             player:confirmTrade()
-            npc:setStatus(tpz.status.DISAPPEAR)
+             npc:setStatus(tpz.status.DISAPPEAR)
 
             -- spawn Ix'Aern (MNK) and minions
-            nm:setSpawn(npc:getXPos(), npc:getYPos(), npc:getZPos())
-            SpawnMob(ID.mob.IXAERN_MNK):updateClaim(player)
+            npcUtil.popFromQM(player, npc, ID.mob.IXAERN_MNK, { radius = 1, claim = true, hide = 900 })
             if (chance >= 66) then
                 GetMobByID(ID.mob.IXAERN_MNK + 1):setSpawn(npc:getXPos(), npc:getYPos(), npc:getZPos()-4)
                 SpawnMob(ID.mob.IXAERN_MNK + 1):updateClaim(player)
