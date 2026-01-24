@@ -33,6 +33,12 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.READYING_JA, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CASTING_MA, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.STUN)
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.HAS_TOP_ENMITY, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.ENMITY_DOUSE)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.HPP_LT, 33, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MANA_WALL)
+
+    mob:addSimpleGambit(ai.t.SELF, ai.c.MPP_LT, 15, ai.r.JA, ai.s.SPECIFIC, tpz.ja.MANAWELL)
+
     mob:addSimpleGambit(ai.t.TARGET, ai.c.ES_SLEEPGA, 0, ai.r.JA, ai.s.SPECIFIC, tpz.ja.ELEMENTAL_SEAL)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.SLEEPGA, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.SLEEPGA)
 
@@ -47,10 +53,6 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_DRAIN, 100, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DRAIN)
 
-    -- TODO: Manawall
-    -- TODO: Enmity douse
-    -- TODO: Manawell
-    
     mob:addSimpleGambit(ai.t.TARGET, ai.c.CAN_ASPIR, 75, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ASPIR)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_SC_AVAILABLE, 0, ai.r.MA, ai.s.BEST_AGAINST_TARGET, tpz.magic.spellFamily.NONE)
