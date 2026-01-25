@@ -74,6 +74,7 @@ ai.condition =
     THREE_EFFECTS      = 39,
     ES_SLEEPGA         = 40,
     BREAKGA            = 41,
+    STATUS_CURE        = 42,
 }
 ai.c = ai.condition
 

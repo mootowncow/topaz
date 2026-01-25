@@ -1456,6 +1456,25 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
             return false;
             break;
         }
+
+        case G_CONDITION::STATUS_CURE:
+        {
+            EFFECT statusEffect = static_cast<EFFECT>(predicate.condition_arg);
+
+            if (trigger_target->StatusEffectContainer->HasStatusEffect(statusEffect))
+            {
+                // Is this effect petrification? (Petrification can never be undispellable and isn't waltzable)
+                if (statusEffect == EFFECT_PETRIFICATION)
+                    return true;
+
+                // Otherwise: does target have ANY waltzable status?
+                if (trigger_target->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_WALTZABLE))
+                    return true;
+            }
+
+            return false;
+            break;
+        }
         default: { return false;  break; }
     }
 }

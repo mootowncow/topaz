@@ -110,6 +110,7 @@ enum class G_CONDITION : uint16
     THREE_EFFECTS      = 39,
     ES_SLEEPGA         = 40,
     BREAKGA            = 41,
+    STATUS_CURE        = 42,
 };
 
 enum class G_REACTION : uint16
