@@ -1260,8 +1260,13 @@ void SetupJob(CMobEntity* PMob)
             PMob->setMobMod(MOBMOD_GA_CHANCE, 40);
             PMob->setMobMod(MOBMOD_BUFF_CHANCE, 25);
             PMob->setMobMod(MOBMOD_SEVERE_CHANCE, 10);
+
             // We don't want to do the mages stand-back part from subjob, so we have it here
-            PMob->setMobMod(MOBMOD_HP_STANDBACK, 65);
+            // Pet's also shouldn't ever stand back
+            if (!PMob->PMaster)
+            {
+                PMob->setMobMod(MOBMOD_HP_STANDBACK, 65);
+            }
             break;
         case JOB_SCH:
             PMob->setMobMod(MOBMOD_MAGIC_COOL, 25);
