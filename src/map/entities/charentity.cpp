@@ -1992,7 +1992,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                     // No action message list
                     static const std::unordered_set<uint16> noMsgAbilities = {
                         ABILITY_DEPLOY, ABILITY_RETRIEVE, ABILITY_ASSAULT, ABILITY_RETREAT, ABILITY_RELEASE, ABILITY_FIGHT,
-                        ABILITY_HEEL, ABILITY_LEAVE, ABILITY_STAY
+                        ABILITY_HEEL, ABILITY_LEAVE, ABILITY_STAY, ABILITY_HIDE
                     };
 
                     if (noMsgAbilities.count(PAbility->getID()))

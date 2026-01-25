@@ -154,8 +154,18 @@ bool CMobController::CheckHide(CBattleEntity* PTarget)
     TracyZoneScoped;
     if (PTarget->GetMJob() == JOB_THF && PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE))
     {
-        return !CanPursueTarget(PTarget) && !PMob->m_TrueDetection;
+        if (!CanPursueTarget(PTarget) && !PMob->m_TrueDetection)
+        {
+            PMob->loc.zone->PushPacket(PMob, CHAR_INRANGE, new CMessageBasicPacket(PTarget, PTarget, 0, 0, MSGBASIC_HIDE_SUCCESS));
+            return true;
+        }
+        else
+        {
+            PTarget->StatusEffectContainer->DelStatusEffect(EFFECT_HIDE);
+            PMob->loc.zone->PushPacket(PMob, CHAR_INRANGE, new CMessageBasicPacket(PTarget, PMob, PMob->id, 0, MSGBASIC_HIDE_FAIL));
+        }
     }
+
     return false;
 }
 
