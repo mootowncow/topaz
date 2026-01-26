@@ -1012,8 +1012,6 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::SLOWRESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 20);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 100); // SMN only has "buffs"
             break;
         case JOB_NIN:
             if (!PMob->CMobEntity::IsHumanoid())

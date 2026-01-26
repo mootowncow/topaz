@@ -24,6 +24,7 @@
 
 #include <unordered_map>
 #include "battleentity.h"
+#include "../utils/petutils.h"
 
 // forward declaration
 class CMobSpellContainer;
@@ -277,6 +278,7 @@ public:
 
     bool m_IsClaimable;
     bool m_forceCast;
+    PETID m_PPetId;                             // Pet Id
 
     static constexpr float sound_range {8.f};
     static constexpr float sight_range {10.f};
@@ -284,6 +286,8 @@ public:
     static constexpr float ws_range{ 20.f };
     static constexpr float ja_range{ 20.f };
     static constexpr float low_hp_range{ 20.f };
+
+    PETID GetPetId();
 
 protected:
 

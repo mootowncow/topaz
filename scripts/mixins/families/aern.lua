@@ -86,84 +86,15 @@ g_mixins.families.aern = function(mob)
     mob:addListener("ENGAGE", "AERN_ENGAGE", function(mob, target)
         mob:setLocalVar("BraceletsTime", os.time() + 80)
         mob:SetMagicCastingEnabled(true)
-        local mobID = mob:getID()  -- Assume you get the mob's ID
-        local petID = getPetID(mobID)
+        local pet = mob:getPet()
+        local isSMN = mob:getMainJob() == tpz.job.SMN
 
-        if petID then
-            local pet = GetMobByID(petID)
-            -- Perform actions with the pet, such as spawning it
+        if pet and not isSMN then
             utils.spawnPetInBattle(mob, pet, true, false, true)
         else
-            print("No pet offset found for mobID: " .. mobID)
+            print("No pet offset found for mobID: " .. mob:getID())
         end
     end)
-
-    -- Function to get the petID using the mobID and its offset
-    function getPetID(mobID)
-        -- Table of mob IDs and their pet offsets
-        local petOffsets = {
-            [16916568] = 1,   -- Eoaern SMN
-            [16916578] = 1,   -- Eoaern DRG
-            [16916586] = 4,   -- Eoaern BST
-            [16916598] = 1,   -- Eoaern DRG
-            [16916617] = 1,   -- Eoaern SMN
-            [16916625] = 2,   -- Eoaern BST
-            [16916626] = 2,   -- Eoaern SMN
-            [16916639] = 1,   -- Eoaern DRG
-            [16916644] = 3,   -- Eoaern BST
-            [16916736] = 1,   -- Eoaern SMN
-            [16916745] = 1,   -- Eoaern DRG
-            [16916760] = 2,   -- Eoaern DRG
-            [16916761] = 2,   -- Eoaern DRG
-            [16916793] = 2,   -- Eoaern SMN
-            [16916794] = 2,   -- Eoaern SMN
-            [16916805] = 1,   -- Eoaern DRG
-            [16916809] = 3,   -- Eoaern BST
-            [16920596] = 1,   -- Awaern DRG
-            [16920606] = 1,   -- Awaern BST
-            [16920609] = 1,   -- Awaern SMN
-            [16920648] = 1,   -- Awaern SMN
-            [16920657] = 1,   -- Awaern BST
-            [16920662] = 1,   -- Awaern DRG
-            [16920779] = 1,   -- Awaern BST
-            [16920783] = 1,   -- Awaern DRG
-            [16920787] = 1,   -- Awaern SMN
-            [17961000] = 1,   -- Eschan Ilaern DRG
-            [17961006] = 1,   -- Eschan Ilaern DRG
-            [17961008] = 1,   -- Eschan Ilaern DRG
-            [17961010] = 1,   -- Eschan Ilaern DRG
-            [17961021] = 1,   -- Eschan Ilaern DRG
-            [17961030] = 1,   -- Eschan Ilaern DRG
-            [17961032] = 1,   -- Eschan Ilaern DRG
-            [17961043] = 1,   -- Eschan Ilaern DRG
-            [17961057] = 1,   -- Eschan Ilaern BST
-            [17961068] = 1,   -- Eschan Ilaern BST
-            [17961078] = 1,   -- Eschan Ilaern BST
-            [17961082] = 1,   -- Eschan Ilaern BST
-            [17961092] = 1,   -- Eschan Ilaern BST
-            [17961102] = 1,   -- Eschan Ilaern BST
-            [17961232] = 1,   -- Eschan Ilaern SMN
-            [17961243] = 1,   -- Eschan Ilaern SMN
-            [17961253] = 1,   -- Eschan Ilaern SMN
-            [17961257] = 1,   -- Eschan Ilaern SMN
-            [17961267] = 1,   -- Eschan Ilaern SMN
-            [17961277] = 1,   -- Eschan Ilaern SMN
-            [16929055] = 1,   -- Temenos Aern DRG
-            [16929058] = 1,   -- Temenos Aern BST
-            [16929066] = 1,   -- Temenos Aern SMN
-            [16929069] = 1,   -- Temenos Aern DRG
-            [16929073] = 1,   -- Temenos Aern BST
-            [16929079] = 1,   -- Temenos Aern SMN
-            [16929098] = 1,   -- Temenos Aern DRG
-            [16929101] = 1,   -- Temenos Aern DRG
-            [16929113] = 1,   -- Temenos Aern SMN
-        }
-        local offset = petOffsets[mobID]
-        if offset then
-            return mobID + offset
-        end
-        return nil -- Return nil if no offset is found
-    end
 
     mob:addListener("COMBAT_TICK", "AERN_COMBAT_TICK", function(mob)
 	    local BraceletsTime = mob:getLocalVar("BraceletsTime")

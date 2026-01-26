@@ -42,6 +42,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../../utils/petutils.h"
 #include "../../items/item_weapon.h"
 #include "../../mob_spell_list.h"
+#include "../../packets/entity_animation.h"
 
 CMobController::CMobController(CMobEntity* PEntity) :
     CController(PEntity),
@@ -997,6 +998,8 @@ void CMobController::DoCombatTick(time_point tick)
         Move();
     }
 
+    SpawnSummonerPet();
+
     if (PMob->getMobMod(MOBMOD_SPELL_LIST) > 0)
     {
         PMob->m_SpellListContainer = mobSpellList::GetMobSpellList(PMob->getMobMod(MOBMOD_SPELL_LIST));
@@ -1449,16 +1452,9 @@ void CMobController::DoRoamTick(time_point tick)
                 {
                     // I spawned a pet
                 }
-                else if (PMob->GetMJob() == JOB_SMN && CanCastSpells() && PMob->SpellContainer->HasBuffSpells() && m_Tick >= m_NextMagicTime)
+                else if (PMob->GetMJob() == JOB_SMN)
                 {
-                    // summon pet
-                    auto spellID = PMob->SpellContainer->GetBuffSpell();
-                    if(spellID)
-                    {
-                        CastSpell(spellID.value());
-                        m_LastActionTime = m_Tick;
-                        return;
-                    }
+                    SpawnSummonerPet();
                 }
                 else if (CanCastSpells() && tpzrand::GetRandomNumber(10) < 5 && PMob->SpellContainer->HasBuffSpells())
                 {
@@ -1824,6 +1820,84 @@ bool CMobController::DeaggroAll()
     return true;
 }
 
+void CMobController::SpawnSummonerPet()
+{
+    // TODO: Should BST pets work same way?
+    // If CCed, don't summon pet
+    if (PMob->StatusEffectContainer->HasPreventActionEffect(false))
+        return;
+
+    // Aern's only summon pets in combat
+    if (PMob->m_Family == 3 && !PMob->PAI->IsEngaged())
+        return;
+
+    // If Summoner, summon pet
+    if (PMob->GetMJob() == JOB_SMN &&
+        PMob->PPet &&
+        !PMob->PPet->PAI->IsSpawned() &&
+        PMob->GetLocalVar("SpawnPetAnimation") == 0)
+    {
+        PMob->SetLocalVar("SpawnPetAnimation", 1);
+        // Start cast animation
+        PMob->loc.zone->PushPacket(
+            PMob,
+            CHAR_INRANGE,
+            new CEntityAnimationPacket(PMob, "casm")
+        );
+
+        // Disable combat
+        auto* controller = PMob->PAI->GetController();
+        controller->SetAutoAttackEnabled(false);
+        controller->SetMagicCastingEnabled(false);
+        controller->SetWeaponSkillEnabled(false);
+
+        PMob->PAI->QueueAction(queueAction_t(
+            std::chrono::milliseconds(3000),
+            false,
+            [](CBaseEntity* base)
+            {
+                auto* mob = static_cast<CMobEntity*>(base);
+
+                // Finish animation
+                mob->loc.zone->PushPacket(
+                    mob,
+                    CHAR_INRANGE,
+                    new CEntityAnimationPacket(mob, "shsm")
+                );
+
+                // Re-enable combat
+                auto* controller = mob->PAI->GetController();
+                controller->SetAutoAttackEnabled(true);
+                controller->SetMagicCastingEnabled(true);
+                controller->SetWeaponSkillEnabled(true);
+                mob->SetLocalVar("SpawnPetAnimation", 0);
+
+                // Spawn pet
+                if (auto* pet = static_cast<CMobEntity*>(mob->PPet))
+                {
+                    petutils::SpawnMobPet(mob, mob->m_PPetId);
+
+                    // always spawn on master
+                    pet->m_SpawnPoint = nearPosition(mob->loc.p, 2.2f, (float)M_PI);
+
+                    // setup AI
+                    pet->Spawn();
+
+                    // Engage master's target
+                    if (auto* target = mob->GetBattleTarget())
+                    {
+                        pet->PAI->Engage(target->targid);
+                    }
+                }
+                else
+                {
+                    ShowError("SpawnSummonerPet::spawnPet PMob (%d) trying to spawn pet but its nullptr\n", mob->id);
+                    return 0;
+                }
+            }
+        ));
+    }
+}
 
 bool CMobController::Cast(uint16 targid, SpellID spellid)
 {

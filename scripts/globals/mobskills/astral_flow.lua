@@ -22,20 +22,24 @@ end
 function onMobWeaponSkill(target, mob, skill)
     skill:setMsg(tpz.msg.basic.USES)
     local mobID = mob:getID()
-    local avatar = 0
+    local avatarId = 0
 
     if avatarOffsets[mobID] then
-        avatar = mobID + avatarOffsets[mobID]
+        avatarId = mobID + avatarOffsets[mobID]
     else
-        avatar = mobID + 2 -- default offset
+        avatarId = mobID + 2 -- default offset
     end
 
-    if not mob:getpool() == 6770 then
-        if not GetMobByID(avatar):isSpawned() then
-            GetMobByID(avatar):setSpawn(mob:getXPos() + 1, mob:getYPos(), mob:getZPos() + 1, mob:getRotPos())
-            SpawnMob(avatar):updateEnmity(mob:getTarget())
+    local avatar = GetMobByID(avatarId)
+
+    if mob:getPool() ~= 6770 then
+        if not avatar:isSpawned() then
+            avatar:setSpawn(mob:getXPos() + 1, mob:getYPos(), mob:getZPos() + 1)
+            avatar:spawn()
+            avatar:updateEnmity(mob:getTarget())
         end
     end
+
     mob:addStatusEffect(tpz.effect.ASTRAL_FLOW, 1, 0, 180)
 
     return tpz.effect.ASTRAL_FLOW

@@ -55,6 +55,8 @@ public:
     bool DeaggroEntity(CBattleEntity* PEntity);
     bool DeaggroAll();
 
+    void SpawnSummonerPet();
+
     void OnCastStopped(CMagicState& state, action_t& action);
 
 protected:

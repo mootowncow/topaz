@@ -141,9 +141,10 @@ CMobEntity::CMobEntity()
     // For Dyna Stats
     m_StatPoppedMobs = false;
 
-
     m_IsClaimable = true;
     m_forceCast = false;
+    m_PPetId = PETID_FIRESPIRIT;
+    // TODO: Set PetID based on mob on spawn (can randomize it for dyna mobs, all avatars for example)
 
     PAI = std::make_unique<CAIContainer>(this, std::make_unique<CPathFind>(this), std::make_unique<CMobController>(this),
         std::make_unique<CTargetFind>(this));
@@ -1007,6 +1008,7 @@ void CMobEntity::Spawn()
         setMobMod(MOBMOD_MAGIC_DELAY, 5);
     }
 
+    m_PPetId = GetPetId();
     this->health.tp = 0;
     m_DespawnTimer = time_point::min();
     PAI->EventHandler.triggerListener("SPAWN", this);
@@ -2638,4 +2640,118 @@ bool CMobEntity::PixieShouldSpawn()
     }
     int32 chance = amity + 150;
     return (tpzrand::GetRandomNumber(100) < chance);
+}
+
+PETID CMobEntity::GetPetId()
+{
+    // Dynamis: random avatar (no Fenrir)
+    if (isInDynamis())
+    {
+        static PETID dynamisTable[] =
+        {
+            PETID_CARBUNCLE,
+            PETID_IFRIT,
+            PETID_TITAN,
+            PETID_LEVIATHAN,
+            PETID_GARUDA,
+            PETID_SHIVA,
+            PETID_RAMUH
+        };
+
+        uint32 roll = tpzrand::GetRandomNumber<uint32>(0, std::size(dynamisTable));
+        return m_PPetId = dynamisTable[roll];
+    }
+
+    // Yagudo: Fire / Air / Earth
+    if (m_Family == 270 || m_Family == 360 || m_Family == 943 || m_Family == 956)
+    {
+        static PETID yagudoTable[] =
+        {
+            PETID_FIRESPIRIT,
+            PETID_AIRSPIRIT,
+            PETID_EARTHSPIRIT
+        };
+
+        uint32 roll = tpzrand::GetRandomNumber<uint32>(0, std::size(yagudoTable));
+        return m_PPetId = yagudoTable[roll];
+    }
+
+    // Kindred: Dark / Ice / Thunder
+    if (m_Family == 169 || m_Family == 358)
+    {
+        static PETID kindredTable[] =
+        {
+            PETID_DARKSPIRIT,
+            PETID_ICESPIRIT,
+            PETID_THUNDERSPIRIT
+        };
+
+        uint32 roll = tpzrand::GetRandomNumber<uint32>(0, std::size(kindredTable));
+        return m_PPetId = kindredTable[roll];
+    }
+
+    // Aern: Fire / Light / Wind / Dark / Water / Thunder
+    if (m_Family == 3)
+    {
+        static PETID aernTable[] =
+        {
+            PETID_FIRESPIRIT,
+            PETID_LIGHTSPIRIT,
+            PETID_AIRSPIRIT,
+            PETID_DARKSPIRIT,
+            PETID_WATERSPIRIT,
+            PETID_THUNDERSPIRIT
+        };
+
+        uint32 roll = tpzrand::GetRandomNumber<uint32>(0, std::size(aernTable));
+        return m_PPetId = aernTable[roll];
+    }
+
+    // Fomor / Shade: Fire / Earth / Air / Ice / Water / Thunder
+    if (m_Family == 115 || m_Family == 359 || m_Family == 509 || m_Family == 597 || m_Family == 927 || m_Family == 928)
+    {
+        static PETID fomorTable[] =
+        {
+            PETID_FIRESPIRIT,
+            PETID_EARTHSPIRIT,
+            PETID_AIRSPIRIT,
+            PETID_ICESPIRIT,
+            PETID_WATERSPIRIT,
+            PETID_THUNDERSPIRIT
+        };
+
+        uint32 roll = tpzrand::GetRandomNumber<uint32>(0, std::size(fomorTable));
+        return m_PPetId = fomorTable[roll];
+    }
+
+    // Lamia / Merrow: Water / Ice / Dark
+    if (m_Family == 171 || m_Family == 182)
+    {
+        static PETID lamiaTable[] =
+        {
+            PETID_WATERSPIRIT,
+            PETID_ICESPIRIT,
+            PETID_DARKSPIRIT
+        };
+
+        uint32 roll = tpzrand::GetRandomNumber<uint32>(0, std::size(lamiaTable));
+        return m_PPetId = lamiaTable[roll];
+    }
+
+    // Tonberry: Fire / Water / Light
+    if (m_Family == 243 || m_Family == 244 || m_Family == 336)
+    {
+        static PETID tonberryTable[] =
+        {
+            PETID_FIRESPIRIT,
+            PETID_WATERSPIRIT,
+            PETID_LIGHTSPIRIT
+        };
+
+        uint32 roll = tpzrand::GetRandomNumber<uint32>(0, std::size(tonberryTable));
+        return m_PPetId = tonberryTable[roll];
+    }
+
+    // Shouldn't happen
+    return m_PPetId = PETID_FIRESPIRIT;
 }
