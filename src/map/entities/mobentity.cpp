@@ -1024,7 +1024,7 @@ void CMobEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& actio
     CBattleEntity::OnWeaponSkillFinished(state, action);
 
     auto PWeaponSkill = state.GetSkill();
-    auto PBattleTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    auto PBattleTarget = static_cast<CBattleEntity*>(state.GetInitialTarget());
 
     int16 tp = state.GetSpentTP();
     tp = battleutils::CalculateWeaponSkillTP(this, PWeaponSkill, tp);

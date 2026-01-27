@@ -1254,7 +1254,7 @@ void CMobController::HandleEnmity()
     PMob->PEnmityContainer->DecayEnmity();
     auto* PHighestEnmityTarget{ PMob->PEnmityContainer->GetHighestEnmity() };
 
-    // If busy, update enmity
+    // If busy, don't update enmity
     if (PMob->PAI->IsCurrentState<CMobSkillState>() || PMob->PAI->IsCurrentState<CWeaponSkillState>() ||
         PMob->PAI->IsCurrentState<CItemState>())
     {
