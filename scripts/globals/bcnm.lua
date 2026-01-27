@@ -5,6 +5,7 @@ require("scripts/globals/quests")
 require("scripts/globals/status")
 require("scripts/globals/zone")
 require("scripts/globals/msg")
+require("scripts/globals/music")
 
 -----------------------------------------------
 -- battlefields by zone
