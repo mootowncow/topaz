@@ -6862,6 +6862,10 @@ INSERT INTO `nm_spawn_points` VALUES (17711121,0,-0.700,-7.160,23.512); -- Silve
 INSERT INTO `nm_spawn_points` VALUES (17502570,0, -195, -0.5, 396); -- Zipacna (Behind Blue Gate)
 INSERT INTO `nm_spawn_points` VALUES (17502570,1, 74.864410, 0.000000, 459.690765); -- Zipacna (Behind Yellow Gate)
 
+INSERT INTO `nm_spawn_points` VALUES (16859441,0, 195.19, 0, -125.30); -- Coveter
+INSERT INTO `nm_spawn_points` VALUES (16859441,1, -174.98, -0.39, 65.56); -- Coveter
+
+
 /*!40000 ALTER TABLE `nm_spawn_points` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

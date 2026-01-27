@@ -4286,7 +4286,7 @@ INSERT INTO `mob_spawn_points` VALUES (16859436,'Craver','Craver',20,-51.912,-0.
 INSERT INTO `mob_spawn_points` VALUES (16859438,'Craver','Craver',20,102.551,-0.500,257.908,119);
 --INSERT INTO `mob_spawn_points` VALUES (16859439,'Craver','Craver',20,247.731,-0.494,280.430,215);
 INSERT INTO `mob_spawn_points` VALUES (16859440,'Craver','Craver',20,159.051,-0.499,207.881,168);
-INSERT INTO `mob_spawn_points` VALUES (16859441,'Coveter','Coveter',21,293.877,-0.500,-122.258,132);
+INSERT INTO `mob_spawn_points` VALUES (16859441,'Coveter','Coveter',21,195.19,0,-125.30,132);
 
 -- ------------------------------------------------------------
 -- Spire of Mea (Zone 21)
