@@ -47,6 +47,8 @@ zones[tpz.zone.MAMOOL_JA_TRAINING_GROUNDS] =
         DOOR_4          = 17047895, -- G-8 
         POT_HATCH       = 17047916,
     },
+
+    armoury_crates = {17047948, 17047949, 17047950, 17047951, 17047952},
 }
 
 return zones[tpz.zone.MAMOOL_JA_TRAINING_GROUNDS]

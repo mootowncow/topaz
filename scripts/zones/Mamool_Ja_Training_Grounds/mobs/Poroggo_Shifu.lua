@@ -3,6 +3,8 @@
 --  Mob: Mamool Ja Medic
 -- Job: BLM
 -----------------------------------
+require("scripts/globals/status")
+require("scripts/globals/instance")
 mixins = {require("scripts/mixins/families/poroggo")}
 local ID = require("scripts/zones/Mamool_Ja_Training_Grounds/IDs")
 -----------------------------------
@@ -44,14 +46,10 @@ function onMobWeaponSkill(target, mob, skill)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
+    instanceUtil.ImperialAgentRescue.SpawnChestOnMobDeath(mob, player, isKiller, noKiller)
     if isKiller or noKiller then
         local instance = mob:getInstance()
-        local mobX = mob:getXPos()
-        local mobY = mob:getYPos()
-        local mobZ = mob:getZPos()
-        GetNPCByID(17047948, instance):setPos(mobX, mobY, mobZ)
-        GetNPCByID(17047948, instance):setStatus(tpz.status.NORMAL)
-        GetNPCByID(17047948, instance):setLocalVar("Message", 0)GetNPCByID(17047948, instance):setLocalVar("Message", 0)
+
         local zonePlayers = mob:getZone():getPlayers()
         for _, zonePlayer in pairs(zonePlayers) do
             zonePlayer:PrintToPlayer("You hear something nearby open...",0,"???")

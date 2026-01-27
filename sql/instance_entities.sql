@@ -138,6 +138,11 @@ INSERT INTO `instance_entities` VALUES(11,  17047917); -- Pot Hatch(Door)
 INSERT INTO `instance_entities` VALUES(11,  17047918); -- Pot Hatch(Door)
 -- Chests
 INSERT INTO `instance_entities` VALUES (11,17047948);
+INSERT INTO `instance_entities` VALUES (11,17047949);
+INSERT INTO `instance_entities` VALUES (11,17047950);
+INSERT INTO `instance_entities` VALUES (11,17047951);
+INSERT INTO `instance_entities` VALUES (11,17047952);
+
 
 -- Preemtive Strike
 -- Mobs

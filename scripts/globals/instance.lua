@@ -3,6 +3,7 @@ require("scripts/globals/missions")
 require("scripts/globals/quests")
 require("scripts/globals/status")
 require("scripts/globals/zone")
+require("scripts/globals/instance_util")
 -----------------------------------------------
 -- Instance functionality
 -----------------------------------------------

@@ -1,8 +1,7 @@
---[[
-    Helper functions for jobs
+-----------------------------------
 
-    Place holder
---]]
+--   Helper functions for jobs
+
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
