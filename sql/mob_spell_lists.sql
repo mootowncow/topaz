@@ -725,32 +725,32 @@ INSERT INTO `mob_spell_lists` VALUES ('Undead',28,144,13,20);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,145,38,45);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,146,62,72);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,147,73,94);
-INSERT INTO `mob_spell_lists` VALUES ('Undead',28,148,95,255); -- Fire V
+INSERT INTO `mob_spell_lists` VALUES ('Undead',28,148,255,255); -- Fire V
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,149,17,25);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,150,42,54);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,151,64,67);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,152,74,94);
-INSERT INTO `mob_spell_lists` VALUES ('Undead',28,153,95,255); -- Blizzard V
+INSERT INTO `mob_spell_lists` VALUES ('Undead',28,153,255,255); -- Blizzard V
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,154,9,15);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,155,34,41);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,156,59,63);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,157,72,94);
-INSERT INTO `mob_spell_lists` VALUES ('Undead',28,158,95,255); -- Aero V
+INSERT INTO `mob_spell_lists` VALUES ('Undead',28,158,255,255); -- Aero V
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,159,1,8);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,160,26,34);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,161,51,58);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,162,68,94);
-INSERT INTO `mob_spell_lists` VALUES ('Undead',28,163,95,255); -- Stone V
+INSERT INTO `mob_spell_lists` VALUES ('Undead',28,163,255,255); -- Stone V
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,164,21,30);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,165,46,54);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,166,66,69);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,167,75,94);
-INSERT INTO `mob_spell_lists` VALUES ('Undead',28,168,95,255); -- Thunder V
+INSERT INTO `mob_spell_lists` VALUES ('Undead',28,168,255,255); -- Thunder V
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,169,5,29);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,170,30,37);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,171,55,61);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,172,70,94);
-INSERT INTO `mob_spell_lists` VALUES ('Undead',28,173,95,255); -- Water V
+INSERT INTO `mob_spell_lists` VALUES ('Undead',28,173,255,255); -- Water V
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,174,28,35);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,175,53,60);
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,176,69,255);
