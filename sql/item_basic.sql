@@ -10887,7 +10887,7 @@ INSERT INTO `item_basic` VALUES (13547,0,'tiger_ring','tiger_ring',1,2080,25,0,8
 INSERT INTO `item_basic` VALUES (13548,0,'astral_ring','astral_ring',1,2052,25,0,2643);
 INSERT INTO `item_basic` VALUES (13549,0,'ether_ring','ether_ring',1,34820,25,0,1025);
 INSERT INTO `item_basic` VALUES (13550,0,'crossbowman_ring','crossbowman_ring',1,34820,25,0,1000);
-INSERT INTO `item_basic` VALUES (13551,0,'kshama_ring_no.8','kshama_ring_no.8',1,59476,0,1,0);
+INSERT INTO `item_basic` VALUES (13551,0,'kshama_ring_no.8','kshama_ring_no.8',1,59476,0,1,650);
 INSERT INTO `item_basic` VALUES (13552,0,'serket_ring','serket_ring',1,63572,0,0,4375);
 INSERT INTO `item_basic` VALUES (13553,0,'blitz_ring','blitz_ring',1,34820,25,0,2030);
 INSERT INTO `item_basic` VALUES (13554,0,'aegis_ring','aegis_ring',1,34820,25,0,1960);
@@ -12018,12 +12018,12 @@ INSERT INTO `item_basic` VALUES (14678,0,'assassins_ring','assassins_ring',1,605
 INSERT INTO `item_basic` VALUES (14679,0,'tactical_ring','tactical_ring',1,60500,0,1,0);
 INSERT INTO `item_basic` VALUES (14680,0,'pacifist_ring','pacifist_ring',1,60500,0,1,0);
 INSERT INTO `item_basic` VALUES (14681,0,'getsul_ring','getsul_ring',1,60500,0,0,3751);
-INSERT INTO `item_basic` VALUES (14682,0,'kshama_ring_no.2','kshama_ring_no.2',1,59476,0,1,0);
-INSERT INTO `item_basic` VALUES (14683,0,'kshama_ring_no.4','kshama_ring_no.4',1,59476,0,1,0);
-INSERT INTO `item_basic` VALUES (14684,0,'kshama_ring_no.3','kshama_ring_no.3',1,59476,0,1,0);
-INSERT INTO `item_basic` VALUES (14685,0,'kshama_ring_no.5','kshama_ring_no.5',1,59476,0,1,0);
-INSERT INTO `item_basic` VALUES (14686,0,'kshama_ring_no.9','kshama_ring_no.9',1,59476,0,1,0);
-INSERT INTO `item_basic` VALUES (14687,0,'kshama_ring_no.6','kshama_ring_no.6',1,59476,0,1,0);
+INSERT INTO `item_basic` VALUES (14682,0,'kshama_ring_no.2','kshama_ring_no.2',1,59476,0,1,650);
+INSERT INTO `item_basic` VALUES (14683,0,'kshama_ring_no.4','kshama_ring_no.4',1,59476,0,1,650);
+INSERT INTO `item_basic` VALUES (14684,0,'kshama_ring_no.3','kshama_ring_no.3',1,59476,0,1,650);
+INSERT INTO `item_basic` VALUES (14685,0,'kshama_ring_no.5','kshama_ring_no.5',1,59476,0,1,650);
+INSERT INTO `item_basic` VALUES (14686,0,'kshama_ring_no.9','kshama_ring_no.9',1,59476,0,1,650);
+INSERT INTO `item_basic` VALUES (14687,0,'kshama_ring_no.6','kshama_ring_no.6',1,59476,0,1,650);
 INSERT INTO `item_basic` VALUES (14688,0,'reflex_earring_+1','reflex_earring_+1',1,2080,24,0,505);
 INSERT INTO `item_basic` VALUES (14689,0,'courage_earring_+1','crg._earring_+1',1,2080,24,0,505);
 INSERT INTO `item_basic` VALUES (14690,0,'knowledge_earring_+1','kldg._earring_+1',1,2080,24,0,505);
