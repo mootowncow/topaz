@@ -17,7 +17,7 @@ function onMobSkillCheck(target, mob, skill)
     if (mob:getPool() == 692) then -- Chandelier
         return 1
     end
-    mob:setLocalVar("self-destruct_hp", mob:getHP())
+   
     return 0
 end
 

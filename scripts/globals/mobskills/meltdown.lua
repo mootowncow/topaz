@@ -13,7 +13,7 @@ function onMobSkillCheck(target, mob, skill)
 	if mob:getPool() == 1049 then --Disaster Idol
 		return 1
 	end
-    mob:setLocalVar("self-destruct_hp", mob:getHP())
+
     return 0
 end
 

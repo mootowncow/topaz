@@ -1368,14 +1368,14 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     PSkill->setTP(state.GetSpentTP());
     PSkill->setHPP(GetHPP());
 
+    SetLocalVar("self-destruct_hp", health.hp);
+
     uint16 msg = 0;
     uint16 defaultMessage = PSkill->getMsg();
 
     bool first {true};
     for (auto&& PTargetFound : PAI->TargetFind->m_targets)
     {
-        // TODO: If PTarget == PTarget is wrong, see how this was coded in the commit
-        // and auto&& PTarget should prob be changed to something besides PTarget
         if (PTarget == PTargetFound && skipSelf)
         {
             // This ability targets self for aoe skills (such as Frozen Mist)

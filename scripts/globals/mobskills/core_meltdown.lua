@@ -18,7 +18,7 @@ function onMobSkillCheck(target, mob, skill)
     elseif (mob:getHPP() > 30) then
         return 1
     else
-        mob:setLocalVar("self-destruct_hp", mob:getHP())
+       
         return 0
     end
 end

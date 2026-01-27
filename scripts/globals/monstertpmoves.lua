@@ -567,6 +567,7 @@ function MobHPBasedMove(mob, target, skill, percent, base, element, cap, isSuici
     local mobHP = mob:getHP() 
     local resist = 1
     local bonus = 0
+    
     skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
 
     -- Used for mob suicide moves
@@ -593,7 +594,7 @@ function MobHPBasedMove(mob, target, skill, percent, base, element, cap, isSuici
     end
 
     -- Apply day/weather
-    local damage = damage * getMobWeatherDayBonus(mob, element)
+    damage = damage * getMobWeatherDayBonus(mob, element)
 
     -- elemental resistence
     if (element ~= nil and element > 0) then

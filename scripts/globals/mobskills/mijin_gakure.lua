@@ -6,7 +6,7 @@ require("scripts/globals/status")
 ---------------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    mob:setLocalVar("self-destruct_hp", mob:getHP())
+   
     return 0
 end
 

@@ -12,7 +12,7 @@ function onMobSkillCheck(target, mob, skill)
     if mob:isNM() or mob:isInDynamis() then
         return 1
     end
-    mob:setLocalVar("self-destruct_hp", mob:getHP())
+   
 
     return 0
 end
