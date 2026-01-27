@@ -431,6 +431,45 @@ int32 CLuaZone::triggerListener(lua_State* L)
     return 0;
 }
 
+/************************************************************************
+ *  Function: Music functions
+ *  Purpose : Returns music ID for zone
+ ************************************************************************/
+inline int32 CLuaZone::getBackgroundMusicDay(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
+
+    lua_pushinteger(L, m_pLuaZone->GetBackgroundMusicDay());
+    return 1;
+}
+
+// background music (night)
+inline int32 CLuaZone::getBackgroundMusicNight(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
+
+    lua_pushinteger(L, m_pLuaZone->GetBackgroundMusicNight());
+    return 1;
+}
+
+// solo battle music
+inline int32 CLuaZone::getSoloBattleMusic(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
+
+    lua_pushinteger(L, m_pLuaZone->GetSoloBattleMusic());
+    return 1;
+}
+
+// party battle music
+inline int32 CLuaZone::getPartyBattleMusic(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
+
+    lua_pushinteger(L, m_pLuaZone->GetPartyBattleMusic());
+    return 1;
+}
+
 
 /************************************************************************
 *                                                                       *
@@ -461,6 +500,11 @@ Lunar<CLuaZone>::Register_t CLuaZone::methods[] =
     LUNAR_DECLARE_METHOD(CLuaZone,addListener),
     LUNAR_DECLARE_METHOD(CLuaZone,removeListener),
     LUNAR_DECLARE_METHOD(CLuaZone,triggerListener),
+    LUNAR_DECLARE_METHOD(CLuaZone,getBackgroundMusicDay),
+    LUNAR_DECLARE_METHOD(CLuaZone,getBackgroundMusicNight),
+    LUNAR_DECLARE_METHOD(CLuaZone,getSoloBattleMusic),
+    LUNAR_DECLARE_METHOD(CLuaZone,getPartyBattleMusic),
+
 
     {nullptr,nullptr}
 };

@@ -62,6 +62,11 @@ public:
     int32 addListener(lua_State*);
     int32 removeListener(lua_State*);
     int32 triggerListener(lua_State*);
+
+    int32 getBackgroundMusicDay(lua_State*);
+    int32 getBackgroundMusicNight(lua_State*);
+    int32 getSoloBattleMusic(lua_State*);
+    int32 getPartyBattleMusic(lua_State*);
 };
 
 #endif
