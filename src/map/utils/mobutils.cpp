@@ -946,7 +946,7 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::VIRUSRESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 40);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 40);
             break;
         case JOB_SAM:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -954,13 +954,13 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::BLINDRESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 40);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 40);
             break;
         case JOB_BLM:
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 15);
-            PMob->setMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 25);
-            PMob->setMobMod(MOBMOD_SEVERE_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 15);
+            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 25);
+            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
             break;
         case JOB_PLD:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -968,7 +968,7 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::SLEEPRESTRAIT, 0);  
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 30);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
             break;
         case JOB_DRK:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -976,12 +976,12 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::PARALYZERESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 30);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
             break;
         case JOB_WHM:
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 30);
-            PMob->setMobMod(MOBMOD_MAGIC_DELAY, 15);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
+            PMob->defaultMobMod(MOBMOD_MAGIC_DELAY, 15);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
             break;
         case JOB_BRD:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -989,12 +989,12 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::SILENCERESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 25);
-            PMob->setMobMod(MOBMOD_GA_CHANCE, 25);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 60);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
+            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 25);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 60);
             break;
         case JOB_BLU:
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 25);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
             break;
         case JOB_RDM:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -1002,9 +1002,9 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::PETRIFYRESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 25);
-            PMob->setMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
+            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
             break;
         case JOB_SMN:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -1019,27 +1019,27 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::BINDRESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_SPECIAL_COOL, 10);
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 25);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 75);
+            PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 10);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 75);
             break;
         case JOB_SCH:
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 25);
-            PMob->setMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_SEVERE_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
+            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
             break;
         case JOB_GEO:
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 25);
-            PMob->setMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_SEVERE_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
+            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
             break;
         case JOB_RUN:
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 30);
-            PMob->setMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_SEVERE_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
+            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
             break;
         default:
             break;
@@ -1054,7 +1054,7 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::VIRUSRESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 40);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 40);
             break;
         case JOB_SAM:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -1062,14 +1062,14 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::BLINDRESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 40);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 40);
             break;
         case JOB_THF:
             // thfs drop more gil
             if (PMob->m_EcoSystem == SYSTEM_BEASTMEN)
             {
                 // 50% bonus
-                PMob->setMobMod(MOBMOD_GIL_BONUS, 150);
+                PMob->defaultMobMod(MOBMOD_GIL_BONUS, 150);
             }
             if (!PMob->CMobEntity::IsHumanoid())
             // Only beastmen get resist job traits
@@ -1083,7 +1083,7 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::SLEEPRESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 30);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
             break;
         case JOB_DRK:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -1091,12 +1091,12 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::PARALYZERESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 30);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
             break;
         case JOB_WHM:
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 30);
-            PMob->setMobMod(MOBMOD_MAGIC_DELAY, 15);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
+            PMob->defaultMobMod(MOBMOD_MAGIC_DELAY, 15);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
             break;
         case JOB_BRD:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -1104,9 +1104,9 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::SILENCERESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 25);
-            PMob->setMobMod(MOBMOD_GA_CHANCE, 25);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 60);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
+            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 25);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 60);
             break;
         case JOB_RNG:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -1119,44 +1119,44 @@ void SetupJob(CMobEntity* PMob)
             {
                 if ((PMob->m_Family >= 126 && PMob->m_Family <= 130) || PMob->m_Family == 328) // Gigas
                 {
-                    PMob->setMobMod(MOBMOD_SPECIAL_SKILL, 658); // catapult only used while at range
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 658); // catapult only used while at range
                 }
                 else if (PMob->m_Family == 246)
                 {
                     // Trolls love cannons, but they take a second to shoot
-                    PMob->setMobMod(MOBMOD_SPECIAL_SKILL, 1747);
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1747);
                     // so slow down the trolls a bit
                 }
                 else if (PMob->m_Family == 337 || PMob->m_Family == 954) // Quadav
                 {
-                    PMob->setMobMod(MOBMOD_SPECIAL_SKILL, 1123);
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1123);
                 }
                 else if (PMob->m_Family == 358) // Dyna-Kindred
                 {
-                    PMob->setMobMod(MOBMOD_SPECIAL_SKILL, 1146);
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1146);
                 }
                 else if (PMob->m_Family == 3) // Aern
                 {
-                    PMob->setMobMod(MOBMOD_SPECIAL_SKILL, 1388);
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1388);
                 }
                 else if (PMob->m_Family == 115 || PMob->m_Family == 359 || PMob->m_Family == 509 || PMob->m_Family == 597 ||
                          PMob->m_Family == 928) // Fomors / Shades
                 {
-                    PMob->setMobMod(MOBMOD_CAN_RA, 10);
+                    PMob->defaultMobMod(MOBMOD_CAN_RA, 10);
                 }
                 else
                 {
                     // All other rangers
-                    PMob->setMobMod(MOBMOD_SPECIAL_SKILL, 272);
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 272);
                 }
 
-                PMob->setMobMod(MOBMOD_STANDBACK_COOL, 2);
-                PMob->setMobMod(MOBMOD_SPECIAL_COOL, 10);
-                PMob->setMobMod(MOBMOD_HP_STANDBACK, 65);
+                PMob->defaultMobMod(MOBMOD_STANDBACK_COOL, 2);
+                PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 10);
+                PMob->defaultMobMod(MOBMOD_HP_STANDBACK, 65);
             }
             break;
         case JOB_BLU:
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 25);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
             break;
         case JOB_RDM:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -1164,9 +1164,9 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::PETRIFYRESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 25);
-            PMob->setMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
+            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
             break;
         case JOB_SMN:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -1174,8 +1174,8 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::SLOWRESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 20);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 100); // SMN only has "buffs"
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 20);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 100); // SMN only has "buffs"
             break;
         case JOB_COR:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -1184,7 +1184,7 @@ void SetupJob(CMobEntity* PMob)
                 PMob->setModifier(Mod::AMNESIARESTRAIT, 0);
                 PMob->setModifier(Mod::PARALYZERESTRAIT, 0);
             }
-            PMob->setMobMod(MOBMOD_CAN_RA, 10);
+            PMob->defaultMobMod(MOBMOD_CAN_RA, 10);
             break;
         case JOB_NIN:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -1199,35 +1199,35 @@ void SetupJob(CMobEntity* PMob)
                 if (PMob->m_Family == 3)
                 {
                     // aern
-                    PMob->setMobMod(MOBMOD_SPECIAL_SKILL, 1388);
-                    PMob->setMobMod(MOBMOD_SPECIAL_COOL, 10);
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1388);
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 10);
                 }
                 else if (PMob->m_Family == 337) // Dyna-Quadav
                 {
-                    PMob->setMobMod(MOBMOD_SPECIAL_SKILL, 1123);
-                    PMob->setMobMod(MOBMOD_SPECIAL_COOL, 10);
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1123);
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 10);
                 }
                 else if (PMob->m_Family == 358) // Dyna-Kindred
                 {
-                    PMob->setMobMod(MOBMOD_SPECIAL_SKILL, 1146);
-                    PMob->setMobMod(MOBMOD_SPECIAL_COOL, 10);
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1146);
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 10);
                 }
                 else if (PMob->m_Family == 115 || PMob->m_Family == 359 || PMob->m_Family == 509 || PMob->m_Family == 597 ||
                          PMob->m_Family == 928) // Fomors / Shades
                 {
-                    PMob->setMobMod(MOBMOD_CAN_RA, 10);
+                    PMob->defaultMobMod(MOBMOD_CAN_RA, 10);
                 }
                 // exclude NIN Maat
                 else if (PMob->m_Family != 335)
                 {
-                    PMob->setMobMod(MOBMOD_SPECIAL_SKILL, 272);
-                    PMob->setMobMod(MOBMOD_SPECIAL_COOL, 10);
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 272);
+                    PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 10);
                 }
 
-                PMob->setMobMod(MOBMOD_MAGIC_COOL, 25);
-                PMob->setMobMod(MOBMOD_BUFF_CHANCE, 75);
-                PMob->setMobMod(MOBMOD_STANDBACK_COOL, 2);
-                PMob->setMobMod(MOBMOD_HP_STANDBACK, 65);
+                PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
+                PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 75);
+                PMob->defaultMobMod(MOBMOD_STANDBACK_COOL, 2);
+                PMob->defaultMobMod(MOBMOD_HP_STANDBACK, 65);
             }
             break;
         case JOB_BST:
@@ -1238,55 +1238,55 @@ void SetupJob(CMobEntity* PMob)
              }
 		     if (PMob->m_Family != 3)  // Exclude Aerns, should only summon in combat and hide their jobs
 		     {
-                PMob->setMobMod(MOBMOD_SPECIAL_COOL, 300);
-                PMob->setMobMod(MOBMOD_SPECIAL_SKILL, 1017);
+                PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 300);
+                PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1017);
 		     }
             break;
         case JOB_DRG:
             if (PMob->m_Family == 88 || PMob->m_Family == 89 || PMob->m_Family == 176 || PMob->m_Family == 177) // Draugar and Mamools
             {
-                PMob->setMobMod(MOBMOD_SPECIAL_COOL, 300);
-                PMob->setMobMod(MOBMOD_SPECIAL_SKILL, 732);
+                PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 300);
+                PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 732);
             }
             break;
         case JOB_PUP:
-            PMob->setMobMod(MOBMOD_SPECIAL_SKILL, 1901);
-            PMob->setMobMod(MOBMOD_SPECIAL_COOL, 180);
+            PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1901);
+            PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 180);
             break;
         case JOB_BLM:
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 15);
-            PMob->setMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 25);
-            PMob->setMobMod(MOBMOD_SEVERE_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 15);
+            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 25);
+            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
 
             // We don't want to do the mages stand-back part from subjob, so we have it here
             // Pet's also shouldn't ever stand back
             if (!PMob->PMaster)
             {
-                PMob->setMobMod(MOBMOD_HP_STANDBACK, 65);
+                PMob->defaultMobMod(MOBMOD_HP_STANDBACK, 65);
             }
             break;
         case JOB_SCH:
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 25);
-            PMob->setMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_SEVERE_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
+            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
             // We don't want to do the mages stand-back part from subjob, so we have it here
-            PMob->setMobMod(MOBMOD_HP_STANDBACK, 65);
+            PMob->defaultMobMod(MOBMOD_HP_STANDBACK, 65);
             break;
         case JOB_GEO:
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 25);
-            PMob->setMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_SEVERE_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 25);
+            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
             // We don't want to do the mages stand-back part from subjob, so we have it here
-            PMob->setMobMod(MOBMOD_HP_STANDBACK, 65);
+            PMob->defaultMobMod(MOBMOD_HP_STANDBACK, 65);
             break;
         case JOB_RUN:
-            PMob->setMobMod(MOBMOD_MAGIC_COOL, 30);
-            PMob->setMobMod(MOBMOD_GA_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_BUFF_CHANCE, 40);
-            PMob->setMobMod(MOBMOD_SEVERE_CHANCE, 10);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
+            PMob->defaultMobMod(MOBMOD_GA_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_BUFF_CHANCE, 40);
+            PMob->defaultMobMod(MOBMOD_SEVERE_CHANCE, 10);
             break;
         default:
             break;
