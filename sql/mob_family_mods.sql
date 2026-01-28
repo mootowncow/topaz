@@ -1200,9 +1200,6 @@ INSERT INTO `mob_family_mods` VALUES (123,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (124,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (73,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (91,56,-1,1);
-INSERT INTO `mob_family_mods` VALUES (122,56,-1,1);
-INSERT INTO `mob_family_mods` VALUES (123,56,-1,1);
-INSERT INTO `mob_family_mods` VALUES (124,56,-1,1);
 -- elementals don't standback
 INSERT INTO `mob_family_mods` VALUES (99,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (100,56,-1,1);

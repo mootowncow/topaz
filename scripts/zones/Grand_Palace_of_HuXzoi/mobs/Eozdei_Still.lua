@@ -13,6 +13,7 @@ require("scripts/globals/utils")
 -----------------------------------
 function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
+    mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 15)
 end
 
 function onMobEngaged(mob,target)
@@ -29,20 +30,6 @@ function onPath(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
-    if isKiller then
-        local mobId = mob:getID()
-        local nm = GetMobByID(ID.mob.JAILER_OF_TEMPERANCE)
-        local ph = nm:getLocalVar("ph")
-        local pop = nm:getLocalVar("pop")
-
-        if ph == mobId and pop ~= 0 and os.time() > pop and utils.chance(50) then
-            local pos = mob:getSpawnPos()
-            nm:setSpawn(pos.x, pos.y, pos.z)
-            SpawnMob(ID.mob.JAILER_OF_TEMPERANCE):updateClaim(player)
-            nm:setLocalVar("hold", ph)
-            DisallowRespawn(mobId, true)
-        end
-    end
 end
 
 

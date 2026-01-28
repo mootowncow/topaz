@@ -11,6 +11,7 @@ mixins = {require("scripts/mixins/families/zdei")}
 -----------------------------------
 function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
+    mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 15)
 end
 
 function onMobEngaged(mob,target)
