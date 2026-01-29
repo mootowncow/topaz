@@ -1445,6 +1445,10 @@ bool CAutomatonController::TryTPMove()
 {
     if (PAutomaton->health.tp >= 1000)
     {
+        auto* PChar = dynamic_cast<CCharEntity*>(PAutomaton->PMaster);
+        if (!PChar)
+            return false;
+
         const auto& FamilySkills = battleutils::GetMobSkillList(PAutomaton->m_Family);
 
         std::vector<CMobSkill*> validSkills;
@@ -1458,7 +1462,15 @@ bool CAutomatonController::TryTPMove()
         for (auto skillid : FamilySkills)
         {
             auto PSkill = battleutils::GetMobSkill(skillid);
-            if (PSkill && PAutomaton->GetSkill(skilltype) > PSkill->getParam() && PSkill->getParam() != -1 &&
+            auto skillLvl = PAutomaton->GetSkill(skilltype);
+            int32 meritbonus = PChar->PMeritPoints->GetMeritValue(MERIT_AUTOMATON_SKILLS, PChar);
+
+            if (skilltype == SKILL_AUTOMATON_MELEE)
+                skillLvl += PChar->getMod(Mod::AUTO_MELEE_SKILL) + meritbonus;
+            else
+                skillLvl += PChar->getMod(Mod::AUTO_RANGED_SKILL) + meritbonus;
+
+            if (PSkill && skillLvl > PSkill->getParam() && PSkill->getParam() != -1 &&
                 distance(PAutomaton->loc.p, PTarget->loc.p) <= PSkill->getDistance())
             {
                 validSkills.push_back(PSkill);

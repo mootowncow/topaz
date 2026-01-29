@@ -430,6 +430,9 @@ void setHead(CCharEntity* PChar, uint8 head)
 
 uint16 getSkillCap(CCharEntity* PChar, SKILLTYPE skill, uint8 level)
 {
+    // Sharpshot Head + Frame = A- Ranged, C+ Melee
+    // Valoredge Head + Frame = A- melee
+    // Soulsoother / Spiritreaver / Stormwaker Head + Stormwaker Frame = A+ Magic, C+ Melee
     int8 rank = 0;
     if (skill < SKILL_AUTOMATON_MELEE || skill > SKILL_AUTOMATON_MAGIC)
         return 0;
@@ -467,8 +470,10 @@ uint16 getSkillCap(CCharEntity* PChar, SKILLTYPE skill, uint8 level)
                 rank -= 1;
             break;
         case HEAD_STORMWAKER:
-            if (skill == SKILL_AUTOMATON_MELEE || skill == SKILL_AUTOMATON_MAGIC)
+            if (skill == SKILL_AUTOMATON_MELEE)
                 rank -= 1;
+            if (skill == SKILL_AUTOMATON_MAGIC)
+                rank -= 2;
             break;
         case HEAD_SOULSOOTHER:
         case HEAD_SPIRITREAVER:
