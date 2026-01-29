@@ -14005,13 +14005,13 @@ INSERT INTO `item_mods` VALUES (14382,8,15); -- STR 15
 INSERT INTO `item_mods` VALUES (14382,23,25); -- ATT 25
 INSERT INTO `item_mods` VALUES (14382,160,14); -- DMG 14
 INSERT INTO `item_mods` VALUES (14382,369,1); -- REFRESH 1
-INSERT INTO `item_mods` VALUES (14382,1330,-12); -- DARK_MAGIC_CAST -12
+INSERT INTO `item_mods` VALUES (14382,1330,12); -- DARK_MAGIC_CAST 12
 INSERT INTO `item_mods` VALUES (14383,1,41); -- DEF 41
 INSERT INTO `item_mods` VALUES (14383,8,17); -- STR 17
 INSERT INTO `item_mods` VALUES (14383,23,30); -- ATT 30
 INSERT INTO `item_mods` VALUES (14383,160,15); -- DMG 15
 INSERT INTO `item_mods` VALUES (14383,369,1); -- REFRESH 1
-INSERT INTO `item_mods` VALUES (14383,1330,-14); -- DARK_MAGIC_CAST -14
+INSERT INTO `item_mods` VALUES (14383,1330,14); -- DARK_MAGIC_CAST 14
 INSERT INTO `item_mods` VALUES (14384,1,3);
 INSERT INTO `item_mods` VALUES (14384,14,1);
 INSERT INTO `item_mods` VALUES (14385,1,3);
@@ -26402,7 +26402,7 @@ INSERT INTO `item_mods` VALUES (20910,315,10);    -- Enhances effect of Drain an
 INSERT INTO `item_mods` VALUES (20913,8,5); -- STR 5
 INSERT INTO `item_mods` VALUES (20913,12,5); -- INT 5
 INSERT INTO `item_mods` VALUES (20913,315,10); -- ENH_DRAIN_ASPIR 10
-INSERT INTO `item_mods` VALUES (20913,1330,-33); -- DARK_MAGIC_CAST -33
+INSERT INTO `item_mods` VALUES (20913,1330,33); -- DARK_MAGIC_CAST 33
 INSERT INTO `item_mods` VALUES (20913,1328,25); -- DREAD_SPIKES_EFFECT 25
 INSERT INTO `item_mods` VALUES (20913,369,1); -- REFRESH 1
 INSERT INTO `item_mods` VALUES (20916,25,15);
@@ -32803,27 +32803,27 @@ INSERT INTO `item_mods` VALUES (23674,68,92);     -- Ankusa Gaiters +3: Evasion+
 INSERT INTO `item_mods` VALUES (23674,304,12);    -- Ankusa Gaiters +3: "Charm"+12
 INSERT INTO `item_mods` VALUES (23674,364,41);    -- Ankusa Gaiters +3: "Reward"+41
 INSERT INTO `item_mods` VALUES (23674,384,400);   -- Ankusa Gaiters +3: Haste+4%
-INSERT INTO `item_mods` VALUES (23675,1,86);      -- Bihu Slippers +3: DEF:86
-INSERT INTO `item_mods` VALUES (23675,2,33);      -- Bihu Slippers +3: HP+33
-INSERT INTO `item_mods` VALUES (23675,5,34);      -- Bihu Slippers +3: MP+34
-INSERT INTO `item_mods` VALUES (23675,8,17);      -- Bihu Slippers +3: STR+17
-INSERT INTO `item_mods` VALUES (23675,9,21);      -- Bihu Slippers +3: DEX+21
-INSERT INTO `item_mods` VALUES (23675,10,17);     -- Bihu Slippers +3: VIT+17
-INSERT INTO `item_mods` VALUES (23675,11,43);     -- Bihu Slippers +3: AGI+43
-INSERT INTO `item_mods` VALUES (23675,12,27);     -- Bihu Slippers +3: INT+27
-INSERT INTO `item_mods` VALUES (23675,13,27);     -- Bihu Slippers +3: MND+27
-INSERT INTO `item_mods` VALUES (23675,14,48);     -- Bihu Slippers +3: CHR+48
-INSERT INTO `item_mods` VALUES (23675,23,61);     -- Bihu Slippers +3: Attack+61
-INSERT INTO `item_mods` VALUES (23675,25,36);     -- Bihu Slippers +3: Accuracy+36
-INSERT INTO `item_mods` VALUES (23675,27,-8);     -- Bihu Slippers +3: Enmity-8
-INSERT INTO `item_mods` VALUES (23675,29,7);      -- Bihu Slippers +3: "Magic Def. Bonus"+7
-INSERT INTO `item_mods` VALUES (23675,30,36);     -- Bihu Slippers +3: Magic Accuracy+36
-INSERT INTO `item_mods` VALUES (23675,31,127);    -- Bihu Slippers +3: Magic Evasion+127
-INSERT INTO `item_mods` VALUES (23675,68,78);     -- Bihu Slippers +3: Evasion+78
-INSERT INTO `item_mods` VALUES (23675,120,15);    -- Bihu Slippers +3: String instrument skill +15
-INSERT INTO `item_mods` VALUES (23675,161,-5);    -- Bihu Slippers +3: Physical damage taken -5%
-INSERT INTO `item_mods` VALUES (23675,384,300);   -- Bihu Slippers +3: Haste+3%
-INSERT INTO `item_mods` VALUES (23675,455,-10);   -- Bihu Slippers +3: Song spellcasting time -10%
+INSERT INTO `item_mods` VALUES (23675,1,86); -- DEF 86
+INSERT INTO `item_mods` VALUES (23675,2,33); -- HP 33
+INSERT INTO `item_mods` VALUES (23675,5,34); -- MP 34
+INSERT INTO `item_mods` VALUES (23675,8,17); -- STR 17
+INSERT INTO `item_mods` VALUES (23675,9,21); -- DEX 21
+INSERT INTO `item_mods` VALUES (23675,10,17); -- VIT 17
+INSERT INTO `item_mods` VALUES (23675,11,43); -- AGI 43
+INSERT INTO `item_mods` VALUES (23675,12,27); -- INT 27
+INSERT INTO `item_mods` VALUES (23675,13,27); -- MND 27
+INSERT INTO `item_mods` VALUES (23675,14,48); -- CHR 48
+INSERT INTO `item_mods` VALUES (23675,23,61); -- ATT 61
+INSERT INTO `item_mods` VALUES (23675,25,36); -- ACC 36
+INSERT INTO `item_mods` VALUES (23675,27,-8); -- ENMITY -8
+INSERT INTO `item_mods` VALUES (23675,29,7); -- MDEF 7
+INSERT INTO `item_mods` VALUES (23675,30,36); -- MACC 36
+INSERT INTO `item_mods` VALUES (23675,31,127); -- MEVA 127
+INSERT INTO `item_mods` VALUES (23675,68,78); -- EVA 78
+INSERT INTO `item_mods` VALUES (23675,120,15); -- STRING 15
+INSERT INTO `item_mods` VALUES (23675,161,-5); -- DMGPHYS -5
+INSERT INTO `item_mods` VALUES (23675,384,300); -- HASTE_GEAR 300
+INSERT INTO `item_mods` VALUES (23675,455,10); -- SONG_SPELLCASTING_TIME 10
 INSERT INTO `item_mods` VALUES (23676,1,88);      -- Arcadian Socks +3: DEF:88
 INSERT INTO `item_mods` VALUES (23676,2,33);      -- Arcadian Socks +3: HP+33
 INSERT INTO `item_mods` VALUES (23676,8,24);      -- Arcadian Socks +3: STR+24
