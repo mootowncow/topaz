@@ -1461,20 +1461,21 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
         {
             EFFECT statusEffect = static_cast<EFFECT>(predicate.condition_arg);
 
-            if (trigger_target->StatusEffectContainer->HasStatusEffect(statusEffect))
-            {
-                // Is this effect petrification? (Petrification can never be undispellable and isn't waltzable)
-                if (statusEffect == EFFECT_PETRIFICATION)
-                    return true;
+            auto* PEffect = trigger_target->StatusEffectContainer->GetStatusEffect(statusEffect);
+            if (!PEffect)
+                return false;
 
-                // Otherwise: does target have ANY waltzable status?
-                if (trigger_target->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_WALTZABLE))
-                    return true;
-            }
+            // Petrification is always removable (Not waltzable, though)
+            if (statusEffect == EFFECT_PETRIFICATION)
+                return true;
+
+            // Check waltzable flag
+            if (PEffect->GetFlag() & EFFECTFLAG_WALTZABLE)
+                return true;
 
             return false;
-            break;
         }
+
         default: { return false;  break; }
     }
 }
