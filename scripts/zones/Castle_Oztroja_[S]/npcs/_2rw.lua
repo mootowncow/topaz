@@ -1,8 +1,6 @@
 -----------------------------------
--- Area:  Castle Oztroja [S]
--- NPC:   _2rp (Handle)
--- Notes: Opens door _2r1
--- !gotoid 17183541
+-- Area: Castle Oztroja [S]
+-- Lever for a Brass Door
 -----------------------------------
 local CASTLE_OZTROJA_S = require("scripts/zones/Castle_Oztroja_[S]/globals")
 

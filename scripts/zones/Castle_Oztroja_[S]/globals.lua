@@ -68,6 +68,45 @@ local CASTLE_OZTROJA_S = {
             end
         end)
     end,
+
+    --[[..............................................................................................
+        player toggles a lever on inside of any Brass Door
+        ..............................................................................................]]
+    handleLevers = function(npc)
+        -- Open lever for 6.5s
+        if npc:getAnimation() == tpz.anim.CLOSE_DOOR then
+            GetNPCByID(npc:getID()):openDoor(6.5)
+        end
+
+        -- Open door for 4.5s after 2s delay
+        npc:timer(2000, function(npc)
+            GetNPCByID(npc:getID() -1):openDoor(4.5)
+        end)
+    end,
+
+    --[[..............................................................................................
+        check if door should open 
+        use nil for unused coridinates 
+        cmp is <=, >=, <, > or ==. (i.e. function(a,b) return a <= b end)
+        threshnold is number comparing it to (i.e. player:getXPos() <= -205)
+        example: handleDoor(player, npc, function(a,b) return a >= b end, 120, nil, nil, player:getZPos())
+    ..............................................................................................]]
+    handleDoor = function(player, npc, cmp, threshold, x, y, z)
+        if npc:getAnimation() ~= tpz.anim.CLOSE_DOOR then
+            return
+        end
+
+        local pos = x or y or z
+        if not pos then
+            error("CASTLE_OZTROJA_S.handleDoor: requires at least one coordinate")
+        end
+
+        if cmp(pos, threshold) then
+            npc:openDoor(6)
+        else
+            player:messageSpecial(ID.text.ITS_LOCKED)
+        end
+    end,
 }
 
 return CASTLE_OZTROJA_S
