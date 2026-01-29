@@ -1461,7 +1461,7 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
         {
             EFFECT statusEffect = static_cast<EFFECT>(predicate.condition_arg);
 
-            auto* PEffect = trigger_target->StatusEffectContainer->GetStatusEffect(statusEffect);
+            CStatusEffect* PEffect = trigger_target->StatusEffectContainer->GetStatusEffect(statusEffect);
             if (!PEffect)
                 return false;
 
