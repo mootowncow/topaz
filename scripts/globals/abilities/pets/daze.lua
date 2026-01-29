@@ -36,7 +36,7 @@ function onPetAbility(target, pet, skill)
 
     local damage = AutoPhysicalWeaponSkill(pet, target, skill, tpz.attackType.RANGED, numhits, TP_DMG_BONUS, params)
     dmg = AutoPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, damage.hitslanded, params)
-    AutoPhysicalStatusEffectWeaponSkill(pet, target, skill, effect, power, duration, numberofhits, TP_DMG_BONUS, params, bonus, tp)
+    AutoPhysicalStatusEffectWeaponSkill(pet, target, skill, effect, power, duration, numhits, TP_DMG_BONUS, params, bonus, tp)
 
     return dmg
 end
