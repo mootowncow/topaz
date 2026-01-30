@@ -263,7 +263,7 @@ bool CMagicState::Update(time_point tick)
             actionTarget.animation = 0;
             actionTarget.param = 0; // sometimes 1?
             m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
-            m_PEntity->PAI->EventHandler.triggerListener("MAGIC_PARALYZED", m_PEntity, m_PSpell.get());
+            m_PEntity->PAI->EventHandler.triggerListener("MAGIC_INTIMIDATED", m_PEntity, m_PSpell.get());
 
             CMagicState& state = *this;
             if (m_PEntity && m_PEntity->PAI)
@@ -283,6 +283,15 @@ bool CMagicState::Update(time_point tick)
 
             Complete();
             return false;
+        }
+
+        // Started a cutscene, interrupt spellcasting
+        if (auto* PChar = dynamic_cast<CCharEntity*>(m_PEntity))
+        {
+            if (PChar->status == STATUS_CUTSCENE_ONLY || PChar->m_Substate == CHAR_SUBSTATE::SUBSTATE_IN_CS)
+            {
+                m_interrupted = true;
+            }
         }
 
         if (PTarget != nullptr)
