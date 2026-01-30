@@ -154,6 +154,23 @@ bool CAutomatonController::isRanged()
     }
 }
 
+bool CAutomatonController::TryBest(uint16 targid, SpellID high, SpellID low)
+{
+    // ONLY use highest tier spell if high enough level to use
+    if (autoSpell::CanUseSpell(PAutomaton, high))
+    {
+        return Cast(targid, high); // may fail due to recast
+    }
+
+    // Use lower tier if not high enough level to use highest t ier
+    if (autoSpell::CanUseSpell(PAutomaton, low))
+    {
+        return Cast(targid, low);
+    }
+
+    return false;
+}
+
 CurrentManeuvers CAutomatonController::GetCurrentManeuvers() const
 {
     auto& statuses = PAutomaton->PMaster->StatusEffectContainer;
@@ -721,34 +738,23 @@ bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
         });
         if (dispel)
             castPriority.push_back(SpellID::Dispel);
+    [[fallthrough]];
     }
     default:
     {
-        if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
-        {
-            if (maneuvers.dark && maneuvers.light < 2) // Dark -> Bio
-            {
-                castPriority.push_back(SpellID::Bio_III);
-                castPriority.push_back(SpellID::Bio_II);
-            }
-            else
-            {
-                defaultPriority.push_back(SpellID::Bio_III);
-                defaultPriority.push_back(SpellID::Bio_II);
-            }
-        }
-
         if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BIO))
         {
             if (maneuvers.light)
             {
                 castPriority.push_back(SpellID::Dia_III);
                 castPriority.push_back(SpellID::Dia_II);
+                castPriority.push_back(SpellID::Dia);
             }
             else
             {
                 defaultPriority.push_back(SpellID::Dia_III);
                 defaultPriority.push_back(SpellID::Dia_II);
+                defaultPriority.push_back(SpellID::Dia);
             }
         }
 
@@ -756,23 +762,15 @@ bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
         {
             if (maneuvers.dark && maneuvers.light < 2) // Dark -> Bio
             {
+                castPriority.push_back(SpellID::Bio_III);
+                castPriority.push_back(SpellID::Bio_II);
                 castPriority.push_back(SpellID::Bio);
             }
             else
             {
+                defaultPriority.push_back(SpellID::Bio_III);
+                defaultPriority.push_back(SpellID::Bio_II);
                 defaultPriority.push_back(SpellID::Bio);
-            }
-        }
-
-        if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BIO))
-        {
-            if (maneuvers.light)
-            {
-                castPriority.push_back(SpellID::Dia);
-            }
-            else
-            {
-                defaultPriority.push_back(SpellID::Dia);
             }
         }
 
@@ -832,6 +830,8 @@ bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
             castPriority.push_back(SpellID::Addle);
         else
             defaultPriority.push_back(SpellID::Addle);
+
+        defaultPriority.push_back(SpellID::Inundation);
     }
     break;
     case HEAD_SPIRITREAVER:
@@ -840,24 +840,10 @@ bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
         {
             // Not prioritizable since it requires 1 Dark to access Enfeebles and requires 2 of another element to prioritize another
             defaultPriority.push_back(SpellID::Blind);
+
             if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
             {
                 defaultPriority.push_back(SpellID::Bio_II);
-            }
-
-            if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BIO))
-            {
-                if (maneuvers.light >= 2) // 2 Light -> Dia
-                {
-                    castPriority.push_back(SpellID::Dia_II);
-                }
-                else
-                {
-                    defaultPriority.push_back(SpellID::Dia_II);
-                }
-            }
-            if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
-            {
                 defaultPriority.push_back(SpellID::Bio);
             }
 
@@ -865,14 +851,15 @@ bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
             {
                 if (maneuvers.light >= 2) // 2 Light -> Dia
                 {
+                    castPriority.push_back(SpellID::Dia_II);
                     castPriority.push_back(SpellID::Dia);
                 }
                 else
                 {
+                    defaultPriority.push_back(SpellID::Dia_II);
                     defaultPriority.push_back(SpellID::Dia);
                 }
             }
-
 
             if (maneuvers.water >= 2) // 2 Water -> Poison
             {
@@ -928,56 +915,38 @@ bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
             defaultPriority.push_back(SpellID::Poison);
         }
 
-        if (maneuvers.dark) // Dark -> Blind > Bio
-        {
-            castPriority.push_back(SpellID::Blind);
-            if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
-            {
-                castPriority.push_back(SpellID::Bio_II);
-            }
-        }
-        else
-        {
-            defaultPriority.push_back(SpellID::Blind);
-            if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
-            {
-                defaultPriority.push_back(SpellID::Bio_II);
-            }
-        }
-
         if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BIO))
         {
             if (maneuvers.light) // Light -> Dia
             {
                 castPriority.push_back(SpellID::Dia_II);
-            }
-            else
-            {
-                defaultPriority.push_back(SpellID::Dia_II);
-            }
-        }
-
-        if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
-        {
-            if (maneuvers.dark) // Dark -> Blind > Bio
-            {
-                castPriority.push_back(SpellID::Bio);
-            }
-            else
-            {
-                defaultPriority.push_back(SpellID::Bio);
-            }
-        }
-
-        if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BIO))
-        {
-            if (maneuvers.light) // Light -> Dia
-            {
                 castPriority.push_back(SpellID::Dia);
             }
             else
             {
+                defaultPriority.push_back(SpellID::Dia_II);
                 defaultPriority.push_back(SpellID::Dia);
+            }
+        }
+
+        if (maneuvers.dark) // Dark -> Blind > Bio
+        {
+            castPriority.push_back(SpellID::Blind);
+
+            if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
+            {
+                castPriority.push_back(SpellID::Bio_II);
+                castPriority.push_back(SpellID::Bio);
+            }
+        }
+        else
+        {
+            defaultPriority.push_back(SpellID::Blind);
+
+            if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
+            {
+                defaultPriority.push_back(SpellID::Bio_II);
+                defaultPriority.push_back(SpellID::Bio);
             }
         }
 
@@ -1176,6 +1145,9 @@ bool CAutomatonController::TryRegen()
 
 bool CAutomatonController::TryEnhance()
 {
+    // TODO: Phalanx party members tanking
+    // TODO: High SDT / EEM to enfeeble check added to CanUseEnfeeble()
+
     if (!PAutomaton->PMaster || m_enhanceCooldown == 0s || m_Tick <= m_LastEnhanceTime + m_enhanceCooldown)
         return false;
 
@@ -1190,6 +1162,8 @@ bool CAutomatonController::TryEnhance()
     CBattleEntity* PProtectTarget = nullptr;
     CBattleEntity* PShellTarget = nullptr;
     CBattleEntity* PHasteTarget = nullptr;
+    CBattleEntity* PFlurryTarget = nullptr;
+    CBattleEntity* PRefreshTarget = nullptr;
     CBattleEntity* PStoneSkinTarget = nullptr;
     CBattleEntity* PPhalanxTarget = nullptr;
     CBattleEntity* PTemperTarget = nullptr;
@@ -1199,6 +1173,8 @@ bool CAutomatonController::TryEnhance()
     bool shell = false;
     int8 shellcount = 0;
     bool haste = false;
+    bool flurry = false;
+    bool refresh = false;
     bool stoneskin = false;
     bool phalanx = false;
     bool temper = false;
@@ -1225,7 +1201,7 @@ bool CAutomatonController::TryEnhance()
             isEngaged = true; // Assume everyone is engaged if the target isn't a mob
         }
 
-        PAutomaton->PMaster->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste, &stoneskin, &phalanx, &temper](CStatusEffect* PStatus) {
+        PAutomaton->PMaster->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste, &stoneskin, &phalanx, &temper, &flurry](CStatusEffect* PStatus) {
             if (PStatus->GetDuration() > 0)
             {
                 if (PStatus->GetStatusID() == EFFECT_PROTECT)
@@ -1242,6 +1218,9 @@ bool CAutomatonController::TryEnhance()
 
                 if (PStatus->GetStatusID() == EFFECT_HASTE)
                     haste = true;
+
+                if (PStatus->GetStatusID() == EFFECT_FLURRY_II)
+                    flurry = true;
 
                 if (PStatus->GetStatusID() == EFFECT_STONESKIN)
                     stoneskin = true;
@@ -1279,6 +1258,8 @@ bool CAutomatonController::TryEnhance()
     protect = false;
     shell = false;
     haste = false;
+    flurry = false;
+    refresh = false;
     stoneskin = false;
     phalanx = false;
 
@@ -1292,7 +1273,7 @@ bool CAutomatonController::TryEnhance()
         }
     }
 
-    PAutomaton->StatusEffectContainer->ForEachEffect([&protect, &shell, &haste, &stoneskin, &phalanx](CStatusEffect* PStatus) {
+    PAutomaton->StatusEffectContainer->ForEachEffect([&protect, &shell, &stoneskin, &refresh](CStatusEffect* PStatus) {
         if (PStatus->GetDuration() > 0)
         {
             if (PStatus->GetStatusID() == EFFECT_PROTECT)
@@ -1301,8 +1282,8 @@ bool CAutomatonController::TryEnhance()
             if (PStatus->GetStatusID() == EFFECT_SHELL)
                 shell = true;
 
-            if (PStatus->GetStatusID() == EFFECT_HASTE)
-                haste = true;
+            if (PStatus->GetStatusID() == EFFECT_REFRESH)
+                refresh = true;
         }
     });
 
@@ -1312,8 +1293,8 @@ bool CAutomatonController::TryEnhance()
     if (!PShellTarget && !shell)
         PShellTarget = PAutomaton;
 
-    if (!PHasteTarget && !haste)
-        PHasteTarget = PAutomaton;
+    if (!PRefreshTarget && !refresh)
+        PRefreshTarget = PAutomaton;
 
     size_t members = 0; // start at 0
 
@@ -1327,7 +1308,10 @@ bool CAutomatonController::TryEnhance()
                 protect = false;
                 shell = false;
                 haste = false;
+                flurry = false;
+                refresh = false;
                 temper = false;
+                phalanx = false;
 
                 isEngaged = false;
 
@@ -1344,7 +1328,7 @@ bool CAutomatonController::TryEnhance()
                     isEngaged = true;
                 }
 
-                PMember->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste, &temper](CStatusEffect* PStatus) {
+                PMember->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste, &temper, &flurry, &refresh](CStatusEffect* PStatus) {
                     if (PStatus->GetDuration() > 0)
                     {
                         if (PStatus->GetStatusID() == EFFECT_PROTECT)
@@ -1362,6 +1346,12 @@ bool CAutomatonController::TryEnhance()
                         if (PStatus->GetStatusID() == EFFECT_HASTE)
                             haste = true;
 
+                        if (PStatus->GetStatusID() == EFFECT_FLURRY_II)
+                            flurry = true;
+
+                        if (PStatus->GetStatusID() == EFFECT_REFRESH)
+                            refresh = true;
+
                         if (PStatus->GetStatusID() == EFFECT_MULTI_STRIKES)
                             temper = true;
                     }
@@ -1375,10 +1365,16 @@ bool CAutomatonController::TryEnhance()
                     if (!PShellTarget && !shell)
                         PShellTarget = PMember;
 
-                    if (!PHasteTarget && !haste)
+                    if (!PHasteTarget && !haste && melee_jobs.find(PMember->GetMJob()) != melee_jobs.end())
                         PHasteTarget = PMember;
 
-                    if (!PTemperTarget && !temper)
+                    if (!PFlurryTarget && !flurry && (PMember->GetMJob() == JOB_RNG || PMember->GetMJob() == JOB_COR))
+                        PFlurryTarget = PMember;
+
+                    if (!PRefreshTarget && !refresh && refresh_jobs.find(PMember->GetMJob()) != refresh_jobs.end())
+                        PRefreshTarget = PMember;
+
+                    if (!PTemperTarget && !temper && melee_jobs.find(PMember->GetMJob()) != melee_jobs.end())
                         PTemperTarget = PMember;
                 }
             }
@@ -1422,20 +1418,28 @@ bool CAutomatonController::TryEnhance()
             Cast(PShellTarget->targid, SpellID::Shell))
             return true;
 
-    if (PHasteTarget)
-        if (Cast(PHasteTarget->targid, SpellID::Haste_II) || Cast(PHasteTarget->targid, SpellID::Haste))
+    if (PRefreshTarget)
+        if (TryBest(PRefreshTarget->targid, SpellID::Refresh_II, SpellID::Refresh))
             return true;
 
-    if (PStoneSkinTarget)
-        if (Cast(PStoneSkinTarget->targid, SpellID::Stoneskin))
+    if (PHasteTarget)
+        if (TryBest(PHasteTarget->targid, SpellID::Haste_II, SpellID::Haste))
+            return true;
+
+    if (PFlurryTarget)
+        if (TryBest(PFlurryTarget->targid, SpellID::Flurry_II, SpellID::Flurry))
+            return true;
+
+    if (PTemperTarget)
+        if (Cast(PTemperTarget->targid, SpellID::Temper))
             return true;
 
     if (PPhalanxTarget)
         if (Cast(PPhalanxTarget->targid, SpellID::Phalanx))
             return true;
 
-    if (PTemperTarget)
-        if (Cast(PTemperTarget->targid, SpellID::Temper))
+    if (PStoneSkinTarget)
+        if (Cast(PStoneSkinTarget->targid, SpellID::Stoneskin))
             return true;
 
     return false;

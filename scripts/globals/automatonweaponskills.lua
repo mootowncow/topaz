@@ -157,7 +157,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
 
         --printf("critRate before param %i", critRate)
         if (tpeffect == TP_CRIT_VARIES) then
-            critRate = critRate + AutoCritTPModifier(tp)
+            critRate = critRate + AutoCritTPModifier(tp) -- 20%/40%/70%. String Shredder only
 
             --printf("critRate after param %i", critRate)
 
@@ -791,7 +791,7 @@ function AutoAccTPModifier(tp)
 end
 
 function AutoCritTPModifier(tp)
-    return (15+ ((tp - 1000) * 0.015)) -- 15, 30, 45
+    return (15+ ((tp - 1000) * 0.015)) -- 20, 40, 70
 end
 
 function AutoEnfeebleDurationTPModifier(tp)

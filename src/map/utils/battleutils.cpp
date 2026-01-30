@@ -9933,7 +9933,6 @@ namespace battleutils
 
     bool IsTopEnmity(CBattleEntity* PAttacker, CBattleEntity* PDefender)
     {
-        if (PDefender->objtype == TYPE_MOB)
         if (auto PMob = dynamic_cast<CMobEntity*>(PAttacker->GetBattleTarget()))
         {
             if (PMob->PEnmityContainer->GetHighestEnmity() == PAttacker)

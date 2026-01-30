@@ -780,6 +780,10 @@ struct health_t
     int32   modhp, modmp;       // модифицированные максимальные значения
 };
 
+extern const std::set<JOBTYPE> refresh_jobs;
+extern const std::set<JOBTYPE> melee_jobs;
+extern const std::set<JOBTYPE> caster_jobs;
+
 typedef std::vector<apAction_t> ActionList_t;
 class CModifier;
 class CParty;

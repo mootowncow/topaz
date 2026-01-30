@@ -74,17 +74,30 @@ function onUseAbility(player, target, ability)
             tpz.effect.HELIX, tpz.effect.KAUSTRA, tpz.effect.SILENCE, tpz.effect.PETRIFICATION
         }
 
-        for i, effect in ipairs(removables) do
-            if (player:hasStatusEffect(effect)) then
-                local currentEffect = player:getStatusEffect(effect)
-                local effectFlags = currentEffect:getFlag()
-                if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) ~= 0) or (effect == tpz.effect.PETRIFICATION) then
-                    player:delStatusEffect(effect)
-                    effectID = effect
-                    return true
+        if player:hasStatusEffect(tpz.effect.LUX) then
+            local NearbyEntities = player:getNearbyEntities(10)
+            if NearbyEntities == nil then return end
+            if NearbyEntities then
+                for _,entity in pairs(NearbyEntities) do
+                    if entity:isAlive() then
+                        if (entity:getAllegiance() == player:getAllegiance()) and not entity:isPet() then
+                            for i, effect in ipairs(removables) do
+                                if (entity:hasStatusEffect(effect)) then
+                                    local currentEffect = entity:getStatusEffect(effect)
+                                    local effectFlags = currentEffect:getFlag()
+                                    if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) ~= 0) or (effect == tpz.effect.PETRIFICATION) then
+                                        entity:delStatusEffect(effect)
+                                        effectID = effect
+                                        return true
+                                    end
+                                end
+                            end
+                        end
+                    end
                 end
             end
         end
+
         return false
     end
 
@@ -97,6 +110,7 @@ function onUseAbility(player, target, ability)
         removed = removed + 1
     until (toremove <= 0)
 
+    -- Cooldown logic
     if player:hasStatusEffect(tpz.effect.LUX) then
         local toremovePlayer = idStrengths[id] or 1
         local removed = 0

@@ -32,7 +32,7 @@ function onPetAbility(target, pet, skill)
     local effect = tpz.effect.DEFENSE_DOWN
     local power = 15
     local duration = 90
-    local bonus = 50
+    local bonus = 200
 
     local damage = AutoPhysicalWeaponSkill(pet, target, skill, tpz.attackType.RANGED, numhits, TP_EFFECT_DURATION, params)
     dmg = AutoPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.RANGED, tpz.damageType.RANGED, damage.hitslanded, params)

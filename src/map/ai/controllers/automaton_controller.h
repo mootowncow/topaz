@@ -84,6 +84,7 @@ private:
     bool TryRangedAttack();
     bool TryAttachment();
     bool isRanged();
+    bool TryBest(uint16 targid, SpellID high, SpellID low);
 
     CurrentManeuvers GetCurrentManeuvers() const;
 

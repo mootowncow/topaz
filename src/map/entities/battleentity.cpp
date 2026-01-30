@@ -55,6 +55,44 @@
 #include "../job_points.h"
 #include "../ai/controllers/mob_controller.h"
 
+const std::set<JOBTYPE> melee_jobs = {
+    JOB_WAR,
+    JOB_MNK,
+    JOB_THF,
+    JOB_PLD,
+    JOB_DRK,
+    JOB_BST,
+    JOB_SAM,
+    JOB_NIN,
+    JOB_DRG,
+    JOB_BLU,
+    JOB_PUP,
+    JOB_DNC,
+    JOB_RUN,
+};
+
+const std::set<JOBTYPE> caster_jobs = {
+    JOB_WHM,
+    JOB_BLM,
+    JOB_RDM,
+    JOB_SMN,
+    JOB_SCH,
+    JOB_GEO,
+};
+
+const std::set<JOBTYPE> refresh_jobs = {
+    JOB_WHM,
+    JOB_BLM,
+    JOB_RDM,
+    JOB_PLD,
+    JOB_DRK,
+    JOB_SMN,
+    JOB_BLU,
+    JOB_SCH,
+    JOB_GEO,
+    JOB_RUN,
+};
+
 CBattleEntity::CBattleEntity()
 {
     m_OwnerID.clean();

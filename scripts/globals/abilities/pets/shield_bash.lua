@@ -26,40 +26,33 @@ function onPetAbility(target, pet, skill, master, action)
     params.chr_wsc = 0.0
     params.NO_TP_CONSUMPTION = true
 
-    local chance = 75
-    local stunEEM = target:getMod(tpz.mod.EEM_STUN)
+    local tp = pet:getLocalVar("TP")
     local effect = tpz.effect.STUN
+    local power = 1
     local duration = 6
-    duration = CheckDiminishingReturns(pet, target, effect, duration)
+    local bonus = 200
 
-    if (pet:getMod(tpz.mod.SHIELD_BASH) > 0) then -- 100% chance to stun if Hammermill is equipped
-        chance = 100
-    end
-
-    if
-        (math.random() * 100 <= chance) and
-        not target:hasStatusEffect(effect) and
-        (stunEEM > 5)
-    then
-        AddDimishingReturns(pet, target, nil, effect)
-        target:addStatusEffect(effect, 1, 0, duration)
-    end
-
-    local slowPower = pet:getMod(tpz.mod.AUTO_SHIELD_BASH_SLOW)
-    if slowPower > 0 then
-        local duration = 30
-        if slowPower == 12 then
-            duration = 30
-        elseif slowPower == 19 then
-            duration = 60
-        elseif slowPower == 25 then
-            duration = 90
-        end
-        target:addStatusEffect(tpz.effect.SLOW, slowPower * 100, 0, duration)
+    local effect2 = tpz.effect.SLOW
+    local power2 = pet:getMod(tpz.mod.AUTO_SHIELD_BASH_SLOW)
+    local duration2 = 30
+    local bonus2 = 200
+    if (power2 == 1200) then
+        duration = 30
+    elseif (power2 == 2000) then
+        duration = 60
+    elseif (power2 == 2500) then
+        duration = 75
     end
 
     local damage = AutoPhysicalWeaponSkill(pet, target, skill, tpz.attackType.PHYSICAL, numhits, TP_NONE, params)
-    dmg = AutoPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.BLUNT, damage.hitslanded, params)
+    local dmg = AutoPhysicalFinalAdjustments(damage.dmg, pet, skill, target, tpz.attackType.PHYSICAL, tpz.damageType.BLUNT, damage.hitslanded, params)
+    AutoPhysicalStatusEffectWeaponSkill(pet, target, skill, effect, power, duration, numhits, TP_EFFECT_DURATION, params, bonus, tp)
+
+    -- Add Hammermill Slow effect
+    if (power2 > 0) then
+        AutoPhysicalStatusEffectWeaponSkill(pet, target, skill, effect2, power2, duration2, numhits, TP_EFFECT_DURATION, params, bonus2, tp)
+    end
+
     target:addEnmity(pet, 450, 900)
 
     -- Add Hammermill damage bonus

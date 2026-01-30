@@ -94,21 +94,31 @@ function onUseAbility(player, target, ability)
 
     -- Cooldown logic
     if player:hasStatusEffect(tpz.effect.LUX) then
-        local playerCurrentHP = player:getHP()
-        local playerMaxHP = player:getMaxHP()
-        local playerdiff = playerMaxHP - playerCurrentHP
-        local totalPlayerHealing = totalHealing * 2
-        if (playerdiff < totalPlayerHealing) then
-            totalPlayerHealing = playerdiff
-        end
+        local NearbyEntities = player:getNearbyEntities(10)
+        if NearbyEntities == nil then return end
+        if NearbyEntities then
+            for _,entity in pairs(NearbyEntities) do
+                if entity:isAlive() then
+                    if (entity:getAllegiance() == player:getAllegiance()) and not entity:isPet() then
+                        if not entity:hasStatusEffect(tpz.effect.CURSE_II) then
+                            local entityCurrentHP = entity:getHP()
+                            local entityMaxHP = entity:getMaxHP()
+                            local entitydiff = entityMaxHP - entityCurrentHP
+                            local totalentityHealing = totalHealing * 2
 
-        if player:hasStatusEffect(tpz.effect.CURSE_II) then
-            totalPlayerHealing = 0
+                            if (entitydiff < totalentityHealing) then
+                                totalentityHealing = entitydiff
+                            end
+
+                            entity:addHP(totalentityHealing)
+                            entity:delStatusEffect(tpz.effect.REGEN)
+                            entity:addStatusEffect(tpz.effect.REGEN, regenAmount, 3, regenTime)
+                            entity:updateEnmityFromCure(player, totalentityHealing)
+                        end
+                    end
+                end
+            end
         end
-        player:addHP(totalPlayerHealing)
-        player:delStatusEffect(tpz.effect.REGEN)
-        player:addStatusEffect(tpz.effect.REGEN, regenAmount, 3, regenTime)
-        player:updateEnmityFromCure(player, totalPlayerHealing)
     end
 
     local diff = petMaxHP - petCurrentHP

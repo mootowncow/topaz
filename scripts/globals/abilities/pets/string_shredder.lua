@@ -23,7 +23,7 @@ function onPetAbility(target, pet, skill)
     params.dex_wsc = 0.0
     params.vit_wsc = 0.5
     params.agi_wsc = 0.0
-    params.int_wsc = 0.0 
+    params.int_wsc = 0.0
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
     params.attkMod = 1.36
