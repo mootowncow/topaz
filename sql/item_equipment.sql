@@ -10483,7 +10483,7 @@ INSERT INTO `item_equipment` VALUES (21371,'ginsen',99,0,2473971,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (21372,'dunna',99,0,1048576,0,0,0,4,0,0);
 INSERT INTO `item_equipment` VALUES (21373,'sihirik',99,0,30639,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (21374,'paeapua',99,0,2385,0,0,0,8,4,0);
-INSERT INTO `item_equipment` VALUES (21375,'magneto',99,117,131072,0,0,0,4,0,0);
+INSERT INTO `item_equipment` VALUES (21375,'magneto',50,0,131072,0,0,0,4,0,0);
 INSERT INTO `item_equipment` VALUES (21376,'inlamvuyeso',99,0,2589730,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (21377,'idaraaja',99,117,16384,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (21378,'yetshila',99,0,2166961,0,0,0,8,4,0);

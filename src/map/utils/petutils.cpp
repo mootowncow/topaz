@@ -1421,6 +1421,7 @@ namespace petutils
                 PPet->addModifier(Mod::DMG, -6);
                 break;
             case FRAME_VALOREDGE:
+            {
                 PPet->SetMJob(JOB_WAR);
 
                 // Apply pet delay mod / job point reduction bonus
@@ -1439,12 +1440,30 @@ namespace petutils
                 PPet->addModifier(Mod::ACC, 10);
                 PPet->addModifier(Mod::EVA, 10);
                 PPet->addModifier(Mod::DEFP, 60);
-                // innate -15 % DT, which does not contribute to the -50 % cap (this is a unique attribute to pets having a "higher" DT cap)
+                // innate -25 % DT, which does not contribute to the -50 % cap (this is a unique attribute to pets having a "higher" DT cap)
                 PPet->addModifier(Mod::UDMGPHYS, -25);
                 PPet->addModifier(Mod::UDMGBREATH, -25);
                 PPet->addModifier(Mod::UDMGMAGIC, -25);
                 PPet->addModifier(Mod::UDMGRANGE, -25);
-                break;
+
+                // Magneto Animator
+                CCharEntity* PChar = static_cast<CCharEntity*>(PMaster);
+                CItem* animator = PChar->getEquip(SLOT_RANGED);
+                if (animator && animator->getID() == 21375)
+                {
+                    PPet->addModifier(Mod::ATTP, 25);
+                    PPet->addModifier(Mod::DOUBLE_ATTACK, 10);
+                    PPet->addModifier(Mod::HASTE_ABILITY, 1000);
+                    PPet->addModifier(Mod::UDMGPHYS, 12);
+                    PPet->addModifier(Mod::UDMGBREATH, 12);
+                    PPet->addModifier(Mod::UDMGMAGIC, 12);
+                    PPet->addModifier(Mod::UDMGRANGE, 12);
+                    PPet->setMobMod(MOBMOD_BLOCK, 0);
+                    PPet->addModifier(Mod::HPP, -20);
+                    PPet->addModifier(Mod::DEFP, -60);
+                }
+            }
+            break;
             case FRAME_SHARPSHOT:
                 PPet->SetMJob(JOB_RNG);
 

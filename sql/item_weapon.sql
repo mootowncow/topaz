@@ -4315,7 +4315,7 @@ INSERT INTO `item_weapon` VALUES (21371,'ginsen',0,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21372,'dunna',45,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21373,'sihirik',0,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21374,'paeapua',0,0,0,0,0,0,1,999,0,0);
-INSERT INTO `item_weapon` VALUES (21375,'magneto',0,10,0,0,0,0,1,999,0,0);
+INSERT INTO `item_weapon` VALUES (21375,'magneto',0,10,0,0,0,0,1,240,0,0);
 INSERT INTO `item_weapon` VALUES (21376,'inlamvuyeso',0,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21377,'idaraaja',0,0,0,0,0,0,1,999,0,0);
 INSERT INTO `item_weapon` VALUES (21378,'yetshila',0,0,0,0,0,0,1,999,0,0);
