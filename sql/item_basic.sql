@@ -18060,7 +18060,7 @@ INSERT INTO `item_basic` VALUES (21371,0,'ginsen','ginsen',1,63572,0,0,0);
 INSERT INTO `item_basic` VALUES (21372,0,'dunna','dunna',1,63556,0,0,0);
 INSERT INTO `item_basic` VALUES (21373,0,'sihirik','sihirik',1,63572,0,0,0);
 INSERT INTO `item_basic` VALUES (21374,0,'paeapua','paeapua',1,63572,0,1,0);
-INSERT INTO `item_basic` VALUES (21375,0,'magneto','magneto',1,2068,0,0,0);
+INSERT INTO `item_basic` VALUES (21375,0,'magneto','magneto',1,2068,61,0,0);
 INSERT INTO `item_basic` VALUES (21376,0,'inlamvuyeso','inlamvuyeso',1,63572,0,0,0);
 INSERT INTO `item_basic` VALUES (21377,0,'idaraaja','idaraaja',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (21378,0,'yetshila','yetshila',1,2084,15,0,0);
