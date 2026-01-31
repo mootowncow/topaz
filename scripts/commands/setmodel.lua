@@ -32,7 +32,7 @@ function onTrigger(player, arg1, arg2)
     end
 
     -- validate target
-    if (not target:isMob() or (not target:isPet()) then
+    if (not target:isMob()) or (not target:isPet()) then
         error(player, "You must either enter a valid mob or pet")
         return
     end

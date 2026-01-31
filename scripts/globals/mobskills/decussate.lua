@@ -15,7 +15,7 @@ require("scripts/globals/monstertpmoves")
 
 function onMobSkillCheck(target, mob, skill)
     local mobhp = mob:getHPP()
-    if (mob:getPool() == 1846 and mobhp <= 30 then
+    if (mob:getPool() == 1846 and mobhp <= 30) then
         return 0
     else
         return 1
