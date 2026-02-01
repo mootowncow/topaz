@@ -128,17 +128,18 @@ INSERT INTO `automaton_spells` VALUES (277,256,32,0,0,0);
 INSERT INTO `automaton_spells` VALUES (286,227,61,21,0,0);
 INSERT INTO `automaton_spells` VALUES (477,337,16,0,0,0); -- Regen IV
 INSERT INTO `automaton_spells` VALUES (493,207,8,0,0,0); -- Temper
-INSERT INTO `automaton_spells` VALUES (79,286,8,13,128,0); -- Slow II
-INSERT INTO `automaton_spells` VALUES (80,286,8,4,32,0);-- Paralyze II
-INSERT INTO `automaton_spells` VALUES (276,286,8,5,64,0); -- Blind II
-INSERT INTO `automaton_spells` VALUES (25,286,8,134,0,0); -- Dia III
-INSERT INTO `automaton_spells` VALUES (232,286,8,135,0,0); -- Bio III
+INSERT INTO `automaton_spells` VALUES (79,280,8,13,128,0); -- Slow II
+INSERT INTO `automaton_spells` VALUES (80,278,8,4,32,0);-- Paralyze II
+INSERT INTO `automaton_spells` VALUES (276,282,8,5,64,0); -- Blind II
+INSERT INTO `automaton_spells` VALUES (25,284,8,134,0,0); -- Dia III
+INSERT INTO `automaton_spells` VALUES (232,284,8,135,0,0); -- Bio III
 INSERT INTO `automaton_spells` VALUES (845,147,8,0,0,0); -- Flurry
 INSERT INTO `automaton_spells` VALUES (846,286,8,0,0,0); -- Flurry II
 INSERT INTO `automaton_spells` VALUES (511,286,61,0,0,0); -- Haste II
-INSERT INTO `automaton_spells` VALUES (879,281,8,597,0,0); -- Inundation
+INSERT INTO `automaton_spells` VALUES (879,286,8,597,0,0); -- Inundation
 INSERT INTO `automaton_spells` VALUES (109,123,8,0,0,0); -- Refresh
 INSERT INTO `automaton_spells` VALUES (473,282,8,0,0,0); -- Refresh II
+INSERT INTO `automaton_spells` VALUES (107,278,8,0,0,0); -- Phalanx II
 
 /*!40000 ALTER TABLE `automaton_spells` ENABLE KEYS */;
 UNLOCK TABLES;

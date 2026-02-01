@@ -335,7 +335,7 @@ enum EFFECT
     EFFECT_OMERTA                   = 262,
     EFFECT_DEBILITATION             = 263,
     EFFECT_PATHOS                   = 264,
-    EFFECT_FLURRY                   = 265,
+    EFFECT_FLURRY                   = 265, // Nyzul pathos
     EFFECT_CONCENTRATION            = 266,
     EFFECT_ALLIED_TAGS              = 267,
     EFFECT_SIGIL                    = 268,
@@ -646,7 +646,7 @@ enum EFFECT
     EFFECT_FISHY_INTUITION          = 578,
     EFFECT_COMMITMENT               = 579,
     EFFECT_GEO_HASTE                = 580,
-    EFFECT_FLURRY_II                = 581,
+    EFFECT_FLURRY_II                = 581, // Flurry spell
     EFFECT_CONTRADANCE              = 582,
     EFFECT_APOGEE                   = 583,
     EFFECT_ENTRUST                  = 584,

@@ -154,19 +154,10 @@ bool CAutomatonController::isRanged()
     }
 }
 
-bool CAutomatonController::TryBest(uint16 targid, SpellID high, SpellID low)
+bool CAutomatonController::TryBestSpell(uint16 targid, SPELLFAMILY spellfamily)
 {
-    // ONLY use highest tier spell if high enough level to use
-    if (autoSpell::CanUseSpell(PAutomaton, high))
-    {
-        return Cast(targid, high); // may fail due to recast
-    }
-
-    // Use lower tier if not high enough level to use highest t ier
-    if (autoSpell::CanUseSpell(PAutomaton, low))
-    {
-        return Cast(targid, low);
-    }
+    if (auto spell = autoSpell::GetBestAvailable(PAutomaton, spellfamily))
+        return Cast(targid, *spell);
 
     return false;
 }
@@ -1145,302 +1136,117 @@ bool CAutomatonController::TryRegen()
 
 bool CAutomatonController::TryEnhance()
 {
-    // TODO: Phalanx party members tanking
-    // TODO: High SDT / EEM to enfeeble check added to CanUseEnfeeble()
-
+    // TODO: Code TryRegen() copying this logic and test
     if (!PAutomaton->PMaster || m_enhanceCooldown == 0s || m_Tick <= m_LastEnhanceTime + m_enhanceCooldown)
         return false;
 
-    EnmityList_t* enmityList;
-    auto PMob = dynamic_cast<CMobEntity*>(PTarget);
-    if (PMob)
-        enmityList = PMob->PEnmityContainer->GetEnmityList();
+    if (!PAutomaton->PMaster->PParty)
+        return false;
 
-    uint16 highestEnmity = 0;
-
-    CBattleEntity* PRegenTarget = nullptr;
-    CBattleEntity* PProtectTarget = nullptr;
-    CBattleEntity* PShellTarget = nullptr;
-    CBattleEntity* PHasteTarget = nullptr;
-    CBattleEntity* PFlurryTarget = nullptr;
-    CBattleEntity* PRefreshTarget = nullptr;
-    CBattleEntity* PStoneSkinTarget = nullptr;
-    CBattleEntity* PPhalanxTarget = nullptr;
-    CBattleEntity* PTemperTarget = nullptr;
-
-    bool protect = false;
-    int8 protectcount = 0;
-    bool shell = false;
-    int8 shellcount = 0;
-    bool haste = false;
-    bool flurry = false;
-    bool refresh = false;
-    bool stoneskin = false;
-    bool phalanx = false;
-    bool temper = false;
-
-    bool isEngaged = false;
-
-    if (distance(PAutomaton->loc.p, PAutomaton->PMaster->loc.p) < 20)
+    if (ShouldProtectra())
     {
-        if (PMob)
-        {
-            auto enmity_obj = enmityList->find(PAutomaton->PMaster->id);
-            if (enmity_obj != enmityList->end())
-            {
-                isEngaged = true;
-                if (highestEnmity < enmity_obj->second.CE + enmity_obj->second.VE)
-                {
-                    highestEnmity = enmity_obj->second.CE + enmity_obj->second.VE;
-                    PRegenTarget = PAutomaton->PMaster;
-                }
-            }
-        }
-        else
-        {
-            isEngaged = true; // Assume everyone is engaged if the target isn't a mob
-        }
-
-        PAutomaton->PMaster->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste, &stoneskin, &phalanx, &temper, &flurry](CStatusEffect* PStatus) {
-            if (PStatus->GetDuration() > 0)
-            {
-                if (PStatus->GetStatusID() == EFFECT_PROTECT)
-                {
-                    protect = true;
-                    ++protectcount;
-                }
-
-                if (PStatus->GetStatusID() == EFFECT_SHELL)
-                {
-                    shell = true;
-                    ++shellcount;
-                }
-
-                if (PStatus->GetStatusID() == EFFECT_HASTE)
-                    haste = true;
-
-                if (PStatus->GetStatusID() == EFFECT_FLURRY_II)
-                    flurry = true;
-
-                if (PStatus->GetStatusID() == EFFECT_STONESKIN)
-                    stoneskin = true;
-
-                if (PStatus->GetStatusID() == EFFECT_PHALANX)
-                    phalanx = true;
-
-                if (PStatus->GetStatusID() == EFFECT_MULTI_STRIKES)
-                    temper = true;
-            }
-        });
-
-        if (isEngaged)
-        {
-            if (!protect)
-                PProtectTarget = PAutomaton->PMaster;
-
-            if (!shell)
-                PShellTarget = PAutomaton->PMaster;
-
-            if (!haste)
-                PHasteTarget = PAutomaton->PMaster;
-
-            if (!stoneskin)
-                PStoneSkinTarget = PAutomaton->PMaster;
-
-            if (!phalanx)
-                PPhalanxTarget = PAutomaton->PMaster;
-
-            if (!temper)
-                PTemperTarget = PAutomaton->PMaster;
-        }
+        if (TryBestSpell(PAutomaton->targid, SPELLFAMILY_PROTECTRA))
+            return true;
     }
 
-    protect = false;
-    shell = false;
-    haste = false;
-    flurry = false;
-    refresh = false;
-    stoneskin = false;
-    phalanx = false;
-
-    if (PMob)
+    if (ShouldShellra())
     {
-        auto enmity_obj = enmityList->find(PAutomaton->id);
-        if (enmity_obj != enmityList->end() && highestEnmity < enmity_obj->second.CE + enmity_obj->second.VE)
-        {
-            highestEnmity = enmity_obj->second.CE + enmity_obj->second.VE;
-            PRegenTarget = PAutomaton;
-        }
+        if (TryBestSpell(PAutomaton->targid, SPELLFAMILY_SHELLRA))
+            return true;
     }
 
-    PAutomaton->StatusEffectContainer->ForEachEffect([&protect, &shell, &stoneskin, &refresh](CStatusEffect* PStatus) {
-        if (PStatus->GetDuration() > 0)
-        {
-            if (PStatus->GetStatusID() == EFFECT_PROTECT)
-                protect = true;
+    bool casted = false;
 
-            if (PStatus->GetStatusID() == EFFECT_SHELL)
-                shell = true;
+    // Keep Refresh up on self if possible
+    if (auto spell = autoSpell::GetBestEnhanceForTarget(PAutomaton, PAutomaton))
+        casted = Cast(PAutomaton->targid, *spell);
 
-            if (PStatus->GetStatusID() == EFFECT_REFRESH)
-                refresh = true;
-        }
+    // Try to cast on party member tanking the current enemy
+    static_cast<CCharEntity*>(PAutomaton->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+    {
+        if (casted)
+            return;
+
+        if (distance(PAutomaton->loc.p, PMember->loc.p) > 20)
+            return;
+
+        if (!battleutils::IsTopEnmity(PMember, PMember->GetBattleTarget()))
+            return;
+
+        if (auto spell = autoSpell::GetBestEnhanceForTarget(PAutomaton, PMember))
+            casted = Cast(PMember->targid, *spell);
     });
 
-    if (!PProtectTarget && !protect)
-        PProtectTarget = PAutomaton;
-
-    if (!PShellTarget && !shell)
-        PShellTarget = PAutomaton;
-
-    if (!PRefreshTarget && !refresh)
-        PRefreshTarget = PAutomaton;
-
-    size_t members = 0; // start at 0
-
-    if (PAutomaton->PMaster->PParty)
+    // Didn't cast on a party member tanking the current enemy, cast on other party members
+    if (!casted)
     {
-        static_cast<CCharEntity*>(PAutomaton->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember) {
-            if (PMember->id != PAutomaton->PMaster->id && distance(PAutomaton->loc.p, PMember->loc.p) < 20)
-            {
-                members++; // count this member in range!
+        static_cast<CCharEntity*>(PAutomaton->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+        {
+            if (casted)
+                return;
 
-                protect = false;
-                shell = false;
-                haste = false;
-                flurry = false;
-                refresh = false;
-                temper = false;
-                phalanx = false;
+            if (distance(PAutomaton->loc.p, PMember->loc.p) > 20)
+                return;
 
-                isEngaged = false;
-
-                if (PMob)
-                {
-                    auto enmity_obj = enmityList->find(PMember->id);
-                    if (enmity_obj != enmityList->end())
-                    {
-                        isEngaged = true;
-                    }
-                }
-                else
-                {
-                    isEngaged = true;
-                }
-
-                PMember->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste, &temper, &flurry, &refresh](CStatusEffect* PStatus) {
-                    if (PStatus->GetDuration() > 0)
-                    {
-                        if (PStatus->GetStatusID() == EFFECT_PROTECT)
-                        {
-                            protect = true;
-                            ++protectcount;
-                        }
-
-                        if (PStatus->GetStatusID() == EFFECT_SHELL)
-                        {
-                            shell = true;
-                            ++shellcount;
-                        }
-
-                        if (PStatus->GetStatusID() == EFFECT_HASTE)
-                            haste = true;
-
-                        if (PStatus->GetStatusID() == EFFECT_FLURRY_II)
-                            flurry = true;
-
-                        if (PStatus->GetStatusID() == EFFECT_REFRESH)
-                            refresh = true;
-
-                        if (PStatus->GetStatusID() == EFFECT_MULTI_STRIKES)
-                            temper = true;
-                    }
-                });
-
-                if (isEngaged)
-                {
-                    if (!PProtectTarget && !protect)
-                        PProtectTarget = PMember;
-
-                    if (!PShellTarget && !shell)
-                        PShellTarget = PMember;
-
-                    if (!PHasteTarget && !haste && melee_jobs.find(PMember->GetMJob()) != melee_jobs.end())
-                        PHasteTarget = PMember;
-
-                    if (!PFlurryTarget && !flurry && (PMember->GetMJob() == JOB_RNG || PMember->GetMJob() == JOB_COR))
-                        PFlurryTarget = PMember;
-
-                    if (!PRefreshTarget && !refresh && refresh_jobs.find(PMember->GetMJob()) != refresh_jobs.end())
-                        PRefreshTarget = PMember;
-
-                    if (!PTemperTarget && !temper && melee_jobs.find(PMember->GetMJob()) != melee_jobs.end())
-                        PTemperTarget = PMember;
-                }
-            }
+            if (auto spell = autoSpell::GetBestEnhanceForTarget(PAutomaton, PMember))
+                casted = Cast(PMember->targid, *spell);
         });
     }
 
-    auto protectTotal = members - protectcount;
-    auto shellTotal = members - shellcount;
+    if (casted)
+    {
+        return true;
+    }
 
-    // No info on how this spell worked
-    if ((PProtectTarget && members - protectcount) >= 1)
-        if (Cast(PProtectTarget->targid, SpellID::Protectra_V) ||
-            Cast(PProtectTarget->targid, SpellID::Protectra_IV) ||
-            Cast(PProtectTarget->targid, SpellID::Protectra_III) ||
-            Cast(PProtectTarget->targid, SpellID::Protectra_II) ||
-            Cast(PProtectTarget->targid, SpellID::Protectra))
-            return true;
+    return false;
+}
 
-    // No info on how this spell worked
-    if ((PShellTarget && members - shellcount) >= 1)
-        if (Cast(PShellTarget->targid, SpellID::Shellra_V) ||
-            Cast(PShellTarget->targid, SpellID::Shellra_IV) ||
-            Cast(PShellTarget->targid, SpellID::Shellra_III) ||
-            Cast(PShellTarget->targid, SpellID::Shellra_II) ||
-            Cast(PShellTarget->targid, SpellID::Shellra))
-            return true;
+bool CAutomatonController::ShouldProtectra()
+{
+    auto memberMissingProtectra = 0;
+    // clang-format off
+    static_cast<CCharEntity*>(PAutomaton->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+    {
+        if (!PMember->StatusEffectContainer->HasStatusEffect(EFFECT_PROTECT))
+        {
+            float distanceToMember = distance(PAutomaton->loc.p, PMember->loc.p);
+            if (distanceToMember <= 10.0f)
+            {
+                memberMissingProtectra ++;
+            }
+        }
+    });
+    // clang-format on
 
-    if (PProtectTarget)
-        if (Cast(PProtectTarget->targid, SpellID::Protect_V) ||
-            Cast(PProtectTarget->targid, SpellID::Protect_IV) ||
-            Cast(PProtectTarget->targid, SpellID::Protect_III) ||
-            Cast(PProtectTarget->targid, SpellID::Protect_II) ||
-            Cast(PProtectTarget->targid, SpellID::Protect))
-            return true;
+    if (memberMissingProtectra >= 3)
+    {
+        return true;
+    }
 
-    if (PShellTarget)
-        if (Cast(PShellTarget->targid, SpellID::Shell_V) ||
-            Cast(PShellTarget->targid, SpellID::Shell_IV) ||
-            Cast(PShellTarget->targid, SpellID::Shell_III) ||
-            Cast(PShellTarget->targid, SpellID::Shell_II) ||
-            Cast(PShellTarget->targid, SpellID::Shell))
-            return true;
+    return false;
+}
 
-    if (PRefreshTarget)
-        if (TryBest(PRefreshTarget->targid, SpellID::Refresh_II, SpellID::Refresh))
-            return true;
+bool CAutomatonController::ShouldShellra()
+{
+    auto memberMissingShellra = 0;
+    // clang-format off
+    static_cast<CCharEntity*>(PAutomaton->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
+    {
+        if (!PMember->StatusEffectContainer->HasStatusEffect(EFFECT_SHELL))
+        {
+            float distanceToMember = distance(PAutomaton->loc.p, PMember->loc.p);
+            if (distanceToMember <= 10.0f)
+            {
+                memberMissingShellra ++;
+            }
+        }
+    });
+    // clang-format on
 
-    if (PHasteTarget)
-        if (TryBest(PHasteTarget->targid, SpellID::Haste_II, SpellID::Haste))
-            return true;
-
-    if (PFlurryTarget)
-        if (TryBest(PFlurryTarget->targid, SpellID::Flurry_II, SpellID::Flurry))
-            return true;
-
-    if (PTemperTarget)
-        if (Cast(PTemperTarget->targid, SpellID::Temper))
-            return true;
-
-    if (PPhalanxTarget)
-        if (Cast(PPhalanxTarget->targid, SpellID::Phalanx))
-            return true;
-
-    if (PStoneSkinTarget)
-        if (Cast(PStoneSkinTarget->targid, SpellID::Stoneskin))
-            return true;
+    if (memberMissingShellra >= 3)
+    {
+        return true;
+    }
 
     return false;
 }
@@ -1668,4 +1474,135 @@ namespace autoSpell
             // TODO: -Wno-maybe-uninitialized - possible false positive (anonymous may be used)
             return {};
     }
+
+    std::optional<SpellID> GetBestAvailable(CAutomatonEntity* PAutomaton, SPELLFAMILY family)
+    {
+        std::optional<SpellID> best;
+        uint16 bestSkill = 0;
+
+        for (auto& [id, spellData] : autoSpellList)
+        {
+            auto spell = spell::GetSpell(id);
+
+            bool sameFamily = (family == SPELLFAMILY_NONE) ? true : spell->getSpellFamily() == family;
+
+            if (!sameFamily)
+                continue;
+
+            if (!CanUseSpell(PAutomaton, id))
+                continue;
+
+            if (PAutomaton->PRecastContainer->HasRecast(RECAST_MAGIC, static_cast<uint16>(id), 0))
+                continue;
+
+            if (!best || spellData.skilllevel > bestSkill)
+            {
+                best = id;
+                bestSkill = spellData.skilllevel;
+            }
+        }
+
+        return best;
     }
+
+    std::optional<SpellID> GetBestEnhanceForTarget(CAutomatonEntity* PAutomaton, CBattleEntity* PTarget)
+    {
+        std::unordered_map<EFFECT, SpellID> bestPerEffect;
+        std::unordered_map<EFFECT, uint16> bestSkill;
+        std::unordered_map<EFFECT, uint16> maxKnownSkill;
+
+        // Build a list of highest tier of that spell family
+        for (auto& [id, spellData] : autoSpellList)
+        {
+            CSpell* spell = spell::GetSpell(id);
+
+            if (spell->getSkillType() != SKILL_ENHANCING_MAGIC)
+                continue;
+
+            if (!CanUseSpell(PAutomaton, id))
+                continue;
+
+            EFFECT eff = spell->getEffectForSpell(id);
+
+            maxKnownSkill[eff] = std::max(maxKnownSkill[eff], spellData.skilllevel);
+        }
+
+        for (auto& [id, spellData] : autoSpellList)
+        {
+            CSpell* spell = spell::GetSpell(id);
+
+            if (spell->getSkillType() != SKILL_ENHANCING_MAGIC)
+                continue;
+
+            if (!CanUseSpell(PAutomaton, id))
+                continue;
+
+            if (PAutomaton->PRecastContainer->HasRecast(RECAST_MAGIC, static_cast<uint16>(id), 0))
+                continue;
+
+            EFFECT eff = spell->getEffectForSpell(id);
+
+            // Only cast highest tier of that spell family learned
+            if (spellData.skilllevel < maxKnownSkill[eff])
+                continue;
+
+            if (PTarget->StatusEffectContainer->HasStatusEffect(eff))
+                continue;
+
+            if (!IsBuffRelevantForJob(PAutomaton, eff, PTarget))
+                continue;
+
+            auto it = bestPerEffect.find(eff);
+            if (it == bestPerEffect.end() || spellData.skilllevel > bestSkill[eff])
+            {
+                bestPerEffect[eff] = id;
+                bestSkill[eff] = spellData.skilllevel;
+            }
+        }
+
+        // Order of which to apply the buffs. i.e. haste/flurry is always first, then refresh
+        static std::vector<EFFECT> priority = {
+            EFFECT_HASTE, EFFECT_FLURRY_II, EFFECT_REFRESH, EFFECT_MULTI_STRIKES, EFFECT_PHALANX, EFFECT_PROTECT, EFFECT_SHELL,
+            EFFECT_STONESKIN,
+        };
+
+        for (EFFECT eff : priority)
+        {
+            if (bestPerEffect.find(eff) != bestPerEffect.end())
+                return bestPerEffect[eff];
+        }
+
+        return std::nullopt;
+    }
+
+    bool IsBuffRelevantForJob(CAutomatonEntity* PAutomaton, EFFECT eff, CBattleEntity* PTarget)
+    {
+        JOBTYPE job = PTarget->GetMJob();
+
+        switch (eff)
+        {
+            case EFFECT_HASTE:
+            case EFFECT_MULTI_STRIKES:
+                return melee_jobs.find(job) != melee_jobs.end();
+
+            case EFFECT_FLURRY_II:
+                return job == JOB_RNG || job == JOB_COR;
+
+            case EFFECT_REFRESH:
+                return PTarget == PAutomaton || refresh_jobs.find(job) != refresh_jobs.end();
+
+            case EFFECT_STONESKIN:
+                return PTarget == PAutomaton->PMaster;
+
+            case EFFECT_PHALANX:
+                return battleutils::IsTopEnmity(PTarget, PTarget->GetBattleTarget());
+
+            case EFFECT_PROTECT:
+            case EFFECT_SHELL:
+                return true;
+
+            default:
+                return false;
+        }
+    }
+}

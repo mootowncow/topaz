@@ -582,7 +582,7 @@ EFFECT CSpell::getEffectForSpell(SpellID SpellId)
         case SPELLFAMILY_TEMPER:
             return EFFECT_MULTI_STRIKES;
         case SPELLFAMILY_FLURRY:
-            return EFFECT_FLURRY;
+            return EFFECT_FLURRY_II;
         case SPELLFAMILY_BOOST:
             return EFFECT_BOOST;
         case SPELLFAMILY_ENLIGHT:

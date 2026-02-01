@@ -84,7 +84,9 @@ private:
     bool TryRangedAttack();
     bool TryAttachment();
     bool isRanged();
-    bool TryBest(uint16 targid, SpellID high, SpellID low);
+    bool TryBestSpell(uint16 targid, SPELLFAMILY spellfamily);
+    bool ShouldProtectra();
+    bool ShouldShellra();
 
     CurrentManeuvers GetCurrentManeuvers() const;
 
@@ -123,6 +125,9 @@ namespace autoSpell
     bool CanUseSpell(CAutomatonEntity* PCaster, SpellID spellid);
     bool CanUseEnfeeble(CBattleEntity* PTarget, SpellID spell);
     std::optional<SpellID> FindNaSpell(CStatusEffect* PStatus);
-};
+    std::optional<SpellID> GetBestAvailable(CAutomatonEntity* PAutomaton, SPELLFAMILY family);
+    std::optional<SpellID> GetBestEnhanceForTarget(CAutomatonEntity* PAutomaton, CBattleEntity* PTarget);
+    bool IsBuffRelevantForJob(CAutomatonEntity* PAutomaton, EFFECT eff, CBattleEntity* PTarget);
+    };
 
 #endif
