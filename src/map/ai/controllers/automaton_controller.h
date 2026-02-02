@@ -125,9 +125,9 @@ namespace autoSpell
     bool CanUseSpell(CAutomatonEntity* PCaster, SpellID spellid);
     bool CanUseEnfeeble(CBattleEntity* PTarget, SpellID spell);
     std::optional<SpellID> FindNaSpell(CStatusEffect* PStatus);
-    std::optional<SpellID> GetBestAvailable(CAutomatonEntity* PAutomaton, SPELLFAMILY family);
+    std::optional<SpellID> GetBestUsableSpell(CAutomatonEntity* PAutomaton, SPELLFAMILY family = SPELLFAMILY_NONE);
     std::optional<SpellID> GetBestEnhanceForTarget(CAutomatonEntity* PAutomaton, CBattleEntity* PTarget);
-    bool IsBuffRelevantForJob(CAutomatonEntity* PAutomaton, EFFECT eff, CBattleEntity* PTarget);
+    bool IsBuffRelevantForJob(CAutomatonEntity* PAutomaton, EFFECT effect, CBattleEntity* PTarget);
     };
 
 #endif

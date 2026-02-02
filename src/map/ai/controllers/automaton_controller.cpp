@@ -156,7 +156,7 @@ bool CAutomatonController::isRanged()
 
 bool CAutomatonController::TryBestSpell(uint16 targid, SPELLFAMILY spellfamily)
 {
-    if (auto spell = autoSpell::GetBestAvailable(PAutomaton, spellfamily))
+    if (auto spell = autoSpell::GetBestUsableSpell(PAutomaton, spellfamily))
         return Cast(targid, *spell);
 
     return false;
@@ -448,24 +448,24 @@ bool CAutomatonController::TryHeal(const CurrentManeuvers& maneuvers)
     if (!PAutomaton->PMaster || m_healCooldown == 0s || m_Tick <= m_LastHealTime + (m_healCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_HEALING_DELAY))))
         return false;
 
-    float threshold = 0;
+    float threshold = 30.0f;
     switch (maneuvers.light) // Light -> Higher healing threshold
     {
     case 1:
-        threshold = 40;
+        threshold = 40.0f;
         break;
     case 2:
-        threshold = 50;
+        threshold = 50.0f;
         break;
     case 3:
-        threshold = 75;
+        threshold = 75.0f;
         break;
     default:
-        threshold = 30;
+        threshold = 30.0f;
         break;
     }
 
-    threshold = std::clamp<float>(threshold + PAutomaton->getMod(Mod::AUTO_HEALING_THRESHOLD), 30.f, 90.f);
+    threshold = std::clamp<float>(threshold + PAutomaton->getMod(Mod::AUTO_HEALING_THRESHOLD), 30.0f, 90.0f);
     CBattleEntity* PCastTarget = nullptr;
 
     bool haveHate = false;
@@ -490,44 +490,34 @@ bool CAutomatonController::TryHeal(const CurrentManeuvers& maneuvers)
         }
     }
 
-    // Prioritize hate
+    // Prioritize healing self if tanking the mob and below threshold
     if (haveHate)
     {
-        if (PAutomaton->GetHPP() <= 50) // Automaton only heals itself when <= 50%
-            PCastTarget = PAutomaton;
-        else if (PAutomaton->PMaster->GetHPP() < threshold && distance(PAutomaton->loc.p, PAutomaton->PMaster->loc.p) < 20)
-            PCastTarget = PAutomaton->PMaster;
-    }
-    else
-    {
-        if (PAutomaton->PMaster->GetHPP() < threshold)
-            PCastTarget = PAutomaton->PMaster;
-        else if (PAutomaton->GetHPP() <= 50) // Automaton only heals itself when <= 50%
+        if (PAutomaton->GetHPP() <= threshold)
             PCastTarget = PAutomaton;
     }
 
-    if (maneuvers.light && !PCastTarget && PAutomaton->PMaster->PParty) // Light + Soulsoother head -> Heal party
+    // Heal party members, priotorizing whoever is tanking the mob
+    if (!PCastTarget && PAutomaton->PMaster->PParty) // Light + Soulsoother head -> Heal party
     {
         // If engaged to a mob, only cure people on the mobs entity list
         if (PMob)
         {
             uint16 highestEnmity = 0;
             static_cast<CCharEntity*>(PAutomaton->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember) {
-                if (PMember->id != PAutomaton->PMaster->id)
+                auto enmity_obj = enmityList->find(PMember->id);
+                if (enmity_obj != enmityList->end() && highestEnmity < enmity_obj->second.CE + enmity_obj->second.VE && PMember->GetHPP() < threshold &&
+                    distance(PAutomaton->loc.p, PAutomaton->PMaster->loc.p) < 20)
                 {
-                    auto enmity_obj = enmityList->find(PMember->id);
-                    if (enmity_obj != enmityList->end() && highestEnmity < enmity_obj->second.CE + enmity_obj->second.VE && PMember->GetHPP() < threshold && distance(PAutomaton->loc.p, PAutomaton->PMaster->loc.p) < 20)
-                    {
-                        highestEnmity = enmity_obj->second.CE + enmity_obj->second.VE;
-                        PCastTarget = PMember;
-                    }
+                    highestEnmity = enmity_obj->second.CE + enmity_obj->second.VE;
+                    PCastTarget = PMember;
                 }
             });
         }
         else
         {
             static_cast<CCharEntity*>(PAutomaton->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember) {
-                if (PMember->id != PAutomaton->PMaster->id && distance(PAutomaton->loc.p, PAutomaton->PMaster->loc.p) < 20)
+                if (distance(PAutomaton->loc.p, PAutomaton->PMaster->loc.p) < 20)
                 {
                     if (PMember->GetHPP() < threshold)
                     {
@@ -538,12 +528,19 @@ bool CAutomatonController::TryHeal(const CurrentManeuvers& maneuvers)
         }
     }
 
+    // Heal self if below threshold
+    if (!PCastTarget)
+    {
+        if (PAutomaton->GetHPP() <= threshold)
+            PCastTarget = PAutomaton;
+    }
+
     if (PCastTarget)
     {
         auto missinghp = PCastTarget->GetMaxHP() - PCastTarget->health.hp;
-        if (missinghp > 650 && Cast(PCastTarget->targid, SpellID::Cure_VI))
+        if (missinghp >= 900 && Cast(PCastTarget->targid, SpellID::Cure_VI))
             return true;
-        else if (missinghp > 360 && Cast(PCastTarget->targid, SpellID::Cure_V))
+        else if (missinghp >= 600 && Cast(PCastTarget->targid, SpellID::Cure_V))
             return true;
         else if (missinghp > 180 && Cast(PCastTarget->targid, SpellID::Cure_IV))
             return true;
@@ -1127,8 +1124,8 @@ bool CAutomatonController::TryRegen()
     }
 
     if (PRegenTarget &&
-        !(PRegenTarget->StatusEffectContainer->HasStatusEffect(EFFECT_REGEN) || PRegenTarget->StatusEffectContainer->HasStatusEffect(EFFECT_GEO_REGEN)))
-        if (Cast(PRegenTarget->targid, SpellID::Regen_III) || Cast(PRegenTarget->targid, SpellID::Regen_II) || Cast(PRegenTarget->targid, SpellID::Regen))
+        !(PRegenTarget->StatusEffectContainer->HasStatusEffect(EFFECT_REGEN)))
+        if (TryBestSpell(PRegenTarget->targid, SPELLFAMILY_REGEN))
             return true;
 
     return false;
@@ -1136,7 +1133,6 @@ bool CAutomatonController::TryRegen()
 
 bool CAutomatonController::TryEnhance()
 {
-    // TODO: Code TryRegen() copying this logic and test
     if (!PAutomaton->PMaster || m_enhanceCooldown == 0s || m_Tick <= m_LastEnhanceTime + m_enhanceCooldown)
         return false;
 
@@ -1157,7 +1153,7 @@ bool CAutomatonController::TryEnhance()
 
     bool casted = false;
 
-    // Keep Refresh up on self if possible
+    // Keep buffs up on self first if possible (Refresh / Protect / Shell)
     if (auto spell = autoSpell::GetBestEnhanceForTarget(PAutomaton, PAutomaton))
         casted = Cast(PAutomaton->targid, *spell);
 
@@ -1475,34 +1471,49 @@ namespace autoSpell
             return {};
     }
 
-    std::optional<SpellID> GetBestAvailable(CAutomatonEntity* PAutomaton, SPELLFAMILY family)
+    std::optional<SpellID> GetBestUsableSpell(CAutomatonEntity* PAutomaton, SPELLFAMILY family)
     {
-        std::optional<SpellID> best;
-        uint16 bestSkill = 0;
+        uint8 maxTier = 0;
 
+        // Find highest tier learned and usable (ignoring recast)
         for (auto& [id, spellData] : autoSpellList)
         {
-            auto spell = spell::GetSpell(id);
-
-            bool sameFamily = (family == SPELLFAMILY_NONE) ? true : spell->getSpellFamily() == family;
-
-            if (!sameFamily)
-                continue;
+            CSpell* spell = spell::GetSpell(id);
 
             if (!CanUseSpell(PAutomaton, id))
+                continue;
+
+            if (family != SPELLFAMILY_NONE && spell->getSpellFamily() != family)
+                continue;
+
+            if (spell->getMPCost() > PAutomaton->health.mp)
+                continue;
+
+            maxTier = std::max(maxTier, static_cast<uint8>(spell->getTier()));
+        }
+
+        // Only allow that exact tier, and check recast
+        for (auto& [id, spellData] : autoSpellList)
+        {
+            CSpell* spell = spell::GetSpell(id);
+
+            if (!CanUseSpell(PAutomaton, id))
+                continue;
+
+            if (family != SPELLFAMILY_NONE && spell->getSpellFamily() != family)
+                continue;
+
+            if (spell->getTier() != maxTier)
                 continue;
 
             if (PAutomaton->PRecastContainer->HasRecast(RECAST_MAGIC, static_cast<uint16>(id), 0))
                 continue;
 
-            if (!best || spellData.skilllevel > bestSkill)
-            {
-                best = id;
-                bestSkill = spellData.skilllevel;
-            }
+            return id;
         }
 
-        return best;
+        // Highest tier exists but is on cooldown (or nothing available)
+        return std::nullopt;
     }
 
     std::optional<SpellID> GetBestEnhanceForTarget(CAutomatonEntity* PAutomaton, CBattleEntity* PTarget)
@@ -1522,9 +1533,9 @@ namespace autoSpell
             if (!CanUseSpell(PAutomaton, id))
                 continue;
 
-            EFFECT eff = spell->getEffectForSpell(id);
+            EFFECT effect = spell->getEffectForSpell(id);
 
-            maxKnownSkill[eff] = std::max(maxKnownSkill[eff], spellData.skilllevel);
+            maxKnownSkill[effect] = std::max(maxKnownSkill[effect], spellData.skilllevel);
         }
 
         for (auto& [id, spellData] : autoSpellList)
@@ -1535,6 +1546,9 @@ namespace autoSpell
                 continue;
 
             if (!CanUseSpell(PAutomaton, id))
+                continue;
+
+            if (spell->getMPCost() > PAutomaton->health.mp)
                 continue;
 
             if (PAutomaton->PRecastContainer->HasRecast(RECAST_MAGIC, static_cast<uint16>(id), 0))
@@ -1575,11 +1589,11 @@ namespace autoSpell
         return std::nullopt;
     }
 
-    bool IsBuffRelevantForJob(CAutomatonEntity* PAutomaton, EFFECT eff, CBattleEntity* PTarget)
+    bool IsBuffRelevantForJob(CAutomatonEntity* PAutomaton, EFFECT effect, CBattleEntity* PTarget)
     {
         JOBTYPE job = PTarget->GetMJob();
 
-        switch (eff)
+        switch (effect)
         {
             case EFFECT_HASTE:
             case EFFECT_MULTI_STRIKES:

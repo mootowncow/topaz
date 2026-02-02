@@ -23,13 +23,13 @@ end
 
 function onUpdate(pet, maneuvers)
     if maneuvers == 0 then
-        updateModPerformance(pet, tpz.mod.HASTE_MAGIC, 'turbo_charger_haste_II', 700)
-    elseif maneuvers == 1 then
         updateModPerformance(pet, tpz.mod.HASTE_MAGIC, 'turbo_charger_haste_II', 1700)
-    elseif maneuvers == 2 then
+    elseif maneuvers == 1 then
         updateModPerformance(pet, tpz.mod.HASTE_MAGIC, 'turbo_charger_haste_II', 2800)
-    elseif maneuvers == 3 then
+    elseif maneuvers == 2 then
         updateModPerformance(pet, tpz.mod.HASTE_MAGIC, 'turbo_charger_haste_II', 4375)
+    elseif maneuvers == 3 then
+        updateModPerformance(pet, tpz.mod.HASTE_MAGIC, 'turbo_charger_haste_II', 5000)
     end
 end
 
