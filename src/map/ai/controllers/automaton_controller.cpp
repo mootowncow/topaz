@@ -1325,7 +1325,8 @@ bool CAutomatonController::TryTPMove()
             }
         }
 
-        bool shouldWeaponSkill = currentManeuvers == -1 && PAutomaton->PMaster && PAutomaton->PMaster->health.tp < PAutomaton->getMod(Mod::AUTO_TP_EFFICIENCY);
+        int16 tpThreshold = std::clamp<int16>(PAutomaton->getMod(Mod::AUTO_TP_EFFICIENCY), 0, 1000);
+        bool shouldWeaponSkill = currentManeuvers == -1 && PAutomaton->PMaster && PAutomaton->PMaster->health.tp < tpThreshold;
 
         // If Inhibitor isn't equipped, use a TP move
         // If Inhibitor is equipped and masters TP >= 900, use a TP move

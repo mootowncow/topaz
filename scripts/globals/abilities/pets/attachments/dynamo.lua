@@ -1,33 +1,34 @@
 -----------------------------------
 -- Attachment: Dynamo
 -----------------------------------
+require("scripts/globals/automaton")
 require("scripts/globals/status")
 -----------------------------------
 
 function onEquip(pet)
-    pet:addMod(tpz.mod.CRITHITRATE, 3)
+    updateModPerformance(pet, tpz.mod.CRITHITRATE, 'dynamo_mod', 3)
 end
 
 function onUnequip(pet)
-    pet:delMod(tpz.mod.CRITHITRATE, 3)
+    updateModPerformance(pet, tpz.mod.CRITHITRATE, 'dynamo_mod', 0)
 end
 
 function onManeuverGain(pet, maneuvers)
-    if maneuvers == 1 then
-        pet:addMod(tpz.mod.CRITHITRATE, 2)
-    elseif maneuvers == 2 then
-        pet:addMod(tpz.mod.CRITHITRATE, 4)
-    elseif maneuvers == 3 then
-        pet:addMod(tpz.mod.CRITHITRATE, 6)
-    end
+    onUpdate(pet, maneuvers)
 end
 
 function onManeuverLose(pet, maneuvers)
-    if maneuvers == 1 then
-        pet:delMod(tpz.mod.CRITHITRATE, 2)
+    onUpdate(pet, maneuvers - 1)
+end
+
+function onUpdate(pet, maneuvers)
+    if maneuvers == 0 then
+        updateModPerformance(pet, tpz.mod.CRITHITRATE, 'dynamo_mod', 3)
+    elseif maneuvers == 1 then
+        updateModPerformance(pet, tpz.mod.CRITHITRATE, 'dynamo_mod', 5)
     elseif maneuvers == 2 then
-        pet:delMod(tpz.mod.CRITHITRATE, 4)
+        updateModPerformance(pet, tpz.mod.CRITHITRATE, 'dynamo_mod', 7)
     elseif maneuvers == 3 then
-        pet:delMod(tpz.mod.CRITHITRATE, 6)
+        updateModPerformance(pet, tpz.mod.CRITHITRATE, 'dynamo_mod', 9)
     end
 end
