@@ -79,6 +79,7 @@ public:
     int32 getEcosystem(lua_State*);
     int32 setEcosystem(lua_State*);
     int32 dealsDamage(lua_State*);
+    int32 getTier(lua_State*);
 };
 
 #endif

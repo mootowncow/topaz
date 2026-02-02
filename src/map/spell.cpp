@@ -699,7 +699,7 @@ namespace spell
     {
         const char* Query = "SELECT spellid, name, jobs, `group`, family, validTargets, skill, castTime, recastTime, animation, animationTime, mpCost, \
                              AOE, base, element, zonemisc, multiplier, message, magicBurstMessage, CE, VE, requirements, content_tag, spell_range, \
-                             attackBonus, ecosystem \
+                             attackBonus, ecosystem, tier \
                             FROM spell_list;";
 
         int32 ret = Sql_Query(SqlHandle, Query);
@@ -736,7 +736,7 @@ namespace spell
                 PSpell->setBase(Sql_GetIntData(SqlHandle,13));
                 PSpell->setElement(Sql_GetIntData(SqlHandle,14));
                 PSpell->setZoneMisc(Sql_GetIntData(SqlHandle,15));
-                PSpell->setMultiplier((float)Sql_GetIntData(SqlHandle,16));
+                PSpell->setMultiplier((float)Sql_GetIntData(SqlHandle,16)); // TODO: Should be PSpell->setMultiplier(Sql_GetFloatData(SqlHandle,16)); ?
                 PSpell->setMessage(Sql_GetIntData(SqlHandle,17));
                 PSpell->setMagicBurstMessage(Sql_GetIntData(SqlHandle,18));
                 PSpell->setCE(Sql_GetIntData(SqlHandle,19));
@@ -745,12 +745,10 @@ namespace spell
 
                 Sql_GetData(SqlHandle, 22, &contentTag, nullptr);
                 PSpell->setContentTag((int8*)contentTag);
-
                 PSpell->setRange(static_cast<float>(Sql_GetIntData(SqlHandle, 23)) / 10);
-
-                // Blue magic only
                 PSpell->setAttackBonus(Sql_GetFloatData(SqlHandle, 24));
                 PSpell->setEcosystem((ECOSYSTEM)Sql_GetIntData(SqlHandle, 25));
+                PSpell->setTier(Sql_GetIntData(SqlHandle, 26));
 
                 if (PSpell->getAOE())
                 {

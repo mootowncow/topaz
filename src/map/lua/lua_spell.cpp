@@ -374,6 +374,13 @@ inline int32 CLuaSpell::dealsDamage(lua_State* L)
     return 1;
 }
 
+inline int32 CLuaSpell::getTier(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaSpell == nullptr);
+    lua_pushnumber(L, m_PLuaSpell->getTier());
+    return 1;
+}
+
 /************************************************************************
 *																		*
 *  Инициализация методов в lua											*
@@ -420,5 +427,6 @@ Lunar<CLuaSpell>::Register_t CLuaSpell::methods[] =
     LUNAR_DECLARE_METHOD(CLuaSpell,getEcosystem),
     LUNAR_DECLARE_METHOD(CLuaSpell,setEcosystem),
     LUNAR_DECLARE_METHOD(CLuaSpell,dealsDamage),
+    LUNAR_DECLARE_METHOD(CLuaSpell,getTier),
     {nullptr,nullptr}
 };

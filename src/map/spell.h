@@ -1140,6 +1140,9 @@ public:
     ECOSYSTEM   getEcosystem() const { return m_ecosystem; }
     void        setEcosystem(ECOSYSTEM ecosystem) { m_ecosystem = ecosystem; }
 
+    uint16      getTier() const { return m_tier; }
+    void        setTier(uint16 tier) { m_tier = tier; }
+
 protected:
 
     CSpell(const CSpell&) = default;
@@ -1175,11 +1178,10 @@ private:
     uint16      m_meritId {};                              // associated merit (if applicable)
     uint8       m_flag {};
     int8*       m_contentTag {};
-    bool        m_isCovered { false }; // Spells target is currently being redirected by cover            
-
-    // Blue magic only
-    float m_attackBonus {};                                // Default 1.0 for most spells
-    ECOSYSTEM m_ecosystem{};                               // Default SYSTEM_ERROR (0) for most spells
+    bool        m_isCovered { false };                     // Spells target is currently being redirected by cover            
+    float       m_attackBonus {};                          // Default 1.0 for most spells
+    ECOSYSTEM   m_ecosystem {};                            // Default SYSTEM_ERROR (0) for most spells
+    uint16      m_tier {};
 };
 
 //Namespace to work with spells
