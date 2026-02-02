@@ -16,9 +16,9 @@ function onManeuverGain(pet, maneuvers)
     if maneuvers == 1 then
         pet:addMod(tpz.mod.CRITHITRATE, 2)
     elseif maneuvers == 2 then
-        pet:addMod(tpz.mod.CRITHITRATE, 2)
+        pet:addMod(tpz.mod.CRITHITRATE, 4)
     elseif maneuvers == 3 then
-        pet:addMod(tpz.mod.CRITHITRATE, 2)
+        pet:addMod(tpz.mod.CRITHITRATE, 6)
     end
 end
 
@@ -26,8 +26,8 @@ function onManeuverLose(pet, maneuvers)
     if maneuvers == 1 then
         pet:delMod(tpz.mod.CRITHITRATE, 2)
     elseif maneuvers == 2 then
-        pet:delMod(tpz.mod.CRITHITRATE, 2)
+        pet:delMod(tpz.mod.CRITHITRATE, 4)
     elseif maneuvers == 3 then
-        pet:delMod(tpz.mod.CRITHITRATE, 2)
+        pet:delMod(tpz.mod.CRITHITRATE, 6)
     end
 end

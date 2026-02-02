@@ -1287,6 +1287,7 @@ bool CAutomatonController::TryTPMove()
         CMobSkill* PWSkill = nullptr;
         int8 currentManeuvers = -1;
 
+        // Inhibitor Attachment
         bool attemptChain = (PAutomaton->getMod(Mod::AUTO_TP_EFFICIENCY) != 0);
 
         if (attemptChain)
@@ -1324,7 +1325,12 @@ bool CAutomatonController::TryTPMove()
             }
         }
 
-        if (!attemptChain || (currentManeuvers == -1 && PAutomaton->PMaster && PAutomaton->PMaster->health.tp < PAutomaton->getMod(Mod::AUTO_TP_EFFICIENCY)))
+        bool shouldWeaponSkill = currentManeuvers == -1 && PAutomaton->PMaster && PAutomaton->PMaster->health.tp < PAutomaton->getMod(Mod::AUTO_TP_EFFICIENCY);
+
+        // If Inhibitor isn't equipped, use a TP move
+        // If Inhibitor is equipped and masters TP >= 900, use a TP move
+        // If My TP is >= 1500, use a TP move
+        if (!attemptChain || shouldWeaponSkill || PAutomaton->health.tp >= 1500)
         {
             for (auto PSkill : validSkills)
             {
