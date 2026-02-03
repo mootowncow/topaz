@@ -1,33 +1,34 @@
 -----------------------------------
 -- Attachment: Analyzer
 -----------------------------------
+require("scripts/globals/automaton")
 require("scripts/globals/status")
 -----------------------------------
 
 function onEquip(pet)
-    pet:addMod(tpz.mod.AUTO_ANALYZER, 1)
+    updateModPerformance(pet, tpz.mod.AUTO_ANALYZER, 'analyzer_mod', 1)
 end
 
 function onUnequip(pet)
-    pet:delMod(tpz.mod.AUTO_ANALYZER, 1)
+    updateModPerformance(pet, tpz.mod.AUTO_ANALYZER, 'analyzer_mod', 0)
 end
 
 function onManeuverGain(pet, maneuvers)
-    if maneuvers == 1 then
-        pet:addMod(tpz.mod.AUTO_ANALYZER, 1)
-    elseif maneuvers == 2 then
-        pet:addMod(tpz.mod.AUTO_ANALYZER, 2)
-    elseif maneuvers == 3 then
-        pet:addMod(tpz.mod.AUTO_ANALYZER, 2)
-    end
+    onUpdate(pet, maneuvers)
 end
 
 function onManeuverLose(pet, maneuvers)
-    if maneuvers == 1 then
-        pet:delMod(tpz.mod.AUTO_ANALYZER, 1)
+    onUpdate(pet, maneuvers - 1)
+end
+
+function onUpdate(pet, maneuvers)
+    if maneuvers == 0 then
+        updateModPerformance(pet, tpz.mod.AUTO_ANALYZER, 'analyzer_mod', 1)
+    elseif maneuvers == 1 then
+        updateModPerformance(pet, tpz.mod.AUTO_ANALYZER, 'analyzer_mod', 2)
     elseif maneuvers == 2 then
-        pet:delMod(tpz.mod.AUTO_ANALYZER, 2)
+        updateModPerformance(pet, tpz.mod.AUTO_ANALYZER, 'analyzer_mod', 4)
     elseif maneuvers == 3 then
-        pet:delMod(tpz.mod.AUTO_ANALYZER, 2)
+        updateModPerformance(pet, tpz.mod.AUTO_ANALYZER, 'analyzer_mod', 6)
     end
 end

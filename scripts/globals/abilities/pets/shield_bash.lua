@@ -34,8 +34,9 @@ function onPetAbility(target, pet, skill, master, action)
 
     local effect2 = tpz.effect.SLOW
     local power2 = pet:getMod(tpz.mod.AUTO_SHIELD_BASH_SLOW)
-    local duration2 = 30
+    local duration2 = 20
     local bonus2 = 200
+
     if (power2 == 1200) then
         duration = 30
     elseif (power2 == 2000) then

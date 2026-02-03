@@ -1,41 +1,40 @@
 -----------------------------------
 -- Attachment: Magniplug
 -----------------------------------
+require("scripts/globals/automaton")
 require("scripts/globals/status")
 -----------------------------------
 
 function onEquip(pet)
-    pet:addMod(tpz.mod.MAIN_DMG_RATING, 5)
-    pet:addMod(tpz.mod.RANGED_DMG_RATING, 5)
+    updateModPerformance(pet, tpz.mod.MAIN_DMG_RATING, 'magniplug_mod', 5)
+    updateModPerformance(pet, tpz.mod.RANGED_DMG_RATING, 'magniplug_mod2', 5)
 end
 
 function onUnequip(pet)
-    pet:delMod(tpz.mod.MAIN_DMG_RATING, 5)
-    pet:delMod(tpz.mod.RANGED_DMG_RATING, 5)
+    updateModPerformance(pet, tpz.mod.MAIN_DMG_RATING, 'magniplug_mod', 0)
+    updateModPerformance(pet, tpz.mod.RANGED_DMG_RATING, 'magniplug_mod2', 0)
 end
 
 function onManeuverGain(pet, maneuvers)
-    if maneuvers == 1 then
-        pet:addMod(tpz.mod.MAIN_DMG_RATING, 5)
-        pet:addMod(tpz.mod.RANGED_DMG_RATING, 5)
-    elseif maneuvers == 2 then
-        pet:addMod(tpz.mod.MAIN_DMG_RATING, 5)
-        pet:addMod(tpz.mod.RANGED_DMG_RATING, 5)
-    elseif maneuvers == 3 then
-        pet:addMod(tpz.mod.MAIN_DMG_RATING, 5)
-        pet:addMod(tpz.mod.RANGED_DMG_RATING, 5)
-    end
+    onUpdate(pet, maneuvers)
 end
 
 function onManeuverLose(pet, maneuvers)
-    if maneuvers == 1 then
-        pet:delMod(tpz.mod.MAIN_DMG_RATING, 5)
-        pet:delMod(tpz.mod.RANGED_DMG_RATING, 5)
+    onUpdate(pet, maneuvers - 1)
+end
+
+function onUpdate(pet, maneuvers)
+    if maneuvers == 0 then
+        updateModPerformance(pet, tpz.mod.MAIN_DMG_RATING, 'magniplug_mod', 5)
+        updateModPerformance(pet, tpz.mod.RANGED_DMG_RATING, 'magniplug_mod2', 5)
+    elseif maneuvers == 1 then
+        updateModPerformance(pet, tpz.mod.MAIN_DMG_RATING, 'magniplug_mod', 15)
+        updateModPerformance(pet, tpz.mod.RANGED_DMG_RATING, 'magniplug_mod2', 15)
     elseif maneuvers == 2 then
-        pet:delMod(tpz.mod.MAIN_DMG_RATING, 5)
-        pet:delMod(tpz.mod.RANGED_DMG_RATING, 5)
+        updateModPerformance(pet, tpz.mod.MAIN_DMG_RATING, 'magniplug_mod', 30)
+        updateModPerformance(pet, tpz.mod.RANGED_DMG_RATING, 'magniplug_mod2', 30)
     elseif maneuvers == 3 then
-        pet:delMod(tpz.mod.MAIN_DMG_RATING, 5)
-        pet:delMod(tpz.mod.RANGED_DMG_RATING, 5)
+        updateModPerformance(pet, tpz.mod.MAIN_DMG_RATING, 'magniplug_mod', 45)
+        updateModPerformance(pet, tpz.mod.RANGED_DMG_RATING, 'magniplug_mod2', 45)
     end
 end

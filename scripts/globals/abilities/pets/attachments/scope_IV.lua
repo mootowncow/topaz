@@ -6,11 +6,11 @@ require("scripts/globals/status")
 -----------------------------------
 
 function onEquip(pet)
-    onUpdate(pet, 0)
+    updateModPerformance(pet, tpz.mod.RACC, 'scope_iv_mod', 45)
 end
 
 function onUnequip(pet)
-    updateModPerformance(pet, tpz.mod.RACC, 'scope_racc_IV', 0)
+    updateModPerformance(pet, tpz.mod.RACC, 'scope_iv_mod', 0)
 end
 
 function onManeuverGain(pet, maneuvers)
@@ -23,12 +23,12 @@ end
 
 function onUpdate(pet, maneuvers)
     if maneuvers == 0 then
-        updateModPerformance(pet, tpz.mod.RACC, 'scope_racc_IV', 40)
+        updateModPerformance(pet, tpz.mod.RACC, 'scope_iv_mod', 45)
     elseif maneuvers == 1 then
-        updateModPerformance(pet, tpz.mod.RACC, 'scope_racc_IV', 50)
+        updateModPerformance(pet, tpz.mod.RACC, 'scope_iv_mod', 61)
     elseif maneuvers == 2 then
-        updateModPerformance(pet, tpz.mod.RACC, 'scope_racc_IV', 65)
+        updateModPerformance(pet, tpz.mod.RACC, 'scope_iv_mod', 81)
     elseif maneuvers == 3 then
-        updateModPerformance(pet, tpz.mod.RACC, 'scope_racc_IV', 80)
+        updateModPerformance(pet, tpz.mod.RACC, 'scope_iv_mod', 102)
     end
 end

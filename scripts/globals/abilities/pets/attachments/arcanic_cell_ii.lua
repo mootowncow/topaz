@@ -1,33 +1,34 @@
 -----------------------------------
 -- Attachment: Arcanic Cell II
 -----------------------------------
+require("scripts/globals/automaton")
 require("scripts/globals/status")
 -----------------------------------
 
 function onEquip(pet)
-    pet:addMod(tpz.mod.OCCULT_ACUMEN, 20)
+    updateModPerformance(pet, tpz.mod.OCCULT_ACUMEN, 'arcanic_cell_ii_mod', 20)
 end
 
 function onUnequip(pet)
-    pet:delMod(tpz.mod.OCCULT_ACUMEN, 20)
+    updateModPerformance(pet, tpz.mod.OCCULT_ACUMEN, 'arcanic_cell_ii_mod', 0)
 end
 
 function onManeuverGain(pet, maneuvers)
-    if maneuvers == 1 then
-        pet:addMod(tpz.mod.OCCULT_ACUMEN, 20)
-    elseif maneuvers == 2 then
-        pet:addMod(tpz.mod.OCCULT_ACUMEN, 30)
-    elseif maneuvers == 3 then
-        pet:addMod(tpz.mod.OCCULT_ACUMEN, 30)
-    end
+    onUpdate(pet, maneuvers)
 end
 
 function onManeuverLose(pet, maneuvers)
-    if maneuvers == 1 then
-        pet:delMod(tpz.mod.OCCULT_ACUMEN, 20)
+    onUpdate(pet, maneuvers - 1)
+end
+
+function onUpdate(pet, maneuvers)
+    if maneuvers == 0 then
+        updateModPerformance(pet, tpz.mod.OCCULT_ACUMEN, 'arcanic_cell_ii_mod', 20)
+    elseif maneuvers == 1 then
+        updateModPerformance(pet, tpz.mod.OCCULT_ACUMEN, 'arcanic_cell_ii_mod', 40)
     elseif maneuvers == 2 then
-        pet:delMod(tpz.mod.OCCULT_ACUMEN, 30)
+        updateModPerformance(pet, tpz.mod.OCCULT_ACUMEN, 'arcanic_cell_ii_mod', 70)
     elseif maneuvers == 3 then
-        pet:delMod(tpz.mod.OCCULT_ACUMEN, 30)
+        updateModPerformance(pet, tpz.mod.OCCULT_ACUMEN, 'arcanic_cell_ii_mod', 100)
     end
 end

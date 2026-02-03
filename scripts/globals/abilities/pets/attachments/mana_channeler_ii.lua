@@ -1,42 +1,40 @@
 -----------------------------------
 -- Attachment: Mana Channeler II
 -----------------------------------
+require("scripts/globals/automaton")
 require("scripts/globals/status")
 -----------------------------------
--- Increases Magic Cooldowns
-
+---
 function onEquip(pet)
-    pet:addMod(tpz.mod.MATT, 12)
-    pet:addMod(tpz.mod.AUTO_MAGIC_DELAY, -6)
+    updateModPerformance(pet, tpz.mod.MATT, 'mana_channeler_ii_mod', 12)
+    updateModPerformance(pet, tpz.mod.AUTO_MAGIC_DELAY, 'mana_channeler_ii_mod2', -6)
 end
 
 function onUnequip(pet)
-    pet:delMod(tpz.mod.MATT, 12)
-    pet:delMod(tpz.mod.AUTO_MAGIC_DELAY, -6)
+    updateModPerformance(pet, tpz.mod.MATT, 'mana_channeler_ii_mod', 0)
+    updateModPerformance(pet, tpz.mod.AUTO_MAGIC_DELAY, 'mana_channeler_ii_mod2', 0)
 end
 
 function onManeuverGain(pet, maneuvers)
-    if maneuvers == 1 then
-        pet:addMod(tpz.mod.MATT, 13)
-        pet:addMod(tpz.mod.AUTO_MAGIC_DELAY, -9)
-    elseif maneuvers == 2 then
-        pet:addMod(tpz.mod.MATT, 15)
-        pet:addMod(tpz.mod.AUTO_MAGIC_DELAY, -9)
-    elseif maneuvers == 3 then
-        pet:addMod(tpz.mod.MATT, 10)
-        pet:addMod(tpz.mod.AUTO_MAGIC_DELAY, -9)
-    end
+    onUpdate(pet, maneuvers)
 end
 
 function onManeuverLose(pet, maneuvers)
-    if maneuvers == 1 then
-        pet:delMod(tpz.mod.MATT, 13)
-        pet:delMod(tpz.mod.AUTO_MAGIC_DELAY, -9)
+    onUpdate(pet, maneuvers - 1)
+end
+
+function onUpdate(pet, maneuvers)
+    if maneuvers == 0 then
+        updateModPerformance(pet, tpz.mod.MATT, 'mana_channeler_ii_mod', 12)
+        updateModPerformance(pet, tpz.mod.AUTO_MAGIC_DELAY, 'mana_channeler_ii_mod2', -6)
+    elseif maneuvers == 1 then
+        updateModPerformance(pet, tpz.mod.MATT, 'mana_channeler_ii_mod', 25)
+        updateModPerformance(pet, tpz.mod.AUTO_MAGIC_DELAY, 'mana_channeler_ii_mod2', -15)
     elseif maneuvers == 2 then
-        pet:delMod(tpz.mod.MATT, 15)
-        pet:delMod(tpz.mod.AUTO_MAGIC_DELAY, -9)
+        updateModPerformance(pet, tpz.mod.MATT, 'mana_channeler_ii_mod', 40)
+        updateModPerformance(pet, tpz.mod.AUTO_MAGIC_DELAY, 'mana_channeler_ii_mod2', -24)
     elseif maneuvers == 3 then
-        pet:delMod(tpz.mod.MATT, 10)
-        pet:delMod(tpz.mod.AUTO_MAGIC_DELAY, -9)
+        updateModPerformance(pet, tpz.mod.MATT, 'mana_channeler_ii_mod', 50)
+        updateModPerformance(pet, tpz.mod.AUTO_MAGIC_DELAY, 'mana_channeler_ii_mod2', -33)
     end
 end
