@@ -205,12 +205,12 @@ void CTargetFind::findWithinCone(CBattleEntity* PTarget, float distance, float a
 
     // Confirmation on the center of cones is still needed for mob skills; player skills seem to be facing angle
     // uint8 angleToTarget = worldAngle(m_PBattleEntity->loc.p, PTarget->loc.p);
-    uint8 angleToTarget = m_APoint->rotation;
+    uint8 angleToTarget = worldAngle(m_PBattleEntity->loc.p, PTarget->loc.p);
 
     // Change target to behind
     if (isBehind)
     {
-        uint8 angleToTarget = m_APoint->rotation + 128;
+        angleToTarget += 128;
     }
     
     // "Left" and "Right" are like the entity's face - "left" means "turning to the left" NOT "left when looking overhead"

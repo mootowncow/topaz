@@ -1590,7 +1590,6 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         }
     }
 
-    PTarget = static_cast<CBattleEntity*>(state.GetTarget());
     if (PTarget->objtype == TYPE_MOB && (PTarget->isDead() || (objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() == PETTYPE_AVATAR)))
     {
         battleutils::ClaimMob(PTarget, this);
