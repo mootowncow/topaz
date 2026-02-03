@@ -141,6 +141,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
         damage = dmg
 
         if IsWSDamageMessage(target, action) then
+            action:reaction(target:getID(), tpz.reaction.HIT)
             if player:getOffhandDmg() > 0 then
                 calcParams.tpHitsLanded = 2
             else
