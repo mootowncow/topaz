@@ -126,10 +126,10 @@ void CCharRecastContainer::ChangeJob()
 
     PRecastList->erase(std::remove_if(PRecastList->begin(), PRecastList->end(), [](auto& recast)
     {
-        return recast.ID != 0;
+        return recast.ID != 0 && recast.ID != 254;
     }), PRecastList->end());
 
-    Sql_Query(SqlHandle, "DELETE FROM char_recast WHERE charid = %u AND id != 0;", m_PChar->id);
+    Sql_Query(SqlHandle, "DELETE FROM char_recast WHERE charid = %u AND id != 0 AND id != 254;", m_PChar->id);
 }
 
 RecastList_t* CCharRecastContainer::GetRecastList(RECASTTYPE type)
