@@ -138,25 +138,30 @@ void CGambitsContainer::Tick(time_point tick)
 
     auto runPredicate = [&](Predicate_t& predicate) -> bool
     {
-        auto isValidMember = [&](CBattleEntity* PPartyTarget) -> bool
+        auto isValidMember = [&](CBattleEntity* PPartyTarget, bool requireAlive = true) -> bool
         {
-            return PPartyTarget->isAlive() &&
-                   POwner->loc.zone == PPartyTarget->loc.zone &&
+            if (!PPartyTarget)
+                return false;
+
+            if (requireAlive && !PPartyTarget->isAlive())
+                return false;
+
+            return POwner->allegiance == PPartyTarget->allegiance && POwner->loc.zone == PPartyTarget->loc.zone &&
                    distance(POwner->loc.p, PPartyTarget->loc.p) <= 20.0f;
         };
 
-        auto getFirstValidMember = [&](auto filterFunc) -> CBattleEntity*
+        auto getFirstValidMember = [&](auto filterFunc, bool requireAlive = true) -> CBattleEntity*
         {
             CBattleEntity* validMember = nullptr;
-            static_cast<CCharEntity*>(POwner->PMaster)->ForPartyWithTrusts([&](CBattleEntity* PMember)
-            {
-                if (!validMember && isValidMember(PMember)
-                    && filterFunc(PMember)
-                    && POwner->allegiance == PMember->allegiance)
-                {
-                    validMember = PMember;
-                }
-            });
+            static_cast<CCharEntity*>(POwner->PMaster)
+                ->ForPartyWithTrusts(
+                    [&](CBattleEntity* PMember)
+                    {
+                        if (!validMember && isValidMember(PMember, requireAlive) && filterFunc(PMember))
+                        {
+                            validMember = PMember;
+                        }
+                    });
             return validMember;
         };
 
@@ -166,7 +171,10 @@ void CGambitsContainer::Tick(time_point tick)
                 return CheckTrigger(POwner, predicate);
 
             case G_TARGET::TARGET:
-                return CheckTrigger(POwner->GetBattleTarget(), predicate);
+            {
+                auto* target = POwner->GetBattleTarget();
+                return target && target->isAlive() && CheckTrigger(target, predicate) && POwner->allegiance != target->allegiance;
+            }
 
             case G_TARGET::PARTY:
                 return getFirstValidMember([&](CBattleEntity* PMember)
@@ -178,20 +186,19 @@ void CGambitsContainer::Tick(time_point tick)
                 return getFirstValidMember([&](CBattleEntity* PMember)
                 {
                     return PMember->isDead();
-                }) != nullptr;
+                }, false) != nullptr;
 
             case G_TARGET::MASTER_DEAD:
-                return POwner->PMaster->isDead();
+            {
+                auto* master = POwner->PMaster;
+                return master && isValidMember(master, false) && master->isDead();
+            }
 
             case G_TARGET::MASTER:
-                if (POwner->allegiance == POwner->PMaster->allegiance)
-                {
-                    return CheckTrigger(POwner->PMaster, predicate);
-                }
-                else
-                {
-                    return false;
-                }
+            {
+                auto* master = POwner->PMaster;
+                return master && isValidMember(master) && CheckTrigger(master, predicate);
+            }
 
             case G_TARGET::TANK:
                 return getFirstValidMember([&](CBattleEntity* PMember)
@@ -254,14 +261,13 @@ void CGambitsContainer::Tick(time_point tick)
             case G_TARGET::CASTS_SPELLS:
                 return getFirstValidMember([&](CBattleEntity* PMember)
                 {
-                    return isValidMember(PMember) && CheckTrigger(PMember, predicate) && HasSpells(PMember);
+                    return CheckTrigger(PMember, predicate) && HasSpells(PMember);
                 }) != nullptr;
 
             case G_TARGET::WANTS_REFRESH:
                 return getFirstValidMember([&](CBattleEntity* PMember)
                 {
-                    return isValidMember(PMember) &&
-                           CheckTrigger(PMember, predicate) &&
+                    return CheckTrigger(PMember, predicate) &&
                            refresh_jobs.find(PMember->GetMJob()) != refresh_jobs.end();
                 }) != nullptr;
 

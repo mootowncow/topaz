@@ -530,8 +530,10 @@ void CTrustController::DoRoamTick(time_point tick)
             if (!PTrustBeingFollowed)
                 continue;
 
-            // Skip this trust if it cannot act or has 0 movement
-            if (PTrustBeingFollowed->StatusEffectContainer->HasPreventActionEffect(false) || PTrustBeingFollowed->speed <= 0)
+            // Skip this trust if it's dead, cannot act or has 0 movement
+            if (PTrustBeingFollowed->health.hp <= 0 ||
+                PTrustBeingFollowed->StatusEffectContainer->HasPreventActionEffect(false) ||
+                PTrustBeingFollowed->speed <= 0)
             {
                 continue; // try the next one further up
             }
