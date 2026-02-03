@@ -6760,22 +6760,34 @@ namespace battleutils
 
     void unCharm(CBattleEntity* PEntity)
     {
-        if (PEntity->objtype == TYPE_PC)
-        {
-            PEntity->isCharmed = false;
-            PEntity->PAI->SetController(std::make_unique<CPlayerController>(static_cast<CCharEntity*>(PEntity)));
+        if (PEntity->objtype != TYPE_PC)
+            return;
 
-            PEntity->PMaster = nullptr;
-            if (PEntity->PAI->IsEngaged())
-            {
-                PEntity->PAI->Disengage();
-            }
-            if (PEntity->isDead())
-            {
-                PEntity->Die();
-            }
-            PEntity->updatemask |= UPDATE_ALL_CHAR;
+        auto* PChar = static_cast<CCharEntity*>(PEntity);
+
+        // Clear charm state
+        PChar->isCharmed = false;
+        PChar->PMaster = nullptr;
+        PChar->allegiance = ALLEGIANCE_PLAYER;
+
+        // Force AI awake
+        PChar->PAI->Inactive(0ms, true);
+
+        // Restore controller
+        PChar->PAI->SetController(std::make_unique<CPlayerController>(PChar));
+
+        // Safety cleanup
+        if (PChar->PAI->IsEngaged())
+        {
+            PChar->PAI->Disengage();
         }
+
+        if (PChar->isDead())
+        {
+            PChar->Die();
+        }
+
+        PChar->updatemask |= UPDATE_ALL_CHAR;
     }
 
     /************************************************************************
@@ -7357,20 +7369,32 @@ namespace battleutils
 
     void BindBreakCheck(CBattleEntity* PAttacker, CBattleEntity* PDefender)
     {
-        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_BIND))
+        if (!PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_BIND))
+            return;
+
+        int attackerLvl = PAttacker->GetMLevel();
+        int defenderLvl = PDefender->GetMLevel();
+
+        // Defender strength matters
+        int diff = defenderLvl - attackerLvl;
+
+        // Base chance per hit
+        float chance = 75.0f;
+
+        // Stronger defender = harder to break
+        // Weaker defender = easier to break
+        chance += diff * 4.0f; // 4% per level
+
+        // Mobs break easier
+        if (PDefender->objtype == TYPE_MOB)
+            chance *= 1.5f;
+
+        // Clamp
+        chance = std::clamp(chance, 45.0f, 95.0f);
+
+        if (tpzrand::GetRandomNumber(100) < chance)
         {
-            uint16 BindBreakChance = 950; // 0-1000 (100.0%) scale. Maybe change to a float later..
-
-            // Previously there was a tiered comparative level check here which gave different rates
-            // depending on the level difference between the attacker and the defender.
-            // These rates seemed very low, and have been removed, absent true research on retail.
-            // EMobDifficulty mobCheck = charutils::CheckMob(PAttacker->GetMLevel(), PDefender->GetMLevel());
-            // The level comparison and switch has been removed.
-
-            if (BindBreakChance > tpzrand::GetRandomNumber(1000))
-            {
-                PDefender->StatusEffectContainer->DelStatusEffect(EFFECT_BIND);
-            }
+            PDefender->StatusEffectContainer->DelStatusEffect(EFFECT_BIND);
         }
     }
 
