@@ -748,6 +748,7 @@ void CGambitsContainer::Tick(time_point tick)
 
                     if (spell_id.has_value())
                     {
+                        POwner->StatusEffectContainer->DelStatusEffect(EFFECT_PIANISSIMO);
                         controller->Cast(target->targid, spell_id.value());
                         return;
                     }

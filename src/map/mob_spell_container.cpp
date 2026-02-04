@@ -175,17 +175,28 @@ std::optional<SPELLFAMILY> CMobSpellContainer::GetBestMeleeSong(CBattleEntity* P
 
     std::optional<SPELLFAMILY> choice = std::nullopt;
 
-    // TODO: Logic for < level 75, and logic for 75. Below 75 she just spams madrigals.
+    if (lvl < 75)
+    {
+        // Does not have madrigal, sing madrigal
+        if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MADRIGAL))
+            choice = SPELLFAMILY_MADRIGAL;
+        // Does not have Minuet, but has at least 1 other song. Sing Minuet
+        else if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MINUET) && PTarget->StatusEffectContainer->GetTotalBuffSongCount() > 0)
+            choice = SPELLFAMILY_VALOR_MINUET;
+    }
+    else // Lvl 75+
+    {
+        // Sing Madrigal if Accuracy buff is needed
+        if (accBuffNeeded && !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MADRIGAL))
+            choice = SPELLFAMILY_MADRIGAL;
+        else if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MINUET))
+            choice = SPELLFAMILY_VALOR_MINUET;
 
-    // Sing Madrigal if Accuracy buff is needed or less than level 75
-    if ((accBuffNeeded && !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MADRIGAL)) || lvl < 75)
-        choice = SPELLFAMILY_MADRIGAL;
-    else if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MINUET))
-        choice = SPELLFAMILY_VALOR_MINUET;
-
-    // Sing March if Minuet / Madrigal is active and level 75 or higher
-    if (PTarget->StatusEffectContainer->GetTotalBuffSongCount() > 0 && lvl >= 75)
-        choice = SPELLFAMILY_MARCH;
+        // Already has Minuet OR Madrigal, sing March
+        if ((PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MINUET) && PTarget->StatusEffectContainer->GetTotalBuffSongCount() > 0) ||
+            (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MADRIGAL) && PTarget->StatusEffectContainer->GetTotalBuffSongCount() > 0))
+            choice = SPELLFAMILY_MARCH;
+    }
 
     return choice;
 }
