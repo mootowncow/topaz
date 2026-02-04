@@ -2092,7 +2092,7 @@ INSERT INTO `mob_skills` VALUES (2126,1447,'zantetsuken',4,30.0,2000,1000,4,0,0,
 -- INSERT INTO `mob_skills` VALUES (2129,1873,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2130,1175,'proboscis_shower',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2131,1875,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2132,434,'replicator',0,7.0,2000,0,16,4,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2132,434,'replicator',1,20.0,2000,0,16,4,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2133,1877,'liar's_dice',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2134,1878,'victory_beacon',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2135,1879,'salamander_flame',0,7.0,2000,1500,4,0,0,0,0,0,0);

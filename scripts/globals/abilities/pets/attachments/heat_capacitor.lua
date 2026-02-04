@@ -9,7 +9,8 @@ function onEquip(pet)
     pet:setLocalVar("heat_capacitor", 1)
     pet:addListener("AUTOMATON_ATTACHMENT_CHECK", "ATTACHMENT_HEAT_CAPACITOR", function(automaton, target)
         local master = automaton:getMaster()
-        if master and master:countEffect(tpz.effect.FIRE_MANEUVER) > 0 and automaton:getLocalVar("meditate") < VanadielTime() then
+        if master and master:countEffect(tpz.effect.FIRE_MANEUVER) > 0 and automaton:getLocalVar("meditate") < VanadielTime() and
+        (automaton:checkDistance(target) <= target:getMeleeRange()) then
             automaton:useMobAbility(2745, automaton)
         end
     end)

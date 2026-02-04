@@ -2251,6 +2251,24 @@ inline int32 CLuaBaseEntity::checkDistance(lua_State* L)
 }
 
 /************************************************************************
+ *  Function: getMeleeRange()
+ *  Purpose : 
+ *  Example : player:getMeleeRange()
+ *  Notes   : 
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getMeleeRange(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    CBattleEntity* PEntity = (CBattleEntity*)m_PBaseEntity;
+
+    lua_pushnumber(L, PEntity->GetMeleeRange());
+
+    return 1;
+}
+
+/************************************************************************
 *  Function: wait()
 *  Purpose : Makes a non-PC inactive for a set amount of time
 *  Example : npc:wait(10000) -- wait 10 seconds
@@ -18605,6 +18623,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isFollowingPath),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,clearPath),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,checkDistance),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMeleeRange),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,wait),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setCarefulPathing),
 

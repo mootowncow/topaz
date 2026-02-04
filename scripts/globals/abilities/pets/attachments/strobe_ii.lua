@@ -10,7 +10,7 @@ require("scripts/globals/status")
 function onEquip(pet)
     updateModPerformance(pet, tpz.mod.ENMITY, 'strobe_ii_mod', 10)
     pet:addListener("AUTOMATON_ATTACHMENT_CHECK", "ATTACHMENT_STROBE_II", function(automaton, target)
-        if automaton:getLocalVar("provoke") < VanadielTime() and (automaton:checkDistance(target) - target:getModelSize()) < 7 then
+        if automaton:getLocalVar("provoke") < VanadielTime() and (automaton:checkDistance(target) <= target:getMeleeRange()) then
             automaton:useMobAbility(1945)
         else
             return 0

@@ -32,7 +32,7 @@ function onEquip(pet)
 
             if automaton:hasStatusEffectByFlag(tpz.effectFlag.ERASABLE) or checkEffects(automaton) then
                 erasetarget = automaton
-            elseif (automaton:checkDistance(master) - master:getModelSize()) < 7 and (master:hasStatusEffectByFlag(tpz.effectFlag.ERASABLE) or checkEffects(master)) then
+            elseif (automaton:checkDistance(target) <= target:getMeleeRange()) and (master:hasStatusEffectByFlag(tpz.effectFlag.ERASABLE) or checkEffects(master)) then
                 erasetarget = master
             end
 

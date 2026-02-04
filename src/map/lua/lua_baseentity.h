@@ -116,6 +116,7 @@ public:
     int32 isFollowingPath(lua_State* L);     // checks if the entity is following a path
     int32 clearPath(lua_State* L);           // removes current pathfind and stops moving
     int32 checkDistance(lua_State*);         // Check Distacnce and returns distance number
+    int32 getMeleeRange(lua_State*);         // 
     int32 wait(lua_State* L);                // make the npc wait a number of ms and then back into roam
     // int32 WarpTo(lua_State* L);           // warp to the given point
     // int32 RoamAround(lua_State* L);       // pick a random point to walk to
