@@ -739,6 +739,19 @@ void CGambitsContainer::Tick(time_point tick)
                         return;
                     }
                 }
+
+                if (action.select == G_SELECT::BEST_MELEE_SONG)
+                {
+                    auto* PMaster = static_cast<CCharEntity*>(POwner->PMaster);
+                    auto family = POwner->SpellContainer->GetBestMeleeSong(PMaster);
+                    auto spell_id = POwner->SpellContainer->GetBestAvailable(*family);
+
+                    if (spell_id.has_value())
+                    {
+                        controller->Cast(target->targid, spell_id.value());
+                        return;
+                    }
+                }
             }
             else if (action.reaction == G_REACTION::JA)
             {
@@ -1480,6 +1493,12 @@ bool CGambitsContainer::CheckTrigger(CBattleEntity* trigger_target, Predicate_t&
                 return true;
 
             return false;
+        }
+
+        case G_CONDITION::SONG_COUNT:
+        {
+            return trigger_target->StatusEffectContainer->GetTotalBuffSongCount() < predicate.condition_arg;
+            break;
         }
 
         default: { return false;  break; }

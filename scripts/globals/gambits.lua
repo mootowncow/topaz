@@ -75,6 +75,7 @@ ai.condition =
     ES_SLEEPGA         = 40,
     BREAKGA            = 41,
     STATUS_CURE        = 42,
+    SONG_COUNT         = 43,
 }
 ai.c = ai.condition
 
@@ -111,6 +112,7 @@ ai.select =
     STORM_WEAKNESS      = 13,
     HELIX_WEAKNESS      = 14,
     LOWEST_WALTZ        = 15,
+    BEST_MELEE_SONG     = 16,
 }
 ai.s = ai.select
 

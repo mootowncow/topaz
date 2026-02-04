@@ -164,13 +164,39 @@ std::optional<SpellID> CMobSpellContainer::GetBestAvailable(SPELLFAMILY family)
     return (!matches.empty()) ? std::optional<SpellID>{ matches.back() } : std::nullopt;
 }
 
+std::optional<SPELLFAMILY> CMobSpellContainer::GetBestMeleeSong(CBattleEntity* PTarget)
+{
+    auto mJob = PTarget->GetMJob();
+    auto lvl = PTarget->GetMLevel();
+
+    auto mTarget = PTarget->GetBattleTarget();
+    auto hitrate = battleutils::GetHitRate(PTarget, mTarget);
+    bool accBuffNeeded = hitrate < 75 ? true : false;
+
+    std::optional<SPELLFAMILY> choice = std::nullopt;
+
+    // TODO: Logic for < level 75, and logic for 75. Below 75 she just spams madrigals.
+
+    // Sing Madrigal if Accuracy buff is needed or less than level 75
+    if ((accBuffNeeded && !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MADRIGAL)) || lvl < 75)
+        choice = SPELLFAMILY_MADRIGAL;
+    else if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_MINUET))
+        choice = SPELLFAMILY_VALOR_MINUET;
+
+    // Sing March if Minuet / Madrigal is active and level 75 or higher
+    if (PTarget->StatusEffectContainer->GetTotalBuffSongCount() > 0 && lvl >= 75)
+        choice = SPELLFAMILY_MARCH;
+
+    return choice;
+}
+
 std::optional<SpellID> CMobSpellContainer::GetBestIndiSpell(CBattleEntity* PTarget)
 {
     auto mJob = PTarget->GetMJob();
 
     auto mTarget = PTarget->GetBattleTarget();
     auto hitrate = battleutils::GetHitRate(PTarget, mTarget);
-    bool accBuffNeeded = hitrate < 65 ? true : false;
+    bool accBuffNeeded = hitrate < 75 ? true : false;
 
     auto mInt = PTarget->getMod(Mod::INT);
     auto tInt = mTarget->getMod(Mod::INT);

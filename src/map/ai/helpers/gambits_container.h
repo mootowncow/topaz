@@ -111,6 +111,7 @@ enum class G_CONDITION : uint16
     ES_SLEEPGA         = 40,
     BREAKGA            = 41,
     STATUS_CURE        = 42,
+    SONG_COUNT         = 43,
 };
 
 enum class G_REACTION : uint16
@@ -143,6 +144,7 @@ enum class G_SELECT : uint16
     STORM_WEAKNESS          = 13,
     HELIX_WEAKNESS          = 14,
     LOWEST_WALTZ            = 15,
+    BEST_MELEE_SONG         = 16,
 };
 
 enum class G_TP_TRIGGER : uint16

@@ -68,6 +68,7 @@ public:
 
   std::optional<SpellID> GetAvailable(SpellID spellId);
   std::optional<SpellID> GetBestAvailable(SPELLFAMILY family);
+  std::optional<SPELLFAMILY> GetBestMeleeSong(CBattleEntity* PMaster);
   std::optional<SpellID> GetBestIndiSpell(CBattleEntity* PMaster);
   std::optional<SpellID> GetBestEntrustedSpell(CBattleEntity* PMaster);
   std::optional<SpellID> GetBestAgainstTargetWeakness(CBattleEntity* PMob, CBattleEntity* PTarget);

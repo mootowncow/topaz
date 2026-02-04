@@ -1121,6 +1121,24 @@ uint16 CStatusEffectContainer::GetTotalSongBonus(EFFECT SongEffect)
     return ret;
 }
 
+uint16 CStatusEffectContainer::GetTotalBuffSongCount()
+{
+    uint16 songCount = 0;
+
+    // Iterate this container's effects directly and skip deleted ones.
+    ForEachEffect([&songCount](CStatusEffect* effect)
+    {
+        if (effect && !effect->deleted &&
+            effect->GetStatusID() >= EFFECT_PAEON &&
+            effect->GetStatusID() <= EFFECT_SCHERZO)
+        {
+            ++songCount;
+        }
+    });
+
+    return songCount;
+}
+
 bool CStatusEffectContainer::HasStatusEffectByFlag(uint32 flag)
 {
 

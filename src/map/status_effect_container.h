@@ -99,6 +99,7 @@ public:
     void  SendWearOffMessage(CStatusEffect* PStatusEffect, bool silent);
     uint16 GetTotalMinneBonus();
     uint16 GetTotalSongBonus(EFFECT SongEffect);
+    uint16 GetTotalBuffSongCount();
 
     bool ApplyCorsairEffect(CStatusEffect* PStatusEffect, uint8 maxRolls, uint8 bustDuration);
     bool CheckForElevenRoll();
