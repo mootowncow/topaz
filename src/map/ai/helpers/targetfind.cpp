@@ -95,8 +95,9 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
     m_PTarget = PTarget;
     isPlayer = checkIsPlayer(m_PBattleEntity);
 
-    if (isPlayer)
+    if (isPlayer) // Starter of action entity is a player
     {
+        // Target is a player, add other players in range
         if (m_PMasterTarget->objtype == TYPE_PC)
         {
             m_findType = FIND_PLAYER_PLAYER;
@@ -123,15 +124,14 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
                 addAllInZone(m_PMasterTarget, withPet);
             }
         }
-        else
+        else // Target is a mob, add mobs in range
         {
             m_findType = FIND_PLAYER_MONSTER;
             addAllInMobList(m_PMasterTarget, false);
         }
     }
-    else
+    else // Starter of action entity is a mob
     {
-        // Mob logic
         if (m_targetFlags & TARGET_ANY_ALLEGIANCE)
         {
             m_findType = FIND_MONSTER_PLAYER;
@@ -254,6 +254,13 @@ void CTargetFind::addAllInMobList(CBattleEntity* PTarget, bool withPet)
                 addEntity(PBattleTarget, withPet);
             }
         }
+
+        // Also add Charmed players
+	    zoneutils::GetZone(PTarget->getZone())->ForEachCharInstance(PTarget, [&](CCharEntity* PChar){
+		    if (PChar->allegiance == ALLEGIANCE_MOB){
+			    addEntity(PChar, false);
+		    }
+	    });
     }
 }
 
@@ -414,6 +421,7 @@ bool CTargetFind::validEntity(CBattleEntity* PTarget)
     if (std::find(m_targets.begin(), m_targets.end(), PTarget) != m_targets.end()) {
         return false;
     }
+
     if (!(m_findFlags & FINDFLAGS_DEAD) && PTarget->isDead())
     {
         return false;
@@ -469,7 +477,7 @@ bool CTargetFind::validEntity(CBattleEntity* PTarget)
             return false;
         }
 
-    // shouldn't add if target is charmed by the enemy
+        // shouldn't add if target is charmed by the enemy
         if (PTarget->PMaster != nullptr)
         {
             if (m_findType == FIND_MONSTER_PLAYER)
