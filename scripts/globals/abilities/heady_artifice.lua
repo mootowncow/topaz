@@ -26,6 +26,7 @@ function onUseAbility(player, target, ability)
         pet:addStatusEffect(tpz.effect.INVINCIBLE, 1, 0, 5)
         pet:addStatusEffect(tpz.effect.ELEMENTAL_SFORZO, 1, 0, 5)
     elseif (head == tpz.heads.SOULSOOTHER) then
+        -- TODO: Shock Absorber
         local power = pet:getMainLvl()*2 + 50
         local tick = 0
         local duration = 30
@@ -34,10 +35,7 @@ function onUseAbility(player, target, ability)
         local mpToAdd = math.floor(pet:getMaxMP() * (jpValue / 100))
         pet:addMP(mpToAdd)
     elseif head == tpz.heads.SHARPSHOT then
-        local target = pet:getTarget()
-        if target then
-            target:lowerEnmity(pet, 25) -- reduce total accumulated enmity by 25%
-        end
+        pet:addStatusEffectEx(tpz.effect.MEDITATE, 0, 12, 3, 15)
     elseif head == tpz.heads.SPIRITREAVER then
         pet:removeAllNegativeEffects()
         pet:addStatusEffect(tpz.effect.WEIGHT, 95, 0, 10)

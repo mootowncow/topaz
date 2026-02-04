@@ -7,11 +7,18 @@
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/items")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
+    if (player:getEquipID(tpz.slot.BODY) == tpz.items.PUPPETRY_TOBE) then -- AF body reduces recast by 30s
+        ability:setRecast(60)
+    elseif (player:getEquipID(tpz.slot.BODY) == tpz.items.PUPPETRY_TOBE_HQ) then -- AF+1 body reduces recast by 45s
+        ability:setRecast(45)
+    end
     return 0, 0
 end
+
 
 function onUseAbility(player, target, ability)
     local jpValue = player:getJobPointLevel(tpz.jp.TACTICAL_SWITCH_BONUS) * 20
