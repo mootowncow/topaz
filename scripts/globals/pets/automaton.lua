@@ -38,7 +38,7 @@ function AddTranquilHeartBonus(mob)
             master:addMod(tpz.mod.FENCER_CRITHITRATE, 8)
             master:addMod(tpz.mod.FENCER_JA_HASTE, 10)
             master:addMod(tpz.mod.ADDS_WEAPONSKILL, tpz.weaponskill.URIEL_BLADE)
-            if (weaponType == 'SWORD') then 
+            if (weaponType == 'SWORD') then
                 master:recalculateSkillsTable()
             end
         elseif head == tpz.heads.SHARPSHOT then
@@ -50,10 +50,12 @@ function AddTranquilHeartBonus(mob)
             master:addMod(tpz.mod.MDEF, 18)
             master:addMod(tpz.mod.REGEN, 3)
         elseif head == tpz.heads.SPIRITREAVER then
-            master:addMod(tpz.mod.DAGGER, 25)
-            master:addMod(tpz.mod.ELEMENTAL_WSDMG, 50)
-            master:addMod(tpz.mod.ELEMENTAL_WSACC, 50)
-            master:addMod(tpz.mod.REGAIN, 100)
+            if (weaponType == 'DAGGER') then
+                master:addMod(tpz.mod.DAGGER, 25)
+                master:addMod(tpz.mod.ELEMENTAL_WSDMG, 50)
+                master:addMod(tpz.mod.ELEMENTAL_WSACC, 50)
+                master:addMod(tpz.mod.REGAIN, 100)
+            end
         end
     end
 end
@@ -85,10 +87,12 @@ function DeleteTranquilHeartBonus(mob)
             master:delMod(tpz.mod.MDEF, 18)
             master:delMod(tpz.mod.REGEN, 3)
         elseif head == tpz.heads.SPIRITREAVER then
-            master:delMod(tpz.mod.DAGGER, 25)
-            master:delMod(tpz.mod.ELEMENTAL_WSDMG, 50)
-            master:delMod(tpz.mod.ELEMENTAL_WSACC, 50)
-            master:delMod(tpz.mod.REGAIN, 100)
+            if (weaponType == 'DAGGER') then
+                master:delMod(tpz.mod.DAGGER, 25)
+                master:delMod(tpz.mod.ELEMENTAL_WSDMG, 50)
+                master:delMod(tpz.mod.ELEMENTAL_WSACC, 50)
+                master:delMod(tpz.mod.REGAIN, 100)
+            end
         end
     end
 end

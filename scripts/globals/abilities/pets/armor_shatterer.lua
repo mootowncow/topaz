@@ -26,7 +26,7 @@ function onPetAbility(target, pet, skill)
     params.int_wsc = 0.0
     params.mnd_wsc = 0.0
     params.chr_wsc = 0.0
-    params.attkMod = 1.50
+    params.attkMod = 1.25
 
     local tp = pet:getLocalVar("TP")
     local effect = tpz.effect.DEFENSE_DOWN

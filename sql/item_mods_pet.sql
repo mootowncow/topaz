@@ -73,7 +73,8 @@ INSERT INTO `item_mods_pet` VALUES (11238,345,250,1);   -- Caller's Spats +1 Ava
 INSERT INTO `item_mods_pet` VALUES (11258,30,5,1);      -- Caller's Pgch. +1 Avatar: Enhances magic accuracy +5 (?)
 INSERT INTO `item_mods_pet` VALUES (11261,12,10,3);     -- Cirque Scarpe +1 Automaton: INT+10
 INSERT INTO `item_mods_pet` VALUES (11261,13,10,3);     -- Automaton: MND+10
-INSERT INTO `item_mods_pet` VALUES (11297,389,-7,4);    -- Pup. Tobe +1 Automaton: Magic damage taken -7%
+INSERT INTO `item_mods_pet` VALUES (11297,28,7,3); -- Automaton: MATT 7
+INSERT INTO `item_mods_pet` VALUES (11297,30,7,3); -- Automaton: MACC 7
 INSERT INTO `item_mods_pet` VALUES (11298,25,10,3);     -- Pantin Tobe Automaton: Accuracy +10
 INSERT INTO `item_mods_pet` VALUES (11299,25,10,3);     -- Pantin Tobe +1 Automaton: Accuracy +10
 INSERT INTO `item_mods_pet` VALUES (11338,25,3,0);      -- Aega's Doublet Pet: accuracy +3
