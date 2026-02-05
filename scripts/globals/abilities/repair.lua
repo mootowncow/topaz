@@ -92,35 +92,6 @@ function onUseAbility(player, target, ability)
 
     regenAmount = regenAmount * bonus
 
-    -- Cooldown logic
-    if player:hasStatusEffect(tpz.effect.LUX) then
-        local NearbyEntities = player:getNearbyEntities(10)
-        if NearbyEntities == nil then return end
-        if NearbyEntities then
-            for _,entity in pairs(NearbyEntities) do
-                if entity:isAlive() then
-                    if (entity:getAllegiance() == player:getAllegiance()) and not entity:isPet() then
-                        if not entity:hasStatusEffect(tpz.effect.CURSE_II) then
-                            local entityCurrentHP = entity:getHP()
-                            local entityMaxHP = entity:getMaxHP()
-                            local entitydiff = entityMaxHP - entityCurrentHP
-                            local totalentityHealing = totalHealing * 2
-
-                            if (entitydiff < totalentityHealing) then
-                                totalentityHealing = entitydiff
-                            end
-
-                            entity:addHP(totalentityHealing)
-                            entity:delStatusEffect(tpz.effect.REGEN)
-                            entity:addStatusEffect(tpz.effect.REGEN, regenAmount, 3, regenTime)
-                            entity:updateEnmityFromCure(player, totalentityHealing)
-                        end
-                    end
-                end
-            end
-        end
-    end
-
     local diff = petMaxHP - petCurrentHP
 
     if (diff < totalHealing) then

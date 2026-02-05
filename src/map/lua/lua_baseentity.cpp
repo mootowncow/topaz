@@ -1704,6 +1704,31 @@ inline int32 CLuaBaseEntity::isPet(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: isAutomaton()
+ *  Purpose : Returns true if entity is of the Pet object type
+ *  Example : if (caster:isAutomaton()) then
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::isAutomaton(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    bool isAutomaton = false;
+
+    if (m_PBaseEntity->objtype == TYPE_PET)
+    {
+        if (auto PPet = dynamic_cast<CPetEntity*>(m_PBaseEntity))
+        {
+            isAutomaton = (PPet->getPetType() == PETTYPE_AUTOMATON);
+        }
+    }
+
+    lua_pushboolean(L, isAutomaton);
+    return 1;
+}
+
+/************************************************************************
 *  Function: isAlly()
 *  Purpose : Returns true if entity is an ally
 *  Example : if (mob:isAlly()) then table.insert(allies, mob) end
@@ -9680,7 +9705,7 @@ inline int32 CLuaBaseEntity::capAllSkills(lua_State* L)
 *  Notes   :
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::getSkillLevel(lua_State *L)
+inline int32 CLuaBaseEntity::getSkillLevel(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype & TYPE_NPC);
@@ -9688,7 +9713,33 @@ inline int32 CLuaBaseEntity::getSkillLevel(lua_State *L)
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
     TPZ_DEBUG_BREAK_IF(lua_tointeger(L, 1) >= MAX_SKILLTYPE);
 
-    lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->GetSkill((uint16)lua_tointeger(L, 1)));
+    CBattleEntity* PBattleEntity = (CBattleEntity*)m_PBaseEntity;
+    auto skillType = (uint16)lua_tointeger(L, 1);
+    auto skillLvl = PBattleEntity->GetSkill(skillType);
+
+    // If Automaton, merits and auto magic skill mod also needs to be added
+    if (PBattleEntity->objtype == TYPE_PET)
+    {
+        if (auto* PPet = dynamic_cast<CPetEntity*>(PBattleEntity))
+        {
+            if (PPet->getPetType() == PETTYPE_AUTOMATON)
+            {
+                if (auto* PChar = dynamic_cast<CCharEntity*>(PBattleEntity->PMaster))
+                {
+                    int32 meritbonus = PChar->PMeritPoints->GetMeritValue(MERIT_AUTOMATON_SKILLS, PChar);
+
+                    if (skillType == SKILL_AUTOMATON_MELEE)
+                        skillLvl += PChar->getMod(Mod::AUTO_MELEE_SKILL) + meritbonus;
+                    else if (skillType == SKILL_AUTOMATON_RANGED)
+                        skillLvl += PChar->getMod(Mod::AUTO_RANGED_SKILL) + meritbonus;
+                    else
+                        skillLvl += PChar->getMod(Mod::AUTO_MAGIC_SKILL) + meritbonus;
+                }
+            }
+        }
+    }
+
+    lua_pushinteger(L, (lua_Integer)skillLvl);
     return 1;
 }
 
@@ -18599,6 +18650,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isNPC),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isMob),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isPet),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,isAutomaton),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isAlly),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isTrust),
 

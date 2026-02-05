@@ -97,6 +97,7 @@ public:
     int32 isNPC(lua_State*);
     int32 isMob(lua_State*);
     int32 isPet(lua_State*);
+    int32 isAutomaton(lua_State*);
     int32 isAlly(lua_State*);
     int32 isTrust(lua_State*);
 

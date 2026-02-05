@@ -265,7 +265,7 @@ bool CAutomatonController::TryShieldBash()
     }
 
     float currentDistance = distance(PAutomaton->loc.p, PTarget->loc.p);
-    if (currentDistance <= 7.0f)
+    if (currentDistance <= static_cast<float>(PAutomaton->GetMeleeRange()) + static_cast<float>(PTarget->m_ModelSize))
     {
         if (m_shieldbashCooldown > 0s && PState && PState->CanInterrupt() &&
             m_Tick > m_LastShieldBashTime + (m_shieldbashCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_SHIELD_BASH_DELAY))))
@@ -273,6 +273,7 @@ bool CAutomatonController::TryShieldBash()
             return MobSkill(PTarget->targid, m_ShieldBashAbility);
         }
     }
+
     return false;
 }
 

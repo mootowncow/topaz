@@ -1956,6 +1956,7 @@ namespace petutils
             PMob->allegiance = ALLEGIANCE_MOB;
             PMob->charmTime = time_point::min();
             PMob->PMaster = nullptr;
+            PPet->PLastAttacker = nullptr;
 
             PMob->PAI->SetController(std::make_unique<CMobController>(PMob));
             PMob->loc.zone->UpdateEntityPacket(PMob, ENTITY_UPDATE, UPDATE_ALL_MOB);
@@ -1963,7 +1964,11 @@ namespace petutils
         else if (PPet->objtype == TYPE_PET)
         {
             if (!PPet->isDead())
+            {
+                PPet->PLastAttacker = nullptr;
                 PPet->Die();
+            }
+
             CPetEntity* PPetEnt = (CPetEntity*)PPet;
 
             if (PPetEnt->getPetType() == PETTYPE_AVATAR)

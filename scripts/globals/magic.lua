@@ -1048,6 +1048,11 @@ function getMagicHitRate(caster, target, skillType, element, SDT, percentBonus, 
 
     local magicacc = caster:getMod(tpz.mod.MACC) + caster:getILvlMacc()
 
+    -- Use Automaton Magic skil for Automatons
+    if caster:isAutomaton() then
+        skillType = tpz.skill.AUTOMATON_MAGIC
+    end
+
     -- Get MACC from skill
     if (skillType == tpz.skill.SINGING) then
         -- BRD songs, the formula is Singing Skill + (currently equipped instrument skill / 3).
@@ -1112,19 +1117,19 @@ function getMagicHitRate(caster, target, skillType, element, SDT, percentBonus, 
     -- Add macc% from food
     local maccFood = magicacc * (caster:getMod(tpz.mod.FOOD_MACCP)/100)
     magicacc = math.floor(magicacc + utils.clamp(maccFood, 0, caster:getMod(tpz.mod.FOOD_MACC_CAP)))
-    --printf("MACC: %s", magicacc)
-    
+    -- printf("MACC: %s", magicacc)
+
     return calculateMagicHitRate(target, magicacc, magiceva, element, percentBonus, caster:getMainLvl(), target:getMainLvl(), SDT)
 end
 
 function calculateMagicHitRate(target, magicacc, magiceva, element, percentBonus, casterLvl, targetLvl, SDT)
     local p = 0
-    
+
     -- percentBonus is a bit deceiving of a name. it's either 0 or a negative number. its only application is specific effect resistance (i.e. +5 resist to paralyze = -5% hitrate on incoming paras)
     -- note that this has nothing to do with the resist TRAIT which is handled BEFORE rate calculations. gear bonuses (i.e. "Enhances Resist Paralyze Effect") count as traits.
     -- If dMAcc < 0, Magic Hit Rate = 55% + floor( dMAcc÷2 ) = magic hit rate
     -- If dMAcc ≥ 0, Magic Hit Rate = 55% + dMAcc = magic hit rate
-    
+
     magicacc = magicacc + (casterLvl - targetLvl)*4
     local dMAcc = magicacc - magiceva
     -- printf("dMAcc %s", dMAcc)
