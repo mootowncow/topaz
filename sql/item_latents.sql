@@ -1958,17 +1958,39 @@ INSERT INTO `item_latents` VALUES(15946, 384, 600, 52, 3);  -- Haste +6% in Wind
 -- -------------------------------------------------------
 -- Fatality Belt
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 44);   -- critical hit damage 2% under status mighty strikes (war)
-INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 48);   -- critical hit damage 2% under status chainspell (rdm)
-INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 49);   -- critical hit damage 2% under status perfect dodge (thf)
-INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 50);   -- critical hit damage 2% under status invincible (pld)
-INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 51);   -- critical hit damage 2% under status blood weapon (drk)
-INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 52);   -- critical hit damage 2% under status soul voice (brd)
-INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 53);   -- critical hit damage 2% under status eagle eye shot (rng)
-INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 54);   -- critical hit damage 2% under status meikyo shisui (sam)
-INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 126);  -- critical hit damage 2% under status spirit surge (drg)
-INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 163);  -- critical hit damage 2% under status azure lore (blu)
-INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 376);  -- critical hit damage 2% under status trance (dnc)
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 44); -- [15955] Fatality Belt: Status Effect Active(44) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 48); -- [15955] Fatality Belt: Status Effect Active(48) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 49); -- [15955] Fatality Belt: Status Effect Active(49) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 50); -- [15955] Fatality Belt: Status Effect Active(50) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 51); -- [15955] Fatality Belt: Status Effect Active(51) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 52); -- [15955] Fatality Belt: Status Effect Active(52) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 54); -- [15955] Fatality Belt: Status Effect Active(54) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 126); -- [15955] Fatality Belt: Status Effect Active(126) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 163); -- [15955] Fatality Belt: Status Effect Active(163) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 376); -- [15955] Fatality Belt: Status Effect Active(376) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 46); -- [15955] Fatality Belt: Status Effect Active(46) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 47); -- [15955] Fatality Belt: Status Effect Active(47) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 55); -- [15955] Fatality Belt: Status Effect Active(55) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 166); -- [15955] Fatality Belt: Status Effect Active(166) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 377); -- [15955] Fatality Belt: Status Effect Active(377) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 490); -- [15955] Fatality Belt: Status Effect Active(490) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 491); -- [15955] Fatality Belt: Status Effect Active(491) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 494); -- [15955] Fatality Belt: Status Effect Active(494) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 496); -- [15955] Fatality Belt: Status Effect Active(496) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 497); -- [15955] Fatality Belt: Status Effect Active(497) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 498); -- [15955] Fatality Belt: Status Effect Active(498) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 499); -- [15955] Fatality Belt: Status Effect Active(499) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 500); -- [15955] Fatality Belt: Status Effect Active(500) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 501); -- [15955] Fatality Belt: Status Effect Active(501) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 502); -- [15955] Fatality Belt: Status Effect Active(502) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 503); -- [15955] Fatality Belt: Status Effect Active(503) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 504); -- [15955] Fatality Belt: Status Effect Active(504) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 505); -- [15955] Fatality Belt: Status Effect Active(505) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 507); -- [15955] Fatality Belt: Status Effect Active(507) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 508); -- [15955] Fatality Belt: Status Effect Active(508) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 509); -- [15955] Fatality Belt: Status Effect Active(509) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 513); -- [15955] Fatality Belt: Status Effect Active(513) - CRIT_DMG_INCREASE 2
+INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, 522); -- [15955] Fatality Belt: Status Effect Active(522) - CRIT_DMG_INCREASE 2
 -- NEED STATUS # INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, ??); -- critical hit damage 2% under status familiar (bst)
 -- NEED STATUS # INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, ??); -- critical hit damage 2% under status mijin gakure (nin)
 -- NEED STATUS # INSERT INTO `item_latents` VALUES(15955, 421, 2, 13, ??); -- critical hit damage 2% under status wild card (cor)
