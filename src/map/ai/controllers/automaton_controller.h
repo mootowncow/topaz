@@ -79,6 +79,7 @@ private:
     bool TryAbsorb(const CurrentManeuvers& maneuvers);
     bool TryStatusRemoval(const CurrentManeuvers& maneuvers);
     bool TryEnhance();
+    bool TrySing(const CurrentManeuvers& maneuvers);
     bool TryRegen();
     bool TryTPMove();
     bool TryRangedAttack();
@@ -101,6 +102,7 @@ private:
     duration m_elementalCooldown;
     duration m_healCooldown;
     duration m_enhanceCooldown;
+    duration m_singCooldown;
     duration m_regenCooldown;
     duration m_statusCooldown;
     duration m_shieldbashCooldown;
@@ -113,6 +115,7 @@ private:
     time_point m_LastElementalTime;
     time_point m_LastHealTime;
     time_point m_LastEnhanceTime;
+    time_point m_LastSingTime;
     time_point m_LastRegenTime;
     time_point m_LastStatusTime;
     time_point m_LastRangedTime;

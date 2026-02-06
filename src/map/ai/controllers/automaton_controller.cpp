@@ -88,6 +88,7 @@ void CAutomatonController::setMagicCooldowns()
     case HEAD_HARLEQUIN:
     {
         m_magicCooldown = 10s;
+        m_singCooldown = 6s;
         m_enfeebleCooldown = 15s;
         m_healCooldown = 18s;
     }
@@ -322,7 +323,12 @@ bool CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers)
             return true;
         }
 
-        if (TryEnfeeble(maneuvers))
+        if (TrySing(maneuvers))
+        {
+            m_LastSingTime = m_Tick;
+            return true;
+        }
+        else if (TryEnfeeble(maneuvers))
         {
             m_LastEnfeebleTime = m_Tick;
             return true;
@@ -1248,9 +1254,115 @@ bool CAutomatonController::ShouldShellra()
     return false;
 }
 
+bool CAutomatonController::TrySing(const CurrentManeuvers& maneuvers)
+{
+    if (!PAutomaton->PMaster || m_singCooldown == 0s || m_Tick <= m_LastSingTime + m_singCooldown)
+        return false;
+
+    std::vector<SPELLFAMILY> castPriority;
+    std::vector<SPELLFAMILY> defaultPriority;
+
+    // Finale Highest Priority
+    bool finale = false;
+    PTarget->StatusEffectContainer->ForEachEffect(
+        [&finale](CStatusEffect* PStatus)
+        {
+            if (!finale && PStatus->GetDuration() > 0)
+            {
+                if (PStatus->GetFlag() & EFFECTFLAG_DISPELABLE)
+                {
+                    finale = true;
+                    return;
+                }
+            }
+        });
+
+    if (finale)
+    {
+        if (Cast(PTarget->targid, SpellID::Magic_Finale))
+            return true;
+    }
+
+    // Elegy 2nd highest priority
+    if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_ELEGY))
+    {
+        if (auto spell = autoSpell::GetBestUsableSpell(PAutomaton, SPELLFAMILY_ELEGY))
+        {
+            if (autoSpell::CanUseEnfeeble(PTarget, *spell) && Cast(PTarget->targid, *spell))
+                return true;
+        }
+    }
+
+    // Buff Songs
+    if (PAutomaton->StatusEffectContainer->GetTotalBuffSongCount() < 2)
+    {
+        // Wind -> March
+        if (!PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_MARCH))
+            if (maneuvers.wind)
+                castPriority.push_back(SPELLFAMILY_MARCH);
+            else
+                defaultPriority.push_back(SPELLFAMILY_MARCH);
+
+        // Fire -> Minuet
+        if (!PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_MINUET))
+        {
+            if (maneuvers.fire)
+            {
+                castPriority.push_back(SPELLFAMILY_VALOR_MINUET);
+            }
+            else if (battleutils::GetHitRate(PAutomaton->PMaster, PTarget) >= 75)
+            {
+                defaultPriority.push_back(SPELLFAMILY_VALOR_MINUET);
+            }
+        }
+
+        // Thunder -> Madrigal
+        if (!PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_MADRIGAL))
+            if (maneuvers.thunder)
+                castPriority.push_back(SPELLFAMILY_MADRIGAL);
+            else
+                defaultPriority.push_back(SPELLFAMILY_MADRIGAL);
+
+        // Earth -> Minne
+        if (!PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_MINNE))
+            if (maneuvers.earth)
+                castPriority.push_back(SPELLFAMILY_KNIGHTS_MINNE);
+            else
+                defaultPriority.push_back(SPELLFAMILY_KNIGHTS_MINNE);
+
+        // Dark -> Ballad
+        if (!PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_BALLAD))
+            if (maneuvers.dark)
+                castPriority.push_back(SPELLFAMILY_MAGES_BALLAD);
+            else
+                defaultPriority.push_back(SPELLFAMILY_MAGES_BALLAD);
+
+        // Light -> Paeon
+        if (!PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_PAEON))
+            if (maneuvers.light)
+                castPriority.push_back(SPELLFAMILY_ARMYS_PAEON);
+            else
+                defaultPriority.push_back(SPELLFAMILY_ARMYS_PAEON);
+    }
+
+
+    for (SPELLFAMILY& id : castPriority)
+        if (TryBestSpell(PAutomaton->targid, id))
+            return true;
+
+    for (SPELLFAMILY& id : defaultPriority)
+        if (TryBestSpell(PAutomaton->targid, id))
+            return true;
+
+    return false;
+}
+
 bool CAutomatonController::TryTPMove()
 {
-    if (PAutomaton->health.tp >= 1000)
+    float currentDistance = distance(PAutomaton->loc.p, PTarget->loc.p);
+    float tpMoveRange = static_cast<float>(PAutomaton->GetMeleeRange()) + static_cast<float>(PTarget->m_ModelSize);
+
+    if (PAutomaton->health.tp >= 1000 && currentDistance <= tpMoveRange)
     {
         auto* PChar = dynamic_cast<CCharEntity*>(PAutomaton->PMaster);
         if (!PChar)
