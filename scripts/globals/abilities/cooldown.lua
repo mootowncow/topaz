@@ -1,6 +1,6 @@
 -----------------------------------
 -- Ability: Cooldown
--- Description: Increases your pets effectiveness in combat.
+-- Description: Increases your automaton's effectiveness in combat.
 -- Obtained: PUP Level 70
 -- Recast Time: 00:05:00
 -----------------------------------

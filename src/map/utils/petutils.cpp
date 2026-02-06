@@ -1451,9 +1451,9 @@ namespace petutils
                 CItem* animator = PChar->getEquip(SLOT_RANGED);
                 if (animator && animator->getID() == 21375)
                 {
-                    PPet->addModifier(Mod::ATTP, 25);
+                    PPet->addModifier(Mod::ATTP, 10);
                     PPet->addModifier(Mod::DOUBLE_ATTACK, 10);
-                    PPet->addModifier(Mod::HASTE_ABILITY, 1000);
+                    PPet->addModifier(Mod::HASTE_ABILITY, 500);
                     PPet->addModifier(Mod::UDMGPHYS, 12);
                     PPet->addModifier(Mod::UDMGBREATH, 12);
                     PPet->addModifier(Mod::UDMGMAGIC, 12);
