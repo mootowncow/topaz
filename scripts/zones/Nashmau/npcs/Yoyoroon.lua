@@ -47,7 +47,7 @@ function onTrigger(player, npc)
         2257, 29640,    -- Stabilizer II
         2261, 29640,    -- Mana Jammer II
         2412, 41496,    -- Hammermill
-        9068, 41496,    -- Barrier Module
+        -- 9068, 41496,    -- Barrier Module
         9070, 41496,    -- Resister
         2265, 41496,    -- Auto-Repair Kit II
         9072, 41496,    -- Arcanic Cell
@@ -59,22 +59,22 @@ function onTrigger(player, npc)
         9230, 82992,    -- Speedloader II
         9067, 82992,    -- Repeater
         9043, 82992,    -- Stealth Screen II
-        2322, 118560,   -- Attuner
-        3307, 118560,   -- Heat Capacitor
-        2323, 118560,   -- Tactical Processor
-        3308, 118560,   -- Power Cooler
-        2324, 118560,   -- Drum Magazine
-        3309, 118560,   -- Barrage Turbine
-        2325, 118560,   -- Equalizer
-        3310, 118560,   -- Barrier Module II
-        2326, 118560,   -- Target Marker
-        3311, 118560,   -- Galvanizer
-        2327, 118560,   -- Mana Channeler
-        3312, 118560,   -- Percolator
-        2328, 118560,   -- Eraser
-        3313, 118560,   -- Vivi-Valve
-        2329, 118560,   -- Smoke Screen
-        3314, 118560,   -- Disruptor
+        -- 2322, 118560,   -- Attuner
+        -- 3307, 118560,   -- Heat Capacitor
+        -- 2323, 118560,   -- Tactical Processor
+        -- 3308, 118560,   -- Power Cooler
+        -- 2324, 118560,   -- Drum Magazine
+        -- 3309, 118560,   -- Barrage Turbine
+        -- 2325, 118560,   -- Equalizer
+        -- 3310, 118560,   -- Barrier Module II
+        -- 2326, 118560,   -- Target Marker
+        -- 3311, 118560,   -- Galvanizer
+        -- 2327, 118560,   -- Mana Channeler
+        -- 3312, 118560,   -- Percolator
+        -- 2328, 118560,   -- Eraser
+        -- 3313, 118560,   -- Vivi-Valve
+        -- 2329, 118560,   -- Smoke Screen
+        -- 3314, 118560,   -- Disruptor
     }
 
     player:showText(npc, ID.text.YOYOROON_SHOP_DIALOG)
