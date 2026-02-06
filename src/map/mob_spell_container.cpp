@@ -209,8 +209,12 @@ std::optional<SpellID> CMobSpellContainer::GetBestIndiSpell(CBattleEntity* PTarg
 {
     auto mJob = PTarget->GetMJob();
 
+    auto hitrate = 75;
     auto mTarget = PTarget->GetBattleTarget();
-    auto hitrate = battleutils::GetHitRate(PTarget, mTarget);
+
+    if (!PTarget->isDead() && mTarget)
+        hitrate = battleutils::GetHitRate(PTarget, mTarget);
+
     bool accBuffNeeded = hitrate < 75 ? true : false;
 
     auto mInt = PTarget->getMod(Mod::INT);
