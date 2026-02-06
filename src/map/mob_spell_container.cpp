@@ -169,8 +169,12 @@ std::optional<SPELLFAMILY> CMobSpellContainer::GetBestMeleeSong(CBattleEntity* P
     auto mJob = PTarget->GetMJob();
     auto lvl = PTarget->GetMLevel();
 
+    auto hitrate = 75;
     auto mTarget = PTarget->GetBattleTarget();
-    auto hitrate = battleutils::GetHitRate(PTarget, mTarget);
+
+    if (!PTarget->isDead() && mTarget)
+        hitrate = battleutils::GetHitRate(PTarget, mTarget);
+
     bool accBuffNeeded = hitrate < 75 ? true : false;
 
     std::optional<SPELLFAMILY> choice = std::nullopt;

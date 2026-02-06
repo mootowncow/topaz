@@ -4169,6 +4169,9 @@ namespace battleutils
     {
         int32 hitrate = 75;
 
+        if (!PAttacker || !PDefender)
+            return hitrate;
+
         if (PAttacker->objtype == TYPE_PC && ((PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK) && (behind(PAttacker->loc.p, PDefender->loc.p, 64) || PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE))) ||
             (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_ASSASSIN) && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK) && battleutils::getAvailableTrickAttackChar(PAttacker, PDefender))) ||
             PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK) && PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT))
