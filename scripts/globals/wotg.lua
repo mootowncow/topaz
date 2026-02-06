@@ -900,11 +900,11 @@ local function generateActiveRegions(zone)
     end
 
     local activeRegions = tpz.wotg.getActiveRegions(zoneId)
-    printf("Generating active regions")
+    -- printf("Generating active regions")
     if activeRegions then
-        print("Active regions for zone " .. zoneId .. ":")
+        -- print("Active regions for zone " .. zoneId .. ":")
         for i, regionID in ipairs(activeRegions) do
-            print("Region " .. i .. ": " .. regionID)
+            -- print("Region " .. i .. ": " .. regionID)
         end
     else
         print("No active regions found for zone " .. zoneId)
