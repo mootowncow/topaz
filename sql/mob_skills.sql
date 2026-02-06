@@ -2024,7 +2024,7 @@ INSERT INTO `mob_skills` VALUES (2061,1378,'restoral',0,7.0,2000,1500,1,0,0,0,0,
 INSERT INTO `mob_skills` VALUES (2062,1376,'restoral',0,7.0,2000,1500,1,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2063,1807,'heavy_armature',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2064,1808,'heavy_armature',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2065,1404,'cannibal_blade',0,15.0,2000,1,4,0,150,0,2,5,0);
+INSERT INTO `mob_skills` VALUES (2065,1404,'cannibal_blade',0,7.0,2000,1,4,0,150,0,2,5,0);
 INSERT INTO `mob_skills` VALUES (2066,1405,'daze',0,16.0,2000,1,4,0,150,0,1,8,0);
 INSERT INTO `mob_skills` VALUES (2067,1406,'knockout',0,7.0,2000,1,4,0,145,0,4,6,0);
 INSERT INTO `mob_skills` VALUES (2068,439,'economizer',0,7.0,2000,0,16,2,0,0,0,0,0);

@@ -17,11 +17,14 @@ end
 
 function onUseAbility(player, target, ability)
     tpz.pet.spawnPet(player, tpz.pet.id.AUTOMATON)
+
     local pet = player:getPet()
+    local jpBurdenReduction = player:getJobPointLevel(tpz.jp.ACTIVATE_EFFECT)
 
     if pet then
-        local jpValue = player:getJobPointLevel(tpz.jp.AUTOMATON_HP_MP_BONUS)
-        pet:addMod(tpz.mod.HP, jpValue * 10)
-        pet:addMod(tpz.mod.MP, jpValue * 5)
+        local jpHpMp = player:getJobPointLevel(tpz.jp.AUTOMATON_HP_MP_BONUS)
+        pet:addMod(tpz.mod.HP, jpHpMp * 10)
+        pet:addMod(tpz.mod.MP, jpHpMp * 5)
+        player:reduceBurden(0, jpBurdenReduction)
     end
 end

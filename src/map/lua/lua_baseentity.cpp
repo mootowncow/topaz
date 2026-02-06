@@ -9705,7 +9705,7 @@ inline int32 CLuaBaseEntity::capAllSkills(lua_State* L)
 *  Notes   :
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::getSkillLevel(lua_State* L)
+inline int32 CLuaBaseEntity::getSkillLevel(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype & TYPE_NPC);
@@ -13571,6 +13571,46 @@ inline int32 CLuaBaseEntity::uncharm(lua_State* L)
 }
 
 /************************************************************************
+ *  Function: getBurden()
+ *  Purpose : Returns the amount of burden as a lua table
+ *  Example : 
+ *  Notes   : 
+ ************************************************************************/
+inline int32 CLuaBaseEntity::getBurden(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+    // Owner must be a character entity
+    CCharEntity* PEntity = static_cast<CCharEntity*>(m_PBaseEntity);
+    if (!PEntity)
+    {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    // Check for automaton pet
+    CAutomatonEntity* PAutomaton = dynamic_cast<CAutomatonEntity*>(PEntity->PPet);
+    if (!PAutomaton)
+    {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    // Get burden array and push as Lua table
+    std::array<uint8, 8> burden = PAutomaton->getBurden();
+
+    lua_newtable(L);
+    for (int i = 0; i < 8; ++i)
+    {
+        lua_pushinteger(L, static_cast<int>(burden[i]));
+        lua_rawseti(L, -2, i + 1);
+    }
+
+    return 1;
+}
+
+/************************************************************************
 *  Function: addBurden()
 *  Purpose : Adds a Burden to a Target
 *  Example : local overload = target:addBurden(ELE_EARTH-1, burden)
@@ -13624,7 +13664,7 @@ inline int32 CLuaBaseEntity::reduceBurden(lua_State* L)
         percentReduction = lua_tointeger(L, 1);
     }
 
-    if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
+    if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
     {
         intReduction = lua_tointeger(L, 2);
     }
@@ -13640,12 +13680,11 @@ inline int32 CLuaBaseEntity::reduceBurden(lua_State* L)
                                                                                     : 0); // Calculate the actual reduction for logging
     }
 
-    ShowDebug("Reducing burden by %f percent and %u flat.\n", percentReduction, intReduction);
+    //ShowDebug("Reducing burden by %f percent and %u flat.\n", percentReduction, intReduction);
 
     PAutomaton->setBurdenArray(burden);
     return 0;
 }
-
 
 /************************************************************************
  *  Function: isExceedingElementalCapacity()
@@ -19153,6 +19192,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,charm),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,uncharm),
 
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getBurden),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addBurden),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,reduceBurden),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setStatDebilitation),

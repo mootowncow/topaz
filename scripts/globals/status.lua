@@ -2032,7 +2032,6 @@ tpz.mod =
     ENHANCES_COVER = 1178,
     AUGMENTS_COVER = 1179,
     COVERED_MP_FLAG = 1180,
-    MAGIC_SS = 1181,
     TAME_SUCCESS_RATE = 1182,
     MAGIC_STACKING_MDT = 1183,
     FIRE_BURDEN_DECAY = 1184,
@@ -2195,7 +2194,7 @@ tpz.mod =
     AUTO_STANDBACK          = 1435, -- Tells your Automaton to stand back
     ENH_STATUS_BOLTS        = 1436, -- Enhances the additional effect of status bolts. i.e. acid bolts defense down (in percents)
     ENH_DIVINE_CARESS       = 1437, -- Increases the amount of spells blocked by Divine Caress before it fades
-    GLOBAL_DMG_DONE         = 1438, -- Global reduction to damage done
+    GLOBAL_DMG_DONE         = 1438, -- Global reduction to damage done (Currently only works for magic / monster tp moves / automaton tp moves)
     ABSORB_EFFECT_DURATION  = 1440, -- Increases the duration of absorb effects by a flat amount (e.g. mod value 10 = +10s duration)
     -- 570 - 825 used by WS DMG mods these are not spares.
     -- 1440 NEXT

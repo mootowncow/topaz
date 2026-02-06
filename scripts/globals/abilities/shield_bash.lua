@@ -17,9 +17,6 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-    -- TODO: Resist check (Has 255 MACC bonus?)
-    -- TODO: Ignores shadows
-
     if target:hasStatusEffect(tpz.effect.PERFECT_DODGE) then
         return ability:setMsg(tpz.msg.basic.JA_MISS)
     end

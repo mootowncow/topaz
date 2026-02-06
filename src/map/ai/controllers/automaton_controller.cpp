@@ -36,6 +36,7 @@
 #include "../states/ability_state.h"
 #include "../states/magic_state.h"
 #include "../states/weaponskill_state.h"
+#include "../states/mobskill_state.h"
 
 CAutomatonController::CAutomatonController(CAutomatonEntity* PPet)
     : CPetController(PPet)
@@ -258,17 +259,66 @@ bool CAutomatonController::TryAction()
 
 bool CAutomatonController::TryShieldBash()
 {
-    CState* PState = PTarget->PAI->GetCurrentState();
+    bool shouldShieldBash = false;
+
     // Only usable by Valoredge https://www.bg-wiki.com/ffxi/Automaton
     if (PAutomaton->getFrame() != FRAME_VALOREDGE)
-    {
         return false;
+
+    if (PTarget->getMod(Mod::EEM_STUN) <= 5)
+        return false;
+
+    if (PTarget->hasImmunity(IMMUNITY_STUN))
+        return false;
+
+    // Only interrupt -ga/cures/severe spells
+    CState* currentState = PTarget->PAI->GetCurrentState();
+    if (currentState)
+    {
+        // Check for valid Mobskills to stun (not 2 hours, not job abilities, not attack replacements, not special)
+        CMobSkillState* msState = dynamic_cast<CMobSkillState*>(currentState);
+        if (msState)
+        {
+            CMobSkill* skill = msState->GetSkill();
+            if (skill)
+            {
+                bool isTwoHour = skill->isTwoHour();
+                bool isJobAbility = skill->isJobAbility();
+                bool isAttackReplacement = skill->isAttackReplacement();
+                bool isSpecial = skill->isSpecial();
+                if (!isTwoHour && !isJobAbility && !isAttackReplacement && !isSpecial)
+                    shouldShieldBash = true;
+            }
+        }
+
+        // Check for valid Magic to stun (-gas, severe, heals)
+        CMagicState* maState = dynamic_cast<CMagicState*>(currentState);
+        if (maState)
+        {
+            CSpell* spell = maState->GetSpell();
+            if (spell)
+            {
+                bool isAOE = false;
+                bool isHeal = spell->isHeal();
+                bool isSevere = spell->isSevere();
+                uint8 aoe = battleutils::GetSpellAoEType(PTarget, spell);
+                if (aoe > 0)
+                    isAOE = true;
+
+                if (isAOE || isHeal || isSevere)
+                    shouldShieldBash = true;
+            }
+        }
     }
+
+    // Check WS / JA state
+    if (PTarget->PAI->IsCurrentState<CWeaponSkillState>() || PTarget->PAI->IsCurrentState<CAbilityState>())
+        shouldShieldBash = true;
 
     float currentDistance = distance(PAutomaton->loc.p, PTarget->loc.p);
     if (currentDistance <= static_cast<float>(PAutomaton->GetMeleeRange()) + static_cast<float>(PTarget->m_ModelSize))
     {
-        if (m_shieldbashCooldown > 0s && PState && PState->CanInterrupt() &&
+        if (m_shieldbashCooldown > 0s && shouldShieldBash &&
             m_Tick > m_LastShieldBashTime + (m_shieldbashCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_SHIELD_BASH_DELAY))))
         {
             return MobSkill(PTarget->targid, m_ShieldBashAbility);
@@ -1359,10 +1409,7 @@ bool CAutomatonController::TrySing(const CurrentManeuvers& maneuvers)
 
 bool CAutomatonController::TryTPMove()
 {
-    float currentDistance = distance(PAutomaton->loc.p, PTarget->loc.p);
-    float tpMoveRange = static_cast<float>(PAutomaton->GetMeleeRange()) + static_cast<float>(PTarget->m_ModelSize);
-
-    if (PAutomaton->health.tp >= 1000 && currentDistance <= tpMoveRange)
+    if (PAutomaton->health.tp >= 1000)
     {
         auto* PChar = dynamic_cast<CCharEntity*>(PAutomaton->PMaster);
         if (!PChar)

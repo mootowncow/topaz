@@ -607,6 +607,7 @@ public:
     int32 charm(lua_State*);                   // applies charm on target
     int32 uncharm(lua_State*);                 // removes charm on target
 
+    int32 getBurden(lua_State* L);
     int32 addBurden(lua_State* L);
     int32 reduceBurden(lua_State* L);
     int32 setStatDebilitation(lua_State* L);

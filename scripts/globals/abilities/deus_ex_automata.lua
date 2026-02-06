@@ -17,10 +17,27 @@ end
 
 function onUseAbility(player, target, ability)
     tpz.pet.spawnPet(player, tpz.pet.id.AUTOMATON)
+
     local pet = player:getPet()
+    local jpValue = player:getJobPointLevel(tpz.jp.ACTIVATE_EFFECT)
+
+    local burden = player:getBurden()
+    if burden then
+        for i = 1, #burden do
+            print(string.format("Before reducing burden: Element %d burden = %d", i, burden[i]))
+        end
+    end
+    
     if pet then
         local percent = math.floor((player:getMainLvl()/3))/100
         pet:setHP(math.max(pet:getHP() * percent, 1))
         pet:setMP(pet:getMP() * percent)
+        player:reduceBurden(0, jpValue)
+
+        if burden then
+            for i = 1, #burden do
+                print(string.format("After reducing burden: Element %d burden = %d", i, burden[i]))
+            end
+        end
     end
 end

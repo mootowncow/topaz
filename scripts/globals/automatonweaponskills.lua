@@ -334,6 +334,11 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
     -- Handle pet damage percent mod
     finaldmg = math.floor(finaldmg * ((100 + auto:getMod(tpz.mod.PET_DAMAGEP)) / 100))
 
+    -- Handle global damage done mod
+    local globalDmgDone = 1 + (auto:getMod(tpz.mod.GLOBAL_DMG_DONE) / 100)
+    finaldmg = math.floor(finaldmg * globalDmgDone)
+
+
     if (finaldmg == 0) then -- Full parries and full miss
         skill:setMsg(tpz.msg.basic.SKILL_MISS)
     end
@@ -408,6 +413,10 @@ function AutoMagicalWeaponSkill(auto, target, skill, element, params, statmod, b
 
     -- Handle pet damage percent mod
     finaldmg = math.floor(finaldmg * ((100 + auto:getMod(tpz.mod.PET_DAMAGEP)) / 100))
+
+    -- Handle global damage done mod
+    local globalDmgDone = 1 + (auto:getMod(tpz.mod.GLOBAL_DMG_DONE) / 100)
+    finaldmg = math.floor(finaldmg * globalDmgDone)
 
     --handling phalanx
     finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)

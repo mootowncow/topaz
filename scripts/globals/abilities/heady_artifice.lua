@@ -18,7 +18,27 @@ function onUseAbility(player, target, ability)
     local pet = player:getPet()
     local mob = pet:getTarget()
     local head = pet:getAutomatonHead()
+
+    -- Handle Heady Artifice Job Points (Soulsoother handled in below if head statements)
     local jpValue = player:getJobPointLevel(tpz.jp.HEADY_ARTIFICE_EFFECT)
+    local headJpBonuses = {
+        { Head = tpz.heads.HARLEQUIN,         Mod = tpz.mod.ACC,                Power = 2,  Duration = 30  },
+        { Head = tpz.heads.SHARPSHOT,         Mod = tpz.mod.GLOBAL_DMG_DONE,    Power = 3,  Duration = 15, },
+        { Head = tpz.heads.STORMWAKER,        Mod = tpz.mod.MAGIC_DAMAGE,       Power = 2,  Duration = 30  },
+        { Head = tpz.heads.SPIRITREAVER,      Mod = tpz.mod.MAGIC_DAMAGE,       Power = 5,  Duration = 30  }
+    }
+
+    for _, jpBuffs in pairs(headJpBonuses) do
+        if (head == jpBuffs.Head) then
+            pet:queue(0, function(pet)
+                pet:addMod(jpBuffs.Mod, jpBuffs.Power * jpValue)
+            end)
+
+            pet:queue(jpBuffs.Duration*1000, function(pet)
+                pet:delMod(jpBuffs.Mod, jpBuffs.Power * jpValue)
+            end)
+        end
+    end
 
     if head == tpz.heads.HARLEQUIN then
     elseif (head == tpz.heads.VALOREDGE) then
@@ -26,7 +46,7 @@ function onUseAbility(player, target, ability)
         pet:addStatusEffect(tpz.effect.INVINCIBLE, 1, 0, 5)
         pet:addStatusEffect(tpz.effect.ELEMENTAL_SFORZO, 1, 0, 5)
     elseif (head == tpz.heads.SOULSOOTHER) then
-        -- TODO: Shock Absorber
+        -- TODO: AoE status curse + erase? Or Shock Absorber
         local power = pet:getMainLvl()*2 + 50
         local tick = 0
         local duration = 30
@@ -37,15 +57,7 @@ function onUseAbility(player, target, ability)
     elseif head == tpz.heads.SHARPSHOT then
         pet:addStatusEffectEx(tpz.effect.MEDITATE, 0, 12, 3, 15)
     elseif head == tpz.heads.SPIRITREAVER then
-        pet:removeAllNegativeEffects()
-        pet:addStatusEffect(tpz.effect.WEIGHT, 95, 0, 10)
-        pet:addStatusEffect(tpz.effect.MUTE, 1, 0, 10)
-        pet:addStatusEffect(tpz.effect.AMNESIA, 1, 0, 10)
-        pet:addStatusEffect(tpz.effect.MUDDLE, 1, 0, 10)
-        pet:addStatusEffect(tpz.effect.MANA_WALL, 1, 0, 10)
-
-        pet:setEffectUndispellable(tpz.effect.WEIGHT)
-        pet:setEffectUndispellable(tpz.effect.AMNESIA)
+        pet:addStatusEffect(tpz.effect.SUBTLE_SORCERY, 1, 0, 15)
     elseif head == tpz.heads.STORMWAKER then
         pet:addRecast(tpz.recast.ABILITY, tpz.mob.skills.DISRUPTOR, 0)
         pet:useMobAbility(tpz.mob.skills.DISRUPTOR)

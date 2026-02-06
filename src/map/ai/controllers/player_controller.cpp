@@ -115,6 +115,26 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
     auto PChar = static_cast<CCharEntity*>(POwner);
     auto playerTP = PChar->health.tp;
 
+    auto HasAutomaton = [&](CCharEntity* PChar) -> bool
+    {
+        if (!PChar->PPet)
+        {
+            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_REQUIRES_A_PET));
+            return false;
+        }
+
+        if (PChar->PPet)
+        {
+            CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
+            if (PPet->getPetType() != PETTYPE_AUTOMATON)
+            {
+                PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_PET_CANNOT_DO_ACTION));
+                return false;
+            }
+        }
+        return true;
+    };
+
     if (PChar->PAI->CanChangeState())
     {
         CAbility* PAbility = ability::GetAbility(abilityid);
@@ -716,28 +736,30 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 break;
             }
 
+            case ABILITY_TACTICAL_SWITCH:
+            {
+                if (!HasAutomaton(PChar))
+                {
+                    return false;
+                }
+
+                if (PChar->StatusEffectContainer->GetActiveManeuvers() == 0)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_PET_CANNOT_DO_ACTION));
+                    return false;
+                }
+                break;
+            }
             case ABILITY_COOLDOWN:
             case ABILITY_DEACTIVATE:
             case ABILITY_OVERDRIVE:
-            case ABILITY_TACTICAL_SWITCH:
             case ABILITY_VENTRILOQUY:
             case ABILITY_ROLE_REVERSAL:
             case ABILITY_HEADY_ARTIFICE:
             {
-                if (PChar->PPet == nullptr)
+                if (!HasAutomaton(PChar))
                 {
-                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_REQUIRES_A_PET));
                     return false;
-                }
-
-                if (PChar->PPet != nullptr)
-                {
-                    CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
-                    if (PPet->getPetType() != PETTYPE_AUTOMATON)
-                    {
-                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_PET_CANNOT_DO_ACTION));
-                        return false;
-                    }
                 }
                 break;
             }
