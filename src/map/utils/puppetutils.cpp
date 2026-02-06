@@ -440,6 +440,8 @@ uint16 getSkillCap(CCharEntity* PChar, SKILLTYPE skill, uint8 level)
     {
         default: //case FRAME_HARLEQUIN:
             rank = 5;
+            if (skill == SKILL_AUTOMATON_MAGIC)
+                rank = 3;
             break;
         case FRAME_VALOREDGE:
             if (skill == SKILL_AUTOMATON_MELEE)
@@ -475,6 +477,7 @@ uint16 getSkillCap(CCharEntity* PChar, SKILLTYPE skill, uint8 level)
             if (skill == SKILL_AUTOMATON_MAGIC)
                 rank -= 2;
             break;
+        case HEAD_HARLEQUIN:
         case HEAD_SOULSOOTHER:
         case HEAD_SPIRITREAVER:
             if (skill == SKILL_AUTOMATON_MAGIC)

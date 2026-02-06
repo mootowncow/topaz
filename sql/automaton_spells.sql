@@ -141,6 +141,50 @@ INSERT INTO `automaton_spells` VALUES (109,123,8,0,0,0); -- Refresh
 INSERT INTO `automaton_spells` VALUES (473,282,8,0,0,0); -- Refresh II
 INSERT INTO `automaton_spells` VALUES (107,278,8,0,0,0); -- Phalanx II
 
+INSERT INTO `automaton_spells` VALUES (368,24,1,0,0,0); -- Foe Requiem
+INSERT INTO `automaton_spells` VALUES (369,54,1,0,0,0); -- Foe Requiem II
+INSERT INTO `automaton_spells` VALUES (370,114,1,0,0,0); -- Foe Requiem III
+INSERT INTO `automaton_spells` VALUES (371,144,1,0,0,0); -- Foe Requiem IV
+INSERT INTO `automaton_spells` VALUES (372,188,1,0,0,0); -- Foe Requiem V
+INSERT INTO `automaton_spells` VALUES (373,231,1,0,0,0); -- Foe Requiem VI
+INSERT INTO `automaton_spells` VALUES (374,274,1,0,0,0); -- Foe Requiem VII
+
+INSERT INTO `automaton_spells` VALUES (378,18,1,0,0,0);  -- Army's Paeon
+INSERT INTO `automaton_spells` VALUES (379,48,1,0,0,0); -- Army's Paeon II
+INSERT INTO `automaton_spells` VALUES (380,108,1,0,0,0); -- Army's Paeon III
+INSERT INTO `automaton_spells` VALUES (381,138,1,0,0,0); -- Army's Paeon IV
+INSERT INTO `automaton_spells` VALUES (382,223,1,0,0,0); -- Army's Paeon V
+INSERT INTO `automaton_spells` VALUES (383,284,1,0,0,0); -- Army's Paeon VI
+
+INSERT INTO `automaton_spells` VALUES (386,78,1,0,0,0); -- Mage's Ballad
+INSERT INTO `automaton_spells` VALUES (387,178,1,0,0,0); -- Mage's Ballad II
+INSERT INTO `automaton_spells` VALUES (388,324,1,0,0,0); -- Mage's Ballad III
+
+INSERT INTO `automaton_spells` VALUES (389,1,1,0,0,0);   -- Knight's Minne
+INSERT INTO `automaton_spells` VALUES (390,66,1,0,0,0); -- Knight's Minne II
+INSERT INTO `automaton_spells` VALUES (391,126,1,0,0,0); -- Knight's Minne III
+INSERT INTO `automaton_spells` VALUES (392,207,1,0,0,0); -- Knight's Minne IV
+INSERT INTO `automaton_spells` VALUES (393,294,1,0,0,0); -- Knight's Minne V
+
+INSERT INTO `automaton_spells` VALUES (394,12,1,0,0,0);  -- Valor Minuet
+INSERT INTO `automaton_spells` VALUES (395,72,1,0,0,0); -- Valor Minuet II
+INSERT INTO `automaton_spells` VALUES (396,132,1,0,0,0); -- Valor Minuet III
+INSERT INTO `automaton_spells` VALUES (397,215,1,0,0,0); -- Valor Minuet IV
+INSERT INTO `automaton_spells` VALUES (398,336,1,0,0,0); -- Valor Minuet V
+
+INSERT INTO `automaton_spells` VALUES (399,36,1,0,0,0); -- Sword Madrigal
+INSERT INTO `automaton_spells` VALUES (400,158,1,0,0,0); -- Blade Madrigal
+
+INSERT INTO `automaton_spells` VALUES (419,90,1,0,0,0); -- Advancing March
+INSERT INTO `automaton_spells` VALUES (420,203,1,0,0,0); -- Victory March
+
+INSERT INTO `automaton_spells` VALUES (462,102,1,0,0,0); -- Magic Finale
+
+INSERT INTO `automaton_spells` VALUES (421,120,1,0,512,0); -- Battlefield Elegy
+INSERT INTO `automaton_spells` VALUES (422,198,1,0,512,0); -- Carnage Elegy
+
+
+
 /*!40000 ALTER TABLE `automaton_spells` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

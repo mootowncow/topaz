@@ -1306,6 +1306,7 @@ bool CAutomatonController::ShouldShellra()
 
 bool CAutomatonController::TrySing(const CurrentManeuvers& maneuvers)
 {
+    // TODO: Threnodies?
     if (!PAutomaton->PMaster || m_singCooldown == 0s || m_Tick <= m_LastSingTime + m_singCooldown)
         return false;
 
@@ -1403,6 +1404,16 @@ bool CAutomatonController::TrySing(const CurrentManeuvers& maneuvers)
     for (SPELLFAMILY& id : defaultPriority)
         if (TryBestSpell(PAutomaton->targid, id))
             return true;
+
+    // Foe Requiem lowest priority
+    if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_REQUIEM))
+    {
+        if (auto spell = autoSpell::GetBestUsableSpell(PAutomaton, SPELLFAMILY_FOE_REQUIEM))
+        {
+            if (autoSpell::CanUseEnfeeble(PTarget, *spell) && Cast(PTarget->targid, *spell))
+                return true;
+        }
+    }
 
     return false;
 }

@@ -409,6 +409,10 @@ function doBuffSong(caster, target, spell, effect)
 
     if not caster:isPC() then
         instrumentSkill = caster:getSkillLevel(tpz.skill.STRING_INSTRUMENT)
+
+        if caster:isAutomaton() then
+            instrumentSkill = caster:getSkillLevel(tpz.skill.AUTOMATON_MAGIC)
+        end
     end
 
     for _, song in ipairs(songData) do

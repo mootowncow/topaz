@@ -42,7 +42,9 @@ function onUseAbility(player, target, ability)
 
     if head == tpz.heads.HARLEQUIN then
     elseif (head == tpz.heads.VALOREDGE) then
-        mob:addEnmity(pet, 10 * jpValue, 0)
+        if mob then
+            mob:addEnmity(pet, 10 * jpValue, 0)
+        end
         pet:addStatusEffect(tpz.effect.INVINCIBLE, 1, 0, 5)
         pet:addStatusEffect(tpz.effect.ELEMENTAL_SFORZO, 1, 0, 5)
     elseif (head == tpz.heads.SOULSOOTHER) then

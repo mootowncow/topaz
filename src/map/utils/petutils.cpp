@@ -1419,6 +1419,17 @@ namespace petutils
                 PPet->addModifier(Mod::EVA, 10);
                 PPet->addModifier(Mod::DEFP, 30);
                 PPet->addModifier(Mod::DMG, -6);
+
+                // Add BRD Instruments
+                for (uint16 m = (uint16)Mod::MINNE_EFFECT; m <= (uint16)Mod::ETUDE_EFFECT; ++m)
+                {
+                    PPet->addModifier((Mod)m, 2);
+                }
+
+                for (uint16 m = (uint16)Mod::MARCH_EFFECT; m <= (uint16)Mod::SCHERZO_EFFECT; ++m)
+                {
+                    PPet->addModifier((Mod)m, 2);
+                }
                 break;
             case FRAME_VALOREDGE:
             {
