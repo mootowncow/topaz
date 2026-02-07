@@ -567,7 +567,7 @@ function MobHPBasedMove(mob, target, skill, percent, base, element, cap, isSuici
     local mobHP = mob:getHP() 
     local resist = 1
     local bonus = 0
-    
+
     skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
 
     -- Used for mob suicide moves
@@ -1560,10 +1560,10 @@ function MobCharmMove(mob, target, skill, costume, duration)
 	-- 0 costume = none
     local statmod = tpz.mod.CHR
     local dStat = mob:getStat(statmod)-target:getStat(statmod)
-    local element = tpz.magic.ele.LIGHT
+    local element = tpz.magic.ele.WATER
     local bonus = math.floor(mob:getMainLvl() / 2)
 
-    local resist = ApplyPlayerGearResistModCheck(mob, target, tpz.effect.ENCUMBRANCE_II, dStat, bonus, element)
+    local resist = ApplyPlayerGearResistModCheck(mob, target, tpz.effect.CHARM_I, dStat, bonus, element)
 
 	--GetPlayerByID(6):PrintToPlayer(string.format("Resist: %u",resist))
 
@@ -1609,7 +1609,7 @@ function MobDeathMove(mob, target, skill)
 	-- if (not target:isPC()) then
 		-- return skill:setMsg(tpz.msg.basic.SKILL_MISS)
 	-- end
-	
+
 	if (resist >= 0.5) then
 		if target:hasStatusEffect(tpz.effect.FEALTY) then
 		    return skill:setMsg(tpz.msg.basic.SKILL_MISS)
