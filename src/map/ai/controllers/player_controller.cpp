@@ -603,6 +603,11 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     return false;
                 }
 
+                if (PAbility->getID() == ABILITY_LEAVE)
+                {
+                    PChar->m_petDespawnTime = server_clock::now() + std::chrono::milliseconds(5000);
+                }
+
                 if (PAbility->getID() == ABILITY_FAMILIAR)
                 {
                     if (PChar->PPet != nullptr)
@@ -678,6 +683,11 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     return false;
                 }
 
+                if (PAbility->getID() == ABILITY_DISMISS)
+                {
+                    PChar->m_petDespawnTime = server_clock::now() + std::chrono::milliseconds(5000);
+                }
+
                 CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
 
                 if (PAbility->getID() != ABILITY_DEEP_BREATHING)
@@ -711,6 +721,9 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 break;
             }
 
+            case ABILITY_ASSAULT:
+            case ABILITY_RETREAT:
+            case ABILITY_RELEASE:
             case ABILITY_ELEMENTAL_SIPHON:
             case ABILITY_AVATARS_FAVOR:
             case ABILITY_MANA_CEDE:
@@ -720,6 +733,11 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 {
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_REQUIRES_A_PET));
                     return false;
+                }
+
+                if (PAbility->getID() == ABILITY_RELEASE)
+                {
+                    PChar->m_petDespawnTime = server_clock::now() + std::chrono::milliseconds(5000);
                 }
 
                 CPetEntity* PPet = static_cast<CPetEntity*>(PChar->PPet);
@@ -757,15 +775,6 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 break;
             }
             case ABILITY_DEACTIVATE:
-            {
-                if (!HasAutomaton(PChar))
-                {
-                    return false;
-                }
-
-                PChar->m_petDespawnTime = server_clock::now() + std::chrono::milliseconds(5000);
-                break;
-            }
             case ABILITY_COOLDOWN:
             case ABILITY_OVERDRIVE:
             case ABILITY_VENTRILOQUY:
@@ -775,6 +784,12 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 if (!HasAutomaton(PChar))
                 {
                     return false;
+                }
+
+                if (PAbility->getID() == ABILITY_DEACTIVATE)
+                {
+                    PChar->m_petDespawnTime = server_clock::now() + std::chrono::milliseconds(5000);
+
                 }
                 break;
             }
