@@ -539,6 +539,12 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             case ABILITY_CALL_WYVERN:
             case ABILITY_CHARM:
             {
+                if (server_clock::now() < PChar->m_petDespawnTime)
+                {
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_PERFORM_ACTION));
+                    return false;
+                }
+
                 if (PChar->PPet != nullptr)
                 {
                     PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_ALREADY_HAS_A_PET));
@@ -750,8 +756,17 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                 }
                 break;
             }
-            case ABILITY_COOLDOWN:
             case ABILITY_DEACTIVATE:
+            {
+                if (!HasAutomaton(PChar))
+                {
+                    return false;
+                }
+
+                PChar->m_petDespawnTime = server_clock::now() + std::chrono::milliseconds(5000);
+                break;
+            }
+            case ABILITY_COOLDOWN:
             case ABILITY_OVERDRIVE:
             case ABILITY_VENTRILOQUY:
             case ABILITY_ROLE_REVERSAL:

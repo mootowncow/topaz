@@ -189,6 +189,7 @@ CCharEntity::CCharEntity()
     m_AHHistoryTimestamp = 0;
     m_DeathTimestamp = 0;
     m_petAbilityWait = server_clock::now();
+    m_petDespawnTime = server_clock::now();
 
     m_EquipFlag = 0;
     m_EquipBlock = 0;
