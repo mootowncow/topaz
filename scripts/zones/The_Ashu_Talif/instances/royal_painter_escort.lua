@@ -71,7 +71,6 @@ function onInstanceComplete(instance)
     for _, v in pairs(chars) do
         v:setCharVar("Halshaob_Quest", 0)
         v:completeQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT)
-        v:messageSpecial(ID.text.RETURN_TO_LIFEBOAT)
     end
 
     -- Despawn mobs
@@ -90,6 +89,8 @@ function onInstanceComplete(instance)
     if (instance:getLocalVar("faluuya_damaged") == 0) then
         instance:getEntity(bit.band(ID.npc[56].ANCIENT_LOCKBOX_NO_DAMAGE_BONUS, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
     end
+
+    instanceUtil.DisplayMessageSpecial(instance, "returnToLifeBoat", ID.text.RETURN_TO_LIFEBOAT)
 end
 
 function onEventUpdate(player, csid, option)

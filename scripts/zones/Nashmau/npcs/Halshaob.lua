@@ -9,18 +9,18 @@ require("scripts/globals/quests")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    local now = tonumber(os.date("%j"))
+    local now = os.time()
     local timer = player:getCharVar("Halshaob_Timer")
     local quest = player:getCharVar("Halshaob_Quest")
     local questSTAT = player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.SCOUTING_THE_ASHU_TALIF)
     local questRPE = player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT)
-    
-    if timer < now and quest == 0 then
+
+    if timer <= now and quest == 0 then
         if (trade:getItemQty(tpz.items.IMPERIAL_BRONZE_PIECE) == 3) and trade:getItemCount() == 3 then
             if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.SCOUTING_THE_ASHU_TALIF) == QUEST_AVAILABLE then
                 player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.SCOUTING_THE_ASHU_TALIF)
             end
-            player:setCharVar("Halshaob_Timer", os.date("%j"))
+            player:setCharVar("Halshaob_Timer", os.time() + 86400)
             player:setCharVar("Halshaob_Quest", 2)
             player:startEvent(302, 2184, 3, 101)
             player:tradeComplete()
@@ -28,7 +28,7 @@ function onTrade(player, npc, trade)
           if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT) == QUEST_AVAILABLE then
               player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT)
           end
-          player:setCharVar("Halshaob_Timer", os.date("%j"))
+          player:setCharVar("Halshaob_Timer", os.time() + 86400)
           player:setCharVar("Halshaob_Quest", 4)
           player:startEvent(302, 2185, 1, 102)
           player:tradeComplete()
@@ -36,7 +36,7 @@ function onTrade(player, npc, trade)
             if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.TARGETING_THE_CAPTAIN) == QUEST_AVAILABLE then
                 player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.TARGETING_THE_CAPTAIN)
             end
-            player:setCharVar("Halshaob_Timer", os.date("%j"))
+            player:setCharVar("Halshaob_Timer", os.time() + 86400)
             player:setCharVar("Halshaob_Quest", 8)
             player:startEvent(302, 2186, 1, 103)
             player:tradeComplete()
@@ -45,7 +45,7 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local now = tonumber(os.date("%j"))
+    local now = tonumber(os.time())
     local timer = player:getCharVar("Halshaob_Timer")
     local quest = player:getCharVar("Halshaob_Quest")
 
@@ -66,7 +66,7 @@ function onTrigger(player, npc)
             arg4 = player:getCharVar("Halshaob_Quest")
 
             -- arg5: Is the player already on a quest? Or completed one recently?
-            if timer >= now or quest > 0 then
+            if timer < now or quest > 0 then
                 arg5 = 1
             end
 
@@ -84,7 +84,6 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 300 then
-        player:setCharVar("Halshaob_Timer", 1)
         player:setCharVar("Halshaob_Quest", 0)
     end
 end

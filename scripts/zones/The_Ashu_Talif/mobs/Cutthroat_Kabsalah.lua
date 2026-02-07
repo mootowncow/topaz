@@ -11,10 +11,10 @@ mixins = {
 require("scripts/globals/mobs")
 -----------------------------------
 function onMobSpawn(mob)
-	mob:setDamage(100)
+	mob:setDamage(125)
     mob:addMod(tpz.mod.ATTP, 25)
     mob:setMod(tpz.mod.DEFP, 25)
-    mob:addMod(tpz.mod.ACC, 25) 
+    mob:addMod(tpz.mod.ACC, 25)
     mob:addMod(tpz.mod.EVA, 25)
     mob:setMod(tpz.mod.REGAIN, 25)
     mob:setMod(tpz.mod.MDEF, 0)
@@ -27,6 +27,7 @@ function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+    mob:addMod(tpz.mod.VIT, 50)
 
     tpz.mix.jobSpecial.config(mob, {
         specials =

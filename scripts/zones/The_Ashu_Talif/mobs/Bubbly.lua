@@ -14,7 +14,7 @@ local pathNodes = {
 };
 
 function onMobSpawn(mob)
-	mob:setDamage(140)
+	mob:setDamage(200)
     mob:addMod(tpz.mod.ATTP, 25)
     mob:addMod(tpz.mod.DEFP, 25) 
     mob:addMod(tpz.mod.ACC, 25) 
@@ -35,14 +35,16 @@ function onMobEngaged(mob, target)
 end
 
 function onMobFight(mob, target)
-    if mob:checkDistance(target) > 15 then
-        local pos = target:getPos()
-        mob:setPos(pos.x, pos.y, pos.z, 0)
+    if tpz.path.CheckIfStuck(mob) then
+        if mob:checkDistance(target) > 15 then
+            local pos = target:getPos()
+            mob:setPos(pos.x, pos.y, pos.z)
+        end
     end
 end
 
 function onMobRoam(mob)
-     tpz.path.loop(mob, pathNodes, tpz.path.flag.RUN)
+    tpz.path.loop(mob, pathNodes, tpz.path.flag.RUN)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

@@ -222,7 +222,6 @@ function onInstanceComplete(instance)
     for _, v in pairs(chars) do
         v:setCharVar("Halshaob_Quest", 0)
         v:completeQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.SCOUTING_THE_ASHU_TALIF)
-        v:messageSpecial(ID.text.RETURN_TO_LIFEBOAT)
     end
 
     -- Spawn exit and chest(s)
@@ -231,6 +230,8 @@ function onInstanceComplete(instance)
     if not mob:isSpawned() then
         instance:getEntity(bit.band(ID.npc[55].ANCIENT_LOCKBOX_EXTRA, 0xFFF), tpz.objType.NPC):setStatus(tpz.status.NORMAL)
     end
+
+    instanceUtil.DisplayMessageSpecial(instance, "returnToLifeBoat", ID.text.RETURN_TO_LIFEBOAT)
 end
 
 function onEventUpdate(player, csid, option)

@@ -50,6 +50,20 @@ function instanceUtil.spawnArmouryCrateOnMobDeath(mob, x, y, z, r)
     return npc:getID()
 end
 
+function instanceUtil.DisplayMessageSpecial(instance, textVar, msgId)
+    local chars = instance:getChars()
+    if not chars then
+        return
+    end
+
+    for _, char in pairs(chars) do
+        if (char:getLocalVar(textVar) == 0) then
+            char:messageSpecial(msgId)
+            char:setLocalVar(textVar, 1)
+        end
+    end
+end
+
 instanceUtil.ImperialAgentRescue = {}
 
 function instanceUtil.ImperialAgentRescue.SpawnChestOnMobDeath(mob, player, isKiller, noKiller)

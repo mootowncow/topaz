@@ -284,5 +284,7 @@ tpz.path =
             end
             return false
         end
+
+        return false
     end,
 }
