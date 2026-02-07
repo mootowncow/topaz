@@ -34,6 +34,13 @@ function onMobEngaged(mob, target)
     end
 end
 
+function onMobFight(mob, target)
+    if mob:checkDistance(target) > 15 then
+        local pos = target:getPos()
+        mob:setPos(pos.x, pos.y, pos.z, 0)
+    end
+end
+
 function onMobRoam(mob)
      tpz.path.loop(mob, pathNodes, tpz.path.flag.RUN)
 end
