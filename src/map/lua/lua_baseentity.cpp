@@ -13151,16 +13151,25 @@ inline int32 CLuaBaseEntity::addMod(lua_State *L)
 *  Notes   :
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::getMod(lua_State *L)
+inline int32 CLuaBaseEntity::getMod(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
 
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    auto modAmount = 0;
+    if (auto PBattlEntity = dynamic_cast<CBattleEntity*>(m_PBaseEntity))
+    {
+        if (PBattlEntity->isDead() || PBattlEntity->status == STATUS_DISAPPEAR)
+        {
+            lua_pushinteger(L, 0);
+            return 1;
+        }
+        modAmount = PBattlEntity->getMod(static_cast<Mod>(lua_tointeger(L, 1)));
+    }
 
-    lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->getMod(static_cast<Mod>(lua_tointeger(L, 1))));
+    lua_pushinteger(L, modAmount);
     return 1;
 }
+
 
 /************************************************************************
 *  Function: setMod()
