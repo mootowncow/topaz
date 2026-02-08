@@ -146,6 +146,12 @@ bool CPetController::TryDeaggro()
         return true;
     }
 
+    float currentDistance = distance(PPet->loc.p, PTarget->loc.p);
+    if (currentDistance > 30.0f)
+    {
+        return true;
+    }
+
     CBattleEntity* PMaster = static_cast<CBattleEntity*>(PPet->PMaster);
 
     // Disengage from battle if master is mounted

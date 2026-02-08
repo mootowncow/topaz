@@ -88,6 +88,7 @@ void CAutomatonController::setMagicCooldowns()
     {
     case HEAD_HARLEQUIN:
     {
+        m_magicBurstCooldown = 1s;
         m_magicCooldown = 10s;
         m_singCooldown = 6s;
         m_enfeebleCooldown = 15s;
@@ -109,6 +110,7 @@ void CAutomatonController::setMagicCooldowns()
     break;
     case HEAD_STORMWAKER:
     {
+        m_magicBurstCooldown = 1s;
         m_magicCooldown = 6s;
         m_enfeebleCooldown = 6s;
         m_healCooldown = 8s;
@@ -118,6 +120,7 @@ void CAutomatonController::setMagicCooldowns()
     break;
     case HEAD_SOULSOOTHER:
     {
+        m_magicBurstCooldown = 1s;
         m_magicCooldown = 6s;
         m_enfeebleCooldown = 9s;
         m_healCooldown = 6s;
@@ -129,6 +132,7 @@ void CAutomatonController::setMagicCooldowns()
     break;
     case HEAD_SPIRITREAVER:
     {
+        m_magicBurstCooldown = 1s;
         m_magicCooldown = 6s;
         m_enfeebleCooldown = 20s;
         m_elementalCooldown = 20s;
@@ -140,6 +144,7 @@ void CAutomatonController::setMagicCooldowns()
 void CAutomatonController::ResetCastDelay()
 {
     m_LastMagicTime = m_Tick - m_magicCooldown;
+    m_LastElementalTime = m_Tick - m_elementalCooldown;
 }
 
 bool CAutomatonController::isRanged()
@@ -210,6 +215,11 @@ void CAutomatonController::DoCombatTick(time_point tick)
         if (TryShieldBash())
         {
             m_LastShieldBashTime = m_Tick;
+            return;
+        }
+        else if (TryMagicBurst())
+        {
+            m_LastMagicBurstTime = m_Tick;
             return;
         }
         else if (TrySpellcast(maneuvers))
@@ -708,6 +718,74 @@ bool CAutomatonController::TryElemental(const CurrentManeuvers& maneuvers)
         for (SpellID& id : defaultPriority)
             if (Cast(PTarget->targid, static_cast<SpellID>(static_cast<uint16>(id) + i)))
                 return true;
+    }
+
+    return false;
+}
+
+bool CAutomatonController::TryMagicBurst()
+{
+    if (!PAutomaton->PMaster || m_magicBurstCooldown == 0s ||
+        m_Tick <= m_LastMagicBurstTime + (m_magicBurstCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_MAGIC_DELAY))) || !CanCastSpells())
+        return false;
+
+    // Needs at least one amplifier
+    if (PAutomaton->GetLocalVar("amplifier_mburst") == 0 && PAutomaton->GetLocalVar("amplifier_mburst_II") == 0)
+        return false;
+
+    CStatusEffect* PSCEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0);
+    if (!PSCEffect)
+        return false;
+
+    std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
+    if (uint16 power = PSCEffect->GetPower())
+    {
+        resonanceProperties.push_back((SKILLCHAIN_ELEMENT)(power & 0xF));
+        resonanceProperties.push_back((SKILLCHAIN_ELEMENT)((power >> 4) & 0xF));
+        resonanceProperties.push_back((SKILLCHAIN_ELEMENT)((power >> 8) & 0xF));
+    }
+
+    std::optional<SpellID> bestSpell;
+    uint16 bestTier = 0;
+
+    for (auto& resonance_element : resonanceProperties)
+    {
+        const auto& sc_elements = battleutils::GetSkillchainMagicElement(resonance_element);
+        ELEMENT weakestSC = battleutils::GetTargetSCElementWeakness(PTarget, sc_elements, true);
+
+        for (auto& [spellid, data] : autoSpell::autoSpellList)
+        {
+            if (!autoSpell::CanUseSpell(PAutomaton, spellid))
+                continue;
+
+            auto spell_data = spell::GetSpell(spellid);
+            if (!spell_data)
+                continue;
+
+            // Only elemental nukes
+            if (spell_data->getSkillType() != SKILL_ELEMENTAL_MAGIC)
+                continue;
+
+            auto spell_element = spell_data->getElement();
+            auto spell_cast_time = CalculateSpellCastTime(spell_data);
+            auto time_remaining = PSCEffect->GetTimeRemaining();
+
+            if (spell_element == weakestSC && spell_cast_time <= time_remaining)
+            {
+                uint16 tier = spell_data->getTier();
+
+                if (tier > bestTier)
+                {
+                    bestTier = tier;
+                    bestSpell = spellid;
+                }
+            }
+        }
+    }
+
+    if (bestSpell.has_value())
+    {
+        return Cast(PTarget->targid, bestSpell.value());
     }
 
     return false;
@@ -1584,6 +1662,153 @@ bool CAutomatonController::Disengage()
 {
     PTarget = nullptr;
     return CMobController::Disengage();
+}
+
+uint32 CAutomatonController::CalculateSpellCastTime(CSpell* PSpell)
+{
+    bool applyArts = true;
+    uint32 base = PSpell->getCastTime();
+    uint32 cast = base;
+
+    if (PAutomaton->StatusEffectContainer->HasStatusEffect({ EFFECT_HASSO, EFFECT_SEIGAN }))
+    {
+        cast = (uint32)(cast * 1.5f);
+    }
+
+    if (PSpell->getSpellGroup() == SPELLGROUP_BLACK)
+    {
+        if (PSpell->getSkillType() == SKILL_DARK_MAGIC)
+        {
+            uint16 darkCasting = PAutomaton->getMod(Mod::DARK_MAGIC_CAST);
+            cast = (uint32)(cast * (1.0f - ((darkCasting > 50 ? 50 : darkCasting) / 100.0f)));
+        }
+
+        if (PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_ALACRITY))
+        {
+            uint16 bonus = 0;
+            // Only apply Alacrity/Celerity mod if the spell element matches the weather.
+            if (battleutils::WeatherMatchesElement(battleutils::GetWeather(PAutomaton, false), PSpell->getElement()))
+            {
+                bonus = PAutomaton->getMod(Mod::ALACRITY_CELERITY_EFFECT);
+            }
+
+            // Calculate the reduction factor based on bonus
+            float reductionFactor = (100 - (50 + bonus)) / 100.0f;
+            cast = static_cast<uint32>(base * reductionFactor);
+
+            applyArts = false;
+        }
+        else if (applyArts)
+        {
+            if (PAutomaton->StatusEffectContainer->HasStatusEffect({ EFFECT_DARK_ARTS, EFFECT_ADDENDUM_BLACK }))
+            {
+                // Add any "Grimoire: Reduces spellcasting time" bonuses
+                cast = (uint32)(cast * (1.0f + (PAutomaton->getMod(Mod::BLACK_MAGIC_CAST) + PAutomaton->getMod(Mod::GRIMOIRE_SPELLCASTING)) / 100.0f));
+            }
+            else
+            {
+                cast = (uint32)(cast * (1.0f + PAutomaton->getMod(Mod::BLACK_MAGIC_CAST) / 100.0f));
+            }
+        }
+    }
+    else if (PSpell->getSpellGroup() == SPELLGROUP_WHITE)
+    {
+        if (PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_CELERITY))
+        {
+            uint16 bonus = 0;
+            // Only apply Alacrity/Celerity mod if the spell element matches the weather.
+            if (battleutils::WeatherMatchesElement(battleutils::GetWeather(PAutomaton, false), PSpell->getElement()))
+            {
+                bonus = PAutomaton->getMod(Mod::ALACRITY_CELERITY_EFFECT);
+            }
+
+            // Calculate the reduction factor based on bonus
+            float reductionFactor = (100 - (50 + bonus)) / 100.0f;
+            cast = static_cast<uint32>(base * reductionFactor);
+
+            applyArts = false;
+        }
+        else if (applyArts)
+        {
+            if (PAutomaton->StatusEffectContainer->HasStatusEffect({ EFFECT_LIGHT_ARTS, EFFECT_ADDENDUM_WHITE }))
+            {
+                // Add any "Grimoire: Reduces spellcasting time" bonuses
+                cast = (uint32)(cast * (1.0f + (PAutomaton->getMod(Mod::WHITE_MAGIC_CAST) + PAutomaton->getMod(Mod::GRIMOIRE_SPELLCASTING)) / 100.0f));
+            }
+            else
+            {
+                cast = (uint32)(cast * (1.0f + PAutomaton->getMod(Mod::WHITE_MAGIC_CAST) / 100.0f));
+            }
+        }
+    }
+    else if (PSpell->getSpellGroup() == SPELLGROUP_SONG)
+    {
+        if (PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_PIANISSIMO))
+        {
+            if (PSpell->getAOE() == SPELLAOE_PIANISSIMO)
+            {
+                cast = base / 2;
+            }
+        }
+        if (PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_NIGHTINGALE))
+        {
+            if (PAutomaton->objtype == TYPE_PC &&
+                tpzrand::GetRandomNumber(100) < ((CCharEntity*)PAutomaton)->PMeritPoints->GetMeritValue(MERIT_NIGHTINGALE, (CCharEntity*)PAutomaton) - 25)
+            {
+                return 0;
+            }
+            cast = (uint32)(cast * 0.5f);
+        }
+        if (PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_TROUBADOUR))
+        {
+            cast = (uint32)(cast * 1.5f);
+        }
+        uint16 songCasting = PAutomaton->getMod(Mod::SONG_SPELLCASTING_TIME);
+        cast = (uint32)(cast * (1.0f - ((songCasting > 50 ? 50 : songCasting) / 100.0f)));
+    }
+    else if (PSpell->getSpellGroup() == SPELLGROUP_NINJUTSU)
+    {
+        uint16 ninjutsuCasting = PAutomaton->getMod(Mod::NINJUTSU_CASTING_TIME);
+
+        cast = (uint32)(cast * (1.0f - ((ninjutsuCasting > 50 ? 50 : ninjutsuCasting) / 100.0f)));
+    }
+    else if (PSpell->getSpellGroup() == SPELLGROUP_BLUE)
+    {
+        uint16 blueCasting = PAutomaton->getMod(Mod::BLUE_SPELLCASTING_TIME);
+        cast = (uint32)(cast * (1.0f - ((blueCasting > 50 ? 50 : blueCasting) / 100.0f)));
+    }
+    else if (PSpell->getSkillType() == SKILLTYPE::SKILL_ENHANCING_MAGIC)
+    {
+        uint16 enhCasting = PAutomaton->getMod(Mod::ENH_CASTING_TIME);
+        cast = (uint32)(cast * (1.0f - ((enhCasting > 50 ? 50 : enhCasting) / 100.0f)));
+    }
+
+    int16 fastCast = std::clamp<int16>(PAutomaton->getMod(Mod::FASTCAST), -100, 50);
+    if (PSpell->getSkillType() == SKILLTYPE::SKILL_ELEMENTAL_MAGIC) // Elemental Celerity reductions
+    {
+        fastCast += PAutomaton->getMod(Mod::ELEMENTAL_CELERITY);
+    }
+    else if (PSpell->isCure()) // Cure cast time reductions
+    {
+        fastCast += PAutomaton->getMod(Mod::CURE_CAST_TIME);
+        if (PAutomaton->objtype == TYPE_PC)
+        {
+            fastCast += ((CCharEntity*)PAutomaton)->PMeritPoints->GetMeritValue(MERIT_CURE_CAST_TIME, (CCharEntity*)PAutomaton);
+        }
+    }
+
+    fastCast = std::clamp<int16>(fastCast, -100, 80);
+    int16 uncappedFastCast = std::clamp<int16>(PAutomaton->getMod(Mod::UFASTCAST), -100, 100);
+
+    // Add in fast cast from Divine Benison
+    if (PSpell->isNa())
+    {
+        uncappedFastCast = std::clamp<int16>(uncappedFastCast + PAutomaton->getMod(Mod::DIVINE_BENISON), -100, 100);
+    }
+
+    float sumFastCast = std::clamp<float>((float)(fastCast + uncappedFastCast), -100.f, 100.f);
+
+    return (uint32)(cast * ((100.0f - sumFastCast) / 100.0f));
 }
 
 namespace autoSpell

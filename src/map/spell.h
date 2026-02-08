@@ -1143,6 +1143,9 @@ public:
     uint16      getTier() const { return m_tier; }
     void        setTier(uint16 tier) { m_tier = tier; }
 
+    bool        isMagicBurst() const { return m_magicBurst; }
+    void        setMagicBurst(uint16 magicBurst) { m_magicBurst = magicBurst; }
+
 protected:
 
     CSpell(const CSpell&) = default;
@@ -1182,6 +1185,8 @@ private:
     float       m_attackBonus {};                          // Default 1.0 for most spells
     ECOSYSTEM   m_ecosystem {};                            // Default SYSTEM_ERROR (0) for most spells
     uint16      m_tier {};
+
+    bool m_magicBurst { false }; // Set to true if the spell is currently magic bursting. Currently unused.
 };
 
 //Namespace to work with spells

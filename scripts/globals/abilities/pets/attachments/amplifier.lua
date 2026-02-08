@@ -11,7 +11,7 @@ end
 
 function onUnequip(pet)
     updateModPerformance(pet, tpz.mod.MAG_BURST_BONUS, 'amplifier_mburst', 0)
-    updateModPerformance(pet, tpz.mod.FASTCAST, 'amplifier_fc', 0)
+    updateModPerformance(pet, tpz.mod.ELEMENTAL_CELERITY, 'amplifier_fc', 0)
 end
 
 function onManeuverGain(pet, maneuvers)
@@ -33,12 +33,12 @@ function onUpdate(pet, maneuvers)
         updateModPerformance(pet, tpz.mod.MAG_BURST_BONUS, 'amplifier_mburst', 50)
     end
     if maneuvers == 0 then
-        updateModPerformance(pet, tpz.mod.FASTCAST, 'amplifier_fc', 10)
+        updateModPerformance(pet, tpz.mod.ELEMENTAL_CELERITY, 'amplifier_fc', 25)
     elseif maneuvers == 1 then
-        updateModPerformance(pet, tpz.mod.FASTCAST, 'amplifier_fc', 12)
+        updateModPerformance(pet, tpz.mod.ELEMENTAL_CELERITY, 'amplifier_fc', 30)
     elseif maneuvers == 2 then
-        updateModPerformance(pet, tpz.mod.FASTCAST, 'amplifier_fc', 15)
+        updateModPerformance(pet, tpz.mod.ELEMENTAL_CELERITY, 'amplifier_fc', 35)
     elseif maneuvers == 3 then
-        updateModPerformance(pet, tpz.mod.FASTCAST, 'amplifier_fc', 20)
+        updateModPerformance(pet, tpz.mod.ELEMENTAL_CELERITY, 'amplifier_fc', 40)
     end
 end

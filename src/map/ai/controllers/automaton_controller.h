@@ -58,6 +58,7 @@ public:
 
     virtual bool Disengage() override;
     void ResetCastDelay();
+    uint32 CalculateSpellCastTime(CSpell* PSpell);
 
 protected:
     virtual void DoCombatTick(time_point tick) override;
@@ -75,6 +76,7 @@ private:
     bool TrySpellcast(const CurrentManeuvers& maneuvers);
     bool TryHeal(const CurrentManeuvers& maneuvers);
     bool TryElemental(const CurrentManeuvers& maneuvers);
+    bool TryMagicBurst();
     bool TryEnfeeble(const CurrentManeuvers& maneuvers);
     bool TryAbsorb(const CurrentManeuvers& maneuvers);
     bool TryStatusRemoval(const CurrentManeuvers& maneuvers);
@@ -96,6 +98,7 @@ private:
     duration m_actionCooldown{ 3s };
     duration m_rangedCooldown;
     static constexpr int m_RangedAbility{ 1949 };
+    duration m_magicBurstCooldown;
     duration m_magicCooldown;
     duration m_enfeebleCooldown;
     duration m_absorbCooldown;
@@ -109,6 +112,7 @@ private:
     static constexpr int m_ShieldBashAbility{ 1944 };
 
     time_point m_LastActionTime;
+    time_point m_LastMagicBurstTime;
     time_point m_LastMagicTime;
     time_point m_LastEnfeebleTime;
     time_point m_LastAbsorbTime;
@@ -124,6 +128,9 @@ private:
 
 namespace autoSpell
 {
+    extern std::unordered_map<SpellID, AutomatonSpell, EnumClassHash> autoSpellList;
+    extern std::vector<SpellID> naSpells;
+
     void LoadAutomatonSpellList();
     bool CanUseSpell(CAutomatonEntity* PCaster, SpellID spellid);
     bool CanUseEnfeeble(CBattleEntity* PTarget, SpellID spell);

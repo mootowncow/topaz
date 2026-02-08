@@ -5837,23 +5837,6 @@ namespace battleutils
 
         if (PDefender->objtype == TYPE_MOB)
         {
-            auto enmityList = ((CMobEntity*)PDefender)->PEnmityContainer->GetEnmityList();
-            for (auto iter = enmityList->begin(); iter != enmityList->end(); iter++)
-            {
-                auto entity = iter->second.PEnmityOwner;
-                if (entity && entity->objtype == TYPE_PET)
-                {
-                    if (((CPetEntity*)entity)->getPetType() == PETTYPE_AUTOMATON)
-                    {
-                        if (((int16)entity->GetLocalVar("amplifier_mburst") > 0) || ((int16)entity->GetLocalVar("amplifier_mburst_II") > 0))
-                        {
-                            auto controller = entity->PAI->GetController();
-                            ((CAutomatonController*)controller)->ResetCastDelay();
-                        }
-                    }
-                }
-            }
-
             // Listener (hook)
             PDefender->PAI->EventHandler.triggerListener("SKILLCHAIN_TAKE", PDefender, PAttacker, currentElement, damage);
 
