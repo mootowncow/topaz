@@ -14,7 +14,7 @@ local pathNodes = {
 };
 
 function onMobSpawn(mob)
-	mob:setDamage(200)
+	mob:setDamage(125)
     mob:addMod(tpz.mod.ATTP, 25)
     mob:addMod(tpz.mod.DEFP, 25) 
     mob:addMod(tpz.mod.ACC, 25) 
