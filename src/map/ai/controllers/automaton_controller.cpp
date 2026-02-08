@@ -243,12 +243,6 @@ void CAutomatonController::Move()
         return;
     }
 
-    if (currentDistance >= 30.0f)
-    {
-        Disengage();
-        return;
-    }
-
     CPetController::Move();
 }
 
@@ -626,7 +620,7 @@ inline bool resistanceComparator(const std::pair<SpellID, int16>& firstElem, con
 bool CAutomatonController::TryElemental(const CurrentManeuvers& maneuvers)
 {
     if (!PAutomaton->PMaster || m_elementalCooldown == 0s ||
-        m_Tick <= m_LastElementalTime + (m_elementalCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_ELEMENTAL_DELAY))) || !PTarget)
+        m_Tick <= m_LastElementalTime + (m_elementalCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_ELEMENTAL_DELAY))))
         return false;
 
     std::vector<SpellID> castPriority;
@@ -721,7 +715,7 @@ bool CAutomatonController::TryElemental(const CurrentManeuvers& maneuvers)
 
 bool CAutomatonController::TryAbsorb(const CurrentManeuvers& maneuvers)
 {
-    if (!PAutomaton->PMaster || m_absorbCooldown == 0s || m_Tick <= m_LastAbsorbTime + m_absorbCooldown || !PTarget)
+    if (!PAutomaton->PMaster || m_absorbCooldown == 0s || m_Tick <= m_LastAbsorbTime + m_absorbCooldown)
         return false;
 
     std::vector<SpellID> castPriority;
@@ -768,7 +762,7 @@ bool CAutomatonController::TryAbsorb(const CurrentManeuvers& maneuvers)
 
 bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
 {
-    if (!PAutomaton->PMaster || m_enfeebleCooldown == 0s || m_Tick <= m_LastEnfeebleTime + m_enfeebleCooldown || !PTarget)
+    if (!PAutomaton->PMaster || m_enfeebleCooldown == 0s || m_Tick <= m_LastEnfeebleTime + m_enfeebleCooldown)
         return false;
 
     std::vector<SpellID> castPriority;
@@ -1109,7 +1103,7 @@ bool CAutomatonController::TryStatusRemoval(const CurrentManeuvers& maneuvers)
 
 bool CAutomatonController::TryRegen()
 {
-    if (!PAutomaton->PMaster || m_regenCooldown == 0s || m_Tick <= m_LastRegenTime + m_regenCooldown || !PTarget)
+    if (!PAutomaton->PMaster || m_regenCooldown == 0s || m_Tick <= m_LastRegenTime + m_regenCooldown)
         return false;
 
     EnmityList_t* enmityList;
