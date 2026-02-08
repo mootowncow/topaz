@@ -236,6 +236,19 @@ void CAutomatonEntity::OnCastFinished(CMagicState& state, action_t& action)
 
     PRecastContainer->Add(RECAST_MAGIC, static_cast<uint16>(PSpell->getID()), action.recast);
 
+    if (PSpell->getSkillType() == SKILL_ELEMENTAL_MAGIC && GetLocalVar("ice_maker_bonus") > 0)
+    {
+        if (PMaster)
+        {
+            uint8 maneuvers = PMaster->StatusEffectContainer->GetEffectsCount(EFFECT_ICE_MANEUVER);
+
+            for (uint8 i = 0; i < maneuvers; i++)
+            {
+                PMaster->StatusEffectContainer->DelStatusEffectSilent(EFFECT_ICE_MANEUVER);
+            }
+        }
+    }
+
     if (PSpell->tookEffect())
     {
         puppetutils::TrySkillUP(this, SKILL_AUTOMATON_MAGIC, PTarget->GetMLevel());

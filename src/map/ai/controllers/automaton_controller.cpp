@@ -243,6 +243,12 @@ void CAutomatonController::Move()
         return;
     }
 
+    if (currentDistance >= 30.0f)
+    {
+        Disengage();
+        return;
+    }
+
     CPetController::Move();
 }
 
@@ -502,7 +508,8 @@ bool CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers)
 
 bool CAutomatonController::TryHeal(const CurrentManeuvers& maneuvers)
 {
-    if (!PAutomaton->PMaster || m_healCooldown == 0s || m_Tick <= m_LastHealTime + (m_healCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_HEALING_DELAY))))
+    if (!PAutomaton->PMaster || m_healCooldown == 0s ||
+        m_Tick <= m_LastHealTime + (m_healCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_HEALING_DELAY))))
         return false;
 
     float threshold = 30.0f;
@@ -618,7 +625,8 @@ inline bool resistanceComparator(const std::pair<SpellID, int16>& firstElem, con
 
 bool CAutomatonController::TryElemental(const CurrentManeuvers& maneuvers)
 {
-    if (!PAutomaton->PMaster || m_elementalCooldown == 0s || m_Tick <= m_LastElementalTime + (m_elementalCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_ELEMENTAL_DELAY))))
+    if (!PAutomaton->PMaster || m_elementalCooldown == 0s ||
+        m_Tick <= m_LastElementalTime + (m_elementalCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_ELEMENTAL_DELAY))) || !PTarget)
         return false;
 
     std::vector<SpellID> castPriority;
@@ -713,7 +721,7 @@ bool CAutomatonController::TryElemental(const CurrentManeuvers& maneuvers)
 
 bool CAutomatonController::TryAbsorb(const CurrentManeuvers& maneuvers)
 {
-    if (!PAutomaton->PMaster || m_absorbCooldown == 0s || m_Tick <= m_LastAbsorbTime + m_absorbCooldown)
+    if (!PAutomaton->PMaster || m_absorbCooldown == 0s || m_Tick <= m_LastAbsorbTime + m_absorbCooldown || !PTarget)
         return false;
 
     std::vector<SpellID> castPriority;
@@ -722,7 +730,7 @@ bool CAutomatonController::TryAbsorb(const CurrentManeuvers& maneuvers)
     if (PAutomaton->getHead() == HEAD_SPIRITREAVER)
     {
 
-        if (PAutomaton->GetMPP() <= 75 && PTarget->health.mp > 0) // MPP <= 75 -> Aspir
+        if (PTarget->m_EcoSystem != SYSTEM_UNDEAD && PAutomaton->GetMPP() <= 75 && PTarget->health.mp > 0) // MPP <= 75 -> Aspir
         {
             castPriority.push_back(SpellID::Aspir_II);
             castPriority.push_back(SpellID::Aspir);
@@ -760,7 +768,7 @@ bool CAutomatonController::TryAbsorb(const CurrentManeuvers& maneuvers)
 
 bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
 {
-    if (!PAutomaton->PMaster || m_enfeebleCooldown == 0s || m_Tick <= m_LastEnfeebleTime + m_enfeebleCooldown)
+    if (!PAutomaton->PMaster || m_enfeebleCooldown == 0s || m_Tick <= m_LastEnfeebleTime + m_enfeebleCooldown || !PTarget)
         return false;
 
     std::vector<SpellID> castPriority;
@@ -1101,7 +1109,7 @@ bool CAutomatonController::TryStatusRemoval(const CurrentManeuvers& maneuvers)
 
 bool CAutomatonController::TryRegen()
 {
-    if (!PAutomaton->PMaster || m_regenCooldown == 0s || m_Tick <= m_LastRegenTime + m_regenCooldown)
+    if (!PAutomaton->PMaster || m_regenCooldown == 0s || m_Tick <= m_LastRegenTime + m_regenCooldown || !PTarget)
         return false;
 
     EnmityList_t* enmityList;
@@ -1497,7 +1505,8 @@ bool CAutomatonController::TryTPMove()
         }
 
         int16 tpThreshold = std::clamp<int16>(PAutomaton->getMod(Mod::AUTO_TP_EFFICIENCY), 0, 1000);
-        bool shouldWeaponSkill = currentManeuvers == -1 && PAutomaton->PMaster && PAutomaton->PMaster->health.tp < tpThreshold;
+        bool targetHasSC = PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SKILLCHAIN);
+        bool shouldWeaponSkill = !targetHasSC && currentManeuvers == -1 && PAutomaton->PMaster && PAutomaton->PMaster->health.tp < tpThreshold;
 
         // If Inhibitor isn't equipped, use a TP move
         // If Inhibitor is equipped and masters TP >= 900, use a TP move
@@ -1528,6 +1537,9 @@ bool CAutomatonController::TryTPMove()
 
 bool CAutomatonController::TryRangedAttack()
 {
+    if (!PTarget)
+        return false;
+
     if (PAutomaton->getFrame() == FRAME_SHARPSHOT)
     {
         float currentDistance = distance(PAutomaton->loc.p, PTarget->loc.p);

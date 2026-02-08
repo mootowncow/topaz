@@ -587,7 +587,12 @@ function doNaSpell(caster, target, spell)
                     -- Handle Doom (special case)
                     if (effectId == tpz.effect.DOOM) then
                         local bonus = caster:getMod(tpz.mod.ENHANCES_CURSNA) + target:getMod(tpz.mod.ENHANCES_CURSNA_RCVD)
-                        local skill = caster:getSkillLevel(tpz.skill.HEALING_MAGIC) + caster:getMod(tpz.mod.HEALING)
+                        local healingMagic = caster:getSkillLevel(tpz.skill.HEALING_MAGIC)
+                        if caster:isAutomaton() then
+                            healingMagic = caster:getSkillLevel(tpz.skill.AUTOMATON_MAGIC)
+                        end
+
+                        local skill = healingMagic + caster:getMod(tpz.mod.HEALING)
                         local power = (10 + math.floor(skill / 30)) + bonus
 
                         if (power >= math.random(1, 100)) then
@@ -631,6 +636,10 @@ function getCurePower(caster, isBlueMagic)
     local MND = caster:getStat(tpz.mod.MND)
     local VIT = caster:getStat(tpz.mod.VIT)
     local skill = caster:getSkillLevel(tpz.skill.HEALING_MAGIC)
+    if caster:isAutomaton() then
+        skill = caster:getSkillLevel(tpz.skill.AUTOMATON_MAGIC)
+    end
+
     local power = math.floor(MND/2) + math.floor(VIT/4) + skill
     return power
 end
@@ -639,6 +648,10 @@ function getCurePowerOld(caster)
     local MND = caster:getStat(tpz.mod.MND)
     local VIT = caster:getStat(tpz.mod.VIT)
     local skill = caster:getSkillLevel(tpz.skill.HEALING_MAGIC) -- it's healing magic skill for the BLU cures as well
+    if caster:isAutomaton() then
+        skill = caster:getSkillLevel(tpz.skill.AUTOMATON_MAGIC)
+    end
+
     local power = ((3 * MND) + VIT + (3 * math.floor(skill/5)))
     return power
 end
@@ -818,7 +831,7 @@ function applyResistance(caster, target, spell, params)
     if SDT >= 150 then -- 1.5 guarantees at least half value, no quarter or full resists.
         res = utils.clamp(res, 0.5, 1.0)
     end
-	
+
     -- Subtle Sorcery bypasses this forced resist
     if not caster:hasStatusEffect(tpz.effect.SUBTLE_SORCERY) then
         if SDT <= 50 then -- .5 or below SDT drops a resist tier
@@ -1123,10 +1136,10 @@ function getMagicHitRate(caster, target, skillType, element, SDT, percentBonus, 
     magicacc = math.floor(magicacc + utils.clamp(maccFood, 0, caster:getMod(tpz.mod.FOOD_MACC_CAP)))
     -- printf("MACC: %s", magicacc)
 
-    return calculateMagicHitRate(target, magicacc, magiceva, element, percentBonus, caster:getMainLvl(), target:getMainLvl(), SDT)
+    return calculateMagicHitRate(caster, target, magicacc, magiceva, element, percentBonus, caster:getMainLvl(), target:getMainLvl(), SDT)
 end
 
-function calculateMagicHitRate(target, magicacc, magiceva, element, percentBonus, casterLvl, targetLvl, SDT)
+function calculateMagicHitRate(caster, target, magicacc, magiceva, element, percentBonus, casterLvl, targetLvl, SDT)
     local p = 0
 
     -- percentBonus is a bit deceiving of a name. it's either 0 or a negative number. its only application is specific effect resistance (i.e. +5 resist to paralyze = -5% hitrate on incoming paras)
@@ -1134,7 +1147,10 @@ function calculateMagicHitRate(target, magicacc, magiceva, element, percentBonus
     -- If dMAcc < 0, Magic Hit Rate = 55% + floor( dMAcc÷2 ) = magic hit rate
     -- If dMAcc ≥ 0, Magic Hit Rate = 55% + dMAcc = magic hit rate
 
-    magicacc = magicacc + (casterLvl - targetLvl)*4
+    if not caster:isAutomaton() then
+        magicacc = magicacc + (casterLvl - targetLvl)*4
+    end
+
     local dMAcc = magicacc - magiceva
     -- printf("dMAcc %s", dMAcc)
     -- FOR TESTING MACC AND MEVA!
@@ -1146,7 +1162,7 @@ function calculateMagicHitRate(target, magicacc, magiceva, element, percentBonus
         p = 50 + dMAcc
     end
     p = utils.clamp(p, 5, 95)
-    
+
     p = p + percentBonus
 
     -- Check SDT tiers
@@ -4438,7 +4454,7 @@ function outputMagicHitRateInfo()
                     magicAcc = magicAcc + dINT
                 end
 
-                local magicHitRate = calculateMagicHitRate(target, magicacc, magicEva, element, 0, casterLvl, targetLvl, 100, SDT)
+                local magicHitRate = calculateMagicHitRate(caster, target, magicacc, magicEva, element, 0, casterLvl, targetLvl, 100, SDT)
 
                 printf("Lvl: %d vs %d, %d%%, MA: %d, ME: %d", casterLvl, targetLvl, magicHitRate, magicAcc, magicEva)
             end
