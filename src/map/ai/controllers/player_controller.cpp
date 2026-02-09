@@ -52,6 +52,42 @@ void CPlayerController::Tick(time_point)
 bool CPlayerController::Cast(uint16 targid, SpellID spellid)
 {
     auto PChar = static_cast<CCharEntity*>(POwner);
+
+    switch (spellid)
+    {
+        case SpellID::Fire_Spirit:
+        case SpellID::Ice_Spirit:
+        case SpellID::Air_Spirit:
+        case SpellID::Earth_Spirit:
+        case SpellID::Thunder_Spirit:
+        case SpellID::Water_Spirit:
+        case SpellID::Light_Spirit:
+        case SpellID::Dark_Spirit:
+        case SpellID::Carbuncle:
+        case SpellID::Fenrir:
+        case SpellID::Ifrit:
+        case SpellID::Titan:
+        case SpellID::Leviathan:
+        case SpellID::Garuda:
+        case SpellID::Shiva:
+        case SpellID::Ramuh:
+        case SpellID::Diabolos:
+        case SpellID::Odin:
+        case SpellID::Alexander:
+        {
+            if (server_clock::now() < PChar->m_petDespawnTime)
+            {
+                PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_WAIT_LONGER));
+                return false;
+            }
+            break;
+        }
+
+        default:
+            break;
+    }
+
+
     if (!PChar->PRecastContainer->HasRecast(RECAST_MAGIC, static_cast<uint16>(spellid), 0))
     {
         return CController::Cast(targid, spellid);
@@ -541,7 +577,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             {
                 if (server_clock::now() < PChar->m_petDespawnTime)
                 {
-                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_CANNOT_PERFORM_ACTION));
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_WAIT_LONGER));
                     return false;
                 }
 
