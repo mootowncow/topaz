@@ -850,18 +850,20 @@ bool CTrustController::TryUseOOCAbilities(CCharEntity* PMaster, CTrustController
 
 bool CTrustController::TryCastRaise(CCharEntity* PMaster, CTrustController* Controller)
 {
+    bool casted = false;
+
     PMaster->ForPartyWithTrusts(
         [&](CBattleEntity* PMember)
         {
             if (!PMember->isDead())
             {
-                return false;
+                return;
             }
 
             float distanceToMember = distance(POwner->loc.p, PMember->loc.p);
             if (distanceToMember > 20.0f)
             {
-                return false;
+                return;
             }
 
             if (auto* PTrust = dynamic_cast<CTrustEntity*>(POwner))
@@ -876,13 +878,23 @@ bool CTrustController::TryCastRaise(CCharEntity* PMaster, CTrustController* Cont
                     {
                         if (POwner->health.mp >= PSpell->getMPCost())
                         {
-                            if (auto* PChar = dynamic_cast<CCharEntity*>(PMember))
+                            if (PMember->objtype == TYPE_PC)
                             {
-                                if (!PChar->m_hasRaise)
+                                if (auto* PChar = dynamic_cast<CCharEntity*>(PMember))
                                 {
-                                    Controller->Cast(PMember->targid, *raise);
-                                    return true;
+                                    if (!PChar->m_hasRaise)
+                                    {
+                                        Controller->Cast(PMember->targid, *raise);
+                                        casted = true;
+                                        return;
+                                    }
                                 }
+                            }
+                            else
+                            {
+                                Controller->Cast(PMember->targid, *raise);
+                                casted = true;
+                                return;
                             }
                         }
                     }
@@ -890,7 +902,7 @@ bool CTrustController::TryCastRaise(CCharEntity* PMaster, CTrustController* Cont
             }
         });
 
-    return false;
+    return casted;
 }
 
 bool CTrustController::TryCastReraise(CCharEntity* PMaster, CTrustController* Controller)
@@ -930,6 +942,7 @@ bool CTrustController::TryCastProtectraShellra(CCharEntity* PMaster, CTrustContr
     }
 
     auto membersInRange = 0;
+    bool casted = false;
 
     PMaster->ForPartyWithTrusts(
         [&](CBattleEntity* PMember)
@@ -943,7 +956,7 @@ bool CTrustController::TryCastProtectraShellra(CCharEntity* PMaster, CTrustContr
 
             if (membersInRange < 6)
             {
-                return false;
+                return;
             }
 
             if (auto* PTrust = dynamic_cast<CTrustEntity*>(POwner))
@@ -959,7 +972,8 @@ bool CTrustController::TryCastProtectraShellra(CCharEntity* PMaster, CTrustContr
                         if (POwner->health.mp >= PSpell->getMPCost())
                         {
                             Controller->Cast(POwner->targid, spellId);
-                            return true;
+                            casted = true;
+                            return;
                         }
                     }
                 }
@@ -972,14 +986,15 @@ bool CTrustController::TryCastProtectraShellra(CCharEntity* PMaster, CTrustContr
                         if (POwner->health.mp >= PSpell->getMPCost())
                         {
                             Controller->Cast(POwner->targid, spellId);
-                            return true;
+                            casted = true;
+                            return;
                         }
                     }
                 }
             }
         });
 
-    return false;
+    return casted;
 }
 
 bool CTrustController::TryCastUtsusemi(CCharEntity* PMaster, CTrustController* Controller)
@@ -1032,6 +1047,8 @@ bool CTrustController::TryCastMazurka(CCharEntity* PMaster, CTrustController* Co
         return false;
     }
 
+    bool casted = false;
+
     PMaster->ForPartyWithTrusts(
         [&](CBattleEntity* PMember)
         {
@@ -1042,12 +1059,13 @@ bool CTrustController::TryCastMazurka(CCharEntity* PMaster, CTrustController* Co
                 if (mazurka)
                 {
                     Controller->Cast(POwner->targid, *mazurka);
-                    return true;
+                    casted = true;
+                    return;
                 }
             }
         });
 
-    return false;
+    return casted;
 }
 
 bool CTrustController::TryUseBoltersRoll(CCharEntity* PMaster, CTrustController* Controller)
@@ -1069,6 +1087,8 @@ bool CTrustController::TryUseBoltersRoll(CCharEntity* PMaster, CTrustController*
         return false;
     }
 
+    bool abilityUsed = false;
+
     PMaster->ForPartyWithTrusts(
         [&](CBattleEntity* PMember)
         {
@@ -1081,11 +1101,12 @@ bool CTrustController::TryUseBoltersRoll(CCharEntity* PMaster, CTrustController*
             if (ability != ABILITY_NONE)
             {
                 Controller->Ability(POwner->targid, ability);
-                return true;
+                abilityUsed = true;
+                return;
             }
         });
 
-    return false;
+    return abilityUsed;
 }
 
 bool CTrustController::TryUseChocoboJig(CCharEntity* PMaster, CTrustController* Controller)
@@ -1107,6 +1128,8 @@ bool CTrustController::TryUseChocoboJig(CCharEntity* PMaster, CTrustController* 
         return false;
     }
 
+    bool abilityUsed = false;
+
     PMaster->ForPartyWithTrusts(
         [&](CBattleEntity* PMember)
         {
@@ -1121,11 +1144,12 @@ bool CTrustController::TryUseChocoboJig(CCharEntity* PMaster, CTrustController* 
             if (ability != ABILITY_NONE)
             {
                 Controller->Ability(POwner->targid, ability);
-                return true;
+                abilityUsed = true;
+                return;
             }
         });
 
-    return false;
+    return abilityUsed;
 }
 
 bool CTrustController::Ability(uint16 targid, uint16 abilityid)
