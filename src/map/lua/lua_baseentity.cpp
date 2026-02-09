@@ -16674,6 +16674,8 @@ inline int32 CLuaBaseEntity::setDamage(lua_State* L)
     }
 
     ((CItemWeapon*)((CMobEntity*)m_PBaseEntity)->m_Weapons[SLOT_MAIN])->setDamage((uint16)damage);
+    ((CItemWeapon*)((CMobEntity*)m_PBaseEntity)->m_Weapons[SLOT_SUB])->setDamage((uint16)damage);
+    ((CItemWeapon*)((CMobEntity*)m_PBaseEntity)->m_Weapons[SLOT_RANGED])->setDamage((uint16)damage);
     return 0;
 }
 
