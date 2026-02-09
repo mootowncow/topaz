@@ -5,6 +5,10 @@
 function onMobSpawn(mob)
 	mob:setDamage(200)
     mob:setMod(tpz.mod.TRIPLE_ATTACK, 5)
+    mob:addImmunity(tpz.immunity.SLEEP)
+    mob:addImmunity(tpz.immunity.GRAVITY)
+    mob:addImmunity(tpz.immunity.POISON)
+    mob:addImmunity(tpz.immunity.PETRIFY)
 end
 
 local loot = 
