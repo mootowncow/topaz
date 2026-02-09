@@ -23,21 +23,30 @@ function onMobSpawn(mob)
 end
 
 function onMobFight(mob, target)
-	local SummonTime = mob:getLocalVar("SummonTime")
-	local BattleTime = mob:getBattleTime()
-    -- Spawns an add early, then randomly during the fight
-	if SummonTime == 0 then
-		mob:setLocalVar("SummonTime", BattleTime + math.random(10, 25))
-	elseif BattleTime >= SummonTime and mob:actionQueueEmpty() then
-        local pet = GetMobByID(mob:getID() + math.random(1, 9)) -- Spawn a random add
-        local mobX = mob:getXPos()
-        local mobY = mob:getYPos()
-        local mobZ = mob:getZPos()
-        if pet:isSpawned() then return end -- Reroll another spawn ID if the pet selected is already spawned
-        pet:setSpawn(mob:getXPos() + math.random(3, 6), mob:getYPos(), mob:getZPos() + math.random(3, 6))
-        pet:spawn()
-        pet:updateEnmity(mob:getTarget())
-		mob:setLocalVar("SummonTime", BattleTime + 45)
+    local SummonTime = mob:getLocalVar("SummonTime")
+    local BattleTime = mob:getBattleTime()
+
+    if SummonTime == 0 then
+        mob:setLocalVar("SummonTime", BattleTime + math.random(10, 25))
+        return
+    end
+
+    if BattleTime >= SummonTime then
+        for i = 1, 10 do -- Roll 10 times, summon first available pet not currently spawned
+            local pet = GetMobByID(mob:getID() + math.random(1, 9))
+            if not pet:isSpawned() then
+                pet:setSpawn(
+                    mob:getXPos() + math.random(3, 6),
+                    mob:getYPos(),
+                    mob:getZPos() + math.random(3, 6)
+                )
+                pet:spawn()
+                pet:updateEnmity(mob:getTarget())
+                break
+            end
+        end
+
+        mob:setLocalVar("SummonTime", BattleTime + 45)
     end
 end
 
