@@ -581,7 +581,7 @@ namespace battleutils
         {
             return 100;
         }
-        if  (status == EFFECT_AMNESIA) 
+        if (status == EFFECT_AMNESIA) 
             SDT = PDefender->getMod(Mod::EEM_AMNESIA);
         else if (status == EFFECT_BANE || status == EFFECT_PLAGUE) 
             SDT = PDefender->getMod(Mod::EEM_VIRUS);
@@ -662,38 +662,6 @@ namespace battleutils
         return dstatMaccBonus;
     }
 
-    float CalculateMagicHitRate(CBattleEntity* PDefender, float magicacc, float magiceva, ELEMENT element, float percentBonus, float casterLvl, float targetLvl, int SDT)
-    {
-        float p = 0;
-        magicacc = magicacc + (casterLvl - targetLvl) * 4;
-        float dMAcc = magicacc - magiceva;
-
-        if (dMAcc < 0) // when penalty, half effective
-        {
-            p = 50.0f + (dMAcc / 2.0f);
-        }
-        else
-        {
-            p = 50.f + dMAcc;
-        }
-
-        p = std::clamp(p, 5.0f, 95.0f);
-
-        // p += percentBonus +status resist mod, flat mevasion/hit rate to enfeebles
-
-        // Check SDT tiers
-        int tier = static_cast<int>(getSDTRank(PDefender, element, SDT));
-        if (tier >= 10)
-        {
-            p = 5.0f;
-        }
-
-        p = std::clamp(p, 5.0f, 95.0f);
-        //printf("MagicHitRate: %f\n", p);
-
-        return p;
-    }
-
     float getMagicHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 skillType, ELEMENT element, int SDT, float percentBonus, float magicaccbonus)
     {
         float casterLvl = PAttacker->GetMLevel();
@@ -746,8 +714,48 @@ namespace battleutils
         float magicevaFinal = baseMeva;
         //printf("Meva final %f\n-----------------------------------------------------------------\n", magicevaFinal);
 
-        return CalculateMagicHitRate(PDefender, magicacc, magicevaFinal, element, percentBonus, casterLvl, targetLvl, SDT);
+        return CalculateMagicHitRate(PAttacker, PDefender, magicacc, magicevaFinal, element, percentBonus, casterLvl, targetLvl, SDT);
     }
+
+    float CalculateMagicHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, float magicacc, float magiceva, ELEMENT element, float percentBonus,float casterLvl, float targetLvl, int SDT)
+    {
+        float p = 0;
+        bool isAutomaton = false;
+
+        if (auto PPet = static_cast<CPetEntity*>(PAttacker))
+            isAutomaton = PPet->getPetType() == PETTYPE_AUTOMATON;
+
+        if (!isAutomaton)
+            magicacc = magicacc + (casterLvl - targetLvl) * 4;
+
+        float dMAcc = magicacc - magiceva;
+
+        if (dMAcc < 0) // when penalty, half effective
+        {
+            p = 50.0f + (dMAcc / 2.0f);
+        }
+        else
+        {
+            p = 50.f + dMAcc;
+        }
+
+        p = std::clamp(p, 5.0f, 95.0f);
+
+        // p += percentBonus +status resist mod, flat mevasion/hit rate to enfeebles
+
+        // Check SDT tiers
+        int tier = static_cast<int>(getSDTRank(PDefender, element, SDT));
+        if (tier >= 10)
+        {
+            p = 5.0f;
+        }
+
+        p = std::clamp(p, 5.0f, 95.0f);
+        // printf("MagicHitRate: %f\n", p);
+
+        return p;
+    }
+
 
     float ApplyResistance(CBattleEntity* PAttacker, CBattleEntity* PDefender, ELEMENT element, uint8 skillType, float diff, float bonus)
     {
