@@ -866,12 +866,26 @@ function UseMultipleTPMoves(mob, uses, skillID)
 end
 
 function AddMobAura(mob, target, auraParams)
+    --                                      Auras last 6 seconds and tick every 3 seconds (default)
+    -- radius = 10,                         How large the radius of the aura is
+    -- effect = tpz.effect.WEIGHT,          Auras status effect
+    -- power = 20,                          Auras status effect power
+    -- duration = 30,                       Duration of the aura
+    -- auraTickRate = 3,                    How often to tick the aura
+    -- auraNumber = 1                       Aura number, used for multiple auras ticking at once
     if auraParams.auraNumber == nil then
         auraParams.auraNumber = 1
     end
 
     if auraParams.subpower == nil then
         auraParams.subpower = 0
+    end
+
+    local auraTickRate = auraParams.auraTickRate or 3
+
+    -- Initialize auraTick and auraDuration
+    if (mob:getLocalVar("auraTick" .. auraParams.auraNumber) == 0) then
+        mob:setLocalVar("auraTick" .. auraParams.auraNumber, os.time() + auraTickRate)
     end
 
     if (mob:getLocalVar("auraDuration" .. auraParams.auraNumber) == 0) then
@@ -910,7 +924,6 @@ function TickMobAura(mob, target, auraParams)
     local auraDuration = mob:getLocalVar("auraDuration" .. auraParams.auraNumber)
     local auraTickRate = auraParams.auraTickRate or 3
     local tick = auraParams.tick or 3
-    local duration = auraParams.duration or 6
 
     if os.time() <= auraDuration then
         local auraTick = mob:getLocalVar("auraTick" .. auraParams.auraNumber)
@@ -925,7 +938,7 @@ function TickMobAura(mob, target, auraParams)
                         else
                             if auraParams.effect then
                                 enemy:delStatusEffectSilent(auraParams.effect)
-                                enemy:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
+                                enemy:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, 6, 0, auraParams.subpower, 0)
                                 local buffEffect = enemy:getStatusEffect(auraParams.effect)
                                 buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
                                 buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)

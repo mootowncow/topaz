@@ -3,12 +3,13 @@
 --  Mob: Batteilant Bhoot
 -----------------------------------
 local ID = require("scripts/zones/Periqia/IDs")
+require("scripts/globals/mobs")
 -----------------------------------
 local auraParams1 = {
     radius = 10,
     effect = tpz.effect.AMNESIA,
     power = 1,
-    duration = 3,
+    duration = 30,
     auraNumber = 1
 }
 
@@ -16,7 +17,7 @@ local auraParams2 = {
     radius = 10,
     effect = tpz.effect.MUTE,
     power = 1,
-    duration = 3,
+    duration = 30,
     auraNumber = 2
 }
 
@@ -52,11 +53,11 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     if skill:getID() == 1709 then -- Abrasive Tantra
-        DelMobAura(mob, target, auraParam2)
+        DelMobAura(mob, target, auraParams2)
         AddMobAura(mob, target, auraParams1)
     end
     if skill:getID() == 1710 then -- Deafening Tantra
-        DelMobAura(mob, target, auraParam1)
+        DelMobAura(mob, target, auraParams1)
         AddMobAura(mob, target, auraParams2)
     end
 end
