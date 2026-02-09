@@ -1430,13 +1430,13 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         {
             target.reaction = REACTION_EVADE;
             target.speceffect = SPECEFFECT_NONE;
-            target.messageID = 188; // skill miss
+            target.messageID = MSGBASIC_SKILL_MISS;
             continue;
         }
 
         if (objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() != PETTYPE_JUG_PET)
         {
-            if(static_cast<CPetEntity*>(this)->getPetType() == PETTYPE_AVATAR || static_cast<CPetEntity*>(this)->getPetType() == PETTYPE_WYVERN)
+            if (static_cast<CPetEntity*>(this)->getPetType() == PETTYPE_AVATAR || static_cast<CPetEntity*>(this)->getPetType() == PETTYPE_WYVERN)
             {
                 if (PSkill->getID() < 2452 || PSkill->getID() > 2457)
                     target.animation = PSkill->getPetAnimationID();
@@ -1447,6 +1447,21 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             // This needs to be changed to look up by ability ID (the players ability) and not mobskill ID for the file to use, and to get animation etc
             // PSkill also needs to be changed to PAvatar->m_bloodPactAbilityId;
             target.param = luautils::OnPetAbility(PTargetFound, this, PSkill, PMaster, &action);
+
+            // Remove maneuvers for AOE abilities (Shock Absorber, Replicator)
+            switch (PSkill->getID())
+            {
+                case MOBSKILL::REPLICATOR:
+                    PMaster->StatusEffectContainer->ConsumeManeuversByElement(EFFECT_WIND_MANEUVER);
+                    break;
+
+                case MOBSKILL::SHOCK_ABSORBER:
+                    PMaster->StatusEffectContainer->ConsumeManeuversByElement(EFFECT_EARTH_MANEUVER);
+                    break;
+
+                default:
+                    break;
+            }
         }
         else
         {
