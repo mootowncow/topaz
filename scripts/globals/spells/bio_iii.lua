@@ -16,6 +16,10 @@ end
 function onSpellCast(caster, target, spell)
 	local meritBonus = caster:getMerit(tpz.merit.BIO_III)
     local skillLvl = caster:getSkillLevel(tpz.skill.DARK_MAGIC)
+    if caster:isAutomaton() then
+        skillLvl = caster:getSkillLevel(tpz.skill.AUTOMATON_MAGIC)
+    end
+
     local basedmg = skillLvl / 4
     local params = {}
     params.dmg = basedmg

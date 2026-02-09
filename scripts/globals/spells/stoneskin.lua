@@ -15,7 +15,11 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local pMod = caster:getSkillLevel(tpz.skill.ENHANCING_MAGIC) / 3 + caster:getStat(tpz.mod.MND)
+    local skill = caster:getSkillLevel(tpz.skill.ENHANCING_MAGIC)
+    if caster:isAutomaton() then
+        skill = caster:getSkillLevel(tpz.skill.AUTOMATON_MAGIC)
+    end
+    local pMod = skill / 3 + caster:getStat(tpz.mod.MND)
     local absorbAmount = 0
     local pEquipMods = caster:getMod(tpz.mod.STONESKIN_BONUS_HP)
     local duration = 300

@@ -15,6 +15,10 @@ end
 function onSpellCast(caster, target, spell)
     local effect = tpz.effect.MULTI_STRIKES
     local enhskill = caster:getSkillLevel(tpz.skill.ENHANCING_MAGIC)
+    if caster:isAutomaton() then
+        enhskill = caster:getSkillLevel(tpz.skill.AUTOMATON_MAGIC)
+    end
+    
     local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
     duration = calculateDurationForLvl(duration, 60, target:getMainLvl())
 
