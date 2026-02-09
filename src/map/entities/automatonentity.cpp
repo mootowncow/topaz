@@ -239,14 +239,7 @@ void CAutomatonEntity::OnCastFinished(CMagicState& state, action_t& action)
     if (PSpell->getSkillType() == SKILL_ELEMENTAL_MAGIC && GetLocalVar("ice_maker_bonus") > 0)
     {
         if (PMaster)
-        {
-            uint8 maneuvers = PMaster->StatusEffectContainer->GetEffectsCount(EFFECT_ICE_MANEUVER);
-
-            for (uint8 i = 0; i < maneuvers; i++)
-            {
-                PMaster->StatusEffectContainer->DelStatusEffectSilent(EFFECT_ICE_MANEUVER);
-            }
-        }
+            PMaster->StatusEffectContainer->ConsumeManeuversByElement(EFFECT_ICE_MANEUVER);
     }
 
     if (PSpell->tookEffect())

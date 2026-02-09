@@ -19,9 +19,6 @@ function onPetAbility(target, automaton, skill, master, action)
 
     if target:addStatusEffect(tpz.effect.BLINK, shadows, 0, duration) then
         skill:setMsg(tpz.msg.basic.SKILL_GAIN_EFFECT)
-        for i = 1, maneuvers do
-            master:delStatusEffectSilent(tpz.effect.WIND_MANEUVER)
-        end
     else
         skill:setMsg(tpz.msg.basic.SKILL_NO_EFFECT)
     end

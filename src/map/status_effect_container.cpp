@@ -1385,6 +1385,14 @@ uint8 CStatusEffectContainer::GetActiveManeuvers()
     return count;
 }
 
+void CStatusEffectContainer::ConsumeManeuversByElement(EFFECT Maneuver)
+{
+    while (HasStatusEffect(Maneuver))
+    {
+        DelStatusEffectSilent(Maneuver);
+    }
+}
+
 void CStatusEffectContainer::RemoveOldestManeuver()
 {
     CStatusEffect* oldest = nullptr;

@@ -108,6 +108,7 @@ public:
     void Fold(uint32 charid);
 
     uint8 GetActiveManeuvers();
+    void ConsumeManeuversByElement(EFFECT Maneuver);
     void RemoveOldestManeuver();
     void RemoveAllManeuvers();
 

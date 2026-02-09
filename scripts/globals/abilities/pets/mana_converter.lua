@@ -17,12 +17,19 @@ function onPetAbility(target, automaton, skill, master, action)
     local duration = 30
     local amount = math.floor((hp/2)/10)
     local difference = math.ceil(hp/2 - (amount*10))
-    skill:setMsg(tpz.msg.basic.SKILL_GAIN_EFFECT)
 
     target:addMP(difference) -- To prevent possible loss of MP from flooring the refresh
     target:setHP(math.floor(hp/2))
     target:delStatusEffect(tpz.effect.REFRESH)
     target:addStatusEffect(tpz.effect.REFRESH, amount, 3, duration)
+
+    local maneuvers = master:countEffect(tpz.effect.DARK_MANEUVER)
+
+    for i = 1, maneuvers do
+        master:delStatusEffectSilent(tpz.effect.DARK_MANEUVER)
+    end
+
+    skill:setMsg(tpz.msg.basic.SKILL_GAIN_EFFECT)
 
     return tpz.effect.REFRESH
 end
