@@ -708,11 +708,12 @@ void CStatusEffectContainer::SendWearOffMessage(CStatusEffect* PStatusEffect, bo
 
 bool CStatusEffectContainer::DelStatusEffect(EFFECT StatusID)
 {
-    for (CStatusEffect* PStatusEffect : m_StatusEffectSet)
+    for (auto it = m_StatusEffectSet.begin(); it != m_StatusEffectSet.end(); ++it)
     {
-        if (PStatusEffect->GetStatusID() == StatusID && !PStatusEffect->deleted)
+        CStatusEffect* effect = *it;
+        if (effect->GetStatusID() == StatusID && !effect->deleted)
         {
-            RemoveStatusEffect(PStatusEffect);
+            RemoveStatusEffect(effect);
             return true;
         }
     }
@@ -721,11 +722,13 @@ bool CStatusEffectContainer::DelStatusEffect(EFFECT StatusID)
 
 bool CStatusEffectContainer::DelStatusEffectSilent(EFFECT StatusID)
 {
-    for (CStatusEffect* PStatusEffect : m_StatusEffectSet)
+    for (auto it = m_StatusEffectSet.begin(); it != m_StatusEffectSet.end(); ++it)
     {
-        if (PStatusEffect->GetStatusID() == StatusID && !PStatusEffect->deleted)
+        CStatusEffect* effect = *it;
+
+        if (effect->GetStatusID() == StatusID && !effect->deleted)
         {
-            RemoveStatusEffect(PStatusEffect, true);
+            RemoveStatusEffect(effect, true);
             return true;
         }
     }
@@ -734,13 +737,14 @@ bool CStatusEffectContainer::DelStatusEffectSilent(EFFECT StatusID)
 
 bool CStatusEffectContainer::DelStatusEffect(EFFECT StatusID, uint16 SubID)
 {
-    for (CStatusEffect* PStatusEffect : m_StatusEffectSet)
+    for (auto it = m_StatusEffectSet.begin(); it != m_StatusEffectSet.end(); ++it)
     {
-        if (PStatusEffect->GetStatusID() == StatusID &&
-            PStatusEffect->GetSubID() == SubID &&
-            !PStatusEffect->deleted)
+        CStatusEffect* effect = *it;
+        if (effect->GetStatusID() == StatusID &&
+            effect->GetSubID() == SubID &&
+            !effect->deleted)
         {
-            RemoveStatusEffect(PStatusEffect);
+            RemoveStatusEffect(effect);
             return true;
         }
     }
@@ -1413,7 +1417,6 @@ void CStatusEffectContainer::RemoveAllManeuvers()
         }
     }
 }
-
 
 std::vector<EFFECT> CStatusEffectContainer::GetAllRuneEffects()
 {
