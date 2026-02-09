@@ -133,7 +133,7 @@ namespace autoSpell
 
     void LoadAutomatonSpellList();
     bool CanUseSpell(CAutomatonEntity* PCaster, SpellID spellid);
-    bool CanUseEnfeeble(CBattleEntity* PTarget, SpellID spell);
+    bool CanUseEnfeeble(CAutomatonEntity* PCaster, CBattleEntity* PTarget, SpellID spell);
     std::optional<SpellID> FindNaSpell(CStatusEffect* PStatus);
     std::optional<SpellID> GetBestUsableSpell(CAutomatonEntity* PAutomaton, SPELLFAMILY family = SPELLFAMILY_NONE);
     std::optional<SpellID> GetBestEnhanceForTarget(CAutomatonEntity* PAutomaton, CBattleEntity* PTarget);

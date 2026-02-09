@@ -578,9 +578,8 @@ namespace battleutils
     {
         int SDT = 100;
         if (PDefender->objtype == TYPE_PC)
-        {
             return 100;
-        }
+
         if (status == EFFECT_AMNESIA) 
             SDT = PDefender->getMod(Mod::EEM_AMNESIA);
         else if (status == EFFECT_BANE || status == EFFECT_PLAGUE) 

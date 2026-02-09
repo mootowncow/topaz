@@ -484,19 +484,14 @@ bool CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers)
     break;
     case HEAD_SPIRITREAVER:
     {
-        if (maneuvers.ice && TryElemental(maneuvers))  // Ice -> Nuke
-        {
-            m_LastElementalTime = m_Tick;
-            return true;
-        }
-        else if (TryAbsorb(maneuvers))
+        if (TryAbsorb(maneuvers))
         {
             m_LastAbsorbTime = m_Tick;
             return true;
         }
-        else if (maneuvers.dark && TryEnfeeble(maneuvers)) // Dark -> Enfeeble
+        else if (maneuvers.ice && TryElemental(maneuvers)) // Ice -> Nuke
         {
-            m_LastEnfeebleTime = m_Tick;
+            m_LastElementalTime = m_Tick;
             return true;
         }
 
@@ -652,14 +647,6 @@ bool CAutomatonController::TryElemental(const CurrentManeuvers& maneuvers)
 
     if (tpzrand::GetRandomNumber(100) < PAutomaton->getMod(Mod::AUTO_SCAN_RESISTS))
     {
-        //std::vector<std::pair<SpellID, int16>> reslist{
-        //    std::make_pair(SpellID::Fire, PTarget->getMod(Mod::FIRERES)),
-        //    std::make_pair(SpellID::Blizzard, PTarget->getMod(Mod::ICERES)),
-        //    std::make_pair(SpellID::Aero, PTarget->getMod(Mod::WINDRES)),
-        //    std::make_pair(SpellID::Stone, PTarget->getMod(Mod::EARTHRES)),
-        //    std::make_pair(SpellID::Thunder, PTarget->getMod(Mod::THUNDERRES)),
-        //    std::make_pair(SpellID::Water, PTarget->getMod(Mod::WATERRES))
-        //};
         std::vector<std::pair<SpellID, int16>> reslist{
             std::make_pair(SpellID::Fire, 1000 / PTarget->getMod(Mod::SDT_FIRE)),
             std::make_pair(SpellID::Blizzard, 1000 / PTarget->getMod(Mod::SDT_ICE)),
@@ -669,8 +656,11 @@ bool CAutomatonController::TryElemental(const CurrentManeuvers& maneuvers)
             std::make_pair(SpellID::Water, 1000 / PTarget->getMod(Mod::SDT_WATER)),
         };
         std::stable_sort(reslist.begin(), reslist.end(), resistanceComparator);
-        for (std::pair<SpellID, int16>& res : reslist)
+
+        for (auto& res : reslist)
+        {
             castPriority.push_back(res.first);
+        }
     }
     else if (PAutomaton->getHead() == HEAD_SPIRITREAVER)
     {
@@ -799,28 +789,25 @@ bool CAutomatonController::TryAbsorb(const CurrentManeuvers& maneuvers)
     std::vector<SpellID> castPriority;
     std::vector<SpellID> defaultPriority;
 
+    float evasionMultiplier = PTarget->getMod(Mod::SDT_DARK);
+
     if (PAutomaton->getHead() == HEAD_SPIRITREAVER)
     {
-
-        if (PTarget->m_EcoSystem != SYSTEM_UNDEAD && PAutomaton->GetMPP() <= 75 && PTarget->health.mp > 0) // MPP <= 75 -> Aspir
+        if (PTarget->m_EcoSystem != SYSTEM_UNDEAD && PAutomaton->GetMPP() <= 25 && PTarget->health.mp > 0 && evasionMultiplier >= 50.0f) // MPP <= 25 -> Aspir
         {
             castPriority.push_back(SpellID::Aspir_II);
             castPriority.push_back(SpellID::Aspir);
         }
 
-        if (!PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_INT_BOOST)) // Use it ASAP
+        if (!PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_INT_BOOST) && evasionMultiplier >= 50.0f) // Use it ASAP
             castPriority.push_back(SpellID::Absorb_INT);
 
-        if (PTarget->m_EcoSystem != SYSTEM_UNDEAD) // Always use Drain off cooldown
+        if (!PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_DREAD_SPIKES)) // Keep up Dread Spikes
+            castPriority.push_back(SpellID::Dread_Spikes);
+
+        if (PTarget->m_EcoSystem != SYSTEM_UNDEAD && evasionMultiplier >= 50.0f) // Always use Drain off cooldown
             castPriority.push_back(SpellID::Drain);
 
-        if (!PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_DREAD_SPIKES)) // Keep up Dread Spikes
-        {
-            if (Cast(PAutomaton->targid, SpellID::Dread_Spikes))
-            {
-                return true;
-            }
-        }
     }
 
     for (SpellID& id : castPriority)
@@ -1097,13 +1084,13 @@ bool CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers)
 
     for (SpellID& id : castPriority)
     {
-        if (autoSpell::CanUseEnfeeble(PTarget, id) && Cast(PTarget->targid, id))
+        if (autoSpell::CanUseEnfeeble(PAutomaton, PTarget, id) && Cast(PTarget->targid, id))
             return true;
     }
 
     for (SpellID& id : defaultPriority)
     {
-        if (autoSpell::CanUseEnfeeble(PTarget, id) && Cast(PTarget->targid, id))
+        if (autoSpell::CanUseEnfeeble(PAutomaton, PTarget, id) && Cast(PTarget->targid, id))
             return true;
     }
 
@@ -1419,7 +1406,7 @@ bool CAutomatonController::TrySing(const CurrentManeuvers& maneuvers)
     {
         if (auto spell = autoSpell::GetBestUsableSpell(PAutomaton, SPELLFAMILY_ELEGY))
         {
-            if (autoSpell::CanUseEnfeeble(PTarget, *spell) && Cast(PTarget->targid, *spell))
+            if (autoSpell::CanUseEnfeeble(PAutomaton, PTarget, *spell) && Cast(PTarget->targid, *spell))
                 return true;
         }
     }
@@ -1490,7 +1477,7 @@ bool CAutomatonController::TrySing(const CurrentManeuvers& maneuvers)
     {
         if (auto spell = autoSpell::GetBestUsableSpell(PAutomaton, SPELLFAMILY_FOE_REQUIEM))
         {
-            if (autoSpell::CanUseEnfeeble(PTarget, *spell) && Cast(PTarget->targid, *spell))
+            if (autoSpell::CanUseEnfeeble(PAutomaton, PTarget, *spell) && Cast(PTarget->targid, *spell))
                 return true;
         }
     }
@@ -1857,11 +1844,14 @@ namespace autoSpell
         return ((PCaster->GetSkill(SKILL_AUTOMATON_MAGIC) >= PSpell.skilllevel) && (PSpell.heads & (1 << ((uint8)PCaster->getHead() - 1))));
     }
 
-    bool CanUseEnfeeble(CBattleEntity* PTarget, SpellID spell)
+    bool CanUseEnfeeble(CAutomatonEntity* PCaster, CBattleEntity* PTarget, SpellID spell)
     {
         const AutomatonSpell& PSpell = autoSpellList[spell];
+        CSpell* spellEntry = spell::GetSpell(spell);
         auto& statuses = PTarget->StatusEffectContainer;
-        return (!statuses->HasStatusEffect(PSpell.enfeeble) && !PTarget->hasImmunity(PSpell.immunity));
+        auto evasionMultiplier = battleutils::GetEnfeebleSDT(PSpell.enfeeble, (ELEMENT)spellEntry->getElement(), PTarget);
+
+        return (!statuses->HasStatusEffect(PSpell.enfeeble) && !PTarget->hasImmunity(PSpell.immunity) && evasionMultiplier >= 50);
     }
 
     std::optional<SpellID> FindNaSpell(CStatusEffect* PStatus)
