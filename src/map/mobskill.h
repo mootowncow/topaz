@@ -38,6 +38,12 @@ enum SKILLFLAG
     SKILLFLAG_MAGIC_SKILL       = 0x080 // 128 Magical skill / blood pact
 };
 
+enum MOBSKILL
+{
+    REPLICATOR = 2132,
+    SHOCK_ABSORBER = 1946,
+};
+
 #define MAX_MOBSKILL_ID	9999
 
 class CMobSkill
