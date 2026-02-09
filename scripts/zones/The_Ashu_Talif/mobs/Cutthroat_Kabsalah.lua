@@ -28,6 +28,7 @@ function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:addMod(tpz.mod.VIT, 50)
+    mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
 
     tpz.mix.jobSpecial.config(mob, {
         specials =
@@ -39,16 +40,19 @@ end
 
 function onMobEngaged(mob, target)
     local instance = mob:getInstance()
+    GetMobByID(ID.mob[57].BUBBLY, instance):updateEnmity(target)
+end
+
+function onMobFight(mob, target)
+    local instance = mob:getInstance()
+
+    -- Display initial aggro message whether detected or not
     if (instance:getLocalVar("detected") == 0) then
         DisplayText(mob, "ughWhat", ID.text.UGH_WHAT) -- Not detected
     else
         DisplayText(mob, "comeFrom", ID.text.WHERE_DID_YOU_COME_FROM) -- Detected
     end
 
-    GetMobByID(ID.mob[57].BUBBLY, instance):updateEnmity(target)
-end
-
-function onMobFight(mob, target)
     if (mob:checkDistance(mob:getSpawnPos()) > 33) then
         mob:setMod(tpz.mod.DEFP, 100)
         mob:setMod(tpz.mod.MDEF, 40)
@@ -58,6 +62,11 @@ function onMobFight(mob, target)
         mob:setMod(tpz.mod.MDEF, 0)
         mob:setMod(tpz.mod.UDMGMAGIC, 0)
     end
+end
+
+function onMobDisengage(mob)
+    local spawnPos = mob:getSpawnPos()
+    mob:setPos(spawnPos.x, spawnPos.y, spawnPos.z)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

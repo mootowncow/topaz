@@ -9,8 +9,11 @@ require("scripts/globals/mobs")
 require("scripts/globals/pathfind")
 -----------------------------------
 local pathNodes = {
-    { x=9.75, y=-27.25, z=-68.69 },
     { x=-9.58, y=-27.25, z=-69.31 },
+    { x=-4.00, y=-27.25, z=-68.89 },
+    { x=-1.23, y=-27.25, z=-66.43 },
+    { x=3.48, y=-27.25, z=-68.77 },
+    { x=9.75, y=-27.25, z=-68.69 },
 };
 
 function onMobSpawn(mob)

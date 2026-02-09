@@ -12796,7 +12796,7 @@ INSERT INTO `mob_spawn_points` VALUES (17023023,'Black_Bartholomew','Black Barth
 INSERT INTO `mob_spawn_points` VALUES (17023026,'Windjammer_Imp','Windjammer Imp',18,-4.0,-14.5,-18.0,0);
 INSERT INTO `mob_spawn_points` VALUES (17023027,'Windjammer_Imp','Windjammer Imp',18,3.1,-18.5,-26.1,0);
 INSERT INTO `mob_spawn_points` VALUES (17023028,'Bubbly','Bubbly',19,0.0,-27.3,-70.1,0);
-INSERT INTO `mob_spawn_points` VALUES (17023029,'Cutthroat_Kabsalah','Cutthroat Kabsalah',20,0.0,-27.3,-70.1,0);
+INSERT INTO `mob_spawn_points` VALUES (17023029,'Cutthroat_Kabsalah','Cutthroat Kabsalah',20,-0.15,-27.25,-66.10,0);
 
 -- -----------------------------------------------------------
 -- Mount Zhayolm (Zone 61)

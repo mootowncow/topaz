@@ -52,6 +52,10 @@ end
 function onInstanceComplete(instance)
     local chars = instance:getChars()
 
+            -- ANCIENT_LOCKBOX                 = 17023024,
+            -- ANCIENT_LOCKBOX_BUBBLY_BONUS    = 17023025,
+            -- ANCIENT_LOCKBOX_NO_AGGRO_BONUS  = 17023030,
+
     for _, v in pairs(chars) do
         v:setCharVar("Halshaob_Quest", 0)
         v:completeQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.TARGETING_THE_CAPTAIN)
