@@ -5,6 +5,8 @@
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
     mob:setMod(tpz.mod.REFRESH, 300)
+    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+    mob:setMobMod(tpz.mobMod.GA_CHANCE, 25)
 end
 
 function onMobInitialize(mob)
@@ -14,19 +16,6 @@ end
 
 function onAdditionalEffect(mob, target, damage)
     return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.TP_DRAIN, {chance = 25, power = math.random(50, 100)})
-end
-
-function onMonsterMagicPrepare(mob, target)
-	rnd = math.random()
-
-    if (rnd < 0.5) then
-        return 196 -- thundaga III
-    elseif (rnd < 0.7) then
-        return 167 -- thunder IV
-    else
-        return 239 -- shock
-    end
-    return 0 -- Still need a return, so use 0 when not casting
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

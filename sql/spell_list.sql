@@ -54,6 +54,15 @@ CREATE TABLE `spell_list` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=68;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+-- Convert sql to SET list
+-- CONCAT(
+--   '@SPELL_',
+--   UPPER(REPLACE(name, ' ', '_')),
+--   ' = ',
+--   spellid,
+--   ','
+-- )
+
 -- Elements
 SET @ELEMENT_NONE    = 0;
 SET @ELEMENT_FIRE    = 1;

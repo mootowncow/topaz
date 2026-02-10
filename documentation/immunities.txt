@@ -13,6 +13,12 @@
     IMMUNITY_LIGHT_SLEEP = 0x800,  // 2048
     IMMUNITY_DARK_SLEEP  = 0x1000, // 4096
     IMMUNITY_PETRIFY     = 0x2000, // 8192
+    IMMUNITY_TERROR      = 0x4000,// 16384
+    IMMUNITY_AMNESIA     = 0x8000,// 32768
+    IMMUNITY_VIRUS       = 0x10000,// 65536
+    IMMUNITY_CURSE       = 0x20000,// 131072
+    IMMUNITY_DOOM        = 0x40000,// 262144
+    IMMUNITY_CHARM       = 0x80000,// 524288
 
     Sleep, Bind, Gravity, Break = 8199
     Gravity, Silence, Slow, Paralyze, Sleep, Break = 8371

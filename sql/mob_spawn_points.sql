@@ -56376,8 +56376,8 @@ INSERT INTO `mob_spawn_points` VALUES (17535001,'Vanguard_Grappler','Vanguard Gr
 INSERT INTO `mob_spawn_points` VALUES (17535003,'Serjeant_Tombstone','Serjeant Tombstone',22,109.249,-0.500,80.079,24);
 INSERT INTO `mob_spawn_points` VALUES (17535004,'Serjeant_Tombstone','Serjeant Tombstone',22,104.748,2.457,67.969,31);
 INSERT INTO `mob_spawn_points` VALUES (17535005,'Serjeant_Tombstone','Serjeant Tombstone',22,107.299,-0.500,78.311,63);
-INSERT INTO `mob_spawn_points` VALUES (17535006,'Reapertongue_Gadgquok','Reapertongue Gadgquok',54,109.854,-0.634,76.595,215);
-INSERT INTO `mob_spawn_points` VALUES (17535007,'Vanguards_Avatar','Vanguard\'s Avatar',20,110.302,0.018,72.994,192);
+INSERT INTO `mob_spawn_points` VALUES (17535006,'Reapertongue_Gadgquok','Reapertongue Gadgquok',23,109.854,-0.634,76.595,215);
+INSERT INTO `mob_spawn_points` VALUES (17535007,'Vanguards_Avatar','Vanguard\'s Avatar',54,110.302,0.018,72.994,192);
 --INSERT INTO `mob_spawn_points` VALUES (17535008,'Vanguard_Trooper','Vanguard Trooper',5,105.527,3.000,64.529,196);
 --INSERT INTO `mob_spawn_points` VALUES (17535009,'Vanguard_Amputator','Vanguard Amputator',6,98.203,3.500,44.071,17);
 INSERT INTO `mob_spawn_points` VALUES (17535010,'Vanguard_Dollmaster','Vanguard Dollmaster',19,97.811,3.500,46.083,200);

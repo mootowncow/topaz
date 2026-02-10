@@ -65,6 +65,18 @@ function onMobRoam(mob)
     tpz.path.loop(mob, pathingTable, tpz.path.flag.RUN)
 end
 
+function onMobWeaponSkillPrepare(mob, target)
+    -- Uses Crystal rain 75% of the time, Crystal Weapon 20% of the time, rest 5%
+    local roll = math.random(100)
+    if roll <= 75 then
+        return tpz.mob.skills.CRYSTAL_RAIN
+    elseif roll <= 95 then
+        return math.random(tpz.mob.skills.CRYSTAL_WEAPON_FIRE, tpz.mob.skills.CRYSTAL_WEAPON_WIND)
+    end
+
+    return math.random(tpz.mob.skills.CRYSTAL_SHIELD, tpz.mob.skills.THUNDER_BREAK)
+end
+
 function onMobDeath(mob, player, isKiller, noKiller)
 end
 
