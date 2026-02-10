@@ -107,7 +107,7 @@ function onMobFight(mob, target)
     -- Uses Mijin Gakure at 1% then falls to the ground
     if (hp <= 1) then
         if mob:getID() == 17183035 then -- Main NM
-            mob:useMobAbility(731)
+            mob:useMobAbility(2254)
         else -- Clones despawn at 1 hp instead
             DespawnMob(mob:getID())
         end

@@ -162,17 +162,17 @@ void CMobSkill::setDistance(float distance)
     m_Distance = distance;
 }
 
-void CMobSkill::setFlag(uint8 flag)
+void CMobSkill::setFlag(uint16 flag)
 {
     m_Flag = flag;
 }
 
-void CMobSkill::addFlag(uint8 flag)
+void CMobSkill::addFlag(uint16 flag)
 {
     m_Flag |= flag;
 }
 
-void CMobSkill::delFlag(uint8 flag)
+void CMobSkill::delFlag(uint16 flag)
 {
     m_Flag &= ~flag;
 }
@@ -346,7 +346,7 @@ uint16 CMobSkill::getAoEMsg() const
     }
 }
 
-uint8 CMobSkill::getFlag() const
+uint16 CMobSkill::getFlag() const
 {
     return m_Flag;
 }

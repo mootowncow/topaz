@@ -35,7 +35,8 @@ enum SKILLFLAG
     SKILLFLAG_REPLACE_ATTACK    = 0x010, // 16 To turn off "Readies .." or "Readies skill#650360 message" Use skill:setMsg(tpz.msg.basic.HIT_DMG) in the skills lua file
     SKILLFLAG_DRAW_IN           = 0x020, // 32
     SKILLFLAG_ALWAYS_KNOCK_BACK = 0x040, // 64
-    SKILLFLAG_MAGIC_SKILL       = 0x080 // 128 Magical skill / blood pact
+    SKILLFLAG_MAGIC_SKILL       = 0x080, // 128 Magical skill / blood pact
+    SKILLFLAG_SUICIDE           = 0x100 // 256 Suicide move
 };
 
 enum MOBSKILL
@@ -70,7 +71,7 @@ public:
     uint16      getPetAnimationID() const;
     uint8       getAoe() const;
     float       getDistance() const;
-    uint8       getFlag() const;
+    uint16      getFlag() const;
     uint16      getAnimationTime() const;
     uint16      getActivationTime() const;
     uint16      getMsg() const;
@@ -95,9 +96,9 @@ public:
     void        setAnimationID(uint16 aid);
     void        setAoe(uint8 aoe);
     void        setDistance(float distance);
-    void        setFlag(uint8 flag);
-    void        addFlag(uint8 flag);
-    void        delFlag(uint8 flag);
+    void        setFlag(uint16 flag);
+    void        addFlag(uint16 flag);
+    void        delFlag(uint16 flag);
     void        setAnimationTime(uint16 AnimationTime);
     void        setActivationTime(uint16 ActivationTime);
     void        setMsg(uint16 msg);
@@ -124,7 +125,7 @@ private:
     uint16      m_AnimID;           //animation id
     uint8       m_Aoe;              // не используется
     float       m_Distance;         // не используется
-    uint8       m_Flag;             // не используется
+    uint16      m_Flag;             // не используется
     uint16      m_ValidTarget;      //same as
     uint16      m_AnimationTime;    //how long the tp animation lasts for in ms
     uint16      m_ActivationTime;   //how long the mob prepares the tp move for

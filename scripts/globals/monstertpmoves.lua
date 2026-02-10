@@ -570,13 +570,6 @@ function MobHPBasedMove(mob, target, skill, percent, base, element, cap, isSuici
 
     skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
 
-    -- Used for mob suicide moves
-    -- Needed or else additional targets beyond first will take 0 damage
-    if (isSuicide ~= nil) then
-        -- Set HP used for suicide dmg calculation
-        mobHP = mob:getLocalVar("self-destruct_hp") 
-    end
-
     if (oppositeScaling ~= nil) then -- Scale based on HP lowering
         mobHP = mob:getMaxHP() - mob:getHP()
         -- printf("MobHP %d", mobHP)

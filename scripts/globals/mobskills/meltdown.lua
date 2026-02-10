@@ -21,6 +21,5 @@ function onMobWeaponSkill(target, mob, skill)
     local damage = MobHPBasedMove(mob, target, skill, 0.50, 1, tpz.magic.ele.NONE, 2000, true)
     local dmg = MobFinalAdjustments(damage, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.ELEMENTAL, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.ELEMENTAL)
-    mob:setHP(0)
     return dmg
 end

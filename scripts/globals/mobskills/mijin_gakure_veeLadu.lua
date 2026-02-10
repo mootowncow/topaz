@@ -1,5 +1,6 @@
 ---------------------------------------------------
 -- Mijin Gakure
+-- Used by Vee Ladu the Titterer
 ---------------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/status")
@@ -18,12 +19,7 @@ function onMobWeaponSkill(target, mob, skill)
         dmg = math.floor(dmg / 16)
     end
 
-    local veeLadutheTitterer = mob:getID() == 17183035
-    if veeLadutheTitterer then
-        mob:setUnkillable(false)
-        mob:setHP(0)
-    end
-
+    mob:setUnkillable(false)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.NONE)
     return dmg
 end

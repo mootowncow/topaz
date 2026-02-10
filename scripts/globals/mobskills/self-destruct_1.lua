@@ -24,6 +24,5 @@ function onMobWeaponSkill(target, mob, skill)
         return dmg
 	end
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.FIRE)
-    mob:setHP(0)
 	return dmg
 end

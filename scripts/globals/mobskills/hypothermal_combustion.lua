@@ -25,6 +25,5 @@ function onMobWeaponSkill(target, mob, skill)
     end
 
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.ICE)
-    mob:setHP(0)
     return dmg
 end

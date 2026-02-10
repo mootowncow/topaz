@@ -1304,10 +1304,16 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
             actionTarget.speceffect = SPECEFFECT_BLOOD;
             this->PAI->EventHandler.triggerListener("WEAPONSKILL_STATE_INTERRUPTED", this, PSkill->getID());
+
+            if (PSkill->getFlag() & SKILLFLAG_SUICIDE)
+            {
+                health.hp = 0;
+                updatemask |= UPDATE_HP;
+            }
+
             return;
         }
     }
-
 
     uint16 targets = static_cast<uint16>(PAI->TargetFind->m_targets.size());
     auto skipSelf = false;
@@ -1360,6 +1366,13 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
             actionTarget.reaction = REACTION_HIT;
         }
+
+        if (PSkill->getFlag() & SKILLFLAG_SUICIDE)
+        {
+            health.hp = 0;
+            updatemask |= UPDATE_HP;
+        }
+
         return;
     }
 
@@ -1367,8 +1380,6 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     PSkill->setPrimaryTargetID(PTarget->id);
     PSkill->setTP(state.GetSpentTP());
     PSkill->setHPP(GetHPP());
-
-    SetLocalVar("self-destruct_hp", health.hp);
 
     uint16 msg = 0;
     uint16 defaultMessage = PSkill->getMsg();
@@ -1578,6 +1589,12 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
                     first = false;
                 }
             }
+        }
+
+        if (PSkill->getFlag() & SKILLFLAG_SUICIDE)
+        {
+            health.hp = 0;
+            updatemask |= UPDATE_HP;
         }
 
         if (isPlayerPet)
