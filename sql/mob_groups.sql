@@ -12610,6 +12610,7 @@ INSERT INTO `mob_groups` VALUES (50,4144,185,'Vanguard_Dollmaster',1800,0,9001,0
 INSERT INTO `mob_groups` VALUES (51,4185,185,'Vanguards_Avatar',0,128,0,0,0,77,78,0);
 INSERT INTO `mob_groups` VALUES (52,3548,185,'Serjeant_Tombstone',0,128,2201,1000,1000,80,82,0);
 INSERT INTO `mob_groups` VALUES (53,4289,185,'Warchief_Tombstone',0,128,0,1000,1000,80,82,0);
+INSERT INTO `mob_groups` VALUES (54,4185,185,'Reapertongues_Avatar',0,128,0,0,0,69,69,0);
 
 -- ------------------------------------------------------------
 -- Dynamis-Bastok (Zone 186)
