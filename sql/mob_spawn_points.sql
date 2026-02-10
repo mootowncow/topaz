@@ -13138,11 +13138,11 @@ INSERT INTO `mob_spawn_points` VALUES (17027400,'Orichalcumshell','Orichalcumshe
 INSERT INTO `mob_spawn_points` VALUES (17027403,'Wamoura_Prince','Wamoura Prince',24,-580.5,-24.35,-41.196,62);
 INSERT INTO `mob_spawn_points` VALUES (17027404,'Wamoura_Prince','Wamoura Prince',24,-602.3,-24.37,-19.263,126);
 --INSERT INTO `mob_spawn_points` VALUES (17027405,'Sweeping_Cluster','Sweeping Cluster',26,-644.3,-14.46,20.851,126);
---INSERT INTO `mob_spawn_points` VALUES (17027406,'Sweeping_Cluster','Sweeping Cluster',26,-660.1,-13.62,69.721,202);
+INSERT INTO `mob_spawn_points` VALUES (17027406,'Sweeping_Cluster','Sweeping Cluster',26,-660.1,-13.62,69.721,202);
 INSERT INTO `mob_spawn_points` VALUES (17027407,'Ebony_Pudding','Ebony Pudding',29,-650.7,-14.42,101.07,131);
 INSERT INTO `mob_spawn_points` VALUES (17027408,'Sweeping_Cluster','Sweeping Cluster',26,-582.5,-5.005,80.477,189);
 --INSERT INTO `mob_spawn_points` VALUES (17027409,'Sweeping_Cluster','Sweeping Cluster',26,-660.0,-12.35,126.879,91);
---INSERT INTO `mob_spawn_points` VALUES (17027410,'Sweeping_Cluster','Sweeping Cluster',26,-619.2,-9.569,180.882,63);
+INSERT INTO `mob_spawn_points` VALUES (17027410,'Sweeping_Cluster','Sweeping Cluster',26,-619.2,-9.569,180.882,63);
 INSERT INTO `mob_spawn_points` VALUES (17027411,'Ebony_Pudding','Ebony Pudding',29,-613.1,-4.25,139.270,130);
 INSERT INTO `mob_spawn_points` VALUES (17027412,'Wamoura_Prince','Wamoura Prince',24,-597.4,-21.30,244.945,242);
 --INSERT INTO `mob_spawn_points` VALUES (17027413,'Wamoura_Prince','Wamoura Prince',24,-554.0,-14.52,228.326,252);
