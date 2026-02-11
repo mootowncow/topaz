@@ -819,8 +819,8 @@ void CCharEntity::Tick(time_point tick)
         if (PParty)
         {
             PParty->ReloadParty();
+            m_LastPartyReload = tick + std::chrono::milliseconds(10000);
         }
-        m_LastPartyReload = tick + std::chrono::milliseconds(10000);
     }
 
     // Try to load PCs around you every 5 seconds while in a cutscene
@@ -1084,7 +1084,7 @@ bool CCharEntity::OnAttack(CAttackState& state, action_t& action)
     // Send inventory finish packet to check for temps
     if (server_clock::now() < AttackInventoryFinishPacket)
     {
-        AttackInventoryFinishPacket = server_clock::now() + std::chrono::milliseconds(500);
+        AttackInventoryFinishPacket = server_clock::now() + std::chrono::milliseconds(1500);
         this->pushPacket(new CInventoryFinishPacket());
     }
 
@@ -1261,7 +1261,7 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
 
     if (PParty)
     {
-        PParty->ReloadParty();
+        m_LastPartyReload = server_clock::now() + std::chrono::milliseconds(1000);
     }
 
     // Safety check to not get locked in cutscene status
