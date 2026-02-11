@@ -23,18 +23,12 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local typeEffect = tpz.effect.SILENCE
     local dINT = (caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT))
     local params = {}
     params.diff = dINT
     params.attribute = tpz.mod.INT
     params.skillType = tpz.skill.BLUE_MAGIC
     params.bonus = 0
-
-    if target:hasStatusEffect(tpz.effect.SILENCE) then
-        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-        return tpz.effect.SILENCE
-    end
 
     local duration = 120
     local isMaaIllmutheBestower = target:getPool() == 2465
@@ -44,14 +38,10 @@ function onSpellCast(caster, target, spell)
         target:addTP(3000)
     end
 
-    params.effect = tpz.effect.SILENCE
-    if BlueTryEnfeeble(caster, target, spell, 0, 1, 0, duration, params) then
-        spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
-    else
-        if (spell:getMsg() ~= tpz.msg.basic.MAGIC_IMMUNE) then
-            spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
-        end
-    end
+    local typeEffect = tpz.effect.SILENCE
 
-    return tpz.effect.SILENCE
+    params.effect = typeEffect
+    BlueTryEnfeeble(caster, target, spell, 0, 1, 0, duration, params)
+
+    return typeEffect
 end

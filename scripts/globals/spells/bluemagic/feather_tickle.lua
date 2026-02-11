@@ -32,12 +32,9 @@ function onSpellCast(caster, target, spell)
     local dMND = caster:getStat(tpz.mod.MND) - target:getStat(tpz.mod.MND)
     local power = utils.clamp(math.floor(dMND / 4) + 20, 10, 30)
 
-	if BlueTryEnfeeble(caster, target, spell, 1, power, 0, 180, params) then
-        spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
-    else
-        if (spell:getMsg() ~= tpz.msg.basic.MAGIC_IMMUNE) then
-            spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
-        end
-    end
-	return params.effect 
+    local typeEffect = tpz.effect.PARALYSIS
+
+    BlueTryEnfeeble(caster, target, spell, 1, power, 0, 180, params)
+
+	return typeEffect
 end

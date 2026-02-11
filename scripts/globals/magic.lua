@@ -60,6 +60,34 @@ tpz.magic.dayWeak             = {tpz.day.WATERSDAY,             tpz.day.FIRESDAY
 tpz.magic.singleWeatherWeak   = {tpz.weather.RAIN,              tpz.weather.HOT_SPELL,       tpz.weather.SNOW,                tpz.weather.WIND,               tpz.weather.DUST_STORM,             tpz.weather.THUNDER,             tpz.weather.GLOOM,           tpz.weather.AURORAS         }
 tpz.magic.doubleWeatherWeak   = {tpz.weather.SQUALL,            tpz.weather.HEAT_WAVE,       tpz.weather.BLIZZARDS,           tpz.weather.GALES,              tpz.weather.SAND_STORM,             tpz.weather.THUNDERSTORMS,       tpz.weather.DARKNESS,        tpz.weather.STELLAR_GLARE   }
 
+ImmunityMap =
+{
+    { Effect = tpz.effect.SLEEP_I,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
+    { Effect = tpz.effect.SLEEP_II,                 Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
+    { Effect = tpz.effect.POISON,                   Immunity = { tpz.immunity.POISON } },
+    { Effect = tpz.effect.PARALYSIS,                Immunity = { tpz.immunity.PARALYZE } },
+    { Effect = tpz.effect.BLINDNESS,                Immunity = { tpz.immunity.BLIND } },
+    { Effect = tpz.effect.SILENCE,                  Immunity = { tpz.immunity.SILENCE } },
+    { Effect = tpz.effect.STUN,                     Immunity = { tpz.immunity.STUN } },
+    { Effect = tpz.effect.BIND,                     Immunity = { tpz.immunity.BIND } },
+    { Effect = tpz.effect.WEIGHT,                   Immunity = { tpz.immunity.GRAVITY } },
+    { Effect = tpz.effect.SLOW,                     Immunity = { tpz.immunity.SLOW } },
+    { Effect = tpz.effect.ELEGY,                    Immunity = { tpz.immunity.ELEGY } },
+    { Effect = tpz.effect.REQUIEM,                  Immunity = { tpz.immunity.REQUIEM } },
+    { Effect = tpz.effect.LULLABY,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.LIGHTSLEEP } },
+    { Effect = tpz.effect.PETRIFICATION,            Immunity = { tpz.immunity.PETRIFY } },
+    { Effect = tpz.effect.GRADUAL_PETRIFICATION,    Immunity = { tpz.immunity.PETRIFY } },
+    { Effect = tpz.effect.TERROR,                   Immunity = { tpz.immunity.TERROR } },
+    { Effect = tpz.effect.AMNESIA,                  Immunity = { tpz.immunity.AMNESIA } },
+    { Effect = tpz.effect.PLAGUE,                   Immunity = { tpz.immunity.VIRUS } },
+    { Effect = tpz.effect.BANE,                     Immunity = { tpz.immunity.VIRUS } },
+    { Effect = tpz.effect.CURSE_I,                  Immunity = { tpz.immunity.CURSE } },
+    { Effect = tpz.effect.CURSE_II,                 Immunity = { tpz.immunity.CURSE } },
+    { Effect = tpz.effect.DOOM,                     Immunity = { tpz.immunity.DOOM } },
+    { Effect = tpz.effect.CHARM_I,                  Immunity = { tpz.immunity.CHARM } },
+    { Effect = tpz.effect.CHARM_II,                 Immunity = { tpz.immunity.CHARM } },
+}
+
 -- USED FOR DAMAGING MAGICAL SPELLS (Stages 1 and 2 in Calculating Magic Damage on wiki)
 --Calculates magic damage using the standard magic damage calc.
 --Does NOT handle resistance.
@@ -3487,34 +3515,6 @@ function DeleteAmmoAdditionalEffect(player, dmg, ammo)
 end
 
 function getAdditionalEffectStatusResist(player, target, effect, element, skill, bonus)
-    local immunityMap =
-    {
-        { Effect = tpz.effect.SLEEP_I,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
-        { Effect = tpz.effect.SLEEP_II,                 Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
-        { Effect = tpz.effect.POISON,                   Immunity = { tpz.immunity.POISON } },
-        { Effect = tpz.effect.PARALYSIS,                Immunity = { tpz.immunity.PARALYZE } },
-        { Effect = tpz.effect.BLINDNESS,                Immunity = { tpz.immunity.BLIND } },
-        { Effect = tpz.effect.SILENCE,                  Immunity = { tpz.immunity.SILENCE } },
-        { Effect = tpz.effect.STUN,                     Immunity = { tpz.immunity.STUN } },
-        { Effect = tpz.effect.BIND,                     Immunity = { tpz.immunity.BIND } },
-        { Effect = tpz.effect.WEIGHT,                   Immunity = { tpz.immunity.GRAVITY } },
-        { Effect = tpz.effect.SLOW,                     Immunity = { tpz.immunity.SLOW } },
-        { Effect = tpz.effect.ELEGY,                    Immunity = { tpz.immunity.ELEGY } },
-        { Effect = tpz.effect.REQUIEM,                  Immunity = { tpz.immunity.REQUIEM } },
-        { Effect = tpz.effect.LULLABY,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.LIGHTSLEEP } },
-        { Effect = tpz.effect.PETRIFICATION,            Immunity = { tpz.immunity.PETRIFY } },
-        { Effect = tpz.effect.GRADUAL_PETRIFICATION,    Immunity = { tpz.immunity.PETRIFY } },
-        { Effect = tpz.effect.TERROR,                   Immunity = { tpz.immunity.TERROR } },
-        { Effect = tpz.effect.AMNESIA,                  Immunity = { tpz.immunity.AMNESIA } },
-        { Effect = tpz.effect.PLAGUE,                   Immunity = { tpz.immunity.VIRUS } },
-        { Effect = tpz.effect.BANE,                     Immunity = { tpz.immunity.VIRUS } },
-        { Effect = tpz.effect.CURSE_I,                  Immunity = { tpz.immunity.CURSE } },
-        { Effect = tpz.effect.CURSE_II,                 Immunity = { tpz.immunity.CURSE } },
-        { Effect = tpz.effect.DOOM,                     Immunity = { tpz.immunity.DOOM } },
-        { Effect = tpz.effect.CHARM_I,                  Immunity = { tpz.immunity.CHARM } },
-        { Effect = tpz.effect.CHARM_II,                 Immunity = { tpz.immunity.CHARM } },
-    }
-
     if isNoEffectMsg(player, target, effect, params) then
         return 1/16
     end
@@ -3528,7 +3528,7 @@ function getAdditionalEffectStatusResist(player, target, effect, element, skill,
 
     -- Check for immunity
     local hasImmunity = false
-    for _, immunityEntry in pairs(immunityMap) do
+    for _, immunityEntry in pairs(ImmunityMap) do
         if immunityEntry.Effect == effect then
             for _, immunity in pairs(immunityEntry.Immunity) do
                 if target:hasImmunity(immunity) then
@@ -3723,34 +3723,6 @@ function TryAdditionalEffectAugment(player, target, skill, bonus)
 end
 
 function TryApplyEffect(caster, target, spell, effect, power, tick, duration, resist, resistthreshold, subpower, tier)
-    local immunityMap =
-    {
-        { Effect = tpz.effect.SLEEP_I,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
-        { Effect = tpz.effect.SLEEP_II,                 Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
-        { Effect = tpz.effect.POISON,                   Immunity = { tpz.immunity.POISON } },
-        { Effect = tpz.effect.PARALYSIS,                Immunity = { tpz.immunity.PARALYZE } },
-        { Effect = tpz.effect.BLINDNESS,                Immunity = { tpz.immunity.BLIND } },
-        { Effect = tpz.effect.SILENCE,                  Immunity = { tpz.immunity.SILENCE } },
-        { Effect = tpz.effect.STUN,                     Immunity = { tpz.immunity.STUN } },
-        { Effect = tpz.effect.BIND,                     Immunity = { tpz.immunity.BIND } },
-        { Effect = tpz.effect.WEIGHT,                   Immunity = { tpz.immunity.GRAVITY } },
-        { Effect = tpz.effect.SLOW,                     Immunity = { tpz.immunity.SLOW } },
-        { Effect = tpz.effect.ELEGY,                    Immunity = { tpz.immunity.ELEGY } },
-        { Effect = tpz.effect.REQUIEM,                  Immunity = { tpz.immunity.REQUIEM } },
-        { Effect = tpz.effect.LULLABY,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.LIGHTSLEEP } },
-        { Effect = tpz.effect.PETRIFICATION,            Immunity = { tpz.immunity.PETRIFY } },
-        { Effect = tpz.effect.GRADUAL_PETRIFICATION,    Immunity = { tpz.immunity.PETRIFY } },
-        { Effect = tpz.effect.TERROR,                   Immunity = { tpz.immunity.TERROR } },
-        { Effect = tpz.effect.AMNESIA,                  Immunity = { tpz.immunity.AMNESIA } },
-        { Effect = tpz.effect.PLAGUE,                   Immunity = { tpz.immunity.VIRUS } },
-        { Effect = tpz.effect.BANE,                     Immunity = { tpz.immunity.VIRUS } },
-        { Effect = tpz.effect.CURSE_I,                  Immunity = { tpz.immunity.CURSE } },
-        { Effect = tpz.effect.CURSE_II,                 Immunity = { tpz.immunity.CURSE } },
-        { Effect = tpz.effect.DOOM,                     Immunity = { tpz.immunity.DOOM } },
-        { Effect = tpz.effect.CHARM_I,                  Immunity = { tpz.immunity.CHARM } },
-        { Effect = tpz.effect.CHARM_II,                 Immunity = { tpz.immunity.CHARM } },
-    }
-
     local skill = spell:getSkillType()
     local spellGroup = spell:getSpellGroup()
 
@@ -3772,7 +3744,7 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
 
     -- Check for immunity
     local hasImmunity = false
-    for _, immunityEntry in pairs(immunityMap) do
+    for _, immunityEntry in pairs(ImmunityMap) do
         if immunityEntry.Effect == effect then
             for _, immunity in pairs(immunityEntry.Immunity) do
                 if target:hasImmunity(immunity) then
@@ -3840,12 +3812,14 @@ function TryApplyEffect(caster, target, spell, effect, power, tick, duration, re
             return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
         end
     end
+
     -- Check if resist is greater than the minimum resisit state(1/2, 1/4, etc)
     if (resist >= resistthreshold) then
         -- Overwrite weaker effects of the same type
         if overwrite then
             target:delStatusEffectSilent(effect)
         end
+
         if target:addStatusEffect(effect, power, tick, finalDuration, 0, subpower, tier) then
             tpz.magian.checkMagianTrialEffects(caster, target, effect, 'Magic')
 

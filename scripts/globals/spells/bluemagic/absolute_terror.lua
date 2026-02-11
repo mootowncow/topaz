@@ -33,31 +33,17 @@ function onSpellCast(caster, target, spell)
 
 
     params.effect = tpz.effect.SLOW
+    local returnEffect = params.effect
     local power = 3500
-    if BlueTryEnfeeble(caster, target, spell, 1, power, 0, duration, params) then
-        spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
-        returnEffect = params.effect
-    else
-        spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
-    end
+    BlueTryEnfeeble(caster, target, spell, 1, power, 0, duration, params)
 
     params.effect = tpz.effect.PARALYSIS
-    local power = 30
-    if BlueTryEnfeeble(caster, target, spell, 1, power, 0, duration, params) then
-        spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
-        returnEffect = params.effect
-    else
-        spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
-    end
+    power = 30
+    BlueTryEnfeeble(caster, target, spell, 1, power, 0, duration, params)
 
     params.effect = tpz.effect.INHIBIT_TP
-    local power = 20
-    if BlueTryEnfeeble(caster, target, spell, 1, power, 0, duration, params) then
-        spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
-        returnEffect = params.effect
-    else
-        spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
-    end
+    power = 20
+    BlueTryEnfeeble(caster, target, spell, 1, power, 0, duration, params)
 
     return returnEffect
 end

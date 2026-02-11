@@ -31,23 +31,9 @@ function onSpellCast(caster, target, spell)
     params.bonus = 0
     local duration = 30
 
-    if target:hasStatusEffect(params.effect) then
-        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-        return params.effect
-    end
+    local typeEffect = tpz.effect.TERROR
 
-    if isNoEffectMsg(caster, target, params.effect, params) then
-            spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-        return params.effect
-    end
+    BlueTryEnfeeble(caster, target, spell, 1, power, 0, duration, params)
 
-    if BlueTryEnfeeble(caster, target, spell, 1, power, 0, duration, params) then
-        spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
-    else
-        if (spell:getMsg() ~= tpz.msg.basic.MAGIC_IMMUNE) then
-            spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
-        end
-    end
-
-    return tpz.effect.TERROR
+    return typeEffect
 end

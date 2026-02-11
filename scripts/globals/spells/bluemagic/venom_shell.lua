@@ -23,7 +23,6 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local typeEffect = tpz.effect.POISON
     local dINT = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)
     local params = {}
     params.diff = dINT
@@ -33,21 +32,13 @@ function onSpellCast(caster, target, spell)
     params.effect = typeEffect
     params.eco = ECO_AQUAN
     local skill = caster:getSkillLevel(tpz.skill.BLUE_MAGIC)
-    local power = (skill / 6) 
+    local power = (skill / 6)
 
-    if target:hasStatusEffect(typeEffect) then
-        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-        return typeEffect
-    end
+    local typeEffect = tpz.effect.POISON
+ 
 
     params.effect = typeEffect
-    if BlueTryEnfeeble(caster, target, spell, 1, power, 3, 180, params) then
-        spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
-    else
-        if (spell:getMsg() ~= tpz.msg.basic.MAGIC_IMMUNE) then
-            spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
-        end
-    end
+    BlueTryEnfeeble(caster, target, spell, 1, power, 3, 180, params)
 
     return typeEffect
 end

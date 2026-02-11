@@ -1082,33 +1082,6 @@ function BluefSTR2(dSTR)
 end
 
 function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, params)
-    local immunityMap =
-    {
-        { Effect = tpz.effect.SLEEP_I,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
-        { Effect = tpz.effect.SLEEP_II,                 Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
-        { Effect = tpz.effect.POISON,                   Immunity = { tpz.immunity.POISON } },
-        { Effect = tpz.effect.PARALYSIS,                Immunity = { tpz.immunity.PARALYZE } },
-        { Effect = tpz.effect.BLINDNESS,                Immunity = { tpz.immunity.BLIND } },
-        { Effect = tpz.effect.SILENCE,                  Immunity = { tpz.immunity.SILENCE } },
-        { Effect = tpz.effect.STUN,                     Immunity = { tpz.immunity.STUN } },
-        { Effect = tpz.effect.BIND,                     Immunity = { tpz.immunity.BIND } },
-        { Effect = tpz.effect.WEIGHT,                   Immunity = { tpz.immunity.GRAVITY } },
-        { Effect = tpz.effect.SLOW,                     Immunity = { tpz.immunity.SLOW } },
-        { Effect = tpz.effect.ELEGY,                    Immunity = { tpz.immunity.ELEGY } },
-        { Effect = tpz.effect.REQUIEM,                  Immunity = { tpz.immunity.REQUIEM } },
-        { Effect = tpz.effect.LULLABY,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.LIGHTSLEEP } },
-        { Effect = tpz.effect.PETRIFICATION,            Immunity = { tpz.immunity.PETRIFY } },
-        { Effect = tpz.effect.GRADUAL_PETRIFICATION,    Immunity = { tpz.immunity.PETRIFY } },
-        { Effect = tpz.effect.TERROR,                   Immunity = { tpz.immunity.TERROR } },
-        { Effect = tpz.effect.AMNESIA,                  Immunity = { tpz.immunity.AMNESIA } },
-        { Effect = tpz.effect.PLAGUE,                   Immunity = { tpz.immunity.VIRUS } },
-        { Effect = tpz.effect.BANE,                     Immunity = { tpz.immunity.VIRUS } },
-        { Effect = tpz.effect.CURSE_I,                  Immunity = { tpz.immunity.CURSE } },
-        { Effect = tpz.effect.CURSE_II,                 Immunity = { tpz.immunity.CURSE } },
-        { Effect = tpz.effect.DOOM,                     Immunity = { tpz.immunity.DOOM } },
-        { Effect = tpz.effect.CHARM,                    Immunity = { tpz.immunity.CHARM } },
-    }
-
     local effect = params.effect
     local skill = spell:getSkillType()
     local spellGroup = spell:getSpellGroup()
@@ -1116,12 +1089,14 @@ function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, p
     target:updateClaim(caster) -- Needed for checkKillCredit() for magian trials
 
     if isNoEffectMsg(caster, target, effect, params) then
-        return spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+        if BlueSetNoEffectMsg(spell) then
+            return false
+        end
     end
 
     -- Check for immunity
     local hasImmunity = false
-    for _, immunityEntry in pairs(immunityMap) do
+    for _, immunityEntry in pairs(ImmunityMap) do
         if immunityEntry.Effect == effect then
             for _, immunity in pairs(immunityEntry.Immunity) do
                 if target:hasImmunity(immunity) then
@@ -1130,7 +1105,7 @@ function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, p
                 end
             end
             if hasImmunity then
-                if (spell:getMsg() ~= tpz.msg.basic.MAGIC_DMG) then
+                if spell:getMsg() == tpz.msg.basic.MAGIC_ENFEEB_IS then
                     spell:setMsg(tpz.msg.basic.MAGIC_IMMUNE)
                 end
                 return false
@@ -1188,11 +1163,27 @@ function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, p
         return false
     end
 
+    -- Already has effect, check if can overwrite
+    local overwrite = false -- TODO: Use canOverwrite function here? Clean up that function?
+    if target:hasStatusEffect(effect) then
+        if (target:getStatusEffect(effect):getPower() < power) then
+            overwrite = true
+        else
+            BlueSetNoEffectMsg(spell)
+            return false
+        end
+    end
+
     if (spell:getMsg() ~= tpz.msg.basic.MAGIC_FAIL and resist >= 0.5) then
         finalDuration = finalDuration * resist
         finalDuration = CheckDiminishingReturns(caster, target, params.effect, finalDuration)
 
         if (finalDuration > 0) then
+            -- Overwrite weaker effects of the same type
+            if overwrite then
+                target:delStatusEffectSilent(effect)
+            end
+
             if target:addStatusEffect(params.effect, power, tick, finalDuration) then
                 tpz.magian.checkMagianTrialEffects(caster, target, effect, 'Magic')
 
@@ -1205,6 +1196,16 @@ function BlueTryEnfeeble(caster, target, spell, damage, power, tick, duration, p
             end
         end
     end
+
+    return false
+end
+
+function BlueSetNoEffectMsg(spell)
+    if spell:getMsg() == tpz.msg.basic.MAGIC_ENFEEB_IS then
+        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+        return true
+    end
+
     return false
 end
 

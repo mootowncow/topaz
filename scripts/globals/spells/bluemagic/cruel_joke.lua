@@ -31,21 +31,10 @@ function onSpellCast(caster, target, spell)
     params.bonus = 125
     local duration = 60
 
-    typeEffect = tpz.effect.DOOM
-
-    if target:hasStatusEffect(typeEffect) or target:isNM() then
-        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-        return typeEffect
-    end
+    local typeEffect = tpz.effect.DOOM
 
     params.effect = typeEffect
-    if BlueTryEnfeeble(caster, target, spell, 1, 10, 10, 60, params) then
-        spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
-    else
-        if (spell:getMsg() ~= tpz.msg.basic.MAGIC_IMMUNE) then
-            spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
-        end
-    end
+    BlueTryEnfeeble(caster, target, spell, 1, 10, 10, duration, params)
 
-    return tpz.effect.DOOM
+    return typeEffect
 end

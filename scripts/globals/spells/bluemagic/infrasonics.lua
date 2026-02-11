@@ -31,17 +31,9 @@ function onSpellCast(caster, target, spell)
     params.eco = ECO_LIZARD
     local power = 20
 
+    local typeEffect = tpz.effect.EVASION_DOWN
 
-    if target:hasStatusEffect(params.effect) then
-        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-        return params.effect
-    end
+    BlueTryEnfeeble(caster, target, spell, 1, power, 0, 180, params)
 
-    if BlueTryEnfeeble(caster, target, spell, 1, power, 0, 180, params) then
-        spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
-    else
-        spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
-    end
-
-    return params.effect
+    return typeEffect
 end

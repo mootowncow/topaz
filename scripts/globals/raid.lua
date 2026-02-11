@@ -13,6 +13,7 @@ require("scripts/globals/utils")
 require("scripts/globals/spell_data")
 require("scripts/globals/weaponskillids")
 require("scripts/globals/status")
+require("scripts/globals/magic")
 --------------------------------------
 -- TODO: Make sure tanks always spawn opposite side of everyone (DPS/healers > mob < tank)
 -- TODO: Spread out DPS to surround the NMs better
@@ -163,34 +164,6 @@ local abilityMap =
     { Ability = tpz.jobAbility.FLASHY_SHOT,         Effect = tpz.effect.FLASHY_SHOT },
     { Ability = tpz.mob.skills.SHOCK_ABSORBER,      Effect = tpz.effect.STONESKIN },
 }
-
-local immunityMap =
-{
-    { Effect = tpz.effect.SLEEP_I,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
-    { Effect = tpz.effect.SLEEP_II,                 Immunity = { tpz.immunity.SLEEP, tpz.immunity.DARKSLEEP } },
-    { Effect = tpz.effect.POISON,                   Immunity = { tpz.immunity.POISON } },
-    { Effect = tpz.effect.PARALYSIS,                Immunity = { tpz.immunity.PARALYZE } },
-    { Effect = tpz.effect.BLINDNESS,                Immunity = { tpz.immunity.BLIND } },
-    { Effect = tpz.effect.SILENCE,                  Immunity = { tpz.immunity.SILENCE } },
-    { Effect = tpz.effect.STUN,                     Immunity = { tpz.immunity.STUN } },
-    { Effect = tpz.effect.BIND,                     Immunity = { tpz.immunity.BIND } },
-    { Effect = tpz.effect.WEIGHT,                   Immunity = { tpz.immunity.GRAVITY } },
-    { Effect = tpz.effect.SLOW,                     Immunity = { tpz.immunity.SLOW } },
-    { Effect = tpz.effect.ELEGY,                    Immunity = { tpz.immunity.ELEGY } },
-    { Effect = tpz.effect.REQUIEM,                  Immunity = { tpz.immunity.REQUIEM } },
-    { Effect = tpz.effect.LULLABY,                  Immunity = { tpz.immunity.SLEEP, tpz.immunity.LIGHTSLEEP } },
-    { Effect = tpz.effect.PETRIFICATION,            Immunity = { tpz.immunity.PETRIFY } },
-    { Effect = tpz.effect.GRADUAL_PETRIFICATION,    Immunity = { tpz.immunity.PETRIFY } },
-    { Effect = tpz.effect.TERROR,                   Immunity = { tpz.immunity.TERROR } },
-    { Effect = tpz.effect.AMNESIA,                  Immunity = { tpz.immunity.AMNESIA } },
-    { Effect = tpz.effect.PLAGUE,                   Immunity = { tpz.immunity.VIRUS } },
-    { Effect = tpz.effect.BANE,                     Immunity = { tpz.immunity.VIRUS } },
-    { Effect = tpz.effect.CURSE_I,                  Immunity = { tpz.immunity.CURSE } },
-    { Effect = tpz.effect.CURSE_II,                 Immunity = { tpz.immunity.CURSE } },
-    { Effect = tpz.effect.DOOM,                     Immunity = { tpz.immunity.DOOM } },
-    { Effect = tpz.effect.CHARM,                    Immunity = { tpz.immunity.CHARM } },
-}
-
 local function SetBattleMusicOnFight(mob, track)
     local musicCheck = mob:getLocalVar("musicCheck")
 
@@ -2368,7 +2341,7 @@ function UpdateHealerAI(mob, target)
                 if not target:hasStatusEffect(enfeeble.Effect) then
                     -- Get the list of immunities for the current effect
                     local hasImmunity = false
-                    for _, immunityEntry in pairs(immunityMap) do
+                    for _, immunityEntry in pairs(ImmunityMap) do
                         if (immunityEntry.Effect == enfeeble.Effect) then
                             for _, immunity in pairs(immunityEntry.Immunity) do -- Line 1000
                                 if target:hasImmunity(immunity) then

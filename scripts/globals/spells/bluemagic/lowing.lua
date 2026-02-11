@@ -31,19 +31,9 @@ function onSpellCast(caster, target, spell)
     params.effect = tpz.effect.PLAGUE
     local power = 3
 
-    if target:hasStatusEffect(params.effect) then
-        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
-        return params.effect
-    end
+    local typeEffect = tpz.effect.PLAGUE
 
-    params.effect = params.effect
-    if BlueTryEnfeeble(caster, target, spell, 1, power, 3, 180, params) then
-        spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
-    else
-        if (spell:getMsg() ~= tpz.msg.basic.MAGIC_IMMUNE) then
-            spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
-        end
-    end
+    BlueTryEnfeeble(caster, target, spell, 1, power, 3, 180, params)
 
-    return params.effect
+    return typeEffect
 end
