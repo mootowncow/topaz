@@ -947,6 +947,7 @@ namespace charutils
 
                 if (PItem != nullptr)
                 {
+                    PItem->setChar(PChar);
                     PItem->setLocationID((uint8)Sql_GetUIntData(SqlHandle, 1));
                     PItem->setSlotID(Sql_GetUIntData(SqlHandle, 2));
                     PItem->setQuantity(Sql_GetUIntData(SqlHandle, 3));
@@ -1016,6 +1017,27 @@ namespace charutils
                         }
                     }
                 }
+            }
+        }
+
+        // Load Rank Data
+        const char* RankQuery = "SELECT location, slot, rank, points "
+                                "FROM char_item_rank "
+                                "WHERE charid = %u";
+
+        Sql_Query(SqlHandle, RankQuery, PChar->id);
+
+        while (Sql_NextRow(SqlHandle) == SQL_SUCCESS)
+        {
+            uint8 loc = Sql_GetUIntData(SqlHandle, 0);
+            uint8 slot = Sql_GetUIntData(SqlHandle, 1);
+
+            auto* item = (CItemEquipment*)PChar->getStorage(loc)->GetItem(slot);
+
+            if (item)
+            {
+                item->setRank(Sql_GetUIntData(SqlHandle, 2));
+                item->setRankPoints(Sql_GetUIntData(SqlHandle, 3));
             }
         }
     }
@@ -5205,6 +5227,54 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
                 Sql_Query(SqlHandle, fmtQuery, PChar->id, i, PChar->equip[i], PChar->equipLoc[i], PChar->equip[i], PChar->equipLoc[i]);
             }
         }
+    }
+
+    void SaveItemRanks(CCharEntity* PChar)
+    {
+        for (uint8 loc = 0; loc < CONTAINER_ID::MAX_CONTAINER_ID; ++loc)
+        {
+            auto* cont = PChar->getStorage(loc);
+            if (!cont) continue;
+
+            for (uint8 slot = 0; slot < MAX_CONTAINER_SIZE; ++slot)
+            {
+                auto* item = (CItemEquipment*)cont->GetItem(slot);
+                if (!item) continue;
+
+                if (item->getRank() == 0 && item->getRankPoints() == 0)
+                    continue;
+
+                Sql_Query(SqlHandle,
+                    "REPLACE INTO char_item_rank "
+                    "(charid, location, slot, rank, points) "
+                    "VALUES (%u, %u, %u, %u, %u)",
+                    PChar->id,
+                    loc,
+                    slot,
+                    item->getRank(),
+                    item->getRankPoints());
+            }
+        }
+    }
+
+    void SaveSingleItemRank(CCharEntity* PChar, CItemEquipment* item)
+    {
+        if (!item)
+            return;
+
+        // Optional: skip empty data
+        if (item->getRank() == 0 && item->getRankPoints() == 0)
+            return;
+
+        Sql_Query(SqlHandle,
+            "REPLACE INTO char_item_rank "
+            "(charid, location, slot, rank, points) "
+            "VALUES (%u, %u, %u, %u, %u)",
+            PChar->id,
+            item->getLocationID(),
+            item->getSlotID(),
+            item->getRank(),
+            item->getRankPoints());
     }
 
     void SaveCharLook(CCharEntity* PChar)

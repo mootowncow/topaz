@@ -16182,12 +16182,17 @@ enum class ItemID : uint16_t
     GIL = 65535,
 };
 
+class CCharEntity;
+
 class CItem
 {
 public:
 
     CItem(uint16 id);
     virtual ~CItem();
+
+    CCharEntity* getChar() const { return m_POwner; }
+    void setChar(CCharEntity* PChar) { m_POwner = PChar; }
 
     uint16      getID();
     uint16      getSubID();
@@ -16243,6 +16248,7 @@ protected:
     void        setType(uint8);
 
 private:
+    CCharEntity* m_POwner = nullptr;
 
     uint16      m_id;
     uint16      m_subid;

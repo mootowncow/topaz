@@ -538,6 +538,36 @@ inline int32 CLuaItem::setDuration(lua_State* L)
     return 0;
 }
 
+inline int32 CLuaItem::getRankPoints(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
+
+    auto PItem = (CItemEquipment*)m_PLuaItem;
+
+    if (PItem)
+    {
+        lua_pushinteger(L, PItem->getRankPoints());
+        return 1;
+    }
+    return 0;
+}
+
+inline int32 CLuaItem::addRankPoints(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    uint16 rankPoints = (uint16)lua_tointeger(L, 1);
+    auto PItem = (CItemEquipment*)m_PLuaItem;
+
+    if (PItem)
+    {
+        PItem->AddRankPoints(rankPoints);
+        return 0;
+    }
+    return 0;
+}
+
 //==========================================================//
 
 const char CLuaItem::className[] = "CItem";
@@ -576,6 +606,8 @@ Lunar<CLuaItem>::Register_t CLuaItem::methods[] =
     LUNAR_DECLARE_METHOD(CLuaItem,setMsg),
     LUNAR_DECLARE_METHOD(CLuaItem,getParam),
     LUNAR_DECLARE_METHOD(CLuaItem,setParam),
+    LUNAR_DECLARE_METHOD(CLuaItem,getRankPoints),
+    LUNAR_DECLARE_METHOD(CLuaItem,addRankPoints),
     LUNAR_DECLARE_METHOD(CLuaItem,getModUsable),
     LUNAR_DECLARE_METHOD(CLuaItem,setModUsable),
     LUNAR_DECLARE_METHOD(CLuaItem,getPower),
