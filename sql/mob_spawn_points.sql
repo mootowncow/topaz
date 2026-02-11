@@ -40822,8 +40822,8 @@ INSERT INTO `mob_spawn_points` VALUES (17309760,'Groundskeeper','Groundskeeper',
 INSERT INTO `mob_spawn_points` VALUES (17309763,'Sprinkler','Sprinkler',1,-117.778,-34.492,-179.441,80);
 --INSERT INTO `mob_spawn_points` VALUES (17309764,'Sprinkler','Sprinkler',1,414.833,-8.821,-130.428,127);
 INSERT INTO `mob_spawn_points` VALUES (17309765,'Sprinkler','Sprinkler',1,405.710,-8.820,-128.088,127);
---INSERT INTO `mob_spawn_points` VALUES (17309766,'Sprinkler','Sprinkler',1,425.679,-9.532,-132.246,127);
-INSERT INTO `mob_spawn_points` VALUES (17309767,'Sprinkler','Sprinkler',1,406.276,-8.765,-123.852,82);
+INSERT INTO `mob_spawn_points` VALUES (17309766,'Sprinkler','Sprinkler',1,425.679,-9.532,-132.246,127);
+-- INSERT INTO `mob_spawn_points` VALUES (17309767,'Sprinkler','Sprinkler',1,406.276,-8.765,-123.852,82);
 --INSERT INTO `mob_spawn_points` VALUES (17309768,'Sprinkler','Sprinkler',1,431.756,-6.637,-134.847,127);
 INSERT INTO `mob_spawn_points` VALUES (17309769,'Groundskeeper','Groundskeeper',3,388.175,-16.506,-120.654,127);
 --INSERT INTO `mob_spawn_points` VALUES (17309770,'Groundskeeper','Groundskeeper',3,378.727,-20.822,-77.727,74);
