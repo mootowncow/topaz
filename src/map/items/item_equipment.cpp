@@ -24,7 +24,6 @@
 #include <string.h>
 #include "../map.h"
 #include "item_weapon.h"
-#include "../utils/charutils.h"
 
 CItemEquipment::CItemEquipment(uint16 id) : CItemUsable(id)
 {
@@ -413,83 +412,4 @@ void CItemEquipment::SetAugmentMod(uint16 type, uint8 value)
 uint16 CItemEquipment::getAugment(uint8 slot)
 {
     return ref<uint16>(m_extra, 2 + (slot * 2));
-}
-
-uint16 CItemEquipment::getRankPointsRequired() const
-{
-    // index = rank (1-based)
-    static const uint16 RankRPTable[] =
-    {
-        0,    // dummy for index 0 (unused)
-        50,   // Rank 1 -> 2
-        80,   // Rank 2 -> 3
-        120,
-        170,
-        220,
-        280,
-        340,
-        410,
-        480,
-        560,
-        650,
-        750,
-        860,
-        980,
-        1110,
-        1250,
-        1410,
-        1580,
-        1760,
-        1960,
-        2170,
-        2400,
-        2650,
-        2910,
-        3180,
-        3460,
-        3760,
-        4070,
-        4400, // Rank 29 -> 30
-    };
-
-    if (m_rank >= 30)
-        return 0;
-
-    return RankRPTable[m_rank];
-}
-
-void CItemEquipment::AddRankPoints(uint16 points)
-{
-    if (m_rank >= 30)
-        return;
-
-    m_rankPoints += points;
-
-    while (TryRankUp())
-    {
-        // Loop allows multi-rank jumps
-        // Keep calling TryRankUp until it returns false
-    }
-
-    // Persist immediately
-    if (auto* PChar = getChar())
-    {
-        charutils::SaveSingleItemRank(PChar, this);
-    }
-}
-
-bool CItemEquipment::TryRankUp()
-{
-    uint16 required = getRankPointsRequired();
-
-    if (required == 0)
-        return false;
-
-    if (m_rankPoints >= required)
-    {
-        m_rankPoints -= required;
-        m_rank++;
-        return true;
-    }
-    return false;
 }

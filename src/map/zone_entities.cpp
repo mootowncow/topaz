@@ -1080,7 +1080,6 @@ void CZoneEntities::SaveCharacterData()
         {
             CCharEntity* PChar = (CCharEntity*)it->second;
             charutils::SaveCharPosition(PChar);
-            charutils::SaveItemRanks(PChar);
             PChar->StatusEffectContainer->SaveStatusEffects(false, false);
         }
     }
