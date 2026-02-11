@@ -5233,12 +5233,13 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
     {
         for (uint8 loc = 0; loc < CONTAINER_ID::MAX_CONTAINER_ID; ++loc)
         {
-            auto* cont = PChar->getStorage(loc);
-            if (!cont) continue;
+            auto* container = PChar->getStorage(loc);
+            if (!container) continue;
 
-            for (uint8 slot = 0; slot < MAX_CONTAINER_SIZE; ++slot)
+            uint8 size = container->GetSize();
+            for (uint8 slot = 0; slot < size; ++slot)
             {
-                auto* item = (CItemEquipment*)cont->GetItem(slot);
+                auto* item = (CItemEquipment*)container->GetItem(slot);
                 if (!item) continue;
 
                 if (item->getRank() == 0 && item->getRankPoints() == 0)
