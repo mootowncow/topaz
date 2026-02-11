@@ -33,7 +33,7 @@ function onMobSpawn(mob)
     tpz.mix.jobSpecial.config(mob, {
         specials =
         {
-            {id = tpz.jsa.WILD_CARD, cooldown = 60, hpp = 90},
+            {id = tpz.jsa.WILD_CARD, cooldown = 30, hpp = 95},
         },
     })
 end
