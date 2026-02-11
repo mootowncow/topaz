@@ -2190,6 +2190,9 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
         PActionTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
     }
 
+    if (PSpell->getSkillType() == SKILL_DARK_MAGIC && !PSpell->isBuff())
+        StatusEffectContainer->DelStatusEffectSilent(EFFECT_DARK_SEAL);
+
     this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_MAGIC_END, true);
 
     PRecastContainer->Add(RECAST_MAGIC, static_cast<uint16>(PSpell->getID()), action.recast);
