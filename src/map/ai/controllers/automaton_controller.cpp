@@ -1851,7 +1851,7 @@ namespace autoSpell
         auto& statuses = PTarget->StatusEffectContainer;
         auto evasionMultiplier = battleutils::GetEnfeebleSDT(PSpell.enfeeble, (ELEMENT)spellEntry->getElement(), PTarget);
 
-        return (!statuses->HasStatusEffect(PSpell.enfeeble) && !PTarget->hasImmunity(PSpell.immunity) && evasionMultiplier >= 50);
+        return (!statuses->HasStatusEffect(PSpell.enfeeble) && !PTarget->hasImmunity(PSpell.immunity) && evasionMultiplier = 20);
     }
 
     std::optional<SpellID> FindNaSpell(CStatusEffect* PStatus)
