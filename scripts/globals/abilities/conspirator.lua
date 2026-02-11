@@ -18,6 +18,9 @@ end
 function onUseAbility(player, target, ability)
     local jpValue = player:getJobPointLevel(tpz.jp.CONSPIRATOR_EFFECT) 
     local power = 10
+    local duration = 60
+
     power = power + jpValue
-    target:addStatusEffect(tpz.effect.CONSPIRATOR, power, 0, 300)
+
+    target:addStatusEffect(tpz.effect.CONSPIRATOR, power, 0, duration)
 end
