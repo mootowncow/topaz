@@ -46,6 +46,8 @@ migrations = [
     chat_filters,
 ]
 # These are the default 'protected' files
+# !!!IMPORTANT!!! also need to update config.yaml when editing this!!
+# ONLY UPDATES LOCALLY SO SERVER HOST HAS TO MANUALY UPDATE THEIR CONFIG.YAML
 player_data = [
     'accounts.sql',
     'accounts_banned.sql',
