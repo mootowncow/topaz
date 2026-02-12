@@ -5234,7 +5234,8 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
         for (uint8 loc = 0; loc < CONTAINER_ID::MAX_CONTAINER_ID; ++loc)
         {
             auto* container = PChar->getStorage(loc);
-            if (!container) continue;
+            if (!container)
+                continue;
 
             uint8 size = container->GetSize();
             for (uint8 slot = 0; slot <= size; ++slot)
