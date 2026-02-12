@@ -12,6 +12,9 @@ require("scripts/globals/status")
 require("scripts/globals/msg")
 
 function onMobSkillCheck(target, mob, skill)
+    if mob:getName() == 'Jailer_of_Fortitude' then
+        return 0
+    end
     -- Check for Grah Family id 122, 123, 124, if not in Paladin form, then ignore.
     if ((mob:getFamily() == 122 or mob:getFamily() == 123 or mob:getFamily() == 124) and mob:AnimationSub() ~= 1) then
         return 1
