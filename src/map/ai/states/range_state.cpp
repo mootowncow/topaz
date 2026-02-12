@@ -37,52 +37,24 @@ CRangeState::CRangeState(CBattleEntity* PEntity, uint16 targid) :
 
     if (!PTarget || m_errorMsg)
     {
-        action_t action;
-        action.id = m_PEntity->id;
-        action.actiontype = ACTION_RANGED_INTERRUPT;
-
-        actionList_t& actionList = action.getNewActionList();
-        actionList.ActionTargetID = PTarget ? PTarget->id : m_PEntity->id;
-
-        actionTarget_t& actionTarget = actionList.getNewActionTarget();
-        actionTarget.animation = ANIMATION_RANGED;
-
-        m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+        action_t interruptedAction;
+        m_PEntity->setRangedInterrupted(interruptedAction, PTarget);
 
         throw CStateInitException(std::move(m_errorMsg));
     }
 
     if (!CanUseRangedAttack(PTarget, false))
     {
-        action_t action;
-        action.id = m_PEntity->id;
-        action.actiontype = ACTION_RANGED_INTERRUPT;
-
-        actionList_t& actionList = action.getNewActionList();
-        actionList.ActionTargetID = PTarget ? PTarget->id : m_PEntity->id;
-
-        actionTarget_t& actionTarget = actionList.getNewActionTarget();
-        actionTarget.animation = ANIMATION_RANGED;
-
-        m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+        action_t interruptedAction;
+        m_PEntity->setRangedInterrupted(interruptedAction, PTarget);
 
         throw CStateInitException(std::move(m_errorMsg));
     }
 
     if (distance(m_PEntity->loc.p, PTarget->loc.p) > 25)
     {
-        action_t action;
-        action.id = m_PEntity->id;
-        action.actiontype = ACTION_RANGED_INTERRUPT;
-
-        actionList_t& actionList = action.getNewActionList();
-        actionList.ActionTargetID = PTarget ? PTarget->id : m_PEntity->id;
-
-        actionTarget_t& actionTarget = actionList.getNewActionTarget();
-        actionTarget.animation = ANIMATION_RANGED;
-
-        m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
-        m_errorMsg = std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget, 0, 0, MSGASIC_CANNOT_SEE_TARGET2);
+        action_t interruptedAction;
+        m_PEntity->setRangedInterrupted(interruptedAction, PTarget);
 
         throw CStateInitException(std::move(m_errorMsg));
     }
@@ -256,14 +228,6 @@ bool CRangeState::CanUseRangedAttack(CBattleEntity* PTarget, bool isEndOfAttack)
         }
     }
 
-    if (battleutils::IsParalyzed(m_PEntity))
-    {
-        action_t paralyze_action = {};
-        m_PEntity->setActionInterrupted(paralyze_action, PTarget, MSGBASIC_IS_PARALYZED, 0);
-        m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(paralyze_action));
-        return false;
-    }
-
     if (!facing(m_PEntity->loc.p, PTarget->loc.p, 64))
     {
         m_errorMsg = std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget, 0, 0, MSGBASIC_CANNOT_SEE);
@@ -296,6 +260,50 @@ bool CRangeState::CanUseRangedAttack(CBattleEntity* PTarget, bool isEndOfAttack)
             m_errorMsg = std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget, 0, 0, MSGBASIC_WAIT_LONGER);
             return false;
         }
+    }
+
+    if (battleutils::IsParalyzed(m_PEntity))
+    {
+        auto delay = m_PEntity->GetRangedWeaponDelay(false);
+        delay = battleutils::GetSnapshotReduction(m_PEntity, delay);
+
+        // Reduction from Overkill
+        // https://www.bluegartr.com/threads/116145-Ranged-Delay-Snapshot-and-Stuff?p=5953337&viewfull=1#post5953337
+        if (m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_OVERKILL))
+        {
+            delay = delay *= 0.5;
+        }
+
+        if (m_PEntity->hasTrait(TRAIT_RAPID_SHOT))
+        {
+            auto chance{ m_PEntity->getMod(Mod::RAPID_SHOT) };
+            if (auto PChar = dynamic_cast<CCharEntity*>(m_PEntity))
+            {
+                if (m_PEntity->objtype == TYPE_PC)
+                {
+                    chance += PChar->PMeritPoints->GetMeritValue(MERIT_RAPID_SHOT_RATE, PChar);
+                }
+            }
+
+            if (tpzrand::GetRandomNumber(100) < chance)
+            {
+                // reduce delay by 10%-50%
+                delay = (int16)(delay * (10 - tpzrand::GetRandomNumber(1, 6)) / 10.f);
+                m_rapidShot = true;
+            }
+        }
+
+        m_aimTime = std::chrono::milliseconds(delay);
+
+        if (m_PEntity->objtype == TYPE_PC || m_PEntity->objtype == TYPE_TRUST)
+        {
+            m_PEntity->m_LastRangedAttackTime = GetEntryTime() + m_aimTime + m_returnWeaponDelay;
+        }
+
+        action_t paralyze_action = {};
+        m_PEntity->setActionInterrupted(paralyze_action, PTarget, MSGBASIC_IS_PARALYZED, 0);
+        m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(paralyze_action));
+        return false;
     }
 
     return true;

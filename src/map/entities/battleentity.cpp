@@ -2303,6 +2303,20 @@ void CBattleEntity::setActionInterrupted(action_t& action, CBattleEntity* PTarge
         actionTarget.param = 0;
     }
 }
+void CBattleEntity::setRangedInterrupted(action_t& action, CBattleEntity* PTarget)
+{
+    action.id = id;
+    action.actiontype = ACTION_RANGED_INTERRUPT;
+
+    actionList_t& actionList = action.getNewActionList();
+    actionList.ActionTargetID = PTarget ? PTarget->id : id;
+
+    actionTarget_t& actionTarget = actionList.getNewActionTarget();
+    actionTarget.animation = ANIMATION_RANGED;
+
+    loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CActionPacket(action));
+}
+
 
 CBattleEntity* CBattleEntity::GetBattleTarget()
 {

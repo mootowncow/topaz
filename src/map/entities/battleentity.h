@@ -962,6 +962,7 @@ public:
 
     // Used to set an action to an "interrupted" state
     void setActionInterrupted(action_t& action, CBattleEntity* PTarget, uint16 messageID, uint16 actionID);
+    void setRangedInterrupted(action_t& action, CBattleEntity* PTarget);
 
     virtual void OnAbility(CAbilityState&, action_t&) {}
     virtual void OnRangedAttack(CRangeState&, action_t&) {}
