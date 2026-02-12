@@ -5239,8 +5239,14 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
             uint8 size = container->GetSize();
             for (uint8 slot = 0; slot < size; ++slot)
             {
-                auto* item = (CItemEquipment*)container->GetItem(slot);
-                if (!item) continue;
+                CItem* base = container->GetItem(slot);
+                if (!base)
+                    continue;
+
+                if (!base->isType(ITEM_EQUIPMENT))
+                    continue;
+
+                auto* item = static_cast<CItemEquipment*>(base);
 
                 if (item->getRank() == 0 && item->getRankPoints() == 0)
                     continue;

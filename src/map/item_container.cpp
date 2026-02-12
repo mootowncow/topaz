@@ -43,7 +43,7 @@ CItemContainer::CItemContainer(uint16 LocationID)
 
 CItemContainer::~CItemContainer()
 {
-    for (uint8 SlotID = 0; SlotID < m_size; ++SlotID)
+    for (uint8 SlotID = 0; SlotID <= m_size; ++SlotID)
     {
         delete m_ItemList[SlotID];
     }
