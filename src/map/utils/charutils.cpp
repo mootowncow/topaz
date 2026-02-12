@@ -5237,7 +5237,7 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
             if (!container) continue;
 
             uint8 size = container->GetSize();
-            for (uint8 slot = 0; slot < size; ++slot)
+            for (uint8 slot = 0; slot <= size; ++slot)
             {
                 CItem* base = container->GetItem(slot);
                 if (!base)
