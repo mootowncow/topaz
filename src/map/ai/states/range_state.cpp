@@ -37,17 +37,53 @@ CRangeState::CRangeState(CBattleEntity* PEntity, uint16 targid) :
 
     if (!PTarget || m_errorMsg)
     {
+        action_t action;
+        action.id = m_PEntity->id;
+        action.actiontype = ACTION_RANGED_INTERRUPT;
+
+        actionList_t& actionList = action.getNewActionList();
+        actionList.ActionTargetID = PTarget ? PTarget->id : m_PEntity->id;
+
+        actionTarget_t& actionTarget = actionList.getNewActionTarget();
+        actionTarget.animation = ANIMATION_RANGED;
+
+        m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+
         throw CStateInitException(std::move(m_errorMsg));
     }
 
     if (!CanUseRangedAttack(PTarget, false))
     {
+        action_t action;
+        action.id = m_PEntity->id;
+        action.actiontype = ACTION_RANGED_INTERRUPT;
+
+        actionList_t& actionList = action.getNewActionList();
+        actionList.ActionTargetID = PTarget ? PTarget->id : m_PEntity->id;
+
+        actionTarget_t& actionTarget = actionList.getNewActionTarget();
+        actionTarget.animation = ANIMATION_RANGED;
+
+        m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
+
         throw CStateInitException(std::move(m_errorMsg));
     }
 
     if (distance(m_PEntity->loc.p, PTarget->loc.p) > 25)
     {
+        action_t action;
+        action.id = m_PEntity->id;
+        action.actiontype = ACTION_RANGED_INTERRUPT;
+
+        actionList_t& actionList = action.getNewActionList();
+        actionList.ActionTargetID = PTarget ? PTarget->id : m_PEntity->id;
+
+        actionTarget_t& actionTarget = actionList.getNewActionTarget();
+        actionTarget.animation = ANIMATION_RANGED;
+
+        m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
         m_errorMsg = std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget, 0, 0, MSGASIC_CANNOT_SEE_TARGET2);
+
         throw CStateInitException(std::move(m_errorMsg));
     }
 
@@ -220,16 +256,26 @@ bool CRangeState::CanUseRangedAttack(CBattleEntity* PTarget, bool isEndOfAttack)
         }
     }
 
+    if (battleutils::IsParalyzed(m_PEntity))
+    {
+        action_t paralyze_action = {};
+        m_PEntity->setActionInterrupted(paralyze_action, PTarget, MSGBASIC_IS_PARALYZED, 0);
+        m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(paralyze_action));
+        return false;
+    }
+
     if (!facing(m_PEntity->loc.p, PTarget->loc.p, 64))
     {
         m_errorMsg = std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget, 0, 0, MSGBASIC_CANNOT_SEE);
         return false;
     }
+
     if (distance(m_PEntity->loc.p, PTarget->loc.p) > 25) // Determines max range mob can run before interrupting ranged attack once it begins
     {
         m_errorMsg = std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget, 0, 0, MSGBASIC_TOO_FAR_AWAY);
         return false;
     }
+
     if (!isEndOfAttack && distance(m_PEntity->loc.p, PTarget->loc.p) > 25)
     {
         m_errorMsg = std::make_unique<CMessageBasicPacket>(m_PEntity, PTarget, 0, 0, MSGBASIC_TOO_FAR_AWAY);

@@ -1369,6 +1369,17 @@ bool CPlayerController::RangedAttack(uint16 targid)
     }
     else
     {
+        action_t action;
+        action.id = PChar->id;
+        action.actiontype = ACTION_RANGED_INTERRUPT;
+
+        actionList_t& actionList = action.getNewActionList();
+        actionList.ActionTargetID = targid ? targid : PChar->id;
+
+        actionTarget_t& actionTarget = actionList.getNewActionTarget();
+        actionTarget.animation = ANIMATION_RANGED;
+
+        PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE_SELF, new CActionPacket(action));
         PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_WAIT_LONGER));
     }
     return false;
