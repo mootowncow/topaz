@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `char_item_rank`;
 CREATE TABLE char_item_rank (
     charid   INT UNSIGNED NOT NULL,
     location TINYINT UNSIGNED NOT NULL,
