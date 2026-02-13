@@ -113,6 +113,7 @@ ai.select =
     HELIX_WEAKNESS      = 14,
     LOWEST_WALTZ        = 15,
     BEST_MELEE_SONG     = 16,
+    BEST_CURE           = 17,
 }
 ai.s = ai.select
 

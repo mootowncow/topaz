@@ -50,7 +50,8 @@ function onMobSpawn(mob)
     -- Keep up Reraise
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.RERAISE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RERAISE)
 
-    mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.HPP_LT, 75, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
+    -- Cure current tank if below 75% HP
+    mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.HPP_LT, 75, ai.r.MA, ai.s.BEST_CURE, 0)
 
     mob:addSimpleGambit(ai.t.PARTY_DEAD, ai.c.ALWAYS, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RAISE)
 
@@ -58,7 +59,8 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.CASTS_SPELLS, ai.c.STATUS_CURE, tpz.effect.SILENCE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.SILENA)
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.STATUS_CURE, tpz.effect.PARALYSIS, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.PARALYNA)
 
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 50, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
+    -- Cure other party members if below 50% HP
+    mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 50, ai.r.MA, ai.s.BEST_CURE, 0)
 
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.SLEEP_I, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)

@@ -753,6 +753,26 @@ void CGambitsContainer::Tick(time_point tick)
                         return;
                     }
                 }
+
+                if (action.select == G_SELECT::BEST_CURE)
+                {
+                    if (target && !target->StatusEffectContainer->HasStatusEffect(EFFECT_CURSE_II))
+                    {
+                        auto missinghp = target->GetMaxHP() - target->health.hp;
+                        if (missinghp >= 900 && controller->Cast(target->targid, SpellID::Cure_VI))
+                            return;
+                        else if (missinghp >= 600 && controller->Cast(target->targid, SpellID::Cure_V))
+                            return;
+                        else if (missinghp > 180 && controller->Cast(target->targid, SpellID::Cure_IV))
+                            return;
+                        else if (missinghp > 80 && controller->Cast(target->targid, SpellID::Cure_III))
+                            return;
+                        else if (missinghp > 30 && controller->Cast(target->targid, SpellID::Cure_II))
+                            return;
+                        else if (controller->Cast(target->targid, SpellID::Cure))
+                            return;
+                    }
+                }
             }
             else if (action.reaction == G_REACTION::JA)
             {

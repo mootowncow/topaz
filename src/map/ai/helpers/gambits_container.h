@@ -145,6 +145,7 @@ enum class G_SELECT : uint16
     HELIX_WEAKNESS          = 14,
     LOWEST_WALTZ            = 15,
     BEST_MELEE_SONG         = 16,
+    BEST_CURE               = 17,
 };
 
 enum class G_TP_TRIGGER : uint16
