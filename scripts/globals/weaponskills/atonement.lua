@@ -81,8 +81,8 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
             dmg = math.floor(target:getCE(player) * ceMod) + math.floor(target:getVE(player) * veMod)
         end
 
-        -- Atonement damage caps at 750 before circle effects / WSD
-        dmg = math.min(dmg, 750)
+        -- Atonement damage caps at 450 before circle effects / WSD
+        dmg = math.min(dmg, 450)
 
         -- Apply WS gear mods
         local bonusdmg = player:getMod(tpz.mod.ALL_WSDMG_ALL_HITS)
