@@ -81,22 +81,27 @@ function onMobFight(mob, target)
     end
 
     -- Handle running away
-    if mob:getHPP() <= 90 and mob:getHPP() > 80 and RunAway == 0 then
-        salvageUtil.msgGroup(mob, "The " .. MobName(mob) .. " disappears!", 0xD, none)
-		mob:setLocalVar("RunAwayPath", 1)
-        mob:disengage()
-        mob:getEntity(bit.band(ID.npc._JK1, 0xFFF), tpz.objType.NPC):setAnimation(8)
-    end
-    if mob:getHPP() <= 80 and mob:getHPP() > 70 and RunAway == 1  then
-        salvageUtil.msgGroup(mob, "The " .. MobName(mob) .. " disappears!", 0xD, none)
-		mob:setLocalVar("RunAwayPath", 2)
-        mob:disengage()
-        mob:getEntity(bit.band(ID.npc._1K6, 0xFFF), tpz.objType.NPC):setAnimation(8) -- Rock H-8
-    end
-    if mob:getHPP() <= 70 and RunAway == 2  then
-        salvageUtil.msgGroup(mob, "The " .. MobName(mob) .. " disappears!", 0xD, none)
-		mob:setLocalVar("RunAwayPath", 3)
-        mob:disengage()
+    if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
+        if mob:getHPP() <= 90 and mob:getHPP() > 80 and RunAway == 0 then
+            salvageUtil.msgGroup(mob, "The " .. MobName(mob) .. " disappears!", 0xD, none)
+            mob:setLocalVar("RunAwayPath", 1)
+            mob:disengage()
+            mob:getEntity(bit.band(ID.npc._JK1, 0xFFF), tpz.objType.NPC):setAnimation(8)
+            return
+        end
+        if mob:getHPP() <= 80 and mob:getHPP() > 70 and RunAway == 1  then
+            salvageUtil.msgGroup(mob, "The " .. MobName(mob) .. " disappears!", 0xD, none)
+            mob:setLocalVar("RunAwayPath", 2)
+            mob:disengage()
+            mob:getEntity(bit.band(ID.npc._1K6, 0xFFF), tpz.objType.NPC):setAnimation(8) -- Rock H-8
+            return
+        end
+        if mob:getHPP() <= 70 and RunAway == 2  then
+            salvageUtil.msgGroup(mob, "The " .. MobName(mob) .. " disappears!", 0xD, none)
+            mob:setLocalVar("RunAwayPath", 3)
+            mob:disengage()
+            return
+        end
     end
 
     -- Handle calling adds

@@ -2824,7 +2824,7 @@ INSERT INTO `mob_groups` VALUES (1924,3327,55,'Raubahn',0,128,0,0,0,0,0,0);
 INSERT INTO `mob_groups` VALUES (5,360,56,'Batteilant_Bhoot',0,128,0,9000,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (6,905,56,'Darkling_Draugar',0,128,0,10000,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (7,1097,56,'Draconic_Draugar',0,128,0,10000,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (8,1112,56,'Draugars_Wyvern',0,128,0,0,0,77,77,0);
+INSERT INTO `mob_groups` VALUES (8,1112,56,'Draugars_Wyvern',0,128,0,2500,0,77,77,0);
 INSERT INTO `mob_groups` VALUES (9,9030,56,'Enhanced_Jnun',0,128,0,20000,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (10,9031,56,'Enhanced_Imp',0,128,0,20000,0,83,83,0);
 INSERT INTO `mob_groups` VALUES (11,9032,56,'Enhanced_Soulflayer',0,128,0,70000,0,85,85,0);
