@@ -655,6 +655,8 @@ bool CMobController::MobSkill(int wsList)
                 {
                     PMob->loc.zone->PushPacket(PMob, CHAR_INRANGE, new CMessageBasicPacket(PMob, PTarget, 0, PMobSkill->getID(), MSGBASIC_READIES_WS));
                 }
+
+                FaceTarget(PActionTarget->targid);
                 return MobSkill(PActionTarget->targid, PMobSkill->getID());
             }
         }
