@@ -727,6 +727,9 @@ bool CAutomatonController::TryMagicBurst()
     if (!PSCEffect)
         return false;
 
+    if (PSCEffect->GetTier() == 0)
+        return false;
+
     std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
     if (uint16 power = PSCEffect->GetPower())
     {
