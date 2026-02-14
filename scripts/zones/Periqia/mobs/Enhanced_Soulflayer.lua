@@ -87,20 +87,15 @@ function onMobFight(mob, target)
             mob:setLocalVar("RunAwayPath", 1)
             mob:disengage()
             mob:getEntity(bit.band(ID.npc._JK1, 0xFFF), tpz.objType.NPC):setAnimation(8)
-            return
-        end
-        if mob:getHPP() <= 80 and mob:getHPP() > 70 and RunAway == 1  then
+        elseif mob:getHPP() <= 80 and mob:getHPP() > 70 and RunAway == 1  then
             salvageUtil.msgGroup(mob, "The " .. MobName(mob) .. " disappears!", 0xD, none)
             mob:setLocalVar("RunAwayPath", 2)
             mob:disengage()
             mob:getEntity(bit.band(ID.npc._1K6, 0xFFF), tpz.objType.NPC):setAnimation(8) -- Rock H-8
-            return
-        end
-        if mob:getHPP() <= 70 and RunAway == 2  then
+        elseif mob:getHPP() <= 70 and RunAway == 2  then
             salvageUtil.msgGroup(mob, "The " .. MobName(mob) .. " disappears!", 0xD, none)
             mob:setLocalVar("RunAwayPath", 3)
             mob:disengage()
-            return
         end
     end
 
