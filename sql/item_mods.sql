@@ -17936,9 +17936,9 @@ INSERT INTO `item_mods` VALUES (15506,5,10);
 INSERT INTO `item_mods` VALUES (15508,8,5);     -- Justice Torque
 INSERT INTO `item_mods` VALUES (15508,86,12);
 INSERT INTO `item_mods` VALUES (15508,89,12);
-INSERT INTO `item_mods` VALUES (15509,11,5);
-INSERT INTO `item_mods` VALUES (15509,88,7);
-INSERT INTO `item_mods` VALUES (15509,104,7);
+INSERT INTO `item_mods` VALUES (15509,11,5); -- AGI 5
+INSERT INTO `item_mods` VALUES (15509,88,7); -- KATANA 7
+INSERT INTO `item_mods` VALUES (15509,104,12); -- ARCHERY 12
 INSERT INTO `item_mods` VALUES (15510,12,5);        -- Prudence Torque
 INSERT INTO `item_mods` VALUES (15510,83,12);
 INSERT INTO `item_mods` VALUES (15510,90,12);
