@@ -37,6 +37,7 @@ zones[tpz.zone.PROMYVION_HOLLA] =
             [16842947] = {4, 7, 16843060},
             [16842956] = {4, 7, 16843061},
         },
+        CEREBRATOR = 16843041
     },
     npc =
     {

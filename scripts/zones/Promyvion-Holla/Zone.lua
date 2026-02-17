@@ -12,6 +12,8 @@ require("scripts/globals/status")
 -----------------------------------
 
 function onInitialize(zone)
+    UpdateNMSpawnPoint(ID.mob.CEREBRATOR)
+
     tpz.promyvion.initZone(zone)
 end
 

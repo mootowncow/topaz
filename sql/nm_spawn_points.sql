@@ -6865,6 +6865,9 @@ INSERT INTO `nm_spawn_points` VALUES (17502570,1, 74.864410, 0.000000, 459.69076
 INSERT INTO `nm_spawn_points` VALUES (16859441,0, 195.19, 0, -125.30); -- Coveter
 INSERT INTO `nm_spawn_points` VALUES (16859441,1, -174.98, -0.39, 65.56); -- Coveter
 
+INSERT INTO `nm_spawn_points` VALUES (16843041,0, -236.055, -0.500, 124.179); -- Cerebrator
+INSERT INTO `nm_spawn_points` VALUES (16843041,1, 202.07, -0.1, 275.37); -- Cerebrator
+
 
 /*!40000 ALTER TABLE `nm_spawn_points` ENABLE KEYS */;
 UNLOCK TABLES;
