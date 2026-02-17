@@ -19,9 +19,9 @@ require("scripts/globals/weaponskills")
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     local params = {}
-    params.numHits = 1
+    params.numHits = 2
     params.ftp100 = 1.0 params.ftp200 = 1.0 params.ftp300 = 1.0
-    params.str_wsc = 0.0 params.dex_wsc = 0.2 params.vit_wsc = 0.0 params.agi_wsc = 0.2 params.int_wsc = 0.0 params.mnd_wsc = 0.0 params.chr_wsc = 0.0
+    params.str_wsc = 0.0 params.dex_wsc = 0.3 params.vit_wsc = 0.0 params.agi_wsc = 0.2 params.int_wsc = 0.0 params.mnd_wsc = 0.0 params.chr_wsc = 0.0
     params.crit100 = 0.0 params.crit200 = 0.0 params.crit300 = 0.0
     params.canCrit = false
     params.acc100 = 0.0 params.acc200= 0.0 params.acc300= 0.0
@@ -41,7 +41,6 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     power = power / 2
 
     if damage > 0 and (canOverwrite(target, effect, power)) and resist >= 0.5 then
-        --local duration = (0 + (tp/2000 * 30)) * applyResistanceAddEffect(player, target, tpz.magic.ele.WATER, 0)
         local duration = 60 * resist
         target:delStatusEffectSilent(effect)
         target:addStatusEffect(effect, power, 3, duration)

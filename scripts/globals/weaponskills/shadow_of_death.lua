@@ -33,22 +33,30 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 
     local damage, criticalHit, tpHits, extraHits = doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
 	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.SCYTHE, tpHits+extraHits) end
-		
 
-    local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.DARK, 0, tpz.effect.STR_DOWN)
-    if IsWSDamageMessage(target, action) and resist >= 0.5 then
-        local power = math.floor(player:getMainLvl() / 5  + 3)
-        local duration = 90 * resist
-        target:addStatusEffect(tpz.effect.STR_DOWN, power, 0, duration)
-        target:addStatusEffect(tpz.effect.DEX_DOWN, power, 0, duration)
-        target:addStatusEffect(tpz.effect.VIT_DOWN, power, 0, duration)
-        target:addStatusEffect(tpz.effect.AGI_DOWN, power, 0, duration)
-        target:addStatusEffect(tpz.effect.INT_DOWN, power, 0, duration)
-        target:addStatusEffect(tpz.effect.MND_DOWN, power, 0, duration)
-        target:addStatusEffect(tpz.effect.CHR_DOWN, power, 0, duration)
+    if IsWSDamageMessage(target, action) then
+        local power = math.floor(player:getMainLvl() / 5 + 3)
+        local bonusMacc = 0
+
+        local effects = {
+            tpz.effect.STR_DOWN,
+            tpz.effect.DEX_DOWN,
+            tpz.effect.VIT_DOWN,
+            tpz.effect.AGI_DOWN,
+            tpz.effect.INT_DOWN,
+            tpz.effect.MND_DOWN,
+            tpz.effect.CHR_DOWN,
+        }
+
+        for _, effect in ipairs(effects) do
+            local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.DARK, bonusMacc, effect)
+
+            if resist >= 0.5 then
+                local duration = 90 * resist
+                target:addStatusEffect(effect, power, 0, duration)
+            end
+        end
     end
 
-
-  
     return tpHits, extraHits, criticalHit, damage
 end
