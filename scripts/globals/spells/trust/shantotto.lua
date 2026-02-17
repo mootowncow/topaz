@@ -44,6 +44,8 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.BREAKGA, 0, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.BREAKGA)
 
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.SUBTLE_SORCERY, ai.r.JA, ai.s.SPECIFIC, tpz.ja.SUBTLE_SORCERY)
+
     -- Magic burst logic!
     mob:addSimpleGambit(ai.t.TARGET, ai.c.MB_AVAILABLE, 0, ai.r.MA, ai.s.MB_ELEMENT, tpz.magic.spellFamily.NONE)
 
