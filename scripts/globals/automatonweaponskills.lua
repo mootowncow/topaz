@@ -70,18 +70,23 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
     local maxHitRate = 0.95
     local minHitRate = 0.2
 
-    -- Ranged attack BPs use Racc
+    -- Ranged attacks use Racc
     if (attackType == tpz.attackType.RANGED) then
         hitRate = auto:getRangedHitRate(target, false, accBonus, false)
     end
 
-    -- First hit gets bonus hit rate
-    local firstHitChance = hitRate +50 -- +50% hit rate aka +100 acc
+    -- First hit gets bonus hit rate (+100 Acc)
+    local firstHitRate = auto:getHitRate(target, attackNumber, accBonus +100, false)
 
-    firstHitChance = firstHitChance / 100
+    -- Ranged attacks use Racc
+    if (attackType == tpz.attackType.RANGED) then
+        firstHitRate = auto:getRangedHitRate(target, false, accBonus +100, false)
+    end
+
+    firstHitRate = firstHitRate / 100
     hitRate = hitRate / 100
 
-    firstHitChance = utils.clamp(firstHitChance, minHitRate, maxHitRate)
+    firstHitRate = utils.clamp(firstHitRate, minHitRate, maxHitRate)
     hitRate = utils.clamp(hitRate, minHitRate, maxHitRate)
 
     local pDif = 0
@@ -101,7 +106,7 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
     local shadowsFullyAbsorbed = 0
     local finaldmg = 0
 
-    if math.random() < firstHitChance then
+    if math.random() < firstHitRate then
         firstHitLanded = true
         numHitsLanded = numHitsLanded + 1
     end

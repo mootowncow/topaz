@@ -67,6 +67,9 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     local canCrit = (tpeffect == TP_CRIT_VARIES) or (tpeffect == TP_RANGED_CRIT)
     local tp = mob:getSpentTP()
 
+    -- Reset message
+    skill:setMsg(tpz.msg.basic.DAMAGE)
+
     --get fSTR
     local fSTR = mob:getFSTR(target, tpz.slot.MAIN, true, false)
 
@@ -176,24 +179,28 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     end
 
     -- start the hits
-    local hitchance = math.random()
+    local chance = math.random()
     local finaldmg = 0
     local hitsdone = 1
     local hitslanded = 0
 
-    local chance = math.random()
+    -- First hit gets bonus hit rate (+100 Acc)
+    local firstHitRate = mob:getHitRate(target, attackNumber, accBonus +100, false)
 
-    -- first hit has a higher chance to land
-    local firstHitChance = hitrate +50 -- changed from * 1.5 to +50 meaning 50% hit rate aka +100 acc
-    if (params_phys.NO_FIRST_HIT_BONUS ~= nil) then
-        firstHitChance = hitrate
+    if isRanged then
+        firstHitRate = mob:getRangedHitRate(target, false, accBonus +100, false)
     end
 
-    firstHitChance = utils.clamp(firstHitChance, minHitRate, maxHitRate)
+    -- If params_phys.NO_FIRST_HIT_BONUS, don't add first hit bonus. Used for mob /RA "autoattack" skills
+    if (params_phys.NO_FIRST_HIT_BONUS ~= nil) then
+        firstHitRate = hitrate
+    end
+
+    firstHitRate = utils.clamp(firstHitRate, minHitRate, maxHitRate)
 
     -- Sneak and Trick attack force 100% hit rate on the first attack
     if isSneakAttack(mob, target) or isTrickAttack(mob, target) then
-        firstHitChance = 100
+        firstHitRate = 100
     end
 
     -- Set block rate to 0 for now
@@ -202,7 +209,7 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
     pdif = MobGeneratePdif(mob, target, tpeffect, false, bonusAttPercent, flatAttackBonus, ignoredDef)
 
     --printf("[%s] Pdif is %f", name, pdif)
-    if ((chance*100) <= firstHitChance) then
+    if ((chance*100) <= firstHitRate) then
         if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
             pdif = MobGeneratePdif(mob, target, tpeffect, true, bonusAttPercent, flatAttackBonus, ignoredDef)
             TryBreakMob(target)
@@ -617,7 +624,7 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     -- physical attack missed, skip rest
     if (skill:hasMissMsg()) then
 
-        skill:setMsg(tpz.msg.basic.MISS)
+        skill:setMsg(tpz.msg.basic.SKILL_MISS)
         return 0
     end
 
@@ -625,14 +632,14 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
     if ((target:hasStatusEffect(tpz.effect.PERFECT_DODGE) or target:hasStatusEffect(tpz.effect.TOO_HIGH))
         and attackType == tpz.attackType.PHYSICAL) then
 
-        skill:setMsg(tpz.msg.basic.MISS)
+        skill:setMsg(tpz.msg.basic.SKILL_MISS)
         return 0
     end
 
     -- Handle fanatics drink/powder
     if (target:hasStatusEffect(tpz.effect.PHYSICAL_SHIELD)) and (target:getStatusEffect(tpz.effect.PHYSICAL_SHIELD):getPower() == 3) then
 
-        skill:setMsg(tpz.msg.basic.MISS)
+        skill:setMsg(tpz.msg.basic.SKILL_MISS)
         return 0
     end
 
@@ -682,7 +689,7 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
 
     -- Handle Third Eye counter logic
     if attackType == tpz.attackType.PHYSICAL and utils.thirdeye(mob, target) then
-        skill:setMsg(tpz.msg.basic.MISS)
+        skill:setMsg(tpz.msg.basic.SKILL_MISS)
         return 0
     end
 
@@ -795,7 +802,7 @@ function MobFinalAdjustments(dmg, mob, skill, target, attackType, damageType, sh
                 target:addTP(tpAdded)
             end
 
-            skill:setMsg(tpz.msg.basic.MISS)
+            skill:setMsg(tpz.msg.basic.SKILL_MISS)
             return 0
         end
     end

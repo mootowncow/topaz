@@ -62,14 +62,20 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
     if (attackType == tpz.attackType.RANGED) then
         hitRate = avatar:getRangedHitRate(target, false, accBonus, false)
     end
-    -- First hit gets bonus hit rate
-    local firstHitChance = hitRate +50 -- +50% hit rate aka +100 acc
 
-    firstHitChance = firstHitChance / 100
+    -- First hit gets bonus hit rate (+100 Acc)
+    local firstHitRate = avatar:getHitRate(target, attackNumber, accBonus +100, false)
+
+    -- Ranged attack BPs use Racc
+    if (attackType == tpz.attackType.RANGED) then
+        firstHitRate = avatar:getRangedHitRate(target, false, accBonus +100, false)
+    end
+
+    firstHitRate = firstHitRate / 100
     hitRate = hitRate / 100
-    firstHitChance = utils.clamp(firstHitChance, minHitRate, maxHitRate)
-    hitRate = utils.clamp(hitRate, minHitRate, maxHitRate)
 
+    firstHitRate = utils.clamp(firstHitRate, minHitRate, maxHitRate)
+    hitRate = utils.clamp(hitRate, minHitRate, maxHitRate)
 
     local pDif = 0
     local ignoredDef = 0
@@ -88,7 +94,7 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
     local shadowsFullyAbsorbed = 0
     local finaldmg = 0
 
-    if math.random() < firstHitChance then
+    if math.random() < firstHitRate then
         firstHitLanded = true
         numHitsLanded = numHitsLanded + 1
     end

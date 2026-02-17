@@ -1362,6 +1362,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     uint16 defaultMessage = PSkill->getMsg();
 
     bool first {true};
+    // Start of mobskill loop
     for (auto&& PTargetFound : PAI->TargetFind->m_targets)
     {
         if (PTarget == PTargetFound && skipSelf)
@@ -1503,7 +1504,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         }
 
         // Don't knockback if the move missed or was fully absorbed by shadows
-        if (target.reaction != REACTION_MISS && msg != MSGBASIC_SHADOW_ABSORB)
+        if (target.reaction != REACTION_MISS && target.messageID != MSGBASIC_SHADOW_ABSORB)
         {
             target.knockback = PSkill->getKnockback();
             //target.knockback -= PTargetFound->getMod(Mod::KNOCKBACK_REDUCTION); // TODO: Add mod
@@ -1598,6 +1599,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             ((CMobEntity*)PTargetFound)->DoAutoTarget();
         }
     }
+    // End of mobskill loop
 
     if (PTarget->objtype == TYPE_MOB && (PTarget->isDead() || (objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() == PETTYPE_AVATAR)))
     {
