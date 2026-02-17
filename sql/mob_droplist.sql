@@ -1192,7 +1192,7 @@ INSERT INTO `mob_droplist` VALUES (192,4,0,1000,1165,0);
 INSERT INTO `mob_droplist` VALUES (193,0,0,1000,914,50); -- (Aura Pot) Vial of mercury
 INSERT INTO `mob_droplist` VALUES (193,4,0,1000,954,0);
 INSERT INTO `mob_droplist` VALUES (193,0,0,1000,954,150); -- Magic pot shard
-INSERT INTO `mob_droplist` VALUES (193,0,0,1000,1195,50); -- Flask of Ro'Maeve spring water
+INSERT INTO `mob_droplist` VALUES (193,0,0,1000,1195,10); -- Flask of Ro'Maeve spring water
 INSERT INTO `mob_droplist` VALUES (193,0,0,1000,1430,150); -- Red mage's testimony
 INSERT INTO `mob_droplist` VALUES (193,1,1,100,4659,200); -- Scroll of Shell IV
 INSERT INTO `mob_droplist` VALUES (193,1,1,100,4774,200); -- Scroll of Thunder III
