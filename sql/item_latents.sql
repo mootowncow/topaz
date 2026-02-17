@@ -2396,7 +2396,8 @@ INSERT INTO `item_latents` VALUES(17333, 369, -1, 56, 0);   -- Rune Arrow -1MP/t
 -- -------------------------------------------------------
 -- Frenzy Fife
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(17365, 8, 4, 25, 0);      -- Frenzy Fife, STR+4 song/roll active
+INSERT INTO `item_latents` VALUES(17365, 8, 4, 25, 0); -- [17365] Frenzy Fife: Song Roll Active(0) - STR 4
+INSERT INTO `item_latents` VALUES(17365, 384, 400, 25, 0); -- [17365] Frenzy Fife: Song Roll Active(0) - HASTE_GEAR 400
 
 -- -------------------------------------------------------
 -- Frenzy Sallet
