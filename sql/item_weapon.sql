@@ -1697,7 +1697,7 @@ INSERT INTO `item_weapon` VALUES (18053,'gravedigger',7,0,0,0,0,2,1,490,74,500);
 INSERT INTO `item_weapon` VALUES (18054,'ivory_sickle',7,0,0,0,0,2,1,501,80,0);
 INSERT INTO `item_weapon` VALUES (18055,'ivory_sickle_+1',7,0,0,0,0,2,1,490,81,0);
 INSERT INTO `item_weapon` VALUES (18056,'martial_scythe',7,0,0,0,0,2,1,528,92,0);
-INSERT INTO `item_weapon` VALUES (18057,'ys_scythe',7,0,0,0,0,2,1,513,92,0);
+INSERT INTO `item_weapon` VALUES (18057,'ys_scythe',7,0,0,0,0,2,1,513,94,0);
 INSERT INTO `item_weapon` VALUES (18058,'orichalcum_scythe',7,0,0,0,0,2,1,528,97,0);
 INSERT INTO `item_weapon` VALUES (18059,'tritons_scythe',7,0,0,0,0,2,1,513,98,0);
 INSERT INTO `item_weapon` VALUES (18060,'blizzard_scythe',7,0,0,0,0,2,1,528,97,0);
