@@ -1079,7 +1079,7 @@ INSERT INTO `mob_skill_lists` VALUES ('ShadowLord',224,668);
 INSERT INTO `mob_skill_lists` VALUES ('ShadowLord',224,671);
 INSERT INTO `mob_skill_lists` VALUES ('ShadowLord',224,672);
 INSERT INTO `mob_skill_lists` VALUES ('ShadowLord',224,673);
--- 225 free
+INSERT INTO `mob_skill_lists` VALUES ('AnimatedWeapon-Shield',225,405);
 INSERT INTO `mob_skill_lists` VALUES ('Sheep',226,260);
 INSERT INTO `mob_skill_lists` VALUES ('Sheep',226,261);
 INSERT INTO `mob_skill_lists` VALUES ('Sheep',226,262);
