@@ -55234,22 +55234,26 @@ INSERT INTO `mob_spawn_points` VALUES (17506399,'Slave_Globe','Slave Globe',10,8
 INSERT INTO `mob_spawn_points` VALUES (17506400,'Slave_Globe','Slave Globe',10,856.947,-99.924,-579.291,127);
 INSERT INTO `mob_spawn_points` VALUES (17506401,'Slave_Globe','Slave Globe',10,857.947,-99.924,-580.291,127);
 INSERT INTO `mob_spawn_points` VALUES (17506402,'Slave_Globe','Slave Globe',10,858.947,-99.924,-581.291,127);
-INSERT INTO `mob_spawn_points` VALUES (17506403,'Aura_Statue','Aura Statue',11,713,-99,-588,120);
---INSERT INTO `mob_spawn_points` VALUES (17506404,'Aura_Statue','Aura Statue',11,740,-100,-546,127);
---INSERT INTO `mob_spawn_points` VALUES (17506405,'Aura_Statue','Aura Statue',11,0,0,0,67);
-INSERT INTO `mob_spawn_points` VALUES (17506406,'Aura_Statue','Aura Statue',11,711,-100,-576,59);
-INSERT INTO `mob_spawn_points` VALUES (17506407,'Aura_Statue','Aura Statue',11,717,-100,-601,106);
---INSERT INTO `mob_spawn_points` VALUES (17506408,'Aura_Statue','Aura Statue',11,737,-100,-609,127);
-INSERT INTO `mob_spawn_points` VALUES (17506409,'Aura_Statue','Aura Statue',11,765,-100,-595,127);
---INSERT INTO `mob_spawn_points` VALUES (17506410,'Aura_Statue','Aura Statue',11,768,-100,-582,127);
-INSERT INTO `mob_spawn_points` VALUES (17506411,'Aura_Statue','Aura Statue',11,763,-100,-557,127);
---INSERT INTO `mob_spawn_points` VALUES (17506412,'Aura_Statue','Aura Statue',11,742,-100,-583,127);
-INSERT INTO `mob_spawn_points` VALUES (17506413,'Aura_Statue','Aura Statue',11,733,-100,-575,56);
---INSERT INTO `mob_spawn_points` VALUES (17506414,'Aura_Statue','Aura Statue',11,739,-100,-557,33);
-INSERT INTO `mob_spawn_points` VALUES (17506415,'Aura_Statue','Aura Statue',11,717,-100,-559,127);
---INSERT INTO `mob_spawn_points` VALUES (17506416,'Aura_Statue','Aura Statue',11,750,-100,-608,127);
-INSERT INTO `mob_spawn_points` VALUES (17506417,'Aura_Statue','Aura Statue',11,0,0,0,67);
+
+-- Ullikummi room begin
+INSERT INTO `mob_spawn_points` VALUES (17506403,'Aura_Statue','Aura Statue',40,713,-99,-588,120);
+--INSERT INTO `mob_spawn_points` VALUES (17506404,'Aura_Statue','Aura Statue',40,740,-100,-546,127);
+--INSERT INTO `mob_spawn_points` VALUES (17506405,'Aura_Statue','Aura Statue',40,0,0,0,67);
+INSERT INTO `mob_spawn_points` VALUES (17506406,'Aura_Statue','Aura Statue',40,711,-100,-576,59);
+INSERT INTO `mob_spawn_points` VALUES (17506407,'Aura_Statue','Aura Statue',40,717,-100,-601,106);
+--INSERT INTO `mob_spawn_points` VALUES (17506408,'Aura_Statue','Aura Statue',40,737,-100,-609,127);
+INSERT INTO `mob_spawn_points` VALUES (17506409,'Aura_Statue','Aura Statue',40,765,-100,-595,127);
+--INSERT INTO `mob_spawn_points` VALUES (17506410,'Aura_Statue','Aura Statue',40,768,-100,-582,127);
+INSERT INTO `mob_spawn_points` VALUES (17506411,'Aura_Statue','Aura Statue',40,763,-100,-557,127);
+--INSERT INTO `mob_spawn_points` VALUES (17506412,'Aura_Statue','Aura Statue',40,742,-100,-583,127);
+INSERT INTO `mob_spawn_points` VALUES (17506413,'Aura_Statue','Aura Statue',40,733,-100,-575,56);
+--INSERT INTO `mob_spawn_points` VALUES (17506414,'Aura_Statue','Aura Statue',40,739,-100,-557,33);
+INSERT INTO `mob_spawn_points` VALUES (17506415,'Aura_Statue','Aura Statue',40,717,-100,-559,127);
+INSERT INTO `mob_spawn_points` VALUES (17506416,'Aura_Statue','Aura Statue',40,750,-100,-608,127);
+-- INSERT INTO `mob_spawn_points` VALUES (17506417,'Aura_Statue','Aura Statue',40,0,0,0,67);
 INSERT INTO `mob_spawn_points` VALUES (17506418,'Ullikummi','Ullikummi',12,739,-99,-581,195);
+-- Ullikummi room end
+
 INSERT INTO `mob_spawn_points` VALUES (17506419,'Aura_Weapon','Aura Weapon',1,0,0,0,0);
 --INSERT INTO `mob_spawn_points` VALUES (17506420,'Aura_Weapon','Aura Weapon',1,0,0,0,0);
 INSERT INTO `mob_spawn_points` VALUES (17506421,'Aura_Weapon','Aura Weapon',1,35.774,-16.032,83.397,57);

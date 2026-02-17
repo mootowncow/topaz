@@ -12347,6 +12347,7 @@ INSERT INTO `mob_groups` VALUES (35,4714,178,'QingLong',0,128,0,0,5000,98,99,0);
 INSERT INTO `mob_groups` VALUES (36,4713,178,'ZhuQue',0,128,0,0,5000,98,99,0);
 INSERT INTO `mob_groups` VALUES (37,4712,178,'XuanWu',0,128,0,0,5000,98,99,0);
 INSERT INTO `mob_groups` VALUES (39,288,178,'Aura_Pot',330,0,193,0,0,79,80,0);
+INSERT INTO `mob_groups` VALUES (40,289,178,'Aura_Statue',330,0,2824,0,0,83,84,0);
 
 -- ------------------------------------------------------------
 -- Stellar_Fulcrum (Zone 179)
