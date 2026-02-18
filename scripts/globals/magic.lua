@@ -7,6 +7,8 @@ require("scripts/globals/msg")
 require("scripts/globals/items")
 require("scripts/globals/magian")
 ------------------------------------
+tpz = tpz or {}
+tpz.magic = tpz.magic or {}
 
 ------------------------------------
 -- Globals
@@ -14,9 +16,6 @@ require("scripts/globals/magian")
 ---
 HELIX_TIER_1 = 1
 HELIX_TIER_2 = 2
-
-tpz = tpz or {}
-tpz.magic = tpz.magic or {}
 
 ------------------------------------
 -- Resistance Building Categories
