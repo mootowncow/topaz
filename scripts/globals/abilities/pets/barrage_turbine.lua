@@ -14,12 +14,12 @@ end
 function onPetAbility(target, automaton, skill, master, action)
     automaton:addRecast(tpz.recast.ABILITY, skill:getID(), 180)
     local duration = 300
+    local maneuvers = master:countEffect(tpz.effect.WIND_MANEUVER)
     local arrows = 1 + maneuvers
 
     automaton:addStatusEffect(tpz.effect.BARRAGE)
     automaton:setLocalVar("barrage_turbine", arrows)
 
-    local maneuvers = master:countEffect(tpz.effect.WIND_MANEUVER)
 
     for i = 1, maneuvers do
         master:delStatusEffectSilent(tpz.effect.WIND_MANEUVER)
