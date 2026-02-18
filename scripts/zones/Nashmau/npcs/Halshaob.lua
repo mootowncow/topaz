@@ -17,25 +17,19 @@ function onTrade(player, npc, trade)
 
     if timer <= now and quest == 0 then
         if (trade:getItemQty(tpz.items.IMPERIAL_BRONZE_PIECE) == 3) and trade:getItemCount() == 3 then
-            if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.SCOUTING_THE_ASHU_TALIF) == QUEST_AVAILABLE then
-                player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.SCOUTING_THE_ASHU_TALIF)
-            end
+            player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.SCOUTING_THE_ASHU_TALIF)
             player:setCharVar("Halshaob_Timer", os.time() + 86400)
             player:setCharVar("Halshaob_Quest", 2)
             player:startEvent(302, 2184, 3, 101)
             player:tradeComplete()
         elseif (trade:getItemQty(tpz.items.IMPERIAL_SILVER_PIECE) == 1) and trade:getItemCount() == 1 and questSTAT == QUEST_COMPLETED then
-          if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT) == QUEST_AVAILABLE then
-              player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT)
-          end
+          player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.ROYAL_PAINTER_ESCORT)
           player:setCharVar("Halshaob_Timer", os.time() + 86400)
           player:setCharVar("Halshaob_Quest", 4)
           player:startEvent(302, 2185, 1, 102)
           player:tradeComplete()
         elseif trade:getItemQty(tpz.items.IMPERIAL_MYTHRIL_PIECE) == 1 and trade:getItemCount() == 1 and questRPE == QUEST_COMPLETED then
-            if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.TARGETING_THE_CAPTAIN) == QUEST_AVAILABLE then
-                player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.TARGETING_THE_CAPTAIN)
-            end
+            player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.TARGETING_THE_CAPTAIN)
             player:setCharVar("Halshaob_Timer", os.time() + 86400)
             player:setCharVar("Halshaob_Quest", 8)
             player:startEvent(302, 2186, 1, 103)
