@@ -5096,7 +5096,8 @@ INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,114); -- raiden_thrust
 INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,116); -- penta_thrust
 INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,120); -- impulse_drive
 
+INSERT INTO `mob_skill_lists` VALUES ('Batteilant_Bhoot',6171,1794); -- perdition
 
 -- Next available ID: 1215
--- Next custom ID: 6171
+-- Next custom ID: 6172
 
