@@ -114,7 +114,7 @@ INSERT INTO `abilities` VALUES (80,'spirit_link',14,25,1,90,162,0,0,94,2000,0,6,
 INSERT INTO `abilities` VALUES (82,'chi_blast',2,41,4,180,18,110,0,92,2000,0,6,20.0,0,0,0,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (83,'convert',5,40,1,600,49,0,0,88,2000,0,6,20.0,0,1,80,640,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (84,'accomplice',6,65,2,300,69,526,0,185,2000,0,6,12.6,0,0,0,0,0,'WOTG',0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (85,'call_beast',9,23,1,180,104,0,0,83,2000,0,6,18.0,0,1,0,900,0,NULL,0,0,0,0,0,0);
+INSERT INTO `abilities` VALUES (85,'call_beast',9,23,1,300,104,0,0,83,2000,0,6,18.0,0,1,0,900,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (86,'unlimited_shot',11,51,1,180,75,0,0,90,2000,0,6,20.0,0,1,300,1030,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (87,'dismiss',14,1,1,300,161,0,0,94,2000,0,6,20.0,0,0,0,0,4,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (88,'assault',15,1,4,5,170,0,0,94,2000,0,6,20.0,0,0,0,0,256,NULL,0,0,0,0,0,0);
