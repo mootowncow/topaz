@@ -1,3 +1,8 @@
+-----------------------------------
+
+--   Monster TP Moves
+
+-----------------------------------
 require("scripts/globals/magicburst")
 require("scripts/globals/status")
 require("scripts/globals/magic")
@@ -6,6 +11,8 @@ require("scripts/globals/msg")
 require("scripts/globals/mobs")
 require("scripts/globals/weaponskills")
 require("scripts/globals/aftermath")
+require("scripts/globals/battle_utils")
+-----------------------------------
 -- TODO: Change params_phys to params and also change in all phys tp move files
 -- Foreword: A lot of this is good estimating since the FFXI playerbase has not found all of info for individual moves.
 --            What is known is that they roughly follow player Weaponskill calculations (pDIF, dMOD, ratio, etc) so this is what
@@ -50,109 +57,52 @@ TP_IGNORE_MACC = 8
 
 BOMB_TOSS_HPP = 1
 
-function MobRangedMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, params_phys)
+function MobRangedMove(mob, target, skill, numberOfHits, accmod, dmgmod, tpeffect, params_phys)
     -- All formula changes for being ranged are handled in Mob1Move via the TP_RANGED param
     -- A MOVE WILL NOT BE CONSIDERED RANGED IF YOU DON'T SET THE tpeffect to TP_RANGED!
-    return MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, params_phys)
+    return MobPhysicalMove(mob, target, skill, numberOfHits, accmod, dmgmod, tpeffect, params_phys)
 end
 
 -- HYBRID MOVES:
 -- params_phys.hybrid = true
 -- params_phys.hybridElement = (i.e. tpz.magic.ele.WIND) **REQUIRED**
 
-function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, params_phys, mtp150, mtp300, offcratiomod)
+function MobPhysicalMove(mob, target, skill, numberOfHits, accmod, dmgmod, tpeffect, params_phys, mtp150, mtp300, offcratiomod)
     local returninfo = {}
-    local name = mob:getName()
-    local isRanged = false
-    local canCrit = (tpeffect == TP_CRIT_VARIES) or (tpeffect == TP_RANGED_CRIT)
     local tp = mob:getSpentTP()
 
     -- Reset message
     skill:setMsg(tpz.msg.basic.DAMAGE)
 
-    --get fSTR
-    local fSTR = mob:getFSTR(target, tpz.slot.MAIN, true, false)
-
-    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
-        isRanged = true
-        fSTR = mob:getFSTR(target, tpz.slot.RANGED, true, false)
-    end
-
-    local lvluser = mob:getMainLvl()
-    local lvltarget = target:getMainLvl()
-    
-    --apply WSC
-    local WSC = getMobWSC(mob, params_phys)
-    --printf("WSC %u", WSC)
-
-    local base = mob:getWeaponDmg() + WSC + fSTR
-    if isRanged then
-        base = mob:getRangedDmg() + WSC + fSTR
-    end
-    --printf("dmg WITH wsc %u", base)
-    if (base < 1) then
-        base = 1
-    end
-
-    local lvldiff = lvluser - lvltarget
-    if lvldiff < 0 then
-        lvldiff = 0
-    end
+    local isRanged = tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT
+    local wsc = getMobWSC(mob, params_phys)
+    local weaponDamage = battleUtils.getWeaponDamage(mob, target, skill, numberOfHits, nil, wsc, isRanged, params_phys)
+    local hitDamage = weaponDamage * dmgmod
+    local multiHitDmg = hitDamage -- This can be edited if any monster TP has ftp transfer
 
     local attackNumber = 0
     -- Calculate accBonus
     local accBonus = 0
 
     -- Add Acc varies with TP to 3+ hit TP moves
-    if not canCrit and (numberofhits > 2) then
+    local canCrit = (tpeffect == TP_CRIT_VARIES) or (tpeffect == TP_RANGED_CRIT)
+    if not canCrit and (numberOfHits > 2) then
         accBonus = accBonus + MobAccTPModifier(tp)
     end
 
     -- Get hit rate
-    local hitrate = mob:getHitRate(target, attackNumber, accBonus, false)
-    local maxHitRate = 100
-    local minHitRate = 20
+    local firstHitRate, hitRate = battleUtils.getHitRate(mob, target, skill, numberOfHits, nil, isRanged, attackNumber, accBonus, params_phys)
 
-    if isRanged then
-        hitrate = mob:getRangedHitRate(target, false, accBonus, false)
+   -- If params_phys.NO_FIRST_HIT_BONUS, don't add first hit bonus. Used for mob /RA "autoattack" skills
+    if (params_phys.NO_FIRST_HIT_BONUS ~= nil) then
+        firstHitRate = hitRate
     end
-
-    hitrate = utils.clamp(hitrate, minHitRate, maxHitRate)
-
-    --work out the base damage for a single hit
-    local hitdamage = base + lvldiff
-    if (hitdamage < 1) then
-        hitdamage = 1
-    end
-
-    local multiHitDmg = hitdamage * 1
-
-    hitdamage = hitdamage * dmgmod
 
     -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
     -- Crit rate has a base of 5% and no cap, 0-100% are valid
-    local critRate = mob:getCritHitRate(target, false, tpz.slot.MAIN, true)
-    local maxCritRate = 1 -- 100%
-    local minCritRate = 0.01 -- 1%
-    -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
+    local critTpMod = MobCritTPModifier(tp)
+    local critRate = battleUtils.getCritRate(mob, target, skill, numberOfHits, isRanged, canCrit, critTpMod, params_phys)
 
-    if (tpeffect == TP_RANGED_CRIT) then
-        critRate = mob:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
-    end
-
-    --printf("ddex critRate %u", critRate)
-    --printf("critRate before param %f", critRate)
-    if canCrit then
-        critRate = critRate + MobCritTPModifier(tp)
-        critRate = critRate / 100
-        critRate = utils.clamp(critRate, minCritRate, maxCritRate)
-    else
-        critRate = 0  -- Cannot crit unless canCrit
-    end
-
-    --printf("final crit %f", critRate*100)
-
-    local pdif = 0
     local ignoredDef = 0
     local ignoredDefMod = 0
     local bonusAttPercent = 0
@@ -178,203 +128,82 @@ function MobPhysicalMove(mob, target, skill, numberofhits, accmod, dmgmod, tpeff
         -- printf("Amount of defense ignored final %u", ignoredDef)
     end
 
-    -- start the hits
-    local chance = math.random()
-    local finaldmg = 0
-    local hitsdone = 1
-    local hitslanded = 0
-
-    -- First hit gets bonus hit rate (+100 Acc)
-    local firstHitRate = mob:getHitRate(target, attackNumber, accBonus +100, false)
-
-    if isRanged then
-        firstHitRate = mob:getRangedHitRate(target, false, accBonus +100, false)
-    end
-
-    -- If params_phys.NO_FIRST_HIT_BONUS, don't add first hit bonus. Used for mob /RA "autoattack" skills
-    if (params_phys.NO_FIRST_HIT_BONUS ~= nil) then
-        firstHitRate = hitrate
-    end
-
-    firstHitRate = utils.clamp(firstHitRate, minHitRate, maxHitRate)
-
-    -- Sneak and Trick attack force 100% hit rate on the first attack
-    if isSneakAttack(mob, target) or isTrickAttack(mob, target) then
-        firstHitRate = 100
-    end
-
     -- Set block rate to 0 for now
     mob:setLocalVar("isBlocked", 0)
 
-    pdif = MobGeneratePdif(mob, target, tpeffect, false, bonusAttPercent, flatAttackBonus, ignoredDef)
-
-    --printf("[%s] Pdif is %f", name, pdif)
-    if ((chance*100) <= firstHitRate) then
-        if isCrit(mob, critRate, params_phys) or isSneakAttack(mob, target) or isTrickAttack(mob, target) then
-            pdif = MobGeneratePdif(mob, target, tpeffect, true, bonusAttPercent, flatAttackBonus, ignoredDef)
-            TryBreakMob(target)
-            --printf("[%s] CRIT! Pdif is %f", name, pdif)
-        end
-
-        -- Guard / Parry / Block check for non-ranged TP moves
-        if (tpeffect ~= TP_RANGED) then
-            if math.random()*100 < target:getGuardRate(mob) then -- Try to guard
-                target:trySkillUp(mob, tpz.skill.GUARD, 1)
-                --printf("Guarded (First hit)!")
-                pdif = pdif - 1
-                if pdif < 0.25 then pdif = 0.25 end -- Cap at 0.25 pdif
-            end
-            if isBlocked(mob, target) then -- Try To block
-                target:trySkillUp(mob, tpz.skill.SHIELD, 1)
-                hitdamage = target:getBlockedDamage(hitdamage)
-                --printf("Blocked! (First hit) [%u]", hitdamage)
-                mob:setLocalVar("isBlocked", 1) 
-            end
-            if math.random()*100 < target:getParryRate(mob) then -- Try to parry
-                target:trySkillUp(mob, tpz.skill.PARRY, 1)
-                --printf("Parried (First hit)!")
-                hitdamage = 0
-            end
-        end
-
-        --printf("pdif first hit %u", pdif * 100)
-
-        finaldmg = finaldmg + hitdamage * pdif
-        --printf("First hit damage %d", finaldmg)
-
-        -- Duplicate the first hit with an added magical component for hybrid WSes
-        if params_phys.hybrid then
-            local element = params_phys.hybridElement
-            local paramshybrid = {}
-            paramshybrid.includemab = true
-            local bonusMacc = 0
-            local magicdmg = addBonusesAbility(mob, element, target, finaldmg, paramshybrid)
-            local rawmDmg = magicdmg
-            local resist = applyPlayerResistance(mob, effect, target, mob:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT), bonusMacc, element)
-            --printf("resist %f", resist)
-            --printf("magicdmg before resist %u", magicdmg)
-            magicdmg = magicdmg * resist
-            -- Hybrid hits are only HALF a physical hits damage
-            magicdmg = magicdmg / 2
-            magicdmg = utils.CheckForNull(mob, target, tpz.attackType.MAGICAL, element, magicdmg)
-            --printf("magicdmg after resist %u", magicdmg)
-            magicdmg = target:magicDmgTaken(magicdmg, element, rawmDmg)
-            -- Handle absorb
-            magicdmg = adjustForTarget(target, magicdmg, element)
-            -- Add HP if absorbed
-            if (magicdmg < 0) then
-                magicdmg = (target:addHP(-magicdmg))
-            end
-            --handling phalanx
-            magicdmg = magicdmg - target:getMod(tpz.mod.PHALANX)
-            --printf("%i", magicdmg)
-            --handling rampart stoneskin
-            magicdmg = utils.rampartstoneskin(target, magicdmg) 
-            --printf("%i", magicdmg)
-
-            finaldmg = finaldmg + magicdmg / 2
-            --printf("%i", finaldmg)
-        end
-
-        hitslanded = hitslanded + 1
+    local isRangedPdif = false
+    if (tpeffect == TP_RANGED or tpeffect == TP_RANGED_CRIT) then
+        isRangedPdif = true
     end
 
-    -- For items that apply bonus damage to the first hit of a weaponskill (but not later hits),
-    -- store bonus damage for first hit, for use after other calculations are done
-    local firstHitBonus = math.floor(((finaldmg * mob:getMod(tpz.mod.ALL_WSDMG_FIRST_HIT))/100))
+    -- Start the hits
+    local dmg, hitsLanded, hitsDone = battleUtils.generateFirstHit(mob, target, skill, hitDamage, bonusAttPercent, flatAttackBonus, ignoredDef, firstHitRate, critRate, isRangedPdif, params_phys)
+
+    -- For items that apply bonus damage to the first hit of a weaponskill (but not later hits)
+    if mob:isTrust() then
+        local firstHitDmgBonus = math.floor(((dmg * mob:getMod(tpz.mod.ALL_WSDMG_FIRST_HIT))/100))
+        dmg = dmg + firstHitDmgBonus
+    end
+
+    -- Duplicate the first hit with an added magical component for hybrid WSes
+    if params_phys.hybrid then
+        local element = params_phys.hybridElement
+        local dStat = params_phys.hybridDstat or mob:getStat(tpz.mod.INT) - mob:getStat(tpz.mod.INT)  -- Only Dstat is INT for now
+        local bonusMacc = params_phys.hybridBonusMacc or 0
+        local resist = applyPlayerResistance(mob, effect, target, dStat, bonusMacc, element)
+        local paramshybrid = {}
+        paramshybrid.includemab = true
+
+        dmg, hitsLanded, hitsDone = battleUtils.generateHybridHit(mob, target, skill, dmg, hitsLanded, hitsDone, element, resist, paramshybrid)
+    end
 
     -- Add +1 hit for offhand if dual wielding
     if mob:isDualWielding() and not isRanged then
-        numberofhits = numberofhits +1
+        numberOfHits = numberOfHits +1
     end
 
     if mob:isTrust() then
-        numberofhits = getMultiAttacks(mob, target, numberofhits, isRanged)
+        -- Calculate multiattacks
+        local mainhandHits, offhandHits = battleUtils.getMultiAttacks(mob, target, skill, numberOfHits, isRanged, params_phys)
+
+        numberOfHits = mainhandHits + offhandHits
     end
 
-    -- Cap at 8 hits
-    if numberofhits > 8 then numberofhits = 8 end
+    -- Generate multi hits
+    dmg, hitsLanded, hitsDone = battleUtils.generateMultiHits(mob, target, skill, multiHitDmg, dmg, hitsLanded, hitsDone, bonusAttPercent, flatAttackBonus, ignoredDef, numberOfHits, hitRate, critRate, isRanged, params_phys)
 
-    while (hitsdone < numberofhits) do
-        chance = math.random()
-
-        if ((chance*100)<=hitrate) then --it hit
-            -- Generate random pdif
-            pdif = MobGeneratePdif(mob, target, tpeffect, false, bonusAttPercent, flatAttackBonus, ignoredDef)
-            --printf("[%s] Pdif is %f", name, pdif)
-            if isCrit(mob, critRate, params_phys) then
-                pdif = MobGeneratePdif(mob, target, tpeffect, true, bonusAttPercent, flatAttackBonus, ignoredDef)
-                TryBreakMob(target)
-            end
-            --printf("[%s] CRIT! Pdif is %f", name, pdif)
-            -- Guard / Parry / Block check for non-ranged TP moves
-            if (tpeffect ~= TP_RANGED) then
-                if math.random()*100 < target:getGuardRate(mob) then -- Try to guard
-                    target:trySkillUp(mob, tpz.skill.GUARD, 1)
-                    --printf("Guarded!")
-                    pdif = pdif - 1
-                    if pdif < 0.25 then pdif = 0.25 end -- Cap at 0.25 pdif
-                end
-                if isBlocked(mob, target) then  -- Try To block
-                    target:trySkillUp(mob, tpz.skill.SHIELD, 1)
-                    multiHitDmg = target:getBlockedDamage(hitdamage)
-                    --printf("Blocked! [%u]", hitdamage)
-                end
-                if math.random()*100 < target:getParryRate(mob) then -- Try to parry
-                    target:trySkillUp(mob, tpz.skill.PARRY, 1)
-                    --printf("Parried!")
-                    multiHitDmg = 0
-                end
-            end
-
-            --printf("pdif multihits %u", pdif * 100)
-            finaldmg = finaldmg + multiHitDmg * pdif
-            --printf("multihit hit damage %d", finaldmg)
-
-            --handling phalanx
-            finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
-            hitslanded = hitslanded + 1
-        end
-        hitsdone = hitsdone + 1
-    end
-
-    -- printf("final: %f, hits: %f, acc: %f", finaldmg, hitslanded, hitrate)
-    -- printf("ratio: %f, min: %f, max: %f, pdif, %f hitdmg: %f", ratio, minRatio, maxRatio, pdif, hitdamage)
-
-    -- Finally add in our "first hit" WS dmg bonus from before
-    if mob:isTrust() then
-        finaldmg = finaldmg + firstHitBonus
-    end
+    -- printf("final: %f, hits: %f, acc: %f", dmg, hitsLanded, hitrate)
+    -- printf("ratio: %f, min: %f, max: %f, pdif, %f hitdmg: %f", ratio, minRatio, maxRatio, pdif, hitDamage)
 
     -- Add Souleater bonus
-    finaldmg = finaldmg + souleaterBonus(mob, hitslanded)
+    dmg = dmg + souleaterBonus(mob, hitsLanded)
 
     -- Add TP scaling if not a crit TP move
-    if (not canCrit) and (tpeffect ~= TP_AUTO_ATTACK) and (numberofhits <= 2) then
-        finaldmg = math.floor(finaldmg * MobDmgTPModifier(tp))
+    if (not canCrit) and (tpeffect ~= TP_AUTO_ATTACK) and (numberOfHits <= 2) then
+        dmg = math.floor(dmg * MobDmgTPModifier(tp))
     end
 
     -- Reduce the damage by half on 5+ hit TP moves or else they become out of control
-    if hitslanded >= 5 then
+    if hitsLanded >= 5 then
         if not mob:isTrust() then -- Don't nerf Trusts WS
-            finaldmg = finaldmg / 2
+            dmg = dmg / 2
         end
     end
 
     -- Fully parried the attack(Displays miss)
-    if (hitslanded >= 1 and finaldmg < 1) then
+    if (hitsLanded >= 1 and dmg < 1) then
         skill:setMsg(tpz.msg.basic.SKILL_MISS)
     end
 
     -- all hits missed
-    if (hitslanded == 0 or finaldmg == 0) then
-        finaldmg = 0
-        hitslanded = 0
+    if (hitsLanded == 0 or dmg == 0) then
+        dmg = 0
+        hitsLanded = 0
         skill:setMsg(tpz.msg.basic.SKILL_MISS)
     end
 
-    returninfo.dmg = finaldmg
-    returninfo.hitslanded = hitslanded
+    returninfo.dmg = dmg
+    returninfo.hitslanded = hitsLanded
 
     return returninfo
 end

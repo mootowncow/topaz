@@ -34,6 +34,7 @@ function onUseAbility(player, target, ability, action)
     params.targetTPMult = 0
     params.hitsHigh = true
     params.flatAttackBonus = (player:getJobPointLevel(tpz.jp.JUMP_EFFECT) * 3) + (player:getJobPointLevel(tpz.jp.HIGH_JUMP_EFFECT) * 3)
+    params.useOAXTimes = true
 
     if player:hasStatusEffect(tpz.effect.FLY_HIGH) then
         local jpBonus = player:getJobPointLevel(tpz.jp.FLY_HIGH_EFFECT) * 5

@@ -768,6 +768,7 @@ public:
     int32 delImmunity(lua_State*);
 
     int32 setSuperJump(lua_State*);
+    int32 getOAXTimes(lua_State*);
     int32 tryInterruptSpell(lua_State* L);
 
     int32 getBattleTime(lua_State*);          // Get the time in second of the battle

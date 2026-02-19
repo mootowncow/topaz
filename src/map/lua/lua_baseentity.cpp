@@ -18554,6 +18554,61 @@ inline int32 CLuaBaseEntity::setSuperJump(lua_State* L)
     return 1;
 }
 
+
+/************************************************************************
+ *  Function: getOAXTimes()
+ *  Purpose : used in Jump calculations in Lua
+ *  Example : getOAXTimes(0) for main hand, getOAXTimes(1) for off hand
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getOAXTimes(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    uint8 count = 1;
+    SLOTTYPE slot = SLOT_MAIN;
+
+    if (!lua_isnil(L, 1) && lua_isnumber(L, 1) && lua_tointeger(L, 1) == 1)
+        slot = SLOT_SUB;
+
+    CCharEntity* PEntity = dynamic_cast<CCharEntity*>(m_PBaseEntity);
+
+    if (!PEntity)
+    {
+        lua_pushinteger(L, 0);
+        return 1;
+    }
+
+    if (auto* equip = PEntity->getEquip(slot))
+    {
+        if (auto* weapon = dynamic_cast<CItemWeapon*>(equip))
+        {
+            if (weapon->getSkillType() != SKILL_NONE)
+            {
+                count = weapon->getHitCount();
+            }
+            else
+            {
+                count = 0;
+            }
+        }
+        else
+        {
+            count = 0;
+        }
+    }
+    else
+    {
+        count = 0;
+    }
+
+
+    lua_pushinteger(L, count);
+
+    return 1;
+}
+
 /************************************************************************
  *  Function: trustProgressUpdateFlag()
  *  Purpose : Forces a trustprogression packet to be sent
@@ -19365,6 +19420,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delImmunity),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setSuperJump),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getOAXTimes),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,tryInterruptSpell),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getGuardRate),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getParryRate),

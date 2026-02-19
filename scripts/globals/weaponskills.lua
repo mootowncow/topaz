@@ -15,6 +15,7 @@ require("scripts/globals/magic")
 require("scripts/globals/utils")
 require("scripts/globals/job_util")
 require("scripts/globals/msg")
+require("scripts/globals/battle_utils")
 
 -- Function to calculate if a hit in a WS misses, criticals, and the respective damage done
 function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams, isOffhand)
@@ -67,11 +68,17 @@ function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams, isOffha
             finaldmg = dmg * calcParams.pdif
 
             if calcParams.hybridHit then
-                -- Hybrid WS magical component logic here if you want to print too
+                local hitsDone = 1
+                local bonusMacc = wsParams.hybridBonusMacc or 0
+                local resist = applyResistanceAbility(attacker, target, wsParams.ele, wsParams.skill, bonusMacc)
+                local paramshybrid = {}
+                paramshybrid.includemab = true
+
+                finaldmg, calcParams.hitsLanded, hitsDone = battleUtils.generateHybridHit(attacker, target, nil, finaldmg, calcParams.hitsLanded, hitsDone, wsParams.ele, resist, paramshybrid)
             end
 
             attacker:handleImpetus()
-            
+
             calcParams.hitsLanded = calcParams.hitsLanded + 1
         else
             calcParams.shadowsAbsorbed = calcParams.shadowsAbsorbed + 1
@@ -215,6 +222,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     -- Calculate the damage from the first hit
     local dmg = mainBase * ftp
     local accBonus = calcParams.bonusAcc
+
     -- Apply Accuracy varies with TP accuracy bonus
     if (wsParams.accuracyVariesWithTP ~= nil) then
         if (wsParams.accPenalty ~= nil) then -- Used for Slugwinder and Truestrike
@@ -286,13 +294,14 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     if not wsParams.multiHitfTP then ftp = 1 end -- We'll recalculate our mainhand damage after doing offhand
 
     -- Recalculate accuracy if it varies with TP, applied to all hits
-    bonusAcc = calcParams.bonusAcc
+    accBonus = calcParams.bonusAcc
+
     -- Apply Accuracy varies with TP accuracy bonus
     if (wsParams.accuracyVariesWithTP ~= nil) then
         if (wsParams.accPenalty ~= nil) then -- Used for Slugwinder and Truestrike
-            bonusAcc = calcParams.bonusAcc + (AccTPModifier(tp) - 40)
+            accBonus = calcParams.bonusAcc + (AccTPModifier(tp) - 40)
         else
-            bonusAcc = calcParams.bonusAcc + AccTPModifier(tp)
+            accBonus = calcParams.bonusAcc + AccTPModifier(tp)
         end
     end
 
@@ -300,13 +309,13 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     if isRanged then
         calcParams.hitRate = attacker:getRangedHitRate(target, false, accBonus, false)
     else
-        calcParams.hitRate = attacker:getHitRate(target, attackNumber, bonusAcc, false)
+        calcParams.hitRate = attacker:getHitRate(target, attackNumber, accBonus, false)
         calcParams.hitRateOffhand =  attacker:getHitRate(target, 1, 0, false)
     end
 
     -- Target is dead, don't do anymore hits
     if (target:getHP() <= finaldmg) then
-        extraOffhandHit = false
+        calcParams.extraOffhandHit = false
     end
 
     -- Do the extra hit for our offhand if applicable
@@ -327,8 +336,8 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     dmg = mainBase + 1.0            -- changed additional hits to +1.0 ftp
     local mainhandHitsDone = 1
     local offHandHitsDone = 1
-    local mainhandHits, offhandHits = getMultiAttacks(attacker, target, wsParams.numHits, isRanged)
-
+    local mainhandHits, offhandHits = battleUtils.getMultiAttacks(attacker, target, nil, wsParams.numHits, isRanged, params)
+    
     -- Calculate MH extra hits
     while (mainhandHitsDone < mainhandHits) do -- numHits is hits in the base WS _and_ DA/TA/QA procs during those hits
         if (totalHits >= 8) then break end -- WS cap at 8 hits max
@@ -1068,8 +1077,6 @@ function fTP(tp, ftp1, ftp2, ftp3)
     elseif (tp >= 2000 and tp <= 3000) then
         -- generate a straight line between ftp2 and ftp3 and find point @ tp
         return ftp2 + ( ((ftp3-ftp2)/1000) * (tp-2000))
-    else
-        print("fTP error: TP value is not between 1000-3000!")
     end
     return 1 -- no ftp mod
 end
@@ -1141,7 +1148,7 @@ function getAlpha(level)
     return alpha
 end
 
-function getMultiAttacks(attacker, target, numHits, isRanged)
+function getMultiAttacks(attacker, target, numHits, isRanged, params)
     local mainhandHits = 0
     local offhandHits = 0
     local mainhandChance = 1
@@ -1208,7 +1215,7 @@ function getMultiAttacks(attacker, target, numHits, isRanged)
     end
 
     -- for Jump, now check multihit weapons if we have no mainhandHits
-    if attacker:isPC() and useOAXTimes ~= nil and useOAXTimes == true and mainhandHits == 0 then
+    if attacker:isPC() and params.useOAXTimes ~= nil and params.useOAXTimes == true and mainhandHits == 0 then
         local mhandOAX = attacker:getOAXTimes(0)
         local offhandOAX = attacker:getOAXTimes(1)
         

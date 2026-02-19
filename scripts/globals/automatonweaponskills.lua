@@ -5,6 +5,7 @@ require("scripts/globals/status")
 require("scripts/globals/msg")
 require("scripts/globals/pets")
 require("scripts/globals/weaponskills")
+require("scripts/globals/battle_utils")
 ------------------------------------
 -- Mostly re-used from summon.lua
 
@@ -33,7 +34,7 @@ TP_EFFECT_DURATION  = 5
 --params.MAGIC_MORTAR
 --params.CANNIBAL_BLADE
 
-function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, tpeffect, params)
+function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberOfHits, tpeffect, params)
     local returninfo = {}
 
     local master = auto:getMaster()
@@ -57,7 +58,13 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
 
     ftp = ftp + bonusfTP
 
+    local wsc = getAutoWSC(auto, params)
+    local isRanged = attackType == tpz.attackType.RANGED
+    local weaponDamage = battleUtils.getWeaponDamage(auto, target, skill, numberOfHits, nil, wsc, isRanged, params)
+    local hitDamage = weaponDamage * ftp
+    local multiHitDmg = hitDamage -- This can be edited if any WS has ftp transfer
     local attackNumber = 0
+
     -- Calculate accBonus
     local accBonus = 0
 
@@ -66,291 +73,92 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberofhits, 
         accBonus = accBonus + AutoAccTPModifier(tp)
     end
 
-    local hitRate = auto:getHitRate(target, attackNumber, accBonus, false)
-    local maxHitRate = 0.95
-    local minHitRate = 0.2
+    -- Get hit rate
+    local firstHitRate, hitRate = battleUtils.getHitRate(auto, target, skill, numberOfHits, nil, isRanged, attackNumber, accBonus, params)
 
-    -- Ranged attacks use Racc
-    if (attackType == tpz.attackType.RANGED) then
-        hitRate = auto:getRangedHitRate(target, false, accBonus, false)
+   -- Ranged attack, doesn't get first hit bonus
+    if (skill:getID() == 1949) then
+        firstHitRate = hitRate
     end
 
-    -- First hit gets bonus hit rate (+100 Acc)
-    local firstHitRate = auto:getHitRate(target, attackNumber, accBonus +100, false)
+    -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
+    -- Crit rate has a base of 5% and no cap, 0-100% are valid
+    local canCrit = tpeffect == TP_CRIT_VARIES
+    local critTpMod = AutoCritTPModifier(tp)
+    local critRate = battleUtils.getCritRate(auto, target, skill, numberOfHits, isRanged, canCrit, critTpMod, params)
 
-    -- Ranged attacks use Racc
-    if (attackType == tpz.attackType.RANGED) then
-        firstHitRate = auto:getRangedHitRate(target, false, accBonus +100, false)
-    end
-
-    firstHitRate = firstHitRate / 100
-    hitRate = hitRate / 100
-
-    firstHitRate = utils.clamp(firstHitRate, minHitRate, maxHitRate)
-    hitRate = utils.clamp(hitRate, minHitRate, maxHitRate)
-
-    local pDif = 0
     local ignoredDef = 0
     local ignoredDefMod = 0
     local bonusAttPercent = 0
     local flatAttackBonus = 0
 
-    -- Compute hits first so we can exit early
-    local firstHitLanded = false
-    local bonusHits = 0
-    local quadRate = 0
-    local tripleRate = 0
-    local doubleRate = 0
-    local numHitsLanded = 0
-    local numHitsProcessed = 1
-    local shadowsFullyAbsorbed = 0
-    local finaldmg = 0
-
-    if math.random() < firstHitRate then
-        firstHitLanded = true
-        numHitsLanded = numHitsLanded + 1
+    -- Calculate bonus attack percent
+    if params.attkMod then
+        bonusAttPercent = params.attkMod
     end
 
-    -- Check multihit(qa/ta/da)
-    local quadRate = auto:getMod(tpz.mod.QUAD_ATTACK) / 100
-    local tripleRate = auto:getMod(tpz.mod.TRIPLE_ATTACK) / 100
-    local doubleRate = auto:getMod(tpz.mod.DOUBLE_ATTACK) / 100
+    --if (TP_IGNORE_DEF ~= nil) then
+        -- TODO: no 1k/2k/3k param for ignored def
+        -- ignoredDefMod = AutoIgnoreDefenseModifier(tp) / 100
+    --end
 
-    -- Ranged attacks can't multihit from qa/ta/da procs
-
-    if attackType ~= tpz.attackType.RANGED then
-        if math.random() < quadRate then
-            bonusHits = bonusHits + 3
-        elseif math.random() < tripleRate then
-            bonusHits = bonusHits + 2
-        elseif math.random() < doubleRate then
-            bonusHits = bonusHits + 1
-        end
-        if bonusHits ~= nil then
-
-        end
-        -- Add multi-hit procs
-        numberofhits = numberofhits + bonusHits
-
-        -- Cap at 8 hits
-        if numberofhits > 8 then numberofhits = 8 end
+    -- Calculate ignored defense
+    if params.ignoreDefMod then
+        ignoredDefMod = params.ignoreDefMod / 100
     end
 
-    while numHitsProcessed < numberofhits do
-        if math.random() < hitRate then
-            numHitsLanded = numHitsLanded + 1
-        end
-        numHitsProcessed = numHitsProcessed + 1
+    if (ignoredDefMod > 0) then
+        -- printf("Ignore def modifier %u", ignoredDefMod*100)
+        ignoredDef = math.floor(target:getStat(tpz.mod.DEF) * ignoredDefMod)
     end
 
-    if numHitsLanded == 0 and shadowsFullyAbsorbed == 0 then
-        -- Missed everything we can exit early
-        finaldmg = 0
-        skill:setMsg(tpz.msg.basic.SKILL_MISS)
-    else
-        -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
-        -- Crit rate has a base of 5% and no cap, 0-100% are valid
-        -- Dex contribution to crit rate is capped and works in tiers
-        local critRate = auto:getCritHitRate(target, true, tpz.slot.MAIN, true)
-        local maxCritRate = 1 -- 100%
-        local minCritRate = 0.01 -- 1%
+    -- Start the hits
+    local dmg, hitsLanded, hitsDone = battleUtils.generateFirstHit(auto, target, skill, hitDamage, bonusAttPercent, flatAttackBonus, ignoredDef, firstHitRate, critRate, isRanged, params)
 
-        -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
-        if (attackType == tpz.attackType.RANGED) then
-            critRate = auto:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
-        end
+    -- Duplicate the first hit with an added magical component for hybrid WSes
+    if params.hybrid then
+        local element = params.hybridElement or tpz.magic.ele.FIRE -- Only hybrid BP is fire for now
+        local dStat = params.hybridDstat or auto:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT)  -- Only Dstat is INT for now
+        local bonusMacc = params.hybridBonusMacc or 0
+        local resist = getAutoResist(auto, effect, target, dStat, bonusMacc, element)
+        local paramshybrid = {}
+        paramshybrid.includemab = true
 
-        --printf("critRate before param %i", critRate)
-        if (tpeffect == TP_CRIT_VARIES) then
-            critRate = critRate + AutoCritTPModifier(tp) -- 20%/40%/70%. String Shredder only
-
-            --printf("critRate after param %i", critRate)
-
-            critRate = critRate / 100
-            critRate = utils.clamp(critRate, minCritRate, maxCritRate)
-        else
-            critRate = 0  -- Cannot crit unless crit param
-        end
-        --printf("Final crit %d", critRate * 100)
-
-        local weaponDmg = auto:getWeaponDmg()
-        if (attackType == tpz.attackType.RANGED) then
-            weaponDmg = auto:getRangedDmg()
-        end
-        local fSTR = auto:getFSTR(target, tpz.slot.MAIN, false, false)
-
-        if (attackType == tpz.attackType.RANGED) then
-            fSTR = auto:getFSTR(target, tpz.slot.RANGED, false, false)
-        end
-
-        local WSC = getAutoWSC(auto, params)
-
-        -- https://www.bg-wiki.com/bg/PDIF
-        -- https://www.bluegartr.com/threads/127523-pDIF-Changes-(Feb.-10th-2016)
-
-        -- Calculate bonusAttPercent
-        -- Check for +% Attack mod
-        if params.attkMod then
-            bonusAttPercent = params.attkMod
-        end
-
-        --if (TP_IGNORE_DEF ~= nil) then
-            -- TODO: no 1k/2k/3k param for ignored def
-            -- ignoredDef = calculatedIgnoredDef(tp, target:getStat(tpz.mod.DEF), wsParams.ignored100, wsParams.ignored200, wsParams.ignored300)
-        --end
-
-        -- Calculate ignored defense
-        if params.ignoreDefMod then
-            ignoredDefMod = params.ignoreDefMod / 100
-        end
-
-        if (ignoredDefMod > 0) then
-            -- printf("Ignore def modifier %u", ignoredDefMod*100)
-            ignoredDef = math.floor(target:getStat(tpz.mod.DEF) * ignoredDefMod)
-        end
-
-        --Everything past this point is randomly computed per hit
-        numHitsProcessed = 0
-
-        if firstHitLanded then
-            -- Generate random pDif
-            pDif = GenerateAutoPdif(auto, target, attackType, false, bonusAttPercent, flatAttackBonus, ignoredDef)
-
-            local isCrit = math.random() < critRate
-            local isGuarded = math.random()*100 < target:getGuardRate(auto)
-            local isBlocked = math.random()*100 < target:getBlockRate(auto)
-            local isParried = math.random()*100 < target:getParryRate(auto)
-            if isCrit then
-                pDif = GenerateAutoPdif(auto, target, attackType, true, bonusAttPercent, flatAttackBonus, ignoredDef)
-                TryBreakMob(target)
-            end
-
-            if auto:isInfront(target, 90) and isGuarded then
-                pDif = pDif - 1
-            end
-
-            finaldmg = autoHitDmg(weaponDmg, fSTR, WSC, pDif) * ftp
-            --printf("%i", finaldmg)
-
-            --handling phalanx
-            finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
-            -- Duplicate the first hit with an added magical component for hybrid WSes
-            if params.hybrid then
-                -- Calculate magical bonuses and reductions (Only Ifrit and thus fire damage is needed here)
-                local paramshybrid = {}
-                paramshybrid.includemab = true
-                local bonusMacc = 0
-                local magicdmg = addBonusesAbility(auto, tpz.magic.ele.FIRE, target, finaldmg, paramshybrid)
-                local rawDmg = magicdmg
-                local resist = getAutoResist(auto, effect, target, auto:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT), bonusMacc, tpz.magic.ele.FIRE)
-                --printf("resist %u", resist * 100)
-                --printf("magicdmg before resist %u", magicdmg)
-                magicdmg = magicdmg * resist
-                -- Hybrid hits are only HALF a physical hits damage
-                magicdmg = magicdmg / 2
-                -- Handle Null
-                magicdmg = utils.CheckForNull(auto, target, tpz.attackType.MAGICAL, tpz.magic.ele.FIRE, magicdmg)
-                --printf("magicdmg after resist %u", magicdmg)
-                magicdmg = target:magicDmgTaken(magicdmg, tpz.magic.ele.FIRE, rawDmg)
-                -- Handle absorb
-                magicdmg = adjustForTarget(target, magicdmg, tpz.magic.ele.FIRE)
-                -- Handle percentage DR to elements
-                local magicDefense = getElementalDamageReduction(target, tpz.magic.ele.FIRE) -- percentage DR to elements
-                magicdmg = math.floor(magicdmg * magicDefense)
-                -- Add HP if absorbed
-                if (magicdmg < 0) then
-                    magicdmg = (target:addHP(-magicdmg))
-                end
-                --handling phalanx
-                magicdmg = magicdmg - target:getMod(tpz.mod.PHALANX)
-                --printf("%i", magicdmg)
-                --handling rampart stoneskin
-                magicdmg = utils.rampartstoneskin(target, magicdmg) 
-                --printf("%i", magicdmg)
-
-                finaldmg = finaldmg + magicdmg / 2
-                --printf("%i", finaldmg)
-            end
-
-            if attackType ~= tpz.attackType.RANGED then
-                -- Check if mob blocked us
-                if auto:isInfront(target, 90) and isBlocked then
-                    finaldmg = target:getBlockedDamage(finaldmg)
-                end
-                -- Check if mob parried us
-                if auto:isInfront(target, 90) and isParried then
-                    finaldmg = 0
-                end
-            end
-            --printf("First hit damage %u", finaldmg)
-            numHitsProcessed = 1
-        end
-
-        while numHitsProcessed < numHitsLanded do
-            if (target:getHP() <= finaldmg) then break end -- Stop adding hits if target would die before calculating other hits
-
-            -- Generate random pDif
-            pDif = GenerateAutoPdif(auto, target, attackType, false, bonusAttPercent, flatAttackBonus, ignoredDef)
-
-            local isCrit = math.random() < critRate
-            local isGuarded = math.random()*100 < target:getGuardRate(auto)
-            local isBlocked = math.random()*100 < target:getBlockRate(auto)
-            local isParried = math.random()*100 < target:getParryRate(auto)
-            if isCrit then
-                pDif = GenerateAutoPdif(auto, target, attackType, true, bonusAttPercent, flatAttackBonus, ignoredDef)
-                TryBreakMob(target)
-            end
-
-            if auto:isInfront(target, 90) and isGuarded then
-                pDif = pDif - 1
-            end
-
-            local multiHitDmg = autoHitDmg(weaponDmg, fSTR, WSC, pDif)
-
-            if attackType ~= tpz.attackType.RANGED then
-                -- Check if mob blocked us
-                if auto:isInfront(target, 90) and isBlocked then
-                    multiHitDmg = target:getBlockedDamage(autoHitDmg(weaponDmg, fSTR, WSC, pDif))
-                end
-                -- Check if mob parried us
-                if auto:isInfront(target, 90) and isParried then
-                    multiHitDmg = 0
-                end
-            end
-            --printf("multiHitDmg %u", multiHitDmg)
-            --printf("pdif multihits %u", pDif * 100)
-            if params.multiHitFtp == nil then ftp = 1 end -- Not fTP transfer
-
-            finaldmg = finaldmg + multiHitDmg * ftp
-            --handling phalanx
-            finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
-
-            numHitsProcessed = numHitsProcessed + 1
-        end
+        dmg, hitsLanded, hitsDone = battleUtils.generateHybridHit(auto, target, skill, dmg, hitsLanded, hitsDone, element, resist, paramshybrid)
     end
+
+    -- Calculate multiattacks
+    local mainhandHits, offhandHits = battleUtils.getMultiAttacks(auto, target, skill, numberOfHits, isRanged, params)
+
+    numberOfHits = mainhandHits + offhandHits
+    printf("getMultiattacks mainhandHits %d, offhandHits %d, numberOfHits %d", mainhandHits, offhandHits, numberOfHits)
+
+    -- Generate multi hits
+    dmg, hitsLanded, hitsDone = battleUtils.generateMultiHits(auto, target, skill, multiHitDmg, dmg, hitsLanded, hitsDone, bonusAttPercent, flatAttackBonus, ignoredDef, numberOfHits, hitRate, critRate, isRanged, params)
+    printf("Multi hit calcs: dmg %d, hitsLanded %d, hitsDone %d", dmg, hitsLanded, hitsDone)
 
     -- Handle Truesights bonus to ranged attacks
     local truesightBonus = 1 + (auto:getLocalVar("truesights_manuevers") / 100)
 
-    if attackType == tpz.attackType.RANGED then
-        finaldmg = math.floor(finaldmg * truesightBonus)
+    if isRanged then
+        dmg = math.floor(dmg * truesightBonus)
     end
 
     -- Handle pet damage percent mod
-    finaldmg = math.floor(finaldmg * ((100 + auto:getMod(tpz.mod.PET_DAMAGEP)) / 100))
+    dmg = math.floor(dmg * ((100 + auto:getMod(tpz.mod.PET_DAMAGEP)) / 100))
 
     -- Handle global damage done mod
     local globalDmgDone = 1 + (auto:getMod(tpz.mod.GLOBAL_DMG_DONE) / 100)
-    finaldmg = math.floor(finaldmg * globalDmgDone)
+    dmg = math.floor(dmg * globalDmgDone)
 
 
-    if (finaldmg == 0) then -- Full parries and full miss
+    if (dmg == 0) then -- Full parries and full miss
         skill:setMsg(tpz.msg.basic.SKILL_MISS)
     end
 
-    --printf("finaldmg %i", finaldmg)
-    returninfo.dmg = finaldmg
-    returninfo.hitslanded = numHitsLanded
+    --printf("dmg %i", dmg)
+    returninfo.dmg = dmg
+    returninfo.hitslanded = hitsLanded
 
     return returninfo
 end

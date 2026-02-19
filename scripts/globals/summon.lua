@@ -37,7 +37,7 @@ tpz.smn.statusCureFlags =
 --params.DOT
 --params.ELEMENT_OVERRIDE
 local bit = require("bit")
-function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, tpeffect, params)
+function AvatarPhysicalBP(avatar, target, skill, attackType, numberOfHits, ftp, tpeffect, params)
     local returninfo = {}
 
     skill:setMsg(tpz.msg.basic.USES_JA_TAKE_DAMAGE)
@@ -45,7 +45,13 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
     local summoner = avatar:getMaster()
     local tp = avatar:getSpentTP()
 
+    local wsc = getAvatarWSC(avatar, params)
+    local isRanged = attackType == tpz.attackType.RANGED
+    local weaponDamage = battleUtils.getWeaponDamage(avatar, target, skill, numberOfHits, nil, wsc, isRanged, params)
+    local hitDamage = weaponDamage * ftp
+    local multiHitDmg = hitDamage -- This can be edited if any WS has ftp transfer
     local attackNumber = 0
+
     -- Calculate accBonus
     local accBonus = getSummoningSkillOverCap(avatar)
 
@@ -54,266 +60,78 @@ function AvatarPhysicalBP(avatar, target, skill, attackType, numberofhits, ftp, 
         accBonus = accBonus + AvatarAccTPModifier(tp)
     end
 
-    local hitRate = avatar:getHitRate(target, attackNumber, accBonus, false)
-    local maxHitRate = 0.95
-    local minHitRate = 0.2
+    -- Get hit rate
+    local firstHitRate, hitRate = battleUtils.getHitRate(avatar, target, skill, numberOfHits, nil, isRanged, attackNumber, accBonus, params)
 
-    -- Ranged attack BPs use Racc
-    if (attackType == tpz.attackType.RANGED) then
-        hitRate = avatar:getRangedHitRate(target, false, accBonus, false)
-    end
+    -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
+    -- Crit rate has a base of 5% and no cap, 0-100% are valid
+    local canCrit = tpeffect == TP_CRIT_VARIES
+    local critTpMod = AvatarCritTPModifier(tp)
+    local critRate = battleUtils.getCritRate(avatar, target, skill, numberOfHits, isRanged, canCrit, critTpMod, params)
 
-    -- First hit gets bonus hit rate (+100 Acc)
-    local firstHitRate = avatar:getHitRate(target, attackNumber, accBonus +100, false)
-
-    -- Ranged attack BPs use Racc
-    if (attackType == tpz.attackType.RANGED) then
-        firstHitRate = avatar:getRangedHitRate(target, false, accBonus +100, false)
-    end
-
-    firstHitRate = firstHitRate / 100
-    hitRate = hitRate / 100
-
-    firstHitRate = utils.clamp(firstHitRate, minHitRate, maxHitRate)
-    hitRate = utils.clamp(hitRate, minHitRate, maxHitRate)
-
-    local pDif = 0
     local ignoredDef = 0
     local ignoredDefMod = 0
     local bonusAttPercent = 0
     local flatAttackBonus = 0
 
-    -- Compute hits first so we can exit early
-    local firstHitLanded = false
-    local bonusHits = 0
-    local quadRate = 0
-    local tripleRate = 0
-    local doubleRate = 0
-    local numHitsLanded = 0
-    local numHitsProcessed = 1
-    local shadowsFullyAbsorbed = 0
-    local finaldmg = 0
+    --if (TP_IGNORE_DEF ~= nil) then
+        -- TODO: no 1k/2k/3k param for ignored def
+        -- ignoredDefMod = AvatarIgnoreDefenseModifier(tp) / 100
+    --end
 
-    if math.random() < firstHitRate then
-        firstHitLanded = true
-        numHitsLanded = numHitsLanded + 1
+    -- Calculate ignored defense
+    if params.ignoreDefMod then
+        ignoredDefMod = params.ignoreDefMod / 100
     end
 
-    -- Check multihit(qa/ta/da)
-    local quadRate = avatar:getMod(tpz.mod.QUAD_ATTACK) / 100
-    local tripleRate = avatar:getMod(tpz.mod.TRIPLE_ATTACK) / 100
-    local doubleRate = avatar:getMod(tpz.mod.DOUBLE_ATTACK) / 100
-
-    -- Ranged attacks can't multihit from qa/ta/da procs
-
-    if (attackType ~= tpz.attackType.RANGED) then
-        if math.random() < quadRate then
-            bonusHits = bonusHits + 3
-        elseif math.random() < tripleRate then
-            bonusHits = bonusHits + 2
-        elseif math.random() < doubleRate then
-            bonusHits = bonusHits + 1
-        end
-        if bonusHits ~= nil then
-
-        end
-        -- Add multi-hit procs
-        numberofhits = numberofhits + bonusHits
-
-        -- Cap at 8 hits
-        if numberofhits > 8 then numberofhits = 8 end
+    if (ignoredDefMod > 0) then
+        -- printf("Ignore def modifier %u", ignoredDefMod*100)
+        ignoredDef = math.floor(target:getStat(tpz.mod.DEF) * ignoredDefMod)
     end
 
-    while numHitsProcessed < numberofhits do
-        if math.random() < hitRate then
-            numHitsLanded = numHitsLanded + 1
-        end
-        numHitsProcessed = numHitsProcessed + 1
+    -- Start the hits
+    local dmg, hitsLanded, hitsDone = battleUtils.generateFirstHit(avatar, target, skill, hitDamage, bonusAttPercent, flatAttackBonus, ignoredDef, firstHitRate, critRate, isRanged, params)
+
+    -- Duplicate the first hit with an added magical component for hybrid WSes
+    if params.hybrid then
+        local element = params.hybridElement or tpz.magic.ele.FIRE -- Only hybrid BP is fire for now
+        local dStat = params.hybridDstat or avatar:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT) -- Only Dstat is INT for now
+        local bonusMacc = params.hybridBonusMacc or 0
+        local resist = getAvatarResist(avatar, effect, target, dStat, bonusMacc, element)
+        local paramshybrid = {}
+        paramshybrid.includemab = true
+
+        dmg, hitsLanded, hitsDone = battleUtils.generateHybridHit(avatar, target, skill, dmg, hitsLanded, hitsDone, element, resist, paramshybrid)
     end
 
-    if numHitsLanded == 0 and shadowsFullyAbsorbed == 0 then
-        -- Missed everything we can exit early
-        finaldmg = 0
-        skill:setMsg(tpz.msg.basic.JA_MISS_2)
-    else
-        -- https://www.bg-wiki.com/bg/Critical_Hit_Rate
-        -- Crit rate has a base of 15% and no cap, 0-100% are valid
-        local critRate = 15 + avatar:getCritHitRate(target, true, tpz.slot.MAIN, true)
-        local maxCritRate = 1 -- 100%
-        local minCritRate = 0.01 -- 1%
-        -- Crits floor at 1% https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
+        local mainhandHits, offhandHits = battleUtils.getMultiAttacks(avatar, target, skill, numberOfHits, isRanged, params)
 
-        if (attackType == tpz.attackType.RANGED) then
-            critRate = 15 + avatar:getRangedCritHitRate(target, true, tpz.slot.RANGED, true)
-        end
+        numberOfHits = mainhandHits + offhandHits 
 
-        -- printf("TP effect %u", tpeffect)
-        --printf("critRate before param %i", critRate)
-        if (tpeffect == TP_CRIT_VARIES) then
-            critRate = critRate + AvatarCritTPModifier(tp)
+    -- Generate multi hits
+    dmg, hitsLanded, hitsDone = battleUtils.generateMultiHits(avatar, target, skill, multiHitDmg, dmg, hitsLanded, hitsDone, bonusAttPercent, flatAttackBonus, ignoredDef, numberOfHits, hitRate, critRate, isRanged, params)
 
-            --printf("critRate after param %i", critRate)
-
-            critRate = critRate / 100
-            critRate = utils.clamp(critRate, minCritRate, maxCritRate)
-        else
-            critRate = 0  -- Cannot crit unless crit param
-        end
-        --printf("Final crit %d", critRate * 100)
-
-        local weaponDmg = avatar:getWeaponDmg()
-        local fSTR = avatar:getFSTR(target, tpz.slot.MAIN, false, false)
-
-        if (attackType == tpz.attackType.RANGED) then
-            fSTR = avatar:getFSTR(target, tpz.slot.RANGED, false, false)
-        end
-
-        local WSC = getAvatarWSC(avatar, params)
-
-        --Everything past this point is randomly computed per hit
-        numHitsProcessed = 0
-
-        if firstHitLanded then
-            -- https://www.bg-wiki.com/bg/PDIF
-            -- https://www.bluegartr.com/threads/127523-pDIF-Changes-(Feb.-10th-2016)
-            -- Generate random pDif
-            pDif = GenerateAvatarPdif(avatar, target, attackType, false, bonusAttPercent, flatAttackBonus, ignoredDef)
-
-            local isCrit = math.random() < critRate
-            local isGuarded = math.random()*100 < target:getGuardRate(avatar)
-            local isBlocked = math.random()*100 < target:getBlockRate(avatar)
-            local isParried = math.random()*100 < target:getParryRate(avatar)
-
-            if isCrit then
-                pDif = GenerateAvatarPdif(avatar, target, attackType, true, bonusAttPercent, flatAttackBonus, ignoredDef)
-                TryBreakMob(target)
-            end
-
-            if avatar:isInfront(target, 90) and isGuarded then
-                pDif = pDif - 1
-            end
-
-            finaldmg = avatarHitDmg(weaponDmg, fSTR, WSC, pDif) * ftp
-            --printf("%i", finaldmg)
-
-            --handling phalanx
-            finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
-            -- Duplicate the first hit with an added magical component for hybrid WSes
-            if params.hybrid then
-                -- Calculate magical bonuses and reductions (Only Ifrit and thus fire damage is needed here)
-                local paramshybrid = {}
-                paramshybrid.includemab = true
-                local bonusMacc = 0
-                local magicdmg = addBonusesAbility(avatar, tpz.magic.ele.FIRE, target, finaldmg, paramshybrid)
-                local rawDmg = magicdmg
-                local resist = getAvatarResist(avatar, effect, target, avatar:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT), bonusMacc, tpz.magic.ele.FIRE)
-                --printf("resist %u", resist * 100)
-                --printf("magicdmg before resist %u", magicdmg)
-                magicdmg = magicdmg * resist
-                -- Hybrid hits are only HALF a physical hits damage
-                magicdmg = magicdmg / 2
-                -- Handle Null
-                magicdmg = utils.CheckForNull(avatar, target, tpz.attackType.MAGICAL, tpz.magic.ele.FIRE, magicdmg)
-                --printf("magicdmg after resist %u", magicdmg)
-                magicdmg = target:magicDmgTaken(magicdmg, tpz.magic.ele.FIRE, rawDmg) -- Only hybrid BP is fire for now
-                -- Handle absorb
-                magicdmg = adjustForTarget(target, magicdmg, tpz.magic.ele.FIRE)
-                -- Handle percentage DR to elements
-                local magicDefense = getElementalDamageReduction(target, tpz.magic.ele.FIRE) -- percentage DR to elements
-                magicdmg = math.floor(magicdmg * magicDefense)
-                -- Add HP if absorbed
-                if (magicdmg < 0) then
-                    magicdmg = (target:addHP(-magicdmg))
-                end
-                --handling phalanx
-                magicdmg = magicdmg - target:getMod(tpz.mod.PHALANX)
-                --printf("%i", magicdmg)
-                --handling rampart stoneskin
-                magicdmg = utils.rampartstoneskin(target, magicdmg) 
-                --printf("%i", magicdmg)
-
-                finaldmg = finaldmg + magicdmg / 2
-                --printf("%i", finaldmg)
-            end
-
-            if (attackType ~= tpz.attackType.RANGED) then
-                -- Check if mob blocked us
-                if avatar:isInfront(target, 90) and isBlocked then
-                    finaldmg = target:getBlockedDamage(finaldmg)
-                end
-                -- Check if mob parried us
-                if avatar:isInfront(target, 90) and isParried then
-                    finaldmg = 0
-                end
-            end
-            --printf("First hit damage %u", finaldmg)
-            numHitsProcessed = 1
-        end
-
-        while numHitsProcessed < numHitsLanded do
-            if (target:getHP() <= finaldmg) then break end -- Stop adding hits if target would die before calculating other hits
-
-            pDif = GenerateAvatarPdif(avatar, target, attackType, false, bonusAttPercent, flatAttackBonus, ignoredDef)
-
-            local isCrit = math.random() < critRate
-            local isGuarded = math.random()*100 < target:getGuardRate(avatar)
-            local isBlocked = math.random()*100 < target:getBlockRate(avatar)
-            local isParried = math.random()*100 < target:getParryRate(avatar)
-
-            if isCrit then
-                pDif = GenerateAvatarPdif(avatar, target, attackType, true, bonusAttPercent, flatAttackBonus, ignoredDef)
-                TryBreakMob(target)
-            end
-
-            if avatar:isInfront(target, 90) and isGuarded then
-                pDif = pDif - 1
-            end
-
-            local multiHitDmg = avatarHitDmg(weaponDmg, fSTR, WSC, pDif)
-
-            if (attackType ~= tpz.attackType.RANGED) then
-                -- Check if mob blocked us
-                if avatar:isInfront(target, 90) and isBlocked then
-                    multiHitDmg = target:getBlockedDamage(avatarHitDmg(weaponDmg, fSTR, WSC, pDif))
-                end
-                -- Check if mob parried us
-                if avatar:isInfront(target, 90) and isParried then
-                    multiHitDmg = 0
-                end
-            end
-            --printf("multiHitDmg %u", multiHitDmg)
-            --printf("pDif multihits %u", pDif * 100)
-            if params.multiHitFtp == nil then ftp = 1 end -- Not fTP transfer
-
-            finaldmg = finaldmg + multiHitDmg * ftp
-            --handling phalanx
-            finaldmg = finaldmg - target:getMod(tpz.mod.PHALANX)
-
-            numHitsProcessed = numHitsProcessed + 1
-        end
-
-        -- apply ftp bonus
-        if (tpeffect == TP_DMG_BONUS) then
-            local dmgbonus = AvatarDmgTPModifier(tp)
-            --printf("%i", dmgbonus * 100)
-            finaldmg = finaldmg * dmgbonus
-            --printf("%i", finaldmg)
-        end
-
-        if (tpeffect == TP_CONVERT_TO_HP) then
-            local tpMod = ((15 + AvavatarConvertDmgToHPModifier(tp)) / 100) -- 15% base, then another 15-45% based on TP
-            local healAmount = math.floor(finaldmg * tpMod)
-            avatar:addHP(healAmount)
-        end
+    -- TP damage bonus
+    if (tpeffect == TP_DMG_BONUS) then
+        local dmgbonus = AvatarDmgTPModifier(tp)
+        --printf("%i", dmgbonus * 100)
+        dmg = dmg * dmgbonus
+        --printf("%i", dmg)
     end
 
-    if (finaldmg == 0) then -- Full parries and full miss
+    if (tpeffect == TP_CONVERT_TO_HP) then
+        local tpMod = AvatarConvertDmgToHPModifier(tp) / 100
+        local healAmount = math.floor(dmg * tpMod)
+        avatar:addHP(healAmount)
+    end
+
+    if (dmg == 0) then -- Full parries and full miss
         skill:setMsg(tpz.msg.basic.JA_MISS_2)
     end
 
-    --printf("finaldmg %i", finaldmg)
-    returninfo.dmg = finaldmg
-    returninfo.hitslanded = numHitsLanded
+    --printf("dmg %i", dmg)
+    returninfo.dmg = dmg
+    returninfo.hitslanded = numberOfHits
 
     return returninfo
 end
@@ -1010,11 +828,11 @@ function AvatarAccTPModifier(tp)
 end
 
 function AvatarCritTPModifier(tp)
-    return (15+ ((tp - 1000) * 0.015)) -- 15, 30, 45
+    return 15 + (tp * 0.01) -- 15%(at 0% TP), 25%, 35%, 45%
 end
 
-function AvavatarConvertDmgToHPModifier(tp)
-    return (15+ ((tp - 1000) * 0.015)) -- 15, 30, 45
+function AvatarConvertDmgToHPModifier(tp)
+    return 15 + (math.min(tp, 3000) * 0.015) -- 15% (at 0% TP), 30%, 45%, 60%
 end
 
 -- Gets the fTP multiplier by applying 2 straight lines between ftp1-ftp2 and ftp2-ftp3
