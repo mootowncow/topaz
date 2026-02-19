@@ -89,6 +89,14 @@ bool CPetEntity::isAvatar()
 {
     switch (m_PetID)
     {
+        case PETID_FIRESPIRIT:
+        case PETID_ICESPIRIT:
+        case PETID_AIRSPIRIT:
+        case PETID_EARTHSPIRIT:
+        case PETID_THUNDERSPIRIT:
+        case PETID_WATERSPIRIT:
+        case PETID_LIGHTSPIRIT:
+        case PETID_DARKSPIRIT:
         case PETID_CARBUNCLE:
         case PETID_FENRIR:
         case PETID_IFRIT:

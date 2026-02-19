@@ -176,7 +176,7 @@ namespace petutils
     void RetreatToMaster(CBattleEntity* PMaster);
     int16 PerpetuationCost(uint32 id, uint8 level);
     void Familiar(CBattleEntity* PPet, CBattleEntity* PMaster);
-    void LoadPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone);
+    void LoadPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone); // m_PetType is set here
     void CalculateAvatarStats(CBattleEntity* PMaster, CPetEntity* PPet);
     void CalculateWyvernStats(CBattleEntity* PMaster, CPetEntity* PPet);
     void CalculateJugPetStats(CBattleEntity* PMaster, CPetEntity* PPet);
@@ -189,6 +189,8 @@ namespace petutils
     bool CheckPetModType(CBattleEntity* PPet, PetModType petmod);
 
     bool TryAutoTarget(CBattleEntity* PPet, CBattleEntity* PTarget);
+
+    bool isAvatar(uint32 PetID);
     };
 
 #endif

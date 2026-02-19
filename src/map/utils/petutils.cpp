@@ -1146,6 +1146,7 @@ namespace petutils
         }
 
         ((CItemWeapon*)PPet->m_Weapons[SLOT_MAIN])->setDamage(weaponDamage);
+        ((CItemWeapon*)PPet->m_Weapons[SLOT_RANGED])->setDamage(weaponDamage);
 
         // Set B+ weapon skill (assumed capped for level derp)
         // attack is madly high for avatars (roughly x2)
@@ -1649,7 +1650,14 @@ namespace petutils
         CPetEntity* PPet = (CPetEntity*)PMaster->PPet;
         if (PPet)
         {
-            Pet_t* PPetData = g_PPetList.at(PetID);
+            auto it = std::find_if(g_PPetList.begin(), g_PPetList.end(), [PetID](Pet_t* t) { return t->PetID == PetID; });
+
+            if (it == g_PPetList.end())
+            {
+                return;
+            }
+
+            Pet_t* PPetData = *it;
 
             // Set jobs in sql for jug pets only
             if (PPet->getPetType() == PETTYPE_JUG_PET)
@@ -1725,16 +1733,20 @@ namespace petutils
                 {
                     PPet->addModifier(Mod::PARRY, GetPetBase(PPet, PPet->getMobMod(MOBMOD_CAN_PARRY)));
                 }
+
                 battleutils::AddTraits(PPet, traits::GetTraits(PPetData->mJob), PPet->GetMLevel());
+
                 if (PPetData->mJob != PPetData->sJob)
                 {
                     battleutils::AddTraits(PPet, traits::GetTraits(PPetData->sJob), PPet->GetSLevel());
                 }
+
                 // WAR pets have 25% DA
                 if (PPetData->mJob == JOB_WAR && PPet->GetMLevel() >= 25 || PPetData->sJob == JOB_WAR && PPet->GetSLevel() >= 25)
                 {
                     PPet->setModifier(Mod::DOUBLE_ATTACK, 25);
                 }
+
                 // Pets shouldn't have Inquartata unless Rune Fencers(?)
                 if (PPetData->mJob != JOB_RUN)
                 {
@@ -1885,8 +1897,9 @@ namespace petutils
         {
             ShowDebug("%s (%s) is summoning a pet without a petID(%s)! \n", PMaster->GetName(), PMaster->id, PetID);
         }
+
         // Calculate pet specific stats
-        if (PetID <= PETID_CAIT_SITH)
+        if (isAvatar(PetID))
         {
             CPetEntity* PPetEnt = (CPetEntity*)PPet;
 
@@ -1898,7 +1911,6 @@ namespace petutils
             CPetEntity* PPetEnt = (CPetEntity*)PPet;
             CalculateAutomatonStats(PMaster, PPetEnt);
         }
-
 
         if (PetID == PETID_WYVERN)
         {
@@ -2232,7 +2244,8 @@ namespace petutils
 
         PETTYPE petType = PETTYPE_JUG_PET;
 
-        if (PetID <= PETID_CAIT_SITH || PetID == PETID_SIREN)
+        // Set m_PetType
+        if (isAvatar(PetID))
         {
             petType = PETTYPE_AVATAR;
         }
@@ -2404,6 +2417,7 @@ namespace petutils
 
         if (PPet->getPetType() == PETTYPE_AVATAR)
         {
+            ShowDebug("Ppet is avatar, calculate avatar stats\n");
             CalculateAvatarStats(PMaster, PPet);
         }
         else if (PPet->getPetType() == PETTYPE_JUG_PET)
@@ -2600,4 +2614,36 @@ namespace petutils
         }
         return false;
     }
-}; // namespace petutils
+
+    bool isAvatar(uint32 PetID)
+    {
+        switch (PetID)
+        {
+            case PETID_FIRESPIRIT:
+            case PETID_ICESPIRIT:
+            case PETID_AIRSPIRIT:
+            case PETID_EARTHSPIRIT:
+            case PETID_THUNDERSPIRIT:
+            case PETID_WATERSPIRIT:
+            case PETID_LIGHTSPIRIT:
+            case PETID_DARKSPIRIT:
+            case PETID_CARBUNCLE:
+            case PETID_FENRIR:
+            case PETID_IFRIT:
+            case PETID_TITAN:
+            case PETID_LEVIATHAN:
+            case PETID_GARUDA:
+            case PETID_SHIVA:
+            case PETID_RAMUH:
+            case PETID_DIABOLOS:
+            case PETID_ALEXANDER:
+            case PETID_ODIN:
+            case PETID_ATOMOS:
+            case PETID_CAIT_SITH:
+            case PETID_SIREN:
+                return true;
+        }
+
+        return false;
+    }
+    }; // namespace petutils
