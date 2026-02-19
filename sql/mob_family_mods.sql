@@ -323,7 +323,6 @@ INSERT INTO `mob_family_mods` VALUES (18,389,-13,0); 	-- Animated Weapon -13%
 INSERT INTO `mob_family_mods` VALUES (19,389,-13,0); 	-- Animated Weapon -13%
 INSERT INTO `mob_family_mods` VALUES (20,389,-13,0); 	-- Animated Weapon -13%
 INSERT INTO `mob_family_mods` VALUES (21,389,-13,0); 	-- Animated Weapon -13%
-INSERT INTO `mob_family_mods` VALUES (22,389,-13,0); 	-- Animated Weapon -13%
 INSERT INTO `mob_family_mods` VALUES (23,389,-13,0); 	-- Animated Weapon -13%
 INSERT INTO `mob_family_mods` VALUES (24,389,-13,0); 	-- Animated Weapon -13%
 INSERT INTO `mob_family_mods` VALUES (171,389,-13,0); 	-- Lamiae -13%
@@ -536,9 +535,9 @@ INSERT INTO `mob_family_mods` VALUES (499,389,100,0); -- Stray +100% MDT(Bonus)
 -- Jugs
 INSERT INTO `mob_family_mods` VALUES (556,62,20,0);		-- Tiger Familiar +20% Attack
 INSERT INTO `mob_family_mods` VALUES (556,63,-10,0);	-- Tiger Familiar -10% Defense
-INSERT INTO `mob_family_mods` VALUES (633,62,60,0);		-- Saber Siravarde +60% Attack
+INSERT INTO `mob_family_mods` VALUES (633,62,20,0);		-- Saber Siravarde +20% Attack
 INSERT INTO `mob_family_mods` VALUES (633,63,-10,0);	-- Saber Siravarde -10% Defense
-INSERT INTO `mob_family_mods` VALUES (571,62,40,0);		-- Pugil Familiar +40% Attack
+INSERT INTO `mob_family_mods` VALUES (571,62,15,0);		-- Pugil Familiar +15% Attack
 INSERT INTO `mob_family_mods` VALUES (571,63,-10,0);	-- Pugil Familiar -10% Defense
 INSERT INTO `mob_family_mods` VALUES (560,62,-10,0);    -- Crab Familiar -10% Attack
 INSERT INTO `mob_family_mods` VALUES (560,63,10,0);     -- Crab Familiar +10% Def
@@ -548,11 +547,11 @@ INSERT INTO `mob_family_mods` VALUES (623,62,-10,0);    -- Porter Crab -10% Atta
 INSERT INTO `mob_family_mods` VALUES (623,63,60,0);     -- Porter Crab +60% Def
 INSERT INTO `mob_family_mods` VALUES (564,62,10,0);     -- Lizard Familiar +10% Attack
 INSERT INTO `mob_family_mods` VALUES (564,63,-20,0);    -- Lizard Familiar -20% Def
-INSERT INTO `mob_family_mods` VALUES (634,62,40,0);     -- Coldblood Camo +40% Attack
+INSERT INTO `mob_family_mods` VALUES (634,62,20,0);     -- Coldblood Camo +20% Attack
 INSERT INTO `mob_family_mods` VALUES (634,63,-20,0);    -- Coldblood Camo -20% Def
 INSERT INTO `mob_family_mods` VALUES (562,63,30,0);     -- Antlion Familiar +30% Def
-INSERT INTO `mob_family_mods` VALUES (558,62,20,0);     -- Beetle Familiar +20% Attack
-INSERT INTO `mob_family_mods` VALUES (565,62,30,0);     -- Diremite Familiar +30% Attack
+INSERT INTO `mob_family_mods` VALUES (558,62,15,0);     -- Beetle Familiar +15% Attack
+INSERT INTO `mob_family_mods` VALUES (565,62,25,0);     -- Diremite Familiar +25% Attack
 INSERT INTO `mob_family_mods` VALUES (561,388,-35,0);   -- Funguar Familiar -35% BDT
 INSERT INTO `mob_family_mods` VALUES (561,389,-35,0);   -- Funguar Familiar -35% MDT
 INSERT INTO `mob_family_mods` VALUES (568,28,30,0);     -- Fly Familiar +30 MAB
@@ -561,8 +560,8 @@ INSERT INTO `mob_family_mods` VALUES (621,28,30,0);     -- Lynx Familiar +30 MAB
 INSERT INTO `mob_family_mods` VALUES (559,30,50,0);     -- Flytrap Familiar +50 MACC
 INSERT INTO `mob_family_mods` VALUES (559,29,50,0);     -- Flytrap Familiar +50 MDB
 INSERT INTO `mob_family_mods` VALUES (559,63,25,0);     -- Flytrap Familiar +25% Def
-INSERT INTO `mob_family_mods` VALUES (577,62,20,0);		-- Hippogryph Familiar +20% Attack
-INSERT INTO `mob_family_mods` VALUES (581,62,30,0);		-- Slime Familiar +30% Attack
+INSERT INTO `mob_family_mods` VALUES (577,62,15,0);		-- Hippogryph Familiar +15% Attack
+INSERT INTO `mob_family_mods` VALUES (581,62,25,0);		-- Slime Familiar +25% Attack
 INSERT INTO `mob_family_mods` VALUES (581,49,500,0);    -- Slime Familiar -50% Slashing
 INSERT INTO `mob_family_mods` VALUES (579,62,-20,0);    -- Slug Familiar -20% Attack
 INSERT INTO `mob_family_mods` VALUES (579,63,30,0);     -- Slug Familiar +30% Def
@@ -576,7 +575,7 @@ INSERT INTO `mob_family_mods` VALUES (582,389,-25,0);   -- Snapweed Familiar -25
 INSERT INTO `mob_family_mods` VALUES (569,62,10,0);     -- Raaz Familiar +10% Attack
 INSERT INTO `mob_family_mods` VALUES (569,63,-10,0);    -- Raaz Familiar -10% Def
 INSERT INTO `mob_family_mods` VALUES (575,63,-10,0);    -- Ladybug Familiar -10% Def
-INSERT INTO `mob_family_mods` VALUES (583,62,30,0);     -- Acuex Familiar +30% Attack
+INSERT INTO `mob_family_mods` VALUES (583,62,25,0);     -- Acuex Familiar +25% Attack
 INSERT INTO `mob_family_mods` VALUES (583,51,250,0);    -- Acuex Familiar -75% Impact
 INSERT INTO `mob_family_mods` VALUES (583,52,250,0);    -- Acuex Familiar -75% H2H
 INSERT INTO `mob_family_mods` VALUES (583,49,875,0);    -- Acuex Familiar -12.5% Slashing
@@ -584,15 +583,15 @@ INSERT INTO `mob_family_mods` VALUES (583,50,875,0);    -- Acuex Familiar -12.5%
 INSERT INTO `mob_family_mods` VALUES (583,1279,875,0);  -- Acuex Familiar -12.5% Ranged
 INSERT INTO `mob_family_mods` VALUES (583,388,100,0);   -- Acuex Familiar +100% BDT
 INSERT INTO `mob_family_mods` VALUES (583,389,50,0);    -- Acuex Familiar +50% MDT
-INSERT INTO `mob_family_mods` VALUES (578,62,30,0);		-- Raptor Familiar +30% Attack
+INSERT INTO `mob_family_mods` VALUES (578,62,20,0);		-- Raptor Familiar +20% Attack
 INSERT INTO `mob_family_mods` VALUES (578,63,-10,0);	-- Raptor Familiar -10% Defense
 INSERT INTO `mob_family_mods` VALUES (584,62,-10,0);    -- Tulfaire Familiar -10% Attack
 INSERT INTO `mob_family_mods` VALUES (584,30,50,0);     -- Tulfaire Familiar +50 MACC
 INSERT INTO `mob_family_mods` VALUES (585,62,10,0);		-- Chapuli Familiar +10% Attack
-INSERT INTO `mob_family_mods` VALUES (586,62,30,0);		-- Spider Familiar +30% Attack
+INSERT INTO `mob_family_mods` VALUES (586,62,25,0);		-- Spider Familiar +25% Attack
 INSERT INTO `mob_family_mods` VALUES (586,63,-10,0);	-- Spider Familiar -10% Defense
 INSERT INTO `mob_family_mods` VALUES (619,62,-30,0);	-- Mosquito Familiar -30% Attack
-INSERT INTO `mob_family_mods` VALUES (624,62,60,0);		-- Yellow Beetle +60% Attack
+INSERT INTO `mob_family_mods` VALUES (624,62,30,0);		-- Yellow Beetle +30% Attack
 INSERT INTO `mob_family_mods` VALUES (624,63,-20,0);	-- Yellow Beetle -20% Defense
 
 -- Dynamis Mobs
