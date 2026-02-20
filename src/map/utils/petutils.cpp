@@ -1741,12 +1741,6 @@ namespace petutils
                     battleutils::AddTraits(PPet, traits::GetTraits(PPetData->sJob), PPet->GetSLevel());
                 }
 
-                // WAR pets have 25% DA
-                if (PPetData->mJob == JOB_WAR && PPet->GetMLevel() >= 25 || PPetData->sJob == JOB_WAR && PPet->GetSLevel() >= 25)
-                {
-                    PPet->setModifier(Mod::DOUBLE_ATTACK, 25);
-                }
-
                 // Pets shouldn't have Inquartata unless Rune Fencers(?)
                 if (PPetData->mJob != JOB_RUN)
                 {
