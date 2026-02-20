@@ -337,7 +337,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     local mainhandHitsDone = 1
     local offHandHitsDone = 1
     local mainhandHits, offhandHits = battleUtils.getMultiAttacks(attacker, target, nil, wsParams.numHits, isRanged, params)
-    
+
     -- Calculate MH extra hits
     while (mainhandHitsDone < mainhandHits) do -- numHits is hits in the base WS _and_ DA/TA/QA procs during those hits
         if (totalHits >= 8) then break end -- WS cap at 8 hits max
@@ -1503,7 +1503,7 @@ function GetMobFamily(target)
         return 'Lamiae'
     elseif (target:getFamily() == 182) then
         return 'Merrow'
-    elseif (target:getFamily() == 203) or (target:getFamily() == 204) or (target:getFamily() == 205) then
+    elseif (target:getFamily() == 203) or (target:getFamily() == 204) or (target:getFamily() == 205) or (target:getFamily() == 647) then
         return 'Qutrub'
     elseif (target:getFamily() == 191) or (target:getFamily() == 554) then 
         return 'Orobon'
