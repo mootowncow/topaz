@@ -49,17 +49,22 @@ function onMobFight(mob, target)
 	if mob:hasStatusEffect(tpz.effect.BLAZE_SPIKES) == false then
 		mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 25, 0, 3600)
 	end
+
+    mob:addListener("WEAPONSKILL_STATE_EXIT", "ENH_IMP_MOBSKILL_FINISHED", function(mob, skillID)
+        local target = mob:getTarget()
+
+        if skillID == 1709 then -- Abrasive Tantra
+            DelMobAura(mob, target, auraParams2)
+            AddMobAura(mob, target, auraParams1)
+        end
+        if skillID == 1710 then -- Deafening Tantra
+            DelMobAura(mob, target, auraParams1)
+            AddMobAura(mob, target, auraParams2)
+        end
+    end)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    if skill:getID() == 1709 then -- Abrasive Tantra
-        DelMobAura(mob, target, auraParams2)
-        AddMobAura(mob, target, auraParams1)
-    end
-    if skill:getID() == 1710 then -- Deafening Tantra
-        DelMobAura(mob, target, auraParams1)
-        AddMobAura(mob, target, auraParams2)
-    end
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

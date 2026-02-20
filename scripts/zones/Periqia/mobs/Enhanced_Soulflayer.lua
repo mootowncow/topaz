@@ -165,6 +165,10 @@ function onMobWeaponSkill(target, mob, skill)
     end
 end
 
+function onMobDisengage(mob)
+    mob:setLocalVar("ImmortalShieldTime", 0)
+end
+
 function onMobDeath(mob, player, isKiller, noKiller)
     local instance = mob:getInstance()
     instance:setProgress(instance:getProgress() + 1)
