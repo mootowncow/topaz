@@ -74,7 +74,7 @@ namespace mobutils
 
             // MULTI
             // Some monsters, typically ones with larger models use Level * 1.5 instead of level
-            // Monk monsters (who attack twice per round) Level * 1.667.
+            // Monk monsters who have a multi (who attack twice per round) Level * 1.667.
             // These multipliers appear to only exist in pre-ToAU areas; in ToAU and beyond all monster families who had a multiplier instead use expected Level
             // values.
 
@@ -97,9 +97,9 @@ namespace mobutils
 
         uint16 lvl = PMob->GetMLevel();
         uint16 family = PMob->m_Family;
-        int8 bonus = 2;
+        int32 bonus = 2;
         float multi = 1.0f;
-        int8 rangedBonus = 5;
+        uint32 rangedBonus = 5;
         float h2hPenalty = 0.425;
         float damage = 0.0f;
         REGIONTYPE region = PMob->loc.zone->GetRegionID();
@@ -191,7 +191,41 @@ namespace mobutils
                 break;
         }
 
-        // Multi (Original - Zilart zones only)
+        switch (family)
+        {
+            // Animated Weapons (256 Bonus)
+            case 7:  // AnimatedWeapon-Archery
+            case 8:  // AnimatedWeapon-Axe
+            case 9:  // AnimatedWeapon-Club
+            case 11: // AnimatedWeapon-Dagger
+            case 12: // AnimatedWeapon-Greataxe
+            case 13: // AnimatedWeapon-Greatkatana
+            case 14: // AnimatedWeapon-Greatsword
+            case 15: // AnimatedWeapon-Handtohand
+            case 16: // AnimatedWeapon-Instrument
+            case 17: // AnimatedWeapon-Katana
+            case 18: // AnimatedWeapon-Marksmanship
+            case 19: // AnimatedWeapon-Polearm
+            case 20: // AnimatedWeapon-Scythe
+            case 21: // AnimatedWeapon-Shield
+            case 23: // AnimatedWeapon-Staff
+            case 24: // AnimatedWeapon-Sword
+                bonus = 256;
+                break;
+            // Dynamis Statues (220 Bonus)
+            case 92:
+            case 93:
+            case 94:
+            case 95:
+            case 411:
+            case 412:
+            case 413:
+            case 414:
+                bonus = 220;
+                break;
+        }
+
+        // Multi (Original - Zilart zones only EXCEPT Chariot and Vampyrs)
         switch (family)
         {
             case 208:   // Ram
@@ -202,7 +236,15 @@ namespace mobutils
             case 56:    // Bomb
             case 135:   // Golem
             case 169:   // Kindred
+            case 252:   // Vampyr
+            case 284:   // Vampyr
+            case 63:    // Chariot
                 multi = 1.5f;
+                break;
+            case 240:  // Tauri
+            case 59:   // Bugbear
+            case 655:  // Korrigan
+                multi = 1.667f;
                 break;
             case 271:   // Yovra
                 multi = 2.0f;
@@ -211,7 +253,7 @@ namespace mobutils
                 break;
         }
 
-        bonus = std::max((int8)0, bonus);
+        bonus = std::max(0, bonus);
 
         // Starter zones
         if (region >= REGION_RONFAURE && region <= REGION_GUSTABERG)
@@ -1453,10 +1495,12 @@ void SetupDynamisMob(CMobEntity* PMob)
     PMob->setMobMod(MOBMOD_MUG_GIL, -1);
     PMob->setMobMod(MOBMOD_EXP_BONUS, -100);
 
-    // boost dynamis mobs weapon damage
-    PMob->setMobMod(MOBMOD_WEAPON_BONUS, 30); // Add approximately 30 flat damage until proven otherwise (In-line with the 35% added previously)
+    // boost dynamis beastmen and kindred mobs weapon damage
+    if (PMob->m_EcoSystem == SYSTEM_BEASTMEN || PMob->m_EcoSystem == SYSTEM_DEMON)
+        PMob->setMobMod(MOBMOD_WEAPON_BONUS, 30);
+
     ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
-    ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(GetWeaponDamage(PMob, SLOT_SUB));
+    ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(GetWeaponDamage(PMob, SLOT_SUB));
     ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
 
     // job resist traits are much more powerful in dynamis
