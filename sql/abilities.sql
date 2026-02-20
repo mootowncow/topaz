@@ -315,7 +315,7 @@ INSERT INTO `abilities` VALUES (252,'restraint',1,40,1,300,9,100,0,220,2000,0,6,
 INSERT INTO `abilities` VALUES (253,'perfect_counter',2,30,1,60,22,100,0,221,2000,0,6,20.0,0,1,80,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (254,'mana_wall',4,70,1,600,39,0,0,222,2000,0,6,20.0,0,1,0,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (255,'divine_emblem',7,65,1,180,80,100,0,222,2000,0,6,20.0,0,1,80,0,0,NULL,0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (256,'nether_void',8,60,1,180,91,100,0,224,2000,0,6,20.0,0,1,80,0,0,NULL,0,0,0,0,0,0);
+INSERT INTO `abilities` VALUES (256,'nether_void',8,40,1,180,91,100,0,224,2000,0,6,20.0,0,1,80,0,0,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (257,'double_shot',11,70,1,180,126,0,0,225,2000,0,6,20.0,0,1,80,0,0,'ABYSSEA',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (258,'sengikori',12,25,1,90,141,0,0,226,2000,0,6,30.0,1,1,80,0,4,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (259,'futae',13,50,1,60,148,0,0,227,2000,0,6,20.0,0,1,0,0,0,'ABYSSEA',0,0,0,0,0,0);		-- level 50, 60 second cooldown
