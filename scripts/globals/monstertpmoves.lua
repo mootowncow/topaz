@@ -183,13 +183,6 @@ function MobPhysicalMove(mob, target, skill, numberOfHits, accmod, dmgmod, tpeff
         dmg = math.floor(dmg * MobDmgTPModifier(tp))
     end
 
-    -- Reduce the damage by half on 5+ hit TP moves or else they become out of control
-    if hitsLanded >= 5 then
-        if not mob:isTrust() then -- Don't nerf Trusts WS
-            dmg = dmg / 2
-        end
-    end
-
     -- Fully parried the attack(Displays miss)
     if (hitsLanded >= 1 and dmg < 1) then
         skill:setMsg(tpz.msg.basic.SKILL_MISS)
