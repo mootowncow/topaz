@@ -95,7 +95,6 @@ INSERT INTO `mob_family_mods` VALUES (358,11,15,1);
 INSERT INTO `mob_family_mods` VALUES (110,3,50,1);
 --INSERT INTO `mob_family_mods` VALUES (121,242,20,0); Ghost paralyze resist? no ty
 --INSERT INTO `mob_family_mods` VALUES (52,242,20,0 Ghost paralyze resist? no ty
-INSERT INTO `mob_family_mods` VALUES (258,34,25,1);
 INSERT INTO `mob_family_mods` VALUES (234,37,1,1);
 INSERT INTO `mob_family_mods` VALUES (72,3,50,1);
 INSERT INTO `mob_family_mods` VALUES (140,3,50,1);
@@ -235,6 +234,7 @@ INSERT INTO `mob_family_mods` VALUES (542,68,20,0);		-- Toad +20 Evasion Racial
 INSERT INTO `mob_family_mods` VALUES (196,68,10,0);		-- Poroggo +10 Evasion Racial
 INSERT INTO `mob_family_mods` VALUES (203,68,12,0);		-- Qutrub(Normal) +12 Evasion Racial
 INSERT INTO `mob_family_mods` VALUES (204,68,12,0);		-- Qutrub(Unused) +12 Evasion Racial
+INSERT INTO `mob_family_mods` VALUES (647,68,12,0);		-- Qutrub(Unused) +12 Evasion Racial
 INSERT INTO `mob_family_mods` VALUES (205,68,12,0);		-- Qutrub(Qutrub_Wastrel) +12 Evasion Racial
 INSERT INTO `mob_family_mods` VALUES (303,68,12,0);		-- Qutrub(ZareehklTheJu) +12 Evasion Racial
 INSERT INTO `mob_family_mods` VALUES (188,68,25,0);		-- Opo-opo +25 Evasion Racial
@@ -277,11 +277,13 @@ INSERT INTO `mob_family_mods` VALUES (371,68,-20,0);	-- Marid -20 Evasion
 INSERT INTO `mob_family_mods` VALUES (203,387,200,0);	-- Qutrub +200%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (204,387,200,0);	-- Qutrub +200%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (205,387,200,0);	-- Qutrub +200%(Bonus)
+INSERT INTO `mob_family_mods` VALUES (647,387,200,0);	-- Qutrub +200%(Bonus)
 
 -- Breath Damage Taken(BDT)
 INSERT INTO `mob_family_mods` VALUES (203,388,200,0);	-- Qutrub +200%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (204,388,200,0);	-- Qutrub +200%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (205,388,200,0);	-- Qutrub +200%(Bonus)
+INSERT INTO `mob_family_mods` VALUES (647,388,200,0);	-- Qutrub +200%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (62,388,25,0);		-- Cerberus +25%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (252,388,-13,0); 	-- Vampyr(NM) -13%
 INSERT INTO `mob_family_mods` VALUES (284,388,-13,0); 	-- Vampyr(NM) -13%
@@ -290,6 +292,7 @@ INSERT INTO `mob_family_mods` VALUES (284,388,-13,0); 	-- Vampyr(NM) -13%
 INSERT INTO `mob_family_mods` VALUES (203,390,200,0);	-- Qutrub +200%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (204,390,200,0);	-- Qutrub +200%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (205,390,200,0);	-- Qutrub +200%(Bonus)
+INSERT INTO `mob_family_mods` VALUES (647,390,200,0);	-- Qutrub +200%(Bonus)
 
 -- Magic damage taken (MDT)
 INSERT INTO `mob_family_mods` VALUES (1,389,-13,0); 	-- Acrolith -13%
@@ -298,9 +301,11 @@ INSERT INTO `mob_family_mods` VALUES (112,389,25,0); 	-- Flan +25%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (203,389,200,0);	-- Qutrub +200%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (204,389,200,0);	-- Qutrub +200%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (205,389,200,0);	-- Qutrub +200%(Bonus)
+INSERT INTO `mob_family_mods` VALUES (647,389,200,0);	-- Qutrub +200%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (61,389,-25,0); 	-- Cardian -25%
 INSERT INTO `mob_family_mods` VALUES (74,389,-25,0); 	-- Corse -25%
 INSERT INTO `mob_family_mods` VALUES (110,389,-13,0); 	-- EvilWeapon -13%
+INSERT INTO `mob_family_mods` VALUES (646,389,-13,0); 	-- EvilWeapon -13%
 INSERT INTO `mob_family_mods` VALUES (122,389,-13,0); 	-- Ghrah -13%
 INSERT INTO `mob_family_mods` VALUES (123,389,-13,0); 	-- Ghrah -13%
 INSERT INTO `mob_family_mods` VALUES (124,389,-13,0); 	-- Ghrah -13%
@@ -788,13 +793,24 @@ INSERT INTO `mob_family_mods` VALUES (139,@roam_rate,30,1);
 INSERT INTO `mob_family_mods` VALUES (258,@roam_cool,90,1);
 INSERT INTO `mob_family_mods` VALUES (258,@roam_rate,30,1);
 
+INSERT INTO `mob_family_mods` VALUES (650,@roam_cool,90,1);
+INSERT INTO `mob_family_mods` VALUES (650,@roam_rate,30,1);
+
 INSERT INTO `mob_family_mods` VALUES (227,@roam_cool,65,1);
 INSERT INTO `mob_family_mods` VALUES (227,@roam_rate,30,1);
 INSERT INTO `mob_family_mods` VALUES (227,@roam_turns,5,1);
 
+INSERT INTO `mob_family_mods` VALUES (648,@roam_cool,65,1);
+INSERT INTO `mob_family_mods` VALUES (648,@roam_rate,30,1);
+INSERT INTO `mob_family_mods` VALUES (648,@roam_turns,5,1);
+
 INSERT INTO `mob_family_mods` VALUES (110,@roam_cool,45,1);
 INSERT INTO `mob_family_mods` VALUES (110,@roam_turns,3,1);
 INSERT INTO `mob_family_mods` VALUES (110,@roam_rate,30,1);
+
+INSERT INTO `mob_family_mods` VALUES (646,@roam_cool,45,1);
+INSERT INTO `mob_family_mods` VALUES (646,@roam_turns,3,1);
+INSERT INTO `mob_family_mods` VALUES (646,@roam_rate,30,1);
 
 -- Elementals
 INSERT INTO `mob_family_mods` VALUES (99,@roam_turns,3,1);
@@ -895,6 +911,10 @@ INSERT INTO `mob_family_mods` VALUES (210,@roam_cool,40,1);
 INSERT INTO `mob_family_mods` VALUES (210,@roam_turns,3,1);
 INSERT INTO `mob_family_mods` VALUES (210,@roam_distance,30,1);
 
+INSERT INTO `mob_family_mods` VALUES (652,@roam_cool,40,1);
+INSERT INTO `mob_family_mods` VALUES (652,@roam_turns,3,1);
+INSERT INTO `mob_family_mods` VALUES (652,@roam_distance,30,1);
+
 INSERT INTO `mob_family_mods` VALUES (376,@roam_cool,40,1);
 INSERT INTO `mob_family_mods` VALUES (376,@roam_turns,3,1);
 INSERT INTO `mob_family_mods` VALUES (376,@roam_distance,30,1);
@@ -947,6 +967,11 @@ INSERT INTO `mob_family_mods` VALUES (70,@roam_cool,30,1);
 INSERT INTO `mob_family_mods` VALUES (70,@roam_turns,3,1);
 INSERT INTO `mob_family_mods` VALUES (70,@roam_rate,30,1);
 
+INSERT INTO `mob_family_mods` VALUES (651,@roam_cool,30,1);
+INSERT INTO `mob_family_mods` VALUES (651,@roam_turns,3,1);
+INSERT INTO `mob_family_mods` VALUES (651,@roam_rate,30,1);
+
+
 INSERT INTO `mob_family_mods` VALUES (72,@roam_turns,2,1);
 INSERT INTO `mob_family_mods` VALUES (72,@roam_rate,30,1);
 
@@ -958,6 +983,10 @@ INSERT INTO `mob_family_mods` VALUES (141,@roam_cool,55,1);
 INSERT INTO `mob_family_mods` VALUES (125,@roam_rate,30,1);
 INSERT INTO `mob_family_mods` VALUES (125,@roam_turns,2,1);
 INSERT INTO `mob_family_mods` VALUES (125,@roam_cool,40,1);
+
+INSERT INTO `mob_family_mods` VALUES (654,@roam_rate,30,1);
+INSERT INTO `mob_family_mods` VALUES (654,@roam_turns,2,1);
+INSERT INTO `mob_family_mods` VALUES (654,@roam_cool,40,1);
 
 INSERT INTO `mob_family_mods` VALUES (74,@roam_rate,30,1);
 INSERT INTO `mob_family_mods` VALUES (74,@roam_turns,2,1);
@@ -989,6 +1018,10 @@ INSERT INTO `mob_family_mods` VALUES (203,@roam_rate,30,1);
 INSERT INTO `mob_family_mods` VALUES (203,@roam_turns,3,1);
 INSERT INTO `mob_family_mods` VALUES (203,@roam_cool,50,1);
 
+INSERT INTO `mob_family_mods` VALUES (647,@roam_rate,30,1);
+INSERT INTO `mob_family_mods` VALUES (647,@roam_turns,3,1);
+INSERT INTO `mob_family_mods` VALUES (647,@roam_cool,50,1);
+
 INSERT INTO `mob_family_mods` VALUES (204,@roam_rate,30,1);
 INSERT INTO `mob_family_mods` VALUES (204,@roam_turns,3,1);
 INSERT INTO `mob_family_mods` VALUES (204,@roam_cool,50,1);
@@ -1016,6 +1049,10 @@ INSERT INTO `mob_family_mods` VALUES (252,@roam_cool,50,1);
 INSERT INTO `mob_family_mods` VALUES (56,@roam_rate,20,1);
 INSERT INTO `mob_family_mods` VALUES (56,@roam_turns,5,1);
 INSERT INTO `mob_family_mods` VALUES (56,@roam_cool,30,1);
+
+INSERT INTO `mob_family_mods` VALUES (649,@roam_rate,20,1);
+INSERT INTO `mob_family_mods` VALUES (649,@roam_turns,5,1);
+INSERT INTO `mob_family_mods` VALUES (649,@roam_cool,30,1);
 
 INSERT INTO `mob_family_mods` VALUES (61,@roam_rate,20,1);
 INSERT INTO `mob_family_mods` VALUES (61,@roam_turns,2,1);
@@ -1154,10 +1191,12 @@ INSERT INTO `mob_family_mods` VALUES (24,3,50,1);
 INSERT INTO `mob_family_mods` VALUES (88,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (89,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (227,56,-1,1);
+INSERT INTO `mob_family_mods` VALUES (648,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (196,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (203,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (204,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (205,56,-1,1);
+INSERT INTO `mob_family_mods` VALUES (647,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (112,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (165,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (166,56,-1,1);
@@ -1205,6 +1244,7 @@ INSERT INTO `mob_family_mods` VALUES (511,56,-1,1);
 INSERT INTO `mob_family_mods` VALUES (203,59,13,1); -- Qutrub +13 Weapon dmg
 INSERT INTO `mob_family_mods` VALUES (204,59,13,1); -- Qutrub +13 Weapon dmg
 INSERT INTO `mob_family_mods` VALUES (205,59,13,1); -- Qutrub +13 Weapon dmg
+INSERT INTO `mob_family_mods` VALUES (647,59,13,1); -- Qutrub +13 Weapon dmg
 INSERT INTO `mob_family_mods` VALUES (252,59,30,1); -- Vampyr +30 Weapon dmg
 INSERT INTO `mob_family_mods` VALUES (284,59,30,1); -- Vampyr +30 Weapon dmg
 INSERT INTO `mob_family_mods` VALUES (171,59,10,1); -- Lamia +10 Weapon dmg
