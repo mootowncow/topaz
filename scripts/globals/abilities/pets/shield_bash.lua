@@ -38,11 +38,11 @@ function onPetAbility(target, pet, skill, master, action)
     local bonus2 = 200
 
     if (power2 == 1200) then
-        duration = 30
+        duration2 = 30
     elseif (power2 == 2000) then
-        duration = 60
+        duration2 = 60
     elseif (power2 == 2500) then
-        duration = 75
+        duration2 = 75
     end
 
     local damage = AutoPhysicalWeaponSkill(pet, target, skill, tpz.attackType.PHYSICAL, numhits, TP_NONE, params)
