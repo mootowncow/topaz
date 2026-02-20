@@ -201,9 +201,6 @@ INSERT INTO `mob_family_mods` VALUES (626,62,25,0);	    -- Gabbrath +25% Attack
 INSERT INTO `mob_family_mods` VALUES (183,62,25,0);	    -- Mimic +25% Attack 
 INSERT INTO `mob_family_mods` VALUES (135,62,25,0);	    -- Golem +20% Attack 
 
--- Flat Attack Penalty
-INSERT INTO `mob_family_mods` VALUES (213,23,-20,0);	-- Sahagin -20 Attack
-
 -- Defense Bonus
 INSERT INTO `mob_family_mods` VALUES (272,63,20,0);		-- Zdei +20% Defense Bonus
 INSERT INTO `mob_family_mods` VALUES (233,63,20,0);		-- Soulflayer +20% Defense Bonus
