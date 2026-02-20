@@ -257,6 +257,10 @@ tpz.promyvion.strayOnSpawn = function(mob)
     end
 end
 
+tpz.promyvion.receptacleOnSpawn = function(mob)
+    mob:addMod(tpz.mod.VIT, 25)
+end
+
 tpz.promyvion.receptacleOnFight = function(mob, target)
     if os.time() > mob:getLocalVar("[promy]nextStray") then
         local ID = zones[mob:getZoneID()]

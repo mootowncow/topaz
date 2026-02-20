@@ -7,8 +7,8 @@
 require("scripts/globals/titles")
 require("scripts/globals/status")
 require("scripts/globals/magic")
+require("scripts/globals/promyvion")
 -----------------------------------
-
 function onMobSpawn(mob)
     mob:addMod(tpz.mod.ATTP, 10)
     mob:addMod(tpz.mod.DEFP, 20) 
@@ -21,7 +21,7 @@ function onMobSpawn(mob)
     mob:getStatusEffect(tpz.effect.MAGIC_SHIELD):unsetFlag(tpz.effectFlag.DISPELABLE)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:SetAutoAttackEnabled(false)
-    --printf("Add Status");
+    tpz.promyvion.receptacleOnSpawn(mob)
 end
 
 function onMobInitialize(mob)

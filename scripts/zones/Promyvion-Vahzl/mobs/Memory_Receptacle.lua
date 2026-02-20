@@ -12,6 +12,9 @@ function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:SetAutoAttackEnabled(false) -- Receptacles only use TP moves.
 end
+function onMobSpawn(mob)
+    tpz.promyvion.receptacleOnSpawn(mob)
+end
 
 function onMobFight(mob, target)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)

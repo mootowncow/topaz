@@ -519,6 +519,7 @@ INSERT INTO `mob_family_mods` VALUES (78,63,10,0);		-- Craver +10% Defense Bonus
 INSERT INTO `mob_family_mods` VALUES (256,63,-10,0);	-- Weeper -10% Defense Penalty
 INSERT INTO `mob_family_mods` VALUES (137,63,10,0);		-- Gorger +10% Defense Bonus
 INSERT INTO `mob_family_mods` VALUES (138,63,10,0);		-- Gorger +10% Defense Bonus
+INSERT INTO `mob_family_mods` VALUES (220,62,30,0);		-- Seether +30% Bonus Attack
 INSERT INTO `mob_family_mods` VALUES (220,63,10,0);		-- Seether +10% Defense Bonus
 INSERT INTO `mob_family_mods` VALUES (241,63,10,0);		-- Thinker +10% Defense Bonus
 INSERT INTO `mob_family_mods` VALUES (241,29,12,0); -- Thinker +12 MDB

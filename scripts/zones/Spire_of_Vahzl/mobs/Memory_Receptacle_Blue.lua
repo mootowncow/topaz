@@ -7,6 +7,7 @@
 require("scripts/globals/titles")
 require("scripts/globals/status")
 require("scripts/globals/magic")
+require("scripts/globals/promyvion")
 require("scripts/zones/Spire_of_Vahzl/globals")
 -----------------------------------
 function onMobSpawn(mob)
@@ -15,6 +16,7 @@ function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:setLocalVar("path", vahzl.PATH_TOP)
     mob:speed(0)
+    tpz.promyvion.receptacleOnSpawn(mob)
 end
 
 function onMobFight(mob, target)
