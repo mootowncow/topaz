@@ -712,6 +712,7 @@ INSERT INTO `mob_family_system` VALUES (651,'Cockatrice_Kuzotz',8,'Bird',1,40,10
 INSERT INTO `mob_family_system` VALUES (652,'Raptor_ToAU',14,'Lizard',1,50,100,120,4,4,5,3,4,4,4,1,3,1,1,1,1,1,1,1,1,1.3,1.3,1.3,1.5,1.3,1.3,1,258,1,100,	100,	130,	130,	130,	130,	130,	100,	100,	130,	130,	130,	150,	130,	130);
 INSERT INTO `mob_family_system` VALUES (653,'Lesser_Bird_ToAU',8,'Bird',0,40,100,120,4,4,5,3,4,4,4,1,4,1,3,1,1.25,1,1,1.3,1.5,1,1,1,1.3,1.3,1.3,1,2,1,130,	130,	100,	100,	130,	130,	130,	150,	150,	100,	100,	100,	130,	130,	130);
 INSERT INTO `mob_family_system` VALUES (654,'GreaterBird_COP',8,'Bird',1,40,130,120,3,3,3,3,3,3,3,1,2,1,3,0.75,1.25,1,0.75,0.85,1.5,0.5,0.85,0.85,0.85,0.85,0.85,7,1,1,85,	85,	50,	50,	85,	5,	85,	150,	150,	85,	85,	85,	85,	85,	85);
+INSERT INTO `mob_family_system` VALUES (655,'Korrigan',17,'Plantoid',0,40,100,120,5,3,4,4,4,4,4,1,3,1,2,1,1.25,1,1,1.5,1.5,1.5,1.0,1.5,1.0,1.0,1.5,4,2,1,150,	150,	150,	150,	150,	100,	100,	150,	150,	100,	100,	100,	100,	150,	150);
 
 
 -- Mythic Weapon Fights (Custom)
@@ -823,7 +824,7 @@ INSERT INTO `mob_family_system` VALUES (989,'Amunet',6,'Beast',1,60,100,120,4,3,
 
 
 -- 111, 230, 317-318,405,411-434,439-443, 598 available for use
--- NEXT: 655
+-- NEXT: 656
 -- NEXT Custom: 975
 
   -- `familyid` smallint(4) unsigned NOT NULL,
