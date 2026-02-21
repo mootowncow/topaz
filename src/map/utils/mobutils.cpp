@@ -1499,6 +1499,47 @@ void SetupDynamisMob(CMobEntity* PMob)
     if (PMob->m_EcoSystem == SYSTEM_BEASTMEN || PMob->m_EcoSystem == SYSTEM_DEMON)
         PMob->setMobMod(MOBMOD_WEAPON_BONUS, 30);
 
+    auto bonusAttributes = 0;
+    switch (PMob->m_Family)
+    {
+        // Animated Weapons (30 bonus attributes)
+        case 7:  // AnimatedWeapon-Archery
+        case 8:  // AnimatedWeapon-Axe
+        case 9:  // AnimatedWeapon-Club
+        case 11: // AnimatedWeapon-Dagger
+        case 12: // AnimatedWeapon-Greataxe
+        case 13: // AnimatedWeapon-Greatkatana
+        case 14: // AnimatedWeapon-Greatsword
+        case 15: // AnimatedWeapon-Handtohand
+        case 16: // AnimatedWeapon-Instrument
+        case 17: // AnimatedWeapon-Katana
+        case 18: // AnimatedWeapon-Marksmanship
+        case 19: // AnimatedWeapon-Polearm
+        case 20: // AnimatedWeapon-Scythe
+        case 21: // AnimatedWeapon-Shield
+        case 23: // AnimatedWeapon-Staff
+        case 24: // AnimatedWeapon-Sword
+            bonusAttributes = 30;
+            break;
+        // Dynamis Statues (25 bonus attributes)
+        case 92:
+        case 93:
+        case 94:
+        case 95:
+        case 411:
+        case 412:
+        case 413:
+        case 414:
+            bonusAttributes = 25;
+            break;
+    }
+
+    // Statue and Animated Weapons bonus stats
+    for (uint16 attribute = (uint16)Mod::STR; attribute <= (uint16)Mod::CHR; ++attribute)
+    {
+        PMob->addModifier((Mod)attribute, bonusAttributes);
+    }
+
     ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
     ((CItemWeapon*)PMob->m_Weapons[SLOT_SUB])->setDamage(GetWeaponDamage(PMob, SLOT_SUB));
     ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
