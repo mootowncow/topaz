@@ -136,11 +136,10 @@ function onTrigger(player, npc)
         player:startEvent(3154, 0, 0, 0, 0, 0, 0, 0, 0, 0)
     else
         player:startEvent(3003, 1, 0, 0, 0, 0, 0, 0, 1, 0) -- go back to work
-        player:PrintToPlayer("You are " .. player:getCharVar("AssaultPromotion") .. " / 25 from ranking up.", 0, 'Naja Salaheem')
 
         -- player:messageSpecial(0)--  need to find correct normal chat CS..
     end
-
+    player:PrintToPlayer("You are " .. player:getCharVar("AssaultPromotion") .. " / 25 from ranking up.", 0, 'Naja Salaheem')
 end
 
 function onEventUpdate(player, csid, option)
