@@ -36,7 +36,7 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
 	if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
     jobUtil.AddIgnisRune(player, damage)
 
-    local maccBonus = math.floor(MaccTPModifier(tp))
+    local maccBonus = 200 + math.floor(MaccTPModifier(tp))
     local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.THUNDER, maccBonus, tpz.effect.STUN)
     if IsWSDamageMessage(target, action) and not target:hasStatusEffect(tpz.effect.STUN) and (resist >= 0.5) then
         local duration = 12 * resist
