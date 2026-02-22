@@ -1584,6 +1584,7 @@ namespace petutils
         {
             CCharEntity* PChar = (CCharEntity*)PMaster;
             PPet->addModifier(Mod::ATTP, PChar->PMeritPoints->GetMeritValue(MERIT_OPTIMIZATION, PChar));
+            PPet->addModifier(Mod::RATTP, PChar->PMeritPoints->GetMeritValue(MERIT_OPTIMIZATION, PChar));
             PPet->addModifier(Mod::DEFP, PChar->PMeritPoints->GetMeritValue(MERIT_OPTIMIZATION, PChar));
             PPet->addModifier(Mod::MATT, PChar->PMeritPoints->GetMeritValue(MERIT_OPTIMIZATION, PChar));
             PPet->addModifier(Mod::ACC, PChar->PMeritPoints->GetMeritValue(MERIT_FINE_TUNING, PChar));
