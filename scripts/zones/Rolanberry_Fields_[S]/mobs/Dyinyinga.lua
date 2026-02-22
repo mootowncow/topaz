@@ -9,6 +9,7 @@ require("scripts/globals/status")
 require("scripts/globals/world")
 require("scripts/globals/magic")
 require("scripts/globals/utils")
+mixins = { require("scripts/mixins/families/slug") }
 ------------------------------
 function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
@@ -22,17 +23,13 @@ function onMobSpawn(mob)
 	mob:setMod(tpz.mod.MOVE, 20)
 	mob:setMod(tpz.mod.UDMGMAGIC, 25)
     mob:setLocalVar("AuraTick", 0)
+    mob:setLocalVar("RainRegen", 100)
 end
 
 function onMobFight(mob, target)
 	local AuraTick = mob:getLocalVar("AuraTick")
 	local BattleTime = mob:getBattleTime()
 
-	if mob:getWeather() == tpz.weather.RAIN or mob:getWeather() == tpz.weather.SQUALL then
-		mob:setMod(tpz.mod.REGEN, 100)
-	else
-		mob:setMod(tpz.mod.REGEN, 0)
-	end
     -- "Stick" to target
     if mob:checkDistance(target) > 1 then
         local targetPos = target:getPos()

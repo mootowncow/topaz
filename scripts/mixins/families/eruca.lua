@@ -85,13 +85,13 @@ g_mixins.families.eruca = function(mob)
 
     mob:addListener("COMBAT_TICK", "ERUCA_COMBAT_TICK", function(mob)
         if VanadielDayOfTheWeek() == tpz.day.FIRESDAY then
-            mob:setMod(tpz.mod.REGEN, 25)
-            mob:setMod(tpz.mod.REGAIN, 150)
-            mob:setMod(tpz.mod.HASTE_GEAR, 1000)
+            utils.AddDynamicMod(mob, tpz.mod.REGEN, 25)
+            utils.AddDynamicMod(mob, tpz.mod.REGAIN, 150)
+            utils.AddDynamicMod(mob, tpz.mod.HASTE_GEAR, 1000)
         elseif VanadielDayOfTheWeek() ~= tpz.day.FIRESDAY then
-            mob:setMod(tpz.mod.REGEN, 0)
-            mob:setMod(tpz.mod.REGAIN, 0)
-            mob:setMod(tpz.mod.HASTE_GEAR, 0)
+            utils.DelDynamicMod(mob, tpz.mod.REGEN)
+            utils.DelDynamicMod(mob, tpz.mod.REGAIN)
+            utils.DelDynamicMod(mob, tpz.mod.HASTE_GEAR)
         end
     end)
 

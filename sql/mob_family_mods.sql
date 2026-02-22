@@ -168,6 +168,7 @@ INSERT INTO `mob_family_mods` VALUES (176,28,6,1);	-- Mamool Ja +6% EXP
 INSERT INTO `mob_family_mods` VALUES (177,28,6,1);	-- Mamool Ja +6% EXP 
 INSERT INTO `mob_family_mods` VALUES (591,28,6,1);	-- Mamool Ja +6% EXP 
 INSERT INTO `mob_family_mods` VALUES (171,28,6,1);	-- Lamia +6% EXP 
+-- INSERT INTO `mob_family_mods` VALUES (182,28,6,1);	-- Merrow +6% EXP -- TODO: Can't add for some reason? Makes the SQL error
 INSERT INTO `mob_family_mods` VALUES (112,28,6,1);	-- Flan +6% EXP 
 
 INSERT INTO `mob_family_mods` VALUES (627,28,5,1);	-- Scolopendrid +5% EXP 
@@ -222,6 +223,7 @@ INSERT INTO `mob_family_mods` VALUES (307,63,12,0);	    -- Wamoura(Achamoth) +12
 INSERT INTO `mob_family_mods` VALUES (252,63,25,0);	    -- Vampyr +25% Defense Bonus
 INSERT INTO `mob_family_mods` VALUES (191,63,25,0);	    -- Orobon +25% Defense Bonus
 INSERT INTO `mob_family_mods` VALUES (27,63,25,0);		-- Apkallu +25% Defense Bonus
+INSERT INTO `mob_family_mods` VALUES (656,63,20,0);		-- Worm (ToAU) +20% Defense Bonus
 INSERT INTO `mob_family_mods` VALUES (246,63,25,0);	    -- Troll +25% Defense Bonus
 INSERT INTO `mob_family_mods` VALUES (209,63,25,0);	    -- Rampart +25% Defense Bonus
 INSERT INTO `mob_family_mods` VALUES (63,63,25,0);	 	-- Chariot +25% Defense Bonus
@@ -404,6 +406,7 @@ INSERT INTO `mob_family_mods` VALUES (52,29,20,0);  	-- Bhoot +20 MDB
 INSERT INTO `mob_family_mods` VALUES (929,29,20,0);  	-- Bhoot +20 MDB
 INSERT INTO `mob_family_mods` VALUES (930,29,20,0);  	-- Bhoot +20 MDB
 INSERT INTO `mob_family_mods` VALUES (233,29,20,0); 	-- Soulflayer +20 MDB
+INSERT INTO `mob_family_mods` VALUES (656,29,20,0); 	-- Worm (ToAU) +20 MDB
 INSERT INTO `mob_family_mods` VALUES (90,29,40,0); 	    -- Dvergr +40 MDB
 INSERT INTO `mob_family_mods` VALUES (316,29,40,0); 	-- Dvergr +40 MDB
 INSERT INTO `mob_family_mods` VALUES (6,29,20,0); 	    -- Amphiptere +20 MDB

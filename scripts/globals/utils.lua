@@ -1405,12 +1405,21 @@ function utils.AddDynamicMod(entity, modType, modValue)
         if currentModValue ~= 0 then
             entity:delMod(modType, currentModValue)
         end
-        
+
         -- Apply the new mod value
         entity:addMod(modType, modValue)
-        
+
         -- Store the new applied value as a local variable
         entity:setLocalVar("Mod_" .. modType, modValue)
+    end
+end
+
+function utils.DelDynamicMod(entity, modType)
+    local currentModValue = entity:getLocalVar("Mod_" .. modType)
+
+    if currentModValue ~= 0 then
+        entity:delMod(modType, currentModValue)
+        entity:setLocalVar("Mod_" .. modType, 0)
     end
 end
 

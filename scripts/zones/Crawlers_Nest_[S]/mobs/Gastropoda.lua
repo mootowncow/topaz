@@ -3,7 +3,9 @@
 --   NM: Abatwa
 ------------------------------
 require("scripts/globals/wotg")
-mixins = {require("scripts/mixins/job_special")}
+mixins = {
+require("scripts/mixins/job_special"), 
+require("scripts/mixins/families/slug")}
 ------------------------------
 function onMobSpawn(mob)
     tpz.wotg.onMobSpawn(mob)

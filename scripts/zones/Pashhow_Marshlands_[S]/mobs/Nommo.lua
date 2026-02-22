@@ -7,6 +7,7 @@ require("scripts/globals/hunts")
 require("scripts/globals/mobs")
 require("scripts/globals/status")
 require("scripts/globals/wotg")
+mixins = { require("scripts/mixins/families/slug") }
 ------------------------------
 function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
@@ -21,6 +22,7 @@ function onMobSpawn(mob)
 	mob:setMod(tpz.mod.LULLABYRESTRAIT, 100)
 	mob:setMod(tpz.mod.BINDRESTRAIT, 100)
 	mob:setMod(tpz.mod.GRAVITYRESTRAIT, 100)
+    mob:setLocalVar("RainRegen", 100)
 end
 
 function onAdditionalEffect(mob, target, damage)

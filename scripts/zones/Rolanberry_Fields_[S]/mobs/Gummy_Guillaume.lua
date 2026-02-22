@@ -6,6 +6,7 @@
 -----------------------------------
 require("scripts/globals/annm")
 require("scripts/globals/status")
+mixins = { require("scripts/mixins/families/slug") }
 -----------------------------------
 function onMobSpawn(mob)
     mob:setLocalVar("AuraTick", 0)
@@ -25,11 +26,6 @@ function onMobFight(mob, target)
 	local AuraTick = mob:getLocalVar("AuraTick")
 	local BattleTime = mob:getBattleTime()
 
-	if mob:getWeather() == tpz.weather.RAIN or mob:getWeather() == tpz.weather.SQUALL then
-		mob:setMod(tpz.mod.REGEN, 10)
-	else
-		mob:setMod(tpz.mod.REGEN, 0)
-	end
     -- "Stick" to target
     if mob:checkDistance(target) > 1 then
         local targetPos = target:getPos()

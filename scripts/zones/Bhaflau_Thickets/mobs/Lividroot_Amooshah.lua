@@ -2,7 +2,11 @@
 -- Area: Bhaflau Thickets
 --  ZNM: Lividroot Amooshah
 -----------------------------------
-mixins = {require("scripts/mixins/rage")}
+mixins = {
+require("scripts/mixins/rage"),
+require("scripts/mixins/families/ameretat")
+}
+require("scripts/globals/mobs")
 require("scripts/globals/status")
 -----------------------------------
 
@@ -39,7 +43,9 @@ function onMobSpawn(mob)
     end
 end
 
-
+function onAdditionalEffect(mob, target, damage)
+    return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.HP_DRAIN, {chance = 100, power = 14})
+end
 
 function onMobDeath(mob, player, isKiller, noKiller)
     if mob:getID() ~= 16990473 then -- First form

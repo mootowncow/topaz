@@ -1,4 +1,7 @@
 require("scripts/globals/mixins")
+require("scripts/globals/status")
+require("scripts/globals/mobs")
+require("scripts/globals/utils")
 
 g_mixins = g_mixins or {}
 g_mixins.families = g_mixins.families or {}
@@ -22,6 +25,13 @@ g_mixins.families.imp = function(mob)
                 mob:AnimationSub(0)
                 mob:setLocalVar("ReobtainHornTime", os.time() + 60)
             end
+        end
+
+        -- Regain while slept
+        if hasSleepEffects(mob) then
+            utils.AddDynamicMod(mob, tpz.mod.REGAIN, 100)
+        else
+            utils.DelDynamicMod(mob, tpz.mod.REGAIN)
         end
     end)
 

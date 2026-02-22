@@ -10,7 +10,7 @@ g_mixins = g_mixins or {}
 
 g_mixins.weapon_break = function(mob)
 
-    -- set default 10% chance to break weapon on critical hit taken
+    -- set default 5% chance to break weapon on critical hit taken
     -- this can be overridden in onMobSpawn
 
     mob:addListener("SPAWN", "WEAPON_BREAK", function(mob)
