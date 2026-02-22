@@ -258,7 +258,6 @@ tpz.promyvion.strayOnSpawn = function(mob)
 end
 
 tpz.promyvion.receptacleOnSpawn = function(mob)
-    mob:addMod(tpz.mod.VIT, 25)
 end
 
 tpz.promyvion.receptacleOnFight = function(mob, target)

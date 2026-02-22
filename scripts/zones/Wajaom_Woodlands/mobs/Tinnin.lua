@@ -23,7 +23,6 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.ATT, 975)
     mob:setMod(tpz.mod.DEF, 300)
     mob:setMod(tpz.mod.EVA, 457) --Hydra family * 1.15
-    mob:setMod(tpz.mod.MDEF, 20)
     mob:setMod(tpz.mod.UDMGMAGIC, 0)
     mob:setMod(tpz.mod.UDMGBREATH, -100)
     mob:setMod(tpz.mod.DMGSPIRITS, -100) 
