@@ -1998,7 +1998,7 @@ INSERT INTO `mob_skills` VALUES (2032,1383,'roller_chain',1,10.0,2000,1500,4,0,0
 INSERT INTO `mob_skills` VALUES (2033,1384,'choke_chain',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2034,1778,'reinforcements',0,7.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2035,1396,'biomagnet',1,30.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2036,1397,'astral_gate',4,10.0,2000,1500,4,0,0,5,0,0,0);
+INSERT INTO `mob_skills` VALUES (2036,1397,'astral_gate',4,10.0,2000,1500,4,0,0,1,0,0,0);
 INSERT INTO `mob_skills` VALUES (2037,1781,'warp',0,22.0,500,0,1,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2038,1387,'artificial_gravity',1,15.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2039,1388,'antigravity',1,15.0,2000,1500,4,0,0,7,0,0,0);

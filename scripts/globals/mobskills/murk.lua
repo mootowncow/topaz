@@ -16,8 +16,9 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local slowed = false
-    local weight = false
+    local slowed = tpz.msg.NONE
+    local weight = tpz.msg.NONE
+    local typeEffect = tpz.effect.NONE
 
     slowed = MobStatusEffectMove(mob, target, tpz.effect.SLOW, 8500, 0, 300)
     weight = MobStatusEffectMove(mob, target, tpz.effect.WEIGHT, 25, 0, 300)
