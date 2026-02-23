@@ -75,8 +75,12 @@ INSERT INTO `item_mods_pet` VALUES (11261,12,10,3);     -- Cirque Scarpe +1 Auto
 INSERT INTO `item_mods_pet` VALUES (11261,13,10,3);     -- Automaton: MND+10
 INSERT INTO `item_mods_pet` VALUES (11297,28,7,3); -- Automaton: MATT 7
 INSERT INTO `item_mods_pet` VALUES (11297,30,7,3); -- Automaton: MACC 7
-INSERT INTO `item_mods_pet` VALUES (11298,25,10,3);     -- Pantin Tobe Automaton: Accuracy +10
-INSERT INTO `item_mods_pet` VALUES (11299,25,10,3);     -- Pantin Tobe +1 Automaton: Accuracy +10
+INSERT INTO `item_mods_pet` VALUES (11298,25,10,3); -- : ACC 10
+INSERT INTO `item_mods_pet` VALUES (11298,26,10,3); -- Automaton: RACC 10
+INSERT INTO `item_mods_pet` VALUES (11298,384,200,3); -- Automaton: HASTE_GEAR 200
+INSERT INTO `item_mods_pet` VALUES (11299,25,10,3); -- : ACC 10
+INSERT INTO `item_mods_pet` VALUES (11299,26,12,3); -- Automaton: RACC 12
+INSERT INTO `item_mods_pet` VALUES (11299,384,300,3); -- Automaton: HASTE_GEAR 300
 INSERT INTO `item_mods_pet` VALUES (11338,25,3,0);      -- Aega's Doublet Pet: accuracy +3
 INSERT INTO `item_mods_pet` VALUES (11338,289,3,0);     -- Pet: Subtle Blow +3
 INSERT INTO `item_mods_pet` VALUES (11388,28,5,3);      -- Pantin Babouches Automaton: "Magic Atk. Bonus"+5
@@ -498,7 +502,8 @@ INSERT INTO `item_mods_pet` VALUES (18761,28,5,0);      -- Acantha Shavers: MAB 
 INSERT INTO `item_mods_pet` VALUES (18761,30,5,0);      -- Acantha Shavers: MACC +5
 INSERT INTO `item_mods_pet` VALUES (17963,368,50,0);    -- Rainmaker Regain +50
 INSERT INTO `item_mods_pet` VALUES (17963,370,3,0);     -- Rainmaker Regen +3
-INSERT INTO `item_mods_pet` VALUES (15218,62,3,0);      -- Entrancing Ribbon Pet: Attack +3%
+INSERT INTO `item_mods_pet` VALUES (15218,62,3,0); -- : ATTP 3
+INSERT INTO `item_mods_pet` VALUES (15218,66,3,3); -- Automaton: RATTP 3
 INSERT INTO `item_mods_pet` VALUES (12404,62,3,0);      -- Elegant Shield Pet: Attack +3%
 INSERT INTO `item_mods_pet` VALUES (13072,62,3,0);      -- Bird Whistle Pet: Attack +3%
 INSERT INTO `item_mods_pet` VALUES (18040,384,500,0);   -- Webcutter Pet: Haste +5%
@@ -535,8 +540,10 @@ INSERT INTO `item_mods_pet` VALUES (15314,24,4,0);      -- Garish Pumps: Ranged 
 INSERT INTO `item_mods_pet` VALUES (15314,26,4,0);      -- Garish Pumps: Ranged Accuracy+4
 INSERT INTO `item_mods_pet` VALUES (15318,24,5,0);      -- Rubious Pumps: Ranged Attack+5
 INSERT INTO `item_mods_pet` VALUES (15318,26,5,0);      -- Rubious Pumps: Ranged Accuracy+5
-INSERT INTO `item_mods_pet` VALUES (18624,23,10,0);     -- Numen Staff: Attack +10
-INSERT INTO `item_mods_pet` VALUES (18624,25,10,0);     -- Numen Staff: Accuracy+10
+INSERT INTO `item_mods_pet` VALUES (18624,23,10,0); -- : ATT 10
+INSERT INTO `item_mods_pet` VALUES (18624,25,10,0); -- : ACC 10
+INSERT INTO `item_mods_pet` VALUES (18624,24,10,0); -- All: RATT 10
+INSERT INTO `item_mods_pet` VALUES (18624,26,10,0); -- All: RACC 10
 INSERT INTO `item_mods_pet` VALUES (12646,384,200,0);   -- Beast Jackcoat: Pet: Haste+2%
 INSERT INTO `item_mods_pet` VALUES (14481,384,300,0);   -- Beast Jackcoat +1: Pet: Haste+3%
 INSERT INTO `item_mods_pet` VALUES (12517,25,10,0);     -- Beast Helm: Pet: Accuracy+10
@@ -627,8 +634,10 @@ INSERT INTO `item_mods_pet` VALUES (15875,384,400,0); -- All: HASTE_GEAR 400
 INSERT INTO `item_mods_pet` VALUES (15115,2,100,2); -- Wyvern: HP 100
 INSERT INTO `item_mods_pet` VALUES (15130,370,5,2); -- Wyvern: REGEN 5
 INSERT INTO `item_mods_pet` VALUES (15878,160,-5,2); -- Wyvern: DMG -5
-INSERT INTO `item_mods_pet` VALUES (15476,23,10,0); -- All: ATT 10
-INSERT INTO `item_mods_pet` VALUES (15476,25,10,0); -- All: ACC 10
+INSERT INTO `item_mods_pet` VALUES (15476,23,10,0); -- : ATT 10
+INSERT INTO `item_mods_pet` VALUES (15476,25,10,0); -- : ACC 10
+INSERT INTO `item_mods_pet` VALUES (15476,26,10,3); -- Automaton: RACC 10
+INSERT INTO `item_mods_pet` VALUES (15476,24,10,3); -- Automaton: RATT 10
 INSERT INTO `item_mods_pet` VALUES (12360,384,300,0); -- All: HASTE_GEAR 300
 INSERT INTO `item_mods_pet` VALUES (28311,384,300,0); -- All: HASTE_GEAR 300
 INSERT INTO `item_mods_pet` VALUES (26000,25,5,1); -- Avatar: ACC 5
