@@ -11,6 +11,7 @@ mixins = {require("scripts/mixins/families/empty")}
 -----------------------------------
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
+    mob:addMod(tpz.mod.EVA, 50)
     mob:addMod(tpz.mod.MATT, 100)
     mob:setMod(tpz.mod.REGAIN, 100)
     mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 120)
