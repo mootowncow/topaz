@@ -15,10 +15,11 @@ function onMobInitialize(mob)
 end
 
 function onMobSpawn(mob)
-	mob:setDamage(40)
-	mob:addMod(tpz.mod.DEFP, 25) 
+	mob:setDamage(70)
+	mob:addMod(tpz.mod.DEFP, 25)
 	mob:addMod(tpz.mod.ACC, 25) 
 	mob:addMod(tpz.mod.EVA, 25)
+    mob:addMod(tpz.mod.MATT, 100)
 	mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
     mob:setMod(tpz.mod.REFRESH, 400)
     mob:setMod(tpz.mod.UDMGBREATH, -66)

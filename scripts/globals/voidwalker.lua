@@ -494,6 +494,7 @@ local modByMobName =
 
     ['Erebus'] = function(mob)
         mob:setDamage(140)
+        mob:setMod(tpz.mod.MATT, 100)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
         --AllowSelfNuking(mob, true) -- TODO: Breaks nukes for everything
         mob:setLocalVar("element", math.random(1,6))
@@ -553,6 +554,7 @@ local modByMobName =
 
     ['Verthandi'] = function(mob)
         mob:setDamage(150)
+        mob:setMod(tpz.mod.MATT, 100)
         mob:setMod(tpz.mod.VIT, 130)
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.UDMGMAGIC, -25)
@@ -564,6 +566,7 @@ local modByMobName =
 
     ['Lord_Ruthven'] = function(mob)
         mob:setDamage(70)
+        mob:setMod(tpz.mod.MATT, 100)
         mob:setMod(tpz.mod.VIT, 130)
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.UDMGMAGIC, -25)
@@ -574,6 +577,7 @@ local modByMobName =
 
     ['Dawon'] = function(mob)
         mob:setDamage(150)
+        mob:setMod(tpz.mod.MATT, 50)
         mob:setMod(tpz.mod.ACC, 50)
         mob:setMod(tpz.mod.VIT, 130)
         mob:setMod(tpz.mod.TRIPLE_ATTACK, 75)
@@ -582,6 +586,7 @@ local modByMobName =
 
     ['Yilbegan'] = function(mob)
         mob:setDamage(150)
+        mob:setMod(tpz.mod.MATT, 100)
         mob:setMod(tpz.mod.VIT, 150)
         mob:setMod(tpz.mod.UDMGBREATH, -50)
         mob:setSpellList(531)
