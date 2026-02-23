@@ -5,6 +5,7 @@
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
     mob:setMod(tpz.mod.REFRESH, 300)
+    mob:addMod(tpz.mod.MATT, 50)
     mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
     mob:setMobMod(tpz.mobMod.GA_CHANCE, 25)
 end

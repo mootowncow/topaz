@@ -10,6 +10,7 @@ mixins =
     require("scripts/mixins/families/qutrub"),
     require("scripts/mixins/job_special")
 }
+require("scripts/globals/mobs")
 -----------------------------------
 local path =
 {
@@ -24,6 +25,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.PIERCERES, 500)
     mob:setMod(tpz.mod.RANGEDRES, 500)
     mob:setMod(tpz.mod.IMPACTRES, 500)
+    mob:addMod(tpz.mod.MATT, 100)
     mob:setMobMod(tpz.mobMod.MOBMOD_SUPERLINK, 30)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)

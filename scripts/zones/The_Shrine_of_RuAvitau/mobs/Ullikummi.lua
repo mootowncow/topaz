@@ -11,6 +11,7 @@ end
 
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
+    mob:addMod(tpz.mod.MATT, 50)
 end
 
 function onMobFight(mob, target)

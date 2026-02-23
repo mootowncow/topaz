@@ -21,6 +21,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.IMPACTRES, 100)
     mob:setMod(tpz.mod.REFRESH, 50)
     mob:setMod(tpz.mod.SUSC_TO_WS_STUN,1)
+    mob:addMod(tpz.mod.MATT, 100)
     tpz.mix.jobSpecial.config(mob, {
         specials =
         {

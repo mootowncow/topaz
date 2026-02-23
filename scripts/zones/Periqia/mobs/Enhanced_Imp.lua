@@ -24,6 +24,7 @@ local auraParams2 = {
 function onMobSpawn(mob)
     mob:setMod(tpz.mod.MDEF, 40)
     mob:setMod(tpz.mod.UDMGMAGIC, -13)
+    mob:addMod(tpz.mod.MATT, 100)
 	mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)

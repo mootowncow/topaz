@@ -1590,6 +1590,7 @@ void SetupLimbusMob(CMobEntity* PMob)
         }
 
         PMob->addModifier(Mod::ATTP, 33);
+        PMob->addModifier(Mod::MATT, 20);
         PMob->addModifier(Mod::DEFP, 33);
         PMob->addModifier(Mod::ACC, 30);
         PMob->addModifier(Mod::EVA, 20);

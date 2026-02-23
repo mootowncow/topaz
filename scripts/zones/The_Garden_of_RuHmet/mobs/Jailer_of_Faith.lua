@@ -12,6 +12,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.DEF, 412) -- 450
     mob:setMod(tpz.mod.EVA, 321) -- 360
     mob:setMod(tpz.mod.REFRESH, 50)
+    mob:addMod(tpz.mod.MATT, 100)
     -- Change animation to open
     mob:AnimationSub(2)
     tpz.mix.jobSpecial.config(mob, {

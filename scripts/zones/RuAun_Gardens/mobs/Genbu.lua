@@ -16,11 +16,12 @@ function onMobSpawn(mob)
 	mob:setMod(tpz.mod.ATTP, 10)
 	mob:setMod(tpz.mod.DEF, 640)
 	mob:setMod(tpz.mod.EVA, 337)
-    mob:setMod(tpz.mod.MDEF, 12) 
+    mob:setMod(tpz.mod.MDEF, 12)
 	mob:setMod(tpz.mod.VIT, 188)
 	mob:setMod(tpz.mod.COUNTER, 10)
 	mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -15)
     mob:setMod(tpz.mod.REFRESH, 300)
+    mob:addMod(tpz.mod.MATT, 75)
     mob:setMobMod(tpz.mobMod.GIL_MIN, 20000)
 end
 

@@ -1253,7 +1253,7 @@ INSERT INTO `mob_groups` VALUES (52,2135,33,'Jailer_of_Prudence',0,128,1401,3400
 INSERT INTO `mob_groups` VALUES (53,2134,33,'Jailer_of_Love',0,128,1400,82000,0,90,90,0);
 INSERT INTO `mob_groups` VALUES (54,3422,33,'Ruphuabo',0,128,0,0,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (55,3270,33,'Qnhpemde',0,128,0,0,0,80,80,0);
-INSERT INTO `mob_groups` VALUES (56,21,33,'Absolute_Virtue',0,128,3,45000,0,90,90,0);
+INSERT INTO `mob_groups` VALUES (56,21,33,'Absolute_Virtue',0,128,3,45000,0,95,95,0);
 INSERT INTO `mob_groups` VALUES (57,6190,33,'Ulaern_whm',960,0,2514,0,5000,70,73,0);
 INSERT INTO `mob_groups` VALUES (58,6197,33,'Ulaern_brd',960,0,2514,0,0,70,73,0);
 INSERT INTO `mob_groups` VALUES (59,6194,33,'Ulaern_pld',960,0,2514,0,0,70,73,0);

@@ -46,8 +46,6 @@ function onMobInitialize(mob)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
 end
 
-
-
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
 	mob:addStatusEffect(tpz.effect.SHOCK_SPIKES, 65, 0, 3600)

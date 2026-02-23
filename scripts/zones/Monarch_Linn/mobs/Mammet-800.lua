@@ -8,6 +8,7 @@ require("scripts/globals/mobs")
 mixins = { require("scripts/mixins/families/mammet") }
 -----------------------------------
 function onMobInitialize(mob)
+    mob:setDamage(120)
     mob:setMobMod(tpz.mobMod.MAGIC_COOL, 15)
 end
 

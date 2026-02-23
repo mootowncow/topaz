@@ -290,6 +290,7 @@ local modByMobName =
         mob:setMod(tpz.mod.UFASTCAST, 50) 
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
         mob:addMod(tpz.mod.REGAIN, 50)
+        mob:addMod(tpz.mod.MATT, 100)
         mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 25)
         mob:setMobMod(tpz.mobMod.SOUND_RANGE, 25)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
@@ -306,6 +307,7 @@ local modByMobName =
         mob:setMod(tpz.mod.UDMGMAGIC, -30)
 	    mob:setMod(tpz.mod.REGAIN, 0) 
 	    mob:setMod(tpz.mod.DOUBLE_ATTACK, 0)
+        mob:addMod(tpz.mod.MATT, 100)
         mob:SetMagicCastingEnabled(false)
         mob:SetAutoAttackEnabled(true)
         mob:SetMobAbilityEnabled(true)
@@ -320,6 +322,7 @@ local modByMobName =
         mob:setMod(tpz.mod.UDMGRANGE, -75)
         mob:setMod(tpz.mod.UDMGMAGIC, -95)
         mob:setMod(tpz.mod.UDMGBREATH, -95)
+        mob:addMod(tpz.mod.MATT, 50)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     end,
 
@@ -332,7 +335,8 @@ local modByMobName =
 
     ['Shadow_Lord'] = function(mob)
         mob:setMod(tpz.mod.REGEN, 0)
-        mob:setMod(tpz.mod.REGAIN, 100) 
+        mob:setMod(tpz.mod.REGAIN, 100)
+        mob:addMod(tpz.mod.MATT, 100)
         mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
         mob:setSpellList(543)
     end,
@@ -361,6 +365,7 @@ local modByMobName =
 
     ['Ark_Angel_TT'] = function(mob)
         mob:addMod(tpz.mod.MDEF, 24)
+        mob:addMod(tpz.mod.MATT, 100)
     end,
 
     ['Ark_Angel_GK'] = function(mob)

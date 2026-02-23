@@ -16,9 +16,10 @@ function onMobSpawn(mob)
 	mob:setDamage(145)
 	mob:setMod(tpz.mod.DEF, 520)
 	mob:setMod(tpz.mod.EVA, 402)
-	mob:setMod(tpz.mod.VIT, 160)
     mob:setMod(tpz.mod.MDEF, 12)
+	mob:setMod(tpz.mod.VIT, 160)
     mob:setMod(tpz.mod.REFRESH, 300)
+    mob:addMod(tpz.mod.MATT, 75)
     mob:setMobMod(tpz.mobMod.GIL_MIN, 20000)
 end
 

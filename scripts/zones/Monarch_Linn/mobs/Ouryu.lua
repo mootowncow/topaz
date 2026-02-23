@@ -10,6 +10,7 @@ mixins = {require("scripts/mixins/families/wyrm_wakeup")}
 
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
+    mob:addMod(tpz.mod.MATT, 40)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)

@@ -174,6 +174,9 @@ INSERT INTO `mob_family_mods` VALUES (112,28,6,1);	-- Flan +6% EXP
 INSERT INTO `mob_family_mods` VALUES (627,28,5,1);	-- Scolopendrid +5% EXP 
 
 
+-- Base MP
+INSERT INTO `mob_family_mods` VALUES (278,3,50000,1);	-- Seiryu
+INSERT INTO `mob_family_mods` VALUES (331,3,50000,1);	-- Seiryu
 
 -- Attack bonus
 INSERT INTO `mob_family_mods` VALUES (87,62,20,0);		-- Dragon +20% Attack

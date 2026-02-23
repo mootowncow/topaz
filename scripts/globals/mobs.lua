@@ -1247,10 +1247,14 @@ function SetGenericNMStats(mob)
         mob:addMod(tpz.mod.ATTP, 10)
         mob:addMod(tpz.mod.DEFP, 10)
         mob:addMod(tpz.mod.ACC, 10)
+        mob:addMod(tpz.mod.MATT, 20)
+        mob:addMod(tpz.mod.MDEF, 10)
     else
         mob:addMod(tpz.mod.ATTP, 25)
         mob:addMod(tpz.mod.DEFP, 25)
         mob:addMod(tpz.mod.ACC, 25)
+        mob:addMod(tpz.mod.MATT, 40)
+        mob:addMod(tpz.mod.MDEF, 15)
     end
 end
 

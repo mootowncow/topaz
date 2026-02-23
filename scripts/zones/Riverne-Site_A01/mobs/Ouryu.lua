@@ -13,6 +13,7 @@ mixins = {require("scripts/mixins/job_special")}
     -- mob:addMod(tpz.mod.ACC, 30) 
     -- mob:addMod(tpz.mod.EVA, 30)
     -- mob:setMod(tpz.mod.REFRESH, 40)
+    -- mob:addMod(tpz.mod.MATT, 100)
 	-- mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     -- tpz.mix.jobSpecial.config(mob, {
         -- specials =

@@ -17,6 +17,7 @@ end
 
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
+    mob:addMod(tpz.mod.MATT, 50)
 	mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 30)
     mob:setLocalVar("path", 0)
     mob:setLocalVar("pathstep", 0)
