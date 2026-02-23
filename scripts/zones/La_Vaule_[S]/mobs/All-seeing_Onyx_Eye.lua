@@ -13,7 +13,7 @@ require("scripts/globals/wotg")
 function onMobSpawn(mob)
     tpz.wotg.NMMods(mob)
     tpz.wotg.NMMods(mob)
-    mob:setMod(tpz.mod.MATT, 72)
+    mob:addMod(tpz.mod.MATT, 255)
     mob:setMod(tpz.mod.HELIX_EFFECT, 50)
     mob:addMobMod(tpz.mobMod.HP_HEAL_CHANCE, 33)
 end

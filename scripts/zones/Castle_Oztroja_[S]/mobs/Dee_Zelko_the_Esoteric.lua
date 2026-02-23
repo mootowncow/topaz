@@ -27,6 +27,7 @@ end
 
 function onMobSpawn(mob)
     tpz.wotg.NMMods(mob)
+    mob:addMod(tpz.mod.MATT, 50)
     mob:setMod(tpz.mod.UFASTCAST, 100)
     mob:setMod(tpz.mod.ENFEEBLE_NEVER_MISS, 1)
     mob:setMod(tpz.mod.DARK_NEVER_MISS, 1)

@@ -17,6 +17,7 @@ mixins = {require("scripts/mixins/families/imp")}
 
 function onMobSpawn(mob)
     tpz.wotg.NMMods(mob)
+    mob:addMod(tpz.mod.MATT, 200)
 end
 
 function onMobFight(mob, target)

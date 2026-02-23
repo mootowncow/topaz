@@ -17,6 +17,7 @@ mixins = {require("scripts/mixins/job_special")}
 
 function onMobSpawn(mob)
     tpz.wotg.NMMods(mob)
+    mob:addMod(tpz.mod.MATT, 200)
 end
 
 function onMobEngaged(mob, target)
