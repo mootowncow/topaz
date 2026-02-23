@@ -22,8 +22,9 @@ local path =
 
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
-    mob:setMod(tpz.mod.MDEF, 70)
-    mob:setMod(tpz.mod.UDMGMAGIC, -25)
+    mob:setMod(tpz.mod.MATT, 100)
+    mob:setMod(tpz.mod.MDEF, 0)
+    mob:setMod(tpz.mod.UDMGMAGIC, -70)
     mob:addImmunity(tpz.immunity.SLEEP)
     mob:addImmunity(tpz.immunity.SILENCE)
     mob:addImmunity(tpz.immunity.GRAVITY)

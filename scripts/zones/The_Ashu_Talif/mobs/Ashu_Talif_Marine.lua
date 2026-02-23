@@ -16,6 +16,7 @@ end
 
 function onMobSpawn(mob)
     mob:setDamage(40)
+    mob:setMod(tpz.mod.MDEF, 32)
 end
 
 function onMobRoam(mob)

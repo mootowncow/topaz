@@ -12,6 +12,7 @@ end
 
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
+    mob:setMod(tpz.mod.MDEF, 20)
     mob:setMod(tpz.mod.UDMGMAGIC, -25)
     mob:setMod(tpz.mod.EEM_LIGHT_SLEEP, 25)
     mob:setMod(tpz.mod.EEM_DARK_SLEEP, 25)

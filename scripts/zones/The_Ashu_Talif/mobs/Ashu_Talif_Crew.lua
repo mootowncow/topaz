@@ -23,6 +23,7 @@ function onMobSpawn(mob)
     local instanceID = instance:getID()
 
     mob:setDamage(40)
+    mob:setMod(tpz.mod.MDEF, 40)
 
     if (instanceID == SCOUTING_THE_ASHU_TALIF) then
         if (mob:getMainJob() == tpz.job.MNK) then

@@ -17,6 +17,7 @@ end
 
 function onMobSpawn(mob)
     mob:setDamage(20)
+    mob:setMod(tpz.mod.MDEF, 40)
     mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 15)
     mob:setMobMod(tpz.mobMod.SOUND_RANGE, 15)
     mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
