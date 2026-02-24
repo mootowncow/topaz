@@ -5883,7 +5883,7 @@ INSERT INTO `mob_spawn_points` VALUES (16892040,'Blubber_Eyes','Blubber Eyes',6,
 --INSERT INTO `mob_spawn_points` VALUES (16892041,'Blubber_Eyes','Blubber Eyes',6,142.713,3.550,99.234,127);
 INSERT INTO `mob_spawn_points` VALUES (16892042,'Teratotaur','Teratotaur',28,139.995,-0.599,-62.067,64);
 INSERT INTO `mob_spawn_points` VALUES (16892043,'Teratotaur','Teratotaur',28,225.084,-2.599,5.740,209);
---INSERT INTO `mob_spawn_points` VALUES (16892044,'Teratotaur','Teratotaur',28,239.634,-1.048,-16.866,126);
+INSERT INTO `mob_spawn_points` VALUES (16892044,'Teratotaur','Teratotaur',28,239.634,-1.048,-16.866,126);
 INSERT INTO `mob_spawn_points` VALUES (16892045,'Greater_Gaylas','Greater Gaylas',2,250.198,0.399,4.311,225);
 --INSERT INTO `mob_spawn_points` VALUES (16892046,'Greater_Gaylas','Greater Gaylas',2,237.032,0.180,-4.255,3);
 INSERT INTO `mob_spawn_points` VALUES (16892047,'Greater_Gaylas','Greater Gaylas',2,250.293,0.399,-9.393,71);
