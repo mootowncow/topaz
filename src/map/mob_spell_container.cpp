@@ -1316,7 +1316,7 @@ bool CMobSpellContainer::IsImmune(CBattleEntity* PTarget, SpellID spellId)
                 return true;
             }
 
-            // Check immunities
+            // Check effect immunities
             auto it = spellInfoMap.find(spellId);
             if (it != spellInfoMap.end())
             {
@@ -1324,15 +1324,12 @@ bool CMobSpellContainer::IsImmune(CBattleEntity* PTarget, SpellID spellId)
 
                 // Check if hard immune
                 if (PTarget->hasImmunity(static_cast<uint32>(spell.immunity)))
-                {
                     return true;
-                }
+                
 
                 // Check if immune due to EEM
                 if (PTarget->getMod(static_cast<Mod>(spell.eem)) <= 5)
-                {
                     return true;
-                }
             }
 
             // Check if mob has JA Autos
@@ -1343,12 +1340,38 @@ bool CMobSpellContainer::IsImmune(CBattleEntity* PTarget, SpellID spellId)
             {
                 SPELLFAMILY spellFamily = spellData->getSpellFamily();
 
+                // Check Dia and Haste if target has Bio and Slow already
+                if (spellFamily == SPELLFAMILY_DIA)
+                {
+                    if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BIO))
+                        return true;
+                }
+
+                // Check if mob has JA Autos
                 if (jaAutosSpellFamilies.count(spellFamily))
                 {
                     if (((CMobEntity*)PTarget)->getMobMod(MOBMOD_ATTACK_SKILL_LIST) > 0)
                     {
                         return true;
                     }
+                }
+            }
+        }
+        // Check buffs on friendly targets (i.e. if they have Slow and trying to cast Haste on them
+        else
+        {
+            SpellID PSpell = static_cast<SpellID>(spellId);
+            auto spellData = spell::GetSpell(PSpell);
+
+            if (spellData)
+            {
+                SPELLFAMILY spellFamily = spellData->getSpellFamily();
+
+                // Check Haste if target has  Slow already
+                if (spellFamily == SPELLFAMILY_HASTE)
+                {
+                    if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SLOW))
+                        return true;
                 }
             }
         }
