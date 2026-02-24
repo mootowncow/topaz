@@ -2856,6 +2856,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Merrow_Balladeer',1213,1809); -- Shadow T
 
 INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1214,733); -- Jump
 INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1214,1064); -- Jump (Long Cast Time)
+INSERT INTO `mob_skill_lists` VALUES ('AnimatedWeapon-Shield',1215,405); -- Dire Whorl
 
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
@@ -5098,6 +5099,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,120); -- impulse_drive
 
 INSERT INTO `mob_skill_lists` VALUES ('Batteilant_Bhoot',6171,1794); -- perdition
 
--- Next available ID: 1215
+-- Next available ID: 1216
 -- Next custom ID: 6172
 
