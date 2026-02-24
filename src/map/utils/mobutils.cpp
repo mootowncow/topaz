@@ -988,7 +988,7 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::VIRUSRESTRAIT, 0);
             }
-            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 40);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
             break;
         case JOB_SAM:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -996,7 +996,7 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::BLINDRESTRAIT, 0);
             }
-            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 40);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
             break;
         case JOB_BLM:
             PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 15);
@@ -1096,7 +1096,7 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::VIRUSRESTRAIT, 0);
             }
-            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 40);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
             break;
         case JOB_SAM:
             if (!PMob->CMobEntity::IsHumanoid())
@@ -1104,7 +1104,7 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->setModifier(Mod::BLINDRESTRAIT, 0);
             }
-            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 40);
+            PMob->defaultMobMod(MOBMOD_MAGIC_COOL, 30);
             break;
         case JOB_THF:
             // thfs drop more gil

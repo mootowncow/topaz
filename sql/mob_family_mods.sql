@@ -510,6 +510,17 @@ INSERT INTO `mob_family_mods` VALUES (324,95,40,1);	-- Garuda
 INSERT INTO `mob_family_mods` VALUES (325,95,40,1);	-- Fenrir 
 INSERT INTO `mob_family_mods` VALUES (378,95,40,1);	-- Diabolos 
 
+-- Magic Cool
+INSERT INTO `mob_family_mods` VALUES (74,34,15,1);	-- Corse 
+INSERT INTO `mob_family_mods` VALUES (976,34,15,1);	-- Corse 
+
+INSERT INTO `mob_family_mods` VALUES (252,34,15,1);	-- Vampyr 
+INSERT INTO `mob_family_mods` VALUES (284,34,15,1);	-- Vampyr 
+INSERT INTO `mob_family_mods` VALUES (309,34,15,1);	-- Vampyr 
+INSERT INTO `mob_family_mods` VALUES (602,34,15,1);	-- Vampyr 
+INSERT INTO `mob_family_mods` VALUES (926,34,15,1);	-- Vampyr 
+
+
 -- Yovra
 INSERT INTO `mob_family_mods` VALUES (271,68,50,0);		-- +50 Evasion Racial
 INSERT INTO `mob_family_mods` VALUES (271,63,50,0);		-- +50% Defense Bonus

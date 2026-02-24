@@ -1469,7 +1469,7 @@ local modByMobName =
         mob:setMod(tpz.mod.VIT, 150)
         mob:setMod(tpz.mod.WIND_ABSORB, 100)
         mob:setMod(tpz.mod.ENH_CASTING_TIME, 50)
-        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 15)
         -- Perma undispellable Gale Spikes
         mob:addStatusEffect(tpz.effect.GALE_SPIKES, 25, 0, 0)
         local galeSpikes = mob:getStatusEffect(tpz.effect.GALE_SPIKES)
@@ -1495,19 +1495,19 @@ local modByMobName =
     end,
 
     ['Tezcatli'] = function(mob) -- Corse
-    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 15)
         mob:setMobMod(tpz.mobMod.SEVERE_CHANCE, 25)
     end,
 
     ['Klagmuhme'] = function(mob) -- Corpselight
         mob:addMod(tpz.mod.QUICK_MAGIC, 10)
-        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 15)
         mob:setMobMod(tpz.mobMod.SEVERE_CHANCE, 25)
     end,
 
     ['Knecht'] = function(mob) -- Dvergr
         local partyWithCorpseLights = 19235
-        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 15)
         mob:addMod(tpz.mod.DOUBLE_CAST, 20)
         mob:setMod(tpz.mod.RANGEDRES, 250)
         mob:setMobMod(tpz.mobMod.CUSTOMLINK, partyWithCorpseLights)
