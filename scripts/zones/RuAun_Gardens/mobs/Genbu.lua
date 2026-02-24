@@ -22,6 +22,7 @@ function onMobSpawn(mob)
 	mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -15)
     mob:setMod(tpz.mod.REFRESH, 300)
     mob:addMod(tpz.mod.MATT, 75)
+    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
     mob:setMobMod(tpz.mobMod.GIL_MIN, 20000)
 end
 

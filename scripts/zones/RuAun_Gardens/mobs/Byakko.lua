@@ -21,6 +21,7 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.TRIPLE_ATTACK, 40)
     mob:setMod(tpz.mod.REFRESH, 300)
     mob:addMod(tpz.mod.MATT, 100)
+    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
     mob:setMobMod(tpz.mobMod.GIL_MIN, 20000)
 end
 
