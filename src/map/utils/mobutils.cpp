@@ -1557,7 +1557,7 @@ void SetupDynamisMob(CMobEntity* PMob)
         }
     }
 
-    PMob->addModifier(Mod::MATT, 100);
+    PMob->addModifier(Mod::MATT, 50);
     PMob->addModifier(Mod::REFRESH, 400);
     PMob->PAI->PathFind->SetCarefulPathing(true);
 }
