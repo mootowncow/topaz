@@ -681,7 +681,7 @@ function AvatarAbsorbStatusEffectBloodPact(avatar, target, params, bonus, amount
     return msg
 end
 
-function AvatarBuffBP(avatar, target, skill, effect, power, tick, duration, params, bonus)
+function AvatarBuffBP(avatar, target, skill, effect, power, tick, duration, params, bonus, subId, subPower, tier)
     -- Only increase duration of buff moves longer than 90s via summoning magic skill
     if duration > 129 then
         duration = duration + getSummoningSkillOverCap(avatar)
@@ -698,7 +698,7 @@ function AvatarBuffBP(avatar, target, skill, effect, power, tick, duration, para
 
     giveAvatarTP(avatar)
     target:delStatusEffectSilent(effect)
-    target:addStatusEffect(effect, power, tick, duration)
+    target:addStatusEffect(effect, power, tick, duration, subId, subPower, tier)
     skill:setMsg(tpz.msg.basic.JA_GAINS_EFFFECT)
 
     return effect

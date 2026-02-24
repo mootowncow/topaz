@@ -371,25 +371,52 @@ bool CStatusEffectContainer::CanGainStatusEffect(CStatusEffect* PStatusEffect)
         return false;
     }
 
-    // check if negative is strong enough to stop this
+// Check if this status effect has an opposing (negative) effect
+    // Example: Haste <-> Slow
     EFFECT negativeId = effects::EffectsParams[statusEffect].NegativeId;
-    if (negativeId != 0) {
+
+    if (negativeId != 0)
+    {
+        // See if target currently has the opposing effect active
         CStatusEffect* negativeEffect = GetStatusEffect(negativeId);
 
-        if (negativeEffect != nullptr) {
-
+        if (negativeEffect != nullptr)
+        {
+            //---------------------------------------------------------
+            // SPECIAL CASE:
+            // Some Slow variants should ALWAYS block Haste
+            // (example: Slow II from special sources)
+            //---------------------------------------------------------
             if (statusEffect == EFFECT_HASTE && negativeEffect->GetStatusID() == EFFECT_SLOW && negativeEffect->GetSubPower() == 1)
             {
-                // slow i remote
+                // Strong Slow prevents Haste entirely
                 return true;
             }
 
+            //---------------------------------------------------------
+            // TIER COMPARISON LOGIC
+            //
+            // If BOTH effects have tiers:
+            //   Higher tier always wins
+            //   If Same tier, then compare power
+            //---------------------------------------------------------
             if (PStatusEffect->GetTier() != 0 && negativeEffect->GetTier() != 0)
             {
-                return PStatusEffect->GetTier() == negativeEffect->GetTier() ? statusEffect > negativeId : PStatusEffect->GetTier() > negativeEffect->GetTier();
+                // Same tier → compare strength
+                if (PStatusEffect->GetTier() == negativeEffect->GetTier())
+                {
+                    // New effect must be equal or stronger
+                    return PStatusEffect->GetPower() >= negativeEffect->GetPower();
+                }
+
+                // Higher tier overrides lower tier
+                return PStatusEffect->GetTier() > negativeEffect->GetTier();
             }
 
-            // new status effect must be stronger
+            //---------------------------------------------------------
+            // FALLBACK:
+            // If tiers don't exist, compare raw power only
+            //---------------------------------------------------------
             return PStatusEffect->GetPower() >= negativeEffect->GetPower();
         }
     }

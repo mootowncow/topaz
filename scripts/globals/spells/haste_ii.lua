@@ -12,12 +12,16 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
+    local effect = tpz.effect.HASTE
     local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
     duration = calculateDurationForLvl(duration, 70, target:getMainLvl())
 
     local power = 2998 -- 307/1024 ~29.98%
+    local subId = 0
+    local subPower = 0
+    local tier = 2
 
-    if not target:addStatusEffect(tpz.effect.HASTE, power, 0, duration) then
+    if not target:addStatusEffect(tpz.effect.HASTE, power, 0, duration, subId, subPower, tier) then
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
     end
 

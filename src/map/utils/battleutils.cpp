@@ -1859,12 +1859,21 @@ namespace battleutils
             case SUBEFFECT_CLOD_SPIKES:
             {
                 element = ELEMENT_EARTH;
-                resist = static_cast<float>(ApplyResistanceEffect(PDefender, PAttacker, EFFECT_SLOW, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
+                auto effect = EFFECT_SLOW;
+                resist = static_cast<float>(ApplyResistanceEffect(PDefender, PAttacker, effect, element, SKILL_ENHANCING_MAGIC, 0, static_cast<float>(spikesMaccBonus)));
                 // printf("Spikes status effect hit rate %f \n", resist);
-                if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SLOW) == false &&
-                    tpzrand::GetRandomNumber(100) > GetEffectResistanceTraitChance(PDefender, PAttacker, EFFECT_SLOW))
+                if (resist >= 0.5f && PAttacker->StatusEffectContainer->HasStatusEffect(effect) == false &&
+                    tpzrand::GetRandomNumber(100) > GetEffectResistanceTraitChance(PDefender, PAttacker, effect))
                 {
-                     PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SLOW, EFFECT_SLOW, 3500, 0, (uint32)(30 * (float)resist)));
+                    auto icon = EFFECT_SLOW;
+                    auto power = 3500;
+                    auto tick = 0;
+                    uint32 duration = static_cast<uint32>(std::floor(30.0f * resist));
+                    auto subId = 0;
+                    auto subPower = 0;
+                    auto tier = 2;
+
+                    PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(effect, icon, 3500, tick, duration, subId, subPower, tier));
                 }
                 break;
             }
