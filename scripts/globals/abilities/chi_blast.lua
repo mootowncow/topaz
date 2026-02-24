@@ -27,14 +27,14 @@ function onUseAbility(player, target, ability)
     end
 
 	local dmg = math.floor((player:getStat(tpz.mod.MND) * (0.5 + (math.random() / 2))) * multiplier) / 3 -- Formula from BG wiki
-    
     local penance = player:getMerit(tpz.merit.PENANCE)
-    if player:isTrust() then -- Lhe Lhangavo trust has Penance merits
+
+    if player:isTrust() and player:getMainLvl() >= 75 then -- Lhe Lhangavo trust has Penance merits
         if (player:getName() == 'lhe_lhangavo') then
             penance = 100
         end
     end
-    
+
     if (penance > 0 and not target:hasStatusEffect(tpz.effect.INHIBIT_TP)) then
         target:addStatusEffect(tpz.effect.INHIBIT_TP, 25, 0, penance * penanceDurationMultiplier)
     end

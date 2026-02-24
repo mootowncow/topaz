@@ -40,7 +40,7 @@ function onUseAbility(player, target, ability)
 
     --local recover = player:getStat(tpz.mod.VIT) * (2 + player:getMod(tpz.mod.CHAKRA_MULT) / 10) -- TODO: Figure out "function of level" addition (August 2017 update)
     local recover = player:getStat(tpz.mod.VIT) * (2 + player:getMod(tpz.mod.CHAKRA_MULT) / 10) * 1.5 
-	if player:getMainJob() == tpz.job.MNK then  
+	if player:getMainJob() == tpz.job.MNK then 
 		recover = recover
 	else
 		recover = recover * 0.5 -- Nerf Chakra by half if subbed
@@ -53,7 +53,7 @@ function onUseAbility(player, target, ability)
     -- Apply cure potency received stat mod
     local healingReceivedMultiplier = 1 + (player:getMod(tpz.mod.CURE_POTENCY_RCVD) / 100)
     recover = recover * healingReceivedMultiplier
-	
+
     if ((target:getMaxHP() - target:getHP()) < recover) then
         recover = (target:getMaxHP() - target:getHP())
     end
@@ -62,7 +62,8 @@ function onUseAbility(player, target, ability)
 	ability:setMsg(tpz.msg.basic.JA_RECOVERS_HP)
 
     local merits = player:getMerit(tpz.merit.INVIGORATE)
-    if player:isTrust() then -- Lhe Lhangavo trust has Invigorate merits
+
+    if player:isTrust() and player:getMainLvl() >= 75 then -- Lhe Lhangavo trust has Invigorate merits
         if (player:getName() == 'lhe_lhangavo') then
             merits = 120
         end
