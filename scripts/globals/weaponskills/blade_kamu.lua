@@ -2,7 +2,7 @@
 -- Blade Kamu
 -- Katana weapon skill
 -- Skill Level: N/A
--- Deals physical damage. Additional effect: Accuracy Diwn.
+-- Deals physical damage. Additional effect: Accuracy Down.
 -- Durration varies with TP. Duration of effect varies with TP. Nagi: Aftermath effect varies with TP.
 -- Effect lasts 60 seconds @ 100 TP, 90 seconds @ 200 TP, and 120 seconds @ 300 TP
 -- Available only after completing the Unlocking a Myth (Ninja) quest.
