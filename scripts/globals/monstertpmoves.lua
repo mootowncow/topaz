@@ -162,7 +162,8 @@ function MobPhysicalMove(mob, target, skill, numberOfHits, accmod, dmgmod, tpeff
         numberOfHits = numberOfHits +1
     end
 
-    if mob:isTrust() then
+    -- Trusts and Jug pets can proc multi-attacks on TP moves
+    if mob:isTrust() or mob:isJugPet() then
         -- Calculate multiattacks
         local mainhandHits, offhandHits = battleUtils.getMultiAttacks(mob, target, skill, numberOfHits, isRanged, params_phys)
 
