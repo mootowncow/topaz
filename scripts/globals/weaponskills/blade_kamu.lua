@@ -2,7 +2,7 @@
 -- Blade Kamu
 -- Katana weapon skill
 -- Skill Level: N/A
--- Delivers a earth elemental damage. Additional effect Magic Attack Down.
+-- Deals physical damage. Additional effect: Accuracy Diwn.
 -- Durration varies with TP. Duration of effect varies with TP. Nagi: Aftermath effect varies with TP.
 -- Effect lasts 60 seconds @ 100 TP, 90 seconds @ 200 TP, and 120 seconds @ 300 TP
 -- Available only after completing the Unlocking a Myth (Ninja) quest.
@@ -22,16 +22,14 @@ require("scripts/globals/weaponskills")
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local params = {}
     params.numHits = 1
-    params.ftp100 = 1.5 params.ftp200 = 1.7 params.ftp300 = 2.0
-    params.str_wsc = 0.0 params.dex_wsc = 0.4 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.4 params.mnd_wsc = 0.0 params.chr_wsc = 0.0
+    params.ftp100 = 3.0 params.ftp200 = 3.0 params.ftp300 = 3.0
+    params.str_wsc = 0.0 params.dex_wsc = 0.6 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0 params.mnd_wsc = 0.0 params.chr_wsc = 0.0
     params.acc100 = 0.0 params.acc200= 0.0 params.acc300= 0.0
-    params.atk100 = 1.5 params.atk200 = 1.5 params.atk300 = 1.5
-    params.hybridWS = true
-    params.ele = tpz.magic.ele.EARTH
-    params.skill = tpz.skill.KATANA
-    params.includemab = true
-	params.bonusmacc = 50
-	params.enmityMult = 1.5
+    params.atk100 = 1.25 params.atk200 = 1.25 params.atk300 = 1.25
+	params.ignoresDef = true
+    params.ignored100 = 0.25
+    params.ignored200 = 0.25
+    params.ignored300 = 0.25
 
     if USE_ADOULIN_WEAPON_SKILL_CHANGES then
         params.str_wsc = 0.6 params.int_wsc = 0.6
