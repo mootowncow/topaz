@@ -2646,7 +2646,8 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
                     // Prism and Rainbow powders
                     if (PItem->getID() != 4164 && PItem->getID() != 5362)
                     {
-                        PTarget->StatusEffectContainer->DelStatusEffectSilent(EFFECT_INVISIBLE);
+                        this->StatusEffectContainer->DelStatusEffectSilent(EFFECT_INVISIBLE);
+                        this->StatusEffectContainer->DelStatusEffectSilent(EFFECT_HIDE);
                     }
 
                     battleutils::HandleFoodEffects(PItem, PTarget);
@@ -2712,6 +2713,7 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
         if (PItem->getID() != 4164 && PItem->getID() != 5362)
         {
             this->StatusEffectContainer->DelStatusEffectSilent(EFFECT_INVISIBLE);
+            this->StatusEffectContainer->DelStatusEffectSilent(EFFECT_HIDE);
         }
         action.id = this->id;
         action.actiontype = ACTION_ITEM_FINISH;

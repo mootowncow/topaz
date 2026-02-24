@@ -1211,6 +1211,7 @@ inline int32 CLuaBaseEntity::startEvent(lua_State *L)
     }
 
     PChar->StatusEffectContainer->DelStatusEffect(EFFECT_INVISIBLE);
+    PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_HIDE);
 
     // Treasure chests are 1001, 1004, 1007, 1010, 1011, 1013, 1016 for taking items (only ones recorded so far)
     // for opening(and dropping?) 10512, 10518, 10520, 10522, 10524, 10528, 10532
