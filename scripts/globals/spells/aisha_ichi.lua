@@ -16,7 +16,7 @@ function onSpellCast(caster, target, spell)
     params.diff = (caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT))
     params.attribute = tpz.mod.INT
     params.skillType = tpz.skill.NINJUTSU
-    params.bonus = 30
+    params.bonus = 255
     params.effect = tpz.effect.MAGIC_EVASION_DOWN
     local resist = applyResistanceEffect(caster, target, spell, params)
     local power = 20
