@@ -255,9 +255,13 @@ void CTrustController::DoCombatTick(time_point tick)
                 float currentDistanceToTarget = distance(POwner->loc.p, PTarget->loc.p) + static_cast<float>(PTarget->m_ModelSize);
                 float currentDistanceToMaster = distance(POwner->loc.p, PMaster->loc.p) + static_cast<float>(PMaster->m_ModelSize);
 
-                if (currentDistanceToTarget > WarpDistance)
+                // Target out of range, disengage
+                if (currentDistanceToTarget >= CombatDistance)
                 {
-                    POwner->PAI->PathFind->WarpTo(PTarget->loc.p);
+                    POwner->PAI->Internal_Disengage();
+                    m_LastTopEnmity = nullptr;
+                    m_outOfLosChecks = 0;
+                    m_numberOfWarps = 0;
                 }
 
                 POwner->PAI->PathFind->LookAt(PTarget->loc.p);
@@ -325,13 +329,9 @@ void CTrustController::DoCombatTick(time_point tick)
                         {
                             // Path closer to Master if unable to see due to LOS
                             if (!POwner->CanSeeTarget(PMaster))
-                            {
                                 POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 5.0f + PMaster->m_ModelSize, PATHFLAG_RUN);
-                            }
                             else
-                            {
                                 POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 18.0f + PMaster->m_ModelSize, PATHFLAG_RUN);
-                            }
                         }
                         else if (currentDistanceToTarget > CastingDistance)
                         {
@@ -394,7 +394,11 @@ void CTrustController::DoCombatTick(time_point tick)
                         [[fallthrough]];
                     default: // Using the positive-non-zero movementDistance mobMod value
                     {
-                        PathOutToDistance(PTarget, static_cast<float>(movementDistance));
+                        // Path closer to Master if unable to see due to LOS
+                        if (!POwner->CanSeeTarget(PMaster))
+                            POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 5.0f + PMaster->m_ModelSize, PATHFLAG_RUN);
+                        else
+                            PathOutToDistance(PTarget, static_cast<float>(movementDistance));
                         break;
                     }
                 }
@@ -633,13 +637,23 @@ void CTrustController::Declump(CCharEntity * PMaster, CBattleEntity * PTarget)
 void CTrustController::PathOutToDistance(CBattleEntity* PTarget, float amount)
 {
     TracyZoneScoped;
+    CCharEntity* PMaster = static_cast<CCharEntity*>(POwner->PMaster);
+
+    if (!PMaster)
+        return;
 
     float currentDistanceToTarget = distance(POwner->loc.p, PTarget->loc.p);
+    float currentDistanceToMaster = distance(POwner->loc.p, PMaster->loc.p) + static_cast<float>(PMaster->m_ModelSize);
     position_t target_position = POwner->loc.p;
 
+    // If the current enemy is targetting us, move to our master and stand still until aggro is gotten off us
     if (GetTopEnmity() == POwner)
     {
-        ++m_failedRepositionAttempts;
+        if (currentDistanceToMaster > FollowDistance)
+        {
+            POwner->PAI->PathFind->PathInRange(PMaster->loc.p, PMaster->m_ModelSize, PATHFLAG_RUN);
+        }
+        return;
     }
     else
     {
