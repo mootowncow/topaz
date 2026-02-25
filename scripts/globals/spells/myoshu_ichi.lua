@@ -1,6 +1,6 @@
 --------------------------------------
 -- Spell: Myoshu: Ichi
--- Grants "Endark" effect
+-- Grants "Subtle Blow Plus" effect
 --------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -14,7 +14,7 @@ end
 function onSpellCast(caster, target, spell)
     local effect = tpz.effect.SUBTLE_BLOW_PLUS
     local potency = 10
-    local duration = calculateDuration(300, spell:getSkillType(), spell:getSpellGroup(), caster, target)
+    local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
 
     if target:addStatusEffect(effect, potency, 0, duration) then
         spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)

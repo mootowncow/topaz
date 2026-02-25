@@ -12,7 +12,7 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local duration = calculateDuration(300, spell:getSkillType(), spell:getSpellGroup(), caster, target)
+    local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
 
     caster:delStatusEffectSilent(tpz.effect.ENMITY_BOOST)
     caster:addStatusEffect(tpz.effect.PAX, 15, 0, duration)

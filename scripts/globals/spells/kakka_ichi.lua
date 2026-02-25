@@ -1,6 +1,6 @@
 --------------------------------------
 -- Spell: Kakka: Ichi
---  Grants Aquaveil to the caster.
+--  Grants Store TP to the caster.
 --------------------------------------
 require("scripts/globals/magic")
 require("scripts/globals/msg")
@@ -13,20 +13,15 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    -- duration is said to be based on enhancing skill with max 5 minutes, but I could find no
-    -- tests that quantify the relationship so I'm using 5 minutes for now.
-    local duration = calculateDuration(900, spell:getSkillType(), spell:getSpellGroup(), caster, target)
+    local effect = tpz.effect.STORE_TP
+    local potency = 10
+    local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
 
-    local power = AQUAVEIL_COUNTER + caster:getMod(tpz.mod.AQUAVEIL_COUNT)
-    if caster:getSkillLevel(tpz.skill.NINJUTSU) >= 300 then
-        power = power + 1
+    if target:addStatusEffect(effect, potency, 0, duration) then
+        spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
+    else
+        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
     end
 
-    power = math.max(power, 1) -- this shouldn't happen but it's probably best to prevent someone from accidentally underflowing the counter...
-
-    target:delStatusEffectSilent(tpz.effect.AQUAVEIL)
-    target:addStatusEffect(tpz.effect.AQUAVEIL, power, 0, duration)
-    spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)
-
-    return tpz.effect.AQUAVEIL
+    return effect
 end
