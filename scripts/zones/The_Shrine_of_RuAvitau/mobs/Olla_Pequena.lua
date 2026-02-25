@@ -10,7 +10,6 @@ end
 
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
-    mob:addMod(tpz.mod.MATT, 25)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

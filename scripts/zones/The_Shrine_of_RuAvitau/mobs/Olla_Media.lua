@@ -11,7 +11,6 @@ end
 
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
-    mob:addMod(tpz.mod.MATT, 25)
 end
 
 function onAdditionalEffect(mob, target, damage)
