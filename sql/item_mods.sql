@@ -21009,7 +21009,7 @@ INSERT INTO `item_mods` VALUES (16894,10,3);
 INSERT INTO `item_mods` VALUES (16895,431,1);
 INSERT INTO `item_mods` VALUES (16899,25,3);
 INSERT INTO `item_mods` VALUES (16643,8,2);		-- Battle Axe +2 STR
-INSERT INTO `item_mods` VALUES (16904,165,3);
+INSERT INTO `item_mods` VALUES (16904,1419,3); -- CRITHITRATE_SLOT 3
 INSERT INTO `item_mods` VALUES (16905,431,1);		-- Bokuto
 INSERT INTO `item_mods` VALUES (16905,950,5);		-- Element: Ice
 INSERT INTO `item_mods` VALUES (16905,951,4);		-- chance on hit: Paralyze
