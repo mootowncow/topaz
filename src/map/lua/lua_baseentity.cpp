@@ -18101,7 +18101,7 @@ inline int32 CLuaBaseEntity::useMobAbility(lua_State* L)
                                   }
                               }
 
-                              if (!PMobSkill->isTwoHour())
+                              if (PMobSkill->isTpSkill())
                               {
                                   if (PMob)
                                   {

@@ -864,6 +864,7 @@ public:
     uint16		    GetSkill(uint16 SkillID);	// текущая величина умения (не максимальная, а ограниченная уровнем)
 
     virtual int16	addTP(int16 tp);			// увеличиваем/уменьшаем количество tp
+    virtual void    setTP(int16 tp);
     virtual int32	addHP(int32 hp);			// увеличиваем/уменьшаем количество hp
     virtual int32 	addMP(int32 mp);			// увеличиваем/уменьшаем количество mp
 

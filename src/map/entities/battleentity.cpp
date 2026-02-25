@@ -903,6 +903,12 @@ int16 CBattleEntity::addTP(int16 tp)
     return abs(tp);
 }
 
+void CBattleEntity::setTP(int16 value)
+{
+    health.tp = std::clamp<int16>(value, 0, 3000);
+    updatemask |= UPDATE_HP;
+}
+
 /************************************************************************
 *																		*
 *  Изменяем количество жизней сущности									*

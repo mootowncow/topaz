@@ -292,11 +292,7 @@ bool CAutomatonController::TryShieldBash()
             CMobSkill* skill = msState->GetSkill();
             if (skill)
             {
-                bool isTwoHour = skill->isTwoHour();
-                bool isJobAbility = skill->isJobAbility();
-                bool isAttackReplacement = skill->isAttackReplacement();
-                bool isSpecial = skill->isSpecial();
-                if (!isTwoHour && !isJobAbility && !isAttackReplacement && !isSpecial)
+                if (skill->isTpSkill())
                     shouldShieldBash = true;
             }
         }

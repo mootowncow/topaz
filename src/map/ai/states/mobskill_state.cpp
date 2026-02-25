@@ -178,7 +178,7 @@ bool CMobSkillState::Update(time_point tick)
 
             if (PTarget->isAlive() || isDeadTargetAllowed)
             {
-                if (!m_PSkill->isTwoHour() && !m_PSkill->isJobAbility())
+                if (m_PSkill->isTpSkill())
                 {
                     SpendCost();
                 }
@@ -246,10 +246,14 @@ void CMobSkillState::Cleanup(time_point tick)
         actionTarget_t& actionTarget = actionList.getNewActionTarget();
         actionTarget.animation = m_PSkill->getID();
 
-        if (!m_PSkill->isTwoHour())
+        if (m_PSkill->isTpSkill())
         {
-            m_PEntity->addTP(-1250);
+            auto tp = m_PEntity->health.tp;
+
+            // Lose 1/3 TP when interrupted
+            m_PEntity->setTP((tp * 2) / 3);
         }
+
         m_PEntity->PAI->EventHandler.triggerListener("WEAPONSKILL_STATE_INTERRUPTED", m_PEntity, m_PSkill->getID());
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE, new CActionPacket(action));
     }

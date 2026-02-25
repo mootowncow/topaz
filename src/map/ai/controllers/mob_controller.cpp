@@ -643,7 +643,7 @@ bool CMobController::MobSkill(int wsList)
             return false;
         }
         float currentDistance = distance(PMob->loc.p, PActionTarget->loc.p);
-        if (!PMobSkill->isTwoHour() && luautils::OnMobSkillCheck(PActionTarget, PMob, PMobSkill) == 0) //A script says that the move in question is valid
+        if (PMobSkill->isTpSkill() && luautils::OnMobSkillCheck(PActionTarget, PMob, PMobSkill) == 0) // A script says that the move in question is valid
         {
             if (currentDistance <= mobutils::GetMobSkillRange(PMobSkill, PMob, PTarget))
             {
