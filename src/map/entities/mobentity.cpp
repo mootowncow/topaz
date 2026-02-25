@@ -1282,12 +1282,6 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             actionTarget.speceffect = SPECEFFECT_BLOOD;
             this->PAI->EventHandler.triggerListener("WEAPONSKILL_STATE_INTERRUPTED", this, PSkill->getID());
 
-            if (PSkill->getFlag() & SKILLFLAG_SUICIDE)
-            {
-                health.hp = 0;
-                updatemask |= UPDATE_HP;
-            }
-
             return;
         }
     }
@@ -1569,12 +1563,6 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             }
         }
 
-        if (PSkill->getFlag() & SKILLFLAG_SUICIDE)
-        {
-            health.hp = 0;
-            updatemask |= UPDATE_HP;
-        }
-
         if (isPlayerPet)
         {
             // Player pets don't knockback on TP moves
@@ -1600,6 +1588,12 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         }
     }
     // End of mobskill loop
+
+    if (PSkill->getFlag() & SKILLFLAG_SUICIDE)
+    {
+        health.hp = 0;
+        updatemask |= UPDATE_HP;
+    }
 
     if (PTarget->objtype == TYPE_MOB && (PTarget->isDead() || (objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() == PETTYPE_AVATAR)))
     {
