@@ -1338,7 +1338,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             actionTarget.reaction = REACTION_HIT;
         }
 
-        if (PSkill->getFlag() & SKILLFLAG_SUICIDE)
+        if (PSkill->getFlag() & SKILLFLAG_SUICIDE && !m_unkillable)
         {
             health.hp = 0;
             updatemask |= UPDATE_HP;
@@ -1589,7 +1589,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     }
     // End of mobskill loop
 
-    if (PSkill->getFlag() & SKILLFLAG_SUICIDE)
+    if (PSkill->getFlag() & SKILLFLAG_SUICIDE && !m_unkillable)
     {
         health.hp = 0;
         updatemask |= UPDATE_HP;
