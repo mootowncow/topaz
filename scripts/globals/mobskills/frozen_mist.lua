@@ -30,6 +30,7 @@ function onMobWeaponSkill(target, mob, skill)
     MobStatusEffectMove(mob, target, typeEffect, 1, 0, 10)
 
     -- Apply stoneskin to self
-    mob:setMod(tpz.mod.PHYSICAL_SS, 1000)
+    mob:delMod(tpz.mod.PHYSICAL_SS)
+    mob:addMod(tpz.mod.PHYSICAL_SS, 1000)
     return dmg
 end

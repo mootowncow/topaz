@@ -1327,18 +1327,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
             actionTarget.speceffect = SELFAOE_MISS;
 
-            // Handle Reaving Wind
-            if (skillId == 2431)
-            {
-                if (animationsub != 2)
-                {
-                    animationsub = 2;
-                    loc.zone->PushPacket(this, CHAR_INRANGE, new CEntityUpdatePacket(this, ENTITY_UPDATE, UPDATE_COMBAT));
-                }
-
-                SetLocalVar("ReavingWindAura", std::time(nullptr) + 60);
-                SetLocalVar("KnockBackTick", std::time(nullptr) + 6);
-            }
+            HandleMobskillExtra(skillId);
         }
         else
         {
@@ -1613,6 +1602,48 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         battleutils::ClaimMob(PTarget, this);
     }
     battleutils::DirtyExp(PTarget, this);
+}
+
+void CMobEntity::HandleMobskillExtra(uint16 PSkill)
+{
+    switch (PSkill)
+    {
+        case 2431: // Reaving Wind
+        {
+            if (animationsub != 2)
+            {
+                animationsub = 2;
+                loc.zone->PushPacket(this, CHAR_INRANGE, new CEntityUpdatePacket(this, ENTITY_UPDATE, UPDATE_COMBAT));
+            }
+
+            SetLocalVar("ReavingWindAura", std::time(nullptr) + 60);
+            SetLocalVar("KnockBackTick", std::time(nullptr) + 6);
+        }
+        break;
+
+        case 2437: // Aqua Blast
+        {
+            SetLocalVar("ruszorWaterAbsorbTimer", std::time(nullptr) + 30);
+        }
+        break;
+
+        case 2438: // Frozen Mist
+        {
+            setModifier(Mod::PHYSICAL_SS, 0);
+            addModifier(Mod::PHYSICAL_SS, 1000);
+        }
+        break;
+
+        case 2439: // Hydro Wave
+        {
+            setModifier(Mod::MAGIC_SS, 0);
+            addModifier(Mod::MAGIC_SS, 1500);
+        }
+        break;
+
+        default:
+            break;
+    }
 }
 
 void CMobEntity::OnItemFinish(CItemState& state, action_t& action)

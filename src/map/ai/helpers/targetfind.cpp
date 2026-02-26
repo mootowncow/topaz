@@ -197,48 +197,36 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
 void CTargetFind::findWithinCone(CBattleEntity* PTarget, float distance, float angle, uint8 flags, bool isBehind, uint16 targetFlags)
 {
     m_findFlags = flags;
+    m_targetFlags = targetFlags;
     m_conal = true;
 
     m_APoint = &m_PBattleEntity->loc.p;
 
     uint8 halfAngle = static_cast<uint8>((angle * (256.0f / 360.0f)) / 2.0f);
 
-    // Confirmation on the center of cones is still needed for mob skills; player skills seem to be facing angle
-    // uint8 angleToTarget = worldAngle(m_PBattleEntity->loc.p, PTarget->loc.p);
     uint8 angleToTarget = worldAngle(m_PBattleEntity->loc.p, PTarget->loc.p);
 
-    // Change target to behind
     if (isBehind)
-    {
         angleToTarget += 128;
-    }
-    
-    // "Left" and "Right" are like the entity's face - "left" means "turning to the left" NOT "left when looking overhead"
-    // Remember that rotation increases when turning to the right, and decreases when turning to the left
+
     float leftAngle = rotationToRadian(relativeAngle(angleToTarget, -halfAngle));
     float rightAngle = rotationToRadian(relativeAngle(angleToTarget, halfAngle));
 
-    // calculate end points for triangle
     m_BPoint.x = cosf((2 * (float)M_PI) - rightAngle) * distance + m_APoint->x;
     m_BPoint.z = sinf((2 * (float)M_PI) - rightAngle) * distance + m_APoint->z;
 
     m_CPoint.x = cosf((2 * (float)M_PI) - leftAngle) * distance + m_APoint->x;
     m_CPoint.z = sinf((2 * (float)M_PI) - leftAngle) * distance + m_APoint->z;
 
-    // ShowDebug("angle %f, left %f, right %f, distance %f, A (%f, %f) B (%f, %f) C (%f, %f)\n", angle, leftAngle, rightAngle, distance, m_APoint->x, m_APoint->z, m_BPoint.x, m_BPoint.z, m_CPoint.x, m_CPoint.z);
-    // ShowDebug("Target: (%f, %f)\n", PTarget->loc.p.x, PTarget->loc.p.z);
+    m_BPoint.x -= m_APoint->x;
+    m_BPoint.z -= m_APoint->z;
 
-    // precompute for next stage
-    m_BPoint.x = m_BPoint.x - m_APoint->x;
-    m_BPoint.z = m_BPoint.z - m_APoint->z;
+    m_CPoint.x -= m_APoint->x;
+    m_CPoint.z -= m_APoint->z;
 
-    m_CPoint.x = m_CPoint.x - m_APoint->x;
-    m_CPoint.z = m_CPoint.z - m_APoint->z;
-
-    // calculate scalar
     m_scalar = (m_BPoint.x * m_CPoint.z) - (m_BPoint.z * m_CPoint.x);
 
-    findWithinArea(PTarget, AOERADIUS_ATTACKER, distance);
+    findWithinArea(PTarget, AOERADIUS_ATTACKER, distance, flags, targetFlags);
 }
 
 void CTargetFind::addAllInMobList(CBattleEntity* PTarget, bool withPet)
