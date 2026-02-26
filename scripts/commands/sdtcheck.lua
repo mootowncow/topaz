@@ -16,10 +16,10 @@ function onTrigger(player)
             local rangedres = targ:getMod(tpz.mod.RANGEDRES)
             local impactres = targ:getMod(tpz.mod.IMPACTRES)
             local slashres = targ:getMod(tpz.mod.SLASHRES)
-            local spdefdown = targ:getMod(tpz.mod.SPDEF_DOWN)
+            local wepResDown = targ:getMod(tpz.mod.WEAPONRES_DOWN)
 
             player:PrintToPlayer(string.format("%s SDT 1: Fire: %i, Ice: %i, Wind: %i, Earth: %i, Water: %i, Thunder: %i, Dark: %i, Light: %i", targ:getName(), fire, ice, wind, earth, water, thunder, dark, light))
-            player:PrintToPlayer(string.format("%s SDT 2: hthres: %i, pierceres: %i, rangedres: %i, impactres: %i, slashres: %i, spdefdown: %i", targ:getName(), hthres, pierceres, rangedres, impactres, slashres, spdefdown))
+            player:PrintToPlayer(string.format("%s SDT 2: hthres: %i, pierceres: %i, rangedres: %i, impactres: %i, slashres: %i, wepResDown: %i", targ:getName(), hthres, pierceres, rangedres, impactres, slashres, wepResDown))
         else
             player:PrintToPlayer("Must select a mob or pet using in game cursor first.");
         end

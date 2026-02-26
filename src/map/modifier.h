@@ -1043,9 +1043,8 @@ enum class Mod
     SUPERIOR_LEVEL          = 997, // SU0..5
     GARDENING_WILT_BONUS    = 1011, // Increases the number of Vanadays a plant can survive before it wilts
     TP_BOOST_WHEN_DMGD      = 1239, // Bonus 30-100 TP gained when taking damage. Modifier = percent chance of proccing
+    WEAPONRES_DOWN = 958,
 
-
-    SPDEF_DOWN = 958,
     RESBUILD_SLEEP = 959,
     RESBUILD_GRAVITY = 960,
     RESBUILD_BIND = 961,

@@ -695,35 +695,35 @@ function utils.HandleWeaponResist(target, damageType)
         local rangedres = target:getMod(tpz.mod.RANGEDRES)
         local impactres = target:getMod(tpz.mod.IMPACTRES)
         local slashres = target:getMod(tpz.mod.SLASHRES)
-        local spdefdown = target:getMod(tpz.mod.SPDEF_DOWN)
+        local weaponResDown = target:getMod(tpz.mod.WEAPONRES_DOWN)
 
         if damageType == tpz.damageType.HTH then
             if hthres < 1000 then
-                weaponResist = (1 - ((1 - hthres / 1000) * (1 - spdefdown/100)))
+                weaponResist = (1 - ((1 - hthres / 1000) * (1 - weaponResDown/100)))
             else
                 weaponResist = hthres / 1000
             end
         elseif damageType == tpz.damageType.PIERCING then
             if pierceres < 1000 then
-                weaponResist = (1 - ((1 - pierceres / 1000) * (1 - spdefdown/100)))
+                weaponResist = (1 - ((1 - pierceres / 1000) * (1 - weaponResDown/100)))
             else
                 weaponResist = pierceres / 1000
             end
         elseif damageType == tpz.damageType.RANGED then
             if rangedres < 1000 then
-                weaponResist = (1 - ((1 - rangedres / 1000) * (1 - spdefdown/100)))
+                weaponResist = (1 - ((1 - rangedres / 1000) * (1 - weaponResDown/100)))
             else
                 weaponResist = rangedres / 1000
             end
         elseif damageType == tpz.damageType.BLUNT then
             if impactres < 1000 then
-                weaponResist = (1 - ((1 - impactres / 1000) * (1 - spdefdown/100)))
+                weaponResist = (1 - ((1 - impactres / 1000) * (1 - weaponResDown/100)))
             else
                 weaponResist = impactres / 1000
             end
         elseif damageType == tpz.damageType.SLASHING then
             if slashres < 1000 then
-                weaponResist = (1 - ((1 - slashres / 1000) * (1 - spdefdown/100)))
+                weaponResist = (1 - ((1 - slashres / 1000) * (1 - weaponResDown/100)))
             else
                 weaponResist = slashres / 1000
             end

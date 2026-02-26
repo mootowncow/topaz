@@ -5,6 +5,7 @@
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/magic")
 require("scripts/globals/msg")
 -----------------------------------
 
@@ -13,21 +14,17 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player,target,ability)
-    -- special defense down 50%
-    if target:getMod(tpz.mod.SPDEF_DOWN) == 0 then
-        local duration = 25 + player:getMerit(tpz.merit.TOMAHAWK)
-        if (player:getName() == 'iron_eater') then
-            duration = 90
-        end
-        target:queue(0, function(target)
-            target:addMod(tpz.mod.SPDEF_DOWN,50)
-        end)
-        target:queue(duration*1000, function(target)
-            target:setMod(tpz.mod.SPDEF_DOWN,0)
-        end)
+    local duration = 25 + player:getMerit(tpz.merit.TOMAHAWK)
+    local weaponResDown = 50
+    if (player:getName() == 'iron_eater') then
+        duration = 90
     end
-    target:updateClaim(player)
+
+    handleWeaponResDown(player, target, weaponResDown, duration)
+
     if player:isPC() then
         player:removeAmmo()
     end
+
+    target:updateClaim(player)
 end

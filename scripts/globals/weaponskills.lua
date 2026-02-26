@@ -514,32 +514,32 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
     local pierceres = target:getMod(tpz.mod.PIERCERES)
     local impactres = target:getMod(tpz.mod.IMPACTRES)
     local slashres = target:getMod(tpz.mod.SLASHRES)
-    local spdefdown = target:getMod(tpz.mod.SPDEF_DOWN)
+    local weaponResDown = target:getMod(tpz.mod.WEAPONRES_DOWN)
     
     -- Calculate reductions
     if not wsParams.formless then
         finaldmg = target:physicalDmgTaken(finaldmg, attack.damageType)
         if (attack.weaponType == tpz.skill.HAND_TO_HAND) then
             if hthres < 1000 then
-                finaldmg = finaldmg * (1 - ((1 - hthres / 1000) * (1 - spdefdown/100)))
+                finaldmg = finaldmg * (1 - ((1 - hthres / 1000) * (1 - weaponResDown/100)))
             else
                 finaldmg = finaldmg * hthres / 1000
             end
         elseif (attack.weaponType == tpz.skill.DAGGER or attack.weaponType == tpz.skill.POLEARM) then
             if pierceres < 1000 then
-                finaldmg = finaldmg * (1 - ((1 - pierceres / 1000) * (1 - spdefdown/100)))
+                finaldmg = finaldmg * (1 - ((1 - pierceres / 1000) * (1 - weaponResDown/100)))
             else
                 finaldmg = finaldmg * pierceres / 1000
             end
         elseif (attack.weaponType == tpz.skill.CLUB or attack.weaponType == tpz.skill.STAFF) then
             if impactres < 1000 then
-                finaldmg = finaldmg * (1 - ((1 - impactres / 1000) * (1 - spdefdown/100)))
+                finaldmg = finaldmg * (1 - ((1 - impactres / 1000) * (1 - weaponResDown/100)))
             else
                 finaldmg = finaldmg * impactres / 1000
             end
         else
             if slashres < 1000 then
-                finaldmg = finaldmg * (1 - ((1 - slashres / 1000) * (1 - spdefdown/100)))
+                finaldmg = finaldmg * (1 - ((1 - slashres / 1000) * (1 - weaponResDown/100)))
             else
                 finaldmg = finaldmg * slashres / 1000
             end
@@ -689,9 +689,9 @@ function doRangedWeaponskill(attacker, target, wsID, wsParams, tp, action, prima
     -- Calculate reductions
     finaldmg = target:rangedDmgTaken(finaldmg)
     local rangedres = target:getMod(tpz.mod.RANGEDRES)
-    local spdefdown = target:getMod(tpz.mod.SPDEF_DOWN)
+    local weaponResDown = target:getMod(tpz.mod.WEAPONRES_DOWN)
     if rangedres < 1000 then
-        finaldmg = finaldmg * (1 - ((1 - rangedres / 1000) * (1 - spdefdown/100)))
+        finaldmg = finaldmg * (1 - ((1 - rangedres / 1000) * (1 - weaponResDown/100)))
     else
         finaldmg = finaldmg * rangedres / 1000
     end

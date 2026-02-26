@@ -1480,6 +1480,32 @@ function handleAfflatusMisery(caster, spell, dmg)
     return dmg
 end
 
+function handleWeaponResDown(caster, target, power, duration)
+
+    local mod = tpz.mod.WEAPONRES_DOWN
+
+    -- Check if should overwrite
+    if power < target:getMod(mod) then
+        return
+    end
+
+    -- Increment generation id
+    local id = (target:getLocalVar("WEAPONRES_DOWN_ID") or 0) + 1
+    target:setLocalVar("WEAPONRES_DOWN_ID", id)
+
+    -- Remove old mod, add new mod
+    target:setMod(mod, power)
+
+    -- Expiration timer
+    target:queue(duration * 1000, function(target)
+
+        -- only expire if still newest application
+        if target:getLocalVar("WEAPONRES_DOWN_ID") == id then
+            target:setMod(mod, 0)
+        end
+    end)
+end
+
 function finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
     --Handles target's HP adjustment and returns UNSIGNED dmg (absorb message is set in this function)
 

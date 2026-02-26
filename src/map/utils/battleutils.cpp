@@ -3699,7 +3699,7 @@ namespace battleutils
                 }
                 if (resmult < 1.0f)
                 {
-                    resmult = 1.0f - ((1.0f - resmult) * (1.0f - (((float)(PDefender->getMod(Mod::SPDEF_DOWN))) / 100.0f)));
+                    resmult = 1.0f - ((1.0f - resmult) * (1.0f - (((float)(PDefender->getMod(Mod::WEAPONRES_DOWN))) / 100.0f)));
                 }
                 damage = (int32)((float)damage * resmult);
             }
@@ -3708,7 +3708,7 @@ namespace battleutils
                 float resmult = (float)(PDefender->getMod(Mod::HTHRES)) / 1000.0f;
                 if (resmult < 1.0f)
                 {
-                    resmult = 1.0f - ((1.0f - resmult) * (1.0f - (((float)(PDefender->getMod(Mod::SPDEF_DOWN))) / 100.0f)));
+                    resmult = 1.0f - ((1.0f - resmult) * (1.0f - (((float)(PDefender->getMod(Mod::WEAPONRES_DOWN))) / 100.0f)));
                 }
                 damage = (int32)((float)damage * resmult);
             }
@@ -7056,14 +7056,14 @@ namespace battleutils
     int32 BreathDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage, bool IsCovered)
     {
         float resist = 1.0f + floor(256.0f * (PDefender->getMod(Mod::UDMGBREATH) / 100.0f)) / 256.0f;
-        float spdefDown = PDefender->getMod(Mod::SPDEF_DOWN) / 100.0f;
+        float weaponResDown = PDefender->getMod(Mod::WEAPONRES_DOWN) / 100.0f;
 
         resist = std::max<float>(resist, 0);
 
         if (resist < 1.0f)
         {
-            // Apply SPDEF_DOWN logic to further reduce resistance
-            resist = 1.0f - ((1.0f - resist) * (1.0f - spdefDown));
+            // Apply WEAPONRES_DOWN logic to further reduce resistance
+            resist = 1.0f - ((1.0f - resist) * (1.0f - weaponResDown));
         }
 
         damage = (int32)(damage * resist);
@@ -7073,8 +7073,8 @@ namespace battleutils
 
         if (resist < 1.0f)
         {
-            // Apply SPDEF_DOWN again to the second resist check
-            resist = 1.0f - ((1.0f - resist) * (1.0f - spdefDown));
+            // Apply WEAPONRES_DOWN again to the second resist check
+            resist = 1.0f - ((1.0f - resist) * (1.0f - weaponResDown));
         }
 
         damage = (int32)(damage * resist);
@@ -7101,14 +7101,14 @@ namespace battleutils
     int32 MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element, int32 rawDamage, bool IsCovered)
     {
         float resist = 1.0f + PDefender->getMod(Mod::UDMGMAGIC) / 100.0f;
-        float spdefDown = PDefender->getMod(Mod::SPDEF_DOWN) / 100.0f;
+        float weaponResDown = PDefender->getMod(Mod::WEAPONRES_DOWN) / 100.0f;
 
         resist = std::max(resist, 0.f);
 
         if (resist < 1.0f)
         {
-            // Apply SPDEF_DOWN logic to further reduce resistance
-            resist = 1.0f - ((1.0f - resist) * (1.0f - spdefDown));
+            // Apply WEAPONRES_DOWN logic to further reduce resistance
+            resist = 1.0f - ((1.0f - resist) * (1.0f - weaponResDown));
         }
 
         damage = (int32)(damage * resist);
@@ -7119,8 +7119,8 @@ namespace battleutils
 
         if (resist < 1.0f)
         {
-            // Apply SPDEF_DOWN again
-            resist = 1.0f - ((1.0f - resist) * (1.0f - spdefDown));
+            // Apply WEAPONRES_DOWN again
+            resist = 1.0f - ((1.0f - resist) * (1.0f - weaponResDown));
         }
 
         resist = std::max(resist, 0.125f); // Cap at 87.5% max reduction
