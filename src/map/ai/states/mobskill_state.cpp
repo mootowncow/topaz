@@ -140,7 +140,7 @@ CMobSkill* CMobSkillState::GetSkill()
 void CMobSkillState::SpendCost()
 {
     auto tp = 0;
-    // Don't remove TP if a TP "auto-attack", Two Hour or "special" skill
+    // Don't remove TP if a JA, TP "auto-attack", Two Hour or "special" skill
     if (m_PSkill->isTpSkill())
     {
         if (m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_MEIKYO_SHISUI))

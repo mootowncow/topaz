@@ -1326,6 +1326,19 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             actionTarget.reaction = REACTION_HIT;
 
             actionTarget.speceffect = SELFAOE_MISS;
+
+            // Handle Reaving Wind
+            if (skillId == 2431)
+            {
+                if (animationsub != 2)
+                {
+                    animationsub = 2;
+                    loc.zone->PushPacket(this, CHAR_INRANGE, new CEntityUpdatePacket(this, ENTITY_UPDATE, UPDATE_COMBAT));
+                }
+
+                SetLocalVar("ReavingWindAura", std::time(nullptr) + 60);
+                SetLocalVar("KnockBackTick", std::time(nullptr) + 6);
+            }
         }
         else
         {

@@ -78,42 +78,43 @@ bool CMobSkill::isSingle() const
 
 bool CMobSkill::isJobAbility() const
 {
-    // flag means this skill is mob job ability
-    return m_Flag & SKILLFLAG_JOB_ABILITY;
+    return (m_Flag & SKILLFLAG_JOB_ABILITY) != 0;
 }
 
 bool CMobSkill::isTwoHour() const
 {
-    // flag means this skill is a real two hour
-    return m_Flag & SKILLFLAG_TWO_HOUR;
+    // means this skill is a real 2 hour
+    return (m_Flag & SKILLFLAG_TWO_HOUR) != 0;
 }
 
 bool CMobSkill::isAttackReplacement() const
 {
-    return m_Flag & SKILLFLAG_REPLACE_ATTACK;
+    return (m_Flag & SKILLFLAG_REPLACE_ATTACK) != 0;
 }
 
 bool CMobSkill::isTpSkill() const
 {
-    return !isSpecial() && !isAttackReplacement() && !isTwoHour() && !isJobAbility();
+    constexpr uint16 NON_TP_FLAGS = SKILLFLAG_JOB_ABILITY | SKILLFLAG_TWO_HOUR | SKILLFLAG_SPECIAL | SKILLFLAG_REPLACE_ATTACK;
+
+    return (m_Flag & NON_TP_FLAGS) == 0;
 }
 
 bool CMobSkill::isSpecial() const
 {
     // means it is a ranged attack or call beast, etc..
-    return m_Flag & SKILLFLAG_SPECIAL;
+    return (m_Flag & SKILLFLAG_SPECIAL) != 0;
 }
 
 bool CMobSkill::isMagicAttack() const
 {
     // means it is a magic skill / blood pact
-    return m_Flag & SKILLFLAG_MAGIC_SKILL;
+    return (m_Flag & SKILLFLAG_MAGIC_SKILL) != 0;
 }
 
 bool CMobSkill::alwaysKnockback() const
 {
     // This skill will knock back even on misses / shadow absorb
-    return m_Flag & SKILLFLAG_ALWAYS_KNOCK_BACK;
+    return (m_Flag & SKILLFLAG_ALWAYS_KNOCK_BACK) != 0;
 }
 
 void CMobSkill::setID(uint16 id)

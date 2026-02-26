@@ -17,6 +17,7 @@ tpz.mix.eruca.config(mob, {
 --]]
 require("scripts/globals/mixins")
 require("scripts/globals/status")
+require("scripts/globals/utils")
 -----------------------------------
 
 tpz = tpz or {}

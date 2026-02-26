@@ -25,6 +25,7 @@ function onMobWeaponSkill(target, mob, skill)
         target:setTP(reset)
         skill:setMsg(tpz.msg.basic.TP_REDUCED)
     end
+    
 	mob:AnimationSub(2)
 	mob:setLocalVar("ReavingWindAura", os.time() + 60)
 	mob:setLocalVar("KnockBackTick", os.time() + 6)

@@ -2,6 +2,7 @@
 
 require("scripts/globals/mixins")
 require("scripts/globals/status")
+require("scripts/globals/utils")
 
 g_mixins = g_mixins or {}
 g_mixins.families = g_mixins.families or {}
@@ -29,8 +30,8 @@ g_mixins.families.amphiptere = function(mob)
 
         -- Gains Regen + Regain while knockback aura is up
 	    if (animationSub == 2) then
-            mob:setMod(tpz.mod.REGEN, 50)
-            mob:setMod(tpz.mod.REGAIN, 50)
+            utils.AddDynamicMod(mob, tpz.mod.REGEN, 50)
+            utils.AddDynamicMod(mob, tpz.mod.REGAIN, 50)
 		    if os.time() > KnockBackTick then
                 local nearbyPlayers = mob:getPlayersInRange(8)
                 if nearbyPlayers == nil then return end
@@ -38,8 +39,8 @@ g_mixins.families.amphiptere = function(mob)
 				mob:setLocalVar("KnockBackTick", os.time() + 1)
 		    end
         else
-            mob:setMod(tpz.mod.REGEN, 0)
-            mob:setMod(tpz.mod.REGAIN, 0)
+            utils.DelDynamicMod(mob, tpz.mod.REGEN)
+            utils.DelDynamicMod(mob, tpz.mod.REGAIN)
 	    end
 	end)
     mob:addListener("ENGAGE", "AMPHIPTERE_ENGAGE", function(mob, target)
