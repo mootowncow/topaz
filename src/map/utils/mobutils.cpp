@@ -225,7 +225,7 @@ namespace mobutils
                 break;
         }
 
-        // Multi (Original - Zilart zones only EXCEPT Chariot and Vampyrs)
+        // Multi (Original - Zilart zones only EXCEPT Chariot, Vampyrs and Amphiptere)
         switch (family)
         {
             case 208:   // Ram
@@ -247,6 +247,7 @@ namespace mobutils
                 multi = 1.667f;
                 break;
             case 271:   // Yovra
+            case 6:     // Amphiptere
                 multi = 2.0f;
                 break;
             default:
@@ -269,9 +270,9 @@ namespace mobutils
             bonus = rangedBonus;
         }
 
-        // ToAU onward mobs don't have a multi, except Vampyrs and Chariots
+        // ToAU onward mobs don't have a multi, except Vampyr, Chariots, and Amphipteres
         if (region >= REGION_LIMBUS &&
-            (family != 252 && family != 63)) // Vampyr and Chariots
+            (family != 6 && family != 63 && family != 252)) // Vampyr, Chariots, and Amphipteres
         {
             multi = 1.0;
         }
