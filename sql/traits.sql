@@ -679,7 +679,6 @@ INSERT INTO `traits` VALUES (110,'mag. burst bonus',4,84,4,487,11,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (110,'mag. burst bonus',4,97,5,487,13,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (110,'mag. burst bonus',5,25,1,487,5,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (110,'mag. burst bonus',5,45,2,487,7,'ABYSSEA',0);
-INSERT INTO `traits` VALUES (110,'mag. burst bonus',8,45,1,487,5,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (110,'mag. burst bonus',13,40,1,487,5,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (110,'mag. burst bonus',13,60,2,487,7,'ABYSSEA',0);
 INSERT INTO `traits` VALUES (110,'mag. burst bonus',20,97,1,487,5,'ABYSSEA',0);
