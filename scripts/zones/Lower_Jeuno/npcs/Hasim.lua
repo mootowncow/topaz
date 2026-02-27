@@ -59,13 +59,13 @@ function onTrigger(player, npc)
         --5087,  89804,    -- Scroll of Gain-STR
         --5091,  94461,    -- Scroll of Gain-INT
         --5088,  99613,    -- Scroll of Gain-DEX
-        --5096,  73740,    -- Scroll of Boost-VIT
-        --5099,  77500,    -- Scroll of Boost-MND
-        --5097,  85680,    -- Scroll of Boost-AGI
-        --5100,  81900,    -- Scroll of Boost-CHR
-        --5094,  89804,    -- Scroll of Boost-STR
-        --5098,  94461,    -- Scroll of Boost-INT
-        --5095,  99613,    -- Scroll of Boost-DEX
+        5096,  73740,    -- Scroll of Boost-VIT
+        5099,  77500,    -- Scroll of Boost-MND
+        5097,  85680,    -- Scroll of Boost-AGI
+        5100,  81900,    -- Scroll of Boost-CHR
+        5094,  89804,    -- Scroll of Boost-STR
+        5098,  94461,    -- Scroll of Boost-INT
+        5095,  99613,    -- Scroll of Boost-DEX
         --5106,  73500,    -- Scroll of Inundation
         --4849, 130378,    -- Scroll of Addle
         4629,  35000,    -- Scroll of Holy
