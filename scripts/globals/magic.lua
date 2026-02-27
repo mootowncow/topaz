@@ -338,13 +338,9 @@ function doBoostGain(caster, target, spell, effect)
     --calculate potency
     local magicskill = caster:getSkillLevel(spell:getSkillType())
 
-    local potency = math.floor((magicskill - 300) / 10) + 5
+    local potency = math.floor(magicskill / 15) + 5
 
-    if potency > 25 then
-        potency = 25
-    elseif potency < 5 then
-        potency = 5
-    end
+    potency = utils.clamp(potency, 5, 25)
 
     --printf("BOOST-GAIN: POTENCY = %d", potency)
 
@@ -362,9 +358,9 @@ function doBoostGain(caster, target, spell, effect)
 
     for i, effect in ipairs(effectOverwrite) do
             --printf("BOOST-GAIN: CHECKING FOR EFFECT %d...", effect)
-            if caster:hasStatusEffect(effect) then
+            if target:hasStatusEffect(effect) then
                 --printf("BOOST-GAIN: HAS EFFECT %d, DELETING...", effect)
-                caster:delStatusEffectSilent(effect)
+                target:delStatusEffectSilent(effect)
             end
     end
 

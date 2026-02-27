@@ -1541,7 +1541,6 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                 {
                     case 160: wsMultiplier = 0.5f;  break; // Shining Strike
                     case 161: wsMultiplier = 0.75f; break; // Seraph Strike
-                    case 171: wsMultiplier = 1.0f;  break; // Mystic Boon
                     default:  wsMultiplier = 1.0f;  break; // fallback
                 }
 
