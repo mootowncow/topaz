@@ -8,6 +8,25 @@ require("scripts/globals/salvage")
 -----------------------------------
 local ID = require("scripts/zones/Periqia/IDs")
 -----------------------------------
+local function runAway(mob)
+    local nearbyEnemies = mob:getNearbyEntities(1000)
+    if (nearbyEnemies ~= nil) then 
+        for _, enemy in pairs(nearbyEnemies) do
+            if
+                not enemy:isNPC()
+                and (enemy:getAllegiance() ~= mob:getAllegiance()) and
+                (enemy:getID() ~= mob:getID())
+            then
+                enemy:disengage()
+                if enemy:hasPet() then
+                    enemy:petRetreat()
+                end
+            end
+        end
+    end
+    mob:disengage()
+end
+
 function onMobSpawn(mob)
     mob:setMod(tpz.mod.MDEF, 40)
     mob:setMod(tpz.mod.UDMGMAGIC, -13)
@@ -85,17 +104,17 @@ function onMobFight(mob, target)
         if mob:getHPP() <= 90 and mob:getHPP() > 80 and RunAway == 0 then
             salvageUtil.msgGroup(mob, "The " .. MobName(mob) .. " disappears!", 0xD, none)
             mob:setLocalVar("RunAwayPath", 1)
-            mob:disengage()
+            runAway(mob)
             mob:getEntity(bit.band(ID.npc._JK1, 0xFFF), tpz.objType.NPC):setAnimation(8)
         elseif mob:getHPP() <= 80 and mob:getHPP() > 70 and RunAway == 1  then
             salvageUtil.msgGroup(mob, "The " .. MobName(mob) .. " disappears!", 0xD, none)
             mob:setLocalVar("RunAwayPath", 2)
-            mob:disengage()
+            runAway(mob)
             mob:getEntity(bit.band(ID.npc._1K6, 0xFFF), tpz.objType.NPC):setAnimation(8) -- Rock H-8
         elseif mob:getHPP() <= 70 and RunAway == 2  then
             salvageUtil.msgGroup(mob, "The " .. MobName(mob) .. " disappears!", 0xD, none)
             mob:setLocalVar("RunAwayPath", 3)
-            mob:disengage()
+            runAway(mob)
         end
     end
 
