@@ -4701,7 +4701,7 @@ INSERT INTO `synth_recipes` VALUES (75505,0,0,0,0,0,0,0,0,0,110,4096,4238,615,61
 INSERT INTO `synth_recipes` VALUES (75506,0,2046,0,0,0,0,0,0,0,110,4102,4244,4154,4154,4234,4235,9774,9775,9776,9777,6538,6539,6540,6540,1,1,1,1,'Altana\'s Repast');
 INSERT INTO `synth_recipes` VALUES (75507,0,2045,0,0,0,0,0,0,0,110,4096,4238,2110,4509,5134,5233,5234,5236,5237,5680,5893,5894,5894,5894,1,1,1,1,'Marine Stewpot');
 INSERT INTO `synth_recipes` VALUES (75508,0,0,0,0,10,0,0,0,0,0,4098,4240,643,0,0,0,0,0,0,0,17296,17296,17296,17296,99,99,99,99,'Pebble');
-INSERT INTO `synth_recipes` VALUES (75509,0,0,60,0,0,0,0,0,0,0,4099,4241,710,951,1161,1164,1167,1170,1173,1176,2971,2971,2971,2971,33,66,99,99,'Toolbag (Ino)'); -- Leather
+INSERT INTO `synth_recipes` VALUES (75509,0,0,15,47,17,0,0,0,0,0,4099,4241,660,674,704,710,744,915,937,1134,2971,2971,2971,2971,33,66,99,99,'Inoshishinofuda');
 INSERT INTO `synth_recipes` VALUES (75510,0,0,0,0,0,0,0,0,0,15,4098,4240,5452,0,0,0,0,0,0,0,16992,16992,16992,16992,4,4,4,4,'Slice of Bluetail'); 
 INSERT INTO `synth_recipes` VALUES (75511,1,0,0,0,100,0,0,0,0,0,4100,4242,2357,0,0,0,0,0,0,0,686,686,686,686,1,1,2,2,'Medusa\'s Armlet (desynth)');
 INSERT INTO `synth_recipes` VALUES (75512,1,0,0,100,0,0,0,0,0,0,4100,4242,2355,0,0,0,0,0,0,0,686,686,686,686,1,1,2,2,'Ja Ja\'s Chestplate (desynth)');
@@ -4719,14 +4719,17 @@ INSERT INTO `synth_recipes` VALUES (75523,1,0,0,51,0,0,0,0,0,0,4100,4242,2505,0,
 INSERT INTO `synth_recipes` VALUES (75524,1,0,0,51,0,0,0,0,0,0,4100,4242,2510,0,0,0,0,0,0,0,651,652,652,652,2,2,3,4,'Orc Helmet(desynth)'); 
 INSERT INTO `synth_recipes` VALUES (75525,1,0,0,51,0,0,0,0,0,0,4100,4242,2511,0,0,0,0,0,0,0,652,652,652,2275,2,3,4,1,'Orc Pauldron(desynth)'); 
 INSERT INTO `synth_recipes` VALUES (75526,0,0,0,0,0,0,0,0,67,0,4102,4244,5402,5403,5404,5405,5406,5407,5408,5409,5870,5870,5870,5870,3,6,9,12,'Trump Card Case');
+INSERT INTO `synth_recipes` VALUES (75527,0,0,47,0,0,15,0,0,19,0,4103,4245,731,929,929,930,1134,1134,1163,17397,2973,2973,2973,2973,33,66,99,99,'Chonofuda');
+INSERT INTO `synth_recipes` VALUES (75528,0,0,19,0,0,47,0,0,17,0,4099,4241,732,819,825,825,829,913,937,8918,2972,2972,2972,2972,33,66,99,99,'Shikanofuda');
 
--- INSERT INTO `synth_recipes` VALUES (ID,Desynth,KeyItem,WD,SM,GO,CL,LE,BO,AL,CK,Crystal,HQCrystal,itemid,I2,I3,I4,I5,I6,I7,I8,R1,R2,R3,R4,Q1,Q2,Q3,Q4,ResultName); --  template
+-- INSERT INTO `synth_recipes` VALUES (ID,Desynth,KeyItem,WD,SM,GO,CL,LE,BO,AL,CK,Crystal,HQCrystal,I1,I2,I3,I4,I5,I6,I7,I8,R1,R2,R3,R4,Q1,Q2,Q3,Q4,ResultName); --  template
+-- item/I2/I3/etc = ingredient, r = result, q = quantity
+-- crystals = fire(4096,4238) ice(4097,4239) wind(4098,4240) earth(4099,4241) lightning(4100,4242) water(4101,4243) light(4102,4244) dark(4103,4245)
 
 -- -----------
 -- RECIPES END
 
--- INSERT INTO `synth_recipes` VALUES (ID,Desynth,KeyItem,WD,SM,GO,CL,LE,BO,AL,CK,Crystal,HQCrystal,itemid,I2,I3,I4,I5,I6,I7,I8,R1,R2,R3,R4,Q1,Q2,Q3,Q4,ResultName); --  template
--- crystals = fire(4096,4238) ice(4097,4239) wind(4098,4240) earth(4099,4241) lightning(4100,4242) water(4101,4243) light(4102,4244) dark(4103,4245)
+-- INSERT INTO `synth_recipes` VALUES (ID,Desynth,KeyItem,WD,SM,GO,CL,LE,BO,AL,CK,Crystal,HQCrystal,I1,I2,I3,I4,I5,I6,I7,I8,R1,R2,R3,R4,Q1,Q2,Q3,Q4,ResultName); --  template
 
 /*!40000 ALTER TABLE `synth_recipes` ENABLE KEYS */;
 UNLOCK TABLES;
