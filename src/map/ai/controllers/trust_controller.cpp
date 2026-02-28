@@ -240,14 +240,22 @@ void CTrustController::DoCombatTick(time_point tick)
                             // Record last warp time
                             m_LastWarpTime = server_clock::now();
 
-                            POwner->PAI->PathFind->WarpTo(PTarget->loc.p, warpOffset);
+                            float currentDistanceToTarget = distance(POwner->loc.p, PTarget->loc.p) + static_cast<float>(PTarget->m_ModelSize);
+
+                            // Don't warp to a target > combat distance away (30 yalms)
+                            if (currentDistanceToTarget < CombatDistance)
+                                POwner->PAI->PathFind->WarpTo(PTarget->loc.p, warpOffset);
                         }
                     }
                 }
                 else
                 {
+                    float currentDistanceToTarget = distance(POwner->loc.p, PTarget->loc.p) + static_cast<float>(PTarget->m_ModelSize);
                     float warpOffset = 0.0f;
-                    POwner->PAI->PathFind->WarpTo(PTarget->loc.p, warpOffset);
+
+                    // Don't warp to a target > combat distance away (30 yalms)
+                    if (currentDistanceToTarget < CombatDistance)
+                        POwner->PAI->PathFind->WarpTo(PTarget->loc.p, warpOffset);
                 }
             }
             else
