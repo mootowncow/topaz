@@ -526,6 +526,13 @@ end
 
 function doHelix(caster, target, spell, tier)
     -- https://wiki.ffo.jp/html/14111.html
+
+    -- Avoid 0 damage Helix
+    if target:hasStatusEffect(tpz.effect.MAGIC_SHIELD) or target:hasStatusEffect(tpz.effect.STONESKIN) then
+        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+        return 0
+    end
+
     -- get helix acc/att merits
     local merit = caster:getMerit(tpz.merit.HELIX_MAGIC_ACC_ATT)
 
