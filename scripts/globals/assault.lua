@@ -329,6 +329,7 @@ function onAssaultComplete(instance, X, Z, textTable, npcTable)
         if v:getLocalVar("AssaultCompletedMessage") ~= 1 then
             v:messageSpecial(textTable.RUNE_UNLOCKED_POS, X, Z)
             v:setLocalVar("AssaultCompletedMessage", 1)
+            v:clearTrusts()
             v:resetRecasts()
         end
     end
@@ -391,6 +392,7 @@ function runeReleaseFinish(player, ASSAULT_POINT, textTable)
         local mobID = v:getID()
         DespawnMob(mobID, instance)
     end
+
     for _,v in pairs(chars) do
         if v:getLocalVar("AssaultPointsAwarded") == 0 then
             v:setLocalVar("AssaultPointsAwarded", 1)
@@ -409,6 +411,7 @@ function runeReleaseFinish(player, ASSAULT_POINT, textTable)
                 v:setCharVar("AssaultPromotion", v:getCharVar("AssaultPromotion") +1)
                 v:addAssaultPoint(ASSAULT_POINT, points)
             end
+            v:clearTrusts()
             v:messageSpecial(textTable.ASSAULT_POINTS_OBTAINED, points)
             v:setCharVar("AssaultComplete",1)
             v:startEvent(102)
