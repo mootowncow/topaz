@@ -14,6 +14,7 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
+    local accBonus = math.floor(player:getMainLvl() / 5)
     player:delStatusEffectSilent(tpz.effect.COMPOSURE)
-    player:addStatusEffect(tpz.effect.COMPOSURE, 1, 0, 7200)
+    player:addStatusEffect(tpz.effect.COMPOSURE, accBonus, 0, 7200)
 end

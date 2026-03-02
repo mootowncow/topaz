@@ -9,7 +9,7 @@ require("scripts/globals/status")
 function onEffectGain(target, effect)
     local jpValue = target:getJobPointLevel(tpz.jp.COMPOSURE_EFFECT)
 
-    target:addMod(tpz.mod.ACC, 35 + jpValue)
+    target:addMod(tpz.mod.ACC, effect:getPower() + jpValue)
     target:addMod(tpz.mod.ENSPELL_MACC, 15 + jpValue)
 end
 
@@ -19,6 +19,6 @@ end
 function onEffectLose(target, effect)
     local jpValue = target:getJobPointLevel(tpz.jp.COMPOSURE_EFFECT)
 
-    target:delMod(tpz.mod.ACC, 35 + jpValue)
+    target:delMod(tpz.mod.ACC, effect:getPower() + jpValue)
     target:delMod(tpz.mod.ENSPELL_MACC, 15 + jpValue)
 end
