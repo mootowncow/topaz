@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------------------------------
--- func: delwhmspells <player>
--- desc: Removes WHM spells from the players spell list.
--- Note: Not actually all WHM spells
+-- func: delrdmspells <player>
+-- desc: Removes RDM spells from the players spell list.
+-- Note: Not actually all RDM spells
 ---------------------------------------------------------------------------------------------------
 
 cmdprops =
@@ -12,7 +12,7 @@ cmdprops =
 
 function error(player, msg)
     player:PrintToPlayer(msg)
-    player:PrintToPlayer("!delwhmspells {player}")
+    player:PrintToPlayer("!delrdmspells {player}")
 end
 
 function onTrigger(player, target)
@@ -30,11 +30,9 @@ function onTrigger(player, target)
 
     -- Define spell ID ranges to delete
     local ranges = {
-        {66, 71},    -- Bar element spells
-        {86, 92},    -- Bar resist spells
-        {7, 13},     -- Curaga spells, Raise, Raise II
-        {14, 20},    -- -Na spells
-        {125, 135},  -- Protectra / Shellra / Reraise
+        {60, 65},    -- Bar element spells
+        {72, 78},    -- Bar resist spells
+        {100, 106},  -- Enspells / Phalanx
     }
 
     -- Loop through each range and delete those spells
@@ -45,5 +43,8 @@ function onTrigger(player, target)
         end
     end
 
-    player:PrintToPlayer(string.format("Deleted WHM spells from %s.", targ:getName()))
+    targ:delSpell(109) -- Refresh
+    targ:delSpell(260) -- Dispel
+
+    player:PrintToPlayer(string.format("Deleted RDM spells from %s.", targ:getName()))
 end
