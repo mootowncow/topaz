@@ -14,14 +14,13 @@ function onMobInitialize(mob)
     UpdateNMSpawnPoint(mob:getID())
 end
 
-
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
+    mob:setDamage(100)
 	mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 30)
     mob:setLocalVar("path", 0)
     mob:setLocalVar("pathstep", 0)
 end
-
 
 function onMobRoam(mob)
     local blueDoorPathing =
@@ -65,6 +64,10 @@ function onMobRoam(mob)
     tpz.path.loop(mob, pathingTable, tpz.path.flag.RUN)
 end
 
+function onMobFight(mob, target)
+	mob:setMod(tpz.mod.REGAIN, 125)
+end
+
 function onMobWeaponSkillPrepare(mob, target)
     -- Uses Crystal rain 75% of the time, Crystal Weapon 20% of the time, rest 5%
     local roll = math.random(100)
@@ -75,6 +78,10 @@ function onMobWeaponSkillPrepare(mob, target)
     end
 
     return math.random(tpz.mob.skills.CRYSTAL_SHIELD, tpz.mob.skills.THUNDER_BREAK)
+end
+
+function onMobDisengage(mob)
+    mob:setMod(tpz.mod.REGAIN, 0)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)

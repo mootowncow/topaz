@@ -11,6 +11,7 @@ end
 
 function onMobSpawn(mob)
     SetGenericNMStats(mob)
+    mob:setDamage(125)
 end
 
 function onMobFight(mob, target)
@@ -27,7 +28,12 @@ function onMonsterMagicPrepare(mob, target)
     else
         return 112 -- flash
     end
+
     return 0 -- Still need a return, so use 0 when not casting
+end
+
+function onMobDisengage(mob)
+    mob:setMod(tpz.mod.REGAIN, 0)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
