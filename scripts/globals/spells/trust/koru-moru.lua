@@ -44,7 +44,7 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.SLEEP_II, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS, tpz.effect.LULLABY, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURE)
 
-    mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 66, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.CURE)
+    mob:addSimpleGambit(ai.t.PARTY, ai.c.HPP_LT, 66, ai.r.MA, ai.s.BEST_CURE, 0)
 
     -- Keep up Reraise
     mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.RERAISE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RERAISE)
