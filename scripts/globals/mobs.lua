@@ -1263,6 +1263,23 @@ function SetJPMobStats(mob)
     mob:setDamage(140)
 end
 
+function AddAllAttributes(mob, amount)
+    local attributes = 
+    {
+        tpz.mod.STR,
+        tpz.mod.DEX,
+        tpz.mod.VIT,
+        tpz.mod.AGI,
+        tpz.mod.INT,
+        tpz.mod.MND,
+        tpz.mod.CHR
+    }
+
+    for _, attribute in ipairs(attributes) do
+        mob:addMod(attribute, amount)
+    end
+end
+
 function CheckQuadavModel(mob, skill, model, vanillaAnimation, wotgAnimation)
     local modelId = mob:getModelId()
     if (modelId < model) then -- Adjust animation for non-WoTG Quadavs
