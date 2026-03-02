@@ -1561,6 +1561,7 @@ tpz.mod =
     ENSPELL_DMG                     = 343,
     ENSPELL_CHANCE                  = 856,
     ENSPELL_MACC                    = 1271, -- Increases Enspell magical accuracy
+    ENSPELL_DURA                    = 1441, -- Increases Enspell duration
     SPIKES_DMG                      = 344,
     TP_BONUS                        = 345,
     PERPETUATION_REDUCTION          = 346,
@@ -2197,7 +2198,7 @@ tpz.mod =
     GLOBAL_DMG_DONE         = 1438, -- Global reduction to damage done (Currently only works for magic / monster tp moves / automaton tp moves)
     ABSORB_EFFECT_DURATION  = 1440, -- Increases the duration of absorb effects by a flat amount (e.g. mod value 10 = +10s duration)
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1440 NEXT
+    -- 1442 NEXT
 }
 
 tpz.latent =

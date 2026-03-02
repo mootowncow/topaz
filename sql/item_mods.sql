@@ -22137,8 +22137,9 @@ INSERT INTO `item_mods` VALUES (17694,13,6);
 INSERT INTO `item_mods` VALUES (17695,8,3);
 INSERT INTO `item_mods` VALUES (17695,13,3);
 INSERT INTO `item_mods` VALUES (17695,431,1);
-INSERT INTO `item_mods` VALUES (17696,9,1);
-INSERT INTO `item_mods` VALUES (17696,432,3);    -- Sword enhancement spell damage +3
+INSERT INTO `item_mods` VALUES (17696,9,1); -- DEX 1
+INSERT INTO `item_mods` VALUES (17696,432,3); -- ENSPELL_DMG_BONUS 3
+INSERT INTO `item_mods` VALUES (17696,1441,5); -- ENSPELL_DURA 5
 INSERT INTO `item_mods` VALUES (17697,9,2);
 INSERT INTO `item_mods` VALUES (17698,8,4); -- (Princely Sword)
 INSERT INTO `item_mods` VALUES (17698,10,-6);

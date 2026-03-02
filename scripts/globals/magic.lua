@@ -501,7 +501,8 @@ function doBuffSong(caster, target, spell, effect)
 end
 
 function doEnspell(caster, target, spell, effect)
-    local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
+    local baseDuration = 180 + caster:getMod(tpz.mod.ENSPELL_DURA)
+    local duration = calculateDuration(baseDuration, spell:getSkillType(), spell:getSpellGroup(), caster, target)
 
     -- Calculate potency
     local enhancingSkill = caster:getSkillLevel(tpz.skill.ENHANCING_MAGIC)
@@ -4254,7 +4255,7 @@ function calculateDuration(duration, magicSkill, spellGroup, caster, target, use
         if caster:hasStatusEffect(tpz.effect.PERPETUANCE) and spellGroup == tpz.magic.spellGroup.WHITE then
             duration  = duration * 2
         end
-    elseif magicSkill == tpz.skill.ENFEEBLING_MAGIC then 
+    elseif magicSkill == tpz.skill.ENFEEBLING_MAGIC then
         -- Gear mods
         duration = duration + duration * caster:getMod(tpz.mod.ENFEEB_MAGIC_DURATION) / 100
 

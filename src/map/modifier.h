@@ -719,6 +719,7 @@ enum class Mod
     ENSPELL_DMG_BONUS         = 432, // Bonus dmg to enspells used for gear etc
     ENSPELL_CHANCE            = 856, // Chance of enspell activating (0 = 100%, 10 = 10%, 30 = 30%, ...)
     ENSPELL_MACC              = 1271,// Increases Enspell magical accuracy
+    ENSPELL_DURA              = 1441,     // Increases Enspell duration
     SPIKES                    = 342, // store the type of spike spell active (0 if nothing)
     SPIKES_DMG                = 344, // stores the base damage of the spikes before reductions
     SPIKES_MACC               = 1311,// Increases Spikes magical accuracy
@@ -1155,7 +1156,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1440 NEXT
+    // 1442 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it
