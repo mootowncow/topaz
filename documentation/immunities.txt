@@ -27,5 +27,6 @@
     Sleep / Grav / Bind / Silence = 23
     All But Requiem/Light Sleep/Dark Sleep = 1023
     All but Light Sleep/Dark Sleep = 2047
+    Sleep / Bind / Petrify / Terror = 24581
 
    

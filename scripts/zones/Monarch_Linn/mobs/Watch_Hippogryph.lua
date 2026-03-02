@@ -7,14 +7,13 @@
 require("scripts/globals/titles")
 require("scripts/globals/status")
 require("scripts/globals/magic")
+require("scripts/globals/mobs")
 require("scripts/globals/utils")
 -----------------------------------
 
 function onMobSpawn(mob)
-    mob:addMod(tpz.mod.ATTP, 10)
-    mob:addMod(tpz.mod.DEFP, 20) 
-    mob:addMod(tpz.mod.ACC, 15) 
-    mob:addMod(tpz.mod.EVA, 15)
+    SetGenericNMStats(mob)
+    mob:addMod(tpz.mod.MDEF, 100)
     mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 23)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
 end

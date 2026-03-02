@@ -7,12 +7,13 @@
 require("scripts/globals/titles")
 require("scripts/globals/status")
 require("scripts/globals/magic")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobSpawn(mob)
-     mob:addMod(tpz.mod.ATTP, 10)
-     mob:addMod(tpz.mod.DEFP, 20) 
-     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+    mob:setDamage(100)
+    mob:addMod(tpz.mod.ATTP, 25)
+    mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
 end
 
 function onMobInitialize(mob)
