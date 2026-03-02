@@ -11,13 +11,6 @@
 -- 100%TP     200%TP      300%TP
 --  4              4           4        new
 -- 1.125      1.125      1.125        old
-
--- Changed to non-elemental magic damage!
--- 2.0 / 2.5 / 3.0 ftp
--- 100% MND WSC
--- MAB included
--- 100 bonus macc
--- -50% enmity
 -----------------------------------
 require("scripts/globals/aftermath")
 require("scripts/globals/settings")
@@ -26,30 +19,22 @@ require("scripts/globals/weaponskills")
 -----------------------------------
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local params = {}
-    params.ftp100 = 2.0 params.ftp200 = 2.1 params.ftp300 = 2.3
-    params.str_wsc = 0.0 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0 params.mnd_wsc = 0.5 params.chr_wsc = 0.0
-    params.ele = tpz.magic.ele.NONE
-    params.skill = tpz.skill.SWORD
-    params.includemab = true
-	params.enmityMult = 0.5
-	params.bonusmacc = 100
+    params.numHits = 3
+    params.ftp100 = 1.375 params.ftp200 = 1.375 params.ftp300 = 1.375
+    params.str_wsc = 0.3 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0 params.mnd_wsc = 0.5 params.chr_wsc = 0.0
+    params.crit100 = 0.15 params.crit200 = 0.25 params.crit300 = 0.40
+    params.canCrit = true
+    params.acc100 = 0.0 params.acc200= 0.0 params.acc300= 0.0
+    params.atk100 = 1; params.atk200 = 1; params.atk300 = 1
 
-    if USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.ftp100 = 4.0 params.ftp200 = 4.0 params.ftp300 = 4.0
+    if (USE_ADOULIN_WEAPON_SKILL_CHANGES == true) then
+        params.ftp100 = 1.375 params.ftp200 = 1.375 params.ftp300 = 1.375
+        params.str_wsc = 0.6
     end
 
-    -- Apply aftermath
-    tpz.aftermath.addStatusEffect(player, tp, tpz.slot.MAIN, tpz.aftermath.type.MYTHIC)
-
-    local damage, criticalHit, tpHits, extraHits = doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
-	if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.SWORD, tpHits+extraHits) end
-	
-
-    local maccBonus = math.floor(MaccTPModifier(tp))
-    local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.THUNDER, maccBonus, tpz.effect.MAGIC_EVASION_DOWN)
-    if IsWSDamageMessage(target, action) and (resist >= 0.5) then
-        target:addStatusEffect(tpz.effect.MAGIC_EVASION_DOWN, 10, 0, 60 * resist)
-    end
+    local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
+		if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.SWORD, tpHits+extraHits) end
+		if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
 
     return tpHits, extraHits, criticalHit, damage
 end
