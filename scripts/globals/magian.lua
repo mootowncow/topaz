@@ -154,12 +154,6 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
         return
     end
 
-    if trade:getSlotCount() == 0 then
-        player:messageSpecial(ID.text.FULL_INVENTORY_AFTER_TRADE)
-        printf("[Magian] Trade had no slots.")
-        return
-    end
-
     local tradedItem = trade:getItem()
     if not tradedItem then
         printf("[Magian] No traded item found.")
@@ -168,6 +162,12 @@ tpz.magian.magianOnTrade = function(player, npc, trade)
 
     local mainItemId = tradedItem:getID()
     local currentTrial = tradedItem:getTrialNumber()
+
+    if player:getFreeSlotsCount() < 1 then
+        player:messageSpecial(ID.text.ITEM_CANNOT_BE_OBTAINED, mainItemId)
+        printf("[Magian] Trade had no slots.")
+        return
+    end 
     printf("[Magian] Item ID: %d, Trial Number: %d", mainItemId, currentTrial)
 
     -- Branching path check first
