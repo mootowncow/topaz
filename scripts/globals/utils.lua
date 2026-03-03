@@ -917,10 +917,13 @@ function utils.IsElementalDOT(effect)
 end
 
 function utils.IsDOT(effect) -- TODO: Unfinished(?)
-    if (effect >= tpz.effect.BURN) and (effect <= tpz.effect.BIO) then
-        return true
-    end
-    return false
+    return (effect >= tpz.effect.BURN) and (effect <= tpz.effect.BIO) or
+    effect == tpz.effect.POISON or
+    effect == tpz.effect.REQUIEM or
+    effect == tpz.effect.KAUSTRA or
+    effect == tpz.effect.HELIX or
+    effect == tpz.effect.GEO_POISON or
+    effect == tpz.effect.TAINT
 end
 
 function utils.IsStatDown(effect)

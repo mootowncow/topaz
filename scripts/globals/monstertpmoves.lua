@@ -919,6 +919,10 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isG
         return 0
     end
 
+    if utils.IsDOT(typeEffect) then
+        power = utils.clamp(power, 1)
+    end
+
     -- Override durations with a single function to make it easier to update a million files durations at once when editing stuff
     -- Don't override Doom, Gradual Petrification, Encumbrance, or Terror
     if (typeEffect ~= tpz.effect.DOOM) and (typeEffect ~= tpz.effect.GRADUAL_PETRIFICATION) and (typeEffect ~= tpz.effect.ENCUMBRANCE_II) and
