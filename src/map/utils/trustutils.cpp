@@ -949,6 +949,7 @@ bool IsHighLevelWS(uint16 skill_id)
         case WS_RAGING_RUSH:
         case WS_GUILLOTINE:
         case WS_PENTA_THRUST:
+        case WS_SKEWER:
         case WS_BLADE_JIN:
         case WS_TACHI_YUKIKAZE:
         case WS_SIDEWINDER:
