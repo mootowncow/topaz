@@ -18,11 +18,12 @@ function onSpellCast(caster, target, spell)
     if caster:isAutomaton() then
         enhskill = caster:getSkillLevel(tpz.skill.AUTOMATON_MAGIC)
     end
-    
+
     local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
     duration = calculateDurationForLvl(duration, 60, target:getMainLvl())
 
-    local power = math.floor(enhskill / 30)
+    -- 25% at 300 skill
+    local power = math.floor(enhskill / 15) + 5
 
     if target:addStatusEffect(effect, power, 0, duration) then
         spell:setMsg(tpz.msg.basic.MAGIC_GAIN_EFFECT)

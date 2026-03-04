@@ -18,11 +18,12 @@ function onSpellCast(caster, target, spell)
     if caster:isAutomaton() then
         enhskill = caster:getSkillLevel(tpz.skill.AUTOMATON_MAGIC)
     end
-    
+
     local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
     duration = calculateDurationForLvl(duration, 60, target:getMainLvl())
 
-    local power = math.floor(enhskill / 30)
+    -- 25% at 300 skill
+    local power = math.floor(enhskill / 15) + 5
     power = power + 100 -- multi_strikes.lua will set this as triple attack for any mod over 100. i.e. 125 power is 25% triple attack
 
     if target:addStatusEffect(effect, power, 0, duration) then
