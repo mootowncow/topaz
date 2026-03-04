@@ -109,15 +109,15 @@ public:
 
 
     uint16 getRank() const { return m_rank; }
-    uint16 getRankPoints() const { return m_rankPoints; }
-    uint16 getRankPointsRequired() const;
+    uint32 getRankPoints() const { return m_rankPoints; }
+    uint32 getRankPointsRequired() const;
 
 
     void setRank(uint16 rank) { m_rank = rank; }
-    void setRankPoints(uint16 rankPoints) { m_rankPoints = rankPoints; }
-    void setRankPointsRequired(uint16 rankPoints) { m_rankpointsRequired = rankPoints; }
+    void setRankPoints(uint32 rankPoints) { m_rankPoints = rankPoints; }
+    void setRankPointsRequired(uint32 rankPoints) { m_rankpointsRequired = rankPoints; }
 
-    void  AddRankPoints(uint16 points);
+    void  AddRankPoints(uint32 points);
     bool  TryRankUp();
 
 	std::vector<CModifier> modList;			// список модификаторов
@@ -137,8 +137,8 @@ private:
 	uint16	m_removeSlotID;
     uint8   m_superiorLevel;
     uint16  m_rank{ 0 };
-    uint16  m_rankPoints{ 0 };
-    uint16  m_rankpointsRequired{ 0 };
+    uint32  m_rankPoints{ 0 };
+    uint32  m_rankpointsRequired{ 0 };
 
     void    SetAugmentMod(uint16 type, uint8 value);
 };

@@ -1156,6 +1156,14 @@ void SmallPacket0x029(map_session_data_t* session, CCharEntity* PChar, CBasicPac
             if (Sql_Query(SqlHandle, Query, ToLocationID, NewSlotID, PChar->id, FromLocationID, FromSlotID) != SQL_ERROR &&
                 Sql_AffectedRows(SqlHandle) != 0)
             {
+
+                // Update char_item_rank table to follow item
+                Sql_Query(SqlHandle,
+                          "UPDATE char_item_rank "
+                          "SET location = %u, slot = %u "
+                          "WHERE charid = %u AND location = %u AND slot = %u;",
+                          ToLocationID, NewSlotID, PChar->id, FromLocationID, FromSlotID);
+
                 PChar->getStorage(FromLocationID)->InsertItem(nullptr, FromSlotID);
 
                 PChar->pushPacket(new CInventoryItemPacket(nullptr, FromLocationID, FromSlotID));

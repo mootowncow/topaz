@@ -415,41 +415,39 @@ uint16 CItemEquipment::getAugment(uint8 slot)
     return ref<uint16>(m_extra, 2 + (slot * 2));
 }
 
-uint16 CItemEquipment::getRankPointsRequired() const
+uint32 CItemEquipment::getRankPointsRequired() const
 {
     // index = rank (1-based)
-    static const uint16 RankRPTable[] =
+    static const uint32 RankRPTable[] =
     {
-        0,    // dummy for index 0 (unused)
-        50,   // Rank 1 -> 2
-        80,   // Rank 2 -> 3
-        120,
-        170,
-        220,
-        280,
-        340,
-        410,
-        480,
-        560,
-        650,
-        750,
-        860,
-        980,
-        1110,
-        1250,
-        1410,
-        1580,
-        1760,
-        1960,
-        2170,
-        2400,
-        2650,
-        2910,
-        3180,
-        3460,
-        3760,
-        4070,
-        4400, // Rank 29 -> 30
+        50,   // Rank 0 -> 1
+        130,  // Rank 1 -> 2
+        250,
+        420,
+        640,
+        920,
+        1260,
+        1670,
+        2150,
+        2710,
+        3360,
+        4110,
+        4970,
+        5950,
+        7060,
+        8310,
+        9720,
+        11300,
+        13060,
+        15020,
+        17190,
+        22240,
+        25150,
+        28330,
+        31790,
+        35550,
+        39620,
+        44020 // Rank 29 -> 30
     };
 
     if (m_rank >= 30)
@@ -458,18 +456,19 @@ uint16 CItemEquipment::getRankPointsRequired() const
     return RankRPTable[m_rank];
 }
 
-void CItemEquipment::AddRankPoints(uint16 points)
+void CItemEquipment::AddRankPoints(uint32 points)
 {
     if (m_rank >= 30)
         return;
 
     m_rankPoints += points;
-
+    printf("Before RankUp: Rank=%u RP=%u\n", m_rank, m_rankPoints);
     while (TryRankUp())
     {
         // Loop allows multi-rank jumps
         // Keep calling TryRankUp until it returns false
     }
+    printf("Ranked Up! New Rank=%u\n", m_rank);
 
     // Persist immediately
     if (auto* PChar = getChar())
@@ -480,14 +479,14 @@ void CItemEquipment::AddRankPoints(uint16 points)
 
 bool CItemEquipment::TryRankUp()
 {
-    uint16 required = getRankPointsRequired();
+    uint32 required = getRankPointsRequired();
 
     if (required == 0)
         return false;
 
     if (m_rankPoints >= required)
     {
-        m_rankPoints -= required;
+        ShowDebug("rankPoints: %u, required %u\n", m_rankPoints, required);
         m_rank++;
         return true;
     }

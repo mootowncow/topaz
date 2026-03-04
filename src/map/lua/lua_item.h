@@ -92,6 +92,7 @@ public:
 
     int32 getRankPoints(lua_State*);
     int32 addRankPoints(lua_State*);
+    int32 getRank(lua_State*);
 
     // === Food items ===
     int32 getModUsable(lua_State*);

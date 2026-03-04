@@ -90,6 +90,9 @@ UPDATE item_equipment
 SET MId = 22
 WHERE slot = 8 AND rslot = 4 AND MId = 0;
 
+-- Change smallint to int
+ALTER TABLE char_item_rank
+MODIFY points INT UNSIGNED NOT NULL DEFAULT 0;
 
 
 

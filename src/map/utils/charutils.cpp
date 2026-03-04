@@ -1320,6 +1320,8 @@ namespace charutils
         {
             // uint8 charges = (PItem->isType(ITEM_USABLE) ? ((CItemUsable*)PItem)->getCurrentCharges() : 0);
 
+            PItem->setChar(PChar);
+
             const char* Query =
                 "INSERT INTO char_inventory("
                 "charid,"
@@ -1358,6 +1360,7 @@ namespace charutils
                 delete PItem;
                 return ERROR_SLOTID;
             }
+
             PChar->pushPacket(new CInventoryItemPacket(PItem, LocationID, SlotID));
             PChar->pushPacket(new CInventoryFinishPacket());
         }
@@ -1545,6 +1548,13 @@ namespace charutils
                 if (Sql_Query(SqlHandle, Query, NewSlotID, PChar->id, LocationID, SlotID) != SQL_ERROR &&
                     Sql_AffectedRows(SqlHandle) != 0)
                 {
+                    // Update char_item_rank table to follow item
+                    Sql_Query(SqlHandle,
+                            "UPDATE char_item_rank "
+                            "SET slot = %u "
+                            "WHERE charid = %u AND location = %u AND slot = %u;",
+                            NewSlotID, PChar->id, LocationID, SlotID);
+
                     PItemContainer->InsertItem(nullptr, SlotID);
 
                     PChar->pushPacket(new CInventoryItemPacket(nullptr, LocationID, SlotID));
@@ -1645,6 +1655,12 @@ namespace charutils
                     }
                 }
 
+                if (PItem->isType(ITEM_EQUIPMENT))
+                {
+                    if (auto* equip = static_cast<CItemEquipment*>(PItem))
+                        charutils::DeleteSingleItemRank(PChar, equip);
+                }
+
                 delete PItem;
             }
         }
@@ -1656,7 +1672,6 @@ namespace charutils
     {
         if (charutils::UpdateItem(PChar, container, slotID, -quantity) != 0)
         {
-            ShowNotice("Player %s DROPPING itemID: %s (%u) quantity: %u", PChar->GetName(), itemutils::GetItem(ItemID)->getName(), ItemID, quantity);
             PChar->pushPacket(new CMessageStandardPacket(nullptr, ItemID, quantity, MsgStd::ThrowAway));
             PChar->pushPacket(new CInventoryFinishPacket());
         }
@@ -5249,18 +5264,10 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
 
                 auto* item = static_cast<CItemEquipment*>(base);
 
-                if (item->getRank() == 0 && item->getRankPoints() == 0)
+                if (item->getRankPoints() == 0)
                     continue;
 
-                Sql_Query(SqlHandle,
-                    "REPLACE INTO char_item_rank "
-                    "(charid, location, slot, rank, points) "
-                    "VALUES (%u, %u, %u, %u, %u)",
-                    PChar->id,
-                    loc,
-                    slot,
-                    item->getRank(),
-                    item->getRankPoints());
+                SaveSingleItemRank(PChar, item);
             }
         }
     }
@@ -5270,10 +5277,14 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
         if (!item)
             return;
 
-        // Optional: skip empty data
-        if (item->getRank() == 0 && item->getRankPoints() == 0)
+        // Skip empty data
+        if (item->getRankPoints() == 0)
             return;
 
+        // Delete any existing data for this slot
+        DeleteSingleItemRank(PChar, item);
+
+        // Insert new data
         Sql_Query(SqlHandle,
             "REPLACE INTO char_item_rank "
             "(charid, location, slot, rank, points) "
@@ -5283,6 +5294,19 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
             item->getSlotID(),
             item->getRank(),
             item->getRankPoints());
+    }
+
+    void DeleteSingleItemRank(CCharEntity* PChar, CItemEquipment* item)
+    {
+        if (!item)
+            return;
+
+        Sql_Query(SqlHandle,
+            "DELETE FROM char_item_rank "
+            "WHERE charid = %u AND location = %u AND slot = %u",
+            PChar->id,
+            item->getLocationID(),
+            item->getSlotID());
     }
 
     void SaveCharLook(CCharEntity* PChar)

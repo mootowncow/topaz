@@ -159,7 +159,8 @@ namespace charutils
     void	SaveCharExp(CCharEntity* PChar, JOBTYPE job);		        // сохраняем опыт для выбранной профессии персонажа
     void	SaveCharEquip(CCharEntity* PChar);					        // сохраняем экипировку и внешний вид персонажа
     void    SaveItemRanks(CCharEntity* PChar);                          // Save item ranks for Rank Point system
-    void    SaveSingleItemRank(CCharEntity* PChar, CItemEquipment* item);   // Saves a single item rank for Rank Point system
+    void    SaveSingleItemRank(CCharEntity* PChar, CItemEquipment* item);// Saves a single item rank for Rank Point system
+    void    DeleteSingleItemRank(CCharEntity* PChar, CItemEquipment* item);   // Deletes a single item rank for Rank Point system
     void    SaveCharLook(CCharEntity* PChar);                           // Saves a character's appearance based on style locking.
     void	SaveCharPosition(CCharEntity* PChar);				        // сохраняем позицию персонажа
     void	SaveMissionsList(CCharEntity* PChar);                       // Save the missions list

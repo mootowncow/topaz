@@ -4060,6 +4060,14 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
         if (quantity == 0) quantity = 1;
         lua_pop(L, 2);
 
+        uint16 rankPoints = 0;
+        lua_getfield(L, 1, "rankpoints");
+        if (!lua_isnil(L, -1))
+        {
+            rankPoints = (uint16)lua_tointeger(L, -1);
+        }
+        lua_pop(L, 1);
+
         while  (PChar->getStorage(LOC_INVENTORY)->GetFreeSlotsCount() != 0 && quantity > 0)
         {
             if (CItem* PItem = itemutils::GetItem(id))
@@ -4111,7 +4119,20 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
                 lua_pop(L, 1);
 
                 SlotID = charutils::AddItem(PChar, LOC_INVENTORY, PItem, silent);
-                if (SlotID == ERROR_SLOTID)
+                if (SlotID != ERROR_SLOTID)
+                {
+                    if (PItem->isType(ITEM_EQUIPMENT) && rankPoints != 0)
+                    {
+                        auto* storedItem = PChar->getStorage(LOC_INVENTORY)->GetItem(SlotID);
+
+                        if (storedItem && storedItem->isType(ITEM_EQUIPMENT))
+                        {
+                            auto* equip = static_cast<CItemEquipment*>(storedItem);
+                            equip->AddRankPoints(rankPoints);
+                        }
+                    }
+                }
+                else
                     break;
             }
             else
@@ -4145,6 +4166,7 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
         uint16 augment4 = 0;
         uint8 augment4val = 0;
         uint16 trialNumber = 0;
+        uint16 rankPoints = 0;
 
         if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
             silence = lua_toboolean(L, 2);
@@ -4181,6 +4203,9 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
         else if (!lua_isnil(L, 11) && lua_isnumber(L, 11))
             trialNumber = (uint16)lua_tointeger(L, 11);
 
+        if (!lua_isnil(L, 13) && lua_isnumber(L, 13))
+            rankPoints = (uint16)lua_tointeger(L, 13);
+
         while (PChar->getStorage(LOC_INVENTORY)->GetFreeSlotsCount() != 0 && quantity > 0)
         {
             if (CItem* PItem = itemutils::GetItem(itemID))
@@ -4205,8 +4230,20 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
                 }
                 SlotID = charutils::AddItem(PChar, LOC_INVENTORY, PItem, silence);
 
-                // Paranoid check
-                if (SlotID == ERROR_SLOTID)
+                if (SlotID != ERROR_SLOTID)
+                {
+                    if (PItem->isType(ITEM_EQUIPMENT) && rankPoints != 0)
+                    {
+                        auto* storedItem = PChar->getStorage(LOC_INVENTORY)->GetItem(SlotID);
+
+                        if (storedItem && storedItem->isType(ITEM_EQUIPMENT))
+                        {
+                            auto* equip = static_cast<CItemEquipment*>(storedItem);
+                            equip->AddRankPoints(rankPoints);
+                        }
+                    }
+                }
+                else
                     break;
             }
             else
@@ -4217,7 +4254,7 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
         }
     }
 
-    lua_pushboolean(L, (SlotID != ERROR_SLOTID));
+    lua_pushinteger(L, SlotID);
     return 1;
 }
 
