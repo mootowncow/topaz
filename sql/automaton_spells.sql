@@ -62,7 +62,7 @@ INSERT INTO `automaton_spells` VALUES (45,144,24,0,0,0);
 INSERT INTO `automaton_spells` VALUES (127,144,16,0,0,0);
 INSERT INTO `automaton_spells` VALUES (46,217,24,0,0,0);
 INSERT INTO `automaton_spells` VALUES (128,217,16,0,0,0);
-INSERT INTO `automaton_spells` VALUES (47,281,16,0,0,0);
+INSERT INTO `automaton_spells` VALUES (47,300,16,0,0,0);
 INSERT INTO `automaton_spells` VALUES (48,54,24,0,0,0);
 INSERT INTO `automaton_spells` VALUES (130,54,16,0,0,0);
 INSERT INTO `automaton_spells` VALUES (49,114,24,0,0,0);
@@ -127,7 +127,6 @@ INSERT INTO `automaton_spells` VALUES (270,120,32,140,0,0);
 INSERT INTO `automaton_spells` VALUES (277,256,32,0,0,0);
 INSERT INTO `automaton_spells` VALUES (286,227,61,21,0,0);
 INSERT INTO `automaton_spells` VALUES (477,337,16,0,0,0); -- Regen IV
-INSERT INTO `automaton_spells` VALUES (493,207,8,0,0,0); -- Temper
 INSERT INTO `automaton_spells` VALUES (79,280,8,13,128,0); -- Slow II
 INSERT INTO `automaton_spells` VALUES (80,278,8,4,32,0);-- Paralyze II
 INSERT INTO `automaton_spells` VALUES (276,282,8,5,64,0); -- Blind II
