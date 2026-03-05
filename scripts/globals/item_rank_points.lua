@@ -9,7 +9,7 @@ require("scripts/globals/npc_util")
 require("scripts/globals/items")
 require("scripts/globals/augments")
 -----------------------------------
--- TODO: Properly check item rank tiers in isValidMats
+-- TODO: Properly check item rank tiers in isValidMats. Tiers should be 0-9, 10-19, 20-29. 30
 -- TODO: Able to rank up to 30..seems capped at 28 (in item_equipment.cpp too). Fix the two m_rank >= 29 also?
 tpz = tpz or {}
 tpz.itemRankPoints = tpz.itemRankPoints or {}
