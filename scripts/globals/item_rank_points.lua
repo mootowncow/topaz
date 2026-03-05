@@ -9,7 +9,8 @@ require("scripts/globals/npc_util")
 require("scripts/globals/items")
 require("scripts/globals/augments")
 -----------------------------------
--- TODO: Way to check that the item ranked up THEN add mods based on NEW rank
+-- TODO: Properly check item rank tiers in isValidMats
+-- TODO: Able to rank up to 30..seems capped at 28 (in item_equipment.cpp too). Fix the two m_rank >= 29 also?
 tpz = tpz or {}
 tpz.itemRankPoints = tpz.itemRankPoints or {}
 
@@ -104,7 +105,7 @@ local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, ne
     return true
 end
 
-local function validMats(trade, equipId, rank, augmentData)
+local function isValidMats(trade, equipId, rank, augmentData)
     local equipData = augmentData.equipment[equipId]
 
     if type(equipData) ~= 'table' then
@@ -182,7 +183,7 @@ local function isValidTrade(player, npc, trade, augmentData)
         end
 
         -- Step 3: Check that the player is trading matching mats
-        local validMats, validMatsQty, tradedMatRp, currency, currencyAmount, augmentPath = validMats(trade, validEquipId, currentRank, augmentData)
+        local validMats, validMatsQty, tradedMatRp, currency, currencyAmount, augmentPath = isValidMats(trade, validEquipId, currentRank, augmentData)
         if not validMats then
             player:PrintToPlayer("These materials cannot be used with this equipment.", 0, npcName)
             return false
