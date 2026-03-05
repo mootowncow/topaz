@@ -9,8 +9,8 @@ require("scripts/globals/utils")
 
 function onMobSpawn(mob)
 	mob:setDamage(145)
-    mob:addMod(tpz.mod.DEFP, 15)
-    mob:addMod(tpz.mod.ATTP, 15)
+    mob:addMod(tpz.mod.ATTP, 35)
+    mob:addMod(tpz.mod.DEFP, 35)
     mob:setMod(tpz.mod.REFRESH, 50)
     local partyWithWynavs = 19236
     mob:setMobMod(tpz.mobMod.CUSTOMLINK, partyWithWynavs)
