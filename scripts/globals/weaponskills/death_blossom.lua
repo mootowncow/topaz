@@ -20,21 +20,29 @@ require("scripts/globals/weaponskills")
 function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     local params = {}
     params.numHits = 3
-    params.ftp100 = 1.375 params.ftp200 = 1.375 params.ftp300 = 1.375
+    params.ftp100 = 1.125 params.ftp200 = 1.125 params.ftp300 = 1.125
     params.str_wsc = 0.3 params.dex_wsc = 0.0 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0 params.mnd_wsc = 0.5 params.chr_wsc = 0.0
-    params.crit100 = 0.15 params.crit200 = 0.25 params.crit300 = 0.40
-    params.canCrit = true
+    params.crit100 = 0.0 params.crit200 = 0.0 params.crit300 = 0.0
+    params.canCrit = false
     params.acc100 = 0.0 params.acc200= 0.0 params.acc300= 0.0
-    params.atk100 = 1; params.atk200 = 1; params.atk300 = 1
+    params.atk100 = 1.25; params.atk200 = 1.25; params.atk300 = 1.25
 
-    if (USE_ADOULIN_WEAPON_SKILL_CHANGES == true) then
-        params.ftp100 = 1.375 params.ftp200 = 1.375 params.ftp300 = 1.375
-        params.str_wsc = 0.6
+    if USE_ADOULIN_WEAPON_SKILL_CHANGES then
+        params.ftp100 = 4.0 params.ftp200 = 4.0 params.ftp300 = 4.0
     end
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 		if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.SWORD, tpHits+extraHits) end
 		if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
+
+    local maccBonus = 30 + math.floor(MaccTPModifier(tp))
+    local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.THUNDER, maccBonus, tpz.effect.MAGIC_EVASION_DOWN)
+    if IsWSDamageMessage(target, action) and (resist >= 0.5) then
+        local power = 20
+        local tick = 0
+        local duration = 60 * resist
+        target:addStatusEffect(tpz.effect.MAGIC_EVASION_DOWN, power, tick, duration)
+    end
 
     return tpHits, extraHits, criticalHit, damage
 end
