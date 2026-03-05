@@ -4130,6 +4130,15 @@ namespace battleutils
         if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SENGIKORI))
         {
             PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SENGIKORI, EFFECT_SENGIKORI, 1, 0, 30));
+
+            // Unset Dispellable flag on target
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_SENGIKORI))
+            {
+                CStatusEffect* sengikoriEffect = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_SENGIKORI, 0);
+
+                if (sengikoriEffect)
+                    sengikoriEffect->UnsetFlag(EFFECTFLAG_DISPELABLE);
+            }
         }
 
         // Add listener

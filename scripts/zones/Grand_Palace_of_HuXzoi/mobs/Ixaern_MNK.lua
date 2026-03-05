@@ -8,10 +8,10 @@ require("scripts/globals/status")
 -----------------------------------
 
 function onMobSpawn(mob)
-	mob:setDamage(40)
+	mob:setDamage(75)
     mob:setDelay(8000)
-    mob:addMod(tpz.mod.ATTP, 15)
-    mob:addMod(tpz.mod.DEFP, 15)
+    mob:addMod(tpz.mod.ATTP, 35)
+    mob:addMod(tpz.mod.DEFP, 35)
     mob:setMod(tpz.mod.REFRESH, 50)
 	mob:AnimationSub(1) -- Reset the subanim - otherwise it will respawn with bracers on. Note that Aerns are never actually supposed to be in subanim 0.
 end
@@ -33,7 +33,7 @@ function onMobFight(mob, target)
             mob:addMod(tpz.mod.ACC, 40)
             mob:addMod(tpz.mod.MATT, 25)
             mob:useMobAbility(690) -- Hundred Fists
-		
+
 			-- Force minions to 2hour
             for i = 1, 2 do
                 local minion = GetMobByID(mob:getID() + i)
