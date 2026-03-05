@@ -475,7 +475,7 @@ INSERT INTO `status_effects` VALUES (436,'perfect_counter',801,0,0,0,0,0,0,0,1);
 INSERT INTO `status_effects` VALUES (437,'mana_wall',544,0,0,0,0,0,0,0,2);
 INSERT INTO `status_effects` VALUES (438,'divine_emblem',545,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (439,'nether_void',801,0,0,0,0,0,0,0,0);
-INSERT INTO `status_effects` VALUES (440,'sengikori',801,0,0,0,0,0,0,0,0);
+INSERT INTO `status_effects` VALUES (440,'sengikori',800,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (441,'futae',801,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (442,'presto',545,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (443,'climactic_flourish',544,0,0,0,0,0,0,0,0);
