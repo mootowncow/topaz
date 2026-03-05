@@ -13,7 +13,54 @@ require("scripts/globals/augments")
 tpz = tpz or {}
 tpz.itemRankPoints = tpz.itemRankPoints or {}
 
-local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, currentRank, newRP, augmentData)
+local RankRPTable =
+{
+        50,   -- Rank 0 -> 1
+        130,  -- Rank 1 -> 2
+        250,
+        420,
+        640,
+        920,
+        1260,
+        1670,
+        2150,
+        2710,
+        3360,
+        4110,
+        4970,
+        5950,
+        7060,
+        8310,
+        9720,
+        11300,
+        13060,
+        15020,
+        17190,
+        22240,
+        25150,
+        28330,
+        31790,
+        35550,
+        39620,
+        44020 -- Rank 29 -> 30
+}
+
+local function calculateRank(rank, rp)
+    local maxRank = #RankRPTable
+
+    while rank < maxRank do
+        local needed = RankRPTable[rank + 1]
+
+        if rp < needed then
+            break
+        end
+        rank = rank + 1
+    end
+
+    return rank
+end
+
+local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, newRank, newRP, augmentData)
     local equipData = augmentData.equipment[validEquipId]
     local pathData  = equipData[augmentPath]
 
@@ -21,11 +68,11 @@ local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, cu
         return false
     end
 
-    local rankKey = "Rank " .. currentRank
+    local rankKey = "Rank " .. newRank
     local rankStats = pathData.stats[rankKey]
     local trialId = 0
 
-    if currentRank == 0 then
+    if newRank == 0 then
         printf("Adding Rank 0 item with %d RP", newRP)
 
         player:addItem(validEquipId, 1, 0, 0, 0, 0, 0, 0, 0, 0, trialId, 0, newRP)
@@ -127,7 +174,6 @@ local function isValidTrade(player, npc, trade, augmentData)
 
         local validEquipobjId = trade:getItem(validEquipSlotId)
         local currentRank = validEquipobjId:getRank()
-        printf("currentRank %d", currentRank)
 
         -- Step 2: Check if the item can gain RP
         if currentRank >= 20 then
@@ -157,25 +203,32 @@ local function isValidTrade(player, npc, trade, augmentData)
         -- Step 6: Add new item with new rank points amount
         local currentRP = validEquipobjId:getRankPoints()
         local rpGained = tradedMatRp * validMatsQty
+        
         local newRP = currentRP + rpGained
-        printf("currentRP %d, rpGained %d, newRP %d", currentRP, rpGained, newRP)
+        local newRank = calculateRank(currentRank, newRP)
+        printf("currentRP %d, rpGained %d, newRP %d, currentRank %d, newRank %d", currentRP, rpGained, newRP, currentRank, newRank)
 
         printf("currentRP %d", currentRP)
-        if not giveAugmentItem(player, npc, trade, validEquipId, augmentPath, currentRank, newRP, augmentData) then
+        if not giveAugmentItem(player, npc, trade, validEquipId, augmentPath, newRank, newRP, augmentData) then
             local ID = zones[player:getZoneID()]
             player:messageSpecial(ID.text.ITEM_CANNOT_BE_OBTAINED, validEquipId)
             return false
         end
 
-        -- Step 7: Display message with how much RP gained and RP total
+        -- Step 7: Display message with how much RP gained, RP total, if the item ranked up and current rank
         local rawName = validEquipobjId:getName()
-        local itemName = utils.PunctuateString(rawName)
-        printf("New RP %d", newRP)
+        local itemName = rawName:gsub("_", " "):lower()
+        itemName = utils.CapitalizeFirstLetters(itemName)
 
-        player:PrintToPlayer("Your " .. itemName .. " has gained " .. rpGained .. " RP for a total of " .. newRP .. " RP. (Current Rank: " .. currentRank .. ")", 0, npcName)
+        if (newRank > currentRank) then
+            player:PrintToPlayer("Your " .. itemName .. " has ranked up to Rank " .. newRank .. "!", 0, npcName)
+        end
+        player:PrintToPlayer("Your " .. itemName .. " has gained " .. rpGained .. " RP for a total of " .. newRP .. " RP (Current Rank: " .. newRank .. ").", 0, npcName)
 
         return true
     end
+
+    player:PrintToPlayer("I can't do anything with these items.", 0xD, npcName)
 
     return false
 end
@@ -186,8 +239,6 @@ tpz.itemRankPoints.onTrade = function(player, npc, trade, augmentData)
     if isValidTrade(player, npc, trade, augmentData) then
         return player:confirmTrade()
     end
-
-    return player:PrintToPlayer("I can't do anything with these items.", 0xD, npcName)
 end
 
 tpz.itemRankPoints.onTrigger = function(player, npc, augmentData)

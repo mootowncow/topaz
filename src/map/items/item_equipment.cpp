@@ -420,8 +420,8 @@ uint32 CItemEquipment::getRankPointsRequired() const
     // index = rank (1-based)
     static const uint32 RankRPTable[] =
     {
-        50,   // Rank 0 -> 1
-        130,  // Rank 1 -> 2
+        50,   // Rank 1
+        130,  // Rank 2
         250,
         420,
         640,
@@ -447,10 +447,10 @@ uint32 CItemEquipment::getRankPointsRequired() const
         31790,
         35550,
         39620,
-        44020 // Rank 29 -> 30
+        44020 // Rank 29
     };
 
-    if (m_rank >= 30)
+    if (m_rank >= 29)
         return 0;
 
     return RankRPTable[m_rank];
@@ -458,7 +458,7 @@ uint32 CItemEquipment::getRankPointsRequired() const
 
 void CItemEquipment::AddRankPoints(uint32 points)
 {
-    if (m_rank >= 30)
+    if (m_rank >= 29)
         return;
 
     m_rankPoints += points;
