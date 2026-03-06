@@ -61,6 +61,19 @@ local function calculateRank(rank, rp)
     return rank
 end
 
+local function getRankTier(rank)
+    -- Rank tiers is 0-9, 10-19, 20-29, 30
+    if rank <= 9 then
+        return 1
+    elseif rank <= 19 then
+        return 2
+    elseif rank <= 29 then
+        return 3
+    end
+
+    return 4
+end
+
 local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, newRank, newRP, augmentData)
     local equipData = augmentData.equipment[validEquipId]
     local pathData  = equipData[augmentPath]
@@ -105,7 +118,7 @@ local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, ne
     return true
 end
 
-local function isValidMats(trade, equipId, rank, augmentData)
+local function isValidMats(trade, equipId, currentRank, augmentData)
     local equipData = augmentData.equipment[equipId]
 
     if type(equipData) ~= 'table' then
@@ -116,7 +129,8 @@ local function isValidMats(trade, equipId, rank, augmentData)
         if type(pathData) == 'table' and pathData.reqItem then
 
             -- Get required item by rank tier
-            local requiredItemIndex = pathData.reqItem[math.floor(rank / 10) + 1]
+            local rankTier = getRankTier(currentRank)
+            local requiredItemIndex = pathData.reqItem[rankTier]
 
             if requiredItemIndex and npcUtil.tradeHas(trade, requiredItemIndex.id) then
                 -- Get currency key + value
@@ -204,7 +218,6 @@ local function isValidTrade(player, npc, trade, augmentData)
         -- Step 6: Add new item with new rank points amount
         local currentRP = validEquipobjId:getRankPoints()
         local rpGained = tradedMatRp * validMatsQty
-        
         local newRP = currentRP + rpGained
         local newRank = calculateRank(currentRank, newRP)
         printf("currentRP %d, rpGained %d, newRP %d, currentRank %d, newRank %d", currentRP, rpGained, newRP, currentRank, newRank)
