@@ -1757,9 +1757,15 @@ function calculateMagicBurst(caster, spell, target, params)
 
     burstdmgtaken = burstdmgtaken * dmgmb
 
+    -- Apply Sengikori
+    local sengikori = 1
+    if target:isMob() and target:hasStatusEffect(tpz.effect.SENGIKORI) then
+        sengikori = 1.25
+    end
+
     -- Multiply
     if (skillchainburst > 1) then
-        burst = burst * modburst * skillchainburst * burstdmgtaken
+        burst = burst * modburst * skillchainburst * burstdmgtaken * sengikori
     end
 
     return burst
