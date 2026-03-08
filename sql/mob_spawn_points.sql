@@ -47480,7 +47480,7 @@ INSERT INTO `mob_spawn_points` VALUES (17387856,'War_Lizard','War Lizard',15,-23
 INSERT INTO `mob_spawn_points` VALUES (17387858,'Davoi_Pugil','Davoi Pugil',36,0,0,0,0);
 --INSERT INTO `mob_spawn_points` VALUES (17387859,'Davoi_Pugil','Davoi Pugil',36,84.448,3.369,-101.479,69);
 INSERT INTO `mob_spawn_points` VALUES (17387860,'Davoi_Pugil','Davoi Pugil',36,70.635,3.258,-96.922,126);
-INSERT INTO `mob_spawn_points` VALUES (17387861,'Water_Elemental','Water Elemental',37,89.155,3.348,-105.356,22);
+-- INSERT INTO `mob_spawn_points` VALUES (17387861,'Water_Elemental','Water Elemental',37,89.155,3.348,-105.356,22);
 INSERT INTO `mob_spawn_points` VALUES (17387862,'Davoi_Pugil','Davoi Pugil',36,64.446,3.295,8.710,127);
 --INSERT INTO `mob_spawn_points` VALUES (17387863,'Davoi_Pugil','Davoi Pugil',36,62.191,3.347,40.546,127);
 INSERT INTO `mob_spawn_points` VALUES (17387864,'Davoi_Pugil','Davoi Pugil',36,57.057,3.346,-1.256,100);
@@ -47517,7 +47517,7 @@ INSERT INTO `mob_spawn_points` VALUES (17387894,'Water_Elemental','Water Element
 INSERT INTO `mob_spawn_points` VALUES (17387895,'Davoi_Pugil','Davoi Pugil',36,-197.858,3.350,-143.711,0);
 --INSERT INTO `mob_spawn_points` VALUES (17387896,'Davoi_Pugil','Davoi Pugil',36,-168.951,3.138,-138.381,127);
 INSERT INTO `mob_spawn_points` VALUES (17387897,'Davoi_Pugil','Davoi Pugil',36,-228,3.009,-142,69);
-INSERT INTO `mob_spawn_points` VALUES (17387898,'Water_Elemental','Water Elemental',37,-238.690,3.342,-138.387,127);
+-- INSERT INTO `mob_spawn_points` VALUES (17387898,'Water_Elemental','Water Elemental',37,-238.690,3.342,-138.387,127);
 INSERT INTO `mob_spawn_points` VALUES (17387899,'Davoi_Pugil','Davoi Pugil',36,0,0,0,0);
 --INSERT INTO `mob_spawn_points` VALUES (17387900,'Davoi_Pugil','Davoi Pugil',36,-258.006,3.357,-117.536,52);
 INSERT INTO `mob_spawn_points` VALUES (17387901,'Davoi_Pugil','Davoi Pugil',36,-257.113,3.346,-80.140,127);

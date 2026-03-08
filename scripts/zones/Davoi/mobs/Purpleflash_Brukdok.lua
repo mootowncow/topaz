@@ -12,4 +12,5 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.EEM_SILENCE, 30)
     mob:setMod(tpz.mod.EEM_DARK_SLEEP, 25)
     mob:setMod(tpz.mod.EEM_LIGHT_SLEEP, 25)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
 end
