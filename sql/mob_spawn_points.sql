@@ -47980,7 +47980,7 @@ INSERT INTO `mob_spawn_points` VALUES (17395890,'Yagudo_Interrogator','Yagudo In
 INSERT INTO `mob_spawn_points` VALUES (17395891,'Bulwark_Bat','Bulwark Bat',18,20.502,-15.914,-9.718,33);
 INSERT INTO `mob_spawn_points` VALUES (17395892,'Yagudo_Herald','Yagudo Herald',6,-21.880,-15.817,-39.619,85);
 --INSERT INTO `mob_spawn_points` VALUES (17395893,'Yagudo_Drummer','Yagudo Drummer',13,-19.029,-15.836,-71.271,127);
-INSERT INTO `mob_spawn_points` VALUES (17395894,'Yagudo_Zealot','Yagudo Zealot',19,-24.723,-15.806,-23.101,127);
+-- INSERT INTO `mob_spawn_points` VALUES (17395894,'Yagudo_Zealot','Yagudo Zealot',19,-24.723,-15.806,-23.101,127);
 INSERT INTO `mob_spawn_points` VALUES (17395895,'Yagudo_Prior','Yagudo Prior',20,-18.158,-15.806,-19.866,69);
 INSERT INTO `mob_spawn_points` VALUES (17395896,'Lii_Jixa_the_Somnolist','Lii Jixa the Somnolist',21,-23,-15,-21,192);
 INSERT INTO `mob_spawn_points` VALUES (17395897,'Yagudo_Oracle','Yagudo Oracle',7,-39.338,-15.743,-99.213,127);
@@ -60731,7 +60731,7 @@ INSERT INTO `mob_spawn_points` VALUES (17596552,'Droma','Droma',20,-192.966,-0.0
 INSERT INTO `mob_spawn_points` VALUES (17596553,'Funnel_Bats','Funnel Bats',36,-146,14,215,127);
 INSERT INTO `mob_spawn_points` VALUES (17596554,'Acid_Grease','Acid Grease',24,-186.585,-0.012,357.410,127);
 INSERT INTO `mob_spawn_points` VALUES (17596555,'Acid_Grease','Acid Grease',24,-193.897,-0.012,348.605,6);
-INSERT INTO `mob_spawn_points` VALUES (17596556,'Wraith','Wraith',25,-126.813,-0.012,381.813,163);
+-- INSERT INTO `mob_spawn_points` VALUES (17596556,'Wraith','Wraith',25,-126.813,-0.012,381.813,163);
 INSERT INTO `mob_spawn_points` VALUES (17596557,'Fallen_Officer','Fallen Officer',46,-32.452,-6.012,380.480,113);
 INSERT INTO `mob_spawn_points` VALUES (17596558,'Fallen_Officer','Fallen Officer',46,-101.462,-0.012,374.125,127);
 INSERT INTO `mob_spawn_points` VALUES (17596559,'Fallen_Officer','Fallen Officer',46,-67.676,-1.235,378.957,62);
