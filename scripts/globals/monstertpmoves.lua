@@ -229,7 +229,11 @@ end
 
 function MobMagicalMove(mob, target, skill, damage, element, dmgmod, tpeffect, ignoremacc, params)
     returninfo = {}
-    skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
+
+    if not mob:isTrust() then
+        skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
+    end
+
     -- Params NYI
     -- Initialize params if it is nil
     if (params == nil) then
@@ -309,7 +313,11 @@ end
 
 function MobNeedlesMagicalMove(mob, target, skill, damage, element, tpeffect)
     returninfo = {}
-    skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
+
+    if not mob:isTrust() then
+        skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
+    end
+
     local resist = 1
     local statmod = INT_BASED
     local dStat = getMobDStat(statmod, mob, target)
@@ -398,7 +406,9 @@ function MobHPBasedMove(mob, target, skill, percent, base, element, cap, isSuici
     local resist = 1
     local bonus = 0
 
-    skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
+    if not mob:isTrust() then
+        skill:addFlag(tpz.mobSkillFlag.MAGIC_SKILL)
+    end
 
     if (oppositeScaling ~= nil) then -- Scale based on HP lowering
         mobHP = mob:getMaxHP() - mob:getHP()
