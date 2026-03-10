@@ -44,13 +44,13 @@ function onSpellCast(caster, target, spell)
     local final = finalMagicAdjustments(caster, target, spell, dmg)
 
     -- Calculate duration and bonus
-    local duration = 30 + (meritBonus - 30)
+    local duration = 180
     local dotBonus = caster:getMod(tpz.mod.DIA_DOT) -- Dia Wand
     local tier = 3
-	
-	if not caster:isPC() then
-		duration = 180
-	end
+
+    if meritBonus > 0 then
+        duration = 30 + (meritBonus - 30)
+    end
 
     if ShouldOverwriteDiaBio(caster, target, tpz.effect.DIA, tier) then
         target:addStatusEffect(tpz.effect.DIA, 3 + dotBonus, 3, duration, 0, 15, 3)
