@@ -85,7 +85,7 @@ public:
     void AssignPartyRole(int8* MemberName, uint8 role);	// назначаем роли участникам группы
     void DisableSync();
     void SetSyncTarget(int8* MemberName, uint16 message);         // устанавливаем цель синхронизации уровней3
-    void RefreshSync();
+    void RefreshSync(bool silent = false);
     void SetPartyNumber(uint8 number);
     bool HasOnlyOneMember() const;
     bool IsFull() const;
@@ -103,6 +103,7 @@ public:
     uint8 GetLastRemovedObjType() const { return m_LastRemovedObjType; }
     uint32 GetLastRemovedID() const { return m_LastRemovedID; }
 	CAlliance* m_PAlliance;
+    CBattleEntity* m_PSyncTarget; // цель синхронизации уровней
 
     // ВНИМАНИЕ: НЕ ИЗМЕНЯТЬ ЗНАЧЕНИЯ СПИСКА ВНЕ КЛАССА ГРУППЫ
 
@@ -119,7 +120,6 @@ private:
     uint8     m_PartyNumber;                            // party number in alliance
 
 	CBattleEntity* m_PLeader;                           // лидер группы
-	CBattleEntity* m_PSyncTarget;                       // цель синхронизации уровней
 	CBattleEntity* m_PQuaterMaster;                     // владелец сокровищ
 
     bool m_EffectsChanged;
