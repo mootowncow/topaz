@@ -9415,15 +9415,13 @@ namespace battleutils
     int16 CalculateSpellTP(CBattleEntity* PEntity, CSpell* PSpell)
     {
         // Players / Trusts / Allies only
-        if (PEntity->objtype == TYPE_PC || PEntity->objtype == TYPE_TRUST || (PEntity->objtype == TYPE_MOB && PEntity->allegiance == ALLEGIANCE_PLAYER))
+        if (PEntity->hasTrait(TRAIT_OCCULT_ACUMEN))
         {
-            if (PSpell->getSkillType() == SKILLTYPE::SKILL_ELEMENTAL_MAGIC || PSpell->getSkillType() == SKILLTYPE::SKILL_DARK_MAGIC || PSpell->getSkillType() == SKILLTYPE::SKILL_ENFEEBLING_MAGIC || PSpell->getSkillType() == SKILLTYPE::SKILL_ENHANCING_MAGIC) 
+            if (PEntity->objtype == TYPE_PC || PEntity->objtype == TYPE_TRUST || (PEntity->objtype == TYPE_MOB && PEntity->allegiance == ALLEGIANCE_PLAYER))
             {
-                if (PEntity->hasTrait(TRAIT_OCCULT_ACUMEN))
-                {
-                    return static_cast<int16>(PSpell->getMPCost() * PEntity->getMod(Mod::OCCULT_ACUMEN) / 100.f * (1 + (PEntity->getMod(Mod::STORETP) / 100.f)));
-                }
-
+                if (PSpell->getSkillType() == SKILLTYPE::SKILL_ELEMENTAL_MAGIC || PSpell->getSkillType() == SKILLTYPE::SKILL_DARK_MAGIC)
+                    return static_cast<int16>(PSpell->getMPCost() * PEntity->getMod(Mod::OCCULT_ACUMEN) / 100.f *
+                                              (1 + (PEntity->getMod(Mod::STORETP) / 100.f)));
             }
         }
 
