@@ -231,6 +231,7 @@ local modByMobName =
     end,
 
     ['shikaree_z'] = function(mob)
+        mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         mob:addMod(tpz.mod.HPP, -10)
         mob:addMod(tpz.mod.ATTP, 10)
         mob:addMod(tpz.mod.DEFP, 20)
