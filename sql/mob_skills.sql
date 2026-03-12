@@ -930,7 +930,7 @@ INSERT INTO `mob_skills` VALUES (979,682,'power_slash',0,10,2000,500,4,0,0,0,0,0
 INSERT INTO `mob_skills` VALUES (980,683,'freeze_bite',0,10,2000,500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (981,684,'ground_strike',0,10,2000,500,4,0,0,0,12,10,0);
 INSERT INTO `mob_skills` VALUES (982,671,'abyssal_drain',0,10,2000,500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (983,672,'abyssal_strike',0,10,2000,500,4,0,0,0,14,9,0);
+INSERT INTO `mob_skills` VALUES (983,672,'abyssal_strike',0,10,2000,500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (984,685,'electrocharge',0,15.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (985,686,'stellar_burst',2,10.0,5000,1000,4,8,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (986,687,'vortex',2,15.0,5000,1000,4,8,0,0,0,0,0);

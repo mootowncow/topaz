@@ -716,13 +716,10 @@ void CCharEntity::RemoveTrust(CTrustEntity* PTrust)
 
 void CCharEntity::ClearTrusts()
 {
-    for (auto PTrust : PTrusts)
+    while (!PTrusts.empty())
     {
-        PTrust->PAI->Despawn();
+        RemoveTrust(PTrusts.front());
     }
-    PTrusts.clear();
-
-    ReloadPartyInc();
 }
 
 void CCharEntity::RequestPersist(CHAR_PERSIST toPersist)

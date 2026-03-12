@@ -12,5 +12,9 @@ function onItemCheck(target)
 end
 
 function onItemUse(target)
+    if target:getObjType() == tpz.objType.PC then
+        target:clearTrusts()
+    end
+
     target:addStatusEffectEx(tpz.effect.TELEPORT, 0, tpz.teleport.id.WARP, 0, 3)
 end

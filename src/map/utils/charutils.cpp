@@ -4839,7 +4839,11 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
                 {
                     if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_SYNC))
                     {
-                        PChar->PParty->RefreshSync();
+                        bool silent = false;
+                        if (PChar != PChar->PParty->m_PSyncTarget)
+                            silent = true;
+
+                        PChar->PParty->RefreshSync(silent);
                     }
                     PChar->PParty->ReloadParty();
                 }

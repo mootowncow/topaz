@@ -1154,7 +1154,7 @@ void CParty::DisableSync()
     ReloadParty();
 }
 
-void CParty::RefreshSync()
+void CParty::RefreshSync(bool silent)
 {
     if (!m_PSyncTarget)
     {
@@ -1199,7 +1199,9 @@ void CParty::RefreshSync()
             charutils::CheckValidEquipment(member);
             member->pushPacket(new CCharAbilitiesPacket(member));
         }
-        member->pushPacket(new CMessageBasicPacket(member, member, 0, syncLevel, 540));
+
+        if (!silent)
+            member->pushPacket(new CMessageBasicPacket(member, member, 0, syncLevel, 540));
     }
     m_PSyncTarget = sync;
 }

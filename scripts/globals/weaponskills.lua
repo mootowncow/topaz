@@ -67,16 +67,6 @@ function getSingleHitDamage(attacker, target, dmg, wsParams, calcParams, isOffha
 
             finaldmg = dmg * calcParams.pdif
 
-            if calcParams.hybridHit then
-                local hitsDone = 1
-                local bonusMacc = wsParams.hybridBonusMacc or 0
-                local resist = applyResistanceAbility(attacker, target, wsParams.ele, wsParams.skill, bonusMacc)
-                local paramshybrid = {}
-                paramshybrid.includemab = true
-
-                finaldmg, calcParams.hitsLanded, hitsDone = battleUtils.generateHybridHit(attacker, target, nil, finaldmg, calcParams.hitsLanded, hitsDone, wsParams.ele, resist, paramshybrid)
-            end
-
             attacker:handleImpetus()
 
             calcParams.hitsLanded = calcParams.hitsLanded + 1
@@ -216,6 +206,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     local finaldmg = 0
     local attackNumber = 0
     local totalHits = 0
+    local unused = 0
     calcParams.hitsLanded = 0
     calcParams.shadowsAbsorbed = 0
 
@@ -278,6 +269,15 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
         end
     end
 
+    if calcParams.hybridHit then
+        local bonusMacc = wsParams.hybridBonusMacc or 0
+        local resist = applyResistanceAbility(attacker, target, wsParams.ele, wsParams.skill, bonusMacc)
+        local paramshybrid = {}
+        paramshybrid.includemab = true
+
+        finaldmg, unused, totalHits = battleUtils.generateHybridHit(attacker, target, nil, finaldmg, calcParams.hitsLanded, totalHits, wsParams.ele, resist, paramshybrid)
+    end
+    
     -- We've now accounted for any crit from SA/TA, or damage bonus for a Hybrid WS, so nullify them
     calcParams.forcedFirstCrit = false
     calcParams.hybridHit = false

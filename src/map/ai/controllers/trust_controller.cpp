@@ -211,7 +211,7 @@ void CTrustController::DoCombatTick(time_point tick)
             !POwner->StatusEffectContainer->HasPreventActionEffect())
         {
             // Path close to the enemy if unable to see the enemy.
-            if (!POwner->CanSeeTarget(PTarget))
+            if (POwner->CanSeeTarget(PMaster) && !POwner->CanSeeTarget(PTarget))
             {
                 if (m_numberOfWarps < 3)
                 {
@@ -244,7 +244,7 @@ void CTrustController::DoCombatTick(time_point tick)
 
                             // Don't warp to a target > combat distance away (30 yalms)
                             if (currentDistanceToTarget < CombatDistance)
-                                POwner->PAI->PathFind->WarpTo(PTarget->loc.p, warpOffset);
+                                POwner->PAI->PathFind->PathTo(PTarget->loc.p, PATHFLAG_WALLHACK);
                         }
                     }
                 }
@@ -255,7 +255,7 @@ void CTrustController::DoCombatTick(time_point tick)
 
                     // Don't warp to a target > combat distance away (30 yalms)
                     if (currentDistanceToTarget < CombatDistance)
-                        POwner->PAI->PathFind->WarpTo(PTarget->loc.p, warpOffset);
+                        POwner->PAI->PathFind->PathTo(PTarget->loc.p, PATHFLAG_WALLHACK);
                 }
             }
             else
@@ -333,18 +333,11 @@ void CTrustController::DoCombatTick(time_point tick)
                 {
                     case TRUST_MOVEMENT_TYPE::NO_MOVE:
                     {
-                        if (currentDistanceToMaster > CastingDistance)
-                        {
-                            // Path closer to Master if unable to see due to LOS
-                            if (!POwner->CanSeeTarget(PMaster))
-                                POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 5.0f + PMaster->m_ModelSize, PATHFLAG_RUN);
-                            else
-                                POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 18.0f + PMaster->m_ModelSize, PATHFLAG_RUN);
-                        }
+                        // Don't move unless master is out of LOS or moves further than casting distance
+                        if (!POwner->CanSeeTarget(PMaster))
+                            POwner->PAI->PathFind->PathInRange(PMaster->loc.p, PMaster->m_ModelSize, PATHFLAG_WALLHACK);
                         else if (currentDistanceToTarget > CastingDistance)
-                        {
-                            POwner->PAI->PathFind->PathInRange(PTarget->loc.p, 16.0f + PTarget->m_ModelSize, PATHFLAG_RUN);
-                        }
+                            POwner->PAI->PathFind->PathInRange(PTarget->loc.p, 18.0f + PTarget->m_ModelSize, PATHFLAG_RUN);
                         break;
                     }
                     case TRUST_MOVEMENT_TYPE::MELEE:
@@ -404,7 +397,7 @@ void CTrustController::DoCombatTick(time_point tick)
                     {
                         // Path closer to Master if unable to see due to LOS
                         if (!POwner->CanSeeTarget(PMaster))
-                            POwner->PAI->PathFind->PathInRange(PMaster->loc.p, 5.0f + PMaster->m_ModelSize, PATHFLAG_RUN);
+                            POwner->PAI->PathFind->PathInRange(PMaster->loc.p, PMaster->m_ModelSize, PATHFLAG_WALLHACK);
                         else
                             PathOutToDistance(PTarget, static_cast<float>(movementDistance));
                         break;
@@ -1217,16 +1210,16 @@ bool CTrustController::Cast(uint16 targid, SpellID spellid)
     TracyZoneScoped;
 
     FaceTarget(targid);
+
+    if (auto target = POwner->GetEntity(targid); target && !POwner->CanSeeTarget(target))
+        ++m_outOfLosChecks;
+
     if (static_cast<CMobEntity*>(POwner)->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(spellid)))
-    {
         return false;
-    }
 
     auto PSpell = spell::GetSpell(spellid);
     if (PSpell->getValidTarget() == TARGET_SELF)
-    {
         targid = POwner->targid;
-    }
 
     return CController::Cast(targid, spellid);
 }

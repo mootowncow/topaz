@@ -12,12 +12,10 @@ function onMobSpawn(mob)
 end
 
 function onMobSpawn(mob)
+    SetGenericNMStats(mob)
     mob:setMod(tpz.mod.UDMGPHYS, -50)
     mob:setMod(tpz.mod.UDMGMAGIC, -50)
-    mob:addMod(tpz.mod.DEFP, 20) 
-    mob:addMod(tpz.mod.ATTP, 10)
-    mob:addMod(tpz.mod.ACC, 30) 
-    mob:addMod(tpz.mod.EVA, 30)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
 end
 
 

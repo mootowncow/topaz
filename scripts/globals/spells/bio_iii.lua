@@ -49,12 +49,12 @@ function onSpellCast(caster, target, spell)
     local final = finalMagicAdjustments(caster, target, spell, dmg)
 
     -- Calculate duration
-    local duration = 30 + (meritBonus - 30)
+    local duration = 180
     local tier = 3
-	
-	if not caster:isPC() then
-		duration = 180
-	end
+
+    if meritBonus > 0 then
+        duration = 30 + (meritBonus - 30)
+    end
 
     -- Calculate DoT effect
     -- http://wiki.ffo.jp/html/1954.html

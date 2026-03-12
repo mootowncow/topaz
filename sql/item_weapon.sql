@@ -254,7 +254,7 @@ INSERT INTO `item_weapon` VALUES (16601,'ryl.swd._blade',4,0,0,0,0,2,1,480,56,0)
 INSERT INTO `item_weapon` VALUES (16602,'perdu_sword',4,0,0,0,0,2,1,456,80,0);
 INSERT INTO `item_weapon` VALUES (16603,'halo_claymore',4,0,0,0,0,2,1,444,46,0);
 INSERT INTO `item_weapon` VALUES (16604,'save_the_queen',3,0,0,0,0,2,1,240,40,0);
-INSERT INTO `item_weapon` VALUES (16605,'enhancing_sword',3,0,0,0,0,2,1,240,40,0);
+INSERT INTO `item_weapon` VALUES (16605,'enhancing_sword',3,0,0,0,0,2,1,240,44,0);
 INSERT INTO `item_weapon` VALUES (16606,'rusty_greatsword',4,0,0,0,0,2,1,456,14,0);
 INSERT INTO `item_weapon` VALUES (16607,'chaosbringer',4,0,0,0,0,2,1,666,3,0);
 INSERT INTO `item_weapon` VALUES (16608,'gladiator',3,0,0,0,0,2,1,222,18,0);
