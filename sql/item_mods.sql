@@ -10363,12 +10363,12 @@ INSERT INTO `item_mods` VALUES (13263,1,5);
 INSERT INTO `item_mods` VALUES (13263,2,60);
 INSERT INTO `item_mods` VALUES (13263,10,4);
 INSERT INTO `item_mods` VALUES (13263,13,-4);
-INSERT INTO `item_mods` VALUES (13264,1,6);         -- Jungle Sash
-INSERT INTO `item_mods` VALUES (13264,2,75);        -- HP+75
-INSERT INTO `item_mods` VALUES (13264,8,8);         -- STR+8
-INSERT INTO `item_mods` VALUES (13264,10,8);        -- VIT+8
-INSERT INTO `item_mods` VALUES (13264,9,-4);        -- DEX-4
-INSERT INTO `item_mods` VALUES (13264,13,-4);
+INSERT INTO `item_mods` VALUES (13264,1,6); -- DEF 6
+INSERT INTO `item_mods` VALUES (13264,2,75); -- HP 75
+INSERT INTO `item_mods` VALUES (13264,8,13); -- STR 13
+INSERT INTO `item_mods` VALUES (13264,10,13); -- VIT 13
+INSERT INTO `item_mods` VALUES (13264,9,-4); -- DEX -4
+INSERT INTO `item_mods` VALUES (13264,13,-4); -- MND -4
 INSERT INTO `item_mods` VALUES (13265,1,7);
 INSERT INTO `item_mods` VALUES (13265,2,30);
 INSERT INTO `item_mods` VALUES (13265,11,4);
