@@ -7,9 +7,15 @@
 -----------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/items")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
+    if (player:getEquipID(tpz.slot.BODY) == tpz.items.SAOTOME_DOMARU) then -- AF body reduces recast by 120s
+        ability:setRecast(180)
+    elseif (player:getEquipID(tpz.slot.BODY) == tpz.items.SAOTOME_DOMARU_HQ) then -- AF+1 body reduces recast by 150s
+        ability:setRecast(150)
+    end
     return 0, 0
 end
 
