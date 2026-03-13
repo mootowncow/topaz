@@ -1393,7 +1393,8 @@ function getSpellBonusAcc(caster, target, spell, params)
         end
     end
 
-    --add for blm elemental magic merits
+    -- add for blm elemental magic merits
+    -- OOE, removed for now
     --if skill == tpz.skill.ELEMENTAL_MAGIC then
         --magicAccBonus = magicAccBonus + caster:getMerit(tpz.merit.ELEMENTAL_MAGIC_ACCURACY)
     --end
@@ -1425,6 +1426,123 @@ function getSpellBonusAcc(caster, target, spell, params)
     magicAccBonus = magicAccBonus + addWeatherMaccBonus(caster, spell, target, params)
 
     return magicAccBonus
+end
+
+-- Magic Accuracy from Merits / Job Points.
+function JobPointsMacc(caster, target, spell)
+    local skill = spell:getSkillType()
+    local spellGroup = spell:getSpellGroup()
+    local element = spell:getElement()
+    local jpMaccBonus = 0
+    local casterJob = caster:getMainJob()
+    if caster:isPC() then
+        switch(casterJob): caseof
+        {
+            [tpz.job.WHM] = function()
+                jpMaccBonus = caster:getJobPointLevel(tpz.jp.WHM_MAGIC_ACC_BONUS)
+            end,
+
+            [tpz.job.BLM] = function()
+                -- BLM Job Point: MACC Bonus +1
+                jpMaccBonus = caster:getJobPointLevel(tpz.jp.BLM_MAGIC_ACC_BONUS)
+            end,
+
+            [tpz.job.RDM] = function()
+                -- RDM Job Point: During saboteur, Enfeebling MACC +2
+                if
+                    skill == tpz.skill.ENFEEBLING_MAGIC and
+                    caster:hasStatusEffect(tpz.effect.SABOTEUR)
+                then
+                    local jpValue = caster:getJobPointLevel(tpz.jp.SABOTEUR_EFFECT)
+
+                    jpMaccBonus = jpValue * 2
+                end
+
+                -- RDM Job Point: Magic Accuracy Bonus, All MACC + 1
+                jpMaccBonus = caster:getJobPointLevel(tpz.jp.RDM_MAGIC_ACC_BONUS)
+            end,
+
+            [tpz.job.NIN] = function()
+                -- NIN Job Point: Ninjitsu Accuracy Bonus
+                if skill == tpz.skill.NINJUTSU then
+                    jpMaccBonus = caster:getJobPointLevel(tpz.jp.NINJITSU_ACC_BONUS)
+                end
+            end,
+
+            [tpz.job.BLU] = function()
+                -- BLU MACC JP - nuke acc is handled in bluemagic.lua
+                if skill == tpz.skill.BLUE_MAGIC then
+                    jpMaccBonus = jpMaccBonus + caster:getJobPointLevel(tpz.jp.BLU_MAGIC_ACC_BONUS)
+                end
+            end,
+
+            [tpz.job.SCH] = function()
+                if
+                    (spellGroup == tpz.magic.spellGroup.WHITE and caster:hasStatusEffect(tpz.effect.PENURY)) or
+                    (spellGroup == tpz.magic.spellGroup.BLACK and caster:hasStatusEffect(tpz.effect.PARSIMONY))
+                then
+                    local jpValue = caster:getJobPointLevel(tpz.jp.STRATEGEM_EFFECT_I)
+
+                    jpMaccBonus = jpValue
+                end
+            end,
+        }
+    end
+
+    --printf("JP MACC Bonus: %d", jpMaccBonus)
+    return jpMaccBonus
+end
+
+function addWeatherMaccBonus(caster, spell, target, params)
+    local ele = spell:getElement()
+    local dayWeatherBonus = 0
+    local weather = caster:getWeather()
+
+    if (weather == tpz.magic.singleWeatherStrong[ele]) then
+        if (caster:getMod(tpz.mod.IRIDESCENCE) >= 1) then
+            if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
+                dayWeatherBonus = dayWeatherBonus + 5
+            end
+        end
+        if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
+            dayWeatherBonus = dayWeatherBonus + 5
+        end
+    elseif (weather == tpz.magic.singleWeatherWeak[ele]) then
+        if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
+            dayWeatherBonus = dayWeatherBonus - 5
+        end
+    elseif (weather == tpz.magic.doubleWeatherStrong[ele]) then
+        if (caster:getMod(tpz.mod.IRIDESCENCE) >= 1) then
+            if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
+                dayWeatherBonus = dayWeatherBonus + 5
+            end
+        end
+        if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
+            dayWeatherBonus = dayWeatherBonus + 15
+        end
+    elseif (weather == tpz.magic.doubleWeatherWeak[ele]) then
+        if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
+            dayWeatherBonus = dayWeatherBonus - 15
+        end
+    end
+
+    local dayElement = VanadielDayElement()
+    if (dayElement == ele) then
+        dayWeatherBonus = dayWeatherBonus + caster:getMod(tpz.mod.DAY_NUKE_BONUS)/100 -- sorc. tonban(+1)/zodiac ring
+        if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
+            dayWeatherBonus = dayWeatherBonus + 5
+        end
+    elseif (dayElement == tpz.magic.elementDescendant[ele]) then
+        if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
+            dayWeatherBonus = dayWeatherBonus - 5
+        end
+    end
+
+    if dayWeatherBonus > 15 then
+        dayWeatherBonus = 15
+    end
+
+    return dayWeatherBonus
 end
 
 function getSpellEnmityBonus(caster, target, spell)
@@ -1918,58 +2036,6 @@ function addBonuses(caster, spell, target, dmg, params)
     return dmg
 end
 
-function addWeatherMaccBonus(caster, spell, target, params)
-    local ele = spell:getElement()
-    local dayWeatherBonus = 0
-    local weather = caster:getWeather()
-
-    if (weather == tpz.magic.singleWeatherStrong[ele]) then
-        if (caster:getMod(tpz.mod.IRIDESCENCE) >= 1) then
-            if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
-                dayWeatherBonus = dayWeatherBonus + 5
-            end
-        end
-        if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
-            dayWeatherBonus = dayWeatherBonus + 5
-        end
-    elseif (caster:getWeather() == tpz.magic.singleWeatherWeak[ele]) then
-        if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
-            dayWeatherBonus = dayWeatherBonus - 5
-        end
-    elseif (weather == tpz.magic.doubleWeatherStrong[ele]) then
-        if (caster:getMod(tpz.mod.IRIDESCENCE) >= 1) then
-            if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
-                dayWeatherBonus = dayWeatherBonus + 5
-            end
-        end
-        if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
-            dayWeatherBonus = dayWeatherBonus + 15
-        end
-    elseif (weather == tpz.magic.doubleWeatherWeak[ele]) then
-        if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
-            dayWeatherBonus = dayWeatherBonus - 15
-        end
-    end
-
-    local dayElement = VanadielDayElement()
-    if (dayElement == ele) then
-        dayWeatherBonus = dayWeatherBonus + caster:getMod(tpz.mod.DAY_NUKE_BONUS)/100 -- sorc. tonban(+1)/zodiac ring
-        if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
-            dayWeatherBonus = dayWeatherBonus + 5
-        end
-    elseif (dayElement == tpz.magic.elementDescendant[ele]) then
-        if (math.random() < 0.33 or caster:getMod(elementalObi[ele]) >= 1 or isHelixSpell(spell)) then
-            dayWeatherBonus = dayWeatherBonus - 5
-        end
-    end
-
-    if dayWeatherBonus > 15 then
-        dayWeatherBonus = 15
-    end
-
-    return dayWeatherBonus
-end
-
 function addBonusesAbility(caster, ele, target, dmg, params)
 
     local affinityBonus = AffinityBonusDmg(caster, ele)
@@ -2182,7 +2248,13 @@ function isHelixSpell(spell)
     --Dark Arts will further increase Helix duration, but testing is ongoing.
 
     local id = spell:getID()
+    -- T1 Helixes
     if id >= 278 and id <= 285 then
+        return true
+    end
+
+    -- T2 Helixes
+    if id >= 885 and id <= 892 then
         return true
     end
     return false
@@ -2515,80 +2587,6 @@ function getDstatBonus(softcap, diff)
     dstatMaccBonus = utils.clamp(dstatMaccBonus, -70, 70)
 
     return dstatMaccBonus
-end
-
--- Magic Accuracy from Merits / Job Points.
-function JobPointsMacc(caster, target, spell)
-    local skill = spell:getSkillType()
-    local spellGroup = spell:getSpellGroup()
-    local element = spell:getElement()
-    local jpMaccBonus = 0
-    local casterJob = caster:getMainJob()
-    if caster:isPC() then
-        switch(casterJob): caseof
-        {
-            [tpz.job.WHM] = function()
-                jpMaccBonus = caster:getJobPointLevel(tpz.jp.WHM_MAGIC_ACC_BONUS)
-            end,
-
-            [tpz.job.BLM] = function()
-                -- BLM Job Point: MACC Bonus +1
-                jpMaccBonus = caster:getJobPointLevel(tpz.jp.BLM_MAGIC_ACC_BONUS)
-            end,
-
-            [tpz.job.RDM] = function()
-                -- Add MACC for RDM group 1 merits
-                if element >= tpz.magic.element.FIRE and element <= tpz.magic.element.WATER then
-                    jpMaccBonus = caster:getMerit(rdmMerit[element])
-                    -- printf("Merits MACC %d", jpMaccBonus)
-                end
-
-                -- RDM Job Point: During saboteur, Enfeebling MACC +2
-                if
-                    skill == tpz.skill.ENFEEBLING_MAGIC and
-                    caster:hasStatusEffect(tpz.effect.SABOTEUR)
-                then
-                    local jpValue = caster:getJobPointLevel(tpz.jp.SABOTEUR_EFFECT)
-
-                    jpMaccBonus = jpValue * 2
-                end
-
-                -- RDM Job Point: Magic Accuracy Bonus, All MACC + 1
-                local jobPoints = caster:getJobPointLevel(tpz.jp.RDM_MAGIC_ACC_BONUS)
-                -- printf("Job Points MACC %d", jobPoints)
-                jpMaccBonus = caster:getJobPointLevel(tpz.jp.RDM_MAGIC_ACC_BONUS)
-            end,
-
-            [tpz.job.NIN] = function()
-                -- NIN Job Point: Ninjitsu Accuracy Bonus
-                if skill == tpz.skill.NINJUTSU then
-                    jpMaccBonus = caster:getJobPointLevel(tpz.jp.NINJITSU_ACC_BONUS)
-                end
-            end,
-
-            [tpz.job.BLU] = function()
-                -- BLU MACC merits and JP - nuke acc is handled in bluemagic.lua
-                if skill == tpz.skill.BLUE_MAGIC then
-                    jpMaccBonus = caster:getMerit(tpz.merit.MAGICAL_ACCURACY)
-                    jpMaccBonus = jpMaccBonus + caster:getJobPointLevel(tpz.jp.BLU_MAGIC_ACC_BONUS)
-                end
-            end,
-
-            [tpz.job.SCH] = function()
-                if
-                    (spellGroup == tpz.magic.spellGroup.WHITE and caster:hasStatusEffect(tpz.effect.PENURY)) or
-                    (spellGroup == tpz.magic.spellGroup.BLACK and caster:hasStatusEffect(tpz.effect.PARSIMONY))
-                then
-                    local jpValue = caster:getJobPointLevel(tpz.jp.STRATEGEM_EFFECT_I)
-
-                    jpMaccBonus = jpValue
-                end
-            end,
-        }
-    end
-
-    --printf("JP MACC Bonus: %d", jpMaccBonus)
-    return jpMaccBonus
 end
 
 function CheckPlayerStatusElementResist(caster, target, element, effect, res, bonus)
