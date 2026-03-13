@@ -83,6 +83,38 @@
 #include "../packets/chat_message.h"
 #include "../job_points.h"
 
+static const DAYTYPE strongDay[8] = { FIRESDAY, ICEDAY, WINDSDAY, EARTHSDAY, LIGHTNINGDAY, WATERSDAY, LIGHTSDAY, DARKSDAY };
+
+static const DAYTYPE weakDay[8] = { WATERSDAY, FIRESDAY, ICEDAY, WINDSDAY, EARTHSDAY, LIGHTNINGDAY, DARKSDAY, LIGHTSDAY };
+
+static const WEATHER strongWeatherSingle[8] = { WEATHER_HOT_SPELL, WEATHER_SNOW, WEATHER_WIND,    WEATHER_DUST_STORM,
+                                   WEATHER_THUNDER,   WEATHER_RAIN, WEATHER_AURORAS, WEATHER_GLOOM };
+
+static const WEATHER strongWeatherDouble[8] = { WEATHER_HEAT_WAVE,     WEATHER_BLIZZARDS, WEATHER_GALES,         WEATHER_SAND_STORM,
+                                   WEATHER_THUNDERSTORMS, WEATHER_SQUALL,    WEATHER_STELLAR_GLARE, WEATHER_DARKNESS };
+
+static const WEATHER weakWeatherSingle[8] = { WEATHER_RAIN,       WEATHER_HOT_SPELL, WEATHER_SNOW,  WEATHER_WIND,
+                                 WEATHER_DUST_STORM, WEATHER_THUNDER,   WEATHER_GLOOM, WEATHER_AURORAS };
+
+static const WEATHER weakWeatherDouble[8] = { WEATHER_SQUALL,     WEATHER_HEAT_WAVE,     WEATHER_BLIZZARDS, WEATHER_GALES,
+                                 WEATHER_SAND_STORM, WEATHER_THUNDERSTORMS, WEATHER_DARKNESS,  WEATHER_STELLAR_GLARE };
+
+static const Mod elementalObiArray[8] = { Mod::FORCE_FIRE_DWBONUS,      Mod::FORCE_ICE_DWBONUS,   Mod::FORCE_WIND_DWBONUS,  Mod::FORCE_EARTH_DWBONUS,
+                             Mod::FORCE_LIGHTNING_DWBONUS, Mod::FORCE_WATER_DWBONUS, Mod::FORCE_LIGHT_DWBONUS, Mod::FORCE_DARK_DWBONUS };
+
+static const std::unordered_map<ELEMENT, ELEMENT> elementDescendant =
+{
+    { ELEMENT_FIRE,     ELEMENT_WATER },
+    { ELEMENT_ICE,      ELEMENT_FIRE },
+    { ELEMENT_WIND,     ELEMENT_ICE },
+    { ELEMENT_EARTH,    ELEMENT_WIND },
+    { ELEMENT_THUNDER,  ELEMENT_EARTH },
+    { ELEMENT_WATER,    ELEMENT_THUNDER },
+    { ELEMENT_LIGHT,    ELEMENT_DARK },
+    { ELEMENT_DARK,     ELEMENT_LIGHT }
+};
+
+
 
 
 /************************************************************************
@@ -621,6 +653,173 @@ namespace battleutils
         return SDT;
     }
 
+    int16 GetSpellBonusAcc(CBattleEntity* PAttacker, CBattleEntity* PDefender, ELEMENT element, uint8 skillType)
+    {
+        int16 magicAccBonus = 0;
+        WEATHER weather = GetWeather(PAttacker, false);
+
+        MERIT_TYPE rdmMeritArray[6] = { MERIT_FIRE_MAGIC_ACCURACY,  MERIT_ICE_MAGIC_ACCURACY, MERIT_WIND_MAGIC_ACCURACY, MERIT_EARTH_MAGIC_ACCURACY, MERIT_LIGHTNING_MAGIC_ACCURACY, MERIT_WATER_MAGIC_ACCURACY };
+
+
+        // Add acc for klimaform
+        if (element > 0)
+        {
+            if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_KLIMAFORM) &&
+                (weather == strongWeatherSingle[element] || weather == strongWeatherDouble[element]))
+                    magicAccBonus += 15;
+        }
+
+        // add for blm elemental magic merits
+        // OOE, removed for now
+        // if (skillType == SKILL_ELEMENTAL_MAGIC)
+            // magicAccBonus = magicAccBonus + PAttacker->getMerit(MERIT_ELEMENTAL_MAGIC_ACCURACY)
+        // end
+
+        // TODO: Exception for NOT Enspells / Spikes, Enspells / Spikes shouldn't benefit from this
+        //  Add acc for dark seal
+        //if ((skillType == SKILL_DARK_MAGIC && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_DARK_SEAL)))
+        //    magicAccBonus += 256;
+        
+
+        // TODO: Exception for NOT Enspells / Spikes, Enspells / Spikes shouldn't benefit from this
+        //  Add Acc for divine emblem
+        //if ((skillType == SKILL_DIVINE_MAGIC && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_DIVINE_EMBLEM)))
+        //    magicAccBonus += 256;
+        
+        // Add any merit bonuses
+        if (PAttacker->objtype == TYPE_PC)
+        {
+            CCharEntity* PChar = (CCharEntity*)PAttacker;
+
+            //  Add acc for RDM group 1 merits
+            if ((element >= ELEMENT_FIRE && element <= ELEMENT_WATER))
+                magicAccBonus += PChar->PMeritPoints->GetMeritValue(rdmMeritArray[element -1], PChar);
+
+            //  BLU mag acc merits - nuke acc is handled in bluemagic.lua
+            if ((skillType == SKILL_BLUE_MAGIC))
+                magicAccBonus += PChar->PMeritPoints->GetMeritValue(MERIT_MAGICAL_ACCURACY, PChar);
+        }
+
+        //  Add Job points magic accuracy Bonus
+        magicAccBonus += JobPointsMacc(PAttacker, PDefender, element, skillType);
+
+        //  Add weather bonus
+        magicAccBonus += AddWeatherMaccBonus(PAttacker, element, skillType, PDefender);
+
+        return magicAccBonus;
+    }
+
+    int16 JobPointsMacc(CBattleEntity* PAttacker, CBattleEntity* PDefender, ELEMENT element, uint8 skillType)
+    {
+        if (PAttacker->objtype != TYPE_PC)
+        {
+            return 0;
+        }
+
+        int16 jpMaccBonus = 0;
+        auto casterJob = PAttacker->GetMJob();
+
+        auto PChar = static_cast<CCharEntity*>(PAttacker);
+
+        switch (casterJob)
+        {
+            case JOB_WHM:
+                jpMaccBonus += PChar->PJobPoints->GetJobPointValue(JP_WHM_MAGIC_ACC_BONUS);
+                break;
+
+            case JOB_BLM:
+                jpMaccBonus += PChar->PJobPoints->GetJobPointValue(JP_BLM_MAGIC_ACC_BONUS);
+                break;
+
+            case JOB_RDM:
+            {
+                // RDM Job Point: During saboteur, Enfeebling MACC +2
+                if (skillType == SKILL_ENFEEBLING_MAGIC && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SABOTEUR))
+                    jpMaccBonus += PChar->PJobPoints->GetJobPointValue(JP_SABOTEUR_EFFECT) * 2;
+
+                jpMaccBonus += PChar->PJobPoints->GetJobPointValue(JP_RDM_MAGIC_ACC_BONUS);
+            }
+                break;
+
+            case JOB_NIN:
+                // NIN Job Point: Ninjitsu Accuracy Bonus
+                if (skillType == SKILL_NINJUTSU)
+                    jpMaccBonus += PChar->PJobPoints->GetJobPointValue(JP_NINJITSU_ACC_BONUS);
+                break;
+
+            case JOB_BLU:
+                // BLU MACC JP - nuke acc is handled in bluemagic.lua
+                if (skillType == SKILL_BLUE_MAGIC)
+                    jpMaccBonus += PChar->PJobPoints->GetJobPointValue(JP_BLU_MAGIC_ACC_BONUS);
+                break;
+
+            default:
+                break;
+        }
+
+        return jpMaccBonus;
+    }
+
+    int16 AddWeatherMaccBonus(CBattleEntity* PAttacker, ELEMENT element, uint8 skillType, CBattleEntity* PDefender)
+    {
+        WEATHER weather = GetWeather(PAttacker, false);
+        int16 dayWeatherBonus = 0;
+
+        int obiEleArrayIndex = element - 1;
+
+        if (weather == strongWeatherSingle[obiEleArrayIndex])
+        {
+            if (PAttacker->getMod(Mod::IRIDESCENCE) >= 1)
+            {
+                if (tpzrand::GetRandomNumber(100) < 33 || PAttacker->getMod(elementalObiArray[obiEleArrayIndex]) >= 1)
+                    dayWeatherBonus += 5;
+            }
+
+            if (tpzrand::GetRandomNumber(100) < 33 || PAttacker->getMod(elementalObiArray[obiEleArrayIndex]) >= 1)
+                dayWeatherBonus += 5;
+        }
+        else if (weather == weakWeatherSingle[obiEleArrayIndex])
+        {
+            if (tpzrand::GetRandomNumber(100) < 33 || PAttacker->getMod(elementalObiArray[obiEleArrayIndex]) >= 1)
+                dayWeatherBonus -= 5;
+        }
+        else if (weather == strongWeatherDouble[obiEleArrayIndex])
+        {
+            if (PAttacker->getMod(Mod::IRIDESCENCE) >= 1)
+            {
+                if (tpzrand::GetRandomNumber(100) < 33 || PAttacker->getMod(elementalObiArray[obiEleArrayIndex]) >= 1)
+                    dayWeatherBonus += 5;
+            }
+
+            if (tpzrand::GetRandomNumber(100) < 33 || PAttacker->getMod(elementalObiArray[obiEleArrayIndex]) >= 1)
+                dayWeatherBonus += 15;
+        }
+        else if (weather == weakWeatherDouble[obiEleArrayIndex])
+        {
+            if (tpzrand::GetRandomNumber(100) < 33 || PAttacker->getMod(elementalObiArray[obiEleArrayIndex]) >= 1)
+                dayWeatherBonus -= 15;
+        }
+
+        ELEMENT dayElement = static_cast<ELEMENT>(GetDayElement());
+        if (dayElement == element)
+        {
+            dayWeatherBonus += PAttacker->getMod(Mod::DAY_NUKE_BONUS) / 100; // s||c. tonban(+1)/zodiac ring
+
+            if (tpzrand::GetRandomNumber(100) < 33 || PAttacker->getMod(elementalObiArray[obiEleArrayIndex]) >= 1)
+                dayWeatherBonus += 5;
+        }
+        else if (dayElement == elementDescendant.at(element))
+        {
+            if (tpzrand::GetRandomNumber(100) < 33 || PAttacker->getMod(elementalObiArray[obiEleArrayIndex]) >= 1)
+                dayWeatherBonus -= 5;
+        }
+
+        if (dayWeatherBonus > 15)
+            dayWeatherBonus = 15;
+
+        return dayWeatherBonus;
+    }
+
     float GetDstatBonus(float softcap, float diff)
     {
         // https://www.bluegartr.com/threads/108196-Random-Facts-Thread-Magic?p=6818652&viewfull=1#post6818652
@@ -764,7 +963,10 @@ namespace battleutils
         float percentBonus = 0.0f;
         float softcap = 10.0f; // 10 is set on all nukes.everything else is nil
 
-        // Apply dStat Macc bonus
+        // Apply JP, merit, etc bonuses
+        bonus += GetSpellBonusAcc(PAttacker, PDefender, element, skillType);
+
+        // Apply dStat MACC bonus
         bonus += GetDstatBonus(softcap, diff);
 
         float p = getMagicHitRate(PAttacker, PDefender, skillType, element, SDT, percentBonus, bonus);
@@ -817,12 +1019,14 @@ namespace battleutils
         float percentBonus = 0.0f;
         float softcap = 10.0f; // 10 is set on all nukes.everything else is nil
 
-        // Apply dStat Macc bonus
+        // Apply JP, merit, etc bonuses
+        bonus += GetSpellBonusAcc(PAttacker, PDefender, element, skillType);
+
+        // Apply dStat MACC bonus
         bonus += GetDstatBonus(softcap, diff);
 
         float p = getMagicHitRate(PAttacker, PDefender, skillType, element, SDT, percentBonus, bonus);
         float res = GetMagicResist(p);
-
 
         if (SDT <= 5) // SDT tier .05 makes you lose ALL coin flips
         {
@@ -1140,12 +1344,6 @@ namespace battleutils
         uint32 WeekDay = CVanaTime::getInstance()->getWeekday();
         WEATHER weather = GetWeather(PAttacker, false);
 
-        DAYTYPE strongDay[8] = { FIRESDAY, ICEDAY, WINDSDAY, EARTHSDAY, LIGHTNINGDAY, WATERSDAY, LIGHTSDAY, DARKSDAY };
-        DAYTYPE weakDay[8] = { WATERSDAY, FIRESDAY, ICEDAY, WINDSDAY, EARTHSDAY, LIGHTNINGDAY, DARKSDAY, LIGHTSDAY };
-        WEATHER strongWeatherSingle[8] = { WEATHER_HOT_SPELL, WEATHER_SNOW, WEATHER_WIND, WEATHER_DUST_STORM, WEATHER_THUNDER, WEATHER_RAIN, WEATHER_AURORAS, WEATHER_GLOOM };
-        WEATHER strongWeatherDouble[8] = { WEATHER_HEAT_WAVE, WEATHER_BLIZZARDS, WEATHER_GALES, WEATHER_SAND_STORM, WEATHER_THUNDERSTORMS, WEATHER_SQUALL, WEATHER_STELLAR_GLARE, WEATHER_DARKNESS };
-        WEATHER weakWeatherSingle[8] = { WEATHER_RAIN, WEATHER_HOT_SPELL, WEATHER_SNOW, WEATHER_WIND, WEATHER_DUST_STORM, WEATHER_THUNDER, WEATHER_GLOOM, WEATHER_AURORAS };
-        WEATHER weakWeatherDouble[8] = { WEATHER_SQUALL, WEATHER_HEAT_WAVE, WEATHER_BLIZZARDS, WEATHER_GALES, WEATHER_SAND_STORM, WEATHER_THUNDERSTORMS, WEATHER_DARKNESS, WEATHER_STELLAR_GLARE };
         uint32 obi[8] = { 15435, 15436, 15437, 15438, 15439, 15440, 15441, 15442 };
         Mod resistarray[8] = { Mod::SDT_FIRE, Mod::SDT_ICE, Mod::SDT_WIND, Mod::SDT_EARTH, Mod::SDT_THUNDER, Mod::SDT_WATER, Mod::SDT_LIGHT, Mod::SDT_DARK };
         bool obiBonus = false;
@@ -5769,12 +5967,6 @@ namespace battleutils
         uint32 WeekDay = CVanaTime::getInstance()->getWeekday();
         WEATHER weather = GetWeather(PAttacker, false);
 
-        DAYTYPE strongDay[8] = { FIRESDAY, ICEDAY, WINDSDAY, EARTHSDAY, LIGHTNINGDAY, WATERSDAY, LIGHTSDAY, DARKSDAY };
-        DAYTYPE weakDay[8] = { WATERSDAY, FIRESDAY, ICEDAY, WINDSDAY, EARTHSDAY, LIGHTNINGDAY, DARKSDAY, LIGHTSDAY };
-        WEATHER strongWeatherSingle[8] = { WEATHER_HOT_SPELL, WEATHER_SNOW, WEATHER_WIND, WEATHER_DUST_STORM, WEATHER_THUNDER, WEATHER_RAIN, WEATHER_AURORAS, WEATHER_GLOOM };
-        WEATHER strongWeatherDouble[8] = { WEATHER_HEAT_WAVE, WEATHER_BLIZZARDS, WEATHER_GALES, WEATHER_SAND_STORM, WEATHER_THUNDERSTORMS, WEATHER_SQUALL, WEATHER_STELLAR_GLARE, WEATHER_DARKNESS };
-        WEATHER weakWeatherSingle[8] = { WEATHER_RAIN, WEATHER_HOT_SPELL, WEATHER_SNOW, WEATHER_WIND, WEATHER_DUST_STORM, WEATHER_THUNDER, WEATHER_GLOOM, WEATHER_AURORAS };
-        WEATHER weakWeatherDouble[8] = { WEATHER_SQUALL, WEATHER_HEAT_WAVE, WEATHER_BLIZZARDS, WEATHER_GALES, WEATHER_SAND_STORM, WEATHER_THUNDERSTORMS, WEATHER_DARKNESS, WEATHER_STELLAR_GLARE };
         uint32 obi[8] = { 15435, 15436, 15437, 15438, 15439, 15440, 15441, 15442 };
         Mod resistarray[8] = { Mod::SDT_FIRE, Mod::SDT_ICE, Mod::SDT_WIND, Mod::SDT_EARTH, Mod::SDT_THUNDER, Mod::SDT_WATER, Mod::SDT_LIGHT, Mod::SDT_DARK };
         bool obiBonus = false;
