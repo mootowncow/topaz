@@ -166,12 +166,13 @@ local modByMobName =
 
     ['kupipi'] = function(mob)
         mob:addMod(tpz.mod.HPP, 20)
+        if mob:getMainLvl() >= 68 then
+            mob:addMod(tpz.mod.CURE_POTENCY, 10)
+        end
         if mob:getMainLvl() >= 75 then
-            mob:addMod(tpz.mod.DMGAOE, -33)
+            mob:addMod(tpz.mod.CURE_CAST_TIME, 35)
         end
         AddRefreshGear(mob)
-        mob:addMod(tpz.mod.CURE_CAST_TIME, 35)
-        mob:addMod(tpz.mod.CURE_POTENCY, 10)
         AddHealerGear(mob)
         AddArtifactGear(mob)
     end,
@@ -231,6 +232,7 @@ local modByMobName =
     end,
 
     ['shikaree_z'] = function(mob)
+        mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         mob:addMod(tpz.mod.HPP, -10)
         mob:addMod(tpz.mod.ATTP, 10)
         mob:addMod(tpz.mod.DEFP, 20)

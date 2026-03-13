@@ -209,6 +209,9 @@ namespace battleutils
     int16               GetElementalSDT(ELEMENT element, CBattleEntity* PDefender);
     int16               GetEnfeebleSDT(uint8 status, ELEMENT element, CBattleEntity* PDefender);
     float               GetDstatBonus(float softcap, float diff);
+    int16               GetSpellBonusAcc(CBattleEntity* PAttacker, CBattleEntity* PDefender, ELEMENT element, uint8 skillType);
+    int16               JobPointsMacc(CBattleEntity* PAttacker, CBattleEntity* PDefender, ELEMENT element, uint8 skillType);
+    int16               AddWeatherMaccBonus(CBattleEntity* PAttacker, ELEMENT element, uint8 skillType, CBattleEntity* PDefender);
     float               CalculateMagicHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, float magicacc, float magiceva, ELEMENT element, float percentBonus, float casterLvl, float targetLvl, int SDT);
     float               ApplyResistance(CBattleEntity* PAttacker, CBattleEntity* PDefender, ELEMENT element, uint8 skillType, float diff, float bonus);
     float               ApplyResistanceEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 status, ELEMENT element, uint8 skillType, float diff, float bonus);

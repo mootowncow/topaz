@@ -281,7 +281,7 @@ void CTrustController::DoCombatTick(time_point tick)
                 {
                     if (m_numberOfWarps >= 3)
                     {
-                        movementDistance = TRUST_MOVEMENT_TYPE::NO_MOVE;
+                        movementDistance = TRUST_MOVEMENT_TYPE::FOLLOW_MASTER;
                     }
                     else if (m_numberOfWarps > 0)
                     {
@@ -300,14 +300,14 @@ void CTrustController::DoCombatTick(time_point tick)
                     {
                         if (!hasProtect)
                         {
-                            movementDistance = TRUST_MOVEMENT_TYPE::NO_MOVE;
+                            movementDistance = TRUST_MOVEMENT_TYPE::FOLLOW_MASTER;
                         }
                     }
                     else
                     {
                         if (!hasProtect || !hasShell)
                         {
-                            movementDistance = TRUST_MOVEMENT_TYPE::NO_MOVE;
+                            movementDistance = TRUST_MOVEMENT_TYPE::FOLLOW_MASTER;
                         }
                     }
                 }
