@@ -20,6 +20,9 @@ function onUseAbility(player, target, ability)
         local demon = target:getSystem() == 9
 	    if demon then
             target:addStatusEffect(tpz.effect.HAMANOHA, 12, 0, 180 + jpValue)
+            if target:hasStatusEffect(tpz.effect.HAMANOHA) then
+                target:setEffectUndispellable(tpz.effect.HAMANOHA)
+            end
         end
     end
 end
