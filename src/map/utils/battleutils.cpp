@@ -4324,21 +4324,6 @@ namespace battleutils
             PAttacker->StatusEffectContainer->DelStatusEffectSilent(EFFECT_HAGAKURE);
         }
 
-        // Apply Sengikori Effect if present
-        if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SENGIKORI))
-        {
-            PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SENGIKORI, EFFECT_SENGIKORI, 1, 0, 15));
-
-            // Unset Dispellable flag on target
-            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_SENGIKORI))
-            {
-                CStatusEffect* sengikoriEffect = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_SENGIKORI, 0);
-
-                if (sengikoriEffect)
-                    sengikoriEffect->UnsetFlag(EFFECTFLAG_DISPELABLE);
-            }
-        }
-
         // Add listener
         PDefender->PAI->EventHandler.triggerListener("WS_DMG_TAKEN", PDefender, PAttacker, damage, (uint16)attackType, (uint16)damageType, slot, WSId);
 
