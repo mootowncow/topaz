@@ -285,6 +285,7 @@ void CPathFind::FollowPath()
     }
 }
 
+// Note: Ignores Navmesh and can path up cliffs / into walls etc BEWARE!
 void CPathFind::StepTo(const position_t& pos, bool run)
 {
     TracyZoneScoped;
@@ -363,7 +364,6 @@ void CPathFind::StepTo(const position_t& pos, bool run)
         }
 
     }
-
 
     m_PTarget->loc.p.moving += (uint16)((0x36 * ((float)speed / 0x28)) - (0x14 * (mode - 1)));
 

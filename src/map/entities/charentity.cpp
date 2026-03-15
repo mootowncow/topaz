@@ -1445,6 +1445,21 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                         luautils::OnAdditionalEffect(this, PTarget, static_cast<CItemWeapon*>(getEquip(SLOT_AMMO)), &dummy, damage);
                     }
 
+                    // Apply Sengikori Effect if present
+                    if (StatusEffectContainer->HasStatusEffect(EFFECT_SENGIKORI))
+                    {
+                        PTarget->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SENGIKORI, EFFECT_SENGIKORI, 1, 0, 15));
+
+                        // Unset Dispellable flag on target
+                        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SENGIKORI))
+                        {
+                            CStatusEffect* sengikoriEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_SENGIKORI, 0);
+
+                            if (sengikoriEffect)
+                                sengikoriEffect->UnsetFlag(EFFECTFLAG_DISPELABLE);
+                        }
+                    }
+
                     // Add Listener
                     this->PAI->EventHandler.triggerListener("WS_DMG_DONE", this, PTarget, damage, PWeaponSkill->getID());
 

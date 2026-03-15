@@ -500,7 +500,7 @@ INSERT INTO `status_effects` VALUES (461,'impetus',801,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (462,'conspirator',801,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (463,'sepulcher',12582946,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (464,'arcane_crest',12582946,0,0,0,0,0,0,0,0);
-INSERT INTO `status_effects` VALUES (465,'hamanoha',33,0,0,0,0,0,0,0,0);
+INSERT INTO `status_effects` VALUES (465,'hamanoha',12582946,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (466,'dragon_breaker',12582946,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (467,'triple_shot',545,0,0,0,0,0,0,0,0);
 INSERT INTO `status_effects` VALUES (468,'striking_flourish',544,0,0,0,0,0,0,0,0);

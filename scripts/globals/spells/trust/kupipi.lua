@@ -56,7 +56,6 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.PARTY_DEAD, ai.c.ALWAYS, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RAISE)
 
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.STATUS_CURE, tpz.effect.CURSE_I, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.CURSNA)
-    mob:addSimpleGambit(ai.t.CASTS_SPELLS, ai.c.STATUS_CURE, tpz.effect.SILENCE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.SILENA)
     mob:addSimpleGambit(ai.t.TOP_ENMITY, ai.c.STATUS_CURE, tpz.effect.PARALYSIS, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.PARALYNA)
 
     -- Cure other party members if below 50% HP
