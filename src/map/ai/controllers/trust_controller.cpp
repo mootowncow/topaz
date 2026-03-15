@@ -411,16 +411,15 @@ void CTrustController::DoCombatTick(time_point tick)
             }
         }
 
-
         if (!m_InTransit)
         {
             POwner->PAI->PathFind->FollowPath();
 
-            m_GambitsContainer->Tick(tick);
-
             POwner->PAI->EventHandler.triggerListener("COMBAT_TICK", POwner, POwner->PMaster, PTarget);
             luautils::OnMobFight(POwner, PTarget);
         }
+
+        m_GambitsContainer->Tick(tick);
     }
 }
 
@@ -661,9 +660,9 @@ void CTrustController::PathOutToDistance(CBattleEntity* PTarget, float amount)
         m_failedRepositionAttempts = 0;
     }
 
-    // Invalidate position and pick new one (limit: every 3s)
+    // Invalidate position and pick new one (limit: every 5s)
     if ((currentDistanceToTarget < amount - 2.5f || currentDistanceToTarget > amount + 2.5f || !POwner->PAI->PathFind->ValidPosition(POwner->loc.p)) &&
-        m_Tick - m_LastRepositionTime > 3s &&
+        m_Tick - m_LastRepositionTime > 5s &&
         !m_InTransit)
     {
         std::vector<position_t> positions(5);
@@ -697,11 +696,63 @@ void CTrustController::PathOutToDistance(CBattleEntity* PTarget, float amount)
         m_LastRepositionTime = m_Tick;
     }
 
-    // Get somewhat close to the target destination
-    if (distance(POwner->loc.p, target_position) > 2.0f && m_failedRepositionAttempts < 3)
+    // Distance to target
+    float dist = distance(POwner->loc.p, PTarget->loc.p);
+
+    // Movement tolerances
+    float lowerTolerance = 1.0f;
+    float upperTolerance = 1.5f;
+    float step = 1.5f;
+
+    // FAR AWAY -> use navmesh pathing
+    if (dist > amount + 3.0f)
     {
-        POwner->PAI->PathFind->PathTo(target_position, PATHFLAG_RUN);
+        if (!POwner->PAI->PathFind->IsFollowingPath() || distanceSquared(POwner->PAI->PathFind->GetDestination(), PTarget->loc.p) > 10 * 10)
+        {
+            POwner->PAI->PathFind->PathTo(PTarget->loc.p, PATHFLAG_RUN);
+        }
+
+        m_InTransit = false;
     }
+
+    // SMALL CORRECTION -> step movement
+    else if (dist > amount + upperTolerance || dist < amount - lowerTolerance)
+    {
+        float dx;
+        float dz;
+
+        // Too close -> move away
+        if (dist < amount - lowerTolerance)
+        {
+            dx = POwner->loc.p.x - PTarget->loc.p.x;
+            dz = POwner->loc.p.z - PTarget->loc.p.z;
+        }
+        // Too far -> move closer
+        else
+        {
+            dx = PTarget->loc.p.x - POwner->loc.p.x;
+            dz = PTarget->loc.p.z - POwner->loc.p.z;
+        }
+
+        float len = sqrtf(dx * dx + dz * dz);
+
+        if (len > 0.01f)
+        {
+            dx /= len;
+            dz /= len;
+
+            position_t step_pos = { POwner->loc.p.x + dx * step, POwner->loc.p.y, POwner->loc.p.z + dz * step, POwner->loc.p.rotation, 0 };
+
+            if (POwner->PAI->PathFind->ValidPosition(step_pos))
+            {
+                POwner->PAI->PathFind->Clear();
+                POwner->PAI->PathFind->StepTo(step_pos, true);
+                m_InTransit = false;
+            }
+        }
+    }
+
+    // GOOD DISTANCE -> stop moving
     else
     {
         FaceTarget(PTarget->targid);
@@ -1220,6 +1271,10 @@ bool CTrustController::Cast(uint16 targid, SpellID spellid)
     auto PSpell = spell::GetSpell(spellid);
     if (PSpell->getValidTarget() == TARGET_SELF)
         targid = POwner->targid;
+
+    POwner->PAI->PathFind->Clear();
+    m_InTransit = false;
+    m_LastRepositionTime = m_Tick;
 
     return CController::Cast(targid, spellid);
 }
