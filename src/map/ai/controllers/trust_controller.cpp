@@ -399,7 +399,10 @@ void CTrustController::DoCombatTick(time_point tick)
                         if (!POwner->CanSeeTarget(PMaster))
                             POwner->PAI->PathFind->PathInRange(PMaster->loc.p, PMaster->m_ModelSize, PATHFLAG_WALLHACK);
                         else
-                            PathOutToDistance(PTarget, static_cast<float>(movementDistance));
+                        {
+                            if (!POwner->PAI->PathFind->IsFollowingPath())
+                                PathOutToDistance(PTarget, static_cast<float>(movementDistance));
+                        }
                         break;
                     }
                 }
@@ -745,7 +748,6 @@ void CTrustController::PathOutToDistance(CBattleEntity* PTarget, float amount)
 
             if (POwner->PAI->PathFind->ValidPosition(step_pos))
             {
-                POwner->PAI->PathFind->Clear();
                 POwner->PAI->PathFind->StepTo(step_pos, true);
                 m_InTransit = false;
             }
