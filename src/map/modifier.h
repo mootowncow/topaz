@@ -717,6 +717,7 @@ enum class Mod
     ENSPELL                   = 341, // stores the type of enspell active (0 if nothing)
     ENSPELL_DMG               = 343, // stores the base damage of the enspell before reductions
     ENSPELL_DMG_BONUS         = 432, // Bonus dmg to enspells used for gear etc
+    ENSPELL_DMG_SLOT          = 1442,// Bonus Enspell damage only applied by attacks in this weapon slot. i.e. Enhancing Sword
     ENSPELL_CHANCE            = 856, // Chance of enspell activating (0 = 100%, 10 = 10%, 30 = 30%, ...)
     ENSPELL_MACC              = 1271,// Increases Enspell magical accuracy
     ENSPELL_DURA              = 1441,     // Increases Enspell duration
@@ -1156,7 +1157,7 @@ enum class Mod
 
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
-    // 1442 NEXT
+    // 1443 NEXT
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

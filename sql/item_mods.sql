@@ -20709,7 +20709,7 @@ INSERT INTO `item_mods` VALUES (16599,14,1);
 INSERT INTO `item_mods` VALUES (16601,1012,3);   -- Royal Swordsman's Blade Inquartata +3
 INSERT INTO `item_mods` VALUES (16603,1012,3);   -- Halo Claymore Inquartata +3
 INSERT INTO `item_mods` VALUES (16604,967,5);    -- Save the Queen - Cover Duration +5
-INSERT INTO `item_mods` VALUES (16605,432,5);
+INSERT INTO `item_mods` VALUES (16605,1442,5); -- (Enhancing Sword) ENSPELL_DMG_SLOT +5
 INSERT INTO `item_mods` VALUES (16610,25,2);
 INSERT INTO `item_mods` VALUES (16611,25,2);
 INSERT INTO `item_mods` VALUES (16613,431,1);
@@ -22136,7 +22136,7 @@ INSERT INTO `item_mods` VALUES (17695,8,3);
 INSERT INTO `item_mods` VALUES (17695,13,3);
 INSERT INTO `item_mods` VALUES (17695,431,1);
 INSERT INTO `item_mods` VALUES (17696,9,1); -- DEX 1
-INSERT INTO `item_mods` VALUES (17696,432,3); -- ENSPELL_DMG_BONUS 3
+INSERT INTO `item_mods` VALUES (17696,1442,3); -- ENSPELL_DMG_SLOT 3
 INSERT INTO `item_mods` VALUES (17696,1441,5); -- ENSPELL_DURA 5
 INSERT INTO `item_mods` VALUES (17697,9,2);
 INSERT INTO `item_mods` VALUES (17698,8,4); -- (Princely Sword)
@@ -24150,11 +24150,12 @@ INSERT INTO `item_mods` VALUES (18891,5,15);      -- Hannibal's Sword: MP+15
 INSERT INTO `item_mods` VALUES (18893,25,7);      -- Magnus Sword: Accuracy+7
 INSERT INTO `item_mods` VALUES (18894,903,50);	  -- Accoladde Sword: "Fencer"+1
 INSERT INTO `item_mods` VALUES (18894,904,1);
-INSERT INTO `item_mods` VALUES (18895,25,5);
+INSERT INTO `item_mods` VALUES (18895,25,5); -- Chimeric Fleuret
 INSERT INTO `item_mods` VALUES (18895,288,3);
-INSERT INTO `item_mods` VALUES (18895,432,7);
+INSERT INTO `item_mods` VALUES (18895,1442,7); -- ENSPELL_DMG_SLOT
 INSERT INTO `item_mods` VALUES (18896,2,55);
 INSERT INTO `item_mods` VALUES (18896,111,7);
+INSERT INTO `item_mods` VALUES (18896,1442,7); -- ENSPELL_DMG_SLOT
 INSERT INTO `item_mods` VALUES (18897,25,6);      -- Isador: Accuracy +6
 INSERT INTO `item_mods` VALUES (18897,30,6);      -- Magic Accuracy +6
 INSERT INTO `item_mods` VALUES (18897,170,5);     -- Fast Cast +5%
@@ -25959,9 +25960,9 @@ INSERT INTO `item_mods` VALUES (20612,288,3);     -- Double Attack +3%
 INSERT INTO `item_mods` VALUES (20612,302,3);     -- Triple Attack +3%
 INSERT INTO `item_mods` VALUES (20612,431,1);     -- Additional effect: HP Drain
 INSERT INTO `item_mods` VALUES (20613,113,10);    -- Pukulatmuj (iLvl 119): Enhancing magic skill +10
-INSERT INTO `item_mods` VALUES (20613,432,10);    -- Enspell damage bonus +10
+INSERT INTO `item_mods` VALUES (20613,1442,10);    -- ENSPELL_DMG_SLOT +10
 INSERT INTO `item_mods` VALUES (20614,113,11);    -- Pukulatmuj +1 (iLvl 119): Enhancing magic skill +11
-INSERT INTO `item_mods` VALUES (20614,432,11);    -- Enspell damage bonus +11
+INSERT INTO `item_mods` VALUES (20614,1442,11);    -- ENSPELL_DMG_SLOT +11
 INSERT INTO `item_mods` VALUES (20615,11,15); -- Levante dagger - AGI+15
 INSERT INTO `item_mods` VALUES (20615,25,27); -- Accuracy+27
 INSERT INTO `item_mods` VALUES (20615,62,15); -- Attack+15
@@ -27404,10 +27405,10 @@ INSERT INTO `item_mods` VALUES (21584,311,217);   -- Setan Kober: Magic Damage+2
 -- INSERT INTO `item_mods` VALUES (21584,??,-40); -- Setan Kober: "Step" TP consumed -40
 INSERT INTO `item_mods` VALUES (21606,28,14);     -- enriching_sword Magic Attack Bonus+14
 INSERT INTO `item_mods` VALUES (21606,311,108);   -- Magic Damage+108
-INSERT INTO `item_mods` VALUES (21606,432,30);    -- Enspell Damage+30
+INSERT INTO `item_mods` VALUES (21606,1442,30);    -- ENSPELL_DMG_SLOT+30
 INSERT INTO `item_mods` VALUES (21607,28,14);     -- enr._sword_+1 Magic Attack Bonus+14
 INSERT INTO `item_mods` VALUES (21607,311,108);   -- Magic Damage+108
-INSERT INTO `item_mods` VALUES (21607,432,35);    -- Enspell Damage+35
+INSERT INTO `item_mods` VALUES (21607,1442,35);    -- ENSPELL_DMG_SLOT+35
 INSERT INTO `item_mods` VALUES (21618,25,20);     -- Ajja Sword: Accuracy+20
 INSERT INTO `item_mods` VALUES (21618,30,20);     -- Ajja Sword: Magic Accuracy+20
 INSERT INTO `item_mods` VALUES (21619,23,20);     -- Eletta Sword: Attack+20

@@ -24,7 +24,8 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.DOOM, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_HOLY_WATER)
 
-    mob:addSimpleGambit(ai.t.TARGET, ai.c.ALWAYS, 0, ai.r.RATTACK, 0, 0, 10)
+    -- Ranged Attack as much as possible (limited by "weapon" delay). Edited in trust.lua
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.ALWAYS, 0, ai.r.RATTACK, 0, 0, 15)
 
     tpz.trust.onMobSpawn(mob)
 
@@ -37,14 +38,6 @@ function onMobSpawn(mob)
 end
 
 function onMobFight(mob, target)
-    local rollData =
-    {
-        { RollId = tpz.jobAbility.CHAOS_ROLL,     Lucky = 4 },
-        { RollId = tpz.jobAbility.HUNTERS_ROLL,   Lucky = 4 },
-        { RollId = tpz.jobAbility.FIGHTERS_ROLL,  Lucky = 5 },
-        { RollId = tpz.jobAbility.SAMURAI_ROLL,   Lucky = 2 },
-        { RollId = tpz.jobAbility.EVOKERS_ROLL,   Lucky = 5 },
-    }
     local globalJATimer = mob:getLocalVar("globalJATimer")
     local qdCharges = mob:getLocalVar("qdCharges")
     local qdLastUsed = mob:getLocalVar("qdLastUsed")
@@ -56,7 +49,15 @@ function onMobFight(mob, target)
     local lucky = false
     local snakeEye = false
     local evokersTarget = { tpz.job.WHM, tpz.job.BLM, tpz.job.RDM, tpz.job.SMN, tpz.job.SCH, tpz.job.GEOMANCER }
-    local rolls = { tpz.jobAbility.FIGHTERS_ROLL, tpz.jobAbility.CHAOS_ROLL, tpz.jobAbility.HUNTERS_ROLL, tpz.jobAbility.SAMURAI_ROLL }
+    local rollData =
+    {
+        { RollId = tpz.jobAbility.CHAOS_ROLL,     Effect = tpz.effect.CHAOS_ROLL,       Lucky = 4 },
+        { RollId = tpz.jobAbility.HUNTERS_ROLL,   Effect = tpz.effect.HUNTERS_ROLL,     Lucky = 4 },
+        { RollId = tpz.jobAbility.FIGHTERS_ROLL,  Effect = tpz.effect.FIGHTERS_ROLL,    Lucky = 5 },
+        { RollId = tpz.jobAbility.SAMURAI_ROLL,   Effect = tpz.effect.SAMURAI_ROLL,     Lucky = 2 },
+    }
+    -- Evokers also needs this, but can't add to roll data or will randomly use it
+    -- { RollId = tpz.jobAbility.EVOKERS_ROLL,   Effect = tpz.effect.EVOKERS_ROLL,     Lucky = 5 },
 
     if IsMobBusy(mob) or mob:hasPreventActionEffect() then
         return
@@ -105,12 +106,12 @@ function onMobFight(mob, target)
 
     -- Check if roll currently rolling for is Lucky
     if canDoubleUp then
-        for _, rolls in ipairs(rollData) do
-            if (currentRoll == rolls.RollId) and mob:hasStatusEffect(rolls.RollId) then
-                local effect = mob:getStatusEffect(rolls.RollId)
+        for _, roll in ipairs(rollData) do
+            if (currentRoll == roll.RollId) and mob:hasStatusEffect(roll.Effect) then
+                local effect = mob:getStatusEffect(roll.Effect)
                 -- Make sure roll was casted by us
-                if (effect:getSubType() == mob:getID()) then
-                    if (effect:getSubPower() == rolls.Lucky) then
+                if effect and effect:getSubType() == mob:getID() then
+                    if (effect:getSubPower() == roll.Lucky) then
                         lucky = true
                         break
                     end
@@ -132,9 +133,10 @@ function onMobFight(mob, target)
 
     -- Filter out rolls already active
     local availableRolls = {}
-    for _, roll in ipairs(rolls) do
-        if not activeRollTypes[roll] then
-            table.insert(availableRolls, roll)
+
+    for _, roll in ipairs(rollData) do
+        if not activeRollTypes[roll.Effect] then
+            table.insert(availableRolls, roll.RollId)
         end
     end
 
@@ -148,7 +150,19 @@ function onMobFight(mob, target)
         return
     end
 
-    if mob:hasStatusEffect(tpz.effect.DOUBLE_UP_CHANCE) and not lucky then
+    local hasValidRoll = false
+
+    for _, roll in ipairs(rollData) do
+        if mob:hasStatusEffect(roll.Effect) then
+            local effect = mob:getStatusEffect(roll.Effect)
+            if effect and effect:getSubType() == mob:getID() then
+                hasValidRoll = true
+                break
+            end
+        end
+    end
+
+    if mob:hasStatusEffect(tpz.effect.DOUBLE_UP_CHANCE) and hasValidRoll and not lucky then
         if
             (mob:getMainLvl() >= 75) and
             snakeEye and
@@ -188,10 +202,12 @@ function onMobFight(mob, target)
                                 if CanUseAbility(mob) then
                                     if #availableRolls > 0 then
                                         local chosenRoll = availableRolls[math.random(#availableRolls)]
-                                        mob:setLocalVar("globalJATimer", os.time() + 3)
-                                        mob:setLocalVar("currentRoll", chosenRoll)
-                                        mob:useJobAbility(chosenRoll, mob)
-                                        return
+                                        if chosenRoll then
+                                            mob:setLocalVar("globalJATimer", os.time() + 3)
+                                            mob:setLocalVar("currentRoll", chosenRoll)
+                                            mob:useJobAbility(chosenRoll, mob)
+                                            return
+                                        end
                                     end
                                 end
                             end
@@ -199,41 +215,41 @@ function onMobFight(mob, target)
                     end
                 end
             end
-        else
-            local target = mob:getTarget()
-            local me = mob:getID()
-            if
-                (os.time() > globalJATimer) and
-                target and
-                (target:getTarget():getID() ~= me)
-            then
-                local nearbyFriendly = mob:getNearbyEntities(20)
-                if nearbyFriendly ~= nil then 
-                    local friendlyCount = 0
-                    for _, friendlyTarget in pairs(nearbyFriendly) do
-                        if friendlyTarget:getAllegiance() == mob:getAllegiance() then
-                            if
-                                utils.isInTable(friendlyTarget:getMainJob(), evokersTarget) and
-                                not friendlyTarget:hasStatusEffect(tpz.effect.EVOKERS_ROLL) and
-                                (mob:checkDistance(friendlyTarget) >= 12) and
-                                (mob:checkDistance(friendlyTarget) <= 20)
-                            then
-                                friendlyCount = friendlyCount + 1
-                                if friendlyCount > 0 then
-                                    if CanUseAbility(mob) then
-                                        local pos = friendlyTarget:getPos()
-                                        mob:setPos(pos.x, pos.y, pos.z)
-                                        mob:addStatusEffect(tpz.effect.BIND, 1, 0, 5)
-                                        mob:setEffectUndispellable(tpz.effect.BIND)
-                                        mob:setLocalVar("shouldEvokers", 1)
-                                        return
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-            end
+        -- else -- Evoker's roll logic
+        --     local target = mob:getTarget()
+        --     local me = mob:getID()
+        --     if
+        --         (os.time() > globalJATimer) and
+        --         target and
+        --         (target:getTarget():getID() ~= me)
+        --     then
+        --         local nearbyFriendly = mob:getNearbyEntities(20)
+        --         if nearbyFriendly ~= nil then 
+        --             local friendlyCount = 0
+        --             for _, friendlyTarget in pairs(nearbyFriendly) do
+        --                 if friendlyTarget:getAllegiance() == mob:getAllegiance() then
+        --                     if
+        --                         utils.isInTable(friendlyTarget:getMainJob(), evokersTarget) and
+        --                         not friendlyTarget:hasStatusEffect(tpz.effect.EVOKERS_ROLL) and
+        --                         (mob:checkDistance(friendlyTarget) >= 12) and
+        --                         (mob:checkDistance(friendlyTarget) <= 20)
+        --                     then
+        --                         friendlyCount = friendlyCount + 1
+        --                         if friendlyCount > 0 then
+        --                             if CanUseAbility(mob) then
+        --                                 local pos = friendlyTarget:getPos()
+        --                                 mob:setPos(pos.x, pos.y, pos.z)
+        --                                 mob:addStatusEffect(tpz.effect.BIND, 1, 0, 5)
+        --                                 mob:setEffectUndispellable(tpz.effect.BIND)
+        --                                 mob:setLocalVar("shouldEvokers", 1)
+        --                                 return
+        --                             end
+        --                         end
+        --                     end
+        --                 end
+        --             end
+        --         end
+        --     end
         end
     end
 
