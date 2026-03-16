@@ -4647,12 +4647,16 @@ namespace battleutils
             if (PAttacker->objtype & TYPE_PC)
             {
                 auto* weapon = dynamic_cast<CItemWeapon*>(static_cast<CCharEntity*>(PAttacker)->getEquip(weaponSlot));
+                if (weapon && weapon->getModifier(Mod::CRITHITRATE_SLOT) > 0)
+                {
+                    crithitrate += weapon->getModifier(Mod::CRITHITRATE_SLOT);
+                }
+
                 if (weapon && weapon->getLatent(Mod::CRITHITRATE_SLOT) > 0)
                 {
                     crithitrate += weapon->getLatent(Mod::CRITHITRATE_SLOT);
                 }
             }
-
             // Crits floor at 1%
             // https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
             crithitrate = std::clamp(crithitrate, 1, 100);
@@ -4778,6 +4782,11 @@ namespace battleutils
             if (PAttacker->objtype & TYPE_PC)
             {
                 auto* weapon = dynamic_cast<CItemWeapon*>(static_cast<CCharEntity*>(PAttacker)->getEquip(weaponSlot));
+                if (weapon && weapon->getModifier(Mod::CRITHITRATE_SLOT) > 0)
+                {
+                    crithitrate += weapon->getModifier(Mod::CRITHITRATE_SLOT);
+                }
+
                 if (weapon && weapon->getLatent(Mod::CRITHITRATE_SLOT) > 0)
                 {
                     crithitrate += weapon->getLatent(Mod::CRITHITRATE_SLOT);
