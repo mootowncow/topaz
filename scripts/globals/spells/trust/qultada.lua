@@ -199,41 +199,41 @@ function onMobFight(mob, target)
                     end
                 end
             end
-        else
-            local target = mob:getTarget()
-            local me = mob:getID()
-            if
-                (os.time() > globalJATimer) and
-                target and
-                (target:getTarget():getID() ~= me)
-            then
-                local nearbyFriendly = mob:getNearbyEntities(20)
-                if nearbyFriendly ~= nil then 
-                    local friendlyCount = 0
-                    for _, friendlyTarget in pairs(nearbyFriendly) do
-                        if friendlyTarget:getAllegiance() == mob:getAllegiance() then
-                            if
-                                utils.isInTable(friendlyTarget:getMainJob(), evokersTarget) and
-                                not friendlyTarget:hasStatusEffect(tpz.effect.EVOKERS_ROLL) and
-                                (mob:checkDistance(friendlyTarget) >= 12) and
-                                (mob:checkDistance(friendlyTarget) <= 20)
-                            then
-                                friendlyCount = friendlyCount + 1
-                                if friendlyCount > 0 then
-                                    if CanUseAbility(mob) then
-                                        local pos = friendlyTarget:getPos()
-                                        mob:setPos(pos.x, pos.y, pos.z)
-                                        mob:addStatusEffect(tpz.effect.BIND, 1, 0, 5)
-                                        mob:setEffectUndispellable(tpz.effect.BIND)
-                                        mob:setLocalVar("shouldEvokers", 1)
-                                        return
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-            end
+        -- else -- Evoker's roll logic
+        --     local target = mob:getTarget()
+        --     local me = mob:getID()
+        --     if
+        --         (os.time() > globalJATimer) and
+        --         target and
+        --         (target:getTarget():getID() ~= me)
+        --     then
+        --         local nearbyFriendly = mob:getNearbyEntities(20)
+        --         if nearbyFriendly ~= nil then 
+        --             local friendlyCount = 0
+        --             for _, friendlyTarget in pairs(nearbyFriendly) do
+        --                 if friendlyTarget:getAllegiance() == mob:getAllegiance() then
+        --                     if
+        --                         utils.isInTable(friendlyTarget:getMainJob(), evokersTarget) and
+        --                         not friendlyTarget:hasStatusEffect(tpz.effect.EVOKERS_ROLL) and
+        --                         (mob:checkDistance(friendlyTarget) >= 12) and
+        --                         (mob:checkDistance(friendlyTarget) <= 20)
+        --                     then
+        --                         friendlyCount = friendlyCount + 1
+        --                         if friendlyCount > 0 then
+        --                             if CanUseAbility(mob) then
+        --                                 local pos = friendlyTarget:getPos()
+        --                                 mob:setPos(pos.x, pos.y, pos.z)
+        --                                 mob:addStatusEffect(tpz.effect.BIND, 1, 0, 5)
+        --                                 mob:setEffectUndispellable(tpz.effect.BIND)
+        --                                 mob:setLocalVar("shouldEvokers", 1)
+        --                                 return
+        --                             end
+        --                         end
+        --                     end
+        --                 end
+        --             end
+        --         end
+        --     end
         end
     end
 
