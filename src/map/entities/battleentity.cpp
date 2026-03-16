@@ -2608,7 +2608,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                     if (!isBlocked)
                     {
                         battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
-                                                   attack.GetDamage());
+                                                   attack.GetDamage(), static_cast<SLOTTYPE>(attack.GetWeaponSlot()));
                     }
 
                     uint8 enspell = (uint8)this->getMod(Mod::ENSPELL);
@@ -2648,7 +2648,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         actionTarget.addEffectParam == 0)
                     {
                         battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()],
-                                                   attack.GetDamage(), true);
+                                                   attack.GetDamage(), static_cast<SLOTTYPE>(attack.GetWeaponSlot()), true);
                     }
 
                     // Try to proc TH

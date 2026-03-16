@@ -2197,8 +2197,9 @@ tpz.mod =
     ENH_DIVINE_CARESS       = 1437, -- Increases the amount of spells blocked by Divine Caress before it fades
     GLOBAL_DMG_DONE         = 1438, -- Global reduction to damage done (Currently only works for magic / monster tp moves / automaton tp moves)
     ABSORB_EFFECT_DURATION  = 1440, -- Increases the duration of absorb effects by a flat amount (e.g. mod value 10 = +10s duration)
+    ENSPELL_DMG_SLOT        = 1442, -- Bonus Enspell damage only applied by attacks in this weapon slot. i.e. Enhancing Sword
     -- 570 - 825 used by WS DMG mods these are not spares.
-    -- 1442 NEXT
+    -- 1443 NEXT
 }
 
 tpz.latent =

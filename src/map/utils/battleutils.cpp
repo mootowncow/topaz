@@ -1272,7 +1272,7 @@ namespace battleutils
         return g_PMobSkillLists[ListID];
     }
 
-    int32 CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element, uint8 enspell, actionTarget_t* Action, int32 finaldamage)
+    int32 CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element, uint8 enspell, actionTarget_t* Action, SLOTTYPE weaponSlot, int32 finaldamage)
     {
         int32 damage = 0;
 
@@ -1305,20 +1305,23 @@ namespace battleutils
 
             cap *= 2;
 
-            if (PAttacker->getMod(Mod::ENSPELL_DMG) > cap)
+            uint16 enspell = PAttacker->getMod(Mod::ENSPELL_DMG);
+
+            if (enspell > cap)
             {
                 PAttacker->setModifier(Mod::ENSPELL_DMG, cap);
                 damage = cap;
             }
-            else if (PAttacker->getMod(Mod::ENSPELL_DMG) == cap)
+            else if (enspell == cap)
             {
                 damage = cap;
             }
-            else if (PAttacker->getMod(Mod::ENSPELL_DMG) < cap)
+            else
             {
                 PAttacker->addModifier(Mod::ENSPELL_DMG, 1);
-                damage = PAttacker->getMod(Mod::ENSPELL_DMG) + 1;
+                damage = PAttacker->getMod(Mod::ENSPELL_DMG);
             }
+
             damage += PAttacker->getMod(Mod::ENSPELL_DMG_BONUS);
         }
         else if (Tier == 3) //enlight or endark
@@ -1336,6 +1339,17 @@ namespace battleutils
             }
 
             damage += PAttacker->getMod(Mod::ENSPELL_DMG_BONUS);
+        }
+
+        // Add weapon Enspell damage mod (Only applies to swings done by that weapon)
+        if (PAttacker->objtype & TYPE_PC)
+        {
+            auto* weapon = dynamic_cast<CItemWeapon*>(static_cast<CCharEntity*>(PAttacker)->getEquip(weaponSlot));
+            if (weapon && weapon->getModifier(Mod::ENSPELL_DMG_SLOT) > 0)
+                damage += weapon->getModifier(Mod::ENSPELL_DMG_SLOT);
+
+            if (weapon && weapon->getLatent(Mod::ENSPELL_DMG_SLOT) > 0)
+                damage += weapon->getLatent(Mod::ENSPELL_DMG_SLOT);
         }
 
         //matching day 10% bonus, matching weather 10% or 25% for double weather
@@ -2109,7 +2123,7 @@ namespace battleutils
     *                                                                       *
     ************************************************************************/
 
-    void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, bool isFirstSwing, CItemWeapon* weapon, int32 finaldamage, bool afterDamageCalc)
+    void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, bool isFirstSwing, CItemWeapon* weapon, int32 finaldamage, SLOTTYPE weaponSlot, bool afterDamageCalc)
     {
         CCharEntity* PChar = nullptr;
 
@@ -2320,7 +2334,7 @@ namespace battleutils
                 Action->additionalEffect = enspell_subeffects[enspell - 1];
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
-                    CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 1, enspell, Action, finaldamage);
+                    CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 1, enspell, Action, weaponSlot, finaldamage);
                 // printf("\nElement inside T1 enspell call = %i \n", element);
                 PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
                 // Handle Negative damage
@@ -2330,15 +2344,15 @@ namespace battleutils
                     Action->addEffectMessage = MSGBASIC_ENSPELL_HEAL;
                 }
             }
-            else if (enspell >= ENSPELL_II_FIRE && enspell <= ENSPELL_II_WATER && isFirstSwing)
+            else if (enspell >= ENSPELL_II_FIRE && enspell <= ENSPELL_II_WATER)
             {
                 Action->additionalEffect = enspell_subeffects[enspell - 9];
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
-                    CalculateEnspellDamage(PAttacker, PDefender, 2, enspell - 9, enspell, Action, finaldamage);
+                    CalculateEnspellDamage(PAttacker, PDefender, 2, enspell - 9, enspell, Action, weaponSlot, finaldamage);
 
-                // Add -30 element resist down effect based on the enspell for 15 seconds
-                ((CBattleEntity*)PDefender)->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_NINJUTSU_ELE_DEBUFF, 0, 30, 0, 10, 0, resistDownEle, 0, false));
+                // Add -20 element resist down effect based on the enspell for 30 seconds
+                ((CBattleEntity*)PDefender)->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_NINJUTSU_ELE_DEBUFF, 0, 20, 0, 30, 0, resistDownEle, 0, false));
                 PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
                 // Handle Negative damage
                 if (Action->addEffectParam < 0)
@@ -2352,7 +2366,7 @@ namespace battleutils
                 Action->additionalEffect = enspell_subeffects[enspell -1];
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
-                    CalculateEnspellDamage(PAttacker, PDefender, 3, enspell -1, enspell, Action, finaldamage);
+                    CalculateEnspellDamage(PAttacker, PDefender, 3, enspell -1, enspell, Action, weaponSlot, finaldamage);
 
                 PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
                 // Handle Negative damage
@@ -2380,7 +2394,7 @@ namespace battleutils
                 }
 
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
-                Action->addEffectParam = CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 1, enspell, Action, finaldamage);
+                Action->addEffectParam = CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 1, enspell, Action, weaponSlot, finaldamage);
 
                 PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
                 // Handle Negative damage
@@ -2395,7 +2409,7 @@ namespace battleutils
                 Action->additionalEffect = SUBEFFECT_LIGHT_DAMAGE;
                 Action->addEffectMessage = MSGBASIC_ENSPELL_DMG;
                 Action->addEffectParam =
-                    CalculateEnspellDamage(PAttacker, PDefender, 1, ELEMENT_LIGHT -1, enspell, Action, finaldamage);
+                    CalculateEnspellDamage(PAttacker, PDefender, 1, ELEMENT_LIGHT -1, enspell, Action, weaponSlot, finaldamage);
 
                 PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
 
@@ -2428,7 +2442,7 @@ namespace battleutils
             {
                 Action->additionalEffect = SUBEFFECT_HP_DRAIN;
                 Action->addEffectMessage = MSGBASIC_ENSPELL_HP_DRAIN;
-                Action->addEffectParam = CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 9, enspell, Action, finaldamage);
+                Action->addEffectParam = CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 9, enspell, Action, weaponSlot, finaldamage);
 
                 // Does not work on undead
                 if (PDefender->objtype == TYPE_MOB && PDefender->m_EcoSystem == SYSTEM_UNDEAD)
@@ -2460,7 +2474,7 @@ namespace battleutils
             {
                 Action->additionalEffect = SUBEFFECT_MP_DRAIN;
                 Action->addEffectMessage = MSGBASIC_ENSPELL_MP_DRAIN;
-                Action->addEffectParam = CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 9, enspell, Action, finaldamage);
+                Action->addEffectParam = CalculateEnspellDamage(PAttacker, PDefender, 1, enspell - 9, enspell, Action, weaponSlot, finaldamage);
 
                 // Does not work on undead
                 if (PDefender->objtype == TYPE_MOB && PDefender->m_EcoSystem == SYSTEM_UNDEAD)
@@ -4648,14 +4662,10 @@ namespace battleutils
             {
                 auto* weapon = dynamic_cast<CItemWeapon*>(static_cast<CCharEntity*>(PAttacker)->getEquip(weaponSlot));
                 if (weapon && weapon->getModifier(Mod::CRITHITRATE_SLOT) > 0)
-                {
                     crithitrate += weapon->getModifier(Mod::CRITHITRATE_SLOT);
-                }
 
                 if (weapon && weapon->getLatent(Mod::CRITHITRATE_SLOT) > 0)
-                {
                     crithitrate += weapon->getLatent(Mod::CRITHITRATE_SLOT);
-                }
             }
             // Crits floor at 1%
             // https://www.ffxiah.com/forum/topic/46016/first-and-final-line-of-defense-v20/122/#3635068
@@ -4783,14 +4793,10 @@ namespace battleutils
             {
                 auto* weapon = dynamic_cast<CItemWeapon*>(static_cast<CCharEntity*>(PAttacker)->getEquip(weaponSlot));
                 if (weapon && weapon->getModifier(Mod::CRITHITRATE_SLOT) > 0)
-                {
                     crithitrate += weapon->getModifier(Mod::CRITHITRATE_SLOT);
-                }
 
                 if (weapon && weapon->getLatent(Mod::CRITHITRATE_SLOT) > 0)
-                {
                     crithitrate += weapon->getLatent(Mod::CRITHITRATE_SLOT);
-                }
             }
 
             // Crits floor at 1%
