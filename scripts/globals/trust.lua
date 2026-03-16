@@ -311,6 +311,8 @@ local modByMobName =
     ['qultada'] = function(mob)
         mob:addMod(tpz.mod.DMGAOE, -15)
         mob:addMod(tpz.mod.PHANTOM_DURATION, 100)
+        mob:setMobMod(tpz.mobMod.RANGED_DELAY, 600)
+        mob:setMobMod(tpz.mobMod.AMMO_DELAY, 240)
         mob:setMobMod(tpz.mobMod.TP_USE, 1000)
         AddLightMeleeAccuracyGear(mob)
         AddArtifactGear(mob)

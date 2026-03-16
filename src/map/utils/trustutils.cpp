@@ -423,7 +423,9 @@ CTrustEntity* LoadTrust(CCharEntity* PMaster, uint32 TrustID)
     {
         rangedWeapon->setSubSkillType(trustData->rangedSkill);
 
+        // Ranged weapon delay is manually edited in trust.lua for each trust (mobmod_RANGED_DELAY and mobmod_AMMO_DELAY)
         auto rangedWepDelay = 540;
+
         rangedWeapon->setDmgType(DAMAGE_RANGED);
 
         // Shuriken damage

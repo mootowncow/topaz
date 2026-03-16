@@ -35,7 +35,7 @@ function onMobSpawn(mob)
         mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.VELOCITY_SHOT, ai.r.JA, ai.s.SPECIFIC, tpz.ja.VELOCITY_SHOT)
     end
 
-    -- Ranged Attack as much as possible (limited by "weapon" delay)
+    -- Ranged Attack as much as possible (limited by "weapon" delay). Edited in trust.lua
     mob:addSimpleGambit(ai.t.TARGET, ai.c.ALWAYS, 0, ai.r.RATTACK, 0, 0)
 
     mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.LONG_RANGE)
