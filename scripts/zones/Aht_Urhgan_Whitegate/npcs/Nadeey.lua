@@ -108,9 +108,9 @@ local augmentData =
                 stats = makeRanks(20, baseStats.jaridah_head),
                 reqItem = {
                     { id = tpz.items.QUTRUB_BANDAGE, rp = 20 },
-                    { id = tpz.items.JA_JAS_CHESTPLATE, rp = 100 },
-                    { id = tpz.items.HYDRA_SCALE, rp = 200 },
-                    { id = tpz.items.HYDRA_SCALE, rp = 200 },
+                    { id = tpz.items.JA_JAS_CHESTPLATE, rp = 1000 },
+                    { id = tpz.items.HYDRA_SCALE, rp = 2000 },
+                    { id = tpz.items.HYDRA_SCALE, rp = 2000 },
                 },
                 currency = {
                     ['ballista_point'] = 100

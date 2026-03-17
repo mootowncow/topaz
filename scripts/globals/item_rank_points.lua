@@ -9,9 +9,9 @@ require("scripts/globals/npc_util")
 require("scripts/globals/items")
 require("scripts/globals/augments")
 -----------------------------------
--- TODO: Can't rank up an item to rank20 (from 19). Doesn't properly cap at 20 and tries to go to 25 then just does nothing
--- TODO: Fix RP amounts for tiers in nadeey tables
--- TODO: Able to rank up to 30..seems capped at 28 (in item_equipment.cpp too). Fix the two m_rank >= 29 also?
+
+-- TODO: Trading equipment by itself shows current rank and how much RP until next rank as well as materials needed for RP
+-- TODO: Add logic to rank up to 20
 tpz = tpz or {}
 tpz.itemRankPoints = tpz.itemRankPoints or {}
 
@@ -88,24 +88,18 @@ local function getTierRpCap(rank)
 end
 
 local function getLeftOverMats(currentRP, tradedMatRp, validMatsQty, currentRank)
-    local tierCap = getTierRpCap(currentRank)
 
+    local tierCap = getTierRpCap(currentRank)
     local remainingRP = tierCap - currentRP
 
     if remainingRP <= 0 then
         return validMatsQty
     end
 
-    local usableMats = math.floor(remainingRP / tradedMatRp)
+    -- Allow overshoot up to tier cap
+    local usableMats = math.ceil(remainingRP / tradedMatRp)
 
-    -- Allow one mat if RP remains but is smaller than mat value
-    if usableMats == 0 and remainingRP > 0 then
-        usableMats = 1
-    end
-
-    if usableMats > validMatsQty then
-        usableMats = validMatsQty
-    end
+    usableMats = math.min(usableMats, validMatsQty)
 
     local leftoverMats = validMatsQty - usableMats
 
@@ -273,15 +267,31 @@ local function isValidTrade(player, npc, trade, augmentData)
         if leftoverMats > 0 then
             player:addItem(validMats, leftoverMats)
         end
-
-        -- Cap RP at tier limit
+        -- Cap RP at tier
         local tierCap = getTierRpCap(currentRank)
+        printf("currentRP %d, rpGained %d, New RP %d, tierCap %d", currentRP, rpGained, newRP, tierCap)
         if newRP > tierCap then
             newRP = tierCap
+            printf("New RP > tier Cap. newRP: %d", newRP)
         end
 
-        -- Calculate new rank
+        -- Calculate rank
         local newRank = calculateRank(currentRank, newRP)
+
+        -- Clamp to max augment rank
+        local equipData = augmentData.equipment[validEquipId]
+        local pathData  = equipData[augmentPath]
+        local maxRank = 0
+        for k in pairs(pathData.stats) do
+            local r = tonumber(k:match("%d+"))
+            if r and r > maxRank then
+                maxRank = r
+            end
+        end
+
+        if newRank > maxRank then
+            newRank = maxRank
+        end
 
         printf("currentRP %d, rpGained %d, newRP %d, currentRank %d, newRank %d", currentRP, rpGained, newRP, currentRank, newRank)
 
@@ -306,6 +316,9 @@ local function isValidTrade(player, npc, trade, augmentData)
             player:PrintToPlayer("Your " .. itemName .. " cannot gain anymore RP with that material!" .. " (Current Rank: " .. newRank .. ").", 0, npcName)
         else
             player:PrintToPlayer("Your " .. itemName .. " has gained " .. rpGained .. " RP for a total of " .. newRP .. " RP (Current Rank: " .. newRank .. ").", 0, npcName)
+            if leftoverMats > 0 then
+                player:PrintToPlayer(leftoverMats .. " materials were returned to you.", 0, npcName)
+            end
         end
 
         return true

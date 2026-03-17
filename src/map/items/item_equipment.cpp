@@ -462,13 +462,12 @@ void CItemEquipment::AddRankPoints(uint32 points)
         return;
 
     m_rankPoints += points;
-    printf("Before RankUp: Rank=%u RP=%u\n", m_rank, m_rankPoints);
+
     while (TryRankUp())
     {
         // Loop allows multi-rank jumps
         // Keep calling TryRankUp until it returns false
     }
-    printf("Ranked Up! New Rank=%u\n", m_rank);
 
     // Persist immediately
     if (auto* PChar = getChar())
@@ -486,7 +485,6 @@ bool CItemEquipment::TryRankUp()
 
     if (m_rankPoints >= required)
     {
-        ShowDebug("rankPoints: %u, required %u\n", m_rankPoints, required);
         m_rank++;
         return true;
     }
