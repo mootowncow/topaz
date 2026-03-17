@@ -19,18 +19,17 @@ g_mixins.families = g_mixins.families or {}
 
 g_mixins.families.colibri_mimic = function(mob)
 
-    mob:addListener("SPELL_DMG_TAKEN", "COLIBRI_MIMIC_SPELL_DMG_TAKEN", function(target, caster, spell)
+    mob:addListener("MAGIC_HIT", "COLIBRI_MIMIC_MAGIC_HIT", function(caster, mob, spell, dmg)
         if
-            not IsMobBusy(target) and
-            target:AnimationSub() == 0 and
+            mob:AnimationSub() == 0 and
             spell:tookEffect() and
             (caster:isPC() or caster:isPet() or caster:isTrust()) and
-            (spell:getSpellGroup() ~= tpz.magic.spellGroup.BLUE or target:getLocalVar("[colibri]reflect_blue_magic") == 1)
+            (spell:getSpellGroup() ~= tpz.magic.spellGroup.BLUE or mob:getLocalVar("[colibri]reflect_blue_magic") == 1)
         then
-            target:setLocalVar("[colibri]spellToMimic", spell:getID()) -- which spell to mimic
-            target:setLocalVar("[colibri]castWindow", os.time() + 30) -- after thirty seconds, will stop attempting to mimic
-            target:setLocalVar("[colibri]castTime", os.time() + 6) -- enforce a delay between original spell, and mimic spell.
-            target:AnimationSub(1)
+            mob:setLocalVar("[colibri]spellToMimic", spell:getID()) -- which spell to mimic
+            mob:setLocalVar("[colibri]castWindow", os.time() + 30) -- after thirty seconds, will stop attempting to mimic
+            mob:setLocalVar("[colibri]castTime", os.time() + 6) -- enforce a delay between original spell, and mimic spell.
+            mob:AnimationSub(1)
         end
     end)
 
@@ -39,10 +38,6 @@ g_mixins.families.colibri_mimic = function(mob)
         local castWindow = mob:getLocalVar("[colibri]castWindow")
         local castTime = mob:getLocalVar("[colibri]castTime")
         local osTime = os.time()
-
-        -- Apply MACC Equal to A+ skill of their level so they will land mimiced spells
-        local skill = utils.getSkillLvl(1, mob:getMainLvl())
-        mob:setMod(tpz.mod.MACC, skill)
 
         if not IsMobBusy(mob) then
             if mob:AnimationSub() == 1 then

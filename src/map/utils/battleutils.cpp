@@ -1303,8 +1303,6 @@ namespace battleutils
                 cap = 45;
             }
 
-            cap *= 2;
-
             uint16 enspell = PAttacker->getMod(Mod::ENSPELL_DMG);
 
             if (enspell > cap)
