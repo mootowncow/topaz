@@ -72,13 +72,13 @@ local function makeRanks(maxRank, base)
 
         -- Only add every x levels
         if everyFiveLvls > 0 then
-            rankTable[tpz.augments.CRITHITDAMAGE]               = base[tpz.augments.CRITHITDAMAGE] + everyFiveLvls
-            -- rankTable[tpz.augments.CHANCEOFSUCCESSFULBLOCK]     = base[tpz.augments.CHANCEOFSUCCESSFULBLOCK] + everyFiveLvls -- Check this has correct mod in augments.sql
+            rankTable[tpz.augments.CRITHITDAMAGE]               = base[tpz.augments.CRITHITDAMAGE] + (everyFiveLvls - 1)
+            -- rankTable[tpz.augments.CHANCEOFSUCCESSFULBLOCK]     = base[tpz.augments.CHANCEOFSUCCESSFULBLOCK] + (everyFiveLvls - 1) -- Check this has correct mod in augments.sql
         end
 
         if everyTenLvls > 0 then
-            -- rankTable[tpz.augments.HASTE]               = base[tpz.augments.HASTE] + everyTenLvls
-            -- rankTable[tpz.augments.WEAPONSKILLDMG_2]    = base[tpz.augments.WEAPONSKILLDMG_2] + everyTenLvls
+            -- rankTable[tpz.augments.HASTE]               = base[tpz.augments.HASTE] + (everyTenLvls -1)
+            -- rankTable[tpz.augments.WEAPONSKILLDMG_2]    = base[tpz.augments.WEAPONSKILLDMG_2] + (everyTenLvls - 1)
         end
 
         --[[  Example      

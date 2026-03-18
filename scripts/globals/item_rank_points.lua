@@ -10,9 +10,8 @@ require("scripts/globals/items")
 require("scripts/globals/augments")
 -----------------------------------
 
--- TODO: Gave +5% crit damage at rank20, should be +4%. The Attk / Rattk is fine
 -- TODO: Trading equipment by itself shows current rank and how much RP until next rank as well as materials needed for RP
--- TODO: Add logic to rank up to 20
+-- TODO: Add logic to rank up to 30
 tpz = tpz or {}
 tpz.itemRankPoints = tpz.itemRankPoints or {}
 
