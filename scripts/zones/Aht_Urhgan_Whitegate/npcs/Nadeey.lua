@@ -2,6 +2,7 @@
 -- Area: Aht Urhgan Whitegate
 --  NPC: Nadeey
 -- ToAU Augmenting NPC
+-- Uses Ballista Points, Infamy, and Prestige from ToAU Beastmen strongholds
 -- !pos 79 -0 54 50
 -----------------------------------
 require("scripts/globals/item_rank_points")

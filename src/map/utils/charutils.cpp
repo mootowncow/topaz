@@ -4751,6 +4751,7 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
         if (!expFromRaise)
         {
             REGIONTYPE region = PChar->loc.zone->GetRegionID();
+            uint16 PZone = PChar->getZone();
 
             // Should this user be awarded conquest points..
             if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET) && (region >= REGION_RONFAURE && region <= REGION_JEUNO))
@@ -4774,17 +4775,18 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
                 PChar->pushPacket(new CConquestPacket(PChar));
             }
 
+            HandleToAuStrongholdCurrencies(PChar, PZone);
+
             // Cruor Drops in Abyssea zones.
-            uint16 Pzone = PChar->getZone();
-            if (zoneutils::GetCurrentRegion(Pzone) == REGION_ABYSSEA)
+            if (zoneutils::GetCurrentRegion(PZone) == REGION_ABYSSEA)
             {
-                uint16 TextID = luautils::GetTextIDVariable(Pzone, "CRUOR_OBTAINED");
+                uint16 TextID = luautils::GetTextIDVariable(PZone, "CRUOR_OBTAINED");
                 uint32 Total = charutils::GetPoints(PChar, "cruor");
                 uint32 Cruor = 0; // Need to work out how to do cruor chains, until then no cruor will drop unless this line is customized for non retail play.
 
                 if (TextID == 0)
                 {
-                    ShowWarning(CL_YELLOW "Failed to fetch Cruor Message ID for zone: %i\n" CL_RESET, Pzone);
+                    ShowWarning(CL_YELLOW "Failed to fetch Cruor Message ID for zone: %i\n" CL_RESET, PZone);
                 }
 
                 if (Cruor >= 1)
@@ -6795,6 +6797,33 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
                 Action->addEffectParam = thlvl;
             }
         }
+    }
+
+    void HandleToAuStrongholdCurrencies(CCharEntity* PChar, uint16 PZone)
+    {
+        if (!PZone)
+            return;
+
+        const char* currency = nullptr;
+        int32 amount = 5;
+
+        switch (PZone)
+        {
+            case ZONE_MAMOOK:
+                currency = "ballista_point";
+                break;
+            case ZONE_ARRAPAGO_REEF:
+                currency = "infamy";
+                break;
+            case ZONE_HALVUNG:
+                currency = "prestige";
+                break;
+            default:
+                break;
+        }
+
+        if (currency)
+            charutils::AddPoints(PChar, currency, amount);
     }
 
 }; // namespace charutils
