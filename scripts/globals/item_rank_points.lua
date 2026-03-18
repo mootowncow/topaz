@@ -116,13 +116,11 @@ local function DisplayItemRankData(player, npc, trade, augmentData)
     local currentRank = tradedItem:getRank()
     local nextRankup = RankRPTable[currentRank +1]
 
-    if currentRank > 0 then
+    if nextRankup and currentRank > 0 then
         player:PrintToPlayer("Your " .. itemName .. " current Rank Points is: " .. currentRP .. ". (Rank: " .. currentRank .. ").", 0, npcName)
         player:PrintToPlayer("Next rank up at " .. nextRankup .. " Rank Points.", 0, npcName)
-        return 
+        return
     end
-
-    return player:PrintToPlayer("These materials cannot be used with this equipment.", 0, npcName)
 end
 
 local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, newRank, newRP, augmentData)
