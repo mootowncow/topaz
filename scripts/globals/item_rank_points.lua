@@ -106,6 +106,25 @@ local function getLeftOverMats(currentRP, tradedMatRp, validMatsQty, currentRank
     return leftoverMats
 end
 
+local function DisplayItemRankData(player, npc, trade, augmentData)
+    local npcName = npc:getName()
+    local tradedItem = trade:getItem(0)
+    local rawName = tradedItem:getName()
+    local itemName = rawName:gsub("_", " "):lower()
+    itemName = utils.CapitalizeFirstLetters(itemName)
+    local currentRP = tradedItem:getRankPoints()
+    local currentRank = tradedItem:getRank()
+    local nextRankup = RankRPTable[currentRank +1]
+
+    if currentRank > 0 then
+        player:PrintToPlayer("Your " .. itemName .. " current Rank Points is: " .. currentRP .. ". (Rank: " .. currentRank .. ").", 0, npcName)
+        player:PrintToPlayer("Next rank up at " .. nextRankup .. " Rank Points.", 0, npcName)
+        return 
+    end
+
+    return player:PrintToPlayer("These materials cannot be used with this equipment.", 0, npcName)
+end
+
 local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, newRank, newRP, augmentData)
     local equipData = augmentData.equipment[validEquipId]
     local pathData  = equipData[augmentPath]
@@ -331,6 +350,10 @@ end
 
 tpz.itemRankPoints.onTrade = function(player, npc, trade, augmentData)
     local npcName = npc:getName()
+
+    if trade:getSlotCount() == 1 then
+        return DisplayItemRankData(player, npc, trade, augmentData)
+    end
 
     if isValidTrade(player, npc, trade, augmentData) then
         return player:confirmTrade()
