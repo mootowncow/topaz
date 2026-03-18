@@ -14,9 +14,7 @@ function onSpellCast(caster, target, spell)
     local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
     duration = calculateDurationForLvl(duration, 75, target:getMainLvl())
 
-    if target:addStatusEffect(tpz.effect.FLURRY_II, 30, 0, duration) then
-        spell:setMsg(tpz.msg.basic.MAGIC_ENFEEB_IS)
-    else
+    if not target:addStatusEffect(tpz.effect.FLURRY_II, 30, 0, duration) then
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
     end
 

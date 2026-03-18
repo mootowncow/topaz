@@ -97,11 +97,19 @@ function onMobFight(mob, target)
                 end
             end
 
+            if mob:hasStatusEffect(tpz.effect.BUST) then
+                activeRolls = activeRolls +1
+            end
+
             -- Make sure roll was casted by us
             if (effect:getSubType() == mob:getID()) then
                 activeRolls = activeRolls +1
             end
         end
+    end
+
+    if not mob:hasStatusEffect(tpz.effect.DOUBLE_UP_CHANCE) then
+        canDoubleUp = false
     end
 
     -- Check if roll currently rolling for is Lucky
