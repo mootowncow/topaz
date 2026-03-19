@@ -138,7 +138,7 @@ local function DisplayItemRankData(player, npc, trade, augmentData)
     end
 end
 
-local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, currentPathId, newRank, newRP, augmentData)
+local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, currentPathId, newRank, newRP, currency, currencyNeeded, augmentData)
     local equipData = augmentData.equipment[validEquipId]
     local pathData  = equipData[augmentPath]
 
@@ -154,11 +154,14 @@ local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, cu
     if currentPathId == 0 then
         rankPath = PATH_IDS[augmentPath]
     end
-    
-    if newRank == 0 then
-        printf("Adding Rank 0 item with %d RP [Path: %d]", newRP, rankPath)
 
+    if newRank == 0 then
+        -- Add Item
         player:addItem(validEquipId, 1, 0, 0, 0, 0, 0, 0, 0, 0, trialId, 0, newRP, rankPath)
+
+        -- Delete currency
+        player:delCurrency(currency, currencyNeeded)
+
         return true
     end
 
@@ -181,8 +184,10 @@ local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, cu
     end
 
     -- Add Item
-    printf("Adding %d rank points [Path: %d]", newRP, rankPath)
     player:addItem(validEquipId, 1, augments[1], augments[2], augments[3], augments[4], augments[5], augments[6], augments[7], augments[8], trialId, augments[9], newRP, rankPath)
+
+    -- Delete currency
+    player:delCurrency(currency, currencyNeeded)
 
     return true
 end
@@ -247,7 +252,6 @@ local function isValidTrade(player, npc, trade, augmentData)
         -- Find the trade slot the valid base item is being traded into
         for slot = 0, trade:getSlotCount() - 1 do
             local itemId = trade:getItemId(slot)
-            printf("itemId %d", itemId)
 
             if augmentData.equipment[itemId] then
                 validEquipSlotId = slot
@@ -278,13 +282,7 @@ local function isValidTrade(player, npc, trade, augmentData)
             return false
         end
 
-        -- Step 5: Check player has enough currency to upgrade the item
-        if player:getCurrency(currency) < currencyAmount then
-            player:PrintToPlayer("You don't have enough " .. currency .. " to augment your item.", 0, npcName)
-            return false
-        end
-
-        -- Step 6: Calculate new RP and new Rank, give left over mats if trade exceeds current tier cap for that item
+        -- Step 5: Calculate new RP and new Rank, give left over mats if trade exceeds current tier cap for that item
         local currentRP     = validEquipobjId:getRankPoints()
         local currentPathId = validEquipobjId:getRankPath()
 
@@ -314,7 +312,6 @@ local function isValidTrade(player, npc, trade, augmentData)
 
         -- Cap RP at tier
         local tierCap = getTierRpCap(currentRank)
-        printf("currentRP %d, rpGained %d, New RP %d, tierCap %d", currentRP, rpGained, newRP, tierCap)
         if newRP > tierCap then
             newRP = tierCap
         end
@@ -337,10 +334,20 @@ local function isValidTrade(player, npc, trade, augmentData)
             newRank = maxRank
         end
 
-        printf("currentRP %d, rpGained %d, newRP %d, currentRank %d, newRank %d, currentPathId %d", currentRP, rpGained, newRP, currentRank, newRank, currentPathId)
+        -- printf("currentRP %d, rpGained %d, newRP %d, currentRank %d, newRank %d, currentPathId %d", currentRP, rpGained, newRP, currentRank, newRank, currentPathId)
+
+        -- Step 6: Check player has enough currency to upgrade the item
+        -- Calculate Currency based on RP Gained (Number in currency part of augmentData table per 100 RP gained)
+        local currencyNeeded = math.floor((currencyAmount * rpGained) / 100)
+        local fmtCurrencyName = currency:gsub("_", " "):lower()
+        fmtCurrencyName = utils.CapitalizeFirstLetters(fmtCurrencyName)
+        if player:getCurrency(currency) < currencyNeeded then
+            player:PrintToPlayer("You don't have enough [" .. fmtCurrencyName .. "] to augment your item. (Required: " .. currencyNeeded .. ").", 0, npcName)
+            return false
+        end
 
         -- Step 7: Add new item with new rank points amount
-        if not giveAugmentItem(player, npc, trade, validEquipId, augmentPath, currentPathId, newRank, newRP, augmentData) then
+        if not giveAugmentItem(player, npc, trade, validEquipId, augmentPath, currentPathId, newRank, newRP, currency, currencyNeeded, augmentData) then
             local ID = zones[player:getZoneID()]
             player:messageSpecial(ID.text.ITEM_CANNOT_BE_OBTAINED, validEquipId)
             return false
