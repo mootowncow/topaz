@@ -7,6 +7,12 @@
 -----------------------------------
 require("scripts/globals/item_rank_points")
 -----------------------------------
+
+-- TODO: Remove MNK SAM and NIN from Jaridah.
+-- TODO: Add Shinobi Gi set MNK / SAM / NIN (https://www.bg-wiki.com/ffxi/Shinobi_Garb_Set)
+-- TODO: Add set drops from ToAU strongholds (As an ??? item?)
+-- TODO: Remove AH flag from sets
+-- TODO: Jaridah and Siphahi paths B / C
 local baseStats =
 {
     -- Jaridah
@@ -33,58 +39,384 @@ local baseStats =
     },
     jaridah_body =
     {
-        [tpz.augments.ATTK] = 0,
-        [tpz.augments.RATTK] = 0,
-        [tpz.augments.HASTE] = 0,
+        ['Path A'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.HASTE] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.HASTE] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.HASTE] = 0,
+        },
     },
     jaridah_hands =
     {
-        [tpz.augments.ATTK] = 0,
-        [tpz.augments.RATTK] = 0,
-        [tpz.augments.WEAPONSKILLDMG_2] = 0,
+        ['Path A'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.WEAPONSKILLDMG_2] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.WEAPONSKILLDMG_2] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.WEAPONSKILLDMG_2] = 0,
+        },
     },
     jaridah_legs =
     {
-        [tpz.augments.ATTK] = 0,
-        [tpz.augments.RATTK] = 0,
-        [tpz.augments.CRITHITDAMAGE] = 0,
+        ['Path A'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.CRITHITDAMAGE] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.CRITHITDAMAGE] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.CRITHITDAMAGE] = 0,
+        },
     },
     jaridah_feet =
     {
-        [tpz.augments.ATTK] = 0,
-        [tpz.augments.RATTK] = 0,
-        [tpz.augments.WEAPONSKILLDMG_2] = 0,
+        ['Path A'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.WEAPONSKILLDMG_2] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.WEAPONSKILLDMG_2] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.WEAPONSKILLDMG_2] = 0,
+        },
     },
 
     -- Sipahi
     sipahi_head =
     {
-        [tpz.augments.ATTK] = 0,
-        [tpz.augments.RATTK] = 0,
-        [tpz.augments.SKILLCHAINDMG] = 0,
+        ['Path A'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.SKILLCHAINDMG] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.SKILLCHAINDMG] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.SKILLCHAINDMG] = 0,
+        },
     },
     sipahi_body =
     {
-        [tpz.augments.ACC] = 0,
-        [tpz.augments.RACC] = 0,
-        [tpz.augments.CHANCEOFSUCCESSFULBLOCK] = 0,
+        ['Path A'] =
+        {
+            [tpz.augments.ACC] = 0,
+            [tpz.augments.RACC] = 0,
+            [tpz.augments.CHANCEOFSUCCESSFULBLOCK] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.ACC] = 0,
+            [tpz.augments.RACC] = 0,
+            [tpz.augments.CHANCEOFSUCCESSFULBLOCK] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.ACC] = 0,
+            [tpz.augments.RACC] = 0,
+            [tpz.augments.CHANCEOFSUCCESSFULBLOCK] = 0,
+        },
     },
     sipahi_hands =
     {
-        [tpz.augments.ATTK] = 0,
-        [tpz.augments.RATTK] = 0,
-        [tpz.augments.HASTE] = 1,
+        ['Path A'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.HASTE] = 1,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.HASTE] = 1,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.HASTE] = 1,
+        },
     },
     sipahi_legs =
     {
-        [tpz.augments.DEF] = 0,
-        [tpz.augments.PHYSDMGTAKENMINUS] = 0,
+        ['Path A'] =
+        {
+            [tpz.augments.DEF] = 0,
+            [tpz.augments.PHYSDMGTAKENMINUS] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.DEF] = 0,
+            [tpz.augments.PHYSDMGTAKENMINUS] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.DEF] = 0,
+            [tpz.augments.PHYSDMGTAKENMINUS] = 0,
+        },
     },
     sipahi_feet =
     {
-        [tpz.augments.ATTK] = 0,
-        [tpz.augments.RATTK] = 0,
-        [tpz.augments.HASTE] = 1,
+        ['Path A'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.HASTE] = 1,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.HASTE] = 1,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.HASTE] = 1,
+        },
+    },
+
+    -- Silken
+    silken_head =
+    {
+        ['Path A'] =
+        {
+            [tpz.augments.PET_ACC_RACC] = 0,
+            [tpz.augments.PET_DOUBLE_ATTACK] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.PET_ATTK_RATTK] = 0,
+            [tpz.augments.PET_STORE_TP] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.MP] = 0,
+            [tpz.augments.PET_MATT] = 0,
+        },
+    },
+    silken_body =
+    {
+        ['Path A'] =
+        {
+            [tpz.augments.PET_ACC_RACC] = 0,
+            [tpz.augments.PET_DOUBLE_ATTACK] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.PET_ATTK_RATTK] = 0,
+            [tpz.augments.PET_STORE_TP] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.MP] = 0,
+            [tpz.augments.PET_MATT] = 0,
+        },
+    },
+    silken_hands =
+    {
+        ['Path A'] =
+        {
+            [tpz.augments.PET_ACC_RACC] = 0,
+            [tpz.augments.PET_DOUBLE_ATTACK] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.PET_ATTK_RATTK] = 0,
+            [tpz.augments.PET_STORE_TP] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.MP] = 0,
+            [tpz.augments.PET_MATT] = 0,
+        },
+    },
+    silken_legs =
+    {
+        ['Path A'] =
+        {
+            [tpz.augments.PET_ACC_RACC] = 0,
+            [tpz.augments.PET_DOUBLE_ATTACK] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.PET_ATTK_RATTK] = 0,
+            [tpz.augments.PET_STORE_TP] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.MP] = 0,
+            [tpz.augments.PET_MATT] = 0,
+        },
+    },
+    silken_feet =
+    {
+        ['Path A'] =
+        {
+            [tpz.augments.PET_ACC_RACC] = 0,
+            [tpz.augments.PET_DOUBLE_ATTACK] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.PET_ATTK_RATTK] = 0,
+            [tpz.augments.PET_STORE_TP] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.MP] = 0,
+            [tpz.augments.PET_MATT] = 0,
+        },
+    },
+    -- Shinobi Gi
+    shinobi_head =
+    {
+        ['Path A'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.HASTE] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.WSACC] = 0,
+            [tpz.augments.SKILLCHAINDMG] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.HP] = 0,
+            [tpz.augments.DEF] = 0,
+            [tpz.augments.DT] = 0,
+        },
+    },
+    shinobi_body =
+    {
+        ['Path A'] =
+        {
+            [tpz.augments.WSACC] = 0,
+            [tpz.augments.CRITHITDAMAGE] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.SKILLCHAINDMG] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.HP] = 0,
+            [tpz.augments.DEF] = 0,
+            [tpz.augments.DT] = 0,
+        },
+    },
+    shinobi_hands =
+    {
+        ['Path A'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.HASTE] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.CRITHITDAMAGE] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.HP] = 0,
+            [tpz.augments.DEF] = 0,
+            [tpz.augments.DT] = 0,
+        },
+    },
+    shinobi_legs =
+    {
+        ['Path A'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.ALL_WSDMG_FIRST_HIT] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.WSACC] = 0,
+            [tpz.augments.CRITHITDAMAGE] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.HP] = 0,
+            [tpz.augments.DEF] = 0,
+            [tpz.augments.DT] = 0,
+        },
+    },
+    shinobi_feet =
+    {
+        ['Path A'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.HASTE] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.CRITHITRATE] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.HP] = 0,
+            [tpz.augments.DEF] = 0,
+            [tpz.augments.DT] = 0,
+        },
     },
 }
 
@@ -94,14 +426,20 @@ local function makeRanks(maxRank, base)
         [tpz.augments.CRITHITDAMAGE] = true,
         [tpz.augments.CHANCEOFSUCCESSFULBLOCK] = true,
         [tpz.augments.SKILLCHAINDMG] = true,
-        [tpz.augments.PHYSDMGTAKENMINUS] = true,
-        [tpz.augments.MAGICDMGTAKENMINUS] = true,
+        [tpz.augments.PET_STORE_TP] = true,
+        [tpz.augments.PET_MATT] = true,
     }
 
     local scaleEveryTen =
     {
+        [tpz.augments.CRITHITRATE] = true,
         [tpz.augments.HASTE] = true,
+        [tpz.augments.PDT] = true,
+        [tpz.augments.MDT] = true,
+        [tpz.augments.BDT] = true,
+        [tpz.augments.DT] = true,
         [tpz.augments.WEAPONSKILLDMG_2] = true,
+        [tpz.augments.PET_DOUBLE_ATTACK] = true,
     }
     local ranks = {}
 
@@ -145,6 +483,7 @@ local augmentData =
 {
     equipment =
     {
+        -- Jaridah
         [tpz.items.JARIDAH_KHUD] =
         {
             ['Path A'] =
@@ -163,28 +502,354 @@ local augmentData =
             ['Path B'] = baseStats.jaridah_head['Path B'],
             ['Path C'] = baseStats.jaridah_head['Path C'],
         },
-        -- [tpz.items.JARIDAH_PETI] = 1,
-        -- [tpz.items.JARIDAH_BAZUBANDS] = 1,
-        -- [tpz.items.JARIDAH_SALVARS] = 1,
-        -- [tpz.items.JARIDAH_NAILS] = 1,
-        -- [tpz.items.SIPAHI_JAWSHAN] = 1,
-        -- [tpz.items.SIPAHI_TURBAN] = 1,
-        -- [tpz.items.TABIN_BERET] = 1,
-        -- [tpz.items.SILKEN_HAT] = 1,
-        -- [tpz.items.TABIN_JUPON] = 1,
-        -- [tpz.items.SILKEN_COAT] = 1,
-        -- [tpz.items.SIPAHI_ZEREHS] = 1,
-        -- [tpz.items.TABIN_HOSE] = 1,
-        -- [tpz.items.SILKEN_SLOPS] = 1,
-        -- [tpz.items.SIPAHI_DASTANA] = 1,
-        -- [tpz.items.SIPAHI_BOOTS] = 1,
-        -- [tpz.items.TABIN_BRACERS] = 1,
-        -- [tpz.items.TABIN_BOOTS] = 1,
-        -- [tpz.items.SILKEN_CUFFS] = 1,
-        -- [tpz.items.SILKEN_PIGACHES] = 1,
-        -- [tpz.items.MARID_MITTENS] = 1,
-        -- [tpz.items.MARID_LEGGINGS] = 1,
-        -- [tpz.items.MARID_BELT] = 1
+        [tpz.items.JARIDAH_PETI] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.jaridah_head['Path A']),
+                reqItem = {
+                    { id = tpz.items.QUTRUB_BANDAGE, rp = 20 },
+                    { id = tpz.items.JA_JAS_CHESTPLATE, rp = 1000 },
+                    { id = tpz.items.HYDRA_SCALE, rp = 2000 },
+                    { id = tpz.items.HYDRA_SCALE, rp = 2000 },
+                },
+                currency = {
+                    ['ballista_point'] = 100
+                },
+            },
+            ['Path B'] = baseStats.jaridah_head['Path B'],
+            ['Path C'] = baseStats.jaridah_head['Path C'],
+        },
+        [tpz.items.JARIDAH_BAZUBANDS] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.jaridah_head['Path A']),
+                reqItem = {
+                    { id = tpz.items.QUTRUB_BANDAGE, rp = 20 },
+                    { id = tpz.items.JA_JAS_CHESTPLATE, rp = 1000 },
+                    { id = tpz.items.HYDRA_SCALE, rp = 2000 },
+                    { id = tpz.items.HYDRA_SCALE, rp = 2000 },
+                },
+                currency = {
+                    ['ballista_point'] = 100
+                },
+            },
+            ['Path B'] = baseStats.jaridah_head['Path B'],
+            ['Path C'] = baseStats.jaridah_head['Path C'],
+        },
+        [tpz.items.JARIDAH_SALVARS] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.jaridah_head['Path A']),
+                reqItem = {
+                    { id = tpz.items.QUTRUB_BANDAGE, rp = 20 },
+                    { id = tpz.items.JA_JAS_CHESTPLATE, rp = 1000 },
+                    { id = tpz.items.HYDRA_SCALE, rp = 2000 },
+                    { id = tpz.items.HYDRA_SCALE, rp = 2000 },
+                },
+                currency = {
+                    ['ballista_point'] = 100
+                },
+            },
+            ['Path B'] = baseStats.jaridah_head['Path B'],
+            ['Path C'] = baseStats.jaridah_head['Path C'],
+        },
+        [tpz.items.JARIDAH_NAILS] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.jaridah_head['Path A']),
+                reqItem = {
+                    { id = tpz.items.QUTRUB_BANDAGE, rp = 20 },
+                    { id = tpz.items.JA_JAS_CHESTPLATE, rp = 1000 },
+                    { id = tpz.items.HYDRA_SCALE, rp = 2000 },
+                    { id = tpz.items.HYDRA_SCALE, rp = 2000 },
+                },
+                currency = {
+                    ['ballista_point'] = 100
+                },
+            },
+            ['Path B'] = baseStats.jaridah_head['Path B'],
+            ['Path C'] = baseStats.jaridah_head['Path C'],
+        },
+
+        -- Siphahi
+        [tpz.items.SIPAHI_TURBAN] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.sipahi_head['Path A']),
+                reqItem = {
+                    { id = tpz.items.SOULFLAYER_TENTACLE, rp = 20 },
+                    { id = tpz.items.GURFURLURS_HELMET, rp = 1000 },
+                    { id = tpz.items.CERBERUS_CLAW, rp = 2000 },
+                    { id = tpz.items.CERBERUS_CLAW, rp = 2000 },
+                },
+                currency = {
+                    ['prestige'] = 100
+                },
+            },
+            ['Path B'] = baseStats.sipahi_head['Path B'],
+            ['Path C'] = baseStats.sipahi_head['Path C'],
+        },
+        [tpz.items.SIPAHI_JAWSHAN] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.sipahi_body['Path A']),
+                reqItem = {
+                    { id = tpz.items.SOULFLAYER_TENTACLE, rp = 20 },
+                    { id = tpz.items.GURFURLURS_HELMET, rp = 1000 },
+                    { id = tpz.items.CERBERUS_CLAW, rp = 2000 },
+                    { id = tpz.items.CERBERUS_CLAW, rp = 2000 },
+                },
+                currency = {
+                    ['prestige'] = 100
+                },
+            },
+            ['Path B'] = baseStats.sipahi_body['Path B'],
+            ['Path C'] = baseStats.sipahi_body['Path C'],
+        },
+        [tpz.items.SIPAHI_DASTANA] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.sipahi_hands['Path A']),
+                reqItem = {
+                    { id = tpz.items.SOULFLAYER_TENTACLE, rp = 20 },
+                    { id = tpz.items.GURFURLURS_HELMET, rp = 1000 },
+                    { id = tpz.items.CERBERUS_CLAW, rp = 2000 },
+                    { id = tpz.items.CERBERUS_CLAW, rp = 2000 },
+                },
+                currency = {
+                    ['prestige'] = 100
+                },
+            },
+            ['Path B'] = baseStats.sipahi_hands['Path B'],
+            ['Path C'] = baseStats.sipahi_hands['Path C'],
+        },
+        [tpz.items.SIPAHI_ZEREHS] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.sipahi_legs['Path A']),
+                reqItem = {
+                    { id = tpz.items.SOULFLAYER_TENTACLE, rp = 20 },
+                    { id = tpz.items.GURFURLURS_HELMET, rp = 1000 },
+                    { id = tpz.items.CERBERUS_CLAW, rp = 2000 },
+                    { id = tpz.items.CERBERUS_CLAW, rp = 2000 },
+                },
+                currency = {
+                    ['prestige'] = 100
+                },
+            },
+            ['Path B'] = baseStats.sipahi_legs['Path B'],
+            ['Path C'] = baseStats.sipahi_legs['Path C'],
+        },
+        [tpz.items.SIPAHI_BOOTS] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.sipahi_feet['Path A']),
+                reqItem = {
+                    { id = tpz.items.SOULFLAYER_TENTACLE, rp = 20 },
+                    { id = tpz.items.GURFURLURS_HELMET, rp = 1000 },
+                    { id = tpz.items.CERBERUS_CLAW, rp = 2000 },
+                    { id = tpz.items.CERBERUS_CLAW, rp = 2000 },
+                },
+                currency = {
+                    ['prestige'] = 100
+                },
+            },
+            ['Path B'] = baseStats.sipahi_feet['Path B'],
+            ['Path C'] = baseStats.sipahi_feet['Path C'],
+        },
+
+        -- Silken
+        [tpz.items.SILKEN_HAT] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.silken_head['Path A']),
+                reqItem = {
+                    { id = tpz.items.WAMOURA_SCALE, rp = 20 },
+                    { id = tpz.items.MEDUSAS_ARMLET, rp = 1000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                },
+                currency = {
+                    ['infamy'] = 100
+                },
+            },
+            ['Path B'] = baseStats.silken_head['Path B'],
+            ['Path C'] = baseStats.silken_head['Path C'],
+        },
+        [tpz.items.SILKEN_COAT] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.silken_body['Path A']),
+                reqItem = {
+                    { id = tpz.items.WAMOURA_SCALE, rp = 20 },
+                    { id = tpz.items.MEDUSAS_ARMLET, rp = 1000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                },
+                currency = {
+                    ['infamy'] = 100
+                },
+            },
+            ['Path B'] = baseStats.silken_body['Path B'],
+            ['Path C'] = baseStats.silken_body['Path C'],
+        },
+        [tpz.items.SILKEN_CUFFS] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.silken_hands['Path A']),
+                reqItem = {
+                    { id = tpz.items.WAMOURA_SCALE, rp = 20 },
+                    { id = tpz.items.MEDUSAS_ARMLET, rp = 1000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                },
+                currency = {
+                    ['infamy'] = 100
+                },
+            },
+            ['Path B'] = baseStats.silken_hands['Path B'],
+            ['Path C'] = baseStats.silken_hands['Path C'],
+        },
+        [tpz.items.SILKEN_SLOPS] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.silken_legs['Path A']),
+                reqItem = {
+                    { id = tpz.items.WAMOURA_SCALE, rp = 20 },
+                    { id = tpz.items.MEDUSAS_ARMLET, rp = 1000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                },
+                currency = {
+                    ['infamy'] = 100
+                },
+            },
+            ['Path B'] = baseStats.silken_legs['Path B'],
+            ['Path C'] = baseStats.silken_legs['Path C'],
+        },
+        [tpz.items.SILKEN_PIGACHES] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.silken_feet['Path A']),
+                reqItem = {
+                    { id = tpz.items.WAMOURA_SCALE, rp = 20 },
+                    { id = tpz.items.MEDUSAS_ARMLET, rp = 1000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                },
+                currency = {
+                    ['infamy'] = 100
+                },
+            },
+            ['Path B'] = baseStats.silken_feet['Path B'],
+            ['Path C'] = baseStats.silken_feet['Path C'],
+        },
+
+        -- Shinobi Gi
+        [tpz.items.SHINOBI_HACHIGANE] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.shinobi_head['Path A']),
+                reqItem = {
+                    { id = tpz.items.CHUNK_OF_FLAN_MEAT, rp = 20 },
+                    { id = tpz.items.MEDUSAS_ARMLET, rp = 1000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                },
+                currency = {
+                    ['infamy'] = 100
+                },
+            },
+            ['Path B'] = baseStats.shinobi_head['Path B'],
+            ['Path C'] = baseStats.shinobi_head['Path C'],
+        },
+        [tpz.items.SHINOBI_GI] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.shinobi_body['Path A']),
+                reqItem = {
+                    { id = tpz.items.CHUNK_OF_FLAN_MEAT, rp = 20 },
+                    { id = tpz.items.MEDUSAS_ARMLET, rp = 1000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                },
+                currency = {
+                    ['infamy'] = 100
+                },
+            },
+            ['Path B'] = baseStats.shinobi_body['Path B'],
+            ['Path C'] = baseStats.shinobi_body['Path C'],
+        },
+        [tpz.items.SHINOBI_TEKKO] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.shinobi_hands['Path A']),
+                reqItem = {
+                    { id = tpz.items.CHUNK_OF_FLAN_MEAT, rp = 20 },
+                    { id = tpz.items.MEDUSAS_ARMLET, rp = 1000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                },
+                currency = {
+                    ['infamy'] = 100
+                },
+            },
+            ['Path B'] = baseStats.shinobi_hands['Path B'],
+            ['Path C'] = baseStats.shinobi_hands['Path C'],
+        },
+        [tpz.items.SHINOBI_HAKAMA] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.shinobi_legs['Path A']),
+                reqItem = {
+                    { id = tpz.items.CHUNK_OF_FLAN_MEAT, rp = 20 },
+                    { id = tpz.items.MEDUSAS_ARMLET, rp = 1000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                },
+                currency = {
+                    ['infamy'] = 100
+                },
+            },
+            ['Path B'] = baseStats.shinobi_legs['Path B'],
+            ['Path C'] = baseStats.shinobi_legs['Path C'],
+        },
+        [tpz.items.SHINOBI_KYAHAN] =
+        {
+            ['Path A'] =
+            {
+                stats = makeRanks(20, baseStats.shinobi_feet['Path A']),
+                reqItem = {
+                    { id = tpz.items.CHUNK_OF_FLAN_MEAT, rp = 20 },
+                    { id = tpz.items.MEDUSAS_ARMLET, rp = 1000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                    { id = tpz.items.KHIMAIRA_HORN, rp = 2000 },
+                },
+                currency = {
+                    ['infamy'] = 100
+                },
+            },
+            ['Path B'] = baseStats.shinobi_feet['Path B'],
+            ['Path C'] = baseStats.shinobi_feet['Path C'],
+        },
     },
 
     mats =
