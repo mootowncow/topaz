@@ -102,20 +102,18 @@ static const WEATHER weakWeatherDouble[8] = { WEATHER_SQUALL,     WEATHER_HEAT_W
 static const Mod elementalObiArray[8] = { Mod::FORCE_FIRE_DWBONUS,      Mod::FORCE_ICE_DWBONUS,   Mod::FORCE_WIND_DWBONUS,  Mod::FORCE_EARTH_DWBONUS,
                              Mod::FORCE_LIGHTNING_DWBONUS, Mod::FORCE_WATER_DWBONUS, Mod::FORCE_LIGHT_DWBONUS, Mod::FORCE_DARK_DWBONUS };
 
-static const std::unordered_map<ELEMENT, ELEMENT> elementDescendant =
+static const ELEMENT elementDescendant[] =
 {
-    { ELEMENT_FIRE,     ELEMENT_WATER },
-    { ELEMENT_ICE,      ELEMENT_FIRE },
-    { ELEMENT_WIND,     ELEMENT_ICE },
-    { ELEMENT_EARTH,    ELEMENT_WIND },
-    { ELEMENT_THUNDER,  ELEMENT_EARTH },
-    { ELEMENT_WATER,    ELEMENT_THUNDER },
-    { ELEMENT_LIGHT,    ELEMENT_DARK },
-    { ELEMENT_DARK,     ELEMENT_LIGHT }
+    ELEMENT_NONE,
+    ELEMENT_WATER,
+    ELEMENT_FIRE,
+    ELEMENT_ICE,
+    ELEMENT_WIND,
+    ELEMENT_EARTH,
+    ELEMENT_THUNDER,
+    ELEMENT_DARK,
+    ELEMENT_LIGHT
 };
-
-
-
 
 /************************************************************************
 *   lists used in battleutils                                           *
@@ -808,7 +806,7 @@ namespace battleutils
             if (tpzrand::GetRandomNumber(100) < 33 || PAttacker->getMod(elementalObiArray[obiEleArrayIndex]) >= 1)
                 dayWeatherBonus += 5;
         }
-        else if (dayElement == elementDescendant.at(element))
+        else if (dayElement == elementDescendant[element])
         {
             if (tpzrand::GetRandomNumber(100) < 33 || PAttacker->getMod(elementalObiArray[obiEleArrayIndex]) >= 1)
                 dayWeatherBonus -= 5;
