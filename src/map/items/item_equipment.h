@@ -111,11 +111,13 @@ public:
     uint16 getRank() const { return m_rank; }
     uint32 getRankPoints() const { return m_rankPoints; }
     uint32 getRankPointsRequired() const;
+    uint8 getRankPath() const { return m_rankPath; }
 
 
     void setRank(uint16 rank) { m_rank = rank; }
     void setRankPoints(uint32 rankPoints) { m_rankPoints = rankPoints; }
     void setRankPointsRequired(uint32 rankPoints) { m_rankpointsRequired = rankPoints; }
+    void setRankPath(uint8 path) { m_rankPath = path; }
 
     void  AddRankPoints(uint32 points);
     bool  TryRankUp();
@@ -139,6 +141,7 @@ private:
     uint16  m_rank{ 0 };
     uint32  m_rankPoints{ 0 };
     uint32  m_rankpointsRequired{ 0 };
+    uint8   m_rankPath{ 0 };
 
     void    SetAugmentMod(uint16 type, uint8 value);
 };

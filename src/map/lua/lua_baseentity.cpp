@@ -4066,6 +4066,13 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
         {
             rankPoints = (uint16)lua_tointeger(L, -1);
         }
+
+        uint16 rankPath = 0;
+        lua_getfield(L, 1, "rankPath");
+        if (!lua_isnil(L, -1))
+        {
+            rankPath = (uint16)lua_tointeger(L, -1);
+        }
         lua_pop(L, 1);
 
         while  (PChar->getStorage(LOC_INVENTORY)->GetFreeSlotsCount() != 0 && quantity > 0)
@@ -4121,14 +4128,26 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
                 SlotID = charutils::AddItem(PChar, LOC_INVENTORY, PItem, silent);
                 if (SlotID != ERROR_SLOTID)
                 {
-                    if (PItem->isType(ITEM_EQUIPMENT) && rankPoints != 0)
+                    if (PItem->isType(ITEM_EQUIPMENT))
                     {
                         auto* storedItem = PChar->getStorage(LOC_INVENTORY)->GetItem(SlotID);
 
                         if (storedItem && storedItem->isType(ITEM_EQUIPMENT))
                         {
-                            auto* equip = static_cast<CItemEquipment*>(storedItem);
-                            equip->AddRankPoints(rankPoints);
+                            // Add Rank Points
+                            if (rankPoints != 0)
+                            {
+                                auto* equip = static_cast<CItemEquipment*>(storedItem);
+                                equip->AddRankPoints(rankPoints);
+                            }
+
+                            // Add Rank Path
+                            if (rankPath != 0)
+                            {
+                                auto* equip = static_cast<CItemEquipment*>(storedItem);
+                                equip->setRankPath(rankPath);
+                                charutils::SaveSingleItemRank(PChar, equip);
+                            }
                         }
                     }
                 }
@@ -4167,6 +4186,7 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
         uint8 augment4val = 0;
         uint16 trialNumber = 0;
         uint16 rankPoints = 0;
+        uint8 rankPath = 0;
 
         if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
             silence = lua_toboolean(L, 2);
@@ -4206,6 +4226,9 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
         if (!lua_isnil(L, 13) && lua_isnumber(L, 13))
             rankPoints = (uint16)lua_tointeger(L, 13);
 
+        if (!lua_isnil(L, 14) && lua_isnumber(L, 14))
+            rankPath = (uint16)lua_tointeger(L, 14);
+
         while (PChar->getStorage(LOC_INVENTORY)->GetFreeSlotsCount() != 0 && quantity > 0)
         {
             if (CItem* PItem = itemutils::GetItem(itemID))
@@ -4232,14 +4255,26 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
 
                 if (SlotID != ERROR_SLOTID)
                 {
-                    if (PItem->isType(ITEM_EQUIPMENT) && rankPoints != 0)
+                    if (PItem->isType(ITEM_EQUIPMENT))
                     {
                         auto* storedItem = PChar->getStorage(LOC_INVENTORY)->GetItem(SlotID);
 
                         if (storedItem && storedItem->isType(ITEM_EQUIPMENT))
                         {
-                            auto* equip = static_cast<CItemEquipment*>(storedItem);
-                            equip->AddRankPoints(rankPoints);
+                            // Add Rank Points
+                            if (rankPoints != 0)
+                            {
+                                auto* equip = static_cast<CItemEquipment*>(storedItem);
+                                equip->AddRankPoints(rankPoints);
+                            }
+
+                            // Add Rank Path
+                            if (rankPath != 0)
+                            {
+                                auto* equip = static_cast<CItemEquipment*>(storedItem);
+                                equip->setRankPath(rankPath);
+                                charutils::SaveSingleItemRank(PChar, equip);
+                            }
                         }
                     }
                 }

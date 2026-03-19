@@ -47,6 +47,20 @@ local RankRPTable =
         44020 -- Rank 29 -> 30
 }
 
+local PATH_IDS =
+{
+    ['Path A'] = 1,
+    ['Path B'] = 2,
+    ['Path C'] = 3,
+}
+
+local PATH_NAMES =
+{
+    [1] = 'Path A',
+    [2] = 'Path B',
+    [3] = 'Path C',
+}
+
 local function calculateRank(rank, rp)
     local maxRank = #RankRPTable
 
@@ -115,15 +129,16 @@ local function DisplayItemRankData(player, npc, trade, augmentData)
     local currentRP = tradedItem:getRankPoints()
     local currentRank = tradedItem:getRank()
     local nextRankup = RankRPTable[currentRank +1]
+    local currentPathId = tradedItem:getRankPath()
 
     if nextRankup and currentRank > 0 then
-        player:PrintToPlayer("Your " .. itemName .. " current Rank Points is: " .. currentRP .. ". (Rank: " .. currentRank .. ").", 0, npcName)
+        player:PrintToPlayer("Your " .. itemName .. " current Rank Points is: " .. currentRP .. ". (Rank: " .. currentRank .. ") [Path: " .. currentPathId .. "].", 0, npcName)
         player:PrintToPlayer("Next rank up at " .. nextRankup .. " Rank Points.", 0, npcName)
         return
     end
 end
 
-local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, newRank, newRP, augmentData)
+local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, currentPathId, newRank, newRP, augmentData)
     local equipData = augmentData.equipment[validEquipId]
     local pathData  = equipData[augmentPath]
 
@@ -134,11 +149,16 @@ local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, ne
     local rankKey = "Rank " .. newRank
     local rankStats = pathData.stats[rankKey]
     local trialId = 0
+    local rankPath = currentPathId
 
+    if currentPathId == 0 then
+        rankPath = PATH_IDS[augmentPath]
+    end
+    
     if newRank == 0 then
-        printf("Adding Rank 0 item with %d RP", newRP)
+        printf("Adding Rank 0 item with %d RP [Path: %d]", newRP, rankPath)
 
-        player:addItem(validEquipId, 1, 0, 0, 0, 0, 0, 0, 0, 0, trialId, 0, newRP)
+        player:addItem(validEquipId, 1, 0, 0, 0, 0, 0, 0, 0, 0, trialId, 0, newRP, rankPath)
         return true
     end
 
@@ -161,8 +181,8 @@ local function giveAugmentItem(player, npc, trade, validEquipId, augmentPath, ne
     end
 
     -- Add Item
-    printf("Adding %d rank points", newRP)
-    player:addItem(validEquipId, 1, augments[1], augments[2], augments[3], augments[4], augments[5], augments[6], augments[7], augments[8], trialId, augments[9], newRP)
+    printf("Adding %d rank points [Path: %d]", newRP, rankPath)
+    player:addItem(validEquipId, 1, augments[1], augments[2], augments[3], augments[4], augments[5], augments[6], augments[7], augments[8], trialId, augments[9], newRP, rankPath)
 
     return true
 end
@@ -179,7 +199,6 @@ local function isValidMats(trade, equipId, currentRank, augmentData)
 
             -- Get required item by rank tier
             local rankTier = getRankTier(currentRank)
-            printf("[isValidMats] rankTier %d", rankTier)
             local requiredItemIndex = pathData.reqItem[rankTier]
 
             if requiredItemIndex and npcUtil.tradeHas(trade, requiredItemIndex.id) then
@@ -266,7 +285,15 @@ local function isValidTrade(player, npc, trade, augmentData)
         end
 
         -- Step 6: Calculate new RP and new Rank, give left over mats if trade exceeds current tier cap for that item
-        local currentRP = validEquipobjId:getRankPoints()
+        local currentRP     = validEquipobjId:getRankPoints()
+        local currentPathId = validEquipobjId:getRankPath()
+
+        local newPathId = PATH_IDS[augmentPath]
+
+        if currentPathId ~= 0 and currentPathId ~= newPathId then
+            player:PrintToPlayer("This item is already locked to a different augment path.", 0, npcName)
+            return false
+        end
 
         -- Calculate leftover mats
         local leftoverMats = getLeftOverMats(currentRP, tradedMatRp, validMatsQty, currentRank)
@@ -284,12 +311,12 @@ local function isValidTrade(player, npc, trade, augmentData)
         if leftoverMats > 0 then
             player:addItem(validMats, leftoverMats)
         end
+
         -- Cap RP at tier
         local tierCap = getTierRpCap(currentRank)
         printf("currentRP %d, rpGained %d, New RP %d, tierCap %d", currentRP, rpGained, newRP, tierCap)
         if newRP > tierCap then
             newRP = tierCap
-            printf("New RP > tier Cap. newRP: %d", newRP)
         end
 
         -- Calculate rank
@@ -310,11 +337,10 @@ local function isValidTrade(player, npc, trade, augmentData)
             newRank = maxRank
         end
 
-        printf("currentRP %d, rpGained %d, newRP %d, currentRank %d, newRank %d", currentRP, rpGained, newRP, currentRank, newRank)
+        printf("currentRP %d, rpGained %d, newRP %d, currentRank %d, newRank %d, currentPathId %d", currentRP, rpGained, newRP, currentRank, newRank, currentPathId)
 
         -- Step 7: Add new item with new rank points amount
-        printf("currentRP %d", currentRP)
-        if not giveAugmentItem(player, npc, trade, validEquipId, augmentPath, newRank, newRP, augmentData) then
+        if not giveAugmentItem(player, npc, trade, validEquipId, augmentPath, currentPathId, newRank, newRP, augmentData) then
             local ID = zones[player:getZoneID()]
             player:messageSpecial(ID.text.ITEM_CANNOT_BE_OBTAINED, validEquipId)
             return false
@@ -330,9 +356,9 @@ local function isValidTrade(player, npc, trade, augmentData)
         end
 
         if (rpGained == 0) then
-            player:PrintToPlayer("Your " .. itemName .. " cannot gain anymore RP with that material!" .. " (Current Rank: " .. newRank .. ").", 0, npcName)
+            player:PrintToPlayer("Your " .. itemName .. " cannot gain anymore RP with that material!" .. " (Current Rank: " .. newRank .. ") [Path: " .. currentPathId .. "].", 0, npcName)
         else
-            player:PrintToPlayer("Your " .. itemName .. " has gained " .. rpGained .. " RP for a total of " .. newRP .. " RP (Current Rank: " .. newRank .. ").", 0, npcName)
+            player:PrintToPlayer("Your " .. itemName .. " has gained " .. rpGained .. " RP for a total of " .. newRP .. " RP (Current Rank: " .. newRank .. ") [Path: " .. currentPathId .. "].", 0, npcName)
             if leftoverMats > 0 then
                 player:PrintToPlayer(leftoverMats .. " materials were returned to you.", 0, npcName)
             end

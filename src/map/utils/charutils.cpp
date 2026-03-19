@@ -5293,13 +5293,14 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
         // Insert new data
         Sql_Query(SqlHandle,
             "REPLACE INTO char_item_rank "
-            "(charid, location, slot, rank, points) "
-            "VALUES (%u, %u, %u, %u, %u)",
+            "(charid, location, slot, rank, points, path) "
+            "VALUES (%u, %u, %u, %u, %u, %u)",
             PChar->id,
             item->getLocationID(),
             item->getSlotID(),
             item->getRank(),
-            item->getRankPoints());
+            item->getRankPoints(),
+            item->getRankPath());
     }
 
     void DeleteSingleItemRank(CCharEntity* PChar, CItemEquipment* item)
