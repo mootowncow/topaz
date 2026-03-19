@@ -9,23 +9,39 @@ require("scripts/globals/item_rank_points")
 -----------------------------------
 local baseStats =
 {
+    -- Jaridah
     jaridah_head =
     {
-        [tpz.augments.ATTK] = 0,
-        [tpz.augments.RATTK] = 0,
-        [tpz.augments.CRITHITDAMAGE] = 0,
+        ['Path A'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.CRITHITDAMAGE] = 0,
+        },
+        ['Path B'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.CRITHITDAMAGE] = 0,
+        },
+        ['Path C'] =
+        {
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.RATTK] = 0,
+            [tpz.augments.CRITHITDAMAGE] = 0,
+        }
     },
     jaridah_body =
     {
         [tpz.augments.ATTK] = 0,
         [tpz.augments.RATTK] = 0,
-        [tpz.augments.CRITHITDAMAGE] = 0,
+        [tpz.augments.HASTE] = 0,
     },
     jaridah_hands =
     {
         [tpz.augments.ATTK] = 0,
         [tpz.augments.RATTK] = 0,
-        [tpz.augments.CRITHITDAMAGE] = 0,
+        [tpz.augments.WEAPONSKILLDMG_2] = 0,
     },
     jaridah_legs =
     {
@@ -37,27 +53,56 @@ local baseStats =
     {
         [tpz.augments.ATTK] = 0,
         [tpz.augments.RATTK] = 0,
-        [tpz.augments.CRITHITDAMAGE] = 0,
+        [tpz.augments.WEAPONSKILLDMG_2] = 0,
     },
-    -- body 1 attk/rattk every level, 1% haste every 10 levels
-    -- gloves 1 attk/rattk every level, 1% WSD every 10 levels
-    -- legs 1 attk/rattk every level, 1% crit hit dmg every 5 levels
-    -- boots 1 attk/rattk every level, 1% WSD every 10 levels
 
+    -- Sipahi
     sipahi_head =
     {
         [tpz.augments.ATTK] = 0,
         [tpz.augments.RATTK] = 0,
-        [tpz.augments.CRITHITDAMAGE] = 0,
+        [tpz.augments.SKILLCHAINDMG] = 0,
     },
-    -- head 1 attk every level, 2% SC dmg every 5 levels
-    -- body 1 accuracy every level, CHANCEOFSUCCESSFULBLOCK +1% every 5 levels (check this augment works in augments.sql)
-    -- gloves 1 attk/rattk every level, 1% haste every 10 levels
-    -- legs ???
-    -- boots 1 attk/rattk every level, 1% BASE then 1% haste every 10 levels (3% total)
+    sipahi_body =
+    {
+        [tpz.augments.ACC] = 0,
+        [tpz.augments.RACC] = 0,
+        [tpz.augments.CHANCEOFSUCCESSFULBLOCK] = 0,
+    },
+    sipahi_hands =
+    {
+        [tpz.augments.ATTK] = 0,
+        [tpz.augments.RATTK] = 0,
+        [tpz.augments.HASTE] = 1,
+    },
+    sipahi_legs =
+    {
+        [tpz.augments.DEF] = 0,
+        [tpz.augments.PHYSDMGTAKENMINUS] = 0,
+    },
+    sipahi_feet =
+    {
+        [tpz.augments.ATTK] = 0,
+        [tpz.augments.RATTK] = 0,
+        [tpz.augments.HASTE] = 1,
+    },
 }
 
 local function makeRanks(maxRank, base)
+    local scaleEveryFive =
+    {
+        [tpz.augments.CRITHITDAMAGE] = true,
+        [tpz.augments.CHANCEOFSUCCESSFULBLOCK] = true,
+        [tpz.augments.SKILLCHAINDMG] = true,
+        [tpz.augments.PHYSDMGTAKENMINUS] = true,
+        [tpz.augments.MAGICDMGTAKENMINUS] = true,
+    }
+
+    local scaleEveryTen =
+    {
+        [tpz.augments.HASTE] = true,
+        [tpz.augments.WEAPONSKILLDMG_2] = true,
+    }
     local ranks = {}
 
     for i = 1, maxRank do
@@ -65,34 +110,32 @@ local function makeRanks(maxRank, base)
         local everyFiveLvls = math.floor(i / 5)
         local everyTenLvls = math.floor(i / 10)
 
-        local rankTable =
-        {
-            [tpz.augments.ATTK]  = base[tpz.augments.ATTK]  + scale,
-            [tpz.augments.RATTK] = base[tpz.augments.RATTK] + scale,
-        }
+        local rankTable = {}
 
-        -- Only add every x levels
-        if everyFiveLvls > 0 then
-            rankTable[tpz.augments.CRITHITDAMAGE]               = base[tpz.augments.CRITHITDAMAGE] + (everyFiveLvls - 1)
-            -- rankTable[tpz.augments.CHANCEOFSUCCESSFULBLOCK]     = base[tpz.augments.CHANCEOFSUCCESSFULBLOCK] + (everyFiveLvls - 1) -- Check this has correct mod in augments.sql
+        for aug, baseValue in pairs(base) do
+            local value
+
+            if scaleEveryFive[aug] then
+                if everyFiveLvls > 0 then
+                    value = baseValue + (everyFiveLvls -1)
+                end
+
+            elseif scaleEveryTen[aug] then
+                if everyTenLvls > 0 then
+                    value = baseValue + (everyTenLvls -1)
+                end
+
+            else
+                -- default = scale every rank
+                value = baseValue + scale
+            end
+
+            if value ~= nil then
+                rankTable[aug] = value
+            end
         end
 
-        if everyTenLvls > 0 then
-            -- rankTable[tpz.augments.HASTE]               = base[tpz.augments.HASTE] + (everyTenLvls -1)
-            -- rankTable[tpz.augments.WEAPONSKILLDMG_2]    = base[tpz.augments.WEAPONSKILLDMG_2] + (everyTenLvls - 1)
-        end
-
-        --[[  Example      
-        {
-            [tpz.augments.STR] = base[tpz.augments.STR] + i,
-            [tpz.augments.INT] = base[tpz.augments.INT] + i,
-            [tpz.augments.MND] = base[tpz.augments.MND] + i,
-            [tpz.augments.ATT] = base[tpz.augments.ATT] + (i * 2),
-            [tpz.augments.ACC] = base[tpz.augments.ACC], -- Never increases with rank
-        }
-        ]]
-
-        ranks['Rank ' .. i] = rankTable
+        ranks["Rank " .. i] = rankTable
     end
 
     return ranks
@@ -106,7 +149,7 @@ local augmentData =
         {
             ['Path A'] =
             {
-                stats = makeRanks(20, baseStats.jaridah_head),
+                stats = makeRanks(20, baseStats.jaridah_head['Path A']),
                 reqItem = {
                     { id = tpz.items.QUTRUB_BANDAGE, rp = 20 },
                     { id = tpz.items.JA_JAS_CHESTPLATE, rp = 1000 },
@@ -117,8 +160,8 @@ local augmentData =
                     ['ballista_point'] = 100
                 },
             },
-            ['Path B'] = baseStats.jaridah_head,
-            ['Path C'] = baseStats.jaridah_head,
+            ['Path B'] = baseStats.jaridah_head['Path B'],
+            ['Path C'] = baseStats.jaridah_head['Path C'],
         },
         -- [tpz.items.JARIDAH_PETI] = 1,
         -- [tpz.items.JARIDAH_BAZUBANDS] = 1,
