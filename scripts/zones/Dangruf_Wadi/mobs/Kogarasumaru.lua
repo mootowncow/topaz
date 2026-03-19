@@ -29,16 +29,20 @@ function onMobFight(mob, target)
     if twohourTime == 0 then
         mob:setLocalVar("twohourTime", math.random(10, 15))
     elseif battletime >= twohourTime and STANCEtank == 0 then
-        utils.MessageParty(target, "You cannot withstand my might!", 0, "Kogarasumaru")
-        mob:useMobAbility(624) -- 2 hour "cloud" animation
+        mob:setDamage(200)
         mob:setDelay(2000)
         mob:setMod(tpz.mod.COUNTER, 0)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 50)
         mob:setMod(tpz.mod.ATT, 550)
         mob:setMod(tpz.mod.UDMGPHYS, 75)
         mob:setMod(tpz.mod.UDMGMAGIC, 75)
+
+        mob:useMobAbility(624) -- 2 hour "cloud" animation
+        utils.MessageParty(target, "You cannot withstand my might!", 0, "Kogarasumaru")
+
         mob:setLocalVar("STANCEdps", battletime + math.random(60, 90))
         mob:setLocalVar("STANCEtank", 1)
+        mob:setLocalVar("damageTaken", 0)
         mob:addListener("TAKE_DAMAGE", "KOGA_TAKE_DAMAGE", function(mob, damage, attacker, attackType, damageType)
             mob:setLocalVar("damageTaken", mob:getLocalVar("damageTaken") + damage)
             if mob:getLocalVar("damageTaken") >= 2500 then
@@ -47,15 +51,18 @@ function onMobFight(mob, target)
         end)
     end
 
-    if battletime >= STANCEdps and STANCEtank == 1 or dmgThreshold == 1 then
-        utils.MessageParty(target, "Go ahead, try and hit me", 0, "Kogarasumaru")
-        mob:useMobAbility(624) -- 2 hour "cloud" animation
+    if STANCEtank == 1 and (battletime >= STANCEdps or dmgThreshold == 1) then
+        mob:setDamage(50)
+        mob:setDelay(4000)
+        mob:setMod(tpz.mod.ATT, 200)
         mob:setMod(tpz.mod.COUNTER, 100)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 0)
-        mob:setMod(tpz.mod.ATT, 200)
-        mob:setDelay(4000)
-        mob:setMod(tpz.mod.UDMGPHYS, -75)
-        mob:setMod(tpz.mod.UDMGMAGIC, -75)
+        mob:setMod(tpz.mod.UDMGPHYS, -99)
+        mob:setMod(tpz.mod.UDMGMAGIC, -99)
+
+        mob:useMobAbility(624)
+        utils.MessageParty(target, "Go ahead, try and hit me", 0, "Kogarasumaru")
+
         mob:setLocalVar("twohourTime", battletime + math.random(60, 90))
         mob:setLocalVar("STANCEdps", 0)
         mob:setLocalVar("STANCEtank", 0)
