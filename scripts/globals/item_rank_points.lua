@@ -129,10 +129,10 @@ local function DisplayItemRankData(player, npc, trade, augmentData)
     local currentRP = tradedItem:getRankPoints()
     local currentRank = tradedItem:getRank()
     local nextRankup = RankRPTable[currentRank +1]
-    local currentPathId = tradedItem:getRankPath()
+    local currentPath = PATH_NAMES[tradedItem:getRankPath()]
 
-    if nextRankup and currentRank > 0 then
-        player:PrintToPlayer("Your " .. itemName .. " current Rank Points is: " .. currentRP .. ". (Rank: " .. currentRank .. ") [Path: " .. currentPathId .. "].", 0, npcName)
+    if nextRankup and currentRank then
+        player:PrintToPlayer("Your " .. itemName .. " current Rank Points is: " .. currentRP .. ". (Rank: " .. currentRank .. ") [" .. currentPath .. "].", 0, npcName)
         player:PrintToPlayer("Next rank up at " .. nextRankup .. " Rank Points.", 0, npcName)
         return
     end
@@ -356,9 +356,16 @@ local function isValidTrade(player, npc, trade, augmentData)
         end
 
         if (rpGained == 0) then
-            player:PrintToPlayer("Your " .. itemName .. " cannot gain anymore RP with that material!" .. " (Current Rank: " .. newRank .. ") [Path: " .. currentPathId .. "].", 0, npcName)
+            player:PrintToPlayer("Your " .. itemName .. " cannot gain anymore RP with that material!" .. " (Current Rank: " .. newRank .. ")", 0, npcName)
         else
-            player:PrintToPlayer("Your " .. itemName .. " has gained " .. rpGained .. " RP for a total of " .. newRP .. " RP (Current Rank: " .. newRank .. ") [Path: " .. currentPathId .. "].", 0, npcName)
+            local currentPath = PATH_NAMES[validEquipobjId:getRankPath()]
+
+            if currentPath then
+                player:PrintToPlayer("Your " .. itemName .. " has gained " .. rpGained .. " RP for a total of " .. newRP .. " RP (Current Rank: " .. newRank .. ") [" .. currentPath .. "]", 0, npcName)
+            else
+                player:PrintToPlayer("Your " .. itemName .. " has gained " .. rpGained .. " RP for a total of " .. newRP .. " RP (Current Rank: " .. newRank .. ")", 0, npcName)
+            end
+
             if leftoverMats > 0 then
                 player:PrintToPlayer(leftoverMats .. " materials were returned to you.", 0, npcName)
             end
