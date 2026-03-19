@@ -767,6 +767,11 @@ namespace battleutils
 
         int obiEleArrayIndex = element - 1;
 
+        if (element <= ELEMENT_NONE || element > ELEMENT_DARK)
+        {
+            return dayWeatherBonus;
+        }
+
         if (weather == strongWeatherSingle[obiEleArrayIndex])
         {
             if (PAttacker->getMod(Mod::IRIDESCENCE) >= 1)
