@@ -49771,7 +49771,7 @@ INSERT INTO `mob_spawn_points` VALUES (17428778,'Tonberry_Dismayer','Tonberry Di
 INSERT INTO `mob_spawn_points` VALUES (17428779,'Tonberrys_Elemental','Tonberry\'s Elemental',50,1,1,1,0);
 INSERT INTO `mob_spawn_points` VALUES (17428780,'Hover_Tank','Hover Tank',32,290.661,-0.016,275.049,127);
 INSERT INTO `mob_spawn_points` VALUES (17428781,'Iron_Maiden','Iron Maiden',34,299,1,252,2);
-INSERT INTO `mob_spawn_points` VALUES (17428782,'Water_Elemental','Water Elemental',38,294.355,0,277.660,118);
+-- INSERT INTO `mob_spawn_points` VALUES (17428782,'Water_Elemental','Water Elemental',38,294.355,0,277.660,118);
 -- INSERT INTO `mob_spawn_points` VALUES (17428783,'Water_Elemental','Water Elemental',38,308.612,0.034,272.225,121);
 INSERT INTO `mob_spawn_points` VALUES (17428784,'Temple_Bee','Temple Bee',37,301.085,1.490,260.047,94);
 --INSERT INTO `mob_spawn_points` VALUES (17428785,'Temple_Bee','Temple Bee',37,300.268,1.517,263.782,127);
