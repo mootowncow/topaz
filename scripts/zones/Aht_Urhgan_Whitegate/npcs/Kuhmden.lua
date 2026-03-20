@@ -26,7 +26,13 @@ function onTrade(player, npc, trade)
         [tpz.items.PEPHREDO_HIVE_CHIP]      = 'Pephredo Hive Chip',
         [tpz.items.IMP_WING]                = 'Imp Wing',
         [tpz.items.LAMIA_SKIN]              = 'Lamia Skin',
-        [tpz.items.MERROW_SCALE]            = 'Merrow Scale'
+        [tpz.items.MERROW_SCALE]            = 'Merrow Scale',
+        [tpz.items.JA_JAS_CHESTPLATE]       = 'Ja Jas Chestplate',
+        [tpz.items.HYDRA_SCALE]             = 'Hydra Scale',
+        [tpz.items.GURFURLURS_HELMET]       = 'Gurfurlurs Helmet',
+        [tpz.items.CERBERUS_CLAW]           = 'Cerberus Claw',
+        [tpz.items.MEDUSAS_ARMLET]          = 'Medusa\'s Armlet',
+        [tpz.items.KHIMAIRA_HORN]           = 'Khimaira Horn'
     }
 
 
@@ -46,7 +52,13 @@ function onTrade(player, npc, trade)
         tpz.items.PEPHREDO_HIVE_CHIP,
         tpz.items.IMP_WING,
         tpz.items.LAMIA_SKIN,
-        tpz.items.MERROW_SCALE
+        tpz.items.MERROW_SCALE,
+        tpz.items.JA_JAS_CHESTPLATE,
+        tpz.items.HYDRA_SCALE,
+        tpz.items.GURFURLURS_HELMET,
+        tpz.items.CERBERUS_CLAW,
+        tpz.items.MEDUSAS_ARMLET,
+        tpz.items.KHIMAIRA_HORN,
     }
     -----------------------------------
     -- Storage
@@ -100,29 +112,7 @@ end
 
 function onTrigger(player, npc)
     --player:startEvent(252)
-    player:PrintToPlayer("Would you like to see the additional list of items required to imbue?",0,"Kuhmden")
-    player:timer(3000, function(player)
-        player:PrintToPlayer("Qutrub Bandage - HP",0x1F,"Kuhmden")
-        player:PrintToPlayer("Flan Meat - MP",0x1F,"Kuhmden")
-        player:PrintToPlayer("Karakul Meat - Attack",0x1C,"Kuhmden")
-        player:PrintToPlayer("Ziz Meat - Ranged Attack",0x1C,"Kuhmden")
-        player:PrintToPlayer("Wivre Maul - Accuracy",0x1C,"Kuhmden")
-        player:PrintToPlayer("Qiqirn Sandbag - Ranged Accuracy",0x1C,"Kuhmden")
-        player:PrintToPlayer("Soulflayer Tentacle - Magic Attack",0x1C,"Kuhmden")
-        player:PrintToPlayer("Wamoura Scale - Magic Accuracy",0x1C,"Kuhmden")
-    end)
-    player:timer(10000, function(player)
-        player:PrintToPlayer("Marid Hair - STR",0xF,"Kuhmden")
-        player:PrintToPlayer("Puk Wing - DEX",0xF,"Kuhmden")
-        player:PrintToPlayer("Apkallu Feather - VIT",0xF,"Kuhmden")
-        player:PrintToPlayer("Pephredo Hive Chip - AGI",0xF,"Kuhmden")
-        player:PrintToPlayer("Imp Wing - INT",0xF,"Kuhmden")
-        player:PrintToPlayer("Lamia Skin - MND",0xF,"Kuhmden")
-        player:PrintToPlayer("Merrow Scale - CHR",0xF,"Kuhmden")
-    end)
-    player:timer(15000, function(player)
-        player:PrintToPlayer("I can also store these materials for you.",0,"Kuhmden")
-    end)
+    player:PrintToPlayer("I can also store ToAU augment materials for you.",0,"Kuhmden")
 end
 
 function onEventUpdate(player, csid, option)
