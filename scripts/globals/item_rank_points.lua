@@ -9,7 +9,8 @@ require("scripts/globals/npc_util")
 require("scripts/globals/items")
 require("scripts/globals/augments")
 -----------------------------------
--- TODO: cap at the items MakeRanks max rank instead of hard coded to 20.
+-- TODO: DisplayItemRankData don't tell next rank up is item is max rank (just say max rank or Next Rank up at : 0 Rank Points)
+-- TODO: Update storage NPC to hold the new items
 -- TODO: Make sure additem works properly for magian augment items and normal items still, then merge into release
 tpz = tpz or {}
 tpz.itemRankPoints = tpz.itemRankPoints or {}

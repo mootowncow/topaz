@@ -1021,7 +1021,7 @@ namespace charutils
         }
 
         // Load Rank Data
-        const char* RankQuery = "SELECT location, slot, rank, points "
+        const char* RankQuery = "SELECT location, slot, rank, points, path "
                                 "FROM char_item_rank "
                                 "WHERE charid = %u";
 
@@ -1038,6 +1038,7 @@ namespace charutils
             {
                 item->setRank(Sql_GetUIntData(SqlHandle, 2));
                 item->setRankPoints(Sql_GetUIntData(SqlHandle, 3));
+                item->setRankPath(Sql_GetUIntData(SqlHandle, 4));
             }
         }
     }
