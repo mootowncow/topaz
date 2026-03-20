@@ -4096,7 +4096,7 @@ INSERT INTO `mob_droplist` VALUES (761,2,0,1000,748,0);         -- Emerald Quada
 INSERT INTO `mob_droplist` VALUES (761,0,0,1000,2525,50);
 INSERT INTO `mob_droplist` VALUES (761,2,0,1000,2531,0);
 INSERT INTO `mob_droplist` VALUES (761,0,0,1000,2531,120);
-INSERT INTO `mob_droplist` VALUES (761,0,0,1000,4727,100);      -- Enwater II
+INSERT INTO `mob_droplist` VALUES (761,0,0,1000,4727,100);      -- Scroll of Enwater II
 INSERT INTO `mob_droplist` VALUES (762,2,0,1000,749,0);
 INSERT INTO `mob_droplist` VALUES (762,0,0,1000,1034,50);
 INSERT INTO `mob_droplist` VALUES (762,0,0,1000,1685,95);
