@@ -145,10 +145,23 @@ local function DisplayItemRankData(player, npc, trade, augmentData)
     local currentRank = tradedItem:getRank()
     local nextRankup = RankRPTable[currentRank +1]
     local currentPath = PATH_NAMES[tradedItem:getRankPath()]
+    local equipData = augmentData.equipment[tradedItem:getID()]
+    local pathData  = equipData[currentPath]
+    local maxRank = getMaxRank(pathData)
+
+    if currentRank >= maxRank then
+        nextRankup = 0
+    end
 
     if nextRankup and currentRank then
         player:PrintToPlayer("Your " .. itemName .. " current Rank Points is: " .. currentRP .. ". (Rank: " .. currentRank .. ") [" .. currentPath .. "].", 0, npcName)
-        player:PrintToPlayer("Next rank up at " .. nextRankup .. " Rank Points.", 0, npcName)
+
+        -- Check if item is currently at the max rank or not
+        if currentRank >= maxRank then
+            player:PrintToPlayer("Your " .. itemName .. " is at it's Rank Points cap!", 0, npcName)
+        else
+            player:PrintToPlayer("Next rank up at " .. nextRankup .. " Rank Points.", 0, npcName)
+        end
         return
     end
 end
