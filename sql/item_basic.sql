@@ -9799,7 +9799,7 @@ INSERT INTO `item_basic` VALUES (12456,0,'hachimaki','hachimaki',1,2084,17,0,165
 INSERT INTO `item_basic` VALUES (12457,0,'cotton_hachimaki','cotton_hachimaki',1,2084,17,0,832);
 INSERT INTO `item_basic` VALUES (12458,0,'soil_hachimaki','soil_hachimaki',1,2084,17,0,1116);
 INSERT INTO `item_basic` VALUES (12459,0,'zunari_kabuto','zunari_kabuto',1,2084,17,0,3685);
-INSERT INTO `item_basic` VALUES (12460,0,'shinobi_hachigane','shinobi_hachigane',1,2148,17,0,2860);
+INSERT INTO `item_basic` VALUES (12460,0,'shinobi_hachigane','shinobi_hachigane',1,2148,17,1,2860);
 INSERT INTO `item_basic` VALUES (12461,0,'scorpion_helm_+1','scorpion_helm_+1',1,2080,17,0,4815);
 INSERT INTO `item_basic` VALUES (12462,0,'tora_hachimaki','tora_hachimaki',1,2048,17,0,2334);
 INSERT INTO `item_basic` VALUES (12463,0,'bronze_cap_+1','bronze_cap_+1',1,2080,17,0,50);
