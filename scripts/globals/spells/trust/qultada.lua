@@ -175,10 +175,6 @@ function onMobFight(mob, target)
             effect:getType() == tpz.effect.BUST
         then
 
-            if mob:hasStatusEffect(tpz.effect.BUST) then
-                activeRolls = activeRolls +1
-            end
-
             -- Make sure roll was casted by us
             if (effect:getSubType() == mob:getID()) then
                 activeRolls = activeRolls +1
