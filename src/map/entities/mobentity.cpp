@@ -595,7 +595,6 @@ void CMobEntity::HandleToAUStrongholdsAugmentSetGearDrops(CCharEntity* PChar, ui
         return;
 
     // Jaridah, Sipahi, Silken and Shinobi sets
-    // TODO: Set drops based on zone
     static const std::vector<uint16> setItemTableList =
     {
         5626, 5628, 5630, 5632, 5634, 14524, 14526, 14542, 14932, 14934, 14955, 15603, 15605, 15620, 15687, 15689, 15706, 16061, 16063, 16079,

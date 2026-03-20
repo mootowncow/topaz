@@ -447,18 +447,20 @@ uint32 CItemEquipment::getRankPointsRequired() const
         31790,
         35550,
         39620,
-        44020 // Rank 29
+        44020,
+        48720,
+        53920, // Rank 30
     };
 
-    if (m_rank >= 29)
-        return 0;
+    if (m_rank > 30)
+        return 53920;
 
     return RankRPTable[m_rank];
 }
 
 void CItemEquipment::AddRankPoints(uint32 points)
 {
-    if (m_rank >= 29)
+    if (m_rank >= 30)
         return;
 
     m_rankPoints += points;

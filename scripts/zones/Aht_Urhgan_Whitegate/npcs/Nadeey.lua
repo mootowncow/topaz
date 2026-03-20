@@ -7,10 +7,6 @@
 -----------------------------------
 require("scripts/globals/item_rank_points")
 -----------------------------------
-
--- TODO: Add set drops from ToAU strongholds (As an ??? item?)
--- TODO: Jaridah and Siphahi paths B / C
--- Sipahi A / B / C: WSACC + WSDMG / ATT + CRIT DAMAGE / ATT + SC DMG (SC DMG CHANGED TO EVERY 2 LEVELS?)
 local baseStats =
 {
     -- Jaridah
