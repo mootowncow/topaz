@@ -10,6 +10,7 @@ require("scripts/globals/item_rank_points")
 
 -- TODO: Add set drops from ToAU strongholds (As an ??? item?)
 -- TODO: Jaridah and Siphahi paths B / C
+-- Sipahi A / B / C: WSACC + WSDMG / ATT + CRIT DAMAGE / ATT + SC DMG (SC DMG CHANGED TO EVERY 2 LEVELS?)
 local baseStats =
 {
     -- Jaridah
@@ -18,20 +19,17 @@ local baseStats =
         ['Path A'] =
         {
             [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
             [tpz.augments.CRITHITDAMAGE] = 0,
         },
         ['Path B'] =
         {
-            [tpz.augments.ATTK] = 0,
             [tpz.augments.RATTK] = 0,
-            [tpz.augments.CRITHITDAMAGE] = 0,
+            [tpz.augments.SNAP_SHOT] = 0,
         },
         ['Path C'] =
         {
-            [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.CRITHITDAMAGE] = 0,
+            [tpz.augments.MP] = 0,
+            [tpz.augments.MATT] = 0,
         }
     },
     jaridah_body =
@@ -39,84 +37,78 @@ local baseStats =
         ['Path A'] =
         {
             [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
             [tpz.augments.HASTE] = 0,
         },
         ['Path B'] =
         {
-            [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.HASTE] = 0,
+            [tpz.augments.RACC] = 0,
+            [tpz.augments.ENMITY_MINUS] = 0,
+            [tpz.augments.RAPID_SHOT] = 0,
         },
         ['Path C'] =
         {
-            [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.HASTE] = 0,
-        },
+            [tpz.augments.MP] = 0,
+            [tpz.augments.INT] = 0,
+            [tpz.augments.MACC] = 0,
+            [tpz.augments.MATT] = 0,
+        }
     },
     jaridah_hands =
     {
         ['Path A'] =
         {
             [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.WEAPONSKILLDMG_2] = 0,
+            [tpz.augments.ALL_WSDMG_FIRST_HIT] = 0,
         },
         ['Path B'] =
         {
-            [tpz.augments.ATTK] = 0,
             [tpz.augments.RATTK] = 0,
-            [tpz.augments.WEAPONSKILLDMG_2] = 0,
+            [tpz.augments.ALL_WSDMG_FIRST_HIT] = 0,
         },
         ['Path C'] =
         {
-            [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.WEAPONSKILLDMG_2] = 0,
-        },
+            [tpz.augments.MP] = 0,
+            [tpz.augments.MACC] = 0,
+            [tpz.augments.MATT] = 0,
+        }
     },
     jaridah_legs =
     {
         ['Path A'] =
         {
             [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
             [tpz.augments.CRITHITDAMAGE] = 0,
         },
         ['Path B'] =
         {
-            [tpz.augments.ATTK] = 0,
             [tpz.augments.RATTK] = 0,
             [tpz.augments.CRITHITDAMAGE] = 0,
         },
         ['Path C'] =
         {
-            [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.CRITHITDAMAGE] = 0,
-        },
+            [tpz.augments.MP] = 0,
+            [tpz.augments.INT] = 0,
+            [tpz.augments.MATT] = 0,
+        }
     },
     jaridah_feet =
     {
         ['Path A'] =
         {
             [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.WEAPONSKILLDMG_2] = 0,
+            [tpz.augments.ALL_WSDMG_FIRST_HIT] = 0,
         },
         ['Path B'] =
         {
-            [tpz.augments.ATTK] = 0,
             [tpz.augments.RATTK] = 0,
-            [tpz.augments.WEAPONSKILLDMG_2] = 0,
+            [tpz.augments.ALL_WSDMG_FIRST_HIT] = 0,
         },
         ['Path C'] =
         {
-            [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.WEAPONSKILLDMG_2] = 0,
-        },
+            [tpz.augments.MP] = 0,
+            [tpz.augments.MACC] = 0,
+            [tpz.augments.MATT] = 0,
+        }
     },
 
     -- Sipahi
@@ -124,20 +116,17 @@ local baseStats =
     {
         ['Path A'] =
         {
-            [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.SKILLCHAINDMG] = 0,
+            [tpz.augments.WSACC] = 0,
+            [tpz.augments.ALL_WSDMG_FIRST_HIT] = 0,
         },
         ['Path B'] =
         {
             [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.SKILLCHAINDMG] = 0,
+            [tpz.augments.CRITHITDAMAGE] = 0,
         },
         ['Path C'] =
         {
             [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
             [tpz.augments.SKILLCHAINDMG] = 0,
         },
     },
@@ -151,15 +140,13 @@ local baseStats =
         },
         ['Path B'] =
         {
-            [tpz.augments.ACC] = 0,
-            [tpz.augments.RACC] = 0,
-            [tpz.augments.CHANCEOFSUCCESSFULBLOCK] = 0,
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.CRITHITDAMAGE] = 0,
         },
         ['Path C'] =
         {
-            [tpz.augments.ACC] = 0,
-            [tpz.augments.RACC] = 0,
-            [tpz.augments.CHANCEOFSUCCESSFULBLOCK] = 0,
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.SKILLCHAINDMG] = 0,
         },
     },
     sipahi_hands =
@@ -173,14 +160,12 @@ local baseStats =
         ['Path B'] =
         {
             [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.HASTE] = 1,
+            [tpz.augments.CRITHITDAMAGE] = 0,
         },
         ['Path C'] =
         {
             [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.HASTE] = 1,
+            [tpz.augments.SKILLCHAINDMG] = 0,
         },
     },
     sipahi_legs =
@@ -192,13 +177,13 @@ local baseStats =
         },
         ['Path B'] =
         {
-            [tpz.augments.DEF] = 0,
-            [tpz.augments.PHYSDMGTAKENMINUS] = 0,
+            [tpz.augments.ATTK] = 0,
+            [tpz.augments.CRITHITDAMAGE] = 0,
         },
         ['Path C'] =
         {
-            [tpz.augments.DEF] = 0,
-            [tpz.augments.PHYSDMGTAKENMINUS] = 0,
+            [tpz.augments.ACC] = 0,
+            [tpz.augments.CHANCEOFSUCCESSFULBLOCK] = 0,
         },
     },
     sipahi_feet =
@@ -212,14 +197,12 @@ local baseStats =
         ['Path B'] =
         {
             [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.HASTE] = 1,
+            [tpz.augments.CRITHITDAMAGE] = 0,
         },
         ['Path C'] =
         {
             [tpz.augments.ATTK] = 0,
-            [tpz.augments.RATTK] = 0,
-            [tpz.augments.HASTE] = 1,
+            [tpz.augments.SKILLCHAINDMG] = 0,
         },
     },
 
@@ -418,11 +401,27 @@ local baseStats =
 }
 
 local function makeRanks(maxRank, base)
+    local scaleEveryTwo =
+    {
+        [tpz.augments.STR] = true,
+        [tpz.augments.DEX] = true,
+        [tpz.augments.VIT] = true,
+        [tpz.augments.AGI] = true,
+        [tpz.augments.INT] = true,
+        [tpz.augments.MND] = true,
+        [tpz.augments.CHR] = true,
+        [tpz.augments.SKILLCHAINDMG] = true,
+        [tpz.augments.ENMITY_MINUS] = true,
+    }
+
     local scaleEveryFive =
     {
         [tpz.augments.CRITHITDAMAGE] = true,
         [tpz.augments.CHANCEOFSUCCESSFULBLOCK] = true,
-        [tpz.augments.SKILLCHAINDMG] = true,
+        [tpz.augments.SNAP_SHOT] = true,
+        [tpz.augments.RAPID_SHOT] = true,
+        [tpz.augments.MACC] = true,
+        [tpz.augments.MATT] = true,
         [tpz.augments.PET_STORE_TP] = true,
         [tpz.augments.PET_MATT] = true,
     }
@@ -435,13 +434,14 @@ local function makeRanks(maxRank, base)
         [tpz.augments.MDT] = true,
         [tpz.augments.BDT] = true,
         [tpz.augments.DT] = true,
-        [tpz.augments.WEAPONSKILLDMG_2] = true,
+        [tpz.augments.ALL_WSDMG_FIRST_HIT] = true,
         [tpz.augments.PET_DOUBLE_ATTACK] = true,
     }
     local ranks = {}
 
     for i = 1, maxRank do
         local scale = i - 1
+        local everyTwoLvls = math.floor(i / 2)
         local everyFiveLvls = math.floor(i / 5)
         local everyTenLvls = math.floor(i / 10)
 
@@ -450,7 +450,12 @@ local function makeRanks(maxRank, base)
         for aug, baseValue in pairs(base) do
             local value
 
-            if scaleEveryFive[aug] then
+            if scaleEveryTwo[aug] then
+                if everyTwoLvls > 0 then
+                    value = baseValue + (everyTwoLvls -1)
+                end
+
+            elseif scaleEveryFive[aug] then
                 if everyFiveLvls > 0 then
                     value = baseValue + (everyFiveLvls -1)
                 end
