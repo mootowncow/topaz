@@ -8,10 +8,7 @@
 require("scripts/globals/item_rank_points")
 -----------------------------------
 
--- TODO: Remove MNK SAM and NIN from Jaridah.
--- TODO: Add Shinobi Gi set MNK / SAM / NIN (https://www.bg-wiki.com/ffxi/Shinobi_Garb_Set)
 -- TODO: Add set drops from ToAU strongholds (As an ??? item?)
--- TODO: Remove AH flag from sets
 -- TODO: Jaridah and Siphahi paths B / C
 local baseStats =
 {
