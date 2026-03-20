@@ -9,8 +9,10 @@ require("scripts/globals/npc_util")
 require("scripts/globals/items")
 require("scripts/globals/augments")
 -----------------------------------
--- TODO: DisplayItemRankData don't tell next rank up is item is max rank (just say max rank or Next Rank up at : 0 Rank Points)
+
+-- TODO: Add nadeeys tables data to wiki page (already have a toau augment page) Copy this augment format maybe? https://www.bg-wiki.com/ffxi/Obstin._Sash
 -- TODO: Update storage NPC to hold the new items
+-- TODO: Rename everything to Reinforcement Points not RANK points
 -- TODO: Make sure additem works properly for magian augment items and normal items still, then merge into release
 tpz = tpz or {}
 tpz.itemRankPoints = tpz.itemRankPoints or {}
