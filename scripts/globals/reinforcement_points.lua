@@ -11,11 +11,9 @@ require("scripts/globals/augments")
 -----------------------------------
 
 -- TODO: Add nadeeys tables data to wiki page (already have a toau augment page) Copy this augment format maybe? https://www.bg-wiki.com/ffxi/Obstin._Sash
--- TODO: Update storage NPC to hold the new items
--- TODO: Rename everything to Reinforcement Points not RANK points
 -- TODO: Make sure additem works properly for magian augment items and normal items still, then merge into release
 tpz = tpz or {}
-tpz.itemRankPoints = tpz.itemRankPoints or {}
+tpz.reinforcementPoints = tpz.reinforcementPoints or {}
 
 local RankRPTable =
 {
@@ -143,10 +141,10 @@ local function DisplayItemRankData(player, npc, trade, augmentData)
     local rawName = tradedItem:getName()
     local itemName = rawName:gsub("_", " "):lower()
     itemName = utils.CapitalizeFirstLetters(itemName)
-    local currentRP = tradedItem:getRankPoints()
-    local currentRank = tradedItem:getRank()
+    local currentRP = tradedItem:getReinforcementPoints()
+    local currentRank = tradedItem:getReinforcementRank()
     local nextRankup = RankRPTable[currentRank +1]
-    local currentPath = PATH_NAMES[tradedItem:getRankPath()]
+    local currentPath = PATH_NAMES[tradedItem:getReinforcementPath()]
     local equipData = augmentData.equipment[tradedItem:getID()]
     local pathData  = equipData[currentPath]
     local maxRank = getMaxRank(pathData)
@@ -156,13 +154,13 @@ local function DisplayItemRankData(player, npc, trade, augmentData)
     end
 
     if nextRankup and currentRank then
-        player:PrintToPlayer("Your " .. itemName .. " current Rank Points is: " .. currentRP .. ". (Rank: " .. currentRank .. ") [" .. currentPath .. "].", 0, npcName)
+        player:PrintToPlayer("Your " .. itemName .. " current Reinforcement Points are: " .. currentRP .. ". (Rank: " .. currentRank .. ") [" .. currentPath .. "].", 0, npcName)
 
         -- Check if item is currently at the max rank or not
         if currentRank >= maxRank then
-            player:PrintToPlayer("Your " .. itemName .. " is at it's Rank Points cap!", 0, npcName)
+            player:PrintToPlayer("Your " .. itemName .. " is at it's Reinforcement Points cap!", 0, npcName)
         else
-            player:PrintToPlayer("Next rank up at " .. nextRankup .. " Rank Points.", 0, npcName)
+            player:PrintToPlayer("Next rank up at " .. nextRankup .. " Reinforcement Points.", 0, npcName)
         end
         return
     end
@@ -291,7 +289,7 @@ local function isValidTrade(player, npc, trade, augmentData)
         end
 
         local validEquipobjId = trade:getItem(validEquipSlotId)
-        local currentRank = validEquipobjId:getRank()
+        local currentRank = validEquipobjId:getReinforcementRank()
 
         -- Step 2: Check that the player is trading matching mats
         local validMats, validMatsQty, tradedMatRp, currency, currencyAmount, augmentPath = isValidMats(trade, validEquipId, currentRank, augmentData)
@@ -306,7 +304,7 @@ local function isValidTrade(player, npc, trade, augmentData)
         local maxRank = getMaxRank(pathData)
 
         if currentRank >= maxRank then
-            player:PrintToPlayer("Your items rank is already maxed!", 0, npcName)
+            player:PrintToPlayer("Your items Reinforcement Points are already maxed!", 0, npcName)
             return false
         end
 
@@ -317,8 +315,8 @@ local function isValidTrade(player, npc, trade, augmentData)
         end
 
         -- Step 5: Calculate new RP and new Rank, give left over mats if trade exceeds current tier cap for that item
-        local currentRP     = validEquipobjId:getRankPoints()
-        local currentPathId = validEquipobjId:getRankPath()
+        local currentRP     = validEquipobjId:getReinforcementPoints()
+        local currentPathId = validEquipobjId:getReinforcementPath()
 
         local newPathId = PATH_IDS[augmentPath]
 
@@ -376,7 +374,7 @@ local function isValidTrade(player, npc, trade, augmentData)
             return false
         end
 
-        -- Step 7: Add new item with new rank points amount
+        -- Step 7: Add new item with new reinforcement points amount
         if not giveAugmentItem(player, npc, trade, validEquipId, augmentPath, currentPathId, newRank, newRP, currency, currencyNeeded, augmentData) then
             local ID = zones[player:getZoneID()]
             player:messageSpecial(ID.text.ITEM_CANNOT_BE_OBTAINED, validEquipId)
@@ -395,7 +393,7 @@ local function isValidTrade(player, npc, trade, augmentData)
         if (rpGained == 0) then
             player:PrintToPlayer("Your " .. itemName .. " cannot gain anymore RP with that material!" .. " (Current Rank: " .. newRank .. ")", 0, npcName)
         else
-            local currentPath = PATH_NAMES[validEquipobjId:getRankPath()]
+            local currentPath = PATH_NAMES[validEquipobjId:getReinforcementPath()]
 
             if currentPath then
                 player:PrintToPlayer("Your " .. itemName .. " has gained " .. rpGained .. " RP for a total of " .. newRP .. " RP (Current Rank: " .. newRank .. ") [" .. currentPath .. "]", 0, npcName)
@@ -416,7 +414,7 @@ local function isValidTrade(player, npc, trade, augmentData)
     return false
 end
 
-tpz.itemRankPoints.onTrade = function(player, npc, trade, augmentData)
+tpz.reinforcementPoints.onTrade = function(player, npc, trade, augmentData)
     local npcName = npc:getName()
 
     if trade:getSlotCount() == 1 then
@@ -428,5 +426,5 @@ tpz.itemRankPoints.onTrade = function(player, npc, trade, augmentData)
     end
 end
 
-tpz.itemRankPoints.onTrigger = function(player, npc, augmentData)
+tpz.reinforcementPoints.onTrigger = function(player, npc, augmentData)
 end

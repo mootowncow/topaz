@@ -90,13 +90,7 @@ UPDATE item_equipment
 SET MId = 22
 WHERE slot = 8 AND rslot = 4 AND MId = 0;
 
--- Change smallint to int
-ALTER TABLE char_item_rank
-MODIFY points INT UNSIGNED NOT NULL DEFAULT 0;
-
--- Add colum if missing
-ALTER TABLE char_item_rank
-ADD COLUMN IF NOT EXISTS path TINYINT UNSIGNED NOT NULL DEFAULT 0 AFTER points;
-
+-- Delete unused character data table
+DROP TABLE IF EXISTS `char_item_rank`;
 
 

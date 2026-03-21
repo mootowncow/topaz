@@ -1020,9 +1020,9 @@ namespace charutils
             }
         }
 
-        // Load Rank Data
+        // Load Reinforcement Points data
         const char* RankQuery = "SELECT location, slot, rank, points, path "
-                                "FROM char_item_rank "
+                                "FROM char_reinforcement_points "
                                 "WHERE charid = %u";
 
         Sql_Query(SqlHandle, RankQuery, PChar->id);
@@ -1036,9 +1036,9 @@ namespace charutils
 
             if (item)
             {
-                item->setRank(Sql_GetUIntData(SqlHandle, 2));
-                item->setRankPoints(Sql_GetUIntData(SqlHandle, 3));
-                item->setRankPath(Sql_GetUIntData(SqlHandle, 4));
+                item->setReinforcementRank(Sql_GetUIntData(SqlHandle, 2));
+                item->setReinforcementPoints(Sql_GetUIntData(SqlHandle, 3));
+                item->setReinforcementPath(Sql_GetUIntData(SqlHandle, 4));
             }
         }
     }
@@ -1549,9 +1549,9 @@ namespace charutils
                 if (Sql_Query(SqlHandle, Query, NewSlotID, PChar->id, LocationID, SlotID) != SQL_ERROR &&
                     Sql_AffectedRows(SqlHandle) != 0)
                 {
-                    // Update char_item_rank table to follow item
+                    // Update char_reinforcement_points table to follow item
                     Sql_Query(SqlHandle,
-                            "UPDATE char_item_rank "
+                            "UPDATE char_reinforcement_points "
                             "SET slot = %u "
                             "WHERE charid = %u AND location = %u AND slot = %u;",
                             NewSlotID, PChar->id, LocationID, SlotID);
@@ -1659,7 +1659,7 @@ namespace charutils
                 if (PItem->isType(ITEM_EQUIPMENT))
                 {
                     if (auto* equip = static_cast<CItemEquipment*>(PItem))
-                        charutils::DeleteSingleItemRank(PChar, equip);
+                        charutils::DeleteSingleReinforcementPoints(PChar, equip);
                 }
 
                 delete PItem;
@@ -5251,7 +5251,7 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
         }
     }
 
-    void SaveItemRanks(CCharEntity* PChar)
+    void SaveReinforcementPoints(CCharEntity* PChar)
     {
         for (uint8 loc = 0; loc < CONTAINER_ID::MAX_CONTAINER_ID; ++loc)
         {
@@ -5271,46 +5271,46 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
 
                 auto* item = static_cast<CItemEquipment*>(base);
 
-                if (item->getRankPoints() == 0)
+                if (item->getReinforcementPoints() == 0)
                     continue;
 
-                SaveSingleItemRank(PChar, item);
+                SaveSingleReinforcementPoints(PChar, item);
             }
         }
     }
 
-    void SaveSingleItemRank(CCharEntity* PChar, CItemEquipment* item)
+    void SaveSingleReinforcementPoints(CCharEntity* PChar, CItemEquipment* item)
     {
         if (!item)
             return;
 
         // Skip empty data
-        if (item->getRankPoints() == 0)
+        if (item->getReinforcementPoints() == 0)
             return;
 
         // Delete any existing data for this slot
-        DeleteSingleItemRank(PChar, item);
+        DeleteSingleReinforcementPoints(PChar, item);
 
         // Insert new data
         Sql_Query(SqlHandle,
-            "REPLACE INTO char_item_rank "
+            "REPLACE INTO char_reinforcement_points "
             "(charid, location, slot, rank, points, path) "
             "VALUES (%u, %u, %u, %u, %u, %u)",
             PChar->id,
             item->getLocationID(),
             item->getSlotID(),
-            item->getRank(),
-            item->getRankPoints(),
-            item->getRankPath());
+            item->getReinforcementRank(),
+            item->getReinforcementPoints(),
+            item->getReinforcementPath());
     }
 
-    void DeleteSingleItemRank(CCharEntity* PChar, CItemEquipment* item)
+    void DeleteSingleReinforcementPoints(CCharEntity* PChar, CItemEquipment* item)
     {
         if (!item)
             return;
 
         Sql_Query(SqlHandle,
-            "DELETE FROM char_item_rank "
+            "DELETE FROM char_reinforcement_points "
             "WHERE charid = %u AND location = %u AND slot = %u",
             PChar->id,
             item->getLocationID(),

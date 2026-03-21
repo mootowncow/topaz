@@ -5,7 +5,7 @@
 -- Uses Ballista Points, Infamy, and Prestige from ToAU Beastmen strongholds
 -- !pos 79 -0 54 50
 -----------------------------------
-require("scripts/globals/item_rank_points")
+require("scripts/globals/reinforcement_points")
 -----------------------------------
 local baseStats =
 {
@@ -849,22 +849,14 @@ local augmentData =
             ['Path C'] = baseStats.shinobi_feet['Path C'],
         },
     },
-
-    mats =
-    {
-        tpz.items.QUTRUB_BANDAGE, tpz.items.CHUNK_OF_FLAN_MEAT, tpz.items.SLICE_OF_KARAKUL_MEAT, tpz.items.SLICE_OF_ZIZ_MEAT,
-        tpz.items.WIVRE_MAUL, tpz.items.QIQIRN_SANDBAG, tpz.items.SOULFLAYER_TENTACLE, tpz.items.WAMOURA_SCALE, tpz.items.LOCK_OF_MARID_HAIR,
-        tpz.items.PUK_WING, tpz.items.APKALLU_FEATHER, tpz.items.PEPHREDO_HIVE_CHIP, tpz.items.IMP_WING, tpz.items.LAMIA_SKIN,
-        tpz.items.MERROW_SCALE
-    }
 }
 
 function onTrade(player, npc, trade)
-    tpz.itemRankPoints.onTrade(player, npc, trade, augmentData)
+    tpz.reinforcementPoints.onTrade(player, npc, trade, augmentData)
 end
 
 function onTrigger(player, npc)
-    tpz.itemRankPoints.onTrigger(player, npc,augmentData)
+    tpz.reinforcementPoints.onTrigger(player, npc,augmentData)
 end
 
 function onEventUpdate(player, csid, option)

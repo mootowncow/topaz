@@ -1157,9 +1157,9 @@ void SmallPacket0x029(map_session_data_t* session, CCharEntity* PChar, CBasicPac
                 Sql_AffectedRows(SqlHandle) != 0)
             {
 
-                // Update char_item_rank table to follow item
+                // Update char_reinforcement_points table to follow item
                 Sql_Query(SqlHandle,
-                          "UPDATE char_item_rank "
+                          "UPDATE char_reinforcement_points "
                           "SET location = %u, slot = %u "
                           "WHERE charid = %u AND location = %u AND slot = %u;",
                           ToLocationID, NewSlotID, PChar->id, FromLocationID, FromSlotID);
