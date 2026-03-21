@@ -1589,7 +1589,13 @@ function utils.GetAugmentName()
     return reverseAugments
 end
 
--- Function to capitalize the first letter and make the rest lowercase
+-- Capitlizes the first letter of each word in a string
+function utils.CapitalizeFirstLetters(str)
+    return (str:gsub("(%a)([%w_']*)", function(first, rest)
+        return first:upper() .. rest:lower()
+    end))
+end
+-- Capitalize the first letter and make the rest lowercase
 function utils.PunctuateString(word)
     return word:sub(1, 1):upper() .. word:sub(2):lower()
 end

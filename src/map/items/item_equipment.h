@@ -108,17 +108,19 @@ public:
 	void	addLatent(LATENT ConditionsID, uint16 ConditionsValue, Mod ModValue, int16 ModPower);
 
 
-    uint16 getRank() const { return m_rank; }
-    uint16 getRankPoints() const { return m_rankPoints; }
-    uint16 getRankPointsRequired() const;
+    uint16 getReinforcementRank() const { return m_reinforcementRank; }
+    uint32 getReinforcementPoints() const { return m_reinforcementPoints; }
+    uint32 getReinforcementPointsRequired() const;
+    uint8  getReinforcementPath() const { return m_reinforcementPath; }
 
 
-    void setRank(uint16 rank) { m_rank = rank; }
-    void setRankPoints(uint16 rankPoints) { m_rankPoints = rankPoints; }
-    void setRankPointsRequired(uint16 rankPoints) { m_rankpointsRequired = rankPoints; }
+    void setReinforcementRank(uint16 rank) { m_reinforcementRank = rank; }
+    void setReinforcementPoints(uint32 reinforcementPoints) { m_reinforcementPoints = reinforcementPoints; }
+    void setReinforcementPointsRequired(uint32 reinforcementPoints) { m_reinforcementPointsRequired = reinforcementPoints; }
+    void setReinforcementPath(uint8 path) { m_reinforcementPath = path; }
 
-    void  AddRankPoints(uint16 points);
-    bool  TryRankUp();
+    void  AddReinforcementPoints(uint32 points);
+    bool  TryReinforcementRankUp();
 
 	std::vector<CModifier> modList;			// список модификаторов
     std::vector<CPetModifier> petModList;         // mod list for pets
@@ -136,9 +138,10 @@ private:
 	uint16	m_equipSlotID;
 	uint16	m_removeSlotID;
     uint8   m_superiorLevel;
-    uint16  m_rank{ 0 };
-    uint16  m_rankPoints{ 0 };
-    uint16  m_rankpointsRequired{ 0 };
+    uint16  m_reinforcementRank{ 0 };
+    uint32  m_reinforcementPoints{ 0 };
+    uint32  m_reinforcementPointsRequired{ 0 };
+    uint8   m_reinforcementPath{ 0 };
 
     void    SetAugmentMod(uint16 type, uint8 value);
 };

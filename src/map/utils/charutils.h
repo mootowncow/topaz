@@ -158,8 +158,9 @@ namespace charutils
     void	SaveCharJob(CCharEntity* PChar, JOBTYPE job);		        // сохраняем уровень для выбранной профессий персонажа
     void	SaveCharExp(CCharEntity* PChar, JOBTYPE job);		        // сохраняем опыт для выбранной профессии персонажа
     void	SaveCharEquip(CCharEntity* PChar);					        // сохраняем экипировку и внешний вид персонажа
-    void    SaveItemRanks(CCharEntity* PChar);                          // Save item ranks for Rank Point system
-    void    SaveSingleItemRank(CCharEntity* PChar, CItemEquipment* item);   // Saves a single item rank for Rank Point system
+    void    SaveReinforcementPoints(CCharEntity* PChar);                          // Save item ranks for Rank Point system
+    void    SaveSingleReinforcementPoints(CCharEntity* PChar, CItemEquipment* item);// Saves a single item rank for Rank Point system
+    void    DeleteSingleReinforcementPoints(CCharEntity* PChar, CItemEquipment* item);   // Deletes a single item rank for Rank Point system
     void    SaveCharLook(CCharEntity* PChar);                           // Saves a character's appearance based on style locking.
     void	SaveCharPosition(CCharEntity* PChar);				        // сохраняем позицию персонажа
     void	SaveMissionsList(CCharEntity* PChar);                       // Save the missions list
@@ -236,6 +237,7 @@ namespace charutils
     uint8 getRangedItemLevel(CCharEntity* PChar);
     bool hasEntitySpawned(CCharEntity* PChar, CBaseEntity* entity);
     void TryProcTH(CCharEntity* PChar, CMobEntity* PTarget, actionTarget_t* Action, bool highProcRate = false);
-    };
+    void HandleToAuStrongholdCurrencies(CCharEntity* PChar, uint16 PZone);
+};
 
 #endif // _CHARUTILS_H

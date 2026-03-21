@@ -4060,6 +4060,21 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
         if (quantity == 0) quantity = 1;
         lua_pop(L, 2);
 
+        uint16 reinforcementPoints = 0;
+        lua_getfield(L, 1, "reinforcementpoints");
+        if (!lua_isnil(L, -1))
+        {
+            reinforcementPoints = (uint16)lua_tointeger(L, -1);
+        }
+
+        uint16 reinforcementPath = 0;
+        lua_getfield(L, 1, "reinforcementpath");
+        if (!lua_isnil(L, -1))
+        {
+            reinforcementPath = (uint16)lua_tointeger(L, -1);
+        }
+        lua_pop(L, 1);
+
         while  (PChar->getStorage(LOC_INVENTORY)->GetFreeSlotsCount() != 0 && quantity > 0)
         {
             if (CItem* PItem = itemutils::GetItem(id))
@@ -4111,7 +4126,32 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
                 lua_pop(L, 1);
 
                 SlotID = charutils::AddItem(PChar, LOC_INVENTORY, PItem, silent);
-                if (SlotID == ERROR_SLOTID)
+                if (SlotID != ERROR_SLOTID)
+                {
+                    if (PItem->isType(ITEM_EQUIPMENT))
+                    {
+                        auto* storedItem = PChar->getStorage(LOC_INVENTORY)->GetItem(SlotID);
+
+                        if (storedItem && storedItem->isType(ITEM_EQUIPMENT))
+                        {
+                            // Add Rank Points
+                            if (reinforcementPoints != 0)
+                            {
+                                auto* equip = static_cast<CItemEquipment*>(storedItem);
+                                equip->AddReinforcementPoints(reinforcementPoints);
+                            }
+
+                            // Add Rank Path
+                            if (reinforcementPath != 0)
+                            {
+                                auto* equip = static_cast<CItemEquipment*>(storedItem);
+                                equip->setReinforcementPath(reinforcementPath);
+                                charutils::SaveSingleReinforcementPoints(PChar, equip);
+                            }
+                        }
+                    }
+                }
+                else
                     break;
             }
             else
@@ -4145,6 +4185,8 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
         uint16 augment4 = 0;
         uint8 augment4val = 0;
         uint16 trialNumber = 0;
+        uint16 reinforcementPoints = 0;
+        uint8 reinforcementPath = 0;
 
         if (!lua_isnil(L, 2) && lua_isboolean(L, 2))
             silence = lua_toboolean(L, 2);
@@ -4181,6 +4223,12 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
         else if (!lua_isnil(L, 11) && lua_isnumber(L, 11))
             trialNumber = (uint16)lua_tointeger(L, 11);
 
+        if (!lua_isnil(L, 13) && lua_isnumber(L, 13))
+            reinforcementPoints = (uint16)lua_tointeger(L, 13);
+
+        if (!lua_isnil(L, 14) && lua_isnumber(L, 14))
+            reinforcementPath = (uint16)lua_tointeger(L, 14);
+
         while (PChar->getStorage(LOC_INVENTORY)->GetFreeSlotsCount() != 0 && quantity > 0)
         {
             if (CItem* PItem = itemutils::GetItem(itemID))
@@ -4205,8 +4253,32 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
                 }
                 SlotID = charutils::AddItem(PChar, LOC_INVENTORY, PItem, silence);
 
-                // Paranoid check
-                if (SlotID == ERROR_SLOTID)
+                if (SlotID != ERROR_SLOTID)
+                {
+                    if (PItem->isType(ITEM_EQUIPMENT))
+                    {
+                        auto* storedItem = PChar->getStorage(LOC_INVENTORY)->GetItem(SlotID);
+
+                        if (storedItem && storedItem->isType(ITEM_EQUIPMENT))
+                        {
+                            // Add Rank Points
+                            if (reinforcementPoints != 0)
+                            {
+                                auto* equip = static_cast<CItemEquipment*>(storedItem);
+                                equip->AddReinforcementPoints(reinforcementPoints);
+                            }
+
+                            // Add Rank Path
+                            if (reinforcementPath != 0)
+                            {
+                                auto* equip = static_cast<CItemEquipment*>(storedItem);
+                                equip->setReinforcementPath(reinforcementPath);
+                                charutils::SaveSingleReinforcementPoints(PChar, equip);
+                            }
+                        }
+                    }
+                }
+                else
                     break;
             }
             else
@@ -4217,7 +4289,7 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
         }
     }
 
-    lua_pushboolean(L, (SlotID != ERROR_SLOTID));
+    lua_pushinteger(L, SlotID);
     return 1;
 }
 

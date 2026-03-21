@@ -90,6 +90,7 @@ UPDATE item_equipment
 SET MId = 22
 WHERE slot = 8 AND rslot = 4 AND MId = 0;
 
-
+-- Delete unused character data table
+DROP TABLE IF EXISTS `char_item_rank`;
 
 

@@ -65,6 +65,12 @@
 int32 g_pixieAmity = 0;
 time_t g_pixieLastAmityRefresh = 0;
 
+    // Mirrors, Mirror Guards, ZNM NMs
+    static const std::set<uint16> excludedMobPools = {
+        220, 2354, 1948, 4366, 2512, 2543, 6673, 691, 2089, 4217,
+        2920, 4490, 34, 35, 36, 1020, 3339
+    };
+
 
 CMobEntity::CMobEntity()
 {
@@ -536,11 +542,16 @@ void CMobEntity::DoAutoTarget()
 
 void CMobEntity::HandleToAUStrongholdsAppraisalDrops(CCharEntity* PChar, uint16 PZone)
 {
+    if (!PChar || !PZone)
+        return;
+
     // Don't drop capes if a Pet
     if (m_Type & MOBTYPE_CALLED)
-    {
         return;
-    }
+
+    // Don't drop if in excluded list
+    if (excludedMobPools.count(m_Pool) > 0)
+        return;
 
     bool isNM = (m_Type == MOBTYPE_NOTORIOUS) || (getMobMod(MOBMOD_CHECK_AS_NM) > 0);
     bool canDropItems = (getMobMod(MOBMOD_NO_DROPS) == 0);
@@ -548,17 +559,9 @@ void CMobEntity::HandleToAUStrongholdsAppraisalDrops(CCharEntity* PChar, uint16 
     // Default base 1% drop chance (out of 10000)
     uint16 baseDrop = 10;
 
-    // Mirrors, Mirror Guards, ZNM nms
-    static const std::set<uint16> excludedMobPools = {
-        220, 2354, 1948, 4366, 2512, 2543, 6673, 691, 2089, 4217,
-        2920, 4490, 34, 35, 36, 1020, 3339
-    };
-
     // NM drop rate
-    if (isNM && canDropItems && (excludedMobPools.count(m_Pool) == 0))
-    {
+    if (isNM && canDropItems)
         baseDrop = 240; // 24% 
-    }
 
     uint16 dropRate = mobutils::GetDropRate(this, baseDrop);
 
@@ -566,7 +569,47 @@ void CMobEntity::HandleToAUStrongholdsAppraisalDrops(CCharEntity* PChar, uint16 
     if (tpzrand::GetRandomNumber(10000) < dropRate)
     {
         uint16 itemId = 2279; // ??? Cape
+
         PChar->PTreasurePool->AddItem(itemId, this, static_cast<uint8>(PZone));
+    }
+}
+
+void CMobEntity::HandleToAUStrongholdsAugmentSetGearDrops(CCharEntity* PChar, uint16 PZone)
+{
+    bool isNM = (m_Type == MOBTYPE_NOTORIOUS) || (getMobMod(MOBMOD_CHECK_AS_NM) > 0);
+    bool canDropItems = (getMobMod(MOBMOD_NO_DROPS) == 0);
+
+    if (!PChar || !PZone)
+        return;
+
+    // Don't drop if a Pet
+    if (m_Type & MOBTYPE_CALLED)
+        return;
+
+    // Dont drop if not a NM or can't drop items
+    if (!isNM || !canDropItems)
+        return;
+
+    // Don't drop if in excluded list
+    if (excludedMobPools.count(m_Pool) > 0)
+        return;
+
+    // Jaridah, Sipahi, Silken and Shinobi sets
+    static const std::vector<uint16> setItemTableList =
+    {
+        5626, 5628, 5630, 5632, 5634, 14524, 14526, 14542, 14932, 14934, 14955, 15603, 15605, 15620, 15687, 15689, 15706, 16061, 16063, 16079,
+        12460, 12588, 12716, 12844, 12972
+    };
+
+    uint16 baseDrop = 240; // 24%
+    uint16 dropRate = mobutils::GetDropRate(this, baseDrop);
+
+    // Roll chance
+    if (tpzrand::GetRandomNumber(10000) < dropRate)
+    {
+        auto itemId = setItemTableList[tpzrand::GetRandomNumber(setItemTableList.size())];
+
+        PChar->PTreasurePool->AddItem(itemId, this);
     }
 }
 
@@ -2250,10 +2293,11 @@ void CMobEntity::DropItems(CCharEntity* PChar)
 
         uint16 Pzone = PChar->getZone();
 
-        // ToAU beastmen strongholds Apprisal drops
+        // ToAU beastmen strongholds Apprisal and Augment set drops drops
         if (Pzone == ZONE_MAMOOK || Pzone == ZONE_ARRAPAGO_REEF || Pzone == ZONE_HALVUNG)
         {
             HandleToAUStrongholdsAppraisalDrops(PChar, Pzone);
+            HandleToAUStrongholdsAugmentSetGearDrops(PChar, Pzone);
         }
 
         // Todo: Avatarite and Geode drops during day/weather. Much higher chance during weather than day.

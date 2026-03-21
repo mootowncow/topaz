@@ -415,57 +415,57 @@ uint16 CItemEquipment::getAugment(uint8 slot)
     return ref<uint16>(m_extra, 2 + (slot * 2));
 }
 
-uint16 CItemEquipment::getRankPointsRequired() const
+uint32 CItemEquipment::getReinforcementPointsRequired() const
 {
     // index = rank (1-based)
-    static const uint16 RankRPTable[] =
+    static const uint32 RankRPTable[] =
     {
-        0,    // dummy for index 0 (unused)
-        50,   // Rank 1 -> 2
-        80,   // Rank 2 -> 3
-        120,
-        170,
-        220,
-        280,
-        340,
-        410,
-        480,
-        560,
-        650,
-        750,
-        860,
-        980,
-        1110,
-        1250,
-        1410,
-        1580,
-        1760,
-        1960,
-        2170,
-        2400,
-        2650,
-        2910,
-        3180,
-        3460,
-        3760,
-        4070,
-        4400, // Rank 29 -> 30
+        50,   // Rank 1
+        130,  // Rank 2
+        250,
+        420,
+        640,
+        920,
+        1260,
+        1670,
+        2150,
+        2710,
+        3360,
+        4110,
+        4970,
+        5950,
+        7060,
+        8310,
+        9720,
+        11300,
+        13060,
+        15020,
+        17190,
+        22240,
+        25150,
+        28330,
+        31790,
+        35550,
+        39620,
+        44020,
+        48720,
+        53920, // Rank 30
     };
 
-    if (m_rank >= 30)
-        return 0;
+    if (m_reinforcementRank > 30)
+        return 53920;
 
-    return RankRPTable[m_rank];
+    return RankRPTable[m_reinforcementRank];
 }
 
-void CItemEquipment::AddRankPoints(uint16 points)
+void CItemEquipment::AddReinforcementPoints(uint32 points)
 {
-    if (m_rank >= 30)
+    if (m_reinforcementRank >= 30)
         return;
 
-    m_rankPoints += points;
+    m_reinforcementPoints += points;
 
-    while (TryRankUp())
+    while (TryReinforcementRankUp())
     {
         // Loop allows multi-rank jumps
         // Keep calling TryRankUp until it returns false
@@ -474,21 +474,20 @@ void CItemEquipment::AddRankPoints(uint16 points)
     // Persist immediately
     if (auto* PChar = getChar())
     {
-        charutils::SaveSingleItemRank(PChar, this);
+        charutils::SaveSingleReinforcementPoints(PChar, this);
     }
 }
 
-bool CItemEquipment::TryRankUp()
+bool CItemEquipment::TryReinforcementRankUp()
 {
-    uint16 required = getRankPointsRequired();
+    uint32 required = getReinforcementPointsRequired();
 
     if (required == 0)
         return false;
 
-    if (m_rankPoints >= required)
+    if (m_reinforcementPoints >= required)
     {
-        m_rankPoints -= required;
-        m_rank++;
+        m_reinforcementRank++;
         return true;
     }
     return false;

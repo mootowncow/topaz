@@ -538,7 +538,7 @@ inline int32 CLuaItem::setDuration(lua_State* L)
     return 0;
 }
 
-inline int32 CLuaItem::getRankPoints(lua_State* L)
+inline int32 CLuaItem::getReinforcementPoints(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
 
@@ -546,24 +546,52 @@ inline int32 CLuaItem::getRankPoints(lua_State* L)
 
     if (PItem)
     {
-        lua_pushinteger(L, PItem->getRankPoints());
+        lua_pushinteger(L, PItem->getReinforcementPoints());
         return 1;
     }
     return 0;
 }
 
-inline int32 CLuaItem::addRankPoints(lua_State* L)
+inline int32 CLuaItem::addReinforcementPoints(lua_State* L)
 {
     TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
-    uint16 rankPoints = (uint16)lua_tointeger(L, 1);
+    uint16 reinforcementPoints = (uint16)lua_tointeger(L, 1);
     auto PItem = (CItemEquipment*)m_PLuaItem;
 
     if (PItem)
     {
-        PItem->AddRankPoints(rankPoints);
+        PItem->AddReinforcementPoints(reinforcementPoints);
         return 0;
+    }
+    return 0;
+}
+
+inline int32 CLuaItem::getReinforcementRank(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
+
+    auto PItem = (CItemEquipment*)m_PLuaItem;
+
+    if (PItem)
+    {
+        lua_pushinteger(L, PItem->getReinforcementRank());
+        return 1;
+    }
+    return 0;
+}
+
+inline int32 CLuaItem::getReinforcementPath(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
+
+    auto PItem = (CItemEquipment*)m_PLuaItem;
+
+    if (PItem)
+    {
+        lua_pushinteger(L, PItem->getReinforcementPath());
+        return 1;
     }
     return 0;
 }
@@ -606,8 +634,10 @@ Lunar<CLuaItem>::Register_t CLuaItem::methods[] =
     LUNAR_DECLARE_METHOD(CLuaItem,setMsg),
     LUNAR_DECLARE_METHOD(CLuaItem,getParam),
     LUNAR_DECLARE_METHOD(CLuaItem,setParam),
-    LUNAR_DECLARE_METHOD(CLuaItem,getRankPoints),
-    LUNAR_DECLARE_METHOD(CLuaItem,addRankPoints),
+    LUNAR_DECLARE_METHOD(CLuaItem,getReinforcementPoints),
+    LUNAR_DECLARE_METHOD(CLuaItem,addReinforcementPoints),
+    LUNAR_DECLARE_METHOD(CLuaItem,getReinforcementRank),
+    LUNAR_DECLARE_METHOD(CLuaItem,getReinforcementPath),
     LUNAR_DECLARE_METHOD(CLuaItem,getModUsable),
     LUNAR_DECLARE_METHOD(CLuaItem,setModUsable),
     LUNAR_DECLARE_METHOD(CLuaItem,getPower),

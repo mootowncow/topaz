@@ -165,6 +165,7 @@ public:
     bool      IsUntargetable();
     void      DoAutoTarget();
     void      HandleToAUStrongholdsAppraisalDrops(CCharEntity* PChar, uint16 PZone);
+    void      HandleToAUStrongholdsAugmentSetGearDrops(CCharEntity* PChar, uint16 PZone);
     void      HandleMobskillExtra(uint16 PSkill);
 
     void      PostTick() override;

@@ -12,6 +12,11 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAbilityCheck(player, target, ability)
+    if player:isTrust() then
+        if not player:hasStatusEffect(tpz.effect.DOUBLE_UP_CHANCE) then
+            return 1
+        end
+    end
     ability:setRange(ability:getRange() + player:getMod(tpz.mod.ROLL_RANGE))
     return 0, 0
 end

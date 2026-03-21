@@ -2418,7 +2418,7 @@ uint16 GetDropRate(CMobEntity* PMob, uint16 base)
 
     if (category == 7) // 100% drop rate
     {
-        return 1000;
+        return 10000;
     }
 
     uint16 dropRate = gDropBase[category][th];

@@ -415,7 +415,7 @@ INSERT INTO `augments` VALUES (331, 0, 497, -1, 0, 0); -- Waltz ability delay -1
 INSERT INTO `augments` VALUES (332, 0, 175, 1, 0, 0); -- Sklchn.dmg.+1%
 INSERT INTO `augments` VALUES (333, 0, 944, 1, 0, 0); -- Conserve TP+1
 INSERT INTO `augments` VALUES (334, 0, 487, 1, 0, 0); -- Magic burst dmg.+1%
-INSERT INTO `augments` VALUES (335, 0, 542, 1, 0, 0); -- Mag. crit. hit dmg.+1%
+INSERT INTO `augments` VALUES (335, 0, 563, 1, 0, 0); -- Mag. crit. hit dmg.+1%
 INSERT INTO `augments` VALUES (336, 0, 1373, 1, 0, 0); -- Sic and Ready ability delay -1
 INSERT INTO `augments` VALUES (337, 0, 833, 1, 0, 0); -- Song recast delay -1
 INSERT INTO `augments` VALUES (338, 0, 1275, 1, 0, 0); -- Barrage+1 (additional shots, NOT acc)

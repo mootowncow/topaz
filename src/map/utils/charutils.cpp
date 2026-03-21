@@ -1020,9 +1020,9 @@ namespace charutils
             }
         }
 
-        // Load Rank Data
-        const char* RankQuery = "SELECT location, slot, rank, points "
-                                "FROM char_item_rank "
+        // Load Reinforcement Points data
+        const char* RankQuery = "SELECT location, slot, rank, points, path "
+                                "FROM char_reinforcement_points "
                                 "WHERE charid = %u";
 
         Sql_Query(SqlHandle, RankQuery, PChar->id);
@@ -1036,8 +1036,9 @@ namespace charutils
 
             if (item)
             {
-                item->setRank(Sql_GetUIntData(SqlHandle, 2));
-                item->setRankPoints(Sql_GetUIntData(SqlHandle, 3));
+                item->setReinforcementRank(Sql_GetUIntData(SqlHandle, 2));
+                item->setReinforcementPoints(Sql_GetUIntData(SqlHandle, 3));
+                item->setReinforcementPath(Sql_GetUIntData(SqlHandle, 4));
             }
         }
     }
@@ -1320,6 +1321,8 @@ namespace charutils
         {
             // uint8 charges = (PItem->isType(ITEM_USABLE) ? ((CItemUsable*)PItem)->getCurrentCharges() : 0);
 
+            PItem->setChar(PChar);
+
             const char* Query =
                 "INSERT INTO char_inventory("
                 "charid,"
@@ -1358,6 +1361,7 @@ namespace charutils
                 delete PItem;
                 return ERROR_SLOTID;
             }
+
             PChar->pushPacket(new CInventoryItemPacket(PItem, LocationID, SlotID));
             PChar->pushPacket(new CInventoryFinishPacket());
         }
@@ -1545,6 +1549,13 @@ namespace charutils
                 if (Sql_Query(SqlHandle, Query, NewSlotID, PChar->id, LocationID, SlotID) != SQL_ERROR &&
                     Sql_AffectedRows(SqlHandle) != 0)
                 {
+                    // Update char_reinforcement_points table to follow item
+                    Sql_Query(SqlHandle,
+                            "UPDATE char_reinforcement_points "
+                            "SET slot = %u "
+                            "WHERE charid = %u AND location = %u AND slot = %u;",
+                            NewSlotID, PChar->id, LocationID, SlotID);
+
                     PItemContainer->InsertItem(nullptr, SlotID);
 
                     PChar->pushPacket(new CInventoryItemPacket(nullptr, LocationID, SlotID));
@@ -1645,6 +1656,12 @@ namespace charutils
                     }
                 }
 
+                if (PItem->isType(ITEM_EQUIPMENT))
+                {
+                    if (auto* equip = static_cast<CItemEquipment*>(PItem))
+                        charutils::DeleteSingleReinforcementPoints(PChar, equip);
+                }
+
                 delete PItem;
             }
         }
@@ -1656,7 +1673,6 @@ namespace charutils
     {
         if (charutils::UpdateItem(PChar, container, slotID, -quantity) != 0)
         {
-            ShowNotice("Player %s DROPPING itemID: %s (%u) quantity: %u", PChar->GetName(), itemutils::GetItem(ItemID)->getName(), ItemID, quantity);
             PChar->pushPacket(new CMessageStandardPacket(nullptr, ItemID, quantity, MsgStd::ThrowAway));
             PChar->pushPacket(new CInventoryFinishPacket());
         }
@@ -4736,6 +4752,7 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
         if (!expFromRaise)
         {
             REGIONTYPE region = PChar->loc.zone->GetRegionID();
+            uint16 PZone = PChar->getZone();
 
             // Should this user be awarded conquest points..
             if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET) && (region >= REGION_RONFAURE && region <= REGION_JEUNO))
@@ -4759,17 +4776,18 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
                 PChar->pushPacket(new CConquestPacket(PChar));
             }
 
+            HandleToAuStrongholdCurrencies(PChar, PZone);
+
             // Cruor Drops in Abyssea zones.
-            uint16 Pzone = PChar->getZone();
-            if (zoneutils::GetCurrentRegion(Pzone) == REGION_ABYSSEA)
+            if (zoneutils::GetCurrentRegion(PZone) == REGION_ABYSSEA)
             {
-                uint16 TextID = luautils::GetTextIDVariable(Pzone, "CRUOR_OBTAINED");
+                uint16 TextID = luautils::GetTextIDVariable(PZone, "CRUOR_OBTAINED");
                 uint32 Total = charutils::GetPoints(PChar, "cruor");
                 uint32 Cruor = 0; // Need to work out how to do cruor chains, until then no cruor will drop unless this line is customized for non retail play.
 
                 if (TextID == 0)
                 {
-                    ShowWarning(CL_YELLOW "Failed to fetch Cruor Message ID for zone: %i\n" CL_RESET, Pzone);
+                    ShowWarning(CL_YELLOW "Failed to fetch Cruor Message ID for zone: %i\n" CL_RESET, PZone);
                 }
 
                 if (Cruor >= 1)
@@ -5233,7 +5251,7 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
         }
     }
 
-    void SaveItemRanks(CCharEntity* PChar)
+    void SaveReinforcementPoints(CCharEntity* PChar)
     {
         for (uint8 loc = 0; loc < CONTAINER_ID::MAX_CONTAINER_ID; ++loc)
         {
@@ -5253,40 +5271,50 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
 
                 auto* item = static_cast<CItemEquipment*>(base);
 
-                if (item->getRank() == 0 && item->getRankPoints() == 0)
+                if (item->getReinforcementPoints() == 0)
                     continue;
 
-                Sql_Query(SqlHandle,
-                    "REPLACE INTO char_item_rank "
-                    "(charid, location, slot, rank, points) "
-                    "VALUES (%u, %u, %u, %u, %u)",
-                    PChar->id,
-                    loc,
-                    slot,
-                    item->getRank(),
-                    item->getRankPoints());
+                SaveSingleReinforcementPoints(PChar, item);
             }
         }
     }
 
-    void SaveSingleItemRank(CCharEntity* PChar, CItemEquipment* item)
+    void SaveSingleReinforcementPoints(CCharEntity* PChar, CItemEquipment* item)
     {
         if (!item)
             return;
 
-        // Optional: skip empty data
-        if (item->getRank() == 0 && item->getRankPoints() == 0)
+        // Skip empty data
+        if (item->getReinforcementPoints() == 0)
             return;
 
+        // Delete any existing data for this slot
+        DeleteSingleReinforcementPoints(PChar, item);
+
+        // Insert new data
         Sql_Query(SqlHandle,
-            "REPLACE INTO char_item_rank "
-            "(charid, location, slot, rank, points) "
-            "VALUES (%u, %u, %u, %u, %u)",
+            "REPLACE INTO char_reinforcement_points "
+            "(charid, location, slot, rank, points, path) "
+            "VALUES (%u, %u, %u, %u, %u, %u)",
             PChar->id,
             item->getLocationID(),
             item->getSlotID(),
-            item->getRank(),
-            item->getRankPoints());
+            item->getReinforcementRank(),
+            item->getReinforcementPoints(),
+            item->getReinforcementPath());
+    }
+
+    void DeleteSingleReinforcementPoints(CCharEntity* PChar, CItemEquipment* item)
+    {
+        if (!item)
+            return;
+
+        Sql_Query(SqlHandle,
+            "DELETE FROM char_reinforcement_points "
+            "WHERE charid = %u AND location = %u AND slot = %u",
+            PChar->id,
+            item->getLocationID(),
+            item->getSlotID());
     }
 
     void SaveCharLook(CCharEntity* PChar)
@@ -6771,6 +6799,33 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
                 Action->addEffectParam = thlvl;
             }
         }
+    }
+
+    void HandleToAuStrongholdCurrencies(CCharEntity* PChar, uint16 PZone)
+    {
+        if (!PZone)
+            return;
+
+        const char* currency = nullptr;
+        int32 amount = 5;
+
+        switch (PZone)
+        {
+            case ZONE_MAMOOK:
+                currency = "ballista_point";
+                break;
+            case ZONE_ARRAPAGO_REEF:
+                currency = "infamy";
+                break;
+            case ZONE_HALVUNG:
+                currency = "prestige";
+                break;
+            default:
+                break;
+        }
+
+        if (currency)
+            charutils::AddPoints(PChar, currency, amount);
     }
 
 }; // namespace charutils
