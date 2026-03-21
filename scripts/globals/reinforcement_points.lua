@@ -9,8 +9,6 @@ require("scripts/globals/npc_util")
 require("scripts/globals/items")
 require("scripts/globals/augments")
 -----------------------------------
--- TODO: Add nadeeys tables data to wiki page (already have a toau augment page) Copy this augment format maybe? https://www.bg-wiki.com/ffxi/Obstin._Sash
--- TODO: Make sure additem works properly for magian augment items and normal items still, then merge into release
 tpz = tpz or {}
 tpz.reinforcementPoints = tpz.reinforcementPoints or {}
 
