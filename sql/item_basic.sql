@@ -13408,7 +13408,7 @@ INSERT INTO `item_basic` VALUES (16075,0,'witch_hat','witch_hat',1,63568,0,1,0);
 INSERT INTO `item_basic` VALUES (16076,0,'coven_hat','coven_hat',1,63568,0,1,0);
 INSERT INTO `item_basic` VALUES (16077,0,'megrim_crown','megrim_crown',1,64596,0,1,0);
 INSERT INTO `item_basic` VALUES (16078,0,'blissful_chapeau','blissful_chapeau',1,3108,17,0,1167);
-INSERT INTO `item_basic` VALUES (16079,0,'silken_hat','silken_hat',1,18532,17,0,3093);
+INSERT INTO `item_basic` VALUES (16079,0,'silken_hat','silken_hat',1,18532,17,1,3093);
 INSERT INTO `item_basic` VALUES (16080,0,'magi_hat','magi_hat',1,18464,17,0,3093);
 INSERT INTO `item_basic` VALUES (16081,0,'curates_hat','curates_hat',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (16082,0,'volunteers_khud','volunteers_khud',1,63572,0,1,0);

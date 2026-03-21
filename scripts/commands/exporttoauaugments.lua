@@ -1,12 +1,22 @@
------------------------------------
--- Area: Aht Urhgan Whitegate
---  NPC: Nadeey
--- ToAU Augmenting NPC
--- Uses Ballista Points, Infamy, and Prestige from ToAU Beastmen strongholds
--- !pos 79 -0 54 50
------------------------------------
+---------------------------------------------------------------------------------------------------
+-- func: toauaugmentexporter
+-- desc: Exports ToAU augment data into BG Wiki formatted tables
+---------------------------------------------------------------------------------------------------
+require("scripts/globals/augments")
+require("scripts/globals/items")
 require("scripts/globals/reinforcement_points")
------------------------------------
+
+cmdprops =
+{
+    permission = 1,
+    parameters = ""
+}
+
+function error(player, msg)
+    player:PrintToPlayer(msg)
+    player:PrintToPlayer("!toauaugmentexporter")
+end
+
 local baseStats =
 {
     -- Jaridah
@@ -451,17 +461,17 @@ local function makeRanks(maxRank, base)
 
             if scaleEveryTwo[aug] then
                 if everyTwoLvls > 0 then
-                    value = baseValue + (everyTwoLvls -1)
+                    value = baseValue + (everyTwoLvls)  -- Can't be -1 for wiki exporting
                 end
 
             elseif scaleEveryFive[aug] then
                 if everyFiveLvls > 0 then
-                    value = baseValue + (everyFiveLvls -1)
+                    value = baseValue + (everyFiveLvls)  -- Can't be -1 for wiki exporting
                 end
 
             elseif scaleEveryTen[aug] then
                 if everyTenLvls > 0 then
-                    value = baseValue + (everyTenLvls -1)
+                    value = baseValue + (everyTenLvls) -- Can't be -1 for wiki exporting
                 end
 
             else
@@ -1334,16 +1344,183 @@ local augmentData =
     },
 }
 
-function onTrade(player, npc, trade)
-    tpz.reinforcementPoints.onTrade(player, npc, trade, augmentData)
-end
+function onTrigger(player)
 
-function onTrigger(player, npc)
-    tpz.reinforcementPoints.onTrigger(player, npc,augmentData)
-end
+    local outputFile = [[C:\Server and Notepad Files\FFXI\Topaz\Moos Pserver\documentation\ToAUAugments.txt]]
+    local file = assert(io.open(outputFile, "w"))
 
-function onEventUpdate(player, csid, option)
-end
+    local itemNames = {}
+    for name,id in pairs(tpz.items) do
+        itemNames[id] = name
+    end
 
-function onEventFinish(player, csid, option)
+    local augmentNames = {}
+    for name,id in pairs(tpz.augments) do
+        augmentNames[id] = name
+    end
+
+    local function capWords(str)
+        str = str:gsub("_"," ")
+        return str:gsub("(%a)([%w']*)", function(a,b)
+            return a:upper()..b:lower()
+        end)
+    end
+
+    local function itemName(id)
+        local name = itemNames[id] or ("Item"..id)
+        return capWords(name)
+    end
+
+    local function augmentName(id)
+        local name = augmentNames[id] or ("Aug"..id)
+        return capWords(name)
+    end
+
+    file:write("{{Private Server|Shiyo Server|Shiyo}}\n\n")
+
+    -- Reinforcement Points data information
+
+    file:write("== Reinforcement Points System ==\n\n")
+
+    file:write("'''Currency Cost Formula'''\n\n")
+    file:write("<code>(" .. 100 .. " × RP gained) / 100</code>\n\n")
+
+    file:write("'''Rank Requirements'''\n")
+
+    file:write("{| class=\"wikitable sortable\"\n")
+    file:write("! Rank !! Total RP Required\n")
+
+    for rank,rp in ipairs(RankRPTable) do
+        file:write("|-\n")
+        file:write("| "..rank.." || "..rp.."\n")
+    end
+
+    file:write("|}\n\n")
+
+    for itemId,itemData in pairs(augmentData.equipment) do
+
+        file:write("== "..itemName(itemId).." ==\n")
+        file:write("<div class=\"mw-collapsible mw-collapsed\">\n\n")
+
+            -- Collect and sort paths (A > B > C > D)
+            local paths = {}
+
+            for pathName,pathData in pairs(itemData) do
+                table.insert(paths, {name = pathName, data = pathData})
+            end
+
+            table.sort(paths, function(a,b)
+                return a.name < b.name
+            end)
+
+            for _,path in ipairs(paths) do
+                local pathName = path.name
+                local pathData = path.data
+
+            file:write("=== "..pathName.." ===\n\n")
+
+            -- MATERIAL INFO
+            if pathData.reqItem then
+                file:write("==== Upgrade Materials ====\n")
+                file:write("{| class=\"wikitable\"\n")
+                file:write("! Tier !! Rank Range !! Material !! RP per Item\n")
+
+                local tierRanges =
+                {
+                    [1] = "Rank 0-9",
+                    [2] = "Rank 10-19",
+                    [3] = "Rank 20-29"
+                }
+
+                for tier,data in ipairs(pathData.reqItem) do
+                    local material = itemName(data.id or 0)
+                    local rp = data.rp or 0
+
+                    file:write("|-\n")
+                    file:write("| "..tier..
+                            " || "..(tierRanges[tier] or "Unknown")..
+                            " || [["..material.."]] "..
+                            " || "..rp.."\n")
+                end
+
+                file:write("|}\n\n")
+            end
+
+            -- CURRENCY INFO
+            if pathData.currency then
+                for currency,_ in pairs(pathData.currency) do
+                    local curName = capWords(currency)
+                    file:write("'''Currency Required:''' "..curName.."\n\n")
+                end
+            end
+
+            -- AUGMENT TABLE
+            if pathData.stats then
+
+                local augSet = {}
+
+                for _,rankStats in pairs(pathData.stats) do
+                    for aug in pairs(rankStats) do
+                        augSet[aug] = true
+                    end
+                end
+
+                local augList = {}
+                for aug in pairs(augSet) do
+                    table.insert(augList,aug)
+                end
+                table.sort(augList)
+
+                file:write("==== Augment Stats ====\n")
+                file:write("{| class=\"wikitable sortable\"\n")
+
+                file:write("! Rank ")
+                for _,aug in ipairs(augList) do
+                    file:write("!! "..augmentName(aug).." ")
+                end
+                file:write("\n")
+
+                local ranks = {}
+
+                for key in pairs(pathData.stats) do
+                    local r = tonumber(key:match("%d+"))
+                    table.insert(ranks,r)
+                end
+
+                table.sort(ranks)
+
+                for _,r in ipairs(ranks) do
+
+                    local stats = pathData.stats["Rank "..r]
+
+                    file:write("|-\n")
+                    file:write("| "..r)
+
+                    for _,aug in ipairs(augList) do
+                        local val = stats[aug]
+
+                        if val then
+                            file:write(" || +"..val)
+                        else
+                            file:write(" || –")
+                        end
+                    end
+
+                    file:write("\n")
+                end
+
+                file:write("|}\n\n")
+            end
+
+        end
+
+        -- CLOSE COLLAPSIBLE FOR ITEM
+        file:write("</div>\n\n")
+    end
+        file:write("\n")
+
+    file:close()
+
+    player:PrintToPlayer("ToAU Augment export complete.")
+    player:PrintToPlayer("Saved to "..outputFile)
 end

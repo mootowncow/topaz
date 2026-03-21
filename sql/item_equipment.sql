@@ -4300,7 +4300,7 @@ INSERT INTO `item_equipment` VALUES (14538,'hydra_mail_+1',72,0,2141648,27,0,0,3
 INSERT INTO `item_equipment` VALUES (14539,'kyudogi',70,0,3072,180,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14540,'kyudogi_+1',70,0,3072,180,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14541,'taikyoku_kenpogi',8,0,6146,17,0,0,32,0,0);
-INSERT INTO `item_equipment` VALUES (14542,'silken_coat',74,0,147456,264,0,0,32,0,0);
+INSERT INTO `item_equipment` VALUES (14542,'silken_coat',74,0,1720328,264,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14543,'magi_coat',74,0,147712,264,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14544,'corselet',71,0,192,179,0,0,32,0,0);
 INSERT INTO `item_equipment` VALUES (14545,'corselet_+1',71,0,192,179,0,0,32,0,0);
@@ -4713,7 +4713,7 @@ INSERT INTO `item_equipment` VALUES (14951,'dragon_kote',68,0,2141649,60,0,0,64,
 INSERT INTO `item_equipment` VALUES (14952,'ice_gauntlets',52,0,192,95,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14953,'sadhu_bracelets',60,0,6593,0,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14954,'sadhu_cuffs',60,0,1721868,115,0,0,64,0,0);
-INSERT INTO `item_equipment` VALUES (14955,'silken_cuffs',74,0,147456,264,0,0,64,0,0);
+INSERT INTO `item_equipment` VALUES (14955,'silken_cuffs',74,0,1720328,264,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14956,'magi_cuffs',74,0,147712,264,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14957,'aiming_gloves',30,0,2473969,1,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14958,'beast_bazubands',70,0,256,172,0,0,64,0,0);
@@ -5378,7 +5378,7 @@ INSERT INTO `item_equipment` VALUES (15616,'hydra_cuisses_+1',72,0,2141648,27,0,
 INSERT INTO `item_equipment` VALUES (15617,'barb._zerehs',75,0,466691,171,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15618,'vendors_slops',71,0,4179646,149,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15619,'princes_slops',71,0,4179646,149,0,0,128,0,0);
-INSERT INTO `item_equipment` VALUES (15620,'silken_slops',74,0,147456,264,0,0,128,0,0);
+INSERT INTO `item_equipment` VALUES (15620,'silken_slops',74,0,1720328,264,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15621,'magi_slops',74,0,147712,264,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15622,'mrc._trousers',70,0,3850780,57,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (15623,'volunteers_brais',70,0,1753628,132,0,0,128,0,0);
@@ -5464,7 +5464,7 @@ INSERT INTO `item_equipment` VALUES (15702,'spagyric_nails',74,0,3069758,172,0,0
 INSERT INTO `item_equipment` VALUES (15703,'hydra_greaves',72,0,2141648,28,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15704,'hydra_greaves_+1',72,0,2141648,28,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15705,'ataractic_solea',68,0,3851870,3,0,0,256,0,0);
-INSERT INTO `item_equipment` VALUES (15706,'silken_pigaches',74,0,147456,264,0,0,256,0,0);
+INSERT INTO `item_equipment` VALUES (15706,'silken_pigaches',74,0,1720328,264,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15707,'magi_pigaches',74,0,147712,264,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15708,'earth_greaves',68,0,8192,60,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (15709,'mercenarys_boots',70,0,10368,171,0,0,256,0,0);
@@ -5830,7 +5830,7 @@ INSERT INTO `item_equipment` VALUES (16075,'witch_hat',1,0,4194303,181,0,0,16,0,
 INSERT INTO `item_equipment` VALUES (16076,'coven_hat',1,0,4194303,181,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16077,'megrim_crown',69,0,4194303,57,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16078,'blissful_chapeau',20,0,4179646,149,0,0,16,0,0);
-INSERT INTO `item_equipment` VALUES (16079,'silken_hat',74,0,147456,264,0,0,16,0,0);
+INSERT INTO `item_equipment` VALUES (16079,'silken_hat',74,0,1720328,264,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16080,'magi_hat',74,0,147712,264,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16081,'curates_hat',68,0,3662710,143,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (16082,'volunteers_khud',70,0,3662710,172,0,0,16,0,0);
