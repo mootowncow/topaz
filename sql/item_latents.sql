@@ -1798,8 +1798,6 @@ INSERT INTO `item_latents` VALUES(15520, 68, 7, 58, 0);     -- storm torque eva 
 -- -------------------------------------------------------
 -- Berserker's Torque
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(15530, 368, 10, 10, 0);   -- HP-50/Tick of TP while weapon drawn
-INSERT INTO `item_latents` VALUES(15530, 370, -50, 10, 0);
 
 -- -------------------------------------------------------
 -- Shark Necklace
@@ -2681,15 +2679,10 @@ INSERT INTO `item_latents` VALUES(17950, 391, 2, 58, 0);    -- charm +2
 -- -------------------------------------------------------
 -- Sirius Axe
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(17952, 160, 2, 15, 2);    -- DMG increases by 2 per member
-INSERT INTO `item_latents` VALUES(17952, 160, 2, 15, 3);    -- DMG increases by 2 per member
-INSERT INTO `item_latents` VALUES(17952, 160, 2, 15, 4);    -- DMG increases by 2 per member
-INSERT INTO `item_latents` VALUES(17952, 160, 2, 15, 5);    -- DMG increases by 2 per member
-INSERT INTO `item_latents` VALUES(17952, 160, 2, 15, 6);    -- DMG increases by 2 per member
-INSERT INTO `item_latents` VALUES(17952, 366, 2, 15, 3);
-INSERT INTO `item_latents` VALUES(17952, 366, 2, 15, 4);
-INSERT INTO `item_latents` VALUES(17952, 366, 2, 15, 5);
-INSERT INTO `item_latents` VALUES(17952, 366, 2, 15, 6);
+INSERT INTO `item_latents` VALUES(17952, 366, 2, 15, 3); -- [17952] Sirius Axe: Party Members(3) - MAIN_DMG_RATING 2
+INSERT INTO `item_latents` VALUES(17952, 366, 2, 15, 4); -- [17952] Sirius Axe: Party Members(4) - MAIN_DMG_RATING 2
+INSERT INTO `item_latents` VALUES(17952, 366, 2, 15, 5); -- [17952] Sirius Axe: Party Members(5) - MAIN_DMG_RATING 2
+INSERT INTO `item_latents` VALUES(17952, 366, 2, 15, 6); -- [17952] Sirius Axe: Party Members(6) - MAIN_DMG_RATING 2
 
 INSERT INTO `item_latents` VALUES(17964, 165, 7, 59, 17);   -- Barkborer - Vs. plantoid: Critical hit rate +7%
 

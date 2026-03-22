@@ -7680,7 +7680,7 @@ INSERT INTO `item_equipment` VALUES (17948,'temperance_axe',73,0,1280,85,0,0,3,0
 INSERT INTO `item_equipment` VALUES (17949,'furnace_tabarzin',71,0,2097537,81,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17950,'marid_ancus',70,0,2098561,86,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17951,'storm_tabar',71,0,256,82,0,0,3,0,0);
-INSERT INTO `item_equipment` VALUES (17952,'sirius_axe',75,0,256,387,0,0,3,0,0);
+INSERT INTO `item_equipment` VALUES (17952,'sirius_axe',75,0,2098561,387,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17953,'zoraal_jas_axe',74,0,2098561,353,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17954,'jolt_axe',13,0,2098561,76,0,0,3,0,0);
 INSERT INTO `item_equipment` VALUES (17955,'plain_pick',31,0,2097537,88,0,0,3,0,0);
