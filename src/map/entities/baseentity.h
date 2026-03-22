@@ -170,18 +170,6 @@ enum ENTITYFLAGS
     FLAG_CALL_FOR_HELP = 0x020,
     FLAG_HIDE_HP       = 0x100,
     FLAG_UNTARGETABLE  = 0x800,
-    FLAG_NOVICE        = 0x10000,
-    FLAG_GM            = 0x40000,
-    FLAG_BAZAAR        = 0x800000,
-};
-
-enum NAMEVISFLAGS
-{
-    FLAG_NONE          = 0x000,
-    FLAG_INFO_FLAG     = 0x001,
-    FLAG_UNTARGETABLE  = 0x008,
-    FLAG_HIDE_NAME     = 0x020,
-    FLAG_TRANSPARENT   = 0x0080,
 };
 
 enum class SPAWN_ANIMATION : uint8
@@ -278,7 +266,7 @@ public:
     uint8           animationsub;       // дополнительный параметры анимации
     uint8           speed;              // скорость передвижения
     uint8           speedsub;           // подолнительный параметр скорости передвижения
-    uint8           namevis;            // This adjust name plate information, such as hiding name or adding an icon by it
+    uint8           namevis;
     uint8           allegiance;         // what types of targets the entity can fight
     uint8           updatemask;         // what to update next server tick to players nearby
     bool            extDataUpdateFlag;  // Flag to send custom mob extdata packet..
