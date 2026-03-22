@@ -720,6 +720,7 @@ public:
 
     int32 getModelSize(lua_State *L);       // Gets model size
     int32 setModelSize(lua_State* L);       // Sets model size
+    int32 setNameVis(lua_State* L);       // Sets namevis
     int32 setEntityFlags(lua_State*);       // Used to manipulate the mob's entity flags for testing.
     int32 getEntityFlags(lua_State*);
 

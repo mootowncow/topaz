@@ -16194,6 +16194,40 @@ inline int32 CLuaBaseEntity::setModelSize(lua_State* L)
 }
 
 /************************************************************************
+ *  Function: setNameVis()
+ *  Purpose : Sets the namevis (name plate information) for a mob
+ *  Example : mob:setNameVis(4)
+ *  Notes   : This adjust name plate information, such as hiding name or adding an icon by it
+ ************************************************************************/
+inline int32 CLuaBaseEntity::setNameVis(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_PC);
+
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    // Only valid for mobs
+    if (m_PBaseEntity->objtype != TYPE_MOB)
+    {
+        ShowWarning("Attempt to set melee range for non-mob entity (%s).", m_PBaseEntity->GetName());
+        return 0;
+    }
+
+    auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity);
+    // Ensure that the cast to MobEntity worked properly and we dont have a NULL PTR
+    if (!PMob)
+    {
+        ShowWarning("Error casting to CMobEntity in CLuaBaseEntity::setMeleeRange()");
+        return 0;
+    }
+
+    // Update the model size range
+    ((CMobEntity*)m_PBaseEntity)->namevis = ((lua_tointeger(L, 1)));
+    ((CMobEntity*)m_PBaseEntity)->updatemask |= UPDATE_HP;
+    return 0;
+}
+
+/************************************************************************
 *  Function: setEntityFlags()
 *  Purpose : Manually set entity flags
 *  Example : mob:setEntityFlags(tpz.entityFlags.SIZE_LARGE, 16797766)
@@ -19446,6 +19480,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getModelSize),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setModelSize),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setNameVis),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEntityFlags),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEntityFlags),
 
