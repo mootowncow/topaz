@@ -1812,7 +1812,7 @@ namespace luautils
     }
 
     /************************************************************************
-    *  Запущенное событие нуждается в дополнительных параметрах             *
+    *  local npc = player:getEventTarget() to get NPC                       *
     *  A triggered event needs additional parameters                        *
     ************************************************************************/
 
@@ -1852,6 +1852,7 @@ namespace luautils
         return updatePosition;
     }
 
+    // Note: local npc = player : getEventTarget() to get NPC
     int32 OnEventUpdate(CCharEntity* PChar, int8* string)
     {
         TracyZoneScoped;

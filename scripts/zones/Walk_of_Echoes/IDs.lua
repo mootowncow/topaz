@@ -15,6 +15,7 @@ zones[tpz.zone.WALK_OF_ECHOES] =
         GIL_OBTAINED            = 6389, -- Obtained <number> gil.
         KEYITEM_OBTAINED        = 6391, -- Obtained key item: <keyitem>.
         KEYITEM_LOST            = 6392, -- Lost <key item>
+        CANNOT_CARRY_ANY_MORE   = 6998, -- Cannot carry anymore <key item>
         CARRIED_OVER_POINTS     = 6999, -- You have carried over <number> login point[/s].
         LOGIN_CAMPAIGN_UNDERWAY = 7000, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
         LOGIN_NUMBER            = 7001, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
@@ -36,6 +37,7 @@ zones[tpz.zone.WALK_OF_ECHOES] =
         WALK_NOW_ENDOWED        = 7277,
         VANQUISHED_ALL_FOES     = 7281,
         NOT_CLEARED_EXITING_BF  = 7307,
+        LOSE_GIL                = 7997,
 
     },
     mob =

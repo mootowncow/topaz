@@ -24,7 +24,8 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 37 and option == 99 then
-        if npcUtil.giveKeyItem(player, tpz.ki.KUPOFRIEDS_MEDALLION) then
+        if not player:hasKeyItem(tpz.ki.KUPOFRIEDS_MEDALLION) then
+            npcUtil.giveKeyItem(player, tpz.ki.KUPOFRIEDS_MEDALLION)
             player:delGil(1000)
         end
     elseif csid == 44 and option == 99 then

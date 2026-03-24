@@ -23,9 +23,11 @@ require("scripts/globals/titles")
 -- TODO: Test nuke dmg on everything
 -- TODO: Temps from kills, too?
 -- TODO: Magic cool on everything
+-- TODO: Entering gives Battlefield Status
 -- TODO: There is no longer a timer UI element?
 -- TODO: 45m time limit(All Walks I think)
 -- TODO: Timer is charutils::SendTimerPacket(PChar, m_TimeLimit);, need a lua binding for charutils::SendClearTimerPacket(PChar); I think
+-- TODO: Bosses can be terror procced (random element randomly selected for every boss on spawn)
 -- TODO: Magiant rials for emp weapons
 -- TODO: Code emp weapon skill unlock events
 -- TODO: All true sound / sight
@@ -59,7 +61,7 @@ local item = tpz.items
 local title = tpz.title
 
 local entryEvent = 44
-local entry = tpz.ki.KUPOFRIEDS_MEDALLION
+local entryKI = tpz.ki.KUPOFRIEDS_MEDALLION
 local leaveWoeEvent = 1004
 local timeLimit = 2700
 local defeatEvent = 7260 -- (params: 10, 12352, 73400, 3) 3 is minutes when it's exiting, 73400 is seconds
@@ -129,7 +131,16 @@ local walkData =
     }
 }
 
+local confluxData =
+{
+    [0] =  { Name = 'Veridical_Conflux',         Event = 1004 },
+    [1] =  { Name = 'Veridical_Conflux_#01',     Event = 1003 },
+    [16] = { Name = 'Echo_Disseminator',         Event = 1600 },
+}
+
 local function startWalk(player, walk)
+    -- TODO: Msg: Entering Battlefield!
+    -- TODO: Msg: Kupofrieds medallion fades into nothingness!
 end
 
 local function GetPlayerCofferLoot(player)
@@ -209,12 +220,6 @@ end
 tpz.woe.verdicalConflux = tpz.woe.verdicalConflux or {}
 
 tpz.woe.verdicalConflux.onTrigger = function(player, npc)
-    local confluxData =
-    {
-        [0] = { Name = 'Veridical_Conflux',         Event = 1004 },
-        [1] = { Name = 'Veridical_Conflux_#01',     Event = 1003 },
-    }
-
     for _, conflux in pairs(confluxData) do
         if conflux.Name == npc:getName() then
             player:startEvent(conflux.Event)
@@ -224,12 +229,32 @@ tpz.woe.verdicalConflux.onTrigger = function(player, npc)
 end
 
 tpz.woe.verdicalConflux.onEventUpdate = function(player, csid, option)
+    local ID = zones[player:getZoneID()]
+    local npc = player:getEventTarget()
+    printf("npc:getId() %d, npc:getName() %s", npc:getID(), npc:getName())
+    for _, conflux in pairs(confluxData) do
+        if conflux.Name == npc:getName() then
+            if (conflux.Name == 'Echo_Disseminator') then
+                if (csid == 1600)  then
+                    if (option == 8) then -- Give Kupofried's Medallion KI (TODO: Declining msg or already have KI msg)
+                        if not player:hasKeyItem(entryKI) then
+                            npcUtil.giveKeyItem(player, entryKI)
+                            player:delGil(1000)
+                            player:messageSpecial(ID.text.LOSE_GIL, 1000)
+                        else
+                            player:messageSpecial(ID.text.CANNOT_CARRY_ANY_MORE, entryKI)
+                        end
+                    end
+                end
+                break
+            end
+        end
+    end
 end
 
 tpz.woe.verdicalConflux.onEventFinish = function(player, csid, option)
-
-    -- Return to Xarcabard
-    if (csid == 1004 and option == 0) then
+    printf("[onEventFinish] csid %d, option %d", csid, option)
+    if (csid == 1004 and option == 0) then -- Return to Xarcabard
         ClearPlayerCofferLoot(player)
         player:setPos(238, -8, -248, 0, 137)
     end
