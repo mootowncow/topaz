@@ -19,16 +19,29 @@ function onMobSpawn(mob)
 	mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
 end
 
+function onMobEngaged(mob, target)
+    mob:setLocalVar("stanceChangeTime", math.random(10, 15))
+end
+
 function onMobFight(mob, target)
     local battletime = mob:getBattleTime()
-    local twohourTime = mob:getLocalVar("twohourTime")
-    local STANCEdps = mob:getLocalVar("STANCEdps")
-    local STANCEtank = mob:getLocalVar("STANCEtank")
-    local dmgThreshold = mob:getLocalVar("dmgThreshold")
+    local stanceChangeTime = mob:getLocalVar("stanceChangeTime")
+    local currentStance = mob:getLocalVar("stance")
+    local stance =
+    {
+        DPS = 1,
+        Tank = 2
+    }
 
-    if twohourTime == 0 then
-        mob:setLocalVar("twohourTime", math.random(10, 15))
-    elseif battletime >= twohourTime and STANCEtank == 0 then
+    mob:addListener("TAKE_DAMAGE", "KOGA_TAKE_DAMAGE", function(mob, damage, attacker, attackType, damageType)
+        mob:setLocalVar("damageTaken", mob:getLocalVar("damageTaken") + damage)
+        if mob:getLocalVar("damageTaken") >= 2500 then
+            mob:setLocalVar("dmgThreshold", 1)
+        end
+    end)
+
+    -- Stance Logic
+    if currentStance == stance.DPS then
         mob:setDamage(200)
         mob:setDelay(2000)
         mob:setMod(tpz.mod.COUNTER, 0)
@@ -43,15 +56,7 @@ function onMobFight(mob, target)
         mob:setLocalVar("STANCEdps", battletime + math.random(60, 90))
         mob:setLocalVar("STANCEtank", 1)
         mob:setLocalVar("damageTaken", 0)
-        mob:addListener("TAKE_DAMAGE", "KOGA_TAKE_DAMAGE", function(mob, damage, attacker, attackType, damageType)
-            mob:setLocalVar("damageTaken", mob:getLocalVar("damageTaken") + damage)
-            if mob:getLocalVar("damageTaken") >= 2500 then
-                mob:setLocalVar("dmgThreshold", 1)
-            end
-        end)
-    end
-
-    if STANCEtank == 1 and (battletime >= STANCEdps or dmgThreshold == 1) then
+    elseif currentStance == stance.Tank then
         mob:setDamage(50)
         mob:setDelay(4000)
         mob:setMod(tpz.mod.ATT, 200)
@@ -63,7 +68,7 @@ function onMobFight(mob, target)
         mob:useMobAbility(624)
         utils.MessageParty(target, "Go ahead, try and hit me", 0, "Kogarasumaru")
 
-        mob:setLocalVar("twohourTime", battletime + math.random(60, 90))
+        mob:setLocalVar("stanceChangeTime", battletime + math.random(25, 35))
         mob:setLocalVar("STANCEdps", 0)
         mob:setLocalVar("STANCEtank", 0)
         mob:setLocalVar("dmgThreshold", 0)

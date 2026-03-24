@@ -44,6 +44,7 @@ function onMobFight(mob, target)
         mob:useMobAbility(624) -- 2 hour "cloud" animation
         mob:setMod(tpz.mod.REGEN, 100)
         mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 200, 0, 3600)
+        mob:setEffectUndispellable(tpz.effect.BLAZE_SPIKES)
         mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
         mob:SetAutoAttackEnabled(false)
         mob:SetMobAbilityEnabled(false)
@@ -75,6 +76,7 @@ function onMobFight(mob, target)
         mob:useMobAbility(624) -- 2 hour "cloud" animation
         mob:setMod(tpz.mod.REGEN, 100)
         mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 200, 0, 3600)
+        mob:setEffectUndispellable(tpz.effect.BLAZE_SPIKES)
         mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
         mob:SetAutoAttackEnabled(false)
         mob:SetMobAbilityEnabled(false)
@@ -107,6 +109,7 @@ function onMobFight(mob, target)
         mob:useMobAbility(624) -- 2 hour "cloud" animation
         mob:setMod(tpz.mod.REGEN, 100)
         mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 200, 0, 3600)
+        mob:setEffectUndispellable(tpz.effect.BLAZE_SPIKES)
         mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
         mob:SetAutoAttackEnabled(false)
         mob:SetMobAbilityEnabled(false)
@@ -131,7 +134,8 @@ function onMagicHit(caster, target, spell)
 
     if spellElem > 0 and spellElem <= 8 and (caster:isPC() or caster:isPet()) then
         if elem == spellElem then
-            target:useMobAbility(624)
+            local duration = 15
+            BreakMob(target, caster, tpz.procEffect.NONE, duration, tpz.procType.TERROR)
             target:delStatusEffect(tpz.effect.BLAZE_SPIKES) -- Blaze spikes
             target:setMod(tpz.mod.REGEN, 0)
             target:setMobMod(tpz.mobMod.NO_MOVE, 0)
