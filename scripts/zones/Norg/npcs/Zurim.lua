@@ -204,7 +204,6 @@ function onEventUpdate(player, csid, option)
 
     if (csid == 9512) then
         local item,cost = ParamToItem(option)
-        printf("Option: [%d], Item: [%d], Cost: [%d]", option, item, cost)
 
         if (currentPoints >= cost) then
             player:updateEvent(currentPoints - cost, 7, 1880556290, 24119625, 675706948, 136512258, 138676741, 0)

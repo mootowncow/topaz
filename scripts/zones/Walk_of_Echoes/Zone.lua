@@ -1,7 +1,7 @@
 -----------------------------------
 --
 -- Zone: Walk_of_Echoes
---
+-- Zone Id: 182
 -----------------------------------
 local ID = require("scripts/zones/Walk_of_Echoes/IDs")
 require("scripts/globals/quests")
@@ -85,6 +85,6 @@ function onEventFinish(player, csid, option)
             end
         end
     elseif csid == 123 then
-        player:addQuest(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.A_FORBIDDEN_REUNION)
+        player:addQuest(CRYSTAL_WAR, tpz.quest.id.crystalWar.A_FORBIDDEN_REUNION)
     end
 end
