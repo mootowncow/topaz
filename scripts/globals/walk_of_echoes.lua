@@ -78,12 +78,13 @@ local walkData =
         -- Upon killing crabs, occasionally the boss Caldera Crab will come to its aid, running to where the crab was killed.
         -- 15 yard aggro range
         -- Completion: Caldera crabs dead
-        Events  = { Conflux = 1000, Entry = 7033, Exit = 1001 },
-        Mobs    = { Ids = { 12522699, 999999 }, Lvl = { 77 } }, -- Unsure where ids end, one was 12522708
-        Drops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
-        SetDrop = { item.ASKAR_GAMBIERAS },
-        Title   = { title.TORCHBEARER_OF_THE_1ST_WALK },
-        Exp     = { 15000 }
+        Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
+        StartPos    = { 3,4,9 }, -- TODO
+        Mobs        = { Ids = { 12522699, 999999 }, Lvl = { 77 } }, -- Unsure where ids end, one was 12522708
+        Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        SetDrop     = { item.ASKAR_GAMBIERAS },
+        Title       = { title.TORCHBEARER_OF_THE_1ST_WALK },
+        Exp         = { 15000 }
     },
     [2] =
     {
@@ -92,12 +93,13 @@ local walkData =
         -- 3-4 Grenade Syrups with a Morbid Molasses
         -- Killing Morbid Molasses kills the Grenade Syrups partied with them
         -- 15 yard aggro range
-        Events  = { Conflux = 1000, Entry = 7033, Exit = 1001 },
-        Mobs    = { Ids = { 12522699, 999999 }, Lvl = { 77 } }, -- Unsure where ids end, one was 12522708
-        Drops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
-        SetDrop = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
-        Title   = { title.TORCHBEARER_OF_THE_2ND_WALK },
-        Exp     = { 15000 }
+        Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
+        StartPos    = { 3,4,9 }, -- TODO
+        Mobs        = { Ids = { 12522699, 999999 }, Lvl = { 77 } }, -- Unsure where ids end, one was 12522708
+        Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        SetDrop     = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
+        Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
+        Exp         = { 15000 }
     },
     [3] =
     {
@@ -129,13 +131,6 @@ local walkData =
         -- Scrolls =    { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         Misc =      { }, --ores, cloth, etc
     }
-}
-
-local confluxData =
-{
-    [0] =  { Name = 'Veridical_Conflux',         Event = 1004 },
-    [1] =  { Name = 'Veridical_Conflux_#01',     Event = 1003 },
-    [16] = { Name = 'Echo_Disseminator',         Event = 1600 },
 }
 
 local function startWalk(player, walk)
@@ -217,46 +212,90 @@ local function completeWalk(player, walk)
 end
 
 -- Verdical Conflux functions
+local onTriggerConfluxByName =
+{
+    ['Veridical_Conflux'] = function(player, npc)
+        player:startEvent(1004)
+    end,
+
+    ['Veridical_Conflux_#01'] = function(player, npc)
+        player:startEvent(1003) -- TODO: Not correct, and teleports into the aether
+    end,
+
+    ['Echo_Disseminator'] = function(player, npc)
+        player:startEvent(1600)
+    end,
+}
+
+local onEventUpdateConfluxByName =
+{
+    ['Veridical_Conflux'] = function(player, csid, option)
+    end,
+
+    ['Veridical_Conflux_#01'] = function(player, csid, option)
+    end,
+
+    ['Echo_Disseminator'] = function(player, csid, option)
+        local ID = zones[player:getZoneID()]
+        if (csid == 1600)  then
+            if (option == 8) then -- Give Kupofried's Medallion Key Item
+                if not player:hasKeyItem(entryKI) then
+                    npcUtil.giveKeyItem(player, entryKI)
+                    player:delGil(1000)
+                    player:messageSpecial(ID.text.LOSE_GIL, 1000)
+                else
+                    player:messageSpecial(ID.text.CANNOT_CARRY_ANY_MORE, entryKI)
+                end
+            end
+        end
+    end,
+}
+
+local onEventFinishConfluxByName =
+{
+    ['Veridical_Conflux'] = function(player, csid, option)
+        if (csid == 1004 and option == 0) then -- Return to Xarcabard
+            ClearPlayerCofferLoot(player)
+            player:setPos(238, -8, -248, 0, 137)
+        end
+    end,
+
+    ['Veridical_Conflux_#01'] = function(player, csid, option)
+    end,
+
+    ['Echo_Disseminator'] = function(player, csid, option)
+    end,
+}
+
 tpz.woe.verdicalConflux = tpz.woe.verdicalConflux or {}
 
 tpz.woe.verdicalConflux.onTrigger = function(player, npc)
-    for _, conflux in pairs(confluxData) do
-        if conflux.Name == npc:getName() then
-            player:startEvent(conflux.Event)
-            break
-        end
+    local npcName = npc:getName()
+    local trigger = onTriggerConfluxByName[npcName]
+
+    if trigger then
+        trigger(player, npc)
     end
 end
 
 tpz.woe.verdicalConflux.onEventUpdate = function(player, csid, option)
-    local ID = zones[player:getZoneID()]
     local npc = player:getEventTarget()
-    printf("npc:getId() %d, npc:getName() %s", npc:getID(), npc:getName())
-    for _, conflux in pairs(confluxData) do
-        if conflux.Name == npc:getName() then
-            if (conflux.Name == 'Echo_Disseminator') then
-                if (csid == 1600)  then
-                    if (option == 8) then -- Give Kupofried's Medallion KI (TODO: Declining msg or already have KI msg)
-                        if not player:hasKeyItem(entryKI) then
-                            npcUtil.giveKeyItem(player, entryKI)
-                            player:delGil(1000)
-                            player:messageSpecial(ID.text.LOSE_GIL, 1000)
-                        else
-                            player:messageSpecial(ID.text.CANNOT_CARRY_ANY_MORE, entryKI)
-                        end
-                    end
-                end
-                break
-            end
-        end
+    local npcName = npc:getName()
+    local eventUpdate = onEventUpdateConfluxByName[npcName]
+
+    if eventUpdate then
+        eventUpdate(player, csid, option)
     end
 end
 
 tpz.woe.verdicalConflux.onEventFinish = function(player, csid, option)
+    local npc = player:getEventTarget()
+    local npcName = npc:getName()
+    local eventFinish = onEventFinishConfluxByName[npcName]
+
     printf("[onEventFinish] csid %d, option %d", csid, option)
-    if (csid == 1004 and option == 0) then -- Return to Xarcabard
-        ClearPlayerCofferLoot(player)
-        player:setPos(238, -8, -248, 0, 137)
+    if eventFinish then
+        eventFinish(player, csid, option)
     end
 end
 
