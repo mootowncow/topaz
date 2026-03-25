@@ -270,12 +270,12 @@ local onEventUpdateConfluxByName =
     ['Echo_Disseminator'] = function(player, csid, option, isExit)
         local ID = zones[player:getZoneID()]
         if (csid == 1600)  then
-            -- TODO: Should exit out the menu after?
             if (option == 8) then -- Give Kupofried's Medallion Key Item
                 if not player:hasKeyItem(entryKI) then
                     npcUtil.giveKeyItem(player, entryKI)
                     player:delGil(1000)
                     player:messageSpecial(ID.text.LOSE_GIL, 1000)
+                    player:updateEvent(1000, 446175232, 436209920, 436211200, 445645824, 436209280, 436210048, 1)
                 end
             end
         end
