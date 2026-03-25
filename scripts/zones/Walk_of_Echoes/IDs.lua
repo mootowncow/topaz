@@ -35,10 +35,13 @@ zones[tpz.zone.WALK_OF_ECHOES] =
         ALL_MEMBERS_FALLEN      = 7241,
         CANT_OPEN_CHEST         = 7242,
         ALL_ENEMIES_VANQUISHED  = 7243,
-        EXITING_IN              = 7245,
+        EXITING_IN              = 7245, -- All party members have fallen in battle. Exiting in <param4> minutes, <param3> seconds.
+        OBTAINS_TEMP_ITEM       = 7250,
+        OBTAINS_MULTIPLE_TEMPS  = 7251, -- <player> obtains <amount> temporary items!
         WALK_NOW_ENDOWED        = 7277,
         VANQUISHED_ALL_FOES     = 7281,
         NOT_CLEARED_EXITING_BF  = 7307,
+        TIMES_UP                = 7294,
         LOSE_GIL                = 7997,
 
     },

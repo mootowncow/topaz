@@ -6,6 +6,7 @@
 local ID = require("scripts/zones/Walk_of_Echoes/IDs")
 require("scripts/globals/quests")
 require("scripts/globals/missions")
+require("scripts/globals/walk_of_echoes")
 -----------------------------------
 
 function onInitialize(zone)
@@ -31,6 +32,10 @@ function onZoneIn(player, prevZone)
     end
 
     return cs
+end
+
+function OnZoneTick(player, zone, region)
+    tpz.woe.onZoneTick(player, zone, region)
 end
 
 function onConquestUpdate(zone, updatetype)
@@ -86,5 +91,7 @@ function onEventFinish(player, csid, option)
         end
     elseif csid == 123 then
         player:addQuest(CRYSTAL_WAR, tpz.quest.id.crystalWar.A_FORBIDDEN_REUNION)
+    elseif csid == 1002 then -- Failed WoE Walk, return to lobby
+        player:updateEvent(12, 13500, 4294935296, 3072, 0, 0, 0, 0)
     end
 end

@@ -307,7 +307,7 @@ bool CBattlefield::InsertEntity(CBaseEntity* PEntity, bool enter, BATTLEFIELDMOB
 
                 luautils::OnBattlefieldEnter(PChar, this);
 
-                // Show timer except in Temenos and Apollyon
+                // Show timer except in Temenos and Apollyon (Limbus)
                 if (this->GetZoneID() != 37 && this->GetZoneID() != 38)
                 {
                     charutils::SendTimerPacket(PChar, m_TimeLimit);

@@ -4296,7 +4296,7 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
 /************************************************************************
 *  Function: delItem()
 *  Purpose : Deletes an item from a player's inventory
-*  Example : player:delItem(4102,12)
+*  Example : player:delItem(4102,12, tpz.inv.TEMPITEMS)
 *  Notes   : Can specify contianer using third variable
 ************************************************************************/
 

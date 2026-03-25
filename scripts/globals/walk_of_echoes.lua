@@ -42,6 +42,15 @@ require("scripts/globals/titles")
 -- TODO: "Endowed, event 7297" weaker mobs, bonus evaluation, and give a temp item. Seems to lower MDEF too, so probably defense, dmg, attack mdef?
 -- TODO: Exiting after 3m of defeats sends back to "lobby" -420, 14, -32 facing conflux #07 
 -- TODO: Fill Misc item list
+-- TODO: All members Fallen msg: [13:17:55] [CSData] Type: MsgID, EventID: 7260, Params: 67, 0, 734000, 3
+-- TODO: Save temp gained between runs into other walks. Prob save temps by zone ID and load them by zone ID if applicable, maybe LSB has for abyssea?
+-- TODO: delTempItems(player, temps) doesn't work and should only delete when in lobby but not remove from saved sql database for that player and zone. Maybe delItem() doesn't work with tpz.inv.TEMPITEMS?
+
+
+-- Current:
+    -- TODO: failWalk (and probably on zone tick) needs logic for all party members in zone dead, then display this stuff
+    -- All party members have fallen in battle. Exiting in <param4> minutes, <param3> seconds.
+    -- player:messageSpecial(ID.text.EXITING_IN)
 
 
 -- Testing:
@@ -67,13 +76,19 @@ local leaveWoeEvent = 1004
 local timeLimit = 2700
 local defeatEvent = 7260 -- (params: 10, 12352, 73400, 3) 3 is minutes when it's exiting, 73400 is seconds
 local completionEvent = 1003 -- sends back to "lobby" -420, 14, -32 facing conflux #07 
+local failState =
+{
+    Time = 1,
+    Defeat = 2
+}
+
 local walkData =
 {
     [1] =
     {
         -- Cyanic Crab, lvl { 77 }, Model { Blue }, Size { Small }  Amount { 9 }, Ids {}  Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Enwater, Water II, Waterga II }, TP Moves: { Crab}
         -- Damask Crab, lvl { 77 }, Model { Red }, Size { Small }  Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Poisonga II, Waterga II, Water IV }, TP Moves: { Crab}
-        -- Caldera Crab, lvl { 80 }, Model { Barnacle }, Size { Large } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Water IV, Waterga III }, TP Moves: { Mega Scissors, Venom Shower (Goes off without target?) } 
+        -- Caldera Crab, lvl { 80 }, Model { Barnacle }, Size { Small? } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Water IV, Waterga III }, TP Moves: { Mega Scissors, Venom Shower (Goes off without target?) } 
             -- Mechanics { Always uses Mega Scissors x3 in a row, Plague Aura after using Venom Shower for (50/tick) ~20 seconds }
         -- Crabs from deeper in the battlefield will come to the defeated crab's corpse. Make sure you are at least 16' from the corpse and you will not be aggrod.
         -- Upon killing crabs, occasionally the boss Caldera Crab will come to its aid, running to where the crab was killed.
@@ -81,7 +96,7 @@ local walkData =
         -- Completion: Caldera crabs dead
         Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
         StartPos    = { X =-574, Y = 18, Z =734, Rot = 62 },
-        Mobs        = { Ids = { 12522699, 999999 }, Lvl = { 77 } }, -- Unsure where ids end, one was 12522708
+        Mobs        = { IdStart = 17522689, IdEnd = 17522709, Lvl = 77 },
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop     = { item.ASKAR_GAMBIERAS },
         Title       = { title.TORCHBEARER_OF_THE_1ST_WALK },
@@ -96,7 +111,7 @@ local walkData =
         -- 15 yard aggro range
         Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
         StartPos    = { X =-574, Y = 18, Z =734, Rot = 157 }, -- TODO
-        Mobs        = { Ids = { 12522699, 999999 }, Lvl = { 77 } }, -- Unsure where ids end, one was 12522708
+        Mobs        = { IdStart = 12522699, IdEnd = 12522709, Lvl = 77 }, -- TODO
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop     = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
         Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
@@ -111,7 +126,7 @@ local walkData =
         -- 15 yard aggro range
         Events  = { Conflux = 1000, Entry = 7033, Exit = 1001 },
         StartPos    = { X =-574, Y = 18, Z =734, Rot = 157 }, -- TODO
-        Mobs    = { Ids = { 12522699, 999999 }, Lvl = { 77 } }, -- Unsure where ids end, one was 12522708
+        Mobs        = { IdStart = 12522699, IdEnd = 12522709, Lvl = 77 }, -- TODO
         Drops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop = { item.GOLIARD_CLOGS },
         Title   = { title.TORCHBEARER_OF_THE_2ND_WALK },
@@ -121,7 +136,7 @@ local walkData =
 
     Temps =
     {
-        item.LUCID_POTION_III, item.LUCID_ETHER_III, item.MEGALIXIR, item.TUBE_OF_HEALING_SALVE_I, item.TUBE_OF_HEALING_SALVE_II, item.BOTTLE_OF_CATHOLICON, item.BOTTLE_OF_VICARS_DRINK, item.TUBE_OF_CLEAR_SALVE_II,
+        item.LUCID_POTION_III, item.LUCID_ETHER_III, item.MEGALIXIR, item.TUBE_OF_HEALING_SALVE_II, item.BOTTLE_OF_CATHOLICON, item.BOTTLE_OF_VICARS_DRINK, item.TUBE_OF_CLEAR_SALVE_II,
         item.DUSTY_WING, item.SCROLL_OF_INSTANT_RERAISE, item.DUSTY_SCROLL_OF_RERAISE, item.BOTTLE_OF_GIANTS_DRINK, item.BOTTLE_OF_WIZARDS_DRINK, item.BOTTLE_OF_FANATICS_DRINK, item.BOTTLE_OF_FOOLS_DRINK,
         item.BOTTLE_OF_ASCETICS_TONIC, item.BOTTLE_OF_CHAMPIONS_TONIC, item.BOTTLE_OF_BRAVERS_DRINK, item.BOTTLE_OF_MONARCHS_DRINK, item.BOTTLE_OF_BERSERKERS_TONIC, item.BOTTLE_OF_SWIFTSHOT_TONIC
     },
@@ -130,31 +145,12 @@ local walkData =
         -- Coins and pouches share a group, one or other per slot]
         Coins =     { item.COIN_OF_ADVANCEMENT, item.COIN_OF_BIRTH, item.COIN_OF_DECAY, item.COIN_OF_GLORY, item.COIN_OF_RUIN },
         Pouches =   { item.FRAYED_POUCH_OF_ADVANCEMENT, item.FRAYED_POUCH_OF_BIRTH, item.FRAYED_POUCH_OF_DECAY, item.FRAYED_POUCH_OF_GLORY, item.FRAYED_POUCH_OF_RUIN, item.POUCH_OF_LIMINAL_RESIDUE },
-        -- Scrolls =    { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        Scrolls =    { }, -- t5 scrolls, nocturne, cura III, Jubaku: Ni
         Misc =      { }, --ores, cloth, etc
     }
 }
 
-local function startWalk(player, walk)
-    local ID = zones[player:getZoneID()]
-
-    if not player:hasKeyItem(entryKI) then return end
-
-    if npcUtil.deleteKeyItem(player, entryKI) then
-        player:messageSpecial(ID.text.ENTERING_BF)
-        player:messageSpecial(ID.text.KEY_ITEM_FADES, entryKI)
-    end
-
-    for walkId, walks in pairs (walkData) do
-        if (walkId == walk) then
-            local pos = walkData[walkId].StartPos
-            player:setPos(pos.X, pos.Y, pos.Z, pos.Rot)
-        end
-    end
-
-    -- TODO: Start timer? Battlefield status? etc
-end
-
+-- Treasure Coffer functions
 local function GetPlayerCofferLoot(player)
     local items = {}
     for i = 1,10 do
@@ -224,8 +220,177 @@ local function generateTreasureCofferLoot(player, walk)
     return loot
 end
 
-local function completeWalk(player, walk)
+-- Mob functions
+local function spawnWalkMobs(walk)
+    local data = walkData[walk]
+
+    if not data then return end
+
+    for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
+        local mob = GetMobByID(mobId)
+
+        if mob and not mob:isSpawned() then
+            mob:spawn()
+        end
+    end
+end
+
+local function despawnWalkMobs(walk)
+    local data = walkData[walk]
+
+    if not data then return end
+    for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
+        local mob = GetMobByID(mobId)
+
+        if mob and mob:isSpawned() then
+            DespawnMob(mobId)
+        end
+    end
+end
+
+-- Walk functions
+local function createWalk(player, walk)
+    local zone = player:getZone()
+
+
+    -- Check if Walk is already active
+    if zone:getLocalVar("WalkTimer_" .. walk) > os.time() then return end
+
+    spawnWalkMobs(walk)
+
+    -- Set zone timer
+    zone:setLocalVar("WalkTimer_" .. walk,os.time() + 2700)
+end
+
+local function addTempItems(player, temps)
+    local ID = zones[player:getZoneID()]
+
+    -- Create table of temps
+    local givenTemps = {}
+    if type(temps) == "number" then
+        givenTemps = {temps}
+    elseif type(temps) == "table" then
+        givenTemps = temps
+    else
+        print(string.format("ERROR: invalid temps parameter given to walk_of_echoes.lua addTempItems in zone %s.", player:getZoneName()))
+        return false
+    end
+
+    -- delete key items to player, with message
+    for _, tempId in pairs(givenTemps) do
+        if not player:hasItem(tempId) then
+            player:addTempItem(tempId)
+        end
+    end
+
+    if #givenTemps > 1 then
+        player:messageSpecial(ID.text.OBTAINS_MULTIPLE_TEMPS, #givenTemps)
+    else
+        player:messageSpecial(ID.text.OBTAINS_TEMP_ITEM, givenTemps[1])
+    end
+    return true
+end
+
+local function delTempItems(player, temps)
+    -- Create table of temps
+    local givenTemps = {}
+    if type(temps) == "number" then
+        givenTemps = {temps}
+    elseif type(temps) == "table" then
+        givenTemps = temps
+    else
+        print(string.format("ERROR: invalid temps parameter given to walk_of_echoes.lua delTempItems in zone %s.", player:getZoneName()))
+        return false
+    end
+
+    -- delete key items to player, with message
+    for _, tempId in pairs(givenTemps) do
+        player:delItem(tempId, 1, tpz.inv.TEMPITEMS)
+    end
+    return true
+end
+
+local function startWalk(player, walk)
+    local ID = zones[player:getZoneID()]
+    local zone = player:getZone()
+    local data = walkData[walk]
+
+    if not data then return end
+    if not player:hasKeyItem(entryKI) then return end
+
+    player:delKeyItem(entryKI)
+    player:messageSpecial(ID.text.ENTERING_BF)
+    player:messageSpecial(ID.text.KEY_ITEM_FADES, entryKI)
+
+    createWalk(player, walk)
+
+    local timer = zone:getLocalVar("WalkTimer_" .. walk)
+
+    delTempItems(player, walkData.Temps)
+    addTempItems(player, walkData.Temps)
+    player:setCharVar("[WoE]CurrentWalk", walk)
+    player:countdown(timer - os.time())
+end
+
+local function exitWalk(player)
+    local walk = player:getCharVar("[WoE]CurrentWalk")
+
+    if walk == 0 then return end
+
+    player:setCharVar("[WoE]CurrentWalk", 0)
+    player:countdown(0)
+end
+
+local function failWalk(player, fail)
+    local ID = zones[player:getZoneID()]
+    local walk = player:getCharVar("[WoE]CurrentWalk")
+
+    if walk == 0 then return end
+
+    -- TODO: All party members present have fallen in battle.
+    -- TODO: Now exiting...
+    -- TODO: Update sets pos of player I assume
+    --[13:20:54] [CSData] Type: Start, EventID: 1002, Params: 4294547296, 13500, 4294935296, 3072, 0, 0, 0, 0
+    --[13:20:59] [CSData] Type: Update, EventID: 0, Params: 12, 13500, 4294935296, 3072, 0, 0, 0, 0
+
+    if fail == failState.Time then
+        player:messageSpecial(ID.text.TIMES_UP)
+        despawnWalkMobs(walk)
+        printf("times up!")
+    elseif fail == failState.Defeat then
+        player:messageSpecial(ID.text.ALL_MEMBERS_FALLEN)
+    end
+    player:startEvent(1002, 4294547296, 13500, 4294935296, 3072, 0, 0, 0, 0)
+    exitWalk(player)
+end
+
+local function completeWalk(player)
+    local walk = player:getCharVar("[WoE]CurrentWalk")
+    player:setCharVar("[WoE]CurrentWalk", 0)
+    player:countdown(0)
     generateTreasureCofferLoot(player, walk)
+end
+
+-- Zone functions
+tpz.woe.onZoneTick = function(player, zone, region)
+    for walk = 1, 15 do
+        local timer = zone:getLocalVar("WalkTimer_" .. walk)
+        if timer > 0 then
+            printf("[" .. walk .. "] Time Remaining: " .. (timer - os.time()) / 60)
+        end
+        if os.time() > zone:getLocalVar("WalkTimer_" .. walk) then
+            zone:setLocalVar("WalkTimer_" .. walk, 0)
+
+            local players = zone:getPlayers()
+
+            for _, player in pairs(players) do
+                local playersCurrentWalk = player:getCharVar("[WoE]CurrentWalk")
+                if (walk == playersCurrentWalk) then
+                    failWalk(player, failState.Time)
+                end
+            end
+        end
+    end
 end
 
 -- Verdical Conflux functions
@@ -260,14 +425,18 @@ local onEventUpdateConfluxByName =
 
     ['Veridical_Conflux_#01'] = function(player, csid, option, isExit)
         if isExit then
-            if (csid == 1001 and option == 1) then 
-                printf("updateEvent")
+            if (csid == 1001 and option == 1) then
                 player:updateEvent(4294547296, 13500, 4294935296, 3072, 445648640, 436212096, 436212736, 0)
+                exitWalk(player)
+            end
+        else
+            if (csid == 1000) then -- Entering Walk
+                player:updateEvent(4294393296, 17500, 734000, 1024, 436211968, 2415924096, 2415924864, 0)
             end
         end
     end,
 
-    ['Echo_Disseminator'] = function(player, csid, option, isExit)
+    ['Echo_Disseminator'] = function(player, csid, option, isExit) 
         local ID = zones[player:getZoneID()]
         if (csid == 1600)  then
             if (option == 8) then -- Give Kupofried's Medallion Key Item
@@ -294,10 +463,6 @@ local onEventFinishConfluxByName =
     ['Veridical_Conflux_#01'] = function(player, csid, option, isExit)
         if isExit then
         else
-            if (csid == 1000) then -- TODO: This should probably be changed into a single loop using that csid for every conflux that leads to a battlefield
-                local walk = 1
-                startWalk(player, walk)
-            end
         end
     end,
 
@@ -345,6 +510,7 @@ tpz.woe.verdicalConflux.onEventFinish = function(player, csid, option)
     local npc = player:getEventTarget()
     local npcId = npc:getID()
     local npcName = npc:getName()
+    local walkIndex = npcId - 17523237
     local verdicalConfluxBF = 17523253
     local isExit = false
     local eventFinish = onEventFinishConfluxByName[npcName]
@@ -356,6 +522,16 @@ tpz.woe.verdicalConflux.onEventFinish = function(player, csid, option)
     printf("[onEventFinish] csid %d, option %d", csid, option)
     if eventFinish then
         eventFinish(player, csid, option, isExit)
+    end
+
+    if (csid == 1000) then -- Entering Walk
+        startWalk(player, walkIndex)
+        -- [13:28:35] [CSData] Type: Update, EventID: 0, Params: 4294393296, 17500, 734000, 1024, 436211968, 2415924096, 2415924864, 0
+        -- [13:28:40] [CSData] Type: MsgID, EventID: 7255, Params: 73, 17500, 734000, 1024
+        -- [13:28:40] [CSData] Type: MsgID, EventID: 7256, Params: 1599, 17500, 734000, 1024
+        -- [13:28:40] [CSData] Type: Update, EventID: 0, Params: 1599, 17500, 734000, 1024, 436211968, 2415924096, 2415924864, 0
+        -- [13:28:41] [CSData] Type: MsgID, EventID: 7271, Params: 5, 17500, 734000, 1024
+
     end
 end
 
