@@ -28,7 +28,7 @@ function onEventFinish(player, csid, option)
             npcUtil.giveKeyItem(player, tpz.ki.KUPOFRIEDS_MEDALLION)
             player:delGil(1000)
         end
-    elseif csid == 44 and option == 99 then
-        player:setPos(-420, 13.5, -32, 192, 182) -- send to walk of echoes
+    elseif csid == 44 and option == 99 then  -- Enter Walk of Echoes
+        player:setPos(-420, 14, -32, 192, 182)
     end
 end

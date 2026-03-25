@@ -62,6 +62,7 @@ local title = tpz.title
 
 local entryEvent = 44
 local entryKI = tpz.ki.KUPOFRIEDS_MEDALLION
+local lobbyPos = { -420, 14, -32, 192 }
 local leaveWoeEvent = 1004
 local timeLimit = 2700
 local defeatEvent = 7260 -- (params: 10, 12352, 73400, 3) 3 is minutes when it's exiting, 73400 is seconds
@@ -72,14 +73,14 @@ local walkData =
     {
         -- Cyanic Crab, lvl { 77 }, Model { Blue }, Size { Small }  Amount { 9 }, Ids {}  Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Enwater, Water II, Waterga II }, TP Moves: { Crab}
         -- Damask Crab, lvl { 77 }, Model { Red }, Size { Small }  Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Poisonga II, Waterga II, Water IV }, TP Moves: { Crab}
-        -- Caldera Crab, lvl { 80 }, Model { Barnacle }, Size { Large } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Water IV, Waterga III }, TP Moves: { Mega Scissors, Venom Shower } 
+        -- Caldera Crab, lvl { 80 }, Model { Barnacle }, Size { Large } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Water IV, Waterga III }, TP Moves: { Mega Scissors, Venom Shower (Goes off without target?) } 
             -- Mechanics { Always uses Mega Scissors x3 in a row, Plague Aura after using Venom Shower for (50/tick) ~20 seconds }
         -- Crabs from deeper in the battlefield will come to the defeated crab's corpse. Make sure you are at least 16' from the corpse and you will not be aggrod.
         -- Upon killing crabs, occasionally the boss Caldera Crab will come to its aid, running to where the crab was killed.
         -- 15 yard aggro range
         -- Completion: Caldera crabs dead
         Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
-        StartPos    = { 3,4,9 }, -- TODO
+        StartPos    = { X =-574, Y = 18, Z =734, Rot = 62 },
         Mobs        = { Ids = { 12522699, 999999 }, Lvl = { 77 } }, -- Unsure where ids end, one was 12522708
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop     = { item.ASKAR_GAMBIERAS },
@@ -94,7 +95,7 @@ local walkData =
         -- Killing Morbid Molasses kills the Grenade Syrups partied with them
         -- 15 yard aggro range
         Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
-        StartPos    = { 3,4,9 }, -- TODO
+        StartPos    = { X =-574, Y = 18, Z =734, Rot = 157 }, -- TODO
         Mobs        = { Ids = { 12522699, 999999 }, Lvl = { 77 } }, -- Unsure where ids end, one was 12522708
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop     = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
@@ -109,6 +110,7 @@ local walkData =
         -- Killing Morbid Molasses kills the Grenade Syrups partied with them
         -- 15 yard aggro range
         Events  = { Conflux = 1000, Entry = 7033, Exit = 1001 },
+        StartPos    = { X =-574, Y = 18, Z =734, Rot = 157 }, -- TODO
         Mobs    = { Ids = { 12522699, 999999 }, Lvl = { 77 } }, -- Unsure where ids end, one was 12522708
         Drops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop = { item.GOLIARD_CLOGS },
@@ -134,8 +136,23 @@ local walkData =
 }
 
 local function startWalk(player, walk)
-    -- TODO: Msg: Entering Battlefield!
-    -- TODO: Msg: Kupofrieds medallion fades into nothingness!
+    local ID = zones[player:getZoneID()]
+
+    if not player:hasKeyItem(entryKI) then return end
+
+    if npcUtil.deleteKeyItem(player, entryKI) then
+        player:messageSpecial(ID.text.ENTERING_BF)
+        player:messageSpecial(ID.text.KEY_ITEM_FADES, entryKI)
+    end
+
+    for walkId, walks in pairs (walkData) do
+        if (walkId == walk) then
+            local pos = walkData[walkId].StartPos
+            player:setPos(pos.X, pos.Y, pos.Z, pos.Rot)
+        end
+    end
+
+    -- TODO: Start timer? Battlefield status? etc
 end
 
 local function GetPlayerCofferLoot(player)
@@ -214,37 +231,51 @@ end
 -- Verdical Conflux functions
 local onTriggerConfluxByName =
 {
-    ['Veridical_Conflux'] = function(player, npc)
-        player:startEvent(1004)
+    ['Veridical_Conflux'] = function(player, npc, isExit)
+        return player:startEvent(1004)
     end,
 
-    ['Veridical_Conflux_#01'] = function(player, npc)
-        player:startEvent(1003) -- TODO: Not correct, and teleports into the aether
+    ['Veridical_Conflux_#01'] = function(player, npc, isExit)
+        if isExit then
+            return player:startEvent(1001)
+        else
+            if player:hasKeyItem(entryKI) then
+                return player:startEvent(1000, 3156583169, 9216, 0, 0, 443030912, 440934272, 709375488, 1) -- Has KI
+            else
+                return player:startEvent(1000, 3160777217, 9216, 0, 0, 0, 0, 1986, 0) -- TODO: Does not have KI
+            end
+        end
     end,
 
-    ['Echo_Disseminator'] = function(player, npc)
-        player:startEvent(1600)
+    ['Echo_Disseminator'] = function(player, npc, isExit)
+        local hasKI = player:hasKeyItem(entryKI) and 1 or 0 -- 1 means has KI, 0 means doesn't. Lua doesn't return boooleans as 1/0 like C++
+        return player:startEvent(1600, 0, hasKI)
     end,
 }
 
 local onEventUpdateConfluxByName =
 {
-    ['Veridical_Conflux'] = function(player, csid, option)
+    ['Veridical_Conflux'] = function(player, csid, option, isExit)
     end,
 
-    ['Veridical_Conflux_#01'] = function(player, csid, option)
+    ['Veridical_Conflux_#01'] = function(player, csid, option, isExit)
+        if isExit then
+            if (csid == 1001 and option == 1) then 
+                printf("updateEvent")
+                player:updateEvent(4294547296, 13500, 4294935296, 3072, 445648640, 436212096, 436212736, 0)
+            end
+        end
     end,
 
-    ['Echo_Disseminator'] = function(player, csid, option)
+    ['Echo_Disseminator'] = function(player, csid, option, isExit)
         local ID = zones[player:getZoneID()]
         if (csid == 1600)  then
+            -- TODO: Should exit out the menu after?
             if (option == 8) then -- Give Kupofried's Medallion Key Item
                 if not player:hasKeyItem(entryKI) then
                     npcUtil.giveKeyItem(player, entryKI)
                     player:delGil(1000)
                     player:messageSpecial(ID.text.LOSE_GIL, 1000)
-                else
-                    player:messageSpecial(ID.text.CANNOT_CARRY_ANY_MORE, entryKI)
                 end
             end
         end
@@ -253,49 +284,78 @@ local onEventUpdateConfluxByName =
 
 local onEventFinishConfluxByName =
 {
-    ['Veridical_Conflux'] = function(player, csid, option)
+    ['Veridical_Conflux'] = function(player, csid, option, isExit)
         if (csid == 1004 and option == 0) then -- Return to Xarcabard
             ClearPlayerCofferLoot(player)
             player:setPos(238, -8, -248, 0, 137)
         end
     end,
 
-    ['Veridical_Conflux_#01'] = function(player, csid, option)
+    ['Veridical_Conflux_#01'] = function(player, csid, option, isExit)
+        if isExit then
+        else
+            if (csid == 1000) then -- TODO: This should probably be changed into a single loop using that csid for every conflux that leads to a battlefield
+                local walk = 1
+                startWalk(player, walk)
+            end
+        end
     end,
 
-    ['Echo_Disseminator'] = function(player, csid, option)
+    ['Echo_Disseminator'] = function(player, csid, option, isExit)
     end,
 }
 
 tpz.woe.verdicalConflux = tpz.woe.verdicalConflux or {}
 
 tpz.woe.verdicalConflux.onTrigger = function(player, npc)
+    local npcId = npc:getID()
     local npcName = npc:getName()
+    local verdicalConfluxBF = 17523253
+    local isExit = false
     local trigger = onTriggerConfluxByName[npcName]
 
+    if npcId >= verdicalConfluxBF then -- The numbered Verdical Conflux INSIDE the Battlefield - used for exiting
+        isExit = true
+    end
+
     if trigger then
-        trigger(player, npc)
+        trigger(player, npc, isExit)
     end
 end
 
 tpz.woe.verdicalConflux.onEventUpdate = function(player, csid, option)
     local npc = player:getEventTarget()
+    local npcId = npc:getID()
     local npcName = npc:getName()
+    local verdicalConfluxBF = 17523253
+    local isExit = false
     local eventUpdate = onEventUpdateConfluxByName[npcName]
 
+    if npcId >= verdicalConfluxBF then -- The numbered Verdical Conflux INSIDE the Battlefield - used for exiting
+        isExit = true
+    end
+
+    printf("[onEventUpdate] csid %d, option %d", csid, option)
     if eventUpdate then
-        eventUpdate(player, csid, option)
+        eventUpdate(player, csid, option, isExit)
     end
 end
 
 tpz.woe.verdicalConflux.onEventFinish = function(player, csid, option)
     local npc = player:getEventTarget()
+    local npcId = npc:getID()
     local npcName = npc:getName()
+    local verdicalConfluxBF = 17523253
+    local isExit = false
     local eventFinish = onEventFinishConfluxByName[npcName]
+
+    if npcId >= verdicalConfluxBF then -- The numbered Verdical Conflux INSIDE the Battlefield - used for exiting
+        isExit = true
+    end
 
     printf("[onEventFinish] csid %d, option %d", csid, option)
     if eventFinish then
-        eventFinish(player, csid, option)
+        eventFinish(player, csid, option, isExit)
     end
 end
 
